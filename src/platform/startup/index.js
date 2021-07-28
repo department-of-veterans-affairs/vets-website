@@ -56,4 +56,6 @@ export default function startApp({
   }
 
   startReactApp(<Provider store={store}>{content}</Provider>);
+
+  return store;
 }

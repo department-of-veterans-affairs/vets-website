@@ -40,7 +40,9 @@ export function chooseVAFacilityV2Test() {
 export function chooseClinicTest() {
   cy.url().should('include', '/clinics');
   cy.axeCheckBestPractice();
-  cy.findByText(/You can choose a clinic where you’ve been seen/i);
+  cy.findByText(
+    /Choose a clinic below or request a different clinic for this appointment/i,
+  );
   cy.get('#root_clinicId_0')
     .focus()
     .click();
@@ -110,7 +112,7 @@ export function reasonForAppointmentTest(
 ) {
   cy.url().should('include', '/reason-appointment');
   cy.axeCheckBestPractice();
-  cy.findByLabelText('Routine or follow-up visit').click();
+  cy.findByLabelText(/Routine or follow-up visit/i).click();
   cy.findByLabelText(label).type(content);
   cy.findByText(/Continue/).click();
 }
@@ -119,6 +121,13 @@ export function contactInfoTest() {
   cy.url().should('include', '/contact-info');
   cy.axeCheckBestPractice();
   cy.findByLabelText(/Morning/).click();
+  cy.findByText(/Continue/).click();
+}
+
+export function contactInfoDirectScheduleTest() {
+  cy.url().should('include', '/contact-info');
+  cy.axeCheckBestPractice();
+  // cy.findByLabelText(/Morning/).click();
   cy.findByText(/Continue/).click();
 }
 
@@ -133,6 +142,7 @@ export function confirmationPageTest(additionalInfo) {
   cy.findByText('VA Appointment');
   cy.findByText('Follow-up/Routine');
   cy.findByText(additionalInfo);
+  cy.axeCheckBestPractice();
 }
 
 export function confirmationPageV2Test(fullReason) {
@@ -140,4 +150,5 @@ export function confirmationPageV2Test(fullReason) {
   cy.findByText('VA Appointment');
   cy.findByText('Your reason for your visit');
   cy.findByText(fullReason);
+  cy.axeCheckBestPractice();
 }

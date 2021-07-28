@@ -50,14 +50,10 @@ const QuestionnaireWrapper = ({
     );
   }
 };
+
 const mapStateToProps = state => ({
   isQuestionnaireEnabled: selectShowQuestionnaire(state),
   isLoadingFeatureFlags: selectLoadingFeatureFlags(state),
 });
 
-const mapDispatchToProps = _dispatch => ({});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(QuestionnaireWrapper);
+export default connect(mapStateToProps)(QuestionnaireWrapper);

@@ -4,8 +4,6 @@ import { waitForElementToBeRemoved } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
-
-import { resetFetch } from 'platform/testing/unit/helpers';
 import { FIELD_TITLES, FIELD_NAMES } from '@@vap-svc/constants';
 
 import * as mocks from '@@profile/msw-mocks';
@@ -202,9 +200,6 @@ async function testSlowFailure(numberName) {
 
 describe('Editing', () => {
   before(() => {
-    // before we can use msw, we need to make sure that global.fetch has been
-    // restored and is no longer a sinon stub.
-    resetFetch();
     server = setupServer(...mocks.editPhoneNumberSuccess());
     server.listen();
   });

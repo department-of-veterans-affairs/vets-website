@@ -18,6 +18,9 @@ const SignatureCheckbox = ({
   const [hasError, setError] = useState(null);
   const [isChecked, setIsChecked] = useState(false);
   const hasSubmittedForm = !!submission.status;
+  const representativeLabelId = isRepresentative
+    ? `${label}-signature-label`
+    : undefined;
 
   useEffect(
     () => {
@@ -37,7 +40,7 @@ const SignatureCheckbox = ({
 
       <section>
         <SignatureInput
-          ariaDescribedby={`${label}-signature-label`}
+          ariaDescribedBy={representativeLabelId}
           label={label}
           fullName={fullName}
           required={isRequired}
@@ -49,10 +52,7 @@ const SignatureCheckbox = ({
         />
 
         {isRepresentative && (
-          <p
-            className="on-behalf-representative"
-            id={`${label}-signature-label`}
-          >
+          <p className="on-behalf-representative" id={representativeLabelId}>
             On behalf of
             <strong className="vads-u-font-size--lg">
               {fullName.first} {fullName.middle} {fullName.last}

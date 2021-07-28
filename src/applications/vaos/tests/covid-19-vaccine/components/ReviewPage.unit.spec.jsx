@@ -4,11 +4,7 @@ import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
 
-import {
-  setFetchJSONFailure,
-  mockFetch,
-  resetFetch,
-} from 'platform/testing/unit/helpers';
+import { setFetchJSONFailure, mockFetch } from 'platform/testing/unit/helpers';
 import environment from 'platform/utilities/environment';
 
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
@@ -38,7 +34,7 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
           pages: {},
           data: {
             vaFacility: '983',
-            clinicId: '455',
+            clinicId: '983_455',
           },
           facilityDetails: {
             983: {},
@@ -67,28 +63,10 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
           clinics: {
             983: [
               {
-                id: '455',
+                id: '983_455',
                 serviceName: 'Some VA clinic',
-                characteristic: [
-                  {
-                    text: 'clinicFriendlyLocationName',
-                    value: 'Some VA clinic',
-                  },
-                  {
-                    text: 'institutionName',
-                    value: 'Cheyenne VA Medical Center',
-                  },
-                  {
-                    text: 'institutionCode',
-                    value: '983',
-                  },
-                ],
-                identifier: [
-                  {
-                    system: 'http://med.va.gov/fhir/urn',
-                    value: 'urn:va:facility:983:983:455',
-                  },
-                ],
+                stationId: '983',
+                stationName: 'Cheyenne VA Medical Center',
               },
             ],
           },
@@ -97,7 +75,6 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
     });
     store.dispatch(onCalendarChange([start.format()]));
   });
-  afterEach(() => resetFetch());
 
   it('should show form information for review', async () => {
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
@@ -149,7 +126,7 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
     userEvent.click(screen.getByText(/Confirm appointment/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/new-covid-19-vaccine-booking/confirmation',
+        '/new-covid-19-vaccine-appointment/confirmation',
       );
     });
     const submitData = JSON.parse(global.fetch.getCall(0).args[1].body);
@@ -205,10 +182,10 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
     );
 
     // Not sure of a better way to search for test just within the alert
-    const alert = screen.baseElement.querySelector('.usa-alert');
+    const alert = screen.baseElement.querySelector('va-alert');
     expect(alert).contain.text('Cheyenne VA Medical Center');
     expect(alert).contain.text('2360 East Pershing Boulevard');
-    expect(alert).contain.text('Cheyenne, WY 82001-5356');
+    expect(alert).contain.text('Cheyenne, WyomingWY 82001-5356');
     expect(screen.history.push.called).to.be.false;
   });
 
@@ -256,10 +233,13 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
     expect(screen.baseElement).contain.text('you’ll need to start over');
 
     // Not sure of a better way to search for test just within the alert
-    const alert = screen.baseElement.querySelector('.usa-alert');
+    const alert = screen.baseElement.querySelector('va-alert');
     expect(alert).contain.text('Cheyenne VA Medical Center');
     expect(alert).contain.text('2360 East Pershing Boulevard');
-    expect(alert).contain.text('Cheyenne, WY 82001-5356');
+    expect(alert).contain.text('Cheyenne, WyomingWY 82001-5356');
     expect(screen.history.push.called).to.be.false;
+    waitFor(() => {
+      expect(document.activeElement).to.be(alert);
+    });
   });
 });

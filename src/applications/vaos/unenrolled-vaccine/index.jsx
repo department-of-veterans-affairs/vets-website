@@ -37,7 +37,7 @@ export function UnenrolledVaccineSection() {
   useFormUnsavedDataWarning({
     // We don't want to warn a user about leaving the flow when they're shown the page
     // that says they can't make an appointment online
-    disabled: location.pathname.includes('contact-facilities'),
+    disabled: location.pathname.includes('contact-facility'),
   });
 
   const shouldRedirectToStart = useFormRedirectToStart({

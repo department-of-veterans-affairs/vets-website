@@ -93,10 +93,10 @@ To **run all tests in a directory**, you can use a glob pattern:
 yarn test:unit src/applications/path/to/tests/**/*.unit.spec.js*
 ```
 
-To **run tests with some extra debugging info**, you can pass a log-level:
+To **run tests with stack traces**, pass log-level `trace`:
 
 ```sh
-yarn test:unit --log-level debug
+yarn test:unit --log-level trace
 ```
 
 To **run tests with coverage output**, you can pass the coverage option:
@@ -171,7 +171,7 @@ To **run Nightwatch tests**, you first need three things:
    ```
    brew update
    brew tap adoptopenjdk/openjdk
-   brew cask install adoptopenjdk8
+   brew install --cask adoptopenjdk/openjdk/adoptopenjdk8
    ```
 1. `vets-website` served locally on port 3001
    - You can do this with `yarn watch`
@@ -246,7 +246,8 @@ for doing very specific things.
 | run the app pages on the site for local development | `yarn watch --env.scaffold` |
 | run the site for local development with automatic rebuilding of Javascript and sass **with** css sourcemaps | `yarn watch:css-sourcemaps` then visit `http://localhost:3001/`. You may also set `--env.buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
 | run the site for local development with automatic rebuilding of code and styles for specific **apps** | `yarn watch --env.entry disability-benefits,static-pages`. Valid application names are in each app's `manifest.json` under `entryName` |
-| run the site so that devices on your local network can access it | `yarn watch --host 0.0.0.0 --public 198.162.x.x:3001` Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
+| run the site so that devices on your local network can access it | `yarn watch --host 0.0.0.0 --public 192.168.x.x:3001` Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
+| watch file changes without starting the server | `yarn watch:no-server` |
 | run all unit tests and watch | `yarn test:watch` |
 | run only e2e tests | Make sure the site is running locally (`yarn watch`) and run the tests with `yarn test:e2e` |
 | run e2e tests in headless mode | `yarn test:e2e:headless` |

@@ -29,12 +29,10 @@ import {
   isAnswering781aQuestions,
   isUploading781Form,
   isUploading781aForm,
-  servedAfter911,
   isNotUploadingPrivateMedical,
   hasNewPtsdDisability,
   increaseOnly,
   isDisabilityPtsd,
-  directToCorrectForm,
   DISABILITY_SHARED_CONFIG,
   isBDD,
   isUploadingSTR,
@@ -44,9 +42,7 @@ import {
 } from '../utils';
 
 import captureEvents from '../analytics-functions';
-
 import prefillTransformer from '../prefill-transformer';
-
 import { transform } from '../submit-transformer';
 
 import { disabilitiesOrientation } from '../content/disabilitiesOrientation';
@@ -91,7 +87,6 @@ import {
   secondaryFinalIncident,
   separationLocation,
   separationPay,
-  servedInCombatZone,
   serviceTreatmentRecords,
   serviceTreatmentRecordsAttachments,
   socialBehaviorChanges,
@@ -107,8 +102,6 @@ import {
   veteranInfo,
   workBehaviorChanges,
 } from '../pages';
-
-import { form526BDDFeature } from '../config/selectors';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
@@ -161,7 +154,6 @@ const formConfig = {
       saved: 'Your disability compensation application has been saved.',
     },
   },
-  onFormLoaded: directToCorrectForm,
   version: migrations.length,
   migrations,
   prefillTransformer,
@@ -213,33 +205,10 @@ const formConfig = {
           onContinue: captureEvents.militaryHistory,
           appStateSelector: state => ({
             dob: state.user.profile.dob,
-            allowBDD:
-              form526BDDFeature(state) && state.form.data?.['view:isBddData'],
+            isBDD: state.form.data?.['view:isBddData'],
             servicePeriods:
               state.form.data?.serviceInformation?.servicePeriods || [],
           }),
-        },
-        separationLocation: {
-          title: 'Separation location',
-          path: 'review-veteran-details/separation-location',
-          depends: showSeparationLocation,
-          uiSchema: separationLocation.uiSchema,
-          schema: separationLocation.schema,
-        },
-        servedInCombatZone: {
-          title: 'Combat status',
-          path: 'review-veteran-details/combat-status',
-          depends: servedAfter911,
-          uiSchema: servedInCombatZone.uiSchema,
-          schema: servedInCombatZone.schema,
-        },
-        claimType: {
-          title: 'Claim type',
-          path: 'claim-type',
-          depends: formData => hasRatedDisabilities(formData),
-          uiSchema: claimType.uiSchema,
-          schema: claimType.schema,
-          onContinue: captureEvents.claimType,
         },
         reservesNationalGuardService: {
           title: 'Reserves and National Guard service',
@@ -257,6 +226,13 @@ const formConfig = {
           depends: form => hasGuardOrReservePeriod(form.serviceInformation),
           uiSchema: federalOrders.uiSchema,
           schema: federalOrders.schema,
+        },
+        separationLocation: {
+          title: 'Separation location',
+          path: 'review-veteran-details/separation-location',
+          depends: showSeparationLocation,
+          uiSchema: separationLocation.uiSchema,
+          schema: separationLocation.schema,
         },
         separationPay: {
           title: 'Separation or severance pay',
@@ -287,6 +263,14 @@ const formConfig = {
     disabilities: {
       title: 'Disabilities', // this probably needs to change
       pages: {
+        claimType: {
+          title: 'Claim type',
+          path: 'claim-type',
+          depends: formData => hasRatedDisabilities(formData),
+          uiSchema: claimType.uiSchema,
+          schema: claimType.schema,
+          onContinue: captureEvents.claimType,
+        },
         disabilitiesOrientation: {
           title: '',
           path: DISABILITY_SHARED_CONFIG.orientation.path,

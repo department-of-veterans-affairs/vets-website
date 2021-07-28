@@ -15,9 +15,9 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import WarningNotification from '../../../components/WarningNotification';
 import Select from '../../../components/Select';
-import ScheduleNewAppointmentRadioButtons from '../ScheduleNewAppointmentRadioButtons';
+import ScheduleNewAppointment from '../ScheduleNewAppointment';
 
-const pageTitle = 'VA appointments';
+const pageTitle = 'VA online scheduling';
 
 const DROPDOWN_VALUES = {
   upcoming: 'upcoming',
@@ -35,13 +35,29 @@ const options = [
 
 function getDropdownValueFromLocation(pathname) {
   if (pathname.endsWith(DROPDOWN_VALUES.requested)) {
-    return DROPDOWN_VALUES.requested;
+    return {
+      dropdownValue: DROPDOWN_VALUES.requested,
+      subPageTitle: 'Open requests',
+      subHeading: 'Requested',
+    };
   } else if (pathname.endsWith(DROPDOWN_VALUES.past)) {
-    return DROPDOWN_VALUES.past;
+    return {
+      dropdownValue: DROPDOWN_VALUES.past,
+      subPageTitle: 'Past appointments',
+      subHeading: 'Past appointments',
+    };
   } else if (pathname.endsWith(DROPDOWN_VALUES.canceled)) {
-    return DROPDOWN_VALUES.canceled;
+    return {
+      dropdownValue: DROPDOWN_VALUES.canceled,
+      subPageTitle: 'Canceled appointments',
+      subHeading: 'Canceled appointments',
+    };
   } else {
-    return DROPDOWN_VALUES.upcoming;
+    return {
+      dropdownValue: DROPDOWN_VALUES.upcoming,
+      subPageTitle: 'Your appointments',
+      subHeading: 'Your appointments',
+    };
   }
 }
 
@@ -52,10 +68,18 @@ export default function AppointmentsPageV2() {
   const isWelcomeModalDismissed = useSelector(state =>
     selectIsWelcomeModalDismissed(state),
   );
+  const {
+    dropdownValue,
+    subPageTitle,
+    subHeading,
+  } = getDropdownValueFromLocation(location.pathname);
 
-  useEffect(() => {
-    document.title = `${pageTitle} | Veterans Affairs`;
-  }, []);
+  useEffect(
+    () => {
+      document.title = `${subPageTitle} | ${pageTitle} | Veterans Affairs`;
+    },
+    [subPageTitle],
+  );
 
   useEffect(
     () => {
@@ -81,11 +105,9 @@ export default function AppointmentsPageV2() {
     setHasTypeChanged(true);
   }
 
-  const dropdownValue = getDropdownValueFromLocation(location.pathname);
-
   return (
     <>
-      <h1 className="vads-u-flex--1">{pageTitle}</h1>
+      <h1 className="vads-u-flex--1 vads-u-margin-bottom--1p5">{pageTitle}</h1>
       <DowntimeNotification
         appTitle="VA online scheduling tool"
         isReady
@@ -94,8 +116,8 @@ export default function AppointmentsPageV2() {
           <WarningNotification {...props}>{childContent}</WarningNotification>
         )}
       />
-      {showScheduleButton && <ScheduleNewAppointmentRadioButtons />}
-      <h2 className="vads-u-margin-y--3">Your appointments</h2>
+      {showScheduleButton && <ScheduleNewAppointment />}
+      <h2 className="vads-u-margin-y--3">{subHeading}</h2>
       <label
         htmlFor="type-dropdown"
         className="vads-u-display--inline-block vads-u-margin-top--0 vads-u-margin-right--2"

@@ -108,28 +108,29 @@ export const fetchProviderDetail = id => async dispatch => {
 };
 
 /**
- * Handles all urgent care request (mashup)
+ * Handles all care request (mashup) - Urgent care and Emergency care
  * @param {Object} parameters from the search request
  * @returns {Object} An Object response (locations/providers)
  */
-const returnAllUrgentCare = async params => {
+const returnAllCare = async params => {
   const { address, bounds, locationType, page, center, radius } = params;
-  const urgentCareVaData = await LocatorApi.searchWithBounds(
+  const isUrgentCare = locationType === LocationType.URGENT_CARE;
+  const vaData = await LocatorApi.searchWithBounds(
     address,
     bounds,
     locationType,
-    'UrgentCare',
+    isUrgentCare ? 'UrgentCare' : 'EmergencyCare',
     page,
     center,
     radius,
     true,
   );
 
-  const urgentCareNonVaData = await LocatorApi.searchWithBounds(
+  const nonVaData = await LocatorApi.searchWithBounds(
     address,
     bounds,
     locationType,
-    'NonVAUrgentCare',
+    isUrgentCare ? 'NonVAUrgentCare' : 'NonVAEmergencyCare',
     page,
     center,
     radius,
@@ -146,7 +147,7 @@ const returnAllUrgentCare = async params => {
       },
     },
     links: {},
-    data: [...urgentCareNonVaData.data, ...urgentCareVaData.data]
+    data: [...nonVaData.data, ...vaData.data]
       .map(location => {
         const distance =
           center &&
@@ -190,12 +191,15 @@ export const fetchLocations = async (
 ) => {
   let data = {};
 
+  const isUrgentCare = locationType === LocationType.URGENT_CARE;
+  const isEmergencyCare = locationType === LocationType.EMERGENCY_CARE;
+
   try {
     if (
-      locationType === LocationType.URGENT_CARE &&
-      (!serviceType || serviceType === 'AllUrgentCare')
+      (isUrgentCare && (!serviceType || serviceType === 'AllUrgentCare')) ||
+      (isEmergencyCare && (!serviceType || serviceType === 'AllEmergencyCare'))
     ) {
-      const allUrgentCareList = await returnAllUrgentCare({
+      const allCare = await returnAllCare({
         address,
         bounds,
         locationType,
@@ -203,7 +207,7 @@ export const fetchLocations = async (
         center,
         radius,
       });
-      data = allUrgentCareList;
+      data = allCare;
     } else {
       const dataList = await LocatorApi.searchWithBounds(
         address,

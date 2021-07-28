@@ -3,7 +3,7 @@ import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsons
 
 import { checkValidSchema, createFormPageList } from '../helpers';
 
-function isHiddenField(schema) {
+function isHiddenField(schema = {}) {
   return !!schema['ui:collapsed'] || !!schema['ui:hidden'];
 }
 

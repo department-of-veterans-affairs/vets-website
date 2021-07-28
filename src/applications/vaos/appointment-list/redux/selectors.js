@@ -19,7 +19,6 @@ import {
   isPendingOrCancelledRequest,
 } from '../../services/appointment';
 import {
-  selectFeatureCovid19Vaccine,
   selectFeatureRequests,
   selectIsCernerOnlyPatient,
   selectFeatureCancel,
@@ -200,14 +199,10 @@ export function selectFacilitySettingsStatus(state) {
 }
 
 export function selectCanUseVaccineFlow(state) {
-  return (
-    selectFeatureCovid19Vaccine(state) &&
-    state.appointments.facilitySettings?.some(
-      facility =>
-        facility.services.find(
-          service => service.id === VACCINE_TYPE_OF_CARE_ID,
-        )?.direct.enabled,
-    )
+  return state.appointments.facilitySettings?.some(
+    facility =>
+      facility.services.find(service => service.id === VACCINE_TYPE_OF_CARE_ID)
+        ?.direct.enabled,
   );
 }
 
@@ -249,7 +244,7 @@ export function getRequestedAppointmentListInfo(state) {
 export function getUpcomingAppointmentListInfo(state) {
   return {
     facilityData: state.appointments.facilityData,
-    futureStatus: selectFutureStatus(state),
+    futureStatus: state.appointments.confirmedStatus,
     appointmentsByMonth: selectUpcomingAppointments(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showScheduleButton: selectFeatureRequests(state),
@@ -272,9 +267,21 @@ export function getConfirmedAppointmentDetailsInfo(state, id) {
 
 export function getPastAppointmentListInfo(state) {
   return {
+    showScheduleButton: selectFeatureRequests(state),
     pastAppointmentsByMonth: selectPastAppointmentsV2(state),
     pastStatus: state.appointments.pastStatus,
     pastSelectedIndex: state.appointments.pastSelectedIndex,
     facilityData: state.appointments.facilityData,
+  };
+}
+
+export function selectCommunityCareDetailsInfo(state, id) {
+  const { appointmentDetailsStatus, facilityData } = state.appointments;
+  return {
+    appointment: selectAppointmentById(state, id, [
+      APPOINTMENT_TYPES.ccAppointment,
+    ]),
+    appointmentDetailsStatus,
+    facilityData,
   };
 }

@@ -1,21 +1,26 @@
+import React from 'react';
 import ItemLoop from '../../../components/ItemLoop';
 import TableDetailsView from '../../../components/TableDetailsView';
 import CustomReviewField from '../../../components/CustomReviewField';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import { validateCurrency } from '../../../utils/validations';
 import Typeahead from '../../../components/Typeahead';
 import {
   formatOptions,
   incomeTypes,
 } from '../../../constants/typeaheadOptions';
-import _ from 'lodash/fp';
 
 export const uiSchema = {
-  'ui:title': 'Your other income',
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">Your other income</legend>
+      <p className="vads-u-padding-top--2">
+        Tell us how much you get each month for each type of income.
+      </p>
+    </>
+  ),
   additionalIncome: {
     additionalIncomeRecords: {
       'ui:field': ItemLoop,
-      'ui:description':
-        'Tell us how much you get each month for each type of income.',
       'ui:options': {
         viewType: 'table',
         viewField: TableDetailsView,
@@ -34,15 +39,24 @@ export const uiSchema = {
           'ui:reviewField': CustomReviewField,
           'ui:options': {
             idPrefix: 'other_income',
-            classNames: 'input-size-4',
+            widgetClassNames: 'input-size-4',
             getOptions: () => formatOptions(incomeTypes),
           },
+          'ui:errorMessages': {
+            required: 'Please enter the type of income.',
+          },
         },
-        amount: _.merge(currencyUI('Monthly income amount'), {
+        amount: {
+          'ui:title': 'Monthly income amount',
           'ui:options': {
+            classNames: 'schemaform-currency-input',
             widgetClassNames: 'input-size-2',
           },
-        }),
+          'ui:errorMessages': {
+            required: 'Please enter the monthly income amount.',
+          },
+          'ui:validations': [validateCurrency],
+        },
       },
     },
   },
@@ -63,7 +77,7 @@ export const schema = {
                 type: 'string',
               },
               amount: {
-                type: 'number',
+                type: 'string',
               },
             },
           },

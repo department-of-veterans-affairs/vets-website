@@ -71,8 +71,11 @@ const ProfileWrapper = ({
         )}
 
       {/* Breadcrumbs */}
-      <div data-testid="breadcrumbs">
-        <Breadcrumbs className="vads-u-padding-x--1 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
+      <div
+        data-testid="breadcrumbs"
+        className="vads-l-grid-container vads-u-padding-x--0"
+      >
+        <Breadcrumbs className="vads-u-padding-x--1 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0 medium-screen:vads-u-padding-x--2">
           <a href="/">Home</a>
           <a href={activeLocation}>{`Profile: ${activeRouteName}`}</a>
         </Breadcrumbs>

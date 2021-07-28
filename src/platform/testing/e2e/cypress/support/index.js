@@ -1,7 +1,8 @@
+import { join } from 'path';
 import '@testing-library/cypress/add-commands';
 import 'cypress-axe';
 import 'cypress-plugin-tab';
-
+import addContext from 'mochawesome/addContext';
 import './commands';
 
 Cypress.on('window:before:load', window => {
@@ -16,6 +17,14 @@ Cypress.on('window:before:load', window => {
   style.innerHTML = '.__acs { display: none !important; }';
   document.head.appendChild(style);
 });
+
+// Allows paths passed to `cy.fixture` to start from project root because
+// the `fixtureFolder` needs to be set to "src" in the configuration.
+// Setting it to "." causes Cypress to fail to find the spec files,
+// presumably because it can't contain the `integrationFolder` ("src").
+Cypress.Commands.overwrite('fixture', (originalFn, path, options) =>
+  originalFn(join('..', path), options),
+);
 
 // Hack to allow the type command to accept and simulate an input with 0 delay.
 // The default command ignores delays under 10 (seconds).
@@ -41,4 +50,14 @@ beforeEach(() => {
   cy.intercept('GET', '/v0/maintenance_windows', {
     data: [],
   });
+});
+
+// Assign the video path to the context property for failed tests
+Cypress.on('test:after:run', test => {
+  if (test.state === 'failed') {
+    let videoName = Cypress.spec.name;
+    videoName = videoName.replace('/.js.*', '.js');
+    const videoPath = `${Cypress.config('videosFolder')}/${videoName}.mp4`;
+    addContext({ test }, videoPath);
+  }
 });

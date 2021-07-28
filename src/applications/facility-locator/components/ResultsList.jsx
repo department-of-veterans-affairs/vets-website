@@ -14,6 +14,7 @@ import {
   LocationType,
   Error,
   Covid19Vaccine,
+  EMERGENCY_CARE_SERVICES,
 } from '../constants';
 
 import { setFocus } from '../utils/helpers';
@@ -25,9 +26,13 @@ import VaFacilityResult from './search-results-items/VaFacilityResult';
 import CCProviderResult from './search-results-items/CCProviderResult';
 import PharmacyResult from './search-results-items/PharmacyResult';
 import UrgentCareResult from './search-results-items/UrgentCareResult';
+import EmergencyCareResult from './search-results-items/EmergencyCareResult';
 import Covid19Result from './search-results-items/Covid19Result';
 import SearchResultMessage from './SearchResultMessage';
-import { covidVaccineSchedulingFrontend } from '../utils/selectors';
+import {
+  covidVaccineSchedulingFrontend,
+  facilityLocatorCovidVaccineWalkInAvailabilityTextFrontend,
+} from '../utils/featureFlagSelectors';
 
 const TIMEOUTS = new Set(['408', '504', '503']);
 
@@ -74,6 +79,9 @@ class ResultsList extends Component {
                 showCovidVaccineSchedulingLinks={
                   this.props.showCovidVaccineSchedulingLinks
                 }
+                showCovidVaccineWalkInAvailabilityText={
+                  this.props.showCovidVaccineWalkInAvailabilityText
+                }
               />
             ) : (
               <VaFacilityResult
@@ -90,12 +98,32 @@ class ResultsList extends Component {
             item = <UrgentCareResult provider={r} query={query} key={r.id} />;
           } else if (query.serviceType === PHARMACY_RETAIL_SERVICE) {
             item = <PharmacyResult provider={r} query={query} key={r.id} />;
+          } else if (EMERGENCY_CARE_SERVICES.includes(query.serviceType)) {
+            item = (
+              <EmergencyCareResult provider={r} query={query} key={r.id} />
+            );
           } else {
             item = <CCProviderResult provider={r} query={query} key={r.id} />;
           }
           break;
         case 'pharmacy':
           item = <PharmacyResult provider={r} query={query} key={r.id} />;
+          break;
+        case 'emergency_care':
+          if (r.type === LocationType.CC_PROVIDER) {
+            item = (
+              <EmergencyCareResult provider={r} query={query} key={r.id} />
+            );
+          } else {
+            item = (
+              <VaFacilityResult
+                location={r}
+                query={query}
+                key={r.id}
+                index={index}
+              />
+            );
+          }
           break;
         case 'urgent_care':
           if (r.type === LocationType.CC_PROVIDER) {
@@ -126,10 +154,12 @@ class ResultsList extends Component {
       searchString,
       results,
       error,
-      pagination: { currentPage },
+      pagination,
       currentQuery,
       query,
     } = this.props;
+
+    const currentPage = pagination ? pagination.currentPage : 1;
 
     if (inProgress) {
       return (
@@ -248,6 +278,9 @@ function mapStateToProps(state) {
     selectedResult: state.searchResult.selectedResult,
     resultTime: state.searchResult.resultTime,
     showCovidVaccineSchedulingLinks: covidVaccineSchedulingFrontend(state),
+    showCovidVaccineWalkInAvailabilityText: facilityLocatorCovidVaccineWalkInAvailabilityTextFrontend(
+      state,
+    ),
   };
 }
 

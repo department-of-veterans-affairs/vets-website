@@ -9,9 +9,13 @@ import {
   PURPOSE_TEXT,
   EXPRESS_CARE,
   UNABLE_TO_REACH_VETERAN_DETCODE,
+  TYPE_OF_VISIT,
 } from '../../utils/constants';
 import { getTimezoneBySystemId } from '../../utils/timezone';
-import { transformATLASLocation } from '../location/transformers';
+import {
+  transformATLASLocation,
+  transformCommunityProvider,
+} from '../location/transformers';
 
 import {
   CANCELLED_APPOINTMENT_SET,
@@ -73,7 +77,10 @@ function isVideoVisit(appt) {
  * @returns {String} Status
  */
 function getVistaStatus(appointment) {
-  if (getAppointmentType(appointment) === APPOINTMENT_TYPES.vaAppointment) {
+  if (
+    appointment.vdsAppointments?.length ||
+    appointment.vvsAppointments?.length
+  ) {
     return isVideoVisit(appointment)
       ? appointment.vvsAppointments?.[0]?.status?.code
       : appointment.vdsAppointments?.[0]?.currentStatus;
@@ -119,10 +126,7 @@ function getRequestStatus(request, isExpressCare) {
  * @returns {String} Appointment status
  */
 function getConfirmedStatus(appointment, isPast) {
-  const currentStatus =
-    getAppointmentType(appointment) === APPOINTMENT_TYPES.ccAppointment
-      ? appointment.vdsAppointments?.[0]?.currentStatus
-      : getVistaStatus(appointment);
+  const currentStatus = getVistaStatus(appointment);
 
   if (
     (isPast && PAST_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus)) ||
@@ -152,10 +156,10 @@ function getMomentConfirmedDate(appt) {
   }
 
   const timezone = getTimezoneBySystemId(appt.facilityId)?.timezone;
-  const date = isVideoVisit(appt)
-    ? appt.vvsAppointments[0].dateTime
-    : appt.startDate;
-  return timezone ? moment(date).tz(timezone) : moment(date);
+
+  return timezone
+    ? moment(appt.startDate).tz(timezone)
+    : moment(appt.startDate);
 }
 
 /**
@@ -299,7 +303,7 @@ function getCommunityCareData(appt) {
         ? {
             firstName: appt.name?.firstName,
             lastName: appt.name?.lastName,
-            providerName: appt.name
+            providerName: appt.name?.lastName
               ? `${appt.name.firstName || ''} ${appt.name.lastName || ''}`
               : null,
             practiceName: appt.providerPractice,
@@ -322,23 +326,7 @@ function getCommunityCareData(appt) {
           }
         : null,
     preferredCommunityCareProviders: appt.ccAppointmentRequest?.preferredProviders?.map(
-      provider => {
-        return {
-          providerName: `${provider.firstName || ''} ${provider.lastName ||
-            ''}`,
-          firstName: provider.firstName,
-          lastName: provider.lastName,
-          practiceName: provider.practiceName,
-          address: provider.address
-            ? {
-                line: [provider.address.street],
-                city: provider.address.city,
-                state: provider.address.state,
-                postalCode: provider.address.zipCode,
-              }
-            : null,
-        };
-      },
+      provider => transformCommunityProvider(provider),
     ),
   };
 }
@@ -360,7 +348,9 @@ function setLocation(appt) {
         clinicId: appt.clinicId,
         stationId: appt.sta6aid,
         clinicName:
-          appt.clinicFriendlyName || appt.vdsAppointments?.[0]?.clinic?.name,
+          appt.clinicFriendlyName ||
+          appt.vdsAppointments?.[0]?.clinic?.name ||
+          appt.vvsAppointments?.[0]?.patients?.[0]?.location?.clinic?.name,
       };
     }
     case APPOINTMENT_TYPES.request: {
@@ -418,7 +408,8 @@ export function transformConfirmedAppointment(appt) {
   const videoData = setVideoData(appt);
   return {
     resourceType: 'Appointment',
-    id: appt.id,
+    // Temporary fix until https://issues.mobilehealth.va.gov/browse/VAOSR-2058 is complete
+    id: appt.id || appt.vvsAppointments[0].id,
     status: getConfirmedStatus(appt, isPast),
     description: getVistaStatus(appt),
     start,
@@ -442,6 +433,16 @@ export function transformConfirmedAppointment(appt) {
       apiData: appt,
     },
   };
+}
+
+/**
+ * Gets the type of visit that matches our array of visit constant
+ *
+ * @param {Object} appt VAOS Service appointment object
+ * @returns {String} type of visit string
+ */
+function getTypeOfVisit(appt) {
+  return TYPE_OF_VISIT.find(type => type.serviceName === appt.visitType)?.name;
 }
 
 /**
@@ -506,6 +507,7 @@ export function transformPendingAppointment(appt) {
       appointmentType: getAppointmentType(appt),
       isCommunityCare: isCC,
       isExpressCare,
+      requestVisitType: getTypeOfVisit(appt),
       apiData: appt,
     },
   };

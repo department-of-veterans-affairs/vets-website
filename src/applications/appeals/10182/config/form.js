@@ -16,11 +16,10 @@ import GetFormHelp from '../content/GetFormHelp';
 import ReviewDescription from '../components/ReviewDescription';
 
 import {
-  hasRepresentative,
   canUploadEvidence,
   wantsToUploadEvidence,
   showAddIssueQuestion,
-  showAddIssues,
+  showAddIssuesPage,
   needsHearingType,
   appStateSelector,
   getIssueName,
@@ -30,8 +29,6 @@ import {
 import veteranInfo from '../pages/veteranInfo';
 import contactInfo from '../pages/contactInfo';
 import homeless from '../pages/homeless';
-import hasRep from '../pages/hasRep';
-import repInfo from '../pages/repInfo';
 import contestableIssues from '../pages/contestableIssues';
 import additionalIssuesIntro from '../pages/additionalIssuesIntro';
 import additionalIssues from '../pages/additionalIssues';
@@ -72,7 +69,7 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_10182,
   version: migrations.length - 1,
   title: 'Request a Board Appeal',
-  subTitle: 'Equal to VA Form 10182 (Notice of Disagreement)',
+  subTitle: 'VA Form 10182 (Notice of Disagreement)',
 
   prefillEnabled: true,
   prefillTransformer,
@@ -109,25 +106,16 @@ const formConfig = {
           path: 'contact-information',
           uiSchema: contactInfo.uiSchema,
           schema: contactInfo.schema,
+          initialData: {
+            // stop the mobile phone modal from showing SMS checkbox inline
+            'view:showSMSCheckbox': false,
+          },
         },
         homeless: {
-          title: 'Homeless',
+          title: 'Homelessness question',
           path: 'homeless',
           uiSchema: homeless.uiSchema,
           schema: homeless.schema,
-        },
-        hasRep: {
-          title: 'Representative',
-          path: 'representative',
-          uiSchema: hasRep.uiSchema,
-          schema: hasRep.schema,
-        },
-        repInfo: {
-          title: 'Representative info',
-          path: 'representative-info',
-          depends: hasRepresentative,
-          uiSchema: repInfo.uiSchema,
-          schema: repInfo.schema,
         },
       },
     },
@@ -151,14 +139,10 @@ const formConfig = {
         additionalIssues: {
           title: 'Add issues for review',
           path: 'additional-issues',
-          depends: showAddIssues,
+          depends: showAddIssuesPage,
           uiSchema: additionalIssues.uiSchema,
           schema: additionalIssues.schema,
           appStateSelector,
-          initialData: {
-            'view:hasIssuesToAdd': true,
-            additionalIssues: [{}],
-          },
         },
         areaOfDisagreementFollowUp: {
           title: getIssueName,

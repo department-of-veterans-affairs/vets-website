@@ -1,5 +1,5 @@
 exports.command = function openUrl(url, disableForesee = true) {
-  this.url(url);
+  this.url(url).waitForElementVisible('tag name', 'body', 1000);
 
   if (disableForesee) {
     this.execute(() => {

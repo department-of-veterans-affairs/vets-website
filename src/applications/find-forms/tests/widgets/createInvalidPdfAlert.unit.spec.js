@@ -4,7 +4,6 @@ import { expect } from 'chai';
 import {
   mockFetch,
   setFetchJSONResponse as setFetchResponse,
-  resetFetch,
 } from 'platform/testing/unit/helpers';
 
 import { onDownloadLinkClick } from '../../widgets/createInvalidPdfAlert';
@@ -32,10 +31,6 @@ describe('createInvalidPdfAlert', () => {
         },
       ],
     });
-  });
-
-  afterEach(() => {
-    resetFetch();
   });
 
   it('shows an alert banner for invalid forms', async () => {

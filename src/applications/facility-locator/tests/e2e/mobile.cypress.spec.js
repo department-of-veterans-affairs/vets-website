@@ -1,5 +1,3 @@
-import path from 'path';
-
 const city = 'Austin, TX';
 const randomInput = 'Random Input To be Cleared';
 
@@ -25,16 +23,10 @@ Cypress.Commands.add('checkSearch', () => {
     .should('not.be.disabled')
     .clear({ force: true });
 
-  // This forEach loop is a workaround to a typing bug in Cypress:
-  // https://github.com/cypress-io/cypress/issues/5480
-  // Upgrading to Cypress 6.1 should fix this bug and allow us
-  // to remove the loop.
-  [...city].forEach(char => {
-    cy.get('#street-city-state-zip')
-      .should('not.be.disabled')
-      .focus()
-      .type(char, { force: true });
-  });
+  cy.get('#street-city-state-zip')
+    .should('not.be.disabled')
+    .focus()
+    .type(city, { force: true });
   cy.get('#facility-type-dropdown').select('VA health');
   cy.get('#facility-search').click();
 
@@ -67,12 +59,6 @@ Cypress.Commands.add('checkSearch', () => {
 });
 
 describe('Mobile', () => {
-  before(() => {
-    cy.syncFixtures({
-      constants: path.join(__dirname, '..', '..', 'constants'),
-    });
-  });
-
   it('should render in mobile layouts, clear input checks and tabs actions work', () => {
     cy.visit('/find-locations');
     cy.injectAxe();

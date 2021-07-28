@@ -144,28 +144,26 @@ export const venueAddress = (formValues, noDRB) => {
       case 'airForce':
         return (
           <p className="va-address-block">
-            Board for Correction of Air Force Records
+            Air Force Board for Correction of Military Records
             <br />
             SAF/MRBR
             <br />
-            550-C Street West, Suite 40
+            3351 Celmers Lane
             <br />
-            Randolph AFB, TX 78150-4742
+            Joint Base Andrews NAF Washington 20762-6604
             <br />
           </p>
         );
       case 'coastGuard':
         return (
           <p className="va-address-block">
-            Department of Homeland Security
+            DHS Office of the General Counsel
             <br />
-            Office of the General Counsel
+            Board for Correction of Military Records, Stop 0485
             <br />
-            Board for Correction of Military Records
+            2707 Martin Luther King Jr. Ave., SE
             <br />
-            245 Murray Lane, Stop 0485
-            <br />
-            Washington, DC 20528-0485
+            Washington, DC 20528
             <br />
           </p>
         );
@@ -196,16 +194,8 @@ export const formData = formValues => {
   }
   return {
     num: 149,
-    link:
-      'https://www.dfas.mil/Portals/98/Documents/CorrectMilitaryRecords/dd0149.pdf?ver=2020-01-08-143351-750',
-    // link: 'http://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0149.pdf',
+    link: 'https://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0149.pdf',
   };
-};
-
-export const elementTopOffset = el => {
-  const rect = el.getBoundingClientRect();
-  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-  return rect.top + scrollTop;
 };
 
 export const answerReview = (key, formValues) => {
@@ -252,3 +242,8 @@ export const answerReview = (key, formValues) => {
       return questionLabels[key][ans];
   }
 };
+
+export const deriveIsAirForceAFRBAPortal = formValues =>
+  formValues['1_branchOfService'] === 'airForce' &&
+  board(formValues).abbr === 'BCMR' &&
+  formData(formValues).num === 149;

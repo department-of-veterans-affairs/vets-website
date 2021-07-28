@@ -4,7 +4,6 @@ import {
   Switch,
   Route,
   useRouteMatch,
-  useHistory,
   useLocation,
   Redirect,
 } from 'react-router-dom';
@@ -17,10 +16,7 @@ import SelectDate1Page from './components/SelectDate1Page';
 import ReviewPage from './components/ReviewPage';
 import ConfirmationPage from './components/ConfirmationPage';
 import ConfirmationPageV2 from './components/ConfirmationPageV2';
-import {
-  selectFeatureCovid19Vaccine,
-  selectFeatureHomepageRefresh,
-} from '../redux/selectors';
+import { selectFeatureHomepageRefresh } from '../redux/selectors';
 import SecondDosePage from './components/SecondDosePage';
 import ContactInfoPage from './components/ContactInfoPage';
 import ReceivedDoseScreenerPage from './components/ReceivedDoseScreenerPage';
@@ -40,11 +36,9 @@ import { fetchFacilitySettings } from '../appointment-list/redux/actions';
 
 export function NewBookingSection() {
   const match = useRouteMatch();
-  const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
   const canUseVaccineFlow = useSelector(selectCanUseVaccineFlow);
-  const featureCovid19Vaccine = useSelector(selectFeatureCovid19Vaccine);
   const facilitySettingsStatus = useSelector(selectFacilitySettingsStatus);
   const featureHomepageRefresh = useSelector(selectFeatureHomepageRefresh);
 
@@ -53,15 +47,6 @@ export function NewBookingSection() {
       dispatch(fetchFacilitySettings());
     }
   }, []);
-
-  useEffect(
-    () => {
-      if (!featureCovid19Vaccine) {
-        history.push('/');
-      }
-    },
-    [featureCovid19Vaccine, history],
-  );
 
   useEffect(
     () => {
@@ -77,7 +62,7 @@ export function NewBookingSection() {
   useFormUnsavedDataWarning({
     // We don't want to warn a user about leaving the flow when they're shown the page
     // that says they can't make an appointment online
-    disabled: location.pathname.includes('contact-facilities'),
+    disabled: location.pathname.includes('contact-facility'),
   });
 
   const shouldRedirectToStart = useFormRedirectToStart({
@@ -107,35 +92,38 @@ export function NewBookingSection() {
     );
   }
 
-  // Redirect the user to the Contact Facilities page when there are no facilities that
+  // Redirect the user to the Contact Facility page when there are no facilities that
   // support scheduling an appointment for the vaccine.
   if (
     !canUseVaccineFlow &&
     facilitySettingsStatus === FETCH_STATUS.succeeded &&
-    !location.pathname.includes(`${match.url}/contact-facilities`)
+    !location.pathname.includes(`${match.url}/contact-facility`)
   ) {
-    return <Redirect to={`${match.url}/contact-facilities`} />;
+    return <Redirect to={`${match.url}/contact-facility`} />;
   }
 
   return (
     <FormLayout>
       <Switch>
         <Route
-          path={`${match.url}/received-dose`}
+          path={`${match.url}/confirm-doses-received`}
           component={ReceivedDoseScreenerPage}
         />
         <Route
-          path={`${match.url}/contact-facilities`}
+          path={`${match.url}/contact-facility`}
           component={ContactFacilitiesPage}
         />
-        <Route path={`${match.url}/facility`} component={VAFacilityPage} />
-        <Route path={`${match.url}/clinic`} component={ClinicChoicePage} />
         <Route
-          path={`${match.url}/select-date-1`}
-          component={SelectDate1Page}
+          path={`${match.url}/choose-facility`}
+          component={VAFacilityPage}
         />
         <Route
-          path={`${match.url}/plan-second-dose`}
+          path={`${match.url}/choose-clinic`}
+          component={ClinicChoicePage}
+        />
+        <Route path={`${match.url}/select-date`} component={SelectDate1Page} />
+        <Route
+          path={`${match.url}/second-dose-info`}
           component={SecondDosePage}
         />
         <Route path={`${match.url}/contact-info`} component={ContactInfoPage} />

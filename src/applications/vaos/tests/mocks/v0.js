@@ -92,31 +92,44 @@ export function getVAFacilityMock({
  * Return a MAS appointment object, with a video appointment stub (item in vvsAppointments)
  *
  * @export
+ * @param {Object} params
+ * @param {string} params.id The appointment id
+ * @param {string} params.facilityId The site id of the appointment
+ * @param {string} params.startDate The start date of the appointment, in ISO format
+ * @param {string} params.appointmentKind The VVS appointment kind to use
+ * @param {string} params.instructionsTitle The type of instructions to use
  * @returns {MASAppointment} MAS appointment object
  */
-export function getVideoAppointmentMock() {
+export function getVideoAppointmentMock({
+  id = '05760f00c80ae60ce49879cf37a05fc8',
+  facilityId = 'fake',
+  startDate = 'fake',
+  appointmentKind = 'fake',
+  instructionsTitle = null,
+} = {}) {
   return {
-    id: '05760f00c80ae60ce49879cf37a05fc8',
+    id,
     type: 'va_appointments',
     attributes: {
-      startDate: 'fake',
+      startDate,
       clinicId: null,
       clinicFriendlyName: null,
-      facilityId: 'fake',
+      facilityId,
       communityCare: false,
       vdsAppointments: [],
       vvsAppointments: [
         {
           id: '8a74bdfa-0e66-4848-87f5-0d9bb413ae6d',
-          appointmentKind: 'fake',
+          appointmentKind,
           sourceSystem: 'SM',
-          dateTime: 'fake',
+          dateTime: startDate,
           duration: 20,
           status: { description: null, code: 'FAKE' },
           schedulingRequestType: 'NEXT_AVAILABLE_APPT',
           type: 'REGULAR',
           bookingNotes: 'fake',
           instructionsOther: false,
+          instructionsTitle,
           patients: [
             {
               name: { firstName: 'JUDY', lastName: 'MORRISON' },
@@ -303,18 +316,18 @@ export function getCancelReasonMock() {
  * @export
  * @returns {VARParentSite} var-resources parent site object
  */
-export function getParentSiteMock() {
+export function getParentSiteMock({ id = 'fake', name = 'fake' } = {}) {
   return {
-    id: 'fake',
+    id,
     type: 'facility',
     attributes: {
-      institutionCode: 'fake',
+      institutionCode: id,
       city: 'fake',
       stateAbbrev: 'FK',
-      authoritativeName: 'fake',
-      rootStationCode: 'fake',
+      authoritativeName: name,
+      rootStationCode: id,
       adminParent: true,
-      parentStationCode: 'fake',
+      parentStationCode: id,
     },
   };
 }
@@ -370,6 +383,7 @@ export function getDirectBookingEligibilityCriteriaMock({
   id = 'fake',
   typeOfCareId = 'fake',
   patientHistoryRequired = 'No',
+  patientHistoryDuration = 0,
 } = {}) {
   return {
     id,
@@ -381,7 +395,7 @@ export function getDirectBookingEligibilityCriteriaMock({
           id: typeOfCareId,
           typeOfCare: 'fake',
           patientHistoryRequired,
-          patientHistoryDuration: 0,
+          patientHistoryDuration,
           submittedRequestLimit: 1,
           enterpriseSubmittedRequestLimit: 1,
         },

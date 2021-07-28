@@ -3,7 +3,6 @@ import enrollmentStatusEnrolled from '@@profile/tests/fixtures/enrollment-system
 import { mockFeatureToggles } from './helpers';
 
 import { mockFolderResponse } from '../../utils/mocks/messaging/folder';
-import { mockMessagesResponse } from '../../utils/mocks/messaging/messages';
 
 import {
   makeUserObject,
@@ -30,16 +29,16 @@ describe('MyVA Dashboard - CTA Links', () => {
         '/v0/health_care_applications/enrollment_status',
         enrollmentStatusEnrolled,
       );
-      cy.intercept('/v0/folders/0', mockFolderResponse);
-      cy.intercept('/v0/folders/0/messages', mockMessagesResponse);
+      cy.intercept('GET', '/v0/messaging/health/folders/0', mockFolderResponse);
+
       mockFeatureToggles();
     });
     it('should show the rx and messaging CTAs', () => {
       cy.visit('my-va/');
       cy.findByRole('link', {
-        name: /schedule and view.*appointments/i,
+        name: /schedule and manage.*appointments/i,
       }).should('exist');
-      cy.findByRole('link', { name: /unread message/i }).should('exist');
+      cy.findByRole('link', { name: /3 unread message/i }).should('exist');
       cy.findByRole('link', {
         name: /refill and track.*prescriptions/i,
       }).should('exist');
@@ -62,14 +61,12 @@ describe('MyVA Dashboard - CTA Links', () => {
         '/v0/health_care_applications/enrollment_status',
         enrollmentStatusEnrolled,
       );
-      cy.intercept('/v0/folders/0', mockFolderResponse);
-      cy.intercept('/v0/folders/0/messages', mockMessagesResponse);
       mockFeatureToggles();
     });
     it('should not show the rx and messaging CTAs', () => {
       cy.visit('my-va/');
       cy.findByRole('link', {
-        name: /schedule and view.*appointments/i,
+        name: /schedule and manage.*appointments/i,
       }).should('exist');
       cy.findByRole('link', { name: /send a.*message/i }).should('not.exist');
       cy.findByRole('link', {

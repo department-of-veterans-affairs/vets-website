@@ -11,6 +11,7 @@ import {
 
 import formConfig from '../../config/form';
 import { SELECTED } from '../../constants';
+import { getDate } from '../../utils/dates';
 
 const mockStore = () => ({
   getState: () => ({
@@ -35,6 +36,7 @@ describe('add issues page', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.conditions.pages.additionalIssues;
+  const validDate = getDate({ offset: { months: -2 } });
 
   it('should render', () => {
     const form = mount(
@@ -88,12 +90,12 @@ describe('add issues page', () => {
             additionalIssues: [
               {
                 issue: 'Back sprain',
-                decisionDate: '2020-11-15',
+                decisionDate: validDate,
                 [SELECTED]: false,
               },
               {
                 issue: 'Ankle sprain',
-                decisionDate: '2020-11-16',
+                decisionDate: validDate,
               },
             ],
           }}
@@ -114,12 +116,12 @@ describe('add issues page', () => {
       additionalIssues: [
         {
           issue: 'Back sprain',
-          decisionDate: '2020-11-15',
+          decisionDate: validDate,
           // [SELECTED]: true,
         },
         {
           issue: 'Ankle sprain',
-          decisionDate: '2020-11-16',
+          decisionDate: validDate,
         },
       ],
     };

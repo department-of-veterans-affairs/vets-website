@@ -411,7 +411,7 @@ describe('526 All Claims validations', () => {
     const _ = null;
     // builds the appStateData object
     const data = ({ bdd = false, branch = 'Army' } = {}) => ({
-      allowBDD: bdd,
+      isBDD: bdd,
       servicePeriods: [{ serviceBranch: branch }],
     });
 

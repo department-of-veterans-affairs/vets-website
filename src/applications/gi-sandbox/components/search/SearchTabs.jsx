@@ -1,42 +1,51 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
-import NameSearchForm from '../../containers/NameSearchForm';
-import LocationSearchForm from '../../containers/LocationSearchForm';
+import NameSearchForm from '../../containers/search/NameSearchForm';
+import LocationSearchForm from '../../containers/search/LocationSearchForm';
 import { TABS } from '../../constants';
+import { scroller } from 'react-scroll';
+import { getScrollOptions } from 'platform/utilities/ui';
 
-export default function SearchTabs({ onChange, tab }) {
-  const [currentTab, setCurrentTab] = useState(tab);
+export default function SearchTabs({ onChange, search }) {
+  const { tab } = search;
 
-  const handleTabClick = tabName => {
-    setCurrentTab(tabName);
-    onChange(tabName);
-  };
+  useEffect(
+    () => {
+      if (search.inProgress) {
+        scroller.scrollTo('search-form', getScrollOptions());
+      }
+    },
+    [search.inProgress],
+  );
 
-  const tabContent = {
+  const tabbedSearch = {
     [TABS.name]: <NameSearchForm />,
     [TABS.location]: <LocationSearchForm />,
   };
 
   const getTab = (tabName, label) => {
+    const activeTab = tabName === tab;
     const tabClasses = classNames(
       {
-        'vads-u-border-bottom--4px': tabName === currentTab,
-        'vads-u-border-color--primary': tabName === currentTab,
-        'vads-u-border-bottom--2px': tabName !== currentTab,
-        'vads-u-border-color--gray-light': tabName !== currentTab,
-        'vads-u-color--gray-light': tabName !== currentTab,
+        'active-search-tab': activeTab,
+        'vads-u-color--gray-dark': activeTab,
+        'vads-u-background-color--white': activeTab,
+        'inactive-search-tab': !activeTab,
+        'vads-u-color--gray-medium': !activeTab,
+        'vads-u-background-color--gray-light-alt': !activeTab,
       },
       'vads-u-font-family--sans',
       'vads-u-flex--1',
       'vads-u-text-align--center',
       'vads-u-font-weight--bold',
       'vads-l-grid-container',
-      'vads-u-padding-bottom--1p5',
+      'vads-u-padding-y--1p5',
       'search-tab',
+      `${tabName}-search-tab`,
     );
 
     return (
-      <div className={tabClasses} onClick={() => handleTabClick(tabName)}>
+      <div className={tabClasses} onClick={() => onChange(tabName)}>
         {label}
       </div>
     );
@@ -48,7 +57,7 @@ export default function SearchTabs({ onChange, tab }) {
         {getTab(TABS.name, 'Search by name')}
         {getTab(TABS.location, 'Search by location')}
       </div>
-      <div className="search-box">{tabContent[currentTab]}</div>
+      <div className="search-box">{tabbedSearch[tab]}</div>
     </div>
   );
 }

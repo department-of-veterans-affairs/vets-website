@@ -6,8 +6,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-action-link";
 @import "~@department-of-veterans-affairs/formation/sass/modules/va-tabs";
 
-$color-inactive: #9b9b9b;
-
 .claim-list {
   margin-bottom: 2em;
 }
@@ -748,8 +746,8 @@ h1:focus {
       border-left-color: transparent;
 
       &::before {
-        background-color: $color-inactive;
-        color: $color-inactive;
+        background-color: $color-gray-light;
+        color: $color-gray-light;
       }
     }
   }

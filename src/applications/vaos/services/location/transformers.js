@@ -6,15 +6,14 @@ import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import { VHA_FHIR_ID } from '../../utils/constants';
 import { arrayToObject, dedupeArray } from '../../utils/data';
-import { hasValidCovidPhoneNumber } from '../appointment';
 
 /**
  * Transforms /vaos/systems/983/direct_scheduling_facilities?type_of_care_id=323&parent_code=983GB to
  * /Location?organization=Organization/983
  *
  * @export
- * @param {Array} facilities A list of facilities from var-resources
- * @returns {Object} A FHIR searchset of Location resources
+ * @param {Array<VARFacility>} facilities A list of facilities from var-resources
+ * @returns {Array<Location>} A FHIR searchset of Location resources
  */
 export function transformDSFacilities(facilities) {
   return facilities.map(facility => ({
@@ -43,9 +42,6 @@ export function transformDSFacilities(facilities) {
       institutionTimezone: facility.institutionTimezone,
       requestSupported: facility.requestSupported,
       directSchedulingSupported: facility.directSchedulingSupported,
-    },
-    managingOrganization: {
-      reference: `Organization/${facility.parentStationCode}`,
     },
   }));
 }
@@ -152,7 +148,6 @@ function transformOperatingHours(facilityHours) {
  * Converts back from a real facility id to our test facility ids
  * in lower environments
  *
- * @export
  * @param {String} facilityId - facility id to convert
  * @returns A facility id with either 442 or 552 replaced with 983 or 984
  */
@@ -163,13 +158,26 @@ function getTestFacilityId(facilityId) {
 
   return facilityId;
 }
+
 /**
- * Transforms /facilities/va/vha_983 to
- * /Location/983
+ * Returns whether or not the facility has a COVID vaccine phone line
+ *
+ * @param {Location} facility A facility resource
+ * @returns {Boolean} Whether or not the facility has a COVID vaccine phone line
+ */
+function hasCovidPhoneNumber(facility) {
+  return !!facility.detailedServices?.find(
+    service => service.name === 'COVID-19 vaccines',
+  )?.appointmentPhones[0]?.number;
+}
+
+/**
+ * Transforms a facility object from the VA facilities api into our
+ * VAOS Location format
  *
  * @export
- * @param {Object} facility A facility from the VA facilities api
- * @returns {Object} A FHIR Location resource
+ * @param {VAFacility} facility A facility from the VA facilities api
+ * @returns {Location} A FHIR Location resource
  */
 export function transformFacility(facility) {
   const id = getTestFacilityId(facility.uniqueId);
@@ -211,12 +219,9 @@ export function transformFacility(facility) {
       latitude: facility.lat,
     },
     hoursOfOperation: transformOperatingHours(facility.hours),
-    managingOrganization: {
-      reference: `Organization/${id.substr(0, 3)}`,
-    },
   };
 
-  if (hasValidCovidPhoneNumber(facility)) {
+  if (hasCovidPhoneNumber(facility)) {
     facilityObj.telecom.push({
       system: 'covid',
       value: facility.detailedServices?.find(
@@ -229,10 +234,11 @@ export function transformFacility(facility) {
 }
 
 /**
- * Transform an ATLAS facility from LegacyVAR to a FHIR location resource
+ * Transform an ATLAS facility from VVS (via MAS) to our Location format
+ *
  * @export
- * @param {Object} tasInfo The tasInfo object from legacyVAR
- * @returns {Object} A FHIR Location resource
+ * @param {VARAtlasFacility} tasInfo The tasInfo object from legacyVAR
+ * @returns {Location} A FHIR Location resource
  */
 export function transformATLASLocation(tasInfo) {
   const { address, siteCode } = tasInfo;
@@ -268,10 +274,9 @@ export function transformATLASLocation(tasInfo) {
  *
  * @export
  * @param {Object} params Parameters needed for fetching locations
- * @param {Object} params.location A location resource
- * @param {Array} params.requestSupportedFacilities An array of location ids that support requests for a particular type of care
- * @param {Array} params.directSupportedFacilities An array of location ids that support direct scheduling for a particular type of care
- * @returns {Array} A location resource
+ * @param {Location} params.location A location resource
+ * @param {Array<Object>} params.settings An array of settings objects for a given location
+ * @returns {Location} A Location resource
  */
 export function setSupportedSchedulingMethods({ location, settings } = {}) {
   const id = location.id;
@@ -296,56 +301,73 @@ export function setSupportedSchedulingMethods({ location, settings } = {}) {
       ...location.legacyVAR,
       settings: arrayToObject(facilitySettings.services),
     },
-    managingOrganization: {
-      reference: location.managingOrganization?.reference,
-    },
   };
 }
 
 /**
- * Transforms /facilities/va?ids=983,984
- * /Location?identifier=983,984
+ * Transforms a list of facilities api facilities into a list of Locations
  *
  * @export
- * @param {Array} facilities A list of facilities from var-resources
- * @returns {Object} A FHIR searchset of Location resources
+ * @param {Array<VAFacility>} facilities A list of facilities from the facilities api
+ * @returns {Array<Location>} A list of Location resources
  */
 export function transformFacilities(facilities) {
   return facilities.map(transformFacility);
 }
 
-export function transformCommunityProviders(providers) {
-  return providers.map(provider => {
-    return {
-      id: provider.id,
-      identifier: [
-        {
-          system: 'PPMS',
-          value: provider.uniqueId,
-        },
-      ],
-      resourceType: 'Location',
-      address: {
-        line: [provider.address.street],
-        city: provider.address.city,
-        state: provider.address.state,
-        postalCode: provider.address.zip,
-      },
-      name: provider.name,
-      position: {
-        longitude: provider.long,
-        latitude: provider.lat,
-      },
-      telecom: [
-        {
-          system: 'phone',
-          value: provider.caresitePhone,
-        },
-      ],
-    };
-  });
+/**
+ * Transforms a single vets-api PPMS provider format into a Location
+ * resource
+ *
+ * @export
+ * @param {Object<PPMSProvider>} provider A PPMS provider
+ * @returns {Array<Location>} A Location resource
+ */
+
+export function transformCommunityProvider(provider) {
+  return {
+    id: provider.id,
+    identifier: [{ system: 'PPMS', value: provider.uniqueId }],
+    resourceType: 'Location',
+    address: {
+      line: [provider.address?.street],
+      city: provider.address?.city,
+      state: provider.address?.state,
+      postalCode: provider.address?.zip || provider.address?.zipCode, // or providerZipCode????
+    },
+    providerName:
+      provider.lastName &&
+      `${provider.firstName || ''} ${provider.lastName || ''}`,
+    practiceName: provider.practiceName,
+
+    // TODO: Refactor!!!
+    name: provider.name || provider.practiceName,
+
+    position: { longitude: provider.long, latitude: provider.lat },
+    telecom: [{ system: 'phone', value: provider.caresitePhone }],
+  };
 }
 
+/**
+ * Transforms an array of vets-api PPMS provider format into an array of Location
+ * resources
+ *
+ * @export
+ * @param {Array<PPMSProvider>} providers A list of PPMS providers
+ * @returns {Array<Location>} A list of Location resources
+ */
+export function transformCommunityProviders(providers) {
+  return providers.map(provider => transformCommunityProvider(provider));
+}
+
+/**
+ * Transforms the list of request and direct scheduling settings from VATS
+ * into a combined settings object
+ *
+ * @export
+ * @param {Array<Array>} [settings=[[],[]]] The array of settings from MFS v1
+ * @returns {Array<FacilitySettings>} A list of settings for a VA facility
+ */
 export function transformSettings([request = [], direct = []]) {
   // Trying to handle if we get different sets of facilities from each setttings list
   // by converting the lists to objects and creating a unique list of ids
@@ -397,6 +419,30 @@ export function transformSettings([request = [], direct = []]) {
           },
         };
       }),
+    };
+  });
+}
+
+/**
+ * Transforms parent facilities from var-resources into Location objects
+ *
+ * @export
+ * @param {Array<VARFacility>} parentFacilities A list of parent facilities from var-resources
+ * @returns {Array<Location>} A list of Locations
+ */
+export function transformParentFacilities(parentFacilities) {
+  return parentFacilities.map(facility => {
+    return {
+      resourceType: 'Location',
+      id: facility.id,
+      vistaId: facility.rootStationCode,
+      name: facility.authoritativeName,
+      address: {
+        line: [],
+        city: facility.city,
+        state: facility.stateAbbrev,
+        postalCode: null,
+      },
     };
   });
 }

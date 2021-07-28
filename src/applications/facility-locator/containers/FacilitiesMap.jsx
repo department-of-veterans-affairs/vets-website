@@ -21,7 +21,7 @@ import {
   facilitiesPpmsSuppressPharmacies,
   facilityLocatorPredictiveLocationSearch,
   facilityLocatorLighthouseCovidVaccineQuery,
-} from '../utils/selectors';
+} from '../utils/featureFlagSelectors';
 import ResultsList from '../components/ResultsList';
 import PaginationWrapper from '../components/PaginationWrapper';
 import SearchControls from '../components/SearchControls';
@@ -147,9 +147,6 @@ const FacilitiesMap = props => {
       locationBounds.extend(
         new mapboxgl.LngLat(locationCoords.lng, locationCoords.lat),
       );
-    }
-    if (searchResultTitleRef.current) {
-      setFocus(searchResultTitleRef.current);
     }
   };
 
@@ -351,94 +348,39 @@ const FacilitiesMap = props => {
     </>
   );
 
-  const renderMobileView = () => {
-    const {
-      currentQuery,
-      selectedResult,
-      results,
-      pagination: { currentPage, totalPages },
-    } = props;
+  const renderView = () => {
+    // This block renders the desktop and mobile view. It ensures that the desktop map
+    // gets re-loaded when resizing from mobile to desktop.
+    const { currentQuery, selectedResult, results, pagination } = props;
+
+    const currentPage = pagination ? pagination.currentPage : 1;
+    const totalPages = pagination ? pagination.totalPages : 1;
+
     const facilityType = currentQuery.facilityType;
     const serviceType = currentQuery.serviceType;
     const queryContext = currentQuery.context;
 
-    return (
-      <>
-        <SearchControls
-          geolocateUser={props.geolocateUser}
-          clearGeocodeError={props.clearGeocodeError}
-          currentQuery={currentQuery}
-          onChange={props.updateSearchQuery}
-          onSubmit={handleSearch}
-          suppressCCP={props.suppressCCP}
-          suppressPharmacies={props.suppressPharmacies}
-          searchCovid19Vaccine={props.searchCovid19Vaccine}
-          clearSearchText={props.clearSearchText}
+    const paginationWrapper = () => {
+      return (
+        <PaginationWrapper
+          handlePageSelect={handlePageSelect}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          results={results}
+          inProgress={currentQuery.inProgress}
         />
-        <div id="search-results-title" ref={searchResultTitleRef}>
-          <SearchResultsHeader
-            results={props.results}
-            facilityType={facilityType}
-            serviceType={serviceType}
-            context={queryContext}
-            specialtyMap={props.specialties}
-            inProgress={currentQuery.inProgress}
-          />
-        </div>
-        <div className="columns small-12">
-          <Tabs>
-            <TabList>
-              <Tab className="small-6 tab">View List</Tab>
-              <Tab
-                onClick={() => {
-                  setMapResize();
-                }}
-                className="small-6 tab"
-              >
-                View Map
-              </Tab>
-            </TabList>
-            <TabPanel>
-              <div className="facility-search-results">
-                <ResultsList
-                  updateUrlParams={updateUrlParams}
-                  query={currentQuery}
-                />
-              </div>
-              <PaginationWrapper
-                handlePageSelect={handlePageSelect}
-                currentPage={currentPage}
-                totalPages={totalPages}
-                results={results}
-                inProgress={currentQuery.inProgress}
-              />
-            </TabPanel>
-            <TabPanel>
-              {renderMap(true)}
-              {selectedResult && (
-                <div className="mobile-search-result">
-                  {currentQuery.serviceType === Covid19Vaccine ? (
-                    <Covid19Result location={selectedResult} />
-                  ) : (
-                    <SearchResult
-                      result={selectedResult}
-                      query={currentQuery}
-                    />
-                  )}
-                </div>
-              )}
-            </TabPanel>
-          </Tabs>
-        </div>
-      </>
-    );
-  };
+      );
+    };
 
-  const renderDesktopView = () => {
-    // This block is needed to ensure that the desktop map gets re-loaded when
-    // resizing from mobile to desktop.
+    const resultsList = () => {
+      return (
+        <ResultsList updateUrlParams={updateUrlParams} query={currentQuery} />
+      );
+    };
+
     if (
       map &&
+      !isMobile &&
       (!window.document.getElementById(mapboxGlContainer) ||
         window.document.getElementsByClassName('desktop-map-container')
           .length === 0)
@@ -446,16 +388,8 @@ const FacilitiesMap = props => {
       setMapResize();
     }
 
-    const {
-      currentQuery,
-      pagination: { currentPage, totalPages },
-    } = props;
-    const facilityType = currentQuery.facilityType;
-    const serviceType = currentQuery.serviceType;
-    const queryContext = currentQuery.context;
-
     return (
-      <div className="desktop-container">
+      <div className={!isMobile ? 'desktop-container' : undefined}>
         <SearchControls
           geolocateUser={props.geolocateUser}
           clearGeocodeError={props.clearGeocodeError}
@@ -469,7 +403,7 @@ const FacilitiesMap = props => {
         />
         <div id="search-results-title" ref={searchResultTitleRef}>
           <SearchResultsHeader
-            results={props.results}
+            results={results}
             facilityType={facilityType}
             serviceType={serviceType}
             context={queryContext}
@@ -477,25 +411,49 @@ const FacilitiesMap = props => {
             inProgress={currentQuery.inProgress}
           />
         </div>
-        <div
-          className="columns search-results-container medium-4 small-12"
-          id="searchResultsContainer"
-        >
-          <div className="facility-search-results">
-            <ResultsList
-              updateUrlParams={updateUrlParams}
-              query={currentQuery}
-            />
+
+        {isMobile ? (
+          <div className="columns small-12">
+            <Tabs>
+              <TabList>
+                <Tab className="small-6 tab">View List</Tab>
+                <Tab onClick={setMapResize} className="small-6 tab">
+                  View Map
+                </Tab>
+              </TabList>
+              <TabPanel>
+                <div className="facility-search-results">{resultsList()}</div>
+                {paginationWrapper()}
+              </TabPanel>
+              <TabPanel>
+                {renderMap(true)}
+                {selectedResult && (
+                  <div className="mobile-search-result">
+                    {currentQuery.serviceType === Covid19Vaccine ? (
+                      <Covid19Result location={selectedResult} />
+                    ) : (
+                      <SearchResult
+                        result={selectedResult}
+                        query={currentQuery}
+                      />
+                    )}
+                  </div>
+                )}
+              </TabPanel>
+            </Tabs>
           </div>
-        </div>
-        {renderMap(false)}
-        <PaginationWrapper
-          handlePageSelect={handlePageSelect}
-          currentPage={currentPage}
-          totalPages={totalPages}
-          results={props.results}
-          inProgress={currentQuery.inProgress}
-        />
+        ) : (
+          <>
+            <div
+              className="columns search-results-container medium-4 small-12"
+              id="searchResultsContainer"
+            >
+              <div className="facility-search-results">{resultsList()}</div>
+            </div>
+            {renderMap(false)}
+            {paginationWrapper()}
+          </>
+        )}
       </div>
     );
   };
@@ -617,6 +575,15 @@ const FacilitiesMap = props => {
 
   useEffect(
     () => {
+      if (searchResultTitleRef.current && props.resultTime) {
+        setFocus(searchResultTitleRef.current);
+      }
+    },
+    [props.resultTime],
+  );
+
+  useEffect(
+    () => {
       handleMapOnNoResultsFound();
     },
     [props.currentQuery.searchCoords, props.results],
@@ -638,9 +605,9 @@ const FacilitiesMap = props => {
             <strong>Coronavirus update:</strong> {coronavirusUpdate}
           </p>
         </div>
-        {isMobile ? renderMobileView() : renderDesktopView()}
+        {renderView()}
       </div>
-      {props.results && props.results.length > 0 && otherToolsLink()}
+      {otherToolsLink()}
     </>
   );
 };
@@ -652,6 +619,7 @@ const mapStateToProps = state => ({
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
   searchCovid19Vaccine: facilityLocatorLighthouseCovidVaccineQuery(state),
   results: state.searchResult.results,
+  resultTime: state.searchResult.resultTime,
   pagination: state.searchResult.pagination,
   selectedResult: state.searchResult.selectedResult,
   specialties: state.searchQuery.specialties,

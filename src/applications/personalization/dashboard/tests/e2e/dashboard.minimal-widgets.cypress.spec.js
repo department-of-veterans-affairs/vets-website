@@ -1,11 +1,7 @@
 import enrollmentStatusNotInESR from '@@profile/tests/fixtures/enrollment-system/not-in-esr.json';
 import error500 from '@@profile/tests/fixtures/500.json';
 
-import {
-  makeUserObject,
-  mockLocalStorage,
-  getUserPreferencesEmpty,
-} from './dashboard-e2e-helpers';
+import { makeUserObject, mockLocalStorage } from './dashboard-e2e-helpers';
 
 describe('MyVA Dashboard', () => {
   describe('when user should see the minimal amount of widgets', () => {
@@ -37,7 +33,6 @@ describe('MyVA Dashboard', () => {
       });
       cy.login(mockUser);
       // login() calls cy.server() so we can now mock routes
-      cy.intercept('GET', '/v0/user/preferences', getUserPreferencesEmpty);
       cy.intercept(
         'GET',
         '/notifications/dismissed_statuses/form_10_10ez',
@@ -61,16 +56,6 @@ describe('MyVA Dashboard', () => {
       cy.findByText(
         /You may be eligible to use health chat as part of our pilot/i,
       ).should('not.exist');
-      // Shows the preference widget empty state
-      cy.findByTestId('preferences-widget')
-        .should(
-          'contain.text',
-          'You haven’t selected any benefits to learn about',
-        )
-        .should(
-          'not.contain.text',
-          'If you’re homeless or at risk of becoming homeless',
-        );
 
       cy.findByRole('heading', { name: 'Your applications' }).should(
         'not.exist',

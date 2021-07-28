@@ -15,13 +15,29 @@ import {
 import ReceiveAppointmentReminders from './ReceiveAppointmentReminders';
 
 const ContactInformationView = props => {
-  const { data, fieldName } = props;
+  const { data, fieldName, title } = props;
   if (!data) {
-    return null;
+    return <span>Edit your profile to add a {title.toLowerCase()}.</span>;
   }
 
   if (fieldName === FIELD_NAMES.EMAIL) {
-    return <span>{data.emailAddress}</span>;
+    // Use the .email-address-symbol class to add a zero-width spaces after @
+    // and . symbols so very long email addresses will wrap at those symbols if
+    // needed
+    const regex = /(@|\.)/;
+    const wrappableEmailAddress = data.emailAddress
+      .split(regex)
+      .map(
+        part =>
+          regex.test(part) ? (
+            <span className="email-address-symbol">{part}</span>
+          ) : (
+            part
+          ),
+      );
+    return (
+      <span style={{ wordBreak: 'break-word' }}>{wrappableEmailAddress}</span>
+    );
   }
 
   if (phoneNumbers.includes(fieldName)) {

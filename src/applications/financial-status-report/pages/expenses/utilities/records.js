@@ -1,20 +1,19 @@
 import ItemLoop from '../../../components/ItemLoop';
 import TableDetailsView from '../../../components/TableDetailsView';
 import CustomReviewField from '../../../components/CustomReviewField';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import { validateCurrency } from '../../../utils/validations';
 import Typeahead from '../../../components/Typeahead';
 import {
   formatOptions,
   utilityTypes,
 } from '../../../constants/typeaheadOptions';
-import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Your monthly utility bills',
+  'ui:description':
+    'Enter each type of utility separately below. For each, enter the amount you paid last month.',
   utilityRecords: {
     'ui:field': ItemLoop,
-    'ui:description':
-      'Enter each type of utility separately below. For each, enter the amount you paid last month.',
     'ui:options': {
       viewType: 'table',
       viewField: TableDetailsView,
@@ -33,15 +32,24 @@ export const uiSchema = {
         'ui:reviewField': CustomReviewField,
         'ui:options': {
           idPrefix: 'utilities',
-          classNames: 'input-size-3',
+          widgetClassNames: 'input-size-3',
           getOptions: () => formatOptions(utilityTypes),
         },
+        'ui:errorMessages': {
+          required: 'Please enter a type of utility.',
+        },
       },
-      monthlyUtilityAmount: _.merge(currencyUI('Monthly payment amount'), {
+      monthlyUtilityAmount: {
+        'ui:title': 'Monthly payment amount',
         'ui:options': {
+          classNames: 'schemaform-currency-input',
           widgetClassNames: 'input-size-1',
         },
-      }),
+        'ui:errorMessages': {
+          required: 'Please enter the amount you pay monthly.',
+        },
+        'ui:validations': [validateCurrency],
+      },
     },
   },
 };
@@ -59,7 +67,7 @@ export const schema = {
             type: 'string',
           },
           monthlyUtilityAmount: {
-            type: 'number',
+            type: 'string',
           },
         },
       },

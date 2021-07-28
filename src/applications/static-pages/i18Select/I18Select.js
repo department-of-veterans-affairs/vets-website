@@ -1,37 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
+import { onThisPageHook, setLangAttribute } from './hooks';
+import { connect } from 'react-redux';
+import { langSelectedAction } from './actions';
 
 const LANGS_TO_LINK_SUFFIXES = {
   es: '-esp/',
   tl: '-tag/',
 };
-const I18Select = ({ baseUrls, content }) => {
+const I18Select = ({ baseUrls, content, dispatchLanguageSelection }) => {
   const [lang, setLang] = useState('en');
-  useEffect(() => {
-    const contentDiv = document?.getElementById('content');
-    setLang('en');
-    if (contentDiv) {
-      contentDiv.setAttribute('lang', 'en');
-    }
-    for (const [langCode, suffix] of Object.entries(LANGS_TO_LINK_SUFFIXES)) {
-      if (document?.location.href.endsWith(suffix)) {
-        setLang(langCode);
-        if (contentDiv) {
-          contentDiv.setAttribute('lang', langCode);
+  useEffect(
+    () => {
+      const contentDiv = document?.getElementById('content');
+      // this logic is specific to the temporary covid faq page url structures and cannot be abstracted
+      for (const [langCode, suffix] of Object.entries(LANGS_TO_LINK_SUFFIXES)) {
+        if (document?.location.href.endsWith(suffix)) {
+          setLang(langCode);
+          dispatchLanguageSelection(langCode);
+          if (contentDiv) {
+            contentDiv.setAttribute('lang', langCode);
+          }
+          document.documentElement.setAttribute('lang', langCode);
         }
-        document.documentElement.setAttribute('lang', langCode);
       }
-    }
-  }, []);
+    },
+    [dispatchLanguageSelection],
+  );
 
   useEffect(
     () => {
-      if (lang && lang !== 'en') {
-        const onThisPageEl = document?.getElementById('on-this-page');
-        onThisPageEl.innerText = content[lang].onThisPage;
-      }
+      onThisPageHook(lang);
     },
-    [lang, content],
+    [lang],
   );
 
   return (
@@ -54,6 +55,8 @@ const I18Select = ({ baseUrls, content }) => {
                     event: 'nav-pipe-delimited-list-click',
                     'pipe-delimited-list-header': languageConfig.lang,
                   });
+                  dispatchLanguageSelection(languageConfig.lang);
+                  setLangAttribute(languageConfig.lang);
                 }}
                 href={baseUrls[languageCode]}
                 hrefLang={languageConfig.lang}
@@ -77,4 +80,13 @@ const I18Select = ({ baseUrls, content }) => {
   );
 };
 
-export default I18Select;
+const mapDispatchToProps = dispatch => ({
+  dispatchLanguageSelection: lang => {
+    return dispatch(langSelectedAction(lang));
+  },
+});
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(I18Select);

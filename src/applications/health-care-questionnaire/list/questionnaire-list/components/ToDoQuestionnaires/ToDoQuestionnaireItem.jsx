@@ -60,6 +60,13 @@ export default function ToDoQuestionnaireItem({ data }) {
           appointment,
         );
 
+        const timeTagTime = appointmentSelector.getStartTimeInTimeZone(
+          appointment,
+          {
+            timeZone: 'America/Los_Angeles',
+            momentFormat: `YYYY-MM-DDTh:mm`,
+          },
+        );
         const dueDate = moment(appointmentTime);
         return (
           <>
@@ -69,19 +76,15 @@ export default function ToDoQuestionnaireItem({ data }) {
             >
               {isCancelled ? 'Access until' : 'Complete by'}
             </dt>
-            <dd className="due-date">
-              <dd data-testid="due-date">
-                {dueDate.format('dddd')}{' '}
-                <time dateTime={dueDate.format('YYYY-MM-DDTHH:MM')}>
-                  {dueDate.format('MMMM D, YYYY')}
-                  {!isCancelled && (
-                    <span data-testid="due-by-timestamp">
-                      {' '}
-                      at {displayTime}
-                    </span>
-                  )}
-                </time>
-              </dd>
+
+            <dd data-testid="due-date" className="due-date">
+              {dueDate.format('dddd')}{' '}
+              <time dateTime={timeTagTime}>
+                {dueDate.format('MMMM D, YYYY')}
+                {!isCancelled && (
+                  <span data-testid="due-by-timestamp"> at {displayTime}</span>
+                )}
+              </time>
             </dd>
           </>
         );

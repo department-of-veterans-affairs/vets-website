@@ -16,6 +16,7 @@ const SetUp2FAAlert = ({ isAuthenticatedWithSSOe }) => {
     <AlertBox
       className="vads-u-margin-bottom--2"
       headline="You’ll need to set up 2-factor authentication before you can edit your direct deposit information."
+      level={2}
       content={
         <>
           <p>

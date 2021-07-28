@@ -106,69 +106,6 @@ describe('526v2 prefill transformer', () => {
     });
   });
 
-  describe('prefillContactInformation', () => {
-    it('should transform contact info when present', () => {
-      const { pages, metadata } = noTransformData;
-      const formData = {
-        veteran: {
-          primaryPhone: '1123123123',
-          emailAddress: 'a@b.c',
-          mailingAddress: {
-            country: 'USA',
-            addressLine1: '123 Any Street',
-            city: 'Anyville',
-            state: 'AK',
-            zipCode: '12345',
-            // extra data that needs to be removed
-            type: 'MILITARY',
-            militaryPostOfficeTypeCode: 'APO',
-            militaryStateCode: 'AA',
-          },
-        },
-      };
-
-      const transformedData = prefillTransformer(pages, formData, metadata)
-        .formData;
-
-      const { primaryPhone, emailAddress } = formData.veteran;
-      expect(transformedData).to.deep.equal({
-        'view:claimType': noTransformData.formData['view:claimType'],
-        phoneAndEmail: {
-          primaryPhone,
-          emailAddress,
-        },
-        mailingAddress: {
-          country: 'USA',
-          addressLine1: '123 Any Street',
-          addressLine2: '',
-          addressLine3: '',
-          city: 'Anyville',
-          state: 'AK',
-          zipCode: '12345',
-        },
-      });
-    });
-
-    it('should transform partial contact info', () => {
-      const { pages, metadata } = noTransformData;
-      const formData = {
-        veteran: {
-          emailAddress: 'a@b.c',
-        },
-      };
-
-      const transformedData = prefillTransformer(pages, formData, metadata)
-        .formData;
-
-      expect(transformedData).to.deep.equal({
-        'view:claimType': noTransformData.formData['view:claimType'],
-        phoneAndEmail: {
-          emailAddress: formData.veteran.emailAddress,
-        },
-      });
-    });
-  });
-
   describe('prefillServiceInformation', () => {
     it('should transform service info when present', () => {
       const { pages, metadata } = noTransformData;

@@ -4,8 +4,8 @@ import mockErrorResponse from '../mockdata/error-response.json';
 
 const RATED_DISABILITIES_PATH = '/disability/view-disability-rating/rating';
 const DISABILITIES_ENDPOINT =
-  '/disability_compensation_form/rated_disabilities';
-const TOTAL_RATING_ENDPOINT = '/disability_compensation_form/rating_info';
+  'v0/disability_compensation_form/rated_disabilities';
+const TOTAL_RATING_ENDPOINT = 'v0/disability_compensation_form/rating_info';
 
 const testAxe = () => {
   cy.injectAxe();

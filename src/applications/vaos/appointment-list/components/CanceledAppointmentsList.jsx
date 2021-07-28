@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   fetchFutureAppointments,
@@ -16,6 +15,7 @@ import {
 import { getVAAppointmentLocationId } from '../../services/appointment';
 import AppointmentListItem from './AppointmentsPageV2/AppointmentListItem';
 import NoAppointments from './NoAppointments';
+import InfoAlert from '../../components/InfoAlert';
 import moment from 'moment';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 
@@ -24,7 +24,6 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
     appointmentsByMonth,
     facilityData,
     futureStatus,
-    isCernerOnlyPatient,
     showScheduleButton,
   } = useSelector(state => getCanceledAppointmentListInfo(state), shallowEqual);
 
@@ -32,7 +31,7 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
   useEffect(
     () => {
       if (futureStatus === FETCH_STATUS.notStarted) {
-        dispatch(fetchFutureAppointments());
+        dispatch(fetchFutureAppointments({ includeRequests: true }));
       } else if (hasTypeChanged && futureStatus === FETCH_STATUS.succeeded) {
         scrollAndFocus('#type-dropdown');
       } else if (hasTypeChanged && futureStatus === FETCH_STATUS.failed) {
@@ -58,10 +57,13 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
 
   if (futureStatus === FETCH_STATUS.failed) {
     return (
-      <AlertBox status="error" headline="We’re sorry. We’ve run into a problem">
+      <InfoAlert
+        status="error"
+        headline="We’re sorry. We’ve run into a problem"
+      >
         We’re having trouble getting your canceled appointments. Please try
         again later.
-      </AlertBox>
+      </InfoAlert>
     );
   }
 
@@ -113,10 +115,10 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
         );
       })}
       {!appointmentsByMonth?.length && (
-        <div className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
+        <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
           <NoAppointments
+            description="canceled appointments"
             showScheduleButton={showScheduleButton}
-            isCernerOnlyPatient={isCernerOnlyPatient}
             startNewAppointmentFlow={() => {
               recordEvent({
                 event: `${GA_PREFIX}-schedule-appointment-button-clicked`,

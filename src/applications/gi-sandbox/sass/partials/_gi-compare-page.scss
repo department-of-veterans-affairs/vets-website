@@ -1,0 +1,199 @@
+.compare-page {
+
+  .vads-l-grid-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .sticky {
+    position: fixed;
+    top: 0;
+    overflow: visible !important;
+    z-index: 200;
+    width: 100% !important;
+  }
+
+  .compare-header-row {
+    margin-bottom: -2em;
+    background-color: $color-white;
+  }
+
+  .compare-action {
+    padding-top: 1em;
+
+    .gi-checkbox-label {
+      margin-top: 0px;
+    }
+  }
+
+  .compare-header {
+    height: 100%;
+    position: relative;
+  }
+
+  .institution-header {
+    background-color: $color-gray-light-alt;
+    border-radius: 5px;
+    padding: 1em;
+    margin-right: 1em;
+  }
+
+  .institution-name {
+    font-size: 20px;
+    font-family: "Bitter";
+    font-weight: 700;
+    color: $color-link-default;
+  }
+
+  .institution-location {
+    position: absolute;
+    bottom: 1em;
+  }
+
+  .empty-header {
+    height: 12em;
+    border: 2px dashed $color-gray-light;
+    border-radius: 5px;
+    margin-left: 1px;
+  }
+
+  .empty-col {
+    border: 2px dashed $color-gray-light;
+    border-radius: 5px;
+    margin-left: 1px;
+    height: 100%;
+  }
+
+  .field-value.caution-flag-display.first-row,
+  .field-value.caution-flag-display {
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    border-left: 10px solid $color-gold;
+    background-color: $color-gray-light-alt;
+    padding-left: 0px;
+
+    ul {
+      margin-top: .5em;
+      margin-bottom: 0;
+    }
+
+    li {
+      list-style-type: disc;
+      font-size: 15px;
+    }
+
+    .caution-flag-icon {
+      text-align: center;
+      margin-top: 6px;
+      font-size: 20px;
+    }
+
+    .caution-header {
+      font-size: 20px;
+      font-family: "Bitter";
+      font-weight: 700;
+    }
+  }
+
+  .field-value.caution-flag-display.none {
+    border-left: 10px solid $color-green;
+    .caution-flag-icon {
+      color: $color-green;
+    }
+  }
+
+  .compare-header-section {
+    height: 2em;
+    margin-top: 3em;
+    margin-bottom: .25em;
+    font-family: "Bitter";
+    font-size: 20px;
+  }
+
+  .compare-header-subsection {
+    height: 2em;
+    font-family: "Bitter";
+    font-size: 17px;
+  }
+
+  .field-value {
+    padding: 1.25em 1em 1.25em 1em;
+    margin-top: -1px;
+    border-left: 1px solid $color-base;
+    border-bottom: 1px solid $color-base;
+  }
+
+  .field-value.has-diff  {
+    font-weight: bold;
+    background-color: $color-gold-lightest;
+    border-top: 2px solid $color-base;
+    border-left: 2px solid $color-base;
+    border-bottom: 2px solid $color-base;
+  }
+
+  .field-value.first-row.has-diff {
+    border-top: 2px solid $color-base;
+  }
+
+  .field-value.last-col.has-diff {
+    border-right: 2px solid $color-base;
+  }
+
+  .capitalize-value {
+    text-transform: capitalize;
+  }
+
+  .field-value.first-row {
+    border-top: 1px solid $color-base;
+  }
+
+  .field-value.last-col {
+    border-right: 1px solid $color-base;
+  }
+
+  .field-label {
+    vertical-align: middle;
+
+    .label-diff {
+      display: inline-block;
+      padding-right: .75em;
+      font-size: 14px;
+    }
+
+    .label-cell {
+      background-color: $color-gray-light-alt;
+      margin-right: 1.5em;
+      padding: 1.25em .75em 1.25em 2.5em;
+      border-bottom: 1px solid $color-gray-light;
+      border-left: 1px solid $color-gray-light;
+      border-right: 1px solid $color-gray-light;
+      border-top: 1px solid $color-gray-light;
+      margin-top: -1px;
+    }
+
+    .label-cell.has-diff {
+      font-weight: bold;
+      border-width: 2px;
+      padding-left: .8em;
+    }
+  }
+
+  .section-field-grid.labels {
+    margin-right: 1.75em;
+  }
+
+  .compare-page-description-label {
+    font-weight: bold;
+    font-family: "Bitter";
+    font-size: 30px;
+  }
+
+  .section-field-grid {
+    border-top: 1px solid $color-base;
+    border-left: 1px solid $color-base;
+  }
+  .section-field-grid.last {
+    border-right: 1px solid $color-base;
+  }
+}

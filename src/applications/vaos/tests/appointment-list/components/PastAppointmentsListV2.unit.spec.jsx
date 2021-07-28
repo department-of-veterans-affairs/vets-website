@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
 import { within, waitFor } from '@testing-library/dom';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import {
   getVAAppointmentMock,
   getVAFacilityMock,
@@ -22,6 +22,8 @@ import {
 import PastAppointmentsListV2, {
   getPastAppointmentDateRangeOptions,
 } from '../../../appointment-list/components/PastAppointmentsListV2';
+import { getVAOSAppointmentMock } from '../../mocks/v2';
+import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
 
 const initialState = {
   featureToggles: {
@@ -35,9 +37,9 @@ describe('VAOS <PastAppointmentsListV2>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTimezoneTestDate());
+    mockFacilitiesFetch();
   });
   afterEach(() => {
-    resetFetch();
     MockDate.reset();
   });
   it('should show select date range dropdown', async () => {
@@ -74,7 +76,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       initialState,
     });
 
-    await screen.findByText(/You don’t have any appointments/i);
+    await screen.findByText(/You don’t have any past appointments/i);
 
     mockPastAppointmentInfoOption1({ va: [appointment] });
 
@@ -85,9 +87,9 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     fireEvent.click(screen.queryByText('Update'));
 
     await screen.findByText(new RegExp(pastDate.format('MMMM YYYY'), 'i'));
+    await screen.findByText(/VA appointment/);
 
     expect(screen.baseElement).to.contain.text(`Appointments in ${rangeLabel}`);
-    expect(screen.baseElement).to.contain.text('VA appointment');
     expect(screen.baseElement).to.contain.text('Details');
   });
 
@@ -184,33 +186,6 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     expect(screen.baseElement).not.to.contain.text('VA appointment');
   });
 
-  it('should have correct status when previously cancelled', async () => {
-    const pastDate = moment().subtract(3, 'days');
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      startDate: pastDate.format(),
-      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
-      facilityId: '983',
-      sta6aid: '983GC',
-    };
-    appointment.attributes.vdsAppointments[0].currentStatus =
-      'CANCELLED BY CLINIC';
-
-    mockPastAppointmentInfo({ va: [appointment] });
-
-    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
-      initialState,
-    });
-
-    await screen.findAllByText(
-      new RegExp(pastDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
-    );
-
-    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(screen.baseElement).to.contain.text('Canceled');
-  });
-
   it('should not display when they have hidden statuses', () => {
     const appointment = getVAAppointmentMock();
     appointment.attributes.startDate = moment().format();
@@ -222,7 +197,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       initialState,
     });
 
-    return expect(screen.findByText(/You don’t have any appointments/i)).to
+    return expect(screen.findByText(/You don’t have any past appointments/i)).to
       .eventually.be.ok;
   });
 
@@ -238,7 +213,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       initialState,
     });
 
-    return expect(screen.findByText(/You don’t have any appointments/i)).to
+    return expect(screen.findByText(/You don’t have any past appointments/i)).to
       .eventually.be.ok;
   });
 
@@ -285,6 +260,48 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     ).to.exist;
     expect(within(firstCard).getByText(/MT/i)).to.exist;
     expect(within(firstCard).getByText(/VA Video Connect at home/i)).to.exist;
+  });
+
+  it('should display past appointments using V2 api call', async () => {
+    const now = moment().startOf('day');
+    const start = moment(now).subtract(3, 'months');
+    const end = moment()
+      .minutes(0)
+      .add(30, 'minutes');
+
+    const yesterday = moment().subtract(1, 'day');
+    const appointment = getVAOSAppointmentMock();
+    appointment.id = '123';
+    appointment.attributes = {
+      ...appointment.attributes,
+      kind: 'phone',
+      minutesDuration: 30,
+      status: 'booked',
+      start: yesterday.format('YYYY-MM-DDTHH:mm:ss'),
+    };
+    mockVAOSAppointmentsFetch({
+      start: start.format('YYYY-MM-DDTHH:mm:ssZ'),
+      end: end.format('YYYY-MM-DDTHH:mm:ssZ'),
+      requests: [appointment],
+      statuses: ['booked', 'cancelled'],
+    });
+
+    const myInitialState = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingVAOSServiceVAAppointments: true,
+      },
+    };
+    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
+      initialState: myInitialState,
+    });
+
+    await screen.findAllByText(
+      new RegExp(yesterday.format('dddd, MMMM D'), 'i'),
+    );
+
+    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
   });
 
   describe('getPastAppointmentDateRangeOptions', () => {

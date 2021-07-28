@@ -6,6 +6,7 @@ import FacilityPhone from '../../../components/FacilityPhone';
 import { GA_PREFIX } from '../../../utils/constants';
 import State from '../../../components/State';
 import NewTabAnchor from '../../../components/NewTabAnchor';
+import { isTypeOfCareSupported } from '../../../services/location';
 
 const UNSUPPORTED_FACILITY_RANGE = 100;
 
@@ -13,6 +14,7 @@ export default function FacilitiesNotShown({
   facilities,
   sortMethod,
   typeOfCareId,
+  cernerSiteIds,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   useEffect(
@@ -34,8 +36,7 @@ export default function FacilitiesNotShown({
 
   const nearbyUnsupportedFacilities = facilities?.filter(
     facility =>
-      !facility.legacyVAR.settings[typeOfCareId]?.direct.enabled &&
-      !facility.legacyVAR.settings[typeOfCareId]?.request.enabled &&
+      !isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds) &&
       facility.legacyVAR[sortMethod] < UNSUPPORTED_FACILITY_RANGE,
   );
 

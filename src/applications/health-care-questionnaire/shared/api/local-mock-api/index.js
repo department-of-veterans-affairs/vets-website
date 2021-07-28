@@ -68,39 +68,15 @@ const responses = {
     },
     meta: { errors: null },
   },
-  'GET /v0/feature_toggles': {
-    data: {
-      type: 'feature_toggles',
-      features: [
-        { name: 'facilityLocatorShowCommunityCares', value: true },
-        { name: 'profile_show_profile_2.0', value: false },
-        { name: 'vaOnlineScheduling', value: true },
-        { name: 'vaOnlineSchedulingCancel', value: true },
-        { name: 'vaOnlineSchedulingRequests', value: true },
-        { name: 'vaOnlineSchedulingCommunityCare', value: true },
-        { name: 'vaOnlineSchedulingDirect', value: true },
-        { name: 'vaOnlineSchedulingPast', value: true },
-        { name: 'vaOnlineSchedulingExpressCare', value: true },
-        { name: 'vaOnlineSchedulingExpressCareNew', value: true },
-        { name: 'vaOnlineSchedulingFlatFacilityPage', value: true },
-        { name: 'vaOnlineSchedulingProviderSelection', value: true },
-        { name: 'vaOnlineSchedulingCheetah', value: true },
-        { name: 'vaOnlineSchedulingHomepageRefresh', value: true },
-        { name: 'vaOnlineSchedulingUnenrolledVaccine', value: true },
-        { name: 'vaOnlineSchedulingVAOSServiceCCAppointments', value: false },
-        { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: false },
-        { name: 'vaOnlineSchedulingVAOSServiceRequests', value: false },
-        { name: 'vaGlobalDowntimeNotification', value: false },
-        { name: 'ssoe', value: true },
-        { name: 'ssoeInbound', value: false },
-        { name: 'ssoeEbenefitsLinks', value: false },
-        { name: 'edu_section_103', value: true },
-        { name: 'form526OriginalClaims', value: false },
-        { name: 'vaViewDependentsAccess', value: false },
-        { name: 'gibctEybBottomSheet', value: true },
-        { name: 'showHealthcareExperienceQuestionnaire', value: true },
-      ],
-    },
+  'GET /v0/feature_toggles': (req, res) => {
+    return res.json({
+      data: {
+        type: 'feature_toggles',
+        features: [
+          { name: 'showHealthcareExperienceQuestionnaire', value: true },
+        ],
+      },
+    });
   },
   'GET /health_quest/v0/questionnaire_manager': {
     data: [upcomingPrimaryCareAppointmentNotStartedQuestionnaire],

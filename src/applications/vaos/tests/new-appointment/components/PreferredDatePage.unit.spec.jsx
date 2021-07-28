@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import PreferredDatePage from '../../../new-appointment/components/PreferredDatePage';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 
@@ -23,11 +23,10 @@ const initialState = {
   },
 };
 
-describe('VAOS integration: preferred date page with a single-site user', () => {
+describe('VAOS <PreferredDatePage>', () => {
   beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
 
-  it('should render', async () => {
+  it('should display form fields', async () => {
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<PreferredDatePage />, {
       store,
@@ -35,16 +34,16 @@ describe('VAOS integration: preferred date page with a single-site user', () => 
 
     expect(
       await screen.findByText(
-        /What is the earliest date you’d like to be seen/,
+        /Tell us the earliest day you're available and we'll try to find the date closest to your request/,
       ),
     ).to.exist;
 
     expect(screen.baseElement).to.contain.text(
-      'Tell us when you want to schedule your appointment',
+      'When do you want to schedule this appointment?',
     );
 
     expect(screen.baseElement).to.contain.text(
-      'Please pick a date within the next 13 months.',
+      'Choose a date within the next 13 months for this appointment.',
     );
 
     // Verify date widget is rendered.
@@ -79,10 +78,7 @@ describe('VAOS integration: preferred date page with a single-site user', () => 
     userEvent.selectOptions(screen.getByRole('combobox', { name: /day/i }), [
       '2',
     ]);
-    await userEvent.type(
-      screen.getByRole('spinbutton', { name: /year/i }),
-      '2016',
-    );
+    userEvent.type(screen.getByRole('spinbutton', { name: /year/i }), '2016');
     fireEvent.click(screen.getByText(/Continue/));
     expect(await screen.findByRole('alert')).to.contain.text(
       'Please enter a future date ',
@@ -104,10 +100,7 @@ describe('VAOS integration: preferred date page with a single-site user', () => 
     userEvent.selectOptions(screen.getByRole('combobox', { name: /day/i }), [
       '2',
     ]);
-    await userEvent.type(
-      screen.getByRole('spinbutton', { name: /year/i }),
-      '2050',
-    );
+    userEvent.type(screen.getByRole('spinbutton', { name: /year/i }), '2050');
     fireEvent.click(screen.getByText(/Continue/));
     expect(await screen.findByRole('alert')).to.contain.text(
       'Please enter a date less than 395 days in the future ',
@@ -140,10 +133,7 @@ describe('VAOS integration: preferred date page with a single-site user', () => 
     userEvent.selectOptions(screen.getByRole('combobox', { name: /day/i }), [
       maxDay,
     ]);
-    await userEvent.type(
-      screen.getByRole('spinbutton', { name: /year/i }),
-      maxYear,
-    );
+    userEvent.type(screen.getByRole('spinbutton', { name: /year/i }), maxYear);
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() => expect(screen.history.push.called).to.be.true);
   });

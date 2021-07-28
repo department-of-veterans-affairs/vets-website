@@ -12,28 +12,35 @@
     "isMarried": false,
     "hasAdditionalIncome": false,
     "hasSocialSecurity": false,
-    "vetPreviouslyEmployed": false,
     "vetIsEmployed": false
   },
   "additionalData": {
-    "additionalComments": "Supporting personal statement",
+    "additionalComments": "Supporting personal statement...",
     "bankruptcy": {}
   },
   "expenses": {
-    "rentOrMortgage": 0,
-    "food": 0
+    "rentOrMortgage": "0",
+    "food": "0"
   },
   "assets": {
-    "cashInBank": 0,
-    "cashOnHand": 0,
-    "usSavingsBonds": 0,
-    "stocksAndOtherBonds": 0
+    "cashInBank": "0",
+    "cashOnHand": "0",
+    "usSavingsBonds": "0",
+    "stocksAndOtherBonds": "0"
+  },
+  "view:components": {
+    "view:maritalStatus": {},
+    "view:veteranInfo": {},
+    "view:vaBenefitsOnFile": {},
+    "view:vehicleInfo": {},
+    "view:recVehicleInfo": {},
+    "view:assetInfo": {}
   },
   "personalData": {
     "address": {
       "livesOnMilitaryBaseInfo": {},
       "country": "USA",
-      "street": "123 Fake St",
+      "street": "123 Fake Street",
       "city": "Tampa",
       "state": "FL",
       "postalCode": "33543"
@@ -48,21 +55,10 @@
     },
     "dateOfBirth": "1950-10-04",
     "employmentHistory": {
-      "veteran": {
-        "currentEmployment": {}
-      },
-      "spouse": {
-        "currentEmployment": {}
-      }
+      "veteran": {},
+      "spouse": {}
     },
     "spouseFullName": {}
-  },
-  "view:components": {
-    "view:veteranInfo": {},
-    "view:vaBenefitsOnFile": {},
-    "view:vehicleInfo": {},
-    "view:recVehicleInfo": {},
-    "view:assetInfo": {}
   },
   "personalIdentification": {
     "ssn": "4437",
@@ -100,8 +96,8 @@
       ],
       "id": 0,
       "resolution": {
-        "resolutionType": "Compromise",
-        "offerToPay": "0"
+        "resolutionType": "Waiver",
+        "agreeToWaiver": true
       }
     }
   ],
@@ -115,13 +111,6 @@
     "deductionCode": "",
     "originalAr": 0
   },
-  "income": [
-    {
-      "veteranOrSpouse": "VETERAN",
-      "compensationAndPension": "3261.1",
-      "education": "50"
-    }
-  ],
   "socialSecurity": {
     "spouse": {}
   },
@@ -132,5 +121,12 @@
     "spouseBenefits": {}
   },
   "financialOverview": {},
-  "availableOptions": {}
+  "availableOptions": {},
+  "income": [
+    {
+      "veteranOrSpouse": "VETERAN",
+      "compensationAndPension": "3261.1",
+      "education": "50"
+    }
+  ]
 }

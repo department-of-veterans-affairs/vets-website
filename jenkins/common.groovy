@@ -85,7 +85,6 @@ def setup() {
 
     dir("vets-website") {
       sh "mkdir -p build"
-      sh "mkdir -p logs/selenium"
       sh "mkdir -p coverage"
       sh "mkdir -p temp"
 

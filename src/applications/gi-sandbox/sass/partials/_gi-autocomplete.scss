@@ -1,6 +1,7 @@
 .gi-app {
 
   .suggestions-list {
+    z-index: 9999;
     background: $color-white;
     border: 1px solid $color-gray;
     // Box shadow only sides and bottom of suggestion list.

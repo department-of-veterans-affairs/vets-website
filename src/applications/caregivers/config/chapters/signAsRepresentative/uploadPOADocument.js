@@ -1,7 +1,11 @@
 import React from 'react';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import environment from 'platform/utilities/environment';
-import { representativeFields } from 'applications/caregivers/definitions/constants';
+import {
+  representativeFields,
+  ALLOWED_FILE_TYPES,
+  MAX_FILE_SIZE_BYTES,
+} from 'applications/caregivers/definitions/constants';
 import { RepresentativeDocumentUploadDescription } from 'applications/caregivers/components/AdditionalInfo';
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -48,8 +52,8 @@ export default {
       classNames: 'poa-document-upload',
       multiple: false,
       fileUploadUrl: `${environment.API_URL}/v0/form1010cg/attachments`,
-      fileTypes: ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'rtf', 'png'],
-      maxSize: 1024 * 1024 * 25,
+      fileTypes: ALLOWED_FILE_TYPES,
+      maxSize: MAX_FILE_SIZE_BYTES,
       hideLabelText: true,
       createPayload,
       parseResponse,

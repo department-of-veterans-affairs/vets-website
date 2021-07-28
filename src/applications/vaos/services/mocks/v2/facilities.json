@@ -1,0 +1,389 @@
+{
+  "data": [
+    {
+      "id": "983",
+      "type": "facilities",
+      "attributes": {
+        "id": "983",
+        "vistaSite": "983",
+        "vastParent": "983",
+        "type": "va_facilities",
+        "name": "Cheyenne VA Medical Center",
+        "classification": "VA Medical Center (VAMC)",
+        "timezone": null,
+        "lat": 39.744507,
+        "long": -104.830956,
+        "website": "https://www.denver.va.gov/locations/directions.asp",
+        "phone": {
+          "main": "307-778-7550",
+          "fax": "307-778-7381",
+          "pharmacy": "866-420-6337",
+          "afterHours": "307-778-7550",
+          "patientAdvocate": "307-778-7550 x7517",
+          "mentalHealthClinic": "307-778-7349",
+          "enrollmentCoordinator": "307-778-7550 x7579"
+        },
+        "hoursOfOperation": null,
+        "mailingAddress": null,
+        "physicalAddress": {
+          "type": "physical",
+          "line": ["2360 East Pershing Boulevard"],
+          "city": "Cheyenne",
+          "state": "WY",
+          "postalCode": "82001-5356"
+        },
+        "mobile": false,
+        "healthService": [
+          "Audiology",
+          "Cardiology",
+          "DentalServices",
+          "EmergencyCare",
+          "Gastroenterology",
+          "Gynecology",
+          "MentalHealthCare",
+          "Nutrition",
+          "Ophthalmology",
+          "Optometry",
+          "Orthopedics",
+          "Podiatry",
+          "PrimaryCare",
+          "SpecialtyCare",
+          "UrgentCare",
+          "Urology",
+          "WomensHealth"
+        ],
+        "operatingStatus": { "code": "NORMAL" }
+      }
+    },
+    {
+      "id": "984",
+      "type": "facilities",
+      "attributes": {
+        "id": "984",
+        "vistaSite": "984",
+        "vastParent": "984",
+        "type": "va_health_facility",
+        "name": "Dayton VA Medical Center",
+        "classification": "VA Medical Center (VAMC)",
+        "timezone": null,
+        "lat": null,
+        "long": null,
+        "website": "https://www.dayton.va.gov/locations/directions.asp",
+        "phone": { "main": "937-268-6511" },
+        "hoursOfOperation": null,
+        "mailingAddress": null,
+        "physicalAddress": {
+          "type": "physical",
+          "line": ["4100 West Third Street"],
+          "city": "Dayton",
+          "state": "OH",
+          "postalCode": "45428-9000"
+        },
+        "mobile": null,
+        "healthService": [
+          "Audiology",
+          "Cardiology",
+          "DentalServices",
+          "Dermatology",
+          "Gastroenterology",
+          "Gynecology",
+          "MentalHealthCare",
+          "Nutrition",
+          "Ophthalmology",
+          "Optometry",
+          "Orthopedics",
+          "Podiatry",
+          "PrimaryCare",
+          "SpecialtyCare",
+          "Urology",
+          "WomensHealth"
+        ],
+        "operatingStatus": null
+      }
+    },
+    {
+      "id": "983gc",
+      "type": "facilities",
+      "attributes": {
+        "id": "983gc",
+        "vistaSite": "983",
+        "vastParent": null,
+        "type": "va_facilities",
+        "name": "Fort Collins VA Clinic",
+        "classification": "Multi-Specialty CBOC",
+        "timezone": null,
+        "lat": null,
+        "long": null,
+        "website": "https://www.cheyenne.va.gov/locations/Fort_Collins_VA_CBOC.asp",
+        "phone": { "main": "970-224-1550" },
+        "hoursOfOperation": null,
+        "mailingAddress": null,
+        "physicalAddress": {
+          "line": ["2509 Research Boulevard"],
+          "city": "Fort Collins",
+          "state": "CO",
+          "postalCode": "80526-8108"
+        },
+        "mobile": null,
+        "healthService": [
+          "Audiology",
+          "EmergencyCare",
+          "MentalHealthCare",
+          "PrimaryCare",
+          "SpecialtyCare"
+        ],
+        "operatingStatus": null
+      }
+    },
+    {
+      "id": "983gd",
+      "type": "facilities",
+      "attributes": {
+        "id": "983gd",
+        "vistaSite": "983",
+        "vastParent": null,
+        "type": "va_health_facility",
+        "name": "Loveland VA Clinic",
+        "classification": null,
+        "timezone": null,
+        "lat": null,
+        "long": null,
+        "website": "https://www.cheyenne.va.gov/locations/Loveland.asp",
+        "phone": { "main": "970-962-4900" },
+        "hoursOfOperation": null,
+        "mailingAddress": null,
+        "physicalAddress": {
+          "type": "physical",
+          "line": ["5200 Hahns Peak Drive"],
+          "city": "Loveland",
+          "state": "CO",
+          "postalCode": "80538-8852"
+        },
+        "mobile": null,
+        "healthService": [
+          "Audiology",
+          "EmergencyCare",
+          "Gynecology",
+          "MentalHealthCare",
+          "Nutrition",
+          "Ophthalmology",
+          "Optometry",
+          "Podiatry",
+          "PrimaryCare",
+          "SpecialtyCare",
+          "WomensHealth"
+        ],
+        "operatingStatus": null
+      }
+    },
+    {
+      "id": "983gb",
+      "type": "facilities",
+      "attributes": {
+        "id": "983gb",
+        "vistaSite": "983",
+        "vastParent": null,
+        "type": "va_facilities",
+        "name": "Sidney VA Clinic",
+        "classification": "Other Outpatient Services (OOS)",
+        "timezone": null,
+        "lat": null,
+        "long": null,
+        "website": "https://www.cheyenne.va.gov/locations/Sidney_VA_MSOC.asp",
+        "phone": { "main": "308-254-6085" },
+        "hoursOfOperation": null,
+        "mailingAddress": null,
+        "physicalAddress": {
+          "type": "physical",
+          "line": ["1116 10th Avenue"],
+          "city": "Sidney",
+          "state": "NE",
+          "postalCode": "69162-2001"
+        },
+        "mobile": null,
+        "healthService": ["EmergencyCare", "MentalHealthCare", "PrimaryCare"],
+        "operatingStatus": null
+      }
+    },
+    {
+      "id": "983hk",
+      "type": "facilities",
+      "attributes": {
+        "id": "983hk",
+        "vistaSite": "983",
+        "vastParent": null,
+        "type": "va_health_facility",
+        "name": "Wheatland VA Mobile Clinic",
+        "classification": "Other Outpatient Services (OOS)",
+        "timezone": null,
+        "lat": null,
+        "long": null,
+        "website": "https://www.cheyenne.va.gov/locations/Wheatland_VA_Mobile_Clinic.asp",
+        "phone": { "main": "307-778-7550" },
+        "hoursOfOperation": null,
+        "mailingAddress": null,
+        "physicalAddress": {
+          "type": "physical",
+          "line": ["2360 East Pershing Boulevard"],
+          "city": "Cheyenne",
+          "state": "WY",
+          "postalCode": "82001-5356"
+        },
+        "mobile": null,
+        "healthService": null,
+        "operatingStatus": null
+      }
+    },
+    {
+      "id": "984gd",
+      "type": "facilities",
+      "attributes": {
+        "id": "984gd",
+        "vistaSite": "984",
+        "vastParent": null,
+        "type": "va_health_facility",
+        "name": "Springfield VA Clinic",
+        "classification": "Multi-Specialty CBOC",
+        "timezone": null,
+        "lat": null,
+        "long": null,
+        "website": "https://www.dayton.va.gov/locations/spgfld_cboc.asp",
+        "phone": { "main": "937-328-3385" },
+        "hoursOfOperation": null,
+        "mailingAddress": null,
+        "physicalAddress": {
+          "type": "physical",
+          "line": ["512 South Burnett Road"],
+          "city": "Springfield",
+          "state": "OH",
+          "postalCode": "45505-2720"
+        },
+        "mobile": null,
+        "healthService": [
+          "MentalHealthCare",
+          "Optometry",
+          "Podiatry",
+          "PrimaryCare",
+          "SpecialtyCare"
+        ],
+        "operatingStatus": null
+      }
+    },
+    {
+      "id": "984gb",
+      "type": "facilities",
+      "attributes": {
+        "id": "984gb",
+        "vistaSite": "984",
+        "vastParent": null,
+        "type": "va_health_facility",
+        "name": "Lima VA Clinic",
+        "classification": "Primary Care CBOC",
+        "timezone": null,
+        "lat": null,
+        "long": null,
+        "website": "https://www.dayton.va.gov/locations/Lima_cboc.asp",
+        "phone": { "main": "419-222-5788" },
+        "hoursOfOperation": null,
+        "mailingAddress": null,
+        "physicalAddress": {
+          "type": "physical",
+          "line": ["1303 Bellefontaine Avenue"],
+          "city": "Lima",
+          "state": "OH",
+          "postalCode": "45804-3109"
+        },
+        "mobile": null,
+        "healthService": [
+          "MentalHealthCare",
+          "Nutrition",
+          "Optometry",
+          "PrimaryCare",
+          "SpecialtyCare"
+        ],
+        "operatingStatus": null
+      }
+    },
+    {
+      "id": "984gc",
+      "type": "facilities",
+      "attributes": {
+        "id": "984gc",
+        "vistaSite": "984",
+        "vastParent": null,
+        "type": "va_health_facility",
+        "name": "Richmond VA Clinic",
+        "classification": "Multi-Specialty CBOC",
+        "timezone": null,
+        "lat": null,
+        "long": null,
+        "website": "https://www.dayton.va.gov/locations/rchmnd_cboc.asp",
+        "phone": { "main": "765-973-6915" },
+        "hoursOfOperation": null,
+        "mailingAddress": null,
+        "physicalAddress": {
+          "type": "physical",
+          "line": ["1010 North J Street"],
+          "city": "Richmond",
+          "state": "IN",
+          "postalCode": "47374-6052"
+        },
+        "mobile": null,
+        "healthService": [
+          "Audiology",
+          "Cardiology",
+          "MentalHealthCare",
+          "Optometry",
+          "Podiatry",
+          "PrimaryCare",
+          "SpecialtyCare"
+        ],
+        "operatingStatus": null
+      }
+    },
+    {
+      "id": "984ga",
+      "type": "facilities",
+      "attributes": {
+        "id": "984ga",
+        "vistaSite": "984",
+        "vastParent": null,
+        "type": "va_health_facility",
+        "name": "Middletown VA Clinic",
+        "classification": "Multi-Specialty CBOC",
+        "timezone": null,
+        "lat": null,
+        "long": null,
+        "website": "https://www.dayton.va.gov/locations/midtwn_cboc.asp",
+        "phone": { "main": "513-423-8387" },
+        "hoursOfOperation": null,
+        "mailingAddress": null,
+        "physicalAddress": {
+          "type": "physical",
+          "line": ["4337 North Union Road"],
+          "city": "Middletown",
+          "state": "OH",
+          "postalCode": "45005-5211"
+        },
+        "mobile": null,
+        "healthService": [
+          "Audiology",
+          "MentalHealthCare",
+          "Optometry",
+          "Podiatry",
+          "PrimaryCare",
+          "SpecialtyCare"
+        ],
+        "operatingStatus": null
+      }
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "currentPage": 0,
+      "perPage": 0,
+      "totalPages": 0,
+      "totalEntries": 0
+    }
+  }
+}

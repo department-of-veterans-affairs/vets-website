@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -29,7 +29,6 @@ const initialState = {
 
 describe('VAOS <ReasonForAppointmentPage>', () => {
   beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
 
   it('should show page for VA medical request', async () => {
     const store = createTestStore(initialState);
@@ -46,7 +45,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
     expect((await screen.findAllByRole('radio')).length).to.equal(4);
 
     expect(screen.baseElement).to.contain.text(
-      'Please let us know why you’re making this appointment',
+      'Let us know why you’re making this appointment',
     );
 
     expect(
@@ -156,9 +155,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
 
     fireEvent.click(screen.getByText(/Continue/));
 
-    expect(await screen.findByRole('alert')).to.contain.text(
-      'Please provide a response',
-    );
+    expect(await screen.findByText('Please provide a response')).to.be.ok;
   });
 
   it('should continue to the correct page based on type choice for VA medical request', async () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
+import { mockApiRequest } from 'platform/testing/unit/helpers';
 import {
   mockWidgetFacilitiesList,
   mockFacilityLocatorApiResponse,
@@ -55,7 +55,6 @@ describe('facilities <FacilityListWidget>', () => {
         'Mental health clinic: 412-360-6600',
       );
       tree.unmount();
-      resetFetch();
       done();
     });
   });

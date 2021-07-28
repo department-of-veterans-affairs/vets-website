@@ -1,4 +1,3 @@
-import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import {
   BASE_URL,
   WIZARD_STATUS,
@@ -39,7 +38,7 @@ const checkOpt = {
 describe('HLR wizard', () => {
   beforeEach(() => {
     window.dataLayer = [];
-    cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
+    cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
     cy.intercept('GET', `/v0${CONTESTABLE_ISSUES_API}*`, []);
     sessionStorage.removeItem(WIZARD_STATUS);
     cy.visit(BASE_URL);
@@ -118,13 +117,16 @@ describe('HLR wizard', () => {
 
     // start form
     const h1Addition = ' with VA Form 20-0996';
-    cy.findAllByText(/higher-level review online/i, { selector: 'button' })
+    cy.findAllByText(/higher-level review online/i, { selector: 'a' })
       .first()
       .click();
+
+    cy.location('pathname').should('eq', `${BASE_URL}/introduction`);
     // title changes & gets focus
     cy.get('h1').should('have.text', h1Text + h1Addition);
     cy.focused().should('have.text', h1Text + h1Addition);
     cy.checkStorage(WIZARD_STATUS, 'complete');
+    cy.injectAxe();
     cy.axeCheck();
   });
 });

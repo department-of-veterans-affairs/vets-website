@@ -8,7 +8,6 @@ import {
   setFetchJSONResponse,
   setFetchJSONFailure,
   mockFetch,
-  resetFetch,
 } from 'platform/testing/unit/helpers';
 import {
   getVARequestMock,
@@ -35,9 +34,11 @@ const initialState = {
   },
 };
 
-describe('VAOS integration appointment cancellation:', () => {
-  beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
+describe('VAOS <AppointmentsPage> cancellation:', () => {
+  beforeEach(() => {
+    mockFetch();
+    mockFacilitiesFetch();
+  });
   it('video appointments should display modal with facility information', async () => {
     const appointment = getVideoAppointmentMock();
     appointment.attributes = {
@@ -403,7 +404,7 @@ describe('VAOS integration appointment cancellation:', () => {
     expect(modal).to.contain.text('Something went wrong');
     expect(modal).to.contain.text('Cheyenne VA Medical Center');
     expect(modal).to.contain.text('2360 East Pershing Boulevard');
-    expect(modal).to.contain.text('Cheyenne, WY 82001-5356');
+    expect(modal).to.contain.text('Cheyenne, WyomingWY 82001-5356');
     expect(modal).to.contain.text('307-778-7550');
 
     fireEvent.click(modal.querySelector('button'));

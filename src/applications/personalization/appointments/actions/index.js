@@ -1,10 +1,13 @@
-import moment from 'moment';
-import { replace, uniq, isEmpty } from 'lodash';
+import { replace, uniq } from 'lodash';
+
 import environment from '~/platform/utilities/environment';
 import { apiRequest } from '~/platform/utilities/api';
+
+import moment from '~/applications/personalization/dashboard-2/lib/moment-tz';
 import {
   getCCTimeZone,
   getVATimeZone,
+  getTimezoneBySystemId,
 } from '~/applications/personalization/dashboard-2/utils/timezone';
 import {
   FETCH_CONFIRMED_FUTURE_APPOINTMENTS,
@@ -16,6 +19,47 @@ import {
 import MOCK_FACILITIES from '~/applications/personalization/dashboard-2/utils/mocks/appointments/MOCK_FACILITIES.json';
 import MOCK_VA_APPOINTMENTS from '~/applications/personalization/dashboard-2/utils/mocks/appointments/MOCK_VA_APPOINTMENTS';
 import MOCK_CC_APPOINTMENTS from '~/applications/personalization/dashboard-2/utils/mocks/appointments/MOCK_CC_APPOINTMENTS';
+
+const CANCELLED_APPOINTMENT_SET = new Set([
+  'CANCELLED BY CLINIC & AUTO RE-BOOK',
+  'CANCELLED BY CLINIC',
+  'CANCELLED BY PATIENT & AUTO-REBOOK',
+  'CANCELLED BY PATIENT',
+]);
+
+function isVideoVisit(appt) {
+  return !!appt.vvsAppointments?.length;
+}
+
+function isCanceled(appt) {
+  return CANCELLED_APPOINTMENT_SET.has(
+    appt.attributes?.vdsAppointments?.[0]?.currentStatus,
+  );
+}
+
+/**
+ * Finds the datetime of the appointment depending on the appointment type
+ * and returns it as a moment object
+ *
+ * @param {string} type 'cc' or 'va'
+ * @param {Object} appt VAR appointment object
+ * @returns {Object} Returns appointment datetime as moment object
+ */
+function getLocalAppointmentDate(type, appt) {
+  if (type === 'cc') {
+    const zoneSplit = appt.timeZone.split(' ');
+    const offset = zoneSplit.length > 1 ? zoneSplit[0] : '+0:00';
+    return moment
+      .utc(appt.appointmentTime, 'MM/DD/YYYY HH:mm:ss')
+      .utcOffset(offset);
+  }
+
+  const timezone = getTimezoneBySystemId(appt.facilityId)?.timezone;
+  const date = isVideoVisit(appt)
+    ? appt.vvsAppointments[0].dateTime
+    : appt.startDate;
+  return timezone ? moment(date).tz(timezone) : moment(date);
+}
 
 function isAtlasLocation(appointment) {
   return appointment.attributes?.vvsAppointments?.some(
@@ -94,8 +138,8 @@ export function fetchConfirmedFutureAppointments() {
 
     try {
       if (environment.isLocalhost() && !window.Cypress) {
-        vaAppointments = MOCK_VA_APPOINTMENTS;
-        ccAppointments = MOCK_CC_APPOINTMENTS;
+        vaAppointments = MOCK_VA_APPOINTMENTS.data;
+        ccAppointments = MOCK_CC_APPOINTMENTS.data;
       } else {
         vaAppointmentsResponse = await apiRequest(
           `/appointments?start_date=${startOfToday}&end_date=${endDate}&type=va`,
@@ -172,6 +216,11 @@ export function fetchConfirmedFutureAppointments() {
           return accumulator;
         }
 
+        // Filter out appointments that have been cancelled.
+        if (isCanceled(appointment)) {
+          return accumulator;
+        }
+
         // Hide cancelled or no-show appointments
         if (FUTURE_APPOINTMENTS_HIDDEN_SET.has(appointmentStatus)) {
           return accumulator;
@@ -179,15 +228,18 @@ export function fetchConfirmedFutureAppointments() {
 
         // Derive the facility.
         const facility =
-          facilitiesLookup[getStagingID(appointment.attributes?.facilityId)];
+          facilitiesLookup[getStagingID(appointment.attributes.facilityId)];
 
         accumulator.push({
           additionalInfo: getAdditionalInfo(appointment),
           facility,
-          id: appointment?.id,
-          isVideo: !isEmpty(appointment?.attributes?.vvsAppointments),
+          id: appointment.id,
+          isVideo: isVideoVisit(appointment.attributes),
           providerName: facility?.attributes?.name,
-          startsAt: startDate.toISOString(),
+          startsAt: getLocalAppointmentDate(
+            'va',
+            appointment.attributes,
+          ).format(),
           type: 'va',
           timeZone: getVATimeZone(
             getStagingID(appointment?.attributes?.facilityId),
@@ -211,10 +263,13 @@ export function fetchConfirmedFutureAppointments() {
 
         accumulator.push({
           additionalInfo: getAdditionalInfo(appointment),
-          id: appointment?.id,
+          id: appointment.id,
           isVideo: false,
-          providerName: appointment?.attributes?.providerPractice,
-          startsAt: startDate.toISOString(),
+          providerName: appointment.attributes?.providerPractice,
+          startsAt: getLocalAppointmentDate(
+            'cc',
+            appointment.attributes,
+          ).format(),
           timeZone: getCCTimeZone(appointment),
           type: 'cc',
         });

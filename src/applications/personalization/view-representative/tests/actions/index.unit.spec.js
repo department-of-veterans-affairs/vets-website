@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 import {
   FETCH_REPRESENTATIVE_FAILED,
@@ -9,29 +10,11 @@ import {
 
 import { currentRepresentative } from '../helpers';
 
-let fetchMock;
-let oldFetch;
-
-const mockFetch = () => {
-  oldFetch = global.fetch;
-  fetchMock = sinon.stub();
-  global.fetch = fetchMock;
-};
-
-const unMockFetch = () => {
-  global.fetch = oldFetch;
-};
-
 describe('View Representative', () => {
-  beforeEach(mockFetch);
+  beforeEach(() => mockFetch());
 
   it('should get current Reppresentative', () => {
-    fetchMock.returns({
-      catch: () => ({
-        then: fn =>
-          fn({ ok: true, json: () => Promise.resolve(currentRepresentative) }),
-      }),
-    });
+    setFetchJSONResponse(global.fetch.onCall(0), currentRepresentative);
     const thunk = fetchRepresentative();
     const dispatchSpy = sinon.spy();
     const dispatch = action => {
@@ -54,11 +37,7 @@ describe('View Representative', () => {
         },
       ],
     };
-    fetchMock.returns({
-      catch: () => ({
-        then: fn => fn({ ok: true, json: () => Promise.resolve(response) }),
-      }),
-    });
+    setFetchJSONResponse(global.fetch.onCall(0), response);
     const thunk = fetchRepresentative();
     const dispatchSpy = sinon.spy();
     const dispatch = action => {
@@ -71,5 +50,4 @@ describe('View Representative', () => {
     };
     thunk(dispatch);
   });
-  afterEach(unMockFetch);
 });

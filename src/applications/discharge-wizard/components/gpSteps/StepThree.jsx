@@ -104,7 +104,7 @@ const StepThree = ({ formValues, handlePrint }) => {
     );
   } else {
     onlineSubmissionMsg = (
-      <p>Unfortunately, there isn’t a way to submit this form online.</p>
+      <p>At this time, there isn’t a way to submit this form online.</p>
     );
   }
 

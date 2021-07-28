@@ -51,7 +51,9 @@ export function updateDiariesService(shouldUpdate) {
       try {
         const response = await apiRequest(DEPENDENCY_VERIFICATION_URI, {
           method: 'POST',
-          body: JSON.stringify({ updateDiaries: 'true' }),
+          body: JSON.stringify({
+            dependencyVerificationClaim: { form: { updateDiaries: 'true' } },
+          }),
           credentials: 'include',
           mode: 'cors',
           headers: {

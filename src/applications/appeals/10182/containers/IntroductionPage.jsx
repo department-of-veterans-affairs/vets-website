@@ -1,4 +1,5 @@
 import React from 'react';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
@@ -6,7 +7,6 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 import {
-  CONTESTED_CLAIMS_URL,
   FACILITY_LOCATOR_URL,
   GET_HELP_REQUEST_URL,
   BOARD_APPEAL_OPTIONS_URL,
@@ -29,6 +29,7 @@ class IntroductionPage extends React.Component {
     const sipOptions = {
       useActionLinks: true,
       hideUnauthedStartLink: true,
+      headingLevel: 2,
       formId,
       prefillEnabled,
       pageList,
@@ -48,19 +49,21 @@ class IntroductionPage extends React.Component {
         <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
         <SaveInProgressIntro {...sipOptions} />
         <h2 className="vads-u-font-size--h3">
-          Follow the steps below to request a Board Appeal.
+          Follow these steps to request a Board Appeal
         </h2>
-        <strong>
-          If you're requesting a Board Appeal on an issue in a claim we decided
-          before February 19, 2019
-        </strong>
-        <p className="vads-u-margin-bottom--0">
-          You'll need to opt in to the new decision review process by checking a
-          box when you fill out the application. This moves your issue from the
-          old appeals process to the new decision review process. As part of the
-          Appeals Modernization Act, our new process means you'll likely get a
-          faster decision.
-        </p>
+        <AdditionalInfo triggerText="Find out about opting in if you have an older claim">
+          <p>
+            If you’re requesting a Board Appeal on an issue in a claim we
+            decided before February 19, 2019, you’ll need to opt in to the new
+            decision review process. To do this, you’ll check a box at a certain
+            place in the form. This will move your issue from the old appeals
+            process to the new decision review process.
+          </p>
+          <p className="vads-u-margin-bottom--0">
+            Our new decision review process is part of the Appeals Modernization
+            Act. When you opt in, you’re likely to get a faster decision.
+          </p>
+        </AdditionalInfo>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
@@ -69,76 +72,72 @@ class IntroductionPage extends React.Component {
               </h3>
               <p>
                 You can request a Board Appeal up to 1 year from the date on
-                your decision notice. You'll have 60 days if you have a{' '}
-                <a href={CONTESTED_CLAIMS_URL}>contested claim</a> (these are
-                rare).
+                your decision notice. (Exception: if you have a contested claim,
+                you have only 60 days from the date on your decision notice to
+                request a Board Appeal.)
               </p>
-              <p>You can request a Board Appeal for these claim decision.</p>
+              <p>You can request a Board Appeal for these claim decisions:</p>
               <ul>
-                <li>An initial claim decision</li>
-                <li>A supplemental claim decision</li>
-                <li>A Higher-Level Review claim decision</li>
+                <li>An initial claim</li>
+                <li>A Supplemental Claim</li>
+                <li>A Higher-Level Review</li>
               </ul>
               <p>
                 <strong>Note: </strong>
-                You can't request a Board Appeal if you've already requested one
+                You can’t request a Board Appeal if you’ve already requested one
                 for this same claim.
               </p>
             </li>
             <li className="process-step list-two">
-              <h3 className="vads-u-font-size--h4">Prepare</h3>
-              <p>Here's what you’ll need to apply:</p>
+              <h3 className="vads-u-font-size--h4">Gather your information</h3>
+              <p>Here’s what you’ll need to apply:</p>
               <ul>
-                <li>Mailing address</li>
+                <li>Your mailing address</li>
                 <li>
-                  List of issues you disagree with and the VA decision date for
-                  each
+                  The VA decision date for each issue you’d like use to review
+                  (this is the date on the decision notice you got in the mail)
                 </li>
-                <li>Representative’s contact information (optional)</li>
               </ul>
-              <h4 className="vads-u-font-size--h5">
-                What if I need help filling out my application?
-              </h4>
-              <p>
-                If you need help requesting a Board Appeal, you can contact a VA
-                regional office near you.
-              </p>
-              <a href={FACILITY_LOCATOR_URL}>
-                Find a VA regional office near you
-              </a>
-              <p className="vads-u-margin-top--2">
-                A Veteran Service Organization or VA-accredited representative
-                or agent can also help you request a Board Appeal.
-              </p>
-              <a href={GET_HELP_REQUEST_URL}>
-                Get help requesting a Board Appeal
-              </a>
             </li>
             <li className="process-step list-three">
-              <h3 className="vads-u-font-size--h4">Apply</h3>
+              <h3 className="vads-u-font-size--h4">Start your request</h3>
               <p>
-                Complete this Board Appeal application form. After you submit
-                the application, you’ll get a confirmation message. You can
-                print this for your records.
+                We’ll take you through each step of the process. It should take
+                about 30 minutes.
               </p>
+              <AdditionalInfo triggerText="What happens after you apply">
+                <p>
+                  After you submit your request for a Board Appeal, you’ll get a
+                  confirmation message. You can print this for your records.
+                </p>
+                <p>
+                  A Veterans Law Judge at the Board of Veterans’ Appeals will
+                  review your case. The amount of time it takes the Board to
+                  complete its review depends on which review option you choose.{' '}
+                  <a href={BOARD_APPEAL_OPTIONS_URL}>
+                    Read about the 3 Board Appeal options
+                  </a>
+                </p>
+              </AdditionalInfo>
             </li>
           </ol>
-          <h3>Our review and decision process</h3>
-          <p>
-            A Veterans Law Judge at the Board of Veteran's Appeals will review
-            your case. Depending on which{' '}
-            <a href={BOARD_APPEAL_OPTIONS_URL}>review option</a> you choose, it
-            will take the Board a year or longer to make a decision on your
-            case.
-          </p>
-          <p>
-            After the Board has made a decision on your case, you'll get a
-            decision notice in the mail.
-          </p>
         </div>
         <SaveInProgressIntro buttonOnly {...sipOptions} />
-        <div className="omb-info--container vads-u-padding-left--0">
-          <OMBInfo resBurden={30} ombNumber="290-0674" expDate="2/28/2022" />
+        <h2 className="vads-u-font-size--h3">
+          What if I need help filling out my application?
+        </h2>
+        <p>
+          If you need help requesting a Board Appeal, you can contact a VA
+          regional office near you.
+        </p>
+        <a href={FACILITY_LOCATOR_URL}>Find a VA regional office near you</a>
+        <p className="vads-u-margin-top--2">
+          A Veteran Service Organization or VA-accredited representative or
+          agent can also help you request a Board Appeal.
+        </p>
+        <a href={GET_HELP_REQUEST_URL}>Get help requesting a Board Appeal</a>
+        <div className="omb-info--container vads-u-padding-left--0 vads-u-margin-top--4">
+          <OMBInfo resBurden={30} ombNumber="2900-0674" expDate="2/28/2022" />
         </div>
       </div>
     );

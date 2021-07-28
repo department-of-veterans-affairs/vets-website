@@ -10,13 +10,7 @@ import {
   FETCH_CONTESTABLE_ISSUES_FAILED,
 } from '../../actions';
 
-const originalFetch = global.fetch;
-
 describe('fetch contestable issues action', () => {
-  afterEach(() => {
-    global.fetch = originalFetch;
-  });
-
   it('should dispatch an init action', () => {
     const mockData = { data: 'asdf' };
     mockApiRequest(mockData);

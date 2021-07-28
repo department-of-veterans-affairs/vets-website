@@ -1,4 +1,4 @@
-import path, { join, sep } from 'path';
+import { join, sep } from 'path';
 
 import get from 'platform/utilities/data/get';
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
@@ -141,12 +141,13 @@ const performPageActions = (pathname, _13647Exception = false) => {
 
   cy.execHook(pathname).then(({ hookExecuted, postHook }) => {
     const shouldAutofill = !pathname.match(
-      /\/(introduction|confirmation|review-and-submit)$/,
+      /\/(start|introduction|confirmation|review-and-submit)$/,
     );
 
     if (!hookExecuted && shouldAutofill) cy.fillPage();
 
     cy.expandAccordions();
+    cy.injectAxe();
     cy.axeCheck('main', { _13647Exception });
 
     const postHookPromise = new Promise(resolve => {
@@ -201,7 +202,7 @@ const defaultPostHook = pathname => {
   }
 
   // No-op on introduction and confirmation pages.
-  if (pathname.match(/\/(introduction|confirmation)$/)) {
+  if (pathname.match(/\/(start|introduction|confirmation)$/)) {
     return () => {};
   }
 
@@ -347,7 +348,7 @@ Cypress.Commands.add('enterData', field => {
 
     case 'file': {
       cy.get(`#${Cypress.$.escapeSelector(field.key)}`)
-        .upload(`../platform/testing/example-upload.png`, 'image/png')
+        .upload('src/platform/testing/example-upload.png', 'image/png')
         .get('.schemaform-file-uploading')
         .should('not.exist');
       break;
@@ -457,15 +458,9 @@ Cypress.Commands.add('fillPage', () => {
  * @property {string} [dataPrefix] - The path prefix for accessing nested
  *     test data. For example, if the test data looks like
  *     { data: { field1: 'value' } }, dataPrefix should be set to 'data'.
- * @property {string[]} dataSets - Array of fixture file paths to test data
- *     relative to the "data" path loaded into fixtures. For example,
- *     if the fixtures object maps the "data" path to "some/folder/path",
- *     which contains a "test.json" file, dataSets can be set to ['test']
- *     to use that file as a data set. A test is generated for each data set
- *     and uses that data to fill out fields during the form flow.
- * @property {Object} fixtures - Paths to files or directories (relative to
- *     project root) to load as fixtures, with object keys as fixture paths.
- *     The "data" fixture path is _required_ to properly set up "dataSets".
+ * @property {string} dataDir - Path to test data directory.
+ * @property {string[]} dataSets - Test data file paths relative to dataDir.
+ *     A test is generated for each data set and uses that data to fill out fields.
  * @property {Object.<function>} [pageHooks] - Functions (hooks) that override
  *     the automatic form filling on specified pages. Each object key is the
  *     URL of the page that triggers the corresponding hook.
@@ -484,8 +479,9 @@ const testForm = testConfig => {
     appName,
     arrayPages = [],
     dataPrefix,
+    dataDir,
     dataSets,
-    fixtures,
+    fixtures, // Deprecated in favor of `dataDir`.
     pageHooks = {},
     rootUrl,
     setup = () => {},
@@ -503,18 +499,11 @@ const testForm = testConfig => {
 
   testSuite(appName, () => {
     before(() => {
-      if (!fixtures.data) {
-        throw new Error('Required data fixture is undefined.');
+      if (!dataDir && !fixtures.data) {
+        throw new Error('Required data directory is undefined.');
       }
 
-      cy.syncFixtures({
-        // Load example upload data as a fixture.
-        'example-upload.png': path.join(
-          __dirname,
-          `../../../../example-upload.png`,
-        ),
-        ...fixtures,
-      }).then(setup);
+      setup();
     });
 
     // Aliases and the stub server reset before each test,
@@ -543,7 +532,7 @@ const testForm = testConfig => {
       testCase(testKey, () => {
         beforeEach(() => {
           cy.wrap(testKey).as('testKey');
-          cy.fixture(`../../${fixtures.data}/${testKey}`)
+          cy.fixture(`${dataDir || fixtures.data}/${testKey}`)
             .then(extractTestData)
             .as('testData')
             .then(setupPerTest);

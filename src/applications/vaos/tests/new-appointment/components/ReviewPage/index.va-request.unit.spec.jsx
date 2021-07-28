@@ -3,14 +3,10 @@ import moment from 'moment';
 import { expect } from 'chai';
 
 import userEvent from '@testing-library/user-event';
-import { waitFor } from '@testing-library/dom';
+import { waitFor, within } from '@testing-library/dom';
 import { Route } from 'react-router-dom';
 
-import {
-  setFetchJSONFailure,
-  mockFetch,
-  resetFetch,
-} from 'platform/testing/unit/helpers';
+import { setFetchJSONFailure, mockFetch } from 'platform/testing/unit/helpers';
 import environment from 'platform/utilities/environment';
 
 import { FACILITY_TYPES } from '../../../../utils/constants';
@@ -28,7 +24,10 @@ import {
   mockMessagesFetch,
   mockPreferences,
   mockRequestSubmit,
+  mockFacilityFetch,
 } from '../../../mocks/helpers';
+import { mockAppointmentSubmit } from '../../../mocks/helpers.v2';
+import { getVAFacilityMock } from '../../../mocks/v0';
 
 const initialState = {
   featureToggles: {
@@ -112,7 +111,6 @@ describe('VAOS <ReviewPage> VA request', () => {
       onCalendarChange([start.format('YYYY-MM-DD[T00:00:00.000]')]),
     );
   });
-  afterEach(() => resetFetch());
 
   it('should show form information for review', async () => {
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
@@ -203,15 +201,12 @@ describe('VAOS <ReviewPage> VA request', () => {
       event: 'vaos-request-submission',
       'health-TypeOfCare': 'Primary care',
       'health-ReasonForAppointment': 'routine-follow-up',
-      'vaos-number-of-preferred-providers': 0,
-      'vaos-community-care-preferred-language': undefined,
       flow: 'va-request',
     });
     expect(dataLayer[2]).to.deep.equal({
       event: 'vaos-request-submission-successful',
       'health-TypeOfCare': 'Primary care',
       'health-ReasonForAppointment': 'routine-follow-up',
-      'vaos-number-of-preferred-providers': 0,
       flow: 'va-request',
     });
     expect(dataLayer[3]).to.deep.equal({
@@ -258,10 +253,10 @@ describe('VAOS <ReviewPage> VA request', () => {
     await screen.findByText('307-778-7550');
 
     // Not sure of a better way to search for test just within the alert
-    const alert = screen.baseElement.querySelector('.usa-alert');
+    const alert = screen.baseElement.querySelector('va-alert');
     expect(alert).contain.text('Cheyenne VA Medical Center');
     expect(alert).contain.text('2360 East Pershing Boulevard');
-    expect(alert).contain.text('Cheyenne, WY 82001-5356');
+    expect(alert).contain.text('Cheyenne, WyomingWY 82001-5356');
     expect(screen.history.push.called).to.be.false;
 
     expect(global.window.dataLayer[2]).to.deep.equal({
@@ -269,7 +264,6 @@ describe('VAOS <ReviewPage> VA request', () => {
       flow: 'va-request',
       'health-TypeOfCare': 'Primary care',
       'health-ReasonForAppointment': 'routine-follow-up',
-      'vaos-number-of-preferred-providers': 0,
     });
     expect(global.window.dataLayer[3]).to.deep.equal({
       flow: undefined,
@@ -354,7 +348,6 @@ describe('VAOS <ReviewPage> VA request: Homepage Refresh', () => {
       onCalendarChange([start.format('YYYY-MM-DD[T00:00:00.000]')]),
     );
   });
-  afterEach(() => resetFetch());
 
   it('should submit successfully and route to appointment details page', async () => {
     mockRequestSubmit('va', {
@@ -374,6 +367,172 @@ describe('VAOS <ReviewPage> VA request: Homepage Refresh', () => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
         '/requests/fake_id?confirmMsg=true',
       );
+    });
+  });
+});
+
+describe('VAOS <ReviewPage> VA request with VAOS service', () => {
+  let store;
+
+  beforeEach(() => {
+    mockFetch();
+    store = createTestStore({
+      featureToggles: {
+        vaOnlineSchedulingHomepageRefresh: true,
+        vaOnlineSchedulingVAOSServiceRequests: true,
+      },
+      newAppointment: {
+        pages: {},
+        data: {
+          facilityType: FACILITY_TYPES.VAMC,
+          typeOfCareId: '323',
+          phoneNumber: '1234567890',
+          email: 'joeblow@gmail.com',
+          reasonForAppointment: 'routine-follow-up',
+          reasonAdditionalInfo: 'I need an appt',
+          vaFacility: '983',
+          visitType: 'telehealth',
+          selectedDates: ['2020-05-25T00:00:00.000', '2020-05-26T12:00:00.000'],
+          bestTimeToCall: {
+            morning: true,
+            afternoon: true,
+            evening: true,
+          },
+        },
+        clinics: {},
+        parentFacilities: [],
+        facilities: {
+          '323': [
+            {
+              id: '983',
+              name: 'Cheyenne VA Medical Center',
+              identifier: [
+                { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
+              ],
+              address: {
+                postalCode: '82001-5356',
+                city: 'Cheyenne',
+                state: 'WY',
+                line: ['2360 East Pershing Boulevard'],
+              },
+              telecom: [{ system: 'phone', value: '307-778-7550' }],
+            },
+          ],
+        },
+      },
+    });
+  });
+
+  it('should submit successfully', async () => {
+    mockAppointmentSubmit({
+      id: 'fake_id',
+    });
+
+    const screen = renderWithStoreAndRouter(<ReviewPage />, {
+      store,
+    });
+
+    await screen.findByText(/requesting a primary care appointment/i);
+
+    userEvent.click(screen.getByText(/Request appointment/i));
+    await waitFor(() => {
+      expect(screen.history.push.lastCall.args[0]).to.equal(
+        '/requests/fake_id?confirmMsg=true',
+      );
+    });
+
+    const submitData = JSON.parse(global.fetch.getCall(0).args[1].body);
+
+    expect(submitData).to.deep.equal({
+      kind: 'telehealth',
+      status: 'proposed',
+      locationId: '983',
+      serviceType: 'primaryCare',
+      comment: 'I need an appt',
+      reason: 'Routine Follow-up',
+      contact: {
+        telecom: [
+          {
+            type: 'phone',
+            value: '1234567890',
+          },
+          {
+            type: 'email',
+            value: 'joeblow@gmail.com',
+          },
+        ],
+      },
+      requestedPeriods: [
+        {
+          start: '2020-05-25T00:00:00Z',
+          end: '2020-05-25T11:59:00Z',
+        },
+        {
+          start: '2020-05-26T12:00:00Z',
+          end: '2020-05-26T23:59:00Z',
+        },
+      ],
+      preferredTimesForPhoneCall: ['Morning', 'Afternoon', 'Evening'],
+    });
+  });
+
+  it('should show error message on failure', async () => {
+    mockFacilityFetch('vha_442', {
+      id: 'vha_442',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442',
+        name: 'Cheyenne VA Medical Center',
+        address: {
+          physical: {
+            zip: '82001-5356',
+            city: 'Cheyenne',
+            state: 'WY',
+            address1: '2360 East Pershing Boulevard',
+          },
+        },
+        phone: {
+          main: '307-778-7550',
+        },
+      },
+    });
+    setFetchJSONFailure(
+      global.fetch.withArgs(`${environment.API_URL}/vaos/v2/appointments`),
+      {
+        errors: [{}],
+      },
+    );
+
+    const screen = renderWithStoreAndRouter(<ReviewPage />, {
+      store,
+    });
+
+    await screen.findByText(/requesting a primary care appointment/i);
+
+    userEvent.click(screen.getByText(/Request appointment/i));
+
+    await screen.findByText('We couldn’t schedule this appointment');
+
+    expect(screen.baseElement).contain.text(
+      'Something went wrong when we tried to submit your request and you’ll need to start over. We suggest you wait a day',
+    );
+
+    expect(
+      screen.getByRole('heading', {
+        level: 4,
+        name: /Cheyenne VA Medical Center/i,
+      }),
+    );
+
+    const alert = document.querySelector('va-alert');
+    expect(within(alert).getByText(/2360 East Pershing Boulevard/i)).to.be.ok;
+    expect(alert).to.contain.text('Cheyenne, WyomingWY');
+    expect(within(alert).getByText(/82001-5356/)).to.be.ok;
+    expect(within(alert).getByText(/307-778-7550/)).to.be.ok;
+
+    expect(screen.history.push.called).to.be.false;
+    waitFor(() => {
+      expect(document.activeElement).to.be(alert);
     });
   });
 });

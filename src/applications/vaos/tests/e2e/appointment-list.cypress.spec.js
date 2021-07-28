@@ -3,6 +3,7 @@ import {
   createPastVAAppointments,
   mockFeatureToggles,
 } from './vaos-cypress-helpers';
+import Timeouts from 'platform/testing/e2e/timeouts';
 
 describe('VAOS appointment list', () => {
   beforeEach(() => {
@@ -66,7 +67,9 @@ describe('VAOS appointment list refresh', () => {
 
   describe('appointments details', () => {
     beforeEach(() => {
-      cy.findByText(/Your appointments/i).should('exist');
+      cy.get('h2', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .and('contain', 'Your appointments');
       cy.get('#type-dropdown').should('exist');
     });
 
@@ -94,7 +97,7 @@ describe('VAOS appointment list refresh', () => {
       cy.url().should('include', '/appointments/va');
       cy.get('[data-cy=va-appointment-details-header]')
         .should('exist')
-        .contains('VA Appointment');
+        .contains('VA appointment');
       cy.axeCheckBestPractice();
     });
 
@@ -108,7 +111,7 @@ describe('VAOS appointment list refresh', () => {
       cy.url().should('include', '/appointments/va');
       cy.get('[data-cy=va-appointment-details-header]')
         .should('exist')
-        .contains('VA Appointment over the phone');
+        .contains('VA appointment over the phone');
       cy.axeCheckBestPractice();
     });
 
@@ -173,7 +176,7 @@ describe('VAOS appointment list refresh', () => {
 
   describe('upcoming appointments', () => {
     it('should render upcoming appointments list', () => {
-      cy.findByText(/Your appointments/i).should('exist');
+      cy.get('h2').contains(/Your appointments/i);
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=upcoming-appointment-list]').should('exist');
       cy.get('#type-dropdown').should('exist');
@@ -194,12 +197,13 @@ describe('VAOS appointment list refresh', () => {
 
   describe('requested appointments', () => {
     beforeEach(() => {
-      cy.findByText(/Your appointments/i).should('exist');
+      cy.get('h2').contains(/Your appointments/i);
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=upcoming-appointment-list]').should('exist');
       cy.get('#type-dropdown')
         .select('requested')
         .should('have.value', 'requested');
+      cy.get('h2').contains(/Requested/i);
     });
 
     it('should render requested appointments list', () => {
@@ -207,6 +211,7 @@ describe('VAOS appointment list refresh', () => {
       cy.get('[data-cy=requested-appointment-list-item]')
         .first()
         .should('exist');
+      cy.axeCheckBestPractice();
     });
 
     it('should navigate to requested appointment details', () => {
@@ -215,6 +220,7 @@ describe('VAOS appointment list refresh', () => {
         .findByText(/Details/i)
         .click();
       cy.findByText(/Request detail/i).should('exist');
+      cy.axeCheckBestPractice();
     });
   });
 
@@ -228,6 +234,7 @@ describe('VAOS appointment list refresh', () => {
       cy.get('#type-dropdown')
         .select('past')
         .should('have.value', 'past');
+      cy.get('h2').contains(/Past appointments/i);
     });
 
     it('should render past appointments list', () => {
@@ -268,6 +275,7 @@ describe('VAOS appointment list refresh', () => {
       cy.get('#type-dropdown')
         .select('canceled')
         .should('have.value', 'canceled');
+      cy.get('h2').contains(/Canceled appointments/i);
     });
     it('should render canceled appointments list', () => {
       cy.get('[data-cy=canceled-appointment-list-header]').should('exist');
@@ -282,8 +290,10 @@ describe('VAOS appointment list refresh', () => {
       cy.get('[data-cy=appointment-list-item]')
         .first()
         .findByText(/Details/i)
+        .focus()
         .click();
       cy.findByText(/Appointment detail/i).should('exist');
+      cy.axeCheckBestPractice();
     });
   });
 });

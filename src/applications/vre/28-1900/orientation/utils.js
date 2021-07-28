@@ -142,7 +142,7 @@ export const orientationSteps = [
         </p>
       </>
     ),
-    path: '1Yh6fTxvBPw',
+    path: 'SkRD2CDHB_E',
     desc:
       'The Reemployment track provides support to you and your employer so you can return to your former job. This track is for claimants who served on active duty or in the National Guard and are now returning to their former job. If you’re in the Reemployment track, we’ll:',
     list: [
@@ -169,7 +169,7 @@ export const orientationSteps = [
         </p>
       </>
     ),
-    path: '4DVbOy8iJbU',
+    path: 'VkmTgQftRlk',
     desc:
       'The Rapid Access to Employment track provides services that help Veterans start working right away. This track is right for you if you already have most of the skills you’ll need to be competitive in the labor market in a suitable occupation. If you’re in the Rapid Access to Employment track, we’ll help you:',
     list: [
@@ -198,7 +198,7 @@ export const orientationSteps = [
         </p>
       </>
     ),
-    path: 'xkqhMmWzt74',
+    path: 'IYqVu3Q1Wow',
     desc:
       'The Self-Employment track provides services to Veterans and service members who have the skills to start a business and who have a disability that makes traditional employment difficult. If you’re in the Self-Employment track, we’ll support you with:',
     list: [
@@ -225,7 +225,7 @@ export const orientationSteps = [
         </p>
       </>
     ),
-    path: 'IXlJndX93R8',
+    path: '32oPJaWpUhI',
     desc:
       'The Employment Through Long-Term Services track provides Veterans with the counseling, training, and education they need to become suitably employed. If you’re in the Employment Through Long-Term Services track, we can help you get:',
     list: [
@@ -256,7 +256,7 @@ export const orientationSteps = [
         </p>
       </>
     ),
-    path: 'hHgPTZNAMxo',
+    path: '_Yd0aW_NZvA',
     desc:
       'The Independent Living track provides services to Veterans and service members who have a disability that prevents them from looking for or returning to work. If you’re in this track, we’ll help you live as independently as possible. We can help you get:',
     list: [

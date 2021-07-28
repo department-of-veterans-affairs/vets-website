@@ -11,8 +11,8 @@ describe('fetchDebtLetters', () => {
     const dispatch = sinon.spy();
     return fetchDebtLetters()(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(DEBTS_FETCH_INITIATED);
-      expect(dispatch.secondCall.args[0].type).to.equal(DEBTS_FETCH_SUCCESS);
-      expect(dispatch.secondCall.args[0].debts).to.deep.equal([
+      expect(dispatch.thirdCall.args[0].type).to.equal(DEBTS_FETCH_SUCCESS);
+      expect(dispatch.thirdCall.args[0].debts).to.deep.equal([
         {
           fileNumber: '796121200',
           payeeNumber: '00',

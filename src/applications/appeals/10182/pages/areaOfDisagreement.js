@@ -5,13 +5,19 @@ import {
   effectiveDate,
   evaluation,
   other,
+  AreaOfDisagreementReviewField,
   otherLabel,
+  otherDescription,
   missingAreaOfDisagreementErrorMessage,
   missingAreaOfDisagreementOtherErrorMessage,
 } from '../content/areaOfDisagreement';
 
 import { areaOfDisagreementRequired } from '../validations';
-import { otherTypeSelected } from '../utils/helpers';
+import {
+  otherTypeSelected,
+  calculateOtherMaxLength,
+} from '../utils/disagreement';
+import { getIssueName } from '../utils/helpers';
 
 export default {
   uiSchema: {
@@ -25,6 +31,9 @@ export default {
           required: missingAreaOfDisagreementErrorMessage,
         },
         'ui:options': {
+          // Edit added issue button & specific area of disagreement edit button
+          // had duplicate aria-labels. This makes them unique
+          itemAriaLabel: data => `${getIssueName(data)} disagreement reasons`,
           // this will show error messages, but breaks the title (no formData)
           // see https://dsva.slack.com/archives/CBU0KDSB1/p1620840904269500
           // showFieldLabel: true,
@@ -32,34 +41,35 @@ export default {
         disagreementOptions: {
           serviceConnection: {
             'ui:title': serviceConnection,
-            'ui:options': {
-              hideEmptyValueInReview: true,
-            },
+            'ui:reviewField': AreaOfDisagreementReviewField,
           },
           effectiveDate: {
             'ui:title': effectiveDate,
-            'ui:options': {
-              hideEmptyValueInReview: true,
-            },
+            'ui:reviewField': AreaOfDisagreementReviewField,
           },
           evaluation: {
             'ui:title': evaluation,
-            'ui:options': {
-              hideEmptyValueInReview: true,
-            },
+            'ui:reviewField': AreaOfDisagreementReviewField,
           },
           other: {
             'ui:title': other,
-            'ui:options': {
-              hideEmptyValueInReview: true,
-            },
+            'ui:reviewField': AreaOfDisagreementReviewField,
           },
         },
         otherEntry: {
           'ui:title': otherLabel,
+          'ui:description': otherDescription,
           'ui:required': otherTypeSelected,
           'ui:options': {
             hideIf: (formData, index) => !otherTypeSelected(formData, index),
+            updateSchema: (formData, _schema, uiSchema, index) => ({
+              type: 'string',
+              maxLength: calculateOtherMaxLength(
+                formData.areaOfDisagreement[index],
+              ),
+            }),
+            // index is appended to this ID in the TextWidget
+            ariaDescribedby: 'other_hint_text',
           },
           'ui:errorMessages': {
             required: missingAreaOfDisagreementOtherErrorMessage,
@@ -74,6 +84,7 @@ export default {
     properties: {
       areaOfDisagreement: {
         type: 'array',
+        minItems: 1,
         items: {
           type: 'object',
           properties: {
@@ -96,7 +107,7 @@ export default {
             },
             otherEntry: {
               type: 'string',
-              // disagreementReason limited to 90 chars max
+              // disagreementArea limited to 90 chars max
               maxLength: 34,
             },
           },

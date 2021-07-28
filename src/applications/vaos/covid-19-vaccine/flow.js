@@ -8,14 +8,14 @@ import {
 
 export default {
   home: {
-    url: '/',
+    url: '/new-appointment',
   },
   planAhead: {
-    url: '/new-covid-19-vaccine-booking',
+    url: '/new-covid-19-vaccine-appointment',
     next: 'receivedDoseScreener',
   },
   receivedDoseScreener: {
-    url: '/new-covid-19-vaccine-booking/received-dose',
+    url: '/new-covid-19-vaccine-appointment/confirm-doses-received',
     next(state) {
       const formData = selectCovid19VaccineFormData(state);
       if (formData.hasReceivedDose) {
@@ -31,10 +31,10 @@ export default {
     },
   },
   contactFacilities: {
-    url: '/new-covid-19-vaccine-booking/contact-facilities',
+    url: '/new-covid-19-vaccine-appointment/contact-facility',
   },
   vaFacility: {
-    url: '/new-covid-19-vaccine-booking/facility',
+    url: '/new-covid-19-vaccine-appointment/choose-facility',
     async next(state, dispatch) {
       const formData = selectCovid19VaccineFormData(state);
       let clinics = selectCovid19VaccineNewBooking(state).clinics?.[
@@ -61,23 +61,23 @@ export default {
     },
   },
   clinicChoice: {
-    url: '/new-covid-19-vaccine-booking/clinic',
+    url: '/new-covid-19-vaccine-appointment/choose-clinic',
     next: 'selectDate1',
   },
   selectDate1: {
-    url: '/new-covid-19-vaccine-booking/select-date-1',
+    url: '/new-covid-19-vaccine-appointment/select-date',
     next: 'secondDosePage',
   },
   secondDosePage: {
-    url: '/new-covid-19-vaccine-booking/plan-second-dose',
+    url: '/new-covid-19-vaccine-appointment/second-dose-info',
     next: 'contactInfo',
   },
   contactInfo: {
-    url: '/new-covid-19-vaccine-booking/contact-info',
+    url: '/new-covid-19-vaccine-appointment/contact-info',
     next: 'review',
   },
   review: {
-    url: '/new-covid-19-vaccine-booking/review',
+    url: '/new-covid-19-vaccine-appointment/review',
     next: '',
   },
 };

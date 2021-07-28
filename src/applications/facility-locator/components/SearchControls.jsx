@@ -8,6 +8,7 @@ import {
   benefitsServices,
   urgentCareServices,
   facilityTypesOptions,
+  emergencyCareServices,
 } from '../config';
 import { focusElement } from 'platform/utilities/ui';
 import classNames from 'classnames';
@@ -77,6 +78,7 @@ const SearchControls = props => {
       zoomLevel,
       isValid,
       searchString,
+      specialties,
     } = currentQuery;
 
     let analyticsServiceType = serviceType;
@@ -93,7 +95,9 @@ const SearchControls = props => {
         return;
       }
 
-      analyticsServiceType = currentQuery.specialties[serviceType];
+      if (specialties && Object.keys(specialties).includes(serviceType)) {
+        analyticsServiceType = specialties[serviceType];
+      }
     }
 
     if (!searchString) {
@@ -172,6 +176,7 @@ const SearchControls = props => {
           ) : (
             <button
               onClick={handleGeolocationButtonClick}
+              type="button"
               className="use-my-location-link"
             >
               <i
@@ -272,6 +277,7 @@ const SearchControls = props => {
       LocationType.URGENT_CARE,
       LocationType.BENEFITS,
       LocationType.CC_PROVIDER,
+      LocationType.EMERGENCY_CARE,
     ].includes(facilityType);
 
     const showError = serviceTypeChanged && !disabled && !serviceType;
@@ -281,7 +287,6 @@ const SearchControls = props => {
     if (!searchCovid19Vaccine) {
       filteredHealthServices = omit(['Covid19Vaccine'], healthServices);
     }
-
     let services;
     // Determine what service types to display for the location type (if any).
     switch (facilityType) {
@@ -290,6 +295,9 @@ const SearchControls = props => {
         break;
       case LocationType.URGENT_CARE:
         services = urgentCareServices;
+        break;
+      case LocationType.EMERGENCY_CARE:
+        services = emergencyCareServices;
         break;
       case LocationType.BENEFITS:
         services = benefitsServices;

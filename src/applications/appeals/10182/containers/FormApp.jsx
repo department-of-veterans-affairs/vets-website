@@ -11,7 +11,10 @@ import {
   issuesNeedUpdating,
   getSelected,
   getIssueName,
+  processContestableIssues,
 } from '../utils/helpers';
+
+import { copyAreaOfDisagreementOptions } from '../utils/disagreement';
 
 import { showWorkInProgress } from '../content/WorkInProgressMessage';
 
@@ -28,7 +31,7 @@ export const FormApp = ({
   getContestableIssues,
   contestableIssues = {},
 }) => {
-  const { email = {}, homePhone = {}, mailingAddress = {} } =
+  const { email = {}, mobilePhone = {}, mailingAddress = {} } =
     profile?.vapContactInfo || {};
 
   // Update profile data changes in the form data dynamically
@@ -41,7 +44,7 @@ export const FormApp = ({
           getContestableIssues();
         } else if (
           email?.emailAddress !== veteran.email ||
-          homePhone?.updatedAt !== veteran.phone?.updatedAt ||
+          mobilePhone?.updatedAt !== veteran.phone?.updatedAt ||
           mailingAddress?.updatedAt !== veteran.address?.updatedAt ||
           issuesNeedUpdating(
             contestableIssues?.issues,
@@ -53,10 +56,12 @@ export const FormApp = ({
             veteran: {
               ...veteran,
               address: mailingAddress,
-              phone: homePhone,
+              phone: mobilePhone,
               email: email?.emailAddress,
             },
-            contestableIssues: contestableIssues?.issues || [],
+            contestableIssues: processContestableIssues(
+              contestableIssues?.issues,
+            ),
           });
         } else if (
           areaOfDisagreement?.length !== formData.areaOfDisagreement?.length ||
@@ -68,7 +73,11 @@ export const FormApp = ({
         ) {
           setFormData({
             ...formData,
-            areaOfDisagreement,
+            // save existing settings
+            areaOfDisagreement: copyAreaOfDisagreementOptions(
+              areaOfDisagreement,
+              formData.areaOfDisagreement,
+            ),
           });
         }
       }
@@ -77,7 +86,7 @@ export const FormApp = ({
       showNod,
       loggedIn,
       email,
-      homePhone,
+      mobilePhone,
       mailingAddress,
       formData,
       setFormData,

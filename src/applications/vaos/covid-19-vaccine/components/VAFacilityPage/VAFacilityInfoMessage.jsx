@@ -1,6 +1,6 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import State from '../../../components/State';
+import InfoAlert from '../../../components/InfoAlert';
 
 export default function VAFacilityInfoMessage({ facility, sortMethod }) {
   return (
@@ -19,12 +19,14 @@ export default function VAFacilityInfoMessage({ facility, sortMethod }) {
           <br />
         </>
       )}
-      <AlertBox
+      <InfoAlert
         backgroundOnly
-        content="If you get a vaccine that requires 2 doses, you'll need to return to the same facility for your second dose."
         headline="Some COVID-19 vaccines require 2 doses"
         status="info"
-      />
+      >
+        If you get a vaccine that requires 2 doses, you'll need to return to the
+        same facility for your second dose.
+      </InfoAlert>
     </div>
   );
 }

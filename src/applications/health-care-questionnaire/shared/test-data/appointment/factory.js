@@ -1,4 +1,5 @@
 import add from 'date-fns/add';
+import sub from 'date-fns/sub';
 
 class AppointmentData {
   constructor() {
@@ -42,8 +43,18 @@ class AppointmentData {
     return this;
   }
 
+  isToday() {
+    this.start = new Date();
+    return this;
+  }
+
   inFuture(days = 1) {
     this.start = add(new Date(), { days });
+    return this;
+  }
+
+  inPast(days = 1) {
+    this.start = sub(new Date(), { days });
     return this;
   }
 

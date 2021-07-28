@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { convertRatingToStars } from '../../utils/helpers';
-import { renderStars } from '../../utils/render';
 import SchoolCategoryRating from './SchoolCategoryRating';
+import RatingsStars from '../RatingsStars';
 
 export default function SchoolRatings({
   ratingAverage,
@@ -55,7 +55,7 @@ export default function SchoolRatings({
             </div>
             <div>out of a possible 5 stars</div>
             <div className="vads-u-font-size--lg">
-              {renderStars(ratingAverage)}
+              <RatingsStars rating={ratingAverage} />
             </div>
           </div>
         </div>
@@ -121,9 +121,10 @@ export default function SchoolRatings({
           </div>
         </div>
         <div className="vads-u-padding-top--4 about-ratings">
-          <span className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif">
+          <div className="vads-u-font-size--h3 vads-u-padding-bottom--1p5 vads-u-font-weight--bold vads-u-font-family--serif">
             About ratings
-          </span>
+          </div>
+          <hr className="vads-u-margin-top--neg1px" />
           <p>
             We ask Veterans who have used their education benefits to rate
             schools they’ve attended on a scale of 1 to 5 stars, with 5 stars

@@ -13,6 +13,10 @@ export const selectIsCernerPatient = state =>
   selectPatientFacilities(state)?.some(
     f => f.isCerner && f.usesCernerAppointments,
   );
+export const selectRegisteredCernerFacilityIds = state =>
+  selectPatientFacilities(state)
+    ?.filter(f => f.isCerner && f.usesCernerAppointments)
+    .map(f => f.facilityId) || [];
 
 export const selectIsRegisteredToSacramentoVA = state =>
   selectPatientFacilities(state)?.some(f => f.facilityId === '612');
@@ -27,11 +31,7 @@ export const selectFeatureCommunityCare = state =>
   toggleValues(state).vaOnlineSchedulingCommunityCare;
 export const selectFeatureDirectScheduling = state =>
   toggleValues(state).vaOnlineSchedulingDirect;
-export const selectFeatureExpressCareNewRequest = state =>
-  toggleValues(state).vaOnlineSchedulingExpressCareNew;
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
-export const selectFeatureCovid19Vaccine = state =>
-  toggleValues(state).vaOnlineSchedulingCheetah;
 // Use flat facility page for non Cerner patients
 export const selectUseFlatFacilityPage = state => !selectIsCernerPatient(state);
 
@@ -66,3 +66,6 @@ export const selectFeatureVAOSServiceVAAppointments = state =>
 
 export const selectFeatureVAOSServiceCCAppointments = state =>
   toggleValues(state).vaOnlineSchedulingVAOSServiceCCAppointments;
+
+export const selectFeatureVariantTesting = state =>
+  toggleValues(state).vaOnlineSchedulingVariantTesting;

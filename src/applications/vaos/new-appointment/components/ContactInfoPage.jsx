@@ -10,7 +10,11 @@ import {
 } from 'platform/user/selectors';
 import FormButtons from '../../components/FormButtons';
 
-import { getFormData, selectPageChangeInProgress } from '../redux/selectors';
+import {
+  getFlowType,
+  getFormData,
+  selectPageChangeInProgress,
+} from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { useHistory } from 'react-router-dom';
 import {
@@ -19,6 +23,7 @@ import {
 } from '../redux/actions';
 import NewTabAnchor from '../../components/NewTabAnchor';
 import useFormState from '../../hooks/useFormState';
+import { FLOW_TYPES } from '../../utils/constants';
 
 const initialSchema = {
   type: 'object',
@@ -50,63 +55,8 @@ const initialSchema = {
 };
 
 const phoneConfig = phoneUI('Your phone number');
-const uiSchema = {
-  'ui:description': (
-    <>
-      <p>
-        This is the contact information we have on file for you. We’ll use this
-        information to contact you about scheduling your appointment. You can
-        update your contact information here, but the updates will only apply to
-        this tool.
-      </p>
-      <p className="vads-u-margin-y--2">
-        If you want to update your contact information for all your VA accounts,
-        please{' '}
-        <NewTabAnchor href="/profile">go to your profile page</NewTabAnchor>.
-      </p>
-    </>
-  ),
-  phoneNumber: {
-    ...phoneConfig,
-    'ui:errorMessages': {
-      ...phoneConfig['ui:errorMessages'],
-      pattern:
-        'Please enter a valid 10-digit phone number (with or without dashes)',
-    },
-  },
-  bestTimeToCall: {
-    'ui:title': 'What are the best times for us to call you?',
-    'ui:validations': [validateBooleanGroup],
-    'ui:options': {
-      showFieldLabel: true,
-      classNames: 'vaos-form__checkboxgroup',
-    },
-    morning: {
-      'ui:title': 'Morning (8 a.m. – noon)',
-      'ui:options': {
-        widgetClassNames: 'vaos-form__checkbox',
-      },
-    },
-    afternoon: {
-      'ui:title': 'Afternoon (noon – 4 p.m.)',
-      'ui:options': {
-        widgetClassNames: 'vaos-form__checkbox',
-      },
-    },
-    evening: {
-      'ui:title': 'Evening (4 p.m. – 8 p.m.)',
-      'ui:options': {
-        widgetClassNames: 'vaos-form__checkbox',
-      },
-    },
-  },
-  email: {
-    'ui:title': 'Your email address',
-  },
-};
-
 const pageKey = 'contactInfo';
-const pageTitle = 'Your contact information';
+const pageTitle = 'Confirm your contact information';
 
 export default function ContactInfoPage() {
   useEffect(() => {
@@ -120,6 +70,55 @@ export default function ContactInfoPage() {
   const email = useSelector(selectVAPEmailAddress);
   const homePhone = useSelector(selectVAPHomePhoneString);
   const mobilePhone = useSelector(selectVAPMobilePhoneString);
+  const flowType = useSelector(getFlowType);
+
+  const uiSchema = {
+    'ui:description': (
+      <>
+        <p>
+          This is the information we’ll use to contact you about your
+          appointment. You can update your contact information here, but the
+          updates will only apply to this tool.
+        </p>
+        <p className="vads-u-margin-y--2">
+          To update your contact information for all your VA accounts, please{' '}
+          <NewTabAnchor href="/profile">go to your profile page</NewTabAnchor>.
+        </p>
+      </>
+    ),
+    phoneNumber: {
+      ...phoneConfig,
+      'ui:errorMessages': {
+        ...phoneConfig['ui:errorMessages'],
+        pattern:
+          'Please enter a valid 10-digit phone number (with or without dashes)',
+      },
+    },
+    bestTimeToCall: {
+      'ui:title': 'What are the best times for us to call you?',
+      'ui:validations':
+        flowType === FLOW_TYPES.REQUEST ? [validateBooleanGroup] : [],
+      'ui:options': {
+        showFieldLabel: true,
+        classNames: 'vaos-form__checkboxgroup',
+        hideIf: () => flowType === FLOW_TYPES.DIRECT,
+      },
+      morning: {
+        'ui:title': 'Morning (8:00 a.m. – noon)',
+        'ui:options': { widgetClassNames: 'vaos-form__checkbox' },
+      },
+      afternoon: {
+        'ui:title': 'Afternoon (noon – 4:00 p.m.)',
+        'ui:options': { widgetClassNames: 'vaos-form__checkbox' },
+      },
+      evening: {
+        'ui:title': 'Evening (4:00 p.m. – 8:00 p.m.)',
+        'ui:options': { widgetClassNames: 'vaos-form__checkbox' },
+      },
+    },
+    email: { 'ui:title': 'Your email address' },
+  };
+
   const { data, schema, setData } = useFormState({
     initialSchema,
     uiSchema,

@@ -43,46 +43,34 @@ describe('VAOS Healthcare service', () => {
       expect(data[3].serviceName).to.equal('Green Team Clinic2');
     });
 
-    it('should set identifier', async () => {
+    it('should set an id', async () => {
       const data = await getAvailableHealthcareServices({
         facilityId: '983',
         typeOfCareId: '123',
         systemId: '456',
       });
 
-      expect(data[0].identifier[0].value).to.equal(
-        'urn:va:healthcareservice:983:983:455',
-      );
+      expect(data[0].id).to.equal('983_455');
     });
 
-    it('should set providedBy', async () => {
+    it('should set stationId to the id of the VA facility where the clinic is located', async () => {
       const data = await getAvailableHealthcareServices({
         facilityId: '983',
         typeOfCareId: '123',
         systemId: '456',
       });
 
-      expect(data[2].providedBy).to.equal('Organization/983');
+      expect(data[0].stationId).to.equal('983');
     });
 
-    it('should set location', async () => {
+    it('should set stationName to the name of the VA facility where the clinic is located', async () => {
       const data = await getAvailableHealthcareServices({
         facilityId: '983',
         typeOfCareId: '123',
         systemId: '456',
       });
 
-      expect(data[2].location.reference).to.equal('Location/983');
-    });
-
-    it('should set serviceType', async () => {
-      const data = await getAvailableHealthcareServices({
-        facilityId: '983',
-        typeOfCareId: '123',
-        systemId: '456',
-      });
-
-      expect(data[2].serviceType[0].type.coding.code).to.equal('123');
+      expect(data[0].stationName).to.equal('CHYSHR-Cheyenne VA Medical Center');
     });
 
     it('should set service name to clinic name', async () => {
@@ -106,7 +94,6 @@ describe('VAOS Healthcare service', () => {
     });
 
     it('should return OperationOutcome error', async () => {
-      mockFetch();
       setFetchJSONFailure(global.fetch, {
         errors: [],
       });
@@ -143,7 +130,6 @@ describe('VAOS Healthcare service', () => {
     });
 
     it('should return OperationOutcome error', async () => {
-      mockFetch();
       setFetchJSONFailure(global.fetch, {
         errors: [],
       });

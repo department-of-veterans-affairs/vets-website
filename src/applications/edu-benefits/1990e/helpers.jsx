@@ -11,6 +11,11 @@ export function transform(formConfig, form) {
   });
 }
 
+export const relationshipLabels = {
+  spouse: 'Spouse',
+  child: 'Child',
+};
+
 export function eligibilityDescription() {
   return (
     <div className="usa-alert usa-alert-warning usa-content edu-benefits-alert">

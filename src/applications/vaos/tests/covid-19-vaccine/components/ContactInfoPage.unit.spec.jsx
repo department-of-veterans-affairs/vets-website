@@ -87,7 +87,6 @@ describe('VAOS <ContactInfoPage>', () => {
         },
       },
     };
-
     const store = createTestStore(initialState);
 
     let screen = renderWithStoreAndRouter(<ContactInfoPage />, {

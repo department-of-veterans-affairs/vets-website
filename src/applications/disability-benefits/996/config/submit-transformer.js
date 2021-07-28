@@ -28,8 +28,8 @@ export function transform(formConfig, form) {
       time1400to1630: '1400-1630 ET',
     };
     return ['time1', 'time2'].reduce((times, key) => {
-      const value = informalConferenceTimes[key] ?? '';
-      if (value !== '') {
+      const value = informalConferenceTimes[key] || '';
+      if (value) {
         times.push(xRef[value]);
       }
       return times;

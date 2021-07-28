@@ -9,10 +9,11 @@ import {
   selectFeatureDirectScheduling,
   selectFeatureCommunityCare,
   selectSystemIds,
-  selectIsCernerOnlyPatient,
-  selectUseFlatFacilityPage,
   selectFeatureHomepageRefresh,
   selectFeatureVAOSServiceRequests,
+  selectFeatureVariantTesting,
+  selectRegisteredCernerFacilityIds,
+  selectFeatureVAOSServiceVAAppointments,
 } from '../../redux/selectors';
 import {
   getTypeOfCare,
@@ -27,22 +28,19 @@ import {
   submitRequest,
   submitAppointment,
   sendRequestMessage,
-  getSitesSupportingVAR,
   getCommunityCare,
 } from '../../services/var';
 import { createAppointment } from '../../services/appointment';
-import {
-  getOrganizations,
-  getIdOfRootOrganization,
-  getSiteIdFromOrganization,
-} from '../../services/organization';
 import {
   getLocation,
   getSiteIdFromFacilityId,
   getLocationsByTypeOfCareAndSiteIds,
   getCommunityProvidersByTypeOfCare,
+  fetchParentLocations,
+  fetchCommunityCareSupportedSites,
+  isCernerLocation,
+  isTypeOfCareSupported,
 } from '../../services/location';
-import { getSupportedHealthcareServicesAndLocations } from '../../services/healthcare-service';
 import { getSlots } from '../../services/slot';
 import { getPreciseLocation } from '../../utils/address';
 import {
@@ -57,7 +55,10 @@ import {
   transformFormToCCRequest,
   transformFormToAppointment,
 } from './helpers/formSubmitTransformers';
-import { transformFormToVAOSCCRequest } from './helpers/formSubmitTransformers.vaos';
+import {
+  transformFormToVAOSCCRequest,
+  transformFormToVAOSVARequest,
+} from './helpers/formSubmitTransformers.v2';
 import {
   resetDataLayer,
   recordItemsRetrieved,
@@ -89,36 +90,18 @@ export const FORM_PAGE_CHANGE_COMPLETED =
   'newAppointment/FORM_PAGE_CHANGE_COMPLETED';
 export const FORM_UPDATE_FACILITY_TYPE =
   'newAppointment/FORM_UPDATE_FACILITY_TYPE';
-export const FORM_PAGE_FACILITY_OPEN = 'newAppointment/FACILITY_PAGE_OPEN';
 export const FORM_PAGE_FACILITY_V2_OPEN =
   'newAppointment/FACILITY_PAGE_V2_OPEN';
 export const FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED =
   'newAppointment/FACILITY_PAGE_V2_OPEN_SUCCEEDED';
 export const FORM_PAGE_FACILITY_V2_OPEN_FAILED =
   'newAppointment/FACILITY_PAGE_V2_OPEN_FAILED';
-export const FORM_PAGE_FACILITY_OPEN_SUCCEEDED =
-  'newAppointment/FACILITY_PAGE_OPEN_SUCCEEDED';
-export const FORM_PAGE_FACILITY_OPEN_FAILED =
-  'newAppointment/FACILITY_PAGE_OPEN_FAILED';
 export const FORM_PAGE_FACILITY_SORT_METHOD_UPDATED =
   'newAppointment/FORM_PAGE_FACILITY_SORT_METHOD_UPDATED';
-export const FORM_FETCH_PARENT_FACILITIES =
-  'newAppointment/FORM_FETCH_PARENT_FACILITIES';
-export const FORM_FETCH_PARENT_FACILITIES_SUCCEEDED =
-  'newAppointment/FORM_FETCH_PARENT_FACILITIES_SUCCEEDED';
-export const FORM_FETCH_PARENT_FACILITIES_FAILED =
-  'newAppointment/FORM_FETCH_PARENT_FACILITIES_FAILED';
-export const FORM_FETCH_CHILD_FACILITIES =
-  'newAppointment/FORM_FETCH_CHILD_FACILITIES';
-export const FORM_FETCH_CHILD_FACILITIES_SUCCEEDED =
-  'newAppointment/FORM_FETCH_CHILD_FACILITIES_SUCCEEDED';
-export const FORM_FETCH_CHILD_FACILITIES_FAILED =
-  'newAppointment/FORM_FETCH_CHILD_FACILITIES_FAILED';
 export const FORM_FETCH_FACILITY_DETAILS =
   'newAppointment/FORM_FETCH_FACILITY_DETAILS';
 export const FORM_FETCH_FACILITY_DETAILS_SUCCEEDED =
   'newAppointment/FORM_FETCH_FACILITY_DETAILS_SUCCEEDED';
-export const FORM_VA_PARENT_CHANGED = 'newAppointment/FORM_VA_PARENT_CHANGED';
 export const FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS =
   'newAppointment/FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS';
 export const FORM_ELIGIBILITY_CHECKS = 'newAppointment/FORM_ELIGIBILITY_CHECKS';
@@ -309,16 +292,7 @@ export function checkEligibility({ location, showModal }) {
         showModal,
       });
 
-      try {
-        if (!eligibility.direct && !eligibility.request) {
-          const thunk = fetchFacilityDetails(location.id);
-          await thunk(dispatch, getState);
-        }
-
-        return eligibility;
-      } catch (e) {
-        captureError(e);
-      }
+      return eligibility;
     } catch (e) {
       captureError(e, false, 'facility page');
       dispatch({
@@ -333,11 +307,15 @@ export function openFacilityPageV2(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     try {
       const initialState = getState();
+      const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+        initialState,
+      );
       const newAppointment = initialState.newAppointment;
       const typeOfCare = getTypeOfCare(newAppointment.data);
       const typeOfCareId = typeOfCare?.id;
       if (typeOfCareId) {
         const siteIds = selectSystemIds(initialState);
+        const cernerSiteIds = selectRegisteredCernerFacilityIds(initialState);
         let typeOfCareFacilities = getTypeOfCareFacilities(initialState);
         let siteId = null;
         let facilityId = newAppointment.data.vaFacility;
@@ -350,6 +328,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         if (!typeOfCareFacilities) {
           typeOfCareFacilities = await getLocationsByTypeOfCareAndSiteIds({
             siteIds,
+            useV2: featureVAOSServiceVAAppointments,
           });
         }
 
@@ -364,18 +343,21 @@ export function openFacilityPageV2(page, uiSchema, schema) {
           typeOfCareId,
           schema,
           uiSchema,
+          cernerSiteIds,
           address: selectVAPResidentialAddress(initialState),
         });
 
         // If we have an already selected location or only have a single location
         // fetch eligbility data immediately
-        const supportedFacilities = typeOfCareFacilities?.filter(
-          facility =>
-            facility.legacyVAR.settings[typeOfCareId]?.direct.enabled ||
-            facility.legacyVAR.settings[typeOfCareId]?.request.enabled,
+        const supportedFacilities = typeOfCareFacilities.filter(facility =>
+          isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
         );
         const eligibilityDataNeeded =
-          !!facilityId || supportedFacilities?.length === 1;
+          (!!facilityId || supportedFacilities?.length === 1) &&
+          !isCernerLocation(
+            facilityId || supportedFacilities[0].id,
+            cernerSiteIds,
+          );
 
         if (!typeOfCareFacilities.length) {
           recordEligibilityFailure(
@@ -458,6 +440,8 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
   return async (dispatch, getState) => {
     let location = null;
     const facilities = getTypeOfCareFacilities(getState());
+    const cernerSiteIds = selectRegisteredCernerFacilityIds(getState());
+    const variantTestEnabled = selectFeatureVariantTesting(getState());
     const calculatedDistanceFromCurrentLocation = facilities.some(
       f => !!f.legacyVAR?.distanceFromCurrentLocation,
     );
@@ -466,6 +450,7 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
       type: FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
       sortMethod,
       uiSchema,
+      cernerSiteIds,
     };
 
     if (
@@ -492,6 +477,14 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
           event: `${GA_PREFIX}-request-current-location-blocked`,
         });
         captureError(e, true, 'facility page');
+        if (variantTestEnabled) {
+          dispatch({
+            type: FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
+            sortMethod,
+            uiSchema,
+            cernerSiteIds,
+          });
+        }
         dispatch({
           type: FORM_REQUEST_CURRENT_LOCATION_FAILED,
         });
@@ -511,225 +504,6 @@ export function showEligibilityModal() {
 export function hideEligibilityModal() {
   return {
     type: FORM_HIDE_ELIGIBILITY_MODAL,
-  };
-}
-
-/*
- * The facility page can be opened with data in a variety of states and conditions.
- * We always need the list of parents (VAMCs) they can access. After that:
- *
- * 1. A user has multiple parents to choose from, so we just need to display them
- * 2. A user has only one parent, so we also need to fetch facilities
- * 3. A user might only have one parent and facility available, so we need to also
- *    do eligibility checks
- * 4. A user might already have been on this page, in which case we may have some
- *    of the above data already and don't want to make another api call
-*/
-export function openFacilityPage(page, uiSchema, schema) {
-  return async (dispatch, getState) => {
-    const initialState = getState();
-    const directSchedulingEnabled = selectFeatureDirectScheduling(initialState);
-    const newAppointment = initialState.newAppointment;
-    const typeOfCare = getTypeOfCare(newAppointment.data)?.name;
-    const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
-    const userSiteIds = selectSystemIds(initialState);
-    const isCernerOnly = selectIsCernerOnlyPatient(initialState);
-    let parentFacilities = newAppointment.parentFacilities;
-    let locations = null;
-    let eligibilityResults = {};
-    let parentId = newAppointment.data.vaParent;
-    let locationId = newAppointment.data.vaFacility;
-    let siteId = null;
-
-    try {
-      // If we have the VA parent in our state, we don't need to
-      // fetch them again
-      if (!parentFacilities) {
-        parentFacilities = await getOrganizations({
-          siteIds: userSiteIds,
-        });
-      }
-
-      const canShowFacilities =
-        !isCernerOnly && (!!parentId || parentFacilities?.length === 1);
-
-      if (canShowFacilities && !parentId) {
-        parentId = parentFacilities[0].id;
-      }
-
-      if (parentId) {
-        siteId = getIdOfRootOrganization(parentFacilities, parentId);
-      }
-
-      locations =
-        newAppointment.facilities[`${typeOfCareId}_${parentId}`] || null;
-
-      if (canShowFacilities && !locations) {
-        locations = await getSupportedHealthcareServicesAndLocations({
-          siteId,
-          parentId,
-          typeOfCareId,
-        });
-      }
-
-      const eligibilityDataNeeded = !!locationId || locations?.length === 1;
-
-      if (eligibilityDataNeeded && !locationId) {
-        locationId = locations[0].id;
-      }
-
-      if (parentId && !locations?.length) {
-        recordEligibilityFailure('supported-facilities', typeOfCare, parentId);
-      }
-
-      const eligibilityChecks =
-        newAppointment.eligibility[`${locationId}_${typeOfCareId}`] || null;
-
-      if (eligibilityDataNeeded && !eligibilityChecks) {
-        eligibilityResults = await fetchFlowEligibilityAndClinics({
-          location: locations.find(location => location.id === locationId),
-          typeOfCare,
-          directSchedulingEnabled,
-        });
-      }
-
-      dispatch({
-        type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
-        page,
-        uiSchema,
-        schema,
-        parentFacilities,
-        facilities: locations,
-        typeOfCareId,
-        ...eligibilityResults,
-        location:
-          eligibilityDataNeeded && !eligibilityChecks
-            ? locations.find(location => location.id === locationId)
-            : null,
-        isCernerOnly,
-      });
-
-      if (parentId && !locations.length) {
-        try {
-          const thunk = fetchFacilityDetails(parentId);
-          await thunk(dispatch, getState);
-        } catch (e) {
-          captureError(e);
-        }
-      }
-    } catch (e) {
-      captureError(e, false, 'facility page');
-      dispatch({
-        type: FORM_PAGE_FACILITY_OPEN_FAILED,
-      });
-    }
-  };
-}
-
-export function updateFacilityPageData(page, uiSchema, data) {
-  return async (dispatch, getState) => {
-    const state = getState();
-    const directSchedulingEnabled = selectFeatureDirectScheduling(state);
-    const previousNewAppointmentState = state.newAppointment;
-    const typeOfCare = getTypeOfCare(data);
-    const typeOfCareId = typeOfCare?.id;
-    const siteId = getSiteIdFromFacilityId(data.vaParent);
-
-    let locations =
-      previousNewAppointmentState.facilities[
-        `${typeOfCareId}_${data.vaParent}`
-      ];
-    dispatch(updateFormData(page, uiSchema, data));
-
-    if (!locations) {
-      dispatch({
-        type: FORM_FETCH_CHILD_FACILITIES,
-      });
-
-      try {
-        locations = await getSupportedHealthcareServicesAndLocations({
-          siteId,
-          parentId: data.vaParent,
-          typeOfCareId,
-        });
-
-        // If no available facilities, fetch system details to display contact info
-        if (!locations?.length) {
-          dispatch(fetchFacilityDetails(data.vaParent));
-          recordEligibilityFailure(
-            'supported-facilities',
-            typeOfCare?.name,
-            data.vaParent,
-          );
-        }
-
-        dispatch({
-          type: FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
-          uiSchema,
-          facilities: locations,
-          typeOfCareId,
-        });
-      } catch (e) {
-        captureError(e, false, 'facility page');
-        dispatch({
-          type: FORM_FETCH_CHILD_FACILITIES_FAILED,
-        });
-      }
-    } else if (
-      data.vaParent &&
-      previousNewAppointmentState.data.vaParent !== data.vaParent
-    ) {
-      dispatch({
-        type: FORM_VA_PARENT_CHANGED,
-        uiSchema,
-        typeOfCareId,
-      });
-    } else if (
-      previousNewAppointmentState.data.vaFacility !== data.vaFacility &&
-      !previousNewAppointmentState.eligibility[
-        `${data.vaFacility}_${typeOfCareId}`
-      ]
-    ) {
-      dispatch({
-        type: FORM_ELIGIBILITY_CHECKS,
-      });
-
-      try {
-        const {
-          eligibility,
-          clinics,
-          pastAppointments,
-        } = await fetchFlowEligibilityAndClinics({
-          location: locations.find(location => location.id === data.vaFacility),
-          typeOfCare,
-          directSchedulingEnabled,
-        });
-
-        dispatch({
-          type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
-          typeOfCare,
-          eligibility,
-          clinics,
-          pastAppointments,
-          location: locations.find(location => location.id === data.vaFacility),
-          facilityId: data.vaFacility,
-        });
-
-        try {
-          if (!eligibility.direct && !eligibility.request) {
-            const thunk = fetchFacilityDetails(data.vaFacility);
-            await thunk(dispatch, getState);
-          }
-        } catch (e) {
-          captureError(e);
-        }
-      } catch (e) {
-        captureError(e, false, 'facility page');
-        dispatch({
-          type: FORM_ELIGIBILITY_CHECKS_FAILED,
-        });
-      }
-    }
   };
 }
 
@@ -882,6 +656,7 @@ export function checkCommunityCareEligibility() {
   return async (dispatch, getState) => {
     const state = getState();
     const communityCareEnabled = selectFeatureCommunityCare(state);
+    const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(state);
 
     if (!communityCareEnabled) {
       return false;
@@ -890,13 +665,15 @@ export function checkCommunityCareEligibility() {
     try {
       // Check if user registered systems support community care...
       const siteIds = selectSystemIds(state);
-      const parentFacilities = await getOrganizations({ siteIds });
-      const ccSites = await getSitesSupportingVAR(
-        parentFacilities.map(parent => getSiteIdFromOrganization(parent)),
-      );
-      const ccEnabledSystems = parentFacilities.filter(parent =>
-        ccSites.some(site => site.id === getSiteIdFromOrganization(parent)),
-      );
+      const parentFacilities = await fetchParentLocations({
+        siteIds,
+        useV2: featureVAOSServiceRequests,
+      });
+      const ccEnabledSystems = await fetchCommunityCareSupportedSites({
+        locations: parentFacilities,
+        useV2: featureVAOSServiceRequests,
+      });
+
       dispatch({
         type: FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS,
         ccEnabledSystems,
@@ -921,7 +698,9 @@ export function checkCommunityCareEligibility() {
         return response.eligible;
       }
     } catch (e) {
-      captureError(e);
+      captureError(e, false, null, {
+        facilities: state.user?.profile?.facilities,
+      });
       Sentry.captureMessage(
         'Community Care eligibility check failed with errors',
       );
@@ -950,12 +729,9 @@ export function submitAppointmentOrRequest(history) {
       type: FORM_SUBMIT,
     });
 
-    const additionalEventData = {
+    let additionalEventData = {
       'health-TypeOfCare': typeOfCare,
       'health-ReasonForAppointment': data?.reasonForAppointment,
-      'vaos-number-of-preferred-providers': data.hasCommunityCareProvider
-        ? 1
-        : 0,
     };
 
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
@@ -1012,18 +788,31 @@ export function submitAppointmentOrRequest(history) {
       const eventType = isCommunityCare ? 'community-care' : 'request';
       const flow = isCommunityCare ? GA_FLOWS.CC_REQUEST : GA_FLOWS.VA_REQUEST;
       let requestBody;
+      if (isCommunityCare) {
+        additionalEventData = {
+          ...additionalEventData,
+          'vaos-community-care-preferred-language': data.preferredLanguage,
+          'vaos-number-of-preferred-providers':
+            data.hasCommunityCareProvider ||
+            data.communityCareProvider?.identifier
+              ? 1
+              : 0,
+        };
+      }
 
       recordEvent({
         event: `${GA_PREFIX}-${eventType}-submission`,
         flow,
         ...additionalEventData,
-        'vaos-community-care-preferred-language': data.preferredLanguage,
       });
 
       try {
         let requestData;
         if (featureVAOSServiceRequests && isCommunityCare) {
           requestBody = transformFormToVAOSCCRequest(getState());
+          requestData = await createAppointment({ appointment: requestBody });
+        } else if (featureVAOSServiceRequests) {
+          requestBody = transformFormToVAOSVARequest(getState());
           requestData = await createAppointment({ appointment: requestBody });
         } else if (isCommunityCare) {
           requestBody = transformFormToCCRequest(getState());
@@ -1080,7 +869,6 @@ export function submitAppointmentOrRequest(history) {
             facility: requestBody.facility,
             typeOfCareId: requestBody.typeOfCareId,
             cityState: requestBody.cityState,
-            useFlatFacilityPage: selectUseFlatFacilityPage(state),
           };
         }
         captureError(error, true, 'Request submission failure', extraData);

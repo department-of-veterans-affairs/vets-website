@@ -22,8 +22,6 @@
 
 /* Contested issue cards (contested issue page & review/submit page) */
 dl.review {
-  border-bottom: 0;
-
   .widget-wrapper {
     position: relative;
 
@@ -90,6 +88,7 @@ dl.review {
 
     .widget-content-wrap {
       margin-top: 3rem;
+      margin-right: 0.5rem;
       width: 100%;
     }
 
@@ -120,6 +119,22 @@ dl.review {
   }
 }
 
+/* IE11 hack to fix edit button placement, see
+ * https://github.com/department-of-veterans-affairs/va.gov-team/issues/25108
+ */
+ _:-ms-fullscreen, :root dl.review dd.widget-content.widget-edit .widget-content-wrap {
+  width: calc(100% - 175px); /* 175px ~= width of the edit button x2.5 */
+}
+/* IE11 fix legend not wrapping on small screens */
+legend.schemaform-block-title {
+  width: 100%;
+}
+
+/* empty header on additional-issues-intro page */
+.schemaform-block-header:empty {
+  margin: 0;
+}
+
 .additional-issues {
   .schemaform-label,
   .usa-input-error {
@@ -131,8 +146,24 @@ dl.review {
   margin-top: 0;
 }
 
+/* contact info page */
+article[data-location="contact-information"] {
+  div[data-field-name="mobilePhone"] h3 {
+    margin-top: 0;
+  }
+  /* address modal is very tall and won't scroll without this fix */
+  .va-modal-body {
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+  }
+}
+
 /* issues page */
 article[data-location="eligible-issues"] {
+  dl.review {
+    border-bottom: 0;
+  }
+
   .input-section {
     .schemaform-block-header {
       display: flex;
@@ -152,6 +183,13 @@ article[data-location="eligible-issues"] {
   }
 }
 
+article[data-location="additional-issues"] {
+  /* remove unnecessary border */
+  dl.review {
+    border-bottom: 0;
+  }
+}
+
 /* new issues cards tweak */
 dl.review .additional-issue.review-row {
   flex-direction: column;
@@ -162,13 +200,6 @@ dl.review .additional-issue.review-row {
 }
 .usa-input-error #root_additionalIssues_0_decisionDate-label {
   font-weight: bold;
-}
-
-/* Rep info */
-article[data-location="representative-info"] {
-  .schemaform-field-container.schemaform-block {
-    margin-top: 0;
-  }
 }
 
 /* Area of disagreement */

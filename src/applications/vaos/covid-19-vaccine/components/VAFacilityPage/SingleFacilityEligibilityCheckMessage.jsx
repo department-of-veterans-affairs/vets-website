@@ -1,12 +1,12 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import State from '../../../components/State';
 import NewTabAnchor from '../../../components/NewTabAnchor';
+import InfoAlert from '../../../components/InfoAlert';
 
 export default function SingleFacilityEligibilityCheckMessage({ facility }) {
   return (
     <div aria-atomic="true" aria-live="assertive">
-      <AlertBox
+      <InfoAlert
         status="warning"
         headline="We found one VA location for you"
         level="2"
@@ -24,7 +24,7 @@ export default function SingleFacilityEligibilityCheckMessage({ facility }) {
           </NewTabAnchor>{' '}
           and call to schedule an appointment.
         </p>
-      </AlertBox>
+      </InfoAlert>
     </div>
   );
 }

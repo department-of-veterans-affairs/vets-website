@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { selectReviewPage } from '../../redux/selectors';
 import { FLOW_TYPES, FETCH_STATUS } from '../../../utils/constants';
 import { getRealFacilityId } from '../../../utils/appointment';
@@ -12,6 +11,7 @@ import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import { submitAppointmentOrRequest } from '../../redux/actions';
 import FacilityAddress from '../../../components/FacilityAddress';
 import NewTabAnchor from '../../../components/NewTabAnchor';
+import InfoAlert from '../../../components/InfoAlert';
 
 const pageTitle = 'Review your appointment details';
 
@@ -35,11 +35,21 @@ export default function ReviewPage() {
     scrollAndFocus();
   }, []);
 
+  useEffect(
+    () => {
+      if (submitStatus === FETCH_STATUS.failed) {
+        scrollAndFocus('.info-alert');
+      }
+    },
+    [submitStatus],
+  );
+
   if (!data?.typeOfCareId) {
     return <Redirect to="/new-appointment" />;
   }
 
   const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
+  const submissionType = isDirectSchedule ? 'appointment' : 'request';
 
   return (
     <div>
@@ -76,28 +86,27 @@ export default function ReviewPage() {
         </LoadingButton>
       </div>
       {submitStatus === FETCH_STATUS.failed && (
-        <AlertBox
-          status="error"
-          headline="We couldn’t schedule this appointment"
-          content={
+        <div className="info-alert" role="alert">
+          <InfoAlert
+            status="error"
+            headline="We couldn’t schedule this appointment"
+          >
             <>
               {submitStatusVaos400 ? (
                 <p>
                   We’re sorry. Something went wrong when we tried to submit your{' '}
-                  {isDirectSchedule ? 'appointment' : 'request'}. You’ll need to
-                  call your local VA medical center to schedule this
-                  appointment.
+                  {submissionType}. You’ll need to call your local VA medical
+                  center to schedule this appointment.
                 </p>
               ) : (
                 <p>
                   We’re sorry. Something went wrong when we tried to submit your{' '}
-                  {isDirectSchedule ? 'appointment' : 'request'} and you’ll need
-                  to start over. We suggest you wait a day to try again or you
-                  can call your medical center to help with your{' '}
-                  {isDirectSchedule ? 'appointment' : 'request'}.
+                  {submissionType} and you’ll need to start over. We suggest you
+                  wait a day to try again or you can call your medical center to
+                  help with your {submissionType}.
                 </p>
               )}
-              <p>
+              <>
                 {!facilityDetails && (
                   <NewTabAnchor
                     href={`/find-locations/facility/vha_${getRealFacilityId(
@@ -116,10 +125,10 @@ export default function ReviewPage() {
                     showDirectionsLink
                   />
                 )}
-              </p>
+              </>
             </>
-          }
-        />
+          </InfoAlert>
+        </div>
       )}
     </div>
   );

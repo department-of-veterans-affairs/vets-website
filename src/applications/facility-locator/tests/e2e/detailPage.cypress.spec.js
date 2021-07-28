@@ -1,14 +1,7 @@
-import path from 'path';
-import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 import mockFacilityDataV1 from '../../constants/mock-facility-data-v1.json';
+import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 
 describe('Detail Page', () => {
-  before(function() {
-    cy.syncFixtures({
-      constants: path.join(__dirname, '..', '..', 'constants'),
-    });
-  });
-
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles?*', []);
     cy.intercept('GET', '/v0/maintenance_windows', []);

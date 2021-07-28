@@ -1,4 +1,5 @@
 import React from 'react';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 // We shouldn't ever see the couldn't find contestable issues message since we
 // prevent the user from navigating past the intro page; but it's here just in
@@ -27,21 +28,17 @@ export const EligibleIssuesDescription = props => (
     <EligibleIssuesTitle {...props} />
     <div>
       These issues are in your VA record. If an issue is missing from this list,
-      you can add it manually on the next page.
+      you can add it on the next step.
     </div>
   </>
 );
 
 export const NotListedInfo = (
-  <div>
+  <AdditionalInfo triggerText="Why aren’t all my issues listed here?">
     <p className="vads-u-margin-top--0">
       If you don’t see your issue or decision listed here, it may not be in our
       system yet. This can happen if it’s a more recent claim decision. We may
       still be processing it.
     </p>
-    <p className="vads-u-margin-bottom--0">
-      If you’d like to add an unlisted issue for review, click continue to add
-      it on the next page.
-    </p>
-  </div>
+  </AdditionalInfo>
 );

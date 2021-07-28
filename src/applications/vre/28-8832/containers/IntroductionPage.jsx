@@ -1,7 +1,4 @@
 import React, { useEffect } from 'react';
-import AlertBox, {
-  ALERT_TYPE,
-} from '@department-of-veterans-affairs/component-library/AlertBox';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -31,16 +28,17 @@ const IntroductionPage = props => {
         pageList={props.route.pageList}
         downtime={props.route.formConfig.downtime}
         startText="Apply for career planning and guidance"
+        headingLevel={2}
       >
         Please complete the 28-8832 form to apply for Planning and career
         guidance.
       </SaveInProgressIntro>
-      <h4>Follow the steps below to apply for career planning and guidance.</h4>
+      <h2>Follow the steps below to apply for career planning and guidance.</h2>
       <div className="process schemaform-process">
         <ol>
           <li className="process-step list-one">
-            <h5>Prepare</h5>
-            <h6>To fill out this application, you’ll need your:</h6>
+            <h3>Prepare</h3>
+            <h4>To fill out this application, you’ll need your:</h4>
             <ul>
               <li>Social Security number</li>
               <li>Date of birth</li>
@@ -59,7 +57,7 @@ const IntroductionPage = props => {
             </p>
           </li>
           <li className="process-step list-two">
-            <h5>Apply</h5>
+            <h3>Apply</h3>
             <p>Complete this career planning and guidance form.</p>
             <p>
               After submitting your application, you’ll get a confirmation
@@ -68,14 +66,14 @@ const IntroductionPage = props => {
             </p>
           </li>
           <li className="process-step list-three">
-            <h5>VA Review</h5>
+            <h3>VA Review</h3>
             <p>
               We process applications in the order we receive them. We may
               contact you if we have questions or need more information.
             </p>
           </li>
           <li className="process-step list-four">
-            <h5>Decision</h5>
+            <h3>Decision</h3>
             <p>
               If you’re eligible for career planning and guidance benefits,
               we’ll invite you to an orientation session at your nearest VA
@@ -106,31 +104,27 @@ const IntroductionPage = props => {
         downtime={props.route.formConfig.downtime}
         startText="Apply for career planning and guidance"
       />
-      <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
+      <div
+        className="omb-info--container vads-u-margin-bottom--3"
+        style={{ paddingLeft: '0px' }}
+      >
         <OMBInfo resBurden={30} ombNumber="2900-0265" expDate="12/31/2021" />
       </div>
-      <AlertBox
-        content={
-          <>
-            <h5 className="vads-u-font-size--h3 vads-u-margin-top--0">
-              Do you have a service-connected disability or pre-discharge
-              disability rating?
-            </h5>
-            <p>
-              If you have a service-connected or pre-discharge disability
-              rating, you may be eligible for Chapter 31 Veteran Readiness and
-              Employment (VR&E) benefits. With this program, you can get
-              employment support and services to help you find a job and live as
-              independently as possible.
-            </p>
-            <a href={CHAPTER_31_ROOT_URL}>
-              Learn more about Chapter 31 eligibility
-            </a>
-          </>
-        }
-        status={ALERT_TYPE.INFO}
-        backgroundOnly
-      />
+      <va-alert status="info" background-only>
+        <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
+          Do you have a service-connected disability or pre-discharge disability
+          rating?
+        </h2>
+        <p className="vads-u-font-size--base">
+          If you have a service-connected or pre-discharge disability rating,
+          you may be eligible for Chapter 31 Veteran Readiness and Employment
+          (VR&E) benefits. With this program, you can get employment support and
+          services to help you find a job and live as independently as possible.
+        </p>
+        <a className="vads-u-font-size--base" href={CHAPTER_31_ROOT_URL}>
+          Learn more about Chapter 31 eligibility
+        </a>
+      </va-alert>
     </div>
   );
 };

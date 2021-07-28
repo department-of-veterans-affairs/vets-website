@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import moment from 'moment';
 import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
+import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 import {
   SAVED_SEPARATION_DATE,
@@ -43,6 +44,8 @@ import {
   show526Wizard,
   isUndefined,
   isDisabilityPtsd,
+  showSeparationLocation,
+  isExpired,
 } from '../utils';
 
 describe('526 helpers', () => {
@@ -295,25 +298,13 @@ describe('526 helpers', () => {
   });
 
   describe('queryForFacilities', () => {
-    const originalFetch = global.fetch;
     beforeEach(() => {
-      // Replace fetch with a spy
-      global.fetch = sinon.stub();
-      global.fetch.catch = sinon.stub();
-      global.fetch.resolves({
-        ok: true,
-        headers: { get: () => 'application/json' },
-        json: () => ({
-          data: [
-            { id: 0, attributes: { name: 'first' } },
-            { id: 1, attributes: { name: 'second' } },
-          ],
-        }),
-      });
-    });
-
-    afterEach(() => {
-      global.fetch = originalFetch;
+      mockFetch();
+      const response = [
+        { id: 0, attributes: { name: 'first' } },
+        { id: 1, attributes: { name: 'second' } },
+      ];
+      setFetchJSONResponse(global.fetch.onCall(0), response);
     });
 
     /* un-skip these once we get a new enpoint in place; see #14028 */
@@ -1126,5 +1117,133 @@ describe('526 v2 depends functions', () => {
       expect(check('a', '2020-01-31', '2020-02-XX')).to.be.false;
       expect(check('a', '2020-02-14', '2020-01-31')).to.be.false;
     });
+  });
+
+  describe('showSeparationLocation', () => {
+    const getDays = days =>
+      moment()
+        .add(days, 'days')
+        .format('YYYY-MM-DD');
+    const getFormData = (activeDate, reserveDate) => ({
+      serviceInformation: {
+        servicePeriods: [{ dateRange: { to: activeDate } }],
+        reservesNationalGuardService: {
+          title10Activation: {
+            anticipatedSeparationDate: reserveDate,
+          },
+        },
+      },
+    });
+    it('should return false for empty values', () => {
+      expect(showSeparationLocation({})).to.be.false;
+      expect(showSeparationLocation({ serviceInformation: {} })).to.be.false;
+      expect(
+        showSeparationLocation({ serviceInformation: { servicePeriods: '' } }),
+      ).to.be.false;
+      expect(
+        showSeparationLocation({
+          serviceInformation: {
+            servicePeriods: [],
+            reservesNationalGuardService: {},
+          },
+        }),
+      ).to.be.false;
+      expect(
+        showSeparationLocation({
+          serviceInformation: {
+            servicePeriods: '',
+            reservesNationalGuardService: {
+              title10Activation: {},
+            },
+          },
+        }),
+      ).to.be.false;
+      expect(showSeparationLocation(getFormData())).to.be.false;
+    });
+
+    const days190 = getDays(190);
+    it('should return false for active duty release outside of the range', () => {
+      expect(showSeparationLocation(getFormData(getDays(-1), ''))).to.be.false;
+      expect(showSeparationLocation(getFormData(getDays(), ''))).to.be.false;
+      expect(showSeparationLocation(getFormData(days190, ''))).to.be.false;
+    });
+    it('should return false for active reserve release outside of the range', () => {
+      expect(showSeparationLocation(getFormData('', getDays(-1)))).to.be.false;
+      expect(showSeparationLocation(getFormData('', getDays()))).to.be.false;
+      expect(showSeparationLocation(getFormData('', days190))).to.be.false;
+    });
+
+    const days1 = getDays(1);
+    const days90 = getDays(90);
+    const days180 = getDays(180);
+    it('should return true for active duty release inside of the range', () => {
+      expect(showSeparationLocation(getFormData(days1, ''))).to.be.true;
+      expect(showSeparationLocation(getFormData(days90, ''))).to.be.true;
+      expect(showSeparationLocation(getFormData(days180, ''))).to.be.true;
+    });
+
+    it('should return true for active reserve release inside of the range', () => {
+      expect(showSeparationLocation(getFormData('', days1))).to.be.true;
+      expect(showSeparationLocation(getFormData('', days90))).to.be.true;
+      expect(showSeparationLocation(getFormData('', days180))).to.be.true;
+    });
+    it('should return true for any release inside of the range', () => {
+      expect(showSeparationLocation(getFormData(days1, days1))).to.be.true;
+      expect(showSeparationLocation(getFormData(days1, days90))).to.be.true;
+      expect(showSeparationLocation(getFormData(days1, days180))).to.be.true;
+      expect(showSeparationLocation(getFormData(days90, days1))).to.be.true;
+      expect(showSeparationLocation(getFormData(days90, days90))).to.be.true;
+      expect(showSeparationLocation(getFormData(days90, days180))).to.be.true;
+      expect(showSeparationLocation(getFormData(days180, days1))).to.be.true;
+      expect(showSeparationLocation(getFormData(days180, days90))).to.be.true;
+      expect(showSeparationLocation(getFormData(days180, days180))).to.be.true;
+    });
+
+    it('should return true after finding the most recent service period', () => {
+      const bddData = {
+        serviceInformation: {
+          servicePeriods: [
+            { dateRange: { to: '2000-01-01' } },
+            { dateRange: { to: days90 } },
+            { dateRange: { to: '2020-01-01' } },
+          ],
+        },
+      };
+      expect(showSeparationLocation(bddData)).to.be.true;
+    });
+    it('should return false after finding the most recent service period', () => {
+      const nonBddData = {
+        serviceInformation: {
+          servicePeriods: [
+            { dateRange: { to: '2000-01-01' } },
+            { dateRange: { to: days190 } },
+            { dateRange: { to: '2020-01-01' } },
+          ],
+        },
+      };
+      expect(showSeparationLocation(nonBddData)).to.be.false;
+    });
+  });
+});
+
+describe('isExpired', () => {
+  const oneDayInSeconds = 24 * 60 * 60;
+  const getDays = days =>
+    moment()
+      .add(days, 'days')
+      .format('YYYY-MM-DD');
+  it('should return true for dates that are invalid or in the past', () => {
+    const expiredSeconds = Date.now() / 1000 - oneDayInSeconds;
+    expect(isExpired('')).to.be.true;
+    expect(isExpired(0)).to.be.true;
+    expect(isExpired(getDays(-1))).to.be.true;
+    expect(isExpired(expiredSeconds)).to.be.true;
+  });
+  it('should return false for dates in the past', () => {
+    const futureSeconds = Date.now() / 1000 + oneDayInSeconds;
+    expect(isExpired(getDays(0))).to.be.false;
+    expect(isExpired(getDays(1))).to.be.false;
+    expect(isExpired(getDays(365))).to.be.false;
+    expect(isExpired(futureSeconds)).to.be.false;
   });
 });

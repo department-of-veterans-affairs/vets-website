@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch } from 'react-router-dom';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/dom';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { createTestStore, renderWithStoreAndRouter } from '../mocks/setup';
@@ -32,10 +32,6 @@ const initialState = {
 describe('VAOS <EnrolledRoute>', () => {
   beforeEach(() => {
     mockFetch();
-  });
-
-  afterEach(() => {
-    resetFetch();
   });
 
   it('should render route when logged in', async () => {

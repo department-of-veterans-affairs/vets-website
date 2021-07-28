@@ -5,7 +5,7 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
-import { fixDecisionDates } from './nod.cypress.helpers';
+import { getRandomDate, fixDecisionDates } from './nod.cypress.helpers';
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
@@ -57,7 +57,9 @@ const testConfig = createTestConfig(
               .first()
               .clear()
               .type(item.issue);
-            const date = item.decisionDate.replace(/-0/g, '-').split('-');
+            const date = getRandomDate()
+              .replace(/-0/g, '-')
+              .split('-');
             cy.get(`select[name$="${index}_decisionDateMonth"]`).select(
               date[1],
             );
@@ -67,7 +69,7 @@ const testConfig = createTestConfig(
               .type(date[0]);
             cy.get('.update')
               .first()
-              .click();
+              .click({ force: true });
             if (!item[SELECTED]) {
               cy.get(
                 `input[type="checkbox"][name="root_additionalIssues_${index}"]`,
@@ -78,6 +80,15 @@ const testConfig = createTestConfig(
             }
           });
         });
+      },
+      'evidence-submission/upload': () => {
+        cy.get('input[type="file"]')
+          .upload(
+            path.join(__dirname, 'fixtures/data/example-upload.pdf'),
+            'application/pdf',
+          )
+          .get('.schemaform-file-uploading')
+          .should('not.exist');
       },
     },
 
@@ -90,7 +101,7 @@ const testConfig = createTestConfig(
 
       cy.intercept('POST', 'v0/decision_review_evidence', mockUpload);
 
-      cy.route('POST', formConfig.submitUrl, mockSubmit);
+      cy.intercept('POST', formConfig.submitUrl, mockSubmit);
 
       cy.get('@testData').then(testData => {
         cy.intercept('GET', `/v0${CONTESTABLE_ISSUES_API}`, {

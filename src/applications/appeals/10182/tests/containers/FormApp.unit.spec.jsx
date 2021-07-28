@@ -12,7 +12,7 @@ const profile = {
     email: {
       emailAddress: 'test@user.com',
     },
-    homePhone: {
+    mobilePhone: {
       countryCode: '2',
       areaCode: '345',
       phoneNumber: '6789012',
@@ -33,13 +33,17 @@ const profile = {
   },
 };
 
-const getData = ({ showNod = true, loggedIn = true } = {}) => ({
+const getData = ({
+  showNod = true,
+  loggedIn = true,
+  mockProfile = profile,
+} = {}) => ({
   props: {
     loggedIn,
     showNod,
     location: { pathname: '/introduction', search: '' },
     children: <div>children</div>,
-    profile,
+    profile: mockProfile,
     formData: {},
     setFormData: () => {},
     getContestableIssues: () => {},
@@ -54,7 +58,7 @@ const getData = ({ showNod = true, loggedIn = true } = {}) => ({
         login: {
           currentlyLoggedIn: loggedIn,
         },
-        profile,
+        profile: mockProfile,
       },
       form: {
         loadedStatus: 'success',
@@ -95,9 +99,8 @@ describe('FormApp', () => {
     expect(title.props().title).to.contain('Board Appeal');
     expect(title.props().subTitle).to.contain('10182');
 
-    const alert = tree.find('AlertBox');
-    expect(alert).to.exist;
-    expect(alert.props().headline).to.contain('still working on this feature');
+    const alert = tree.find('va-alert');
+    expect(alert.text()).to.contain('still working on this feature');
 
     tree.unmount();
   });
@@ -130,6 +133,27 @@ describe('FormApp', () => {
 
     tree.unmount();
   });
+  it('should not throw an error if profile is null', () => {
+    const getIssues = sinon.spy();
+    const mockProfile = {
+      vapContactInfo: {
+        email: null,
+        mobilePhone: null,
+        mailingAddress: null,
+      },
+    };
+    const { props, mockStore } = getData({ mockProfile });
+    const tree = mount(
+      <Provider store={mockStore}>
+        <FormApp {...props} getContestableIssues={getIssues} />,
+      </Provider>,
+    );
+
+    tree.setProps();
+    expect(getIssues.called).to.be.true;
+
+    tree.unmount();
+  });
 
   it('should set form data', () => {
     const setFormData = sinon.spy();
@@ -141,11 +165,22 @@ describe('FormApp', () => {
           type: 'contestableIssue',
           attributes: {
             ratingIssueSubjectText: 'tinnitus',
-            approxDecisionDate: '1900-01-01',
+            approxDecisionDate: '2020-01-01',
             decisionIssueId: 1,
             ratingIssueReferenceId: '2',
             ratingDecisionReferenceId: '3',
             ratingIssuePercentNumber: '10',
+          },
+        },
+        {
+          type: 'contestableIssue',
+          attributes: {
+            ratingIssueSubjectText: 'Sore foot',
+            approxDecisionDate: '2021-01-01',
+            decisionIssueId: 2,
+            ratingIssueReferenceId: '3',
+            ratingDecisionReferenceId: '2',
+            ratingIssuePercentNumber: '1',
           },
         },
       ],
@@ -166,11 +201,18 @@ describe('FormApp', () => {
     const formData = setFormData.args[0][0];
     const result = {
       address: profile.vapContactInfo.mailingAddress,
-      phone: profile.vapContactInfo.homePhone,
+      phone: profile.vapContactInfo.mobilePhone,
       email: profile.vapContactInfo.email.emailAddress,
     };
     expect(formData.veteran).to.deep.equal(result);
-    expect(formData.contestableIssues).to.deep.equal(contestableIssues.issues);
+    expect(formData.contestableIssues).to.deep.equal([
+      contestableIssues.issues[1],
+      contestableIssues.issues[0],
+    ]);
+    // check sorted
+    expect(
+      formData.contestableIssues[0].attributes.approxDecisionDate,
+    ).to.equal('2021-01-01');
 
     tree.unmount();
   });
@@ -191,11 +233,12 @@ describe('FormApp', () => {
       ],
     };
     const formData = {
+      'view:hasIssuesToAdd': true,
       contestableIssues: contestableIssues.issues,
       additionalIssues: [{ issue: 'other issue', [SELECTED]: true }],
       veteran: {
         email: profile.vapContactInfo.email.emailAddress,
-        phone: profile.vapContactInfo.homePhone,
+        phone: profile.vapContactInfo.mobilePhone,
         address: profile.vapContactInfo.mailingAddress,
       },
     };

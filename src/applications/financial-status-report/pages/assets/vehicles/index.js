@@ -5,6 +5,9 @@ export const uiSchema = {
       'ui:title': 'Do you own any cars or other vehicles?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
+      'ui:errorMessages': {
+        required: 'Please enter your vehicle information.',
+      },
     },
   },
 };

@@ -3,14 +3,12 @@ import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
-import {
-  mockFetch,
-  resetFetch,
-  setFetchJSONFailure,
-} from 'platform/testing/unit/helpers';
+import { mockFetch, setFetchJSONFailure } from 'platform/testing/unit/helpers';
 import reducers from '../../../redux/reducer';
 import { getVAFacilityMock, getVARequestMock } from '../../mocks/v0';
+import { getVAOSRequestMock } from '../../mocks/v2';
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
+import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
 import {
   renderWithStoreAndRouter,
   getTimezoneTestDate,
@@ -24,13 +22,21 @@ const initialState = {
   },
 };
 
+const initialStateVAOSService = {
+  featureToggles: {
+    vaOnlineSchedulingCancel: true,
+    vaOnlineSchedulingHomepageRefresh: true,
+    vaOnlineSchedulingVAOSServiceRequests: true,
+  },
+};
+
 describe('VAOS <RequestedAppointmentsList>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTimezoneTestDate());
+    mockFacilitiesFetch();
   });
   afterEach(() => {
-    resetFetch();
     MockDate.reset();
   });
   it('should show va request', async () => {
@@ -226,7 +232,159 @@ describe('VAOS <RequestedAppointmentsList>', () => {
       reducers,
     });
 
-    expect(await screen.findByText(/You don’t have any appointments/i)).to
-      .exist;
+    expect(await screen.findByText(/You don’t have any appointment requests/i))
+      .to.exist;
+  });
+});
+
+describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
+  beforeEach(() => {
+    mockFetch();
+    MockDate.set(getTimezoneTestDate());
+  });
+  afterEach(() => {
+    MockDate.reset();
+  });
+  it('should show va request', async () => {
+    const startDate = moment.utc();
+    const appointment = getVAOSRequestMock();
+    appointment.id = '1234';
+    appointment.attributes = {
+      comment: 'A message from the patient',
+      contact: {
+        telecom: [
+          { type: 'phone', value: '2125551212' },
+          { type: 'email', value: 'veteranemailtest@va.gov' },
+        ],
+      },
+      kind: 'clinic',
+      locationId: '983GC',
+      id: '1234',
+      preferredTimesForPhoneCall: ['Morning'],
+      reason: 'Routine Follow-up',
+      requestedPeriods: [
+        {
+          start: moment(startDate)
+            .add(3, 'days')
+            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+        },
+        {
+          start: moment(startDate)
+            .add(4, 'days')
+            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+        },
+      ],
+      serviceType: '323',
+      start: null,
+      status: 'proposed',
+    };
+
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      requests: [appointment],
+    });
+
+    const facility = {
+      id: 'vha_442GC',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442GC',
+        name: 'Cheyenne VA Medical Center',
+        address: {
+          physical: {
+            zip: '82001-5356',
+            city: 'Cheyenne',
+            state: 'WY',
+            address1: '2360 East Pershing Boulevard',
+          },
+        },
+        phone: {
+          main: '307-778-7550',
+        },
+      },
+    };
+    mockFacilitiesFetch('vha_442GC', [facility]);
+
+    const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
+      initialState: initialStateVAOSService,
+      reducers,
+    });
+
+    expect(await screen.findByText('Primary care')).to.be.ok;
+    expect(await screen.findByText(facility.attributes.name)).to.be.ok;
+    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
+  });
+
+  it('should show cc request', async () => {
+    const startDate = moment.utc();
+    const ccAppointmentRequest = getVAOSRequestMock();
+    ccAppointmentRequest.id = '1234';
+    ccAppointmentRequest.attributes = {
+      comment: 'A message from the patient',
+      contact: {
+        telecom: [
+          { type: 'phone', value: '2125551212' },
+          { type: 'email', value: 'veteranemailtest@va.gov' },
+        ],
+      },
+      kind: 'cc',
+      locationId: '983GC',
+      id: '1234',
+      practitioners: [{ id: { value: '123' } }],
+      preferredTimesForPhoneCall: ['Morning'],
+      reason: 'Routine Follow-up',
+      requestedPeriods: [
+        {
+          start: moment(startDate)
+            .add(3, 'days')
+            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+        },
+        {
+          start: moment(startDate)
+            .add(4, 'days')
+            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+        },
+      ],
+      serviceType: '203',
+      start: null,
+      status: 'proposed',
+    };
+
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      requests: [ccAppointmentRequest],
+    });
+
+    const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
+      initialState: initialStateVAOSService,
+      reducers,
+    });
+
+    expect(await screen.findByText('Audiology and speech')).to.be.ok;
+    expect(screen.baseElement).to.contain.text('Community care');
+    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
+  });
+
+  it('should show error message when request fails', async () => {
+    mockVAOSAppointmentsFetch({ error: true });
+
+    const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
+      initialState: initialStateVAOSService,
+      reducers,
+    });
+
+    expect(
+      await screen.findByText(
+        /We’re having trouble getting your appointment requests/i,
+      ),
+    ).to.be.ok;
   });
 });

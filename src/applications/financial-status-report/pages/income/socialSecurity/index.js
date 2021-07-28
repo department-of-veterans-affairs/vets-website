@@ -5,6 +5,9 @@ export const uiSchema = {
       'ui:title': 'Do you get Social Security payments?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
+      'ui:errorMessages': {
+        required: 'Please enter your Social Security benefits information.',
+      },
     },
   },
 };

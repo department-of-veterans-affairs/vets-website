@@ -1,14 +1,16 @@
 import React from 'react';
 
-export default function VideoVisitProvider({ providers }) {
-  if (!providers?.length) {
-    return null;
-  }
-
+export default function VideoVisitProvider({ providers, isPast }) {
   return (
     <>
-      <h3 className="vaos-appts__block-label">You’ll be meeting with</h3>
-      <div>{providers[0].display}</div>
+      <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+        {!isPast ? 'You’ll be meeting with' : 'You met with'}
+      </h2>
+      <ul className="usa-unstyled-list">
+        {providers.map((provider, index) => (
+          <li key={index}>{provider.display}</li>
+        ))}
+      </ul>
     </>
   );
 }

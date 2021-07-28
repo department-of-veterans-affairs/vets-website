@@ -1,30 +1,62 @@
-import { INSTITUTION_FILTERS_CHANGED } from '../actions';
+import { FILTERS_CHANGED, UPDATE_QUERY_PARAMS } from '../actions';
+import { FILTERS_EXCLUDED_FLIP } from '../constants';
 
-const INITIAL_STATE = Object.freeze({
-  category: 'school',
-  type: 'ALL',
+export const INITIAL_STATE = Object.freeze({
+  expanded: false,
+  accredited: false,
+  excludeCautionFlags: false,
   country: 'ALL',
+  employers: true,
+  hbcu: false,
+  relaffil: false,
+  preferredProvider: false,
+  schools: true,
+  singleGenderSchool: false,
   state: 'ALL',
-  institutionType: 'ALL',
-  excludeWarningsAndCautionFlags: true,
-  levelOfDegree: 'ALL',
-  levelOfInstitution: {
-    fourYear: true,
-    twoYear: true,
-  },
-  major: '',
-  inPersonClasses: 'yes',
+  studentVeteran: false,
+  type: 'ALL',
+  yellowRibbonScholarship: false,
+  vettec: true,
 });
 
 export default function(state = INITIAL_STATE, action) {
-  let newState = { ...state };
+  switch (action.type) {
+    case FILTERS_CHANGED:
+      return {
+        ...state,
+        ...action.payload,
+      };
 
-  if (action.type === INSTITUTION_FILTERS_CHANGED) {
-    newState = {
-      ...newState,
-      ...action.payload,
-    };
+    case UPDATE_QUERY_PARAMS: {
+      const queryParams = action.payload;
+      const onLoadState = {};
+      Object.keys(INITIAL_STATE).forEach(key => {
+        let value = queryParams[key];
+
+        if (FILTERS_EXCLUDED_FLIP.includes(key)) {
+          value = Object.keys(queryParams).includes(
+            `exclude${key[0].toUpperCase() + key.slice(1).toLowerCase()}`,
+          )
+            ? false
+            : undefined;
+        }
+
+        if (value === 'true') {
+          value = true;
+        } else if (value === 'false') {
+          value = false;
+        }
+
+        if (value !== undefined) {
+          onLoadState[key] = value;
+        }
+      });
+      onLoadState.expanded = Object.entries(onLoadState).length > 0;
+
+      return { ...state, ...onLoadState };
+    }
+
+    default:
+      return { ...state };
   }
-
-  return newState;
 }

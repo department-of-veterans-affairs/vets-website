@@ -2,7 +2,7 @@ import { rootUrl } from '../../manifest.json';
 import mockDependents from './fixtures/mock-dependents.json';
 import mockNoAwardDependents from './fixtures/mock-no-dependents-on-award.json';
 
-const DEPENDENTS_ENDPOINT = '/dependents_applications/show';
+const DEPENDENTS_ENDPOINT = 'v0/dependents_applications/show';
 
 const testAxe = () => {
   cy.injectAxe();
@@ -23,9 +23,9 @@ const testNoDependentsOnAward = () => {
     'mockNoAwardDependents',
   );
   cy.visit(rootUrl);
-  cy.findByRole('heading', {
-    name: /There are no dependents associated with your VA benefits/i,
-  }).should('exist');
+  cy.findByText(
+    'There are no dependents associated with your VA benefits',
+  ).should('exist');
   testAxe();
 };
 
@@ -42,7 +42,7 @@ const testEmptyResponse = () => {
   }).as('emptyResponse');
   cy.visit(rootUrl);
   cy.findByRole('heading', {
-    name: /We don't have dependents information on file for you/i,
+    name: /We don’t have dependents information on file for you/i,
   }).should('exist');
   testAxe();
 };
@@ -62,7 +62,7 @@ const testServerError = () => {
   }).as('serverError');
   cy.visit(rootUrl);
   cy.findByRole('heading', {
-    name: /We're sorry. Something went wrong on our end/i,
+    name: /We’re sorry. Something went wrong on our end/i,
   }).should('exist');
   testAxe();
 };

@@ -5,6 +5,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 import { VA_FORM_IDS } from '~/platform/forms/constants';
+import recordEvent from '~/platform/monitoring/record-event';
 import {
   isMultifactorEnabled,
   isVAPatient,
@@ -136,6 +137,13 @@ const ApplyForBenefits = ({
               icon="health-care"
               ctaButtonLabel="Learn how to apply for VA health care"
               ctaUrl="/health-care/how-to-apply/"
+              onClick={() => {
+                recordEvent({
+                  event: 'dashboard-navigation',
+                  'dashboard-action': 'view-link',
+                  'dashboard-product': 'recommendations-health-care-apply-now',
+                });
+              }}
             >
               <p>
                 With VA health care, you’ll receive coverage for services like
@@ -149,6 +157,13 @@ const ApplyForBenefits = ({
             icon="disability"
             ctaButtonLabel="Learn how to file a VA disability claim"
             ctaUrl="/disability/how-to-file-claim/"
+            onClick={() => {
+              recordEvent({
+                event: 'dashboard-navigation',
+                'dashboard-action': 'view-link',
+                'dashboard-product': 'recommendations-disability-file-claim',
+              });
+            }}
           >
             <p>
               With VA disability benefits, you can get disability compensation
@@ -162,6 +177,13 @@ const ApplyForBenefits = ({
               icon="education"
               ctaButtonLabel="Learn how to apply for VA education benefits"
               ctaUrl="/education/how-to-apply/"
+              onClick={() => {
+                recordEvent({
+                  event: 'dashboard-navigation',
+                  'dashboard-action': 'view-link',
+                  'dashboard-product': 'recommendations-education-apply-now',
+                });
+              }}
             >
               <p>
                 With VA education benefits, you and your qualified family

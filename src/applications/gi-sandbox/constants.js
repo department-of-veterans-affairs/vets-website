@@ -16,6 +16,9 @@ export const SMALL_SCREEN_WIDTH = 481;
 
 export const MINIMUM_RATING_COUNT = 5;
 
+// Max search area distance in miles
+export const MAX_SEARCH_AREA_DISTANCE = 150;
+
 export const KEY_CODES = Object.freeze({
   enterKey: 13,
 });
@@ -28,8 +31,8 @@ export const KEY_CODES = Object.freeze({
 export const MapboxInit = {
   zoomInit: 3,
   centerInit: {
-    lng: -99.27246093750001,
-    lat: 40.17887331434698,
+    longitude: -99.27246093750001,
+    latitude: 40.17887331434698,
   },
 };
 
@@ -39,20 +42,14 @@ export const MapboxInit = {
 
 export const TypeList = ['place', 'region', 'postcode', 'locality'];
 
-/**
- * Max search area in miles
- */
-export const MAX_SEARCH_AREA = 500;
-
-/**
- * Min radius search area in miles
- */
-export const MIN_RADIUS = 10;
-
 export const TABS = Object.freeze({
   name: 'name',
   location: 'location',
 });
+
+// default state is checked so these will only be present if their corresponding boxes are unchecked
+export const FILTERS_EXCLUDED_FLIP = ['schools', 'employers', 'vettec'];
+export const FILTERS_IGNORE_ALL = ['country', 'state', 'type'];
 
 export const ariaLabels = Object.freeze({
   learnMore: {
@@ -92,5 +89,21 @@ export const ariaLabels = Object.freeze({
     majorityOfClasses: 'Learn more about the location-based housing allowance',
     militaryTuitionAssistance:
       'Learn more about how military tuition assistance affects your benefits',
+    inState: 'Learn more about qualifying for in-state tuition.',
+    accreditation:
+      'Learn more about the different accreditation types and why it matters',
+    militaryTrainingCredit: 'Learn more about credit for military training',
+    independentStudy: 'Learn more about Independent study',
+    priorityEnrollment: 'Learn more about priority enrollment',
+    singlePoint: 'Learn more about single point of contact for Veterans',
+    facilityCode: 'Learn more about the VA facility code',
+    ipedsCode: 'Learn more about the ED IPEDS code',
+    opeCode: 'Learn more about the ED OPE code',
+    eightKeys: 'Learn more about 8 Keys to Veteran Success',
+    militaryTuitionAssistanceProgram:
+      'Learn more about Military Tuition Assistance',
+    principlesOfExcellence: 'Learn more about Principles of Excellence',
+    studentVeteranGroup: 'Learn more about Student Veteran Groups',
+    vetSuccess: 'Learn more about VetSuccess on Campus',
   },
 });

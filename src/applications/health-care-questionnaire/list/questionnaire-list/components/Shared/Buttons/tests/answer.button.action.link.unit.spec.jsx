@@ -20,7 +20,7 @@ describe('health care questionnaire list - shows view and print button', () => {
     );
     expect(component.exists('SecondaryActionLink')).to.be.true;
     expect(component.find('SecondaryActionLink').props().ariaLabel).to.equal(
-      'Select to continue your pre-appointment questionnaire for your primary care visit at Magic Kingdom on October, 31, 2021',
+      'Answer questions for your visit on October, 31, 2021',
     );
     component.unmount();
   });
@@ -38,7 +38,7 @@ describe('health care questionnaire list - shows view and print button', () => {
     );
     expect(component.exists('SecondaryActionLink')).to.be.true;
     expect(component.find('SecondaryActionLink').props().ariaLabel).to.equal(
-      'Select to start your pre-appointment questionnaire for your primary care visit at Magic Kingdom on October, 31, 2021',
+      'Answer questions for your visit on October, 31, 2021',
     );
     component.unmount();
   });

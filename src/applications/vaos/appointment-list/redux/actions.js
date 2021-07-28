@@ -1,19 +1,24 @@
 import moment from 'moment';
+import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   GA_PREFIX,
   APPOINTMENT_TYPES,
   VIDEO_TYPES,
+  APPOINTMENT_STATUS,
 } from '../../utils/constants';
 import { recordItemsRetrieved } from '../../utils/events';
 import {
   selectSystemIds,
   selectFeatureHomepageRefresh,
+  selectFeatureVAOSServiceRequests,
+  selectFeatureVAOSServiceVAAppointments,
 } from '../../redux/selectors';
 
 import { getRequestMessages } from '../../services/var';
 
 import {
+  getCommunityProvider,
   getLocation,
   getLocations,
   getLocationSettings,
@@ -142,12 +147,19 @@ async function getAdditionalFacilityInfo(futureAppointments) {
   return facilityData;
 }
 
-export function fetchFutureAppointments() {
+export function fetchFutureAppointments({ includeRequests = true } = {}) {
   return async (dispatch, getState) => {
     const featureHomepageRefresh = selectFeatureHomepageRefresh(getState());
+    const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
+      getState(),
+    );
+    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+      getState(),
+    );
 
     dispatch({
       type: FETCH_FUTURE_APPOINTMENTS,
+      includeRequests,
     });
 
     recordEvent({
@@ -164,7 +176,7 @@ export function fetchFutureAppointments() {
        * and requests lists, but needs confirmed to go back 30 days. Appointments
        * will be filtered out by date accordingly in our selectors
        */
-      const data = await Promise.all([
+      const promises = [
         getBookedAppointments({
           startDate: featureHomepageRefresh
             ? moment()
@@ -174,36 +186,44 @@ export function fetchFutureAppointments() {
           endDate: moment()
             .add(395, 'days')
             .format('YYYY-MM-DD'),
+          useV2: featureVAOSServiceVAAppointments,
         }),
-        getAppointmentRequests({
-          startDate: moment()
-            .subtract(featureHomepageRefresh ? 120 : 30, 'days')
-            .format('YYYY-MM-DD'),
-          endDate: moment().format('YYYY-MM-DD'),
-        })
-          .then(requests => {
-            dispatch({
-              type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
-              data: requests,
-            });
+      ];
 
-            recordEvent({
-              event: `${GA_PREFIX}-get-pending-appointments-retrieved`,
-            });
-
-            return requests;
+      if (includeRequests) {
+        promises.push(
+          getAppointmentRequests({
+            startDate: moment()
+              .subtract(featureHomepageRefresh ? 120 : 30, 'days')
+              .format('YYYY-MM-DD'),
+            endDate: moment().format('YYYY-MM-DD'),
+            useV2: featureVAOSServiceRequests,
           })
-          .catch(resp => {
-            recordEvent({
-              event: `${GA_PREFIX}-get-pending-appointments-failed`,
-            });
-            dispatch({
-              type: FETCH_PENDING_APPOINTMENTS_FAILED,
-            });
+            .then(requests => {
+              dispatch({
+                type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
+                data: requests,
+              });
 
-            return Promise.reject(resp);
-          }),
-      ]);
+              recordEvent({
+                event: `${GA_PREFIX}-get-pending-appointments-retrieved`,
+              });
+
+              return requests;
+            })
+            .catch(resp => {
+              recordEvent({
+                event: `${GA_PREFIX}-get-pending-appointments-failed`,
+              });
+              dispatch({
+                type: FETCH_PENDING_APPOINTMENTS_FAILED,
+              });
+
+              return Promise.reject(resp);
+            }),
+        );
+      }
+      const data = await Promise.all(promises);
 
       recordEvent({
         event: `${GA_PREFIX}-get-future-appointments-retrieved`,
@@ -256,6 +276,14 @@ export function fetchFutureAppointments() {
       } catch (error) {
         captureError(error);
       }
+
+      if (
+        data[0]
+          ?.filter(appt => appt.videoData.kind === VIDEO_TYPES.clinic)
+          .some(appt => !appt.location?.stationId)
+      ) {
+        Sentry.captureMessage('VAOS clinic based appointment missing sta6aid');
+      }
     } catch (error) {
       captureError(error);
       recordEvent({
@@ -277,12 +305,16 @@ export function fetchPendingAppointments() {
       });
 
       const featureHomepageRefresh = selectFeatureHomepageRefresh(getState());
+      const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
+        getState(),
+      );
 
       const pendingAppointments = await getAppointmentRequests({
         startDate: moment()
           .subtract(featureHomepageRefresh ? 120 : 30, 'days')
           .format('YYYY-MM-DD'),
         endDate: moment().format('YYYY-MM-DD'),
+        useV2: featureVAOSServiceRequests,
       });
 
       dispatch({
@@ -324,6 +356,10 @@ export function fetchPendingAppointments() {
 
 export function fetchPastAppointments(startDate, endDate, selectedIndex) {
   return async (dispatch, getState) => {
+    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+      getState(),
+    );
+
     dispatch({
       type: FETCH_PAST_APPOINTMENTS,
       selectedIndex,
@@ -338,6 +374,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         getBookedAppointments({
           startDate,
           endDate,
+          useV2: featureVAOSServiceVAAppointments,
         }),
       ];
 
@@ -387,6 +424,9 @@ export function fetchRequestDetails(id) {
   return async (dispatch, getState) => {
     try {
       const state = getState();
+      const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
+        state,
+      );
       let request = selectAppointmentById(state, id, [
         APPOINTMENT_TYPES.ccRequest,
         APPOINTMENT_TYPES.request,
@@ -401,7 +441,10 @@ export function fetchRequestDetails(id) {
       }
 
       if (!request) {
-        request = await fetchRequestById(id);
+        request = await fetchRequestById({
+          id,
+          useV2: featureVAOSServiceRequests,
+        });
         facilityId = getVAAppointmentLocationId(request);
         facility = state.appointments.facilityData?.[facilityId];
       }
@@ -413,6 +456,11 @@ export function fetchRequestDetails(id) {
           captureError(e);
         }
       }
+      if (featureVAOSServiceRequests && request.practitioners?.length) {
+        request.preferredCommunityCareProviders = [
+          await getCommunityProvider(request.practitioners[0].id.value),
+        ];
+      }
 
       dispatch({
         type: FETCH_REQUEST_DETAILS_SUCCEEDED,
@@ -421,11 +469,13 @@ export function fetchRequestDetails(id) {
         facility,
       });
 
-      const requestMessages = state.appointments.requestMessages;
-      const messages = requestMessages?.[id];
+      if (!featureVAOSServiceRequests) {
+        const requestMessages = state.appointments.requestMessages;
+        const messages = requestMessages?.[id];
 
-      if (!messages) {
-        dispatch(fetchRequestMessages(id));
+        if (!messages) {
+          dispatch(fetchRequestMessages(id));
+        }
       }
     } catch (e) {
       captureError(e);
@@ -440,6 +490,9 @@ export function fetchConfirmedAppointmentDetails(id, type) {
   return async (dispatch, getState) => {
     try {
       const state = getState();
+      const featureVAOSServiceAppointments = selectFeatureVAOSServiceVAAppointments(
+        state,
+      );
       let appointment = selectAppointmentById(state, id, [
         type === 'cc'
           ? APPOINTMENT_TYPES.ccAppointment
@@ -455,7 +508,11 @@ export function fetchConfirmedAppointmentDetails(id, type) {
       }
 
       if (!appointment) {
-        appointment = await fetchBookedAppointment(id, type);
+        appointment = await fetchBookedAppointment({
+          id,
+          type,
+          useV2: featureVAOSServiceAppointments,
+        });
       }
 
       facilityId = getVAAppointmentLocationId(appointment);
@@ -494,13 +551,26 @@ export function startAppointmentCancel(appointment) {
 export function confirmCancelAppointment() {
   return async (dispatch, getState) => {
     const appointment = getState().appointments.appointmentToCancel;
+    const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
+      getState(),
+    );
+    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+      getState(),
+    );
 
     try {
       dispatch({
         type: CANCEL_APPOINTMENT_CONFIRMED,
       });
 
-      const updatedAppointment = await cancelAppointment({ appointment });
+      const updatedAppointment = await cancelAppointment({
+        appointment,
+        useV2:
+          (featureVAOSServiceRequests &&
+            appointment.status === APPOINTMENT_STATUS.proposed) ||
+          (featureVAOSServiceVAAppointments &&
+            appointment.status !== APPOINTMENT_STATUS.proposed),
+      });
 
       dispatch({
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,

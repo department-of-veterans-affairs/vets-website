@@ -197,6 +197,25 @@ class ObjectField extends React.Component {
       'schemaform-block': title && !isRoot,
     });
 
+    const pageIndex = formContext?.pagePerItemIndex;
+    // Fix array nested ids (one-level deep)
+    const processIds = (originalIds = {}) =>
+      // pagePerItemIndex is zero-based
+      typeof pageIndex !== 'undefined' && formContext.onReviewPage
+        ? Object.keys(originalIds).reduce(
+            (ids, key) => ({
+              ...ids,
+              [key]: originalIds[key].$id
+                ? {
+                    ...originalIds[key],
+                    $id: `${originalIds[key].$id}_${pageIndex}`,
+                  }
+                : `${originalIds[key]}_${pageIndex}`,
+            }),
+            {},
+          )
+        : originalIds;
+
     const renderProp = propName => (
       <div key={propName}>
         <SchemaField
@@ -205,7 +224,7 @@ class ObjectField extends React.Component {
           schema={schema.properties[propName]}
           uiSchema={uiSchema[propName]}
           errorSchema={errorSchema[propName]}
-          idSchema={idSchema[propName]}
+          idSchema={processIds(idSchema[propName])}
           formData={formData[propName]}
           onChange={this.onPropertyChange(propName)}
           onBlur={onBlur}
@@ -217,7 +236,7 @@ class ObjectField extends React.Component {
     );
 
     // Id's are not always unique on the review and submit page
-    const id =
+    const id = `${
       isRoot && formContext.onReviewPage
         ? Object.keys(idSchema)
             .reduce((ids, key) => {
@@ -226,7 +245,8 @@ class ObjectField extends React.Component {
             }, [])
             .filter(k => k)
             .join('_')
-        : idSchema.$id;
+        : idSchema.$id
+    }${typeof pageIndex === 'undefined' ? '' : `_${pageIndex}`}`;
 
     const fieldContent = (
       <div className={containerClassNames}>

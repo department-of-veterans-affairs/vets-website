@@ -20,8 +20,7 @@
           "phoneNumber": "8001111",
           "phoneNumberExt": "2"
         },
-        "emailAddressText": "user@example.com",
-        "representativesName": ""
+        "emailAddressText": "user@example.com"
       },
       "boardReviewOption": "hearing",
       "hearingTypePreference": "central_office",
@@ -35,8 +34,8 @@
       "attributes": {
         "issue": "Traumatic Brain Injury - 5%",
         "decisionIssueId": 10,
-        "decisionDate": "2020-01-05",
-        "disagreementReason": "effective date"
+        "decisionDate": "2021-06-05",
+        "disagreementArea": "effective date"
       }
     }
   ],

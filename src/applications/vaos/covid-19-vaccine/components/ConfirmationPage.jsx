@@ -1,20 +1,27 @@
 import React, { useEffect } from 'react';
 import moment from '../../lib/moment-tz.js';
 import { Link, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import { useSelector, shallowEqual } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event.js';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { getTimezoneAbbrBySystemId } from '../../utils/timezone.js';
 import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants.js';
 import FacilityAddress from '../../components/FacilityAddress.jsx';
 import { selectConfirmationPage } from '../redux/selectors.js';
-import AddToCalendar from 'applications/vaos/components/AddToCalendar';
-import { formatFacilityAddress } from 'applications/vaos/services/location';
+import AddToCalendar from '../../components/AddToCalendar';
+import InfoAlert from '../../components/InfoAlert';
+import {
+  formatFacilityAddress,
+  getFacilityPhone,
+} from '../../services/location';
 
 const pageTitle = 'We’ve scheduled your appointment';
 
-function ConfirmationPage({ data, systemId, facilityDetails, submitStatus }) {
+export default function ConfirmationPage() {
+  const { data, systemId, slot, facilityDetails, submitStatus } = useSelector(
+    selectConfirmationPage,
+    shallowEqual,
+  );
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
@@ -30,16 +37,18 @@ function ConfirmationPage({ data, systemId, facilityDetails, submitStatus }) {
       'dddd, MMMM D, YYYY [at] h:mm a ',
     ) + getTimezoneAbbrBySystemId(systemId);
 
+  const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
+
   return (
     <div>
       <h1>{pageTitle}</h1>
-      <AlertBox status="success">
+      <InfoAlert status="success">
         <strong>Your appointment is confirmed.</strong>
         <p>
           If you get a vaccine that requires a second dose, we'll schedule your
           second appointment while you're here for your first dose.
         </p>
-      </AlertBox>
+      </InfoAlert>
       <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
         <span className="vads-u-margin-y--0 vaos-u-text-transform--uppercase">
           {appointmentType}
@@ -68,9 +77,19 @@ function ConfirmationPage({ data, systemId, facilityDetails, submitStatus }) {
         )}
         <div className="vads-u-margin-top--3 vaos-appts__block-label">
           <AddToCalendar
-            summary={appointmentType.concat(' Appointment')}
+            summary={`Appointment at ${facilityDetails.name}`}
+            description={{
+              text: `You have a health care appointment at ${
+                facilityDetails.name
+              }`,
+              phone: getFacilityPhone(facilityDetails),
+              additionalText: [
+                'Sign in to VA.gov to get details about this appointment',
+              ],
+            }}
             location={formatFacilityAddress(facilityDetails)}
             startDateTime={data.date1[0]}
+            duration={appointmentLength}
           />
         </div>
       </div>
@@ -90,5 +109,3 @@ function ConfirmationPage({ data, systemId, facilityDetails, submitStatus }) {
     </div>
   );
 }
-
-export default connect(selectConfirmationPage)(ConfirmationPage);

@@ -26,7 +26,6 @@ import YourApplications from './YourApplications';
 import ManageYourVAHealthCare from '../components/ManageYourVAHealthCare';
 import ESRError, { ESR_ERROR_TYPES } from '../components/ESRError';
 import ClaimsAppealsWidget from './ClaimsAppealsWidget';
-import PreferencesWidget from '~/applications/personalization/preferences/containers/PreferencesWidget';
 
 import profileManifest from '@@profile/manifest.json';
 import lettersManifest from '~/applications/letters/manifest.json';
@@ -308,8 +307,6 @@ class DashboardApp extends React.Component {
         )}
 
         {showServerError && <ESRError errorType={ESR_ERROR_TYPES.generic} />}
-
-        <PreferencesWidget />
 
         <YourApplications />
 

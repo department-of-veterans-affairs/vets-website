@@ -1,5 +1,3 @@
-$side-nav-color-gray-lightest: #f8f8f8; // I could not find the color in our design utilities.
-$side-nav-color-dark: #323a45;
 .va-sidenav-wrapper {
   background: $color-white;
   border: 1px solid $color-gray-lighter;
@@ -87,7 +85,7 @@ $side-nav-color-dark: #323a45;
     }
 
     .line-open {
-      background: $side-nav-color-dark;
+      background: $color-gray-dark;
       display: block;
       height: 0.5px;
       border: 0;
@@ -138,21 +136,26 @@ $side-nav-color-dark: #323a45;
     // applying borders directly makes the inside content jump and this is not desirable
     // used backgrounds instead
     .open {
-      color: $side-nav-color-dark !important;
-      background: linear-gradient($side-nav-color-dark, $side-nav-color-dark) left/ 8px 100%,
-        $side-nav-color-gray-lightest;
+      color: $color-gray-dark !important;
+      background: linear-gradient($color-gray-dark, $color-gray-dark) left/ 8px
+          100%,
+        $color-gray-lightest;
       background-repeat: no-repeat;
     }
 
     .expanded {
-      background: linear-gradient($side-nav-color-dark, $side-nav-color-dark) 100% top / 100% 1px, $color-white;
+      background: linear-gradient($color-gray-dark, $color-gray-dark) 100% top /
+          100% 1px,
+        $color-white;
       background-repeat: no-repeat;
     }
 
     a.selected {
-      color: $side-nav-color-dark !important;
-      background: linear-gradient($side-nav-color-dark, $side-nav-color-dark) 100% top / 100% 1px,
-        linear-gradient($side-nav-color-dark, $side-nav-color-dark) left/ 8px 100%, $side-nav-color-gray-lightest;
+      color: $color-gray-dark !important;
+      background: linear-gradient($color-gray-dark, $color-gray-dark) 100% top /
+          100% 1px,
+        linear-gradient($color-gray-dark, $color-gray-dark) left/ 8px 100%,
+        $color-gray-lightest;
       background-repeat: no-repeat;
     }
 
@@ -172,8 +175,8 @@ $side-nav-color-dark: #323a45;
     .va-sidenav-level-1 {
       margin-top: 2.3em;
       &:first-child {
-        margin-top: .75em; // the wrapper already has top padding, so we don't need as much space here
-        @media(max-width: $medium-screen) {
+        margin-top: 0.75em; // the wrapper already has top padding, so we don't need as much space here
+        @media (max-width: $medium-screen) {
           margin-top: 2em; // to accomodate mobile menu
         }
       }
@@ -214,19 +217,25 @@ $side-nav-color-dark: #323a45;
         @include media($medium-screen) {
           &:hover {
             color: $color-primary !important;
-            background: linear-gradient($color-primary, $color-primary) bottom / 100% 2px,
-              linear-gradient($color-primary, $color-primary) 100% top / 100% 2px,
+            background: linear-gradient($color-primary, $color-primary) bottom /
+                100% 2px,
+              linear-gradient($color-primary, $color-primary) 100% top / 100%
+                2px,
               linear-gradient($color-primary, $color-primary) left/ 8px 100%,
-              linear-gradient($color-primary, $color-primary) right / 3px 100%, $color-white;
+              linear-gradient($color-primary, $color-primary) right / 3px 100%,
+              $color-white;
             background-repeat: no-repeat;
           }
         }
         &:active {
-          color: $side-nav-color-dark !important;
-          background: linear-gradient($side-nav-color-dark, $side-nav-color-dark) bottom / 100% 2px,
-            linear-gradient($side-nav-color-dark, $side-nav-color-dark) 100% top / 100% 2px,
-            linear-gradient($side-nav-color-dark, $side-nav-color-dark) left/ 8px 100%,
-            linear-gradient($side-nav-color-dark, $side-nav-color-dark) right / 3px 100%, $side-nav-color-gray-lightest;
+          color: $color-gray-dark !important;
+          background: linear-gradient($color-gray-dark, $color-gray-dark) bottom /
+              100% 2px,
+            linear-gradient($color-gray-dark, $color-gray-dark) 100% top / 100%
+              2px,
+            linear-gradient($color-gray-dark, $color-gray-dark) left/ 8px 100%,
+            linear-gradient($color-gray-dark, $color-gray-dark) right / 3px 100%,
+            $color-gray-lightest;
           background-repeat: no-repeat;
         }
       }
@@ -234,7 +243,7 @@ $side-nav-color-dark: #323a45;
         &:last-child::after {
           display: none;
         }
-        border-bottom: thin solid $side-nav-color-dark;
+        border-bottom: thin solid $color-gray-dark;
         &.hasChildren {
           padding-bottom: 20px;
           margin-bottom: 20px;

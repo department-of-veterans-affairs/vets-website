@@ -41,25 +41,66 @@ class IntroductionPage extends React.Component {
             <li className="process-step list-one">
               <h5>Make sure you're eligible</h5>
               <p>
-                To be eligible for the Veteran Rapid Retraining Assistance
-                Program (VRRAP), you must meet all the requirements listed here.
+                To be eligible for Veteran Rapid Retraining Assistance Program
+                (VRRAP), you must meet all the requirements listed here.
               </p>
               <h6>All of these must be true. You're:</h6>
               <ul>
-                <li>At least 22 years old, but not older than 66</li>
-                <li>Unemployed because of the COVID-19 pandemic</li>
                 <li>
-                  Not eligible for GI Bill or VR&#38;E benefits (or, if you're
-                  eligible for the Post-9/11 GI Bill, you've transferred all of
-                  your benefits to family members)
+                  At least 22 years old, but not older than 66,{' '}
+                  <strong>and</strong>
                 </li>
-                <li>Not rated as totally disabled because you can't work</li>
-                <li>Not enrolled in a federal or state jobs program</li>
                 <li>
-                  Not receiving unemployment benefits (including CARES Act
-                  benefits)
+                  Unemployed because of the COVID-19 pandemic,{' '}
+                  <strong>and</strong>
+                </li>
+                <li>
+                  Not rated as totally disabled because you can't work,{' '}
+                  <strong>and</strong>
+                </li>
+                <li>Not enrolled in a federal or state jobs program</li>
+              </ul>
+              <p>
+                <strong>Note:</strong> You can't receive VRRAP benefits at the
+                same time you're receiving unemployment benefits (including
+                CARES Act benefits).
+              </p>
+              <p>
+                Also, at the time you apply for VRRAP you can't be eligible for
+                any of these other benefits:
+              </p>
+              <ul>
+                <li>
+                  <a href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11/">
+                    Post-9/11 GI Bill
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-active-duty/">
+                    Montgomery GI Bill
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.va.gov/careers-employment/vocational-rehabilitation/eligibility/">
+                    Veteran Readiness and Employment (VR&E)
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.va.gov/education/survivor-dependent-benefits/dependents-education-assistance/">
+                    Survivors’ and Dependents’ Educational Assistance (DEA)
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.va.gov/education/other-va-education-benefits/veap/">
+                    Veterans’ Educational Assistance Program (VEAP)
+                  </a>
                 </li>
               </ul>
+              <p>
+                <strong>Note:</strong> You can get VRRAP benefits if you were
+                eligible for the Post-9/11 GI Bill at one time but have
+                transferred all of those benefits to family members.
+              </p>
             </li>
             <li className="process-step list-two">
               <h5>Prepare</h5>

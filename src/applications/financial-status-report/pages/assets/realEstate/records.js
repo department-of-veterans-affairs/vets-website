@@ -1,19 +1,18 @@
 import ItemLoop from '../../../components/ItemLoop';
 import CardDetailsView from '../../../components/CardDetailsView';
 import CustomReviewField from '../../../components/CustomReviewField';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import { validateCurrency } from '../../../utils/validations';
 import Typeahead from '../../../components/Typeahead';
 import {
   formatOptions,
   realEstateTypes,
 } from '../../../constants/typeaheadOptions';
-import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Your real estate assets',
+  'ui:description': 'Enter each of your real estate assets below.',
   realEstateRecords: {
     'ui:field': ItemLoop,
-    'ui:description': 'Enter each of your real estate assets below.',
     'ui:options': {
       viewField: CardDetailsView,
       doNotScroll: true,
@@ -32,12 +31,21 @@ export const uiSchema = {
             'input-size-6 vads-u-margin-top--3 vads-u-margin-bottom--3',
           getOptions: () => formatOptions(realEstateTypes),
         },
+        'ui:errorMessages': {
+          required: 'Please enter the type of real estate owned.',
+        },
       },
-      realEstateAmount: _.merge(currencyUI('Estimated value'), {
+      realEstateAmount: {
+        'ui:title': 'Estimated value',
         'ui:options': {
+          classNames: 'schemaform-currency-input',
           widgetClassNames: 'input-size-4 vads-u-margin-bottom--3',
         },
-      }),
+        'ui:errorMessages': {
+          required: 'Please enter the estimated value.',
+        },
+        'ui:validations': [validateCurrency],
+      },
     },
   },
 };
@@ -55,7 +63,7 @@ export const schema = {
             type: 'string',
           },
           realEstateAmount: {
-            type: 'number',
+            type: 'string',
           },
         },
       },

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
+import PrivacyAct from '../../components/legal/PrivacyAct';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -80,6 +80,7 @@ const IntroductionPage = props => {
           resumeOnly={props.route?.formConfig.saveInProgress.resumeOnly}
           renderSignInMessage={UnAuthedWelcomeMessage}
           downtime={props.route.formConfig.downtime}
+          headingLevel={2}
         />
       );
     } else if (isLoggedIn) {
@@ -118,46 +119,31 @@ const IntroductionPage = props => {
         </p>
       </section>
       <section className="personal-information">
-        <h2>
-          How will VA protect my personal and health information if I answer
-          these questions?
-        </h2>
+        <h2>Will VA protect my personal health information?</h2>
         <p>
-          We keep all of the information in your medical record private and
-          secure. This includes any information you share in this questionnaire.
+          We make every effort to keep your personal information private and
+          secure.
         </p>
-        <section>
-          <header>
-            <strong>
-              To protect your privacy and your personal and health information,
-              we:
-            </strong>
-          </header>
-          <ul>
-            <li>
-              Share your information with only the people who need it as part of
-              providing your health care
-            </li>
-            <li>
-              Store all information in our secure electronic systems, and
-              encrypt all sensitive data
-            </li>
-            <li>
-              Require all VA employees who handle sensitive data to take
-              required training and ongoing education courses on privacy and
-              data security
-            </li>
-          </ul>
-          <p>
-            If you print or download a copy of your questionnaire, you’ll need
-            to take responsibility for protecting that information.
-          </p>
-        </section>
+        <p>
+          <a href="/privacy-policy/">
+            Read more about privacy and security on VA.gov
+          </a>
+        </p>
+        <p>
+          You're also responsible for protecting your personal health
+          information. If you print or download your information—or share it
+          electronically with others—you’ll need to take steps to protect it.
+        </p>
+        <p>
+          <a href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information">
+            Get tips for protecting your personal health information
+          </a>
+        </p>
       </section>
       <NeedHelpSmall />
       {getWelcomeMessage()}
       <div className="omb-info--container">
-        <OMBInfo expDate={expirationTime} />
+        <PrivacyAct expDate={expirationTime} />
       </div>
       {environment.isLocalhost() && (
         <>

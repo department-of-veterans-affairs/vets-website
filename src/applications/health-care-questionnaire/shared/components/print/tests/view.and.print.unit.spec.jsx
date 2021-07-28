@@ -22,7 +22,7 @@ describe('health care questionnaire list - shows view and print button', () => {
     expect(
       component.find('[data-testid="print-button"]').prop('aria-label'),
     ).to.equal(
-      'Download your response to the questionnaire you submitted for your appointment at Magic Kingdom that was on October, 31, 2021',
+      'View and print your answers as a PDF for your visit on October, 31, 2021',
     );
     component.unmount();
   });

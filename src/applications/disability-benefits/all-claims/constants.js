@@ -11,6 +11,9 @@ export const PAGE_TITLES = {
   BDD: 'File a Benefits Delivery at Discharge claim',
 };
 
+export const PAGE_TITLE_SUFFIX = 'with VA Form 21-526EZ';
+export const DOCUMENT_TITLE_SUFFIX = ' | Veterans Affairs';
+
 export const START_TEXT = {
   ALL: 'Start the Disability Compensation Application',
   BDD: 'Start the Benefits Disability at Discharge Application',

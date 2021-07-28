@@ -27,7 +27,6 @@ function loa1DashboardTest(mobile, stubs) {
 
   // focus should be on the h1
   cy.focused()
-    .should('have.attr', 'id', 'dashboard-title')
     .contains('My VA')
     .and('have.prop', 'tagName')
     .should('equal', 'H1');

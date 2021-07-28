@@ -1,42 +1,35 @@
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import cernerUser from '../../fixtures/user/cerner.json';
 import notCernerUser from '../../fixtures/user/notCerner.json';
+import features from '../../fixtures/feature-toggles/enabled.json';
 
 const TEST_URL = '/health-care/schedule-view-va-appointments/';
 
 const setup = ({ authenticated, isCerner } = {}) => {
-  cy.fixture(
-    'applications/static-pages/health-care-manage-benefits/fixtures/feature-toggles/enabled.json',
-  ).then(features => {
-    // Mock feature toggles route.
-    cy.intercept('GET', '/v0/feature_toggles*', features);
+  // Mock feature toggles route.
+  cy.intercept('GET', '/v0/feature_toggles*', features);
 
-    // Clear announcements.
-    disableFTUXModals();
+  // Clear announcements.
+  disableFTUXModals();
 
-    // Navigate straight to the test URL if unauth.
-    if (!authenticated) {
-      cy.visit(TEST_URL);
-      return;
-    }
-
-    // Log in the user.
-    if (isCerner) {
-      cy.login(cernerUser);
-    } else {
-      cy.login(notCernerUser);
-    }
-
-    // Visit the test URL.
+  // Navigate straight to the test URL if unauth.
+  if (!authenticated) {
     cy.visit(TEST_URL);
-  });
+    return;
+  }
+
+  // Log in the user.
+  if (isCerner) {
+    cy.login(cernerUser);
+  } else {
+    cy.login(notCernerUser);
+  }
+
+  // Visit the test URL.
+  cy.visit(TEST_URL);
 };
 
 describe('The schedule view VA appointments page', () => {
-  before(function() {
-    if (Cypress.env('CIRCLECI')) this.skip();
-  });
-
   it('Shows the correct CTA widget when unauthenticated', () => {
     // Set up the test.
     setup({ authenticated: false });

@@ -16,6 +16,8 @@ import login from '../user/authentication/reducers';
 import profile from '../user/profile/reducers';
 import environment from '../utilities/environment';
 import createAnalyticsMiddleware from './analytics-middleware';
+import i18Reducer from 'applications/static-pages/i18Select/reducers';
+import persistState from 'redux-localstorage';
 
 const brandConsolidatedReducers = {
   megaMenu,
@@ -31,6 +33,7 @@ export const commonReducer = {
   featureToggles: FeatureToggleReducer,
   navigation,
   scheduledDowntime,
+  i18State: i18Reducer,
   user: combineReducers({ login, profile }),
   ...brandConsolidatedReducers,
 };
@@ -59,6 +62,7 @@ export default function createCommonStore(
     combineReducers(reducer),
     compose(
       applyMiddleware(thunk, createAnalyticsMiddleware(analyticsEvents)),
+      persistState('i18State'),
       useDevTools ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,
     ),
   );

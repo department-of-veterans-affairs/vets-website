@@ -3,7 +3,6 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { Link, useHistory, Redirect } from 'react-router-dom';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { FETCH_STATUS } from '../../utils/constants';
 import FacilityAddress from '../../components/FacilityAddress';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
@@ -13,6 +12,7 @@ import { getReviewPage } from '../redux/selectors';
 import flow from '../flow';
 import State from '../../components/State';
 import NewTabAnchor from '../../components/NewTabAnchor';
+import InfoAlert from '../../components/InfoAlert';
 import { confirmAppointment } from '../redux/actions';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
@@ -36,6 +36,15 @@ export default function ReviewPage() {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
   }, []);
+
+  useEffect(
+    () => {
+      if (submitStatus === FETCH_STATUS.failed) {
+        scrollAndFocus('.info-alert');
+      }
+    },
+    [submitStatus],
+  );
 
   if (!vaFacility) {
     return <Redirect to="/" />;
@@ -111,10 +120,11 @@ export default function ReviewPage() {
         </LoadingButton>
       </div>
       {submitStatus === FETCH_STATUS.failed && (
-        <AlertBox
-          status="error"
-          headline="We couldn’t schedule this appointment"
-          content={
+        <div className="info-alert" role="alert">
+          <InfoAlert
+            status="error"
+            headline="We couldn’t schedule this appointment"
+          >
             <>
               {submitStatusVaos400 ? (
                 <p>
@@ -124,13 +134,13 @@ export default function ReviewPage() {
                 </p>
               ) : (
                 <p>
-                  We’re sorry. Something went wrong when we tried to submit your{' '}
+                  We’re sorry. Something went wrong when we tried to submit your
                   appointment and you’ll need to start over. We suggest you wait
                   a day to try again or you can call your medical center to help
                   with your appointment.
                 </p>
               )}
-              <p>
+              <>
                 {!facilityDetails && (
                   <NewTabAnchor
                     href={`/find-locations/facility/vha_${getRealFacilityId(
@@ -149,10 +159,10 @@ export default function ReviewPage() {
                     showDirectionsLink
                   />
                 )}
-              </p>
+              </>
             </>
-          }
-        />
+          </InfoAlert>
+        </div>
       )}
     </div>
   );

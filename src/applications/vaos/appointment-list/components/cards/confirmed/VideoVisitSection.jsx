@@ -1,17 +1,23 @@
 import React from 'react';
-import { getVAAppointmentLocationId } from '../../../../services/appointment';
-import { VIDEO_TYPES } from '../../../../utils/constants';
+import {
+  getVAAppointmentLocationId,
+  isClinicVideoAppointment,
+} from '../../../../services/appointment';
 import VideoLink from './VideoLink';
 import AtlasLocation from './AtlasLocation';
 import VAFacilityLocation from '../../../../components/VAFacilityLocation';
 
 export default function VideoVisitLocation({ appointment, facility }) {
-  const { kind: videoKind, isAtlas } = appointment.videoData;
+  const { isAtlas } = appointment.videoData;
 
-  if (appointment.vaos.isPastAppointment && videoKind === VIDEO_TYPES.clinic) {
+  if (
+    appointment.vaos.isPastAppointment &&
+    isClinicVideoAppointment(appointment)
+  ) {
     return (
       <VAFacilityLocation
         facility={facility}
+        clinicName={appointment.location?.clinicName}
         facilityId={getVAAppointmentLocationId(appointment)}
       />
     );
@@ -27,17 +33,18 @@ export default function VideoVisitLocation({ appointment, facility }) {
         How to join your video appointment
       </h4>
       <div>
-        <VideoLink appointment={appointment} />
+        <VideoLink appointment={appointment} hasFacility={!!facility} />
         {isAtlas && (
           <div className="vads-u-margin-top--2">
             <AtlasLocation appointment={appointment} />
           </div>
         )}
-        {videoKind === VIDEO_TYPES.clinic &&
+        {isClinicVideoAppointment(appointment) &&
           !isAtlas && (
             <div className="vads-u-margin-top--2">
               <VAFacilityLocation
                 facility={facility}
+                clinicName={appointment.location?.clinicName}
                 facilityId={getVAAppointmentLocationId(appointment)}
               />
             </div>

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import InfoAlert from '../../../components/InfoAlert';
 
 import {
   getAppointmentSlots,
@@ -24,7 +24,7 @@ import NewTabAnchor from '../../../components/NewTabAnchor';
 import useIsInitialLoad from '../../../hooks/useIsInitialLoad';
 
 const pageKey = 'selectDateTime';
-const pageTitle = 'Tell us the date and time you’d like your appointment';
+const pageTitle = 'Choose a date and time';
 
 function ErrorMessage({ facilityId, history }) {
   return (
@@ -33,7 +33,7 @@ function ErrorMessage({ facilityId, history }) {
       aria-live="assertive"
       className="vads-u-margin-bottom--2"
     >
-      <AlertBox
+      <InfoAlert
         status="error"
         level="2"
         headline="We’ve run into a problem trying to find an appointment time"
@@ -52,7 +52,7 @@ function ErrorMessage({ facilityId, history }) {
           call your local VA medical center
         </NewTabAnchor>
         .
-      </AlertBox>
+      </InfoAlert>
     </div>
   );
 }
@@ -78,7 +78,6 @@ export default function DateTimeSelectPage() {
     preferredDate,
     timezone,
     timezoneDescription,
-    typeOfCareId,
   } = useSelector(state => getDateTimeSelect(state, pageKey), shallowEqual);
 
   const dispatch = useDispatch();
@@ -145,7 +144,6 @@ export default function DateTimeSelectPage() {
           }
           preferredDate={preferredDate}
           timezone={timezoneDescription}
-          typeOfCareId={typeOfCareId}
         />
       )}
       {fetchFailed && (
@@ -160,7 +158,7 @@ export default function DateTimeSelectPage() {
       {!fetchFailed && (
         <>
           <p>
-            Please select a desired date and time for your appointment.
+            Please select an available date and time from the calendar below.
             {timezone &&
               ` Appointment times are displayed in ${timezoneDescription}.`}
           </p>

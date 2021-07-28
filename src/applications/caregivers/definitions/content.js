@@ -15,7 +15,7 @@ export const links = {
   },
   caregiverHelpPage: {
     link: 'https://www.caregiver.va.gov/',
-    label: 'www.va.caregiver.gov',
+    label: 'www.caregiver.va.gov',
   },
   applyVAHealthCare: {
     link: 'https://www.va.gov/health-care/how-to-apply/',

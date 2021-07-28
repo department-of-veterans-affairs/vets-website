@@ -1,15 +1,11 @@
-/* Blue duo-tone for the main region landing page image */
-$duo-tone-darken: #112e51;
-$duo-tone-lighten: #000;
-
 /* The brightest duo-tone color */
 .darken::before {
-  background-color: $duo-tone-darken;
+  background-color: $color-primary-darkest;
 }
 
 /* The darkest duo-tone color */
 .lighten::after {
-  background-color: $duo-tone-lighten;
+  background-color: $color-black;
 }
 
 /* Duo-tone effect */
@@ -239,6 +235,7 @@ $duo-tone-lighten: #000;
 .featured-content-list-item {
   width: 100%;
   margin-right: 1em;
+  word-wrap: break-word;
 
   &:last-child {
     margin-right: 0;
@@ -349,8 +346,8 @@ a.operating-status-link {
 
 div.field-cc-vet-call-center {
   p {
-    background: #fff1d2;
-    padding: 20px
+    background: $color-gibill-accent;
+    padding: 20px;
   }
 }
 

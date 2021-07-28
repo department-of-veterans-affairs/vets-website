@@ -365,6 +365,10 @@ describe('Schemaform formState:', () => {
     });
   });
   describe('removeHiddenData', () => {
+    it('should not throw JS error', () => {
+      const newData = removeHiddenData();
+      expect(newData).to.be.undefined;
+    });
     it('should remove hidden field', () => {
       const schema = {
         'ui:hidden': true,

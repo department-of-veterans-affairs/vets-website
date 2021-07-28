@@ -1,0 +1,15 @@
+{
+  "data": {
+    "type": "feature_toggles",
+    "features": [
+      {
+        "name": "profile_notification_settings",
+        "value": true
+      },
+      {
+        "name": "dashboard_show_dashboard_2",
+        "value": true
+      }
+    ]
+  }
+}

@@ -24,6 +24,12 @@ const requestEligibilityCriteria = require('./var/request_eligibility_criteria.j
 const directBookingEligibilityCriteria = require('./var/direct_booking_eligibility_criteria.json');
 const generateMockSlots = require('./var/slots.js');
 
+// v2
+const requestsV2 = require('./v2/requests.json');
+const facilitiesV2 = require('./v2/facilities.json');
+const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
+const schedulingConfigurations = require('./v2/scheduling_configurations.json');
+
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
 
 const responses = {
@@ -135,7 +141,13 @@ const responses = {
     });
   },
   'GET /v1/facilities/va': facilityData,
-  'GET /v1/facilities/ccp': ccProviders,
+  'GET /facilities_api/v1/ccp/provider': ccProviders,
+  'GET /v1/facilities/ccp/:id': (req, res) => {
+    const provider = ccProviders.data.find(p => p.id === req.params.id);
+    return res.json({
+      data: provider,
+    });
+  },
   'GET /vaos/v0/facilities/:id/available_appointments': varSlots,
   'GET /vaos/v0/facilities/:id/cancel_reasons': cancelReasons,
   'GET /vaos/v0/request_eligibility_criteria': requestEligibilityCriteria,
@@ -148,9 +160,9 @@ const responses = {
       attributes: {},
     },
   },
-  'PUT /vaos/v0/appointment_requests': (req, res) => {
+  'PUT /vaos/v0/appointment_requests/:id': (req, res) => {
     const requestAttributes = requests.data.find(
-      item => item.id === req.body.id,
+      item => item.id === req.params.id,
     ).attributes;
 
     return res.json({
@@ -173,11 +185,63 @@ const responses = {
   'POST /vaos/v2/appointments': (req, res) => {
     return res.json({
       data: {
-        id: '8a4886886e4c8e22016e6613216d001g',
+        id: '32152',
         attributes: {
           ...req.body,
         },
       },
+    });
+  },
+  'PUT /vaos/v2/appointments/:id': (req, res) => {
+    // TODO: also check through confirmed mocks, when those exist
+    const requestAttributes = requestsV2.data.find(
+      item => item.id === req.params.id,
+    ).attributes;
+
+    return res.json({
+      data: {
+        id: req.params.id,
+        attributes: {
+          ...requestAttributes,
+          ...req.body,
+        },
+      },
+    });
+  },
+  'GET /vaos/v2/appointments': (req, res) => {
+    if (req.query.statuses?.includes('proposed')) {
+      return res.json(requestsV2);
+    } else if (req.query.statuses?.includes('booked')) {
+      return res.json(require('./v2/confirmed.json'));
+    }
+
+    return res.json({ data: [] });
+  },
+  'GET /vaos/v2/appointments/:id': (req, res) => {
+    const appointments = {
+      data: requestsV2.data.concat(require('./v2/confirmed.json').data),
+    };
+    return res.json({
+      data: appointments.data.find(appt => appt.id === req.params.id),
+    });
+  },
+  'GET /vaos/v2/scheduling/configurations': (req, res) => {
+    if (req.query.cc_enabled === 'true') {
+      return res.json(schedulingConfigurationsCC);
+    }
+
+    return res.json(schedulingConfigurations);
+  },
+  'GET /vaos/v2/facilities': (req, res) => {
+    const ids = req.query.ids;
+    const children = req.query.children;
+
+    res.json({
+      data: facilitiesV2.data.filter(
+        facility =>
+          ids.includes(facility.id) ||
+          (children && ids.some(id => facility.id.startsWith(id))),
+      ),
     });
   },
   'GET /v0/user': {
@@ -253,18 +317,18 @@ const responses = {
         { name: 'vaOnlineSchedulingDirect', value: true },
         { name: 'vaOnlineSchedulingPast', value: true },
         { name: 'vaOnlineSchedulingExpressCare', value: true },
-        { name: 'vaOnlineSchedulingExpressCareNew', value: true },
         { name: 'vaOnlineSchedulingFlatFacilityPage', value: true },
         { name: 'vaOnlineSchedulingProviderSelection', value: true },
-        { name: 'vaOnlineSchedulingCheetah', value: true },
         { name: 'vaOnlineSchedulingHomepageRefresh', value: true },
         { name: 'vaOnlineSchedulingUnenrolledVaccine', value: true },
         { name: 'vaGlobalDowntimeNotification', value: false },
+        { name: 'vaOnlineSchedulingVAOSServiceRequests', value: true },
+        { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: true },
+        { name: 'vaOnlineSchedulingVariantTesting', value: false },
         { name: 'ssoe', value: true },
         { name: 'ssoeInbound', value: false },
         { name: 'ssoeEbenefitsLinks', value: false },
         { name: 'edu_section_103', value: true },
-        { name: 'form526OriginalClaims', value: false },
         { name: 'vaViewDependentsAccess', value: false },
         { name: 'gibctEybBottomSheet', value: true },
       ],

@@ -133,9 +133,15 @@ export const uiSchema = {
     },
     addressLine2: {
       'ui:title': 'Street address line 2 (20 characters maximum)',
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid street address',
+      },
     },
     addressLine3: {
       'ui:title': 'Street address line 3 (20 characters maximum)',
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid street address',
+      },
     },
     city: {
       'ui:errorMessages': {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import asyncLoader from 'platform/utilities/ui/asyncLoader';
 import VAOSApp from './components/VAOSApp';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -43,7 +43,7 @@ export default function createRoutesWithStore(store) {
             )}
           />
           <EnrolledRoute
-            path="/new-covid-19-vaccine-booking"
+            path="/new-covid-19-vaccine-appointment"
             component={asyncLoader(() =>
               import(/* webpackChunkName: "covid-19-vaccine" */ './covid-19-vaccine')
                 .then(({ NewBookingSection, reducer }) => {
@@ -63,6 +63,10 @@ export default function createRoutesWithStore(store) {
                 })
                 .catch(handleLoadError),
             )}
+          />
+          <Redirect
+            from="/new-covid-19-vaccine-booking"
+            to="/new-appointment"
           />
           <EnrolledRoute path="/" component={AppointmentList} />
         </Switch>

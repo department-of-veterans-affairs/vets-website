@@ -66,6 +66,9 @@ const CardDetailsView = ({ formData, onEdit, index, title }) => {
     if (key.toLowerCase().includes('to')) {
       const formatDate = formData[key]?.slice(0, -3);
       endDate = moment(formatDate).format('MMMM YYYY');
+      if (!formatDate) {
+        endDate = 'Present';
+      }
     }
     if (key.toLowerCase().includes('age')) {
       age = formData[key];

@@ -70,12 +70,12 @@ describe('526 wizard', () => {
     sessionStorage.removeItem(WIZARD_STATUS);
     sessionStorage.removeItem(FORM_STATUS_BDD);
     sessionStorage.removeItem(SAVED_SEPARATION_DATE);
-    cy.visit(DISABILITY_526_V2_ROOT_URL);
+    cy.visit(`${DISABILITY_526_V2_ROOT_URL}/start`);
     cy.injectAxe();
   });
 
   it('should show the form wizard', () => {
-    cy.url().should('include', DISABILITY_526_V2_ROOT_URL);
+    cy.url().should('include', `${DISABILITY_526_V2_ROOT_URL}/start`);
     cy.get('h1').should('have.text', 'File for disability compensation');
     cy.axeCheck();
   });
@@ -159,6 +159,11 @@ describe('526 wizard', () => {
     cy.get('h1').should('have.text', h1Text + h1Addition);
     cy.focused().should('have.text', h1Text + h1Addition);
     cy.checkStorage(WIZARD_STATUS, 'complete');
+    cy.location('pathname').should(
+      'eq',
+      `${DISABILITY_526_V2_ROOT_URL}/introduction`,
+    );
+    cy.injectAxe();
     cy.axeCheck();
   });
 });

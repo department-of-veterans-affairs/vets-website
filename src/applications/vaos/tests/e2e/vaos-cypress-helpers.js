@@ -22,7 +22,7 @@ import {
   getParentSiteMock,
 } from '../mocks/v0';
 
-const mockUser = {
+export const mockUser = {
   data: {
     id: '',
     type: 'users_scaffolds',
@@ -198,6 +198,7 @@ export function createPastVAAppointments() {
 export function mockFeatureToggles({
   providerSelectionEnabled = false,
   homepageRefresh = false,
+  v2Requests = false,
 } = {}) {
   cy.route({
     method: 'GET',
@@ -231,14 +232,6 @@ export function mockFeatureToggles({
             value: true,
           },
           {
-            name: 'vaOnlineSchedulingExpressCareNew',
-            value: true,
-          },
-          {
-            name: 'vaOnlineSchedulingCheetah',
-            value: true,
-          },
-          {
             name: `cerner_override_668`,
             value: false,
           },
@@ -249,6 +242,10 @@ export function mockFeatureToggles({
           {
             name: 'vaOnlineSchedulingHomepageRefresh',
             value: homepageRefresh,
+          },
+          {
+            name: 'vaOnlineSchedulingVAOSServiceRequests',
+            value: v2Requests,
           },
         ],
       },
@@ -362,7 +359,7 @@ function mockSubmitVAAppointment() {
   }).as('appointmentPreferences');
 }
 
-function setupSchedulingMocks({ cernerUser = false } = {}) {
+export function vaosSetup() {
   Cypress.Commands.add('axeCheckBestPractice', (context = 'main') => {
     cy.axeCheck(context, {
       runOnly: {
@@ -372,9 +369,13 @@ function setupSchedulingMocks({ cernerUser = false } = {}) {
     });
   });
   cy.server();
+}
+
+function setupSchedulingMocks({ cernerFacility = false } = {}) {
+  vaosSetup();
   mockFeatureToggles();
 
-  if (cernerUser) {
+  if (cernerFacility) {
     const mockCernerUser = {
       ...mockUser,
       data: {
@@ -386,7 +387,7 @@ function setupSchedulingMocks({ cernerUser = false } = {}) {
             facilities: [
               ...mockUser.data.attributes.vaProfile.facilities,
               {
-                facilityID: '123',
+                facilityId: cernerFacility,
                 isCerner: true,
               },
             ],
@@ -620,8 +621,8 @@ export function initExpressCareMocks() {
   });
 }
 
-export function initVAAppointmentMock({ cernerUser = false } = {}) {
-  setupSchedulingMocks({ cernerUser });
+export function initVAAppointmentMock({ cernerFacility = false } = {}) {
+  setupSchedulingMocks({ cernerFacility });
   cy.route({
     method: 'GET',
     url: '/v1/facilities/va/vha_442',
@@ -681,8 +682,8 @@ export function initVaccineAppointmentMock({
   mockSubmitVAAppointment();
 }
 
-export function initVARequestMock({ cernerUser = false } = {}) {
-  setupSchedulingMocks({ cernerUser });
+export function initVARequestMock({ cernerFacility = false } = {}) {
+  setupSchedulingMocks({ cernerFacility });
   cy.route({
     method: 'GET',
     url: '/vaos/v0/facilities/983/clinics*',
@@ -722,7 +723,7 @@ export function initCommunityCareMock() {
   });
   cy.route({
     method: 'GET',
-    url: '/v1/facilities/ccp*',
+    url: '/facilities_api/v1/ccp/provider*',
     response: {
       data: [
         {

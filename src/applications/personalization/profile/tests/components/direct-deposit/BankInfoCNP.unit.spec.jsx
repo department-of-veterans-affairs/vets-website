@@ -5,8 +5,6 @@ import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
 
-import { resetFetch } from 'platform/testing/unit/helpers';
-
 import * as mocks from '@@profile/msw-mocks';
 import { renderWithProfileReducers } from '@@profile/tests/unit-test-helpers';
 
@@ -79,8 +77,8 @@ function fillOutAndSubmitBankInfoForm(view) {
 }
 
 function findSetUpBankInfoButton(view) {
-  return view.queryByText(/please add your bank information/i, {
-    selector: 'button',
+  return view.queryByRole('button', {
+    label: /Edit your direct deposit for disability compensation and pension benefits bank information/i,
   });
 }
 
@@ -101,9 +99,6 @@ function findCancelEditButton(view) {
 describe('DirectDepositCNP', () => {
   let server;
   before(() => {
-    // before we can use msw, we need to make sure that global.fetch has been
-    // restored and is no longer a sinon stub.
-    resetFetch();
     server = setupServer(...mocks.updateDD4CNPSuccess);
     server.listen();
   });
@@ -204,7 +199,6 @@ describe('DirectDepositCNP', () => {
       expect(view.getByText(paymentAccount.accountNumber)).to.exist;
       expect(view.getByText(paymentAccount.accountType, { exact: false })).to
         .exist;
-      expect(findSetUpBankInfoButton(view)).not.to.exist;
     });
     it('should handle a successful bank info update', async () => {
       userEvent.click(findEditBankInfoButton(view));

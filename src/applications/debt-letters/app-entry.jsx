@@ -1,8 +1,8 @@
 import 'platform/polyfills';
 import './sass/debt-letters.scss';
-import routes from './routes';
+import Routes from './routes';
 
-import startApp from 'platform/startup';
+import startApp from 'platform/startup/router';
 
 import reducer from './reducers';
 import manifest from './manifest.json';
@@ -10,7 +10,7 @@ import manifest from './manifest.json';
 startApp({
   url: manifest.rootUrl,
   reducer,
-  routes,
+  routes: Routes(),
   entryName: manifest.entryName,
   analyticsEvents: [],
 });

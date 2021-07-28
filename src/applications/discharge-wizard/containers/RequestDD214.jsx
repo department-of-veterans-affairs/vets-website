@@ -41,7 +41,7 @@ const RequestDD214 = ({ router }) => {
             <div>
               <h4>
                 Download and fill out{' '}
-                <a href="https://www.dfas.mil/Portals/98/Documents/CorrectMilitaryRecords/dd0149.pdf?ver=2020-01-08-143351-750">
+                <a href="https://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0149.pdf">
                   DoD Form 149
                 </a>
               </h4>
@@ -80,7 +80,7 @@ const RequestDD214 = ({ router }) => {
               to the {board(formValues, true)?.abbr} for the{' '}
               {branchOfService(formValues?.['1_branchOfService'])}.
             </p>
-            <p>Unfortunately, there isn’t a way to submit this form online.</p>
+            <p>At this time, there isn’t a way to submit this form online.</p>
             <p>
               Mail your completed form and all supporting documents to the{' '}
               {board(formValues, true)?.abbr} at:

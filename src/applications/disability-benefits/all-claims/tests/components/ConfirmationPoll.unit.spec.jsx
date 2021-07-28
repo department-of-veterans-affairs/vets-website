@@ -13,8 +13,6 @@ import {
 } from '../../components/ConfirmationPoll';
 import { submissionStatuses } from '../../constants';
 
-const originalFetch = global.fetch;
-
 const pendingResponse = {
   shouldResolve: true,
   response: {
@@ -70,10 +68,6 @@ describe('ConfirmationPoll', () => {
     disabilities: [],
     submittedAt: Date.now(),
   };
-
-  afterEach(() => {
-    global.fetch = originalFetch;
-  });
 
   it('should make an api call after mounting', () => {
     mockApiRequest(successResponse.response);

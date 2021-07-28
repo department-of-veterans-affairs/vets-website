@@ -1,12 +1,19 @@
+import React from 'react';
 import ItemLoop from '../../../components/ItemLoop';
 import CardDetailsView from '../../../components/CardDetailsView';
 
 export const uiSchema = {
-  'ui:title': 'Your dependents',
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">Your dependents</legend>
+      <p className="vads-u-padding-top--2">
+        Enter each dependent’s age separately below.
+      </p>
+    </>
+  ),
   personalData: {
     agesOfOtherDependents: {
       'ui:field': ItemLoop,
-      'ui:description': 'Enter each dependent’s age separately below.',
       'ui:options': {
         viewField: CardDetailsView,
         doNotScroll: true,
@@ -20,6 +27,10 @@ export const uiSchema = {
           'ui:options': {
             classNames: 'vads-u-margin-bottom--3 vads-u-margin-top--3',
             widgetClassNames: 'input-size-3',
+          },
+          'ui:errorMessages': {
+            required: 'Please enter your dependent(s) age.',
+            pattern: 'Please enter only numerical values.',
           },
         },
       },
@@ -41,6 +52,7 @@ export const schema = {
             properties: {
               dependentAge: {
                 type: 'string',
+                pattern: '^\\d+$',
               },
             },
           },

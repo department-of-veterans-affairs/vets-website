@@ -1,11 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import moment from '../../../lib/moment-tz.js';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event.js';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import AddToCalendar from '../../../components/AddToCalendar';
-import { formatFacilityAddress } from '../../../services/location';
+import InfoAlert from '../../../components/InfoAlert';
+import {
+  formatFacilityAddress,
+  getFacilityPhone,
+} from '../../../services/location';
 import {
   getTimezoneAbbrBySystemId,
   getTimezoneBySystemId,
@@ -31,7 +34,7 @@ export default function ConfirmationDirectScheduleInfoV2({
         {momentDate.format('dddd, MMMM D, YYYY [at] h:mm a')}
         {` ${getTimezoneAbbrBySystemId(systemId)}`}
       </h1>
-      <AlertBox status="success" backgroundOnly>
+      <InfoAlert status="success" backgroundOnly>
         <strong>Your appointment has been scheduled and is confirmed.</strong>
         <br />
         <div className="vads-u-margin-y--1">
@@ -49,7 +52,7 @@ export default function ConfirmationDirectScheduleInfoV2({
         <div>
           <Link to="/new-appointment">New appointment</Link>
         </div>
-      </AlertBox>
+      </InfoAlert>
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
         <div className="vads-u-flex--1 vads-u-margin-top--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
           <h2
@@ -87,8 +90,14 @@ export default function ConfirmationDirectScheduleInfoV2({
           className="far fa-calendar vads-u-margin-right--1"
         />
         <AddToCalendar
-          summary="VA Appointment"
-          description=""
+          summary={`Appointment at ${clinic.serviceName}`}
+          description={{
+            text: `You have a health care appointment at ${clinic.serviceName}`,
+            phone: getFacilityPhone(facilityDetails),
+            additionalText: [
+              'Sign in to VA.gov to get details about this appointment',
+            ],
+          }}
           location={formatFacilityAddress(facilityDetails)}
           startDateTime={momentDate.format()}
           duration={appointmentLength}

@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+
 import environment from 'platform/utilities/environment';
 
 export const MobileTableView = ({ debtLinks }) => {

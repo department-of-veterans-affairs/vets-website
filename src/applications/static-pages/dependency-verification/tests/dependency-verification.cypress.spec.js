@@ -4,7 +4,7 @@ import mockDiaries from './fixtures/diaries.json';
 
 import { RETRIEVE_DIARIES } from '../utils';
 
-const DEPENDENTS_ENDPOINT = '/dependents_applications/show';
+const DEPENDENTS_ENDPOINT = 'v0/dependents_applications/show';
 
 describe('Dependency Verification', () => {
   beforeEach(() => {
@@ -35,7 +35,6 @@ describe('Dependency Verification', () => {
       'mockDiaries',
     );
     cy.visit(rootUrl);
-    cy.wait('@mockDiaries');
     cy.findByRole('heading', {
       name: /Dependents on your VA benefits/i,
     }).should('exist');
@@ -55,7 +54,6 @@ describe('Dependency Verification', () => {
       body: { updateDiaries: 'true' },
     });
     cy.visit(rootUrl);
-    cy.wait('@mockDiaries');
     cy.findByRole('heading', {
       name: /Please make sure your dependents are correct/i,
     }).should('exist');
@@ -80,7 +78,6 @@ describe('Dependency Verification', () => {
       body: { updateDiaries: 'true' },
     });
     cy.visit(rootUrl);
-    cy.wait('@mockDiaries');
     cy.findByRole('heading', {
       name: /Dependents on your VA benefits/i,
     }).should('exist');

@@ -5,46 +5,51 @@ import reducers from '~/applications/personalization/dashboard/reducers';
 import HealthCare from '~/applications/personalization/dashboard-2/components/health-care/HealthCare';
 import {
   farFutureAppointments,
+  upcomingCCAppointment,
   upcomingVAAppointment,
 } from '~/applications/personalization/dashboard-2/utils/appointments';
+
+function createInitialStateWithAppointments(appointments) {
+  return {
+    user: {
+      profile: {
+        services: [],
+      },
+    },
+    health: {
+      appointments: {
+        fetching: false,
+        data: appointments,
+      },
+      msg: {
+        folders: {
+          data: {
+            currentItem: {
+              attributes: {
+                unreadCount: null,
+              },
+              fetching: false,
+            },
+          },
+          ui: {
+            nav: {
+              foldersExpanded: false,
+              visible: false,
+            },
+          },
+        },
+      },
+    },
+  };
+}
 
 describe('HealthCare component', () => {
   let view;
   let initialState;
 
-  describe('when the user has an appointment scheduled within the next 30 days', () => {
+  describe('when the user has a VA appointment scheduled within the next 30 days', () => {
     it('should render "Next appointment"', async () => {
-      initialState = {
-        user: {
-          profile: {
-            services: [],
-          },
-        },
-        health: {
-          appointments: {
-            fetching: false,
-            data: upcomingVAAppointment,
-          },
-          msg: {
-            folders: {
-              data: {
-                currentItem: {
-                  attributes: {
-                    unreadCount: null,
-                  },
-                  fetching: false,
-                },
-              },
-              ui: {
-                nav: {
-                  foldersExpanded: false,
-                  visible: false,
-                },
-              },
-            },
-          },
-        },
-      };
+      initialState = createInitialStateWithAppointments(upcomingVAAppointment);
 
       view = renderInReduxProvider(<HealthCare dataLoadingDisabled />, {
         initialState,
@@ -52,42 +57,27 @@ describe('HealthCare component', () => {
       });
 
       expect(view.getByText(/next appointment/i));
+      expect(view.getByText(/6:00 p.m. MT/i));
+    });
+  });
+
+  describe('when the user has a CC appointment scheduled within the next 30 days', () => {
+    it('should render "Next appointment"', async () => {
+      initialState = createInitialStateWithAppointments(upcomingCCAppointment);
+
+      view = renderInReduxProvider(<HealthCare dataLoadingDisabled />, {
+        initialState,
+        reducers,
+      });
+
+      expect(view.getByText(/next appointment/i));
+      expect(view.getByText(/6:00 p.m. MT/i));
     });
   });
 
   describe('when the user has an appointment scheduled after the next 30 days', () => {
     beforeEach(() => {
-      initialState = {
-        user: {
-          profile: {
-            services: [],
-          },
-        },
-        health: {
-          appointments: {
-            fetching: false,
-            data: farFutureAppointments,
-          },
-          msg: {
-            folders: {
-              data: {
-                currentItem: {
-                  attributes: {
-                    unreadCount: null,
-                  },
-                  fetching: false,
-                },
-              },
-              ui: {
-                nav: {
-                  foldersExpanded: false,
-                  visible: false,
-                },
-              },
-            },
-          },
-        },
-      };
+      initialState = createInitialStateWithAppointments(farFutureAppointments);
 
       view = renderInReduxProvider(<HealthCare dataLoadingDisabled />, {
         initialState,
@@ -109,37 +99,7 @@ describe('HealthCare component', () => {
 
   describe('when the user has no appointments scheduled', () => {
     beforeEach(() => {
-      initialState = {
-        user: {
-          profile: {
-            services: [],
-          },
-        },
-        health: {
-          appointments: {
-            fetching: false,
-            data: [],
-          },
-          msg: {
-            folders: {
-              data: {
-                currentItem: {
-                  attributes: {
-                    unreadCount: null,
-                  },
-                  fetching: false,
-                },
-              },
-              ui: {
-                nav: {
-                  foldersExpanded: false,
-                  visible: false,
-                },
-              },
-            },
-          },
-        },
-      };
+      initialState = createInitialStateWithAppointments([]);
 
       view = renderInReduxProvider(<HealthCare dataLoadingDisabled />, {
         initialState,
@@ -163,10 +123,10 @@ describe('HealthCare component', () => {
         .exist;
     });
 
-    it('should render "Schedule and view your appointments"', () => {
+    it('should render "Schedule and manage your appointments"', () => {
       expect(
         view.getByRole('link', {
-          name: /schedule and view your appointments/i,
+          name: /Schedule and manage your appointments/i,
         }),
       );
     });

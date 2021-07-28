@@ -1,7 +1,8 @@
 import './axeCheck';
 import './expandAccordions';
+import './formHelpers';
 import './login';
-import './syncFixtures';
+import './mockHelpers';
 import './upload';
 import './injectAxeThenAxeCheck';
 import './viewportPreset';

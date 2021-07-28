@@ -17,7 +17,8 @@ import chaiAxe from './axe-plugin';
 import { sentryTransport } from './sentry';
 
 Sentry.init({
-  dsn: 'http://one@fake/dsn',
+  autoSessionTracking: false,
+  dsn: 'http://one@fake/dsn/0',
   transport: sentryTransport,
 });
 
@@ -40,6 +41,12 @@ function filterStackTrace(trace) {
     .split(os.EOL)
     .filter(line => !line.includes('node_modules'))
     .join(os.EOL);
+}
+
+function resetFetch() {
+  if (global.fetch.isSinonProxy) {
+    global.fetch.restore();
+  }
 }
 
 /**
@@ -163,5 +170,9 @@ chai.use(chaiAxe);
 export const mochaHooks = {
   beforeEach() {
     setupJSDom();
+    resetFetch();
+  },
+  afterEach() {
+    localStorage.clear();
   },
 };

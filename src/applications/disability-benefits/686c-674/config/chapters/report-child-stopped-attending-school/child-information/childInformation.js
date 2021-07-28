@@ -1,6 +1,7 @@
 import merge from 'lodash/merge';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import environment from 'platform/utilities/environment';
 import { TASK_KEYS } from '../../../constants';
 import {
   isChapterFieldRequired,
@@ -73,6 +74,9 @@ export const uiSchema = {
       },
     },
     dependentIncome: {
+      'ui:options': {
+        hideIf: () => environment.isProduction(),
+      },
       'ui:title': PensionIncomeRemovalQuestionTitle,
       'ui:widget': 'yesNo',
     },

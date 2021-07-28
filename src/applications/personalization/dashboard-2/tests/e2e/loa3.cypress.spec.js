@@ -46,18 +46,16 @@ function loa3DashboardTest(mobile) {
   cy.findByRole('progressbar').should('not.exist');
   cy.findByText(/loading your information/i).should('not.exist');
 
-  // focus should be on the h1
-  cy.focused()
-    .contains('My VA')
-    .and('have.prop', 'tagName')
-    .should('equal', 'H1');
-
   // name tag exists with the right data
   nameTagRendersWithDisabilityRating();
 
   // make the a11y check
   cy.injectAxe();
   cy.axeCheck();
+}
+
+function nameTagIsFocused() {
+  cy.focused().contains(/Wesley Watson Ford/i);
 }
 
 describe('The My VA Dashboard', () => {
@@ -86,10 +84,12 @@ describe('The My VA Dashboard', () => {
     });
     it('should handle LOA3 users at desktop size', () => {
       loa3DashboardTest(false);
+      nameTagIsFocused();
     });
 
     it('should handle LOA3 users at mobile phone size', () => {
       loa3DashboardTest(true);
+      nameTagIsFocused();
     });
   });
   context('when there is a 401 fetching the total disability rating', () => {
@@ -103,6 +103,7 @@ describe('The My VA Dashboard', () => {
       mockFeatureToggles();
       cy.visit(manifest.rootUrl);
       nameTagRendersWithoutDisabilityRating();
+      nameTagIsFocused();
     });
   });
   context('when there is a 500 fetching the total disability rating', () => {
@@ -116,6 +117,7 @@ describe('The My VA Dashboard', () => {
       mockFeatureToggles();
       cy.visit(manifest.rootUrl);
       nameTagRendersWithFallbackLink();
+      nameTagIsFocused();
     });
   });
 });

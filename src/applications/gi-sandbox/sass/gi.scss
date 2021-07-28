@@ -1,15 +1,19 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-action-link";
 @import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-action-link";
 @import "partials/gi-vet-tec";
 @import "partials/gi-preview-banner";
 @import "partials/gi-autocomplete";
+@import "partials/gi-compare-drawer";
+@import "partials/gi-compare-page";
 @import "partials/gi-modal";
-@import "partials/gi-landing-page";
 @import "partials/gi-search-page";
 @import "partials/gi-profile-page";
 @import "partials/gi-search-controls";
 @import "partials/gi-search-location";
+@import "partials/gi-back-to-top";
 
 .gi-app {
   div.military-status-info {
@@ -30,7 +34,6 @@
       padding-right: 0.4em;
     }
   }
-
   .about-this-tool {
     margin-top: 1em;
 
@@ -93,7 +96,8 @@
 
   h1:focus,
   h2:focus,
-  h3:focus {
+  h3:focus,
+  button:focus {
     outline: none;
   }
 
@@ -169,10 +173,8 @@
   }
 
   .search-form {
-    margin-top: 50px;
-
     button {
-      margin-top:.5em;
+      margin-top: 0.5em;
       width: auto;
     }
 
@@ -191,29 +193,84 @@
       padding: 48px 48px 24px 48px;
     }
 
+    .active-search-tab {
+      border-top: 4px solid $color-primary;
+    }
+
+    .inactive-search-tab {
+      border-top: 2px solid $color-gray-light;
+    }
+
     .search-tab {
       font-size: 25px;
+      border-bottom: 2px solid $color-gray-light;
+    }
+
+    .name-search-tab {
+      border-left: 2px solid $color-gray-light;
+      border-right: 1px solid $color-gray-light;
+    }
+
+    .location-search-tab {
+      border-left: 1px solid $color-gray-light;
+      border-right: 2px solid $color-gray-light;
     }
 
     input:placeholder-shown {
       font-style: italic;
     }
 
-    input.location-search {
-      width: 490px;
-      max-width: none;
-    }
-
-    input.name-search {
-      max-width: 690px;
-    }
-
     select {
       width: 200px;
     }
   }
+  padding-bottom: 8em;
 }
 
-.section-item, .accordion-item {
+.section-item,
+.accordion-item {
+  margin-bottom: 5px;
   list-style-type: none !important;
+
+  h2.accordion-button-wrapper {
+    margin: 0;
+  }
+}
+
+.school-classification {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.school-header {
+  background-color: rgb(63, 87, 166);
+}
+.employer-header {
+  background-color: rgb(34, 130, 127);
+}
+.vettec-header {
+  background-color: rgb(162, 56, 55);
+}
+
+.preferred-provider-text {
+  font-size: 14px;
+}
+
+.asterisk-text {
+  font-size: 12px;
+}
+
+.capitalize-value {
+  text-transform: capitalize;
+}
+
+.tool-description {
+  text-align: center;
+  padding-bottom: 3em;
+
+  @media (max-width: $small-screen) {
+    text-align: left;
+    padding-left: 20px;
+    padding-bottom: 1em;
+  }
 }

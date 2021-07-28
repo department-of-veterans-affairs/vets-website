@@ -8,7 +8,7 @@ import {
   getTotalAssets,
 } from '../utils/helpers';
 
-export const transform = ({ data }) => {
+export const transform = (formConfig, form) => {
   const {
     questions,
     personalData,
@@ -20,19 +20,41 @@ export const transform = ({ data }) => {
     additionalData,
     selectedDebts,
     realEstateRecords,
-  } = data;
+  } = form.data;
 
-  const totalIncome = getMonthlyIncome(data);
-  const totalExpenses = getMonthlyExpenses(data);
-  const employmentHistory = getEmploymentHistory(data);
-  const totalAssets = getTotalAssets(data);
-  const income = getIncome(data);
+  const {
+    first: vetFirst = '',
+    middle: vetMiddle = '',
+    last: vetLast = '',
+  } = personalData.veteranFullName;
+
+  const {
+    first: spouseFirst = '',
+    middle: spouseMiddle = '',
+    last: spouseLast = '',
+  } = personalData.spouseFullName;
+
+  const {
+    street,
+    street2 = '',
+    street3 = '',
+    city,
+    state,
+    postalCode,
+    country,
+  } = personalData.address;
+
+  const monthlyIncome = getMonthlyIncome(form.data);
+  const monthlyExpenses = getMonthlyExpenses(form.data);
+  const employmentHistory = getEmploymentHistory(form.data);
+  const totalAssets = getTotalAssets(form.data);
+  const income = getIncome(form.data);
 
   const totalAmountCanBePaidTowardDebt = selectedDebts
     .filter(item => item.resolution.offerToPay !== undefined)
     .reduce((acc, debt) => acc + Number(debt.resolution?.offerToPay), 0);
 
-  const formObj = {
+  const submissionObj = {
     personalIdentification: {
       fileNumber: '',
       fsrReason: selectedDebts
@@ -41,9 +63,9 @@ export const transform = ({ data }) => {
     },
     personalData: {
       veteranFullName: {
-        first: personalData.veteranFullName.first || '',
-        middle: personalData.veteranFullName.middle || '',
-        last: personalData.veteranFullName.last || '',
+        first: vetFirst,
+        middle: vetMiddle,
+        last: vetLast,
       },
       agesOfOtherDependents: personalData.agesOfOtherDependents
         ? personalData.agesOfOtherDependents.map(
@@ -51,19 +73,19 @@ export const transform = ({ data }) => {
           )
         : [],
       address: {
-        addresslineOne: personalData.address.street,
-        addresslineTwo: personalData.address.street2 || '',
-        addresslineThree: '',
-        city: personalData.address.city,
-        stateOrProvince: personalData.address.state,
-        zipOrPostalCode: personalData.address.postalCode,
-        countryName: personalData.address.country,
+        addresslineOne: street,
+        addresslineTwo: street2,
+        addresslineThree: street3,
+        city,
+        stateOrProvince: state,
+        zipOrPostalCode: postalCode,
+        countryName: country,
       },
       married: questions.isMarried,
       spouseFullName: {
-        first: personalData.spouseFullName.first || '',
-        middle: '',
-        last: personalData.spouseFullName.last || '',
+        first: spouseFirst,
+        middle: spouseMiddle,
+        last: spouseLast,
       },
       employmentHistory,
       telephoneNumber: personalData.telephoneNumber,
@@ -73,34 +95,34 @@ export const transform = ({ data }) => {
     expenses: {
       ...expenses,
       utilities: utilityRecords?.reduce(
-        (acc, record) => acc + record.monthlyUtilityAmount || 0,
+        (acc, record) => acc + Number(record.monthlyUtilityAmount) || 0,
         0,
       ),
       otherLivingExpenses: {
         name: otherExpenses?.map(expense => expense.name).join(', '),
         amount: otherExpenses?.reduce(
-          (acc, expense) => acc + expense.amount || 0,
+          (acc, expense) => acc + Number(expense.amount) || 0,
           0,
         ),
       },
       expensesInstallmentContractsAndOtherDebts: installmentContractsAndOtherDebts?.reduce(
-        (acc, debt) => acc + debt.amountDueMonthly || 0,
+        (acc, debt) => acc + Number(debt.amountDueMonthly) || 0,
         0,
       ),
-      totalMonthlyExpenses: totalExpenses,
+      totalMonthlyExpenses: monthlyExpenses,
     },
     discretionaryIncome: {
-      netMonthlyIncomeLessExpenses: totalIncome - totalExpenses,
+      netMonthlyIncomeLessExpenses: monthlyIncome - monthlyExpenses,
       amountCanBePaidTowardDebt: totalAmountCanBePaidTowardDebt,
     },
     assets: {
       ...assets,
       trailersBoatsCampers: assets.trailersBoatsCampers?.reduce(
-        (acc, record) => acc + record.recreationalVehicleAmount || 0,
+        (acc, record) => acc + Number(record.recreationalVehicleAmount) || 0,
         0,
       ),
       realEstateOwned: realEstateRecords?.reduce(
-        (acc, record) => acc + record.realEstateAmount || 0,
+        (acc, record) => acc + Number(record.realEstateAmount) || 0,
         0,
       ),
       totalAssets,
@@ -122,19 +144,19 @@ export const transform = ({ data }) => {
     ),
     totalOfInstallmentContractsAndOtherDebts: {
       originalAmount: installmentContractsAndOtherDebts?.reduce(
-        (acc, debt) => acc + debt.originalAmount || 0,
+        (acc, debt) => acc + Number(debt.originalAmount) || 0,
         0,
       ),
       unpaidBalance: installmentContractsAndOtherDebts?.reduce(
-        (acc, debt) => acc + debt.unpaidBalance || 0,
+        (acc, debt) => acc + Number(debt.unpaidBalance) || 0,
         0,
       ),
       amountDueMonthly: installmentContractsAndOtherDebts?.reduce(
-        (acc, debt) => acc + debt.amountDueMonthly || 0,
+        (acc, debt) => acc + Number(debt.amountDueMonthly) || 0,
         0,
       ),
       amountPastDue: installmentContractsAndOtherDebts?.reduce(
-        (acc, debt) => acc + debt.amountPastDue || 0,
+        (acc, debt) => acc + Number(debt.amountPastDue) || 0,
         0,
       ),
     },
@@ -146,11 +168,15 @@ export const transform = ({ data }) => {
         dateDischarged: dateFormatter(additionalData.bankruptcy.dateDischarged),
       },
     },
+    applicationCertifications: {
+      veteranSignature: `${vetFirst} ${vetMiddle} ${vetLast}`,
+      veteranDateSigned: moment().format('MM/DD/YYYY'),
+    },
   };
 
   const convertIntegerToString = (key, value) => {
     return typeof value === 'number' ? value.toString() : value;
   };
 
-  return JSON.stringify(formObj, convertIntegerToString);
+  return JSON.stringify(submissionObj, convertIntegerToString);
 };

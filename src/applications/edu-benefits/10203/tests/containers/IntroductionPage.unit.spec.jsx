@@ -48,6 +48,7 @@ describe('Edu 10203 <IntroductionPage>', () => {
         }}
       />,
     );
+
     expect(tree.find('#entitlement-remaining-alert').exists()).to.be.true;
     tree.unmount();
   });

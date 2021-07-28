@@ -7,16 +7,20 @@ import {
 } from '../content/additionalIssues';
 
 import { IssueCard } from '../components/IssueCard';
-import { requireIssue } from '../validations';
+import {
+  requireIssue,
+  validateDate,
+  validAdditionalIssue,
+} from '../validations';
 import { SELECTED } from '../constants';
-import { setInitialEditMode, hasSomeSelected } from '../utils/helpers';
+import { setInitialEditMode, showAddIssuesPage } from '../utils/helpers';
 
 import dateUiSchema from 'platform/forms-system/src/js/definitions/date';
 
 export default {
   uiSchema: {
     'ui:title': AdditionalIssuesLabel,
-    'ui:validations': [requireIssue],
+    'ui:validations': [requireIssue, validAdditionalIssue],
     additionalIssues: {
       'ui:title': '',
       'ui:field': AddIssuesField,
@@ -25,10 +29,15 @@ export default {
         itemName: 'issue',
         keepInPageOnReview: true,
         setInitialEditMode,
+        updateSchema: (formData, schema) => ({
+          ...schema,
+          minItems: showAddIssuesPage(formData) ? 1 : 0,
+        }),
       },
-      'ui:required': !hasSomeSelected,
+      'ui:required': showAddIssuesPage,
       'ui:errorMessages': {
         required: missingIssuesErrorMessage,
+        atLeastOne: missingIssuesErrorMessage,
       },
       items: {
         issue: {
@@ -37,7 +46,10 @@ export default {
             required: missingIssueErrorMessage,
           },
         },
-        decisionDate: dateUiSchema('Date of decision'),
+        decisionDate: {
+          ...dateUiSchema('Date of decision'),
+          'ui:validations': [validateDate],
+        },
       },
     },
   },
@@ -48,6 +60,7 @@ export default {
       additionalIssues: {
         type: 'array',
         maxItems: 100,
+        minItems: 1,
         items: {
           type: 'object',
           required: ['issue', 'decisionDate'],

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { debounce } from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import Downshift from 'downshift';
@@ -8,41 +8,57 @@ import { WAIT_INTERVAL, KEY_CODES } from '../../constants';
 import { handleScrollOnInputFocus } from '../../utils/helpers';
 
 export function KeywordSearch({
-  autocomplete,
   className,
   inputLabelledBy,
+  inputValue,
   onFetchAutocompleteSuggestions,
   onSelection,
   onUpdateAutocompleteSearchTerm,
+  onPressEnter,
   placeholder,
-  searchError,
-  validateSearchQuery,
+  suggestions,
   version,
 }) {
-  const handleFetchSuggestion = debounce(
-    ({ value }) => {
-      onFetchAutocompleteSuggestions(value, version);
-    },
-    WAIT_INTERVAL,
-    {
-      trailing: true,
-    },
+  const fetchSuggestion = () => {
+    if (inputValue !== '') {
+      onFetchAutocompleteSuggestions(inputValue, version);
+    }
+  };
+
+  const debouncedFetchSuggestion = useCallback(
+    debounce(fetchSuggestion, WAIT_INTERVAL),
+    [inputValue],
   );
 
-  const handleSuggestionSelected = searchQuery => {
+  useEffect(
+    () => {
+      debouncedFetchSuggestion();
+
+      // Cancel previous debounce calls during useEffect cleanup.
+      return debouncedFetchSuggestion.cancel;
+    },
+    [inputValue, debouncedFetchSuggestion],
+  );
+
+  const handleSuggestionSelected = selected => {
     recordEvent({
       event: 'gibct-autosuggest',
-      'gibct-autosuggest-value': searchQuery,
+      'gibct-autosuggest-value': selected.label,
     });
 
-    onUpdateAutocompleteSearchTerm(searchQuery);
-    onSelection(searchQuery);
+    onUpdateAutocompleteSearchTerm(selected.label);
+    onSelection(selected);
   };
 
   const handleEnterPress = e => {
     if ((e.which || e.keyCode) === KEY_CODES.enterKey) {
       e.target.blur();
-      onSelection(autocomplete.searchTerm);
+
+      if (onPressEnter) {
+        onPressEnter(e, inputValue);
+      } else {
+        onSelection(inputValue);
+      }
     }
   };
 
@@ -50,7 +66,7 @@ export function KeywordSearch({
     handleScrollOnInputFocus('keyword-search');
   };
 
-  const handleChange = (e, searchQuery) => {
+  const handleChange = e => {
     if (e) {
       let value;
       if (typeof e === 'string') {
@@ -59,37 +75,16 @@ export function KeywordSearch({
         value = e.target.value;
       }
       onUpdateAutocompleteSearchTerm(value);
-      handleFetchSuggestion({ value });
+      if (value !== '') {
+        debouncedFetchSuggestion(value);
+      }
     }
-    if (searchQuery) {
-      onUpdateAutocompleteSearchTerm(searchQuery);
-      handleFetchSuggestion({ searchQuery });
-    }
-    validateSearchQuery(searchQuery);
   };
 
-  const { suggestions, searchTerm } = autocomplete;
-  let errorSpan = '';
-  let searchClassName = 'keyword-search';
-  if (searchError) {
-    searchClassName = 'usa-input-error';
-    errorSpan = (
-      <span
-        className="usa-input-error-message"
-        role="alert"
-        id="search-error-message"
-      >
-        <span className="sr-only">Error</span>
-        Please enter a city, school, or employer name.
-      </span>
-    );
-  }
-
   return (
-    <div className={searchClassName} id="keyword-search">
-      {errorSpan}
+    <div className={'keyword-search'} id="keyword-search">
       <Downshift
-        inputValue={searchTerm}
+        inputValue={inputValue}
         onSelect={item => handleSuggestionSelected(item)}
         itemToString={item => {
           if (typeof item === 'string' || !item) {
@@ -129,7 +124,7 @@ export function KeywordSearch({
                     className={classNames('suggestion', {
                       'suggestion-highlighted': highlightedIndex === index,
                     })}
-                    {...getItemProps({ item: item.label })}
+                    {...getItemProps({ item })}
                   >
                     {item.label}
                   </div>
@@ -146,7 +141,6 @@ export function KeywordSearch({
 KeywordSearch.defaultProps = {
   placeholder: '',
   onSelection: () => {},
-  validateSearchQuery: () => {},
 };
 
 KeywordSearch.propTypes = {
@@ -156,7 +150,6 @@ KeywordSearch.propTypes = {
   onFetchAutocompleteSuggestions: PropTypes.func,
   onSelection: PropTypes.func,
   onUpdateAutocompleteSearchTerm: PropTypes.func,
-  searchError: PropTypes.bool,
   validateSearchQuery: PropTypes.func,
 };
 

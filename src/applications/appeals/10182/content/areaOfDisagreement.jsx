@@ -10,12 +10,14 @@ export const missingAreaOfDisagreementOtherErrorMessage =
 // formContext.pagePerItemIndex is undefined here? Use index added to data :(
 export const issueName = ({ formData, formContext } = {}) => {
   const index = formContext.pagePerItemIndex || formData.index;
+  // https://github.com/department-of-veterans-affairs/va.gov-team/issues/27096
+  const Header = formContext.onReviewPage ? 'h4' : 'h3';
   return (
     <legend
       className="schemaform-block-title schemaform-title-underline"
       aria-describedby={`area-of-disagreement-label-${index}`}
     >
-      {getIssueName(formData)}
+      <Header className="vads-u-margin-top--0">{getIssueName(formData)}</Header>
     </legend>
   );
 };
@@ -33,10 +35,11 @@ export const issusDescription = ({ formContext }) => {
       className="area-of-disagreement-label vads-u-font-size--base vads-u-font-weight--normal"
       data-submitted={submitted}
     >
-      Please specify the area(s) of disagreement for this issue:
+      Tell us what you disagree with. You can choose more than one.
       <span className="vads-u-font-weight--normal schemaform-required-span">
         (*Required)
       </span>
+      <p>I disagree with this:</p>
       <span
         className="usa-input-error-message"
         role="alert"
@@ -49,9 +52,33 @@ export const issusDescription = ({ formContext }) => {
   );
 };
 
-export const serviceConnection = 'I disagree with the service connection';
-export const effectiveDate = 'I disagree with the effective date of award';
-export const evaluation = 'I disagree with the evaluation of the disability';
-export const other = 'Other reason';
+const titles = {
+  serviceConnection: 'The service connection',
+  effectiveDate: 'The effective date of award',
+  evaluation: 'Your evaluation of my condition',
+  other: 'Something else',
+};
 
-export const otherLabel = 'Please specify';
+export const serviceConnection = titles.serviceConnection;
+export const effectiveDate = titles.effectiveDate;
+export const evaluation = titles.evaluation;
+export const other = titles.other;
+export const otherLabel = 'Tell us what you disagree with:';
+// Includes _{index} which is appended by the TextWidget
+export const otherDescription = ({ index }) => (
+  <div
+    id={`other_hint_text_${index}`}
+    className="vads-u-color--gray hide-on-review"
+  >
+    Please explain in a few words
+  </div>
+);
+
+// Only show set values (ignore false & undefined)
+export const AreaOfDisagreementReviewField = ({ children }) =>
+  children?.props.formData ? (
+    <div className="review-row">
+      <dt>{titles[children.props.name]}</dt>
+      <dd>{children}</dd>
+    </div>
+  ) : null;

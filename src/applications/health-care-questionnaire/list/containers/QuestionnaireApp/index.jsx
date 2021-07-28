@@ -24,6 +24,7 @@ const QuestionnaireApp = props => {
   } else {
     return (
       <div className="questionnaire-app">
+        <meta name="robots" content="noindex" />
         <Home />
       </div>
     );

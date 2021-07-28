@@ -3,16 +3,41 @@ import { apiRequest } from 'platform/utilities/api';
 import retryOnce from './retryOnce';
 import { useSelector } from 'react-redux';
 import * as Sentry from '@sentry/browser';
+import { COMPLETE, ERROR, LOADING } from './loadingStatus';
 
-export default function useVirtualAgentToken() {
+function useWaitForCsrfToken(props) {
+  // Once the feature toggles have loaded, the csrf token updates
+  const csrfTokenLoading = useSelector(state => state.featureToggles.loading);
+  const [csrfTokenLoadingError, setCsrfTokenLoadingError] = useState(false);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (csrfTokenLoading) {
+        setCsrfTokenLoadingError(true);
+        Sentry.captureException(
+          new Error('Could not load feature toggles within timeout'),
+        );
+      }
+    }, props.timeout);
+    return function cleanup() {
+      clearTimeout(timeout);
+    };
+  });
+
+  return [csrfTokenLoading, csrfTokenLoadingError];
+}
+
+export default function useVirtualAgentToken(props) {
   const [token, setToken] = useState('');
-  const [tokenLoading, setTokenLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const togglesLoading = useSelector(state => state.featureToggles.loading);
+  const [csrfTokenLoading, csrfTokenLoadingError] = useWaitForCsrfToken(props);
+  const [loadingStatus, setLoadingStatus] = useState(LOADING);
 
   useEffect(
     () => {
-      if (togglesLoading) return;
+      if (csrfTokenLoadingError) {
+        setLoadingStatus(ERROR);
+      }
+      if (csrfTokenLoading) return;
 
       async function callVirtualAgentTokenApi() {
         return apiRequest('/virtual_agent_token', {
@@ -24,20 +49,19 @@ export default function useVirtualAgentToken() {
         try {
           const response = await retryOnce(callVirtualAgentTokenApi);
 
-          setTokenLoading(false);
           setToken(response.token);
+          setLoadingStatus(COMPLETE);
         } catch (ex) {
           Sentry.captureException(
             new Error('Could not retrieve virtual agent token'),
           );
-          setTokenLoading(false);
-          setError(true);
+          setLoadingStatus(ERROR);
         }
       }
       getToken();
     },
-    [togglesLoading],
+    [csrfTokenLoading, csrfTokenLoadingError],
   );
 
-  return { token, tokenLoading, error };
+  return { token, loadingStatus };
 }

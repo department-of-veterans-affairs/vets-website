@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import moment from 'moment';
-import { SELECTED, FORMAT_YMD } from '../../constants';
+import { SELECTED } from '../../constants';
+import { getDate } from '../../utils/dates';
 
 import {
   getEligibleContestableIssues,
@@ -12,17 +12,17 @@ import {
   removeEmptyEntries,
   getAddress,
   getPhone,
-  getRepName,
   getTimeZone,
 } from '../../utils/submit';
 
+const validDate1 = getDate({ offset: { months: -2 } });
 const issue1 = {
   raw: {
     type: 'contestableIssue',
     attributes: {
       ratingIssueSubjectText: 'tinnitus',
       description: 'both ears',
-      approxDecisionDate: '2020-01-01',
+      approxDecisionDate: validDate1,
       decisionIssueId: 1,
       ratingIssueReferenceId: '2',
       ratingDecisionReferenceId: '3',
@@ -33,7 +33,7 @@ const issue1 = {
     type: 'contestableIssue',
     attributes: {
       issue: 'tinnitus - 10% - both ears',
-      decisionDate: '2020-01-01',
+      decisionDate: validDate1,
       decisionIssueId: 1,
       ratingIssueReferenceId: '2',
       ratingDecisionReferenceId: '3',
@@ -41,12 +41,13 @@ const issue1 = {
   },
 };
 
+const validDate2 = getDate({ offset: { months: -4 } });
 const issue2 = {
   raw: {
     type: 'contestableIssue',
     attributes: {
       ratingIssueSubjectText: 'left knee',
-      approxDecisionDate: '2020-01-02',
+      approxDecisionDate: validDate2,
       decisionIssueId: 4,
       ratingIssueReferenceId: '5',
     },
@@ -55,7 +56,7 @@ const issue2 = {
     type: 'contestableIssue',
     attributes: {
       issue: 'left knee - 0%',
-      decisionDate: '2020-01-02',
+      decisionDate: validDate2,
       decisionIssueId: 4,
       ratingIssueReferenceId: '5',
     },
@@ -65,7 +66,22 @@ const issue2 = {
 describe('getEligibleContestableIssues', () => {
   it('should remove ineligible dates', () => {
     expect(
-      getEligibleContestableIssues([issue1.raw, issue2.raw]),
+      getEligibleContestableIssues([
+        {
+          type: 'contestableIssue',
+          attributes: {
+            ...issue1.raw.attributes,
+            approxDecisionDate: '2020-01-01',
+          },
+        },
+        {
+          type: 'contestableIssue',
+          attributes: {
+            ...issue2.raw.attributes,
+            approxDecisionDate: '2020-01-02',
+          },
+        },
+      ]),
     ).to.deep.equal([]);
   });
   it('should keep eligible dates', () => {
@@ -73,13 +89,11 @@ describe('getEligibleContestableIssues', () => {
       type: 'contestableIssue',
       attributes: {
         ...issue1.raw.attributes,
-        approxDecisionDate: moment()
-          .subtract(2, 'months')
-          .format(FORMAT_YMD),
+        approxDecisionDate: '2020-01-01',
       },
     };
     expect(getEligibleContestableIssues([issue, issue2.raw])).to.deep.equal([
-      issue,
+      issue2.raw,
     ]);
   });
 });
@@ -130,7 +144,7 @@ describe('addIncludedIssues', () => {
   it('should add additional items to contestableIssues array', () => {
     const issue = {
       type: 'contestableIssue',
-      attributes: { issue: 'test', decisionDate: '2000-01-01' },
+      attributes: { issue: 'test', decisionDate: validDate1 },
     };
     const formData = {
       contestableIssues: [
@@ -139,7 +153,7 @@ describe('addIncludedIssues', () => {
       ],
       'view:hasIssuesToAdd': true,
       additionalIssues: [
-        { issue: 'not-added', decisionDate: '2000-01-02', [SELECTED]: false },
+        { issue: 'not-added', decisionDate: validDate2, [SELECTED]: false },
         { ...issue.attributes, [SELECTED]: true },
       ],
     };
@@ -151,7 +165,7 @@ describe('addIncludedIssues', () => {
   it('should not add additional items to contestableIssues array', () => {
     const issue = {
       type: 'contestableIssue',
-      attributes: { issue: 'test', decisionDate: '2000-01-01' },
+      attributes: { issue: 'test', decisionDate: validDate1 },
     };
     const formData = {
       contestableIssues: [
@@ -160,7 +174,7 @@ describe('addIncludedIssues', () => {
       ],
       'view:hasIssuesToAdd': false,
       additionalIssues: [
-        { issue: 'not-added', decisionDate: '2000-01-02', [SELECTED]: false },
+        { issue: 'not-added', decisionDate: validDate2, [SELECTED]: false },
         { ...issue.attributes, [SELECTED]: true },
       ],
     };
@@ -194,10 +208,10 @@ describe('addAreaOfDisagreement', () => {
       [issue1.result, issue2.result],
       formData,
     );
-    expect(result[0].attributes.disagreementReason).to.equal(
+    expect(result[0].attributes.disagreementArea).to.equal(
       'service connection',
     );
-    expect(result[1].attributes.disagreementReason).to.equal('effective date');
+    expect(result[1].attributes.disagreementArea).to.equal('effective date');
   });
   it('should process multiple choices', () => {
     const formData = {
@@ -213,7 +227,7 @@ describe('addAreaOfDisagreement', () => {
       ],
     };
     const result = addAreaOfDisagreement([issue1.result], formData);
-    expect(result[0].attributes.disagreementReason).to.equal(
+    expect(result[0].attributes.disagreementArea).to.equal(
       'service connection,effective date,disability evaluation',
     );
   });
@@ -232,7 +246,7 @@ describe('addAreaOfDisagreement', () => {
       ],
     };
     const result = addAreaOfDisagreement([issue1.result], formData);
-    expect(result[0].attributes.disagreementReason).to.equal(
+    expect(result[0].attributes.disagreementArea).to.equal(
       'service connection,effective date,disability evaluation,this is an other entry',
     );
   });
@@ -240,6 +254,7 @@ describe('addAreaOfDisagreement', () => {
 
 describe('addUploads', () => {
   const getData = (checked, files) => ({
+    boardReviewOption: 'evidence_submission',
     'view:additionalEvidence': checked,
     evidence: files.map(name => ({ name, confirmationCode: '123' })),
   });
@@ -249,7 +264,14 @@ describe('addUploads', () => {
       { name: 'test2', confirmationCode: '123' },
     ]);
   });
-  it('should not add uploads', () => {
+  it('should not add uploads if not submitting more evidence', () => {
+    const data = {
+      ...getData(true, ['test1', 'test2']),
+      boardReviewOption: 'hearing',
+    };
+    expect(addUploads(data)).to.deep.equal([]);
+  });
+  it('should not add uploads if submit later is selected', () => {
     expect(addUploads(getData(false, ['test1', 'test2']))).to.deep.equal([]);
   });
 });
@@ -334,24 +356,6 @@ describe('getPhone', () => {
       phoneNumber: '1234567',
       phoneNumberExt: '0000',
     });
-  });
-});
-
-describe('getRepName', () => {
-  const getData = (checked, representativesName) => ({
-    'view:hasRep': checked,
-    representativesName,
-  });
-  it('should return rep name', () => {
-    expect(getRepName(getData(true, 'Fred'))).to.eq('Fred');
-  });
-  it('should limit rep name to 120 characters', () => {
-    const result = getRepName(getData(true, new Array(130).fill('A').join('')));
-    expect(result).to.contain('AAAA');
-    expect(result.length).to.eq(120);
-  });
-  it('should not return rep name', () => {
-    expect(getRepName(getData(false, 'Fred'))).to.eq('');
   });
 });
 

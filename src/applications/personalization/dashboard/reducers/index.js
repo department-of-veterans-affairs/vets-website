@@ -3,7 +3,7 @@ import hcaEnrollmentStatus from '~/applications/hca/reducers/hca-enrollment-stat
 import prescriptions from './prescriptions';
 import recipients from './recipients';
 import folders from './folders';
-import preferences from '../../preferences/reducers';
+import unreadCount from './unreadCount';
 import appointments from '~/applications/personalization/appointments/reducers';
 import profile from '@@profile/reducers';
 
@@ -13,7 +13,6 @@ import { combineReducers } from 'redux';
 
 export default {
   ...claimsAppeals,
-  preferences,
   ...profile,
   ...ratedDisabilities,
   hcaEnrollmentStatus,
@@ -23,6 +22,7 @@ export default {
       prescriptions,
     }),
     msg: combineReducers({
+      unreadCount,
       recipients,
       folders,
     }),

@@ -22,8 +22,6 @@
       "email": "user@example.com"
     },
     "homeless": false,
-    "view:hasRep": false,
-    "representativesName": "",
     "boardReviewOption": "hearing",
     "hearingTypePreference": "central_office",
     "socOptIn": true,
@@ -34,7 +32,7 @@
         "type": "contestableIssue",
         "attributes": {
           "ratingIssueSubjectText": "tinnitus",
-          "approxDecisionDate": "2020-01-01",
+          "approxDecisionDate": "2021-06-01",
           "decisionIssueId": 1,
           "ratingIssueReferenceId": "2",
           "ratingDecisionReferenceId": "3",
@@ -46,7 +44,7 @@
         "type": "contestableIssue",
         "attributes": {
           "ratingIssueSubjectText": "left knee",
-          "approxDecisionDate": "2020-01-02",
+          "approxDecisionDate": "2021-06-02",
           "decisionIssueId": 4,
           "ratingIssueReferenceId": "5"
         },
@@ -56,7 +54,7 @@
         "type": "contestableIssue",
         "attributes": {
           "ratingIssueSubjectText": "right knee",
-          "approxDecisionDate": "2020-01-03",
+          "approxDecisionDate": "2021-06-03",
           "ratingIssueReferenceId": "6",
           "ratingDecisionReferenceId": "7"
         },
@@ -66,7 +64,7 @@
         "type": "contestableIssue",
         "attributes": {
           "ratingIssueSubjectText": "PTSD",
-          "approxDecisionDate": "2020-01-04",
+          "approxDecisionDate": "2021-06-04",
           "decisionIssueId": 8,
           "ratingDecisionReferenceId": "9"
         },
@@ -76,7 +74,7 @@
         "type": "contestableIssue",
         "attributes": {
           "ratingIssueSubjectText": "Traumatic Brain Injury",
-          "approxDecisionDate": "2020-01-05",
+          "approxDecisionDate": "2021-06-05",
           "decisionIssueId": 10,
           "ratingIssuePercentNumber": "5"
         },
@@ -87,12 +85,12 @@
     "additionalIssues": [
       {
         "issue": "right arm",
-        "decisionDate": "2020-01-07",
+        "decisionDate": "2021-06-07",
         "view:selected": false
       },
       {
         "issue": "right shoulder",
-        "decisionDate": "2020-01-06",
+        "decisionDate": "2021-06-06",
         "view:selected": true
       }
     ],

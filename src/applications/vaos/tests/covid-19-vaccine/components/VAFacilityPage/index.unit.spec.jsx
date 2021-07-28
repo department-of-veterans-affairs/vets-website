@@ -1,11 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 
-import {
-  mockFetch,
-  resetFetch,
-  setFetchJSONFailure,
-} from 'platform/testing/unit/helpers';
+import { mockFetch, setFetchJSONFailure } from 'platform/testing/unit/helpers';
 import environment from 'platform/utilities/environment';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
@@ -29,9 +25,6 @@ import {
 import { TYPE_OF_CARE_ID } from '../../../../covid-19-vaccine/utils';
 
 const initialState = {
-  featureToggles: {
-    vaOnlineSchedulingCheetah: true,
-  },
   user: {
     profile: {
       facilities: [
@@ -81,7 +74,6 @@ closestFacility.attributes.long = -84.3164749;
 
 describe('VAOS vaccine flow: <VAFacilityPage>', () => {
   beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
 
   it('should display 2 dosages COVID alert', async () => {
     mockDirectBookingEligibilityCriteria(
@@ -178,9 +170,9 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
 
     // Should validation message if no facility selected
     fireEvent.click(screen.getByText(/Continue/));
-    expect(await screen.findByRole('alert')).to.contain.text(
-      'Please select a location for your appointment',
-    );
+    expect(
+      await screen.findByText('Please select a location for your appointment'),
+    ).to.be.ok;
   });
 
   it('should show residential address and sort by distance if we have coordinates', async () => {
@@ -230,7 +222,7 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
       'Facilities based on your home address',
     );
     expect(screen.baseElement).to.contain.text('290 Ludlow Ave');
-    expect(screen.baseElement).to.contain.text('Cincinatti, OH 45220');
+    expect(screen.baseElement).to.contain.text('Cincinatti, OhioOH 45220');
     expect(screen.baseElement).to.contain.text(' miles');
 
     // It should sort by distance, making Closest facility the first facility
@@ -353,9 +345,12 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     await screen.findAllByRole('radio');
     fireEvent.click(screen.getByText('use your current location'));
     await screen.findAllByRole('radio');
-    expect(screen.baseElement).to.contain.text(
-      'Your browser is blocked from finding your current location',
-    );
+    expect(
+      await screen.findByRole('heading', {
+        level: 3,
+        name: /Your browser is blocked from finding your current location/,
+      }),
+    ).to.be.ok;
   });
 
   it('should not display show more button if < 6 locations', async () => {
@@ -605,7 +600,7 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     fireEvent.click(await screen.findByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.firstCall.args[0]).to.equal(
-        '/new-covid-19-vaccine-booking/clinic',
+        '/new-covid-19-vaccine-appointment/choose-clinic',
       ),
     );
   });
@@ -644,7 +639,7 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     fireEvent.click(await screen.findByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.firstCall.args[0]).to.equal(
-        '/new-covid-19-vaccine-booking/select-date-1',
+        '/new-covid-19-vaccine-appointment/select-date',
       ),
     );
   });

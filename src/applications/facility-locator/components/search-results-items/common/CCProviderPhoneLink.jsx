@@ -5,6 +5,7 @@ import {
   LocationType,
   CLINIC_URGENTCARE_SERVICE,
   PHARMACY_RETAIL_SERVICE,
+  EMERGENCY_CARE_SERVICES,
 } from '../../../constants';
 
 const CCProviderPhoneLink = ({ location, query }) => {
@@ -13,7 +14,8 @@ const CCProviderPhoneLink = ({ location, query }) => {
     query &&
     query.facilityType === LocationType.CC_PROVIDER &&
     query.serviceType !== CLINIC_URGENTCARE_SERVICE &&
-    query.serviceType !== PHARMACY_RETAIL_SERVICE;
+    query.serviceType !== PHARMACY_RETAIL_SERVICE &&
+    !EMERGENCY_CARE_SERVICES.includes(query.serviceType);
 
   return (
     <div>

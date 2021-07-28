@@ -1,27 +1,27 @@
-import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from 'platform/utilities/environment';
-import manifest from '../manifest.json';
 import FormFooter from 'platform/forms/components/FormFooter';
+import IntroductionPage from '../containers/IntroductionPage';
+import ConfirmationPage from '../containers/ConfirmationPage';
+import manifest from '../manifest.json';
 import GetFormHelp from '../components/GetFormHelp';
 import PreSubmitSignature from '../components/PreSubmitSignature';
 import * as pages from '../pages';
-import submit from '../utils/submitForm';
-import SubmissionError from '../components/SubmissionError';
+import { transform } from '../utils/transform';
+import { SubmissionAlert } from '../components/Alerts';
 import { WIZARD_STATUS } from '../wizard/constants';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submit,
+  transformForSubmit: transform,
   submitUrl: `${environment.API_URL}/v0/financial_status_reports`,
+  submissionError: SubmissionAlert,
   trackingPrefix: 'fsr-5655-',
   wizardStorageKey: WIZARD_STATUS,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: PreSubmitSignature,
-  submissionError: SubmissionError,
   formId: VA_FORM_IDS.FORM_5655,
   version: 0,
   prefillEnabled: true,
@@ -127,19 +127,15 @@ const formConfig = {
           uiSchema: pages.employmentRecords.uiSchema,
           schema: pages.employmentRecords.schema,
           depends: formData => formData.questions.vetIsEmployed,
+          editModeOnReviewPage: true,
         },
-        previousEmployment: {
-          path: 'previous-employment',
-          title: 'Previous employment',
-          uiSchema: pages.previousEmployment.uiSchema,
-          schema: pages.previousEmployment.schema,
-        },
-        previousEmploymentRecords: {
-          path: 'previous-employment-records',
-          title: 'Previous employment',
-          uiSchema: pages.previousEmploymentRecords.uiSchema,
-          schema: pages.previousEmploymentRecords.schema,
-          depends: formData => formData.questions.vetPreviouslyEmployed,
+        income: {
+          title: 'Income',
+          path: 'income/:index',
+          arrayPath: 'currentEmployment',
+          showPagePerItem: true,
+          uiSchema: pages.income.uiSchema,
+          schema: pages.income.schema,
           editModeOnReviewPage: true,
         },
         benefits: {
@@ -195,22 +191,15 @@ const formConfig = {
           schema: pages.spouseEmploymentRecords.schema,
           depends: formData =>
             formData.questions.isMarried && formData.questions.spouseIsEmployed,
+          editModeOnReviewPage: true,
         },
-        spousePreviousEmployment: {
-          path: 'spouse-previous-employment',
-          title: 'Spouse previous employment',
-          uiSchema: pages.spousePreviousEmployment.uiSchema,
-          schema: pages.spousePreviousEmployment.schema,
-          depends: formData => formData.questions.isMarried,
-        },
-        spousePreviousEmploymentRecords: {
-          path: 'spouse-previous-employment-records',
-          title: 'Spouse employment',
-          uiSchema: pages.spousePreviousEmploymentRecords.uiSchema,
-          schema: pages.spousePreviousEmploymentRecords.schema,
-          depends: formData =>
-            formData.questions.isMarried &&
-            formData.questions.spousePreviouslyEmployed,
+        spouseIncome: {
+          title: 'Income',
+          path: 'spouse/income/:index',
+          arrayPath: 'spouseCurrentEmployment',
+          showPagePerItem: true,
+          uiSchema: pages.spouseIncome.uiSchema,
+          schema: pages.spouseIncome.schema,
           editModeOnReviewPage: true,
         },
         spouseBenefits: {

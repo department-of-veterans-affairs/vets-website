@@ -13,8 +13,8 @@ const DisagreeFileClaimPage = () => {
   });
   return (
     <div
+      id={pageNames.disagreeFileClaim}
       className="usa-alert usa-alert-info background-color-only vads-u-padding--2 vads-u-margin-top--2"
-      aria-live="polite"
     >
       <span className="sr-only">Info: </span>
       <p className="vads-u-margin-top--0">

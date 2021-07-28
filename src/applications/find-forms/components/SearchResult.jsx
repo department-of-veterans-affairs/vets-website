@@ -1,6 +1,7 @@
 // Node modules.
 import React from 'react';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 // Relative imports.
 import * as customPropTypes from '../prop-types';
 import {
@@ -95,7 +96,7 @@ const deriveRelatedTo = ({
 
   if (relatedTo) {
     return (
-      <dd className="vads-u-margin-y--1 vads-u-margin-y--1">
+      <dd className="vads-u-margin-top--1 vads-u-margin-bottom--2">
         <dfn className="vads-u-font-weight--bold">Related to:</dfn> {relatedTo}
       </dd>
     );
@@ -104,7 +105,14 @@ const deriveRelatedTo = ({
   return null;
 };
 
-const SearchResult = ({ form, formMetaInfo }) => {
+const SearchResult = ({
+  currentPosition,
+  form,
+  formMetaInfo,
+  showPDFInfoVersionOne,
+  showPDFInfoVersionTwo,
+  showPDFInfoVersionThree,
+}) => {
   // Escape early if we don't have the necessary form attributes.
   if (!form?.attributes) {
     return null;
@@ -145,20 +153,79 @@ const SearchResult = ({ form, formMetaInfo }) => {
   return (
     <>
       <FormTitle
+        currentPosition={currentPosition}
         id={id}
         formUrl={formDetailsUrl}
         lang={language}
         title={title}
         recordGAEvent={recordGAEvent}
+        showPDFInfoVersionTwo={showPDFInfoVersionTwo}
       />
-      <dd className="vads-u-margin-y--1 vads-u-margin-y--1 vsa-from-last-updated">
+      <dd className="vads-u-margin-y--1 vsa-from-last-updated">
         <dfn className="vads-u-font-weight--bold">Form last updated:</dfn>{' '}
         {lastRevision}
       </dd>
 
       {relatedTo}
-      <dd className="vads-u-margin-bottom--1">
+      {formToolUrl ? (
+        <dd
+          className={
+            showPDFInfoVersionThree ? null : 'vads-u-margin-bottom--2p5'
+          }
+        >
+          <a
+            className="find-forms-max-content vads-u-display--flex vads-u-align-items--center vads-u-text-decoration--none"
+            href={formToolUrl}
+            onClick={() =>
+              recordGAEvent(`Go to online tool`, formToolUrl, 'cta')
+            }
+          >
+            <i
+              aria-hidden="true"
+              className="fas fa-chevron-circle-right fa-2x vads-u-margin-right--1"
+              role="presentation"
+            />
+            <span className="vads-u-text-decoration--underline vads-u-font-weight--bold">
+              Go to online tool
+            </span>
+            <span className="vads-u-visibility--screen-reader">
+              for {id} {title}
+            </span>
+          </a>
+        </dd>
+      ) : null}
+      {showPDFInfoVersionOne && (
+        <dd className="find-forms-alert-message vads-u-margin-bottom--2 vads-u-background-color--primary-alt-lightest vads-u-display--flex vads-u-padding-y--4 vads-u-padding-right--7 vads-u-padding-left--3 vads-u-width--full">
+          <i aria-hidden="true" role="img" />
+          <span className="sr-only">Alert: </span>
+          <div>
+            <p className="vads-u-margin-top--0">
+              We recommend that you download PDF forms and open them in Adobe
+              Acrobat Reader
+            </p>
+            <a href="https://www.va.gov/resources/how-to-download-and-open-a-vagov-pdf-form/">
+              Get instructions for opening the form in Acrobat Reader
+            </a>
+          </div>
+        </dd>
+      )}
+      {showPDFInfoVersionThree && (
+        <dd className="vads-u-margin-bottom--1 vads-u-margin-top--6">
+          <span className="vads-u-margin-top--0 vads-u-margin-right--0p5 vads-u-color--gray-medium">
+            You’ll need to download this form and open it in Adobe Acrobat
+            Reader.
+          </span>
+          <a
+            className="vads-u-display--inline "
+            href="https://www.va.gov/resources/how-to-download-and-open-a-vagov-pdf-form/"
+          >
+            Read More
+          </a>
+        </dd>
+      )}
+      <dd className="vads-u-margin-bottom--5">
         <a
+          className="find-forms-max-content vads-u-text-decoration--none"
           href={url}
           rel="noreferrer noopener"
           onClick={() =>
@@ -166,32 +233,27 @@ const SearchResult = ({ form, formMetaInfo }) => {
           }
           {...linkProps}
         >
-          Download VA form {id} {pdfLabel}
+          <i
+            aria-hidden="true"
+            className="fas fa-download fa-lg vads-u-margin-right--1"
+            role="presentation"
+          />
+          <span className="vads-u-text-decoration--underline">
+            Download VA form {id} {pdfLabel}
+          </span>
         </a>
       </dd>
-      {formToolUrl ? (
-        <dd>
-          <a
-            className="usa-button usa-button-secondary vads-u-margin-bottom--3"
-            href={formToolUrl}
-            onClick={() =>
-              recordGAEvent(`Go to online tool`, formToolUrl, 'cta')
-            }
-          >
-            Go to online tool{' '}
-            <span className="vads-u-visibility--screen-reader">
-              for {id} {title}
-            </span>
-          </a>
-        </dd>
-      ) : null}
     </>
   );
 };
 
 SearchResult.propTypes = {
+  currentPosition: PropTypes.number,
   form: customPropTypes.Form.isRequired,
   formMetaInfo: customPropTypes.FormMetaInfo,
+  showPDFInfoVersionOne: PropTypes.bool,
+  showPDFInfoVersionTwo: PropTypes.bool,
+  showPDFInfoVersionThree: PropTypes.bool,
 };
 
 export default SearchResult;

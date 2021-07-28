@@ -3,8 +3,8 @@ import moment from 'moment';
 import {
   SELECTED,
   MAX_ISSUE_LENGTH,
-  MAX_REP_NAME_LENGTH,
   MAX_DISAGREEMENT_REASON_LENGTH,
+  SUBMITTED_DISAGREEMENTS,
 } from '../constants';
 
 /**
@@ -15,8 +15,6 @@ import {
  * @property {AdditionaIssues} additionalIssues - issues entered by Veteran
  * @property {Evidence} evidence - Evidence uploaded by Veteran
  * @property {Boolean} homeless - homeless choice
- * @property {Boolean} view:hasRep - Has a VSO choice
- * @property {String} representativesName - Veteran entered VSO name
  * @property {String} boardReviewOption - Veteran selected review option - enum
  *   to "direct_review", "evidence_submission" or "hearing"
  * @property {String} hearingTypePreference - Vetera selected hearing type -
@@ -111,7 +109,7 @@ export const createIssueName = ({ attributes } = {}) => {
  * @type {Object}
  * @property {String} issue - title of issue returned by createIssueName function
  * @property {String} decisionDate - decision date string (YYYY-MM-DD)
- * @property {String} disagreementReason - area of disagreement
+ * @property {String} disagreementArea - area of disagreement
  * @property {Number=} decisionIssueId - decision id
  * @property {String=} ratingIssueReferenceId - issue reference number
  * @property {String=} ratingDecisionReferenceId - decision reference id
@@ -215,13 +213,13 @@ export const addIncludedIssues = formData => {
  * Add area of disagreement
  * @param {ContestableIssue~Submittable} issues - selected & processed issues
  * @param {FormData} formData
- * @return {ContestableIssues~Submittable} issues with "disagreementReason" added
+ * @return {ContestableIssues~Submittable} issues with "disagreementArea" added
  */
 export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
   const keywords = {
-    serviceConnection: () => 'service connection',
-    effectiveDate: () => 'effective date',
-    evaluation: () => 'disability evaluation',
+    serviceConnection: () => SUBMITTED_DISAGREEMENTS.serviceConnection,
+    effectiveDate: () => SUBMITTED_DISAGREEMENTS.effectiveDate,
+    evaluation: () => SUBMITTED_DISAGREEMENTS.evaluation,
     other: disagreementOptions => disagreementOptions.otherEntry,
   };
   return issues.map((issue, index) => {
@@ -233,7 +231,7 @@ export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
       ...issue,
       attributes: {
         ...issue.attributes,
-        disagreementReason: reasons
+        disagreementArea: reasons
           .join(',')
           .substring(0, MAX_DISAGREEMENT_REASON_LENGTH), // max length in schema
       },
@@ -267,6 +265,7 @@ export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
  * @returns {Evidence~Submittable[]}
  */
 export const addUploads = formData =>
+  formData.boardReviewOption === 'evidence_submission' &&
   formData['view:additionalEvidence']
     ? formData.evidence.map(({ name, confirmationCode }) => ({
         name,
@@ -291,7 +290,6 @@ export const removeEmptyEntries = object =>
  * @property {Phone~submittable} phone
  * @property {String} emailAddressText
  * @property {Boolean} homeless
- * @property {String} representativesName
  */
 /**
  * Address~submittable
@@ -342,16 +340,6 @@ export const getPhone = ({ veteran = {} } = {}) =>
     phoneNumber: veteran.phone?.phoneNumber || '',
     phoneNumberExt: veteran.phone?.phoneNumberExt || '',
   });
-
-/**
- * Get representative name entered by Veteran
- * @param {FormData}
- * @returns {String} Rep name with max length of characters
- */
-export const getRepName = formData =>
-  formData['view:hasRep']
-    ? (formData.representativesName || '').substring(0, MAX_REP_NAME_LENGTH)
-    : '';
 
 /**
  * Get user's current time zone

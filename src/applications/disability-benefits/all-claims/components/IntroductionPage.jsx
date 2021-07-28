@@ -14,14 +14,15 @@ import { selectAvailableServices } from 'platform/user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { itfNotice } from '../content/introductionPage';
-import { originalClaimsFeature } from '../config/selectors';
-import fileOriginalClaimPage from '../../wizard/pages/file-original-claim';
 import { show526Wizard, isBDD, getPageTitle, getStartText } from '../utils';
 import {
   BDD_INFO_URL,
   DISABILITY_526_V2_ROOT_URL,
   WIZARD_STATUS,
+  PAGE_TITLE_SUFFIX,
+  DOCUMENT_TITLE_SUFFIX,
 } from '../constants';
+import { WIZARD_STATUS_RESTARTING } from 'platform/site-wide/wizard';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -40,15 +41,15 @@ class IntroductionPage extends React.Component {
     // be required to proceed; not changing this now in case it breaks something
 
     const isBDDForm = this.props.isBDDForm;
-    const pageTitle = getPageTitle(isBDDForm);
+    const pageTitle = `${getPageTitle(isBDDForm)} ${PAGE_TITLE_SUFFIX}`;
     const startText = getStartText(isBDDForm);
+    document.title = `${pageTitle}${DOCUMENT_TITLE_SUFFIX}`;
 
     // Remove this once form526_original_claims feature flag is removed
     if (!allowContinue) {
       return (
         <div className="schemaform-intro">
           <FormTitle title={pageTitle} subTitle={formConfig.subTitle} />
-          <fileOriginalClaimPage.component props={this.props} />
         </div>
       );
     }
@@ -60,7 +61,7 @@ class IntroductionPage extends React.Component {
 
     return (
       <div className="schemaform-intro">
-        <FormTitle title={`${pageTitle} with VA Form 21-526EZ`} />
+        <FormTitle title={pageTitle} />
         {isBDDForm ? (
           <>
             <h2 className="vads-u-font-size--h4">
@@ -85,6 +86,7 @@ class IntroductionPage extends React.Component {
         )}
         <SaveInProgressIntro
           hideUnauthedStartLink
+          headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
           formId={this.props.formId}
           pageList={pageList}
@@ -95,17 +97,17 @@ class IntroductionPage extends React.Component {
         {itfNotice}
         <h2 className="vads-u-font-size--h4">{subwayTitle}</h2>
         <div className="process schemaform-process">
-          <p className="vads-u-margin-top--0">
+          <p id="restart-wizard" className="vads-u-margin-top--0">
             if you don’t think this is the right form for you,{' '}
             <a
+              aria-describedby="restart-wizard"
               href={
                 this.props.showWizard
-                  ? DISABILITY_526_V2_ROOT_URL
+                  ? `${DISABILITY_526_V2_ROOT_URL}/start`
                   : '/disability/how-to-file-claim/'
               }
-              className="va-button-link"
               onClick={() => {
-                sessionStorage.removeItem(WIZARD_STATUS);
+                sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_RESTARTING);
                 recordEvent({ event: 'howToWizard-start-over' });
               }}
             >
@@ -271,7 +273,6 @@ class IntroductionPage extends React.Component {
 const mapStateToProps = state => ({
   formId: state.form.formId,
   user: state.user,
-  allowOriginalClaim: originalClaimsFeature(state),
   showWizard: show526Wizard(state),
   isBDDForm: isBDD(state?.form?.data),
 });

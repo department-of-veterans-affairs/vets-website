@@ -4,34 +4,41 @@ import React from 'react';
 export const hearingTypeContent = {
   virtual_hearing: (
     <>
-      <strong>Virtual tele-hearing from my home</strong>
+      <strong>A tele-hearing online</strong>
       <p className="hide-on-review">
-        You’ll have the flexibility and convenience of attending your Board
-        hearing with a Veterans Law judge and Veteran representatives from a
-        personal computer or mobile device.
+        You can attend your hearing on a computer, mobile phone, or tablet from
+        a location you choose. You just need to be somewhere that has a Wi-Fi
+        connection. Your accredited representative can be with you or in a
+        separate location. The Veterans Law judge will be located in Washington,
+        D.C.
       </p>
     </>
   ),
 
   video_conference: (
     <>
-      <strong>Video hearing from a VA location near me</strong>
+      <strong>A video hearing at a VA regional office near you</strong>
       <p className="hide-on-review">
-        You’ll travel to your closest regional office and teleconference with a
-        Judge in Washington, D.C. Video hearings are open depending on the
-        status of the regional office. We are only able to accomodate a limited
-        amount to Veterans to make sure everyone is socially distant and safe.
+        You and your accredited representative can attend your hearing by video
+        at a VA regional office near you. The Veterans Law Judge will be located
+        in Washington, D.C.
+      </p>
+      <p className="hide-on-review">
+        <strong>Note:</strong> Fewer Veterans will be able to use this option
+        right now due to COVID-19 and social distancing.
       </p>
     </>
   ),
 
   central_office: (
     <>
-      <strong>In-person hearing at the Board in Washington, D.C.</strong>
+      <strong>An in-person hearing at the Board in Washington, D.C.</strong>
       <p className="hide-on-review">
-        You’ll travel to Washington, D.C., for an in-person hearing with a
-        Judge. Central Office hearings are open, but capacity is limited to
-        ensure appropriate social distancing and sanitized hearing rooms.
+        You can attend an in-person hearing with a Veterans Law Judge.
+      </p>
+      <p className="hide-on-review">
+        <strong>Note:</strong> Fewer Veterans will be able to use this option
+        right now due to COVID-19 and social distancing.
       </p>
     </>
   ),

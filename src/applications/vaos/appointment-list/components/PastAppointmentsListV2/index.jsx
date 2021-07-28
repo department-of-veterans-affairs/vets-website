@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
 import { getPastAppointmentListInfo } from '../../redux/selectors';
 import {
@@ -15,6 +14,7 @@ import NoAppointments from '../NoAppointments';
 import moment from 'moment';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import InfoAlert from '../../../components/InfoAlert';
 import {
   fetchPastAppointments,
   startNewAppointmentFlow,
@@ -184,12 +184,12 @@ export default function PastAppointmentsListNew() {
     return (
       <>
         {dropdown}
-        <AlertBox
+        <InfoAlert
           status="error"
           headline="We’re sorry. We’ve run into a problem"
         >
           We’re having trouble getting your past appointments. Please try later.
-        </AlertBox>
+        </InfoAlert>
       </>
     );
   }
@@ -246,15 +246,18 @@ export default function PastAppointmentsListNew() {
         );
       })}
       {!pastAppointmentsByMonth?.length && (
-        <NoAppointments
-          showScheduleButton={showScheduleButton}
-          startNewAppointmentFlow={() => {
-            recordEvent({
-              event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
-            });
-            dispatch(startNewAppointmentFlow());
-          }}
-        />
+        <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
+          <NoAppointments
+            description="past appointments"
+            showScheduleButton={showScheduleButton}
+            startNewAppointmentFlow={() => {
+              recordEvent({
+                event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
+              });
+              dispatch(startNewAppointmentFlow());
+            }}
+          />
+        </div>
       )}
     </>
   );

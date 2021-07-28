@@ -71,12 +71,12 @@
 }
 .update-results-form {
   margin-top: -2em;
-  border-left: solid #f1f1f1;
-  border-right: solid #f1f1f1;
+  border-left: solid $color-gray-lightest;
+  border-right: solid $color-gray-lightest;
 }
 .update-results {
   height: 4.5em;
-  background-color: #f1f1f1;
+  background-color: $color-gray-lightest;
 }
 .update-results-header {
   margin-top: -0.04em;

@@ -27,7 +27,10 @@ const RogersStem = () => {
         <ul>
           <li>
             <strong>Email: </strong>
-            <a href="mailto:stem.vbauf@va.gov">STEM.VBAUF@va.gov</a>.
+            <a className="email" href="mailto:stem.vbauf@va.gov">
+              STEM.VBAUF@va.gov
+            </a>
+            .
           </li>
           <li>
             <strong>Mail: </strong>

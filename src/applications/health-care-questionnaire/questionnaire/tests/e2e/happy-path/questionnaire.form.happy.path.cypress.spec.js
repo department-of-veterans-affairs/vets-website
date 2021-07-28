@@ -81,7 +81,9 @@ const testConfig = createTestConfig(
         });
       },
       confirmation: () => {
-        cy.get('.usa-alert-heading').contains('has been sen');
+        cy.get('.healthcare-questionnaire-confirm > .hydrated').contains(
+          'has been sen',
+        );
       },
     },
     // Skip tests in CI until the form is released.

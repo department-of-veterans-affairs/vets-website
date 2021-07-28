@@ -8,7 +8,6 @@ import {
   Redirect,
 } from 'react-router-dom';
 import {
-  selectUseFlatFacilityPage,
   selectIsCernerOnlyPatient,
   selectUseProviderSelection,
 } from '../redux/selectors';
@@ -23,7 +22,6 @@ import TypeOfAudiologyCarePage from './components/TypeOfAudiologyCarePage';
 import PreferredDatePage from './components/PreferredDatePage';
 import DateTimeRequestPage from './components/DateTimeRequestPage';
 import DateTimeSelectPage from './components/DateTimeSelectPage';
-import VAFacilityPage from './components/VAFacilityPage';
 import VAFacilityPageV2 from './components/VAFacilityPage/VAFacilityPageV2';
 import CommunityCarePreferencesPage from './components/CommunityCarePreferencesPage';
 import CommunityCareLanguagePage from './components/CommunityCareLanguagePage';
@@ -36,13 +34,12 @@ import TypeOfFacilityPage from './components/TypeOfFacilityPage';
 import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
 import useFormUnsavedDataWarning from '../hooks/useFormUnsavedDataWarning';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
+import ScheduleCernerPage from './components/ScheduleCernerPage';
+import useVariantSortMethodTracking from './hooks/useVariantSortMethodTracking';
 
 export function NewAppointment() {
   const isCernerOnlyPatient = useSelector(state =>
     selectIsCernerOnlyPatient(state),
-  );
-  const flatFacilityPageEnabled = useSelector(state =>
-    selectUseFlatFacilityPage(state),
   );
   const providerSelectionEnabled = useSelector(state =>
     selectUseProviderSelection(state),
@@ -64,6 +61,8 @@ export function NewAppointment() {
       !location.pathname.endsWith('new-appointment') &&
       !location.pathname.endsWith('confirmation'),
   });
+
+  useVariantSortMethodTracking({ skip: shouldRedirectToStart });
 
   if (shouldRedirectToStart) {
     return <Redirect to="/new-appointment" />;
@@ -105,15 +104,14 @@ export function NewAppointment() {
           path={`${match.url}/select-date`}
           component={DateTimeSelectPage}
         />
-        {!flatFacilityPageEnabled && (
-          <Route path={`${match.url}/va-facility`} component={VAFacilityPage} />
-        )}
-        {flatFacilityPageEnabled && (
-          <Route
-            path={`${match.url}/va-facility-2`}
-            component={VAFacilityPageV2}
-          />
-        )}
+        <Route
+          path={`${match.url}/va-facility-2`}
+          component={VAFacilityPageV2}
+        />
+        <Route
+          path={`${match.url}/how-to-schedule`}
+          component={ScheduleCernerPage}
+        />
         {!providerSelectionEnabled && (
           <Route
             path={`${match.url}/community-care-preferences`}

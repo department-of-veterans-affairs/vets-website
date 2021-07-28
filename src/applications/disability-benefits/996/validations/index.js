@@ -24,7 +24,7 @@ export const checkConferenceTimes = (errors, values, formData) => {
 const phoneRegexp = /[0-9]+/;
 
 export const validatePhone = (errors, phone) => {
-  if (errors && phone && (!phoneRegexp.test(phone) || phone.length !== 10)) {
+  if (errors && (!phone || !phoneRegexp.test(phone) || phone.length !== 10)) {
     errors.addError(errorMessages.informalConferenceContactPhonePattern);
   }
 };

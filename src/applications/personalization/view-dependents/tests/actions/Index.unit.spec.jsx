@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import { dependents } from './helpers';
 
 import {
@@ -8,28 +9,11 @@ import {
   fetchAllDependents,
 } from '../../actions';
 
-let fetchMock;
-let oldFetch;
-
-const mockFetch = () => {
-  oldFetch = global.fetch;
-  fetchMock = sinon.stub();
-  global.fetch = fetchMock;
-};
-
-const unMockFetch = () => {
-  global.fetch = oldFetch;
-};
-
 describe('View Disabilities actions: fetchAllDependents', () => {
-  beforeEach(mockFetch);
+  beforeEach(() => mockFetch());
 
   it('should fetch rated disabilities', () => {
-    fetchMock.returns({
-      catch: () => ({
-        then: fn => fn({ ok: true, json: () => Promise.resolve(dependents) }),
-      }),
-    });
+    setFetchJSONResponse(global.fetch.onCall(0), dependents);
     const makeTheFetch = fetchAllDependents();
 
     const dispatchSpy = sinon.spy();
@@ -52,11 +36,7 @@ describe('View Disabilities actions: fetchAllDependents', () => {
         },
       ],
     };
-    fetchMock.returns({
-      catch: () => ({
-        then: fn => fn({ ok: true, json: () => Promise.resolve(response) }),
-      }),
-    });
+    setFetchJSONResponse(global.fetch.onCall(0), response);
     const thunk = fetchAllDependents();
     const dispatchSpy = sinon.spy();
     const dispatch = action => {
@@ -69,5 +49,4 @@ describe('View Disabilities actions: fetchAllDependents', () => {
     };
     thunk(dispatch);
   });
-  afterEach(unMockFetch);
 });

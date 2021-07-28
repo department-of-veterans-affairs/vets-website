@@ -103,6 +103,7 @@ export const AccountSecurityContent = ({
         headline="Have questions about signing in to VA.gov?"
         className="medium-screen:vads-u-margin-top--4"
         backgroundOnly
+        level={2}
       >
         <div className="vads-u-display--flex vads-u-flex-direction--column">
           <p>
@@ -111,7 +112,9 @@ export const AccountSecurityContent = ({
             security on VA.gov.
           </p>
 
-          <h4>Go to FAQs about these topics:</h4>
+          <h3 className="vads-u-font-size--h4">
+            Go to FAQs about these topics:
+          </h3>
           <a
             href="/resources/signing-in-to-vagov/"
             className="vads-u-margin-y--1"

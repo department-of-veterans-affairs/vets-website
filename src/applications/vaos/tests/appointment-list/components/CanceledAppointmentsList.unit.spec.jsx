@@ -3,11 +3,7 @@ import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
-import {
-  mockFetch,
-  resetFetch,
-  setFetchJSONFailure,
-} from 'platform/testing/unit/helpers';
+import { mockFetch, setFetchJSONFailure } from 'platform/testing/unit/helpers';
 import reducers from '../../../redux/reducer';
 import { getVAAppointmentMock, getVAFacilityMock } from '../../mocks/v0';
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
@@ -28,9 +24,9 @@ describe('VAOS <CanceledAppointmentsList>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTimezoneTestDate());
+    mockFacilitiesFetch();
   });
   afterEach(() => {
-    resetFetch();
     MockDate.reset();
   });
   it('should show information without facility name', async () => {
@@ -143,8 +139,9 @@ describe('VAOS <CanceledAppointmentsList>', () => {
       reducers,
     });
 
-    return expect(screen.findByText(/You don’t have any appointments/i)).to
-      .eventually.be.ok;
+    return expect(
+      screen.findByText(/You don’t have any canceled appointments/i),
+    ).to.eventually.be.ok;
   });
 
   it('should not display when over 13 months away', () => {
@@ -161,8 +158,9 @@ describe('VAOS <CanceledAppointmentsList>', () => {
       reducers,
     });
 
-    return expect(screen.findByText(/You don’t have any appointments/i)).to
-      .eventually.be.ok;
+    return expect(
+      screen.findByText(/You don’t have any canceled appointments/i),
+    ).to.eventually.be.ok;
   });
 
   it('should show error message when request fails', async () => {
@@ -494,8 +492,9 @@ describe('VAOS <CanceledAppointmentsList>', () => {
       reducers,
     });
 
-    return expect(screen.findByText(/You don’t have any appointments/i)).to
-      .eventually.be.ok;
+    return expect(
+      screen.findByText(/You don’t have any canceled appointments/i),
+    ).to.eventually.be.ok;
   });
 
   it('should not show canceled appointment if more than 395 days ahead', async () => {
@@ -521,7 +520,8 @@ describe('VAOS <CanceledAppointmentsList>', () => {
       reducers,
     });
 
-    return expect(screen.findByText(/You don’t have any appointments/i)).to
-      .eventually.be.ok;
+    return expect(
+      screen.findByText(/You don’t have any canceled appointments/i),
+    ).to.eventually.be.ok;
   });
 });

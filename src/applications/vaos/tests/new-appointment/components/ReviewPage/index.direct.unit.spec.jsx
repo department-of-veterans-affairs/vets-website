@@ -5,11 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
 import { Route } from 'react-router-dom';
 
-import {
-  setFetchJSONFailure,
-  mockFetch,
-  resetFetch,
-} from 'platform/testing/unit/helpers';
+import { setFetchJSONFailure, mockFetch } from 'platform/testing/unit/helpers';
 import environment from 'platform/utilities/environment';
 
 import {
@@ -25,6 +21,7 @@ import {
 import {
   mockAppointmentSubmit,
   mockFacilityFetch,
+  mockPreferences,
 } from '../../../mocks/helpers';
 import { getVAFacilityMock } from '../../../mocks/v0';
 
@@ -55,7 +52,7 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
           reasonAdditionalInfo: 'I need an appt',
           vaParent: '983',
           vaFacility: '983',
-          clinicId: '455',
+          clinicId: '983_455',
         },
         parentFacilities: [
           {
@@ -111,28 +108,10 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
         clinics: {
           '983_323': [
             {
-              id: '455',
+              id: '983_455',
               serviceName: 'Some VA clinic',
-              characteristic: [
-                {
-                  text: 'clinicFriendlyLocationName',
-                  value: 'Some VA clinic',
-                },
-                {
-                  text: 'institutionName',
-                  value: 'Cheyenne VA Medical Center',
-                },
-                {
-                  text: 'institutionCode',
-                  value: '983',
-                },
-              ],
-              identifier: [
-                {
-                  system: 'http://med.va.gov/fhir/urn',
-                  value: 'urn:va:facility:983:983:455',
-                },
-              ],
+              stationId: '983',
+              stationName: 'Cheyenne VA Medical Center',
             },
           ],
         },
@@ -141,7 +120,6 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
     store.dispatch(startDirectScheduleFlow());
     store.dispatch(onCalendarChange([start.format()]));
   });
-  afterEach(() => resetFetch());
 
   it('should show form information for review', async () => {
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
@@ -192,8 +170,9 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
 
   it('should submit successfully', async () => {
     mockAppointmentSubmit({});
+    mockPreferences('test@va.gov');
 
-    const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
+    const screen = renderWithStoreAndRouter(<ReviewPage />, {
       store,
     });
 
@@ -260,10 +239,13 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
     await screen.findByText('307-778-7550');
 
     // Not sure of a better way to search for test just within the alert
-    const alert = screen.baseElement.querySelector('.usa-alert');
+    const alert = screen.baseElement.querySelector('va-alert');
     expect(alert).contain.text('Cheyenne VA Medical Center');
     expect(alert).contain.text('2360 East Pershing Boulevard');
-    expect(alert).contain.text('Cheyenne, WY 82001-5356');
+    expect(alert).contain.text('Cheyenne, WyomingWY 82001-5356');
     expect(screen.history.push.called).to.be.false;
+    waitFor(() => {
+      expect(document.activeElement).to.be(alert);
+    });
   });
 });

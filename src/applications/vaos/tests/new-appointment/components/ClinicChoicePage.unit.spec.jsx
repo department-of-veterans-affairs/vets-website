@@ -13,7 +13,7 @@ import userEvent from '@testing-library/user-event';
 import ClinicChoicePage from '../../../new-appointment/components/ClinicChoicePage';
 import { mockEligibilityFetches, mockFacilityFetch } from '../../mocks/helpers';
 import { getClinicMock, getVAFacilityMock } from '../../mocks/v0';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 
 const initialState = {
   featureToggles: {
@@ -28,7 +28,6 @@ const initialState = {
 
 describe('VAOS <ClinicChoicePage>', () => {
   beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
   it('should display multiple clinics and require one to be chosen', async () => {
     const clinics = [
       {
@@ -91,19 +90,15 @@ describe('VAOS <ClinicChoicePage>', () => {
       store,
     });
 
-    await screen.findByText(
-      /Choose your VA clinic for your primary care appointment/i,
-    );
+    await screen.findByText(/Choose a VA clinic/i);
 
     expect(screen.baseElement).to.contain.text(
-      'In the last 24 months you have had a primary care appointment in the following clinics',
+      'In the last 24 months you’ve had a primary care appointment at the following Cheyenne VA Medical Center clinics:',
     );
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
-    expect(screen.baseElement).to.contain.text('Cheyenne, WY 82001-5356');
-    expect(screen.baseElement).to.contain.text('307-778-7550');
 
     expect(screen.baseElement).to.contain.text(
-      'You can choose a clinic where you’ve been seen or request an appointment at a different clinic.',
+      'Choose a clinic below or request a different clinic for this appointment.',
     );
     expect(await screen.findAllByRole('radio')).to.have.length(3);
     expect(screen.getByLabelText('Green team clinic')).to.have.tagName('input');
@@ -153,6 +148,7 @@ describe('VAOS <ClinicChoicePage>', () => {
       clinics,
       pastClinics: true,
     });
+    mockFacilityFetch('vha_442', getVAFacilityMock());
 
     const store = createTestStore(initialState);
 
@@ -163,11 +159,9 @@ describe('VAOS <ClinicChoicePage>', () => {
       store,
     });
 
-    await screen.findByText(
-      /Choose your VA clinic for your amputation care appointment/i,
-    );
+    await screen.findByText(/Choose a VA clinic/i);
     expect(screen.baseElement).to.contain.text(
-      'In the last 24 months you have had an amputation care appointment in the following clinics',
+      'In the last 24 months you’ve had an amputation care appointment at the following Fake name clinics:',
     );
 
     userEvent.click(screen.getByLabelText(/red team/i));
@@ -231,6 +225,7 @@ describe('VAOS <ClinicChoicePage>', () => {
       clinics,
       pastClinics: true,
     });
+    mockFacilityFetch('vha_442', getVAFacilityMock());
 
     const store = createTestStore(initialState);
 
@@ -241,9 +236,7 @@ describe('VAOS <ClinicChoicePage>', () => {
       store,
     });
 
-    await screen.findByText(
-      /Choose your VA clinic for your amputation care appointment/i,
-    );
+    await screen.findByText(/Choose a VA clinic/i);
 
     // choosing the third option sends you to request flow
     userEvent.click(screen.getByText(/need a different clinic/i));
@@ -319,7 +312,9 @@ describe('VAOS <ClinicChoicePage>', () => {
       'Your last amputation care appointment was at Green team clinic:',
     );
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
-    expect(screen.baseElement).to.contain.text('Cheyenne, WY 82001-5356');
+    expect(screen.baseElement).to.contain.text(
+      'Cheyenne, WyomingWY 82001-5356',
+    );
     expect(screen.baseElement).to.contain.text('307-778-7550');
 
     expect(screen.baseElement).to.contain.text(
@@ -391,6 +386,7 @@ describe('VAOS <ClinicChoicePage>', () => {
       clinics,
       pastClinics: true,
     });
+    mockFacilityFetch('vha_442', getVAFacilityMock());
 
     const store = createTestStore(initialState);
 
@@ -401,9 +397,7 @@ describe('VAOS <ClinicChoicePage>', () => {
       store,
     });
 
-    await screen.findByText(
-      /Choose your VA clinic for your primary care appointment/i,
-    );
+    await screen.findByText(/Choose a VA clinic/i);
 
     userEvent.click(screen.getByLabelText(/red team/i));
     await waitFor(

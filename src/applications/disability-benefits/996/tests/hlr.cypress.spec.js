@@ -6,7 +6,6 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 import { mockContestableIssues } from './hlr.cypress.helpers';
-import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockUser from './fixtures/mocks/user.json';
@@ -24,12 +23,22 @@ const testConfig = createTestConfig(
     },
 
     pageHooks: {
-      introduction: ({ afterHook }) => {
+      start: () => {
+        // wizard
         cy.get('[type="radio"][value="compensation"]').click();
         cy.get('[type="radio"][value="legacy-no"]').click();
         cy.axeCheck();
-        cy.findByText(/request/i, { selector: 'button' }).click();
+        cy.findByText(/review online/i, { selector: 'a' }).click();
+      },
+
+      introduction: ({ afterHook }) => {
         afterHook(() => {
+          if (Cypress.env('CI')) {
+            cy.get('[type="radio"][value="compensation"]').click();
+            cy.get('[type="radio"][value="legacy-no"]').click();
+            cy.axeCheck();
+            cy.findByText(/review online/i, { selector: 'a' }).click();
+          }
           // Hit the start button
           cy.findAllByText(/start/i, { selector: 'button' })
             .first()
@@ -43,7 +52,7 @@ const testConfig = createTestConfig(
 
       cy.login(mockUser);
 
-      cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
+      cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
 
       cy.intercept(
         'GET',

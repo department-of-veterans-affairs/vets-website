@@ -21,6 +21,9 @@ export const uiSchema = {
       'ui:title': 'Are you married?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
+      'ui:errorMessages': {
+        required: 'Please select your marital status.',
+      },
     },
   },
   'view:components': {

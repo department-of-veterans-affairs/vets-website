@@ -1,12 +1,27 @@
-import path from 'path';
-import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 import mockFacilityDataV1 from '../../constants/mock-facility-data-v1.json';
+import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 import mockLaLocation from '../../constants/mock-la-location.json';
+
+import { healthServices, facilityTypesOptions } from '../../config';
+import { LocationType } from '../../constants';
 
 Cypress.Commands.add('verifyOptions', () => {
   // Va facilities have services available
   cy.get('#facility-type-dropdown').select('VA health');
   cy.get('#service-type-dropdown').should('not.have.attr', 'disabled');
+  delete healthServices.Covid19Vaccine;
+  const hServices = Object.keys(healthServices);
+
+  for (let i = 0; i < hServices.length; i++) {
+    cy.get('#service-type-dropdown')
+      .children()
+      .eq(i)
+      .then($option => {
+        const value = $option.attr('value');
+        expect(value).to.equal(hServices[i]);
+      });
+  }
+
   cy.get('#facility-type-dropdown').select('Urgent care');
   cy.get('#service-type-dropdown').should('not.have.attr', 'disabled');
   cy.get('#facility-type-dropdown').select('VA benefits');
@@ -32,12 +47,6 @@ Cypress.Commands.add('verifyOptions', () => {
 });
 
 describe('Facility VA search', () => {
-  before(function() {
-    cy.syncFixtures({
-      constants: path.join(__dirname, '..', '..', 'constants'),
-    });
-  });
-
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles?*', []);
     cy.intercept('GET', '/v0/maintenance_windows', []);
@@ -69,7 +78,6 @@ describe('Facility VA search', () => {
     cy.get('.i-pin-card-map').contains('C');
     cy.get('.i-pin-card-map').contains('D');
 
-    cy.get('.va-pagination').should('exist');
     cy.get('#other-tools').should('exist');
   });
 
@@ -88,7 +96,7 @@ describe('Facility VA search', () => {
         cy.intercept(
           'GET',
           '/v1/facilities/va/vha_674BY',
-          'fx:constants/mock-facility-v1',
+          mockFacilityDataV1,
         ).as('fetchFacility');
 
         cy.findByText(/austin va clinic/i, { selector: 'a' })
@@ -129,11 +137,22 @@ describe('Facility VA search', () => {
       });
   });
 
-  it('does not show search result header if no results are found', () => {
-    cy.visit('/find-locations?fail=true');
+  it('shows search result header even when no results are found', () => {
+    cy.visit('/find-locations');
 
-    cy.get('#search-results-subheader').should('not.exist');
-    cy.get('#other-tools').should('not.exist');
+    cy.get('#street-city-state-zip').type('27606');
+    cy.get('#facility-type-dropdown').select(
+      facilityTypesOptions[LocationType.CC_PROVIDER],
+    );
+    cy.get('#service-type-ahead-input').type('foo');
+    cy.get('#facility-search').click({ waitForAnimations: true });
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(3000);
+
+    cy.focused().contains(
+      'No results found for "Community providers (in VA’s network)" near "Raleigh, North Carolina 27606"',
+    );
+    cy.get('#other-tools').should('exist');
   });
 
   it('finds va benefits facility in Los Angeles and views its page', () => {
@@ -166,6 +185,38 @@ describe('Facility VA search', () => {
     cy.get('#hours-op h3').contains('Hours of operation');
     cy.get('#other-tools').should('not.exist');
 
+    cy.axeCheck();
+  });
+
+  it('should not trigger Use My Location when pressing enter in the input field', () => {
+    cy.visit('/find-locations');
+
+    cy.get('#street-city-state-zip').type('27606{enter}');
+    // Wait for Use My Location to be triggered (it should not be)
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(8000);
+    // If Use My Location is triggered and succeeds, it will change the contents of the search field:
+    cy.get('#street-city-state-zip')
+      .invoke('val')
+      .then(searchString => expect(searchString).to.equal('27606'));
+    // If Use My Location is triggered and fails, it will trigger a modal alert:
+    cy.get('#va-modal-title').should('not.exist');
+  });
+
+  it('finds VA emergency care', () => {
+    cy.visit('/find-locations');
+
+    cy.get('#street-city-state-zip').type('New York');
+    cy.get('#facility-type-dropdown').select('Emergency care');
+    cy.get('#service-type-dropdown').select('VA emergency care');
+    cy.get('#facility-search').click({ waitForAnimations: true });
+    cy.get('#search-results-subheader').contains(
+      'Results for "Emergency Care", "VA emergency care" near "New York, New York"',
+    );
+    cy.get('.search-result-emergency-care-subheader').should('exist');
+    cy.get('.facility-result h3 a').contains('Manhattan VA Medical Center');
+
+    cy.injectAxe();
     cy.axeCheck();
   });
 });

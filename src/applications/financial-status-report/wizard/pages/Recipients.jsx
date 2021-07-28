@@ -7,7 +7,7 @@ const label = 'Which of these best describes the person who has this debt?';
 const options = [
   {
     value: 'active-duty',
-    label: 'Active duty service member',
+    label: 'Active-duty service member',
   },
   {
     value: 'veteran',

@@ -9,6 +9,7 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../../mocks/setup';
+import { getICSTokens } from '../../../../utils/calendar';
 
 const getInitialState = start => ({
   featureToggles: {
@@ -97,7 +98,9 @@ describe('VAOS <ConfirmationPage>', () => {
 
     expect(screen.getByText(/Cheyenne VA Medical Center/i)).to.be.ok;
     expect(screen.getByText(/2360 East Pershing Boulevard/i)).to.be.ok;
-    expect(screen.baseElement).to.contain.text('Cheyenne, WY 82001-5356');
+    expect(screen.baseElement).to.contain.text(
+      'Cheyenne, WyomingWY 82001-5356',
+    );
     expect(screen.getByText(/Follow-up\/Routine/i)).to.be.ok;
     expect(screen.getByText(/Additional info/i)).to.be.ok;
 
@@ -142,7 +145,7 @@ describe('VAOS <ConfirmationPage>', () => {
     expect(screen.getByText(/Primary care appointment/i)).to.be.ok;
     expect(screen.getByText(/Pending/i)).to.be.ok;
     expect(screen.getByText(/CHYSHR-Sidney VA Clinic/i)).to.be.ok;
-    expect(screen.baseElement).to.contain.text('Cheyenne, WY');
+    expect(screen.baseElement).to.contain.text('Cheyenne, WyomingWY');
     expect(screen.getByText(/December 20, 2019 in the morning/i)).to.be.ok;
   });
 
@@ -153,7 +156,6 @@ describe('VAOS <ConfirmationPage>', () => {
       facilityType: 'communityCare',
       distanceWillingToTravel: '25',
       preferredLanguage: 'english',
-      visitType: 'office',
       bestTimeToCall: {
         morning: true,
         afternoon: true,
@@ -186,7 +188,9 @@ describe('VAOS <ConfirmationPage>', () => {
     expect(screen.getByText(/Jane Doe/i)).to.be.ok;
     expect(screen.getByText(/555555555/i)).to.be.ok;
     expect(screen.getByText(/123 Test/i)).to.be.ok;
-    expect(screen.baseElement).to.contain.text('Northampton, MA 01060');
+    expect(screen.baseElement).to.contain.text(
+      'Northampton, MassachusettsMA 01060',
+    );
     expect(screen.getByText(/December 20, 2019 in the morning/i)).to.be.ok;
   });
 
@@ -197,7 +201,6 @@ describe('VAOS <ConfirmationPage>', () => {
       facilityType: 'communityCare',
       distanceWillingToTravel: '25',
       preferredLanguage: 'english',
-      visitType: 'office',
       bestTimeToCall: {
         morning: true,
         afternoon: true,
@@ -387,5 +390,143 @@ describe('VAOS <ConfirmationPage>', () => {
     await waitFor(() => {
       expect(screen.history.location.pathname).to.equal('/new-appointment');
     });
+  });
+
+  it('should verify in person calendar ics file format', async () => {
+    const start = moment();
+    const store = createTestStore({
+      newAppointment: {
+        submitStatus: FETCH_STATUS.succeeded,
+        flowType: FLOW_TYPES.DIRECT,
+        data: {
+          typeOfCareId: '323',
+          phoneNumber: '1234567890',
+          email: 'joeblow@gmail.com',
+          reasonForAppointment: 'routine-follow-up',
+          reasonAdditionalInfo: 'Additional info',
+          vaParent: '983',
+          vaFacility: '983',
+          clinicId: '455',
+          selectedDates: [start.format()],
+        },
+        availableSlots: [
+          {
+            start: start.format(),
+            end: moment(start)
+              .add(30, 'minutes')
+              .format(),
+          },
+        ],
+        parentFacilities: [
+          {
+            id: '983',
+            identifier: [
+              { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
+              {
+                system: 'http://med.va.gov/fhir/urn',
+                value: 'urn:va:facility:983',
+              },
+            ],
+          },
+        ],
+        clinics: {
+          '983_323': [
+            {
+              id: '455',
+            },
+          ],
+        },
+        facilities: {
+          '323': [
+            {
+              id: '983',
+              name: 'Cheyenne VA Medical Center',
+              identifier: [
+                { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
+              ],
+              address: {
+                postalCode: '82001-5356',
+                city: 'Cheyenne',
+                state: 'WY',
+                line: ['2360 East Pershing Boulevard'],
+              },
+              telecom: [{ system: 'phone', value: '307-778-7550' }],
+            },
+          ],
+        },
+      },
+    });
+
+    const screen = renderWithStoreAndRouter(<ConfirmationPage />, {
+      store,
+    });
+
+    expect(await screen.findByText(/Your appointment is confirmed/i)).to.be.ok;
+    expect(
+      screen.getByText(
+        new RegExp(start.format('MMMM D, YYYY [at] h:mm a'), 'i'),
+      ),
+    ).to.be.ok;
+
+    const ics = decodeURIComponent(
+      screen
+        .getByRole('link', {
+          name: `Add ${start.format(
+            'MMMM D, YYYY',
+          )} appointment to your calendar`,
+        })
+        .getAttribute('href')
+        .replace('data:text/calendar;charset=utf-8,', ''),
+    );
+    const tokens = getICSTokens(ics);
+
+    expect(tokens.get('BEGIN')).includes('VCALENDAR');
+    expect(tokens.get('VERSION')).to.equal('2.0');
+    expect(tokens.get('PRODID')).to.equal('VA');
+    expect(tokens.get('BEGIN')).includes('VEVENT');
+    expect(tokens.has('UID')).to.be.true;
+    expect(tokens.get('SUMMARY')).to.equal(
+      'Appointment at Cheyenne VA Medical Center',
+    );
+
+    // Description text longer than 74 characters should start on newline beginning
+    // with a tab character
+    let description = tokens.get('DESCRIPTION');
+    description = description.split(/(?=\t)/g); // look ahead include the split character in the results
+
+    expect(description[0]).to.equal(
+      'You have a health care appointment at Cheyenne VA Medical Cent',
+    );
+    expect(description[1]).to.equal('\ter');
+    expect(description[2]).to.equal('\t\\n\\n2360 East Pershing Boulevard\\n');
+    expect(description[3]).to.equal('\tCheyenne\\, WY 82001-5356\\n');
+    expect(description[4]).to.equal('\t307-778-7550\\n');
+    expect(description[5]).to.equal(
+      '\t\\nSign in to VA.gov to get details about this appointment\\n',
+    );
+    expect(tokens.get('LOCATION')).to.equal(
+      '2360 East Pershing Boulevard\\, Cheyenne\\, WY 82001-5356',
+    );
+    expect(tokens.get('DTSTAMP')).to.equal(
+      `${moment(start)
+        .tz('America/Denver', true) // Only change the timezone and not the time
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens.get('DTSTART')).to.equal(
+      `${moment(start)
+        .tz('America/Denver', true) // Only change the timezone and not the time
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens.get('DTEND')).to.equal(
+      `${moment(start)
+        .tz('America/Denver', true) // Only change the timezone and not the time
+        .utc()
+        .add(30, 'minutes')
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens.get('END')).includes('VEVENT');
+    expect(tokens.get('END')).includes('VCALENDAR');
   });
 });

@@ -2,17 +2,6 @@ import { CHAPTER_31_ROOT_URL, WIZARD_STATUS } from '../../constants';
 
 describe('Chapter 31 wizard', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        type: 'feature_toggles',
-        features: [
-          {
-            name: 'show_chapter_31',
-            value: true,
-          },
-        ],
-      },
-    });
     sessionStorage.removeItem(WIZARD_STATUS);
     cy.visit(CHAPTER_31_ROOT_URL);
     cy.injectAxe();

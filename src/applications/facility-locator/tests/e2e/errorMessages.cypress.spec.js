@@ -1,12 +1,4 @@
-import path from 'path';
-
 describe('Facility search error messages', () => {
-  before(function() {
-    cy.syncFixtures({
-      constants: path.join(__dirname, '..', '..', 'constants'),
-    });
-  });
-
   beforeEach(() => {
     cy.server();
     cy.route('GET', '/v0/feature_toggles?*', []);

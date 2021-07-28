@@ -1,24 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import * as Sentry from '@sentry/browser';
+import { COMPLETE, ERROR, LOADING } from './loadingStatus';
 
-function checkForWebchat(
-  setLoading,
-  setError,
-  MAX_INTERVAL_CALL_COUNT,
-  timeout,
-) {
+function checkForWebchat(setLoadingStatus, MAX_INTERVAL_CALL_COUNT, timeout) {
   let intervalCallCount = 0;
   const intervalId = setInterval(() => {
     intervalCallCount++;
     if (window.WebChat) {
-      setLoading(false);
-      setError(false);
+      setLoadingStatus(COMPLETE);
       clearInterval(intervalId);
     } else if (intervalCallCount > MAX_INTERVAL_CALL_COUNT) {
       Sentry.captureException(new Error('Failed to load webchat framework'));
-      setError(true);
-      setLoading(false);
+      setLoadingStatus(ERROR);
       clearInterval(intervalId);
     }
   }, timeout);
@@ -36,7 +30,6 @@ const loadWebChat = () => {
 };
 
 const TIMEOUT_DURATION_MS = 250;
-const DEFAULT_WEBCHAT_TIMEOUT = 1 * 60 * 1000;
 
 export default function useWebChatFramework(props) {
   useEffect(() => {
@@ -45,20 +38,19 @@ export default function useWebChatFramework(props) {
     loadWebChat();
   }, []);
 
-  const [isLoading, setLoading] = useState(!window.WebChat);
-  const [error, setError] = useState(false);
+  const [loadingStatus, setLoadingStatus] = useState(
+    window.WebChat ? COMPLETE : LOADING,
+  );
 
-  const webchatTimeout = props.webchatTimeout || DEFAULT_WEBCHAT_TIMEOUT;
-  const MAX_INTERVAL_CALL_COUNT = webchatTimeout / TIMEOUT_DURATION_MS;
+  const MAX_INTERVAL_CALL_COUNT = props.timeout / TIMEOUT_DURATION_MS;
 
-  if (isLoading) {
+  if (loadingStatus === LOADING) {
     checkForWebchat(
-      setLoading,
-      setError,
+      setLoadingStatus,
       MAX_INTERVAL_CALL_COUNT,
       TIMEOUT_DURATION_MS,
     );
   }
 
-  return { isLoading, error, WebChatFramework: window.WebChat };
+  return { loadingStatus, WebChatFramework: window.WebChat };
 }

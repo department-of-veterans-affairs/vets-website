@@ -1,5 +1,10 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import {
+  mockFetch,
+  setFetchJSONFailure,
+  setFetchJSONResponse,
+} from 'platform/testing/unit/helpers.js';
 
 import {
   ADD_FILE,
@@ -50,19 +55,6 @@ import {
   FETCH_STEM_CLAIMS_SUCCESS,
   FETCH_STEM_CLAIMS_PENDING,
 } from '../actions';
-
-let fetchMock;
-let oldFetch;
-
-const mockFetch = () => {
-  oldFetch = global.fetch;
-  fetchMock = sinon.stub();
-  global.fetch = fetchMock;
-};
-
-const unMockFetch = () => {
-  global.fetch = oldFetch;
-};
 
 describe('Actions', () => {
   describe('setNotification', () => {
@@ -240,14 +232,10 @@ describe('Actions', () => {
     });
   });
   describe('getAppeals', () => {
-    beforeEach(mockFetch);
+    beforeEach(() => mockFetch());
     it('should fetch claims', done => {
       const appeals = [];
-      fetchMock.returns({
-        catch: () => ({
-          then: fn => fn({ ok: true, json: () => Promise.resolve(appeals) }),
-        }),
-      });
+      setFetchJSONResponse(global.fetch.onCall(0), appeals);
       const thunk = getAppeals();
       const dispatchSpy = sinon.spy();
       const dispatch = action => {
@@ -263,16 +251,7 @@ describe('Actions', () => {
     });
     it('should fail on error', done => {
       const appeals = [];
-      fetchMock.returns({
-        catch: () => ({
-          then: fn =>
-            fn({
-              ok: false,
-              status: 500,
-              json: () => Promise.resolve(appeals),
-            }),
-        }),
-      });
+      setFetchJSONFailure(global.fetch.onCall(0), appeals);
       const thunk = getAppeals();
       const dispatchSpy = sinon.spy();
       const dispatch = action => {
@@ -288,12 +267,22 @@ describe('Actions', () => {
 
       thunk(dispatch);
     });
-    afterEach(unMockFetch);
   });
   describe('getClaimsV2', () => {
+    let dispatchSpy;
+    let pollStatusSpy;
+    let oldDataLayer;
+    beforeEach(() => {
+      oldDataLayer = global.window.dataLayer;
+      global.window.dataLayer = [];
+      dispatchSpy = sinon.spy();
+      pollStatusSpy = sinon.spy();
+    });
+    afterEach(() => {
+      global.window.dataLayer = oldDataLayer;
+    });
+
     it('should call dispatch and pollStatus', () => {
-      const dispatchSpy = sinon.spy();
-      const pollStatusSpy = sinon.spy();
       getClaimsV2({ poll: pollStatusSpy })(dispatchSpy);
 
       expect(dispatchSpy.firstCall.args[0]).to.eql({
@@ -304,8 +293,6 @@ describe('Actions', () => {
 
     describe('onError callback', () => {
       it('should dispatch a FETCH_CLAIMS_ERROR action', () => {
-        const dispatchSpy = sinon.spy();
-        const pollStatusSpy = sinon.spy();
         getClaimsV2({ poll: pollStatusSpy })(dispatchSpy);
 
         pollStatusSpy.firstCall.args[0].onError({ errors: [] });
@@ -314,11 +301,25 @@ describe('Actions', () => {
           type: 'FETCH_CLAIMS_ERROR',
         });
       });
+      it('should record the correct event to the data layer', () => {
+        getClaimsV2({ poll: pollStatusSpy })(dispatchSpy);
+
+        pollStatusSpy.firstCall.args[0].onError({ errors: [] });
+
+        expect(global.window.dataLayer[0]).to.eql({
+          event: 'api_call',
+          'api-name': 'GET claims',
+          'api-status': 'failed',
+          'error-key': 'unknown',
+          'api-latency-ms': 0,
+        });
+        expect(global.window.dataLayer[1]).to.eql({
+          'error-key': undefined,
+        });
+      });
     });
     describe('onSuccess callback', () => {
       it('should dispatch a FETCH_CLAIMS_SUCCESS action', () => {
-        const dispatchSpy = sinon.spy();
-        const pollStatusSpy = sinon.spy();
         getClaimsV2({ poll: pollStatusSpy })(dispatchSpy);
 
         pollStatusSpy.firstCall.args[0].onSuccess({ data: [] });
@@ -329,11 +330,21 @@ describe('Actions', () => {
           pages: 0,
         });
       });
+      it('should record the correct event to the data layer', () => {
+        getClaimsV2({ poll: pollStatusSpy })(dispatchSpy);
+
+        pollStatusSpy.firstCall.args[0].onSuccess({ data: [] });
+
+        expect(global.window.dataLayer[0]).to.eql({
+          event: 'api_call',
+          'api-name': 'GET claims',
+          'api-status': 'successful',
+          'api-latency-ms': 0,
+        });
+      });
     });
     describe('shouldFail predicate', () => {
       it('should return true when response.meta.syncStatus is FAILED', () => {
-        const dispatchSpy = sinon.spy();
-        const pollStatusSpy = sinon.spy();
         getClaimsV2({ poll: pollStatusSpy })(dispatchSpy);
 
         const shouldFail = pollStatusSpy.firstCall.args[0].shouldFail({
@@ -343,8 +354,6 @@ describe('Actions', () => {
         expect(shouldFail).to.be.true;
       });
       it('should return false when response.meta.syncStatus is not FAILED', () => {
-        const dispatchSpy = sinon.spy();
-        const pollStatusSpy = sinon.spy();
         getClaimsV2({ poll: pollStatusSpy })(dispatchSpy);
 
         const shouldFail = pollStatusSpy.firstCall.args[0].shouldFail({});
@@ -354,8 +363,6 @@ describe('Actions', () => {
     });
     describe('shouldSucceed predicate', () => {
       it('should return true when response.meta.syncStatus is SUCCESS', () => {
-        const dispatchSpy = sinon.spy();
-        const pollStatusSpy = sinon.spy();
         getClaimsV2({ poll: pollStatusSpy })(dispatchSpy);
 
         const shouldSucceed = pollStatusSpy.firstCall.args[0].shouldSucceed({
@@ -365,8 +372,6 @@ describe('Actions', () => {
         expect(shouldSucceed).to.be.true;
       });
       it('should return false when response.meta.syncStatus is not SUCCESS', () => {
-        const dispatchSpy = sinon.spy();
-        const pollStatusSpy = sinon.spy();
         getClaimsV2({ poll: pollStatusSpy })(dispatchSpy);
 
         const shouldSucceed = pollStatusSpy.firstCall.args[0].shouldSucceed({});
@@ -514,21 +519,17 @@ describe('Actions', () => {
     });
   });
   describe('submitRequest', () => {
-    beforeEach(mockFetch);
+    beforeEach(() => mockFetch());
     it('should submit request', done => {
-      fetchMock.returns({
-        catch: () => ({
-          then: fn => fn({ ok: true, json: () => Promise.resolve() }),
-        }),
-      });
+      setFetchJSONResponse(global.fetch.onCall(0), []);
       const thunk = submitRequest(5);
       const dispatchSpy = sinon.spy();
       const dispatch = action => {
         dispatchSpy(action);
         if (dispatchSpy.callCount === 3) {
-          expect(fetchMock.firstCall.args[1].method).to.equal('POST');
-          expect(fetchMock.firstCall.args[0].endsWith('5/request_decision')).to
-            .be.true;
+          expect(global.fetch.firstCall.args[1].method).to.equal('POST');
+          expect(global.fetch.firstCall.args[0].endsWith('5/request_decision'))
+            .to.be.true;
           expect(dispatchSpy.firstCall.args[0]).to.eql({
             type: SUBMIT_DECISION_REQUEST,
           });
@@ -543,12 +544,7 @@ describe('Actions', () => {
       thunk(dispatch);
     });
     it('should fail on error', done => {
-      fetchMock.returns({
-        catch: () => ({
-          then: fn =>
-            fn({ ok: false, status: 500, json: () => Promise.resolve() }),
-        }),
-      });
+      setFetchJSONFailure(global.fetch.onCall(0));
       const thunk = submitRequest(5);
       const dispatchSpy = sinon.spy();
       const dispatch = action => {
@@ -566,18 +562,13 @@ describe('Actions', () => {
 
       thunk(dispatch);
     });
-    afterEach(unMockFetch);
   });
 
   describe('getStemClaims', () => {
-    beforeEach(mockFetch);
+    beforeEach(() => mockFetch());
     it('should fetch stem claims', done => {
       const response = { data: [] };
-      fetchMock.returns({
-        catch: () => ({
-          then: fn => fn({ ok: true, json: () => Promise.resolve(response) }),
-        }),
-      });
+      setFetchJSONResponse(global.fetch.onCall(0), response);
       const thunk = getStemClaims();
       const dispatchSpy = sinon.spy();
       const dispatch = action => {
@@ -596,16 +587,7 @@ describe('Actions', () => {
       thunk(dispatch);
     });
     it('should fail on error', done => {
-      fetchMock.returns({
-        catch: () => ({
-          then: fn =>
-            fn({
-              ok: false,
-              status: 500,
-              json: () => Promise.resolve([]),
-            }),
-        }),
-      });
+      setFetchJSONFailure(global.fetch.onCall(0));
       const thunk = getStemClaims();
       const dispatchSpy = sinon.spy();
       const dispatch = action => {
@@ -623,6 +605,5 @@ describe('Actions', () => {
 
       thunk(dispatch);
     });
-    afterEach(unMockFetch);
   });
 });

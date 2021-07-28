@@ -107,7 +107,10 @@ export default function FieldTemplate(props) {
       {showLabel && labelElement}
       {textDescription && <p>{textDescription}</p>}
       {DescriptionField && (
-        <DescriptionField options={uiSchema['ui:options']} />
+        <DescriptionField
+          options={uiSchema['ui:options']}
+          index={formContext?.pagePerItemIndex}
+        />
       )}
       {!textDescription && !DescriptionField && description}
       {errorSpan}

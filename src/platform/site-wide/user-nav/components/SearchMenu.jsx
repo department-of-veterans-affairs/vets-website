@@ -15,6 +15,7 @@ import DropDownPanel from '@department-of-veterans-affairs/component-library/Dro
 import { apiRequest } from 'platform/utilities/api';
 
 const ENTER_KEY = 13;
+const SPACE_KEY = 32;
 
 export class SearchMenu extends React.Component {
   constructor(props) {
@@ -29,6 +30,29 @@ export class SearchMenu extends React.Component {
       savedSuggestions: [],
       highlightedIndex: null,
     };
+  }
+  componentDidMount() {
+    document.addEventListener('keyup', () => {
+      if (
+        ((event.which || event.keyCode) === SPACE_KEY ||
+          (event.which || event.keyCode) === ENTER_KEY) &&
+        document.activeElement?.id === 'sitewide-search-submit-button'
+      ) {
+        this.handleSearchEvent();
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keyup', () => {
+      if (
+        ((event.which || event.keyCode) === SPACE_KEY ||
+          (event.which || event.keyCode) === ENTER_KEY) &&
+        document.activeElement?.id === 'sitewide-search-submit-button'
+      ) {
+        this.handleSearchEvent();
+      }
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -49,40 +73,10 @@ export class SearchMenu extends React.Component {
     if (inputChanged && searchTypeaheadEnabled) {
       this.debouncedGetSuggestions();
     }
-
-    // event logging for phased typeahead rollout
-    if (
-      !prevProps.searchTypeaheadEnabled &&
-      this.props.searchTypeaheadEnabled
-    ) {
-      const searchTypeaheadLogged = JSON.parse(
-        sessionStorage.getItem('searchTypeaheadLogged'),
-      );
-      if (!searchTypeaheadLogged) {
-        recordEvent({
-          event: 'phased-roll-out-enabled',
-          'product-description': 'Type Ahead',
-        });
-        sessionStorage.setItem('searchTypeaheadLogged', JSON.stringify(true));
-      }
-    }
   }
 
   clearSuggestions = () => {
     this.setState({ suggestions: [], savedSuggestions: [] });
-  };
-
-  isUserInputValid = () => {
-    const { userInput } = this.state;
-
-    // check to make sure user input isn't empty
-    const isCorrectLength =
-      userInput && userInput.replace(/\s/g, '').length > 0;
-    if (!isCorrectLength) {
-      return false;
-    }
-    // this will likely expand in the future
-    return true;
   };
 
   getSuggestions = async () => {
@@ -181,13 +175,9 @@ export class SearchMenu extends React.Component {
   // handle event logging and fire off a search query
   handleSearchEvent = suggestion => {
     const { suggestions, userInput, savedSuggestions } = this.state;
-    const { isUserInputValid } = this;
 
     const suggestionsList = [...suggestions, ...savedSuggestions];
-    // if the user tries to search with an empty input, escape early
-    if (!isUserInputValid()) {
-      return;
-    }
+
     // event logging, note suggestion will be undefined during a userInput search
     recordEvent({
       event: 'view_search_results',
@@ -247,7 +237,6 @@ export class SearchMenu extends React.Component {
       handleInputChange,
       handleSearchEvent,
       handleKeyUp,
-      isUserInputValid,
       formatSuggestion,
       handleSearchTab,
     } = this;
@@ -262,6 +251,7 @@ export class SearchMenu extends React.Component {
     if (!searchTypeaheadEnabled) {
       return (
         <form
+          className="vads-u-margin-bottom--0"
           acceptCharset="UTF-8"
           onSubmit={event => {
             event.preventDefault();
@@ -285,7 +275,6 @@ export class SearchMenu extends React.Component {
             <button
               type="submit"
               data-e2e-id="sitewide-search-submit-button"
-              disabled={!isUserInputValid()}
               className="vads-u-margin-left--0p25 vads-u-margin-right--0p5 "
             >
               <IconSearch color="#fff" />
@@ -336,7 +325,7 @@ export class SearchMenu extends React.Component {
               />
               <button
                 type="submit"
-                disabled={!isUserInputValid()}
+                id="sitewide-search-submit-button"
                 data-e2e-id="sitewide-search-submit-button"
                 className="vads-u-margin-left--0p5 vads-u-margin-y--1 vads-u-margin-right--1 vads-u-flex--1"
                 onMouseDown={event => {

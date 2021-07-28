@@ -1,15 +1,14 @@
 import React from 'react';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import ItemLoop from '../../../components/ItemLoop';
 import CardDetailsView from '../../../components/CardDetailsView';
 import CustomReviewField from '../../../components/CustomReviewField';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import { validateCurrency } from '../../../utils/validations';
 import Typeahead from '../../../components/Typeahead';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import {
   formatOptions,
   recreationalVehicleTypes,
 } from '../../../constants/typeaheadOptions';
-import _ from 'lodash/fp';
 
 const RecVehicleInfo = (
   <AdditionalInfo triggerText="What if I don’t know the estimated value of my trailer, camper, or boat?">
@@ -25,12 +24,19 @@ const RecVehicleInfo = (
 );
 
 export const uiSchema = {
-  'ui:title': 'Your trailers, campers, and boats',
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">
+        Your trailers, campers, and boats
+      </legend>
+      <p className="vads-u-padding-top--2">
+        Enter each of your trailers, campers, and boats separately below.
+      </p>
+    </>
+  ),
   assets: {
     trailersBoatsCampers: {
       'ui:field': ItemLoop,
-      'ui:description':
-        'Enter each of your trailers, campers, and boats separately below.',
       'ui:options': {
         viewField: CardDetailsView,
         doNotScroll: true,
@@ -49,12 +55,21 @@ export const uiSchema = {
               'input-size-6 vads-u-margin-top--3 vads-u-margin-bottom--3',
             getOptions: () => formatOptions(recreationalVehicleTypes),
           },
+          'ui:errorMessages': {
+            required: 'Please enter the type of vehicle.',
+          },
         },
-        recreationalVehicleAmount: _.merge(currencyUI('Estimated value'), {
+        recreationalVehicleAmount: {
+          'ui:title': 'Estimated value',
           'ui:options': {
+            classNames: 'schemaform-currency-input',
             widgetClassNames: 'input-size-4 vads-u-margin-bottom--3',
           },
-        }),
+          'ui:errorMessages': {
+            required: 'Please enter the estimated value.',
+          },
+          'ui:validations': [validateCurrency],
+        },
       },
     },
   },
@@ -81,7 +96,7 @@ export const schema = {
                 type: 'string',
               },
               recreationalVehicleAmount: {
-                type: 'number',
+                type: 'string',
               },
             },
           },

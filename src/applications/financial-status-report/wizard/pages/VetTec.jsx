@@ -31,13 +31,20 @@ const VetTec = () => {
         <ul>
           <li>
             <strong>Email: </strong>
-            <a href="mailto:vettec.vbauf@va.gov">VETTEC.VBAUF@va.gov</a>.
+            <a className="email" href="mailto:vettec.vbauf@va.gov">
+              VETTEC.VBAUF@va.gov
+            </a>
+            .
           </li>
           <li>
             <strong>Phone: </strong>
-            Call us at <Telephone contact={'716-857-5061'} /> (TTY:{' '}
-            <Telephone contact={CONTACTS[711]} pattern={PATTERNS['3_DIGIT']} />)
-            and leave a detailed message. We'll call you back as soon as
+            Call us at <Telephone contact={'716-857-5061'} /> (TTY:
+            <Telephone
+              contact={CONTACTS[711]}
+              pattern={PATTERNS['3_DIGIT']}
+              className="vads-u-margin-x--0p5"
+            />
+            ) and leave a detailed message. We'll call you back as soon as
             possible.
           </li>
           <li>

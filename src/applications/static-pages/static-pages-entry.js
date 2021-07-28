@@ -11,6 +11,8 @@ import './alerts-dismiss-view';
 import './ics-generator';
 import createFacilityPage from './facilities/createFacilityPage';
 import createVetCentersHours from './facilities/createVetCentersHours';
+import createNearByVetCenters from './facilities/vet-center/createNearByVetCenters';
+import createExpandableOperatingStatus from './facilities/vet-center/createExpandableOperatingStatus';
 
 import widgetTypes from './widgetTypes';
 import subscribeAdditionalInfoEvents from './subscribeAdditionalInfoEvents';
@@ -77,6 +79,9 @@ import createDependencyVerification from './dependency-verification/createDepend
 import dependencyVerificationReducer from './dependency-verification/reducers/index';
 
 import createCOEAccess from './coe-access/createCOEAccess';
+
+// Debt Resolution | Manage VA Debt Widgets
+import createManageVADebtCTA from './manage-va-debt/createManageVADebtCTA';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -150,6 +155,8 @@ createResourcesAndSupportSearchWidget(
 );
 
 createVetCentersHours(store);
+createExpandableOperatingStatus(store);
+createNearByVetCenters(store);
 createFacilityListWidget();
 createOtherFacilityListWidget();
 createFacilityPage(store);
@@ -203,6 +210,8 @@ createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
 createCOEAccess(store, widgetTypes.COE_ACCESS);
 
 createSharableLink(store, widgetTypes.SHARABLE_LINK);
+
+createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
 
 // homepage widgets
 if (location.pathname === '/') {

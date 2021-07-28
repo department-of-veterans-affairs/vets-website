@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import {
   mockApiRequest,
   mockFetch,
-  resetFetch,
+  setFetchJSONResponse,
 } from 'platform/testing/unit/helpers.js';
 
 import {
@@ -20,25 +20,12 @@ import {
   SET_DISMISSED_HCA_NOTIFICATION,
 } from '../actions';
 
-function setFetchResponse(stub, data) {
-  const response = new Response(null, {
-    headers: { 'content-type': ['application/json'] },
-  });
-  response.ok = true;
-  response.json = () => Promise.resolve(data);
-  stub.resolves(response);
-}
-
-const originalFetch = global.fetch;
 let dispatch;
 
 describe('HCA actions', () => {
   describe('getEnrollmentStatus', () => {
     beforeEach(() => {
       dispatch = sinon.spy();
-    });
-    afterEach(() => {
-      global.fetch = originalFetch;
     });
     describe('on fetch success', () => {
       it('should dispatch a fetch succeeded action with data', () => {
@@ -97,7 +84,7 @@ describe('HCA actions', () => {
     describe('when form data is passed in', () => {
       it('should append the form data to the request URL', () => {
         mockFetch();
-        setFetchResponse(global.fetch.onFirstCall(), { status: 'OK' });
+        setFetchJSONResponse(global.fetch.onFirstCall(), { status: 'OK' });
         const getState = () => ({
           hcaEnrollmentStatus: {
             isLoadingApplicationStatus: false,
@@ -133,9 +120,6 @@ describe('HCA actions', () => {
   describe('getDismissedHCANotification', () => {
     beforeEach(() => {
       dispatch = sinon.spy();
-    });
-    afterEach(() => {
-      global.fetch = originalFetch;
     });
 
     describe('on fetch success', () => {
@@ -174,11 +158,8 @@ describe('HCA actions', () => {
     const statusEffectiveAtDate = 1565025055759;
     beforeEach(() => {
       mockFetch();
-      setFetchResponse(global.fetch.onFirstCall(), { status: 'OK' });
+      setFetchJSONResponse(global.fetch.onFirstCall(), { status: 'OK' });
       dispatch = sinon.spy();
-    });
-    afterEach(() => {
-      resetFetch();
     });
 
     describe('when an HCA notification is being dismissed for the first time', () => {

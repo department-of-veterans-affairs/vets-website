@@ -1,7 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { mockFacilityLocatorApiResponse } from './mockFacilitiesData';
+import {
+  mockFacilityLocatorApiResponse,
+  mockFeedbackZeroValues,
+} from './mockFacilitiesData';
 import { FacilityPatientSatisfactionScoresWidget } from '../../facilities/FacilityPatientSatisfactionScoresWidget';
 
 describe('facilities <FacilityPatientSatisfactionScoresWidget>', () => {
@@ -48,6 +51,21 @@ describe('facilities <FacilityPatientSatisfactionScoresWidget>', () => {
       '#facility-patient-satisfaction-scores-specialty-routine-score',
     );
     expect(specialtyRoutineScore.text()).to.contain('91%');
+
+    tree.unmount();
+  });
+
+  it('should NOT render facility patient satisfaction scores section when 0 values', () => {
+    const tree = shallow(
+      <FacilityPatientSatisfactionScoresWidget
+        loading={false}
+        facility={mockFeedbackZeroValues.data[0]}
+      />,
+    );
+    expect(tree).to.be.empty;
+    expect(tree.find('LoadingIndicator').exists()).to.be.false;
+    expect(tree.find('h2#our-patient-satisfaction-scores').exists()).to.be
+      .false;
 
     tree.unmount();
   });

@@ -667,7 +667,7 @@ const formConfig = {
       },
     },
     householdInformation: {
-      title: 'Household Information',
+      title: 'Household information',
       pages: {
         marriageInfo: {
           title: 'Marriage history',
@@ -706,7 +706,7 @@ const formConfig = {
           },
         },
         marriageHistory: {
-          title: (form, { pagePerItemIndex }) =>
+          title: (form, { pagePerItemIndex } = { pagePerItemIndex: 0 }) =>
             getMarriageTitleWithCurrent(form, pagePerItemIndex),
           path: 'household/marriages/:index',
           showPagePerItem: true,
@@ -939,7 +939,7 @@ const formConfig = {
           },
         },
         spouseMarriageHistory: {
-          title: (form, { pagePerItemIndex }) =>
+          title: (form, { pagePerItemIndex } = { pagePerItemIndex: 0 }) =>
             getSpouseMarriageTitle(pagePerItemIndex),
           path: 'household/spouse-marriages/:index',
           depends: isMarried,
@@ -1449,6 +1449,12 @@ const formConfig = {
               'ui:title':
                 'Do you have any medical, legal or other unreimbursed expenses?',
               'ui:widget': 'yesNo',
+              'ui:options': {
+                // HACK: Forcing wrapper to be a <div> instead of <dl>
+                // in order to avoid breaking accessibility.
+                customTitle: ' ',
+                useDlWrap: true,
+              },
             },
             otherExpenses: _.merge(otherExpensesUI, {
               'ui:options': {
@@ -1532,6 +1538,12 @@ const formConfig = {
               'ui:title':
                 'Does your spouse have any medical, legal or other unreimbursed expenses?',
               'ui:widget': 'yesNo',
+              'ui:options': {
+                // HACK: Forcing wrapper to be a <div> instead of <dl>
+                // in order to avoid breaking accessibility.
+                customTitle: ' ',
+                useDlWrap: true,
+              },
             },
             spouseOtherExpenses: _.merge(otherExpensesUI, {
               'ui:options': {
@@ -1677,6 +1689,12 @@ const formConfig = {
                   'ui:title':
                     'Does your child have any medical, legal or other unreimbursed expenses?',
                   'ui:widget': 'yesNo',
+                  'ui:options': {
+                    // HACK: Forcing this to be a <div> instead of <dl>
+                    // in order to avoid breaking accessibility.
+                    customTitle: ' ',
+                    useDlWrap: true,
+                  },
                 },
                 otherExpenses: _.merge(otherExpensesUI, {
                   'ui:options': {

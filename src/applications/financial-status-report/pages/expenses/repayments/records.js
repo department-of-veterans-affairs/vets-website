@@ -1,21 +1,20 @@
+import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
 import ItemLoop from '../../../components/ItemLoop';
 import CardDetailsView from '../../../components/CardDetailsView';
 import CustomReviewField from '../../../components/CustomReviewField';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import { validateCurrency } from '../../../utils/validations';
 import Typeahead from '../../../components/Typeahead';
-import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
 import {
   formatOptions,
   installmentTypes,
 } from '../../../constants/typeaheadOptions';
-import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Your installment contracts and other debts',
+  'ui:description':
+    'Enter information for each installment contract or debt separately below.',
   installmentContractsAndOtherDebts: {
     'ui:field': ItemLoop,
-    'ui:description':
-      'Enter information for each installment contract or debt separately below.',
     'ui:options': {
       viewField: CardDetailsView,
       doNotScroll: true,
@@ -34,6 +33,9 @@ export const uiSchema = {
             'input-size-7 vads-u-margin-top--3 vads-u-margin-bottom--3',
           getOptions: () => formatOptions(installmentTypes),
         },
+        'ui:errorMessages': {
+          required: 'Please provide the purpose of debt.',
+        },
       },
       creditorName: {
         'ui:title': 'Name of creditor who holds the contract or debt',
@@ -41,28 +43,48 @@ export const uiSchema = {
           widgetClassNames: 'input-size-7 vads-u-margin-bottom--3',
         },
       },
-      originalAmount: _.merge(currencyUI('Original contract or debt amount'), {
+      originalAmount: {
+        'ui:title': 'Original contract or debt amount',
         'ui:options': {
+          classNames: 'schemaform-currency-input',
           widgetClassNames: 'input-size-6 vads-u-margin-bottom--3',
         },
-      }),
-      unpaidBalance: _.merge(currencyUI('Unpaid balance'), {
+        'ui:validations': [validateCurrency],
+      },
+      unpaidBalance: {
+        'ui:title': 'Unpaid balance',
         'ui:options': {
+          classNames: 'schemaform-currency-input',
           widgetClassNames: 'input-size-6 vads-u-margin-bottom--3',
         },
-      }),
-      amountDueMonthly: _.merge(currencyUI('Minimum monthly payment amount'), {
+        'ui:errorMessages': {
+          required: 'Please enter the unpaid balance.',
+        },
+        'ui:validations': [validateCurrency],
+      },
+      amountDueMonthly: {
+        'ui:title': 'Minimum monthly payment amount',
         'ui:options': {
+          classNames: 'schemaform-currency-input',
           widgetClassNames: 'input-size-6',
         },
-      }),
+        'ui:errorMessages': {
+          required: 'Please enter the monthly payment amount owed.',
+        },
+        'ui:validations': [validateCurrency],
+      },
       dateStarted: monthYearUI('Date debt began'),
-      amountPastDue: _.merge(currencyUI('Amount overdue'), {
+      amountPastDue: {
+        'ui:title': 'Amount overdue',
         'ui:options': {
-          classNames: 'vads-u-margin-top--2',
+          classNames: 'schemaform-currency-input vads-u-margin-top--2',
           widgetClassNames: 'input-size-4 vads-u-margin-bottom--3',
         },
-      }),
+        'ui:errorMessages': {
+          required: 'Please enter the amount overdue.',
+        },
+        'ui:validations': [validateCurrency],
+      },
     },
   },
 };
@@ -88,19 +110,19 @@ export const schema = {
             type: 'string',
           },
           originalAmount: {
-            type: 'number',
+            type: 'string',
           },
           unpaidBalance: {
-            type: 'number',
+            type: 'string',
           },
           amountDueMonthly: {
-            type: 'number',
+            type: 'string',
           },
           dateStarted: {
             type: 'string',
           },
           amountPastDue: {
-            type: 'number',
+            type: 'string',
           },
         },
       },

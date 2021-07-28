@@ -12,6 +12,10 @@ export const uiSchema = {
       'ui:options': {
         classNames: 'max-width-400',
       },
+      'ui:errorMessages': {
+        required:
+          'Please provide your installment contracts or other debts information.',
+      },
     },
   },
 };

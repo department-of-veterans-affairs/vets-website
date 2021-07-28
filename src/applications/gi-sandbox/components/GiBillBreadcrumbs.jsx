@@ -5,6 +5,7 @@ import { useQueryParams } from '../utils/helpers';
 
 const GiBillBreadcrumbs = () => {
   const profileMatch = useRouteMatch('/profile/:facilityCode');
+  const compareMatch = useRouteMatch('/compare');
   const queryParams = useQueryParams();
   const version = queryParams.get('version');
 
@@ -26,15 +27,21 @@ const GiBillBreadcrumbs = () => {
     </Link>,
   ];
 
-  const onProfilePage = profileMatch;
-
-  if (onProfilePage) {
+  if (profileMatch) {
     crumbs.push(
       <Link
         to={`/profile/${profileMatch.params.facilityCode}`}
         key="result-detail"
       >
         School details
+      </Link>,
+    );
+  }
+
+  if (compareMatch) {
+    crumbs.push(
+      <Link to={root} key="main">
+        Compare schools
       </Link>,
     );
   }

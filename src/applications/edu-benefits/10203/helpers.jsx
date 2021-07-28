@@ -9,7 +9,9 @@ export const isChapter33 = form =>
 
 export const displayConfirmEligibility = form =>
   !isChapter33(form) ||
-  (!form.isEnrolledStem && !form.isPursuingTeachingCert) ||
+  (!form.isEnrolledStem &&
+    !form.isPursuingTeachingCert &&
+    !form.isPursuingClinicalTraining) ||
   form.benefitLeft === 'moreThanSixMonths' ||
   form['view:remainingEntitlement']?.totalDays > 180;
 

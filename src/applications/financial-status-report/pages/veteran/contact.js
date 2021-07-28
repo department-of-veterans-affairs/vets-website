@@ -2,8 +2,6 @@ import React from 'react';
 import ReviewCardField from '../../components/ReviewCardField';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import ContactInfoCard from '../../components/ContactInfoCard';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import emailUI from 'platform/forms-system/src/js/definitions/email';
 
 import {
   SCHEMA_DEFINITIONS,
@@ -20,6 +18,8 @@ import {
   validateMilitaryCity,
   validateMilitaryState,
   validateZIP,
+  validatePhone,
+  validateEmail,
 } from '../../utils/validations';
 
 export const uiSchema = {
@@ -52,9 +52,18 @@ export const uiSchema = {
           </p>
           <p>
             If you want to change your address for other VA benefits and
-            services,{' '}
-            <a href="https://va.gov/profile">go to your VA.gov profile</a>. Or{' '}
-            <a href="https://www.va.gov/resources/change-your-address-on-file-with-va/">
+            services,
+            <a
+              href="https://va.gov/profile"
+              className="vads-u-margin-left--0p5"
+            >
+              go to your VA.gov profile
+            </a>
+            . Or
+            <a
+              href="https://www.va.gov/resources/change-your-address-on-file-with-va/"
+              className="vads-u-margin-left--0p5"
+            >
               find out how to change your address on file with VA
             </a>
             .
@@ -85,7 +94,7 @@ export const uiSchema = {
       country: {
         'ui:title': 'Country',
         'ui:options': {
-          classNames: 'input-size-7',
+          widgetClassNames: 'input-size-7',
           updateSchema: (formData, schema, uiSchemaCountry) => {
             const uiSchemaDisabled = uiSchemaCountry;
             uiSchemaDisabled['ui:disabled'] = false;
@@ -105,30 +114,32 @@ export const uiSchema = {
             };
           },
         },
+        'ui:errorMessages': {
+          enum: 'Please select a country.',
+        },
       },
       street: {
         'ui:title': 'Street address',
         'ui:errorMessages': {
-          pattern: 'Please enter a valid street address',
-          required: 'Please enter a street address',
+          pattern: 'Please enter a street address.',
         },
         'ui:options': {
-          classNames: 'input-size-7',
+          widgetClassNames: 'input-size-7',
         },
       },
       street2: {
         'ui:title': 'Street address line 2',
         'ui:options': {
-          classNames: 'input-size-7',
+          widgetClassNames: 'input-size-7',
         },
       },
       city: {
         'ui:errorMessages': {
-          pattern: 'Please enter a valid city',
-          required: 'Please enter a city',
+          pattern: 'Please enter a valid city.',
+          required: 'Please enter a city.',
         },
         'ui:options': {
-          classNames: 'input-size-7',
+          widgetClassNames: 'input-size-7',
           replaceSchema: formData => {
             if (formData.personalData.address.livesOutsideUS) {
               return {
@@ -155,7 +166,7 @@ export const uiSchema = {
       state: {
         'ui:title': 'State',
         'ui:options': {
-          classNames: 'input-size-7',
+          widgetClassNames: 'input-size-7',
           updateSchema: formData => {
             if (
               formData.personalData.address.livesOutsideUS ||
@@ -179,33 +190,33 @@ export const uiSchema = {
           },
         ],
         'ui:errorMessages': {
-          pattern: 'Please enter a valid state',
-          required: 'Please enter a state',
+          enum: 'Please select a state.',
         },
       },
       postalCode: {
         'ui:title': 'Postal code',
         'ui:validations': [validateZIP],
         'ui:errorMessages': {
-          required: 'Please enter a postal code',
-          pattern:
-            'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
+          required: 'Please enter a postal code.',
+          pattern: 'Please enter a valid postal code.',
         },
         'ui:options': {
-          classNames: 'input-size-2',
+          widgetClassNames: 'input-size-5',
         },
       },
     },
     telephoneNumber: {
-      ...phoneUI('Phone number'),
+      'ui:title': 'Phone number',
+      'ui:validations': [validatePhone],
       'ui:options': {
-        classNames: 'input-size-7',
+        widgetClassNames: 'input-size-7',
       },
     },
     emailAddress: {
-      ...emailUI('Email address'),
+      'ui:title': 'Email address',
+      'ui:validations': [validateEmail],
       'ui:options': {
-        classNames: 'input-size-7',
+        widgetClassNames: 'input-size-7',
       },
     },
   },
@@ -240,8 +251,12 @@ export const schema = {
             postalCode: SCHEMA_DEFINITIONS.postalCode,
           },
         },
-        telephoneNumber: SCHEMA_DEFINITIONS.telephoneNumber,
-        emailAddress: SCHEMA_DEFINITIONS.emailAddress,
+        telephoneNumber: {
+          type: 'string',
+        },
+        emailAddress: {
+          type: 'string',
+        },
       },
     },
   },

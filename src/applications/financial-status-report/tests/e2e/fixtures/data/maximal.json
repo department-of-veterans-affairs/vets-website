@@ -1,11 +1,11 @@
 {
   "additionalData": {
     "bankruptcy": {
-      "dateDischarged": "2004-06-XX",
+      "dateDischarged": "2004-10-XX",
       "courtLocation": "Tampa, FL",
       "docketNumber": "123456"
     },
-    "additionalComments": "Supporting personal statement"
+    "additionalComments": "Supporting personal statement..."
   },
   "questions": {
     "hasBeenAdjudicatedBankrupt": true,
@@ -20,84 +20,83 @@
     "spouseHasAdditionalIncome": true,
     "spouseHasSocialSecurity": true,
     "spouseHasBenefits": true,
-    "spousePreviouslyEmployed": true,
     "spouseIsEmployed": true,
     "isMarried": true,
     "hasAdditionalIncome": true,
     "hasSocialSecurity": true,
-    "vetPreviouslyEmployed": true,
     "vetIsEmployed": true
   },
   "otherExpenses": [
     {
-      "name": "Lawn service",
-      "amount": 150
+      "name": "Pool service",
+      "amount": "200"
     },
     {
-      "name": "Pool service",
-      "amount": 75
+      "name": "Lawn service",
+      "amount": "100"
     }
   ],
   "view:components": {
     "view:assetInfo": {},
     "view:recVehicleInfo": {},
     "view:vehicleInfo": {},
+    "view:maritalStatus": {},
     "view:veteranInfo": {},
     "view:vaBenefitsOnFile": {}
   },
   "installmentContractsAndOtherDebts": [
     {
       "purpose": "Credit card payments",
-      "creditorName": "Creditor Name 1",
-      "originalAmount": 125000,
-      "unpaidBalance": 55000,
-      "amountDueMonthly": 825,
-      "dateStarted": "2016-06-XX",
-      "amountPastDue": 100
+      "creditorName": "Creditor One",
+      "originalAmount": "50000",
+      "unpaidBalance": "15000",
+      "amountDueMonthly": "800",
+      "dateStarted": "2017-03-XX",
+      "amountPastDue": "25"
     },
     {
-      "purpose": "Helicopter payment",
-      "creditorName": "Creditor 2",
-      "originalAmount": 1000000,
-      "unpaidBalance": 750000,
-      "amountDueMonthly": 2500,
-      "dateStarted": "2017-04-XX",
-      "amountPastDue": 0
+      "purpose": "Car payment/lease",
+      "creditorName": "Creditor Two",
+      "originalAmount": "100000",
+      "unpaidBalance": "50000",
+      "amountDueMonthly": "1200",
+      "dateStarted": "2019-05-XX",
+      "amountPastDue": "0"
     }
   ],
   "utilityRecords": [
     {
       "utilityType": "Electricity",
-      "monthlyUtilityAmount": 350
+      "monthlyUtilityAmount": "350"
+    },
+    {
+      "utilityType": "Water",
+      "monthlyUtilityAmount": "75"
     },
     {
       "utilityType": "Cable",
-      "monthlyUtilityAmount": 225
-    },
-    {
-      "utilityType": "Cell phone",
-      "monthlyUtilityAmount": 400
+      "monthlyUtilityAmount": "275"
     }
   ],
   "expenses": {
-    "rentOrMortgage": 3200,
-    "food": 4500
+    "rentOrMortgage": "1200",
+    "food": "4000"
   },
   "assets": {
     "otherAssets": [
       {
         "name": "Bitcoin",
-        "amount": 60000
+        "amount": "50000"
       },
       {
         "name": "Gambling earning",
-        "amount": 225000
+        "amount": "16000"
       }
     ],
     "trailersBoatsCampers": [
       {
         "recreationalVehicleType": "Boat",
-        "recreationalVehicleAmount": 15000
+        "recreationalVehicleAmount": "15000"
       }
     ],
     "automobiles": [
@@ -106,29 +105,29 @@
         "make": "Dodge",
         "model": "RAM",
         "year": "2020",
-        "resaleValue": 85000
+        "resaleValue": "75000"
       },
       {
         "type": "Car",
         "make": "Dodge",
         "model": "Charger",
         "year": "2020",
-        "resaleValue": 35000
+        "resaleValue": "40000"
       }
     ],
-    "cashInBank": 1650,
-    "cashOnHand": 4300,
-    "usSavingsBonds": 75000,
-    "stocksAndOtherBonds": 50000
+    "cashInBank": "3000",
+    "cashOnHand": "10000",
+    "usSavingsBonds": "25000",
+    "stocksAndOtherBonds": "50000"
   },
   "realEstateRecords": [
     {
-      "realEstateType": "Acreage or land",
-      "realEstateAmount": 70000
+      "realEstateType": "Vacation property",
+      "realEstateAmount": "350000"
     },
     {
-      "realEstateType": "Vacation property",
-      "realEstateAmount": 250000
+      "realEstateType": "Single-family home",
+      "realEstateAmount": "450000"
     }
   ],
   "personalData": {
@@ -142,72 +141,47 @@
     ],
     "employmentHistory": {
       "spouse": {
-        "spousePreviousEmployment": [
+        "employmentRecords": [
           {
             "type": "Full time",
-            "from": "2016-07-XX",
-            "to": "2017-04-XX",
-            "employerName": "Spouse Prev Employer 1"
+            "from": "2018-6-XX",
+            "to": "",
+            "isCurrent": true,
+            "employerName": "Spouse Current"
+          },
+          {
+            "type": "Full time",
+            "from": "2015-3-XX",
+            "to": "2018-6-XX",
+            "employerName": "Spouse Previous",
+            "isCurrent": false
+          }
+        ]
+      },
+      "veteran": {
+        "employmentRecords": [
+          {
+            "type": "Full time",
+            "from": "2017-1-XX",
+            "to": "",
+            "isCurrent": true,
+            "employerName": "Veteran Current One"
           },
           {
             "type": "Part time",
-            "from": "2015-10-XX",
-            "to": "2017-08-XX",
-            "employerName": "Spouse Prev Employer 2"
-          }
-        ],
-        "currentEmployment": {
-          "type": "Full time",
-          "from": "2017-05-XX",
-          "employerName": "Spouse Current Employer",
-          "monthlyGrossSalary": 4500,
-          "spouseDeductions": [
-            {
-              "name": "Federal tax",
-              "amount": 300
-            },
-            {
-              "name": "Health insurance",
-              "amount": 410
-            }
-          ]
-        }
-      },
-      "veteran": {
-        "vetPreviousEmployment": [
-          {
-            "type": "Full time",
-            "from": "2017-02-XX",
-            "to": "2019-08-XX",
-            "employerName": "Veteran Prev Employer 1"
+            "from": "2019-7-XX",
+            "to": "",
+            "isCurrent": true,
+            "employerName": "Veteran Current Two"
           },
           {
             "type": "Full time",
-            "from": "2016-05-XX",
-            "to": "2017-08-XX",
-            "employerName": "Veteran Prev Employer 2"
+            "from": "2016-3-XX",
+            "to": "2017-3-XX",
+            "employerName": "Veteran Previous",
+            "isCurrent": false
           }
-        ],
-        "currentEmployment": {
-          "type": "Full time",
-          "from": "2019-03-XX",
-          "employerName": "Veteran Current Employer",
-          "monthlyGrossSalary": 5300,
-          "deductions": [
-            {
-              "name": "Federal tax",
-              "amount": 350
-            },
-            {
-              "name": "Health insurance",
-              "amount": 420
-            },
-            {
-              "name": "FICA (Social Security and Medicare)",
-              "amount": 100
-            }
-          ]
-        }
+        ]
       }
     },
     "spouseFullName": {
@@ -217,7 +191,7 @@
     "address": {
       "livesOnMilitaryBaseInfo": {},
       "country": "USA",
-      "street": "123 Fake St",
+      "street": "123 Fake Street",
       "city": "Tampa",
       "state": "FL",
       "postalCode": "33543"
@@ -225,47 +199,51 @@
     "telephoneNumber": "4445551212",
     "emailAddress": "test2@test1.net",
     "veteranFullName": {
-      "first": "Mark",
-      "middle": "",
-      "last": "Webb"
+      "first": "Greg",
+      "last": "Anderson",
+      "middle": "A"
     },
-    "dateOfBirth": "1950-10-04"
+    "dateOfBirth": "1933-04-05"
   },
   "additionalIncome": {
     "spouse": {
       "spouseAdditionalIncomeRecords": [
         {
-          "name": "Bonus payment",
-          "amount": 800
+          "name": "Child care income",
+          "amount": "800"
+        },
+        {
+          "name": "Alimony payment",
+          "amount": "1000"
         }
       ]
     },
     "additionalIncomeRecords": [
       {
-        "name": "Alimony payment",
-        "amount": 2000
+        "name": "Bonus payment",
+        "amount": "1500"
       },
       {
         "name": "Freelance service",
-        "amount": 1200
+        "amount": "1000"
       }
     ]
   },
   "socialSecurity": {
     "spouse": {
-      "socialSecurityAmount": 1100
+      "socialSecurityAmount": "1400"
     },
-    "socialSecurityAmount": 1500
+    "socialSecurityAmount": "1200"
   },
   "benefits": {
     "spouseBenefits": {
-      "benefitAmount": 1200,
-      "educationAmount": 1700
+      "benefitAmount": "1000",
+      "educationAmount": "500"
     }
   },
   "personalIdentification": {
-    "ssn": "1234",
-    "fileNumber": "5678"
+    "ssn": "1200",
+    "fileNumber": "1200"
   },
   "selectedDebts": [
     {
@@ -301,6 +279,76 @@
       "resolution": {
         "resolutionType": "Waiver",
         "agreeToWaiver": true
+      }
+    },
+    {
+      "fileNumber": "796121200",
+      "payeeNumber": "00",
+      "personEntitled": "AJHONS",
+      "deductionCode": "72",
+      "benefitType": "CH33 Housing EDU",
+      "diaryCode": "123",
+      "diaryCodeDescription": "Pending payment",
+      "amountOverpaid": 0,
+      "amountWithheld": 321.76,
+      "originalAr": 321.76,
+      "currentAr": 200,
+      "debtHistory": [
+        {
+          "date": "08/08/2018",
+          "letterCode": 608,
+          "description": "Full C&P Benefit Offset Notifi"
+        },
+        {
+          "date": "07/19/2018",
+          "letterCode": 100,
+          "description": "First Demand Letter - Inactive Benefits - Due Process"
+        }
+      ],
+      "id": 4,
+      "resolution": {
+        "resolutionType": "Extended monthly payments",
+        "offerToPay": "100"
+      }
+    },
+    {
+      "fileNumber": "796121200",
+      "payeeNumber": "00",
+      "personEntitled": "AJOHNS",
+      "deductionCode": "74",
+      "benefitType": "CH33 Student Tuition EDU",
+      "diaryCode": "117",
+      "diaryCodeDescription": "Pending payment",
+      "amountOverpaid": 0,
+      "amountWithheld": 475,
+      "originalAr": 2210.9,
+      "currentAr": 1000,
+      "debtHistory": [
+        {
+          "date": "04/01/2017",
+          "letterCode": 608,
+          "description": "Full C&P Benefit Offset Notifi"
+        },
+        {
+          "date": "11/18/2015",
+          "letterCode": 130,
+          "description": "Debt Increase - Due P"
+        },
+        {
+          "date": "04/08/2015",
+          "letterCode": 608,
+          "description": "Full C&P Benefit Offset Notifi"
+        },
+        {
+          "date": "03/26/2015",
+          "letterCode": 100,
+          "description": "First Demand Letter - Inactive Benefits - Due Process"
+        }
+      ],
+      "id": 3,
+      "resolution": {
+        "resolutionType": "Compromise",
+        "offerToPay": "700"
       }
     },
     {
@@ -349,8 +397,33 @@
       ],
       "id": 1,
       "resolution": {
-        "resolutionType": "Compromise",
-        "offerToPay": "80"
+        "resolutionType": "Waiver",
+        "agreeToWaiver": true
+      }
+    },
+    {
+      "fileNumber": "796121200",
+      "payeeNumber": "00",
+      "personEntitled": "AJOHNS",
+      "deductionCode": "71",
+      "benefitType": "CH33 Books, Supplies/MISC EDU",
+      "diaryCode": "101",
+      "diaryCodeDescription": "Pending automatic benefit offset",
+      "amountOverpaid": 0,
+      "amountWithheld": 0,
+      "originalAr": 166.67,
+      "currentAr": 120.4,
+      "debtHistory": [
+        {
+          "date": "09/18/2012",
+          "letterCode": "100",
+          "description": "First Demand Letter - Inactive Benefits - Due Process"
+        }
+      ],
+      "id": 2,
+      "resolution": {
+        "resolutionType": "Waiver",
+        "agreeToWaiver": true
       }
     }
   ],
@@ -364,13 +437,69 @@
     "deductionCode": "",
     "originalAr": 0
   },
-  "income": [
+  "currentEmployment": [
     {
-      "veteranOrSpouse": "VETERAN",
-      "compensationAndPension": "3261.1",
-      "education": "50"
+      "veteranMonthlyGrossSalary": "5000",
+      "deductions": [
+        {
+          "name": "Federal tax",
+          "amount": "350"
+        },
+        {
+          "name": "Health insurance",
+          "amount": "400"
+        },
+        {
+          "name": "401K",
+          "amount": "100"
+        }
+      ],
+      "type": "Full time",
+      "from": "2017-1-XX",
+      "to": "",
+      "isCurrent": true,
+      "employerName": "Veteran Current One"
+    },
+    {
+      "veteranMonthlyGrossSalary": "2000",
+      "deductions": [
+        {
+          "name": "Federal tax",
+          "amount": "200"
+        }
+      ],
+      "type": "Part time",
+      "from": "2019-7-XX",
+      "to": "",
+      "isCurrent": true,
+      "employerName": "Veteran Current Two"
+    }
+  ],
+  "spouseCurrentEmployment": [
+    {
+      "spouseMonthlyGrossSalary": "4000",
+      "deductions": [
+        {
+          "name": "Federal tax",
+          "amount": "325"
+        },
+        {
+          "name": "Health insurance",
+          "amount": "250"
+        }
+      ],
+      "type": "Full time",
+      "from": "2018-6-XX",
+      "to": "",
+      "isCurrent": true,
+      "employerName": "Spouse Current"
     }
   ],
   "financialOverview": {},
-  "availableOptions": {}
+  "availableOptions": {},
+  "income": [
+    {
+      "veteranOrSpouse": "VETERAN"
+    }
+  ]
 }

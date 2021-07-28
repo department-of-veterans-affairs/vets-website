@@ -27,7 +27,12 @@ import * as personId from 'platform/forms/definitions/personId';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { transform, eligibilityDescription, benefitsLabels } from '../helpers';
+import {
+  transform,
+  eligibilityDescription,
+  benefitsLabels,
+  relationshipLabels,
+} from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
 
@@ -93,7 +98,9 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: {
-        applicantInformation: applicantInformation(fullSchema1990e),
+        applicantInformation: applicantInformation(fullSchema1990e, {
+          labels: { relationship: relationshipLabels },
+        }),
         additionalBenefits: additionalBenefits(fullSchema1990e),
       },
     },

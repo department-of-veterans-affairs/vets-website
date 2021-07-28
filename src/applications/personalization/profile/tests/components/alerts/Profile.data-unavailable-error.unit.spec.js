@@ -5,8 +5,6 @@ import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
 
-import { resetFetch } from 'platform/testing/unit/helpers';
-
 import * as mocks from '@@profile/msw-mocks';
 import { renderWithProfileReducers as render } from '../../unit-test-helpers';
 
@@ -116,7 +114,6 @@ describe('Profile "Not all data available" error', () => {
   let server;
 
   before(() => {
-    resetFetch();
     server = setupServer(...mocks.allProfileEndpointsLoaded);
     server.listen();
   });

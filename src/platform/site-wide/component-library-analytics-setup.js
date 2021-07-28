@@ -4,6 +4,7 @@
  */
 import _recordEvent from 'platform/monitoring/record-event';
 import { kebabCase } from 'lodash';
+import { getSectionLabel } from 'applications/static-pages/subscribeAccordionEvents';
 
 const analyticsEvents = {
   Modal: [{ action: 'show', event: 'int-modal-show' }],
@@ -33,6 +34,7 @@ const analyticsEvents = {
   Select: [{ action: 'change', event: 'int-select-box-option-click' }],
   TextArea: [{ action: 'blur', event: 'int-text-area-blur' }],
   TextInput: [{ action: 'blur', event: 'int-text-input-blur' }],
+  'va-checkbox': [{ action: 'change', event: 'int-checkbox-option-click' }],
 };
 
 export function subscribeComponentAnalyticsEvents(
@@ -60,6 +62,14 @@ export function subscribeComponentAnalyticsEvents(
 
           dataLayer[newKey] = e.detail.details[key];
         }
+      }
+
+      if (
+        ['int-accordion-expand', 'int-accordion-collapse'].includes(
+          action.event,
+        )
+      ) {
+        dataLayer['accordion-section-label'] = getSectionLabel(e.target);
       }
 
       recordEvent(dataLayer);

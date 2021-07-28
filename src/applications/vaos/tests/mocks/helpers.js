@@ -37,7 +37,9 @@ export function mockAppointmentInfo({
   partialError = null,
   isHomepageRefresh = false,
 }) {
-  mockFetch();
+  if (!global.fetch.isSinonProxy) {
+    mockFetch();
+  }
 
   const startDate = isHomepageRefresh
     ? moment().subtract(30, 'days')
@@ -115,7 +117,9 @@ export function mockAppointmentInfo({
  * @param {Array<VARRequest>} [params.requests=[]] Requests to return from mock
  */
 export function mockPastAppointmentInfo({ va = [], cc = [], requests = [] }) {
-  mockFetch();
+  if (!global.fetch.isSinonProxy) {
+    mockFetch();
+  }
   const baseUrl = `${
     environment.API_URL
   }/vaos/v0/appointments?start_date=${moment()
@@ -152,7 +156,9 @@ export function mockPastAppointmentInfo({ va = [], cc = [], requests = [] }) {
  * @param {Array<VARCommunityCareAppointment>} [params.cc=[]] CC appointments to return from mock
  */
 export function mockPastAppointmentInfoOption1({ va = [], cc = [] }) {
-  mockFetch();
+  if (!global.fetch.isSinonProxy) {
+    mockFetch();
+  }
   setFetchJSONResponse(global.fetch, { data: [] });
   setFetchJSONResponse(
     global.fetch.withArgs(
@@ -189,17 +195,42 @@ export function mockPastAppointmentInfoOption1({ va = [], cc = [] }) {
  *
  * @export
  * @param {Object} params
- * @param {Array<string>} ids List of facility ids to use in query param
- * @param {Array<VAFacility>} facilities Array of facilities to return from mock
+ * @param {?Array<string>} ids List of facility ids to use in query param
+ * @param {?Array<VAFacility>} facilities Array of facilities to return from mock
  */
 export function mockFacilitiesFetch(ids, facilities) {
-  setFetchJSONResponse(
+  if (!ids) {
+    setFetchJSONResponse(
+      global.fetch.withArgs(sinon.match('/v1/facilities/va?ids=')),
+      { data: [] },
+    );
+  } else {
+    setFetchJSONResponse(
+      global.fetch.withArgs(
+        `${environment.API_URL}/v1/facilities/va?ids=${ids}&per_page=${
+          ids.split(',').length
+        }`,
+      ),
+      { data: facilities },
+    );
+  }
+}
+
+/**
+ * Mocks facilities fetch with an error response
+ *
+ * @export
+ * @param {Object} params
+ * @param {Array<string>} ids List of facility ids to use in query param
+ */
+export function mockFacilitiesFetchError(ids) {
+  setFetchJSONFailure(
     global.fetch.withArgs(
       `${environment.API_URL}/v1/facilities/va?ids=${ids}&per_page=${
         ids.split(',').length
       }`,
     ),
-    { data: facilities },
+    { errors: [] },
   );
 }
 
@@ -243,26 +274,42 @@ export function mockCCProviderFetch(
   if (vaError) {
     setFetchJSONFailure(
       global.fetch.withArgs(
-        `${environment.API_URL}/v1/facilities/ccp?latitude=${
+        `${environment.API_URL}/facilities_api/v1/ccp/provider?latitude=${
           address.latitude
         }&longitude=${
           address.longitude
-        }&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&type=provider&trim=true`,
+        }&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&trim=true`,
       ),
       { errors: [] },
     );
   } else {
     setFetchJSONResponse(
       global.fetch.withArgs(
-        `${environment.API_URL}/v1/facilities/ccp?latitude=${
+        `${environment.API_URL}/facilities_api/v1/ccp/provider?latitude=${
           address.latitude
         }&longitude=${
           address.longitude
-        }&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&type=provider&trim=true`,
+        }&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&trim=true`,
       ),
       { data: providers },
     );
   }
+}
+
+/**
+ * Mocks request to VA community care providers api for a single PPMS provider by id, used in community care request flow
+ *
+ * @export
+ * @param {Object<PPMSProvider>} request PPMS provider object
+ */
+
+export function mockCCSingleProviderFetch(request) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/v1/facilities/ccp/${request.id}`,
+    ),
+    { data: request },
+  );
 }
 
 /**
@@ -642,12 +689,21 @@ export function mockRequestSubmit(type, data) {
  * @param {Array<VARRequestMessage>} data The list of message objects to return from the mock
  */
 export function mockMessagesFetch(id, data) {
-  setFetchJSONResponse(
-    global.fetch.withArgs(
-      `${environment.API_URL}/vaos/v0/appointment_requests/${id}/messages`,
-    ),
-    { data },
-  );
+  if (!id) {
+    setFetchJSONResponse(
+      global.fetch.withArgs(
+        sinon.match(/appointment_requests\/[a-z0-9]+\/messages/),
+      ),
+      { data: [] },
+    );
+  } else {
+    setFetchJSONResponse(
+      global.fetch.withArgs(
+        `${environment.API_URL}/vaos/v0/appointment_requests/${id}/messages`,
+      ),
+      { data },
+    );
+  }
 }
 
 /**

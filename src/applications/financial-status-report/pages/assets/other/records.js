@@ -1,12 +1,12 @@
 import React from 'react';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+
 import ItemLoop from '../../../components/ItemLoop';
 import TableDetailsView from '../../../components/TableDetailsView';
 import CustomReviewField from '../../../components/CustomReviewField';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import { validateCurrency } from '../../../utils/validations';
 import Typeahead from '../../../components/Typeahead';
 import { formatOptions, assetTypes } from '../../../constants/typeaheadOptions';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import _ from 'lodash/fp';
 
 const AssetInfo = (
   <AdditionalInfo triggerText="What if I don’t know the estimated value of an asset?">
@@ -25,12 +25,18 @@ const AssetInfo = (
 );
 
 export const uiSchema = {
-  'ui:title': 'Your other assets',
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">Your other assets</legend>
+      <p className="vads-u-padding-top--2">
+        Enter each type of asset separately below. For each, include an
+        estimated value.
+      </p>
+    </>
+  ),
   assets: {
     otherAssets: {
       'ui:field': ItemLoop,
-      'ui:description':
-        'Enter each type of asset separately below. For each, include an estimated value.',
       'ui:options': {
         viewType: 'table',
         viewField: TableDetailsView,
@@ -49,15 +55,24 @@ export const uiSchema = {
           'ui:reviewField': CustomReviewField,
           'ui:options': {
             idPrefix: 'other_assets',
-            classNames: 'input-size-3',
+            widgetClassNames: 'input-size-3',
             getOptions: () => formatOptions(assetTypes),
           },
+          'ui:errorMessages': {
+            required: 'Please enter the type of asset.',
+          },
         },
-        amount: _.merge(currencyUI('Estimated value'), {
+        amount: {
+          'ui:title': 'Estimated value',
           'ui:options': {
+            classNames: 'schemaform-currency-input',
             widgetClassNames: 'input-size-1',
           },
-        }),
+          'ui:errorMessages': {
+            required: 'Please enter the estimated value.',
+          },
+          'ui:validations': [validateCurrency],
+        },
       },
     },
   },
@@ -83,7 +98,7 @@ export const schema = {
                 type: 'string',
               },
               amount: {
-                type: 'number',
+                type: 'string',
               },
             },
           },

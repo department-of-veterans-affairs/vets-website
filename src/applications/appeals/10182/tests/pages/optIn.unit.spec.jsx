@@ -10,7 +10,7 @@ import {
 
 import formConfig from '../../config/form';
 
-describe('NOD has representative page', () => {
+describe('NOD has opt-in page', () => {
   const { schema, uiSchema } = formConfig.chapters.conditions.pages.optIn;
 
   it('should render', () => {

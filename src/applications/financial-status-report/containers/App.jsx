@@ -3,15 +3,15 @@ import MetaTags from 'react-meta-tags';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { connect } from 'react-redux';
+
 import {
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
   WIZARD_STATUS_RESTARTED,
   restartShouldRedirect,
 } from 'platform/site-wide/wizard';
-
 import formConfig from '../config/form';
-import ErrorMessage from '../components/ErrorMessage';
+import { ErrorAlert } from '../components/Alerts';
 import WizardContainer from '../wizard/WizardContainer';
 import { fetchFormStatus } from '../actions/index';
 import { WIZARD_STATUS } from '../wizard/constants';
@@ -51,6 +51,15 @@ const App = ({
 
   useEffect(
     () => {
+      if (showFSR === false) {
+        setWizardStatus(WIZARD_STATUS_NOT_STARTED);
+      }
+    },
+    [showFSR],
+  );
+
+  useEffect(
+    () => {
       getFormStatus();
     },
     [getFormStatus],
@@ -61,15 +70,13 @@ const App = ({
   }
 
   if (isLoggedIn && isError) {
-    return <ErrorMessage />;
-  }
-
-  if (showFSR === false) {
-    return window.location.replace('/manage-va-debt');
+    return <ErrorAlert />;
   }
 
   if (showWizard && wizardState !== WIZARD_STATUS_COMPLETE) {
-    return <WizardContainer setWizardStatus={setWizardStatus} />;
+    return (
+      <WizardContainer setWizardStatus={setWizardStatus} showFSR={showFSR} />
+    );
   }
 
   return showFSR ? (

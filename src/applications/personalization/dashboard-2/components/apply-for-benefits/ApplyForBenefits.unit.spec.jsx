@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 
-import { mockFetch, resetFetch } from '~/platform/testing/unit/helpers';
+import { mockFetch } from '~/platform/testing/unit/helpers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import reducers from '~/applications/personalization/dashboard/reducers';
@@ -271,13 +271,10 @@ describe('ApplyForBenefits component', () => {
     });
   });
   describe('Benefits you might be interested in', () => {
+    beforeEach(() => {
+      mockFetch();
+    });
     context('when user is not a VA patient and has 2FA set up', () => {
-      beforeEach(() => {
-        mockFetch();
-      });
-      afterEach(() => {
-        resetFetch();
-      });
       it('should fetch ESR and DD4EDU data and show a loading spinner', async () => {
         const initialState = {
           user: {
@@ -319,12 +316,6 @@ describe('ApplyForBenefits component', () => {
     context(
       'when user is not a VA patient, not LOA3, and does not have 2FA set up',
       () => {
-        beforeEach(() => {
-          mockFetch();
-        });
-        afterEach(() => {
-          resetFetch();
-        });
         it('should not fetch ESR data or DD4EDU data and show the correct benefits', async () => {
           const initialState = {
             user: {
@@ -371,12 +362,6 @@ describe('ApplyForBenefits component', () => {
     );
 
     context('when user is a VA patient and does not have 2FA set up', () => {
-      beforeEach(() => {
-        mockFetch();
-      });
-      afterEach(() => {
-        resetFetch();
-      });
       it('should not fetch data from ESR and DD4EDU and not show a loading spinner', async () => {
         const initialState = {
           user: {
