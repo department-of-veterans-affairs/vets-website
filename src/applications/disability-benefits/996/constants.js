@@ -1,4 +1,5 @@
 import { benefitTypes } from 'vets-json-schema/dist/constants.json';
+import environment from 'platform/utilities/environment';
 
 // *** URLS ***
 export const HLR_INFO_URL = '/decision-reviews/higher-level-review/';
@@ -73,3 +74,5 @@ export const SUPPORTED_BENEFIT_TYPES = benefitTypes.map(type => ({
   ...type,
   isSupported: supportedBenefitTypes.includes(type.value),
 }));
+
+export const IS_PRODUCTION = environment.isProduction();

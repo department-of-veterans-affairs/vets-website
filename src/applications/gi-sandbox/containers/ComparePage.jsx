@@ -229,7 +229,7 @@ export function ComparePage({
           ref={headerRef}
         >
           <div className="row vads-l-grid-container">
-            <div className="vads-l-row compare-header-row">
+            <div className="vads-l-row compare-header-row vads-u-padding-bottom--6">
               <div className="medium-screen:vads-l-col--3">
                 <div className="compare-header vads-u-padding-right--1">
                   <div className="compare-page-description-label">

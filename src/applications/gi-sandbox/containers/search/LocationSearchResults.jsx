@@ -17,6 +17,7 @@ import {
 } from '../../actions';
 import { connect } from 'react-redux';
 import { getFiltersChanged } from '../../selectors/filters';
+import MobileFilterControls from '../../components/MobileFilterControls';
 
 const MILE_METER_CONVERSION_RATE = 1609.34;
 
@@ -27,6 +28,7 @@ function LocationSearchResults({
   dispatchUpdateEligibilityAndFilters,
   dispatchFetchSearchByLocationCoords,
   filtersChanged,
+  smallScreen,
 }) {
   const { inProgress } = search;
   const { results } = search.location;
@@ -284,8 +286,17 @@ function LocationSearchResults({
                 <>
                   {showTuitionAndFilters && (
                     <>
-                      <TuitionAndHousingEstimates />
-                      <FilterYourResults />
+                      {!smallScreen && (
+                        <>
+                          <TuitionAndHousingEstimates />
+                          <FilterYourResults />
+                        </>
+                      )}
+                      {smallScreen && (
+                        <MobileFilterControls
+                          className={'vads-u-margin-top--2'}
+                        />
+                      )}
                       {count > 0 && (
                         <div
                           id="location-search-results-container"

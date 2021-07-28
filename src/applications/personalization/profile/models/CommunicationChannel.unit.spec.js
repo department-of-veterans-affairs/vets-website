@@ -4,20 +4,24 @@ import CommunicationChannel from './CommunicationChannel';
 
 describe('CommunicationChannel model', () => {
   describe('constructor', () => {
-    it('throws an error when `options.id` is not included or not a number', () => {
+    it('throws an error when `options.type` is not included or not a valid channel type', () => {
       expect(() => {
         // eslint-disable-next-line no-new
         new CommunicationChannel({ parentItemId: 1 });
       }).to.throw(Error, /Invalid Argument/i);
       expect(() => {
         // eslint-disable-next-line no-new
-        new CommunicationChannel({ id: '1' });
+        new CommunicationChannel({ type: '1' });
+      }).to.throw(Error, /Invalid Argument/i);
+      expect(() => {
+        // eslint-disable-next-line no-new
+        new CommunicationChannel({ type: 3 });
       }).to.throw(Error, /Invalid Argument/i);
     });
     it('throws an error when `options.parentItemId` is not included or not a number', () => {
       expect(() => {
         // eslint-disable-next-line no-new
-        new CommunicationChannel({ id: 1 });
+        new CommunicationChannel({ type: 1 });
       }).to.throw(Error, /Invalid Argument/i);
       expect(() => {
         // eslint-disable-next-line no-new
@@ -30,7 +34,7 @@ describe('CommunicationChannel model', () => {
     context('when no permissions have been set yet', () => {
       it('returns an object with the correct shape that we can use with the `saveCommunicationPreferencesGroup` thunk creator', () => {
         const commChannel = new CommunicationChannel({
-          id: 1,
+          type: 1,
           parentItemId: 1,
         });
         commChannel.setIsAllowed(true);
@@ -55,7 +59,7 @@ describe('CommunicationChannel model', () => {
     context('when permission is flipped from true to false', () => {
       it('returns an object with the correct shape that we can use with the `saveCommunicationPreferencesGroup` thunk creator', () => {
         const commChannel = new CommunicationChannel({
-          id: 1,
+          type: 1,
           parentItemId: 1,
           permissionId: 1001,
           isAllowed: true,
@@ -86,13 +90,13 @@ describe('CommunicationChannel model', () => {
     let commChannel2;
     beforeEach(() => {
       commChannel1 = new CommunicationChannel({
-        id: 1,
+        type: 1,
         parentItemId: 1,
         permissionId: 1000,
         isAllowed: true,
       });
       commChannel2 = new CommunicationChannel({
-        id: 1,
+        type: 1,
         parentItemId: 1,
         permissionId: 1000,
         isAllowed: true,
@@ -131,7 +135,7 @@ describe('CommunicationChannel model', () => {
   describe('clone', () => {
     it('returns an identical new instance that can be edited independent of the source instance', () => {
       let baseChannel = new CommunicationChannel({
-        id: 1,
+        type: 1,
         parentItemId: 1,
       });
       let clone = baseChannel.clone();
@@ -141,7 +145,7 @@ describe('CommunicationChannel model', () => {
       clone.setIsAllowed(false);
       expect(baseChannel.isIdenticalTo(clone)).to.be.true;
       baseChannel = new CommunicationChannel({
-        id: 1,
+        type: 1,
         parentItemId: 1,
         isAllowed: true,
         permissionId: 123,

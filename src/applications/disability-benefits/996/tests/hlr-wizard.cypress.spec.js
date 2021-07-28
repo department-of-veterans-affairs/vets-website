@@ -117,13 +117,16 @@ describe('HLR wizard', () => {
 
     // start form
     const h1Addition = ' with VA Form 20-0996';
-    cy.findAllByText(/higher-level review online/i, { selector: 'button' })
+    cy.findAllByText(/higher-level review online/i, { selector: 'a' })
       .first()
       .click();
+
+    cy.location('pathname').should('eq', `${BASE_URL}/introduction`);
     // title changes & gets focus
     cy.get('h1').should('have.text', h1Text + h1Addition);
     cy.focused().should('have.text', h1Text + h1Addition);
     cy.checkStorage(WIZARD_STATUS, 'complete');
+    cy.injectAxe();
     cy.axeCheck();
   });
 });
