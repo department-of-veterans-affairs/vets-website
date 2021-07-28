@@ -3,6 +3,7 @@ import {
   createPastVAAppointments,
   mockFeatureToggles,
 } from './vaos-cypress-helpers';
+import Timeouts from 'platform/testing/e2e/timeouts';
 
 describe('VAOS appointment list', () => {
   beforeEach(() => {
@@ -66,7 +67,9 @@ describe('VAOS appointment list refresh', () => {
 
   describe('appointments details', () => {
     beforeEach(() => {
-      cy.get('h2').contains(/Your appointments/i);
+      cy.get('h2', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .and('contain', 'Your appointments');
       cy.get('#type-dropdown').should('exist');
     });
 
