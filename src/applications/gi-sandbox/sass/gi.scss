@@ -9,7 +9,6 @@
 @import "partials/gi-compare-drawer";
 @import "partials/gi-compare-page";
 @import "partials/gi-modal";
-@import "partials/gi-landing-page";
 @import "partials/gi-search-page";
 @import "partials/gi-profile-page";
 @import "partials/gi-search-controls";
@@ -182,7 +181,12 @@
 
 .section-item,
 .accordion-item {
+  margin-bottom: 5px;
   list-style-type: none !important;
+
+  h2.accordion-button-wrapper {
+    margin: 0;
+  }
 }
 
 .school-classification {
@@ -210,4 +214,15 @@
 
 .capitalize-value {
   text-transform: capitalize;
+}
+
+.tool-description {
+  text-align: center;
+  padding-bottom: 3em;
+
+  @media (max-width: $small-screen) {
+    text-align: left;
+    padding-left: 20px;
+    padding-bottom: 1em;
+  }
 }

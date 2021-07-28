@@ -17,6 +17,7 @@ import {
 } from '../../actions';
 import { connect } from 'react-redux';
 import { getFiltersChanged } from '../../selectors/filters';
+import MobileFilterControls from '../../components/MobileFilterControls';
 import classNames from 'classnames';
 
 const MILE_METER_CONVERSION_RATE = 1609.34;
@@ -344,8 +345,15 @@ function LocationSearchResults({
    */
   const eligibilityAndFilters = (
     <>
-      <TuitionAndHousingEstimates />
-      <FilterYourResults />
+      {!smallScreen && (
+        <>
+          <TuitionAndHousingEstimates />
+          <FilterYourResults />
+        </>
+      )}
+      {smallScreen && (
+        <MobileFilterControls className={'vads-u-margin-top--2'} />
+      )}
     </>
   );
 

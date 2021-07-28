@@ -82,10 +82,7 @@ export function KeywordSearch({
   };
 
   return (
-    <div
-      className={'keyword-search vads-u-display--inline-block'}
-      id="keyword-search"
-    >
+    <div className={'keyword-search'} id="keyword-search">
       <Downshift
         inputValue={inputValue}
         onSelect={item => handleSuggestionSelected(item)}
