@@ -503,7 +503,7 @@ describe('VAOS <AppointmentsPage> cancellation:', () => {
     appointment.attributes = {
       ...appointment.attributes,
       status: 'Submitted',
-      appointmentType: 'Primary care',
+      typeOfCareId: '323',
       optionDate1: moment()
         .add(3, 'days')
         .format('MM/DD/YYYY'),
