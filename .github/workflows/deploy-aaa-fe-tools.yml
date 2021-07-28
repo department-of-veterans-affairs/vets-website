@@ -99,7 +99,7 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Upload build
-        run: aws s3 cp ${{ env.APP_NAME }}.tar.bz2 s3://apps.dev.va.gov/autonomous-deployment/$GITHUB_SHA/${{ matrix.buildtype }}/${{ env.APP_NAME }}.tar.bz2 --acl public-read --region us-gov-west-1
+        run: aws s3 cp ${{ env.APP_NAME }}.tar.bz2 s3://dev-va-gov-assets/autonomous-deployment/$GITHUB_SHA/${{ matrix.buildtype }}/${{ env.APP_NAME }}.tar.bz2 --acl public-read --region us-gov-west-1
 
 # deploy:
 #   name: Deploy
