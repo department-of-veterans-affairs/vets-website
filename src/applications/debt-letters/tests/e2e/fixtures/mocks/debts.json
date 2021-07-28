@@ -235,6 +235,28 @@
         }
 
       ]
+    },
+    {
+      "thisOneIsActive": false,
+      "fileNumber": "796121299",
+      "payeeNumber": "00",
+      "personEntitled": "STUB_M",
+      "deductionCode": "41",
+      "benefitType": "CH35 EDU",
+      "diaryCode": "481",
+      "description": "Debt referred to Treasury for Cross servicing",
+      "amountOverpaid": 0,
+      "amountWithheld": 0,
+      "originalAr": 100,
+      "currentAr": 1800,
+      "debtHistory": [
+        {
+          "date": "12/19/2012",
+          "letterCode": "681",
+          "description": "Account returned from Treasury Cross Servicing. Account is at TOP.  TOP offsets will be applied to account as Federal funds become available."
+        }
+
+      ]
     }
   ]
 }
