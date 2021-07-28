@@ -712,9 +712,9 @@ jobs:
 #     matrix:
 #       include:
 #         - environment: vagovdev
-#           bucket: apps.dev.va.gov
+#           bucket: dev-va-gov-assets
 #         - environment: vagovstaging
-#           bucket: apps.staging.va.gov
+#           bucket: stage-va-gov-assets
 
 #   steps:
 #     - name: Checkout
