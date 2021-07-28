@@ -348,7 +348,6 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
         },
       ],
       serviceType: '203',
-      start: null,
       status: 'proposed',
     };
 
