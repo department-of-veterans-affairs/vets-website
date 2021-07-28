@@ -432,7 +432,7 @@ export class CallToActionWidget extends Component {
     // Derive the CTA widget.
     const ctaWidget = ctaWidgetsLookup?.[appId];
 
-    return !this.isNonMHVSchedulingTool() && ctaWidget?.isHealthTool();
+    return !this.isNonMHVSchedulingTool() && ctaWidget?.isHealthTool;
   };
 
   openLoginModal = () => this.props.toggleLoginModal(true);
@@ -502,7 +502,7 @@ export class CallToActionWidget extends Component {
     const ctaWidget = ctaWidgetsLookup?.[appId];
 
     // Derive the CTA URL.
-    const { url } = ctaWidget?.deriveToolUrlDetails(authenticatedWithSSOe);
+    const url = ctaWidget?.deriveToolUrlDetails(authenticatedWithSSOe)?.url;
     this._toolUrl = url;
 
     // Derive the content and show it if available.
