@@ -41,6 +41,32 @@ import { logout, verify, mfa } from 'platform/user/authentication/utilities';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 
 export class CallToActionWidget extends Component {
+  static propTypes = {
+    // Directly passed in props.
+    appId: PropTypes.string,
+    children: PropTypes.node,
+    headerLevel: PropTypes.string,
+    setFocus: PropTypes.bool,
+    // From mapStateToProps.
+    authenticatedWithSSOe: PropTypes.bool.isRequired,
+    featureToggles: PropTypes.object.isRequired,
+    isLoggedIn: PropTypes.bool.isRequired,
+    isVaPatient: PropTypes.bool.isRequired,
+    mhvAccount: PropTypes.object.isRequired,
+    mhvAccountIdState: PropTypes.string.isRequired,
+    mviStatus: PropTypes.string.isRequired,
+    profile: PropTypes.object.isRequired,
+    // From mapDispatchToProps.
+    createAndUpgradeMHVAccount: PropTypes.func.isRequired,
+    fetchMHVAccount: PropTypes.func.isRequired,
+    toggleLoginModal: PropTypes.func.isRequired,
+    upgradeMHVAccount: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    setFocus: true,
+  };
+
   constructor(props) {
     super(props);
     const { appId } = props;
@@ -390,7 +416,6 @@ export class CallToActionWidget extends Component {
       const ctaWidget = ctaWidgetsLookup?.[appId];
 
       return ctaWidget?.hasRequiredMhvAccount(mhvAccount.accountLevel);
-      // return this.props.availableServices.has(this._requiredServices);
     } else if (this.props.appId === CTA_WIDGET_TYPES.DIRECT_DEPOSIT) {
       // Direct Deposit requires multifactor
       return this.props.profile.verified && this.props.profile.multifactor;
@@ -507,32 +532,27 @@ export class CallToActionWidget extends Component {
   }
 }
 
-CallToActionWidget.defaultProps = {
-  setFocus: true,
-};
-
 const mapStateToProps = state => {
-  const profile = selectProfile(state);
+  // Derive profile properties.
   const {
     loading,
     mhvAccount,
-    /* services, */
-    verified,
+    mhvAccountState,
     multifactor,
     status,
     vaPatient,
-    mhvAccountState,
-  } = profile;
+    verified,
+  } = selectProfile(state);
+
   return {
-    // availableServices: new Set(services),
-    isLoggedIn: isLoggedIn(state),
-    profile: { loading, verified, multifactor },
-    mhvAccount,
-    mviStatus: status,
-    featureToggles: state.featureToggles,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
+    featureToggles: state.featureToggles,
+    isLoggedIn: isLoggedIn(state),
     isVaPatient: vaPatient,
+    mhvAccount,
     mhvAccountIdState: mhvAccountState,
+    mviStatus: status,
+    profile: { loading, verified, multifactor },
   };
 };
 
