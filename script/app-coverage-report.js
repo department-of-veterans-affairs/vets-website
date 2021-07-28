@@ -107,7 +107,7 @@ const logCoverage = coverageResults => {
     if (err) {
       throw err;
     }
-    console.log('JSON data is saved.');
+    console.log(`JSON data is saved to ${outputFile}`);
   });
 };
 
