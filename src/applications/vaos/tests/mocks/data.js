@@ -28,7 +28,7 @@ import { VIDEO_TYPES } from '../../utils/constants';
  *   on the version 0 output (kind, start, etc) and all are merged into the v2 output
  * @returns {VAOSAppointment|MASAppointment} An appointment object in the specified format
  */
-export function createMockAppointment({
+export function createMockAppointmentByVersion({
   id = null,
   email = null,
   currentStatus = null,

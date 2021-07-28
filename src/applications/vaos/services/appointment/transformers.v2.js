@@ -169,8 +169,8 @@ export function transformVAOSAppointment(appt) {
     // cancelationReason: appt.cancellationReason,
     start: start.format(),
     // This contains the vista status for v0 appointments, but
-    // we don't have that for v2
-    description: appt.kind !== 'cc' ? 'UNKNOWN' : null,
+    // we don't have that for v2, so this is a made up status
+    description: appt.kind !== 'cc' ? 'VAOS_UNKNOWN' : null,
     minutesDuration: isNaN(parseInt(appt.minutesDuration, 10))
       ? 60
       : appt.minutesDuration,
