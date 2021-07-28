@@ -63,8 +63,10 @@ jobs:
   archive:
     name: Archive
     runs-on: ubuntu-latest
-    matrix:
-      buildtype: [vagovdev]
+    strategy:
+      fail-fast: true
+      matrix:
+        buildtype: [vagovdev]
     needs: [build]
 
     steps:
