@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { fetchVAFacility } from '../actions';
-import { focusElement } from 'platform/utilities/ui';
+// import { focusElement } from 'platform/utilities/ui';
 import AccessToCare from '../components/AccessToCare';
 import LocationAddress from '../components/search-results-items/common/LocationAddress';
 import LocationDirectionsLink from '../components/search-results-items/common/LocationDirectionsLink';
@@ -18,6 +18,7 @@ import VABenefitsCall from '../components/VABenefitsCall';
 import { facilityLocatorShowOperationalHoursSpecialInstructions } from '../utils/featureFlagSelectors';
 
 class FacilityDetail extends Component {
+  headerRef = React.createRef();
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
     this.props.fetchVAFacility(this.props.params.id, null);
@@ -25,7 +26,10 @@ class FacilityDetail extends Component {
   }
 
   componentDidMount() {
-    focusElement('.va-nav-breadcrumbs');
+    if (this.headerRef && this.headerRef.current) {
+      this.headerRef.current.focus();
+    }
+    // focusElement('facility-name-h1');
   }
 
   componentDidUpdate(prevProps) {
@@ -111,7 +115,10 @@ class FacilityDetail extends Component {
     const isVBA = facilityType === FacilityType.VA_BENEFITS_FACILITY;
     return (
       <div>
-        <h1>{name}</h1>
+        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
+        <h1 ref={this.headerRef} tabIndex={0}>
+          {name}
+        </h1>
         {this.showOperationStatus(operatingStatus, website, facilityType)}
         <div className="p1">
           <LocationAddress location={facility} />
