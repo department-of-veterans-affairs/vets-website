@@ -1,14 +1,15 @@
+// Node modules.
 import { expect } from 'chai';
-
-import { eauthEnvironmentPrefixes } from 'platform/utilities/sso/constants';
-import { CTA_WIDGET_TYPES, ctaWidgetsLookup } from '../ctaWidgets';
+// Relative imports.
 import environment from '../../../utilities/environment';
+import { CTA_WIDGET_TYPES, ctaWidgetsLookup } from '../ctaWidgets';
+import { eauthEnvironmentPrefixes } from 'platform/utilities/sso/constants';
 
-describe('CTA helpers', () => {
-  describe('A signed-in SSO user', () => {
+describe('CTA widgets', () => {
+  describe('a signed-in SSO user', () => {
     const useSSO = true;
 
-    it('Download my data', () => {
+    it('should see the correct HEALTH_RECORDS tool URL', () => {
       expect(
         ctaWidgetsLookup?.[
           CTA_WIDGET_TYPES?.HEALTH_RECORDS
@@ -19,7 +20,7 @@ describe('CTA helpers', () => {
         }eauth.va.gov/mhv-portal-web/eauth?deeplinking=download_my_data`,
       );
     });
-    it('Prescription Refill', () => {
+    it('should see the correct RX tool URL', () => {
       expect(
         ctaWidgetsLookup?.[CTA_WIDGET_TYPES?.RX]?.deriveToolUrlDetails(useSSO)
           ?.url,
@@ -29,7 +30,7 @@ describe('CTA helpers', () => {
         }eauth.va.gov/mhv-portal-web/eauth?deeplinking=prescription_refill`,
       );
     });
-    it('Secure Messaging', () => {
+    it('should see the correct MESSAGING tool URL', () => {
       expect(
         ctaWidgetsLookup?.[CTA_WIDGET_TYPES?.MESSAGING]?.deriveToolUrlDetails(
           useSSO,
@@ -40,7 +41,7 @@ describe('CTA helpers', () => {
         }eauth.va.gov/mhv-portal-web/eauth?deeplinking=secure_messaging`,
       );
     });
-    it('Appointments', () => {
+    it('should see the correct VIEW_APPOINTMENTS + SCHEDULE_APPOINTMENTS tool URL', () => {
       expect(
         ctaWidgetsLookup?.[
           CTA_WIDGET_TYPES?.VIEW_APPOINTMENTS
@@ -60,7 +61,7 @@ describe('CTA helpers', () => {
         }eauth.va.gov/mhv-portal-web/eauth?deeplinking=appointments`,
       );
     });
-    it('Lab Tests', () => {
+    it('should see the correct LAB_AND_TEST_RESULTS tool URL', () => {
       expect(
         ctaWidgetsLookup?.[
           CTA_WIDGET_TYPES?.LAB_AND_TEST_RESULTS
@@ -73,8 +74,8 @@ describe('CTA helpers', () => {
     });
   });
 
-  describe('A signed-in non-SSO user', () => {
-    it('Download my data', () => {
+  describe('a signed-in non-SSO user', () => {
+    it('should see the correct HEALTH_RECORDS tool URL', () => {
       expect(
         ctaWidgetsLookup?.[
           CTA_WIDGET_TYPES?.HEALTH_RECORDS
@@ -83,14 +84,14 @@ describe('CTA helpers', () => {
         'https://mhv-syst.myhealth.va.gov/mhv-portal-web/download-my-data',
       );
     });
-    it('Prescription Refill', () => {
+    it('should see the correct RX tool URL', () => {
       expect(
         ctaWidgetsLookup?.[CTA_WIDGET_TYPES?.RX]?.deriveToolUrlDetails()?.url,
       ).to.equal(
         'https://mhv-syst.myhealth.va.gov/mhv-portal-web/web/myhealthevet/refill-prescriptions',
       );
     });
-    it('Secure Messaging', () => {
+    it('should see the correct MESSAGING tool URL', () => {
       expect(
         ctaWidgetsLookup?.[CTA_WIDGET_TYPES?.MESSAGING]?.deriveToolUrlDetails()
           ?.url,
@@ -98,7 +99,7 @@ describe('CTA helpers', () => {
         'https://mhv-syst.myhealth.va.gov/mhv-portal-web/secure-messaging',
       );
     });
-    it('Appointments', () => {
+    it('should see the correct VIEW_APPOINTMENTS + SCHEDULE_APPOINTMENTS tool URL', () => {
       expect(
         ctaWidgetsLookup?.[
           CTA_WIDGET_TYPES?.VIEW_APPOINTMENTS
@@ -114,7 +115,7 @@ describe('CTA helpers', () => {
         'https://mhv-syst.myhealth.va.gov/mhv-portal-web/appointments',
       );
     });
-    it('Lab Tests', () => {
+    it('should see the correct LAB_AND_TEST_RESULTS tool URL', () => {
       expect(
         ctaWidgetsLookup?.[
           CTA_WIDGET_TYPES?.LAB_AND_TEST_RESULTS
