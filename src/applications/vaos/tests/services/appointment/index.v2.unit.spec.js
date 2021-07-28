@@ -597,7 +597,7 @@ describe('VAOS Appointment service', () => {
       );
     });
 
-    it('should return matching v0 and v2 data for a community care appointment', async () => {
+    it.only('should return matching v0 and v2 data for a community care appointment', async () => {
       const data = {
         id: '1234',
         start: moment()
@@ -647,6 +647,7 @@ describe('VAOS Appointment service', () => {
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
+      console.log(differences);
       expect(differences).to.have.deep.members(
         [
           {
