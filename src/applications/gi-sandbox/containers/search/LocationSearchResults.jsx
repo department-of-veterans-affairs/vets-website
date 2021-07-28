@@ -71,9 +71,6 @@ function LocationSearchResults({
       style: 'mapbox://styles/mapbox/outdoors-v11',
       center: [MapboxInit.centerInit.longitude, MapboxInit.centerInit.latitude],
       zoom: MapboxInit.zoomInit,
-      scrollZoom: { around: 'center' },
-      touchZoomRotate: { around: 'center' },
-      doubleClickZoom: false,
     });
 
     mapInit.addControl(
@@ -109,15 +106,7 @@ function LocationSearchResults({
       updateMapState();
     });
 
-    mapInit.on('dblclick', e => {
-      map.current.easeTo(
-        {
-          duration: 300,
-          zoom: map.current.getZoom() + (e.originalEvent.shiftKey ? -1 : 1),
-          around: map.current.getCenter(),
-        },
-        { originalEvent: e.originalEvent },
-      );
+    mapInit.on('dblclick', _e => {
       updateMapState();
     });
 
@@ -363,10 +352,13 @@ function LocationSearchResults({
    * @param count
    * @return {JSX.Element}
    */
-  const noResultsFound = count => (
-    <>
-      {count === 0 &&
-        !usedFilters && (
+  const noResultsFound = count => {
+    const noResultsNoFilters = count === 0 && !usedFilters;
+    const noResultsWithFilters = count === 0 && usedFilters;
+
+    return (
+      <>
+        {noResultsNoFilters && (
           <div>
             <p>We didn’t find any institutions based on your search.</p>
             <p>
@@ -391,15 +383,15 @@ function LocationSearchResults({
             </p>
           </div>
         )}
-      {count === 0 &&
-        usedFilters && (
+        {noResultsWithFilters && (
           <div>
             We didn’t find any institutions near this location based on the
             filters you’ve applied. Please update the filters and search again.
           </div>
         )}
-    </>
-  );
+      </>
+    );
+  };
 
   /**
    * smallScreen tabs for List and Map views
@@ -522,6 +514,9 @@ function LocationSearchResults({
     );
   };
 
+  const hasSearchLatLong = search.query.latitude && search.query.longitude;
+  const showTuitionAndFilters = count => count > 0 || usedFilters;
+
   // Results shouldn't be filtered out on mobile because "Search this area of the map" is disabled
   const smallScreenCount = search.location.count;
 
@@ -567,20 +562,23 @@ function LocationSearchResults({
         {inProgress && <LoadingIndicator message="Loading search results..." />}
         {!inProgress && (
           <>
-            {search.location.count === null && (
+            {!hasSearchLatLong && (
               <div>
                 Please enter a location (street, city, state, or postal code)
                 then click search above to find institutions.
               </div>
             )}
-            {search.location.count !== null &&
-              (desktopCount > 0 || usedFilters) && (
-                <>
-                  {eligibilityAndFilters}
-                  {searchResults(desktopCount)}
-                </>
-              )}
-            {noResultsFound(desktopCount)}
+            {hasSearchLatLong && (
+              <>
+                {showTuitionAndFilters(desktopCount) && (
+                  <>
+                    {eligibilityAndFilters}
+                    {searchResults(desktopCount)}
+                  </>
+                )}
+                {noResultsFound(desktopCount)}
+              </>
+            )}
           </>
         )}
       </div>

@@ -63,7 +63,6 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
 
     #mapbox-gl-container {
       display: flex;
-      justify-content: center;
     }
 
     .desktop-map-container {
@@ -79,7 +78,9 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
 
     .mapboxgl-ctrl-top-center {
       position: absolute;
-      margin: 15px 0 0 15px;
+      margin: 0;
+      text-align: center;
+      width: 100%;
     }
 
     .mapboxgl-ctrl-bottom-center {
