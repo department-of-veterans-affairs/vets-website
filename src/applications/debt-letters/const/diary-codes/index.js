@@ -146,7 +146,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             <ContactDMC className="vads-u-margin-left--0p5" />, Monday through
             Friday, 7:30 a.m. to 7:00 p.m. ET.
             <a className="vads-u-margin-left--0p5" href="#howDoIPay">
-              Review payment options
+              .
             </a>
           </p>
         ),
@@ -188,6 +188,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
               >
                 Review payment options
               </a>
+              .
             </p>
           </span>
         ),
@@ -228,6 +229,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
               >
                 Review payment options
               </a>
+              .
             </p>
           </span>
         ),
@@ -276,6 +278,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             >
               Review payment options
             </a>
+            .
           </p>
         ),
         status: (
@@ -323,6 +326,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             >
               Review payment options
             </a>
+            .
           </p>
         ),
         status: (
@@ -502,6 +506,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
               >
                 Review payment options
               </a>
+              .
             </p>
           </span>
         ),
@@ -613,6 +618,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             >
               Review payment options
             </a>
+            .
           </p>
         ),
         status: (
@@ -680,6 +686,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             >
               Review payment options
             </a>
+            .
           </p>
         ),
         status: (
@@ -707,6 +714,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             >
               Review payment options
             </a>
+            .
           </p>
         ),
         status: (
@@ -728,6 +736,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             >
               Review payment options
             </a>
+            .
           </p>
         ),
         status: (
@@ -749,6 +758,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             >
               Review payment options
             </a>
+            .
           </p>
         ),
         status: (
@@ -771,6 +781,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             >
               Review payment options
             </a>
+            .
           </p>
         ),
         status: (

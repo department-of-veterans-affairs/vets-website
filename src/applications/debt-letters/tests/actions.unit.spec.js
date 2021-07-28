@@ -129,7 +129,7 @@ describe('fetchDebtLetters', () => {
             {
               date: '04/01/2017',
               letterCode: 608,
-              description: 'Full C&P Benefit Offset Notifi',
+              description: 'Full C&P Benefit Offset Notification',
             },
             {
               date: '11/18/2015',
@@ -139,7 +139,7 @@ describe('fetchDebtLetters', () => {
             {
               date: '04/08/2015',
               letterCode: 608,
-              description: 'Full C&P Benefit Offset Notifi',
+              description: 'Full C&P Benefit Offset Notification',
             },
             {
               date: '03/26/2015',
@@ -165,7 +165,7 @@ describe('fetchDebtLetters', () => {
             {
               date: '08/08/2018',
               letterCode: 608,
-              description: 'Full C&P Benefit Offset Notifi',
+              description: 'Full C&P Benefit Offset Notification',
             },
             {
               date: '07/19/2018',

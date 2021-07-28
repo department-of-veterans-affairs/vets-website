@@ -2,7 +2,7 @@
   "hasDependentDebts": false,
   "debts": [
     {
-      "fileNumber": "796121200",
+      "fileNumber": "796121211",
       "payeeNumber": "00",
       "personEntitled": "AJHONS",
       "deductionCode": "21",
@@ -22,7 +22,7 @@
       ]
     },
     {
-      "fileNumber": "796121200",
+      "fileNumber": "796121211",
       "payeeNumber": "00",
       "personEntitled": "AJHONS",
       "deductionCode": "30",
@@ -52,10 +52,11 @@
       ]
     },
     {
-      "fileNumber": "796121200",
+      "thisOneIsActive": true,
+      "fileNumber": "796121211",
       "payeeNumber": "00",
       "personEntitled": "STUB_M",
-      "deductionCode": "44",
+      "deductionCode": "30",
       "benefitType": "CH35 EDU",
       "diaryCode": "618",
       "diaryCodeDescription": "Account returned from Treasury Cross Servicing. Account is at TOP.  TOP offsets will be applied to account as Federal funds become available.",
@@ -97,6 +98,7 @@
       ]
     },
     {
+      "thisOneIsActive": true,
       "fileNumber": "796121200",
       "payeeNumber": "00",
       "personEntitled": "AJOHNS",
@@ -177,23 +179,61 @@
       ]
     },
     {
-      "fileNumber": "896121201",
+      "thisOneIsActive": true,
+      "fileNumber": "796121213",
       "payeeNumber": "00",
-      "personEntitled": "AJHONS",
-      "deductionCode": "21",
-      "benefitType": "Loan Guaranty (Principal + Interest)",
-      "diaryCode": "453",
-      "diaryCodeDescription": "Paid in Full",
-      "amountOverpaid": 0,
+      "personEntitled": "STUB_M",
+      "deductionCode": "44",
+      "benefitType": "CH35 EDU",
+      "diaryCode": "080",
+      "description": "Debt referred to Treasury for Cross servicing",
+      "amountOverpaid": 26000,
       "amountWithheld": 0,
-      "originalAr": 1177,
-      "currentAr": 0,
+      "originalAr": 100,
+      "currentAr": 110,
       "debtHistory": [
         {
-          "date": "09/11/1999",
-          "letterCode": "914",
-          "description": "Paid In Full - Account balance cleared via offset, not including TOP."
+          "date": "12/19/2014",
+          "letterCode": "681",
+          "description": "Account returned from Treasury Cross Servicing. Account is at TOP.  TOP offsets will be applied to account as Federal funds become available."
+        },
+        {
+          "date": "04/11/2013",
+          "letterCode": "080",
+          "description": "Debt referred to Treasury for Cross servicing"
+        },
+        {
+          "date": "12/11/2012",
+          "letterCode": "510",
+          "description": "Demand letters returned.  Unable to verify address with third party.  Account forced to TOP and/or CS."
+        },
+        {
+          "date": "10/17/2012",
+          "letterCode": "212",
+          "description": "Bad Address - Locator Request Sent"
         }
+      ]
+    },
+   {
+      "thisOneIsActive": false,
+      "fileNumber": "796121299",
+      "payeeNumber": "00",
+      "personEntitled": "STUB_M",
+      "deductionCode": "75",
+      "benefitType": "CH35 EDU",
+      "diaryCode": "100",
+      "description": "Debt referred to Treasury for Cross servicing",
+      "amountOverpaid": 0,
+      "amountWithheld": 0,
+      "originalAr": 100,
+      "currentAr": 1800,
+      "debtHistory": [
+        {
+          "date": "12/19/2012",
+          "letterCode": "681",
+          "description": "Account returned from Treasury Cross Servicing. Account is at TOP.  TOP offsets will be applied to account as Federal funds become available."
+        }
+
       ]
     }
   ]
