@@ -14,8 +14,9 @@ const scroll = Scroll.animateScroll;
  * @constructor
  */
 export default function BackToTop({ parentId, profilePageHeaderId, compare }) {
-  const [floating, setFloating] = useState(true);
+  const [floating, setFloating] = useState(false);
   const [backToTopContainerStyle, setBackToTopContainerStyle] = useState({});
+  const [compareOpen, setCompareOpen] = useState(compare.open);
 
   const handleScroll = () => {
     const profilePageHeader = document.getElementById(profilePageHeaderId);
@@ -51,13 +52,20 @@ export default function BackToTop({ parentId, profilePageHeaderId, compare }) {
     [floating],
   );
 
+  useEffect(
+    () => {
+      setCompareOpen(compare.open);
+    },
+    [compare.open],
+  );
+
   const backToTopClasses = classNames('back-to-top', {
     'back-to-top-floating': floating,
   });
 
   const backToTopContainerClasses = classNames('back-to-top-container', {
-    'back-to-top-container-floating': floating && !compare.open,
-    'back-to-top-container-floating-open': floating && compare.open,
+    'back-to-top-container-floating': floating && !compareOpen,
+    'back-to-top-container-floating-open': floating && compareOpen,
   });
 
   return (
