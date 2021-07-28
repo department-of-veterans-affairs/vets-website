@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { focusAndScrollToReviewElement } from '../../utilities/ui';
+import { focusAndScrollToReviewElement } from '../../utilities/review';
 import { openReviewChapter, setEditMode } from '../../actions';
 
 const ErrorLinks = props => {
