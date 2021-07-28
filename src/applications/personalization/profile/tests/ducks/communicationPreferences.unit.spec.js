@@ -10,16 +10,17 @@ import { LOADING_STATES } from '~/applications/personalization/common/constants'
 import reducer, {
   endpoint,
   fetchCommunicationPreferenceGroups,
-  saveCommunicationPreferenceGroup,
+  saveCommunicationPreferenceChannel,
+  selectChannelById,
+  selectChannelUiById,
   selectGroups,
-  selectGroupUi,
 } from '../../ducks/communicationPreferences';
 import error401 from '../fixtures/401.json';
 import error500 from '../fixtures/500.json';
 import getMinimalCommunicationGroupsSuccess from '../fixtures/communication-preferences/get-200-minimal.json';
 import getMaximalCommunicationGroupsSuccess from '../fixtures/communication-preferences/get-200-maximal.json';
-import postCommunicationGroupsSuccess from '../fixtures/communication-preferences/post-200.json';
-import patchCommunicationGroupsSuccess from '../fixtures/communication-preferences/patch-200.json';
+import postSuccess from '../fixtures/communication-preferences/post-200-success.json';
+import patchSuccess from '../fixtures/communication-preferences/patch-200-success.json';
 
 const middleware = [thunk];
 const mockStore = configureStore(middleware);
@@ -69,11 +70,6 @@ describe('fetching communication preferences', () => {
               name: 'Health Care',
               description: 'Healthcare Appointment Reminders',
               items: ['item1', 'item2', 'item3'],
-              ui: {
-                isEditing: false,
-                errors: null,
-                updateStatus: LOADING_STATES.idle,
-              },
             },
           },
         });
@@ -102,24 +98,40 @@ describe('fetching communication preferences', () => {
               parentItem: 'item1',
               isAllowed: true,
               permissionId: 1728,
+              ui: {
+                errors: null,
+                updateStatus: LOADING_STATES.idle,
+              },
             },
             'channel1-2': {
               channelType: 2,
               parentItem: 'item1',
               isAllowed: false,
               permissionId: null,
+              ui: {
+                errors: null,
+                updateStatus: LOADING_STATES.idle,
+              },
             },
             'channel2-1': {
               channelType: 1,
               parentItem: 'item2',
               isAllowed: true,
               permissionId: 341,
+              ui: {
+                errors: null,
+                updateStatus: LOADING_STATES.idle,
+              },
             },
             'channel3-1': {
               channelType: 1,
               parentItem: 'item3',
               isAllowed: false,
               permissionId: 342,
+              ui: {
+                errors: null,
+                updateStatus: LOADING_STATES.idle,
+              },
             },
           },
         });
@@ -242,16 +254,16 @@ describe('fetching communication preferences', () => {
   });
 });
 
-describe('saving a communication preferences group', () => {
+describe('saveCommunicationPreferenceChannel', () => {
   let server;
   let store;
   before(() => {
     server = setupServer(
       rest.post(apiURL, (req, res, ctx) => {
-        return res(ctx.json(postCommunicationGroupsSuccess));
+        return res(ctx.json(postSuccess));
       }),
       rest.patch(`${apiURL}/*`, (req, res, ctx) => {
-        return res(ctx.json(patchCommunicationGroupsSuccess));
+        return res(ctx.json(patchSuccess));
       }),
     );
     server.listen();
@@ -297,24 +309,40 @@ describe('saving a communication preferences group', () => {
               parentItem: 'item1',
               isAllowed: true,
               permissionId: 1728,
+              ui: {
+                updateStatus: LOADING_STATES.idle,
+                errors: null,
+              },
             },
             'channel1-2': {
               channelType: 2,
               parentItem: 'item1',
               isAllowed: false,
               permissionId: null,
+              ui: {
+                updateStatus: LOADING_STATES.idle,
+                errors: null,
+              },
             },
             'channel2-1': {
               channelType: 1,
               parentItem: 'item2',
               isAllowed: true,
               permissionId: 341,
+              ui: {
+                updateStatus: LOADING_STATES.idle,
+                errors: null,
+              },
             },
             'channel3-1': {
               channelType: 1,
               parentItem: 'item3',
               isAllowed: false,
               permissionId: 342,
+              ui: {
+                updateStatus: LOADING_STATES.idle,
+                errors: null,
+              },
             },
           },
         },
@@ -328,100 +356,129 @@ describe('saving a communication preferences group', () => {
     server.close();
   });
   context(
-    'successfully sets the value of a single permission for the first time',
+    'it first fails to save a permission via POST due to a 401 error and then succeeds on the second attempt',
     () => {
-      it('sets the state properly', () => {
-        const promise = store.dispatch(
-          saveCommunicationPreferenceGroup('group1', [
-            { method: 'POST', endpoint: apiURL, body: {} },
-          ]),
+      it('updates the redux state correctly', async () => {
+        const channelId = 'channel1-2';
+        server.use(
+          rest.post(apiURL, (req, res, ctx) => {
+            return res(ctx.status(401), ctx.json(error401));
+          }),
         );
-        // the updateStatus for that group should be `true` before the API call resolves
+        const originalState = selectChannelById(store.getState(), channelId);
+        let promise = store.dispatch(
+          saveCommunicationPreferenceChannel(channelId, {
+            method: 'POST',
+            endpoint: apiURL,
+            body: {},
+          }),
+        );
+        // it should set that part of the UI as loading
         expect(
-          store.getState().groups.entities.group1.ui.updateStatus,
+          selectChannelUiById(store.getState(), channelId).updateStatus,
         ).to.equal(LOADING_STATES.pending);
-        // then the updateStatus for that groups should be `false`
-        return promise.then(() => {
-          const group1UiState = selectGroupUi(store.getState(), 'group1');
-          expect(group1UiState.updateStatus).to.equal(LOADING_STATES.loaded);
-          expect(group1UiState.isEditing).to.be.false;
-          expect(group1UiState.errors).to.be.null;
+        // the update call fails
+        // it should then set the channel's redux state correctly
+        await promise.then(() => {
+          const channelState = selectChannelById(store.getState(), channelId);
+          expect(channelState.ui.updateStatus).to.equal(LOADING_STATES.error);
+          expect(channelState.ui.errors).to.deep.equal(error401.errors);
+          expect(channelState.isAllowed).to.equal(originalState.isAllowed);
+          expect(channelState.permissionId).to.equal(
+            originalState.permissionId,
+          );
+        });
+        // now make the API work correctly and try to update the pref again
+        server.use(
+          rest.post(apiURL, (req, res, ctx) => {
+            return res(ctx.json(postSuccess));
+          }),
+        );
+        promise = store.dispatch(
+          saveCommunicationPreferenceChannel(channelId, {
+            method: 'POST',
+            endpoint: apiURL,
+            body: {},
+          }),
+        );
+        // it should set that part of the UI as loading
+        expect(
+          selectChannelUiById(store.getState(), channelId).updateStatus,
+        ).to.equal(LOADING_STATES.pending);
+        // the update call succeeds
+        // it should then set the channel's redux state correctly
+        await promise.then(() => {
+          const channelState = selectChannelById(store.getState(), channelId);
+          expect(channelState.ui.updateStatus).to.equal(LOADING_STATES.loaded);
+          expect(channelState.ui.errors).to.equal(null);
+          expect(channelState.isAllowed).to.equal(postSuccess.bio.allowed);
+          expect(channelState.permissionId).to.equal(
+            postSuccess.bio.communicationPermissionId,
+          );
         });
       });
     },
   );
-  context('successfully saves multiple permissions', () => {
-    it('sets the state properly', () => {
-      const promise = store.dispatch(
-        saveCommunicationPreferenceGroup('group1', [
-          { method: 'POST', endpoint: apiURL, body: {} },
-          { method: 'POST', endpoint: apiURL, body: {} },
-          { method: 'PATCH', endpoint: `${apiURL}/123`, body: {} },
-        ]),
-      );
-      // the updateStatus for that group should be `true` before the API call resolves
-      expect(store.getState().groups.entities.group1.ui.updateStatus).to.equal(
-        LOADING_STATES.pending,
-      );
-      // then the updateStatus for that groups should be `false`
-      return promise.then(() => {
-        const group1UiState = selectGroupUi(store.getState(), 'group1');
-        expect(group1UiState.updateStatus).to.equal(LOADING_STATES.loaded);
-        expect(group1UiState.isEditing).to.be.false;
-        expect(group1UiState.errors).to.be.null;
-      });
-    });
-  });
-  context('tries and fails to save a single permission', () => {
-    it('sets the state properly', () => {
-      server.use(
-        rest.post(apiURL, (req, res, ctx) => {
-          return res(ctx.status(401), ctx.json(error401));
-        }),
-      );
-      const promise = store.dispatch(
-        saveCommunicationPreferenceGroup('group1', [
-          { method: 'POST', endpoint: apiURL, body: {} },
-        ]),
-      );
-
-      expect(store.getState().groups.entities.group1.ui.updateStatus).to.equal(
-        LOADING_STATES.pending,
-      );
-      // then the updateStatus for that groups should be `false`
-      return promise.then(() => {
-        const group1UiState = selectGroupUi(store.getState(), 'group1');
-        expect(group1UiState.updateStatus).to.equal(LOADING_STATES.error);
-        expect(group1UiState.isEditing).to.be.true;
-        expect(group1UiState.errors).to.deep.equal(error401.errors);
-      });
-    });
-  });
   context(
-    'successfully saves a permission but fails to update another permission',
+    'it first fails to save a permission via PATCH due to a 500 error and then succeeds on the second attempt',
     () => {
-      it('sets the state properly', () => {
+      it('updates the redux state correctly', async () => {
+        const channelId = 'channel1-1';
         server.use(
-          rest.patch(`${apiURL}/*`, (req, res, ctx) => {
+          rest.patch(apiURL, (req, res, ctx) => {
             return res(ctx.status(500), ctx.json(error500));
           }),
         );
-        const promise = store.dispatch(
-          saveCommunicationPreferenceGroup('group1', [
-            { method: 'POST', endpoint: apiURL, body: {} },
-            { method: 'PATCH', endpoint: `${apiURL}/123`, body: {} },
-          ]),
+        const originalState = selectChannelById(store.getState(), channelId);
+        let promise = store.dispatch(
+          saveCommunicationPreferenceChannel(channelId, {
+            method: 'PATCH',
+            endpoint: apiURL,
+            body: {},
+          }),
         );
-
-        expect(selectGroupUi(store.getState(), 'group1').updateStatus).to.equal(
-          LOADING_STATES.pending,
+        // it should set that part of the UI as loading
+        expect(
+          selectChannelUiById(store.getState(), channelId).updateStatus,
+        ).to.equal(LOADING_STATES.pending);
+        // the update call fails
+        // it should then set the channel's redux state correctly
+        await promise.then(() => {
+          const channelState = selectChannelById(store.getState(), channelId);
+          expect(channelState.ui.updateStatus).to.equal(LOADING_STATES.error);
+          expect(channelState.ui.errors).to.deep.equal([error500]);
+          expect(channelState.isAllowed).to.equal(originalState.isAllowed);
+          expect(channelState.permissionId).to.equal(
+            originalState.permissionId,
+          );
+        });
+        // now make the API work correctly and try to update the pref again
+        server.use(
+          rest.patch(apiURL, (req, res, ctx) => {
+            return res(ctx.json(patchSuccess));
+          }),
         );
-        // then the updateStatus for that groups should be `false`
-        return promise.then(() => {
-          const group1UiState = selectGroupUi(store.getState(), 'group1');
-          expect(group1UiState.updateStatus).to.equal(LOADING_STATES.error);
-          expect(group1UiState.isEditing).to.be.true;
-          expect(group1UiState.errors).to.deep.equal([error500]);
+        promise = store.dispatch(
+          saveCommunicationPreferenceChannel(channelId, {
+            method: 'PATCH',
+            endpoint: apiURL,
+            body: {},
+          }),
+        );
+        // it should set that part of the UI as loading
+        expect(
+          selectChannelUiById(store.getState(), channelId).updateStatus,
+        ).to.equal(LOADING_STATES.pending);
+        // the update call succeeds
+        // it should then set the channel's redux state correctly
+        await promise.then(() => {
+          const channelState = selectChannelById(store.getState(), channelId);
+          expect(channelState.ui.updateStatus).to.equal(LOADING_STATES.loaded);
+          expect(channelState.ui.errors).to.equal(null);
+          expect(channelState.isAllowed).to.equal(patchSuccess.bio.allowed);
+          expect(channelState.permissionId).to.equal(
+            patchSuccess.bio.communicationPermissionId,
+          );
         });
       });
     },
