@@ -10,6 +10,10 @@ import {
   EXPRESS_CARE,
   UNABLE_TO_REACH_VETERAN_DETCODE,
   TYPE_OF_VISIT,
+  TYPES_OF_EYE_CARE,
+  TYPES_OF_SLEEP_CARE,
+  AUDIOLOGY_TYPES_OF_CARE,
+  TYPES_OF_CARE,
 } from '../../utils/constants';
 import { getTimezoneBySystemId } from '../../utils/timezone';
 import {
@@ -461,6 +465,19 @@ export function transformConfirmedAppointments(appointments) {
   return appointments.map(appt => transformConfirmedAppointment(appt));
 }
 
+function getTypeOfCareById(id) {
+  const allTypesOfCare = [
+    ...TYPES_OF_EYE_CARE,
+    ...TYPES_OF_SLEEP_CARE,
+    ...AUDIOLOGY_TYPES_OF_CARE,
+    ...TYPES_OF_CARE,
+  ];
+
+  return allTypesOfCare.find(
+    care => care.idV2 === id || care.ccId === id || care.id === id,
+  );
+}
+
 /**
  * Transforms a VAR appointment request to FHIR appointment resource
  *
@@ -493,7 +510,7 @@ export function transformPendingAppointment(appt) {
       coding: [
         {
           code: appt.typeOfCareId,
-          display: appt.appointmentType,
+          display: getTypeOfCareById(appt.typeOfCareId)?.name,
         },
       ],
     },

@@ -9,12 +9,14 @@ import FilterYourResults from '../FilterYourResults';
 import TuitionAndHousingEstimates from '../TuitionAndHousingEstimates';
 import { updateUrlParams } from '../../utils/helpers';
 import { getFiltersChanged } from '../../selectors/filters';
+import MobileFilterControls from '../../components/MobileFilterControls';
 
 export function NameSearchResults({
   dispatchFetchSearchByNameResults,
   filters,
   preview,
   search,
+  smallScreen,
   filtersChanged,
 }) {
   const { version } = preview;
@@ -52,14 +54,17 @@ export function NameSearchResults({
       {name !== '' &&
         name !== null && (
           <div className="row vads-u-padding--0 vads-u-margin--0">
+            {smallScreen && <MobileFilterControls />}
             <p>
               Showing <strong>{count} search results</strong> for '
               <strong>{name}</strong>'
             </p>
-            <div className="column small-4 vads-u-padding--0">
-              <TuitionAndHousingEstimates />
-              <FilterYourResults />
-            </div>
+            {!smallScreen && (
+              <div className="column small-4 vads-u-padding--0">
+                <TuitionAndHousingEstimates smallScreen={smallScreen} />
+                <FilterYourResults smallScreen={smallScreen} />
+              </div>
+            )}
             <div className="column small-8 vads-u-padding--0">
               {inProgress && (
                 <LoadingIndicator message="Loading search results..." />

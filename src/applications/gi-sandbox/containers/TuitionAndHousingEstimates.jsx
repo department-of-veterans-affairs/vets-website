@@ -10,6 +10,8 @@ export function TuitionAndHousingEstimates({
   eligibility,
   dispatchEligibilityChange,
   dispatchShowModal,
+  modalClose,
+  smallScreen,
 }) {
   const { expanded } = eligibility;
 
@@ -52,52 +54,80 @@ export function TuitionAndHousingEstimates({
     dispatchEligibilityChange({ expanded: value });
   };
 
+  const closeAndUpdate = () => {
+    updateStore();
+    modalClose();
+  };
+
+  const controls = (
+    <div>
+      <SearchBenefits
+        cumulativeService={cumulativeService}
+        dispatchShowModal={dispatchShowModal}
+        eligForPostGiBill={eligForPostGiBill}
+        enlistmentService={enlistmentService}
+        giBillChapter={giBillChapter}
+        militaryStatus={militaryStatus}
+        numberOfDependents={numberOfDependents}
+        spouseActiveDuty={spouseActiveDuty}
+        setCumulativeService={setCumulativeService}
+        setEligForPostGiBill={setEligForPostGiBill}
+        setEnlistmentService={setEnlistmentService}
+        setNumberOfDependents={setNumberOfDependents}
+        setGiBillChapter={setGiBillChapter}
+        setMilitaryStatus={setMilitaryStatus}
+        setSpouseActiveDuty={setSpouseActiveDuty}
+      />
+      <RadioButtons
+        label={
+          <LearnMoreLabel
+            text="Will you be taking any classes in person?"
+            onClick={() => dispatchShowModal('onlineOnlyDistanceLearning')}
+            ariaLabel="Learn more about how we calculate your housing allowance based on where you take classes"
+          />
+        }
+        name="inPersonClasses"
+        options={[{ value: 'no', label: 'Yes' }, { value: 'yes', label: 'No' }]}
+        value={onlineClasses}
+        onChange={e => {
+          setOnlineClasses(e.target.value);
+        }}
+      />
+    </div>
+  );
+
   return (
     <div className="vads-u-margin-bottom--2">
-      <SearchAccordion
-        button="Update tuition and housing estimates"
-        buttonLabel="Update results"
-        buttonOnClick={updateStore}
-        name="benefitEstimates"
-        expanded={expanded}
-        onClick={onExpand}
-      >
-        <SearchBenefits
-          cumulativeService={cumulativeService}
-          dispatchShowModal={dispatchShowModal}
-          eligForPostGiBill={eligForPostGiBill}
-          enlistmentService={enlistmentService}
-          giBillChapter={giBillChapter}
-          militaryStatus={militaryStatus}
-          numberOfDependents={numberOfDependents}
-          spouseActiveDuty={spouseActiveDuty}
-          setCumulativeService={setCumulativeService}
-          setEligForPostGiBill={setEligForPostGiBill}
-          setEnlistmentService={setEnlistmentService}
-          setNumberOfDependents={setNumberOfDependents}
-          setGiBillChapter={setGiBillChapter}
-          setMilitaryStatus={setMilitaryStatus}
-          setSpouseActiveDuty={setSpouseActiveDuty}
-        />
-        <RadioButtons
-          label={
-            <LearnMoreLabel
-              text="Will you be taking any classes in person?"
-              onClick={() => dispatchShowModal('onlineOnlyDistanceLearning')}
-              ariaLabel="Learn more about how we calculate your housing allowance based on where you take classes"
-            />
-          }
-          name="inPersonClasses"
-          options={[
-            { value: 'no', label: 'Yes' },
-            { value: 'yes', label: 'No' },
-          ]}
-          value={onlineClasses}
-          onChange={e => {
-            setOnlineClasses(e.target.value);
-          }}
-        />
-      </SearchAccordion>
+      {!smallScreen && (
+        <SearchAccordion
+          button="Update tuition and housing estimates"
+          buttonLabel="Update results"
+          buttonOnClick={updateStore}
+          name="benefitEstimates"
+          expanded={expanded}
+          onClick={onExpand}
+        >
+          {controls}
+        </SearchAccordion>
+      )}
+      {smallScreen && (
+        <div className="modal-wrapper">
+          <div>
+            <h1>Update tuition and housing estimates</h1>
+            {controls}
+          </div>
+          <div className="modal-button-wrapper">
+            <button
+              type="button"
+              id="update-benefits-button"
+              className="update-results-button"
+              onClick={closeAndUpdate}
+            >
+              Update results
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -136,6 +136,7 @@ const formConfig = {
           showPagePerItem: true,
           uiSchema: pages.income.uiSchema,
           schema: pages.income.schema,
+          editModeOnReviewPage: true,
         },
         benefits: {
           path: 'benefits',
@@ -199,6 +200,7 @@ const formConfig = {
           showPagePerItem: true,
           uiSchema: pages.spouseIncome.uiSchema,
           schema: pages.spouseIncome.schema,
+          editModeOnReviewPage: true,
         },
         spouseBenefits: {
           path: 'spouse-benefits',

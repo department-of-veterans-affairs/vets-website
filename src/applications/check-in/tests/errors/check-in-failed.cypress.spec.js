@@ -1,6 +1,7 @@
 import features from '../mocks/enabled.json';
 import mockCheckIn from '../../api/local-mock-api/mocks/check.in.response';
 import mockValidate from '../../api/local-mock-api/mocks/validate.responses';
+import Timeouts from 'platform/testing/e2e/timeouts';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
@@ -25,6 +26,8 @@ describe('Check In Experience -- ', () => {
     cy.get('[data-testid="no-button"]').click();
     cy.get('h1').contains('Your appointment');
     cy.get('.usa-button').click();
-    cy.get('h1').contains('staff member');
+    cy.get('h1', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and('contain', 'We couldn’t check you in');
   });
 });

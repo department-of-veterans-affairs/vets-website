@@ -54,7 +54,6 @@ describe('VAOS <RequestedAppointmentsList>', () => {
       typeOfCareId: '323',
       reasonForVisit: 'Back pain',
       friendlyLocationName: 'Some VA medical center',
-      appointmentType: 'Primary Care',
       comment: 'loss of smell',
       facility: {
         ...appointment.attributes.facility,
@@ -124,7 +123,7 @@ describe('VAOS <RequestedAppointmentsList>', () => {
       reducers,
     });
 
-    expect(await screen.findByText('Audiology (hearing aid support)')).to.be.ok;
+    expect(await screen.findByText('Hearing aid support')).to.be.ok;
     expect(screen.baseElement).to.contain.text('Community care');
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
   });
@@ -171,7 +170,7 @@ describe('VAOS <RequestedAppointmentsList>', () => {
       reducers,
     });
 
-    expect(await screen.findByText('Audiology (hearing aid support)')).to.be.ok;
+    expect(await screen.findByText('Hearing aid support')).to.be.ok;
     expect(screen.baseElement).to.contain.text('Scripps Health Clinic');
     expect(screen.baseElement).not.to.contain.text('Community care');
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
@@ -217,7 +216,6 @@ describe('VAOS <RequestedAppointmentsList>', () => {
       typeOfCareId: '323',
       reasonForVisit: 'Back pain',
       friendlyLocationName: 'Some VA medical center',
-      appointmentType: 'Primary Care',
       comment: 'loss of smell',
       facility: {
         ...appointment.attributes.facility,

@@ -147,13 +147,14 @@
             "from": "2018-6-XX",
             "to": "",
             "isCurrent": true,
-            "employerName": "Spouse Current Employer"
+            "employerName": "Spouse Current"
           },
           {
             "type": "Full time",
             "from": "2015-3-XX",
-            "to": "2021-6-XX",
-            "employerName": "Spouse Past Employer"
+            "to": "2018-6-XX",
+            "employerName": "Spouse Previous",
+            "isCurrent": false
           }
         ]
       },
@@ -161,23 +162,24 @@
         "employmentRecords": [
           {
             "type": "Full time",
-            "from": "2019-1-XX",
+            "from": "2017-1-XX",
             "to": "",
             "isCurrent": true,
-            "employerName": "Current Employer"
+            "employerName": "Veteran Current One"
           },
           {
             "type": "Part time",
-            "from": "2019-1-XX",
+            "from": "2019-7-XX",
             "to": "",
             "isCurrent": true,
-            "employerName": "Current Employer"
+            "employerName": "Veteran Current Two"
           },
           {
             "type": "Full time",
             "from": "2016-3-XX",
-            "to": "2019-3-XX",
-            "employerName": "Past Employer"
+            "to": "2017-3-XX",
+            "employerName": "Veteran Previous",
+            "isCurrent": false
           }
         ]
       }
@@ -189,7 +191,7 @@
     "address": {
       "livesOnMilitaryBaseInfo": {},
       "country": "USA",
-      "street": "55 Fake St",
+      "street": "123 Fake Street",
       "city": "Tampa",
       "state": "FL",
       "postalCode": "33543"
@@ -437,64 +439,60 @@
   },
   "currentEmployment": [
     {
-      "monthlyGrossSalary": "5000",
+      "veteranMonthlyGrossSalary": "5000",
       "deductions": [
         {
           "name": "Federal tax",
-          "amount": "250"
+          "amount": "350"
         },
         {
           "name": "Health insurance",
-          "amount": "340"
+          "amount": "400"
+        },
+        {
+          "name": "401K",
+          "amount": "100"
         }
       ],
       "type": "Full time",
-      "from": "2019-1-XX",
+      "from": "2017-1-XX",
       "to": "",
       "isCurrent": true,
-      "employerName": "Current Employer"
+      "employerName": "Veteran Current One"
     },
     {
-      "monthlyGrossSalary": "1500",
+      "veteranMonthlyGrossSalary": "2000",
       "deductions": [
         {
           "name": "Federal tax",
-          "amount": "100"
-        },
-        {
-          "name": "Health insurance",
-          "amount": "75"
+          "amount": "200"
         }
       ],
       "type": "Part time",
-      "from": "2019-1-XX",
+      "from": "2019-7-XX",
       "to": "",
       "isCurrent": true,
-      "employerName": "Current Employer"
+      "employerName": "Veteran Current Two"
     }
   ],
   "spouseCurrentEmployment": [
     {
-      "monthlyGrossSalary": "5000",
+      "spouseMonthlyGrossSalary": "4000",
       "deductions": [
         {
           "name": "Federal tax",
-          "amount": "250"
+          "amount": "325"
         },
         {
           "name": "Health insurance",
-          "amount": "300"
-        },
-        {
-          "name": "401K",
-          "amount": "200"
+          "amount": "250"
         }
       ],
       "type": "Full time",
       "from": "2018-6-XX",
       "to": "",
       "isCurrent": true,
-      "employerName": "Spouse Current Employer"
+      "employerName": "Spouse Current"
     }
   ],
   "financialOverview": {},
