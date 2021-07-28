@@ -1143,11 +1143,11 @@ describe('VAOS <VAFacilityPage>', () => {
 
         await waitFor(() => {
           expect(global.document.title).to.equal(
-            'Choose a VA Location | Veterans Affairs',
+            'Choose a VA location | Veterans Affairs',
           );
         });
 
-        expect(screen.getByText(/Choose a VA Location/i)).to.exist;
+        expect(screen.getByText(/Choose a VA location/i)).to.exist;
 
         expect(screen.baseElement).to.contain.text(
           'Select a VA facility where you’re registered that offers primary care appointments.',
@@ -1232,7 +1232,7 @@ describe('VAOS <VAFacilityPage>', () => {
         // should mean all page rendering is finished
         await screen.findAllByRole('radio');
 
-        expect(screen.getByText(/Choose a VA Location/i)).to.exist;
+        expect(screen.getByText(/Choose a VA location/i)).to.exist;
         expect(screen.baseElement).to.contain.text('By your home address');
 
         // It should sort by distance, making Closest facility the first facility
