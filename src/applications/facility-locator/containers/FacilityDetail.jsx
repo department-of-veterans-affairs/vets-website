@@ -3,7 +3,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { fetchVAFacility } from '../actions';
-// import { focusElement } from 'platform/utilities/ui';
 import AccessToCare from '../components/AccessToCare';
 import LocationAddress from '../components/search-results-items/common/LocationAddress';
 import LocationDirectionsLink from '../components/search-results-items/common/LocationDirectionsLink';
@@ -29,7 +28,6 @@ class FacilityDetail extends Component {
     if (this.headerRef && this.headerRef.current) {
       this.headerRef.current.focus();
     }
-    // focusElement('facility-name-h1');
   }
 
   componentDidUpdate(prevProps) {
