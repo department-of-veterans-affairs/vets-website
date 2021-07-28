@@ -87,27 +87,27 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         requests: [],
         isHomepageRefresh: true,
       });
-      mockFacilitiesFetch('vha_442', [
-        {
-          id: 'vha_442',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '442',
-            name: 'Cheyenne VA Medical Center',
-            address: {
-              physical: {
-                zip: '82001-5356',
-                city: 'Cheyenne',
-                state: 'WY',
-                address1: '2360 East Pershing Boulevard',
-              },
-            },
-            phone: {
-              main: '307-778-7550',
+      const facility = {
+        id: 'vha_442',
+        attributes: {
+          ...getVAFacilityMock().attributes,
+          uniqueId: '442',
+          name: 'Cheyenne VA Medical Center',
+          address: {
+            physical: {
+              zip: '82001-5356',
+              city: 'Cheyenne',
+              state: 'WY',
+              address1: '2360 East Pershing Boulevard',
             },
           },
+          phone: {
+            main: '307-778-7550',
+          },
         },
-      ]);
+      };
+      mockFacilitiesFetch('vha_442', [facility]);
+      mockFacilityFetch('vha_442', facility);
 
       const screen = renderWithStoreAndRouter(
         <AppointmentList featureHomepageRefresh />,
@@ -116,7 +116,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         },
       );
 
-      expect(await screen.findByText(/Cheyenne VA Medical Center/i)).to.be.ok;
       fireEvent.click(await screen.findByText(/Details/));
 
       await waitFor(() =>
