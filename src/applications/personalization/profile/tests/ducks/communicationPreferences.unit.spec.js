@@ -389,11 +389,7 @@ describe('saveCommunicationPreferenceChannel', () => {
           );
         });
         // now make the API work correctly and try to update the pref again
-        server.use(
-          rest.post(apiURL, (req, res, ctx) => {
-            return res(ctx.json(postSuccess));
-          }),
-        );
+        server.resetHandlers();
         promise = store.dispatch(
           saveCommunicationPreferenceChannel(channelId, {
             method: 'POST',
@@ -425,7 +421,7 @@ describe('saveCommunicationPreferenceChannel', () => {
       it('updates the redux state correctly', async () => {
         const channelId = 'channel1-1';
         server.use(
-          rest.patch(apiURL, (req, res, ctx) => {
+          rest.patch(`${apiURL}/*`, (req, res, ctx) => {
             return res(ctx.status(500), ctx.json(error500));
           }),
         );
@@ -433,7 +429,7 @@ describe('saveCommunicationPreferenceChannel', () => {
         let promise = store.dispatch(
           saveCommunicationPreferenceChannel(channelId, {
             method: 'PATCH',
-            endpoint: apiURL,
+            endpoint: `${apiURL}/1728`,
             body: {},
           }),
         );
@@ -453,15 +449,11 @@ describe('saveCommunicationPreferenceChannel', () => {
           );
         });
         // now make the API work correctly and try to update the pref again
-        server.use(
-          rest.patch(apiURL, (req, res, ctx) => {
-            return res(ctx.json(patchSuccess));
-          }),
-        );
+        server.resetHandlers();
         promise = store.dispatch(
           saveCommunicationPreferenceChannel(channelId, {
             method: 'PATCH',
-            endpoint: apiURL,
+            endpoint: `${apiURL}/1728`,
             body: {},
           }),
         );
