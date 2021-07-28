@@ -138,8 +138,9 @@ jobs:
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
 
-      - name: Deploy
-        run: mkdir {{ env.APP_NAME }}-deployment && tar -C ./{{ env.APP_NAME }}-deployment -xvf {{ env.APP_NAME }}.tar.bz2 && aws s3 sync ./{{ env.APP_NAME }}-deployment s3://${{ matrix.bucket }}/generated --acl public-read --region us-gov-west-1
+      # - name: Deploy
+        # run: mkdir {{ env.APP_NAME }}-deployment && tar -C ./{{ env.APP_NAME }}-deployment -xvf {{ env.APP_NAME }}.tar.bz2
+        # run: aws s3 sync ./{{ env.APP_NAME }}-deployment s3://${{ matrix.bucket }}/generated --acl public-read --region us-gov-west-1
         # run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
         # env:
         #   SRC: s3://vetsgov-website-builds-s3-upload/application-build/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
