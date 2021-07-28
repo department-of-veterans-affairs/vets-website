@@ -1,9 +1,10 @@
 // Node modules.
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import URLSearchParams from 'url-search-params';
 import appendQuery from 'append-query';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
 // Relative imports.
 import ChangeAddress from './components/messages/ChangeAddress';
 import DeactivatedMHVIds from './components/messages/DeactivatedMHVIds';
