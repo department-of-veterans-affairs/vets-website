@@ -1659,7 +1659,7 @@ describe('VAOS <VAFacilityPage>', () => {
         ...initialState,
         featureToggles: {
           ...initialState.featureToggles,
-          vaOnlineSchedulingVAOSServiceVAAppointments: true,
+          vaOnlineSchedulingFacilitiesServiceV2: true,
         },
       });
       await setTypeOfCare(store, /primary care/i);
