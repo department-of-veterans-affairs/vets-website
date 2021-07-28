@@ -119,47 +119,66 @@ function hasPartialResults(response) {
 export async function getBookedAppointments({
   startDate,
   endDate,
-  useV2 = false,
+  useV2VA = false,
+  useV2CC = false,
 }) {
   try {
-    if (useV2) {
-      const appointments = await getAppointments(startDate, endDate, [
+    let appointments = [];
+    if (!useV2VA) {
+      const confirmedVAAppointments = await getConfirmedAppointments(
+        'va',
+        moment(startDate).toISOString(),
+        moment(endDate).toISOString(),
+      );
+
+      // We might get partial results back from MAS, so throw an error if we do
+      if (hasPartialResults(confirmedVAAppointments)) {
+        throw mapToFHIRErrors(
+          appointments[0].errors,
+          'MAS returned partial results',
+        );
+      }
+
+      appointments = [
+        ...transformConfirmedAppointments(confirmedVAAppointments.data),
+      ];
+    }
+
+    if (!useV2CC) {
+      const confirmedCCAppointments = await getConfirmedAppointments(
+        'cc',
+        moment(startDate).toISOString(),
+        moment(endDate).toISOString(),
+      );
+      appointments = [
+        ...appointments,
+        ...transformConfirmedAppointments(confirmedCCAppointments.data),
+      ];
+    }
+
+    if (useV2VA || useV2CC) {
+      const kindsOfVAAppointments = ['clinic', 'telehealth', 'phone'];
+      const allAppointments = await getAppointments(startDate, endDate, [
         'booked',
         'cancelled',
       ]);
 
-      const appointmentsWithoutRequests = appointments.filter(
-        appt => !appt.requestedPeriods,
-      );
-
-      return transformVAOSAppointments(appointmentsWithoutRequests);
+      const filteredAppointments = allAppointments.filter(appt => {
+        if (
+          (!useV2VA && kindsOfVAAppointments.includes(appt.kind)) ||
+          (!useV2CC && appt.kind === 'cc')
+        ) {
+          return false;
+        }
+        return !appt.requestedPeriods;
+      });
+      appointments = [
+        ...appointments,
+        ...transformVAOSAppointments(filteredAppointments),
+      ];
     }
 
-    const appointments = await Promise.all([
-      getConfirmedAppointments(
-        'va',
-        moment(startDate).toISOString(),
-        moment(endDate).toISOString(),
-      ),
-      getConfirmedAppointments(
-        'cc',
-        moment(startDate).toISOString(),
-        moment(endDate).toISOString(),
-      ),
-    ]);
-
-    // We might get partial results back from MAS, so throw an error if we do
-    if (hasPartialResults(appointments[0])) {
-      throw mapToFHIRErrors(
-        appointments[0].errors,
-        'MAS returned partial results',
-      );
-    }
-
-    return transformConfirmedAppointments([
-      ...appointments[0].data,
-      ...appointments[1].data,
-    ]);
+    return appointments;
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
@@ -245,16 +264,11 @@ export async function fetchRequestById({ id, useV2 }) {
  * @param {'cc'|'va'} type Type of appointment that is being fetched
  * @returns {Appointment} A transformed appointment with the given id
  */
-export async function fetchBookedAppointment({
-  id,
-  type,
-  useV2VA = false,
-  useV2CC = false,
-}) {
+export async function fetchBookedAppointment({ id, type, useV2 = false }) {
   try {
     let appointment;
 
-    if (useV2VA || useV2CC) {
+    if (useV2) {
       appointment = await getAppointment(id);
       return transformVAOSAppointment(appointment);
     }
