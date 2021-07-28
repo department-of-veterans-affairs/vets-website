@@ -135,7 +135,11 @@ function LocationSearchResults({
     const { latitude, longitude } = institution;
     const lngLat = new mapboxgl.LngLat(longitude, latitude);
 
-    return !mapState.changed || map.current.getBounds().contains(lngLat);
+    return (
+      smallScreen ||
+      !mapState.changed ||
+      map.current.getBounds().contains(lngLat)
+    );
   };
 
   /**
