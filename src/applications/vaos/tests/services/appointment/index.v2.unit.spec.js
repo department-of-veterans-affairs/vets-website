@@ -597,7 +597,7 @@ describe('VAOS Appointment service', () => {
       );
     });
 
-    it.only('should return matching v0 and v2 data for a community care appointment', async () => {
+    it('should return matching v0 and v2 data for a community care appointment', async () => {
       const data = {
         id: '1234',
         start: moment()
@@ -644,10 +644,14 @@ describe('VAOS Appointment service', () => {
       // This is always missing on v2, has to be fetched separately
       // Setting it to null here because the diff is very long otherwise
       v0Result.communityCareProvider = null;
+      // The CC date transformer logic sets the date in UTC mode, which creates
+      // a format difference when this test is run on a machine in GMT/UTC
+      // This adjusts for that format difference, because fixing the code results
+      // in weird test failures that need to be looked at separately
+      v0Result.start = v0Result.start.replace('Z', '+00:00');
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
-      console.log(differences);
       expect(differences).to.have.deep.members(
         [
           {

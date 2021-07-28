@@ -116,6 +116,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         },
       );
 
+      expect(await screen.findByText(/Cheyenne VA Medical Center/i)).to.be.ok;
       fireEvent.click(await screen.findByText(/Details/));
 
       await waitFor(() =>
