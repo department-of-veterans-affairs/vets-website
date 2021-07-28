@@ -33,6 +33,7 @@ export default Object.freeze({
   facilityLocatorShowOperationalHoursSpecialInstructions: 'facilityLocatorShowOperationalHoursSpecialInstructions',
   findFormsEnhancementFlagOne: 'find_forms_first_flag',
   findFormsEnhancementFlagTwo: 'find_forms_second_flag',
+  findFormsEnhancementFlagThree: 'find_forms_third_flag',
   fileUploadShortWorkflowEnabled: 'file_upload_short_workflow_enabled',
   form10182Nod: 'form10182_nod',
   gibctEybBottomSheet: 'gibctEybBottomSheet',

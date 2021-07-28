@@ -1,11 +1,21 @@
+import React from 'react';
 import ItemLoop from '../../../../components/ItemLoop';
 import CardDetailsView from '../../../../components/CardDetailsView';
 import EmploymentRecord from '../../../../components/EmploymentRecord';
 
 export const uiSchema = {
-  'ui:title': 'Your spouse’s employment information',
-  'ui:description':
-    'Tell us about the jobs your spouse has had in the past two years for which they received paychecks. You’ll need to provide their income information for any current job.',
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">
+        Your spouse’s employment information
+      </legend>
+      <p className="vads-u-padding-top--2">
+        Tell us about the jobs your spouse has had in the past two years for
+        which they received paychecks. You’ll need to provide their income
+        information for any current job.
+      </p>
+    </>
+  ),
   personalData: {
     employmentHistory: {
       spouse: {
