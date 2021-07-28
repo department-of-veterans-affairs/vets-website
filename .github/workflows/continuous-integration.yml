@@ -714,7 +714,7 @@ jobs:
 #         - environment: vagovdev
 #           bucket: dev-va-gov-assets
 #         - environment: vagovstaging
-#           bucket: stage-va-gov-assets
+#           bucket: staging-va-gov-assets
 
 #   steps:
 #     - name: Checkout
