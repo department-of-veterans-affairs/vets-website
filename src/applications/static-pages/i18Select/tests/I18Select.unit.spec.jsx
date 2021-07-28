@@ -1,6 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-import { onThisPageDict } from '../hooks';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 
 import I18Select from '../I18Select';
@@ -27,23 +26,12 @@ describe('<I18Select>', () => {
       expect(activeLink).to.have.class('vads-u-font-weight--bold');
     });
 
-    it('should render with SPANISH link bolded/active and set appropriate "on-this-page" innerText', async () => {
+    it('should render with SPANISH link bolded/active', async () => {
       const languageCode = 'es';
 
       const screen = renderInReduxProvider(
-        <div>
-          <p data-testid="onThisPage" id="on-this-page" />
-          <I18Select baseUrls={baseUrls} content={I18_CONTENT} />
-        </div>,
+        <I18Select baseUrls={baseUrls} content={I18_CONTENT} />,
         { initialState: { i18State: { lang: languageCode } } },
-      );
-
-      const onThisPageEl = screen.getByTestId('onThisPage');
-
-      expect(onThisPageEl).to.exist;
-
-      expect(onThisPageEl.innerText).to.equal(
-        onThisPageDict[languageCode].onThisPage,
       );
 
       const activeLink = await screen.findByText('Español');
@@ -54,23 +42,12 @@ describe('<I18Select>', () => {
     });
   });
 
-  it('should render with TAGOLOG link bolded/active and set appropriate "on-this-page" innerText', async () => {
+  it('should render with TAGOLOG link bolded/active', async () => {
     const languageCode = 'tl';
 
     const screen = renderInReduxProvider(
-      <div>
-        <p data-testid="onThisPage" id="on-this-page" />
-        <I18Select baseUrls={baseUrls} content={I18_CONTENT} />
-      </div>,
+      <I18Select baseUrls={baseUrls} content={I18_CONTENT} />,
       { initialState: { i18State: { lang: languageCode } } },
-    );
-
-    const onThisPageEl = screen.getByTestId('onThisPage');
-
-    expect(onThisPageEl).to.exist;
-
-    expect(onThisPageEl.innerText).to.equal(
-      onThisPageDict[languageCode].onThisPage,
     );
 
     const activeLink = await screen.findByText('Tagalog');
