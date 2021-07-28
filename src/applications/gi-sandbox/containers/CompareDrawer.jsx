@@ -14,7 +14,7 @@ export function CompareDrawer({
   dispatchCompareDrawerOpened,
 }) {
   const history = useHistory();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(compare.open);
   const [promptingFacilityCode, setPromptingFacilityCode] = useState(null);
   const { loaded, institutions } = compare.search;
 
