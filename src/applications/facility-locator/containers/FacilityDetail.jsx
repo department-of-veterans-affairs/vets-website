@@ -24,12 +24,6 @@ class FacilityDetail extends Component {
     window.scrollTo(0, 0);
   }
 
-  componentDidMount() {
-    if (this.headerRef && this.headerRef.current) {
-      this.headerRef.current.focus();
-    }
-  }
-
   componentDidUpdate(prevProps) {
     const justLoaded =
       prevProps.currentQuery.inProgress && !this.props.currentQuery.inProgress;
@@ -39,6 +33,9 @@ class FacilityDetail extends Component {
       document.title = `${
         this.props.facility.attributes.name
       } | Veterans Affairs`;
+
+      // Need to wait until the data is loaded to focus
+      this.headerRef.current.focus();
     }
   }
 
