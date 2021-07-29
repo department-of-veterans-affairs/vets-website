@@ -35,7 +35,7 @@ jobs:
       id: set-matrix
       run: |
         JSON=$(cat ./src/applications/${{ env.APP_NAME }}/manifest.json)
-        echo "MANIFEST=${JSON//'%'/'%25'}" >> $GITHUB_ENV
+        echo MANIFEST=${JSON//'%'/'%25'} >> $GITHUB_ENV
 
     - name: test echo
       run: echo ${{ env.MANIFEST }}
