@@ -23,6 +23,7 @@ jobs:
 
   consume-manifest:
     runs-on: ubuntu-latest
+    needs: get-changed-files
     outputs:
       deploy-configuration: ${{ steps.deploy-configuration.outputs.options }}
     steps:
@@ -38,6 +39,7 @@ jobs:
   build:
     name: Build
     runs-on: self-hosted
+    needs: consume-manifest
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
@@ -48,8 +50,8 @@ jobs:
         buildtype: [vagovdev]
 
     steps:
-      # - name: Checkout
-      #   uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
       # - name: Check Data
       #   run: ${{fromJson(needs.consume-manifest.deploy-configuration)}}
