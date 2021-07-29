@@ -6,6 +6,10 @@ import _ from 'lodash/fp';
 import { countries, states } from 'platform/forms/address';
 
 const documentTypes526 = [
+  {
+    value: 'L015',
+    label: 'VA Form 21-4138 - Buddy/Lay Statement',
+  },
   { value: 'L018', label: 'Civilian Police Reports' },
   { value: 'L029', label: 'Copy of a DD214' },
   { value: 'L702', label: 'Disability Benefits Questionnaire (DBQ)' },
@@ -76,10 +80,6 @@ const documentTypes526 = [
     value: 'L149',
     label:
       'VA Form 21-8940 - Veterans Application for Increased Compensation Based on Un-employability',
-  },
-  {
-    value: 'L015',
-    label: 'VA Form 21-4138 - Buddy/Lay Statement',
   },
 ];
 
