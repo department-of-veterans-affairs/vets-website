@@ -36,6 +36,7 @@ jobs:
       #   run: echo "APP_NAME=${{ fromJson(steps.set-matrix.outputs.MANIFEST).appName }}" >> $GITHUB_ENV
 
       - name: Approved apps
+        id: approved-apps
         run: |
           JSON=$(cat ${{ env.APPROVED_APPS_JSON }})
           echo APPROVED_APPS=${JSON//'%'/'%25'} >> $GITHUB_ENV
@@ -55,9 +56,12 @@ jobs:
             # validate and then store as an array???/ (TBD)
             # echo "Do something with this ${changed_file}."
             IFS='/'
-            read -a appName <<< "$changed_file"
-            echo ${appName[2]}
-            echo ${{ fromJson(steps.set-matrix.outputs.MANIFEST).appName }}
+            read -a app <<< "$changed_file"
+            echo ${app[2]}
+            JSON=$(cat ./src/applications/${app[2]}/manifest.json)
+            MANIFEST=${JSON//'%'/'%25'}
+            appName=${{ fromJson(MANIFEST).appName }}
+            echo $appName
           done
 
   build:
