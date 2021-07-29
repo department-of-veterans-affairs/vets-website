@@ -63,8 +63,8 @@ jobs:
             # get root source of appName
             # validate and then store as an array???/ (TBD)
             # echo "Do something with this ${changed_file}."
-            appName=(${changed_file//\/ })
-            echo ${appName[0]}
+            appName=(${changed_file//\//})
+            echo ${appName[@]}
           done
 
 
