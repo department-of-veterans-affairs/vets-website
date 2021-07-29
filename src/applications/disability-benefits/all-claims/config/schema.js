@@ -78,7 +78,7 @@ const documentTypes526 = [
       'VA Form 21-8940 - Veterans Application for Increased Compensation Based on Un-employability',
   },
   {
-    value: 'L0159',
+    value: 'L015',
     label: 'VA Form 21-4138 - Buddy/Lay Statement',
   },
 ];
