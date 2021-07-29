@@ -2,5 +2,6 @@
   "appName": "AAA FE Tools",
   "entryFile": "./app-entry.jsx",
   "entryName": "aaa-fe-tools",
-  "rootUrl": "/aaa-fe-tools"
+  "rootUrl": "/aaa-fe-tools",
+  "deploy": "auto"
 }
