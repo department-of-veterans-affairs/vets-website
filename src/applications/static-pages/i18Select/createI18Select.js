@@ -26,6 +26,7 @@ export const I18_CONTENT = {
 export default function createI18Select(store, widgetType) {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
 
+  // these are the only urls where this widget will be rendered
   const translatableLinks = new Set([
     '/coronavirus-veteran-frequently-asked-questions/',
     '/coronavirus-veteran-frequently-asked-questions-esp/',
