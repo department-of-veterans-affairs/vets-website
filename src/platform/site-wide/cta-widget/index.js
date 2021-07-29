@@ -103,9 +103,11 @@ export class CallToActionWidget extends Component {
       const ctaWidget = ctaWidgetsLookup?.[appId];
 
       // Derive the url details.
-      const { url, redirect } = ctaWidget?.deriveToolUrlDetails(
+      const toolURLDetails = ctaWidget?.deriveToolUrlDetails(
         authenticatedWithSSOe,
       );
+      const url = toolURLDetails?.url;
+      const redirect = toolURLDetails?.redirect;
 
       this._toolUrl = url;
       if (redirect && !this._popup) this.goToTool();
