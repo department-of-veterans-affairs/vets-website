@@ -55,7 +55,7 @@ export function NameSearchResults({
         name !== null && (
           <div className="row vads-u-padding--0 vads-u-margin--0">
             {smallScreen && <MobileFilterControls />}
-            <p>
+            <p className="vads-u-padding-x--1p5 small-screen:vads-u-padding-x--0">
               Showing <strong>{count} search results</strong> for '
               <strong>{name}</strong>'
             </p>
