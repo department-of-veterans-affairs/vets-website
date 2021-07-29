@@ -39,7 +39,6 @@ RUN aws --version # Verify AWS CLI installation.
 # Explicitly set CA cert to resolve SSL issues with AWS.
 ENV AWS_CA_BUNDLE /etc/ssl/certs/ca-certificates.crt
 
-
 # Add VA Root CA to Docker Certificate Authority (CA) Store so that NODE can use it for requests.
 ADD http://crl.pki.va.gov/PKI/AIA/VA/VA-Internal-S2-RCA1-v1.cer /usr/local/share/ca-certificates/
 RUN openssl x509 -inform DER -in /usr/local/share/ca-certificates/VA-Internal-S2-RCA1-v1.cer -out /usr/local/share/ca-certificates/VA-Internal-S2-RCA1-v1.crt
@@ -52,4 +51,3 @@ USER vets-website
 ENV NODE_EXTRA_CA_CERTS /etc/ssl/certs/ca-certificates.crt
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
-
