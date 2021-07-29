@@ -27,9 +27,10 @@ jobs:
       deploy-configuration: ${{ steps.deploy-configuration.outputs.options }}
     steps:
     - id: deploy-configuration
-      run: |
-        JSON=$(cat ../../src/applications/${{ env.APP_NAME }}/manifest.json)
-        echo "::set-output name=options::${JSON//'%'/'%25'}"
+      run: pwd
+      # run: |
+      #   JSON=$(cat ../../src/applications/${{ env.APP_NAME }}/manifest.json)
+      #   echo "::set-output name=options::${JSON//'%'/'%25'}"
 
   build:
     name: Build
