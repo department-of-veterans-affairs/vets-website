@@ -91,10 +91,6 @@ export default function EstimatedBenefits({
   const perTermSections = () => {
     const { perTerm } = outputs;
 
-    if (isOJT) {
-      delete perTerm.bookStipend;
-    }
-
     const sections = Object.keys(perTerm).map(section => {
       const { visible, title, learnMoreAriaLabel, terms } = outputs.perTerm[
         section

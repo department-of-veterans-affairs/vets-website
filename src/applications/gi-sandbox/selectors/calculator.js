@@ -1219,6 +1219,7 @@ export const getCalculatedBenefits = createSelector(
       calculatedBenefits.outputs.totalPaidToYou.visible = false;
       calculatedBenefits.outputs.perTerm.tuitionFees.visible = false;
       calculatedBenefits.outputs.perTerm.yellowRibbon.visible = false;
+      calculatedBenefits.outputs.perTerm.bookStipend.visible = false;
     }
 
     return calculatedBenefits;
