@@ -11,7 +11,7 @@ const SELECTORS = {
 };
 
 describe('Sitewide Search smoke test', () => {
-  it.skip('successfully searches and renders results from the global search', () => {
+  it('successfully searches and renders results from the global search', () => {
     cy.intercept('GET', '/v0/search?query=benefits', {
       body: stub,
       statusCode: 200,
@@ -41,60 +41,58 @@ describe('Sitewide Search smoke test', () => {
       // Check url.
       .should('contain', 'https://benefits.va.gov/benefits/');
   });
-  for (let i = 0; i < 60; i++) {
-    it('successfully searches and renders results from the results page', () => {
-      cy.intercept('GET', '/v0/search?query=*', {
-        body: stub,
-        statusCode: 200,
-      }).as('getSearchResultsPage');
+  it('successfully searches and renders results from the results page', () => {
+    cy.intercept('GET', '/v0/search?query=*', {
+      body: stub,
+      statusCode: 200,
+    }).as('getSearchResultsPage');
 
-      // navigate to page
-      cy.visit('/search/?query=X');
-      cy.injectAxeThenAxeCheck();
+    // navigate to page
+    cy.visit('/search/?query=X');
+    cy.injectAxeThenAxeCheck();
 
-      // Ensure App is present
-      cy.get(SELECTORS.APP).should('exist');
+    // Ensure App is present
+    cy.get(SELECTORS.APP).should('exist');
 
-      // Ensure form is present
-      cy.get(SELECTORS.SEARCH_FORM).should('exist');
+    // Ensure form is present
+    cy.get(SELECTORS.SEARCH_FORM).should('exist');
 
-      // Await search results
+    // Await search results
 
-      cy.get(`${SELECTORS.SEARCH_FORM} input[name="query"]`)
-        .should('exist')
-        .then(inputElem => {
-          cy.wrap(inputElem).clear();
-        });
-      cy.get(`${SELECTORS.SEARCH_FORM} input[name="query"]`, {
-        timeout: Timeouts.slow,
-      })
-        .should('exist')
-        .and('not.be.disabled')
-        .then(inputElem => {
-          cy.wrap(inputElem).type('benefits');
-        });
-      cy.get(`${SELECTORS.SEARCH_FORM} button[type="submit"]`)
-        .should('exist')
-        .then(button => {
-          cy.wrap(button).click();
-        });
-      cy.wait('@getSearchResultsPage');
+    cy.get(`${SELECTORS.SEARCH_FORM} input[name="query"]`)
+      .should('exist')
+      .then(inputElem => {
+        cy.wrap(inputElem).clear();
+      });
+    cy.get(`${SELECTORS.SEARCH_FORM} input[name="query"]`, {
+      timeout: Timeouts.slow,
+    })
+      .should('exist')
+      .and('not.be.disabled')
+      .then(inputElem => {
+        cy.wrap(inputElem).type('benefits');
+      });
+    cy.get(`${SELECTORS.SEARCH_FORM} button[type="submit"]`)
+      .should('exist')
+      .then(button => {
+        cy.wrap(button).click();
+      });
+    cy.wait('@getSearchResultsPage');
 
-      // A11y check the search results.
-      cy.axeCheck();
+    // A11y check the search results.
+    cy.axeCheck();
 
-      // Check results to see if variety of nodes exist.
-      cy.get(SELECTORS.SEARCH_RESULTS_TITLE)
-        // Check title.
-        .should('contain', 'Veterans Benefits Administration Home');
+    // Check results to see if variety of nodes exist.
+    cy.get(SELECTORS.SEARCH_RESULTS_TITLE)
+      // Check title.
+      .should('contain', 'Veterans Benefits Administration Home');
 
-      cy.get(`${SELECTORS.SEARCH_RESULTS} li`)
-        // Check url.
-        .should('contain', 'https://benefits.va.gov/benefits/');
-    });
-  }
+    cy.get(`${SELECTORS.SEARCH_RESULTS} li`)
+      // Check url.
+      .should('contain', 'https://benefits.va.gov/benefits/');
+  });
 
-  it.skip('fails to search and has an error', () => {
+  it('fails to search and has an error', () => {
     cy.intercept('GET', '/v0/search?query=benefits', {
       body: [],
       statusCode: 500,
