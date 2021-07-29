@@ -51,6 +51,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
   it('should show confirmed appointments detail page', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
+    const today = moment.utc();
 
     const appointment = getVAAppointmentMock();
     appointment.attributes = {
@@ -59,6 +60,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       clinicFriendlyName: "Jennie's Lab",
       facilityId: '983',
       sta6aid: '983GC',
+      startDate: today.format(),
       vdsAppointments: [
         {
           bookingNote: 'New issue: ASAP',
@@ -96,7 +98,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     // Verify document title and content...
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        `VA appointment on ${moment()
+        `VA appointment on ${today
           .tz('America/Denver')
           .format('dddd, MMMM D, YYYY')}`,
       );
@@ -106,9 +108,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       screen.getByRole('heading', {
         level: 1,
         name: new RegExp(
-          moment()
-            .tz('America/Denver')
-            .format('dddd, MMMM D, YYYY'),
+          today.tz('America/Denver').format('dddd, MMMM D, YYYY'),
           'i',
         ),
       }),
@@ -137,7 +137,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     expect(
       screen.getByRole('link', {
         name: new RegExp(
-          moment()
+          today
             .tz('America/Denver')
             .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
           'i',
@@ -162,9 +162,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       await screen.findByRole('heading', {
         level: 1,
         name: new RegExp(
-          moment()
-            .tz('America/Denver')
-            .format('dddd, MMMM D, YYYY'),
+          today.tz('America/Denver').format('dddd, MMMM D, YYYY'),
           'i',
         ),
         // name: /Thursday, January 28, 2021/,
@@ -1042,7 +1040,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       },
     };
     const url = '/va/1234';
-    const futureDate = moment().add(5, 'days');
+    const futureDate = moment.utc();
 
     const appointment = getVAOSAppointmentMock();
     appointment.id = '1234';
@@ -1094,7 +1092,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       screen.getByRole('heading', {
         level: 1,
         name: new RegExp(
-          futureDate.tz('American/Denver').format('dddd, MMMM D, YYYY'),
+          futureDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
           'i',
         ),
       }),
@@ -1123,7 +1121,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       screen.getByRole('link', {
         name: new RegExp(
           futureDate
-            .tz('American/Denver')
+            .tz('America/Denver')
             .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
           'i',
         ),

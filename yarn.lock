@@ -11682,6 +11682,11 @@ jsx-ast-utils@^3.1.0:
     array-includes "^3.1.1"
     object.assign "^4.1.1"
 
+just-diff@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/just-diff/-/just-diff-3.1.1.tgz#d50c597c6fd4776495308c63bdee1b6839082647"
+  integrity sha512-sdMWKjRq8qWZEjDcVA6llnUT8RDEBIfOiGpYFPYa9u+2c39JCsejktSP7mj5eRid5EIvTzIpQ2kDOCw1Nq9BjQ==
+
 just-extend@^1.1.22:
   version "1.1.22"
   resolved "https://registry.npmjs.org/just-extend/-/just-extend-1.1.22.tgz"
