@@ -45,13 +45,6 @@ function LocationSearchResults({
   const [mobileTab, setMobileTab] = useState(LIST_TAB);
   const [mobileMarkerClicked, setMobileMarkerClicked] = useState(null);
 
-  useEffect(
-    () => {
-      setUsedFilters(getFiltersChanged(filters));
-    },
-    [filters],
-  );
-
   /**
    * When map is moved update distance from center to NorthEast corner
    */
@@ -272,6 +265,7 @@ function LocationSearchResults({
       // wait for map to initialize or no results are returned
       if (!map.current || results.length === 0) {
         setMapState({ changed: false, distance: null });
+        setUsedFilters(getFiltersChanged(filters));
         setCardResults(visibleResults);
         setMarkers(mapMarkers);
         return;
@@ -296,6 +290,7 @@ function LocationSearchResults({
       }
 
       setCardResults(visibleResults);
+      setUsedFilters(getFiltersChanged(filters));
       setMapState({ changed: false, distance: null });
       setMarkers(mapMarkers);
     },
@@ -343,21 +338,28 @@ function LocationSearchResults({
 
   /**
    * Renders the Eligibility and Filters accordions/buttons
-   * @type {JSX.Element}
+   * @type {function(JSX.Element): (*|null)}
    */
-  const eligibilityAndFilters = (
-    <>
-      {!smallScreen && (
+  const eligibilityAndFilters = count => {
+    const showTuitionAndFilters = count > 0 || usedFilters;
+
+    if (showTuitionAndFilters) {
+      return (
         <>
-          <TuitionAndHousingEstimates />
-          <FilterYourResults />
+          {!smallScreen && (
+            <>
+              <TuitionAndHousingEstimates />
+              <FilterYourResults />
+            </>
+          )}
+          {smallScreen && (
+            <MobileFilterControls className={'vads-u-margin-top--2'} />
+          )}
         </>
-      )}
-      {smallScreen && (
-        <MobileFilterControls className={'vads-u-margin-top--2'} />
-      )}
-    </>
-  );
+      );
+    }
+    return null;
+  };
 
   /**
    * Content for when no results are found with or without the use of filters
@@ -529,7 +531,6 @@ function LocationSearchResults({
   };
 
   const hasSearchLatLong = search.query.latitude && search.query.longitude;
-  const showTuitionAndFilters = count => count > 0 || usedFilters;
 
   // Results shouldn't be filtered out on mobile because "Search this area of the map" is disabled
   const smallScreenCount = search.location.count;
@@ -542,7 +543,7 @@ function LocationSearchResults({
         {!inProgress && (
           <>
             <div>
-              {(smallScreenCount > 0 || usedFilters) && eligibilityAndFilters}
+              {eligibilityAndFilters(smallScreenCount)}
               {noResultsFound(smallScreenCount)}
             </div>
             {smallScreenCount > 0 && (
@@ -584,12 +585,8 @@ function LocationSearchResults({
             )}
             {hasSearchLatLong && (
               <>
-                {showTuitionAndFilters(desktopCount) && (
-                  <>
-                    {eligibilityAndFilters}
-                    {searchResults(desktopCount)}
-                  </>
-                )}
+                {eligibilityAndFilters(desktopCount)}
+                {searchResults(desktopCount)}
                 {noResultsFound(desktopCount)}
               </>
             )}
