@@ -335,7 +335,7 @@ export async function fetchFlowEligibilityAndClinics({
   if (directSchedulingAvailable) {
     apiCalls.clinics = getAvailableHealthcareServices({
       facilityId: location.id,
-      typeOfCareId: typeOfCare.id,
+      typeOfCare,
       systemId: location.vistaId,
       useV2,
     }).catch(createErrorHandler('direct-available-clinics-error'));

@@ -13,14 +13,14 @@ import { transformClinicsV2 } from './transformers.v2';
  *
  * @param {Object} params
  * @param {string} params.facilityId The VistA facility id
- * @param {string} params.typeOfCareId An id for the type of care to check for the chosen organization
+ * @param {TypeOfCare} params.typeOfCare The type of care to check for the chosen organization
  * @param {string} params.systemId The VistA 3 digit site id
  *
  * @returns {Array<HealthCareService>} An a collection of HealthcareService objects.
  */
 export async function getAvailableHealthcareServices({
   facilityId,
-  typeOfCareId,
+  typeOfCare,
   systemId,
   useV2 = false,
 }) {
@@ -29,16 +29,20 @@ export async function getAvailableHealthcareServices({
     if (useV2) {
       const clinicData = await getClinicsByLocationAndTypeOfCare(
         facilityId,
-        typeOfCareId,
+        typeOfCare.idV2,
       );
       clinics = transformClinicsV2(clinicData);
     } else {
       const clinicData = await getAvailableClinics(
         facilityId,
-        typeOfCareId,
+        typeOfCare.id,
         systemId,
       );
-      clinics = transformAvailableClinics(facilityId, typeOfCareId, clinicData);
+      clinics = transformAvailableClinics(
+        facilityId,
+        typeOfCare.id,
+        clinicData,
+      );
     }
 
     return clinics.sort(

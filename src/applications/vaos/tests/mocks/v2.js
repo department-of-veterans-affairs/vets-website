@@ -93,6 +93,10 @@ export function getV2FacilityMock({
   id = 'Fake',
   name = 'Fake',
   isParent = false,
+  address = null,
+  lat = null,
+  long = null,
+  phone = null,
 }) {
   return {
     id,
@@ -102,7 +106,10 @@ export function getV2FacilityMock({
       vistaSite: id.substring(0, 3),
       vastParent: isParent ? id : id.substring(0, 3),
       name,
-      physicalAddress: {
+      lat,
+      long,
+      phone: { main: phone },
+      physicalAddress: address || {
         line: [],
         city: 'fake',
         state: 'fake',
