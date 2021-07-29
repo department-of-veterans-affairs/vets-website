@@ -11,7 +11,7 @@ import {
   restartShouldRedirect,
 } from 'platform/site-wide/wizard';
 import formConfig from '../config/form';
-import ErrorMessage from '../components/ErrorMessage';
+import { ErrorAlert } from '../components/Alerts';
 import WizardContainer from '../wizard/WizardContainer';
 import { fetchFormStatus } from '../actions/index';
 import { WIZARD_STATUS } from '../wizard/constants';
@@ -70,7 +70,7 @@ const App = ({
   }
 
   if (isLoggedIn && isError) {
-    return <ErrorMessage />;
+    return <ErrorAlert />;
   }
 
   if (showWizard && wizardState !== WIZARD_STATUS_COMPLETE) {

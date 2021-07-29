@@ -46,13 +46,12 @@ describe('Notification Settings', () => {
       cy.findByRole('link', { name: /update your contact info/i }).should(
         'exist',
       );
-      // TODO: finishing building NotificationSettings so these tests can be
-      // enabled:
-      // cy.findAllByRole('link', { name: /add your mobile/i }).should(
-      //   'have.length.above',
-      //   0,
-      // );
-      // cy.findAllByTestId('notification-group').should('exist');
+      cy.findAllByRole('link', { name: /add your mobile/i }).should(
+        'have.length.above',
+        1,
+      );
+      cy.findAllByTestId('notification-group').should('exist');
+      cy.findByRole('link', { name: /add your email/i }).should('not.exist');
     });
   });
   context('when user is missing email address', () => {
@@ -75,13 +74,12 @@ describe('Notification Settings', () => {
       cy.findByRole('link', { name: /update your contact info/i }).should(
         'exist',
       );
-      // TODO: finishing building NotificationSettings so these tests can be
-      // enabled:
-      // cy.findAllByRole('link', { name: /add your email/i }).should(
-      //   'have.length.above',
-      //   0,
-      // );
-      // cy.findAllByTestId('notification-group').should('exist');
+      cy.findAllByRole('link', { name: /add your email/i }).should(
+        'have.length.above',
+        1,
+      );
+      cy.findAllByTestId('notification-group').should('exist');
+      cy.findByRole('link', { name: /add your mobile/i }).should('not.exist');
     });
   });
   context('when user is missing both email address and mobile phone', () => {

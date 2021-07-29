@@ -42,7 +42,7 @@
     "install-repos": "./script/install-repos.sh",
     "pact:can-i-deploy": "node ./script/can-i-deploy.js",
     "pact:publish": "node ./script/publish-pacts.js",
-    "postinstall": "husky install && npm rebuild node-sass && node ./script/check-node-version.js && cd node_modules/web-components && yarn install --production && yarn build",
+    "postinstall": "husky install && npm rebuild node-sass && node ./script/check-node-version.js",
     "postmigrate-component": "yarn lint:js:changed:fix",
     "proxy-rewrite:verify-targets": "node src/applications/proxy-rewrite/scripts/verify-injection-targets.js",
     "pr-check": "node script/pr-check.js",
@@ -75,6 +75,7 @@
     "test:integration:nightwatch:docker": "docker-compose -p e2e up -d && docker-compose -p e2e run --user=node --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod -e WEB_HOST=staging.va.gov -e WEB_PORT=80 vets-website --no-color run nightwatch:docker -- --tag integration && docker-compose -p e2e stop",
     "update:schema": "./script/update-json-schema.sh",
     "watch": "node ./script/watch.js",
+    "watch:no-server": "yarn build:webpack --watch --display minimal",
     "watch:review": "node ./script/run-review-instance-api.js"
   },
   "repository": {
@@ -208,6 +209,7 @@
     "jsdom": "^15.2.1",
     "json2csv": "^4.2.1",
     "jsonschema": "^1.1.1",
+    "just-diff": "^3.1.1",
     "lint-staged": ">=10",
     "mini-css-extract-plugin": "^0.9.0",
     "mocha": "^8.2.1",
@@ -251,11 +253,11 @@
     "text-loader": "^0.0.1",
     "uglify-js": "^3.9.4",
     "url-loader": "^0.6.2",
-    "webpack": "^4.43.0",
+    "webpack": "^4.46.0",
     "webpack-bundle-analyzer": "^3.8.0",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0",
-    "webpack-manifest-plugin": "^2.2.0",
+    "webpack-manifest-plugin": "^4.0.1",
     "webpackbar": "^4.0.0",
     "winston": "^3.3.3",
     "yeoman-generator": "^4.2.0",
@@ -335,7 +337,7 @@
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#3bec07e95054fb4c6d7892d1ad700a8f4c3b009c",
-    "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.7.0",
+    "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.7.1",
     "whatwg-fetch": "^3.6.2"
   },
   "resolutions": {

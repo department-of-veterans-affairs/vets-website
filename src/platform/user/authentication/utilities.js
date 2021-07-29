@@ -24,7 +24,7 @@ export const ssoKeepAliveEndpoint = () => {
   return `https://${envPrefix}eauth.va.gov/keepalive`;
 };
 
-export function sessionTypeUrl(type = '', version = 'v0', queryParams = {}) {
+export function sessionTypeUrl(type = '', version = 'v1', queryParams = {}) {
   const base =
     version === 'v1'
       ? `${environment.API_URL}/v1/sessions`
@@ -102,7 +102,7 @@ function redirect(redirectUrl, clickedEvent) {
 
 export function login(
   policy,
-  version = 'v0',
+  version = 'v1',
   queryParams = {},
   clickedEvent = 'login-link-clicked-modal',
 ) {
@@ -111,16 +111,16 @@ export function login(
   return redirect(url, clickedEvent);
 }
 
-export function mfa(version = 'v0') {
+export function mfa(version = 'v1') {
   return redirect(sessionTypeUrl('mfa', version), 'multifactor-link-clicked');
 }
 
-export function verify(version = 'v0') {
+export function verify(version = 'v1') {
   return redirect(sessionTypeUrl('verify', version), 'verify-link-clicked');
 }
 
 export function logout(
-  version = 'v0',
+  version = 'v1',
   clickedEvent = 'logout-link-clicked',
   queryParams = {},
 ) {
@@ -128,6 +128,6 @@ export function logout(
   return redirect(sessionTypeUrl('slo', version, queryParams), clickedEvent);
 }
 
-export function signup(version = 'v0') {
+export function signup(version = 'v1') {
   return redirect(sessionTypeUrl('signup', version), 'register-link-clicked');
 }

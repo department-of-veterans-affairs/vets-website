@@ -1,65 +1,82 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import classNames from 'classnames';
-import appendQuery from 'append-query';
+// Node modules.
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import URLSearchParams from 'url-search-params';
-
+import appendQuery from 'append-query';
+import classNames from 'classnames';
+import { connect } from 'react-redux';
+// Relative imports.
+import ChangeAddress from './components/messages/ChangeAddress';
+import DeactivatedMHVIds from './components/messages/DeactivatedMHVIds';
+import DirectDeposit from './components/messages/DirectDeposit';
+import HealthToolsDown from './components/messages/HealthToolsDown';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
-import { logout, verify, mfa } from 'platform/user/authentication/utilities';
+import MFA from './components/messages/MFA';
+import MultipleIds from './components/messages/MultipleIds';
+import NeedsSSNResolution from './components/messages/NeedsSSNResolution';
+import NeedsVAPatient from './components/messages/NeedsVAPatient';
+import NoMHVAccount from './components/messages/NoMHVAccount';
+import NotAuthorized from './components/messages/mvi/NotAuthorized';
+import NotFound from './components/messages/mvi/NotFound';
+import OpenMyHealtheVet from './components/messages/OpenMyHealtheVet';
+import RegisterFailed from './components/messages/RegisterFailed';
+import SignIn from './components/messages/SignIn';
+import UpgradeAccount from './components/messages/UpgradeAccount';
+import UpgradeFailed from './components/messages/UpgradeFailed';
+import VAOnlineScheduling from './components/messages/VAOnlineScheduling';
+import Verify from './components/messages/Verify';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   ACCOUNT_STATES,
   ACCOUNT_STATES_SET,
 } from 'applications/validate-mhv-account/constants';
-
 import {
   createAndUpgradeMHVAccount,
   fetchMHVAccount,
   upgradeMHVAccount,
 } from 'platform/user/profile/actions';
-
+import { ctaWidgetsLookup, CTA_WIDGET_TYPES } from './ctaWidgets';
+import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
+import { logout, verify, mfa } from 'platform/user/authentication/utilities';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 
-import {
-  widgetTypes,
-  hasRequiredMhvAccount,
-  isHealthTool,
-  mhvToolName,
-  requiredServices,
-  serviceDescription,
-  toolUrl,
-} from './helpers';
+export class CallToActionWidget extends Component {
+  static propTypes = {
+    // Directly passed in props.
+    appId: PropTypes.string,
+    children: PropTypes.node,
+    headerLevel: PropTypes.string,
+    setFocus: PropTypes.bool,
+    // From mapStateToProps.
+    authenticatedWithSSOe: PropTypes.bool,
+    featureToggles: PropTypes.object,
+    isLoggedIn: PropTypes.bool,
+    isVaPatient: PropTypes.bool,
+    mhvAccount: PropTypes.object,
+    mhvAccountIdState: PropTypes.string,
+    mviStatus: PropTypes.string,
+    profile: PropTypes.object,
+    // From mapDispatchToProps.
+    createAndUpgradeMHVAccount: PropTypes.func.isRequired,
+    fetchMHVAccount: PropTypes.func.isRequired,
+    toggleLoginModal: PropTypes.func.isRequired,
+    upgradeMHVAccount: PropTypes.func.isRequired,
+  };
 
-import HealthToolsDown from './components/messages/HealthToolsDown';
-import SignIn from './components/messages/SignIn';
-import Verify from './components/messages/Verify';
-import OpenMyHealtheVet from './components/messages/OpenMyHealtheVet';
-import MFA from './components/messages/MFA';
-import DirectDeposit from './components/messages/DirectDeposit';
-import ChangeAddress from './components/messages/ChangeAddress';
-import NotAuthorized from './components/messages/mvi/NotAuthorized';
-import NotFound from './components/messages/mvi/NotFound';
-import NeedsSSNResolution from './components/messages/NeedsSSNResolution';
-import DeactivatedMHVIds from './components/messages/DeactivatedMHVIds';
-import MultipleIds from './components/messages/MultipleIds';
-import RegisterFailed from './components/messages/RegisterFailed';
-import UpgradeFailed from './components/messages/UpgradeFailed';
-import NeedsVAPatient from './components/messages/NeedsVAPatient';
-import NoMHVAccount from './components/messages/NoMHVAccount';
-import UpgradeAccount from './components/messages/UpgradeAccount';
-import VAOnlineScheduling from './components/messages/VAOnlineScheduling';
+  static defaultProps = {
+    setFocus: true,
+  };
 
-export class CallToActionWidget extends React.Component {
   constructor(props) {
     super(props);
     const { appId } = props;
+    const ctaWidget = ctaWidgetsLookup?.[appId];
 
     this._popup = null;
-    this._requiredServices = requiredServices(appId);
-    this._serviceDescription = serviceDescription(appId);
-    this._mhvToolName = mhvToolName(appId);
+    this._requiredServices = ctaWidget?.requiredServices;
+    this._serviceDescription = ctaWidget?.serviceDescription;
+    this._mhvToolName = ctaWidget?.mhvToolName;
     this._toolUrl = null;
     this._gaPrefix = 'register-mhv';
   }
@@ -81,7 +98,17 @@ export class CallToActionWidget extends React.Component {
 
     if (this.isAccessible()) {
       const { appId, authenticatedWithSSOe } = this.props;
-      const { url, redirect } = toolUrl(appId, authenticatedWithSSOe);
+
+      // Derive the CTA widget.
+      const ctaWidget = ctaWidgetsLookup?.[appId];
+
+      // Derive the url details.
+      const toolURLDetails = ctaWidget?.deriveToolUrlDetails(
+        authenticatedWithSSOe,
+      );
+      const url = toolURLDetails?.url;
+      const redirect = toolURLDetails?.redirect;
+
       this._toolUrl = url;
       if (redirect && !this._popup) this.goToTool();
     } else if (this.isHealthTool()) {
@@ -138,7 +165,6 @@ export class CallToActionWidget extends React.Component {
 
       return (
         <VAOnlineScheduling
-          appId={this.props.appId}
           isCommunityCareEnabled={
             this.props.featureToggles.vaOnlineSchedulingCommunityCare
           }
@@ -146,7 +172,7 @@ export class CallToActionWidget extends React.Component {
       );
     }
 
-    if (this.props.appId === widgetTypes.DIRECT_DEPOSIT) {
+    if (this.props.appId === CTA_WIDGET_TYPES.DIRECT_DEPOSIT) {
       if (!this.props.profile.multifactor) {
         return (
           <MFA
@@ -168,7 +194,7 @@ export class CallToActionWidget extends React.Component {
       );
     }
 
-    if (this.props.appId === widgetTypes.CHANGE_ADDRESS) {
+    if (this.props.appId === CTA_WIDGET_TYPES.CHANGE_ADDRESS) {
       return (
         <ChangeAddress
           featureToggles={this.props.featureToggles}
@@ -378,8 +404,8 @@ export class CallToActionWidget extends React.Component {
 
   isNonMHVSchedulingTool = () =>
     this.props.featureToggles.vaOnlineScheduling &&
-    (this.props.appId === widgetTypes.SCHEDULE_APPOINTMENTS ||
-      this.props.appId === widgetTypes.VIEW_APPOINTMENTS);
+    (this.props.appId === CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS ||
+      this.props.appId === CTA_WIDGET_TYPES.VIEW_APPOINTMENTS);
 
   isAccessible = () => {
     if (this.isHealthTool()) {
@@ -388,9 +414,12 @@ export class CallToActionWidget extends React.Component {
       // account level instead of the available services list from the backend,
       // which will already have validated the MHV account level policies.
       const { appId, mhvAccount } = this.props;
-      return hasRequiredMhvAccount(appId, mhvAccount.accountLevel);
-      // return this.props.availableServices.has(this._requiredServices);
-    } else if (this.props.appId === widgetTypes.DIRECT_DEPOSIT) {
+
+      // Derive the CTA widget.
+      const ctaWidget = ctaWidgetsLookup?.[appId];
+
+      return ctaWidget?.hasRequiredMhvAccount(mhvAccount.accountLevel);
+    } else if (this.props.appId === CTA_WIDGET_TYPES.DIRECT_DEPOSIT) {
       // Direct Deposit requires multifactor
       return this.props.profile.verified && this.props.profile.multifactor;
     }
@@ -400,8 +429,14 @@ export class CallToActionWidget extends React.Component {
     return this.props.profile.verified;
   };
 
-  isHealthTool = () =>
-    !this.isNonMHVSchedulingTool() && isHealthTool(this.props.appId);
+  isHealthTool = () => {
+    const { appId } = this.props;
+
+    // Derive the CTA widget.
+    const ctaWidget = ctaWidgetsLookup?.[appId];
+
+    return !this.isNonMHVSchedulingTool() && ctaWidget?.isHealthTool;
+  };
 
   openLoginModal = () => this.props.toggleLoginModal(true);
 
@@ -446,12 +481,18 @@ export class CallToActionWidget extends React.Component {
   };
 
   render() {
-    const { setFocus } = this.props;
-    if (
-      this.props.profile.loading ||
-      this.props.mhvAccount.loading ||
-      this.props.featureToggles.loading
-    ) {
+    const {
+      appId,
+      authenticatedWithSSOe,
+      children,
+      featureToggles,
+      mhvAccount,
+      profile,
+      setFocus,
+    } = this.props;
+
+    // Show spinner if loading.
+    if (profile.loading || mhvAccount.loading || featureToggles.loading) {
       return (
         <LoadingIndicator
           setFocus={setFocus}
@@ -460,27 +501,32 @@ export class CallToActionWidget extends React.Component {
       );
     }
 
-    const { appId, authenticatedWithSSOe } = this.props;
-    const { url } = toolUrl(appId, authenticatedWithSSOe);
+    // Derive the CTA widget.
+    const ctaWidget = ctaWidgetsLookup?.[appId];
+
+    // Derive the CTA URL.
+    const url = ctaWidget?.deriveToolUrlDetails(authenticatedWithSSOe)?.url;
     this._toolUrl = url;
 
+    // Derive the content and show it if available.
     const content = this.getContent();
-
     if (content) return content;
 
-    if (this.props.children) return this.props.children;
+    // Show the child nodes if provided.
+    if (children) return children;
 
+    // Derive anchor tag properties.
     const isInternalLink = this._toolUrl.startsWith('/');
     const buttonClass = isInternalLink
       ? classNames('usa-button-primary', 'va-button-primary')
       : '';
     const target = isInternalLink ? '_self' : '_blank';
-
     const buttonText = [
       this._serviceDescription[0].toUpperCase(),
       this._serviceDescription.slice(1),
     ].join('');
 
+    // Show the CTA link.
     return (
       <a className={buttonClass} href={this._toolUrl} target={target}>
         {buttonText}
@@ -488,32 +534,28 @@ export class CallToActionWidget extends React.Component {
     );
   }
 }
-CallToActionWidget.defaultProps = {
-  setFocus: true,
-};
 
 const mapStateToProps = state => {
-  const profile = selectProfile(state);
+  // Derive profile properties.
   const {
     loading,
     mhvAccount,
-    /* services, */
-    verified,
+    mhvAccountState,
     multifactor,
     status,
     vaPatient,
-    mhvAccountState,
-  } = profile;
+    verified,
+  } = selectProfile(state);
+
   return {
-    // availableServices: new Set(services),
-    isLoggedIn: isLoggedIn(state),
-    profile: { loading, verified, multifactor },
-    mhvAccount,
-    mviStatus: status,
-    featureToggles: state.featureToggles,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
+    featureToggles: state.featureToggles,
+    isLoggedIn: isLoggedIn(state),
     isVaPatient: vaPatient,
+    mhvAccount,
     mhvAccountIdState: mhvAccountState,
+    mviStatus: status,
+    profile: { loading, verified, multifactor },
   };
 };
 

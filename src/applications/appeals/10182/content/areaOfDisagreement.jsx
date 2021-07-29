@@ -10,12 +10,14 @@ export const missingAreaOfDisagreementOtherErrorMessage =
 // formContext.pagePerItemIndex is undefined here? Use index added to data :(
 export const issueName = ({ formData, formContext } = {}) => {
   const index = formContext.pagePerItemIndex || formData.index;
+  // https://github.com/department-of-veterans-affairs/va.gov-team/issues/27096
+  const Header = formContext.onReviewPage ? 'h4' : 'h3';
   return (
     <legend
       className="schemaform-block-title schemaform-title-underline"
       aria-describedby={`area-of-disagreement-label-${index}`}
     >
-      <h3 className="vads-u-margin-top--0">{getIssueName(formData)}</h3>
+      <Header className="vads-u-margin-top--0">{getIssueName(formData)}</Header>
     </legend>
   );
 };
@@ -33,11 +35,11 @@ export const issusDescription = ({ formContext }) => {
       className="area-of-disagreement-label vads-u-font-size--base vads-u-font-weight--normal"
       data-submitted={submitted}
     >
-      Tell us why you disagree with our decision. You can choose more than one.
+      Tell us what you disagree with. You can choose more than one.
       <span className="vads-u-font-weight--normal schemaform-required-span">
         (*Required)
       </span>
-      <p>I disagree with:</p>
+      <p>I disagree with this:</p>
       <span
         className="usa-input-error-message"
         role="alert"
@@ -53,7 +55,7 @@ export const issusDescription = ({ formContext }) => {
 const titles = {
   serviceConnection: 'The service connection',
   effectiveDate: 'The effective date of award',
-  evaluation: 'The evaluation of my condition',
+  evaluation: 'Your evaluation of my condition',
   other: 'Something else',
 };
 

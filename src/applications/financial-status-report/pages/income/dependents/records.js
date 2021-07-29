@@ -1,9 +1,16 @@
+import React from 'react';
 import ItemLoop from '../../../components/ItemLoop';
 import CardDetailsView from '../../../components/CardDetailsView';
 
 export const uiSchema = {
-  'ui:title': 'Your dependents',
-  'ui:description': 'Enter each dependent’s age separately below.',
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">Your dependents</legend>
+      <p className="vads-u-padding-top--2">
+        Enter each dependent’s age separately below.
+      </p>
+    </>
+  ),
   personalData: {
     agesOfOtherDependents: {
       'ui:field': ItemLoop,

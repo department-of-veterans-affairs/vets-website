@@ -72,7 +72,7 @@ function ViewDependentsHeader(props) {
         {alertProps && (
           <va-alert status={alertProps.status}>{alertProps.content}</va-alert>
         )}
-        <p className="vads-u-font-size--md vads-u-font-family--serif">
+        <p className="vads-u-line-height--6 vads-u-font-size--h3 vads-u-font-family--serif">
           Below is a list of dependents we have on file for you. You can file a
           claim for additional disability compensation whenever you add a new
           dependent.

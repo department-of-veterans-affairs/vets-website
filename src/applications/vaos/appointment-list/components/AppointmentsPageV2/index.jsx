@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
-import {
-  selectFeatureRequests,
-  selectIsWelcomeModalDismissed,
-} from '../../../redux/selectors';
-import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import { selectFeatureRequests } from '../../../redux/selectors';
 import RequestedAppointmentsList from '../RequestedAppointmentsList';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
 import PastAppointmentsListV2 from '../PastAppointmentsListV2';
@@ -35,13 +31,29 @@ const options = [
 
 function getDropdownValueFromLocation(pathname) {
   if (pathname.endsWith(DROPDOWN_VALUES.requested)) {
-    return DROPDOWN_VALUES.requested;
+    return {
+      dropdownValue: DROPDOWN_VALUES.requested,
+      subPageTitle: 'Open requests',
+      subHeading: 'Requested',
+    };
   } else if (pathname.endsWith(DROPDOWN_VALUES.past)) {
-    return DROPDOWN_VALUES.past;
+    return {
+      dropdownValue: DROPDOWN_VALUES.past,
+      subPageTitle: 'Past appointments',
+      subHeading: 'Past appointments',
+    };
   } else if (pathname.endsWith(DROPDOWN_VALUES.canceled)) {
-    return DROPDOWN_VALUES.canceled;
+    return {
+      dropdownValue: DROPDOWN_VALUES.canceled,
+      subPageTitle: 'Canceled appointments',
+      subHeading: 'Canceled appointments',
+    };
   } else {
-    return DROPDOWN_VALUES.upcoming;
+    return {
+      dropdownValue: DROPDOWN_VALUES.upcoming,
+      subPageTitle: 'Your appointments',
+      subHeading: 'Your appointments',
+    };
   }
 }
 
@@ -49,22 +61,19 @@ export default function AppointmentsPageV2() {
   const location = useLocation();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
   const showScheduleButton = useSelector(state => selectFeatureRequests(state));
-  const isWelcomeModalDismissed = useSelector(state =>
-    selectIsWelcomeModalDismissed(state),
-  );
-
-  useEffect(() => {
-    document.title = `${pageTitle} | Veterans Affairs`;
-  }, []);
+  const {
+    dropdownValue,
+    subPageTitle,
+    subHeading,
+  } = getDropdownValueFromLocation(location.pathname);
 
   useEffect(
     () => {
-      if (isWelcomeModalDismissed) {
-        scrollAndFocus();
-      }
+      document.title = `${subPageTitle} | ${pageTitle} | Veterans Affairs`;
     },
-    [isWelcomeModalDismissed],
+    [subPageTitle],
   );
+
   const history = useHistory();
 
   function onDropdownChange(e) {
@@ -81,8 +90,6 @@ export default function AppointmentsPageV2() {
     setHasTypeChanged(true);
   }
 
-  const dropdownValue = getDropdownValueFromLocation(location.pathname);
-
   return (
     <>
       <h1 className="vads-u-flex--1 vads-u-margin-bottom--1p5">{pageTitle}</h1>
@@ -95,7 +102,7 @@ export default function AppointmentsPageV2() {
         )}
       />
       {showScheduleButton && <ScheduleNewAppointment />}
-      <h2 className="vads-u-margin-y--3">Your appointments</h2>
+      <h2 className="vads-u-margin-y--3">{subHeading}</h2>
       <label
         htmlFor="type-dropdown"
         className="vads-u-display--inline-block vads-u-margin-top--0 vads-u-margin-right--2"
