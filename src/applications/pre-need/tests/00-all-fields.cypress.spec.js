@@ -41,9 +41,7 @@ describe('Pre-need test', () => {
 
     cy.url().should('not.contain', '/introduction');
 
-    cy.get('input[name="root_application_claimant_name_first"]', {
-      timeout: Timeouts.normal,
-    });
+    cy.get('input[name="root_application_claimant_name_first"]');
     cy.get('.progress-bar-segmented div.progress-segment:nth-child(1)').should(
       'have.class',
       'progress-segment-complete',
@@ -68,9 +66,7 @@ describe('Pre-need test', () => {
     );
 
     if (testData.data.application.claimant.relationshipToVet.type === 'other') {
-      cy.get('input[name="root_application_claimant_relationship_other"]', {
-        timeout: Timeouts.normal,
-      });
+      cy.get('input[name="root_application_claimant_relationship_other"]');
       cy.fill(
         'input[name="root_application_claimant_relationship_other"]',
         testData.data.application.claimant.relationship.other,
@@ -86,9 +82,7 @@ describe('Pre-need test', () => {
     cy.url().should('not.contain', '/applicant-information');
 
     // Veteran Information
-    cy.get('input[name="root_application_veteran_currentName_first"]', {
-      timeout: Timeouts.normal,
-    });
+    cy.get('input[name="root_application_veteran_currentName_first"]');
     cy.get('.progress-bar-segmented div.progress-segment:nth-child(2)').should(
       'have.class',
       'progress-segment-complete',
@@ -199,9 +193,7 @@ describe('Pre-need test', () => {
     cy.url().should('not.contain', '/sponsor-military-history');
 
     // Previous Names page
-    cy.get('label[for$="hasServiceNameYes"]', {
-      timeout: Timeouts.normal,
-    }).should('be.visible');
+    cy.get('label[for$="hasServiceNameYes"]').should('be.visible');
     cy.selectRadio('root_application_veteran_view:hasServiceName', 'Y');
     cy.fillName(
       'root_application_veteran_serviceName',
@@ -213,9 +205,9 @@ describe('Pre-need test', () => {
     cy.url().should('not.contain', '/sponsor-military-name');
 
     // Benefit Selection page
-    cy.get('label[for="root_application_claimant_desiredCemetery"]', {
-      timeout: Timeouts.normal,
-    }).should('be.visible');
+    cy.get('label[for="root_application_claimant_desiredCemetery"]').should(
+      'be.visible',
+    );
     cy.get('.progress-bar-segmented div.progress-segment:nth-child(4)').should(
       'have.class',
       'progress-segment-complete',
@@ -259,9 +251,7 @@ describe('Pre-need test', () => {
     cy.url().should('not.contain', '/burial-benefits');
 
     // Supporting Documents page
-    cy.get('label[for="root_application_preneedAttachments"]', {
-      timeout: Timeouts.normal,
-    });
+    cy.get('label[for="root_application_preneedAttachments"]');
 
     cy.get('.progress-bar-segmented div.progress-segment:nth-child(5)').should(
       'have.class',
@@ -271,9 +261,7 @@ describe('Pre-need test', () => {
     cy.url().should('not.contain', '/supporting-documents');
 
     // Applicant/Claimant Contact Information page
-    cy.get('select[name="root_application_claimant_address_country"]', {
-      timeout: Timeouts.normal,
-    });
+    cy.get('select[name="root_application_claimant_address_country"]');
     cy.get('.progress-bar-segmented div.progress-segment:nth-child(6)').should(
       'have.class',
       'progress-segment-complete',
@@ -292,9 +280,7 @@ describe('Pre-need test', () => {
     cy.url().should('not.contain', '/applicant-contact-information');
 
     // Veteran Contact Information page
-    cy.get('select[name="root_application_veteran_address_country"]', {
-      timeout: Timeouts.normal,
-    });
+    cy.get('select[name="root_application_veteran_address_country"]');
     cy.get('.progress-bar-segmented div.progress-segment:nth-child(6)').should(
       'have.class',
       'progress-segment-complete',
@@ -309,7 +295,6 @@ describe('Pre-need test', () => {
 
     cy.get(
       'label[for="root_application_applicant_applicantRelationshipToClaimant_1"]',
-      { timeout: Timeouts.normal },
     );
     cy.get('.progress-bar-segmented div.progress-segment:nth-child(6)').should(
       'have.class',

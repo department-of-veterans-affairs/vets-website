@@ -91,9 +91,7 @@ describe('Disability Rating Calculator', () => {
             input.combinedRating.rounded.toString(),
           );
         } else {
-          cy.get('.usa-input-error-message', {
-            timeout: Timeouts.normal,
-          }).should('be.visible');
+          cy.get('.usa-input-error-message').should('be.visible');
         }
       });
 

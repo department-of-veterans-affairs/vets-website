@@ -20,9 +20,7 @@ describe('Feedback Tool Test', () => {
     cy.url().should('not.contain', '/introduction');
 
     // Applicant relationship
-    cy.get('input[name="root_onBehalfOf"][value="Myself"]', {
-      timeout: Timeouts.normal,
-    }).should('exist');
+    cy.get('input[name="root_onBehalfOf"][value="Myself"]').should('exist');
     cy.injectAxeThenAxeCheck();
     cy.selectRadio('root_onBehalfOf', testData.data.onBehalfOf);
     cy.get('.usa-alert.usa-alert-info.background-color-only', {
@@ -33,9 +31,7 @@ describe('Feedback Tool Test', () => {
     cy.url().should('not.contain', '/applicant-relationship');
 
     // Applicant information
-    cy.get('input[name="root_fullName_first', {
-      timeout: Timeouts.normal,
-    }).should('exist');
+    cy.get('input[name="root_fullName_first').should('exist');
     cy.axeCheck();
 
     cy.fillName('root_fullName', testData.data.fullName);
@@ -45,9 +41,7 @@ describe('Feedback Tool Test', () => {
     cy.url().should('not.contain', '/applicant-information');
 
     // Service Information
-    cy.get('select[name="root_serviceBranch"]', {
-      timeout: Timeouts.normal,
-    }).should('exist');
+    cy.get('select[name="root_serviceBranch"]').should('exist');
     cy.axeCheck();
 
     cy.fillDate(
@@ -61,9 +55,7 @@ describe('Feedback Tool Test', () => {
     cy.url().should('not.contain', '/service-information');
 
     // Contact information
-    cy.get('select[name="root_address_country"]', {
-      timeout: Timeouts.normal,
-    }).should('exist');
+    cy.get('select[name="root_address_country"]').should('exist');
     cy.axeCheck();
 
     cy.fillAddress('root_address', testData.data.address);
@@ -78,27 +70,21 @@ describe('Feedback Tool Test', () => {
     cy.url().should('not.contain', '/contact-information');
 
     // Benefit information
-    cy.get('input[name="root_educationDetails_programs_chapter33"]', {
-      timeout: Timeouts.normal,
-    }).should('exist');
+    cy.get('input[name="root_educationDetails_programs_chapter33"]').should(
+      'exist',
+    );
     cy.axeCheck();
 
-    cy.get('#root_educationDetails_programs_chapter33', {
-      timeout: Timeouts.normal,
-    }).click();
+    cy.get('#root_educationDetails_programs_chapter33').click();
 
     cy.get('.form-progress-buttons .usa-button-primary').click();
     cy.url().should('not.contain', '/benefits-information');
 
     // School information
-    cy.get('input[type="checkbox"]', {
-      timeout: Timeouts.normal,
-    }).should('exist');
+    cy.get('input[type="checkbox"]').should('exist');
     cy.axeCheck();
 
-    cy.get('input[type="checkbox"]', {
-      timeout: Timeouts.normal,
-    }).click();
+    cy.get('input[type="checkbox"]').click();
     cy.get(
       'input[name="root_educationDetails_school_view:manualSchoolEntry_name"]',
       { timeout: Timeouts.slow },
@@ -116,9 +102,7 @@ describe('Feedback Tool Test', () => {
     cy.url().should('not.contain', '/school-information');
 
     // Feedback information
-    cy.get('input[name="root_issue_recruiting"]', {
-      timeout: Timeouts.normal,
-    }).should('exist');
+    cy.get('input[name="root_issue_recruiting"]').should('exist');
     cy.axeCheck();
 
     cy.get('#root_issue_other').click();

@@ -89,9 +89,7 @@ describe('SIP Autosave Test', () => {
     /* eslint-enable camelcase */
 
     cy.fill('input[name="root_view:placeOfBirth_cityOfBirth"]', 'Florence, MA');
-    cy.get('.saved-success-container', { timout: Timeouts.normal }).should(
-      'be.visible',
-    );
+    cy.get('.saved-success-container').should('be.visible');
 
     cy.url().should('contain', '/veteran-information/birth-information');
 

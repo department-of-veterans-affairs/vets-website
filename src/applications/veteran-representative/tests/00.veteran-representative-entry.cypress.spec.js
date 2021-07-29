@@ -19,9 +19,7 @@ if (!manifest.e2eTestsDisabled) {
 
       cy.url().should('not.contain', '/introduction');
 
-      cy.get('input[name="root_veteranFullName_first"]', {
-        timeout: Timeouts.normal,
-      }).should('be.visible');
+      cy.get('input[name="root_veteranFullName_first"]').should('be.visible');
       cy.get(
         '.progress-bar-segmented div.progress-segment:nth-child(1)',
       ).should('have.class', 'progress-segment-complete');
@@ -36,9 +34,7 @@ if (!manifest.e2eTestsDisabled) {
       cy.get('.form-panel .usa-button-primary').click();
       cy.url().should('not.contain', '/veteran-information');
 
-      cy.get('input[name="root_claimantFullName_first"]', {
-        timeout: Timeouts.normal,
-      }).should('be.visible');
+      cy.get('input[name="root_claimantFullName_first"]').should('be.visible');
       cy.get(
         '.progress-bar-segmented div.progress-segment:nth-child(1)',
       ).should('have.class', 'progress-segment-complete');
@@ -80,9 +76,7 @@ if (!manifest.e2eTestsDisabled) {
       cy.get('.form-panel .usa-button-primary').click();
       cy.url().should('not.contain', '/claimant-information');
 
-      cy.get('input[name="root_organizationName"]', {
-        timeout: Timeouts.normal,
-      }).should('be.visible');
+      cy.get('input[name="root_organizationName"]').should('be.visible');
       cy.get(
         '.progress-bar-segmented div.progress-segment:nth-child(2)',
       ).should('have.class', 'progress-segment-complete');
