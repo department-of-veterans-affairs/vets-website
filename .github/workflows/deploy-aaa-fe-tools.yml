@@ -52,7 +52,7 @@ jobs:
       #   uses: actions/checkout@v2
 
       - name: Check Data
-        run: ${{fromJson(needs.consume-manifest.outputs.options)}}
+        run: ${{fromJson(needs.consume-manifest.deploy-configuration)}}
 
       - name: Get Node version
         id: get-node-version
