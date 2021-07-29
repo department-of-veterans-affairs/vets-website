@@ -31,10 +31,9 @@ jobs:
 
     - name: Get Application Manifest
       id: deploy-configuration
-      run: ls -l
-      # run: |
-      #   JSON=$(cat ../../src/applications/${{ env.APP_NAME }}/manifest.json)
-      #   echo "::set-output name=options::${JSON//'%'/'%25'}"
+      run: |
+        JSON=$(cat ../../src/applications/${{ env.APP_NAME }}/manifest.json)
+        echo "::set-output name=options::${JSON//'%'/'%25'}"
 
   build:
     name: Build
