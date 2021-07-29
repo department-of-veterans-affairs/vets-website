@@ -60,7 +60,7 @@ jobs:
             echo ${app[2]}
             JSON=$(cat ./src/applications/${app[2]}/manifest.json)
             MANIFEST=${JSON//'%'/'%25'}
-            appName=${{ fromJson(MANIFEST).appName }}
+            appName=fromJson(${MANIFEST}).appName
             echo $appName
           done
 
