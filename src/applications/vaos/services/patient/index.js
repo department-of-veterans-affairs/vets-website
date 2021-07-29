@@ -13,6 +13,7 @@ import { captureError } from '../../utils/error';
 import { ELIGIBILITY_REASONS } from '../../utils/constants';
 import { promiseAllFromObject } from '../../utils/data';
 import { getAvailableHealthcareServices } from '../healthcare-service';
+import { getPatientMetadata } from '../vaos';
 
 /**
  * @typedef PatientEligibilityForType
@@ -156,7 +157,12 @@ export async function fetchPatientEligibility({
   typeOfCare,
   location,
   type = null,
+  useV2 = false,
 }) {
+  if (useV2) {
+    return getPatientMetadata(location, typeOfCare, type);
+  }
+
   return fetchPatientEligibilityFromVAR({ typeOfCare, location, type });
 }
 
@@ -278,6 +284,7 @@ export async function fetchFlowEligibilityAndClinics({
   typeOfCare,
   location,
   directSchedulingEnabled,
+  useV2 = false,
 }) {
   const directSchedulingAvailable =
     locationSupportsDirectScheduling(location, typeOfCare) &&
@@ -288,6 +295,7 @@ export async function fetchFlowEligibilityAndClinics({
       typeOfCare,
       location,
       type: !directSchedulingAvailable ? 'request' : null,
+      useV2,
     }),
   };
 

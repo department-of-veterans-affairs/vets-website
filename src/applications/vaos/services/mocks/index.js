@@ -244,6 +244,25 @@ const responses = {
       ),
     });
   },
+  'GET /vaos/v2/patient': (req, res) => {
+    return res.json({
+      hasRequiredAppointmentHistory: !req.query.facility_id.startsWith('984'),
+      isEligibleForNewAppointmentRequest: !req.query.facility_id.startsWith(
+        '984',
+      ),
+    });
+  },
+  'GET /vaos/v2/locations/:id/clinics': (req, res) => {
+    if (req.params.id === '983') {
+      return res.json(clinicList983);
+    } else if (req.params.id.startsWith(612)) {
+      return res.json(clinicList612);
+    }
+
+    return res.json({
+      data: [],
+    });
+  },
   'GET /v0/user': {
     data: {
       attributes: {

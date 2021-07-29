@@ -41,6 +41,18 @@ export function getFacilities(ids, children = false) {
   ).then(parseApiList);
 }
 
+export function getClinicsByLocationAndTypeOfCare(locationId, typeOfCareId) {
+  return apiRequestWithUrl(
+    `/vaos/v2/locations/${locationId}/clinics?clinical_service=${typeOfCareId}`,
+  ).then(parseApiList);
+}
+
+export function getPatientMetadata(locationId, typeOfCareId, schedulingType) {
+  return apiRequestWithUrl(
+    `/vaos/v2/patient?facility_id=${locationId}&clinical_service_id=${typeOfCareId}&type=${schedulingType}`,
+  ).then(parseApiObject);
+}
+
 export function getSchedulingConfigurations(locationIds, ccEnabled = null) {
   let ccEnabledParam = '';
   if (ccEnabled !== null) {
