@@ -4,7 +4,7 @@ import { shallow, mount } from 'enzyme';
 import Issues from '../../../components/appeals-v2/Issues';
 import { addStatusToIssues } from '../../../utils/appeals-v2-helpers';
 import { mockData } from '../../../utils/helpers';
-import _ from 'lodash/fp';
+import { set } from 'lodash/set';
 
 describe('<Issues/>', () => {
   const emptyIssues = { issues: addStatusToIssues([]), isAppeal: true };
@@ -133,7 +133,7 @@ describe('<Issues/>', () => {
   });
 
   it('should use the word "review" if a Supplemental Claim or Higher-Level Review', () => {
-    const props = _.set('isAppeal', false, oneOpenIssue);
+    const props = set(oneOpenIssue, 'isAppeal', false);
     const wrapper = shallow(<Issues {...props} />);
     const activePanelProps = wrapper.find('CollapsiblePanel').props();
     expect(activePanelProps.panelName).to.equal('Currently on review');

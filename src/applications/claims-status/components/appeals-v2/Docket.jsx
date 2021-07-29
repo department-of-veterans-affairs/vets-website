@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import fp from 'lodash/fp';
+import { flow, omit, partialRight, sortBy, toPairs } from 'lodash';
 
 import DocketCard from './DocketCard';
 import DurationCard from './DurationCard';
@@ -54,10 +54,10 @@ function Docket({
     eta[amaDocket] &&
     moment(eta[amaDocket], 'YYYY-MM-DD').format('MMMM YYYY');
 
-  const otherEtas = fp.flow(
-    fp.omit(amaDocket),
-    fp.toPairs,
-    fp.sortBy(a => a[1]),
+  const otherEtas = flow(
+    partialRight(omit, amaDocket),
+    toPairs,
+    partialRight(sortBy, a => a[1]),
   )(eta || {});
 
   const switchDueDateFormatted = moment(switchDueDate, 'YYYY-MM-DD').format(

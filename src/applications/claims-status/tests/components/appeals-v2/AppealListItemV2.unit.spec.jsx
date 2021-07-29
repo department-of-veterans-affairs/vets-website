@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
-import _ from 'lodash/fp';
+import { set } from 'lodash/set';
 
 import AppealListItemV2 from '../../../components/appeals-v2/AppealListItemV2';
 import { STATUS_TYPES, EVENT_TYPES } from '../../../utils/appeals-v2-helpers';
@@ -68,7 +68,7 @@ describe('<AppealListItemV2/>', () => {
   });
 
   it('should append closed class to status-circle div when status inactive', () => {
-    const closedProps = _.set('appeal.attributes.active', false, defaultProps);
+    const closedProps = set(defaultProps, 'appeal.attributes.active', false);
     const wrapper = shallow(<AppealListItemV2 {...closedProps} />);
     expect(wrapper.find('div.closed').length).to.equal(1);
     expect(wrapper.find('div.open').length).to.equal(0);
@@ -109,11 +109,9 @@ describe('<AppealListItemV2/>', () => {
   });
 
   it('should say "issue" if there is only one issue on appeal', () => {
-    const props = _.set(
-      'appeal.attributes.issues',
-      ["I'm an issue!"],
-      defaultProps,
-    );
+    const props = set(defaultProps, 'appeal.attributes.issues', [
+      "I'm an issue!",
+    ]);
     const wrapper = shallow(<AppealListItemV2 {...props} />);
     const issuesText = wrapper
       .find('.card-status + p')
@@ -156,11 +154,7 @@ describe('<AppealListItemV2/>', () => {
   });
 
   it('should not show the issue text if no description is given', () => {
-    const props = _.set(
-      'appeal.attributes.description',
-      undefined,
-      defaultProps,
-    );
+    const props = set(defaultProps, 'appeal.attributes.description', undefined);
     const wrapper = shallow(<AppealListItemV2 {...props} />);
     expect(wrapper.find('.card-status + p').exists()).to.be.false;
     wrapper.unmount();

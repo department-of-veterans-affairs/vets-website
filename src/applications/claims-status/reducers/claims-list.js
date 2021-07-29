@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import { assign, orderBy, set } from 'lodash';
 import moment from 'moment';
 import { appealTypes } from '../utils/appeals-v2-helpers';
 
@@ -75,10 +75,10 @@ function sortList(list, sortProperty) {
   const sortOrder = sortProperty === 'claimType' ? 'asc' : 'desc';
   const sortFunc = el => {
     if (appealTypes.includes(el.type)) {
-      const events = _.orderBy(
+      const events = orderBy(
+        el.attributes.events,
         [e => moment(e.date).unix()],
         'desc',
-        el.attributes.events,
       );
       const lastEvent = events[0];
       const firstEvent = events[events.length - 1];
@@ -95,7 +95,7 @@ function sortList(list, sortProperty) {
     return sortPropertyFn[sortProperty] && sortPropertyFn[sortProperty](el);
   };
 
-  return _.orderBy([sortFunc, 'id'], sortOrder, list);
+  return orderBy(list, [sortFunc, 'id'], sortOrder);
 }
 
 function getVisibleRows(list, currentPage) {
@@ -114,7 +114,7 @@ export default function claimsReducer(state = initialState, action) {
         filterList(state.appeals.concat(action.claims), action.filter),
         state.sortProperty,
       );
-      return _.assign(state, {
+      return assign(state, {
         claims: action.claims,
         visibleList,
         visibleRows: getVisibleRows(visibleList, state.page),
@@ -133,7 +133,7 @@ export default function claimsReducer(state = initialState, action) {
         filterList(state.claims, action.filter).concat(visibleAppeals),
         state.sortProperty,
       );
-      return _.assign(state, {
+      return assign(state, {
         appeals: action.appeals,
         visibleList,
         visibleRows: getVisibleRows(visibleList, state.page),
@@ -146,7 +146,7 @@ export default function claimsReducer(state = initialState, action) {
         filterList(state.appeals.concat(state.claims), action.filter),
         state.sortProperty,
       );
-      return _.assign(state, {
+      return assign(state, {
         visibleList,
         visibleRows: getVisibleRows(visibleList, 1),
         page: 1,
@@ -155,7 +155,7 @@ export default function claimsReducer(state = initialState, action) {
     }
     case SORT_CLAIMS: {
       const visibleList = sortList(state.visibleList, action.sortProperty);
-      return _.assign(state, {
+      return assign(state, {
         sortProperty: action.sortProperty,
         visibleList,
         visibleRows: getVisibleRows(visibleList, 1),
@@ -164,27 +164,27 @@ export default function claimsReducer(state = initialState, action) {
       });
     }
     case CHANGE_CLAIMS_PAGE: {
-      return _.assign(state, {
+      return assign(state, {
         page: action.page,
         visibleRows: getVisibleRows(state.visibleList, action.page),
       });
     }
     case SHOW_CONSOLIDATED_MODAL: {
-      return _.set('consolidatedModal', action.visible, state);
+      return set(state, 'consolidatedModal', action.visible);
     }
     case HIDE_30_DAY_NOTICE: {
-      return _.set('show30DayNotice', false, state);
+      return set(state, 'show30DayNotice', false);
     }
     case FETCH_APPEALS: {
-      return _.set('appealsLoading', true, state);
+      return set(state, 'appealsLoading', true);
     }
     case FETCH_CLAIMS: {
-      return _.set('claimsLoading', true, state);
+      return set(state, 'claimsLoading', true);
     }
     case SET_CLAIMS_UNAVAILABLE:
-      return _.set('claimsLoading', false, state);
+      return set(state, 'claimsLoading', false);
     case SET_APPEALS_UNAVAILABLE:
-      return _.set('appealsLoading', false, state);
+      return set(state, 'appealsLoading', false);
     default:
       return state;
   }

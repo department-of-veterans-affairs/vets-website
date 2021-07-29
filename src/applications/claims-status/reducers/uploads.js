@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import { assign, set } from 'lodash';
 import {
   RESET_UPLOADS,
   ADD_FILE,
@@ -39,17 +39,17 @@ export default function claimDetailReducer(state = initialState, action) {
         password: makeField(''),
         isEncrypted: action.isEncrypted,
       }));
-      return _.set('files', state.files.concat(files), state);
+      return set(state, 'files', state.files.concat(files));
     }
     case REMOVE_FILE: {
-      return _.set(
+      return set(
+        state,
         'files',
         state.files.filter((file, index) => index !== action.index),
-        state,
       );
     }
     case SET_UPLOADING: {
-      return _.assign(state, {
+      return assign(state, {
         uploading: action.uploading,
         uploadError: false,
         uploadComplete: false,
@@ -57,15 +57,15 @@ export default function claimDetailReducer(state = initialState, action) {
       });
     }
     case SET_UPLOADER: {
-      return _.assign(state, {
+      return assign(state, {
         uploader: action.uploader,
       });
     }
     case SET_PROGRESS: {
-      return _.set('progress', action.progress, state);
+      return set(state, 'progress', action.progress);
     }
     case DONE_UPLOADING: {
-      return _.assign(state, {
+      return assign(state, {
         uploading: false,
         uploadComplete: true,
         uploader: null,
@@ -73,20 +73,20 @@ export default function claimDetailReducer(state = initialState, action) {
       });
     }
     case SET_UPLOAD_ERROR: {
-      return _.assign(state, {
+      return assign(state, {
         uploading: false,
         uploadError: true,
         uploader: null,
       });
     }
     case UPDATE_FIELD: {
-      return _.set(action.path, action.field, state);
+      return set(state, action.path, action.field);
     }
     case SHOW_MAIL_OR_FAX: {
-      return _.set('showMailOrFax', action.visible, state);
+      return set(state, 'showMailOrFax', action.visible);
     }
     case CANCEL_UPLOAD: {
-      return _.assign(state, {
+      return assign(state, {
         uploading: false,
         uploader: null,
       });
