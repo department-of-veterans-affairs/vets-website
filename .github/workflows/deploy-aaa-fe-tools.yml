@@ -57,6 +57,7 @@ jobs:
             IFS='/'
             read -a appName <<< "$changed_file"
             echo ${appName[2]}
+            echo ${{ fromJson(steps.set-matrix.outputs.MANIFEST).appName }}
           done
 
   build:
