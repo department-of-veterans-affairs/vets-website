@@ -9,12 +9,14 @@ import FilterYourResults from '../FilterYourResults';
 import TuitionAndHousingEstimates from '../TuitionAndHousingEstimates';
 import { updateUrlParams } from '../../utils/helpers';
 import { getFiltersChanged } from '../../selectors/filters';
+import MobileFilterControls from '../../components/MobileFilterControls';
 
 export function NameSearchResults({
   dispatchFetchSearchByNameResults,
   filters,
   preview,
   search,
+  smallScreen,
   filtersChanged,
 }) {
   const { version } = preview;
@@ -51,16 +53,19 @@ export function NameSearchResults({
     <>
       {name !== '' &&
         name !== null && (
-          <div className="usa-grid vads-u-padding--1">
-            <p>
+          <div className="row vads-u-padding--0 vads-u-margin--0">
+            {smallScreen && <MobileFilterControls />}
+            <p className="vads-u-padding-x--1p5 small-screen:vads-u-padding-x--0">
               Showing <strong>{count} search results</strong> for '
               <strong>{name}</strong>'
             </p>
-            <div className="usa-width-one-third">
-              <TuitionAndHousingEstimates />
-              <FilterYourResults />
-            </div>
-            <div className="usa-width-two-thirds ">
+            {!smallScreen && (
+              <div className="column small-4 vads-u-padding--0">
+                <TuitionAndHousingEstimates smallScreen={smallScreen} />
+                <FilterYourResults smallScreen={smallScreen} />
+              </div>
+            )}
+            <div className="column  search-results-content">
               {inProgress && (
                 <LoadingIndicator message="Loading search results..." />
               )}

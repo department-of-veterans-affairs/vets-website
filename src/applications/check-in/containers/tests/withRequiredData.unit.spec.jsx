@@ -36,7 +36,8 @@ describe('check-in', () => {
       expect(withRequired.getByTestId('data')).to.exist;
       expect(withRequired.getByTestId('data')).to.have.text('magic');
     });
-    it('shows the provided component if the data is in the store', () => {
+
+    it('shows the returns nothing if the data is not in the store and not in session', () => {
       const middleware = [];
       const mockStore = configureStore(middleware);
       const initState = {

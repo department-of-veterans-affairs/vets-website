@@ -20,6 +20,7 @@ export const AUTOCOMPLETE_STARTED = 'AUTOCOMPLETE_STARTED';
 export const AUTOCOMPLETE_FAILED = 'AUTOCOMPLETE_FAILED';
 export const BENEFICIARY_ZIP_CODE_CHANGED = 'BENEFICIARY_ZIP_CODE_CHANGED';
 export const CALCULATOR_INPUTS_CHANGED = 'CALCULATOR_INPUTS_CHANGED';
+export const COMPARE_DRAWER_OPENED = 'COMPARE_DRAWER_OPENED';
 export const DISPLAY_MODAL = 'DISPLAY_MODAL';
 export const ELIGIBILITY_CHANGED = 'ELIGIBILITY_CHANGED';
 export const ENTER_PREVIEW_MODE = 'ENTER_PREVIEW_MODE';
@@ -61,7 +62,6 @@ export const UPDATE_AUTOCOMPLETE_LOCATION = 'UPDATE_AUTOCOMPLETE_LOCATION';
 export const UPDATE_COMPARE_DETAILS = 'UPDATE_COMPARE_DETAILS';
 export const UPDATE_CURRENT_SEARCH_TAB = 'UPDATE_CURRENT_TAB';
 export const UPDATE_ESTIMATED_BENEFITS = 'UPDATE_ESTIMATED_BENEFITS';
-export const UPDATE_ROUTE = 'UPDATE_ROUTE';
 
 export const UPDATE_QUERY_PARAMS = 'UPDATE_QUERY_PARAMS';
 
@@ -510,5 +510,11 @@ export const clearGeocodeError = () => async dispatch => {
 export function updateQueryParams(queryParams) {
   return dispatch => {
     dispatch({ type: UPDATE_QUERY_PARAMS, payload: queryParams });
+  };
+}
+
+export function compareDrawerOpened(open) {
+  return dispatch => {
+    dispatch({ type: COMPARE_DRAWER_OPENED, payload: open });
   };
 }

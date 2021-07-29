@@ -73,23 +73,6 @@ export class SearchMenu extends React.Component {
     if (inputChanged && searchTypeaheadEnabled) {
       this.debouncedGetSuggestions();
     }
-
-    // event logging for phased typeahead rollout
-    if (
-      !prevProps.searchTypeaheadEnabled &&
-      this.props.searchTypeaheadEnabled
-    ) {
-      const searchTypeaheadLogged = JSON.parse(
-        sessionStorage.getItem('searchTypeaheadLogged'),
-      );
-      if (!searchTypeaheadLogged) {
-        recordEvent({
-          event: 'phased-roll-out-enabled',
-          'product-description': 'Type Ahead',
-        });
-        sessionStorage.setItem('searchTypeaheadLogged', JSON.stringify(true));
-      }
-    }
   }
 
   clearSuggestions = () => {

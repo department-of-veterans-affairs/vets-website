@@ -17,6 +17,7 @@ import {
 } from '../../actions';
 import { connect } from 'react-redux';
 import { getFiltersChanged } from '../../selectors/filters';
+import MobileFilterControls from '../../components/MobileFilterControls';
 
 const MILE_METER_CONVERSION_RATE = 1609.34;
 
@@ -27,6 +28,7 @@ function LocationSearchResults({
   dispatchUpdateEligibilityAndFilters,
   dispatchFetchSearchByLocationCoords,
   filtersChanged,
+  smallScreen,
 }) {
   const { inProgress } = search;
   const { results } = search.location;
@@ -58,9 +60,6 @@ function LocationSearchResults({
       style: 'mapbox://styles/mapbox/outdoors-v11',
       center: [MapboxInit.centerInit.longitude, MapboxInit.centerInit.latitude],
       zoom: MapboxInit.zoomInit,
-      scrollZoom: { around: 'center' },
-      touchZoomRotate: { around: 'center' },
-      doubleClickZoom: false,
     });
 
     mapInit.addControl(
@@ -96,15 +95,7 @@ function LocationSearchResults({
       updateMapState();
     });
 
-    mapInit.on('dblclick', e => {
-      map.current.easeTo(
-        {
-          duration: 300,
-          zoom: map.current.getZoom() + (e.originalEvent.shiftKey ? -1 : 1),
-          around: map.current.getCenter(),
-        },
-        { originalEvent: e.originalEvent },
-      );
+    mapInit.on('dblclick', _e => {
       updateMapState();
     });
 
@@ -270,6 +261,12 @@ function LocationSearchResults({
     : 'Zoom in to search';
   const count = !cardResults ? null : cardResults.length;
 
+  const hasSearchLatLong = search.query.latitude && search.query.longitude;
+  const showTuitionAndFilters = count > 0 || usedFilters;
+
+  const noResultsNoFilters = count === 0 && !usedFilters;
+  const noResultsWithFilters = count === 0 && usedFilters;
+
   return (
     <>
       <div className={'location-search vads-u-padding-top--1'}>
@@ -279,71 +276,83 @@ function LocationSearchResults({
           )}
           {!inProgress && (
             <>
-              {search.location.count === null && (
+              {!hasSearchLatLong && (
                 <div>
                   Please enter a location (street, city, state, or postal code)
                   then click search above to find institutions.
                 </div>
               )}
-              {search.location.count !== null &&
-                (count > 0 || usedFilters) && (
-                  <>
-                    <TuitionAndHousingEstimates />
-                    <FilterYourResults />
-                    {count > 0 && (
-                      <div
-                        id="location-search-results-container"
-                        className="location-search-results-container usa-grid vads-u-padding--1p5"
-                      >
-                        <p>
-                          Showing <strong>{count} search results</strong> for '
-                          <strong>{location}</strong>'
-                        </p>
+              {hasSearchLatLong && (
+                <>
+                  {showTuitionAndFilters && (
+                    <>
+                      {!smallScreen && (
+                        <>
+                          <TuitionAndHousingEstimates />
+                          <FilterYourResults />
+                        </>
+                      )}
+                      {smallScreen && (
+                        <MobileFilterControls
+                          className={'vads-u-margin-top--2'}
+                        />
+                      )}
+                      {count > 0 && (
                         <div
-                          id="location-search-results"
-                          className="location-search-results vads-l-row vads-u-flex-wrap--wrap"
+                          id="location-search-results-container"
+                          className="location-search-results-container usa-grid vads-u-padding--1p5"
                         >
-                          {resultCards}
+                          <p>
+                            Showing <strong>{count} search results</strong> for
+                            '<strong>{location}</strong>'
+                          </p>
+                          <div
+                            id="location-search-results"
+                            className="location-search-results vads-l-row vads-u-flex-wrap--wrap"
+                          >
+                            {resultCards}
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </>
-                )}
-              {count === 0 &&
-                !usedFilters && (
-                  <div>
-                    <p>We didn't find any institutions based on your search.</p>
-                    <p>
-                      <strong>For better results:</strong>
-                    </p>
-                    <ul>
-                      <li>
-                        <strong>Zoom in or out</strong> to view a different area
-                        of the map, or
-                      </li>
-                      <li>
-                        <strong>Move the map</strong> to a different area
-                      </li>
-                    </ul>
-                    <p>
-                      Then click the <strong>"Search this area of map"</strong>{' '}
-                      button.
-                    </p>
-                    <p>
-                      If we still haven't found any facilities near you,{' '}
-                      <strong>please enter a different search term</strong>{' '}
-                      (street, city, state, or postal code).
-                    </p>
-                  </div>
-                )}
-              {count === 0 &&
-                usedFilters && (
-                  <div>
-                    We didn't find any institutions near this location based on
-                    the filters you've applied. Please update the filters and
-                    search again.
-                  </div>
-                )}
+                      )}
+                    </>
+                  )}
+                  {noResultsNoFilters && (
+                    <div>
+                      <p>
+                        We didn't find any institutions based on your search.
+                      </p>
+                      <p>
+                        <strong>For better results:</strong>
+                      </p>
+                      <ul>
+                        <li>
+                          <strong>Zoom in or out</strong> to view a different
+                          area of the map, or
+                        </li>
+                        <li>
+                          <strong>Move the map</strong> to a different area
+                        </li>
+                      </ul>
+                      <p>
+                        Then click the{' '}
+                        <strong>"Search this area of map"</strong> button.
+                      </p>
+                      <p>
+                        If we still haven't found any facilities near you,{' '}
+                        <strong>please enter a different search term</strong>{' '}
+                        (street, city, state, or postal code).
+                      </p>
+                    </div>
+                  )}
+                  {noResultsWithFilters && (
+                    <div>
+                      We didn't find any institutions near this location based
+                      on the filters you've applied. Please update the filters
+                      and search again.
+                    </div>
+                  )}
+                </>
+              )}
             </>
           )}
         </div>

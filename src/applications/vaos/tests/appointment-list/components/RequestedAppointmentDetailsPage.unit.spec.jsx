@@ -66,7 +66,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       ...appointment.attributes,
       typeOfCareId: '323',
       status: 'Submitted',
-      appointmentType: 'Primary care',
       optionDate1: moment(testDate)
         .add(3, 'days')
         .format('MM/DD/YYYY'),
@@ -79,6 +78,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
         .add(5, 'days')
         .format('MM/DD/YYYY'),
       optionTime3: 'PM',
+      visitType: 'Office Visit',
       facility: {
         ...getVARequestMock().attributes.facility,
         facilityCode: '983GC',
@@ -134,13 +134,13 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
         name: 'Pending primary care appointment',
       }),
     );
-
+    // show alert message
     expect(screen.baseElement).to.contain('.usa-alert-info');
     expect(screen.baseElement).to.contain.text(
       'The time and date of this appointment are still to be determined.',
     );
 
-    expect(screen.getByText('Cheyenne VA Medical Center')).to.be.ok;
+    expect(screen.getByText(/Cheyenne VA Medical Center/i)).to.be.ok;
     expect(screen.baseElement).to.contain.text(
       'Pending primary care appointment',
     );
@@ -168,8 +168,24 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
         'ddd, MMMM D, YYYY',
       )} in the afternoon`,
     );
-    expect(screen.baseElement).to.contain.text('New issue');
 
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: 'Preferred type of appointment',
+      }),
+    ).to.be.ok;
+
+    expect(screen.baseElement).to.contain.text('Office visit');
+
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: 'You shared these details about your concern',
+      }),
+    ).to.be.ok;
+
+    expect(screen.baseElement).to.contain.text('New issue');
     expect(await screen.findByText(/A message from the patient/i)).to.be.ok;
     expect(screen.baseElement).to.contain.text('patient.test@va.gov');
     expect(screen.baseElement).to.contain.text('703-652-0000');
@@ -181,7 +197,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     appointment.attributes = {
       ...appointment.attributes,
-      appointmentType: 'Primary care',
+      typeOfCareId: '323',
       optionDate1: moment(testDate)
         .add(3, 'days')
         .format('MM/DD/YYYY'),
@@ -225,7 +241,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       email: 'joe.blow@va.gov',
       optionDate1: '02/21/2020',
       optionTime1: 'AM',
-      purposeOfVisit: 'routine-follow-up',
       typeOfCareId: 'CCAUDHEAR',
     };
 
@@ -262,7 +277,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(
       screen.getByRole('heading', {
         level: 1,
-        name: 'Pending audiology (hearing aid support) appointment',
+        name: 'Pending hearing aid support appointment',
       }),
     ).to.be.ok;
 
@@ -296,7 +311,8 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
         name: 'You shared these details about your concern',
       }),
     ).to.be.ok;
-    expect(await screen.findByText('A message from the patient')).to.be.ok;
+
+    expect(await screen.findByText(/A message from the patient/i)).to.be.ok;
 
     expect(
       screen.getByRole('heading', {
@@ -319,7 +335,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     appointment.id = '1234';
     appointment.attributes = {
       ...appointment.attributes,
-      appointmentType: 'Primary care',
+      typeOfCareId: '323',
       optionDate1: moment(testDate)
         .add(3, 'days')
         .format('MM/DD/YYYY'),
@@ -407,7 +423,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     appointment.id = '1234';
     appointment.attributes = {
       ...appointment.attributes,
-      appointmentType: 'Primary care',
+      typeOfCareId: '323',
       optionDate1: moment(testDate)
         .add(3, 'days')
         .format('MM/DD/YYYY'),
@@ -453,7 +469,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        `Pending Community care audiology (hearing aid support) appointment`,
+        `Pending Community care hearing aid support appointment`,
       );
     });
   });
@@ -463,7 +479,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     appointment.attributes = {
       ...appointment.attributes,
-      appointmentType: 'Primary care',
+      typeOfCareId: '323',
       optionDate1: moment(testDate)
         .add(3, 'days')
         .format('MM/DD/YYYY'),
@@ -498,7 +514,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     appointment.id = '1234';
     appointment.attributes = {
       ...appointment.attributes,
-      appointmentType: 'Primary care',
+      typeOfCareId: '323',
       optionDate1: moment(testDate)
         .add(3, 'days')
         .format('MM/DD/YYYY'),
@@ -550,7 +566,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        `Pending Community care audiology (hearing aid support) appointment`,
+        `Pending Community care hearing aid support appointment`,
       );
     });
     expect(screen.baseElement).to.contain('.usa-alert-success');
@@ -567,7 +583,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     appointment.id = '1234';
     appointment.attributes = {
       ...appointment.attributes,
-      appointmentType: 'Primary care',
+      typeOfCareId: '323',
       optionDate1: moment(testDate)
         .add(3, 'days')
         .format('MM/DD/YYYY'),
@@ -629,7 +645,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       locationId: '983GC',
       id: '1234',
       preferredTimesForPhoneCall: ['Morning'],
-      reason: 'Routine Follow-up',
+      reason: 'New Issue',
       requestedPeriods: [
         {
           start: moment(testDate)
@@ -715,7 +731,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
         'ddd, MMMM D, YYYY',
       )} in the afternoon`,
     );
-    expect(screen.baseElement).to.contain.text('Follow-up/Routine');
+    expect(screen.baseElement).to.contain.text('New issue');
 
     expect(await screen.findByText(/A message from the patient/i)).to.be.ok;
     expect(screen.baseElement).to.contain.text('veteranemailtest@va.gov');
@@ -739,7 +755,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       id: '1234',
       practitioners: [{ id: { value: '123' } }],
       preferredTimesForPhoneCall: ['Morning'],
-      reason: 'Routine Follow-up',
+      reason: 'New Issue',
       requestedPeriods: [
         {
           start: moment(testDate)
@@ -830,7 +846,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
         name: 'You shared these details about your concern',
       }),
     ).to.be.ok;
-    expect(screen.getByText('A message from the patient')).to.be.ok;
+    expect(await screen.findByText(/A message from the patient/i)).to.be.ok;
 
     expect(
       screen.getByRole('heading', {

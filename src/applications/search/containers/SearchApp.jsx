@@ -6,7 +6,11 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import { fetchSearchResults } from '../actions';
-import { formatResponseString, truncateResponseString } from '../utils';
+import {
+  formatResponseString,
+  truncateResponseString,
+  removeDoubleBars,
+} from '../utils';
 import recordEvent from 'platform/monitoring/record-event';
 import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 
@@ -209,6 +213,7 @@ class SearchApp extends React.Component {
       <div
         className="vads-u-background-color--gray-lightest vads-u-padding-x--3 vads-u-padding-bottom--3 vads-u-padding-top--1p5 vads-u-margin-top--1p5 vads-u-margin-bottom--4"
         role="search"
+        aria-labelledby="h1-search-title"
       >
         <div>Enter a keyword</div>
         <form
@@ -416,7 +421,9 @@ class SearchApp extends React.Component {
 
   /* eslint-disable react/no-danger */
   renderWebResult(result, snippetKey = 'snippet', isBestBet = false, index) {
-    const strippedTitle = formatResponseString(result.title, true);
+    const strippedTitle = removeDoubleBars(
+      formatResponseString(result.title, true),
+    );
     return (
       <li
         key={result.url}
@@ -465,7 +472,9 @@ class SearchApp extends React.Component {
         <SearchBreadcrumbs />
         <div className="row">
           <div className="columns">
-            <h1 className="vads-u-font-size--2xl">Search VA.gov</h1>
+            <h1 className="vads-u-font-size--2xl" id="h1-search-title">
+              Search VA.gov
+            </h1>
           </div>
         </div>
         <div className="search-row">

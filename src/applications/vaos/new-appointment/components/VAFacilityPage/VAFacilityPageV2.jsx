@@ -98,7 +98,7 @@ export default function VAFacilityPageV2() {
   if (singleValidVALocation) {
     pageTitle = 'Your appointment location';
   } else if (showVariant) {
-    pageTitle = 'Choose a VA Location';
+    pageTitle = 'Choose a VA location';
   } else {
     pageTitle = `Choose a VA location for your ${lowerCase(
       typeOfCare?.name,
@@ -107,6 +107,7 @@ export default function VAFacilityPageV2() {
   const isLoading =
     loadingFacilities || (singleValidVALocation && loadingEligibility);
   const sortFocusEl = showVariant ? 'select' : '.sort-facility-button';
+  const hasUserAddress = address && !!Object.keys(address).length;
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -136,7 +137,6 @@ export default function VAFacilityPageV2() {
         scrollAndFocus('.loading-indicator');
       } else if (requestLocationStatus === FETCH_STATUS.failed) {
         scrollAndFocus('va-alert');
-        updateFacilitySortMethod(sortOptions[0].value, uiSchema);
       } else {
         scrollAndFocus(sortFocusEl);
       }
@@ -304,22 +304,23 @@ export default function VAFacilityPageV2() {
             </p>
           </>
         )}
-      {requestLocationStatus === FETCH_STATUS.failed && (
-        <div className="vads-u-padding-bottom--3">
-          <InfoAlert
-            status="warning"
-            headline="Your browser is blocked from finding your current location."
-            className="vads-u-background-color--gold-lightest vads-u-font-size--base"
-            level="3"
-          >
-            <p>
-              Make sure your browser’s location feature is turned on. If it
-              isn’t enabled, we’ll sort your VA facilities using your home
-              address that’s on file.
-            </p>
-          </InfoAlert>
-        </div>
-      )}
+      {!showVariant &&
+        requestLocationStatus === FETCH_STATUS.failed && (
+          <div className="vads-u-padding-bottom--3">
+            <InfoAlert
+              status="warning"
+              headline="Your browser is blocked from finding your current location."
+              className="vads-u-background-color--gold-lightest vads-u-font-size--base"
+              level="3"
+            >
+              <p>
+                Make sure your browser’s location feature is turned on. If it
+                isn’t enabled, we’ll sort your VA facilities using your home
+                address that’s on file.
+              </p>
+            </InfoAlert>
+          </div>
+        )}
       {requestingLocation && (
         <div className="vads-u-padding-bottom--2">
           <LoadingIndicator message="Finding your location. Be sure to allow your browser to find your current location." />
@@ -344,6 +345,7 @@ export default function VAFacilityPageV2() {
               dispatch(routeToNextAppointmentPage(history, pageKey));
             }}
             formContext={{
+              hasUserAddress,
               sortOptions,
               updateFacilitySortMethod: value =>
                 dispatch(updateFacilitySortMethod(value, uiSchema)),

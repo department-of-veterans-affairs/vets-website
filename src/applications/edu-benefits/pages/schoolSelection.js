@@ -19,7 +19,6 @@ export const schoolSelectionOptionsFor = {
       'trainingState',
       'educationalCounseling',
     ],
-    required: ['educationType'],
   },
   '1990e': {
     fields: ['educationProgram', 'educationObjective'],

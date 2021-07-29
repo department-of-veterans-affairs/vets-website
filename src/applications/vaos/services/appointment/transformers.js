@@ -9,6 +9,11 @@ import {
   PURPOSE_TEXT,
   EXPRESS_CARE,
   UNABLE_TO_REACH_VETERAN_DETCODE,
+  TYPE_OF_VISIT,
+  TYPES_OF_EYE_CARE,
+  TYPES_OF_SLEEP_CARE,
+  AUDIOLOGY_TYPES_OF_CARE,
+  TYPES_OF_CARE,
 } from '../../utils/constants';
 import { getTimezoneBySystemId } from '../../utils/timezone';
 import {
@@ -286,13 +291,14 @@ function setVideoData(appt) {
       : null,
     atlasConfirmationCode: videoData.tasInfo?.confirmationCode,
     duration: videoData.duration,
-    status: videoData.status.code,
   };
 }
 
 function getCommunityCareData(appt) {
   if (!isCommunityCare(appt)) {
-    return {};
+    return {
+      communityCareProvider: null,
+    };
   }
 
   const apptType = getAppointmentType(appt);
@@ -339,28 +345,28 @@ function getCommunityCareData(appt) {
  */
 function setLocation(appt) {
   const type = getAppointmentType(appt);
+  const location = {
+    vistaId: null,
+    stationId: null,
+    clinicId: null,
+    clinicName: null,
+  };
 
-  switch (type) {
-    case APPOINTMENT_TYPES.vaAppointment: {
-      return {
-        vistaId: appt.facilityId,
-        clinicId: appt.clinicId,
-        stationId: appt.sta6aid,
-        clinicName:
-          appt.clinicFriendlyName ||
-          appt.vdsAppointments?.[0]?.clinic?.name ||
-          appt.vvsAppointments?.[0]?.patients?.[0]?.location?.clinic?.name,
-      };
-    }
-    case APPOINTMENT_TYPES.request: {
-      return {
-        vistaId: appt.facility?.facilityCode?.substring(0, 3),
-        stationId: appt.facility?.facilityCode,
-      };
-    }
-    default:
-      return {};
+  if (type === APPOINTMENT_TYPES.vaAppointment) {
+    location.vistaId = appt.facilityId;
+    location.clinicId = appt.clinicId;
+    location.stationId = appt.sta6aid;
+    location.clinicName =
+      appt.clinicFriendlyName ||
+      appt.vdsAppointments?.[0]?.clinic?.name ||
+      appt.vvsAppointments?.[0]?.patients?.[0]?.location?.clinic?.name ||
+      null;
+  } else if (type === APPOINTMENT_TYPES.request) {
+    location.vistaId = appt.facility?.facilityCode?.substring(0, 3);
+    location.stationId = appt.facility?.facilityCode;
   }
+
+  return location;
 }
 
 /**
@@ -405,10 +411,11 @@ export function transformConfirmedAppointment(appt) {
   const isPast = isPastAppointment(appt);
   const isCC = isCommunityCare(appt);
   const videoData = setVideoData(appt);
+
   return {
     resourceType: 'Appointment',
     // Temporary fix until https://issues.mobilehealth.va.gov/browse/VAOSR-2058 is complete
-    id: appt.id || appt.vvsAppointments[0].id,
+    id: appt.id || appt.vvsAppointments[0].id || null,
     status: getConfirmedStatus(appt, isPast),
     description: getVistaStatus(appt),
     start,
@@ -416,7 +423,8 @@ export function transformConfirmedAppointment(appt) {
     comment:
       appt.instructionsToVeteran ||
       (!appt.communityCare && appt.vdsAppointments?.[0]?.bookingNote) ||
-      appt.vvsAppointments?.[0]?.instructionsTitle,
+      appt.vvsAppointments?.[0]?.instructionsTitle ||
+      null,
     location: setLocation(appt),
     videoData,
     ...getCommunityCareData(appt),
@@ -425,13 +433,24 @@ export function transformConfirmedAppointment(appt) {
       isPastAppointment: isPast,
       appointmentType: getAppointmentType(appt),
       isCommunityCare: isCC,
+      isExpressCare: false,
       timeZone: isCC ? appt.timeZone : null,
-      isPhoneAppointment: appt.phoneOnly,
+      isPhoneAppointment: appt.phoneOnly || false,
       // CDQC is the standard COVID vaccine char4 code
       isCOVIDVaccine: appt.char4 === 'CDQC',
       apiData: appt,
     },
   };
+}
+
+/**
+ * Gets the type of visit that matches our array of visit constant
+ *
+ * @param {Object} appt VAOS Service appointment object
+ * @returns {String} type of visit string
+ */
+function getTypeOfVisit(appt) {
+  return TYPE_OF_VISIT.find(type => type.serviceName === appt.visitType)?.name;
 }
 
 /**
@@ -444,6 +463,19 @@ export function transformConfirmedAppointment(appt) {
  */
 export function transformConfirmedAppointments(appointments) {
   return appointments.map(appt => transformConfirmedAppointment(appt));
+}
+
+function getTypeOfCareById(id) {
+  const allTypesOfCare = [
+    ...TYPES_OF_EYE_CARE,
+    ...TYPES_OF_SLEEP_CARE,
+    ...AUDIOLOGY_TYPES_OF_CARE,
+    ...TYPES_OF_CARE,
+  ];
+
+  return allTypesOfCare.find(
+    care => care.idV2 === id || care.ccId === id || care.id === id,
+  );
 }
 
 /**
@@ -478,7 +510,7 @@ export function transformPendingAppointment(appt) {
       coding: [
         {
           code: appt.typeOfCareId,
-          display: appt.appointmentType,
+          display: getTypeOfCareById(appt.typeOfCareId)?.name,
         },
       ],
     },
@@ -490,6 +522,7 @@ export function transformPendingAppointment(appt) {
     videoData: {
       isVideo,
     },
+    requestVisitType: getTypeOfVisit(appt),
     ...getCommunityCareData(appt),
     vaos: {
       isVideo,

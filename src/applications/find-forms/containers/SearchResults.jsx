@@ -15,7 +15,9 @@ import {
   updatePaginationAction,
 } from '../actions';
 import {
-  applySearchUIUXEnhancements,
+  applyPDFInfoBoxOne,
+  applyPDFInfoBoxTwo,
+  applyPDFInfoHelpText,
   getFindFormsAppState,
 } from '../helpers/selectors';
 import { FAF_SORT_OPTIONS } from '../constants';
@@ -52,7 +54,9 @@ export const SearchResults = ({
   sortByPropertyName,
   hasOnlyRetiredForms,
   startIndex,
-  showPDFInfoBox,
+  showPDFInfoVersionOne,
+  showPDFInfoVersionTwo,
+  showPDFInfoVersionThree,
   updatePagination,
   updateSortByPropertyName,
 }) => {
@@ -128,7 +132,7 @@ export const SearchResults = ({
     vads-u-margin-top--1p5 vads-u-font-weight--normal va-u-outline--none"
         data-forms-focus
       >
-        The form you're looking for has been retired or is no longer valid, and
+        The form you’re looking for has been retired or is no longer valid, and
         has been removed from the VA forms database.
       </p>
     );
@@ -142,8 +146,8 @@ export const SearchResults = ({
         data-forms-focus
       >
         No results were found for "<strong>{query}</strong>
-        ." Try using fewer words or broadening your search. If you&apos;re
-        looking for non-VA forms, go to the{' '}
+        ." Try using fewer words or broadening your search. If you’re looking
+        for non-VA forms, go to the{' '}
         <a
           href="https://www.gsa.gov/reference/forms"
           rel="noopener noreferrer"
@@ -177,10 +181,13 @@ export const SearchResults = ({
     .slice(startIndex, lastIndex)
     .map((form, index) => (
       <SearchResult
+        currentPosition={index + 1}
         key={form.id}
         form={form}
         formMetaInfo={{ ...formMetaInfo, currentPositionOnPage: index + 1 }}
-        showPDFInfoBox={showPDFInfoBox}
+        showPDFInfoVersionOne={showPDFInfoVersionOne}
+        showPDFInfoVersionTwo={showPDFInfoVersionTwo}
+        showPDFInfoVersionThree={showPDFInfoVersionThree}
       />
     ));
 
@@ -240,7 +247,9 @@ SearchResults.propTypes = {
   hasOnlyRetiredForms: PropTypes.bool.isRequired,
   sortByPropertyName: PropTypes.string,
   startIndex: PropTypes.number.isRequired,
-  showPDFInfoBox: PropTypes.bool,
+  showPDFInfoVersionOne: PropTypes.bool,
+  showPDFInfoVersionTwo: PropTypes.bool,
+  showPDFInfoVersionThree: PropTypes.bool,
   // From mapDispatchToProps.
   updateSortByPropertyName: PropTypes.func,
   updatePagination: PropTypes.func.isRequired,
@@ -255,7 +264,9 @@ const mapStateToProps = state => ({
   query: getFindFormsAppState(state).query,
   results: getFindFormsAppState(state).results,
   startIndex: getFindFormsAppState(state).startIndex,
-  showPDFInfoBox: applySearchUIUXEnhancements(state),
+  showPDFInfoVersionOne: applyPDFInfoBoxOne(state),
+  showPDFInfoVersionTwo: applyPDFInfoBoxTwo(state),
+  showPDFInfoVersionThree: applyPDFInfoHelpText(state),
 });
 
 const mapDispatchToProps = dispatch => ({

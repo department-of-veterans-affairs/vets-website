@@ -232,10 +232,6 @@ export function mockFeatureToggles({
             value: true,
           },
           {
-            name: 'vaOnlineSchedulingExpressCareNew',
-            value: true,
-          },
-          {
             name: `cerner_override_668`,
             value: false,
           },
@@ -727,7 +723,7 @@ export function initCommunityCareMock() {
   });
   cy.route({
     method: 'GET',
-    url: '/v1/facilities/ccp*',
+    url: '/facilities_api/v1/ccp/provider*',
     response: {
       data: [
         {

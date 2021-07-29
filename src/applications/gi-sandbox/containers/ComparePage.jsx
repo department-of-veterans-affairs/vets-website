@@ -36,6 +36,10 @@ import CompareGrid from '../components/CompareGrid';
 import RatingsStars from '../components/RatingsStars';
 import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal';
 import { MINIMUM_RATING_COUNT } from '../constants';
+import Scroll from 'react-scroll';
+import { getScrollOptions } from 'platform/utilities/ui';
+
+const scroll = Scroll.animateScroll;
 
 export function ComparePage({
   allLoaded,
@@ -91,6 +95,10 @@ export function ComparePage({
     [isSticky, initialTop],
   );
 
+  useEffect(() => {
+    scroll.scrollToTop(getScrollOptions());
+  }, []);
+
   useLayoutEffect(
     () => {
       const handleScroll = () => {
@@ -129,7 +137,11 @@ export function ComparePage({
       category => category.categoryName === categoryName,
     );
 
-    if (categoryRatings.length > 0 && categoryRatings[0].averageRating) {
+    if (
+      categoryRatings.length > 0 &&
+      categoryRatings[0].averageRating &&
+      institution.ratingCount >= MINIMUM_RATING_COUNT
+    ) {
       const categoryRating = categoryRatings[0];
       const stars = convertRatingToStars(categoryRating.averageRating);
       return (
@@ -217,7 +229,7 @@ export function ComparePage({
           ref={headerRef}
         >
           <div className="row vads-l-grid-container">
-            <div className="vads-l-row compare-header-row">
+            <div className="vads-l-row compare-header-row vads-u-padding-bottom--6">
               <div className="medium-screen:vads-l-col--3">
                 <div className="compare-header vads-u-padding-right--1">
                   <div className="compare-page-description-label">
@@ -406,24 +418,34 @@ export function ComparePage({
                         const stars = convertRatingToStars(
                           institution.ratingAverage,
                         );
+                        const aboveMinimumRatingCount =
+                          institution.ratingCount >= MINIMUM_RATING_COUNT;
 
                         return (
                           <div className="vads-u-display--inline-block vads-u-text-align--center main-rating">
                             <div className="vads-u-font-weight--bold vads-u-font-size--2xl vads-u-font-family--serif">
-                              {stars && stars.display}
-                              {!stars && <span>N/A</span>}
+                              {aboveMinimumRatingCount &&
+                                stars &&
+                                stars.display}
+                              {(!aboveMinimumRatingCount || !stars) && (
+                                <span>N/A</span>
+                              )}
                             </div>
                             <div className="vads-u-font-size--sm vads-u-padding-bottom--1">
-                              {stars && <span>out of a possible 5 stars</span>}
-                              {!stars && <span>not yet rated</span>}
+                              {aboveMinimumRatingCount &&
+                                stars && <span>out of a possible 5 stars</span>}
+                              {(!aboveMinimumRatingCount || !stars) && (
+                                <span>not yet rated</span>
+                              )}
                             </div>
-                            {stars && (
-                              <div className="vads-u-font-size--lg">
-                                <RatingsStars
-                                  rating={institution.ratingAverage}
-                                />
-                              </div>
-                            )}
+                            {aboveMinimumRatingCount &&
+                              stars && (
+                                <div className="vads-u-font-size--lg">
+                                  <RatingsStars
+                                    rating={institution.ratingAverage}
+                                  />
+                                </div>
+                              )}
                           </div>
                         );
                       },
@@ -431,7 +453,10 @@ export function ComparePage({
                     {
                       label: '# of Veteran ratings',
                       className: 'vads-u-text-align--center',
-                      mapper: institution => institution.ratingCount,
+                      mapper: institution =>
+                        institution.ratingCount >= MINIMUM_RATING_COUNT
+                          ? institution.ratingCount
+                          : '0',
                     },
                   ]}
                 />

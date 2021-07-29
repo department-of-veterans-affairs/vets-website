@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 
 import fullSchema5490 from 'vets-json-schema/dist/22-5490-schema.json';
-
+import PreSubmitInfo from '../containers/PreSubmitInfo';
 import {
   benefitsRelinquishedInfo,
   benefitsRelinquishedWarning,
@@ -30,7 +30,6 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import * as personId from 'platform/forms/definitions/personId';
 import dateRangeUi from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUi from 'platform/forms/definitions/fullName';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
 import FormFooter from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
@@ -41,7 +40,7 @@ import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings
 
 import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositPage from '../../pages/directDeposit';
-import applicantInformationPage from 'platform/forms/pages/applicantInformation';
+import applicantInformationUpdate from '../components/applicantInformationUpdate';
 import applicantServicePage from '../../pages/applicantService';
 import createSchoolSelectionPage, {
   schoolSelectionOptionsFor,
@@ -113,7 +112,11 @@ const formConfig = {
   confirmation: ConfirmationPage,
   title: 'Apply for education benefits as an eligible dependent',
   subTitle: 'Form 22-5490',
-  preSubmitInfo,
+  preSubmitInfo: {
+    CustomComponent: PreSubmitInfo,
+    required: true,
+    field: 'privacyAgreementAccepted',
+  },
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
@@ -129,7 +132,7 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: {
-        applicantInformation: applicantInformationPage(fullSchema5490, {
+        applicantInformation: applicantInformationUpdate(fullSchema5490, {
           labels: { relationship: relationshipLabels },
         }),
         additionalBenefits: additionalBenefitsPage(fullSchema5490, {
@@ -242,7 +245,6 @@ const formConfig = {
               'Before this application, have you ever applied for or received any of the following VA benefits?',
             previousBenefits: {
               'ui:order': [
-                'view:noPreviousBenefits',
                 'disability',
                 'dic',
                 'chapter31',
@@ -254,10 +256,14 @@ const formConfig = {
                 'transferOfEntitlement',
                 'veteranFullName',
                 'view:veteranId',
+                'view:otherBenefitReceived',
                 'other',
               ],
               'view:noPreviousBenefits': {
                 'ui:title': 'None',
+              },
+              'view:otherBenefitReceived': {
+                'ui:title': 'Other benefit',
               },
               disability: {
                 'ui:title': 'Disability Compensation or Pension',
@@ -362,7 +368,10 @@ const formConfig = {
                 },
               }),
               other: {
-                'ui:title': 'Other benefit',
+                'ui:title': 'What benefit?',
+                'ui:options': {
+                  expandUnder: 'view:otherBenefitReceived',
+                },
               },
             },
           },
@@ -381,11 +390,11 @@ const formConfig = {
                 ),
                 {
                   properties: {
-                    'view:noPreviousBenefits': { type: 'boolean' },
                     'view:ownServiceBenefits': { type: 'boolean' },
                     'view:claimedSponsorService': { type: 'boolean' },
                     veteranFullName: fullName,
                     'view:veteranId': personId.schema(fullSchema5490),
+                    'view:otherBenefitReceived': { type: 'boolean' },
                   },
                 },
               ),

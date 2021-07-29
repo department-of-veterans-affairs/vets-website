@@ -3,20 +3,22 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import appendQuery from 'append-query';
-import { removeCompareInstitution } from '../actions';
+import { removeCompareInstitution, compareDrawerOpened } from '../actions';
 import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal';
 
 export function CompareDrawer({
   compare,
   dispatchRemoveCompareInstitution,
   displayed,
+  alwaysDisplay = false,
+  dispatchCompareDrawerOpened,
 }) {
   const history = useHistory();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(compare.open);
   const [promptingFacilityCode, setPromptingFacilityCode] = useState(null);
   const { loaded, institutions } = compare.search;
 
-  if (!displayed) {
+  if (!displayed && !alwaysDisplay) {
     return null;
   }
 
@@ -44,6 +46,11 @@ export function CompareDrawer({
     return blanks;
   };
 
+  const expandOnClick = () => {
+    setOpen(!open);
+    dispatchCompareDrawerOpened(!open);
+  };
+
   return (
     <div className="compare-drawer">
       {promptingFacilityCode && (
@@ -59,7 +66,7 @@ export function CompareDrawer({
       )}
       <div
         className="compare-header vads-l-grid-container"
-        onClick={() => setOpen(!open)}
+        onClick={expandOnClick}
       >
         <div className={headerLabelClasses}>
           Compare Institutions ({loaded.length} of 3)
@@ -117,11 +124,13 @@ const mapStateToProps = state => ({
   compare: state.compare,
   displayed:
     state.search.location.results.length > 0 ||
-    state.search.name.results.length > 0,
+    state.search.name.results.length > 0 ||
+    state.compare.search.loaded.length > 0,
 });
 
 const mapDispatchToProps = {
   dispatchRemoveCompareInstitution: removeCompareInstitution,
+  dispatchCompareDrawerOpened: compareDrawerOpened,
 };
 
 export default connect(

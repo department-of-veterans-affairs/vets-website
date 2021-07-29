@@ -10,6 +10,7 @@ import facilityData from '../../services/mocks/var/facility_data.json';
 import requests from '../../services/mocks/v2/requests.json';
 import facilitiesV2 from '../../services/mocks/v2/facilities.json';
 import configurations from '../../services/mocks/v2/scheduling_configurations_cc.json';
+import Timeouts from 'platform/testing/e2e/timeouts';
 
 describe('VAOS community care flow', () => {
   it('should fill out community care form and submit request', () => {
@@ -19,9 +20,13 @@ describe('VAOS community care flow', () => {
     );
     cy.injectAxe();
     // Select primary care
-    cy.get('input[value="323"]')
-      .focus()
-      .check();
+    cy.get('input[value="323"]', { timeout: Timeouts.normal })
+      .should('exist')
+      .then(checkbox => {
+        cy.wrap(checkbox)
+          .focus()
+          .check();
+      });
     // Verify primary care checked
     cy.get('input[value="323"]').should('be.checked');
     // Click continue button
@@ -259,9 +264,13 @@ describe('VAOS community care flow', () => {
     );
     cy.injectAxe();
     // Select primary care
-    cy.get('input[value="323"]')
-      .focus()
-      .check();
+    cy.get('input[value="323"]', { timeout: Timeouts.normal })
+      .should('exist')
+      .then(checkbox => {
+        cy.wrap(checkbox)
+          .focus()
+          .check();
+      });
     // Verify primary care checked
     cy.get('input[value="323"]').should('be.checked');
     // Click continue button
@@ -496,7 +505,7 @@ describe('VAOS community care flow using VAOS service', () => {
     };
     cy.route({
       method: 'GET',
-      url: '/v1/facilities/ccp?*',
+      url: '/facilities_api/v1/ccp/provider?*',
       response: {
         data: [provider],
       },
@@ -552,9 +561,13 @@ describe('VAOS community care flow using VAOS service', () => {
       response: facilityData.data.find(f => f.id === 'vha_442'),
     });
     // Select primary care
-    cy.get('input[value="323"]')
-      .focus()
-      .check();
+    cy.get('input[value="323"]', { timeout: Timeouts.normal })
+      .should('exist')
+      .then(checkbox => {
+        cy.wrap(checkbox)
+          .focus()
+          .check();
+      });
     // Verify primary care checked
     cy.get('input[value="323"]').should('be.checked');
     // Click continue button

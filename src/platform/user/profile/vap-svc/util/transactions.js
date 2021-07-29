@@ -64,6 +64,15 @@ export const INVALID_EMAIL_ADDRESS_ERROR_CODES = new Set([
   'VET360_EMAIL305',
 ]);
 
+export const INVALID_PHONE_ERROR_CODES = new Set([
+  'PHON126',
+  'PHON211',
+  'PHON213',
+  'VET360_PHON126', // Phone area code pattern must match "[0-9]+"
+  'VET360_PHON211', // New: Area Codes do not end with the same two digits
+  'VET360_PHON213', // New: Area Codes do not include 9 as the middle digit
+]);
+
 export function isPendingTransaction(transaction) {
   return PENDING_STATUSES.has(transaction?.data.attributes.transactionStatus);
 }

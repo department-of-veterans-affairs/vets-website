@@ -1,19 +1,17 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-action-link";
 @import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-action-link";
 @import "partials/gi-vet-tec";
 @import "partials/gi-preview-banner";
 @import "partials/gi-autocomplete";
 @import "partials/gi-compare-drawer";
 @import "partials/gi-compare-page";
 @import "partials/gi-modal";
-@import "partials/gi-landing-page";
 @import "partials/gi-search-page";
 @import "partials/gi-profile-page";
 @import "partials/gi-search-controls";
 @import "partials/gi-search-location";
+@import "partials/gi-back-to-top";
 
 .gi-app {
   div.military-status-info {
@@ -220,16 +218,6 @@
       font-style: italic;
     }
 
-    input.location-search {
-      width: 490px;
-      max-width: none;
-    }
-
-    input.name-search {
-      width: 690px;
-      max-width: none;
-    }
-
     select {
       width: 200px;
     }
@@ -239,7 +227,12 @@
 
 .section-item,
 .accordion-item {
+  margin-bottom: 5px;
   list-style-type: none !important;
+
+  h2.accordion-button-wrapper {
+    margin: 0;
+  }
 }
 
 .school-classification {
@@ -267,4 +260,15 @@
 
 .capitalize-value {
   text-transform: capitalize;
+}
+
+.tool-description {
+  text-align: center;
+  padding-bottom: 3em;
+
+  @media (max-width: $small-screen) {
+    text-align: left;
+    padding-left: 20px;
+    padding-bottom: 1em;
+  }
 }
