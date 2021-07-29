@@ -1,4 +1,4 @@
 {
-  "AAA FE Tools": "approved",
-  "Aatrox": "rejected"
+  "AAA FE Tools": true,
+  "Aatrox": false
 }
