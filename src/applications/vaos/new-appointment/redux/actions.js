@@ -582,12 +582,12 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
           ? startDate
           : moment(endDate)
               .startOf('month')
-              .format('YYYY-MM-DD');
+              .format('YYYY-MM-DDTHH:mm:ssZ');
         const endDateString = !fetchedEndMonth
           ? endDate
           : moment(startDate)
               .endOf('month')
-              .format('YYYY-MM-DD');
+              .format('YYYY-MM-DDTHH:mm:ssZ');
 
         const fetchedSlots = await getSlots({
           siteId,

@@ -95,11 +95,11 @@ export default function DateTimeSelectPage() {
       getAppointmentSlots(
         moment(preferredDate)
           .startOf('month')
-          .format('YYYY-MM-DD'),
+          .format('YYYY-MM-DDTHH:mm:ssZ'),
         moment(preferredDate)
           .add(1, 'months')
           .endOf('month')
-          .format('YYYY-MM-DD'),
+          .format('YYYY-MM-DDTHH:mm:ssZ'),
         true,
       ),
     );
