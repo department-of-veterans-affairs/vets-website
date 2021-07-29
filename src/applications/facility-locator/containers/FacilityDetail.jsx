@@ -110,7 +110,6 @@ class FacilityDetail extends Component {
     const isVBA = facilityType === FacilityType.VA_BENEFITS_FACILITY;
     return (
       <div>
-        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
         <h1 ref={this.headerRef} tabIndex={0}>
           {name}
         </h1>

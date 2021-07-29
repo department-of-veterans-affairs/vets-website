@@ -180,6 +180,8 @@ module.exports = {
     'jsx-a11y/anchor-is-valid': 0, // 19
     'jsx-a11y/label-has-associated-control': 0, // 35
     'jsx-a11y/label-has-for': 0, // 66
+    // allow non-interactive elements to receive focus
+    'jsx-a11y/no-noninteractive-tabindex': 0,
 
     'import/named': 0, // 2
     'import/no-useless-path-segments': 0, // 59  (fixable)
