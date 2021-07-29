@@ -29,10 +29,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Get Application Manifest
+    - name: Get Application Manifest.
       id: deploy-configuration
       run: |
-        JSON=$(cat ../../src/applications/${{ env.APP_NAME }}/manifest.json)
+        JSON=$(cat ./src/applications/${{ env.APP_NAME }}/manifest.json)
         echo "::set-output name=options::${JSON//'%'/'%25'}"
 
   build:
