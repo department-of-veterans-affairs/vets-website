@@ -29,6 +29,7 @@ class IntroductionPage extends React.Component {
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
           startText="Start the Application"
+          testActionLink
         >
           Please complete the 22-1990 form to apply for my education benefits.
         </SaveInProgressIntro>
