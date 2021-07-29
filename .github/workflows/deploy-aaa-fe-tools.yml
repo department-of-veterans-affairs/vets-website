@@ -74,12 +74,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Check Data
-        run: echo ${{ needs.job1.outputs.MANIFEST }}
-
-      - name: Check app_name from manifest
-        run: echo ${{ fromJson(needs.job1.outputs.MANIFEST).appName }}
-
       - name: Get Node version
         id: get-node-version
         run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
