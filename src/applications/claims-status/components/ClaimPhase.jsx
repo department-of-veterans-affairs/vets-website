@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
-import { take } from 'lodash/take';
+import take from 'lodash/take';
 import recordEvent from 'platform/monitoring/record-event';
 import { getUserPhaseDescription } from '../utils/helpers';
 

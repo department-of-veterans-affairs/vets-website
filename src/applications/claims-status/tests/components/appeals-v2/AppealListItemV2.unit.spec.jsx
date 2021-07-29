@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
-import { set } from 'lodash/set';
+import set from 'lodash/set';
 
 import AppealListItemV2 from '../../../components/appeals-v2/AppealListItemV2';
 import { STATUS_TYPES, EVENT_TYPES } from '../../../utils/appeals-v2-helpers';

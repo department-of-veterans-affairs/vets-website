@@ -1,4 +1,4 @@
-import { merge } from 'lodash/merge';
+import merge from 'lodash/merge';
 import * as Sentry from '@sentry/browser';
 
 import environment from 'platform/utilities/environment';

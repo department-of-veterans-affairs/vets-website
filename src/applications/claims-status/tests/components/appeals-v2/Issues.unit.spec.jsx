@@ -4,7 +4,7 @@ import { shallow, mount } from 'enzyme';
 import Issues from '../../../components/appeals-v2/Issues';
 import { addStatusToIssues } from '../../../utils/appeals-v2-helpers';
 import { mockData } from '../../../utils/helpers';
-import { set } from 'lodash/set';
+import set from 'lodash/set';
 
 describe('<Issues/>', () => {
   const emptyIssues = { issues: addStatusToIssues([]), isAppeal: true };

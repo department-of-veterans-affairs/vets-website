@@ -1,4 +1,4 @@
-import { assign } from 'lodash/assign';
+import assign from 'lodash/assign';
 
 import { SET_LAST_PAGE } from '../actions/index.jsx';
 
