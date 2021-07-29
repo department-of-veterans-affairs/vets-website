@@ -13,7 +13,6 @@ import {
   selectFeatureVAOSServiceRequests,
   selectFeatureVariantTesting,
   selectRegisteredCernerFacilityIds,
-  selectFeatureVAOSServiceVAAppointments,
   selectFeatureFacilitiesServiceV2,
 } from '../../redux/selectors';
 import {
