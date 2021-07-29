@@ -4,11 +4,17 @@ import MockDate from 'mockdate';
 import { expect } from 'chai';
 import { mockFetch } from 'platform/testing/unit/helpers';
 import { getCCAppointmentMock, getVAAppointmentMock } from '../../mocks/v0';
+import { getVAOSAppointmentMock } from '../../mocks/v2';
 import {
   mockAppointmentInfo,
   mockSingleCommunityCareAppointmentFetch,
   mockSingleVistaCommunityCareAppointmentFetch,
+  mockCCSingleProviderFetch,
 } from '../../mocks/helpers';
+import {
+  mockSingleVAOSAppointmentFetch,
+  mockVAOSAppointmentsFetch,
+} from '../../mocks/helpers.v2';
 import {
   renderWithStoreAndRouter,
   getTimezoneTestDate,
@@ -561,5 +567,147 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     );
     expect(tokens.get('END')).includes('VEVENT');
     expect(tokens.get('END')).includes('VCALENDAR');
+  });
+});
+
+describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
+  beforeEach(() => {
+    mockFetch();
+    MockDate.set(getTimezoneTestDate());
+  });
+  afterEach(() => {
+    MockDate.reset();
+  });
+
+  it('should navigate to community care appointments detail page', async () => {
+    const url = '/cc/01aa456cc';
+    const appointmentTime = moment().add(1, 'days');
+    const start = moment()
+      .subtract(30, 'days')
+      .format('YYYY-MM-DD');
+    const end = moment()
+      .add(395, 'days')
+      .format('YYYY-MM-DD');
+
+    const appointment = getVAOSAppointmentMock();
+    appointment.id = '01aa456cc';
+    appointment.attributes = {
+      ...appointment.attributes,
+      id: '01aa456cc',
+      kind: 'cc',
+      practitioners: [
+        {
+          id: { system: null, value: '123' },
+          firstName: 'Dr',
+          lastName: 'Hyde',
+          practiceName: 'Jeckle and Hyde',
+        },
+      ],
+      description: 'community care appointment',
+      comment: 'test comment',
+      start: appointmentTime,
+    };
+
+    mockVAOSAppointmentsFetch({
+      start,
+      end,
+      requests: [appointment],
+      statuses: ['booked', 'cancelled'],
+    });
+
+    mockSingleVAOSAppointmentFetch({ appointment });
+
+    const ccProvider = {
+      id: '123',
+      type: 'provider',
+      attributes: {
+        address: {},
+        caresitePhone: '202-555-1264',
+        name: 'Atlantic Medical Care',
+        lat: null,
+        long: null,
+        uniqueId: '123',
+      },
+    };
+    mockCCSingleProviderFetch(ccProvider);
+
+    const screen = renderWithStoreAndRouter(
+      <AppointmentList featureHomepageRefresh />,
+      {
+        initialState: {
+          featureToggles: {
+            ...initialState.featureToggles,
+            vaOnlineSchedulingVAOSServiceVAAppointments: true,
+            vaOnlineSchedulingVAOSServiceCCAppointments: true,
+          },
+        },
+      },
+    );
+
+    let detailLinks = await screen.findAllByRole('link', { name: /Detail/i });
+
+    // Select an appointment details link...
+    let detailLink = detailLinks.find(l => l.getAttribute('href') === url);
+    userEvent.click(detailLink);
+
+    // Verify page content...
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    expect(screen.getByText(/Community care/)).to.be.ok;
+    expect(screen.getByText(/Atlantic Medical Care/)).to.be.ok;
+    expect(
+      screen.getByRole('link', {
+        name: /2 0 2. 5 5 5. 1 2 6 4./,
+      }),
+    ).to.be.ok;
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: /Special instructions/,
+      }),
+    ).to.be.ok;
+    expect(screen.getByText(/test comment/)).to.be.ok;
+    expect(
+      screen.getByRole('link', {
+        name: `Add ${appointmentTime.format(
+          'MMMM D, YYYY',
+        )} appointment to your calendar`,
+      }),
+    ).to.be.ok;
+    expect(screen.getByText(/Print/)).to.be.ok;
+
+    // Verify back button works...
+    userEvent.click(screen.getByText(/VA online scheduling/i));
+    detailLinks = await screen.findAllByRole('link', { name: /Detail/i });
+    detailLink = detailLinks.find(a => a.getAttribute('href') === url);
+
+    // Go back to Appointment detail...
+    userEvent.click(detailLink);
+
+    // Verify page content...
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    // Verify breadcrumb links works...
+    const VAOSHomepageLink = await screen.findByRole('link', {
+      name: /VA online scheduling/,
+    });
+    userEvent.click(VAOSHomepageLink);
+    expect(await screen.findAllByText(/Detail/)).to.be.ok;
   });
 });
