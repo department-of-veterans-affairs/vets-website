@@ -110,7 +110,7 @@ class FacilityDetail extends Component {
     const isVBA = facilityType === FacilityType.VA_BENEFITS_FACILITY;
     return (
       <div>
-        <h1 ref={this.headerRef} tabIndex={0}>
+        <h1 ref={this.headerRef} tabIndex={-1}>
           {name}
         </h1>
         {this.showOperationStatus(operatingStatus, website, facilityType)}
