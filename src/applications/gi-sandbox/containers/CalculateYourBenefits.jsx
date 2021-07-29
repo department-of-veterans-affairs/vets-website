@@ -134,6 +134,7 @@ export function CalculateYourBenefits({
           profile={profile}
           calculator={inputs}
           isOJT={isOJT}
+          dispatchShowModal={dispatchShowModal}
         />
         {gibctEybBottomSheet && (
           <div>

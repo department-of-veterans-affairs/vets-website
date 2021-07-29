@@ -7,6 +7,7 @@ export default function LearnMoreLabel({
   onClick,
   text,
   buttonId,
+  bold,
 }) {
   let displayText = text && <React.Fragment>{text} </React.Fragment>;
   if (labelFor && text) {
@@ -25,7 +26,7 @@ export default function LearnMoreLabel({
       className="vads-u-margin--0 vads-u-display--inline-block "
       onClick={focusElement(labelFor)}
     >
-      {displayText}
+      {bold ? <strong>{displayText}</strong> : displayText}
       <span className="vads-u-margin--0 vads-u-display--inline-block ">
         (
         <button

@@ -2,8 +2,15 @@ import React from 'react';
 import classNames from 'classnames';
 import { createId } from '../../utils/helpers';
 import _ from 'lodash';
+import LearnMoreLabel from '../LearnMoreLabel';
 
-export default function EstimatedBenefits({ profile, outputs, calculator }) {
+export default function EstimatedBenefits({
+  profile,
+  outputs,
+  calculator,
+  isOJT,
+  dispatchShowModal,
+}) {
   const month = (
     <React.Fragment key="months">
       <span className="sr-only">per month</span>
@@ -47,7 +54,6 @@ export default function EstimatedBenefits({ profile, outputs, calculator }) {
     visible,
     screenReaderSpan,
     eybH4,
-    learnMore,
   }) =>
     visible ? (
       <li
@@ -63,9 +69,7 @@ export default function EstimatedBenefits({ profile, outputs, calculator }) {
         {header ? (
           <h4 className="small-6 columns">{label}:</h4>
         ) : (
-          <p className="small-6 columns vads-u-text-align--left">
-            {label} {learnMore && `(${<a>Learn More</a>})`} :
-          </p>
+          <p className="small-6 columns vads-u-text-align--left">{label}:</p>
         )}
         {header ? (
           <p
@@ -87,37 +91,52 @@ export default function EstimatedBenefits({ profile, outputs, calculator }) {
   const perTermSections = () => {
     const { perTerm } = outputs;
 
-    if (profile.attributes.type === 'OJT') {
+    if (isOJT) {
       delete perTerm.bookStipend;
     }
 
     const sections = Object.keys(perTerm).map(section => {
-      const { visible, title, learnMoreAriaLabel, terms } = outputs.perTerm[
-        section
-      ];
+      const {
+        visible,
+        title,
+        learnMoreAriaLabel,
+        terms,
+        zip,
+      } = outputs.perTerm[section];
       if (!visible) return null;
 
       const learnMoreLink = `http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#${section.toLowerCase()}`;
       const headerId = `${_.snakeCase(title)}_header`;
+
       return (
         <div key={section} className="per-term-section">
-          <div className="link-header">
-            <span id={headerId}>
-              <strong>{title}</strong>
-            </span>
-            <span className="vads-u-padding-left--2">
-              (
-              <a
-                href={learnMoreLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={learnMoreAriaLabel || ''}
-              >
-                Learn more
-              </a>
-              )
-            </span>
-          </div>
+          {outputs.perTerm[section].title === 'Housing allowance' && isOJT ? (
+            <LearnMoreLabel
+              text="Housing allowance"
+              onClick={() => dispatchShowModal('housingAllowanceOJT')}
+              ariaLabel="Learn more about how housing allowance is determined"
+              bold
+            />
+          ) : (
+            <div className="link-header">
+              <span id={headerId}>
+                <strong>{title}</strong>
+              </span>
+              <span className="vads-u-padding-left--2">
+                (
+                <a
+                  href={learnMoreLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={learnMoreAriaLabel || ''}
+                >
+                  {zip ? 'big dog ' : 'Learn more'}
+                </a>
+                )
+              </span>
+            </div>
+          )}
+
           {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
           <ul aria-labelledby={headerId} role="list">
             {terms.map(term => (
@@ -197,16 +216,23 @@ export default function EstimatedBenefits({ profile, outputs, calculator }) {
               visible={outputs.housingAllowance.visible}
               screenReaderSpan={month}
               bold
+              zip
             />
             <CalculatorResultRow
-              label="Book stipend"
+              label={
+                <LearnMoreLabel
+                  text="Book stipend"
+                  onClick={() => dispatchShowModal('bookStipendInfo')}
+                  ariaLabel="Learn more about the book stipend"
+                />
+              }
+              id={'beep'}
               value={outputs.bookStipend.value}
               visible={outputs.bookStipend.visible}
               screenReaderSpan={
                 profile.attributes.type === 'ojt' ? month : year
               }
               bold
-              learnMore
             />
             <CalculatorResultRow
               label="Total paid to you"
@@ -219,7 +245,7 @@ export default function EstimatedBenefits({ profile, outputs, calculator }) {
         <hr aria-hidden="true" />
         {perTermSections()}
       </div>
-      {profile.attributes.type === 'OJT' && (
+      {isOJT && (
         <div className="row">
           <div className="columns medium-1" />
           <div className="columns medium-6 vads-u-padding--0 vads-u-margin--0">
