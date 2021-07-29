@@ -57,7 +57,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Check Data
-        run: echo ${{fromJson(needs.job1.outputs.manifest)}}
+        run: echo ${{ needs.job1.outputs.manifest }}
 
       - name: Get Node version
         id: get-node-version
