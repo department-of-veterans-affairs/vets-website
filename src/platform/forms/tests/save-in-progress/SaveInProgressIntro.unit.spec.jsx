@@ -65,10 +65,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     expect(
       tree
-        .find('.saved-form-item-metadata')
+        .find('.usa-alert-heading')
         .last()
         .text(),
-    ).to.include(moment.unix(946684800).format('M/D/YYYY [at] h:mm a'));
+    ).to.include(moment.unix(946684800).format('MMMM D, YYYY [at] h:mm a'));
 
     expect(tree.find('.usa-alert').text()).to.contain(
       'Your application is in progress',
@@ -118,7 +118,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect(tree.find('h1.usa-alert-heading').text()).to.contain(
+    expect(tree.find('.usa-alert-heading').text()).to.contain(
       'Your application is in progress',
     );
     tree.unmount();
@@ -697,7 +697,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         prefillsAvailable: [],
       },
       login: {
-        currentlyLoggedIn: true,
+        currentlyLoggedIn: false,
         loginUrls: {
           idme: '/mockLoginUrl',
         },
@@ -728,8 +728,8 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         formConfig={emptyMessageConfig}
       />,
     );
-    expect(tree.find('.saved-form-item-metadata')).to.have.lengthOf(1);
-    expect(tree.find('.saved-form-metadata-container').text()).to.not.contain(
+    expect(tree.find('.usa-alert-heading')).to.have.lengthOf(1);
+    expect(tree.find('.usa-alert-heading').text()).to.not.contain(
       'Your application is in progress',
     );
 
