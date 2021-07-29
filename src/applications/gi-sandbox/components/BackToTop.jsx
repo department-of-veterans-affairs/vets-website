@@ -45,13 +45,19 @@ export default function BackToTop({ parentId, profilePageHeaderId, compare }) {
     };
   }, []);
 
-  useEffect(() => {
-    resize();
-  }, [floating]);
+  useEffect(
+    () => {
+      resize();
+    },
+    [floating],
+  );
 
-  useEffect(() => {
-    setCompareOpen(compare.open);
-  }, [compare.open]);
+  useEffect(
+    () => {
+      setCompareOpen(compare.open);
+    },
+    [compare.open],
+  );
 
   const backToTopClasses = classNames('back-to-top', {
     'back-to-top-floating': floating,

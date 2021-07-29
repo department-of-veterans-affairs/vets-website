@@ -133,4 +133,7 @@ const mapDispatchToProps = {
   dispatchCompareDrawerOpened: compareDrawerOpened,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CompareDrawer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CompareDrawer);

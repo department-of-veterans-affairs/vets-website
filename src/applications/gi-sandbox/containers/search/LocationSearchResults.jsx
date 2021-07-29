@@ -182,43 +182,46 @@ function LocationSearchResults({
     markers.current.push(currentMarkerElement);
   };
 
-  useEffect(() => {
-    markers.current.forEach(marker => marker.remove());
-    let visibleResults = [];
+  useEffect(
+    () => {
+      markers.current.forEach(marker => marker.remove());
+      let visibleResults = [];
 
-    if (!map.current || results.length === 0) {
-      if (!mapState.changed) {
-        map.current.setCenter([
-          MapboxInit.centerInit.longitude,
-          MapboxInit.centerInit.latitude,
-        ]);
-        map.current.zoomTo(MapboxInit.zoomInit, { duration: 300 });
+      if (!map.current || results.length === 0) {
+        if (!mapState.changed) {
+          map.current.setCenter([
+            MapboxInit.centerInit.longitude,
+            MapboxInit.centerInit.latitude,
+          ]);
+          map.current.zoomTo(MapboxInit.zoomInit, { duration: 300 });
+        }
+        setMapState({ changed: false, distance: null });
+        setUsedFilters(getFiltersChanged(filters));
+        setCardResults(visibleResults);
+        return;
+      } // wait for map to initialize
+
+      const locationBounds = !mapState.changed
+        ? new mapboxgl.LngLatBounds()
+        : null;
+
+      visibleResults = results.filter((institution, index) => {
+        return addMapMarker(institution, index, locationBounds);
+      });
+
+      if (locationBounds) {
+        if (streetAddress.searchString === location) {
+          currentLocationMapMarker(locationBounds);
+        }
+        map.current.fitBounds(locationBounds, { padding: 20 });
       }
-      setMapState({ changed: false, distance: null });
+
       setUsedFilters(getFiltersChanged(filters));
       setCardResults(visibleResults);
-      return;
-    } // wait for map to initialize
-
-    const locationBounds = !mapState.changed
-      ? new mapboxgl.LngLatBounds()
-      : null;
-
-    visibleResults = results.filter((institution, index) => {
-      return addMapMarker(institution, index, locationBounds);
-    });
-
-    if (locationBounds) {
-      if (streetAddress.searchString === location) {
-        currentLocationMapMarker(locationBounds);
-      }
-      map.current.fitBounds(locationBounds, { padding: 20 });
-    }
-
-    setUsedFilters(getFiltersChanged(filters));
-    setCardResults(visibleResults);
-    setMapState({ changed: false, distance: null });
-  }, [results]);
+      setMapState({ changed: false, distance: null });
+    },
+    [results],
+  );
 
   const resultCards = cardResults?.map((institution, index) => {
     const { distance } = institution;
