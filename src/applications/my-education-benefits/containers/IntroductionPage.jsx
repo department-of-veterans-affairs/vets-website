@@ -25,11 +25,11 @@ class IntroductionPage extends React.Component {
         <p>Equal to VA Form 22-1990 (My Education Benefits).</p>
         <HowToApplyPost911GiBill />
         <SaveInProgressIntro
+          testActionLink
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
-          startText="Start the Application"
-          testActionLink
+          startText="Start the education application"
         >
           Please complete the 22-1990 form to apply for my education benefits.
         </SaveInProgressIntro>
@@ -96,12 +96,16 @@ class IntroductionPage extends React.Component {
 
         <SaveInProgressIntro
           testActionLink
+          buttonOnly
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
-          startText="Start the Application"
+          startText="Start the education application"
         />
-        <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
+        <div
+          className="omb-info--container"
+          style={{ paddingLeft: '0px', marginTop: '4rem' }}
+        >
           <OMBInfo resBurden={15} ombNumber="2900-0154" expDate="02/28/2023" />
         </div>
       </div>
