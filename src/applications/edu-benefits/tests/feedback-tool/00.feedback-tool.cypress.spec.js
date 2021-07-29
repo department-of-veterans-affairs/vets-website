@@ -9,7 +9,7 @@ describe('Feedback Tool Test', () => {
     cy.intercept('GET', '/v0/gi_bill_feedbacks/1234', mockFeedbackGet);
 
     cy.visit('/education/submit-school-feedback');
-    cy.get('body').should('be.visible', { timeout: Timeouts.normal });
+    cy.get('body').should('be.visible');
     cy.get('.schemaform-title').should('be.visible', {
       timeout: Timeouts.slow,
     });
@@ -144,9 +144,7 @@ describe('Feedback Tool Test', () => {
       .invoke('attr', 'data-location')
       .should('not.contain', '/review-and-submit');
 
-    cy.get('.confirmation-page-title', { timeout: Timeouts.normal }).should(
-      'be.visible',
-    );
+    cy.get('.confirmation-page-title').should('be.visible');
     cy.axeCheck();
   });
 });

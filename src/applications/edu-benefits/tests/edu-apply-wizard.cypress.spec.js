@@ -5,26 +5,26 @@ describe('Education Application Wizard', () => {
     // Ensure education apply-wizard page renders.
     // Open education apply wizard
     cy.visit(`/education/how-to-apply/`)
-      .get('body', { timeout: Timeouts.normal })
+      .get('body')
       .should('be.visible');
     cy.injectAxeThenAxeCheck();
 
     cy.get('.wizard-button')
       .click()
-      .get('label[for="newBenefit-0"]', { timeout: Timeouts.normal })
+      .get('label[for="newBenefit-0"]')
       .should('be.visible');
     cy.axeCheck();
 
     // Create a new application
     cy.get('input[id="newBenefit-0"]')
       .click()
-      .get('label[for="serviceBenefitBasedOn-0"]', { timeout: Timeouts.normal })
+      .get('label[for="serviceBenefitBasedOn-0"]')
       .should('be.visible');
 
     // Select veteran
     cy.get('input[id="serviceBenefitBasedOn-0"]')
       .click()
-      .get('label[for="nationalCallToService-0"]', { timeout: Timeouts.normal })
+      .get('label[for="nationalCallToService-0"]')
       .should('be.visible');
 
     // Select national call to service
@@ -82,7 +82,7 @@ describe('Education Application Wizard', () => {
     // Select transfer
     cy.get('#sponsorTransferredBenefits-0')
       .click()
-      .get('#apply-now-link', { timeout: Timeouts.normal })
+      .get('#apply-now-link')
       .should('be.visible');
 
     cy.get('#apply-now-link')
@@ -94,7 +94,7 @@ describe('Education Application Wizard', () => {
     // Select non-transfer
     cy.get('#sponsorTransferredBenefits-1')
       .click()
-      .get('#apply-now-link', { timeout: Timeouts.normal })
+      .get('#apply-now-link')
       .should('be.visible');
 
     cy.get('#apply-now-link')
@@ -114,7 +114,7 @@ describe('Education Application Wizard', () => {
     // Select dependent
     cy.get('#transferredEduBenefits-2')
       .click()
-      .get('#apply-now-link', { timeout: Timeouts.normal })
+      .get('#apply-now-link')
       .should('be.visible');
     cy.get('main .usa-alert-warning').should('not.exist');
 
@@ -126,7 +126,7 @@ describe('Education Application Wizard', () => {
       );
     cy.get('#transferredEduBenefits-0')
       .click()
-      .get('#apply-now-link', { timeout: Timeouts.normal })
+      .get('#apply-now-link')
       .should('be.visible');
 
     cy.get('#apply-now-link')

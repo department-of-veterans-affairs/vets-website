@@ -147,9 +147,7 @@ if (!manifest.e2eTestsDisabled) {
         '/authorization-to-change-claimant-address',
       );
 
-      cy.get('.usa-button-primary', { timeout: Timeouts.normal }).should(
-        'be.visible',
-      );
+      cy.get('.usa-button-primary').should('be.visible');
       cy.get(
         '.progress-bar-segmented div.progress-segment:nth-child(6)',
       ).should('have.class', 'progress-segment-complete');
@@ -158,7 +156,7 @@ if (!manifest.e2eTestsDisabled) {
       cy.get('.usa-button-primary').click();
       cy.url().should('not.contain', '/review-and-submit');
 
-      cy.get('.confirmation-page-title', { timeout: Timeouts.normal });
+      cy.get('.confirmation-page-title');
       cy.axeCheck();
     });
   });

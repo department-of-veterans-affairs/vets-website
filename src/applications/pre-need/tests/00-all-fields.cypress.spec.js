@@ -27,7 +27,7 @@ describe('Pre-need test', () => {
     cy.visit(
       '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility',
     );
-    cy.get('body', { timeout: Timeouts.normal }).should('be.visible');
+    cy.get('body').should('be.visible');
     cy.title().should(
       'contain',
       'Apply online for pre-need determination of eligibility in a VA National Cemetery | Veterans Affairs',
@@ -356,7 +356,7 @@ describe('Pre-need test', () => {
         .invoke('attr', 'data-location')
         .should('not.contain', '/review-and-submit');
 
-      cy.get('.confirmation-page-title', { timeout: Timeouts.normal });
+      cy.get('.confirmation-page-title');
       cy.axeCheck();
     }
   });

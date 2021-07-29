@@ -41,9 +41,7 @@ describe('SIP Autosave Test', () => {
     cy.url().should('not.contain', '/introduction');
     cy.url().should('contain', '/veteran-information/birth-information');
 
-    cy.get('.schemaform-sip-save-link', { timeout: Timeouts.normal }).should(
-      'be.visible',
-    );
+    cy.get('.schemaform-sip-save-link').should('be.visible');
     cy.get('#root_veteranSocialSecurityNumber').should(
       'have.attr',
       'value',
@@ -53,22 +51,16 @@ describe('SIP Autosave Test', () => {
       'input[name="root_view:placeOfBirth_cityOfBirth"]',
       'Northhampton, MA',
     );
-    cy.get('.saved-success-container', { timeout: Timeouts.normal }).should(
-      'be.visible',
-    );
+    cy.get('.saved-success-container').should('be.visible');
     cy.get('.main .usa-button-primary').click();
-    cy.get('.schemaform-sip-save-link', { timeout: Timeouts.normal }).should(
-      'be.visible',
-    );
+    cy.get('.schemaform-sip-save-link').should('be.visible');
     cy.intercept('PUT', '/v0/in_progress_forms/1010ez', {
       statusCode: 500,
       body: {},
     });
 
     cy.fill('input[name="root_view:placeOfBirth_cityOfBirth"]', 'Amherst, MA');
-    cy.get('.usa-alert-error', { timeout: Timeouts.normal }).should(
-      'be.visible',
-    );
+    cy.get('.usa-alert-error').should('be.visible');
 
     cy.url().should('contain', 'birth-information');
     cy.get('.usa-alert-error').should(
@@ -107,13 +99,13 @@ describe('SIP Autosave Test', () => {
     // Can't recover from this because it logs you out and we'd have to log in again
 
     cy.get('.main .usa-button-primary').click();
-    cy.get('.schemaform-sip-save-link', { timeout: Timeouts.normal });
+    cy.get('.schemaform-sip-save-link');
     cy.intercept('PUT', '/v0/in_progress_forms/1010ez', {
       body: {},
       statusCode: 401,
     });
     cy.fill('input[name="root_view:placeOfBirth_cityOfBirth"]', 'Amherst, MA');
-    cy.get('.usa-alert-error', { timeout: Timeouts.normal });
+    cy.get('.usa-alert-error');
 
     cy.url().should('contain', 'birth-information');
 

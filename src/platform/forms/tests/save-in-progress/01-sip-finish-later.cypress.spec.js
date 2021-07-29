@@ -23,7 +23,7 @@ describe('SIP Finish Later', () => {
     cy.login();
 
     cy.visit('/health-care/apply/application');
-    cy.get('body', { timeout: Timeouts.normal }).should('be.visible');
+    cy.get('body').should('be.visible');
     cy.title().should('contain', 'Apply for Health Care | Veterans Affairs');
     cy.get('.usa-button-primary', { timeout: Timeouts.slow });
 
@@ -37,7 +37,7 @@ describe('SIP Finish Later', () => {
     cy.url().should('not.contain', '/introduction');
     cy.url().should('contain', '/veteran-information/birth-information');
 
-    cy.get('.schemaform-sip-save-link', { timeout: Timeouts.normal });
+    cy.get('.schemaform-sip-save-link');
     cy.get('#root_veteranSocialSecurityNumber').should(
       'have.attr',
       'value',
@@ -57,9 +57,7 @@ describe('SIP Finish Later', () => {
     cy.axeCheck();
 
     cy.get('.usa-button-primary').click();
-    cy.get('.schemaform-sip-save-link', { timeout: Timeouts.normal }).should(
-      'be.visible',
-    );
+    cy.get('.schemaform-sip-save-link').should('be.visible');
     cy.intercept('PUT', '/v0/in_progress_forms/1010ez', {
       body: {},
       statusCode: 500,
@@ -99,9 +97,9 @@ describe('SIP Finish Later', () => {
 
     // test start over, but all it really does is fetch the form again
     cy.get('.usa-button-secondary').click();
-    cy.get('.va-modal', { timeout: Timeouts.normal }).should('be.visible');
+    cy.get('.va-modal').should('be.visible');
     cy.get('.va-modal .usa-button-primary').click();
-    cy.get('.schemaform-chapter-progress', { timeout: Timeouts.normal });
+    cy.get('.schemaform-chapter-progress');
 
     cy.url().should('not.contain', 'form-saved');
     cy.url().should('contain', '/veteran-information/birth-information');
@@ -113,9 +111,6 @@ describe('SIP Finish Later', () => {
     }).as('401Form');
     cy.get('.schemaform-sip-save-link').click();
 
-    cy.get('.usa-alert-error', { timeout: Timeouts.normal }).should(
-      'contain',
-      "Sorry, you're signed out",
-    );
+    cy.get('.usa-alert-error').should('contain', "Sorry, you're signed out");
   });
 });

@@ -1,5 +1,3 @@
-import Timeouts from 'platform/testing/e2e/timeouts';
-
 describe('Unauthed User Flow Test', () => {
   it('Provides the correct experience', () => {
     const appPaths = [
@@ -11,8 +9,8 @@ describe('Unauthed User Flow Test', () => {
 
     appPaths.forEach(path => {
       cy.visit(path);
-      cy.get('body', { timeout: Timeouts.normal }).should('be.visible');
-      cy.get('.login', { timeout: Timeouts.normal }).should('be.visible');
+      cy.get('body').should('be.visible');
+      cy.get('.login').should('be.visible');
       cy.get('h1').should('contain', 'Sign in to VA.gov');
     });
   });

@@ -28,7 +28,7 @@ Cypress.Commands.add('fillRatings', input => {
       cy.addRatingRow();
     }
 
-    cy.get(`${getCurrRowClass()} .ratingInput`, { timeout: Timeouts.normal })
+    cy.get(`${getCurrRowClass()} .ratingInput`)
       .should('be.visible')
       .then(ratingInput => {
         cy.wrap(ratingInput)
@@ -41,7 +41,7 @@ Cypress.Commands.add('fillRatings', input => {
 Cypress.Commands.add('addRatingRow', () => {
   const addRowBtnSelector = 'button[data-e2e=add]';
 
-  cy.get(addRowBtnSelector, { timeout: Timeouts.normal })
+  cy.get(addRowBtnSelector)
     .should('be.visible')
     .then(btn => {
       cy.wrap(btn).click();
@@ -64,24 +64,22 @@ describe('Disability Rating Calculator', () => {
     cy.get(componentSelector).should('be.visible');
     cy.injectAxeThenAxeCheck();
     cy.fillRatings(rowDeletionTestInput);
-    cy.get(`.row-3 ${deleteRowBtnSelector}`, { timeout: Timeouts.normal })
+    cy.get(`.row-3 ${deleteRowBtnSelector}`)
       .should('be.visible')
       .then(btn => {
         cy.wrap(btn).click();
       });
     cy.get(inputSelector).should('have.length', 2);
-    cy.get(clearBtnSelector, { timeout: Timeouts.normal })
+    cy.get(clearBtnSelector)
       .should('be.visible')
       .then(btn => {
         cy.wrap(btn).click();
       });
 
     for (const input of inputs) {
-      cy.get('.rating.row-2', { timeout: Timeouts.normal }).should(
-        'be.visible',
-      );
+      cy.get('.rating.row-2').should('be.visible');
       cy.fillRatings(input);
-      cy.get(calculateBtnSelector, { timeout: Timeouts.normal })
+      cy.get(calculateBtnSelector)
         .should('be.visible')
         .then(btn => {
           cy.wrap(btn).click();
@@ -99,7 +97,7 @@ describe('Disability Rating Calculator', () => {
         }
       });
 
-      cy.get(clearBtnSelector, { timeout: Timeouts.normal })
+      cy.get(clearBtnSelector)
         .should('be.visible')
         .then(btn => {
           cy.wrap(btn).click();

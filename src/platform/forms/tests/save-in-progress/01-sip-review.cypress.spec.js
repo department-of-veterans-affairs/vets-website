@@ -35,7 +35,7 @@ describe('SIP Review Test', () => {
           .first()
           .click();
         cy.fill('input[name="root_veteranFullName_first"]', 'Jane');
-        cy.get('.saved-success-container', { timeout: Timeouts.normal });
+        cy.get('.saved-success-container');
       });
 
     cy.get('.schemaform-sip-save-link').click();
@@ -45,12 +45,12 @@ describe('SIP Review Test', () => {
       .and('contain', 'form-saved');
 
     cy.visit(reviewUrl);
-    cy.get('body', { timeout: Timeouts.normal });
+    cy.get('body');
     cy.intercept('PUT', '/v0/in_progress_forms/1010ez', {
       body: {},
       statusCode: 500,
     });
-    cy.get('.schemaform-sip-save-link', { timeout: Timeouts.normal })
+    cy.get('.schemaform-sip-save-link')
       .should('be.visible')
       .then(link => {
         cy.wrap(link).click();

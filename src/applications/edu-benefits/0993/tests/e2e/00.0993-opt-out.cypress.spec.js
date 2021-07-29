@@ -38,7 +38,7 @@ describe('Opt Out Test', () => {
     })
       .should('be.visible')
       .then(() => {
-        cy.get('input[type="checkbox"]', { timeout: Timeouts.normal })
+        cy.get('input[type="checkbox"]')
           .should('exist')
           .then(checkbox => {
             cy.wrap(checkbox).click();

@@ -10,12 +10,12 @@ Cypress.Commands.add('testStatus', (page, url) => {
 
   cy.get('main a.usa-button-primary').should('have.attr', 'href', url);
 
-  cy.get('.usa-button-secondary', { timeout: Timeouts.normal })
+  cy.get('.usa-button-secondary')
     .should('exist')
     .then(button => {
       cy.wrap(button).click();
     });
-  cy.get('#start-over-modal-title', { timeout: Timeouts.normal }).should(
+  cy.get('#start-over-modal-title').should(
     'contain',
     'Starting over will delete your in-progress application.',
   );

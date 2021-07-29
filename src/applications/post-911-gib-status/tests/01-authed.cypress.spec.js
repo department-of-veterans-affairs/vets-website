@@ -18,7 +18,7 @@ describe('Gibs Test', () => {
     }).as('featureToggles');
 
     cy.visit('/education/gi-bill/post-9-11/ch-33-benefit');
-    cy.get('body', { timeout: Timeouts.normal }).should('be.visible');
+    cy.get('body').should('be.visible');
     cy.injectAxeThenAxeCheck();
     cy.get('.usa-button-primary.va-button-primary', {
       timeout: Timeouts.slow,

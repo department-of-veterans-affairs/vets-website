@@ -270,7 +270,7 @@ describe('Burial claim test', () => {
     cy.get('label[name="privacyAgreementAccepted-label"]', {
       timeout: Timeouts.slow,
     }).should('be.visible');
-    cy.get('input[type="checkbox"]', { timeout: Timeouts.normal }).click({
+    cy.get('input[type="checkbox"]').click({
       force: true,
     });
     cy.axeCheck();
@@ -279,7 +279,7 @@ describe('Burial claim test', () => {
     cy.get('.js-test-location', { timeout: Timeouts.slow })
       .invoke('attr', 'data-location')
       .should('not.contain', '/review-and-submit');
-    cy.get('.confirmation-page-title', { timeout: Timeouts.normal });
+    cy.get('.confirmation-page-title');
     cy.axeCheck();
   });
 });

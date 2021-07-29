@@ -57,14 +57,14 @@ describe('SIP Load Fail Test', () => {
 
     // fail to find in progress form
     cy.visit('/health-care/apply/application');
-    cy.get('body', { timeout: Timeouts.normal });
+    cy.get('body');
 
     cy.intercept('GET', '/v0/in_progress_forms/1010ez', {
       body: {},
       statusCode: 404,
     });
 
-    cy.get('.main .usa-button-primary', { timeout: Timeouts.normal });
+    cy.get('.main .usa-button-primary');
     cy.get('.main .usa-button-primary')
       .first()
       .click();
@@ -77,16 +77,14 @@ describe('SIP Load Fail Test', () => {
     );
 
     cy.visit('/health-care/apply/application');
-    cy.get('body', { timeout: Timeouts.normal });
+    cy.get('body');
 
     cy.intercept('GET', '/v0/in_progress_forms/1010ez', {
       body: {},
       statusCode: 401,
     });
 
-    cy.get('.main .usa-button-primary', { timeout: Timeouts.normal }).should(
-      'exist',
-    );
+    cy.get('.main .usa-button-primary').should('exist');
     cy.get('.main .usa-button-primary')
       .first()
       .click();
