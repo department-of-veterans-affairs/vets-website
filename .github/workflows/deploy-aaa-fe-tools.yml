@@ -39,7 +39,7 @@ jobs:
   build:
     name: Build
     runs-on: self-hosted
-    needs: consume-manifest
+    needs: job1
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
