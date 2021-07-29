@@ -619,6 +619,9 @@ jobs:
         run: git add .
         working-directory: testing-reports
 
+      - name: Pull any changes since checkout
+        run: git pull origin master
+
       - name: Commit and push changes
         uses: actions-js/push@master
         with:
