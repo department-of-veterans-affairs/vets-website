@@ -25,12 +25,16 @@ const selectors = {
 };
 
 describe('Downtime Notification Test', () => {
-  it('Shows the correct notification in all scenarios', () => {
+  beforeEach(() => {
     cy.visit('/find-locations');
     FacilityHelpers.initApplicationMock();
+  });
+  it('Shows the facility locator as normal', () => {
     cy.createDowntimeNotificationIntercept([]);
     cy.reload();
     cy.get(selectors.app, { timeout: Timeouts.slow }).should('be.visible');
+  });
+  it('Correctly displays that downtime is approaching', () => {
     cy.createDowntimeNotificationIntercept([
       {
         id: '139',
@@ -47,6 +51,8 @@ describe('Downtime Notification Test', () => {
     cy.get(selectors.statusDownApproachingModal, {
       timeout: Timeouts.slow,
     }).should('be.visible');
+  });
+  it('Correctly shows that the tool is down for maintenance', () => {
     cy.createDowntimeNotificationIntercept([
       {
         id: '139',

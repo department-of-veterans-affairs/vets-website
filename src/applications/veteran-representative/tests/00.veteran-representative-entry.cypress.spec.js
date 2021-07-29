@@ -17,8 +17,6 @@ if (!manifest.e2eTestsDisabled) {
         .first()
         .click();
 
-      // override vets gov api
-
       cy.url().should('not.contain', '/introduction');
 
       cy.get('input[name="root_veteranFullName_first"]', {

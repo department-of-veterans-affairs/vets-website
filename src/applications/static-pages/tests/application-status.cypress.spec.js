@@ -1,6 +1,5 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
-
-const VA_FORM_IDS = require('platform/forms/constants').VA_FORM_IDS;
+import mockUser from './fixtures/mocks/mockUser';
 
 Cypress.Commands.add('testStatus', (page, url) => {
   cy.visit(page);
@@ -26,68 +25,7 @@ Cypress.Commands.add('testStatus', (page, url) => {
 describe('Application Status Test', () => {
   it('Achieves the correct result per URL', () => {
     cy.login();
-    /* eslint-disable camelcase */
-    cy.intercept('GET', '/v0/user', {
-      data: {
-        attributes: {
-          profile: {
-            sign_in: {
-              service_name: 'idme',
-            },
-            email: 'fake@fake.com',
-            loa: { current: 3 },
-            first_name: 'Jane',
-            middle_name: '',
-            last_name: 'Doe',
-            gender: 'F',
-            birth_date: '1985-01-01',
-            verified: true,
-          },
-          veteran_status: {
-            status: 'OK',
-            is_veteran: true,
-          },
-          in_progress_forms: [
-            {
-              form: VA_FORM_IDS.FORM_10_10EZ,
-              metadata: {},
-            },
-            {
-              form: VA_FORM_IDS.FORM_22_1995,
-              metadata: {},
-            },
-            {
-              form: VA_FORM_IDS.FORM_21P_530,
-              metadata: {},
-            },
-            {
-              form: VA_FORM_IDS.FORM_21P_527EZ,
-              metadata: {},
-            },
-          ],
-          prefills_available: [],
-          services: [
-            'facilities',
-            'hca',
-            'edu-benefits',
-            'evss-claims',
-            'user-profile',
-            'rx',
-            'messaging',
-          ],
-          va_profile: {
-            status: 'OK',
-            birth_date: '19511118',
-            family_name: 'Hunter',
-            gender: 'M',
-            given_names: ['Julio', 'E'],
-            active_status: 'active',
-          },
-        },
-      },
-      meta: { errors: null },
-    });
-    /* eslint-enable camelcase */
+    cy.intercept('GET', '/v0/user', mockUser);
     cy.testStatus(
       '/health-care/how-to-apply/',
       '/health-care/apply/application/resume',
