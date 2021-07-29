@@ -59,9 +59,10 @@ jobs:
             read -a app <<< "$changed_file"
             echo ${app[2]}
             JSON=$(cat ./src/applications/${app[2]}/manifest.json)
-            MANIFEST=${JSON//'%'/'%25'}
-            appName=fromJson(${MANIFEST}).appName
-            echo $appName
+            echo ${JSON}
+            # MANIFEST=${JSON//'%'/'%25'}
+            # appName=fromJson(${MANIFEST}).appName
+            # echo $appName
           done
 
   build:
