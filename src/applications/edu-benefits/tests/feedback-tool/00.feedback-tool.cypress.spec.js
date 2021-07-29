@@ -17,9 +17,6 @@ describe('Feedback Tool Test', () => {
       .first()
       .click();
 
-    // override vets api
-    // override scrolling
-
     cy.url().should('not.contain', '/introduction');
 
     // Applicant relationship
