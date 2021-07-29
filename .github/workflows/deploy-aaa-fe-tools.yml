@@ -25,19 +25,20 @@ jobs:
     runs-on: ubuntu-latest
     needs: get-changed-files
     outputs:
-      manifest: ${{ steps.set-matrix.outputs.matrix }}
+      MANIFEST: ${{ env.MANIFEST }}
     steps:
     - name: Checkout
       uses: actions/checkout@v2
 
+# echo ::set-output name=manifest::${JSON//'%'/'%25'}
     - name: Get Application Manifest.
       id: set-matrix
       run: |
         JSON=$(cat ./src/applications/${{ env.APP_NAME }}/manifest.json)
-        echo ::set-output name=manifest::${JSON//'%'/'%25'}
+        echo "MANIFEST=${JSON//'%'/'%25'}" >> $GITHUB_ENV
 
     - name: test echo
-      run: echo ${{ steps.set-matrix.outputs.manifest }}
+      run: echo ${{ env.MANIFEST }}
 
   build:
     name: Build
