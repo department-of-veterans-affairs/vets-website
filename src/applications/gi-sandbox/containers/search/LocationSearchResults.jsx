@@ -38,12 +38,19 @@ function LocationSearchResults({
   const { location, streetAddress } = search.query;
   const map = useRef(null);
   const mapContainer = useRef(null);
-  const markers = useRef([]);
+  const [markers, setMarkers] = useState([]);
   const [mapState, setMapState] = useState({ changed: false, distance: null });
   const [usedFilters, setUsedFilters] = useState(filtersChanged);
   const [cardResults, setCardResults] = useState(null);
   const [mobileTab, setMobileTab] = useState(LIST_TAB);
   const [mobileMarkerClicked, setMobileMarkerClicked] = useState(null);
+
+  useEffect(
+    () => {
+      setUsedFilters(getFiltersChanged(filters));
+    },
+    [filters],
+  );
 
   /**
    * When map is moved update distance from center to NorthEast corner
@@ -185,8 +192,9 @@ function LocationSearchResults({
    * @param institution
    * @param index
    * @param locationBounds
+   * @param mapMarkers
    */
-  const addMapMarker = (institution, index, locationBounds) => {
+  const addMapMarker = (institution, index, locationBounds, mapMarkers) => {
     const { latitude, longitude, name } = institution;
     const lngLat = new mapboxgl.LngLat(longitude, latitude);
 
@@ -215,7 +223,7 @@ function LocationSearchResults({
       .setPopup(popup)
       .addTo(map.current);
 
-    markers.current.push(markerElement);
+    mapMarkers.push(markerElement);
   };
 
   /**
@@ -244,8 +252,9 @@ function LocationSearchResults({
    */
   useEffect(
     () => {
-      markers.current.forEach(marker => marker.remove());
+      markers.forEach(marker => marker.remove());
       let visibleResults = [];
+      const mapMarkers = [];
 
       if (smallScreen) {
         visibleResults = results;
@@ -263,8 +272,8 @@ function LocationSearchResults({
       // wait for map to initialize or no results are returned
       if (!map.current || results.length === 0) {
         setMapState({ changed: false, distance: null });
-        setUsedFilters(getFiltersChanged(filters));
         setCardResults(visibleResults);
+        setMarkers(mapMarkers);
         return;
       }
 
@@ -276,7 +285,7 @@ function LocationSearchResults({
         markerIsVisible(institution),
       );
       visibleResults.forEach((institution, index) =>
-        addMapMarker(institution, index, locationBounds),
+        addMapMarker(institution, index, locationBounds, mapMarkers),
       );
 
       if (locationBounds) {
@@ -286,9 +295,9 @@ function LocationSearchResults({
         map.current.fitBounds(locationBounds, { padding: 20 });
       }
 
-      setUsedFilters(getFiltersChanged(filters));
       setCardResults(visibleResults);
       setMapState({ changed: false, distance: null });
+      setMarkers(mapMarkers);
     },
     [results, smallScreen, mobileTab],
   );
