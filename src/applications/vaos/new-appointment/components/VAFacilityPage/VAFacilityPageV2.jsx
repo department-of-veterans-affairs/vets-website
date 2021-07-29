@@ -98,7 +98,7 @@ export default function VAFacilityPageV2() {
   if (singleValidVALocation) {
     pageTitle = 'Your appointment location';
   } else if (showVariant) {
-    pageTitle = 'Choose a VA Location';
+    pageTitle = 'Choose a VA location';
   } else {
     pageTitle = `Choose a VA location for your ${lowerCase(
       typeOfCare?.name,
@@ -114,35 +114,26 @@ export default function VAFacilityPageV2() {
     dispatch(openFacilityPageV2(pageKey, uiSchema, initialSchema));
   }, []);
 
-  useEffect(
-    () => {
-      scrollAndFocus();
-    },
-    [isLoading],
-  );
+  useEffect(() => {
+    scrollAndFocus();
+  }, [isLoading]);
 
   const previouslyShowingModal = usePrevious(showEligibilityModal);
-  useEffect(
-    () => {
-      if (!showEligibilityModal && previouslyShowingModal) {
-        scrollAndFocus('.usa-button-primary');
-      }
-    },
-    [showEligibilityModal, previouslyShowingModal],
-  );
+  useEffect(() => {
+    if (!showEligibilityModal && previouslyShowingModal) {
+      scrollAndFocus('.usa-button-primary');
+    }
+  }, [showEligibilityModal, previouslyShowingModal]);
 
-  useEffect(
-    () => {
-      if (requestingLocation) {
-        scrollAndFocus('.loading-indicator');
-      } else if (requestLocationStatus === FETCH_STATUS.failed) {
-        scrollAndFocus('va-alert');
-      } else {
-        scrollAndFocus(sortFocusEl);
-      }
-    },
-    [requestingLocation, requestLocationStatus, showVariant, sortFocusEl],
-  );
+  useEffect(() => {
+    if (requestingLocation) {
+      scrollAndFocus('.loading-indicator');
+    } else if (requestLocationStatus === FETCH_STATUS.failed) {
+      scrollAndFocus('va-alert');
+    } else {
+      scrollAndFocus(sortFocusEl);
+    }
+  }, [requestingLocation, requestLocationStatus, showVariant, sortFocusEl]);
 
   const pageHeader = <h1 className="vads-u-font-size--h2">{pageTitle}</h1>;
 
@@ -256,32 +247,32 @@ export default function VAFacilityPageV2() {
             ' Locations closest to you are at the top of the list.'}
         </p>
       )}
-      {sortByDistanceFromResidential &&
-        (!requestingLocation && !showVariant) && (
-          <>
-            <ResidentialAddress address={address} />
-            {requestLocationStatus !== FETCH_STATUS.failed && (
-              <p>
-                Or,{' '}
-                <button
-                  className="va-button-link sort-facility-button"
-                  onClick={() => {
-                    dispatch(
-                      updateFacilitySortMethod(
-                        FACILITY_SORT_METHODS.distanceFromCurrentLocation,
-                        uiSchema,
-                      ),
-                    );
-                  }}
-                >
-                  use your current location
-                </button>
-              </p>
-            )}
-          </>
-        )}
+      {sortByDistanceFromResidential && !requestingLocation && !showVariant && (
+        <>
+          <ResidentialAddress address={address} />
+          {requestLocationStatus !== FETCH_STATUS.failed && (
+            <p>
+              Or,{' '}
+              <button
+                className="va-button-link sort-facility-button"
+                onClick={() => {
+                  dispatch(
+                    updateFacilitySortMethod(
+                      FACILITY_SORT_METHODS.distanceFromCurrentLocation,
+                      uiSchema,
+                    ),
+                  );
+                }}
+              >
+                use your current location
+              </button>
+            </p>
+          )}
+        </>
+      )}
       {sortByDistanceFromCurrentLocation &&
-        (!requestingLocation && !showVariant) && (
+        !requestingLocation &&
+        !showVariant && (
           <>
             <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
               Facilities based on your location
@@ -304,75 +295,73 @@ export default function VAFacilityPageV2() {
             </p>
           </>
         )}
-      {!showVariant &&
-        requestLocationStatus === FETCH_STATUS.failed && (
-          <div className="vads-u-padding-bottom--3">
-            <InfoAlert
-              status="warning"
-              headline="Your browser is blocked from finding your current location."
-              className="vads-u-background-color--gold-lightest vads-u-font-size--base"
-              level="3"
-            >
-              <p>
-                Make sure your browser’s location feature is turned on. If it
-                isn’t enabled, we’ll sort your VA facilities using your home
-                address that’s on file.
-              </p>
-            </InfoAlert>
-          </div>
-        )}
+      {!showVariant && requestLocationStatus === FETCH_STATUS.failed && (
+        <div className="vads-u-padding-bottom--3">
+          <InfoAlert
+            status="warning"
+            headline="Your browser is blocked from finding your current location."
+            className="vads-u-background-color--gold-lightest vads-u-font-size--base"
+            level="3"
+          >
+            <p>
+              Make sure your browser’s location feature is turned on. If it
+              isn’t enabled, we’ll sort your VA facilities using your home
+              address that’s on file.
+            </p>
+          </InfoAlert>
+        </div>
+      )}
       {requestingLocation && (
         <div className="vads-u-padding-bottom--2">
           <LoadingIndicator message="Finding your location. Be sure to allow your browser to find your current location." />
         </div>
       )}
-      {childFacilitiesStatus === FETCH_STATUS.succeeded &&
-        !requestingLocation && (
-          <SchemaForm
-            name="VA Facility"
-            title="VA Facility"
-            schema={schema}
-            uiSchema={uiSchema}
-            onChange={newData =>
-              dispatch(updateFormData(pageKey, uiSchema, newData))
+      {childFacilitiesStatus === FETCH_STATUS.succeeded && !requestingLocation && (
+        <SchemaForm
+          name="VA Facility"
+          title="VA Facility"
+          schema={schema}
+          uiSchema={uiSchema}
+          onChange={newData =>
+            dispatch(updateFormData(pageKey, uiSchema, newData))
+          }
+          onSubmit={() => {
+            if (showVariant) {
+              recordEvent({
+                event: `${GA_PREFIX}-variant-final-${sortMethod}`,
+              });
             }
-            onSubmit={() => {
-              if (showVariant) {
-                recordEvent({
-                  event: `${GA_PREFIX}-variant-final-${sortMethod}`,
-                });
-              }
-              dispatch(routeToNextAppointmentPage(history, pageKey));
-            }}
-            formContext={{
-              hasUserAddress,
-              sortOptions,
-              updateFacilitySortMethod: value =>
-                dispatch(updateFacilitySortMethod(value, uiSchema)),
-            }}
-            data={data}
-          >
-            <FacilitiesNotShown
-              facilities={facilities}
-              sortMethod={sortMethod}
-              typeOfCareId={typeOfCare?.id}
-              cernerSiteIds={cernerSiteIds}
-            />
-            <FormButtons
-              continueLabel=""
-              pageChangeInProgress={pageChangeInProgress}
-              onBack={() =>
-                dispatch(routeToPreviousAppointmentPage(history, pageKey))
-              }
-              disabled={
-                loadingFacilities ||
-                loadingEligibility ||
-                (schema.properties.vaFacility.enum?.length === 1 &&
-                  !canScheduleAtChosenFacility)
-              }
-            />
-          </SchemaForm>
-        )}
+            dispatch(routeToNextAppointmentPage(history, pageKey));
+          }}
+          formContext={{
+            hasUserAddress,
+            sortOptions,
+            updateFacilitySortMethod: value =>
+              dispatch(updateFacilitySortMethod(value, uiSchema)),
+          }}
+          data={data}
+        >
+          <FacilitiesNotShown
+            facilities={facilities}
+            sortMethod={sortMethod}
+            typeOfCareId={typeOfCare?.id}
+            cernerSiteIds={cernerSiteIds}
+          />
+          <FormButtons
+            continueLabel=""
+            pageChangeInProgress={pageChangeInProgress}
+            onBack={() =>
+              dispatch(routeToPreviousAppointmentPage(history, pageKey))
+            }
+            disabled={
+              loadingFacilities ||
+              loadingEligibility ||
+              (schema.properties.vaFacility.enum?.length === 1 &&
+                !canScheduleAtChosenFacility)
+            }
+          />
+        </SchemaForm>
+      )}
 
       <LoadingOverlay
         show={loadingEligibility}

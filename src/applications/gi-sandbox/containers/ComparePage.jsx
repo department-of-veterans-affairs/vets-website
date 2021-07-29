@@ -36,6 +36,10 @@ import CompareGrid from '../components/CompareGrid';
 import RatingsStars from '../components/RatingsStars';
 import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal';
 import { MINIMUM_RATING_COUNT } from '../constants';
+import Scroll from 'react-scroll';
+import { getScrollOptions } from 'platform/utilities/ui';
+
+const scroll = Scroll.animateScroll;
 
 export function ComparePage({
   allLoaded,
@@ -59,14 +63,11 @@ export function ComparePage({
   const institutionCount = loaded.length;
   const history = useHistory();
 
-  useEffect(
-    () => {
-      if (!allLoaded) {
-        dispatchFetchCompareDetails(selected, filters, version);
-      }
-    },
-    [loaded, selected],
-  );
+  useEffect(() => {
+    if (!allLoaded) {
+      dispatchFetchCompareDetails(selected, filters, version);
+    }
+  }, [loaded, selected]);
 
   const toggleSticky = useCallback(
     offset => {
@@ -91,18 +92,19 @@ export function ComparePage({
     [isSticky, initialTop],
   );
 
-  useLayoutEffect(
-    () => {
-      const handleScroll = () => {
-        toggleSticky(window.pageYOffset);
-      };
-      window.addEventListener('scroll', handleScroll);
-      return () => {
-        window.removeEventListener('scroll', handleScroll);
-      };
-    },
-    [headerRef, toggleSticky],
-  );
+  useEffect(() => {
+    scroll.scrollToTop(getScrollOptions());
+  }, []);
+
+  useLayoutEffect(() => {
+    const handleScroll = () => {
+      toggleSticky(window.pageYOffset);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [headerRef, toggleSticky]);
 
   if (error) {
     return <ServiceError />;
@@ -395,175 +397,170 @@ export function ComparePage({
             ]}
           />
 
-          {gibctSchoolRatings &&
-            hasRatings && (
-              <>
-                <CompareGrid
-                  sectionLabel="School ratings"
-                  institutions={loadedInstitutions}
-                  showDifferences={showDifferences}
-                  fieldData={[
-                    {
-                      label: 'Overall rating',
-                      className: 'vads-u-text-align--center',
-                      mapper: institution => {
-                        const stars = convertRatingToStars(
-                          institution.ratingAverage,
-                        );
-                        const aboveMinimumRatingCount =
-                          institution.ratingCount >= MINIMUM_RATING_COUNT;
+          {gibctSchoolRatings && hasRatings && (
+            <>
+              <CompareGrid
+                sectionLabel="School ratings"
+                institutions={loadedInstitutions}
+                showDifferences={showDifferences}
+                fieldData={[
+                  {
+                    label: 'Overall rating',
+                    className: 'vads-u-text-align--center',
+                    mapper: institution => {
+                      const stars = convertRatingToStars(
+                        institution.ratingAverage,
+                      );
+                      const aboveMinimumRatingCount =
+                        institution.ratingCount >= MINIMUM_RATING_COUNT;
 
-                        return (
-                          <div className="vads-u-display--inline-block vads-u-text-align--center main-rating">
-                            <div className="vads-u-font-weight--bold vads-u-font-size--2xl vads-u-font-family--serif">
-                              {aboveMinimumRatingCount &&
-                                stars &&
-                                stars.display}
-                              {(!aboveMinimumRatingCount || !stars) && (
-                                <span>N/A</span>
-                              )}
-                            </div>
-                            <div className="vads-u-font-size--sm vads-u-padding-bottom--1">
-                              {aboveMinimumRatingCount &&
-                                stars && <span>out of a possible 5 stars</span>}
-                              {(!aboveMinimumRatingCount || !stars) && (
-                                <span>not yet rated</span>
-                              )}
-                            </div>
-                            {aboveMinimumRatingCount &&
-                              stars && (
-                                <div className="vads-u-font-size--lg">
-                                  <RatingsStars
-                                    rating={institution.ratingAverage}
-                                  />
-                                </div>
-                              )}
+                      return (
+                        <div className="vads-u-display--inline-block vads-u-text-align--center main-rating">
+                          <div className="vads-u-font-weight--bold vads-u-font-size--2xl vads-u-font-family--serif">
+                            {aboveMinimumRatingCount && stars && stars.display}
+                            {(!aboveMinimumRatingCount || !stars) && (
+                              <span>N/A</span>
+                            )}
                           </div>
-                        );
-                      },
+                          <div className="vads-u-font-size--sm vads-u-padding-bottom--1">
+                            {aboveMinimumRatingCount && stars && (
+                              <span>out of a possible 5 stars</span>
+                            )}
+                            {(!aboveMinimumRatingCount || !stars) && (
+                              <span>not yet rated</span>
+                            )}
+                          </div>
+                          {aboveMinimumRatingCount && stars && (
+                            <div className="vads-u-font-size--lg">
+                              <RatingsStars
+                                rating={institution.ratingAverage}
+                              />
+                            </div>
+                          )}
+                        </div>
+                      );
                     },
-                    {
-                      label: '# of Veteran ratings',
-                      className: 'vads-u-text-align--center',
-                      mapper: institution =>
-                        institution.ratingCount >= MINIMUM_RATING_COUNT
-                          ? institution.ratingCount
-                          : '0',
-                    },
-                  ]}
-                />
+                  },
+                  {
+                    label: '# of Veteran ratings',
+                    className: 'vads-u-text-align--center',
+                    mapper: institution =>
+                      institution.ratingCount >= MINIMUM_RATING_COUNT
+                        ? institution.ratingCount
+                        : '0',
+                  },
+                ]}
+              />
 
-                <CompareGrid
-                  subSectionLabel="Education ratings"
-                  institutions={loadedInstitutions}
-                  showDifferences={showDifferences}
-                  fieldData={[
-                    {
-                      label: 'Overall experience',
-                      mapper: institution =>
-                        mapRating(institution, 'overall_experience'),
-                    },
-                    {
-                      label: 'Quality of classes',
-                      mapper: institution =>
-                        mapRating(institution, 'quality_of_classes'),
-                    },
-                    {
-                      label: 'Online instruction',
-                      mapper: institution =>
-                        mapRating(institution, 'online_instruction'),
-                    },
-                    {
-                      label: 'Job preparation',
-                      mapper: institution =>
-                        mapRating(institution, 'job_preparation'),
-                    },
-                  ]}
-                />
+              <CompareGrid
+                subSectionLabel="Education ratings"
+                institutions={loadedInstitutions}
+                showDifferences={showDifferences}
+                fieldData={[
+                  {
+                    label: 'Overall experience',
+                    mapper: institution =>
+                      mapRating(institution, 'overall_experience'),
+                  },
+                  {
+                    label: 'Quality of classes',
+                    mapper: institution =>
+                      mapRating(institution, 'quality_of_classes'),
+                  },
+                  {
+                    label: 'Online instruction',
+                    mapper: institution =>
+                      mapRating(institution, 'online_instruction'),
+                  },
+                  {
+                    label: 'Job preparation',
+                    mapper: institution =>
+                      mapRating(institution, 'job_preparation'),
+                  },
+                ]}
+              />
 
-                <CompareGrid
-                  subSectionLabel="Veteran friendliness"
-                  institutions={loadedInstitutions}
-                  showDifferences={showDifferences}
-                  fieldData={[
-                    {
-                      label: 'GI Bill support',
-                      mapper: institution =>
-                        mapRating(institution, 'gi_bill_support'),
-                    },
-                    {
-                      label: 'Veteran community',
-                      mapper: institution =>
-                        mapRating(institution, 'veteran_community'),
-                    },
-                    {
-                      label: 'True to expectations',
-                      mapper: institution =>
-                        mapRating(institution, 'marketing_practices'),
-                    },
-                  ]}
-                />
+              <CompareGrid
+                subSectionLabel="Veteran friendliness"
+                institutions={loadedInstitutions}
+                showDifferences={showDifferences}
+                fieldData={[
+                  {
+                    label: 'GI Bill support',
+                    mapper: institution =>
+                      mapRating(institution, 'gi_bill_support'),
+                  },
+                  {
+                    label: 'Veteran community',
+                    mapper: institution =>
+                      mapRating(institution, 'veteran_community'),
+                  },
+                  {
+                    label: 'True to expectations',
+                    mapper: institution =>
+                      mapRating(institution, 'marketing_practices'),
+                  },
+                ]}
+              />
 
-                <CompareGrid
-                  sectionLabel="Cautionary information"
-                  institutions={loadedInstitutions}
-                  fieldData={[
-                    {
-                      label: 'Caution flags',
-                      className: institution =>
-                        classNames('caution-flag-display', {
-                          none: institution.cautionFlags.length === 0,
-                        }),
-                      mapper: institution => {
-                        const hasFlags = institution.cautionFlags.length > 0;
-                        return (
-                          <div className="vads-u-display--flex">
-                            <div className="caution-flag-icon vads-u-flex--1">
-                              {!hasFlags && <i className={`fa fa-check`} />}
+              <CompareGrid
+                sectionLabel="Cautionary information"
+                institutions={loadedInstitutions}
+                fieldData={[
+                  {
+                    label: 'Caution flags',
+                    className: institution =>
+                      classNames('caution-flag-display', {
+                        none: institution.cautionFlags.length === 0,
+                      }),
+                    mapper: institution => {
+                      const hasFlags = institution.cautionFlags.length > 0;
+                      return (
+                        <div className="vads-u-display--flex">
+                          <div className="caution-flag-icon vads-u-flex--1">
+                            {!hasFlags && <i className={`fa fa-check`} />}
+                            {hasFlags && (
+                              <i className={`fa fa-exclamation-triangle`} />
+                            )}
+                          </div>
+                          <div className="vads-u-flex--4">
+                            <div className="caution-header">
+                              {!hasFlags && (
+                                <span>
+                                  This school doesn't have any caution flags
+                                </span>
+                              )}
                               {hasFlags && (
-                                <i className={`fa fa-exclamation-triangle`} />
+                                <span>
+                                  This school has{' '}
+                                  {institution.cautionFlags.length} cautionary
+                                  warning
+                                  {institution.cautionFlags.length > 1 && 's'}
+                                </span>
                               )}
                             </div>
-                            <div className="vads-u-flex--4">
-                              <div className="caution-header">
-                                {!hasFlags && (
-                                  <span>
-                                    This school doesn't have any caution flags
-                                  </span>
-                                )}
-                                {hasFlags && (
-                                  <span>
-                                    This school has{' '}
-                                    {institution.cautionFlags.length} cautionary
-                                    warning
-                                    {institution.cautionFlags.length > 1 && 's'}
-                                  </span>
-                                )}
+                            {hasFlags && (
+                              <div>
+                                <ul>
+                                  {institution.cautionFlags.map(
+                                    (cautionFlag, index) => {
+                                      return (
+                                        <li key={index}>{cautionFlag.title}</li>
+                                      );
+                                    },
+                                  )}
+                                </ul>
                               </div>
-                              {hasFlags && (
-                                <div>
-                                  <ul>
-                                    {institution.cautionFlags.map(
-                                      (cautionFlag, index) => {
-                                        return (
-                                          <li key={index}>
-                                            {cautionFlag.title}
-                                          </li>
-                                        );
-                                      },
-                                    )}
-                                  </ul>
-                                </div>
-                              )}
-                            </div>
+                            )}
                           </div>
-                        );
-                      },
+                        </div>
+                      );
                     },
-                  ]}
-                />
-              </>
-            )}
+                  },
+                ]}
+              />
+            </>
+          )}
 
           <CompareGrid
             sectionLabel=""
@@ -682,7 +679,4 @@ const mapDispatchToProps = {
   dispatchHideModal: hideModal,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ComparePage);
+export default connect(mapStateToProps, mapDispatchToProps)(ComparePage);

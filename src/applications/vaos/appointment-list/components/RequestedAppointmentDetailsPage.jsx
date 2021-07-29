@@ -61,49 +61,38 @@ export default function RequestedAppointmentDetailsPage() {
     dispatch(fetchRequestDetails(id));
   }, []);
 
-  useEffect(
-    () => {
-      if (appointment) {
-        const isCanceled = appointment.status === APPOINTMENT_STATUS.cancelled;
-        const isCC = appointment.vaos.isCommunityCare;
-        const typeOfCareText = lowerCase(
-          appointment?.type?.coding?.[0]?.display,
-        );
+  useEffect(() => {
+    if (appointment) {
+      const isCanceled = appointment.status === APPOINTMENT_STATUS.cancelled;
+      const isCC = appointment.vaos.isCommunityCare;
+      const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
 
-        const title = `${isCanceled ? 'Canceled' : 'Pending'} ${
-          isCC ? 'Community care' : 'VA'
-        } ${typeOfCareText} appointment`;
+      const title = `${isCanceled ? 'Canceled' : 'Pending'} ${
+        isCC ? 'Community care' : 'VA'
+      } ${typeOfCareText} appointment`;
 
-        document.title = title;
-      }
+      document.title = title;
+    }
+    scrollAndFocus();
+  }, [appointment]);
+
+  useEffect(() => {
+    if (
+      !cancelInfo.showCancelModal &&
+      cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded
+    ) {
       scrollAndFocus();
-    },
-    [appointment],
-  );
+    }
+  }, [cancelInfo.showCancelModal, cancelInfo.cancelAppointmentStatus]);
 
-  useEffect(
-    () => {
-      if (
-        !cancelInfo.showCancelModal &&
-        cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded
-      ) {
-        scrollAndFocus();
-      }
-    },
-    [cancelInfo.showCancelModal, cancelInfo.cancelAppointmentStatus],
-  );
-
-  useEffect(
-    () => {
-      if (
-        appointmentDetailsStatus === FETCH_STATUS.failed ||
-        (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
-      ) {
-        scrollAndFocus();
-      }
-    },
-    [appointmentDetailsStatus],
-  );
+  useEffect(() => {
+    if (
+      appointmentDetailsStatus === FETCH_STATUS.failed ||
+      (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+    ) {
+      scrollAndFocus();
+    }
+  }, [appointmentDetailsStatus]);
 
   if (
     appointmentDetailsStatus === FETCH_STATUS.failed ||
@@ -129,7 +118,7 @@ export default function RequestedAppointmentDetailsPage() {
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isCC = appointment.vaos.isCommunityCare;
-  const typeOfVisit = appointment.vaos.requestVisitType;
+  const typeOfVisit = appointment.requestVisitType;
   const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
   const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
@@ -150,12 +139,11 @@ export default function RequestedAppointmentDetailsPage() {
       <h1>
         {canceled ? 'Canceled' : 'Pending'} {typeOfCareText} appointment
       </h1>
-      {!showConfirmMsg &&
-        !canceled && (
-          <InfoAlert backgroundOnly status="info">
-            The time and date of this appointment are still to be determined.
-          </InfoAlert>
-        )}
+      {!showConfirmMsg && !canceled && (
+        <InfoAlert backgroundOnly status="info">
+          The time and date of this appointment are still to be determined.
+        </InfoAlert>
+      )}
       {showConfirmMsg && (
         <InfoAlert backgroundOnly status={canceled ? 'error' : 'success'}>
           {canceled && 'This request has been canceled'}
@@ -200,15 +188,14 @@ export default function RequestedAppointmentDetailsPage() {
         </h2>
       )}
 
-      {!!facility &&
-        !isCC && (
-          <VAFacilityLocation
-            facility={facility}
-            facilityName={facility?.name}
-            facilityId={facilityId}
-            isHomepageRefresh
-          />
-        )}
+      {!!facility && !isCC && (
+        <VAFacilityLocation
+          facility={facility}
+          facilityName={facility?.name}
+          facilityId={facilityId}
+          isHomepageRefresh
+        />
+      )}
 
       {isCCRequest ? (
         <>
@@ -217,8 +204,7 @@ export default function RequestedAppointmentDetailsPage() {
           </h2>
           {!!provider && (
             <span>
-              {provider.name ||
-                (provider.providerName || provider.practiceName)}
+              {provider.name || provider.providerName || provider.practiceName}
             </span>
           )}
           {!provider && <span>No provider selected</span>}
