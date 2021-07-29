@@ -13,7 +13,11 @@ import {
 import formConfig from './config/form';
 import AddPerson from './containers/AddPerson';
 import ITFWrapper from './containers/ITFWrapper';
-import { MissingServices, MissingId } from './containers/MissingServices';
+import {
+  MissingServices,
+  MissingId,
+  MissingDob,
+} from './containers/MissingServices';
 
 import { MVI_ADD_SUCCEEDED } from './actions';
 import {
@@ -53,6 +57,8 @@ export const hasRequiredServices = user =>
 
 export const hasRequiredId = user =>
   idRequired.some(service => user.profile.services.includes(service));
+
+export const hasRequiredDob = user => !!user.profile.dob;
 
 const isIntroPage = () => window.location.pathname.endsWith('/introduction');
 
@@ -146,6 +152,10 @@ export const Form526Entry = ({
   // RequiredLoginView will handle unverified users by showing the
   // appropriate link
   if (user.profile.verified) {
+    // EVSS requires user DOB for submission - see #27374
+    if (!hasRequiredDob(user)) {
+      return wrapWithBreadcrumb(title, <MissingDob title={title} />);
+    }
     // User is missing either their SSN, EDIPI, or BIRLS ID
     if (!hasRequiredId(user)) {
       return wrapWithBreadcrumb(title, <MissingId title={title} />);
