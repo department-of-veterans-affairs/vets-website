@@ -621,6 +621,7 @@ jobs:
 
       - name: Pull any changes since checkout
         run: git pull origin master
+        working-directory: testing-reports
 
       - name: Commit and push changes
         uses: actions-js/push@master
