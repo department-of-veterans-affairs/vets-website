@@ -61,7 +61,8 @@ jobs:
         run: echo ${{ needs.job1.outputs.MANIFEST }}
 
       - name: Check app_name from manifest
-        run: echo fromJson(${{ needs.job1.outputs.MANIFEST }}).appName
+        run: echo ${{ fromJson(needs.job1.outputs.MANIFEST).appName }}
+        env: 
 
       - name: Get Node version
         id: get-node-version
