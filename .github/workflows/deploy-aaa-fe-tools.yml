@@ -26,7 +26,11 @@ jobs:
     outputs:
       deploy-configuration: ${{ steps.deploy-configuration.outputs.options }}
     steps:
-    - id: deploy-configuration
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Get Application Manifest
+      id: deploy-configuration
       run: ls -l
       # run: |
       #   JSON=$(cat ../../src/applications/${{ env.APP_NAME }}/manifest.json)
@@ -45,8 +49,8 @@ jobs:
         buildtype: [vagovdev]
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      # - name: Checkout
+      #   uses: actions/checkout@v2
 
       - name: Check Data
         run: ${{fromJson(needs.consume-manifest.outputs.options)}}
