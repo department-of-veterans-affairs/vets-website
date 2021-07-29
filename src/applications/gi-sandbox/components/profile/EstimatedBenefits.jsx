@@ -96,13 +96,9 @@ export default function EstimatedBenefits({
     }
 
     const sections = Object.keys(perTerm).map(section => {
-      const {
-        visible,
-        title,
-        learnMoreAriaLabel,
-        terms,
-        zip,
-      } = outputs.perTerm[section];
+      const { visible, title, learnMoreAriaLabel, terms } = outputs.perTerm[
+        section
+      ];
       if (!visible) return null;
 
       const learnMoreLink = `http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#${section.toLowerCase()}`;
@@ -130,7 +126,7 @@ export default function EstimatedBenefits({
                   rel="noopener noreferrer"
                   aria-label={learnMoreAriaLabel || ''}
                 >
-                  {zip ? 'big dog ' : 'Learn more'}
+                  Learn more
                 </a>
                 )
               </span>
@@ -216,7 +212,6 @@ export default function EstimatedBenefits({
               visible={outputs.housingAllowance.visible}
               screenReaderSpan={month}
               bold
-              zip
             />
             <CalculatorResultRow
               label={
