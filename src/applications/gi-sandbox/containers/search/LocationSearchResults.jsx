@@ -465,16 +465,17 @@ function LocationSearchResults({
         'vads-u-padding--1p5',
         { 'vads-u-display--none': !visible },
       );
+      const resultsClassnames = classNames('location-search-results', {
+        'vads-l-row': !smallScreen,
+        'vads-u-flex-wrap--wrap': !smallScreen,
+      });
       return (
         <div
           id="location-search-results-container"
           className={containerClassNames}
         >
           {!smallScreen && searchResultsShowing(count)}
-          <div
-            id="location-search-results"
-            className="location-search-results vads-l-row vads-u-flex-wrap--wrap"
-          >
+          <div id="location-search-results" className={resultsClassnames}>
             {resultCards}
           </div>
         </div>
