@@ -5,10 +5,12 @@ import * as actions from '../actions';
 import Modal from '../components/Modal';
 import AccreditationModalContent from '../components/content/modals/AccreditationModalContent';
 import AllCampusesModalContent from '../components/content/modals/AllCampusesModalContent';
+import BookStipedInfoModalContent from '../components/content/modals/BookStipedInfoModalContent';
 import CreditTrainingModalContent from '../components/content/modals/CreditTrainingModalContent';
 import EightKeysModalContent from '../components/content/modals/EightKeysModalContent';
-import IndependentStudyModalContent from '../components/content/modals/IndependentStudyModalContent';
 import FacilityCodeModalContent from '../components/content/modals/FacilityCodeModalContent';
+import HousingAllowanceOJTModalConent from '../components/content/modals/HousingAllowanceOJTModalContent';
+import IndependentStudyModalContent from '../components/content/modals/IndependentStudyModalContent';
 import IpedsCodeModalContent from '../components/content/modals/IpedsCodeModalContent';
 import MilitaryTuitionAssistanceModalContent from '../components/content/modals/MilitaryTuitionAssistanceModalContent';
 import OpeCodeModalContent from '../components/content/modals/OpeCodeModalContent';
@@ -308,28 +310,7 @@ export class Modals extends React.Component {
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('housingAllowanceOJT')}
       >
-        <div>
-          <h3>
-            Your housing allowance is determined by where you take classes
-          </h3>
-          <p>
-            <p>
-              Under the GI Bill you’re eligible to receive a monthly housing
-              allowance. We calculate this monthly housing allowance based on
-              where you take training.
-            </p>
-            <a href="https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp?_ga=2.144591223.39405460.1542131207-1582256389.1508352376">
-              View the current housing allowance payment rates
-            </a>
-            <p>
-              For on-the-job training and apprenticeships, housing allowance
-              decreases every 6 months as employer pay increases.
-            </p>
-            <a href="https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/on-the-job-training-apprenticeships/">
-              Learn more about how the housing rate decreases over time.
-            </a>
-          </p>
-        </div>
+        <HousingAllowanceOJTModalConent />
       </Modal>
 
       <Modal
@@ -961,15 +942,7 @@ export class Modals extends React.Component {
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('bookStipendInfo')}
       >
-        <div>
-          <p>
-            The book stipend is paid as a lump sum at the beginning of the
-            school year (if starting in the Fall) or at the beginning of the
-            semester. The book stipend is $1,000 per year or $83 per month at
-            100% benefit. The book stipend is pro-rated based on your
-            enrollment.
-          </p>
-        </div>
+        <BookStipedInfoModalContent />
       </Modal>
 
       <Modal
