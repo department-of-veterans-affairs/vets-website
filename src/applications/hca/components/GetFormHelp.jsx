@@ -29,7 +29,7 @@ function GetFormHelp() {
     <div>
       <p className="help-talk">
         <strong> If you have trouble using this online application,</strong>{' '}
-        call our MyVA411 main information line at
+        call our MyVA411 main information line at{' '}
         <a href="tel:+18006982411">800-698-2411</a>
         (TTY:{' '}
         <Telephone
@@ -50,7 +50,7 @@ function GetFormHelp() {
       </p>
       <p className="help-talk">
         <strong>If you have questions about VA health care, </strong>
-        call our Health Resource Center at
+        call our Health Resource Center at{' '}
         <a href="tel:+18772228387">877-222-8387</a>
         (TTY:{' '}
         <Telephone

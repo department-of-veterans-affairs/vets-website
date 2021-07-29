@@ -38,7 +38,9 @@ class HcaOMBInfo extends React.Component {
         </div>
         <Modal
           cssClass="va-modal-large"
-          contents={HealthcareModalContent}
+          contents={
+            <HealthcareModalContent resBurden={30} ombNumber="2900-0091" />
+          }
           id="omb-modal"
           visible={this.state.modalOpen}
           onClose={this.closeModal}

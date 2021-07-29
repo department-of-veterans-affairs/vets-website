@@ -179,12 +179,11 @@ export default function HCASubwayMap() {
                   <strong>and</strong>
                 </li>
                 <li>You completed your full active-duty period</li>
-
-                <p>
-                  If you had or have active-duty status for training purposes
-                  only, you’re not eligible for VA health care.
-                </p>
               </ul>
+              <p>
+                If you had or have active-duty status for training purposes
+                only, you’re not eligible for VA health care.
+              </p>
             </AdditionalInfo>
           </li>
 
@@ -266,7 +265,7 @@ export default function HCASubwayMap() {
               <ul>
                 <li>
                   We give Veterans with service-connected disabilities the
-                  highest priority
+                  highest priority.
                 </li>
                 <li>
                   If you’re not eligible for care based on your disability
