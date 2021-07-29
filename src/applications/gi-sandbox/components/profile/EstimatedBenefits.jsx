@@ -221,7 +221,7 @@ export default function EstimatedBenefits({
                   ariaLabel="Learn more about the book stipend"
                 />
               }
-              id={'beep'}
+              id={'book-stipend'}
               value={outputs.bookStipend.value}
               visible={outputs.bookStipend.visible}
               screenReaderSpan={
