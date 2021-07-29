@@ -9,19 +9,9 @@ on: [push]
 env:
   CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
   APP_NAME: aaa-fe-tools
-  APPROVED_APPS: [AAA FE Tools, Aatrox]
+  APPROVED_APPS_JSON: src/applications/approved_apps.json
 
-jobs:
-  validate-app:
-    runs-on: ubuntu-latest
-    steps:
-      - id: files
-        uses: jitterbit/get-changed-files@v1
-      - run: |
-          for changed_file in ${{ steps.files.outputs.all }}; do
-            echo "Do something with this ${changed_file}."
-          done
-      
+jobs: 
   get-changed-files:
     runs-on: ubuntu-latest
     steps:
@@ -54,8 +44,19 @@ jobs:
     - name: Get App Name
       run: echo "APP_NAME=${{ fromJson(needs.job1.outputs.MANIFEST).appName }}" >> $GITHUB_ENV
 
-    - name: Validate workflow
+    - name: Approved apps
+      run: |
+        JSON=$(cat ${{ env.APPROVED_APPS_JSON }})
+        echo APPROVED_APPS=${JSON//'%'/'%25'} >> $GITHUB_ENV
+
+    - name: Echo approved apps
       run: echo ${{ env.APPROVED_APPS }}
+
+
+    # TODO: Do we want to get only files that were changed?
+    # - name: Validate files changed
+    #   run: |
+    #     if 
 
   build:
     name: Build
