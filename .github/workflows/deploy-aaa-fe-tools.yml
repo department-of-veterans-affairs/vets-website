@@ -31,7 +31,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Get Application Manifest.
-      id: deploy-configuration
+      id: set-matrix
       run: |
         JSON=$(cat ./src/applications/${{ env.APP_NAME }}/manifest.json)
         echo "::set-output name=matrix::${JSON//'%'/'%25'}"
