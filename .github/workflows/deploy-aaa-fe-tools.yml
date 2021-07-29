@@ -64,7 +64,7 @@ jobs:
             # validate and then store as an array???/ (TBD)
             # echo "Do something with this ${changed_file}."
             IFS=/ read -a appName <<< ${changed_file}
-            echo ${appName}
+            echo ${appName[3]}
           done
 
 
