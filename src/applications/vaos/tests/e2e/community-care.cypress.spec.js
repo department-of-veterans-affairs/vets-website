@@ -517,11 +517,7 @@ describe('VAOS community care flow using VAOS service', () => {
         data: provider,
       },
     });
-    cy.route({
-      method: 'GET',
-      url: '/vaos/v2/facilities*',
-      response: facilitiesV2,
-    });
+    cy.intercept('GET', '/vaos/v2/facilities*', facilitiesV2);
     cy.route({
       method: 'GET',
       url: '/vaos/v2/scheduling/configurations*',
