@@ -3,7 +3,13 @@ import {
   updateUiSchema,
 } from 'platform/forms-system/src/js/state/helpers';
 
-import { FORM_DATA_UPDATED, FORM_DATA_CLEANUP } from './actions';
+import {
+  FORM_DATA_UPDATED,
+  FORM_DATA_CLEANUP,
+  // FORM_DATA_SUBMIT_FAILED,
+  // FORM_DATA_SUBMIT_SUCCESS,
+  FORM_DATA_SUBMIT_START,
+} from './actions';
 
 const initialState = {
   dependentsState: null,
@@ -39,6 +45,19 @@ export function removeDependents(state = initialState, action) {
     return {
       ...state,
       dependentsState: nextDependentsState,
+    };
+  }
+
+  if (action.type === FORM_DATA_SUBMIT_START) {
+    return {
+      ...state,
+      dependentsState: {
+        ...state.dependentsState,
+        [action.stateKey]: {
+          ...state.dependentsState[action.stateKey],
+          status: action.status,
+        },
+      },
     };
   }
 

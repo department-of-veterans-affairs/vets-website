@@ -58,7 +58,7 @@ const formatDateString = date => {
   return `${dateFragments[2]}-${dateFragments[0]}-${dateFragments[1]}`;
 };
 
-const transformForSubmit = formData => {
+const adaptPayload = formData => {
   const payload = {};
   const {
     fullName: { firstName: first, lastName: last },
@@ -161,10 +161,10 @@ const transformForSubmit = formData => {
   return payload;
 };
 
-export const submitToApi = (formData, vetContactInfo, userInfo) => {
+export const transformForSubmit = (formData, vetContactInfo, userInfo) => {
   const mergedFormData = { ...formData, ...userInfo };
   return {
     veteranContactInformation: buildVeteranInformation(vetContactInfo),
-    ...transformForSubmit(mergedFormData),
+    ...adaptPayload(mergedFormData),
   };
 };

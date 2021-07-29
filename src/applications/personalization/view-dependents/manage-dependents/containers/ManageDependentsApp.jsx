@@ -6,14 +6,15 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import * as actions from '../redux/actions';
 import { SCHEMAS } from '../schemas';
-import { submitToApi } from '../utils';
+import { transformForSubmit } from '../utils';
 
 const ManageDependents = props => {
   const {
     relationship,
     updateFormData,
-    dependentsState,
     cleanupFormData,
+    submitFormData,
+    dependentsState,
     closeFormHandler,
     stateKey,
     userInfo,
@@ -23,7 +24,12 @@ const ManageDependents = props => {
 
   const onSubmit = formState => {
     const { veteranContactInformation } = props;
-    submitToApi(formState.formData, veteranContactInformation, userInfo);
+    const payload = transformForSubmit(
+      formState.formData,
+      veteranContactInformation,
+      userInfo,
+    );
+    submitFormData(stateKey, payload);
   };
 
   const onChange = useCallback(
@@ -85,6 +91,9 @@ const ManageDependents = props => {
           <LoadingButton
             className="usa-button usa-button-primary"
             aria-label="Submit VA Form 686c to remove this dependent"
+            isLoading={dependentsState[stateKey].status === 'pending'}
+            loadingText="Removing dependent from award..."
+            disabled={dependentsState[stateKey].status === 'pending'}
           >
             Remove dependent
           </LoadingButton>
@@ -109,8 +118,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  updateFormData: actions.updateFormData,
-  cleanupFormData: actions.cleanupFormData,
+  ...actions,
 };
 
 export default connect(
