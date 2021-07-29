@@ -5,6 +5,8 @@ import { getAvailableClinics } from '../var';
 import { transformAvailableClinics } from './transformers';
 import { mapToFHIRErrors } from '../utils';
 import { getSupportedLocationsByTypeOfCare } from '../location';
+import { getClinicsByLocationAndTypeOfCare } from '../vaos';
+import { transformClinicsV2 } from './transformers.v2';
 
 /**
  * Method to get available HealthcareService objects.
@@ -20,15 +22,26 @@ export async function getAvailableHealthcareServices({
   facilityId,
   typeOfCareId,
   systemId,
+  useV2 = false,
 }) {
   try {
-    const clinics = await getAvailableClinics(
-      facilityId,
-      typeOfCareId,
-      systemId,
-    );
+    let clinics = null;
+    if (useV2) {
+      const clinicData = await getClinicsByLocationAndTypeOfCare(
+        facilityId,
+        typeOfCareId,
+      );
+      clinics = transformClinicsV2(clinicData);
+    } else {
+      const clinicData = await getAvailableClinics(
+        facilityId,
+        typeOfCareId,
+        systemId,
+      );
+      clinics = transformAvailableClinics(facilityId, typeOfCareId, clinicData);
+    }
 
-    return transformAvailableClinics(facilityId, typeOfCareId, clinics).sort(
+    return clinics.sort(
       (a, b) =>
         a.serviceName.toUpperCase() < b.serviceName.toUpperCase() ? -1 : 1,
     );

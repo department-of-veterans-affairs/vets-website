@@ -160,7 +160,39 @@ export async function fetchPatientEligibility({
   useV2 = false,
 }) {
   if (useV2) {
-    return getPatientMetadata(location, typeOfCare, type);
+    const checks = {};
+    if (type !== 'request') {
+      checks.direct = getPatientMetadata(
+        location.id,
+        typeOfCare.idV2,
+        'direct',
+      ).catch(createErrorHandler(`direct-check-metadata-error`));
+    }
+
+    if (type !== 'direct') {
+      checks.request = getPatientMetadata(
+        location.id,
+        typeOfCare.idV2,
+        'request',
+      ).catch(createErrorHandler(`request-check-metadata-error`));
+    }
+
+    const results = await promiseAllFromObject(checks);
+    const output = { direct: null, request: null };
+
+    if (results.direct instanceof Error) {
+      output.direct = new Error('Direct scheduling eligibility check error');
+    } else {
+      output.direct = results.direct || null;
+    }
+
+    if (results.request instanceof Error) {
+      output.request = new Error('Request eligibility check error');
+    } else {
+      output.request = results.request || null;
+    }
+
+    return output;
   }
 
   return fetchPatientEligibilityFromVAR({ typeOfCare, location, type });
@@ -305,6 +337,7 @@ export async function fetchFlowEligibilityAndClinics({
       facilityId: location.id,
       typeOfCareId: typeOfCare.id,
       systemId: location.vistaId,
+      useV2,
     }).catch(createErrorHandler('direct-available-clinics-error'));
     apiCalls.pastAppointments = getLongTermAppointmentHistory().catch(
       createErrorHandler('direct-no-matching-past-clinics-error'),
