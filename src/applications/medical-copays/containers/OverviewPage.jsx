@@ -1,6 +1,7 @@
 import React from 'react';
 import GetHelp from '../components/GetHelp';
 import StatusAlert from '../components/StatusAlert';
+import Balances from '../components/Balances';
 
 const OverviewPage = () => {
   return (
@@ -11,8 +12,7 @@ const OverviewPage = () => {
         or request financial help.
       </p>
       <StatusAlert amount={130} />
-      <h2>What you owe to each facility</h2>
-      BALANCE CARDS
+      <Balances />
       <GetHelp />
     </>
   );
