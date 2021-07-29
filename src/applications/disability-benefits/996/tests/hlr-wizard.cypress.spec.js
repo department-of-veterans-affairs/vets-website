@@ -4,6 +4,7 @@ import {
   SAVED_CLAIM_TYPE,
   CONTESTABLE_ISSUES_API,
 } from '../constants';
+import Timeouts from 'platform/testing/e2e/timeouts';
 
 Cypress.Commands.add('checkStorage', (key, expectedValue) => {
   cy.window()
@@ -48,7 +49,9 @@ describe('HLR wizard', () => {
   it('should show the form wizard', () => {
     cy.url().should('include', BASE_URL);
     cy.axeCheck();
-    cy.get('h1').should('have.text', 'Request a Higher-Level Review');
+    cy.get('h1', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and('have.text', 'Request a Higher-Level Review');
     cy.axeCheck();
   });
   // other claims flow
@@ -96,7 +99,9 @@ describe('HLR wizard', () => {
     const h1Text = 'Request a Higher-Level Review';
     // starts with focus on breadcrumb
     cy.focused().should('have.attr', 'id', 'va-breadcrumbs-list');
-    cy.get('h1').should('have.text', h1Text);
+    cy.get('h1', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and('have.text', h1Text);
 
     cy.get('[type="radio"][value="compensation"]').check(checkOpt);
     cy.checkStorage(SAVED_CLAIM_TYPE, 'compensation');
@@ -117,13 +122,18 @@ describe('HLR wizard', () => {
 
     // start form
     const h1Addition = ' with VA Form 20-0996';
-    cy.findAllByText(/higher-level review online/i, { selector: 'button' })
+    cy.findAllByText(/higher-level review online/i, { selector: 'a' })
       .first()
       .click();
+
+    cy.location('pathname').should('eq', `${BASE_URL}/introduction`);
     // title changes & gets focus
-    cy.get('h1').should('have.text', h1Text + h1Addition);
+    cy.get('h1', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and('have.text', h1Text + h1Addition);
     cy.focused().should('have.text', h1Text + h1Addition);
     cy.checkStorage(WIZARD_STATUS, 'complete');
+    cy.injectAxe();
     cy.axeCheck();
   });
 });

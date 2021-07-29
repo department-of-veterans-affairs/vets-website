@@ -37,9 +37,8 @@ const CheckIn = props => {
       const json = await checkInUser({
         token,
       });
-      const { data } = json;
-
-      if (data.success) {
+      const { data, status } = json;
+      if (status === 200) {
         recordEvent({
           event: createAnalyticsSlug('api-checking-in-user-successful'),
         });
@@ -50,7 +49,7 @@ const CheckIn = props => {
           event: createAnalyticsSlug('api-checking-in-user-failed'),
           error,
         });
-        goToNextPage(router, URLS.SEE_STAFF);
+        goToNextPage(router, URLS.ERROR);
       }
     } catch (error) {
       recordEvent({

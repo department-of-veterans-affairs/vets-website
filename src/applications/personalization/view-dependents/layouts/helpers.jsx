@@ -7,7 +7,7 @@ import Telephone, {
 export const errorFragment = (
   <>
     <h2 slot="headline" className="vads-u-font-size--h3">
-      We're sorry. Something went wrong on our end
+      We’re sorry. Something went wrong on our end
     </h2>
     <p className="vads-u-font-size--base">
       Please refresh this page or check back later. You can also sign out of
@@ -17,7 +17,7 @@ export const errorFragment = (
       If you get this error again, please call the VA.gov help desk at{' '}
       <Telephone contact={CONTACTS.VA_311} />{' '}
       <Telephone contact={CONTACTS['711']} pattern={PATTERNS['3_DIGIT']} />
-      ). We're here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+      ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
   </>
 );
@@ -25,10 +25,10 @@ export const errorFragment = (
 export const infoFragment = (
   <>
     <h2 slot="headline" className="vads-u-margin-top--0 vads-u-font-size--h3">
-      We don't have dependents information on file for you
+      We don’t have dependents information on file for you
     </h2>
     <p className="vads-u-font-size--base">
-      We can't find any dependents added to your disability award. If you are
+      We can’t find any dependents added to your disability award. If you are
       eligible for VA disability compensation and you have a VA combined rating
       of 30%, you may be eligible for additional disability compensation for a
       spouse, child, and/or parent.
