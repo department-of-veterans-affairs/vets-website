@@ -27,7 +27,6 @@ jobs:
     needs: get-changed-files
     outputs:
       MANIFEST: ${{ env.MANIFEST }}
-      APP_NAME: ${{ env.APP_NAME }}
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -41,8 +40,8 @@ jobs:
     - name: Test manifest echo
       run: echo ${{ env.MANIFEST }}
 
-    - name: Get App Name
-      run: echo "APP_NAME=${{ fromJson(needs.job1.outputs.MANIFEST).appName }}" >> $GITHUB_ENV
+    # - name: Get App Name
+    #   run: echo "APP_NAME=${{ fromJson(needs.job1.outputs.MANIFEST).appName }}" >> $GITHUB_ENV
 
     - name: Approved apps
       run: |
