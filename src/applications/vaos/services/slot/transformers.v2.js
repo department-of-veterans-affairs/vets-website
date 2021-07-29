@@ -16,9 +16,7 @@ export function transformV2Slots(slots) {
   return (
     slots
       // moved over from action creator
-      .filter(
-        slot => !!slot.startDateTime && moment(slot.startDateTime).isValid(),
-      )
+      .filter(slot => !!slot.start && moment(slot.start).isValid())
       .map(slot => ({
         id: slot.id,
         type: slot.type,
@@ -30,8 +28,8 @@ export function transformV2Slots(slots) {
          * moment from using this offset, we'll remove it until we know what offset VSP will be using
          */
         attributes: {
-          start: slot.startDateTime.replace('+00:00', ''),
-          end: slot.endDateTime.replace('+00:00', ''),
+          start: slot.start.replace('+00:00', ''),
+          end: slot.end.replace('+00:00', ''),
         },
       }))
   );

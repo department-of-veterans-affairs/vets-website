@@ -49,7 +49,7 @@ export async function getSlots({
         startDate,
         endDate,
       );
-      return transformV2Slots(data[0]?.appointmentTimeSlot || []);
+      return transformV2Slots(data || []);
     } else {
       data = await getAvailableSlots(
         siteId,
