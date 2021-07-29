@@ -45,7 +45,6 @@ export async function getSlots({
     if (useV2) {
       data = await getAvailableV2Slots(
         siteId,
-        typeOfCareId,
         clinicId.split('_')[1],
         startDate,
         endDate,

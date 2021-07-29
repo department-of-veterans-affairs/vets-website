@@ -546,7 +546,6 @@ export function openClinicPage(page, uiSchema, schema) {
 
 export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
   return async (dispatch, getState) => {
-    const featureVAOSServiceRequests = selectFeatureVAOSServiceVAAppointments;
     const state = getState();
     const siteId = getSiteIdFromFacilityId(getFormData(state).vaFacility);
     const newAppointment = getNewAppointment(state);
@@ -554,6 +553,10 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
 
     const startDateMonth = moment(startDate).format('YYYY-MM');
     const endDateMonth = moment(endDate).format('YYYY-MM');
+
+    const featureVAOSServiceRequests = selectFeatureVAOSServiceVAAppointments(
+      state,
+    );
 
     let fetchedAppointmentSlotMonths = [];
     let fetchedStartMonth = false;
@@ -588,7 +591,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
 
         const fetchedSlots = await getSlots({
           siteId,
-          typeOfCareId: data.typeOfCareId,
+          typeOfCareId: data?.typeOfCareId,
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
