@@ -11,16 +11,7 @@ env:
   APP_NAME: aaa-fe-tools
   APPROVED_APPS_JSON: src/applications/approved_apps.json
 
-jobs: 
-  # get-changed-files:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - id: files
-  #       uses: jitterbit/get-changed-files@v1
-  #     - run: |
-  #         for changed_file in ${{ steps.files.outputs.all }}; do
-  #           echo "Do something with this ${changed_file}."
-  #         done
+jobs:
 
   set-env:
     runs-on: ubuntu-latest
@@ -67,12 +58,6 @@ jobs:
             read -a appName <<< "$changed_file"
             echo ${appName[2]}
           done
-
-
-    # TODO: Do we want to get only files that were changed?
-    # - name: Validate files changed
-    #   run: |
-    #     if 
 
   build:
     name: Build
