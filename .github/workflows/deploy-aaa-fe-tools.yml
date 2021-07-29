@@ -22,34 +22,48 @@ jobs:
             echo "Do something with this ${changed_file}."
           done
 
-  job1:
+  set-env:
     runs-on: ubuntu-latest
     needs: get-changed-files
     outputs:
       MANIFEST: ${{ env.MANIFEST }}
+
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
-    - name: Get Application Manifest.
-      id: set-matrix
-      run: |
-        JSON=$(cat ./src/applications/${{ env.APP_NAME }}/manifest.json)
-        echo MANIFEST=${JSON//'%'/'%25'} >> $GITHUB_ENV
+      # - name: Get Application Manifest.
+      #   id: set-matrix
+      #   run: |
+      #     JSON=$(cat ./src/applications/${{ env.APP_NAME }}/manifest.json)
+      #     echo MANIFEST=${JSON//'%'/'%25'} >> $GITHUB_ENV
 
-    - name: Test manifest echo
-      run: echo ${{ env.MANIFEST }}
+      # - name: Test manifest echo
+      #   run: echo ${{ env.MANIFEST }}
 
-    # - name: Get App Name
-    #   run: echo "APP_NAME=${{ fromJson(needs.job1.outputs.MANIFEST).appName }}" >> $GITHUB_ENV
+      # - name: Get App Name
+      #   run: echo "APP_NAME=${{ fromJson(steps.set-matrix.outputs.MANIFEST).appName }}" >> $GITHUB_ENV
 
-    - name: Approved apps
-      run: |
-        JSON=$(cat ${{ env.APPROVED_APPS_JSON }})
-        echo APPROVED_APPS=${JSON//'%'/'%25'} >> $GITHUB_ENV
+      - name: Approved apps
+        run: |
+          JSON=$(cat ${{ env.APPROVED_APPS_JSON }})
+          echo APPROVED_APPS=${JSON//'%'/'%25'} >> $GITHUB_ENV
 
-    - name: Echo approved apps
-      run: echo ${{ env.APPROVED_APPS }}
+      - name: Echo approved apps
+        run: echo ${{ env.APPROVED_APPS }}
+
+      - name: Get files changed
+        id: files
+        uses: jitterbit/get-changed-files@v1
+
+      - name: Check files changed if approved
+        run: |
+          for changed_file in ${{ steps.files.outputs.all }}; do
+            # get single file
+            # get root source of appName
+            # validate and then store as an array???/ (TBD)
+            echo "Do something with this ${changed_file}."
+          done
 
 
     # TODO: Do we want to get only files that were changed?
@@ -60,7 +74,7 @@ jobs:
   build:
     name: Build
     runs-on: self-hosted
-    needs: job1
+    needs: set-env
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
