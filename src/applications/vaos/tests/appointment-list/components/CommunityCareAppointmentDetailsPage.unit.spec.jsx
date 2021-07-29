@@ -600,7 +600,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
           id: { system: null, value: '123' },
           firstName: 'Dr',
           lastName: 'Hyde',
-          practiceName: 'Jeckle and Hyde',
+          practiceName: 'Atlantic Medical Care',
         },
       ],
       description: 'community care appointment',
@@ -709,5 +709,75 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
     });
     userEvent.click(VAOSHomepageLink);
     expect(await screen.findAllByText(/Detail/)).to.be.ok;
+  });
+
+  it('should show cc info when directly opening page', async () => {
+    const url = '/cc/01aa456cc';
+    const appointmentTime = moment().add(1, 'days');
+
+    const appointment = getVAOSAppointmentMock();
+    appointment.id = '01aa456cc';
+    appointment.attributes = {
+      ...appointment.attributes,
+      id: '01aa456cc',
+      kind: 'cc',
+      practitioners: [
+        {
+          id: { system: null, value: '123' },
+          firstName: 'Dr',
+          lastName: 'Hyde',
+          practiceName: 'Jeckle and Hyde',
+        },
+      ],
+      description: 'community care appointment',
+      comment: 'test comment',
+      start: appointmentTime,
+    };
+
+    mockSingleVAOSAppointmentFetch({
+      appointment,
+    });
+
+    const ccProvider = {
+      id: '123',
+      type: 'provider',
+      attributes: {
+        address: {},
+        caresitePhone: '202-555-1264',
+        name: 'Atlantic Medical Care',
+        lat: null,
+        long: null,
+        uniqueId: '123',
+      },
+    };
+    mockCCSingleProviderFetch(ccProvider);
+
+    const screen = renderWithStoreAndRouter(
+      <AppointmentList featureHomepageRefresh />,
+      {
+        initialState: {
+          featureToggles: {
+            ...initialState.featureToggles,
+            vaOnlineSchedulingVAOSServiceVAAppointments: true,
+            vaOnlineSchedulingVAOSServiceCCAppointments: true,
+          },
+        },
+        path: url,
+      },
+    );
+
+    // Verify page content...
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    expect(screen.getByText(/Community care/)).to.be.ok;
+    expect(screen.getByText(/Atlantic Medical Care/)).to.be.ok;
   });
 });
