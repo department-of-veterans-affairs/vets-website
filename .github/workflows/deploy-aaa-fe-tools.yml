@@ -9,8 +9,19 @@ on: [push]
 env:
   CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
   APP_NAME: aaa-fe-tools
+  APPROVED_APPS: [AAA FE Tools, Aatrox]
 
 jobs:
+  validate-app:
+    runs-on: ubuntu-latest
+    steps:
+      - id: files
+        uses: jitterbit/get-changed-files@v1
+      - run: |
+          for changed_file in ${{ steps.files.outputs.all }}; do
+            echo "Do something with this ${changed_file}."
+          done
+      
   get-changed-files:
     runs-on: ubuntu-latest
     steps:
@@ -26,19 +37,25 @@ jobs:
     needs: get-changed-files
     outputs:
       MANIFEST: ${{ env.MANIFEST }}
+      APP_NAME: ${{ env.APP_NAME }}
     steps:
     - name: Checkout
       uses: actions/checkout@v2
 
-# echo ::set-output name=manifest::${JSON//'%'/'%25'}
     - name: Get Application Manifest.
       id: set-matrix
       run: |
         JSON=$(cat ./src/applications/${{ env.APP_NAME }}/manifest.json)
         echo MANIFEST=${JSON//'%'/'%25'} >> $GITHUB_ENV
 
-    - name: test echo
+    - name: Test manifest echo
       run: echo ${{ env.MANIFEST }}
+
+    - name: Get App Name
+      run: echo "APP_NAME=${{ fromJson(needs.job1.outputs.MANIFEST).appName }}" >> $GITHUB_ENV
+
+    - name: Validate workflow
+      run: echo ${{ env.APPROVED_APPS }}
 
   build:
     name: Build
