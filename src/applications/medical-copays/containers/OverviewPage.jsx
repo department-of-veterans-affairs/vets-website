@@ -11,7 +11,7 @@ const OverviewPage = () => {
         Check your VA health care copay balances. Find out how to make payments
         or request financial help.
       </p>
-      <StatusAlert amount={130} />
+      <StatusAlert />
       <Balances />
       <GetHelp />
     </>

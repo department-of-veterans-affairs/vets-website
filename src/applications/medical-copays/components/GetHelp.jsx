@@ -9,9 +9,12 @@ const GetHelp = () => {
     <div>
       <h2>What if I have questions about my balance?</h2>
       <p>
-        <strong>For questions about your payment or relief options, </strong>
-        contact the VA Health Resource Center at{' '}
-        <Telephone contact={'800-698-2411'} /> (TTY:
+        <strong className="vads-u-margin-x--0p5">
+          For questions about your payment or relief options,
+        </strong>
+        contact the VA Health Resource Center at
+        <Telephone contact={'800-698-2411'} className="vads-u-margin-x--0p5" />
+        (TTY:
         <Telephone
           contact={CONTACTS[711]}
           pattern={PATTERNS['3_DIGIT']}
