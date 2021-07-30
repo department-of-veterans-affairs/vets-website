@@ -92,9 +92,13 @@ export default function EstimatedBenefits({
     const { perTerm } = outputs;
 
     const sections = Object.keys(perTerm).map(section => {
-      const { visible, title, learnMoreAriaLabel, terms } = outputs.perTerm[
-        section
-      ];
+      const {
+        visible,
+        title,
+        learnMoreAriaLabel,
+        terms,
+        modal,
+      } = outputs.perTerm[section];
       if (!visible) return null;
 
       const learnMoreLink = `http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#${section.toLowerCase()}`;
@@ -102,11 +106,11 @@ export default function EstimatedBenefits({
 
       return (
         <div key={section} className="per-term-section">
-          {outputs.perTerm.housingAllowance.modal === 'housingAllowanceOJT' ? (
+          {modal ? (
             <LearnMoreLabel
               text={title}
               onClick={() => dispatchShowModal('housingAllowanceOJT')}
-              ariaLabel={outputs.perTerm.housingAllowance.learnMoreAriaLabel}
+              ariaLabel={learnMoreAriaLabel}
               bold
             />
           ) : (

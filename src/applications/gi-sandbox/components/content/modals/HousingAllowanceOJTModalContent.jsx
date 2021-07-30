@@ -4,7 +4,7 @@ export default function HousingAllowanceOJTModalContent() {
   return (
     <>
       <h3>Your housing allowance is determined by where you take classes</h3>
-      <p>
+      <div>
         <p>
           Under the GI Bill you’re eligible to receive a monthly housing
           allowance. We calculate this monthly housing allowance based on where
@@ -20,7 +20,7 @@ export default function HousingAllowanceOJTModalContent() {
         <a href="https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/on-the-job-training-apprenticeships/">
           Learn more about how the housing rate decreases over time.
         </a>
-      </p>
+      </div>
     </>
   );
 }
