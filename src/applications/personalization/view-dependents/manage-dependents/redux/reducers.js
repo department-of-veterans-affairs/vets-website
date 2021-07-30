@@ -6,7 +6,7 @@ import {
 import {
   FORM_DATA_UPDATED,
   FORM_DATA_CLEANUP,
-  // FORM_DATA_SUBMIT_FAILED,
+  FORM_DATA_SUBMIT_FAILED,
   // FORM_DATA_SUBMIT_SUCCESS,
   FORM_DATA_SUBMIT_START,
 } from './actions';
@@ -56,6 +56,20 @@ export function removeDependents(state = initialState, action) {
         [action.stateKey]: {
           ...state.dependentsState[action.stateKey],
           status: action.status,
+        },
+      },
+    };
+  }
+
+  if (action.type === FORM_DATA_SUBMIT_FAILED) {
+    return {
+      ...state,
+      dependentsState: {
+        ...state.dependentsState,
+        [action.stateKey]: {
+          ...state.dependentsState[action.stateKey],
+          status: action.status,
+          error: action.error.errors[0],
         },
       },
     };

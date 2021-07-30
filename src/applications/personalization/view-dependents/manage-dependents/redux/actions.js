@@ -37,7 +37,7 @@ export function submitFormData(stateKey, payload) {
         {
           method: 'POST',
           body: JSON.stringify({
-            dependencyClaim: { form: payload },
+            ...payload,
           }),
           credentials: 'include',
           mode: 'cors',
