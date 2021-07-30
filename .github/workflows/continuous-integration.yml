@@ -73,10 +73,7 @@ jobs:
   build:
     name: Build
     needs: start-runner
-    runs-on: 
-      - self-hosted
-      - asg
-      - ${{ needs.start-runner.outputs.label }}
+    runs-on: ${{ needs.start-runner.outputs.label }}
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
@@ -85,7 +82,7 @@ jobs:
       fail-fast: true
       matrix:
         # buildtype: [vagovdev, vagovstaging, vagovprod]
-        buildtype: [vagovdev, vagovprod]
+        buildtype: [vagovprod]
 
     steps:
       - name: Checkout
