@@ -431,3 +431,8 @@
   align-items: center;
   position: relative;
 }
+.name-search-cards-padding{
+  @media (min-width: $small-screen +1) {
+    padding-right: 0%;
+  }
+}

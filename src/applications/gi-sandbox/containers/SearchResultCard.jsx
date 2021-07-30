@@ -58,9 +58,9 @@ export function SearchResultCard({
 
   const profileLink = appendQuery(`/profile/${facilityCode}`);
 
-  const resultCardClasses = classNames('result-card vads-u-margin-bottom--2', {
-    'vads-u-padding-right--1p5': location,
-    'small-screen:vads-u-margin-left--2p5': !location,
+  const resultCardClasses = classNames('vads-u-margin-bottom--2', {
+    'result-card-location vads-u-padding-right--1p5': location,
+    'result-card  small-screen:vads-u-margin-left--2p5': !location,
   });
 
   const nameClasses = classNames({

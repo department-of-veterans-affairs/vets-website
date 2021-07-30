@@ -65,7 +65,7 @@ export function NameSearchResults({
                 <FilterYourResults smallScreen={smallScreen} />
               </div>
             )}
-            <div className="column small-12 medium-8">
+            <div className="column small-12 medium-8 name-search-cards-padding">
               {inProgress && (
                 <LoadingIndicator message="Loading search results..." />
               )}
