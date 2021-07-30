@@ -478,6 +478,9 @@ jobs:
     name: Nightwatch E2E Tests
     runs-on: ${{ needs.start-runner.outputs.label }}
     needs: [build, start-runner]
+    env:
+      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+
     steps:
       - name: Checkout vets-website
         uses: actions/checkout@v2
