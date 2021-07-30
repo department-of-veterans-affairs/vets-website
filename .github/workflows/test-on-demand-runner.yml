@@ -1,7 +1,7 @@
 on:
   workflow_dispatch
 
-name: Test Role
+name: Test On-Demand Runner
 env:
   INSTANCE_TYPE: c5.4xlarge # Define instance size here OR later in the 'start-runner' step
 
