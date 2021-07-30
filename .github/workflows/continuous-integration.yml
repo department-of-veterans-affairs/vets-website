@@ -381,7 +381,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          YARN_CACHE_FOLDER=.cache/yarn_${{ env.NODE_ID }} yarn install --frozen-lockfile --prefer-offline --modules-folder node_modules_${{ env.NODE_ID }}
+          YARN_CACHE_FOLDER=.cache/yarn_${{ env.NODE_ID }} yarn global add cypress@7.6.0
 
       # Cypress env vars like this are used to either override config settings
       # or be made available to tests through Cypress.env().
