@@ -40,7 +40,7 @@
     }
 
     h4 {
-      margin-top: .5em;
+      margin-top: 0.5em;
     }
   }
 
@@ -319,7 +319,8 @@
 
   .cautionary-information {
     .table {
-      td, th {
+      td,
+      th {
         padding: 20px;
       }
       table {
@@ -633,15 +634,23 @@
   }
 
   .eyb-skip-link {
-    position: absolute;
-    top: -100rem;
-
+    &:not(:focus) {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
     &:focus {
       top: auto;
       line-height: 50px;
       margin-bottom: 1em;
       position: relative;
     }
+  }
+  .compare-checkbox {
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    display: flex;
   }
 
   .profile-section {
@@ -660,12 +669,11 @@
       padding: 20px;
     }
 
-
     .subsection {
       border-bottom: 1px solid $color-black;
       width: 100%;
       font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times",
-      serif;
+        serif;
       font-size: 20px;
       font-weight: 700;
       margin-bottom: 20px;

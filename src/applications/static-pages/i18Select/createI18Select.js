@@ -3,9 +3,30 @@ import ReactDOM from 'react-dom';
 
 import { Provider } from 'react-redux';
 
+export const I18_CONTENT = {
+  en: {
+    label: 'English',
+    suffix: '/',
+    lang: 'en',
+  },
+  es: {
+    onThisPage: 'En esta página',
+    label: 'Español',
+    suffix: '-esp/',
+    lang: 'es',
+  },
+  tl: {
+    suffix: '-tag/',
+    label: 'Tagalog',
+    onThisPage: 'Sa pahinang ito',
+    lang: 'tl',
+  },
+};
+
 export default function createI18Select(store, widgetType) {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
 
+  // these are the only urls where this widget will be rendered
   const translatableLinks = new Set([
     '/coronavirus-veteran-frequently-asked-questions/',
     '/coronavirus-veteran-frequently-asked-questions-esp/',
@@ -14,6 +35,7 @@ export default function createI18Select(store, widgetType) {
     '/health-care/covid-19-vaccine-esp/',
     '/health-care/covid-19-vaccine-tag/',
   ]);
+
   const isTranslatable = translatableLinks.has(document.location.pathname);
   if (!isTranslatable) return;
   const baseUrls = {
@@ -28,28 +50,10 @@ export default function createI18Select(store, widgetType) {
       tl: '/health-care/covid-19-vaccine-tag/',
     },
   };
+
   const isFaq = document.location.pathname.includes(
     `/coronavirus-veteran-frequently-asked-questions`,
   );
-  const I18_CONTENT = {
-    en: {
-      label: 'English',
-      suffix: '/',
-      lang: 'en',
-    },
-    es: {
-      onThisPage: 'En esta página',
-      label: 'Español',
-      suffix: '-esp/',
-      lang: 'es',
-    },
-    tl: {
-      suffix: '-tag/',
-      label: 'Tagalog',
-      onThisPage: 'Sa pahinang ito',
-      lang: 'tl',
-    },
-  };
 
   if (root) {
     import(/* webpackChunkName: "i18Select" */

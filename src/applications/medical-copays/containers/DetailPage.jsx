@@ -1,5 +1,5 @@
 import React from 'react';
-import LinkComponent from './LinkComponent';
+import LinkComponent from '../components/LinkComponent';
 import { useLocation } from 'react-router-dom';
 
 const DetailPage = () => {
