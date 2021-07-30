@@ -102,11 +102,11 @@ export default function EstimatedBenefits({
 
       return (
         <div key={section} className="per-term-section">
-          {outputs.perTerm[section].title === 'Housing allowance' && isOJT ? (
+          {outputs.perTerm.housingAllowance.modal === 'housingAllowanceOJT' ? (
             <LearnMoreLabel
               text={title}
               onClick={() => dispatchShowModal('housingAllowanceOJT')}
-              ariaLabel="Learn more about how housing allowance is determined"
+              ariaLabel={outputs.perTerm.housingAllowance.learnMoreAriaLabel}
               bold
             />
           ) : (
