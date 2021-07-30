@@ -20,7 +20,6 @@ jobs:
     outputs:
       label: ${{ steps.start-ec2-runner.outputs.label }}
       ec2-instance-id: ${{ steps.start-ec2-runner.outputs.ec2-instance-id }}
-
     steps:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -37,18 +36,16 @@ jobs:
 
       - name: Get latest GHA Runner AMI ID # AMI images are rebuilt every 15 days, use the latest one
         run: |
-          echo "RUNNER_AMI_ID=$(aws ec2 describe-images \
+          echo "RUNNER_AMI_ID=aws ec2 describe-images \
           --owners 008577686731 \
           --filters Name=name,Values=packer-gha-runner-ubuntu2004* \
-          --query 'sort_by(Images,&CreationDate)[-1].ImageId'
-          --output text)" >> $GITHUB_ENV
+          --query 'sort_by(Images,&CreationDate)[-1].ImageId'" >> $GITHUB_ENV
 
       - name: Get Subnet with the most free IPs # We will run these in the dsva-vagov-utility-2x subnet, so filter for those
         run: |
-          echo "SUBNET_ID=$(aws ec2 describe-subnets \
+          echo "SUBNET_ID=aws ec2 describe-subnets \
           --filters "Name=tag:Name,Values=dsva-vagov-utility-subnet-2*" \
-          --query 'sort_by(Subnets,&AvailableIpAddressCount)[-1].SubnetId'
-          --output text)" >> $GITHUB_ENV
+          --query 'sort_by(Subnets,&AvailableIpAddressCount)[-1].SubnetId'" >> $GITHUB_ENV
 
       - name: Start EC2 Runner
         id: start-ec2-runner
@@ -60,6 +57,7 @@ jobs:
           ec2-instance-type: ${{ env.INSTANCE_TYPE }}
           subnet-id: ${{ env.SUBNET_ID }}
           security-group-id: sg-0e23b56be3798e3a1
+          iam-role-name: dsva-vagov-vets-website-gha-runner-role
           aws-resource-tags: >
             [
               {"Key": "Name", "Value": "dsva-vagov-vets-website-on-demand-runner"},
