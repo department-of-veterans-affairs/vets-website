@@ -469,6 +469,7 @@ describe('VAOS community care flow using VAOS service', () => {
       v2Requests: true,
       homepageRefresh: true,
       providerSelectionEnabled: true,
+      v2Facilities: true,
     });
     cy.login(mockUser);
     cy.route({
