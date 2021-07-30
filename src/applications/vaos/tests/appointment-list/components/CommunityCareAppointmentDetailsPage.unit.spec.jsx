@@ -4,7 +4,6 @@ import MockDate from 'mockdate';
 import { expect } from 'chai';
 import { mockFetch } from 'platform/testing/unit/helpers';
 import { getCCAppointmentMock, getVAAppointmentMock } from '../../mocks/v0';
-import { getVAOSAppointmentMock } from '../../mocks/v2';
 import {
   mockAppointmentInfo,
   mockSingleCommunityCareAppointmentFetch,
@@ -19,6 +18,7 @@ import {
   renderWithStoreAndRouter,
   getTimezoneTestDate,
 } from '../../mocks/setup';
+import { createMockAppointmentByVersion } from '../../mocks/data';
 
 import userEvent from '@testing-library/user-event';
 import { AppointmentList } from '../../../appointment-list';
@@ -589,10 +589,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       .add(395, 'days')
       .format('YYYY-MM-DD');
 
-    const appointment = getVAOSAppointmentMock();
-    appointment.id = '01aa456cc';
-    appointment.attributes = {
-      ...appointment.attributes,
+    const data = {
       id: '01aa456cc',
       kind: 'cc',
       practitioners: [
@@ -607,6 +604,11 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       comment: 'test comment',
       start: appointmentTime,
     };
+
+    const appointment = createMockAppointmentByVersion({
+      version: 2,
+      ...data,
+    });
 
     mockVAOSAppointmentsFetch({
       start,
@@ -715,10 +717,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
     const url = '/cc/01aa456cc';
     const appointmentTime = moment().add(1, 'days');
 
-    const appointment = getVAOSAppointmentMock();
-    appointment.id = '01aa456cc';
-    appointment.attributes = {
-      ...appointment.attributes,
+    const data = {
       id: '01aa456cc',
       kind: 'cc',
       practitioners: [
@@ -733,6 +732,11 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       comment: 'test comment',
       start: appointmentTime,
     };
+
+    const appointment = createMockAppointmentByVersion({
+      version: 2,
+      ...data,
+    });
 
     mockSingleVAOSAppointmentFetch({
       appointment,
