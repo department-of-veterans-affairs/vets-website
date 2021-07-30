@@ -50,7 +50,7 @@ const initialState = {
 export default function appealsReducer(state = initialState, action) {
   switch (action.type) {
     // case FETCH_APPEALS_PENDING: // pretty sure this is only in v2
-    //   return _.set('state, appealsLoading', true);
+    //   return _.set(state, 'appealsLoading', true);
     case FETCH_APPEALS_SUCCESS: {
       // Appeals v1 and v2
       // TODO: When we refactor the reducers, make sure to combine the claims and appeals.

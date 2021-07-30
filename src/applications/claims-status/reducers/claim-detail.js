@@ -23,7 +23,7 @@ export default function claimDetailReducer(state = initialState, action) {
       return set(state, 'loading', true);
     }
     case SET_CLAIMS_UNAVAILABLE: {
-      return set(state, {
+      return assign(state, {
         detail: null,
         loading: false,
       });
