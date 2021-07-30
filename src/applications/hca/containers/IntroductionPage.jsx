@@ -162,7 +162,7 @@ const LoggedOutContent = connect(
             messages={route.formConfig.savedFormMessages}
             downtime={route.formConfig.downtime}
             pageList={route.pageList}
-            startText="Start the Health Care Application"
+            startText="Start the health care application"
           />
         )}
         <HCASubwayMap />
