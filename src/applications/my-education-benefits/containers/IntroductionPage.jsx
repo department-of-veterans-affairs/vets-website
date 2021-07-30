@@ -48,7 +48,8 @@ class IntroductionPage extends React.Component {
                 <li>Your current address and contact information</li>
               </ul>
               <p>
-                <strong>What if I need help filling out my application?</strong>{' '}
+                <strong>What if I need help filling out my application?</strong>
+                <br />
                 An accredited representative, like a Veterans Service Officer
                 (VSO), can help you fill out your claim.{' '}
                 <a href="/disability/get-help-filing-claim/">
@@ -61,7 +62,7 @@ class IntroductionPage extends React.Component {
               <div>
                 <h5>Apply</h5>
               </div>
-              <p>Complete this education benefits form.</p>
+              <p>Complete this education benefits application.</p>
             </li>
             <li className="process-step list-three">
               <div>
