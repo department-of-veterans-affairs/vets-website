@@ -40,7 +40,7 @@ As mentioned we broke each individual chapter of the form into it's own folder a
 
 We used the original form system to build this application and we followed a pretty standard implementation with just a few areas worth noting.
 
-### Valid VA file number check
+### Valid VA file number check (front end)
 
 The form is built using `/config/form.js` which is imported and used inside `/containers/App.jsx` with the `<RoutedSavableApp />` component from the platform. In `/containers/App.jsx` we dynamically render a loading indicator if the app is in an `isLoading` state from Redux. This allows us to show a loading indicator while we make the call to check if the Veteran has a valid VA file number as noted in the block quote above. The back end of that valid VA file number is detailed below in the back end section. Once the call is made and the form renders we either show the user an alert if they do not have a valid VA file number, or a `<SaveInProgressIntro />` component from the platform to start the form.
 
@@ -52,3 +52,7 @@ The way we do this in the code is by using the `depends` attribute for the optio
 ## The back end code
 
 There are really two separate API endpoints that we use in the 686c form, one of them dealing with the check for a valid VA file number noted in the front end sections, and one that receives the form payload on submission. The endpoint for the VA file number check is located at `vets-api/app/controllers/v0/profile/valid_va_file_numbers_controller.rb` and the endpoint for the submission payload is at `vets-api/app/controllers/v0/dependents_applications_controller.rb`.
+
+### Valid VA file number check (back end)
+
+When the Veteran first lands on the Introduction page of the form a call is made to `vets-api/app/controllers/v0/profile/valid_va_file_numbers_controller.rb` where we use BGS as a data source to see if the current user has valid VA file number. We do this with the `valid_va_file_number_data` method call which simply takes the data returned by BGS for the current user and sees if the user has a `file_nbr` which is where BGS holds the file number. If the user has a valid VA file number we return `true`, otherwise we return `false`, to the front end.
