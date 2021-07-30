@@ -154,3 +154,32 @@ export function getSchedulingConfigurationMock({
     },
   };
 }
+
+/**
+ * Returns a stubbed vaos VistA clinic object.
+ *
+ * @export
+ * @returns {VAOSClinic} var-resources clinic object
+ */
+export function getV2ClinicMock({ id, stationId, serviceName }) {
+  return {
+    id,
+    type: 'clinics',
+    attributes: {
+      vistaSite: id.substr(0, 3),
+      id,
+      serviceName,
+      physicalLocation: null,
+      phoneNumber: null,
+      stationId,
+      stationName: null,
+      primaryStopCode: null,
+      primaryStopCodeName: null,
+      secondaryStopCode: null,
+      secondaryStopCodeName: null,
+      patientDirectScheduling: null,
+      patientDisplay: null,
+      char4: null,
+    },
+  };
+}

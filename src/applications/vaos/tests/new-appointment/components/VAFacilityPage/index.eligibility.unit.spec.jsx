@@ -25,6 +25,7 @@ import {
 } from '../../../mocks/helpers';
 import {
   getSchedulingConfigurationMock,
+  getV2ClinicMock,
   getV2FacilityMock,
 } from '../../../mocks/v2';
 import {
@@ -600,7 +601,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
       );
 
       beforeEach(() => mockFetch());
-      it('should show past visits message when direct is supported, no past visits, requests not supported', async () => {
+      it('should show clinics message when direct is supported, has past visits, no matching clinics, requests not supported', async () => {
         mockSchedulingConfigurations([
           getSchedulingConfigurationMock({
             id: '983',
@@ -625,6 +626,14 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
         mockEligibilityFetchesByVersion({
           facilityId: '983',
           typeOfCareId: 'outpatientMentalHealth',
+          directPastVisits: true,
+          clinics: [
+            getV2ClinicMock({
+              id: '455',
+              stationId: '983',
+              serviceName: 'Clinic name',
+            }),
+          ],
           version: 2,
         });
         const store = createTestStore(initialState);
@@ -639,7 +648,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
         fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
         fireEvent.click(screen.getByText(/Continue/));
         await screen.findByText(
-          /We couldn’t find a recent appointment at this location/i,
+          /This facility doesn’t have any available clinics that support online scheduling/i,
         );
         const loadingEvent = global.window.dataLayer.find(
           ev => ev.event === 'loading-indicator-displayed',
