@@ -1,6 +1,7 @@
 import _ from 'lodash/fp';
 
 // Example of an imported schema:
+// eslint-disable-next-line no-unused-vars
 import fullSchema from '../22-1990-schema.json';
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/22-1990-schema.json';
@@ -14,8 +15,9 @@ import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import bankAccountUI from 'platform/forms-system/src/js/definitions/bankAccount';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+// eslint-disable-next-line no-unused-vars
 import * as address from 'platform/forms-system/src/js/definitions/address';
-
+import ReviewBoxField from 'platform/forms-system/src/js/components/ReviewBoxField';
 // import fullSchema from 'vets-json-schema/dist/22-1990-schema.json';
 
 import manifest from '../manifest.json';
@@ -23,12 +25,8 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
-
 import { directDepositWarning } from '../helpers';
-import toursOfDutyUI from '../definitions/toursOfDuty';
+import EmailViewField from '../components/EmailViewField';
 
 const {
   fullName,
@@ -37,7 +35,6 @@ const {
   dateRange,
   usaPhone,
   bankAccount,
-  toursOfDuty,
 } = commonDefinitions;
 
 // Define all the fields in the form to aid reuse
@@ -125,34 +122,37 @@ const formConfig = {
         },
       },
     },
-    serviceHistoryChapter: {
-      title: 'Service History',
-      pages: {
-        [formPages.serviceHistory]: {
-          path: 'service-history',
-          title: 'Service History',
-          uiSchema: {
-            [formFields.toursOfDuty]: toursOfDutyUI,
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              [formFields.toursOfDuty]: toursOfDuty,
-            },
-          },
-        },
-      },
-    },
+    // serviceHistoryChapter: {
+    //   title: 'Service History',
+    //   pages: {
+    //     [formPages.serviceHistory]: {
+    //       path: 'service-history',
+    //       title: 'Service History',
+    //       uiSchema: {
+    //         [formFields.toursOfDuty]: toursOfDutyUI,
+    //       },
+    //       schema: {
+    //         type: 'object',
+    //         properties: {
+    //           [formFields.toursOfDuty]: toursOfDuty,
+    //         },
+    //       },
+    //     },
+    //   },
+    // },
     additionalInformationChapter: {
-      title: 'Additional Information',
+      title: 'Contact Information',
       pages: {
         [formPages.contactInformation]: {
           path: 'contact-information',
           title: 'Contact Information',
           uiSchema: {
-            [formFields.address]: address.uiSchema('Mailing address'),
             [formFields.email]: {
-              'ui:title': 'Primary email',
+              'ui:title': 'Your email address',
+              'ui:field': ReviewBoxField,
+              'ui:options': {
+                viewComponent: EmailViewField,
+              },
             },
             [formFields.altEmail]: {
               'ui:title': 'Secondary email',
@@ -162,7 +162,6 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              [formFields.address]: address.schema(fullSchema, true),
               [formFields.email]: {
                 type: 'string',
                 format: 'email',
