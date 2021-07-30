@@ -20,6 +20,7 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 // import * as address from 'platform/forms-system/src/js/definitions/address';
 
+// eslint-disable-next-line no-unused-vars
 // import fullSchema from 'vets-json-schema/dist/22-1990-schema.json';
 
 import manifest from '../manifest.json';
@@ -42,6 +43,8 @@ import {
   selectedReserveLabel,
   unsureDescription,
 } from '../helpers';
+
+// import { directDepositWarning } from '../helpers';
 
 const {
   fullName,
@@ -365,7 +368,7 @@ const formConfig = {
       },
     },
     additionalInformationChapter: {
-      title: 'Additional Information',
+      title: 'Contact Information',
       pages: {
         [formPages.contactInformation]: {
           path: 'contact/information',
