@@ -9,6 +9,7 @@ on:
 
 env:
   CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
+  INSTANCE_TYPE: c5.4xlarge # Define instance size here OR later in the 'start-runner' step
 
 concurrency:
   group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha  }}
