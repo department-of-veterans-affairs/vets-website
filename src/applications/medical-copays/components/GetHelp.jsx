@@ -6,7 +6,7 @@ import Telephone, {
 
 const GetHelp = () => {
   return (
-    <div>
+    <>
       <h2>What if I have questions about my balance?</h2>
       <p>
         <strong className="vads-u-margin-x--0p5">
@@ -47,7 +47,7 @@ const GetHelp = () => {
           <strong>Main number:</strong> <Telephone contact={'215-823-5800'} />
         </dd>
       </dl>
-    </div>
+    </>
   );
 };
 
