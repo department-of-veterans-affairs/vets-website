@@ -104,7 +104,7 @@ export default function EstimatedBenefits({
         <div key={section} className="per-term-section">
           {outputs.perTerm[section].title === 'Housing allowance' && isOJT ? (
             <LearnMoreLabel
-              text="Housing allowance"
+              text={title}
               onClick={() => dispatchShowModal('housingAllowanceOJT')}
               ariaLabel="Learn more about how housing allowance is determined"
               bold
@@ -160,8 +160,8 @@ export default function EstimatedBenefits({
   };
 
   return (
-    <>
-      <div className="medium-6 columns your-estimated-benefits">
+    <div className="medium-6 columns">
+      <div className="your-estimated-benefits">
         <h3 id="estimated-benefits" tabIndex="-1">
           Your estimated benefits
         </h3>
@@ -238,15 +238,14 @@ export default function EstimatedBenefits({
       </div>
       {isOJT && (
         <div className="row">
-          <div className="columns medium-1" />
-          <div className="columns medium-6 vads-u-padding--0 vads-u-margin--0">
-            <p className="vads-u-padding-right--3">
+          <div className="columns ">
+            <p className="vads-u-padding-x--0p5 vads-u-margin--0">
               <strong>Note:</strong> Housing rate and the amount of entitlement
               used decrease every 6 months as training progresses
             </p>
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
