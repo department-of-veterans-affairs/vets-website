@@ -356,14 +356,10 @@ jobs:
           mkdir -p build/vagovprod
           tar -C build/vagovprod -xjf vagovprod.tar.bz2
 
-      - name: Get Node version
-        id: get-node-version
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+          node-version: 14.17.4
 
       # - name: Install Chrome
       #   uses: browser-actions/setup-chrome@latest
