@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import {
   setLangAttribute,
-  adaptLinksWithLangCode,
-  onThisPageHook,
   parseLangCode,
 } from 'applications/static-pages/i18Select/hooks';
 import { FOOTER_EVENTS } from '../helpers';
@@ -41,7 +39,6 @@ function LanguagesListTemplate({ dispatchLanguageSelection }) {
             hrefLang={link.lang}
             onClick={() => {
               dispatchLanguageSelection(link.lang);
-              setLangAttribute(link.lang);
               recordEvent({
                 event: FOOTER_EVENTS.LANGUAGE_SUPPORT,
                 lang: link.lang,
@@ -60,16 +57,19 @@ export default function LanguageSupport({
   isDesktop,
   showLangSupport,
   dispatchLanguageSelection,
+  languageCode,
 }) {
   useEffect(
     () => {
       const langCode = parseLangCode(document?.location?.pathname);
-      onThisPageHook(langCode);
+
       setLangAttribute(langCode);
+
+      if (languageCode === langCode) return;
+
       dispatchLanguageSelection(langCode);
-      adaptLinksWithLangCode(dispatchLanguageSelection, langCode);
     },
-    [dispatchLanguageSelection, showLangSupport],
+    [dispatchLanguageSelection, showLangSupport, languageCode],
   );
 
   if (showLangSupport !== true) return null;
