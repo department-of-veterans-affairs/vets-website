@@ -41,11 +41,6 @@ export const selectUseProviderSelection = state =>
   selectFeatureProviderSelection(state) &&
   !!selectVAPResidentialAddress(state)?.addressLine1;
 
-export const selectIsWelcomeModalDismissed = state =>
-  state.announcements.dismissed.some(
-    announcement => announcement === 'welcome-to-new-vaos',
-  );
-
 export const selectSystemIds = state =>
   selectPatientFacilities(state)?.map(f => f.facilityId) || null;
 

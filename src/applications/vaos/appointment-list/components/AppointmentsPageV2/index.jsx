@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
-import {
-  selectFeatureRequests,
-  selectIsWelcomeModalDismissed,
-} from '../../../redux/selectors';
-import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import { selectFeatureRequests } from '../../../redux/selectors';
 import RequestedAppointmentsList from '../RequestedAppointmentsList';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
 import PastAppointmentsListV2 from '../PastAppointmentsListV2';
@@ -65,9 +61,6 @@ export default function AppointmentsPageV2() {
   const location = useLocation();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
   const showScheduleButton = useSelector(state => selectFeatureRequests(state));
-  const isWelcomeModalDismissed = useSelector(state =>
-    selectIsWelcomeModalDismissed(state),
-  );
   const {
     dropdownValue,
     subPageTitle,
@@ -81,14 +74,6 @@ export default function AppointmentsPageV2() {
     [subPageTitle],
   );
 
-  useEffect(
-    () => {
-      if (isWelcomeModalDismissed) {
-        scrollAndFocus();
-      }
-    },
-    [isWelcomeModalDismissed],
-  );
   const history = useHistory();
 
   function onDropdownChange(e) {

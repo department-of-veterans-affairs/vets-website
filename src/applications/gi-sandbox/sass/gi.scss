@@ -1,8 +1,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-action-link";
 @import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-action-link";
 @import "partials/gi-vet-tec";
 @import "partials/gi-preview-banner";
 @import "partials/gi-autocomplete";
@@ -12,10 +10,16 @@
 @import "partials/gi-search-page";
 @import "partials/gi-profile-page";
 @import "partials/gi-search-controls";
+@import "partials/gi-search-form";
 @import "partials/gi-search-location";
 @import "partials/gi-back-to-top";
 
 .gi-app {
+  padding-bottom: 8em;
+  @include media-maxwidth($small-screen) {
+    padding-bottom: 0;
+  }
+
   div.military-status-info {
     font-size: 0.9em;
     padding: 1em;
@@ -171,60 +175,6 @@
       margin-bottom: 0.625em;
     }
   }
-
-  .search-form {
-    button {
-      margin-top: 0.5em;
-      width: auto;
-    }
-
-    .usa-button i {
-      padding-left: 16px;
-    }
-
-    .suggestions-list {
-      position: absolute;
-    }
-
-    .search-box {
-      border-bottom: 2px solid $color-gray-light;
-      border-left: 2px solid $color-gray-light;
-      border-right: 2px solid $color-gray-light;
-      padding: 48px 48px 24px 48px;
-    }
-
-    .active-search-tab {
-      border-top: 4px solid $color-primary;
-    }
-
-    .inactive-search-tab {
-      border-top: 2px solid $color-gray-light;
-    }
-
-    .search-tab {
-      font-size: 25px;
-      border-bottom: 2px solid $color-gray-light;
-    }
-
-    .name-search-tab {
-      border-left: 2px solid $color-gray-light;
-      border-right: 1px solid $color-gray-light;
-    }
-
-    .location-search-tab {
-      border-left: 1px solid $color-gray-light;
-      border-right: 2px solid $color-gray-light;
-    }
-
-    input:placeholder-shown {
-      font-style: italic;
-    }
-
-    select {
-      width: 200px;
-    }
-  }
-  padding-bottom: 8em;
 }
 
 .section-item,

@@ -16,7 +16,7 @@ class IntroductionPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <Breadcrumbs>
-          <a href="#">Home</a>
+          <a href="/">Home</a>
           <a href="#">My VA</a>
           <a href="#">My Education</a>
           <a href="#">Apply for VA Education Benefits</a>
@@ -29,6 +29,7 @@ class IntroductionPage extends React.Component {
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
           startText="Start the Application"
+          testActionLink
         >
           Please complete the 22-1990 form to apply for my education benefits.
         </SaveInProgressIntro>
@@ -94,7 +95,7 @@ class IntroductionPage extends React.Component {
         </div>
 
         <SaveInProgressIntro
-          buttonOnly
+          testActionLink
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}

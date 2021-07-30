@@ -16,7 +16,6 @@ import {
   selectFeatureRequests,
   selectFeatureDirectScheduling,
   selectFeatureCommunityCare,
-  selectIsWelcomeModalDismissed,
   selectIsCernerOnlyPatient,
 } from '../../../redux/selectors';
 import { FETCH_STATUS } from '../../../utils/constants';
@@ -37,7 +36,6 @@ function AppointmentsPage({
   confirmCancelAppointment,
   fetchFutureAppointments,
   futureStatus,
-  isWelcomeModalDismissed,
   pendingStatus,
   showScheduleButton,
 }) {
@@ -48,15 +46,6 @@ function AppointmentsPage({
       fetchFutureAppointments();
     }
   }, []);
-
-  useEffect(
-    () => {
-      if (isWelcomeModalDismissed) {
-        scrollAndFocus();
-      }
-    },
-    [isWelcomeModalDismissed],
-  );
 
   useEffect(
     () => {
@@ -121,7 +110,6 @@ AppointmentsPage.propTypes = {
   closeCancelAppointment: PropTypes.func.isRequired,
   confirmCancelAppointment: PropTypes.func.isRequired,
   isCernerOnlyPatient: PropTypes.bool.isRequired,
-  isWelcomeModalDismissed: PropTypes.bool.isRequired,
   showCommunityCare: PropTypes.bool.isRequired,
   showDirectScheduling: PropTypes.bool.isRequired,
   startNewAppointmentFlow: PropTypes.func.isRequired,
@@ -136,7 +124,6 @@ function mapStateToProps(state) {
     showScheduleButton: selectFeatureRequests(state),
     showCommunityCare: selectFeatureCommunityCare(state),
     showDirectScheduling: selectFeatureDirectScheduling(state),
-    isWelcomeModalDismissed: selectIsWelcomeModalDismissed(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
   };
 }
