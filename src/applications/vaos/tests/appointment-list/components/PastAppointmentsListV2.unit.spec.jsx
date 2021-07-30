@@ -292,6 +292,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       featureToggles: {
         ...initialState.featureToggles,
         vaOnlineSchedulingVAOSServiceVAAppointments: true,
+        vaOnlineSchedulingVAOSServiceCCAppointments: true,
       },
     };
     const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {

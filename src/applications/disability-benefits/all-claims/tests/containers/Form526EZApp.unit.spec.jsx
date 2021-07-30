@@ -41,6 +41,7 @@ describe('Form 526EZ Entry Page', () => {
     savedForms = [],
     mvi = '',
     show526Wizard = true,
+    dob = '2000-01-01',
   } = {}) => {
     const initialState = {
       form: {
@@ -59,6 +60,7 @@ describe('Form 526EZ Entry Page', () => {
           services,
           loading: false,
           status: '',
+          dob,
         },
       },
       currentLocation: {
@@ -148,6 +150,26 @@ describe('Form 526EZ Entry Page', () => {
     const recordedEvent = getLastEvent();
     expect(recordedEvent.event).to.equal('visible-alert-box');
     expect(recordedEvent['error-key']).to.include('missing_526');
+    tree.unmount();
+  });
+
+  // Logged in & verified, but missing DOB
+  it('should render Missing DOB aler', () => {
+    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    const tree = testPage({
+      currentlyLoggedIn: true,
+      verified: true,
+      // only include 'EVSS_CLAIMS' service
+      services: [idRequired[0]],
+      dob: '',
+    });
+    expect(tree.find('main')).to.have.lengthOf(0);
+    expect(tree.find('h1').text()).to.contain('File for disability');
+    expect(tree.find('va-alert')).to.have.lengthOf(1);
+    expect(tree.find('va-alert').text()).to.contain('your date of birth');
+    const recordedEvent = getLastEvent();
+    expect(recordedEvent.event).to.equal('visible-alert-box');
+    expect(recordedEvent['error-key']).to.include('missing_dob');
     tree.unmount();
   });
 

@@ -11,7 +11,7 @@ const MedicalCopaysApp = ({ children }) => {
 
   return (
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0 vads-u-margin-bottom--5">
-      {children}
+      <div className="usa-width-two-thirds medium-8 columns">{children}</div>
     </div>
   );
 };
