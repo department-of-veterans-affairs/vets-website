@@ -11,7 +11,11 @@ import {
   getSiteIdFromFacilityId,
 } from '../../services/location';
 import { getPreciseLocation } from '../../utils/address';
-import { FACILITY_SORT_METHODS, GA_PREFIX } from '../../utils/constants';
+import {
+  FACILITY_SORT_METHODS,
+  GA_PREFIX,
+  TYPES_OF_CARE,
+} from '../../utils/constants';
 import { captureError, has400LevelError } from '../../utils/error';
 import {
   recordEligibilityFailure,
@@ -109,7 +113,9 @@ export function getClinics({ facilityId, showModal = false }) {
       dispatch({ type: FORM_FETCH_CLINICS });
       clinics = await getAvailableHealthcareServices({
         facilityId,
-        typeOfCareId: TYPE_OF_CARE_ID,
+        typeOfCare: TYPES_OF_CARE.find(
+          typeOfCare => typeOfCare.id === TYPE_OF_CARE_ID,
+        ),
         systemId: getSiteIdFromFacilityId(facilityId),
       });
       dispatch({
