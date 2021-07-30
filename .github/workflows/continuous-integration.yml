@@ -85,7 +85,7 @@ jobs:
       fail-fast: true
       matrix:
         # buildtype: [vagovdev, vagovstaging, vagovprod]
-        buildtype: [vagovdev, vagovstaging]
+        buildtype: [vagovdev, vagovprod]
 
     steps:
       - name: Checkout
