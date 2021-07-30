@@ -22,7 +22,7 @@ class IntroductionPage extends React.Component {
           <a href="#">Apply for VA Education Benefits</a>
         </Breadcrumbs>
         <FormTitle title="Apply for VA Education Benefits" />
-        <p>Equal to VA Form 22-1990 (My Education Benefits).</p>
+        <p>Equal to VA Form 22-1990 (Application for VA Education Benefits).</p>
         <HowToApplyPost911GiBill />
         <SaveInProgressIntro
           testActionLink
