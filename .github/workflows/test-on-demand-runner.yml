@@ -50,7 +50,6 @@ jobs:
           ec2-instance-type: ${{ env.INSTANCE_TYPE }}
           subnet-id: ${{ env.SUBNET_ID }}
           security-group-id: sg-0e23b56be3798e3a1
-          #iam-role-name: dsva-vagov-vets-website-gha-runner-role
           aws-resource-tags: >
             [
               {"Key": "Name", "Value": "dsva-vagov-vets-website-on-demand-runner"},
@@ -87,6 +86,12 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
+
+      - name: Get bot token from Parameter Store 
+        uses: marvinpinto/action-inject-ssm-secrets@latest 
+        with: 
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Stop Runner
         uses: machulav/ec2-github-runner@v2
