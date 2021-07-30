@@ -125,10 +125,7 @@ const mapStateToProps = (state, ownProps) => {
   // Derive the default mega menu links (both auth + unauth).
   const defaultLinks = ownProps?.megaMenuData ? [...ownProps.megaMenuData] : [];
 
-  // Add the My VA link to default links if we are showing dashboard 2 or if we are logged in.
-  if (loggedIn) {
-    defaultLinks.push(MY_VA_LINK);
-  }
+  defaultLinks.push(MY_VA_LINK);
 
   const data = flagCurrentPageInTopLevelLinks(
     getAuthorizedLinkData(loggedIn, defaultLinks),
