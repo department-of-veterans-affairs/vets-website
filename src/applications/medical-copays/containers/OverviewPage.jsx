@@ -7,7 +7,7 @@ const OverviewPage = () => {
   return (
     <>
       <h1>Your current copay balances</h1>
-      <p className="sub-title">
+      <p className="vads-u-font-size--lg">
         Check your VA health care copay balances. Find out how to make payments
         or request financial help.
       </p>
