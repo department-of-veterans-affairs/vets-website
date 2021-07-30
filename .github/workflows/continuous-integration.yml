@@ -406,10 +406,10 @@ jobs:
       #     mkdir -p build/vagovprod
       #     tar -C build/vagovprod -xjf vagovprod.tar.bz2
 
-      - name: Restore test build
+      - name: Restore vagovprod build
         run: |
           mkdir -p build
-          cp -R /tmp/${{ github.run_id }}/test build/vagovprod
+          cp -R /tmp/${{ github.run_id }} build/vagovprod
           du -h build/vagovprod
 
       - name: Get Node version
@@ -511,10 +511,10 @@ jobs:
       #     mkdir -p build/vagovprod
       #     tar -C build/vagovprod -xjf vagovprod.tar.bz2
 
-      - name: Restore test build
+      - name: Restore vagovprod build
         run: |
           mkdir -p build
-          cp -R /tmp/${{ github.run_id }}/test build/vagovprod
+          cp -R /tmp/${{ github.run_id }} build/vagovprod
           du -h build/vagovprod
 
       - name: Get Node version
