@@ -73,7 +73,9 @@ jobs:
   build:
     name: Build
     needs: start-runner
-    runs-on: ${{ needs.start-runner.outputs.label }}
+    runs-on: 
+      - self-hosted
+      - ${{ needs.start-runner.outputs.label }}
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
