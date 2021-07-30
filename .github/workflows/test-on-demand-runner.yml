@@ -50,7 +50,7 @@ jobs:
           ec2-instance-type: ${{ env.INSTANCE_TYPE }}
           subnet-id: ${{ env.SUBNET_ID }}
           security-group-id: sg-0e23b56be3798e3a1
-          iam-role-name: dsva-vagov-vets-website-gha-runner-role
+          #iam-role-name: dsva-vagov-vets-website-gha-runner-role
           aws-resource-tags: >
             [
               {"Key": "Name", "Value": "dsva-vagov-vets-website-on-demand-runner"},
