@@ -385,7 +385,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          YARN_CACHE_FOLDER=.cache/yarn_${{ $(( RANDOM % 10000 )) }} yarn install --frozen-lockfile --prefer-offline --modules-folder node_modules_${{ $(( RANDOM % 10000 )) }}
+          YARN_CACHE_FOLDER=.cache/yarn_${{ echo "$(( RANDOM % 10000 ))" }} yarn install --frozen-lockfile --prefer-offline --modules-folder node_modules_${{ $(( echo "RANDOM % 10000" )) }}
 
       # Cypress env vars like this are used to either override config settings
       # or be made available to tests through Cypress.env().
