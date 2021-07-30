@@ -75,6 +75,7 @@ jobs:
     needs: start-runner
     runs-on: 
       - self-hosted
+      - asg
       - ${{ needs.start-runner.outputs.label }}
 
     env:
@@ -83,7 +84,8 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        buildtype: [vagovdev, vagovstaging, vagovprod]
+        # buildtype: [vagovdev, vagovstaging, vagovprod]
+        buildtype: [vagovdev, vagovstaging]
 
     steps:
       - name: Checkout
