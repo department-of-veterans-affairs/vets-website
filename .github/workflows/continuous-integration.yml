@@ -380,12 +380,9 @@ jobs:
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}-cypress
 
-      - name: Generate directory ID for node modules
-        run: echo "NODE_ID=$(( ( RANDOM % 10000 ) + 1 ))" >> $GITHUB_ENV
-
       - name: Install dependencies
         run: |
-          YARN_CACHE_FOLDER=.cache/yarn_${{ env.NODE_ID }} yarn install --frozen-lockfile --prefer-offline --modules-folder node_modules_${{ env.NODE_ID }}
+          YARN_CACHE_FOLDER=.cache/yarn_${{ github.run_number + matrix.ci_node_index }} yarn install --frozen-lockfile --prefer-offline --modules-folder node_modules_${{ github.run_number + matrix.ci_node_index }}
 
       # Cypress env vars like this are used to either override config settings
       # or be made available to tests through Cypress.env().
