@@ -495,7 +495,7 @@ jobs:
 
   nightwatch-tests:
     name: Nightwatch E2E Tests
-    runs-on: ubuntu-latest
+    runs-on: ${{ needs.start-runner.outputs.label }}
     needs: [build, start-runner]
     steps:
       - name: Checkout vets-website
