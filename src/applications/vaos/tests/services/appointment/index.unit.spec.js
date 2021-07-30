@@ -73,7 +73,11 @@ describe('VAOS Appointment service', () => {
           startDate,
         ).toISOString()}&end_date=${moment(endDate).toISOString()}&type=va`,
       );
-      expect(global.fetch.secondCall).to.be.null;
+      expect(global.fetch.secondCall.args[0]).to.contain(
+        `/vaos/v0/appointments?start_date=${moment(
+          startDate,
+        ).toISOString()}&end_date=${moment(endDate).toISOString()}&type=cc`,
+      );
       expect(error?.resourceType).to.equal('OperationOutcome');
     });
   });

@@ -116,7 +116,7 @@ export default function CommunityCareAppointmentDetailsPage() {
       )}
       <FacilityAddress
         facility={appointment.communityCareProvider}
-        showDirectionsLink={!!appointment.communityCareProvider.address}
+        showDirectionsLink={!!appointment.communityCareProvider?.address}
         level={2}
       />
 

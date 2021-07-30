@@ -505,6 +505,10 @@ export function fetchConfirmedAppointmentDetails(id, type) {
       const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
         state,
       );
+      const useV2 =
+        type === 'cc'
+          ? featureVAOSServiceCCAppointments
+          : featureVAOSServiceVAAppointments;
       let appointment = selectAppointmentById(state, id, [
         type === 'cc'
           ? APPOINTMENT_TYPES.ccAppointment
@@ -523,9 +527,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
         appointment = await fetchBookedAppointment({
           id,
           type,
-          useV2:
-            featureVAOSServiceVAAppointments ||
-            featureVAOSServiceCCAppointments,
+          useV2,
         });
       }
 

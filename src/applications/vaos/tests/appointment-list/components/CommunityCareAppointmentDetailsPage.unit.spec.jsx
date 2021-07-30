@@ -662,7 +662,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
     ).to.be.ok;
 
     expect(screen.getByText(/Community care/)).to.be.ok;
-    expect(screen.getByText(/Atlantic Medical Care/)).to.be.ok;
+    expect(await screen.findByText(/Atlantic Medical Care/)).to.be.ok;
     expect(
       screen.getByRole('link', {
         name: /2 0 2. 5 5 5. 1 2 6 4./,
