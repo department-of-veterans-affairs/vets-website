@@ -60,6 +60,10 @@ export function getPatientMetadata(locationId, typeOfCareId, schedulingType) {
   ).then(parseApiObject);
 }
 
+export function getFacilityById(id) {
+  return apiRequestWithUrl(`/vaos/v2/facilities/${id}`).then(parseApiObject);
+}
+
 export function getSchedulingConfigurations(locationIds, ccEnabled = null) {
   let ccEnabledParam = '';
   if (ccEnabled !== null) {

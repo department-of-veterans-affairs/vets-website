@@ -142,7 +142,6 @@ export function transformVAOSAppointment(appt) {
         ?.short,
       preferredTimesForPhoneCall: appt.preferredTimesForPhoneCall,
       requestVisitType: getTypeOfVisit(appt.kind),
-      practitioners: appt.practitioners,
       // TODO: ask about service types for CC and VA requests
       type: {
         coding: [
@@ -184,6 +183,7 @@ export function transformVAOSAppointment(appt) {
     comment: appt.comment,
     videoData,
     communityCareProvider: null,
+    practitioners: appt.practitioners,
     ...requestFields,
     vaos: {
       isVideo,

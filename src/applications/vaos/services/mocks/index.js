@@ -233,11 +233,16 @@ const responses = {
 
     return res.json(schedulingConfigurations);
   },
+  'GET /vaos/v2/facilities/:id': (req, res) => {
+    return res.json({
+      data: facilitiesV2.data.find(facility => facility.id === req.params.id),
+    });
+  },
   'GET /vaos/v2/facilities': (req, res) => {
     const ids = req.query.ids;
     const children = req.query.children;
 
-    res.json({
+    return res.json({
       data: facilitiesV2.data.filter(
         facility =>
           ids.includes(facility.id) ||
@@ -350,6 +355,8 @@ const responses = {
         { name: 'vaGlobalDowntimeNotification', value: false },
         { name: 'vaOnlineSchedulingVAOSServiceRequests', value: true },
         { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: true },
+        { name: 'vaOnlineSchedulingFacilitiesServiceV2', value: true },
+        { name: 'vaOnlineSchedulingVAOSServiceCCAppointments', value: true },
         { name: 'vaOnlineSchedulingVariantTesting', value: false },
         { name: 'ssoe', value: true },
         { name: 'ssoeInbound', value: false },

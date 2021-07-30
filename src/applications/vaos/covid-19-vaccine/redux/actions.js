@@ -4,7 +4,10 @@ import {
   selectVAPHomePhoneString,
   selectVAPMobilePhoneString,
 } from 'platform/user/selectors';
-import { selectSystemIds } from '../../redux/selectors';
+import {
+  selectFeatureFacilitiesServiceV2,
+  selectSystemIds,
+} from '../../redux/selectors';
 import { getAvailableHealthcareServices } from '../../services/healthcare-service';
 import {
   getLocationsByTypeOfCareAndSiteIds,
@@ -140,6 +143,9 @@ export function openFacilityPage() {
     try {
       const initialState = getState();
       const newBooking = selectCovid19VaccineNewBooking(initialState);
+      const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
+        initialState,
+      );
       const siteIds = selectSystemIds(initialState);
       let facilities = newBooking.facilities;
       let facilityId = newBooking.data.vaFacility;
@@ -152,6 +158,7 @@ export function openFacilityPage() {
       if (!facilities) {
         facilities = await getLocationsByTypeOfCareAndSiteIds({
           siteIds,
+          useV2: featureFacilitiesServiceV2,
         });
       }
 
@@ -475,6 +482,9 @@ export function openContactFacilitiesPage() {
     try {
       const initialState = getState();
       const newBooking = selectCovid19VaccineNewBooking(initialState);
+      const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
+        initialState,
+      );
       const siteIds = selectSystemIds(initialState);
       let facilities = newBooking.facilities;
 
@@ -486,6 +496,7 @@ export function openContactFacilitiesPage() {
       if (!facilities) {
         facilities = await getLocationsByTypeOfCareAndSiteIds({
           siteIds,
+          useV2: featureFacilitiesServiceV2,
         });
       }
 

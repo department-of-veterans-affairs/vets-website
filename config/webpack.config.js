@@ -13,7 +13,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
-const ManifestPlugin = require('webpack-manifest-plugin');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const WebpackBar = require('webpackbar');
 
 const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
@@ -425,9 +425,9 @@ module.exports = async (env = {}) => {
 
   if (!buildOptions.watch) {
     baseConfig.plugins.push(
-      new ManifestPlugin({
+      new WebpackManifestPlugin({
         fileName: 'file-manifest.json',
-        filter: ({ path: filePath }) => !filePath.includes('/generated/..'),
+        filter: ({ isChunk }) => isChunk,
       }),
     );
   }

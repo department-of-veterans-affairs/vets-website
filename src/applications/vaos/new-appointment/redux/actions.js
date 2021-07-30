@@ -13,7 +13,7 @@ import {
   selectFeatureVAOSServiceRequests,
   selectFeatureVariantTesting,
   selectRegisteredCernerFacilityIds,
-  selectFeatureVAOSServiceVAAppointments,
+  selectFeatureFacilitiesServiceV2,
 } from '../../redux/selectors';
 import {
   getTypeOfCare,
@@ -231,13 +231,19 @@ export function startRequestAppointmentFlow(isCommunityCare) {
 export function fetchFacilityDetails(facilityId) {
   let facilityDetails;
 
-  return async dispatch => {
+  return async (dispatch, getState) => {
     dispatch({
       type: FORM_FETCH_FACILITY_DETAILS,
     });
+    const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
+      getState(),
+    );
 
     try {
-      facilityDetails = await getLocation({ facilityId });
+      facilityDetails = await getLocation({
+        facilityId,
+        useV2: featureFacilitiesServiceV2,
+      });
     } catch (error) {
       facilityDetails = null;
       captureError(error);
@@ -311,7 +317,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     try {
       const initialState = getState();
-      const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+      const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
         initialState,
       );
       const newAppointment = initialState.newAppointment;
@@ -332,7 +338,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         if (!typeOfCareFacilities) {
           typeOfCareFacilities = await getLocationsByTypeOfCareAndSiteIds({
             siteIds,
-            useV2: featureVAOSServiceVAAppointments,
+            useV2: featureFacilitiesServiceV2,
           });
         }
 
@@ -660,7 +666,7 @@ export function checkCommunityCareEligibility() {
   return async (dispatch, getState) => {
     const state = getState();
     const communityCareEnabled = selectFeatureCommunityCare(state);
-    const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(state);
+    const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(state);
 
     if (!communityCareEnabled) {
       return false;
@@ -671,11 +677,11 @@ export function checkCommunityCareEligibility() {
       const siteIds = selectSystemIds(state);
       const parentFacilities = await fetchParentLocations({
         siteIds,
-        useV2: featureVAOSServiceRequests,
+        useV2: featureFacilitiesServiceV2,
       });
       const ccEnabledSystems = await fetchCommunityCareSupportedSites({
         locations: parentFacilities,
-        useV2: featureVAOSServiceRequests,
+        useV2: featureFacilitiesServiceV2,
       });
 
       dispatch({
