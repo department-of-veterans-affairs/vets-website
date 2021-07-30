@@ -12,7 +12,6 @@ import reducer, {
   fetchCommunicationPreferenceGroups,
   saveCommunicationPreferenceChannel,
   selectChannelById,
-  selectChannelUiById,
   selectGroups,
 } from '../../ducks/communicationPreferences';
 import error401 from '../fixtures/401.json';
@@ -371,18 +370,21 @@ describe('saveCommunicationPreferenceChannel', () => {
             method: 'POST',
             endpoint: apiURL,
             body: {},
+            isAllowed: true,
           }),
         );
         // it should set that part of the UI as loading
-        expect(
-          selectChannelUiById(store.getState(), channelId).updateStatus,
-        ).to.equal(LOADING_STATES.pending);
+        let channelState = selectChannelById(store.getState(), channelId);
+        expect(channelState.ui.updateStatus).to.equal(LOADING_STATES.pending);
+        // it should flip the isAllowed flag while the call is in flight
+        expect(channelState.isAllowed).to.equal(!originalState.isAllowed);
         // the update call fails
         // it should then set the channel's redux state correctly
         await promise.then(() => {
-          const channelState = selectChannelById(store.getState(), channelId);
+          channelState = selectChannelById(store.getState(), channelId);
           expect(channelState.ui.updateStatus).to.equal(LOADING_STATES.error);
           expect(channelState.ui.errors).to.deep.equal(error401.errors);
+          // it should flip the isAllowed flag back to where it started
           expect(channelState.isAllowed).to.equal(originalState.isAllowed);
           expect(channelState.permissionId).to.equal(
             originalState.permissionId,
@@ -395,16 +397,17 @@ describe('saveCommunicationPreferenceChannel', () => {
             method: 'POST',
             endpoint: apiURL,
             body: {},
+            isAllowed: true,
           }),
         );
+        channelState = selectChannelById(store.getState(), channelId);
         // it should set that part of the UI as loading
-        expect(
-          selectChannelUiById(store.getState(), channelId).updateStatus,
-        ).to.equal(LOADING_STATES.pending);
+        expect(channelState.ui.updateStatus).to.equal(LOADING_STATES.pending);
+        expect(channelState.isAllowed).to.equal(!originalState.isAllowed);
         // the update call succeeds
         // it should then set the channel's redux state correctly
         await promise.then(() => {
-          const channelState = selectChannelById(store.getState(), channelId);
+          channelState = selectChannelById(store.getState(), channelId);
           expect(channelState.ui.updateStatus).to.equal(LOADING_STATES.loaded);
           expect(channelState.ui.errors).to.equal(null);
           expect(channelState.isAllowed).to.equal(postSuccess.bio.allowed);
@@ -431,16 +434,17 @@ describe('saveCommunicationPreferenceChannel', () => {
             method: 'PATCH',
             endpoint: `${apiURL}/1728`,
             body: {},
+            isAllowed: false,
           }),
         );
         // it should set that part of the UI as loading
-        expect(
-          selectChannelUiById(store.getState(), channelId).updateStatus,
-        ).to.equal(LOADING_STATES.pending);
+        let channelState = selectChannelById(store.getState(), channelId);
+        expect(channelState.ui.updateStatus).to.equal(LOADING_STATES.pending);
+        expect(channelState.isAllowed).to.equal(!originalState.isAllowed);
         // the update call fails
         // it should then set the channel's redux state correctly
         await promise.then(() => {
-          const channelState = selectChannelById(store.getState(), channelId);
+          channelState = selectChannelById(store.getState(), channelId);
           expect(channelState.ui.updateStatus).to.equal(LOADING_STATES.error);
           expect(channelState.ui.errors).to.deep.equal([error500]);
           expect(channelState.isAllowed).to.equal(originalState.isAllowed);
@@ -455,16 +459,17 @@ describe('saveCommunicationPreferenceChannel', () => {
             method: 'PATCH',
             endpoint: `${apiURL}/1728`,
             body: {},
+            isAllowed: false,
           }),
         );
         // it should set that part of the UI as loading
-        expect(
-          selectChannelUiById(store.getState(), channelId).updateStatus,
-        ).to.equal(LOADING_STATES.pending);
+        channelState = selectChannelById(store.getState(), channelId);
+        expect(channelState.ui.updateStatus).to.equal(LOADING_STATES.pending);
+        expect(channelState.isAllowed).to.equal(!originalState.isAllowed);
         // the update call succeeds
         // it should then set the channel's redux state correctly
         await promise.then(() => {
-          const channelState = selectChannelById(store.getState(), channelId);
+          channelState = selectChannelById(store.getState(), channelId);
           expect(channelState.ui.updateStatus).to.equal(LOADING_STATES.loaded);
           expect(channelState.ui.errors).to.equal(null);
           expect(channelState.isAllowed).to.equal(patchSuccess.bio.allowed);
