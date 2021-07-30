@@ -478,7 +478,6 @@ describe('VAOS community care flow using VAOS service', () => {
     });
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
-    cy.get('.va-modal-body button').click();
 
     // Start flow
     cy.findByText('Start scheduling').click();
