@@ -164,72 +164,79 @@ class ReviewCollapsibleChapter extends React.Component {
       return null;
     }
 
+    const updateButton = (
+      <ProgressButton
+        submitButton
+        onButtonClick={() => {
+          // recheck _all_ validations after the user clicks the
+          // update page button - needed to dynamically update
+          // accordion headers
+          this.checkValidation();
+          focusOnChange(
+            `${page.pageKey}${
+              typeof page.index === 'number' ? page.index : ''
+            }`,
+          );
+        }}
+        buttonText="Update page"
+        buttonClass="usa-button-primary"
+        ariaLabel={ariaLabel}
+      />
+    );
+
+    // These are functions so React doesn't create the component if we don't use
+    // it, but we still get the brevity later when we `renderCustom ?
+    // customContent() : schemaformContent();`
+    const schemaformContent = () => (
+      <SchemaForm
+        name={page.pageKey}
+        title={title}
+        data={pageData}
+        appStateData={page.appStateData}
+        schema={pageSchema}
+        uiSchema={pageUiSchema}
+        trackingPrefix={this.props.form.trackingPrefix}
+        hideHeaderRow={page.hideHeaderRow}
+        hideTitle={this.shouldHideExpandedPageTitle(
+          expandedPages,
+          this.getChapterTitle(chapterFormConfig),
+          title,
+        )}
+        pagePerItemIndex={page.index}
+        onBlur={this.props.onBlur}
+        onEdit={() => this.handleEdit(page.pageKey, !editing, page.index)}
+        onSubmit={({ formData }) =>
+          this.handleSubmit(formData, page.pageKey, page.arrayPath, page.index)
+        }
+        onChange={formData =>
+          this.onChange(
+            typeof page.updateFormData === 'function'
+              ? page.updateFormData(form.data, formData)
+              : formData,
+            page.arrayPath,
+            page.index,
+          )
+        }
+        uploadFile={this.props.uploadFile}
+        reviewMode={!editing}
+        formContext={formContext}
+        editModeOnReviewPage={page.editModeOnReviewPage}
+      >
+        {!editing ? <div /> : updateButton}
+      </SchemaForm>
+    );
+
+    // TODO: Add the props to these components
+    const customContent = () =>
+      editing ? <page.CustomPage /> : <page.CustomPageReview />;
+
+    const renderCustom = editing ? !!page.CustomPage : !!page.CustomPageReview;
+    const reviewContent = renderCustom ? customContent() : schemaformContent();
+
     return (
       <div key={`${fullPageKey}`} className={classes}>
         <Element name={`${fullPageKey}ScrollElement`} />
-        {pageSchema && (
-          <SchemaForm
-            name={page.pageKey}
-            title={title}
-            data={pageData}
-            appStateData={page.appStateData}
-            schema={pageSchema}
-            uiSchema={pageUiSchema}
-            trackingPrefix={this.props.form.trackingPrefix}
-            hideHeaderRow={page.hideHeaderRow}
-            hideTitle={this.shouldHideExpandedPageTitle(
-              expandedPages,
-              this.getChapterTitle(chapterFormConfig),
-              title,
-            )}
-            pagePerItemIndex={page.index}
-            onBlur={this.props.onBlur}
-            onEdit={() => this.handleEdit(page.pageKey, !editing, page.index)}
-            onSubmit={({ formData }) =>
-              this.handleSubmit(
-                formData,
-                page.pageKey,
-                page.arrayPath,
-                page.index,
-              )
-            }
-            onChange={formData =>
-              this.onChange(
-                typeof page.updateFormData === 'function'
-                  ? page.updateFormData(form.data, formData)
-                  : formData,
-                page.arrayPath,
-                page.index,
-              )
-            }
-            uploadFile={this.props.uploadFile}
-            reviewMode={!editing}
-            formContext={formContext}
-            editModeOnReviewPage={page.editModeOnReviewPage}
-          >
-            {!editing ? (
-              <div />
-            ) : (
-              <ProgressButton
-                submitButton
-                onButtonClick={() => {
-                  // recheck _all_ validations after the user clicks the
-                  // update page button - needed to dynamically update
-                  // accordion headers
-                  this.checkValidation();
-                  focusOnChange(
-                    `${page.pageKey}${
-                      typeof page.index === 'number' ? page.index : ''
-                    }`,
-                  );
-                }}
-                buttonText="Update page"
-                buttonClass="usa-button-primary"
-                ariaLabel={ariaLabel}
-              />
-            )}
-          </SchemaForm>
-        )}
+        {reviewContent}
         {arrayFields.map(arrayField => (
           <div key={arrayField.path} className="form-review-array">
             <ArrayField
@@ -260,8 +267,10 @@ class ReviewCollapsibleChapter extends React.Component {
   };
 
   // getCustomPageContent = (page, props) => {
-  //   return <div>Hello, world!</div>;
-  // };
+  getCustomPageContent = page => {
+    if (page.CustomPageReview === null) return null;
+    return <page.CustomPageReview />;
+  };
 
   getChapterContent = props => {
     const {
@@ -288,7 +297,7 @@ class ReviewCollapsibleChapter extends React.Component {
         )}
         {expandedPages.map(page => {
           const pageConfig = form.pages[page.pageKey];
-          return pageConfig.CustomPage
+          return pageConfig.CustomPageReview
             ? this.getCustomPageContent(page, props)
             : this.getSchemaformPageContent(page, props);
         })}
@@ -300,7 +309,7 @@ class ReviewCollapsibleChapter extends React.Component {
     Object.entries(this.props.form.pages).forEach(([pageKey, pageConfig]) => {
       if (pageConfig.CustomPage && pageConfig.CustomPageReview === undefined) {
         throw new Error(
-          `CustomPage found for ${pageKey}, but missing CustomPageReview. If you want to omit this page on the review page, set CustomPageReview to null.`,
+          `CustomPage found for ${pageKey}, but missing CustomPageReview. If you want to omit this page on the review page, set CustomPageReview to null and the page's schema.properties to {}.`,
         );
       }
     });
