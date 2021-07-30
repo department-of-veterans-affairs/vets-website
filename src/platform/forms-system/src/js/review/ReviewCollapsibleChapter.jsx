@@ -228,7 +228,7 @@ class ReviewCollapsibleChapter extends React.Component {
 
     // TODO: Add the props to these components
     const customContent = () =>
-      editing ? <page.CustomPage /> : <page.CustomPageReview />;
+      editing ? <page.CustomPage /> : this.getCustomPageContent(page, props);
 
     const renderCustom = editing ? !!page.CustomPage : !!page.CustomPageReview;
     const reviewContent = renderCustom ? customContent() : schemaformContent();
