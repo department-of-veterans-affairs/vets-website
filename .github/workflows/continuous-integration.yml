@@ -520,8 +520,8 @@ jobs:
   testing-reports:
     name: Testing Reports
     runs-on: ubuntu-latest
-    needs: cypress-tests
-    if: ${{ always() && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
+    # needs: cypress-tests
+    # if: ${{ always() && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -541,7 +541,7 @@ jobs:
       # ----------------
 
       - name: Checkout VSP actions
-        if: ${{ needs.cypress-tests.result == 'failure' }}
+        # if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: actions/checkout@v2
         with:
           repository: department-of-veterans-affairs/vsp-github-actions
@@ -551,21 +551,21 @@ jobs:
           path: ./.github/actions/vsp-github-actions
 
       - name: Get Slack app token
-        if: ${{ needs.cypress-tests.result == 'failure' }}
+        # if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
         with:
           ssm_parameter: /devops/github_actions_slack_socket_token
           env_variable_name: SLACK_APP_TOKEN
 
       - name: Get Slack bot token
-        if: ${{ needs.cypress-tests.result == 'failure' }}
+        # if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
         with:
           ssm_parameter: /devops/github_actions_slack_bot_user_token
           env_variable_name: SLACK_BOT_TOKEN
 
       - name: Notify Slack about Cypress test failures
-        if: ${{ needs.cypress-tests.result == 'failure' }}
+        # if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: ./.github/actions/vsp-github-actions/slack-socket
         env:
           SSL_CERT_DIR: /etc/ssl/certs
@@ -653,7 +653,7 @@ jobs:
           path: testing-reports/cypress-reports
 
       - name: Download video artifacts
-        if: ${{ needs.cypress-tests.result == 'failure' }}
+        # if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: actions/download-artifact@v2
         with:
           name: cypress-video-artifacts
@@ -847,8 +847,8 @@ jobs:
 
   stop-runner:
     name: Stop on-demand-runner
-    # TODO: Add archive step to needs
-    needs: [start-runner, build, cypress-tests, nightwatch-tests]
+    # TODO: Add archive, cyress-tests step to needs
+    needs: [start-runner, build, nightwatch-tests]
     runs-on: ubuntu-latest
     if: ${{ always() }} # Even if an error happened, let's stop the runner
     steps:
