@@ -18,7 +18,6 @@ describe('VAOS VA request flow', () => {
   function fillOutForm(facilitySelection) {
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
-    cy.get('.va-modal-body button').click();
     cy.findAllByRole('tab').should('exist');
 
     // Start flow
@@ -156,7 +155,6 @@ describe('VAOS VA request flow', () => {
     });
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
-    cy.get('.va-modal-body button').click();
     cy.findAllByRole('tab').should('exist');
 
     // Start flow
@@ -196,7 +194,6 @@ describe('VAOS VA request flow using VAOS service', () => {
     });
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
-    cy.get('.va-modal-body button').click();
 
     // Start flow
     cy.findByText('Start scheduling').click();

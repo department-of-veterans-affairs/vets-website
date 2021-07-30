@@ -16,6 +16,14 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
     .location-search-results {
       height: 565px;
       overflow-y: scroll;
+
+      @include media-maxwidth($small-screen) {
+        height: 75vh;
+      }
+    }
+
+    @include media-maxwidth($small-screen) {
+      border: none;
     }
   }
 
@@ -61,6 +69,10 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
     padding-left: 0;
     display: flex;
     flex-direction: row;
+
+    @include media-maxwidth($small-screen) {
+      min-height: 45vh;
+    }
   }
 
   .mapboxgl-ctrl-top-center {
@@ -99,6 +111,27 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
     button:disabled {
       background-color: $color-gray-medium;
     }
+  }
+
+  .tab-form {
+    .active-results-tab {
+      border-top: 4px solid $color-primary;
+    }
+
+    .inactive-results-tab {
+      border-top: 2px solid $color-black;
+    }
+
+    .list-results-tab {
+      border-left: 2px solid $color-black;
+      border-right: 1px solid $color-black;
+    }
+
+    .map-results-tab {
+      border-left: 1px solid $color-black;
+      border-right: 2px solid $color-black;
+    }
+
   }
 }
 
