@@ -43,7 +43,8 @@ function LocationSearchResults({
   const [usedFilters, setUsedFilters] = useState(filtersChanged);
   const [cardResults, setCardResults] = useState(null);
   const [mobileTab, setMobileTab] = useState(LIST_TAB);
-  const [mobileMarkerClicked, setMobileMarkerClicked] = useState(null);
+  const [markerClicked, setMarkerClicked] = useState(null);
+  const [activeMarker, setActiveMarker] = useState(null);
 
   /**
    * When map is moved update distance from center to NorthEast corner
@@ -159,6 +160,7 @@ function LocationSearchResults({
         offset: -locationSearchResults.getBoundingClientRect().top,
       }),
     );
+    setActiveMarker(name);
     dispatchUpdateEligibilityAndFilters(
       { expanded: false },
       { expanded: false },
@@ -166,17 +168,18 @@ function LocationSearchResults({
   };
 
   /**
-   * Used for smallScreen when a map marker is clicked
-   * Using a useEffect since need to switch tabs first before scrolling to search result card
+   * Used when a map marker is clicked
+   * Using a useEffect since on smallScreen need to switch tabs first before scrolling to search result card
+   * Both desktop and mobile while trigger this useEffect
    */
   useEffect(
     () => {
-      if (mobileMarkerClicked && mobileTab === LIST_TAB) {
-        mapMarkerClicked(mobileMarkerClicked);
-        setMobileMarkerClicked(null);
+      if (markerClicked && (!smallScreen || mobileTab === LIST_TAB)) {
+        mapMarkerClicked(markerClicked);
+        setMarkerClicked(null);
       }
     },
-    [mobileMarkerClicked],
+    [markerClicked],
   );
 
   /**
@@ -199,10 +202,8 @@ function LocationSearchResults({
     popup.on('open', () => {
       if (smallScreen) {
         setMobileTab(LIST_TAB);
-        setMobileMarkerClicked(name);
-      } else {
-        mapMarkerClicked(name);
       }
+      setMarkerClicked(name);
     });
 
     if (locationBounds) {
@@ -299,7 +300,7 @@ function LocationSearchResults({
    * Creates result cards for display
    */
   const resultCards = cardResults?.map((institution, index) => {
-    const { distance } = institution;
+    const { distance, name } = institution;
     const miles = Number.parseFloat(distance).toFixed(2);
 
     const header = (
@@ -315,7 +316,12 @@ function LocationSearchResults({
 
     return (
       <div key={institution.facilityCode}>
-        <SearchResultCard institution={institution} location header={header} />
+        <SearchResultCard
+          institution={institution}
+          location
+          header={header}
+          active={activeMarker === name}
+        />
       </div>
     );
   });
@@ -470,6 +476,7 @@ function LocationSearchResults({
         'vads-l-row': !smallScreen,
         'vads-u-flex-wrap--wrap': !smallScreen,
       });
+
       return (
         <div
           id="location-search-results-container"
