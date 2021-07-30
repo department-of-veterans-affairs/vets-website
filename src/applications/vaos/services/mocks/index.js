@@ -330,6 +330,7 @@ const responses = {
         { name: 'vaOnlineSchedulingVAOSServiceRequests', value: true },
         { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: true },
         { name: 'vaOnlineSchedulingFacilitiesServiceV2', value: true },
+        { name: 'vaOnlineSchedulingVAOSServiceCCAppointments', value: true },
         { name: 'vaOnlineSchedulingVariantTesting', value: false },
         { name: 'ssoe', value: true },
         { name: 'ssoeInbound', value: false },
