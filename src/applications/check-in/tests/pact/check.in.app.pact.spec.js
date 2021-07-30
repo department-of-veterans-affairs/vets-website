@@ -56,8 +56,8 @@ contractTest('Check In', 'VA.gov API', mockApi => {
   });
 
   // Skipped until the pact is created on the API
-  describe('POST /check_in/v0/patient_check_ins/', () => {
-    it.skip('responds with status 200', async () => {
+  describe.skip('POST /check_in/v0/patient_check_ins/', () => {
+    it('responds with status 200', async () => {
       const token = '4c6b08ef-dd38-48d6-973a-0d1bcd2622c8';
       const interaction = {
         state: 'check in a patient',
