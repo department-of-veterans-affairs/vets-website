@@ -20,7 +20,7 @@ const GetHelp = () => {
           pattern={PATTERNS['3_DIGIT']}
           className="vads-u-margin-left--0p5"
         />
-        ). We’re here Monday through Friday, 8:00 a.m. t 8:00 p.m. ET.
+        ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
       </p>
       <p>
         <strong>For questions about your treatment or your charges, </strong>
