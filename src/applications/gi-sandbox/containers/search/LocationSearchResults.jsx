@@ -170,7 +170,7 @@ function LocationSearchResults({
   /**
    * Used when a map marker is clicked
    * Using a useEffect since on smallScreen need to switch tabs first before scrolling to search result card
-   * Both desktop and mobile while trigger this useEffect
+   * Both desktop and mobile will trigger this useEffect
    */
   useEffect(
     () => {
