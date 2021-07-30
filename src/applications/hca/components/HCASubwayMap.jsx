@@ -248,7 +248,7 @@ export default function HCASubwayMap() {
               <p>We use this information to help us decide these 3 things:</p>
               <ul>
                 <li>
-                  What types of VA health care benefits you're eligible for,
+                  What types of VA health care benefits you're eligible for,{' '}
                   <strong>and</strong>
                 </li>
                 <li>
