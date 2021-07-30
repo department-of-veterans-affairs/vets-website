@@ -30,13 +30,15 @@ jobs:
           echo "RUNNER_AMI_ID=$(aws ec2 describe-images \
           --owners 008577686731 \
           --filters Name=name,Values=packer-gha-runner-ubuntu2004* \
-          --query 'sort_by(Images,&CreationDate)[-1].ImageId')" >> $GITHUB_ENV
+          --query 'sort_by(Images,&CreationDate)[-1].ImageId' \
+          --output text)" >> $GITHUB_ENV
 
       - name: Get Subnet with the most free IPs # We will run these in the dsva-vagov-utility-2x subnet, so filter for those
         run: |
           echo "SUBNET_ID=$(aws ec2 describe-subnets \
           --filters "Name=tag:Name,Values=dsva-vagov-utility-subnet-2*" \
-          --query 'sort_by(Subnets,&AvailableIpAddressCount)[-1].SubnetId')" >> $GITHUB_ENV
+          --query 'sort_by(Subnets,&AvailableIpAddressCount)[-1].SubnetId' \
+          --output text)" >> $GITHUB_ENV
 
       - name: Start EC2 Runner
         id: start-ec2-runner
