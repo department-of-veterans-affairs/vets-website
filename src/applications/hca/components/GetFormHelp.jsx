@@ -43,7 +43,9 @@ function GetFormHelp() {
           If you need help to gather your information or fill out your
           application/form,{' '}
         </strong>
-        <a href="/vso/">contact a local Veterans Service Organization (VSO).</a>
+        <a href="https://va.gov/vso/">
+          contact a local Veterans Service Organization (VSO).
+        </a>
       </p>
       <p className="help-talk">
         <strong>If you have questions about VA health care, </strong>

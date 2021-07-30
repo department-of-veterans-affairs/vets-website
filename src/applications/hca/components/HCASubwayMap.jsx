@@ -140,7 +140,7 @@ export default function HCASubwayMap() {
                 Find out how to get mental health care
               </a>
             </p>
-            <AdditionalInfo triggerText="What are the VA health care eligibility requirements?">
+            <AdditionalInfo triggerText="What are the eligibility requirements to enroll in VA health care?">
               <p>
                 You may be eligible to enroll in VA health care if all of these
                 statements are true:
