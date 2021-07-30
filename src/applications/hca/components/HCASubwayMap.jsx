@@ -135,7 +135,7 @@ export default function HCASubwayMap() {
             <p>
               <strong>Note:</strong> We can help connect you with mental health
               care—no matter your discharge status, service history, or
-              eligibility for VA health care.
+              eligibility for VA health care.{' '}
               <a href="/health-care/health-needs-conditions/mental-health/">
                 Find out how to get mental health care
               </a>
