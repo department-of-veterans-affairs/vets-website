@@ -88,7 +88,7 @@ class IntroductionPage extends React.Component {
               </p>
               <p>
                 If your application wasn’t approved, you’ll get a link to
-                download denial letter.
+                download your denial letter.
               </p>
               <p>We will also send these letters in the mail.</p>
             </li>
