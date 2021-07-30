@@ -1,3 +1,4 @@
+import appendQuery from 'append-query';
 import { apiRequestWithUrl, parseApiList, parseApiObject } from '../utils';
 
 export function postAppointment(appointment) {
@@ -41,9 +42,15 @@ export function getFacilities(ids, children = false) {
   ).then(parseApiList);
 }
 
-export function getClinicsByLocationAndTypeOfCare(locationId, typeOfCareId) {
+export function getClinics({ locationId, clinicIds, typeOfCareId }) {
+  const url = `/vaos/v2/locations/${locationId}/clinics`;
   return apiRequestWithUrl(
-    `/vaos/v2/locations/${locationId}/clinics?clinical_service=${typeOfCareId}`,
+    appendQuery(
+      url,
+      // eslint-disable-next-line camelcase
+      { clinic_ids: clinicIds, clinical_service: typeOfCareId },
+      { removeNull: true },
+    ),
   ).then(parseApiList);
 }
 

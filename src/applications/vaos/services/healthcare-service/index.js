@@ -5,7 +5,7 @@ import { getAvailableClinics } from '../var';
 import { transformAvailableClinics } from './transformers';
 import { mapToFHIRErrors } from '../utils';
 import { getSupportedLocationsByTypeOfCare } from '../location';
-import { getClinicsByLocationAndTypeOfCare } from '../vaos';
+import { getClinics } from '../vaos';
 import { transformClinicsV2 } from './transformers.v2';
 
 /**
@@ -27,10 +27,10 @@ export async function getAvailableHealthcareServices({
   try {
     let clinics = null;
     if (useV2) {
-      const clinicData = await getClinicsByLocationAndTypeOfCare(
-        facilityId,
-        typeOfCare.idV2,
-      );
+      const clinicData = await getClinics({
+        locationId: facilityId,
+        typeOfCareId: typeOfCare.idV2,
+      });
       clinics = transformClinicsV2(clinicData);
     } else {
       const clinicData = await getAvailableClinics(
