@@ -10,7 +10,7 @@ import { mapboxToken } from '../../utils/mapboxToken';
 import { MapboxInit, MAX_SEARCH_AREA_DISTANCE } from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
 import FilterYourResults from '../../containers/FilterYourResults';
-import { numberToLetter, createId } from '../../utils/helpers';
+import { createId } from '../../utils/helpers';
 import {
   fetchSearchByLocationCoords,
   updateEligibilityAndFilters,
@@ -191,11 +191,9 @@ function LocationSearchResults({
     const { latitude, longitude, name } = institution;
     const lngLat = new mapboxgl.LngLat(longitude, latitude);
 
-    const letter = numberToLetter(index + 1);
-
     const markerElement = document.createElement('div');
     markerElement.className = 'location-letter-marker';
-    markerElement.innerText = letter;
+    markerElement.innerText = index + 1;
 
     const popup = new mapboxgl.Popup();
     popup.on('open', () => {
@@ -303,11 +301,12 @@ function LocationSearchResults({
   const resultCards = cardResults?.map((institution, index) => {
     const { distance } = institution;
     const miles = Number.parseFloat(distance).toFixed(2);
-    const letter = numberToLetter(index + 1);
 
     const header = (
       <div className="location-header vads-u-display--flex vads-u-padding-top--1 vads-u-padding-bottom--2">
-        <span className="location-letter vads-u-font-size--sm">{letter}</span>
+        <span className="location-letter vads-u-font-size--sm">
+          {index + 1}
+        </span>
         <span className="vads-u-padding-x--0p5 vads-u-font-size--sm">
           <strong>{miles} miles</strong>
         </span>
