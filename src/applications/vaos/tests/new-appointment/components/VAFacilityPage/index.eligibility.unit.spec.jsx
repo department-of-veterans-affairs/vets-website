@@ -30,8 +30,8 @@ import {
 import {
   mockSchedulingConfigurations,
   mockV2FacilitiesFetch,
-  mockEligibilityFetchesV2,
 } from '../../../mocks/helpers.v2';
+import { mockEligibilityFetchesByVersion } from '../../../mocks/fetch';
 
 const parentSite983 = {
   id: '983',
@@ -621,9 +621,10 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
           facilities.filter(f => f.id === '983' || f.id === '984'),
           true,
         );
-        mockEligibilityFetchesV2({
+        mockEligibilityFetchesByVersion({
           facilityId: '983',
           typeOfCareId: 'outpatientMentalHealth',
+          version: 2,
         });
         const store = createTestStore(initialState);
         await setTypeOfCare(store, /mental health/i);
