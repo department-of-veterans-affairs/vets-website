@@ -137,7 +137,7 @@ function PastAppointmentsList({
         >
           Showing appointments for: {dateRangeOptions[pastSelectedIndex].label}
         </span>
-        <ul className="usa-unstyled-list" id="appointments-list">
+        <ul className="usa-unstyled-list" id="appointments-list" role="list">
           {past.map((appt, index) => {
             switch (appt.vaos?.appointmentType) {
               case APPOINTMENT_TYPES.ccAppointment:

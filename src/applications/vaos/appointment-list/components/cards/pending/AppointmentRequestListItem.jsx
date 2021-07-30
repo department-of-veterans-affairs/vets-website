@@ -90,7 +90,7 @@ export default function AppointmentRequestListItem({
         <div className="vads-u-flex--1 vaos-u-word-break--break-word">
           <h4 className="vaos-appts__block-label">Preferred date and time</h4>
           <div>
-            <ul className="usa-unstyled-list">
+            <ul className="usa-unstyled-list" role="list">
               {appointment.requestedPeriod.map((option, optionIndex) => (
                 <li key={`${appointment.id}-option-${optionIndex}`}>
                   {moment(option.start).format('ddd, MMMM D, YYYY')}{' '}

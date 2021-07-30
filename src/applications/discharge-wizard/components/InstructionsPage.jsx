@@ -76,7 +76,7 @@ const InstructionsPage = () => {
               <div className="row">
                 <div className="small-12 columns">
                   <div className="usa-accordion">
-                    <ul className="usa-unstyled-list">
+                    <ul className="usa-unstyled-list" role="list">
                       <li
                         itemProp="mainEntity"
                         itemScope

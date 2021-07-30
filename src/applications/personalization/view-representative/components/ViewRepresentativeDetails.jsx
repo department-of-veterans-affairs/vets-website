@@ -8,7 +8,7 @@ import Telephone, {
 export const ViewRepresentativeDetails = props => (
   <>
     <h2 className="vads-u-font-size--h3 vads-u-margin-top--6">On this page</h2>
-    <ul className="usa-unstyled-list vads-u-margin-top--2">
+    <ul className="usa-unstyled-list vads-u-margin-top--2" role="list">
       <li>
         <a href="#selectedRepresentative">
           <i

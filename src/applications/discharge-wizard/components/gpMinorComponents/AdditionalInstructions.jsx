@@ -15,7 +15,7 @@ const AdditionalInstructions = ({
   return (
     <section>
       <div className="usa-accordion accordion-container">
-        <ul className="usa-unstyled-list">
+        <ul className="usa-unstyled-list" role="list">
           <li itemScope itemType="http://schema.org/Question">
             <button
               className="usa-button-unstyled usa-accordion-button"

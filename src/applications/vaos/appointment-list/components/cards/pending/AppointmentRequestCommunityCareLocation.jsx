@@ -11,7 +11,7 @@ export default function AppointmentRequestCommunityCareLocation({
       <div>
         {!providers?.length && 'Not specified'}
         {!!providers?.length && (
-          <ul className="usa-unstyled-list">
+          <ul className="usa-unstyled-list" role="list">
             {providers.map((provider, index) => {
               const { practiceName, providerName } = provider;
 

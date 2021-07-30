@@ -302,7 +302,7 @@ class ReviewCollapsibleChapter extends React.Component {
         data-chapter={this.props.chapterKey}
       >
         <Element name={`chapter${this.props.chapterKey}ScrollElement`} />
-        <ul className="usa-unstyled-list">
+        <ul className="usa-unstyled-list" role="list">
           <li>
             <h3 className={headerClasses}>
               <button

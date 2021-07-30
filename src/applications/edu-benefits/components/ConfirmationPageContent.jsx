@@ -118,7 +118,7 @@ export function ConfirmationPageContent({
             id="collapsiblePanel"
             className="usa-accordion-bordered screen-only"
           >
-            <ul className="usa-unstyled-list">
+            <ul className="usa-unstyled-list" role="list">
               <li>
                 <div className="accordion-header clearfix">
                   <button
