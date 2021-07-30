@@ -129,17 +129,27 @@ export default function HCASubwayMap() {
           <li className="process-step list-one">
             <h3 className="vads-u-font-size--h4">Check your eligibility</h3>
             <p>
-              Make sure you meet our eligibility requirements before you apply.
+              Make sure you meet our eligibility requirements for full
+              enrollment before you apply.
+            </p>
+            <p>
+              <strong>Note:</strong> We can help connect you with mental health
+              care—no matter your discharge status, service history, or
+              eligibility for VA health care.
+              <a href="/health-care/health-needs-conditions/mental-health/">
+                Find out how to get mental health care
+              </a>
             </p>
             <AdditionalInfo triggerText="What are the VA health care eligibility requirements?">
               <p>
-                You may be eligible for VA health care if all of these
+                You may be eligible to enroll in VA health care if all of these
                 statements are true:
               </p>
               <ul>
                 <li>
-                  You served in the active military, naval, or air service,{' '}
-                  <strong>and</strong>
+                  You served in the active military, naval, or air service
+                  (including being called up from the National Guard or Reserve
+                  by a federal order), <strong>and</strong>
                 </li>
                 <li>
                   You didn’t receive a dishonorable discharge,{' '}
@@ -170,19 +180,15 @@ export default function HCASubwayMap() {
               </ul>
 
               <p>
-                If you’re a current or former member of the National Guard or
-                Reserve, both of these must be true for you:
+                <strong>Note:</strong> Time spent on active-duty status for
+                training purposes only doesn’t count toward the service
+                requirements.
               </p>
-              <ul>
-                <li>
-                  You were called to active duty by a federal order,{' '}
-                  <strong>and</strong>
-                </li>
-                <li>You completed your full active-duty period</li>
-              </ul>
               <p>
-                If you had or have active-duty status for training purposes
-                only, you’re not eligible for VA health care.
+                <a href="/discharge-upgrade-instructions/">
+                  Get instructions on how to apply for a discharge upgrade or
+                  correction
+                </a>
               </p>
             </AdditionalInfo>
           </li>
@@ -226,62 +232,43 @@ export default function HCASubwayMap() {
             </ul>
 
             <AdditionalInfo triggerText="Why does VA need this information?">
-              <p>
-                When you apply for VA health care, we assign you to 1 of 8
-                priority groups. We base your group on these factors:
-              </p>
+              <p>When you apply, we review this information:</p>
               <ul>
+                <li>Your service history</li>
+                <li>Your VA disability rating</li>
                 <li>
-                  Your military service history, <strong>and</strong>
+                  Your income level (and the income level of your spouse or
+                  other qualified dependents)
                 </li>
                 <li>
-                  You disability rating, <strong>and</strong>
-                </li>
-                <li>
-                  Your income level, <strong>and</strong>
-                </li>
-                <li>
-                  Whether or not you qualify for Medicaid, <strong>and</strong>
-                </li>
-                <li>
-                  Other benefits you may receive (like VA pension benefits)
+                  Your eligibility for Medicaid, VA disability compensation, and
+                  VA pension benefits
                 </li>
               </ul>
-              <p>Your priority group may affect these 3 things:</p>
+              <p>We use this information to help us decide these 3 things:</p>
               <ul>
                 <li>
-                  How likely you are to get VA health care benefits,{' '}
+                  What types of VA health care benefits you're eligible for,
                   <strong>and</strong>
                 </li>
                 <li>
-                  How soon we enroll you in VA health care, <strong>and</strong>
+                  How soon we can enroll you in VA health care,{' '}
+                  <strong>and</strong>
                 </li>
                 <li>
                   How much (if anything) you’ll have to pay toward the cost of
                   your care
                 </li>
               </ul>
-              <p>You should know:</p>
-              <ul>
-                <li>
-                  We give Veterans with service-connected disabilities the
-                  highest priority.
-                </li>
-                <li>
-                  If you’re not eligible for care based on your disability
-                  rating or other factors, you may still be eligible based on
-                  your income.
-                </li>
-                <li>
-                  In some cases, a higher income may mean we assign you to a
-                  lower priority group. If your income changes later, you can
-                  tell us. We’ll adjust your group based on your new income.
-                </li>
-                <li>
-                  We ask about other health insurance for billing only. This
-                  doesn’t affect your eligibility for VA health care.
-                </li>
-              </ul>
+              <p>
+                We give Veterans with service-connected disabilities the highest
+                priority.
+              </p>
+              <p>
+                <strong>Note:</strong> We ask about other health insurance for
+                billing only. Having other health insurance doesn’t affect your
+                eligibility for VA health care.
+              </p>
             </AdditionalInfo>
           </li>
 
@@ -301,8 +288,7 @@ export default function HCASubwayMap() {
               <p>
                 If you don’t receive your decision letter within a week after
                 you apply, please don’t apply again. Call us at{' '}
-                <a href="tel:+18772228387">877-222-8387</a>
-                (TTY:{' '}
+                <a href="tel:+18772228387">877-222-8387</a> (TTY:{' '}
                 <Telephone
                   contact={CONTACTS['711']}
                   pattern={'###'}

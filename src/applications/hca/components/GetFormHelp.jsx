@@ -30,8 +30,7 @@ function GetFormHelp() {
       <p className="help-talk">
         <strong> If you have trouble using this online application,</strong>{' '}
         call our MyVA411 main information line at{' '}
-        <a href="tel:+18006982411">800-698-2411</a>
-        (TTY:{' '}
+        <a href="tel:+18006982411">800-698-2411</a> (TTY:{' '}
         <Telephone
           contact={CONTACTS['711']}
           pattern={'###'}
@@ -44,15 +43,12 @@ function GetFormHelp() {
           If you need help to gather your information or fill out your
           application/form,{' '}
         </strong>
-        <a href="/disability/get-help-filing-claim/">
-          contact a local Veterans Service Organization (VSO).
-        </a>
+        <a href="/vso/">contact a local Veterans Service Organization (VSO).</a>
       </p>
       <p className="help-talk">
         <strong>If you have questions about VA health care, </strong>
         call our Health Resource Center at{' '}
-        <a href="tel:+18772228387">877-222-8387</a>
-        (TTY:{' '}
+        <a href="tel:+18772228387">877-222-8387</a> (TTY:{' '}
         <Telephone
           contact={CONTACTS['711']}
           pattern={'###'}
