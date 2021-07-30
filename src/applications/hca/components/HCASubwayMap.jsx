@@ -209,10 +209,10 @@ export default function HCASubwayMap() {
                 copy of your DD214 or other separation documents.
               </li>
               <li>
-                <strong>Insurance cards</strong> for all insurance companies
-                that cover you. This includes any coverage that you get through
-                a spouse or significant other. This also includes Medicare,
-                private insurance, or insurance from your employer.
+                <strong>Insurance cards</strong> for all health insurance
+                companies that cover you. This includes any coverage that you
+                get through a spouse or significant other. This also includes
+                Medicare, private insurance, or insurance from your employer.
               </li>
             </ul>
 

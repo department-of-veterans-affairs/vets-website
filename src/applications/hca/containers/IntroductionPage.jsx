@@ -181,7 +181,8 @@ const LoggedOutContent = connect(
                   </li>
                   <li>
                     You can save your work in progress. You’ll have 60 days from
-                    when you start or make updates to come back and finish it.
+                    when you start or make updates to your application to come
+                    back and finish it.
                   </li>
                 </ul>
                 <p>
