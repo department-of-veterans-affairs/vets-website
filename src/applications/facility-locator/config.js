@@ -154,7 +154,6 @@ export const resolveParamsWithUrl = ({
         : null,
       `page=${page}`,
       `per_page=${perPage}`,
-      // facility === LocationType.VET_CENTER ? `exclude_mobile=false` : null,
       facility === LocationType.VET_CENTER ? `mobile=false` : null,
       facility === LocationType.HEALTH ? `mobile=false` : null,
       roundRadius ? `radius=${roundRadius}` : null,
