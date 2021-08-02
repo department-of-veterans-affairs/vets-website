@@ -226,9 +226,23 @@ class ReviewCollapsibleChapter extends React.Component {
       </SchemaForm>
     );
 
-    // TODO: Add the props to these components
+    // TODO: Add the props to CustomPage
     const customContent = () =>
-      editing ? <page.CustomPage /> : this.getCustomPageContent(page, props);
+      editing ? (
+        <page.CustomPage
+          onReviewPage
+          onSubmit={({ formData }) =>
+            this.handleSubmit(
+              formData,
+              page.pageKey,
+              page.arrayPath,
+              page.index,
+            )
+          }
+        />
+      ) : (
+        this.getCustomPageContent(page, props)
+      );
 
     const renderCustom = editing ? !!page.CustomPage : !!page.CustomPageReview;
     const reviewContent = renderCustom ? customContent() : schemaformContent();
