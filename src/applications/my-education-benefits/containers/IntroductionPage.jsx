@@ -19,9 +19,9 @@ class IntroductionPage extends React.Component {
           <a href="/">Home</a>
           <a href="#">My VA</a>
           <a href="#">My Education</a>
-          <a href="#">Apply for VA Education Benefits</a>
+          <a href="#">Apply for VA education benefits</a>
         </Breadcrumbs>
-        <FormTitle title="Apply for VA Education Benefits" />
+        <FormTitle title="Apply for VA education benefits" />
         <p>Equal to VA Form 22-1990 (Application for VA Education Benefits).</p>
         <HowToApplyPost911GiBill />
         <SaveInProgressIntro
@@ -103,10 +103,7 @@ class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           startText="Start the education application"
         />
-        <div
-          className="omb-info--container"
-          style={{ paddingLeft: '0px', marginTop: '4rem' }}
-        >
+        <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={15} ombNumber="2900-0154" expDate="02/28/2023" />
         </div>
       </div>
