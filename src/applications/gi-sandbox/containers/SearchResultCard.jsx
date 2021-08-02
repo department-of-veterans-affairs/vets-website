@@ -141,7 +141,7 @@ export function SearchResultCard({
       {employerProvider && (
         <p className="asterisk-text">
           * Housing rate and the amount of entitlement used decrease every 6
-          months as employer pay increases
+          months as training progresses
         </p>
       )}
     </>
