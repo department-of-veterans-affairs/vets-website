@@ -1,0 +1,36 @@
+.review-box {
+  align-items: center;
+  background-color: #f1f1f1;
+  margin-bottom: 16px;
+  padding: 22px 16px;
+}
+.review-box--view {
+  display: flex;
+  justify-content: space-between;
+}
+.review-box_body {
+  margin: 0;
+  padding: 0;
+}
+.review-box_title {
+  margin-top: 0;
+}
+.review-box .usa-input-error {
+  margin-top: 0;
+}
+.review-box_group {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+.review-box_label {
+  font-weight: bold;
+}
+.review-box_button {
+  flex: 0 1;
+  margin: 0;
+}
+.review-box_button,
+.review-box .usa-button-secondary {
+  background: #fff;
+}
