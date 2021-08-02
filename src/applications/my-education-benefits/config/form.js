@@ -3,6 +3,7 @@ import React from 'react';
 
 // Example of an imported schema:
 // import fullSchema from '../22-1990-schema.json';
+// eslint-disable-next-line no-unused-vars
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/22-1990-schema.json';
 
@@ -23,8 +24,8 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 // eslint-disable-next-line no-unused-vars
 // import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 // import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+// eslint-disable-next-line no-unused-vars
 import * as address from 'platform/forms-system/src/js/definitions/address';
-
 // import fullSchema from 'vets-json-schema/dist/22-1990-schema.json';
 
 import manifest from '../manifest.json';
@@ -55,6 +56,8 @@ import {
 // const { } = fullSchema.definitions;
 
 // import toursOfDutyUI from '../definitions/toursOfDuty';
+import { directDepositWarning } from '../helpers';
+import EmailViewField from '../components/EmailViewField';
 
 const {
   fullName,
@@ -90,7 +93,7 @@ const formFields = {
 // Define all the form pages to help ensure uniqueness across all form chapters
 const formPages = {
   applicantInformation: 'applicantInformation',
-  // serviceHistory: 'serviceHistory',
+  serviceHistory: 'serviceHistory',
   contactInformation: 'contactInformation',
   directDeposit: 'directDeposit',
   benefitSelect: 'benefitSelect',
@@ -447,8 +450,8 @@ const formConfig = {
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
-              [formFields.address]: address.schema(fullSchema, true),
               },
+              [formFields.address]: address.schema(fullSchema, true),
               [formFields.email]: {
                 type: 'string',
                 format: 'email',
