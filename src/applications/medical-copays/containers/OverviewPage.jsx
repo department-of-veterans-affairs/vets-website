@@ -1,5 +1,6 @@
 import React from 'react';
-import GetHelp from '../components/GetHelp';
+import BalanceQuestions from '../components/BalanceQuestions';
+import FacilityContacts from '../components/FacilityContacts';
 import StatusAlert from '../components/StatusAlert';
 import Balances from '../components/Balances';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
@@ -33,7 +34,8 @@ const OverviewPage = () => {
         )}
       />
       <Balances />
-      <GetHelp />
+      <BalanceQuestions />
+      <FacilityContacts />
     </>
   );
 };
