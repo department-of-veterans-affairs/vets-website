@@ -62,4 +62,4 @@ When the Veteran first lands on the Introduction page of the form a call is made
 
 ### Form submission
 
-After the Veteran fills out the form and submits the payload it is sent to `vets-api/app/controllers/v0/dependents_applications_controller.rb` on the back end.
+After the Veteran fills out the form and submits the payload it is sent to `vets-api/app/controllers/v0/dependents_applications_controller.rb` on the back end. This is where I don't know.
