@@ -6,7 +6,7 @@ import Scroll from 'react-scroll';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import classNames from 'classnames';
 
-import ProgressButton from '../components/ProgressButton';
+import FormNavButtons from '../components/FormNavButtons';
 import SchemaForm from '../components/SchemaForm';
 import { setData, uploadFile } from '../actions';
 import { getNextPagePath, getPreviousPagePath } from '../routing';
@@ -187,27 +187,11 @@ class FormPage extends React.Component {
           onSubmit={this.onSubmit}
         >
           {contentBeforeButtons}
-          <div className="row form-progress-buttons schemaform-buttons">
-            <div className="small-6 medium-5 columns">
-              {!isFirstRoutePage && (
-                <ProgressButton
-                  onButtonClick={this.goBack}
-                  buttonText="Back"
-                  buttonClass="usa-button-secondary"
-                  beforeText="«"
-                />
-              )}
-            </div>
-            <div className="small-6 medium-5 end columns">
-              <ProgressButton
-                submitButton
-                onButtonClick={callOnContinue}
-                buttonText="Continue"
-                buttonClass="usa-button-primary"
-                afterText="»"
-              />
-            </div>
-          </div>
+          <FormNavButtons
+            goBack={!isFirstRoutePage && this.goBack}
+            goForward={callOnContinue}
+            submitToContinue
+          />
           {contentAfterButtons}
         </SchemaForm>
       </div>
