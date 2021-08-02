@@ -157,10 +157,7 @@ export function getSchedulingConfigurationMock({
 export function getAppointmentSlotMock() {
   return {
     id: 'fake',
-    type: 'slots',
-    attributes: {
-      start: 'fake startDateTime',
-      end: 'fake endDateTime',
-    },
+    start: 'fake startDateTime',
+    end: 'fake endDateTime',
   };
 }

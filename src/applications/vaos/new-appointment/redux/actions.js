@@ -554,9 +554,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
     const startDateMonth = moment(startDate).format('YYYY-MM');
     const endDateMonth = moment(endDate).format('YYYY-MM');
 
-    const featureVAOSServiceRequests = selectFeatureVAOSServiceVAAppointments(
-      state,
-    );
+    const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(state);
 
     let fetchedAppointmentSlotMonths = [];
     let fetchedStartMonth = false;
