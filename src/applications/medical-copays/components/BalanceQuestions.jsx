@@ -22,11 +22,6 @@ const BalanceQuestions = () => {
         />
         ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
       </p>
-      <p>
-        <strong>For questions about your treatment or your charges, </strong>
-        contact the James A. Haley Veterans’ Hospital at
-        <Telephone contact={'813-972-2000'} className="vads-u-margin-x--0p5" />.
-      </p>
     </>
   );
 };
