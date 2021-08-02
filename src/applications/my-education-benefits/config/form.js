@@ -21,6 +21,10 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 // import * as address from 'platform/forms-system/src/js/definitions/address';
 
 // eslint-disable-next-line no-unused-vars
+// import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+// import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import * as address from 'platform/forms-system/src/js/definitions/address';
+
 // import fullSchema from 'vets-json-schema/dist/22-1990-schema.json';
 
 import manifest from '../manifest.json';
@@ -45,6 +49,12 @@ import {
 } from '../helpers';
 
 // import { directDepositWarning } from '../helpers';
+
+// const { } = fullSchema.properties;
+
+// const { } = fullSchema.definitions;
+
+// import toursOfDutyUI from '../definitions/toursOfDuty';
 
 const {
   fullName,
@@ -368,7 +378,7 @@ const formConfig = {
       },
     },
     additionalInformationChapter: {
-      title: 'Contact Information',
+      title: 'Additional Information',
       pages: {
         [formPages.contactInformation]: {
           path: 'contact/information',
@@ -437,6 +447,7 @@ const formConfig = {
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
+              [formFields.address]: address.schema(fullSchema, true),
               },
               [formFields.email]: {
                 type: 'string',
