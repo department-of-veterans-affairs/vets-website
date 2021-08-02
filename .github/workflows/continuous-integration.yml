@@ -523,6 +523,9 @@ jobs:
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
+      - name: which chromedriver
+        run: which chromedriver
+
       - name: Run Nightwatch tests
         run: yarn test:e2e:headless --suiteRetries 3
         timeout-minutes: 30
