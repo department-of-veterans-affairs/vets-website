@@ -176,23 +176,19 @@ class IntroductionPage extends React.Component {
     } = this.props;
     return (
       <div className="schemaform-intro">
-        (
-        <>
-          <FormTitle title="Apply for VA health care" />
-          <p className="vads-u-margin-top--neg2">
-            Enrollment Application for Health Benefits (VA Form 10-10EZ)
+        <FormTitle title="Apply for VA health care" />
+        <p className="vads-u-margin-top--neg2">
+          Enrollment Application for Health Benefits (VA Form 10-10EZ)
+        </p>
+        {!showLOA3Content && (
+          <p className="vads-u-margin-bottom--5">
+            <strong className="vads-u-font-size--lg vads-u-line-height--3">
+              VA health care covers care for your physical and mental health.
+              This includes a range of services from checkups to surgeries to
+              home health care. It also includes prescriptions and medical
+              equipment. Apply online now.
+            </strong>
           </p>
-          {!showLOA3Content && (
-            <p className="vads-u-margin-bottom--5">
-              <strong className="vads-u-font-size--lg vads-u-line-height--3">
-                VA health care covers care for your physical and mental health.
-                This includes a range of services from checkups to surgeries to
-                home health care. It also includes prescriptions and medical
-                equipment. Apply online now.
-              </strong>
-            </p>
-          )}
-        </>
         )}
         {showMainLoader && <LoadingIndicator />}
         {showVerificationRequiredAlert && <VerificationRequiredAlert />}
