@@ -697,7 +697,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         prefillsAvailable: [],
       },
       login: {
-        currentlyLoggedIn: false,
+        currentlyLoggedIn: true,
         loginUrls: {
           idme: '/mockLoginUrl',
         },

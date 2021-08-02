@@ -109,8 +109,8 @@ class SaveInProgressIntro extends React.Component {
               <div className="saved-form-metadata-container">
                 <div className="expires-container">
                   You can continue {appAction} now
-                  {appContinuing ? ` ${appContinuing}` : ''}, or come back later
-                  to finish your {appType}.
+                  {appContinuing && ` ${appContinuing}`}, or come back later to
+                  finish your {appType}.
                   <p>
                     Your {appType}{' '}
                     <span className="expires">
@@ -314,15 +314,12 @@ class SaveInProgressIntro extends React.Component {
     }
 
     const { alert, includesFormControls } = this.getAlert(savedForm);
-    const formControls = includesFormControls
-      ? null
-      : this.getFormControls(savedForm);
 
     const content = (
       <div>
         {!buttonOnly && alert}
         {buttonOnly && !login.currentlyLoggedIn && alert}
-        {formControls}
+        {!includesFormControls && this.getFormControls(savedForm)}
         {!buttonOnly && this.props.afterButtonContent}
         <br />
       </div>
