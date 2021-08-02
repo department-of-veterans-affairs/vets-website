@@ -231,7 +231,7 @@ class ReviewCollapsibleChapter extends React.Component {
       editing ? (
         <page.CustomPage
           onReviewPage
-          onSubmit={({ formData }) =>
+          updatePage={({ formData }) =>
             this.handleSubmit(
               formData,
               page.pageKey,
