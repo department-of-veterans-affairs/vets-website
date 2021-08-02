@@ -36,6 +36,10 @@ import CompareGrid from '../components/CompareGrid';
 import RatingsStars from '../components/RatingsStars';
 import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal';
 import { MINIMUM_RATING_COUNT } from '../constants';
+import Scroll from 'react-scroll';
+import { getScrollOptions } from 'platform/utilities/ui';
+
+const scroll = Scroll.animateScroll;
 
 export function ComparePage({
   allLoaded,
@@ -90,6 +94,10 @@ export function ComparePage({
     },
     [isSticky, initialTop],
   );
+
+  useEffect(() => {
+    scroll.scrollToTop(getScrollOptions());
+  }, []);
 
   useLayoutEffect(
     () => {
@@ -221,7 +229,7 @@ export function ComparePage({
           ref={headerRef}
         >
           <div className="row vads-l-grid-container">
-            <div className="vads-l-row compare-header-row">
+            <div className="vads-l-row compare-header-row vads-u-padding-bottom--6">
               <div className="medium-screen:vads-l-col--3">
                 <div className="compare-header vads-u-padding-right--1">
                   <div className="compare-page-description-label">

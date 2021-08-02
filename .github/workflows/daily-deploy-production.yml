@@ -159,9 +159,9 @@ jobs:
     # TODO: Uncomment when ready for prod
     env:
       # ENVIRONMENT: vagovprod
-      # BUCKET: apps.www.va.gov
+      # BUCKET: prod-va-gov-assets
       ENVIRONMENT: vagovdev
-      BUCKET: apps.dev.va.gov
+      BUCKET: dev-va-gov-assets
 
     steps:
       - name: Checkout

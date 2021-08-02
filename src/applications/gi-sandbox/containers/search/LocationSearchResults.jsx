@@ -10,15 +10,19 @@ import { mapboxToken } from '../../utils/mapboxToken';
 import { MapboxInit, MAX_SEARCH_AREA_DISTANCE } from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
 import FilterYourResults from '../../containers/FilterYourResults';
-import { numberToLetter, createId } from '../../utils/helpers';
+import { createId } from '../../utils/helpers';
 import {
   fetchSearchByLocationCoords,
   updateEligibilityAndFilters,
 } from '../../actions';
 import { connect } from 'react-redux';
 import { getFiltersChanged } from '../../selectors/filters';
+import MobileFilterControls from '../../components/MobileFilterControls';
+import classNames from 'classnames';
 
 const MILE_METER_CONVERSION_RATE = 1609.34;
+const LIST_TAB = 'List';
+const MAP_TAB = 'Map';
 
 function LocationSearchResults({
   search,
@@ -27,17 +31,24 @@ function LocationSearchResults({
   dispatchUpdateEligibilityAndFilters,
   dispatchFetchSearchByLocationCoords,
   filtersChanged,
+  smallScreen,
 }) {
   const { inProgress } = search;
   const { results } = search.location;
   const { location, streetAddress } = search.query;
   const map = useRef(null);
   const mapContainer = useRef(null);
-  const markers = useRef([]);
+  const [markers, setMarkers] = useState([]);
   const [mapState, setMapState] = useState({ changed: false, distance: null });
   const [usedFilters, setUsedFilters] = useState(filtersChanged);
   const [cardResults, setCardResults] = useState(null);
+  const [mobileTab, setMobileTab] = useState(LIST_TAB);
+  const [markerClicked, setMarkerClicked] = useState(null);
+  const [activeMarker, setActiveMarker] = useState(null);
 
+  /**
+   * When map is moved update distance from center to NorthEast corner
+   */
   const updateMapState = () => {
     const mapBounds = map.current.getBounds();
     setMapState({
@@ -48,6 +59,9 @@ function LocationSearchResults({
     });
   };
 
+  /**
+   * Initialize map if the element is present
+   */
   const setupMap = () => {
     if (map.current) return; // initialize map only once
 
@@ -58,9 +72,6 @@ function LocationSearchResults({
       style: 'mapbox://styles/mapbox/outdoors-v11',
       center: [MapboxInit.centerInit.longitude, MapboxInit.centerInit.latitude],
       zoom: MapboxInit.zoomInit,
-      scrollZoom: { around: 'center' },
-      touchZoomRotate: { around: 'center' },
-      doubleClickZoom: false,
     });
 
     mapInit.addControl(
@@ -96,26 +107,24 @@ function LocationSearchResults({
       updateMapState();
     });
 
-    mapInit.on('dblclick', e => {
-      map.current.easeTo(
-        {
-          duration: 300,
-          zoom: map.current.getZoom() + (e.originalEvent.shiftKey ? -1 : 1),
-          around: map.current.getCenter(),
-        },
-        { originalEvent: e.originalEvent },
-      );
+    mapInit.on('dblclick', _e => {
       updateMapState();
     });
 
     map.current = mapInit;
   };
 
-  useEffect(() => {
-    if (mapContainer.current) {
-      setupMap();
-    }
-  }, []); // <-- empty array means 'run once'
+  /**
+   * Initialize the map on load and if the mobileTab changes
+   */
+  useEffect(
+    () => {
+      if (mapContainer.current) {
+        setupMap();
+      }
+    },
+    [mobileTab],
+  );
 
   /**
    * Used to exclude results from appearing in cards or as a marker when using "Search area" button
@@ -123,42 +132,78 @@ function LocationSearchResults({
    * @param institution
    * @return {boolean}
    */
-  const markerIsNotVisible = institution => {
+  const markerIsVisible = institution => {
     const { latitude, longitude } = institution;
     const lngLat = new mapboxgl.LngLat(longitude, latitude);
 
-    return mapState.changed && !map.current.getBounds().contains(lngLat);
+    return (
+      smallScreen ||
+      !mapState.changed ||
+      map.current.getBounds().contains(lngLat)
+    );
   };
 
-  const addMapMarker = (institution, index, locationBounds) => {
+  /**
+   * Called when during the resulting action of clicking on a map marker either on desktop or smallScreen
+   * Scrolls to the search result card within the Search results and collapses eligibility and filters accordions if
+   * expanded
+   * @param name
+   */
+  const mapMarkerClicked = name => {
+    const locationSearchResults = document.getElementById(
+      'location-search-results',
+    );
+    scroller.scrollTo(
+      `${createId(name)}-result-card-placeholder`,
+      getScrollOptions({
+        containerId: 'location-search-results',
+        offset: -locationSearchResults.getBoundingClientRect().top,
+      }),
+    );
+    setActiveMarker(name);
+    dispatchUpdateEligibilityAndFilters(
+      { expanded: false },
+      { expanded: false },
+    );
+  };
+
+  /**
+   * Used when a map marker is clicked
+   * Using a useEffect since on smallScreen need to switch tabs first before scrolling to search result card
+   * Both desktop and mobile will trigger this useEffect
+   */
+  useEffect(
+    () => {
+      if (markerClicked && (!smallScreen || mobileTab === LIST_TAB)) {
+        mapMarkerClicked(markerClicked);
+        setMarkerClicked(null);
+      }
+    },
+    [markerClicked],
+  );
+
+  /**
+   * Adds a map marker to the map and includes in a LngLatBounds object if provided
+   * Sets the map marker to have a "on click" event that scrolls to the corresponding result card
+   * @param institution
+   * @param index
+   * @param locationBounds
+   * @param mapMarkers
+   */
+  const addMapMarker = (institution, index, locationBounds, mapMarkers) => {
     const { latitude, longitude, name } = institution;
     const lngLat = new mapboxgl.LngLat(longitude, latitude);
 
-    if (markerIsNotVisible(institution)) return false;
-
-    const letter = numberToLetter(index + 1);
-
     const markerElement = document.createElement('div');
     markerElement.className = 'location-letter-marker';
-    markerElement.innerText = letter;
+    markerElement.innerText = index + 1;
 
     const popup = new mapboxgl.Popup();
     popup.on('open', () => {
-      const locationSearchResults = document.getElementById(
-        'location-search-results',
-      );
-
-      scroller.scrollTo(
-        `${createId(name)}-result-card-placeholder`,
-        getScrollOptions({
-          containerId: 'location-search-results',
-          offset: -locationSearchResults.getBoundingClientRect().top,
-        }),
-      );
-      dispatchUpdateEligibilityAndFilters(
-        { expanded: false },
-        { expanded: false },
-      );
+      if (smallScreen) {
+        setMobileTab(LIST_TAB);
+      }
+      setMarkerClicked(name);
     });
 
     if (locationBounds) {
@@ -170,11 +215,13 @@ function LocationSearchResults({
       .setPopup(popup)
       .addTo(map.current);
 
-    markers.current.push(markerElement);
-
-    return true;
+    mapMarkers.push(markerElement);
   };
 
+  /**
+   * Adds a map marker if user used "Find my location"
+   * @param bounds
+   */
   const currentLocationMapMarker = bounds => {
     const currentMarkerElement = document.createElement('div');
     currentMarkerElement.className = 'current-position';
@@ -191,32 +238,48 @@ function LocationSearchResults({
     markers.current.push(currentMarkerElement);
   };
 
+  /**
+   * Takes results and puts them on the map
+   * Excludes results that are not visible on the map when using "Search this area of the map"
+   */
   useEffect(
     () => {
-      markers.current.forEach(marker => marker.remove());
+      markers.forEach(marker => marker.remove());
       let visibleResults = [];
+      const mapMarkers = [];
 
+      if (smallScreen) {
+        visibleResults = results;
+      }
+
+      // reset map if no results found
+      if (map.current && results.length === 0 && !mapState.changed) {
+        map.current.setCenter([
+          MapboxInit.centerInit.longitude,
+          MapboxInit.centerInit.latitude,
+        ]);
+        map.current.zoomTo(MapboxInit.zoomInit, { duration: 300 });
+      }
+
+      // wait for map to initialize or no results are returned
       if (!map.current || results.length === 0) {
-        if (!mapState.changed) {
-          map.current.setCenter([
-            MapboxInit.centerInit.longitude,
-            MapboxInit.centerInit.latitude,
-          ]);
-          map.current.zoomTo(MapboxInit.zoomInit, { duration: 300 });
-        }
         setMapState({ changed: false, distance: null });
         setUsedFilters(getFiltersChanged(filters));
         setCardResults(visibleResults);
+        setMarkers(mapMarkers);
         return;
-      } // wait for map to initialize
+      }
 
       const locationBounds = !mapState.changed
         ? new mapboxgl.LngLatBounds()
         : null;
 
-      visibleResults = results.filter((institution, index) => {
-        return addMapMarker(institution, index, locationBounds);
-      });
+      visibleResults = results.filter(institution =>
+        markerIsVisible(institution),
+      );
+      visibleResults.forEach((institution, index) =>
+        addMapMarker(institution, index, locationBounds, mapMarkers),
+      );
 
       if (locationBounds) {
         if (streetAddress.searchString === location) {
@@ -225,21 +288,26 @@ function LocationSearchResults({
         map.current.fitBounds(locationBounds, { padding: 20 });
       }
 
-      setUsedFilters(getFiltersChanged(filters));
       setCardResults(visibleResults);
+      setUsedFilters(getFiltersChanged(filters));
       setMapState({ changed: false, distance: null });
+      setMarkers(mapMarkers);
     },
-    [results],
+    [results, smallScreen, mobileTab],
   );
 
+  /**
+   * Creates result cards for display
+   */
   const resultCards = cardResults?.map((institution, index) => {
-    const { distance } = institution;
+    const { distance, name } = institution;
     const miles = Number.parseFloat(distance).toFixed(2);
-    const letter = numberToLetter(index + 1);
 
     const header = (
       <div className="location-header vads-u-display--flex vads-u-padding-top--1 vads-u-padding-bottom--2">
-        <span className="location-letter vads-u-font-size--sm">{letter}</span>
+        <span className="location-letter vads-u-font-size--sm">
+          {index + 1}
+        </span>
         <span className="vads-u-padding-x--0p5 vads-u-font-size--sm">
           <strong>{miles} miles</strong>
         </span>
@@ -248,11 +316,20 @@ function LocationSearchResults({
 
     return (
       <div key={institution.facilityCode}>
-        <SearchResultCard institution={institution} location header={header} />
+        <SearchResultCard
+          institution={institution}
+          location
+          header={header}
+          active={activeMarker === name}
+        />
       </div>
     );
   });
 
+  /**
+   * Called when user uses "Search this area of the map"
+   * @param e
+   */
   const searchArea = e => {
     e.preventDefault();
     dispatchFetchSearchByLocationCoords(
@@ -264,100 +341,182 @@ function LocationSearchResults({
     );
   };
 
+  /**
+   * Renders the Eligibility and Filters accordions/buttons
+   * @type {function(JSX.Element): (*|null)}
+   */
+  const eligibilityAndFilters = count => {
+    const showTuitionAndFilters = count > 0 || usedFilters;
+
+    if (showTuitionAndFilters) {
+      return (
+        <>
+          {!smallScreen && (
+            <>
+              <TuitionAndHousingEstimates />
+              <FilterYourResults />
+            </>
+          )}
+          {smallScreen && (
+            <MobileFilterControls className={'vads-u-margin-top--2'} />
+          )}
+        </>
+      );
+    }
+    return null;
+  };
+
+  /**
+   * Content for when no results are found with or without the use of filters
+   * smallScreen count is different from desktop count
+   * @param count
+   * @return {JSX.Element}
+   */
+  const noResultsFound = count => {
+    const noResultsNoFilters = count === 0 && !usedFilters;
+    const noResultsWithFilters = count === 0 && usedFilters;
+
+    return (
+      <>
+        {noResultsNoFilters && (
+          <div>
+            <p>We didn’t find any institutions based on your search.</p>
+            <p>
+              <strong>For better results:</strong>
+            </p>
+            <ul>
+              <li>
+                <strong>Zoom in or out</strong> to view a different area of the
+                map, or
+              </li>
+              <li>
+                <strong>Move the map</strong> to a different area
+              </li>
+            </ul>
+            <p>
+              Then click the <strong>"Search this area of map"</strong> button.
+            </p>
+            <p>
+              If we still haven’t found any facilities near you,{' '}
+              <strong>please enter a different search term</strong> (street,
+              city, state, or postal code).
+            </p>
+          </div>
+        )}
+        {noResultsWithFilters && (
+          <div>
+            We didn’t find any institutions near this location based on the
+            filters you’ve applied. Please update the filters and search again.
+          </div>
+        )}
+      </>
+    );
+  };
+
+  /**
+   * smallScreen tabs for List and Map views
+   * @param tabName
+   * @return {JSX.Element}
+   */
+  const getTab = tabName => {
+    const activeTab = tabName === mobileTab;
+    const tabClasses = classNames(
+      {
+        'active-results-tab': activeTab,
+        'vads-u-color--gray-dark': activeTab,
+        'vads-u-background-color--white': activeTab,
+        'inactive-results-tab': !activeTab,
+        'vads-u-color--gray-medium': !activeTab,
+        'vads-u-background-color--gray-light-alt': !activeTab,
+      },
+      'vads-u-font-family--sans',
+      'vads-u-flex--1',
+      'vads-u-text-align--center',
+      'vads-l-grid-container',
+      'vads-u-padding-y--1',
+      `${tabName.toLowerCase()}-results-tab`,
+    );
+
+    return (
+      <div className={tabClasses} onClick={() => setMobileTab(tabName)}>
+        View {tabName}
+      </div>
+    );
+  };
+
+  /**
+   * Content for how many search results are showing
+   * smallScreen count is different from desktop count
+   * @param count
+   * @return {JSX.Element}
+   */
+  const searchResultsShowing = count => (
+    <p>
+      Showing <strong>{count} search results</strong> for '
+      <strong>{location}</strong>'
+    </p>
+  );
+
+  /**
+   * Renders the showing message if not on smallScreen, and the result cards
+   * smallScreen count is different from desktop count
+   * @param count
+   * @param visible
+   * @return {boolean|JSX.Element}
+   */
+  const searchResults = (count, visible = true) => {
+    if (count > 0) {
+      const containerClassNames = classNames(
+        'location-search-results-container',
+        'usa-grid',
+        'vads-u-padding--1p5',
+        { 'vads-u-display--none': !visible },
+      );
+      const resultsClassnames = classNames('location-search-results', {
+        'vads-l-row': !smallScreen,
+        'vads-u-flex-wrap--wrap': !smallScreen,
+      });
+
+      return (
+        <div
+          id="location-search-results-container"
+          className={containerClassNames}
+        >
+          {!smallScreen && searchResultsShowing(count)}
+          <div id="location-search-results" className={resultsClassnames}>
+            {resultCards}
+          </div>
+        </div>
+      );
+    }
+    return null;
+  };
+
   const areaSearchWithinBounds = mapState.distance <= MAX_SEARCH_AREA_DISTANCE;
   const areaSearchLabel = areaSearchWithinBounds
     ? 'Search this area of the map'
     : 'Zoom in to search';
-  const count = !cardResults ? null : cardResults.length;
 
-  return (
-    <>
-      <div className={'location-search vads-u-padding-top--1'}>
-        <div className={'usa-width-one-third'}>
-          {inProgress && (
-            <LoadingIndicator message="Loading search results..." />
-          )}
-          {!inProgress && (
-            <>
-              {search.location.count === null && (
-                <div>
-                  Please enter a location (street, city, state, or postal code)
-                  then click search above to find institutions.
-                </div>
-              )}
-              {search.location.count !== null &&
-                (count > 0 || usedFilters) && (
-                  <>
-                    <TuitionAndHousingEstimates />
-                    <FilterYourResults />
-                    {count > 0 && (
-                      <div
-                        id="location-search-results-container"
-                        className="location-search-results-container usa-grid vads-u-padding--1p5"
-                      >
-                        <p>
-                          Showing <strong>{count} search results</strong> for '
-                          <strong>{location}</strong>'
-                        </p>
-                        <div
-                          id="location-search-results"
-                          className="location-search-results vads-l-row vads-u-flex-wrap--wrap"
-                        >
-                          {resultCards}
-                        </div>
-                      </div>
-                    )}
-                  </>
-                )}
-              {count === 0 &&
-                !usedFilters && (
-                  <div>
-                    <p>We didn't find any institutions based on your search.</p>
-                    <p>
-                      <strong>For better results:</strong>
-                    </p>
-                    <ul>
-                      <li>
-                        <strong>Zoom in or out</strong> to view a different area
-                        of the map, or
-                      </li>
-                      <li>
-                        <strong>Move the map</strong> to a different area
-                      </li>
-                    </ul>
-                    <p>
-                      Then click the <strong>"Search this area of map"</strong>{' '}
-                      button.
-                    </p>
-                    <p>
-                      If we still haven't found any facilities near you,{' '}
-                      <strong>please enter a different search term</strong>{' '}
-                      (street, city, state, or postal code).
-                    </p>
-                  </div>
-                )}
-              {count === 0 &&
-                usedFilters && (
-                  <div>
-                    We didn't find any institutions near this location based on
-                    the filters you've applied. Please update the filters and
-                    search again.
-                  </div>
-                )}
-            </>
-          )}
-        </div>
-
-        <div className={'usa-width-two-thirds'}>
-          <map
-            ref={mapContainer}
-            id="mapbox-gl-container"
-            aria-label="Find VA locations on an interactive map"
-            aria-describedby="map-instructions"
-            className={'desktop-map-container'}
-            role="region"
-          >
-            {mapState.changed && (
+  /**
+   * Creates the map element container and if not on smallScreen the areaSearch button
+   * @type {function(JSX.Element=): *}
+   */
+  const mapElement = (visible = true) => {
+    const containerClassNames = classNames({
+      'vads-u-display--none': !visible,
+    });
+    return (
+      <div className={containerClassNames}>
+        <map
+          ref={mapContainer}
+          id="mapbox-gl-container"
+          aria-label="Find VA locations on an interactive map"
+          aria-describedby="map-instructions"
+          className="desktop-map-container"
+          role="region"
+        >
+          {mapState.changed &&
+            !smallScreen && (
               <div
                 id="search-area-control-container"
                 className={'mapboxgl-ctrl-top-center'}
@@ -372,10 +531,77 @@ function LocationSearchResults({
                 </button>
               </div>
             )}
-          </map>
-        </div>
+        </map>
       </div>
-    </>
+    );
+  };
+
+  const hasSearchLatLong = search.query.latitude && search.query.longitude;
+
+  // Results shouldn't be filtered out on mobile because "Search this area of the map" is disabled
+  const smallScreenCount = search.location.count;
+
+  // returns content ordered and setup for smallScreens
+  if (smallScreen) {
+    return (
+      <div className={'location-search vads-u-padding--1'}>
+        {inProgress && <LoadingIndicator message="Loading search results..." />}
+        {!inProgress && (
+          <>
+            <div>
+              {eligibilityAndFilters(smallScreenCount)}
+              {noResultsFound(smallScreenCount)}
+            </div>
+            {smallScreenCount > 0 && (
+              <>
+                <div className="vads-u-font-size--base vads-u-padding-top--1p5">
+                  {searchResultsShowing(smallScreenCount)}
+                </div>
+                <div className="vads-u-display--flex tab-form">
+                  {getTab(LIST_TAB)}
+                  {getTab(MAP_TAB)}
+                </div>
+                <hr className="vads-u-margin-y--1p5" />
+                {searchResults(smallScreenCount, mobileTab === LIST_TAB)}
+                {mapElement(mobileTab === MAP_TAB)}
+              </>
+            )}
+          </>
+        )}
+      </div>
+    );
+  }
+
+  // Only needed on desktop as can do "Search this area of the map" which causes differences in count between what is
+  // returned and what is visible
+  const desktopCount = !cardResults ? null : cardResults.length;
+
+  // Returns content setup for desktop screens
+  return (
+    <div className={'location-search vads-u-padding-top--1'}>
+      <div className={'usa-width-one-third'}>
+        {inProgress && <LoadingIndicator message="Loading search results..." />}
+        {!inProgress && (
+          <>
+            {!hasSearchLatLong && (
+              <div>
+                Please enter a location (street, city, state, or postal code)
+                then click search above to find institutions.
+              </div>
+            )}
+            {hasSearchLatLong && (
+              <>
+                {eligibilityAndFilters(desktopCount)}
+                {searchResults(desktopCount)}
+                {noResultsFound(desktopCount)}
+              </>
+            )}
+          </>
+        )}
+      </div>
+
+      <div className={'usa-width-two-thirds'}>{mapElement()}</div>
+    </div>
   );
 }
 

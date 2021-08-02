@@ -1,5 +1,6 @@
 import React from 'react';
 import { focusElement } from 'platform/utilities/ui';
+import classNames from 'classnames';
 
 export default function LearnMoreLabel({
   ariaLabel,
@@ -8,7 +9,13 @@ export default function LearnMoreLabel({
   text,
   buttonId,
   bold,
+  boldLabel,
+  boldValue,
 }) {
+  const boldAll = !boldLabel && !boldValue && bold;
+  const boldClass = boldCheck =>
+    boldCheck ? 'vads-u-font-weight--bold' : null;
+
   let displayText = text && <React.Fragment>{text} </React.Fragment>;
   if (labelFor && text) {
     displayText = (
@@ -23,7 +30,11 @@ export default function LearnMoreLabel({
 
   return (
     <span
-      className="vads-u-margin--0 vads-u-display--inline-block "
+      className={classNames(
+        'vads-u-margin--0',
+        'vads-u-display--inline-block',
+        boldClass(boldAll),
+      )}
       onClick={focusElement(labelFor)}
     >
       {bold ? <strong>{displayText}</strong> : displayText}
