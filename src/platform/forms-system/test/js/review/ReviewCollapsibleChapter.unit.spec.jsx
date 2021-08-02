@@ -171,6 +171,7 @@ describe('<ReviewCollapsibleChapter>', () => {
         showPagePerItem: true,
         arrayPath: 'testing',
         path: 'path/:index',
+        index: 0,
       },
       {
         title: '',
@@ -178,10 +179,15 @@ describe('<ReviewCollapsibleChapter>', () => {
         showPagePerItem: true,
         arrayPath: 'testing',
         path: 'path/:index',
+        index: 1,
       },
     ];
     const chapterKey = 'test';
     const chapter = {};
+    const itemSchema = {
+      type: 'object',
+      properties: { foo: { type: 'string' } },
+    };
     const form = {
       pages: {
         test: {
@@ -191,7 +197,7 @@ describe('<ReviewCollapsibleChapter>', () => {
           schema: {
             properties: {
               testing: {
-                items: [{}, {}],
+                items: [itemSchema, itemSchema],
               },
             },
           },
