@@ -29,7 +29,7 @@ import {
 
 class SaveInProgressIntro extends React.Component {
   getFormControls = savedForm => {
-    const { profile, login } = this.props.user;
+    const { profile } = this.props.user;
     const startPage = this.getStartPage();
     const prefillAvailable = !!(
       profile && profile.prefillsAvailable.includes(this.props.formId)
@@ -37,7 +37,7 @@ class SaveInProgressIntro extends React.Component {
     const isExpired = savedForm
       ? moment.unix(savedForm.metadata.expiresAt).isBefore()
       : true;
-    return login.currentlyLoggedIn ? (
+    return (
       <FormStartControls
         resumeOnly={this.props.resumeOnly}
         isExpired={isExpired}
@@ -55,7 +55,7 @@ class SaveInProgressIntro extends React.Component {
         formSaved={!!savedForm}
         gaStartEventName={this.props.gaStartEventName}
       />
-    ) : null;
+    );
   };
 
   getAlert = savedForm => {
@@ -319,7 +319,9 @@ class SaveInProgressIntro extends React.Component {
       <div>
         {!buttonOnly && alert}
         {buttonOnly && !login.currentlyLoggedIn && alert}
-        {!includesFormControls && this.getFormControls(savedForm)}
+        {!includesFormControls &&
+          login.currentlyLoggedIn &&
+          this.getFormControls(savedForm)}
         {!buttonOnly && this.props.afterButtonContent}
         <br />
       </div>
