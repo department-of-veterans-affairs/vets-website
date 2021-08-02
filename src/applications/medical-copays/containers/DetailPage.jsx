@@ -1,15 +1,17 @@
 import React from 'react';
-import LinkComponent from '../components/LinkComponent';
-import { useLocation } from 'react-router-dom';
+import BalanceQuestions from '../components/BalanceQuestions';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 const DetailPage = () => {
-  const location = useLocation();
-
   return (
     <>
       <h1>Your copay details</h1>
-      <p>Current location: {location.pathname}</p>
-      <LinkComponent url="copays" />
+      <BalanceQuestions />
+      <p>
+        <strong>For questions about your treatment or your charges, </strong>
+        contact the James A. Haley Veterans’ Hospital at
+        <Telephone contact={'813-972-2000'} className="vads-u-margin-x--0p5" />.
+      </p>
     </>
   );
 };
