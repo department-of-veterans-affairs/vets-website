@@ -10,7 +10,7 @@ import { mapboxToken } from '../../utils/mapboxToken';
 import { MapboxInit, MAX_SEARCH_AREA_DISTANCE, TABS } from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
 import FilterYourResults from '../../containers/FilterYourResults';
-import { numberToLetter, createId } from '../../utils/helpers';
+import { createId } from '../../utils/helpers';
 import {
   fetchSearchByLocationCoords,
   updateEligibilityAndFilters,
@@ -45,7 +45,8 @@ function LocationSearchResults({
   const [usedFilters, setUsedFilters] = useState(filtersChanged);
   const [cardResults, setCardResults] = useState(null);
   const [mobileTab, setMobileTab] = useState(LIST_TAB);
-  const [mobileMarkerClicked, setMobileMarkerClicked] = useState(null);
+  const [markerClicked, setMarkerClicked] = useState(null);
+  const [activeMarker, setActiveMarker] = useState(null);
 
   /**
    * When map is moved update distance from center to NorthEast corner
@@ -171,6 +172,7 @@ function LocationSearchResults({
         offset: -locationSearchResults.getBoundingClientRect().top,
       }),
     );
+    setActiveMarker(name);
     dispatchUpdateEligibilityAndFilters(
       { expanded: false },
       { expanded: false },
@@ -178,17 +180,18 @@ function LocationSearchResults({
   };
 
   /**
-   * Used for smallScreen when a map marker is clicked
-   * Using a useEffect since need to switch tabs first before scrolling to search result card
+   * Used when a map marker is clicked
+   * Using a useEffect since on smallScreen need to switch tabs first before scrolling to search result card
+   * Both desktop and mobile will trigger this useEffect
    */
   useEffect(
     () => {
-      if (mobileMarkerClicked && mobileTab === LIST_TAB) {
-        mapMarkerClicked(mobileMarkerClicked);
-        setMobileMarkerClicked(null);
+      if (markerClicked && (!smallScreen || mobileTab === LIST_TAB)) {
+        mapMarkerClicked(markerClicked);
+        setMarkerClicked(null);
       }
     },
-    [mobileMarkerClicked],
+    [markerClicked],
   );
 
   /**
@@ -203,20 +206,16 @@ function LocationSearchResults({
     const { latitude, longitude, name } = institution;
     const lngLat = new mapboxgl.LngLat(longitude, latitude);
 
-    const letter = numberToLetter(index + 1);
-
     const markerElement = document.createElement('div');
     markerElement.className = 'location-letter-marker';
-    markerElement.innerText = letter;
+    markerElement.innerText = index + 1;
 
     const popup = new mapboxgl.Popup();
     popup.on('open', () => {
       if (smallScreen) {
         setMobileTab(LIST_TAB);
-        setMobileMarkerClicked(name);
-      } else {
-        mapMarkerClicked(name);
       }
+      setMarkerClicked(name);
     });
 
     if (locationBounds) {
@@ -313,13 +312,14 @@ function LocationSearchResults({
    * Creates result cards for display
    */
   const resultCards = cardResults?.map((institution, index) => {
-    const { distance } = institution;
+    const { distance, name } = institution;
     const miles = Number.parseFloat(distance).toFixed(2);
-    const letter = numberToLetter(index + 1);
 
     const header = (
       <div className="location-header vads-u-display--flex vads-u-padding-top--1 vads-u-padding-bottom--2">
-        <span className="location-letter vads-u-font-size--sm">{letter}</span>
+        <span className="location-letter vads-u-font-size--sm">
+          {index + 1}
+        </span>
         <span className="vads-u-padding-x--0p5 vads-u-font-size--sm">
           <strong>{miles} miles</strong>
         </span>
@@ -328,7 +328,12 @@ function LocationSearchResults({
 
     return (
       <div key={institution.facilityCode}>
-        <SearchResultCard institution={institution} location header={header} />
+        <SearchResultCard
+          institution={institution}
+          location
+          header={header}
+          active={activeMarker === name}
+        />
       </div>
     );
   });
@@ -504,6 +509,7 @@ function LocationSearchResults({
         'vads-l-row': !smallScreen,
         'vads-u-flex-wrap--wrap': !smallScreen,
       });
+
       return (
         <div
           id="location-search-results-container"

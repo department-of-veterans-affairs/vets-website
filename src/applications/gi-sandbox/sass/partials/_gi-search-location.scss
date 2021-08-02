@@ -5,6 +5,11 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
   .result-card {
     width: 100%;
 
+    &.active {
+      border: $focus-outline;
+      padding-right: 6px !important;
+    }
+
     .location-header {
       flex-wrap: wrap;
     }
