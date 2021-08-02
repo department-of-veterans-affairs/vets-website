@@ -19,7 +19,7 @@ import {
 import { normalizedInstitutionAttributes } from '../../gi/reducers/utility';
 import { TABS } from '../constants';
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
   error: null,
   geocode: null,
   geolocationInProgress: false,

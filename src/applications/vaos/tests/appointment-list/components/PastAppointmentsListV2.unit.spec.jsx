@@ -269,7 +269,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       .minutes(0)
       .add(30, 'minutes');
 
-    const yesterday = moment().subtract(1, 'day');
+    const yesterday = moment.utc().subtract(1, 'day');
     const appointment = getVAOSAppointmentMock();
     appointment.id = '123';
     appointment.attributes = {
@@ -277,7 +277,8 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       kind: 'phone',
       minutesDuration: 30,
       status: 'booked',
-      start: yesterday.format('YYYY-MM-DDTHH:mm:ss'),
+      start: yesterday.format(),
+      locationId: '983',
     };
     mockVAOSAppointmentsFetch({
       start: start.format('YYYY-MM-DDTHH:mm:ssZ'),
@@ -291,6 +292,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       featureToggles: {
         ...initialState.featureToggles,
         vaOnlineSchedulingVAOSServiceVAAppointments: true,
+        vaOnlineSchedulingVAOSServiceCCAppointments: true,
       },
     };
     const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
@@ -298,7 +300,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     });
 
     await screen.findAllByText(
-      new RegExp(yesterday.format('dddd, MMMM D'), 'i'),
+      new RegExp(yesterday.tz('America/Denver').format('dddd, MMMM D'), 'i'),
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;

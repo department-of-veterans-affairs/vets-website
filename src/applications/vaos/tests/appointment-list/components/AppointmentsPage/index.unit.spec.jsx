@@ -45,7 +45,7 @@ describe('VAOS <AppointmentsPage>', () => {
     request.attributes = {
       ...request.attributes,
       status: 'Submitted',
-      appointmentType: 'Primary care',
+      typeOfCareId: '323',
       optionDate1: firstDate.format('MM/DD/YYYY'),
       optionTime1: 'AM',
     };
@@ -110,7 +110,7 @@ describe('VAOS <AppointmentsPage>', () => {
     request.attributes = {
       ...request.attributes,
       status: 'Submitted',
-      appointmentType: 'Primary care',
+      typeOfCareId: '323',
       optionDate1: moment()
         .add(4, 'days')
         .format('MM/DD/YYYY'),
@@ -121,14 +121,14 @@ describe('VAOS <AppointmentsPage>', () => {
       ...request,
       attributes: {
         ...request.attributes,
-        appointmentType: 'Audiology',
+        typeOfCareId: '203',
       },
     });
     requests.push({
       ...request,
       attributes: {
         ...request.attributes,
-        appointmentType: 'Mental health',
+        typeOfCareId: '502',
       },
     });
     mockAppointmentInfo({
@@ -149,7 +149,7 @@ describe('VAOS <AppointmentsPage>', () => {
     ).map(card => card.textContent.trim());
 
     expect(dateHeadings).to.deep.equal([
-      'Audiology appointment',
+      'Audiology and speech appointment',
       'Mental health appointment',
       'Primary care appointment',
     ]);

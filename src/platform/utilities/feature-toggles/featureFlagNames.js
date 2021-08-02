@@ -83,6 +83,7 @@ export default Object.freeze({
   vaOnlineSchedulingVAOSServiceCCAppointments: 'vaOnlineSchedulingVAOSServiceCCAppointments',
   vaOnlineSchedulingVAOSServiceRequests: 'vaOnlineSchedulingVAOSServiceRequests',
   vaOnlineSchedulingVAOSServiceVAAppointments: 'vaOnlineSchedulingVAOSServiceVAAppointments',
+  vaOnlineSchedulingFacilitiesServiceV2: 'vaOnlineSchedulingFacilitiesServiceV2',
   vaOnlineSchedulingVariantTesting: 'vaOnlineSchedulingVariantTesting',
   vaViewDependentsAccess: 'vaViewDependentsAccess',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',

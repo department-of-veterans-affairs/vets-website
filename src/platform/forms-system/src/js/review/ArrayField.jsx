@@ -38,7 +38,11 @@ class ArrayField extends React.Component {
       : [];
     this.state = {
       items: arrayData,
-      editing: arrayData.map((__, index) => duplicates.includes(index)),
+      editing: arrayData.map(
+        (item, index) =>
+          // put empty fields & duplicate entries into edit mode
+          duplicates.includes(index) || (key && (item[key] || '') === ''),
+      ),
     };
     this.handleAdd = this.handleAdd.bind(this);
     this.handleSave = this.handleSave.bind(this);
@@ -47,6 +51,16 @@ class ArrayField extends React.Component {
     this.scrollToRow = this.scrollToRow.bind(this);
     this.isLocked = this.isLocked.bind(this);
   }
+
+  componentDidMount() {
+    const { formContext, arrayData = [] } = this.props;
+    // Automatically add a new item when editing & no data
+    // called when the review page error link is used
+    if (arrayData.length === 0 && formContext?.onReviewPage) {
+      this.handleAdd();
+    }
+  }
+
   /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillReceiveProps(newProps) {
     if (newProps.arrayData !== this.props.arrayData) {

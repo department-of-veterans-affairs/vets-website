@@ -199,6 +199,7 @@ export function mockFeatureToggles({
   providerSelectionEnabled = false,
   homepageRefresh = false,
   v2Requests = false,
+  v2Facilities = false,
 } = {}) {
   cy.route({
     method: 'GET',
@@ -246,6 +247,10 @@ export function mockFeatureToggles({
           {
             name: 'vaOnlineSchedulingVAOSServiceRequests',
             value: v2Requests,
+          },
+          {
+            name: 'vaOnlineSchedulingFacilitiesServiceV2',
+            value: v2Facilities,
           },
         ],
       },
