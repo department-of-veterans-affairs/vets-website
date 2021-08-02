@@ -3,7 +3,7 @@ import React from 'react';
 export default function HousingAllowanceOJTModalContent() {
   return (
     <>
-      <h3>Your housing allowance is determined by where you take classes</h3>
+      <h3>Your housing allowance is determined by where you take training</h3>
       <div>
         <p>
           Under the GI Bill you’re eligible to receive a monthly housing
