@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import Telephone, {
   CONTACTS,
@@ -13,7 +12,6 @@ import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import recordEvent from 'platform/monitoring/record-event';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import environment from 'platform/utilities/environment';
 
 import HCAEnrollmentStatus from './HCAEnrollmentStatus';
 import HCASubwayMap from '../components/HCASubwayMap';
@@ -89,144 +87,84 @@ const VerificationRequiredAlert = () => (
 const LoggedOutContent = connect(
   null,
   { toggleLoginModal },
-)(
-  ({ route, showLoginAlert, toggleLoginModal: showLoginModal }) =>
-    environment.isProduction() ? (
-      <>
-        {showLoginAlert && (
-          <div>
-            <AlertBox
-              headline="Have you applied for VA health care before?"
-              content={
-                <button
-                  className="va-button-link"
-                  onClick={() => showLoginModal(true, 'hcainfo')}
-                >
-                  Sign in to check your application status.
-                </button>
-              }
-              isVisible
-              status="info"
-              backgroundOnly
-            />
-            <br />
-          </div>
-        )}
-        <SaveInProgressIntro
-          prefillEnabled={route.formConfig.prefillEnabled}
-          messages={route.formConfig.savedFormMessages}
-          downtime={route.formConfig.downtime}
-          pageList={route.pageList}
-          startText="Start the Health Care Application"
-        />
-        <HCASubwayMap />
-        <SaveInProgressIntro
-          buttonOnly
-          prefillEnabled={route.formConfig.prefillEnabled}
-          messages={route.formConfig.savedFormMessages}
-          pageList={route.pageList}
-          startText="Start the Health Care Application"
-          downtime={route.formConfig.downtime}
-        />
-        <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-          {environment.isProduction() ? (
-            <OMBInfo
-              resBurden={30}
-              ombNumber="2900-0091"
-              expDate="06/30/2024"
-            />
-          ) : (
-            <HcaOMBInfo />
-          )}
-        </div>
-      </>
+)(({ route, showLoginAlert, toggleLoginModal: showLoginModal }) => (
+  <>
+    {showLoginAlert ? (
+      <va-alert background-only status="info">
+        <h2 className="vads-u-margin-y--0 vads-u-font-size--h4">
+          Have you applied for VA health care before?
+        </h2>
+        <button
+          type="button"
+          className="usa-button vads-u-margin-top--2"
+          onClick={() => showLoginModal(true, 'hcainfo')}
+        >
+          Sign in to check your application status
+        </button>
+      </va-alert>
     ) : (
-      <>
-        {showLoginAlert ? (
-          <va-alert background-only status="info">
-            <h2 className="vads-u-margin-y--0 vads-u-font-size--h4">
-              Have you applied for VA health care before?
-            </h2>
-            <button
-              type="button"
-              className="usa-button vads-u-margin-top--2"
-              onClick={() => showLoginModal(true, 'hcainfo')}
-            >
-              Sign in to check your application status
-            </button>
-          </va-alert>
-        ) : (
-          <SaveInProgressIntro
-            headingLevel={2}
-            prefillEnabled={route.formConfig.prefillEnabled}
-            messages={route.formConfig.savedFormMessages}
-            downtime={route.formConfig.downtime}
-            pageList={route.pageList}
-            startText="Start the health care application"
-          />
-        )}
-        <HCASubwayMap />
-        {showLoginAlert ? (
-          <div className="usa-alert usa-alert-info schemaform-sip-alert vads-u-margin-bottom--5">
-            <div className="usa-alert-body">
-              <h2 className="usa-alert-heading">
-                Save time and save your work in progress
-              </h2>
-              <div className="usa-alert-text">
-                <p>Here’s how signing in now helps you:</p>
-                <ul>
-                  <li>
-                    We can fill in some of your information for you to save you
-                    time.
-                  </li>
-                  <li>
-                    You can save your work in progress. You’ll have 60 days from
-                    when you start or make updates to your application to come
-                    back and finish it.
-                  </li>
-                </ul>
-                <p>
-                  <strong>Note:</strong> You can sign in after you start your
-                  application. But you’ll lose any information you already
-                  filled in.
-                </p>
-                <SaveInProgressIntro
-                  buttonOnly
-                  prefillEnabled={route.formConfig.prefillEnabled}
-                  messages={route.formConfig.savedFormMessages}
-                  pageList={route.pageList}
-                  startText="Start the health care application"
-                  downtime={route.formConfig.downtime}
-                />
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="vads-u-margin-y--3">
+      <SaveInProgressIntro
+        headingLevel={2}
+        prefillEnabled={route.formConfig.prefillEnabled}
+        messages={route.formConfig.savedFormMessages}
+        downtime={route.formConfig.downtime}
+        pageList={route.pageList}
+        startText="Start the health care application"
+      />
+    )}
+    <HCASubwayMap />
+    {showLoginAlert ? (
+      <div className="usa-alert usa-alert-info schemaform-sip-alert vads-u-margin-bottom--5">
+        <div className="usa-alert-body">
+          <h2 className="usa-alert-heading">
+            Save time and save your work in progress
+          </h2>
+          <div className="usa-alert-text">
+            <p>Here’s how signing in now helps you:</p>
+            <ul>
+              <li>
+                We can fill in some of your information for you to save you
+                time.
+              </li>
+              <li>
+                You can save your work in progress. You’ll have 60 days from
+                when you start or make updates to your application to come back
+                and finish it.
+              </li>
+            </ul>
+            <p>
+              <strong>Note:</strong> You can sign in after you start your
+              application. But you’ll lose any information you already filled
+              in.
+            </p>
             <SaveInProgressIntro
               buttonOnly
               prefillEnabled={route.formConfig.prefillEnabled}
               messages={route.formConfig.savedFormMessages}
-              downtime={route.formConfig.downtime}
               pageList={route.pageList}
               startText="Start the health care application"
+              downtime={route.formConfig.downtime}
             />
           </div>
-        )}
-        <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-          {environment.isProduction() ? (
-            <OMBInfo
-              resBurden={30}
-              ombNumber="2900-0091"
-              expDate="06/30/2024"
-            />
-          ) : (
-            <HcaOMBInfo />
-          )}
         </div>
-      </>
-    ),
-);
+      </div>
+    ) : (
+      <div className="vads-u-margin-y--3">
+        <SaveInProgressIntro
+          buttonOnly
+          prefillEnabled={route.formConfig.prefillEnabled}
+          messages={route.formConfig.savedFormMessages}
+          downtime={route.formConfig.downtime}
+          pageList={route.pageList}
+          startText="Start the health care application"
+        />
+      </div>
+    )}
+    <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
+      <HcaOMBInfo />
+    </div>
+  </>
+));
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -244,28 +182,23 @@ class IntroductionPage extends React.Component {
     } = this.props;
     return (
       <div className="schemaform-intro">
-        {environment.isProduction() ? (
-          <>
-            <FormTitle title="Apply for health care benefits" />
-            <p>Equal to VA Form 10-10EZ (Application for Health Benefits).</p>
-          </>
-        ) : (
-          <>
-            <FormTitle title="Apply for VA health care" />
-            <p className="vads-u-margin-top--neg2">
-              Enrollment Application for Health Benefits (VA Form 10-10EZ)
+        (
+        <>
+          <FormTitle title="Apply for VA health care" />
+          <p className="vads-u-margin-top--neg2">
+            Enrollment Application for Health Benefits (VA Form 10-10EZ)
+          </p>
+          {!showLOA3Content && (
+            <p className="vads-u-margin-bottom--5">
+              <strong className="vads-u-font-size--lg vads-u-line-height--3">
+                VA health care covers care for your physical and mental health.
+                This includes a range of services from checkups to surgeries to
+                home health care. It also includes prescriptions and medical
+                equipment. Apply online now.
+              </strong>
             </p>
-            {!showLOA3Content && (
-              <p className="vads-u-margin-bottom--5">
-                <strong className="vads-u-font-size--lg vads-u-line-height--3">
-                  VA health care covers care for your physical and mental
-                  health. This includes a range of services from checkups to
-                  surgeries to home health care. It also includes prescriptions
-                  and medical equipment. Apply online now.
-                </strong>
-              </p>
-            )}
-          </>
+          )}
+        </>
         )}
         {showMainLoader && <LoadingIndicator />}
         {showVerificationRequiredAlert && <VerificationRequiredAlert />}
