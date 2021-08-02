@@ -490,7 +490,7 @@ jobs:
         run: |
           mkdir -p build
           cp -R /tmp/${{ github.run_id }} build
-          du -h build/vagovprod
+          du -h build
 
       - name: ls directory
         run: ls -la
