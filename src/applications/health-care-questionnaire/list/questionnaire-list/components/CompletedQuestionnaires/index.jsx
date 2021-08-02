@@ -27,10 +27,10 @@ const index = props => {
               }
             />
           ) : (
+            // eslint-disable-next-line jsx-a11y/no-redundant-roles
             <ol
               className="questionnaire-list completed"
               data-testid="questionnaire-list"
-              // eslint-disable-next-line jsx-a11y/no-redundant-roles
               role="list"
             >
               {questionnaires.map(data => {

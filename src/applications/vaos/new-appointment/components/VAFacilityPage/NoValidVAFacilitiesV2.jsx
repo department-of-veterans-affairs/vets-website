@@ -46,9 +46,9 @@ export default function NoValidVAFacilities({
               <li>
                 Some clinics don’t offer online scheduling. You can call them
                 directly to schedule your appointment:
+                {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
                 <ul
                   className="usa-unstyled-list vads-u-margin-top--2"
-                  // eslint-disable-next-line jsx-a11y/no-redundant-roles
                   role="list"
                 >
                   {unsupportedFacilities.map(facility => (

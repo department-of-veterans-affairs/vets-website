@@ -12,9 +12,9 @@ export default function SearchResultList({
   page,
 }) {
   return (
+    // eslint-disable-next-line jsx-a11y/no-redundant-roles
     <ul
       className="usa-unstyled-list vads-u-padding-x--1 large-screen:vads-u-padding-x--0"
-      // eslint-disable-next-line jsx-a11y/no-redundant-roles
       role="list"
     >
       {results.map((article, articleIndex) => {

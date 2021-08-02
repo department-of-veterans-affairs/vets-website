@@ -73,10 +73,10 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
         {hasTypeChanged && 'Showing requested appointments'}
       </div>
       {pendingAppointments?.length > 0 && (
+        // eslint-disable-next-line jsx-a11y/no-redundant-roles
         <ul
           className="vads-u-padding-left--0"
           data-cy="requested-appointment-list"
-          // eslint-disable-next-line jsx-a11y/no-redundant-roles
           role="list"
         >
           {pendingAppointments.map((appt, index) => (
