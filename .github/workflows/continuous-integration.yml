@@ -489,8 +489,8 @@ jobs:
       - name: Restore vagovprod build
         run: |
           mkdir -p build
-          cp -R /tmp/${{ github.run_id }} build
-          du -h build
+          cp -R /tmp/${{ github.run_id }}/vagovprod build/vagovprod
+          du -h build/vagovprod
 
       - name: ls directory
         run: ls -la
