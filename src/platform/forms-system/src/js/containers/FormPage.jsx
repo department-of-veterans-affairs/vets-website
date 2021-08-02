@@ -147,6 +147,8 @@ class FormPage extends React.Component {
     }
 
     // Bypass the SchemaForm and render the custom component
+    // NOTE: I don't think FormPage is rendered on the review page, so I believe
+    // onReviewPage will always be false here
     if (typeof route.pageConfig.CustomPage === 'function') {
       return (
         <div className={pageClasses}>
