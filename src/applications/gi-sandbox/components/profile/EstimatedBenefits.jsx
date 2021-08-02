@@ -2,8 +2,15 @@ import React from 'react';
 import classNames from 'classnames';
 import { createId } from '../../utils/helpers';
 import _ from 'lodash';
+import LearnMoreLabel from '../LearnMoreLabel';
 
-export default function EstimatedBenefits({ profile, outputs, calculator }) {
+export default function EstimatedBenefits({
+  profile,
+  outputs,
+  calculator,
+  isOJT,
+  dispatchShowModal,
+}) {
   const month = (
     <React.Fragment key="months">
       <span className="sr-only">per month</span>
@@ -85,32 +92,47 @@ export default function EstimatedBenefits({ profile, outputs, calculator }) {
     const { perTerm } = outputs;
 
     const sections = Object.keys(perTerm).map(section => {
-      const { visible, title, learnMoreAriaLabel, terms } = outputs.perTerm[
-        section
-      ];
+      const {
+        visible,
+        title,
+        learnMoreAriaLabel,
+        terms,
+        modal,
+      } = outputs.perTerm[section];
       if (!visible) return null;
 
       const learnMoreLink = `http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#${section.toLowerCase()}`;
       const headerId = `${_.snakeCase(title)}_header`;
+
       return (
         <div key={section} className="per-term-section">
-          <div className="link-header">
-            <span id={headerId}>
-              <strong>{title}</strong>
-            </span>
-            <span className="vads-u-padding-left--2">
-              (
-              <a
-                href={learnMoreLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={learnMoreAriaLabel || ''}
-              >
-                Learn more
-              </a>
-              )
-            </span>
-          </div>
+          {modal ? (
+            <LearnMoreLabel
+              text={title}
+              onClick={() => dispatchShowModal('housingAllowanceOJT')}
+              ariaLabel={learnMoreAriaLabel}
+              bold
+            />
+          ) : (
+            <div className="link-header">
+              <span id={headerId}>
+                <strong>{title}</strong>
+              </span>
+              <span className="vads-u-padding-left--2">
+                (
+                <a
+                  href={learnMoreLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={learnMoreAriaLabel || ''}
+                >
+                  Learn more
+                </a>
+                )
+              </span>
+            </div>
+          )}
+
           {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
           <ul aria-labelledby={headerId} role="list">
             {terms.map(term => (
@@ -142,71 +164,92 @@ export default function EstimatedBenefits({ profile, outputs, calculator }) {
   };
 
   return (
-    <div className="medium-6 columns your-estimated-benefits">
-      <h3 id="estimated-benefits" tabIndex="-1">
-        Your estimated benefits
-      </h3>
-      <div aria-atomic="true" aria-live="polite" role="status">
-        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-        <ul
-          className="out-of-pocket-tuition"
-          aria-label="Out-of-pocket tuition"
-          role="list"
-        >
-          <CalculatorResultRow
-            label="GI Bill pays to school"
-            value={outputs.giBillPaysToSchool.value}
-            visible={outputs.giBillPaysToSchool.visible}
-            screenReaderSpan={year}
-            bold
-          />
-          <CalculatorResultRow
-            label="Tuition and fees charged"
-            value={outputs.tuitionAndFeesCharged.value}
-            visible={outputs.tuitionAndFeesCharged.visible}
-          />
-          <CalculatorResultRow
-            label="Your scholarships"
-            value={outputs.yourScholarships.value}
-            visible={outputs.yourScholarships.visible}
-          />
-          <CalculatorResultRow
-            label="Out of pocket tuition"
-            value={outputs.outOfPocketTuition.value}
-            bold
-            visible={outputs.outOfPocketTuition.visible}
-          />
-        </ul>
-        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-        <ul
-          className="total-paid-to-you"
-          aria-label="Total paid to you"
-          role="list"
-        >
-          <CalculatorResultRow
-            label="Housing allowance"
-            value={outputs.housingAllowance.value}
-            visible={outputs.housingAllowance.visible}
-            screenReaderSpan={month}
-            bold
-          />
-          <CalculatorResultRow
-            label="Book stipend"
-            value={outputs.bookStipend.value}
-            visible={outputs.bookStipend.visible}
-            screenReaderSpan={profile.attributes.type === 'ojt' ? month : year}
-            bold
-          />
-          <CalculatorResultRow
-            label="Total paid to you"
-            value={outputs.totalPaidToYou.value}
-            visible={outputs.totalPaidToYou.visible}
-            bold
-          />
-        </ul>
+    <div className="medium-6 columns">
+      <div className="your-estimated-benefits">
+        <h3 id="estimated-benefits" tabIndex="-1">
+          Your estimated benefits
+        </h3>
+        <div aria-atomic="true" aria-live="polite" role="status">
+          {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+          <ul
+            className="out-of-pocket-tuition"
+            aria-label="Out-of-pocket tuition"
+            role="list"
+          >
+            <CalculatorResultRow
+              label="GI Bill pays to school"
+              value={outputs.giBillPaysToSchool.value}
+              visible={outputs.giBillPaysToSchool.visible}
+              screenReaderSpan={year}
+              bold
+            />
+            <CalculatorResultRow
+              label="Tuition and fees charged"
+              value={outputs.tuitionAndFeesCharged.value}
+              visible={outputs.tuitionAndFeesCharged.visible}
+            />
+            <CalculatorResultRow
+              label="Your scholarships"
+              value={outputs.yourScholarships.value}
+              visible={outputs.yourScholarships.visible}
+            />
+            <CalculatorResultRow
+              label="Out of pocket tuition"
+              value={outputs.outOfPocketTuition.value}
+              bold
+              visible={outputs.outOfPocketTuition.visible}
+            />
+          </ul>
+          {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+          <ul
+            className="total-paid-to-you"
+            aria-label="Total paid to you"
+            role="list"
+          >
+            <CalculatorResultRow
+              label="Housing allowance"
+              value={outputs.housingAllowance.value}
+              visible={outputs.housingAllowance.visible}
+              screenReaderSpan={month}
+              bold
+            />
+            <CalculatorResultRow
+              label={
+                <LearnMoreLabel
+                  text="Book stipend"
+                  onClick={() => dispatchShowModal('bookStipendInfo')}
+                  ariaLabel="Learn more about the book stipend"
+                />
+              }
+              id={'book-stipend'}
+              value={outputs.bookStipend.value}
+              visible={outputs.bookStipend.visible}
+              screenReaderSpan={
+                profile.attributes.type === 'ojt' ? month : year
+              }
+              bold
+            />
+            <CalculatorResultRow
+              label="Total paid to you"
+              value={outputs.totalPaidToYou.value}
+              visible={outputs.totalPaidToYou.visible}
+              bold
+            />
+          </ul>
+        </div>
+        <hr aria-hidden="true" />
+        {perTermSections()}
       </div>
-      <hr aria-hidden="true" />
-      {perTermSections()}
+      {isOJT && (
+        <div className="row">
+          <div className="columns ">
+            <p className="vads-u-padding-x--0p5 vads-u-margin--0">
+              <strong>Note:</strong> Housing rate and the amount of entitlement
+              used decrease every 6 months as training progresses
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -30,6 +30,7 @@ export function CalculateYourBenefits({
   estimatedBenefits,
   gibctEybBottomSheet,
   profile,
+  isOJT,
 }) {
   const [showEybSheet, setShowEybSheet] = useState(false);
   const [expandEybSheet, setExpandEybSheet] = useState(false);
@@ -132,6 +133,8 @@ export function CalculateYourBenefits({
           outputs={outputs}
           profile={profile}
           calculator={inputs}
+          isOJT={isOJT}
+          dispatchShowModal={dispatchShowModal}
         />
         {gibctEybBottomSheet && (
           <div>
@@ -153,61 +156,65 @@ export function CalculateYourBenefits({
           </div>
         )}
       </div>
-      <div className="subsection">
-        <h3>Additional information regarding your benefits</h3>
-      </div>
+      {!isOJT && (
+        <>
+          <div className="subsection">
+            <h3>Additional information regarding your benefits</h3>
+          </div>
 
-      <div className="vads-u-padding-bottom--1">
-        <strong>Veterans tuition policy:</strong>{' '}
-        {profile.attributes.vetWebsiteLink ? 'Yes' : 'No'}
-        {profile.attributes.vetWebsiteLink && (
-          <span>
-            &nbsp;(
-            <a
-              href={profile.attributes.vetWebsiteLink}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              View policy
-            </a>
-            )
-          </span>
-        )}
-      </div>
+          <div className="vads-u-padding-bottom--1">
+            <strong>Veterans tuition policy:</strong>{' '}
+            {profile.attributes.vetWebsiteLink ? 'Yes' : 'No'}
+            {profile.attributes.vetWebsiteLink && (
+              <span>
+                &nbsp;(
+                <a
+                  href={profile.attributes.vetWebsiteLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View policy
+                </a>
+                )
+              </span>
+            )}
+          </div>
 
-      <SectionFooterField
-        label="Protection against late VA payments"
-        value={
-          profile.attributes.section103Message
-            ? profile.attributes.section103Message
-            : 'No'
-        }
-        learnMoreOnClick={() => {
-          recordEvent({
-            event: 'gibct-modal-displayed',
-            'gibct-modal-displayed': 'protection-against-late-va-payments',
-          });
-          dispatchShowModal('section103');
-        }}
-      />
+          <SectionFooterField
+            label="Protection against late VA payments"
+            value={
+              profile.attributes.section103Message
+                ? profile.attributes.section103Message
+                : 'No'
+            }
+            learnMoreOnClick={() => {
+              recordEvent({
+                event: 'gibct-modal-displayed',
+                'gibct-modal-displayed': 'protection-against-late-va-payments',
+              });
+              dispatchShowModal('section103');
+            }}
+          />
 
-      <SectionFooterField
-        label="Yellow Ribbon Program"
-        value={profile.attributes.yr ? 'Yes' : 'No'}
-        learnMoreOnClick={() => {
-          recordEvent({
-            event: 'gibct-modal-displayed',
-            'gibct-modal-displayed': 'yribbon',
-          });
-          dispatchShowModal('yribbon');
-        }}
-      />
+          <SectionFooterField
+            label="Yellow Ribbon Program"
+            value={profile.attributes.yr ? 'Yes' : 'No'}
+            learnMoreOnClick={() => {
+              recordEvent({
+                event: 'gibct-modal-displayed',
+                'gibct-modal-displayed': 'yribbon',
+              });
+              dispatchShowModal('yribbon');
+            }}
+          />
 
-      <SectionFooterField
-        label="Veteran Rapid Retraining Assistance Program (VRRAP)"
-        value={profile.attributes.vrrap ? 'Yes' : 'No'}
-        learnMoreOnClick={() => dispatchShowModal('vrrap')}
-      />
+          <SectionFooterField
+            label="Veteran Rapid Retraining Assistance Program (VRRAP)"
+            value={profile.attributes.vrrap ? 'Yes' : 'No'}
+            learnMoreOnClick={() => dispatchShowModal('vrrap')}
+          />
+        </>
+      )}
     </div>
   );
 }
