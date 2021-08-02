@@ -1,6 +1,7 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { mount, shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -815,12 +816,16 @@ describe('<ReviewCollapsibleChapter>', () => {
     });
   });
 
-  describe('CustomPageReview', () => {
+  describe('rendering custom content', () => {
     const getProps = () => {
+      const CustomPage = () => <div data-testid="custom-page" />;
+      const CustomPageReview = () => <div data-testid="custom-page-review" />;
       const pages = [
         {
           title: '',
           pageKey: 'test',
+          CustomPage,
+          CustomPageReview,
         },
       ];
       const chapterKey = 'test';
@@ -829,9 +834,9 @@ describe('<ReviewCollapsibleChapter>', () => {
         pages: {
           test: {
             title: '',
-            CustomPage: () => <div />,
-            CustomPageReview: () => <div />,
             editMode: false,
+            CustomPage,
+            CustomPageReview,
           },
         },
         data: {},
@@ -840,22 +845,29 @@ describe('<ReviewCollapsibleChapter>', () => {
       return { pages, chapterKey, chapter, form };
     };
 
-    it('should throw an error when CustomPageReview is missing but CustomPage is present', () => {
+    it('should render CustomPageReview', () => {
       const { pages, chapterKey, chapter, form } = getProps();
-      delete form.pages.test.CustomPageReview;
-      expect(() =>
-        SkinDeep.shallowRender(
-          <ReviewCollapsibleChapter
-            viewedPages={new Set()}
-            expandedPages={pages}
-            chapterKey={chapterKey}
-            chapterFormConfig={chapter}
-            form={form}
-          />,
-        ),
-      ).to.throw('CustomPage found for test, but missing CustomPageReview.');
+      const { queryByTestId } = render(
+        <ReviewCollapsibleChapter
+          viewedPages={new Set()}
+          expandedPages={pages}
+          chapterKey={chapterKey}
+          chapterFormConfig={chapter}
+          form={form}
+          open
+        />,
+      );
+
+      expect(queryByTestId('custom-page-review')).to.exist;
+      expect(queryByTestId('custom-page')).not.to.exist;
     });
-    it('should render CustomPageReview when CustomPage is present', () => {});
+
+    it('should render CustomPage in edit mode', () => {});
+
     it('should render a CustomPageReview for each item in an array when showPagePerItem is true', () => {});
+
+    it('should not render a page in the chapter when CustomPageReview is null and the schema properties are empty', () => {});
+
+    it('should render SchemaForm in the chapter when CustomPageReview is null but the schema properties are not empty', () => {});
   });
 });
