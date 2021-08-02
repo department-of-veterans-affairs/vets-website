@@ -74,7 +74,7 @@ function ViewDependentsListItem(props) {
         ) : null}
       </dl>
       {manageDependentsToggle && (
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+        <div className="vads-l-col--12">
           {!open && (
             <button
               type="button"

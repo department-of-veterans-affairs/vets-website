@@ -6,7 +6,7 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import * as actions from '../redux/actions';
 import { SCHEMAS } from '../schemas';
-import { transformForSubmit } from '../utils';
+import { transformForSubmit, ServerErrorFragment } from '../utils';
 
 const ManageDependents = props => {
   const {
@@ -106,6 +106,7 @@ const ManageDependents = props => {
           </button>
         </div>
       </SchemaForm>
+      {dependentsState[stateKey].status === 'failed' && <ServerErrorFragment />}
     </div>
   ) : (
     <LoadingIndicator message="Loading the form..." />
