@@ -320,13 +320,6 @@ class ReviewCollapsibleChapter extends React.Component {
   };
 
   render() {
-    Object.entries(this.props.form.pages).forEach(([pageKey, pageConfig]) => {
-      if (pageConfig.CustomPage && pageConfig.CustomPageReview === undefined) {
-        throw new Error(
-          `CustomPage found for ${pageKey}, but missing CustomPageReview. If you want to omit this page on the review page, set CustomPageReview to null and the page's schema.properties to {}.`,
-        );
-      }
-    });
     let pageContent = null;
 
     const chapterTitle = this.getChapterTitle(this.props.chapterFormConfig);
