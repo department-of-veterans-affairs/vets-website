@@ -1,5 +1,7 @@
 import React from 'react';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import Telephone, {
+  PATTERNS,
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const HowToPay = () => (
   <>
@@ -17,7 +19,7 @@ export const HowToPay = () => (
           </p>
           <p>
             <strong>Account Number: </strong>
-            ##########
+            [##########]
           </p>
           <a className="vads-c-action-link--blue" href="https://www.pay.gov/">
             Pay your copay bill online at pay.gov
@@ -32,10 +34,23 @@ export const HowToPay = () => (
           </p>
         </va-accordion-item>
         <va-accordion-item header="Option 2: Pay by phone">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga
-          voluptatem numquam ipsum praesentium consequuntur recusandae modi
-          sequi expedita odio, perferendis distinctio facere odit a eligendi
-          esse saepe assumenda libero iste.
+          <p>
+            Call us at <Telephone contact={'888-827-4817'} /> (or
+            <Telephone
+              className="vads-u-margin-x--0p5"
+              contact={'1-555-555-5555'}
+              pattern={PATTERNS.OUTSIDE_US}
+            />
+            if overseas) We’re here Monday through Friday, 8:00 a.m. to 8:00
+            p.m. ET.
+          </p>
+          <p>
+            You will need to provide an account number to pay this debt online:
+          </p>
+          <p>
+            <strong>Account Number: </strong>
+            [##########]
+          </p>
         </va-accordion-item>
         <va-accordion-item header="Option 3: Pay by mail">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga
