@@ -468,7 +468,7 @@ function LocationSearchResults({
         { 'vads-u-display--none': !visible },
       );
       const resultsClassnames = classNames('location-search-results', {
-        'vads-l-row': !smallScreen,
+        'vads-l-row': !smallScreen && !location,
         'vads-u-flex-wrap--wrap': !smallScreen,
       });
       return (
