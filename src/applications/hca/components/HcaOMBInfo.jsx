@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
-import HealthcareModalContent from 'platform/forms/components/OMBInfoModalContent/HealthcareModalContent';
+import HCAPrivacyActStatement from './HCAPrivacyActStatement';
 
 class HcaOMBInfo extends React.Component {
   constructor(props) {
@@ -38,9 +38,7 @@ class HcaOMBInfo extends React.Component {
         </div>
         <Modal
           cssClass="va-modal-large"
-          contents={
-            <HealthcareModalContent resBurden={30} ombNumber="2900-0091" />
-          }
+          contents={<HCAPrivacyActStatement />}
           id="omb-modal"
           visible={this.state.modalOpen}
           onClose={this.closeModal}

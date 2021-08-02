@@ -200,7 +200,7 @@ export const AdditionalCaregiverInfo = () => (
 
 export const SecondaryRequiredAlert = () => {
   return (
-    <va-alert status="error">
+    <va-alert status="error" isVisible>
       <h3 slot="headline">We need you to add a Family Caregiver</h3>
       <p className="vads-u-font-size--base">
         We can’t process your application unless you add a Family Caregiver.
