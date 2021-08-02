@@ -1,3 +1,7 @@
+App Name: `Form 21-686c`
+Active engineers: Micah Chiang (front end), Jesse Cohn (front end), Kathleen Crawford (back end), Kevin Musiorski (back end)
+Form ID (if different from app name): `21-686c with 21P-527EZ and 21-674`
+
 # Background
 From time to time Veterans need to make updates to the dependents they get benefits for. These updates can be when a divorce happens, or a death, or a new child is born, etc. The 686c form is how these changes to dependents are made.
 
@@ -13,12 +17,11 @@ Since the Veteran may be making any one of various changes to dependents, there 
 - `Remove a child 18 to 23 years old who has stopped attending school`
 - `Add a child 18 to 23 years old</strong> who'll be attending school` (VA Form 21-674)
 
-> You will notice that the last workflow is technically speaking a totally separate form (the form 21-674). The stakeholders wanted this form added as a workflow to this form since it deals with making changes to a dependent. That workflow actually submits to a separate data source but that is detailed below.
+> You will notice that the last workflow is technically speaking a totally separate form (the form 21-674). The stakeholders wanted this form added as a workflow to this form since it deals with making changes to a dependent. That workflow actually submits to a separate data source but that is detailed below in the back end sections.
 
 The Veteran can choose as many or as few of these workflows at a time. This means the Veteran could potentially come into the form and select multiple workflows and we show them only the parts they need to see. For instance, if you choose to `Add your spouse` AND choose `Remove a divorced spouse` we would show you the pages dealing with those two workflows but ONLY those two workflows. This is done using `depends` in the code and is detailed below.
 
 Once the user chooses the workflows they want, they move through the form filling out the fields and are then shown a review page of what they are about to submit. They can then submit and see a confirmation screen that they submitted the form.
-
 
 ## The Front End code
 Since the 686c is a rather large form we decided to split the form chapters up into smaller files instead of putting them all in one huge file. We broke these files up into individual folders for each respective chapter. You can find each individual chapter folder inside `/config`. You will also see a few files inside the `/config` folder that are not inside the chapter folders, these files are -
@@ -56,3 +59,7 @@ There are really two separate API endpoints that we use in the 686c form, one of
 ### Valid VA file number check (back end)
 
 When the Veteran first lands on the Introduction page of the form a call is made to `vets-api/app/controllers/v0/profile/valid_va_file_numbers_controller.rb` where we use BGS as a data source to see if the current user has valid VA file number. We do this with the `valid_va_file_number_data` method call which simply takes the data returned by BGS for the current user and sees if the user has a `file_nbr` which is where BGS holds the file number. If the user has a valid VA file number we return `true`, otherwise we return `false`, to the front end.
+
+### Form submission
+
+After the Veteran fills out the form and submits the payload it is sent to `vets-api/app/controllers/v0/dependents_applications_controller.rb` on the back end.
