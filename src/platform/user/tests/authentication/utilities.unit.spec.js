@@ -26,7 +26,7 @@ describe('authentication URL helpers', () => {
 
   it('should redirect for signup', () => {
     signup();
-    expect(global.window.location).to.include('/sessions/signup/new');
+    expect(global.window.location).to.include('/v1/sessions/signup/new');
   });
 
   it('should redirect for signup v1', () => {
@@ -36,7 +36,7 @@ describe('authentication URL helpers', () => {
 
   it('should redirect for login', () => {
     login('idme');
-    expect(global.window.location).to.include('/sessions/idme/new');
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
 
   it('should redirect for login v1', () => {
@@ -52,7 +52,7 @@ describe('authentication URL helpers', () => {
 
   it('should redirect for logout', () => {
     logout();
-    expect(global.window.location).to.include('/sessions/slo/new');
+    expect(global.window.location).to.include('/v1/sessions/slo/new');
   });
 
   it('should redirect for logout v1', () => {
@@ -68,7 +68,7 @@ describe('authentication URL helpers', () => {
 
   it('should redirect for MFA', () => {
     mfa();
-    expect(global.window.location).to.include('/sessions/mfa/new');
+    expect(global.window.location).to.include('/v1/sessions/mfa/new');
   });
 
   it('should redirect for MFA v1', () => {
@@ -78,7 +78,7 @@ describe('authentication URL helpers', () => {
 
   it('should redirect for verify', () => {
     verify();
-    expect(global.window.location).to.include('/sessions/verify/new');
+    expect(global.window.location).to.include('/v1/sessions/verify/new');
   });
 
   it('should redirect for verify v1', () => {

@@ -3,12 +3,12 @@ import {
   createPastVAAppointments,
   mockFeatureToggles,
 } from './vaos-cypress-helpers';
+import Timeouts from 'platform/testing/e2e/timeouts';
 
 describe('VAOS appointment list', () => {
   beforeEach(() => {
     initAppointmentListMock();
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
-    cy.get('.va-modal-body button').click();
     cy.injectAxe();
   });
 
@@ -61,12 +61,13 @@ describe('VAOS appointment list refresh', () => {
     mockFeatureToggles({ homepageRefresh: true });
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
-    cy.get('.va-modal-body button').click();
   });
 
   describe('appointments details', () => {
     beforeEach(() => {
-      cy.get('h2').contains(/Your appointments/i);
+      cy.get('h2', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .and('contain', 'Your appointments');
       cy.get('#type-dropdown').should('exist');
     });
 
@@ -173,7 +174,9 @@ describe('VAOS appointment list refresh', () => {
 
   describe('upcoming appointments', () => {
     it('should render upcoming appointments list', () => {
-      cy.get('h2').contains(/Your appointments/i);
+      cy.get('h2', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .and('contain', 'Your appointments');
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=upcoming-appointment-list]').should('exist');
       cy.get('#type-dropdown').should('exist');
@@ -194,7 +197,9 @@ describe('VAOS appointment list refresh', () => {
 
   describe('requested appointments', () => {
     beforeEach(() => {
-      cy.get('h2').contains(/Your appointments/i);
+      cy.get('h2', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .and('contain', 'Your appointments');
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=upcoming-appointment-list]').should('exist');
       cy.get('#type-dropdown')
