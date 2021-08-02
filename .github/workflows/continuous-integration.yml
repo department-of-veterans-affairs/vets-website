@@ -374,9 +374,9 @@ jobs:
     name: Cypress E2E Tests
     runs-on: ${{ needs.start-runner.outputs.label }}
     needs: [build, start-runner]
-    container:
-      image: cypress/browsers:node14.17.0-chrome91-ff89
-      options: -u 1001:1001 -v /usr/local/share:/share
+    # container:
+    #   image: cypress/browsers:node14.17.0-chrome91-ff89
+    #   options: -u 1001:1001 -v /usr/local/share:/share
 
     # strategy:
     #   fail-fast: false
