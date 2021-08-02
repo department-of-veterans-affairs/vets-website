@@ -41,6 +41,10 @@ export function getFacilities(ids, children = false) {
   ).then(parseApiList);
 }
 
+export function getFacilityById(id) {
+  return apiRequestWithUrl(`/vaos/v2/facilities/${id}`).then(parseApiObject);
+}
+
 export function getSchedulingConfigurations(locationIds, ccEnabled = null) {
   let ccEnabledParam = '';
   if (ccEnabled !== null) {
