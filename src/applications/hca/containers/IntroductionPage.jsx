@@ -18,6 +18,7 @@ import environment from 'platform/utilities/environment';
 import HCAEnrollmentStatus from './HCAEnrollmentStatus';
 import HCASubwayMap from '../components/HCASubwayMap';
 import HcaOMBInfo from '../components/HcaOMBInfo';
+import HCAPrivacyActStatement from '../components/HCAPrivacyActStatement';
 import {
   isLoading,
   isLoggedOut,
@@ -27,63 +28,58 @@ import {
 } from '../selectors';
 
 const VerificationRequiredAlert = () => (
-  <AlertBox
-    content={
-      <div>
-        <h4 className="usa-alert-heading">
-          Please verify your identity before applying for VA health care
-        </h4>
-        <p>This process should take about 5 to 10 minutes.</p>
-        <p>
-          <strong>If you’re applying for the first time</strong>
-        </p>
-        <p>
-          We need to verify your identity so we can help you track the status of
-          your application once you’ve submitted it. As soon as you’re finished
-          verifying your identity, you can continue to the application.
-        </p>
-        <p>
-          <strong>If you’ve applied before</strong>
-        </p>
-        <p>
-          We need to verify your identity so we can show you the status of your
-          past application. We take your privacy seriously, and we need to make
-          sure we’re sharing your personal information only with you.
-        </p>
-        <p>
-          <strong>
-            If you need more information or help with verifying your identity:
-          </strong>
-        </p>
-        <ul>
-          <li>
-            <a href="/resources/verifying-your-identity-on-vagov/">
-              Read our identity verification FAQs
-            </a>
-          </li>
-          <li>
-            Or call us at <a href="tel:+18772228387">877-222-8387</a>. If you
-            have hearing loss, call TTY:{' '}
-            <Telephone contact={CONTACTS.HELP_TTY} />. We’re here Monday through
-            Friday, 8:00 a.m. to 8:00 p.m. ET.
-          </li>
-        </ul>
-        <p>
-          <a
-            className="usa-button-primary va-button-primary"
-            href="/verify"
-            onClick={() => {
-              recordEvent({ event: 'verify-link-clicked' });
-            }}
-          >
-            Verify your identity
+  <va-alert isVisible status="continue">
+    <div>
+      <h4 className="usa-alert-heading">
+        Please verify your identity before applying for VA health care
+      </h4>
+      <p>This process should take about 5 to 10 minutes.</p>
+      <p>
+        <strong>If you’re applying for the first time</strong>
+      </p>
+      <p>
+        We need to verify your identity so we can help you track the status of
+        your application once you’ve submitted it. As soon as you’re finished
+        verifying your identity, you can continue to the application.
+      </p>
+      <p>
+        <strong>If you’ve applied before</strong>
+      </p>
+      <p>
+        We need to verify your identity so we can show you the status of your
+        past application. We take your privacy seriously, and we need to make
+        sure we’re sharing your personal information only with you.
+      </p>
+      <p>
+        <strong>
+          If you need more information or help with verifying your identity:
+        </strong>
+      </p>
+      <ul>
+        <li>
+          <a href="/resources/verifying-your-identity-on-vagov/">
+            Read our identity verification FAQs
           </a>
-        </p>
-      </div>
-    }
-    isVisible
-    status="continue"
-  />
+        </li>
+        <li>
+          Or call us at <a href="tel:+18772228387">877-222-8387</a>. If you have
+          hearing loss, call TTY: <Telephone contact={CONTACTS.HELP_TTY} />.
+          We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+        </li>
+      </ul>
+      <p>
+        <a
+          className="usa-button-primary va-button-primary"
+          href="/verify"
+          onClick={() => {
+            recordEvent({ event: 'verify-link-clicked' });
+          }}
+        >
+          Verify your identity
+        </a>
+      </p>
+    </div>
+  </va-alert>
 );
 
 const LoggedOutContent = connect(
@@ -215,11 +211,9 @@ const LoggedOutContent = connect(
         )}
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           {environment.isProduction() ? (
-            <OMBInfo
-              resBurden={30}
-              ombNumber="2900-0091"
-              expDate="06/30/2024"
-            />
+            <OMBInfo resBurden={30} ombNumber="2900-0091" expDate="06/30/2024">
+              <HCAPrivacyActStatement />
+            </OMBInfo>
           ) : (
             <HcaOMBInfo />
           )}
