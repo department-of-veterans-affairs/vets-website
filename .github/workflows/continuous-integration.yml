@@ -8,7 +8,7 @@ on:
       - '**'
 
 env:
-  # CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
+  CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
   INSTANCE_TYPE: c5.4xlarge # Define instance size here OR later in the 'start-runner' step
 
 concurrency:
@@ -485,6 +485,21 @@ jobs:
       - name: Checkout vets-website
         uses: actions/checkout@v2
 
+      - name: Restore vagovprod build
+        run: |
+          mkdir -p build
+          cp -R /tmp/${{ github.run_id }} build/vagovprod
+          du -h build/vagovprod
+
+      - name: ls directory
+        run: ls -la
+
+      - name: ls build directory
+        run: ls -la build
+
+      - name: ls vagovprod directory
+        run: ls -la build/vagovprod
+
       - name: Get Node version
         id: get-node-version
         run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
@@ -507,15 +522,6 @@ jobs:
         run: yarn install --frozen-lockfile --prefer-offline
         env:
           YARN_CACHE_FOLDER: .cache/yarn
-
-      - name: Restore vagovprod build
-        run: |
-          mkdir -p build
-          cp -R /tmp/${{ github.run_id }} build/vagovprod
-          du -h build/vagovprod
-
-      - name: ls directory
-        run: ls -la
 
       - name: Run Nightwatch tests
         run: yarn test:e2e:headless --suiteRetries 3
