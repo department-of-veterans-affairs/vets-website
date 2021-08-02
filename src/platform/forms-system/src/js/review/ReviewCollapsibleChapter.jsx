@@ -148,9 +148,9 @@ class ReviewCollapsibleChapter extends React.Component {
       ? title(pageData)
       : title) || 'page'}`;
 
-    const noVisibleFields =
+    const visibleFields =
       pageSchema &&
-      !Object.entries(pageSchema.properties).filter(([propName]) =>
+      Object.entries(pageSchema.properties).filter(([propName]) =>
         showReviewField(
           propName,
           pageSchema,
@@ -160,7 +160,7 @@ class ReviewCollapsibleChapter extends React.Component {
         ),
       ).length > 0;
 
-    if (noVisibleFields) {
+    if (!visibleFields) {
       return null;
     }
 
