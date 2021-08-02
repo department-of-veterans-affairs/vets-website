@@ -527,6 +527,9 @@ jobs:
       - name: which chromedriver
         run: which chromedriver
 
+      - name: chrome version
+        run: google-chrome --version
+
       - name: Run Nightwatch tests
         run: yarn test:e2e:headless --suiteRetries 3
         timeout-minutes: 30
