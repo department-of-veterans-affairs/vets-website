@@ -9,9 +9,9 @@
     "sourceDate": "string",
     "communicationPermissionId": 7115,
     "vaProfileId": 1273780,
-    "communicationChannelId": 1,
+    "communicationChannelId": 2,
     "communicationItemId": 1,
-    "communicationChannelName": "Text",
+    "communicationChannelName": "Email",
     "communicationItemCommonName": "Board of Veterans' Appeals hearing reminder",
     "allowed": true
   }
