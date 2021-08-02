@@ -860,8 +860,7 @@ jobs:
 
   stop-runner:
     name: Stop on-demand-runner
-    # TODO: Add archive, cyress-tests step to needs
-    needs: [start-runner, build, cypress-tests]
+    needs: [start-runner, cypress-tests]
     runs-on: ubuntu-latest
     if: ${{ always() }} # Even if an error happened, let's stop the runner
     steps:
