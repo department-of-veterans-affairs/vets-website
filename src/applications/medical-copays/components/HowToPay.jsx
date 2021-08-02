@@ -61,10 +61,12 @@ export const HowToPay = () => (
             </li>
             <li>The payment remittance stub for your bill</li>
           </ul>
-          <strong>Note: </strong> You’ll find these stubs at the bottom of each
-          statement. If you don’t have your most recent statement, you can
-          download and print it below or include a note listing the facility
-          you’d like to pay.
+          <p>
+            <strong>Note: </strong> You’ll find these stubs at the bottom of
+            each statement. If you don’t have your most recent statement, you
+            can download and print it below or include a note listing the
+            facility you’d like to pay.
+          </p>
           <p>
             <strong>
               Print this information on each check or money order:
@@ -85,10 +87,25 @@ export const HowToPay = () => (
           </div>
         </va-accordion-item>
         <va-accordion-item header="Option 4: Pay in person">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga
-          voluptatem numquam ipsum praesentium consequuntur recusandae modi
-          sequi expedita odio, perferendis distinctio facere odit a eligendi
-          esse saepe assumenda libero iste.
+          <p>
+            Visit your nearest VA medical center, and ask for the agent
+            cashier’s office. Bring your payment stub, along with a check or
+            money order made payable to "VA". Be sure to include your account
+            number on the check or money order.
+          </p>
+          <p>
+            <strong>Note: </strong> You’ll find these stubs at the bottom of
+            each statement. If you don’t have your most recent statement, you
+            can download and print it below or include a note listing the
+            facility you’d like to pay.
+          </p>
+          <p>
+            <strong>Account Number: </strong>
+            [##########]
+          </p>
+          <a className="vads-c-action-link--blue" href="#">
+            Find your nearest VA medical center
+          </a>
         </va-accordion-item>
       </va-accordion>
     </div>
