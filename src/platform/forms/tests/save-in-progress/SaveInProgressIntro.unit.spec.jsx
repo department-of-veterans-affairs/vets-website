@@ -68,7 +68,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         .find('.saved-form-item-metadata')
         .last()
         .text(),
-    ).to.include(moment.unix(946684800).format('M/D/YYYY [at] h:mm a'));
+    ).to.include(moment.unix(946684800).format('MMMM D, YYYY [at] h:mm a'));
 
     expect(tree.find('.usa-alert').text()).to.contain(
       'Your application is in progress',

@@ -54,12 +54,12 @@ class SaveInProgressIntro extends React.Component {
           ? moment(this.props.lastSavedDate)
           : moment.unix(lastUpdated);
         const expiresAt = moment.unix(savedForm.metadata.expiresAt);
-        const expirationDate = expiresAt.format('MMM D, YYYY');
+        const expirationDate = expiresAt.format('MMMM D, YYYY');
         const isExpired = expiresAt.isBefore();
         const inProgressMessage = getInProgressMessage(formConfig);
 
         if (!isExpired) {
-          const lastSavedDateTime = savedAt.format('M/D/YYYY [at] h:mm a');
+          const lastSavedDateTime = savedAt.format('MMMM D, YYYY [at] h:mm a');
           const H = `h${this.props.headingLevel}`;
           const message = `Your ${appType} is in progress`;
           alert = (
