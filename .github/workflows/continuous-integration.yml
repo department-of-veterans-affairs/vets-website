@@ -131,15 +131,6 @@ jobs:
           rm -rf /tmp/${{ github.run_id }}/${{ matrix.buildtype }}
           cp -R build/${{ matrix.buildtype }} /tmp/${{ github.run_id }}
 
-      - name: ls tmp
-        run: ls /tmp/${{ github.run_id }}
-
-      - name: ls tmp/build
-        run: ls /tmp/${{ github.run_id }}/build
-
-      - name: ls tmp/build/vagovprod
-        run: ls /tmp/${{ github.run_id }}/build/vagovprod
-
   unit-tests:
     name: Unit Tests
     runs-on: ubuntu-latest
@@ -489,7 +480,7 @@ jobs:
     needs: [build, start-runner]
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
-      CHROMEDRIVER_FILEPATH: /usr/bin/chromedriver
+      # CHROMEDRIVER_FILEPATH: /usr/bin/chromedriver
 
     steps:
       - name: Checkout vets-website
@@ -498,7 +489,7 @@ jobs:
       - name: Restore vagovprod build
         run: |
           mkdir -p build
-          cp -R /tmp/${{ github.run_id }} build/vagovprod
+          cp -R /tmp/${{ github.run_id }} build
           du -h build/vagovprod
 
       - name: ls directory
