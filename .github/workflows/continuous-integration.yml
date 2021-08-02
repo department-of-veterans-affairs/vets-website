@@ -8,7 +8,7 @@ on:
       - '**'
 
 env:
-  CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
+  # CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
   INSTANCE_TYPE: c5.4xlarge # Define instance size here OR later in the 'start-runner' step
 
 concurrency:
@@ -365,114 +365,114 @@ jobs:
         if: ${{ always() }}
         run: node ./script/github-actions/stylelint-annotation-format.js
 
-  cypress-tests:
-    name: Cypress E2E Tests
-    runs-on: ${{ needs.start-runner.outputs.label }}
-    needs: [build, start-runner]
-    container:
-      image: cypress/browsers:node14.17.0-chrome91-ff89
-      # options: -u 1001:1001 -v /usr/local/share:/share
+  # cypress-tests:
+  #   name: Cypress E2E Tests
+  #   runs-on: ${{ needs.start-runner.outputs.label }}
+  #   needs: [build, start-runner]
+  #   container:
+  #     image: cypress/browsers:node14.17.0-chrome91-ff89
+  #     # options: -u 1001:1001 -v /usr/local/share:/share
 
-    strategy:
-      fail-fast: false
-      max-parallel: 8
-      matrix:
-        ci_node_index: [0, 1, 2, 3, 4, 5, 6, 7]
+  #   strategy:
+  #     fail-fast: false
+  #     max-parallel: 8
+  #     matrix:
+  #       ci_node_index: [0, 1, 2, 3, 4, 5, 6, 7]
 
-    env:
-      CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
-      NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
+  #   env:
+  #     CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
+  #     NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
 
-    steps:
-      - name: Checkout vets-website
-        uses: actions/checkout@v2
+  #   steps:
+  #     - name: Checkout vets-website
+  #       uses: actions/checkout@v2
 
-      - name: Restore vagovprod build
-        run: |
-          mkdir -p build
-          cp -R /tmp/${{ github.run_id }} build/vagovprod
-          du -h build/vagovprod
+  #     - name: Restore vagovprod build
+  #       run: |
+  #         mkdir -p build
+  #         cp -R /tmp/${{ github.run_id }} build/vagovprod
+  #         du -h build/vagovprod
 
-      - name: Get Node version
-        id: get-node-version
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+  #     - name: Get Node version
+  #       id: get-node-version
+  #       run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
 
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+  #     - name: Setup Node
+  #       uses: actions/setup-node@v2
+  #       with:
+  #         node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
-      # - name: Install Chrome
-      #   uses: browser-actions/setup-chrome@latest
-      #   with:
-      #     chrome-version: stable
+  #     # - name: Install Chrome
+  #     #   uses: browser-actions/setup-chrome@latest
+  #     #   with:
+  #     #     chrome-version: stable
 
-      - name: Cache dependencies
-        id: cache-dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            .cache/yarn
-            /github/home/.cache/Cypress
-            node_modules
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}-cypress
+  #     - name: Cache dependencies
+  #       id: cache-dependencies
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: |
+  #           .cache/yarn
+  #           /github/home/.cache/Cypress
+  #           node_modules
+  #         key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}-cypress
 
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
-        env:
-          YARN_CACHE_FOLDER: .cache/yarn
+  #     - name: Install dependencies
+  #       run: yarn install --frozen-lockfile --prefer-offline
+  #       env:
+  #         YARN_CACHE_FOLDER: .cache/yarn
 
-      # - name: Set port for server
-      #   run: echo "SERVER_PORT=$(( ( RANDOM % 2000 ) + 3001 ))" >> $GITHUB_ENV
+  #     # - name: Set port for server
+  #     #   run: echo "SERVER_PORT=$(( ( RANDOM % 2000 ) + 3001 ))" >> $GITHUB_ENV
 
-      # Cypress env vars like this are used to either override config settings
-      # or be made available to tests through Cypress.env().
-      # https://docs.cypress.io/guides/guides/environment-variables#Option-3-CYPRESS_
-      # - name: Set port for Cypress
-      #   run: echo "CYPRESS_PORT=$(( SERVER_PORT + 1 ))" >> $GITHUB_ENV
+  #     # Cypress env vars like this are used to either override config settings
+  #     # or be made available to tests through Cypress.env().
+  #     # https://docs.cypress.io/guides/guides/environment-variables#Option-3-CYPRESS_
+  #     # - name: Set port for Cypress
+  #     #   run: echo "CYPRESS_PORT=$(( SERVER_PORT + 1 ))" >> $GITHUB_ENV
 
-      - name: Start server
-        run: node src/platform/testing/e2e/test-server.js --buildtype vagovprod --port=3001 &
+  #     - name: Start server
+  #       run: node src/platform/testing/e2e/test-server.js --buildtype vagovprod --port=3001 &
 
-      - name: Create test results directory
-        run: mkdir -p test-results
+  #     - name: Create test results directory
+  #       run: mkdir -p test-results
 
-      - name: Run Cypress tests
-        run: node script/github-actions/run-cypress-tests.js
-        timeout-minutes: 30
-        env:
-          # CYPRESS_BASE_URL: http://localhost:3001
-          CYPRESS_CI: true
-          STEP: ${{ matrix.ci_node_index }}
+  #     - name: Run Cypress tests
+  #       run: node script/github-actions/run-cypress-tests.js
+  #       timeout-minutes: 30
+  #       env:
+  #         # CYPRESS_BASE_URL: http://localhost:3001
+  #         CYPRESS_CI: true
+  #         STEP: ${{ matrix.ci_node_index }}
 
-      - name: Archive test videos
-        uses: actions/upload-artifact@v2
-        if: ${{ failure() }}
-        with:
-          name: cypress-video-artifacts
-          path: cypress/videos
+  #     - name: Archive test videos
+  #       uses: actions/upload-artifact@v2
+  #       if: ${{ failure() }}
+  #       with:
+  #         name: cypress-video-artifacts
+  #         path: cypress/videos
 
-      - name: Archive test screenshots
-        uses: actions/upload-artifact@v2
-        if: ${{ failure() }}
-        with:
-          name: cypress-screenshot-artifacts
-          path: cypress/screenshots
+  #     - name: Archive test screenshots
+  #       uses: actions/upload-artifact@v2
+  #       if: ${{ failure() }}
+  #       with:
+  #         name: cypress-screenshot-artifacts
+  #         path: cypress/screenshots
 
-      - name: Archive JUnit test results
-        uses: actions/upload-artifact@v2
-        with:
-          name: cypress-junit-test-results
-          path: test-results
-          retention-days: 1
+  #     - name: Archive JUnit test results
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: cypress-junit-test-results
+  #         path: test-results
+  #         retention-days: 1
 
-      - name: Archive Mochawesome test results
-        uses: actions/upload-artifact@v2
-        if: ${{ always() }}
-        with:
-          name: cypress-mochawesome-test-results
-          path: cypress/results
-          retention-days: 1
+  #     - name: Archive Mochawesome test results
+  #       uses: actions/upload-artifact@v2
+  #       if: ${{ always() }}
+  #       with:
+  #         name: cypress-mochawesome-test-results
+  #         path: cypress/results
+  #         retention-days: 1
 
   nightwatch-tests:
     name: Nightwatch E2E Tests
