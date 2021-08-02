@@ -107,6 +107,7 @@ export default function ContactFacilitiesPage() {
       <ul
         aria-labelledby="vaos-facilities-label"
         className="usa-unstyled-list"
+        // eslint-disable-next-line jsx-a11y/no-redundant-roles
         role="list"
       >
         {facilities.slice(0, facilitiesToShow).map(facility => (

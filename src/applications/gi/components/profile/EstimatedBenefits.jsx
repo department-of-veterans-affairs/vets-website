@@ -142,10 +142,10 @@ export const EstimatedBenefits = ({ profile, outputs, calculator }) => (
       Your estimated benefits
     </h3>
     <div aria-atomic="true" aria-live="polite" role="status">
-      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul
-        className="out-of-pocket-tuition"
         aria-label="Out-of-pocket tuition"
+        className="out-of-pocket-tuition"
+        // eslint-disable-next-line jsx-a11y/no-redundant-roles
         role="list"
       >
         <CalculatorResultRow
@@ -172,10 +172,10 @@ export const EstimatedBenefits = ({ profile, outputs, calculator }) => (
           visible={outputs.outOfPocketTuition.visible}
         />
       </ul>
-      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul
-        className="total-paid-to-you"
         aria-label="Total paid to you"
+        className="total-paid-to-you"
+        // eslint-disable-next-line jsx-a11y/no-redundant-roles
         role="list"
       >
         <CalculatorResultRow

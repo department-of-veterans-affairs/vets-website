@@ -83,14 +83,14 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
               <span className="sr-only">Appointments in </span>
               {monthDate.format('MMMM YYYY')}
             </h3>
-            {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
             <ul
-              role="list"
               aria-labelledby={`appointment_list_${monthDate.format(
                 'YYYY-MM',
               )}`}
               className="vads-u-padding-left--0"
               data-cy="canceled-appointment-list"
+              // eslint-disable-next-line jsx-a11y/no-redundant-roles
+              role="list"
             >
               {monthBucket.map((appt, index) => {
                 const facilityId = getVAAppointmentLocationId(appt);

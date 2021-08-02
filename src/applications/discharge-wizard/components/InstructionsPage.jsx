@@ -76,6 +76,7 @@ const InstructionsPage = () => {
               <div className="row">
                 <div className="small-12 columns">
                   <div className="usa-accordion">
+                    {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
                     <ul className="usa-unstyled-list" role="list">
                       <li
                         itemProp="mainEntity"

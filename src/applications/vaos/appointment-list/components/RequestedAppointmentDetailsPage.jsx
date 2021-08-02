@@ -235,6 +235,7 @@ export default function RequestedAppointmentDetailsPage() {
       <h2 className="vaos-appts__block-label vads-u-margin-bottom--0 vads-u-margin-top--2">
         Preferred date and time
       </h2>
+      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="usa-unstyled-list" role="list">
         {appointment.requestedPeriod.map((option, optionIndex) => (
           <li key={`${appointment.id}-option-${optionIndex}`}>

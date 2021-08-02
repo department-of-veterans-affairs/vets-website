@@ -48,6 +48,7 @@ export default function NoValidVAFacilities({
                 directly to schedule your appointment:
                 <ul
                   className="usa-unstyled-list vads-u-margin-top--2"
+                  // eslint-disable-next-line jsx-a11y/no-redundant-roles
                   role="list"
                 >
                   {unsupportedFacilities.map(facility => (

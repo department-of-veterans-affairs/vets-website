@@ -118,6 +118,7 @@ export function ConfirmationPageContent({
             id="collapsiblePanel"
             className="usa-accordion-bordered screen-only"
           >
+            {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
             <ul className="usa-unstyled-list" role="list">
               <li>
                 <div className="accordion-header clearfix">

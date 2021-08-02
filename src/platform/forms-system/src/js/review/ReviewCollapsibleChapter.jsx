@@ -302,6 +302,7 @@ class ReviewCollapsibleChapter extends React.Component {
         data-chapter={this.props.chapterKey}
       >
         <Element name={`chapter${this.props.chapterKey}ScrollElement`} />
+        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
         <ul className="usa-unstyled-list" role="list">
           <li>
             <h3 className={headerClasses}>

@@ -85,6 +85,7 @@ export default function FacilitiesNotShown({
           <ul
             aria-labelledby="vaos-unsupported-label"
             className="usa-unstyled-list"
+            // eslint-disable-next-line jsx-a11y/no-redundant-roles
             role="list"
           >
             {nearbyUnsupportedFacilities.map(facility => (
