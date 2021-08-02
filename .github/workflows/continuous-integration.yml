@@ -480,7 +480,7 @@ jobs:
     needs: [build, start-runner]
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
-      # CHROMEDRIVER_FILEPATH: /usr/bin/chromedriver
+      CHROMEDRIVER_FILEPATH: /usr/bin/chromedriver
 
     steps:
       - name: Checkout vets-website
