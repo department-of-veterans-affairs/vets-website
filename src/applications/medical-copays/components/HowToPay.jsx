@@ -53,10 +53,36 @@ export const HowToPay = () => (
           </p>
         </va-accordion-item>
         <va-accordion-item header="Option 3: Pay by mail">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga
-          voluptatem numquam ipsum praesentium consequuntur recusandae modi
-          sequi expedita odio, perferendis distinctio facere odit a eligendi
-          esse saepe assumenda libero iste.
+          <p>Please send us these items:</p>
+          <ul>
+            <li>
+              A check or money order (made payable to the "U.S. Department of
+              Veterans Affairs"), <strong>and</strong>
+            </li>
+            <li>The payment remittance stub for your bill</li>
+          </ul>
+          <strong>Note: </strong> You’ll find these stubs at the bottom of each
+          statement. If you don’t have your most recent statement, you can
+          download and print it below or include a note listing the facility
+          you’d like to pay.
+          <p>
+            <strong>
+              Print this information on each check or money order:
+            </strong>
+          </p>
+          <ul>
+            <li>Your full name</li>
+            <li>Your account number [##########]</li>
+            <li>The facility you’d like to pay [Facility name]</li>
+          </ul>
+          <p>
+            <strong>Mail your payment and remittance stubs to:</strong>
+          </p>
+          <div className="vads-u-margin-left--4 vads-u-margin-bottom--4 vads-u-padding-left--1 vads-u-border-left--5px vads-u-border-color--primary">
+            <div>Department of Veterans Affairs</div>
+            <div>PO Box 3978</div>
+            <div>Portland, OR 97208-3978</div>
+          </div>
         </va-accordion-item>
         <va-accordion-item header="Option 4: Pay in person">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga
