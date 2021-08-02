@@ -7,13 +7,14 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 
 import SearchResultCard from '../../containers/SearchResultCard';
 import { mapboxToken } from '../../utils/mapboxToken';
-import { MapboxInit, MAX_SEARCH_AREA_DISTANCE } from '../../constants';
+import { MapboxInit, MAX_SEARCH_AREA_DISTANCE, TABS } from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
 import FilterYourResults from '../../containers/FilterYourResults';
 import { numberToLetter, createId } from '../../utils/helpers';
 import {
   fetchSearchByLocationCoords,
   updateEligibilityAndFilters,
+  mapChanged,
 } from '../../actions';
 import { connect } from 'react-redux';
 import { getFiltersChanged } from '../../selectors/filters';
@@ -32,6 +33,7 @@ function LocationSearchResults({
   dispatchFetchSearchByLocationCoords,
   filtersChanged,
   smallScreen,
+  dispatchMapChanged,
 }) {
   const { inProgress } = search;
   const { results } = search.location;
@@ -50,12 +52,22 @@ function LocationSearchResults({
    */
   const updateMapState = () => {
     const mapBounds = map.current.getBounds();
-    setMapState({
+    const newMapState = {
       distance:
         mapBounds.getNorthEast().distanceTo(mapBounds.getCenter()) /
         MILE_METER_CONVERSION_RATE,
       changed: true,
-    });
+    };
+    setMapState(newMapState);
+    dispatchMapChanged(newMapState);
+  };
+
+  /**
+   * Resets to default state so that searches after rendering result have correct values if map was not moved
+   */
+  const clearMapState = () => {
+    setMapState({ changed: false, distance: null });
+    dispatchMapChanged({ changed: false, distance: null });
   };
 
   /**
@@ -264,7 +276,7 @@ function LocationSearchResults({
 
       // wait for map to initialize or no results are returned
       if (!map.current || results.length === 0) {
-        setMapState({ changed: false, distance: null });
+        clearMapState();
         setUsedFilters(getFiltersChanged(filters));
         setCardResults(visibleResults);
         setMarkers(mapMarkers);
@@ -291,7 +303,7 @@ function LocationSearchResults({
 
       setCardResults(visibleResults);
       setUsedFilters(getFiltersChanged(filters));
-      setMapState({ changed: false, distance: null });
+      clearMapState();
       setMarkers(mapMarkers);
     },
     [results, smallScreen, mobileTab],
@@ -326,7 +338,10 @@ function LocationSearchResults({
    * @param e
    */
   const searchArea = e => {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
+    updateMapState();
     dispatchFetchSearchByLocationCoords(
       search.query.location,
       map.current.getCenter().toArray(),
@@ -335,6 +350,24 @@ function LocationSearchResults({
       preview.version,
     );
   };
+
+  /**
+   * Triggers a search for "Search this area of the map" when the "Update results" button in "Filter your results"
+   * is clicked
+   */
+  useEffect(
+    () => {
+      if (
+        !search.loadFromUrl &&
+        filters.search &&
+        search.tab === TABS.location &&
+        search.query.mapState.changed
+      ) {
+        searchArea(null);
+      }
+    },
+    [filters.search],
+  );
 
   /**
    * Renders the Eligibility and Filters accordions/buttons
@@ -609,6 +642,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   dispatchUpdateEligibilityAndFilters: updateEligibilityAndFilters,
   dispatchFetchSearchByLocationCoords: fetchSearchByLocationCoords,
+  dispatchMapChanged: mapChanged,
 };
 
 export default connect(

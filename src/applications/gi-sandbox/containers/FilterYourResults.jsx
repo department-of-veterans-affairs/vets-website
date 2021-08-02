@@ -11,20 +11,13 @@ import {
   addAllOption,
   updateUrlParams,
 } from '../utils/helpers';
-import {
-  showModal,
-  filterChange,
-  fetchSearchByNameResults,
-  fetchSearchByLocationResults,
-} from '../actions';
+import { showModal, filterChange } from '../actions';
 import { connect } from 'react-redux';
 import { TABS } from '../constants';
 
 export function FilterYourResults({
   dispatchShowModal,
   dispatchFilterChange,
-  dispatchFetchSearchByNameResults,
-  dispatchFetchSearchByLocationResults,
   filters,
   modalClose,
   preview,
@@ -93,16 +86,7 @@ export function FilterYourResults({
   };
 
   const updateResults = () => {
-    if (search.tab === TABS.name) {
-      dispatchFetchSearchByNameResults(search.query.name, 1, filters, version);
-    } else {
-      dispatchFetchSearchByLocationResults(
-        search.query.location,
-        search.query.distance,
-        filters,
-        version,
-      );
-    }
+    updateInstitutionFilters('search', true);
 
     updateUrlParams(
       history,
@@ -349,8 +333,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   dispatchShowModal: showModal,
   dispatchFilterChange: filterChange,
-  dispatchFetchSearchByNameResults: fetchSearchByNameResults,
-  dispatchFetchSearchByLocationResults: fetchSearchByLocationResults,
 };
 
 export default connect(

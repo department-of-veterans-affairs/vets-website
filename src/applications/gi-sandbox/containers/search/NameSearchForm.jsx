@@ -8,6 +8,7 @@ import {
 import KeywordSearch from '../../components/search/KeywordSearch';
 import { updateUrlParams } from '../../utils/helpers';
 import { useHistory } from 'react-router-dom';
+import { TABS } from '../../constants';
 
 export function NameSearchForm({
   autocomplete,
@@ -37,6 +38,19 @@ export function NameSearchForm({
       1,
     );
   };
+
+  /**
+   * Triggers a search for search form when the "Update results" button in "Filter your results"
+   * is clicked
+   */
+  useEffect(
+    () => {
+      if (!search.loadFromUrl && filters.search && search.tab === TABS.name) {
+        doSearch(search.query.name || name);
+      }
+    },
+    [filters.search],
+  );
 
   useEffect(
     () => {

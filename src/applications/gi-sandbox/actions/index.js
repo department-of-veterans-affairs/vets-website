@@ -46,6 +46,7 @@ export const GEOCODE_CLEAR_ERROR = 'GEOCODE_CLEAR_ERROR';
 export const INSTITUTION_FILTERS_CHANGED = 'INSTITUTION_FILTERS_CHANGED';
 export const LOCATION_AUTOCOMPLETE_SUCCEEDED =
   'LOCATION_AUTOCOMPLETE_SUCCEEDED';
+export const MAP_CHANGED = 'MAP_CHANGED';
 export const NAME_AUTOCOMPLETE_SUCCEEDED = 'NAME_AUTOCOMPLETE_SUCCEEDED';
 export const REMOVE_COMPARE_INSTITUTION = 'REMOVE_COMPARE_INSTITUTION';
 export const SEARCH_BY_FACILITY_CODES_SUCCEEDED =
@@ -516,5 +517,11 @@ export function updateQueryParams(queryParams) {
 export function compareDrawerOpened(open) {
   return dispatch => {
     dispatch({ type: COMPARE_DRAWER_OPENED, payload: open });
+  };
+}
+
+export function mapChanged(mapState) {
+  return dispatch => {
+    dispatch({ type: MAP_CHANGED, payload: mapState });
   };
 }

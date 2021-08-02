@@ -14,6 +14,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { useHistory } from 'react-router-dom';
 import { updateUrlParams } from '../../utils/helpers';
+import { TABS } from '../../constants';
 
 export function LocationSearchForm({
   autocomplete,
@@ -52,7 +53,9 @@ export function LocationSearchForm({
   );
 
   const doSearch = event => {
-    event.preventDefault();
+    if (event) {
+      event.preventDefault();
+    }
     let paramLocation = location;
     if (autocompleteSelection?.coords) {
       paramLocation = autocompleteSelection.label;
@@ -80,6 +83,24 @@ export function LocationSearchForm({
       version,
     );
   };
+
+  /**
+   * Triggers a search for search form when the "Update results" button in "Filter your results"
+   * is clicked
+   */
+  useEffect(
+    () => {
+      if (
+        !search.loadFromUrl &&
+        filters.search &&
+        search.tab === TABS.location &&
+        !search.query.mapState.changed
+      ) {
+        doSearch(null);
+      }
+    },
+    [filters.search],
+  );
 
   const doAutocompleteSuggestionsSearch = value => {
     dispatchFetchLocationAutocompleteSuggestions(value);
