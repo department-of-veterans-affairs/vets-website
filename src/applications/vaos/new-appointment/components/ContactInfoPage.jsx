@@ -8,6 +8,7 @@ import {
   selectVAPHomePhoneString,
   selectVAPMobilePhoneString,
 } from 'platform/user/selectors';
+import recordEvent from 'platform/monitoring/record-event';
 import FormButtons from '../../components/FormButtons';
 
 import {
@@ -23,7 +24,7 @@ import {
 } from '../redux/actions';
 import NewTabAnchor from '../../components/NewTabAnchor';
 import useFormState from '../../hooks/useFormState';
-import { FLOW_TYPES } from '../../utils/constants';
+import { FLOW_TYPES, GA_PREFIX } from '../../utils/constants';
 
 const initialSchema = {
   type: 'object',
@@ -54,15 +55,37 @@ const initialSchema = {
   },
 };
 
+function recordPopulatedEvents(email, phone) {
+  recordEvent({
+    event: `${GA_PREFIX}-contact-info-email-${
+      email ? 'populated' : 'not-populated'
+    }`,
+  });
+  recordEvent({
+    event: `${GA_PREFIX}-contact-info-phone-${
+      phone ? 'populated' : 'not-populated'
+    }`,
+  });
+}
+
+function recordChangedEvents(email, phone, data) {
+  recordEvent({
+    event: `${GA_PREFIX}-contact-info-email-${
+      email !== data.email ? 'changed' : 'not-changed'
+    }`,
+  });
+  recordEvent({
+    event: `${GA_PREFIX}-contact-info-phone-${
+      phone !== data.phoneNumber ? 'changed' : 'not-changed'
+    }`,
+  });
+}
+
 const phoneConfig = phoneUI('Your phone number');
 const pageKey = 'contactInfo';
 const pageTitle = 'Confirm your contact information';
 
 export default function ContactInfoPage() {
-  useEffect(() => {
-    document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
-  }, []);
   const history = useHistory();
   const dispatch = useDispatch();
   const pageChangeInProgress = useSelector(selectPageChangeInProgress);
@@ -71,6 +94,12 @@ export default function ContactInfoPage() {
   const homePhone = useSelector(selectVAPHomePhoneString);
   const mobilePhone = useSelector(selectVAPMobilePhoneString);
   const flowType = useSelector(getFlowType);
+
+  useEffect(() => {
+    document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus();
+    recordPopulatedEvents(email, mobilePhone || homePhone);
+  }, []);
 
   const uiSchema = {
     'ui:description': (
@@ -138,9 +167,10 @@ export default function ContactInfoPage() {
           title="Contact info"
           schema={schema}
           uiSchema={uiSchema}
-          onSubmit={() =>
-            dispatch(routeToNextAppointmentPage(history, pageKey, data))
-          }
+          onSubmit={() => {
+            recordChangedEvents(email, mobilePhone || homePhone, data);
+            dispatch(routeToNextAppointmentPage(history, pageKey, data));
+          }}
           onChange={newData => setData(newData)}
           data={data}
         >
