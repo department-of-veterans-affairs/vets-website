@@ -69,16 +69,21 @@ function recordPopulatedEvents(email, phone) {
 }
 
 function recordChangedEvents(email, phone, data) {
-  recordEvent({
-    event: `${GA_PREFIX}-contact-info-email-${
-      email !== data.email ? 'changed' : 'not-changed'
-    }`,
-  });
-  recordEvent({
-    event: `${GA_PREFIX}-contact-info-phone-${
-      phone !== data.phoneNumber ? 'changed' : 'not-changed'
-    }`,
-  });
+  if (email) {
+    recordEvent({
+      event: `${GA_PREFIX}-contact-info-email-${
+        email !== data.email ? 'changed' : 'not-changed'
+      }`,
+    });
+  }
+
+  if (phone) {
+    recordEvent({
+      event: `${GA_PREFIX}-contact-info-phone-${
+        phone !== data.phoneNumber ? 'changed' : 'not-changed'
+      }`,
+    });
+  }
 }
 
 const phoneConfig = phoneUI('Your phone number');
