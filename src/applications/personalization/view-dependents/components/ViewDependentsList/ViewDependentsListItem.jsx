@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -26,6 +27,7 @@ function ViewDependentsListItem(props) {
     ssn,
     dateOfBirth,
     stateKey,
+    openFormlett,
   } = props;
 
   const handleClick = () => {
@@ -80,6 +82,7 @@ function ViewDependentsListItem(props) {
               type="button"
               onClick={handleClick}
               className="usa-button-secondary vads-u-background-color--white"
+              disabled={openFormlett}
             >
               Remove this dependent
             </button>
@@ -109,6 +112,17 @@ function ViewDependentsListItem(props) {
   );
 }
 
+const mapStateToProps = state => ({
+  openFormlett: state?.removeDependents.openFormlett,
+});
+
+export default connect(
+  mapStateToProps,
+  null,
+)(ViewDependentsListItem);
+
+export { ViewDependentsListItem };
+
 ViewDependentsListItem.propTypes = {
   firstName: PropTypes.string,
   lastName: PropTypes.string,
@@ -117,5 +131,3 @@ ViewDependentsListItem.propTypes = {
   dateOfBirth: PropTypes.string,
   stateKey: PropTypes.number,
 };
-
-export default ViewDependentsListItem;

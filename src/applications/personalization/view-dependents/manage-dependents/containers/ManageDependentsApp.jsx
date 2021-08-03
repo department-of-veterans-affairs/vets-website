@@ -4,6 +4,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import PropTypes from 'prop-types';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
 import * as actions from '../redux/actions';
 import { SCHEMAS } from '../schemas';
 import { transformForSubmit, ServerErrorFragment } from '../utils';
@@ -88,6 +89,11 @@ const ManageDependents = props => {
         onChange={onChange}
       >
         <div className="vads-l-row form-progress-buttons schemaform-buttons">
+          {dependentsState[stateKey].status === 'failed' && (
+            <ErrorMessage active>
+              <ServerErrorFragment />
+            </ErrorMessage>
+          )}
           <LoadingButton
             className="usa-button usa-button-primary"
             aria-label="Submit VA Form 686c to remove this dependent"
@@ -106,7 +112,6 @@ const ManageDependents = props => {
           </button>
         </div>
       </SchemaForm>
-      {dependentsState[stateKey].status === 'failed' && <ServerErrorFragment />}
     </div>
   ) : (
     <LoadingIndicator message="Loading the form..." />

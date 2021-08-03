@@ -13,6 +13,7 @@ import {
 
 const initialState = {
   dependentsState: null,
+  openFormlett: null,
 };
 
 export function removeDependents(state = initialState, action) {
@@ -28,6 +29,7 @@ export function removeDependents(state = initialState, action) {
 
     return {
       ...state,
+      openFormlett: true,
       dependentsState: {
         ...state.dependentsState,
         [action.stateKey]: {
@@ -44,6 +46,7 @@ export function removeDependents(state = initialState, action) {
     delete nextDependentsState[action.stateKey];
     return {
       ...state,
+      openFormlett: null,
       dependentsState: nextDependentsState,
     };
   }
