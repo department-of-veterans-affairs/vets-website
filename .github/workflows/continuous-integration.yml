@@ -46,6 +46,9 @@ jobs:
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
+      - name: Install Cypress
+        run: cypress install
+
       - name: Compress and archive yarn cache
         run: tar -C .cache/yarn -cjf yarn_cache.tar.bz2 .
 
