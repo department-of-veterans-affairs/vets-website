@@ -337,8 +337,8 @@ jobs:
     steps:
       - name: Checkout vets-website
         uses: actions/checkout@v2
-          with:
-            fetch-depth: 0
+        with:
+          fetch-depth: 0
 
       - name: Download production build artifact
         uses: actions/download-artifact@v2
