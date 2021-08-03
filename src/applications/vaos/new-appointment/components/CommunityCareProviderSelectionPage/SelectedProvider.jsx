@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 import { FACILITY_SORT_METHODS, GA_PREFIX } from '../../../utils/constants';
 import RemoveProviderModal from './RemoveProviderModal';
@@ -12,10 +12,10 @@ export default function SelectedProvider({
   setCheckedProvider,
   setProvidersListLength,
   setShowProvidersList,
-  setShowRemoveProviderModal,
-  showRemoveProviderModal,
   sortMethod,
 }) {
+  const [showRemoveProviderModal, setShowRemoveProviderModal] = useState(false);
+
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-padding--2 medium-screen:vads-u-padding--3">
       {!providerSelected && (

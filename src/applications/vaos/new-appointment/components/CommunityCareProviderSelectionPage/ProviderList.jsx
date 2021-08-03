@@ -15,7 +15,6 @@ export default function ProviderList({
   address,
   checkedProvider,
   communityCareProviderList,
-  currentlyShownProvidersList,
   idSchema,
   initialProviderDisplayCount,
   loadingLocations,
@@ -27,12 +26,19 @@ export default function ProviderList({
   setCheckedProvider,
   setProvidersListLength,
   setShowProvidersList,
-  sortByDistanceFromCurrentLocation,
-  sortByDistanceFromResidential,
   sortMethod,
   typeOfCareName,
   updateCCProviderSortMethod,
 }) {
+  const currentlyShownProvidersList = communityCareProviderList?.slice(
+    0,
+    providersListLength,
+  );
+  const sortByDistanceFromResidential =
+    !sortMethod || sortMethod === FACILITY_SORT_METHODS.distanceFromResidential;
+
+  const sortByDistanceFromCurrentLocation =
+    sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation;
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-padding--2 medium-screen:vads-u-padding--3">
       <h2
