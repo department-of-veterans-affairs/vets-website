@@ -28,11 +28,12 @@ jobs:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
     outputs:
-      changedFilenames: ${{ steps.setChangedFilenames.outputs }}
+      changedFilenames: ${{ steps.outputChangedFilenames.outputs.paths }}
 
     steps:
-      - id: setChangedFilenames
-        run: echo $(git diff --name-only master...HEAD)
+      - name: Output changed filenames
+        id: outputChangedFilenames
+        run: echo ::set-output name=paths::$(git diff --name-only master...HEAD)
 
       - name: Checkout
         uses: actions/checkout@v2
@@ -405,7 +406,7 @@ jobs:
           # CYPRESS_BASE_URL: http://localhost:3001
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}
-          CHANGED_FILE_PATHS: ${{ needs.build.outputs.changedFilenames }}
+          CHANGED_FILE_PATHS: ${{ needs.build.outputs.changedFilenames.paths }}
 
       - name: Archive test videos
         uses: actions/upload-artifact@v2
