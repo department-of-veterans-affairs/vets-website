@@ -456,7 +456,7 @@ jobs:
         run: mkdir -p test-results
 
       - name: Run Cypress tests
-        run: yarn cy:run --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec
+        run: yarn cy:run --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json"
         timeout-minutes: 30
         env:
           # CYPRESS_BASE_URL: http://localhost:3001
