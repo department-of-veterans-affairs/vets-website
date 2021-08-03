@@ -8,6 +8,7 @@ import {
   updateAutocompleteLocation,
   geolocateUser,
   clearGeocodeError,
+  mapChanged,
 } from '../../actions';
 import KeywordSearch from '../../components/search/KeywordSearch';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -27,6 +28,7 @@ export function LocationSearchForm({
   search,
   dispatchGeolocateUser,
   dispatchClearGeocodeError,
+  dispatchMapChanged,
 }) {
   const [distance, setDistance] = useState(search.query.distance);
   const [location, setLocation] = useState(search.query.location);
@@ -57,6 +59,8 @@ export function LocationSearchForm({
       event.preventDefault();
     }
     let paramLocation = location;
+    dispatchMapChanged({ changed: false, distance: null });
+
     if (autocompleteSelection?.coords) {
       paramLocation = autocompleteSelection.label;
       dispatchFetchSearchByLocationCoords(
@@ -228,6 +232,7 @@ const mapDispatchToProps = {
   dispatchUpdateAutocompleteLocation: updateAutocompleteLocation,
   dispatchGeolocateUser: geolocateUser,
   dispatchClearGeocodeError: clearGeocodeError,
+  dispatchMapChanged: mapChanged,
 };
 
 export default connect(

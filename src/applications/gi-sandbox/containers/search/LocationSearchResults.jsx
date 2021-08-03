@@ -59,17 +59,19 @@ function LocationSearchResults({
         MILE_METER_CONVERSION_RATE,
       changed: true,
     };
-    setMapState(newMapState);
     dispatchMapChanged(newMapState);
   };
 
   /**
-   * Resets to default state so that searches after rendering result have correct values if map was not moved
+   * When LocationSearchForm triggers a search it will set the value of changed to false disabling behavior
+   * related to "Search this area of the map"
    */
-  const clearMapState = () => {
-    setMapState({ changed: false, distance: null });
-    dispatchMapChanged({ changed: false, distance: null });
-  };
+  useEffect(
+    () => {
+      setMapState(search.query.mapState);
+    },
+    [search.query.mapState],
+  );
 
   /**
    * Initialize map if the element is present
@@ -139,7 +141,7 @@ function LocationSearchResults({
   );
 
   /**
-   * Used to exclude results from appearing in cards or as a marker when using "Search area" button
+   * Used to exclude results from appearing in cards or as a marker when using "Search this area of the map" button
    *
    * @param institution
    * @return {boolean}
@@ -275,7 +277,6 @@ function LocationSearchResults({
 
       // wait for map to initialize or no results are returned
       if (!map.current || results.length === 0) {
-        clearMapState();
         setUsedFilters(getFiltersChanged(filters));
         setCardResults(visibleResults);
         setMarkers(mapMarkers);
@@ -302,7 +303,6 @@ function LocationSearchResults({
 
       setCardResults(visibleResults);
       setUsedFilters(getFiltersChanged(filters));
-      clearMapState();
       setMarkers(mapMarkers);
     },
     [results, smallScreen, mobileTab],
