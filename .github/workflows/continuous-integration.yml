@@ -252,6 +252,14 @@ jobs:
           name: contract-test-log
           path: logs/pact.log
 
+      - name: Publish test results
+        if: ${{ always() }}
+        uses: mikepenz/action-junit-report@v2.4.0
+        with:
+          check_name: 'Pact Tests Summary'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          report_paths: 'test-results/test-results.xml'
+
   security-audit:
     name: Security Audit
     runs-on: ubuntu-latest
