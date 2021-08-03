@@ -457,7 +457,7 @@ jobs:
       - name: Run Cypress tests
         run: yarn cy:run --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json"
         timeout-minutes: 30
-        env:
+        # env:
           # CYPRESS_BASE_URL: http://localhost:3001
           # CYPRESS_CI: true
           # STEP: ${{ matrix.ci_node_index }}
