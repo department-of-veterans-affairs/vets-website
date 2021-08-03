@@ -868,7 +868,25 @@ describe('<ReviewCollapsibleChapter>', () => {
       expect(queryByTestId('custom-page')).not.to.exist;
     });
 
-    it('should render CustomPage in edit mode', () => {});
+    it('should render CustomPage in edit mode', () => {
+      // The error this test is throwing occurs because getCustomPageContent
+      // doesn't do anything with the edit state
+      const { pages, chapterKey, chapter, form } = getProps();
+      form.pages.test.editMode = true;
+      const { queryByTestId } = render(
+        <ReviewCollapsibleChapter
+          viewedPages={new Set()}
+          expandedPages={pages}
+          chapterKey={chapterKey}
+          chapterFormConfig={chapter}
+          form={form}
+          open
+        />,
+      );
+
+      expect(queryByTestId('custom-page')).to.exist;
+      expect(queryByTestId('custom-page-review')).not.to.exist;
+    });
 
     it('should render a CustomPageReview for each item in an array when showPagePerItem is true', () => {});
 
