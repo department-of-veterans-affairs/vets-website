@@ -27,7 +27,13 @@ jobs:
       matrix:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
+    outputs:
+      changedFilePaths: ${{ steps.step1.outputs.test }} # update this
+
     steps:
+      - id: setChangedFilePathsStep
+        run: echo $(git diff --name-only master...HEAD)
+
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -333,7 +339,6 @@ jobs:
     env:
       CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
       NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
-      CHANGED_FILE_PATHS: $(git diff --name-only master...HEAD)
 
     steps:
       - name: Checkout vets-website
@@ -400,7 +405,7 @@ jobs:
           # CYPRESS_BASE_URL: http://localhost:3001
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}
-          CHANGED_FILE_PATHS: ${{ env.CHANGED_FILE_PATHS }}
+          # CHANGED_FILE_PATHS: ${{ env.CHANGED_FILE_PATHS }}
 
       - name: Archive test videos
         uses: actions/upload-artifact@v2
