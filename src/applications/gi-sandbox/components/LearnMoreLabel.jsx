@@ -37,7 +37,7 @@ export default function LearnMoreLabel({
       )}
       onClick={focusElement(labelFor)}
     >
-      {displayText}
+      {bold ? <strong>{displayText}</strong> : displayText}
       <span className="vads-u-margin--0 vads-u-display--inline-block ">
         (
         <button
