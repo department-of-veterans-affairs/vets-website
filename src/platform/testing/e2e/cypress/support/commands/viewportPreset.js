@@ -10,7 +10,7 @@ const presets = {
   'va-top-tablet-2': { width: 1920, height: 1080 },
   'va-top-tablet-3': { width: 800, height: 1280 },
   'va-top-tablet-4': { width: 601, height: 962 },
-  'va-top-tablet-5': { width: 810, height: 1080 },
+  'va-top-tablet-5': { width: 1280, height: 800 },
   // Top desktop presets by traffic percentage, descending
   'va-top-desktop-1': { width: 1280, height: 960 },
   'va-top-desktop-2': { width: 1920, height: 1080 },
