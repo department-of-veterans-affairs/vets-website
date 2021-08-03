@@ -31,6 +31,16 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            .cache/yarn
+            .cache/Cypress
+            node_modules
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
         env:
@@ -43,7 +53,7 @@ jobs:
         run: tar -C node_modules -cjf node_modules.tar.bz2 .
 
       - name: Compress and archive Cypress
-        run: tar -C /github/home/.cache/Cypress -cjf cypress.tar.bz2 .
+        run: tar -C .cache/Cypress -cjf cypress.tar.bz2 .
 
       - name: Upload yarn cache artifact
         uses: actions/upload-artifact@v2
