@@ -37,7 +37,6 @@ jobs:
         with:
           path: |
             .cache/yarn
-            .cache/Cypress
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
@@ -46,17 +45,11 @@ jobs:
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
-      - name: Install Cypress
-        run: cypress install
-
       - name: Compress and archive yarn cache
         run: tar -C .cache/yarn -cjf yarn_cache.tar.bz2 .
 
       - name: Compress and archive node modules
         run: tar -C node_modules -cjf node_modules.tar.bz2 .
-
-      - name: Compress and archive Cypress
-        run: tar -C .cache/Cypress -cjf cypress.tar.bz2 .
 
       - name: Upload yarn cache artifact
         uses: actions/upload-artifact@v2
@@ -70,13 +63,6 @@ jobs:
         with:
           name: node_modules.tar.bz2
           path: node_modules.tar.bz2
-          retention-days: 1
-
-      - name: Upload node modules artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: cypress.tar.bz2
-          path: cypress.tar.bz2
           retention-days: 1
 
   build:
@@ -442,19 +428,17 @@ jobs:
         with:
           name: node_modules.tar.bz2
 
-      - name: Download Cypress
-        uses: actions/download-artifact@v2
-        with:
-          name: cypress.tar.bz2
-
       - name: Unpack yarn files
         run: |
           mkdir -p .cache/yarn
           tar -C .cache/yarn -xjf yarn_cache.tar.bz2
           mkdir -p node_modules
           tar -C node_modules -xjf node_modules.tar.bz2
-          mkdir -p /github/home/.cache/Cypress
-          tar -C /github/home/.cache/Cypress -xjf cypress.tar.bz2
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
 
       # - name: Generate directory ID for node modules
       #   run: echo "NODE_ID=$(( ${{ github.run_number }} + ${{ matrix.ci_node_index }} ))" >> $GITHUB_ENV
