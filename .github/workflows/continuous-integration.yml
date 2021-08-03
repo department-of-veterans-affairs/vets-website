@@ -81,7 +81,8 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        buildtype: [vagovdev, vagovstaging, vagovprod]
+        # buildtype: [vagovdev, vagovstaging, vagovprod]
+        buildtype: [vagovprod]
 
     steps:
       - name: Checkout
@@ -128,15 +129,11 @@ jobs:
           BUILDTIME=$(date +%s)
           EOF
 
-      - name: Compress and archive build
-        run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
-
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ matrix.buildtype }}.tar.bz2
-          path: ${{ matrix.buildtype }}.tar.bz2
-          retention-days: 1
+      - name: Persist archive build
+        run: |
+          mkdir -p /tmp/${{ github.run_id }}
+          rm -rf /tmp/${{ github.run_id }}/${{ matrix.buildtype }}
+          cp -R build/${{ matrix.buildtype }} /tmp/${{ github.run_id }}
 
   unit-tests:
     name: Unit Tests
@@ -396,15 +393,21 @@ jobs:
       - name: Checkout vets-website
         uses: actions/checkout@v2
 
-      - name: Download production build artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: vagovprod.tar.bz2
+      # - name: Download production build artifact
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: vagovprod.tar.bz2
 
-      - name: Unpack build
+      # - name: Unpack build
+      #   run: |
+      #     mkdir -p build/vagovprod
+      #     tar -C build/vagovprod -xjf vagovprod.tar.bz2
+
+      - name: Restore vagovprod build
         run: |
-          mkdir -p build/vagovprod
-          tar -C build/vagovprod -xjf vagovprod.tar.bz2
+          mkdir -p build
+          cp -R /tmp/${{ github.run_id }}/vagovprod build/vagovprod
+          du -h build/vagovprod
 
       - name: Get Node version
         id: get-node-version
