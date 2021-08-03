@@ -387,6 +387,9 @@ jobs:
           cat > package.json << EOF
           {
             "name": "github-actions",
+            "scripts": {
+              "cy:run": "cypress run --config-file config/cypress.json"
+            },
             "devDependencies": {
               "command-line-args": "3.0.1",
               "cypress": "7.6.0",
