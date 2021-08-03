@@ -471,15 +471,17 @@ body.va-pos-fixed {
       // }
       .login-container {
         // due to these been nested, this has to have a higher z-level then vet-toolbar
-        position: relative;
-        top: -40px;
+        position: absolute;
+        bottom: 40px;
+        width: 100%;
+        left: 0;
       }
     }
 
     #vetnav {
       // 100% width necessary for right aligned items
       width: 100%;
-      left: initial;
+      left: 0;
     }
 
     #vetnav-controls {

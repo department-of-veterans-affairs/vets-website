@@ -143,8 +143,8 @@ export default class MegaMenu extends React.Component {
           }}
         >
           <div id="vetnav" role="navigation">
-            <ul id="vetnav-menu">
-              <li>
+            <ul id="vetnav-menu" role="menubar">
+              <li role="menuitem">
                 <a
                   className="vetnav-level1"
                   data-e2e-id="mobile-home-nav-link"
@@ -159,6 +159,8 @@ export default class MegaMenu extends React.Component {
                   className={`${item.className || ''} ${
                     item.currentPage ? 'current-page' : ''
                   }`}
+                  role="menuitem"
+                  aria-haspopup={!!item.menuSections}
                 >
                   {item.menuSections ? (
                     <button
@@ -188,7 +190,7 @@ export default class MegaMenu extends React.Component {
                   >
                     {item.title === currentDropdown &&
                       item.menuSections && (
-                        <ul aria-label={item.title}>
+                        <ul aria-label={item.title} role="menu">
                           {Array.isArray(item.menuSections)
                             ? item.menuSections.map((section, j) => (
                                 <MenuSection
