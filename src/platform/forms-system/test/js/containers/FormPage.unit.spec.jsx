@@ -89,7 +89,7 @@ describe('Schemaform <FormPage>', () => {
     );
 
     expect(tree.everySubTree('SchemaForm')).not.to.be.empty;
-    expect(tree.everySubTree('ProgressButton').length).to.equal(2);
+    expect(tree.everySubTree('FormNavButtons')).not.to.be.empty;
   });
   describe('should handle', () => {
     let tree;
