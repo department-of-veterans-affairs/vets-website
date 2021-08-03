@@ -27,21 +27,9 @@ jobs:
       matrix:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
-    # outputs:
-    #   changedFilenames: ${{ steps.outputChangedFilenames.outputs.all }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      # - name: Output changed filenames
-      #   id: outputChangedFilenames
-      #   run: echo ::set-output name=all::$(git diff --name-only master...HEAD)
-      #   working-directory: vets-website
-
-      - name: Output changed filenames
-        run: echo $(git diff --name-only master...HEAD)
-        working-directory: vets-website
 
       - name: Get Node version
         id: get-node-version
@@ -403,6 +391,13 @@ jobs:
 
       - name: Create test results directory
         run: mkdir -p test-results
+
+      - id: files
+        uses: jitterbit/get-changed-files@v1
+      - run: |
+          for changed_file in ${{ steps.files.outputs.all }}; do
+            echo "Do something with this ${changed_file}."
+          done
 
       - name: Run Cypress tests
         run: node script/github-actions/run-cypress-tests.js
