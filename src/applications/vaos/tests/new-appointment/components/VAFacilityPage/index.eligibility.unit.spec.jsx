@@ -23,6 +23,16 @@ import {
   mockDirectBookingEligibilityCriteria,
   mockFacilitiesFetch,
 } from '../../../mocks/helpers';
+import {
+  getSchedulingConfigurationMock,
+  getV2ClinicMock,
+  getV2FacilityMock,
+} from '../../../mocks/v2';
+import {
+  mockSchedulingConfigurations,
+  mockV2FacilitiesFetch,
+} from '../../../mocks/helpers.v2';
+import { mockEligibilityFetchesByVersion } from '../../../mocks/fetch';
 
 const parentSite983 = {
   id: '983',
@@ -553,6 +563,101 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
           '/new-appointment/request-date',
         ),
       );
+    });
+  });
+  describe('when using the v2 api', () => {
+    describe('when there are multiple facilities to choose from', () => {
+      const initialState = {
+        featureToggles: {
+          vaOnlineSchedulingCommunityCare: false,
+          vaOnlineSchedulingDirect: true,
+          vaOnlineSchedulingVAOSServiceVAAppointments: true,
+          vaOnlineSchedulingFacilitiesServiceV2: true,
+        },
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '983', isCerner: false },
+              { facilityId: '984', isCerner: false },
+            ],
+          },
+        },
+      };
+
+      const facilityIds = ['983', '983GC', '983GB', '983HK', '983QA', '984'];
+      const facilities = facilityIds.map((id, index) =>
+        getV2FacilityMock({
+          id,
+          name: `Fake facility name ${index + 1}`,
+          lat: Math.random() * 90,
+          long: Math.random() * 180,
+          address: {
+            line: [],
+            state: 'fake',
+            postalCode: 'fake',
+            city: `Fake city ${index + 1}`,
+          },
+        }),
+      );
+
+      beforeEach(() => mockFetch());
+      it('should show clinics message when direct is supported, has past visits, no matching clinics, requests not supported', async () => {
+        mockSchedulingConfigurations([
+          getSchedulingConfigurationMock({
+            id: '983',
+            typeOfCareId: 'outpatientMentalHealth',
+            directEnabled: true,
+            patientHistoryRequired: true,
+            patientHistoryDuration: 365,
+          }),
+          getSchedulingConfigurationMock({
+            id: '984',
+            typeOfCareId: 'outpatientMentalHealth',
+            directEnabled: true,
+            patientHistoryRequired: true,
+            patientHistoryDuration: 365,
+          }),
+        ]);
+        mockV2FacilitiesFetch(
+          ['983', '984'],
+          facilities.filter(f => f.id === '983' || f.id === '984'),
+          true,
+        );
+        mockEligibilityFetchesByVersion({
+          facilityId: '983',
+          typeOfCareId: 'outpatientMentalHealth',
+          directPastVisits: true,
+          clinics: [
+            getV2ClinicMock({
+              id: '455',
+              stationId: '983',
+              serviceName: 'Clinic name',
+            }),
+          ],
+          version: 2,
+        });
+        const store = createTestStore(initialState);
+        await setTypeOfCare(store, /mental health/i);
+
+        const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+          store,
+        });
+
+        await screen.findByText(/below is a list of VA locations/i);
+
+        fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
+        fireEvent.click(screen.getByText(/Continue/));
+        await screen.findByText(
+          /This facility doesn’t have any available clinics that support online scheduling/i,
+        );
+        const loadingEvent = global.window.dataLayer.find(
+          ev => ev.event === 'loading-indicator-displayed',
+        );
+
+        // It should record GA event for loading modal
+        expect(loadingEvent).to.exist;
+        expect('loading-indicator-display-time' in loadingEvent).to.be.true;
+      });
     });
   });
 });
