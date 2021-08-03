@@ -99,9 +99,8 @@ describe('FormApp', () => {
     expect(title.props().title).to.contain('Board Appeal');
     expect(title.props().subTitle).to.contain('10182');
 
-    const alert = tree.find('AlertBox');
-    expect(alert).to.exist;
-    expect(alert.props().headline).to.contain('still working on this feature');
+    const alert = tree.find('va-alert');
+    expect(alert.text()).to.contain('still working on this feature');
 
     tree.unmount();
   });

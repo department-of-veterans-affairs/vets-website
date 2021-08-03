@@ -17,7 +17,13 @@ function Footer({
         {header}
       </h2>
       <p data-testid="message">
-        {message} <Telephone contact={contactNumber} />.
+        {contactNumber ? (
+          <>
+            {message} <Telephone contact={contactNumber} />.
+          </>
+        ) : (
+          'Ask a staff member.'
+        )}
       </p>
     </footer>
   );
@@ -25,7 +31,7 @@ function Footer({
 
 const mapStateToProps = state => {
   return {
-    contactNumber: state.checkInData.appointment.clinicPhoneNumber,
+    contactNumber: state.checkInData.appointment?.clinicPhoneNumber,
   };
 };
 

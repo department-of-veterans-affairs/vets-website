@@ -1,15 +1,14 @@
 import React from 'react';
-import { Route, IndexRedirect } from 'react-router';
-import MedicalCopaysApp from './components/MedicalCopaysApp.jsx';
-import OverviewPage from './components/OverviewPage';
-import DetailPage from './components/DetailPage';
+import { Route } from 'react-router-dom';
+import MedicalCopaysApp from './containers/MedicalCopaysApp.jsx';
+import OverviewPage from './containers/OverviewPage';
+import DetailPage from './containers/DetailPage';
 
-const routes = (
-  <Route path="/" component={MedicalCopaysApp}>
-    <IndexRedirect to="copays" />
-    <Route component={OverviewPage} path="copays" />
-    <Route component={DetailPage} path="copay-detail" />
-  </Route>
+const Routes = () => (
+  <MedicalCopaysApp>
+    <Route component={OverviewPage} exact path="/copays" />
+    <Route component={DetailPage} exact path="/copay-detail" />
+  </MedicalCopaysApp>
 );
 
-export default routes;
+export default Routes;

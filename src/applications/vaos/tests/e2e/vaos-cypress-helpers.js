@@ -199,6 +199,7 @@ export function mockFeatureToggles({
   providerSelectionEnabled = false,
   homepageRefresh = false,
   v2Requests = false,
+  v2Facilities = false,
 } = {}) {
   cy.route({
     method: 'GET',
@@ -232,10 +233,6 @@ export function mockFeatureToggles({
             value: true,
           },
           {
-            name: 'vaOnlineSchedulingExpressCareNew',
-            value: true,
-          },
-          {
             name: `cerner_override_668`,
             value: false,
           },
@@ -250,6 +247,10 @@ export function mockFeatureToggles({
           {
             name: 'vaOnlineSchedulingVAOSServiceRequests',
             value: v2Requests,
+          },
+          {
+            name: 'vaOnlineSchedulingFacilitiesServiceV2',
+            value: v2Facilities,
           },
         ],
       },

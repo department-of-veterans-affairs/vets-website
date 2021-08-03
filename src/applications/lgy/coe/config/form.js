@@ -3,11 +3,7 @@
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/26-1880-schema.json';
 
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-
-import fullSchema from '../26-1880-schema.json';
+import fullSchema from 'vets-json-schema/dist/26-1880-schema.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -25,11 +21,7 @@ import {
   communicationPreferences,
 } from './chapters/applicant';
 
-import {
-  serviceStatus,
-  serviceHistory,
-  serviceDecoration,
-} from './chapters/service';
+import { serviceStatus, serviceHistory } from './chapters/service';
 
 import { loanScreener, loanIntent, loanHistory } from './chapters/loans';
 
@@ -37,17 +29,6 @@ import { docScreener, fileUpload } from './chapters/documents';
 
 // TODO: WHen schema is migrated to vets-json-schema, remove common definitions from form schema and get them
 // from common definitions instead
-
-const {
-  fullName,
-  ssn,
-  date,
-  dateRange,
-  usaPhone,
-  profileAddress,
-  usAddress,
-  email,
-} = commonDefinitions;
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -77,14 +58,6 @@ const formConfig = {
   },
   title: 'Certificate of Eligibility VA Form 26-1880',
   defaultDefinitions: {
-    fullName,
-    ssn,
-    date,
-    dateRange,
-    usaPhone,
-    profileAddress,
-    usAddress,
-    email,
     ...fullSchema.definitions,
   },
   chapters: {
@@ -125,12 +98,6 @@ const formConfig = {
           title: 'Service history',
           uiSchema: serviceHistory.uiSchema,
           schema: serviceHistory.schema,
-        },
-        serviceDecoration: {
-          path: 'service-decoration',
-          title: 'Service Decoration',
-          uiSchema: serviceDecoration.uiSchema,
-          schema: serviceDecoration.schema,
         },
       },
     },

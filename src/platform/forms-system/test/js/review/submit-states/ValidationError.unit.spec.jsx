@@ -213,4 +213,36 @@ describe('Schemaform review: <ValidationError />', () => {
 
     tree.unmount();
   });
+
+  it('has rendered the list of errors', () => {
+    const onBack = sinon.spy();
+    const onSubmit = sinon.spy();
+
+    const form = createForm();
+    const formConfig = getFormConfig();
+    formConfig.showReviewErrors = true;
+
+    const formReducer = createformReducer({
+      formConfig: form,
+    });
+
+    const store = createStore();
+    store.injectReducer('form', formReducer);
+
+    const tree = render(
+      <Provider store={store}>
+        <ValidationError
+          appType="test"
+          buttonText="test"
+          formConfig={formConfig}
+          onBack={onBack}
+          onSubmit={onSubmit}
+          testId={'12345'}
+        />
+      </Provider>,
+    );
+    expect(tree.getByText(/missing some information/)).to.exist;
+    expect(tree.getByText(/information before you can submit/)).to.exist;
+    tree.unmount();
+  });
 });

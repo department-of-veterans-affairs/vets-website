@@ -4,6 +4,11 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
   .result-card {
     width: 100%;
 
+    &.active {
+      border: $focus-outline;
+      padding-right: 6px !important;
+    }
+
     .location-header {
       flex-wrap: wrap;
     }
@@ -11,10 +16,17 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
 
   .location-search-results-container {
     border: solid $color-gray-lightest;
-
     .location-search-results {
       height: 565px;
       overflow-y: scroll;
+
+      @include media-maxwidth($small-screen) {
+        height: 75vh;
+      }
+    }
+
+    @include media-maxwidth($small-screen) {
+      border: none;
     }
   }
 
@@ -37,6 +49,7 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
     color: $color-gray-lightest;
     text-align: center;
   }
+
   .current-position {
     border-radius: 50%;
     width: 23px;
@@ -52,7 +65,6 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
 
   #mapbox-gl-container {
     display: flex;
-    justify-content: center;
   }
 
   .desktop-map-container {
@@ -60,11 +72,17 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
     padding-left: 0;
     display: flex;
     flex-direction: row;
+
+    @include media-maxwidth($small-screen) {
+      min-height: 45vh;
+    }
   }
 
   .mapboxgl-ctrl-top-center {
     position: absolute;
-    margin: 15px 0 0 15px;
+    margin: 0;
+    text-align: center;
+    width: 100%;
   }
 
   .mapboxgl-ctrl-bottom-center {
@@ -97,10 +115,34 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
       background-color: $color-gray-medium;
     }
   }
+
+  .tab-form {
+    .active-results-tab {
+      border-top: 4px solid $color-primary;
+    }
+
+    .inactive-results-tab {
+      border-top: 2px solid $color-black;
+    }
+
+    .list-results-tab {
+      border-left: 2px solid $color-black;
+      border-right: 1px solid $color-black;
+    }
+
+    .map-results-tab {
+      border-left: 1px solid $color-black;
+      border-right: 2px solid $color-black;
+    }
+  }
 }
+
 .use-my-location-container {
-  margin-left: 21em;
+  @media (min-width: $medium-screen) {
+    margin-left: 21em;
+  }
 }
+
 .use-my-location-link {
   text-decoration: none;
   background-color: transparent;
@@ -114,6 +156,7 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
     text-align: left;
   }
 }
+
 .use-my-location-link:hover {
   background-color: transparent;
   color: $color-link-default;
@@ -131,4 +174,57 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
   background-repeat: no-repeat;
   background-color: transparent;
   padding: 0 1.5em 0 0;
+}
+
+input.location-search {
+  width: 100%;
+  max-width: 490px;
+}
+
+#distance-dropdown {
+  select {
+    margin-top: 6px;
+  }
+}
+
+#distance-dropdown {
+  select {
+    margin-top: 6px;
+  }
+
+  @media (max-width: $medium-screen) {
+    width: 100%;
+    select {
+      width: 100%;
+      padding-right: 0px;
+    }
+  }
+}
+
+button.location-search-button {
+  width: 120px !important;
+}
+
+@media (max-width: $small-screen) {
+  button.location-search-button {
+    width: 100% !important;
+
+    i {
+      display: none;
+    }
+  }
+
+  input.location-search {
+    width: 100%;
+    padding-right: 0px;
+  }
+
+  .input-row {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  .use-my-location-container {
+    margin-bottom: -10px;
+  }
 }

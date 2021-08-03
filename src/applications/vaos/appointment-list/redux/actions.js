@@ -12,7 +12,9 @@ import {
   selectSystemIds,
   selectFeatureHomepageRefresh,
   selectFeatureVAOSServiceRequests,
+  selectFeatureVAOSServiceCCAppointments,
   selectFeatureVAOSServiceVAAppointments,
+  selectFeatureFacilitiesServiceV2,
 } from '../../redux/selectors';
 
 import { getRequestMessages } from '../../services/var';
@@ -119,7 +121,7 @@ export function fetchRequestMessages(requestId) {
  * We want to show that basic info on the list page, so this goes and fetches
  * it separately, but doesn't block the list page from displaying
  */
-async function getAdditionalFacilityInfo(futureAppointments) {
+async function getAdditionalFacilityInfo(futureAppointments, useV2 = false) {
   // Get facility ids from non-VA appts or requests
   const nonVaFacilityAppointmentIds = futureAppointments
     .filter(
@@ -141,6 +143,7 @@ async function getAdditionalFacilityInfo(futureAppointments) {
   if (uniqueFacilityIds.size > 0) {
     facilityData = await getLocations({
       facilityIds: Array.from(uniqueFacilityIds),
+      useV2,
     });
   }
 
@@ -154,6 +157,12 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
       getState(),
     );
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+      getState(),
+    );
+    const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
+      getState(),
+    );
+    const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
       getState(),
     );
 
@@ -186,7 +195,8 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
           endDate: moment()
             .add(395, 'days')
             .format('YYYY-MM-DD'),
-          useV2: featureVAOSServiceVAAppointments,
+          useV2VA: featureVAOSServiceVAAppointments,
+          useV2CC: featureVAOSServiceCCAppointments,
         }),
       ];
 
@@ -265,6 +275,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
       try {
         const facilityData = await getAdditionalFacilityInfo(
           [].concat(...data),
+          featureFacilitiesServiceV2,
         );
 
         if (facilityData) {
@@ -304,9 +315,13 @@ export function fetchPendingAppointments() {
         type: FETCH_PENDING_APPOINTMENTS,
       });
 
-      const featureHomepageRefresh = selectFeatureHomepageRefresh(getState());
+      const state = getState();
+      const featureHomepageRefresh = selectFeatureHomepageRefresh(state);
       const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
-        getState(),
+        state,
+      );
+      const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
+        state,
       );
 
       const pendingAppointments = await getAppointmentRequests({
@@ -329,6 +344,7 @@ export function fetchPendingAppointments() {
       try {
         const facilityData = await getAdditionalFacilityInfo(
           pendingAppointments,
+          featureFacilitiesServiceV2,
         );
 
         if (facilityData) {
@@ -359,6 +375,12 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
       getState(),
     );
+    const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
+      getState(),
+    );
+    const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
+      getState(),
+    );
 
     dispatch({
       type: FETCH_PAST_APPOINTMENTS,
@@ -374,7 +396,8 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         getBookedAppointments({
           startDate,
           endDate,
-          useV2: featureVAOSServiceVAAppointments,
+          useV2VA: featureVAOSServiceVAAppointments,
+          useV2CC: featureVAOSServiceCCAppointments,
         }),
       ];
 
@@ -395,6 +418,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
       try {
         const facilityData = await getAdditionalFacilityInfo(
           getState().appointments.past,
+          featureFacilitiesServiceV2,
         );
 
         if (facilityData) {
@@ -427,6 +451,9 @@ export function fetchRequestDetails(id) {
       const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
         state,
       );
+      const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
+        state,
+      );
       let request = selectAppointmentById(state, id, [
         APPOINTMENT_TYPES.ccRequest,
         APPOINTMENT_TYPES.request,
@@ -451,7 +478,10 @@ export function fetchRequestDetails(id) {
 
       if (facilityId && !facility) {
         try {
-          facility = await getLocation({ facilityId });
+          facility = await getLocation({
+            facilityId,
+            useV2: featureFacilitiesServiceV2,
+          });
         } catch (e) {
           captureError(e);
         }
@@ -490,9 +520,19 @@ export function fetchConfirmedAppointmentDetails(id, type) {
   return async (dispatch, getState) => {
     try {
       const state = getState();
-      const featureVAOSServiceAppointments = selectFeatureVAOSServiceVAAppointments(
+      const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
         state,
       );
+      const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
+        state,
+      );
+      const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
+        state,
+      );
+      const useV2 =
+        type === 'cc'
+          ? featureVAOSServiceCCAppointments
+          : featureVAOSServiceVAAppointments;
       let appointment = selectAppointmentById(state, id, [
         type === 'cc'
           ? APPOINTMENT_TYPES.ccAppointment
@@ -511,8 +551,17 @@ export function fetchConfirmedAppointmentDetails(id, type) {
         appointment = await fetchBookedAppointment({
           id,
           type,
-          useV2: featureVAOSServiceAppointments,
+          useV2,
         });
+      }
+
+      if (
+        featureVAOSServiceCCAppointments &&
+        appointment.practitioners?.length
+      ) {
+        appointment.communityCareProvider = await getCommunityProvider(
+          appointment.practitioners[0].id.value,
+        );
       }
 
       facilityId = getVAAppointmentLocationId(appointment);
@@ -520,7 +569,10 @@ export function fetchConfirmedAppointmentDetails(id, type) {
 
       if (facilityId && !facility) {
         try {
-          facility = await getLocation({ facilityId });
+          facility = await getLocation({
+            facilityId,
+            useV2: featureFacilitiesServiceV2,
+          });
         } catch (e) {
           captureError(e);
         }

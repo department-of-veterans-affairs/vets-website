@@ -40,7 +40,6 @@ import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings
 
 import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositPage from '../../pages/directDeposit';
-import applicantInformationPage from 'platform/forms/pages/applicantInformation';
 import applicantInformationUpdate from '../components/applicantInformationUpdate';
 import applicantServicePage from '../../pages/applicantService';
 import createSchoolSelectionPage, {
@@ -133,14 +132,9 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: {
-        // Prod flag for 26436
-        applicantInformation: environment.isProduction()
-          ? applicantInformationPage(fullSchema5490, {
-              labels: { relationship: relationshipLabels },
-            })
-          : applicantInformationUpdate(fullSchema5490, {
-              labels: { relationship: relationshipLabels },
-            }),
+        applicantInformation: applicantInformationUpdate(fullSchema5490, {
+          labels: { relationship: relationshipLabels },
+        }),
         additionalBenefits: additionalBenefitsPage(fullSchema5490, {
           fields: ['civilianBenefitsAssistance', 'civilianBenefitsSource'],
         }),
@@ -250,38 +244,21 @@ const formConfig = {
             'ui:description':
               'Before this application, have you ever applied for or received any of the following VA benefits?',
             previousBenefits: {
-              // Prod flag for 26436
-              'ui:order': environment.isProduction()
-                ? [
-                    'view:noPreviousBenefits',
-                    'disability',
-                    'dic',
-                    'chapter31',
-                    'view:ownServiceBenefits',
-                    'ownServiceBenefits',
-                    'view:claimedSponsorService',
-                    'chapter35',
-                    'chapter33',
-                    'transferOfEntitlement',
-                    'veteranFullName',
-                    'view:veteranId',
-                    'other',
-                  ]
-                : [
-                    'disability',
-                    'dic',
-                    'chapter31',
-                    'view:ownServiceBenefits',
-                    'ownServiceBenefits',
-                    'view:claimedSponsorService',
-                    'chapter35',
-                    'chapter33',
-                    'transferOfEntitlement',
-                    'veteranFullName',
-                    'view:veteranId',
-                    'view:otherBenefitReceived',
-                    'other',
-                  ],
+              'ui:order': [
+                'disability',
+                'dic',
+                'chapter31',
+                'view:ownServiceBenefits',
+                'ownServiceBenefits',
+                'view:claimedSponsorService',
+                'chapter35',
+                'chapter33',
+                'transferOfEntitlement',
+                'veteranFullName',
+                'view:veteranId',
+                'view:otherBenefitReceived',
+                'other',
+              ],
               'view:noPreviousBenefits': {
                 'ui:title': 'None',
               },
@@ -412,22 +389,13 @@ const formConfig = {
                   previousBenefits,
                 ),
                 {
-                  // Prod flag for 26436
-                  properties: environment.isProduction()
-                    ? {
-                        'view:noPreviousBenefits': { type: 'boolean' },
-                        'view:ownServiceBenefits': { type: 'boolean' },
-                        'view:claimedSponsorService': { type: 'boolean' },
-                        veteranFullName: fullName,
-                        'view:veteranId': personId.schema(fullSchema5490),
-                      }
-                    : {
-                        'view:ownServiceBenefits': { type: 'boolean' },
-                        'view:claimedSponsorService': { type: 'boolean' },
-                        veteranFullName: fullName,
-                        'view:veteranId': personId.schema(fullSchema5490),
-                        'view:otherBenefitReceived': { type: 'boolean' },
-                      },
+                  properties: {
+                    'view:ownServiceBenefits': { type: 'boolean' },
+                    'view:claimedSponsorService': { type: 'boolean' },
+                    veteranFullName: fullName,
+                    'view:veteranId': personId.schema(fullSchema5490),
+                    'view:otherBenefitReceived': { type: 'boolean' },
+                  },
                 },
               ),
             },
