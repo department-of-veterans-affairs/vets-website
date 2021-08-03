@@ -27,6 +27,7 @@ export function SearchResultCard({
   location = false,
   header = null,
   gibctSchoolRatings,
+  active = false,
 }) {
   const {
     name,
@@ -59,8 +60,10 @@ export function SearchResultCard({
   const profileLink = appendQuery(`/profile/${facilityCode}`);
 
   const resultCardClasses = classNames('vads-u-margin-bottom--2', {
-    'vads-u-padding-right--1p5': location,
-    'result-card  small-screen:vads-u-margin-left--2p5': !location,
+    'result-card small-screen:vads-u-margin-left--2p5': !location,
+    'vads-u-padding-right--1': location && !active,
+    'vads-u-padding--0p5': active,
+    active,
   });
 
   const nameClasses = classNames({
@@ -138,7 +141,7 @@ export function SearchResultCard({
       {employerProvider && (
         <p className="asterisk-text">
           * Housing rate and the amount of entitlement used decrease every 6
-          months as employer pay increases
+          months as training progresses
         </p>
       )}
     </>

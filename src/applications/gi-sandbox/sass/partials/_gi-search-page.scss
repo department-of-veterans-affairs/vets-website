@@ -378,6 +378,10 @@
     height: fit-content;
     flex-grow: 1;
 
+    &.active {
+      border: $focus-outline;
+    }
+
     .result-card-container {
       border-radius: 5px;
     }
