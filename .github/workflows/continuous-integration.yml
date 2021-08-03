@@ -118,6 +118,7 @@ jobs:
           --filters "Name=tag:Name,Values=dsva-vagov-utility-subnet-2*" \
           --query 'sort_by(Subnets,&AvailableIpAddressCount)[-1].SubnetId' \
           --output text)" >> $GITHUB_ENV
+
       - name: Start EC2 Runner
         id: start-ec2-runner
         uses: machulav/ec2-github-runner@v2
@@ -392,7 +393,7 @@ jobs:
 
     steps:
       - name: Change permission files
-        run: sudo chown -R $USER:$USER ${{ github.workspace }}
+        run: chown -R $USER:$USER ${{ github.workspace }}
 
       - name: Checkout vets-website
         uses: actions/checkout@v2
