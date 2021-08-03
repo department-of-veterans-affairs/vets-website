@@ -42,6 +42,7 @@ import {
   STARTED_NEW_VACCINE_FLOW,
 } from '../../redux/sitewide';
 import { selectAppointmentById } from './selectors';
+import { fetchHealthcareServiceById } from '../../services/healthcare-service';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
 export const FETCH_PENDING_APPOINTMENTS = 'vaos/FETCH_PENDING_APPOINTMENTS';
@@ -562,6 +563,14 @@ export function fetchConfirmedAppointmentDetails(id, type) {
         appointment.communityCareProvider = await getCommunityProvider(
           appointment.practitioners[0].id.value,
         );
+      }
+
+      if (featureVAOSServiceVAAppointments && appointment.location.clinicId) {
+        const clinic = await fetchHealthcareServiceById({
+          locationId: appointment.location.stationId,
+          id: appointment.location.clinicId,
+        });
+        appointment.location.clinicName = clinic.serviceName;
       }
 
       facilityId = getVAAppointmentLocationId(appointment);

@@ -27,6 +27,7 @@ import { fireEvent, waitFor } from '@testing-library/react';
 import { getICSTokens } from '../../../../utils/calendar';
 import { mockSingleVAOSAppointmentFetch } from '../../../mocks/helpers.v2';
 import { getVAOSAppointmentMock } from '../../../mocks/v2';
+import { mockSingleClinicFetchByVersion } from '../../../mocks/fetch';
 
 const initialState = {
   featureToggles: {
@@ -1047,6 +1048,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     appointment.attributes = {
       ...appointment.attributes,
       kind: 'clinic',
+      clinic: '455',
       locationId: '983GC',
       id: '1234',
       preferredTimesForPhoneCall: ['Morning'],
@@ -1057,6 +1059,12 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       status: 'booked',
     };
 
+    mockSingleClinicFetchByVersion({
+      clinicId: '455',
+      locationId: '983GC',
+      clinicName: 'Some fancy clinic name',
+      version: 2,
+    });
     mockSingleVAOSAppointmentFetch({ appointment });
 
     const facility = getVAFacilityMock();
@@ -1098,16 +1106,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       }),
     ).to.be.ok;
 
-    await waitFor(() => {
-      expect(document.activeElement).to.have.tagName('h1');
-    });
-
-    expect(screen.baseElement).not.to.contain.text(
-      'This appointment occurred in the past.',
-    );
-
     // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
     expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
+    expect(await screen.findByText(/Some fancy clinic name/)).to.be.ok;
     expect(screen.getByRole('link', { name: /9 7 0. 2 2 4. 1 5 5 0./ })).to.be
       .ok;
     expect(
@@ -1129,5 +1130,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     ).to.be.ok;
     expect(screen.getByText(/Print/)).to.be.ok;
     expect(screen.getByText(/Cancel appointment/)).to.be.ok;
+
+    expect(screen.baseElement).not.to.contain.text(
+      'This appointment occurred in the past.',
+    );
   });
 });
