@@ -33,8 +33,8 @@ export function isValidSSN(value) {
   return /^\d{9}$/.test(value) || /^\d{3}-\d{2}-\d{4}$/.test(value);
 }
 
-export function isValidYear(value) {
-  return Number(value) >= minYear && Number(value) <= maxYear;
+export function isValidYear(value, maxValidYear = maxYear) {
+  return Number(value) >= minYear && Number(value) <= maxValidYear;
 }
 
 export function isValidPartialDate(day, month, year) {

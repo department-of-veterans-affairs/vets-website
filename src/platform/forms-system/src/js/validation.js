@@ -1,7 +1,14 @@
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import { Validator } from 'jsonschema';
 
-import { isActivePage, parseISODate, minYear, maxYear } from './helpers';
+import {
+  isActivePage,
+  parseISODate,
+  minYear,
+  maxYear,
+  currentYear,
+} from './helpers';
+
 import {
   isValidSSN,
   isValidYear,
@@ -338,10 +345,12 @@ export function validateSSN(errors, ssn) {
   }
 }
 
-export function validateDate(errors, dateString) {
+export function validateDate(errors, dateString, maxValidYear = maxYear) {
   const { day, month, year } = parseISODate(dateString);
-  if (year?.length >= 4 && !isValidYear(year)) {
-    errors.addError(`Please enter a year between ${minYear} and ${maxYear}`);
+  if (year?.length >= 4 && !isValidYear(year, maxValidYear)) {
+    errors.addError(
+      `Please enter a year between ${minYear} and ${maxValidYear}`,
+    );
   } else if (!isValidPartialDate(day, month, year)) {
     errors.addError('Please provide a valid date');
   }
@@ -369,7 +378,7 @@ export function validateCurrentOrPastDate(
   const {
     futureDate = 'Please provide a valid current or past date',
   } = errorMessages;
-  validateDate(errors, dateString);
+  validateDate(errors, dateString, currentYear);
   const { day, month, year } = parseISODate(dateString);
   if (!isValidCurrentOrPastDate(day, month, year)) {
     errors.addError(futureDate);

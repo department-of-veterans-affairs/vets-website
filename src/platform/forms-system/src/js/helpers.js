@@ -8,6 +8,7 @@ export const minYear = 1900;
 export const maxYear = moment()
   .add(100, 'year')
   .year();
+export const currentYear = moment().year();
 
 // An active page is one that will be shown to the user.
 // Pages become inactive if they are conditionally shown based
@@ -145,6 +146,7 @@ export function formatReviewDate(dateString, monthYear = false) {
 
   return undefined;
 }
+
 export function parseISODate(dateString) {
   if (typeof dateString === 'string') {
     const [year, month, day] = dateString.split('-', 3);
@@ -152,7 +154,7 @@ export function parseISODate(dateString) {
     return {
       month: month === 'XX' ? '' : Number(month).toString(),
       day: day === 'XX' ? '' : Number(day).toString(),
-      year: year === 'XXXX' ? '' : year,
+      year: year === 'XXXX' ? '' : Number(year).toString(),
     };
   }
 
