@@ -12,8 +12,6 @@ console.log('pathsOfChangedFiles: ', pathsOfChangedFiles);
 
 const pattern = path.join(__dirname, '../..', integrationFolder, testFiles);
 const tests = glob.sync(pattern);
-// eslint-disable-next-line no-console
-console.log('Tests from glob.sync(pattern): ', tests);
 const divider = Math.ceil(tests.length / 8);
 const batch = tests
   .slice(

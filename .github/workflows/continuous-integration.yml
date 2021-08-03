@@ -402,7 +402,6 @@ jobs:
           # CYPRESS_BASE_URL: http://localhost:3001
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}
-          CHANGED_FILE_PATHS: ${{ env.CHANGED_FILE_PATHS }}
 
       - name: Archive test videos
         uses: actions/upload-artifact@v2
