@@ -36,7 +36,7 @@ class SaveInProgressIntro extends React.Component {
     );
     const isExpired = savedForm
       ? moment.unix(savedForm.metadata.expiresAt).isBefore()
-      : true;
+      : false;
     return (
       <FormStartControls
         resumeOnly={this.props.resumeOnly}
