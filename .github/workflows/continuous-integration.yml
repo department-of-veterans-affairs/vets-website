@@ -379,8 +379,28 @@ jobs:
       # - name: Generate directory ID for node modules
       #   run: echo "NODE_ID=$(( ${{ github.run_number }} + ${{ matrix.ci_node_index }} ))" >> $GITHUB_ENV
 
+      - name: Delete package.json and yarn.lock
+        run: rm package.json yarn.lock
+
+      - name: Generate package.json
+        run: |
+          cat > package.json << EOF
+          {
+            "name": "github-actions",
+            "devDependencies": {
+              "command-line-args": "3.0.1",
+              "cypress": "7.6.0",
+              "express": "4.17.1",
+              "express-history-api-fallback": "2.0.0",
+              "find": "0.3.0",
+              "glob": "7.1.6",
+              "morgan": "1.10.0"
+            }
+          }
+          EOF
+
       - name: Install dependencies
-        run: yarn --cwd script/github-actions install --frozen-lockfile --prefer-offline
+        run: yarn install --prefer-offline
 
       # Cypress env vars like this are used to either override config settings
       # or be made available to tests through Cypress.env().
