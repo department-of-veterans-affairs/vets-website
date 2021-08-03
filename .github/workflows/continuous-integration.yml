@@ -334,6 +334,8 @@ jobs:
       CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
       NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
 
+    run: echo "CHANGED_FILE_PATHS=$(git diff --name-only master...HEAD)" >> $GITHUB_ENV
+
     steps:
       - name: Checkout vets-website
         uses: actions/checkout@v2
@@ -392,9 +394,6 @@ jobs:
       - name: Create test results directory
         run: mkdir -p test-results
 
-      - name: Save paths of changed files to github env var
-        run: echo "CHANGED_FILE_PATHS=$(git diff --name-only master...HEAD)" >> $GITHUB_ENV
-
       - name: Run Cypress tests
         run: node script/github-actions/run-cypress-tests.js
         timeout-minutes: 30
@@ -402,6 +401,7 @@ jobs:
           # CYPRESS_BASE_URL: http://localhost:3001
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}
+          CHANGED_FILE_PATHS: ${{ env.CHANGED_FILE_PATHS }}
 
       - name: Archive test videos
         uses: actions/upload-artifact@v2
