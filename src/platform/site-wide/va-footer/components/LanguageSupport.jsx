@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {
-  setLangAttribute,
+  setLangAttributes,
   parseLangCode,
 } from 'applications/static-pages/i18Select/hooks';
 import { FOOTER_EVENTS } from '../helpers';
@@ -63,13 +63,13 @@ export default function LanguageSupport({
     () => {
       const langCode = parseLangCode(document?.location?.pathname);
 
-      setLangAttribute(langCode);
+      setLangAttributes(langCode);
 
       if (languageCode === langCode) return;
 
       dispatchLanguageSelection(langCode);
     },
-    [dispatchLanguageSelection, showLangSupport, languageCode],
+    [dispatchLanguageSelection, languageCode],
   );
 
   if (showLangSupport !== true) return null;

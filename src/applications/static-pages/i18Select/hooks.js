@@ -6,13 +6,13 @@ export const onThisPageDict = {
 };
 
 export const onThisPageHook = lang => {
-  if (lang && lang !== 'en') {
-    const onThisPageEl = document?.getElementById('on-this-page');
+  if (!lang || lang === 'en') return;
 
-    if (onThisPageEl) {
-      onThisPageEl.innerText = onThisPageDict[lang].onThisPage;
-    }
-  }
+  const onThisPageEl = document?.getElementById('on-this-page');
+
+  if (!onThisPageEl) return;
+
+  onThisPageEl.innerText = onThisPageDict[lang].onThisPage;
 };
 
 const setMedalliaSurveyLangOnWindow = lang => {
@@ -94,8 +94,28 @@ const adaptSidebarWithLangCode = () => {
   }
 };
 
-export const setLangAttribute = lang => {
+const adaptBreadcrumbWithLangCode = langCode => {
+  const breadcrumbList = document?.getElementById('va-breadcrumbs-list');
+
+  if (!breadcrumbList) return;
+
+  const breadcrumbLinks = breadcrumbList?.getElementsByTagName('a');
+
+  if (!breadcrumbLinks || breadcrumbLinks.length === 0) return;
+
+  for (const link of breadcrumbLinks) {
+    // we only want to set the lang on breadcrumb for aria-current="page"
+    const ariaCurrent = link?.getAttribute('aria-current');
+
+    if (link && ariaCurrent && ariaCurrent === 'page') {
+      link.setAttribute('lang', langCode);
+    }
+  }
+};
+
+export const setLangAttributes = lang => {
   adaptContentWithLangCode(lang);
+  adaptBreadcrumbWithLangCode(lang);
   adaptSidebarWithLangCode();
   setMedalliaSurveyLangOnWindow(lang);
 };
