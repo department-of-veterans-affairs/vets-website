@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 import {
@@ -8,30 +8,33 @@ import {
   GA_PREFIX,
 } from '../../../utils/constants';
 import { updateCCProviderSortMethod } from '../../redux/actions';
+import { selectProviderSelectionInfo } from '../../redux/selectors';
 import ResidentialAddress from '../../../components/ResidentialAddress';
 import InfoAlert from '../../../components/InfoAlert';
 import LoadProvidersErrorAlert from './LoadProvidersErrorAlert';
 import NoProvidersAlert from './NoProvidersAlert';
 
 export default function ProviderList({
-  address,
   checkedProvider,
-  communityCareProviderList,
   idSchema,
   initialProviderDisplayCount,
   loadingLocations,
   loadingProviders,
   onChange,
   providersListLength,
-  requestLocationStatus,
-  requestStatus,
   setCheckedProvider,
   setProvidersListLength,
   setShowProvidersList,
-  sortMethod,
-  typeOfCareName,
 }) {
   const dispatch = useDispatch();
+  const {
+    address,
+    communityCareProviderList,
+    requestLocationStatus,
+    requestStatus,
+    sortMethod,
+    typeOfCareName,
+  } = useSelector(state => selectProviderSelectionInfo(state));
   const currentlyShownProvidersList = communityCareProviderList?.slice(
     0,
     providersListLength,

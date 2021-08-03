@@ -22,7 +22,6 @@ export default function ProviderSelectionField({
     requestStatus,
     requestLocationStatus,
     sortMethod,
-    typeOfCareName,
   } = useSelector(state => selectProviderSelectionInfo(state));
   const [checkedProvider, setCheckedProvider] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -114,7 +113,6 @@ export default function ProviderSelectionField({
   if (!showProvidersList) {
     return (
       <SelectedProvider
-        address={address}
         formData={formData}
         initialProviderDisplayCount={INITIAL_PROVIDER_DISPLAY_COUNT}
         onChange={onChange}
@@ -122,29 +120,22 @@ export default function ProviderSelectionField({
         setCheckedProvider={setCheckedProvider}
         setProvidersListLength={setProvidersListLength}
         setShowProvidersList={setShowProvidersList}
-        sortMethod={sortMethod}
       />
     );
   }
 
   return (
     <ProviderList
-      address={address}
       checkedProvider={checkedProvider}
-      communityCareProviderList={communityCareProviderList}
       idSchema={idSchema}
       initialProviderDisplayCount={INITIAL_PROVIDER_DISPLAY_COUNT}
       loadingLocations={loadingLocations}
       loadingProviders={loadingProviders}
       onChange={onChange}
       providersListLength={providersListLength}
-      requestLocationStatus={requestLocationStatus}
-      requestStatus={requestStatus}
       setCheckedProvider={setCheckedProvider}
       setProvidersListLength={setProvidersListLength}
       setShowProvidersList={setShowProvidersList}
-      sortMethod={sortMethod}
-      typeOfCareName={typeOfCareName}
     />
   );
 }

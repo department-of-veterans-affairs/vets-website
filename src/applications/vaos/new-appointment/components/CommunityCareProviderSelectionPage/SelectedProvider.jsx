@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
+import { selectProviderSelectionInfo } from '../../redux/selectors';
 import { FACILITY_SORT_METHODS, GA_PREFIX } from '../../../utils/constants';
 import RemoveProviderModal from './RemoveProviderModal';
 
 export default function SelectedProvider({
-  address,
   formData,
   initialProviderDisplayCount,
   onChange,
@@ -12,8 +13,10 @@ export default function SelectedProvider({
   setCheckedProvider,
   setProvidersListLength,
   setShowProvidersList,
-  sortMethod,
 }) {
+  const { address, sortMethod } = useSelector(state =>
+    selectProviderSelectionInfo(state),
+  );
   const [showRemoveProviderModal, setShowRemoveProviderModal] = useState(false);
 
   return (
