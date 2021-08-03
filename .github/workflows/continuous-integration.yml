@@ -27,7 +27,13 @@ jobs:
       matrix:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
+    outputs:
+      changedFilenames: ${{ steps.setChangedFilenames.outputs }}
+
     steps:
+      - id: setChangedFilenames
+        run: echo $(git diff --name-only master...HEAD)
+
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -392,10 +398,6 @@ jobs:
       - name: Create test results directory
         run: mkdir -p test-results
 
-      - name: Save paths of changed files to github env var
-        run: echo "CHANGED_FILE_PATHS=$(git diff --name-only master...HEAD)" >> $GITHUB_ENV
-        working-directory: vets-website
-
       - name: Run Cypress tests
         run: node script/github-actions/run-cypress-tests.js
         timeout-minutes: 30
@@ -403,6 +405,7 @@ jobs:
           # CYPRESS_BASE_URL: http://localhost:3001
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}
+          CHANGED_FILE_PATHS: ${{ needs.build.outputs.changedFilenames }}
 
       - name: Archive test videos
         uses: actions/upload-artifact@v2
