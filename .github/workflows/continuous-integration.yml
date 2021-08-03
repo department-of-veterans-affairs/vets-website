@@ -392,6 +392,10 @@ jobs:
       - name: Create test results directory
         run: mkdir -p test-results
 
+      - name: Save paths of changed files to env var
+        env:
+          CHANGED_FILE_PATHS: git diff --name-only master...HEAD
+
       - name: Run Cypress tests
         run: node script/github-actions/run-cypress-tests.js
         timeout-minutes: 30
