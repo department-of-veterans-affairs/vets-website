@@ -41,7 +41,7 @@ jobs:
 
       - name: Output changed filenames
         run: echo $(git diff --name-only master...HEAD)
-        # working-directory: vets-website
+        working-directory: vets-website
 
       - name: Get Node version
         id: get-node-version
