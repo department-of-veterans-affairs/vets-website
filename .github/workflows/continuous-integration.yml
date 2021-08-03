@@ -155,7 +155,7 @@ jobs:
 
       - name: Publish test results
         if: ${{ always() }}
-        uses: mikepenz/action-junit-report@v2.4.0
+        uses: mikepenz/action-junit-report@v2.4.3
         with:
           check_name: 'Unit Tests Summary'
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -254,7 +254,7 @@ jobs:
 
       - name: Publish test results
         if: ${{ always() }}
-        uses: mikepenz/action-junit-report@v2.4.0
+        uses: mikepenz/action-junit-report@v2.4.3
         with:
           check_name: 'Pact Tests Summary'
           github_token: ${{ secrets.GITHUB_TOKEN }}
