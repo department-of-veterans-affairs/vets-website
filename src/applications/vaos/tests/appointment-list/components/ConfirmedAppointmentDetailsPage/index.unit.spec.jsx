@@ -1135,4 +1135,76 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       'This appointment occurred in the past.',
     );
   });
+  it('should show details without clinic name', async () => {
+    const myInitialState = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingVAOSServiceVAAppointments: true,
+      },
+    };
+    const url = '/va/1234';
+    const futureDate = moment.utc();
+
+    const appointment = getVAOSAppointmentMock();
+    appointment.id = '1234';
+    appointment.attributes = {
+      ...appointment.attributes,
+      kind: 'clinic',
+      clinic: '455',
+      locationId: '983GC',
+      id: '1234',
+      preferredTimesForPhoneCall: ['Morning'],
+      reason: 'New Issue',
+      comment: 'New issue: I have a headache',
+      serviceType: 'primaryCare',
+      start: futureDate.format(),
+      status: 'booked',
+    };
+
+    mockSingleVAOSAppointmentFetch({ appointment });
+
+    const facility = getVAFacilityMock();
+    facility.attributes = {
+      ...facility.attributes,
+      id: 'vha_442GC',
+      uniqueId: '442GC',
+      name: 'Cheyenne VA Medical Center',
+      address: {
+        physical: {
+          zip: '82001-5356',
+          city: 'Cheyenne',
+          state: 'WY',
+          address1: '2360 East Pershing Boulevard',
+        },
+      },
+      phone: { main: '970-224-1550' },
+    };
+
+    mockFacilityFetch('vha_442GC', facility);
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState: myInitialState,
+      path: url,
+    });
+
+    // Verify document title and content...
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
+
+    expect(
+      screen.getByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          futureDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
+    expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
+    expect(screen.queryByText(/clinic:/)).to.not.exist;
+  });
 });
