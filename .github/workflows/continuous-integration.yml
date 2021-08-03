@@ -378,7 +378,7 @@ jobs:
     needs: [start-runner]
     container:
       image: cypress/browsers:node14.17.0-chrome91-ff89
-      volumes: /usr/local/share:/share
+      volumes: [/usr/local/share:/share]
       options: -u 1001:1001
 
     # strategy:
@@ -392,6 +392,9 @@ jobs:
       NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
 
     steps:
+      - name: Change permission files
+        run: sudo chown -R $USER:$USER ${{ github.workspace }}
+
       - name: Checkout vets-website
         uses: actions/checkout@v2
 
