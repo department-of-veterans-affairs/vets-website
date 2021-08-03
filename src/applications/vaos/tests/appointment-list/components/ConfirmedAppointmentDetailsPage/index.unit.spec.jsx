@@ -1135,7 +1135,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       'This appointment occurred in the past.',
     );
   });
-  it('should show details without clinic name', async () => {
+  it('should show details without clinic name when clinic call fails', async () => {
     const myInitialState = {
       ...initialState,
       featureToggles: {
