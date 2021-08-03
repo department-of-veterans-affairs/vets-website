@@ -93,7 +93,7 @@ export const saveCommunicationPreferenceChannel = (channelId, apiCallInfo) => {
     try {
       const response = await apiRequest(apiCallInfo.endpoint, {
         method: apiCallInfo.method,
-        body: apiCallInfo.payload,
+        body: JSON.stringify(apiCallInfo.payload),
         headers: { 'Content-Type': 'application/json' },
       });
       // It's possible that a 200 from the API is not _really_ a successful
