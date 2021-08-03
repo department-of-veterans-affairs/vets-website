@@ -386,11 +386,9 @@ jobs:
     #   matrix:
     #     ci_node_index: [0, 1, 2, 3, 4, 5, 6, 7]
 
-    # env:
-    #   CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
-    #   NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
     env:
-      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+      CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
+      NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
 
     steps:
       - name: Checkout vets-website
