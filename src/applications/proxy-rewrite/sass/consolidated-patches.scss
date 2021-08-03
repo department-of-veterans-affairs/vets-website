@@ -87,11 +87,11 @@ header.merger {
     }
   }
 
-  #mega-menu .panel-bottom-link {
+  .mega-menu .panel-bottom-link {
     width: 468px;
   }
 
-  #mega-menu .vetnav-panel {
+  .mega-menu .vetnav-panel {
     box-sizing: border-box;
     .mm-links {
       font-family: $font-stack;
@@ -99,7 +99,7 @@ header.merger {
   }
 
   @media (min-width: $large-screen) {
-    #mega-menu  {
+    .mega-menu {
       .vetnav-panel {
         width: 487px;
 
@@ -141,7 +141,7 @@ header.merger {
       width: 100%;
     }
 
-    #mega-menu .column-three {
+    .mega-menu .column-three {
       display: none;
     }
   }
@@ -150,7 +150,8 @@ header.merger {
     .profile-nav {
       box-sizing: border-box;
       .va-dropdown {
-        span, p {
+        span,
+        p {
           font-family: "Source Sans Pro";
           font-size: 16px;
         }

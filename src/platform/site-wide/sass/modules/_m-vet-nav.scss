@@ -465,7 +465,7 @@ body.va-pos-fixed {
   }
 
   @media (min-width: $xsmall-screen) and (max-width: $medium-screen - 1) {
-    #mega-menu {
+    .mega-menu {
       // #vetnav {
       //   min-height: unset;
       // }
@@ -541,7 +541,7 @@ body.va-pos-fixed {
 }
 
 // Safari needs this to correctly display megamenu
-#mega-menu {
+.mega-menu {
   .login-container {
     .row {
       &.va-flex {
