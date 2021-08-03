@@ -5,11 +5,13 @@ import * as actions from '../actions';
 import Modal from '../components/Modal';
 import AccreditationModalContent from '../components/content/modals/AccreditationModalContent';
 import AllCampusesModalContent from '../components/content/modals/AllCampusesModalContent';
+import BookStipedInfoModalContent from '../components/content/modals/BookStipedInfoModalContent';
 import CalcBeneficiaryLocationQuestionModalContent from '../components/content/modals/CalcBeneficiaryLocationQuestionModalContent';
 import CreditTrainingModalContent from '../components/content/modals/CreditTrainingModalContent';
 import EightKeysModalContent from '../components/content/modals/EightKeysModalContent';
-import IndependentStudyModalContent from '../components/content/modals/IndependentStudyModalContent';
 import FacilityCodeModalContent from '../components/content/modals/FacilityCodeModalContent';
+import HousingAllowanceOJTModalConent from '../components/content/modals/HousingAllowanceOJTModalContent';
+import IndependentStudyModalContent from '../components/content/modals/IndependentStudyModalContent';
 import IpedsCodeModalContent from '../components/content/modals/IpedsCodeModalContent';
 import MilitaryTuitionAssistanceModalContent from '../components/content/modals/MilitaryTuitionAssistanceModalContent';
 import OpeCodeModalContent from '../components/content/modals/OpeCodeModalContent';
@@ -225,6 +227,13 @@ export function Modals({ hideModal, modals, profile }) {
             </a>
           </p>
         </div>
+      </Modal>
+
+      <Modal
+        onClose={hideModal}
+        visible={shouldDisplayModal('housingAllowanceOJT')}
+      >
+        <HousingAllowanceOJTModalConent />
       </Modal>
 
       <Modal onClose={hideModal} visible={shouldDisplayModal('eightKeys')}>
@@ -825,6 +834,12 @@ export function Modals({ hideModal, modals, profile }) {
         </div>
       </Modal>
 
+      <Modal
+        onClose={hideModal}
+        visible={shouldDisplayModal('bookStipendInfo')}
+      >
+        <BookStipedInfoModalContent />
+      </Modal>
       <Modal onClose={hideModal} visible={shouldDisplayModal('vetTec')}>
         <div>
           <div>

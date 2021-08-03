@@ -1,7 +1,8 @@
 import React from 'react';
-import GetHelp from '../components/GetHelp';
+import FacilityContacts from '../components/FacilityContacts';
 import StatusAlert from '../components/StatusAlert';
 import Balances from '../components/Balances';
+import BalanceQuestions from '../components/BalanceQuestions';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import { currency } from '../utils/helpers';
 
@@ -33,7 +34,12 @@ const OverviewPage = () => {
         )}
       />
       <Balances />
-      <GetHelp />
+      <BalanceQuestions />
+      <p>
+        <strong>For questions about your treatment or your charges, </strong>
+        contact the VA health care facility listed on your bill.
+      </p>
+      <FacilityContacts />
     </>
   );
 };
