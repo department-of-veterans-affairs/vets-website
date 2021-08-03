@@ -393,8 +393,8 @@ jobs:
         run: mkdir -p test-results
 
       - name: Save paths of changed files to github env var
-        working-directory: vets-website
         run: echo "CHANGED_FILE_PATHS=$(git diff --name-only master...HEAD)" >> $GITHUB_ENV
+        working-directory: vets-website
 
       - name: Run Cypress tests
         run: node script/github-actions/run-cypress-tests.js
