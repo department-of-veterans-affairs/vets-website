@@ -94,7 +94,7 @@ class ReviewCollapsibleChapter extends React.Component {
     return chapterTitle;
   };
 
-  getSchemaformPageContent = (page, props) => {
+  getSchemaformPageContent = (page, props, editing) => {
     const {
       chapterFormConfig,
       expandedPages,
@@ -108,11 +108,9 @@ class ReviewCollapsibleChapter extends React.Component {
     let pageUiSchema;
     let pageData;
     let arrayFields;
-    let editing;
     let fullPageKey;
 
     if (page.showPagePerItem) {
-      editing = pageState.editMode[page.index];
       pageSchema =
         pageState.schema.properties[page.arrayPath].items[page.index];
       pageUiSchema = pageState.uiSchema[page.arrayPath].items;
@@ -120,7 +118,6 @@ class ReviewCollapsibleChapter extends React.Component {
       arrayFields = [];
       fullPageKey = `${page.pageKey}${page.index}`;
     } else {
-      editing = pageState.editMode;
       // TODO: support array fields inside of an array page?
       // Our pattern is to separate out array fields (growable tables) from
       // the normal page and display them separately. The review version of
@@ -164,74 +161,27 @@ class ReviewCollapsibleChapter extends React.Component {
       return null;
     }
 
-    const updateButton = (
-      <ProgressButton
-        submitButton
-        onButtonClick={() => {
-          // recheck _all_ validations after the user clicks the
-          // update page button - needed to dynamically update
-          // accordion headers
-          this.checkValidation();
-          focusOnChange(
-            `${page.pageKey}${
-              typeof page.index === 'number' ? page.index : ''
-            }`,
-          );
-        }}
-        buttonText="Update page"
-        buttonClass="usa-button-primary"
-        ariaLabel={ariaLabel}
-      />
-    );
-
-    // These are functions so React doesn't create the component if we don't use
-    // it, but we still get the brevity later when we `renderCustom ?
-    // customContent() : schemaformContent();`
-    const schemaformContent = () => (
-      <SchemaForm
-        name={page.pageKey}
-        title={title}
-        data={pageData}
-        appStateData={page.appStateData}
-        schema={pageSchema}
-        uiSchema={pageUiSchema}
-        trackingPrefix={this.props.form.trackingPrefix}
-        hideHeaderRow={page.hideHeaderRow}
-        hideTitle={this.shouldHideExpandedPageTitle(
-          expandedPages,
-          this.getChapterTitle(chapterFormConfig),
-          title,
-        )}
-        pagePerItemIndex={page.index}
-        onBlur={this.props.onBlur}
-        onEdit={() => this.handleEdit(page.pageKey, !editing, page.index)}
-        onSubmit={({ formData }) =>
-          this.handleSubmit(formData, page.pageKey, page.arrayPath, page.index)
-        }
-        onChange={formData =>
-          this.onChange(
-            typeof page.updateFormData === 'function'
-              ? page.updateFormData(form.data, formData)
-              : formData,
-            page.arrayPath,
-            page.index,
-          )
-        }
-        uploadFile={this.props.uploadFile}
-        reviewMode={!editing}
-        formContext={formContext}
-        editModeOnReviewPage={page.editModeOnReviewPage}
-      >
-        {!editing ? <div /> : updateButton}
-      </SchemaForm>
-    );
-
-    // TODO: Add the props to CustomPage
-    const customContent = () =>
-      editing ? (
-        <page.CustomPage
-          onReviewPage
-          updatePage={({ formData }) =>
+    return (
+      <div key={`${fullPageKey}`} className={classes}>
+        <Element name={`${fullPageKey}ScrollElement`} />
+        <SchemaForm
+          name={page.pageKey}
+          title={title}
+          data={pageData}
+          appStateData={page.appStateData}
+          schema={pageSchema}
+          uiSchema={pageUiSchema}
+          trackingPrefix={this.props.form.trackingPrefix}
+          hideHeaderRow={page.hideHeaderRow}
+          hideTitle={this.shouldHideExpandedPageTitle(
+            expandedPages,
+            this.getChapterTitle(chapterFormConfig),
+            title,
+          )}
+          pagePerItemIndex={page.index}
+          onBlur={this.props.onBlur}
+          onEdit={() => this.handleEdit(page.pageKey, !editing, page.index)}
+          onSubmit={({ formData }) =>
             this.handleSubmit(
               formData,
               page.pageKey,
@@ -239,18 +189,42 @@ class ReviewCollapsibleChapter extends React.Component {
               page.index,
             )
           }
-        />
-      ) : (
-        this.getCustomPageContent(page, props)
-      );
-
-    const renderCustom = editing ? !!page.CustomPage : !!page.CustomPageReview;
-    const reviewContent = renderCustom ? customContent() : schemaformContent();
-
-    return (
-      <div key={`${fullPageKey}`} className={classes}>
-        <Element name={`${fullPageKey}ScrollElement`} />
-        {reviewContent}
+          onChange={formData =>
+            this.onChange(
+              typeof page.updateFormData === 'function'
+                ? page.updateFormData(form.data, formData)
+                : formData,
+              page.arrayPath,
+              page.index,
+            )
+          }
+          uploadFile={this.props.uploadFile}
+          reviewMode={!editing}
+          formContext={formContext}
+          editModeOnReviewPage={page.editModeOnReviewPage}
+        >
+          {!editing ? (
+            <div />
+          ) : (
+            <ProgressButton
+              submitButton
+              onButtonClick={() => {
+                // recheck _all_ validations after the user clicks the
+                // update page button - needed to dynamically update
+                // accordion headers
+                this.checkValidation();
+                focusOnChange(
+                  `${page.pageKey}${
+                    typeof page.index === 'number' ? page.index : ''
+                  }`,
+                );
+              }}
+              buttonText="Update page"
+              buttonClass="usa-button-primary"
+              ariaLabel={ariaLabel}
+            />
+          )}
+        </SchemaForm>
         {arrayFields.map(arrayField => (
           <div key={arrayField.path} className="form-review-array">
             <ArrayField
@@ -280,8 +254,22 @@ class ReviewCollapsibleChapter extends React.Component {
     );
   };
 
-  // getCustomPageContent = (page, props) => {
-  getCustomPageContent = page => {
+  getCustomPageContent = (page, props, editing) => {
+    if (editing) {
+      return (
+        <page.CustomPage
+          onReviewPage
+          updatePage={({ formData }) =>
+            this.handleSubmit(
+              formData,
+              page.pageKey,
+              page.arrayPath,
+              page.index,
+            )
+          }
+        />
+      );
+    }
     if (page.CustomPageReview === null) return null;
     return <page.CustomPageReview />;
   };
@@ -311,9 +299,19 @@ class ReviewCollapsibleChapter extends React.Component {
         )}
         {expandedPages.map(page => {
           const pageConfig = form.pages[page.pageKey];
-          return pageConfig.CustomPageReview
-            ? this.getCustomPageContent(page, props)
-            : this.getSchemaformPageContent(page, props);
+          const editing = pageConfig.showPagePerItem
+            ? pageConfig.editMode[page.index]
+            : pageConfig.editMode;
+
+          if (editing) {
+            return pageConfig.CustomPage
+              ? this.getCustomPageContent(page, props, editing)
+              : this.getSchemaformPageContent(page, props, editing);
+          } else {
+            return pageConfig.CustomPageReview
+              ? this.getCustomPageContent(page, props, editing)
+              : this.getSchemaformPageContent(page, props, editing);
+          }
         })}
       </div>
     );
