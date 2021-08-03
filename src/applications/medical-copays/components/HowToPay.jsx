@@ -6,7 +6,9 @@ import Telephone, {
 export const HowToPay = () => (
   <>
     <h2>How do I pay my VA copay bill?</h2>
-    <h5>You can pay your bill in any of these 4 ways:</h5>
+    <h3 className="vads-u-font-size--h5">
+      You can pay your bill in any of these 4 ways:
+    </h3>
     <div className="vads-u-margin-top--4">
       <va-accordion>
         <va-accordion-item header="Option 1: Pay online">
