@@ -3,6 +3,9 @@ const glob = require('glob');
 const { runCommandSync } = require('../utils');
 const { integrationFolder, testFiles } = require('../../config/cypress.json');
 
+// eslint-disable-next-line no-console
+console.log('Changed files: ', process.env.CHANGED_FILE_PATHS);
+
 const pattern = path.join(__dirname, '../..', integrationFolder, testFiles);
 const tests = glob.sync(pattern);
 const divider = Math.ceil(tests.length / 8);
