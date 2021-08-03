@@ -337,6 +337,8 @@ jobs:
     steps:
       - name: Checkout vets-website
         uses: actions/checkout@v2
+          with:
+            fetch-depth: 0
 
       - name: Download production build artifact
         uses: actions/download-artifact@v2
@@ -392,11 +394,21 @@ jobs:
       - name: Create test results directory
         run: mkdir -p test-results
 
-      - id: files
-        uses: jitterbit/get-changed-files@v1
-      - run: |
-          for changed_file in ${{ steps.files.outputs.all }}; do
-            echo "Do something with this ${changed_file}."
+      # - id: files
+      #   uses: jitterbit/get-changed-files@v1
+      # - run: |
+      #     for changed_file in ${{ steps.files.outputs.all }}; do
+      #       echo "Do something with this ${changed_file}."
+      #     done
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v9.1
+      
+      - name: List all modified files
+        run: |
+          for file in "${{ steps.changed-files.outputs.all_changed_files }}"; do
+            echo "$file was modified"
           done
 
       - name: Run Cypress tests
