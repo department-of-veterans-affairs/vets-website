@@ -399,7 +399,7 @@ jobs:
           # CYPRESS_BASE_URL: http://localhost:3001
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}
-          CHANGED_FILE_PATHS: git diff --name-only master...HEAD
+          CHANGED_FILE_PATHS: ${{ git diff --name-only master...HEAD }}
 
       - name: Archive test videos
         uses: actions/upload-artifact@v2
