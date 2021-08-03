@@ -1,7 +1,6 @@
 $ct-locator-shadow: rgba(0, 0, 0, 0.5);
 
 .location-search {
-
   .result-card {
     width: 100%;
 
@@ -17,7 +16,6 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
 
   .location-search-results-container {
     border: solid $color-gray-lightest;
-    
     .location-search-results {
       height: 565px;
       overflow-y: scroll;
@@ -136,7 +134,6 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
       border-left: 1px solid $color-black;
       border-right: 2px solid $color-black;
     }
-
   }
 }
 
