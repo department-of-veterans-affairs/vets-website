@@ -270,7 +270,6 @@ class ReviewCollapsibleChapter extends React.Component {
         />
       );
     }
-    if (page.CustomPageReview === null) return null;
     return <page.CustomPageReview />;
   };
 
