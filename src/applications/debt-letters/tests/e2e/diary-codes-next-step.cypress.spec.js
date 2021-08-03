@@ -30,7 +30,6 @@ describe('Diary Codes - Next Steps', () => {
       .should('not.exist');
   });
 
-  // TODO: does this feature till exist?
   // it('renders debt details with next step', () => {
   //   cy.findByText(/Current debts/i, { selector: 'a' }).click();
   //   cy.get('.usa-button')

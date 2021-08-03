@@ -105,7 +105,7 @@
       "deductionCode": "71",
       "benefitType": "CH33 Books, Supplies/MISC EDU",
       "diaryCode": "100",
-      "diaryCodeDescription": "First Demand Letter - Inactive Benefits - Due Process",
+      "diaryCodeDescription": "Pending payment",
       "amountOverpaid": 0,
       "amountWithheld": 0,
       "originalAr": 166.67,
@@ -230,14 +230,14 @@
       "debtHistory": [
         {
           "date": "12/19/2012",
-          "letterCode": "681",
+          "letterCode": "100",
           "description": "Account returned from Treasury Cross Servicing. Account is at TOP.  TOP offsets will be applied to account as Federal funds become available."
         }
 
       ]
     },
     {
-      "thisOneIsActive": false,
+      "thisOneIsActive": true,
       "fileNumber": "796121299",
       "payeeNumber": "00",
       "personEntitled": "STUB_M",
@@ -251,11 +251,37 @@
       "currentAr": 1800,
       "debtHistory": [
         {
-          "date": "12/19/2012",
+          "date": "12/19/2011",
           "letterCode": "681",
           "description": "Account returned from Treasury Cross Servicing. Account is at TOP.  TOP offsets will be applied to account as Federal funds become available."
         }
 
+      ]
+    },
+    {
+      "thisOneIsActive": true,
+      "fileNumber": "796121299",
+      "payeeNumber": "00",
+      "personEntitled": "STUB_M",
+      "deductionCode": "44",
+      "benefitType": "CH35 EDU",
+      "diaryCode": "811",
+      "description": "Debt referred to Treasury for Cross servicing",
+      "amountOverpaid": 0,
+      "amountWithheld": 0,
+      "originalAr": 100,
+      "currentAr": 1800,
+      "debtHistory": [
+        {
+          "date": "12/19/2018",
+          "letterCode": "681",
+          "description": "Account returned from Treasury Cross Servicing. Account is at TOP.  TOP offsets will be applied to account as Federal funds become available."
+        },
+        {
+          "date": "10/17/2020",
+          "letterCode": "212",
+          "description": "Bad Address - Locator Request Sent"
+        }
       ]
     }
   ]
