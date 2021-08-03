@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 import {
@@ -6,6 +7,7 @@ import {
   FACILITY_SORT_METHODS,
   GA_PREFIX,
 } from '../../../utils/constants';
+import { updateCCProviderSortMethod } from '../../redux/actions';
 import ResidentialAddress from '../../../components/ResidentialAddress';
 import InfoAlert from '../../../components/InfoAlert';
 import LoadProvidersErrorAlert from './LoadProvidersErrorAlert';
@@ -28,8 +30,8 @@ export default function ProviderList({
   setShowProvidersList,
   sortMethod,
   typeOfCareName,
-  updateCCProviderSortMethod,
 }) {
+  const dispatch = useDispatch();
   const currentlyShownProvidersList = communityCareProviderList?.slice(
     0,
     providersListLength,
@@ -60,8 +62,10 @@ export default function ProviderList({
                       type="button"
                       className="va-button-link"
                       onClick={() => {
-                        updateCCProviderSortMethod(
-                          FACILITY_SORT_METHODS.distanceFromCurrentLocation,
+                        dispatch(
+                          updateCCProviderSortMethod(
+                            FACILITY_SORT_METHODS.distanceFromCurrentLocation,
+                          ),
                         );
                       }}
                     >
@@ -94,8 +98,10 @@ export default function ProviderList({
                       <button
                         className="va-button-link"
                         onClick={() =>
-                          updateCCProviderSortMethod(
-                            FACILITY_SORT_METHODS.distanceFromCurrentLocation,
+                          dispatch(
+                            updateCCProviderSortMethod(
+                              FACILITY_SORT_METHODS.distanceFromCurrentLocation,
+                            ),
                           )
                         }
                       >
@@ -135,8 +141,10 @@ export default function ProviderList({
                   type="button"
                   className="va-button-link"
                   onClick={() => {
-                    updateCCProviderSortMethod(
-                      FACILITY_SORT_METHODS.distanceFromResidential,
+                    dispatch(
+                      updateCCProviderSortMethod(
+                        FACILITY_SORT_METHODS.distanceFromResidential,
+                      ),
                     );
                   }}
                 >

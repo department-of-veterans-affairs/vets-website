@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectProviderSelectionInfo } from '../../redux/selectors';
-import { connect } from 'react-redux';
-import * as actions from '../../redux/actions';
+import { requestProvidersList } from '../../redux/actions';
 import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import SelectedProvider from './SelectedProvider';
@@ -9,20 +9,21 @@ import ProviderList from './ProviderList';
 
 const INITIAL_PROVIDER_DISPLAY_COUNT = 5;
 
-function ProviderSelectionField({
-  typeOfCareName,
-  address,
+export default function ProviderSelectionField({
   formData,
   onChange,
   idSchema,
-  requestStatus,
-  requestLocationStatus,
-  requestProvidersList,
-  communityCareProviderList,
-  updateCCProviderSortMethod,
-  currentLocation,
-  sortMethod,
 }) {
+  const dispatch = useDispatch();
+  const {
+    address,
+    communityCareProviderList,
+    currentLocation,
+    requestStatus,
+    requestLocationStatus,
+    sortMethod,
+    typeOfCareName,
+  } = useSelector(state => selectProviderSelectionInfo(state));
   const [checkedProvider, setCheckedProvider] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [showProvidersList, setShowProvidersList] = useState(false);
@@ -43,9 +44,9 @@ function ProviderSelectionField({
   useEffect(
     () => {
       if (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation) {
-        requestProvidersList(currentLocation);
+        dispatch(requestProvidersList(currentLocation));
       } else {
-        requestProvidersList(address);
+        dispatch(requestProvidersList(address));
       }
 
       if (communityCareProviderList) {
@@ -144,21 +145,6 @@ function ProviderSelectionField({
       setShowProvidersList={setShowProvidersList}
       sortMethod={sortMethod}
       typeOfCareName={typeOfCareName}
-      updateCCProviderSortMethod={updateCCProviderSortMethod}
     />
   );
 }
-
-function mapStateToProps(state) {
-  return selectProviderSelectionInfo(state);
-}
-
-const mapDispatchToProps = {
-  requestProvidersList: actions.requestProvidersList,
-  updateCCProviderSortMethod: actions.updateCCProviderSortMethod,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ProviderSelectionField);
