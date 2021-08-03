@@ -1,5 +1,5 @@
 {
-  "name": "formulate",
+  "name": "@department-of-veterans-affairs/formulate",
   "version": "0.0.1",
   "description": "Department of Veterans Affairs forms library.",
   "main": "dist/index.js",
