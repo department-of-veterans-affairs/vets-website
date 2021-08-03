@@ -71,8 +71,6 @@ contractTest('Search', 'VA.gov API', mockApi => {
 
         const [secondAction] = dispatch.secondCall.args;
         expect(secondAction.type).to.eq(FETCH_SEARCH_RESULTS_SUCCESS);
-        expect(secondAction.type).to.eq(1);
-
         expect(secondAction.results.web.results).to.have.lengthOf.at.least(1);
 
         secondAction.results.web.results.forEach(result =>
