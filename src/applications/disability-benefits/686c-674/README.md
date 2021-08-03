@@ -62,6 +62,7 @@ When the Veteran first lands on the Introduction page of the form a call is made
 
 ### Form submission
 
+
 After the Veteran fills out the form and submits the payload it is sent to `vets-api/app/controllers/v0/dependents_applications_controller.rb` on the back end. The main method we use in that controller is the `create` method, this method starts out by creating a `claim` object. The `claim` object is created with the `new` method of the `DependencyClaim`. We then check if for some reason the `claim` did not get created, meaning that the form payload has not passed our validation (more on this in a moment), we then log the error and raise an exception.
 
 After we create the claim we then process any attached documents, which are needed for some of the workflows in the form, and then using the dependents service we send the data to BGS. In addition to sending the data to BGS we also use `PDFtk` to create a PDF that we then send to VBMS. VBMS then uploads the PDF to the Veteran's eFolder (like a "my documents" folder at the VA for each Veteran). Once the claim has been submitted successfully, at this point we clear out the current saved claim data so that this claim doesn't stay in the Veteran's `save in progress` function on the form. We then render JSON to the front end.
