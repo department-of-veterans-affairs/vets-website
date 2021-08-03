@@ -184,9 +184,9 @@ export async function getBookedAppointments({
         moment(endDate).toISOString(),
       );
       // We might get partial results back from MAS, so throw an error if we do
-      if (hasPartialResults(confirmedVAAppointments[0])) {
+      if (hasPartialResults(confirmedVAAppointments)) {
         throw mapToFHIRErrors(
-          confirmedVAAppointments[0].errors,
+          confirmedVAAppointments.errors,
           'MAS returned partial results',
         );
       }

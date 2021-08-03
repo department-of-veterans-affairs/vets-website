@@ -13,6 +13,7 @@ import { captureError } from '../../utils/error';
 import { ELIGIBILITY_REASONS } from '../../utils/constants';
 import { promiseAllFromObject } from '../../utils/data';
 import { getAvailableHealthcareServices } from '../healthcare-service';
+import { getPatientMetadata } from '../vaos';
 
 /**
  * @typedef PatientEligibilityForType
@@ -156,7 +157,44 @@ export async function fetchPatientEligibility({
   typeOfCare,
   location,
   type = null,
+  useV2 = false,
 }) {
+  if (useV2) {
+    const checks = {};
+    if (type !== 'request') {
+      checks.direct = getPatientMetadata(
+        location.id,
+        typeOfCare.idV2,
+        'direct',
+      ).catch(createErrorHandler(`direct-check-metadata-error`));
+    }
+
+    if (type !== 'direct') {
+      checks.request = getPatientMetadata(
+        location.id,
+        typeOfCare.idV2,
+        'request',
+      ).catch(createErrorHandler(`request-check-metadata-error`));
+    }
+
+    const results = await promiseAllFromObject(checks);
+    const output = { direct: null, request: null };
+
+    if (results.direct instanceof Error) {
+      output.direct = new Error('Direct scheduling eligibility check error');
+    } else {
+      output.direct = results.direct || null;
+    }
+
+    if (results.request instanceof Error) {
+      output.request = new Error('Request eligibility check error');
+    } else {
+      output.request = results.request || null;
+    }
+
+    return output;
+  }
+
   return fetchPatientEligibilityFromVAR({ typeOfCare, location, type });
 }
 
@@ -278,6 +316,7 @@ export async function fetchFlowEligibilityAndClinics({
   typeOfCare,
   location,
   directSchedulingEnabled,
+  useV2 = false,
 }) {
   const directSchedulingAvailable =
     locationSupportsDirectScheduling(location, typeOfCare) &&
@@ -288,6 +327,7 @@ export async function fetchFlowEligibilityAndClinics({
       typeOfCare,
       location,
       type: !directSchedulingAvailable ? 'request' : null,
+      useV2,
     }),
   };
 
@@ -295,8 +335,9 @@ export async function fetchFlowEligibilityAndClinics({
   if (directSchedulingAvailable) {
     apiCalls.clinics = getAvailableHealthcareServices({
       facilityId: location.id,
-      typeOfCareId: typeOfCare.id,
+      typeOfCare,
       systemId: location.vistaId,
+      useV2,
     }).catch(createErrorHandler('direct-available-clinics-error'));
     apiCalls.pastAppointments = getLongTermAppointmentHistory().catch(
       createErrorHandler('direct-no-matching-past-clinics-error'),

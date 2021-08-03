@@ -5,7 +5,8 @@ import recordEvent from 'platform/monitoring/record-event';
 import { createAnalyticsSlug } from '../utils/analytics';
 
 export default function BackButton({ router }) {
-  const handleClick = () => {
+  const handleClick = e => {
+    e.preventDefault();
     const { goBack } = router;
     const path = router.location.pathname;
 
@@ -24,7 +25,7 @@ export default function BackButton({ router }) {
       >
         <ul className="row va-nav-breadcrumbs-list columns">
           <li>
-            <a href="#" onClick={handleClick} data-testid="back-button">
+            <a onClick={e => handleClick(e)} href="#" data-testid="back-button">
               Back to last screen
             </a>
           </li>
