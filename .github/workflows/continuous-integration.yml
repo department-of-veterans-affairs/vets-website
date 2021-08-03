@@ -376,36 +376,11 @@ jobs:
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}-cypress
 
-      - name: Generate directory ID for node modules
-        run: echo "NODE_ID=$(( ${{ github.run_number }} + ${{ matrix.ci_node_index }} ))" >> $GITHUB_ENV
+      # - name: Generate directory ID for node modules
+      #   run: echo "NODE_ID=$(( ${{ github.run_number }} + ${{ matrix.ci_node_index }} ))" >> $GITHUB_ENV
 
       - name: Install dependencies
-        run: |
-          YARN_CACHE_FOLDER=.cache/yarn_${{ env.NODE_ID }} yarn global add cypress@7.6.0
-
-      - name: Install dependencies
-        run: |
-          YARN_CACHE_FOLDER=.cache/yarn_${{ env.NODE_ID }} yarn global add command-line-args@3.0.1
-
-      - name: Install dependencies
-        run: |
-          YARN_CACHE_FOLDER=.cache/yarn_${{ env.NODE_ID }} yarn global add express@4.17.1
-
-      - name: Install dependencies
-        run: |
-          YARN_CACHE_FOLDER=.cache/yarn_${{ env.NODE_ID }} yarn global add express-history-api-fallback@2.0.0
-
-      - name: Install dependencies
-        run: |
-          YARN_CACHE_FOLDER=.cache/yarn_${{ env.NODE_ID }} yarn global add morgan@1.10.0
-
-      - name: Install dependencies
-        run: |
-          YARN_CACHE_FOLDER=.cache/yarn_${{ env.NODE_ID }} yarn global add find@0.3.0
-
-      - name: Install dependencies
-        run: |
-          YARN_CACHE_FOLDER=.cache/yarn_${{ env.NODE_ID }} yarn global add glob@7.1.6
+        run: yarn --cwd script/github-actions install --frozen-lockfile --prefer-offline
 
       # Cypress env vars like this are used to either override config settings
       # or be made available to tests through Cypress.env().

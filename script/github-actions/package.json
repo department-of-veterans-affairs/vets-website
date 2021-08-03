@@ -1,0 +1,12 @@
+{
+  "name": "github-actions",
+  "devDependencies": {
+    "command-line-args": "3.0.1",
+    "cypress": "7.6.0",
+    "express": "4.17.1",
+    "express-history-api-fallback": "2.0.0",
+    "find": "0.3.0",
+    "glob": "7.1.6",
+    "morgan": "1.10.0"
+  }
+}
