@@ -83,7 +83,7 @@ export default `
     </div>
     <div id="va-nav-controls"></div>
     <div class="medium-screen:vads-u-display--none usa-grid usa-grid-full">
-      <div id="menu-rule" class="usa-one-whole"></div>
+      <div class="menu-rule" class="usa-one-whole"></div>
       <div class="mega-menu"></div>
       <!-- for the mega-menu, but if you add the ID the css breaks rn -->
     </div>
@@ -93,7 +93,7 @@ export default `
   by usa-grid. Should be able to use usa-grid-full to remove padding, but that
   class now hard-codes the width. -->
   <div class="vads-u-display--none medium-screen:vads-u-display--block usa-grid usa-grid-full">
-    <div id="menu-rule" class="usa-one-whole"></div>
+    <div class="menu-rule" class="usa-one-whole"></div>
     <div class="mega-menu"></div>
   </div>
 </header>
