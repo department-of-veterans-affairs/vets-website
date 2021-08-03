@@ -161,9 +161,7 @@ describe('Schemaform <FormPage>', () => {
       />,
     );
 
-    expect(tree.subTree('ProgressButton').props.buttonText).to.equal(
-      'Continue',
-    );
+    expect(tree.subTree('FormNavButtons').props.goBack).to.equal(false);
   });
   it('should render array page', () => {
     const route = makeRoute({
