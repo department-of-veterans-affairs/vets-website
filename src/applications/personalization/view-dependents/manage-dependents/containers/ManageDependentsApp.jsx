@@ -7,7 +7,11 @@ import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
 import * as actions from '../redux/actions';
 import { SCHEMAS } from '../schemas';
-import { transformForSubmit, ServerErrorFragment } from '../utils';
+import {
+  transformForSubmit,
+  ServerErrorFragment,
+  LOADING_STATUS,
+} from '../utils';
 
 const ManageDependents = props => {
   const {
@@ -89,7 +93,7 @@ const ManageDependents = props => {
         onChange={onChange}
       >
         <div className="vads-l-row form-progress-buttons schemaform-buttons">
-          {dependentsState[stateKey].status === 'failed' && (
+          {dependentsState[stateKey].status === LOADING_STATUS.failed && (
             <ErrorMessage active>
               <ServerErrorFragment />
             </ErrorMessage>
@@ -97,9 +101,13 @@ const ManageDependents = props => {
           <LoadingButton
             className="usa-button usa-button-primary"
             aria-label="Submit VA Form 686c to remove this dependent"
-            isLoading={dependentsState[stateKey].status === 'pending'}
+            isLoading={
+              dependentsState[stateKey].status === LOADING_STATUS.pending
+            }
             loadingText="Removing dependent from award..."
-            disabled={dependentsState[stateKey].status === 'pending'}
+            disabled={
+              dependentsState[stateKey].status === LOADING_STATUS.pending
+            }
           >
             Remove dependent
           </LoadingButton>

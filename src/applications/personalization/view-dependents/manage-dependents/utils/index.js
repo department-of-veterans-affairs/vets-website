@@ -4,6 +4,12 @@ import Telephone, {
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
+export const LOADING_STATUS = {
+  failed: 'failed',
+  pending: 'pending',
+  success: 'success',
+};
+
 export const ServerErrorFragment = () => (
   <>
     <h2 className="vads-u-font-size--h3 vads-u-margin--0">

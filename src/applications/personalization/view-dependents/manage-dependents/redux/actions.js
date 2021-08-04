@@ -1,6 +1,8 @@
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
+import { LOADING_STATUS } from '../utils';
+
 export const FORM_DATA_UPDATED = 'MANAGE_DEPENDENTS_UPDATED';
 export const FORM_DATA_CLEANUP = 'MANAGE_DEPENDENTS_CLEANUP';
 export const FORM_DATA_SUBMIT_START = 'MANAGE_DEPENDENTS_SUBMIT_START';
@@ -28,7 +30,7 @@ export function submitFormData(stateKey, payload) {
   return async dispatch => {
     dispatch({
       type: FORM_DATA_SUBMIT_START,
-      status: 'pending',
+      status: LOADING_STATUS.pending,
       stateKey,
     });
     try {
@@ -49,14 +51,14 @@ export function submitFormData(stateKey, payload) {
       );
       dispatch({
         type: FORM_DATA_SUBMIT_SUCCESS,
-        status: 'success',
+        status: LOADING_STATUS.success,
         response,
         stateKey,
       });
     } catch (error) {
       dispatch({
         type: FORM_DATA_SUBMIT_FAILED,
-        status: 'failed',
+        status: LOADING_STATUS.failed,
         error,
         stateKey,
       });
