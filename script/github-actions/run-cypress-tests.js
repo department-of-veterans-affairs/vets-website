@@ -68,6 +68,13 @@ if (allMdFiles) {
   batch = allTests();
 }
 
+// eslint-disable-next-line no-console
+console.log('allMdFiles: ', allMdFiles);
+// eslint-disable-next-line no-console
+console.log('allSrcApplicationFiles: ', allSrcApplicationFiles);
+// eslint-disable-next-line no-console
+console.log('batch: ', batch);
+
 const status = runCommandSync(
   `yarn cy:run --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec '${batch}'`,
 );
