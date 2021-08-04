@@ -31,7 +31,10 @@ export default function SelectedProvider({
             recordEvent({ event: `${GA_PREFIX}-choose-provider-click` });
           }}
         >
-          <i className="fas fa-plus vads-u-padding-right--0p5" />
+          <i
+            className="fas fa-plus vads-u-padding-right--0p5"
+            aria-hidden="true"
+          />
           Choose a provider
         </button>
       )}
