@@ -70,19 +70,12 @@ for (let i = 0; i < pathsOfChangedFiles.length; i += 1) {
 }
 
 if (allMdFiles) {
-  process.exit();
+  process.exit(); // no need to run any tests
 } else if (allSrcApplicationsFiles) {
   batch = selectedTests();
 } else {
   batch = allTests();
 }
-
-// eslint-disable-next-line no-console
-console.log('allMdFiles: ', allMdFiles);
-// eslint-disable-next-line no-console
-console.log('allSrcApplicationsFiles: ', allSrcApplicationsFiles);
-// eslint-disable-next-line no-console
-console.log('batch: ', batch);
 
 const status = runCommandSync(
   `yarn cy:run --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec '${batch}'`,
