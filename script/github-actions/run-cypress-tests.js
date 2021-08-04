@@ -35,12 +35,12 @@ function selectedTests() {
     const pattern = path.join(
       __dirname,
       '../..',
-      integrationFolder,
-      `${name}/tests/**/*.cypress.spec.js?(x)`,
+      `src/applications/${name}`,
+      'tests/**/*.cypress.spec.js?(x)',
     );
 
     // eslint-disable-next-line no-console
-    console.log('pattern: ', pattern);
+    console.log('Selected tests pattern: ', pattern);
 
     const appTests = glob.sync(pattern);
 
@@ -56,6 +56,8 @@ function selectedTests() {
 
 function allTests() {
   const pattern = path.join(__dirname, '../..', integrationFolder, testFiles);
+  // eslint-disable-next-line no-console
+  console.log('All tests pattern: ', pattern);
   const tests = glob.sync(pattern);
   const divider = Math.ceil(tests.length / 8);
   return getSliceOfTests(tests, divider);
