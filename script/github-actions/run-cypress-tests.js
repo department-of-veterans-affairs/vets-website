@@ -70,7 +70,7 @@ for (let i = 0; i < pathsOfChangedFiles.length; i += 1) {
 }
 
 if (allMdFiles) {
-  batch = '';
+  process.exit();
 } else if (allSrcApplicationsFiles) {
   batch = selectedTests();
 } else {

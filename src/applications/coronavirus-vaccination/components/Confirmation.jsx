@@ -19,7 +19,7 @@ function Confirmation({ router, formData }) {
   return (
     <>
       <h1 className="no-outline" id="covid-vaccination-heading-confirmation">
-        We have received your information
+        We've received your information
       </h1>
       <p>
         Thank you for signing up to stay informed about COVID-19 vaccines at VA.

@@ -11,10 +11,6 @@ exec("find src -name '*.cypress.*.js' | tr '\n' ','", function(_err, stdout) {
     )
     .join(',');
 
-  // Making changes to this file to make all tests run
-  // eslint-disable-next-line no-console
-  console.log(divider);
-
   runCommand(
     `CYPRESS_BASE_URL=http://vets-website:3001 CYPRESS_CI=${
       process.env.CI
