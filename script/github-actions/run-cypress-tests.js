@@ -5,10 +5,13 @@ const { integrationFolder, testFiles } = require('../../config/cypress.json');
 
 // const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' '); // commented out for testing purposes
 // the following is for testing purposes
-const paths = process.env.CHANGED_FILE_PATHS;
-paths.replace('.github/workflows/continuous-integration.yml', '');
-paths.replace('script/github-actions/run-cypress-tests.js', '');
-const pathsOfChangedFiles = paths.split(' ');
+const filepaths = process.env.CHANGED_FILE_PATHS.split(' ');
+const pathsOfChangedFiles = filepaths.filter(filepath => {
+  return (
+    filepath !== '.github/workflows/continuous-integration.yml' &&
+    filepath !== 'script/github-actions/run-cypress-tests.js'
+  );
+});
 
 function getSliceOfTests(tests, divider) {
   return tests
