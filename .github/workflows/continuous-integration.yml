@@ -439,6 +439,9 @@ jobs:
         run: yarn install --frozen-lockfile --prefer-offline
         env:
           YARN_CACHE_FOLDER: .cache/yarn
+      
+      - name: Install Cypress
+        run: cypress install
 
       # - name: Generate directory ID for node modules
       #   run: echo "NODE_ID=$(( ${{ github.run_number }} + ${{ matrix.ci_node_index }} ))" >> $GITHUB_ENV
