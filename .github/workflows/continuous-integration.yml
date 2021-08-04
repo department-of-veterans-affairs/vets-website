@@ -48,7 +48,7 @@ jobs:
       - name: Install dependencies
         uses: nick-invision/retry@v2
         with:
-          command: yarn install --frozen-lockfile --prefer-offline
+          command: yarn install --frozen-lockfile --prefer-offline --production=false
           max_attempts: 3
           timeout_minutes: 5
         env:
@@ -352,16 +352,6 @@ jobs:
           mkdir -p build/vagovprod
           tar -C build/vagovprod -xjf vagovprod.tar.bz2
 
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14.17.4
-
-      # - name: Install Chrome
-      #   uses: browser-actions/setup-chrome@latest
-      #   with:
-      #     chrome-version: stable
-
       - name: Cache dependencies
         id: cache-dependencies
         uses: actions/cache@v2
@@ -371,18 +361,6 @@ jobs:
             /github/home/.cache/Cypress
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}-cypress
-
-      - name: Download node modules
-        uses: actions/download-artifact@v2
-        with:
-          name: node_modules.tar.bz2
-
-      - name: Unpack yarn files
-        run: |
-          mkdir -p .cache/yarn
-          tar -C .cache/yarn -xjf yarn_cache.tar.bz2
-          mkdir -p node_modules
-          tar -C node_modules -xjf node_modules.tar.bz2
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline --production=false
