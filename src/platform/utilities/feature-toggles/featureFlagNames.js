@@ -38,6 +38,7 @@ export default Object.freeze({
   form10182Nod: 'form10182_nod',
   gibctEybBottomSheet: 'gibctEybBottomSheet',
   gibctSchoolRatings: 'gibctSchoolRatings',
+  hlrv2: 'hlr_v2',
   languageSupport: 'language_support',
   manageDependents: 'dependents_management',
   preEntryCovid19Screener: 'preEntryCovid19Screener',
