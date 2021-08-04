@@ -82,6 +82,30 @@ export async function getSupportedHealthcareServicesAndLocations({
 
   return results.filter(item => item.resourceType === 'Location');
 }
+/**
+ * Fetches a single clinic based on the id provided from the v2 endpoints
+ *
+ * @export
+ * @param {Object} params
+ * @param {string} params.locationId The location or facility id of the clinic
+ * @param {string} params.id The clinic id
+ */
+export async function fetchHealthcareServiceById({ locationId, id }) {
+  try {
+    const results = await getClinics({
+      locationId,
+      clinicIds: [id],
+    });
+
+    return transformClinicsV2(results)[0];
+  } catch (e) {
+    if (e.errors) {
+      throw mapToFHIRErrors(e.errors);
+    }
+
+    throw e;
+  }
+}
 
 /**
  * Method to get the clinic id.

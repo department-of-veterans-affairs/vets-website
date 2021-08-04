@@ -22,7 +22,7 @@ describe('Check In Experience -- ', () => {
       window.sessionStorage.clear();
     });
   });
-  it('token is not valid', () => {
+  it('C5726 - No token provided', () => {
     const featureRoute = '/health-care/appointment-check-in/';
     cy.visit(featureRoute);
     cy.get('h1').contains('We couldn’t check you in');

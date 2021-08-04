@@ -17,7 +17,7 @@ describe('Check In Experience -- happy path', () => {
       window.sessionStorage.clear();
     });
   });
-  it('needs to update information', () => {
+  it('C5744 - Needs to update information', () => {
     const featureRoute =
       '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
     cy.visit(featureRoute);

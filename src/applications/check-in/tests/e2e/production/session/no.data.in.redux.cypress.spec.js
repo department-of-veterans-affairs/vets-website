@@ -27,7 +27,7 @@ describe('Check In Experience -- ', () => {
       window.sessionStorage.clear();
     });
   });
-  it('on page reload, the data should be pull from session storage and redirected to landing screen with data loaded', () => {
+  it('C5749 - On page reload, the data should be pull from session storage and redirected to landing screen with data loaded', () => {
     const featureRoute = '/health-care/appointment-check-in/details';
     cy.visit(featureRoute);
     // redirected back to landing page to reload the data

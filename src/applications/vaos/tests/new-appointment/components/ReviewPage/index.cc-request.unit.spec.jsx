@@ -206,6 +206,7 @@ describe('VAOS <ReviewPage> CC request', () => {
       'health-ReasonForAppointment': undefined,
       'vaos-number-of-preferred-providers': 1,
       'vaos-community-care-preferred-language': 'english',
+      'vaos-preferred-combination': 'afternoon-evening-morning',
       flow: 'cc-request',
     });
   });
