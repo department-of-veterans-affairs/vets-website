@@ -1,6 +1,6 @@
 import loa1User from '@@profile/tests/fixtures/users/user-loa1.json';
 
-import manifest from 'applications/personalization/dashboard/manifest.json';
+import manifest from '~/applications/personalization/dashboard/manifest.json';
 
 import { mockFeatureToggles } from './helpers';
 

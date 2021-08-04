@@ -1,4 +1,4 @@
-import { makeMockUser } from '@@profile/tests/fixtures/users/user.js';
+import { makeMockUser } from '@@profile/tests/fixtures/users/user';
 import dd4eduEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-enrolled.json';
 import dd4eduNotEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-not-enrolled.json';
 import pendingInESR from '@@profile/tests/fixtures/enrollment-system/pending.json';

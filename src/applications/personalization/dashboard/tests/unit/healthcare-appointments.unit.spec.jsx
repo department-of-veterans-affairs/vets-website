@@ -2,12 +2,12 @@ import React from 'react';
 import { expect } from 'chai';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 import reducers from '~/applications/personalization/dashboard/reducers';
-import HealthCare from '~/applications/personalization/dashboard-2/components/health-care/HealthCare';
+import HealthCare from '~/applications/personalization/dashboard/components/health-care/HealthCare';
 import {
   farFutureAppointments,
   upcomingCCAppointment,
   upcomingVAAppointment,
-} from '~/applications/personalization/dashboard-2/utils/appointments';
+} from '~/applications/personalization/dashboard/utils/appointments';
 
 function createInitialStateWithAppointments(appointments) {
   return {

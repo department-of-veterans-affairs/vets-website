@@ -1,16 +1,16 @@
 import moment from 'moment';
 import { mockFeatureToggles } from './helpers';
-import { mockUser } from '@@profile/tests/fixtures/users/user.js';
+import { mockUser } from '@@profile/tests/fixtures/users/user';
 
-import ERROR_400 from '~/applications/personalization/dashboard-2/utils/mocks/ERROR_400.js';
+import ERROR_400 from '~/applications/personalization/dashboard/utils/mocks/ERROR_400';
 import ERROR_500 from '@@profile/tests/fixtures/500.json';
-import PARTIAL_ERROR from '~/applications/personalization/dashboard-2/utils/mocks/appointments/MOCK_VA_APPOINTMENTS_PARTIAL_ERROR.js';
+import PARTIAL_ERROR from '~/applications/personalization/dashboard/utils/mocks/appointments/MOCK_VA_APPOINTMENTS_PARTIAL_ERROR';
 
 import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
 import {
   upcomingCCAppointment,
   upcomingVAAppointment,
-} from '~/applications/personalization/dashboard-2/utils/appointments.js';
+} from '~/applications/personalization/dashboard/utils/appointments';
 
 const alertText = /Something went wrong on our end, and we can’t access your appointment information/i;
 const startOfToday = () =>

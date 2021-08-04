@@ -9,7 +9,7 @@ import reducers from '~/applications/personalization/dashboard/reducers';
 import { daysAgo } from '@@profile/tests/helpers';
 import { wait } from '@@profile/tests/unit-test-helpers';
 
-import ClaimsAndAppeals from './ClaimsAndAppeals';
+import ClaimsAndAppeals from '../../components/claims-and-appeals/ClaimsAndAppeals';
 
 function claimsAppealsUser() {
   return {

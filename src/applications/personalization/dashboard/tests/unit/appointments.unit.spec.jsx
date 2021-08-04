@@ -2,13 +2,13 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 
-import Appointments from '~/applications/personalization/dashboard-2/components/health-care/Appointments';
+import Appointments from '~/applications/personalization/dashboard/components/health-care/Appointments';
 
 import {
   upcomingVAAppointment,
   upcomingCCAppointment,
   upcomingVideoAppointment,
-} from '~/applications/personalization/dashboard-2/utils/appointments';
+} from '~/applications/personalization/dashboard/utils/appointments';
 
 describe('Appointments', () => {
   describe('when we have an upcoming VA appointment', () => {

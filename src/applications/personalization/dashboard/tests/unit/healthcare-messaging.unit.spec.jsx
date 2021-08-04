@@ -4,7 +4,7 @@ import { mockFetch } from '~/platform/testing/unit/helpers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 import reducers from '~/applications/personalization/dashboard/reducers';
 import { wait } from '@@profile/tests/unit-test-helpers';
-import HealthCare from '~/applications/personalization/dashboard-2/components/health-care/HealthCare';
+import HealthCare from '~/applications/personalization/dashboard/components/health-care/HealthCare';
 
 describe('HealthCare component', () => {
   let view;
