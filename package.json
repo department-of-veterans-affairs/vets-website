@@ -301,7 +301,7 @@
     "jsonschema": "^1.1.1",
     "leaflet": "^1.6.0",
     "leaflet-control-geocoder": "^1.13.0",
-    "libxmljs2": "^0.26.5",
+    "libxmljs2": "^0.27.0",
     "local-storage-fallback": "^4.1.1",
     "lodash": "^4.17.21",
     "mapbox-gl": "^1.12.0",

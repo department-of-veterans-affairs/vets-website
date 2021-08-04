@@ -22,7 +22,7 @@ describe('Check In Experience -- ', () => {
       window.sessionStorage.clear();
     });
   });
-  it('token is not valid', () => {
+  it('C5724 - Token is not valid', () => {
     const featureRoute =
       '/health-care/appointment-check-in/?id=MALFORMED_TOKEN';
     cy.visit(featureRoute);
