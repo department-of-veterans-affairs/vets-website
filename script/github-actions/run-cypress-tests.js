@@ -3,7 +3,12 @@ const glob = require('glob');
 const { runCommandSync } = require('../utils');
 const { integrationFolder, testFiles } = require('../../config/cypress.json');
 
-const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
+// const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' '); // commented out for testing purposes
+// the following is for testing purposes
+const paths = process.env.CHANGED_FILE_PATHS;
+paths.replace('.github/workflows/continuous-integration.yml', '');
+paths.replace('script/github-actions/run-cypress-tests.js', '');
+const pathsOfChangedFiles = paths.split(' ');
 
 function getSliceOfTests(tests, divider) {
   return tests
@@ -49,26 +54,26 @@ function allTests() {
 }
 
 let allMdFiles = true;
-let allSrcApplicationFiles = true;
+let allSrcApplicationsFiles = true;
 let batch;
 
 for (let i = 0; i < pathsOfChangedFiles.length; i += 1) {
   if (!pathsOfChangedFiles[i].startsWith('src/applications')) {
-    allSrcApplicationFiles = false;
+    allSrcApplicationsFiles = false;
   }
 
   if (!pathsOfChangedFiles[i].endsWith('.md')) {
     allMdFiles = false;
   }
 
-  if (allMdFiles === false && allSrcApplicationFiles === false) {
+  if (allMdFiles === false && allSrcApplicationsFiles === false) {
     break;
   }
 }
 
 if (allMdFiles) {
   batch = '';
-} else if (allSrcApplicationFiles) {
+} else if (allSrcApplicationsFiles) {
   batch = selectedTests();
 } else {
   batch = allTests();
@@ -77,7 +82,7 @@ if (allMdFiles) {
 // eslint-disable-next-line no-console
 console.log('allMdFiles: ', allMdFiles);
 // eslint-disable-next-line no-console
-console.log('allSrcApplicationFiles: ', allSrcApplicationFiles);
+console.log('allSrcApplicationsFiles: ', allSrcApplicationsFiles);
 // eslint-disable-next-line no-console
 console.log('batch: ', batch);
 
