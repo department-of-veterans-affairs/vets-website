@@ -12,6 +12,7 @@ import { selectProfile } from 'platform/user/selectors';
 
 import { srSubstitute } from '../../all-claims/utils';
 import { SELECTED } from '../constants';
+import { apiVersion2 } from '../helpers';
 
 const mask = srSubstitute('●●●–●●–', 'ending with');
 
@@ -60,9 +61,9 @@ const VeteranInformation = ({
         if (
           benefitType !== formData?.benefitType ||
           !hasUnchangedContestedIssues ||
-          zipCode5 !== formData?.zipCode5
+          zipCode5 !== (formData?.zipCode5 || formData?.veteran?.zipCode5)
         ) {
-          setFormData({
+          const data = {
             ...formData,
             // Add benefitType from wizard
             benefitType: benefitType || formData.benefitType,
@@ -70,9 +71,16 @@ const VeteranInformation = ({
             // here instead of the intro page because at that point the prefill
             // or save-in-progress data would overwrite it
             contestedIssues,
+          };
+          if (apiVersion2(formData)) {
+            // This is a placeholder because version 2 will need a full address
+            data.veteran = { zipCode5 };
+          } else {
+            // used to distinguish v1 data from v2
             // used in submit transformer; needed by Lighthouse
-            zipCode5,
-          });
+            data.zipCode5 = zipCode5;
+          }
+          setFormData(data);
         }
       }
     },
