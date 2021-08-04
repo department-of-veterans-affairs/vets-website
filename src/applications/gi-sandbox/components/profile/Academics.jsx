@@ -85,8 +85,8 @@ export default function Academics({ institution, onShowModal }) {
   );
 
   const educationDetails = (
-    <div>
-      <h3>Education details</h3>
+    <div className="small-screen-font">
+      <h3 className="small-screen-font">Education details</h3>
       <hr />
       {typeOfAccreditation}
       {militaryTrainingCredit}
@@ -96,8 +96,8 @@ export default function Academics({ institution, onShowModal }) {
   );
 
   const careerScope = (
-    <div>
-      <h3>Get started with CareerScope</h3>
+    <div className="small-screen-font">
+      <h3 className="small-screen-font">Get started with CareerScope</h3>
       <hr />
       <p>
         CareerScope&reg; take career and educational planning to a new level.

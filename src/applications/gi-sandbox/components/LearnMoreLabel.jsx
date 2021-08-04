@@ -44,7 +44,7 @@ export default function LearnMoreLabel({
           id={buttonId}
           aria-label={ariaLabel}
           type="button"
-          className="va-button-link learn-more-button vads-u-margin--0"
+          className="va-button-link learn-more-button vads-u-margin--0 small-screen-font"
           onClick={onClick}
         >
           Learn more

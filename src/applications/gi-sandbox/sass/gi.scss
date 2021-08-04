@@ -224,3 +224,14 @@
     padding-bottom: 1em;
   }
 }
+
+.small-screen-font {
+  @media (max-width: $small-screen) {
+    font-size: 15px;
+  }
+}
+.small-screen-header {
+  @media (max-width: $small-screen) {
+    font-size: 17px;
+  }
+}

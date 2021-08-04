@@ -159,7 +159,9 @@ export function CalculateYourBenefits({
       {!isOJT && (
         <>
           <div className="subsection">
-            <h3>Additional information regarding your benefits</h3>
+            <h3 className="small-screen-header">
+              Additional information regarding your benefits
+            </h3>
           </div>
 
           <div className="vads-u-padding-bottom--1">
