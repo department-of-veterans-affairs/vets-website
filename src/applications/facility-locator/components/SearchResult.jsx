@@ -10,7 +10,7 @@ export const urgentCareCall = query => {
     <p>
       {' '}
       Before going to a clinic for urgent care, please call the facility to
-      confirm that it’s open and able to provide the care you need.{' '}
+      confirm that it's open and able to provide the care you need.{' '}
     </p>
   );
 
