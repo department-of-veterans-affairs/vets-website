@@ -20,6 +20,9 @@ function selectedTests() {
     return filePath.split('/')[2];
   });
 
+  // eslint-disable-next-line no-console
+  console.log('applicationNames: ', applicationNames);
+
   [...new Set(applicationNames)].forEach(name => {
     const pattern = path.join(
       __dirname,
@@ -29,6 +32,9 @@ function selectedTests() {
     );
 
     tests.push(...glob.sync(pattern));
+
+    // eslint-disable-next-line no-console
+    console.log('Contents of tests array on each app name iteration: ', tests);
   });
 
   const divider = Math.ceil(tests.length / 8);
