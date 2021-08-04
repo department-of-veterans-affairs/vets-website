@@ -156,12 +156,8 @@ export function getDateTimeSelect(state, pageKey) {
   const availableSlots = newAppointment.availableSlots;
   const eligibilityStatus = selectEligibility(state);
 
-  const timezoneDescription = data.vaFacility
-    ? getTimezoneDescByFacilityId(data.vaFacility)
-    : null;
-  const timezone = data.vaFacility
-    ? getTimezoneByFacilityId(data.vaFacility)
-    : {};
+  const timezoneDescription = getTimezoneDescByFacilityId(data.vaFacility);
+  const timezone = getTimezoneByFacilityId(data.vaFacility);
   const typeOfCareId = getTypeOfCare(data)?.id;
 
   return {

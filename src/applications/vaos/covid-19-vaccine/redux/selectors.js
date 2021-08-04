@@ -62,12 +62,8 @@ export function getDateTimeSelect(state, pageKey) {
   const formInfo = getCovid19VaccineFormPageInfo(state, pageKey);
   const availableSlots = newBooking.availableSlots;
 
-  const timezoneDescription = data.vaFacility
-    ? getTimezoneDescByFacilityId(data.vaFacility)
-    : null;
-  const timezone = data.vaFacility
-    ? getTimezoneByFacilityId(data.vaFacility)
-    : {};
+  const timezoneDescription = getTimezoneDescByFacilityId(data.vaFacility);
+  const timezone = getTimezoneByFacilityId(data.vaFacility);
 
   return {
     ...formInfo,
