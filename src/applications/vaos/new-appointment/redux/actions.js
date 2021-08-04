@@ -586,15 +586,22 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
       let mappedSlots = [];
       dispatch({ type: FORM_CALENDAR_FETCH_SLOTS });
 
+      const startDateTime = featureVAOSServiceRequests
+        ? moment(startDate).format('YYYY-MM-DDTHH:mm:ssZ')
+        : startDate;
+      const endDateTime = featureVAOSServiceRequests
+        ? moment(endDate).format('YYYY-MM-DDTHH:mm:ssZ')
+        : endDate;
+
       try {
         const startDateString = !fetchedStartMonth
-          ? startDate
+          ? startDateTime
           : moment(endDate)
               .startOf('month')
               .format('YYYY-MM-DDTHH:mm:ssZ');
         const endDateString = !fetchedEndMonth
-          ? endDate
-          : moment(startDate)
+          ? endDateTime
+          : moment(startDateTime)
               .endOf('month')
               .format('YYYY-MM-DDTHH:mm:ssZ');
 
