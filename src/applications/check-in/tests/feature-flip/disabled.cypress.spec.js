@@ -9,7 +9,7 @@ describe('Check In Experience -- ', () => {
       window.sessionStorage.clear();
     });
   });
-  it('feature is disabled', () => {
+  it('C5740 - Feature is disabled', () => {
     const featureRoute =
       '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
     cy.visit(featureRoute);

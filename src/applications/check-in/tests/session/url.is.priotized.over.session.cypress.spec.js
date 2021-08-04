@@ -27,7 +27,7 @@ describe('Check In Experience -- ', () => {
       window.sessionStorage.clear();
     });
   });
-  it('url is prioritized over session data', () => {
+  it('C5757 - Url is prioritized over session data', () => {
     cy.window().then(window => {
       const data = window.sessionStorage.getItem(
         'health.care.check-in.current.uuid',
