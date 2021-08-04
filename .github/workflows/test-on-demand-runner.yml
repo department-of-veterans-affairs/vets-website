@@ -30,6 +30,7 @@ jobs:
           echo "RUNNER_AMI_ID=$(aws ec2 describe-images \
           --owners 008577686731 \
           --filters Name=name,Values=packer-gha-runner-ubuntu2004* \
+          --filters Name=state,Values=available \
           --query 'sort_by(Images,&CreationDate)[-1].ImageId' \
           --output text)" >> $GITHUB_ENV
 

@@ -47,7 +47,6 @@ import {
   fetchEDUPaymentInformation as fetchEDUPaymentInformationAction,
 } from '@@profile/actions/paymentInformation';
 
-import { selectShowDashboard2 } from '~/applications/personalization/dashboard-2/selectors';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
 
 import getRoutes from '../routes';
@@ -277,11 +276,6 @@ const mapStateToProps = state => {
   const isEligibleToSetUpCNP = cnpDirectDepositAddressIsSetUp(state);
   const is2faEnabled = isMultifactorEnabled(state);
 
-  const LSDashboardVersion = localStorage.getItem('DASHBOARD_VERSION');
-  const LSDashboard1 = LSDashboardVersion === '1';
-  const LSDashboard2 = LSDashboardVersion === '2';
-  const FFDashboard2 = selectShowDashboard2(state);
-
   const shouldFetchCNPDirectDepositInformation =
     isEvssAvailable && is2faEnabled;
   const shouldFetchEDUDirectDepositInformation = is2faEnabled;
@@ -289,8 +283,7 @@ const mapStateToProps = state => {
   const isLOA1 = isLOA1Selector(state);
   const isLOA3 = isLOA3Selector(state);
 
-  const shouldFetchTotalDisabilityRating =
-    isLOA3 && (LSDashboard2 || (FFDashboard2 && !LSDashboard1));
+  const shouldFetchTotalDisabilityRating = isLOA3;
 
   // this piece of state will be set if the call to load military info succeeds
   // or fails:
