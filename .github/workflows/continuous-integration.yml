@@ -563,11 +563,7 @@ jobs:
           node-version: 14 # ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
       - name: Install dependencies
-        uses: nick-invision/retry@v2
-        with:
-          command: yarn install --frozen-lockfile --prefer-offline --production=false
-          max_attempts: 3
-          timeout_minutes: 5
+        run: yarn install --frozen-lockfile --prefer-offline --production=false
         env:
           YARN_CACHE_FOLDER: .cache/yarn
         working-directory: testing-tools-team-dashboard-data
