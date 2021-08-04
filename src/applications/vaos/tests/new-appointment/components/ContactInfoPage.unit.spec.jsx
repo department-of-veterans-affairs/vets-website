@@ -119,11 +119,13 @@ describe('VAOS <ContactInfoPage>', () => {
     await screen.findByText(/^Continue/);
     expect(screen.getByLabelText(/phone number/i).value).to.equal('5555555559');
     expect(screen.getByLabelText(/email/i).value).to.equal('test@va.gov');
-    expect(window.dataLayer).to.deep.include({
-      event: 'vaos-contact-info-email-populated',
-    });
-    expect(window.dataLayer).to.deep.include({
-      event: 'vaos-contact-info-phone-populated',
+    await waitFor(() => {
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-contact-info-email-populated',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-contact-info-phone-populated',
+      });
     });
 
     userEvent.click(screen.getByLabelText(/^Morning \(8:00 a.m. – noon\)/));

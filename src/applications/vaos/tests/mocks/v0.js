@@ -23,7 +23,7 @@ export function getVAAppointmentMock() {
       clinicFriendlyName: 'Fake',
       clinicId: 'fake',
       facilityId: 'fake',
-      sta6aid: 'fake',
+      sta6aid: null,
       communityCare: false,
       phoneOnly: false,
       vdsAppointments: [

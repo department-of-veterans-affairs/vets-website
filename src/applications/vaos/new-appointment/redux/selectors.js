@@ -4,8 +4,8 @@ import {
 } from 'platform/user/selectors';
 
 import {
-  getTimezoneBySystemId,
-  getTimezoneDescBySystemId,
+  getTimezoneByFacilityId,
+  getTimezoneDescByFacilityId,
 } from '../../utils/timezone';
 import {
   FACILITY_TYPES,
@@ -155,12 +155,13 @@ export function getDateTimeSelect(state, pageKey) {
   const formInfo = getFormPageInfo(state, pageKey);
   const availableSlots = newAppointment.availableSlots;
   const eligibilityStatus = selectEligibility(state);
-  const systemId = getSiteIdForChosenFacility(state);
 
-  const timezoneDescription = systemId
-    ? getTimezoneDescBySystemId(systemId)
+  const timezoneDescription = data.vaFacility
+    ? getTimezoneDescByFacilityId(data.vaFacility)
     : null;
-  const { timezone = null } = systemId ? getTimezoneBySystemId(systemId) : {};
+  const timezone = data.vaFacility
+    ? getTimezoneByFacilityId(data.vaFacility)
+    : {};
   const typeOfCareId = getTypeOfCare(data)?.id;
 
   return {
