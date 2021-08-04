@@ -129,7 +129,7 @@ export default function RequestedAppointmentDetailsPage() {
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isCC = appointment.vaos.isCommunityCare;
-  const typeOfVisit = appointment.vaos.requestVisitType;
+  const typeOfVisit = appointment.requestVisitType;
   const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
   const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];

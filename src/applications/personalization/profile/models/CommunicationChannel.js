@@ -52,6 +52,7 @@ class CommunicationChannel {
           },
         },
       },
+      isAllowed: allowed,
     };
   }
 
