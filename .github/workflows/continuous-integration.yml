@@ -38,8 +38,8 @@ jobs:
         uses: tj-actions/changed-files@v9.1
         with:
           # base_sha: ${{ github.sha }} # nope, not correct
-          # base_sha: ${{ github.event.pull_request.head.sha }} # nope, not correct
-          base_sha: ${{ github.event.pull_request.base.sha }}
+          base_sha: ${{ github.event.pull_request.head.sha }}
+          # base_sha: ${{ github.event.pull_request.base.sha }} # nope, not correct
 
       - name: List all modified files
         run: |
