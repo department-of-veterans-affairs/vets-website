@@ -4,6 +4,7 @@ import { MHV_ACCOUNT_TYPES } from './constants';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import { rootUrl as addRemoveDependentsUrl } from 'applications/disability-benefits/686c-674/manifest.json';
 import { rootUrl as hearingAidSuppliesUrl } from 'applications/disability-benefits/2346/manifest.json';
+import { rootUrl as higherLevelReviewUrl } from 'applications/disability-benefits/996/manifest.json';
 import { rootUrl as viewDependentsUrl } from 'applications/personalization/view-dependents/manifest.json';
 import { rootUrl as viewPaymentHistoryUrl } from 'applications/disability-benefits/view-payments/manifest.json';
 
@@ -17,6 +18,7 @@ export const CTA_WIDGET_TYPES = {
   GI_BILL_BENEFITS: 'gi-bill-benefits',
   HEALTH_RECORDS: 'health-records',
   HEARING_AID_SUPPLIES: 'hearing-aid-supplies',
+  HIGHER_LEVEL_REVIEW: 'higher-level-review',
   LAB_AND_TEST_RESULTS: 'lab-and-test-results',
   LETTERS: 'letters',
   MANAGE_VA_DEBT: 'manage-va-debt',
@@ -140,6 +142,17 @@ export const ctaWidgetsLookup = {
     mhvToolName: null,
     requiredServices: null,
     serviceDescription: 'order hearing aid supplies',
+  },
+  [CTA_WIDGET_TYPES.HIGHER_LEVEL_REVIEW]: {
+    id: CTA_WIDGET_TYPES.HIGHER_LEVEL_REVIEW,
+    deriveToolUrlDetails: () => ({
+      url: higherLevelReviewUrl,
+      redirect: false,
+    }),
+    isHealthTool: false,
+    mhvToolName: null,
+    requiredServices: null,
+    serviceDescription: 'request a Higher-Level Review',
   },
   [CTA_WIDGET_TYPES.LAB_AND_TEST_RESULTS]: {
     id: CTA_WIDGET_TYPES.LAB_AND_TEST_RESULTS,
