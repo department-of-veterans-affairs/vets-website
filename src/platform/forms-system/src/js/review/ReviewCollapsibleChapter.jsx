@@ -255,10 +255,17 @@ class ReviewCollapsibleChapter extends React.Component {
   };
 
   getCustomPageContent = (page, props, editing) => {
+    // TODO: Figure out how to get the page per item index—is it just page.index?
+    // TODO: Figure out how to get the formContext
     if (editing) {
       return (
         <page.CustomPage
+          name={page.pageKey}
+          title={page.title}
+          trackingPrefix={props.form.trackingPrefix}
+          uploadFile={props.uploadFile}
           onReviewPage
+          data={props.form.data}
           updatePage={({ formData }) =>
             this.handleSubmit(
               formData,
