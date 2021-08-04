@@ -12,7 +12,7 @@ exec("find src -name '*.cypress.*.js' | tr '\n' ','", function(_err, stdout) {
     .join(',');
 
   runCommand(
-    `CYPRESS_BASE_URL=http://localhost:3001 CYPRESS_CI=${
+    `CYPRESS_BASE_URL=http://vets-website:3001 CYPRESS_CI=${
       process.env.CI
     } XDG_CONFIG_HOME=/tmp/cyhome${
       process.env.STEP
