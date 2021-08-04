@@ -10,9 +10,8 @@ describe('User Nav Test', () => {
     cy.login();
     cy.visit('/my-va');
     cy.title().should('contain', 'My VA | Veterans Affairs');
-    Cypress.on('uncaught:exception', () => {
-      return false;
-      // expect(err.message).to.include('Network request failed');
+    Cypress.on('uncaught:exception', err => {
+      expect(err.message).to.include('Network request failed');
       // As Cypress does not permit cross browser testing in the same spec, we expect a network error when making a network request that travels cross-origin.
     });
 
@@ -25,12 +24,7 @@ describe('User Nav Test', () => {
           .and('contain', 'Sign Out')
           .then(signOutButton => {
             cy.wrap(signOutButton).click();
-            cy.url().then(url => {
-              expect(url).to.contain.oneOf([
-                'chrome-error://chromewebdata',
-                '/sessions/slo/new/',
-              ]);
-            });
+            cy.url().should('contain', 'chrome-error://chromewebdata/');
             // As Cypress does not permit cross browser testing in the same spec, we expect after the attempt at browsing, that we will receive a chrome error.
           });
       });
