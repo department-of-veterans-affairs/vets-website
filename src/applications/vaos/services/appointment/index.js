@@ -113,53 +113,98 @@ function hasPartialResults(response) {
  * @async
  * @param {String} startDate Date in YYYY-MM-DD format
  * @param {String} endDate Date in YYYY-MM-DD format
- * @param {Boolean} useV2 Toggle fetching appointments via VAOS api services version 2
+ * @param {Boolean} useV2VA Toggle fetching VA appointments via VAOS api services version 2
+ * @param {Boolean} useV2CC Toggle fetching CC appointments via VAOS api services version 2
  * @returns {Appointment[]} A FHIR searchset of booked Appointment resources
  */
 export async function getBookedAppointments({
   startDate,
   endDate,
-  useV2 = false,
+  useV2VA = false,
+  useV2CC = false,
 }) {
   try {
-    if (useV2) {
-      const appointments = await getAppointments(startDate, endDate, [
+    const appointments = [];
+    if (useV2VA || useV2CC) {
+      const allAppointments = await getAppointments(startDate, endDate, [
         'booked',
         'cancelled',
       ]);
 
-      const appointmentsWithoutRequests = appointments.filter(
-        appt => !appt.requestedPeriods,
-      );
+      const filteredAppointments = allAppointments.filter(appt => {
+        if (
+          (!useV2VA && appt.kind !== 'cc') ||
+          (!useV2CC && appt.kind === 'cc')
+        ) {
+          return false;
+        }
+        return !appt.requestedPeriods;
+      });
+      appointments.push(...transformVAOSAppointments(filteredAppointments));
 
-      return transformVAOSAppointments(appointmentsWithoutRequests);
+      if (useV2VA && useV2CC) {
+        return appointments;
+      }
     }
 
-    const appointments = await Promise.all([
-      getConfirmedAppointments(
+    if (!useV2VA && !useV2CC) {
+      const allAppointments = await Promise.all([
+        getConfirmedAppointments(
+          'va',
+          moment(startDate).toISOString(),
+          moment(endDate).toISOString(),
+        ),
+        getConfirmedAppointments(
+          'cc',
+          moment(startDate).toISOString(),
+          moment(endDate).toISOString(),
+        ),
+      ]);
+
+      // We might get partial results back from MAS, so throw an error if we do
+      if (hasPartialResults(allAppointments[0])) {
+        throw mapToFHIRErrors(
+          allAppointments[0].errors,
+          'MAS returned partial results',
+        );
+      }
+
+      appointments.push(
+        ...transformConfirmedAppointments([
+          ...allAppointments[0].data,
+          ...allAppointments[1].data,
+        ]),
+      );
+
+      return appointments;
+    } else if (!useV2VA) {
+      const confirmedVAAppointments = await getConfirmedAppointments(
         'va',
         moment(startDate).toISOString(),
         moment(endDate).toISOString(),
-      ),
-      getConfirmedAppointments(
+      );
+      // We might get partial results back from MAS, so throw an error if we do
+      if (hasPartialResults(confirmedVAAppointments)) {
+        throw mapToFHIRErrors(
+          confirmedVAAppointments.errors,
+          'MAS returned partial results',
+        );
+      }
+      appointments.push(
+        ...transformConfirmedAppointments(confirmedVAAppointments.data),
+      );
+    } else if (!useV2CC) {
+      const confirmedCCAppointments = await getConfirmedAppointments(
         'cc',
         moment(startDate).toISOString(),
         moment(endDate).toISOString(),
-      ),
-    ]);
-
-    // We might get partial results back from MAS, so throw an error if we do
-    if (hasPartialResults(appointments[0])) {
-      throw mapToFHIRErrors(
-        appointments[0].errors,
-        'MAS returned partial results',
+      );
+      appointments.push(
+        ...transformConfirmedAppointments(confirmedCCAppointments.data),
       );
     }
 
-    return transformConfirmedAppointments([
-      ...appointments[0].data,
-      ...appointments[1].data,
-    ]);
+    return appointments;
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
@@ -243,6 +288,7 @@ export async function fetchRequestById({ id, useV2 }) {
  * @async
  * @param {string} id MAS or community care booked appointment id
  * @param {'cc'|'va'} type Type of appointment that is being fetched
+ * @param {Boolean} useV2 Toggle fetching VA or CC appointment via VAOS api services version 2
  * @returns {Appointment} A transformed appointment with the given id
  */
 export async function fetchBookedAppointment({ id, type, useV2 = false }) {

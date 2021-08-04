@@ -98,7 +98,7 @@ export default function VAFacilityPageV2() {
   if (singleValidVALocation) {
     pageTitle = 'Your appointment location';
   } else if (showVariant) {
-    pageTitle = 'Choose a VA Location';
+    pageTitle = 'Choose a VA location';
   } else {
     pageTitle = `Choose a VA location for your ${lowerCase(
       typeOfCare?.name,
