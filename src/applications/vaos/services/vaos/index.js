@@ -1,3 +1,4 @@
+import appendQuery from 'append-query';
 import { apiRequestWithUrl, parseApiList, parseApiObject } from '../utils';
 
 export function postAppointment(appointment) {
@@ -39,6 +40,28 @@ export function getFacilities(ids, children = false) {
       .map(id => `ids[]=${id}`)
       .join('&')}`,
   ).then(parseApiList);
+}
+
+export function getClinics({ locationId, clinicIds, typeOfCareId }) {
+  const url = `/vaos/v2/locations/${locationId}/clinics`;
+  return apiRequestWithUrl(
+    appendQuery(
+      url,
+      // eslint-disable-next-line camelcase
+      { clinic_ids: clinicIds, clinical_service: typeOfCareId },
+      { removeNull: true },
+    ),
+  ).then(parseApiList);
+}
+
+export function getPatientMetadata(locationId, typeOfCareId, schedulingType) {
+  return apiRequestWithUrl(
+    `/vaos/v2/patient?facility_id=${locationId}&clinical_service_id=${typeOfCareId}&type=${schedulingType}`,
+  ).then(parseApiObject);
+}
+
+export function getFacilityById(id) {
+  return apiRequestWithUrl(`/vaos/v2/facilities/${id}`).then(parseApiObject);
 }
 
 export function getSchedulingConfigurations(locationIds, ccEnabled = null) {
