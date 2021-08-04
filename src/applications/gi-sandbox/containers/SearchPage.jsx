@@ -13,6 +13,7 @@ import NameSearchForm from './search/NameSearchForm';
 import LocationSearchForm from './search/LocationSearchForm';
 import AccordionItem from '../components/AccordionItem';
 import { getSearchQueryChanged } from '../selectors/search';
+import classNames from 'classnames';
 
 export function SearchPage({
   dispatchChangeSearchTab,
@@ -23,7 +24,7 @@ export function SearchPage({
 }) {
   const queryParams = useQueryParams();
   const history = useHistory();
-  const { tab, error } = search;
+  const { tab, error, query } = search;
   const [smallScreen, setSmallScreen] = useState(
     matchMedia('(max-width: 480px)').matches,
   );
@@ -79,9 +80,14 @@ export function SearchPage({
     tabChange(selectedAccordion);
   };
 
+  const searchPageClasses = classNames('row', {
+    'no-name-results':
+      tab === TABS.name && (query.name === '' || query.name === null),
+  });
+
   return (
     <span className="search-page">
-      <div className="vads-u-min-height--viewport row">
+      <div className={searchPageClasses}>
         <div className="column medium-screen:vads-u-padding-bottom--2 small-screen:vads-u-padding-bottom--0 vads-u-padding-x--0">
           {!smallScreen && <SearchTabs onChange={tabChange} search={search} />}
           {error && (
