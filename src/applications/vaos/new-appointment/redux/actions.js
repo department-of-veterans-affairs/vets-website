@@ -564,7 +564,6 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
 
     const startDateMonth = moment(startDate).format('YYYY-MM');
     const endDateMonth = moment(endDate).format('YYYY-MM');
-
     const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(state);
 
     let fetchedAppointmentSlotMonths = [];
@@ -586,24 +585,17 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
       let mappedSlots = [];
       dispatch({ type: FORM_CALENDAR_FETCH_SLOTS });
 
-      const startDateTime = featureVAOSServiceRequests
-        ? moment(startDate).format('YYYY-MM-DDTHH:mm:ssZ')
-        : startDate;
-      const endDateTime = featureVAOSServiceRequests
-        ? moment(endDate).format('YYYY-MM-DDTHH:mm:ssZ')
-        : endDate;
-
       try {
         const startDateString = !fetchedStartMonth
-          ? startDateTime
+          ? startDate
           : moment(endDate)
               .startOf('month')
-              .format('YYYY-MM-DDTHH:mm:ssZ');
+              .format('YYYY-MM-DD');
         const endDateString = !fetchedEndMonth
-          ? endDateTime
-          : moment(startDateTime)
+          ? endDate
+          : moment(startDate)
               .endOf('month')
-              .format('YYYY-MM-DDTHH:mm:ssZ');
+              .format('YYYY-MM-DD');
 
         const fetchedSlots = await getSlots({
           siteId,

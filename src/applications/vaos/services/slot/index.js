@@ -6,6 +6,7 @@ import { getAvailableV2Slots } from '../vaos';
 import { mapToFHIRErrors } from '../utils';
 import { transformSlots } from './transformers';
 import { transformV2Slots } from './transformers.v2';
+import moment from 'moment';
 
 /**
  * @summary
@@ -46,8 +47,8 @@ export async function getSlots({
       data = await getAvailableV2Slots(
         siteId,
         clinicId.split('_')[1],
-        startDate,
-        endDate,
+        moment(startDate).format(),
+        moment(endDate).format(),
       );
       return transformV2Slots(data || []);
     } else {
