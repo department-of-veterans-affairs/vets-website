@@ -265,10 +265,10 @@ const responses = {
     });
   },
   'GET /vaos/v2/locations/:id/clinics': (req, res) => {
-    if (req.params.clinic_ids) {
+    if (req.query.clinic_ids) {
       return res.json({
         data: clinicsV2.data.filter(clinic =>
-          req.params.clinic_ids.includes(clinic.id),
+          req.query.clinic_ids.includes(clinic.id),
         ),
       });
     }
