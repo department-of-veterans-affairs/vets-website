@@ -30,9 +30,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        
-      - name: List changed files
-        run: git diff --name-only origin/master...
 
       - name: Get Node version
         id: get-node-version
