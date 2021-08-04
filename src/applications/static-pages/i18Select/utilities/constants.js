@@ -17,11 +17,6 @@ export const TRANSLATABLE_LINKS = new Set(
   }, []),
 );
 
-export const LANGS_TO_LINK_SUFFIXES = {
-  es: '-esp/',
-  tl: '-tag/',
-};
-
 export const DEFAULT_LANGUAGE = {
   label: 'English',
   code: 'en',

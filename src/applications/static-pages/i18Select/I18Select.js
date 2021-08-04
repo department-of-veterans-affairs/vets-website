@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import { onThisPageHook } from './hooks';
+import { setOnThisPageText } from './utilities/helpers';
 import { connect } from 'react-redux';
 import { ALL_LANGUAGES } from './utilities/constants';
 
 const I18Select = ({ baseUrls, languageCode }) => {
   useEffect(
     () => {
-      onThisPageHook(languageCode);
+      setOnThisPageText(languageCode);
     },
     [languageCode],
   );
