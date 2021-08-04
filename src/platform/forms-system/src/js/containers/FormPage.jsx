@@ -11,6 +11,7 @@ import SchemaForm from '../components/SchemaForm';
 import { setData, uploadFile } from '../actions';
 import { getNextPagePath, getPreviousPagePath } from '../routing';
 import { focusElement } from '../utilities/ui';
+import { isReactComponent } from '~/platform/utilities/ui';
 
 function focusForm() {
   focusElement('.nav-header > h2');
@@ -149,7 +150,7 @@ class FormPage extends React.Component {
     // Bypass the SchemaForm and render the custom component
     // NOTE: I don't think FormPage is rendered on the review page, so I believe
     // onReviewPage will always be false here
-    if (typeof route.pageConfig.CustomPage === 'function') {
+    if (isReactComponent(route.pageConfig.CustomPage)) {
       return (
         <div className={pageClasses}>
           <route.pageConfig.CustomPage
