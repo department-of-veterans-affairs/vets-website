@@ -1,6 +1,6 @@
 import features from '../mocks/enabled.json';
-import mockCheckIn from '../../api/local-mock-api/mocks/check.in.response';
-import mockValidate from '../../api/local-mock-api/mocks/validate.responses';
+import mockCheckIn from '../../../../api/local-mock-api/mocks/check.in.response';
+import mockValidate from '../../../../api/local-mock-api/mocks/validate.responses';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {

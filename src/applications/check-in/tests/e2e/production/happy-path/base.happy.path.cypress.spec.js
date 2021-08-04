@@ -1,7 +1,7 @@
 import features from '../mocks/enabled.json';
 
-import mockCheckIn from '../../api/local-mock-api/mocks/check.in.response';
-import mockValidate from '../../api/local-mock-api/mocks/validate.responses';
+import mockCheckIn from '../../../../api/local-mock-api/mocks/check.in.response';
+import mockValidate from '../../../../api/local-mock-api/mocks/validate.responses';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
@@ -18,16 +18,20 @@ describe('Check In Experience -- ', () => {
       window.sessionStorage.clear();
     });
   });
-  it('back button from staff page', () => {
+  it('happy path', () => {
     const featureRoute =
       '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
     cy.visit(featureRoute);
     cy.get('legend > h2').contains('information');
-
-    cy.get('[data-testid="yes-button"]').click();
-    cy.get('h1').contains('staff member');
-
-    cy.get('[data-testid="back-button"]').click();
-    cy.get('legend > h2').contains('information');
+    cy.injectAxe();
+    cy.axeCheck();
+    cy.get('[data-testid="no-button"]').click();
+    cy.get('h1').contains('Your appointment');
+    cy.injectAxe();
+    cy.axeCheck();
+    cy.get('.usa-button').click();
+    cy.get('va-alert > h1').contains('checked in');
+    cy.injectAxe();
+    cy.axeCheck();
   });
 });

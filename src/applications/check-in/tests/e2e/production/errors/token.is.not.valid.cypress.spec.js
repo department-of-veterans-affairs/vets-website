@@ -1,6 +1,6 @@
 import features from '../mocks/enabled.json';
-import mockCheckIn from '../../api/local-mock-api/mocks/check.in.response';
-import mockValidate from '../../api/local-mock-api/mocks/validate.responses';
+import mockCheckIn from '../../../../api/local-mock-api/mocks/check.in.response';
+import mockValidate from '../../../../api/local-mock-api/mocks/validate.responses';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
@@ -23,7 +23,8 @@ describe('Check In Experience -- ', () => {
     });
   });
   it('token is not valid', () => {
-    const featureRoute = '/health-care/appointment-check-in/';
+    const featureRoute =
+      '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
     cy.visit(featureRoute);
     cy.get('h1').contains('We couldn’t check you in');
   });
