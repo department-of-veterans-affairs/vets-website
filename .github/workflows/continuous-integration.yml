@@ -316,10 +316,91 @@ jobs:
         if: ${{ always() }}
         run: node ./script/github-actions/stylelint-annotation-format.js
 
+  cypress-tests-prep:
+    name: Prep for Cypress Tests
+    runs-on: ubuntu-latest
+    outputs:
+      containers1: ${{ steps.containers1.outputs.matrix-array }}
+      containers2: ${{ steps.containers2.outputs.matrix-array }}
+      containers3: ${{ steps.containers3.outputs.matrix-array }}
+      containers4: ${{ steps.containers4.outputs.matrix-array }}
+      containers5: ${{ steps.containers5.outputs.matrix-array }}
+      containers6: ${{ steps.containers6.outputs.matrix-array }}
+      containers7: ${{ steps.containers7.outputs.matrix-array }}
+      containers8: ${{ steps.containers8.outputs.matrix-array }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            .cache/yarn
+            node_modules
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
+
+      - name: List changed files
+        id: changed-files
+        run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+
+      - name: Get number of containers needed
+        run: node script/github-actions/cypress-get-num-containers-needed.js
+        env:
+          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+
+      - name: Use 1 container
+        id: containers1
+        run: echo ::set-output name=matrix-array::$(echo [0])
+
+      - name: Use 2 containers
+        id: containers2
+        run: echo ::set-output name=matrix-array::$(echo [0, 1])
+
+      - name: Use 3 containers
+        id: containers3
+        run: echo ::set-output name=matrix-array::$(echo [0, 1, 2])
+
+      - name: Use 4 containers
+        id: containers4
+        run: echo ::set-output name=matrix-array::$(echo [0, 1, 2, 3])
+
+      - name: Use 5 containers
+        id: containers5
+        run: echo ::set-output name=matrix-array::$(echo [0, 1, 2, 3, 4])
+
+      - name: Use 6 containers
+        id: containers6
+        run: echo ::set-output name=matrix-array::$(echo [0, 1, 2, 3, 4, 5])
+
+      - name: Use 7 containers
+        id: containers7
+        run: echo ::set-output name=matrix-array::$(echo [0, 1, 2, 3, 4, 5, 6])
+
+      - name: Use 8 containers
+        id: containers8
+        run: echo ::set-output name=matrix-array::$(echo [0, 1, 2, 3, 4, 5, 6, 7])
+
   cypress-tests:
     name: Cypress E2E Tests
     runs-on: self-hosted
-    needs: build
+    needs: [cypress-tests-prep, build]
     container:
       image: public.ecr.aws/cypress-io/cypress/browsers:node14.16.0-chrome89-ff77
       options: -u 1001:1001 -v /usr/local/share:/share
@@ -338,7 +419,7 @@ jobs:
       - name: Checkout vets-website
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # woops, i don't think i need this anymore
 
       - name: Download production build artifact
         uses: actions/download-artifact@v2
