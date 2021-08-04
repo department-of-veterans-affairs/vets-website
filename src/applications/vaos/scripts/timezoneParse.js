@@ -5,13 +5,16 @@
  * 1. Download https://coderepo.mobilehealth.va.gov/projects/VDMS/repos/mobile-facility-service/browse/mobile-facility-service/src/main/resources/Sta6aid-TimezoneId.csv
  * 2. Run node timezoneParse.js <path to file>
  * 
- * Output will be in timezone.json. You can replace the utils/timezones.json file with the output, but
- * you'll need to preserve the last three entries for 983, 984, and 612
+ * Output will be in timezone.json.
  */
 const fs = require('fs');
 
 const timezoneList = fs.readFileSync(process.argv[2], 'utf8').split('\n');
-const timezoneMap = {};
+const timezoneMap = {
+  '983': 'America/Denver',
+  '984': 'America/Denver',
+  '612': 'America/Los_Angeles',
+};
 
 for (const pair of timezoneList) {
   const [facility, zone] = pair.split(',', 2);
