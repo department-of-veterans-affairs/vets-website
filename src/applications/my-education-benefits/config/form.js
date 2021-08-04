@@ -15,7 +15,6 @@ import FormFooter from 'platform/forms/components/FormFooter';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-// import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 // import bankAccountUI from 'platform/forms-system/src/js/definitions/bankAccount';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
@@ -26,7 +25,7 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 // import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 // eslint-disable-next-line no-unused-vars
 import * as address from 'platform/forms-system/src/js/definitions/address';
-// import fullSchema from 'vets-json-schema/dist/22-1990-schema.json';
+import fullSchema from 'vets-json-schema/dist/22-1990-schema.json';
 
 import manifest from '../manifest.json';
 
@@ -55,9 +54,7 @@ import {
 
 // const { } = fullSchema.definitions;
 
-// import toursOfDutyUI from '../definitions/toursOfDuty';
-import { directDepositWarning } from '../helpers';
-import EmailViewField from '../components/EmailViewField';
+// import { directDepositWarning } from '../helpers';
 
 const {
   fullName,
@@ -234,7 +231,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [formFields.fullName],
+            required: [formFields.veteranFullName],
             properties: {
               'view:subHeadings': {
                 type: 'object',
@@ -620,6 +617,54 @@ const formConfig = {
             benefitSelection: '',
           },
         },
+        // [formPages.directDeposit]: {
+        //   path: 'direct-deposit',
+        //   title: 'Direct Deposit',
+        //   uiSchema: {
+        //     'ui:title': 'Direct deposit',
+        //     [formFields.viewNoDirectDeposit]: {
+        //       'ui:title': 'I don’t want to use direct deposit',
+        //     },
+        //     [formFields.bankAccount]: _.merge(bankAccountUI, {
+        //       'ui:order': [
+        //         formFields.accountType,
+        //         formFields.accountNumber,
+        //         formFields.routingNumber,
+        //       ],
+        //       'ui:options': {
+        //         hideIf: formData => !hasDirectDeposit(formData),
+        //       },
+        //       [formFields.accountType]: {
+        //         'ui:required': hasDirectDeposit,
+        //       },
+        //       [formFields.accountNumber]: {
+        //         'ui:required': hasDirectDeposit,
+        //       },
+        //       [formFields.routingNumber]: {
+        //         'ui:required': hasDirectDeposit,
+        //       },
+        //     }),
+        //     [formFields.viewStopWarning]: {
+        //       'ui:description': directDepositWarning,
+        //       'ui:options': {
+        //         hideIf: hasDirectDeposit,
+        //       },
+        //     },
+        //   },
+        //   schema: {
+        //     type: 'object',
+        //     properties: {
+        //       [formFields.viewNoDirectDeposit]: {
+        //         type: 'boolean',
+        //       },
+        //       [formFields.bankAccount]: bankAccount,
+        //       [formFields.viewStopWarning]: {
+        //         type: 'object',
+        //         properties: {},
+        //       },
+        //     },
+        //   },
+        // },
       },
     },
   },
