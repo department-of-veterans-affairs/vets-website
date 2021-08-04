@@ -1,4 +1,5 @@
-import { assign, set } from 'lodash';
+import assign from 'lodash/assign';
+import set from 'platform/utilities/data/set';
 
 import {
   SET_CLAIM_DETAIL,
@@ -23,9 +24,9 @@ export default function claimDetailReducer(state = initialState, action) {
         authorized: true,
       });
     case SET_CLAIMS_UNAVAILABLE:
-      return set(state, 'available', false);
+      return set('available', false, state);
     case SET_UNAUTHORIZED:
-      return set(state, 'authorized', false);
+      return set('authorized', false, state);
     default:
       return state;
   }

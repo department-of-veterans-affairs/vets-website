@@ -1,4 +1,5 @@
-import { assign, set } from 'lodash';
+import assign from 'lodash/assign';
+import set from 'platform/utilities/data/set';
 
 import {
   SUBMIT_DECISION_REQUEST,
@@ -15,7 +16,7 @@ const initialState = {
 export default function claimDetailReducer(state = initialState, action) {
   switch (action.type) {
     case SUBMIT_DECISION_REQUEST: {
-      return set(state, 'loadingDecisionRequest', true);
+      return set('loadingDecisionRequest', true, state);
     }
     case SET_DECISION_REQUESTED: {
       return assign(state, {

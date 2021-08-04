@@ -1,4 +1,5 @@
-import { merge, set } from 'lodash';
+import merge from 'lodash/merge';
+import set from 'platform/utilities/data/set';
 import {
   FETCH_CLAIMS_PENDING,
   FETCH_CLAIMS_SUCCESS,
@@ -37,7 +38,7 @@ const initialState = {
 export default function claimsV2Reducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_CLAIMS_PENDING:
-      return set(state, 'claimsLoading', true);
+      return set('claimsLoading', true, state);
     case FETCH_CLAIMS_SUCCESS:
       return merge(state, {
         claims: action.claims,
@@ -52,7 +53,7 @@ export default function claimsV2Reducer(state = initialState, action) {
         claimsAvailability: claimsAvailability.UNAVAILABLE,
       });
     case FETCH_APPEALS_PENDING:
-      return set(state, 'appealsLoading', true);
+      return set('appealsLoading', true, state);
     case FETCH_APPEALS_SUCCESS:
       return merge(state, {
         appeals: action.appeals,
@@ -87,7 +88,7 @@ export default function claimsV2Reducer(state = initialState, action) {
       });
 
     case CHANGE_INDEX_PAGE:
-      return set(state, 'page', action.page);
+      return set('page', action.page, state);
 
     case FETCH_STEM_CLAIMS_PENDING:
       return {

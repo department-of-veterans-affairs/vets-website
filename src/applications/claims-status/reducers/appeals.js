@@ -1,4 +1,5 @@
-import { merge, set } from 'lodash';
+import set from 'platform/utilities/data/set';
+import merge from 'lodash/merge';
 // import moment from 'moment';
 
 import {
@@ -50,7 +51,7 @@ const initialState = {
 export default function appealsReducer(state = initialState, action) {
   switch (action.type) {
     // case FETCH_APPEALS_PENDING: // pretty sure this is only in v2
-    //   return _.set(state, 'appealsLoading', true);
+    //   return _.set('appealsLoading', true, state);
     case FETCH_APPEALS_SUCCESS: {
       // Appeals v1 and v2
       // TODO: When we refactor the reducers, make sure to combine the claims and appeals.
@@ -68,9 +69,9 @@ export default function appealsReducer(state = initialState, action) {
     }
     // TODO: Verify that this isn't actually needed and then remove it
     case SET_APPEALS: // Appeals v1
-      return set(state, 'available', true);
+      return set('available', true, state);
     case SET_APPEALS_UNAVAILABLE: // Appeals v1
-      return set(state, 'available', false);
+      return set('available', false, state);
     // Following are reducers for Appeals v2 error states
     // case USER_FORBIDDEN_ERROR:
     //   return _.merge(state, {

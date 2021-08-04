@@ -1,4 +1,4 @@
-import set from 'lodash/set';
+import set from 'platform/utilities/data/set';
 
 import {
   CLEAR_NOTIFICATION,
@@ -15,13 +15,13 @@ const initialState = {
 export default function notificationsReducer(state = initialState, action) {
   switch (action.type) {
     case SET_NOTIFICATION:
-      return set(state, 'message', action.message);
+      return set('message', action.message, state);
     case CLEAR_NOTIFICATION:
-      return set(state, 'message', null);
+      return set('message', null, state);
     case SET_ADDITIONAL_EVIDENCE_NOTIFICATION:
-      return set(state, 'additionalEvidenceMessage', action.message);
+      return set('additionalEvidenceMessage', action.message, state);
     case CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION:
-      return set(state, 'additionalEvidenceMessage', null);
+      return set('additionalEvidenceMessage', null, state);
     default:
       return state;
   }

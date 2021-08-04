@@ -1,4 +1,5 @@
-import { assign, orderBy, set } from 'lodash';
+import { assign, orderBy } from 'lodash';
+import set from 'platform/utilities/data/set';
 import moment from 'moment';
 import { appealTypes } from '../utils/appeals-v2-helpers';
 
@@ -170,21 +171,21 @@ export default function claimsReducer(state = initialState, action) {
       });
     }
     case SHOW_CONSOLIDATED_MODAL: {
-      return set(state, 'consolidatedModal', action.visible);
+      return set('consolidatedModal', action.visible, state);
     }
     case HIDE_30_DAY_NOTICE: {
-      return set(state, 'show30DayNotice', false);
+      return set('show30DayNotice', false, state);
     }
     case FETCH_APPEALS: {
-      return set(state, 'appealsLoading', true);
+      return set('appealsLoading', true, state);
     }
     case FETCH_CLAIMS: {
-      return set(state, 'claimsLoading', true);
+      return set('claimsLoading', true, state);
     }
     case SET_CLAIMS_UNAVAILABLE:
-      return set(state, 'claimsLoading', false);
+      return set('claimsLoading', false, state);
     case SET_APPEALS_UNAVAILABLE:
-      return set(state, 'appealsLoading', false);
+      return set('appealsLoading', false, state);
     default:
       return state;
   }

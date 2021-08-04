@@ -1,4 +1,5 @@
-import { assign, set } from 'lodash';
+import assign from 'lodash/assign';
+import set from 'platform/utilities/data/set';
 import {
   RESET_UPLOADS,
   ADD_FILE,
@@ -39,13 +40,13 @@ export default function claimDetailReducer(state = initialState, action) {
         password: makeField(''),
         isEncrypted: action.isEncrypted,
       }));
-      return set(state, 'files', state.files.concat(files));
+      return set('files', state.files.concat(files), state);
     }
     case REMOVE_FILE: {
       return set(
-        state,
         'files',
         state.files.filter((file, index) => index !== action.index),
+        state,
       );
     }
     case SET_UPLOADING: {
@@ -62,7 +63,7 @@ export default function claimDetailReducer(state = initialState, action) {
       });
     }
     case SET_PROGRESS: {
-      return set(state, 'progress', action.progress);
+      return set('progress', action.progress, state);
     }
     case DONE_UPLOADING: {
       return assign(state, {
@@ -80,10 +81,10 @@ export default function claimDetailReducer(state = initialState, action) {
       });
     }
     case UPDATE_FIELD: {
-      return set(state, action.path, action.field);
+      return set(action.path, action.field, state);
     }
     case SHOW_MAIL_OR_FAX: {
-      return set(state, 'showMailOrFax', action.visible);
+      return set('showMailOrFax', action.visible, state);
     }
     case CANCEL_UPLOAD: {
       return assign(state, {
