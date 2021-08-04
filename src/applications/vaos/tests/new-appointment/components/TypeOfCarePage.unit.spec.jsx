@@ -413,7 +413,7 @@ describe('VAOS <TypeOfCarePage>', () => {
         ...initialState,
         featureToggles: {
           vaOnlineSchedulingCommunityCare: true,
-          vaOnlineSchedulingVAOSServiceRequests: true,
+          vaOnlineSchedulingFacilitiesServiceV2: true,
         },
       });
       const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });

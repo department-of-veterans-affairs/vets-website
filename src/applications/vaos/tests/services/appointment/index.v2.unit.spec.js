@@ -63,9 +63,9 @@ describe('VAOS Appointment service', () => {
             op: 'replace',
             path: ['location', 'clinicName'],
             value: 'Friendly clinic name',
-          },
-          // The v2 endpoint doesn't send us the vista status
+          }, // The v2 endpoint doesn't send us the vista status
           { op: 'replace', path: ['description'], value: 'FUTURE' },
+          { op: 'remove', path: ['practitioners'] },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -118,6 +118,7 @@ describe('VAOS Appointment service', () => {
             path: ['description'],
             value: 'CANCELLED BY PATIENT',
           },
+          { op: 'remove', path: ['practitioners'] },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -166,6 +167,7 @@ describe('VAOS Appointment service', () => {
         [
           // The v2 endpoint doesn't send us the vista status
           { op: 'replace', path: ['description'], value: 'CHECKED OUT' },
+          { op: 'remove', path: ['practitioners'] },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -214,6 +216,7 @@ describe('VAOS Appointment service', () => {
         [
           // The v2 endpoint doesn't send us the vista status
           { op: 'replace', path: ['description'], value: 'CHECKED OUT' },
+          { op: 'remove', path: ['practitioners'] },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -263,6 +266,7 @@ describe('VAOS Appointment service', () => {
         [
           // The v2 endpoint doesn't send us the vista status
           { op: 'replace', path: ['description'], value: 'CHECKED OUT' },
+          { op: 'remove', path: ['practitioners'] },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -320,6 +324,7 @@ describe('VAOS Appointment service', () => {
         [
           // The v2 endpoint doesn't send us the vista status
           { op: 'replace', path: ['description'], value: 'FUTURE' },
+          { op: 'remove', path: ['practitioners'] },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -390,6 +395,7 @@ describe('VAOS Appointment service', () => {
         [
           // The v2 endpoint doesn't send us the vista status
           { op: 'replace', path: ['description'], value: 'FUTURE' },
+          { op: 'remove', path: ['practitioners'] },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -441,6 +447,7 @@ describe('VAOS Appointment service', () => {
         [
           // The v2 endpoint doesn't send us the vista status
           { op: 'replace', path: ['description'], value: 'FUTURE' },
+          { op: 'remove', path: ['practitioners'] },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -492,6 +499,7 @@ describe('VAOS Appointment service', () => {
         [
           // The v2 endpoint doesn't send us the vista status
           { op: 'replace', path: ['description'], value: 'FUTURE' },
+          { op: 'remove', path: ['practitioners'] },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -542,6 +550,7 @@ describe('VAOS Appointment service', () => {
         [
           // The v2 endpoint doesn't send us the vista status
           { op: 'replace', path: ['description'], value: 'FUTURE' },
+          { op: 'remove', path: ['practitioners'] },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -592,6 +601,7 @@ describe('VAOS Appointment service', () => {
         [
           // The v2 endpoint doesn't send us the vista status
           { op: 'replace', path: ['description'], value: 'FUTURE' },
+          { op: 'remove', path: ['practitioners'] },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -665,6 +675,10 @@ describe('VAOS Appointment service', () => {
             op: 'add',
             path: ['preferredCommunityCareProviders'],
             value: undefined,
+          },
+          {
+            op: 'remove',
+            path: ['practitioners'],
           },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',

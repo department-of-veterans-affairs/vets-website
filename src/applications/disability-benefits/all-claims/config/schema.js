@@ -6,7 +6,10 @@ import _ from 'lodash/fp';
 import { countries, states } from 'platform/forms/address';
 
 const documentTypes526 = [
-  { value: 'L015', label: 'Buddy/Lay Statement' },
+  {
+    value: 'L015',
+    label: 'VA Form 21-4138 - Buddy/Lay Statement',
+  },
   { value: 'L018', label: 'Civilian Police Reports' },
   { value: 'L029', label: 'Copy of a DD214' },
   { value: 'L702', label: 'Disability Benefits Questionnaire (DBQ)' },

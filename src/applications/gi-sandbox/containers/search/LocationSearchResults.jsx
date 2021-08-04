@@ -7,13 +7,14 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 
 import SearchResultCard from '../../containers/SearchResultCard';
 import { mapboxToken } from '../../utils/mapboxToken';
-import { MapboxInit, MAX_SEARCH_AREA_DISTANCE } from '../../constants';
+import { MapboxInit, MAX_SEARCH_AREA_DISTANCE, TABS } from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
 import FilterYourResults from '../../containers/FilterYourResults';
-import { numberToLetter, createId } from '../../utils/helpers';
+import { createId } from '../../utils/helpers';
 import {
   fetchSearchByLocationCoords,
   updateEligibilityAndFilters,
+  mapChanged,
 } from '../../actions';
 import { connect } from 'react-redux';
 import { getFiltersChanged } from '../../selectors/filters';
@@ -32,6 +33,7 @@ function LocationSearchResults({
   dispatchFetchSearchByLocationCoords,
   filtersChanged,
   smallScreen,
+  dispatchMapChanged,
 }) {
   const { inProgress } = search;
   const { results } = search.location;
@@ -43,20 +45,33 @@ function LocationSearchResults({
   const [usedFilters, setUsedFilters] = useState(filtersChanged);
   const [cardResults, setCardResults] = useState(null);
   const [mobileTab, setMobileTab] = useState(LIST_TAB);
-  const [mobileMarkerClicked, setMobileMarkerClicked] = useState(null);
+  const [markerClicked, setMarkerClicked] = useState(null);
+  const [activeMarker, setActiveMarker] = useState(null);
 
   /**
    * When map is moved update distance from center to NorthEast corner
    */
   const updateMapState = () => {
     const mapBounds = map.current.getBounds();
-    setMapState({
+    const newMapState = {
       distance:
         mapBounds.getNorthEast().distanceTo(mapBounds.getCenter()) /
         MILE_METER_CONVERSION_RATE,
       changed: true,
-    });
+    };
+    dispatchMapChanged(newMapState);
   };
+
+  /**
+   * When LocationSearchForm triggers a search it will set the value of changed to false disabling behavior
+   * related to "Search this area of the map"
+   */
+  useEffect(
+    () => {
+      setMapState(search.query.mapState);
+    },
+    [search.query.mapState],
+  );
 
   /**
    * Initialize map if the element is present
@@ -126,7 +141,7 @@ function LocationSearchResults({
   );
 
   /**
-   * Used to exclude results from appearing in cards or as a marker when using "Search area" button
+   * Used to exclude results from appearing in cards or as a marker when using "Search this area of the map" button
    *
    * @param institution
    * @return {boolean}
@@ -159,6 +174,7 @@ function LocationSearchResults({
         offset: -locationSearchResults.getBoundingClientRect().top,
       }),
     );
+    setActiveMarker(name);
     dispatchUpdateEligibilityAndFilters(
       { expanded: false },
       { expanded: false },
@@ -166,17 +182,18 @@ function LocationSearchResults({
   };
 
   /**
-   * Used for smallScreen when a map marker is clicked
-   * Using a useEffect since need to switch tabs first before scrolling to search result card
+   * Used when a map marker is clicked
+   * Using a useEffect since on smallScreen need to switch tabs first before scrolling to search result card
+   * Both desktop and mobile will trigger this useEffect
    */
   useEffect(
     () => {
-      if (mobileMarkerClicked && mobileTab === LIST_TAB) {
-        mapMarkerClicked(mobileMarkerClicked);
-        setMobileMarkerClicked(null);
+      if (markerClicked && (!smallScreen || mobileTab === LIST_TAB)) {
+        mapMarkerClicked(markerClicked);
+        setMarkerClicked(null);
       }
     },
-    [mobileMarkerClicked],
+    [markerClicked],
   );
 
   /**
@@ -191,20 +208,16 @@ function LocationSearchResults({
     const { latitude, longitude, name } = institution;
     const lngLat = new mapboxgl.LngLat(longitude, latitude);
 
-    const letter = numberToLetter(index + 1);
-
     const markerElement = document.createElement('div');
     markerElement.className = 'location-letter-marker';
-    markerElement.innerText = letter;
+    markerElement.innerText = index + 1;
 
     const popup = new mapboxgl.Popup();
     popup.on('open', () => {
       if (smallScreen) {
         setMobileTab(LIST_TAB);
-        setMobileMarkerClicked(name);
-      } else {
-        mapMarkerClicked(name);
       }
+      setMarkerClicked(name);
     });
 
     if (locationBounds) {
@@ -264,7 +277,6 @@ function LocationSearchResults({
 
       // wait for map to initialize or no results are returned
       if (!map.current || results.length === 0) {
-        setMapState({ changed: false, distance: null });
         setUsedFilters(getFiltersChanged(filters));
         setCardResults(visibleResults);
         setMarkers(mapMarkers);
@@ -291,7 +303,6 @@ function LocationSearchResults({
 
       setCardResults(visibleResults);
       setUsedFilters(getFiltersChanged(filters));
-      setMapState({ changed: false, distance: null });
       setMarkers(mapMarkers);
     },
     [results, smallScreen, mobileTab],
@@ -301,13 +312,14 @@ function LocationSearchResults({
    * Creates result cards for display
    */
   const resultCards = cardResults?.map((institution, index) => {
-    const { distance } = institution;
+    const { distance, name } = institution;
     const miles = Number.parseFloat(distance).toFixed(2);
-    const letter = numberToLetter(index + 1);
 
     const header = (
       <div className="location-header vads-u-display--flex vads-u-padding-top--1 vads-u-padding-bottom--2">
-        <span className="location-letter vads-u-font-size--sm">{letter}</span>
+        <span className="location-letter vads-u-font-size--sm">
+          {index + 1}
+        </span>
         <span className="vads-u-padding-x--0p5 vads-u-font-size--sm">
           <strong>{miles} miles</strong>
         </span>
@@ -316,7 +328,12 @@ function LocationSearchResults({
 
     return (
       <div key={institution.facilityCode}>
-        <SearchResultCard institution={institution} location header={header} />
+        <SearchResultCard
+          institution={institution}
+          location
+          header={header}
+          active={activeMarker === name}
+        />
       </div>
     );
   });
@@ -326,7 +343,10 @@ function LocationSearchResults({
    * @param e
    */
   const searchArea = e => {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
+    updateMapState();
     dispatchFetchSearchByLocationCoords(
       search.query.location,
       map.current.getCenter().toArray(),
@@ -335,6 +355,24 @@ function LocationSearchResults({
       preview.version,
     );
   };
+
+  /**
+   * Triggers a search for "Search this area of the map" when the "Update results" button in "Filter your results"
+   * is clicked
+   */
+  useEffect(
+    () => {
+      if (
+        !search.loadFromUrl &&
+        filters.search &&
+        search.tab === TABS.location &&
+        search.query.mapState.changed
+      ) {
+        searchArea(null);
+      }
+    },
+    [filters.search],
+  );
 
   /**
    * Renders the Eligibility and Filters accordions/buttons
@@ -468,9 +506,10 @@ function LocationSearchResults({
         { 'vads-u-display--none': !visible },
       );
       const resultsClassnames = classNames('location-search-results', {
-        'vads-l-row': !smallScreen,
+        'vads-l-row': !smallScreen && !location,
         'vads-u-flex-wrap--wrap': !smallScreen,
       });
+
       return (
         <div
           id="location-search-results-container"
@@ -609,6 +648,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   dispatchUpdateEligibilityAndFilters: updateEligibilityAndFilters,
   dispatchFetchSearchByLocationCoords: fetchSearchByLocationCoords,
+  dispatchMapChanged: mapChanged,
 };
 
 export default connect(
