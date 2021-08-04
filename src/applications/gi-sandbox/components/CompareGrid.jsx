@@ -8,13 +8,14 @@ export function CompareGrid({
   fieldData,
   institutions,
   sectionLabel,
+  smallScreen,
   subSectionLabel,
 }) {
   const empties = [];
 
   for (let i = 0; i < 3 - institutions.length; i++) {
     empties.push(
-      <div key={i} className="medium-screen:vads-l-col--3">
+      <div key={i} className="small-screen:vads-l-col--3">
         <div className="empty-col" />
       </div>,
     );
@@ -26,10 +27,22 @@ export function CompareGrid({
         key={`${index}-label`}
         className={classNames(
           'field-label',
-          { 'medium-screen:vads-l-col--3': institutions.length === 3 },
-          { 'medium-screen:vads-l-col--4': institutions.length === 2 },
-          { 'medium-screen:vads-l-col--6': institutions.length === 1 },
-          { 'medium-screen:vads-l-col--12': institutions.length === 0 },
+          {
+            'small-screen:vads-l-col--3':
+              institutions.length === 3 && !smallScreen,
+          },
+          {
+            'small-screen:vads-l-col--4':
+              institutions.length === 2 && !smallScreen,
+          },
+          {
+            'small-screen:vads-l-col--6':
+              institutions.length === 1 && !smallScreen,
+          },
+          {
+            'small-screen:vads-l-col--12':
+              institutions.length === 0 && !smallScreen,
+          },
           { 'has-diff': displayDiff },
         )}
       >
@@ -68,9 +81,18 @@ export function CompareGrid({
         key={institution.facilityCode}
         className={classNames(
           'field-value',
-          { 'medium-screen:vads-l-col--3': institutions.length === 3 },
-          { 'medium-screen:vads-l-col--4': institutions.length === 2 },
-          { 'medium-screen:vads-l-col--6': institutions.length === 1 },
+          {
+            'small-screen:vads-l-col--3':
+              institutions.length === 3 && !smallScreen,
+          },
+          {
+            'small-screen:vads-l-col--4':
+              institutions.length === 2 && !smallScreen,
+          },
+          {
+            'small-screen:vads-l-col--6':
+              institutions.length === 1 && !smallScreen,
+          },
           { 'first-row': rowIndex === 0 },
           { 'first-col': colIndex === 0 },
           { 'last-col': colIndex === institutions.length - 1 },
@@ -84,7 +106,7 @@ export function CompareGrid({
   };
 
   return (
-    <div className={className}>
+    <div className={classNames('compare-grid', className)}>
       {sectionLabel && (
         <div className="compare-header-section">{sectionLabel}</div>
       )}
@@ -97,13 +119,25 @@ export function CompareGrid({
           {subSectionLabel}
         </div>
       )}
-      <div className="vads-l-row">
+      <div className={classNames({ 'vads-l-row': !smallScreen })}>
         <div
           className={classNames(
-            { 'medium-screen:vads-l-col--12': institutions.length === 3 },
-            { 'medium-screen:vads-l-col--9': institutions.length === 2 },
-            { 'medium-screen:vads-l-col--6': institutions.length === 1 },
-            { 'medium-screen:vads-l-col--3': institutions.length === 0 },
+            {
+              'small-screen:vads-l-col--12':
+                institutions.length === 3 && !smallScreen,
+            },
+            {
+              'small-screen:vads-l-col--9':
+                institutions.length === 2 && !smallScreen,
+            },
+            {
+              'small-screen:vads-l-col--6':
+                institutions.length === 1 && !smallScreen,
+            },
+            {
+              'small-screen:vads-l-col--3':
+                institutions.length === 0 && !smallScreen,
+            },
           )}
         >
           {fieldData.map((field, index) => {
@@ -156,7 +190,12 @@ export function CompareGrid({
             }
 
             return (
-              <div key={index} className="vads-l-row">
+              <div
+                key={index}
+                className={classNames({
+                  'columns vads-l-row': !smallScreen,
+                })}
+              >
                 {columns}
               </div>
             );

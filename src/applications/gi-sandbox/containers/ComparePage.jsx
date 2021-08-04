@@ -38,6 +38,7 @@ import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal
 import { MINIMUM_RATING_COUNT } from '../constants';
 import Scroll from 'react-scroll';
 import { getScrollOptions } from 'platform/utilities/ui';
+import SchoolClassification from '../components/SchoolClassification';
 
 const scroll = Scroll.animateScroll;
 
@@ -56,6 +57,9 @@ export function ComparePage({
   const [promptingFacilityCode, setPromptingFacilityCode] = useState(null);
   const [isSticky, setIsSticky] = useState(false);
   const [initialTop, setInitialTop] = useState(null);
+  const [smallScreen, setSmallScreen] = useState(
+    matchMedia('(max-width: 480px)').matches,
+  );
   const headerRef = useRef(null);
   const { selected, error } = compare;
   const { loaded, institutions } = compare.details;
@@ -71,6 +75,15 @@ export function ComparePage({
     },
     [loaded, selected],
   );
+
+  useEffect(() => {
+    const checkSize = () => {
+      setSmallScreen(matchMedia('(max-width: 480px)').matches);
+    };
+    window.addEventListener('resize', checkSize);
+
+    return () => window.removeEventListener('resize', checkSize);
+  }, []);
 
   const toggleSticky = useCallback(
     offset => {
@@ -174,7 +187,7 @@ export function ComparePage({
   const empties = [];
   for (let i = 0; i < 3 - institutionCount; i++) {
     empties.push(
-      <div key={i} className="medium-screen:vads-l-col--3">
+      <div key={i} className="small-screen:vads-l-col--3">
         <div className="compare-header empty-header" />
         <div className="compare-action">
           <Link to={'/search'}>Return to search to add</Link>
@@ -198,6 +211,10 @@ export function ComparePage({
       } hours`;
     }
     return 'N/A';
+  };
+
+  const smallWrap = cards => {
+    return smallScreen ? <div className="card-wrapper">{cards}</div> : cards;
   };
 
   return (
@@ -228,63 +245,99 @@ export function ComparePage({
           })}
           ref={headerRef}
         >
-          <div className="row vads-l-grid-container">
-            <div className="vads-l-row compare-header-row vads-u-padding-bottom--6">
-              <div className="medium-screen:vads-l-col--3">
-                <div className="compare-header vads-u-padding-right--1">
-                  <div className="compare-page-description-label">
-                    School comparison:
+          <div
+            className={classNames('header-content-row', {
+              'row vads-l-grid-container': !smallScreen,
+            })}
+          >
+            <div
+              className={classNames('vads-u-padding-bottom--6', {
+                'vads-l-row compare-header-row': !smallScreen,
+              })}
+            >
+              <div className="small-screen:vads-l-col--3 non-scroll-parent">
+                <div className="non-scroll-label">
+                  <div className="compare-header vads-u-padding-right--1">
+                    <div className="compare-page-description-label">
+                      School comparison:
+                    </div>
+                    View school information side by side to compare schools
                   </div>
-                  View school information side by side to compare schools
-                </div>
-                <div className="compare-action">
-                  <Checkbox
-                    checked={showDifferences}
-                    label="Highlight differences"
-                    name="highlight-differences"
-                    className="vads-u-display--inline-block"
-                    onChange={e => setShowDifferences(e.target.checked)}
-                  />
+                  <div className="compare-action">
+                    <Checkbox
+                      checked={showDifferences}
+                      label="Highlight differences"
+                      name="highlight-differences"
+                      className="vads-u-display--inline-block"
+                      onChange={e => setShowDifferences(e.target.checked)}
+                    />
+                  </div>
                 </div>
               </div>
-              {loadedInstitutions.map((institution, index) => {
-                const location =
-                  institution.country === 'USA'
-                    ? `${institution.city}, ${institution.state}`
-                    : `${institution.city}, ${institution.country}`;
-                return (
-                  <div className="medium-screen:vads-l-col--3" key={index}>
-                    <div className="compare-header institution-header">
-                      <div className="institution-name">{institution.name}</div>
-                      {!isSticky && (
-                        <div className="institution-location">{location}</div>
-                      )}
+              {smallWrap(
+                loadedInstitutions.map((institution, index) => {
+                  const location =
+                    institution.country === 'USA'
+                      ? `${institution.city}, ${institution.state}`
+                      : `${institution.city}, ${institution.country}`;
+                  return (
+                    <div
+                      className="small-screen:vads-l-col--3 institution-card"
+                      key={index}
+                    >
+                      <div className="compare-header institution-header">
+                        <div>
+                          <SchoolClassification institution={institution} />
+                          <div className="header-fields">
+                            <div className="institution-name">
+                              {institution.name}
+                            </div>
+                            {!isSticky && (
+                              <div className="institution-location">
+                                {location}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="compare-action">
+                        <button
+                          type="button"
+                          className="va-button-link learn-more-button"
+                          onClick={() => {
+                            setPromptingFacilityCode(institution.facilityCode);
+                          }}
+                        >
+                          Remove
+                        </button>
+                      </div>
                     </div>
-                    <div className="compare-action">
-                      <button
-                        type="button"
-                        className="va-button-link learn-more-button"
-                        onClick={() => {
-                          setPromptingFacilityCode(institution.facilityCode);
-                        }}
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
-              {empties}
+                  );
+                }),
+              )}
+              {!smallScreen && empties}
             </div>
           </div>
         </div>
 
-        <div className="row vads-l-grid-container">
+        <div
+          className={classNames({ 'row vads-l-grid-container': !smallScreen })}
+        >
           <CompareGrid
             sectionLabel="Summary"
             institutions={loadedInstitutions}
             showDifferences={showDifferences}
+            smallScreen={smallScreen}
             fieldData={[
+              {
+                label: 'Location',
+                className: 'capitalize-value',
+                mapper: institution => {
+                  return institution.country === 'USA'
+                    ? `${institution.city}, ${institution.state}`
+                    : `${institution.city}, ${institution.country}`;
+                },
+              },
               {
                 label: 'Accreditation',
                 className: 'capitalize-value',
@@ -357,6 +410,7 @@ export function ComparePage({
             subSectionLabel="Payments made to school"
             institutions={loadedInstitutions}
             showDifferences={showDifferences}
+            smallScreen={smallScreen}
             fieldData={[
               {
                 label: 'Tuition and fees',
@@ -389,6 +443,7 @@ export function ComparePage({
             subSectionLabel="Payments made to you"
             institutions={loadedInstitutions}
             showDifferences={showDifferences}
+            smallScreen={smallScreen}
             fieldData={[
               {
                 label: 'Housing allowance',
@@ -410,6 +465,7 @@ export function ComparePage({
                   sectionLabel="School ratings"
                   institutions={loadedInstitutions}
                   showDifferences={showDifferences}
+                  smallScreen={smallScreen}
                   fieldData={[
                     {
                       label: 'Overall rating',
@@ -465,6 +521,7 @@ export function ComparePage({
                   subSectionLabel="Education ratings"
                   institutions={loadedInstitutions}
                   showDifferences={showDifferences}
+                  smallScreen={smallScreen}
                   fieldData={[
                     {
                       label: 'Overall experience',
@@ -493,6 +550,7 @@ export function ComparePage({
                   subSectionLabel="Veteran friendliness"
                   institutions={loadedInstitutions}
                   showDifferences={showDifferences}
+                  smallScreen={smallScreen}
                   fieldData={[
                     {
                       label: 'GI Bill support',
@@ -515,6 +573,7 @@ export function ComparePage({
                 <CompareGrid
                   sectionLabel="Cautionary information"
                   institutions={loadedInstitutions}
+                  smallScreen={smallScreen}
                   fieldData={[
                     {
                       label: 'Caution flags',
@@ -578,6 +637,7 @@ export function ComparePage({
             className="vads-u-margin-top--4"
             institutions={loadedInstitutions}
             showDifferences={showDifferences}
+            smallScreen={smallScreen}
             fieldData={[
               {
                 label: 'Student complaints',
@@ -590,6 +650,7 @@ export function ComparePage({
             sectionLabel="Academics"
             institutions={loadedInstitutions}
             showDifferences={showDifferences}
+            smallScreen={smallScreen}
             fieldData={[
               {
                 label: 'Length of VET TEC programs',
@@ -608,6 +669,7 @@ export function ComparePage({
             sectionLabel="Veteran programs"
             institutions={loadedInstitutions}
             showDifferences={showDifferences}
+            smallScreen={smallScreen}
             fieldData={[
               {
                 label: 'Yellow Ribbon',

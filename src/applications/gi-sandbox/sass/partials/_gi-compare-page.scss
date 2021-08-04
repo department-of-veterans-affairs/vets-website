@@ -1,8 +1,21 @@
 .compare-page {
 
+  overflow-x: scroll;
+
+  @media (max-width: $small-screen) {
+    .content-wrapper {
+      width: 1200px;
+    }
+  }
+
   .vads-l-grid-container {
     padding-left: 1rem;
     padding-right: 1rem;
+
+    @media (max-width: $small-screen) {
+      padding-left: 0px;
+      padding-right: 0px;
+    }
   }
 
   .sticky {
@@ -11,6 +24,10 @@
     overflow: visible !important;
     z-index: 200;
     width: 100% !important;
+
+    @media (max-width: $small-screen) {
+      width: 1200px !important;
+    }
   }
 
   .compare-header-row {
@@ -29,13 +46,31 @@
   .compare-header {
     height: 100%;
     position: relative;
+    @media (max-width: $small-screen) {
+      height: auto;
+    }
+  }
+
+  .institution-card {
+    @media (max-width: $small-screen) {
+      display: inline-block;
+      width: 400px;
+    }
   }
 
   .institution-header {
     background-color: $color-gray-light-alt;
     border-radius: 5px;
-    padding: 1em;
     margin-right: 1em;
+
+    .header-fields {
+      padding: 1em;
+
+    }
+
+    @media (max-width: $small-screen) {
+      height: 100%;
+    }
   }
 
   .institution-name {
@@ -48,6 +83,11 @@
   .institution-location {
     position: absolute;
     bottom: 1em;
+
+    @media (max-width: $small-screen) {
+      position: relative;
+      bottom: auto;
+    }
   }
 
   .empty-header {
@@ -122,6 +162,19 @@
     margin-top: -1px;
     border-left: 1px solid $color-base;
     border-bottom: 1px solid $color-base;
+
+    @media (max-width: $small-screen) {
+      display: inline-block;
+      width: 400px;
+    }
+  }
+
+  .empty-col-wrapper {
+
+    @media (max-width: $small-screen) {
+      display: inline-block;
+      width: 400px;
+    }
   }
 
   .field-value.has-diff  {
@@ -152,6 +205,18 @@
     border-right: 1px solid $color-base;
   }
 
+  @media (max-width: $small-screen) {
+    .non-scroll-parent {
+      display: flex;
+    }
+
+    .non-scroll-label {
+      position: sticky;
+      left: 10px;
+      width: 400px;
+    }
+  }
+
   .field-label {
     vertical-align: middle;
 
@@ -170,12 +235,29 @@
       border-right: 1px solid $color-gray-light;
       border-top: 1px solid $color-gray-light;
       margin-top: -1px;
+
+      @media (max-width: $small-screen) {
+        padding-left: 10px;
+        margin-right: 0px;
+        border-left: 0px;
+        border-right: 0px;
+        position: sticky;
+        left: 10px;
+        background-color: transparent;
+        border: none;
+      }
     }
+
 
     .label-cell.has-diff {
       font-weight: bold;
       border-width: 2px;
       padding-left: .8em;
+    }
+
+    @media (max-width: $small-screen) {
+      display: flex;
+      background-color: $color-gray-light-alt;
     }
   }
 
@@ -193,7 +275,16 @@
     border-top: 1px solid $color-base;
     border-left: 1px solid $color-base;
   }
+
   .section-field-grid.last {
     border-right: 1px solid $color-base;
+  }
+
+  .card-wrapper {
+    display: flex;
+  }
+
+  .school-classification p {
+    margin-bottom: 0px;
   }
 }
