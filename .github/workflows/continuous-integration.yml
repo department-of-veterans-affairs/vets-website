@@ -41,7 +41,7 @@ jobs:
       #     key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline --verbose
+        run: yarn install --frozen-lockfile --prefer-offline --production=false
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -155,7 +155,7 @@ jobs:
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        run: yarn install --frozen-lockfile --prefer-offline --production=false
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -258,7 +258,7 @@ jobs:
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        run: yarn install --frozen-lockfile --prefer-offline --production=false
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -357,7 +357,7 @@ jobs:
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        run: yarn install --frozen-lockfile --prefer-offline --production=false
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -436,7 +436,7 @@ jobs:
           tar -C node_modules -xjf node_modules.tar.bz2
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        run: yarn install --frozen-lockfile --prefer-offline --production=false
         env:
           YARN_CACHE_FOLDER: .cache/yarn
       
@@ -526,7 +526,7 @@ jobs:
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        run: yarn install --frozen-lockfile --prefer-offline --production=false
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -618,7 +618,7 @@ jobs:
           node-version: 14 # ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        run: yarn install --frozen-lockfile --prefer-offline --production=false
         env:
           YARN_CACHE_FOLDER: .cache/yarn
         working-directory: testing-tools-team-dashboard-data
