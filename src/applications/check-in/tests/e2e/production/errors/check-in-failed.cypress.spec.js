@@ -1,4 +1,4 @@
-import features from '../mocks/enabled.json';
+import { createFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
 import mockCheckIn from '../../../../api/local-mock-api/mocks/check.in.response';
 import mockValidate from '../../../../api/local-mock-api/mocks/validate.responses';
 import Timeouts from 'platform/testing/e2e/timeouts';
@@ -11,7 +11,7 @@ describe('Check In Experience -- ', () => {
     cy.intercept('POST', '/check_in/v0/patient_check_ins/', req => {
       req.reply(mockCheckIn.createMockFailedResponse({}));
     });
-    cy.intercept('GET', '/v0/feature_toggles*', features);
+    cy.intercept('GET', '/v0/feature_toggles*', createFeatureToggles());
   });
   afterEach(() => {
     cy.window().then(window => {

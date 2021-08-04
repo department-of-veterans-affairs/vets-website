@@ -1,4 +1,4 @@
-import features from '../mocks/enabled.json';
+import { createFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
 import mockCheckIn from '../../../../api/local-mock-api/mocks/check.in.response';
 import mockValidate from '../../../../api/local-mock-api/mocks/validate.responses';
 
@@ -10,7 +10,7 @@ describe('Check In Experience -- ', () => {
     cy.intercept('POST', '/check_in/v0/patient_check_ins/', req => {
       req.reply(200, mockCheckIn.createMockSuccessResponse({}));
     });
-    cy.intercept('GET', '/v0/feature_toggles*', features);
+    cy.intercept('GET', '/v0/feature_toggles*', createFeatureToggles());
     cy.window().then(window => {
       window.sessionStorage.clear();
     });
