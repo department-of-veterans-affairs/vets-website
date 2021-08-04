@@ -34,7 +34,7 @@ jobs:
           fetch-depth: 0
         
       - name: List changed files
-        run: git diff --name-only master...
+        run: git diff --name-only origin/master...
 
       # - name: Get changed files
       #   id: changed-files
