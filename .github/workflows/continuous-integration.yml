@@ -15,60 +15,9 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
 
 jobs:
-  install-dependencies:
-    name: Install dependencies
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Get Node version
-        id: get-node-version
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-
-      # - name: Cache dependencies
-      #   id: cache-dependencies
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: |
-      #       .cache/yarn
-      #       node_modules
-      #     key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline --production=false
-        env:
-          YARN_CACHE_FOLDER: .cache/yarn
-
-      - name: Compress and archive yarn cache
-        run: tar -C .cache/yarn -cjf yarn_cache.tar.bz2 .
-
-      - name: Compress and archive node modules
-        run: tar -C node_modules -cjf node_modules.tar.bz2 .
-
-      - name: Upload yarn cache artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: yarn_cache.tar.bz2
-          path: yarn_cache.tar.bz2
-          retention-days: 1
-
-      - name: Upload node modules artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: node_modules.tar.bz2
-          path: node_modules.tar.bz2
-          retention-days: 1
-
   build:
     name: Build
     runs-on: self-hosted
-    needs: install-dependencies
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
@@ -439,12 +388,6 @@ jobs:
         run: yarn install --frozen-lockfile --prefer-offline --production=false
         env:
           YARN_CACHE_FOLDER: .cache/yarn
-      
-      - name: Install Cypress
-        run: cypress install
-
-      # - name: Generate directory ID for node modules
-      #   run: echo "NODE_ID=$(( ${{ github.run_number }} + ${{ matrix.ci_node_index }} ))" >> $GITHUB_ENV
 
       - name: Start server
         run: node src/platform/testing/e2e/test-server.js --buildtype vagovprod --port=3001 &
