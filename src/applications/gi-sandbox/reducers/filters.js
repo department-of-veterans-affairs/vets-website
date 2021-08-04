@@ -1,8 +1,13 @@
-import { FILTERS_CHANGED, UPDATE_QUERY_PARAMS } from '../actions';
+import {
+  FILTERS_CHANGED,
+  UPDATE_QUERY_PARAMS,
+  SEARCH_STARTED,
+} from '../actions';
 import { FILTERS_EXCLUDED_FLIP } from '../constants';
 
 export const INITIAL_STATE = Object.freeze({
   expanded: false,
+  search: false,
   accredited: false,
   excludeCautionFlags: false,
   country: 'ALL',
@@ -55,6 +60,9 @@ export default function(state = INITIAL_STATE, action) {
 
       return { ...state, ...onLoadState };
     }
+
+    case SEARCH_STARTED:
+      return { ...state, search: false };
 
     default:
       return { ...state };

@@ -179,6 +179,7 @@ export const sortOptionsByStateName = (stateA, stateB) => {
 export const buildSearchFilters = filters => {
   const clonedFilters = _.cloneDeep(filters);
   delete clonedFilters.expanded;
+  delete clonedFilters.search;
 
   const searchFilters = {};
 
@@ -246,22 +247,22 @@ export const updateUrlParams = (
     search: tab,
   };
   if (
-    searchQuery.name !== '' ||
-    searchQuery.name !== null ||
+    searchQuery.name !== '' &&
+    searchQuery.name !== null &&
     searchQuery.name !== undefined
   ) {
     queryParams.name = searchQuery.name;
   }
 
   if (
-    searchQuery.location !== '' ||
-    searchQuery.location !== null ||
+    searchQuery.location !== '' &&
+    searchQuery.location !== null &&
     searchQuery.location !== undefined
   ) {
     queryParams.location = searchQuery.location;
   }
 
-  if (page) {
+  if (page && page !== 1) {
     queryParams.page = page;
   }
 
