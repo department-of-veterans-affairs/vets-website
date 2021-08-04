@@ -28,9 +28,6 @@ function selectedTests() {
     return filePath.split('/')[2];
   });
 
-  // eslint-disable-next-line no-console
-  console.log('applicationNames: ', applicationNames);
-
   [...new Set(applicationNames)].forEach(name => {
     const pattern = path.join(
       __dirname,
@@ -39,15 +36,8 @@ function selectedTests() {
       'tests/**/*.cypress.spec.js?(x)',
     );
 
-    // eslint-disable-next-line no-console
-    console.log('Selected tests pattern: ', pattern);
-
     const appTests = glob.sync(pattern);
-
     tests.push(...appTests);
-
-    // eslint-disable-next-line no-console
-    console.log('Contents of tests array on each app name iteration: ', tests);
   });
 
   const divider = Math.ceil(tests.length / 8);
@@ -56,8 +46,6 @@ function selectedTests() {
 
 function allTests() {
   const pattern = path.join(__dirname, '../..', integrationFolder, testFiles);
-  // eslint-disable-next-line no-console
-  console.log('All tests pattern: ', pattern);
   const tests = glob.sync(pattern);
   const divider = Math.ceil(tests.length / 8);
   return getSliceOfTests(tests, divider);
