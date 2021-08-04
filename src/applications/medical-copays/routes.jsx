@@ -4,13 +4,11 @@ import MedicalCopaysApp from './containers/MedicalCopaysApp.jsx';
 import OverviewPage from './containers/OverviewPage';
 import DetailPage from './containers/DetailPage';
 
-const Routes = () => {
-  return (
-    <MedicalCopaysApp>
-      <Route component={OverviewPage} exact path="/" />
-      <Route component={DetailPage} exact path="/balance-details" />
-    </MedicalCopaysApp>
-  );
-};
+const Routes = () => (
+  <MedicalCopaysApp>
+    <Route component={OverviewPage} exact path="/" />
+    <Route component={DetailPage} exact path="/balance-details" />
+  </MedicalCopaysApp>
+);
 
 export default Routes;
