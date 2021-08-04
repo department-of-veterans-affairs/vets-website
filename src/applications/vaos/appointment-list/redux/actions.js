@@ -27,7 +27,7 @@ import {
 } from '../../services/location';
 
 import {
-  getBookedAppointments,
+  fetchAppointments,
   getAppointmentRequests,
   getVAAppointmentLocationId,
   isVideoHome,
@@ -186,7 +186,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
        * will be filtered out by date accordingly in our selectors
        */
       const promises = [
-        getBookedAppointments({
+        fetchAppointments({
           startDate: featureHomepageRefresh
             ? moment()
                 .subtract(30, 'days')
@@ -393,7 +393,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
 
     try {
       const fetches = [
-        getBookedAppointments({
+        fetchAppointments({
           startDate,
           endDate,
           useV2VA: featureVAOSServiceVAAppointments,
