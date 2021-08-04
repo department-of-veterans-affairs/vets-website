@@ -5,7 +5,7 @@ const { integrationFolder, testFiles } = require('../../config/cypress.json');
 
 // eslint-disable-next-line no-console
 console.log('Changed files: ', process.env.CHANGED_FILE_PATHS);
-const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split('\n');
+const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
 // eslint-disable-next-line no-console
 console.log('pathsOfChangedFiles: ', pathsOfChangedFiles);
 
