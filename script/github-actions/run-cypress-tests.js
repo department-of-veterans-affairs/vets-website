@@ -35,11 +35,16 @@ function selectedTests() {
     const pattern = path.join(
       __dirname,
       '../..',
-      `src/applictions/${name}`,
-      'tests/**/*.cypress.spec.js?(x)',
+      integrationFolder,
+      `${name}/tests/**/*.cypress.spec.js?(x)`,
     );
 
-    tests.push(...glob.sync(pattern));
+    // eslint-disable-next-line no-console
+    console.log('pattern: ', pattern);
+
+    const appTests = glob.sync(pattern);
+
+    tests.push(...appTests);
 
     // eslint-disable-next-line no-console
     console.log('Contents of tests array on each app name iteration: ', tests);
