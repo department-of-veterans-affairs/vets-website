@@ -545,9 +545,13 @@ jobs:
     needs: [cypress-tests-prep, cypress-tests]
     if: ${{ always() && (needs.cypress-tests-prep.outputs.num_containers > 0) && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
     steps:
-      - name: Echo output from previous cypress-tests-prep job
+      - name: Echo num_containers from previous cypress-tests-prep job
         run: echo ${{ needs.cypress-tests-prep.outputs.num_containers }}
+
+      - name: Echo tests from previous cypress-tests-prep job
         run: echo ${{ needs.cypress-tests-prep.outputs.tests }}
+
+      - name: Echo ci_node_index from previous cypress-tests-prep job
         run: echo ${{ needs.cypress-tests-prep.outputs.ci_node_index }}
 
       - name: Configure AWS credentials
