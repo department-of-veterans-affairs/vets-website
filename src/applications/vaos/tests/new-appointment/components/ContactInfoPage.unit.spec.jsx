@@ -94,7 +94,7 @@ describe('VAOS <ContactInfoPage>', () => {
     expect(screen.history.push.called).to.be.false;
   });
 
-  it.skip('should prepopulate email and phone from VA Profile', async () => {
+  it('should prepopulate email and phone from VA Profile', async () => {
     const store = createTestStore({
       user: {
         profile: {
