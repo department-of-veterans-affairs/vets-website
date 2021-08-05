@@ -320,7 +320,9 @@ jobs:
     name: Prep for Cypress Tests
     runs-on: ubuntu-latest
     outputs:
-      ci_node_index: ${{ steps.matrix.outputs.ci_node_index_value }}
+      num_containers: ${{ steps.containers.outputs.num }}
+      ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
+      tests: ${{ steps.tests.outputs.selected }}
       # containers1: ${{ steps.containers1.outputs.matrix-array }}
       # containers2: ${{ steps.containers2.outputs.matrix-array }}
       # containers3: ${{ steps.containers3.outputs.matrix-array }}
@@ -366,9 +368,17 @@ jobs:
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
-      - name: Set ci_node_index value for matrix
+      - name: Set output of number of containers
+        id: containers
+        run: echo ::set-output name=num::$(echo $NUM_CONTAINERS)
+
+      - name: Set output of ci_node_index value for matrix
         id: matrix
-        run: echo ::set-output name=ci_node_index_value::$(echo $CI_NODE_INDEX)
+        run: echo ::set-output name=ci_node_index::$(echo $CI_NODE_INDEX)
+
+      - name: Set output of tests to run
+        id: tests
+        run: echo ::set-output name=selected::$(echo $TESTS)
 
       # - name: Use 1 container
       #   id: containers1
@@ -404,6 +414,7 @@ jobs:
 
   cypress-tests:
     name: Cypress E2E Tests
+    if: ${{ needs.cypress-tests-prep.outputs.num_containers > 0 }}
     runs-on: self-hosted
     needs: [cypress-tests-prep, build]
     container:
@@ -492,6 +503,8 @@ jobs:
           # CYPRESS_BASE_URL: http://localhost:3001
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}
+          NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
+          TESTS: ${{ needs.cypress-tests-prep.outputs.tests }}
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
       - name: Archive test videos
