@@ -11,7 +11,8 @@ export default function AppointmentRequestCommunityCareLocation({
       <div>
         {!providers?.length && 'Not specified'}
         {!!providers?.length && (
-          <ul className="usa-unstyled-list">
+          // eslint-disable-next-line jsx-a11y/no-redundant-roles
+          <ul className="usa-unstyled-list" role="list">
             {providers.map((provider, index) => {
               const { practiceName, providerName } = provider;
 
