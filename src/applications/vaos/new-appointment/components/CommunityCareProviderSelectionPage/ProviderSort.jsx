@@ -1,25 +1,53 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
-import { updateCCProviderSortMethod } from '../../redux/actions';
+import { selectProviderSelectionInfo } from '../../redux/selectors';
+import {
+  requestProvidersList,
+  updateCCProviderSortMethod,
+} from '../../redux/actions';
+import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import InfoAlert from '../../../components/InfoAlert';
 import ResidentialAddress from '../../../components/ResidentialAddress';
 
-// TODO: see if you can use selector to get props instead
 export default function ProviderSort({
-  address,
   loadingLocations,
   requestLocationStatus,
   sortByDistanceFromResidential,
+  sortByDistanceFromCurrentLocation,
 }) {
   const dispatch = useDispatch();
+  const {
+    address,
+    communityCareProviderList,
+    currentLocation,
+    sortMethod,
+  } = useSelector(state => selectProviderSelectionInfo(state));
+
+  useEffect(
+    () => {
+      if (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation) {
+        dispatch(requestProvidersList(currentLocation));
+      } else {
+        dispatch(requestProvidersList(address));
+      }
+
+      if (communityCareProviderList) {
+        scrollAndFocus('#providerSelectionHeader');
+      }
+    },
+    [sortMethod],
+  );
+
   const showSortByDistanceFromResidential =
     !loadingLocations && sortByDistanceFromResidential;
+  const requestLocationStatusFailed =
+    requestLocationStatus === FETCH_STATUS.failed;
   return (
     <>
       {showSortByDistanceFromResidential && (
         <>
-          {requestLocationStatus !== FETCH_STATUS.failed && (
+          {!requestLocationStatusFailed && (
             <>
               <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
                 You can choose a provider based on your address on file. Or you
@@ -44,7 +72,7 @@ export default function ProviderSort({
               <ResidentialAddress address={address} />
             </>
           )}
-          {requestLocationStatus === FETCH_STATUS.failed && (
+          {requestLocationStatusFailed && (
             <>
               <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
                 You can choose a provider based on your address on file:
@@ -80,6 +108,25 @@ export default function ProviderSort({
             </>
           )}
         </>
+      )}
+      {sortByDistanceFromCurrentLocation && (
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+          You can choose a provider based on your current location. Or you can{' '}
+          <button
+            type="button"
+            className="va-button-link"
+            onClick={() => {
+              dispatch(
+                updateCCProviderSortMethod(
+                  FACILITY_SORT_METHODS.distanceFromResidential,
+                ),
+              );
+            }}
+          >
+            use your address on file
+          </button>
+          .
+        </p>
       )}
     </>
   );
