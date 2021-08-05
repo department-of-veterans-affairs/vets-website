@@ -71,8 +71,10 @@ class FormPage extends React.Component {
     const { form, params, route, location } = this.props;
 
     // This makes sure defaulted data on a page with no changes is saved
-    // Probably safe to do this for regular pages, too, but it hasn’t been necessary
-    if (route.pageConfig.showPagePerItem) {
+    // Probably safe to do this for regular pages, too, but it hasn’t been
+    // necessary. Additionally, it should NOT setData for a CustomPage. The
+    // CustomPage should take care of that itself.
+    if (route.pageConfig.showPagePerItem && !route.pageConfig.CustomPage) {
       const newData = _.set(
         [route.pageConfig.arrayPath, params.index],
         formData,
