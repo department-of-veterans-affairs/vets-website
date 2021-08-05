@@ -24,6 +24,9 @@ Once we retrieve the payments for the veteran we call two methods, `buildReturne
 
 Aside from the call to `getAllPayments`, everything above is called inside the `render` method where we build the full page of content based on the logic above. You will also notice that it is inside the `render` method where we check if the app is loading, if it is we show a ``<LoadingIndicator />`` from the platform, as well as check if there was an error for the whole page and if there is we render a `<va-alert />` component from the platform.
 
+### The payments component
+When we render payments for the Veteran we do it using the `<Payments />` component located in `/components/view-payments-lists/payments/Payments.jsx`. Inside this component we first set a little bit of state about that particular payments list. We then call `handleLoadData` inside the `componentDidMount` method. We paginate the payments for the Veteran so before we actually load the payments into a list we split them into an array of arrays. Each one of these arrays represents a page of payments inside the pagination. We then load the paginated data into state as well as the first page of data by itself and the number of pages of data.
+
 ## Callouts on how the front end works
 > Any special or interesting aspects of how the front end works should be detailed here. This is meant to be read by developers that need to make sense of these special or interesting aspects of your code without you present so write them with as much code detail as possible to achieve good clarity.
 
