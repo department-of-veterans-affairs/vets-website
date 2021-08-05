@@ -17,9 +17,8 @@ class IntroductionPage extends React.Component {
       <div className="schemaform-intro">
         <Breadcrumbs>
           <a href="/">Home</a>
-          <a href="#">My VA</a>
-          <a href="#">My Education</a>
-          <a href="#">Apply for VA education benefits</a>
+          <a href="#">Education and training</a>
+          <a href="#">Apply for education benefits</a>
         </Breadcrumbs>
         <FormTitle title="Apply for VA education benefits" />
         <p>Equal to VA Form 22-1990 (Application for VA Education Benefits)</p>
@@ -86,10 +85,12 @@ class IntroductionPage extends React.Component {
                 If we've approved your application, you’ll get a link to
                 download your Certificate of Eligibility (COE), or award letter.
               </p>
+              <br />
               <p>
                 If your application wasn’t approved, you’ll get a link to
                 download your denial letter.
               </p>
+              <br />
               <p>We will also send these letters in the mail.</p>
             </li>
           </ol>
@@ -103,7 +104,10 @@ class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           startText="Start the education application"
         />
-        <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
+        <div
+          className="omb-info--container"
+          style={{ paddingLeft: '0px', marginTop: '3rem' }}
+        >
           <OMBInfo resBurden={15} ombNumber="2900-0154" expDate="02/28/2023" />
         </div>
       </div>
