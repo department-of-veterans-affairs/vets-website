@@ -327,6 +327,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # i probably don't need this now. will try to remove later
 
       - name: Get Node version
         id: get-node-version
@@ -395,8 +397,6 @@ jobs:
     steps:
       - name: Checkout vets-website
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0 # woops, i don't think i need this anymore
 
       - name: Download production build artifact
         uses: actions/download-artifact@v2
@@ -452,10 +452,6 @@ jobs:
       - name: Create test results directory
         run: mkdir -p test-results
 
-      - name: List changed files
-        id: changed-files
-        run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
-
       - name: Run Cypress tests
         run: node script/github-actions/run-cypress-tests.js
         timeout-minutes: 30
@@ -465,7 +461,6 @@ jobs:
           STEP: ${{ matrix.ci_node_index }}
           NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
           TESTS: ${{ needs.cypress-tests-prep.outputs.tests }}
-          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
       - name: Archive test videos
         uses: actions/upload-artifact@v2
