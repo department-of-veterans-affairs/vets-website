@@ -320,6 +320,7 @@ jobs:
     name: Prep for Cypress Tests
     runs-on: ubuntu-latest
     outputs:
+      ci_node_index: ${{ steps.matrix.outputs.ci_node_index_value }}
       # containers1: ${{ steps.containers1.outputs.matrix-array }}
       # containers2: ${{ steps.containers2.outputs.matrix-array }}
       # containers3: ${{ steps.containers3.outputs.matrix-array }}
@@ -365,6 +366,10 @@ jobs:
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
+      - name: Set ci_node_index value for matrix
+        id: matrix
+        run: echo ::set-output name=ci_node_index_value::$(echo $CI_NODE_INDEX)
+
       # - name: Use 1 container
       #   id: containers1
       #   run: echo ::set-output name=matrix-array::$(echo [0])
@@ -409,7 +414,8 @@ jobs:
       fail-fast: false
       max-parallel: 8
       matrix:
-        ci_node_index: [0, 1, 2, 3, 4, 5, 6, 7]
+        ci_node_index: ${{ needs.cypress-tests-prep.outputs.ci_node_index }}
+        # ci_node_index: [0, 1, 2, 3, 4, 5, 6, 7]
 
     env:
       CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
