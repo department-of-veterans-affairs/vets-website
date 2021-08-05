@@ -19,13 +19,17 @@ export default function BackToTop({ parentId, profilePageHeaderId, compare }) {
   const [backToTopContainerStyle, setBackToTopContainerStyle] = useState({});
   const [compareOpen, setCompareOpen] = useState(compare.open);
   const placeholder = useRef(null);
-  const container = useRef(null);
   const [scrolled, setScrolled] = useState(false);
 
   const handleScroll = () => {
     setScrolled(true);
   };
 
+  /**
+   * Determine if button should be floating on page or not
+   * Accounts for if CompareDrawer is open or not
+   * Using an useEffect so can correctly access the value of compareOpen
+   */
   useEffect(
     () => {
       if (scrolled) {
@@ -106,7 +110,6 @@ export default function BackToTop({ parentId, profilePageHeaderId, compare }) {
         <div
           className={backToTopContainerClasses}
           style={backToTopContainerStyle}
-          ref={container}
         >
           <div className="usa-content">
             <button
