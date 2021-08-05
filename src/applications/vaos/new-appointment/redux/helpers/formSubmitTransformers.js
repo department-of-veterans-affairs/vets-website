@@ -15,7 +15,7 @@ import {
   getChosenClinicInfo,
   getChosenFacilityInfo,
   getSiteIdForChosenFacility,
-  getChosenCCSystemId,
+  getChosenCCSystemById,
   getChosenSlot,
 } from '../selectors';
 import { getClinicId, getSiteCode } from '../../../services/healthcare-service';
@@ -158,7 +158,7 @@ export function transformFormToCCRequest(state) {
   }
 
   const residentialAddress = selectVAPResidentialAddress(state);
-  const organization = getChosenCCSystemId(state);
+  const organization = getChosenCCSystemById(state);
   let cityState;
 
   if (

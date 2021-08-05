@@ -2,13 +2,17 @@ import moment from 'moment';
 import titleCase from 'platform/utilities/data/titleCase';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import { LANGUAGES, PURPOSE_TEXT } from '../../../utils/constants';
-import { getTypeOfCare, getFormData, getChosenCCSystemId } from '../selectors';
+import {
+  getTypeOfCare,
+  getFormData,
+  getChosenCCSystemById,
+} from '../selectors';
 
 export function transformFormToVAOSCCRequest(state) {
   const data = getFormData(state);
   const provider = data.communityCareProvider;
   const residentialAddress = selectVAPResidentialAddress(state);
-  const parentFacility = getChosenCCSystemId(state);
+  const parentFacility = getChosenCCSystemById(state);
   let practitioners = [];
 
   if (provider?.identifier) {

@@ -3,14 +3,12 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
 import { selectReviewPage } from '../../redux/selectors';
 import { FLOW_TYPES, FETCH_STATUS } from '../../../utils/constants';
-import { getRealFacilityId } from '../../../utils/appointment';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import ReviewDirectScheduleInfo from './ReviewDirectScheduleInfo';
 import ReviewRequestInfo from './ReviewRequestInfo';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import { submitAppointmentOrRequest } from '../../redux/actions';
 import FacilityAddress from '../../../components/FacilityAddress';
-import NewTabAnchor from '../../../components/NewTabAnchor';
 import InfoAlert from '../../../components/InfoAlert';
 
 const pageTitle = 'Review your appointment details';
@@ -23,6 +21,7 @@ export default function ReviewPage() {
     facility,
     facilityDetails,
     flowType,
+    parentFacility,
     submitStatus,
     submitStatusVaos400,
     systemId,
@@ -107,21 +106,10 @@ export default function ReviewPage() {
                 </p>
               )}
               <>
-                {!facilityDetails && (
-                  <NewTabAnchor
-                    href={`/find-locations/facility/vha_${getRealFacilityId(
-                      data.vaFacility || data.communityCareSystemId,
-                    )}`}
-                  >
-                    {submitStatusVaos400
-                      ? 'Find facility contact information'
-                      : 'Contact your local VA medical center'}
-                  </NewTabAnchor>
-                )}
-                {!!facilityDetails && (
+                {(!!facilityDetails || parentFacility) && (
                   <FacilityAddress
-                    name={facilityDetails.name}
-                    facility={facilityDetails}
+                    name={facilityDetails?.name || parentFacility.name}
+                    facility={facilityDetails || parentFacility}
                     showDirectionsLink
                   />
                 )}

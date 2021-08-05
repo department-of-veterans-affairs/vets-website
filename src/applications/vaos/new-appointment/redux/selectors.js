@@ -105,7 +105,7 @@ export function getChosenFacilityInfo(state) {
   );
 }
 
-export function getChosenCCSystemId(state) {
+export function getChosenCCSystemById(state) {
   const communityCareSystemId = getFormData(state).communityCareSystemId;
 
   if (!communityCareSystemId) {
@@ -357,6 +357,7 @@ export function selectReviewPage(state) {
     facility: getChosenFacilityInfo(state),
     facilityDetails: getChosenFacilityDetails(state),
     flowType: getFlowType(state),
+    parentFacility: getChosenCCSystemById(state),
     submitStatus: state.newAppointment.submitStatus,
     submitStatusVaos400: state.newAppointment.submitStatusVaos400,
     systemId: getSiteIdForChosenFacility(state),
