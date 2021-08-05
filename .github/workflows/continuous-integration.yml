@@ -323,14 +323,6 @@ jobs:
       num_containers: ${{ steps.containers.outputs.num }}
       ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
       tests: ${{ steps.tests.outputs.selected }}
-      # containers1: ${{ steps.containers1.outputs.matrix-array }}
-      # containers2: ${{ steps.containers2.outputs.matrix-array }}
-      # containers3: ${{ steps.containers3.outputs.matrix-array }}
-      # containers4: ${{ steps.containers4.outputs.matrix-array }}
-      # containers5: ${{ steps.containers5.outputs.matrix-array }}
-      # containers6: ${{ steps.containers6.outputs.matrix-array }}
-      # containers7: ${{ steps.containers7.outputs.matrix-array }}
-      # containers8: ${{ steps.containers8.outputs.matrix-array }}
 
     steps:
       - name: Checkout
@@ -379,38 +371,6 @@ jobs:
       - name: Set output of tests to run
         id: tests
         run: echo ::set-output name=selected::$(echo $TESTS)
-
-      # - name: Use 1 container
-      #   id: containers1
-      #   run: echo ::set-output name=matrix-array::$(echo [0])
-
-      # - name: Use 2 containers
-      #   id: containers2
-      #   run: echo ::set-output name=matrix-array::$(echo [0, 1])
-
-      # - name: Use 3 containers
-      #   id: containers3
-      #   run: echo ::set-output name=matrix-array::$(echo [0, 1, 2])
-
-      # - name: Use 4 containers
-      #   id: containers4
-      #   run: echo ::set-output name=matrix-array::$(echo [0, 1, 2, 3])
-
-      # - name: Use 5 containers
-      #   id: containers5
-      #   run: echo ::set-output name=matrix-array::$(echo [0, 1, 2, 3, 4])
-
-      # - name: Use 6 containers
-      #   id: containers6
-      #   run: echo ::set-output name=matrix-array::$(echo [0, 1, 2, 3, 4, 5])
-
-      # - name: Use 7 containers
-      #   id: containers7
-      #   run: echo ::set-output name=matrix-array::$(echo [0, 1, 2, 3, 4, 5, 6])
-
-      # - name: Use 8 containers
-      #   id: containers8
-      #   run: echo ::set-output name=matrix-array::$(echo [0, 1, 2, 3, 4, 5, 6, 7])
 
   cypress-tests:
     name: Cypress E2E Tests
