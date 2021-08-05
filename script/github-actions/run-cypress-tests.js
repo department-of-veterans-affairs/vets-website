@@ -1,6 +1,6 @@
 const { runCommandSync } = require('../utils');
 
-const tests = process.env.TESTS;
+const tests = JSON.parse(process.env.TESTS);
 const step = Number(process.env.STEP);
 
 // eslint-disable-next-line no-console
