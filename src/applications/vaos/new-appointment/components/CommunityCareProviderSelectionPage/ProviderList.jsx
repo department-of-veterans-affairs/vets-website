@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { shallowEqual, useSelector } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 import {
@@ -31,7 +31,7 @@ export default function ProviderList({
     requestStatus,
     sortMethod,
     typeOfCareName,
-  } = useSelector(state => selectProviderSelectionInfo(state));
+  } = useSelector(selectProviderSelectionInfo, shallowEqual);
   const loadingProviders =
     !communityCareProviderList && requestStatus !== FETCH_STATUS.failed;
 

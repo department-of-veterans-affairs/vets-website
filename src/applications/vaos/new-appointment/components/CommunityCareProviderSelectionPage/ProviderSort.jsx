@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
 import { selectProviderSelectionInfo } from '../../redux/selectors';
 import {
@@ -22,7 +22,7 @@ export default function ProviderSort({
     communityCareProviderList,
     currentLocation,
     sortMethod,
-  } = useSelector(state => selectProviderSelectionInfo(state));
+  } = useSelector(selectProviderSelectionInfo, shallowEqual);
 
   useEffect(
     () => {
