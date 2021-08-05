@@ -811,6 +811,16 @@ export function submitAppointmentOrRequest(history) {
         };
       }
 
+      additionalEventData = {
+        ...additionalEventData,
+        'vaos-preferred-combination': Object.entries(data.bestTimeToCall || {})
+          .filter(item => item[1])
+          .map(item => item[0])
+          .sort()
+          .join('-')
+          .toLowerCase(),
+      };
+
       recordEvent({
         event: `${GA_PREFIX}-${eventType}-submission`,
         flow,
