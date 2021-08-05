@@ -4,6 +4,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import CautionFlagDetails from './CautionFlagDetails';
 import SchoolClosingDetails from './SchoolClosingDetails';
 import LearnMoreLabel from '../LearnMoreLabel';
+import { ariaLabels } from '../../constants';
 
 export function CautionaryInformation({ institution, showModal }) {
   const {
@@ -111,7 +112,7 @@ export function CautionaryInformation({ institution, showModal }) {
           });
           showModal('allCampuses');
         }}
-        ariaLabel="test"
+        ariaLabel={ariaLabels.learnMore.allCampusComplaints}
       />
     </div>
   );
