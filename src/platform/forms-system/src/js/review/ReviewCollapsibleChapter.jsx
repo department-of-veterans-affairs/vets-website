@@ -266,17 +266,12 @@ class ReviewCollapsibleChapter extends React.Component {
           uploadFile={props.uploadFile}
           onReviewPage
           data={props.form.data}
-          updatePage={({ formData }) =>
-            this.handleSubmit(
-              formData,
-              page.pageKey,
-              page.arrayPath,
-              page.index,
-            )
-          }
+          updatePage={() => this.handleEdit(page.pageKey, false, page.index)}
+          pagePerItemIndex={page.index}
         />
       );
     }
+    // TODO: Fill this in
     return <page.CustomPageReview />;
   };
 
