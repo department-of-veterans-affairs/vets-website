@@ -60,19 +60,19 @@ if (allMdFiles) {
 const numTests = batch.length;
 
 if (numTests === 0) {
-  return 0;
+  return [];
 } else if (numTests < 20) {
-  return 1;
+  return [0];
 } else if (numTests < 40) {
-  return 2;
+  return [0, 1];
 } else if (numTests < 60) {
-  return 3;
+  return [0, 1, 2];
 } else if (numTests < 80) {
-  return 4;
+  return [0, 1, 2, 3];
 } else if (numTests < 100) {
-  return 5;
+  return [0, 1, 2, 3, 4];
 } else if (numTests < 120) {
-  return 6;
+  return [0, 1, 2, 3, 4, 5];
 } else if (numTests < 140) {
-  return 7;
-} else return 8;
+  return [0, 1, 2, 3, 4, 5, 6];
+} else return [0, 1, 2, 3, 4, 5, 6, 7];
