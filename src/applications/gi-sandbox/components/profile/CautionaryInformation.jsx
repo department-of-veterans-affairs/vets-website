@@ -101,11 +101,9 @@ export function CautionaryInformation({ institution, showModal }) {
 
   const allCampusesLink = (
     <div className="small-screen-font">
-      All campuses (
-      <button
+      <LearnMoreLabel
         id="typeAccredited-button"
-        type="button"
-        className="va-button-link learn-more-button small-screen-font"
+        text={'All campuses'}
         onClick={() => {
           recordEvent({
             event: 'education-navigation',
@@ -113,10 +111,8 @@ export function CautionaryInformation({ institution, showModal }) {
           });
           showModal('allCampuses');
         }}
-      >
-        Learn more
-      </button>
-      )
+        ariaLabel="test"
+      />
     </div>
   );
 
