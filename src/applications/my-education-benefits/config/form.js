@@ -17,7 +17,7 @@ import bankAccountUI from 'platform/forms-system/src/js/definitions/bankAccount'
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 // eslint-disable-next-line no-unused-vars
 import * as address from 'platform/forms-system/src/js/definitions/address';
-import ReviewBoxField from 'platform/forms-system/src/js/components/ReviewBoxField';
+// import ReviewBoxField from 'platform/forms-system/src/js/components/ReviewBoxField';
 // import fullSchema from 'vets-json-schema/dist/22-1990-schema.json';
 
 import manifest from '../manifest.json';
@@ -149,7 +149,7 @@ const formConfig = {
           uiSchema: {
             [formFields.email]: {
               'ui:title': 'Your email address',
-              'ui:field': ReviewBoxField,
+              // 'ui:field': ReviewBoxField,
               'ui:options': {
                 viewComponent: EmailViewField,
               },
