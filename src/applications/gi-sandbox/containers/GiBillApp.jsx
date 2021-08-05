@@ -23,6 +23,7 @@ export function GiBillApp({
   constants,
   children,
   preview,
+  compare,
   dispatchEnterPreviewMode,
   dispatchExitPreviewMode,
   dispatchFetchConstants,
@@ -82,10 +83,15 @@ export function GiBillApp({
               {children}
             </DowntimeNotification>
           )}
-          <div className="row vads-u-padding--1p5 small-screen:vads-u-padding--0">
-            <AboutThisTool />
-            <Disclaimer />
-          </div>
+          {compare.open && <div style={{ height: '12px' }}>&nbsp;</div>}
+          {!compare.open && (
+            <div className="row vads-u-padding--1p5 small-screen:vads-u-padding--0">
+              <>
+                <AboutThisTool />
+                <Disclaimer />
+              </>
+            </div>
+          )}
           {!onComparePage && <CompareDrawer alwaysDisplay={onProfilePage} />}
           <Modals />
         </div>
@@ -101,6 +107,7 @@ GiBillApp.propTypes = {
 const mapStateToProps = state => ({
   constants: state.constants,
   preview: state.preview,
+  compare: state.compare,
 });
 
 const mapDispatchToProps = {
