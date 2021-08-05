@@ -19,14 +19,6 @@ export function transformV2Slots(slots) {
       .filter(slot => !!slot.start && moment(slot.start).isValid())
       .map(slot => ({
         id: slot.id,
-        /**
-         *
-         * The slot datetimes we get back from VistA include
-         * an offset of +00:00 that isn't actually accurate. The times returned are
-         * already in the time zone of the facility. In order to prevent
-         * moment from using this offset, we'll remove it until we know what offset VSP will be using
-         */
-
         start: slot.start,
         end: slot.end,
       }))

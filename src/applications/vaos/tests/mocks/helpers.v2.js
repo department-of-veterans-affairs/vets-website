@@ -260,8 +260,8 @@ export function mockAppointmentSlotFetch({
       `${
         environment.API_URL
       }/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?` +
-        `&start_date=${start.format('YYYY-MM-DDTHH:mm:ssZ')}` +
-        `&end_date=${end.format('YYYY-MM-DDTHH:mm:ssZ')}`,
+        `&start_date=${start.format()}` +
+        `&end_date=${end.format()}`,
     ),
     {
       data: [
