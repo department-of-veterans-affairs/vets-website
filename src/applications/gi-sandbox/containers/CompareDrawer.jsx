@@ -24,7 +24,7 @@ export function CompareDrawer({
   const handleScroll = () => {
     if (placeholder.current) {
       setStuck(
-        placeholder.current.getBoundingClientRect().top < window.innerHeight,
+        placeholder.current.getBoundingClientRect().bottom < window.innerHeight,
       );
     }
   };
@@ -71,7 +71,10 @@ export function CompareDrawer({
   };
 
   const compareDrawerClasses = classNames('compare-drawer', { stuck });
-
+  const placeholderClasses = classNames('placeholder', {
+    'drawer-open': open && !stuck,
+    'drawer-stuck': stuck,
+  });
   return (
     <>
       <div className={compareDrawerClasses}>
@@ -139,7 +142,9 @@ export function CompareDrawer({
           </div>
         )}
       </div>
-      <div ref={placeholder} id="compare-drawer-placeholder" />
+      <div ref={placeholder} className={placeholderClasses}>
+        &nbsp;
+      </div>
     </>
   );
 }

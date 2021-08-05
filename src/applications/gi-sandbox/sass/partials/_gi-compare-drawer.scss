@@ -69,3 +69,14 @@
     }
   }
 }
+
+.placeholder {
+  height: 2.5em;
+  &.drawer-stuck {
+    height: 0 !important;
+  }
+  &.drawer-open {
+    height: 12.5em;
+
+  }
+}
