@@ -26,7 +26,7 @@ describe('User Nav Test', () => {
           .then(signOutButton => {
             cy.wrap(signOutButton).click();
             cy.url().should(
-              'contain',
+              'match',
               /\/sessions\/slo\/new|chrome-error:\/\/chromewebdata\//,
             );
             // As Cypress does not permit cross browser testing in the same spec, we expect after the attempt at browsing, that we will receive a chrome error.
