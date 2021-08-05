@@ -61,21 +61,33 @@ if (allMdFiles) {
 const numTests = tests.length;
 
 if (numTests === 0) {
-  core.exportVariable('CI_NODE_INDEX', []);
+  core.exportVariable('NUM_CONTAINERS', 0);
 } else if (numTests < 20) {
+  core.exportVariable('NUM_CONTAINERS', 1);
   core.exportVariable('CI_NODE_INDEX', [0]);
 } else if (numTests < 40) {
+  core.exportVariable('NUM_CONTAINERS', 2);
   core.exportVariable('CI_NODE_INDEX', [0, 1]);
 } else if (numTests < 60) {
+  core.exportVariable('NUM_CONTAINERS', 3);
   core.exportVariable('CI_NODE_INDEX', [0, 1, 2]);
 } else if (numTests < 80) {
+  core.exportVariable('NUM_CONTAINERS', 4);
   core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3]);
 } else if (numTests < 100) {
+  core.exportVariable('NUM_CONTAINERS', 5);
   core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4]);
 } else if (numTests < 120) {
+  core.exportVariable('NUM_CONTAINERS', 6);
   core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4, 5]);
 } else if (numTests < 140) {
+  core.exportVariable('NUM_CONTAINERS', 7);
   core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4, 5, 6]);
-} else core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4, 5, 6, 7]);
+} else {
+  core.exportVariable('NUM_CONTAINERS', 8);
+  core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4, 5, 6, 7]);
+}
+
+core.exportVariable('TESTS', tests);
 
 return undefined;
