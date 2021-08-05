@@ -69,7 +69,8 @@ class EnrollmentPeriod extends React.Component {
     const changeHistory =
       amendments.length > 0 ? (
         <div className="usa-accordion">
-          <ul className="usa-unstyled-list">
+          {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+          <ul className="usa-unstyled-list" role="list">
             <li>
               <div className="accordion-header clearfix">
                 <button

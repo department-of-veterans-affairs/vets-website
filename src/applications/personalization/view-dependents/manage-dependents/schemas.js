@@ -1,4 +1,4 @@
-import { countries, states50AndDC } from 'vets-json-schema/dist/constants.json';
+import { countries, states } from 'vets-json-schema/dist/constants.json';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { addressUiSchema } from 'applications/vre/definitions/profileAddress';
 
@@ -16,6 +16,11 @@ const PATTERNS = {
   STREET_PATTERN: '^.*\\S.*',
 };
 
+// filtered states that include US territories
+const filteredStates = states.USA.filter(
+  state => !['AA', 'AE', 'AP'].includes(state.value),
+);
+
 const locationSchema = {
   type: 'object',
   properties: {
@@ -25,8 +30,8 @@ const locationSchema = {
     },
     state: {
       type: 'string',
-      enum: states50AndDC.map(state => state.value),
-      enumNames: states50AndDC.map(state => state.label),
+      enum: filteredStates.map(state => state.value),
+      enumNames: filteredStates.map(state => state.label),
     },
     city: {
       type: 'string',
@@ -42,6 +47,9 @@ const locationUiSchema = uiRequiredCallback => {
     },
     state: {
       'ui:required': uiRequiredCallback,
+      'ui:errorMessages': {
+        required: 'Please select where this happened',
+      },
       'ui:options': {
         replaceSchema: formData => {
           if (formData?.location?.isOutsideUs) {
@@ -59,8 +67,8 @@ const locationUiSchema = uiRequiredCallback => {
           return {
             type: 'string',
             title: 'State where this happened',
-            enum: states50AndDC.map(state => state.value),
-            enumNames: states50AndDC.map(state => state.label),
+            enum: filteredStates.map(state => state.value),
+            enumNames: filteredStates.map(state => state.label),
           };
         },
       },
@@ -68,6 +76,9 @@ const locationUiSchema = uiRequiredCallback => {
     city: {
       'ui:title': 'City where this happened',
       'ui:required': uiRequiredCallback,
+      'ui:errorMessages': {
+        required: 'Please enter a city',
+      },
     },
   };
 };
@@ -115,7 +126,13 @@ export const SCHEMAS = {
           required: 'Please select an option',
         },
       },
-      date: currentOrPastDateUI('Date marriage ended'),
+      date: {
+        ...currentOrPastDateUI('Date marriage ended'),
+        'ui:errorMessages': {
+          pattern: 'Please enter a valid current or past date',
+          required: 'Please provide the date marriage ended',
+        },
+      },
       location: locationUiSchema(() => true),
     },
   },
