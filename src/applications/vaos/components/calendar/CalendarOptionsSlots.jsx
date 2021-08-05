@@ -46,7 +46,6 @@ export default function CalendarOptionsSlots({
   hasError,
   onChange,
   id,
-  timezone,
   showWeekends,
 }) {
   const currentSlots = availableSlots.filter(slot =>
@@ -95,10 +94,7 @@ export default function CalendarOptionsSlots({
         const checked = selectedDates.some(
           selectedDate => selectedDate === slot.start,
         );
-        let time = moment(slot.start);
-        if (slot.start.endsWith('Z') && timezone) {
-          time = time.tz(timezone);
-        }
+        const time = moment(slot.start);
         const meridiem = time.format('A');
         const screenReaderMeridiem = meridiem.replace(/\./g, '').toUpperCase();
         const label = (
