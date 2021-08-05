@@ -255,8 +255,6 @@ class ReviewCollapsibleChapter extends React.Component {
   };
 
   getCustomPageContent = (page, props, editing) => {
-    // TODO: Figure out how to get the page per item index—is it just page.index?
-    // TODO: Figure out how to get the formContext
     if (editing) {
       return (
         <page.CustomPage
@@ -271,8 +269,14 @@ class ReviewCollapsibleChapter extends React.Component {
         />
       );
     }
-    // TODO: Fill this in
-    return <page.CustomPageReview />;
+    return (
+      <page.CustomPageReview
+        name={page.pageKey}
+        title={page.title}
+        data={props.form.data}
+        pagePerItemIndex={page.index}
+      />
+    );
   };
 
   getChapterContent = props => {
