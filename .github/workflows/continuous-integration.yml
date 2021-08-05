@@ -364,15 +364,15 @@ jobs:
 
       - name: Set output of number of containers
         id: containers
-        run: echo ::set-output name=num::$(echo $NUM_CONTAINERS)
+        run: echo ::set-output name=num::$NUM_CONTAINERS
 
       - name: Set output of ci_node_index value for matrix
         id: matrix
-        run: echo ::set-output name=ci_node_index::$(echo $CI_NODE_INDEX)
+        run: echo ::set-output name=ci_node_index::$CI_NODE_INDEX
 
       - name: Set output of tests to run
         id: tests
-        run: echo ::set-output name=selected::$(echo $TESTS)
+        run: echo ::set-output name=selected::$TESTS
 
   cypress-tests:
     name: Cypress E2E Tests
