@@ -1,8 +1,8 @@
-import features from '../mocks/disabled.json';
+import { createFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
-    cy.intercept('GET', '/v0/feature_toggles*', features);
+    cy.intercept('GET', '/v0/feature_toggles*', createFeatureToggles(false));
   });
   afterEach(() => {
     cy.window().then(window => {

@@ -1,9 +1,9 @@
 import contractTest from 'platform/testing/contract';
 
-import { checkInUser, validateToken } from '../../api';
-import checkInResponses from '../../api/local-mock-api/mocks/check.in.response';
+import { checkInUser, validateToken } from '../../../../api';
+import checkInResponses from '../../../../api/local-mock-api/mocks/check.in.response';
 
-import validateResponses from '../../api/local-mock-api/mocks/validate.responses';
+import validateResponses from '../../../../api/local-mock-api/mocks/validate.responses';
 
 contractTest('Check In', 'VA.gov API', mockApi => {
   // Skipped until the pact is created on the API

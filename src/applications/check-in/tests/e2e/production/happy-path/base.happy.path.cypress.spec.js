@@ -1,6 +1,7 @@
-import features from '../mocks/enabled.json';
-import mockCheckIn from '../../api/local-mock-api/mocks/check.in.response';
-import mockValidate from '../../api/local-mock-api/mocks/validate.responses';
+import { createFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
+
+import mockCheckIn from '../../../../api/local-mock-api/mocks/check.in.response';
+import mockValidate from '../../../../api/local-mock-api/mocks/validate.responses';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
@@ -8,27 +9,29 @@ describe('Check In Experience -- ', () => {
       req.reply(mockValidate.createMockSuccessResponse({}));
     });
     cy.intercept('POST', '/check_in/v0/patient_check_ins/', req => {
-      req.reply(404, mockCheckIn.createMockFailedResponse({}));
+      req.reply(mockCheckIn.createMockSuccessResponse({}));
     });
-    cy.intercept('GET', '/v0/feature_toggles*', features);
-    cy.window().then(window => {
-      window.sessionStorage.clear();
-    });
+    cy.intercept('GET', '/v0/feature_toggles*', createFeatureToggles());
   });
   afterEach(() => {
     cy.window().then(window => {
       window.sessionStorage.clear();
     });
   });
-  it('C5730 - Check in - 404 api error', () => {
+  it('C5746 - Happy path', () => {
     const featureRoute =
       '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
     cy.visit(featureRoute);
     cy.get('legend > h2').contains('information');
+    cy.injectAxe();
+    cy.axeCheck();
     cy.get('[data-testid="no-button"]').click();
     cy.get('h1').contains('Your appointment');
+    cy.injectAxe();
+    cy.axeCheck();
     cy.get('.usa-button').click();
-    cy.url().should('match', /error/);
-    cy.get('h1').contains('We couldn’t check you in');
+    cy.get('va-alert > h1').contains('checked in');
+    cy.injectAxe();
+    cy.axeCheck();
   });
 });

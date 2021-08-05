@@ -1,6 +1,6 @@
-import features from '../mocks/enabled.json';
-import mockCheckIn from '../../api/local-mock-api/mocks/check.in.response';
-import mockValidate from '../../api/local-mock-api/mocks/validate.responses';
+import { createFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
+import mockCheckIn from '../../../../api/local-mock-api/mocks/check.in.response';
+import mockValidate from '../../../../api/local-mock-api/mocks/validate.responses';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
@@ -15,7 +15,7 @@ describe('Check In Experience -- ', () => {
       req.reply(mockCheckIn.createMockSuccessResponse({}));
     });
 
-    cy.intercept('GET', '/v0/feature_toggles*', features);
+    cy.intercept('GET', '/v0/feature_toggles*', createFeatureToggles());
   });
   afterEach(() => {
     cy.window().then(window => {
