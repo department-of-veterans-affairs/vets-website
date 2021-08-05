@@ -1,8 +1,8 @@
 import { createUrlWithQuery } from '../utils/helpers';
 import environment from '~/platform/utilities/environment';
 import { apiRequest } from '~/platform/utilities/api';
-import { mockFolderResponse } from '~/applications/personalization/dashboard-2/utils/mocks/messaging/folder';
-import { mockMessagesResponse } from '~/applications/personalization/dashboard-2/utils/mocks/messaging/messages';
+import { mockFolderResponse } from '~/applications/personalization/dashboard/utils/mocks/messaging/folder';
+import { mockMessagesResponse } from '~/applications/personalization/dashboard/utils/mocks/messaging/messages';
 import { shouldMockApiRequest } from '~/applications/personalization/dashboard/tests/helpers';
 import {
   FETCH_FOLDER_FAILURE,

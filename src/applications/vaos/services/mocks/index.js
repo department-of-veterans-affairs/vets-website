@@ -267,8 +267,14 @@ const responses = {
     });
   },
   'GET /vaos/v2/locations/:id/clinics': (req, res) => {
-    // Will need to modify this logic when we fetch specific clinics
-    // for the detail page
+    if (req.query.clinic_ids) {
+      return res.json({
+        data: clinicsV2.data.filter(clinic =>
+          req.query.clinic_ids.includes(clinic.id),
+        ),
+      });
+    }
+
     if (req.params.id === '983') {
       return res.json(clinicsV2);
     }
