@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import merge from 'lodash/merge';
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/FEEDBACK-TOOL-schema.json';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
@@ -216,12 +216,15 @@ const formConfig = {
                 expandUnderClassNames: 'schemaform-expandUnder',
               },
             },
-            anonymousEmail: _.merge(emailUI('Email'), {
-              'ui:options': {
-                expandUnder: 'onBehalfOf',
-                expandUnderCondition: anonymous,
+            anonymousEmail: merge(
+              {
+                'ui:options': {
+                  expandUnder: 'onBehalfOf',
+                  expandUnderCondition: anonymous,
+                },
               },
-            }),
+              emailUI('Email'),
+            ),
           },
           schema: {
             type: 'object',
@@ -243,27 +246,30 @@ const formConfig = {
                 data,
                 PrefillMessage,
               ),
-            fullName: _.merge(fullNameUI, {
-              prefix: {
-                'ui:title': 'Prefix',
-                'ui:options': {
-                  widgetClassNames: 'form-select-medium',
+            fullName: merge(
+              {
+                prefix: {
+                  'ui:title': 'Prefix',
+                  'ui:options': {
+                    widgetClassNames: 'form-select-medium',
+                  },
                 },
+                first: {
+                  'ui:title': 'Your first name',
+                },
+                last: {
+                  'ui:title': 'Your last name',
+                },
+                middle: {
+                  'ui:title': 'Your middle name',
+                },
+                suffix: {
+                  'ui:title': 'Your suffix',
+                },
+                'ui:order': ['prefix', 'first', 'middle', 'last', 'suffix'],
               },
-              first: {
-                'ui:title': 'Your first name',
-              },
-              last: {
-                'ui:title': 'Your last name',
-              },
-              middle: {
-                'ui:title': 'Your middle name',
-              },
-              suffix: {
-                'ui:title': 'Your suffix',
-              },
-              'ui:order': ['prefix', 'first', 'middle', 'last', 'suffix'],
-            }),
+              fullNameUI,
+            ),
             serviceAffiliation: {
               'ui:title': 'Service affiliation',
               'ui:required': isMyself,

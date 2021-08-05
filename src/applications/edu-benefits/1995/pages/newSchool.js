@@ -1,5 +1,5 @@
 import educationTypeUISchema from '../../definitions/educationType';
-import _ from 'lodash/fp';
+import merge from 'lodash/merge';
 import { showSchoolAddress } from '../../utils/helpers';
 import * as address from 'platform/forms/definitions/address';
 import { validateWhiteSpace } from 'platform/forms/validations';
@@ -27,11 +27,14 @@ export const uiSchema = {
     ],
   },
   educationType: educationTypeUISchema,
-  newSchoolAddress: _.merge(address.uiSchema(), {
-    'ui:options': {
-      hideIf: formData => !showSchoolAddress(formData.educationType),
+  newSchoolAddress: merge(
+    {
+      'ui:options': {
+        hideIf: formData => !showSchoolAddress(formData.educationType),
+      },
     },
-  }),
+    address.uiSchema(),
+  ),
   educationObjective: {
     'ui:title':
       'Education or career goal (For example, “I want to get a bachelor’s degree in criminal justice” or “I want to get an HVAC technician certificate” or “I want to become a police officer.”)',

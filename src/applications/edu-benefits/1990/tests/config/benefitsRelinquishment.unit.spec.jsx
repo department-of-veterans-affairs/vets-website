@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
-import _ from 'lodash/fp';
+import merge from 'lodash/merge';
 
 import {
   DefinitionTester,
@@ -16,12 +16,15 @@ describe('Edu 1990 benefitsRelinquishment', () => {
     uiSchema,
     initialData,
   } = formConfig.chapters.benefitsEligibility.pages.benefitsRelinquishment;
-  const defaultData = _.merge(initialData, {
-    // Not sure this is needed, strictly speaking, but this page _does_ depend on it
-    'view:selectedBenefits': {
-      chapter30: true,
+  const defaultData = merge(
+    {
+      // Not sure this is needed, strictly speaking, but this page _does_ depend on it
+      'view:selectedBenefits': {
+        chapter30: true,
+      },
     },
-  });
+    initialData,
+  );
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(

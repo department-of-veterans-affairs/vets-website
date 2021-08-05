@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash/fp';
+import merge from 'lodash/merge';
+import set from 'platform/utilities/data/set';
+import get from 'platform/utilities/data/get';
 
 /**
  * Field for selecting the benefitsRelinquished and corresponding date as necessary.
@@ -9,7 +11,7 @@ import _ from 'lodash/fp';
 export default class BenefitsRelinquishmentField extends React.Component {
   onPropertyChange(name) {
     return value => {
-      this.props.onChange(_.set(name, value, this.props.formData));
+      this.props.onChange(set(name, value, this.props.formData));
     };
   }
 
@@ -105,7 +107,7 @@ export default class BenefitsRelinquishmentField extends React.Component {
       formContext,
     } = this.props;
 
-    const benefitsRelinquished = _.get('benefitsRelinquished', formData);
+    const benefitsRelinquished = get('benefitsRelinquished', formData);
     if (
       formContext.reviewMode &&
       benefitsRelinquished !== 'unknown' &&
@@ -134,11 +136,14 @@ export default class BenefitsRelinquishmentField extends React.Component {
         name="benefitsRelinquished"
         required
         schema={schema.properties.benefitsRelinquished}
-        uiSchema={_.merge(uiSchema.benefitsRelinquished, {
-          'ui:options': {
-            nestedContent: this.getNestedContent(),
+        uiSchema={merge(
+          {
+            'ui:options': {
+              nestedContent: this.getNestedContent(),
+            },
           },
-        })}
+          uiSchema.benefitsRelinquished,
+        )}
         errorSchema={errorSchema.benefitsRelinquished}
         idSchema={idSchema.benefitsRelinquished}
         formData={formData.benefitsRelinquished}

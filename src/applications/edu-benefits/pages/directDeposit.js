@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import merge from 'lodash/merge';
 
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 
@@ -7,7 +7,7 @@ const defaults = {
 };
 
 export default function createDirectDepositPage(schema, options) {
-  const mergedOptions = _.assign(defaults, options);
+  const mergedOptions = { ...defaults, ...options };
   const { required } = mergedOptions;
   const { bankAccount } = schema.definitions;
 
@@ -22,9 +22,12 @@ export default function createDirectDepositPage(schema, options) {
     schema: {
       type: 'object',
       properties: {
-        bankAccount: _.merge(bankAccount, {
-          required,
-        }),
+        bankAccount: merge(
+          {
+            required,
+          },
+          bankAccount,
+        ),
       },
     },
   };

@@ -1,4 +1,5 @@
-import _ from 'lodash/fp';
+import merge from 'lodash/merge';
+import set from 'platform/utilities/data/set';
 
 import { showSchoolAddress } from '../utils/helpers';
 import * as address from 'platform/forms/definitions/address';
@@ -6,12 +7,15 @@ import educationTypeUISchema from './educationType';
 
 export const uiSchema = {
   'ui:order': ['name', 'educationType', 'address'],
-  address: _.merge(address.uiSchema(), {
-    'ui:options': {
-      expandUnder: 'educationType',
-      expandUnderCondition: showSchoolAddress,
+  address: merge(
+    {
+      'ui:options': {
+        expandUnder: 'educationType',
+        expandUnderCondition: showSchoolAddress,
+      },
     },
-  }),
+    address.uiSchema(),
+  ),
   educationType: educationTypeUISchema,
   name: {
     'ui:title': 'Name of school, university, or training facility',
@@ -21,12 +25,12 @@ export const uiSchema = {
 // including this because it has an address and we need to override that with the FE schema
 // we also may need to add required attributes
 export function schema(localSchema, required = []) {
-  const withRequiredSchema = _.set(
+  const withRequiredSchema = set(
     'required',
     required,
     localSchema.definitions.educationProgram,
   );
-  return _.set(
+  return set(
     'properties.address',
     address.schema(localSchema),
     withRequiredSchema,

@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import merge from 'lodash/merge';
 
 import fullSchema1990n from 'vets-json-schema/dist/22-1990N-schema.json';
 
@@ -145,9 +145,12 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              payHighestRateBenefit: _.merge(payHighestRateBenefit, {
-                default: true,
-              }),
+              payHighestRateBenefit: merge(
+                {
+                  default: true,
+                },
+                payHighestRateBenefit,
+              ),
             },
           },
         },

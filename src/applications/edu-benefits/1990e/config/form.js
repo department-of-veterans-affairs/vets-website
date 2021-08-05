@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import merge from 'lodash/merge';
 
 import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 
@@ -137,31 +137,38 @@ const formConfig = {
           title: 'Sponsor information',
           path: 'sponsor/information',
           uiSchema: {
-            veteranFullName: _.merge(fullNameUISchema, {
-              first: {
-                'ui:title': "Sponsor's first name",
+            veteranFullName: merge(
+              {
+                first: {
+                  'ui:title': "Sponsor's first name",
+                },
+                last: {
+                  'ui:title': "Sponsor's last name",
+                },
+                middle: {
+                  'ui:title': "Sponsor's middle name",
+                },
+                suffix: {
+                  'ui:title': "Sponsor's suffix",
+                },
               },
-              last: {
-                'ui:title': "Sponsor's last name",
+              fullNameUISchema,
+            ),
+            'view:veteranId': merge(
+              {
+                veteranSocialSecurityNumber: {
+                  'ui:title': "Sponsor's Social Security number",
+                },
+                'view:noSSN': {
+                  'ui:title':
+                    'I don’t know my sponsor’s Social Security number',
+                },
+                vaFileNumber: {
+                  'ui:title': "Sponsor's VA file number",
+                },
               },
-              middle: {
-                'ui:title': "Sponsor's middle name",
-              },
-              suffix: {
-                'ui:title': "Sponsor's suffix",
-              },
-            }),
-            'view:veteranId': _.merge(personId.uiSchema(), {
-              veteranSocialSecurityNumber: {
-                'ui:title': "Sponsor's Social Security number",
-              },
-              'view:noSSN': {
-                'ui:title': 'I don’t know my sponsor’s Social Security number',
-              },
-              vaFileNumber: {
-                'ui:title': "Sponsor's VA file number",
-              },
-            }),
+              personId.uiSchema(),
+            ),
             veteranAddress: address.uiSchema("Sponsor's address"),
             serviceBranch: {
               'ui:title': "Sponsor's branch of service",

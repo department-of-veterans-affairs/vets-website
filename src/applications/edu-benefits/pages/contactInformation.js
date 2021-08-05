@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import merge from 'lodash/merge';
 
 import schemaDefinitions from 'vets-json-schema/dist/definitions.json';
 
@@ -40,17 +40,22 @@ export default function createContactInformationPage(
           validateMatch('email', 'view:confirmEmail', { ignoreCase: true }),
         ],
         email: emailUI(),
-        'view:confirmEmail': _.merge(emailUI('Re-enter email address'), {
-          'ui:options': {
-            hideOnReview: true,
+        'view:confirmEmail': merge(
+          {
+            'ui:options': {
+              hideOnReview: true,
+            },
           },
-        }),
-        homePhone: _.assign(phoneUI('Home phone number'), {
+          emailUI('Re-enter email address'),
+        ),
+        homePhone: {
+          ...phoneUI('Home phone number'),
           'ui:required': form => form.preferredContactMethod === 'phone',
-        }),
-        mobilePhone: _.assign(phoneUI('Mobile phone number'), {
+        },
+        mobilePhone: {
+          ...phoneUI('Mobile phone number'),
           'ui:required': form => form.preferredContactMethod === 'mobile',
-        }),
+        },
       },
     },
     schema: {

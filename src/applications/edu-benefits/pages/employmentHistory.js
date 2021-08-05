@@ -1,4 +1,6 @@
-import _ from 'lodash/fp';
+import set from 'platform/utilities/data/set';
+import unset from 'platform/utilities/data/unset';
+
 import nonMilitaryJobsUi from 'platform/forms/definitions/nonMilitaryJobs';
 
 export default function employmentHistoryPage(
@@ -6,19 +8,19 @@ export default function employmentHistoryPage(
   usePostMilitaryJob = true,
 ) {
   let nonMilitaryJobs = schema.definitions.nonMilitaryJobs;
-  let jobUISchema = _.set(
+  let jobUISchema = set(
     ['ui:options', 'expandUnder'],
     'view:hasNonMilitaryJobs',
     nonMilitaryJobsUi,
   );
 
   if (!usePostMilitaryJob) {
-    nonMilitaryJobs = _.unset(
+    nonMilitaryJobs = unset(
       'items.properties.postMilitaryJob',
       nonMilitaryJobs,
     );
   } else {
-    jobUISchema = _.set(
+    jobUISchema = set(
       'items.ui:order',
       ['postMilitaryJob', 'name', 'months', 'licenseOrRating'],
       jobUISchema,

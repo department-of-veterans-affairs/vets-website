@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import merge from 'lodash/merge';
 import fullSchema5495 from 'vets-json-schema/dist/22-5495-schema.json';
 
 import applicantInformation from 'platform/forms/pages/applicantInformation';
@@ -127,26 +127,30 @@ const formConfig = {
           title: 'Sponsor information',
           uiSchema: {
             veteranFullName: sponsorFullNameUI,
-            'view:veteranId': _.merge(personId.uiSchema(), {
-              'view:noSSN': {
-                'ui:title': 'I don’t know my sponsor’s Social Security number',
+            'view:veteranId': merge(
+              {
+                'view:noSSN': {
+                  'ui:title':
+                    'I don’t know my sponsor’s Social Security number',
+                },
+                vaFileNumber: {
+                  'ui:title': "Sponsor's VA file number",
+                },
+                veteranSocialSecurityNumber: {
+                  'ui:title': "Sponsor's Social Security number",
+                  'ui:validations': [
+                    (errors, fieldData, formData) => {
+                      if (fieldData === formData.relativeSocialSecurityNumber) {
+                        errors.addError(
+                          'Your sponsor’s SSN cannot be the same as yours.',
+                        );
+                      }
+                    },
+                  ],
+                },
               },
-              vaFileNumber: {
-                'ui:title': "Sponsor's VA file number",
-              },
-              veteranSocialSecurityNumber: {
-                'ui:title': "Sponsor's Social Security number",
-                'ui:validations': [
-                  (errors, fieldData, formData) => {
-                    if (fieldData === formData.relativeSocialSecurityNumber) {
-                      errors.addError(
-                        'Your sponsor’s SSN cannot be the same as yours.',
-                      );
-                    }
-                  },
-                ],
-              },
-            }),
+              personId.uiSchema(),
+            ),
             outstandingFelony: {
               'ui:title':
                 'Do you or your sponsor have an outstanding felony and/or warrant?',

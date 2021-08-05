@@ -1,11 +1,12 @@
-import _ from 'lodash/fp';
+import merge from 'lodash/merge';
+import get from 'platform/utilities/data/get';
 
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 
 import { bankAccountChangeLabels, directDepositWarning } from '../utils/labels';
 
 function isStartUpdate(form) {
-  return _.get('bankAccountChange', form) === 'startUpdate';
+  return get('bankAccountChange', form) === 'startUpdate';
 }
 
 export default function createDirectDepositChangePage(schema) {
@@ -23,21 +24,24 @@ export default function createDirectDepositChangePage(schema) {
           labels: bankAccountChangeLabels,
         },
       },
-      bankAccount: _.merge(bankAccountUI, {
-        'ui:options': {
-          hideIf: formData => !isStartUpdate(formData),
-          expandUnder: 'bankAccountChange',
+      bankAccount: merge(
+        {
+          'ui:options': {
+            hideIf: formData => !isStartUpdate(formData),
+            expandUnder: 'bankAccountChange',
+          },
+          accountType: {
+            'ui:required': isStartUpdate,
+          },
+          accountNumber: {
+            'ui:required': isStartUpdate,
+          },
+          routingNumber: {
+            'ui:required': isStartUpdate,
+          },
         },
-        accountType: {
-          'ui:required': isStartUpdate,
-        },
-        accountNumber: {
-          'ui:required': isStartUpdate,
-        },
-        routingNumber: {
-          'ui:required': isStartUpdate,
-        },
-      }),
+        bankAccountUI,
+      ),
       'view:stopWarning': {
         'ui:description': directDepositWarning,
         'ui:options': {
