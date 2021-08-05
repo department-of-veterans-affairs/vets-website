@@ -15,7 +15,14 @@ The page also includes some static content about payments with helpful links.
 > There is a third possibility when the user lands on the page, that we had an error looking up their payments. If there is an error they will be shown a message about the error.
 
 ## The front end code
-> This is for a detailed description of the front end code for your app. Good things to put here are the basic folder and file structure as well as a short description of why this folder and file structure was used. Also be sure to callout any interesting folder or file usage that might confuse a future developer.
+The front end is split up into a few basic components that are inside a container that acts as a wrapper and connects the app to our Redux code. The container, located at `/containers/App.jsx`, simply takes the main components and wraps them in a `<DowntimeNotification />` from the platform in case BGS is down (which we use as the data source on the back end). This is then wrapped in a `<RequiredLoginView />` component from the platform that simply requires the user to log in to view their payments. You will also notice the `mapStateToProps` call where we tie the app into Redux.
+
+### Payment lists
+The meat inside the `App.js` container is the `<ViewPaymentsLists />` located at `/components/view-payments-lists/ViewPaymentsLists.jsx`. This component is responsible for rendering most of the content on the page. It begins with a call to `getAllPayments` inside a `componentDidMount` which calls the action from Redux passed in through `mapDispatchToProps`. This action calls the `/profile/payment_history` endpoint and gets the payments for the Veteran.
+
+Once we retrieve the payments for the veteran we call two methods, `buildReturnedPaymentListContent` and `buildPaymentListContent` the first of which builds the table of returned payments for the veteran and the second of which builds the table of payments the Veteran has received. Insed each of these methods we check to see if there are payments for each respective list and if there are we render them in a `<Payments />` component. If there are no payments for either list then we render a message about it inside an `<ca-alert />` component from the platform.
+
+Aside from the call to `getAllPayments`, everything above is called inside the `render` method where we build the full page of content based on the logic above. You will also notice that it is inside the `render` method where we check if the app is loading, if it is we show a ``<LoadingIndicator />`` from the platform, as well as check if there was an error for the whole page and if there is we render a `<va-alert />` component from the platform.
 
 ## Callouts on how the front end works
 > Any special or interesting aspects of how the front end works should be detailed here. This is meant to be read by developers that need to make sense of these special or interesting aspects of your code without you present so write them with as much code detail as possible to achieve good clarity.
