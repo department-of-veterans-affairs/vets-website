@@ -82,7 +82,7 @@ export function GiBillApp({
               {children}
             </DowntimeNotification>
           )}
-          <div className="row">
+          <div className="row vads-u-padding--1p5 small-screen:vads-u-padding--0">
             <AboutThisTool />
             <Disclaimer />
           </div>

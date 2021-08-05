@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Scroll from 'react-scroll';
 import { getScrollOptions } from 'platform/utilities/ui';
 import classNames from 'classnames';
@@ -10,6 +10,7 @@ const scroll = Scroll.animateScroll;
  * of its parentId element
  * @param parentId containing element's id, used to float element right when floating at bottom of page
  * @param profilePageHeaderId once bottom of this element is less than zero triggers floating behavior
+ * @param compare
  * @return {JSX.Element}
  * @constructor
  */
@@ -17,13 +18,40 @@ export default function BackToTop({ parentId, profilePageHeaderId, compare }) {
   const [floating, setFloating] = useState(false);
   const [backToTopContainerStyle, setBackToTopContainerStyle] = useState({});
   const [compareOpen, setCompareOpen] = useState(compare.open);
+  const placeholder = useRef(null);
+  const container = useRef(null);
+  const [scrolled, setScrolled] = useState(false);
 
   const handleScroll = () => {
-    const profilePageHeader = document.getElementById(profilePageHeaderId);
-    if (!profilePageHeader) return;
-
-    setFloating(profilePageHeader.getBoundingClientRect().bottom < 0);
+    setScrolled(true);
   };
+
+  useEffect(
+    () => {
+      if (scrolled) {
+        const profilePageHeader = document.getElementById(profilePageHeaderId);
+        if (!profilePageHeader || !placeholder.current) return;
+
+        const headerNotVisible =
+          profilePageHeader.getBoundingClientRect().bottom < 0;
+
+        // Values below are based on whether Compare Drawer is open or closed as this component needs to sit 0.8em above
+        // the Compare Drawer when open or closed
+        // See _gi-back-to-top.scss: 212 = 13.3em, 52 = 3.3em
+        // These values are the 2 heights of compare drawer plus 0.8em
+        const adjustment = compareOpen ? 212 : 52;
+
+        // Has a consistent adjustment 52 because placeholder ends up above the Button in the dom
+        const footerNotVisible =
+          placeholder.current.getBoundingClientRect().bottom >=
+          window.innerHeight - 52 - adjustment;
+
+        setFloating(headerNotVisible && footerNotVisible);
+        setScrolled(false);
+      }
+    },
+    [scrolled],
+  );
 
   const resize = () => {
     if (floating) {
@@ -68,25 +96,35 @@ export default function BackToTop({ parentId, profilePageHeaderId, compare }) {
     'back-to-top-container-floating-open': floating && compareOpen,
   });
 
+  const placeholderClasses = classNames('placeholder', {
+    'button-floating': floating,
+  });
+
   return (
-    <div className={backToTopClasses}>
-      <div
-        className={backToTopContainerClasses}
-        style={backToTopContainerStyle}
-      >
-        <div className="usa-content">
-          <button
-            type="button"
-            className="usa-button va-top-button-transition-in"
-            onClick={() => scroll.scrollToTop(getScrollOptions())}
-          >
-            <span>
-              <i aria-hidden="true" className="fas fa-arrow-up" role="img" />
-            </span>
-            <span>Back to top</span>
-          </button>
+    <>
+      <div className={backToTopClasses}>
+        <div
+          className={backToTopContainerClasses}
+          style={backToTopContainerStyle}
+          ref={container}
+        >
+          <div className="usa-content">
+            <button
+              type="button"
+              className="usa-button va-top-button-transition-in"
+              onClick={() => scroll.scrollToTop(getScrollOptions())}
+            >
+              <span>
+                <i aria-hidden="true" className="fas fa-arrow-up" role="img" />
+              </span>
+              <span>Back to top</span>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+      <div ref={placeholder} className={placeholderClasses}>
+        &nbsp;
+      </div>
+    </>
   );
 }
