@@ -4,7 +4,7 @@ import { selectProviderSelectionInfo } from '../../redux/selectors';
 import { requestProvidersList } from '../../redux/actions';
 import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import SelectedProvider from './SelectedProvider';
+import ProviderSelect from './ProviderSelect';
 import ProviderList from './ProviderList';
 
 const INITIAL_PROVIDER_DISPLAY_COUNT = 5;
@@ -112,7 +112,7 @@ export default function ProviderSelectionField({
 
   if (!showProvidersList) {
     return (
-      <SelectedProvider
+      <ProviderSelect
         formData={formData}
         initialProviderDisplayCount={INITIAL_PROVIDER_DISPLAY_COUNT}
         onChange={onChange}
