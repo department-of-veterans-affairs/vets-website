@@ -1,8 +1,16 @@
 const { runCommandSync } = require('../utils');
 
 const tests = process.env.TESTS;
-const step = process.env.STEP;
-const divider = Math.ceil(tests.length / process.env.NUM_CONTAINERS);
+const step = Number(process.env.STEP);
+const divider = Math.ceil(tests.length / Number(process.env.NUM_CONTAINERS));
+
+// eslint-disable-next-line no-console
+console.log('tests: ', tests);
+// eslint-disable-next-line no-console
+console.log('step: ', step);
+// eslint-disable-next-line no-console
+console.log('divider: ', divider);
+
 const batch = tests
   .slice(Number(step) * divider, (Number(step) + 1) * divider)
   .join(',');
