@@ -104,7 +104,12 @@ export default function ContactFacilitiesPage() {
       <h2 className="vads-u-font-size--h3" id="vaos-facilities-label">
         Your facilities
       </h2>
-      <ul className="usa-unstyled-list" aria-labelledby="vaos-facilities-label">
+      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+      <ul
+        aria-labelledby="vaos-facilities-label"
+        className="usa-unstyled-list"
+        role="list"
+      >
         {facilities.slice(0, facilitiesToShow).map(facility => (
           <li key={facility.id} className="vads-u-margin-top--2">
             <h3 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
