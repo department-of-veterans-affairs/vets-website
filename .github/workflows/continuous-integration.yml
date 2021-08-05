@@ -327,8 +327,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0 # i probably don't need this now. will try to remove later
+        # with:
+        #   fetch-depth: 0 # i probably don't need this now. will try to remove later
 
       - name: Get Node version
         id: get-node-version
@@ -545,6 +545,11 @@ jobs:
     needs: [cypress-tests-prep, cypress-tests]
     if: ${{ always() && (needs.cypress-tests-prep.outputs.num_containers > 0) && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
     steps:
+      - name: Echo output from previous cypress-tests-prep job
+        run: echo ${{ needs.cypress-tests-prep.outputs.num_containers }}
+        run: echo ${{ needs.cypress-tests-prep.outputs.tests }}
+        run: echo ${{ needs.cypress-tests-prep.outputs.ci_node_index }}
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
