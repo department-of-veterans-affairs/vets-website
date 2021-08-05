@@ -22,7 +22,7 @@ class IntroductionPage extends React.Component {
           <a href="#">Apply for VA education benefits</a>
         </Breadcrumbs>
         <FormTitle title="Apply for VA education benefits" />
-        <p>Equal to VA Form 22-1990 (Application for VA Education Benefits).</p>
+        <p>Equal to VA Form 22-1990 (Application for VA Education Benefits)</p>
         <HowToApplyPost911GiBill />
         <SaveInProgressIntro
           testActionLink
@@ -66,7 +66,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-three">
               <div>
-                <h5>VA review</h5>
+                <h5>VA Review</h5>
               </div>
               <p>
                 After submitting the application, you may get a decision
