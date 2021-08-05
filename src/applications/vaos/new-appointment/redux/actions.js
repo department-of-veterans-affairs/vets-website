@@ -57,6 +57,7 @@ import {
   transformFormToAppointment,
 } from './helpers/formSubmitTransformers';
 import {
+  transformFormToVAOSAppointment,
   transformFormToVAOSCCRequest,
   transformFormToVAOSVARequest,
 } from './helpers/formSubmitTransformers.v2';
@@ -732,6 +733,9 @@ export function submitAppointmentOrRequest(history) {
     const state = getState();
     const isFeatureHomepageRefresh = selectFeatureHomepageRefresh(state);
     const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(state);
+    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+      state,
+    );
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
@@ -754,15 +758,21 @@ export function submitAppointmentOrRequest(history) {
       });
 
       try {
-        const appointmentBody = transformFormToAppointment(getState());
-        await submitAppointment(appointmentBody);
+        if (featureVAOSServiceVAAppointments) {
+          await createAppointment({
+            appointment: transformFormToVAOSAppointment(getState()),
+          });
+        } else {
+          const appointmentBody = transformFormToAppointment(getState());
+          await submitAppointment(appointmentBody);
 
-        try {
-          await buildPreferencesDataAndUpdate(data.email);
-        } catch (error) {
-          // These are ancillary updates, the request went through if the first submit
-          // succeeded
-          captureError(error);
+          try {
+            await buildPreferencesDataAndUpdate(data.email);
+          } catch (error) {
+            // These are ancillary updates, the request went through if the first submit
+            // succeeded
+            captureError(error);
+          }
         }
 
         dispatch({
