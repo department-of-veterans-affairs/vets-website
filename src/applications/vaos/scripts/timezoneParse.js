@@ -12,7 +12,7 @@ const fs = require('fs');
 const timezoneList = fs.readFileSync(process.argv[2], 'utf8').split('\n');
 const timezoneMap = {
   '983': 'America/Denver',
-  '984': 'America/Denver',
+  '984': 'America/New_York',
   '612': 'America/Los_Angeles',
 };
 
