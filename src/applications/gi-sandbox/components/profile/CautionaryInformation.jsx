@@ -113,6 +113,7 @@ export function CautionaryInformation({ institution, showModal }) {
           showModal('allCampuses');
         }}
         ariaLabel={ariaLabels.learnMore.allCampusComplaints}
+        buttonClassName="small-screen-font"
       />
     </div>
   );
@@ -180,6 +181,7 @@ export function CautionaryInformation({ institution, showModal }) {
               onClick={() => {
                 showModal('studentComplaints');
               }}
+              buttonClassName="small-screen-font"
             />
           </span>
         </div>

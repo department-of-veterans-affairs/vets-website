@@ -85,7 +85,7 @@ export default function VeteranProgramsAndSupport({
   };
 
   const veteranPrograms = (
-    <div className="usa-width-one-half medium-6 columns small-screen-font">
+    <div className="usa-width-one-half medium-6 columns">
       <h3 className="small-screen-font">Veteran Programs</h3>
       {available.length > 0 ? (
         <div>{available.map(program => programLabel(program))}</div>

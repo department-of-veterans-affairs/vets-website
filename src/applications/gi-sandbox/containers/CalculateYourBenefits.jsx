@@ -164,7 +164,7 @@ export function CalculateYourBenefits({
             </h3>
           </div>
 
-          <div className="vads-u-padding-bottom--1">
+          <div className="vads-u-padding-bottom--1 small-screen-font">
             <strong>Veterans tuition policy:</strong>{' '}
             {profile.attributes.vetWebsiteLink ? 'Yes' : 'No'}
             {profile.attributes.vetWebsiteLink && (

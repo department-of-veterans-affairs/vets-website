@@ -11,6 +11,7 @@ export default function LearnMoreLabel({
   bold,
   boldLabel,
   boldValue,
+  buttonClassName,
 }) {
   const boldAll = !boldLabel && !boldValue && bold;
   const boldClass = boldCheck =>
@@ -31,6 +32,7 @@ export default function LearnMoreLabel({
   return (
     <span
       className={classNames(
+        buttonClassName,
         'vads-u-margin--0',
         'vads-u-display--inline-block',
         boldClass(boldAll),
@@ -44,7 +46,10 @@ export default function LearnMoreLabel({
           id={buttonId}
           aria-label={ariaLabel}
           type="button"
-          className="va-button-link learn-more-button vads-u-margin--0 small-screen-font"
+          className={classNames(
+            buttonClassName,
+            'va-button-link learn-more-button vads-u-margin--0',
+          )}
           onClick={onClick}
         >
           Learn more

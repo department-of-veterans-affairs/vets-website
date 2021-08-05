@@ -79,6 +79,7 @@ export default function ContactInformation({ institution, showModal }) {
             onClick={() => showModal('singleContact')}
             ariaLabel={ariaLabels.learnMore.singlePoint}
             buttonId={'singleContact-button'}
+            buttonClassName="small-screen-font"
           />
           :
         </strong>
@@ -143,6 +144,7 @@ export default function ContactInformation({ institution, showModal }) {
             onClick={() => showModal('facilityCode')}
             ariaLabel={ariaLabels.learnMore.facilityCode}
             buttonId={'facilityCode-button'}
+            buttonClassName="small-screen-font"
           />
           :
         </strong>
@@ -156,6 +158,7 @@ export default function ContactInformation({ institution, showModal }) {
             onClick={() => showModal('ipedsCode')}
             ariaLabel={ariaLabels.learnMore.ipedsCode}
             buttonId={'ipedsCode-button'}
+            buttonClassName="small-screen-font"
           />
           :
         </strong>
@@ -169,6 +172,7 @@ export default function ContactInformation({ institution, showModal }) {
             onClick={() => showModal('opeCode')}
             ariaLabel={ariaLabels.learnMore.opeCode}
             buttonId={'opeCode-button'}
+            buttonClassName="small-screen-font"
           />
           :
         </strong>
