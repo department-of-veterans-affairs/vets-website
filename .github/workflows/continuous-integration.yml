@@ -358,7 +358,7 @@ jobs:
         run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
 
       - name: Get number of containers needed
-        run: node script/github-actions/cypress-get-num-containers-needed.js
+        run: node script/github-actions/select-cypress-tests.js
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
