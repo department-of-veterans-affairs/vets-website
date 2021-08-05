@@ -888,7 +888,32 @@ describe('<ReviewCollapsibleChapter>', () => {
       expect(queryByTestId('custom-page-review')).not.to.exist;
     });
 
-    it('should render a CustomPageReview for each item in an array when showPagePerItem is true', () => {});
+    it('should render a CustomPageReview for each item in an array when showPagePerItem is true', () => {
+      const { pages, chapterKey, chapter, form } = getProps();
+      pages[0].index = 0;
+      pages.push({
+        title: '',
+        pageKey: 'test',
+        CustomPage: pages[0].CustomPage,
+        CustomPageReview: pages[0].CustomPageReview,
+        index: 1,
+      });
+      form.pages.test.showPagePerItem = true;
+      form.pages.test.arrayPath = 'foo';
+      form.data.foo = [{}, {}];
+      const { getAllByTestId } = render(
+        <ReviewCollapsibleChapter
+          viewedPages={new Set()}
+          expandedPages={pages}
+          chapterKey={chapterKey}
+          chapterFormConfig={chapter}
+          form={form}
+          open
+        />,
+      );
+
+      expect(getAllByTestId('custom-page-review').length).to.equal(2);
+    });
 
     it('should not render a page in the chapter when CustomPageReview is null and the schema properties are empty', () => {});
 
