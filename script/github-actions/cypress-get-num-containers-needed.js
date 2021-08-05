@@ -1,3 +1,4 @@
+const core = require('@actions/core');
 const path = require('path');
 const glob = require('glob');
 const { integrationFolder, testFiles } = require('../../config/cypress.json');
@@ -60,19 +61,21 @@ if (allMdFiles) {
 const numTests = batch.length;
 
 if (numTests === 0) {
-  return [];
+  core.exportVariable('ci_node_index', '[]');
 } else if (numTests < 20) {
-  return [0];
+  core.exportVariable('ci_node_index', '[0]');
 } else if (numTests < 40) {
-  return [0, 1];
+  core.exportVariable('ci_node_index', '[0, 1]');
 } else if (numTests < 60) {
-  return [0, 1, 2];
+  core.exportVariable('ci_node_index', '[0, 1, 2]');
 } else if (numTests < 80) {
-  return [0, 1, 2, 3];
+  core.exportVariable('ci_node_index', '[0, 1, 2, 3]');
 } else if (numTests < 100) {
-  return [0, 1, 2, 3, 4];
+  core.exportVariable('ci_node_index', '[0, 1, 2, 3, 4]');
 } else if (numTests < 120) {
-  return [0, 1, 2, 3, 4, 5];
+  core.exportVariable('ci_node_index', '[0, 1, 2, 3, 4, 5]');
 } else if (numTests < 140) {
-  return [0, 1, 2, 3, 4, 5, 6];
-} else return [0, 1, 2, 3, 4, 5, 6, 7];
+  core.exportVariable('ci_node_index', '[0, 1, 2, 3, 4, 5, 6]');
+} else core.exportVariable('ci_node_index', '[0, 1, 2, 3, 4, 5, 6, 7]');
+
+return undefined;
