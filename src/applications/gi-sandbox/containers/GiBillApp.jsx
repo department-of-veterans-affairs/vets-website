@@ -16,6 +16,8 @@ import { useQueryParams } from '../utils/helpers';
 import ServiceError from '../components/ServiceError';
 import AboutThisTool from '../components/content/AboutThisTool';
 import Disclaimer from '../components/content/Disclaimer';
+import CompareDrawer from './CompareDrawer';
+import { useLocation } from 'react-router-dom';
 
 export function GiBillApp({
   constants,
@@ -31,6 +33,7 @@ export function GiBillApp({
   const versionChange = version && version !== preview.version?.id;
   const shouldExitPreviewMode = preview.display && !version;
   const shouldEnterPreviewMode = !preview.display && versionChange;
+  const location = useLocation();
 
   useEffect(
     () => {
@@ -56,6 +59,9 @@ export function GiBillApp({
     dispatchUpdateQueryParams(params);
   }, []);
 
+  const onProfilePage = location.pathname.includes('/profile');
+  const onComparePage = location.pathname.includes('/compare');
+
   return (
     <div className="gi-app" role="application">
       <div>
@@ -80,6 +86,7 @@ export function GiBillApp({
             <AboutThisTool />
             <Disclaimer />
           </div>
+          {!onComparePage && <CompareDrawer alwaysDisplay={onProfilePage} />}
           <Modals />
         </div>
       </div>
