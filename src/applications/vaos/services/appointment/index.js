@@ -117,7 +117,7 @@ function hasPartialResults(response) {
  * @param {Boolean} useV2CC Toggle fetching CC appointments via VAOS api services version 2
  * @returns {Appointment[]} A FHIR searchset of booked Appointment resources
  */
-export async function getBookedAppointments({
+export async function fetchAppointments({
   startDate,
   endDate,
   useV2VA = false,
@@ -128,6 +128,8 @@ export async function getBookedAppointments({
     if (useV2VA || useV2CC) {
       const allAppointments = await getAppointments(startDate, endDate, [
         'booked',
+        'arrived',
+        'fulfilled',
         'cancelled',
       ]);
 

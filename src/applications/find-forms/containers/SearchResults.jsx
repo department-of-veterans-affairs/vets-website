@@ -220,7 +220,9 @@ export const SearchResults = ({
         />
       </div>
 
-      <dl className="vads-l-grid-container--full">{searchResults}</dl>
+      <ul className="vads-l-grid-container--full usa-unstyled-list vads-u-margin-top--2">
+        {searchResults}
+      </ul>
 
       {/* Pagination Row */}
       {results.length > MAX_PAGE_LIST_LENGTH && (
