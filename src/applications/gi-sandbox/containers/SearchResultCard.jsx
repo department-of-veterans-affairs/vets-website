@@ -59,12 +59,16 @@ export function SearchResultCard({
 
   const profileLink = appendQuery(`/profile/${facilityCode}`);
 
-  const resultCardClasses = classNames('vads-u-margin-bottom--2', {
-    'result-card small-screen:vads-u-margin-left--2p5': !location,
-    'vads-u-padding-right--1': location && !active,
-    'vads-u-padding--0p5': active,
-    active,
-  });
+  const resultCardClasses = classNames(
+    'result-card',
+    'vads-u-margin-bottom--2',
+    {
+      'small-screen:vads-u-margin-left--2p5': !location,
+      'vads-u-padding-right--1': location && !active,
+      'vads-u-padding--0p5': active,
+      active,
+    },
+  );
 
   const nameClasses = classNames({
     'vads-u-margin-top--2': !location,
