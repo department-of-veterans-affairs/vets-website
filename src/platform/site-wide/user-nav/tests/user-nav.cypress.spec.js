@@ -12,8 +12,7 @@ describe('User Nav Test', () => {
     cy.title().should('contain', 'My VA | Veterans Affairs');
     Cypress.on('uncaught:exception', () => {
       return false;
-      // expect(err.message).to.include('Network request failed');
-      // As Cypress does not permit cross browser testing in the same spec, we expect a network error when making a network request that travels cross-origin.
+      // Skip over an API call that results in a network error.
     });
 
     cy.get(selectors.menu, { timeout: Timeouts.slow })
@@ -29,6 +28,7 @@ describe('User Nav Test', () => {
               'match',
               /\/sessions\/slo\/new|chrome-error:\/\/chromewebdata\//,
             );
+            // A regex was used here due to environment differences between Jenkins and GHA, causing this error to not be able to be checked appropriately. This can be swapped to a singular check for an exact error after Jenkins has been deprecated.
             // As Cypress does not permit cross browser testing in the same spec, we expect after the attempt at browsing, that we will receive a chrome error.
           });
       });
