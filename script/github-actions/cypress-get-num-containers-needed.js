@@ -88,6 +88,6 @@ if (numTests === 0) {
   core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4, 5, 6, 7]);
 }
 
-core.exportVariable('TESTS', tests);
+if (numTests !== 0) core.exportVariable('TESTS', tests);
 
 return undefined;
