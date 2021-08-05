@@ -2,12 +2,24 @@ const { runCommandSync } = require('../utils');
 
 const tests = process.env.TESTS;
 const step = Number(process.env.STEP);
-const divider = Math.ceil(tests.length / Number(process.env.NUM_CONTAINERS));
 
 // eslint-disable-next-line no-console
 console.log('tests: ', tests);
+
+// eslint-disable-next-line no-console
+console.log('typeof tests: ', typeof tests);
+
+// eslint-disable-next-line no-console
+console.log('tests.length: ', tests.length);
+
 // eslint-disable-next-line no-console
 console.log('step: ', step);
+
+// eslint-disable-next-line no-console
+console.log('NUM_CONTAINERS: ', Number(process.env.NUM_CONTAINERS));
+
+const divider = Math.ceil(tests.length / Number(process.env.NUM_CONTAINERS));
+
 // eslint-disable-next-line no-console
 console.log('divider: ', divider);
 
