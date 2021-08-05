@@ -16,6 +16,6 @@ exec("find src -name '*.cypress.*.js' | tr '\n' ','", function(_err, stdout) {
       process.env.CI
     } XDG_CONFIG_HOME=/tmp/cyhome${
       process.env.STEP
-    } yarn cy:run --browser chrome --headless --config video=false "configFile=config/cypress-reporters.json" --spec '${tests}'`,
+    } yarn cy:run --config video=false --spec '${tests}'`,
   );
 });
