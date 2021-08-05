@@ -161,7 +161,7 @@ export function transform(formConfig, form) {
       result.data.attributes.sameOffice = formData.sameOffice || false;
     }
     if (version > 1) {
-      result.data.veteran.homeless = formData.homeless;
+      result.data.attributes.veteran.homeless = formData.homeless;
     }
 
     // Add informal conference data
@@ -177,7 +177,7 @@ export function transform(formConfig, form) {
         );
       }
       if (version > 1) {
-        result.data.informalConferenceContact = getContact(formData);
+        result.data.attributes.informalConferenceContact = getContact(formData);
       }
     }
 

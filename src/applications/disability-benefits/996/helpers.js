@@ -20,20 +20,20 @@ export const scrollToTop = scrollTo;
  * @param {boolean} hlrV2
  * @returns boolean
  */
-export const apiVersion2 = ({ hlrV2 }) => hlrV2;
+export const apiVersion2 = formData => formData?.hlrV2;
 /**
  * Return the opposite of the HLR v2 feature flag
- * @param {boolean} hlrv2
+ * @param {boolean} hlrV2
  * @returns boolean
  */
-export const apiVersion1 = ({ hlrV2 }) => !hlrV2;
+export const apiVersion1 = formData => !formData?.hlrV2;
 
 /**
  * Determine if we're in the v1 flow using the save-in-progress data
  * @param {*} formData
  * @returns boolean
  */
-export const isVersion1Data = formData => !!formData.zipCode5;
+export const isVersion1Data = formData => !!formData?.zipCode5;
 
 /**
  * @typedef ContestableIssues

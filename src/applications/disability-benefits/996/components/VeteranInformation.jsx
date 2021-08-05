@@ -10,11 +10,19 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { genderLabels } from 'platform/static-data/labels';
 import { selectProfile } from 'platform/user/selectors';
 
-import { srSubstitute } from '../../all-claims/utils';
+import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 import { SELECTED } from '../constants';
 import { apiVersion2 } from '../helpers';
 
-const mask = srSubstitute('●●●–●●–', 'ending with');
+// separate each number so the screenreader reads "number ending with 1 2 3 4"
+// instead of "number ending with 1,234"
+const mask = value => {
+  const number = value.slice(-4).toString();
+  return srSubstitute(
+    `●●●–●●–${number}`,
+    `ending with ${number.split('').join(' ')}`,
+  );
+};
 
 const VeteranInformation = ({
   formData = {},
@@ -24,7 +32,7 @@ const VeteranInformation = ({
   contestableIssues = {},
 }) => {
   const { ssnLastFour, vaFileLastFour } = veteran;
-  const { dob, gender, userFullName, vapContactInfo } = profile;
+  const { dob, gender, userFullName = {}, vapContactInfo = {} } = profile;
 
   const { first, middle, last, suffix } = userFullName;
   // ContestableIssues API needs a benefit type, so they are grouped together
@@ -98,12 +106,12 @@ const VeteranInformation = ({
         </strong>
         {ssnLastFour && (
           <p className="ssn">
-            Social Security number: {mask} {ssnLastFour.slice(-4)}
+            Social Security number: {mask(ssnLastFour.slice(-4))}
           </p>
         )}
         {vaFileLastFour && (
           <p className="vafn">
-            VA file number: {mask} {vaFileLastFour.slice(-4)}
+            VA file number: {mask(vaFileLastFour.slice(-4))}
           </p>
         )}
         <p>
