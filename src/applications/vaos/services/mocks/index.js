@@ -32,6 +32,8 @@ const schedulingConfigurations = require('./v2/scheduling_configurations.json');
 const clinicsV2 = require('./v2/clinics.json');
 
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
+const mockAppts = [];
+let currentMockId = 1;
 
 const responses = {
   'GET /vaos/v0/appointments': (req, res) => {
@@ -184,14 +186,16 @@ const responses = {
   },
   'PUT /vaos/v0/preferences': { data: { attributes: {} } },
   'POST /vaos/v2/appointments': (req, res) => {
-    return res.json({
-      data: {
-        id: req.body.slot ? '09aa456va' : '32152',
-        attributes: {
-          ...req.body,
-        },
+    const submittedAppt = {
+      id: `mock${currentMockId}`,
+      attributes: {
+        ...req.body,
+        start: req.body.slot ? req.body.slot.start : null,
       },
-    });
+    };
+    currentMockId++;
+    mockAppts.push(submittedAppt);
+    return res.json({ data: submittedAppt });
   },
   'PUT /vaos/v2/appointments/:id': (req, res) => {
     // TODO: also check through confirmed mocks, when those exist
@@ -220,7 +224,9 @@ const responses = {
   },
   'GET /vaos/v2/appointments/:id': (req, res) => {
     const appointments = {
-      data: requestsV2.data.concat(require('./v2/confirmed.json').data),
+      data: requestsV2.data
+        .concat(require('./v2/confirmed.json').data)
+        .concat(mockAppts),
     };
     return res.json({
       data: appointments.data.find(appt => appt.id === req.params.id),
