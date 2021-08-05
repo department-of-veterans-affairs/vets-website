@@ -186,7 +186,7 @@ const responses = {
   'POST /vaos/v2/appointments': (req, res) => {
     return res.json({
       data: {
-        id: '32152',
+        id: req.body.slot ? '09aa456va' : '32152',
         attributes: {
           ...req.body,
         },

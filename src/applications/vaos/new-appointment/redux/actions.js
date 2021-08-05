@@ -758,8 +758,9 @@ export function submitAppointmentOrRequest(history) {
       });
 
       try {
+        let appointment = null;
         if (featureVAOSServiceVAAppointments) {
-          await createAppointment({
+          appointment = await createAppointment({
             appointment: transformFormToVAOSAppointment(getState()),
           });
         } else {
@@ -785,7 +786,12 @@ export function submitAppointmentOrRequest(history) {
           ...additionalEventData,
         });
         resetDataLayer();
-        history.push('/new-appointment/confirmation');
+
+        if (featureVAOSServiceVAAppointments) {
+          history.push(`/va/${appointment.id}?confirmMsg=true`);
+        } else {
+          history.push('/new-appointment/confirmation');
+        }
       } catch (error) {
         captureError(error, true);
         dispatch({
@@ -793,7 +799,6 @@ export function submitAppointmentOrRequest(history) {
           isVaos400Error: has400LevelError(error),
         });
 
-        // Remove parse function when converting this call to FHIR service
         dispatch(fetchFacilityDetails(newAppointment.data.vaFacility));
 
         recordEvent({

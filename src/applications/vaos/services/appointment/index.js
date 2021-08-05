@@ -678,6 +678,15 @@ export function groupAppointmentsByMonth(appointments) {
   return appointmentsByMonth;
 }
 
+/**
+ * Creates an appointment through the v2 api and transforms the result
+ * back into our Appointment format
+ *
+ * @export
+ * @param {Object} params
+ * @param {VAOSAppointment} params.appointment The appointment to send
+ * @returns {Appointment} The created appointment
+ */
 export async function createAppointment({ appointment }) {
   const result = await postAppointment(appointment);
 

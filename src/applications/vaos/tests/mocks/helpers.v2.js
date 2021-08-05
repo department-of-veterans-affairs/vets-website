@@ -11,7 +11,7 @@ import {
  * @export
  * @param {VAOSAppointment} data The appointment data to return from the mock
  */
-export function mockAppointmentSubmit(data) {
+export function mockAppointmentSubmitV2(data) {
   setFetchJSONResponse(
     global.fetch.withArgs(`${environment.API_URL}/vaos/v2/appointments`),
     { data },
@@ -220,6 +220,21 @@ export function mockV2FacilitiesFetch(ids, data, children = false) {
       `${environment.API_URL}/vaos/v2/facilities?children=${children}&${ids
         .map(id => `ids[]=${id}`)
         .join('&')}`,
+    ),
+    { data },
+  );
+}
+
+/**
+ * Mocks the api call to get a facility from the VAOS service.
+ *
+ * @export
+ * @param {Array<VAOSFacility>} data The facility to return
+ */
+export function mockV2FacilityFetch(data) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v2/facilities/${data.id}`,
     ),
     { data },
   );
