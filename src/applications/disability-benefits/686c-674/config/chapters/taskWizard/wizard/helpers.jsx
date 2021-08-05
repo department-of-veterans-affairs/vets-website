@@ -29,7 +29,7 @@ export const AddChildTitle = (
 
 export const Student674Title = (
   <p className="vads-u-margin-y--0">
-    Add a child <strong>18 to 23 years old</strong> who'll be attending school
+    Add a child <strong>18 to 23 years old</strong> who’ll be attending school
     (VA Form 21-674)
   </p>
 );

@@ -9,7 +9,6 @@ import authenticatedUserLinkData from '../mega-menu-link-data-for-authenticated-
 import recordEvent from '../../../monitoring/record-event';
 import { isLoggedIn } from '../../../user/selectors';
 import { replaceDomainsInData } from '../../../utilities/environment/stagingDomains';
-import { selectShowDashboard2 } from 'applications/personalization/dashboard-2/selectors';
 import {
   toggleMobileDisplayHidden,
   togglePanelOpen,
@@ -63,7 +62,6 @@ export class Main extends Component {
     ).isRequired,
     display: PropTypes.object,
     loggedIn: PropTypes.bool.isRequired,
-    showDashboard2: PropTypes.bool.isRequired,
   };
 
   toggleDropDown = currentDropdown => {
@@ -123,15 +121,11 @@ export class Main extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const loggedIn = isLoggedIn(state);
-  const showDashboard2 = selectShowDashboard2(state);
 
   // Derive the default mega menu links (both auth + unauth).
   const defaultLinks = ownProps?.megaMenuData ? [...ownProps.megaMenuData] : [];
 
-  // Add the My VA link to default links if we are showing dashboard 2 or if we are logged in.
-  if (showDashboard2 || loggedIn) {
-    defaultLinks.push(MY_VA_LINK);
-  }
+  defaultLinks.push(MY_VA_LINK);
 
   const data = flagCurrentPageInTopLevelLinks(
     getAuthorizedLinkData(loggedIn, defaultLinks),
@@ -143,7 +137,6 @@ const mapStateToProps = (state, ownProps) => {
     data,
     display: state.megaMenu?.display,
     loggedIn,
-    showDashboard2,
   };
 };
 

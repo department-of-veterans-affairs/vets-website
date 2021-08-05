@@ -1,4 +1,9 @@
-import { DEFAULT_BENEFIT_TYPE, SELECTED } from '../constants';
+import {
+  DEFAULT_BENEFIT_TYPE,
+  SELECTED,
+  CONFERENCE_TIMES_V1,
+  CONFERENCE_TIMES_V2,
+} from '../constants';
 
 export function transform(formConfig, form) {
   // We require the user to input a 10-digit number; assuming we get a 3-digit
@@ -11,28 +16,40 @@ export function transform(formConfig, form) {
     // phoneNumberExt: '',
   });
 
-  const getRep = formData =>
-    formData.informalConference === 'rep'
+  const getRep = (formData, version) => {
+    if (version === 1) {
+      return formData.informalConference === 'rep'
+        ? {
+            name: formData?.informalConferenceRep?.name,
+            phone: getPhoneNumber(formData?.informalConferenceRep?.phone),
+          }
+        : null;
+    }
+    return formData.informalConference === 'rep'
       ? {
-          name: formData?.informalConferenceRep?.name,
+          firstName: formData?.informalConferenceRep?.firstName,
+          lastName: formData?.informalConferenceRep?.lastName,
           phone: getPhoneNumber(formData?.informalConferenceRep?.phone),
         }
       : null;
+  };
 
-  const getConferenceTimes = ({ informalConferenceTimes = [] }) => {
-    const xRef = {
-      // formData name: api value
-      time0800to1000: '800-1000 ET',
-      time1000to1230: '1000-1230 ET',
-      time1230to1400: '1230-1400 ET',
-      time1400to1630: '1400-1630 ET',
-    };
-    return ['time1', 'time2'].reduce((times, key) => {
+  const getConferenceTimes = ({ informalConferenceTimes = [] }, version) => {
+    const times = version === 1 ? CONFERENCE_TIMES_V1 : CONFERENCE_TIMES_V2;
+    const xRef = Object.keys(times).reduce(
+      (timesAndApi, time) => ({
+        ...timesAndApi,
+        [time]: times[time].submit,
+      }),
+      {},
+    );
+
+    return ['time1', 'time2'].reduce((setTimes, key) => {
       const value = informalConferenceTimes[key] || '';
       if (value) {
-        times.push(xRef[value]);
+        setTimes.push(xRef[value]);
       }
-      return times;
+      return setTimes;
     }, []);
   };
 
@@ -97,9 +114,21 @@ export function transform(formConfig, form) {
       };
     });
 
+  const getContact = ({ informalConference }) => {
+    if (informalConference === 'rep') {
+      return 'representative';
+    }
+    if (informalConference === 'me') {
+      return 'veteran';
+    }
+    return '';
+  };
+
   // https://dev-developer.va.gov/explore/appeals/docs/decision_reviews?version=current
   const mainTransform = formData => {
+    const version = formData.hlrV2 ? 2 : 1;
     const informalConference = formData.informalConference !== 'no';
+    const zipCode5 = formData.zipCode5 || formData.veteran?.zipCode5 || '00000';
     const result = {
       data: {
         type: 'higherLevelReview',
@@ -108,7 +137,6 @@ export function transform(formConfig, form) {
           // See va.gov-team/issues/13814
           benefitType: formData.benefitType || DEFAULT_BENEFIT_TYPE,
           informalConference,
-          sameOffice: formData.sameOffice || false,
 
           veteran: {
             timezone: getTimeZone(),
@@ -116,7 +144,7 @@ export function transform(formConfig, form) {
               // EVSS has very restrictive address rules; so Lighthouse API will
               // submit something like "use address on file"
               // TODO: postalCode vs zipCode?
-              zipCode5: formData.zipCode5 || '00000',
+              zipCode5,
             },
             // ** phone & email are optional **
             // phone: getPhoneNumber(formData?.primaryPhone),
@@ -129,13 +157,27 @@ export function transform(formConfig, form) {
       included: getContestedIssues(formData),
     };
 
+    if (version === 1) {
+      result.data.attributes.sameOffice = formData.sameOffice || false;
+    }
+    if (version > 1) {
+      result.data.attributes.veteran.homeless = formData.homeless;
+    }
+
     // Add informal conference data
     if (informalConference) {
       result.data.attributes.informalConferenceTimes = getConferenceTimes(
         formData,
+        version,
       );
       if (formData.informalConference === 'rep') {
-        result.data.attributes.informalConferenceRep = getRep(formData);
+        result.data.attributes.informalConferenceRep = getRep(
+          formData,
+          version,
+        );
+      }
+      if (version > 1) {
+        result.data.attributes.informalConferenceContact = getContact(formData);
       }
     }
 

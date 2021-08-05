@@ -15,7 +15,7 @@ const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
 
-    dataSets: ['maximal-test', 'minimal-test'],
+    dataSets: ['maximal-test-v1', 'minimal-test-v1'],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),

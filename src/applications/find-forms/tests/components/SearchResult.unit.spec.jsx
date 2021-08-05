@@ -100,7 +100,7 @@ describe('Find VA Forms <SearchResult />', () => {
         showPDFInfoVersionOne
       />,
     );
-    expect(tree.html()).to.include('<dd class="find-forms-alert-message');
+    expect(tree.html()).to.include('<div class="find-forms-alert-message');
     expect(tree.html()).to.include(
       'href="https://www.va.gov/resources/how-to-download-and-open-a-vagov-pdf-form/"',
     );
