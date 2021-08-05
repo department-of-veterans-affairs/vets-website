@@ -48,34 +48,34 @@ for (let i = 0; i < pathsOfChangedFiles.length; i += 1) {
   }
 }
 
-let batch;
+let tests;
 
 if (allMdFiles) {
-  batch = [];
+  tests = [];
 } else if (allSrcApplicationsFiles) {
-  batch = selectedTests();
+  tests = selectedTests();
 } else {
-  batch = allTests();
+  tests = allTests();
 }
 
-const numTests = batch.length;
+const numTests = tests.length;
 
 if (numTests === 0) {
-  core.exportVariable('CI_NODE_INDEX', '[]');
+  core.exportVariable('CI_NODE_INDEX', []);
 } else if (numTests < 20) {
-  core.exportVariable('CI_NODE_INDEX', '[0]');
+  core.exportVariable('CI_NODE_INDEX', [0]);
 } else if (numTests < 40) {
-  core.exportVariable('CI_NODE_INDEX', '[0, 1]');
+  core.exportVariable('CI_NODE_INDEX', [0, 1]);
 } else if (numTests < 60) {
-  core.exportVariable('CI_NODE_INDEX', '[0, 1, 2]');
+  core.exportVariable('CI_NODE_INDEX', [0, 1, 2]);
 } else if (numTests < 80) {
-  core.exportVariable('CI_NODE_INDEX', '[0, 1, 2, 3]');
+  core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3]);
 } else if (numTests < 100) {
-  core.exportVariable('CI_NODE_INDEX', '[0, 1, 2, 3, 4]');
+  core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4]);
 } else if (numTests < 120) {
-  core.exportVariable('CI_NODE_INDEX', '[0, 1, 2, 3, 4, 5]');
+  core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4, 5]);
 } else if (numTests < 140) {
-  core.exportVariable('CI_NODE_INDEX', '[0, 1, 2, 3, 4, 5, 6]');
-} else core.exportVariable('CI_NODE_INDEX', '[0, 1, 2, 3, 4, 5, 6, 7]');
+  core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4, 5, 6]);
+} else core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4, 5, 6, 7]);
 
 return undefined;
