@@ -4,7 +4,7 @@ import {
   CONFERENCE_TIMES_V1,
   CONFERENCE_TIMES_V2,
 } from '../constants';
-import { apiVersion2 } from '../helpers';
+import { apiVersion2 } from '../utils/helpers';
 
 import {
   InformalConferenceTimesTitle,
