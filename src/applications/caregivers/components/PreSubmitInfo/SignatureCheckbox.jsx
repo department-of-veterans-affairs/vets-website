@@ -11,6 +11,7 @@ const SignatureCheckbox = ({
   isRequired,
   label,
   setSignatures,
+  setCheckBoxesSelected,
   showError,
   submission,
   isRepresentative,
@@ -26,9 +27,13 @@ const SignatureCheckbox = ({
     () => {
       setError(showError);
 
+      setCheckBoxesSelected(prevState => {
+        return { ...prevState, [label]: isChecked };
+      });
+
       if (isChecked === true || hasSubmittedForm) setError(false);
     },
-    [showError, isChecked, hasSubmittedForm],
+    [showError, isChecked, hasSubmittedForm, label, setCheckBoxesSelected],
   );
 
   return (
@@ -87,6 +92,7 @@ SignatureCheckbox.propTypes = {
   fullName: PropTypes.object.isRequired,
   label: PropTypes.string.isRequired,
   setSignatures: PropTypes.func.isRequired,
+  setCheckBoxesSelected: PropTypes.func.isRequired,
   showError: PropTypes.bool.isRequired,
   submission: PropTypes.object.isRequired,
   isRequired: PropTypes.bool,
