@@ -21,6 +21,7 @@ export function GiBillApp({
   constants,
   children,
   preview,
+  profile,
   dispatchEnterPreviewMode,
   dispatchExitPreviewMode,
   dispatchFetchConstants,
@@ -66,13 +67,15 @@ export function GiBillApp({
           {constants.error && <ServiceError />}
           {!(constants.error || constants.inProgress) && (
             <DowntimeNotification appTitle={'GI Bill Comparison Tool'}>
-              <div className="tool-description">
-                <h1>GI Bill® Comparison Tool</h1>
-                <p className="vads-u-font-size--h3 vads-u-color--gray-dark">
-                  Use the GI Bill Comparison Tool to see how VA education
-                  benefits can pay for your education.
-                </p>
-              </div>
+              {Object.keys(profile.attributes).length === 0 && (
+                <div className="tool-description">
+                  <h1>GI Bill® Comparison Tool</h1>
+                  <p className="vads-u-font-size--h3 vads-u-color--gray-dark">
+                    Use the GI Bill Comparison Tool to see how VA education
+                    benefits can pay for your education.
+                  </p>
+                </div>
+              )}
               {children}
             </DowntimeNotification>
           )}
@@ -94,6 +97,7 @@ GiBillApp.propTypes = {
 const mapStateToProps = state => ({
   constants: state.constants,
   preview: state.preview,
+  profile: state.profile,
 });
 
 const mapDispatchToProps = {

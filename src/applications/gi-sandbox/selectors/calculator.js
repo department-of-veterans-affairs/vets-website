@@ -949,6 +949,7 @@ export const getCalculatedBenefits = createSelector(
         tuitionFees: {
           visible: true,
           title: 'Tuition and fees',
+          modal: 'tuitionAndFeesSchool',
           learnMoreAriaLabel: ariaLabels.learnMore.tuitionFees,
           terms: [
             {
@@ -1019,6 +1020,7 @@ export const getCalculatedBenefits = createSelector(
         housingAllowance: {
           visible: true,
           title: 'Housing allowance',
+          modal: 'housingAllowanceSchool',
           learnMoreAriaLabel: ariaLabels.learnMore.housingAllowance,
           terms: [
             {
@@ -1044,7 +1046,7 @@ export const getCalculatedBenefits = createSelector(
           ],
         },
         bookStipend: {
-          visible: true,
+          visible: false,
           title: 'Book stipend',
           learnMoreAriaLabel: ariaLabels.learnMore.bookStipend,
           terms: [
