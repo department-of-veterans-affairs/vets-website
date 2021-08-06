@@ -1,6 +1,6 @@
 import React from 'react';
 import { Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history-v4';
+import createHistory from 'history/createMemoryHistory';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import sinon from 'sinon';
@@ -22,7 +22,7 @@ export function mockConstants() {
 }
 
 export function createTestHistory(path = '/') {
-  const history = createMemoryHistory({ initialEntries: [path] });
+  const history = createHistory({ initialEntries: [path] });
   sinon.spy(history, 'replace');
   sinon.spy(history, 'push');
 
