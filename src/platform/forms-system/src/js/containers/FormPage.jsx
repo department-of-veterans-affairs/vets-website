@@ -160,12 +160,9 @@ class FormPage extends React.Component {
             title={route.pageConfig.title}
             data={data}
             pagePerItemIndex={params ? params.index : undefined}
-            isLoggedIn={formContext?.isLoggedIn}
-            prefilled={formContext?.prefilled}
             onReviewPage={formContext?.onReviewPage}
             trackingPrefix={this.props.form.trackingPrefix}
             uploadFile={this.props.uploadFile}
-            onChange={this.onChange}
             goBack={this.goBack}
             goForward={this.onSubmit}
           />
