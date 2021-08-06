@@ -16,12 +16,12 @@ import { useQueryParams } from '../utils/helpers';
 import ServiceError from '../components/ServiceError';
 import AboutThisTool from '../components/content/AboutThisTool';
 import Disclaimer from '../components/content/Disclaimer';
+import { useLocation } from 'react-router-dom';
 
 export function GiBillApp({
   constants,
   children,
   preview,
-  profile,
   dispatchEnterPreviewMode,
   dispatchExitPreviewMode,
   dispatchFetchConstants,
@@ -32,6 +32,8 @@ export function GiBillApp({
   const versionChange = version && version !== preview.version?.id;
   const shouldExitPreviewMode = preview.display && !version;
   const shouldEnterPreviewMode = !preview.display && versionChange;
+  const location = useLocation();
+  const onProfilePage = location.pathname.includes('/profile');
 
   useEffect(
     () => {
@@ -67,7 +69,7 @@ export function GiBillApp({
           {constants.error && <ServiceError />}
           {!(constants.error || constants.inProgress) && (
             <DowntimeNotification appTitle={'GI Bill Comparison Tool'}>
-              {Object.keys(profile.attributes).length === 0 && (
+              {!onProfilePage && (
                 <div className="tool-description">
                   <h1>GI Bill® Comparison Tool</h1>
                   <p className="vads-u-font-size--h3 vads-u-color--gray-dark">
@@ -97,7 +99,6 @@ GiBillApp.propTypes = {
 const mapStateToProps = state => ({
   constants: state.constants,
   preview: state.preview,
-  profile: state.profile,
 });
 
 const mapDispatchToProps = {
