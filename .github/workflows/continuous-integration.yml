@@ -617,6 +617,14 @@ jobs:
           name: mochawesome-report
           path: testing-reports/cypress-reports
 
+      - uses: shallwefootball/s3-upload-action@master
+        with:
+          aws_key_id: ${{ secrets.AWS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          aws_bucket: ${{ secrets.AWS_BUCKET }}
+          source_dir: testing-reports/cypress-reports/videos/${{ env.UUID }}
+          destination_dir: ''
+
       - name: Download video artifacts
         if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: actions/download-artifact@v2
