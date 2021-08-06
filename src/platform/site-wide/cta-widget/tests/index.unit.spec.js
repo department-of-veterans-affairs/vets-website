@@ -1,8 +1,10 @@
+// Node modules.
 import React from 'react';
-import { mount } from 'enzyme';
-import { expect } from 'chai';
 import sinon from 'sinon';
-
+import { expect } from 'chai';
+import { mount } from 'enzyme';
+// Relative imports.
+import { CTA_WIDGET_TYPES } from '../ctaWidgets';
 import { CallToActionWidget } from '../index';
 
 describe('<CallToActionWidget>', () => {
@@ -96,7 +98,7 @@ describe('<CallToActionWidget>', () => {
   it('should show link and description', () => {
     const tree = mount(
       <CallToActionWidget
-        appId="claims-and-appeals"
+        appId={CTA_WIDGET_TYPES.CLAIMS_AND_APPEALS}
         isLoggedIn
         profile={{
           loading: false,
@@ -127,7 +129,7 @@ describe('<CallToActionWidget>', () => {
       const tree = mount(
         <CallToActionWidget
           fetchMHVAccount={fetchMHVAccount}
-          appId="rx"
+          appId={CTA_WIDGET_TYPES.RX}
           isLoggedIn
           profile={{
             loading: false,
@@ -153,7 +155,7 @@ describe('<CallToActionWidget>', () => {
       const tree = mount(
         <CallToActionWidget
           fetchMHVAccount={fetchMHVAccount}
-          appId="rx"
+          appId={CTA_WIDGET_TYPES.RX}
           profile={{
             loading: false,
             verified: true,
@@ -181,7 +183,7 @@ describe('<CallToActionWidget>', () => {
       const tree = mount(
         <CallToActionWidget
           createAndUpgradeMHVAccount={createAndUpgradeMHVAccount}
-          appId="rx"
+          appId={CTA_WIDGET_TYPES.RX}
           profile={{
             loading: false,
             verified: true,
@@ -217,7 +219,7 @@ describe('<CallToActionWidget>', () => {
       const tree = mount(
         <CallToActionWidget
           upgradeMHVAccount={upgradeMHVAccount}
-          appId="rx"
+          appId={CTA_WIDGET_TYPES.RX}
           profile={{
             loading: false,
             verified: true,
@@ -252,7 +254,7 @@ describe('<CallToActionWidget>', () => {
     it('should open myhealthevet popup', () => {
       const tree = mount(
         <CallToActionWidget
-          appId="rx"
+          appId={CTA_WIDGET_TYPES.RX}
           profile={{
             loading: false,
             verified: true,
@@ -283,7 +285,7 @@ describe('<CallToActionWidget>', () => {
         <CallToActionWidget
           fetchMHVAccount={d => d}
           isLoggedIn
-          appId="rx"
+          appId={CTA_WIDGET_TYPES.RX}
           profile={{
             loading: false,
             verified: true,
@@ -310,7 +312,7 @@ describe('<CallToActionWidget>', () => {
         <CallToActionWidget
           fetchMHVAccount={d => d}
           isLoggedIn
-          appId="rx"
+          appId={CTA_WIDGET_TYPES.RX}
           profile={{
             loading: false,
             verified: true,
@@ -337,7 +339,7 @@ describe('<CallToActionWidget>', () => {
         <CallToActionWidget
           fetchMHVAccount={d => d}
           isLoggedIn
-          appId="rx"
+          appId={CTA_WIDGET_TYPES.RX}
           profile={{
             loading: false,
             verified: true,
@@ -364,7 +366,7 @@ describe('<CallToActionWidget>', () => {
         <CallToActionWidget
           fetchMHVAccount={d => d}
           isLoggedIn
-          appId="rx"
+          appId={CTA_WIDGET_TYPES.RX}
           profile={{
             loading: false,
             verified: true,
@@ -392,7 +394,7 @@ describe('<CallToActionWidget>', () => {
         <CallToActionWidget
           fetchMHVAccount={d => d}
           isLoggedIn
-          appId="direct-deposit"
+          appId={CTA_WIDGET_TYPES.DIRECT_DEPOSIT}
           profile={{
             loading: false,
             verified: true,
@@ -419,7 +421,7 @@ describe('<CallToActionWidget>', () => {
         <CallToActionWidget
           fetchMHVAccount={d => d}
           isLoggedIn
-          appId="direct-deposit"
+          appId={CTA_WIDGET_TYPES.DIRECT_DEPOSIT}
           profile={{
             loading: false,
             verified: true,
@@ -444,7 +446,7 @@ describe('<CallToActionWidget>', () => {
       const defaultProps = {
         fetchMHVAccount: d => d,
         isLoggedIn: true,
-        appId: 'rx',
+        appId: CTA_WIDGET_TYPES.RX,
         profile: {
           loading: false,
           verified: true,
@@ -628,7 +630,7 @@ describe('<CallToActionWidget>', () => {
         <CallToActionWidget
           fetchMHVAccount={d => d}
           isLoggedIn
-          appId="rx"
+          appId={CTA_WIDGET_TYPES.RX}
           profile={{
             loading: false,
             verified: true,
@@ -658,7 +660,7 @@ describe('<CallToActionWidget>', () => {
         <CallToActionWidget
           fetchMHVAccount={d => d}
           isLoggedIn
-          appId="rx"
+          appId={CTA_WIDGET_TYPES.RX}
           profile={{
             loading: false,
             verified: true,
@@ -693,7 +695,7 @@ describe('<CallToActionWidget>', () => {
         <CallToActionWidget
           fetchMHVAccount={fetchMHVAccount}
           isLoggedIn
-          appId="schedule-appointments"
+          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
           profile={{
             loading: false,
             verified: true,
@@ -718,7 +720,7 @@ describe('<CallToActionWidget>', () => {
         <CallToActionWidget
           fetchMHVAccount={fetchMHVAccount}
           isLoggedIn
-          appId="view-appointments"
+          appId={CTA_WIDGET_TYPES.VIEW_APPOINTMENTS}
           profile={{
             loading: false,
             verified: true,
@@ -747,7 +749,7 @@ describe('<CallToActionWidget>', () => {
         <CallToActionWidget
           fetchMHVAccount={fetchMHVAccount}
           isLoggedIn
-          appId="schedule-appointments"
+          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
           profile={{
             loading: false,
             verified: true,
@@ -773,7 +775,7 @@ describe('<CallToActionWidget>', () => {
         <CallToActionWidget
           fetchMHVAccount={fetchMHVAccount}
           isLoggedIn
-          appId="schedule-appointments"
+          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
           profile={{
             loading: false,
             verified: true,

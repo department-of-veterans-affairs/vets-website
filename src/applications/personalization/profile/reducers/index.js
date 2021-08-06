@@ -11,3 +11,7 @@ export default {
   hcaEnrollmentStatus,
   ...ratedDisabilities,
 };
+
+export const selectCommunicationPreferences = state => {
+  return state.communicationPreferences;
+};

@@ -18,9 +18,10 @@ const DependencyVerificationList = ({ dependents }) => {
               key={index}
               className="vads-l-row vads-u-background-color--gray-lightest vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-padding--2"
             >
-              <h3 className="vads-u-margin--0">{dependent.fullName}</h3>
-              <p className="vads-l-col--12 vads-u-margin-y--1">
-                <strong>Relationship: </strong>
+              <h3 className="vads-u-margin--0 vads-u-font-size--h5">
+                {dependent.fullName}
+              </h3>
+              <p className="vads-l-col--12 vads-u-margin-bottom--0">
                 {dependent.dependencyStatusTypeDescription}
               </p>
             </div>

@@ -3,7 +3,7 @@ import ExploreVAModal from '../components/ExploreVAModal';
 import SingleSignOnInfoModal from '../components/SingleSignOnInfoModal';
 import VAMCWelcomeModal, { VAMC_PATHS } from '../components/VAMCWelcomeModal';
 import VAPlusVetsModal from '../components/VAPlusVetsModal';
-import WelcomeVAOSModal from '../components/WelcomeVAOSModal';
+import CovidVaccineSignUp from '../components/CovidVaccineSignUp';
 
 const config = {
   announcements: [
@@ -22,9 +22,9 @@ const config = {
       showEverytime: true,
     },
     {
-      name: 'welcome-to-new-vaos',
-      paths: /^\/health-care\/schedule-view-va-appointments\/appointments\/$/,
-      component: WelcomeVAOSModal,
+      name: 'covid-vaccine-signup',
+      paths: /^(\/)$/,
+      component: CovidVaccineSignUp,
     },
     {
       name: 'pittsburgh-vamc',

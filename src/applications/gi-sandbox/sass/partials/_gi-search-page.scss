@@ -1,4 +1,105 @@
 .gi-app .search-page {
+
+  .no-name-results {
+    min-height: 45vh;
+  }
+
+  .modal-wrapper {
+    top: 0;
+    bottom: 0;
+    left: 0px;
+    position: fixed;
+    overflow-x: hidden;
+    z-index: 2001;
+    padding: 1em;
+    background-color: $color-white;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .modal-button-wrapper {
+      background-color: $color-gray-lightest;
+      margin-left: -1em;
+      margin-right: -1em;
+      margin-bottom: -1em;
+      margin-top: 1em;
+      text-align: center;
+      padding-left: 1em;
+      padding-right: 1em;
+
+      button {
+        margin-bottom: 16px;
+        margin-left: 0px;
+        margin-right: 1px;
+        width: 100%;
+      }
+    }
+  }
+
+  .keyword-search {
+    width: 100%;
+  }
+
+  input.name-search {
+    width: 100%;
+    max-width: none;
+  }
+
+  button.name-search-button {
+    width: 120px;
+  }
+
+  @media (max-width: $small-screen) {
+    .usa-accordion-content {
+      padding-left: 0px;
+      padding-right: 0px;
+      margin-left: 0.5em;
+      margin-right: 0.5em;
+    }
+
+    .vads-l-grid-container {
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+
+    button {
+      margin-right: 0px;
+    }
+
+    #keyword-search {
+      width: 100%;
+    }
+
+    button.name-search-button {
+      width: 100%;
+
+      i {
+        display: none;
+      }
+    }
+
+    .input-row {
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+  }
+
+  .eligibility-form h2 {
+    display: none;
+    visibility: hidden;
+  }
+
+  .video-sidebar h5 {
+    margin-top: 0.5em;
+    padding: 0;
+  }
+
+  .type-of-institution-filter .form-expanding-group-open {
+    padding-left: 2rem;
+    border-left: none;
+  }
+
   .filters-sidebar {
     h2 {
       font-size: 1.15em;
@@ -271,20 +372,51 @@
   .usa-alert-heading {
     font-size: 1em;
   }
-}
 
-.exclude-warnings-closings-checkbox {
-  padding-left: 0.2em;
-}
+  .exclude-warnings-closings-checkbox {
+    padding-left: 0.2em;
+  }
 
-.result-card {
-  border-radius: 5px;
-  width: 45%;
-  height: fit-content;
-  flex-grow: 1;
-
-  .result-card-container {
+  .result-card {
     border-radius: 5px;
+    width: 45%;
+    height: fit-content;
+    flex-grow: 1;
+
+    &.active {
+      border: $focus-outline;
+    }
+
+    .result-card-container {
+      border-radius: 5px;
+    }
+    @include media-maxwidth($small-screen) {
+      width: 100%;
+    }
+  }
+
+  .accreditation-tag {
+    border-radius: 15px;
+    font-size: 14px;
+    height: auto;
+    padding-left: 10px;
+    width: 157px;
+  }
+
+  .secondary-info-label {
+    font-size: 12px;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .card-bottom-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  @include media-maxwidth($small-screen) {
+    width: 75%;
   }
 }
 
@@ -307,4 +439,9 @@
   justify-content: center;
   align-items: center;
   position: relative;
+}
+.name-search-cards-padding{
+  @media (min-width: $small-screen +1) {
+    padding-right: 0%;
+  }
 }

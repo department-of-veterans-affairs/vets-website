@@ -8,7 +8,7 @@ const AirForcePortalLink = () => (
     >
       <i
         aria-hidden="true"
-        className="fas fa-chevron-circle-right fa-2x vads-u-margin-right--1"
+        className="fas fa-chevron-circle-right fa-2x vads-u-margin-right--1 vads-u-color--green"
         role="presentation"
       />
       <span className="vads-u-text-decoration--underline vads-u-font-weight--bold">

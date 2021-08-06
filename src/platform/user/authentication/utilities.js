@@ -24,12 +24,13 @@ export const ssoKeepAliveEndpoint = () => {
   return `https://${envPrefix}eauth.va.gov/keepalive`;
 };
 
-export function sessionTypeUrl(type = '', version = 'v0', queryParams = {}) {
-  const base =
-    version === 'v1'
-      ? `${environment.API_URL}/v1/sessions`
-      : `${environment.API_URL}/sessions`;
-
+export function sessionTypeUrl({
+  type = '',
+  version = 'v1',
+  queryParams = {},
+}) {
+  // force v1 regardless of version
+  const base = `${environment.API_URL}/${version}/sessions`.replace(/v0/, 'v1');
   const searchParams = new URLSearchParams(queryParams);
 
   const queryString =
@@ -102,32 +103,44 @@ function redirect(redirectUrl, clickedEvent) {
 
 export function login(
   policy,
-  version = 'v0',
+  version = 'v1',
   queryParams = {},
   clickedEvent = 'login-link-clicked-modal',
 ) {
-  const url = sessionTypeUrl(policy, version, queryParams);
+  const url = sessionTypeUrl({ type: policy, version, queryParams });
   setLoginAttempted();
   return redirect(url, clickedEvent);
 }
 
-export function mfa(version = 'v0') {
-  return redirect(sessionTypeUrl('mfa', version), 'multifactor-link-clicked');
+export function mfa(version = 'v1') {
+  return redirect(
+    sessionTypeUrl({ type: 'mfa', version }),
+    'multifactor-link-clicked',
+  );
 }
 
-export function verify(version = 'v0') {
-  return redirect(sessionTypeUrl('verify', version), 'verify-link-clicked');
+export function verify(version = 'v1') {
+  return redirect(
+    sessionTypeUrl({ type: 'verify', version }),
+    'verify-link-clicked',
+  );
 }
 
 export function logout(
-  version = 'v0',
+  version = 'v1',
   clickedEvent = 'logout-link-clicked',
   queryParams = {},
 ) {
   clearSentryLoginType();
-  return redirect(sessionTypeUrl('slo', version, queryParams), clickedEvent);
+  return redirect(
+    sessionTypeUrl({ type: 'slo', version, queryParams }),
+    clickedEvent,
+  );
 }
 
-export function signup(version = 'v0') {
-  return redirect(sessionTypeUrl('signup', version), 'register-link-clicked');
+export function signup(version = 'v1') {
+  return redirect(
+    sessionTypeUrl({ type: 'signup', version }),
+    'register-link-clicked',
+  );
 }

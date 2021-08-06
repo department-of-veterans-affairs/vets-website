@@ -5,7 +5,7 @@ const { integrationFolder, testFiles } = require('../../config/cypress.json');
 
 const pattern = path.join(__dirname, '../..', integrationFolder, testFiles);
 const tests = glob.sync(pattern);
-const divider = Math.ceil(tests.length / 6);
+const divider = Math.ceil(tests.length / 8);
 const batch = tests
   .slice(
     Number(process.env.STEP) * divider,

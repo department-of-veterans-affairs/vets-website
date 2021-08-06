@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import {
-  setLangAttribute,
-  adaptLinksWithLangCode,
-  onThisPageHook,
-  parseLangCode,
-} from 'applications/static-pages/i18Select/hooks';
+  setLangAttributes,
+  getConfigFromUrl,
+} from 'applications/static-pages/i18Select/utilities/helpers';
 import { FOOTER_EVENTS } from '../helpers';
 import recordEvent from '../../../monitoring/record-event';
+import { TRANSLATED_LANGUAGES } from 'applications/static-pages/i18Select/utilities/constants';
 
 const langAssistanceLabel = 'Language assistance';
 
@@ -41,7 +40,6 @@ function LanguagesListTemplate({ dispatchLanguageSelection }) {
             hrefLang={link.lang}
             onClick={() => {
               dispatchLanguageSelection(link.lang);
-              setLangAttribute(link.lang);
               recordEvent({
                 event: FOOTER_EVENTS.LANGUAGE_SUPPORT,
                 lang: link.lang,
@@ -60,16 +58,22 @@ export default function LanguageSupport({
   isDesktop,
   showLangSupport,
   dispatchLanguageSelection,
+  languageCode,
 }) {
   useEffect(
     () => {
-      const langCode = parseLangCode(document?.location?.pathname);
-      onThisPageHook(langCode);
-      setLangAttribute(langCode);
-      dispatchLanguageSelection(langCode);
-      adaptLinksWithLangCode(dispatchLanguageSelection, langCode);
+      const { code: parsedLanguageCode } = getConfigFromUrl(
+        document?.location?.href,
+        TRANSLATED_LANGUAGES,
+      );
+
+      setLangAttributes(parsedLanguageCode);
+
+      if (languageCode === parsedLanguageCode) return;
+
+      dispatchLanguageSelection(parsedLanguageCode);
     },
-    [dispatchLanguageSelection, showLangSupport],
+    [dispatchLanguageSelection, languageCode],
   );
 
   if (showLangSupport !== true) return null;

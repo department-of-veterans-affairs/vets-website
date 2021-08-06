@@ -75,11 +75,11 @@ class ReviewCollapsibleChapter extends React.Component {
     (chapterTitle || '').toLowerCase() === pageTitle.toLowerCase();
 
   checkValidation = () => {
-    const { form, pageList } = this.props;
+    const { form, pageList, reviewErrors = {} } = this.props;
     const { errors } = isValidForm(form, pageList);
     this.props.setFormErrors({
       rawErrors: errors,
-      errors: reduceErrors(errors, pageList),
+      errors: reduceErrors(errors, pageList, reviewErrors),
     });
   };
 
@@ -351,7 +351,8 @@ class ReviewCollapsibleChapter extends React.Component {
         data-chapter={this.props.chapterKey}
       >
         <Element name={`chapter${this.props.chapterKey}ScrollElement`} />
-        <ul className="usa-unstyled-list">
+        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+        <ul className="usa-unstyled-list" role="list">
           <li>
             <h3 className={headerClasses}>
               <button
@@ -391,6 +392,7 @@ ReviewCollapsibleChapter.propTypes = {
   onEdit: PropTypes.func.isRequired,
   pageList: PropTypes.array.isRequired,
   setFormErrors: PropTypes.func.isRequired,
+  reviewErrors: PropTypes.shape({}),
 };
 
 export default connect(

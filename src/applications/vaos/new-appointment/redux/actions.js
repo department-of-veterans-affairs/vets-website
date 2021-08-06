@@ -13,6 +13,7 @@ import {
   selectFeatureVAOSServiceRequests,
   selectFeatureVariantTesting,
   selectRegisteredCernerFacilityIds,
+  selectFeatureFacilitiesServiceV2,
   selectFeatureVAOSServiceVAAppointments,
 } from '../../redux/selectors';
 import {
@@ -231,13 +232,19 @@ export function startRequestAppointmentFlow(isCommunityCare) {
 export function fetchFacilityDetails(facilityId) {
   let facilityDetails;
 
-  return async dispatch => {
+  return async (dispatch, getState) => {
     dispatch({
       type: FORM_FETCH_FACILITY_DETAILS,
     });
+    const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
+      getState(),
+    );
 
     try {
-      facilityDetails = await getLocation({ facilityId });
+      facilityDetails = await getLocation({
+        facilityId,
+        useV2: featureFacilitiesServiceV2,
+      });
     } catch (error) {
       facilityDetails = null;
       captureError(error);
@@ -256,6 +263,9 @@ export function checkEligibility({ location, showModal }) {
     const state = getState();
     const directSchedulingEnabled = selectFeatureDirectScheduling(state);
     const typeOfCare = getTypeOfCare(getState().newAppointment.data);
+    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+      state,
+    );
 
     dispatch({
       type: FORM_ELIGIBILITY_CHECKS,
@@ -272,6 +282,7 @@ export function checkEligibility({ location, showModal }) {
         location,
         typeOfCare,
         directSchedulingEnabled,
+        useV2: featureVAOSServiceVAAppointments,
       });
 
       if (showModal) {
@@ -307,7 +318,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     try {
       const initialState = getState();
-      const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+      const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
         initialState,
       );
       const newAppointment = initialState.newAppointment;
@@ -328,7 +339,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         if (!typeOfCareFacilities) {
           typeOfCareFacilities = await getLocationsByTypeOfCareAndSiteIds({
             siteIds,
-            useV2: featureVAOSServiceVAAppointments,
+            useV2: featureFacilitiesServiceV2,
           });
         }
 
@@ -553,6 +564,9 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
 
     const startDateMonth = moment(startDate).format('YYYY-MM');
     const endDateMonth = moment(endDate).format('YYYY-MM');
+    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+      state,
+    );
 
     let fetchedAppointmentSlotMonths = [];
     let fetchedStartMonth = false;
@@ -587,10 +601,11 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
 
         const fetchedSlots = await getSlots({
           siteId,
-          typeOfCareId: data.typeOfCareId,
+          typeOfCareId: data?.typeOfCareId,
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
+          useV2: featureVAOSServiceVAAppointments,
         });
         const now = moment();
 
@@ -656,7 +671,7 @@ export function checkCommunityCareEligibility() {
   return async (dispatch, getState) => {
     const state = getState();
     const communityCareEnabled = selectFeatureCommunityCare(state);
-    const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(state);
+    const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(state);
 
     if (!communityCareEnabled) {
       return false;
@@ -667,11 +682,11 @@ export function checkCommunityCareEligibility() {
       const siteIds = selectSystemIds(state);
       const parentFacilities = await fetchParentLocations({
         siteIds,
-        useV2: featureVAOSServiceRequests,
+        useV2: featureFacilitiesServiceV2,
       });
       const ccEnabledSystems = await fetchCommunityCareSupportedSites({
         locations: parentFacilities,
-        useV2: featureVAOSServiceRequests,
+        useV2: featureFacilitiesServiceV2,
       });
 
       dispatch({
@@ -799,6 +814,16 @@ export function submitAppointmentOrRequest(history) {
               : 0,
         };
       }
+
+      additionalEventData = {
+        ...additionalEventData,
+        'vaos-preferred-combination': Object.entries(data.bestTimeToCall || {})
+          .filter(item => item[1])
+          .map(item => item[0])
+          .sort()
+          .join('-')
+          .toLowerCase(),
+      };
 
       recordEvent({
         event: `${GA_PREFIX}-${eventType}-submission`,
