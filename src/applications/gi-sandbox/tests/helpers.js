@@ -1,6 +1,6 @@
 import React from 'react';
 import { Router } from 'react-router-dom';
-import createHistory from 'history/createMemoryHistory';
+import { createHistory } from 'history';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import sinon from 'sinon';

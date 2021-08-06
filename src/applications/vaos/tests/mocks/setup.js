@@ -3,7 +3,8 @@
 import React from 'react';
 import moment from '../../lib/moment-tz';
 import { Route, Router } from 'react-router-dom';
-import createHistory from 'history/createMemoryHistory';
+/* eslint-disable no-restricted-imports */
+import { createHistory } from 'history';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
