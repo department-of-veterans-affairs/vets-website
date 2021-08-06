@@ -3,7 +3,7 @@ import featureToggles from '../fixtures/mocks/feature-toggles.json';
 import mockUpload from '../fixtures/mocks/mock-upload.json';
 import formSubmit from '../fixtures/mocks/form-submission.json';
 
-describe('10-10CG -- agrees are required', () => {
+describe('10-10CG -- agree checkboxes are required', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
     cy.intercept('POST', 'v0/form1010cg/attachments', mockUpload);
@@ -14,7 +14,7 @@ describe('10-10CG -- agrees are required', () => {
       '/family-member-benefits/apply-for-caregiver-assistance-form-10-10cg/introduction',
     );
   });
-  it('the test', () => {
+  it('checks if the error message shows if the the boxes are not checked', () => {
     // intro page
     cy.get('.caregivers-intro > :nth-child(4)').click();
 
