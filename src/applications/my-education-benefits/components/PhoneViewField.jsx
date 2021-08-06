@@ -1,5 +1,5 @@
 import React from 'react';
 
-export default function EmailViewField({ formData }) {
+export default function PhoneViewField({ formData }) {
   return <>{formData}</>;
 }
