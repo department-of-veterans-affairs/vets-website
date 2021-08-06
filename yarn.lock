@@ -15050,11 +15050,6 @@ pngjs@~2.2.0:
   resolved "https://registry.npmjs.org/pngjs/-/pngjs-2.2.0.tgz"
   integrity sha1-ZJZjYJoOurh8jwiz/nJASLUdnX8=
 
-polyfill-function-prototype-bind@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.npmjs.org/polyfill-function-prototype-bind/-/polyfill-function-prototype-bind-0.0.1.tgz"
-  integrity sha1-UGfaWLMHLK4mHdQYTRUf2kzdeOA=
-
 popsicle@^9.2.0:
   version "9.2.0"
   resolved "https://registry.npmjs.org/popsicle/-/popsicle-9.2.0.tgz"
