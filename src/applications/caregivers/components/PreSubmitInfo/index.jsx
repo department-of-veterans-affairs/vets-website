@@ -48,42 +48,63 @@ const PreSubmitCheckboxGroup = ({
     [showRepresentativeSignatureBox ? representativeLabel : veteranLabel]: '',
   });
 
+  const [checkBoxesSelected, setCheckBoxesSelected] = useState({
+    [showRepresentativeSignatureBox
+      ? representativeLabel
+      : veteranLabel]: false,
+  });
+
   const unSignedLength = Object.values(signatures).filter(
     signature => Boolean(signature) === false,
   ).length;
 
-  const transformSignatures = signature => {
-    const keys = Object.keys(signature);
-
-    // takes in labels and renames to what schema expects
-    const getKeyName = key => {
-      switch (key) {
-        case veteranLabel:
-          return 'veteran';
-        case representativeLabel:
-          return 'veteran';
-        case primaryLabel:
-          return 'primary';
-        case secondaryOneLabel:
-          return 'secondaryOne';
-        case secondaryTwoLabel:
-          return 'secondaryTwo';
-        default:
-          return null;
-      }
-    };
+  // takes in labels and renames to what schema expects
+  const getKeyName = key => {
+    switch (key) {
+      case veteranLabel:
+        return 'veteran';
+      case representativeLabel:
+        return 'veteran';
+      case primaryLabel:
+        return 'primary';
+      case secondaryOneLabel:
+        return 'secondaryOne';
+      case secondaryTwoLabel:
+        return 'secondaryTwo';
+      default:
+        return null;
+    }
+  };
+  const transformCheckboxes = checkBox => {
+    const keys = Object.keys(checkBox);
 
     // iterates through all keys and normalizes them using getKeyName
-    const renameObjectKeys = (keysMap, obj) =>
+    const renameObjectKeys = (keysMap, obj, slug) =>
       Object.keys(obj).reduce((acc, key) => {
-        const cleanKey = `${getKeyName(key)}Signature`;
+        const cleanKey = `${getKeyName(key)}${slug}`;
         return {
           ...acc,
           ...{ [keysMap[cleanKey] || cleanKey]: obj[key] },
         };
       }, {});
 
-    return renameObjectKeys(keys, signatures);
+    return renameObjectKeys(keys, signatures, 'CheckBox');
+  };
+
+  const transformSignatures = signature => {
+    const keys = Object.keys(signature);
+
+    // iterates through all keys and normalizes them using getKeyName
+    const renameObjectKeys = (keysMap, obj, slug) =>
+      Object.keys(obj).reduce((acc, key) => {
+        const cleanKey = `${getKeyName(key)}${slug}`;
+        return {
+          ...acc,
+          ...{ [keysMap[cleanKey] || cleanKey]: obj[key] },
+        };
+      }, {});
+
+    return renameObjectKeys(keys, signatures, 'Signature');
   };
 
   useEffect(
@@ -95,16 +116,23 @@ const PreSubmitCheckboxGroup = ({
       setFormData({
         ...formData,
         ...transformSignatures(signatures),
+        ...transformCheckboxes(checkBoxesSelected),
       });
     },
-    [setFormData, signatures],
+    [setFormData, signatures, checkBoxesSelected],
   );
 
   // when there is no unsigned signatures set AGREED (onSectionComplete) to true
   // if goes to another page (unmount), set AGREED (onSectionComplete) to false
   useEffect(
     () => {
-      onSectionComplete(!unSignedLength);
+      // this should be true when all the siguantures are signed and all the check boxes are checked
+      // console.log({ signatures });
+
+      // console.log({ checkBoxesSelected });
+      const agreed = !unSignedLength;
+      // console.log({ agreed });
+      onSectionComplete(agreed);
 
       return () => {
         onSectionComplete(false);
@@ -112,12 +140,17 @@ const PreSubmitCheckboxGroup = ({
     },
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [unSignedLength],
+    [unSignedLength, signatures, checkBoxesSelected],
   );
 
   const removePartyIfFalsy = (predicate, label) => {
     if (!predicate) {
       setSignatures(prevState => {
+        const newState = cloneDeep(prevState);
+        delete newState[label];
+        return newState;
+      });
+      setCheckBoxesSelected(prevState => {
         const newState = cloneDeep(prevState);
         delete newState[label];
         return newState;
@@ -162,12 +195,13 @@ const PreSubmitCheckboxGroup = ({
           label={representativeLabel}
           signatures={signatures}
           setSignatures={setSignatures}
+          setCheckBoxesSelected={setCheckBoxesSelected}
           showError={showError}
           submission={submission}
           isRepresentative
           isRequired
         >
-          <h3>Veteran&apos;s statement of truth</h3>
+          <h3>Veteran’s statement of truth</h3>
 
           <h4 className="vads-u-font-size--sm" style={{ fontWeight: 600 }}>
             {representativeFirstParagraph}
@@ -188,11 +222,12 @@ const PreSubmitCheckboxGroup = ({
           label={veteranLabel}
           signatures={signatures}
           setSignatures={setSignatures}
+          setCheckBoxesSelected={setCheckBoxesSelected}
           showError={showError}
           submission={submission}
           isRequired
         >
-          <h3>Veteran&apos;s statement of truth</h3>
+          <h3>Veteran’s statement of truth</h3>
 
           <p>{veteranFirstParagraph}</p>
 
@@ -213,12 +248,13 @@ const PreSubmitCheckboxGroup = ({
           label={primaryLabel}
           signatures={signatures}
           setSignatures={setSignatures}
+          setCheckBoxesSelected={setCheckBoxesSelected}
           showError={showError}
           submission={submission}
           isRequired
         >
           <h3 className="vads-u-margin-top--4">
-            Primary Family Caregiver applicant&apos;s statement of truth
+            Primary Family Caregiver applicant’s statement of truth
           </h3>
 
           <p className="vads-u-margin-y--2">{primaryFirstParagraph}</p>
@@ -237,6 +273,7 @@ const PreSubmitCheckboxGroup = ({
           label={secondaryOneLabel}
           signatures={signatures}
           setSignatures={setSignatures}
+          setCheckBoxesSelected={setCheckBoxesSelected}
           showError={showError}
           submission={submission}
           isRequired
@@ -251,6 +288,7 @@ const PreSubmitCheckboxGroup = ({
           label={secondaryTwoLabel}
           signatures={signatures}
           setSignatures={setSignatures}
+          setCheckBoxesSelected={setCheckBoxesSelected}
           showError={showError}
           submission={submission}
           isRequired
@@ -281,7 +319,6 @@ PreSubmitCheckboxGroup.propTypes = {
     status: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   }),
 };
-
 const mapStateToProps = state => {
   return {
     submission: state.form.submission,
