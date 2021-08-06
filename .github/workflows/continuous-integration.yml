@@ -604,7 +604,7 @@ jobs:
         with:
           aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-          aws_bucket: ${{ secrets.AWS_BUCKET }}
+          aws_bucket: testing-tools-testing-reports
           source_dir: testing-tools-team-dashboard-data/mochawesome-report
           destination_dir: ''
 
