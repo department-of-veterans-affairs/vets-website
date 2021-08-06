@@ -986,6 +986,33 @@ describe('<ReviewCollapsibleChapter>', () => {
       expect(onEdit.callCount).to.equal(1);
     });
 
-    it('should pass the update button function to the custom page component', () => {});
+    it('should pass the update button function to the custom page component', () => {
+      const onEdit = sinon.spy();
+      const CustomPage = ({ updatePage }) => (
+        <div data-testid="custom-page-review">
+          <button onClick={updatePage} data-testid="update-button">
+            Update page
+          </button>
+        </div>
+      );
+      const { pages, chapterKey, chapter, form } = getProps();
+      form.pages.test.editMode = true;
+      pages[0].CustomPage = CustomPage;
+      form.pages.test.CustomPage = CustomPage;
+      const { getByTestId } = render(
+        <ReviewCollapsibleChapter
+          viewedPages={new Set()}
+          expandedPages={pages}
+          chapterKey={chapterKey}
+          chapterFormConfig={chapter}
+          form={form}
+          open
+          onEdit={onEdit}
+        />,
+      );
+
+      userEvent.click(getByTestId('update-button'));
+      expect(onEdit.callCount).to.equal(1);
+    });
   });
 });
