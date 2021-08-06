@@ -1014,5 +1014,9 @@ describe('<ReviewCollapsibleChapter>', () => {
       userEvent.click(getByTestId('update-button'));
       expect(onEdit.callCount).to.equal(1);
     });
+
+    it('should pass the form data to the CustomPageReview', () => {});
+
+    it('should pass the form data to the CustomPage', () => {});
   });
 });
