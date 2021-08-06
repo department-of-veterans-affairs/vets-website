@@ -265,6 +265,7 @@
   "dependencies": {
     "@department-of-veterans-affairs/component-library": "2.5.5",
     "@department-of-veterans-affairs/formation": "6.16.2",
+    "@department-of-veterans-affairs/formulate": "https://github.com/department-of-veterans-affairs/formulate.git#simplify-prepare-script-cv",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@formatjs/intl-datetimeformat": "^3.2.7",
     "@formatjs/intl-getcanonicallocales": "^1.5.3",
@@ -286,6 +287,7 @@
     "express": "^4.17.1",
     "fast-levenshtein": "^2.0.6",
     "fine-uploader": "^5.16.2",
+    "formik": "^2.2.9",
     "foundation-sites": "^5.5.3",
     "history": "3",
     "history-v4": "npm:history@4.9.0",
