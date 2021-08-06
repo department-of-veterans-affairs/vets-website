@@ -608,7 +608,7 @@ jobs:
       #     source_dir: testing-tools-team-dashboard-data/mochawesome-report
 
       - name: Upload test report to s3
-        run: aws s3 cp testing-tools-team-dashboard-data/mochawesome-report s3://testing-tools-testing-reports --acl public-read --region us-gov-west-1
+        run: aws s3 cp testing-tools-team-dashboard-data/mochawesome-report s3://testing-tools-testing-reports --acl public-read --region us-gov-west-1 --recursive
       # --------------------------
       # | Publish Testing Report |
       # --------------------------
