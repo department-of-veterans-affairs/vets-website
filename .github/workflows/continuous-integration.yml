@@ -10,9 +10,9 @@ on:
 env:
   CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
 
-concurrency:
-  group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha  }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
+# concurrency:
+#   group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha  }}
+#   cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
 
 jobs:
   build:
@@ -347,8 +347,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        # with:
-        #   fetch-depth: 0 # i probably don't need this now. will try to remove later
 
       - name: Get Node version
         id: get-node-version
@@ -408,7 +406,6 @@ jobs:
       max-parallel: 8
       matrix:
         ci_node_index: ${{ fromJson(needs.cypress-tests-prep.outputs.ci_node_index) }}
-        # ci_node_index: [0, 1, 2, 3, 4, 5, 6, 7]
 
     env:
       CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
