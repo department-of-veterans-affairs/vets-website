@@ -2,6 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { mount, shallow } from 'enzyme';
 import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -958,5 +959,35 @@ describe('<ReviewCollapsibleChapter>', () => {
       expect(container.querySelector('form.rjsf')).to.exist;
       expect(queryByTestId('custom-page-review')).not.to.exist;
     });
+
+    it('should pass the edit button function to the custom review component', () => {
+      const onEdit = sinon.spy();
+      const CustomPageReview = ({ editPage }) => (
+        <div data-testid="custom-page-review">
+          <button onClick={editPage} data-testid="edit-button">
+            Edit
+          </button>
+        </div>
+      );
+      const { pages, chapterKey, chapter, form } = getProps();
+      pages[0].CustomPageReview = CustomPageReview;
+      form.pages.test.CustomPageReview = CustomPageReview;
+      const { getByTestId } = render(
+        <ReviewCollapsibleChapter
+          viewedPages={new Set()}
+          expandedPages={pages}
+          chapterKey={chapterKey}
+          chapterFormConfig={chapter}
+          form={form}
+          open
+          onEdit={onEdit}
+        />,
+      );
+      // Poke the edit button
+      userEvent.click(getByTestId('edit-button'));
+      expect(onEdit.callCount).to.equal(1);
+    });
+
+    it('should pass the update button function to the custom page component', () => {});
   });
 });
