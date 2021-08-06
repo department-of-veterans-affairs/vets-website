@@ -826,12 +826,18 @@ describe('<ReviewCollapsibleChapter>', () => {
     const getProps = () => {
       const CustomPage = () => <div data-testid="custom-page" />;
       const CustomPageReview = () => <div data-testid="custom-page-review" />;
+      const pageConfig = {
+        title: '',
+        pageKey: 'test',
+        CustomPage,
+        CustomPageReview,
+        schema: { type: 'object', properties: {} },
+        uiSchema: {},
+      };
       const pages = [
         {
-          title: '',
+          ...pageConfig,
           pageKey: 'test',
-          CustomPage,
-          CustomPageReview,
         },
       ];
       const chapterKey = 'test';
@@ -839,10 +845,8 @@ describe('<ReviewCollapsibleChapter>', () => {
       const form = {
         pages: {
           test: {
-            title: '',
+            ...pageConfig,
             editMode: false,
-            CustomPage,
-            CustomPageReview,
           },
         },
         data: {},
