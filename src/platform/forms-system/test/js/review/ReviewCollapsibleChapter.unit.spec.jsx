@@ -940,6 +940,24 @@ describe('<ReviewCollapsibleChapter>', () => {
 
     it('should render SchemaForm in the chapter when CustomPageReview is null but the schema properties are not empty', () => {
       // Search for form.rjsf
+      const { pages, chapterKey, chapter, form } = getProps();
+      pages[0].CustomPageReview = null;
+      form.pages.test.CustomPageReview = null;
+      const properties = { foo: { type: 'string' } };
+      pages[0].schema.properties = properties;
+      form.pages.test.schema.properties = properties;
+      const { container, queryByTestId } = render(
+        <ReviewCollapsibleChapter
+          viewedPages={new Set()}
+          expandedPages={pages}
+          chapterKey={chapterKey}
+          chapterFormConfig={chapter}
+          form={form}
+          open
+        />,
+      );
+      expect(container.querySelector('form.rjsf')).to.exist;
+      expect(queryByTestId('custom-page-review')).not.to.exist;
     });
   });
 });
