@@ -16,6 +16,7 @@ const pathsOfChangedFiles = filepaths.filter(filepath => {
 });
 
 function selectedTests() {
+  // always run tests in src/platform/
   const tests = [
     '/home/runner/work/vets-website/vets-website/src/platform/site-wide/side-nav/tests/e2e/sideNav.cypress.spec.js',
     '/home/runner/work/vets-website/vets-website/src/platform/site-wide/mega-menu/tests/megaMenu.cypress.spec.js',
