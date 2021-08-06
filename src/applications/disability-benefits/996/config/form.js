@@ -18,6 +18,7 @@ import ReviewDescription from '../components/ReviewDescription';
 // Pages
 import veteranInformation from '../pages/veteranInformation';
 import contactInfo from '../pages/contactInformation';
+import homeless from '../pages/homeless';
 import contestedIssuesPage from '../pages/contestedIssues';
 import informalConference from '../pages/informalConference';
 import informalConferenceRep from '../pages/informalConferenceRep';
@@ -25,6 +26,7 @@ import informalConferenceTimes from '../pages/informalConferenceTimes';
 import sameOffice from '../pages/sameOffice';
 
 import { errorMessages, WIZARD_STATUS } from '../constants';
+import { apiVersion1, apiVersion2 } from '../helpers';
 // import initialData from '../tests/schema/initialData';
 
 import manifest from '../manifest.json';
@@ -99,6 +101,13 @@ const formConfig = {
           uiSchema: contactInfo.uiSchema,
           schema: contactInfo.schema,
         },
+        homeless: {
+          title: 'Homelessness question',
+          path: 'homeless',
+          uiSchema: homeless.uiSchema,
+          schema: homeless.schema,
+          depends: apiVersion2,
+        },
       },
     },
     contestedIssues: {
@@ -121,6 +130,7 @@ const formConfig = {
           path: 'office-of-review',
           uiSchema: sameOffice.uiSchema,
           schema: sameOffice.schema,
+          depends: apiVersion1,
         },
       },
     },

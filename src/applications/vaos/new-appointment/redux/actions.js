@@ -14,6 +14,7 @@ import {
   selectFeatureVariantTesting,
   selectRegisteredCernerFacilityIds,
   selectFeatureFacilitiesServiceV2,
+  selectFeatureVAOSServiceVAAppointments,
 } from '../../redux/selectors';
 import {
   getTypeOfCare,
@@ -262,6 +263,9 @@ export function checkEligibility({ location, showModal }) {
     const state = getState();
     const directSchedulingEnabled = selectFeatureDirectScheduling(state);
     const typeOfCare = getTypeOfCare(getState().newAppointment.data);
+    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+      state,
+    );
 
     dispatch({
       type: FORM_ELIGIBILITY_CHECKS,
@@ -278,6 +282,7 @@ export function checkEligibility({ location, showModal }) {
         location,
         typeOfCare,
         directSchedulingEnabled,
+        useV2: featureVAOSServiceVAAppointments,
       });
 
       if (showModal) {
@@ -559,6 +564,9 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
 
     const startDateMonth = moment(startDate).format('YYYY-MM');
     const endDateMonth = moment(endDate).format('YYYY-MM');
+    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+      state,
+    );
 
     let fetchedAppointmentSlotMonths = [];
     let fetchedStartMonth = false;
@@ -593,10 +601,11 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
 
         const fetchedSlots = await getSlots({
           siteId,
-          typeOfCareId: data.typeOfCareId,
+          typeOfCareId: data?.typeOfCareId,
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
+          useV2: featureVAOSServiceVAAppointments,
         });
         const now = moment();
 
@@ -805,6 +814,16 @@ export function submitAppointmentOrRequest(history) {
               : 0,
         };
       }
+
+      additionalEventData = {
+        ...additionalEventData,
+        'vaos-preferred-combination': Object.entries(data.bestTimeToCall || {})
+          .filter(item => item[1])
+          .map(item => item[0])
+          .sort()
+          .join('-')
+          .toLowerCase(),
+      };
 
       recordEvent({
         event: `${GA_PREFIX}-${eventType}-submission`,

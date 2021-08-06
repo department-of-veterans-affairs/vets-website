@@ -29,16 +29,7 @@
     width: max-content;
   }
 
-  dl dt:first-of-type {
-    border-width: 1px 0 0 0;
-    border-color: $color-gray-lighter;
-    border-style: solid;
-  }
-
   .find-forms-alert-message {
-    // display: flex;
-    // padding: 3.2rem 6.4rem 3.2rem 2.4rem;
-    // width: 100%;
     i {
       font-family: "Font Awesome 5 Free";
       font-style: normal;

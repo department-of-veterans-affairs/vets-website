@@ -14,6 +14,8 @@ import PreviewBanner from '../components/PreviewBanner';
 import Modals from './Modals';
 import { useQueryParams } from '../utils/helpers';
 import ServiceError from '../components/ServiceError';
+import AboutThisTool from '../components/content/AboutThisTool';
+import Disclaimer from '../components/content/Disclaimer';
 
 export function GiBillApp({
   constants,
@@ -74,6 +76,10 @@ export function GiBillApp({
               {children}
             </DowntimeNotification>
           )}
+          <div className="row">
+            <AboutThisTool />
+            <Disclaimer />
+          </div>
           <Modals />
         </div>
       </div>

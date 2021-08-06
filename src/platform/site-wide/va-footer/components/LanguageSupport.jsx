@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import {
-  setLangAttribute,
-  parseLangCode,
-} from 'applications/static-pages/i18Select/hooks';
+  setLangAttributes,
+  getConfigFromUrl,
+} from 'applications/static-pages/i18Select/utilities/helpers';
 import { FOOTER_EVENTS } from '../helpers';
 import recordEvent from '../../../monitoring/record-event';
+import { TRANSLATED_LANGUAGES } from 'applications/static-pages/i18Select/utilities/constants';
 
 const langAssistanceLabel = 'Language assistance';
 
@@ -61,15 +62,18 @@ export default function LanguageSupport({
 }) {
   useEffect(
     () => {
-      const langCode = parseLangCode(document?.location?.pathname);
+      const { code: parsedLanguageCode } = getConfigFromUrl(
+        document?.location?.href,
+        TRANSLATED_LANGUAGES,
+      );
 
-      setLangAttribute(langCode);
+      setLangAttributes(parsedLanguageCode);
 
-      if (languageCode === langCode) return;
+      if (languageCode === parsedLanguageCode) return;
 
-      dispatchLanguageSelection(langCode);
+      dispatchLanguageSelection(parsedLanguageCode);
     },
-    [dispatchLanguageSelection, showLangSupport, languageCode],
+    [dispatchLanguageSelection, languageCode],
   );
 
   if (showLangSupport !== true) return null;

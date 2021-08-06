@@ -8,7 +8,7 @@ import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import { FLOW_TYPES } from '../../../utils/constants';
 
 describe('VAOS <ContactInfoPage>', () => {
-  it('should submit with valid data', async () => {
+  it('should accept email, phone, and preferred time and continue', async () => {
     const store = createTestStore({
       user: {
         profile: {
@@ -40,6 +40,12 @@ describe('VAOS <ContactInfoPage>', () => {
     await waitFor(() => {
       expect(screen.history.push.called).to.be.true;
     });
+    expect(window.dataLayer).to.deep.include({
+      event: 'vaos-contact-info-email-not-populated',
+    });
+    expect(window.dataLayer).to.deep.include({
+      event: 'vaos-contact-info-phone-not-populated',
+    });
 
     // Expect the previously entered form data is still there if you unmount and remount the page with the same store,
     await cleanup();
@@ -57,7 +63,7 @@ describe('VAOS <ContactInfoPage>', () => {
     expect(input.value).to.equal('joe.blow@gmail.com');
   });
 
-  it('should not submit empty form', async () => {
+  it('should show validation errors for email and phone', async () => {
     let store = createTestStore();
 
     // Get default state.
@@ -88,7 +94,7 @@ describe('VAOS <ContactInfoPage>', () => {
     expect(screen.history.push.called).to.be.false;
   });
 
-  it('should prepopulate VA Profile info', async () => {
+  it.skip('should prepopulate email and phone from VA Profile', async () => {
     const store = createTestStore({
       user: {
         profile: {
@@ -113,9 +119,30 @@ describe('VAOS <ContactInfoPage>', () => {
     await screen.findByText(/^Continue/);
     expect(screen.getByLabelText(/phone number/i).value).to.equal('5555555559');
     expect(screen.getByLabelText(/email/i).value).to.equal('test@va.gov');
+    expect(window.dataLayer).to.deep.include({
+      event: 'vaos-contact-info-email-populated',
+    });
+    expect(window.dataLayer).to.deep.include({
+      event: 'vaos-contact-info-phone-populated',
+    });
+
+    userEvent.click(screen.getByLabelText(/^Morning \(8:00 a.m. – noon\)/));
+
+    userEvent.click(screen.getByText(/^Continue/));
+
+    await waitFor(() => {
+      expect(screen.history.push.called).to.be.true;
+    });
+
+    expect(window.dataLayer).to.deep.include({
+      event: 'vaos-contact-info-email-not-changed',
+    });
+    expect(window.dataLayer).to.deep.include({
+      event: 'vaos-contact-info-phone-not-changed',
+    });
   });
 
-  it('should not display "best time to call" for direct schedule appointment', async () => {
+  it('when in direct schedule flow, should not show preferred time field', async () => {
     let store = createTestStore();
 
     // Get default state.

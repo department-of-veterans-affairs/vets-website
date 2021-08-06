@@ -1,8 +1,10 @@
 import React from 'react';
-import GetHelp from '../components/GetHelp';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import FacilityContacts from '../components/FacilityContacts';
 import StatusAlert from '../components/StatusAlert';
 import Balances from '../components/Balances';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import BalanceQuestions from '../components/BalanceQuestions';
 import { currency } from '../utils/helpers';
 
 const OverviewPage = () => {
@@ -10,6 +12,14 @@ const OverviewPage = () => {
 
   return (
     <>
+      <Breadcrumbs className="vads-u-font-family--sans">
+        <a href="/">Home</a>
+        <a href="/health-care">Health care</a>
+        <a href="/health-care/pay-copay-bill">Pay your VA copay bill</a>
+        <a href="/health-care/pay-copay-bill/your-current-balances/">
+          Your current copay balances
+        </a>
+      </Breadcrumbs>
       <h1>Your current copay balances</h1>
       <p className="vads-u-font-size--lg">
         Check your VA health care copay balances. Find out how to make payments
@@ -33,7 +43,12 @@ const OverviewPage = () => {
         )}
       />
       <Balances />
-      <GetHelp />
+      <BalanceQuestions />
+      <p>
+        <strong>For questions about your treatment or your charges, </strong>
+        contact the VA health care facility listed on your bill.
+      </p>
+      <FacilityContacts />
     </>
   );
 };

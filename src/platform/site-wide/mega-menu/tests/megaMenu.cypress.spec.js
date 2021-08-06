@@ -79,8 +79,8 @@ describe('Mega Menu', () => {
       // Test the menu sections.
       testDesktopMenuSections();
 
+      cy.get('[data-e2e-id="my-va-3"]');
       // Authenticated links should not appear.
-      cy.get('[data-e2e-id="my-va-3"]').should('not.exist');
       cy.get('[data-e2e-id="my-health-4"]').should('not.exist');
     });
 
@@ -115,8 +115,8 @@ describe('Mega Menu', () => {
       // Test the menu sections.
       testMobileMenuSections();
 
+      cy.get('[data-e2e-id="my-va-3"]');
       // Authenticated links should not appear.
-      cy.get('[data-e2e-id="my-va-3"]').should('not.exist');
       cy.get('[data-e2e-id="my-health-4"]').should('not.exist');
     });
 

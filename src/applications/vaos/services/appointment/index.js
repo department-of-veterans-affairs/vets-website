@@ -117,7 +117,7 @@ function hasPartialResults(response) {
  * @param {Boolean} useV2CC Toggle fetching CC appointments via VAOS api services version 2
  * @returns {Appointment[]} A FHIR searchset of booked Appointment resources
  */
-export async function getBookedAppointments({
+export async function fetchAppointments({
   startDate,
   endDate,
   useV2VA = false,
@@ -128,6 +128,8 @@ export async function getBookedAppointments({
     if (useV2VA || useV2CC) {
       const allAppointments = await getAppointments(startDate, endDate, [
         'booked',
+        'arrived',
+        'fulfilled',
         'cancelled',
       ]);
 
@@ -184,9 +186,9 @@ export async function getBookedAppointments({
         moment(endDate).toISOString(),
       );
       // We might get partial results back from MAS, so throw an error if we do
-      if (hasPartialResults(confirmedVAAppointments[0])) {
+      if (hasPartialResults(confirmedVAAppointments)) {
         throw mapToFHIRErrors(
-          confirmedVAAppointments[0].errors,
+          confirmedVAAppointments.errors,
           'MAS returned partial results',
         );
       }
