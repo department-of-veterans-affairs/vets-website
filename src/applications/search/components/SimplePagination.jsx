@@ -15,13 +15,13 @@ const SimplePagination = ({ prevOffset, nextOffset, handlePageChange }) => {
     <div className="simple-pagination">
       {prevOffset && (
         <a href="#" rel="prev" onClick={handlePageChange(prevOffset)}>
-          « Previous
+          « Previous page
         </a>
       )}
       <span className="current-page">Page {pageNumber}</span>
       {nextOffset && (
         <a href="#" rel="next" onClick={handlePageChange(nextOffset)}>
-          Next »
+          Next page »
         </a>
       )}
     </div>
