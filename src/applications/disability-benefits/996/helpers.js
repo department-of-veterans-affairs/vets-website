@@ -16,6 +16,26 @@ export const scrollTo = (target = 'topScrollElement') => {
 export const scrollToTop = scrollTo;
 
 /**
+ * Check HLR v2 feature flag
+ * @param {boolean} hlrV2
+ * @returns boolean
+ */
+export const apiVersion2 = formData => formData?.hlrV2;
+/**
+ * Return the opposite of the HLR v2 feature flag
+ * @param {boolean} hlrV2
+ * @returns boolean
+ */
+export const apiVersion1 = formData => !formData?.hlrV2;
+
+/**
+ * Determine if we're in the v1 flow using the save-in-progress data
+ * @param {*} formData
+ * @returns boolean
+ */
+export const isVersion1Data = formData => !!formData?.zipCode5;
+
+/**
  * @typedef ContestableIssues
  * @type {Array<Object>}
  * @property {ContestableIssueItem}
