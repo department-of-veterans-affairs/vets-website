@@ -1,13 +1,5 @@
 .compare-page {
 
-  overflow-x: scroll;
-
-  @media (max-width: $small-screen) {
-    .content-wrapper {
-      width: 1200px;
-    }
-  }
-
   .vads-l-grid-container {
     padding-left: 1rem;
     padding-right: 1rem;
@@ -21,22 +13,34 @@
   .sticky {
     position: fixed;
     top: 0;
-    overflow: visible !important;
     z-index: 200;
     width: 100% !important;
+    //height: 370px;
+    overflow: visible!important;
+    background-color: $color-white;
+  }
 
-    @media (max-width: $small-screen) {
-      width: 1200px !important;
-    }
+  .header-content-row  {
+    //padding-left: 20px;
   }
 
   .compare-header-row {
-    margin-bottom: -2em;
-    background-color: $color-white;
+    overflow-x: scroll;
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+
+    @media (max-width: $small-screen) {
+      margin-bottom: 0px;
+    }
+  }
+
+  .compare-header-row::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
   }
 
   .compare-action {
     padding-top: 1em;
+    margin-left: 1px;
 
     .gi-checkbox-label {
       margin-top: 0px;
@@ -48,13 +52,15 @@
     position: relative;
     @media (max-width: $small-screen) {
       height: auto;
+      width: 100%;
     }
   }
 
   .institution-card {
     @media (max-width: $small-screen) {
       display: inline-block;
-      width: 400px;
+      width: 380px;
+      margin-left: 20px;
     }
   }
 
@@ -149,12 +155,30 @@
     margin-bottom: .25em;
     font-family: "Bitter";
     font-size: 20px;
+
+    @media (max-width: $small-screen) {
+      .compare-header-section-value {
+        left: 10px;
+        position: sticky;
+      }
+
+      display: flex;
+      padding-left: 20px;
+      font-weight: bold;
+      margin-bottom: 0px;
+    }
   }
 
   .compare-header-subsection {
     height: 2em;
     font-family: "Bitter";
     font-size: 17px;
+
+    @media (max-width: $small-screen) {
+      padding-left: 20px;
+      font-weight: bold;
+      margin-top: -10px;
+    }
   }
 
   .field-value {
@@ -166,6 +190,7 @@
     @media (max-width: $small-screen) {
       display: inline-block;
       width: 400px;
+      border-left: none;
     }
   }
 
@@ -183,6 +208,10 @@
     border-top: 2px solid $color-base;
     border-left: 2px solid $color-base;
     border-bottom: 2px solid $color-base;
+
+    @media (max-width: $small-screen) {
+      border-left: none;
+    }
   }
 
   .field-value.first-row.has-diff {
@@ -203,18 +232,6 @@
 
   .field-value.last-col {
     border-right: 1px solid $color-base;
-  }
-
-  @media (max-width: $small-screen) {
-    .non-scroll-parent {
-      display: flex;
-    }
-
-    .non-scroll-label {
-      position: sticky;
-      left: 10px;
-      width: 400px;
-    }
   }
 
   .field-label {
@@ -282,9 +299,39 @@
 
   .card-wrapper {
     display: flex;
+    width:1200px;
   }
 
   .school-classification p {
     margin-bottom: 0px;
+  }
+
+
+  @media (max-width: $small-screen) {
+    .non-scroll-parent {
+      display: flex;
+    }
+
+    .non-scroll-label {
+      position: sticky;
+      left: 10px;
+      width: 400px;
+    }
+
+    overflow-x: scroll;
+    .content-wrapper {
+      width: 1200px;
+    }
+
+    #compare-header {
+      border-bottom: 1px solid $color-gray-light;
+      margin-bottom: -2em;
+    }
+
+    .compare-controls {
+      left: 20px;
+      position: relative;
+      width:1200px;
+    }
   }
 }

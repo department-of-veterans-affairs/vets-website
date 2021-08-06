@@ -108,15 +108,17 @@ export function CompareGrid({
   return (
     <div className={classNames('compare-grid', className)}>
       {sectionLabel && (
-        <div className="compare-header-section">{sectionLabel}</div>
+        <div className="compare-header-section non-scroll-parent">
+          <div className="non-scroll-label">{sectionLabel}</div>{' '}
+        </div>
       )}
       {subSectionLabel && (
         <div
-          className={classNames('compare-header-subsection', {
+          className={classNames('compare-header-subsection non-scroll-parent', {
             'vads-u-margin-top--4': !sectionLabel,
           })}
         >
-          {subSectionLabel}
+          <div className="non-scroll-label">{subSectionLabel}</div>
         </div>
       )}
       <div className={classNames({ 'vads-l-row': !smallScreen })}>

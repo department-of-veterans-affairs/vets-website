@@ -26,8 +26,10 @@ import { estimatedBenefits } from '../selectors/estimator';
 import { getCalculatedBenefits } from '../selectors/calculator';
 import { getCompareCalculatorState } from '../selectors/compare';
 import {
+  boolYesNo,
   convertRatingToStars,
   formatCurrency,
+  naIfNull,
   schoolSize,
 } from '../utils/helpers';
 import Checkbox from '../components/Checkbox';
@@ -61,6 +63,8 @@ export function ComparePage({
     matchMedia('(max-width: 480px)').matches,
   );
   const headerRef = useRef(null);
+  const compareHeaderRef = useRef(null);
+  const comparePageRef = useRef(null);
   const { selected, error } = compare;
   const { loaded, institutions } = compare.details;
   const { version } = preview;
@@ -73,7 +77,7 @@ export function ComparePage({
         dispatchFetchCompareDetails(selected, filters, version);
       }
     },
-    [loaded, selected],
+    [allLoaded, dispatchFetchCompareDetails, filters, selected, version],
   );
 
   useEffect(() => {
@@ -86,27 +90,41 @@ export function ComparePage({
   }, []);
 
   const toggleSticky = useCallback(
-    offset => {
-      if (!initialTop) {
-        const header = headerRef.current;
-        if (header) {
-          const checkPos = header.offsetTop;
-          if (checkPos) {
-            setInitialTop(checkPos);
-          }
-        }
+    () => {
+      if (!initialTop && headerRef.current && headerRef.current.offsetTop) {
+        setInitialTop(headerRef.current.offsetTop);
       }
 
       if (initialTop) {
+        const offset = window.pageYOffset;
         if (offset > initialTop && !isSticky) {
           setIsSticky(true);
+          compareHeaderRef.current.scroll({
+            left: comparePageRef.current.scrollLeft,
+          });
         } else if (offset < initialTop && isSticky) {
           setIsSticky(false);
         }
       }
     },
-    [isSticky, initialTop],
+    [compareHeaderRef, comparePageRef, isSticky, initialTop],
   );
+
+  const handleBodyScrollReact = () => {
+    if (isSticky) {
+      compareHeaderRef.current.scroll({
+        left: comparePageRef.current.scrollLeft,
+      });
+    }
+  };
+
+  const handleHeaderScrollReact = () => {
+    if (isSticky) {
+      comparePageRef.current.scroll({
+        left: compareHeaderRef.current.scrollLeft,
+      });
+    }
+  };
 
   useEffect(() => {
     scroll.scrollToTop(getScrollOptions());
@@ -114,15 +132,12 @@ export function ComparePage({
 
   useLayoutEffect(
     () => {
-      const handleScroll = () => {
-        toggleSticky(window.pageYOffset);
-      };
-      window.addEventListener('scroll', handleScroll);
+      window.addEventListener('scroll', toggleSticky);
       return () => {
-        window.removeEventListener('scroll', handleScroll);
+        window.removeEventListener('scroll', toggleSticky);
       };
     },
-    [headerRef, toggleSticky],
+    [toggleSticky],
   );
 
   if (error) {
@@ -165,14 +180,6 @@ export function ComparePage({
     } else {
       return 'N/A';
     }
-  };
-
-  const naIfNull = value => {
-    return value || 'N/A';
-  };
-
-  const mapBoolField = field => {
-    return field ? 'Yes' : 'No';
   };
 
   const formatEstimate = ({ qualifier, value }) => {
@@ -218,7 +225,11 @@ export function ComparePage({
   };
 
   return (
-    <div className="compare-page">
+    <div
+      className="compare-page"
+      ref={comparePageRef}
+      onScroll={handleBodyScrollReact}
+    >
       {promptingFacilityCode && (
         <RemoveCompareSelectedModal
           name={institutions[promptingFacilityCode].name}
@@ -251,11 +262,16 @@ export function ComparePage({
             })}
           >
             <div
-              className={classNames('vads-u-padding-bottom--6', {
-                'vads-l-row compare-header-row': !smallScreen,
-              })}
+              ref={compareHeaderRef}
+              onScroll={handleHeaderScrollReact}
+              className={classNames(
+                'vads-u-padding-bottom--6 compare-header-row',
+                {
+                  'vads-l-row': !smallScreen,
+                },
+              )}
             >
-              <div className="small-screen:vads-l-col--3 non-scroll-parent">
+              <div className="small-screen:vads-l-col--3 compare-controls non-scroll-parent">
                 <div className="non-scroll-label">
                   <div className="compare-header vads-u-padding-right--1">
                     <div className="compare-page-description-label">
@@ -266,7 +282,12 @@ export function ComparePage({
                   <div className="compare-action">
                     <Checkbox
                       checked={showDifferences}
-                      label="Highlight differences"
+                      label={
+                        <span>
+                          <i className={`fas fa-asterisk`} /> Highlight
+                          differences
+                        </span>
+                      }
                       name="highlight-differences"
                       className="vads-u-display--inline-block"
                       onChange={e => setShowDifferences(e.target.checked)}
@@ -276,10 +297,6 @@ export function ComparePage({
               </div>
               {smallWrap(
                 loadedInstitutions.map((institution, index) => {
-                  const location =
-                    institution.country === 'USA'
-                      ? `${institution.city}, ${institution.state}`
-                      : `${institution.city}, ${institution.country}`;
                   return (
                     <div
                       className="small-screen:vads-l-col--3 institution-card"
@@ -290,13 +307,17 @@ export function ComparePage({
                           <SchoolClassification institution={institution} />
                           <div className="header-fields">
                             <div className="institution-name">
-                              {institution.name}
+                              {smallScreen && institution.name}
+                              {!smallScreen && (
+                                <Link
+                                  to={appendQuery(
+                                    `/profile/${institution.facilityCode}`,
+                                  )}
+                                >
+                                  {institution.name}
+                                </Link>
+                              )}
                             </div>
-                            {!isSticky && (
-                              <div className="institution-location">
-                                {location}
-                              </div>
-                            )}
                           </div>
                         </div>
                       </div>
@@ -660,7 +681,7 @@ export function ComparePage({
               {
                 label: 'Credit for military training',
                 mapper: institution =>
-                  mapBoolField(institution.creditForMilTraining),
+                  boolYesNo(institution.creditForMilTraining),
               },
             ]}
           />
@@ -673,28 +694,28 @@ export function ComparePage({
             fieldData={[
               {
                 label: 'Yellow Ribbon',
-                mapper: institution => mapBoolField(institution.yr),
+                mapper: institution => boolYesNo(institution.yr),
               },
               {
                 label: 'Student Veteran Group',
-                mapper: institution => mapBoolField(institution.studentVeteran),
+                mapper: institution => boolYesNo(institution.studentVeteran),
               },
               {
                 label: 'Principles of Excellence',
-                mapper: institution => mapBoolField(institution.poe),
+                mapper: institution => boolYesNo(institution.poe),
               },
               {
                 label: '8 Keys to Veteran Success',
-                mapper: institution => mapBoolField(institution.eightKeys),
+                mapper: institution => boolYesNo(institution.eightKeys),
               },
               {
                 label: 'Military Tuition Assistance (TA)',
-                mapper: institution => mapBoolField(institution.dodmou),
+                mapper: institution => boolYesNo(institution.dodmou),
               },
               {
                 label: 'Priority Enrollment',
                 mapper: institution =>
-                  mapBoolField(institution.priorityEnrollment),
+                  boolYesNo(institution.priorityEnrollment),
               },
             ]}
           />
