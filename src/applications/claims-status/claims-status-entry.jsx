@@ -3,7 +3,7 @@ import 'platform/polyfills';
 import './sass/claims-status.scss';
 
 import React from 'react';
-import { createMemoryHistory as createHistory } from 'history';
+import { createHistory } from 'history';
 import { IndexRedirect, Route, Router, useRouterHistory } from 'react-router';
 import { Provider } from 'react-redux';
 

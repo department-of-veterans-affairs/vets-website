@@ -3,8 +3,7 @@
 import React from 'react';
 import moment from '../../lib/moment-tz';
 import { Route, Router } from 'react-router-dom';
-/* eslint-disable no-restricted-imports */
-import { createMemoryHistory as createHistory } from 'history';
+import { createMemoryHistory } from 'history-v4';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
@@ -75,7 +74,7 @@ export function createTestStore(initialState) {
  * @returns {History} Returns a History object
  */
 export function createTestHistory(path = '/') {
-  const history = createHistory({ initialEntries: [path] });
+  const history = createMemoryHistory({ initialEntries: [path] });
   sinon.spy(history, 'replace');
   sinon.spy(history, 'push');
 
