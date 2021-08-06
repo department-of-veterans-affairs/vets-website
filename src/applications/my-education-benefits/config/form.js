@@ -12,6 +12,7 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import GetFormHelp from '../components/GetFormHelp';
 import FormFooter from 'platform/forms/components/FormFooter';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import emailUI from 'platform/forms-system/src/js/definitions/email';
 // import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 // import bankAccountUI from 'platform/forms-system/src/js/definitions/bankAccount';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
@@ -36,6 +37,8 @@ import FullNameViewField from '../components/FullNameViewField';
 import DateViewField from '../components/DateViewField';
 import CustomReviewDOBField from '../components/CustomReviewDOBField';
 import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
+import EmailViewField from '../components/EmailViewField';
+import PhoneViewField from '../components/PhoneViewField';
 
 const {
   fullName,
@@ -61,7 +64,6 @@ const formFields = {
   routingNumber: 'routingNumber',
   address: 'address',
   email: 'email',
-  altEmail: 'altEmail',
   phoneNumber: 'phoneNumber',
   mobilePhoneNumber: 'mobilePhoneNumber',
 };
@@ -279,6 +281,7 @@ const formConfig = {
       pages: {
         [formPages.contactInformation]: {
           path: 'contact/information',
+          title: 'Contact Information',
           subTitle: 'Review your email and phone numbers',
           instructions:
             'This is the contact information we have on file for you. We’ll use this to get in touch with you if we have questions about your application and to communicate important information about your education benefits.',
@@ -297,10 +300,45 @@ const formConfig = {
               ),
             },
             [formFields.email]: {
-              'ui:title': 'Primary email',
+              ...emailUI,
+              'ui:title': 'Your email address',
+              'ui:field': ReviewBoxField,
+              'ui:options': {
+                hideLabelText: true,
+                showFieldLabel: false,
+                viewComponent: EmailViewField,
+              },
             },
-            [formFields.mobilePhoneNumber]: phoneUI('Mobile phone'),
-            [formFields.phoneNumber]: phoneUI('Home phone'),
+            [formFields.mobilePhoneNumber]: {
+              ...phoneUI('Mobile phone'),
+              'ui:title': 'Your mobile phone number',
+              'ui:field': ReviewBoxField,
+              'ui:options': {
+                hideLabelText: true,
+                showFieldLabel: false,
+                viewComponent: PhoneViewField,
+              },
+            },
+            [formFields.phoneNumber]: {
+              ...phoneUI('Home phone'),
+              'ui:title': 'Your home phone number',
+              'ui:field': ReviewBoxField,
+              'ui:options': {
+                hideLabelText: true,
+                showFieldLabel: false,
+                viewComponent: PhoneViewField,
+              },
+            },
+            'view:note': {
+              'ui:description': (
+                <p>
+                  <strong>Note</strong>: Any updates you make here will change
+                  your personal information for VA education benefits only. To
+                  change your email and phone numbers for all benefits across
+                  VA, <a href="#">visit your VA profile</a>.
+                </p>
+              ),
+            },
           },
           schema: {
             type: 'object',
@@ -315,7 +353,16 @@ const formConfig = {
               },
               [formFields.mobilePhoneNumber]: usaPhone,
               [formFields.phoneNumber]: usaPhone,
+              'view:note': {
+                type: 'object',
+                properties: {},
+              },
             },
+          },
+          initialData: {
+            email: 'hector.stanley@gmail.com',
+            mobilePhoneNumber: '123-456-7890',
+            phoneNumber: '098-765-4321',
           },
         },
         // [formPages.directDeposit]: {
