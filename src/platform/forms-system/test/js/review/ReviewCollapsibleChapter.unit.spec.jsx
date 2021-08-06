@@ -919,8 +919,26 @@ describe('<ReviewCollapsibleChapter>', () => {
       expect(getAllByTestId('custom-page-review').length).to.equal(2);
     });
 
-    it('should not render a page in the chapter when CustomPageReview is null and the schema properties are empty', () => {});
+    it('should not render a page in the chapter when CustomPageReview is null and the schema properties are empty', () => {
+      const { pages, chapterKey, chapter, form } = getProps();
+      pages[0].CustomPageReview = null;
+      form.pages.test.CustomPageReview = null;
+      const { container, queryByTestId } = render(
+        <ReviewCollapsibleChapter
+          viewedPages={new Set()}
+          expandedPages={pages}
+          chapterKey={chapterKey}
+          chapterFormConfig={chapter}
+          form={form}
+          open
+        />,
+      );
+      expect(container.querySelector('div.review-panel-page')).to.not.exist;
+      expect(queryByTestId('custom-page-review')).not.to.exist;
+    });
 
-    it('should render SchemaForm in the chapter when CustomPageReview is null but the schema properties are not empty', () => {});
+    it('should render SchemaForm in the chapter when CustomPageReview is null but the schema properties are not empty', () => {
+      // Search for form.rjsf
+    });
   });
 });
