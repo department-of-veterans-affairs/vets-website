@@ -1,9 +1,14 @@
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import featureToggles from '../fixtures/mocks/feature-toggles.json';
+import mockUpload from '../fixtures/mocks/mock-upload.json';
+import formSubmit from '../fixtures/mocks/form-submission.json';
 
 describe('10-10CG -- agrees are required', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
+    cy.intercept('POST', 'v0/form1010cg/attachments', mockUpload);
+    cy.intercept('POST', '/v0/caregivers_assistance_claims', formSubmit);
+
     disableFTUXModals();
     cy.visit(
       '/family-member-benefits/apply-for-caregiver-assistance-form-10-10cg/introduction',
@@ -47,7 +52,7 @@ describe('10-10CG -- agrees are required', () => {
     cy.get('#root_primaryDateOfBirthMonth').select('1');
     cy.get('#root_primaryDateOfBirthDay').select('1');
     cy.get('#root_primaryDateOfBirthYear').type('1980');
-    cy.get('#4-continueButton').click();
+    cy.get('#4-continueButton').click({ waitForAnimations: true });
 
     // primary caregiver address page
     cy.get('#root_primaryAddress_street').type('123 Main St');
@@ -56,25 +61,25 @@ describe('10-10CG -- agrees are required', () => {
     cy.get('#root_primaryAddress_postalCode').type('12345');
     cy.get('#root_primaryPrimaryPhoneNumber').type('1234567890');
     cy.get('#root_primaryVetRelationship').select('Significant Other');
-    cy.get('#4-continueButton').click();
+    cy.get('#4-continueButton').click({ waitForAnimations: true });
 
     // primary caregiver coverage page
     cy.get('[type="radio"]')
       .last()
       .check();
-    cy.get('#4-continueButton').click();
+    cy.get('#4-continueButton').click({ waitForAnimations: true });
 
     // secondary caregiver applicant page
     cy.get('[type="radio"]')
       .last()
       .check();
-    cy.get('#4-continueButton').click();
+    cy.get('#4-continueButton').click({ waitForAnimations: true });
 
     // documents page
     cy.get('[type="radio"]')
       .last()
       .check();
-    cy.get('#4-continueButton').click();
+    cy.get('#4-continueButton').click({ waitForAnimations: true });
 
     // populate signatures only on review pager
     cy.get('#errorable-text-input-12').type('Mickey Mouse');
@@ -82,10 +87,18 @@ describe('10-10CG -- agrees are required', () => {
 
     // trigger submit
     // cy.get('#15-continueButton').click();
-    // cy.get('.main .usa-button-primary').click();
+    cy.get('.main .usa-button-primary').click();
 
     // click submit button to trigger error
-    // cy.get('#errorable-checkbox-13-error-message').should('exist');
-    // cy.get('#errorable-checkbox-15-error-message').should('exist');
+    cy.get('#errorable-checkbox-13-error-message').should('exist');
+    cy.get('#errorable-checkbox-15-error-message').should('exist');
+
+    // sign it to agree
+    cy.get('#errorable-checkbox-13').check();
+    cy.get('#errorable-checkbox-15').check();
+
+    // submit form
+    cy.get('.main .usa-button-primary').click({ waitForAnimations: true });
+    cy.get('.usa-alert-heading').contains('success');
   });
 });
