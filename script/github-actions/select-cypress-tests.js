@@ -5,9 +5,6 @@ const { integrationFolder, testFiles } = require('../../config/cypress.json');
 
 // const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
 const filepaths = process.env.CHANGED_FILE_PATHS.split(' ');
-// eslint-disable-next-line no-console
-console.log('filepaths: ', filepaths);
-
 const pathsOfChangedFiles = filepaths.filter(filepath => {
   return (
     filepath !== 'package.json' &&
