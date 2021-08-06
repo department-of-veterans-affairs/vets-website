@@ -271,6 +271,7 @@ class ReviewCollapsibleChapter extends React.Component {
     }
     return (
       <page.CustomPageReview
+        editPage={() => this.handleEdit(page.pageKey, !editing, page.index)}
         name={page.pageKey}
         title={page.title}
         data={props.form.data}
