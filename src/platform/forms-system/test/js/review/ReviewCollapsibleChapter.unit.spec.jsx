@@ -939,7 +939,6 @@ describe('<ReviewCollapsibleChapter>', () => {
     });
 
     it('should render SchemaForm in the chapter when CustomPageReview is null but the schema properties are not empty', () => {
-      // Search for form.rjsf
       const { pages, chapterKey, chapter, form } = getProps();
       pages[0].CustomPageReview = null;
       form.pages.test.CustomPageReview = null;
