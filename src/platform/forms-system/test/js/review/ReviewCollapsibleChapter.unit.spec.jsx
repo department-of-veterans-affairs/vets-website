@@ -874,8 +874,6 @@ describe('<ReviewCollapsibleChapter>', () => {
     });
 
     it('should render CustomPage in edit mode', () => {
-      // The error this test is throwing occurs because getCustomPageContent
-      // doesn't do anything with the edit state
       const { pages, chapterKey, chapter, form } = getProps();
       form.pages.test.editMode = true;
       const { queryByTestId } = render(
