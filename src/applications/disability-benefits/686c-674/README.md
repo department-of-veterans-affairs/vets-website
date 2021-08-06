@@ -54,7 +54,7 @@ The way we do this in the code is by using the `depends` attribute for the optio
 
 ## The back end code
 
-There are really two separate API endpoints that we use in the 686c form, one of them dealing with the check for a valid VA file number noted in the front end sections, and one that receives the form payload on submission. The endpoint for the VA file number check is located at `vets-api/app/controllers/v0/profile/valid_va_file_numbers_controller.rb` and the endpoint for the submission payload is at `vets-api/app/controllers/v0/dependents_applications_controller.rb`.
+There are really two separate API endpoints that we use in the 686c form, one of them dealing with the check for a valid VA file number noted in the front end sections, and one that receives the form payload on submission. The endpoint for the VA file number check is located at [vets-api/app/controllers/v0/profile/valid_va_file_numbers_controller.rb](https://github.com/department-of-veterans-affairs/vets-api/blob/d6a57d2046248013e52a38fc490c1cd6e5cb955c/app/controllers/v0/profile/valid_va_file_numbers_controller.rb#L1) and the endpoint for the submission payload is at [vets-api/app/controllers/v0/dependents_applications_controller.rb](https://github.com/department-of-veterans-affairs/vets-api/blob/d6a57d2046248013e52a38fc490c1cd6e5cb955c/app/controllers/v0/dependents_applications_controller.rb#L1).
 
 ### Valid VA file number check (back end)
 
