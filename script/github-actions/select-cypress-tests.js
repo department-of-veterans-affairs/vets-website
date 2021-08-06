@@ -16,7 +16,11 @@ const pathsOfChangedFiles = filepaths.filter(filepath => {
 });
 
 function selectedTests() {
-  const tests = [];
+  const tests = [
+    '/home/runner/work/vets-website/vets-website/src/platform/site-wide/side-nav/tests/e2e/sideNav.cypress.spec.js',
+    '/home/runner/work/vets-website/vets-website/src/platform/site-wide/mega-menu/tests/megaMenu.cypress.spec.js',
+    '/home/runner/work/vets-website/vets-website/src/platform/site-wide/user-nav/tests/e2e/00-required.cypress.spec.js',
+  ];
   const applicationNames = pathsOfChangedFiles.map(filePath => {
     return filePath.split('/')[2];
   });
