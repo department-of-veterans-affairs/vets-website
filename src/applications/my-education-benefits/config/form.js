@@ -77,6 +77,10 @@ const formPages = {
   directDeposit: 'directDeposit',
 };
 
+function isOnlyWhitespace(str) {
+  return str && !str.trim().length;
+}
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -132,16 +136,34 @@ const formConfig = {
                 </>
               ),
             },
-            [formFields.fullName]: Object.assign({}, fullNameUI, {
-              first: Object.assign({}, fullNameUI.first, {
+            [formFields.fullName]: {
+              ...fullNameUI,
+              first: {
+                ...fullNameUI.first,
                 'ui:title': 'Your first name',
-              }),
-              last: Object.assign({}, fullNameUI.last, {
+                'ui:validations': [
+                  (errors, field) => {
+                    if (isOnlyWhitespace(field)) {
+                      errors.addError('Please enter a first name');
+                    }
+                  },
+                ],
+              },
+              last: {
+                ...fullNameUI.last,
                 'ui:title': 'Your last name',
-              }),
-              middle: Object.assign({}, fullNameUI.middle, {
+                'ui:validations': [
+                  (errors, field) => {
+                    if (isOnlyWhitespace(field)) {
+                      errors.addError('Please enter a last name');
+                    }
+                  },
+                ],
+              },
+              middle: {
+                ...fullNameUI.middle,
                 'ui:title': 'Your middle name',
-              }),
+              },
               'ui:title': 'Your full name',
               'ui:field': ReviewBoxField,
               'ui:options': {
@@ -149,7 +171,7 @@ const formConfig = {
                 showFieldLabel: false,
                 viewComponent: FullNameViewField,
               },
-            }),
+            },
             'view:dateOfBirth': {
               'ui:title': 'Your date of birth',
               'ui:field': ReviewBoxField,
@@ -196,7 +218,16 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [formFields.fullName]: fullName,
+              [formFields.fullName]: {
+                ...fullName,
+                properties: {
+                  ...fullName.properties,
+                  middle: {
+                    ...fullName.properties.middle,
+                    maxLength: 30,
+                  },
+                },
+              },
               'view:dateOfBirth': {
                 type: 'object',
                 required: [formFields.dateOfBirth],
