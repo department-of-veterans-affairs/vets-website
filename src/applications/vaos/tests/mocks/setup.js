@@ -4,7 +4,7 @@ import React from 'react';
 import moment from '../../lib/moment-tz';
 import { Route, Router } from 'react-router-dom';
 /* eslint-disable no-restricted-imports */
-import { createHistory } from 'history';
+import { createMemoryHistory as createHistory } from 'history';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';

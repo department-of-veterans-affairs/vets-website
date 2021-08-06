@@ -5,7 +5,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Router, useRouterHistory, browserHistory } from 'react-router';
-import { createHistory } from 'history';
+import { createMemoryHistory as createHistory } from 'history';
 import startReactApp from './react';
 import setUpCommonFunctionality from './setup';
 
