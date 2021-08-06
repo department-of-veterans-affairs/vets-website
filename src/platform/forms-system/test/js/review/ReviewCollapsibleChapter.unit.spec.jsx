@@ -923,7 +923,7 @@ describe('<ReviewCollapsibleChapter>', () => {
       const { pages, chapterKey, chapter, form } = getProps();
       pages[0].CustomPageReview = null;
       form.pages.test.CustomPageReview = null;
-      const { container, queryByTestId } = render(
+      const { container } = render(
         <ReviewCollapsibleChapter
           viewedPages={new Set()}
           expandedPages={pages}
@@ -933,8 +933,9 @@ describe('<ReviewCollapsibleChapter>', () => {
           open
         />,
       );
-      expect(container.querySelector('div.review-panel-page')).to.not.exist;
-      expect(queryByTestId('custom-page-review')).not.to.exist;
+      expect(
+        container.querySelector('.usa-accordion-content').children.length,
+      ).to.equal(0);
     });
 
     it('should render SchemaForm in the chapter when CustomPageReview is null but the schema properties are not empty', () => {
