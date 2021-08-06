@@ -1039,6 +1039,29 @@ describe('<ReviewCollapsibleChapter>', () => {
       expect(getByTestId('foo-value').innerHTML).to.equal('bar');
     });
 
-    it('should pass the form data to the CustomPage', () => {});
+    it('should pass the form data to the CustomPage', () => {
+      const CustomPage = ({ data }) => (
+        <div data-testid="custom-page-review">
+          <span data-testid="foo-value">{data.foo}</span>
+        </div>
+      );
+      const { pages, chapterKey, chapter, form } = getProps();
+      pages[0].CustomPage = CustomPage;
+      form.pages.test.CustomPage = CustomPage;
+      form.pages.test.editMode = true;
+      form.data.foo = 'bar';
+      const { getByTestId } = render(
+        <ReviewCollapsibleChapter
+          viewedPages={new Set()}
+          expandedPages={pages}
+          chapterKey={chapterKey}
+          chapterFormConfig={chapter}
+          form={form}
+          open
+        />,
+      );
+
+      expect(getByTestId('foo-value').innerHTML).to.equal('bar');
+    });
   });
 });
