@@ -46,6 +46,18 @@
   }
 }
 
+/* contact info page */
+article[data-location="contact-information"] {
+  div[data-field-name="mobilePhone"] h3 {
+    margin-top: 0;
+  }
+  /* address modal is very tall and won't scroll without this fix */
+  .va-modal-body {
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+  }
+}
+
 /* Step 2 */
 /*** Contested issues block ***/
 

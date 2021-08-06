@@ -121,15 +121,17 @@ describe('getAddress', () => {
   it('should return a cleaned up address object', () => {
     const wrap = obj => ({ veteran: { address: obj } });
     expect(getAddress()).to.deep.equal({ zipCode5: '00000' });
-    expect(getAddress(wrap({}))).to.deep.equal({ zipCode5: '00000' });
-    expect(getAddress(wrap({ temp: 'test' }))).to.deep.equal({
+    expect(getAddress({}, 2)).to.deep.equal({});
+    expect(getAddress(wrap({}), 1)).to.deep.equal({ zipCode5: '00000' });
+    expect(getAddress(wrap({}), 2)).to.deep.equal({});
+    expect(getAddress(wrap({ temp: 'test' }), 1)).to.deep.equal({
       zipCode5: '00000',
     });
-    expect(getAddress(wrap({ addressLine1: 'test' }))).to.deep.equal({
+    expect(getAddress(wrap({ temp: 'test' }), 2)).to.deep.equal({});
+    expect(getAddress(wrap({ addressLine1: 'test' }), 2)).to.deep.equal({
       addressLine1: 'test',
-      zipCode5: '00000',
     });
-    expect(getAddress(wrap({ zipCode: '10101' }))).to.deep.equal({
+    expect(getAddress(wrap({ zipCode: '10101' }), 2)).to.deep.equal({
       zipCode5: '10101',
     });
     expect(
@@ -145,6 +147,7 @@ describe('getAddress', () => {
           internationalPostalCode: '12345',
           extra: 'will not be included',
         }),
+        2,
       ),
     ).to.deep.equal({
       addressLine1: '123 test',

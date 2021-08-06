@@ -18,7 +18,7 @@ export const removeEmptyEntries = object =>
 // We require the user to input a 10-digit number; assuming we get a 3-digit
 // area code + 7 digit number. We're not yet supporting international numbers
 export const getPhoneNumber = (phone = '') => ({
-  country: '1',
+  countryCode: '1',
   areaCode: phone.substring(0, 3),
   phoneNumber: phone.substring(3),
   // Empty string/null are not permitted values
@@ -173,8 +173,14 @@ export const getContact = ({ informalConference }) => {
  * @param {Veteran} veteran - Veteran formData object
  * @returns {Object} submittable address
  */
-export const getAddress = ({ veteran = {}, zipCode5 = '' } = {}) =>
-  removeEmptyEntries({
+export const getAddress = (
+  { veteran = {}, zipCode5 = '' } = {},
+  version = 1,
+) => {
+  if (version === 1) {
+    return { zipCode5: zipCode5 || '00000' };
+  }
+  return removeEmptyEntries({
     addressLine1: veteran.address?.addressLine1 || '',
     addressLine2: veteran.address?.addressLine2 || '',
     addressLine3: veteran.address?.addressLine3 || '',
@@ -182,9 +188,10 @@ export const getAddress = ({ veteran = {}, zipCode5 = '' } = {}) =>
     stateCode: veteran.address?.stateCode || '',
     countryCodeISO2: veteran.address?.countryCodeIso2 || '',
     // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200996.json#L145
-    zipCode5: zipCode5 || veteran.address?.zipCode || '00000',
+    zipCode5: veteran.address?.zipCode || '',
     internationalPostalCode: veteran.address?.internationalPostalCode || '',
   });
+};
 
 /**
  * Strip out extra profile phone data
