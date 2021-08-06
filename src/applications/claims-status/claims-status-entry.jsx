@@ -3,7 +3,7 @@ import 'platform/polyfills';
 import './sass/claims-status.scss';
 
 import React from 'react';
-import { createHistory } from 'history';
+import { createMemoryHistory } from 'history-v4';
 import { IndexRedirect, Route, Router, useRouterHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
@@ -23,7 +23,7 @@ window.appName = manifest.entryName;
 const store = createCommonStore(reducer);
 
 /* eslint-disable react-hooks/rules-of-hooks */
-const history = useRouterHistory(createHistory)({
+const history = useRouterHistory(createMemoryHistory)({
   basename: manifest.rootUrl,
 });
 

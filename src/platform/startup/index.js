@@ -5,7 +5,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Router, useRouterHistory, browserHistory } from 'react-router';
-import { createHistory } from 'history';
+import { createMemoryHistory } from 'history-v4';
 import startReactApp from './react';
 import setUpCommonFunctionality from './setup';
 
@@ -44,7 +44,7 @@ export default function startApp({
   let history = browserHistory;
   if (url) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    history = useRouterHistory(createHistory)({
+    history = useRouterHistory(createMemoryHistory)({
       basename: url,
     });
   }
