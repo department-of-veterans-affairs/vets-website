@@ -54,84 +54,71 @@ const PreSubmitCheckboxGroup = ({
       : veteranLabel]: false,
   });
 
-  const unSignedLength = Object.values(signatures).filter(
-    signature => Boolean(signature) === false,
-  ).length;
-
-  // takes in labels and renames to what schema expects
-  const getKeyName = key => {
-    switch (key) {
-      case veteranLabel:
-        return 'veteran';
-      case representativeLabel:
-        return 'veteran';
-      case primaryLabel:
-        return 'primary';
-      case secondaryOneLabel:
-        return 'secondaryOne';
-      case secondaryTwoLabel:
-        return 'secondaryTwo';
-      default:
-        return null;
-    }
-  };
-  const transformCheckboxes = checkBox => {
-    const keys = Object.keys(checkBox);
-
-    // iterates through all keys and normalizes them using getKeyName
-    const renameObjectKeys = (keysMap, obj, slug) =>
-      Object.keys(obj).reduce((acc, key) => {
-        const cleanKey = `${getKeyName(key)}${slug}`;
-        return {
-          ...acc,
-          ...{ [keysMap[cleanKey] || cleanKey]: obj[key] },
-        };
-      }, {});
-
-    return renameObjectKeys(keys, signatures, 'CheckBox');
-  };
-
-  const transformSignatures = signature => {
-    const keys = Object.keys(signature);
-
-    // iterates through all keys and normalizes them using getKeyName
-    const renameObjectKeys = (keysMap, obj, slug) =>
-      Object.keys(obj).reduce((acc, key) => {
-        const cleanKey = `${getKeyName(key)}${slug}`;
-        return {
-          ...acc,
-          ...{ [keysMap[cleanKey] || cleanKey]: obj[key] },
-        };
-      }, {});
-
-    return renameObjectKeys(keys, signatures, 'Signature');
-  };
-
   useEffect(
     () => {
+      const transformObjectForFormData = (baseObj, dataSlug) => {
+        // takes in labels and renames to what schema expects
+        const getKeyName = key => {
+          switch (key) {
+            case veteranLabel:
+              return 'veteran';
+            case representativeLabel:
+              return 'veteran';
+            case primaryLabel:
+              return 'primary';
+            case secondaryOneLabel:
+              return 'secondaryOne';
+            case secondaryTwoLabel:
+              return 'secondaryTwo';
+            default:
+              return null;
+          }
+        };
+        const keys = Object.keys(baseObj);
+
+        // iterates through all keys and normalizes them using getKeyName
+        const renameObjectKeys = (keysMap, obj, slug) =>
+          Object.keys(obj).reduce((acc, key) => {
+            const cleanKey = `${getKeyName(key)}${slug}`;
+            return {
+              ...acc,
+              ...{ [keysMap[cleanKey] || cleanKey]: obj[key] },
+            };
+          }, {});
+
+        return renameObjectKeys(keys, baseObj, dataSlug);
+      };
       // do not clear signatures once form has been submitted
       if (hasSubmittedForm) return;
 
       // Add signatures to formData before submission
       setFormData({
         ...formData,
-        ...transformSignatures(signatures),
-        ...transformCheckboxes(checkBoxesSelected),
+        ...transformObjectForFormData(signatures, 'Signature'),
+        ...transformObjectForFormData(checkBoxesSelected, 'CheckBox'),
       });
     },
-    [setFormData, signatures, checkBoxesSelected],
+    [setFormData, signatures, checkBoxesSelected, hasSubmittedForm, formData],
   );
 
   // when there is no unsigned signatures set AGREED (onSectionComplete) to true
   // if goes to another page (unmount), set AGREED (onSectionComplete) to false
   useEffect(
     () => {
-      // this should be true when all the siguantures are signed and all the check boxes are checked
-      // console.log({ signatures });
+      const numberOfSignatures = Object.values(signatures).filter(
+        signature => !!signature,
+      ).length;
+      const numberOfCheckboxes = Object.values(checkBoxesSelected).filter(
+        checkBox => !!checkBox,
+      ).length;
 
-      // console.log({ checkBoxesSelected });
-      const agreed = !unSignedLength;
-      // console.log({ agreed });
+      // this should be true when all the number signatures are signed === number of check boxes checked
+
+      const agreed =
+        numberOfSignatures > 0 &&
+        numberOfCheckboxes > 0 &&
+        numberOfSignatures === numberOfCheckboxes;
+
       onSectionComplete(agreed);
 
       return () => {
@@ -140,7 +127,7 @@ const PreSubmitCheckboxGroup = ({
     },
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [unSignedLength, signatures, checkBoxesSelected],
+    [signatures, checkBoxesSelected],
   );
 
   const removePartyIfFalsy = (predicate, label) => {
@@ -319,6 +306,7 @@ PreSubmitCheckboxGroup.propTypes = {
     status: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   }),
 };
+
 const mapStateToProps = state => {
   return {
     submission: state.form.submission,
