@@ -169,7 +169,6 @@
     "cypress-testrail-reporter": "^1.2.3",
     "cypress-wait-until": "^1.7.1",
     "docdash": "^1.2.0",
-    "enhanced-resolve": "^0.7.6",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "eslint": "^7.3.1",
