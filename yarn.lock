@@ -3339,7 +3339,7 @@ async@0.9.x:
   resolved "https://registry.npmjs.org/async/-/async-0.9.2.tgz"
   integrity sha1-rqdNXmHB+JlhO/ZL2mbUx48v0X0=
 
-async@^2.1.4, async@^2.4.1, async@^2.6.1, async@^2.6.2:
+async@^2.1.4, async@^2.6.1, async@^2.6.2:
   version "2.6.3"
   resolved "https://registry.npmjs.org/async/-/async-2.6.3.tgz"
   integrity sha512-zflvls11DCy+dQWzTW2dzuilv8Z5X/pjfmZOWba6TNIVDm+2UDaJmXSOXlasHKfNBs8oo3M0aT50fDEWfKZjXg==
@@ -7948,16 +7948,6 @@ extglob@^2.0.4:
     regex-not "^1.0.0"
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
-
-extract-text-webpack-plugin@next:
-  version "4.0.0-beta.0"
-  resolved "https://registry.yarnpkg.com/extract-text-webpack-plugin/-/extract-text-webpack-plugin-4.0.0-beta.0.tgz#f7361d7ff430b42961f8d1321ba8c1757b5d4c42"
-  integrity sha512-Hypkn9jUTnFr0DpekNam53X47tXn3ucY08BQumv7kdGgeVUBLq3DJHJTi6HNxv4jl9W+Skxjz9+RnK0sJyqqjA==
-  dependencies:
-    async "^2.4.1"
-    loader-utils "^1.1.0"
-    schema-utils "^0.4.5"
-    webpack-sources "^1.1.0"
 
 extract-zip@2.0.1, extract-zip@^2.0.1:
   version "2.0.1"
