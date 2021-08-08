@@ -6598,6 +6598,11 @@ downloadjs@^1.4.7:
   resolved "https://registry.npmjs.org/downloadjs/-/downloadjs-1.4.7.tgz"
   integrity sha1-9p+W+UDg0FU9rCkROYZaPNAQHjw=
 
+"downshift-next@npm:downshift@1.27.0":
+  version "1.27.0"
+  resolved "https://registry.yarnpkg.com/downshift/-/downshift-1.27.0.tgz#e04987a6ee37c99772e76febad0955f874dd0696"
+  integrity sha512-y4f7+pKOgL6bi5jf2ut1KF4X79DFTLFCayHjdn4KOa4C6C1anxotVWFoLVRBgLlqOR/WtekDJ7rjOTCxsZdPgw==
+
 downshift@^1.22.5:
   version "1.22.5"
   resolved "https://registry.npmjs.org/downshift/-/downshift-1.22.5.tgz"
