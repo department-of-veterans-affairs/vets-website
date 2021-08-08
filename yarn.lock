@@ -6628,10 +6628,10 @@ downloadjs@^1.4.7:
   resolved "https://registry.yarnpkg.com/downshift/-/downshift-1.27.0.tgz#e04987a6ee37c99772e76febad0955f874dd0696"
   integrity sha512-y4f7+pKOgL6bi5jf2ut1KF4X79DFTLFCayHjdn4KOa4C6C1anxotVWFoLVRBgLlqOR/WtekDJ7rjOTCxsZdPgw==
 
-downshift@^1.22.5:
-  version "1.31.16"
-  resolved "https://registry.yarnpkg.com/downshift/-/downshift-1.31.16.tgz#acd81631539502d4112d01bd573654419fd9f640"
-  integrity sha512-RskXmiGSoz0EHAyBrmTBGSLHg6+NYDGuLu2W3GpmuOe6hmZEWhCiQrq5g6DWzhnUaJD41xHbbfC6j1Fe86YqgA==
+downshift@1.22.5:
+  version "1.22.5"
+  resolved "https://registry.yarnpkg.com/downshift/-/downshift-1.22.5.tgz#48103b2f80259157b01b96d6bdc344c51ce0743e"
+  integrity sha512-33eMUva26B2UNS7LgtXN4khwq+ODq0j7RqM5DUb2sj45Cfd/emwsKP11jQeZrETxfgN7Kawjisf90aQdu2Ftpw==
 
 duplexer2@^0.1.2, duplexer2@~0.1.0, duplexer2@~0.1.2, duplexer2@~0.1.4:
   version "0.1.4"
