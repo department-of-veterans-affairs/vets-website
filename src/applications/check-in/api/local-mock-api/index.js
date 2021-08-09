@@ -66,7 +66,17 @@ const responses = {
   'GET /v0/feature_toggles': {
     data: {
       type: 'feature_toggles',
-      features: [{ name: 'check_in_experience_enabled', value: true }],
+      features: [
+        { name: 'check_in_experience_enabled', value: true },
+        {
+          name: 'check_in_experience_low_authentication_enabled',
+          value: false,
+        },
+        {
+          name: 'check_in_experience_multiple_appointment_support',
+          value: false,
+        },
+      ],
     },
   },
   'GET /check_in/v0/patient_check_ins/:id': (req, res) => {

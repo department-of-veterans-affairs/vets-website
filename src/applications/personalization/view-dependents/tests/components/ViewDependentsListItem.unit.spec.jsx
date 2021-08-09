@@ -1,7 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from 'enzyme';
+import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import ViewDependentsListItem from '../../components/ViewDependentsList/ViewDependentsListItem';
+import removeDependents from '../../manage-dependents/redux/reducers';
 
 describe('<ViewDependentsListItem />', () => {
   const mockData = {
@@ -13,21 +14,11 @@ describe('<ViewDependentsListItem />', () => {
   };
 
   it('Should Render with all props visible', () => {
-    const wrapper = render(
-      <ViewDependentsListItem
-        key={1}
-        firstName={mockData.firstName}
-        lastName={mockData.lastName}
-        ssn={mockData.ssn}
-        dateOfBirth={mockData.dateOfBirth}
-        relationship={mockData.relationship}
-      />,
-    );
+    const screen = renderInReduxProvider(<ViewDependentsListItem />, {
+      mockData,
+      removeDependents,
+    });
 
-    expect(wrapper.text()).to.contain('Child');
-    expect(wrapper.text()).to.contain('Cindy');
-    expect(wrapper.text()).to.contain('See');
-    expect(wrapper.text()).to.contain('***-***-5634');
-    expect(wrapper.text()).to.contain('May 5, 1953');
+    expect(screen.findByText(/Cindy See/)).to.exist;
   });
 });

@@ -2,7 +2,7 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
 
 .location-search {
   .result-card {
-    width: 100%;
+    width: 100% !important;
 
     &.active {
       border: $focus-outline;

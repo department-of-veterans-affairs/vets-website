@@ -70,7 +70,7 @@ describe('Sitewide Search smoke test', () => {
       .should('exist')
       .and('not.be.disabled')
       .then(inputElem => {
-        cy.wrap(inputElem).type('benefits');
+        cy.wrap(inputElem).type('benefits', { force: true });
       });
     cy.get(`${SELECTORS.SEARCH_FORM} button[type="submit"]`)
       .should('exist')
