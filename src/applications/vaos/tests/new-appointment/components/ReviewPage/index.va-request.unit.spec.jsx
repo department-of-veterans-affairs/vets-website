@@ -26,7 +26,7 @@ import {
   mockRequestSubmit,
   mockFacilityFetch,
 } from '../../../mocks/helpers';
-import { mockAppointmentSubmit } from '../../../mocks/helpers.v2';
+import { mockAppointmentSubmitV2 } from '../../../mocks/helpers.v2';
 import { getVAFacilityMock } from '../../../mocks/v0';
 
 const initialState = {
@@ -427,7 +427,7 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
   });
 
   it('should submit successfully', async () => {
-    mockAppointmentSubmit({
+    mockAppointmentSubmitV2({
       id: 'fake_id',
     });
 
