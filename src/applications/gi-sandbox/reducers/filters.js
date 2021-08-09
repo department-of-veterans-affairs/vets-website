@@ -9,7 +9,7 @@ export const INITIAL_STATE = Object.freeze({
   expanded: false,
   search: false,
   schools: true,
-  excludedSchoolTypes: {},
+  excludedSchoolTypes: [],
   excludeCautionFlags: false,
   accredited: false,
   studentVeteran: false,

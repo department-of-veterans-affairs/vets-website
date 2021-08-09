@@ -17,6 +17,7 @@ import { showModal, filterChange } from '../actions';
 import { connect } from 'react-redux';
 import { TABS } from '../constants';
 import CheckboxGroup from '../components/CheckboxGroup';
+import _ from 'lodash';
 
 export function FilterYourResults({
   dispatchShowModal,
@@ -69,7 +70,7 @@ export function FilterYourResults({
       dispatchFilterChange({
         ...filters,
         schools: false,
-        excludedSchoolTypes: {},
+        excludedSchoolTypes: [],
         excludeCautionFlags: false,
         accredited: false,
         studentVeteran: false,
@@ -84,10 +85,13 @@ export function FilterYourResults({
   const handleExcludedSchoolTypesChange = e => {
     const name = e.target.name;
     const checked = e.target.checked;
-    updateInstitutionFilters('excludedSchoolTypes', {
-      ...excludedSchoolTypes,
-      [name]: checked,
-    });
+    const newExcluded = _.cloneDeep(excludedSchoolTypes);
+    updateInstitutionFilters(
+      'excludedSchoolTypes',
+      checked
+        ? newExcluded.concat(name)
+        : newExcluded.filter(type => type !== name),
+    );
   };
 
   const handleVetTecChange = e => {
@@ -136,7 +140,7 @@ export function FilterYourResults({
       key => {
         return {
           name: key,
-          checked: excludedSchoolTypes[key] || false,
+          checked: excludedSchoolTypes.includes(key),
           optionLabel: key,
         };
       },
