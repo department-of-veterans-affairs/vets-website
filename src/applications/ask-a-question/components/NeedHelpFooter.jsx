@@ -16,7 +16,7 @@ const NeedHelpFooter = () => {
           className="vads-u-margin-left--0p5"
         />
         <br />
-        Monday to Friday, 8:00 a.m. - 8:00 p.m. ET
+        Monday - Friday, 8:00 a.m. - 8:00 p.m. ET
       </p>
     </footer>
   );

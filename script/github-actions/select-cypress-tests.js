@@ -3,17 +3,7 @@ const path = require('path');
 const glob = require('glob');
 const { integrationFolder, testFiles } = require('../../config/cypress.json');
 
-// const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
-const filepaths = process.env.CHANGED_FILE_PATHS.split(' ');
-const pathsOfChangedFiles = filepaths.filter(filepath => {
-  return (
-    filepath !== 'package.json' &&
-    filepath !== 'yarn.lock' &&
-    filepath !== 'script/github-actions/run-cypress-tests.js' &&
-    filepath !== 'script/github-actions/select-cypress-tests.js' &&
-    filepath !== '.github/workflows/continuous-integration.yml'
-  );
-});
+const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
 
 function selectedTests() {
   const tests = [];
@@ -32,7 +22,7 @@ function selectedTests() {
     tests.push(...glob.sync(selectedTestsPattern));
   });
 
-  // always run the tests in src/platform
+  // Always run the tests in src/platform
   const defaultTestsPattern = path.join(
     __dirname,
     '../..',
@@ -81,6 +71,7 @@ if (allMdFiles) {
 
 const numTests = tests.length;
 
+// core.exportVariable() exports variable to GitHub Actions workflow
 if (numTests === 0) {
   core.exportVariable('NUM_CONTAINERS', 0);
 } else if (numTests < 20) {
