@@ -32,15 +32,17 @@ export function FilterYourResults({
   const {
     expanded,
     schools,
+    excludedSchoolTypes,
+    excludeCautionFlags,
     accredited,
     studentVeteran,
     yellowRibbonScholarship,
-    excludeCautionFlags,
-    country,
-    state,
+    specialMission,
+    employers,
     vettec,
     preferredProvider,
-    employers,
+    country,
+    state,
   } = filters;
 
   const facets =
@@ -67,14 +69,25 @@ export function FilterYourResults({
       dispatchFilterChange({
         ...filters,
         schools: false,
+        excludedSchoolTypes: {},
         excludeCautionFlags: false,
         accredited: false,
         studentVeteran: false,
         yellowRibbonScholarship: false,
+        specialMission: 'ALL',
       });
     } else {
       onChangeCheckbox(e);
     }
+  };
+
+  const handleExcludedSchoolTypesChange = e => {
+    const name = e.target.name;
+    const checked = e.target.checked;
+    updateInstitutionFilters('excludedSchoolTypes', {
+      ...excludedSchoolTypes,
+      [name]: checked,
+    });
   };
 
   const handleVetTecChange = e => {
@@ -114,7 +127,7 @@ export function FilterYourResults({
     modalClose();
   };
 
-  const excludeSchoolTypes = () => {
+  const excludedSchoolTypesGroup = () => {
     const types = Object.keys(facets.type);
     const seeMore = types.length > 4 && !showAllSchoolTypes;
     const seeLess = types.length > 4 && showAllSchoolTypes;
@@ -123,7 +136,7 @@ export function FilterYourResults({
       key => {
         return {
           name: key,
-          checked: false,
+          checked: excludedSchoolTypes[key] || false,
           optionLabel: key,
         };
       },
@@ -136,7 +149,7 @@ export function FilterYourResults({
               Exclude these school types:
             </div>
           }
-          onChange={onChangeCheckbox}
+          onChange={handleExcludedSchoolTypesChange}
           options={options}
         />
         {seeMore && (
@@ -225,7 +238,7 @@ export function FilterYourResults({
     return (
       <Dropdown
         onChange={onChange}
-        value={'ALL'}
+        value={specialMission}
         name="specialMission"
         options={addAllOption(options)}
         alt="Special mission (i.e., Single-gender, Religious affiliation, HBCU)"
@@ -249,7 +262,7 @@ export function FilterYourResults({
               className="expanding-header-checkbox"
             />
             <div className="school-types expanding-group-children">
-              {excludeSchoolTypes()}
+              {excludedSchoolTypesGroup()}
               {schoolAttributes()}
               {specialMissions()}
             </div>

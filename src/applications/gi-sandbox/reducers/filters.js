@@ -8,20 +8,18 @@ import { FILTERS_EXCLUDED_FLIP } from '../constants';
 export const INITIAL_STATE = Object.freeze({
   expanded: false,
   search: false,
-  accredited: false,
-  excludeCautionFlags: false,
-  country: 'ALL',
-  employers: true,
-  hbcu: false,
-  relaffil: false,
-  preferredProvider: false,
   schools: true,
-  singleGenderSchool: false,
-  state: 'ALL',
+  excludedSchoolTypes: {},
+  excludeCautionFlags: false,
+  accredited: false,
   studentVeteran: false,
-  type: 'ALL',
   yellowRibbonScholarship: false,
+  specialMission: 'ALL',
+  employers: true,
   vettec: true,
+  preferredProvider: false,
+  country: 'ALL',
+  state: 'ALL',
 });
 
 export default function(state = INITIAL_STATE, action) {

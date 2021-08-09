@@ -49,7 +49,7 @@ export const TABS = Object.freeze({
 
 // default state is checked so these will only be present if their corresponding boxes are unchecked
 export const FILTERS_EXCLUDED_FLIP = ['schools', 'employers', 'vettec'];
-export const FILTERS_IGNORE_ALL = ['country', 'state', 'type'];
+export const FILTERS_IGNORE_ALL = ['country', 'state', 'specialMission'];
 
 export const ariaLabels = Object.freeze({
   learnMore: {
