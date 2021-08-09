@@ -6,7 +6,7 @@ import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink
 export default function LogoutAlert() {
   const content = (
     <>
-      <strong>Looking for other VA benefits or services?</strong>
+      <strong>Are you looking for other VA benefits or services?</strong>
       <a
         href="/"
         className="vads-u-display--block vads-u-margin-y--1"
