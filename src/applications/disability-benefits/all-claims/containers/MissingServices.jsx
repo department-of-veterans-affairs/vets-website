@@ -102,9 +102,10 @@ export const MissingDob = ({ title }) => {
       </p>
       <p className="vads-u-font-size--base">
         Please call us at
+        <Telephone contact={CONTACTS.VA_BENEFITS} />{' '}
         <Telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
-        <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
-        )to update your acount. We’re here Monday through Friday, 8:00 a.m. to
+        <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />) to
+        update your account. We’re here Monday through Friday, 8:00 a.m. to 9:00
         9:00 p.m. ET.
       </p>
     </>
