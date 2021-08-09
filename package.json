@@ -224,7 +224,6 @@
     "postcss-loader": "^3.0.0",
     "prettier": "^1.14.3",
     "puppeteer": "^3.3.0",
-    "quick_check": "^0.7.0",
     "react-test-renderer": "^16.13.1",
     "recursive-uncache": "^0.1.1",
     "request": "^2.88.2",

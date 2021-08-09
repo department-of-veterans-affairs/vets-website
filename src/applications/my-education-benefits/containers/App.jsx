@@ -8,12 +8,10 @@ export default function App({ location, children }) {
   return (
     <>
       <Breadcrumbs>
-        <a href="#">Home</a>
-        <a href="#">My VA</a>
-        <a href="#">My Education</a>
+        <a href="/">Home</a>
+        <a href="#">Education and training</a>
         <a href="#">Apply for education benefits</a>
       </Breadcrumbs>
-
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
       </RoutedSavableApp>
