@@ -251,7 +251,7 @@ describe('VAOS <ReviewPage> CC request', () => {
     await screen.findByText('We couldn’t schedule this appointment');
 
     expect(screen.baseElement).contain.text(
-      'Something went wrong when we tried to submit your request and you’ll need to start over. We suggest you wait a day',
+      'Something went wrong when we tried to submit your request. You can try again later, or call your VA medical center to help with your request.',
     );
 
     expect(screen.history.push.called).to.be.false;
@@ -568,7 +568,7 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
     await screen.findByText('We couldn’t schedule this appointment');
 
     expect(screen.baseElement).contain.text(
-      'Something went wrong when we tried to submit your request and you’ll need to start over. We suggest you wait a day',
+      'Something went wrong when we tried to submit your request. You can try again later, or call your VA medical center to help with your request.',
     );
 
     expect(screen.history.push.called).to.be.false;
@@ -737,7 +737,7 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
     await screen.findByText('We couldn’t schedule this appointment');
 
     expect(screen.baseElement).contain.text(
-      'Something went wrong when we tried to submit your request and you’ll need to start over. We suggest you wait a day',
+      'Something went wrong when we tried to submit your request. You can try again later, or call your VA medical center to help with your request.',
     );
 
     expect(screen.history.push.called).to.be.false;

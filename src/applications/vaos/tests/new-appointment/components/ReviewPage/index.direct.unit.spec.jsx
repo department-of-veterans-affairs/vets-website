@@ -233,7 +233,7 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
     await screen.findByText('We couldn’t schedule this appointment');
 
     expect(screen.baseElement).contain.text(
-      'Something went wrong when we tried to submit your appointment. You’ll',
+      'Something went wrong when we tried to submit your appointment. Call your VA medical center to schedule this appointment.',
     );
 
     await screen.findByText('307-778-7550');

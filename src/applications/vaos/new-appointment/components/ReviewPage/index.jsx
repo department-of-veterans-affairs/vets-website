@@ -94,15 +94,14 @@ export default function ReviewPage() {
               {submitStatusVaos400 ? (
                 <p>
                   We’re sorry. Something went wrong when we tried to submit your{' '}
-                  {submissionType}. You’ll need to call your local VA medical
-                  center to schedule this appointment.
+                  {submissionType}. Call your VA medical center to schedule this{' '}
+                  {submissionType}.
                 </p>
               ) : (
                 <p>
                   We’re sorry. Something went wrong when we tried to submit your{' '}
-                  {submissionType} and you’ll need to start over. We suggest you
-                  wait a day to try again or you can call your medical center to
-                  help with your {submissionType}.
+                  {submissionType}. You can try again later, or call your VA
+                  medical center to help with your {submissionType}.
                 </p>
               )}
               <>
