@@ -147,7 +147,7 @@ const InstructionsPage = () => {
                             <ul>
                               <li>
                                 <a href="/health-care/health-needs-conditions/military-sexual-trauma/">
-                                  VA health benefits for Veterans who’ve
+                                  VA health benefits for Veterans who've
                                   experienced military sexual trauma
                                 </a>
                               </li>
