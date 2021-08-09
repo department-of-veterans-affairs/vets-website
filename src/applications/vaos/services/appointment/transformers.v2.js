@@ -9,7 +9,7 @@ import {
   AUDIOLOGY_TYPES_OF_CARE,
   COVID_VACCINE_ID,
 } from '../../utils/constants';
-import { getTimezoneBySystemId } from '../../utils/timezone';
+import { getTimezoneByFacilityId } from '../../utils/timezone';
 
 function getAppointmentType(appt) {
   if (appt.kind === 'cc' && appt.start) {
@@ -54,8 +54,7 @@ function getTypeOfVisit(id) {
  * @returns {Object} Returns appointment datetime as moment object
  */
 function getMomentConfirmedDate(appt) {
-  const timezone = getTimezoneBySystemId(appt.locationId?.substr(0, 3))
-    ?.timezone;
+  const timezone = getTimezoneByFacilityId(appt.locationId);
 
   return timezone ? moment(appt.start).tz(timezone) : moment(appt.start);
 }
@@ -102,8 +101,7 @@ export function transformVAOSAppointment(appt) {
   const isAtlas = !!appt.telehealth?.atlas;
   const isPast = isPastAppointment(appt);
   const providers = appt.practitioners;
-  const vistaId = appt.locationId?.substr(0, 3);
-  const timezone = getTimezoneBySystemId(vistaId)?.timezone;
+  const timezone = getTimezoneByFacilityId(appt.locationId);
 
   const start = timezone ? moment(appt.start).tz(timezone) : moment(appt.start);
 
