@@ -1,5 +1,5 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 import {
@@ -7,26 +7,23 @@ import {
   FACILITY_SORT_METHODS,
   GA_PREFIX,
 } from '../../../utils/constants';
-import { updateCCProviderSortMethod } from '../../redux/actions';
 import { selectProviderSelectionInfo } from '../../redux/selectors';
-import ResidentialAddress from '../../../components/ResidentialAddress';
-import InfoAlert from '../../../components/InfoAlert';
+import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import LoadProvidersErrorAlert from './LoadProvidersErrorAlert';
 import NoProvidersAlert from './NoProvidersAlert';
+import ProviderSort from './ProviderSort';
 
 export default function ProviderList({
   checkedProvider,
   idSchema,
   initialProviderDisplayCount,
-  loadingLocations,
-  loadingProviders,
   onChange,
   providersListLength,
   setCheckedProvider,
   setProvidersListLength,
   setShowProvidersList,
+  showProvidersList,
 }) {
-  const dispatch = useDispatch();
   const {
     address,
     communityCareProviderList,
@@ -34,11 +31,50 @@ export default function ProviderList({
     requestStatus,
     sortMethod,
     typeOfCareName,
-  } = useSelector(state => selectProviderSelectionInfo(state));
+  } = useSelector(selectProviderSelectionInfo, shallowEqual);
+  const loadingProviders =
+    !communityCareProviderList && requestStatus !== FETCH_STATUS.failed;
+
+  const loadingLocations = requestLocationStatus === FETCH_STATUS.loading;
+
+  useEffect(
+    () => {
+      if (
+        showProvidersList &&
+        providersListLength > initialProviderDisplayCount
+      ) {
+        scrollAndFocus(
+          `#${idSchema.$id}_${providersListLength -
+            initialProviderDisplayCount +
+            1}`,
+        );
+      }
+    },
+    [providersListLength],
+  );
+
+  useEffect(
+    () => {
+      if (showProvidersList && (loadingProviders || loadingLocations)) {
+        scrollAndFocus('.loading-indicator');
+      } else if (
+        showProvidersList &&
+        !loadingProviders &&
+        requestLocationStatus === FETCH_STATUS.failed
+      ) {
+        scrollAndFocus('#providerSelectionBlockedLocation');
+      } else if (showProvidersList && !loadingProviders && !loadingLocations) {
+        scrollAndFocus('#providerSelectionHeader');
+      }
+    },
+    [loadingProviders, loadingLocations],
+  );
+
   const currentlyShownProvidersList = communityCareProviderList?.slice(
     0,
     providersListLength,
   );
+  const notLoading = !loadingProviders && !loadingLocations;
   const sortByDistanceFromResidential =
     !sortMethod || sortMethod === FACILITY_SORT_METHODS.distanceFromResidential;
 
@@ -52,71 +88,12 @@ export default function ProviderList({
       >
         Choose a provider
       </h2>
-      {!loadingLocations &&
-        sortByDistanceFromResidential && (
-          <>
-            {requestLocationStatus !== FETCH_STATUS.failed && (
-              <>
-                <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-                  You can choose a provider based on your address on file. Or
-                  you can{' '}
-                  <span>
-                    <button
-                      type="button"
-                      className="va-button-link"
-                      onClick={() => {
-                        dispatch(
-                          updateCCProviderSortMethod(
-                            FACILITY_SORT_METHODS.distanceFromCurrentLocation,
-                          ),
-                        );
-                      }}
-                    >
-                      use your current location
-                    </button>
-                    .
-                  </span>
-                </p>
-                <ResidentialAddress address={address} />
-              </>
-            )}
-            {requestLocationStatus === FETCH_STATUS.failed && (
-              <>
-                <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-                  You can choose a provider based on your address on file:
-                </p>
-                <ResidentialAddress address={address} />
-                <div id="providerSelectionBlockedLocation">
-                  <InfoAlert
-                    status="warning"
-                    headline="Your browser is blocked from finding your current location."
-                    className="vads-u-background-color--gold-lightest vads-u-font-size--base"
-                    level="3"
-                  >
-                    <>
-                      <p>
-                        Make sure your browser’s location feature is turned on.
-                      </p>
-
-                      <button
-                        className="va-button-link"
-                        onClick={() =>
-                          dispatch(
-                            updateCCProviderSortMethod(
-                              FACILITY_SORT_METHODS.distanceFromCurrentLocation,
-                            ),
-                          )
-                        }
-                      >
-                        Retry searching based on current location
-                      </button>
-                    </>
-                  </InfoAlert>
-                </div>
-              </>
-            )}
-          </>
-        )}
+      <ProviderSort
+        address={address}
+        loadingLocations={loadingLocations}
+        requestLocationStatus={requestLocationStatus}
+        sortByDistanceFromResidential={sortByDistanceFromResidential}
+      />
       {loadingProviders && (
         <div className="vads-u-padding-bottom--2">
           <LoadingIndicator message="Loading the list of providers." />
@@ -132,30 +109,14 @@ export default function ProviderList({
           <LoadProvidersErrorAlert />
         </div>
       )}
-      {!loadingProviders &&
-        !loadingLocations &&
+      {notLoading &&
         !!currentlyShownProvidersList && (
           <>
-            {sortByDistanceFromCurrentLocation && (
-              <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
-                You can choose a provider based on your current location. Or you
-                can{' '}
-                <button
-                  type="button"
-                  className="va-button-link"
-                  onClick={() => {
-                    dispatch(
-                      updateCCProviderSortMethod(
-                        FACILITY_SORT_METHODS.distanceFromResidential,
-                      ),
-                    );
-                  }}
-                >
-                  use your address on file
-                </button>
-                .
-              </p>
-            )}
+            <ProviderSort
+              sortByDistanceFromCurrentLocation={
+                sortByDistanceFromCurrentLocation
+              }
+            />
             {currentlyShownProvidersList.length === 0 && (
               <NoProvidersAlert
                 sortMethod={sortMethod}
