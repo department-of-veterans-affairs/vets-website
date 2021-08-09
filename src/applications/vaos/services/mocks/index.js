@@ -31,6 +31,7 @@ const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.js
 const schedulingConfigurations = require('./v2/scheduling_configurations.json');
 const appointmentSlotsV2 = require('./v2/slots.json');
 const clinicsV2 = require('./v2/clinics.json');
+const confirmedV2 = require('./v2/confirmed.json');
 
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
 const mockAppts = [];
@@ -218,16 +219,14 @@ const responses = {
     if (req.query.statuses?.includes('proposed')) {
       return res.json(requestsV2);
     } else if (req.query.statuses?.includes('booked')) {
-      return res.json(require('./v2/confirmed.json'));
+      return res.json(confirmedV2);
     }
 
     return res.json({ data: [] });
   },
   'GET /vaos/v2/appointments/:id': (req, res) => {
     const appointments = {
-      data: requestsV2.data
-        .concat(require('./v2/confirmed.json').data)
-        .concat(mockAppts),
+      data: requestsV2.data.concat(confirmedV2).concat(mockAppts),
     };
     return res.json({
       data: appointments.data.find(appt => appt.id === req.params.id),
