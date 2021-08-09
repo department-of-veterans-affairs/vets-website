@@ -6,7 +6,6 @@ import { PAGE_TITLE, TABS } from '../constants';
 import SearchTabs from '../components/search/SearchTabs';
 import { updateUrlParams, useQueryParams } from '../utils/helpers';
 import { useHistory } from 'react-router-dom';
-import CompareDrawer from './CompareDrawer';
 import NameSearchResults from '../containers/search/NameSearchResults';
 import LocationSearchResults from '../containers/search/LocationSearchResults';
 import NameSearchForm from './search/NameSearchForm';
@@ -127,7 +126,6 @@ export function SearchPage({
             )}
         </div>
       </div>
-      <CompareDrawer />
     </span>
   );
 }

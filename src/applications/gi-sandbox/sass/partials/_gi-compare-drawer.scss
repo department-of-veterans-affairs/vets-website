@@ -1,4 +1,14 @@
 .compare-drawer {
+  position: fixed;
+  bottom: 0;
+  display: block;
+  z-index: 2000;
+  width: 100% !important;
+
+  &.stuck {
+    position: static;
+  }
+
   .compare-header{
     background-color: $color-primary;
     color: $color-white;
@@ -58,10 +68,14 @@
       margin-right: 1.5em;
     }
   }
+}
 
-  position: fixed;
-  bottom: 0;
-  display: block;
-  z-index: 2000;
-  width: 100% !important;
+.placeholder {
+  height: 2.5em;
+  &.drawer-stuck {
+    height: 0 !important;
+  }
+  &.drawer-open {
+    height: 12.5em;
+  }
 }
