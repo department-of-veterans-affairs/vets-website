@@ -9,6 +9,7 @@
       padding-right: 0px;
     }
   }
+  overflow: visible !important;
 
   .sticky {
     position: fixed;
@@ -26,6 +27,7 @@
 
   .compare-header-row {
     overflow-x: scroll;
+    overflow-y: visible !important;
     -ms-overflow-style: none; /* for Internet Explorer, Edge */
     scrollbar-width: none; /* for Firefox */
 
@@ -319,6 +321,9 @@
     }
 
     overflow-x: scroll;
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+
     .content-wrapper {
       width: 1200px;
     }
@@ -334,4 +339,9 @@
       width:1200px;
     }
   }
+}
+
+
+.compare-page::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
 }
