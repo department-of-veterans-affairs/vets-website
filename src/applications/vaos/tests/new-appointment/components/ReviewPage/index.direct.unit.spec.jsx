@@ -414,7 +414,7 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
     await screen.findByText('We couldn’t schedule this appointment');
 
     expect(screen.baseElement).contain.text(
-      'Something went wrong when we tried to submit your appointment and you’ll need to start over. We suggest you wait a day',
+      'Something went wrong when we tried to submit your appointment. You can try again later, or call your VA medical center to help with your appointment.',
     );
 
     expect(
