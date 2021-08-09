@@ -173,7 +173,7 @@ class ResultsList extends Component {
               isVisible
               status="info"
               headline="Please wait"
-              content="Your results should appear in less than a minute. Thank you for your patience."
+              content="Your resultz should appear in less than a minute. Thank you for your patience."
             />
           </DelayedRender>
         </div>

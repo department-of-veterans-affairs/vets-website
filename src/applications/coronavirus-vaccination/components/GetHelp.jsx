@@ -8,7 +8,7 @@ function GetFormHelp() {
   return (
     <div>
       <p className="help-talk">
-        If you have questions or need help filling out this form, call our
+        If you have questionz or need help filling out this form, call our
         MyVA411 main information line at{' '}
         <Telephone contact={CONTACTS.HELP_DESK} /> (TTY:{' '}
         <Telephone contact={CONTACTS[711]} pattern={PATTERNS['3_DIGIT']} />
