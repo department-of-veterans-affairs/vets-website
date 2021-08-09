@@ -3366,10 +3366,6 @@ atomic-sleep@^1.0.0:
   resolved "https://registry.yarnpkg.com/atomic-sleep/-/atomic-sleep-1.0.0.tgz#eb85b77a601fc932cfe432c5acd364a9e2c9075b"
   integrity sha512-kNOjDqAh7px0XWNI+4QbzoiR/nTkHAWNud2uvnJquD1/x5a7EQZMJT0AczqK0Qn67oY/TTQ1LbUKajZpp3I9tQ==
 
-attr-accept@^1.0.3:
-  version "1.1.0"
-  resolved "https://registry.npmjs.org/attr-accept/-/attr-accept-1.1.0.tgz"
-
 autoprefixer@^9.5.1:
   version "9.5.1"
   resolved "https://registry.npmjs.org/autoprefixer/-/autoprefixer-9.5.1.tgz"
@@ -15662,7 +15658,7 @@ prop-types-exact@^1.2.0:
     object.assign "^4.1.0"
     reflect.ownkeys "^0.2.0"
 
-prop-types@^15.5.0, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.0, prop-types@^15.5.6, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.7.2.tgz"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -15964,13 +15960,6 @@ react-dom@^16.13.1:
     object-assign "^4.1.1"
     prop-types "^15.6.2"
     scheduler "^0.19.1"
-
-react-dropzone@^4.2.5:
-  version "4.2.5"
-  resolved "https://registry.npmjs.org/react-dropzone/-/react-dropzone-4.2.5.tgz"
-  dependencies:
-    attr-accept "^1.0.3"
-    prop-types "^15.5.7"
 
 react-element-to-string@^1.0.2:
   version "1.0.2"
