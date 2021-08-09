@@ -27,12 +27,5 @@ Aside from the call to `getAllPayments`, everything above is called inside the `
 ### The payments component
 When we render payments for the Veteran we do it using the `<Payments />` component located in [/components/view-payments-lists/payments/Payments.jsx](https://github.com/department-of-veterans-affairs/vets-website/blob/a4babda01dac9cbb30feded94e92ea8f557b69be/src/applications/disability-benefits/view-payments/components/view-payments-lists/payments/Payments.jsx#L1). Inside this component we first set a little bit of state about that particular payments list. We then call `handleLoadData` inside the `componentDidMount` method. We paginate the payments for the Veteran so before we actually load the payments into a list we split them into an array of arrays. Each one of these arrays represents a page of payments inside the pagination. We then load the paginated data into state as well as the first page of data by itself and the number of pages of data.
 
-## Callouts on how the front end works
-> Any special or interesting aspects of how the front end works should be detailed here. This is meant to be read by developers that need to make sense of these special or interesting aspects of your code without you present so write them with as much code detail as possible to achieve good clarity.
-
 ## The back end code
-> This is for a detailed description of the back end code for your app. Good things to put here are the basic folder and file structure as well as a short description of why this folder and file structure was used. Also be sure to callout any interesting folder or file usage that might confuse a future developer.
-
-
-## Callouts on how the front end works
-> Any special or interesting aspects of how the back end works should be detailed here. This is meant to be read by developers that need to make sense of these special or interesting aspects of your code without you present so write them with as much code detail as possible to achieve good clarity.
+When the front end calls [/profile/payment_history](https://github.com/department-of-veterans-affairs/vets-api/blob/be3a39e6054afd8c6a2cbb61cfd215421a8a718a/app/controllers/v0/profile/payment_history_controller.rb#L1) in the back end we call the `new` method from the BGS People Service and assign the result to a new object called `person`. We then use that `person` object to call the `new` method from the BGS Payment Service and assign the result to a new object called `response`. We then send that response back to the front end using the `VetPaymentHistorySerializer`.
