@@ -57,9 +57,6 @@ export const CautionFlagAdditionalInfo = ({
                   </li>
                 ))}
             </ul>
-            <div className="vads-u-padding--2">
-              <a href="#cautionary-information">View details below</a>
-            </div>
           </div>
         )}
       </div>
