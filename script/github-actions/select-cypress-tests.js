@@ -17,9 +17,9 @@ const pathsOfChangedFiles = filepaths.filter(filepath => {
 
 function selectedTests() {
   const tests = [];
-  const applicationNames = pathsOfChangedFiles.map(filePath => {
-    return filePath.split('/')[2];
-  });
+  const applicationNames = pathsOfChangedFiles
+    .filter(filePath => !filePath.endsWith('.md'))
+    .map(filePath => filePath.split('/')[2]);
 
   [...new Set(applicationNames)].forEach(name => {
     const selectedTestsPattern = path.join(
@@ -50,18 +50,21 @@ function allTests() {
 }
 
 let allMdFiles = true;
-let allSrcApplicationsFiles = true;
+let allMdOrSrcApplicationsFiles = true;
 
 for (let i = 0; i < pathsOfChangedFiles.length; i += 1) {
-  if (!pathsOfChangedFiles[i].startsWith('src/applications')) {
-    allSrcApplicationsFiles = false;
-  }
-
   if (!pathsOfChangedFiles[i].endsWith('.md')) {
     allMdFiles = false;
   }
 
-  if (allMdFiles === false && allSrcApplicationsFiles === false) {
+  if (
+    !pathsOfChangedFiles[i].endsWith('.md') ||
+    !pathsOfChangedFiles[i].startsWith('src/applications')
+  ) {
+    allMdOrSrcApplicationsFiles = false;
+  }
+
+  if (allMdFiles === false && allMdOrSrcApplicationsFiles === false) {
     break;
   }
 }
@@ -70,7 +73,7 @@ let tests;
 
 if (allMdFiles) {
   tests = [];
-} else if (allSrcApplicationsFiles) {
+} else if (allMdOrSrcApplicationsFiles) {
   tests = selectedTests();
 } else {
   tests = allTests();
