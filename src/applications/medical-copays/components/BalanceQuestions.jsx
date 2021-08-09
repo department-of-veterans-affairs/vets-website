@@ -7,7 +7,7 @@ import Telephone, {
 
 const BalanceQuestions = ({ contact }) => {
   return (
-    <article>
+    <article className="vads-u-padding--0">
       <h2 id="balance-questions">What if I have questions about my balance?</h2>
       <p>
         <strong className="vads-u-margin-x--0p5">

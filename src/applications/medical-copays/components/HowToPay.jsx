@@ -4,7 +4,7 @@ import Telephone, {
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const HowToPay = () => (
-  <article>
+  <article className="vads-u-padding--0">
     <h2 id="how-to-pay">How do I pay my VA copay bill?</h2>
     <h3 className="vads-u-font-size--h5">
       You can pay your bill in any of these 4 ways:
