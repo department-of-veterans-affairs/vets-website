@@ -96,12 +96,16 @@ export const MissingDob = ({ title }) => {
         We need some information for your application
       </h2>
       <p className="vads-u-font-size--base">
-        We’re sorry, you can’t continue to {titleLowerCase(title)} because we
-        can’t find your date of birth in our records. Please call Veterans
-        Benefits Assistance at <Telephone contact={CONTACTS.VA_BENEFITS} />{' '}
-        (TTY: <Telephone contact={CONTACTS['711']} />
-        ), Monday through Friday, 8:00 a.m. to 9:00 p.m. ET to update your
-        account.
+        We’re sorry. We can’t find your date of birth in our records. You won’t
+        be able to continue your application for disability compensation until
+        you update your VA account with your date of birth.
+      </p>
+      <p className="vads-u-font-size--base">
+        Please call us at
+        <Telephone contact={CONTACTS.VA_BENEFITS} />{' '}
+        <Telephone contact={CONTACTS['711']} />
+        )to update your acount. We’re here Monday through Friday, 8:00 a.m. to
+        9:00 p.m. ET.
       </p>
     </>
   );
