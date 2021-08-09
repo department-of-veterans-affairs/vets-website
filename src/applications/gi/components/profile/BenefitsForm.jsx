@@ -90,7 +90,7 @@ export class BenefitsForm extends React.Component {
               { value: 'no', label: 'No' },
             ]}
             value={this.props.spouseActiveDuty}
-            alt="Is your spouse on active duty?"
+            alt="Is your spouse on active duty now?"
             visible
             onChange={this.props.eligibilityChange}
             onFocus={this.props.handleInputFocus}

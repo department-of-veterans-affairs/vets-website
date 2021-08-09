@@ -31,7 +31,7 @@ export function ConfirmationPageContent({
     </>
   ),
   name,
-  printHeader = 'Update your education benefits',
+  printHeader = 'Update your education benefits now',
   submission,
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
