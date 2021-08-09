@@ -4,6 +4,7 @@ import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
 import LearnMoreLabel from '../components/LearnMoreLabel';
+import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 
 import {
   getStateNameForCode,
@@ -14,6 +15,7 @@ import {
 import { showModal, filterChange } from '../actions';
 import { connect } from 'react-redux';
 import { TABS } from '../constants';
+import CheckboxGroup from '../components/CheckboxGroup';
 
 export function FilterYourResults({
   dispatchShowModal,
@@ -36,7 +38,6 @@ export function FilterYourResults({
     hbcu,
     excludeCautionFlags,
     relaffil,
-    type,
     country,
     state,
     vettec,
@@ -96,16 +97,38 @@ export function FilterYourResults({
     modalClose();
   };
 
+  const excludeSchoolTypes = () => {
+    const options = Object.keys(facets.type).map(key => {
+      return {
+        name: key,
+        checked: false,
+        optionLabel: key,
+      };
+    });
+    return (
+      <CheckboxGroup
+        label={'Exclude these school types:'}
+        onChange={onChangeCheckbox}
+        options={options}
+      />
+    );
+  };
+
   const renderTypeOfInstitution = () => {
     return (
       <>
         <h3>Type of institution</h3>
-        <Checkbox
-          checked={schools}
-          name="schools"
-          label="Schools"
-          onChange={onChangeCheckbox}
-        />
+        <ExpandingGroup open={schools}>
+          <Checkbox
+            checked={schools}
+            name="schools"
+            label="Schools"
+            onChange={onChangeCheckbox}
+          />
+          <div className="school-types vads-u-padding-left--4">
+            {excludeSchoolTypes()}
+          </div>
+        </ExpandingGroup>
         <Checkbox
           checked={employers}
           name="employers"
@@ -224,27 +247,6 @@ export function FilterYourResults({
     );
   };
 
-  const renderTypeOfSchool = () => {
-    const options = [
-      ...Object.keys(facets.type).map(facetSchoolType => ({
-        optionValue: facetSchoolType,
-        optionLabel: facetSchoolType,
-      })),
-    ];
-
-    return (
-      <Dropdown
-        label="Type of school"
-        name="type"
-        options={addAllOption(options)}
-        value={type}
-        alt="Filter results by institution type"
-        visible
-        onChange={onChange}
-      />
-    );
-  };
-
   const renderSchoolMission = () => {
     return (
       <>
@@ -276,13 +278,12 @@ export function FilterYourResults({
       {renderTypeOfInstitution()}
       {renderLocation()}
       {renderSchoolAttributes()}
-      {renderTypeOfSchool()}
       {renderSchoolMission()}
     </div>
   );
 
   return (
-    <div className="vads-u-margin-bottom--2">
+    <div className="filter-your-results vads-u-margin-bottom--2">
       {!smallScreen && (
         <SearchAccordion
           button="Filter your results"
