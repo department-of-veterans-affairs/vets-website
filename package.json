@@ -234,7 +234,6 @@
     "sinon": "^3.2.1",
     "skin-deep": "^1.0.0",
     "start-server-and-test": "^1.11.0",
-    "style-loader": "^1.2.1",
     "stylelint": "^13.13.1",
     "stylelint-order": "^4.1.0",
     "stylelint-scss": "^3.19.0",
