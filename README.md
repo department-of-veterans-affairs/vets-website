@@ -1,6 +1,6 @@
 # VA.gov [![Build Status](https://dev.vets.gov/jenkins/buildStatus/icon?job=testing/vets-website/master)](http://jenkins.vetsgov-internal/job/testing/job/vets-website/job/master/)
 
-## What is this?
+## What is this app?
 
 This is the front end repository for VA.gov. It contains application code used across the site.
 
