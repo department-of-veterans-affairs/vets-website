@@ -384,7 +384,10 @@ const formConfig = {
           title: 'Contact Information',
           path: 'contact/information',
           initialData: {
-            email: 'hector.stanley@gmail.com',
+            email: {
+              email: 'hector.stanley@gmail.com',
+              confirmEmail: 'hector.stanley@gmail.com',
+            },
             mobilePhoneNumber: '123-456-7890',
             phoneNumber: '098-765-4321',
           },
@@ -406,32 +409,15 @@ const formConfig = {
               ),
             },
             [formFields.email]: {
-              ...emailUI('Your email address'),
+              'ui:title': 'Your email address',
               'ui:field': ReviewBoxField,
               'ui:options': {
                 hideLabelText: true,
                 showFieldLabel: false,
                 viewComponent: EmailViewField,
               },
-              'view:confirmEmail': {
-                ...emailUI(),
-                'ui:title': 'Confirm email address',
-                'ui:required': () => true,
-                'ui:validations': [
-                  {
-                    validator: (errors, fieldData, formData) => {
-                      if (
-                        formData.email.toLowerCase() !==
-                        formData['view:confirmEmail'].toLowerCase()
-                      ) {
-                        errors.addError(
-                          'This email does not match your previously entered email',
-                        );
-                      }
-                    },
-                  },
-                ],
-              },
+              email: emailUI('Email address'),
+              confirmEmail: emailUI('Confirm email address'),
             },
             [formFields.mobilePhoneNumber]: {
               ...phoneUI('Mobile phone'),
@@ -473,10 +459,16 @@ const formConfig = {
               },
               [formFields.address]: address.schema(fullSchema, true),
               [formFields.email]: {
-                type: 'string',
-                format: 'email',
-                'view:confirmEmail': {
-                  type: 'string',
+                type: 'object',
+                properties: {
+                  email: {
+                    type: 'string',
+                    format: 'email',
+                  },
+                  confirmEmail: {
+                    type: 'string',
+                    format: 'email',
+                  },
                 },
               },
               [formFields.mobilePhoneNumber]: usaPhone,
