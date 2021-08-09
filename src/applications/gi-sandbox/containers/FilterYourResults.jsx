@@ -117,7 +117,11 @@ export function FilterYourResults({
     return (
       <>
         <CheckboxGroup
-          label={'Exclude these school types:'}
+          label={
+            <div className="vads-u-margin-left--neg0p25">
+              Exclude these school types:
+            </div>
+          }
           onChange={onChangeCheckbox}
           options={options}
         />
@@ -153,9 +157,7 @@ export function FilterYourResults({
               label="Schools"
               onChange={onChangeCheckbox}
             />
-            <div className="school-types vads-u-padding-left--4">
-              {excludeSchoolTypes()}
-            </div>
+            <div className="school-types">{excludeSchoolTypes()}</div>
           </ExpandingGroup>
         </div>
         <Checkbox
