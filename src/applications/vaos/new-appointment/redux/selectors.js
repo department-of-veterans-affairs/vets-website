@@ -121,10 +121,6 @@ export function getSiteIdForChosenFacility(state) {
   return getSiteIdFromFacilityId(getFormData(state).vaFacility);
 }
 
-export function getChosenFacilityDetails(state) {
-  return getChosenFacilityInfo(state);
-}
-
 export function selectEligibility(state) {
   const data = getFormData(state);
   const newAppointment = getNewAppointment(state);
@@ -355,7 +351,6 @@ export function selectReviewPage(state) {
     clinic: getChosenClinicInfo(state),
     data: getFormData(state),
     facility: getChosenFacilityInfo(state),
-    facilityDetails: getChosenFacilityDetails(state),
     flowType: getFlowType(state),
     parentFacility: getChosenCCSystemById(state),
     submitStatus: state.newAppointment.submitStatus,

@@ -19,7 +19,6 @@ export default function ReviewPage() {
     clinic,
     data,
     facility,
-    facilityDetails,
     flowType,
     parentFacility,
     submitStatus,
@@ -49,6 +48,7 @@ export default function ReviewPage() {
 
   const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
   const submissionType = isDirectSchedule ? 'appointment' : 'request';
+  const facilityDetails = facility || parentFacility;
 
   return (
     <div>
@@ -105,10 +105,10 @@ export default function ReviewPage() {
                 </p>
               )}
               <>
-                {(!!facilityDetails || parentFacility) && (
+                {!!facilityDetails && (
                   <FacilityAddress
-                    name={facilityDetails?.name || parentFacility.name}
-                    facility={facilityDetails || parentFacility}
+                    name={facilityDetails?.name}
+                    facility={facilityDetails}
                     showDirectionsLink
                   />
                 )}

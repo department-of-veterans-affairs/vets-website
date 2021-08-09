@@ -100,12 +100,26 @@ describe('VAOS <ReviewPage> CC request', () => {
           {
             id: '983',
             vistaId: '983',
+            name: 'Cheyenne VA Medical Center',
+            address: {
+              line: ['2360 East Pershing Boulevard'],
+              city: 'Cheyenne',
+              state: 'WY',
+              postalCode: '82001-5356',
+            },
           },
         ],
         parentFacilities: [
           {
             id: '983',
             vistaId: '983',
+            name: 'Cheyenne VA Medical Center',
+            address: {
+              line: ['2360 East Pershing Boulevard'],
+              city: 'Cheyenne',
+              state: 'WY',
+              postalCode: '82001-5356',
+            },
           },
         ],
         facilities: {},
@@ -254,6 +268,9 @@ describe('VAOS <ReviewPage> CC request', () => {
       'Something went wrong when we tried to submit your request. You can try again later, or call your VA medical center to help with your request.',
     );
 
+    expect(screen.baseElement).contain.text('Cheyenne VA Medical Center');
+    expect(screen.baseElement).contain.text('2360 East Pershing Boulevard');
+
     expect(screen.history.push.called).to.be.false;
   });
 });
@@ -396,12 +413,26 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
           {
             id: '983',
             vistaId: '983',
+            name: 'Cheyenne VA Medical Center',
+            address: {
+              line: ['2360 East Pershing Boulevard'],
+              city: 'Cheyenne',
+              state: 'WY',
+              postalCode: '82001-5356',
+            },
           },
         ],
         parentFacilities: [
           {
             id: '983',
             vistaId: '983',
+            name: 'Cheyenne VA Medical Center',
+            address: {
+              line: ['2360 East Pershing Boulevard'],
+              city: 'Cheyenne',
+              state: 'WY',
+              postalCode: '82001-5356',
+            },
           },
         ],
         facilityDetails: {
@@ -571,6 +602,9 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
       'Something went wrong when we tried to submit your request. You can try again later, or call your VA medical center to help with your request.',
     );
 
+    expect(screen.baseElement).contain.text('Cheyenne VA Medical Center');
+    expect(screen.baseElement).contain.text('2360 East Pershing Boulevard');
+
     expect(screen.history.push.called).to.be.false;
   });
 });
@@ -636,6 +670,26 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
           {
             id: '983',
             vistaId: '983',
+            name: 'Cheyenne VA Medical Center',
+            address: {
+              line: ['2360 East Pershing Boulevard'],
+              city: 'Cheyenne',
+              state: 'WY',
+              postalCode: '82001-5356',
+            },
+          },
+        ],
+        parentFacilities: [
+          {
+            id: '983',
+            vistaId: '983',
+            name: 'Cheyenne VA Medical Center',
+            address: {
+              line: ['2360 East Pershing Boulevard'],
+              city: 'Cheyenne',
+              state: 'WY',
+              postalCode: '82001-5356',
+            },
           },
         ],
         facilities: {},
@@ -739,6 +793,9 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
     expect(screen.baseElement).contain.text(
       'Something went wrong when we tried to submit your request. You can try again later, or call your VA medical center to help with your request.',
     );
+
+    expect(screen.baseElement).contain.text('Cheyenne VA Medical Center');
+    expect(screen.baseElement).contain.text('2360 East Pershing Boulevard');
 
     expect(screen.history.push.called).to.be.false;
     waitFor(() => {
