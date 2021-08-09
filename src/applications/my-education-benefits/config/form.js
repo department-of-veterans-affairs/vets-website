@@ -381,8 +381,13 @@ const formConfig = {
       title: 'Additional Information',
       pages: {
         [formPages.contactInformation]: {
-          path: 'contact/information',
           title: 'Contact Information',
+          path: 'contact/information',
+          initialData: {
+            email: 'hector.stanley@gmail.com',
+            mobilePhoneNumber: '123-456-7890',
+            phoneNumber: '098-765-4321',
+          },
           subTitle: 'Review your email and phone numbers',
           instructions:
             'This is the contact information we have on file for you. We’ll use this to get in touch with you if we have questions about your application and to communicate important information about your education benefits.',
@@ -401,13 +406,31 @@ const formConfig = {
               ),
             },
             [formFields.email]: {
-              ...emailUI,
-              'ui:title': 'Your email address',
+              ...emailUI('Your email address'),
               'ui:field': ReviewBoxField,
               'ui:options': {
                 hideLabelText: true,
                 showFieldLabel: false,
                 viewComponent: EmailViewField,
+              },
+              'view:confirmEmail': {
+                ...emailUI(),
+                'ui:title': 'Confirm email address',
+                'ui:required': () => true,
+                'ui:validations': [
+                  {
+                    validator: (errors, fieldData, formData) => {
+                      if (
+                        formData.email.toLowerCase() !==
+                        formData['view:confirmEmail'].toLowerCase()
+                      ) {
+                        errors.addError(
+                          'This email does not match your previously entered email',
+                        );
+                      }
+                    },
+                  },
+                ],
               },
             },
             [formFields.mobilePhoneNumber]: {
@@ -452,6 +475,9 @@ const formConfig = {
               [formFields.email]: {
                 type: 'string',
                 format: 'email',
+                'view:confirmEmail': {
+                  type: 'string',
+                },
               },
               [formFields.mobilePhoneNumber]: usaPhone,
               [formFields.phoneNumber]: usaPhone,
@@ -460,11 +486,6 @@ const formConfig = {
                 properties: {},
               },
             },
-          },
-          initialData: {
-            email: 'hector.stanley@gmail.com',
-            mobilePhoneNumber: '123-456-7890',
-            phoneNumber: '098-765-4321',
           },
         },
         // [formPages.directDeposit]: {
