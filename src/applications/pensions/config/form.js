@@ -443,13 +443,14 @@ const formConfig = {
                 'ui:required': form => form.nationalGuardActivation === true,
               },
               address: merge(
+                {},
+                address.uiSchema('Unit address', false, false, true),
                 {
                   state: {
                     'ui:required': form =>
                       form.nationalGuardActivation === true,
                   },
                 },
-                address.uiSchema('Unit address', false, false, true),
               ),
               phone: phoneUI('Unit phone number'),
               date: currentOrPastDateUI('Service activation date'),
