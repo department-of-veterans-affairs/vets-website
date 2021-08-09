@@ -39,7 +39,7 @@ const ProviderServiceDescription = ({ provider, details = false }) => {
       {specialties.length >= 1 && (
         <p>
           <span>
-            <strong>Da services:</strong> {specialties.join(', ')}
+            <strong>Services:</strong> {specialties.join(', ')}
           </span>
         </p>
       )}
