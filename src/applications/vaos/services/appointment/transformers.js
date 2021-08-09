@@ -15,7 +15,7 @@ import {
   AUDIOLOGY_TYPES_OF_CARE,
   TYPES_OF_CARE,
 } from '../../utils/constants';
-import { getTimezoneBySystemId } from '../../utils/timezone';
+import { getTimezoneByFacilityId } from '../../utils/timezone';
 import {
   transformATLASLocation,
   transformCommunityProvider,
@@ -159,7 +159,7 @@ function getMomentConfirmedDate(appt) {
       .utcOffset(offset);
   }
 
-  const timezone = getTimezoneBySystemId(appt.facilityId)?.timezone;
+  const timezone = getTimezoneByFacilityId(appt.sta6aid || appt.facilityId);
 
   return timezone
     ? moment(appt.startDate).tz(timezone)

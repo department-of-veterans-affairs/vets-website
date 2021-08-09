@@ -6,7 +6,10 @@ import {
   getTypeOfCare,
   getFormData,
   getChosenCCSystemById,
+  getChosenClinicInfo,
+  getChosenSlot,
 } from '../selectors';
+import { getClinicId } from '../../../services/healthcare-service';
 
 export function transformFormToVAOSCCRequest(state) {
   const data = getFormData(state);
@@ -121,5 +124,43 @@ export function transformFormToVAOSVARequest(state) {
     preferredTimesForPhoneCall: Object.entries(data.bestTimeToCall)
       .filter(item => item[1])
       .map(item => titleCase(item[0])),
+  };
+}
+
+function getUserMessage(data) {
+  const label = PURPOSE_TEXT.find(
+    purpose => purpose.id === data.reasonForAppointment,
+  ).short;
+
+  return `${label}: ${data.reasonAdditionalInfo}`;
+}
+
+export function transformFormToVAOSAppointment(state) {
+  const data = getFormData(state);
+  const clinic = getChosenClinicInfo(state);
+  const typeOfCare = getTypeOfCare(data);
+  const slot = getChosenSlot(state);
+
+  return {
+    kind: 'clinic',
+    status: 'booked',
+    clinic: getClinicId(clinic),
+    slot,
+    desiredDate: data.preferredDate,
+    locationId: data.vaFacility,
+    serviceType: typeOfCare.idV2,
+    comment: getUserMessage(data),
+    contact: {
+      telecom: [
+        {
+          type: 'phone',
+          value: data.phoneNumber,
+        },
+        {
+          type: 'email',
+          value: data.email,
+        },
+      ],
+    },
   };
 }
