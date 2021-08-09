@@ -35,10 +35,7 @@ export function FilterYourResults({
     accredited,
     studentVeteran,
     yellowRibbonScholarship,
-    singleGenderSchool,
-    hbcu,
     excludeCautionFlags,
-    relaffil,
     country,
     state,
     vettec,
@@ -61,6 +58,23 @@ export function FilterYourResults({
 
   const onAccordionChange = value => {
     updateInstitutionFilters('expanded', value);
+  };
+
+  const handleSchoolChange = e => {
+    const checked = e.target.checked;
+
+    if (!checked) {
+      dispatchFilterChange({
+        ...filters,
+        schools: false,
+        excludeCautionFlags: false,
+        accredited: false,
+        studentVeteran: false,
+        yellowRibbonScholarship: false,
+      });
+    } else {
+      onChangeCheckbox(e);
+    }
   };
 
   const handleVetTecChange = e => {
@@ -115,7 +129,7 @@ export function FilterYourResults({
       },
     );
     return (
-      <>
+      <div className="vads-u-margin-bottom--5">
         <CheckboxGroup
           label={
             <div className="vads-u-margin-left--neg0p25">
@@ -141,45 +155,130 @@ export function FilterYourResults({
             See less...
           </button>
         )}
+      </div>
+    );
+  };
+
+  const schoolAttributes = () => {
+    return (
+      <>
+        <p>About the school</p>
+        <Checkbox
+          checked={excludeCautionFlags}
+          name="excludeCautionFlags"
+          label={
+            <LearnMoreLabel
+              text="Has no cautionary warnings"
+              onClick={() => dispatchShowModal('cautionaryWarnings')}
+              ariaLabel="Learn more about VA education and training programs"
+            />
+          }
+          onChange={onChangeCheckbox}
+        />
+        <Checkbox
+          checked={accredited}
+          name="accredited"
+          label={
+            <LearnMoreLabel
+              text="Is accredited"
+              onClick={() => dispatchShowModal('accredited')}
+              ariaLabel="Learn more about VA education and training programs"
+            />
+          }
+          onChange={onChangeCheckbox}
+        />
+        <Checkbox
+          checked={studentVeteran}
+          name="studentVeteran"
+          label="Has a Student Veteran Group"
+          onChange={onChangeCheckbox}
+        />
+        <Checkbox
+          checked={yellowRibbonScholarship}
+          name="yellowRibbonScholarship"
+          label="Offers Yellow Ribbon Program"
+          onChange={onChangeCheckbox}
+        />
       </>
+    );
+  };
+
+  const specialMissions = () => {
+    const options = [
+      {
+        optionValue: 'hbcu',
+        optionLabel: 'Historically Black College or University',
+      },
+      {
+        optionValue: 'menonly',
+        optionLabel: 'Men-only',
+      },
+      {
+        optionValue: 'womenonly',
+        optionLabel: 'Women-only',
+      },
+      {
+        optionValue: 'relaffil',
+        optionLabel: 'Religious Affiliation',
+      },
+    ];
+    return (
+      <Dropdown
+        onChange={onChange}
+        value={'ALL'}
+        name="specialMission"
+        options={addAllOption(options)}
+        alt="Special mission (i.e., Single-gender, Religious affiliation, HBCU)"
+        label="Special mission (i.e., Single-gender, Religious affiliation, HBCU)"
+        visible
+      />
     );
   };
 
   const typeOfInstitution = () => {
     return (
       <>
-        <div className="vads-u-margin-bottom--5">
-          <h3>Type of institution</h3>
+        <div className="vads-u-margin-bottom--4">
+          <h3 className="vads-u-margin-bottom--3">Type of institution</h3>
           <ExpandingGroup open={schools}>
             <Checkbox
               checked={schools}
               name="schools"
               label="Schools"
-              onChange={onChangeCheckbox}
+              onChange={handleSchoolChange}
+              className="expanding-header-checkbox"
             />
-            <div className="school-types">{excludeSchoolTypes()}</div>
+            <div className="school-types expanding-group-children">
+              {excludeSchoolTypes()}
+              {schoolAttributes()}
+              {specialMissions()}
+            </div>
           </ExpandingGroup>
         </div>
         <Checkbox
           checked={employers}
           name="employers"
-          label="Employers (on the job training and apprenticeships)"
+          label="On-the-job training and apprenticeships"
           onChange={onChangeCheckbox}
+          className="vads-u-margin-bottom--4"
         />
-        <Checkbox
-          checked={vettec}
-          name="vettec"
-          label="VET TEC providers"
-          onChange={handleVetTecChange}
-        />
-        <div className="vads-u-padding-left--3">
+        <ExpandingGroup open={vettec}>
           <Checkbox
-            checked={preferredProvider}
-            name="preferredProvider"
-            label="Preferred providers"
-            onChange={handlePreferredProviderChange}
+            checked={vettec}
+            name="vettec"
+            label="VET TEC providers"
+            onChange={handleVetTecChange}
+            className="expanding-header-checkbox"
           />
-        </div>
+          <div className="expanding-group-children">
+            <Checkbox
+              checked={preferredProvider}
+              name="preferredProvider"
+              label="Preferred providers"
+              onChange={handlePreferredProviderChange}
+            />
+          </div>
+        </ExpandingGroup>
       </>
     );
   };
@@ -233,83 +332,10 @@ export function FilterYourResults({
     );
   };
 
-  const renderSchoolAttributes = () => {
-    return (
-      <>
-        <h3>School attributes</h3>
-        <p>About the school</p>
-        <Checkbox
-          checked={excludeCautionFlags}
-          name="excludeCautionFlags"
-          label={
-            <LearnMoreLabel
-              text="Has no cautionary warnings"
-              onClick={() => dispatchShowModal('cautionaryWarnings')}
-              ariaLabel="Learn more about VA education and training programs"
-            />
-          }
-          onChange={onChangeCheckbox}
-        />
-        <Checkbox
-          checked={accredited}
-          name="accredited"
-          label={
-            <LearnMoreLabel
-              text="Is accredited"
-              onClick={() => dispatchShowModal('accredited')}
-              ariaLabel="Learn more about VA education and training programs"
-            />
-          }
-          onChange={onChangeCheckbox}
-        />
-        <Checkbox
-          checked={studentVeteran}
-          name="studentVeteran"
-          label="Has a Student Veteran Group"
-          onChange={onChangeCheckbox}
-        />
-        <Checkbox
-          checked={yellowRibbonScholarship}
-          name="yellowRibbonScholarship"
-          label="Offers Yellow Ribbon Program"
-          onChange={onChangeCheckbox}
-        />
-      </>
-    );
-  };
-
-  const renderSchoolMission = () => {
-    return (
-      <>
-        <p>School mission</p>
-        <Checkbox
-          checked={hbcu}
-          name="hbcu"
-          label="Historically Black Colleges and Universities"
-          onChange={onChangeCheckbox}
-        />
-        <Checkbox
-          checked={singleGenderSchool}
-          name="singleGenderSchool"
-          label="Single gender school"
-          onChange={onChangeCheckbox}
-        />
-        <Checkbox
-          checked={relaffil}
-          name="relaffil"
-          label="Religious affiliation"
-          onChange={onChangeCheckbox}
-        />
-      </>
-    );
-  };
-
   const controls = (
     <div>
       {typeOfInstitution()}
       {renderLocation()}
-      {renderSchoolAttributes()}
-      {renderSchoolMission()}
     </div>
   );
 
