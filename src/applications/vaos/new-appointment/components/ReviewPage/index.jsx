@@ -107,7 +107,7 @@ export default function ReviewPage() {
               <>
                 {!!facilityDetails && (
                   <FacilityAddress
-                    name={facilityDetails?.name}
+                    name={facilityDetails.name}
                     facility={facilityDetails}
                     showDirectionsLink
                   />
