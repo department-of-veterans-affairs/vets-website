@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { shallowEqual, useSelector } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import { selectProviderSelectionInfo } from '../../redux/selectors';
 import { FACILITY_SORT_METHODS, GA_PREFIX } from '../../../utils/constants';
@@ -14,8 +14,9 @@ export default function SelectedProvider({
   setProvidersListLength,
   setShowProvidersList,
 }) {
-  const { address, sortMethod } = useSelector(state =>
-    selectProviderSelectionInfo(state),
+  const { address, sortMethod } = useSelector(
+    selectProviderSelectionInfo,
+    shallowEqual,
   );
   const [showRemoveProviderModal, setShowRemoveProviderModal] = useState(false);
 
