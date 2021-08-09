@@ -478,6 +478,7 @@ jobs:
 
       - name: Archive JUnit test results
         uses: actions/upload-artifact@v2
+        if: ${{ always() }}
         with:
           name: cypress-junit-test-results
           path: test-results
