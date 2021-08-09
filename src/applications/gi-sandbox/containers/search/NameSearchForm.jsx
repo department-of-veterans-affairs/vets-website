@@ -35,7 +35,6 @@ export function NameSearchForm({
       },
       filters,
       version,
-      1,
     );
   };
 

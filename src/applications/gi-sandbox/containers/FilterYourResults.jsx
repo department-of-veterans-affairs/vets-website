@@ -88,14 +88,7 @@ export function FilterYourResults({
   const updateResults = () => {
     updateInstitutionFilters('search', true);
 
-    updateUrlParams(
-      history,
-      search.tab,
-      search.query,
-      filters,
-      version,
-      search.tab === TABS.name ? 1 : null,
-    );
+    updateUrlParams(history, search.tab, search.query, filters, version);
   };
 
   const closeAndUpdate = () => {

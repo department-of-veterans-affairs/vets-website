@@ -45,7 +45,6 @@ export function NameSearchResults({
       },
       filters,
       version,
-      page,
     );
   };
 

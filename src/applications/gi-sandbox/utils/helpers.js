@@ -241,7 +241,6 @@ export const updateUrlParams = (
   searchQuery,
   filters,
   version,
-  page,
 ) => {
   const queryParams = {
     search: tab,
@@ -260,10 +259,6 @@ export const updateUrlParams = (
     searchQuery.location !== undefined
   ) {
     queryParams.location = searchQuery.location;
-  }
-
-  if (page && page !== 1) {
-    queryParams.page = page;
   }
 
   if (version) {

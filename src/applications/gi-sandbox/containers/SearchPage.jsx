@@ -48,7 +48,7 @@ export function SearchPage({
     window.addEventListener('resize', checkSize);
 
     if (getSearchQueryChanged(search.query)) {
-      updateUrlParams(history, search.tab, search.query, filters, version, 1);
+      updateUrlParams(history, search.tab, search.query, filters, version);
     }
 
     return () => window.removeEventListener('resize', checkSize);
