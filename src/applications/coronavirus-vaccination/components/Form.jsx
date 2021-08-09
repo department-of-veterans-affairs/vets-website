@@ -74,7 +74,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
   );
 
   if (submitStatus === requestStates.pending) {
-    return <LoadingIndicator message="Submitting your form....." />;
+    return <LoadingIndicator message="Submitting your form..." />;
   }
   return (
     <>

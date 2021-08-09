@@ -16,7 +16,7 @@ function AboutThisTool() {
           className="about-this-tool-mobile"
           href="https://www.benefits.va.gov/GIBILL/docs/job_aids/ComparisonToolData.xlsx"
         >
-          Download Data on All Schools (in Excel)
+          Download Data on All Schools (Excel)
         </a>
       </div>
     </div>

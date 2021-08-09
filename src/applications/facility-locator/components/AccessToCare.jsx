@@ -54,7 +54,7 @@ export default function AccessToCare({ location }) {
       <h4 className="highlight">Veteran-reported Satisfaction Scores</h4>
       <div className="vads-u-margin-bottom--4">
         <p>
-          Current, as of{' '}
+          Current as of{' '}
           <strong>
             {moment(effectiveDate || healthFeedbackAttrs.effectiveDate).format(
               'LL',

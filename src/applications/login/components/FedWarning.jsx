@@ -7,7 +7,6 @@ export default function FedWarning() {
         When you sign in to VA.gov, you’re using a United States federal
         government information system.
       </p>
-      <p>Add paragraph for testing purposes.</p>
       <p>
         By signing in, you agree to only use information you have legal
         authority to view and use. You also agree to let us monitor and record

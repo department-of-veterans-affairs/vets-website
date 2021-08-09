@@ -39,7 +39,7 @@ export class AdditionalInformation extends React.Component {
     if (isOJT && institution.section103Message) {
       return (
         <div className="institution-summary">
-          <h3>Institution summary:</h3>
+          <h3>Institution summary</h3>
           {this.renderSection103Info(institution.section103Message)}
         </div>
       );

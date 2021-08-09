@@ -112,7 +112,7 @@ export const ContactInformation = ({ institution }) => {
   const renderSCOHeader = () => (
     <div>
       <h3 className="vads-u-margin-top--5 vads-u-margin-bottom--neg2p5">
-        School certifying officialz
+        School certifying officials
       </h3>
       <hr />
     </div>

@@ -75,8 +75,7 @@ const ResourcesAndSupportSearchApp = () => {
     paginationSummary = (
       <>
         Showing {startIndex + 1} - {endIndex} of {results.length} results for "
-        <strong>{query}</strong>
-        :"
+        <strong>{query}</strong>"
       </>
     );
   } else if (!query) {
