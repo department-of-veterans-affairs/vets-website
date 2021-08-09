@@ -53,6 +53,10 @@ export const errorMessages = {
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';
 
+// contested issue dates
+export const FORMAT_YMD = 'YYYY-MM-DD';
+export const FORMAT_READABLE = 'LL';
+
 // session storage keys
 export const SAVED_CLAIM_TYPE = 'hlrClaimType';
 export const WIZARD_STATUS = 'wizardStatus996';
