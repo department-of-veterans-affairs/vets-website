@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import moment from '../../../lib/moment-tz.js';
+import moment from 'moment';
 import recordEvent from 'platform/monitoring/record-event.js';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import AddToCalendar from '../../../components/AddToCalendar';
@@ -24,7 +24,7 @@ export default function ConfirmationDirectScheduleInfoV2({
 }) {
   const timezone = getTimezoneBySystemId(systemId);
   const momentDate = timezone
-    ? moment(slot.start).tz(timezone.timezone, true)
+    ? moment.tz(slot.start, timezone.timezone)
     : moment(slot.start);
   const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
 

@@ -145,7 +145,9 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
     expect(screen.baseElement).to.contain.text('VA Appointment');
 
     expect(dateHeading).to.contain.text(
-      start.format('dddd, MMMM DD, YYYY [at] h:mm a'),
+      moment
+        .tz(start, 'America/Denver')
+        .format('dddd, MMMM DD, YYYY [at] h:mm a'),
     );
 
     expect(clinicHeading).to.contain.text('Some VA clinic');
