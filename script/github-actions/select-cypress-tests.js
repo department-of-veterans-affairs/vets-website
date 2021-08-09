@@ -58,7 +58,7 @@ for (let i = 0; i < pathsOfChangedFiles.length; i += 1) {
   }
 
   if (
-    !pathsOfChangedFiles[i].endsWith('.md') ||
+    !pathsOfChangedFiles[i].endsWith('.md') &&
     !pathsOfChangedFiles[i].startsWith('src/applications')
   ) {
     allMdOrSrcApplicationsFiles = false;
