@@ -22,12 +22,9 @@ export default function createDirectDepositPage(schema, options) {
     schema: {
       type: 'object',
       properties: {
-        bankAccount: merge(
-          {
-            required,
-          },
-          bankAccount,
-        ),
+        bankAccount: merge({}, bankAccount, {
+          required,
+        }),
       },
     },
   };

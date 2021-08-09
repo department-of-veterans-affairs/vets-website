@@ -7,15 +7,12 @@ import educationTypeUISchema from './educationType';
 
 export const uiSchema = {
   'ui:order': ['name', 'educationType', 'address'],
-  address: merge(
-    {
-      'ui:options': {
-        expandUnder: 'educationType',
-        expandUnderCondition: showSchoolAddress,
-      },
+  address: merge({}, address.uiSchema(), {
+    'ui:options': {
+      expandUnder: 'educationType',
+      expandUnderCondition: showSchoolAddress,
     },
-    address.uiSchema(),
-  ),
+  }),
   educationType: educationTypeUISchema,
   name: {
     'ui:title': 'Name of school, university, or training facility',

@@ -40,14 +40,11 @@ export default function createContactInformationPage(
           validateMatch('email', 'view:confirmEmail', { ignoreCase: true }),
         ],
         email: emailUI(),
-        'view:confirmEmail': merge(
-          {
-            'ui:options': {
-              hideOnReview: true,
-            },
+        'view:confirmEmail': merge({}, emailUI('Re-enter email address'), {
+          'ui:options': {
+            hideOnReview: true,
           },
-          emailUI('Re-enter email address'),
-        ),
+        }),
         homePhone: {
           ...phoneUI('Home phone number'),
           'ui:required': form => form.preferredContactMethod === 'phone',

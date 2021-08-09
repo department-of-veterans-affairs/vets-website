@@ -127,30 +127,26 @@ const formConfig = {
           title: 'Sponsor information',
           uiSchema: {
             veteranFullName: sponsorFullNameUI,
-            'view:veteranId': merge(
-              {
-                'view:noSSN': {
-                  'ui:title':
-                    'I don’t know my sponsor’s Social Security number',
-                },
-                vaFileNumber: {
-                  'ui:title': "Sponsor's VA file number",
-                },
-                veteranSocialSecurityNumber: {
-                  'ui:title': "Sponsor's Social Security number",
-                  'ui:validations': [
-                    (errors, fieldData, formData) => {
-                      if (fieldData === formData.relativeSocialSecurityNumber) {
-                        errors.addError(
-                          'Your sponsor’s SSN cannot be the same as yours.',
-                        );
-                      }
-                    },
-                  ],
-                },
+            'view:veteranId': merge({}, personId.uiSchema(), {
+              'view:noSSN': {
+                'ui:title': 'I don’t know my sponsor’s Social Security number',
               },
-              personId.uiSchema(),
-            ),
+              vaFileNumber: {
+                'ui:title': "Sponsor's VA file number",
+              },
+              veteranSocialSecurityNumber: {
+                'ui:title': "Sponsor's Social Security number",
+                'ui:validations': [
+                  (errors, fieldData, formData) => {
+                    if (fieldData === formData.relativeSocialSecurityNumber) {
+                      errors.addError(
+                        'Your sponsor’s SSN cannot be the same as yours.',
+                      );
+                    }
+                  },
+                ],
+              },
+            }),
             outstandingFelony: {
               'ui:title':
                 'Do you or your sponsor have an outstanding felony and/or warrant?',

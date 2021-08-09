@@ -137,38 +137,31 @@ const formConfig = {
           title: 'Sponsor information',
           path: 'sponsor/information',
           uiSchema: {
-            veteranFullName: merge(
-              {
-                first: {
-                  'ui:title': "Sponsor's first name",
-                },
-                last: {
-                  'ui:title': "Sponsor's last name",
-                },
-                middle: {
-                  'ui:title': "Sponsor's middle name",
-                },
-                suffix: {
-                  'ui:title': "Sponsor's suffix",
-                },
+            veteranFullName: merge({}, fullNameUISchema, {
+              first: {
+                'ui:title': "Sponsor's first name",
               },
-              fullNameUISchema,
-            ),
-            'view:veteranId': merge(
-              {
-                veteranSocialSecurityNumber: {
-                  'ui:title': "Sponsor's Social Security number",
-                },
-                'view:noSSN': {
-                  'ui:title':
-                    'I don’t know my sponsor’s Social Security number',
-                },
-                vaFileNumber: {
-                  'ui:title': "Sponsor's VA file number",
-                },
+              last: {
+                'ui:title': "Sponsor's last name",
               },
-              personId.uiSchema(),
-            ),
+              middle: {
+                'ui:title': "Sponsor's middle name",
+              },
+              suffix: {
+                'ui:title': "Sponsor's suffix",
+              },
+            }),
+            'view:veteranId': merge({}, personId.uiSchema(), {
+              veteranSocialSecurityNumber: {
+                'ui:title': "Sponsor's Social Security number",
+              },
+              'view:noSSN': {
+                'ui:title': 'I don’t know my sponsor’s Social Security number',
+              },
+              vaFileNumber: {
+                'ui:title': "Sponsor's VA file number",
+              },
+            }),
             veteranAddress: address.uiSchema("Sponsor's address"),
             serviceBranch: {
               'ui:title': "Sponsor's branch of service",

@@ -21,18 +21,15 @@ export default function applicantServicePage(currentSchema) {
           'Have you ever served on active duty in the armed services?',
         'ui:widget': 'yesNo',
       },
-      toursOfDuty: merge(
-        {
-          'ui:options': {
-            expandUnder: 'view:applicantServed',
-          },
-          'ui:required': form => get('view:applicantServed', form),
-          items: {
-            serviceStatus: { 'ui:title': 'Type of separation or discharge' },
-          },
+      toursOfDuty: merge({}, toursOfDuty.uiSchema, {
+        'ui:options': {
+          expandUnder: 'view:applicantServed',
         },
-        toursOfDuty.uiSchema,
-      ),
+        'ui:required': form => get('view:applicantServed', form),
+        items: {
+          serviceStatus: { 'ui:title': 'Type of separation or discharge' },
+        },
+      }),
     },
     schema: {
       type: 'object',

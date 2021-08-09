@@ -136,14 +136,11 @@ export default class BenefitsRelinquishmentField extends React.Component {
         name="benefitsRelinquished"
         required
         schema={schema.properties.benefitsRelinquished}
-        uiSchema={merge(
-          {
-            'ui:options': {
-              nestedContent: this.getNestedContent(),
-            },
+        uiSchema={merge({}, uiSchema.benefitsRelinquished, {
+          'ui:options': {
+            nestedContent: this.getNestedContent(),
           },
-          uiSchema.benefitsRelinquished,
-        )}
+        })}
         errorSchema={errorSchema.benefitsRelinquished}
         idSchema={idSchema.benefitsRelinquished}
         formData={formData.benefitsRelinquished}

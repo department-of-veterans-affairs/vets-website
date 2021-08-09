@@ -216,15 +216,12 @@ const formConfig = {
                 expandUnderClassNames: 'schemaform-expandUnder',
               },
             },
-            anonymousEmail: merge(
-              {
-                'ui:options': {
-                  expandUnder: 'onBehalfOf',
-                  expandUnderCondition: anonymous,
-                },
+            anonymousEmail: merge({}, emailUI('Email'), {
+              'ui:options': {
+                expandUnder: 'onBehalfOf',
+                expandUnderCondition: anonymous,
               },
-              emailUI('Email'),
-            ),
+            }),
           },
           schema: {
             type: 'object',
@@ -246,30 +243,27 @@ const formConfig = {
                 data,
                 PrefillMessage,
               ),
-            fullName: merge(
-              {
-                prefix: {
-                  'ui:title': 'Prefix',
-                  'ui:options': {
-                    widgetClassNames: 'form-select-medium',
-                  },
+            fullName: merge({}, fullNameUI, {
+              prefix: {
+                'ui:title': 'Prefix',
+                'ui:options': {
+                  widgetClassNames: 'form-select-medium',
                 },
-                first: {
-                  'ui:title': 'Your first name',
-                },
-                last: {
-                  'ui:title': 'Your last name',
-                },
-                middle: {
-                  'ui:title': 'Your middle name',
-                },
-                suffix: {
-                  'ui:title': 'Your suffix',
-                },
-                'ui:order': ['prefix', 'first', 'middle', 'last', 'suffix'],
               },
-              fullNameUI,
-            ),
+              first: {
+                'ui:title': 'Your first name',
+              },
+              last: {
+                'ui:title': 'Your last name',
+              },
+              middle: {
+                'ui:title': 'Your middle name',
+              },
+              suffix: {
+                'ui:title': 'Your suffix',
+              },
+              'ui:order': ['prefix', 'first', 'middle', 'last', 'suffix'],
+            }),
             serviceAffiliation: {
               'ui:title': 'Service affiliation',
               'ui:required': isMyself,
