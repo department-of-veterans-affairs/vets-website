@@ -6,6 +6,10 @@ Cypress.Commands.add('injectAxeThenAxeCheck', (context, tempOptions) => {
 
   // axeCheck() context parameter defaults to 'main'
   // axeCheck() tempOptions parameter defaults to {}
+
+  // eslint-disable-next-line no-console
+  console.log('tempOptions: ', tempOptions);
+
   if (tempOptions) {
     cy.axeCheck(context, tempOptions);
   } else if (context) {

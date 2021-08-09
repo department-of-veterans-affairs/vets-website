@@ -4,4 +4,4 @@ The [registry.json](https://github.com/department-of-veterans-affairs/content-bu
 
 To render a page to view or test a widget in this repository, you can add that information into the [registry.scaffold.json](https://github.com/department-of-veterans-affairs/vets-website/blob/master/src/applications/registry.scaffold.json) file and it will generate locally and in CI with `yarn build` or `yarn build:webpack --env.scaffold`
 
-For any questions, please reach out in Slack via #vfs-platform-support.
+For any questions, please reach out in Slack via #vfs-platform-support
