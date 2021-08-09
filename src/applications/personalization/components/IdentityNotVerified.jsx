@@ -8,7 +8,7 @@ const IdentityNotVerified = ({
   alertHeadline,
   alertContent = (
     <p>
-      We need to make sure you’re you — and not someone pretending to be you —
+      We need to make sure you’re you —- and not someone pretending to be you -—
       before we give you access to your personal and health-related information.
       This helps to keep your information safe and prevent fraud and identity
       theft.

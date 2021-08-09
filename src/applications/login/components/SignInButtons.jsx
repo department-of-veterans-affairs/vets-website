@@ -25,7 +25,7 @@ export default function SignInButtons({ isDisabled }) {
           alt="DS Logon"
           src={`${vaGovFullDomain}/img/signin/dslogon-icon.svg`}
         />
-        <strong>Sign in with DS Logon</strong>
+        <strong> Sign in with DS Logon</strong>
       </button>
       <button
         disabled={isDisabled}
