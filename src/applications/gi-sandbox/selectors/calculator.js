@@ -1183,8 +1183,6 @@ export const getCalculatedBenefits = createSelector(
       calculatedBenefits.outputs.perTerm.tuitionFees.terms[2].visible = false;
       calculatedBenefits.outputs.perTerm.housingAllowance.terms[1].visible = false;
       calculatedBenefits.outputs.perTerm.housingAllowance.terms[2].visible = false;
-      calculatedBenefits.outputs.perTerm.bookStipend.terms[1].visible = false;
-      calculatedBenefits.outputs.perTerm.bookStipend.terms[2].visible = false;
       calculatedBenefits.outputs.perTerm.yellowRibbon.terms[2].visible = false;
       calculatedBenefits.outputs.perTerm.yellowRibbon.terms[3].visible = false;
       calculatedBenefits.outputs.perTerm.yellowRibbon.terms[4].visible = false;
@@ -1195,7 +1193,6 @@ export const getCalculatedBenefits = createSelector(
       // Hide all term 3 calculations
       calculatedBenefits.outputs.perTerm.tuitionFees.terms[2].visible = false;
       calculatedBenefits.outputs.perTerm.housingAllowance.terms[2].visible = false;
-      calculatedBenefits.outputs.perTerm.bookStipend.terms[2].visible = false;
       calculatedBenefits.outputs.perTerm.yellowRibbon.terms[4].visible = false;
       calculatedBenefits.outputs.perTerm.yellowRibbon.terms[5].visible = false;
     }
@@ -1221,7 +1218,6 @@ export const getCalculatedBenefits = createSelector(
       calculatedBenefits.outputs.totalPaidToYou.visible = false;
       calculatedBenefits.outputs.perTerm.tuitionFees.visible = false;
       calculatedBenefits.outputs.perTerm.yellowRibbon.visible = false;
-      calculatedBenefits.outputs.perTerm.bookStipend.visible = false;
       calculatedBenefits.outputs.perTerm.housingAllowance.modal =
         'housingAllowanceOJT';
       calculatedBenefits.outputs.perTerm.housingAllowance.learnMoreAriaLabel =
