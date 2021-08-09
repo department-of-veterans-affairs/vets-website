@@ -12,7 +12,6 @@ import VetTecInstitutionProfile from '../components/vet-tec/InstitutionProfile';
 import InstitutionProfile from '../components/profile/InstitutionProfile';
 import ServiceError from '../components/ServiceError';
 import { useQueryParams } from '../utils/helpers';
-import CompareDrawer from './CompareDrawer';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -106,17 +105,10 @@ export function ProfilePage({
       name="profilePage"
       className="profile-page vads-u-padding-top--3"
     >
-      {profile.error && (
-        <div className="row">
-          <ServiceError />
-        </div>
-      )}
-      {!profile.error && (
-        <>
-          <div className="row">{content}</div>
-          {!loadingProfile && <CompareDrawer alwaysDisplay />}
-        </>
-      )}
+      <div className="row">
+        {profile.error && <ServiceError />}
+        {!profile.error && content}
+      </div>
     </ScrollElement>
   );
 }

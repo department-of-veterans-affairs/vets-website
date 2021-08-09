@@ -26,7 +26,7 @@ import informalConferenceTimes from '../pages/informalConferenceTimes';
 import sameOffice from '../pages/sameOffice';
 
 import { errorMessages, WIZARD_STATUS } from '../constants';
-import { apiVersion1, apiVersion2 } from '../helpers';
+import { apiVersion1, apiVersion2 } from '../utils/helpers';
 // import initialData from '../tests/schema/initialData';
 
 import manifest from '../manifest.json';
@@ -100,6 +100,10 @@ const formConfig = {
           path: 'contact-information',
           uiSchema: contactInfo.uiSchema,
           schema: contactInfo.schema,
+          initialData: {
+            // stop the mobile phone modal from showing SMS checkbox inline
+            'view:showSMSCheckbox': false,
+          },
         },
         homeless: {
           title: 'Homelessness question',

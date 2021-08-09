@@ -43,7 +43,7 @@ const StatusAlert = ({ label, content, status, iconType, trackingPrefix }) => {
           open ? 'vads-u-display--block' : 'vads-u-display--none'
         }`}
       >
-        {content && content()}
+        {content}
       </div>
     </>
   );
@@ -54,7 +54,7 @@ StatusAlert.propTypes = {
   iconType: PropTypes.string,
   trackingPrefix: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  content: PropTypes.elementType,
+  content: PropTypes.object,
 };
 
 export default StatusAlert;

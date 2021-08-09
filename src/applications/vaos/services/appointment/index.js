@@ -42,8 +42,8 @@ import recordEvent from 'platform/monitoring/record-event';
 import { captureError, has400LevelError } from '../../utils/error';
 import { resetDataLayer } from '../../utils/events';
 import {
-  getTimezoneAbbrBySystemId,
-  getTimezoneBySystemId,
+  getTimezoneAbbrByFacilityId,
+  getTimezoneByFacilityId,
   getTimezoneNameFromAbbr,
   getUserTimezone,
   getUserTimezoneAbbr,
@@ -680,6 +680,15 @@ export function groupAppointmentsByMonth(appointments) {
   return appointmentsByMonth;
 }
 
+/**
+ * Creates an appointment through the v2 api and transforms the result
+ * back into our Appointment format
+ *
+ * @export
+ * @param {Object} params
+ * @param {VAOSAppointment} params.appointment The appointment to send
+ * @returns {Appointment} The created appointment
+ */
 export async function createAppointment({ appointment }) {
   const result = await postAppointment(appointment);
 
@@ -1002,13 +1011,14 @@ export function getCalendarData({ appointment, facility }) {
 export function getAppointmentTimezone(appointment) {
   // Most VA appointments will use this, since they're associated with a facility
   if (appointment.location.vistaId) {
-    const abbreviation = getTimezoneAbbrBySystemId(
-      appointment.location.vistaId,
-    );
+    const locationId =
+      appointment.location.stationId || appointment.location.vistaId;
+    const abbreviation = getTimezoneAbbrByFacilityId(locationId);
 
     return {
-      identifier: getTimezoneBySystemId(appointment.location.vistaId)
-        ?.currentTZ,
+      identifier: moment.tz
+        .zone(getTimezoneByFacilityId(locationId))
+        ?.abbr(appointment.start),
       abbreviation,
       description: getTimezoneNameFromAbbr(abbreviation),
     };
