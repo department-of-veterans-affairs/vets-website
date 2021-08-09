@@ -58,7 +58,7 @@ const VerificationRequiredAlert = () => (
           </a>
         </li>
         <li>
-          Or call us at <a href="tel:+18772228387">877-222-8387</a>. If you have{' '}
+          Or call us at <Telephone contact={`18772228387`} />. If you have{' '}
           hearing loss, call TTY: <Telephone contact={CONTACTS.HELP_TTY} />.
           We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </li>
