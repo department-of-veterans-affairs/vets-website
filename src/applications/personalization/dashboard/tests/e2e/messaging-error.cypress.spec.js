@@ -6,7 +6,7 @@ import {
   mockLocalStorage,
 } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
 
-describe.skip('MyVA Dashboard - Messaging', () => {
+describe('MyVA Dashboard - Messaging', () => {
   describe('when there is an error fetching the inbox data', () => {
     beforeEach(() => {
       mockLocalStorage();
@@ -17,7 +17,6 @@ describe.skip('MyVA Dashboard - Messaging', () => {
       });
 
       cy.login(mockUser);
-      // login() calls cy.server() so we can now mock routes
       cy.intercept('GET', '/v0/messaging/health/folders/0', {
         statusCode: 400,
         body: ERROR_400,
