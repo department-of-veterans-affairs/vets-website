@@ -4,9 +4,6 @@ import { states, countries } from 'vets-json-schema/dist/constants.json';
 //   (a, b) => a.label.localeCompare(b.label),
 // );
 
-// eslint-disable-next-line no-console
-console.log('states: ', states);
-
 export { countries, states };
 
 export function isValidUSZipCode(value) {
