@@ -93,3 +93,10 @@
     bottom: 13.3em;
   }
 }
+
+.placeholder {
+  height: 0;
+  &.button-floating {
+    height: 44px !important;
+  }
+}

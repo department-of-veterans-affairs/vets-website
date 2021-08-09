@@ -72,7 +72,7 @@ export function NameSearchResults({
 
               {!inProgress &&
                 count > 0 && (
-                  <div className="vads-l-row vads-u-flex-wrap--wrap">
+                  <div className="vads-l-row">
                     {results.map(institution => (
                       <SearchResultCard
                         institution={institution}

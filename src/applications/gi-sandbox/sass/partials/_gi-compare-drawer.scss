@@ -1,4 +1,14 @@
 .compare-drawer {
+  position: fixed;
+  bottom: 0;
+  display: block;
+  z-index: 2000;
+  width: 100% !important;
+
+  &.stuck {
+    position: static;
+  }
+
   .compare-header{
     background-color: $color-primary;
     color: $color-white;
@@ -106,12 +116,6 @@
     }
 
   }
-
-  position: fixed;
-  bottom: 0;
-  display: block;
-  z-index: 2000;
-  width: 100% !important;
 
   @media (max-width: $small-screen) {
     padding-left: 8px;

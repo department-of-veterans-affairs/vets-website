@@ -1,7 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import ViewDependentsList from '../../components/ViewDependentsList/ViewDependentsList';
+import removeDependents from '../../manage-dependents/redux/reducers';
 
 describe('<ViewDependentsList />', () => {
   const onAwardSubhead = (
@@ -13,46 +14,40 @@ describe('<ViewDependentsList />', () => {
     </span>
   );
 
-  const onAwardDependents = [
-    {
-      firstName: 'Cindy',
-      lastName: 'See',
-      ssn: '312-243-5634',
-      dateOfBirth: '05-05-1953',
-      relationship: 'Child',
-    },
-    {
-      firstName: 'Billy',
-      lastName: 'Blank',
-      ssn: '123-45-6789',
-      dateOfBirth: '05-05-1953',
-      relationship: 'Child',
-    },
-  ];
+  const mockState = {
+    onAwardDependents: [
+      {
+        name: 'Billy Blank',
+        social: '312-243-5634',
+        onAward: true,
+        birthdate: '05-05-1983',
+      },
+      {
+        name: 'Cindy See',
+        social: '312-243-5634',
+        onAward: true,
+        birthdate: '05-05-1953',
+        spouse: true,
+      },
+    ],
+  };
 
   it('Should Render', () => {
-    const wrapper = render(
+    const screen = renderInReduxProvider(
       <ViewDependentsList
-        loading={false}
-        header="Dependents on award"
+        header="Dependents on your VA benefits"
         subHeader={onAwardSubhead}
-        dependents={onAwardDependents}
+        isAward
       />,
+      {
+        mockState,
+        reducers: removeDependents,
+      },
     );
 
-    expect(wrapper.getAllByText(/Dependents on award/)).to.exist;
-  });
-
-  it('Should show a loading indicator while loading', () => {
-    const wrapper = render(
-      <ViewDependentsList
-        loading
-        header="Dependents on award"
-        subHeader={onAwardSubhead}
-        dependents={onAwardDependents}
-      />,
-    );
-
-    expect(wrapper.getByText(/Loading your dependents/)).to.exist;
+    expect(
+      screen.findByRole('heading', { name: 'Dependents on your VA benefits' }),
+    ).to.exist;
+    expect(screen.findByText(/Cindy See/)).to.exist;
   });
 });

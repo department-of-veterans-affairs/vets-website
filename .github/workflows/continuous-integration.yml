@@ -52,7 +52,7 @@ jobs:
       - name: Install dependencies
         uses: nick-invision/retry@v2
         with:
-          command: yarn install --frozen-lockfile --prefer-offline
+          command: yarn install --frozen-lockfile --prefer-offline --production=false
           max_attempts: 3
           timeout_minutes: 5
         env:
@@ -108,7 +108,11 @@ jobs:
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          max_attempts: 3
+          timeout_minutes: 5
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -211,7 +215,11 @@ jobs:
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          max_attempts: 3
+          timeout_minutes: 5
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -310,7 +318,11 @@ jobs:
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          max_attempts: 3
+          timeout_minutes: 5
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -356,20 +368,6 @@ jobs:
           mkdir -p build/vagovprod
           tar -C build/vagovprod -xjf vagovprod.tar.bz2
 
-      - name: Get Node version
-        id: get-node-version
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-
-      # - name: Install Chrome
-      #   uses: browser-actions/setup-chrome@latest
-      #   with:
-      #     chrome-version: stable
-
       - name: Cache dependencies
         id: cache-dependencies
         uses: actions/cache@v2
@@ -381,18 +379,13 @@ jobs:
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}-cypress
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          max_attempts: 3
+          timeout_minutes: 5
         env:
           YARN_CACHE_FOLDER: .cache/yarn
-
-      # - name: Set port for server
-      #   run: echo "SERVER_PORT=$(( ( RANDOM % 2000 ) + 3001 ))" >> $GITHUB_ENV
-
-      # Cypress env vars like this are used to either override config settings
-      # or be made available to tests through Cypress.env().
-      # https://docs.cypress.io/guides/guides/environment-variables#Option-3-CYPRESS_
-      # - name: Set port for Cypress
-      #   run: echo "CYPRESS_PORT=$(( SERVER_PORT + 1 ))" >> $GITHUB_ENV
 
       - name: Start server
         run: node src/platform/testing/e2e/test-server.js --buildtype vagovprod --port=3001 &
@@ -474,7 +467,11 @@ jobs:
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          max_attempts: 3
+          timeout_minutes: 5
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -566,7 +563,7 @@ jobs:
           node-version: 14 # ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        run: yarn install --frozen-lockfile --prefer-offline --production=false
         env:
           YARN_CACHE_FOLDER: .cache/yarn
         working-directory: testing-tools-team-dashboard-data
@@ -641,6 +638,7 @@ jobs:
           github_token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           repository: department-of-veterans-affairs/testing-reports
           directory: testing-reports
+          branch: master
 
       # -------------------------
       # | Cypress Tests Summary |

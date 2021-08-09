@@ -27,6 +27,7 @@ import { fireEvent, waitFor } from '@testing-library/react';
 import { getICSTokens } from '../../../../utils/calendar';
 import { mockSingleVAOSAppointmentFetch } from '../../../mocks/helpers.v2';
 import { getVAOSAppointmentMock } from '../../../mocks/v2';
+import { mockSingleClinicFetchByVersion } from '../../../mocks/fetch';
 
 const initialState = {
   featureToggles: {
@@ -1020,6 +1021,74 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     expect(tokens.get('END')).includes('VEVENT');
     expect(tokens.get('END')).includes('VCALENDAR');
   });
+
+  it('should show facility specific timezone when available', async () => {
+    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
+    const today = moment.utc();
+
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      clinicId: '308',
+      clinicFriendlyName: "Jennie's Lab",
+      facilityId: '437',
+      sta6aid: '437GJ',
+      startDate: today.format(),
+      vdsAppointments: [
+        {
+          bookingNote: 'New issue: ASAP',
+        },
+      ],
+    };
+
+    mockAppointmentInfo({
+      va: [appointment],
+      isHomepageRefresh: true,
+    });
+
+    mockSingleAppointmentFetch({
+      appointment,
+    });
+
+    mockFacilityFetch('vha_437GJ', {
+      id: 'vha_437GJ',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '437GJ',
+        name: 'Facility in Denver time',
+        phone: {
+          main: '970-224-1550',
+        },
+      },
+    });
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: url,
+    });
+
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          today.tz('America/Denver').format('dddd, MMMM D, YYYY'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    expect(
+      screen.getByText(
+        new RegExp(
+          moment()
+            .tz('America/Denver')
+            .format('h:mm'),
+          'i',
+        ),
+      ),
+    ).to.exist;
+    expect(screen.getByText(/Mountain time/i)).to.exist;
+  });
 });
 
 describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
@@ -1047,6 +1116,110 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     appointment.attributes = {
       ...appointment.attributes,
       kind: 'clinic',
+      clinic: '455',
+      locationId: '983GC',
+      id: '1234',
+      preferredTimesForPhoneCall: ['Morning'],
+      reason: 'New Issue',
+      comment: 'New issue: I have a headache',
+      serviceType: 'primaryCare',
+      start: futureDate.format(),
+      status: 'booked',
+    };
+
+    mockSingleClinicFetchByVersion({
+      clinicId: '455',
+      locationId: '983GC',
+      clinicName: 'Some fancy clinic name',
+      version: 2,
+    });
+    mockSingleVAOSAppointmentFetch({ appointment });
+
+    const facility = getVAFacilityMock();
+    facility.attributes = {
+      ...facility.attributes,
+      id: 'vha_442GC',
+      uniqueId: '442GC',
+      name: 'Cheyenne VA Medical Center',
+      address: {
+        physical: {
+          zip: '82001-5356',
+          city: 'Cheyenne',
+          state: 'WY',
+          address1: '2360 East Pershing Boulevard',
+        },
+      },
+      phone: { main: '970-224-1550' },
+    };
+
+    mockFacilityFetch('vha_442GC', facility);
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState: myInitialState,
+      path: url,
+    });
+
+    // Verify document title and content...
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
+
+    expect(
+      screen.getByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          futureDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
+    expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
+    expect(await screen.findByText(/Some fancy clinic name/)).to.be.ok;
+    expect(screen.getByRole('link', { name: /9 7 0. 2 2 4. 1 5 5 0./ })).to.be
+      .ok;
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: 'You shared these details about your concern',
+      }),
+    ).to.be.ok;
+    expect(screen.getByText(/New issue: I have a headache/)).to.be.ok;
+    expect(
+      screen.getByRole('link', {
+        name: new RegExp(
+          futureDate
+            .tz('America/Denver')
+            .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+    expect(screen.getByText(/Print/)).to.be.ok;
+    expect(screen.getByText(/Cancel appointment/)).to.be.ok;
+
+    expect(screen.baseElement).not.to.contain.text(
+      'This appointment occurred in the past.',
+    );
+  });
+  it('should show details without clinic name when clinic call fails', async () => {
+    const myInitialState = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingVAOSServiceVAAppointments: true,
+      },
+    };
+    const url = '/va/1234';
+    const futureDate = moment.utc();
+
+    const appointment = getVAOSAppointmentMock();
+    appointment.id = '1234';
+    appointment.attributes = {
+      ...appointment.attributes,
+      kind: 'clinic',
+      clinic: '455',
       locationId: '983GC',
       id: '1234',
       preferredTimesForPhoneCall: ['Morning'],
@@ -1098,36 +1271,8 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       }),
     ).to.be.ok;
 
-    await waitFor(() => {
-      expect(document.activeElement).to.have.tagName('h1');
-    });
-
-    expect(screen.baseElement).not.to.contain.text(
-      'This appointment occurred in the past.',
-    );
-
     // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
     expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
-    expect(screen.getByRole('link', { name: /9 7 0. 2 2 4. 1 5 5 0./ })).to.be
-      .ok;
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: 'You shared these details about your concern',
-      }),
-    ).to.be.ok;
-    expect(screen.getByText(/New issue: I have a headache/)).to.be.ok;
-    expect(
-      screen.getByRole('link', {
-        name: new RegExp(
-          futureDate
-            .tz('America/Denver')
-            .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
-          'i',
-        ),
-      }),
-    ).to.be.ok;
-    expect(screen.getByText(/Print/)).to.be.ok;
-    expect(screen.getByText(/Cancel appointment/)).to.be.ok;
+    expect(screen.queryByText(/clinic:/)).to.not.exist;
   });
 });

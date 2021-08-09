@@ -29,6 +29,7 @@ const requestsV2 = require('./v2/requests.json');
 const facilitiesV2 = require('./v2/facilities.json');
 const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
 const schedulingConfigurations = require('./v2/scheduling_configurations.json');
+const appointmentSlotsV2 = require('./v2/slots.json');
 const clinicsV2 = require('./v2/clinics.json');
 
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
@@ -250,6 +251,7 @@ const responses = {
       ),
     });
   },
+  'GET /vaos/v2/locations/:facility_id/clinics/:clinic_id/slots': appointmentSlotsV2,
   'GET /vaos/v2/patient': (req, res) => {
     return res.json({
       data: {
@@ -265,8 +267,14 @@ const responses = {
     });
   },
   'GET /vaos/v2/locations/:id/clinics': (req, res) => {
-    // Will need to modify this logic when we fetch specific clinics
-    // for the detail page
+    if (req.query.clinic_ids) {
+      return res.json({
+        data: clinicsV2.data.filter(clinic =>
+          req.query.clinic_ids.includes(clinic.id),
+        ),
+      });
+    }
+
     if (req.params.id === '983') {
       return res.json(clinicsV2);
     }
