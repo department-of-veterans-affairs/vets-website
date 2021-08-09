@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
 import LearnMoreLabel from '../components/LearnMoreLabel';
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import {
   getStateNameForCode,
@@ -47,6 +48,8 @@ export function FilterYourResults({
 
   const facets =
     search.tab === TABS.name ? search.name.facets : search.location.facets;
+
+  const [showAllSchoolTypes, setShowAllSchoolTypes] = useState(false);
 
   const updateInstitutionFilters = (name, value) => {
     dispatchFilterChange({ ...filters, [name]: value });
@@ -98,37 +101,63 @@ export function FilterYourResults({
   };
 
   const excludeSchoolTypes = () => {
-    const options = Object.keys(facets.type).map(key => {
-      return {
-        name: key,
-        checked: false,
-        optionLabel: key,
-      };
-    });
+    const types = Object.keys(facets.type);
+    const seeMore = types.length > 4 && !showAllSchoolTypes;
+    const seeLess = types.length > 4 && showAllSchoolTypes;
+
+    const options = (showAllSchoolTypes ? types : types.slice(0, 4)).map(
+      key => {
+        return {
+          name: key,
+          checked: false,
+          optionLabel: key,
+        };
+      },
+    );
     return (
-      <CheckboxGroup
-        label={'Exclude these school types:'}
-        onChange={onChangeCheckbox}
-        options={options}
-      />
+      <>
+        <CheckboxGroup
+          label={'Exclude these school types:'}
+          onChange={onChangeCheckbox}
+          options={options}
+        />
+        {seeMore && (
+          <button
+            className="va-button-link see-more-less"
+            onClick={() => setShowAllSchoolTypes(true)}
+          >
+            See more...
+          </button>
+        )}
+        {seeLess && (
+          <button
+            className="va-button-link see-more-less"
+            onClick={() => setShowAllSchoolTypes(false)}
+          >
+            See less...
+          </button>
+        )}
+      </>
     );
   };
 
-  const renderTypeOfInstitution = () => {
+  const typeOfInstitution = () => {
     return (
       <>
-        <h3>Type of institution</h3>
-        <ExpandingGroup open={schools}>
-          <Checkbox
-            checked={schools}
-            name="schools"
-            label="Schools"
-            onChange={onChangeCheckbox}
-          />
-          <div className="school-types vads-u-padding-left--4">
-            {excludeSchoolTypes()}
-          </div>
-        </ExpandingGroup>
+        <div className="vads-u-margin-bottom--5">
+          <h3>Type of institution</h3>
+          <ExpandingGroup open={schools}>
+            <Checkbox
+              checked={schools}
+              name="schools"
+              label="Schools"
+              onChange={onChangeCheckbox}
+            />
+            <div className="school-types vads-u-padding-left--4">
+              {excludeSchoolTypes()}
+            </div>
+          </ExpandingGroup>
+        </div>
         <Checkbox
           checked={employers}
           name="employers"
@@ -275,7 +304,7 @@ export function FilterYourResults({
 
   const controls = (
     <div>
-      {renderTypeOfInstitution()}
+      {typeOfInstitution()}
       {renderLocation()}
       {renderSchoolAttributes()}
       {renderSchoolMission()}
@@ -293,14 +322,16 @@ export function FilterYourResults({
           expanded={expanded}
           onClick={onAccordionChange}
         >
-          {controls}
+          {search.inProgress && <LoadingIndicator />}
+          {!search.inProgress && controls}
         </SearchAccordion>
       )}
       {smallScreen && (
         <div className="modal-wrapper">
           <div>
             <h1>Filter your results</h1>
-            {controls}
+            {search.inProgress && <LoadingIndicator />}
+            {!search.inProgress && controls}
           </div>
           <div className="modal-button-wrapper">
             <button
