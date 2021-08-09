@@ -1045,33 +1045,6 @@ export const getCalculatedBenefits = createSelector(
             },
           ],
         },
-        bookStipend: {
-          visible: false,
-          title: 'Book stipend',
-          learnMoreAriaLabel: ariaLabels.learnMore.bookStipend,
-          terms: [
-            {
-              label: derived.nameOfTerm1,
-              value: formatCurrency(derived.bookStipendTerm1),
-              visible: true,
-            },
-            {
-              label: derived.nameOfTerm2,
-              value: formatCurrency(derived.bookStipendTerm2),
-              visible: true,
-            },
-            {
-              label: derived.nameOfTerm3,
-              value: formatCurrency(derived.bookStipendTerm3),
-              visible: true,
-            },
-            {
-              label: derived.nameOfTerm4,
-              value: formatCurrency(derived.bookStipendTotal), // Total if not OJT
-              visible: true,
-            },
-          ],
-        },
       },
     };
 
