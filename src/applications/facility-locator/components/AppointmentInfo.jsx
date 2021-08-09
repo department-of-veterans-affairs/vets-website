@@ -53,7 +53,7 @@ export default class AppointmentInfo extends Component {
 
     const renderStat = (label, value, sublist = false) => {
       if (value !== null) {
-        const dayString = value === 1 ? 'day' : 'dayz';
+        const dayString = value === 1 ? 'day' : 'days';
         return (
           <li key={label} className={sublist ? 'sublist' : null}>
             {formatServiceName(label)}:{' '}
