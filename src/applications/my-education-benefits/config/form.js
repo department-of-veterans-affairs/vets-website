@@ -1,8 +1,8 @@
 import React from 'react';
-import _ from 'lodash/fp';
+// import _ from 'lodash/fp';
 
 // Example of an imported schema:
-import fullSchema from '../22-1990-schema.json';
+// import fullSchema from '../22-1990-schema.json';
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/22-1990-schema.json';
 
@@ -12,11 +12,12 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import GetFormHelp from '../components/GetFormHelp';
 import FormFooter from 'platform/forms/components/FormFooter';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import emailUI from 'platform/forms-system/src/js/definitions/email';
 // import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import bankAccountUI from 'platform/forms-system/src/js/definitions/bankAccount';
+// import bankAccountUI from 'platform/forms-system/src/js/definitions/bankAccount';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import * as address from 'platform/forms-system/src/js/definitions/address';
+// import * as address from 'platform/forms-system/src/js/definitions/address';
 
 // import fullSchema from 'vets-json-schema/dist/22-1990-schema.json';
 
@@ -29,13 +30,15 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // const { } = fullSchema.definitions;
 
-import { directDepositWarning } from '../helpers';
-import toursOfDutyUI from '../definitions/toursOfDuty';
+// import { directDepositWarning } from '../helpers';
+// import toursOfDutyUI from '../definitions/toursOfDuty';
 import ReviewBoxField from '../components/ReviewBoxField';
 import FullNameViewField from '../components/FullNameViewField';
 import DateViewField from '../components/DateViewField';
 import CustomReviewDOBField from '../components/CustomReviewDOBField';
 import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
+import EmailViewField from '../components/EmailViewField';
+import PhoneViewField from '../components/PhoneViewField';
 
 const {
   fullName,
@@ -43,8 +46,8 @@ const {
   date,
   dateRange,
   usaPhone,
-  bankAccount,
-  toursOfDuty,
+  // bankAccount,
+  // toursOfDuty,
 } = commonDefinitions;
 
 // Define all the fields in the form to aid reuse
@@ -61,18 +64,18 @@ const formFields = {
   routingNumber: 'routingNumber',
   address: 'address',
   email: 'email',
-  altEmail: 'altEmail',
   phoneNumber: 'phoneNumber',
+  mobilePhoneNumber: 'mobilePhoneNumber',
 };
 
-function hasDirectDeposit(formData) {
-  return formData[formFields.viewNoDirectDeposit] !== true;
-}
+// function hasDirectDeposit(formData) {
+//   return formData[formFields.viewNoDirectDeposit] !== true;
+// }
 
 // Define all the form pages to help ensure uniqueness across all form chapters
 const formPages = {
   applicantInformation: 'applicantInformation',
-  serviceHistory: 'serviceHistory',
+  // serviceHistory: 'serviceHistory',
   contactInformation: 'contactInformation',
   directDeposit: 'directDeposit',
 };
@@ -255,104 +258,161 @@ const formConfig = {
         },
       },
     },
-    serviceHistoryChapter: {
-      title: 'Service History',
-      pages: {
-        [formPages.serviceHistory]: {
-          path: 'service-history',
-          title: 'Service History',
-          uiSchema: {
-            [formFields.toursOfDuty]: toursOfDutyUI,
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              [formFields.toursOfDuty]: toursOfDuty,
-            },
-          },
-        },
-      },
-    },
-    additionalInformationChapter: {
-      title: 'Additional Information',
+    // serviceHistoryChapter: {
+    //   title: 'Service History',
+    //   pages: {
+    //     [formPages.serviceHistory]: {
+    //       path: 'service-history',
+    //       title: 'Service History',
+    //       uiSchema: {
+    //         [formFields.toursOfDuty]: toursOfDutyUI,
+    //       },
+    //       schema: {
+    //         type: 'object',
+    //         properties: {
+    //           [formFields.toursOfDuty]: toursOfDuty,
+    //         },
+    //       },
+    //     },
+    //   },
+    // },
+    contactInformationChapter: {
+      title: 'Contact Information',
       pages: {
         [formPages.contactInformation]: {
-          path: 'contact-information',
+          path: 'contact/information',
           title: 'Contact Information',
+          subTitle: 'Review your email and phone numbers',
+          instructions:
+            'This is the contact information we have on file for you. We’ll use this to get in touch with you if we have questions about your application and to communicate important information about your education benefits.',
           uiSchema: {
-            [formFields.address]: address.uiSchema('Mailing address'),
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Review your email and phone numbers</h3>
+                  <p>
+                    This is the contact information we have on file for you.
+                    We’ll use this to get in touch with you if we have questions
+                    about your application and to communicate important
+                    information about your education benefits.
+                  </p>
+                </>
+              ),
+            },
             [formFields.email]: {
-              'ui:title': 'Primary email',
+              ...emailUI,
+              'ui:title': 'Your email address',
+              'ui:field': ReviewBoxField,
+              'ui:options': {
+                hideLabelText: true,
+                showFieldLabel: false,
+                viewComponent: EmailViewField,
+              },
             },
-            [formFields.altEmail]: {
-              'ui:title': 'Secondary email',
+            [formFields.mobilePhoneNumber]: {
+              ...phoneUI('Mobile phone'),
+              'ui:title': 'Your mobile phone number',
+              'ui:field': ReviewBoxField,
+              'ui:options': {
+                hideLabelText: true,
+                showFieldLabel: false,
+                viewComponent: PhoneViewField,
+              },
             },
-            [formFields.phoneNumber]: phoneUI('Daytime phone'),
+            [formFields.phoneNumber]: {
+              ...phoneUI('Home phone'),
+              'ui:title': 'Your home phone number',
+              'ui:field': ReviewBoxField,
+              'ui:options': {
+                hideLabelText: true,
+                showFieldLabel: false,
+                viewComponent: PhoneViewField,
+              },
+            },
+            'view:note': {
+              'ui:description': (
+                <p>
+                  <strong>Note</strong>: Any updates you make here will change
+                  your personal information for VA education benefits only. To
+                  change your email and phone numbers for all benefits across
+                  VA, <a href="#">visit your VA profile</a>.
+                </p>
+              ),
+            },
           },
           schema: {
             type: 'object',
             properties: {
-              [formFields.address]: address.schema(fullSchema, true),
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
               [formFields.email]: {
                 type: 'string',
                 format: 'email',
               },
-              [formFields.altEmail]: {
-                type: 'string',
-                format: 'email',
-              },
+              [formFields.mobilePhoneNumber]: usaPhone,
               [formFields.phoneNumber]: usaPhone,
-            },
-          },
-        },
-        [formPages.directDeposit]: {
-          path: 'direct-deposit',
-          title: 'Direct Deposit',
-          uiSchema: {
-            'ui:title': 'Direct deposit',
-            [formFields.viewNoDirectDeposit]: {
-              'ui:title': 'I don’t want to use direct deposit',
-            },
-            [formFields.bankAccount]: _.merge(bankAccountUI, {
-              'ui:order': [
-                formFields.accountType,
-                formFields.accountNumber,
-                formFields.routingNumber,
-              ],
-              'ui:options': {
-                hideIf: formData => !hasDirectDeposit(formData),
-              },
-              [formFields.accountType]: {
-                'ui:required': hasDirectDeposit,
-              },
-              [formFields.accountNumber]: {
-                'ui:required': hasDirectDeposit,
-              },
-              [formFields.routingNumber]: {
-                'ui:required': hasDirectDeposit,
-              },
-            }),
-            [formFields.viewStopWarning]: {
-              'ui:description': directDepositWarning,
-              'ui:options': {
-                hideIf: hasDirectDeposit,
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              [formFields.viewNoDirectDeposit]: {
-                type: 'boolean',
-              },
-              [formFields.bankAccount]: bankAccount,
-              [formFields.viewStopWarning]: {
+              'view:note': {
                 type: 'object',
                 properties: {},
               },
             },
           },
+          initialData: {
+            email: 'hector.stanley@gmail.com',
+            mobilePhoneNumber: '123-456-7890',
+            phoneNumber: '098-765-4321',
+          },
         },
+        // [formPages.directDeposit]: {
+        //   path: 'direct-deposit',
+        //   title: 'Direct Deposit',
+        //   uiSchema: {
+        //     'ui:title': 'Direct deposit',
+        //     [formFields.viewNoDirectDeposit]: {
+        //       'ui:title': 'I don’t want to use direct deposit',
+        //     },
+        //     [formFields.bankAccount]: _.merge(bankAccountUI, {
+        //       'ui:order': [
+        //         formFields.accountType,
+        //         formFields.accountNumber,
+        //         formFields.routingNumber,
+        //       ],
+        //       'ui:options': {
+        //         hideIf: formData => !hasDirectDeposit(formData),
+        //       },
+        //       [formFields.accountType]: {
+        //         'ui:required': hasDirectDeposit,
+        //       },
+        //       [formFields.accountNumber]: {
+        //         'ui:required': hasDirectDeposit,
+        //       },
+        //       [formFields.routingNumber]: {
+        //         'ui:required': hasDirectDeposit,
+        //       },
+        //     }),
+        //     [formFields.viewStopWarning]: {
+        //       'ui:description': directDepositWarning,
+        //       'ui:options': {
+        //         hideIf: hasDirectDeposit,
+        //       },
+        //     },
+        //   },
+        //   schema: {
+        //     type: 'object',
+        //     properties: {
+        //       [formFields.viewNoDirectDeposit]: {
+        //         type: 'boolean',
+        //       },
+        //       [formFields.bankAccount]: bankAccount,
+        //       [formFields.viewStopWarning]: {
+        //         type: 'object',
+        //         properties: {},
+        //       },
+        //     },
+        //   },
+        // },
       },
     },
   },

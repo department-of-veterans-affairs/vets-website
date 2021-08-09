@@ -1024,6 +1024,74 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     expect(tokens.get('END')).includes('VEVENT');
     expect(tokens.get('END')).includes('VCALENDAR');
   });
+
+  it('should show facility specific timezone when available', async () => {
+    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
+    const today = moment.utc();
+
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      clinicId: '308',
+      clinicFriendlyName: "Jennie's Lab",
+      facilityId: '437',
+      sta6aid: '437GJ',
+      startDate: today.format(),
+      vdsAppointments: [
+        {
+          bookingNote: 'New issue: ASAP',
+        },
+      ],
+    };
+
+    mockAppointmentInfo({
+      va: [appointment],
+      isHomepageRefresh: true,
+    });
+
+    mockSingleAppointmentFetch({
+      appointment,
+    });
+
+    mockFacilityFetch('vha_437GJ', {
+      id: 'vha_437GJ',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '437GJ',
+        name: 'Facility in Denver time',
+        phone: {
+          main: '970-224-1550',
+        },
+      },
+    });
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: url,
+    });
+
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          today.tz('America/Denver').format('dddd, MMMM D, YYYY'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    expect(
+      screen.getByText(
+        new RegExp(
+          moment()
+            .tz('America/Denver')
+            .format('h:mm'),
+          'i',
+        ),
+      ),
+    ).to.exist;
+    expect(screen.getByText(/Mountain time/i)).to.exist;
+  });
 });
 
 describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {

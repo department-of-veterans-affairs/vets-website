@@ -303,7 +303,6 @@
     "prop-types": "^15.6.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-dropzone": "^4.2.5",
     "react-focus-lock": "^2.5.0",
     "react-is": "^17.0.1",
     "react-leaflet": "^2.7.0",

@@ -48,7 +48,7 @@ export default class ReviewBoxField extends React.Component {
       );
     }
 
-    const acceptedTypes = ['object', 'array'];
+    const acceptedTypes = ['object', 'array', 'string'];
     if (!acceptedTypes.includes(this.props.schema.type)) {
       throw new Error(
         `Unknown schema type in ReviewCardField. Expected one of [${acceptedTypes.join(
