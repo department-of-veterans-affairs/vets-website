@@ -1,4 +1,4 @@
-import { isVersion1Data } from '../helpers';
+import { isVersion1Data } from '../utils/helpers';
 
 const unaffectedPages = ['/contact-information', '/veteran-information'];
 

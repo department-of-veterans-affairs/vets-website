@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event.js';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import {
-  getTimezoneAbbrBySystemId,
-  getTimezoneBySystemId,
+  getTimezoneAbbrByFacilityId,
+  getTimezoneByFacilityId,
 } from '../../utils/timezone.js';
 import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants.js';
 import VAFacilityLocation from '../../components/VAFacilityLocation';
@@ -22,7 +22,7 @@ const pageTitle = 'We’ve scheduled your appointment';
 
 function ConfirmationPageV2({
   clinic,
-  systemId,
+  data,
   facilityDetails,
   slot,
   submitStatus,
@@ -36,9 +36,9 @@ function ConfirmationPageV2({
     return <Redirect to="/" />;
   }
 
-  const timezone = getTimezoneBySystemId(systemId);
+  const timezone = getTimezoneByFacilityId(data.vaFacility);
   const momentDate = timezone
-    ? moment(slot.start).tz(timezone.timezone, true)
+    ? moment(slot.start).tz(timezone, true)
     : moment(slot.start);
 
   const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
@@ -47,7 +47,7 @@ function ConfirmationPageV2({
     <div>
       <h1 className="vads-u-font-size--h2">
         {momentDate.format('dddd, MMMM D, YYYY [at] h:mm a')}
-        {` ${getTimezoneAbbrBySystemId(systemId)}`}
+        {` ${getTimezoneAbbrByFacilityId(data.vaFacility)}`}
       </h1>
       <InfoAlert status="success" backgroundOnly>
         <strong>Your appointment has been scheduled and is confirmed.</strong>
