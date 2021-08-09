@@ -16,6 +16,8 @@ import { useQueryParams } from '../utils/helpers';
 import ServiceError from '../components/ServiceError';
 import AboutThisTool from '../components/content/AboutThisTool';
 import Disclaimer from '../components/content/Disclaimer';
+import { useLocation } from 'react-router-dom';
+import Covid19Banner from '../components/content/Covid19Banner';
 
 export function GiBillApp({
   constants,
@@ -31,6 +33,7 @@ export function GiBillApp({
   const versionChange = version && version !== preview.version?.id;
   const shouldExitPreviewMode = preview.display && !version;
   const shouldEnterPreviewMode = !preview.display && versionChange;
+  const location = useLocation();
 
   useEffect(
     () => {
@@ -58,6 +61,10 @@ export function GiBillApp({
 
   return (
     <div className="gi-app" role="application">
+      {(location.pathname === '/' ||
+        location.pathname === '/gi-bill-comparison-tool-sandbox') && (
+        <Covid19Banner />
+      )}
       <div>
         <div>
           {preview.display && <PreviewBanner version={preview.version} />}
