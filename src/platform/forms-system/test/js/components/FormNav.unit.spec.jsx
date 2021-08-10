@@ -73,4 +73,26 @@ describe('Schemaform FormNav', () => {
     expect(tree.getByText('Custom Review Page Title', { exact: false })).to.not
       .be.null;
   });
+  it('should diplay the auto-save message & application ID', () => {
+    const formConfigReviewData = getReviewData();
+    const currentPath = 'review-and-submit';
+
+    const tree = render(
+      <FormNav
+        formConfig={formConfigReviewData}
+        currentPath={currentPath}
+        inProgressFormId={12345}
+      />,
+    );
+    expect(
+      tree.getByText('Your application will be saved on every change', {
+        exact: false,
+      }),
+    ).to.not.be.null;
+    expect(
+      tree.getByText('Your application ID number is 12345', {
+        exact: false,
+      }),
+    ).to.not.be.null;
+  });
 });

@@ -60,6 +60,7 @@ class FormApp extends React.Component {
           formData={formData}
           formConfig={formConfig}
           currentPath={trimmedPathname}
+          inProgressFormId={this.props.inProgressFormId}
         />
       );
 
@@ -98,6 +99,7 @@ class FormApp extends React.Component {
 
 const mapStateToProps = state => ({
   formData: state.form.data,
+  inProgressFormId: state.form.loadedData?.metadata?.inProgressFormId,
 });
 
 export default connect(mapStateToProps)(FormApp);

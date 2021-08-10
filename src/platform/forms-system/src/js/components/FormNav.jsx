@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
 
 export default function FormNav(props) {
-  const { formConfig, currentPath, formData } = props;
+  const { formConfig, currentPath, formData, inProgressFormId } = props;
 
   const [index, setIndex] = useState(0);
 
@@ -93,7 +93,8 @@ export default function FormNav(props) {
             <h2 id="nav-form-header" className="vads-u-font-size--h4">
               {stepText}
               <span className="vads-u-display--block vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
-                Your application will be saved on every change
+                Your application will be saved on every change. Your application
+                ID number is {inProgressFormId}
               </span>{' '}
             </h2>
           )}
