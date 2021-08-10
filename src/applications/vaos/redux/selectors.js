@@ -31,8 +31,6 @@ export const selectFeatureCommunityCare = state =>
   toggleValues(state).vaOnlineSchedulingCommunityCare;
 export const selectFeatureDirectScheduling = state =>
   toggleValues(state).vaOnlineSchedulingDirect;
-export const selectFeatureExpressCareNewRequest = state =>
-  toggleValues(state).vaOnlineSchedulingExpressCareNew;
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
 // Use flat facility page for non Cerner patients
 export const selectUseFlatFacilityPage = state => !selectIsCernerPatient(state);
@@ -42,11 +40,6 @@ const selectFeatureProviderSelection = state =>
 export const selectUseProviderSelection = state =>
   selectFeatureProviderSelection(state) &&
   !!selectVAPResidentialAddress(state)?.addressLine1;
-
-export const selectIsWelcomeModalDismissed = state =>
-  state.announcements.dismissed.some(
-    announcement => announcement === 'welcome-to-new-vaos',
-  );
 
 export const selectSystemIds = state =>
   selectPatientFacilities(state)?.map(f => f.facilityId) || null;
@@ -68,6 +61,9 @@ export const selectFeatureVAOSServiceVAAppointments = state =>
 
 export const selectFeatureVAOSServiceCCAppointments = state =>
   toggleValues(state).vaOnlineSchedulingVAOSServiceCCAppointments;
+
+export const selectFeatureFacilitiesServiceV2 = state =>
+  toggleValues(state).vaOnlineSchedulingFacilitiesServiceV2;
 
 export const selectFeatureVariantTesting = state =>
   toggleValues(state).vaOnlineSchedulingVariantTesting;

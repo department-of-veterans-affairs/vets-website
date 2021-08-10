@@ -10,7 +10,7 @@ import {
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils';
 
-import { $, $$ } from '../../helpers';
+import { $, $$ } from '../../utils/ui';
 
 import formConfig from '../../config/form.js';
 import initialData from '../schema/initialData.js';

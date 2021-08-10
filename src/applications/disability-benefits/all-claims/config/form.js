@@ -119,6 +119,7 @@ import {
 } from '../constants';
 
 import migrations from '../migrations';
+import reviewErrors from '../reviewErrors';
 
 import manifest from '../manifest.json';
 
@@ -144,6 +145,10 @@ const formConfig = {
   },
   formId: VA_FORM_IDS.FORM_21_526EZ,
   wizardStorageKey: WIZARD_STATUS,
+  customText: {
+    appAction: 'filing',
+    appContinuing: 'for disability compensation',
+  },
   saveInProgress: {
     messages: {
       inProgress:
@@ -170,6 +175,9 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
+  // Don't show error links on the review page in production
+  showReviewErrors: !environment.isProduction(),
+  reviewErrors,
   defaultDefinitions: {
     ...fullSchema.definitions,
   },

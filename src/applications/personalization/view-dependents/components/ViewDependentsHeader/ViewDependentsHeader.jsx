@@ -1,5 +1,8 @@
 import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
+
+import { rootUrl as form686RootUrl } from 'applications/disability-benefits/686c-674/manifest.json';
+
 import { errorFragment } from '../../layouts/helpers';
 
 const CALLSTATUS = {
@@ -72,14 +75,14 @@ function ViewDependentsHeader(props) {
         {alertProps && (
           <va-alert status={alertProps.status}>{alertProps.content}</va-alert>
         )}
-        <p className="vads-u-font-size--md vads-u-font-family--serif">
+        <p className="vads-u-line-height--6 vads-u-font-size--h3 vads-u-font-family--serif">
           Below is a list of dependents we have on file for you. You can file a
           claim for additional disability compensation whenever you add a new
           dependent.
         </p>
         {props.dependentsToggle && (
           <a
-            href="/view-change-dependents/add-remove-form-686c/"
+            href={form686RootUrl}
             className="usa-button-primary va-button-primary"
             onClick={handleClick}
           >

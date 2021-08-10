@@ -45,14 +45,18 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            ~/.cache/yarn
+            .cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          max_attempts: 3
+          timeout_minutes: 5
         env:
-          YARN_CACHE_FOLDER: ~/.cache/yarn
+          YARN_CACHE_FOLDER: .cache/yarn
 
       - name: Build
         run: yarn build --verbose --buildtype=${{ matrix.buildtype }}
@@ -67,13 +71,6 @@ jobs:
           REF=${{ github.sha }}
           BUILDTIME=$(date +%s)
           EOF
-
-      - name: Download coverage report
-        uses: actions/download-artifact@v2
-        if: ${{ github.ref == 'refs/heads/master' }}
-        with:
-          name: test-coverage-report
-          path: build/${{ matrix.buildtype }}/test-coverage-report.json
 
       - name: Compress and archive build
         run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
@@ -106,14 +103,18 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            ~/.cache/yarn
+            .cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          max_attempts: 3
+          timeout_minutes: 5
         env:
-          YARN_CACHE_FOLDER: ~/.cache/yarn
+          YARN_CACHE_FOLDER: .cache/yarn
 
       - name: Create test results folder
         run: mkdir -p test-results
@@ -126,12 +127,35 @@ jobs:
       - name: Generate coverage report by app
         run: node script/app-coverage-report.js > test-results/coverage_report.txt
 
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v2
+      - name: Configure AWS credentials (1)
         if: ${{ github.ref == 'refs/heads/master' }}
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          name: test-coverage-report
-          path: coverage/test-coverage-report.json
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get AWS IAM role
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: marvinpinto/action-inject-ssm-secrets@latest
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+      - name: Configure AWS Credentials (2)
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role-duration-seconds: 900
+          role-session-name: vsp-frontendteam-githubaction
+
+      - name: Upload coverage report to S3
+        if: ${{ github.ref == 'refs/heads/master' }}
+        run: aws s3 cp coverage/test-coverage-report.json s3://apps.dev.va.gov/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
 
       - name: Get code coverage
         id: code-coverage
@@ -139,7 +163,7 @@ jobs:
 
       - name: Publish test results
         if: ${{ always() }}
-        uses: mikepenz/action-junit-report@v2.4.0
+        uses: mikepenz/action-junit-report@v2.4.3
         with:
           check_name: 'Unit Tests Summary'
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -186,14 +210,18 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            ~/.cache/yarn
+            .cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          max_attempts: 3
+          timeout_minutes: 5
         env:
-          YARN_CACHE_FOLDER: ~/.cache/yarn
+          YARN_CACHE_FOLDER: .cache/yarn
 
       - name: Create test results folder
         run: mkdir -p test-results
@@ -236,6 +264,14 @@ jobs:
           name: contract-test-log
           path: logs/pact.log
 
+      - name: Publish test results
+        if: ${{ always() }}
+        uses: mikepenz/action-junit-report@v2.4.3
+        with:
+          check_name: 'Pact Tests Summary'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          report_paths: 'test-results/test-results.xml'
+
   security-audit:
     name: Security Audit
     runs-on: ubuntu-latest
@@ -277,14 +313,18 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            ~/.cache/yarn
+            .cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          max_attempts: 3
+          timeout_minutes: 5
         env:
-          YARN_CACHE_FOLDER: ~/.cache/yarn
+          YARN_CACHE_FOLDER: .cache/yarn
 
       - name: Annotate ESLint results
         run: yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js .
@@ -300,15 +340,19 @@ jobs:
     name: Cypress E2E Tests
     runs-on: self-hosted
     needs: build
+    container:
+      image: public.ecr.aws/cypress-io/cypress/browsers:node14.16.0-chrome89-ff77
+      options: -u 1001:1001 -v /usr/local/share:/share
 
     strategy:
       fail-fast: false
-      max-parallel: 6
+      max-parallel: 8
       matrix:
-        ci_node_index: [0, 1, 2, 3, 4, 5]
+        ci_node_index: [0, 1, 2, 3, 4, 5, 6, 7]
 
     env:
-      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+      CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
+      NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
 
     steps:
       - name: Checkout vets-website
@@ -324,55 +368,36 @@ jobs:
           mkdir -p build/vagovprod
           tar -C build/vagovprod -xjf vagovprod.tar.bz2
 
-      - name: Get Node version
-        id: get-node-version
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-
-      - name: Setup Node
-        uses: actions/setup-node@v2
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
         with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-
-      - name: Install Chrome
-        uses: browser-actions/setup-chrome@latest
-        with:
-          chrome-version: stable
-
-      # Disabling caching due to cypress breaking - to be evaluated at a later date
-      # - name: Cache dependencies
-      #   id: cache-dependencies
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: |
-      #       ~/.cache/yarn
-      #       node_modules
-      #     key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          path: |
+            .cache/yarn
+            /github/home/.cache/Cypress
+            node_modules
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}-cypress
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
-        # env:
-        #   YARN_CACHE_FOLDER: ~/.cache/yarn
-
-      - name: Set port for server
-        run: echo "SERVER_PORT=$(( ( RANDOM % 2000 ) + 3001 ))" >> $GITHUB_ENV
-
-      # Cypress env vars like this are used to either override config settings
-      # or be made available to tests through Cypress.env().
-      # https://docs.cypress.io/guides/guides/environment-variables#Option-3-CYPRESS_
-      - name: Set port for Cypress
-        run: echo "CYPRESS_PORT=$(( SERVER_PORT + 1 ))" >> $GITHUB_ENV
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          max_attempts: 3
+          timeout_minutes: 5
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
 
       - name: Start server
-        run: node src/platform/testing/e2e/test-server.js --buildtype vagovprod --port=$SERVER_PORT &
+        run: node src/platform/testing/e2e/test-server.js --buildtype vagovprod --port=3001 &
 
       - name: Create test results directory
         run: mkdir -p test-results
 
       - name: Run Cypress tests
         run: node script/github-actions/run-cypress-tests.js
-        timeout-minutes: 60
+        timeout-minutes: 30
         env:
-          CYPRESS_BASE_URL: http://localhost:${{ env.SERVER_PORT }}
+          # CYPRESS_BASE_URL: http://localhost:3001
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}
 
@@ -437,17 +462,21 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            ~/.cache/yarn
+            .cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          max_attempts: 3
+          timeout_minutes: 5
         env:
-          YARN_CACHE_FOLDER: ~/.cache/yarn
+          YARN_CACHE_FOLDER: .cache/yarn
 
       - name: Run Nightwatch tests
-        run: yarn test:e2e:headless
+        run: yarn test:e2e:headless --suiteRetries 3
         timeout-minutes: 30
         env:
           BUILDTYPE: vagovprod
@@ -534,9 +563,9 @@ jobs:
           node-version: 14 # ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        run: yarn install --frozen-lockfile --prefer-offline --production=false
         env:
-          YARN_CACHE_FOLDER: ~/.cache/yarn
+          YARN_CACHE_FOLDER: .cache/yarn
         working-directory: testing-tools-team-dashboard-data
 
       - name: Download Mochawesome test results
@@ -595,6 +624,10 @@ jobs:
           name: cypress-video-artifacts
           path: testing-reports/cypress-reports/videos/${{ env.UUID }}
 
+      - name: Pull any changes since checkout
+        run: git pull origin master
+        working-directory: testing-reports
+
       - name: Add changes
         run: git add .
         working-directory: testing-reports
@@ -605,6 +638,7 @@ jobs:
           github_token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           repository: department-of-veterans-affairs/testing-reports
           directory: testing-reports
+          branch: master
 
       # -------------------------
       # | Cypress Tests Summary |
@@ -692,9 +726,9 @@ jobs:
 #     matrix:
 #       include:
 #         - environment: vagovdev
-#           bucket: apps.dev.va.gov
+#           bucket: dev-va-gov-assets
 #         - environment: vagovstaging
-#           bucket: apps.staging.va.gov
+#           bucket: staging-va-gov-assets
 
 #   steps:
 #     - name: Checkout
@@ -764,14 +798,14 @@ jobs:
 #       uses: actions/cache@v2
 #       with:
 #         path: |
-#           ~/.cache/yarn
+#           .cache/yarn
 #           node_modules
 #         key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
 #     - name: Install dependencies
 #       run: yarn install --frozen-lockfile --prefer-offline
 #       env:
-#         YARN_CACHE_FOLDER: ~/.cache/yarn
+#         YARN_CACHE_FOLDER: .cache/yarn
 
 #     - name: Trigger Jenkins pipeline
 #       run: node script/github-actions/trigger-jenkins.js

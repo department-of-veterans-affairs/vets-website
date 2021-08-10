@@ -154,7 +154,8 @@ export const resolveParamsWithUrl = ({
         : null,
       `page=${page}`,
       `per_page=${perPage}`,
-      facility === LocationType.VET_CENTER ? `exclude_mobile=true` : null,
+      facility === LocationType.VET_CENTER ? `mobile=false` : null,
+      facility === LocationType.HEALTH ? `mobile=false` : null,
       roundRadius ? `radius=${roundRadius}` : null,
       center && center.length > 0 ? `latitude=${center[0]}` : null,
       center && center.length > 0 ? `longitude=${center[1]}` : null,
@@ -200,7 +201,7 @@ export const healthServices = {
   WomensHealth: "Women's health",
   Podiatry: 'Podiatry',
   Nutrition: 'Nutrition',
-  CaregiverSupport: 'Caregiver Support',
+  CaregiverSupport: 'Caregiver support',
 };
 
 export const ccUrgentCareLabels = {

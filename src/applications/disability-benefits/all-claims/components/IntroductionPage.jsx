@@ -89,6 +89,7 @@ class IntroductionPage extends React.Component {
           headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
           formId={this.props.formId}
+          formConfig={formConfig}
           pageList={pageList}
           startText={startText}
           retentionPeriod="1 year"
@@ -257,6 +258,7 @@ class IntroductionPage extends React.Component {
           buttonOnly
           prefillEnabled={formConfig.prefillEnabled}
           formId={this.props.formId}
+          formConfig={formConfig}
           pageList={pageList}
           startText={startText}
           downtime={formConfig.downtime}

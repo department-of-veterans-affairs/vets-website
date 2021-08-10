@@ -1,6 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
+import { MemoryRouter } from 'react-router-dom';
 import DebtLettersDownload from '../components/DebtLettersDownload';
 
 describe('DebtLettersDownload', () => {
@@ -46,7 +47,12 @@ describe('DebtLettersDownload', () => {
     dispatch: () => {},
   };
   it('renders correct number of debt rows', () => {
-    const wrapper = mount(<DebtLettersDownload store={fakeStore} />);
+    const wrapper = mount(
+      <MemoryRouter>
+        <DebtLettersDownload store={fakeStore} />
+      </MemoryRouter>,
+    );
+
     expect(wrapper.find(`DebtLetters`).length).to.equal(1);
     expect(
       wrapper

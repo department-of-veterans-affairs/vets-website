@@ -1,10 +1,12 @@
 import Scroll from 'react-scroll';
 
+export const $ = selectorOrElement =>
+  typeof selectorOrElement === 'string'
+    ? document.querySelector(selectorOrElement)
+    : selectorOrElement;
+
 export function focusElement(selectorOrElement, options) {
-  const el =
-    typeof selectorOrElement === 'string'
-      ? document.querySelector(selectorOrElement)
-      : selectorOrElement;
+  const el = $(selectorOrElement);
 
   if (el) {
     if (el.tabIndex === 0) {
@@ -17,16 +19,73 @@ export function focusElement(selectorOrElement, options) {
   }
 }
 
+// List from https://html.spec.whatwg.org/dev/dom.html#interactive-content
+const focusableElements = [
+  '[href]',
+  'button',
+  'details',
+  'input:not([type="hidden"])',
+  'select',
+  'textarea',
+  /* focusable, but not tabbable */
+  '[tabindex]:not([tabindex="-1"])',
+  /* label removed from list, because you can't programmically focus it
+   * unless it has a tabindex of 0 or -1; clicking on it shifts focus to the
+   * associated focusable form element
+   */
+  // 'label[for]',
+  /* focusable elements not used in our form system */
+  // 'audio[controls]',
+  // 'embed',
+  // 'iframe',
+  // 'img[usemap]',
+  // 'object[usemap]',
+  // 'video[controls]',
+];
+
+/**
+ * Find all the focusable elements within a block
+ * @param {HTMLElement|node} block - wrapping element
+ * @return {HTMLElement[]}
+ */
+export const getFocusableElements = block =>
+  block
+    ? [...block?.querySelectorAll(focusableElements.join(','))].filter(
+        // Ignore disabled & hidden elements
+        // This does not check the element's visibility or opacity
+        el => !el.disabled && el.offsetWidth > 0 && el.offsetHeight > 0,
+      )
+    : [];
+
+export const scrollElementName = 'ScrollElement';
+
 // Set focus on target _after_ the content has been updated
 export function focusOnChange(name, target = '.edit-btn') {
   setTimeout(() => {
-    const selector = `[name="${name}ScrollElement"]`;
-    const el = document.querySelector(selector);
+    const el = $(`[name="${name}${scrollElementName}"]`);
     // nextElementSibling = page form
     const focusTarget = el?.nextElementSibling?.querySelector(target);
-    focusElement(focusTarget);
+    if (focusTarget) {
+      focusElement(focusTarget);
+    }
   });
 }
+
+export const scrollToElement = name => {
+  if (name) {
+    const el =
+      typeof name === 'string' && name.includes('name=') ? $(name) : name;
+
+    Scroll.scroller.scrollTo(
+      el, // pass a string key + 'ScrollElement' or DOM element
+      window.Forms.scroll || {
+        duration: 500,
+        delay: 2,
+        smooth: true,
+      },
+    );
+  }
+};
 
 export function setGlobalScroll() {
   window.Forms = window.Forms || {
@@ -50,7 +109,7 @@ export function getScrollOptions(additionalOptions) {
 }
 
 export function scrollToFirstError() {
-  const errorEl = document.querySelector('.usa-input-error, .input-error-date');
+  const errorEl = $('.usa-input-error, .input-error-date');
   if (errorEl) {
     // document.body.scrollTop doesn’t work with all browsers, so we’ll cover them all like so:
     const currentPosition =

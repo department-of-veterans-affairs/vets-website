@@ -6,7 +6,7 @@ import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import { FETCH_STATUS } from '../../utils/constants';
 import FacilityAddress from '../../components/FacilityAddress';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { getTimezoneAbbrBySystemId } from '../../utils/timezone';
+import { getTimezoneAbbrByFacilityId } from '../../utils/timezone';
 import { getRealFacilityId } from '../../utils/appointment';
 import { getReviewPage } from '../redux/selectors';
 import flow from '../flow';
@@ -26,7 +26,6 @@ export default function ReviewPage() {
     clinic,
     submitStatus,
     submitStatusVaos400,
-    systemId,
   } = useSelector(state => getReviewPage(state), shallowEqual);
   const history = useHistory();
   const { date1, vaFacility } = data;
@@ -66,7 +65,7 @@ export default function ReviewPage() {
             <h3 className="vaos-appts__block-label">
               {moment(date1, 'YYYY-MM-DDTHH:mm:ssZ').format(
                 'dddd, MMMM DD, YYYY [at] h:mm a ',
-              ) + getTimezoneAbbrBySystemId(systemId)}
+              ) + getTimezoneAbbrByFacilityId(data.vaFacility)}
             </h3>
           </div>
         </div>

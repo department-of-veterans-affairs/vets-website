@@ -393,6 +393,7 @@ export default class ArrayField extends React.Component {
                         {legendText}
                         {uiOptions.includeRequiredLabelInTitle && (
                           <span className="schemaform-required-span vads-u-font-weight--normal">
+                            {' '}
                             (*Required)
                           </span>
                         )}

@@ -33,22 +33,30 @@ const CheckIn = props => {
     recordEvent({
       event: createAnalyticsSlug('api-checking-in-user-started'),
     });
-    const json = await checkInUser({
-      token,
-    });
-    const { data } = json;
-
-    if (data.success) {
-      recordEvent({
-        event: createAnalyticsSlug('api-checking-in-user-successful'),
+    try {
+      const json = await checkInUser({
+        token,
       });
-      goToNextPage(router, URLS.COMPLETE);
-    } else {
+      const { data, status } = json;
+      if (status === 200) {
+        recordEvent({
+          event: createAnalyticsSlug('api-checking-in-user-successful'),
+        });
+        goToNextPage(router, URLS.COMPLETE);
+      } else {
+        const error = data.error || data.errors;
+        recordEvent({
+          event: createAnalyticsSlug('api-checking-in-user-failed'),
+          error,
+        });
+        goToNextPage(router, URLS.ERROR);
+      }
+    } catch (error) {
       recordEvent({
         event: createAnalyticsSlug('api-checking-in-user-failed'),
-        data,
+        data: error,
       });
-      goToNextPage(router, URLS.SEE_STAFF);
+      goToNextPage(router, URLS.ERROR);
     }
   };
   const appointmentDateTime = new Date(appointment.startTime);

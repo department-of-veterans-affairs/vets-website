@@ -12,12 +12,12 @@ export const ErrorMessage = () => (
         Information about your current debts is unavailable.
       </h3>
       <p className="vads-u-font-family--sans">
-        You can't view information about your current debts because something
+        You can’t view information about your current debts because something
         went wrong on our end.
       </p>
       <h4>What you can do</h4>
       <p className="vads-u-font-family--sans vads-u-margin-y--0">
-        You're still able to download your debt letters from the list below. If
+        You’re still able to download your debt letters from the list below. If
         you need help resolving a debt, or you would like to get information
         about a debt that has been resolved, call the Debt Management Center at
         <Telephone className="vads-u-margin-left--0p5" contact="8008270648" />.
@@ -36,7 +36,7 @@ export const DowntimeMessage = () => {
         using this tool, check back after we’re finished.
       </p>
       <p className="vads-u-font-size--base vads-u-font-family--sans">
-        Please note that we'll be doing maintenance at this time each night from
+        Please note that we’ll be doing maintenance at this time each night from
         12:30 a.m. to 3 a.m. ET. Thank you for your patience.
       </p>
 

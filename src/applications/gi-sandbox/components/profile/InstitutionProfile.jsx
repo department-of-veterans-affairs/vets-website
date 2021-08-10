@@ -81,10 +81,12 @@ export default function InstitutionProfile({
             <JumpLink label="School locations" jumpToId="school-locations" />
           )}
           {!isOJT && <JumpLink label="Academics" jumpToId="academics" />}
-          <JumpLink
-            label="Veteran programs and support"
-            jumpToId="veteran-programs-and-support"
-          />
+          {!isOJT && (
+            <JumpLink
+              label="Veteran programs and support"
+              jumpToId="veteran-programs-and-support"
+            />
+          )}
           <JumpLink
             label="Contact information"
             jumpToId="contact-information"
@@ -96,7 +98,10 @@ export default function InstitutionProfile({
         label="Calculate your benefits"
         id="calculate-your-benefits"
       >
-        <CalculateYourBenefits gibctEybBottomSheet={gibctEybBottomSheet} />
+        <CalculateYourBenefits
+          gibctEybBottomSheet={gibctEybBottomSheet}
+          isOJT={isOJT}
+        />
       </ProfileSection>
       <ProfileSection
         label="Getting started with benefits"
@@ -144,16 +149,18 @@ export default function InstitutionProfile({
           <Academics institution={institution} onShowModal={showModal} />
         </ProfileSection>
       )}
-      <ProfileSection
-        label="Veteran programs and support"
-        id="veteran-programs-and-support"
-      >
-        <VeteranProgramsAndSupport
-          institution={institution}
-          constants={constants}
-          showModal={showModal}
-        />
-      </ProfileSection>
+      {!isOJT && (
+        <ProfileSection
+          label="Veteran programs and support"
+          id="veteran-programs-and-support"
+        >
+          <VeteranProgramsAndSupport
+            institution={institution}
+            constants={constants}
+            showModal={showModal}
+          />
+        </ProfileSection>
+      )}
       <ProfileSection label="Contact information" id="contact-information">
         <ContactInformation institution={institution} showModal={showModal} />
       </ProfileSection>

@@ -66,7 +66,7 @@ describe('Locator url and parameters builder', () => {
     });
     let test = `${result.url}?${result.params}`;
     expect(test).to.eql(
-      'https://dev-api.va.gov/facilities_api/v1/va?bbox[]=-118.9939&bbox[]=33.3044&bbox[]=-117.4939&bbox[]=34.8044&type=health&page=1&per_page=20',
+      'https://dev-api.va.gov/facilities_api/v1/va?bbox[]=-118.9939&bbox[]=33.3044&bbox[]=-117.4939&bbox[]=34.8044&type=health&page=1&per_page=20&mobile=false',
     );
     result = resolveParamsWithUrl({
       locationType: 'health',
@@ -77,7 +77,7 @@ describe('Locator url and parameters builder', () => {
     });
     test = `${result.url}?${result.params}`;
     expect(test).to.eql(
-      'https://dev-api.va.gov/facilities_api/v1/va?bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24&type=health&services[]=PrimaryCare&page=1&per_page=20',
+      'https://dev-api.va.gov/facilities_api/v1/va?bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24&type=health&services[]=PrimaryCare&page=1&per_page=20&mobile=false',
     );
   });
 
@@ -95,7 +95,7 @@ describe('Locator url and parameters builder', () => {
     });
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
-      'https://dev-api.va.gov/facilities_api/v1/va?bbox[]=-118.9939&bbox[]=33.3044&bbox[]=-117.4939&bbox[]=34.8044&type=health&services[]=UrgentCare&page=1&per_page=20',
+      'https://dev-api.va.gov/facilities_api/v1/va?bbox[]=-118.9939&bbox[]=33.3044&bbox[]=-117.4939&bbox[]=34.8044&type=health&services[]=UrgentCare&page=1&per_page=20&mobile=false',
     );
   });
 
@@ -185,7 +185,7 @@ describe('Locator url and parameters builder', () => {
     });
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
-      'https://dev-api.va.gov/facilities_api/v1/va?bbox[]=-98.45&bbox[]=29.59&bbox[]=-96.95&bbox[]=31.09&type=vet_center&page=1&per_page=20&exclude_mobile=true',
+      'https://dev-api.va.gov/facilities_api/v1/va?bbox[]=-98.45&bbox[]=29.59&bbox[]=-96.95&bbox[]=31.09&type=vet_center&page=1&per_page=20&mobile=false',
     );
   });
 

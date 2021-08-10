@@ -324,7 +324,7 @@ export const requireRatedDisability = (err, fieldData, formData) => {
   if (isClaimingIncrease(formData) && !claimingRated(formData)) {
     // The actual validation error is displayed as an alert field. The message
     // here will be shown on the review page
-    err.addError('Please selected a rated disability');
+    err.addError('Please select a rated disability');
   }
 };
 

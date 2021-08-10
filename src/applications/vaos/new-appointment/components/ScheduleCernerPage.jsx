@@ -5,7 +5,7 @@ import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 
 import { routeToPreviousAppointmentPage } from '../redux/actions';
-import { getChosenFacilityDetails } from '../redux/selectors';
+import { getChosenFacilityInfo } from '../redux/selectors';
 import FacilityAddress from '../../components/FacilityAddress';
 import { getCernerURL } from 'platform/utilities/cerner';
 import FacilityPhone from '../../components/FacilityPhone';
@@ -14,7 +14,7 @@ const pageKey = 'scheduleCerner';
 
 export default function ScheduleCernerPage() {
   const dispatch = useDispatch();
-  const facility = useSelector(getChosenFacilityDetails);
+  const facility = useSelector(getChosenFacilityInfo);
 
   const history = useHistory();
   const pageTitle = 'How to schedule';

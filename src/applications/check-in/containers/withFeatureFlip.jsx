@@ -4,7 +4,12 @@ import { compose } from 'redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-import { checkInExperienceEnabled, loadingFeatureFlags } from '../selectors';
+import {
+  checkInExperienceEnabled,
+  checkInExperienceLowRiskAuthenicationEnabled,
+  checkInExperienceMultipleAppointmentEnabled,
+  loadingFeatureFlags,
+} from '../selectors';
 
 const withFeatureFlip = WrappedComponent => props => {
   const { isCheckInEnabled, isLoadingFeatureFlags } = props;
@@ -29,6 +34,10 @@ const withFeatureFlip = WrappedComponent => props => {
 const mapStateToProps = state => ({
   isCheckInEnabled: checkInExperienceEnabled(state),
   isLoadingFeatureFlags: loadingFeatureFlags(state),
+  isLowAuthEnabled: checkInExperienceLowRiskAuthenicationEnabled(state),
+  isMultipleAppointmentsEnabled: checkInExperienceMultipleAppointmentEnabled(
+    state,
+  ),
 });
 
 const composedWrapper = compose(

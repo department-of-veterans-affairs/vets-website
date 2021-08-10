@@ -14,11 +14,17 @@ import PreviewBanner from '../components/PreviewBanner';
 import Modals from './Modals';
 import { useQueryParams } from '../utils/helpers';
 import ServiceError from '../components/ServiceError';
+import AboutThisTool from '../components/content/AboutThisTool';
+import Disclaimer from '../components/content/Disclaimer';
+import { useLocation } from 'react-router-dom';
+import Covid19Banner from '../components/content/Covid19Banner';
+import CompareDrawer from './CompareDrawer';
 
 export function GiBillApp({
   constants,
   children,
   preview,
+  compare,
   dispatchEnterPreviewMode,
   dispatchExitPreviewMode,
   dispatchFetchConstants,
@@ -29,6 +35,7 @@ export function GiBillApp({
   const versionChange = version && version !== preview.version?.id;
   const shouldExitPreviewMode = preview.display && !version;
   const shouldEnterPreviewMode = !preview.display && versionChange;
+  const location = useLocation();
 
   useEffect(
     () => {
@@ -54,8 +61,15 @@ export function GiBillApp({
     dispatchUpdateQueryParams(params);
   }, []);
 
+  const onProfilePage = location.pathname.includes('/profile');
+  const onComparePage = location.pathname.includes('/compare');
+
   return (
     <div className="gi-app" role="application">
+      {(location.pathname === '/' ||
+        location.pathname === '/gi-bill-comparison-tool-sandbox') && (
+        <Covid19Banner />
+      )}
       <div>
         <div>
           {preview.display && <PreviewBanner version={preview.version} />}
@@ -64,7 +78,7 @@ export function GiBillApp({
           {constants.error && <ServiceError />}
           {!(constants.error || constants.inProgress) && (
             <DowntimeNotification appTitle={'GI Bill Comparison Tool'}>
-              <div className="vads-u-text-align--center vads-u-padding-bottom--6">
+              <div className="tool-description">
                 <h1>GI Bill® Comparison Tool</h1>
                 <p className="vads-u-font-size--h3 vads-u-color--gray-dark">
                   Use the GI Bill Comparison Tool to see how VA education
@@ -74,6 +88,16 @@ export function GiBillApp({
               {children}
             </DowntimeNotification>
           )}
+          {compare.open && <div style={{ height: '12px' }}>&nbsp;</div>}
+          {!compare.open && (
+            <div className="row vads-u-padding--1p5 small-screen:vads-u-padding--0">
+              <>
+                <AboutThisTool />
+                <Disclaimer />
+              </>
+            </div>
+          )}
+          {!onComparePage && <CompareDrawer alwaysDisplay={onProfilePage} />}
           <Modals />
         </div>
       </div>
@@ -88,6 +112,7 @@ GiBillApp.propTypes = {
 const mapStateToProps = state => ({
   constants: state.constants,
   preview: state.preview,
+  compare: state.compare,
 });
 
 const mapDispatchToProps = {
