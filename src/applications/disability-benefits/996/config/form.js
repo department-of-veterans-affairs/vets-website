@@ -22,11 +22,12 @@ import homeless from '../pages/homeless';
 import contestedIssuesPage from '../pages/contestedIssues';
 import informalConference from '../pages/informalConference';
 import informalConferenceRep from '../pages/informalConferenceRep';
+import informalConferenceRepV2 from '../pages/informalConferenceRepV2';
 import informalConferenceTimes from '../pages/informalConferenceTimes';
 import sameOffice from '../pages/sameOffice';
 
 import { errorMessages, WIZARD_STATUS } from '../constants';
-import { apiVersion1, apiVersion2 } from '../helpers';
+import { apiVersion1, apiVersion2 } from '../utils/helpers';
 // import initialData from '../tests/schema/initialData';
 
 import manifest from '../manifest.json';
@@ -100,6 +101,10 @@ const formConfig = {
           path: 'contact-information',
           uiSchema: contactInfo.uiSchema,
           schema: contactInfo.schema,
+          initialData: {
+            // stop the mobile phone modal from showing SMS checkbox inline
+            'view:showSMSCheckbox': false,
+          },
         },
         homeless: {
           title: 'Homelessness question',
@@ -146,9 +151,20 @@ const formConfig = {
         representativeInfo: {
           path: 'informal-conference/representative-information',
           title: 'Representative’s information',
-          depends: formData => formData?.informalConference === 'rep',
+          depends: formData =>
+            formData?.informalConference === 'rep' && apiVersion1(formData),
           uiSchema: informalConferenceRep.uiSchema,
           schema: informalConferenceRep.schema,
+        },
+        representativeInfoV2: {
+          // changing path from v1, but this shouldn't matter since the
+          // migration code returns the Veteran to the contact info page
+          path: 'informal-conference/representative-info',
+          title: 'Representative’s information',
+          depends: formData =>
+            formData?.informalConference === 'rep' && apiVersion2(formData),
+          uiSchema: informalConferenceRepV2.uiSchema,
+          schema: informalConferenceRepV2.schema,
         },
         availability: {
           path: 'informal-conference/availability',

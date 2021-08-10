@@ -5,6 +5,8 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
 
+import { rootUrl } from '../manifest.json';
+
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo('topScrollElement', {
@@ -139,11 +141,10 @@ export class ConfirmationPage extends React.Component {
           </p>
           <p className="vads-u-margin-bottom--6">
             If something changes in your family status let VA know. Return to
-            the{' '}
-            <a href="/view-change-dependents/add-remove-form-686c">21-686c</a>{' '}
-            form, select the option that describes your family status change and
-            complete the form. This will update our records and your benefits
-            pay will be adjusted accordingly.
+            the <a href={rootUrl}>21-686c</a> form, select the option that
+            describes your family status change and complete the form. This will
+            update our records and your benefits pay will be adjusted
+            accordingly.
           </p>
           <p className="vads-u-font-size--base vads-u-font-family--serif vads-u-font-weight--bold">
             What if I have more questions?

@@ -4,7 +4,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { useSelector, shallowEqual } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event.js';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { getTimezoneAbbrBySystemId } from '../../utils/timezone.js';
+import { getTimezoneAbbrByFacilityId } from '../../utils/timezone.js';
 import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants.js';
 import FacilityAddress from '../../components/FacilityAddress.jsx';
 import { selectConfirmationPage } from '../redux/selectors.js';
@@ -18,7 +18,7 @@ import {
 const pageTitle = 'We’ve scheduled your appointment';
 
 export default function ConfirmationPage() {
-  const { data, systemId, slot, facilityDetails, submitStatus } = useSelector(
+  const { data, slot, facilityDetails, submitStatus } = useSelector(
     selectConfirmationPage,
     shallowEqual,
   );
@@ -35,7 +35,7 @@ export default function ConfirmationPage() {
   const appointmentDateString =
     moment(data.date1, 'YYYY-MM-DDTHH:mm:ssZ').format(
       'dddd, MMMM D, YYYY [at] h:mm a ',
-    ) + getTimezoneAbbrBySystemId(systemId);
+    ) + getTimezoneAbbrByFacilityId(data.vaFacility);
 
   const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
 
