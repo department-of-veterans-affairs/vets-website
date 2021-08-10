@@ -74,25 +74,25 @@ const numTests = tests.length;
 // core.exportVariable() exports variable to GitHub Actions workflow
 if (numTests === 0) {
   core.exportVariable('NUM_CONTAINERS', 0);
-} else if (numTests < 20) {
+} else if (numTests <= 20) {
   core.exportVariable('NUM_CONTAINERS', 1);
   core.exportVariable('CI_NODE_INDEX', [0]);
-} else if (numTests < 40) {
+} else if (numTests <= 40) {
   core.exportVariable('NUM_CONTAINERS', 2);
   core.exportVariable('CI_NODE_INDEX', [0, 1]);
-} else if (numTests < 60) {
+} else if (numTests <= 60) {
   core.exportVariable('NUM_CONTAINERS', 3);
   core.exportVariable('CI_NODE_INDEX', [0, 1, 2]);
-} else if (numTests < 80) {
+} else if (numTests <= 80) {
   core.exportVariable('NUM_CONTAINERS', 4);
   core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3]);
-} else if (numTests < 100) {
+} else if (numTests <= 100) {
   core.exportVariable('NUM_CONTAINERS', 5);
   core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4]);
-} else if (numTests < 120) {
+} else if (numTests <= 120) {
   core.exportVariable('NUM_CONTAINERS', 6);
   core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4, 5]);
-} else if (numTests < 140) {
+} else if (numTests <= 140) {
   core.exportVariable('NUM_CONTAINERS', 7);
   core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4, 5, 6]);
 } else {
