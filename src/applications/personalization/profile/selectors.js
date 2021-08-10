@@ -87,5 +87,11 @@ export const showNotificationSettings = state => {
   const FFProfileNotificationSettings = toggleValues(state)[
     FEATURE_FLAG_NAMES.profileNotificationSettings
   ];
-  return !!(FFProfileNotificationSettings || LSProfileNotificationSetting);
+  // local setting takes precedent over FF
+  if (LSProfileNotificationSetting === '0') {
+    return false;
+  } else if (LSProfileNotificationSetting === '1') {
+    return true;
+  }
+  return !!FFProfileNotificationSettings;
 };
