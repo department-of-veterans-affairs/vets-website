@@ -68,10 +68,10 @@ const DetailPage = () => {
       <p>
         <a href="#">Notice of rights and responsibilities</a>
       </p>
-      <Link className="vads-u-font-family--sans vads-u-font-size--sm" to="/">
+      <Link className="vads-u-font-size--sm" to="/">
         <i
-          aria-hidden="true"
           className="fa fa-chevron-left vads-u-margin-right--1"
+          aria-hidden="true"
         />
         <strong>Return to copay balances</strong>
       </Link>
