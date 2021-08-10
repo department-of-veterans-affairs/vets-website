@@ -82,6 +82,8 @@ describe('Authed Letter Test', () => {
     cy.get('#militaryService', { timeout: Timeouts.normal }).should(
       'be.checked',
     );
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(200);
     cy.get('#militaryService', { timeout: Timeouts.normal }).click({
       force: true,
     });
@@ -93,10 +95,10 @@ describe('Authed Letter Test', () => {
         cy.get(`#${id}`, { timeout: Timeouts.normal }).should('exist');
         cy.get(`#${id}`, { timeout: Timeouts.normal }).should('be.checked');
         // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(500);
+        cy.wait(200);
         cy.get(`#${id}`, { timeout: Timeouts.normal }).click('center');
         // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(500);
+        cy.wait(200);
         cy.get(`#${id}`, { timeout: Timeouts.normal }).should('not.be.checked');
       });
     });

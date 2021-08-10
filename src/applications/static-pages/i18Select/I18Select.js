@@ -1,52 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import { onThisPageHook, setLangAttribute } from './hooks';
+import { setOnThisPageText } from './utilities/helpers';
 import { connect } from 'react-redux';
-import { langSelectedAction } from './actions';
+import { ALL_LANGUAGES } from './utilities/constants';
 
-const LANGS_TO_LINK_SUFFIXES = {
-  es: '-esp/',
-  tl: '-tag/',
-};
-const I18Select = ({ baseUrls, content, dispatchLanguageSelection }) => {
-  const [lang, setLang] = useState('en');
+const I18Select = ({ baseUrls, languageCode }) => {
   useEffect(
     () => {
-      const contentDiv = document?.getElementById('content');
-      // this logic is specific to the temporary covid faq page url structures and cannot be abstracted
-      for (const [langCode, suffix] of Object.entries(LANGS_TO_LINK_SUFFIXES)) {
-        if (document?.location.href.endsWith(suffix)) {
-          setLang(langCode);
-          dispatchLanguageSelection(langCode);
-          if (contentDiv) {
-            contentDiv.setAttribute('lang', langCode);
-          }
-          document.documentElement.setAttribute('lang', langCode);
-        }
-      }
+      setOnThisPageText(languageCode);
     },
-    [dispatchLanguageSelection],
-  );
-
-  useEffect(
-    () => {
-      onThisPageHook(lang);
-    },
-    [lang],
+    [languageCode],
   );
 
   return (
     <div className="vads-u-display--inline-block vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-border--0 vads-u-border-bottom--1px vads-u-border-style--solid vads-u-border-color--gray">
       <span>
-        {Object.entries(content).map(([languageCode, languageConfig], i) => {
-          if (!baseUrls[languageCode]) {
+        {ALL_LANGUAGES.map((languageConfig, i) => {
+          if (!baseUrls[languageConfig.code]) {
             return null;
           }
           return (
             <span key={i}>
               <a
                 className={`vads-u-font-size--base vads-u-font-family--sans vads-u-padding-bottom-0p5 ${
-                  languageCode === lang
+                  languageConfig.code === languageCode
                     ? 'vads-u-font-weight--bold vads-u-color--base vads-u-text-decoration--none'
                     : ''
                 }`}
@@ -55,16 +32,14 @@ const I18Select = ({ baseUrls, content, dispatchLanguageSelection }) => {
                     event: 'nav-pipe-delimited-list-click',
                     'pipe-delimited-list-header': languageConfig.lang,
                   });
-                  dispatchLanguageSelection(languageConfig.lang);
-                  setLangAttribute(languageConfig.lang);
                 }}
-                href={baseUrls[languageCode]}
-                hrefLang={languageConfig.lang}
-                lang={languageConfig.lang}
+                href={baseUrls[languageConfig.code]}
+                hrefLang={languageConfig.code}
+                lang={languageConfig.code}
               >
                 {languageConfig.label}{' '}
               </a>
-              {i !== Object.entries(content).length - 1 && (
+              {i !== ALL_LANGUAGES.length - 1 && (
                 <span
                   className=" vads-u-margin-left--0p5 vads-u-margin-right--0p5 vads-u-color--gray
                     vads-u-height--20"
@@ -80,13 +55,8 @@ const I18Select = ({ baseUrls, content, dispatchLanguageSelection }) => {
   );
 };
 
-const mapDispatchToProps = dispatch => ({
-  dispatchLanguageSelection: lang => {
-    return dispatch(langSelectedAction(lang));
-  },
+const mapStateToProps = state => ({
+  languageCode: state.i18State.lang,
 });
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(I18Select);
+export default connect(mapStateToProps)(I18Select);

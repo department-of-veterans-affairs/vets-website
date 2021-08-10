@@ -26,7 +26,7 @@ import {
   mockRequestSubmit,
   mockFacilityFetch,
 } from '../../../mocks/helpers';
-import { mockAppointmentSubmit } from '../../../mocks/helpers.v2';
+import { mockAppointmentSubmitV2 } from '../../../mocks/helpers.v2';
 import { getVAFacilityMock } from '../../../mocks/v0';
 
 const initialState = {
@@ -201,12 +201,14 @@ describe('VAOS <ReviewPage> VA request', () => {
       event: 'vaos-request-submission',
       'health-TypeOfCare': 'Primary care',
       'health-ReasonForAppointment': 'routine-follow-up',
+      'vaos-preferred-combination': 'afternoon-evening-morning',
       flow: 'va-request',
     });
     expect(dataLayer[2]).to.deep.equal({
       event: 'vaos-request-submission-successful',
       'health-TypeOfCare': 'Primary care',
       'health-ReasonForAppointment': 'routine-follow-up',
+      'vaos-preferred-combination': 'afternoon-evening-morning',
       flow: 'va-request',
     });
     expect(dataLayer[3]).to.deep.equal({
@@ -247,7 +249,7 @@ describe('VAOS <ReviewPage> VA request', () => {
     await screen.findByText('We couldn’t schedule this appointment');
 
     expect(screen.baseElement).contain.text(
-      'Something went wrong when we tried to submit your request and you’ll need to start over. We suggest you wait a day',
+      'Something went wrong when we tried to submit your request. You can try again later, or call your VA medical center to help with your request.',
     );
 
     await screen.findByText('307-778-7550');
@@ -264,6 +266,7 @@ describe('VAOS <ReviewPage> VA request', () => {
       flow: 'va-request',
       'health-TypeOfCare': 'Primary care',
       'health-ReasonForAppointment': 'routine-follow-up',
+      'vaos-preferred-combination': 'afternoon-evening-morning',
     });
     expect(global.window.dataLayer[3]).to.deep.equal({
       flow: undefined,
@@ -424,7 +427,7 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
   });
 
   it('should submit successfully', async () => {
-    mockAppointmentSubmit({
+    mockAppointmentSubmitV2({
       id: 'fake_id',
     });
 
@@ -514,7 +517,7 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
     await screen.findByText('We couldn’t schedule this appointment');
 
     expect(screen.baseElement).contain.text(
-      'Something went wrong when we tried to submit your request and you’ll need to start over. We suggest you wait a day',
+      'Something went wrong when we tried to submit your request. You can try again later, or call your VA medical center to help with your request.',
     );
 
     expect(

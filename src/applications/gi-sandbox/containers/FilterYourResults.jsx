@@ -11,23 +11,18 @@ import {
   addAllOption,
   updateUrlParams,
 } from '../utils/helpers';
-import {
-  showModal,
-  filterChange,
-  fetchSearchByNameResults,
-  fetchSearchByLocationResults,
-} from '../actions';
+import { showModal, filterChange } from '../actions';
 import { connect } from 'react-redux';
 import { TABS } from '../constants';
 
 export function FilterYourResults({
   dispatchShowModal,
   dispatchFilterChange,
-  dispatchFetchSearchByNameResults,
-  dispatchFetchSearchByLocationResults,
   filters,
+  modalClose,
   preview,
   search,
+  smallScreen,
 }) {
   const history = useHistory();
   const { version } = preview;
@@ -91,16 +86,7 @@ export function FilterYourResults({
   };
 
   const updateResults = () => {
-    if (search.tab === TABS.name) {
-      dispatchFetchSearchByNameResults(search.query.name, 1, filters, version);
-    } else {
-      dispatchFetchSearchByLocationResults(
-        search.query.location,
-        search.query.distance,
-        filters,
-        version,
-      );
-    }
+    updateInstitutionFilters('search', true);
 
     updateUrlParams(
       history,
@@ -110,6 +96,11 @@ export function FilterYourResults({
       version,
       search.tab === TABS.name ? 1 : null,
     );
+  };
+
+  const closeAndUpdate = () => {
+    updateResults();
+    modalClose();
   };
 
   const renderTypeOfInstitution = () => {
@@ -287,23 +278,48 @@ export function FilterYourResults({
     );
   };
 
+  const controls = (
+    <div>
+      {renderTypeOfInstitution()}
+      {renderLocation()}
+      {renderSchoolAttributes()}
+      {renderTypeOfSchool()}
+      {renderSchoolMission()}
+    </div>
+  );
+
   return (
     <div className="vads-u-margin-bottom--2">
-      <SearchAccordion
-        button="Filter your results"
-        buttonLabel="Update results"
-        buttonOnClick={() => updateResults()}
-        name="benefitEstimates"
-        expanded={expanded}
-        onClick={onAccordionChange}
-      >
-        <br />
-        {renderTypeOfInstitution()}
-        {renderLocation()}
-        {renderSchoolAttributes()}
-        {renderTypeOfSchool()}
-        {renderSchoolMission()}
-      </SearchAccordion>
+      {!smallScreen && (
+        <SearchAccordion
+          button="Filter your results"
+          buttonLabel="Update results"
+          buttonOnClick={() => updateResults()}
+          name="benefitEstimates"
+          expanded={expanded}
+          onClick={onAccordionChange}
+        >
+          {controls}
+        </SearchAccordion>
+      )}
+      {smallScreen && (
+        <div className="modal-wrapper">
+          <div>
+            <h1>Filter your results</h1>
+            {controls}
+          </div>
+          <div className="modal-button-wrapper">
+            <button
+              type="button"
+              id="update-benefits-button"
+              className="update-results-button"
+              onClick={closeAndUpdate}
+            >
+              Update results
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -317,8 +333,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   dispatchShowModal: showModal,
   dispatchFilterChange: filterChange,
-  dispatchFetchSearchByNameResults: fetchSearchByNameResults,
-  dispatchFetchSearchByLocationResults: fetchSearchByLocationResults,
 };
 
 export default connect(

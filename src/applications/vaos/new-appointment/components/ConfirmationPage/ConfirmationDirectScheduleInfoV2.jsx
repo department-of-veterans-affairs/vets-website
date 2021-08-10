@@ -10,8 +10,8 @@ import {
   getFacilityPhone,
 } from '../../../services/location';
 import {
-  getTimezoneAbbrBySystemId,
-  getTimezoneBySystemId,
+  getTimezoneAbbrByFacilityId,
+  getTimezoneByFacilityId,
 } from '../../../utils/timezone';
 import { GA_PREFIX, PURPOSE_TEXT } from '../../../utils/constants';
 
@@ -20,11 +20,10 @@ export default function ConfirmationDirectScheduleInfoV2({
   facilityDetails,
   clinic,
   slot,
-  systemId,
 }) {
-  const timezone = getTimezoneBySystemId(systemId);
+  const timezone = getTimezoneByFacilityId(data.vaFacility);
   const momentDate = timezone
-    ? moment(slot.start).tz(timezone.timezone, true)
+    ? moment(slot.start).tz(timezone, true)
     : moment(slot.start);
   const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
 
@@ -32,7 +31,7 @@ export default function ConfirmationDirectScheduleInfoV2({
     <>
       <h1 className="vads-u-font-size--h2">
         {momentDate.format('dddd, MMMM D, YYYY [at] h:mm a')}
-        {` ${getTimezoneAbbrBySystemId(systemId)}`}
+        {` ${getTimezoneAbbrByFacilityId(data.vaFacility)}`}
       </h1>
       <InfoAlert status="success" backgroundOnly>
         <strong>Your appointment has been scheduled and is confirmed.</strong>

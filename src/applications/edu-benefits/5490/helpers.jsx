@@ -1,12 +1,11 @@
-import _ from 'lodash/fp';
+import cloneDeep from 'platform/utilities/data/cloneDeep';
 import moment from 'moment';
 import React from 'react';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import environment from 'platform/utilities/environment';
 
 export function transform(formConfig, form) {
   // Clone the form in so we don’t modify the original...because of reasons FP
-  const newForm = _.cloneDeep(form);
+  const newForm = cloneDeep(form);
 
   if (newForm.data.benefit === 'chapter33' && newForm.data.sponsorStatus) {
     if (newForm.data.sponsorStatus === 'powOrMia') {
@@ -29,20 +28,18 @@ export const relationshipLabels = {
   child: 'Child, stepchild, adopted child',
   spouse: (
     <p>
-      Spouse or surviving spouse {/* Prod flag for 26436 */}
-      {!environment.isProduction() && (
-        <>
-          <br />
-          <a
-            aria-label="Learn more about VA requirements for marriage certification"
-            rel="noopener noreferrer"
-            target="_blank"
-            href="http://www.va.gov/opa/marriage/"
-          >
-            Learn more
-          </a>
-        </>
-      )}
+      Spouse or surviving spouse
+      <>
+        <br />
+        <a
+          aria-label="Learn more about VA requirements for marriage certification"
+          rel="noopener noreferrer"
+          target="_blank"
+          href="http://www.va.gov/opa/marriage/"
+        >
+          Learn more
+        </a>
+      </>
     </p>
   ),
 };
@@ -97,7 +94,7 @@ export const benefitsDisclaimerChild = (
     you’re not applying for (but only for the entitlement arising from the same
     event).{' '}
     <strong>
-      You can't retain eligibility for both programs based on the same event
+      You can’t retain eligibility for both programs based on the same event
     </strong>
     .
   </p>

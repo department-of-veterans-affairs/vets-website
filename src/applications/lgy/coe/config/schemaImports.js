@@ -1,4 +1,4 @@
-import fullSchema from '../26-1880-schema.json';
+import fullSchema from 'vets-json-schema/dist/26-1880-schema.json';
 
 const {
   applicantInformation,
@@ -6,7 +6,6 @@ const {
   communicationPreferences,
   serviceStatus,
   serviceHistory,
-  serviceDecoration,
   hasExistingLoan,
   loanIntent,
   loanHistory,
@@ -20,7 +19,6 @@ export {
   communicationPreferences,
   serviceStatus,
   serviceHistory,
-  serviceDecoration,
   hasExistingLoan,
   loanIntent,
   loanHistory,

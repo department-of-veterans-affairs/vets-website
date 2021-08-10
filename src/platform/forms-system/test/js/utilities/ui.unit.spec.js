@@ -4,7 +4,11 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { focusElement, focusOnChange } from '../../../src/js/utilities/ui';
+import {
+  focusElement,
+  focusOnChange,
+  getFocusableElements,
+} from '../../../src/js/utilities/ui';
 import { ReviewCollapsibleChapter } from '../../../src/js/review/ReviewCollapsibleChapter';
 
 describe('focus on element', () => {
@@ -86,5 +90,100 @@ describe('focus on change', () => {
       expect(focused.calledOnce).to.be.true;
       done();
     }, 0);
+  });
+});
+
+describe('getFocuableElements', () => {
+  // set offsets source:
+  // https://github.com/testing-library/react-testing-library/issues/353#issuecomment-510046921
+  const getOffset = name =>
+    Object.getOwnPropertyDescriptor(HTMLElement.prototype, name);
+  const setOffset = (name, value) =>
+    Object.defineProperty(HTMLElement.prototype, name, value);
+
+  const offsets = {
+    height: getOffset('offsetHeight'),
+    width: getOffset('offsetWidth'),
+  };
+
+  afterEach(() => {
+    setOffset('offsetHeight', offsets.height);
+    setOffset('offsetWidth', offsets.width);
+  });
+
+  it('should return an array of focusable elements', () => {
+    setOffset('offsetHeight', { configurable: true, value: 10 });
+    setOffset('offsetWidth', { configurable: true, value: 10 });
+    /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
+    const tree = ReactTestUtils.renderIntoDocument(
+      <form>
+        <a href="#">x</a>
+        <button />
+        <details>
+          <summary>foo</summary>
+          baz
+        </details>
+        <input type="text" />
+        <select>
+          <option>bar</option>
+        </select>
+        <textarea />
+        <div tabIndex="0" />
+      </form>,
+    );
+    /* eslint-enable jsx-a11y/no-noninteractive-tabindex */
+    const dom = findDOMNode(tree);
+    global.document = dom;
+    const focusableElements = getFocusableElements(dom);
+    expect(focusableElements.length).to.eq(7);
+  });
+
+  it('should return an empty array from non-focusable elements', () => {
+    setOffset('offsetHeight', { configurable: true, value: 10 });
+    setOffset('offsetWidth', { configurable: true, value: 10 });
+    /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
+    const tree = ReactTestUtils.renderIntoDocument(
+      <form>
+        <a id="foo">baz</a>
+        <input type="hidden" />
+        <div tabIndex="-1" />
+        <label>boo</label>
+        <img alt="" />
+        <button disabled>test</button>
+      </form>,
+    );
+    /* eslint-enable jsx-a11y/no-noninteractive-tabindex */
+    const dom = findDOMNode(tree);
+    global.document = dom;
+    const focusableElements = getFocusableElements(dom);
+    expect(focusableElements.length).to.eq(0);
+  });
+  it('should return an empty array from hidden elements', () => {
+    setOffset('offsetHeight', offsets.height);
+    setOffset('offsetWidth', offsets.width);
+    /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
+    const tree = ReactTestUtils.renderIntoDocument(
+      <form>
+        <a href="#" style={{ display: 'none' }}>
+          x
+        </a>
+        <button style={{ display: 'none' }} />
+        <details style={{ display: 'none' }}>
+          <summary>foo</summary>
+          baz
+        </details>
+        <input type="text" style={{ display: 'none' }} />
+        <select style={{ display: 'none' }}>
+          <option>bar</option>
+        </select>
+        <textarea style={{ display: 'none' }} />
+        <div tabIndex="0" style={{ display: 'none' }} />
+      </form>,
+    );
+    /* eslint-enable jsx-a11y/no-noninteractive-tabindex */
+    const dom = findDOMNode(tree);
+    global.document = dom;
+    const focusableElements = getFocusableElements(dom);
+    expect(focusableElements.length).to.eq(0);
   });
 });

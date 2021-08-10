@@ -140,7 +140,9 @@ class SearchApp extends React.Component {
     });
   };
 
-  onSearchResultClick = ({ bestBet, title, index, url }) => () => {
+  onSearchResultClick = ({ bestBet, title, index, url }) => async e => {
+    e.preventDefault();
+
     // clear the &t query param which is used to track typeahead searches
     // removing this will better reflect how many typeahead searches result in at least one click
     window.history.replaceState(
@@ -148,13 +150,6 @@ class SearchApp extends React.Component {
       document.title,
       `${window.location.href.replace('&t=true', '')}`,
     );
-
-    if (bestBet) {
-      recordEvent({
-        event: 'nav-searchresults',
-        'nav-path': `Recommended Results -> ${title}`,
-      });
-    }
 
     const bestBetPosition = index + 1;
     const normalResultPosition =
@@ -164,6 +159,26 @@ class SearchApp extends React.Component {
       : normalResultPosition;
 
     const query = this.props.router?.location?.query?.query || '';
+
+    const encodedUrl = encodeURIComponent(url);
+    const userAgent = encodeURIComponent(navigator.userAgent);
+    const encodedQuery = encodeURIComponent(query);
+    const apiRequestOptions = {
+      method: 'POST',
+    };
+    const moduleCode = bestBet ? 'BOOS' : 'I14Y';
+
+    await apiRequest(
+      `/search_click_tracking?position=${searchResultPosition}&query=${encodedQuery}&url=${encodedUrl}&user_agent=${userAgent}&module_code=${moduleCode}`,
+      apiRequestOptions,
+    );
+
+    if (bestBet) {
+      recordEvent({
+        event: 'nav-searchresults',
+        'nav-path': `Recommended Results -> ${title}`,
+      });
+    }
 
     recordEvent({
       event: 'onsite-search-results-click',
@@ -184,18 +199,8 @@ class SearchApp extends React.Component {
       'search-typeahead-used': this.state.typeaheadUsed,
     });
 
-    const encodedUrl = encodeURIComponent(url);
-    const userAgent = encodeURIComponent(navigator.userAgent);
-    const encodedQuery = encodeURIComponent(query);
-    const apiRequestOptions = {
-      method: 'POST',
-    };
-    const moduleCode = bestBet ? 'BOOS' : 'I14Y';
-
-    apiRequest(
-      `/search_click_tracking?position=${searchResultPosition}&query=${encodedQuery}&url=${encodedUrl}&user_agent=${userAgent}&module_code=${moduleCode}`,
-      apiRequestOptions,
-    );
+    // relocate to clicked link page
+    window.location.href = url;
   };
 
   renderResults() {
@@ -213,6 +218,7 @@ class SearchApp extends React.Component {
       <div
         className="vads-u-background-color--gray-lightest vads-u-padding-x--3 vads-u-padding-bottom--3 vads-u-padding-top--1p5 vads-u-margin-top--1p5 vads-u-margin-bottom--4"
         role="search"
+        aria-labelledby="h1-search-title"
       >
         <div>Enter a keyword</div>
         <form
@@ -471,7 +477,9 @@ class SearchApp extends React.Component {
         <SearchBreadcrumbs />
         <div className="row">
           <div className="columns">
-            <h1 className="vads-u-font-size--2xl">Search VA.gov</h1>
+            <h1 className="vads-u-font-size--2xl" id="h1-search-title">
+              Search VA.gov
+            </h1>
           </div>
         </div>
         <div className="search-row">

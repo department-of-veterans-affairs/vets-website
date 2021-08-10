@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -26,6 +27,7 @@ function ViewDependentsListItem(props) {
     ssn,
     dateOfBirth,
     stateKey,
+    openFormlett,
   } = props;
 
   const handleClick = () => {
@@ -51,43 +53,36 @@ function ViewDependentsListItem(props) {
         <dt
           // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
           tabIndex="-1"
-          className="vads-l-col--12 vads-u-margin--0 vads-u-font-size--lg vads-u-font-weight--bold mng-dependents-name"
+          className="vads-u-font-family--serif vads-l-col--12 vads-u-margin--0 vads-u-font-size--lg vads-u-font-weight--bold mng-dependents-name"
         >
           {firstName} {lastName}
         </dt>
 
         <dd className="vads-l-col--12 vads-u-margin--0">
-          <dfn title="relationship" className="vads-u-font-weight--bold">
-            Relationship:
-          </dfn>{' '}
-          {relationship}
+          <dfn title="relationship">Relationship:</dfn> {relationship}
         </dd>
 
         {ssn ? (
           <dd className="vads-l-col--12 vads-u-margin--0">
-            <dfn title="ssn" className="vads-u-font-weight--bold">
-              SSN:
-            </dfn>{' '}
-            {ssn}
+            <dfn title="ssn">SSN:</dfn> {ssn.replace(/[0-9](?=.{4,}$)/g, '*')}
           </dd>
         ) : null}
 
         {dateOfBirth ? (
           <dd className="vads-l-col--12 vads-u-margin--0">
-            <dfn title="birthdate" className="vads-u-font-weight--bold">
-              Date of birth:{' '}
-            </dfn>
+            <dfn title="birthdate">Date of birth: </dfn>
             {moment(dateOfBirth).format('MMMM D, YYYY')}
           </dd>
         ) : null}
       </dl>
       {manageDependentsToggle && (
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+        <div className="vads-l-col--12">
           {!open && (
             <button
               type="button"
               onClick={handleClick}
               className="usa-button-secondary vads-u-background-color--white"
+              disabled={openFormlett}
             >
               Remove this dependent
             </button>
@@ -117,6 +112,17 @@ function ViewDependentsListItem(props) {
   );
 }
 
+const mapStateToProps = state => ({
+  openFormlett: state?.removeDependents?.openFormlett,
+});
+
+export default connect(
+  mapStateToProps,
+  null,
+)(ViewDependentsListItem);
+
+export { ViewDependentsListItem };
+
 ViewDependentsListItem.propTypes = {
   firstName: PropTypes.string,
   lastName: PropTypes.string,
@@ -125,5 +131,3 @@ ViewDependentsListItem.propTypes = {
   dateOfBirth: PropTypes.string,
   stateKey: PropTypes.number,
 };
-
-export default ViewDependentsListItem;

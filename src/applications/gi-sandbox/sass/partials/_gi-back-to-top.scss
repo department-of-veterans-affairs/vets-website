@@ -26,7 +26,6 @@
       padding: 0;
       pointer-events: none;
       position: inherit;
-      transition: all 250ms ease-in;
       right: auto;
       width: 44px;
 
@@ -91,5 +90,12 @@
 
   .back-to-top-container-floating-open {
     bottom: 13.3em;
+  }
+}
+
+.placeholder {
+  height: 0;
+  &.button-floating {
+    height: 44px !important;
   }
 }

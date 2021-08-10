@@ -12,7 +12,6 @@ describe('VAOS direct schedule flow', () => {
     initVAAppointmentMock();
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
-    cy.get('.va-modal-body button').click();
     cy.findAllByRole('tab').should('exist');
 
     // Start flow
@@ -83,7 +82,6 @@ describe('VAOS direct schedule flow', () => {
     mockFeatureToggles({ homepageRefresh: true });
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
-    cy.get('.va-modal-body button').click();
 
     // Start flow
     cy.findByText('Start scheduling').click();
@@ -150,7 +148,6 @@ describe('VAOS direct schedule flow', () => {
     initVAAppointmentMock();
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
-    cy.get('.va-modal-body button').click();
     cy.findAllByRole('tab').should('exist');
 
     // Start flow
@@ -219,7 +216,6 @@ describe('VAOS direct schedule flow', () => {
     initVAAppointmentMock();
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
-    cy.get('.va-modal-body button').click();
     cy.findAllByRole('tab').should('exist');
 
     // Start flow
