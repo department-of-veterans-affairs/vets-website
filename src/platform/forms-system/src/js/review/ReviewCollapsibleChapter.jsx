@@ -309,15 +309,13 @@ class ReviewCollapsibleChapter extends React.Component {
             ? pageConfig.editMode[page.index]
             : pageConfig.editMode;
 
-          if (editing) {
-            return pageConfig.CustomPage
-              ? this.getCustomPageContent(page, props, editing)
-              : this.getSchemaformPageContent(page, props, editing);
-          } else {
-            return pageConfig.CustomPageReview
-              ? this.getCustomPageContent(page, props, editing)
-              : this.getSchemaformPageContent(page, props, editing);
-          }
+          const showCustomPage = editing
+            ? !!pageConfig.CustomPage
+            : !!pageConfig.CustomPageReview;
+
+          return showCustomPage
+            ? this.getCustomPageContent(page, props, editing)
+            : this.getSchemaformPageContent(page, props, editing);
         })}
       </div>
     );
