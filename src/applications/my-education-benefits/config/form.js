@@ -427,19 +427,22 @@ const formConfig = {
                 showFieldLabel: false,
                 viewComponent: PhoneViewField,
               },
-              mobilePhone: phoneUI('Mobile phone number'),
+              phone: phoneUI('Mobile phone number'),
               isInternational: {
                 'ui:title': 'This phone number is international',
               },
             },
             [formFields.phoneNumber]: {
-              ...phoneUI('Home phone'),
               'ui:title': 'Your home phone number',
               'ui:field': ReviewBoxField,
               'ui:options': {
                 hideLabelText: true,
                 showFieldLabel: false,
                 viewComponent: PhoneViewField,
+              },
+              phone: phoneUI('Home phone number'),
+              isInternational: {
+                'ui:title': 'This phone number is international',
               },
             },
             'view:note': {
@@ -480,13 +483,18 @@ const formConfig = {
                   isInternational: {
                     type: 'boolean',
                   },
-                  mobilePhone: {
-                    type: 'string',
-                    format: 'phone',
-                  },
+                  phone: usaPhone,
                 },
               },
-              [formFields.phoneNumber]: usaPhone,
+              [formFields.phoneNumber]: {
+                type: 'object',
+                properties: {
+                  isInternational: {
+                    type: 'boolean',
+                  },
+                  phone: usaPhone,
+                },
+              },
               'view:note': {
                 type: 'object',
                 properties: {},
