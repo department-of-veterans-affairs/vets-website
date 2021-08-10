@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash/cloneDeep';
+import cloneDeep from 'platform/utilities/data/cloneDeep';
 import moment from 'moment';
 import React from 'react';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
