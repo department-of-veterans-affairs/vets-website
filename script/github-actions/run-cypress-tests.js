@@ -1,12 +1,16 @@
+const path = require('path');
+const glob = require('glob');
 const { runCommandSync } = require('../utils');
+const { integrationFolder, testFiles } = require('../../config/cypress.json');
 
-const tests = JSON.parse(process.env.TESTS);
-const step = Number(process.env.STEP);
-const divider = Math.ceil(tests.length / Number(process.env.NUM_CONTAINERS));
-
+const pattern = path.join(__dirname, '../..', integrationFolder, testFiles);
+const tests = glob.sync(pattern);
+const divider = Math.ceil(tests.length / 8);
 const batch = tests
-  .map(test => test.replace('/home/runner/work', '/__w'))
-  .slice(Number(step) * divider, (Number(step) + 1) * divider)
+  .slice(
+    Number(process.env.STEP) * divider,
+    (Number(process.env.STEP) + 1) * divider,
+  )
   .join(',');
 
 const status = runCommandSync(
