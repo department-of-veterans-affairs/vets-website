@@ -1,12 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import HCASubwayMap from '../components/HCASubwayMap';
 import HcaOMBInfo from '../components/HcaOMBInfo';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
 
 import { getFAQContent } from '../enrollment-status-helpers';
 import { HCA_ENROLLMENT_STATUSES } from '../constants';
@@ -21,20 +19,12 @@ const ReapplyContent = ({ route }) => (
         buttonOnly
         messages={route.formConfig.savedFormMessages}
         pageList={route.pageList}
-        startText={
-          environment.isProduction()
-            ? 'Start the Health Care Application'
-            : 'Start the health care application'
-        }
+        startText="Start the health care application"
         downtime={route.formConfig.downtime}
       />
     </div>
     <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-      {environment.isProduction() ? (
-        <OMBInfo resBurden={30} ombNumber="2900-0091" expDate="06/30/2024" />
-      ) : (
-        <HcaOMBInfo />
-      )}
+      <HcaOMBInfo />
     </div>
   </>
 );

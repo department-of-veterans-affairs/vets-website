@@ -28,7 +28,6 @@ export default function ConfirmationPage() {
     clinic,
     flowType,
     slot,
-    systemId,
     useProviderSelection,
     submitStatus,
   } = useSelector(selectConfirmationPage, shallowEqual);
@@ -63,7 +62,6 @@ export default function ConfirmationPage() {
             facilityDetails={facilityDetails}
             clinic={clinic}
             slot={slot}
-            systemId={systemId}
           />
         ) : (
           <ConfirmationDirectScheduleInfo
@@ -72,7 +70,6 @@ export default function ConfirmationPage() {
             facilityDetails={facilityDetails}
             pageTitle={pageTitle}
             slot={slot}
-            systemId={systemId}
           />
         ))}
       {!isDirectSchedule && (

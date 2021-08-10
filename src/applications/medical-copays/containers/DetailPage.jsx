@@ -1,8 +1,8 @@
 import React from 'react';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import BalanceQuestions from '../components/BalanceQuestions';
 import HowToPay from '../components/HowToPay';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 const DetailPage = () => {
   return (
@@ -43,13 +43,20 @@ const DetailPage = () => {
           </a>
         </p>
       </va-alert>
+      <va-on-this-page />
       <HowToPay />
-      <BalanceQuestions />
-      <p>
-        <strong>For questions about your treatment or your charges, </strong>
-        contact the James A. Haley Veterans’ Hospital at
-        <Telephone contact={'813-972-2000'} className="vads-u-margin-x--0p5" />.
-      </p>
+      <BalanceQuestions
+        contact={
+          <span>
+            contact the James A. Haley Veterans’ Hospital at
+            <Telephone
+              contact={'813-972-2000'}
+              className="vads-u-margin-x--0p5"
+            />
+            .
+          </span>
+        }
+      />
     </>
   );
 };

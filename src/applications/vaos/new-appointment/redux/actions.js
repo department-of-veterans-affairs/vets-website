@@ -57,6 +57,7 @@ import {
   transformFormToAppointment,
 } from './helpers/formSubmitTransformers';
 import {
+  transformFormToVAOSAppointment,
   transformFormToVAOSCCRequest,
   transformFormToVAOSVARequest,
 } from './helpers/formSubmitTransformers.v2';
@@ -736,6 +737,9 @@ export function submitAppointmentOrRequest(history) {
     const state = getState();
     const isFeatureHomepageRefresh = selectFeatureHomepageRefresh(state);
     const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(state);
+    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+      state,
+    );
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
@@ -758,15 +762,22 @@ export function submitAppointmentOrRequest(history) {
       });
 
       try {
-        const appointmentBody = transformFormToAppointment(getState());
-        await submitAppointment(appointmentBody);
+        let appointment = null;
+        if (featureVAOSServiceVAAppointments) {
+          appointment = await createAppointment({
+            appointment: transformFormToVAOSAppointment(getState()),
+          });
+        } else {
+          const appointmentBody = transformFormToAppointment(getState());
+          await submitAppointment(appointmentBody);
 
-        try {
-          await buildPreferencesDataAndUpdate(data.email);
-        } catch (error) {
-          // These are ancillary updates, the request went through if the first submit
-          // succeeded
-          captureError(error);
+          try {
+            await buildPreferencesDataAndUpdate(data.email);
+          } catch (error) {
+            // These are ancillary updates, the request went through if the first submit
+            // succeeded
+            captureError(error);
+          }
         }
 
         dispatch({
@@ -779,7 +790,12 @@ export function submitAppointmentOrRequest(history) {
           ...additionalEventData,
         });
         resetDataLayer();
-        history.push('/new-appointment/confirmation');
+
+        if (featureVAOSServiceVAAppointments) {
+          history.push(`/va/${appointment.id}?confirmMsg=true`);
+        } else {
+          history.push('/new-appointment/confirmation');
+        }
       } catch (error) {
         captureError(error, true);
         dispatch({
@@ -787,7 +803,6 @@ export function submitAppointmentOrRequest(history) {
           isVaos400Error: has400LevelError(error),
         });
 
-        // Remove parse function when converting this call to FHIR service
         dispatch(fetchFacilityDetails(newAppointment.data.vaFacility));
 
         recordEvent({
