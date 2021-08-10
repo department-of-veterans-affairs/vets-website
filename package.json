@@ -327,6 +327,7 @@
     "whatwg-fetch": "^3.6.2"
   },
   "resolutions": {
+    "**/path-parse": "1.0.7",
     "**/lodash": "4.17.21",
     "**/js-yaml": "^3.13.1",
     "**/jpeg-js": "^0.4.0",
