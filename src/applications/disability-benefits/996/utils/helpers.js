@@ -1,19 +1,4 @@
-import Scroll from 'react-scroll';
 import moment from 'moment';
-
-// testing
-export const $ = (selector, DOM) => DOM.querySelector(selector);
-export const $$ = (selector, DOM) => DOM.querySelectorAll(selector);
-
-export const scrollTo = (target = 'topScrollElement') => {
-  Scroll.scroller.scrollTo(target, {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
-
-export const scrollToTop = scrollTo;
 
 /**
  * Check HLR v2 feature flag
@@ -83,4 +68,19 @@ export const getEligibleContestableIssues = issues => {
     }
     return date.add(1, 'years').isAfter(today);
   });
+};
+
+/**
+ * Convert an array into a readable list of items
+ * @param {String[]} list - Array of items. Empty entries are stripped out
+ * @returns {String}
+ * @example
+ * readableList(['1', '2', '3', '4', 'five'])
+ * // => '1, 2, 3, 4 and five'
+ */
+export const readableList = list => {
+  const cleanedList = list.filter(Boolean);
+  return [cleanedList.slice(0, -1).join(', '), cleanedList.slice(-1)[0]].join(
+    cleanedList.length < 2 ? '' : ' and ',
+  );
 };

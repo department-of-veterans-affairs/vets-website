@@ -8,8 +8,8 @@ import {
   getFacilityPhone,
 } from '../../../services/location';
 import {
-  getTimezoneAbbrBySystemId,
-  getTimezoneBySystemId,
+  getTimezoneAbbrByFacilityId,
+  getTimezoneByFacilityId,
 } from '../../../utils/timezone';
 import { PURPOSE_TEXT } from '../../../utils/constants';
 
@@ -19,11 +19,10 @@ export default function ConfirmationDirectScheduleInfo({
   clinic,
   pageTitle,
   slot,
-  systemId,
 }) {
-  const timezone = getTimezoneBySystemId(systemId);
+  const timezone = getTimezoneByFacilityId(data.vaFacility);
   const momentDate = timezone
-    ? moment(slot.start).tz(timezone.timezone, true)
+    ? moment(slot.start).tz(timezone, true)
     : moment(slot.start);
   const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
 
@@ -41,7 +40,7 @@ export default function ConfirmationDirectScheduleInfo({
         </div>
         <h2 className="vaos-appts__date-time vads-u-font-size--lg vads-u-margin-x--0">
           {momentDate.format('MMMM D, YYYY [at] h:mm a')}
-          {` ${getTimezoneAbbrBySystemId(systemId)}`}
+          {` ${getTimezoneAbbrByFacilityId(data.vaFacility)}`}
         </h2>
         <div className="vads-u-margin-top--2">
           <i aria-hidden="true" className="fas fa-check-circle" />

@@ -168,7 +168,7 @@ export const transform = (formConfig, form) => {
         dateDischarged: dateFormatter(additionalData.bankruptcy.dateDischarged),
       },
     },
-    applicationCertifications: {
+    applicantCertifications: {
       veteranSignature: `${vetFirst} ${vetMiddle} ${vetLast}`,
       veteranDateSigned: moment().format('MM/DD/YYYY'),
     },

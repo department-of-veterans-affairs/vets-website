@@ -17,11 +17,14 @@ import ServiceError from '../components/ServiceError';
 import AboutThisTool from '../components/content/AboutThisTool';
 import Disclaimer from '../components/content/Disclaimer';
 import { useLocation } from 'react-router-dom';
+import Covid19Banner from '../components/content/Covid19Banner';
+import CompareDrawer from './CompareDrawer';
 
 export function GiBillApp({
   constants,
   children,
   preview,
+  compare,
   dispatchEnterPreviewMode,
   dispatchExitPreviewMode,
   dispatchFetchConstants,
@@ -33,7 +36,6 @@ export function GiBillApp({
   const shouldExitPreviewMode = preview.display && !version;
   const shouldEnterPreviewMode = !preview.display && versionChange;
   const location = useLocation();
-  const onProfilePage = location.pathname.includes('/profile');
 
   useEffect(
     () => {
@@ -59,8 +61,15 @@ export function GiBillApp({
     dispatchUpdateQueryParams(params);
   }, []);
 
+  const onProfilePage = location.pathname.includes('/profile');
+  const onComparePage = location.pathname.includes('/compare');
+
   return (
     <div className="gi-app" role="application">
+      {(location.pathname === '/' ||
+        location.pathname === '/gi-bill-comparison-tool-sandbox') && (
+        <Covid19Banner />
+      )}
       <div>
         <div>
           {preview.display && <PreviewBanner version={preview.version} />}
@@ -81,10 +90,16 @@ export function GiBillApp({
               {children}
             </DowntimeNotification>
           )}
-          <div className="row">
-            <AboutThisTool />
-            <Disclaimer />
-          </div>
+          {compare.open && <div style={{ height: '12px' }}>&nbsp;</div>}
+          {!compare.open && (
+            <div className="row vads-u-padding--1p5 small-screen:vads-u-padding--0">
+              <>
+                <AboutThisTool />
+                <Disclaimer />
+              </>
+            </div>
+          )}
+          {!onComparePage && <CompareDrawer alwaysDisplay={onProfilePage} />}
           <Modals />
         </div>
       </div>
@@ -99,6 +114,7 @@ GiBillApp.propTypes = {
 const mapStateToProps = state => ({
   constants: state.constants,
   preview: state.preview,
+  compare: state.compare,
 });
 
 const mapDispatchToProps = {
