@@ -65,7 +65,7 @@ export default function FacilitiesNotShown({
       onClick={() => setIsOpen(!isOpen)}
     >
       <span className="additional-info-title">
-        Why isn't my facility listed?
+        Why isn’t my facility listed?
         <i className={iconClass} />
       </span>
     </button>

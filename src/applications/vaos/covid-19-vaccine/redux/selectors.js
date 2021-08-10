@@ -1,8 +1,8 @@
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import { FETCH_STATUS } from '../../utils/constants';
 import {
-  getTimezoneBySystemId,
-  getTimezoneDescBySystemId,
+  getTimezoneByFacilityId,
+  getTimezoneDescByFacilityId,
 } from '../../utils/timezone';
 import { getSiteIdFromFacilityId } from '../../services/location';
 import { selectCanUseVaccineFlow } from '../../appointment-list/redux/selectors';
@@ -61,12 +61,9 @@ export function getDateTimeSelect(state, pageKey) {
   const data = selectCovid19VaccineFormData(state);
   const formInfo = getCovid19VaccineFormPageInfo(state, pageKey);
   const availableSlots = newBooking.availableSlots;
-  const systemId = getSiteIdForChosenFacility(state);
 
-  const timezoneDescription = systemId
-    ? getTimezoneDescBySystemId(systemId)
-    : null;
-  const { timezone = null } = systemId ? getTimezoneBySystemId(systemId) : {};
+  const timezoneDescription = getTimezoneDescByFacilityId(data.vaFacility);
+  const timezone = getTimezoneByFacilityId(data.vaFacility);
 
   return {
     ...formInfo,
@@ -160,7 +157,6 @@ export function selectConfirmationPage(state) {
     data: selectCovid19VaccineFormData(state),
     facilityDetails: getChosenFacilityInfo(state),
     slot: getChosenSlot(state),
-    systemId: getSiteIdForChosenFacility(state),
     submitStatus: selectCovid19Vaccine(state).submitStatus,
   };
 }
