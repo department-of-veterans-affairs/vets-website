@@ -1,4 +1,3 @@
-import assign from 'lodash/assign';
 import set from 'platform/utilities/data/set';
 
 import {
@@ -15,19 +14,21 @@ const initialState = {
 export default function claimDetailReducer(state = initialState, action) {
   switch (action.type) {
     case SET_CLAIM_DETAIL: {
-      return assign(state, {
+      return {
+        ...state,
         detail: action.claim,
         loading: false,
-      });
+      };
     }
     case GET_CLAIM_DETAIL: {
       return set('loading', true, state);
     }
     case SET_CLAIMS_UNAVAILABLE: {
-      return assign(state, {
+      return {
+        ...state,
         detail: null,
         loading: false,
-      });
+      };
     }
     default:
       return state;

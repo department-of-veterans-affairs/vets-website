@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import cloneDeep from 'lodash/cloneDeep';
+import cloneDeep from 'platform/utilities/data/cloneDeep';
 import set from 'platform/utilities/data/set';
 
 import { YourClaimsPageV2 } from '../../containers/YourClaimsPageV2';

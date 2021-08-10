@@ -60,7 +60,7 @@ export default function appealsReducer(state = initialState, action) {
       //
       // appeals are added to Redux store via FETCH_APPEALS_SUCCESS
       // reducer in claims-list.js
-      return merge(state, {
+      return merge({}, state, {
         appealsLoading: false,
         available: true,
         v1ToV2IdMap: action.v1ToV2IdMap,

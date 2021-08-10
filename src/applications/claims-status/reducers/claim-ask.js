@@ -1,4 +1,3 @@
-import assign from 'lodash/assign';
 import set from 'platform/utilities/data/set';
 
 import {
@@ -19,16 +18,18 @@ export default function claimDetailReducer(state = initialState, action) {
       return set('loadingDecisionRequest', true, state);
     }
     case SET_DECISION_REQUESTED: {
-      return assign(state, {
+      return {
+        ...state,
         decisionRequested: true,
         loadingDecisionRequest: false,
-      });
+      };
     }
     case SET_DECISION_REQUEST_ERROR: {
-      return assign(state, {
+      return {
+        ...state,
         decisionRequestError: action.error,
         loadingDecisionRequest: false,
-      });
+      };
     }
     default:
       return state;

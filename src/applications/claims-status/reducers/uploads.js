@@ -1,4 +1,3 @@
-import assign from 'lodash/assign';
 import set from 'platform/utilities/data/set';
 import {
   RESET_UPLOADS,
@@ -50,35 +49,39 @@ export default function claimDetailReducer(state = initialState, action) {
       );
     }
     case SET_UPLOADING: {
-      return assign(state, {
+      return {
+        ...state,
         uploading: action.uploading,
         uploadError: false,
         uploadComplete: false,
         uploader: action.uploader,
-      });
+      };
     }
     case SET_UPLOADER: {
-      return assign(state, {
+      return {
+        ...state,
         uploader: action.uploader,
-      });
+      };
     }
     case SET_PROGRESS: {
       return set('progress', action.progress, state);
     }
     case DONE_UPLOADING: {
-      return assign(state, {
+      return {
+        ...state,
         uploading: false,
         uploadComplete: true,
         uploader: null,
         files: [],
-      });
+      };
     }
     case SET_UPLOAD_ERROR: {
-      return assign(state, {
+      return {
+        ...state,
         uploading: false,
         uploadError: true,
         uploader: null,
-      });
+      };
     }
     case UPDATE_FIELD: {
       return set(action.path, action.field, state);
@@ -87,10 +90,11 @@ export default function claimDetailReducer(state = initialState, action) {
       return set('showMailOrFax', action.visible, state);
     }
     case CANCEL_UPLOAD: {
-      return assign(state, {
+      return {
+        ...state,
         uploading: false,
         uploader: null,
-      });
+      };
     }
     case SET_FIELDS_DIRTY: {
       return dirtyAllFields(state);

@@ -1,4 +1,3 @@
-import assign from 'lodash/assign';
 import set from 'platform/utilities/data/set';
 
 import {
@@ -18,11 +17,12 @@ export default function claimDetailReducer(state = initialState, action) {
   switch (action.type) {
     case SET_CLAIM_DETAIL:
     case SET_CLAIMS:
-      return assign(state, {
+      return {
+        ...state,
         synced: action.meta.syncStatus === 'SUCCESS',
         available: true,
         authorized: true,
-      });
+      };
     case SET_CLAIMS_UNAVAILABLE:
       return set('available', false, state);
     case SET_UNAUTHORIZED:

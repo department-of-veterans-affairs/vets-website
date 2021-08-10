@@ -256,6 +256,7 @@ export function makeAuthRequest(
 ) {
   const csrfTokenStored = localStorage.getItem('csrfToken');
   const options = merge(
+    {},
     {
       method: 'GET',
       credentials: 'include',
