@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import get from 'platform/utilities/data/get';
 import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
@@ -41,7 +41,7 @@ class ConfirmationPage extends React.Component {
     const form = this.props.form;
     const { submission, formId } = form;
     const benefits = form.data['view:selectedBenefits'];
-    const benefitsRelinquished = _.get(
+    const benefitsRelinquished = get(
       'data.view:benefitsRelinquishedContainer.benefitsRelinquished',
       form,
     );

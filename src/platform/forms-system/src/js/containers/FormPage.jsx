@@ -6,11 +6,12 @@ import Scroll from 'react-scroll';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import classNames from 'classnames';
 
-import ProgressButton from '../components/ProgressButton';
+import FormNavButtons from '../components/FormNavButtons';
 import SchemaForm from '../components/SchemaForm';
 import { setData, uploadFile } from '../actions';
 import { getNextPagePath, getPreviousPagePath } from '../routing';
 import { focusElement } from '../utilities/ui';
+import { isReactComponent } from '~/platform/utilities/ui';
 
 function focusForm() {
   focusElement('.nav-header > h2');
@@ -65,12 +66,15 @@ class FormPage extends React.Component {
     this.props.setData(newData);
   };
 
+  // Navigate to the next page
   onSubmit = ({ formData }) => {
     const { form, params, route, location } = this.props;
 
     // This makes sure defaulted data on a page with no changes is saved
-    // Probably safe to do this for regular pages, too, but it hasn’t been necessary
-    if (route.pageConfig.showPagePerItem) {
+    // Probably safe to do this for regular pages, too, but it hasn’t been
+    // necessary. Additionally, it should NOT setData for a CustomPage. The
+    // CustomPage should take care of that itself.
+    if (route.pageConfig.showPagePerItem && !route.pageConfig.CustomPage) {
       const newData = _.set(
         [route.pageConfig.arrayPath, params.index],
         formData,
@@ -86,6 +90,11 @@ class FormPage extends React.Component {
 
   formData = () => {
     const { pageConfig } = this.props.route;
+    // If it's a CustomPage, return the entire form data
+    if (pageConfig.CustomPage) return this.props.form.data;
+
+    // If it's an array page, return only the data for that array item
+    // Otherwise, return the data for the entire form
     return this.props.route.pageConfig.showPagePerItem
       ? _.get(
           [pageConfig.arrayPath, this.props.params.index],
@@ -121,7 +130,7 @@ class FormPage extends React.Component {
     const pageClasses = classNames('form-panel', route.pageConfig.pageClass);
     const data = this.formData();
 
-    if (route.pageConfig.showPagePerItem) {
+    if (route.pageConfig.showPagePerItem && !route.pageConfig.CustomPage) {
       // Instead of passing through the schema/uiSchema to SchemaForm, the
       // current item schema for the array at arrayPath is pulled out of the page state and passed
       schema =
@@ -138,6 +147,27 @@ class FormPage extends React.Component {
       if (typeof route.pageConfig.onContinue === 'function') {
         route.pageConfig.onContinue(data);
       }
+    }
+
+    // Bypass the SchemaForm and render the custom component
+    // NOTE: I don't think FormPage is rendered on the review page, so I believe
+    // onReviewPage will always be false here
+    if (isReactComponent(route.pageConfig.CustomPage)) {
+      return (
+        <div className={pageClasses}>
+          <route.pageConfig.CustomPage
+            name={route.pageConfig.pageKey}
+            title={route.pageConfig.title}
+            data={data}
+            pagePerItemIndex={params ? params.index : undefined}
+            onReviewPage={formContext?.onReviewPage}
+            trackingPrefix={this.props.form.trackingPrefix}
+            uploadFile={this.props.uploadFile}
+            goBack={this.goBack}
+            goForward={this.onSubmit}
+          />
+        </div>
+      );
     }
 
     return (
@@ -157,27 +187,11 @@ class FormPage extends React.Component {
           onSubmit={this.onSubmit}
         >
           {contentBeforeButtons}
-          <div className="row form-progress-buttons schemaform-buttons">
-            <div className="small-6 medium-5 columns">
-              {!isFirstRoutePage && (
-                <ProgressButton
-                  onButtonClick={this.goBack}
-                  buttonText="Back"
-                  buttonClass="usa-button-secondary"
-                  beforeText="«"
-                />
-              )}
-            </div>
-            <div className="small-6 medium-5 end columns">
-              <ProgressButton
-                submitButton
-                onButtonClick={callOnContinue}
-                buttonText="Continue"
-                buttonClass="usa-button-primary"
-                afterText="»"
-              />
-            </div>
-          </div>
+          <FormNavButtons
+            goBack={!isFirstRoutePage && this.goBack}
+            goForward={callOnContinue}
+            submitToContinue
+          />
           {contentAfterButtons}
         </SchemaForm>
       </div>

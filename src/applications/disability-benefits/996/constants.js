@@ -43,8 +43,13 @@ export const errorMessages = {
   endDateInPast: 'End date must be in the future',
   endDateBeforeStart: 'End date must be after start date',
   informalConferenceContactChoice: 'Please choose an option',
-  informalConferenceContactName: 'Please enter a name',
-  informalConferenceContactPhone: 'Please enter a number',
+  informalConferenceContactName: 'Please enter your representative’s name',
+  informalConferenceContactFirstName:
+    'Please enter your representative’s first name',
+  informalConferenceContactLastName:
+    'Please enter your representative’s last name',
+  informalConferenceContactPhone:
+    'Please enter your representative’s phone number',
   informalConferenceContactPhonePattern:
     'Please enter a 10-digit phone number (with or without dashes)',
   informalConferenceTimes: 'Please select a time',
@@ -52,6 +57,10 @@ export const errorMessages = {
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';
+
+// contested issue dates
+export const FORMAT_YMD = 'YYYY-MM-DD';
+export const FORMAT_READABLE = 'LL';
 
 // session storage keys
 export const SAVED_CLAIM_TYPE = 'hlrClaimType';

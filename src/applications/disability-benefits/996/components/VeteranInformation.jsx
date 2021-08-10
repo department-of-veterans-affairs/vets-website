@@ -12,7 +12,7 @@ import { selectProfile } from 'platform/user/selectors';
 
 import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 import { SELECTED } from '../constants';
-import { apiVersion2 } from '../helpers';
+import { apiVersion2 } from '../utils/helpers';
 
 // separate each number so the screenreader reads "number ending with 1 2 3 4"
 // instead of "number ending with 1,234"
