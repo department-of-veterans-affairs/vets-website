@@ -82,6 +82,7 @@ describe('Schemaform FormNav', () => {
         formConfig={formConfigReviewData}
         currentPath={currentPath}
         inProgressFormId={12345}
+        isLoggedIn
       />,
     );
     expect(
@@ -93,6 +94,22 @@ describe('Schemaform FormNav', () => {
       tree.getByText('Your application ID number is 12345', {
         exact: false,
       }),
+    ).to.not.be.null;
+  });
+  it('should not display the auto-save message', () => {
+    const formConfigReviewData = getReviewData();
+    const currentPath = 'review-and-submit';
+
+    const tree = render(
+      <FormNav
+        formConfig={formConfigReviewData}
+        currentPath={currentPath}
+        inProgressFormId={12345}
+        isLoggedIn={false}
+      />,
+    );
+    expect(
+      tree.getByText('Step 3 of 3: Custom Review Page Title', { exact: true }),
     ).to.not.be.null;
   });
 });

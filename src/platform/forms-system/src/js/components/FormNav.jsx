@@ -15,7 +15,13 @@ import PropTypes from 'prop-types';
 import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
 
 export default function FormNav(props) {
-  const { formConfig, currentPath, formData, inProgressFormId } = props;
+  const {
+    formConfig,
+    currentPath,
+    formData,
+    isLoggedIn,
+    inProgressFormId,
+  } = props;
 
   const [index, setIndex] = useState(0);
 
@@ -42,6 +48,7 @@ export default function FormNav(props) {
 
   let current;
   let chapterName;
+  let inProgressMessage = null;
   if (page) {
     current = chapters.indexOf(page.chapterKey) + 1;
     // The review page is always part of our forms, but isn’t listed in chapter list
@@ -52,6 +59,16 @@ export default function FormNav(props) {
     if (typeof chapterName === 'function') {
       chapterName = chapterName();
     }
+  }
+
+  if (isLoggedIn) {
+    inProgressMessage = (
+      <span className="vads-u-display--block vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
+        Your application will be saved on every change.{' '}
+        {inProgressFormId &&
+          `Your application ID number is ${inProgressFormId}`}
+      </span>
+    );
   }
 
   const stepText = `Step ${current} of ${chapters.length}: ${chapterName}`;
@@ -92,10 +109,7 @@ export default function FormNav(props) {
           {showHeader && (
             <h2 id="nav-form-header" className="vads-u-font-size--h4">
               {stepText}
-              <span className="vads-u-display--block vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
-                Your application will be saved on every change. Your application
-                ID number is {inProgressFormId}
-              </span>{' '}
+              {inProgressMessage}
             </h2>
           )}
           {!showHeader && (
@@ -115,6 +129,8 @@ FormNav.defaultProps = {
   },
   currentPath: '',
   formData: {},
+  isLoggedIn: false,
+  inProgressFormId: null,
 };
 
 FormNav.propTypes = {
@@ -123,4 +139,6 @@ FormNav.propTypes = {
       reviewPageTitle: PropTypes.string,
     }),
   }).isRequired,
+  inProgressFormId: PropTypes.number,
+  isLoggedIn: PropTypes.bool,
 };
