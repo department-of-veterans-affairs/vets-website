@@ -36,20 +36,28 @@ import {
  * Teardown() resets it back to normal.
  */
 
+let oldWindow;
+
 const setup = () => {
   testkit.reset();
   mockFetch();
   setFetchJSONResponse(global.fetch.onCall(0), {});
+  oldWindow = global.window;
   global.window.URL = {
     createObjectURL: () => {},
     revokeObjectURL: () => {},
   };
 };
 
+const teardown = () => {
+  global.window = oldWindow;
+};
+
 const getState = () => ({});
 
 describe('getLettersList', () => {
   beforeEach(setup);
+  afterEach(teardown);
 
   const lettersResponse = {
     data: {
@@ -137,6 +145,7 @@ describe('getLettersList', () => {
 
 describe('getLetterListAndBSLOptions', () => {
   beforeEach(setup);
+  afterEach(teardown);
 
   it('should make the call to get the BSL options after the letter list call is complete', done => {
     const thunk = getLetterListAndBSLOptions();
@@ -166,6 +175,7 @@ describe('getLetterListAndBSLOptions', () => {
 
 describe('getBenefitSummaryOptions', () => {
   beforeEach(setup);
+  afterEach(teardown);
 
   const mockResponse = {
     data: {
@@ -234,6 +244,7 @@ describe('getBenefitSummaryOptions', () => {
 
 describe('getLetterPdf', () => {
   beforeEach(setup);
+  afterEach(teardown);
 
   const benefitSLetter = {
     letterName: 'Benefit Summary Letter',
