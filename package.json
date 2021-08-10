@@ -265,7 +265,7 @@
   "dependencies": {
     "@department-of-veterans-affairs/component-library": "2.5.5",
     "@department-of-veterans-affairs/formation": "6.16.2",
-    "@department-of-veterans-affairs/formulate": "https://github.com/department-of-veterans-affairs/formulate.git#simplify-prepare-script-cv",
+    "@department-of-veterans-affairs/formulate": "0.0.1",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@formatjs/intl-datetimeformat": "^3.2.7",
     "@formatjs/intl-getcanonicallocales": "^1.5.3",

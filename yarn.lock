@@ -1546,9 +1546,10 @@
     element-closest "^3.0.1"
     foundation-sites "5"
 
-"@department-of-veterans-affairs/formulate@https://github.com/department-of-veterans-affairs/formulate.git#simplify-prepare-script-cv":
+"@department-of-veterans-affairs/formulate@0.0.1":
   version "0.0.1"
-  resolved "https://github.com/department-of-veterans-affairs/formulate.git#5d5d759f16980485a494ecc913c7f9881b8e7582"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formulate/-/formulate-0.0.1.tgz#527e88a20db707088b50a81ed3047778e68cc18f"
+  integrity sha512-FuWxwRTjuJdbpNm5KlhwJzB8/HuzwxeV6kkCJwGf3NCbkfOXXF6L+Glx8kWFMmrIuPUPjwYV2N5+/QZGWk8N9Q==
   dependencies:
     lodash "^4.17.21"
 
