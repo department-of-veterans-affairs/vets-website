@@ -388,9 +388,7 @@ const formConfig = {
               email: 'hector.stanley@gmail.com',
               confirmEmail: 'hector.stanley@gmail.com',
             },
-            mobilePhoneNumber: {
-              mobilePhone: '123-456-7890',
-            },
+            mobilePhoneNumber: '123-456-7890',
             phoneNumber: '098-765-4321',
           },
           subTitle: 'Review your email and phone numbers',
