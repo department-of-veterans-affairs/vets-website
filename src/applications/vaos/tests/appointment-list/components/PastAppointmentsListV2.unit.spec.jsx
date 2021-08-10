@@ -284,7 +284,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       start: start.format('YYYY-MM-DDTHH:mm:ssZ'),
       end: end.format('YYYY-MM-DDTHH:mm:ssZ'),
       requests: [appointment],
-      statuses: ['booked', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
     const myInitialState = {

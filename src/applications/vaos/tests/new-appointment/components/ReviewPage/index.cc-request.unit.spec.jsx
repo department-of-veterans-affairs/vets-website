@@ -27,7 +27,7 @@ import {
   mockRequestSubmit,
 } from '../../../mocks/helpers';
 
-import { mockAppointmentSubmit } from '../../../mocks/helpers.v2';
+import { mockAppointmentSubmitV2 } from '../../../mocks/helpers.v2';
 import { getVAFacilityMock } from '../../../mocks/v0';
 
 const initialState = {
@@ -206,6 +206,7 @@ describe('VAOS <ReviewPage> CC request', () => {
       'health-ReasonForAppointment': undefined,
       'vaos-number-of-preferred-providers': 1,
       'vaos-community-care-preferred-language': 'english',
+      'vaos-preferred-combination': 'afternoon-evening-morning',
       flow: 'cc-request',
     });
   });
@@ -643,7 +644,7 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
   });
 
   it('should submit successfully', async () => {
-    mockAppointmentSubmit({
+    mockAppointmentSubmitV2({
       id: 'fake_id',
     });
     mockPreferences(null);

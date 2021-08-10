@@ -334,7 +334,7 @@ describe('selectVAPServiceInitializationStatus', () => {
     );
   });
 
-  it.skip('returns INITIALIZED if Vet360 is found in the services array', () => {
+  it('returns INITIALIZED if Vet360 is found in the services array', () => {
     const result = selectors.selectVAPServiceInitializationStatus(state);
     expect(result.status).to.be.equal(
       VAP_SERVICE_INITIALIZATION_STATUS.INITIALIZED,
@@ -363,7 +363,7 @@ describe('selectVAPServiceInitializationStatus', () => {
     );
   });
 
-  it.skip('returns INITIALIZATION_FAILURE if there is a failed transaction', () => {
+  it('returns INITIALIZATION_FAILURE if there is a failed transaction', () => {
     const transactionId = 'transaction_1';
     state.user.profile.services = [];
     state.vapService.transactions = [
