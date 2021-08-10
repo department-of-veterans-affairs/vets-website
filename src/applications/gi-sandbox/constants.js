@@ -47,6 +47,15 @@ export const TABS = Object.freeze({
   location: 'location',
 });
 
+export const INSTITUTION_TYPES = [
+  'Public',
+  'For profit',
+  'Private',
+  'Foreign',
+  'Flight',
+  'Correspondence',
+];
+
 export const ariaLabels = Object.freeze({
   learnMore: {
     giBillBenefits: 'Learn more about VA education and training programs',

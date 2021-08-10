@@ -14,7 +14,7 @@ import {
 } from '../utils/helpers';
 import { showModal, filterChange } from '../actions';
 import { connect } from 'react-redux';
-import { TABS } from '../constants';
+import { TABS, INSTITUTION_TYPES } from '../constants';
 import CheckboxGroup from '../components/CheckboxGroup';
 import _ from 'lodash';
 import { updateUrlParams } from '../selectors/search';
@@ -132,16 +132,21 @@ export function FilterYourResults({
   };
 
   const excludedSchoolTypesGroup = () => {
-    const types = Object.keys(facets.type);
+    const types = INSTITUTION_TYPES.filter(
+      type =>
+        Object.keys(facets.type).includes(type.toUpperCase()) ||
+        excludedSchoolTypes.includes(type.toUpperCase()),
+    );
+
     const seeMore = types.length > 4 && !showAllSchoolTypes;
     const seeLess = types.length > 4 && showAllSchoolTypes;
 
     const options = (showAllSchoolTypes ? types : types.slice(0, 4)).map(
-      key => {
+      type => {
         return {
-          name: key,
-          checked: excludedSchoolTypes.includes(key),
-          optionLabel: key,
+          name: type.toUpperCase(),
+          checked: excludedSchoolTypes.includes(type.toUpperCase()),
+          optionLabel: type,
         };
       },
     );
