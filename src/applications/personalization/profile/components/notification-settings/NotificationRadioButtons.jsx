@@ -54,7 +54,7 @@ const NotificationRadioButtons = ({
     errorSpanId = `${id}-error-message`;
     errorSpan = (
       <span className="rb-input-error-message" role="alert" id={errorSpanId}>
-        <i className="fas fa-exclamation-triangle vads-u-margin-x--1" />{' '}
+        <i className="fas fa-exclamation-circle vads-u-margin-x--1" />{' '}
         <span className="sr-only">Error</span> {errorMessage}
       </span>
     );
@@ -86,7 +86,7 @@ const NotificationRadioButtons = ({
         role="alert"
         id={successSpanId}
       >
-        <i className="fas fa-check-square vads-u-margin-x--1" />{' '}
+        <i className="fas fa-check-circle vads-u-margin-x--1" />{' '}
         <span className="sr-only">Success</span> {successMessage}
       </span>
     );
