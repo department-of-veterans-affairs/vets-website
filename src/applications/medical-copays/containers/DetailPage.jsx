@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import BalanceQuestions from '../components/BalanceQuestions';
 import HowToPay from '../components/HowToPay';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import FinancialHelp from '../components/FinancialHelp';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { Link } from 'react-router-dom';
 
 const DetailPage = () => {
+  useEffect(() => {
+    scrollToTop();
+  }, []);
+
   return (
     <>
       <Breadcrumbs className="vads-u-font-family--sans">
@@ -45,6 +52,7 @@ const DetailPage = () => {
       </va-alert>
       <va-on-this-page />
       <HowToPay />
+      <FinancialHelp />
       <BalanceQuestions
         contact={
           <span>
@@ -57,6 +65,16 @@ const DetailPage = () => {
           </span>
         }
       />
+      <p>
+        <a href="#">Notice of rights and responsibilities</a>
+      </p>
+      <Link className="vads-u-font-family--sans vads-u-font-size--sm" to="/">
+        <i
+          aria-hidden="true"
+          className="fa fa-chevron-left vads-u-margin-right--1"
+        />
+        <strong>Return to copay balances</strong>
+      </Link>
     </>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import FacilityContacts from '../components/FacilityContacts';
@@ -6,9 +6,14 @@ import StatusAlert from '../components/StatusAlert';
 import Balances from '../components/Balances';
 import BalanceQuestions from '../components/BalanceQuestions';
 import { currency } from '../utils/helpers';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 const OverviewPage = () => {
   const amount = currency(130);
+
+  useEffect(() => {
+    scrollToTop();
+  }, []);
 
   return (
     <>
