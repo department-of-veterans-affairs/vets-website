@@ -5,7 +5,7 @@ import { isEqual } from 'lodash';
 
 import { setData as setDataAction } from '~/platform/forms-system/src/js/actions';
 
-const Form = ({ setData, ...rest }) => {
+export const Form = ({ setData, ...rest }) => {
   const { values } = useFormikContext();
 
   // Form rerenders potentially a bunch of times each time the values change.
