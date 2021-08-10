@@ -7,7 +7,10 @@ import {
   setFetchJSONResponse,
 } from 'platform/testing/unit/helpers';
 
-import { fetchBookedAppointment } from '../../../services/appointment';
+import {
+  fetchBookedAppointment,
+  getAppointmentRequests,
+} from '../../../services/appointment';
 import { VIDEO_TYPES } from '../../../utils/constants';
 import moment from '../../../lib/moment-tz';
 import { createMockAppointmentByVersion } from '../../mocks/data';
@@ -728,6 +731,95 @@ describe('VAOS Appointment service', () => {
 
       const differences = diff(v2Result, v0Result);
       expect(differences).to.be.empty;
+    });
+  });
+
+  describe('getAppointmentRequests', () => {
+    beforeEach(() => mockFetch());
+    it('should return matching v0 and v2 data for an in person VA request', async () => {
+      const data = {
+        id: '1234',
+        start: moment()
+          .add(3, 'days')
+          .format(),
+        email: 'test@va.gov',
+        kind: 'clinic',
+        locationId: '552GA',
+        clinic: '5544',
+        clinicFriendlyName: 'Friendly clinic name',
+        requestedPeriods: [{ start: moment(), end: moment() }],
+        serviceType: 'primaryCare',
+        status: 'proposed',
+      };
+      const startDate = moment()
+        .subtract(30, 'days')
+        .format();
+      const endDate = moment()
+        .add(30, 'days')
+        .format();
+
+      setFetchJSONResponse(
+        global.fetch.withArgs(
+          sinon.match(
+            `/vaos/v2/appointments?start=${startDate}&end=${endDate}&statuses[]=proposed&statuses[]=cancelled`,
+          ),
+        ),
+        {
+          data: [
+            createMockAppointmentByVersion({
+              version: 2,
+              ...data,
+            }),
+          ],
+        },
+      );
+      setFetchJSONResponse(
+        global.fetch.withArgs(
+          sinon.match(
+            `/vaos/v0/appointment_requests?start_date=${startDate}&end_date=${endDate}`,
+          ),
+        ),
+        {
+          data: [
+            createMockAppointmentByVersion({
+              version: 0,
+              ...data,
+            }),
+          ],
+        },
+      );
+
+      const [v0Result, v2Result] = await Promise.all([
+        getAppointmentRequests({
+          startDate,
+          endDate,
+        }),
+        getAppointmentRequests({
+          startDate,
+          endDate,
+          useV2: true,
+        }),
+      ]);
+
+      // These are always different
+      delete v0Result[0].vaos.apiData;
+      delete v2Result[0].vaos.apiData;
+
+      // differences format is http://jsonpatch.com/
+      const differences = diff(v2Result, v0Result);
+      expect(differences).to.have.deep.members(
+        [
+          // The v2 endpoint doesn't send us the clinic name
+          {
+            op: 'replace',
+            path: ['location', 'clinicName'],
+            value: 'Friendly clinic name',
+          },
+          { op: 'replace', path: ['description'], value: 'FUTURE' },
+          { op: 'remove', path: ['practitioners'] },
+        ],
+        'Transformers for v0 and v2 appointment data are out of sync',
+      ); // The v2 endpoint doesn't send us the vista status
     });
   });
 });
