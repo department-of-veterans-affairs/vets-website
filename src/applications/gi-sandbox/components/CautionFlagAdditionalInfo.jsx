@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import { useLocation } from 'react-router-dom';
 
 export const CautionFlagAdditionalInfo = ({
   cautionFlags,
@@ -9,6 +10,9 @@ export const CautionFlagAdditionalInfo = ({
   const validFlags = cautionFlags
     ? [...cautionFlags].filter(flag => flag.title)
     : [];
+
+  const location = useLocation();
+  const onProfilePage = location.pathname.includes('/profile');
 
   const headline =
     validFlags.length === 1
@@ -57,6 +61,11 @@ export const CautionFlagAdditionalInfo = ({
                   </li>
                 ))}
             </ul>
+            {onProfilePage && (
+              <div className="vads-u-padding--2">
+                <a href="#cautionary-information">View details below</a>
+              </div>
+            )}
           </div>
         )}
       </div>
