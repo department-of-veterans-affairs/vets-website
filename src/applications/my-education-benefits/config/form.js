@@ -388,7 +388,9 @@ const formConfig = {
               email: 'hector.stanley@gmail.com',
               confirmEmail: 'hector.stanley@gmail.com',
             },
-            mobilePhoneNumber: '123-456-7890',
+            mobilePhoneNumber: {
+              mobilePhone: '123-456-7890',
+            },
             phoneNumber: '098-765-4321',
           },
           subTitle: 'Review your email and phone numbers',
@@ -420,13 +422,16 @@ const formConfig = {
               confirmEmail: emailUI('Confirm email address'),
             },
             [formFields.mobilePhoneNumber]: {
-              ...phoneUI('Mobile phone'),
               'ui:title': 'Your mobile phone number',
               'ui:field': ReviewBoxField,
               'ui:options': {
                 hideLabelText: true,
                 showFieldLabel: false,
                 viewComponent: PhoneViewField,
+              },
+              mobilePhone: phoneUI('Mobile phone number'),
+              isInternational: {
+                'ui:title': 'This phone number is international',
               },
             },
             [formFields.phoneNumber]: {
@@ -471,7 +476,18 @@ const formConfig = {
                   },
                 },
               },
-              [formFields.mobilePhoneNumber]: usaPhone,
+              [formFields.mobilePhoneNumber]: {
+                type: 'object',
+                properties: {
+                  isInternational: {
+                    type: 'boolean',
+                  },
+                  mobilePhone: {
+                    type: 'string',
+                    format: 'phone',
+                  },
+                },
+              },
               [formFields.phoneNumber]: usaPhone,
               'view:note': {
                 type: 'object',
@@ -480,54 +496,6 @@ const formConfig = {
             },
           },
         },
-        // [formPages.directDeposit]: {
-        //   path: 'direct-deposit',
-        //   title: 'Direct Deposit',
-        //   uiSchema: {
-        //     'ui:title': 'Direct deposit',
-        //     [formFields.viewNoDirectDeposit]: {
-        //       'ui:title': 'I don’t want to use direct deposit',
-        //     },
-        //     [formFields.bankAccount]: _.merge(bankAccountUI, {
-        //       'ui:order': [
-        //         formFields.accountType,
-        //         formFields.accountNumber,
-        //         formFields.routingNumber,
-        //       ],
-        //       'ui:options': {
-        //         hideIf: formData => !hasDirectDeposit(formData),
-        //       },
-        //       [formFields.accountType]: {
-        //         'ui:required': hasDirectDeposit,
-        //       },
-        //       [formFields.accountNumber]: {
-        //         'ui:required': hasDirectDeposit,
-        //       },
-        //       [formFields.routingNumber]: {
-        //         'ui:required': hasDirectDeposit,
-        //       },
-        //     }),
-        //     [formFields.viewStopWarning]: {
-        //       'ui:description': directDepositWarning,
-        //       'ui:options': {
-        //         hideIf: hasDirectDeposit,
-        //       },
-        //     },
-        //   },
-        //   schema: {
-        //     type: 'object',
-        //     properties: {
-        //       [formFields.viewNoDirectDeposit]: {
-        //         type: 'boolean',
-        //       },
-        //       [formFields.bankAccount]: bankAccount,
-        //       [formFields.viewStopWarning]: {
-        //         type: 'object',
-        //         properties: {},
-        //       },
-        //     },
-        //   },
-        // },
       },
     },
     benefitSelection: {
