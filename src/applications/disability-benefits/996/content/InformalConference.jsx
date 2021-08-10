@@ -29,8 +29,14 @@ export const ContactRepresentativeTitle =
   'Provide your representative’s contact information.';
 
 export const RepresentativeNameTitle = 'Representative’s name';
+export const RepresentativeFirstNameTitle = 'Representative’s first name';
+export const RepresentativeLastNameTitle = 'Representative’s last name';
 
 export const RepresentativePhoneTitle = 'Representative’s phone number';
+export const RepresentativePhoneExtensionTitle =
+  'Representative’s phone extension';
+
+export const RepresentativeEmailTitle = 'Representative’s email address';
 
 // Using CSS to use article[data-contact-choice] attribute to set visibility
 const contacts = (
