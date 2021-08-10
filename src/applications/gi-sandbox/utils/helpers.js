@@ -1,4 +1,4 @@
-import _, { snakeCase } from 'lodash';
+import { snakeCase } from 'lodash';
 import URLSearchParams from 'url-search-params';
 import { useLocation } from 'react-router-dom';
 
@@ -7,12 +7,7 @@ import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import mapboxClient from '../components/MapboxClient';
 
 const mbxClient = mbxGeo(mapboxClient);
-import {
-  SMALL_SCREEN_WIDTH,
-  FILTERS_EXCLUDED_FLIP,
-  FILTERS_IGNORE_ALL,
-} from '../constants';
-import appendQuery from 'append-query';
+import { SMALL_SCREEN_WIDTH } from '../constants';
 
 /**
  * Snake-cases field names
@@ -176,38 +171,6 @@ export const sortOptionsByStateName = (stateA, stateB) => {
   return 0;
 };
 
-export const buildSearchFilters = filters => {
-  const clonedFilters = _.cloneDeep(filters);
-  delete clonedFilters.expanded;
-  delete clonedFilters.search;
-
-  const searchFilters = {};
-
-  // boolean fields
-  Object.entries(clonedFilters)
-    .filter(([_field, value]) => value === true)
-    .filter(([field, _value]) => !FILTERS_EXCLUDED_FLIP.includes(field))
-    .forEach(([field]) => {
-      searchFilters[field] = clonedFilters[field];
-    });
-
-  FILTERS_IGNORE_ALL.filter(field => clonedFilters[field] !== 'ALL').forEach(
-    field => {
-      searchFilters[field] = clonedFilters[field];
-    },
-  );
-
-  FILTERS_EXCLUDED_FLIP.filter(field => !clonedFilters[field]).forEach(
-    field => {
-      const excludeField = `exclude${field[0].toUpperCase() +
-        field.slice(1).toLowerCase()}`;
-      searchFilters[excludeField] = !clonedFilters[field];
-    },
-  );
-
-  return searchFilters;
-};
-
 export const searchCriteriaFromCoords = async (longitude, latitude) => {
   const response = await mbxClient
     .reverseGeocode({
@@ -233,43 +196,6 @@ export const schoolSize = enrollment => {
     return 'Medium';
   }
   return 'Large';
-};
-
-export const updateUrlParams = (
-  history,
-  tab,
-  searchQuery,
-  filters,
-  version,
-) => {
-  const queryParams = {
-    search: tab,
-  };
-  if (
-    searchQuery.name !== '' &&
-    searchQuery.name !== null &&
-    searchQuery.name !== undefined
-  ) {
-    queryParams.name = searchQuery.name;
-  }
-
-  if (
-    searchQuery.location !== '' &&
-    searchQuery.location !== null &&
-    searchQuery.location !== undefined
-  ) {
-    queryParams.location = searchQuery.location;
-  }
-
-  if (version) {
-    queryParams.version = version;
-  }
-
-  const url = appendQuery('/', {
-    ...queryParams,
-    ...buildSearchFilters(filters),
-  });
-  history.push(url);
 };
 
 export function isURL(str) {

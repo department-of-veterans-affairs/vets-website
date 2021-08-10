@@ -46,12 +46,17 @@ export function GiBillApp({
   );
 
   useEffect(() => {
-    let params = {};
+    const params = {};
     for (const [key, value] of queryParams.entries()) {
-      params = {
-        ...params,
-        [key]: value,
-      };
+      if (key.includes('[]')) {
+        const arrayKey = key.replace('[]', '');
+        if (!params[arrayKey]) {
+          params[arrayKey] = [];
+        }
+        params[arrayKey].push(value);
+      } else {
+        params[key] = value;
+      }
     }
     dispatchUpdateQueryParams(params);
   }, []);

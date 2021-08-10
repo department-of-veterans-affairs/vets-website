@@ -6,7 +6,7 @@ import {
   updateAutocompleteName,
 } from '../../actions';
 import KeywordSearch from '../../components/search/KeywordSearch';
-import { updateUrlParams } from '../../utils/helpers';
+import { updateUrlParams } from '../../selectors/search';
 import { useHistory } from 'react-router-dom';
 import { TABS } from '../../constants';
 

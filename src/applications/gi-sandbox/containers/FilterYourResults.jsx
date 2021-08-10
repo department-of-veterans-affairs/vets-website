@@ -11,13 +11,13 @@ import {
   getStateNameForCode,
   sortOptionsByStateName,
   addAllOption,
-  updateUrlParams,
 } from '../utils/helpers';
 import { showModal, filterChange } from '../actions';
 import { connect } from 'react-redux';
 import { TABS } from '../constants';
 import CheckboxGroup from '../components/CheckboxGroup';
 import _ from 'lodash';
+import { updateUrlParams } from '../selectors/search';
 
 export function FilterYourResults({
   dispatchShowModal,

@@ -3,7 +3,7 @@ import {
   UPDATE_QUERY_PARAMS,
   SEARCH_STARTED,
 } from '../actions';
-import { FILTERS_EXCLUDED_FLIP } from '../constants';
+import { FILTERS_EXCLUDED_FLIP } from '../selectors/filters';
 
 export const INITIAL_STATE = Object.freeze({
   expanded: false,
@@ -32,7 +32,10 @@ export default function(state = INITIAL_STATE, action) {
 
     case UPDATE_QUERY_PARAMS: {
       const queryParams = action.payload;
-      const onLoadState = {};
+      const onLoadState = {
+        excludedSchoolTypes: [],
+      };
+
       Object.keys(INITIAL_STATE).forEach(key => {
         let value = queryParams[key];
 

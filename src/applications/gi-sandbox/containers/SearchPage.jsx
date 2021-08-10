@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { changeSearchTab, setPageTitle } from '../actions';
 import { PAGE_TITLE, TABS } from '../constants';
 import SearchTabs from '../components/search/SearchTabs';
-import { updateUrlParams, useQueryParams } from '../utils/helpers';
+import { useQueryParams } from '../utils/helpers';
 import { useHistory } from 'react-router-dom';
 import CompareDrawer from './CompareDrawer';
 import NameSearchResults from '../containers/search/NameSearchResults';
@@ -12,7 +12,7 @@ import LocationSearchResults from '../containers/search/LocationSearchResults';
 import NameSearchForm from './search/NameSearchForm';
 import LocationSearchForm from './search/LocationSearchForm';
 import AccordionItem from '../components/AccordionItem';
-import { getSearchQueryChanged } from '../selectors/search';
+import { getSearchQueryChanged, updateUrlParams } from '../selectors/search';
 import classNames from 'classnames';
 
 export function SearchPage({
