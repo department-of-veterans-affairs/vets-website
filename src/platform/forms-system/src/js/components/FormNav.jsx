@@ -66,7 +66,7 @@ export default function FormNav(props) {
       <span className="vads-u-display--block vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
         Your application will be saved on every change.{' '}
         {inProgressFormId &&
-          `Your application ID number is ${inProgressFormId}`}.
+          `Your application ID number is ${inProgressFormId}.`}
       </span>
     );
   }
