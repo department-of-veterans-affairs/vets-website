@@ -27,6 +27,10 @@ const CheckIn = props => {
   }
 
   const onClick = async () => {
+    recordEvent({
+      event: 'cta-button-click',
+      'button-click-label': 'check in now',
+    });
     const { token } = context;
     setIsLoading(true);
     recordEvent({
