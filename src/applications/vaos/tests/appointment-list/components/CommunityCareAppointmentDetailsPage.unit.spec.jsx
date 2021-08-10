@@ -614,7 +614,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       start,
       end,
       requests: [appointment],
-      statuses: ['booked', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
     mockSingleVAOSAppointmentFetch({ appointment });

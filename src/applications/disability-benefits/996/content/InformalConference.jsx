@@ -29,8 +29,14 @@ export const ContactRepresentativeTitle =
   'Provide your representative’s contact information.';
 
 export const RepresentativeNameTitle = 'Representative’s name';
+export const RepresentativeFirstNameTitle = 'Representative’s first name';
+export const RepresentativeLastNameTitle = 'Representative’s last name';
 
 export const RepresentativePhoneTitle = 'Representative’s phone number';
+export const RepresentativePhoneExtensionTitle =
+  'Representative’s phone extension';
+
+export const RepresentativeEmailTitle = 'Representative’s email address';
 
 // Using CSS to use article[data-contact-choice] attribute to set visibility
 const contacts = (
@@ -71,11 +77,4 @@ export const InformalConferenceTimesDescription = (
 export const informalConferenceTimeSelectTitles = {
   first: <>Choose the best time for us to call {contacts}</>,
   second: 'Choose another time for us to call',
-};
-
-export const informalConferenceTimeAllLabels = {
-  time0800to1000: '8:00 a.m. to 10:00 a.m. ET',
-  time1000to1230: '10:00 a.m. to 12:30 p.m. ET',
-  time1230to1400: '12:30 p.m. to 2:00 p.m. ET',
-  time1400to1630: '2:00 p.m. to 4:30 p.m. ET',
 };

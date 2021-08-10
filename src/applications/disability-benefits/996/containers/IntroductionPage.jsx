@@ -25,7 +25,7 @@ import {
   getContestableIssues as getContestableIssuesAction,
   FETCH_CONTESTABLE_ISSUES_INIT,
 } from '../actions';
-import { scrollToTop } from '../helpers';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import {
   BASE_URL,
   SAVED_CLAIM_TYPE,

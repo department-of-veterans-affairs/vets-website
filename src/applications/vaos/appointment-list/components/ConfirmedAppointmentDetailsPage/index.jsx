@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
+import recordEvent from 'platform/monitoring/record-event';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import CancelAppointmentModal from '../cancel/CancelAppointmentModal';
@@ -17,6 +18,7 @@ import {
 import {
   APPOINTMENT_STATUS,
   FETCH_STATUS,
+  GA_PREFIX,
   PURPOSE_TEXT,
   VIDEO_TYPES,
 } from '../../../utils/constants';
@@ -65,6 +67,9 @@ function formatHeader(appointment) {
 export default function ConfirmedAppointmentDetailsPage() {
   const dispatch = useDispatch();
   const { id } = useParams();
+  const { search } = useLocation();
+  const queryParams = new URLSearchParams(search);
+  const showConfirmMsg = queryParams.get('confirmMsg');
   const {
     appointment,
     appointmentDetailsStatus,
@@ -173,6 +178,28 @@ export default function ConfirmedAppointmentDetailsPage() {
     infoAlert = (
       <InfoAlert status="warning" backgroundOnly>
         This appointment occurred in the past.
+      </InfoAlert>
+    );
+  } else if (showConfirmMsg) {
+    infoAlert = (
+      <InfoAlert backgroundOnly status="success">
+        <strong>Your appointment has been scheduled and is confirmed.</strong>
+        <br />
+        <div className="vads-u-margin-y--1">
+          <Link
+            to="/"
+            onClick={() => {
+              recordEvent({
+                event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
+              });
+            }}
+          >
+            View your appointments
+          </Link>
+        </div>
+        <div>
+          <Link to="/new-appointment">New appointment</Link>
+        </div>
       </InfoAlert>
     );
   }

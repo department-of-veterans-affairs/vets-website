@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import merge from 'lodash/merge';
 
 import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 
@@ -137,7 +137,7 @@ const formConfig = {
           title: 'Sponsor information',
           path: 'sponsor/information',
           uiSchema: {
-            veteranFullName: _.merge(fullNameUISchema, {
+            veteranFullName: merge({}, fullNameUISchema, {
               first: {
                 'ui:title': "Sponsor's first name",
               },
@@ -151,7 +151,7 @@ const formConfig = {
                 'ui:title': "Sponsor's suffix",
               },
             }),
-            'view:veteranId': _.merge(personId.uiSchema(), {
+            'view:veteranId': merge({}, personId.uiSchema(), {
               veteranSocialSecurityNumber: {
                 'ui:title': "Sponsor's Social Security number",
               },
