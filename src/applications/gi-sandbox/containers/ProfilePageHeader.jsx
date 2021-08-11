@@ -299,6 +299,7 @@ const ProfilePageHeader = ({
             cautionFlags={cautionFlags}
             expanded={expanded}
             toggleExpansion={toggleExpansion}
+            viewDetailsLink
           />
         </div>
       )}

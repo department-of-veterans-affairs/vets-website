@@ -38,6 +38,7 @@ import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal
 import { MINIMUM_RATING_COUNT } from '../constants';
 import Scroll from 'react-scroll';
 import { getScrollOptions } from 'platform/utilities/ui';
+import GIBillHeaderInfo from '../components/GIBillHeaderInfo';
 
 const scroll = Scroll.animateScroll;
 
@@ -221,6 +222,7 @@ export function ComparePage({
         />
       )}
       <div className="content-wrapper">
+        <GIBillHeaderInfo />
         <div
           id="compare-header"
           className={classNames({

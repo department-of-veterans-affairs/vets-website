@@ -13,6 +13,7 @@ import LocationSearchForm from './search/LocationSearchForm';
 import AccordionItem from '../components/AccordionItem';
 import { getSearchQueryChanged } from '../selectors/search';
 import classNames from 'classnames';
+import GIBillHeaderInfo from '../components/GIBillHeaderInfo';
 
 export function SearchPage({
   dispatchChangeSearchTab,
@@ -87,6 +88,7 @@ export function SearchPage({
   return (
     <span className="search-page">
       <div className={searchPageClasses}>
+        <GIBillHeaderInfo />
         <div className="column medium-screen:vads-u-padding-bottom--2 small-screen:vads-u-padding-bottom--0 vads-u-padding-x--0">
           {!smallScreen && <SearchTabs onChange={tabChange} search={search} />}
           {error && (
