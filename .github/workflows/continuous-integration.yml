@@ -83,13 +83,18 @@ jobs:
           retention-days: 1
 
   build-failure:
-    name: Unit Tests
+    name: Build Failure Notification
     runs-on: ubuntu-latest
-    if: ${{ always() }}
+    if: ${{ github.workflow.jobs.build.status == 'failure' }}
     steps:
       # ----------------
       # | Notify Slack |
       # ----------------
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Checkout VSP actions
         uses: actions/checkout@v2
