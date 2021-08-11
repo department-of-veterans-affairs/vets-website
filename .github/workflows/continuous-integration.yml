@@ -10,9 +10,9 @@ on:
 env:
   CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
 
-concurrency:
-  group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha  }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
+# concurrency:
+#   group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha  }}
+#   cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
 
 jobs:
   build:
@@ -457,7 +457,7 @@ jobs:
       - name: Create test results directory
         run: mkdir -p test-results
 
-      - name: Run Cypress tests on branch
+      - name: Run Cypress tests on push
         if: ${{ github.ref != 'refs/heads/master' }}
         run: node script/github-actions/run-selected-cypress-tests.js
         timeout-minutes: 30
