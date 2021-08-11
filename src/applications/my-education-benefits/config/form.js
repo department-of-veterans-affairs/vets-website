@@ -464,6 +464,11 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            required: [
+              formFields.email,
+              formFields.mobilePhoneNumber,
+              formFields.phoneNumber,
+            ],
             properties: {
               'view:subHeadings': {
                 type: 'object',
