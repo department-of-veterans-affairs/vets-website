@@ -59,6 +59,8 @@ export class BenefitsForm extends React.Component {
   };
 
   renderYourMilitaryDetails() {
+    const chapter33Check =
+      this.props.giBillChapter === '33a' || this.props.giBillChapter === '33b';
     return (
       <div>
         <ExpandingGroup open={this.props.militaryStatus === 'spouse'}>
@@ -82,7 +84,7 @@ export class BenefitsForm extends React.Component {
             onFocus={this.props.handleInputFocus}
           />
           <Dropdown
-            label="Is your spouse on active duty?"
+            label="Is your spouse currently on active duty?"
             name="spouseActiveDuty"
             options={[
               { optionValue: 'yes', optionLabel: 'Yes' },
@@ -97,7 +99,7 @@ export class BenefitsForm extends React.Component {
         </ExpandingGroup>
         <ExpandingGroup
           open={
-            ['30', '31', '33'].includes(this.props.giBillChapter) ||
+            ['30', '31', '33a', '33b'].includes(this.props.giBillChapter) ||
             this.props.giBillChapterOpen.includes(true)
           }
         >
@@ -109,7 +111,8 @@ export class BenefitsForm extends React.Component {
             })}
             name="giBillChapter"
             options={[
-              { optionValue: '33', optionLabel: 'Post-9/11 GI Bill (Ch 33)' },
+              { optionValue: '33a', optionLabel: 'Post-9/11 GI Bill (Ch 33)' },
+              { optionValue: '33b', optionLabel: 'Fry Scholarship (Ch 33)' },
               { optionValue: '30', optionLabel: 'Montgomery GI Bill (Ch 30)' },
               {
                 optionValue: '1606',
@@ -117,11 +120,12 @@ export class BenefitsForm extends React.Component {
               },
               {
                 optionValue: '31',
-                optionLabel: 'Veteran Readiness and Employment',
+                optionLabel: 'Veteran Readiness and Employment (VR&E) (Ch 31)',
               },
               {
                 optionValue: '35',
-                optionLabel: 'Dependents Educational Assistance (DEA)',
+                optionLabel:
+                  "Survivors' and Dependents' Educational Assistance (DEA) (Ch 35)",
               },
             ]}
             value={this.props.giBillChapter}
@@ -132,7 +136,7 @@ export class BenefitsForm extends React.Component {
           />
           <div>
             {this.props.militaryStatus === 'active duty' &&
-              this.props.giBillChapter === '33' && (
+              chapter33Check && (
                 <div className="military-status-info warning form-group">
                   <i className="fa fa-warning" />
                   <a
@@ -169,7 +173,7 @@ export class BenefitsForm extends React.Component {
               options={this.cumulativeServiceOptions()}
               value={this.props.cumulativeService}
               alt="Cumulative Post-9/11 active-duty service"
-              visible={this.props.giBillChapter === '33'}
+              visible={chapter33Check}
               onChange={this.props.eligibilityChange}
               onFocus={this.props.handleInputFocus}
             />
