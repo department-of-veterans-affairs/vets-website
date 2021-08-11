@@ -23,11 +23,18 @@ jobs:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
 
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
     steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: 'us-gov-west-1'
+
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -61,6 +68,60 @@ jobs:
       - name: Build
         run: yarn build --verbose --buildtype=${{ matrix.buildtype }}
         timeout-minutes: 30
+
+      # ----------------------------
+      # | Notify Slack of failures |
+      # ---------------------------
+
+      - name: Get va-vsp-bot token
+        if: ${{ failure() }}
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Checkout VSP actions
+        if: ${{ failure() }}
+        uses: actions/checkout@v2
+        with:
+          repository: department-of-veterans-affairs/vsp-github-actions
+          ref: refs/heads/main
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          persist-credentials: false
+          path: ./.github/actions/vsp-github-actions
+
+      - name: Get Slack app token
+        if: ${{ failure() }}
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/github_actions_slack_socket_token
+          env_variable_name: SLACK_APP_TOKEN
+
+      - name: Get Slack bot token
+        if: ${{ failure() }}
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/github_actions_slack_bot_user_token
+          env_variable_name: SLACK_BOT_TOKEN
+
+      - name: Notify Slack about build failures
+        if: ${{ failure() }}
+        uses: ./.github/actions/vsp-github-actions/slack-socket
+        env:
+          SSL_CERT_DIR: /etc/ssl/certs
+        with:
+          slack_app_token: ${{ env.SLACK_APP_TOKEN }}
+          slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
+          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "At least one build step in `vets-website` has failed, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
+          channel_id: C02AG8UF95M # gha-build-status
+
+      - name: Cancel other parallel steps
+        if: ${{ failure() }}
+        uses: andymckay/cancel-action@0.2
+
+      # ----------------
+      # | End Notify Slack |
+      # ----------------
 
       - name: Generate build details
         run: |
