@@ -12,6 +12,7 @@ export function CompareDrawer({
   displayed,
   alwaysDisplay = false,
   dispatchCompareDrawerOpened,
+  preview,
 }) {
   const history = useHistory();
   const [open, setOpen] = useState(compare.open);
@@ -52,7 +53,11 @@ export function CompareDrawer({
   }
 
   const openCompare = () => {
-    const compareLink = appendQuery(`/compare/?facilities=${loaded.join(',')}`);
+    const compareLink = preview.version
+      ? appendQuery(`/compare/?facilities=${loaded.join(',')}`, {
+          version: preview.version,
+        })
+      : appendQuery(`/compare/?facilities=${loaded.join(',')}`);
     history.push(compareLink);
   };
 
@@ -172,6 +177,7 @@ export function CompareDrawer({
 
 const mapStateToProps = state => ({
   compare: state.compare,
+  preview: state.preview,
   displayed:
     state.search.location.results.length > 0 ||
     state.search.name.results.length > 0 ||
