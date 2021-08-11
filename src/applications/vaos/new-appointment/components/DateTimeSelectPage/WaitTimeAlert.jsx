@@ -103,7 +103,7 @@ export const WaitTimeAlert = ({
 WaitTimeAlert.propTypes = {
   preferredDate: PropTypes.string.isRequired,
   nextAvailableApptDate: PropTypes.string,
-  typeOfCareId: PropTypes.string.isRequired,
+  typeOfCareId: PropTypes.string,
   eligibleForRequests: PropTypes.bool,
   onClickRequest: PropTypes.func,
 };

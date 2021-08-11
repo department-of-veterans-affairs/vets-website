@@ -9,7 +9,7 @@ import environment from '~/platform/utilities/environment';
 import {
   FETCH_CONFIRMED_FUTURE_APPOINTMENTS,
   FETCH_CONFIRMED_FUTURE_APPOINTMENTS_SUCCEEDED,
-} from '~/applications/personalization/dashboard-2/constants';
+} from '~/applications/personalization/dashboard/constants';
 
 import { fetchConfirmedFutureAppointments } from './index';
 

@@ -5,3 +5,16 @@
 .additional-info-button {
   white-space: normal !important;
 }
+
+// override platform error message styles
+.usa-alert {
+  padding: 1.5rem 2rem 1.2rem 1.4rem;
+}
+.schemaform-warning-header {
+  display: none;
+}
+.usa-alert-body {
+  p:nth-child(2) {
+    display: none;
+  }
+}

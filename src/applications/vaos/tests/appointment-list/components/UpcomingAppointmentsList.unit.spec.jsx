@@ -620,7 +620,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       start: start.format('YYYY-MM-DD'),
       end: end.format('YYYY-MM-DD'),
       requests: [appointment],
-      statuses: ['booked', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
     mockFacilitiesFetch();
@@ -659,7 +659,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       start: start.format('YYYY-MM-DD'),
       end: end.format('YYYY-MM-DD'),
       requests: [appointment],
-      statuses: ['booked', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
     mockFacilitiesFetch();
@@ -698,7 +698,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       start: start.format('YYYY-MM-DD'),
       end: end.format('YYYY-MM-DD'),
       requests: [appointment],
-      statuses: ['booked', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
     mockFacilitiesFetch();
@@ -737,7 +737,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       start: start.format('YYYY-MM-DD'),
       end: end.format('YYYY-MM-DD'),
       requests: [appointment],
-      statuses: ['booked', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
     mockFacilitiesFetch();
@@ -776,7 +776,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       start: start.format('YYYY-MM-DD'),
       end: end.format('YYYY-MM-DD'),
       requests: [appointment],
-      statuses: ['booked', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
     mockFacilitiesFetch();

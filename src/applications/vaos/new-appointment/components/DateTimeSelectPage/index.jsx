@@ -167,7 +167,7 @@ export default function DateTimeSelectPage() {
             availableSlots={availableSlots}
             value={selectedDates}
             id="dateTime"
-            timezone={timezoneDescription}
+            timezone={timezone}
             additionalOptions={{
               required: true,
             }}

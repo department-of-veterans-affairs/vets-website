@@ -13,6 +13,7 @@ import {
   GEOLOCATE_USER,
   GEOCODE_COMPLETE,
   GEOCODE_CLEAR_ERROR,
+  MAP_CHANGED,
   UPDATE_CURRENT_SEARCH_TAB,
   UPDATE_QUERY_PARAMS,
 } from '../actions';
@@ -72,6 +73,7 @@ export const INITIAL_STATE = {
       searchString: '',
       position: {},
     },
+    mapState: { changed: false, distance: null },
   },
   compare: {
     results: [],
@@ -184,16 +186,17 @@ export default function(state = INITIAL_STATE, action) {
       };
     case GEOCODE_FAILED:
       return {
-        ...state,
+        ...newState,
         error: true,
         geocodeError: action.code,
         geolocationInProgress: false,
       };
     case GEOCODE_COMPLETE:
       return {
-        ...state,
+        ...newState,
         geolocationInProgress: false,
         query: {
+          ...newState.query,
           streetAddress: {
             searchString: action.payload.searchString,
             position: { ...action.payload.position },
@@ -203,7 +206,7 @@ export default function(state = INITIAL_STATE, action) {
       };
     case GEOCODE_CLEAR_ERROR:
       return {
-        ...state,
+        ...newState,
         error: false,
         geocodeError: 0,
         geolocationInProgress: false,
@@ -221,9 +224,10 @@ export default function(state = INITIAL_STATE, action) {
       };
     case GEOLOCATE_USER:
       return {
-        ...state,
+        ...newState,
         geolocationInProgress: true,
         query: {
+          ...newState.query,
           streetAddress: {
             searchString: '',
             position: {},
@@ -258,6 +262,15 @@ export default function(state = INITIAL_STATE, action) {
           },
         },
         loadFromUrl: true,
+      };
+
+    case MAP_CHANGED:
+      return {
+        ...newState,
+        query: {
+          ...newState.query,
+          mapState: { ...newState.query.mapState, ...action.payload },
+        },
       };
 
     default:

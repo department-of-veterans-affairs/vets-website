@@ -7,13 +7,14 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 
 import SearchResultCard from '../../containers/SearchResultCard';
 import { mapboxToken } from '../../utils/mapboxToken';
-import { MapboxInit, MAX_SEARCH_AREA_DISTANCE } from '../../constants';
+import { MapboxInit, MAX_SEARCH_AREA_DISTANCE, TABS } from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
 import FilterYourResults from '../../containers/FilterYourResults';
 import { createId } from '../../utils/helpers';
 import {
   fetchSearchByLocationCoords,
   updateEligibilityAndFilters,
+  mapChanged,
 } from '../../actions';
 import { connect } from 'react-redux';
 import { getFiltersChanged } from '../../selectors/filters';
@@ -32,6 +33,7 @@ function LocationSearchResults({
   dispatchFetchSearchByLocationCoords,
   filtersChanged,
   smallScreen,
+  dispatchMapChanged,
 }) {
   const { inProgress } = search;
   const { results } = search.location;
@@ -51,13 +53,25 @@ function LocationSearchResults({
    */
   const updateMapState = () => {
     const mapBounds = map.current.getBounds();
-    setMapState({
+    const newMapState = {
       distance:
         mapBounds.getNorthEast().distanceTo(mapBounds.getCenter()) /
         MILE_METER_CONVERSION_RATE,
       changed: true,
-    });
+    };
+    dispatchMapChanged(newMapState);
   };
+
+  /**
+   * When LocationSearchForm triggers a search it will set the value of changed to false disabling behavior
+   * related to "Search this area of the map"
+   */
+  useEffect(
+    () => {
+      setMapState(search.query.mapState);
+    },
+    [search.query.mapState],
+  );
 
   /**
    * Initialize map if the element is present
@@ -127,7 +141,7 @@ function LocationSearchResults({
   );
 
   /**
-   * Used to exclude results from appearing in cards or as a marker when using "Search area" button
+   * Used to exclude results from appearing in cards or as a marker when using "Search this area of the map" button
    *
    * @param institution
    * @return {boolean}
@@ -263,7 +277,6 @@ function LocationSearchResults({
 
       // wait for map to initialize or no results are returned
       if (!map.current || results.length === 0) {
-        setMapState({ changed: false, distance: null });
         setUsedFilters(getFiltersChanged(filters));
         setCardResults(visibleResults);
         setMarkers(mapMarkers);
@@ -290,7 +303,6 @@ function LocationSearchResults({
 
       setCardResults(visibleResults);
       setUsedFilters(getFiltersChanged(filters));
-      setMapState({ changed: false, distance: null });
       setMarkers(mapMarkers);
     },
     [results, smallScreen, mobileTab],
@@ -321,6 +333,7 @@ function LocationSearchResults({
           location
           header={header}
           active={activeMarker === name}
+          version={preview.version}
         />
       </div>
     );
@@ -331,7 +344,10 @@ function LocationSearchResults({
    * @param e
    */
   const searchArea = e => {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
+    updateMapState();
     dispatchFetchSearchByLocationCoords(
       search.query.location,
       map.current.getCenter().toArray(),
@@ -340,6 +356,24 @@ function LocationSearchResults({
       preview.version,
     );
   };
+
+  /**
+   * Triggers a search for "Search this area of the map" when the "Update results" button in "Filter your results"
+   * is clicked
+   */
+  useEffect(
+    () => {
+      if (
+        !search.loadFromUrl &&
+        filters.search &&
+        search.tab === TABS.location &&
+        search.query.mapState.changed
+      ) {
+        searchArea(null);
+      }
+    },
+    [filters.search],
+  );
 
   /**
    * Renders the Eligibility and Filters accordions/buttons
@@ -473,7 +507,7 @@ function LocationSearchResults({
         { 'vads-u-display--none': !visible },
       );
       const resultsClassnames = classNames('location-search-results', {
-        'vads-l-row': !smallScreen,
+        'vads-l-row': !smallScreen && !location,
         'vads-u-flex-wrap--wrap': !smallScreen,
       });
 
@@ -615,6 +649,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   dispatchUpdateEligibilityAndFilters: updateEligibilityAndFilters,
   dispatchFetchSearchByLocationCoords: fetchSearchByLocationCoords,
+  dispatchMapChanged: mapChanged,
 };
 
 export default connect(

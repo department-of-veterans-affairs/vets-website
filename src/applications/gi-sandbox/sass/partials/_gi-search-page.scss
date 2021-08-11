@@ -1,4 +1,9 @@
 .gi-app .search-page {
+
+  .no-name-results {
+    min-height: 45vh;
+  }
+
   .modal-wrapper {
     top: 0;
     bottom: 0;
@@ -374,9 +379,8 @@
 
   .result-card {
     border-radius: 5px;
-    width: 45%;
+    flex-basis: 50%;
     height: fit-content;
-    flex-grow: 1;
 
     &.active {
       border: $focus-outline;
@@ -386,7 +390,7 @@
       border-radius: 5px;
     }
     @include media-maxwidth($small-screen) {
-      width: 100%;
+      flex-basis: 100%;
     }
   }
 
@@ -435,12 +439,8 @@
   align-items: center;
   position: relative;
 }
-
-.search-results-content {
-  width: 66.66667%;
-  @include media-maxwidth($small-screen) {
-    float: none !important;
-    width: 100%;
-    margin: 0;
+.name-search-cards-padding{
+  @media (min-width: $small-screen +1) {
+    padding-right: 0%;
   }
 }
