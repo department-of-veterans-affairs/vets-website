@@ -82,7 +82,7 @@ export class BenefitsForm extends React.Component {
             onFocus={this.props.handleInputFocus}
           />
           <Dropdown
-            label="Is your spouse on active duty?"
+            label="Is your spouse currently on active duty?"
             name="spouseActiveDuty"
             options={[
               { optionValue: 'yes', optionLabel: 'Yes' },
@@ -110,6 +110,7 @@ export class BenefitsForm extends React.Component {
             name="giBillChapter"
             options={[
               { optionValue: '33', optionLabel: 'Post-9/11 GI Bill (Ch 33)' },
+              { optionValue: '33', optionLabel: 'Fry Scholarship (Ch 33)' },
               { optionValue: '30', optionLabel: 'Montgomery GI Bill (Ch 30)' },
               {
                 optionValue: '1606',
@@ -117,11 +118,12 @@ export class BenefitsForm extends React.Component {
               },
               {
                 optionValue: '31',
-                optionLabel: 'Veteran Readiness and Employment',
+                optionLabel: 'Veteran Readiness and Employment (VR&E) (Ch 31)',
               },
               {
                 optionValue: '35',
-                optionLabel: 'Dependents Educational Assistance (DEA)',
+                optionLabel:
+                  "Survivors' and Dependents' Educational Assistance (DEA) (Ch 35)",
               },
             ]}
             value={this.props.giBillChapter}
