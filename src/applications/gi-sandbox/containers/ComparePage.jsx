@@ -50,6 +50,7 @@ export function ComparePage({
   const [promptingFacilityCode, setPromptingFacilityCode] = useState(null);
   const [isSticky, setIsSticky] = useState(false);
   const [initialTop, setInitialTop] = useState(null);
+  const [currentXScroll, setCurrentXScroll] = useState(0);
   const [smallScreen, setSmallScreen] = useState(
     matchMedia('(max-width: 480px)').matches,
   );
@@ -86,6 +87,7 @@ export function ComparePage({
         setInitialTop(headerRef.current.offsetTop);
       }
 
+      // console.log('toggleSticky');
       if (initialTop) {
         const offset = window.pageYOffset;
         if (offset > initialTop && !isSticky) {
@@ -95,6 +97,9 @@ export function ComparePage({
           });
         } else if (offset < initialTop && isSticky) {
           setIsSticky(false);
+        } else if (!isSticky) {
+          // console.log('a');
+          // headerRef.current.style.top = `${initialTop}px`;
         }
       }
     },
@@ -106,6 +111,10 @@ export function ComparePage({
       compareHeaderRef.current.scroll({
         left: comparePageRef.current.scrollLeft,
       });
+    }
+
+    if (currentXScroll !== comparePageRef.current.scrollLeft) {
+      setCurrentXScroll(comparePageRef.current.scrollLeft);
     }
   };
 
@@ -191,14 +200,13 @@ export function ComparePage({
             <div
               ref={compareHeaderRef}
               onScroll={handleHeaderScrollReact}
-              className={classNames(
-                'vads-u-padding-bottom--6 compare-header-row',
-                {
-                  'vads-l-row': !smallScreen,
-                },
-              )}
+              className={classNames('compare-header-row', {
+                'vads-l-row': !smallScreen,
+                'vads-u-padding-bottom--6': !smallScreen,
+              })}
             >
               <CompareHeader
+                currentScroll={currentXScroll}
                 institutions={loadedInstitutions}
                 institutionCount={institutionCount}
                 showDifferences={showDifferences}

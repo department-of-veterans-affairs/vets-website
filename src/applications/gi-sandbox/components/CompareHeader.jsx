@@ -4,8 +4,10 @@ import classNames from 'classnames';
 import Checkbox from './Checkbox';
 import SchoolClassification from './SchoolClassification';
 import { Link } from 'react-router-dom';
+import CompareScroller from './CompareScroller';
 
 export default function({
+  currentScroll,
   institutionCount,
   institutions,
   setPromptingFacilityCode,
@@ -13,14 +15,10 @@ export default function({
   showDifferences,
   smallScreen,
 }) {
-  const smallWrap = cards => {
-    return smallScreen ? <div className="card-wrapper">{cards}</div> : cards;
-  };
-
   const empties = [];
   for (let i = 0; i < 3 - institutionCount; i++) {
     empties.push(
-      <div key={i} className="small-screen:vads-l-col--3">
+      <div key={i} className="small-screen:vads-l-col--3 institution-card">
         <div className="compare-header empty-header" />
         <div className="compare-action">
           <Link to={'/search'}>Return to search to add</Link>
@@ -28,6 +26,17 @@ export default function({
       </div>,
     );
   }
+
+  const smallWrap = cards => {
+    return smallScreen ? (
+      <div className="card-wrapper">
+        {cards}
+        {empties}
+      </div>
+    ) : (
+      cards
+    );
+  };
 
   return (
     <div
@@ -98,6 +107,13 @@ export default function({
             </div>
           );
         }),
+      )}
+      {smallScreen && (
+        <CompareScroller
+          currentScroll={currentScroll}
+          divisions={3}
+          divisionWidth={400}
+        />
       )}
       {!smallScreen && empties}
     </div>

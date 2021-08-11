@@ -15,7 +15,12 @@ export function CompareGrid({
 
   for (let i = 0; i < 3 - institutions.length; i++) {
     empties.push(
-      <div key={i} className="small-screen:vads-l-col--3">
+      <div
+        key={i}
+        className={classNames('small-screen:vads-l-col--3', {
+          'empty-field-1': smallScreen,
+        })}
+      >
         <div className="empty-col" />
       </div>,
     );
@@ -25,33 +30,23 @@ export function CompareGrid({
     return (
       <div
         key={`${index}-label`}
-        className={classNames(
-          'field-label',
-          {
-            'small-screen:vads-l-col--3':
-              institutions.length === 3 && !smallScreen,
-          },
-          {
-            'small-screen:vads-l-col--4':
-              institutions.length === 2 && !smallScreen,
-          },
-          {
-            'small-screen:vads-l-col--6':
-              institutions.length === 1 && !smallScreen,
-          },
-          {
-            'small-screen:vads-l-col--12':
-              institutions.length === 0 && !smallScreen,
-          },
-          { 'has-diff': displayDiff },
-        )}
+        className={classNames('field-label', {
+          'small-screen:vads-l-col--3':
+            institutions.length === 3 && !smallScreen,
+          'small-screen:vads-l-col--4':
+            institutions.length === 2 && !smallScreen,
+          'small-screen:vads-l-col--6':
+            institutions.length === 1 && !smallScreen,
+          'small-screen:vads-l-col--12':
+            institutions.length === 0 && !smallScreen,
+          'has-diff': displayDiff,
+        })}
       >
         <div
-          className={classNames(
-            'label-cell',
-            { first: index === 0 },
-            { 'has-diff': displayDiff },
-          )}
+          className={classNames('label-cell', {
+            first: index === 0,
+            'has-diff': displayDiff,
+          })}
         >
           {displayDiff && (
             <div className="label-diff">
@@ -121,26 +116,24 @@ export function CompareGrid({
           <div className="non-scroll-label">{subSectionLabel}</div>
         </div>
       )}
-      <div className={classNames({ 'vads-l-row': !smallScreen })}>
+      <div
+        className={classNames('grid-data-parent', {
+          'vads-l-row': !smallScreen,
+        })}
+      >
         <div
-          className={classNames(
-            {
-              'small-screen:vads-l-col--12':
-                institutions.length === 3 && !smallScreen,
-            },
-            {
-              'small-screen:vads-l-col--9':
-                institutions.length === 2 && !smallScreen,
-            },
-            {
-              'small-screen:vads-l-col--6':
-                institutions.length === 1 && !smallScreen,
-            },
-            {
-              'small-screen:vads-l-col--3':
-                institutions.length === 0 && !smallScreen,
-            },
-          )}
+          className={classNames({
+            'grid-data-2': empties.length === 1,
+            'grid-data-1': empties.length === 2,
+            'small-screen:vads-l-col--12':
+              institutions.length === 3 && !smallScreen,
+            'small-screen:vads-l-col--9':
+              institutions.length === 2 && !smallScreen,
+            'small-screen:vads-l-col--6':
+              institutions.length === 1 && !smallScreen,
+            'small-screen:vads-l-col--3':
+              institutions.length === 0 && !smallScreen,
+          })}
         >
           {fieldData.map((field, index) => {
             const rowValues = institutions.map(field.mapper);
@@ -155,37 +148,13 @@ export function CompareGrid({
 
             const columns = [fieldLabel(field, index, displayDiff)];
 
-            if (institutions.length > 0) {
+            for (let i = 0; i < institutions.length; i++) {
               columns.push(
                 institutionFieldValue(
                   field,
                   index,
-                  0,
-                  institutions[0],
-                  displayDiff,
-                ),
-              );
-            }
-
-            if (institutions.length > 1) {
-              columns.push(
-                institutionFieldValue(
-                  field,
-                  index,
-                  1,
-                  institutions[1],
-                  displayDiff,
-                ),
-              );
-            }
-
-            if (institutions.length > 2) {
-              columns.push(
-                institutionFieldValue(
-                  field,
-                  index,
-                  2,
-                  institutions[2],
+                  i,
+                  institutions[i],
                   displayDiff,
                 ),
               );

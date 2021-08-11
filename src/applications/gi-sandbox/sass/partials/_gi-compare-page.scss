@@ -9,7 +9,6 @@
       padding-right: 0px;
     }
   }
-  overflow: visible !important;
 
   .sticky {
     position: fixed;
@@ -21,18 +20,14 @@
     background-color: $color-white;
   }
 
-  .header-content-row  {
-    //padding-left: 20px;
-  }
-
   .compare-header-row {
-    overflow-x: scroll;
     overflow-y: visible !important;
     -ms-overflow-style: none; /* for Internet Explorer, Edge */
     scrollbar-width: none; /* for Firefox */
 
     @media (max-width: $small-screen) {
       margin-bottom: 0px;
+      overflow-x: scroll;
     }
   }
 
@@ -99,10 +94,13 @@
   }
 
   .empty-header {
-    height: 12em;
     border: 2px dashed $color-gray-light;
     border-radius: 5px;
     margin-left: 1px;
+
+    @media (max-width: $small-screen) {
+      height: 100%;
+    }
   }
 
   .empty-col {
@@ -193,11 +191,11 @@
       display: inline-block;
       width: 400px;
       border-left: none;
+      border-top: 1px solid $color-base;
     }
   }
 
   .empty-col-wrapper {
-
     @media (max-width: $small-screen) {
       display: inline-block;
       width: 400px;
@@ -234,6 +232,10 @@
 
   .field-value.last-col {
     border-right: 1px solid $color-base;
+
+    @media (max-width: $small-screen) {
+      width: 398px;
+    }
   }
 
   .field-label {
@@ -259,7 +261,7 @@
         padding-left: 10px;
         margin-right: 0px;
         border-left: 0px;
-        border-right: 0px;
+        //border-right: 0px;
         position: sticky;
         left: 10px;
         background-color: transparent;
@@ -277,6 +279,9 @@
     @media (max-width: $small-screen) {
       display: flex;
       background-color: $color-gray-light-alt;
+      border-top: 1px solid $color-gray-light;
+      border-right: 1px solid $color-gray-light;
+      border-left: 1px solid $color-gray-light;
     }
   }
 
@@ -301,23 +306,61 @@
 
   .card-wrapper {
     display: flex;
-    width:1200px;
+    width:1220px;
   }
 
   .school-classification p {
     margin-bottom: 0px;
   }
 
+  #compare-header {
+    padding-bottom: 48px;
+    @media (max-width: $small-screen) {
+      padding-bottom: 0px;
+    }
+  }
 
   @media (max-width: $small-screen) {
+
+    .grid-data-parent {
+      display: table;
+    }
+
+    .grid-data-2 {
+      width: 800px;
+      display: table-cell;
+      vertical-align: top;
+      padding-right: 2px;
+    }
+
+    .grid-data-1 {
+      width: 400px;
+      display: table-cell;
+      vertical-align: top;
+      padding-right: 2px
+    }
+
+    .empty-field-1 {
+      width: 400px;
+      display: table-cell;
+      position: relative;
+
+      .empty-col {
+        position: absolute;
+        left: 0px;
+        width: 99.5%;
+        height: 100%;
+      }
+    }
+
     .non-scroll-parent {
       display: flex;
     }
 
     .non-scroll-label {
       position: sticky;
-      left: 10px;
-      width: 400px;
+      left: 20px;
+      width: 380px;
     }
 
     overflow-x: scroll;
@@ -325,7 +368,7 @@
     scrollbar-width: none; /* for Firefox */
 
     .content-wrapper {
-      width: 1200px;
+      width: 1220px;
     }
 
     #compare-header {
@@ -335,8 +378,63 @@
 
     .compare-controls {
       left: 20px;
-      position: relative;
-      width:1200px;
+      width: 1220px;
+    }
+  }
+
+  .compare-scroller {
+    width: 1220px;
+    margin-top: 60px;
+    display: flex;
+    padding-bottom: 8px;
+
+    .scroll-controls {
+      width: 98vw;
+      text-align: center;
+
+      @media (max-width: $small-screen) {
+
+        position: sticky;
+        left: 0px;
+      }
+
+      .fa-circle {
+        color: $color-gray-light;
+        margin-left: 20px;
+        margin-right: 20px;
+
+        &.scroll-active{
+          color: $color-base;
+        }
+      }
+
+      .scroll-arrow {
+        width: 45px;
+      }
+
+      .circles {
+        padding-top: 12px;
+        width: 200px;
+        display: inline-block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .fa-chevron-left,
+      .fa-chevron-right {
+        color: $color-primary;
+        font-size: 40px;
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+
+      .left-arrow {
+        float: left;
+      }
+
+      .right-arrow {
+        float: right;
+      }
     }
   }
 }
