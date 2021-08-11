@@ -1042,7 +1042,11 @@ export class Modals extends React.Component {
           </p>
           <p>
             Visit this school's website to{' '}
-            <a href={inStateTuitionInformation}>
+            <a
+              href={inStateTuitionInformation}
+              rel="noreferrer"
+              target="_blank"
+            >
               see any in-state tuition requirements.
             </a>
           </p>
