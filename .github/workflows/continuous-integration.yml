@@ -474,25 +474,6 @@ jobs:
           NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
           TESTS: ${{ needs.cypress-tests-prep.outputs.tests }}
 
-      # - name: Run Cypress tests on push
-      #   if: ${{ github.ref != 'refs/heads/master' }}
-      #   run: node script/github-actions/run-selected-cypress-tests.js
-      #   timeout-minutes: 30
-      #   env:
-      #     CYPRESS_CI: true
-      #     STEP: ${{ matrix.ci_node_index }}
-      #     NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
-      #     TESTS: ${{ needs.cypress-tests-prep.outputs.tests }}
-
-      # - name: Run Cypress tests on merge to master
-      #   if: ${{ github.ref == 'refs/heads/master' }}
-      #   run: node script/github-actions/run-cypress-tests.js
-      #   timeout-minutes: 30
-      #   env:
-      #     # CYPRESS_BASE_URL: http://localhost:3001
-      #     CYPRESS_CI: true
-      #     STEP: ${{ matrix.ci_node_index }}
-
       - name: Archive test videos
         uses: actions/upload-artifact@v2
         if: ${{ failure() }}
