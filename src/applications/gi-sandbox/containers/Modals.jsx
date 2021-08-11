@@ -799,7 +799,7 @@ export function Modals({ hideModal, modals, profile }) {
             Visit this school’s website to{' '}
             <a
               href={inStateTuitionInformation}
-              rel="noreferrer noopener"
+              rel="noopener noreferrer"
               target="_blank"
             >
               see any in-state tuition requirements.
