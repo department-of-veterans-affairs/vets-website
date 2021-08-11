@@ -616,13 +616,6 @@ jobs:
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
 
-      # - uses: shallwefootball/s3-upload-action@master
-      #   with:
-      #     aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-      #     aws_bucket: testing-tools-testing-reports
-      #     source_dir: testing-tools-team-dashboard-data/mochawesome-report
-
       - name: Upload test report to s3
         run: aws s3 cp testing-tools-team-dashboard-data/mochawesome-report s3://testing-tools-testing-reports --acl public-read --region us-gov-west-1 --recursive
       # --------------------------
