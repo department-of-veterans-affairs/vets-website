@@ -3,16 +3,7 @@ const path = require('path');
 const glob = require('glob');
 const { integrationFolder, testFiles } = require('../../config/cypress.json');
 
-const filepaths = process.env.CHANGED_FILE_PATHS.split(' ');
-const pathsOfChangedFiles = filepaths.filter(filepath => {
-  return (
-    filepath !== 'package.json' &&
-    filepath !== 'yarn.lock' &&
-    filepath !== 'script/github-actions/run-selected-cypress-tests.js' &&
-    filepath !== 'script/github-actions/select-cypress-tests.js' &&
-    filepath !== '.github/workflows/continuous-integration.yml'
-  );
-});
+const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
 
 function selectedTests() {
   const tests = [];
