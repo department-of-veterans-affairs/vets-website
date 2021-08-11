@@ -1,11 +1,11 @@
-import _ from 'lodash/fp';
+import cloneDeep from 'platform/utilities/data/cloneDeep';
 import moment from 'moment';
 import React from 'react';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 export function transform(formConfig, form) {
   // Clone the form in so we don’t modify the original...because of reasons FP
-  const newForm = _.cloneDeep(form);
+  const newForm = cloneDeep(form);
 
   if (newForm.data.benefit === 'chapter33' && newForm.data.sponsorStatus) {
     if (newForm.data.sponsorStatus === 'powOrMia') {

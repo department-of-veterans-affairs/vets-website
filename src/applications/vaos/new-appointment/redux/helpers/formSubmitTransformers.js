@@ -1,7 +1,7 @@
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import titleCase from 'platform/utilities/data/titleCase';
-import { getTimezoneBySystemId } from '../../../utils/timezone';
+import { getTimezoneByFacilityId } from '../../../utils/timezone';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import {
   PURPOSE_TEXT,
@@ -15,7 +15,7 @@ import {
   getChosenClinicInfo,
   getChosenFacilityInfo,
   getSiteIdForChosenFacility,
-  getChosenCCSystemId,
+  getChosenCCSystemById,
   getChosenSlot,
 } from '../selectors';
 import { getClinicId, getSiteCode } from '../../../services/healthcare-service';
@@ -158,7 +158,7 @@ export function transformFormToCCRequest(state) {
   }
 
   const residentialAddress = selectVAPResidentialAddress(state);
-  const organization = getChosenCCSystemId(state);
+  const organization = getChosenCCSystemById(state);
   let cityState;
 
   if (
@@ -221,8 +221,7 @@ export function transformFormToCCRequest(state) {
 export function transformFormToAppointment(state) {
   const data = getFormData(state);
   const clinic = getChosenClinicInfo(state);
-  const siteId = getSiteIdForChosenFacility(state);
-  const { timezone = null } = siteId ? getTimezoneBySystemId(siteId) : {};
+  const timezone = getTimezoneByFacilityId(data.vaFacility);
 
   const slot = getChosenSlot(state);
   const purpose = getUserMessage(data);

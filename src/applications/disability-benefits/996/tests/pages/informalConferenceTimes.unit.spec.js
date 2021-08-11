@@ -10,7 +10,7 @@ import {
 
 import formConfig from '../../config/form';
 
-describe('HLR homeless page', () => {
+describe('HLR conference times page', () => {
   const {
     schema,
     uiSchema,
