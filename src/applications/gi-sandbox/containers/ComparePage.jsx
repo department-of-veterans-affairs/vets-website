@@ -126,6 +126,12 @@ export function ComparePage({
     }
   };
 
+  const scrollClickHandler = scrollAmount => {
+    comparePageRef.current.scroll({
+      left: scrollAmount,
+    });
+  };
+
   useEffect(() => {
     scroll.scrollToTop(getScrollOptions());
   }, []);
@@ -209,8 +215,9 @@ export function ComparePage({
                 currentScroll={currentXScroll}
                 institutions={loadedInstitutions}
                 institutionCount={institutionCount}
-                showDifferences={showDifferences}
+                scrollClickHandler={scrollClickHandler}
                 setShowDifferences={setShowDifferences}
+                showDifferences={showDifferences}
                 smallScreen={smallScreen}
                 setPromptingFacilityCode={setPromptingFacilityCode}
               />

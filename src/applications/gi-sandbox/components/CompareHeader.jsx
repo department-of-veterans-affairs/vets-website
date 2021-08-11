@@ -12,6 +12,7 @@ export default function({
   institutions,
   setPromptingFacilityCode,
   setShowDifferences,
+  scrollClickHandler,
   showDifferences,
   smallScreen,
 }) {
@@ -113,6 +114,7 @@ export default function({
           currentScroll={currentScroll}
           divisions={3}
           divisionWidth={400}
+          onClick={scrollClickHandler}
         />
       )}
       {!smallScreen && empties}
