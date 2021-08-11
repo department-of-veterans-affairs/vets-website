@@ -92,7 +92,11 @@ const formFields = {
 const formPages = {
   applicantInformation: 'applicantInformation',
   serviceHistory: 'serviceHistory',
-  contactInformation: 'contactInformation',
+  contactInformation: {
+    ...'contactInformation',
+    mailingAddress: 'mailingAddress',
+    preferredContactMethod: 'preferredContactMethod',
+  },
   // directDeposit: 'directDeposit',
 };
 
