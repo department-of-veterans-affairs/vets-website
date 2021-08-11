@@ -93,8 +93,7 @@ const formPages = {
   applicantInformation: 'applicantInformation',
   serviceHistory: 'serviceHistory',
   contactInformation: 'contactInformation',
-  directDeposit: 'directDeposit',
-  benefitSelect: 'benefitSelect',
+  // directDeposit: 'directDeposit',
 };
 
 function isOnlyWhitespace(str) {
