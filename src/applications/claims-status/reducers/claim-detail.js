@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import set from 'platform/utilities/data/set';
 
 import {
   GET_CLAIM_DETAIL,
@@ -14,19 +14,21 @@ const initialState = {
 export default function claimDetailReducer(state = initialState, action) {
   switch (action.type) {
     case SET_CLAIM_DETAIL: {
-      return _.assign(state, {
+      return {
+        ...state,
         detail: action.claim,
         loading: false,
-      });
+      };
     }
     case GET_CLAIM_DETAIL: {
-      return _.set('loading', true, state);
+      return set('loading', true, state);
     }
     case SET_CLAIMS_UNAVAILABLE: {
-      return _.assign(state, {
+      return {
+        ...state,
         detail: null,
         loading: false,
-      });
+      };
     }
     default:
       return state;
