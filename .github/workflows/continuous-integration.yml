@@ -126,6 +126,7 @@ jobs:
 
       - name: Report Failure
         if: failure()
+        uses: actions/github-script@v2
         with:
           script: process.exit(1)
 
