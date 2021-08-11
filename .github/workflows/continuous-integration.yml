@@ -338,7 +338,6 @@ jobs:
 
   cypress-tests-prep:
     name: Prep for Cypress Tests
-    if: ${{ github.ref != 'refs/heads/master' }}
     runs-on: ubuntu-latest
     outputs:
       num_containers: ${{ steps.containers.outputs.num }}
@@ -347,21 +346,25 @@ jobs:
 
     steps:
       - name: Checkout
+        if: ${{ github.ref != 'refs/heads/master' }}
         uses: actions/checkout@v2
         with:
           fetch-depth: 0 # this is required to list all changed files in branch
 
       - name: Get Node version
         id: get-node-version
+        if: ${{ github.ref != 'refs/heads/master' }}
         run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
 
       - name: Setup Node
+        if: ${{ github.ref != 'refs/heads/master' }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
       - name: Cache dependencies
         id: cache-dependencies
+        if: ${{ github.ref != 'refs/heads/master' }}
         uses: actions/cache@v2
         with:
           path: |
@@ -370,6 +373,7 @@ jobs:
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
+        if: ${{ github.ref != 'refs/heads/master' }}
         uses: nick-invision/retry@v2
         with:
           command: yarn install --frozen-lockfile --prefer-offline --production=false
@@ -380,23 +384,28 @@ jobs:
 
       - name: List changed files
         id: changed-files
+        if: ${{ github.ref != 'refs/heads/master' }}
         run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
 
       - name: Get number of containers needed
+        if: ${{ github.ref != 'refs/heads/master' }}
         run: node script/github-actions/select-cypress-tests.js
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
       - name: Set output of number of containers
         id: containers
+        if: ${{ github.ref != 'refs/heads/master' }}
         run: echo ::set-output name=num::$NUM_CONTAINERS
 
       - name: Set output of ci_node_index value for matrix
         id: matrix
+        if: ${{ github.ref != 'refs/heads/master' }}
         run: echo ::set-output name=ci_node_index::$CI_NODE_INDEX
 
       - name: Set output of tests to run
         id: tests
+        if: ${{ github.ref != 'refs/heads/master' }}
         run: echo ::set-output name=selected::$TESTS
 
   cypress-tests:
