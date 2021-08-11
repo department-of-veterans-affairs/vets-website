@@ -24,6 +24,7 @@ jobs:
 
     strategy:
       matrix:
+        fail-fast: false
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
     steps:
