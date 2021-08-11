@@ -25,7 +25,7 @@ export const OptInDescription = () => {
         another person.
       </p>
       <p>
-        <strong>If you have a Statement of the Case (SOC)</strong> or a
+        <strong>If you have a Statement of the Case (SOC)</strong> or a{' '}
         <strong>
           Supplemental Statement of the Case (SSOC) from the old appeals system
           dated on or after February 19, 2019,

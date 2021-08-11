@@ -1,5 +1,8 @@
 import React from 'react';
 
+export const boardReviewErrorMessage =
+  'Please choose a Board review option to proceed';
+
 /* eslint-disable camelcase */
 export const boardReviewContent = {
   direct_review: (
