@@ -346,25 +346,21 @@ jobs:
 
     steps:
       - name: Checkout
-        if: ${{ github.ref != 'refs/heads/master' }}
         uses: actions/checkout@v2
         with:
           fetch-depth: 0 # this is required to list all changed files in branch
 
       - name: Get Node version
         id: get-node-version
-        if: ${{ github.ref != 'refs/heads/master' }}
         run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
 
       - name: Setup Node
-        if: ${{ github.ref != 'refs/heads/master' }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
       - name: Cache dependencies
         id: cache-dependencies
-        if: ${{ github.ref != 'refs/heads/master' }}
         uses: actions/cache@v2
         with:
           path: |
@@ -373,7 +369,6 @@ jobs:
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
-        if: ${{ github.ref != 'refs/heads/master' }}
         uses: nick-invision/retry@v2
         with:
           command: yarn install --frozen-lockfile --prefer-offline --production=false
@@ -382,30 +377,34 @@ jobs:
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
+      - name: Set MASTER_BUILD to true if master
+        if: ${{ github.ref == 'refs/heads/master' }}
+        run: echo "MASTER_BUILD=true" >> $GITHUB_ENV
+
+      - name: Set MASTER_BUILD to false if not master
+        if: ${{ github.ref != 'refs/heads/master' }}
+        run: echo "MASTER_BUILD=false" >> $GITHUB_ENV
+
       - name: List changed files
         id: changed-files
-        if: ${{ github.ref != 'refs/heads/master' }}
         run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
 
       - name: Get number of containers needed
-        if: ${{ github.ref != 'refs/heads/master' }}
         run: node script/github-actions/select-cypress-tests.js
         env:
+          MASTER_BUILD: ${{ env.MASTER_BUILD }}
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
       - name: Set output of number of containers
         id: containers
-        if: ${{ github.ref != 'refs/heads/master' }}
         run: echo ::set-output name=num::$NUM_CONTAINERS
 
       - name: Set output of ci_node_index value for matrix
         id: matrix
-        if: ${{ github.ref != 'refs/heads/master' }}
         run: echo ::set-output name=ci_node_index::$CI_NODE_INDEX
 
       - name: Set output of tests to run
         id: tests
-        if: ${{ github.ref != 'refs/heads/master' }}
         run: echo ::set-output name=selected::$TESTS
 
   cypress-tests:
@@ -466,8 +465,7 @@ jobs:
       - name: Create test results directory
         run: mkdir -p test-results
 
-      - name: Run Cypress tests on push
-        if: ${{ github.ref != 'refs/heads/master' }}
+      - name: Run Cypress tests
         run: node script/github-actions/run-selected-cypress-tests.js
         timeout-minutes: 30
         env:
@@ -476,14 +474,24 @@ jobs:
           NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
           TESTS: ${{ needs.cypress-tests-prep.outputs.tests }}
 
-      - name: Run Cypress tests on merge to master
-        if: ${{ github.ref == 'refs/heads/master' }}
-        run: node script/github-actions/run-cypress-tests.js
-        timeout-minutes: 30
-        env:
-          # CYPRESS_BASE_URL: http://localhost:3001
-          CYPRESS_CI: true
-          STEP: ${{ matrix.ci_node_index }}
+      # - name: Run Cypress tests on push
+      #   if: ${{ github.ref != 'refs/heads/master' }}
+      #   run: node script/github-actions/run-selected-cypress-tests.js
+      #   timeout-minutes: 30
+      #   env:
+      #     CYPRESS_CI: true
+      #     STEP: ${{ matrix.ci_node_index }}
+      #     NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
+      #     TESTS: ${{ needs.cypress-tests-prep.outputs.tests }}
+
+      # - name: Run Cypress tests on merge to master
+      #   if: ${{ github.ref == 'refs/heads/master' }}
+      #   run: node script/github-actions/run-cypress-tests.js
+      #   timeout-minutes: 30
+      #   env:
+      #     # CYPRESS_BASE_URL: http://localhost:3001
+      #     CYPRESS_CI: true
+      #     STEP: ${{ matrix.ci_node_index }}
 
       - name: Archive test videos
         uses: actions/upload-artifact@v2

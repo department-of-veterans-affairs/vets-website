@@ -3,6 +3,7 @@ const path = require('path');
 const glob = require('glob');
 const { integrationFolder, testFiles } = require('../../config/cypress.json');
 
+const MASTER_BUILD = process.env.MASTER_BUILD === 'true';
 const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
 
 function selectedTests() {
@@ -39,34 +40,38 @@ function allTests() {
   return glob.sync(pattern);
 }
 
-let allMdFiles = true;
-let allMdOrSrcApplicationsFiles = true;
-
-for (let i = 0; i < pathsOfChangedFiles.length; i += 1) {
-  if (!pathsOfChangedFiles[i].endsWith('.md')) {
-    allMdFiles = false;
-  }
-
-  if (
-    !pathsOfChangedFiles[i].endsWith('.md') &&
-    !pathsOfChangedFiles[i].startsWith('src/applications')
-  ) {
-    allMdOrSrcApplicationsFiles = false;
-  }
-
-  if (allMdFiles === false && allMdOrSrcApplicationsFiles === false) {
-    break;
-  }
-}
-
 let tests;
 
-if (allMdFiles) {
-  tests = [];
-} else if (allMdOrSrcApplicationsFiles) {
-  tests = selectedTests();
-} else {
+if (MASTER_BUILD) {
   tests = allTests();
+} else {
+  let allMdFiles = true;
+  let allMdOrSrcApplicationsFiles = true;
+
+  for (let i = 0; i < pathsOfChangedFiles.length; i += 1) {
+    if (!pathsOfChangedFiles[i].endsWith('.md')) {
+      allMdFiles = false;
+    }
+
+    if (
+      !pathsOfChangedFiles[i].endsWith('.md') &&
+      !pathsOfChangedFiles[i].startsWith('src/applications')
+    ) {
+      allMdOrSrcApplicationsFiles = false;
+    }
+
+    if (allMdFiles === false && allMdOrSrcApplicationsFiles === false) {
+      break;
+    }
+  }
+
+  if (allMdFiles) {
+    tests = [];
+  } else if (allMdOrSrcApplicationsFiles) {
+    tests = selectedTests();
+  } else {
+    tests = allTests();
+  }
 }
 
 const numTests = tests.length;
