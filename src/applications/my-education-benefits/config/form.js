@@ -392,14 +392,16 @@ const formConfig = {
               email: 'hector.stanley@gmail.com',
               confirmEmail: 'hector.stanley@gmail.com',
             },
-            mobilePhoneNumber: {
-              phone: '123-456-7890',
-              isInternational: true,
-            },
-            phoneNumber: {
-              phone: '098-765-4321',
-              isInternational: false,
-            },
+            mobilePhoneNumber: '123-456-7890',
+            // {
+            //   phone: '123-456-7890',
+            //   isInternational: true,
+            // },
+            phoneNumber: '098-765-4321',
+            // {
+            //   phone: '098-765-4321',
+            //   isInternational: false,
+            // },
           },
           subTitle: 'Review your email and phone numbers',
           instructions:
