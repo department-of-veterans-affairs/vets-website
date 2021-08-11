@@ -529,6 +529,17 @@ jobs:
           ssm_parameter: /devops/github_actions_slack_bot_user_token
           env_variable_name: SLACK_BOT_TOKEN
 
+      - name: Notify Slack about build failures
+        if: ${{ needs.build.result == 'failure' }}
+        uses: ./.github/actions/vsp-github-actions/slack-socket
+        env:
+          SSL_CERT_DIR: /etc/ssl/certs
+        with:
+          slack_app_token: ${{ env.SLACK_APP_TOKEN }}
+          slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
+          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "At least one build step in `vets-website` has failed, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
+          channel_id: C02AG8UF95M # gha-build-status
+
       - name: Notify Slack about Cypress test failures
         if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: ./.github/actions/vsp-github-actions/slack-socket
