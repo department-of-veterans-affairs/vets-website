@@ -112,6 +112,7 @@
     "ie 11"
   ],
   "devDependencies": {
+    "@actions/core": "^1.4.0",
     "@babel/core": "^7.10.2",
     "@babel/plugin-proposal-class-properties": "^7.10.1",
     "@babel/plugin-proposal-export-namespace-from": "^7.10.1",
@@ -257,7 +258,6 @@
   },
   "private": true,
   "dependencies": {
-    "@actions/core": "^1.4.0",
     "@department-of-veterans-affairs/component-library": "2.5.5",
     "@department-of-veterans-affairs/formation": "6.16.3",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
