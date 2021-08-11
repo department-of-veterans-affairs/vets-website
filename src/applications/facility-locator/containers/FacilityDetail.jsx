@@ -72,7 +72,7 @@ class FacilityDetail extends Component {
     }
     if (operatingStatus.code === OperatingStatus.LIMITED) {
       operationStatusTitle = 'Limited services and hours';
-      alertClass = 'warning';
+      alertClass = 'info';
     }
     if (operatingStatus.code === OperatingStatus.CLOSED) {
       operationStatusTitle = 'Facility Closed';
