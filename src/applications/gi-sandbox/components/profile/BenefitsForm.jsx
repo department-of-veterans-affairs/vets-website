@@ -135,26 +135,24 @@ export class BenefitsForm extends React.Component {
             onFocus={this.props.handleInputFocus}
           />
           <div>
-            {(this.props.militaryStatus === 'active duty' &&
-              this.props.giBillChapter === '33a') ||
-              (this.props.militaryStatus === 'active duty' &&
-                this.props.giBillChapter === '33b' && (
-                  <div className="military-status-info warning form-group">
-                    <i className="fa fa-warning" />
-                    <a
-                      title="Post 9/11 GI Bill"
-                      href="http://www.benefits.va.gov/gibill/post911_gibill.asp"
-                      id="anch_378"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Post 9/11 GI Bill
-                    </a>{' '}
-                    recipients serving on Active Duty (or transferee spouses of
-                    a service member on active duty) are not eligible to receive
-                    a monthly housing allowance.
-                  </div>
-                ))}
+            {this.props.militaryStatus === 'active duty' &&
+              chapter33Check && (
+                <div className="military-status-info warning form-group">
+                  <i className="fa fa-warning" />
+                  <a
+                    title="Post 9/11 GI Bill"
+                    href="http://www.benefits.va.gov/gibill/post911_gibill.asp"
+                    id="anch_378"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Post 9/11 GI Bill
+                  </a>{' '}
+                  recipients serving on Active Duty (or transferee spouses of a
+                  service member on active duty) are not eligible to receive a
+                  monthly housing allowance.
+                </div>
+              )}
             {this.props.giBillChapter === '31' && (
               <div className="military-status-info info form-group">
                 <i className="fa fa-info-circle" />
