@@ -20,6 +20,7 @@ const SearchBenefits = ({
   setMilitaryStatus,
   setSpouseActiveDuty,
 }) => {
+  const chapter33Check = giBillChapter === '33a' || giBillChapter === '33b';
   return (
     <div>
       <Dropdown
@@ -64,8 +65,8 @@ const SearchBenefits = ({
         }
         name="giBillChapter"
         options={[
-          { optionValue: '33', optionLabel: 'Post-9/11 GI Bill (Ch 33)' },
-          { optionValue: '33', optionLabel: 'Fry Scholarship (Ch 33)' },
+          { optionValue: '33a', optionLabel: 'Post-9/11 GI Bill (Ch 33)' },
+          { optionValue: '33b', optionLabel: 'Fry Scholarship (Ch 33)' },
           {
             optionValue: '30',
             optionLabel: 'Montgomery GI Bill (Ch 30)',
@@ -90,24 +91,25 @@ const SearchBenefits = ({
         onChange={e => setGiBillChapter(e.target.value)}
       />
 
-      {militaryStatus === 'active duty' &&
-        giBillChapter === '33' && (
-          <div className="military-status-info warning form-group">
-            <i className="fa fa-warning" />
-            <a
-              title="Post 9/11 GI Bill"
-              href="http://www.benefits.va.gov/gibill/post911_gibill.asp"
-              id="anch_378"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Post 9/11 GI Bill
-            </a>{' '}
-            recipients serving on Active Duty (or transferee spouses of a
-            service member on active duty) are not eligible to receive a monthly
-            housing allowance.
-          </div>
-        )}
+      {(militaryStatus === 'active duty' && giBillChapter === '33a') ||
+        (militaryStatus === 'active duty' &&
+          giBillChapter === '33b' && (
+            <div className="military-status-info warning form-group">
+              <i className="fa fa-warning" />
+              <a
+                title="Post 9/11 GI Bill"
+                href="http://www.benefits.va.gov/gibill/post911_gibill.asp"
+                id="anch_378"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Post 9/11 GI Bill
+              </a>{' '}
+              recipients serving on Active Duty (or transferee spouses of a
+              service member on active duty) are not eligible to receive a
+              monthly housing allowance.
+            </div>
+          ))}
 
       {giBillChapter === '31' && (
         <div className="military-status-info info form-group">
@@ -151,7 +153,7 @@ const SearchBenefits = ({
         ]}
         value={cumulativeService}
         alt="Cumulative Post-9/11 active-duty service"
-        visible={giBillChapter === '33'}
+        visible={chapter33Check}
         onChange={e => setCumulativeService(e.target.value)}
       />
       <Dropdown
