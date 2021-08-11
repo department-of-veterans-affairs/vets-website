@@ -29,7 +29,9 @@
     "informalConferenceRep": {
       "firstName": "James",
       "lastName": "Sullivan",
-      "phone": "8005551212"
+      "phone": "8005551212",
+      "extension": "1234",
+      "email": "sully@pixar.com"
     },
     "informalConferenceTimes": {
       "time1": "time0800to1200",
