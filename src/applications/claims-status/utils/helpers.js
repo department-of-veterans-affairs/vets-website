@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import merge from 'lodash/merge';
 import * as Sentry from '@sentry/browser';
 
 import environment from 'platform/utilities/environment';
@@ -255,7 +255,8 @@ export function makeAuthRequest(
   onError,
 ) {
   const csrfTokenStored = localStorage.getItem('csrfToken');
-  const options = _.merge(
+  const options = merge(
+    {},
     {
       method: 'GET',
       credentials: 'include',

@@ -5,7 +5,7 @@ import { LANGUAGES, PURPOSE_TEXT } from '../../../utils/constants';
 import {
   getTypeOfCare,
   getFormData,
-  getChosenCCSystemId,
+  getChosenCCSystemById,
   getChosenClinicInfo,
   getChosenSlot,
 } from '../selectors';
@@ -15,7 +15,7 @@ export function transformFormToVAOSCCRequest(state) {
   const data = getFormData(state);
   const provider = data.communityCareProvider;
   const residentialAddress = selectVAPResidentialAddress(state);
-  const parentFacility = getChosenCCSystemId(state);
+  const parentFacility = getChosenCCSystemById(state);
   let practitioners = [];
 
   if (provider?.identifier) {
