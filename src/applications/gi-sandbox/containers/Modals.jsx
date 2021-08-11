@@ -810,7 +810,11 @@ export function Modals({ hideModal, modals, profile }) {
           </p>
           <p>
             Visit this school’s website to{' '}
-            <a href={inStateTuitionInformation}>
+            <a
+              href={inStateTuitionInformation}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
               see any in-state tuition requirements.
             </a>
           </p>
