@@ -66,11 +66,13 @@ jobs:
           YARN_CACHE_FOLDER: .cache/yarn
 
       - name: Build
-        run: yarnnn build --verbose --buildtype=${{ matrix.buildtype }}
+        run: yarn build --verbose --buildtype=${{ matrix.buildtype }}
         timeout-minutes: 30
-      # ----------------
-      # | Notify Slack |
-      # ----------------
+
+      # ----------------------------
+      # | Notify Slack of failures |
+      # ---------------------------
+
       - name: Get va-vsp-bot token
         if: ${{ failure() }}
         uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
@@ -113,9 +115,13 @@ jobs:
           attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "At least one build step in `vets-website` has failed, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
           channel_id: C02AG8UF95M # gha-build-status
 
-      - name: Report Failure
+      - name: Cancel other parallel steps
         if: ${{ failure() }}
         uses: andymckay/cancel-action@0.2
+
+      # ----------------
+      # | End Notify Slack |
+      # ----------------
 
       - name: Generate build details
         run: |
