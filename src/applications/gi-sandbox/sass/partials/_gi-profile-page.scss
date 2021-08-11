@@ -646,11 +646,16 @@
       position: relative;
     }
   }
-  .compare-checkbox {
-    justify-content: center;
-    align-items: center;
-    position: relative;
+
+  .card-bottom-cell {
     display: flex;
+    justify-content: center;
+    .form-checkbox {
+      margin-top: -16px;
+      input {
+        transform: translateY(34px);
+      }
+    }
   }
 
   .profile-section {
