@@ -86,7 +86,7 @@ jobs:
     name: Unit Tests
     runs-on: ubuntu-latest
     needs: build
-    if: ${{ needs.build.status === 'failure' }}
+    if: ${{ needs.build.status == 'failure' }}
     steps:
       # ----------------
       # | Notify Slack |
