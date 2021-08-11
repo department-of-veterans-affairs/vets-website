@@ -62,6 +62,7 @@ const {
   date,
   dateRange,
   usaPhone,
+  email,
   // bankAccount,
   toursOfDuty,
 } = commonDefinitions;
@@ -467,14 +468,8 @@ const formConfig = {
               [formFields.email]: {
                 type: 'object',
                 properties: {
-                  email: {
-                    type: 'string',
-                    format: 'email',
-                  },
-                  confirmEmail: {
-                    type: 'string',
-                    format: 'email',
-                  },
+                  email,
+                  confirmEmail: email,
                 },
               },
               [formFields.mobilePhoneNumber]: {
