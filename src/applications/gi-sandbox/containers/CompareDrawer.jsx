@@ -100,7 +100,7 @@ export function CompareDrawer({
           <RemoveCompareSelectedModal
             name={institutions[promptingFacilityCode].name}
             onClose={() => setPromptingFacilityCode(null)}
-            onAccept={() => {
+            onRemove={() => {
               setPromptingFacilityCode(null);
               dispatchRemoveCompareInstitution(promptingFacilityCode);
             }}
