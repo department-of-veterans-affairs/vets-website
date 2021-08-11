@@ -85,7 +85,7 @@ jobs:
   build-failure:
     name: Unit Tests
     runs-on: ubuntu-latest
-    if: ${{ jobs.build === 'failure' }}
+    if: ${{ jobs.build.status === 'failure' }}
     steps:
       # ----------------
       # | Notify Slack |
