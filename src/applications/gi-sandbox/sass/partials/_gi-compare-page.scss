@@ -56,7 +56,7 @@
   .institution-card {
     @media (max-width: $small-screen) {
       display: inline-block;
-      width: 380px;
+      width: 320px;
       margin-left: 20px;
     }
   }
@@ -80,7 +80,7 @@
     font-size: 20px;
     font-family: "Bitter";
     font-weight: 700;
-    color: $color-link-default;
+    color: $color-base;
   }
 
   .institution-location {
@@ -189,7 +189,7 @@
 
     @media (max-width: $small-screen) {
       display: inline-block;
-      width: 400px;
+      width: 360px;
       border-left: none;
       border-top: 1px solid $color-base;
     }
@@ -198,7 +198,7 @@
   .empty-col-wrapper {
     @media (max-width: $small-screen) {
       display: inline-block;
-      width: 400px;
+      width: 360px;
     }
   }
 
@@ -234,7 +234,7 @@
     border-right: 1px solid $color-base;
 
     @media (max-width: $small-screen) {
-      width: 398px;
+      width: 358px;
     }
   }
 
@@ -306,7 +306,7 @@
 
   .card-wrapper {
     display: flex;
-    width:1220px;
+    width:1120px;
   }
 
   .school-classification p {
@@ -334,14 +334,14 @@
     }
 
     .grid-data-1 {
-      width: 400px;
+      width: 360px;
       display: table-cell;
       vertical-align: top;
       padding-right: 2px
     }
 
     .empty-field-1 {
-      width: 400px;
+      width: 360px;
       display: table-cell;
       position: relative;
 
@@ -368,7 +368,7 @@
     scrollbar-width: none; /* for Firefox */
 
     .content-wrapper {
-      width: 1220px;
+      width: 1120px;
     }
 
     #compare-header {
@@ -378,12 +378,12 @@
 
     .compare-controls {
       left: 20px;
-      width: 1220px;
+      width: 1120px;
     }
   }
 
   .compare-scroller {
-    width: 1220px;
+    width: 1120px;
     margin-top: 60px;
     display: flex;
     padding-bottom: 8px;

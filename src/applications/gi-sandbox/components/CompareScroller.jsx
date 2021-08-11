@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 export default function({ currentScroll, divisions, divisionWidth, onClick }) {
-  const currentPosition = Math.floor((currentScroll + 10) / divisionWidth);
+  const currentPosition = Math.floor((currentScroll + 20) / divisionWidth);
   const circles = [];
 
   for (let i = 0; i < divisions; i++) {

@@ -113,7 +113,7 @@ export default function({
         <CompareScroller
           currentScroll={currentScroll}
           divisions={3}
-          divisionWidth={400}
+          divisionWidth={340}
           onClick={scrollClickHandler}
         />
       )}
