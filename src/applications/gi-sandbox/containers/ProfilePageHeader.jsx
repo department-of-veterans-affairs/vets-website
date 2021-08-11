@@ -78,7 +78,7 @@ const ProfilePageHeader = ({
   const displayStars =
     gibctSchoolRatings && stars && ratingCount >= MINIMUM_RATING_COUNT;
 
-  const titleClasses = classNames({
+  const titleClasses = classNames('small-screen-header', {
     'vads-u-margin-bottom--0': displayStars,
   });
 
