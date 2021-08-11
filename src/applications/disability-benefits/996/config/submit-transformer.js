@@ -9,11 +9,12 @@ import {
   getPhone,
   getTimeZone,
 } from '../utils/submit';
+import { apiVersion1 } from '../utils/helpers';
 
 export function transform(formConfig, form) {
   // https://dev-developer.va.gov/explore/appeals/docs/decision_reviews?version=current
   const mainTransform = formData => {
-    const version = formData.hlrV2 ? 2 : 1;
+    const version1 = apiVersion1(formData);
     const informalConference = formData.informalConference !== 'no';
     const attributes = {
       // This value may empty if the user restarts the form; see
@@ -24,14 +25,14 @@ export function transform(formConfig, form) {
 
       veteran: {
         timezone: getTimeZone(),
-        address: getAddress(formData, version),
+        address: getAddress(formData),
       },
     };
 
-    if (version === 1) {
+    if (version1) {
       attributes.sameOffice = formData.sameOffice || false;
     }
-    if (version > 1) {
+    if (!version1) {
       attributes.veteran.homeless = formData.homeless;
       attributes.veteran.phone = getPhone(formData);
       attributes.veteran.email = formData?.veteran.email;
@@ -39,14 +40,11 @@ export function transform(formConfig, form) {
 
     // Add informal conference data
     if (informalConference) {
-      attributes.informalConferenceTimes = getConferenceTimes(
-        formData,
-        version,
-      );
+      attributes.informalConferenceTimes = getConferenceTimes(formData);
       if (formData.informalConference === 'rep') {
-        attributes.informalConferenceRep = getRep(formData, version);
+        attributes.informalConferenceRep = getRep(formData);
       }
-      if (version > 1) {
+      if (!version1) {
         attributes.informalConferenceContact = getContact(formData);
       }
     }

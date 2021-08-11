@@ -58,6 +58,7 @@ function createErrorHandler(errorKey) {
 }
 
 const PRIMARY_CARE = '323';
+const MENTAL_HEALTH = '502';
 
 const DISABLED_LIMIT_VALUE = 0;
 
@@ -341,9 +342,12 @@ export async function fetchFlowEligibilityAndClinics({
       systemId: location.vistaId,
       useV2,
     }).catch(createErrorHandler('direct-available-clinics-error'));
-    apiCalls.pastAppointments = getLongTermAppointmentHistory().catch(
-      createErrorHandler('direct-no-matching-past-clinics-error'),
-    );
+
+    if (typeOfCare.id !== PRIMARY_CARE && typeOfCare.id !== MENTAL_HEALTH) {
+      apiCalls.pastAppointments = getLongTermAppointmentHistory().catch(
+        createErrorHandler('direct-no-matching-past-clinics-error'),
+      );
+    }
   }
 
   // This waits for all the api calls we're running in parallel to finish
@@ -410,7 +414,11 @@ export async function fetchFlowEligibilityAndClinics({
       recordEligibilityFailure('direct-available-clinics');
     }
 
-    if (!hasMatchingClinics(results.clinics, results.pastAppointments)) {
+    if (
+      typeOfCare.id !== PRIMARY_CARE &&
+      typeOfCare.id !== MENTAL_HEALTH &&
+      !hasMatchingClinics(results.clinics, results.pastAppointments)
+    ) {
       eligibility.direct = false;
       eligibility.directReasons.push(ELIGIBILITY_REASONS.noMatchingClinics);
       recordEligibilityFailure('direct-no-matching-past-clinics');

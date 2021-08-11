@@ -6,7 +6,11 @@ import FormButtons from '../../../components/FormButtons';
 import RequestEligibilityMessage from './RequestEligibilityMessage';
 import FacilityAddress from '../../../components/FacilityAddress';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import { FETCH_STATUS } from '../../../utils/constants';
+import {
+  FETCH_STATUS,
+  MENTAL_HEALTH,
+  PRIMARY_CARE,
+} from '../../../utils/constants';
 import {
   openClinicPage,
   routeToNextAppointmentPage,
@@ -29,15 +33,13 @@ function vowelCheck(givenString) {
   return /^[aeiou]$/i.test(givenString.charAt(0));
 }
 
-function getPageTitle(schema, typeOfCare) {
+function getPageTitle(schema, typeOfCare, usingPastClinics) {
   const typeOfCareLabel = formatTypeOfCare(typeOfCare.name);
-  let pageTitle = 'Clinic choice';
-  if (schema?.properties.clinicId.enum.length === 2) {
+  let pageTitle = 'Choose a VA clinic';
+  if (schema?.properties.clinicId.enum.length === 2 && usingPastClinics) {
     pageTitle = `Make ${
       vowelCheck(typeOfCareLabel) ? 'an' : 'a'
     } ${typeOfCareLabel} appointment at your last clinic`;
-  } else if (schema?.properties.clinicId.enum.length > 2) {
-    pageTitle = 'Choose a VA clinic';
   }
   return pageTitle;
 }
@@ -74,6 +76,8 @@ export default function ClinicChoicePage() {
   const typeOfCareLabel = formatTypeOfCare(typeOfCare.name);
   const usingUnsupportedRequestFlow =
     data.clinicId === 'NONE' && !canMakeRequests;
+  const usingPastClinics =
+    typeOfCare.id !== PRIMARY_CARE && typeOfCare.id !== MENTAL_HEALTH;
   const schemaAndFacilityReady =
     schema && facilityDetailsStatus !== FETCH_STATUS.loading;
   useEffect(() => {
@@ -83,9 +87,13 @@ export default function ClinicChoicePage() {
   useEffect(
     () => {
       scrollAndFocus();
-      document.title = `${getPageTitle(schema, typeOfCare)} | Veterans Affairs`;
+      document.title = `${getPageTitle(
+        schema,
+        typeOfCare,
+        usingPastClinics,
+      )} | Veterans Affairs`;
     },
-    [schemaAndFacilityReady],
+    [schemaAndFacilityReady, usingPastClinics],
   );
 
   if (!schemaAndFacilityReady) {
@@ -99,7 +107,12 @@ export default function ClinicChoicePage() {
           <h1 className="vads-u-font-size--h2">
             {getPageTitle(schema, typeOfCare)}
           </h1>
-          Your last {typeOfCareLabel} appointment was at{' '}
+          {usingPastClinics && (
+            <>Your last {typeOfCareLabel} appointment was at </>
+          )}
+          {!usingPastClinics && (
+            <>{typeOfCare.name} appointments are available at </>
+          )}
           {clinics[0].serviceName}:
           {facilityDetails && (
             <p>
@@ -117,11 +130,19 @@ export default function ClinicChoicePage() {
           <h1 className="vads-u-font-size--h2">
             {getPageTitle(schema, typeOfCare)}
           </h1>
-          <p>
-            In the last 24 months you’ve had{' '}
-            {vowelCheck(typeOfCareLabel) ? 'an' : 'a'} {typeOfCareLabel}{' '}
-            appointment at the following {facilityDetails?.name} clinics:
-          </p>
+          {usingPastClinics && (
+            <p>
+              In the last 24 months you’ve had{' '}
+              {vowelCheck(typeOfCareLabel) ? 'an' : 'a'} {typeOfCareLabel}{' '}
+              appointment at the following {facilityDetails?.name} clinics:
+            </p>
+          )}
+          {!usingPastClinics && (
+            <p>
+              {typeOfCare.name} appointments are available at the following{' '}
+              {facilityDetails?.name} clinics:
+            </p>
+          )}
         </>
       )}
       <SchemaForm
