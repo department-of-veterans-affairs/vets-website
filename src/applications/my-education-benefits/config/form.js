@@ -4,6 +4,7 @@ import React from 'react';
 // Example of an imported schema:
 // import fullSchema from '../22-1990-schema.json';
 // eslint-disable-next-line no-unused-vars
+import fullSchema from '../22-1990-schema.json';
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/22-1990-schema.json';
 
@@ -25,7 +26,6 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 // import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 // eslint-disable-next-line no-unused-vars
 import * as address from 'platform/forms-system/src/js/definitions/address';
-import fullSchema from 'vets-json-schema/dist/22-1990-schema.json';
 
 import manifest from '../manifest.json';
 
@@ -506,6 +506,54 @@ const formConfig = {
                   phone: usaPhone,
                 },
               },
+              'view:note': {
+                type: 'object',
+                properties: {},
+              },
+            },
+          },
+        },
+        [formPages.contactInformation.mailingAddress]: {
+          title: 'Contact Information',
+          path: 'contact/information/mailing_address',
+          initialData: {},
+          subTitle: 'Review your mailing address',
+          instructions:
+            'This is the mailing address we have on file for you. We’ll send any important information about your application to this address.',
+          uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Review your mailing address</h3>
+                  <p>
+                    This is the mailing address we have on file for you. We’ll
+                    send any important information about your application to
+                    this address.
+                  </p>
+                </>
+              ),
+            },
+            [formFields.address]: address.uiSchema('Mailing address'),
+            'view:note': {
+              'ui:description': (
+                <p>
+                  <strong>Note</strong>: Any updates you make here will change
+                  your mailing address for VA education benefits only. To change
+                  your mailing address for all benefits VA,{' '}
+                  <a href="#">visit your VA profile</a>.
+                </p>
+              ),
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
+              [formFields.address]: address.schema(fullSchema, true),
+
               'view:note': {
                 type: 'object',
                 properties: {},
