@@ -654,6 +654,7 @@
       margin-top: -16px;
       input {
         transform: translateY(34px);
+        // pushes the input down to overlap drawn box because display flex causes the elements to stack vertically
       }
     }
   }
