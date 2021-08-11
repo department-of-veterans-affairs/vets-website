@@ -10,9 +10,9 @@ on:
 env:
   CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
 
-concurrency:
-  group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha  }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
+# concurrency:
+#   group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha  }}
+#   cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
 
 jobs:
   build:
@@ -377,13 +377,13 @@ jobs:
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
-      - name: Set MASTER_BUILD to true if master
-        if: ${{ github.ref == 'refs/heads/master' }}
-        run: echo "MASTER_BUILD=true" >> $GITHUB_ENV
-
-      - name: Set MASTER_BUILD to false if not master
-        if: ${{ github.ref != 'refs/heads/master' }}
-        run: echo "MASTER_BUILD=false" >> $GITHUB_ENV
+      - name: Set MASTER_BUILD
+        run: |
+          if [[ github.ref == 'refs/heads/master' ]]; then
+              echo "MASTER_BUILD=true" >> $GITHUB_ENV
+          else
+              echo "MASTER_BUILD=false" >> $GITHUB_ENV
+          fi
 
       - name: List changed files
         id: changed-files
