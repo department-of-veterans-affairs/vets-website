@@ -206,13 +206,16 @@ export const DirectDepositEDU = ({
       </p>
       <div className="vads-u-margin-bottom--2">
         <AdditionalInfo triggerText="Where can I find these numbers?">
-          <figure className="vads-u-margin-x--0">
+          <figure
+            className="vads-u-margin-x--0"
+            role="figure"
+            aria-labelledby="check-caption"
+          >
             {/* eslint-disable jsx-a11y/no-redundant-roles */}
             <img
               src="/img/direct-deposit-check-guide.svg"
               role="img"
               alt="A personal check"
-              aria-labelledby="check-caption"
             />
             {/* eslint-enable jsx-a11y/no-redundant-roles */}
             <figcaption
