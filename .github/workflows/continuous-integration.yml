@@ -73,7 +73,7 @@ jobs:
           EOF
 
       - name: Compress and archive build
-        run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
+        run: tarssssssss -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v2
