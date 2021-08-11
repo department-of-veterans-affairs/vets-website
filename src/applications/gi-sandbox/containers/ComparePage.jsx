@@ -176,14 +176,16 @@ export function ComparePage({
         <RemoveCompareSelectedModal
           name={institutions[promptingFacilityCode].name}
           onClose={() => setPromptingFacilityCode(null)}
-          onAccept={() => {
+          onRemove={() => {
             setPromptingFacilityCode(null);
             const newSelected = selected.filter(
               facilityCode => facilityCode !== promptingFacilityCode,
             );
-            const compareLink = appendQuery(
-              `/compare/?facilities=${newSelected.join(',')}`,
-            );
+            const compareLink = version
+              ? appendQuery(`/compare/?facilities=${newSelected.join(',')}`, {
+                  version,
+                })
+              : appendQuery(`/compare/?facilities=${newSelected.join(',')}`);
             history.replace(compareLink);
             dispatchRemoveCompareInstitution(promptingFacilityCode);
           }}

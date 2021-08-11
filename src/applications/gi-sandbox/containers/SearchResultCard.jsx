@@ -28,6 +28,7 @@ export function SearchResultCard({
   header = null,
   gibctSchoolRatings,
   active = false,
+  version,
 }) {
   const {
     name,
@@ -57,7 +58,9 @@ export function SearchResultCard({
 
   const [expanded, toggleExpansion] = useState(false);
 
-  const profileLink = appendQuery(`/profile/${facilityCode}`);
+  const profileLink = version
+    ? appendQuery(`/profile/${facilityCode}`, { version })
+    : `/profile/${facilityCode}`;
 
   const resultCardClasses = classNames('result-card', {
     'vads-u-margin-bottom--2': location,

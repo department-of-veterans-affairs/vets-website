@@ -69,10 +69,10 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
         },
       },
     };
+    const siteIds = ['983'];
 
     beforeEach(() => {
       mockFetch();
-      const siteIds = ['983'];
 
       mockParentSites(siteIds, [parentSite983]);
       mockDirectBookingEligibilityCriteria(siteIds, [
@@ -112,10 +112,16 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
 
     it('should show no clinics message when direct is supported, no clinics available, requests not supported', async () => {
       mockRequestEligibilityCriteria(['983'], []);
+      mockDirectBookingEligibilityCriteria(siteIds, [
+        getDirectBookingEligibilityCriteriaMock({
+          id: '983',
+          typeOfCareId: '211',
+        }),
+      ]);
       mockEligibilityFetches({
         siteId: '983',
         facilityId: '983',
-        typeOfCareId: '323',
+        typeOfCareId: '211',
         clinics: [
           {
             id: '308',
@@ -128,10 +134,11 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
             },
           },
         ],
+        directPastVisits: true,
         pastClinics: false,
       });
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, /primary care/i);
+      await setTypeOfCare(store, /amputation care/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -145,7 +152,6 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
     });
 
     it('should show past visits message when not eligible for direct, requests are supported, no past visit', async () => {
-      const siteIds = ['983'];
       mockParentSites(siteIds, [parentSite983]);
       mockDirectBookingEligibilityCriteria(siteIds, []);
       mockRequestEligibilityCriteria(siteIds, [
@@ -321,21 +327,31 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
       mockDirectBookingEligibilityCriteria(
         parentSiteIds,
-        directFacilities.slice(0, 5),
+        facilityIds.slice(0, 5).map(id =>
+          getDirectBookingEligibilityCriteriaMock({
+            id,
+            typeOfCareId: '211',
+          }),
+        ),
       );
       mockRequestEligibilityCriteria(
         parentSiteIds,
-        requestFacilities.slice(0, 4),
+        facilityIds.slice(0, 4).map(id =>
+          getRequestEligibilityCriteriaMock({
+            id,
+            typeOfCareId: '211',
+          }),
+        ),
       );
       mockFacilitiesFetch(vhaIds.slice(0, 5).join(','), facilities.slice(0, 5));
       mockEligibilityFetches({
         siteId: '983',
         facilityId: '983QA',
-        typeOfCareId: '323',
+        typeOfCareId: '211',
         directPastVisits: true,
       });
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, /primary care/i);
+      await setTypeOfCare(store, /amputation care/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -355,6 +371,112 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
       // It should record GA event for loading modal
       expect(loadingEvent).to.exist;
       expect('loading-indicator-display-time' in loadingEvent).to.be.true;
+    });
+
+    it('should continue when primary care, direct is supported, clinics available, no matching clinics, requests not supported', async () => {
+      mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
+      mockDirectBookingEligibilityCriteria(
+        parentSiteIds,
+        directFacilities.slice(0, 5),
+      );
+      mockRequestEligibilityCriteria(
+        parentSiteIds,
+        requestFacilities.slice(0, 4),
+      );
+      mockFacilitiesFetch(vhaIds.slice(0, 5).join(','), facilities.slice(0, 5));
+      mockEligibilityFetches({
+        siteId: '983',
+        facilityId: '983QA',
+        typeOfCareId: '323',
+        directPastVisits: true,
+        clinics: [
+          {
+            id: '308',
+            attributes: {
+              ...getClinicMock(),
+              siteCode: '983',
+              clinicId: '308',
+              institutionCode: '983',
+              clinicFriendlyLocationName: 'Green team clinic',
+            },
+          },
+        ],
+        pastClinics: false,
+      });
+      const store = createTestStore(initialState);
+      await setTypeOfCare(store, /primary care/i);
+
+      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+        store,
+      });
+
+      await screen.findByText(/below is a list of VA locations/i);
+
+      fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
+      fireEvent.click(screen.getByText(/Continue/));
+      await waitFor(() => {
+        expect(screen.history.push.lastCall.args[0]).to.equal(
+          '/new-appointment/clinics',
+        );
+      });
+    });
+
+    it('should continue when mental health, direct is supported, clinics available, no matching clinics, requests not supported', async () => {
+      mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
+      mockDirectBookingEligibilityCriteria(
+        parentSiteIds,
+        facilityIds.slice(0, 5).map(id =>
+          getDirectBookingEligibilityCriteriaMock({
+            id,
+            typeOfCareId: '502',
+          }),
+        ),
+      );
+      mockRequestEligibilityCriteria(
+        parentSiteIds,
+        facilityIds.slice(0, 4).map(id =>
+          getRequestEligibilityCriteriaMock({
+            id,
+            typeOfCareId: '502',
+          }),
+        ),
+      );
+      mockFacilitiesFetch(vhaIds.slice(0, 5).join(','), facilities.slice(0, 5));
+      mockEligibilityFetches({
+        siteId: '983',
+        facilityId: '983QA',
+        typeOfCareId: '502',
+        directPastVisits: true,
+        clinics: [
+          {
+            id: '308',
+            attributes: {
+              ...getClinicMock(),
+              siteCode: '983',
+              clinicId: '308',
+              institutionCode: '983',
+              clinicFriendlyLocationName: 'Green team clinic',
+            },
+          },
+        ],
+        pastClinics: false,
+      });
+      const store = createTestStore(initialState);
+      await setTypeOfCare(store, /mental health/i);
+
+      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+        store,
+      });
+
+      await screen.findByText(/below is a list of VA locations/i);
+
+      fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
+      fireEvent.click(screen.getByText(/Continue/));
+      await waitFor(() => {
+        expect(screen.history.push.lastCall.args[0]).to.equal(
+          '/new-appointment/clinics',
+        );
+      });
     });
 
     it('should show eligibility modal again when user closes it out and hits continue with the same facility', async () => {
@@ -605,14 +727,14 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
         mockSchedulingConfigurations([
           getSchedulingConfigurationMock({
             id: '983',
-            typeOfCareId: 'outpatientMentalHealth',
+            typeOfCareId: 'socialWork',
             directEnabled: true,
             patientHistoryRequired: true,
             patientHistoryDuration: 365,
           }),
           getSchedulingConfigurationMock({
             id: '984',
-            typeOfCareId: 'outpatientMentalHealth',
+            typeOfCareId: 'socialWork',
             directEnabled: true,
             patientHistoryRequired: true,
             patientHistoryDuration: 365,
@@ -625,7 +747,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
         );
         mockEligibilityFetchesByVersion({
           facilityId: '983',
-          typeOfCareId: 'outpatientMentalHealth',
+          typeOfCareId: 'socialWork',
           directPastVisits: true,
           clinics: [
             getV2ClinicMock({
@@ -637,7 +759,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
           version: 2,
         });
         const store = createTestStore(initialState);
-        await setTypeOfCare(store, /mental health/i);
+        await setTypeOfCare(store, /social work/i);
 
         const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
           store,

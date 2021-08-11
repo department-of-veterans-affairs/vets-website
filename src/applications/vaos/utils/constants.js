@@ -73,9 +73,12 @@ export const COVID_VACCINE_ID = 'covid';
  * @property {Array<string>} specialities PPMS specialty codes associated with this type of care
  */
 
+export const PRIMARY_CARE = '323';
+export const MENTAL_HEALTH = '502';
+
 export const TYPES_OF_CARE = [
   {
-    id: '323',
+    id: PRIMARY_CARE,
     idV2: 'primaryCare',
     name: 'Primary care',
     group: 'primary',
@@ -90,7 +93,7 @@ export const TYPES_OF_CARE = [
     group: 'primary',
   },
   {
-    id: '502',
+    id: MENTAL_HEALTH,
     idV2: 'outpatientMentalHealth',
     name: 'Mental health',
     group: 'mentalHealth',
@@ -318,7 +321,6 @@ export const DISTANCES = [
   },
 ];
 
-export const MENTAL_HEALTH = '502';
 export const EXPRESS_CARE = 'CR1';
 
 export const GA_PREFIX = 'vaos';

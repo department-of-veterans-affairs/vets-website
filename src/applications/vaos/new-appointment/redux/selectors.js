@@ -105,7 +105,7 @@ export function getChosenFacilityInfo(state) {
   );
 }
 
-export function getChosenCCSystemId(state) {
+export function getChosenCCSystemById(state) {
   const communityCareSystemId = getFormData(state).communityCareSystemId;
 
   if (!communityCareSystemId) {
@@ -119,10 +119,6 @@ export function getChosenCCSystemId(state) {
 
 export function getSiteIdForChosenFacility(state) {
   return getSiteIdFromFacilityId(getFormData(state).vaFacility);
-}
-
-export function getChosenFacilityDetails(state) {
-  return getChosenFacilityInfo(state);
 }
 
 export function selectEligibility(state) {
@@ -352,8 +348,8 @@ export function selectReviewPage(state) {
     clinic: getChosenClinicInfo(state),
     data: getFormData(state),
     facility: getChosenFacilityInfo(state),
-    facilityDetails: getChosenFacilityDetails(state),
     flowType: getFlowType(state),
+    parentFacility: getChosenCCSystemById(state),
     submitStatus: state.newAppointment.submitStatus,
     submitStatusVaos400: state.newAppointment.submitStatusVaos400,
     systemId: getSiteIdForChosenFacility(state),

@@ -5,7 +5,9 @@ import { getDate } from '../../utils/dates';
 import {
   createIssueName,
   getContestedIssues,
+  getConferenceTimes,
   removeEmptyEntries,
+  getRep,
   getAddress,
   getPhone,
   getTimeZone,
@@ -117,37 +119,143 @@ describe('removeEmptyEntries', () => {
   });
 });
 
+describe('getRep', () => {
+  const getDataV1 = ({ rep = 'rep' }) => ({
+    hlrV2: false,
+    informalConference: rep,
+    informalConferenceRep: {
+      name: 'James Sullivan',
+      phone: '8005551212',
+    },
+  });
+  const getDataV2 = ({
+    rep = 'rep',
+    extension = '1234',
+    email = 'sully@pixar.com',
+  } = {}) => ({
+    hlrV2: true,
+    informalConference: rep,
+    informalConferenceRep: {
+      firstName: 'James',
+      lastName: 'Sullivan',
+      phone: '8005551212',
+      extension,
+      email,
+    },
+  });
+
+  it('should return null for v1 non-rep choices', () => {
+    expect(getRep(getDataV1({ rep: 'me' }))).to.be.null;
+  });
+  it('should return all v1 rep info', () => {
+    expect(getRep(getDataV1({}))).to.deep.equal({
+      name: 'James Sullivan',
+      phone: {
+        countryCode: '1',
+        areaCode: '800',
+        phoneNumber: '5551212',
+      },
+    });
+  });
+
+  it('should return null for v2 non-rep choices', () => {
+    expect(getRep(getDataV2({ rep: 'me' }))).to.be.null;
+  });
+  it('should return all v2 rep info', () => {
+    expect(getRep(getDataV2({}))).to.deep.equal({
+      firstName: 'James',
+      lastName: 'Sullivan',
+      phone: {
+        countryCode: '1',
+        areaCode: '800',
+        phoneNumber: '5551212',
+        phoneNumberExt: '1234',
+      },
+      email: 'sully@pixar.com',
+    });
+  });
+  it('should not include empty v2 rep info', () => {
+    expect(getRep(getDataV2({ extension: '', email: '' }))).to.deep.equal({
+      firstName: 'James',
+      lastName: 'Sullivan',
+      phone: {
+        countryCode: '1',
+        areaCode: '800',
+        phoneNumber: '5551212',
+      },
+    });
+  });
+});
+
+describe('getConferenceTimes', () => {
+  const wrap = (times, v = 'v1') => ({
+    hlrV2: v === 'v2',
+    informalConferenceTimes: times,
+  });
+  it('should return v1 times', () => {
+    expect(getConferenceTimes(wrap({ time1: 'time0800to1000' }))).to.deep.equal(
+      ['800-1000 ET'],
+    );
+    expect(getConferenceTimes(wrap({ time1: 'time1230to1400' }))).to.deep.equal(
+      ['1230-1400 ET'],
+    );
+    expect(
+      getConferenceTimes(
+        wrap({ time1: 'time0800to1000', time2: 'time1400to1630' }),
+      ),
+    ).to.deep.equal(['800-1000 ET', '1400-1630 ET']);
+  });
+  it('should return v2 times', () => {
+    expect(
+      getConferenceTimes(wrap({ time1: 'time0800to1200' }, 'v2')),
+    ).to.deep.equal(['800-1200 ET']);
+    expect(
+      getConferenceTimes(wrap({ time1: 'time1200to1630' }, 'v2')),
+    ).to.deep.equal(['1200-1630 ET']);
+    expect(
+      getConferenceTimes(
+        wrap({ time1: 'time0800to1200', time2: 'time1200to1630' }, 'v2'),
+      ),
+    ).to.deep.equal(['800-1200 ET', '1200-1630 ET']);
+  });
+});
+
 describe('getAddress', () => {
   it('should return a cleaned up address object', () => {
-    const wrap = obj => ({ veteran: { address: obj } });
+    const wrap = (obj, v = 'v1') => ({
+      hlrV2: v === 'v2',
+      veteran: { address: obj },
+    });
     expect(getAddress()).to.deep.equal({ zipCode5: '00000' });
-    expect(getAddress({}, 2)).to.deep.equal({});
-    expect(getAddress(wrap({}), 1)).to.deep.equal({ zipCode5: '00000' });
-    expect(getAddress(wrap({}), 2)).to.deep.equal({});
-    expect(getAddress(wrap({ temp: 'test' }), 1)).to.deep.equal({
+    expect(getAddress({ hlrV2: true })).to.deep.equal({});
+    expect(getAddress(wrap({}))).to.deep.equal({ zipCode5: '00000' });
+    expect(getAddress(wrap({}, 'v2'))).to.deep.equal({});
+    expect(getAddress(wrap({ temp: 'test' }))).to.deep.equal({
       zipCode5: '00000',
     });
-    expect(getAddress(wrap({ temp: 'test' }), 2)).to.deep.equal({});
-    expect(getAddress(wrap({ addressLine1: 'test' }), 2)).to.deep.equal({
+    expect(getAddress(wrap({ temp: 'test' }, 'v2'))).to.deep.equal({});
+    expect(getAddress(wrap({ addressLine1: 'test' }, 'v2'))).to.deep.equal({
       addressLine1: 'test',
     });
-    expect(getAddress(wrap({ zipCode: '10101' }), 2)).to.deep.equal({
+    expect(getAddress(wrap({ zipCode: '10101' }, 'v2'))).to.deep.equal({
       zipCode5: '10101',
     });
     expect(
       getAddress(
-        wrap({
-          addressLine1: '123 test',
-          addressLine2: 'c/o foo',
-          addressLine3: 'suite 99',
-          city: 'Big City',
-          stateCode: 'NV',
-          zipCode: '10101',
-          countryCodeIso2: 'US',
-          internationalPostalCode: '12345',
-          extra: 'will not be included',
-        }),
-        2,
+        wrap(
+          {
+            addressLine1: '123 test',
+            addressLine2: 'c/o foo',
+            addressLine3: 'suite 99',
+            city: 'Big City',
+            stateCode: 'NV',
+            zipCode: '10101',
+            countryCodeIso2: 'US',
+            internationalPostalCode: '12345',
+            extra: 'will not be included',
+          },
+          'v2',
+        ),
       ),
     ).to.deep.equal({
       addressLine1: '123 test',
