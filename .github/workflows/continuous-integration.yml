@@ -23,7 +23,6 @@ jobs:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
 
     strategy:
-      fail-fast: true
       matrix:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
@@ -81,6 +80,10 @@ jobs:
           name: ${{ matrix.buildtype }}.tar.bz2
           path: ${{ matrix.buildtype }}.tar.bz2
           retention-days: 1
+
+      - name: Report Failure
+        if: failure()
+        uses: andymckay/cancel-action@0.2
 
   build-failure:
     name: Build Failure Notification
