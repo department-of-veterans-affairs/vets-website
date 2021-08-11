@@ -10,9 +10,9 @@ on:
 env:
   CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
 
-# concurrency:
-#   group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha  }}
-#   cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
+concurrency:
+  group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha  }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
 
 jobs:
   build:

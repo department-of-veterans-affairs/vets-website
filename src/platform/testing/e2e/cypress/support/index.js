@@ -56,9 +56,6 @@ beforeEach(() => {
 Cypress.on('test:after:run', test => {
   if (test.state === 'failed') {
     let videoName = Cypress.spec.name;
-
-    // eslint-disable-next-line no-console
-    console.log('videoName: ', videoName);
     videoName = videoName.replace('/.js.*', '.js');
     const videoPath = `${Cypress.config('videosFolder')}/${videoName}.mp4`;
     addContext({ test }, videoPath);
