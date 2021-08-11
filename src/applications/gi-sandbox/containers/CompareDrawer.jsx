@@ -12,6 +12,7 @@ export function CompareDrawer({
   displayed,
   alwaysDisplay = false,
   dispatchCompareDrawerOpened,
+  preview,
 }) {
   const history = useHistory();
   const [open, setOpen] = useState(compare.open);
@@ -20,9 +21,19 @@ export function CompareDrawer({
   const [stuck, setStuck] = useState(false);
   const notRendered = !displayed && !alwaysDisplay;
   const placeholder = useRef(null);
+  const drawer = useRef(null);
 
   const handleScroll = () => {
+    let currentStuck;
+    setStuck(currentState => {
+      // Do not change the state by getting the updated state
+      currentStuck = currentState;
+      return currentState;
+    });
     if (placeholder.current) {
+      placeholder.current.style.height = currentStuck
+        ? 0
+        : drawer.current.getBoundingClientRect().height;
       setStuck(
         placeholder.current.getBoundingClientRect().bottom < window.innerHeight,
       );
@@ -42,7 +53,11 @@ export function CompareDrawer({
   }
 
   const openCompare = () => {
-    const compareLink = appendQuery(`/compare/?facilities=${loaded.join(',')}`);
+    const compareLink = preview.version
+      ? appendQuery(`/compare/?facilities=${loaded.join(',')}`, {
+          version: preview.version,
+        })
+      : appendQuery(`/compare/?facilities=${loaded.join(',')}`);
     history.push(compareLink);
   };
 
@@ -55,7 +70,10 @@ export function CompareDrawer({
     const blanks = [];
     for (let i = 0; i < 3 - loaded.length; i++) {
       blanks.push(
-        <div key={i} className="medium-screen:vads-l-col--3">
+        <div
+          key={i}
+          className="compare-item vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3"
+        >
           <div className="compare-name">
             <div className="blank" />
           </div>
@@ -77,12 +95,12 @@ export function CompareDrawer({
   });
   return (
     <>
-      <div className={compareDrawerClasses}>
+      <div className={compareDrawerClasses} ref={drawer}>
         {promptingFacilityCode && (
           <RemoveCompareSelectedModal
             name={institutions[promptingFacilityCode].name}
             onClose={() => setPromptingFacilityCode(null)}
-            onAccept={() => {
+            onRemove={() => {
               setPromptingFacilityCode(null);
               dispatchRemoveCompareInstitution(promptingFacilityCode);
             }}
@@ -99,23 +117,31 @@ export function CompareDrawer({
         </div>
         {open && (
           <div className="compare-body vads-l-grid-container">
+            <div className="small-function-label">
+              You can compare 2 to 3 institutions
+            </div>
             <div className="vads-l-row vads-u-padding-top--1">
               {loaded.map((facilityCode, index) => {
                 return (
-                  <div className="medium-screen:vads-l-col--3" key={index}>
-                    <div className="compare-name">
-                      {institutions[facilityCode].name}
-                    </div>
-                    <div className="vads-u-padding-top--1p5">
-                      <button
-                        type="button"
-                        className="va-button-link learn-more-button"
-                        onClick={() => {
-                          setPromptingFacilityCode(facilityCode);
-                        }}
-                      >
-                        Remove
-                      </button>
+                  <div
+                    className="compare-item vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3"
+                    key={index}
+                  >
+                    <div className="institution">
+                      <div className="compare-name">
+                        {institutions[facilityCode].name}
+                      </div>
+                      <div className="vads-u-padding-top--1p5">
+                        <button
+                          type="button"
+                          className="va-button-link learn-more-button"
+                          onClick={() => {
+                            setPromptingFacilityCode(facilityCode);
+                          }}
+                        >
+                          Remove
+                        </button>
+                      </div>
                     </div>
                   </div>
                 );
@@ -123,8 +149,8 @@ export function CompareDrawer({
 
               {renderBlanks()}
 
-              <div className="medium-screen:vads-l-col--3 action-cell">
-                <div className="compare-name">
+              <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3 action-cell ">
+                <div className="large-function-label compare-name">
                   You can compare 2 to 3 institutions
                 </div>
                 <div>
@@ -151,6 +177,7 @@ export function CompareDrawer({
 
 const mapStateToProps = state => ({
   compare: state.compare,
+  preview: state.preview,
   displayed:
     state.search.location.results.length > 0 ||
     state.search.name.results.length > 0 ||

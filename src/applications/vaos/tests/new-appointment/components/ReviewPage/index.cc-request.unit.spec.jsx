@@ -27,7 +27,7 @@ import {
   mockRequestSubmit,
 } from '../../../mocks/helpers';
 
-import { mockAppointmentSubmit } from '../../../mocks/helpers.v2';
+import { mockAppointmentSubmitV2 } from '../../../mocks/helpers.v2';
 import { getVAFacilityMock } from '../../../mocks/v0';
 
 const initialState = {
@@ -100,12 +100,26 @@ describe('VAOS <ReviewPage> CC request', () => {
           {
             id: '983',
             vistaId: '983',
+            name: 'Cheyenne VA Medical Center',
+            address: {
+              line: ['2360 East Pershing Boulevard'],
+              city: 'Cheyenne',
+              state: 'WY',
+              postalCode: '82001-5356',
+            },
           },
         ],
         parentFacilities: [
           {
             id: '983',
             vistaId: '983',
+            name: 'Cheyenne VA Medical Center',
+            address: {
+              line: ['2360 East Pershing Boulevard'],
+              city: 'Cheyenne',
+              state: 'WY',
+              postalCode: '82001-5356',
+            },
           },
         ],
         facilities: {},
@@ -251,8 +265,11 @@ describe('VAOS <ReviewPage> CC request', () => {
     await screen.findByText('We couldn’t schedule this appointment');
 
     expect(screen.baseElement).contain.text(
-      'Something went wrong when we tried to submit your request and you’ll need to start over. We suggest you wait a day',
+      'Something went wrong when we tried to submit your request. You can try again later, or call your VA medical center to help with your request.',
     );
+
+    expect(screen.baseElement).contain.text('Cheyenne VA Medical Center');
+    expect(screen.baseElement).contain.text('2360 East Pershing Boulevard');
 
     expect(screen.history.push.called).to.be.false;
   });
@@ -396,12 +413,26 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
           {
             id: '983',
             vistaId: '983',
+            name: 'Cheyenne VA Medical Center',
+            address: {
+              line: ['2360 East Pershing Boulevard'],
+              city: 'Cheyenne',
+              state: 'WY',
+              postalCode: '82001-5356',
+            },
           },
         ],
         parentFacilities: [
           {
             id: '983',
             vistaId: '983',
+            name: 'Cheyenne VA Medical Center',
+            address: {
+              line: ['2360 East Pershing Boulevard'],
+              city: 'Cheyenne',
+              state: 'WY',
+              postalCode: '82001-5356',
+            },
           },
         ],
         facilityDetails: {
@@ -568,8 +599,11 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
     await screen.findByText('We couldn’t schedule this appointment');
 
     expect(screen.baseElement).contain.text(
-      'Something went wrong when we tried to submit your request and you’ll need to start over. We suggest you wait a day',
+      'Something went wrong when we tried to submit your request. You can try again later, or call your VA medical center to help with your request.',
     );
+
+    expect(screen.baseElement).contain.text('Cheyenne VA Medical Center');
+    expect(screen.baseElement).contain.text('2360 East Pershing Boulevard');
 
     expect(screen.history.push.called).to.be.false;
   });
@@ -636,6 +670,26 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
           {
             id: '983',
             vistaId: '983',
+            name: 'Cheyenne VA Medical Center',
+            address: {
+              line: ['2360 East Pershing Boulevard'],
+              city: 'Cheyenne',
+              state: 'WY',
+              postalCode: '82001-5356',
+            },
+          },
+        ],
+        parentFacilities: [
+          {
+            id: '983',
+            vistaId: '983',
+            name: 'Cheyenne VA Medical Center',
+            address: {
+              line: ['2360 East Pershing Boulevard'],
+              city: 'Cheyenne',
+              state: 'WY',
+              postalCode: '82001-5356',
+            },
           },
         ],
         facilities: {},
@@ -644,7 +698,7 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
   });
 
   it('should submit successfully', async () => {
-    mockAppointmentSubmit({
+    mockAppointmentSubmitV2({
       id: 'fake_id',
     });
     mockPreferences(null);
@@ -737,8 +791,11 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
     await screen.findByText('We couldn’t schedule this appointment');
 
     expect(screen.baseElement).contain.text(
-      'Something went wrong when we tried to submit your request and you’ll need to start over. We suggest you wait a day',
+      'Something went wrong when we tried to submit your request. You can try again later, or call your VA medical center to help with your request.',
     );
+
+    expect(screen.baseElement).contain.text('Cheyenne VA Medical Center');
+    expect(screen.baseElement).contain.text('2360 East Pershing Boulevard');
 
     expect(screen.history.push.called).to.be.false;
     waitFor(() => {
