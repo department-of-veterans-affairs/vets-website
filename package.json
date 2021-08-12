@@ -35,6 +35,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "formik": "^2.2.9",
     "husky": "^6.0.0",
     "jest": "^27.0.4",
     "lint-staged": "^11.0.0",
@@ -44,11 +45,13 @@
     "react-is": "^17.0.2",
     "tsdx": "^0.14.1",
     "tslib": "^2.3.0",
-    "typescript": "^4.3.5"
+    "typescript": "^4.3.5",
+    "web-components": "department-of-veterans-affairs/component-library#wc-v0.9.0"
   },
   "peerDependencies": {
-    "formik": "^2.2.6",
-    "react": ">=16"
+    "formik": "^2.2.9",
+    "react": ">=16",
+    "web-components": "department-of-veterans-affairs/component-library#wc-v0.9.0"
   },
   "lint-staged": {
     "*.{js,ts,jsx,tsx}": "eslint --cache --fix",
