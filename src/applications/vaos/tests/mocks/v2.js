@@ -93,6 +93,10 @@ export function getV2FacilityMock({
   id = 'Fake',
   name = 'Fake',
   isParent = false,
+  address = null,
+  lat = null,
+  long = null,
+  phone = null,
 }) {
   return {
     id,
@@ -102,7 +106,10 @@ export function getV2FacilityMock({
       vistaSite: id.substring(0, 3),
       vastParent: isParent ? id : id.substring(0, 3),
       name,
-      physicalAddress: {
+      lat,
+      long,
+      phone: { main: phone },
+      physicalAddress: address || {
         line: [],
         city: 'fake',
         state: 'fake',
@@ -144,6 +151,52 @@ export function getSchedulingConfigurationMock({
         },
       ],
       communityCare,
+    },
+  };
+}
+
+/**
+ * Returns a stubbed vaos VistA clinic object.
+ *
+ * @export
+ * @returns {VAOSClinic} var-resources clinic object
+ */
+export function getV2ClinicMock({ id, stationId, serviceName }) {
+  return {
+    id,
+    type: 'clinics',
+    attributes: {
+      vistaSite: id.substr(0, 3),
+      id,
+      serviceName,
+      physicalLocation: null,
+      phoneNumber: null,
+      stationId,
+      stationName: null,
+      primaryStopCode: null,
+      primaryStopCodeName: null,
+      secondaryStopCode: null,
+      secondaryStopCodeName: null,
+      patientDirectScheduling: null,
+      patientDisplay: null,
+      char4: null,
+    },
+  };
+}
+
+/**
+ * Returns a stubbed VAOS service VistA clinic appointment slot object.
+ *
+ * @export
+ * @returns {VAOSlot} VAOS service clinic appointment slot object
+ */
+export function getAppointmentSlotMock() {
+  return {
+    id: 'fake',
+    type: 'slots',
+    attributes: {
+      start: 'fake startDateTime',
+      end: 'fake endDateTime',
     },
   };
 }

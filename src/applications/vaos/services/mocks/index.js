@@ -29,8 +29,13 @@ const requestsV2 = require('./v2/requests.json');
 const facilitiesV2 = require('./v2/facilities.json');
 const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
 const schedulingConfigurations = require('./v2/scheduling_configurations.json');
+const appointmentSlotsV2 = require('./v2/slots.json');
+const clinicsV2 = require('./v2/clinics.json');
+const confirmedV2 = require('./v2/confirmed.json');
 
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
+const mockAppts = [];
+let currentMockId = 1;
 
 const responses = {
   'GET /vaos/v0/appointments': (req, res) => {
@@ -183,14 +188,16 @@ const responses = {
   },
   'PUT /vaos/v0/preferences': { data: { attributes: {} } },
   'POST /vaos/v2/appointments': (req, res) => {
-    return res.json({
-      data: {
-        id: '32152',
-        attributes: {
-          ...req.body,
-        },
+    const submittedAppt = {
+      id: `mock${currentMockId}`,
+      attributes: {
+        ...req.body,
+        start: req.body.slot ? req.body.slot.start : null,
       },
-    });
+    };
+    currentMockId++;
+    mockAppts.push(submittedAppt);
+    return res.json({ data: submittedAppt });
   },
   'PUT /vaos/v2/appointments/:id': (req, res) => {
     // TODO: also check through confirmed mocks, when those exist
@@ -212,14 +219,14 @@ const responses = {
     if (req.query.statuses?.includes('proposed')) {
       return res.json(requestsV2);
     } else if (req.query.statuses?.includes('booked')) {
-      return res.json(require('./v2/confirmed.json'));
+      return res.json(confirmedV2);
     }
 
     return res.json({ data: [] });
   },
   'GET /vaos/v2/appointments/:id': (req, res) => {
     const appointments = {
-      data: requestsV2.data.concat(require('./v2/confirmed.json').data),
+      data: requestsV2.data.concat(confirmedV2).concat(mockAppts),
     };
     return res.json({
       data: appointments.data.find(appt => appt.id === req.params.id),
@@ -247,6 +254,38 @@ const responses = {
           ids.includes(facility.id) ||
           (children && ids.some(id => facility.id.startsWith(id))),
       ),
+    });
+  },
+  'GET /vaos/v2/locations/:facility_id/clinics/:clinic_id/slots': appointmentSlotsV2,
+  'GET /vaos/v2/patient': (req, res) => {
+    return res.json({
+      data: {
+        attributes: {
+          hasRequiredAppointmentHistory:
+            !req.query.facility_id.startsWith('984') ||
+            req.query.clinical_service === 'primaryCare',
+          isEligibleForNewAppointmentRequest: req.query.facility_id.startsWith(
+            '983',
+          ),
+        },
+      },
+    });
+  },
+  'GET /vaos/v2/locations/:id/clinics': (req, res) => {
+    if (req.query.clinic_ids) {
+      return res.json({
+        data: clinicsV2.data.filter(clinic =>
+          req.query.clinic_ids.includes(clinic.id),
+        ),
+      });
+    }
+
+    if (req.params.id === '983') {
+      return res.json(clinicsV2);
+    }
+
+    return res.json({
+      data: [],
     });
   },
   'GET /v0/user': {

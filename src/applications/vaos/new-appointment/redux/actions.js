@@ -14,6 +14,7 @@ import {
   selectFeatureVariantTesting,
   selectRegisteredCernerFacilityIds,
   selectFeatureFacilitiesServiceV2,
+  selectFeatureVAOSServiceVAAppointments,
 } from '../../redux/selectors';
 import {
   getTypeOfCare,
@@ -56,6 +57,7 @@ import {
   transformFormToAppointment,
 } from './helpers/formSubmitTransformers';
 import {
+  transformFormToVAOSAppointment,
   transformFormToVAOSCCRequest,
   transformFormToVAOSVARequest,
 } from './helpers/formSubmitTransformers.v2';
@@ -262,6 +264,9 @@ export function checkEligibility({ location, showModal }) {
     const state = getState();
     const directSchedulingEnabled = selectFeatureDirectScheduling(state);
     const typeOfCare = getTypeOfCare(getState().newAppointment.data);
+    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+      state,
+    );
 
     dispatch({
       type: FORM_ELIGIBILITY_CHECKS,
@@ -278,6 +283,7 @@ export function checkEligibility({ location, showModal }) {
         location,
         typeOfCare,
         directSchedulingEnabled,
+        useV2: featureVAOSServiceVAAppointments,
       });
 
       if (showModal) {
@@ -559,6 +565,9 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
 
     const startDateMonth = moment(startDate).format('YYYY-MM');
     const endDateMonth = moment(endDate).format('YYYY-MM');
+    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+      state,
+    );
 
     let fetchedAppointmentSlotMonths = [];
     let fetchedStartMonth = false;
@@ -593,10 +602,11 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
 
         const fetchedSlots = await getSlots({
           siteId,
-          typeOfCareId: data.typeOfCareId,
+          typeOfCareId: data?.typeOfCareId,
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
+          useV2: featureVAOSServiceVAAppointments,
         });
         const now = moment();
 
@@ -727,6 +737,9 @@ export function submitAppointmentOrRequest(history) {
     const state = getState();
     const isFeatureHomepageRefresh = selectFeatureHomepageRefresh(state);
     const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(state);
+    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+      state,
+    );
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
@@ -749,15 +762,22 @@ export function submitAppointmentOrRequest(history) {
       });
 
       try {
-        const appointmentBody = transformFormToAppointment(getState());
-        await submitAppointment(appointmentBody);
+        let appointment = null;
+        if (featureVAOSServiceVAAppointments) {
+          appointment = await createAppointment({
+            appointment: transformFormToVAOSAppointment(getState()),
+          });
+        } else {
+          const appointmentBody = transformFormToAppointment(getState());
+          await submitAppointment(appointmentBody);
 
-        try {
-          await buildPreferencesDataAndUpdate(data.email);
-        } catch (error) {
-          // These are ancillary updates, the request went through if the first submit
-          // succeeded
-          captureError(error);
+          try {
+            await buildPreferencesDataAndUpdate(data.email);
+          } catch (error) {
+            // These are ancillary updates, the request went through if the first submit
+            // succeeded
+            captureError(error);
+          }
         }
 
         dispatch({
@@ -770,7 +790,12 @@ export function submitAppointmentOrRequest(history) {
           ...additionalEventData,
         });
         resetDataLayer();
-        history.push('/new-appointment/confirmation');
+
+        if (featureVAOSServiceVAAppointments) {
+          history.push(`/va/${appointment.id}?confirmMsg=true`);
+        } else {
+          history.push('/new-appointment/confirmation');
+        }
       } catch (error) {
         captureError(error, true);
         dispatch({
@@ -778,7 +803,6 @@ export function submitAppointmentOrRequest(history) {
           isVaos400Error: has400LevelError(error),
         });
 
-        // Remove parse function when converting this call to FHIR service
         dispatch(fetchFacilityDetails(newAppointment.data.vaFacility));
 
         recordEvent({
@@ -805,6 +829,16 @@ export function submitAppointmentOrRequest(history) {
               : 0,
         };
       }
+
+      additionalEventData = {
+        ...additionalEventData,
+        'vaos-preferred-combination': Object.entries(data.bestTimeToCall || {})
+          .filter(item => item[1])
+          .map(item => item[0])
+          .sort()
+          .join('-')
+          .toLowerCase(),
+      };
 
       recordEvent({
         event: `${GA_PREFIX}-${eventType}-submission`,

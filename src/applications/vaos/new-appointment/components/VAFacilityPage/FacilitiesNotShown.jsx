@@ -65,7 +65,7 @@ export default function FacilitiesNotShown({
       onClick={() => setIsOpen(!isOpen)}
     >
       <span className="additional-info-title">
-        Why isn't my facility listed?
+        Why isn’t my facility listed?
         <i className={iconClass} />
       </span>
     </button>
@@ -82,9 +82,11 @@ export default function FacilitiesNotShown({
           <p id="vaos-unsupported-label">
             The facilities below don’t offer online scheduling for this care.
           </p>
+          {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
           <ul
-            className="usa-unstyled-list"
             aria-labelledby="vaos-unsupported-label"
+            className="usa-unstyled-list"
+            role="list"
           >
             {nearbyUnsupportedFacilities.map(facility => (
               <li key={facility.id} className="vads-u-margin-top--2">

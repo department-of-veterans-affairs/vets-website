@@ -8,12 +8,14 @@ import {
   updateAutocompleteLocation,
   geolocateUser,
   clearGeocodeError,
+  mapChanged,
 } from '../../actions';
 import KeywordSearch from '../../components/search/KeywordSearch';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { useHistory } from 'react-router-dom';
 import { updateUrlParams } from '../../utils/helpers';
+import { TABS } from '../../constants';
 
 export function LocationSearchForm({
   autocomplete,
@@ -26,6 +28,7 @@ export function LocationSearchForm({
   search,
   dispatchGeolocateUser,
   dispatchClearGeocodeError,
+  dispatchMapChanged,
 }) {
   const [distance, setDistance] = useState(search.query.distance);
   const [location, setLocation] = useState(search.query.location);
@@ -52,8 +55,12 @@ export function LocationSearchForm({
   );
 
   const doSearch = event => {
-    event.preventDefault();
+    if (event) {
+      event.preventDefault();
+    }
     let paramLocation = location;
+    dispatchMapChanged({ changed: false, distance: null });
+
     if (autocompleteSelection?.coords) {
       paramLocation = autocompleteSelection.label;
       dispatchFetchSearchByLocationCoords(
@@ -80,6 +87,24 @@ export function LocationSearchForm({
       version,
     );
   };
+
+  /**
+   * Triggers a search for search form when the "Update results" button in "Filter your results"
+   * is clicked
+   */
+  useEffect(
+    () => {
+      if (
+        !search.loadFromUrl &&
+        filters.search &&
+        search.tab === TABS.location &&
+        !search.query.mapState.changed
+      ) {
+        doSearch(null);
+      }
+    },
+    [filters.search],
+  );
 
   const doAutocompleteSuggestionsSearch = value => {
     dispatchFetchLocationAutocompleteSuggestions(value);
@@ -207,6 +232,7 @@ const mapDispatchToProps = {
   dispatchUpdateAutocompleteLocation: updateAutocompleteLocation,
   dispatchGeolocateUser: geolocateUser,
   dispatchClearGeocodeError: clearGeocodeError,
+  dispatchMapChanged: mapChanged,
 };
 
 export default connect(

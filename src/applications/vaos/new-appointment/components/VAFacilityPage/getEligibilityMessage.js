@@ -13,6 +13,7 @@ export default function getEligibilityMessage({
 }) {
   let content = null;
   let title = null;
+  const settings = facilityDetails?.legacyVAR?.settings?.[typeOfCare.id];
 
   const requestReason = eligibility.requestReasons[0];
   const directReason = eligibility.directReasons[0];
@@ -21,12 +22,9 @@ export default function getEligibilityMessage({
     requestReason === ELIGIBILITY_REASONS.notSupported &&
     directReason === ELIGIBILITY_REASONS.noRecentVisit
   ) {
-    const monthRequirement = facilityDetails?.legacyVAR?.settings
-      ? (facilityDetails.legacyVAR.settings[typeOfCare.id].direct
-          .patientHistoryDuration /
-          365) *
-        12
-      : '12-24';
+    const monthRequirement = settings?.direct?.patientHistoryDuration
+      ? (settings.direct.patientHistoryDuration / 365) * 12
+      : '24';
 
     title = 'We couldn’t find a recent appointment at this location';
     content = (
@@ -68,11 +66,9 @@ export default function getEligibilityMessage({
       </>
     );
   } else if (requestReason === ELIGIBILITY_REASONS.noRecentVisit) {
-    const monthRequirement =
-      (facilityDetails.legacyVAR.settings[typeOfCare.id].request
-        .patientHistoryDuration /
-        365) *
-      12;
+    const monthRequirement = settings?.request?.patientHistoryDuration
+      ? (settings.request.patientHistoryDuration / 365) * 12
+      : '24';
     title = 'We can’t find a recent appointment for you';
     content = (
       <>

@@ -6,13 +6,14 @@ import { PAGE_TITLE, TABS } from '../constants';
 import SearchTabs from '../components/search/SearchTabs';
 import { updateUrlParams, useQueryParams } from '../utils/helpers';
 import { useHistory } from 'react-router-dom';
-import CompareDrawer from './CompareDrawer';
 import NameSearchResults from '../containers/search/NameSearchResults';
 import LocationSearchResults from '../containers/search/LocationSearchResults';
 import NameSearchForm from './search/NameSearchForm';
 import LocationSearchForm from './search/LocationSearchForm';
 import AccordionItem from '../components/AccordionItem';
 import { getSearchQueryChanged } from '../selectors/search';
+import classNames from 'classnames';
+import GIBillHeaderInfo from '../components/GIBillHeaderInfo';
 
 export function SearchPage({
   dispatchChangeSearchTab,
@@ -23,7 +24,7 @@ export function SearchPage({
 }) {
   const queryParams = useQueryParams();
   const history = useHistory();
-  const { tab, error } = search;
+  const { tab, error, query } = search;
   const [smallScreen, setSmallScreen] = useState(
     matchMedia('(max-width: 480px)').matches,
   );
@@ -79,50 +80,61 @@ export function SearchPage({
     tabChange(selectedAccordion);
   };
 
-  return (
-    <span className="search-page">
-      <div className="vads-u-min-height--viewport row">
-        <div className="column medium-screen:vads-u-padding-bottom--2 small-screen:vads-u-padding-bottom--0 vads-u-padding-x--0">
-          {!smallScreen && <SearchTabs onChange={tabChange} search={search} />}
-          {error && (
-            <div className="vads-u-padding-top--2">
-              <va-alert onClose={function noRefCheck() {}} status="warning">
-                <h3 slot="headline">
-                  The GI Bill Comparison Tool isn’t working right now
-                </h3>
-                <div>
-                  We’re sorry. Something went wrong on our end. Please refresh
-                  this page or try searching again.
-                </div>
-              </va-alert>
-            </div>
-          )}
-          {!error && !smallScreen && tabbedResults[tab]}
-          {!error &&
-            smallScreen && (
-              <div>
-                <AccordionItem
-                  button="Search by name"
-                  expanded={accordions[TABS.name]}
-                  onClick={expanded => accordionChange(TABS.name, expanded)}
-                >
-                  <NameSearchForm smallScreen />
-                </AccordionItem>
-                <AccordionItem
-                  button="Search by location"
-                  expanded={accordions[TABS.location]}
-                  onClick={expanded => accordionChange(TABS.location, expanded)}
-                >
-                  <LocationSearchForm smallScreen />
-                </AccordionItem>
+  const searchPageClasses = classNames('row', {
+    'no-name-results':
+      tab === TABS.name && (query.name === '' || query.name === null),
+  });
 
-                {!error && smallScreen && tabbedResults[tab]}
+  return (
+    <>
+      <GIBillHeaderInfo />
+      <span className="search-page">
+        <div className={searchPageClasses}>
+          <div className="column medium-screen:vads-u-padding-bottom--2 small-screen:vads-u-padding-bottom--0 vads-u-padding-x--0">
+            {!smallScreen && (
+              <SearchTabs onChange={tabChange} search={search} />
+            )}
+            {error && (
+              <div className="vads-u-padding-top--2">
+                <va-alert onClose={function noRefCheck() {}} status="warning">
+                  <h3 slot="headline">
+                    The GI Bill Comparison Tool isn’t working right now
+                  </h3>
+                  <div>
+                    We’re sorry. Something went wrong on our end. Please refresh
+                    this page or try searching again.
+                  </div>
+                </va-alert>
               </div>
             )}
+            {!error && !smallScreen && tabbedResults[tab]}
+            {!error &&
+              smallScreen && (
+                <div>
+                  <AccordionItem
+                    button="Search by name"
+                    expanded={accordions[TABS.name]}
+                    onClick={expanded => accordionChange(TABS.name, expanded)}
+                  >
+                    <NameSearchForm smallScreen />
+                  </AccordionItem>
+                  <AccordionItem
+                    button="Search by location"
+                    expanded={accordions[TABS.location]}
+                    onClick={expanded =>
+                      accordionChange(TABS.location, expanded)
+                    }
+                  >
+                    <LocationSearchForm smallScreen />
+                  </AccordionItem>
+
+                  {!error && smallScreen && tabbedResults[tab]}
+                </div>
+              )}
+          </div>
         </div>
-      </div>
-      <CompareDrawer />
-    </span>
+      </span>
+    </>
   );
 }
 
