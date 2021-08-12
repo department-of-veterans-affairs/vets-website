@@ -8,6 +8,6 @@
     "overwrite": false,
     "html": false,
     "json": true,
-    "timestamp": "mmddyyyy_HHMMss"
+    "reportFileName": "test-results/e2e-test-output-[hash].json"
   }
 }
