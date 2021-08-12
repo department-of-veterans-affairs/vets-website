@@ -355,7 +355,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         nextStep: (
-          <p>
+          <p data-testid="diary-code-002-nextstep">
             Please check back in 1 week for updates. If your account shows the
             same information then, call us at
             <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
@@ -779,7 +779,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         nextStep: (
-          <p>
+          <p data-testid="diary-code-default-nextstep">
             <strong>Next step: </strong>
             Please check back in 1 week for updates. If your account shows the
             same information then, call us at
