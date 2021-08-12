@@ -10,9 +10,7 @@ const batch = tests
   .join(',');
 
 const status = runCommandSync(
-  `yarn cy:run --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --reportFilename results-${
-    process.env.STEP
-  } --spec '${batch}'`,
+  `yarn cy:run --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec '${batch}'`,
 );
 
 process.exit(status);
