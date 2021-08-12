@@ -30,7 +30,7 @@ const OverviewPage = () => {
         iconType="triangle"
         trackingPrefix="mcp"
         label={`Sent for collection: ${amount} of your overdue charges`}
-        content={() => (
+        content={
           <p>
             You have {amount} in unpaid charges that’s 120 days or more overdue.
             The U.S. Department of the Treasury has sent these charges for
@@ -40,14 +40,14 @@ const OverviewPage = () => {
               contact={'800-304-3107'}
             />
           </p>
-        )}
+        }
       />
       <Balances />
-      <BalanceQuestions />
-      <p>
-        <strong>For questions about your treatment or your charges, </strong>
-        contact the VA health care facility listed on your bill.
-      </p>
+      <BalanceQuestions
+        contact={
+          <span>contact the VA health care facility listed on your bill.</span>
+        }
+      />
       <FacilityContacts />
     </>
   );

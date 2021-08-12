@@ -1,19 +1,24 @@
-import Scroll from 'react-scroll';
 import moment from 'moment';
 
-// testing
-export const $ = (selector, DOM) => DOM.querySelector(selector);
-export const $$ = (selector, DOM) => DOM.querySelectorAll(selector);
+/**
+ * Check HLR v2 feature flag
+ * @param {boolean} hlrV2
+ * @returns boolean
+ */
+export const apiVersion2 = formData => formData?.hlrV2;
+/**
+ * Return the opposite of the HLR v2 feature flag
+ * @param {boolean} hlrV2
+ * @returns boolean
+ */
+export const apiVersion1 = formData => !formData?.hlrV2;
 
-export const scrollTo = (target = 'topScrollElement') => {
-  Scroll.scroller.scrollTo(target, {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
-
-export const scrollToTop = scrollTo;
+/**
+ * Determine if we're in the v1 flow using the save-in-progress data
+ * @param {*} formData
+ * @returns boolean
+ */
+export const isVersion1Data = formData => !!formData?.zipCode5;
 
 /**
  * @typedef ContestableIssues
@@ -63,4 +68,19 @@ export const getEligibleContestableIssues = issues => {
     }
     return date.add(1, 'years').isAfter(today);
   });
+};
+
+/**
+ * Convert an array into a readable list of items
+ * @param {String[]} list - Array of items. Empty entries are stripped out
+ * @returns {String}
+ * @example
+ * readableList(['1', '2', '3', '4', 'five'])
+ * // => '1, 2, 3, 4 and five'
+ */
+export const readableList = list => {
+  const cleanedList = list.filter(Boolean);
+  return [cleanedList.slice(0, -1).join(', '), cleanedList.slice(-1)[0]].join(
+    cleanedList.length < 2 ? '' : ' and ',
+  );
 };

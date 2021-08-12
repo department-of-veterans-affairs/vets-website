@@ -4,20 +4,38 @@
     "attributes": {
       "benefitType": "compensation",
       "informalConference": true,
-      "informalConferenceTimes": ["800-1000 ET", "1000-1230 ET"],
+      "informalConferenceContact": "representative",
+      "informalConferenceTimes": ["800-1200 ET", "1200-1630 ET"],
       "informalConferenceRep": {
-        "name": "James P. Sullivan",
+        "firstName": "James",
+        "lastName": "Sullivan",
         "phone": {
-          "country": "1",
+          "countryCode": "1",
           "areaCode": "800",
-          "phoneNumber": "5551212"
-        }
+          "phoneNumber": "5551212",
+          "phoneNumberExt": "1234"
+        },
+        "email": "sully@pixar.com"
       },
-      "sameOffice": true,
       "veteran": {
         "address": {
-          "zipCode5": "94608"
+          "addressLine1": "123 Main St",
+          "addressLine2": "Suite #1200",
+          "addressLine3": "Box 4",
+          "city": "New York",
+          "countryCodeISO2": "US",
+          "stateCode": "NY",
+          "zipCode5": "30012",
+          "internationalPostalCode": "1"
         },
+        "phone": {
+          "countryCode": "6",
+          "areaCode": "555",
+          "phoneNumber": "8001111",
+          "phoneNumberExt": "2"
+        },
+        "email": "user@example.com",
+        "homeless": false,
         "timezone": "America/Los_Angeles"
       }
     }

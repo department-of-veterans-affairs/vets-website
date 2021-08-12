@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'lodash/fp';
+import pick from 'lodash/pick';
 
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import ServicePeriodView from 'platform/forms/components/ServicePeriodView';
@@ -12,13 +12,11 @@ import ServicePeriodView from 'platform/forms/components/ServicePeriodView';
  *  they will appear in the form.
  */
 export function schema(currentSchema, userOptions) {
-  const options = _.assign(
-    {
-      fields: ['serviceBranch', 'dateRange'],
-      required: [],
-    },
-    userOptions,
-  );
+  const options = {
+    fields: ['serviceBranch', 'dateRange'],
+    required: [],
+    ...userOptions,
+  };
 
   const requiredFields = options.required.filter(
     field => field.indexOf('.') < 0,
@@ -31,9 +29,10 @@ export function schema(currentSchema, userOptions) {
     serviceBranch: {
       type: 'string',
     },
-    dateRange: _.assign(currentSchema.definitions.dateRange, {
+    dateRange: {
+      ...currentSchema.definitions.dateRange,
       required: dateRangeRequiredFields,
-    }),
+    },
     serviceStatus: {
       type: 'string',
     },
@@ -56,7 +55,7 @@ export function schema(currentSchema, userOptions) {
     items: {
       type: 'object',
       required: requiredFields,
-      properties: _.pick(options.fields, possibleProperties),
+      properties: pick(possibleProperties, options.fields),
     },
   };
 }
