@@ -12,6 +12,7 @@ import {
 
 import ExpandingGroup from '../components/ExpandingGroup';
 import { pureWithDeepEquals } from '../helpers';
+import { isReactComponent } from '../../../../utilities/ui';
 
 /*
  * This is largely copied from the react-jsonschema-form library,
@@ -178,13 +179,14 @@ class ObjectField extends React.Component {
     const fieldsetClassNames = uiOptions.classNames;
     const forceDivWrapper = !!uiOptions.forceDivWrapper;
     const title = uiSchema['ui:title'] || schema.title;
-    const CustomTitleField = typeof title === 'function' ? title : null;
+    const CustomTitleField = isReactComponent(title) ? title : null;
 
     const description = uiSchema['ui:description'];
     const textDescription =
       typeof description === 'string' ? description : null;
-    const DescriptionField =
-      typeof description === 'function' ? uiSchema['ui:description'] : null;
+    const DescriptionField = isReactComponent(description)
+      ? uiSchema['ui:description']
+      : null;
 
     const hasTitleOrDescription = !!title || !!description;
     const isRoot = idSchema.$id === 'root';
@@ -195,6 +197,25 @@ class ObjectField extends React.Component {
       'schemaform-block': title && !isRoot,
     });
 
+    const pageIndex = formContext?.pagePerItemIndex;
+    // Fix array nested ids (one-level deep)
+    const processIds = (originalIds = {}) =>
+      // pagePerItemIndex is zero-based
+      typeof pageIndex !== 'undefined' && formContext.onReviewPage
+        ? Object.keys(originalIds).reduce(
+            (ids, key) => ({
+              ...ids,
+              [key]: originalIds[key].$id
+                ? {
+                    ...originalIds[key],
+                    $id: `${originalIds[key].$id}_${pageIndex}`,
+                  }
+                : `${originalIds[key]}_${pageIndex}`,
+            }),
+            {},
+          )
+        : originalIds;
+
     const renderProp = propName => (
       <div key={propName}>
         <SchemaField
@@ -203,7 +224,7 @@ class ObjectField extends React.Component {
           schema={schema.properties[propName]}
           uiSchema={uiSchema[propName]}
           errorSchema={errorSchema[propName]}
-          idSchema={idSchema[propName]}
+          idSchema={processIds(idSchema[propName])}
           formData={formData[propName]}
           onChange={this.onPropertyChange(propName)}
           onBlur={onBlur}
@@ -215,7 +236,7 @@ class ObjectField extends React.Component {
     );
 
     // Id's are not always unique on the review and submit page
-    const id =
+    const id = `${
       isRoot && formContext.onReviewPage
         ? Object.keys(idSchema)
             .reduce((ids, key) => {
@@ -224,7 +245,8 @@ class ObjectField extends React.Component {
             }, [])
             .filter(k => k)
             .join('_')
-        : idSchema.$id;
+        : idSchema.$id
+    }${typeof pageIndex === 'undefined' ? '' : `_${pageIndex}`}`;
 
     const fieldContent = (
       <div className={containerClassNames}>

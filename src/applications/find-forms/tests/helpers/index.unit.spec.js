@@ -4,7 +4,7 @@ import { expect } from 'chai';
 // Relative imports
 import { sortTheResults } from '../../helpers';
 import { deriveLatestIssue } from '../../components/SearchResult';
-import { INITIAL_SORT_STATE, SORT_OPTIONS } from '../../constants';
+import { FAF_SORT_OPTIONS } from '../../constants';
 
 describe('Find VA Forms helpers', () => {
   const results = [
@@ -50,7 +50,23 @@ describe('Find VA Forms helpers', () => {
     },
   ];
 
-  it('sorts helper sorts the results form title correctly', () => {
+  it('leaves the results unsorted from API on initial load', () => {
+    const sortedResultsNodeTextByTitleInitial = [
+      'AA10192 form 1',
+      'BA10192 form 2',
+      'CA10192 form 3',
+      'DA10192 form 4',
+    ];
+
+    const sortedResultsByAlphabet = results
+      .sort((a, b) => sortTheResults(FAF_SORT_OPTIONS[1], a, b))
+      .map(form => `${form?.attributes?.formName} ${form?.attributes?.title}`);
+
+    // Sort By 'Closest Match'
+    expect(sortedResultsByAlphabet).to.eql(sortedResultsNodeTextByTitleInitial);
+  });
+
+  it('sorts helper sorts the results form title correctly by ALPHABET (A-Z) Ascending', () => {
     const sortedResultsNodeTextByTitleAscending = [
       'AA10192 form 1',
       'BA10192 form 2',
@@ -59,7 +75,7 @@ describe('Find VA Forms helpers', () => {
     ];
 
     const sortedResultsByAlphabet = results
-      .sort((a, b) => sortTheResults(INITIAL_SORT_STATE, a, b))
+      .sort((a, b) => sortTheResults(FAF_SORT_OPTIONS[1], a, b))
       .map(form => `${form?.attributes?.formName} ${form?.attributes?.title}`);
 
     // Sort By 'ALPHABET (A-Z) Ascending'
@@ -77,7 +93,7 @@ describe('Find VA Forms helpers', () => {
     ];
 
     const sortedResultsByNewestRevisionDate = results
-      .sort((a, b) => sortTheResults(SORT_OPTIONS[2], a, b))
+      .sort((a, b) => sortTheResults(FAF_SORT_OPTIONS[3], a, b))
       .map(form =>
         deriveLatestIssue(
           form?.attributes?.firstIssuedOn,
@@ -85,7 +101,7 @@ describe('Find VA Forms helpers', () => {
         ),
       );
 
-    // Sort By 'Last Updated (Newest)'
+    // Sort By 'Last updated (newest)'
     expect(sortedResultsByNewestRevisionDate).to.eql(
       sortedResultsNodesTextByLatestRevisionNewest,
     );
@@ -100,7 +116,7 @@ describe('Find VA Forms helpers', () => {
     ];
 
     const sortedResultsByOldestRevisionDate = results
-      .sort((a, b) => sortTheResults(SORT_OPTIONS[3], a, b))
+      .sort((a, b) => sortTheResults(FAF_SORT_OPTIONS[4], a, b))
       .map(form =>
         deriveLatestIssue(
           form?.attributes?.firstIssuedOn,
@@ -108,7 +124,7 @@ describe('Find VA Forms helpers', () => {
         ),
       );
 
-    // SORT BY 'Last Updated (Oldest)'
+    // SORT BY 'Last updated (oldest)'
     expect(sortedResultsByOldestRevisionDate).to.eql(
       sortedResultsNodesTextByLatestRevisionOldest,
     );

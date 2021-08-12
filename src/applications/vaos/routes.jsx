@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import asyncLoader from 'platform/utilities/ui/asyncLoader';
 import VAOSApp from './components/VAOSApp';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -8,6 +8,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import ErrorMessage from './components/ErrorMessage';
 import FullWidthLayout from './components/FullWidthLayout';
 import { AppointmentList } from './appointment-list';
+import EnrolledRoute from './components/EnrolledRoute';
 
 // Handles errors loading components by doing one page reload and showing
 // an error message otherwise
@@ -30,7 +31,7 @@ export default function createRoutesWithStore(store) {
     <ErrorBoundary fullWidth>
       <VAOSApp>
         <Switch>
-          <Route
+          <EnrolledRoute
             path="/new-appointment"
             component={asyncLoader(() =>
               import(/* webpackChunkName: "vaos-form" */ './new-appointment')
@@ -41,29 +42,33 @@ export default function createRoutesWithStore(store) {
                 .catch(handleLoadError),
             )}
           />
-          <Route
-            path="/new-express-care-request"
+          <EnrolledRoute
+            path="/new-covid-19-vaccine-appointment"
             component={asyncLoader(() =>
-              import(/* webpackChunkName: "express-care" */ './express-care')
-                .then(({ NewExpressCareRequest, reducer }) => {
-                  store.injectReducer('expressCare', reducer);
-                  return NewExpressCareRequest;
+              import(/* webpackChunkName: "covid-19-vaccine" */ './covid-19-vaccine')
+                .then(({ NewBookingSection, reducer }) => {
+                  store.injectReducer('covid19Vaccine', reducer);
+                  return NewBookingSection;
                 })
                 .catch(handleLoadError),
             )}
           />
           <Route
-            path="/new-covid-19-vaccine-booking"
+            path="/new-unenrolled-covid-19-vaccine-booking"
             component={asyncLoader(() =>
-              import(/* webpackChunkName: "project-cheetah" */ './project-cheetah')
-                .then(({ NewBooking, reducer }) => {
-                  store.injectReducer('projectCheetah', reducer);
-                  return NewBooking;
+              import(/* webpackChunkName: "unenrolled-vaccine" */ './unenrolled-vaccine')
+                .then(({ UnenrolledVaccineSection, reducer }) => {
+                  store.injectReducer('unenrolledVaccine', reducer);
+                  return UnenrolledVaccineSection;
                 })
                 .catch(handleLoadError),
             )}
           />
-          <Route path="/" component={AppointmentList} />
+          <Redirect
+            from="/new-covid-19-vaccine-booking"
+            to="/new-appointment"
+          />
+          <EnrolledRoute path="/" component={AppointmentList} />
         </Switch>
       </VAOSApp>
     </ErrorBoundary>

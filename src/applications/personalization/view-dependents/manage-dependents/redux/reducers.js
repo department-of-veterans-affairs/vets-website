@@ -3,10 +3,17 @@ import {
   updateUiSchema,
 } from 'platform/forms-system/src/js/state/helpers';
 
-import { FORM_DATA_UPDATED, FORM_DATA_CLEANUP } from './actions';
+import {
+  FORM_DATA_UPDATED,
+  FORM_DATA_CLEANUP,
+  FORM_DATA_SUBMIT_FAILED,
+  // FORM_DATA_SUBMIT_SUCCESS,
+  FORM_DATA_SUBMIT_START,
+} from './actions';
 
 const initialState = {
   dependentsState: null,
+  openFormlett: null,
 };
 
 export function removeDependents(state = initialState, action) {
@@ -22,6 +29,7 @@ export function removeDependents(state = initialState, action) {
 
     return {
       ...state,
+      openFormlett: true,
       dependentsState: {
         ...state.dependentsState,
         [action.stateKey]: {
@@ -38,7 +46,35 @@ export function removeDependents(state = initialState, action) {
     delete nextDependentsState[action.stateKey];
     return {
       ...state,
+      openFormlett: null,
       dependentsState: nextDependentsState,
+    };
+  }
+
+  if (action.type === FORM_DATA_SUBMIT_START) {
+    return {
+      ...state,
+      dependentsState: {
+        ...state.dependentsState,
+        [action.stateKey]: {
+          ...state.dependentsState[action.stateKey],
+          status: action.status,
+        },
+      },
+    };
+  }
+
+  if (action.type === FORM_DATA_SUBMIT_FAILED) {
+    return {
+      ...state,
+      dependentsState: {
+        ...state.dependentsState,
+        [action.stateKey]: {
+          ...state.dependentsState[action.stateKey],
+          status: action.status,
+          error: action.error.errors[0],
+        },
+      },
     };
   }
 

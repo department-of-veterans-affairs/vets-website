@@ -1,4 +1,5 @@
 import timezones from './timezones.json';
+import moment from '../lib/moment-tz';
 
 const TIMEZONE_LABELS = {
   PHT: 'Philippine time',
@@ -17,29 +18,37 @@ export function stripDST(abbr) {
   return abbr;
 }
 
-export function getTimezoneBySystemId(id) {
-  return timezones.find(z => z.id === `dfn-${id}`);
+export function getTimezoneByFacilityId(id) {
+  if (!id) {
+    return null;
+  }
+
+  if (timezones[id]) {
+    return timezones[id];
+  }
+
+  return timezones[id.substr(0, 3)];
 }
 
-export function getTimezoneAbbrBySystemId(id) {
-  const matchingZone = getTimezoneBySystemId(id);
+export function getTimezoneAbbrByFacilityId(id) {
+  const matchingZone = getTimezoneByFacilityId(id);
 
   if (!matchingZone) {
     return null;
   }
 
-  let abbreviation = matchingZone.currentTZ;
+  let abbreviation = moment.tz.zone(matchingZone).abbr(moment());
 
   // Strip out middle char in abbreviation so we can ignore DST
-  if (matchingZone.timezone.includes('America')) {
+  if (matchingZone.includes('America')) {
     abbreviation = stripDST(abbreviation);
   }
 
   return abbreviation;
 }
 
-export function getTimezoneDescBySystemId(id) {
-  const abbreviation = getTimezoneAbbrBySystemId(id);
+export function getTimezoneDescByFacilityId(id) {
+  const abbreviation = getTimezoneAbbrByFacilityId(id);
   const label = TIMEZONE_LABELS[abbreviation];
 
   if (label) {
@@ -49,7 +58,7 @@ export function getTimezoneDescBySystemId(id) {
   return abbreviation;
 }
 
-export function getTimezoneDescFromAbbr(abbreviation) {
+export function getTimezoneNameFromAbbr(abbreviation) {
   const label = TIMEZONE_LABELS[abbreviation];
 
   if (label) {
@@ -57,4 +66,14 @@ export function getTimezoneDescFromAbbr(abbreviation) {
   }
 
   return abbreviation;
+}
+
+export function getUserTimezone() {
+  return moment.tz.guess();
+}
+
+export function getUserTimezoneAbbr() {
+  return moment()
+    .tz(getUserTimezone())
+    .zoneAbbr();
 }

@@ -1,25 +1,5 @@
 .mobile-nav {
-  .the-menu {
-    // setting to `relative` so the z-index is actually used
-    position: relative;
-    z-index: $middle-layer; // This needs to sit behind the mega menu's #vetnav which is set to $top-layer on mobile in the _m-layers.scss
-
-    &.fixed {
-      position: fixed;
-      width: 100%;
-      top: 0;
-    }
-
-    .menu-background {
-      position: absolute;
-      background: $color-white;
-      height: units(1.5);
-      width: 100%;
-    }
-  }
-
   .menu-wrapper {
-    position: absolute;
     background-color: $color-white;
     left: 0;
     right: 0;

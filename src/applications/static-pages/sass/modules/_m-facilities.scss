@@ -1,15 +1,11 @@
-/* Blue duo-tone for the main region landing page image */
-$duo-tone-darken: #112e51;
-$duo-tone-lighten: #000;
-
 /* The brightest duo-tone color */
 .darken::before {
-  background-color: $duo-tone-darken;
+  background-color: $color-primary-darkest;
 }
 
 /* The darkest duo-tone color */
 .lighten::after {
-  background-color: $duo-tone-lighten;
+  background-color: $color-black;
 }
 
 /* Duo-tone effect */
@@ -239,6 +235,7 @@ $duo-tone-lighten: #000;
 .featured-content-list-item {
   width: 100%;
   margin-right: 1em;
+  word-wrap: break-word;
 
   &:last-child {
     margin-right: 0;
@@ -267,6 +264,12 @@ $duo-tone-lighten: #000;
   max-height: 227px;
 }
 
+.force-small-header {
+  font-size: 1em;
+  font-family: "Source Sans Pro";
+  margin-top: 1em;
+}
+
 .va-facility-page {
   .va-address-block {
     margin-left: 1rem;
@@ -280,12 +283,6 @@ $duo-tone-lighten: #000;
   }
 
   h4 {
-    margin-top: 1em;
-  }
-
-  .force-small-header {
-    font-size: 1em;
-    font-family: "Source Sans Pro";
     margin-top: 1em;
   }
 
@@ -304,4 +301,89 @@ $duo-tone-lighten: #000;
   top: 33%;
   left: 37%;
   font-size: 32px;
+}
+
+// OPERATING STATUS
+
+.operating-status-flag {
+  border-radius: 5px;
+  width: 286px;
+  height: 40px;
+}
+
+a.operating-status-link {
+  color: initial;
+  text-decoration: none;
+}
+
+.operating-status-flag .fa-chevron-right {
+  font-size: 12px;
+}
+
+.operating-status-flag-notice:hover {
+  background: rgba(155, 218, 241, .4);
+}
+
+.operating-status-flag-warning:hover {
+  background: rgba(250, 217, 128, .4);
+}
+
+.operating-status-flag-error:hover {
+  background: rgba(229, 147, 147, .4)
+}
+
+.operating-status-flag-notice:active {
+  background: rgba(155, 218, 241, 1);
+}
+
+.operating-status-flag-warning:active {
+  background: rgba(250, 217, 128, 1);
+}
+
+.operating-status-flag-error:active {
+  background: rgba(229, 147, 147, 1)
+}
+
+div.field-cc-vet-call-center {
+  p {
+    background: $color-gibill-accent;
+    padding: 20px;
+  }
+}
+
+div.field-cc-non-traditional-hours {
+  p {
+    font-weight: bold;
+  }
+}
+
+div.field-vet-center-feature-content  {
+  li {
+    margin-bottom: 0px
+  }
+}
+
+div.field-vet-center-feature-content  {
+  li {
+    margin-bottom: 0px
+  }
+  ul {
+    margin-top: 0px
+  }
+  p {
+    margin-top: 0px
+  }
+  ol {
+    margin-top: 0px
+  }
+}
+
+#vet-center-other-locations {
+  word-wrap: break-word;
+  width: 343px;
+
+  p {
+    line-height: 1.5;
+    margin: 0;
+  }
 }

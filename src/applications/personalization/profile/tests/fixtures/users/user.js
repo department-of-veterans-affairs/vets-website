@@ -1,4 +1,4 @@
-import { mockContactInformation } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
+import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
 
 export const makeMockUser = () => {
   return {
@@ -7,21 +7,21 @@ export const makeMockUser = () => {
       type: 'users_scaffolds',
       attributes: {
         services: [
-          'facilities',
-          'hca',
-          'edu-benefits',
-          'form-save-in-progress',
-          'form-prefill',
-          'mhv-accounts',
-          'evss-claims',
-          'form526',
-          'user-profile',
           'appeals-status',
+          'claim_increase',
+          'edu-benefits',
+          'evss_common_client',
+          'evss-claims',
+          'facilities',
+          'form-prefill',
+          'form-save-in-progress',
+          'form526',
+          'hca',
           'id-card',
           'identity-proofed',
+          'mhv-accounts',
+          'user-profile',
           'vet360',
-          'evss_common_client',
-          'claim_increase',
         ],
         account: { accountUuid: 'c049d895-ecdf-40a4-ac0f-7947a06ea0c2' },
         profile: {
@@ -79,7 +79,7 @@ export const makeMockUser = () => {
           '20-0996',
           'MDOT',
         ],
-        vet360ContactInformation: mockContactInformation,
+        vet360ContactInformation: makeMockContactInfo(),
       },
     },
     meta: { errors: null },

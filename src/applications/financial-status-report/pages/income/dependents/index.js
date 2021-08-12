@@ -1,6 +1,6 @@
 export const uiSchema = {
   'ui:title': 'Your dependents',
-  dependents: {
+  questions: {
     hasDependents: {
       'ui:title':
         'Do you have any dependents who rely on you for financial support?',
@@ -9,6 +9,9 @@ export const uiSchema = {
       'ui:options': {
         classNames: 'no-wrap',
       },
+      'ui:errorMessages': {
+        required: 'Please enter your dependent(s) information.',
+      },
     },
   },
 };
@@ -16,7 +19,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    dependents: {
+    questions: {
       type: 'object',
       properties: {
         hasDependents: {

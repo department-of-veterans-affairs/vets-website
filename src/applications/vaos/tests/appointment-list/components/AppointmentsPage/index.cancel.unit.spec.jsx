@@ -2,13 +2,12 @@ import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import moment from 'moment';
-import { fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent, waitFor, within } from '@testing-library/react';
 import environment from 'platform/utilities/environment';
 import {
   setFetchJSONResponse,
   setFetchJSONFailure,
   mockFetch,
-  resetFetch,
 } from 'platform/testing/unit/helpers';
 import {
   getVARequestMock,
@@ -35,9 +34,11 @@ const initialState = {
   },
 };
 
-describe('VAOS integration appointment cancellation:', () => {
-  beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
+describe('VAOS <AppointmentsPage> cancellation:', () => {
+  beforeEach(() => {
+    mockFetch();
+    mockFacilitiesFetch();
+  });
   it('video appointments should display modal with facility information', async () => {
     const appointment = getVideoAppointmentMock();
     appointment.attributes = {
@@ -275,6 +276,57 @@ describe('VAOS integration appointment cancellation:', () => {
     });
   });
 
+  it('vaccine appointments should display modal with facility info', async () => {
+    const appointment = getVAAppointmentMock();
+    const appointmentTime = moment();
+    appointment.attributes = {
+      ...appointment.attributes,
+      startDate: appointmentTime.format(),
+      clinicId: '308',
+      clinicFriendlyName: 'covid vaccine',
+      char4: 'CDQC',
+      facilityId: '983',
+      sta6aid: '983',
+    };
+    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+
+    mockAppointmentInfo({ va: [appointment] });
+    const facility = {
+      id: 'vha_442',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442',
+        name: 'Cheyenne VA Medical Center',
+        address: {
+          physical: {
+            zip: '82001-5356',
+            city: 'Cheyenne',
+            state: 'WY',
+            address1: '2360 East Pershing Boulevard',
+          },
+        },
+        phone: {
+          main: '307-778-7550',
+        },
+      },
+    };
+    mockFacilitiesFetch('vha_442', [facility]);
+
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState,
+    });
+
+    fireEvent.click(await screen.findByText(/cancel appointment/i));
+
+    await screen.findByText(
+      /COVID-19 vaccine appointments can’t be canceled online/i,
+    );
+    const modal = screen.getByRole('alertdialog');
+
+    await within(modal).findByText(/Cheyenne VA Medical Center/);
+    expect(modal).to.contain.text('307-778-7550');
+  });
+
   it('should display error when cancel fails', async () => {
     const appointment = getVAAppointmentMock();
     const appointmentTime = moment();
@@ -352,7 +404,7 @@ describe('VAOS integration appointment cancellation:', () => {
     expect(modal).to.contain.text('Something went wrong');
     expect(modal).to.contain.text('Cheyenne VA Medical Center');
     expect(modal).to.contain.text('2360 East Pershing Boulevard');
-    expect(modal).to.contain.text('Cheyenne, WY 82001-5356');
+    expect(modal).to.contain.text('Cheyenne, WyomingWY 82001-5356');
     expect(modal).to.contain.text('307-778-7550');
 
     fireEvent.click(modal.querySelector('button'));
@@ -451,7 +503,7 @@ describe('VAOS integration appointment cancellation:', () => {
     appointment.attributes = {
       ...appointment.attributes,
       status: 'Submitted',
-      appointmentType: 'Primary care',
+      typeOfCareId: '323',
       optionDate1: moment()
         .add(3, 'days')
         .format('MM/DD/YYYY'),

@@ -2,9 +2,29 @@
 import { useEffect, useState } from 'react';
 import { orderBy } from 'lodash';
 // Relative imports.
-import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import { SEARCH_IGNORE_LIST } from '../constants';
+
+const countKeywordsFound = (searchableString = '', keyword = '') => {
+  let keywordsFound = 0;
+
+  // Change the searchable string into a list of words.
+  const searchableWords = searchableString.toLowerCase()?.split(' ');
+
+  // Iterate over each word and see if we have any keywords that match it.
+  // eslint-disable-next-line no-unused-expressions
+  searchableWords?.forEach(word => {
+    if (keyword === word) {
+      keywordsFound += 1;
+    }
+  });
+
+  // Return the total number of keywords found.
+  return keywordsFound;
+};
+
+const countWholePhraseMatchesFound = (searchableString = '', keyword = '') =>
+  searchableString.toLowerCase()?.split(keyword.toLowerCase())?.length - 1;
 
 export default function useGetSearchResults(articles, query, page) {
   const [results, setResults] = useState([]);
@@ -16,6 +36,8 @@ export default function useGetSearchResults(articles, query, page) {
         return;
       }
 
+      // Begin filtering logic.
+      // =====
       const keywords = query
         .split(' ')
         .filter(word => !!word)
@@ -35,54 +57,103 @@ export default function useGetSearchResults(articles, query, page) {
         });
 
       let filteredArticles = articles.filter(article => {
-        const articleTitleKeywords = article.title.toLowerCase().split(' ');
+        const articleTitleWords = article.title.toLowerCase().split(' ');
 
         return keywords.some(keyword => {
-          return articleTitleKeywords.some(titleWord =>
+          return articleTitleWords.some(titleWord =>
             titleWord.startsWith(keyword),
           );
         });
       });
+      // =====
+      // End of filtering logic.
 
+      // Begin ordering logic.
+      // =====
       let orderedResults = [];
 
-      // Keep legacy sorting on production.
-      if (environment.isProduction()) {
-        orderedResults = orderBy(filteredArticles, 'title');
+      filteredArticles = filteredArticles?.map(article => {
+        // Derive keywords counts.
+        const keywordsCountsTitle = keywords?.reduce(
+          (keywordInstances, keyword) =>
+            keywordInstances + countKeywordsFound(article.title, keyword),
+          0,
+        );
+        const keywordsCountsIntroText = keywords?.reduce(
+          (keywordInstances, keyword) =>
+            keywordInstances + countKeywordsFound(article.introText, keyword),
+          0,
+        );
+        const keywordsCountsContent = keywords?.reduce(
+          (keywordInstances, keyword) =>
+            keywordInstances +
+            countKeywordsFound(article.searchableContent, keyword),
+          0,
+        );
 
-        // Experiment with new sorting on non-prod envs.
-      } else {
-        filteredArticles = filteredArticles?.map(article => ({
+        // Derive whole phrase match counts.
+        const wholePhraseMatchCountsTitle = countWholePhraseMatchesFound(
+          article.title,
+          query,
+        );
+        const wholePhraseMatchCountsIntroText = countWholePhraseMatchesFound(
+          article.introText,
+          query,
+        );
+        const wholePhraseMatchCountsContent = countWholePhraseMatchesFound(
+          article.searchableContent,
+          query,
+        );
+
+        return {
           ...article,
 
           // Number of times a keyword is found in the article's title.
-          keywordsCountsTitle: keywords?.reduce(
-            (keywordInstances, keyword) =>
-              keywordInstances +
-              article.title.toLowerCase()?.split(keyword)?.length -
-              1,
-            0,
-          ),
+          keywordsCountsTitle,
 
-          // Number of times a keyword is found in the article's description.
-          keywordsCountsDescription: keywords?.reduce(
-            (keywordInstances, keyword) =>
-              keywordInstances +
-              article.description.toLowerCase()?.split(keyword)?.length -
-              1,
-            0,
-          ),
-        }));
+          // Number of times a keyword is found in the article's introText.
+          keywordsCountsIntroText,
 
-        // Sort first by query word instances found in title descending
-        // Sort ties then by query word instances found in description descending
-        // Sort ties then by alphabetical descending
-        orderedResults = orderBy(
-          filteredArticles,
-          ['keywordsCountsTitle', 'keywordsCountsDescription', 'title'],
-          ['desc', 'desc', 'asc'],
-        );
-      }
+          // Number of times a keyword is found in the article's searchableContent.
+          keywordsCountsContent,
+
+          // Number of times a keyword is found in both the article's introText and searchableContent.
+          keywordsCountsIntroTextAndContent:
+            keywordsCountsIntroText + keywordsCountsContent,
+
+          // Number of times the full query is found in the article's title.
+          wholePhraseMatchCountsTitle,
+
+          // Number of times the full query is found in the article's introText.
+          wholePhraseMatchCountsIntroText,
+
+          // Number of times the full query is found in the article's searchableContent.
+          wholePhraseMatchCountsContent,
+
+          // Number of times the full query is found in the article's title, introText, searchableContent combined.
+          wholePhraseMatchCountsTotal:
+            wholePhraseMatchCountsTitle +
+            wholePhraseMatchCountsIntroText +
+            wholePhraseMatchCountsContent,
+        };
+      });
+
+      // Sort first by the number of exact query matches (ignoring casing) in the title, introText, and searchableContent descending
+      // Sort ties by query word instances found in title descending
+      // Sort ties then by query word instances found in introText and searchableContent descending
+      // Sort ties then by alphabetical descending
+      orderedResults = orderBy(
+        filteredArticles,
+        [
+          'wholePhraseMatchCountsTotal',
+          'keywordsCountsTitle',
+          'keywordsCountsIntroTextAndContent',
+          'title',
+        ],
+        ['desc', 'desc', 'desc', 'asc'],
+      );
+      // =====
+      // End of ordering logic.
 
       // Track R&S search results.
       recordEvent({
@@ -97,6 +168,7 @@ export default function useGetSearchResults(articles, query, page) {
         'type-ahead-option-keyword-selected': undefined,
         'type-ahead-option-position': undefined,
         'type-ahead-options-list': undefined,
+        'type-ahead-options-count': undefined,
       });
 
       setResults(orderedResults);

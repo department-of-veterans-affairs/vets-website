@@ -38,7 +38,6 @@ function isCellDisabled({ date, availableSlots, minDate, maxDate }) {
 }
 
 export default function CalendarRow({
-  additionalOptions,
   availableSlots,
   cells,
   currentlySelectedDate,
@@ -51,10 +50,12 @@ export default function CalendarRow({
   minDate,
   renderIndicator,
   renderOptions,
+  renderSelectedLabel,
   rowNumber,
   selectedDates,
   id,
   timezone,
+  showWeekends,
 }) {
   return (
     <div>
@@ -64,7 +65,6 @@ export default function CalendarRow({
       >
         {cells.map((date, index) => (
           <CalendarCell
-            additionalOptions={additionalOptions}
             availableSlots={availableSlots}
             currentlySelectedDate={currentlySelectedDate}
             date={date}
@@ -85,9 +85,11 @@ export default function CalendarRow({
             onClick={() => handleSelectDate(date, rowNumber)}
             selectedDates={selectedDates}
             renderIndicator={renderIndicator}
+            renderSelectedLabel={renderSelectedLabel}
             renderOptions={renderOptions}
             id={id}
             timezone={timezone}
+            showWeekends={showWeekends}
           />
         ))}
       </div>

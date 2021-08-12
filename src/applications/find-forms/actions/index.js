@@ -2,8 +2,8 @@
 import URLSearchParams from 'url-search-params';
 // Relative imports.
 import recordEvent from 'platform/monitoring/record-event';
-import { MAX_PAGE_LIST_LENGTH } from '../containers/SearchResults';
 import { fetchFormsApi } from '../api';
+import { MAX_PAGE_LIST_LENGTH } from '../containers/SearchResults';
 import {
   FETCH_FORMS,
   FETCH_FORMS_FAILURE,
@@ -93,17 +93,9 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
     // Attempt to make the API request to retreive forms.
     const resultsDetails = await fetchFormsApi(query, { mockRequest });
 
-    // If we are here, the API request succeeded.
-    dispatch(
-      fetchFormsSuccess(
-        resultsDetails.results,
-        resultsDetails.hasOnlyRetiredForms,
-      ),
-    );
-
     // Derive the total number of pages.
     const totalPages = Math.ceil(
-      resultsDetails.results.length / MAX_PAGE_LIST_LENGTH,
+      resultsDetails.results?.length / MAX_PAGE_LIST_LENGTH,
     );
 
     recordEvent({
@@ -118,7 +110,16 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
       'type-ahead-option-keyword-selected': undefined, // populate with undefined since type ahead won't feature here
       'type-ahead-option-position': undefined, // populate with undefined since type ahead won't feature here
       'type-ahead-options-list': undefined, // populate with undefined since type ahead won't feature here
+      'type-ahead-options-count': undefined,
     });
+
+    // If we are here, the API request succeeded.
+    dispatch(
+      fetchFormsSuccess(
+        resultsDetails.results,
+        resultsDetails.hasOnlyRetiredForms,
+      ),
+    );
   } catch (error) {
     // If we are here, the API request failed.
     dispatch(

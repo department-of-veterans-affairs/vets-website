@@ -1,5 +1,6 @@
 import React from 'react';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
+import recordEvent from 'platform/monitoring/record-event';
 import { PAGE_NAMES } from '../constants';
 
 const label = 'What’s this debt related to?';
@@ -31,7 +32,7 @@ const options = [
 ];
 
 const Start = ({ setPageState, state = {} }) => {
-  const setState = ({ value }) => {
+  const setState = value => {
     switch (value) {
       case 'copays':
         setPageState({ selected: value }, PAGE_NAMES.copays);
@@ -57,8 +58,16 @@ const Start = ({ setPageState, state = {} }) => {
       name={`${PAGE_NAMES.start}-option`}
       label={label}
       options={options}
-      onValueChange={setState}
       value={{ value: state.selected }}
+      onValueChange={({ value }) => {
+        recordEvent({
+          event: 'howToWizard-formChange',
+          'form-field-type': 'form-radio-buttons',
+          'form-field-label': label,
+          'form-field-value': value,
+        });
+        setState(value);
+      }}
     />
   );
 };

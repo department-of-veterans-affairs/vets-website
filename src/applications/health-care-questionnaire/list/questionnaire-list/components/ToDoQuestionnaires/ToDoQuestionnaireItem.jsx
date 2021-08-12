@@ -2,16 +2,27 @@ import React from 'react';
 import moment from 'moment-timezone';
 
 import AnswerQuestions from '../Shared/Buttons/AnswerQuestions';
-import PrintButton from '../Shared/Print/PrintButton';
-import { getAppointmentStatus, isAppointmentCancelled } from '../../../utils';
+import PrintButton from '../../../../shared/components/print/PrintButton';
+import { isAppointmentCancelled } from '../../../utils';
+import {
+  appointmentSelector,
+  questionnaireResponseSelector,
+  organizationSelector,
+} from '../../../../shared/utils/selectors';
 
 import QuestionnaireItem from '../QuestionnaireItem';
 
 export default function ToDoQuestionnaireItem({ data }) {
-  const { appointment, questionnaire } = data;
-  const appointmentStatus = getAppointmentStatus(appointment);
+  const { appointment, questionnaire, organization } = data;
+  const appointmentStatus = appointmentSelector.getStatus(appointment);
   const isCancelled = isAppointmentCancelled(appointmentStatus);
 
+  const facilityName = organizationSelector.getName(organization);
+  const appointmentTime = appointmentSelector.getStartDateTime(appointment);
+  const questionnaireResponse = questionnaireResponseSelector.getQuestionnaireResponse(
+    questionnaire[0].questionnaireResponse,
+  );
+  const questionnaireResponseStatus = questionnaireResponse?.status;
   return (
     <QuestionnaireItem
       data={data}
@@ -22,44 +33,60 @@ export default function ToDoQuestionnaireItem({ data }) {
       }
       Actions={() =>
         isCancelled ? (
-          <PrintButton />
+          <PrintButton
+            facilityName={facilityName}
+            appointmentTime={appointmentTime}
+            questionnaireResponseId={questionnaireResponse?.id}
+          />
         ) : (
           <AnswerQuestions
             fullData={data}
             id={appointment.id}
-            facilityName={
-              appointment.attributes.vdsAppointments[0].clinic.facility
-                .displayName
-            }
-            appointmentTime={
-              appointment.attributes.vdsAppointments[0].appointmentTime
-            }
-            status={questionnaire[0].questionnaireResponse.status}
+            facilityName={facilityName}
+            appointmentTime={appointmentTime}
+            status={questionnaireResponseStatus}
+            useActionLink
           />
         )
       }
       DueDate={() => {
-        const dueDate = moment(
-          appointment.attributes.vdsAppointments[0].appointmentTime,
+        if (!appointmentTime)
+          return (
+            <section className="due-date" data-testid="due-date">
+              <p />
+            </section>
+          );
+        const displayTime = appointmentSelector.getStartTimeInTimeZone(
+          appointment,
         );
-        const guess = moment.tz.guess();
-        const formattedTimezone = moment.tz(guess).format('z');
-        const meridiem = dueDate.hours() > 12 ? 'p.m.' : 'a.m.';
+
+        const timeTagTime = appointmentSelector.getStartTimeInTimeZone(
+          appointment,
+          {
+            timeZone: 'America/Los_Angeles',
+            momentFormat: `YYYY-MM-DDTh:mm`,
+          },
+        );
+        const dueDate = moment(appointmentTime);
         return (
-          <section className="due-date" data-testid="due-date">
-            <p>{isCancelled ? 'Access until' : 'Complete by'}</p>
-            <p className="vads-u-font-weight--bold">
-              {dueDate.format('dddd, MMMM D, YYYY')}
-            </p>
-            {!isCancelled && (
-              <p
-                className="vads-u-font-weight--bold"
-                data-testid="due-by-timestamp"
-              >
-                {dueDate.format(`H:MM`)} {meridiem} {formattedTimezone}
-              </p>
-            )}
-          </section>
+          <>
+            <dt
+              className="vads-u-margin-top--1p5"
+              data-testid="due-instructions"
+            >
+              {isCancelled ? 'Access until' : 'Complete by'}
+            </dt>
+
+            <dd data-testid="due-date" className="due-date">
+              {dueDate.format('dddd')}{' '}
+              <time dateTime={timeTagTime}>
+                {dueDate.format('MMMM D, YYYY')}
+                {!isCancelled && (
+                  <span data-testid="due-by-timestamp"> at {displayTime}</span>
+                )}
+              </time>
+            </dd>
+          </>
         );
       }}
     />

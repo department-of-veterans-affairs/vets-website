@@ -7,6 +7,8 @@ export default {
   arcgis: 'arcgis',
   // Benefits Gateway Services
   bgs: 'bgs',
+  // Debt Management Services
+  dmc: 'dmc',
   dslogon: 'dslogon',
   emis: 'emis',
   // Enrollment System (HCA submissions)
@@ -40,4 +42,6 @@ export default {
   hcq: 'hcq',
   // Covid-19 Vaccination Keep Me Informed
   vetextVaccine: 'vetext_vaccine',
+  // veteran readiness and employment
+  vre: 'vre',
 };

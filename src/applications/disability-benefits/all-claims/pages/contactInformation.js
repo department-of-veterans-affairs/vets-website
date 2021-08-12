@@ -12,8 +12,8 @@ import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardF
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 import {
-  contactInfo,
-  contactInfoUpdateHelp,
+  contactInfoDescription,
+  contactInfoUpdateHelpDescription,
   // forwardingAddressDescription,
   // ForwardingAddressViewField,
   phoneEmailViewField,
@@ -68,7 +68,7 @@ const citySchema = fullSchema.definitions.address.properties.city;
 
 export const uiSchema = {
   'ui:title': 'Contact information',
-  'ui:description': contactInfo,
+  'ui:description': contactInfoDescription,
   phoneAndEmail: {
     'ui:title': 'Phone & email',
     'ui:field': ReviewCardField,
@@ -132,10 +132,16 @@ export const uiSchema = {
       },
     },
     addressLine2: {
-      'ui:title': 'Street address (20 characters maximum)',
+      'ui:title': 'Street address line 2 (20 characters maximum)',
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid street address',
+      },
     },
     addressLine3: {
-      'ui:title': 'Street address (20 characters maximum)',
+      'ui:title': 'Street address line 3 (20 characters maximum)',
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid street address',
+      },
     },
     city: {
       'ui:errorMessages': {
@@ -278,7 +284,7 @@ export const uiSchema = {
   //   },
   // ),
   'view:contactInfoDescription': {
-    'ui:description': contactInfoUpdateHelp,
+    'ui:description': contactInfoUpdateHelpDescription,
   },
 };
 

@@ -4,9 +4,11 @@
  */
 import '../monitoring/sentry.js';
 import './legacy/menu'; // Used in the footer.
+import './medallia-feedback-button';
 import './moment-setup';
 import './popups';
 import './wysiwyg-analytics-setup';
+import './component-library-analytics-setup';
 import startUserNavWidget from './user-nav';
 import startMegaMenuWidget from './mega-menu';
 import startSideNav from './side-nav';
@@ -52,5 +54,6 @@ export default function startSitewideComponents(commonStore) {
   startVAFooter(
     window.VetsGov.headerFooter.footerData,
     addFocusBehaviorToCrisisLineModal,
+    commonStore,
   );
 }

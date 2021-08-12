@@ -14,6 +14,7 @@
     "first": "Mini",
     "last": "Mouse"
   },
+  "primarySignature": "Mini Mouse",
   "primaryDateOfBirth": "1928-11-18",
   "primaryGender": "F",
   "veteranPreferredFacility": {
@@ -31,6 +32,7 @@
     "first": "Micky",
     "last": "Mouse"
   },
+  "veteranSignature": "Micky Mouse",
   "veteranSsnOrTin": "788775458",
   "veteranDateOfBirth": "1948-11-18",
   "veteranGender": "M",

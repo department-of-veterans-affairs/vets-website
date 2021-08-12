@@ -31,6 +31,77 @@ describe('Schemaform review: ObjectField', () => {
     expect(tree.getByRole('textbox')).to.exist;
   });
 
+  it('should render with "extra" view:* fields in the ui:order', () => {
+    // When the review ObjectField is rendered, the `view:*` properties are
+    // removed. This test ensures that the `view:*` properties are also removed
+    // from the `ui:order` before running orderProperties(), which will throw an
+    // error if extraneous `ui:order` properties are present (properties which
+    // aren't in the schema).
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+
+    const schema = {
+      properties: {
+        test: {
+          type: 'string',
+        },
+      },
+    };
+
+    const uiSchema = {
+      'ui:order': ['test', 'view:testProp'],
+    };
+
+    const tree = render(
+      <ObjectField
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={{}}
+        requiredSchema={{}}
+        onChange={onChange}
+        onBlur={onBlur}
+      />,
+    );
+
+    expect(tree.getByRole('textbox')).to.exist;
+  });
+
+  it('should render fields when `*` is in the ui:order', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+
+    const schema = {
+      properties: {
+        test: {
+          type: 'string',
+        },
+        test2: {
+          type: 'string',
+        },
+        test3: {
+          type: 'string',
+        },
+      },
+    };
+
+    const uiSchema = {
+      'ui:order': ['test', '*'],
+    };
+
+    const tree = render(
+      <ObjectField
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={{}}
+        requiredSchema={{}}
+        onChange={onChange}
+        onBlur={onBlur}
+      />,
+    );
+
+    expect(tree.getAllByRole('textbox')).to.have.lengthOf(3);
+  });
+
   it('should not render hidden field', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();

@@ -103,14 +103,9 @@
         "value": true
       },
       {
-        "name": "form526OriginalClaims",
-        "value": true
-      },
-      {
         "name": "vaViewDependentsAccess",
         "value": true
       },
-      
       {
         "name": "gibctEybBottomSheet",
         "value": true
@@ -129,6 +124,14 @@
       },
       {
         "name": "gibctCh33BenefitRateUpdate",
+        "value": true
+      },
+      {
+        "name": "canUpload1010cgPOA",
+        "value": true
+      },
+      {
+        "name": "can_upload_10_10cg_poa",
         "value": true
       }
     ]

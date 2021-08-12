@@ -10,7 +10,7 @@ import userEvent from '@testing-library/user-event';
 
 import DateTimeRequestPage from '../../../../new-appointment/components/DateTimeRequestPage';
 import { FETCH_STATUS } from '../../../../utils/constants';
-import { waitFor } from '@testing-library/dom';
+import { waitFor, within } from '@testing-library/dom';
 import { Route } from 'react-router-dom';
 
 describe('VAOS <DateTimeRequestPage>', () => {
@@ -93,6 +93,20 @@ describe('VAOS <DateTimeRequestPage>', () => {
         .filter(button => button.disabled === false);
     }
 
+    // Get the first day in the second week of the month, which
+    // should always be a Monday
+    const mondayInMonth = within(screen.getAllByRole('row')[2])
+      .getAllByRole('cell')[0]
+      .querySelector('button').textContent;
+
+    // Verify the first button in the second week is actually a Monday
+    expect(
+      moment()
+        .add(5, 'days')
+        .date(mondayInMonth)
+        .day(),
+    ).to.equal(1);
+
     // it should allow the user to select morning for currently selected date
     userEvent.click(buttons[0]);
 
@@ -101,6 +115,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       name: 'AM appointment',
     });
     userEvent.click(checkbox);
+    expect(buttons[0].getAttribute('aria-label')).to.contain('AM selected');
 
     // 3. Simulate user selecting another time
     checkbox = screen.getByRole('checkbox', {
@@ -110,6 +125,9 @@ describe('VAOS <DateTimeRequestPage>', () => {
 
     expect(buttons[0]).to.contain.text('AM');
     expect(buttons[0]).to.contain.text('PM');
+    expect(buttons[0].getAttribute('aria-label')).to.contain(
+      'AM and PM selected',
+    );
     // checks that the selected day matches the button used
     expect(
       screen.baseElement.querySelector('.vaos-calendar__day--selected'),

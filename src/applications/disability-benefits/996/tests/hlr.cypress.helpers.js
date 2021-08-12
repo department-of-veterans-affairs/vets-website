@@ -1,3 +1,7 @@
+import { getDate } from '../utils/dates';
+
+const date = getDate({ offset: { months: -2 } });
+
 export const mockContestableIssues = {
   data: [
     {
@@ -5,7 +9,7 @@ export const mockContestableIssues = {
       type: 'contestableIssue',
       attributes: {
         ratingIssueReferenceId: '142926',
-        ratingIssueProfileDate: '2020-06-15',
+        ratingIssueProfileDate: date,
         ratingIssueDiagnosticCode: '6260',
         ratingIssueSubjectText: 'Tinnitus',
         ratingIssuePercentNumber: '0',
@@ -15,12 +19,12 @@ export const mockContestableIssues = {
         latestIssuesInChain: [
           {
             id: null,
-            approxDecisionDate: '2020-06-15',
+            approxDecisionDate: date,
           },
         ],
         decisionIssueId: null,
         ratingDecisionReferenceId: null,
-        approxDecisionDate: '2020-06-15',
+        approxDecisionDate: date,
         rampClaimId: null,
         titleOfActiveReview: null,
         sourceReviewType: null,
@@ -32,7 +36,7 @@ export const mockContestableIssues = {
       type: 'contestableIssue',
       attributes: {
         ratingIssueReferenceId: '142927',
-        ratingIssueProfileDate: '2020-06-15',
+        ratingIssueProfileDate: date,
         ratingIssueDiagnosticCode: '9411',
         ratingIssueSubjectText: 'PTSD',
         ratingIssuePercentNumber: '30',
@@ -42,12 +46,12 @@ export const mockContestableIssues = {
         latestIssuesInChain: [
           {
             id: null,
-            approxDecisionDate: '2020-06-15',
+            approxDecisionDate: date,
           },
         ],
         decisionIssueId: null,
         ratingDecisionReferenceId: null,
-        approxDecisionDate: '2020-06-15',
+        approxDecisionDate: date,
         rampClaimId: null,
         titleOfActiveReview: null,
         sourceReviewType: null,

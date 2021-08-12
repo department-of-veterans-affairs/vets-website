@@ -2,18 +2,31 @@ export const uiSchema = {
   'ui:title': 'Your spouse information',
   personalData: {
     spouseFullName: {
-      'ui:title': 'What’s your spouse’s name?',
-      'ui:options': {
-        widgetClassNames: 'input-size-3',
+      first: {
+        'ui:title': 'What’s your spouse’s first name?',
+        'ui:options': {
+          widgetClassNames: 'input-size-3',
+        },
+        'ui:required': () => true,
+        'ui:errorMessages': {
+          required: "Please enter your spouse's first name.",
+        },
+      },
+      last: {
+        'ui:title': 'What’s your spouse’s last name?',
+        'ui:options': {
+          widgetClassNames: 'input-size-3',
+        },
       },
     },
   },
-  employment: {
-    spouse: {
-      isEmployed: {
-        'ui:title': 'Does your spouse currently have a job?',
-        'ui:widget': 'yesNo',
-        'ui:required': () => true,
+  questions: {
+    spouseIsEmployed: {
+      'ui:title': 'Has your spouse had any jobs in the past two years?',
+      'ui:widget': 'yesNo',
+      'ui:required': () => true,
+      'ui:errorMessages': {
+        required: 'Please enter your spouse’s employment information.',
       },
     },
   },
@@ -26,20 +39,23 @@ export const schema = {
       type: 'object',
       properties: {
         spouseFullName: {
-          type: 'string',
+          type: 'object',
+          properties: {
+            first: {
+              type: 'string',
+            },
+            last: {
+              type: 'string',
+            },
+          },
         },
       },
     },
-    employment: {
+    questions: {
       type: 'object',
       properties: {
-        spouse: {
-          type: 'object',
-          properties: {
-            isEmployed: {
-              type: 'boolean',
-            },
-          },
+        spouseIsEmployed: {
+          type: 'boolean',
         },
       },
     },

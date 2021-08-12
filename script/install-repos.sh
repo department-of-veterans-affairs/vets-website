@@ -5,6 +5,12 @@ else
   echo "Repo vagov-content already cloned."
 fi
 
+if [ ! -d ../content-build ]; then
+  git clone --single-branch --depth 1 https://github.com/department-of-veterans-affairs/content-build.git ../content-build
+else
+  echo "Repo content-build already cloned."
+fi
+
 # @TODO: if these are not needed anymore, remove.
 # git clone git@github.com:department-of-veterans-affairs/vets-json-schema.git
 # git clone git@github.com:department-of-veterans-affairs/veteran-facing-services-tools.git

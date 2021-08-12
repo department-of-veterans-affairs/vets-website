@@ -1,6 +1,7 @@
 import merge from 'lodash/merge';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
+import environment from 'platform/utilities/environment';
 import { isChapterFieldRequired } from '../../../helpers';
 import { addChild } from '../../../utilities';
 import { TASK_KEYS } from '../../../constants';
@@ -107,6 +108,9 @@ export const uiSchema = {
         },
       },
       childIncome: {
+        'ui:options': {
+          hideIf: () => environment.isProduction(),
+        },
         'ui:title': 'Did this child have income in the last 365 days?',
         'ui:description':
           'Answer this question only if you are adding this dependent to your pension.',

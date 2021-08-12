@@ -23,18 +23,15 @@ describe('totalDisabilities reducer', () => {
   it('should handle an error from the API call', () => {
     const state = totalRating(initialState, {
       type: FETCH_TOTAL_RATING_FAILED,
-      response: {
-        errors: [
-          {
-            code: 500,
-            detail: 'failed to load',
-          },
-        ],
+      error: {
+        code: 500,
+        detail: 'failed to load',
       },
     });
     const err = { code: 500, detail: 'failed to load' };
     expect(state.loading).to.equal(false);
     expect(state.error.code).to.equal(err.code);
+    expect(state.error.detail).to.equal(err.detail);
     expect(state.totalDisabilityRating).to.equal(null);
   });
 

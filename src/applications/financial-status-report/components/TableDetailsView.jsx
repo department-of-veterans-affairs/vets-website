@@ -1,20 +1,27 @@
 import React from 'react';
 
+const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 2,
+});
+
 const TableDetailsView = ({ formData, onEdit, index }) => {
   const values = formData && Object.values(formData);
   const keys = formData && Object.keys(formData);
 
-  const formatter = value => {
-    if (typeof value === 'string') {
-      return value;
+  const format = value => {
+    const isNumber = !isNaN(value);
+    if (isNumber) {
+      return formatter.format(value);
     }
-    return `$${value?.toFixed(2)}`;
+    return value;
   };
 
   const renderDetails = data => {
     return data?.map((key, i) => (
       <td key={`${key}-${i}`} className="vads-u-border--0">
-        {formatter(values[i])}
+        {format(values[i])}
       </td>
     ));
   };

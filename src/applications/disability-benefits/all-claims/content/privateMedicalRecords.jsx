@@ -16,14 +16,16 @@ export const privateRecordsChoiceHelp = (
         recordEventOnce(openedPrivateChoiceHelp, HELP_TEXT_CLICKED_EVENT)
       }
     >
-      <h4>You upload your medical records</h4>
+      <h3 className="vads-u-font-size--h4">You upload your medical records</h3>
       <p>
         If you upload a digital copy of all your medical records, we can review
         your claim more quickly. Uploading a digital file works best if you have
         a computer with a fast Internet connection. The digital file can be
         uploaded as a .pdf or other photo file format, like a .jpeg or .png.
       </p>
-      <h4>We get your medical records for you</h4>
+      <h3 className="vads-u-font-size--h4">
+        We get your medical records for you
+      </h3>
       <p>
         If you tell us the name of the private doctor or hospital that treated
         you for your condition, we can get your medical records for you. Getting
@@ -32,6 +34,10 @@ export const privateRecordsChoiceHelp = (
       </p>
     </AdditionalInfo>
   </div>
+);
+
+export const patientAcknowledgmentTitle = (
+  <h3 className="vads-u-margin-top--0">Request a disclosure</h3>
 );
 
 export const patientAcknowledgmentText = (
@@ -58,19 +64,21 @@ export const patientAcknowledgmentText = (
           hospitalization, and outpatient care for my impairment(s) including,
           but not limited to:
         </li>
-        <ul>
-          <li>
-            Psychological, psychiatric, or other mental impairment(s) excluding
-            "psychotherapy notes" as defined in 45 C.F.R. §164.501,
-          </li>
-          <li>Drug abuse, alcoholism, or other substance abuse,</li>
-          <li>Sickle cell anemia,</li>
-          <li>
-            Records which may indicate the presence of a communicable or
-            non-communicable disease; and tests for or records of HIV/AIDS,
-          </li>
-          <li>Gene-related impairments (including genetic test results)</li>
-        </ul>
+        <li>
+          <ul>
+            <li>
+              Psychological, psychiatric, or other mental impairment(s)
+              excluding "psychotherapy notes" as defined in 45 C.F.R. §164.501,
+            </li>
+            <li>Drug abuse, alcoholism, or other substance abuse,</li>
+            <li>Sickle cell anemia,</li>
+            <li>
+              Records which may indicate the presence of a communicable or
+              non-communicable disease; and tests for or records of HIV/AIDS,
+            </li>
+            <li>Gene-related impairments (including genetic test results)</li>
+          </ul>
+        </li>
         <li>
           Information about how my impairment(s) affects my ability to complete
           tasks and activities of daily living, and affects my ability to work.

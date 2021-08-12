@@ -2,11 +2,7 @@ import * as WebchatModule from '../webchat';
 import { initializeChatbot } from '../index';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import {
-  mockFetch,
-  setFetchJSONResponse,
-  resetFetch,
-} from 'platform/testing/unit/helpers';
+import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 describe('initializeChatbot', () => {
   let botConnectionStub;
@@ -24,7 +20,6 @@ describe('initializeChatbot', () => {
   after(() => {
     botConnectionStub.restore();
     webchatStoreStub.restore();
-    resetFetch();
   });
 
   it('should configure webchat with CSRF token', async () => {

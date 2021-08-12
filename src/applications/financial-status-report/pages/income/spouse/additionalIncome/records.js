@@ -1,45 +1,65 @@
+import React from 'react';
 import ItemLoop from '../../../../components/ItemLoop';
 import TableDetailsView from '../../../../components/TableDetailsView';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import CustomReviewField from '../../../../components/CustomReviewField';
+import { validateCurrency } from '../../../../utils/validations';
 import Typeahead from '../../../../components/Typeahead';
 import {
   formatOptions,
   incomeTypes,
 } from '../../../../constants/typeaheadOptions';
-import _ from 'lodash/fp';
 
 export const uiSchema = {
-  'ui:title': 'Your spouse information',
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">
+        Your spouse information
+      </legend>
+      <p className="vads-u-padding-top--2">
+        Tell us how much you get each month for each type of income.
+      </p>
+    </>
+  ),
   additionalIncome: {
     spouse: {
-      additionalIncomeRecords: {
+      spouseAdditionalIncomeRecords: {
         'ui:field': ItemLoop,
-        'ui:description':
-          'Tell us how much you get each month for each type of income.',
         'ui:options': {
           viewType: 'table',
           viewField: TableDetailsView,
           doNotScroll: true,
           showSave: true,
           itemName: 'income',
+          keepInPageOnReview: true,
         },
         items: {
           'ui:options': {
-            classNames: 'horizonal-field-container no-wrap',
+            classNames: 'horizontal-field-container no-wrap',
           },
-          incomeType: {
+          name: {
             'ui:title': 'Type of income',
             'ui:field': Typeahead,
+            'ui:reviewField': CustomReviewField,
             'ui:options': {
-              classNames: 'input-size-4',
+              idPrefix: 'spouse_other_income',
+              widgetClassNames: 'input-size-4',
               getOptions: () => formatOptions(incomeTypes),
             },
+            'ui:errorMessages': {
+              required: 'Please enter the type of income.',
+            },
           },
-          monthlyAmount: _.merge(currencyUI('Monthly amount'), {
+          amount: {
+            'ui:title': 'Monthly amount',
             'ui:options': {
+              classNames: 'schemaform-currency-input',
               widgetClassNames: 'input-size-2',
             },
-          }),
+            'ui:errorMessages': {
+              required: 'Please enter the monthly income amount.',
+            },
+            'ui:validations': [validateCurrency],
+          },
         },
       },
     },
@@ -54,18 +74,17 @@ export const schema = {
         spouse: {
           type: 'object',
           properties: {
-            additionalIncomeRecords: {
+            spouseAdditionalIncomeRecords: {
               type: 'array',
               items: {
                 type: 'object',
-                title: 'Additional income',
-                required: ['incomeType', 'monthlyAmount'],
+                required: ['name', 'amount'],
                 properties: {
-                  incomeType: {
+                  name: {
                     type: 'string',
                   },
-                  monthlyAmount: {
-                    type: 'number',
+                  amount: {
+                    type: 'string',
                   },
                 },
               },

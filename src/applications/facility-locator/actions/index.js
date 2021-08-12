@@ -18,6 +18,7 @@ import {
   GEOCODE_COMPLETE,
   GEOCODE_FAILED,
   GEOCODE_CLEAR_ERROR,
+  GEOLOCATE_USER,
   MAP_MOVED,
 } from '../utils/actionTypes';
 import LocatorApi from '../api';
@@ -47,8 +48,9 @@ export const clearSearchResults = () => ({
   type: CLEAR_SEARCH_RESULTS,
 });
 
-export const mapMoved = () => ({
+export const mapMoved = currentRadius => ({
   type: MAP_MOVED,
+  currentRadius,
 });
 
 /**
@@ -106,6 +108,66 @@ export const fetchProviderDetail = id => async dispatch => {
 };
 
 /**
+ * Handles all care request (mashup) - Urgent care and Emergency care
+ * @param {Object} parameters from the search request
+ * @returns {Object} An Object response (locations/providers)
+ */
+const returnAllCare = async params => {
+  const { address, bounds, locationType, page, center, radius } = params;
+  const isUrgentCare = locationType === LocationType.URGENT_CARE;
+  const vaData = await LocatorApi.searchWithBounds(
+    address,
+    bounds,
+    locationType,
+    isUrgentCare ? 'UrgentCare' : 'EmergencyCare',
+    page,
+    center,
+    radius,
+    true,
+  );
+
+  const nonVaData = await LocatorApi.searchWithBounds(
+    address,
+    bounds,
+    locationType,
+    isUrgentCare ? 'NonVAUrgentCare' : 'NonVAEmergencyCare',
+    page,
+    center,
+    radius,
+    true,
+  );
+
+  return {
+    meta: {
+      pagination: {
+        currentPage: 1,
+        nextPage: null,
+        prevPage: null,
+        totalPages: 1,
+      },
+    },
+    links: {},
+    data: [...nonVaData.data, ...vaData.data]
+      .map(location => {
+        const distance =
+          center &&
+          distBetween(
+            center[0],
+            center[1],
+            location.attributes.lat,
+            location.attributes.long,
+          );
+        return {
+          ...location,
+          distance,
+        };
+      })
+      .sort((resultA, resultB) => resultA.distance - resultB.distance)
+      .slice(0, 20),
+  };
+};
+
+/**
  * Handles the actual API call to get the type of locations closest to `address`
  * and/or within the given `bounds`.
  *
@@ -127,17 +189,53 @@ export const fetchLocations = async (
   center,
   radius,
 ) => {
+  let data = {};
+
+  const isUrgentCare = locationType === LocationType.URGENT_CARE;
+  const isEmergencyCare = locationType === LocationType.EMERGENCY_CARE;
+
   try {
-    const data = await LocatorApi.searchWithBounds(
-      address,
-      bounds,
-      locationType,
-      serviceType,
-      page,
-      center,
-      radius,
-    );
-    // Record event as soon as API return results
+    if (
+      (isUrgentCare && (!serviceType || serviceType === 'AllUrgentCare')) ||
+      (isEmergencyCare && (!serviceType || serviceType === 'AllEmergencyCare'))
+    ) {
+      const allCare = await returnAllCare({
+        address,
+        bounds,
+        locationType,
+        page,
+        center,
+        radius,
+      });
+      data = allCare;
+    } else {
+      const dataList = await LocatorApi.searchWithBounds(
+        address,
+        bounds,
+        locationType,
+        serviceType,
+        page,
+        center,
+        radius,
+      );
+      data = { ...dataList };
+      data.data = dataList.data
+        .map(location => {
+          const distance =
+            center &&
+            distBetween(
+              center[0],
+              center[1],
+              location.attributes.lat,
+              location.attributes.long,
+            );
+          return {
+            ...location,
+            distance,
+          };
+        })
+        .sort((resultA, resultB) => resultA.distance - resultB.distance);
+    }
     if (data.errors) {
       dispatch({ type: SEARCH_FAILED, error: data.errors });
     } else {
@@ -408,8 +506,9 @@ export const getProviderSpecialties = () => async dispatch => {
 };
 
 export const geolocateUser = () => async dispatch => {
+  const GEOLOCATION_TIMEOUT = 10000;
   if (navigator?.geolocation?.getCurrentPosition) {
-    dispatch({ type: GEOCODE_STARTED });
+    dispatch({ type: GEOLOCATE_USER });
     navigator.geolocation.getCurrentPosition(
       async currentPosition => {
         const query = await searchCriteraFromCoords(
@@ -422,6 +521,7 @@ export const geolocateUser = () => async dispatch => {
       e => {
         dispatch({ type: GEOCODE_FAILED, code: e.code });
       },
+      { timeout: GEOLOCATION_TIMEOUT },
     );
   } else {
     dispatch({ type: GEOCODE_FAILED, code: -1 });

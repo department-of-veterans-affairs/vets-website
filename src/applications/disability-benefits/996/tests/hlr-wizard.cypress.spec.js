@@ -1,10 +1,10 @@
-import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import {
   BASE_URL,
   WIZARD_STATUS,
   SAVED_CLAIM_TYPE,
   CONTESTABLE_ISSUES_API,
 } from '../constants';
+import Timeouts from 'platform/testing/e2e/timeouts';
 
 Cypress.Commands.add('checkStorage', (key, expectedValue) => {
   cy.window()
@@ -39,7 +39,7 @@ const checkOpt = {
 describe('HLR wizard', () => {
   beforeEach(() => {
     window.dataLayer = [];
-    cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
+    cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
     cy.intercept('GET', `/v0${CONTESTABLE_ISSUES_API}*`, []);
     sessionStorage.removeItem(WIZARD_STATUS);
     cy.visit(BASE_URL);
@@ -49,7 +49,9 @@ describe('HLR wizard', () => {
   it('should show the form wizard', () => {
     cy.url().should('include', BASE_URL);
     cy.axeCheck();
-    cy.get('h1').should('have.text', 'Request a Higher-Level Review');
+    cy.get('h1', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and('have.text', 'Request a Higher-Level Review');
     cy.axeCheck();
   });
   // other claims flow
@@ -57,9 +59,9 @@ describe('HLR wizard', () => {
     cy.get('[type="radio"][value="other"]').check(checkOpt);
     cy.checkStorage(SAVED_CLAIM_TYPE, undefined);
     // #8622 set by public websites accordion anchor ID
-    cy.get('a[href*="/decision-reviews/higher-level-review/#8622"]').should(
-      'exist',
-    );
+    cy.get(
+      'a[href*="/decision-reviews/higher-level-review/#find-addresses-for-other-benef-8622"]',
+    ).should('exist');
     cy.checkFormChange({
       label: 'For what type of claim are you requesting a Higher-Level Review?',
       value: 'other',
@@ -97,7 +99,9 @@ describe('HLR wizard', () => {
     const h1Text = 'Request a Higher-Level Review';
     // starts with focus on breadcrumb
     cy.focused().should('have.attr', 'id', 'va-breadcrumbs-list');
-    cy.get('h1').should('have.text', h1Text);
+    cy.get('h1', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and('have.text', h1Text);
 
     cy.get('[type="radio"][value="compensation"]').check(checkOpt);
     cy.checkStorage(SAVED_CLAIM_TYPE, 'compensation');
@@ -118,13 +122,18 @@ describe('HLR wizard', () => {
 
     // start form
     const h1Addition = ' with VA Form 20-0996';
-    cy.findAllByText(/higher-level review online/i, { selector: 'button' })
+    cy.findAllByText(/higher-level review online/i, { selector: 'a' })
       .first()
       .click();
+
+    cy.location('pathname').should('eq', `${BASE_URL}/introduction`);
     // title changes & gets focus
-    cy.get('h1').should('have.text', h1Text + h1Addition);
+    cy.get('h1', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and('have.text', h1Text + h1Addition);
     cy.focused().should('have.text', h1Text + h1Addition);
     cy.checkStorage(WIZARD_STATUS, 'complete');
+    cy.injectAxe();
     cy.axeCheck();
   });
 });

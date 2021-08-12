@@ -44,8 +44,8 @@ export const FindYellowRibbonPage = () => (
         </ul>
 
         <p>
-          Search for schools participating in the current academic year, August
-          2020 through July 2021.
+          You may search for schools participating in the current academic year,
+          August 2020 through July 2021.
         </p>
       </div>
 

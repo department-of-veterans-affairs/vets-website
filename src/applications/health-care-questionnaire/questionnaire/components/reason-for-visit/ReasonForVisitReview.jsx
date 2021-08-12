@@ -5,7 +5,7 @@ export default function ReasonForVisitReview(props) {
   if (widget.formData) {
     return (
       <div className="review-row" data-testid="reason-for-visit">
-        <dt>Main reason for visit</dt>
+        <dt>What's the reason for your visit?</dt>
         <dd>
           <span>{widget.formData}</span>
         </dd>

@@ -1,0 +1,272 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar";
+@import "../../../../platform/forms/sass/m-schemaform";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "../../../../platform/forms/sass/m-form-confirmation";
+
+.schemaform-intro {
+  padding: 0 0 2rem 0;
+
+  .process-step:last-child {
+    padding-bottom: 0;
+  }
+
+  .omb-info--container {
+    margin-top: 1em;
+  }
+}
+
+/* Contested issue cards (contested issue page & review/submit page) */
+dl.review {
+  .widget-wrapper {
+    position: relative;
+
+    h4 {
+      margin-top: 0;
+    }
+  }
+
+  .widget-outline {
+    background: transparent;
+    border: solid 4px $color-primary-alt-light;
+    border-radius: 7px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    max-width: auto; /* IE11 */
+    max-width: unset;
+
+    &.selected {
+      border-color: $color-primary;
+    }
+
+    &::before {
+      position: absolute;
+      margin-left: 1.5rem;
+      margin-top: 1.5rem;
+    }
+  }
+
+  dt.widget-checkbox-wrap {
+    margin: 0;
+    width: 0;
+    min-width: auto; /* IE11 */
+    min-width: unset;
+
+    [type="checkbox"] {
+      width: 1.8rem;
+      height: 1.8rem;
+      margin: 1.8rem;
+    }
+  }
+
+  .widget-title {
+    margin: 1.5rem 2rem 0 5rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: calc(100% - 7rem);
+    text-transform: capitalize;
+  }
+
+  dd.widget-content {
+    margin-inline-start: 0; /* override user agent */
+    text-align: left;
+    margin: 3rem 3.5rem 0 5rem;
+  }
+
+  dd.widget-content.widget-edit {
+    margin-top: 0;
+    margin-right: 0;
+    display: flex;
+
+    .widget-content-wrap {
+      margin-top: 3rem;
+      margin-right: 0.5rem;
+      width: 100%;
+    }
+
+    .edit {
+      margin-top: 2rem;
+      /* position the edit button above the overlapping label */
+      position: relative;
+      z-index: 1;
+      align-self: center;
+    }
+  }
+
+  .checkbox-hidden {
+    dt.widget-checkbox-wrap {
+      width: 0;
+    }
+
+    .widget-title {
+      margin-left: 0;
+      width: 100%;
+      overflow: visible;
+      white-space: normal;
+    }
+
+    .widget-content {
+      margin: 2rem 0 0 2rem;
+    }
+  }
+}
+
+/* IE11 hack to fix edit button placement, see
+ * https://github.com/department-of-veterans-affairs/va.gov-team/issues/25108
+ */
+ _:-ms-fullscreen, :root dl.review dd.widget-content.widget-edit .widget-content-wrap {
+  width: calc(100% - 175px); /* 175px ~= width of the edit button x2.5 */
+}
+/* IE11 fix legend not wrapping on small screens */
+legend.schemaform-block-title {
+  width: 100%;
+}
+
+/* empty header on additional-issues-intro page */
+.schemaform-block-header:empty {
+  margin: 0;
+}
+
+.additional-issues {
+  .schemaform-label,
+  .usa-input-error {
+    margin-top: 0;
+  }
+}
+
+.form-checkbox.usa-input-error {
+  margin-top: 0;
+}
+
+/* contact info page */
+article[data-location="contact-information"] {
+  div[data-field-name="mobilePhone"] h3 {
+    margin-top: 0;
+  }
+  /* address modal is very tall and won't scroll without this fix */
+  .va-modal-body {
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+  }
+}
+
+/* issues page */
+article[data-location="eligible-issues"] {
+  dl.review {
+    border-bottom: 0;
+  }
+
+  .input-section {
+    .schemaform-block-header {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 2rem;
+
+      /* ui:title doesn't render?! so moved it into the top of the description and
+        change order to move it to the bottom */
+      .section-title {
+        order: 3;
+      }
+    }
+
+    .schemaform-field-container {
+      margin-top: 2rem;
+    }
+  }
+}
+
+article[data-location="additional-issues"] {
+  /* remove unnecessary border */
+  dl.review {
+    border-bottom: 0;
+  }
+}
+
+/* new issues cards tweak */
+dl.review .additional-issue.review-row {
+  flex-direction: column;
+
+  dd {
+    padding-left: 0;
+  }
+}
+.usa-input-error #root_additionalIssues_0_decisionDate-label {
+  font-weight: bold;
+}
+
+/* Area of disagreement */
+.area-of-disagreement-label {
+  margin-top: 0;
+}
+.area-of-disagreement-label .usa-input-error-message {
+  display: none;
+}
+.area-of-disagreement-label[data-submitted="true"].usa-input-error {
+  .usa-input-error-message {
+    display: block;
+  }
+  .input-section {
+    margin-bottom: 0;
+  }
+}
+.area-of-disagreement-label:not(.usa-input-error) {
+  margin: 2rem 0;
+}
+
+article[data-location^="area-of-disagreement"] {
+  .schemaform-block-header,
+  .schemaform-block-header + .usa-input-error {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+/* override formation to maintain margin between checkboxes */
+.usa-input-error label {
+  margin-top: 3rem;
+}
+.usa-input-error > label {
+  margin-top: 0;
+}
+
+/* Opt in */
+.capitalize {
+  text-transform: capitalize;
+}
+/* hide duplicate "required" checkbox label & error message above checkbox */
+#root_socOptIn-label,
+#root_socOptIn-label + span {
+  display: none;
+}
+
+/* additional evidence */
+article[data-location$="/upload"] {
+  #root_evidence_add_label {
+    margin-top: 0;
+  }
+  .schemaform-file-list {
+    p {
+      margin: 0;
+    }
+    strong {
+      display: block;
+      margin-bottom: 0.5em;
+    }
+  }
+}
+
+article[data-location="review-and-submit"] {
+  /* hide when reviewing content. Shows when editing */
+  dt .hide-on-review, dd .hide-on-review {
+    display: none;
+  }
+  dt strong.opt-in-title {
+    font-weight: normal;
+  }
+}

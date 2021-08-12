@@ -112,4 +112,29 @@ describe('<SchoolCategoryRating>', () => {
     expect(openHandler.calledWith('overall_experience')).to.be.true;
     wrapper.unmount();
   });
+  it('should track accordion collapse', () => {
+    const testTitle = 'Test title';
+    const openHandler = sinon.spy();
+    const wrapper = shallow(
+      <SchoolCategoryRating
+        categoryRating={categoryRating}
+        openHandler={openHandler}
+        open
+        description={'Test description'}
+        title={testTitle}
+      />,
+    );
+    wrapper
+      .find('button')
+      .first()
+      .simulate('click');
+    const recordedEvent = global.window.dataLayer[0];
+    expect(recordedEvent.event).to.eq('int-accordion-collapse');
+    expect(recordedEvent['accordion-parent-label']).to.eq(testTitle);
+    expect(recordedEvent['accordion-child-label']).to.eq(undefined);
+    expect(recordedEvent['accordion-size']).to.eq('small');
+    expect(recordedEvent['gibct-rating']).to.eq(categoryRating.averageRating);
+
+    wrapper.unmount();
+  });
 });

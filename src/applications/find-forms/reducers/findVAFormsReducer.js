@@ -8,6 +8,7 @@ import {
   FETCH_FORMS_FAILURE,
   FETCH_FORMS_SUCCESS,
   INITIAL_SORT_STATE,
+  FAF_OPTION_CLOSEST_MATCH,
   UPDATE_HOW_TO_SORT,
   UPDATE_PAGINATION,
   UPDATE_RESULTS,
@@ -20,6 +21,7 @@ const initialState = {
   query: '',
   sortByPropertyName: INITIAL_SORT_STATE,
   results: null,
+  closestMatchSearchResults: null,
   hasOnlyRetiredForms: false,
   startIndex: 0,
 };
@@ -38,9 +40,13 @@ export default (state = initialState, action) => {
         ...state,
         fetching: false,
         hasOnlyRetiredForms: action.hasOnlyRetiredForms,
-        results: clonedResults.sort((a, b) =>
-          sortTheResults(state.sortByPropertyName, a, b),
-        ),
+        closestMatchSearchResults: action.results,
+        results:
+          state.sortByPropertyName === FAF_OPTION_CLOSEST_MATCH
+            ? action.results
+            : clonedResults.sort((a, b) =>
+                sortTheResults(state.sortByPropertyName, a, b),
+              ),
       };
     }
     case UPDATE_HOW_TO_SORT: {
@@ -50,9 +56,12 @@ export default (state = initialState, action) => {
       const clonedResults = cloneDeep(action.results);
       return {
         ...state,
-        results: clonedResults.sort((a, b) =>
-          sortTheResults(state.sortByPropertyName, a, b),
-        ),
+        results:
+          state.sortByPropertyName === FAF_OPTION_CLOSEST_MATCH
+            ? state.closestMatchSearchResults
+            : clonedResults.sort((a, b) =>
+                sortTheResults(state.sortByPropertyName, a, b),
+              ),
       };
     }
     case UPDATE_PAGINATION: {

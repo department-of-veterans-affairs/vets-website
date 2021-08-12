@@ -420,7 +420,7 @@ export const addressUISchema = (
       },
     },
     street2: {
-      'ui:title': 'Line 2',
+      'ui:title': 'Street address line 2',
       'ui:options': {
         hideOnReviewIfFalse: true,
         useDlWrap: true,

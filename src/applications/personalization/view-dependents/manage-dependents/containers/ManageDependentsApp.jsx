@@ -1,23 +1,41 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { connect } from 'react-redux';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import PropTypes from 'prop-types';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
 import * as actions from '../redux/actions';
 import { SCHEMAS } from '../schemas';
+import {
+  transformForSubmit,
+  ServerErrorFragment,
+  LOADING_STATUS,
+} from '../utils';
 
 const ManageDependents = props => {
   const {
     relationship,
     updateFormData,
-    dependentsState,
     cleanupFormData,
+    submitFormData,
+    dependentsState,
     closeFormHandler,
     stateKey,
+    userInfo,
   } = props;
   const [schema, setSchema] = useState(null);
   const [uiSchema, setUiSchema] = useState(null);
-  const onSubmit = () => {};
+
+  const onSubmit = formState => {
+    const { veteranContactInformation } = props;
+    const payload = transformForSubmit(
+      formState.formData,
+      veteranContactInformation,
+      userInfo,
+    );
+    submitFormData(stateKey, payload);
+  };
 
   const onChange = useCallback(
     nextFormData => {
@@ -60,7 +78,7 @@ const ManageDependents = props => {
         setUiSchema(dependentsState[stateKey].uiSchema);
       }
     },
-    [dependentsState],
+    [dependentsState, stateKey],
   );
 
   return schema ? (
@@ -75,10 +93,21 @@ const ManageDependents = props => {
         onChange={onChange}
       >
         <div className="vads-l-row form-progress-buttons schemaform-buttons">
+          {dependentsState[stateKey].status === LOADING_STATUS.failed && (
+            <ErrorMessage active>
+              <ServerErrorFragment />
+            </ErrorMessage>
+          )}
           <LoadingButton
-            onClick={onSubmit}
             className="usa-button usa-button-primary"
             aria-label="Submit VA Form 686c to remove this dependent"
+            isLoading={
+              dependentsState[stateKey].status === LOADING_STATUS.pending
+            }
+            loadingText="Removing dependent from award..."
+            disabled={
+              dependentsState[stateKey].status === LOADING_STATUS.pending
+            }
           >
             Remove dependent
           </LoadingButton>
@@ -92,16 +121,18 @@ const ManageDependents = props => {
         </div>
       </SchemaForm>
     </div>
-  ) : null;
+  ) : (
+    <LoadingIndicator message="Loading the form..." />
+  );
 };
 
 const mapStateToProps = state => ({
-  dependentsState: state.removeDependents.dependentsState,
+  dependentsState: state?.removeDependents?.dependentsState,
+  veteranContactInformation: state?.user?.profile?.vapContactInfo,
 });
 
 const mapDispatchToProps = {
-  updateFormData: actions.updateFormData,
-  cleanupFormData: actions.cleanupFormData,
+  ...actions,
 };
 
 export default connect(
@@ -114,7 +145,9 @@ ManageDependents.propTypes = {
   relationship: PropTypes.string,
   updateFormData: PropTypes.func,
   dependentsState: PropTypes.object,
+  veteranContactInformation: PropTypes.object,
   cleanupFormData: PropTypes.func,
   closeFormHandler: PropTypes.func,
   stateKey: PropTypes.number,
+  userInfo: PropTypes.object,
 };

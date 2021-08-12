@@ -146,7 +146,7 @@ export function saveCNPPaymentInformation(
     // };
 
     if (response.error || response.errors) {
-      const errors = response?.error?.errors || [];
+      const errors = response.error?.errors || [];
       const analyticsData = createCNPDirectDepositAnalyticsDataObject(
         errors,
         isEnrollingInDirectDeposit,
@@ -240,6 +240,7 @@ export function saveEDUPaymentInformation(
         event: 'profile-edit-failure',
         'profile-action': 'save-failure',
         'profile-section': 'edu-direct-deposit-information',
+        'error-key': 'unknown-save-error',
       });
       dispatch({
         type: EDU_PAYMENT_INFORMATION_SAVE_FAILED,

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import FormButtons from '../../components/FormButtons';
@@ -11,6 +10,8 @@ import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { addressSchema, getAddressUISchema } from '../fields/addressFields';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
+import NewTabAnchor from '../../components/NewTabAnchor';
+import InfoAlert from '../../components/InfoAlert';
 
 const initialSchema = {
   type: 'object',
@@ -81,13 +82,9 @@ const uiSchema = {
     'ui:description': (
       <p className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-top--1">
         Use the{' '}
-        <a
-          href="/find-locations/?facilityType=cc_provider"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <NewTabAnchor href="/find-locations/?facilityType=provider">
           facility locator
-        </a>{' '}
+        </NewTabAnchor>{' '}
         to find your preferred community care provider. Copy and paste their
         name and address below.
       </p>
@@ -133,13 +130,13 @@ const uiSchema = {
     },
     'view:textObject': {
       'ui:description': (
-        <AlertBox
+        <InfoAlert
           status="info"
           headline="We’ll try to schedule your appointment with your preferred provider"
         >
           If we can’t schedule this appointment with them, we’ll schedule it
           with another provider close to your home.
-        </AlertBox>
+        </InfoAlert>
       ),
     },
   },

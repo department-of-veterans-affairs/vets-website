@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import ReactTestUtils from 'react-dom/test-utils';
+import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
 import { uploadStore } from 'platform/forms-system/test/config/helpers';
@@ -18,7 +18,7 @@ describe('Burials document upload', () => {
   } = formConfig.chapters.additionalInformation.pages.documentUpload;
 
   it('should render', () => {
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = render(
       <Provider store={uploadStore}>
         <DefinitionTester
           schema={schema}
@@ -34,7 +34,7 @@ describe('Burials document upload', () => {
   });
 
   it('should render death certificate field', () => {
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = render(
       <Provider store={uploadStore}>
         <DefinitionTester
           schema={schema}
@@ -52,7 +52,7 @@ describe('Burials document upload', () => {
   });
 
   it('should render receipts field', () => {
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = render(
       <Provider store={uploadStore}>
         <DefinitionTester
           schema={schema}
@@ -72,7 +72,7 @@ describe('Burials document upload', () => {
   });
 
   it('should render DD214 warning if no tours of duty provided', () => {
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = render(
       <Provider store={uploadStore}>
         <DefinitionTester
           schema={schema}
@@ -90,7 +90,7 @@ describe('Burials document upload', () => {
   });
 
   it('should not render DD214 warning if tours of duty provided', () => {
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = render(
       <Provider store={uploadStore}>
         <DefinitionTester
           schema={schema}
@@ -110,7 +110,7 @@ describe('Burials document upload', () => {
 
   it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = render(
       <Provider store={uploadStore}>
         <DefinitionTester
           schema={schema}
@@ -137,7 +137,7 @@ describe('Burials document upload', () => {
 
   it('should submit with valid data', () => {
     const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = render(
       <Provider store={uploadStore}>
         <DefinitionTester
           schema={schema}

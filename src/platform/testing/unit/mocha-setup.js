@@ -12,11 +12,13 @@ import { JSDOM } from 'jsdom';
 import '../../site-wide/moment-setup';
 import ENVIRONMENTS from 'site/constants/environments';
 import * as Sentry from '@sentry/browser';
+import chaiAxe from './axe-plugin';
 
 import { sentryTransport } from './sentry';
 
 Sentry.init({
-  dsn: 'http://one@fake/dsn',
+  autoSessionTracking: false,
+  dsn: 'http://one@fake/dsn/0',
   transport: sentryTransport,
 });
 
@@ -39,6 +41,12 @@ function filterStackTrace(trace) {
     .split(os.EOL)
     .filter(line => !line.includes('node_modules'))
     .join(os.EOL);
+}
+
+function resetFetch() {
+  if (global.fetch.isSinonProxy) {
+    global.fetch.restore();
+  }
 }
 
 /**
@@ -115,6 +123,8 @@ function setupJSDom() {
     },
   };
 
+  window.getSelection = () => '';
+
   window.Mocha = true;
 
   copyProps(window, global);
@@ -153,8 +163,16 @@ function setupJSDom() {
 
 setupJSDom();
 
+// This needs to be after JSDom has been setup, otherwise
+// axe has strange issues with globals not being set up
+chai.use(chaiAxe);
+
 export const mochaHooks = {
   beforeEach() {
     setupJSDom();
+    resetFetch();
+  },
+  afterEach() {
+    localStorage.clear();
   },
 };

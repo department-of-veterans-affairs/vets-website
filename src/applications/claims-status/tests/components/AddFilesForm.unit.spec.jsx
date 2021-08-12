@@ -35,8 +35,8 @@ describe('<AddFilesForm>', () => {
       />,
     );
     expect(tree.everySubTree('FileInput')).not.to.be.empty;
-    expect(tree.everySubTree('Modal')[0].props.visible).to.be.undefined;
-    expect(tree.everySubTree('Modal')[1].props.visible).to.be.undefined;
+    expect(tree.everySubTree('Modal')[0].props.visible).to.be.false;
+    expect(tree.everySubTree('Modal')[1].props.visible).to.be.false;
   });
 
   it('should show uploading modal', () => {

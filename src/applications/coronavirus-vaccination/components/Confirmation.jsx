@@ -3,11 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import { focusElement } from 'platform/utilities/ui';
-import {
-  CaregiverMessage,
-  ConfirmationMessage,
-  ContactRules,
-} from './VerbiageHelper';
+import { ContactRules } from './VerbiageHelper';
 
 function Confirmation({ router, formData }) {
   useEffect(() => {
@@ -25,17 +21,18 @@ function Confirmation({ router, formData }) {
       <h1 className="no-outline" id="covid-vaccination-heading-confirmation">
         We've received your information
       </h1>
-      <ConfirmationMessage />
-      <CaregiverMessage />
-      <h2>How will VA contact me when I can get a COVID-19 vaccine?</h2>
-      <ContactRules />
       <p>
-        <strong>Please know:</strong> By sharing your plans for getting a
-        vaccine, you help us better plan our efforts. But we’ll still contact
-        every eligible Veteran in each risk group to ask if they want to get a
-        vaccine. You don’t need to call or come to a VA facility to request or
-        reserve a vaccine.
+        Thank you for signing up to stay informed about COVID-19 vaccines at VA.
+        When we have new information to share about our COVID-19 plans and your
+        vaccine options, we'll send you updates by email or text.
       </p>
+      <p>
+        We may also use your information to contact you about your vaccine
+        options. It's always your choice if you want to get a vaccine.
+      </p>
+
+      <h2>How will VA contact me about my vaccine options?</h2>
+      <ContactRules />
       <p>
         You can also get updates and answers to common questions on our main{' '}
         <a

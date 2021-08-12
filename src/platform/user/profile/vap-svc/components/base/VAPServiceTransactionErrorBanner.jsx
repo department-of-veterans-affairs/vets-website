@@ -2,6 +2,7 @@ import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import Telephone, {
   CONTACTS,
+  PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 import facilityLocator from '~/applications/facility-locator/manifest.json';
 
@@ -62,21 +63,12 @@ export function VAProfileInitError(props) {
             to get help signing in.
           </p>
           <p>
-            <strong>
-              To find out if this is about an account with the Department of
-              Defense:
-            </strong>
-          </p>
-          <p>
-            You can{' '}
-            <a
-              href="https://www.accesstocare.va.gov/sign-in-help"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              submit a request to get help signing in
-            </a>
-            .{' '}
+            To find out if this is about an account with the Department of
+            Defense, call our MyVA411 main information line for help at
+            <Telephone contact={CONTACTS.HELP_DESK} />
+            (TTY:{' '}
+            <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+            ).
           </p>
         </div>
       }

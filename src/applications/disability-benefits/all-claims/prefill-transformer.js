@@ -47,30 +47,6 @@ export default function prefillTransformer(pages, formData, metadata) {
       : setClaimTypeNewOnly(newData);
   };
 
-  const prefillContactInformation = data => {
-    const newData = _.omit(['veteran'], data);
-    const { veteran } = data;
-
-    if (veteran) {
-      // Form 526 v1 data; transform into v2 format
-      // This transform already includes the attachments data (list of uploaded
-      // documents)
-      const { emailAddress, primaryPhone, mailingAddress } = veteran;
-      newData.phoneAndEmail = {};
-      if (emailAddress) {
-        newData.phoneAndEmail.emailAddress = emailAddress;
-      }
-      if (primaryPhone) {
-        newData.phoneAndEmail.primaryPhone = primaryPhone;
-      }
-      if (mailingAddress) {
-        newData.mailingAddress = mailingAddress;
-      }
-    }
-
-    return newData;
-  };
-
   const prefillServiceInformation = data => {
     const newData = _.omit(
       ['servicePeriods', 'reservesNationalGuardService'],
@@ -120,7 +96,6 @@ export default function prefillTransformer(pages, formData, metadata) {
 
   const transformations = [
     prefillRatedDisabilities,
-    prefillContactInformation,
     prefillServiceInformation,
     prefillBankInformation,
   ];

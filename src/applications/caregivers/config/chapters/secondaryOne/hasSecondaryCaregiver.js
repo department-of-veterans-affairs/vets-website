@@ -5,7 +5,8 @@ import { SecondaryCaregiverInfo } from 'applications/caregivers/components/Addit
 const hasSecondaryCaregiverPage = {
   uiSchema: {
     [primaryCaregiverFields.hasSecondaryCaregiverOne]: {
-      'ui:title': 'Would you like to add a Secondary Family Caregiver?',
+      'ui:title':
+        'Would you like to apply for benefits for a Secondary Family Caregiver?',
       'ui:widget': 'yesNo',
       'ui:description': SecondaryCaregiverInfo({
         additionalInfo: true,

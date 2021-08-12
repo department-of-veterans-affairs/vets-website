@@ -7,9 +7,12 @@ import { createSelector } from 'reselect';
 import { omit } from 'lodash';
 import merge from 'lodash/merge';
 import fastLevenshtein from 'fast-levenshtein';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import _ from 'platform/utilities/data';
+import { focusElement } from 'platform/utilities/ui';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
@@ -206,6 +209,20 @@ export const isInFuture = (errors, fieldData) => {
   }
 };
 
+export const title10BeforeRad = (errors, pageData) => {
+  const { anticipatedSeparationDate, title10ActivationDate } =
+    pageData?.reservesNationalGuardService?.title10Activation || {};
+
+  const rad = moment(anticipatedSeparationDate);
+  const activation = moment(title10ActivationDate);
+
+  if (rad.isValid() && activation.isValid() && rad.isBefore(activation)) {
+    errors.reservesNationalGuardService.title10Activation.anticipatedSeparationDate.addError(
+      'Please enter an expected separation date that is after your activation date',
+    );
+  }
+};
+
 const capitalizeWord = word => {
   const capFirstLetter = word[0].toUpperCase();
   return `${capFirstLetter}${word.slice(1)}`;
@@ -224,7 +241,7 @@ export const capitalizeEachWord = name => {
 
   if (typeof name !== 'string') {
     Sentry.captureMessage(
-      `form_526_v1 / form_526_v2: capitalizeEachWord requires 'name' argument of type 'string' but got ${typeof name}`,
+      `form_526_v2: capitalizeEachWord requires 'name' argument of type 'string' but got ${typeof name}`,
     );
   }
 
@@ -435,13 +452,13 @@ export const addressUISchema = (
       },
     },
     addressLine2: {
-      'ui:title': 'Street address',
+      'ui:title': 'Street address line 2',
       'ui:errorMessages': {
         pattern: 'Please enter a valid street address',
       },
     },
     addressLine3: {
-      'ui:title': 'Street address',
+      'ui:title': 'Street address line 3',
       'ui:errorMessages': {
         pattern: 'Please enter a valid street address',
       },
@@ -598,6 +615,55 @@ export const isClaimingNew = formData =>
 export const isClaimingIncrease = formData =>
   _.get('view:claimType.view:claimingIncrease', formData, false);
 
+export const isBDD = formData => {
+  const isBddDataFlag = Boolean(formData?.['view:isBddData']);
+  const servicePeriods = formData?.serviceInformation?.servicePeriods || [];
+
+  // separation date entered in the wizard
+  const separationDate = window.sessionStorage.getItem(SAVED_SEPARATION_DATE);
+
+  // this flag helps maintain the correct form title within a session
+  // Removed because of Cypress e2e tests don't have access to 'view:isBddData'
+  // window.sessionStorage.removeItem(FORM_STATUS_BDD);
+
+  // isActiveDuty is true when the user selects that option in the wizard & then
+  // enters a separation date - based on the session storage value; we then
+  // set this flag in the formData.
+  // If the user doesn't choose the active duty wizard option, but enters a
+  // future date in their service history, this may be associated with reserves
+  // and therefor should not open the BDD flow
+  const isActiveDuty = isBddDataFlag || separationDate;
+
+  if (
+    !isActiveDuty ||
+    // User hasn't started the form or the wizard
+    (servicePeriods.length === 0 && !separationDate)
+  ) {
+    return false;
+  }
+
+  const mostRecentDate = separationDate
+    ? moment(separationDate)
+    : servicePeriods
+        .filter(({ dateRange }) => dateRange?.to)
+        .map(({ dateRange }) => moment(dateRange?.to))
+        .sort((dateA, dateB) => (dateB.isBefore(dateA) ? -1 : 1))[0];
+
+  if (!mostRecentDate) {
+    window.sessionStorage.setItem(FORM_STATUS_BDD, 'false');
+    return false;
+  }
+
+  const result =
+    isActiveDuty &&
+    mostRecentDate.isAfter(moment().add(89, 'days')) &&
+    !mostRecentDate.isAfter(moment().add(180, 'days'));
+
+  // this flag helps maintain the correct form title within a session
+  window.sessionStorage.setItem(FORM_STATUS_BDD, result ? 'true' : 'false');
+  return Boolean(result);
+};
+
 export const hasNewPtsdDisability = formData =>
   isClaimingNew(formData) &&
   _.get('newDisabilities', formData, []).some(disability =>
@@ -684,6 +750,15 @@ export const ancillaryFormUploadUi = (
   } = {},
 ) => {
   const pdfSizeFeature = getPdfSizeFeature();
+  // a11y focus management. Move focus to select after upload
+  // see va.gov-team/issues/19688
+  const findAndFocusLastSelect = () => {
+    // focus on last document type select since all new uploads are appended
+    const lastSelect = [...document.querySelectorAll('select')].slice(-1);
+    if (lastSelect.length) {
+      focusElement(lastSelect[0]);
+    }
+  };
   return fileUploadUI(label, {
     itemDescription,
     hideLabelText: !label,
@@ -703,11 +778,16 @@ export const ancillaryFormUploadUi = (
       }
       return payload;
     },
-    parseResponse: (response, file) => ({
-      name: file.name,
-      confirmationCode: response.data.attributes.guid,
-      attachmentId,
-    }),
+    parseResponse: (response, file) => {
+      setTimeout(() => {
+        findAndFocusLastSelect();
+      });
+      return {
+        name: file.name,
+        confirmationCode: response.data.attributes.guid,
+        attachmentId,
+      };
+    },
     attachmentSchema: {
       'ui:title': 'Document type',
       'ui:disabled': isDisabled,
@@ -816,17 +896,8 @@ export const noClaimTypeSelected = formData =>
  * @enum {String}
  */
 export const urls = {
-  v1: DISABILITY_526_V2_ROOT_URL,
   v2: DISABILITY_526_V2_ROOT_URL,
 };
-
-/**
- * Returns whether the formData is v1 or not.
- * This assumes that the `veteran` property of the formData will be present
- *  only in v1 after the form is saved. The prefillTransformer should
- *  remove this property from the v2 formData for this to work properly.
- */
-const isV1App = (formData, isPrefill) => !isPrefill && formData.veteran;
 
 /**
  * Returns the base url of whichever form the user needs to go to.
@@ -835,29 +906,6 @@ const isV1App = (formData, isPrefill) => !isPrefill && formData.veteran;
  * @param {Boolean} isPrefill - True if formData comes from pre-fill, false if it's a saved form
  * @return {String} - The base url of the right form to return to
  */
-export const getFormUrl = (formData, isPrefill) =>
-  isV1App(formData, isPrefill) ? urls.v1 : urls.v2;
-
-/**
- * Navigates to the appropriate form (v1 or v2) based on the saved data.
- */
-export const directToCorrectForm = ({
-  formData,
-  savedForms,
-  returnUrl,
-  formConfig,
-  router,
-}) => {
-  // If we can find the form in the savedForms array, it's not pre-filled
-  const isPrefill = !savedForms.find(form => form.form === formConfig.formId);
-  const baseUrl = getFormUrl(formData, isPrefill);
-  if (!isPrefill && !window.location.pathname.includes(baseUrl)) {
-    // Redirect to the other app
-    window.location.assign(`${baseUrl}/resume`);
-  } else {
-    router.push(returnUrl);
-  }
-};
 
 export const claimingRated = formData =>
   formData?.ratedDisabilities?.some(d => d['view:selected']);
@@ -879,54 +927,13 @@ export const activeServicePeriods = formData =>
     sp => !sp.dateRange.to || moment(sp.dateRange.to).isAfter(moment()),
   );
 
-export const isBDD = formData => {
-  const isBddDataFlag = Boolean(formData?.['view:isBddData']);
-  const servicePeriods = formData?.serviceInformation?.servicePeriods || [];
-
-  // separation date entered in the wizard
-  const separationDate = window.sessionStorage.getItem(SAVED_SEPARATION_DATE);
-
-  // this flag helps maintain the correct form title within a session
-  // Removed because of Cypress e2e tests don't have access to 'view:isBddData'
-  // window.sessionStorage.removeItem(FORM_STATUS_BDD);
-
-  // isActiveDuty is true when the user selects that option in the wizard & then
-  // enters a separation date - based on the session storage value; we then
-  // set this flag in the formData.
-  // If the user doesn't choose the active duty wizard option, but enters a
-  // future date in their service history, this may be associated with reserves
-  // and therefor should not open the BDD flow
-  const isActiveDuty = isBddDataFlag || separationDate;
-
-  if (
-    !isActiveDuty ||
-    // User hasn't started the form or the wizard
-    (servicePeriods.length === 0 && !separationDate)
-  ) {
-    return false;
-  }
-
-  const mostRecentDate = separationDate
-    ? moment(separationDate)
-    : servicePeriods
-        .filter(({ dateRange }) => dateRange?.to)
-        .map(({ dateRange }) => moment(dateRange?.to))
-        .sort((dateA, dateB) => (dateB.isBefore(dateA) ? -1 : 1))[0];
-
-  if (!mostRecentDate) {
-    window.sessionStorage.setItem(FORM_STATUS_BDD, 'false');
-    return false;
-  }
-
-  const result =
-    isActiveDuty &&
-    mostRecentDate.isAfter(moment().add(89, 'days')) &&
-    !mostRecentDate.isAfter(moment().add(180, 'days'));
-
-  // this flag helps maintain the correct form title within a session
-  window.sessionStorage.setItem(FORM_STATUS_BDD, result ? 'true' : 'false');
-  return Boolean(result);
-};
+export const isUploadingSTR = formData =>
+  isBDD(formData) &&
+  _.get(
+    'view:uploadServiceTreatmentRecordsQualifier.view:hasServiceTreatmentRecordsToUpload',
+    formData,
+    false,
+  );
 
 export const DISABILITY_SHARED_CONFIG = {
   orientation: {
@@ -962,25 +969,43 @@ export const getStartText = isBDDForm => {
 };
 
 export const showSeparationLocation = formData => {
-  const servicePeriods = formData?.serviceInformation?.servicePeriods;
+  const { serviceInformation = {} } = formData || {};
+  const { servicePeriods, reservesNationalGuardService } = serviceInformation;
 
-  if (!servicePeriods || !Array.isArray(servicePeriods)) {
+  // moment(undefined) => today
+  // moment(null) => Invalid date
+  const title10SeparationDate = moment(
+    reservesNationalGuardService?.title10Activation
+      ?.anticipatedSeparationDate || null,
+  );
+
+  if (
+    !title10SeparationDate.isValid() &&
+    (!servicePeriods || !Array.isArray(servicePeriods))
+  ) {
     return false;
+  }
+
+  const today = moment();
+  const todayPlus180 = moment().add(180, 'days');
+
+  // Show separation location field if activated on federal orders & < 180 days
+  if (
+    title10SeparationDate.isValid() &&
+    title10SeparationDate.isAfter(today) &&
+    !title10SeparationDate.isAfter(todayPlus180)
+  ) {
+    return true;
   }
 
   const mostRecentDate = servicePeriods
-    .filter(({ dateRange }) => dateRange?.to)
-    .map(({ dateRange }) => moment(dateRange.to))
+    ?.filter(({ dateRange }) => dateRange?.to)
+    .map(({ dateRange }) => moment(dateRange.to || null))
     .sort((dateA, dateB) => dateB - dateA)[0];
 
-  if (!mostRecentDate) {
-    return false;
-  }
-
-  return (
-    mostRecentDate.isAfter(moment()) &&
-    !mostRecentDate.isAfter(moment().add(180, 'days'))
-  );
+  return mostRecentDate?.isValid()
+    ? mostRecentDate.isAfter(today) && !mostRecentDate.isAfter(todayPlus180)
+    : false;
 };
 
 export const show526Wizard = state => toggleValues(state).show526Wizard;
@@ -988,18 +1013,26 @@ export const show526Wizard = state => toggleValues(state).show526Wizard;
 export const showSubform8940And4192 = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.subform89404192];
 
-export const confirmationEmailFeature = state => {
-  const isForm526ConfirmationEmailOn = toggleValues(state)[
-    FEATURE_FLAG_NAMES.form526ConfirmationEmail
-  ];
-  const isForm526ConfirmationEmailShowCopyOn = toggleValues(state)[
-    FEATURE_FLAG_NAMES.form526ConfirmationEmailShowCopy
-  ];
+export const wrapWithBreadcrumb = (title, component) => (
+  <>
+    <Breadcrumbs>
+      <a href="/">Home</a>
+      <a href="/disability">Disability Benefits</a>
+      <span className="vads-u-color--black">
+        <strong>{title}</strong>
+      </span>
+    </Breadcrumbs>
+    {component}
+  </>
+);
 
-  return [
-    isForm526ConfirmationEmailOn,
-    isForm526ConfirmationEmailShowCopyOn,
-  ].includes(undefined)
-    ? false
-    : isForm526ConfirmationEmailOn && isForm526ConfirmationEmailShowCopyOn;
+export const isExpired = date => {
+  if (!date) {
+    return true;
+  }
+  const today = moment().endOf('day');
+  // expiresAt: Ruby saves as time from Epoch date in seconds (not milliseconds)
+  // we plan to update the expiresAt date to "YYYY-MM-DD" format in the future
+  const expires = moment(isNaN(date) ? date : date * 1000);
+  return !(expires.isValid() && expires.endOf('day').isSameOrAfter(today));
 };

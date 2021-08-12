@@ -9,6 +9,7 @@ import {
   toIdSchema,
   getDefaultFormState,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+import { isReactComponent } from 'platform/utilities/ui';
 
 const ScrollElement = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -24,15 +25,20 @@ const Header = ({
 }) => {
   const { TitleField } = registry.fields;
   const textDescription = typeof description === 'string' ? description : null;
-  const DescriptionField =
-    typeof description === 'function' ? uiSchema['ui:description'] : null;
+  const DescriptionField = isReactComponent(description)
+    ? uiSchema['ui:description']
+    : null;
+
+  const uniqueId = Math.random()
+    .toString(36)
+    .substring(7);
 
   return (
     <div className="schemaform-block-header item-loop-header">
       {title &&
         !hideTitle && (
           <TitleField
-            id={`${idSchema.$id}__title`}
+            id={`${idSchema.$id}_${uniqueId}__title`}
             title={title}
             formContext={formContext}
           />
@@ -71,12 +77,10 @@ const InputSection = ({
   const updateText = showSave ? 'Save' : 'Update';
   const { SchemaField } = registry.fields;
   const itemIdPrefix = `${idSchema.$id}_${index}`;
+  const titlePrefix = editing && editing[index] === true ? 'Edit' : 'Add';
 
   const getItemSchema = i => {
-    if (schema.items.length > i) {
-      return schema.items[i];
-    }
-    return schema.additionalItems;
+    return schema.items.length > i ? schema.items[i] : schema.additionalItems;
   };
 
   const itemSchema = getItemSchema(index);
@@ -86,7 +90,6 @@ const InputSection = ({
     registry.definitions,
   );
 
-  const titlePrefix = editing && editing[index] === true ? 'Edit' : 'Add';
   const containerClassNames = classNames(
     'item-loop',
     {
@@ -106,7 +109,7 @@ const InputSection = ({
         <div className="small-12 columns">
           {items?.length &&
             uiSchema['ui:options'].itemName && (
-              <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0 vads-u-margin-top--2">
+              <h3 className="vads-u-font-size--h5 vads-u-margin-top--2">
                 {titlePrefix} {uiSchema['ui:options'].itemName}
               </h3>
             )}
@@ -158,8 +161,8 @@ const AddAnotherButton = ({
   uiOptions,
   handleAdd,
 }) => (
-  <>
-    <div className="add-item-container">
+  <div>
+    <div className="add-item-container" name="table_root_">
       <div className="add-item-link-section">
         <i className="fas fa-plus plus-icon" />
         <a
@@ -175,7 +178,7 @@ const AddAnotherButton = ({
       {addAnotherDisabled &&
         `You’ve entered the maximum number of items allowed.`}
     </p>
-  </>
+  </div>
 );
 
 const ItemLoop = ({
@@ -206,38 +209,16 @@ const ItemLoop = ({
   const [editing, setEditing] = useState([]);
   const [showTable, setShowTable] = useState(false);
 
-  useEffect(
-    () => {
-      // Throw an error if there’s no viewField (should be React component)
-      if (typeof uiSchema['ui:options'].viewField !== 'function') {
-        throw new Error(`No viewField found in uiSchema for ${idSchema.$id}.`);
-      }
-    },
-    [idSchema.$id, uiSchema],
-  );
-
-  useEffect(() => {
-    const editData = formData ? formData.map(() => false) : ['add'];
-    setEditing(editData);
-    setShowTable(editData.includes(false));
-
-    if (!formData) {
-      const initData = Array(schema.minItems).fill(
-        getDefaultFormState(
-          schema.additionalItems,
-          undefined,
-          registry.definitions,
-        ),
-      );
-      onChange(initData);
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   // use formData otherwise use an array with a single default object
   const items = formData?.length
     ? formData
     : [getDefaultFormState(schema, undefined, registry.definitions)];
   const addAnotherDisabled = items.length >= (schema.maxItems || Infinity);
+
+  // Throw an error if there’s no viewField (should be React component)
+  if (!isReactComponent(uiSchema['ui:options'].viewField)) {
+    throw new Error(`No viewField found in uiSchema for ${idSchema.$id}.`);
+  }
 
   const handleScroll = (id, offset) => {
     if (uiSchema['ui:options'].doNotScroll) return;
@@ -254,22 +235,16 @@ const ItemLoop = ({
     }, 100);
   };
 
-  const formatEditData = (index, edit) => {
-    return editing.map((item, i) => (index === i ? edit : item));
-  };
-
   const handleChange = (index, value) => {
     const newData = items.map((item, i) => (index === i ? value : item));
     onChange(newData);
   };
 
-  const handleEdit = (e, index) => {
-    const editData = formatEditData(index, true);
-
+  const handleEdit = index => {
+    const editData = editing.map((item, i) => index === i);
     if (editing.length === 1) {
       setShowTable(false);
     }
-
     setCache(items);
     setEditing(editData);
     handleScroll(`table_${idSchema.$id}_${index}`, 0);
@@ -277,7 +252,7 @@ const ItemLoop = ({
 
   const handleSave = (e, index) => {
     if (errorSchemaIsValid(errorSchema[index])) {
-      const editData = formatEditData(index, false);
+      const editData = editing.map(() => false);
       setEditing(editData);
       setShowTable(true);
       handleScroll(`table_${idSchema.$id}_${index}`, 0);
@@ -300,8 +275,8 @@ const ItemLoop = ({
       );
       const newFormData = [...items, defaultData];
       setCache(items);
-      setEditing([...editing, 'add']);
       onChange(newFormData);
+      setEditing([...editing, 'add']);
       handleScroll(`table_${idSchema.$id}_${lastIndex + 1}`, 0);
     } else {
       const touched = setArrayRecordTouched(idSchema.$id, lastIndex);
@@ -314,7 +289,6 @@ const ItemLoop = ({
   const handleCancel = index => {
     const lastIndex = items.length - 1;
     const isAdding = editing.includes('add');
-
     if (isAdding && lastIndex === index) {
       const editData = editing.filter(item => item !== 'add');
       const filtered = items.filter(item => {
@@ -323,7 +297,7 @@ const ItemLoop = ({
       setEditing(editData);
       onChange(filtered);
     } else {
-      const editData = formatEditData(index, false);
+      const editData = editing.map(() => false);
       setEditing(editData);
       onChange(cache);
     }
@@ -336,6 +310,29 @@ const ItemLoop = ({
     onChange(newItems);
     handleScroll(`topOfTable_${idSchema.$id}`, -60);
   };
+
+  useEffect(
+    () => {
+      const editData = formData
+        ? formData.map(item => Object.values(item).includes(undefined))
+        : ['add'];
+      setEditing(editData);
+      setShowTable(editData.includes(false));
+
+      if (!formData) {
+        const initData = Array(schema.minItems).fill(
+          getDefaultFormState(
+            schema.additionalItems,
+            undefined,
+            registry.definitions,
+          ),
+        );
+        onChange(initData);
+      }
+    },
+    // watch for changes to the page index when arrayPath is used
+    [formContext?.pagePerItemIndex], // eslint-disable-line react-hooks/exhaustive-deps
+  );
 
   const containerClassNames = classNames({
     'item-loop-container': true,
@@ -367,7 +364,11 @@ const ItemLoop = ({
                       {item}
                     </th>
                   ))}
-                  <th className="vads-u-border--0" width="50" />
+                  <th
+                    className="vads-u-border--0"
+                    width="50"
+                    aria-hidden="true"
+                  />
                 </tr>
               </thead>
             )}
@@ -409,7 +410,7 @@ const ItemLoop = ({
                     formData={item}
                     index={index}
                     title={title}
-                    onEdit={e => handleEdit(e, index)}
+                    onEdit={() => handleEdit(index)}
                   />
                 );
               })}
@@ -446,7 +447,7 @@ const ItemLoop = ({
                 formData={item}
                 index={index}
                 title={title}
-                onEdit={e => handleEdit(e, index)}
+                onEdit={() => handleEdit(index)}
               />
             );
           })

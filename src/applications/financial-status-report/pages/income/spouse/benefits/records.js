@@ -1,31 +1,38 @@
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import _ from 'lodash/fp';
+import { validateCurrency } from '../../../../utils/validations';
 
 export const uiSchema = {
   'ui:title': 'Your spouse information',
   benefits: {
     spouseBenefits: {
-      benefitAmount: _.merge(
-        currencyUI(
+      'ui:options': {
+        classNames: 'max-width-400',
+      },
+      benefitAmount: {
+        'ui:title':
           'How much does your spouse get each month for disability compensation and pension benefits?',
-        ),
-        {
-          'ui:options': {
-            widgetClassNames: 'input-size-3',
-          },
+        'ui:options': {
+          classNames: 'schemaform-currency-input',
+          widgetClassNames: 'input-size-3',
         },
-      ),
-      educationAmount: _.merge(
-        currencyUI(
+        'ui:errorMessages': {
+          required:
+            'Please enter your spouse’s VA compensation and pension benefits information.',
+        },
+        'ui:validations': [validateCurrency],
+      },
+      educationAmount: {
+        'ui:title':
           'How much does your spouse get each month for education benefits?',
-        ),
-        {
-          'ui:options': {
-            classNames: 'max-width-400',
-            widgetClassNames: 'input-size-3',
-          },
+        'ui:options': {
+          classNames: 'schemaform-currency-input',
+          widgetClassNames: 'input-size-3',
         },
-      ),
+        'ui:errorMessages': {
+          required:
+            'Please enter your spouse’s VA education benefits information.',
+        },
+        'ui:validations': [validateCurrency],
+      },
     },
   },
 };
@@ -40,10 +47,10 @@ export const schema = {
           required: ['benefitAmount', 'educationAmount'],
           properties: {
             benefitAmount: {
-              type: 'number',
+              type: 'string',
             },
             educationAmount: {
-              type: 'number',
+              type: 'string',
             },
           },
         },

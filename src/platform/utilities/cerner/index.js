@@ -31,7 +31,7 @@ export const CERNER_TEST_RESULTS_BLOCKLIST = ['757'];
 export const getCernerURL = path => {
   const host = environment.isProduction()
     ? 'https://patientportal.myhealth.va.gov'
-    : 'https://ehrm-va-test.patientportal.us.healtheintent.com';
+    : 'https://staging-patientportal.myhealth.va.gov';
 
   return `${host}/clear-session?to=${encodeURIComponent(`${host}${path}`)}`;
 };

@@ -1,22 +1,14 @@
-import path from 'path';
+import mockFacilityDataV1 from '../../constants/mock-facility-data-v1.json';
+import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 
 describe('Provider search', () => {
-  before(function() {
-    cy.syncFixtures({
-      constants: path.join(__dirname, '..', '..', 'constants'),
-    });
-  });
-
   beforeEach(() => {
-    cy.server();
-    cy.route('GET', '/v0/feature_toggles?*', []);
-    cy.route('GET', '/v0/maintenance_windows', []);
-    cy.route(
-      'GET',
-      '/v1/facilities/va?*',
-      'fx:constants/mock-facility-data-v1',
-    ).as('searchFacilities');
-    cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data');
+    cy.intercept('GET', '/v0/feature_toggles?*', []);
+    cy.intercept('GET', '/v0/maintenance_windows', []);
+    cy.intercept('GET', '/v1/facilities/va?*', mockFacilityDataV1).as(
+      'searchFacilities',
+    );
+    cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
   });
 
   it('finds community dentists', () => {
@@ -85,5 +77,24 @@ describe('Provider search', () => {
 
     cy.get('.facility-result h3').contains('MinuteClinic');
     cy.get('.va-pagination').should('not.exist');
+  });
+
+  it('finds In-network community emergency care', () => {
+    cy.visit('/find-locations');
+
+    cy.get('#street-city-state-zip').type('Austin');
+    cy.get('#facility-type-dropdown').select('Emergency care');
+    cy.get('#service-type-dropdown').select(
+      'In-network community emergency care',
+    );
+    cy.get('#facility-search').click({ waitForAnimations: true });
+    cy.get('#search-results-subheader').contains(
+      'Results for "Emergency Care", "In-network community emergency care" near "Austin, Texas"',
+    );
+    cy.get('.search-result-emergency-care-subheader').should('exist');
+    cy.get('.facility-result h3').contains('DELL SETON MEDICAL CENTER AT UT');
+
+    cy.injectAxe();
+    cy.axeCheck();
   });
 });

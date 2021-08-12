@@ -3,6 +3,7 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import { getCernerURL } from 'platform/utilities/cerner';
+import { externalRedirects } from 'platform/user/authentication/utilities';
 
 // Returns an AlertBox to present the user with info about working with the
 // Cerner facility they are enrolled at. Props allow you to edit a small amount
@@ -13,6 +14,7 @@ const CernerAlertBox = ({
   secondaryCtaButtonText,
   secondaryCtaButtonUrl,
   facilityNames,
+  level = 3,
 }) => {
   // Helper component that takes an array of facility names and a separator string and returns some JSX to style the list of facility names.
   const FacilityList = ({ facilities, separator }) => {
@@ -43,6 +45,7 @@ const CernerAlertBox = ({
     <AlertBox
       status="warning"
       headline="Your VA health care team may be using our new My VA Health portal"
+      level={level}
     >
       <h3>Our records show you’re registered at:</h3>
       <h4 className="vads-u-font-family--sans">
@@ -127,6 +130,22 @@ export const CernerPrescriptionsWidget = ({
         'web/myhealthevet/refill-prescriptions',
       )}
       facilityNames={facilityNames}
+    />
+  </div>
+);
+
+export const GeneralCernerWidget = ({
+  facilityNames,
+  authenticatedWithSSOe,
+}) => (
+  <div data-testid="cerner-widget">
+    <CernerAlertBox
+      facilityNames={facilityNames}
+      primaryCtaButtonUrl={externalRedirects.myvahealth}
+      primaryCtaText="Manage health care at:"
+      secondaryCtaButtonText="Go to My HealtheVet"
+      secondaryCtaButtonUrl={mhvUrl(authenticatedWithSSOe, 'home')}
+      level={2}
     />
   </div>
 );

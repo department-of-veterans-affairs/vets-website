@@ -1,63 +1,81 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 import SignatureInput from './SignatureInput';
+import recordEvent from 'platform/monitoring/record-event';
 
 const SignatureCheckbox = ({
   children,
   fullName,
   isRequired,
   label,
-  setSignature,
+  setSignatures,
+  setCheckBoxesSelected,
   showError,
-  globalFormState,
+  submission,
+  isRepresentative,
 }) => {
   const [hasError, setError] = useState(null);
-  const [isSigned, setIsSigned] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  const isSignatureComplete = isSigned && isChecked;
-  const hasSubmit = !!globalFormState.submission.status;
-  const createInputContent = inputLabel => `Enter ${inputLabel} full name`;
-
-  useEffect(
-    () => {
-      setSignature(prevState => {
-        return { ...prevState, [label]: isSignatureComplete };
-      });
-    },
-
-    [isSignatureComplete, label, setSignature],
-  );
+  const hasSubmittedForm = !!submission.status;
+  const representativeLabelId = isRepresentative
+    ? `${label}-signature-label`
+    : undefined;
 
   useEffect(
     () => {
       setError(showError);
 
-      if (isChecked === true || hasSubmit) setError(false);
+      setCheckBoxesSelected(prevState => {
+        return { ...prevState, [label]: isChecked };
+      });
+
+      if (isChecked === true || hasSubmittedForm) setError(false);
     },
-    [showError, setIsChecked, isChecked, hasSubmit],
+    [showError, isChecked, hasSubmittedForm, label, setCheckBoxesSelected],
   );
 
   return (
     <article
       data-testid={label}
-      className="vads-u-background-color--gray-lightest vads-u-padding-bottom--6 vads-u-padding-x--3 vads-u-padding-top--1px vads-u-margin-bottom--7"
+      className="signature-box vads-u-background-color--gray-lightest vads-u-padding-bottom--6 vads-u-padding-x--3 vads-u-padding-top--1px vads-u-margin-bottom--7"
     >
       {children && <header>{children}</header>}
 
-      <SignatureInput
-        setIsSigned={setIsSigned}
-        label={createInputContent(label)}
-        fullName={fullName}
-        required={isRequired}
-        showError={showError}
-        hasSubmit={hasSubmit}
-      />
+      <section>
+        <SignatureInput
+          ariaDescribedBy={representativeLabelId}
+          label={label}
+          fullName={fullName}
+          required={isRequired}
+          showError={showError}
+          hasSubmittedForm={hasSubmittedForm}
+          isRepresentative={isRepresentative}
+          setSignatures={setSignatures}
+          isChecked={isChecked}
+        />
+
+        {isRepresentative && (
+          <p className="on-behalf-representative" id={representativeLabelId}>
+            On behalf of
+            <strong className="vads-u-font-size--lg">
+              {fullName.first} {fullName.middle} {fullName.last}
+            </strong>
+          </p>
+        )}
+      </section>
 
       <Checkbox
-        onValueChange={value => setIsChecked(value)}
+        onValueChange={value => {
+          setIsChecked(value);
+          recordEvent({
+            'caregivers-poa-certification-checkbox-checked': value,
+            fullName,
+            label,
+            isRepresentative,
+          });
+        }}
         label="I certify the information above is correct and true to the best of my knowledge and belief."
         errorMessage={hasError && 'Must certify by checking box'}
         required={isRequired}
@@ -67,23 +85,18 @@ const SignatureCheckbox = ({
 };
 
 SignatureCheckbox.propTypes = {
-  children: PropTypes.any,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
   fullName: PropTypes.object.isRequired,
-  isRequired: PropTypes.bool,
   label: PropTypes.string.isRequired,
-  setSignature: PropTypes.func.isRequired,
+  setSignatures: PropTypes.func.isRequired,
+  setCheckBoxesSelected: PropTypes.func.isRequired,
   showError: PropTypes.bool.isRequired,
-  signatures: PropTypes.object.isRequired,
-  globalFormState: PropTypes.object.isRequired,
+  submission: PropTypes.object.isRequired,
+  isRequired: PropTypes.bool,
+  isRepresentative: PropTypes.bool,
 };
 
-const mapStateToProps = state => {
-  return {
-    globalFormState: state.form,
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  null,
-)(SignatureCheckbox);
+export default SignatureCheckbox;

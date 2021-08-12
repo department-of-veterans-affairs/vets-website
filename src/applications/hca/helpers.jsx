@@ -27,6 +27,7 @@ export {
 
 // clean address so we only get address related properties then return the object
 const cleanAddressObject = address => {
+  if (!address) return null;
   // take the address data we want from profile
   const {
     addressLine1,
@@ -82,6 +83,14 @@ export function prefillTransformer(pages, formData, metadata, state) {
     ...newData,
     'view:doesMailingMatchHomeAddress': doesAddressMatch,
   };
+
+  // if either of the addresses are not present we should not fill the yes/no comparison since it will always be false
+  if (!cleanedMailingAddress || !cleanedResidentialAddress) {
+    newData = {
+      ...newData,
+      'view:doesMailingMatchHomeAddress': undefined,
+    };
+  }
 
   // if residentialAddress && addresses are not the same auto fill mailing address
   if (residentialAddress && !doesAddressMatch) {
@@ -267,6 +276,7 @@ export const lastServiceBranchLabels = {
   'merchant seaman': 'Merchant Seaman',
   navy: 'Navy',
   noaa: 'Noaa',
+  'space force': 'Space Force',
   usphs: 'USPHS',
   'f.commonwealth': 'Filipino Commonwealth Army',
   'f.guerilla': 'Filipino Guerilla Forces',
@@ -489,26 +499,26 @@ export const isEssentialAcaCoverageDescription = (
   </div>
 );
 export const medicaidDescription = (
-  <div>
-    <div className="hca-tooltip-wrapper">
-      <AdditionalInfo triggerText="Learn more about Medicaid.">
-        Medicaid is a government health program for eligible low-income
-        individuals and families and people with disabilities.
-      </AdditionalInfo>
-    </div>
-  </div>
+  <section className="vads-u-margin-bottom--3">
+    <p>
+      Medicaid is a federal health insurance program for adults and families
+      with low income levels and people with disabilities.
+    </p>
+    <p>
+      <strong>Note:</strong> Some states use different names for their Medicaid
+      programs.
+    </p>
+  </section>
 );
 export const medicarePartADescription = (
-  <div>
-    <div className="hca-tooltip-wrapper">
-      <AdditionalInfo triggerText="Learn more about Medicare Part A insurance.">
-        Medicare is a federal health insurance program providing coverage for
-        people who are 65 years or older or who meet who meet special criteria.
-        Part A insurance covers hospital care, skilled nursing and nursing home
-        care, hospice, and home health services.
-      </AdditionalInfo>
-    </div>
-  </div>
+  <section className="vads-u-margin-bottom--3">
+    <p>
+      Medicare is a federal health insurance program providing coverage for
+      people who are 65 years or older or who meet who meet special criteria.
+      Part A insurance covers hospital care, skilled nursing and nursing home
+      care, hospice, and home health services.
+    </p>
+  </section>
 );
 
 export const idFormSchema = {

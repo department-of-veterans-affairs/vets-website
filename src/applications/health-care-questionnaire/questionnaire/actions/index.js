@@ -8,6 +8,6 @@ export const questionnaireAppointmentLoading = () => {
   return { type: QUESTIONNAIRE_APPOINTMENT_LOADING };
 };
 
-export const questionnaireAppointmentLoaded = appointment => {
-  return { type: QUESTIONNAIRE_APPOINTMENT_LOADED, appointment };
+export const questionnaireAppointmentLoaded = payload => {
+  return { type: QUESTIONNAIRE_APPOINTMENT_LOADED, payload };
 };

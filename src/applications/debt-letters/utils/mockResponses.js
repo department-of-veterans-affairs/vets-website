@@ -1,8 +1,8 @@
-const data = {
-  hasDependentDebts: true,
+const mockDebt = {
+  hasDependentDebts: false,
   debts: [
     {
-      fileNumber: 796121200,
+      fileNumber: '796121200',
       payeeNumber: '00',
       personEntitled: 'AJHONS',
       deductionCode: '30',
@@ -33,7 +33,7 @@ const data = {
       ],
     },
     {
-      fileNumber: 796121200,
+      fileNumber: '796121200',
       payeeNumber: '00',
       personEntitled: 'STUB_M',
       deductionCode: '44',
@@ -80,7 +80,7 @@ const data = {
       ],
     },
     {
-      fileNumber: 796121200,
+      fileNumber: '796121200',
       payeeNumber: '00',
       personEntitled: 'AJOHNS',
       deductionCode: '71',
@@ -100,7 +100,7 @@ const data = {
       ],
     },
     {
-      fileNumber: 796121200,
+      fileNumber: '796121200',
       payeeNumber: '00',
       personEntitled: 'AJOHNS',
       deductionCode: '74',
@@ -135,7 +135,7 @@ const data = {
       ],
     },
     {
-      fileNumber: 796121200,
+      fileNumber: '796121200',
       payeeNumber: '00',
       personEntitled: 'AJHONS',
       deductionCode: '72',
@@ -162,7 +162,7 @@ const data = {
   ],
 };
 
-const debtLettersVBMS = [
+const mockDebtVBMS = [
   {
     documentId: '{64B0BDC4-D40C-4C54-86E0-104C987B8D8F}',
     docType: '1213',
@@ -197,8 +197,8 @@ function asyncReturn(returnValue, delay = 300) {
   });
 }
 
-export const debtLettersSuccess = () => asyncReturn(data);
-export const debtLettersSuccessVBMS = () => asyncReturn(debtLettersVBMS);
+export const debtMockResponse = () => asyncReturn(mockDebt);
+export const debtMockResponseVBMS = () => asyncReturn(mockDebtVBMS);
 
 export const debtLettersFailure = () =>
   asyncReturn(

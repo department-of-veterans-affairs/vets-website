@@ -1,14 +1,14 @@
 import React from 'react';
 import ItemLoop from '../../../components/ItemLoop';
 import TableDetailsView from '../../../components/TableDetailsView';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import CustomReviewField from '../../../components/CustomReviewField';
+import { validateCurrency } from '../../../utils/validations';
 import Typeahead from '../../../components/Typeahead';
 import {
   formatOptions,
   expenseTypes,
 } from '../../../constants/typeaheadOptions';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import _ from 'lodash/fp';
 
 const AssetInfo = (
   <AdditionalInfo triggerText="What counts as an expense?">
@@ -20,38 +20,52 @@ const AssetInfo = (
 
 export const uiSchema = {
   'ui:title': 'Other living expenses',
+  'ui:description':
+    'Enter each expense separately below. For each, include an estimate of how much you pay for that expense each month.',
   otherExpenses: {
     'ui:field': ItemLoop,
-    'ui:description':
-      'Enter each expense separately below. For each, include an estimate of how much you pay for that expense each month.',
     'ui:options': {
       viewType: 'table',
       viewField: TableDetailsView,
       doNotScroll: true,
       showSave: true,
       itemName: 'an expense',
+      keepInPageOnReview: true,
     },
     items: {
       'ui:options': {
-        classNames: 'horizonal-field-container no-wrap',
+        classNames: 'horizontal-field-container no-wrap',
       },
-      expenseType: {
+      name: {
         'ui:title': 'Type of expense',
         'ui:field': Typeahead,
+        'ui:reviewField': CustomReviewField,
         'ui:options': {
-          classNames: 'input-size-3',
+          idPrefix: 'other_expenses',
+          widgetClassNames: 'input-size-3',
           getOptions: () => formatOptions(expenseTypes),
         },
+        'ui:errorMessages': {
+          required: 'Please enter a type of expense.',
+        },
       },
-      expenseAmount: _.merge(currencyUI('Estimated cost each month'), {
+      amount: {
+        'ui:title': 'Estimated cost each month',
         'ui:options': {
+          classNames: 'schemaform-currency-input',
           widgetClassNames: 'input-size-1',
         },
-      }),
+        'ui:errorMessages': {
+          required: 'Please enter the monthly payment amount owed.',
+        },
+        'ui:validations': [validateCurrency],
+      },
     },
   },
-  'view:assetInfo': {
-    'ui:description': AssetInfo,
+  'view:components': {
+    'view:assetInfo': {
+      'ui:description': AssetInfo,
+    },
   },
 };
 export const schema = {
@@ -61,21 +75,25 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
-        title: 'Expense',
-        required: ['expenseType', 'expenseAmount'],
+        required: ['name', 'amount'],
         properties: {
-          expenseType: {
+          name: {
             type: 'string',
           },
-          expenseAmount: {
-            type: 'number',
+          amount: {
+            type: 'string',
           },
         },
       },
     },
-    'view:assetInfo': {
+    'view:components': {
       type: 'object',
-      properties: {},
+      properties: {
+        'view:assetInfo': {
+          type: 'object',
+          properties: {},
+        },
+      },
     },
   },
 };

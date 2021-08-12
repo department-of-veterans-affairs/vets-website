@@ -1,0 +1,9 @@
+{
+  "data": {
+    "id": "123456789",
+    "type": "noticeOfDisagreement",
+    "attributes": {
+      "status": "processed"
+    }
+  }
+}

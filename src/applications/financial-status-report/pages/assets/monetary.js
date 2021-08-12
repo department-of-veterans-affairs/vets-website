@@ -1,6 +1,5 @@
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import _ from 'lodash/fp';
 import React from 'react';
+import { validateCurrency } from '../../utils/validations';
 
 export const uiSchema = {
   'ui:title': 'Your household assets',
@@ -10,70 +9,82 @@ export const uiSchema = {
       for you and your spouse. If you don’t have any of these items, answer “0”.
     </div>
   ),
-  householdAssets: {
+  assets: {
     'ui:options': {
       classNames: 'no-wrap',
     },
-    checkingAndSavings: _.merge(
-      currencyUI(
+
+    cashInBank: {
+      'ui:title':
         'How much money do you have in checking and savings accounts?',
-      ),
-      {
-        'ui:options': {
-          widgetClassNames: 'input-size-3',
-        },
+      'ui:options': {
+        classNames: 'schemaform-currency-input',
+        widgetClassNames: 'input-size-3',
       },
-    ),
-    availableAssets: _.merge(
-      currencyUI('How much other cash do you have access to at this time?'),
-      {
-        'ui:options': {
-          widgetClassNames: 'input-size-3',
-        },
+      'ui:errorMessages': {
+        required: 'Please enter your financial information.',
       },
-    ),
-    savingsBonds: _.merge(
-      currencyUI('What’s the current value of your U.S. Savings Bonds?'),
-      {
-        'ui:options': {
-          widgetClassNames: 'input-size-3',
-        },
+      'ui:validations': [validateCurrency],
+    },
+    cashOnHand: {
+      'ui:title': 'How much other cash do you have access to at this time?',
+      'ui:options': {
+        classNames: 'schemaform-currency-input',
+        widgetClassNames: 'input-size-3',
       },
-    ),
-    stocksAndOtherBonds: _.merge(
-      currencyUI('What’s the current value of your stocks and other bonds?'),
-      {
-        'ui:options': {
-          widgetClassNames: 'input-size-3',
-        },
+      'ui:errorMessages': {
+        required: 'Please enter your financial information.',
       },
-    ),
+      'ui:validations': [validateCurrency],
+    },
+    usSavingsBonds: {
+      'ui:title': 'What’s the current value of your U.S. Savings Bonds?',
+      'ui:options': {
+        classNames: 'schemaform-currency-input',
+        widgetClassNames: 'input-size-3',
+      },
+      'ui:errorMessages': {
+        required: 'Please enter your financial information.',
+      },
+      'ui:validations': [validateCurrency],
+    },
+    stocksAndOtherBonds: {
+      'ui:title': 'What’s the current value of your stocks and other bonds?',
+      'ui:options': {
+        classNames: 'schemaform-currency-input',
+        widgetClassNames: 'input-size-3',
+      },
+      'ui:errorMessages': {
+        required: 'Please enter your financial information.',
+      },
+      'ui:validations': [validateCurrency],
+    },
   },
 };
 
 export const schema = {
   type: 'object',
   properties: {
-    householdAssets: {
+    assets: {
       type: 'object',
       required: [
-        'checkingAndSavings',
-        'availableAssets',
-        'savingsBonds',
+        'cashInBank',
+        'cashOnHand',
+        'usSavingsBonds',
         'stocksAndOtherBonds',
       ],
       properties: {
-        checkingAndSavings: {
-          type: 'number',
+        cashInBank: {
+          type: 'string',
         },
-        availableAssets: {
-          type: 'number',
+        cashOnHand: {
+          type: 'string',
         },
-        savingsBonds: {
-          type: 'number',
+        usSavingsBonds: {
+          type: 'string',
         },
         stocksAndOtherBonds: {
-          type: 'number',
+          type: 'string',
         },
       },
     },

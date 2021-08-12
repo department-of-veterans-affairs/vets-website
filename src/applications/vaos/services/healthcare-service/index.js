@@ -3,51 +3,58 @@
  */
 import { getAvailableClinics } from '../var';
 import { transformAvailableClinics } from './transformers';
-import { fhirSearch, mapToFHIRErrors } from '../utils';
+import { mapToFHIRErrors } from '../utils';
 import { getSupportedLocationsByTypeOfCare } from '../location';
+import { getClinics } from '../vaos';
+import { transformClinicsV2 } from './transformers.v2';
 
 /**
  * Method to get available HealthcareService objects.
  *
  * @param {Object} params
  * @param {string} params.facilityId The VistA facility id
- * @param {string} params.typeOfCareId An id for the type of care to check for the chosen organization
+ * @param {TypeOfCare} params.typeOfCare The type of care to check for the chosen organization
  * @param {string} params.systemId The VistA 3 digit site id
- * @param {boolean} params.useVSP A flag that determines whether or not to use the new VSP apis
  *
  * @returns {Array<HealthCareService>} An a collection of HealthcareService objects.
  */
 export async function getAvailableHealthcareServices({
   facilityId,
-  typeOfCareId,
+  typeOfCare,
   systemId,
-  useVSP,
+  useV2 = false,
 }) {
-  if (useVSP) {
-    return fhirSearch({
-      query:
-        `HealthcareService?location:Location.identifier=${facilityId}` +
-        '&characteristic=PATIENTDS_ENABLED',
-    });
-  } else {
-    try {
-      const clinics = await getAvailableClinics(
+  try {
+    let clinics = null;
+    if (useV2) {
+      const clinicData = await getClinics({
+        locationId: facilityId,
+        typeOfCareId: typeOfCare.idV2,
+      });
+      clinics = transformClinicsV2(clinicData);
+    } else {
+      const clinicData = await getAvailableClinics(
         facilityId,
-        typeOfCareId,
+        typeOfCare.id,
         systemId,
       );
-
-      return transformAvailableClinics(facilityId, typeOfCareId, clinics).sort(
-        (a, b) =>
-          a.serviceName.toUpperCase() < b.serviceName.toUpperCase() ? -1 : 1,
+      clinics = transformAvailableClinics(
+        facilityId,
+        typeOfCare.id,
+        clinicData,
       );
-    } catch (e) {
-      if (e.errors) {
-        throw mapToFHIRErrors(e.errors);
-      }
-
-      throw e;
     }
+
+    return clinics.sort(
+      (a, b) =>
+        a.serviceName.toUpperCase() < b.serviceName.toUpperCase() ? -1 : 1,
+    );
+  } catch (e) {
+    if (e.errors) {
+      throw mapToFHIRErrors(e.errors);
+    }
+
+    throw e;
   }
 }
 
@@ -60,34 +67,62 @@ export async function getAvailableHealthcareServices({
  * @param {string} locationParams.siteId The VistA site id of the services being pulled
  * @param {string} locationParams.parentId An id for the parent organization of the facilities being pulled
  * @param {string} locationParams.typeOfCareId An id for the type of care to check for the chosen organization
- * @returns {Object} An object with an array of Location resources in locations and an array of HealthcareService
- *   resources in healthcareServices (only populated when useVSP is true)
+ * @returns {Array<Location>} An array of Location resources
  */
 export async function getSupportedHealthcareServicesAndLocations({
   siteId,
   parentId,
   typeOfCareId,
-  useVSP,
 }) {
-  let results;
-  if (!useVSP) {
-    results = await getSupportedLocationsByTypeOfCare({
-      siteId,
-      parentId,
-      typeOfCareId,
-    });
-  } else {
-    results = await fhirSearch({
-      query:
-        `HealthcareService?organization:Organization.identifier=${siteId}` +
-        '&characteristic=PATIENTDS_ENABLED&_include=HealthcareService:location',
-    });
-  }
+  const results = await getSupportedLocationsByTypeOfCare({
+    siteId,
+    parentId,
+    typeOfCareId,
+  });
 
-  return {
-    locations: results.filter(item => item.resourceType === 'Location'),
-    healthcareServices: useVSP
-      ? results.filter(item => item.resourceType === 'HealthcareService')
-      : null,
-  };
+  return results.filter(item => item.resourceType === 'Location');
+}
+/**
+ * Fetches a single clinic based on the id provided from the v2 endpoints
+ *
+ * @export
+ * @param {Object} params
+ * @param {string} params.locationId The location or facility id of the clinic
+ * @param {string} params.id The clinic id
+ */
+export async function fetchHealthcareServiceById({ locationId, id }) {
+  try {
+    const results = await getClinics({
+      locationId,
+      clinicIds: [id],
+    });
+
+    return transformClinicsV2(results)[0];
+  } catch (e) {
+    if (e.errors) {
+      throw mapToFHIRErrors(e.errors);
+    }
+
+    throw e;
+  }
+}
+
+/**
+ * Method to get the clinic id.
+ *
+ * @param {HealthCareService} clinic
+ * @returns {string} The clinic id or empty string.
+ */
+export function getClinicId(clinic) {
+  return clinic.id.split('_')[1];
+}
+
+/**
+ * Method to get the site code.
+ *
+ * @param {Object} clinic
+ * @returns {String} The clinic site code or empty string.
+ */
+export function getSiteCode(clinic) {
+  return clinic.id.split('_')[0];
 }

@@ -1,49 +1,56 @@
 import React from 'react';
-import FinancialHardshipExplanation from '../../components/FinancialHardshipExplanation';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-
-const ResolutionInfo = (
-  <AdditionalInfo triggerText="Why do I need to share this information?">
-    We want to fully understand your situation so we can make the best decision
-    on your request. You can share any details that you think we should know
-    about why it's hard for you or your family to repay this debt.
-  </AdditionalInfo>
-);
 
 export const uiSchema = {
   'ui:title': 'Supporting personal statement',
-  'view:financialHardshipExplanation': {
-    'ui:field': FinancialHardshipExplanation,
-  },
-  'view:resolutionOptionsInfo': {
-    'ui:description': ResolutionInfo,
-  },
-  resolutionComments: {
-    'ui:title': ' ',
-    'ui:widget': 'textarea',
-    'ui:required': formData =>
-      formData.fsrDebts.some(
-        debt => debt.resolution?.resolutionType === 'Waiver',
-      ),
+  additionalData: {
     'ui:options': {
-      rows: 5,
-      maxLength: 32000,
+      customTitle: ' ',
+    },
+    additionalComments: {
+      'ui:title': 'Please tell us more about why you need help with this debt',
+      'ui:description': (
+        <AdditionalInfo triggerText="Why do I need to share this information?">
+          We want to fully understand your situation so we can make the best
+          decision on your request. You can share any details that you think we
+          should know about why it's hard for you or your family to repay this
+          debt.
+        </AdditionalInfo>
+      ),
+      'ui:reviewField': ({
+        children: {
+          props: { formData },
+        },
+      }) => (
+        <div className="review-row">
+          <div>{formData}</div>
+        </div>
+      ),
+      'ui:widget': 'textarea',
+      'ui:required': formData =>
+        formData.selectedDebts?.some(
+          debt => debt.resolution?.resolutionType === 'Waiver',
+        ),
+      'ui:options': {
+        rows: 5,
+        maxLength: 32000,
+        customTitle: ' ',
+        classNames: 'resolution-comments',
+      },
     },
   },
 };
+
 export const schema = {
   type: 'object',
   properties: {
-    'view:financialHardshipExplanation': {
+    additionalData: {
       type: 'object',
-      properties: {},
-    },
-    'view:resolutionOptionsInfo': {
-      type: 'object',
-      properties: {},
-    },
-    resolutionComments: {
-      type: 'string',
+      properties: {
+        additionalComments: {
+          type: 'string',
+        },
+      },
     },
   },
 };

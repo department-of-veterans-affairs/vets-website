@@ -15,6 +15,7 @@ const IdentityNotVerified = ({
     </p>
   ),
   additionalInfoClickHandler = null,
+  level = 3,
 }) => {
   const content = (
     <>
@@ -29,14 +30,19 @@ const IdentityNotVerified = ({
         onClick={() => recordEvent({ event: 'verify-link-clicked' })}
       >
         <img alt="ID.me" src="/img/signin/idme-icon-white.svg" />
-        <strong>Verify my identity</strong>
+        <strong>Verify your identity</strong>
       </a>
     </>
   );
 
   return (
     <>
-      <AlertBox headline={alertHeadline} content={content} status="warning" />
+      <AlertBox
+        headline={alertHeadline}
+        content={content}
+        status="warning"
+        level={level}
+      />
       <div
         className="account-security-content vads-u-margin--2p5"
         onClick={additionalInfoClickHandler}

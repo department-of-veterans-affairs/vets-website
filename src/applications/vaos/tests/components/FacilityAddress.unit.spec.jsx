@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
+import { stateNames } from '../../components/State';
 
 import FacilityAddress from '../../components/FacilityAddress';
 
@@ -28,7 +29,9 @@ describe('VAOS <FacilityAddress>', () => {
 
     expect(screen.getByText(new RegExp(`${address.line[0]}`))).to.exist;
     expect(screen.baseElement).to.contain.text(
-      `${address.city}, ${address.state} ${address.postalCode}`,
+      `${address.city}, ${stateNames[address.state]}${address.state} ${
+        address.postalCode
+      }`,
     );
     expect(screen.getByRole('link', { name: '8 5 8. 6 8 9. 2 2 4 1.' })).to
       .exist;
@@ -44,11 +47,40 @@ describe('VAOS <FacilityAddress>', () => {
 
     expect(screen.getByText(new RegExp(`${address.line[0]}`))).to.exist;
     expect(screen.baseElement).to.contain.text(
-      `${address.city}, ${address.state} ${address.postalCode}`,
+      `${address.city}, ${stateNames[address.state]}${address.state} ${
+        address.postalCode
+      }`,
     );
     expect(screen.getByRole('link', { name: '8 5 8. 6 8 9. 2 2 4 1.' })).to
       .exist;
 
     expect(screen.getByText(/^Directions/)).to.exist;
+  });
+
+  it('should render COVID vaccine phone line for va facility', () => {
+    const address = facility.address;
+    const facilityWithCovidLine = {
+      ...facility,
+      telecom: [
+        {
+          system: 'covid',
+          value: '858-689-2222',
+        },
+      ],
+    };
+    const screen = render(
+      <FacilityAddress facility={facilityWithCovidLine} showCovidPhone />,
+    );
+
+    expect(screen.getByText(new RegExp(`${address.line[0]}`))).to.exist;
+    expect(screen.baseElement).to.contain.text(
+      `${address.city}, ${stateNames[address.state]}${address.state} ${
+        address.postalCode
+      }`,
+    );
+    expect(screen.getByRole('link', { name: '8 5 8. 6 8 9. 2 2 2 2.' })).to
+      .exist;
+
+    expect(screen.queryByText('Directions')).not.to.exist;
   });
 });

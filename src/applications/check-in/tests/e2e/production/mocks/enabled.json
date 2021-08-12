@@ -1,0 +1,11 @@
+{
+  "data":{
+     "type":"feature_toggles",
+     "features":[
+        {
+           "name":"check_in_experience_enabled",
+           "value":true
+        }
+     ]
+  }
+}

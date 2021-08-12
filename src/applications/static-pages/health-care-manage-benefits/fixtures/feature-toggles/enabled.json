@@ -99,10 +99,6 @@
         "value": true
       },
       {
-        "name": "form526OriginalClaims",
-        "value": true
-      },
-      {
         "name": "vaViewDependentsAccess",
         "value": true
       },
@@ -128,10 +124,6 @@
       },
       {
         "name": "gibctCh33BenefitRateUpdate",
-        "value": true
-      },
-      {
-        "name": "form526BenefitsDeliveryAtDischarge",
         "value": true
       },
       {

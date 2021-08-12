@@ -65,10 +65,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     expect(
       tree
-        .find('.saved-form-item-metadata')
+        .find('.usa-alert-heading')
         .last()
         .text(),
-    ).to.include(moment.unix(946684800).format('M/D/YYYY [at] h:mm a'));
+    ).to.include(moment.unix(946684800).format('MMMM D, YYYY [at] h:mm a'));
 
     expect(tree.find('.usa-alert').text()).to.contain(
       'Your application is in progress',
@@ -80,6 +80,47 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     expect(
       tree.find('withRouter(FormStartControls)').props().startPage,
     ).to.equal('testing');
+    tree.unmount();
+  });
+  it('should render in progress message with header', () => {
+    const user = {
+      profile: {
+        savedForms: [
+          {
+            form: VA_FORM_IDS.FORM_10_10EZ,
+            metadata: {
+              lastUpdated: 946684800,
+              expiresAt: moment().unix() + 2000,
+            },
+          },
+        ],
+        prefillsAvailable: [],
+      },
+      login: {
+        currentlyLoggedIn: true,
+        loginUrls: {
+          idme: '/mockLoginUrl',
+        },
+      },
+    };
+
+    const tree = shallow(
+      <SaveInProgressIntro
+        saveInProgress={{ formData: {} }}
+        pageList={pageList}
+        formId="1010ez"
+        user={user}
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
+        headingLevel={1}
+      />,
+    );
+
+    expect(tree.find('.usa-alert-heading').text()).to.contain(
+      'Your application is in progress',
+    );
     tree.unmount();
   });
   it('should pass prefills available prop', () => {
@@ -455,6 +496,44 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     tree.unmount();
   });
 
+  it('should render a different heading level when passed in as a prop', () => {
+    const user = {
+      profile: {
+        savedForms: [
+          {
+            form: VA_FORM_IDS.FORM_10_10EZ,
+            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+          },
+        ],
+        prefillsAvailable: [],
+      },
+      login: {
+        currentlyLoggedIn: true,
+        loginUrls: {
+          idme: '/mockLoginUrl',
+        },
+      },
+    };
+
+    const tree = shallow(
+      <SaveInProgressIntro
+        downtime={{}}
+        saveInProgress={{ formData: {} }}
+        pageList={pageList}
+        formId="1010ez"
+        user={user}
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
+        headingLevel={1}
+      />,
+    );
+
+    expect(tree.find('h1').exists()).to.be.true;
+    tree.unmount();
+  });
+
   it('should not render downtime notification when logged in', () => {
     const user = {
       profile: {
@@ -649,8 +728,8 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         formConfig={emptyMessageConfig}
       />,
     );
-    expect(tree.find('.saved-form-item-metadata')).to.have.lengthOf(1);
-    expect(tree.find('.saved-form-metadata-container').text()).to.not.contain(
+    expect(tree.find('.usa-alert-heading')).to.have.lengthOf(1);
+    expect(tree.find('.usa-alert-heading').text()).to.not.contain(
       'Your application is in progress',
     );
 

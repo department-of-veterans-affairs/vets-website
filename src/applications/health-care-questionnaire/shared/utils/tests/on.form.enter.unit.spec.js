@@ -22,10 +22,17 @@ describe('health care questionnaire -- utils -- form enter routing based on id',
   });
   it('no form id is supplied -- should call replace with the questionnaire list ', () => {
     const replace = sinon.spy();
+    const notCalled = sinon.spy();
+    const window = {
+      location: {
+        replace,
+      },
+    };
     const formId = null;
-    const onEnter = onFormEnter(formId);
+    const onEnter = onFormEnter(formId, window);
     expect(onEnter).to.be.a('function');
-    onEnter(nextState, replace);
+    onEnter(nextState, notCalled);
+    expect(notCalled.called).to.be.false;
     expect(replace.called).to.be.true;
     expect(
       replace.calledWith(`/health-care/health-questionnaires/questionnaires`),

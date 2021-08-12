@@ -24,7 +24,7 @@ describe('Chapter 31 veteran information', () => {
         definitions={formConfig.defaultDefinitions}
       />,
     );
-    expect(form.find('input').length).to.equal(6);
+    expect(form.find('input').length).to.equal(4);
     form.unmount();
   });
 
@@ -40,7 +40,6 @@ describe('Chapter 31 veteran information', () => {
     );
     fillData(form, 'input#root_veteranInformation_fullName_first', 'John');
     fillData(form, 'input#root_veteranInformation_fullName_last', 'Doe');
-    fillData(form, 'input#root_veteranInformation_ssn', '123121234');
     changeDropdown(form, '#root_veteranInformation_dobMonth', 1);
     changeDropdown(form, '#root_veteranInformation_dobDay', 1);
     fillData(form, 'input#root_veteranInformation_dobYear', 1991);
@@ -61,7 +60,7 @@ describe('Chapter 31 veteran information', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(4);
+    expect(form.find('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });

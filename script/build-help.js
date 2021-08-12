@@ -30,12 +30,6 @@ const helpSections = [
           'Specify a different host. Use with --env.public to serve the website to your local network.\nE.g. {bold 0.0.0.0}',
       },
       {
-        name: 'env.omitdebug',
-        type: Boolean,
-        description:
-          'Prevent debug output from reaching the DOM, this is useful when needing to compare HTML output versions',
-      },
-      {
         name: 'env.port',
         typeLabel: '{underline number}',
         description: 'Run on a specific port. Defaults to {bold 3001}.',
@@ -64,12 +58,7 @@ const helpSections = [
     header: 'Pro tips',
     content: [
       {
-        desc:
-          "1. Build the static HTML pages once before running the webpack-dev-server to see your application's landing page as it would appear on VA.gov.",
-        example: '$ yarn build:content',
-      },
-      {
-        desc: '2. Serve the website to devices on your local network',
+        desc: '1. Serve the website to devices on your local network',
         example: '$ yarn watch --env.host 0.0.0.0 --env.public 192.168.0.111',
       },
     ],

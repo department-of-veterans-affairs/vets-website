@@ -1,20 +1,23 @@
 export const uiSchema = {
   'ui:title': 'Your other income',
-  socialSecurity: {
-    hasSocialSecurityPayments: {
+  questions: {
+    hasSocialSecurity: {
       'ui:title': 'Do you get Social Security payments?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
+      'ui:errorMessages': {
+        required: 'Please enter your Social Security benefits information.',
+      },
     },
   },
 };
 export const schema = {
   type: 'object',
   properties: {
-    socialSecurity: {
+    questions: {
       type: 'object',
       properties: {
-        hasSocialSecurityPayments: {
+        hasSocialSecurity: {
           type: 'boolean',
         },
       },

@@ -1,18 +1,20 @@
+import React from 'react';
 import AvailableDebts from '../../components/AvailableDebts';
 
 export const uiSchema = {
-  'ui:field': AvailableDebts,
-  fsrDebts: {
-    items: {
-      fileNumber: {
-        'ui:title': 'File number',
-      },
-      benefitType: {
-        'ui:title': 'Benefit type',
-      },
-      diaryCodeDescription: {
-        'ui:title': 'Description',
-      },
+  availableDebts: {
+    'ui:title': (
+      <span className="vads-u-font-size--h4 vads-u-font-weight--bold vads-u-font-family--sans">
+        What debt do you need help with?
+      </span>
+    ),
+    'ui:widget': AvailableDebts,
+    'ui:required': ({ selectedDebts }) => !selectedDebts.length,
+    'ui:options': {
+      hideOnReview: true,
+    },
+    'ui:errorMessages': {
+      required: 'Please select at least one debt.',
     },
   },
 };
@@ -20,24 +22,8 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    fsrDebts: {
-      type: 'array',
-      minItems: 0,
-      items: {
-        type: 'object',
-        title: 'Debt',
-        properties: {
-          fileNumber: {
-            type: 'number',
-          },
-          benefitType: {
-            type: 'string',
-          },
-          diaryCodeDescription: {
-            type: 'string',
-          },
-        },
-      },
+    availableDebts: {
+      type: 'boolean',
     },
   },
 };

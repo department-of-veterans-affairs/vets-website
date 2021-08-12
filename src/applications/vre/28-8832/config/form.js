@@ -7,7 +7,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { statusSelection } from './chapters/status-selection';
 import { veteranInformation } from './chapters/veteran-information';
-import GetFormHelp from '../components/GetFormHelp';
+import GetFormHelp from '../../components/GetFormHelp';
 import PreSubmitInfo from '../components/PreSubmitInfo';
 
 import {
@@ -29,6 +29,9 @@ const formConfig = {
   transformForSubmit: transform,
   formId: VA_FORM_IDS.FORM_28_8832,
   wizardStorageKey: WIZARD_STATUS,
+  customText: {
+    appContinuing: 'for planning and career guidance',
+  },
   saveInProgress: {
     messages: {
       inProgress:

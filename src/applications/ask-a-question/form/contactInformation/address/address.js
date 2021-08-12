@@ -378,7 +378,7 @@ export function uiSchema(
       },
     },
     street: {
-      'ui:title': 'Street',
+      'ui:title': 'Street address',
       'ui:errorMessages': {
         required: streetErrorMessage,
       },

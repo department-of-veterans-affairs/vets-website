@@ -1,7 +1,7 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
-import { benefitTypes } from '../direct-deposit/DirectDepositV2';
+import { benefitTypes } from '../direct-deposit/DirectDeposit';
 
 const DirectDepositConnectionError = ({ benefitType }) => {
   let headline;

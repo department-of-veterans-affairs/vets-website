@@ -16,6 +16,7 @@ import {
   getPtsdChangeText,
   setActionTypes,
   filterServicePeriods,
+  cleanUpPersonsInvolved,
 } from '../submit-transformer';
 
 import maximalData from './fixtures/data/maximal-test.json';
@@ -283,4 +284,64 @@ describe('remove unreferenced reservedNationGuardService', () => {
   const processedServiceInfo = filterServicePeriods(formData);
   expect(processedServiceInfo.serviceInformation.reservesNationalGuardService)
     .to.be.undefined;
+});
+
+describe('cleanUpPersonsInvolved', () => {
+  it('should add injuryDeath and injuryDeathOther to empty entry', () => {
+    const incident = {
+      personsInvolved: [{ name: {}, 'view:individualAddMsg': {} }],
+    };
+    expect(cleanUpPersonsInvolved(incident)).to.deep.equal({
+      personsInvolved: [
+        {
+          name: {},
+          'view:individualAddMsg': {},
+          injuryDeath: 'other',
+          injuryDeathOther: 'Entry left blank',
+        },
+      ],
+    });
+  });
+  it('should only modify empty entries', () => {
+    const person = {
+      name: {
+        first: 'First',
+        middle: 'Person',
+        last: 'Name',
+      },
+      injuryDeath: 'killedInAction',
+      injuryDeathDate: '1900-01-01',
+      description: 'Description.',
+      'view:serviceMember': false,
+      'view:individualAddMsg': {},
+    };
+    const incident = {
+      personsInvolved: [
+        person,
+        {
+          name: {},
+          'view:individualAddMsg': {},
+        },
+        {
+          injuryDeath: 'other',
+          description: 'should not change',
+        },
+      ],
+    };
+    expect(cleanUpPersonsInvolved(incident)).to.deep.equal({
+      personsInvolved: [
+        person,
+        {
+          name: {},
+          'view:individualAddMsg': {},
+          injuryDeath: 'other',
+          injuryDeathOther: 'Entry left blank',
+        },
+        {
+          injuryDeath: 'other',
+          description: 'should not change',
+        },
+      ],
+    });
+  });
 });

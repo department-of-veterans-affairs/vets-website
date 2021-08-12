@@ -5,8 +5,6 @@ import user from '@testing-library/user-event';
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
 
-import { resetFetch } from 'platform/testing/unit/helpers';
-
 import * as mocks from '@@profile/msw-mocks';
 import PersonalInformation from '@@profile/components/personal-information/PersonalInformation';
 
@@ -18,8 +16,10 @@ import {
 import { beforeEach } from 'mocha';
 
 const errorText =
-  'We’re sorry. We couldn’t update your email address. Please try again.';
-const newEmailAddress = 'new-address@domain.com';
+  'We’re sorry. We couldn’t update your contact email address. Please try again.';
+const newUserName = 'newemailaddress';
+const newUserNameRegex = new RegExp(newUserName);
+const newEmailAddress = `${newUserName}@domain.com`;
 const ui = (
   <MemoryRouter>
     <PersonalInformation />
@@ -71,7 +71,7 @@ async function testQuickSuccess() {
   // the edit email button should exist
   expect(view.getByRole('button', { name: /edit.*email address/i })).to.exist;
   // and the new email address should exist in the DOM
-  expect(view.getByText(newEmailAddress)).to.exist;
+  expect(view.getByText(newUserNameRegex)).to.exist;
   // and the add email button should be gone
   expect(view.queryByText(/add.*email address/i, { selector: 'button' })).not.to
     .exist;
@@ -89,7 +89,7 @@ async function testSlowSuccess() {
 
   // check that the "we're saving your..." message appears
   const savingMessage = await view.findByText(
-    /We’re working on saving your new email address. We’ll show it here once it’s saved./i,
+    /We’re working on saving your new contact email address. We’ll show it here once it’s saved./i,
   );
   expect(savingMessage).to.exist;
 
@@ -104,7 +104,7 @@ async function testSlowSuccess() {
     }),
   ).to.exist;
   // and the new email address should exist in the DOM
-  expect(view.getByText(newEmailAddress)).to.exist;
+  expect(view.getByText(newUserNameRegex)).to.exist;
   // and the add email button should be gone
   expect(view.queryByText(/add.*email address/i, { selector: 'button' })).not.to
     .exist;
@@ -156,7 +156,7 @@ async function testSlowFailure() {
 
   // check that the "we're saving your..." message appears
   const savingMessage = await view.findByText(
-    /We’re working on saving your new email address. We’ll show it here once it’s saved./i,
+    /We’re working on saving your new contact email address. We’ll show it here once it’s saved./i,
   );
   expect(savingMessage).to.exist;
 
@@ -167,21 +167,18 @@ async function testSlowFailure() {
   // make sure the error message appears
   expect(
     view.getByText(
-      /We couldn’t save your recent email address update. Please try again later/i,
+      /We couldn’t save your recent contact email address update. Please try again later/i,
     ),
   ).to.exist;
 
   // and the new email address should not exist in the DOM
-  expect(view.queryByText(newEmailAddress)).not.to.exist;
+  expect(view.queryByText(newUserNameRegex)).not.to.exist;
   // and the add/edit email button should be back
   expect(getEditButton()).to.exist;
 }
 
 describe('Editing email address', () => {
   before(() => {
-    // before we can use msw, we need to make sure that global.fetch has been
-    // restored and is no longer a sinon stub.
-    resetFetch();
     server = setupServer(...mocks.editEmailAddressSuccess());
     server.listen();
   });

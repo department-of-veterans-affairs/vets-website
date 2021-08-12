@@ -2,8 +2,21 @@
  * @module services/Slot
  */
 import { getAvailableSlots } from '../var';
-import { fhirSearch, mapToFHIRErrors } from '../utils';
+import { getAvailableV2Slots } from '../vaos';
+import { mapToFHIRErrors } from '../utils';
 import { transformSlots } from './transformers';
+import { transformV2Slots } from './transformers.v2';
+import moment from 'moment';
+
+/**
+ * @summary
+ * Each FHIR slot will have a start and end
+ *
+ * @global
+ * @typedef {Object} Slot
+ * @property {string} start Start date in iso format
+ * @property {?string} end End date in iso format
+ */
 
 /**
  * Fetch appointment slots based on start/end date times based on a VistA sites
@@ -17,7 +30,8 @@ import { transformSlots } from './transformers';
  * @param {string} slotsRequest.clinicId clinic id
  * @param {string} slotsRequest.startDate start date to search for appointments lots formatted as YYYY-MM-DD
  * @param {string} slotsRequest.endDate end date to search for appointments lots formatted as YYYY-MM-DD
- * @returns {Array} A FHIR searchset of Slot resources
+ * @param {Boolean} useV2 Toggle fetching appointments via VAOS api services version 2
+ * @returns {Array<Slot>} A list of Slot resources
  */
 export async function getSlots({
   siteId,
@@ -25,29 +39,33 @@ export async function getSlots({
   clinicId,
   startDate,
   endDate,
-  useVSP,
+  useV2 = false,
 }) {
-  if (useVSP) {
-    return fhirSearch({
-      query: `Slot?schedule.actor=HealthcareService/${clinicId}&start=lt${endDate}&start=ge${startDate}`,
-    });
-  } else {
-    try {
-      const data = await getAvailableSlots(
+  try {
+    let data;
+    if (useV2) {
+      data = await getAvailableV2Slots(
+        siteId,
+        clinicId.split('_')[1],
+        moment(startDate).format(),
+        moment(endDate).format(),
+      );
+      return transformV2Slots(data || []);
+    } else {
+      data = await getAvailableSlots(
         siteId,
         typeOfCareId,
         clinicId.split('_')[1],
         startDate,
         endDate,
       );
-
       return transformSlots(data[0]?.appointmentTimeSlot || []);
-    } catch (e) {
-      if (e.errors) {
-        throw mapToFHIRErrors(e.errors);
-      }
-
-      throw e;
     }
+  } catch (e) {
+    if (e.errors) {
+      throw mapToFHIRErrors(e.errors);
+    }
+
+    throw e;
   }
 }

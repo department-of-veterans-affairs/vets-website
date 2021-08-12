@@ -1,13 +1,4 @@
 import {
-  getBookingNoteFromAppointment,
-  getAppointTypeFromAppointment,
-  getAppointmentTimeFromAppointment,
-  getAppointmentTypeFromClinic,
-  getClinicFromAppointment,
-  getFacilityFromAppointment,
-} from './appointment.utils';
-
-import {
   getAppointmentIdFromUrl,
   addAppointmentIdToFormId,
   onFormEnter,
@@ -29,15 +20,9 @@ export {
   clearAllSelectedAppointments,
   clearCurrentSession,
   clearSelectedAppointmentData,
-  getAppointTypeFromAppointment,
-  getAppointmentTimeFromAppointment,
   getAppointmentIdFromUrl,
-  getAppointmentTypeFromClinic,
-  getBookingNoteFromAppointment,
-  getClinicFromAppointment,
   getCurrentAppointmentId,
   getCurrentQuestionnaire,
-  getFacilityFromAppointment,
   getSelectedAppointmentData,
   onFormEnter,
   setCurrentAppointmentId,

@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import InfoAlert from '../../../components/InfoAlert';
 
-import * as actions from '../../redux/actions';
+import {
+  getAppointmentSlots,
+  onCalendarChange,
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+  startRequestAppointmentFlow,
+  requestAppointmentDateChoice,
+} from '../../redux/actions';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import FormButtons from '../../../components/FormButtons';
 import { getDateTimeSelect } from '../../redux/selectors';
@@ -13,22 +20,20 @@ import CalendarWidget from '../../../components/calendar/CalendarWidget';
 import WaitTimeAlert from './WaitTimeAlert';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { getRealFacilityId } from '../../../utils/appointment';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 import useIsInitialLoad from '../../../hooks/useIsInitialLoad';
 
 const pageKey = 'selectDateTime';
-const pageTitle = 'Tell us the date and time you’d like your appointment';
+const pageTitle = 'Choose a date and time';
 
-const missingDateError =
-  'Please choose your preferred date and time for your appointment.';
-
-function ErrorMessage({ facilityId, requestAppointmentDateChoice, history }) {
+function ErrorMessage({ facilityId, history }) {
   return (
     <div
       aria-atomic="true"
       aria-live="assertive"
       className="vads-u-margin-bottom--2"
     >
-      <AlertBox
+      <InfoAlert
         status="error"
         level="2"
         headline="We’ve run into a problem trying to find an appointment time"
@@ -41,70 +46,43 @@ function ErrorMessage({ facilityId, requestAppointmentDateChoice, history }) {
           submit a request for a VA appointment
         </button>{' '}
         or{' '}
-        <a
+        <NewTabAnchor
           href={`/find-locations/facility/vha_${getRealFacilityId(facilityId)}`}
-          rel="noopener noreferrer"
-          target="_blank"
         >
           call your local VA medical center
-        </a>
+        </NewTabAnchor>
         .
-      </AlertBox>
+      </InfoAlert>
     </div>
   );
 }
 
-function goBack({ routeToPreviousAppointmentPage, history }) {
-  return routeToPreviousAppointmentPage(history, pageKey);
-}
+function goForward({ dispatch, data, history, setSubmitted }) {
+  setSubmitted(true);
 
-function validate({ dates, setValidationError }) {
-  if (dates?.length) {
-    setValidationError(null);
-  } else {
-    setValidationError(missingDateError);
-  }
-}
-
-function goForward({
-  data,
-  history,
-  routeToNextAppointmentPage,
-  submitted,
-  setSubmitted,
-  setValidationError,
-}) {
-  validate({ date: data.selectedDates, setValidationError });
   if (data.selectedDates?.length) {
-    routeToNextAppointmentPage(history, pageKey);
-  } else if (submitted) {
-    scrollAndFocus('.usa-input-error-message');
+    dispatch(routeToNextAppointmentPage(history, pageKey));
   } else {
-    setSubmitted(true);
+    scrollAndFocus('.usa-input-error-message');
   }
 }
 
-export function DateTimeSelectPage({
-  appointmentSlotsStatus,
-  availableSlots,
-  data,
-  eligibleForRequests,
-  facilityId,
-  getAppointmentSlots,
-  pageChangeInProgress,
-  preferredDate,
-  onCalendarChange,
-  routeToPreviousAppointmentPage,
-  requestAppointmentDateChoice,
-  routeToNextAppointmentPage,
-  startRequestAppointmentFlow,
-  timezone,
-  timezoneDescription,
-  typeOfCareId,
-}) {
+export default function DateTimeSelectPage() {
+  const {
+    appointmentSlotsStatus,
+    availableSlots,
+    data,
+    eligibleForRequests,
+    facilityId,
+    pageChangeInProgress,
+    preferredDate,
+    timezone,
+    timezoneDescription,
+  } = useSelector(state => getDateTimeSelect(state, pageKey), shallowEqual);
+
+  const dispatch = useDispatch();
   const history = useHistory();
   const [submitted, setSubmitted] = useState(false);
-  const [validationError, setValidationError] = useState(null);
   const fetchFailed = appointmentSlotsStatus === FETCH_STATUS.failed;
   const loadingSlots =
     appointmentSlotsStatus === FETCH_STATUS.loading ||
@@ -113,15 +91,17 @@ export function DateTimeSelectPage({
   const isInitialLoad = useIsInitialLoad(loadingSlots);
 
   useEffect(() => {
-    getAppointmentSlots(
-      moment(preferredDate)
-        .startOf('month')
-        .format('YYYY-MM-DD'),
-      moment(preferredDate)
-        .add(1, 'months')
-        .endOf('month')
-        .format('YYYY-MM-DD'),
-      true,
+    dispatch(
+      getAppointmentSlots(
+        moment(preferredDate)
+          .startOf('month')
+          .format('YYYY-MM-DD'),
+        moment(preferredDate)
+          .add(1, 'months')
+          .endOf('month')
+          .format('YYYY-MM-DD'),
+        true,
+      ),
     );
     document.title = `${pageTitle} | Veterans Affairs`;
   }, []);
@@ -141,16 +121,9 @@ export function DateTimeSelectPage({
         scrollAndFocus();
       }
     },
-    [isInitialLoad, loadingSlots, appointmentSlotsStatus],
-  );
-
-  useEffect(
-    () => {
-      if (validationError && submitted) {
-        scrollAndFocus('.usa-input-error-message');
-      }
-    },
-    [validationError, submitted],
+    // Intentionally leaving isInitialLoad off, because it should trigger updates, it just
+    // determines which update is made
+    [loadingSlots, appointmentSlotsStatus],
   );
 
   const selectedDates = data.selectedDates;
@@ -166,23 +139,26 @@ export function DateTimeSelectPage({
           eligibleForRequests={eligibleForRequests}
           facilityId={facilityId}
           nextAvailableApptDate={availableSlots?.[0]?.start}
-          onClickRequest={startRequestAppointmentFlow}
+          onClickRequest={(...args) =>
+            dispatch(startRequestAppointmentFlow(...args))
+          }
           preferredDate={preferredDate}
           timezone={timezoneDescription}
-          typeOfCareId={typeOfCareId}
         />
       )}
       {fetchFailed && (
         <ErrorMessage
           history={history}
           facilityId={facilityId}
-          requestAppointmentDateChoice={requestAppointmentDateChoice}
+          requestAppointmentDateChoice={(...args) =>
+            dispatch(requestAppointmentDateChoice(...args))
+          }
         />
       )}
       {!fetchFailed && (
         <>
           <p>
-            Please select a desired date and time for your appointment.
+            Please select an available date and time from the calendar below.
             {timezone &&
               ` Appointment times are displayed in ${timezoneDescription}.`}
           </p>
@@ -191,7 +167,7 @@ export function DateTimeSelectPage({
             availableSlots={availableSlots}
             value={selectedDates}
             id="dateTime"
-            timezone={timezoneDescription}
+            timezone={timezone}
             additionalOptions={{
               required: true,
             }}
@@ -202,33 +178,35 @@ export function DateTimeSelectPage({
                 message="Finding appointment availability..."
               />
             }
-            onChange={dates => {
-              validate({ dates, setValidationError });
-              onCalendarChange(dates);
-            }}
-            onClickNext={getAppointmentSlots}
-            onClickPrev={getAppointmentSlots}
+            onChange={(...args) => dispatch(onCalendarChange(...args))}
+            onNextMonth={(...args) => dispatch(getAppointmentSlots(...args))}
+            onPreviousMonth={(...args) =>
+              dispatch(getAppointmentSlots(...args))
+            }
             minDate={moment()
               .add(1, 'days')
               .format('YYYY-MM-DD')}
             maxDate={moment()
               .add(395, 'days')
               .format('YYYY-MM-DD')}
+            required
+            requiredMessage="Please choose your preferred date and time for your appointment"
             startMonth={startMonth}
-            validationError={submitted ? validationError : null}
+            showValidation={submitted && !selectedDates?.length}
+            showWeekends
           />
         </>
       )}
       <FormButtons
-        onBack={() => goBack({ routeToPreviousAppointmentPage, history })}
+        onBack={() =>
+          dispatch(routeToPreviousAppointmentPage(history, pageKey))
+        }
         onSubmit={() =>
           goForward({
+            dispatch,
             data,
             history,
-            routeToNextAppointmentPage,
-            submitted,
             setSubmitted,
-            setValidationError,
           })
         }
         disabled={loadingSlots || fetchFailed}
@@ -238,21 +216,3 @@ export function DateTimeSelectPage({
     </div>
   );
 }
-
-function mapStateToProps(state) {
-  return getDateTimeSelect(state, pageKey);
-}
-
-const mapDispatchToProps = {
-  getAppointmentSlots: actions.getAppointmentSlots,
-  onCalendarChange: actions.onCalendarChange,
-  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
-  startRequestAppointmentFlow: actions.startRequestAppointmentFlow,
-  requestAppointmentDateChoice: actions.requestAppointmentDateChoice,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(DateTimeSelectPage);

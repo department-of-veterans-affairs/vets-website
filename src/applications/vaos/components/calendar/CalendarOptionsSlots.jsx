@@ -47,23 +47,37 @@ export default function CalendarOptionsSlots({
   onChange,
   id,
   timezone,
+  showWeekends,
 }) {
   const currentSlots = availableSlots.filter(slot =>
     slot.start.startsWith(currentlySelectedDate),
   );
+
+  // [0, 1, 2, 3, 4, 5, 6]
   const maxCellsPerRow = rowSize;
-  const middleCellIndex = 2;
+  const middleCellIndex = showWeekends ? [2, 3, 4] : [2];
+  const tuesThursCellIndex = [2, 4];
   const beginningCellIndex = [0, 1];
-  const endCellIndexes = [3, 4];
+  const endCellIndexes = showWeekends ? [5, 6] : [3, 4];
   const justifyClasses =
     currentSlots.length < maxCellsPerRow
       ? {
           'vads-u-justify-content--flex-start': beginningCellIndex.includes(
             selectedCellIndex,
           ),
-          'vads-u-justify-content--center':
-            selectedCellIndex === middleCellIndex,
+          'vads-u-justify-content--center': middleCellIndex.includes(
+            selectedCellIndex,
+          ),
           'vads-u-justify-content--flex-end': endCellIndexes.includes(
+            selectedCellIndex,
+          ),
+        }
+      : {};
+
+  const marginClasses =
+    currentSlots.length <= 1 && showWeekends
+      ? {
+          'vaos-calendar__option-cell--full-width': tuesThursCellIndex.includes(
             selectedCellIndex,
           ),
         }
@@ -72,6 +86,7 @@ export default function CalendarOptionsSlots({
   // If list of items won't fill row, align items closer to selected cell
   const cssClasses = classNames('vaos-calendar__options', {
     'vads-u-padding-left--1p5': hasError,
+    ...marginClasses,
     ...justifyClasses,
   });
   return (

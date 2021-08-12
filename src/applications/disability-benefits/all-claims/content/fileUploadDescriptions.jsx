@@ -20,9 +20,8 @@ export const UploadDescription = ({
       .txt file format. You’ll first need to scan a copy of your document onto
       your computer or mobile phone. You can then upload the document from
       there.
-      <br />
-      Guidelines for uploading a file:
     </p>
+    <p>Guidelines for uploading a file:</p>
     <ul>
       <li>
         File types you can upload: .pdf, .jpg, .jpeg, .png, .gif,.bmp, or .txt

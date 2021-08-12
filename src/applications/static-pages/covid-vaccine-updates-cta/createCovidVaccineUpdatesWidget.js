@@ -4,9 +4,9 @@ import { Provider } from 'react-redux';
 
 export default function createCovidVaccineUpdatesWidget(store, _widgetType) {
   const covidVaccineUpdatesPaths = new Set([
-    '/health-care/covid-19-vaccine/',
-    '/health-care/covid-19-vaccine-esp/',
-    '/health-care/covid-19-vaccine-tag/',
+    // '/health-care/covid-19-vaccine/',
+    // '/health-care/covid-19-vaccine-esp/',
+    // '/health-care/covid-19-vaccine-tag/',
   ]);
   const isCovidVaccineUpdatesPage = covidVaccineUpdatesPaths.has(
     document.location.pathname,
@@ -19,7 +19,6 @@ export default function createCovidVaccineUpdatesWidget(store, _widgetType) {
   const introText = document.querySelector('.va-introtext')?.nextElementSibling;
   const wrapper = introText.parentNode;
   const reactRoot = document.createElement('div');
-  // TODO: this lang attribute will be set by the i18Select component
   const content = document.getElementById('content');
   const lang = content?.getAttribute('lang') || 'en';
   wrapper.insertBefore(reactRoot, introText);

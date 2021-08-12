@@ -31,7 +31,9 @@ const testConfig = createTestConfig(
         cy.get('@testKey').then(testKey => {
           if (testKey === 'confirmation-stem-test') {
             cy.get('input[id="root_isEnrolledStemNo"]').click();
-            cy.get('input[id="root_isPursuingTeachingCertNo"]').click();
+            cy.get(
+              'input[id="root_view:teachingCertClinicalTraining_isPursuingTeachingCertYes"]',
+            ).click();
             cy.get('input[id="root_benefitLeft_0"]').click();
           } else {
             cy.get('input[id="root_isEnrolledStemYes"]').click();
@@ -46,7 +48,7 @@ const testConfig = createTestConfig(
           if (testKey === 'confirmation-stem-test') {
             cy.get('.stem-eligibility-ul')
               .find('fa-times')
-              .to.have.lengthOf(3);
+              .to.have.lengthOf(2);
           }
         });
         cy.findByText(/Continue/i, { selector: 'button' }).click();
@@ -79,7 +81,7 @@ const testConfig = createTestConfig(
     },
 
     setupPerTest: () => {
-      cy.route('POST', '/v0/education_benefits_claims/10203', {
+      cy.intercept('POST', '/v0/education_benefits_claims/10203', {
         data: {
           attributes: {
             confirmationNumber: '123fake-submission-id-567',

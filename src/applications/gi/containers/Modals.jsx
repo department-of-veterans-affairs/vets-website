@@ -353,7 +353,7 @@ export class Modals extends React.Component {
               allowance is based on 50% of the national average.
             </p>
             <p>
-              Through Dec. 21, 2020, current and new students can receive
+              Through Dec. 21, 2021, current and new students can receive
               in-person allowance rates if their school’s approved program
               changed from in-person to online learning due to COVID-19.
             </p>
@@ -530,37 +530,6 @@ export class Modals extends React.Component {
       </Modal>
       <Modal
         onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('stemIndicator')}
-        elementToFocusOnClose="stemIndicator-button"
-      >
-        <h3>The Rogers STEM Scholarship</h3>
-        <div>
-          <p>
-            The Edith Nourse Rogers STEM Scholarship provides up to 9 months of
-            additional Post-9/11 GI Bill benefits, to a maximum of $30,000.
-          </p>
-          <p>
-            Veterans and Fry Scholars may qualify for this scholarship if
-            they're enrolled in an undergraduate program for Science,
-            Technology, Engineering, or Math (STEM), or if they've earned a STEM
-            degree and are getting a teaching certification.
-          </p>
-          <p>
-            To learn more about this scholarship,{' '}
-            <a
-              href="/education/other-va-education-benefits/stem-scholarship/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {' '}
-              visit the Rogers STEM Scholarship website
-            </a>
-            .
-          </p>
-        </div>
-      </Modal>
-      <Modal
-        onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('iStudy')}
         elementToFocusOnClose="iStudy-button"
       >
@@ -626,6 +595,27 @@ export class Modals extends React.Component {
             rel="noopener noreferrer"
           >
             Read our policy on protecting students from late VA payments
+          </a>
+          .
+        </p>
+      </Modal>
+      <Modal
+        onClose={this.props.hideModal}
+        visible={this.shouldDisplayModal('vrrap')}
+        elementToFocusOnClose="vrrap-button"
+      >
+        <h3 className="vads-u-margin-right--1p5">
+          Veteran Rapid Retraining Assistance Program (VRRAP)
+        </h3>
+        <p>
+          The Veteran Rapid Retraining Assistance Program (VRRAP) offers
+          education and training for high-demand jobs to Veterans who are
+          unemployed because of the COVID-19 pandemic.
+        </p>
+        <p>
+          To learn more about this benefit and see eligibility requirements,{' '}
+          <a href="https://www.va.gov/education/other-va-education-benefits/veteran-rapid-retraining-assistance/">
+            visit the VRRAP page
           </a>
           .
         </p>
@@ -812,6 +802,12 @@ export class Modals extends React.Component {
         </ul>
       </div>
     );
+
+    const inStateTuitionInformation = this.props.profile.attributes.inStateTuitionInformation?.startsWith(
+      'http',
+    )
+      ? this.props.profile.attributes.inStateTuitionInformation
+      : `http://${this.props.profile.attributes.inStateTuitionInformation}`;
 
     return (
       <span>
@@ -1017,6 +1013,42 @@ export class Modals extends React.Component {
             Apprenticeship? Beneficiaries working less than 120 hours/month (or
             approximately 30 hours/week) receive a prorated monthly housing
             allowance.
+          </p>
+        </Modal>
+
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('inStateWithoutLink')}
+        >
+          <h3>Qualifying for in-state tuition</h3>
+          <p>
+            If you're using GI Bill education benefits, you probably qualify for
+            in-state tuition.
+          </p>
+          <p>
+            Contact the School Certifying Official (SCO) to learn more about
+            this school's in-state tuition requirements.
+          </p>
+        </Modal>
+
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('inStateWithLink')}
+        >
+          <h3>Qualifying for in-state tuition</h3>
+          <p>
+            If you're using GI Bill education benefits, you probably qualify for
+            in-state tuition.
+          </p>
+          <p>
+            Visit this school's website to{' '}
+            <a
+              href={inStateTuitionInformation}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              see any in-state tuition requirements.
+            </a>
           </p>
         </Modal>
       </span>

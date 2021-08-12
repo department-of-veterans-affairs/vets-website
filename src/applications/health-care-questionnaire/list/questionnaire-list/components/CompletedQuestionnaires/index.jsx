@@ -5,7 +5,13 @@ import moment from 'moment';
 import QuestionnaireItem from '../QuestionnaireItem';
 import EmptyMessage from '../Messages/EmptyMessage';
 import ServiceDown from '../Messages/ServiceDown';
-import PrintButton from '../Shared/Print/PrintButton';
+import PrintButton from '../../../../shared/components/print/PrintButton';
+
+import {
+  appointmentSelector,
+  organizationSelector,
+  questionnaireResponseSelector,
+} from '../../../../shared/utils/selectors';
 
 const index = props => {
   const { questionnaires } = props;
@@ -21,32 +27,62 @@ const index = props => {
               }
             />
           ) : (
-            <ul
-              data-testid="questionnaire-list"
+            // eslint-disable-next-line jsx-a11y/no-redundant-roles
+            <ol
               className="questionnaire-list completed"
+              data-testid="questionnaire-list"
+              role="list"
             >
               {questionnaires.map(data => {
-                const { questionnaire, appointment } = data;
+                const { questionnaire, appointment, organization } = data;
+                const facilityName = organizationSelector.getName(organization);
+                const appointmentTime = appointmentSelector.getStartDateTime(
+                  appointment,
+                );
+
+                const qr = questionnaireResponseSelector.getQuestionnaireResponse(
+                  questionnaire[0].questionnaireResponse,
+                );
+
                 return (
                   <QuestionnaireItem
                     key={appointment.id}
                     data={data}
-                    Actions={() => <PrintButton displayArrow={false} />}
-                    DueDate={() => (
-                      <p className="completed-date">
-                        Submitted on
-                        <br />
-                        <span className={`vads-u-font-weight--bold`}>
-                          {moment(
-                            questionnaire[0].questionnaireResponse.submittedOn,
-                          ).format('dddd, MMMM D, YYYY')}
-                        </span>
-                      </p>
+                    Actions={() => (
+                      <PrintButton
+                        displayArrow={false}
+                        facilityName={facilityName}
+                        appointmentTime={appointmentTime}
+                        questionnaireResponseId={qr.id}
+                      />
                     )}
+                    DueDate={() => {
+                      if (!qr.submittedOn) {
+                        return <p className="completed-date" />;
+                      } else {
+                        return (
+                          <>
+                            <dt className="vads-u-margin-top--1p5">
+                              Submitted on
+                            </dt>
+                            <dd>
+                              {moment(qr.submittedOn).format('dddd')}{' '}
+                              <time
+                                dateTime={moment(qr.submittedOn).format(
+                                  'YYYY-MM-DDTHH:MM',
+                                )}
+                              >
+                                {moment(qr.submittedOn).format('MMMM D, YYYY')}
+                              </time>
+                            </dd>
+                          </>
+                        );
+                      }
+                    }}
                   />
                 );
               })}
-            </ul>
+            </ol>
           )}
         </>
       ) : (

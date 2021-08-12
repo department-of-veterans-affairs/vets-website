@@ -1,34 +1,34 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import moment from '../../lib/moment-tz';
 
-import { APPOINTMENT_TYPES, FETCH_STATUS } from '../../utils/constants';
+import { FETCH_STATUS } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import * as actions from '../redux/actions';
-import AppointmentDateTime from './cards/confirmed/AppointmentDateTime';
-import { getVARFacilityId } from '../../services/appointment';
+import { fetchConfirmedAppointmentDetails } from '../redux/actions';
+import AppointmentDateTime from './AppointmentDateTime';
 import AddToCalendar from '../../components/AddToCalendar';
 import FacilityAddress from '../../components/FacilityAddress';
-import { formatFacilityAddress } from '../../services/location';
 import PageLayout from './AppointmentsPage/PageLayout';
 import ErrorMessage from '../../components/ErrorMessage';
-import { selectAppointmentById } from '../redux/selectors';
+import { selectCommunityCareDetailsInfo } from '../redux/selectors';
 import FullWidthLayout from '../../components/FullWidthLayout';
 import Breadcrumbs from '../../components/Breadcrumbs';
+import InfoAlert from '../../components/InfoAlert';
+import { getCalendarData } from '../../services/appointment';
 
-function CommunityCareAppointmentDetailsPage({
-  appointment,
-  appointmentDetailsStatus,
-  fetchConfirmedAppointmentDetails,
-}) {
+export default function CommunityCareAppointmentDetailsPage() {
   const { id } = useParams();
+  const dispatch = useDispatch();
+  const { appointment, appointmentDetailsStatus } = useSelector(state =>
+    selectCommunityCareDetailsInfo(state, id),
+  );
   const appointmentDate = moment.parseZone(appointment?.start);
 
   useEffect(() => {
-    fetchConfirmedAppointmentDetails(id, 'cc');
+    dispatch(fetchConfirmedAppointmentDetails(id, 'cc'));
   }, []);
 
   useEffect(
@@ -41,6 +41,18 @@ function CommunityCareAppointmentDetailsPage({
       }
     },
     [appointment, appointmentDate],
+  );
+
+  useEffect(
+    () => {
+      if (
+        appointmentDetailsStatus === FETCH_STATUS.failed ||
+        (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+      ) {
+        scrollAndFocus();
+      }
+    },
+    [appointmentDetailsStatus],
   );
 
   if (
@@ -63,12 +75,13 @@ function CommunityCareAppointmentDetailsPage({
   }
 
   const header = 'Community care';
-  const location = appointment.contained.find(
-    res => res.resourceType === 'Location',
-  );
-  const practitionerName = appointment.participant?.find(res =>
-    res.actor.reference.startsWith('Practitioner'),
-  )?.actor.display;
+  const { name, providerName, practiceName } =
+    appointment.communityCareProvider || {};
+  const calendarData = getCalendarData({
+    facility: appointment.communityCareProvider,
+    appointment,
+  });
+  const isPastAppointment = appointment.vaos.isPastAppointment;
 
   return (
     <PageLayout>
@@ -77,29 +90,34 @@ function CommunityCareAppointmentDetailsPage({
       </Breadcrumbs>
 
       <h1>
-        <AppointmentDateTime
-          appointmentDate={moment.parseZone(appointment.start)}
-          timezone={appointment.vaos.timeZone}
-          facilityId={getVARFacilityId(appointment)}
-        />
+        <AppointmentDateTime appointment={appointment} />
       </h1>
 
-      <h2 className="vads-u-font-size--sm vads-u-font-family--sans">
+      {isPastAppointment && (
+        <InfoAlert backgroundOnly status="warning">
+          This appointment occurred in the past.
+        </InfoAlert>
+      )}
+
+      <h2
+        className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
+        data-cy="community-care-appointment-details-header"
+      >
         <span>
           <strong>{header}</strong>
         </span>
       </h2>
 
-      {(!!practitionerName || !!location.name) && (
+      {(!!providerName || !!practiceName || !!name) && (
         <>
-          {practitionerName || location.name}
+          {providerName || practiceName || name}
           <br />
         </>
       )}
       <FacilityAddress
-        facility={location}
-        showDirectionsLink={!!location.address}
-        isHomepageRefresh
+        facility={appointment.communityCareProvider}
+        showDirectionsLink={!!appointment.communityCareProvider?.address}
+        level={2}
       />
 
       <div className="vads-u-margin-top--3 vaos-appts__block-label">
@@ -113,57 +131,46 @@ function CommunityCareAppointmentDetailsPage({
         )}
       </div>
 
-      <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
-        <i
-          aria-hidden="true"
-          className="far fa-calendar vads-u-margin-right--1"
-        />
-        <AddToCalendar
-          summary={header}
-          description={appointment.comment}
-          location={formatFacilityAddress(location)}
-          duration={appointment.minutesDuration}
-          startDateTime={moment.parseZone(appointment.start)}
-        />
-      </div>
+      {!isPastAppointment && (
+        <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
+          <i
+            aria-hidden="true"
+            className="far fa-calendar vads-u-margin-right--1 vads-u-color--link-default"
+          />
+          <AddToCalendar
+            summary={calendarData.summary}
+            description={{
+              text: calendarData.text,
+              phone: calendarData.phone,
+              additionalText: calendarData.additionalText,
+            }}
+            location={calendarData.location}
+            duration={appointment.minutesDuration}
+            startDateTime={moment.parseZone(appointment.start)}
+          />
+        </div>
+      )}
 
       <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
-        <i aria-hidden="true" className="fas fa-print vads-u-margin-right--1" />
+        <i
+          aria-hidden="true"
+          className="fas fa-print vads-u-margin-right--1 vads-u-color--link-default"
+        />
         <button className="va-button-link" onClick={() => window.print()}>
           Print
         </button>
       </div>
 
-      <div className="vads-u-margin-top--2 vaos-appts__block-label vads-u-background-color--primary-alt-lightest vads-u-padding--2p5">
-        Contact this provider if you need to reschedule or cancel your
-        appointment.
-      </div>
-
-      <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
-        <Link to="/" className="usa-button vads-u-margin-top--2" role="button">
-          « Go back to appointments
-        </Link>
-      </div>
+      {!isPastAppointment && (
+        <InfoAlert
+          backgroundOnly
+          headline="Need to make changes?"
+          status="info"
+        >
+          Contact this provider if you need to reschedule or cancel your
+          appointment.
+        </InfoAlert>
+      )}
     </PageLayout>
   );
 }
-
-function mapStateToProps(state, ownProps) {
-  const { appointmentDetailsStatus, facilityData } = state.appointments;
-  return {
-    appointment: selectAppointmentById(state, ownProps.match.params.id, [
-      APPOINTMENT_TYPES.ccAppointment,
-    ]),
-    appointmentDetailsStatus,
-    facilityData,
-  };
-}
-
-const mapDispatchToProps = {
-  fetchConfirmedAppointmentDetails: actions.fetchConfirmedAppointmentDetails,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CommunityCareAppointmentDetailsPage);

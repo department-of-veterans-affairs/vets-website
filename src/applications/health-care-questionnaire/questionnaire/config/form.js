@@ -14,17 +14,23 @@ import ExpiresAt from '../components/expires-at';
 import Messages from '../components/messages';
 
 import { TITLES, createPathFromTitle } from './utils';
-
+import { preventLargeFields } from './validators';
 import manifest from '../manifest.json';
 import { submit, transformForSubmit } from '../../shared/api';
 
 import { updateUrls } from './migrations';
 
+import { TRACKING_PREFIX } from '../../shared/constants/analytics';
+import {
+  getQuestionTextById,
+  QUESTION_IDS,
+} from '../../shared/constants/questionnaire.questions';
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/health_quest/v0/questionnaire_responses`,
-  trackingPrefix: 'health-care-questionnaire',
+  submitUrl: `${environment.API_URL}/health_quest/v0/questionnaire_manager`,
+  trackingPrefix: TRACKING_PREFIX,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   downtime: {
@@ -114,45 +120,33 @@ const formConfig = {
           uiSchema: {
             reasonForVisit: {
               'ui:field': ReasonForVisit.field,
-              'ui:title': ' ',
+              'ui:options': {
+                hideLabelText: true,
+              },
               'ui:reviewField': ReasonForVisit.review,
             },
             reasonForVisitDescription: {
               'ui:widget': ReasonForVisitDescription.field,
+              'ui:validations': [preventLargeFields],
               'ui:title': (
                 <span>
-                  Are there any additional details you’d like to share with your
-                  provider about this appointment?
+                  {getQuestionTextById(
+                    QUESTION_IDS.REASON_FOR_VISIT_DESCRIPTION,
+                  )}
                 </span>
               ),
             },
             lifeEvents: {
               'ui:widget': 'textarea',
-              'ui:title': (
-                <span>
-                  Are there any other concerns or changes in your life that are
-                  affecting you or your health? (For example, a marriage,
-                  divorce, new baby, change in your job, retirement, or other
-                  medical conditions)
-                </span>
-              ),
+              'ui:title': <>{getQuestionTextById(QUESTION_IDS.LIFE_EVENTS)}</>,
+              'ui:validations': [preventLargeFields],
             },
             questions: {
-              items: {
-                additionalQuestions: {
-                  'ui:title':
-                    'Do you have a question you want to ask your provider? Please enter your most important question first.',
-                },
-              },
-              'ui:options': {
-                doNotScroll: true,
-                keepInPageOnReview: true,
-                itemName: 'question',
-                viewField: formData => {
-                  return <>{formData.formData.additionalQuestions}</>;
-                },
-              },
-              'ui:title': 'Additional questions for your provider',
+              'ui:widget': 'textarea',
+              'ui:validations': [preventLargeFields],
+              'ui:title': getQuestionTextById(
+                QUESTION_IDS.ADDITIONAL_QUESTIONS,
+              ),
             },
           },
           schema: {
@@ -169,13 +163,7 @@ const formConfig = {
                 type: 'string',
               },
               questions: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    additionalQuestions: { type: 'string' },
-                  },
-                },
+                type: 'string',
               },
             },
           },

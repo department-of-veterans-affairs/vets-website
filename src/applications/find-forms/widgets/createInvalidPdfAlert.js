@@ -2,7 +2,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as Sentry from '@sentry/browser';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import { fetchFormsApi } from '../api';
 
@@ -14,18 +13,14 @@ function InvalidFormDownload({ downloadUrl }) {
   const mailto = `mailto:VaFormsManagers@va.gov?subject=${subject}&body=${body}`;
 
   return (
-    <AlertBox
-      isVisible
-      status="error"
-      headline="This form link isn’t working"
-      content={
-        <>
-          We’re sorry, but the form you’re trying to download appears to have an
-          invalid link. Please <a href={mailto}>email the forms managers</a> for
-          help with this form.
-        </>
-      }
-    />
+    <va-alert status="error">
+      <h3 slot="headline">This form link isn’t working</h3>
+      <div className="usa-alert-text vads-u-font-size--base">
+        We’re sorry, but the form you’re trying to download appears to have an
+        invalid link. Please <a href={mailto}>email the forms managers</a> for
+        help with this form.
+      </div>
+    </va-alert>
   );
 }
 

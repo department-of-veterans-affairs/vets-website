@@ -1,10 +1,6 @@
 import { expect } from 'chai';
 
-import {
-  resetFetch,
-  mockFetch,
-  setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
+import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 import { mapToFHIRErrors, fhirSearch } from '../../services/utils';
 import mockData from '../../services/mocks/fhir/mock_organizations.json';
@@ -54,7 +50,6 @@ describe('VAOS FHIR utils', () => {
       );
       expect(results.length).to.equal(2);
       expect(results[0].resourceType).to.equal('Organization');
-      resetFetch();
     });
   });
 });

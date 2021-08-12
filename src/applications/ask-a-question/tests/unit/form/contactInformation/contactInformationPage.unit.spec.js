@@ -121,7 +121,7 @@ describe('Contact Information Page', () => {
     const country = getByLabelText(address.country['ui:title'], {
       exact: false,
     });
-    const street = getByText('Street', { exact: false });
+    const street = getByText('Street address', { exact: true });
     const city = getByText('City', { exact: false });
     const zipCode = getByText('Zip code', { exact: false });
     const states = queryAllByText('State', { exact: false });

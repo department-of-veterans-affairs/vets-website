@@ -102,10 +102,15 @@ export class SchoolLocations extends React.Component {
     document.getElementsByClassName('school-name-cell')[elementIndex].focus();
   };
 
-  schoolLocationTableInfo = (city, state, country, zip) => {
-    let address = locationInfo(city, state, country);
-    if (country === 'USA' && zip) {
-      address = `${address} ${zip}`;
+  schoolLocationTableInfo = (
+    physicalCity,
+    physicalState,
+    physicalCountry,
+    physicalZip,
+  ) => {
+    let address = locationInfo(physicalCity, physicalState, physicalCountry);
+    if (physicalCountry === 'USA' && physicalZip) {
+      address = `${address} ${physicalZip}`;
     }
     return address;
   };

@@ -1,14 +1,14 @@
 import React from 'react';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import ItemLoop from '../../../components/ItemLoop';
 import CardDetailsView from '../../../components/CardDetailsView';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import CustomReviewField from '../../../components/CustomReviewField';
+import { validateCurrency } from '../../../utils/validations';
 import Typeahead from '../../../components/Typeahead';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import {
   formatOptions,
   vehicleTypes,
 } from '../../../constants/typeaheadOptions';
-import _ from 'lodash/fp';
 
 const VehicleInfo = (
   <AdditionalInfo triggerText="What if I don’t know the estimated value of my car or other vehicle?">
@@ -25,86 +25,111 @@ const VehicleInfo = (
 
 export const uiSchema = {
   'ui:title': 'Your cars or other vehicles',
-  vehicleRecords: {
-    'ui:field': ItemLoop,
-    'ui:description': 'Enter information for each vehicle separately below.',
-    'ui:options': {
-      viewField: CardDetailsView,
-      doNotScroll: true,
-      showSave: true,
-      itemName: 'vehicle',
-    },
-    items: {
-      vehicleType: {
-        'ui:title': 'Type of vehicle',
-        'ui:field': Typeahead,
-        'ui:options': {
-          classNames:
-            'input-size-7 vads-u-margin-top--3 vads-u-margin-bottom--3',
-          getOptions: () => formatOptions(vehicleTypes),
+  'ui:description': 'Enter information for each vehicle separately below.',
+  assets: {
+    automobiles: {
+      'ui:field': ItemLoop,
+      'ui:options': {
+        viewField: CardDetailsView,
+        doNotScroll: true,
+        showSave: true,
+        itemName: 'vehicle',
+        keepInPageOnReview: true,
+      },
+      items: {
+        type: {
+          'ui:title': 'Type of vehicle',
+          'ui:field': Typeahead,
+          'ui:reviewField': CustomReviewField,
+          'ui:options': {
+            idPrefix: 'vehicles',
+            classNames:
+              'input-size-7 vads-u-margin-top--3 vads-u-margin-bottom--3',
+            getOptions: () => formatOptions(vehicleTypes),
+          },
+          'ui:errorMessages': {
+            required: 'Please enter the type of vehicle.',
+          },
+        },
+        make: {
+          'ui:title': 'Vehicle make',
+          'ui:options': {
+            widgetClassNames: 'input-size-7 vads-u-margin-bottom--3',
+          },
+        },
+        model: {
+          'ui:title': 'Vehicle model',
+          'ui:options': {
+            widgetClassNames: 'input-size-7 vads-u-margin-bottom--3',
+          },
+        },
+        year: {
+          'ui:title': 'Vehicle year',
+          'ui:options': {
+            widgetClassNames: 'input-size-4 vads-u-margin-bottom--3',
+          },
+        },
+        resaleValue: {
+          'ui:title': 'Estimated value',
+          'ui:options': {
+            classNames: 'schemaform-currency-input',
+            widgetClassNames: 'input-size-5 vads-u-margin-bottom--3',
+          },
+          'ui:errorMessages': {
+            required: 'Please enter the estimated value.',
+          },
+          'ui:validations': [validateCurrency],
         },
       },
-      vehicleMake: {
-        'ui:title': 'Vehicle make',
-        'ui:options': {
-          widgetClassNames: 'input-size-7 vads-u-margin-bottom--3',
-        },
-      },
-      vehicleModel: {
-        'ui:title': 'Vehicle model',
-        'ui:options': {
-          widgetClassNames: 'input-size-7 vads-u-margin-bottom--3',
-        },
-      },
-      vehicleYear: {
-        'ui:title': 'Vehicle year',
-        'ui:options': {
-          widgetClassNames: 'input-size-4 vads-u-margin-bottom--3',
-        },
-      },
-      vehicleAmount: _.merge(currencyUI('Estimated value'), {
-        'ui:options': {
-          widgetClassNames: 'input-size-5 vads-u-margin-bottom--3',
-        },
-      }),
     },
   },
-  'view:vehicleInfo': {
-    'ui:description': VehicleInfo,
+  'view:components': {
+    'view:vehicleInfo': {
+      'ui:description': VehicleInfo,
+    },
   },
 };
 
 export const schema = {
   type: 'object',
   properties: {
-    vehicleRecords: {
-      type: 'array',
-      items: {
-        type: 'object',
-        title: 'Vehicle',
-        required: ['vehicleType', 'vehicleAmount'],
-        properties: {
-          vehicleType: {
-            type: 'string',
-          },
-          vehicleMake: {
-            type: 'string',
-          },
-          vehicleModel: {
-            type: 'string',
-          },
-          vehicleYear: {
-            type: 'string',
-          },
-          vehicleAmount: {
-            type: 'number',
+    assets: {
+      type: 'object',
+      properties: {
+        automobiles: {
+          type: 'array',
+          items: {
+            type: 'object',
+            required: ['type', 'resaleValue'],
+            properties: {
+              type: {
+                type: 'string',
+              },
+              make: {
+                type: 'string',
+              },
+              model: {
+                type: 'string',
+              },
+              year: {
+                type: 'string',
+              },
+              resaleValue: {
+                type: 'string',
+              },
+            },
           },
         },
       },
     },
-    'view:vehicleInfo': {
+    'view:components': {
       type: 'object',
-      properties: {},
+      properties: {
+        'view:vehicleInfo': {
+          type: 'object',
+          properties: {},
+        },
+      },
     },
   },
 };

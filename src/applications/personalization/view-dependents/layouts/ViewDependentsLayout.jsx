@@ -9,7 +9,6 @@ import {
   secondSidebarBlock,
   thirdSidebarBlock,
 } from '../components/ViewDependentsSidebar/ViewDependentsSidebarBlockStates/ViewDependentSidebarBlockStates';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { isServerError, isClientError } from '../util';
 import { errorFragment, infoFragment } from './helpers';
 
@@ -19,21 +18,14 @@ function ViewDependentsLayout(props) {
   if (props.loading) {
     mainContent = <LoadingIndicator message="Loading your information..." />;
   } else if (props.error && isServerError(props.error.code)) {
-    mainContent = (
-      <AlertBox
-        content={errorFragment}
-        status="error"
-        headline="We're sorry. Something went wrong on our end"
-        level="2"
-      />
-    );
+    mainContent = <va-alert status="error">{errorFragment}</va-alert>;
   } else if (props.error && isClientError(props.error.code)) {
-    mainContent = <AlertBox content={infoFragment} status="info" />;
+    mainContent = <va-alert status="info">{infoFragment}</va-alert>;
   } else if (
     props.onAwardDependents == null &&
     props.notOnAwardDependents == null
   ) {
-    mainContent = <AlertBox content={infoFragment} status="info" />;
+    mainContent = <va-alert status="info">{infoFragment}</va-alert>;
   } else {
     mainContent = (
       <ViewDependentsLists
@@ -41,6 +33,7 @@ function ViewDependentsLayout(props) {
         loading={props.loading}
         onAwardDependents={props.onAwardDependents}
         notOnAwardDependents={props.notOnAwardDependents}
+        dependencyVerificationToggle={props.dependencyVerificationToggle}
       />
     );
   }
@@ -48,7 +41,10 @@ function ViewDependentsLayout(props) {
   const layout = (
     <div className="vads-l-row">
       <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-        <ViewDependentsHeader dependentsToggle={props.dependentsToggle} />
+        <ViewDependentsHeader
+          dependentsToggle={props.dependentsToggle}
+          updateDiariesStatus={props.updateDiariesStatus}
+        />
         {mainContent}
       </div>
       <div className="vads-l-col--12 medium-screen:vads-l-col--4">

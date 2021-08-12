@@ -3,12 +3,11 @@ import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
-import { within } from '@testing-library/dom';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { within, waitFor } from '@testing-library/dom';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import {
   getVAAppointmentMock,
   getVAFacilityMock,
-  getVARequestMock,
   getVideoAppointmentMock,
 } from '../../mocks/v0';
 import {
@@ -23,6 +22,8 @@ import {
 import PastAppointmentsListV2, {
   getPastAppointmentDateRangeOptions,
 } from '../../../appointment-list/components/PastAppointmentsListV2';
+import { getVAOSAppointmentMock } from '../../mocks/v2';
+import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
 
 const initialState = {
   featureToggles: {
@@ -36,9 +37,9 @@ describe('VAOS <PastAppointmentsListV2>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTimezoneTestDate());
+    mockFacilitiesFetch();
   });
   afterEach(() => {
-    resetFetch();
     MockDate.reset();
   });
   it('should show select date range dropdown', async () => {
@@ -75,7 +76,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       initialState,
     });
 
-    await screen.findByText(/You don’t have any appointments/i);
+    await screen.findByText(/You don’t have any past appointments/i);
 
     mockPastAppointmentInfoOption1({ va: [appointment] });
 
@@ -86,9 +87,9 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     fireEvent.click(screen.queryByText('Update'));
 
     await screen.findByText(new RegExp(pastDate.format('MMMM YYYY'), 'i'));
+    await screen.findByText(/VA appointment/);
 
     expect(screen.baseElement).to.contain.text(`Appointments in ${rangeLabel}`);
-    expect(screen.baseElement).to.contain.text('VA appointment');
     expect(screen.baseElement).to.contain.text('Details');
   });
 
@@ -178,35 +179,11 @@ describe('VAOS <PastAppointmentsListV2>', () => {
         new RegExp(pastDate.tz('America/Denver').format('h:mm'), 'i'),
       ),
     ).to.exist;
-    expect(within(firstCard).getByText(/Cheyenne VA Medical Center/i)).to.exist;
-    expect(screen.baseElement).not.to.contain.text('VA appointment');
-  });
-
-  it('should have correct status when previously cancelled', async () => {
-    const pastDate = moment().subtract(3, 'days');
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      startDate: pastDate.format(),
-      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
-      facilityId: '983',
-      sta6aid: '983GC',
-    };
-    appointment.attributes.vdsAppointments[0].currentStatus =
-      'CANCELLED BY CLINIC';
-
-    mockPastAppointmentInfo({ va: [appointment] });
-
-    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
-      initialState,
+    await waitFor(() => {
+      expect(within(firstCard).getByText(/Cheyenne VA Medical Center/i)).to
+        .exist;
     });
-
-    await screen.findAllByText(
-      new RegExp(pastDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
-    );
-
-    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(screen.baseElement).to.contain.text('Canceled');
+    expect(screen.baseElement).not.to.contain.text('VA appointment');
   });
 
   it('should not display when they have hidden statuses', () => {
@@ -220,7 +197,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       initialState,
     });
 
-    return expect(screen.findByText(/You don’t have any appointments/i)).to
+    return expect(screen.findByText(/You don’t have any past appointments/i)).to
       .eventually.be.ok;
   });
 
@@ -236,7 +213,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       initialState,
     });
 
-    return expect(screen.findByText(/You don’t have any appointments/i)).to
+    return expect(screen.findByText(/You don’t have any past appointments/i)).to
       .eventually.be.ok;
   });
 
@@ -285,6 +262,50 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     expect(within(firstCard).getByText(/VA Video Connect at home/i)).to.exist;
   });
 
+  it('should display past appointments using V2 api call', async () => {
+    const now = moment().startOf('day');
+    const start = moment(now).subtract(3, 'months');
+    const end = moment()
+      .minutes(0)
+      .add(30, 'minutes');
+
+    const yesterday = moment.utc().subtract(1, 'day');
+    const appointment = getVAOSAppointmentMock();
+    appointment.id = '123';
+    appointment.attributes = {
+      ...appointment.attributes,
+      kind: 'phone',
+      minutesDuration: 30,
+      status: 'booked',
+      start: yesterday.format(),
+      locationId: '983',
+    };
+    mockVAOSAppointmentsFetch({
+      start: start.format('YYYY-MM-DDTHH:mm:ssZ'),
+      end: end.format('YYYY-MM-DDTHH:mm:ssZ'),
+      requests: [appointment],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+    });
+
+    const myInitialState = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingVAOSServiceVAAppointments: true,
+        vaOnlineSchedulingVAOSServiceCCAppointments: true,
+      },
+    };
+    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
+      initialState: myInitialState,
+    });
+
+    await screen.findAllByText(
+      new RegExp(yesterday.tz('America/Denver').format('dddd, MMMM D'), 'i'),
+    );
+
+    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
+  });
+
   describe('getPastAppointmentDateRangeOptions', () => {
     const ranges = getPastAppointmentDateRangeOptions(moment('2020-02-02'));
     it('should return 6 correct date ranges for dropdown', () => {
@@ -320,108 +341,5 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       expect(ranges[5].startDate).to.include('2019-01-01T00:00:00');
       expect(ranges[5].endDate).to.include('2019-12-31T23:59:59');
     });
-  });
-
-  it('should include fulfilled Express Care requests', async () => {
-    const startDate = moment();
-    const request = getVARequestMock();
-    request.attributes = {
-      ...request.attributes,
-      status: 'Resolved',
-      optionDate1: startDate.format('MM/DD/YYYY'),
-      optionTime1: 'AM',
-      date: startDate.format(),
-      createdDate: startDate.format('MM/DD/YYYY HH:mm:SS'),
-      typeOfCareId: 'CR1',
-    };
-    request.id = '1234';
-    mockPastAppointmentInfo({ va: [], requests: [request] });
-
-    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
-      initialState,
-    });
-
-    await screen.findAllByText(
-      new RegExp(startDate.format('dddd, MMMM D'), 'i'),
-    );
-
-    const firstCard = screen.getAllByRole('listitem')[0];
-
-    expect(firstCard).to.contain.text('Express Care request');
-  });
-
-  it('should include cancelled and pending Express Care requests that are more than 2 days old', async () => {
-    const startDate = moment().subtract(3, 'days');
-    const pendingRequest = getVARequestMock();
-    pendingRequest.attributes = {
-      ...pendingRequest.attributes,
-      status: 'Submitted',
-      optionDate1: startDate.format('MM/DD/YYYY'),
-      optionTime1: 'AM',
-      date: startDate.format(),
-      createdDate: startDate.format('MM/DD/YYYY HH:mm:SS'),
-      typeOfCareId: 'CR1',
-    };
-    pendingRequest.id = '1234';
-    const cancelledRequest = { ...pendingRequest };
-    cancelledRequest.attributes = {
-      ...cancelledRequest.attributes,
-      status: 'Cancelled',
-    };
-    cancelledRequest.id = '12345';
-    mockPastAppointmentInfo({
-      va: [],
-      requests: [pendingRequest, cancelledRequest],
-    });
-
-    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
-      initialState,
-    });
-
-    await screen.findAllByText(
-      new RegExp(startDate.format('dddd, MMMM D'), 'i'),
-    );
-
-    const cards = screen.getAllByRole('listitem');
-
-    expect(cards.length).to.equal(2);
-
-    expect(cards[0]).to.contain.text('Express Care request');
-    expect(cards[1]).to.contain.text('Canceled');
-  });
-
-  it('should not include cancelled and pending Express Care requests that are less than 2 days old', async () => {
-    const startDate = moment().subtract(1, 'days');
-    const pendingRequest = getVARequestMock();
-    pendingRequest.attributes = {
-      ...pendingRequest.attributes,
-      status: 'Submitted',
-      optionDate1: startDate.format('MM/DD/YYYY'),
-      optionTime1: 'AM',
-      date: startDate.format(),
-      createdDate: startDate.format('MM/DD/YYYY HH:mm:SS'),
-      typeOfCareId: 'CR1',
-    };
-    pendingRequest.id = '1234';
-    const cancelledRequest = { ...pendingRequest };
-    cancelledRequest.attributes = {
-      ...cancelledRequest.attributes,
-      status: 'Cancelled',
-    };
-    cancelledRequest.id = '12345';
-    mockPastAppointmentInfo({
-      va: [],
-      requests: [pendingRequest, cancelledRequest],
-    });
-
-    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
-      initialState,
-    });
-
-    await screen.findByText('You don’t have any appointments');
-
-    const cards = screen.queryAllByRole('listitem');
-
-    expect(cards.length).to.equal(0);
   });
 });

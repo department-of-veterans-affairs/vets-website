@@ -15,6 +15,7 @@
     "first": "Donald",
     "last": "Duck"
   },
+  "secondaryTwoSignature": "Donald Duck",
   "secondaryTwoDateOfBirth": "1984-11-13",
   "secondaryTwoGender": "F",
   "secondaryOneAddress": {
@@ -34,6 +35,7 @@
     "middle": "Geef",
     "last": "Goofus"
   },
+  "secondaryOneSignature": "George Geef Goofus",
   "secondaryOneDateOfBirth": "1932-05-12",
   "view:hasSecondaryCaregiverOne": true,
   "primaryHasHealthInsurance": true,
@@ -49,6 +51,7 @@
     "first": "Mini",
     "last": "Mouse"
   },
+  "primarySignature": "Mini Mouse",
   "primaryDateOfBirth": "1928-11-18",
   "primaryGender": "F",
   "veteranLastTreatmentFacility": {
@@ -70,6 +73,7 @@
     "first": "Micky",
     "last": "Mouse"
   },
+  "veteranSignature": "Micky Mouse",
   "veteranSsnOrTin": "788775458",
   "veteranDateOfBirth": "1948-11-18",
   "veteranGender": "M",

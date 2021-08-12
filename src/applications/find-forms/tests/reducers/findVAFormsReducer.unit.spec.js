@@ -21,6 +21,7 @@ describe('Find VA Forms reducer: findVAFormsReducer', () => {
       results: null,
       sortByPropertyName: INITIAL_SORT_STATE,
       hasOnlyRetiredForms: false,
+      closestMatchSearchResults: null,
       startIndex: 0,
     });
   });
@@ -37,6 +38,7 @@ describe('Find VA Forms reducer: findVAFormsReducer', () => {
       results: null,
       sortByPropertyName: INITIAL_SORT_STATE,
       hasOnlyRetiredForms: false,
+      closestMatchSearchResults: null,
       startIndex: 0,
     });
   });

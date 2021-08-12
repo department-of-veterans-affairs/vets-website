@@ -1,27 +1,29 @@
 import React from 'react';
+import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
 
 export const uiSchema = {
   'ui:title': 'Your bankruptcy details',
-  bankruptcyHistory: {
-    bankruptcyDischargeDate: {
-      'ui:title': 'Date a court granted you a bankruptcy discharge',
-      'ui:widget': 'date',
-    },
-    courtLocation: {
-      'ui:title': 'Location of court (city, state)',
-      'ui:options': {
-        widgetClassNames: 'input-size-6',
-      },
-    },
-    docketNumber: {
-      'ui:title': 'Case or docket number',
-      'ui:description': (
-        <p className="formfield-subtitle">
-          You’ll find this number on your case documents.
-        </p>
+  additionalData: {
+    bankruptcy: {
+      dateDischarged: monthYearUI(
+        'Date a court granted you a bankruptcy discharge',
       ),
-      'ui:options': {
-        widgetClassNames: 'input-size-6',
+      courtLocation: {
+        'ui:title': 'Location of court (city, state)',
+        'ui:options': {
+          widgetClassNames: 'input-size-6',
+        },
+      },
+      docketNumber: {
+        'ui:title': 'Case or docket number',
+        'ui:description': (
+          <p className="formfield-subtitle">
+            You’ll find this number on your case documents.
+          </p>
+        ),
+        'ui:options': {
+          widgetClassNames: 'input-size-6',
+        },
       },
     },
   },
@@ -29,17 +31,22 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    bankruptcyHistory: {
+    additionalData: {
       type: 'object',
       properties: {
-        bankruptcyDischargeDate: {
-          type: 'string',
-        },
-        courtLocation: {
-          type: 'string',
-        },
-        docketNumber: {
-          type: 'string',
+        bankruptcy: {
+          type: 'object',
+          properties: {
+            dateDischarged: {
+              type: 'string',
+            },
+            courtLocation: {
+              type: 'string',
+            },
+            docketNumber: {
+              type: 'string',
+            },
+          },
         },
       },
     },

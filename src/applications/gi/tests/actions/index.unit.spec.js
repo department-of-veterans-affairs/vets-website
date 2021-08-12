@@ -3,7 +3,6 @@ import sinon from 'sinon';
 
 import {
   mockFetch,
-  resetFetch,
   setFetchJSONFailure as setFetchFailure,
   setFetchJSONResponse as setFetchResponse,
 } from 'platform/testing/unit/helpers.js';
@@ -123,8 +122,6 @@ describe('beneficiaryZIPCodeChanged', () => {
       done();
     }, 0);
   });
-
-  afterEach(() => resetFetch());
 });
 
 describe('fetchProfile', () => {
@@ -249,7 +246,6 @@ describe('fetchProfile', () => {
       done();
     }, 0);
   });
-  afterEach(() => resetFetch());
 });
 
 describe('institution autocomplete', () => {
@@ -366,20 +362,6 @@ describe('institution search', () => {
       });
       done();
     }, 0);
-  });
-
-  it('should pass state_search when flag value is true', done => {
-    const dispatch = sinon.spy();
-    fetchInstitutionSearchResults({}, true)(dispatch);
-    expect(global.fetch.firstCall.args[0]).to.contain('state_search=true');
-    done();
-  });
-
-  it('should not pass state_search when flag value is false', done => {
-    const dispatch = sinon.spy();
-    fetchInstitutionSearchResults({}, false)(dispatch);
-    expect(global.fetch.firstCall.args[0]).to.not.contain('state_search');
-    done();
   });
 });
 

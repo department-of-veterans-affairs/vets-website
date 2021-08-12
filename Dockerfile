@@ -10,7 +10,14 @@ RUN groupadd -g $userid vets-website \
 ENV YARN_VERSION 1.21.1
 ENV NODE_ENV production
 
-RUN apt-get update && apt-get install -y --no-install-recommends gconf-service libasound2 libatk1.0-0 libc6 libcairo2 \
+RUN apt-get update
+
+# Install specific version of Chrome to match ChromeDriver installation.
+ENV CHROME_VERSION 91.0.4472.101-1
+RUN curl -L "https://github.com/webnicer/chrome-downloads/raw/master/x64.deb/google-chrome-stable_${CHROME_VERSION}_amd64.deb" -o "google-chrome.deb"
+RUN dpkg -i google-chrome.deb || apt-get -f -y install
+
+RUN apt-get install -y --no-install-recommends gconf-service libasound2 libatk1.0-0 libc6 libcairo2 \
                                                                  libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 \
                                                                  libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 \
                                                                  libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 \
@@ -32,10 +39,15 @@ RUN aws --version # Verify AWS CLI installation.
 # Explicitly set CA cert to resolve SSL issues with AWS.
 ENV AWS_CA_BUNDLE /etc/ssl/certs/ca-certificates.crt
 
-RUN mkdir -p /application
+# Add VA Root CA to Docker Certificate Authority (CA) Store so that NODE can use it for requests.
+ADD http://crl.pki.va.gov/PKI/AIA/VA/VA-Internal-S2-RCA1-v1.cer /usr/local/share/ca-certificates/
+RUN openssl x509 -inform DER -in /usr/local/share/ca-certificates/VA-Internal-S2-RCA1-v1.cer -out /usr/local/share/ca-certificates/VA-Internal-S2-RCA1-v1.crt
+RUN update-ca-certificates
 
+RUN mkdir -p /application
 WORKDIR /application
 
 USER vets-website
+ENV NODE_EXTRA_CA_CERTS /etc/ssl/certs/ca-certificates.crt
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]

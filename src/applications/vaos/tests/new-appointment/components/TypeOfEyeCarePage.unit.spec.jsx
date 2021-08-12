@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 
 import { getParentSiteMock } from '../../mocks/v0';
 import {
@@ -32,7 +32,6 @@ const initialState = {
 
 describe('VAOS <TypeOfEyeCarePage>', () => {
   beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
   it('should show page and validation', async () => {
     const store = createTestStore(initialState);
     const nextPage = await setTypeOfCare(store, /eye care/i);

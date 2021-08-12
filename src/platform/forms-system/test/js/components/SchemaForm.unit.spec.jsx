@@ -4,6 +4,7 @@ import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
 import SchemaForm from '../../../src/js/components/SchemaForm';
+import { render } from '@testing-library/react';
 
 describe('Schemaform <SchemaForm>', () => {
   it('should render', () => {
@@ -185,5 +186,43 @@ describe('Schemaform <SchemaForm>', () => {
 
     expect(instance.state.formContext.test).to.be.true;
     expect(instance.state.formContext.submitted).to.be.false;
+  });
+  it('should render a memoized description and field', async () => {
+    const name = 'testPage';
+    const schema = {
+      type: 'object',
+      properties: {
+        field1: {
+          type: 'string',
+        },
+        field2: {
+          type: 'string',
+        },
+      },
+    };
+    const uiSchema = {
+      field1: {
+        'ui:description': React.memo(() => <div>Description comp</div>),
+        'ui:widget': React.memo(() => <div>Widget comp</div>),
+      },
+      field2: {
+        'ui:field': React.memo(() => <div>Field comp</div>),
+      },
+    };
+    const data = {};
+
+    const screen = render(
+      <SchemaForm
+        name={name}
+        title={name}
+        schema={schema}
+        uiSchema={uiSchema}
+        pageData={data}
+      />,
+    );
+
+    expect(await screen.findByText('Description comp')).to.be.ok;
+    expect(screen.getByText('Widget comp')).to.be.ok;
+    expect(screen.getByText('Field comp')).to.be.ok;
   });
 });

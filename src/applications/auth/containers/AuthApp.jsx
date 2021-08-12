@@ -7,6 +7,7 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Telephone, {
   CONTACTS,
+  PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -243,17 +244,13 @@ export class AuthApp extends React.Component {
           <>
             <h3>What you can do:</h3>
             <p>
-              <strong>Please try signing in again.</strong> If you still can’t
-              sign in, please use our online form to submit a request for help.
-            </p>
-            <p>
-              <a
-                href="https://www.accesstocare.va.gov/sign-in-help?_ga=2.9898741.1324318578.1552319576-1143343955.1509985973"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Submit a request to get help signing in
-              </a>
+              <strong>Please try signing in again.</strong>
+              If you still can't sign in, call our MyVA411 main information line
+              for help at
+              <Telephone contact={CONTACTS.HELP_DESK} />
+              (TTY:{' '}
+              <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+              ).
             </p>
             <button onClick={this.props.openLoginModal}>
               Try signing in again
@@ -275,17 +272,13 @@ export class AuthApp extends React.Component {
           <>
             <h3>What you can do:</h3>
             <p>
-              <strong>Please try signing in again.</strong> If you still can’t
-              sign in, please use our online form to submit a request for help.
-            </p>
-            <p>
-              <a
-                href="https://www.accesstocare.va.gov/sign-in-help?_ga=2.9898741.1324318578.1552319576-1143343955.1509985973"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Submit a request to get help signing in
-              </a>
+              <strong>Please try signing in again.</strong>
+              If you still can't sign in, call our MyVA411 main information line
+              for help at
+              <Telephone contact={CONTACTS.HELP_DESK} />
+              (TTY:{' '}
+              <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+              ).
             </p>
             <button onClick={this.props.openLoginModal}>
               Try signing in again
@@ -380,14 +373,12 @@ export class AuthApp extends React.Component {
         alertContent = (
           <p>
             We’re having trouble signing you in to VA.gov right now because we
-            found more than one DoD ID number for you. To fix this issue, please{' '}
-            <a
-              href="https://www.accesstocare.va.gov/sign-in-help?_ga=2.9898741.1324318578.1552319576-1143343955.1509985973"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              submit a request to get help signing in.
-            </a>
+            found more than one DoD ID number for you. To fix this issue, call
+            our MyVA411 main information line for help at
+            <Telephone contact={CONTACTS.HELP_DESK} />
+            (TTY:{' '}
+            <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+            ).
           </p>
         );
         troubleshootingContent = null;
@@ -400,14 +391,12 @@ export class AuthApp extends React.Component {
           <p>
             We’re having trouble signing you in right now because your My
             HealtheVet account number doesn’t match the account number on your
-            VA.gov account. To fix this issue, please{' '}
-            <a
-              href="https://www.accesstocare.va.gov/sign-in-help?_ga=2.9898741.1324318578.1552319576-1143343955.1509985973"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              submit a request to get help signing in.
-            </a>
+            VA.gov account. To fix this issue, call our MyVA411 main information
+            line for help at
+            <Telephone contact={CONTACTS.HELP_DESK} />
+            (TTY:{' '}
+            <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+            ).
           </p>
         );
         troubleshootingContent = null;
@@ -473,18 +462,13 @@ export class AuthApp extends React.Component {
             </ul>
             <p>
               <strong>
-                If you’ve taken the steps above and still can’t sign in,
+                If you've taken the steps above and still can't sign in,
               </strong>{' '}
-              please use our online form to submit a request for help.
-            </p>
-            <p>
-              <a
-                href="https://www.accesstocare.va.gov/sign-in-help?_ga=2.9898741.1324318578.1552319576-1143343955.1509985973"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Submit a request to get help signing in
-              </a>
+              please call our MyVA411 main information line for help at
+              <Telephone contact={CONTACTS.HELP_DESK} />
+              (TTY:{' '}
+              <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+              ).
             </p>
           </>
         );

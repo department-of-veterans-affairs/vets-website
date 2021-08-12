@@ -2,7 +2,7 @@
 import chunk from 'lodash/chunk';
 
 // Relative Imports
-import { INITIAL_SORT_STATE, SORT_OPTIONS } from '../../constants';
+import { INITIAL_SORT_STATE, FAF_SORT_OPTIONS } from '../../constants';
 import { sortTheResults } from '../../helpers';
 import stub from '../../constants/stub.json';
 
@@ -16,22 +16,29 @@ const SELECTORS = {
 
 function axeTestPage() {
   cy.injectAxe();
-  cy.axeCheck();
+  cy.axeCheck('main', {
+    rules: {
+      'aria-roles': {
+        enabled: false,
+      },
+    },
+  });
 }
 
 describe('functionality of Find Forms', () => {
-  before(function() {
-    if (Cypress.env('CIRCLECI')) this.skip();
-  });
-
   it('search the form and expect dom to have elements', () => {
-    cy.server();
-    cy.route({
-      method: 'GET',
-      response: stub,
-      status: 200,
-      url: '/v0/forms?query=health',
-    }).as('getFindAForm');
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          {
+            name: 'find_forms_second_flag',
+            value: true,
+          },
+        ],
+      },
+    });
+    cy.intercept('GET', '/v0/forms?query=health', stub).as('getFindAForm');
 
     // navigate to find-forms and make axe check on browser
     cy.visit('/find-forms/');
@@ -75,10 +82,10 @@ describe('functionality of Find Forms', () => {
     cy.get(`${SELECTORS.SORT_SELECT_WIDGET}`);
     cy.get(`${SELECTORS.SORT_SELECT_WIDGET} option`).should(
       'have.length',
-      SORT_OPTIONS.length,
+      FAF_SORT_OPTIONS.length,
     );
     cy.get(`${SELECTORS.SORT_SELECT_WIDGET} option:first`)
       .should('be.selected')
-      .should('contain', SORT_OPTIONS[0]);
+      .should('contain', FAF_SORT_OPTIONS[0]);
   });
 });

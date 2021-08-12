@@ -3,24 +3,21 @@ import React from 'react';
 export default function AppointmentRequestCommunityCareLocation({
   appointment,
 }) {
-  const providers = appointment.contained.filter(
-    res => res.resourceType === 'Practitioner',
-  );
+  const providers = appointment.preferredCommunityCareProviders;
 
   return (
     <>
       <h4 className="vaos-appts__block-label">Preferred provider</h4>
       <div>
-        {!providers.length && 'Not specified'}
-        {!!providers.length && (
-          <ul className="usa-unstyled-list">
-            {providers.map(provider => {
-              const practiceName =
-                provider.practitionerRole?.[0].location?.[0].display;
-              const providerName = provider.name?.text;
+        {!providers?.length && 'Not specified'}
+        {!!providers?.length && (
+          // eslint-disable-next-line jsx-a11y/no-redundant-roles
+          <ul className="usa-unstyled-list" role="list">
+            {providers.map((provider, index) => {
+              const { practiceName, providerName } = provider;
 
               return (
-                <li key={provider.id}>
+                <li key={index}>
                   {!!practiceName && (
                     <>
                       {practiceName}

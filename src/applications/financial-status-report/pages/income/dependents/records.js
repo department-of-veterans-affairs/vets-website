@@ -1,23 +1,37 @@
+import React from 'react';
 import ItemLoop from '../../../components/ItemLoop';
 import CardDetailsView from '../../../components/CardDetailsView';
 
 export const uiSchema = {
-  'ui:title': 'Your dependents',
-  dependentRecords: {
-    'ui:field': ItemLoop,
-    'ui:description': 'Enter each dependent’s age separately below.',
-    'ui:options': {
-      viewField: CardDetailsView,
-      doNotScroll: true,
-      showSave: true,
-      itemName: 'a dependent',
-    },
-    items: {
-      dependentAge: {
-        'ui:title': 'Dependent’s age',
-        'ui:options': {
-          classNames: 'vads-u-margin-bottom--3 vads-u-margin-top--3',
-          widgetClassNames: 'input-size-3',
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">Your dependents</legend>
+      <p className="vads-u-padding-top--2">
+        Enter each dependent’s age separately below.
+      </p>
+    </>
+  ),
+  personalData: {
+    agesOfOtherDependents: {
+      'ui:field': ItemLoop,
+      'ui:options': {
+        viewField: CardDetailsView,
+        doNotScroll: true,
+        showSave: true,
+        itemName: 'a dependent',
+        keepInPageOnReview: true,
+      },
+      items: {
+        dependentAge: {
+          'ui:title': 'Dependent’s age',
+          'ui:options': {
+            classNames: 'vads-u-margin-bottom--3 vads-u-margin-top--3',
+            widgetClassNames: 'input-size-3',
+          },
+          'ui:errorMessages': {
+            required: 'Please enter your dependent(s) age.',
+            pattern: 'Please enter only numerical values.',
+          },
         },
       },
     },
@@ -27,15 +41,20 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    dependentRecords: {
-      type: 'array',
-      items: {
-        type: 'object',
-        title: 'Dependent',
-        required: ['dependentAge'],
-        properties: {
-          dependentAge: {
-            type: 'string',
+    personalData: {
+      type: 'object',
+      properties: {
+        agesOfOtherDependents: {
+          type: 'array',
+          items: {
+            type: 'object',
+            required: ['dependentAge'],
+            properties: {
+              dependentAge: {
+                type: 'string',
+                pattern: '^\\d+$',
+              },
+            },
           },
         },
       },

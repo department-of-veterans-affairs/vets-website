@@ -1,3 +1,4 @@
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import newAppointmentFlow from '../../newAppointmentFlow';
@@ -38,7 +39,7 @@ export default function ContactDetailSection({ data }) {
             <span>
               {data.email}
               <br />
-              {data.phoneNumber}
+              <Telephone notClickable contact={data.phoneNumber} />
               <br />
               <i>Call {formatBestTimetoCall(data.bestTimeToCall)}</i>
             </span>

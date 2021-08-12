@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
+import { bindActionCreators } from 'redux';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
+
+import environment from 'platform/utilities/environment';
+import GetFormHelp from '../components/GetFormHelp';
+import { focusElement } from 'platform/utilities/ui';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes/';
 import { downloadPDF } from '../actions';
-import { focusElement } from 'platform/utilities/ui';
-import { bindActionCreators } from 'redux';
-import GetFormHelp from '../components/GetFormHelp';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -17,7 +19,7 @@ const scrollToTop = () => {
   });
 };
 
-const RequestDetailsCard = ({ data, response, download }) => {
+const RequestDetailsCard = ({ data, response }) => {
   const name = data.personalData?.veteranFullName;
 
   return (
@@ -35,10 +37,15 @@ const RequestDetailsCard = ({ data, response, download }) => {
           <strong>Requested repayment or relief options</strong>
         </p>
         <ul>
-          {data.fsrDebts?.map((debt, index) => (
+          {data.selectedDebts?.map((debt, index) => (
             <li key={index}>
-              {debt.resolution.resolutionType} for{' '}
-              {deductionCodes[debt.deductionCode]}{' '}
+              <span className="vads-u-margin-left--0p5">
+                {debt.resolution?.resolutionType}
+              </span>
+              for
+              <span className="vads-u-margin-left--0p5">
+                {deductionCodes[debt.deductionCode]}
+              </span>
             </li>
           ))}
         </ul>
@@ -53,11 +60,8 @@ const RequestDetailsCard = ({ data, response, download }) => {
         </p>
         <p className="vads-u-margin-y--0">Debt Management Center</p>
         <p className="vads-u-margin-y--0">P.O. Box 11930</p>
-        <p className="vads-u-margin-y--0">St. Paul, MN 5111-0930</p>
+        <p className="vads-u-margin-y--0">St. Paul, MN 55111-0930</p>
         <p>
-          <button className="usa-button button" onClick={() => download()}>
-            Download completed form
-          </button>
           <button
             className="usa-button-secondary button vads-u-background-color--white"
             onClick={() => window.print()}
@@ -84,12 +88,14 @@ const ConfirmationPage = ({ form, download }) => {
       <p className="vads-u-margin-top--0">
         <strong>Please print this page for your records.</strong>
       </p>
+
       <h3 className="confirmation-page-title">We've received your request</h3>
       <p>
-        We’ll send you a letter with our decision and any next steps within 45
-        days. If you experience changes that may affect our decision (like a job
-        loss or a new job), you’ll need to submit a new request.
+        We’ll send you a letter with our decision and any next steps. If you
+        experience changes that may affect our decision (like a job loss or a
+        new job), you’ll need to submit a new request.
       </p>
+
       {response && (
         <RequestDetailsCard
           data={data}
@@ -97,17 +103,14 @@ const ConfirmationPage = ({ form, download }) => {
           download={download}
         />
       )}
-      <h3>When will VA make a decision on my request?</h3>
-      <p>
-        You can expect our decision within 45 days. We'll send you a letter by
-        mail with our decision and any next steps to resolve your debt.
-      </p>
+
+      <h3>How can I check the status of my request?</h3>
       <div className="process schemaform-process">
         <ol>
           <li className="process-step list-one">
             <h4>Sign in to VA.gov</h4>
             <p>
-              You can sign in with your DS Logon, My HealtheVet, or ID.me
+              You can sign in with your DS Logon, My HealthyVet, or ID.me
               account.
             </p>
           </li>
@@ -125,9 +128,16 @@ const ConfirmationPage = ({ form, download }) => {
           <li className="process-step list-three">
             <h4>Go to your debt management portal</h4>
             <p>
-              Once you're signed in, you can go to{' '}
-              <a href="/manage-va-debt">Manage my VA debt</a> to check the
-              status of your current debts.
+              Once you're signed in, you can go to
+              <a href="/manage-va-debt" className="vads-u-margin-left--0p5">
+                Manage my VA debt
+              </a>
+              to check the status of your current debts.
+            </p>
+            <p>
+              If you have a question about the status of your request call us at
+              800-827-0648 (or 1-612-713-6415 from overseas). We’re here Monday
+              through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
           </li>
         </ol>
@@ -139,7 +149,15 @@ const ConfirmationPage = ({ form, download }) => {
           You'll need to submit a new request to report the changes to us. We'll
           consider the changes when we make our decision on your request.
         </p>
+
+        <a
+          className="usa-button-primary va-button-primary vads-u-margin-top--1p5 vads-u-margin-bottom--2p5"
+          href={`${environment.BASE_URL}`}
+        >
+          Go back to VA.gov
+        </a>
       </div>
+
       <div className="help-container">
         <h2 className="help-heading">Need help?</h2>
         <GetFormHelp />

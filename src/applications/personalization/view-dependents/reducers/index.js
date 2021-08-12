@@ -48,4 +48,7 @@ function allDependents(state = initialState, action) {
   }
 }
 
-export default { allDependents, removeDependents };
+export default {
+  allDependents,
+  removeDependents,
+};

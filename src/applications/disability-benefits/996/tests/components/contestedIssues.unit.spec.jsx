@@ -10,7 +10,7 @@ import {
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils';
 
-import { $, $$ } from '../../helpers';
+import { $, $$ } from '../../utils/ui';
 
 import formConfig from '../../config/form.js';
 import initialData from '../schema/initialData.js';
@@ -51,7 +51,7 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
     const formDOM = getFormDOM(form);
     formDOM.setCheckbox('#root_contestedIssues_0', true);
     submitForm(form);
-    expect($$('.usa-alert-error', formDOM).length).to.equal(0);
+    expect($$('va-alert', formDOM).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
 
@@ -67,7 +67,7 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
 
     const formDOM = getFormDOM(form);
     submitForm(form);
-    expect($$('.usa-alert-error', formDOM).length).to.equal(1);
+    expect($$('va-alert', formDOM).length).to.equal(1);
   });
 
   it('renders the information about each disability', () => {

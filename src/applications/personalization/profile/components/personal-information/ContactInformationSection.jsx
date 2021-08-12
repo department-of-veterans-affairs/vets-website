@@ -8,18 +8,42 @@ import PhoneNumbersTable from './phone-numbers/PhoneNumbersTable';
 
 const ContactInformationSection = ({ className }) => (
   <div className={className}>
+    <div className="vads-u-margin-bottom--2">
+      <AdditionalInfo triggerText="Which benefits and services does VA use this contact information for?">
+        <p className="vads-u-margin-y--1">
+          We use this information to contact you about these VA benefits and
+          services:
+        </p>
+        <ul>
+          <li>Disability compensation</li>
+          <li>Pension benefits</li>
+          <li>Claims and appeals</li>
+          <li>Veteran Readiness and Employment (VR&E)</li>
+        </ul>
+        <p>
+          If you’re enrolled in VA health care, we also use this information to
+          send you these:
+        </p>
+        <ul>
+          <li>Appointment reminders</li>
+          <li>Communications from your VA medical center</li>
+          <li>Lab and test results</li>
+          <li>
+            Prescription medicines (we send your medicines to your mailing
+            address)
+          </li>
+        </ul>
+        <p>
+          <a href="/resources/change-your-address-on-file-with-va/#change-your-address-by-contact">
+            Find out how to change your contact information for other VA
+            benefits{' '}
+          </a>
+        </p>
+      </AdditionalInfo>
+    </div>
     <AddressesTable className="vads-u-margin-bottom--6" />
 
     <PhoneNumbersTable className="vads-u-margin-bottom--3" />
-
-    {/* more info component for contact info */}
-    <AdditionalInfo triggerText="How will you use my contact information?">
-      We’ll use this information to contact you about certain benefits and
-      services, like disability compensation, pension benefits, and claims and
-      appeals. If you’re enrolled in VA health care, we’ll send your
-      prescriptions to your mailing address. Your health care team may also use
-      this information to contact you.
-    </AdditionalInfo>
   </div>
 );
 

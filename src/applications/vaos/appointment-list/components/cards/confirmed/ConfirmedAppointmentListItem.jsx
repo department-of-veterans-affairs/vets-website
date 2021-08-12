@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import moment from '../../../../lib/moment-tz';
-import { formatFacilityAddress } from '../../../../services/location';
 import {
   APPOINTMENT_STATUS,
   PURPOSE_TEXT,
@@ -10,26 +9,19 @@ import {
 import VideoVisitSection from './VideoVisitSection';
 import AddToCalendar from '../../../../components/AddToCalendar';
 import VAFacilityLocation from '../../../../components/VAFacilityLocation';
-import AppointmentDateTime from './AppointmentDateTime';
+import AppointmentDateTime from '../../AppointmentDateTime';
 import AppointmentInstructions from './AppointmentInstructions';
 import CommunityCareInstructions from './CommunityCareInstructions';
 import AppointmentStatus from '../AppointmentStatus';
 import ConfirmedCommunityCareLocation from './ConfirmedCommunityCareLocation';
 import {
-  getATLASLocation,
-  getVARFacilityId,
   getVAAppointmentLocationId,
-  isVideoAppointment,
   isVAPhoneAppointment,
-  isAtlasLocation,
-  getVideoKind,
-  hasPractitioner,
+  getCalendarData,
+  isClinicVideoAppointment,
 } from '../../../../services/appointment';
 import AdditionalInfoRow from '../AdditionalInfoRow';
-import {
-  getVideoInstructionText,
-  VideoVisitInstructions,
-} from './VideoInstructions';
+import { VideoVisitInstructions } from './VideoInstructions';
 import VideoVisitProviderSection from './VideoVisitProvider';
 
 function formatAppointmentDate(date) {
@@ -51,11 +43,12 @@ export default function ConfirmedAppointmentListItem({
   const cancelled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isPastAppointment = appointment.vaos.isPastAppointment;
   const isCommunityCare = appointment.vaos.isCommunityCare;
-  const isVideo = isVideoAppointment(appointment);
+  const isVideo = appointment.vaos.isVideo;
   const isPhone = isVAPhoneAppointment(appointment);
   const isInPersonVAAppointment = !isVideo && !isCommunityCare;
-  const isAtlas = isAtlasLocation(appointment);
-  const videoKind = getVideoKind(appointment);
+  const isAtlas = appointment.videoData.isAtlas;
+  const videoKind = appointment.videoData.kind;
+
   const showInstructions =
     isCommunityCare ||
     (isInPersonVAAppointment &&
@@ -66,19 +59,10 @@ export default function ConfirmedAppointmentListItem({
   const showVideoInstructions =
     isVideo &&
     appointment.comment &&
-    videoKind !== VIDEO_TYPES.clinic &&
+    !isClinicVideoAppointment(appointment) &&
     videoKind !== VIDEO_TYPES.gfe;
 
-  const showProvider = isVideo && hasPractitioner(appointment);
-
-  let instructionText = 'VA appointment';
-  if (showInstructions) {
-    instructionText = appointment.comment;
-  } else if (showVideoInstructions) {
-    instructionText = getVideoInstructionText(appointment.comment);
-  } else if (isVideo) {
-    instructionText = 'VA video appointment';
-  }
+  const showProvider = isVideo && !!appointment.videoData.providers?.length;
 
   const itemClasses = classNames(
     'vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3',
@@ -90,44 +74,32 @@ export default function ConfirmedAppointmentListItem({
   );
 
   let header;
-  let location;
   let subHeader = '';
+  const calendarData = getCalendarData({
+    facility,
+    appointment,
+  });
 
   if (isAtlas) {
     header = 'VA Video Connect';
     subHeader = ' at an ATLAS location';
-    const atlasLocation = getATLASLocation(appointment);
-    if (atlasLocation?.address) {
-      location = formatFacilityAddress(atlasLocation);
-    }
-  } else if (videoKind === VIDEO_TYPES.clinic) {
+  } else if (isClinicVideoAppointment(appointment)) {
     header = 'VA Video Connect';
     subHeader = ' at a VA location';
-    location = facility ? formatFacilityAddress(facility) : null;
   } else if (videoKind === VIDEO_TYPES.gfe) {
     header = 'VA Video Connect';
     subHeader = ' using a VA device';
-    location = 'Video conference';
   } else if (isVideo) {
     header = 'VA Video Connect';
     subHeader = ' at home';
-    location = 'Video conference';
   } else if (isCommunityCare) {
     header = 'Community Care';
-    const address = appointment.contained.find(
-      res => res.resourceType === 'Location',
-    )?.address;
-    if (address) {
-      location = `${address.line[0]}, ${address.city}, ${address.state} ${
-        address.postalCode
-      }`;
-    }
+  } else if (appointment.vaos.isCOVIDVaccine) {
+    header = 'COVID-19 Vaccine';
   } else {
     header = 'VA Appointment';
-    location = facility ? formatFacilityAddress(facility) : null;
     if (isPhone) {
       subHeader = ' over the phone';
-      location = 'Phone call';
     }
   }
   return (
@@ -145,11 +117,7 @@ export default function ConfirmedAppointmentListItem({
         <span>{subHeader}</span>
       </div>
       <h3 className="vaos-appts__date-time vads-u-font-size--h3 vads-u-margin-x--0">
-        <AppointmentDateTime
-          appointmentDate={moment.parseZone(appointment.start)}
-          timezone={appointment.vaos.timeZone}
-          facilityId={getVARFacilityId(appointment)}
-        />
+        <AppointmentDateTime appointment={appointment} />
       </h3>
       <AppointmentStatus
         status={appointment.status}
@@ -159,7 +127,9 @@ export default function ConfirmedAppointmentListItem({
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
         <div className="vads-u-flex--1 vads-u-margin-bottom--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
           {isCommunityCare && (
-            <ConfirmedCommunityCareLocation appointment={appointment} />
+            <ConfirmedCommunityCareLocation
+              provider={appointment.communityCareProvider}
+            />
           )}
           {isVideo && (
             <VideoVisitSection facility={facility} appointment={appointment} />
@@ -168,7 +138,8 @@ export default function ConfirmedAppointmentListItem({
             <VAFacilityLocation
               facility={facility}
               facilityId={getVAAppointmentLocationId(appointment)}
-              clinicName={appointment.participant[0].actor.display}
+              clinicName={appointment.location?.clinicName}
+              showCovidPhone={appointment.vaos.isCOVIDVaccine}
             />
           )}
         </div>
@@ -187,7 +158,9 @@ export default function ConfirmedAppointmentListItem({
       {showProvider && (
         <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
           <div className="vads-u-flex--1 vads-u-margin-bottom--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
-            <VideoVisitProviderSection participants={appointment.participant} />
+            <VideoVisitProviderSection
+              providers={appointment.videoData.providers}
+            />
           </div>
         </div>
       )}
@@ -208,9 +181,14 @@ export default function ConfirmedAppointmentListItem({
               </AdditionalInfoRow>
             )}
             <AddToCalendar
-              summary={`${header}${subHeader}`}
-              description={instructionText}
-              location={location}
+              summary={calendarData.summary}
+              description={{
+                text: calendarData.text,
+                providerName: calendarData.providerName,
+                phone: calendarData.phone,
+                additionalText: calendarData.additionalText,
+              }}
+              location={calendarData.location}
               duration={appointment.minutesDuration}
               startDateTime={appointment.start}
             />

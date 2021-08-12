@@ -1,6 +1,7 @@
 import React from 'react';
 import { getRealFacilityId } from '../utils/appointment';
 import FacilityAddress from './FacilityAddress';
+import NewTabAnchor from './NewTabAnchor';
 
 export default function VAFacilityLocation({
   clinicName,
@@ -9,24 +10,23 @@ export default function VAFacilityLocation({
   facilityId,
   isHomepageRefresh,
   clinicFriendlyName,
+  showCovidPhone,
 }) {
   let content = null;
 
   if (!facility && !facilityId) {
     content = (
-      <a href="/find-locations" rel="noopener noreferrer" target="_blank">
+      <NewTabAnchor href="/find-locations">
         Find facility information
-      </a>
+      </NewTabAnchor>
     );
   } else if (!facility) {
     content = (
-      <a
+      <NewTabAnchor
         href={`/find-locations/facility/vha_${getRealFacilityId(facilityId)}`}
-        rel="noopener noreferrer"
-        target="_blank"
       >
         View facility information
-      </a>
+      </NewTabAnchor>
     );
   } else if (facility) {
     content = (
@@ -42,6 +42,7 @@ export default function VAFacilityLocation({
           showDirectionsLink
           clinicName={clinicFriendlyName}
           level={isHomepageRefresh ? 2 : 4}
+          showCovidPhone={showCovidPhone}
         />
       </>
     );
@@ -51,9 +52,8 @@ export default function VAFacilityLocation({
 
   return (
     <>
-      {!isHomepageRefresh && (
-        <h4 className="vaos-appts__block-label">{name}</h4>
-      )}
+      {!isHomepageRefresh &&
+        !!name && <h4 className="vaos-appts__block-label">{name}</h4>}
       {isHomepageRefresh && name}
       <div>{content}</div>
     </>

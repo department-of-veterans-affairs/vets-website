@@ -95,7 +95,7 @@ const formConfig = {
       'Please sign in again to continue your application for declare or remove a dependent.',
   },
   title: 'Add or remove a dependent on your VA disability benefits',
-  subTitle: 'VA Form 21-686c (and 21-674)',
+  subTitle: 'VA Form 21-686c (with 21P-527EZ and 21-674)',
   defaultDefinitions: { ...fullSchema.definitions },
   chapters: {
     optionSelection: {
@@ -379,7 +379,7 @@ const formConfig = {
       },
     },
     reportChildMarriage: {
-      title: 'nformation to remove a child under 18 who has married',
+      title: 'Information to remove a child under 18 who has married',
       pages: {
         childInformation: {
           depends: formData =>

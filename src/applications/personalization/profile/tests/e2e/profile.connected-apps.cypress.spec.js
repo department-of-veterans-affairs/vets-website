@@ -1,4 +1,3 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS } from '../../constants';
 import mockUser from '../fixtures/users/user-36.json';
 import mockConnectedApps from '../fixtures/connected-apps/mock-connected-apps.json';
@@ -9,6 +8,7 @@ import mockConnectedApps from '../fixtures/connected-apps/mock-connected-apps.js
  */
 
 function disconnectApps(mobile = false) {
+  cy.server();
   cy.route('GET', 'v0/profile/connected_applications', mockConnectedApps);
 
   cy.route({
@@ -81,9 +81,7 @@ function disconnectApps(mobile = false) {
 
 describe('Connected applications', () => {
   beforeEach(() => {
-    disableFTUXModals();
     cy.login(mockUser);
-    // login() calls cy.server() so we can now mock routes
   });
   it('should successfully disconnect apps on Desktop', () => {
     disconnectApps(false);

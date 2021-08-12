@@ -9,22 +9,19 @@ import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { fireEvent, waitFor } from '@testing-library/dom';
-import userEvent from '@testing-library/user-event';
 
 import { commonReducer } from 'platform/startup/store';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 
 import reducers from '../../redux/reducer';
 import newAppointmentReducer from '../../new-appointment/redux/reducer';
-import expressCareReducer from '../../express-care/redux/reducer';
-import projectCheetahReducer from '../../project-cheetah/redux/reducer';
-import { fetchExpressCareWindows } from '../../appointment-list/redux/actions';
+import covid19VaccineReducer from '../../covid-19-vaccine/redux/reducer';
+import unenrolledVaccineReducer from '../../unenrolled-vaccine/redux/reducer';
 
 import TypeOfCarePage from '../../new-appointment/components/TypeOfCarePage';
-import ExpressCareInfoPage from '../../express-care/components/ExpressCareInfoPage';
-import ExpressCareReasonPage from '../../express-care/components/ExpressCareReasonPage';
 import { cleanup } from '@testing-library/react';
 import ClinicChoicePage from '../../new-appointment/components/ClinicChoicePage';
+import VaccineClinicChoicePage from '../../covid-19-vaccine/components/ClinicChoicePage';
 import PreferredDatePage from '../../new-appointment/components/PreferredDatePage';
 import {
   getDirectBookingEligibilityCriteriaMock,
@@ -43,6 +40,8 @@ import createRoutesWithStore from '../../routes';
 import TypeOfEyeCarePage from '../../new-appointment/components/TypeOfEyeCarePage';
 import TypeOfFacilityPage from '../../new-appointment/components/TypeOfFacilityPage';
 import VAFacilityPageV2 from '../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
+import VaccineFacilityPage from '../../covid-19-vaccine/components/VAFacilityPage';
+import { TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
 
 /**
  * Creates a Redux store when the VAOS reducers loaded and the thunk middleware applied
@@ -57,8 +56,8 @@ export function createTestStore(initialState) {
       ...commonReducer,
       ...reducers,
       newAppointment: newAppointmentReducer,
-      expressCare: expressCareReducer,
-      projectCheetah: projectCheetahReducer,
+      covid19Vaccine: covid19VaccineReducer,
+      unenrolledVaccine: unenrolledVaccineReducer,
     }),
     initialState,
     applyMiddleware(thunk),
@@ -274,9 +273,10 @@ export async function setTypeOfEyeCare(store, label) {
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
  * @param {string} facilityId The facility id of the facility to be selected
+ * @param {VAFacility} facilityData The facility data to use in the mock
  * @returns {string} The url path that was routed to after clicking Continue
  */
-export async function setVAFacility(store, facilityId) {
+export async function setVAFacility(store, facilityId, facilityData) {
   const siteCode = facilityId.substring(0, 3);
   const typeOfCareId = store.getState().newAppointment.data.typeOfCareId;
   const parentSite = {
@@ -300,7 +300,7 @@ export async function setVAFacility(store, facilityId) {
   const realFacilityID = facilityId.replace('983', '442').replace('984', '552');
 
   const facilities = [
-    {
+    facilityData || {
       id: `vha_${realFacilityID}`,
       attributes: {
         ...getVAFacilityMock().attributes,
@@ -328,6 +328,56 @@ export async function setVAFacility(store, facilityId) {
 }
 
 /**
+ * Renders the vaccine flow facility page and chooses the option indicated by the facility id param
+ *
+ * @export
+ * @async
+ * @param {ReduxStore} store The Redux store to use to render the page
+ * @param {string} facilityId The facility id of the facility to be selected
+ * @returns {string} The url path that was routed to after clicking Continue
+ */
+export async function setVaccineFacility(store, facilityId, facilityData = {}) {
+  const siteCode = facilityId.substring(0, 3);
+
+  const directFacilities = [
+    getDirectBookingEligibilityCriteriaMock({
+      id: facilityId,
+      typeOfCareId: TYPE_OF_CARE_ID,
+    }),
+  ];
+
+  const realFacilityID = facilityId.replace('983', '442').replace('984', '552');
+
+  const facilities = [
+    {
+      id: `vha_${realFacilityID}`,
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: realFacilityID,
+        ...facilityData,
+      },
+    },
+  ];
+
+  mockDirectBookingEligibilityCriteria([siteCode], directFacilities);
+  mockRequestEligibilityCriteria([siteCode], []);
+  mockFacilitiesFetch(`vha_${realFacilityID}`, facilities);
+
+  const { findByText, history } = renderWithStoreAndRouter(
+    <VaccineFacilityPage />,
+    {
+      store,
+    },
+  );
+
+  const continueButton = await findByText(/Continue/);
+  fireEvent.click(continueButton);
+  await waitFor(() => expect(history.push.called).to.be.true);
+  await cleanup();
+
+  return history.push.firstCall.args[0];
+}
+/**
  * Renders the clinic page and chooses the option indicated by the label param
  *
  * @export
@@ -354,6 +404,29 @@ export async function setClinic(store, label) {
 }
 
 /**
+ * Renders the vaccine flow clinic page and chooses the option indicated by the label param
+ *
+ * @export
+ * @async
+ * @param {ReduxStore} store The Redux store to use to render the page
+ * @param {string|RegExp} label The string or regex to pass to *ByText query to get
+ *   a radio button to click on
+ * @returns {string} The url path that was routed to after clicking Continue
+ */
+export async function setVaccineClinic(store, label) {
+  const screen = renderWithStoreAndRouter(<VaccineClinicChoicePage />, {
+    store,
+  });
+
+  fireEvent.click(await screen.findByLabelText(label));
+  fireEvent.click(await screen.findByText(/Continue/));
+  await waitFor(() => expect(screen.history.push.called).to.be.true);
+  await cleanup();
+
+  return screen.history.push.firstCall.args[0];
+}
+
+/**
  * Renders the preferred date page and enters the preferredDate
  *
  * @export
@@ -370,7 +443,7 @@ export async function setPreferredDate(store, preferredDate) {
     },
   );
 
-  await screen.findByText(/earliest date/);
+  await screen.findByText(/earliest day/);
   fireEvent.change(screen.getByLabelText('Month'), {
     target: { value: preferredDate.month() + 1 },
   });
@@ -385,48 +458,4 @@ export async function setPreferredDate(store, preferredDate) {
   await cleanup();
 
   return screen.history.push.firstCall.args[0];
-}
-
-/**
- * Renders the Express Care info page and continues on
- *
- * @export
- * @async
- * @param {Object} params The Redux store to use to render the page
- * @param {ReduxStore} params.store The Redux store to use to render the page
- */
-export async function setExpressCareFacility({ store }) {
-  const windowsThunk = fetchExpressCareWindows();
-  await windowsThunk(store.dispatch, store.getState);
-  const screen = renderWithStoreAndRouter(<ExpressCareInfoPage />, {
-    store,
-  });
-
-  await screen.findByText(/How Express Care Works/i);
-  fireEvent.click(screen.getByText(/^Continue/));
-  await waitFor(() => expect(screen.history.push.called).to.be.true);
-  await cleanup();
-}
-
-/**
- * Renders the Express Care reason page and selects a reason
- *
- * @export
- * @async
- * @param {Object} params The Redux store to use to render the page
- * @param {ReduxStore} params.store The Redux store to use to render the page
- * @param {string|RegExp} params.label The label of the reason option to choose
- */
-export async function setExpressCareReason({ store, label }) {
-  const screen = renderWithStoreAndRouter(<ExpressCareReasonPage />, {
-    store,
-  });
-
-  userEvent.click(await screen.findByLabelText(label));
-
-  await waitFor(() => expect(screen.getByLabelText(label).checked).to.be.true);
-
-  userEvent.click(screen.getByText(/^Continue/));
-  await waitFor(() => expect(screen.history.push.called).to.be.true);
-  await cleanup();
 }

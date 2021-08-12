@@ -80,5 +80,5 @@ export const militaryInformationLoadError = state => {
   return state.vaProfile?.militaryInformation?.serviceHistory?.error;
 };
 
-export const showDirectDepositV2 = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.directDepositEducation];
+export const showNotificationSettings = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.profileNotificationSettings];

@@ -1,7 +1,11 @@
-import { getAppointTypeFromAppointment } from '../utils';
+import { locationSelector } from '../../shared/utils/selectors';
 import recordEvent from 'platform/monitoring/record-event';
+import { removeFormApi } from 'platform/forms/save-in-progress/api';
 
-const USE_MOCK_DATA = false;
+import {
+  getQuestionTextById,
+  QUESTION_IDS,
+} from '../constants/questionnaire.questions';
 
 // pull from src/platform/forms-system/src/js/actions.js
 // so we can have our own custom error handling,  messages and headers
@@ -41,18 +45,33 @@ const submitToUrl = (body, submitUrl, trackingPrefix, eventData) => {
     req.addEventListener('error', () => {
       const error = new Error('vets_client_error: Network request failed');
       error.statusText = req.statusText;
+      recordEvent({
+        event: `${trackingPrefix}-submission-failed`,
+        ...eventData,
+        'error-key': error.statusText,
+      });
       reject(error);
     });
 
     req.addEventListener('abort', () => {
       const error = new Error('vets_client_error: Request aborted');
       error.statusText = req.statusText;
+      recordEvent({
+        event: `${trackingPrefix}-submission-failed`,
+        ...eventData,
+        'error-key': error.statusText,
+      });
       reject(error);
     });
 
     req.addEventListener('timeout', () => {
       const error = new Error('vets_client_error: Request timed out');
       error.statusText = req.statusText;
+      recordEvent({
+        event: `${trackingPrefix}-submission-failed`,
+        ...eventData,
+        'error-key': error.statusText,
+      });
       reject(error);
     });
 
@@ -64,25 +83,30 @@ const submitToUrl = (body, submitUrl, trackingPrefix, eventData) => {
   });
 };
 
-const submit = (form, formConfig) => {
+const submit = async (useMockData, form, formConfig) => {
   const body = {
     questionnaireResponse: formConfig.transformForSubmit(formConfig, form),
   };
-  if (USE_MOCK_DATA) {
-    return new Promise((resolve, _reject) => {
-      resolve(body);
-      // reject(body);
-    });
+  if (useMockData) {
+    return Promise.all([
+      await removeFormApi(form.formId),
+      new Promise((resolve, _reject) => {
+        resolve(body);
+        // reject(body);
+      }),
+    ]);
   } else {
-    // Commented out till API is working.
     const eventData = {};
 
-    return submitToUrl(
-      JSON.stringify(body),
-      formConfig.submitUrl,
-      formConfig.trackingPrefix,
-      eventData,
-    );
+    return Promise.all([
+      await submitToUrl(
+        JSON.stringify(body),
+        formConfig.submitUrl,
+        formConfig.trackingPrefix,
+        eventData,
+      ),
+      await removeFormApi(form.formId),
+    ]);
   }
 };
 
@@ -97,7 +121,8 @@ const transformForSubmit = (_formConfig, form) => {
     ? form.data['hidden:questionnaire'][0]
     : {};
   const appointment = form.data['hidden:appointment'];
-  const type = getAppointTypeFromAppointment(appointment, { titleCase: true });
+  const clinic = form.data['hidden:clinic'];
+  const type = locationSelector.getType(clinic, { titleCase: true });
   const title = `${type} questionnaire`;
   const {
     reasonForVisit,
@@ -105,37 +130,29 @@ const transformForSubmit = (_formConfig, form) => {
     lifeEvents,
     questions,
   } = form.data;
-  const additionalQuestions = questions || [];
   return {
     appointment,
     questionnaire: { ...questionnaire, title },
     item: [
       {
-        linkId: '01',
-        text: 'What is the reason for this appointment?',
+        linkId: QUESTION_IDS.REASON_FOR_VISIT,
+        text: getQuestionTextById(QUESTION_IDS.REASON_FOR_VISIT),
         answer: createAnswerArray(reasonForVisit),
       },
       {
-        linkId: '02',
-        text:
-          "Are there any additional details you'd like to share with your provider about this appointment?",
+        linkId: QUESTION_IDS.REASON_FOR_VISIT_DESCRIPTION,
+        text: getQuestionTextById(QUESTION_IDS.REASON_FOR_VISIT_DESCRIPTION),
         answer: createAnswerArray(reasonForVisitDescription),
       },
       {
-        linkId: '03',
-        text:
-          'Are there any life events that are positively or negatively affecting your health (e.g. marriage, divorce, new job, retirement, parenthood, or finances)?',
+        linkId: QUESTION_IDS.LIFE_EVENTS,
+        text: getQuestionTextById(QUESTION_IDS.LIFE_EVENTS),
         answer: createAnswerArray(lifeEvents),
       },
       {
-        linkId: '04',
-        text:
-          'Do you have other questions you want to ask your provider? Please enter them below with your most important question listed first.',
-        answer: [
-          ...additionalQuestions
-            .filter(answer => answer.additionalQuestions)
-            .map(answer => createAnAnswer(answer.additionalQuestions)),
-        ],
+        linkId: QUESTION_IDS.ADDITIONAL_QUESTIONS,
+        text: getQuestionTextById(QUESTION_IDS.ADDITIONAL_QUESTIONS),
+        answer: createAnswerArray(questions),
       },
     ],
   };

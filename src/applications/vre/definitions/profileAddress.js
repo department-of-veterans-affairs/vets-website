@@ -7,7 +7,7 @@ import React from 'react';
 import get from 'platform/utilities/data/get';
 import {
   countries,
-  states50AndDC,
+  states,
   militaryCities,
   militaryStates,
 } from 'vets-json-schema/dist/constants.json';
@@ -15,10 +15,14 @@ import {
 /**
  * PATTERNS
  * STREET_PATTERN - rejects white space only
- * US_POSTAL_CODE_PATTERN - Matches 5 digit zipcodes and zip+4 patterns: 12345, 12345-1234
+ * US_POSTAL_CODE_PATTERN - Matches 5 digit zipcodes
  */
 const STREET_PATTERN = '^.*\\S.*';
-const US_POSTAL_CODE_PATTERN = '^\\d{5}(?:-\\d{4})?$';
+const US_POSTAL_CODE_PATTERN = '^\\d{5}$';
+// filtered States that include US territories
+const filteredStates = states.USA.filter(
+  state => !['AA', 'AE', 'AP'].includes(state.value),
+);
 
 /**
  Available at https://github.com/department-of-veterans-affairs/vets-json-schema/blob/8337b2878b524867ef2b6d8600b134c682c7ac8a/src/common/definitions.js#L161
@@ -170,13 +174,13 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
       },
     },
     street2: {
-      'ui:title': 'Line 2',
+      'ui:title': 'Street address line 2',
       'ui:options': {
         hideEmptyValueInReview: true,
       },
     },
     street3: {
-      'ui:title': 'Line 3',
+      'ui:title': 'Street address line 3',
       'ui:options': {
         hideEmptyValueInReview: true,
       },
@@ -251,8 +255,8 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
             return {
               type: 'string',
               title: 'State',
-              enum: states50AndDC.map(state => state.value),
-              enumNames: states50AndDC.map(state => state.label),
+              enum: filteredStates.map(state => state.value),
+              enumNames: filteredStates.map(state => state.label),
             };
           } else {
             return {
@@ -268,7 +272,7 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
       'ui:title': 'Postal code',
       'ui:errorMessages': {
         required: 'Postal code is required',
-        pattern: 'Please enter a valid US zip code',
+        pattern: 'Please enter a valid 5 digit US zip code',
       },
       'ui:options': {
         widgetClassNames: 'usa-input-medium',

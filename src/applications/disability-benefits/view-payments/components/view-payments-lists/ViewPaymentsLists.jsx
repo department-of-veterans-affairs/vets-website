@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Telephone, {
   CONTACTS,
@@ -21,7 +20,6 @@ import {
 import { getAllPayments } from '../../actions';
 import {
   isClientError,
-  ClientErrorAlertContent,
   ServerErrorAlertContent,
   NoPaymentsContent,
 } from '../../utils';
@@ -50,20 +48,16 @@ class ViewPaymentsLists extends Component {
       );
     } else {
       paymentsReturnedTable = (
-        <AlertBox
-          content={
-            <p>
-              We can’t find any returned VA payments. If you think this is an
-              error, or if you have questions about your payment history, please
-              call <Telephone contact={CONTACTS.VA_BENEFITS} />.
-            </p>
-          }
-          headline="We don’t have a record of returned payments"
-          status="info"
-          backgroundOnly="true"
-          className="vads-u-background-color--gray-lightest vads-u-fontsize--h3"
-          level="2"
-        />
+        <va-alert status="info">
+          <h2 slot="headline" className="vads-u-font-size--h3">
+            We don’t have a record of returned payments
+          </h2>
+          <p className="vads-u-font-size--base">
+            We can’t find any returned VA payments. If you think this is an
+            error, or if you have questions about your payment history, please
+            call <Telephone contact={CONTACTS.VA_BENEFITS} />.
+          </p>
+        </va-alert>
       );
     }
     return paymentsReturnedTable;
@@ -87,20 +81,16 @@ class ViewPaymentsLists extends Component {
       );
     } else {
       paymentsReceivedTable = (
-        <AlertBox
-          content={
-            <p>
-              We can’t find any VA payments made to you. If you think this is an
-              error, or if you have questions about your payment history, please
-              call <Telephone contact={CONTACTS.VA_BENEFITS} />.
-            </p>
-          }
-          headline="We don’t have a record of VA payments made to you"
-          status="info"
-          backgroundOnly="true"
-          className="vads-u-background-color--gray-lightest vads-u-fontsize--h3"
-          level="2"
-        />
+        <va-alert status="info">
+          <h2 slot="headline" className="vads-u-font-size--h3">
+            We don’t have a record of VA payments made to you
+          </h2>
+          <p className="vads-u-font-size--base">
+            We can’t find any VA payments made to you. If you think this is an
+            error, or if you have questions about your payment history, please
+            call <Telephone contact={CONTACTS.VA_BENEFITS} />.
+          </p>
+        </va-alert>
       );
     }
     return paymentsReceivedTable;
@@ -120,23 +110,16 @@ class ViewPaymentsLists extends Component {
       // if there was an error, show an AlertBox
       const status = isClientError(this.props.error.code) ? 'info' : 'error';
       const alertContent = isClientError(this.props.error.code)
-        ? ClientErrorAlertContent
+        ? NoPaymentsContent
         : ServerErrorAlertContent;
-      content = <AlertBox content={alertContent} status={status} isVisible />;
+      content = <va-alert status={status}>{alertContent}</va-alert>;
     } else {
       // Deconstruct payments props object
       // If there are no payments AND no payments returned, render an Alertbox
       // If there are either payments OR payments returned, run payment list builders
       const { returnPayments, payments } = this.props.payments;
       if (returnPayments.length === 0 && payments.length === 0) {
-        content = (
-          <AlertBox
-            content={NoPaymentsContent}
-            status="info"
-            backgroundOnly="true"
-            className="vads-u-background-color--gray-lightest"
-          />
-        );
+        content = <va-alert status="info">{NoPaymentsContent}</va-alert>;
       } else {
         // run payments returned list builder
         paymentsReturnedTable = this.buildReturnedPaymentListContent(
@@ -169,6 +152,53 @@ class ViewPaymentsLists extends Component {
               check. If you endorse both the original and replacement check,
               you'll get a double payment. If this happens, VA Debt Management
               Center will contact you about collection.
+            </p>
+            <h3 className="vads-u-font-size--h2">
+              What if I need to change my direct deposit or contact information?
+            </h3>
+            <p className="vads-u-margin-bottom--3">
+              Any changes you make in your profile will update across your
+              disability compensation, pension, claims and appeal, VR&E, and VA
+              health care benefits.
+            </p>
+            <p className="vads-u-margin-bottom--3">
+              <a href="/profile">
+                Go to your profile to make updates to your contact and direct
+                deposit information.
+              </a>
+            </p>
+            <h3 className="vads-u-font-size--h2">
+              What if I’m missing a payment?
+            </h3>
+            <p className="vads-u-margin-bottom--3">
+              Please wait 3 business days (Monday through Friday) before
+              contacting us to report that you haven’t received a payment. We
+              can’t trace payments before then.
+            </p>
+            <p className="vads-u-margin-bottom--3">
+              {' '}
+              To report a missing payment, contact us at{' '}
+              <Telephone contact={CONTACTS.VA_BENEFITS} />. Please have the
+              following information ready for the call: your address, Social
+              Security number or VA claim number. If you receive payments
+              through direct deposit, you’ll need your bank account information
+              too.
+            </p>
+            <h3 className="vads-u-margin-top--0 vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary">
+              Need help?
+            </h3>
+            <p>
+              Need help enrolling or have questions about enrollment or
+              eligibility? Call our toll free number:
+            </p>
+            <p className="vads-u-font-weight--bold vads-u-margin-y--0">
+              <Telephone contact={CONTACTS.VA_BENEFITS} />
+            </p>
+            <p className="vads-u-font-weight--bold vads-u-margin-y--0">
+              TTY <Telephone contact={CONTACTS.FEDERAL_RELAY_SERVICE} />
+            </p>
+            <p className="vads-u-margin-bottom--4">
+              Monday through Friday, 8:00 a.m. to 9:00 p.m. E.T.
             </p>
           </>
         );

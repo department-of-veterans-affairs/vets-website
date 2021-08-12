@@ -48,7 +48,6 @@ export function SearchPage({
   eligibility,
   filters,
   gibctSchoolRatings,
-  gibctStateSearch,
   search,
 }) {
   const location = useLocation();
@@ -75,7 +74,6 @@ export function SearchPage({
           'onlineOnly',
           'principlesOfExcellence',
           'eightKeysToVeteranSuccess',
-          'stemIndicator',
           'priorityEnrollment',
           'independentStudy',
           'preferredProvider',
@@ -118,7 +116,7 @@ export function SearchPage({
 
         dispatchInstitutionFilterChange(institutionFilter);
 
-        dispatchFetchInstitutionSearchResults(query, gibctStateSearch);
+        dispatchFetchInstitutionSearchResults(query);
       }
     },
     [location.search],
@@ -296,7 +294,6 @@ const mapStateToProps = state => ({
   gibctSchoolRatings: toggleValues(state)[
     FEATURE_FLAG_NAMES.gibctSchoolRatings
   ],
-  gibctStateSearch: toggleValues(state)[FEATURE_FLAG_NAMES.gibctStateSearch],
 });
 
 const mapDispatchToProps = {

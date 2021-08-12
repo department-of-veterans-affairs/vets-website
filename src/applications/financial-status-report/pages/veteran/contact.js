@@ -2,12 +2,11 @@ import React from 'react';
 import ReviewCardField from '../../components/ReviewCardField';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import ContactInfoCard from '../../components/ContactInfoCard';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import emailUI from 'platform/forms-system/src/js/definitions/email';
 
 import {
   SCHEMA_DEFINITIONS,
-  COUNTRY_CODES,
+  COUNTRY_LABELS,
+  COUNTRY_VALUES,
   MILITARY_STATE_LABELS,
   MILITARY_STATE_CODES,
   MILITARY_CITY_CODES,
@@ -19,6 +18,8 @@ import {
   validateMilitaryCity,
   validateMilitaryState,
   validateZIP,
+  validatePhone,
+  validateEmail,
 } from '../../utils/validations';
 
 export const uiSchema = {
@@ -34,197 +35,189 @@ export const uiSchema = {
   'ui:options': {
     classNames: 'contact-info',
   },
-  mailingAddress: {
-    'ui:subtitle': (
-      <>
-        <p>
-          Any updates you make here will only change your mailing address for
-          this request.
-        </p>
-        <p>
-          If you want to change your address for other VA benefits and services,{' '}
-          <a href="https://va.gov/profile">go to your VA.gov profile</a>. Or{' '}
-          <a href="https://www.va.gov/resources/change-your-address-on-file-with-va/">
-            find out how to change your address on file with VA
-          </a>
-          .
-        </p>
-      </>
-    ),
-    'ui:field': ReviewCardField,
-    'ui:options': {
-      editTitle: 'Edit mailing address',
-      viewComponent: ContactInfoCard,
-      startInEdit: false,
-    },
-    livesOutsideUS: {
-      'ui:title': 'I live on a U.S. military base outside of the U.S.',
+  personalData: {
+    address: {
+      'ui:field': ReviewCardField,
       'ui:options': {
-        widgetClassNames: 'checkbox-group',
-      },
-    },
-    livesOnMilitaryBaseInfo: {
-      'ui:description': () => (
-        <div className="vads-u-padding-x--2p5">
-          <AdditionalInfo
-            status="info"
-            triggerText="Learn more about military base addresses"
-          >
-            <span>
-              The United States is automatically chosen as your country if you
-              live on a military base outside of the country.
-            </span>
-          </AdditionalInfo>
-        </div>
-      ),
-    },
-    country: {
-      'ui:title': 'Country',
-      'ui:options': {
-        classNames: 'input-size-7',
-        updateSchema: (formData, schema, uiSchemaCountry) => {
-          const uiSchemaDisabled = uiSchemaCountry;
-
-          if (formData.mailingAddress.livesOutsideUS) {
-            const formDataMailingAddress = formData.mailingAddress;
-            formDataMailingAddress.country = 'United States';
-            uiSchemaDisabled['ui:disabled'] = true;
-
-            return {
-              enum: ['United States'],
-            };
-          }
-          uiSchemaDisabled['ui:disabled'] = false;
-          return {
-            enum: COUNTRY_CODES,
-          };
-        },
-      },
-    },
-    addressLine1: {
-      'ui:title': 'Street address',
-      'ui:errorMessages': {
-        required: 'Please enter a street address',
-      },
-      'ui:options': {
-        classNames: 'input-size-7',
-      },
-    },
-    addressLine2: {
-      'ui:title': 'Line 2',
-      'ui:options': {
-        classNames: 'input-size-7',
-      },
-    },
-    city: {
-      'ui:errorMessages': {
-        pattern: 'Please enter a valid city',
-        required: 'Please enter a city',
-      },
-      'ui:options': {
-        classNames: 'input-size-7',
-        replaceSchema: formData => {
-          if (formData.mailingAddress.livesOutsideUS) {
-            return {
-              type: 'string',
-              title: 'APO/FPO/DPO',
-              enum: MILITARY_CITY_CODES,
-            };
-          }
-          return {
-            title: 'City',
-            type: 'string',
-            maxLength: 30,
-            pattern: "^([-a-zA-Z0-9'.#]([-a-zA-Z0-9'.# ])?)+$",
-          };
-        },
-      },
-      'ui:validations': [
-        {
-          options: { addressPath: 'mailingAddress' },
-          validator: validateMilitaryCity,
-        },
-      ],
-    },
-    state: {
-      'ui:title': 'State',
-      'ui:options': {
-        classNames: 'input-size-7',
-        updateSchema: formData => {
-          if (
-            formData.mailingAddress.livesOutsideUS ||
-            MILITARY_CITY_CODES.includes(formData.mailingAddress.city)
-          ) {
-            return {
-              enum: MILITARY_STATE_CODES,
-              enumNames: MILITARY_STATE_LABELS,
-            };
-          }
-          return {
-            enum: STATE_VALUES,
-            enumNames: STATE_LABELS,
-          };
-        },
-      },
-      'ui:validations': [
-        {
-          options: { addressPath: 'mailingAddress' },
-          validator: validateMilitaryState,
-        },
-      ],
-      'ui:errorMessages': {
-        pattern: 'Please enter a valid state',
-        required: 'Please enter a state',
-      },
-    },
-    postalCode: {
-      'ui:title': 'Zip code',
-      'ui:validations': [validateZIP],
-      'ui:errorMessages': {
-        required: 'Please enter a postal code',
-        pattern:
-          'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
-      },
-      'ui:options': {
-        classNames: 'input-size-2',
-      },
-    },
-  },
-  contactInfo: {
-    telephoneNumber: {
-      ...phoneUI('Phone number'),
-      'ui:options': {
-        classNames: 'input-size-7',
-      },
-    },
-    primaryEmail: {
-      ...emailUI('Email address'),
-      'ui:options': {
-        classNames: 'input-size-7',
-      },
-    },
-    confirmationEmail: {
-      ...emailUI('Re-enter email address'),
-      'ui:description': (
-        <p className="formfield-subtitle">
-          To receive a confirmation email when you submit your request, you must
-          re-enter your email address.
-        </p>
-      ),
-      'ui:options': {
-        classNames: 'input-size-7',
+        editTitle: 'Edit mailing address',
+        viewComponent: ContactInfoCard,
+        startInEdit: false,
         hideOnReview: true,
       },
-      'ui:validations': [
-        {
-          validator: (errors, fieldData, formData) => {
-            const { primaryEmail, confirmationEmail } = formData.contactInfo;
-            if (primaryEmail !== confirmationEmail) {
-              errors.addError('Email does not match');
+      'ui:subtitle': (
+        <>
+          <p>
+            Any updates you make here will only change your mailing address for
+            this request.
+          </p>
+          <p>
+            If you want to change your address for other VA benefits and
+            services,
+            <a
+              href="https://va.gov/profile"
+              className="vads-u-margin-left--0p5"
+            >
+              go to your VA.gov profile
+            </a>
+            . Or
+            <a
+              href="https://www.va.gov/resources/change-your-address-on-file-with-va/"
+              className="vads-u-margin-left--0p5"
+            >
+              find out how to change your address on file with VA
+            </a>
+            .
+          </p>
+        </>
+      ),
+      livesOutsideUS: {
+        'ui:title': 'I live on a U.S. military base outside of the U.S.',
+        'ui:options': {
+          widgetClassNames: 'checkbox-group',
+        },
+      },
+      livesOnMilitaryBaseInfo: {
+        'ui:description': () => (
+          <div className="vads-u-padding-x--2p5">
+            <AdditionalInfo
+              status="info"
+              triggerText="Learn more about military base addresses"
+            >
+              <span>
+                The United States is automatically chosen as your country if you
+                live on a military base outside of the country.
+              </span>
+            </AdditionalInfo>
+          </div>
+        ),
+      },
+      country: {
+        'ui:title': 'Country',
+        'ui:options': {
+          widgetClassNames: 'input-size-7',
+          updateSchema: (formData, schema, uiSchemaCountry) => {
+            const uiSchemaDisabled = uiSchemaCountry;
+            uiSchemaDisabled['ui:disabled'] = false;
+            const { address } = formData.personalData;
+
+            if (address.livesOutsideUS) {
+              address.country = 'USA';
+              uiSchemaDisabled['ui:disabled'] = true;
+              return {
+                enumNames: ['United States'],
+                enum: ['USA'],
+              };
             }
+            return {
+              enumNames: COUNTRY_LABELS,
+              enum: COUNTRY_VALUES,
+            };
           },
         },
-      ],
+        'ui:errorMessages': {
+          enum: 'Please select a country.',
+        },
+      },
+      street: {
+        'ui:title': 'Street address',
+        'ui:errorMessages': {
+          pattern: 'Please enter a street address.',
+        },
+        'ui:options': {
+          widgetClassNames: 'input-size-7',
+        },
+      },
+      street2: {
+        'ui:title': 'Street address line 2',
+        'ui:options': {
+          widgetClassNames: 'input-size-7',
+        },
+      },
+      city: {
+        'ui:errorMessages': {
+          pattern: 'Please enter a valid city.',
+          required: 'Please enter a city.',
+        },
+        'ui:options': {
+          widgetClassNames: 'input-size-7',
+          replaceSchema: formData => {
+            if (formData.personalData.address.livesOutsideUS) {
+              return {
+                type: 'string',
+                title: 'APO/FPO/DPO',
+                enum: MILITARY_CITY_CODES,
+              };
+            }
+            return {
+              title: 'City',
+              type: 'string',
+              maxLength: 30,
+              pattern: "^([-a-zA-Z0-9'.#]([-a-zA-Z0-9'.# ])?)+$",
+            };
+          },
+        },
+        'ui:validations': [
+          {
+            options: { addressPath: 'address' },
+            validator: validateMilitaryCity,
+          },
+        ],
+      },
+      state: {
+        'ui:title': 'State',
+        'ui:options': {
+          widgetClassNames: 'input-size-7',
+          updateSchema: formData => {
+            if (
+              formData.personalData.address.livesOutsideUS ||
+              MILITARY_CITY_CODES.includes(formData.personalData.address.city)
+            ) {
+              return {
+                enum: MILITARY_STATE_CODES,
+                enumNames: MILITARY_STATE_LABELS,
+              };
+            }
+            return {
+              enum: STATE_VALUES,
+              enumNames: STATE_LABELS,
+            };
+          },
+        },
+        'ui:validations': [
+          {
+            options: { addressPath: 'address' },
+            validator: validateMilitaryState,
+          },
+        ],
+        'ui:errorMessages': {
+          enum: 'Please select a state.',
+        },
+      },
+      postalCode: {
+        'ui:title': 'Postal code',
+        'ui:validations': [validateZIP],
+        'ui:errorMessages': {
+          required: 'Please enter a postal code.',
+          pattern: 'Please enter a valid postal code.',
+        },
+        'ui:options': {
+          widgetClassNames: 'input-size-5',
+        },
+      },
+    },
+    telephoneNumber: {
+      'ui:title': 'Phone number',
+      'ui:validations': [validatePhone],
+      'ui:options': {
+        widgetClassNames: 'input-size-7',
+      },
+    },
+    emailAddress: {
+      'ui:title': 'Email address',
+      'ui:validations': [validateEmail],
+      'ui:options': {
+        widgetClassNames: 'input-size-7',
+      },
     },
   },
 };
@@ -232,35 +225,38 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    mailingAddress: {
+    personalData: {
       type: 'object',
-      required: ['country', 'addressLine1', 'city', 'state', 'postalCode'],
       properties: {
-        livesOutsideUS: {
-          type: 'boolean',
-        },
-        livesOnMilitaryBaseInfo: {
+        address: {
           type: 'object',
-          properties: {},
+          required: ['country', 'street', 'city', 'state', 'postalCode'],
+          properties: {
+            livesOutsideUS: {
+              type: 'boolean',
+            },
+            livesOnMilitaryBaseInfo: {
+              type: 'object',
+              properties: {},
+            },
+            country: {
+              type: 'string',
+            },
+            street: SCHEMA_DEFINITIONS.address,
+            street2: SCHEMA_DEFINITIONS.address,
+            city: SCHEMA_DEFINITIONS.city,
+            state: {
+              type: 'string',
+            },
+            postalCode: SCHEMA_DEFINITIONS.postalCode,
+          },
         },
-        country: {
+        telephoneNumber: {
           type: 'string',
         },
-        addressLine1: SCHEMA_DEFINITIONS.address,
-        addressLine2: SCHEMA_DEFINITIONS.address,
-        city: SCHEMA_DEFINITIONS.city,
-        state: {
+        emailAddress: {
           type: 'string',
         },
-        postalCode: SCHEMA_DEFINITIONS.postalCode,
-      },
-    },
-    contactInfo: {
-      type: 'object',
-      properties: {
-        telephoneNumber: SCHEMA_DEFINITIONS.telephoneNumber,
-        primaryEmail: SCHEMA_DEFINITIONS.emailAddress,
-        confirmationEmail: SCHEMA_DEFINITIONS.emailAddress,
       },
     },
   },

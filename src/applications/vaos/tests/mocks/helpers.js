@@ -37,7 +37,9 @@ export function mockAppointmentInfo({
   partialError = null,
   isHomepageRefresh = false,
 }) {
-  mockFetch();
+  if (!global.fetch.isSinonProxy) {
+    mockFetch();
+  }
 
   const startDate = isHomepageRefresh
     ? moment().subtract(30, 'days')
@@ -76,6 +78,33 @@ export function mockAppointmentInfo({
     ),
     { data: requests },
   );
+
+  // These are common requests made from appointment list tests that happen
+  // when we don't care about the results from them
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v0/request_eligibility_criteria?`,
+    ),
+    {
+      data: [],
+    },
+  );
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v0/direct_booking_eligibility_criteria?`,
+    ),
+    {
+      data: [],
+    },
+  );
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/v1/facilities/va?ids=vha_fake&per_page=1`,
+    ),
+    {
+      data: [],
+    },
+  );
 }
 
 /**
@@ -88,7 +117,9 @@ export function mockAppointmentInfo({
  * @param {Array<VARRequest>} [params.requests=[]] Requests to return from mock
  */
 export function mockPastAppointmentInfo({ va = [], cc = [], requests = [] }) {
-  mockFetch();
+  if (!global.fetch.isSinonProxy) {
+    mockFetch();
+  }
   const baseUrl = `${
     environment.API_URL
   }/vaos/v0/appointments?start_date=${moment()
@@ -125,7 +156,9 @@ export function mockPastAppointmentInfo({ va = [], cc = [], requests = [] }) {
  * @param {Array<VARCommunityCareAppointment>} [params.cc=[]] CC appointments to return from mock
  */
 export function mockPastAppointmentInfoOption1({ va = [], cc = [] }) {
-  mockFetch();
+  if (!global.fetch.isSinonProxy) {
+    mockFetch();
+  }
   setFetchJSONResponse(global.fetch, { data: [] });
   setFetchJSONResponse(
     global.fetch.withArgs(
@@ -162,17 +195,42 @@ export function mockPastAppointmentInfoOption1({ va = [], cc = [] }) {
  *
  * @export
  * @param {Object} params
- * @param {Array<string>} ids List of facility ids to use in query param
- * @param {Array<VAFacility>} facilities Array of facilities to return from mock
+ * @param {?Array<string>} ids List of facility ids to use in query param
+ * @param {?Array<VAFacility>} facilities Array of facilities to return from mock
  */
 export function mockFacilitiesFetch(ids, facilities) {
-  setFetchJSONResponse(
+  if (!ids) {
+    setFetchJSONResponse(
+      global.fetch.withArgs(sinon.match('/v1/facilities/va?ids=')),
+      { data: [] },
+    );
+  } else {
+    setFetchJSONResponse(
+      global.fetch.withArgs(
+        `${environment.API_URL}/v1/facilities/va?ids=${ids}&per_page=${
+          ids.split(',').length
+        }`,
+      ),
+      { data: facilities },
+    );
+  }
+}
+
+/**
+ * Mocks facilities fetch with an error response
+ *
+ * @export
+ * @param {Object} params
+ * @param {Array<string>} ids List of facility ids to use in query param
+ */
+export function mockFacilitiesFetchError(ids) {
+  setFetchJSONFailure(
     global.fetch.withArgs(
       `${environment.API_URL}/v1/facilities/va?ids=${ids}&per_page=${
         ids.split(',').length
       }`,
     ),
-    { data: facilities },
+    { errors: [] },
   );
 }
 
@@ -216,26 +274,42 @@ export function mockCCProviderFetch(
   if (vaError) {
     setFetchJSONFailure(
       global.fetch.withArgs(
-        `${environment.API_URL}/v1/facilities/ccp?latitude=${
+        `${environment.API_URL}/facilities_api/v1/ccp/provider?latitude=${
           address.latitude
         }&longitude=${
           address.longitude
-        }&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&type=provider&trim=true`,
+        }&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&trim=true`,
       ),
       { errors: [] },
     );
   } else {
     setFetchJSONResponse(
       global.fetch.withArgs(
-        `${environment.API_URL}/v1/facilities/ccp?latitude=${
+        `${environment.API_URL}/facilities_api/v1/ccp/provider?latitude=${
           address.latitude
         }&longitude=${
           address.longitude
-        }&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&type=provider&trim=true`,
+        }&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&trim=true`,
       ),
       { data: providers },
     );
   }
+}
+
+/**
+ * Mocks request to VA community care providers api for a single PPMS provider by id, used in community care request flow
+ *
+ * @export
+ * @param {Object<PPMSProvider>} request PPMS provider object
+ */
+
+export function mockCCSingleProviderFetch(request) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/v1/facilities/ccp/${request.id}`,
+    ),
+    { data: request },
+  );
 }
 
 /**
@@ -368,6 +442,47 @@ export function mockSupportedFacilities({
 }
 
 /**
+ * Mocks the api call used to check if a user is over the request limit for a facility
+ * and type of care.
+ *
+ * @export
+ * @param {Object} params
+ * @param {array} params.facilityIds The list of facility ids to check for requests
+ * @param {string} [params.typeOfCareId='CR1'] The type of care id to check
+ * @param {number} [params.requestLimit=1] The request limit to use for the facility
+ * @param {number} [params.numberOfRequests=0] The request count to return from the mock. Set this at least equal
+ *    to requestLimit to have this check fail
+ */
+export function mockRequestLimits({
+  facilityIds,
+  typeOfCareId = 'CR1',
+  requestLimit = 1,
+  numberOfRequests = 0,
+}) {
+  const data = facilityIds.map(id => ({
+    id,
+    attributes: {
+      numberOfRequests,
+      requestLimit,
+      institutionCode: id,
+    },
+  }));
+
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${
+        environment.API_URL
+      }/vaos/v0/facilities/limits?type_of_care_id=${typeOfCareId}&${facilityIds
+        .map(id => `facility_ids[]=${id}`)
+        .join('&')}`,
+    ),
+    {
+      data,
+    },
+  );
+}
+
+/**
  * Mocks the api calls for the various eligibility related fetches VAOS does in the new appointment flow
  *
  * @export
@@ -395,21 +510,13 @@ export function mockEligibilityFetches({
   clinics = [],
   pastClinics = false,
 }) {
-  setFetchJSONResponse(
-    global.fetch.withArgs(
-      `${
-        environment.API_URL
-      }/vaos/v0/facilities/${facilityId}/limits?type_of_care_id=${typeOfCareId}`,
-    ),
-    {
-      data: {
-        attributes: {
-          requestLimit: 1,
-          numberOfRequests: limit ? 0 : 1,
-        },
-      },
-    },
-  );
+  mockRequestLimits({
+    facilityIds: [facilityId],
+    typeOfCareId,
+    requestLimit: 1,
+    numberOfRequests: limit ? 0 : 1,
+  });
+
   setFetchJSONResponse(
     global.fetch.withArgs(
       `${
@@ -582,12 +689,21 @@ export function mockRequestSubmit(type, data) {
  * @param {Array<VARRequestMessage>} data The list of message objects to return from the mock
  */
 export function mockMessagesFetch(id, data) {
-  setFetchJSONResponse(
-    global.fetch.withArgs(
-      `${environment.API_URL}/vaos/v0/appointment_requests/${id}/messages`,
-    ),
-    { data },
-  );
+  if (!id) {
+    setFetchJSONResponse(
+      global.fetch.withArgs(
+        sinon.match(/appointment_requests\/[a-z0-9]+\/messages/),
+      ),
+      { data: [] },
+    );
+  } else {
+    setFetchJSONResponse(
+      global.fetch.withArgs(
+        `${environment.API_URL}/vaos/v0/appointment_requests/${id}/messages`,
+      ),
+      { data },
+    );
+  }
 }
 
 /**
@@ -722,40 +838,6 @@ export function mockFacilitiesPageFetches(
 }
 
 /**
- * Mocks the api call used to check if a user is over the request limit for a facility
- * and type of care.
- *
- * @export
- * @param {Object} params
- * @param {string} params.facilityId The id of the facility to check for requests
- * @param {number} [params.requestLimit=1] The request limit to use for the facility
- * @param {number} [params.numberOfRequests=0] The request count to return from the mock. Set this at least equal
- *    to requestLimit to have this check fail
- */
-export function mockRequestLimit({
-  facilityId,
-  requestLimit = 1,
-  numberOfRequests = 0,
-}) {
-  setFetchJSONResponse(
-    global.fetch.withArgs(
-      `${
-        environment.API_URL
-      }/vaos/v0/facilities/${facilityId}/limits?type_of_care_id=CR1`,
-    ),
-    {
-      data: {
-        id: facilityId,
-        attributes: {
-          requestLimit,
-          numberOfRequests,
-        },
-      },
-    },
-  );
-}
-
-/**
  * Mocks the api call that sets or retrieves preferences in var-resources
  *
  * @export
@@ -823,8 +905,8 @@ export function setupExpressCareMocks({
     },
   ]);
   mockRequestEligibilityCriteria([facilityId], [requestCriteria]);
-  mockRequestLimit({
-    facilityId,
+  mockRequestLimits({
+    facilityIds: [facilityId],
     numberOfRequests: isUnderRequestLimit ? 0 : 1,
   });
 }
@@ -983,6 +1065,47 @@ export function mockSingleCommunityCareAppointmentFetch({
   } else {
     setFetchJSONResponse(global.fetch.withArgs(baseUrl), {
       data: [appointment],
+    });
+  }
+}
+
+/**
+ * Mocks the fetch request made when retrieving a vista CC appointment
+ * for the details page
+ *
+ * @export
+ * @param {Object} params
+ * @param {VARCommunityCareAppointment} params.appointment CC appointment to be returned from the mock
+ * @param {boolean} [params.error=null] Whether or not to return an error from the mock
+ * }
+ */
+export function mockSingleVistaCommunityCareAppointmentFetch({
+  appointment,
+  error = null,
+}) {
+  const baseUrl = `${
+    environment.API_URL
+  }/vaos/v0/appointments?start_date=${moment()
+    .subtract(395, 'days')
+    .startOf('day')
+    .toISOString()}&end_date=${moment()
+    .add(395, 'days')
+    .startOf('day')
+    .toISOString()}&type=cc`;
+
+  setFetchJSONResponse(global.fetch.withArgs(baseUrl), {
+    data: [],
+  });
+
+  const vaUrl = `${environment.API_URL}/vaos/v0/appointments/va/${
+    appointment.id
+  }`;
+
+  if (error) {
+    setFetchJSONFailure(global.fetch.withArgs(vaUrl), { errors: [] });
+  } else {
+    setFetchJSONResponse(global.fetch.withArgs(vaUrl), {
+      data: appointment,
     });
   }
 }

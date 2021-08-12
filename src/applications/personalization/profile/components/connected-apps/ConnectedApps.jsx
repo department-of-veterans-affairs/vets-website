@@ -13,6 +13,7 @@ import {
 } from '@@profile/components/connected-apps/actions';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
+import Headline from '../ProfileSectionHeadline';
 import { AppDeletedAlert } from './AppDeletedAlert';
 import { ConnectedApp } from './ConnectedApp';
 
@@ -56,13 +57,7 @@ export class ConnectedApps extends Component {
 
     return (
       <div className="va-connected-apps">
-        <h2
-          tabIndex="-1"
-          className="vads-u-margin-y--2 medium-screen:vads-u-margin-bottom--4 medium-screen:vads-u-margin-top--3"
-          data-focus-target
-        >
-          Connected apps
-        </h2>
+        <Headline>Connected apps</Headline>
         {showHasConnectedApps && (
           <p className="va-introtext vads-u-font-size--md">
             Your VA.gov profile is connected to the third-party (non-VA) apps
@@ -115,7 +110,7 @@ export class ConnectedApps extends Component {
 
         {showHasNoConnectedApps && (
           <Link
-            className="usa-button vads-u-margin-bottom--3"
+            className="vads-u-margin-bottom--3"
             href="/resources/find-apps-you-can-use"
             onClick={() =>
               recordEvent({

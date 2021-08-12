@@ -1,0 +1,946 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '**'
+
+env:
+  CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
+
+concurrency:
+  group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha  }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
+
+jobs:
+  build:
+    name: Build
+    runs-on: self-hosted
+
+    env:
+      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+
+    strategy:
+      fail-fast: false
+      matrix:
+        buildtype: [vagovdev, vagovstaging, vagovprod]
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: 'us-gov-west-1'
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            .cache/yarn
+            node_modules
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          max_attempts: 3
+          timeout_minutes: 5
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
+
+      - name: Build
+        run: yarn build --verbose --buildtype=${{ matrix.buildtype }}
+        timeout-minutes: 30
+
+      # ----------------------------
+      # | Notify Slack of failures |
+      # ---------------------------
+
+      - name: Get va-vsp-bot token
+        if: ${{ failure() }}
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Checkout VSP actions
+        if: ${{ failure() }}
+        uses: actions/checkout@v2
+        with:
+          repository: department-of-veterans-affairs/vsp-github-actions
+          ref: refs/heads/main
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          persist-credentials: false
+          path: ./.github/actions/vsp-github-actions
+
+      - name: Get Slack app token
+        if: ${{ failure() }}
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/github_actions_slack_socket_token
+          env_variable_name: SLACK_APP_TOKEN
+
+      - name: Get Slack bot token
+        if: ${{ failure() }}
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/github_actions_slack_bot_user_token
+          env_variable_name: SLACK_BOT_TOKEN
+
+      - name: Notify Slack about build failures
+        if: ${{ failure() }}
+        uses: ./.github/actions/vsp-github-actions/slack-socket
+        env:
+          SSL_CERT_DIR: /etc/ssl/certs
+        with:
+          slack_app_token: ${{ env.SLACK_APP_TOKEN }}
+          slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
+          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "At least one build step in `vets-website` has failed, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
+          channel_id: C02AG8UF95M # gha-build-status
+
+      - name: Cancel other parallel steps
+        if: ${{ failure() }}
+        uses: andymckay/cancel-action@0.2
+
+      # ----------------
+      # | End Notify Slack |
+      # ----------------
+
+      - name: Generate build details
+        run: |
+          cat > build/${{ matrix.buildtype }}/BUILD.txt << EOF
+          BUILDTYPE=${{ matrix.buildtype }}
+          BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
+          RUN_ID=${{ github.run_id }}
+          REF=${{ github.sha }}
+          BUILDTIME=$(date +%s)
+          EOF
+
+      - name: Compress and archive build
+        run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.buildtype }}.tar.bz2
+          path: ${{ matrix.buildtype }}.tar.bz2
+          retention-days: 1
+
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            .cache/yarn
+            node_modules
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          max_attempts: 3
+          timeout_minutes: 5
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
+
+      - name: Create test results folder
+        run: mkdir -p test-results
+
+      - name: Run unit tests
+        run: yarn test:unit --coverage
+        env:
+          MOCHA_FILE: test-results/unit-tests.xml
+
+      - name: Generate coverage report by app
+        run: node script/app-coverage-report.js > test-results/coverage_report.txt
+
+      - name: Configure AWS credentials (1)
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get AWS IAM role
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: marvinpinto/action-inject-ssm-secrets@latest
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+      - name: Configure AWS Credentials (2)
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role-duration-seconds: 900
+          role-session-name: vsp-frontendteam-githubaction
+
+      - name: Upload coverage report to S3
+        if: ${{ github.ref == 'refs/heads/master' }}
+        run: aws s3 cp coverage/test-coverage-report.json s3://apps.dev.va.gov/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
+
+      - name: Get code coverage
+        id: code-coverage
+        run: echo ::set-output name=MARKDOWN::$(node ./script/github-actions/code-coverage-format-report.js)
+
+      - name: Publish test results
+        if: ${{ always() }}
+        uses: mikepenz/action-junit-report@v2.4.3
+        with:
+          check_name: 'Unit Tests Summary'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          report_paths: 'test-results/unit-tests.xml'
+          summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
+
+  contract-tests:
+    name: Contract Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get Pact Broker password
+        uses: marvinpinto/action-inject-ssm-secrets@latest
+        with:
+          ssm_parameter: /dsva-vagov/pact-broker/utility/PACT_BROKER_BASIC_AUTH_PASSWORD
+          env_variable_name: PACT_BROKER_BASIC_AUTH_PASSWORD
+
+      - name: Get GitHub token
+        uses: marvinpinto/action-inject-ssm-secrets@latest
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            .cache/yarn
+            node_modules
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          max_attempts: 3
+          timeout_minutes: 5
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
+
+      - name: Create test results folder
+        run: mkdir -p test-results
+
+      - name: Run contract tests
+        run: yarn test:contract
+        env:
+          MOCHA_FILE: ./test-results/test-results.xml
+
+      - name: Print Pact failures
+        run: cat test-results/test-results.xml
+        if: ${{ failure() }}
+
+      - name: Run Pact publish
+        run: yarn pact:publish
+        env:
+          PACT_BROKER_BASIC_AUTH_USERNAME: pact-broker
+          PACT_BROKER_BASE_URL: https://dev.va.gov/_vfs/pact-broker/
+
+      - name: Run Pact verify
+        run: |
+          curl -v -X POST \
+          -H 'Authorization: token ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}' \
+          -H 'Accept: application/vnd.github.v3+json' \
+          https://api.github.com/repos/department-of-veterans-affairs/vets-api/actions/workflows/8289333/dispatches \
+          -d '{"ref": "master"}' \
+          --fail
+
+      - name: Archive contract test results
+        uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
+        with:
+          name: contract-test-report
+          path: test-results/test-results.xml
+
+      - name: Archive contract test log
+        uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
+        with:
+          name: contract-test-log
+          path: logs/pact.log
+
+      - name: Publish test results
+        if: ${{ always() }}
+        uses: mikepenz/action-junit-report@v2.4.3
+        with:
+          check_name: 'Pact Tests Summary'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          report_paths: 'test-results/test-results.xml'
+
+  security-audit:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Audit dependencies
+        run: yarn security-check
+
+  linting:
+    name: Linting (All)
+    if: ${{ github.ref == 'refs/heads/master' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            .cache/yarn
+            node_modules
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          max_attempts: 3
+          timeout_minutes: 5
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
+
+      - name: Annotate ESLint results
+        run: yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js .
+
+      - name: Run Stylelint
+        run: yarn run stylelint verbose --output-file stylelint-report.json --formatter json src/**/*.scss
+
+      - name: Annotate Stylelint results
+        if: ${{ always() }}
+        run: node ./script/github-actions/stylelint-annotation-format.js
+
+  cypress-tests-prep:
+    name: Prep for Cypress Tests
+    runs-on: ubuntu-latest
+    outputs:
+      num_containers: ${{ steps.containers.outputs.num }}
+      ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
+      tests: ${{ steps.tests.outputs.selected }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # this is required to list all changed files in branch
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            .cache/yarn
+            node_modules
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          max_attempts: 3
+          timeout_minutes: 5
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
+
+      - name: Set MASTER_BUILD
+        run: |
+          if [[ github.ref == 'refs/heads/master' ]]; then
+              echo "MASTER_BUILD=true" >> $GITHUB_ENV
+          else
+              echo "MASTER_BUILD=false" >> $GITHUB_ENV
+          fi
+
+      - name: List changed files
+        id: changed-files
+        run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+
+      - name: Get number of containers needed
+        run: node script/github-actions/select-cypress-tests.js
+        env:
+          MASTER_BUILD: ${{ env.MASTER_BUILD }}
+          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+
+      - name: Set output of number of containers
+        id: containers
+        run: echo ::set-output name=num::$NUM_CONTAINERS
+
+      - name: Set output of ci_node_index value for matrix
+        id: matrix
+        run: echo ::set-output name=ci_node_index::$CI_NODE_INDEX
+
+      - name: Set output of tests to run
+        id: tests
+        run: echo ::set-output name=selected::$TESTS
+
+  cypress-tests:
+    name: Cypress E2E Tests
+    runs-on: self-hosted
+    needs: [build, cypress-tests-prep]
+    if: ${{ needs.cypress-tests-prep.outputs.num_containers > 0 }}
+    container:
+      image: public.ecr.aws/cypress-io/cypress/browsers:node14.16.0-chrome89-ff77
+      options: -u 1001:1001 -v /usr/local/share:/share
+
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        ci_node_index: ${{ fromJson(needs.cypress-tests-prep.outputs.ci_node_index) }}
+
+    env:
+      CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
+      NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
+
+    steps:
+      - name: Checkout vets-website
+        uses: actions/checkout@v2
+
+      - name: Download production build artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: vagovprod.tar.bz2
+
+      - name: Unpack build
+        run: |
+          mkdir -p build/vagovprod
+          tar -C build/vagovprod -xjf vagovprod.tar.bz2
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            .cache/yarn
+            /github/home/.cache/Cypress
+            node_modules
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}-cypress
+
+      - name: Install dependencies
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          max_attempts: 3
+          timeout_minutes: 5
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
+
+      - name: Start server
+        run: node src/platform/testing/e2e/test-server.js --buildtype vagovprod --port=3001 &
+
+      - name: Create test results directory
+        run: mkdir -p test-results
+
+      - name: Run Cypress tests
+        run: node script/github-actions/run-cypress-tests.js
+        timeout-minutes: 30
+        env:
+          CYPRESS_CI: true
+          STEP: ${{ matrix.ci_node_index }}
+          NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
+          TESTS: ${{ needs.cypress-tests-prep.outputs.tests }}
+
+      - name: Archive test videos
+        uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
+        with:
+          name: cypress-video-artifacts
+          path: cypress/videos
+
+      - name: Archive test screenshots
+        uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
+        with:
+          name: cypress-screenshot-artifacts
+          path: cypress/screenshots
+
+      - name: Archive JUnit test results
+        uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: cypress-junit-test-results
+          path: test-results
+          retention-days: 1
+
+      - name: Archive Mochawesome test results
+        uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: cypress-mochawesome-test-results
+          path: cypress/results
+          retention-days: 1
+
+  nightwatch-tests:
+    name: Nightwatch E2E Tests
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout vets-website
+        uses: actions/checkout@v2
+
+      - name: Download production build artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: vagovprod.tar.bz2
+
+      - name: Unpack build
+        run: |
+          mkdir -p build/vagovprod
+          tar -C build/vagovprod -xjf vagovprod.tar.bz2
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            .cache/yarn
+            node_modules
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          max_attempts: 3
+          timeout_minutes: 5
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
+
+      - name: Run Nightwatch tests
+        run: yarn test:e2e:headless --suiteRetries 3
+        timeout-minutes: 30
+        env:
+          BUILDTYPE: vagovprod
+          NODE_ENV: production
+
+  testing-reports:
+    name: Testing Reports
+    runs-on: ubuntu-latest
+    needs: [cypress-tests-prep, cypress-tests]
+    if: ${{ always() && needs.cypress-tests-prep.outputs.num_containers > 0 && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: 'us-gov-west-1'
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      # ----------------
+      # | Notify Slack |
+      # ----------------
+
+      - name: Checkout VSP actions
+        if: ${{ needs.cypress-tests.result == 'failure' }}
+        uses: actions/checkout@v2
+        with:
+          repository: department-of-veterans-affairs/vsp-github-actions
+          ref: refs/heads/main
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          persist-credentials: false
+          path: ./.github/actions/vsp-github-actions
+
+      - name: Get Slack app token
+        if: ${{ needs.cypress-tests.result == 'failure' }}
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/github_actions_slack_socket_token
+          env_variable_name: SLACK_APP_TOKEN
+
+      - name: Get Slack bot token
+        if: ${{ needs.cypress-tests.result == 'failure' }}
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/github_actions_slack_bot_user_token
+          env_variable_name: SLACK_BOT_TOKEN
+
+      - name: Notify Slack about Cypress test failures
+        if: ${{ needs.cypress-tests.result == 'failure' }}
+        uses: ./.github/actions/vsp-github-actions/slack-socket
+        env:
+          SSL_CERT_DIR: /etc/ssl/certs
+        with:
+          slack_app_token: ${{ env.SLACK_APP_TOKEN }}
+          slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
+          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "E2E tests in `vets-website` have failed, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
+          channel_id: C026PD47Z19 # gha-test-status
+
+      # ------------------------
+      # | Upload BigQuery Data |
+      # ------------------------
+
+      - name: Checkout Testing Tools Team Dashboard Data repo
+        uses: actions/checkout@v2
+        with:
+          repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          path: testing-tools-team-dashboard-data
+
+      # TODO: Set .nvmrc in testing-tools-team-dashboard-data.
+      # - name: Get Node version
+      #   id: get-node-version
+      #   run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+      #   working-directory: testing-tools-team-dashboard-data
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14 # ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline --production=false
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
+        working-directory: testing-tools-team-dashboard-data
+
+      - name: Download Mochawesome test results
+        uses: actions/download-artifact@v2
+        with:
+          name: cypress-mochawesome-test-results
+          path: testing-tools-team-dashboard-data/src/mochawesome/data
+
+      - name: Get BigQuery service credentials
+        uses: marvinpinto/action-inject-ssm-secrets@latest
+        with:
+          ssm_parameter: /dsva-vagov/testing-team/bigquery_service_credentials
+          env_variable_name: BIGQUERY_SERVICE_CREDENTIALS
+
+      - name: Setup Cloud SDK
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: vsp-analytics-and-insights
+          service_account_key: ${{ env.BIGQUERY_SERVICE_CREDENTIALS }}
+          export_default_credentials: true
+
+      - name: Set UUID for Mochawesome report
+        run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
+
+      - name: Create report and post results to BigQuery
+        run: yarn cypress-mochawesome-to-bigquery
+        working-directory: testing-tools-team-dashboard-data
+
+      - name: Upload Mochawesome report artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: mochawesome-report
+          path: testing-tools-team-dashboard-data/mochawesome-report
+
+      # --------------------------
+      # | Publish Testing Report |
+      # --------------------------
+
+      - name: Checkout Testing Reports repo
+        uses: actions/checkout@v2
+        with:
+          repository: department-of-veterans-affairs/testing-reports
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          path: testing-reports
+
+      - name: Download Mochawesome report artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: mochawesome-report
+          path: testing-reports/cypress-reports
+
+      - name: Download video artifacts
+        if: ${{ needs.cypress-tests.result == 'failure' }}
+        uses: actions/download-artifact@v2
+        with:
+          name: cypress-video-artifacts
+          path: testing-reports/cypress-reports/videos/${{ env.UUID }}
+
+      - name: Pull any changes since checkout
+        run: git pull origin master
+        working-directory: testing-reports
+
+      - name: Add changes
+        run: git add .
+        working-directory: testing-reports
+
+      - name: Commit and push changes
+        uses: actions-js/push@master
+        with:
+          github_token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          repository: department-of-veterans-affairs/testing-reports
+          directory: testing-reports
+          branch: master
+
+      # -------------------------
+      # | Cypress Tests Summary |
+      # -------------------------
+
+      - name: Download Cypress JUnit test results
+        if: ${{ always() }}
+        uses: actions/download-artifact@v2
+        with:
+          name: cypress-junit-test-results
+          path: cypress-junit-test-results
+
+      - name: Publish Cypress test results
+        if: ${{ always() }}
+        uses: mikepenz/action-junit-report@v2.4.2
+        with:
+          check_name: 'Cypress Tests Summary'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          report_paths: 'cypress-junit-test-results/e2e-test-output-*.xml'
+          summary: '[Mochawesome Report](https://reimagined-telegram-c11df05a.pages.github.io/cypress-reports/${{ env.UUID }})'
+
+# archive:
+#   name: Archive
+#   runs-on: ubuntu-latest
+
+#   strategy:
+#     matrix:
+#       buildtype: [vagovdev, vagovstaging, vagovprod]
+
+#   needs: [cypress-tests, nightwatch-tests, unit-tests, contract-tests, security-audit, linting]
+
+#   # Archive should still run even when linting is skipped (as in PRs).
+#   # This if overrides the dependency on linting success to include skipped.
+#   # Because of always(), the rest of the needed jobs have to be checked too.
+#   # By doing this, later jobs that need this job require similar overrides
+#   # or else they will also be skipped when linting is skipped.
+#   if: |
+#     always() &&
+#     needs.cypress-tests.result == 'success' &&
+#     needs.nightwatch-tests.result == 'success' &&
+#     needs.unit-tests.result == 'success' &&
+#     needs.contract-tests.result == 'success' &&
+#     needs.security-audit.result == 'success' &&
+#     (needs.linting.result == 'success' || needs.linting.result == 'skipped')
+
+#   steps:
+#     - name: Download build artifact
+#       uses: actions/download-artifact@v2
+#       with:
+#         name: ${{ matrix.buildtype }}.tar.bz2
+
+#     - name: Configure AWS credentials (1)
+#       uses: aws-actions/configure-aws-credentials@v1
+#       with:
+#         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#         aws-region: us-gov-west-1
+
+#     - name: Get AWS IAM role
+#       uses: marvinpinto/action-inject-ssm-secrets@latest
+#       with:
+#         ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+#         env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+#     - name: Configure AWS Credentials (2)
+#       uses: aws-actions/configure-aws-credentials@v1
+#       with:
+#         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#         aws-region: us-gov-west-1
+#         role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+#         role-duration-seconds: 900
+#         role-session-name: vsp-frontendteam-githubaction
+
+#     - name: Upload build
+#       run: aws s3 cp ${{ matrix.buildtype }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/application-build/$GITHUB_SHA/${{ matrix.buildtype }}.tar.bz2 --acl public-read --region us-gov-west-1
+
+# deploy:
+#   name: Deploy
+#   runs-on: ubuntu-latest
+#   if: ${{ always() && github.ref == 'refs/heads/master' && needs.archive.result == 'success' }}
+#   needs: archive
+
+#   strategy:
+#     matrix:
+#       include:
+#         - environment: vagovdev
+#           bucket: dev-va-gov-assets
+#         - environment: vagovstaging
+#           bucket: staging-va-gov-assets
+
+#   steps:
+#     - name: Checkout
+#       uses: actions/checkout@v2
+
+#     - name: Configure AWS credentials (1)
+#       uses: aws-actions/configure-aws-credentials@v1
+#       with:
+#         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#         aws-region: us-gov-west-1
+
+#     - name: Get AWS IAM role
+#       uses: marvinpinto/action-inject-ssm-secrets@latest
+#       with:
+#         ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+#         env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+#     - name: Configure AWS Credentials (2)
+#       uses: aws-actions/configure-aws-credentials@v1
+#       with:
+#         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#         aws-region: us-gov-west-1
+#         role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+#         role-duration-seconds: 900
+#         role-session-name: vsp-frontendteam-githubaction
+
+#     - name: Deploy
+#       run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
+#       env:
+#         SRC: s3://vetsgov-website-builds-s3-upload/application-build/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
+#         DEST: s3://${{ matrix.bucket }}
+
+# jenkins:
+#   name: Run Jenkins CI
+#   runs-on: ubuntu-latest
+#   needs: archive
+#   if: ${{ always() && needs.archive.result == 'success' }}
+#   steps:
+#     - name: Configure AWS credentials
+#       uses: aws-actions/configure-aws-credentials@v1
+#       with:
+#         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#         aws-region: us-gov-west-1
+
+#     - name: Get Jenkins token
+#       uses: marvinpinto/action-inject-ssm-secrets@latest
+#       with:
+#         ssm_parameter: /frontend-team/github-actions/parameters/JENKINS_API_TOKEN
+#         env_variable_name: JENKINS_API_TOKEN
+
+#     - name: Checkout
+#       uses: actions/checkout@v2
+
+#     - name: Get Node version
+#       id: get-node-version
+#       run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+#     - name: Setup Node
+#       uses: actions/setup-node@v2
+#       with:
+#         node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+#     - name: Cache dependencies
+#       id: cache-dependencies
+#       uses: actions/cache@v2
+#       with:
+#         path: |
+#           .cache/yarn
+#           node_modules
+#         key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+
+#     - name: Install dependencies
+#       run: yarn install --frozen-lockfile --prefer-offline
+#       env:
+#         YARN_CACHE_FOLDER: .cache/yarn
+
+#     - name: Trigger Jenkins pipeline
+#       run: node script/github-actions/trigger-jenkins.js

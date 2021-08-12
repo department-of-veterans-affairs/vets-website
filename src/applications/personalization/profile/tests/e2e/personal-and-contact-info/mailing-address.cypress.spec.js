@@ -1,15 +1,22 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS } from '@@profile/constants';
 import mockUser from '@@profile/tests/fixtures/users/user-36.json';
+import { mockGETEndpoints } from '@@profile/tests/e2e/helpers';
 
 const setup = (mobile = false) => {
-  disableFTUXModals();
-
   if (mobile) {
     cy.viewport('iphone-4');
   }
 
   cy.login(mockUser);
+  mockGETEndpoints([
+    'v0/mhv_account',
+    'v0/profile/full_name',
+    'v0/profile/status',
+    'v0/profile/personal_information',
+    'v0/profile/service_history',
+    'v0/feature_toggles*',
+    'v0/ppiu/payment_information',
+  ]);
   cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
   // should show a loading indicator
@@ -68,74 +75,72 @@ const confirmWebAddressesAreBlocked = () => {
 
   cy.findByRole('textbox', { name: /street address.*required/i })
     .clear()
-    .type('propaganda.com');
+    .type('x.com', { delay: 1 });
   cy.findByRole('button', { name: 'Update' }).focus();
   cy.findByRole('alert')
     .should('exist')
     .contains(/please enter a valid street address/i);
   cy.findByRole('textbox', { name: /street address.*required/i })
     .clear()
-    .type('123 main');
+    .type('123 main', { delay: 1 });
   cy.findByRole('alert').should('not.exist');
 
-  // NOTE: resorting to selecting via a fragile element ID since there are two
-  // street lines on this form with identical labels :(
-  cy.get('#root_addressLine2')
+  cy.findByLabelText(/^Street address line 2/i)
     .clear()
-    .type('www.propaganda.blah');
+    .type('www.x.blah', { delay: 1 });
   cy.findByRole('button', { name: 'Update' }).focus();
   cy.findByRole('alert')
     .should('exist')
     .contains(/please enter a valid street address/i);
-  cy.get('#root_addressLine2').clear();
+  cy.findByLabelText(/^Street address line 2/i).clear();
   cy.findByRole('alert').should('not.exist');
 
   // NOTE: resorting to selecting via a fragile element ID since there are two
   // street lines on this form with identical labels :(
-  cy.get('#root_addressLine3')
+  cy.findByLabelText(/^Street address line 3/i)
     .clear()
-    .type('propaganda.net');
+    .type('x.net', { delay: 1 });
   cy.findByRole('button', { name: 'Update' }).focus();
   cy.findByRole('alert')
     .should('exist')
     .contains(/please enter a valid street address/i);
-  cy.get('#root_addressLine3').clear();
+  cy.findByLabelText(/^Street address line 3/i).clear();
   cy.findByRole('alert').should('not.exist');
 
   cy.findByRole('textbox', { name: /city/i })
     .clear()
-    .type('http://');
+    .type('http://', { delay: 1 });
   cy.findByRole('button', { name: 'Update' }).focus();
   cy.findByRole('alert')
     .should('exist')
     .contains(/please enter a valid city/i);
   cy.findByRole('textbox', { name: /city/i })
     .clear()
-    .type('Paris');
+    .type('Paris', { delay: 1 });
   cy.findByRole('alert').should('not.exist');
 
   cy.findByRole('textbox', { name: /state/i })
     .clear()
-    .type('propaganda.gov');
+    .type('x.gov', { delay: 1 });
   cy.findByRole('button', { name: 'Update' }).focus();
   cy.findByRole('alert')
     .should('exist')
     .contains(/please enter a valid state/i);
   cy.findByRole('textbox', { name: /state/i })
     .clear()
-    .type('Paris');
+    .type('Paris', { delay: 1 });
   cy.findByRole('alert').should('not.exist');
 
   cy.findByRole('textbox', { name: /postal code/i })
     .clear()
-    .type('propaganda.edu');
+    .type('x.edu', { delay: 1 });
   cy.findByRole('button', { name: 'Update' }).focus();
   cy.findByRole('alert')
     .should('exist')
     .contains(/please enter a valid postal code/i);
   cy.findByRole('textbox', { name: /postal code/i })
     .clear()
-    .type('12345-1234');
+    .type('12345-1234', { delay: 1 });
   cy.findByRole('alert').should('not.exist');
 
   // cancel out of edit mode and discard unsaved changes

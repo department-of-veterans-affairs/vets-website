@@ -1,0 +1,189 @@
+{
+  "data": [
+    {
+      "id": "25956",
+      "type": "appointments",
+      "attributes": {
+        "id": "25956",
+        "kind": "cc",
+        "status": "proposed",
+        "serviceType": "408",
+        "locationId": "983",
+        "clinic": null,
+        "telehealth": null,
+        "practitioners": [
+          { "id": { "value": "1801312053" } },
+          { "id": { "value": "1053355479" } },
+          { "id": { "value": "1396153797" } }
+        ],
+        "reason": "Routine Follow-up",
+        "start": null,
+        "end": null,
+        "minutesDuration": null,
+        "slot": null,
+        "requestedPeriods": [
+          { "start": "2021-12-16T01:30:00Z" },
+          { "start": "2021-12-17T04:00:00Z" },
+          { "start": "2021-12-17T07:00:00Z" }
+        ],
+        "contact": {
+          "telecom": [
+            { "type": "phone", "value": "2125551212" },
+            { "type": "email", "value": "veteranemailtest@va.gov" }
+          ]
+        },
+        "preferredTimesForPhoneCall": ["Morning"],
+        "priority": null,
+        "cancellationReason": null,
+        "description": null,
+        "comment": "I have a headache"
+      }
+    },
+    {
+      "id": "25957",
+      "type": "appointments",
+      "attributes": {
+        "id": "25957",
+        "kind": "clinic",
+        "status": "proposed",
+        "serviceType": "323",
+        "locationId": "983GC",
+        "clinic": null,
+        "telehealth": null,
+        "practitioners": [],
+        "reason": "Routine Follow-up",
+        "start": null,
+        "end": null,
+        "minutesDuration": null,
+        "slot": null,
+        "requestedPeriods": [
+          { "start": "2021-12-16T01:30:00Z" },
+          { "start": "2021-12-17T04:00:00Z" }
+        ],
+        "contact": {
+          "telecom": [
+            { "type": "phone", "value": "2125551212" },
+            { "type": "email", "value": "veteranemailtest@va.gov" }
+          ]
+        },
+        "preferredTimesForPhoneCall": ["Afternoon", "Evening"],
+        "priority": null,
+        "cancellationReason": null,
+        "description": null,
+        "comment": "I have a cold"
+      }
+    },
+    {
+      "id": "25958",
+      "type": "appointments",
+      "attributes": {
+        "id": "25958",
+        "kind": "phone",
+        "status": "proposed",
+        "serviceType": "408",
+        "locationId": "983HK",
+        "clinic": null,
+        "telehealth": null,
+        "practitioners": [],
+        "reason": "Routine Follow-up",
+        "start": null,
+        "end": null,
+        "minutesDuration": null,
+        "slot": null,
+        "requestedPeriods": [
+          { "start": "2021-11-16T01:30:00Z" },
+          { "start": "2021-11-17T04:00:00Z" }
+        ],
+        "contact": {
+          "telecom": [
+            { "type": "phone", "value": "2125551212" },
+            { "type": "email", "value": "veteranemailtest@va.gov" }
+          ]
+        },
+        "preferredTimesForPhoneCall": ["Afternoon", "Evening"],
+        "priority": null,
+        "cancellationReason": null,
+        "description": null,
+        "comment": "Pink eye"
+      }
+    },
+    {
+      "id": "25959",
+      "type": "appointments",
+      "attributes": {
+        "id": "25959",
+        "kind": "telehealth",
+        "status": "proposed",
+        "serviceType": "160",
+        "locationId": "983",
+        "clinic": null,
+        "telehealth": null,
+        "practitioners": [],
+        "reason": "New Issue",
+        "start": null,
+        "end": null,
+        "minutesDuration": null,
+        "slot": null,
+        "requestedPeriods": [
+          { "start": "2021-11-16T01:30:00Z" },
+          { "start": "2021-11-17T04:00:00Z" }
+        ],
+        "contact": {
+          "telecom": [
+            { "type": "phone", "value": "2125551212" },
+            { "type": "email", "value": "veteranemailtest@va.gov" }
+          ]
+        },
+        "preferredTimesForPhoneCall": ["Afternoon", "Evening"],
+        "priority": null,
+        "cancellationReason": null,
+        "description": null,
+        "comment": "Renew medication"
+      }
+    },
+    {
+      "id": "32152",
+      "type": "appointments",
+      "attributes": {
+        "id": "32152",
+        "kind": "clinic",
+        "status": "proposed",
+        "serviceType": "323",
+        "locationId": "983",
+        "clinic": null,
+        "telehealth": null,
+        "practitioners": null,
+        "reason": "Routine Follow-up",
+        "start": null,
+        "end": null,
+        "minutesDuration": null,
+        "slot": null,
+        "requestedPeriods": [
+          {
+            "start": "2021-06-29T12:00:00Z",
+            "end": "2021-06-29T23:59:59.999Z"
+          }
+        ],
+        "contact": {
+          "telecom": [
+            { "type": "email", "value": "jeremy.chapman@ironbow.com" },
+            { "type": "phone", "value": "5592256100" }
+          ]
+        },
+        "preferredTimesForPhoneCall": null,
+        "priority": null,
+        "cancellationReason": null,
+        "description": null,
+        "comment": null
+      }
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "currentPage": 0,
+      "perPage": 0,
+      "totalPages": 0,
+      "totalEntries": 0
+    }
+  }
+}

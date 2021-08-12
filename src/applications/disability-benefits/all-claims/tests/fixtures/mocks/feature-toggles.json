@@ -3,14 +3,6 @@
     "type": "feature_toggles",
     "features": [
       {
-        "name": "form526OriginalClaims",
-        "value": true
-      },
-      {
-        "name": "form526BenefitsDeliveryAtDischarge",
-        "value": true
-      },
-      {
         "name": "show526Wizard",
         "value": true
       },

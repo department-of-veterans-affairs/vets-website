@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { validateWhiteSpace } from 'platform/forms/validations';
-import * as actions from '../redux/actions';
 import FormButtons from '../../components/FormButtons';
 import { getFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
@@ -14,6 +12,14 @@ import { PURPOSE_TEXT, FACILITY_TYPES } from '../../utils/constants';
 import TextareaWidget from '../../components/TextareaWidget';
 import { useHistory } from 'react-router-dom';
 import PostFormFieldContent from '../../components/PostFormFieldContent';
+import NewTabAnchor from '../../components/NewTabAnchor';
+import InfoAlert from '../../components/InfoAlert';
+import {
+  openReasonForAppointment,
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+  updateReasonForAppointmentData,
+} from '../redux/actions';
 
 const initialSchema = {
   default: {
@@ -44,7 +50,7 @@ const uiSchema = {
   default: {
     reasonForAppointment: {
       'ui:widget': 'radio',
-      'ui:title': 'Please let us know why you’re making this appointment.',
+      'ui:title': 'Let us know why you’re making this appointment.',
     },
     reasonAdditionalInfo: {
       'ui:widget': TextareaWidget,
@@ -69,15 +75,12 @@ const uiSchema = {
 
 const pageKey = 'reasonForAppointment';
 
-function ReasonForAppointmentPage({
-  data,
-  openReasonForAppointment,
-  pageChangeInProgress,
-  routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage,
-  schema,
-  updateReasonForAppointmentData,
-}) {
+export default function ReasonForAppointmentPage() {
+  const dispatch = useDispatch();
+  const { schema, data, pageChangeInProgress } = useSelector(
+    state => getFormPageInfo(state, pageKey),
+    shallowEqual,
+  );
   const history = useHistory();
   const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
   const pageUISchema = isCommunityCare ? uiSchema.cc : uiSchema.default;
@@ -86,11 +89,13 @@ function ReasonForAppointmentPage({
     : initialSchema.default;
   const pageTitle = isCommunityCare
     ? 'Tell us the reason for this appointment'
-    : 'Choose a reason for your appointment';
+    : 'Choose a reason for this appointment';
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
-    openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema);
+    dispatch(
+      openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema),
+    );
   }, []);
 
   return (
@@ -102,45 +107,46 @@ function ReasonForAppointmentPage({
           title="Reason for appointment"
           schema={schema}
           uiSchema={pageUISchema}
-          onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
+          onSubmit={() =>
+            dispatch(routeToNextAppointmentPage(history, pageKey))
+          }
           onChange={newData =>
-            updateReasonForAppointmentData(pageKey, pageUISchema, newData)
+            dispatch(
+              updateReasonForAppointmentData(pageKey, pageUISchema, newData),
+            )
           }
           data={data}
         >
           <PostFormFieldContent>
-            <AlertBox
+            <InfoAlert
               status="warning"
               headline="If you have an urgent medical need, please:"
               className="vads-u-margin-y--3"
               level="2"
-              content={
-                <ul>
-                  <li>
-                    Call <Telephone contact={CONTACTS['911']} />,{' '}
-                    <span className="vads-u-font-weight--bold">or</span>
-                  </li>
-                  <li>
-                    Call the Veterans Crisis hotline at{' '}
-                    <Telephone contact={CONTACTS.CRISIS_LINE} /> and press 1,{' '}
-                    <span className="vads-u-font-weight--bold">or</span>
-                  </li>
-                  <li>
-                    Go to your nearest emergency room or VA medical center.{' '}
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href="/find-locations"
-                    >
-                      Find your nearest VA medical center
-                    </a>
-                  </li>
-                </ul>
-              }
-            />
+            >
+              <ul>
+                <li>
+                  Call <Telephone contact={CONTACTS['911']} />,{' '}
+                  <span className="vads-u-font-weight--bold">or</span>
+                </li>
+                <li>
+                  Call the Veterans Crisis hotline at{' '}
+                  <Telephone contact={CONTACTS.CRISIS_LINE} /> and select 1,{' '}
+                  <span className="vads-u-font-weight--bold">or</span>
+                </li>
+                <li>
+                  Go to your nearest emergency room or VA medical center.{' '}
+                  <NewTabAnchor href="/find-locations">
+                    Find your nearest VA medical center
+                  </NewTabAnchor>
+                </li>
+              </ul>
+            </InfoAlert>
           </PostFormFieldContent>
           <FormButtons
-            onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
+            onBack={() =>
+              dispatch(routeToPreviousAppointmentPage(history, pageKey))
+            }
             pageChangeInProgress={pageChangeInProgress}
             loadingText="Page change in progress"
           />
@@ -149,19 +155,3 @@ function ReasonForAppointmentPage({
     </div>
   );
 }
-
-function mapStateToProps(state) {
-  return getFormPageInfo(state, pageKey);
-}
-
-const mapDispatchToProps = {
-  openReasonForAppointment: actions.openReasonForAppointment,
-  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
-  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
-  updateReasonForAppointmentData: actions.updateReasonForAppointmentData,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ReasonForAppointmentPage);

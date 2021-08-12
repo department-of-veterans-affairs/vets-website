@@ -35,7 +35,7 @@ describe('Prescriptions Widget', () => {
       name: /Go to My VA Health/i,
     });
     expect(myVAHealthButton.href).to.equal(
-      'https://ehrm-va-test.patientportal.us.healtheintent.com/clear-session?to=https%3A%2F%2Fehrm-va-test.patientportal.us.healtheintent.com%2Fpages%2Fmedications%2Fcurrent',
+      'https://staging-patientportal.myhealth.va.gov/clear-session?to=https%3A%2F%2Fstaging-patientportal.myhealth.va.gov%2Fpages%2Fmedications%2Fcurrent',
     );
   });
   it('renders the correct secondary CTA button', () => {
@@ -78,7 +78,7 @@ describe('Appointment Widget', () => {
       name: /Go to My VA Health/i,
     });
     expect(myVAHealthButton.href).to.equal(
-      'https://ehrm-va-test.patientportal.us.healtheintent.com/clear-session?to=https%3A%2F%2Fehrm-va-test.patientportal.us.healtheintent.com%2Fpages%2Fscheduling%2Fupcoming',
+      'https://staging-patientportal.myhealth.va.gov/clear-session?to=https%3A%2F%2Fstaging-patientportal.myhealth.va.gov%2Fpages%2Fscheduling%2Fupcoming',
     );
   });
   it('renders the correct alternate CTA button', () => {
@@ -120,7 +120,7 @@ describe('Secure Messaging Widget', () => {
       name: /Go to My VA Health/i,
     });
     expect(myVAHealthButton.href).to.equal(
-      'https://ehrm-va-test.patientportal.us.healtheintent.com/clear-session?to=https%3A%2F%2Fehrm-va-test.patientportal.us.healtheintent.com%2Fpages%2Fmessaging%2Finbox',
+      'https://staging-patientportal.myhealth.va.gov/clear-session?to=https%3A%2F%2Fstaging-patientportal.myhealth.va.gov%2Fpages%2Fmessaging%2Finbox',
     );
   });
   it('renders the correct alternate CTA button', () => {

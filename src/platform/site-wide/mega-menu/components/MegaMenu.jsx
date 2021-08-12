@@ -145,7 +145,11 @@ export default class MegaMenu extends React.Component {
           <div id="vetnav" role="navigation">
             <ul id="vetnav-menu">
               <li>
-                <a href="/" className="vetnav-level1">
+                <a
+                  className="vetnav-level1"
+                  data-e2e-id="mobile-home-nav-link"
+                  href="/"
+                >
                   Home
                 </a>
               </li>
@@ -161,15 +165,17 @@ export default class MegaMenu extends React.Component {
                       aria-expanded={currentDropdown === item.title}
                       aria-controls={`vetnav-${_.kebabCase(item.title)}`}
                       className="vetnav-level1"
+                      data-e2e-id={`${_.kebabCase(item.title)}-${i}`}
                       onClick={() => this.toggleDropDown(item.title)}
                     >
                       {item.title}
                     </button>
                   ) : (
                     <a
+                      className="vetnav-level1"
+                      data-e2e-id={`${_.kebabCase(item.title)}-${i}`}
                       href={item.href}
                       onClick={linkClicked.bind(null, item)}
-                      className="vetnav-level1"
                       target={item.target || null}
                     >
                       {item.title}

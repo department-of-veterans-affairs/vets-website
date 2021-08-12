@@ -3,13 +3,12 @@ import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
 import { cleanup } from '@testing-library/react';
 import { fireEvent, waitFor } from '@testing-library/dom';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import CommunityCareLanguagePage from '../../../new-appointment/components/CommunityCareLanguagePage';
 
 const initialState = {
   featureToggles: {
-    vaOnlineSchedulingVSPAppointmentNew: false,
     vaOnlineSchedulingDirect: true,
     vaOnlineSchedulingCommunityCare: true,
   },
@@ -25,7 +24,6 @@ const initialState = {
 
 describe('VAOS <CommunityCareLanguagePage>', () => {
   beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
 
   it('should show page with language choice', async () => {
     const store = createTestStore(initialState);

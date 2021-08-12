@@ -23,38 +23,72 @@
 
     &.results-list {
       li.result-item {
-        margin-top: 1em;
-
-        h5,
+        h4,
         p {
-          font-family: "Helvetica", "Arial", "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
+          font-family: "Helvetica", "Arial", "Bitter", "Georgia", "Cambria",
+            "Times New Roman", "Times", serif;
         }
 
         .result-url,
         .result-desc {
-          font-size: 1.3rem;
+          color: $color-gray-dark;
+          font-family: "Source Sans Pro";
+          font-size: 1.6rem;
         }
 
         a.result-title {
-          display: block;
           text-decoration: none;
+          color: $color-link-default;
 
-          h5 {
-            margin-bottom: .1rem;
-            font-size: 1.6rem;
-            font-weight: normal;
+          &:visited {
+            span {
+              color: $color-purple;
+            }
+          }
+          h4 {
+            &:hover {
+              color: $color-gray-dark;
+              background: rgba(0, 0, 0, 0.05);
+            }
+          }
+
+          &:focus,
+          &:active {
+            outline: none;
+            h4 {
+              color: $color-gray-dark;
+              background: rgba(0, 0, 0, 0.05);
+              outline: 2px solid $color-gold-light;
+              outline-offset: 2px;
+            }
           }
         }
 
         p {
           margin: 0;
-
-          &.result-url {
-            color: $color-green;
-            margin-bottom: .1rem;
-          }
         }
       }
+    }
+  }
+
+  .right-nav-link {
+    color: $color-link-default;
+
+    &:visited {
+      color: $color-purple;
+    }
+
+    &:hover {
+      color: $color-gray-dark;
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    &:focus,
+    &:active {
+      color: $color-gray-dark;
+      background: rgba(0, 0, 0, 0.05);
+      outline: 2px solid $color-gold-light;
+      outline-offset: 2px;
     }
   }
 
@@ -83,22 +117,27 @@
   }
 
   .results-footer {
-    flex-direction: column-reverse;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 4rem;
+    margin-bottom: 1rem;
 
-    @include media($small-screen) {
+    @include media($medium-screen) {
       flex-direction: row;
+      margin-bottom: 4rem;
     }
 
     .powered-by {
       font-weight: bold;
-      margin: 1rem 0 3rem;
+      margin: 1rem 0 0;
 
       @include media($small-screen) {
         margin: unset;
       }
+      @include media($medium-screen) {
+        margin: 1rem 0 3rem;
+      }
+
     }
 
     .va-pagination {
@@ -106,11 +145,11 @@
 
       @include media($large-screen) {
         .va-pagination-inner {
-          width: unset;
+          width: 20rem !important;
         }
       }
 
-      @include media($small-screen) {
+      @include media($medium-screen) {
         width: unset;
       }
     }
@@ -127,24 +166,73 @@
   }
 
   .search-box {
+    flex-direction: column;
+
+    @media (min-width: $medium-screen) {
+      flex-direction: row;
+    }
 
     input,
     button {
-      margin: 0;
+      margin: 5px 0;
       max-width: none;
+      font-family: "Source Sans Pro";
+
+      @media (min-width: $medium-screen) {
+        margin: 0;
+      }
+    }
+
+    input {
+      color: $color-gray-dark;
+      font-weight: 400;
     }
 
     button {
-      width: auto;
-      display: flex;
       align-items: center;
-      padding: 0 1.5rem 0 1rem;
-      border-radius: 0 5px 5px 0;
+      background: $color-primary;
+      border-radius: 5px;
+      color: $color-white;
+      display: flex;
+      font-size: 1.6rem;
+      font-weight: 700;
+      justify-content: center;
+      padding: 1rem;
+      width: 100%;
+
+      @media (min-width: $medium-screen) {
+        border-radius: 0 5px 5px 0;
+        padding: 0 1.5rem 0 1rem;
+        width: auto;
+      }
+
+      &:hover {
+        background: $color-primary-darker;
+      }
+
+      &:focus,
+      &:active {
+        background: $color-primary-darker;
+        outline: 2px solid $color-gold-light;
+        outline-offset: 2px;
+      }
     }
   }
 
   nav[aria-label="Breadcrumb"],
   h4.sr-focus {
     outline: 0;
+  }
+
+  .search-row {
+    box-sizing: inherit;
+    margin: 0 auto;
+    max-width: 62.5em;
+    display: flex;
+    flex-direction: column;
+
+    @media (min-width: $medium-screen) {
+      flex-direction: row;
+    }
   }
 }

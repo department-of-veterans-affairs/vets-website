@@ -8,11 +8,30 @@
 @import "../../../platform/forms/sass/m-form-confirmation";
 @import "../../../platform/forms/sass/m-schemaform";
 
+// adds spacing to form titles
+#root__title {
+  min-height: 40px;
+}
+
 .schemaform-title > h1 {
-  max-width: 600px;
+  @include media($small-desktop-screen) {
+    white-space: nowrap;
+  }
+}
+
+.form-review-panel-page tr td:last-child {
+  font-weight: inherit;
+}
+
+.schemaform-review-page-warning {
+  margin: 0;
 }
 
 .debt-card {
+  padding: 24px;
+  label {
+    user-select: none;
+  }
   [type="checkbox"]:checked + label::before {
     background-color: $color-white;
     color: $color-primary;
@@ -22,21 +41,25 @@
   }
 }
 
+.selected-debt {
+  border: 4px solid $color-blue;
+  padding: 20px;
+}
+
 .schemaform-subtitle {
   width: 100%;
   margin-top: 10px;
 }
 
-#root__title {
-  height: 35px;
-}
-
 .item-loop-container {
   margin-top: 10px;
+  table {
+    table-layout: fixed;
+  }
   .item-loop {
     padding: 5px 15px 20px;
     background-color: $color-gray-lightest;
-    .horizonal-field-container .schemaform-field-container {
+    .horizontal-field-container .schemaform-field-container {
       display: flex;
       align-items: center;
       margin: 20px 0;
@@ -61,8 +84,9 @@
     }
     .button-group {
       display: flex;
-      align-items: center;
+      align-items: baseline;
       justify-content: space-between;
+      min-width: 150px;
     }
     .usa-input-error {
       position: relative;
@@ -131,18 +155,66 @@
 }
 
 // resolution options
-.edu-waiver-checkbox {
-  .schemaform-field-template {
-    margin-top: 0;
+.resolution-options-available .schemaform-block-title {
+  font-size: 20px;
+}
+.resolution-options-debt-title {
+  font-size: 18px;
+}
+.resolution-cards {
+  padding: 0 24px 24px 24px;
+  .form-radio-buttons {
+    position: relative;
+    left: -12px;
   }
-  legend {
-    display: none;
+  .form-expanding-group {
+    .fieldset-input {
+      margin-top: 0;
+    }
+    .form-expanding-group-active-radio {
+      margin-left: 0;
+      label {
+        margin-top: 0;
+        margin-bottom: 10px;
+      }
+      .usa-input-error {
+        margin-top: 0;
+        padding-bottom: 0;
+      }
+    }
   }
 }
 
-.resolution-inputs label,
-.eduWaiverCheckbox label {
-  margin-top: 0;
+.currency-input {
+  position: relative;
+  &:after {
+    content: "$";
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+  }
+  input {
+    padding-left: 25px;
+  }
+}
+
+.resolution-comments {
+  label {
+    @include media($medium-screen) {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+  }
+  .additional-info-button {
+    margin: 10px 0 20px;
+  }
+}
+
+.repayments {
+  #root__title {
+    height: auto;
+  }
 }
 
 .overview-container {
@@ -156,11 +228,18 @@
 }
 
 .no-wrap {
-  white-space: nowrap;
+  @include media($medium-screen) {
+    white-space: nowrap;
+  }
 }
 
-.usa-datefields {
-  padding-top: 16px;
+.field-disabled {
+  pointer-events: none;
+  input,
+  select {
+    background-color: $color-gray-lightest;
+    color: $color-gray-lightest;
+  }
 }
 
 .schemaform-sip-save-link {
@@ -230,4 +309,8 @@
     width: 332px;
     max-width: 332px;
   }
+}
+
+.email {
+  text-transform: lowercase;
 }

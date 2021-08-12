@@ -1,15 +1,28 @@
-import { countries, states50AndDC } from 'vets-json-schema/dist/constants.json';
+import { countries, states } from 'vets-json-schema/dist/constants.json';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { addressUiSchema } from 'applications/vre/definitions/profileAddress';
+
+const validateAtLeastOneSelected = (errors, fieldData, formData) => {
+  if (
+    formData.reasonForRemoval === 'reportDeath' &&
+    !Object.values(fieldData).some(val => val === true)
+  ) {
+    errors.addError('Please select at least one option');
+  }
+};
 
 const PATTERNS = {
   date: '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$',
   STREET_PATTERN: '^.*\\S.*',
 };
 
+// filtered states that include US territories
+const filteredStates = states.USA.filter(
+  state => !['AA', 'AE', 'AP'].includes(state.value),
+);
+
 const locationSchema = {
   type: 'object',
-  required: ['state', 'city'],
   properties: {
     isOutsideUs: {
       type: 'boolean',
@@ -17,8 +30,8 @@ const locationSchema = {
     },
     state: {
       type: 'string',
-      enum: states50AndDC.map(state => state.value),
-      enumNames: states50AndDC.map(state => state.label),
+      enum: filteredStates.map(state => state.value),
+      enumNames: filteredStates.map(state => state.label),
     },
     city: {
       type: 'string',
@@ -33,8 +46,11 @@ const locationUiSchema = uiRequiredCallback => {
       'ui:title': 'This happened outside of the U.S.',
     },
     state: {
+      'ui:required': uiRequiredCallback,
+      'ui:errorMessages': {
+        required: 'Please select where this happened',
+      },
       'ui:options': {
-        'ui:required': uiRequiredCallback,
         replaceSchema: formData => {
           if (formData?.location?.isOutsideUs) {
             return {
@@ -51,16 +67,17 @@ const locationUiSchema = uiRequiredCallback => {
           return {
             type: 'string',
             title: 'State where this happened',
-            enum: states50AndDC.map(state => state.value),
-            enumNames: states50AndDC.map(state => state.label),
+            enum: filteredStates.map(state => state.value),
+            enumNames: filteredStates.map(state => state.label),
           };
         },
       },
     },
     city: {
       'ui:title': 'City where this happened',
-      'ui:options': {
-        'ui:required': uiRequiredCallback,
+      'ui:required': uiRequiredCallback,
+      'ui:errorMessages': {
+        required: 'Please enter a city',
       },
     },
   };
@@ -109,7 +126,13 @@ export const SCHEMAS = {
           required: 'Please select an option',
         },
       },
-      date: currentOrPastDateUI('Date marriage ended'),
+      date: {
+        ...currentOrPastDateUI('Date marriage ended'),
+        'ui:errorMessages': {
+          pattern: 'Please enter a valid current or past date',
+          required: 'Please provide the date marriage ended',
+        },
+      },
       location: locationUiSchema(() => true),
     },
   },
@@ -151,9 +174,9 @@ export const SCHEMAS = {
           type: 'string',
           enum: [
             'reportStepchildNotInHousehold',
-            'reportDeath',
             'reportMarriageOfChildUnder18',
             'reportChild18OrOlderIsNotAttendingSchool',
+            'reportDeath',
           ],
           enumNames: [
             'Dependent stepchild has left household',
@@ -230,6 +253,16 @@ export const SCHEMAS = {
             },
           },
         },
+        childStatus: {
+          type: 'object',
+          properties: {
+            childUnder18: { type: 'boolean' },
+            stepChild: { type: 'boolean' },
+            adopted: { type: 'boolean' },
+            disabled: { type: 'boolean' },
+            childOver18InSchool: { type: 'boolean' },
+          },
+        },
       },
     },
     uiSchema: {
@@ -289,6 +322,30 @@ export const SCHEMAS = {
           formData =>
             formData.reasonForRemoval === 'reportStepchildNotInHousehold',
         ),
+      },
+      childStatus: {
+        'ui:title': 'Child’s status (Check all that apply)',
+        'ui:required': formData => formData.reasonForRemoval === 'reportDeath',
+        'ui:options': {
+          hideIf: formData => formData.reasonForRemoval !== 'reportDeath',
+          showFieldLabel: true,
+        },
+        'ui:validations': [validateAtLeastOneSelected],
+        childUnder18: {
+          'ui:title': 'Child under 18',
+        },
+        stepChild: {
+          'ui:title': 'Stepchild',
+        },
+        adopted: {
+          'ui:title': 'Adopted child',
+        },
+        disabled: {
+          'ui:title': 'Child incapable of self-support',
+        },
+        childOver18InSchool: {
+          'ui:title': 'Child 18-23 and in school',
+        },
       },
     },
   },

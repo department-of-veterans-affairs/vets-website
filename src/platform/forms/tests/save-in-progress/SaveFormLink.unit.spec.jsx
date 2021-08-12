@@ -30,6 +30,9 @@ describe('Schemaform <SaveFormLink>', () => {
     trackingPrefix: 'test-',
     savedStatus: SAVE_STATUSES.notAttempted,
   };
+  const formConfig = {
+    rootUrl: '',
+  };
   // Define these spies out here because they are only used to satisfy the
   //  prop requirements; they're only passed to LoginModal which we test elsewhere
   const saveInProgressForm = sinon.spy();
@@ -47,7 +50,7 @@ describe('Schemaform <SaveFormLink>', () => {
   });
   it('should render finish message when logged in', () => {
     const tree = SkinDeep.shallowRender(
-      <SaveFormLink user={loggedInUser} form={form} />,
+      <SaveFormLink user={loggedInUser} form={form} formConfig={formConfig} />,
     );
 
     expect(tree.text()).to.contain('Finish this application later');
@@ -58,6 +61,7 @@ describe('Schemaform <SaveFormLink>', () => {
         user={loggedInUser}
         form={form}
         toggleLoginModal={toggleLoginModalSpy}
+        formConfig={formConfig}
       />,
     );
 
@@ -69,6 +73,7 @@ describe('Schemaform <SaveFormLink>', () => {
         user={loggedInUser}
         form={form}
         toggleLoginModal={toggleLoginModalSpy}
+        formConfig={formConfig}
       >
         Test
       </SaveFormLink>,
@@ -82,11 +87,12 @@ describe('Schemaform <SaveFormLink>', () => {
         user={loggedInUser}
         form={_.assign(form, { savedStatus: SAVE_STATUSES.failure })}
         toggleLoginModal={toggleLoginModalSpy}
+        formConfig={formConfig}
       />,
     );
 
     expect(tree.text()).to.contain('Something went wrong');
-    expect(tree.subTree('button').text()).to.contain(
+    expect(tree.subTree('.schemaform-sip-save-link').text()).to.contain(
       'Finish this application later',
     );
   });
@@ -96,11 +102,12 @@ describe('Schemaform <SaveFormLink>', () => {
         user={loggedInUser}
         form={_.assign(form, { savedStatus: SAVE_STATUSES.clientFailure })}
         toggleLoginModal={toggleLoginModalSpy}
+        formConfig={formConfig}
       />,
     );
 
     expect(tree.text()).to.contain('unable to connect');
-    expect(tree.subTree('button').text()).to.contain(
+    expect(tree.subTree('.schemaform-sip-save-link').text()).to.contain(
       'Finish this application later',
     );
   });
@@ -110,6 +117,7 @@ describe('Schemaform <SaveFormLink>', () => {
         user={loggedInUser}
         form={_.assign(form, { savedStatus: SAVE_STATUSES.noAuth })}
         toggleLoginModal={toggleLoginModalSpy}
+        formConfig={formConfig}
       />,
     );
 
@@ -127,13 +135,14 @@ describe('Schemaform <SaveFormLink>', () => {
           form={form}
           saveInProgressForm={saveInProgressForm}
           toggleLoginModal={toggleLoginModalSpy}
+          formConfig={formConfig}
         />
       </div>,
     );
     const findDOM = findDOMNode(tree);
 
     // "Save" the form
-    findDOM.querySelector('button').click();
+    findDOM.querySelector('.schemaform-sip-save-link').click();
 
     expect(saveInProgressForm.called);
   });

@@ -35,12 +35,6 @@
   width: 50px;
 }
 
-/* Add padding to the bottom of the Medallia form */
-/* `.ng-scope .panel-footer-web` is common to multiple Medallia forms and form pages */
-.ng-scope .panel-footer-web {
-  padding-bottom: 1rem;
-}
-
 /* CSS Overrides for the 3-question survey on /find-locations */
 
 /* An excessively specific selector is needed to override !important and inline styles */
@@ -55,28 +49,6 @@
 
   /* Add `position: relative;` so `position: absolute;` can be applied to the child `button` element */
   position: relative;
-}
-
-/* The `ng-hide` class only seems to be used in mobile browsers/emulators, but not laptop browsers */
-/* I tried `#liveForm > div > div.neb-show-button-as-link.neb-form-close-btn.pull-right`, but it didn't work */
-/* The intermediary child div selectors seem necessary to reach sufficient specificity */
-#liveForm
-  > div
-  > div.neb-form-close-btn-container.ng-hide
-  > div
-  > button.neb-show-button-as-link {
-  /* Position this button absolutely relative to the `div.row.neb-form-close-btn-container.ng-hide` element */
-  position: absolute;
-
-  /* Give some breathing room above the X-icon */
-  top: 8px;
-
-  /* Give some breathing room to the right of the X-icon */
-  right: calc(0px + 24px);
-
-  /* https://css-tricks.com/rational-z-index-values/ */
-  /* Add `z-index: 100;` to make sure the button is clickable */
-  z-index: 100;
 }
 
 /* https://github.com/department-of-veterans-affairs/va.gov-team/issues/18706#issuecomment-769341669 */
@@ -120,9 +92,9 @@
   margin-right: 4px;
 }
 
-/* 
-  Any on-screen element that someone can click, touch, or otherwise interact with should be large enough for reliable interaction. 
-  Consider making sure these elements have a width and height of at least 48dp (48px). 
+/**
+  Any on-screen element that someone can click, touch, or otherwise interact with should be large enough for reliable interaction.
+  Consider making sure these elements have a width and height of at least 48dp (48px).
   Source: https://support.google.com/accessibility/android/answer/7101858?hl=en
 */
 .panel-footer-web .btn {
@@ -135,5 +107,5 @@
   top: 40px !important;
   right: 12px !important;
   z-index: 9999999;
-  color: #9f9fa4 !important;
+  color: $color-gray-light !important;
 }

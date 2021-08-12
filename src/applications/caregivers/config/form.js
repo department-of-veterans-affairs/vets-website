@@ -27,6 +27,10 @@ import vetInfoPage from './chapters/veteran/vetInfo';
 import vetContactInfoPage from './chapters/veteran/vetContactInfo';
 import vetMedicalCenterPage from './chapters/veteran/vetMedicalCenter';
 
+// sign as representative
+import signAsRepresentativeYesNo from './chapters/signAsRepresentative/signAsRepresentativeYesNo';
+import uploadPOADocument from './chapters/signAsRepresentative/uploadPOADocument';
+
 // primary pages
 import hasPrimaryCaregiverPage from './chapters/primary/hasPrimaryCaregiver';
 import primaryInfoPage from './chapters/primary/primaryInfo';
@@ -49,6 +53,8 @@ const {
   vetRelationship,
   ssn,
   fullName,
+  uuid,
+  signature,
 } = fullSchema.definitions;
 
 /* Chapters
@@ -86,15 +92,17 @@ const formConfig = {
     'Apply for the Program of Comprehensive Assistance for Family Caregivers',
   subTitle: 'Form 10-10CG',
   defaultDefinitions: {
-    address,
-    addressWithoutCountryUI,
-    date,
-    email,
     fullName,
+    ssn,
+    date,
     gender,
     phone,
-    ssn,
+    address,
+    addressWithoutCountryUI,
+    email,
     vetRelationship,
+    uuid,
+    signature,
   },
   chapters: {
     veteranChapter: {
@@ -132,23 +140,23 @@ const formConfig = {
         primaryCaregiverInfoTwo: {
           path: 'primary-2',
           title: 'Primary Family Caregiver information',
+          depends: formData => hasPrimaryCaregiver(formData),
           uiSchema: primaryInfoPage.uiSchema,
           schema: primaryInfoPage.schema,
-          depends: formData => hasPrimaryCaregiver(formData),
         },
         primaryCaregiverInfoThree: {
           path: 'primary-3',
           title: 'Contact information',
+          depends: formData => hasPrimaryCaregiver(formData),
           uiSchema: primaryContactInfoPage.uiSchema,
           schema: primaryContactInfoPage.schema,
-          depends: formData => hasPrimaryCaregiver(formData),
         },
         primaryCaregiverInfoFour: {
           path: 'primary-4',
           title: 'Health care coverage',
+          depends: formData => hasPrimaryCaregiver(formData),
           uiSchema: primaryMedicalPage.uiSchema,
           schema: primaryMedicalPage.schema,
-          depends: formData => hasPrimaryCaregiver(formData),
         },
       },
     },
@@ -183,7 +191,7 @@ const formConfig = {
       pages: {
         secondaryCaregiverTwo: {
           path: 'secondary-two-1',
-          title: 'Secondary Family Caregiver (2) applicant information',
+          title: secondaryTwoChapterTitle,
           depends: formData => hasSecondaryCaregiverTwo(formData),
           uiSchema: secondaryTwoInfoPage.uiSchema,
           schema: secondaryTwoInfoPage.schema,
@@ -197,7 +205,30 @@ const formConfig = {
         },
       },
     },
+    signAsRepresentativeChapter: {
+      title: 'Representative document',
+      pages: {
+        signAsRepresentative: {
+          path: 'representative-document',
+          title: 'Representative document',
+          depends: formData => formData['view:canUpload1010cgPOA'],
+          uiSchema: signAsRepresentativeYesNo.uiSchema,
+          schema: signAsRepresentativeYesNo.schema,
+        },
+        documentUpload: {
+          path: 'representative-document-upload',
+          title: 'Representative document',
+          depends: formData => formData.signAsRepresentativeYesNo === 'yes',
+          editModeOnReviewPage: false,
+          uiSchema: uploadPOADocument.uiSchema,
+          schema: uploadPOADocument.schema,
+        },
+      },
+    },
   },
 };
+
+/* TODO Need to change editModeOnReviewPage for document upload to true 
+when platform bug is fixed and upload button appears with this feature enabled */
 
 export default formConfig;

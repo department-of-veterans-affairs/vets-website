@@ -1,6 +1,7 @@
 import { mapValues } from 'lodash/fp';
 import caregiverFacilities from 'vets-json-schema/dist/caregiverProgramFacilities.json';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { isEmpty } from 'lodash';
 import {
   primaryCaregiverFields,
   secondaryOneFields,
@@ -74,8 +75,18 @@ export const submitTransform = (formConfig, form) => {
 
     // maps over all keys, and creates objects of the same prefix then removes prefix
     keys.map(key => {
-      // if has same prefix
-      if (key.includes(dataPrefix)) {
+      if (key === 'signAsRepresentativeDocumentUpload') {
+        /* if user submits a document via upload page, add the guid to the formData
+          otherwise delete object and move on to next keys */
+        if (isEmpty(data[key]) || data.signAsRepresentativeYesNo !== 'yes') {
+          return delete sortedDataByChapter.poaAttachmentId;
+        }
+
+        const documentUpload = data[key][0].guid;
+        sortedDataByChapter.poaAttachmentId = documentUpload;
+
+        // if has same prefix
+      } else if (key.includes(dataPrefix)) {
         // if preferredFacility grab the nested "plannedClinic" value, and surface it
         if (key === 'veteranPreferredFacility') {
           sortedDataByChapter[chapterName] = {
@@ -178,7 +189,7 @@ export const isSSNUnique = formData => {
 export const validateSSNIsUnique = (errors, formData) => {
   if (!isSSNUnique(formData)) {
     errors.addError(
-      "We're sorry. You've already entered this number elsewhere. Please check your data and try again.",
+      'We\u2019re sorry. You\u2019ve already entered this number elsewhere. Please check your data and try again.',
     );
   }
 };
@@ -187,7 +198,7 @@ export const facilityNameMaxLength = (errors, formData) => {
   const facilityNameLength = formData.veteranLastTreatmentFacility.name?.length;
   if (facilityNameLength > 80) {
     errors.addError(
-      "You've entered too many characters, please enter less than 80 characters.",
+      'You\u2019ve entered too many characters, please enter less than 80 characters.',
     );
   }
 };
@@ -204,4 +215,27 @@ export const shouldHideAlert = formData => {
   if (isSecondaryOneUndefined) return true;
   if (!hasPrimary && !hasSecondary) return false;
   return false;
+};
+
+/**
+ * Converts an array of items into a sentence with a conjunction
+ *
+ * Note: returns blank string if items is not an array or is empty
+ * @export
+ * @param {Array<string>} items
+ * @param {string} conjunction
+ * @param {Function} transform mapper function
+ * @returns {string}
+ */
+export const arrayToSentenceString = (items, conjunction, transform) => {
+  if (!Array.isArray(items) || items.length < 1) return '';
+
+  return items.reduce((accumulator, val, index) => {
+    const item = typeof transform === 'function' ? transform(val) : val;
+
+    if (index === 0) return item.toString();
+
+    const seperator = index < items.length - 1 ? ',' : `, ${conjunction}`;
+    return `${accumulator}${seperator} ${item}`;
+  }, '');
 };

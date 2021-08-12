@@ -6,7 +6,6 @@ import { setupServer } from 'msw/node';
 import { expect } from 'chai';
 
 import environment from 'platform/utilities/environment';
-import { resetFetch } from 'platform/testing/unit/helpers';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 
 import reducer from '../../reducers';
@@ -45,7 +44,7 @@ describe('<Form/>', () => {
       reducers: reducer,
     });
 
-    screen.getByText('Fill out the form below');
+    screen.getByText('Sign up for vaccine updates');
     await screen.findByLabelText('Social Security number (SSN)');
     screen.getByLabelText('Last name', { exact: false });
     screen.getByLabelText('First name', { exact: false });
@@ -83,7 +82,6 @@ describe('<Form/> prefills -> by old form data', () => {
   let server = null;
 
   before(() => {
-    resetFetch();
     server = setupServer(
       rest.get(
         `${environment.API_URL}/covid_vaccine/v0/registration`,
@@ -158,7 +156,6 @@ describe('<Form/> prefills -> profile data ', () => {
   let server = null;
 
   before(() => {
-    resetFetch();
     server = setupServer(
       rest.get(
         `${environment.API_URL}/covid_vaccine/v0/registration`,

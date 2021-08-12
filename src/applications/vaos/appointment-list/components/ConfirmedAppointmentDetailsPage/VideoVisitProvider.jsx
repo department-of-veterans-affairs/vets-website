@@ -1,15 +1,17 @@
 import React from 'react';
-import { getPractitionerDisplay } from '../../../services/appointment';
 
-export default function VideoVisitProvider({ participants }) {
-  if (!participants) {
-    return null;
-  }
-
+export default function VideoVisitProvider({ providers, isPast }) {
   return (
     <>
-      <h3 className="vaos-appts__block-label">You’ll be meeting with</h3>
-      <div>{getPractitionerDisplay(participants)}</div>
+      <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+        {!isPast ? 'You’ll be meeting with' : 'You met with'}
+      </h2>
+      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+      <ul className="usa-unstyled-list" role="list">
+        {providers.map((provider, index) => (
+          <li key={index}>{provider.display}</li>
+        ))}
+      </ul>
     </>
   );
 }

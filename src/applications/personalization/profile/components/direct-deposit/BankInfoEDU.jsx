@@ -32,7 +32,7 @@ import BankInfoForm, { makeFormProperties } from './BankInfoForm';
 
 import PaymentInformationEditError from './PaymentInformationEditError';
 import ProfileInfoTable from '../ProfileInfoTable';
-import { benefitTypes } from './DirectDepositV2';
+import { benefitTypes } from './DirectDeposit';
 
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 
@@ -47,6 +47,7 @@ export const DirectDepositEDU = ({
 }) => {
   const formPrefix = 'EDU';
   const editBankInfoButton = useRef();
+  const editBankInfoForm = useRef();
   const [formData, setFormData] = useState({});
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
   const wasEditingBankInfo = usePrevious(directDepositUiState.isEditing);
@@ -69,6 +70,14 @@ export const DirectDepositEDU = ({
   // when we enter and exit edit mode...
   useEffect(
     () => {
+      if (isEditingBankInfo && !wasEditingBankInfo) {
+        const focusableElement = editBankInfoForm.current?.querySelector(
+          'button, input, select, a, textarea',
+        );
+        if (focusableElement) {
+          focusableElement.focus();
+        }
+      }
       if (wasEditingBankInfo && !isEditingBankInfo) {
         // clear the form data when exiting edit mode so it's blank when the
         // edit form is shown again
@@ -102,29 +111,13 @@ export const DirectDepositEDU = ({
     saveBankInformation(payload);
   };
 
-  const bankInfoClasses = prefixUtilityClasses(
-    [
-      'display--flex',
-      'align-items--flex-start',
-      'flex-direction--row',
-      'justify-content--space-between',
-    ],
-    'medium',
-  );
-
   const editButtonClasses = [
-    'va-button-link',
-    ...prefixUtilityClasses(['margin-top--1p5']),
+    'usa-button-secondary',
+    ...prefixUtilityClasses(['margin--0', 'margin-top--1p5']),
   ];
 
-  const editButtonClassesMedium = prefixUtilityClasses(
-    ['flex--auto', 'margin-top--0'],
-    'medium',
-  );
-
   const classes = {
-    bankInfo: [...bankInfoClasses].join(' '),
-    editButton: [...editButtonClasses, ...editButtonClassesMedium].join(' '),
+    editButton: editButtonClasses.join(' '),
   };
 
   const closeDDForm = () => {
@@ -138,7 +131,7 @@ export const DirectDepositEDU = ({
 
   // When direct deposit is set up we will show the current bank info
   const bankInfoContent = (
-    <div className={classes.bankInfo}>
+    <div>
       <dl className="vads-u-margin-y--0 vads-u-line-height--6">
         <dt className="sr-only">Bank name:</dt>
         <dd>{directDepositAccountInfo?.financialInstitutionName}</dd>
@@ -213,13 +206,42 @@ export const DirectDepositEDU = ({
       </p>
       <div className="vads-u-margin-bottom--2">
         <AdditionalInfo triggerText="Where can I find these numbers?">
-          <img
-            src="/img/direct-deposit-check-guide.png"
-            alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
-          />
+          <figure
+            className="vads-u-margin-x--0"
+            role="figure"
+            aria-labelledby="check-caption"
+          >
+            {/* eslint-disable jsx-a11y/no-redundant-roles */}
+            <img
+              src="/img/direct-deposit-check-guide.svg"
+              role="img"
+              alt="A personal check"
+            />
+            {/* eslint-enable jsx-a11y/no-redundant-roles */}
+            <figcaption
+              id="check-caption"
+              className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-width--auto vads-u-color--gray-dark"
+            >
+              <p>
+                The bank routing number is the first 9 digits on the bottom left
+                corner of a printed check. Your account number is the second set
+                of numbers on the bottom of a check, just to the right of the
+                bank routing number.
+              </p>
+              <p>If you don’t have a printed check, you can:</p>
+              <ul>
+                <li>
+                  Sign in to your online bank account and check your account
+                  details, or
+                </li>
+                <li>Check your bank statement, or</li>
+                <li>Call your bank</li>
+              </ul>
+            </figcaption>
+          </figure>
         </AdditionalInfo>
       </div>
-      <div data-testid={`${formPrefix}-bank-info-form`}>
+      <div data-testid={`${formPrefix}-bank-info-form`} ref={editBankInfoForm}>
         <BankInfoForm
           formChange={data => setFormData(data)}
           formData={formData}
@@ -230,7 +252,7 @@ export const DirectDepositEDU = ({
             aria-label="update your bank information for education benefits"
             type="submit"
             loadingText="saving bank information"
-            className="usa-button-primary vads-u-margin-top--0 vads-u-width--full small-screen:vads-u-width--auto"
+            className="usa-button-primary vads-u-margin-top--0 medium-screen:vads-u-width--auto"
             isLoading={directDepositUiState.isSaving}
           >
             Update
@@ -239,7 +261,7 @@ export const DirectDepositEDU = ({
             aria-label="cancel updating your bank information for education benefits"
             type="button"
             disabled={directDepositUiState.isSaving}
-            className="va-button-link vads-u-margin-left--1"
+            className="usa-button-secondary small-screen:vads-u-margin-top--0"
             onClick={closeDDForm}
             data-qa="cancel-button"
           >
@@ -323,6 +345,7 @@ export const DirectDepositEDU = ({
         className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
         title="Education benefits"
         data={directDepositData()}
+        level={2}
       />
     </>
   );

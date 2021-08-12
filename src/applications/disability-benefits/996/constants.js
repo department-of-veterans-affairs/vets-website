@@ -1,4 +1,5 @@
 import { benefitTypes } from 'vets-json-schema/dist/constants.json';
+import environment from 'platform/utilities/environment';
 
 // *** URLS ***
 export const HLR_INFO_URL = '/decision-reviews/higher-level-review/';
@@ -20,7 +21,7 @@ export const PROFILE_URL = '/profile';
 
 // 8622 is the ID of the <li> wrapping the "Find addresses for other benefit
 // types" accordion
-export const BENEFIT_OFFICES_URL = `${HLR_INFO_URL}#8622`;
+export const BENEFIT_OFFICES_URL = `${HLR_INFO_URL}#find-addresses-for-other-benef-8622`;
 
 export const CONTESTABLE_ISSUES_API =
   '/higher_level_reviews/contestable_issues/';
@@ -42,8 +43,13 @@ export const errorMessages = {
   endDateInPast: 'End date must be in the future',
   endDateBeforeStart: 'End date must be after start date',
   informalConferenceContactChoice: 'Please choose an option',
-  informalConferenceContactName: 'Please enter a name',
-  informalConferenceContactPhone: 'Please enter a number',
+  informalConferenceContactName: 'Please enter your representative’s name',
+  informalConferenceContactFirstName:
+    'Please enter your representative’s first name',
+  informalConferenceContactLastName:
+    'Please enter your representative’s last name',
+  informalConferenceContactPhone:
+    'Please enter your representative’s phone number',
   informalConferenceContactPhonePattern:
     'Please enter a 10-digit phone number (with or without dashes)',
   informalConferenceTimes: 'Please select a time',
@@ -51,6 +57,10 @@ export const errorMessages = {
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';
+
+// contested issue dates
+export const FORMAT_YMD = 'YYYY-MM-DD';
+export const FORMAT_READABLE = 'LL';
 
 // session storage keys
 export const SAVED_CLAIM_TYPE = 'hlrClaimType';
@@ -73,3 +83,35 @@ export const SUPPORTED_BENEFIT_TYPES = benefitTypes.map(type => ({
   ...type,
   isSupported: supportedBenefitTypes.includes(type.value),
 }));
+
+export const IS_PRODUCTION = environment.isProduction();
+
+export const CONFERENCE_TIMES_V1 = {
+  time0800to1000: {
+    label: '8:00 a.m. to 10:00 a.m. ET',
+    submit: '800-1000 ET',
+  },
+  time1000to1230: {
+    label: '10:00 a.m. to 12:30 p.m. ET',
+    submit: '1000-1230 ET',
+  },
+  time1230to1400: {
+    label: '12:30 p.m. to 2:00 p.m. ET',
+    submit: '1230-1400 ET',
+  },
+  time1400to1630: {
+    label: '2:00 p.m. to 4:30 p.m. ET',
+    submit: '1400-1630 ET',
+  },
+};
+
+export const CONFERENCE_TIMES_V2 = {
+  time0800to1200: {
+    label: '8:00 a.m. to 12:00 p.m. ET',
+    submit: '800-1200 ET',
+  },
+  time1200to1630: {
+    label: '12:00 p.m. to 4:30 p.m. ET',
+    submit: '1200-1630 ET',
+  },
+};

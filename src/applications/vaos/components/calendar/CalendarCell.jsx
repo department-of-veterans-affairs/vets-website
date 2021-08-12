@@ -5,7 +5,6 @@ import debounce from 'platform/utilities/data/debounce';
 import CalendarOptions from './CalendarOptions';
 
 const CalendarCell = ({
-  additionalOptions,
   availableSlots,
   currentlySelectedDate,
   date,
@@ -17,9 +16,11 @@ const CalendarCell = ({
   onClick,
   renderIndicator,
   renderOptions,
+  renderSelectedLabel,
   selectedDates,
   id,
   timezone,
+  showWeekends,
 }) => {
   const [optionsHeight, setOptionsHeight] = useState(0);
   const buttonRef = useRef(null);
@@ -70,7 +71,7 @@ const CalendarCell = ({
   if (date === null) {
     return (
       <div role="cell" className="vaos-calendar__calendar-day">
-        <button className=" vads-u-visibility--hidden" />
+        <button className="vads-u-padding--0 vads-u-visibility--hidden" />
       </div>
     );
   }
@@ -79,6 +80,13 @@ const CalendarCell = ({
   const momentDate = moment(date);
   const dateDay = momentDate.format('D');
   const ariaDate = momentDate.format('dddd, MMMM Do');
+  const buttonLabel = inSelectedArray
+    ? `${ariaDate}, ${
+        renderSelectedLabel
+          ? renderSelectedLabel(date, selectedDates)
+          : 'selected.'
+      }`
+    : ariaDate;
 
   const cssClasses = classNames('vaos-calendar__calendar-day', {
     'vaos-calendar__day--current': isCurrentlySelected,
@@ -100,7 +108,7 @@ const CalendarCell = ({
         id={`date-cell-${date}`}
         onClick={() => onClick(date)}
         disabled={disabled}
-        aria-label={ariaDate}
+        aria-label={buttonLabel}
         aria-expanded={isCurrentlySelected}
         type="button"
         ref={buttonRef}
@@ -119,7 +127,6 @@ const CalendarCell = ({
       </button>
       {isCurrentlySelected && (
         <CalendarOptions
-          additionalOptions={additionalOptions}
           availableSlots={availableSlots}
           currentlySelectedDate={date}
           handleSelectOption={handleSelectOption}
@@ -131,6 +138,7 @@ const CalendarCell = ({
           renderOptions={renderOptions}
           id={id}
           timezone={timezone}
+          showWeekends={showWeekends}
         />
       )}
     </div>

@@ -1,11 +1,12 @@
 import React from 'react';
 import ViewDependentsList from '../components/ViewDependentsList/ViewDependentsList';
+import DependencyVerificationModal from '../../../static-pages/dependency-verification/components/dependencyVerificationModal';
 
 function ViewDependentsLists(props) {
   const onAwardSubhead = (
     <>
       The following dependents have been added to your VA benefits. Please let
-      us know if a dependent's status has changed.
+      us know if a dependent’s status has changed.
     </>
   );
 
@@ -17,6 +18,8 @@ function ViewDependentsLists(props) {
       Please let us know if a dependent’s status has changed.
     </>
   );
+
+  const { dependencyVerificationToggle } = props;
 
   return (
     <div>
@@ -38,6 +41,7 @@ function ViewDependentsLists(props) {
         linkText="Learn more about adding or removing a dependent from your VA benefits."
         dependents={props.notOnAwardDependents}
       />
+      {dependencyVerificationToggle && <DependencyVerificationModal />}
     </div>
   );
 }

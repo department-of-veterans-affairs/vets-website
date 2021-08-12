@@ -1,11 +1,12 @@
 import React from 'react';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+
 import ItemLoop from '../../../components/ItemLoop';
 import TableDetailsView from '../../../components/TableDetailsView';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import CustomReviewField from '../../../components/CustomReviewField';
+import { validateCurrency } from '../../../utils/validations';
 import Typeahead from '../../../components/Typeahead';
 import { formatOptions, assetTypes } from '../../../constants/typeaheadOptions';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import _ from 'lodash/fp';
 
 const AssetInfo = (
   <AdditionalInfo triggerText="What if I don’t know the estimated value of an asset?">
@@ -24,63 +25,94 @@ const AssetInfo = (
 );
 
 export const uiSchema = {
-  'ui:title': 'Your other assets',
-  otherAssetRecords: {
-    'ui:field': ItemLoop,
-    'ui:description':
-      'Enter each type of asset separately below. For each, include an estimated value.',
-    'ui:options': {
-      viewType: 'table',
-      viewField: TableDetailsView,
-      doNotScroll: true,
-      showSave: true,
-      itemName: 'asset',
-    },
-    items: {
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">Your other assets</legend>
+      <p className="vads-u-padding-top--2">
+        Enter each type of asset separately below. For each, include an
+        estimated value.
+      </p>
+    </>
+  ),
+  assets: {
+    otherAssets: {
+      'ui:field': ItemLoop,
       'ui:options': {
-        classNames: 'horizonal-field-container no-wrap',
+        viewType: 'table',
+        viewField: TableDetailsView,
+        doNotScroll: true,
+        showSave: true,
+        itemName: 'asset',
+        keepInPageOnReview: true,
       },
-      otherAssetType: {
-        'ui:title': 'Type of asset',
-        'ui:field': Typeahead,
+      items: {
         'ui:options': {
-          classNames: 'input-size-3',
-          getOptions: () => formatOptions(assetTypes),
+          classNames: 'horizontal-field-container no-wrap',
+        },
+        name: {
+          'ui:title': 'Type of asset',
+          'ui:field': Typeahead,
+          'ui:reviewField': CustomReviewField,
+          'ui:options': {
+            idPrefix: 'other_assets',
+            widgetClassNames: 'input-size-3',
+            getOptions: () => formatOptions(assetTypes),
+          },
+          'ui:errorMessages': {
+            required: 'Please enter the type of asset.',
+          },
+        },
+        amount: {
+          'ui:title': 'Estimated value',
+          'ui:options': {
+            classNames: 'schemaform-currency-input',
+            widgetClassNames: 'input-size-1',
+          },
+          'ui:errorMessages': {
+            required: 'Please enter the estimated value.',
+          },
+          'ui:validations': [validateCurrency],
         },
       },
-      otherAssetAmount: _.merge(currencyUI('Estimated value'), {
-        'ui:options': {
-          widgetClassNames: 'input-size-1',
-        },
-      }),
     },
   },
-  'view:assetInfo': {
-    'ui:description': AssetInfo,
+  'view:components': {
+    'view:assetInfo': {
+      'ui:description': AssetInfo,
+    },
   },
 };
 export const schema = {
   type: 'object',
   properties: {
-    otherAssetRecords: {
-      type: 'array',
-      items: {
-        type: 'object',
-        title: 'Record',
-        required: ['otherAssetType', 'otherAssetAmount'],
-        properties: {
-          otherAssetType: {
-            type: 'string',
-          },
-          otherAssetAmount: {
-            type: 'number',
+    assets: {
+      type: 'object',
+      properties: {
+        otherAssets: {
+          type: 'array',
+          items: {
+            type: 'object',
+            required: ['name', 'amount'],
+            properties: {
+              name: {
+                type: 'string',
+              },
+              amount: {
+                type: 'string',
+              },
+            },
           },
         },
       },
     },
-    'view:assetInfo': {
+    'view:components': {
       type: 'object',
-      properties: {},
+      properties: {
+        'view:assetInfo': {
+          type: 'object',
+          properties: {},
+        },
+      },
     },
   },
 };

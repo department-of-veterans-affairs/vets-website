@@ -12,70 +12,71 @@ import * as Sentry from '@sentry/browser';
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
 import DropDownPanel from '@department-of-veterans-affairs/component-library/DropDownPanel';
-
-export const searchGovSuggestionEndpoint = 'https://search.usa.gov/sayt';
+import { apiRequest } from 'platform/utilities/api';
 
 const ENTER_KEY = 13;
+const SPACE_KEY = 32;
 
 export class SearchMenu extends React.Component {
   constructor(props) {
     super(props);
-    this.getSuggestions = debounce(
+    this.debouncedGetSuggestions = debounce(
       this.props.debounceRate,
       this.getSuggestions,
     );
     this.state = {
       userInput: '',
       suggestions: [],
+      savedSuggestions: [],
       highlightedIndex: null,
     };
+  }
+  componentDidMount() {
+    document.addEventListener('keyup', () => {
+      if (
+        ((event.which || event.keyCode) === SPACE_KEY ||
+          (event.which || event.keyCode) === ENTER_KEY) &&
+        document.activeElement?.id === 'sitewide-search-submit-button'
+      ) {
+        this.handleSearchEvent();
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keyup', () => {
+      if (
+        ((event.which || event.keyCode) === SPACE_KEY ||
+          (event.which || event.keyCode) === ENTER_KEY) &&
+        document.activeElement?.id === 'sitewide-search-submit-button'
+      ) {
+        this.handleSearchEvent();
+      }
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {
     const { userInput } = this.state;
     const { searchTypeaheadEnabled, isOpen } = this.props;
 
-    // if userInput has changed, fetch suggestions for the typeahead experience
-    const inputChanged = prevState.userInput !== userInput;
-    if (inputChanged && searchTypeaheadEnabled) {
-      this.getSuggestions();
-    }
-
-    // event logging for phased typeahead rollout
-    if (
-      !prevProps.searchTypeaheadEnabled &&
-      this.props.searchTypeaheadEnabled
-    ) {
-      const searchTypeaheadLogged = JSON.parse(
-        sessionStorage.getItem('searchTypeaheadLogged'),
-      );
-      if (!searchTypeaheadLogged) {
-        recordEvent({
-          event: 'phased-roll-out-enabled',
-          'product-description': 'Type Ahead',
-        });
-        sessionStorage.setItem('searchTypeaheadLogged', JSON.stringify(true));
-      }
-    }
-
     // focus the query input when the search menu is opened
     const inputField = document.getElementById('query');
     if (isOpen && !prevProps.isOpen && inputField) {
       inputField.focus();
     }
+    if (userInput.length <= 2 && prevState.userInput.length > 2) {
+      this.clearSuggestions();
+    }
+
+    // if userInput has changed, fetch suggestions for the typeahead experience
+    const inputChanged = prevState.userInput !== userInput;
+    if (inputChanged && searchTypeaheadEnabled) {
+      this.debouncedGetSuggestions();
+    }
   }
 
-  isUserInputValid = () => {
-    const { userInput } = this.state;
-
-    // check to make sure user input isn't empty
-    const isCorrectLength =
-      userInput && userInput.replace(/\s/g, '').length > 0;
-    if (!isCorrectLength) {
-      return false;
-    }
-    // this will likely expand in the future
-    return true;
+  clearSuggestions = () => {
+    this.setState({ suggestions: [], savedSuggestions: [] });
   };
 
   getSuggestions = async () => {
@@ -83,10 +84,7 @@ export class SearchMenu extends React.Component {
 
     // end early / clear suggestions if user input is too short
     if (userInput?.length <= 2) {
-      if (this.state.suggestions.length > 0) {
-        this.setState({ suggestions: [] });
-      }
-
+      this.clearSuggestions();
       return;
     }
 
@@ -95,20 +93,30 @@ export class SearchMenu extends React.Component {
 
     // fetch suggestions
     try {
-      const response = await fetch(
-        `${searchGovSuggestionEndpoint}?name=va&q=${encodedInput}`,
+      const apiRequestOptions = {
+        method: 'GET',
+      };
+      const suggestions = await apiRequest(
+        `/search_typeahead?query=${encodedInput}`,
+        apiRequestOptions,
       );
-      const suggestions = await response.json();
+
       if (suggestions.length !== 0) {
         const sortedSuggestions = suggestions.sort(function(a, b) {
           return a.length - b.length;
         });
-        this.setState({ suggestions: sortedSuggestions });
+        this.setState({ suggestions: sortedSuggestions, savedSuggestions: [] });
         return;
       }
-      this.setState({ suggestions });
+      this.setState({ suggestions, savedSuggestions: [] });
       // if we fail to fetch suggestions
     } catch (error) {
+      if (error?.error?.code === 'OVER_RATE_LIMIT') {
+        Sentry.captureException(
+          new Error(`"OVER_RATE_LIMIT" - Search Typeahead`),
+        );
+        return;
+      }
       Sentry.captureException(error);
     }
   };
@@ -159,15 +167,16 @@ export class SearchMenu extends React.Component {
     }
   };
 
+  handleSearchTab = () => {
+    const { suggestions } = this.state;
+    this.setState({ suggestions: [], savedSuggestions: suggestions });
+  };
+
   // handle event logging and fire off a search query
   handleSearchEvent = suggestion => {
-    const { suggestions, userInput } = this.state;
-    const { isUserInputValid } = this;
+    const { suggestions, userInput, savedSuggestions } = this.state;
 
-    // if the user tries to search with an empty input, escape early
-    if (!isUserInputValid()) {
-      return;
-    }
+    const suggestionsList = [...suggestions, ...savedSuggestions];
 
     // event logging, note suggestion will be undefined during a userInput search
     recordEvent({
@@ -181,17 +190,21 @@ export class SearchMenu extends React.Component {
       'sitewide-search-app-used': true,
       'type-ahead-option-keyword-selected': suggestion,
       'type-ahead-option-position': suggestion
-        ? suggestions.indexOf(suggestion) + 1
+        ? suggestionsList.indexOf(suggestion) + 1
         : undefined,
-      'type-ahead-options-list': suggestions,
+      'type-ahead-options-list': suggestionsList,
+      'type-ahead-options-count': suggestionsList.length,
     });
 
+    const typeaheadUsed = !!suggestion;
     // unifier to let the same function be used if we are searching from a userInput or a suggestion
     const query = suggestion || userInput;
 
     // create a search url
     const searchUrl = replaceWithStagingDomain(
-      `https://www.va.gov/search/?query=${encodeURIComponent(query)}`,
+      `https://www.va.gov/search/?query=${encodeURIComponent(
+        query,
+      )}&t=${typeaheadUsed}`,
     );
 
     // relocate to search results, preserving history
@@ -219,25 +232,26 @@ export class SearchMenu extends React.Component {
     const { suggestions, userInput } = this.state;
     const { searchTypeaheadEnabled } = this.props;
     const {
-      getSuggestions,
+      debouncedGetSuggestions,
       handelDownshiftStateChange,
       handleInputChange,
       handleSearchEvent,
       handleKeyUp,
-      isUserInputValid,
       formatSuggestion,
+      handleSearchTab,
     } = this;
 
     const highlightedSuggestion =
-      'suggestion-highlighted vads-u-background-color--primary-alt-light vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0  vads-u-padding--1 vads-u-width--full vads-u-padding-left--2';
+      'suggestion-highlighted vads-u-background-color--primary-alt-light vads-u-color--gray-dark vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0  vads-u-padding--1 vads-u-width--full vads-u-padding-left--2';
 
     const regularSuggestion =
-      'suggestion vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-padding--1 vads-u-width--full vads-u-padding-left--2';
+      'suggestion vads-u-color--gray-dark vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-padding--1 vads-u-width--full vads-u-padding-left--2';
 
     // default search experience
     if (!searchTypeaheadEnabled) {
       return (
         <form
+          className="vads-u-margin-bottom--0"
           acceptCharset="UTF-8"
           onSubmit={event => {
             event.preventDefault();
@@ -261,7 +275,6 @@ export class SearchMenu extends React.Component {
             <button
               type="submit"
               data-e2e-id="sitewide-search-submit-button"
-              disabled={!isUserInputValid()}
               className="vads-u-margin-left--0p25 vads-u-margin-right--0p5 "
             >
               <IconSearch color="#fff" />
@@ -301,7 +314,7 @@ export class SearchMenu extends React.Component {
                 className="usagov-search-autocomplete  vads-u-flex--4 vads-u-margin-left--1 vads-u-margin-right--0p5 vads-u-margin-y--1 vads-u-padding-left--1 vads-u-width--full"
                 name="query"
                 aria-controls={isOpen ? 'suggestions-list' : undefined}
-                onFocus={getSuggestions}
+                onFocus={debouncedGetSuggestions}
                 onKeyUp={handleKeyUp}
                 {...getInputProps({
                   type: 'text',
@@ -312,14 +325,14 @@ export class SearchMenu extends React.Component {
               />
               <button
                 type="submit"
-                disabled={!isUserInputValid()}
+                id="sitewide-search-submit-button"
                 data-e2e-id="sitewide-search-submit-button"
                 className="vads-u-margin-left--0p5 vads-u-margin-y--1 vads-u-margin-right--1 vads-u-flex--1"
                 onMouseDown={event => {
                   event.preventDefault();
                   handleSearchEvent();
                 }}
-                onFocus={() => this.setState({ suggestions: [] })}
+                onFocus={handleSearchTab}
               >
                 <IconSearch color="#fff" />
                 <span className="usa-sr-only">Search</span>
@@ -378,14 +391,14 @@ export class SearchMenu extends React.Component {
 
     return (
       <DropDownPanel
-        onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
         buttonText="Search"
         clickHandler={clickHandler}
-        dropdownPanelClassNames="vads-u-padding--0 vads-u-margin--0"
         cssClass={buttonClasses}
-        id="search"
+        dropdownPanelClassNames="vads-u-padding--0 vads-u-margin--0"
         icon={icon}
+        id="search"
         isOpen={isOpen}
+        onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
       >
         {makeForm()}
       </DropDownPanel>

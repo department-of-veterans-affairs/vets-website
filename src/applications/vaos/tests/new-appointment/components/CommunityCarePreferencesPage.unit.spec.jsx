@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { cleanup } from '@testing-library/react';
 import { waitFor } from '@testing-library/dom';
 
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 
 import {
   createTestStore,
@@ -33,7 +33,6 @@ const initialState = {
 };
 describe('VAOS <CommunityCarePreferencesPage>', () => {
   beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
   it('should render the page with appropriate inputs and prevent submission without required fields', async () => {
     mockParentSites(
       ['983'],
@@ -83,7 +82,7 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
     expect(screen.getAllByRole('combobox').length).to.equal(2);
     expect(
       screen.getByRole('link', { name: /facility locator/i }),
-    ).to.have.attribute('href', '/find-locations/?facilityType=cc_provider');
+    ).to.have.attribute('href', '/find-locations/?facilityType=provider');
     expect(screen.baseElement).to.contain.text(
       'We’ll try to schedule your appointment',
     );

@@ -598,7 +598,14 @@ describe('Schemaform validations', () => {
         },
       ];
 
-      expect(isValidForm(form, pageList).isValid).to.be.true;
+      const result = isValidForm(form, pageList, true);
+
+      expect(result.isValid).to.be.true;
+      expect(result.formData.testArray).to.deep.equal(['test']);
+      // schema is _not_ modified since it isn't an array
+      expect(
+        form.pages.testPage.schema.properties.testArray.items,
+      ).to.deep.equal({ type: 'string' });
     });
     it('should not validate pages where depends is false', () => {
       const form = {
@@ -729,7 +736,24 @@ describe('Schemaform validations', () => {
         },
       ];
 
-      expect(isValidForm(form, pageList).isValid).to.be.true;
+      const result = isValidForm(form, pageList, true);
+
+      expect(result.isValid).to.be.true;
+      expect(result.formData.newDisabilities).to.deep.equal([
+        { cause: 'NEW', primaryDescription: 'while in service...' },
+        { cause: 'SECONDARY' },
+      ]);
+      // schema _is_ modified, PTSD schema entry has been removed
+      expect(
+        form.pages.newDisabilityFollowUp.schema.properties.newDisabilities
+          .items,
+      ).to.deep.equal([
+        {
+          type: 'object',
+          required: ['cause', 'primaryDescription'],
+        },
+        { type: 'object', required: ['cause'] },
+      ]);
     });
   });
   describe('validateMonthYear', () => {

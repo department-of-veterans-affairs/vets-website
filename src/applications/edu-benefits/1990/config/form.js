@@ -1,4 +1,6 @@
-import _ from 'lodash/fp';
+import merge from 'lodash/merge';
+import get from 'platform/utilities/data/get';
+import unset from 'platform/utilities/data/unset';
 import moment from 'moment';
 
 import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
@@ -80,8 +82,8 @@ const {
   year,
   currentlyActiveDuty,
   address,
-  phone,
   serviceBefore1977,
+  usaPhone,
 } = fullSchema1990.definitions;
 
 const formConfig = {
@@ -116,8 +118,8 @@ const formConfig = {
     dateRange,
     year,
     address,
-    phone,
     serviceBefore1977,
+    usaPhone,
   },
   title: 'Apply for education benefits',
   subTitle: 'Form 22-1990',
@@ -129,7 +131,8 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: {
-        applicantInformation: _.merge(
+        applicantInformation: merge(
+          {},
           applicantInformation(fullSchema1990, {
             isVeteran: true,
             fields: [
@@ -249,9 +252,9 @@ const formConfig = {
                   labels: benefitsRelinquishmentLabels,
                 },
               },
-              benefitsRelinquishedDate: _.merge(dateUI('Effective date'), {
+              benefitsRelinquishedDate: merge({}, dateUI('Effective date'), {
                 'ui:required': formData =>
-                  _.get(
+                  get(
                     'view:benefitsRelinquishedContainer.benefitsRelinquished',
                     formData,
                   ) !== 'unknown',
@@ -289,7 +292,7 @@ const formConfig = {
           path: 'military-history/service-periods',
           uiSchema: {
             'ui:title': 'Service periods',
-            toursOfDuty: _.merge(toursOfDuty.uiSchema, {
+            toursOfDuty: merge({}, toursOfDuty.uiSchema, {
               'ui:title': null,
               'ui:description': 'Please record all your periods of service.',
             }),
@@ -315,10 +318,11 @@ const formConfig = {
           title: 'Military service',
           path: 'military-history/military-service',
           uiSchema: {
-            serviceAcademyGraduationYear: _.assign(yearUI, {
+            serviceAcademyGraduationYear: {
+              ...yearUI,
               'ui:title':
                 'If you received a commission from a military service academy, what year did you graduate?',
-            }),
+            },
             currentlyActiveDuty: {
               yes: {
                 'ui:title': 'Are you on active duty now?',
@@ -363,7 +367,7 @@ const formConfig = {
               'ui:widget': 'yesNo',
             },
             seniorRotc: {
-              commissionYear: _.merge(yearUI, {
+              commissionYear: merge({}, yearUI, {
                 'ui:title': 'Year of commission:',
               }),
               rotcScholarshipAmounts: seniorRotcUI,
@@ -379,7 +383,7 @@ const formConfig = {
               'view:seniorRotc': {
                 type: 'boolean',
               },
-              seniorRotc: _.unset('required', seniorRotc),
+              seniorRotc: unset('required', seniorRotc),
             },
           },
         },
@@ -410,7 +414,7 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'reserveKicker',
                 hideIf: data =>
-                  _.get(
+                  get(
                     'view:benefitsRelinquishedContainer.benefitsRelinquished',
                     data,
                   ) !== 'chapter30',
@@ -423,7 +427,8 @@ const formConfig = {
                 expandUnderClassNames: 'schemaform-expandUnder-indent',
               },
             },
-            activeDutyRepayingPeriod: _.merge(
+            activeDutyRepayingPeriod: merge(
+              {},
               {
                 'ui:options': {
                   expandUnder: 'view:activeDutyRepayingPeriod',
@@ -493,7 +498,7 @@ const formConfig = {
     employmentHistory: {
       title: 'Employment history',
       pages: {
-        employmentHistory: _.merge(employmentHistoryPage(fullSchema1990), {
+        employmentHistory: merge({}, employmentHistoryPage(fullSchema1990), {
           path: 'employment-history/employment-information',
         }),
       },
@@ -501,7 +506,8 @@ const formConfig = {
     schoolSelection: {
       title: 'School selection',
       pages: {
-        schoolSelection: _.merge(
+        schoolSelection: merge(
+          {},
           createSchoolSelectionPage(fullSchema1990, {
             fields: [
               'educationProgram',
@@ -520,7 +526,7 @@ const formConfig = {
     personalInformation: {
       title: 'Personal information',
       pages: {
-        contactInformation: _.merge(contactInformationPage(fullSchema1990), {
+        contactInformation: merge({}, contactInformationPage(fullSchema1990), {
           uiSchema: {
             'ui:title': 'Contact information',
           },
@@ -543,7 +549,7 @@ const formConfig = {
                   'ui:title':
                     'Address for secondary contact is the same as mine',
                 },
-                address: _.merge(addressUI('', false), {
+                address: merge({}, addressUI('', false), {
                   'ui:options': {
                     hideIf: formData =>
                       formData.secondaryContact &&
@@ -560,7 +566,7 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   fullName: secondaryContact.properties.fullName,
-                  phone,
+                  phone: secondaryContact.properties.phone,
                   'view:address': {
                     type: 'object',
                     properties: {
@@ -588,7 +594,7 @@ const formConfig = {
             },
           },
         },
-        directDeposit: _.merge(createDirectDepositPage(fullSchema1990), {
+        directDeposit: merge({}, createDirectDepositPage(fullSchema1990), {
           uiSchema: {
             'ui:description': directDepositDescription,
           },

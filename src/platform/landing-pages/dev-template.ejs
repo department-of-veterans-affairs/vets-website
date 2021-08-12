@@ -1,4 +1,4 @@
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -8,7 +8,7 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
 
     <script nonce="**CSP_NONCE**">
-      <%= inlineScripts['record-event.js'] %>
+      <%= loadInlineScript('record-event.js') %>
     </script>
 
 
@@ -121,7 +121,7 @@
     <script nonce="**CSP_NONCE**" type="text/javascript">
     (function() {
       var module = {};
-      <%= inlineScripts['incompatible-browser.js'] %>
+      <%= loadInlineScript('incompatible-browser.js') %>
       checkBrowserCompatibility();
     })();
     </script>
@@ -148,17 +148,52 @@
     <!-- React root -->
     <div id="content">
       <main id="main" class="main">
-        <div class="section">
-          <div id="react-root">
-            <div class="vads-u-margin-y--5">
-              <div class="loading-indicator-container">
-                <div class="loading-indicator" role="progressbar" aria-valuetext="<%= loadingMessage %>" tabindex="0">
+        <% if (widgetType) { %>
+          <div class="usa-grid usa-grid-full vads-u-padding-top--3">
+            <% if (widgetTemplate == 'navigation/facility_sidebar_nav') { %>
+              <script nonce="**CSP_NONCE**" type="text/javascript">
+                window.sideNav = <%= JSON.stringify({rootPath: rootUrl, data: facilitySidebar}) %>;
+              </script>
+              <nav data-template="navigation/facility_sidebar_nav" aria-label="secondary" data-widget-type="side-nav"></nav>
+            <% } %>
+            
+            <div class="usa-width-three-fourths">
+              <article class="usa-content">
+                <div data-template="paragraphs/react_widget" data-widget-type="<%= widgetType %>" data-widget-timeout="20">
+                  <div class="loading-indicator-container">
+                    <div class="loading-indicator" role="progressbar" aria-valuetext="Loading" aria-label="secondary"></div>
+                    <span class="loading-indicator-message loading-indicator-message--normal"></span>
+                    <span class="loading-indicator-message loading-indicator-message--slow vads-u-display--none"
+                      aria-hidden="true">
+                      Sorry, this is taking longer than expected.
+                    </span>
+                  </div>
+                  <span class="static-widget-content vads-u-display--none" aria-hidden="true">
+                  </span>
+                  <div class="usa-alert usa-alert-error sip-application-error vads-u-display--none" aria-hidden="true">
+                    <div class="usa-alert-body">
+                      <strong>We&#x2019;re sorry. Something went wrong when we tried to load the
+                        search widget.</strong><br>Please try refreshing your browser in a few
+                      minutes.
+                    </div>
+                  </div>
                 </div>
-                <%= loadingMessage %>
+              </article>
+            </div><!--/.usa-width-three-fourths-->
+          </div><!--/.usa-grid.usa-grid-full-->
+        <% } else{ %>
+          <div class="section">
+            <div id="react-root">
+              <div class="vads-u-margin-y--5">
+                <div class="loading-indicator-container">
+                  <div class="loading-indicator" role="progressbar" aria-valuetext="<%= loadingMessage %>" aria-label="Load application" tabindex="0">
+                  </div>
+                  <%= loadingMessage %>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        <% } %>
       </main>
     </div>
 
@@ -177,7 +212,7 @@
     <script nonce="**CSP_NONCE**" type="text/javascript">
       (function() {
       var module = {};
-      <%= inlineScripts['static-page-widgets.js'] %>
+      <%= loadInlineScript('static-page-widgets.js') %>
       mountWidgets(document.querySelectorAll('[data-widget-type]'), 6000);
       })();
     </script>

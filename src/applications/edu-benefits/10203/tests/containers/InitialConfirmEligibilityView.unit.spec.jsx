@@ -12,7 +12,10 @@ const createStore = (data = {}) =>
       data: {
         'view:benefit': { chapter33: true },
         isEnrolledStem: true,
-        isPursuingTeachingCert: false,
+        'view:teachingCertClinicalTraining': {
+          isPursuingTeachingCert: false,
+          isPursuingClinicalTraining: false,
+        },
         benefitLeft: 'none',
         ...data,
       },

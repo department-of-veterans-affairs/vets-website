@@ -10,5 +10,9 @@ export default function IndividualsInvolvedCard({ formData }) {
       ? 'Service member'
       : 'Civilian';
   }
-  return <h3 className="vads-u-font-size--h5">{displayTitle}</h3>;
+  return (
+    <h3 className="vads-u-font-size--h5 vads-u-margin-top--1">
+      {displayTitle}
+    </h3>
+  );
 }

@@ -1,4 +1,8 @@
-import { submitTransform, isSSNUnique } from '../helpers';
+import {
+  submitTransform,
+  isSSNUnique,
+  arrayToSentenceString,
+} from '../helpers';
 import { expect } from 'chai';
 import formConfig from 'applications/caregivers/config/form';
 import {
@@ -13,6 +17,7 @@ import requiredOnly from './e2e/fixtures/data/requiredOnly.json';
 import secondaryTwoOnly from './e2e/fixtures/data/secondaryOneOnly.json';
 import oneSecondaryCaregivers from './e2e/fixtures/data/oneSecondaryCaregivers.json';
 import twoSecondaryCaregivers from './e2e/fixtures/data/twoSecondaryCaregivers.json';
+import signAsRepresentativeNo from './e2e/fixtures/data/signAsRepresentativeNo.json';
 
 describe('Caregivers helpers', () => {
   it('should transform required parties correctly (minimal with primary)', () => {
@@ -34,6 +39,7 @@ describe('Caregivers helpers', () => {
       'address',
       'primaryPhoneNumber',
       'fullName',
+      'signature',
       'ssnOrTin',
       'dateOfBirth',
       'gender',
@@ -44,6 +50,7 @@ describe('Caregivers helpers', () => {
       'primaryPhoneNumber',
       'vetRelationship',
       'fullName',
+      'signature',
       'dateOfBirth',
       'gender',
     ]);
@@ -71,6 +78,7 @@ describe('Caregivers helpers', () => {
       'address',
       'primaryPhoneNumber',
       'fullName',
+      'signature',
       'ssnOrTin',
       'dateOfBirth',
       'gender',
@@ -81,6 +89,7 @@ describe('Caregivers helpers', () => {
       'email',
       'vetRelationship',
       'fullName',
+      'signature',
       'dateOfBirth',
       'gender',
     ]);
@@ -109,6 +118,7 @@ describe('Caregivers helpers', () => {
       'address',
       'primaryPhoneNumber',
       'fullName',
+      'signature',
       'ssnOrTin',
       'dateOfBirth',
       'gender',
@@ -119,6 +129,7 @@ describe('Caregivers helpers', () => {
       'primaryPhoneNumber',
       'vetRelationship',
       'fullName',
+      'signature',
       'dateOfBirth',
       'gender',
     ]);
@@ -128,6 +139,7 @@ describe('Caregivers helpers', () => {
       'email',
       'vetRelationship',
       'fullName',
+      'signature',
       'dateOfBirth',
       'gender',
     ]);
@@ -156,6 +168,7 @@ describe('Caregivers helpers', () => {
       'address',
       'primaryPhoneNumber',
       'fullName',
+      'signature',
       'ssnOrTin',
       'dateOfBirth',
       'gender',
@@ -166,6 +179,7 @@ describe('Caregivers helpers', () => {
       'primaryPhoneNumber',
       'vetRelationship',
       'fullName',
+      'signature',
       'dateOfBirth',
       'gender',
     ]);
@@ -175,6 +189,7 @@ describe('Caregivers helpers', () => {
       'email',
       'vetRelationship',
       'fullName',
+      'signature',
       'dateOfBirth',
     ]);
     expect(secondaryTwoKeys).to.deep.equal([
@@ -183,9 +198,48 @@ describe('Caregivers helpers', () => {
       'email',
       'vetRelationship',
       'fullName',
+      'signature',
       'dateOfBirth',
       'gender',
     ]);
+  });
+
+  it('should remove POA ID if yes/no/no is no', () => {
+    const form = {
+      data: signAsRepresentativeNo,
+    };
+
+    const transformedData = submitTransform(formConfig, form);
+    const payloadData = JSON.parse(transformedData);
+    const payloadObject = JSON.parse(
+      payloadData.caregiversAssistanceClaim.form,
+    );
+
+    const veteranKeys = Object.keys(payloadObject.veteran);
+    const primaryKeys = Object.keys(payloadObject.primaryCaregiver);
+
+    expect(veteranKeys).to.deep.equal([
+      'plannedClinic',
+      'address',
+      'primaryPhoneNumber',
+      'fullName',
+      'signature',
+      'ssnOrTin',
+      'dateOfBirth',
+      'gender',
+    ]);
+    expect(primaryKeys).to.deep.equal([
+      'hasHealthInsurance',
+      'address',
+      'primaryPhoneNumber',
+      'vetRelationship',
+      'fullName',
+      'signature',
+      'dateOfBirth',
+      'gender',
+    ]);
+
+    expect(payloadObject.poaAttachmentId).to.be.undefined;
   });
 
   it('isSSNUnique should not count a party that is not present', () => {
@@ -250,5 +304,48 @@ describe('Caregivers helpers', () => {
     const areSSNsUnique = isSSNUnique(formData);
 
     expect(areSSNsUnique).to.be.true;
+  });
+
+  describe('arrayToSentenceString', () => {
+    it('should return empty string when not an array', () => {
+      const sentence = arrayToSentenceString('array', 'or');
+
+      expect(sentence).to.equal('');
+    });
+
+    it('should return empty string when array is empty', () => {
+      const sentence = arrayToSentenceString([], 'or');
+
+      expect(sentence).to.equal('');
+    });
+
+    it('should return item unformatted when array constains only one item', () => {
+      const onlyItem = 'MyOnlyItem';
+      const sentence = arrayToSentenceString([onlyItem], 'or');
+
+      expect(sentence).to.equal(onlyItem);
+    });
+
+    it('should return item transformed without conjunction when array constains only one item', () => {
+      const transform = value => `(${value})`;
+      const sentence = arrayToSentenceString(['MyOnlyItem'], 'or', transform);
+
+      expect(sentence).to.equal('(MyOnlyItem)');
+    });
+
+    it('should return formated string with conjunction without transform function', () => {
+      const inputArray = ['Ed', 'Edd', 'Eddy'];
+      const sentence = arrayToSentenceString(inputArray, 'and');
+
+      expect(sentence).to.equal('Ed, Edd, and Eddy');
+    });
+
+    it('should return formated string with conjunction with transform function', () => {
+      const transform = value => `(${value})`;
+      const inputArray = ['*.*', '^.^', 'O.O'];
+      const sentence = arrayToSentenceString(inputArray, 'and', transform);
+
+      expect(sentence).to.equal('(*.*), (^.^), and (O.O)');
+    });
   });
 });

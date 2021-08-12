@@ -28,6 +28,6 @@ describe('<Introduction/>', () => {
       reducers: reducer,
     });
 
-    screen.getByText('Stay informed about getting a COVID-19 vaccine at VA');
+    screen.getByText('Sign up to get a COVID-19 vaccine at VA');
   });
 });

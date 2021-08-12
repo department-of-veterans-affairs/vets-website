@@ -1,21 +1,30 @@
 import React from 'react';
+import moment from 'moment';
 import MockDate from 'mockdate';
 import { expect } from 'chai';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
-import { getCCAppointmentMock } from '../../mocks/v0';
+import { mockFetch } from 'platform/testing/unit/helpers';
+import { getCCAppointmentMock, getVAAppointmentMock } from '../../mocks/v0';
 import {
   mockAppointmentInfo,
   mockSingleCommunityCareAppointmentFetch,
+  mockSingleVistaCommunityCareAppointmentFetch,
+  mockCCSingleProviderFetch,
 } from '../../mocks/helpers';
+import {
+  mockSingleVAOSAppointmentFetch,
+  mockVAOSAppointmentsFetch,
+} from '../../mocks/helpers.v2';
 import {
   renderWithStoreAndRouter,
   getTimezoneTestDate,
 } from '../../mocks/setup';
+import { createMockAppointmentByVersion } from '../../mocks/data';
 
 import userEvent from '@testing-library/user-event';
 import { AppointmentList } from '../../../appointment-list';
 import sinon from 'sinon';
 import { fireEvent } from '@testing-library/react';
+import { getICSTokens } from '../../../utils/calendar';
 
 const initialState = {
   featureToggles: {
@@ -34,13 +43,13 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     MockDate.set(getTimezoneTestDate());
   });
   afterEach(() => {
-    resetFetch();
     MockDate.reset();
   });
 
   it('should navigate to community care appointments detail page', async () => {
     // CC appointment id from confirmed_cc.json
     const url = '/cc/8a4885896a22f88f016a2cb7f5de0062';
+    const appointmentTime = moment().add(1, 'days');
 
     const appointment = getCCAppointmentMock();
     appointment.id = '8a4885896a22f88f016a2cb7f5de0062';
@@ -58,7 +67,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
         zipCode: '20151',
       },
       instructionsToVeteran: 'Bring your glasses',
-      appointmentTime: '05/20/2021 14:15:00',
+      appointmentTime: appointmentTime.format('MM/DD/YYYY HH:mm:ss'),
       timeZone: 'UTC',
     };
 
@@ -88,7 +97,10 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: /^Thursday, May 20, 2021/,
+        name: new RegExp(
+          appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
       }),
     ).to.be.ok;
 
@@ -98,23 +110,23 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     expect(screen.getByRole('link', { name: /7 0 3. 5 5 5. 1 2 6 4./ })).to.be
       .ok;
     expect(
-      screen.getByRole('heading', { level: 2, name: /Special instructions/ }),
+      screen.getByRole('heading', {
+        level: 2,
+        name: /Special instructions/,
+      }),
     ).to.be.ok;
     expect(screen.getByText(/Bring your glasses/)).to.be.ok;
     expect(
       screen.getByRole('link', {
-        name: /^Add May 20, 2021 appointment to your calendar/,
+        name: `Add ${appointmentTime.format(
+          'MMMM D, YYYY',
+        )} appointment to your calendar`,
       }),
     ).to.be.ok;
     expect(screen.getByText(/Print/)).to.be.ok;
 
-    const button = screen.getByRole('button', {
-      name: /Go back to appointments/,
-    });
-    expect(button).to.be.ok;
-
     // Verify back button works...
-    userEvent.click(button);
+    userEvent.click(screen.getByText(/VA online scheduling/i));
     detailLinks = await screen.findAllByRole('link', {
       name: /Detail/i,
     });
@@ -127,7 +139,10 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: /^Thursday, May 20, 2021/,
+        name: new RegExp(
+          appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
       }),
     ).to.be.ok;
 
@@ -188,6 +203,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
   it('should fire a print request when print button clicked', async () => {
     // CC appointment id from confirmed_cc.json
     const url = '/cc/8a4885896a22f88f016a2cb7f5de0062';
+    const appointmentTime = moment().add(1, 'days');
 
     const appointment = getCCAppointmentMock();
     appointment.id = '8a4885896a22f88f016a2cb7f5de0062';
@@ -205,7 +221,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
         zipCode: '20151',
       },
       instructionsToVeteran: 'Bring your glasses',
-      appointmentTime: '05/20/2021 14:15:00',
+      appointmentTime: appointmentTime.format('MM/DD/YYYY HH:mm:ss'),
       timeZone: 'UTC',
     };
 
@@ -239,7 +255,10 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: /^Thursday, May 20, 2021/,
+        name: new RegExp(
+          appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
       }),
     ).to.be.ok;
 
@@ -298,5 +317,471 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
         name: 'We’re sorry. We’ve run into a problem',
       }),
     ).to.be.ok;
+  });
+
+  it('should show cc appointment from vista when directly opening page', async () => {
+    const url = '/cc/8a4885896a22f88f016a2cb7f5de0062';
+
+    const appointment = getVAAppointmentMock();
+    appointment.id = '8a4885896a22f88f016a2cb7f5de0062';
+    appointment.attributes = {
+      ...appointment.attributes,
+      clinicId: '308',
+      clinicFriendlyName: 'COMMUNITY CARE',
+      facilityId: '983',
+      sta6aid: '983GC',
+      communityCare: true,
+      vdsAppointments: [
+        {
+          bookingNote: '',
+          appointmentLength: '60',
+          appointmentTime: '2021-12-07T16:00:00Z',
+          clinic: {
+            name: 'CHY OPT VAR1',
+            askForCheckIn: false,
+            facilityCode: '983',
+          },
+          type: 'REGULAR',
+          currentStatus: 'FUTURE',
+        },
+      ],
+      vvsAppointments: [],
+    };
+
+    mockSingleVistaCommunityCareAppointmentFetch({
+      appointment,
+    });
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: url,
+    });
+
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          moment()
+            .tz('America/Denver')
+            .format('dddd, MMMM D, YYYY'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    expect(screen.getByText(/Community care/)).to.be.ok;
+  });
+
+  it('should verify community care calendar ics file format', async () => {
+    const url = '/cc/8a4885896a22f88f016a2cb7f5de0062';
+    const appointmentTime = moment().add(1, 'days');
+    const appointment = getCCAppointmentMock();
+    appointment.id = '8a4885896a22f88f016a2cb7f5de0062';
+    appointment.attributes = {
+      ...appointment.attributes,
+      appointmentRequestId: '8a4885896a22f88f016a2cb7f5de0062',
+      distanceEligibleConfirmed: true,
+      name: { firstName: 'Rick', lastName: 'Katz' },
+      providerPractice: 'My Eye Dr',
+      providerPhone: '(703) 555-1264',
+      address: {
+        street: '123',
+        city: 'Burke',
+        state: 'VA',
+        zipCode: '20151',
+      },
+      appointmentTime: appointmentTime.format('MM/DD/YYYY HH:mm:ss'),
+      timeZone: 'UTC',
+    };
+
+    mockSingleCommunityCareAppointmentFetch({
+      appointment,
+    });
+    const startDateTime = moment(appointment.attributes.appointmentTime);
+
+    const screen = renderWithStoreAndRouter(
+      <AppointmentList featureHomepageRefresh />,
+      {
+        initialState,
+        path: url,
+      },
+    );
+
+    // Verify page content...
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+    expect(
+      screen.getByRole('link', {
+        name: `Add ${appointmentTime.format(
+          'MMMM D, YYYY',
+        )} appointment to your calendar`,
+      }),
+    ).to.be.ok;
+
+    const ics = decodeURIComponent(
+      screen
+        .getByRole('link', {
+          name: `Add ${appointmentTime.format(
+            'MMMM D, YYYY',
+          )} appointment to your calendar`,
+        })
+        .getAttribute('href')
+        .replace('data:text/calendar;charset=utf-8,', ''),
+    );
+    const tokens = getICSTokens(ics);
+
+    expect(tokens.get('BEGIN')).includes('VCALENDAR');
+    expect(tokens.get('VERSION')).to.equal('2.0');
+    expect(tokens.get('PRODID')).to.equal('VA');
+    expect(tokens.get('BEGIN')).includes('VEVENT');
+    expect(tokens.has('UID')).to.be.true;
+
+    // TODO: Should this be provider practice instead of name???
+    expect(tokens.get('SUMMARY')).to.equal('Appointment at Rick Katz');
+
+    // The description text longer than 74 characters should start newlines with a tab character
+    let description = tokens.get('DESCRIPTION');
+    description = description.split(/(?=\t)/g); // look ahead include the split character in the results
+
+    expect(description[0]).to.equal(
+      'You have a health care appointment with a community care provi',
+    );
+    expect(description[1]).to.equal(
+      '\tder. Please don’t go to your local VA health facility.',
+    );
+    expect(description[2]).to.equal('\t\\n\\n123\\n');
+    expect(description[3]).to.equal('\tBurke\\, VA 20151\\n');
+    expect(description[4]).to.equal('\t(703) 555-1264\\n');
+    expect(description[5]).to.equal(
+      '\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo',
+    );
+    expect(description[6]).to.equal(
+      '\tintments to get details about this appointment\\n',
+    );
+    expect(tokens.get('LOCATION')).to.equal('123\\, Burke\\, VA 20151');
+    expect(tokens.get('DTSTAMP')).to.equal(
+      `${moment(startDateTime).format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens.get('DTSTART')).to.equal(
+      `${moment(startDateTime).format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens.get('DTEND')).to.equal(
+      `${startDateTime
+        .clone()
+        .add(60, 'minutes')
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens.get('END')).includes('VEVENT');
+    expect(tokens.get('END')).includes('VCALENDAR');
+  });
+
+  it('should verify community care calendar ics file format when there is no provider information', async () => {
+    const url = '/cc/20abc6741c00ac67b6cbf6b972d084c1';
+
+    const appointment = getCCAppointmentMock();
+    appointment.id = '20abc6741c00ac67b6cbf6b972d084c1';
+    appointment.attributes = {
+      ...appointment.attributes,
+      address: undefined,
+      appointmentRequestId: '20abc6741c00ac67b6cbf6b972d084c1',
+      appointmentTime: '09/19/2021 16:00:00',
+      name: undefined,
+      providerPhone: undefined,
+      providerPractice: undefined,
+    };
+
+    mockSingleCommunityCareAppointmentFetch({
+      appointment,
+    });
+    const startDateTime = moment(appointment.attributes.appointmentTime);
+
+    const screen = renderWithStoreAndRouter(
+      <AppointmentList featureHomepageRefresh />,
+      {
+        initialState,
+        path: url,
+      },
+    );
+
+    // Verify page content...
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: /^Sunday, September 19, 2021/,
+      }),
+    ).to.be.ok;
+
+    const ics = decodeURIComponent(
+      screen
+        .getByRole('link', {
+          name: 'Add September 19, 2021 appointment to your calendar',
+        })
+        .getAttribute('href')
+        .replace('data:text/calendar;charset=utf-8,', ''),
+    );
+    const tokens = getICSTokens(ics);
+
+    expect(tokens.get('BEGIN')).includes('VCALENDAR');
+    expect(tokens.get('VERSION')).to.equal('2.0');
+    expect(tokens.get('PRODID')).to.equal('VA');
+    expect(tokens.get('BEGIN')).includes('VEVENT');
+    expect(tokens.has('UID')).to.be.true;
+
+    expect(tokens.get('SUMMARY')).to.equal('Community care appointment');
+
+    // The description text longer than 74 characters should start newlines with a tab character
+    let description = tokens.get('DESCRIPTION');
+    description = description.split(/(?=\t)/g); // look ahead include the split character in the results
+
+    expect(description[0]).to.equal(
+      'You have a health care appointment with a community care provi',
+    );
+    expect(description[1]).to.equal(
+      '\tder. Please don’t go to your local VA health facility.',
+    );
+    expect(description[2]).to.equal(
+      '\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo',
+    );
+    expect(description[3]).to.equal(
+      '\tintments to get details about this appointment\\n',
+    );
+    expect(tokens.get('LOCATION')).to.equal('');
+    expect(tokens.get('DTSTAMP')).to.equal(
+      `${moment(startDateTime).format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens.get('DTSTART')).to.equal(
+      `${moment(startDateTime).format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens.get('DTEND')).to.equal(
+      `${startDateTime
+        .clone()
+        .add(60, 'minutes')
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens.get('END')).includes('VEVENT');
+    expect(tokens.get('END')).includes('VCALENDAR');
+  });
+});
+
+describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
+  beforeEach(() => {
+    mockFetch();
+    MockDate.set(getTimezoneTestDate());
+  });
+  afterEach(() => {
+    MockDate.reset();
+  });
+
+  it('should navigate to community care appointments detail page', async () => {
+    const url = '/cc/01aa456cc';
+    const appointmentTime = moment().add(1, 'days');
+    const start = moment()
+      .subtract(30, 'days')
+      .format('YYYY-MM-DD');
+    const end = moment()
+      .add(395, 'days')
+      .format('YYYY-MM-DD');
+
+    const data = {
+      id: '01aa456cc',
+      kind: 'cc',
+      practitioners: [
+        {
+          id: { system: null, value: '123' },
+          firstName: 'Dr',
+          lastName: 'Hyde',
+          practiceName: 'Atlantic Medical Care',
+        },
+      ],
+      description: 'community care appointment',
+      comment: 'test comment',
+      start: appointmentTime,
+    };
+
+    const appointment = createMockAppointmentByVersion({
+      version: 2,
+      ...data,
+    });
+
+    mockVAOSAppointmentsFetch({
+      start,
+      end,
+      requests: [appointment],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+    });
+
+    mockSingleVAOSAppointmentFetch({ appointment });
+
+    const ccProvider = {
+      id: '123',
+      type: 'provider',
+      attributes: {
+        address: {},
+        caresitePhone: '202-555-1264',
+        name: 'Atlantic Medical Care',
+        lat: null,
+        long: null,
+        uniqueId: '123',
+      },
+    };
+    mockCCSingleProviderFetch(ccProvider);
+
+    const screen = renderWithStoreAndRouter(
+      <AppointmentList featureHomepageRefresh />,
+      {
+        initialState: {
+          featureToggles: {
+            ...initialState.featureToggles,
+            vaOnlineSchedulingVAOSServiceVAAppointments: true,
+            vaOnlineSchedulingVAOSServiceCCAppointments: true,
+          },
+        },
+      },
+    );
+
+    let detailLinks = await screen.findAllByRole('link', { name: /Detail/i });
+
+    // Select an appointment details link...
+    let detailLink = detailLinks.find(l => l.getAttribute('href') === url);
+    userEvent.click(detailLink);
+
+    // Verify page content...
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    expect(screen.getByText(/Community care/)).to.be.ok;
+    expect(await screen.findByText(/Atlantic Medical Care/)).to.be.ok;
+    expect(
+      screen.getByRole('link', {
+        name: /2 0 2. 5 5 5. 1 2 6 4./,
+      }),
+    ).to.be.ok;
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: /Special instructions/,
+      }),
+    ).to.be.ok;
+    expect(screen.getByText(/test comment/)).to.be.ok;
+    expect(
+      screen.getByRole('link', {
+        name: `Add ${appointmentTime.format(
+          'MMMM D, YYYY',
+        )} appointment to your calendar`,
+      }),
+    ).to.be.ok;
+    expect(screen.getByText(/Print/)).to.be.ok;
+
+    // Verify back button works...
+    userEvent.click(screen.getByText(/VA online scheduling/i));
+    detailLinks = await screen.findAllByRole('link', { name: /Detail/i });
+    detailLink = detailLinks.find(a => a.getAttribute('href') === url);
+
+    // Go back to Appointment detail...
+    userEvent.click(detailLink);
+
+    // Verify page content...
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    // Verify breadcrumb links works...
+    const VAOSHomepageLink = await screen.findByRole('link', {
+      name: /VA online scheduling/,
+    });
+    userEvent.click(VAOSHomepageLink);
+    expect(await screen.findAllByText(/Detail/)).to.be.ok;
+  });
+
+  it('should show cc info when directly opening page', async () => {
+    const url = '/cc/01aa456cc';
+    const appointmentTime = moment().add(1, 'days');
+
+    const data = {
+      id: '01aa456cc',
+      kind: 'cc',
+      practitioners: [
+        {
+          id: { system: null, value: '123' },
+          firstName: 'Dr',
+          lastName: 'Hyde',
+          practiceName: 'Jeckle and Hyde',
+        },
+      ],
+      description: 'community care appointment',
+      comment: 'test comment',
+      start: appointmentTime,
+    };
+
+    const appointment = createMockAppointmentByVersion({
+      version: 2,
+      ...data,
+    });
+
+    mockSingleVAOSAppointmentFetch({
+      appointment,
+    });
+
+    const ccProvider = {
+      id: '123',
+      type: 'provider',
+      attributes: {
+        address: {},
+        caresitePhone: '202-555-1264',
+        name: 'Atlantic Medical Care',
+        lat: null,
+        long: null,
+        uniqueId: '123',
+      },
+    };
+    mockCCSingleProviderFetch(ccProvider);
+
+    const screen = renderWithStoreAndRouter(
+      <AppointmentList featureHomepageRefresh />,
+      {
+        initialState: {
+          featureToggles: {
+            ...initialState.featureToggles,
+            vaOnlineSchedulingVAOSServiceVAAppointments: true,
+            vaOnlineSchedulingVAOSServiceCCAppointments: true,
+          },
+        },
+        path: url,
+      },
+    );
+
+    // Verify page content...
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    expect(screen.getByText(/Community care/)).to.be.ok;
+    expect(screen.getByText(/Atlantic Medical Care/)).to.be.ok;
   });
 });

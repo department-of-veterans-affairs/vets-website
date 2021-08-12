@@ -47,10 +47,15 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
     margin: 0;
   }
 
+  h4:focus {
+    outline: none;
+  }
+
   .review-answers {
     margin-top: 3em;
     padding: 0 1.5em;
   }
+
   .vertical-list-group {
     margin-top: 2em;
 
@@ -84,6 +89,13 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
           margin-top: -1.6em;
         }
       }
+    }
+  }
+
+  .airForce-portal-link {
+    width: max-content;
+    i:hover {
+      color: $color-green-darker !important;
     }
   }
 }

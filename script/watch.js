@@ -9,7 +9,7 @@ if (process.argv[2] === 'help') {
 
 // Otherwise, run the command
 runCommand(
-  `NODE_OPTIONS=--max-old-space-size=4096 webpack-dev-server --config config/webpack.config.js --env.watch=true ${process.argv
+  `NODE_OPTIONS=--max-old-space-size=4096 webpack-dev-server --config config/webpack.config.js --env.scaffold --env.watch ${process.argv
     .slice(2)
     .join(' ')}`,
 );

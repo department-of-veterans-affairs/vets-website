@@ -1093,5 +1093,128 @@
     "domain": "www.benefits.va.gov",
     "src": "/insurance/dividends_options.asp",
     "dest": "/resources/life-insurance-dividend-payment-options/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/vrrap.asp",
+    "dest": "/education/other-va-education-benefits/veteran-rapid-retraining-assistance/"
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/",
+    "dest": "/altoona-health-care/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/locations/DuBois.asp",
+    "dest": "/altoona-health-care/locations/dubois-va-clinic/"
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/locations/Huntingdon_VA_Community_Based_Outpatient_Clinic.asp",
+    "dest": "/altoona-health-care/locations/huntingdon-county-va-clinic/"
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/locations/Indiana_VA_Outpatient_Clinic.asp",
+    "dest": "/altoona-health-care/locations/indiana-county-va-clinic/"
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/locations/Johnstown.asp",
+    "dest": "/altoona-health-care/locations/johnstown-va-clinic/"
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/locations/StateCollege.asp",
+    "dest": "/altoona-health-care/locations/state-college-va-clinic/"
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/services/covid-19-vaccines.asp",
+    "dest": "/altoona-health-care/programs/covid-19-vaccines/"
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/",
+    "dest": "/wilmington-health-care/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/locations/Atlantic_County_Community_Based_Outpatient_Clinic.asp",
+    "dest": "/wilmington-health-care/locations/atlantic-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/locations/Cape_May_County_Community_Based_Outpatient_Clinic.asp",
+    "dest": "/wilmington-health-care/locations/cape-may-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/locations/Cumberland_County_Community_Based_Outpatient_Clinic.asp",
+    "dest": "/wilmington-health-care/locations/cumberland-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/locations/Kent_County_Community_Based_Outpatient_Clinic.asp",
+    "dest": "/wilmington-health-care/locations/kent-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/locations/Sussex_County_Community_Based_Outpatient_Clinic.asp",
+    "dest": "/wilmington-health-care/locations/sussex-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/services/covid-19-vaccines.asp",
+    "dest": "/wilmington-health-care/programs/covid-19-vaccines/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/",
+    "dest": "/wilkes-barre-health-care/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Allentown.asp",
+    "dest": "/wilkes-barre-health-care/locations/allentown-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Berwick.asp",
+    "dest": "/wilkes-barre-health-care/locations/columbia-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Bangor.asp",
+    "dest": "/wilkes-barre-health-care/locations/northampton-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Sayre.asp",
+    "dest": "/wilkes-barre-health-care/locations/sayre-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Tobyhanna.asp",
+    "dest": "/wilkes-barre-health-care/locations/tobyhanna-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Honesdale_Wayne_County.asp",
+    "dest": "/wilkes-barre-health-care/locations/wayne-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Williamsport.asp",
+    "dest": "/wilkes-barre-health-care/locations/williamsport-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/services/covid-19-vaccines.asp",
+    "dest": "/wilkes-barre-health-care/programs/covid-19-vaccines/"
   }
 ]

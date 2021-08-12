@@ -1,4 +1,3 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '@@profile/constants';
 
 import mockUserNotInEVSS from '@@profile/tests/fixtures/users/user-non-vet.json';
@@ -15,19 +14,6 @@ import mockDD4EDUEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-enrolled.
 import mockDD4EDUNotEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-not-enrolled.json';
 
 import error500 from '@@profile/tests/fixtures/500.json';
-
-// TODO: remove this when we are no longer gating DD4EDU with a feature flag
-const dd4eduEnabled = {
-  data: {
-    type: 'feature_toggles',
-    features: [
-      {
-        name: 'ch33_dd_profile',
-        value: true,
-      },
-    ],
-  },
-};
 
 function confirmDDBlockedAlertIsNotShown() {
   cy.findByText(/You can’t update your financial information/i).should(
@@ -80,10 +66,9 @@ function confirmDirectDepositIsBlocked() {
 describe('Direct Deposit', () => {
   let getPaymentInfoStub;
   beforeEach(() => {
-    disableFTUXModals();
     getPaymentInfoStub = cy.stub();
     cy.login();
-    cy.route('GET', '/v0/feature_toggles*', dd4eduEnabled);
+    cy.server();
   });
   it('should be blocked if the user is not in EVSS and they are not signed up for DD4EDU', () => {
     cy.route('GET', 'v0/user', mockUserNotInEVSS);

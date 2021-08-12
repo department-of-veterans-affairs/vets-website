@@ -31,7 +31,11 @@ class HeadingSummary extends React.Component {
   render() {
     const it = this.props.institution;
     it.type = it.type && it.type.toLowerCase();
-    const formattedAddress = locationInfo(it.city, it.state, it.country);
+    const formattedAddress = locationInfo(
+      it.physicalCity,
+      it.physicalState,
+      it.physicalCountry,
+    );
     const addressPresent = formattedAddress !== ''; // if locationInfo returns a blank string, icon should not show
 
     const stars = convertRatingToStars(it.ratingAverage);

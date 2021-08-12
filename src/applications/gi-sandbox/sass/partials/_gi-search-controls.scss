@@ -1,0 +1,177 @@
+.search-controls {
+  .cells {
+    padding: 16px 20px 20px 20px;
+  }
+
+  .location-wrap {
+    position: relative;
+  }
+
+  .location-wrap:before {
+    color: $color-primary;
+    content: "\f3c5";
+    font-family: "Font Awesome 5 Free";
+    position: absolute;
+    font-style: normal;
+    left: 10px;
+    top: 10px;
+    width: 20px;
+    height: 100%;
+    font-weight: 900;
+    pointer-events: none;
+  }
+
+  input.location-input {
+    width: 355px;
+    padding-left: 30px;
+  }
+
+  #distance-dropdown {
+    label.wrap {
+      position: relative;
+    }
+
+    label.wrap:after {
+      color: $color-primary;
+      content: "\F107";
+      font-family: "Font Awesome 5 Free";
+      position: absolute;
+      font-style: normal;
+      right: 8px;
+      top: 5px;
+      width: 20px;
+      height: 100%;
+      font-weight: 900;
+      font-size: 150%;
+      pointer-events: none;
+    }
+
+    #distance {
+      color: $color-gray;
+      font-style: italic;
+      width: 110px;
+      background-image: none;
+    }
+  }
+
+  #school-search-button {
+    margin-right: 0px;
+  }
+
+  border-radius: 0px 0px 6px 6px;
+
+  ::placeholder {
+    font-style: italic;
+  }
+
+  .search-section-label {
+    font-weight: bold;
+    color: $color-gray-medium;
+  }
+}
+.update-results-form {
+  margin-top: -2em;
+  border-left: solid $color-gray-lightest;
+  border-right: solid $color-gray-lightest;
+}
+.update-results {
+  height: 4.5em;
+  background-color: $color-gray-lightest;
+}
+.update-results-header {
+  margin-top: -0.04em;
+}
+.update-results-button {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  margin-top: 1em;
+  margin-left: 1.5em;
+  margin-bottom: 0.5em;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: $color-blue;
+  border: 0;
+  border-radius: 5px;
+  color: $color-white;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
+    "Arial", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1;
+  padding: 1rem 2rem;
+  text-align: center;
+  text-decoration: none;
+  width: 80%;
+}
+
+.accordion-dropdown {
+  border: 1px solid $color-gray;
+  position: relative;
+  min-width: 230px;
+  margin: 0.2em 0;
+
+  .opener {
+    label {
+      margin: 0px;
+      display: inline-block;
+    }
+
+    label:after {
+      color: $color-primary;
+      content: "\F107";
+      font-family: "Font Awesome 5 Free";
+      position: absolute;
+      font-style: normal;
+      right: 8px;
+      top: 5px;
+      width: 20px;
+      height: 100%;
+      font-weight: 900;
+      font-size: 150%;
+      pointer-events: none;
+    }
+
+    i {
+      font-size: 150% !important;
+      position: absolute;
+      right: 8px;
+      top: 5px;
+    }
+  }
+}
+
+.accordion-dropdown-out {
+  padding: 14px;
+  background-color: $color-white;
+  width: calc(100% + 2px);
+  position: absolute;
+  z-index: 50;
+  left: -1px;
+  top: 40px;
+
+  span.gibct-legend,
+  label {
+    margin-top: 2px;
+    cursor: initial;
+  }
+
+  .dropdown-divider {
+    border-bottom: 2px solid $color-gray-light;
+    margin: 14px -14px 14px -14px;
+  }
+
+  .footer-controls {
+    padding: 12px 0px 8px 0px;
+
+    button {
+      width: 23rem;
+    }
+
+    .cancel {
+      cursor: pointer;
+    }
+  }
+}

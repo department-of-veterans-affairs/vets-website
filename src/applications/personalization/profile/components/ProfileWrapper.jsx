@@ -1,12 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 
-import { isWideScreen } from '~/platform/utilities/accessibility/index';
 import { selectProfile } from '~/platform/user/selectors';
 
 import {
@@ -17,10 +16,11 @@ import {
   personalInformationLoadError,
 } from '@@profile/selectors';
 
+import { hasTotalDisabilityServerError } from '~/applications/personalization/rated-disabilities/selectors';
+
 import NameTag from '~/applications/personalization/components/NameTag';
 import ProfileSubNav from './ProfileSubNav';
 import ProfileMobileSubNav from './ProfileMobileSubNav';
-import { PROFILE_PATHS } from '../constants';
 
 const NotAllDataAvailableError = () => (
   <div data-testid="not-all-data-available-error">
@@ -45,6 +45,7 @@ const ProfileWrapper = ({
   isInMVI,
   showNotAllDataAvailableError,
   totalDisabilityRating,
+  totalDisabilityRatingServerError,
   showUpdatedNameTag,
   showNameTag,
 }) => {
@@ -58,14 +59,6 @@ const ProfileWrapper = ({
 
   const { activeLocation, activeRouteName } = createBreadCrumbAttributes();
 
-  // We do not want to display 'Profile' on the mobile personal-information route
-  const onPersonalInformationMobile =
-    activeLocation === PROFILE_PATHS.PERSONAL_INFORMATION && !isWideScreen();
-
-  // Without a verified identity, we want to show 'Home - Account Security'
-  const showLOA1BreadCrumb =
-    (!isLOA3 || !isInMVI) && activeLocation === PROFILE_PATHS.ACCOUNT_SECURITY;
-
   return (
     <>
       {showNameTag &&
@@ -73,24 +66,18 @@ const ProfileWrapper = ({
           <NameTag
             showUpdatedNameTag
             totalDisabilityRating={totalDisabilityRating}
+            totalDisabilityRatingServerError={totalDisabilityRatingServerError}
           />
         )}
 
       {/* Breadcrumbs */}
-      <div data-testid="breadcrumbs">
-        <Breadcrumbs className="vads-u-padding-x--1 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
+      <div
+        data-testid="breadcrumbs"
+        className="vads-l-grid-container vads-u-padding-x--0"
+      >
+        <Breadcrumbs className="vads-u-padding-x--1 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0 medium-screen:vads-u-padding-x--2">
           <a href="/">Home</a>
-
-          {showLOA1BreadCrumb && (
-            <Link to="/">Your profile - Account security</Link>
-          )}
-
-          {!showLOA1BreadCrumb &&
-            !onPersonalInformationMobile && <Link to="/">Your profile</Link>}
-
-          {!showLOA1BreadCrumb && (
-            <a href={activeLocation}>{activeRouteName}</a>
-          )}
+          <a href={activeLocation}>{`Profile: ${activeRouteName}`}</a>
         </Breadcrumbs>
       </div>
 
@@ -123,12 +110,13 @@ const ProfileWrapper = ({
 const mapStateToProps = (state, ownProps) => {
   const veteranStatus = selectProfile(state)?.veteranStatus;
   const invalidVeteranStatus =
-    !veteranStatus || veteranStatus === 'NOT_AUTHORIZED';
+    !veteranStatus || veteranStatus.status === 'NOT_AUTHORIZED';
   const hero = state.vaProfile?.hero;
 
   return {
     hero,
     totalDisabilityRating: state.totalRating?.totalDisabilityRating,
+    totalDisabilityRatingServerError: hasTotalDisabilityServerError(state),
     showNameTag: ownProps.isLOA3 && isEmpty(hero?.errors),
     showNotAllDataAvailableError:
       !!cnpDirectDepositLoadError(state) ||

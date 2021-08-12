@@ -11,7 +11,13 @@ export const uiSchema = {
   'view:additionalEvidenceDescription': {
     'ui:description': AdditionalEvidence(marriageTypeInformation),
   },
-  supportingDocuments: fileUploadUI('Additional Evidence needed', {
+  spouseEvidenceDocumentType: {
+    'ui:title': 'Type of evidence',
+    'ui:options': {
+      hideOnReview: true,
+    },
+  },
+  spouseSupportingDocuments: fileUploadUI('Additional Evidence needed', {
     buttonText: 'Upload supporting documents',
     fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
     showFieldLabel: false,

@@ -4,21 +4,23 @@ const today = moment();
 
 export function chooseTypeOfCareTest(label) {
   cy.url().should('include', '/new-appointment');
-  cy.axeCheck();
-  cy.findByLabelText(label).click();
+  cy.axeCheckBestPractice();
+  cy.findByLabelText(label)
+    .focus()
+    .click();
   cy.findByText(/Continue/).click();
 }
 
 export function chooseFacilityTypeTest(label) {
   cy.url().should('include', '/choose-facility-type');
-  cy.axeCheck();
+  cy.axeCheckBestPractice();
   cy.findByLabelText(label).click();
   cy.findByText(/Continue/).click();
 }
 
 export function chooseVAFacilityTest() {
   cy.url().should('include', '/va-facility');
-  cy.axeCheck();
+  cy.axeCheckBestPractice();
   cy.findByLabelText(/CHYSHR/).check();
   cy.findByLabelText(
     'CHYSHR-Cheyenne VA Medical Center (Cheyenne, WY)',
@@ -28,15 +30,19 @@ export function chooseVAFacilityTest() {
 
 export function chooseVAFacilityV2Test() {
   cy.url().should('include', '/va-facility-2');
-  cy.axeCheck();
-  cy.findByLabelText(/cheyenne/i).click();
+  cy.axeCheckBestPractice();
+  cy.get('#root_vaFacility_3')
+    .focus()
+    .click();
   cy.findByText(/Continue/).click();
 }
 
 export function chooseClinicTest() {
   cy.url().should('include', '/clinics');
-  cy.axeCheck();
-  cy.findByText(/You can choose a clinic where you’ve been seen/i);
+  cy.axeCheckBestPractice();
+  cy.findByText(
+    /Choose a clinic below or request a different clinic for this appointment/i,
+  );
   cy.get('#root_clinicId_0')
     .focus()
     .click();
@@ -45,7 +51,7 @@ export function chooseClinicTest() {
 
 export function choosePreferredDateTest() {
   cy.url().should('include', '/preferred-date');
-  cy.axeCheck();
+  cy.axeCheckBestPractice();
 
   const preferredDate = today
     .clone()
@@ -62,14 +68,19 @@ export function choosePreferredDateTest() {
 export function selectTimeSlotTest() {
   cy.url().should('include', '/select-date');
   cy.findByText(/Finding appointment availability.../i).should('not.exist');
-  cy.get(
-    '.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])',
-  ).click();
-  cy.get(
-    '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
-  ).click();
+  cy.waitUntil(() =>
+    cy
+      .get('.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])')
+      .focus()
+      .click()
+      .get(
+        '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
+      ),
+  )
+    .focus()
+    .click();
 
-  cy.axeCheck();
+  cy.axeCheckBestPractice();
   cy.findByText(/Continue/).click();
 }
 
@@ -84,14 +95,14 @@ export function selectRequestSlotTest() {
   cy.get(
     '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
   ).click();
-  cy.axeCheck();
+  cy.axeCheckBestPractice();
   cy.findByText(/Continue/).click();
 }
 
 export function howToBeSeenTest() {
   cy.url().should('include', '/choose-visit-type');
   cy.findByLabelText(/Office/i).click();
-  cy.axeCheck();
+  cy.axeCheckBestPractice();
   cy.findByText(/Continue/).click();
 }
 
@@ -100,22 +111,29 @@ export function reasonForAppointmentTest(
   label = /Please provide any additional details/,
 ) {
   cy.url().should('include', '/reason-appointment');
-  cy.axeCheck();
-  cy.findByLabelText('Routine or follow-up visit').click();
+  cy.axeCheckBestPractice();
+  cy.findByLabelText(/Routine or follow-up visit/i).click();
   cy.findByLabelText(label).type(content);
   cy.findByText(/Continue/).click();
 }
 
 export function contactInfoTest() {
   cy.url().should('include', '/contact-info');
-  cy.axeCheck();
+  cy.axeCheckBestPractice();
   cy.findByLabelText(/Morning/).click();
+  cy.findByText(/Continue/).click();
+}
+
+export function contactInfoDirectScheduleTest() {
+  cy.url().should('include', '/contact-info');
+  cy.axeCheckBestPractice();
+  // cy.findByLabelText(/Morning/).click();
   cy.findByText(/Continue/).click();
 }
 
 export function reviewTest() {
   cy.url().should('include', '/review');
-  cy.axeCheck();
+  cy.axeCheckBestPractice();
   cy.findByText('Confirm appointment').click();
 }
 
@@ -124,4 +142,13 @@ export function confirmationPageTest(additionalInfo) {
   cy.findByText('VA Appointment');
   cy.findByText('Follow-up/Routine');
   cy.findByText(additionalInfo);
+  cy.axeCheckBestPractice();
+}
+
+export function confirmationPageV2Test(fullReason) {
+  cy.findByText('Your appointment has been scheduled and is confirmed.');
+  cy.findByText('VA Appointment');
+  cy.findByText('Your reason for your visit');
+  cy.findByText(fullReason);
+  cy.axeCheckBestPractice();
 }

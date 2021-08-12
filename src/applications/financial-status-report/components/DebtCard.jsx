@@ -1,102 +1,112 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import head from 'lodash/head';
 import last from 'lodash/last';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import { deductionCodes } from '../../debt-letters/const/deduction-codes';
-import { setData } from 'platform/forms-system/src/js/actions';
 import classnames from 'classnames';
+
+import { setData } from 'platform/forms-system/src/js/actions';
+import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 import { renderAdditionalInfo } from '../../debt-letters/const/diary-codes';
 
-class DebtCard extends Component {
-  onChange(debt) {
-    const alreadyIncluded = this.props.fsrDebts.some(
-      currentDebt => currentDebt.id === debt.id,
+const DebtCard = ({ debt, selectedDebts, formData, setDebts }) => {
+  const mostRecentHistory = head(debt.debtHistory);
+  const firstDebtLetter = last(debt.debtHistory);
+  const debtCardHeading =
+    deductionCodes[debt.deductionCode] || debt.benefitType;
+  const debtIdentifier = `${debt.currentAr}-${debt.originalAr}-${
+    debt.debtHistory.length
+  }`;
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+  });
+
+  const additionalInfo = renderAdditionalInfo(
+    debt.diaryCode,
+    mostRecentHistory.date,
+    debt.benefitType,
+  );
+
+  const isChecked = selectedDebts?.some(
+    currentDebt => currentDebt.id === debt.id,
+  );
+
+  const onChange = selectedDebt => {
+    const alreadyIncluded = selectedDebts?.some(
+      currentDebt => currentDebt.id === selectedDebt.id,
     );
 
     if (alreadyIncluded) {
-      const fsrDebts = this.props?.fsrDebts?.filter(
-        debtEntry => debtEntry.id !== debt.id,
+      const checked = selectedDebts?.filter(
+        debtEntry => debtEntry.id !== selectedDebt.id,
       );
-      return this.props.setData({ ...this.props.formData, fsrDebts });
+      return setDebts({ ...formData, selectedDebts: checked });
     } else {
-      const newFsrDebts = this.props.fsrDebts.length
-        ? [...this.props.fsrDebts, debt]
-        : [debt];
-      return this.props.setData({
-        ...this.props.formData,
-        fsrDebts: newFsrDebts,
+      const newFsrDebts = selectedDebts?.length
+        ? [...selectedDebts, selectedDebt]
+        : [selectedDebt];
+      return setDebts({
+        ...formData,
+        selectedDebts: newFsrDebts,
       });
     }
-  }
+  };
 
-  render() {
-    const { debt } = this.props;
-    const debtIdentifier = `${debt.currentAr}-${debt.originalAr}-${
-      debt.debtHistory.length
-    }`;
-    const mostRecentHistory = head(debt.debtHistory);
-    const firstDebtLetter = last(debt.debtHistory);
-    const debtCardHeading =
-      deductionCodes[debt.deductionCode] || debt.benefitType;
-    const formatter = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2,
-    });
-    const additionalInfo = renderAdditionalInfo(
-      debt.diaryCode,
-      mostRecentHistory.date,
-      debt.benefitType,
-    );
-    const isChecked = this.props.fsrDebts.some(
-      currentDebt => currentDebt.id === debt.id,
-    );
-    return (
-      <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2 debt-card">
-        <h3 className="vads-u-font-size--h4 vads-u-margin--0">
-          {debtCardHeading}
-        </h3>
-        {mostRecentHistory && (
-          <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
-            Updated on {moment(mostRecentHistory.date).format('MMMM D, YYYY')}
-          </p>
-        )}
-        <p className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
-          <strong>Amount owed: </strong>
-          {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
+  const container = classnames(
+    'vads-u-background-color--gray-lightest vads-u-margin-top--3 debt-card',
+    {
+      'selected-debt': isChecked,
+    },
+  );
+
+  return (
+    <div className={container}>
+      <h3 className="vads-u-font-size--h4 vads-u-margin--0">
+        {debtCardHeading}
+      </h3>
+      {mostRecentHistory && (
+        <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
+          Updated on {moment(mostRecentHistory.date).format('MMMM D, YYYY')}
         </p>
-        <div className="vads-u-margin-y--2">{additionalInfo.status}</div>
+      )}
+      <p className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
+        <strong>Amount owed: </strong>
+        {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
+      </p>
+      <div className="vads-u-margin-y--2">{additionalInfo.status}</div>
 
-        <p className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
-          <strong>Date of first notice: </strong>
-          {moment(firstDebtLetter.date).format('MMMM D, YYYY')}
-        </p>
+      <p className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
+        <strong>Date of first notice: </strong>
+        {moment(firstDebtLetter.date).format('MMMM D, YYYY')}
+      </p>
 
-        <div className="vads-u-margin-top--2">
-          <input
-            id={debtIdentifier}
-            type="checkbox"
-            className=" vads-u-width--auto"
-            checked={isChecked}
-            onChange={() => this.onChange(debt)}
-          />
-          <label
-            className={classnames({
-              'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-margin-bottom--0 vads-u-width--auto vads-u-text-align--left vads-u-padding-x--2': true,
-              'vads-u-color--white': !isChecked,
-              'vads-u-background-color--white vads-u-color--primary': !isChecked,
-            })}
-            htmlFor={debtIdentifier}
-          >
-            Request help with this debt
-          </label>
-        </div>
+      <div className="vads-u-margin-top--2">
+        <input
+          name="request-help-with-debt"
+          id={debtIdentifier}
+          type="checkbox"
+          className=" vads-u-width--auto"
+          checked={isChecked || false}
+          onChange={() => onChange(debt)}
+        />
+        <label
+          className={classnames({
+            'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-margin-bottom--0 vads-u-width--auto vads-u-text-align--left vads-u-padding-x--2': true,
+            'vads-u-color--white': !isChecked,
+            'vads-u-background-color--white vads-u-color--primary': !isChecked,
+          })}
+          htmlFor={debtIdentifier}
+        >
+          Request help with this debt
+        </label>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
 DebtCard.propTypes = {
   debt: PropTypes.shape({
     currentAr: PropTypes.number,
@@ -112,11 +122,11 @@ DebtCard.propTypes = {
 
 const mapStateToProps = ({ form }) => ({
   formData: form.data,
-  fsrDebts: form.data.fsrDebts,
+  selectedDebts: form.data.selectedDebts,
 });
 
 const mapDispatchToProps = {
-  setData,
+  setDebts: setData,
 };
 
 export default connect(

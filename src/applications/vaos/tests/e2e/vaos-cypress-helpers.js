@@ -22,7 +22,7 @@ import {
   getParentSiteMock,
 } from '../mocks/v0';
 
-const mockUser = {
+export const mockUser = {
   data: {
     id: '',
     type: 'users_scaffolds',
@@ -195,7 +195,12 @@ export function createPastVAAppointments() {
   };
 }
 
-export function mockFeatureToggles({ providerSelectionEnabled = false } = {}) {
+export function mockFeatureToggles({
+  providerSelectionEnabled = false,
+  homepageRefresh = false,
+  v2Requests = false,
+  v2Facilities = false,
+} = {}) {
   cy.route({
     method: 'GET',
     url: '/v0/feature_toggles*',
@@ -228,16 +233,24 @@ export function mockFeatureToggles({ providerSelectionEnabled = false } = {}) {
             value: true,
           },
           {
-            name: 'vaOnlineSchedulingExpressCareNew',
-            value: true,
-          },
-          {
             name: `cerner_override_668`,
             value: false,
           },
           {
             name: 'vaOnlineSchedulingProviderSelection',
             value: providerSelectionEnabled,
+          },
+          {
+            name: 'vaOnlineSchedulingHomepageRefresh',
+            value: homepageRefresh,
+          },
+          {
+            name: 'vaOnlineSchedulingVAOSServiceRequests',
+            value: v2Requests,
+          },
+          {
+            name: 'vaOnlineSchedulingFacilitiesServiceV2',
+            value: v2Facilities,
           },
         ],
       },
@@ -248,15 +261,17 @@ export function mockFeatureToggles({ providerSelectionEnabled = false } = {}) {
 function mockRequestLimits(id = '983') {
   cy.route({
     method: 'GET',
-    url: `/vaos/v0/facilities/${id}/limits*`,
+    url: `/vaos/v0/facilities/limits*`,
     response: {
-      data: {
-        id,
-        attributes: {
-          requestLimit: 1,
-          numberOfRequests: 0,
+      data: [
+        {
+          id,
+          attributes: {
+            requestLimit: 1,
+            numberOfRequests: 0,
+          },
         },
-      },
+      ],
     },
   });
 }
@@ -349,11 +364,23 @@ function mockSubmitVAAppointment() {
   }).as('appointmentPreferences');
 }
 
-function setupSchedulingMocks({ cernerUser = false } = {}) {
+export function vaosSetup() {
+  Cypress.Commands.add('axeCheckBestPractice', (context = 'main') => {
+    cy.axeCheck(context, {
+      runOnly: {
+        type: 'tag',
+        values: ['section508', 'wcag2a', 'wcag2aa', 'best-practice'],
+      },
+    });
+  });
   cy.server();
+}
+
+function setupSchedulingMocks({ cernerFacility = false } = {}) {
+  vaosSetup();
   mockFeatureToggles();
 
-  if (cernerUser) {
+  if (cernerFacility) {
     const mockCernerUser = {
       ...mockUser,
       data: {
@@ -365,7 +392,7 @@ function setupSchedulingMocks({ cernerUser = false } = {}) {
             facilities: [
               ...mockUser.data.attributes.vaProfile.facilities,
               {
-                facilityID: '123',
+                facilityId: cernerFacility,
                 isCerner: true,
               },
             ],
@@ -389,13 +416,11 @@ function setupSchedulingMocks({ cernerUser = false } = {}) {
 
 function updateTimeslots(data) {
   const startDateTime = moment()
-    .add(1, 'day')
     .add(1, 'months')
     .startOf('month')
     .day(9)
     .format('YYYY-MM-DDTHH:mm:ss[+00:00]');
   const endDateTime = moment()
-    .add(1, 'day')
     .add(1, 'months')
     .startOf('month')
     .day(9)
@@ -437,6 +462,38 @@ function mockDirectScheduleSlots() {
     method: 'GET',
     url: '/vaos/v0/facilities/983/available_appointments*',
     response: updateTimeslots(slots),
+  });
+}
+
+function mockVaccineSlots() {
+  const startDateTime = moment()
+    .add(1, 'day')
+    .add(1, 'months')
+    .startOf('month')
+    .day(9)
+    .format('YYYY-MM-DDTHH:mm:ss[+00:00]');
+  const endDateTime = moment()
+    .add(1, 'day')
+    .add(1, 'months')
+    .startOf('month')
+    .day(9)
+    .add(60, 'minutes')
+    .format('YYYY-MM-DDTHH:mm:ss[+00:00]');
+
+  const newSlot = {
+    bookingStatus: '1',
+    remainingAllowedOverBookings: '3',
+    availability: true,
+    startDateTime,
+    endDateTime,
+  };
+
+  slots.data[0].attributes.appointmentTimeSlot = [newSlot];
+
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/facilities/983/available_appointments*',
+    response: slots,
   });
 }
 
@@ -569,8 +626,8 @@ export function initExpressCareMocks() {
   });
 }
 
-export function initVAAppointmentMock({ cernerUser = false } = {}) {
-  setupSchedulingMocks({ cernerUser });
+export function initVAAppointmentMock({ cernerFacility = false } = {}) {
+  setupSchedulingMocks({ cernerFacility });
   cy.route({
     method: 'GET',
     url: '/v1/facilities/va/vha_442',
@@ -593,8 +650,45 @@ export function initVAAppointmentMock({ cernerUser = false } = {}) {
   mockSubmitVAAppointment();
 }
 
-export function initVARequestMock({ cernerUser = false } = {}) {
-  setupSchedulingMocks({ cernerUser });
+export function initVaccineAppointmentMock({
+  unableToScheduleCovid = false,
+} = {}) {
+  setupSchedulingMocks();
+  // Modify directScheduling Response
+  if (unableToScheduleCovid) {
+    cy.route({
+      method: 'GET',
+      url: '/vaos/v0/direct_booking_eligibility_criteria*',
+      response: {
+        data: directEligibilityCriteria.data.map(facility => ({
+          ...facility,
+          attributes: {
+            ...facility.attributes,
+            coreSettings: facility.attributes.coreSettings.filter(
+              f => f.id !== 'covid',
+            ),
+          },
+        })),
+      },
+    });
+  }
+  cy.route({
+    method: 'GET',
+    url: '/v1/facilities/va/vha_442',
+    response: { data: facilityData.data[0] },
+  });
+  cy.route({
+    method: 'GET',
+    url: '/v1/facilities/va?ids=*',
+    response: facilityData,
+  });
+  mockPrimaryCareClinics();
+  mockVaccineSlots();
+  mockSubmitVAAppointment();
+}
+
+export function initVARequestMock({ cernerFacility = false } = {}) {
+  setupSchedulingMocks({ cernerFacility });
   cy.route({
     method: 'GET',
     url: '/vaos/v0/facilities/983/clinics*',
@@ -634,7 +728,7 @@ export function initCommunityCareMock() {
   });
   cy.route({
     method: 'GET',
-    url: '/v1/facilities/ccp*',
+    url: '/facilities_api/v1/ccp/provider*',
     response: {
       data: [
         {

@@ -84,12 +84,12 @@ const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
       },
       routingNumber: {
         ...bankAccountUI.routingNumber,
-        'ui:title': 'Bank routing number (No more than 9 digits)',
+        'ui:title': "Bank's 9-digit routing number",
         'ui:required': bankFieldIsRequired,
       },
       accountNumber: {
         ...bankAccountUI.accountNumber,
-        'ui:title': 'Bank account number (No more than 17 digits)',
+        'ui:title': 'Bank account number',
         'ui:required': bankFieldIsRequired,
       },
     },

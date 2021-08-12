@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import moment from 'moment';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import { getTypeOfCare } from '../../redux/selectors';
 import { FACILITY_TYPES, PURPOSE_TEXT } from '../../../utils/constants';
 import FacilityAddress from '../../../components/FacilityAddress';
 import State from '../../../components/State';
+import InfoAlert from '../../../components/InfoAlert';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 function formatBestTime(bestTime) {
   const times = [];
@@ -46,11 +47,11 @@ export default function ConfirmationRequestInfo({
   return (
     <div>
       <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-      <AlertBox status="success">
+      <InfoAlert status="success">
         <strong>We’re reviewing your request</strong>
         <br />A scheduler will contact you to schedule the first available
         appointment. You don’t have to do anything right now.
-      </AlertBox>
+      </InfoAlert>
       <div className="vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-y--3 vads-u-border-top--4px vads-u-border-color--warning-message">
         <div className="vaos-form__title vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
           {isCommunityCare && 'Community Care'}
@@ -139,12 +140,14 @@ export default function ConfirmationRequestInfo({
                     <div>
                       {data.communityCareProvider.name}
                       <br />
-                      {data.communityCareProvider.address.line.map(line => (
-                        <>
-                          {line}
-                          <br />
-                        </>
-                      ))}
+                      {data.communityCareProvider.address.line.map(
+                        (line, index) => (
+                          <React.Fragment key={index}>
+                            {line}
+                            <br />
+                          </React.Fragment>
+                        ),
+                      )}
                       {data.communityCareProvider.address.city},{' '}
                       <State state={data.communityCareProvider.address.state} />{' '}
                       {data.communityCareProvider.address.postalCode}
@@ -159,7 +162,7 @@ export default function ConfirmationRequestInfo({
                       <strong>{facilityDetails.name}</strong>
                     </h3>
                     <div>
-                      <FacilityAddress facility={facilityDetails} />
+                      <FacilityAddress facility={facilityDetails} level={3} />
                     </div>
                   </>
                 )}
@@ -168,7 +171,8 @@ export default function ConfirmationRequestInfo({
           <div className="vads-u-flex--1 vads-u-margin-top--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
             <h3 className="vaos-appts__block-label">Preferred date and time</h3>
             <div>
-              <ul className="usa-unstyled-list">
+              {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+              <ul className="usa-unstyled-list" role="list">
                 {data.selectedDates?.map(date => (
                   <li key={date}>
                     {moment(date).format('MMMM D, YYYY')}{' '}
@@ -206,7 +210,7 @@ export default function ConfirmationRequestInfo({
                 <div>
                   {data.email}
                   <br />
-                  {data.phoneNumber}
+                  <Telephone notClickable contact={data.phoneNumber} />
                   <br />
                   {formatBestTime(data.bestTimeToCall)}{' '}
                 </div>

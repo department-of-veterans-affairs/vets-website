@@ -1,7 +1,8 @@
 import React from 'react';
 import moment from 'moment';
+import Scroll from 'react-scroll';
+
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
@@ -13,7 +14,18 @@ import {
   NULL_CONDITION_STRING,
 } from '../constants';
 import DownloadLink from './DownloadLink';
-import { scrollTo } from '../helpers';
+
+const scroller = Scroll.scroller;
+const scrollToTop = () => {
+  scroller.scrollTo(
+    'eligibleScrollElement',
+    window.VetsGov?.scroll || {
+      duration: 500,
+      delay: 0,
+      smooth: true,
+    },
+  );
+};
 
 // We shouldn't ever see the couldn't find contestable issues message since we
 // prevent the user from navigating past the intro page; but it's here just in
@@ -149,13 +161,16 @@ export const disabilitiesExplanation = (
 /**
  * Shows the alert box only if the form has been submitted
  */
-export const ContestedIssuesAlert = ({ className }) => {
-  setTimeout(() => scrollTo('eligibleScrollElement'), 300);
+export const ContestedIssuesAlert = ({ className = '' }) => {
+  setTimeout(() => scrollToTop(), 300);
   return (
-    <AlertBox
-      status="error"
-      className={`eligible-issues-error vads-u-margin-x--2 vads-u-margin-y--1 vads-u-padding-x--3 vads-u-padding-y--2 ${className}`}
-      headline="Please choose an eligible issue so we can process your request"
-    />
+    <va-alert status="error">
+      <h3
+        slot="headline"
+        className={`eligible-issues-error vads-u-margin-x--2 vads-u-margin-y--1 vads-u-padding-x--3 vads-u-padding-y--2 ${className}`}
+      >
+        Please choose an eligible issue so we can process your request
+      </h3>
+    </va-alert>
   );
 };
