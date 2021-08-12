@@ -66,8 +66,13 @@ const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
         'accountNumber',
       ],
       'view:paymentText': {
-        'ui:description':
-          'We make payments only through direct deposit, also called electronic funds transfer (EFT).',
+        'ui:description': (
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+          <div tabIndex="0">
+            We make payments only through direct deposit, also called electronic
+            funds transfer (EFT).
+          </div>
+        ),
       },
       accountType: {
         ...bankAccountUI.accountType,
