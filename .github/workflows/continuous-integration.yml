@@ -739,7 +739,7 @@ jobs:
         env:
           IS_MASTER_BUILD: ${{ github.workflow.jobs.cypress-tests-prep.env.IS_MASTER_BUILD }}
           # IS_MASTER_BUILD: ${{ needs.cypress-tests-prep.outputs.is_master_build }}
-          NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
+          NUM_CONTAINERS: ${{ github.workflow.jobs.cypress-tests-prep.outputs.num_containers }}
 
       - name: Upload Mochawesome report artifact
         uses: actions/upload-artifact@v2
