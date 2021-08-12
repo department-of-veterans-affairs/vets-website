@@ -4,8 +4,8 @@ import Telephone, {
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const HowToPay = () => (
-  <>
-    <h2>How do I pay my VA copay bill?</h2>
+  <article className="vads-u-padding--0">
+    <h2 id="how-to-pay">How do I pay my VA copay bill?</h2>
     <h3 className="vads-u-font-size--h5">
       You can pay your bill in any of these 4 ways:
     </h3>
@@ -82,11 +82,14 @@ export const HowToPay = () => (
           <p>
             <strong>Mail your payment and remittance stubs to:</strong>
           </p>
-          <div className="vads-u-margin-left--4 vads-u-margin-bottom--4 vads-u-padding-left--1 vads-u-border-left--5px vads-u-border-color--primary">
-            <div>Department of Veterans Affairs</div>
-            <div>PO Box 3978</div>
-            <div>Portland, OR 97208-3978</div>
-          </div>
+          <p className="va-address-block">
+            Department of Veterans Affairs
+            <br />
+            PO Box 3978
+            <br />
+            Portland, OR 97208-3978
+            <br />
+          </p>
         </va-accordion-item>
         <va-accordion-item header="Option 4: Pay in person">
           <p>
@@ -111,7 +114,7 @@ export const HowToPay = () => (
         </va-accordion-item>
       </va-accordion>
     </div>
-  </>
+  </article>
 );
 
 export default HowToPay;

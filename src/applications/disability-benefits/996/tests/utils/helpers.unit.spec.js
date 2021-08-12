@@ -1,24 +1,24 @@
-import { expect } from 'chai';
 import moment from 'moment';
+import { expect } from 'chai';
+
+import { getDate } from '../../utils/dates';
 
 import {
   getEligibleContestableIssues,
   apiVersion1,
   apiVersion2,
   isVersion1Data,
-} from '../helpers';
+} from '../../utils/helpers';
 
 describe('getEligibleContestableIssues', () => {
-  const today = () => moment().startOf('day');
-  const template = 'YYYY-MM-DD';
-  const format = (date, templ = template) => date.format(templ);
+  const date = moment().startOf('day');
 
   const eligibleIssue = {
     type: 'contestableIssue',
     attributes: {
       ratingIssueSubjectText: 'Issue 2',
       description: '',
-      approxDecisionDate: format(today().subtract(10, 'months')),
+      approxDecisionDate: getDate({ date, offset: { months: -10 } }),
     },
   };
   const ineligibleIssue = [
@@ -27,7 +27,7 @@ describe('getEligibleContestableIssues', () => {
       attributes: {
         ratingIssueSubjectText: 'Issue 1',
         description: '',
-        approxDecisionDate: format(today().subtract(2, 'years')),
+        approxDecisionDate: getDate({ date, offset: { years: -2 } }),
       },
     },
   ];
@@ -36,7 +36,7 @@ describe('getEligibleContestableIssues', () => {
     attributes: {
       ratingIssueSubjectText: 'Issue 2',
       description: 'this is a deferred issue',
-      approxDecisionDate: format(today().subtract(1, 'months')),
+      approxDecisionDate: getDate({ date, offset: { months: -1 } }),
     },
   };
 

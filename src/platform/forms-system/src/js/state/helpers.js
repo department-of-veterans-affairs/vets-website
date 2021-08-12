@@ -664,6 +664,8 @@ export function createInitialState(formConfig) {
 
       /* eslint-disable no-param-reassign */
       state.pages[page.pageKey] = {
+        CustomPage: page.CustomPage,
+        CustomPageReview: page.CustomPageReview,
         uiSchema: page.uiSchema,
         schema,
         editMode: isArrayPage ? [] : false,

@@ -11,6 +11,7 @@ import CreditTrainingModalContent from '../components/content/modals/CreditTrain
 import EightKeysModalContent from '../components/content/modals/EightKeysModalContent';
 import FacilityCodeModalContent from '../components/content/modals/FacilityCodeModalContent';
 import HousingAllowanceOJTModalConent from '../components/content/modals/HousingAllowanceOJTModalContent';
+import HousingAllowanceSchoolModalContent from '../components/content/modals/HousingAllowanceSchoolModalContent';
 import IndependentStudyModalContent from '../components/content/modals/IndependentStudyModalContent';
 import IpedsCodeModalContent from '../components/content/modals/IpedsCodeModalContent';
 import MilitaryTuitionAssistanceModalContent from '../components/content/modals/MilitaryTuitionAssistanceModalContent';
@@ -20,6 +21,7 @@ import PriorityEnrollmentModalContent from '../components/content/modals/Priorit
 import SingleContactModalContent from '../components/content/modals/SingleContactModalContent';
 import StudentComplaintsModalContent from '../components/content/modals/StudentComplaintsModalContent';
 import StudentVeteranGroupModalContent from '../components/content/modals/StudentVeteranGroupModalContent';
+import TuitionAndFeesModalContent from '../components/content/modals/TuitionAndFeesModalContent';
 import VeteranSuccessModalContent from '../components/content/modals/VeteranSuccessModalContent';
 import YellowRibbonModalContent from '../components/content/modals/YellowRibbonModalContent';
 
@@ -228,7 +230,18 @@ export function Modals({ hideModal, modals, profile }) {
           </p>
         </div>
       </Modal>
-
+      <Modal
+        onClose={hideModal}
+        visible={shouldDisplayModal('tuitionAndFeesSchool')}
+      >
+        <TuitionAndFeesModalContent />
+      </Modal>
+      <Modal
+        onClose={hideModal}
+        visible={shouldDisplayModal('housingAllowanceSchool')}
+      >
+        <HousingAllowanceSchoolModalContent />
+      </Modal>
       <Modal
         onClose={hideModal}
         visible={shouldDisplayModal('housingAllowanceOJT')}
@@ -797,7 +810,11 @@ export function Modals({ hideModal, modals, profile }) {
           </p>
           <p>
             Visit this school’s website to{' '}
-            <a href={inStateTuitionInformation}>
+            <a
+              href={inStateTuitionInformation}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
               see any in-state tuition requirements.
             </a>
           </p>

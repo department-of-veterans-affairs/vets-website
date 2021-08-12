@@ -41,6 +41,13 @@ fieldset.schemaform-block,
   margin-top: 0;
 }
 
+/* federal orders */
+article[data-location$="federal-orders"] {
+  .schemaform-field-template.usa-input-error {
+    margin-top: 3rem;
+  }
+}
+
 /* Hide duplicate required span; first one in legend */
 .new-condition-description + .schemaform-required-span {
   display: none;
