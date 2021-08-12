@@ -79,19 +79,15 @@ export function CompareGrid({
           {
             'small-screen:vads-l-col--3':
               institutions.length === 3 && !smallScreen,
-          },
-          {
             'small-screen:vads-l-col--4':
               institutions.length === 2 && !smallScreen,
-          },
-          {
             'small-screen:vads-l-col--6':
               institutions.length === 1 && !smallScreen,
+            'first-row': rowIndex === 0,
+            'first-col': colIndex === 0,
+            'last-col': colIndex === institutions.length - 1,
+            'has-diff': displayDiff,
           },
-          { 'first-row': rowIndex === 0 },
-          { 'first-col': colIndex === 0 },
-          { 'last-col': colIndex === institutions.length - 1 },
-          { 'has-diff': displayDiff },
           valueClassName,
         )}
       >

@@ -56,8 +56,8 @@ export function ComparePage({
     matchMedia('(max-width: 480px)').matches,
   );
   const headerRef = useRef(null);
-  const compareHeaderRef = useRef(null);
-  const comparePageRef = useRef(null);
+  const scrollHeaderRef = useRef(null);
+  const scrollPageRef = useRef(null);
   const { selected, error } = compare;
   const { loaded, institutions } = compare.details;
   const { version } = preview;
@@ -79,10 +79,17 @@ export function ComparePage({
   useEffect(
     () => {
       if (hasScrollTo) {
-        comparePageRef.current.scroll({
+        scrollPageRef.current.scroll({
           left: scrollTo,
           behavior: 'smooth',
         });
+
+        if (isSticky) {
+          scrollHeaderRef.current.scroll({
+            left: scrollTo,
+            behavior: 'smooth',
+          });
+        }
 
         setScrollTo(null);
       }
@@ -109,42 +116,42 @@ export function ComparePage({
         const offset = window.pageYOffset;
         if (offset > initialTop && !isSticky && !isLimited) {
           setHeaderClass('sticky');
-          compareHeaderRef.current.scroll({
-            left: comparePageRef.current.scrollLeft,
+          scrollHeaderRef.current.scroll({
+            left: scrollPageRef.current.scrollLeft,
           });
         } else if (offset < initialTop && isSticky && !isLimited) {
           setHeaderClass(null);
         } else if (
           isSticky &&
           headerRef.current.getBoundingClientRect().bottom >=
-            comparePageRef.current.getBoundingClientRect().bottom
+            scrollPageRef.current.getBoundingClientRect().bottom
         ) {
           // setHeaderClass('limited');
         } else if (
           isLimited &&
           headerRef.current.getBoundingClientRect().bottom <
-            comparePageRef.current.getBoundingClientRect().bottom
+            scrollPageRef.current.getBoundingClientRect().bottom
         ) {
           // setHeaderClass('sticky');
         }
       }
     },
-    [compareHeaderRef, comparePageRef, headerClass, initialTop],
+    [scrollHeaderRef, scrollPageRef, headerClass, initialTop],
   );
 
   const handleBodyScrollReact = () => {
     if (
       isSticky &&
       !hasScrollTo &&
-      compareHeaderRef.current.scrollLeft !== comparePageRef.current.scrollLeft
+      scrollHeaderRef.current.scrollLeft !== scrollPageRef.current.scrollLeft
     ) {
-      compareHeaderRef.current.scroll({
-        left: comparePageRef.current.scrollLeft,
+      scrollHeaderRef.current.scroll({
+        left: scrollPageRef.current.scrollLeft,
       });
     }
 
-    if (currentXScroll !== comparePageRef.current.scrollLeft) {
-      setCurrentXScroll(comparePageRef.current.scrollLeft);
+    if (currentXScroll !== scrollPageRef.current.scrollLeft) {
+      setCurrentXScroll(scrollPageRef.current.scrollLeft);
     }
   };
 
@@ -152,10 +159,10 @@ export function ComparePage({
     if (
       isSticky &&
       !hasScrollTo &&
-      compareHeaderRef.current.scrollLeft !== comparePageRef.current.scrollLeft
+      scrollHeaderRef.current.scrollLeft !== scrollPageRef.current.scrollLeft
     ) {
-      comparePageRef.current.scroll({
-        left: compareHeaderRef.current.scrollLeft,
+      scrollPageRef.current.scroll({
+        left: scrollHeaderRef.current.scrollLeft,
       });
     }
   };
@@ -201,7 +208,7 @@ export function ComparePage({
   return (
     <div
       className="compare-page"
-      ref={comparePageRef}
+      ref={scrollPageRef}
       onScroll={handleBodyScrollReact}
     >
       {promptingFacilityCode && (
@@ -238,7 +245,7 @@ export function ComparePage({
             })}
           >
             <div
-              ref={compareHeaderRef}
+              ref={scrollHeaderRef}
               onScroll={handleHeaderScrollReact}
               className={classNames('compare-header-row', {
                 'vads-l-row': !smallScreen,
