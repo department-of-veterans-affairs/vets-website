@@ -4,7 +4,11 @@ const glob = require('glob');
 const { integrationFolder, testFiles } = require('../../config/cypress.json');
 
 const MASTER_BUILD = process.env.MASTER_BUILD === 'true';
-const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
+// const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
+const filepaths = process.env.CHANGED_FILE_PATHS.split(' ');
+const pathsOfChangedFiles = filepaths.filter(filepath => {
+  return filepath !== 'script/github-actions/select-cypress-tests.js';
+});
 
 function selectedTests() {
   const tests = [];
@@ -17,7 +21,7 @@ function selectedTests() {
       __dirname,
       '../..',
       'src/applications',
-      `${name}/tests/**/*.cypress.spec.js?(x)`,
+      `${name}/**/tests/**/*.cypress.spec.js?(x)`,
     );
 
     tests.push(...glob.sync(selectedTestsPattern));
