@@ -440,7 +440,7 @@ jobs:
 
       - name: Set MASTER_BUILD
         run: |
-          if [[ github.ref == 'refs/heads/master' ]]; then
+          if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
               echo "MASTER_BUILD=true" >> $GITHUB_ENV
           else
               echo "MASTER_BUILD=false" >> $GITHUB_ENV
@@ -450,21 +450,21 @@ jobs:
         id: changed-files
         run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
 
-      - name: Get number of containers needed
+      - name: Set NUM_CONTAINERS, CI_NODE_INDEX, TESTS variables
         run: node script/github-actions/select-cypress-tests.js
         env:
           MASTER_BUILD: ${{ env.MASTER_BUILD }}
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
-      - name: Set output of number of containers
+      - name: Set output of NUM_CONTAINERS
         id: containers
         run: echo ::set-output name=num::$NUM_CONTAINERS
 
-      - name: Set output of ci_node_index value for matrix
+      - name: Set output of CI_NODE_INDEX
         id: matrix
         run: echo ::set-output name=ci_node_index::$CI_NODE_INDEX
 
-      - name: Set output of tests to run
+      - name: Set output of TESTS
         id: tests
         run: echo ::set-output name=selected::$TESTS
 
