@@ -82,7 +82,7 @@ export const militaryInformationLoadError = state => {
 
 export const showNotificationSettings = state => {
   const LSProfileNotificationSetting = localStorage.getItem(
-    'PROFILE_NOTIFICATION_SETTINGS', // 0 or 1
+    'PROFILE_NOTIFICATION_SETTINGS', // true or false
   );
   const FFProfileNotificationSettings = toggleValues(state)[
     FEATURE_FLAG_NAMES.profileNotificationSettings
