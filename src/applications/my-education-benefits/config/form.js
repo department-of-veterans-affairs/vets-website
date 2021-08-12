@@ -514,9 +514,6 @@ const formConfig = {
           title: 'Contact Information',
           path: 'contact/information/mailing_address',
           initialData: {},
-          subTitle: 'Review your mailing address',
-          instructions:
-            'This is the mailing address we have on file for you. We’ll send any important information about your application to this address.',
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
