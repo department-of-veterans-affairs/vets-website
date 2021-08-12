@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ServiceTypeAhead from './ServiceTypeAhead';
 import recordEvent from 'platform/monitoring/record-event';
 import omit from 'platform/utilities/data/omit';
@@ -25,6 +25,7 @@ const SearchControls = props => {
     clearGeocodeError,
   } = props;
 
+  const [selectedServiceType, setSelectedServiceType] = useState(null);
   const locationInputFieldRef = useRef(null);
 
   const onlySpaces = str => /^\s+$/.test(str);
@@ -56,7 +57,8 @@ const SearchControls = props => {
     handleFacilityTypeChange(e);
   };
 
-  const handleServiceTypeChange = ({ target }) => {
+  const handleServiceTypeChange = ({ target, selectedItem }) => {
+    setSelectedServiceType(selectedItem);
     const option = target.value.trim();
 
     const serviceType = option === 'All' ? null : option;
@@ -89,7 +91,7 @@ const SearchControls = props => {
     };
 
     if (facilityType === LocationType.CC_PROVIDER) {
-      if (!serviceType) {
+      if (!serviceType || !selectedServiceType) {
         updateReduxState('serviceType');
         focusElement('#service-type-ahead-input');
         return;
