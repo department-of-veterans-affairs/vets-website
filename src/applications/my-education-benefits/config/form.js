@@ -403,9 +403,6 @@ const formConfig = {
             //   isInternational: false,
             // },
           },
-          subTitle: 'Review your email and phone numbers',
-          instructions:
-            'This is the contact information we have on file for you. We’ll use this to get in touch with you if we have questions about your application and to communicate important information about your education benefits.',
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
