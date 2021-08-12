@@ -71,7 +71,7 @@ const renderWidgetDowntimeNotification = (downtime, children) => {
 
 const DashboardHeader = () => {
   return (
-    <div className="medium-screen:vads-u-display--flex medium-screen:vads-u-justify-content--space-between medium-screen:vads-u-align-items--center">
+    <div>
       <h1
         id="dashboard-title"
         data-testid="dashboard-title"
@@ -83,7 +83,7 @@ const DashboardHeader = () => {
       <CTALink
         href="/profile"
         text="Go to your profile"
-        className="vads-u-margin-top--2 medium-screen:vads-u-margin-top--0"
+        className="vads-u-margin-top--2"
         onClick={() => {
           recordEvent({
             event: 'dashboard-navigation',
