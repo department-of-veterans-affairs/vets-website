@@ -39,7 +39,7 @@ describe('Facility search error messages', () => {
     cy.get('.usa-input-error-message').should('not.exist');
   });
 
-  it.skip('shows error message when leaving service type field epmty', () => {
+  it('shows error message when leaving service type field epmty', () => {
     cy.get('#facility-type-dropdown').select(
       'Community providers (in VA’s network)',
     );
