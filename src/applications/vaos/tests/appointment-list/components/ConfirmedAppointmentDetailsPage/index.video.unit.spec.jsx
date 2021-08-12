@@ -1563,7 +1563,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       const url = '/va/1234';
       const futureDate = moment.utc();
 
-      // And a future video appointment with practitioners
+      // And the user has a future video appointment with practitioners
       const appointment = getVAOSAppointmentMock();
       appointment.id = '1234';
       appointment.attributes = {
@@ -1586,7 +1586,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
       mockSingleVAOSAppointmentFetch({ appointment });
 
-      // And associated facility information
+      // And the appointment has associated facility information
       const facility = getV2FacilityMock({
         id: '983',
         name: 'Cheyenne VA Medical Center',
@@ -1613,7 +1613,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         expect(document.activeElement).to.have.tagName('h1');
       });
 
-      // And the time is displayed in the facility timezone
+      // And the appointment time is displayed in the facility timezone
       expect(
         screen.getByRole('heading', {
           level: 1,
