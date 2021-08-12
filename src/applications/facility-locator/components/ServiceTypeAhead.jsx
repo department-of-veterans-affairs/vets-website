@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Downshift from 'downshift';
 import { getProviderSpecialties } from '../actions';
 import classNames from 'classnames';
+// import environment from 'platform/utilities/environment';
 
 /**
  * CC Providers' Service Types Typeahead
@@ -13,6 +14,7 @@ class ServiceTypeAhead extends Component {
     super(props);
     this.state = {
       services: [],
+      isFocused: false,
     };
   }
 
@@ -37,6 +39,7 @@ class ServiceTypeAhead extends Component {
     const value = selectedItem ? selectedItem.specialtyCode.trim() : null;
     this.props.onSelect({
       target: { value },
+      selectedItem,
     });
   };
 
@@ -60,6 +63,43 @@ class ServiceTypeAhead extends Component {
         .includes(input.toLowerCase());
     }
     return false;
+  };
+
+  renderSearchForAvailableServicePrompt = inputValue => {
+    const { isFocused } = this.state;
+    const { showError } = this.props;
+
+    if (
+      (isFocused && !inputValue && !showError) ||
+      (inputValue && inputValue.length < 2)
+    ) {
+      return (
+        <div className="dropdown" role="alert">
+          <div className="vads-u-margin--1p5">
+            {'Search for an available service'}
+          </div>
+        </div>
+      );
+    } else return null;
+  };
+
+  renderTryAnotherServicePrompt = inputValue => {
+    const { services } = this.state;
+
+    if (
+      inputValue &&
+      inputValue.length >= 2 &&
+      !services.filter(specialty => this.shouldShow(inputValue, specialty))
+        .length
+    ) {
+      return (
+        <div className="dropdown" role="alert">
+          <div className="vads-u-margin--1p5">
+            {"We couldn't find that, please try another service"}
+          </div>
+        </div>
+      );
+    } else return null;
   };
 
   render() {
@@ -103,38 +143,50 @@ class ServiceTypeAhead extends Component {
             {showError && (
               <span className="usa-input-error-message" role="alert">
                 <span className="sr-only">Error</span>
-                Please choose a service type.
+                Please search for an available service.
               </span>
             )}
             <span id="service-typeahead">
               <input
                 {...getInputProps({
                   placeholder: 'like Chiropractor or Optometrist',
+                  onFocus: () => this.setState({ isFocused: true }),
+                  onBlur: e => {
+                    this.setState({ isFocused: false });
+                    this.props.onBlur(e);
+                  },
                 })}
                 id="service-type-ahead-input"
-                onBlur={this.props.onBlur}
               />
-              {isOpen && inputValue && inputValue.length >= 2 ? (
-                <div className="dropdown" role="listbox">
-                  {services
-                    .filter(specialty => this.shouldShow(inputValue, specialty))
-                    .map((specialty, index) => (
-                      <div
-                        key={this.getSpecialtyName(specialty)}
-                        {...getItemProps({
-                          item: specialty,
-                          className: this.optionClasses(
-                            index === highlightedIndex,
-                          ),
-                          role: 'option',
-                          'aria-selected': index === highlightedIndex,
-                        })}
-                      >
-                        {this.getSpecialtyName(specialty)}
-                      </div>
-                    ))}
-                </div>
-              ) : null}
+
+              {this.renderSearchForAvailableServicePrompt(inputValue)}
+              {this.renderTryAnotherServicePrompt(inputValue)}
+
+              {isOpen &&
+                inputValue &&
+                inputValue.length >= 2 && (
+                  <div className="dropdown" role="listbox">
+                    {services
+                      .filter(specialty =>
+                        this.shouldShow(inputValue, specialty),
+                      )
+                      .map((specialty, index) => (
+                        <div
+                          key={this.getSpecialtyName(specialty)}
+                          {...getItemProps({
+                            item: specialty,
+                            className: this.optionClasses(
+                              index === highlightedIndex,
+                            ),
+                            role: 'option',
+                            'aria-selected': index === highlightedIndex,
+                          })}
+                        >
+                          {this.getSpecialtyName(specialty)}
+                        </div>
+                      ))}
+                  </div>
+                )}
             </span>
           </div>
         )}
