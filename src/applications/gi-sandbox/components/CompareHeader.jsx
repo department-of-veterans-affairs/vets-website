@@ -15,6 +15,7 @@ export default function({
   scrollClickHandler,
   showDifferences,
   smallScreen,
+  version,
 }) {
   const empties = [];
   for (let i = 0; i < 3 - institutionCount; i++) {
@@ -70,6 +71,9 @@ export default function({
       </div>
       {smallWrap(
         institutions.map((institution, index) => {
+          const profileLink = version
+            ? appendQuery(`/profile/${institution.facilityCode}`, { version })
+            : `/profile/${institution.facilityCode}`;
           return (
             <div
               className="small-screen:vads-l-col--3 institution-card"
@@ -82,13 +86,7 @@ export default function({
                     <div className="institution-name">
                       {smallScreen && institution.name}
                       {!smallScreen && (
-                        <Link
-                          to={appendQuery(
-                            `/profile/${institution.facilityCode}`,
-                          )}
-                        >
-                          {institution.name}
-                        </Link>
+                        <Link to={profileLink}>{institution.name}</Link>
                       )}
                     </div>
                   </div>

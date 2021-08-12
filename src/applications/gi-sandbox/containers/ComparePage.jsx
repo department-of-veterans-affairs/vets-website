@@ -261,6 +261,7 @@ export function ComparePage({
                 showDifferences={showDifferences}
                 smallScreen={smallScreen}
                 setPromptingFacilityCode={setPromptingFacilityCode}
+                version={version}
               />
             </div>
           </div>
