@@ -725,6 +725,9 @@ jobs:
       - name: Set UUID for Mochawesome report
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
+      - name: Echo MASTER_BUILD
+        run: echo ${{ env.MASTER_BUILD }}
+
       - name: Create report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
         working-directory: testing-tools-team-dashboard-data
