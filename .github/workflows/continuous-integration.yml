@@ -10,9 +10,9 @@ on:
 env:
   CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
 
-concurrency:
-  group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha  }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
+# concurrency:
+#   group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha  }}
+#   cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
 
 jobs:
   build:
@@ -728,6 +728,9 @@ jobs:
       - name: Create report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
         working-directory: testing-tools-team-dashboard-data
+        env:
+          MASTER_BUILD: ${{ env.MASTER_BUILD }}
+          NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
 
       - name: Upload Mochawesome report artifact
         uses: actions/upload-artifact@v2
