@@ -737,7 +737,6 @@ jobs:
         run: yarn cypress-mochawesome-to-bigquery
         working-directory: testing-tools-team-dashboard-data
         env:
-          IS_MASTER_BUILD: ${{ jobs.cypress-tests-prep.env.IS_MASTER_BUILD }}
           IS_MASTER_BUILD: ${{ needs.cypress-tests-prep.outputs.is_master_build }}
 
       - name: Upload Mochawesome report artifact
