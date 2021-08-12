@@ -17,7 +17,6 @@
 
     @media (max-width: $small-screen) {
       margin-bottom: 0px;
-      //overflow-x: scroll;
     }
   }
 
@@ -251,7 +250,6 @@
         padding-left: 10px;
         margin-right: 0px;
         border-left: 0px;
-        //border-right: 0px;
         position: sticky;
         left: 10px;
         background-color: transparent;
@@ -328,7 +326,6 @@
   }
 
   @media (max-width: $small-screen) {
-
     .grid-data-parent {
       display: table;
     }
@@ -445,7 +442,6 @@
     }
   }
 }
-
 
 .compare-page::-webkit-scrollbar {
   display: none; /* for Chrome, Safari, and Opera */
