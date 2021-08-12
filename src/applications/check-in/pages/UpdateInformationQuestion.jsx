@@ -6,7 +6,6 @@ import { focusElement } from 'platform/utilities/ui';
 import { URLS, goToNextPage } from '../utils/navigation';
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
-import { createAnalyticsSlug } from '../utils/analytics';
 
 const UpdateInformationQuestion = props => {
   useEffect(() => {
@@ -16,14 +15,16 @@ const UpdateInformationQuestion = props => {
 
   const noButtonClicked = () => {
     recordEvent({
-      event: createAnalyticsSlug('no-button-clicked'),
+      event: 'cta-button-click',
+      'button-click-label': 'no',
     });
     goToNextPage(router, URLS.DETAILS);
   };
 
   const yesButtonClicked = () => {
     recordEvent({
-      event: createAnalyticsSlug('yes-button-clicked'),
+      event: 'cta-button-click',
+      'button-click-label': 'yes',
     });
     goToNextPage(router, URLS.SEE_STAFF);
   };
