@@ -15,7 +15,7 @@ export const FindYellowRibbonPage = () => (
       <div className="vads-l-col--12">
         {/* Pre-form content */}
         <p className="vads-l-col--12 medium-screen:vads-l-col--7">
-          Find out if your school participates in the Yellow Ribbon Program! If
+          Find out if your school participates in the Yellow Ribbon Program. If
           you already have Post-9/11 GI Bill benefits, this program may help you
           pay for tuition for a degree or training program at a college or other
           institution of higher learning. The amount of money you get varies by
