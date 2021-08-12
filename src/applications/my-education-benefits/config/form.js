@@ -554,8 +554,9 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [formFields.address]: address.schema(fullSchema, true),
-
+              [formFields.address]: {
+                ...address.schema(fullSchema, true),
+              },
               'view:note': {
                 type: 'object',
                 properties: {},
