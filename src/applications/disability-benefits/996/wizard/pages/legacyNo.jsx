@@ -41,7 +41,7 @@ const LegacyNo = ({ setWizardStatus }) => {
           });
           setWizardStatus(WIZARD_STATUS_COMPLETE);
         }}
-        className="usa-button-primary va-button-primary"
+        className="vads-c-action-link--green"
         aria-describedby="other_ways_to_request_hlr"
       >
         Request a Higher-Level Review online
