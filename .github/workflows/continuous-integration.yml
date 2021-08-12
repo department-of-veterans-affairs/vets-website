@@ -404,7 +404,7 @@ jobs:
       num_containers: ${{ steps.containers.outputs.num }}
       ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
       tests: ${{ steps.tests.outputs.selected }}
-      master_build: ${{ steps.build.outputs.master_build }}
+      is_master_build: ${{ steps.build.outputs.is_master_build }}
 
     steps:
       - name: Checkout
@@ -439,12 +439,12 @@ jobs:
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
-      - name: Set MASTER_BUILD
+      - name: Set IS_MASTER_BUILD
         run: |
           if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
-              echo "MASTER_BUILD=true" >> $GITHUB_ENV
+              echo "IS_MASTER_BUILD=true" >> $GITHUB_ENV
           else
-              echo "MASTER_BUILD=false" >> $GITHUB_ENV
+              echo "IS_MASTER_BUILD=false" >> $GITHUB_ENV
           fi
 
       - name: List changed files
@@ -454,7 +454,7 @@ jobs:
       - name: Set NUM_CONTAINERS, CI_NODE_INDEX, TESTS variables
         run: node script/github-actions/select-cypress-tests.js
         env:
-          MASTER_BUILD: ${{ env.MASTER_BUILD }}
+          IS_MASTER_BUILD: ${{ env.IS_MASTER_BUILD }}
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
       - name: Set output of NUM_CONTAINERS
@@ -469,9 +469,9 @@ jobs:
         id: tests
         run: echo ::set-output name=selected::$TESTS
 
-      - name: Set output of MASTER_BUILD
+      - name: Set output of IS_MASTER_BUILD
         id: build
-        run: echo ::set-output name=master_build::${{ env.MASTER_BUILD}}
+        run: echo ::set-output name=is_master_build::${{ env.IS_MASTER_BUILD}}
 
   cypress-tests:
     name: Cypress E2E Tests
@@ -730,14 +730,14 @@ jobs:
       - name: Set UUID for Mochawesome report
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
-      - name: Echo MASTER_BUILD
-        run: echo ${{ needs.cypress-tests-prep.outputs.master_build }}
+      - name: Echo IS_MASTER_BUILD
+        run: echo ${{ needs.cypress-tests-prep.outputs.is_master_build }}
 
       - name: Create report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
         working-directory: testing-tools-team-dashboard-data
         env:
-          MASTER_BUILD: ${{ needs.cypress-tests-prep.outputs.master_build }}
+          IS_MASTER_BUILD: ${{ needs.cypress-tests-prep.outputs.is_master_build }}
           NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
 
       - name: Upload Mochawesome report artifact
