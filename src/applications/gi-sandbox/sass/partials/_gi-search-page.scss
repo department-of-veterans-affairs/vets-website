@@ -1,4 +1,9 @@
 .gi-app .search-page {
+
+  .no-name-results {
+    min-height: 45vh;
+  }
+
   .modal-wrapper {
     top: 0;
     bottom: 0;
@@ -374,9 +379,8 @@
 
   .result-card {
     border-radius: 5px;
-    width: 45%;
+    flex-basis: 50%;
     height: fit-content;
-    flex-grow: 1;
 
     &.active {
       border: $focus-outline;
@@ -386,7 +390,7 @@
       border-radius: 5px;
     }
     @include media-maxwidth($small-screen) {
-      width: 100%;
+      flex-basis: 100%;
     }
   }
 
@@ -404,12 +408,6 @@
     margin-bottom: 0;
   }
 
-  .card-bottom-cell {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
   @include media-maxwidth($small-screen) {
     width: 75%;
   }
@@ -429,12 +427,6 @@
   margin-bottom: 0;
 }
 
-.card-bottom-cell {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
 .name-search-cards-padding{
   @media (min-width: $small-screen +1) {
     padding-right: 0%;

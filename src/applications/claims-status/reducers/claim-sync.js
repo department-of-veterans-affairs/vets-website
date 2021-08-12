@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import set from 'platform/utilities/data/set';
 
 import {
   SET_CLAIM_DETAIL,
@@ -17,15 +17,16 @@ export default function claimDetailReducer(state = initialState, action) {
   switch (action.type) {
     case SET_CLAIM_DETAIL:
     case SET_CLAIMS:
-      return _.assign(state, {
+      return {
+        ...state,
         synced: action.meta.syncStatus === 'SUCCESS',
         available: true,
         authorized: true,
-      });
+      };
     case SET_CLAIMS_UNAVAILABLE:
-      return _.set('available', false, state);
+      return set('available', false, state);
     case SET_UNAUTHORIZED:
-      return _.set('authorized', false, state);
+      return set('authorized', false, state);
     default:
       return state;
   }

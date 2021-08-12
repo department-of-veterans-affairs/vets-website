@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import _ from 'lodash/fp';
 import SkinDeep from 'skin-deep';
 
 import { ADDRESS_TYPES, MILITARY_STATES } from '../../utils/constants';
@@ -24,99 +23,76 @@ describe('Letters helpers: ', () => {
   describe('getBenefitOptionText', () => {
     // The following tests check for options that should be available / not available given certain conditions
     it('should be defined for both veterans and dependents', () => {
-      _.forEach(
-        option => {
-          expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
-          expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
-        },
-        ['hasChapter35Eligibility'],
-      );
+      ['hasChapter35Eligibility'].forEach(option => {
+        expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
+        expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
+      });
     });
 
     it('should only be defined for veterans', () => {
-      _.forEach(
-        option => {
-          expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
-          expect(getBenefitOptionText(option, true, false)).to.be.undefined;
-        },
-        [
-          'hasNonServiceConnectedPension',
-          'hasServiceConnectedDisabilities',
-          'hasAdaptedHousing',
-          'hasIndividualUnemployabilityGranted',
-          'hasSpecialMonthlyCompensation',
-        ],
-      );
+      [
+        'hasNonServiceConnectedPension',
+        'hasServiceConnectedDisabilities',
+        'hasAdaptedHousing',
+        'hasIndividualUnemployabilityGranted',
+        'hasSpecialMonthlyCompensation',
+      ].forEach(option => {
+        expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
+        expect(getBenefitOptionText(option, true, false)).to.be.undefined;
+      });
     });
 
     it('should only be defined for dependents', () => {
-      _.forEach(
-        option => {
-          expect(getBenefitOptionText(option, true, true)).to.be.undefined;
-          expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
-        },
-        [
-          'hasSurvivorsIndemnityCompensationAward',
-          'hasSurvivorsPensionAward',
-          'hasDeathResultOfDisability',
-        ],
-      );
+      [
+        'hasSurvivorsIndemnityCompensationAward',
+        'hasSurvivorsPensionAward',
+        'hasDeathResultOfDisability',
+      ].forEach(option => {
+        expect(getBenefitOptionText(option, true, true)).to.be.undefined;
+        expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
+      });
     });
 
     it('should only be defined for veterans if value is true', () => {
-      _.forEach(
-        option => {
-          expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
-          expect(getBenefitOptionText(option, false, true)).to.be.undefined;
-        },
-        [
-          'hasNonServiceConnectedPension',
-          'hasAdaptedHousing',
-          'hasIndividualUnemployabilityGranted',
-          'hasSpecialMonthlyCompensation',
-        ],
-      );
+      [
+        'hasNonServiceConnectedPension',
+        'hasAdaptedHousing',
+        'hasIndividualUnemployabilityGranted',
+        'hasSpecialMonthlyCompensation',
+      ].forEach(option => {
+        expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
+        expect(getBenefitOptionText(option, false, true)).to.be.undefined;
+      });
     });
 
     it('should only be defined for dependents if value is true', () => {
-      _.forEach(
-        option => {
-          expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
-          expect(getBenefitOptionText(option, false, false)).to.be.undefined;
-        },
-        ['hasSurvivorsIndemnityCompensationAward', 'hasSurvivorsPensionAward'],
-      );
+      [
+        'hasSurvivorsIndemnityCompensationAward',
+        'hasSurvivorsPensionAward',
+      ].forEach(option => {
+        expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
+        expect(getBenefitOptionText(option, false, false)).to.be.undefined;
+      });
     });
 
     it('should be defined whether value is true or false', () => {
       // For both veterans and dependents
-      _.forEach(
-        option => {
-          expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
-          expect(getBenefitOptionText(option, false, true)).not.to.be.undefined;
-          expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
-          expect(getBenefitOptionText(option, false, false)).not.to.be
-            .undefined;
-        },
-        ['hasChapter35Eligibility'],
-      );
+      ['hasChapter35Eligibility'].forEach(option => {
+        expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
+        expect(getBenefitOptionText(option, false, true)).not.to.be.undefined;
+        expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
+        expect(getBenefitOptionText(option, false, false)).not.to.be.undefined;
+      });
       // For veterans only
-      _.forEach(
-        option => {
-          expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
-          expect(getBenefitOptionText(option, false, true)).not.to.be.undefined;
-        },
-        ['hasServiceConnectedDisabilities'],
-      );
+      ['hasServiceConnectedDisabilities'].forEach(option => {
+        expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
+        expect(getBenefitOptionText(option, false, true)).not.to.be.undefined;
+      });
       // For dependents only
-      _.forEach(
-        option => {
-          expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
-          expect(getBenefitOptionText(option, false, false)).not.to.be
-            .undefined;
-        },
-        ['hasDeathResultOfDisability'],
-      );
+      ['hasDeathResultOfDisability'].forEach(option => {
+        expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
+        expect(getBenefitOptionText(option, false, false)).not.to.be.undefined;
+      });
     });
 
     // Special cases for non-boolean options
@@ -133,15 +109,12 @@ describe('Letters helpers: ', () => {
     });
 
     it('should only be defined if value is valid', () => {
-      _.forEach(
-        option => {
-          expect(getBenefitOptionText(option, 0, true)).not.to.be.undefined;
-          expect(getBenefitOptionText(option, 20, true)).not.to.be.undefined;
-          expect(getBenefitOptionText(option, undefined, true)).to.be.undefined;
-          expect(getBenefitOptionText(option, null, true)).to.be.undefined;
-        },
-        ['monthlyAwardAmount', 'serviceConnectedPercentage'],
-      );
+      ['monthlyAwardAmount', 'serviceConnectedPercentage'].forEach(option => {
+        expect(getBenefitOptionText(option, 0, true)).not.to.be.undefined;
+        expect(getBenefitOptionText(option, 20, true)).not.to.be.undefined;
+        expect(getBenefitOptionText(option, undefined, true)).to.be.undefined;
+        expect(getBenefitOptionText(option, null, true)).to.be.undefined;
+      });
     });
 
     it('should include the awardEffectiveDate in the text for monthlyAward', () => {

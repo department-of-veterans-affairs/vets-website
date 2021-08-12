@@ -24,8 +24,8 @@ const setup = () => {
 describe('authentication URL helpers', () => {
   beforeEach(setup);
 
-  it('should redirect for signup', () => {
-    signup();
+  it('should redirect for signup v0 to v1', () => {
+    signup('v0');
     expect(global.window.location).to.include('/v1/sessions/signup/new');
   });
 
@@ -34,8 +34,8 @@ describe('authentication URL helpers', () => {
     expect(global.window.location).to.include('/v1/sessions/signup/new');
   });
 
-  it('should redirect for login', () => {
-    login('idme');
+  it('should redirect for login v0 to v1', () => {
+    login('idme', 'v0');
     expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
 
@@ -51,7 +51,7 @@ describe('authentication URL helpers', () => {
   });
 
   it('should redirect for logout', () => {
-    logout();
+    logout('v0');
     expect(global.window.location).to.include('/v1/sessions/slo/new');
   });
 
@@ -66,8 +66,8 @@ describe('authentication URL helpers', () => {
     expect(global.window.dataLayer[0].event).to.eq('custom-event');
   });
 
-  it('should redirect for MFA', () => {
-    mfa();
+  it('should redirect for MFA v0 to v1', () => {
+    mfa('v0');
     expect(global.window.location).to.include('/v1/sessions/mfa/new');
   });
 
@@ -76,8 +76,8 @@ describe('authentication URL helpers', () => {
     expect(global.window.location).to.include('/v1/sessions/mfa/new');
   });
 
-  it('should redirect for verify', () => {
-    verify();
+  it('should redirect for verify v0 to v1', () => {
+    verify('v0');
     expect(global.window.location).to.include('/v1/sessions/verify/new');
   });
 

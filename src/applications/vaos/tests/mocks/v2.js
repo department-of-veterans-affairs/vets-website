@@ -183,3 +183,20 @@ export function getV2ClinicMock({ id, stationId, serviceName }) {
     },
   };
 }
+
+/**
+ * Returns a stubbed VAOS service VistA clinic appointment slot object.
+ *
+ * @export
+ * @returns {VAOSlot} VAOS service clinic appointment slot object
+ */
+export function getAppointmentSlotMock() {
+  return {
+    id: 'fake',
+    type: 'slots',
+    attributes: {
+      start: 'fake startDateTime',
+      end: 'fake endDateTime',
+    },
+  };
+}

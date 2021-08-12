@@ -15,11 +15,6 @@
 @import "partials/gi-back-to-top";
 
 .gi-app {
-  padding-bottom: 8em;
-  @include media-maxwidth($small-screen) {
-    padding-bottom: 0;
-  }
-
   div.military-status-info {
     font-size: 0.9em;
     padding: 1em;
@@ -234,4 +229,10 @@
   @media (max-width: $small-screen) {
     font-size: 17px;
   }
+}
+.card-bottom-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }

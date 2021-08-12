@@ -4,6 +4,7 @@ import environment from 'platform/utilities/environment';
 import { setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import { getVAAppointmentMock } from './v0';
 import { mockEligibilityFetches } from './helpers';
+import { getV2ClinicMock } from './v2';
 
 /**
  * Mocks the api calls for the various eligibility related fetches VAOS does in the new appointment flow
@@ -126,5 +127,45 @@ export function mockEligibilityFetchesByVersion({
       clinics,
       pastClinics,
     });
+  }
+}
+
+/**
+ * Fetches a single clinic with the given values
+ *
+ * @export
+ * @param {Object} params
+ * @param {string} params.locationId The full location id (sta6aid) of the clinic,
+ * @param {string} params.clinicId The id of the clinic to return,
+ * @param {string} params.clinicName The name of the clinic to return,
+ * @param {number} [params.version=2] Version of the api to use, only 2 is supported,
+ *   version = 2,
+ * }
+ */
+export function mockSingleClinicFetchByVersion({
+  locationId,
+  clinicId,
+  clinicName,
+  version = 2,
+}) {
+  if (version === 2) {
+    setFetchJSONResponse(
+      global.fetch.withArgs(
+        `${
+          environment.API_URL
+        }/vaos/v2/locations/${locationId}/clinics?clinic_ids%5B%5D=${clinicId}`,
+      ),
+      {
+        data: [
+          getV2ClinicMock({
+            id: clinicId,
+            serviceName: clinicName,
+            stationId: locationId,
+          }),
+        ],
+      },
+    );
+  } else {
+    throw new Error('This should only be used with v2 endpoints');
   }
 }

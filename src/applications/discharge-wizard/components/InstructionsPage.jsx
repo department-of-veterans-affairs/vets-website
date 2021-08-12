@@ -76,7 +76,8 @@ const InstructionsPage = () => {
               <div className="row">
                 <div className="small-12 columns">
                   <div className="usa-accordion">
-                    <ul className="usa-unstyled-list">
+                    {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+                    <ul className="usa-unstyled-list" role="list">
                       <li
                         itemProp="mainEntity"
                         itemScope
@@ -146,7 +147,7 @@ const InstructionsPage = () => {
                             <ul>
                               <li>
                                 <a href="/health-care/health-needs-conditions/military-sexual-trauma/">
-                                  VA health benefits for Veterans who've
+                                  VA health benefits for Veterans who’ve
                                   experienced military sexual trauma
                                 </a>
                               </li>

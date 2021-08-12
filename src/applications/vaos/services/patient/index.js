@@ -58,6 +58,7 @@ function createErrorHandler(errorKey) {
 }
 
 const PRIMARY_CARE = '323';
+const MENTAL_HEALTH = '502';
 
 const DISABLED_LIMIT_VALUE = 0;
 
@@ -151,6 +152,7 @@ async function fetchPatientEligibilityFromVAR({
  * @param {'direct'|'request'|null} [params.type=null] The type to check eligibility for. By default,
  *   will check both
  * }
+ * @param {boolean} [params.useV2=false] Use the v2 apis when making eligibility calls
  * @returns {PatientEligibility} Patient eligibility data
  */
 export async function fetchPatientEligibility({
@@ -309,6 +311,7 @@ function logEligibilityExplanation(
  * @param {TypeOfCare} params.typeOfCare Type of care object for the currently chosen type of care
  * @param {Location} params.location The current location to check eligibility against
  * @param {boolean} params.directSchedulingEnabled If direct scheduling is currently enabled
+ * @param {boolean} [params.useV2=false] Use the v2 apis when making eligibility calls
  * @returns {FlowEligibilityReturnData} Eligibility results, plus clinics and past appointments
  *   so that they can be cache and reused later
  */
@@ -339,9 +342,12 @@ export async function fetchFlowEligibilityAndClinics({
       systemId: location.vistaId,
       useV2,
     }).catch(createErrorHandler('direct-available-clinics-error'));
-    apiCalls.pastAppointments = getLongTermAppointmentHistory().catch(
-      createErrorHandler('direct-no-matching-past-clinics-error'),
-    );
+
+    if (typeOfCare.id !== PRIMARY_CARE && typeOfCare.id !== MENTAL_HEALTH) {
+      apiCalls.pastAppointments = getLongTermAppointmentHistory().catch(
+        createErrorHandler('direct-no-matching-past-clinics-error'),
+      );
+    }
   }
 
   // This waits for all the api calls we're running in parallel to finish
@@ -408,7 +414,11 @@ export async function fetchFlowEligibilityAndClinics({
       recordEligibilityFailure('direct-available-clinics');
     }
 
-    if (!hasMatchingClinics(results.clinics, results.pastAppointments)) {
+    if (
+      typeOfCare.id !== PRIMARY_CARE &&
+      typeOfCare.id !== MENTAL_HEALTH &&
+      !hasMatchingClinics(results.clinics, results.pastAppointments)
+    ) {
       eligibility.direct = false;
       eligibility.directReasons.push(ELIGIBILITY_REASONS.noMatchingClinics);
       recordEligibilityFailure('direct-no-matching-past-clinics');

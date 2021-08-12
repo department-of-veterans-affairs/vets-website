@@ -1,5 +1,8 @@
 import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
+
+import { rootUrl as form686RootUrl } from 'applications/disability-benefits/686c-674/manifest.json';
+
 import { errorFragment } from '../../layouts/helpers';
 
 const CALLSTATUS = {
@@ -79,7 +82,7 @@ function ViewDependentsHeader(props) {
         </p>
         {props.dependentsToggle && (
           <a
-            href="/view-change-dependents/add-remove-form-686c/"
+            href={form686RootUrl}
             className="usa-button-primary va-button-primary"
             onClick={handleClick}
           >

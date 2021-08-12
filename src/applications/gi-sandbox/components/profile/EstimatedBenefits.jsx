@@ -109,7 +109,7 @@ export default function EstimatedBenefits({
           {modal ? (
             <LearnMoreLabel
               text={title}
-              onClick={() => dispatchShowModal('housingAllowanceOJT')}
+              onClick={() => dispatchShowModal(modal)}
               ariaLabel={learnMoreAriaLabel}
               bold
             />
@@ -172,8 +172,8 @@ export default function EstimatedBenefits({
         <div aria-atomic="true" aria-live="polite" role="status">
           {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
           <ul
-            className="out-of-pocket-tuition"
             aria-label="Out-of-pocket tuition"
+            className="out-of-pocket-tuition"
             role="list"
           >
             <CalculatorResultRow
@@ -202,8 +202,8 @@ export default function EstimatedBenefits({
           </ul>
           {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
           <ul
-            className="total-paid-to-you"
             aria-label="Total paid to you"
+            className="total-paid-to-you"
             role="list"
           >
             <CalculatorResultRow
