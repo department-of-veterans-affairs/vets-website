@@ -1547,9 +1547,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(tokens.get('END')).includes('VCALENDAR');
     });
   });
-  describe('video appointments with VAOS service', () => {
+  describe('video appointments fetched from VAOS service', () => {
     beforeEach(() => mockFetch());
-    it('should show confirmed appointments detail page', async () => {
+    it('video appointment detail with practitioners', async () => {
       // Given VAOS service community care appointments are enabled
       const myInitialState = {
         ...initialState,
