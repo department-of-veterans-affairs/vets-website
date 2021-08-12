@@ -25,7 +25,11 @@
                 {
                   "id": 2,
                   "name": "Email",
-                  "description": "Email Notification"
+                  "description": "Email Notification",
+                  "communicationPermission": {
+                    "id": 1234,
+                    "allowed": false
+                  }
                 }
               ]
             }
