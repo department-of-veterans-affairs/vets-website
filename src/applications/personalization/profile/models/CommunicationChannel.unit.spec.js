@@ -43,6 +43,7 @@ describe('CommunicationChannel model', () => {
         expect(apiCallObject.endpoint).to.equal(
           '/profile/communication_preferences',
         );
+        expect(apiCallObject.isAllowed).to.equal(true);
         expect(apiCallObject.payload).to.deep.equal({
           communicationItem: {
             id: 1,
@@ -70,6 +71,7 @@ describe('CommunicationChannel model', () => {
         expect(apiCallObject.endpoint).to.equal(
           '/profile/communication_preferences/1001',
         );
+        expect(apiCallObject.isAllowed).to.equal(false);
         expect(apiCallObject.payload).to.deep.equal({
           communicationItem: {
             id: 1,

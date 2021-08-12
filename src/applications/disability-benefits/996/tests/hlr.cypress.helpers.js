@@ -1,8 +1,6 @@
-import moment from 'moment';
+import { getDate } from '../utils/dates';
 
-const date = moment()
-  .subtract(2, 'months')
-  .format('YYYY-MM-DD');
+const date = getDate({ offset: { months: -2 } });
 
 export const mockContestableIssues = {
   data: [

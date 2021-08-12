@@ -25,13 +25,16 @@ const IntroductionPage = props => {
       <SaveInProgressIntro
         prefillEnabled={props.route.formConfig.prefillEnabled}
         messages={props.route.formConfig.savedFormMessages}
+        formConfig={props.route.formConfig}
         pageList={props.route.pageList}
         downtime={props.route.formConfig.downtime}
         startText="Apply for career planning and guidance"
         headingLevel={2}
       >
-        Please complete the 28-8832 form to apply for Planning and career
-        guidance.
+        <p>
+          Please complete the 28-8832 form to apply for Planning and career
+          guidance.
+        </p>
       </SaveInProgressIntro>
       <h2>Follow the steps below to apply for career planning and guidance.</h2>
       <div className="process schemaform-process">
@@ -100,6 +103,7 @@ const IntroductionPage = props => {
         buttonOnly
         prefillEnabled={props.route.formConfig.prefillEnabled}
         messages={props.route.formConfig.savedFormMessages}
+        formConfig={props.route.formConfig}
         pageList={props.route.pageList}
         downtime={props.route.formConfig.downtime}
         startText="Apply for career planning and guidance"

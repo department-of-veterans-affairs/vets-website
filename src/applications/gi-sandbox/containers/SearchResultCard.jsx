@@ -27,6 +27,8 @@ export function SearchResultCard({
   location = false,
   header = null,
   gibctSchoolRatings,
+  active = false,
+  version,
 }) {
   const {
     name,
@@ -56,11 +58,22 @@ export function SearchResultCard({
 
   const [expanded, toggleExpansion] = useState(false);
 
-  const profileLink = appendQuery(`/profile/${facilityCode}`);
+  const profileLink = version
+    ? appendQuery(`/profile/${facilityCode}`, { version })
+    : `/profile/${facilityCode}`;
 
-  const resultCardClasses = classNames('result-card vads-u-margin-bottom--2', {
-    'vads-u-padding-right--1p5': location,
-    'vads-u-margin-left--2p5': !location,
+  const resultCardClasses = classNames('result-card', {
+    'vads-u-margin-bottom--2': location,
+    'vads-u-padding-right--1': location && !active,
+    'vads-u-padding--0p5': active,
+    active,
+  });
+
+  const containerClasses = classNames({
+    'vads-u-margin-bottom--2': !location,
+    'small-screen:vads-u-margin-left--2p5': !location,
+    'vads-u-margin--0': location,
+    'vads-u-padding--0': location,
   });
 
   const nameClasses = classNames({
@@ -138,7 +151,7 @@ export function SearchResultCard({
       {employerProvider && (
         <p className="asterisk-text">
           * Housing rate and the amount of entitlement used decrease every 6
-          months as employer pay increases
+          months as training progresses
         </p>
       )}
     </>
@@ -202,68 +215,70 @@ export function SearchResultCard({
 
   return (
     <div className={resultCardClasses} id={`${createId(name)}-result-card`}>
-      {location && <span id={`${createId(name)}-result-card-placeholder`} />}
-      {header}
-      <div className="result-card-container vads-u-background-color--gray-lightest">
-        <SchoolClassification institution={institution} />
-        <div className="vads-u-padding-x--2 vads-u-margin-bottom--1">
-          {nameCityStateHeader}
-          {schoolProvider && ratingsInformation}
-          {preferredProvider && (
-            <span className="preferred-provider-text">
-              <i className="fa fa-star vads-u-color--gold" />
-              <strong> Preferred Provider</strong>
-            </span>
-          )}
-        </div>
-        {cautionFlags.length > 0 && (
-          <div className="caution-flag-section">
-            <CautionFlagAdditionalInfo
-              cautionFlags={cautionFlags}
-              expanded={expanded}
-              toggleExpansion={toggleExpansion}
-            />
+      <div className={containerClasses}>
+        {location && <span id={`${createId(name)}-result-card-placeholder`} />}
+        {header}
+        <div className="result-card-container vads-u-background-color--gray-lightest">
+          <SchoolClassification institution={institution} />
+          <div className="vads-u-padding-x--2 vads-u-margin-bottom--1">
+            {nameCityStateHeader}
+            {schoolProvider && ratingsInformation}
+            {preferredProvider && (
+              <span className="preferred-provider-text">
+                <i className="fa fa-star vads-u-color--gold" />
+                <strong> Preferred Provider</strong>
+              </span>
+            )}
           </div>
-        )}
-        {!expanded && (
-          <>
-            <div
-              className={classNames(
-                'vads-u-padding-x--2 vads-u-margin-bottom--4',
-                {
-                  'vads-u-border-top--3px': cautionFlags.length === 0,
-                  'vads-u-border-color--white': cautionFlags.length === 0,
-                },
-              )}
-            >
-              {tuitionAndEligibility}
-            </div>
-            <div className="vads-u-border-top--3px vads-u-border-color--white vads-u-padding-x--2">
-              <div className="vads-u-display--flex vads-u-margin-top--1 ">
-                {!vetTecProvider
-                  ? schoolEmployerInstitutionDetails
-                  : vettecInstitutionDetails}
-              </div>
-            </div>
-          </>
-        )}
-
-        <div
-          className={classNames(
-            'vads-u-display--flex, vads-u-text-align--center',
-            {
-              'vads-u-border-top--3px': !expanded,
-              'vads-u-border-color--white': !expanded,
-            },
-          )}
-        >
-          <div className="card-bottom-cell vads-u-flex--1 vads-u-margin--0">
-            <div className="vads-u-padding--0 vads-u-margin-top--neg2 vads-u-margin-bottom--0p5">
-              <Checkbox
-                label="Compare"
-                checked={compareChecked}
-                onChange={handleCompareUpdate}
+          {cautionFlags.length > 0 && (
+            <div className="caution-flag-section">
+              <CautionFlagAdditionalInfo
+                cautionFlags={cautionFlags}
+                expanded={expanded}
+                toggleExpansion={toggleExpansion}
               />
+            </div>
+          )}
+          {!expanded && (
+            <>
+              <div
+                className={classNames(
+                  'vads-u-padding-x--2 vads-u-margin-bottom--4',
+                  {
+                    'vads-u-border-top--3px': cautionFlags.length === 0,
+                    'vads-u-border-color--white': cautionFlags.length === 0,
+                  },
+                )}
+              >
+                {tuitionAndEligibility}
+              </div>
+              <div className="vads-u-border-top--3px vads-u-border-color--white vads-u-padding-x--2">
+                <div className="vads-u-display--flex vads-u-margin-top--1 ">
+                  {!vetTecProvider
+                    ? schoolEmployerInstitutionDetails
+                    : vettecInstitutionDetails}
+                </div>
+              </div>
+            </>
+          )}
+
+          <div
+            className={classNames(
+              'vads-u-display--flex, vads-u-text-align--center',
+              {
+                'vads-u-border-top--3px': !expanded,
+                'vads-u-border-color--white': !expanded,
+              },
+            )}
+          >
+            <div className="card-bottom-cell vads-u-flex--1 vads-u-margin--0">
+              <div className="vads-u-padding--0 vads-u-margin-top--neg2 vads-u-margin-bottom--0p5">
+                <Checkbox
+                  label="Compare"
+                  checked={compareChecked}
+                  onChange={handleCompareUpdate}
+                />
+              </div>
             </div>
           </div>
         </div>

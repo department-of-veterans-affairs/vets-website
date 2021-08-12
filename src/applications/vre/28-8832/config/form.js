@@ -29,6 +29,9 @@ const formConfig = {
   transformForSubmit: transform,
   formId: VA_FORM_IDS.FORM_28_8832,
   wizardStorageKey: WIZARD_STATUS,
+  customText: {
+    appContinuing: 'for planning and career guidance',
+  },
   saveInProgress: {
     messages: {
       inProgress:

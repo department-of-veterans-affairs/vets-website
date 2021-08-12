@@ -204,6 +204,11 @@ class FileField extends React.Component {
     this.fileInputRef.current.click();
   };
 
+  getRetryFunction = (allowRetry, index, file) =>
+    allowRetry
+      ? () => this.retryLastUpload(index, file)
+      : () => this.deleteThenAddFile(index);
+
   /**
    * FormData of supported files
    * @typeof Files
@@ -313,6 +318,10 @@ class FileField extends React.Component {
                 setTimeout(() => {
                   focusElement(`[name="get_password_${index}"]`);
                 }, 100);
+              } else if (hasErrors && enableShortWorkflow) {
+                setTimeout(() => {
+                  focusElement(`[name="retry_upload_${index}"]`);
+                }, 100);
               }
 
               const allowRetry =
@@ -321,10 +330,6 @@ class FileField extends React.Component {
               const retryButtonText = allowRetry
                 ? 'Try again'
                 : 'Upload a new file';
-
-              const retryFunction = allowRetry
-                ? () => this.retryLastUpload(index, file.file)
-                : () => this.deleteThenAddFile(index);
 
               const deleteButtonText =
                 enableShortWorkflow && hasErrors ? 'Cancel' : 'Delete file';
@@ -420,9 +425,14 @@ class FileField extends React.Component {
                       {hasErrors &&
                         enableShortWorkflow && (
                           <button
+                            name={`retry_upload_${index}`}
                             type="button"
                             className="usa-button-primary vads-u-width--auto vads-u-margin-right--2"
-                            onClick={retryFunction}
+                            onClick={this.getRetryFunction(
+                              allowRetry,
+                              index,
+                              file.file,
+                            )}
                           >
                             {retryButtonText}
                           </button>

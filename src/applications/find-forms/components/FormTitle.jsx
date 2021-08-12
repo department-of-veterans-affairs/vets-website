@@ -10,7 +10,7 @@ const FormTitle = ({
   recordGAEvent,
   showPDFInfoVersionTwo,
 }) => (
-  <dt
+  <div
     className="vads-u-padding-top--5 vads-u-margin--0 vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-font-weight--bold"
     data-e2e-id="result-title"
   >
@@ -34,25 +34,37 @@ const FormTitle = ({
     ) : null}
     {formUrl ? (
       <>
-        <p className="vads-u-font-weight--normal vads-u-margin--0">Form {id}</p>
-        <a
-          href={formUrl}
-          className="vads-u-font-family--serif vads-u-margin-top--1"
-          onClick={() => recordGAEvent(title, formUrl, 'title')}
-          lang={lang}
+        <p id={id} className="vads-u-font-weight--normal vads-u-margin--0">
+          Form {id}
+        </p>
+        <h3
+          aria-describedby={id}
+          className="vads-u-font-size--base vads-u-margin--0"
         >
-          {title}
-        </a>
+          <a
+            href={formUrl}
+            className="vads-u-font-family--serif vads-u-margin-top--1"
+            onClick={() => recordGAEvent(title, formUrl, 'title')}
+            lang={lang}
+          >
+            {title}
+          </a>
+        </h3>
       </>
     ) : (
       <>
-        <p className="vads-u-font-weight--normal vads-u-margin--0">Form {id}</p>
-        <p className="vads-u-font-family--serif vads-u-margin-top--1 vads-u-margin-bottom--0">
-          {title}
+        <p id={id} className="vads-u-font-weight--normal vads-u-margin--0">
+          Form {id}
         </p>
+        <h3
+          aria-describedby={id}
+          className="vads-u-font-family--serif vads-u-font-size--base vads-u-margin--0"
+        >
+          {title}
+        </h3>
       </>
     )}
-  </dt>
+  </div>
 );
 
 FormTitle.propTypes = {

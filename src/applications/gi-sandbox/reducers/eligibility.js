@@ -3,7 +3,7 @@ import { ELIGIBILITY_CHANGED } from '../actions';
 const INITIAL_STATE = Object.freeze({
   expanded: false,
   militaryStatus: 'veteran',
-  giBillChapter: '33',
+  giBillChapter: '33a',
   cumulativeService: '1.0',
   onlineClasses: 'no',
   spouseActiveDuty: 'no',
