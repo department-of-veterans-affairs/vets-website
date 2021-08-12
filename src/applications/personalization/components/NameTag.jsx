@@ -37,15 +37,17 @@ const DisabilityRatingContent = ({ rating }) => {
           className="vads-u-color--white"
           style={{ whiteSpace: 'nowrap' }}
         >
-          {rating ? (
-            <>{rating}% service connected </>
-          ) : (
-            <>View disability rating </>
-          )}
+          <strong>
+            {rating ? (
+              <>{rating}% service connected </>
+            ) : (
+              <>View disability rating </>
+            )}
+          </strong>
           <i
             aria-hidden="true"
             role="img"
-            className="fas fa-angle-double-right vads-u-padding-left--0p5"
+            className="fas fa-chevron-right vads-u-padding-left--0p5"
           />
         </a>
       </dd>
