@@ -404,6 +404,7 @@ jobs:
       num_containers: ${{ steps.containers.outputs.num }}
       ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
       tests: ${{ steps.tests.outputs.selected }}
+      master_build: ${{ steps.build.outputs.master_build }}
 
     steps:
       - name: Checkout
@@ -467,6 +468,10 @@ jobs:
       - name: Set output of TESTS
         id: tests
         run: echo ::set-output name=selected::$TESTS
+
+      - name: Set output of MASTER_BUILD
+        id: build
+        run: echo ::set-output name=master_build::${{ env.MASTER_BUILD}}
 
   cypress-tests:
     name: Cypress E2E Tests
@@ -726,13 +731,13 @@ jobs:
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
       - name: Echo MASTER_BUILD
-        run: echo ${{ env.MASTER_BUILD }}
+        run: echo ${{ needs.cypress-tests-prep.outputs.master_build }}
 
       - name: Create report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
         working-directory: testing-tools-team-dashboard-data
         env:
-          MASTER_BUILD: ${{ env.MASTER_BUILD }}
+          MASTER_BUILD: ${{ needs.cypress-tests-prep.outputs.master_build }}
           NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
 
       - name: Upload Mochawesome report artifact
