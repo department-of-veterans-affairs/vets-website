@@ -3,6 +3,12 @@ const path = require('path');
 const glob = require('glob');
 const { integrationFolder, testFiles } = require('../../config/cypress.json');
 
+// eslint-disable-next-line no-console
+console.log('MASTER_BUILD: ', process.env.MASTER_BUILD);
+
+// eslint-disable-next-line no-console
+console.log('typeof MASTER_BUILD: ', typeof process.env.MASTER_BUILD);
+
 const MASTER_BUILD = process.env.MASTER_BUILD === 'true';
 const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
 
