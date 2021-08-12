@@ -73,7 +73,7 @@ describe('Schemaform FormNav', () => {
     expect(tree.getByText('Custom Review Page Title', { exact: false })).to.not
       .be.null;
   });
-  it('should diplay the auto-save message & application ID', () => {
+  it.skip('should diplay the auto-save message & application ID', () => {
     const formConfigReviewData = getReviewData();
     const currentPath = 'review-and-submit';
 
