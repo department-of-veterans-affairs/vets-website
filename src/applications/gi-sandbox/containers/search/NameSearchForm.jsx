@@ -8,6 +8,7 @@ import {
 import KeywordSearch from '../../components/search/KeywordSearch';
 import { updateUrlParams } from '../../utils/helpers';
 import { useHistory } from 'react-router-dom';
+import { TABS } from '../../constants';
 
 export function NameSearchForm({
   autocomplete,
@@ -37,6 +38,19 @@ export function NameSearchForm({
       1,
     );
   };
+
+  /**
+   * Triggers a search for search form when the "Update results" button in "Filter your results"
+   * is clicked
+   */
+  useEffect(
+    () => {
+      if (!search.loadFromUrl && filters.search && search.tab === TABS.name) {
+        doSearch(search.query.name || name);
+      }
+    },
+    [filters.search],
+  );
 
   useEffect(
     () => {
@@ -74,25 +88,27 @@ export function NameSearchForm({
   return (
     <div>
       <form onSubmit={handleSubmit} className="vads-u-margin-y--0">
-        <div className="vads-l-row">
-          <div className="medium-screen:vads-l-col--10">
-            <KeywordSearch
-              version={version}
-              className="name-search"
-              inputValue={name}
-              onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
-              onPressEnter={e => handleSubmit(e)}
-              onSelection={s => setName(s.label)}
-              onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
-              placeholder="school, employer, or training provider"
-              suggestions={[...autocomplete.nameSuggestions]}
-            />
-          </div>
-          <div className="medium-screen:vads-l-col--2 vads-u-text-align--right">
-            <button type="submit" className="usa-button">
-              Search
-              <i aria-hidden="true" className="fa fa-search" />
-            </button>
+        <div className="vads-l-grid-container vads-u-padding-left--0 vads-u-padding-right--0">
+          <div className="vads-l-row">
+            <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--9 medium-screen:vads-l-col--10 input-row">
+              <KeywordSearch
+                version={version}
+                className="name-search"
+                inputValue={name}
+                onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
+                onPressEnter={e => handleSubmit(e)}
+                onSelection={s => setName(s.label)}
+                onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
+                placeholder="school, employer, or training provider"
+                suggestions={[...autocomplete.nameSuggestions]}
+              />
+            </div>
+            <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3 medium-screen:vads-l-col--2 vads-u-text-align--right input-row">
+              <button type="submit" className="usa-button name-search-button">
+                Search
+                <i aria-hidden="true" className="fa fa-search" />
+              </button>
+            </div>
           </div>
         </div>
       </form>

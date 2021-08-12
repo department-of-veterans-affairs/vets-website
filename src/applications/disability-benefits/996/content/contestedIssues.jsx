@@ -1,7 +1,8 @@
 import React from 'react';
 import moment from 'moment';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import Scroll from 'react-scroll';
 
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
@@ -13,7 +14,18 @@ import {
   NULL_CONDITION_STRING,
 } from '../constants';
 import DownloadLink from './DownloadLink';
-import { scrollTo } from '../helpers';
+
+const scroller = Scroll.scroller;
+const scrollToTop = () => {
+  scroller.scrollTo(
+    'eligibleScrollElement',
+    window.VetsGov?.scroll || {
+      duration: 500,
+      delay: 0,
+      smooth: true,
+    },
+  );
+};
 
 // We shouldn't ever see the couldn't find contestable issues message since we
 // prevent the user from navigating past the intro page; but it's here just in
@@ -150,7 +162,7 @@ export const disabilitiesExplanation = (
  * Shows the alert box only if the form has been submitted
  */
 export const ContestedIssuesAlert = ({ className = '' }) => {
-  setTimeout(() => scrollTo('eligibleScrollElement'), 300);
+  setTimeout(() => scrollToTop(), 300);
   return (
     <va-alert status="error">
       <h3

@@ -384,7 +384,6 @@ describe('VAOS <TypeOfCarePage>', () => {
 
     expect((await screen.findAllByRole('radio')).length).to.equal(12);
     fireEvent.click(await screen.findByLabelText(/COVID-19 vaccine/i));
-    expect(screen.queryAllByText(/NEW/i).length).to.equal(2);
 
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
@@ -413,7 +412,7 @@ describe('VAOS <TypeOfCarePage>', () => {
         ...initialState,
         featureToggles: {
           vaOnlineSchedulingCommunityCare: true,
-          vaOnlineSchedulingVAOSServiceRequests: true,
+          vaOnlineSchedulingFacilitiesServiceV2: true,
         },
       });
       const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });

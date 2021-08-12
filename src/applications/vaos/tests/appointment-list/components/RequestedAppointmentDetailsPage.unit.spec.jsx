@@ -66,7 +66,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       ...appointment.attributes,
       typeOfCareId: '323',
       status: 'Submitted',
-      appointmentType: 'Primary care',
       optionDate1: moment(testDate)
         .add(3, 'days')
         .format('MM/DD/YYYY'),
@@ -198,7 +197,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     appointment.attributes = {
       ...appointment.attributes,
-      appointmentType: 'Primary care',
+      typeOfCareId: '323',
       optionDate1: moment(testDate)
         .add(3, 'days')
         .format('MM/DD/YYYY'),
@@ -278,7 +277,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(
       screen.getByRole('heading', {
         level: 1,
-        name: 'Pending audiology (hearing aid support) appointment',
+        name: 'Pending hearing aid support appointment',
       }),
     ).to.be.ok;
 
@@ -336,7 +335,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     appointment.id = '1234';
     appointment.attributes = {
       ...appointment.attributes,
-      appointmentType: 'Primary care',
+      typeOfCareId: '323',
       optionDate1: moment(testDate)
         .add(3, 'days')
         .format('MM/DD/YYYY'),
@@ -424,7 +423,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     appointment.id = '1234';
     appointment.attributes = {
       ...appointment.attributes,
-      appointmentType: 'Primary care',
+      typeOfCareId: '323',
       optionDate1: moment(testDate)
         .add(3, 'days')
         .format('MM/DD/YYYY'),
@@ -470,7 +469,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        `Pending Community care audiology (hearing aid support) appointment`,
+        `Pending Community care hearing aid support appointment`,
       );
     });
   });
@@ -480,7 +479,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     appointment.attributes = {
       ...appointment.attributes,
-      appointmentType: 'Primary care',
+      typeOfCareId: '323',
       optionDate1: moment(testDate)
         .add(3, 'days')
         .format('MM/DD/YYYY'),
@@ -515,7 +514,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     appointment.id = '1234';
     appointment.attributes = {
       ...appointment.attributes,
-      appointmentType: 'Primary care',
+      typeOfCareId: '323',
       optionDate1: moment(testDate)
         .add(3, 'days')
         .format('MM/DD/YYYY'),
@@ -567,7 +566,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        `Pending Community care audiology (hearing aid support) appointment`,
+        `Pending Community care hearing aid support appointment`,
       );
     });
     expect(screen.baseElement).to.contain('.usa-alert-success');
@@ -584,7 +583,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     appointment.id = '1234';
     appointment.attributes = {
       ...appointment.attributes,
-      appointmentType: 'Primary care',
+      typeOfCareId: '323',
       optionDate1: moment(testDate)
         .add(3, 'days')
         .format('MM/DD/YYYY'),

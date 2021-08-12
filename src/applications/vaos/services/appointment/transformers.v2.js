@@ -9,7 +9,7 @@ import {
   AUDIOLOGY_TYPES_OF_CARE,
   COVID_VACCINE_ID,
 } from '../../utils/constants';
-import { getTimezoneBySystemId } from '../../utils/timezone';
+import { getTimezoneByFacilityId } from '../../utils/timezone';
 
 function getAppointmentType(appt) {
   if (appt.kind === 'cc' && appt.start) {
@@ -54,8 +54,7 @@ function getTypeOfVisit(id) {
  * @returns {Object} Returns appointment datetime as moment object
  */
 function getMomentConfirmedDate(appt) {
-  const timezone = getTimezoneBySystemId(appt.locationId?.substr(0, 3))
-    ?.timezone;
+  const timezone = getTimezoneByFacilityId(appt.locationId);
 
   return timezone ? moment(appt.start).tz(timezone) : moment(appt.start);
 }
@@ -82,6 +81,7 @@ function getAtlasLocation(appt) {
   const atlas = appt.telehealth.atlas;
   return {
     id: atlas.siteCode,
+    resourceType: 'Location',
     address: {
       line: [atlas.address.streetAddress],
       city: atlas.address.city,
@@ -101,48 +101,13 @@ export function transformVAOSAppointment(appt) {
   const isAtlas = !!appt.telehealth?.atlas;
   const isPast = isPastAppointment(appt);
   const providers = appt.practitioners;
-  const vistaId = appt.locationId?.substr(0, 3);
-  const timezone = getTimezoneBySystemId(vistaId)?.timezone;
+  const timezone = getTimezoneByFacilityId(appt.locationId);
 
   const start = timezone ? moment(appt.start).tz(timezone) : moment(appt.start);
 
-  return {
-    resourceType: 'Appointment',
-    id: appt.id,
-    status: appt.status,
-    // TODO Unclear what these reasons are
-    cancelationReason: appt.cancellationReason,
-    requestedPeriod: appt.requestedPeriods,
-    start,
-    // TODO: ask about created and other action dates like cancelled
-    created: null,
-    minutesDuration: appt.minutesDuration,
-    // TODO: ask about service types for CC and VA requests
-    type: {
-      coding: [
-        {
-          code: appt.serviceType,
-          display: getTypeOfCareById(appt.serviceType)?.name,
-        },
-      ],
-    },
-    reason: PURPOSE_TEXT.find(purpose => purpose.serviceName === appt.reason)
-      ?.short,
-    location: {
-      // TODO: what happens when vaos service can't find sta6aid for the appointment
-      vistaId: appt.locationId?.substr(0, 3),
-      clinicId: appt.clinic,
-      stationId: appt.locationId,
-    },
-    contact: {
-      telecom: appt.contact?.telecom.map(contact => ({
-        system: contact.type,
-        value: contact.value,
-      })),
-    },
-    preferredTimesForPhoneCall: appt.preferredTimesForPhoneCall,
-    comment: appt.comment,
-    videoData: {
+  let videoData = { isVideo };
+  if (isVideo) {
+    videoData = {
       isVideo,
       facilityId: appt.locationId,
       kind: appt.telehealth?.vvsKind,
@@ -158,22 +123,76 @@ export function transformVAOSAppointment(appt) {
       isAtlas,
       atlasLocation: isAtlas ? getAtlasLocation(appt) : null,
       atlasConfirmationCode: appt.telehealth?.atlas?.confirmationCode,
+    };
+  }
+
+  let requestFields = {};
+  const appointmentType = getAppointmentType(appt);
+  if (
+    appointmentType === APPOINTMENT_TYPES.request ||
+    appointmentType === APPOINTMENT_TYPES.ccRequest
+  ) {
+    requestFields = {
+      requestedPeriod: appt.requestedPeriods,
+      // TODO: ask about created and other action dates like cancelled
+      created: null,
+      reason: PURPOSE_TEXT.find(purpose => purpose.serviceName === appt.reason)
+        ?.short,
+      preferredTimesForPhoneCall: appt.preferredTimesForPhoneCall,
+      requestVisitType: getTypeOfVisit(appt.kind),
+      // TODO: ask about service types for CC and VA requests
+      type: {
+        coding: [
+          {
+            code: appt.serviceType || null,
+            display: getTypeOfCareById(appt.serviceType)?.name,
+          },
+        ],
+      },
+      contact: {
+        telecom: appt.contact?.telecom.map(contact => ({
+          system: contact.type,
+          value: contact.value,
+        })),
+      },
+    };
+  }
+
+  return {
+    resourceType: 'Appointment',
+    id: appt.id,
+    status: appt.status,
+    // TODO Unclear what these reasons are
+    // cancelationReason: appt.cancellationReason,
+    start: start.format(),
+    // This contains the vista status for v0 appointments, but
+    // we don't have that for v2, so this is a made up status
+    description: appt.kind !== 'cc' ? 'VAOS_UNKNOWN' : null,
+    minutesDuration: isNaN(parseInt(appt.minutesDuration, 10))
+      ? 60
+      : appt.minutesDuration,
+    location: {
+      // TODO: what happens when vaos service can't find sta6aid for the appointment
+      vistaId: appt.locationId?.substr(0, 3) || null,
+      clinicId: appt.clinic,
+      stationId: appt.locationId,
+      clinicName: null,
     },
-    communityCareProvider:
-      appt.start && appt.kind === 'cc' ? { id: appt.practitioners[0] } : null,
-    // preferredCommunityCareProviders:
-    //   appt.practitioners?.map(id => ({ id })) || [],
+    comment: appt.comment,
+    videoData,
+    communityCareProvider: null,
     practitioners: appt.practitioners,
+    ...requestFields,
     vaos: {
       isVideo,
       isPastAppointment: isPast,
-      appointmentType: getAppointmentType(appt),
+      appointmentType,
       isCommunityCare: isCC,
       isExpressCare: false,
-      requestVisitType: getTypeOfVisit(appt.kind),
       isPhoneAppointment: appt.kind === 'phone',
       isCOVIDVaccine: appt.serviceType === COVID_VACCINE_ID,
       apiData: appt,
+      timeZone: null,
     },
   };
 }

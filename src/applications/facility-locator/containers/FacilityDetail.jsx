@@ -3,7 +3,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { fetchVAFacility } from '../actions';
-import { focusElement } from 'platform/utilities/ui';
 import AccessToCare from '../components/AccessToCare';
 import LocationAddress from '../components/search-results-items/common/LocationAddress';
 import LocationDirectionsLink from '../components/search-results-items/common/LocationDirectionsLink';
@@ -18,14 +17,11 @@ import VABenefitsCall from '../components/VABenefitsCall';
 import { facilityLocatorShowOperationalHoursSpecialInstructions } from '../utils/featureFlagSelectors';
 
 class FacilityDetail extends Component {
+  headerRef = React.createRef();
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
     this.props.fetchVAFacility(this.props.params.id, null);
     window.scrollTo(0, 0);
-  }
-
-  componentDidMount() {
-    focusElement('.va-nav-breadcrumbs');
   }
 
   componentDidUpdate(prevProps) {
@@ -37,6 +33,9 @@ class FacilityDetail extends Component {
       document.title = `${
         this.props.facility.attributes.name
       } | Veterans Affairs`;
+
+      // Need to wait until the data is loaded to focus
+      this.headerRef.current.focus();
     }
   }
 
@@ -73,7 +72,7 @@ class FacilityDetail extends Component {
     }
     if (operatingStatus.code === OperatingStatus.LIMITED) {
       operationStatusTitle = 'Limited services and hours';
-      alertClass = 'warning';
+      alertClass = 'info';
     }
     if (operatingStatus.code === OperatingStatus.CLOSED) {
       operationStatusTitle = 'Facility Closed';
@@ -111,7 +110,9 @@ class FacilityDetail extends Component {
     const isVBA = facilityType === FacilityType.VA_BENEFITS_FACILITY;
     return (
       <div>
-        <h1>{name}</h1>
+        <h1 ref={this.headerRef} tabIndex={-1}>
+          {name}
+        </h1>
         {this.showOperationStatus(operatingStatus, website, facilityType)}
         <div className="p1">
           <LocationAddress location={facility} />

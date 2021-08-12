@@ -8,12 +8,14 @@ import {
   updateAutocompleteLocation,
   geolocateUser,
   clearGeocodeError,
+  mapChanged,
 } from '../../actions';
 import KeywordSearch from '../../components/search/KeywordSearch';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { useHistory } from 'react-router-dom';
 import { updateUrlParams } from '../../utils/helpers';
+import { TABS } from '../../constants';
 
 export function LocationSearchForm({
   autocomplete,
@@ -26,6 +28,7 @@ export function LocationSearchForm({
   search,
   dispatchGeolocateUser,
   dispatchClearGeocodeError,
+  dispatchMapChanged,
 }) {
   const [distance, setDistance] = useState(search.query.distance);
   const [location, setLocation] = useState(search.query.location);
@@ -52,8 +55,12 @@ export function LocationSearchForm({
   );
 
   const doSearch = event => {
-    event.preventDefault();
+    if (event) {
+      event.preventDefault();
+    }
     let paramLocation = location;
+    dispatchMapChanged({ changed: false, distance: null });
+
     if (autocompleteSelection?.coords) {
       paramLocation = autocompleteSelection.label;
       dispatchFetchSearchByLocationCoords(
@@ -81,6 +88,24 @@ export function LocationSearchForm({
     );
   };
 
+  /**
+   * Triggers a search for search form when the "Update results" button in "Filter your results"
+   * is clicked
+   */
+  useEffect(
+    () => {
+      if (
+        !search.loadFromUrl &&
+        filters.search &&
+        search.tab === TABS.location &&
+        !search.query.mapState.changed
+      ) {
+        doSearch(null);
+      }
+    },
+    [filters.search],
+  );
+
   const doAutocompleteSuggestionsSearch = value => {
     dispatchFetchLocationAutocompleteSuggestions(value);
   };
@@ -102,7 +127,7 @@ export function LocationSearchForm({
   );
 
   return (
-    <div>
+    <div className="location-search-form">
       <div className="use-my-location-container">
         {search.geolocationInProgress ? (
           <div className="use-my-location-link">
@@ -148,7 +173,7 @@ export function LocationSearchForm({
       />
       <form onSubmit={doSearch} className="vads-u-margin-y--0">
         <div className="vads-l-row">
-          <div className="medium-screen:vads-l-col--10">
+          <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--5 medium-screen:vads-l-col--7 input-row">
             <KeywordSearch
               version={version}
               name="locationSearch"
@@ -161,8 +186,11 @@ export function LocationSearchForm({
               placeholder="city, state, or postal code"
               suggestions={[...autocomplete.locationSuggestions]}
             />
+          </div>
+
+          <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--4 medium-screen:vads-l-col--3 input-row">
             <Dropdown
-              className="vads-u-font-style--italic vads-u-display--inline-block vads-u-margin-left--4"
+              className="vads-u-font-style--italic"
               selectClassName="vads-u-font-style--italic vads-u-color--gray"
               name="distance"
               options={[
@@ -178,8 +206,8 @@ export function LocationSearchForm({
               onChange={e => setDistance(e.target.value)}
             />
           </div>
-          <div className="medium-screen:vads-l-col--2 vads-u-text-align--right">
-            <button type="submit" className="usa-button">
+          <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3 medium-screen:vads-l-col--2 vads-u-text-align--right input-row">
+            <button type="submit" className="usa-button location-search-button">
               Search
               <i aria-hidden="true" className="fa fa-search" />
             </button>
@@ -204,6 +232,7 @@ const mapDispatchToProps = {
   dispatchUpdateAutocompleteLocation: updateAutocompleteLocation,
   dispatchGeolocateUser: geolocateUser,
   dispatchClearGeocodeError: clearGeocodeError,
+  dispatchMapChanged: mapChanged,
 };
 
 export default connect(

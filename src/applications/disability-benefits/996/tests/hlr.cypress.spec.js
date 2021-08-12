@@ -8,6 +8,7 @@ import manifest from '../manifest.json';
 import { mockContestableIssues } from './hlr.cypress.helpers';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
+import mockStatus from './fixtures/mocks/profile-status.json';
 import mockUser from './fixtures/mocks/user.json';
 import { CONTESTABLE_ISSUES_API, WIZARD_STATUS } from '../constants';
 
@@ -15,7 +16,7 @@ const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
 
-    dataSets: ['maximal-test', 'minimal-test'],
+    dataSets: ['maximal-test-v1', 'minimal-test-v1', 'maximal-test-v2'],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
@@ -52,7 +53,7 @@ const testConfig = createTestConfig(
 
       cy.login(mockUser);
 
-      cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
+      cy.intercept('GET', '/v0/profile/status', mockStatus);
 
       cy.intercept(
         'GET',
@@ -67,6 +68,9 @@ const testConfig = createTestConfig(
       cy.get('@testData').then(testData => {
         cy.intercept('GET', '/v0/in_progress_forms/20-0996', testData);
         cy.intercept('PUT', 'v0/in_progress_forms/20-0996', testData);
+
+        const features = testData.hlrV2 ? [{ name: 'hlrV2', value: true }] : [];
+        cy.intercept('GET', '/v0/feature_toggles?*', { data: { features } });
       });
     },
   },

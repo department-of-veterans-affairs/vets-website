@@ -159,26 +159,6 @@ export const addAllOption = options => [
   ...options,
 ];
 
-/**
- * Recursively convert number to A to AA to AAA to... to ZZZZZZZZZZZ
- * Uses https://en.wikipedia.org/wiki/Base36 to convert numbers to alphanumeric values
- *
- * @param number
- * @returns {string}
- */
-export const numberToLetter = number => {
-  // handle multiples of 26 when modding
-  // since 0 and 26 both have a remainder of 0 need to handle special case
-  const numberToConvert = number !== 0 && number % 26 === 0 ? 26 : number % 26;
-  const letter = (numberToConvert + 9).toString(36).toUpperCase();
-
-  if (number / 26 > 1) {
-    // Use Math.floor as a float returns incorrect letter string
-    return `${numberToLetter(Math.floor(number / 26))}${letter}`;
-  }
-  return letter;
-};
-
 export const getStateNameForCode = stateCode => {
   const stateLabel = constants.states.USA.find(
     state => state.value.toUpperCase() === stateCode.toUpperCase(),
@@ -199,6 +179,7 @@ export const sortOptionsByStateName = (stateA, stateB) => {
 export const buildSearchFilters = filters => {
   const clonedFilters = _.cloneDeep(filters);
   delete clonedFilters.expanded;
+  delete clonedFilters.search;
 
   const searchFilters = {};
 
@@ -266,22 +247,22 @@ export const updateUrlParams = (
     search: tab,
   };
   if (
-    searchQuery.name !== '' ||
-    searchQuery.name !== null ||
+    searchQuery.name !== '' &&
+    searchQuery.name !== null &&
     searchQuery.name !== undefined
   ) {
     queryParams.name = searchQuery.name;
   }
 
   if (
-    searchQuery.location !== '' ||
-    searchQuery.location !== null ||
+    searchQuery.location !== '' &&
+    searchQuery.location !== null &&
     searchQuery.location !== undefined
   ) {
     queryParams.location = searchQuery.location;
   }
 
-  if (page) {
+  if (page && page !== 1) {
     queryParams.page = page;
   }
 

@@ -970,7 +970,7 @@ function CalculateYourBenefitsForm({
     return (
       <div className="vads-u-padding-top--1 ">
         <a
-          className="va-button-link learn-more-button eyb-skip-link vads-u-display--block"
+          className="eyb-skip-link vads-u-display--block"
           aria-label="Skip to your estimated benefits"
           href="#estimated-benefits"
         >
