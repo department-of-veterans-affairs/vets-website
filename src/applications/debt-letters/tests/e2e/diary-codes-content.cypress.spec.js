@@ -10,7 +10,6 @@ describe('Diary Codes', () => {
     cy.visit('/manage-va-debt/your-debt/');
     cy.injectAxe();
     cy.axeCheck();
-
     cy.findByText('Continue to VA.gov', { selector: 'button' }).click();
   });
 
