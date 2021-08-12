@@ -48,7 +48,8 @@ export function ComparePage({
 }) {
   const [showDifferences, setShowDifferences] = useState(false);
   const [promptingFacilityCode, setPromptingFacilityCode] = useState(null);
-  const [isSticky, setIsSticky] = useState(false);
+  const [headerClass, setHeaderClass] = useState(null);
+  const [scrollTo, setScrollTo] = useState(null);
   const [initialTop, setInitialTop] = useState(null);
   const [currentXScroll, setCurrentXScroll] = useState(0);
   const [smallScreen, setSmallScreen] = useState(
@@ -62,6 +63,9 @@ export function ComparePage({
   const { version } = preview;
   const institutionCount = loaded.length;
   const history = useHistory();
+  const isSticky = headerClass === 'sticky';
+  const isLimited = headerClass === 'limited';
+  const hasScrollTo = scrollTo !== null;
 
   useEffect(
     () => {
@@ -70,6 +74,20 @@ export function ComparePage({
       }
     },
     [allLoaded, dispatchFetchCompareDetails, filters, selected, version],
+  );
+
+  useEffect(
+    () => {
+      if (hasScrollTo) {
+        comparePageRef.current.scroll({
+          left: scrollTo,
+          behavior: 'smooth',
+        });
+
+        setScrollTo(null);
+      }
+    },
+    [scrollTo],
   );
 
   useEffect(() => {
@@ -87,27 +105,39 @@ export function ComparePage({
         setInitialTop(headerRef.current.offsetTop);
       }
 
-      // console.log('toggleSticky');
       if (initialTop) {
         const offset = window.pageYOffset;
-        if (offset > initialTop && !isSticky) {
-          setIsSticky(true);
+        if (offset > initialTop && !isSticky && !isLimited) {
+          setHeaderClass('sticky');
           compareHeaderRef.current.scroll({
             left: comparePageRef.current.scrollLeft,
           });
-        } else if (offset < initialTop && isSticky) {
-          setIsSticky(false);
-        } else if (!isSticky) {
-          // console.log('a');
-          // headerRef.current.style.top = `${initialTop}px`;
+        } else if (offset < initialTop && isSticky && !isLimited) {
+          setHeaderClass(null);
+        } else if (
+          isSticky &&
+          headerRef.current.getBoundingClientRect().bottom >=
+            comparePageRef.current.getBoundingClientRect().bottom
+        ) {
+          // setHeaderClass('limited');
+        } else if (
+          isLimited &&
+          headerRef.current.getBoundingClientRect().bottom <
+            comparePageRef.current.getBoundingClientRect().bottom
+        ) {
+          // setHeaderClass('sticky');
         }
       }
     },
-    [compareHeaderRef, comparePageRef, isSticky, initialTop],
+    [compareHeaderRef, comparePageRef, headerClass, initialTop],
   );
 
   const handleBodyScrollReact = () => {
-    if (isSticky) {
+    if (
+      isSticky &&
+      !hasScrollTo &&
+      compareHeaderRef.current.scrollLeft !== comparePageRef.current.scrollLeft
+    ) {
       compareHeaderRef.current.scroll({
         left: comparePageRef.current.scrollLeft,
       });
@@ -119,7 +149,11 @@ export function ComparePage({
   };
 
   const handleHeaderScrollReact = () => {
-    if (isSticky) {
+    if (
+      isSticky &&
+      !hasScrollTo &&
+      compareHeaderRef.current.scrollLeft !== comparePageRef.current.scrollLeft
+    ) {
       comparePageRef.current.scroll({
         left: compareHeaderRef.current.scrollLeft,
       });
@@ -127,9 +161,7 @@ export function ComparePage({
   };
 
   const scrollClickHandler = scrollAmount => {
-    comparePageRef.current.scroll({
-      left: scrollAmount,
-    });
+    setScrollTo(scrollAmount);
   };
 
   useEffect(() => {
@@ -194,9 +226,9 @@ export function ComparePage({
       )}
       <div className="content-wrapper">
         <div
-          id="compare-header"
+          id="compareHeader"
           className={classNames({
-            sticky: isSticky,
+            [headerClass]: isSticky || isLimited,
           })}
           ref={headerRef}
         >

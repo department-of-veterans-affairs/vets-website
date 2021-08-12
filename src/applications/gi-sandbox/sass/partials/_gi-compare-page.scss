@@ -10,20 +10,6 @@
     }
   }
 
-  .sticky {
-    position: fixed;
-    top: 0;
-    z-index: 200;
-    width: 100% !important;
-    //height: 370px;
-    overflow: visible!important;
-    background-color: $color-white;
-
-    .compare-header-row {
-      overflow-x: scroll;
-    }
-  }
-
   .compare-header-row {
     overflow-y: visible !important;
     -ms-overflow-style: none; /* for Internet Explorer, Edge */
@@ -317,10 +303,27 @@
     margin-bottom: 0px;
   }
 
-  #compare-header {
+  #compareHeader {
     padding-bottom: 48px;
     @media (max-width: $small-screen) {
       padding-bottom: 0px;
+    }
+
+    &.sticky {
+      position: fixed;
+      top: 0;
+      z-index: 200;
+      width: 100% !important;
+      overflow: visible!important;
+      background-color: $color-white;
+
+      .compare-header-row {
+        overflow-x: scroll;
+      }
+    }
+
+    &.limited {
+      position: absolute;
     }
   }
 
@@ -375,7 +378,7 @@
       width: 1120px;
     }
 
-    #compare-header {
+    #compareHeader {
       border-bottom: 1px solid $color-gray-light;
       margin-bottom: -2em;
     }
