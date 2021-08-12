@@ -19,6 +19,11 @@ import { mockFetch } from 'platform/testing/unit/helpers';
 import { AppointmentList } from '../../../../appointment-list';
 import sinon from 'sinon';
 import { getICSTokens } from '../../../../utils/calendar';
+import { getV2FacilityMock, getVAOSAppointmentMock } from '../../../mocks/v2';
+import {
+  mockSingleVAOSAppointmentFetch,
+  mockV2FacilityFetch,
+} from '../../../mocks/helpers.v2';
 
 const initialState = {
   featureToggles: {
@@ -27,11 +32,11 @@ const initialState = {
   },
 };
 
-// VA appointment id from confirmed_va.json
-const url = 'va/05760f00c80ae60ce49879cf37a05fc8';
-
 describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
   describe('video appointments', () => {
+    // VA appointment id from confirmed_va.json
+    const url = 'va/05760f00c80ae60ce49879cf37a05fc8';
+
     beforeEach(() => {
       mockFetch();
       const sameDayDate = moment(getTimezoneTestDate())
@@ -1542,7 +1547,114 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(tokens.get('END')).includes('VCALENDAR');
     });
   });
+  describe('video appointments with VAOS service', () => {
+    beforeEach(() => mockFetch());
+    it('should show confirmed appointments detail page', async () => {
+      // Given VAOS service community care appointments are enabled
+      const myInitialState = {
+        ...initialState,
+        featureToggles: {
+          ...initialState.featureToggles,
+          vaOnlineSchedulingVAOSServiceVAAppointments: true,
+          vaOnlineSchedulingVAOSServiceCCAppointments: true,
+          vaOnlineSchedulingFacilitiesServiceV2: true,
+        },
+      };
+      const url = '/va/1234';
+      const futureDate = moment.utc();
+
+      // And a future video appointment with practitioners
+      const appointment = getVAOSAppointmentMock();
+      appointment.id = '1234';
+      appointment.attributes = {
+        ...appointment.attributes,
+        kind: 'telehealth',
+        locationId: '983',
+        id: '1234',
+        telehealth: {
+          vvsKind: 'ADHOC',
+        },
+        start: futureDate.format(),
+        status: 'booked',
+        practitioners: [
+          {
+            firstName: 'Meg',
+            lastName: 'lastname',
+          },
+        ],
+      };
+
+      mockSingleVAOSAppointmentFetch({ appointment });
+
+      // And associated facility information
+      const facility = getV2FacilityMock({
+        id: '983',
+        name: 'Cheyenne VA Medical Center',
+        address: {
+          postalCode: '82001-5356',
+          city: 'Cheyenne',
+          state: 'WY',
+          line: ['2360 East Pershing Boulevard'],
+        },
+        phone: '970-224-1550',
+      });
+
+      mockV2FacilityFetch(facility);
+
+      // When the page is displayed
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState: myInitialState,
+        path: url,
+      });
+
+      // Then the main header has focus
+      // Verify document title and content...
+      await waitFor(() => {
+        expect(document.activeElement).to.have.tagName('h1');
+      });
+
+      // And the time is displayed in the facility timezone
+      expect(
+        screen.getByRole('heading', {
+          level: 1,
+          name: new RegExp(
+            futureDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
+            'i',
+          ),
+        }),
+      ).to.be.ok;
+
+      // And the facility information is shown
+      // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
+      expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
+      expect(screen.getByRole('link', { name: /9 7 0. 2 2 4. 1 5 5 0./ })).to.be
+        .ok;
+
+      // And practitioners are displayed
+      expect(screen.getByText(/You’ll be meeting with/)).to.be.ok;
+      expect(screen.getByText(/Meg lastname/)).to.be.ok;
+
+      // And the calendar link is shown with the appropriate name
+      expect(
+        screen.getByRole('link', {
+          name: new RegExp(
+            futureDate
+              .tz('America/Denver')
+              .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
+            'i',
+          ),
+        }),
+      ).to.be.ok;
+      expect(screen.getByText(/Print/)).to.be.ok;
+
+      // And the appointment is not marked as being in the past
+      expect(screen.baseElement).not.to.contain.text(
+        'This appointment occurred in the past.',
+      );
+    });
+  });
   describe('VAOS video appointments (css transition check)', () => {
+    const url = 'va/05760f00c80ae60ce49879cf37a05fc8';
     beforeEach(() => {
       mockFetch();
       mockFacilitiesFetch();
