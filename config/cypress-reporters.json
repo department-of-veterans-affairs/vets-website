@@ -7,7 +7,6 @@
     "reportDir": "cypress/results",
     "overwrite": false,
     "html": false,
-    "json": true,
-    "reportFilename": "mochawesome-results-[hash].json"
+    "json": true
   }
 }
