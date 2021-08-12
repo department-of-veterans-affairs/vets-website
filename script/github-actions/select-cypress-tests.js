@@ -17,7 +17,7 @@ function selectedTests() {
       __dirname,
       '../..',
       'src/applications',
-      `${name}/tests/**/*.cypress.spec.js?(x)`,
+      `${name}/**/tests/**/*.cypress.spec.js?(x)`,
     );
 
     tests.push(...glob.sync(selectedTestsPattern));
