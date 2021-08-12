@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import Downshift from 'downshift';
 import { getProviderSpecialties } from '../actions';
 import classNames from 'classnames';
-// import environment from 'platform/utilities/environment';
+import MessagePromptDiv from './MessagePromptDiv';
 
+const MIN_SEARCH_CHARS = 2;
 /**
  * CC Providers' Service Types Typeahead
  */
@@ -65,45 +66,64 @@ class ServiceTypeAhead extends Component {
     return false;
   };
 
+  matchingServices = inputValue => {
+    if (inputValue) {
+      return this.state.services.filter(specialty =>
+        this.shouldShow(inputValue, specialty),
+      );
+    } else return null;
+  };
+
   renderSearchForAvailableServicePrompt = inputValue => {
     const { isFocused } = this.state;
     const { showError } = this.props;
 
     if (
       (isFocused && !inputValue && !showError) ||
-      (inputValue && inputValue.length < 2)
+      (inputValue && inputValue.length < MIN_SEARCH_CHARS)
     ) {
-      return (
-        <div className="dropdown" role="alert">
-          <div className="vads-u-margin--1p5">
-            {'Search for an available service'}
-          </div>
-        </div>
-      );
+      return <MessagePromptDiv message="Search for an available service" />;
     } else return null;
   };
 
-  renderTryAnotherServicePrompt = inputValue => {
-    const { services } = this.state;
+  renderServiceTypeDropdownOptions = (
+    getItemProps,
+    highlightedIndex,
+    inputValue,
+  ) => {
+    return (
+      <div className="dropdown" role="listbox">
+        {this.matchingServices(inputValue).map((specialty, index) => (
+          <div
+            key={this.getSpecialtyName(specialty)}
+            {...getItemProps({
+              item: specialty,
+              className: this.optionClasses(index === highlightedIndex),
+              role: 'option',
+              'aria-selected': index === highlightedIndex,
+            })}
+          >
+            {this.getSpecialtyName(specialty)}
+          </div>
+        ))}
+      </div>
+    );
+  };
 
+  renderTryAnotherServicePrompt = inputValue => {
     if (
       inputValue &&
       inputValue.length >= 2 &&
-      !services.filter(specialty => this.shouldShow(inputValue, specialty))
-        .length
+      !this.matchingServices(inputValue).length
     ) {
       return (
-        <div className="dropdown" role="alert">
-          <div className="vads-u-margin--1p5">
-            {"We couldn't find that, please try another service"}
-          </div>
-        </div>
+        <MessagePromptDiv message="We couldn't find that, please try another service" />
       );
     } else return null;
   };
 
   render() {
-    const { defaultSelectedItem, services } = this.state;
+    const { defaultSelectedItem } = this.state;
     const { showError } = this.props;
 
     return (
@@ -160,33 +180,15 @@ class ServiceTypeAhead extends Component {
               />
 
               {this.renderSearchForAvailableServicePrompt(inputValue)}
-              {this.renderTryAnotherServicePrompt(inputValue)}
-
               {isOpen &&
                 inputValue &&
-                inputValue.length >= 2 && (
-                  <div className="dropdown" role="listbox">
-                    {services
-                      .filter(specialty =>
-                        this.shouldShow(inputValue, specialty),
-                      )
-                      .map((specialty, index) => (
-                        <div
-                          key={this.getSpecialtyName(specialty)}
-                          {...getItemProps({
-                            item: specialty,
-                            className: this.optionClasses(
-                              index === highlightedIndex,
-                            ),
-                            role: 'option',
-                            'aria-selected': index === highlightedIndex,
-                          })}
-                        >
-                          {this.getSpecialtyName(specialty)}
-                        </div>
-                      ))}
-                  </div>
+                inputValue.length >= MIN_SEARCH_CHARS &&
+                this.renderServiceTypeDropdownOptions(
+                  getItemProps,
+                  highlightedIndex,
+                  inputValue,
                 )}
+              {this.renderTryAnotherServicePrompt(inputValue)}
             </span>
           </div>
         )}

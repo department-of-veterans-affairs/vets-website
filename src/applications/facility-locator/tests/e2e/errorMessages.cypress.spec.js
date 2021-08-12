@@ -46,7 +46,7 @@ describe('Facility search error messages', () => {
     cy.get('#service-type-ahead-input').focus();
     cy.get('#facility-search').focus();
     cy.get('.usa-input-error-message').contains(
-      'Please choose a service type.',
+      'Please search for an available service.',
     );
     cy.get('#service-type-ahead-input').type('Clinic/Center - Urgent Care');
     cy.get('#downshift-1-item-0').click();
