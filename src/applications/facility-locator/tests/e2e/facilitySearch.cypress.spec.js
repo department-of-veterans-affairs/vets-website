@@ -137,7 +137,7 @@ describe('Facility VA search', () => {
       });
   });
 
-  it('shows search result header even when no results are found', () => {
+  it.skip('shows search result header even when no results are found', () => {
     cy.visit('/find-locations');
 
     cy.get('#street-city-state-zip').type('27606');
