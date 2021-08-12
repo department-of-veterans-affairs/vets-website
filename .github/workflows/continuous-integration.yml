@@ -10,9 +10,9 @@ on:
 env:
   CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
 
-# concurrency:
-#   group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha  }}
-#   cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
+concurrency:
+  group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha  }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
 
 jobs:
   build:
@@ -729,9 +729,6 @@ jobs:
 
       - name: Set UUID for Mochawesome report
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
-
-      - name: Echo IS_MASTER_BUILD
-        run: echo ${{ needs.cypress-tests-prep.outputs.is_master_build }}
 
       - name: Create report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
