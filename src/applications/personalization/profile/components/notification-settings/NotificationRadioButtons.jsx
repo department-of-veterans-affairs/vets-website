@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash';
+import { isArray, isString, uniqueId } from 'lodash';
 import classNames from 'classnames';
 import { makeField } from '~/platform/forms/fields';
 
@@ -26,7 +26,7 @@ import { makeField } from '~/platform/forms/fields';
  *   selected
  */
 const NotificationRadioButtons = ({
-  id = _.uniqueId('notification-radio-buttons-'),
+  id = uniqueId('notification-radio-buttons-'),
   additionalFieldsetClass,
   additionalLegendClass,
   errorMessage,
@@ -54,7 +54,10 @@ const NotificationRadioButtons = ({
     errorSpanId = `${id}-error-message`;
     errorSpan = (
       <span className="rb-input-error-message" role="alert" id={errorSpanId}>
-        <i className="fas fa-exclamation-circle vads-u-margin-x--1" />{' '}
+        <i
+          className="fas fa-exclamation-circle vads-u-margin-x--1"
+          aria-hidden="true"
+        />{' '}
         <span className="sr-only">Error</span> {errorMessage}
       </span>
     );
@@ -70,7 +73,10 @@ const NotificationRadioButtons = ({
         role="alert"
         id={warningSpanId}
       >
-        <i className="fas fa-exclamation-triangle vads-u-margin-x--1" />{' '}
+        <i
+          className="fas fa-exclamation-triangle vads-u-margin-x--1"
+          aria-hidden="true"
+        />{' '}
         <span className="sr-only">Warning</span> {warningMessage}
       </span>
     );
@@ -86,7 +92,10 @@ const NotificationRadioButtons = ({
         role="alert"
         id={successSpanId}
       >
-        <i className="fas fa-check-circle vads-u-margin-x--1" />{' '}
+        <i
+          className="fas fa-check-circle vads-u-margin-x--1"
+          aria-hidden="true"
+        />{' '}
         <span className="sr-only">Success</span> {successMessage}
       </span>
     );
@@ -98,13 +107,13 @@ const NotificationRadioButtons = ({
     requiredSpan = <span className="form-required-span">(*Required)</span>;
   }
 
-  const buttonOptions = _.isArray(options) ? options : [];
+  const buttonOptions = isArray(options) ? options : [];
   const storedValue = value?.value;
   const optionElements = buttonOptions.map((option, optionIndex) => {
     let optionLabel;
     let optionValue;
     let optionAdditional;
-    if (_.isString(option)) {
+    if (isString(option)) {
       optionLabel = option;
       optionValue = option;
     } else {
@@ -147,16 +156,20 @@ const NotificationRadioButtons = ({
     );
   });
 
-  const fieldsetClass = classNames('rb-fieldset-input', {
-    'rb-input-error': errorMessage,
-    'rb-input-warning': warningMessage,
-    'rb-input-success': successMessage,
-    [additionalFieldsetClass]: additionalFieldsetClass,
-  });
+  const fieldsetClass = classNames(
+    'rb-fieldset-input',
+    additionalFieldsetClass,
+    {
+      'rb-input-error': errorMessage,
+      'rb-input-warning': warningMessage,
+      'rb-input-success': successMessage,
+    },
+  );
 
-  const legendClass = classNames('rb-input-notify-label', {
-    [additionalLegendClass]: additionalLegendClass,
-  });
+  const legendClass = classNames(
+    'rb-input-notify-label',
+    additionalLegendClass,
+  );
 
   return (
     <fieldset className={fieldsetClass}>
@@ -164,9 +177,9 @@ const NotificationRadioButtons = ({
         {label}
         {requiredSpan}
       </span>
-      {errorSpan}
-      {warningSpan}
-      {successSpan}
+      {!successMessage && !warningMessage && errorSpan}
+      {!errorMessage && !successMessage && warningSpan}
+      {!errorMessage && !warningMessage && successSpan}
       {optionElements}
     </fieldset>
   );
