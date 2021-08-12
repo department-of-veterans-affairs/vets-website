@@ -440,7 +440,7 @@ jobs:
 
       - name: Set MASTER_BUILD
         run: |
-          if [[ github.ref == 'refs/heads/master' ]]; then
+          if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
               echo "MASTER_BUILD=true" >> $GITHUB_ENV
           else
               echo "MASTER_BUILD=false" >> $GITHUB_ENV
