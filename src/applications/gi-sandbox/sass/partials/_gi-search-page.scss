@@ -408,12 +408,6 @@
     margin-bottom: 0;
   }
 
-  .card-bottom-cell {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
   @include media-maxwidth($small-screen) {
     width: 75%;
   }
@@ -433,12 +427,6 @@
   margin-bottom: 0;
 }
 
-.card-bottom-cell {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
 .name-search-cards-padding{
   @media (min-width: $small-screen +1) {
     padding-right: 0%;
