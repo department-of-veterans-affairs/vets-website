@@ -533,7 +533,9 @@ const formConfig = {
                 </>
               ),
             },
-            [formFields.address]: address.uiSchema('Mailing address'),
+            [formFields.address]: {
+              ...address.uiSchema('Mailing address'),
+            },
             'view:note': {
               'ui:description': (
                 <p>
