@@ -8,6 +8,6 @@
     "overwrite": false,
     "html": false,
     "json": true,
-    "reportFileName": "test-results/e2e-test-output-[hash].json"
+    "reportFileName": "mochawesome-results"
   }
 }
