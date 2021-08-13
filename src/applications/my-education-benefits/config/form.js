@@ -550,7 +550,8 @@ const formConfig = {
                 viewComponent: MailingAddressViewField,
               },
               propOne: {
-                'ui:title': 'This phone number is international',
+                'ui:title':
+                  'I live on a United States military base outside of the country',
               },
             },
             'view:note': {
