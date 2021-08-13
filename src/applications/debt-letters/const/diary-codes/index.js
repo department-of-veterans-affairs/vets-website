@@ -438,7 +438,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         nextStep: (
-          <p data-testid="diary-code-101-next-step">
+          <p data-testid="diary-code-608-next-step">
             <strong>Next step: </strong>
             We’ll keep offsetting your benefits each month until your debt is
             paid in full. If you’d like to pay in full now, please call us first

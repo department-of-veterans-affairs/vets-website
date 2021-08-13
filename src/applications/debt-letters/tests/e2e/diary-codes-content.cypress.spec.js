@@ -31,57 +31,37 @@ describe('Diary Codes', () => {
 
     cy.get('[data-testid="diary-code-100-next-step"]').should(
       'have.text',
-      'Next step: Please pay now or contact us to start making payments again to avoid collection actions. You cancontact us through IRISor call us at 800-827-0648 (or+1-612-713-6415from overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.Review payment options.Next step: Please pay now or contact us to start making payments again to avoid collection actions. You cancontact us through IRISor call us at 800-827-0648 (or+1-612-713-6415from overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.Review payment options.',
+      'Next step: Please pay now or contact us to start making payments again to avoid collection actions. You cancontact us through IRISor call us at 800-827-0648 (or+1-612-713-6415from overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.Review payment options.',
     );
   });
 
   it('renders expected content for diary code: 101, 602, 607, 608, 610, 611, 614, 615, 617', () => {
     cy.get('[data-testid="diary-codes-status"]').contains(
-      'Status: Pending automatic benefit offset',
+      'Status: We’re keeping part of yourCH33 Housing EDUpayments each month to pay your debt (called monthly offsets).',
     );
-    cy.get('[data-testid="diary-code-101-next-step"]').should(
+    cy.get('[data-testid="diary-code-608-next-step"]').should(
       'have.text',
-      "Next step: We'll keep offsetting your benefits each month until your debt is paid in full. If you'd like to pay in full now, please call us first to make sure you don't overpay. If you stop receiving VA benefits, call us to set up a new payment plan. We're here at 800-827-0648 (or +1-612-713-6415 from overseas), Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.",
+      'Next step: We’ll keep offsetting your benefits each month until your debt is paid in full. If you’d like to pay in full now, please call us first to make sure you don’t overpay. If you stop receiving VA benefits, call us to set up a new payment plan. We’re here at800-827-0648 (or+1-612-713-6415from overseas), Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.',
     );
   });
 
-  // it('renders expected content for diary code: 117', () => {
-  //   cy.get('[data-testid="diary-codes-status"]').contains(
-  //     'Status: Pending payment',
-  //   );
-  //   cy.get('[data-testid="diary-code-117-next-step"]').should(
-  //     'have.text',
-  //     'Next step: Please pay now or contact us about payment options by  May 31st, 2017, to avoid additional collection action. These include having your debt reported to credit reporting agencies or referred to the U.S. Department of the Treasury.You can contact us through IRIS or call us at 800-827-0648 (or +1-612-713-6415 from overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. Review payment options',
-  //   );
-  // });
+  it('renders expected content for diary code: 117', () => {
+    cy.get('[data-testid="diary-codes-status"]').contains(
+      'Status: Your payment is past due.',
+    );
+    cy.get('[data-testid="diary-code-117-next-step"]').should(
+      'have.text',
+      'Next step: Please pay now or contact us about payment options byMay 31st, 2017,to avoid additional collection action. These include having your debt reported to credit reporting agencies or referred to the U.S. Department of the Treasury.You cancontact us through IRISor call us at 800-827-0648 (or+1-612-713-6415from overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.Review payment options.',
+    );
+  });
 
-  // it('renders expected content for diary code: 123', () => {
-  //   cy.get('[data-testid="diary-codes-status"]').contains(
-  //     'Status: Pending payment',
-  //   );
-  //   cy.get('[data-testid="diary-code-123-next-step"]').should(
-  //     'have.text',
-  //     "Next step: Please pay now or contact us about payment options by  October 7th, 2018, to avoid collection actions. If you don't pay or make other arrangements with us by this date, we're required by law to refer your debt to the U.S. Department of the Treasury.You can contact us through IRIS or call us at 800-827-0648 (or +1-612-713-6415 from overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. Review payment options",
-  //   );
-  // });
-
-  // it('renders expected content for diary code: 500', () => {
-  //   cy.get('[data-testid="diary-codes-status"]').contains(
-  //     'Status: Debt is pending referral to the Department of the Treasury',
-  //   );
-  //   cy.get('[data-testid="diary-code-500-next-step"]').should(
-  //     'have.text',
-  //     "Next step: Please pay the full amount online or by phone now to prevent referral. If we don't receive your payment today we're required by law to refer your debt to the U.S. Department of the Treasury.Pay online nowOr make a payment over the phone at 800-827-0648 (or +1-612-713-6415 from overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.",
-  //   );
-  // });
-
-  // it('renders expected content for diary code: 600, 601', () => {
-  //   cy.get('[data-testid="diary-codes-status"]').contains(
-  //     'Status: Pending payment',
-  //   );
-  //   cy.get('[data-testid="diary-code-600-next-step"]').should(
-  //     'have.text',
-  //     "Next step: Please continue to make payments. If you begin receiving VA benefits, call us to set up an automatic payment plan. We'll keep part of your benefit amount each month to pay your debt. We're here at 800-827-0648 (or +1-612-713-6415 from overseas), Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.",
-  //   );
-  // });
+  it('renders expected content for diary code: 123', () => {
+    cy.get('[data-testid="diary-codes-status"]').contains(
+      'Status: Your payment is past due.',
+    );
+    cy.get('[data-testid="diary-code-123-next-step"]').should(
+      'have.text',
+      'Next step: Please pay now or contact us about payment options byOctober 7th, 2018,to avoid collection actions. If you don’t pay or make other arrangements with us by this date, we’re required by law to refer your debt to the U.S. Department of the Treasury.You cancontact us through IRISor call us at 800-827-0648 (or+1-612-713-6415from overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.Review payment options.',
+    );
+  });
 });
