@@ -161,7 +161,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         nextStep: (
-          <span data-testid="diary-code-117-nextstep">
+          <span data-testid="diary-code-117-next-step">
             <p>
               <strong>Next step: </strong>
               Please pay now or contact us about payment options by
@@ -202,7 +202,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         nextStep: (
-          <span data-testid="diary-code-123-nextstep">
+          <span data-testid="diary-code-123-next-step">
             <p>
               <strong>Next step: </strong>
               Please pay now or contact us about payment options by
@@ -355,7 +355,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         nextStep: (
-          <p data-testid="diary-code-002-nextstep">
+          <p data-testid="diary-code-002-next-step">
             Please check back in 1 week for updates. If your account shows the
             same information then, call us at
             <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
@@ -417,7 +417,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         nextStep: (
-          <p data-testid="diary-code-080-nextstep">
+          <p data-testid="diary-code-080-next-step">
             <strong>Next step: </strong>
             Call the U.S. Department of the Treasury’s Debt Management Center at
             <Telephone
@@ -442,7 +442,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         nextStep: (
-          <span data-testid="diary-code-500-nextstep">
+          <span data-testid="diary-code-500-next-step">
             <p>
               <strong>Next step: </strong>
               Please pay the full amount online or by phone now to prevent
@@ -472,7 +472,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         nextStep: (
-          <span data-testid="diary-code-100-nextstep">
+          <span data-testid="diary-code-100-next-step">
             <p>
               <strong>Next step: </strong>
               Please pay now or contact us to start making payments again to
@@ -518,7 +518,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         nextStep: (
-          <p data-testid="diary-code-101-nextstep">
+          <p data-testid="diary-code-101-next-step">
             <strong>Next step: </strong>
             We’ll keep offsetting your benefits each month until your debt is
             paid in full. If you’d like to pay in full now, please call us first
@@ -565,7 +565,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         nextStep: (
-          <p data-testid="diary-code-600-nextstep">
+          <p data-testid="diary-code-600-next-step">
             <strong>Next step: </strong>
             Please continue to make payments. If you begin receiving VA
             benefits, call us to set up an automatic payment plan. We’ll keep
@@ -779,7 +779,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         nextStep: (
-          <p data-testid="diary-code-default-nextstep">
+          <p data-testid="diary-code-default-next-step">
             <strong>Next step: </strong>
             Please check back in 1 week for updates. If your account shows the
             same information then, call us at

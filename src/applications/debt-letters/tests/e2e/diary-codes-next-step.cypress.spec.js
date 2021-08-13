@@ -26,6 +26,6 @@ describe('Diary Codes - Next Steps', () => {
     cy.get('.usa-button')
       .first()
       .click();
-    cy.get('[data-testid="diary-code-100-nextstep"]');
+    cy.get('[data-testid="diary-code-100-next-step"]');
   });
 });
