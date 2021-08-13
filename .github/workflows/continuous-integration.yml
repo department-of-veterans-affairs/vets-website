@@ -521,7 +521,7 @@ jobs:
           timeout_minutes: 5
         env:
           YARN_CACHE_FOLDER: .cache/yarn
-          YARN_REGISTRY: https://devops.va.gov/dots-nexus/repository/rubygems.org-proxy/
+          YARN_REGISTRY: https://devops.va.gov/dots-nexus/repository/npmjs.org-proxy/
 
       - name: Start server
         run: node src/platform/testing/e2e/test-server.js --buildtype vagovprod --port=3001 &
