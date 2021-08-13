@@ -2,7 +2,6 @@ import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
-import { getCernerURL } from 'platform/utilities/cerner';
 import { externalRedirects } from 'platform/user/authentication/utilities';
 
 // Returns an AlertBox to present the user with info about working with the
@@ -51,7 +50,7 @@ const CernerAlertBox = ({
         portal based on the facility for your appointment:
       </p>
       <p>
-        <strong className="vads-u-font-family--sans">
+        <strong className="vads-u-font-family--sans" data-testid="facilities">
           <strong>For </strong>
           <FacilityList facilities={facilityNames} separator=" or " />:{' '}
         </strong>
@@ -74,55 +73,7 @@ const CernerAlertBox = ({
   );
 };
 
-export const CernerScheduleAnAppointmentWidget = ({ facilityNames }) => (
-  <div data-testid="cerner-appointment-widget">
-    <h3>View, schedule, or cancel an appointment</h3>
-    <CernerAlertBox
-      primaryCtaButtonUrl={getCernerURL('/pages/scheduling/upcoming')}
-      secondaryCtaButtonText="Use My HealtheVet"
-      secondaryCtaButtonUrl="/health-care/schedule-view-va-appointments/"
-      facilityNames={facilityNames}
-    />
-  </div>
-);
-
-export const CernerSecureMessagingWidget = ({
-  facilityNames,
-  authenticatedWithSSOe,
-}) => (
-  <div data-testid="cerner-messaging-widget">
-    <h3>Send or receive a secure message</h3>
-    <CernerAlertBox
-      primaryCtaButtonUrl={getCernerURL('/pages/messaging/inbox')}
-      secondaryCtaButtonText="Use My HealtheVet"
-      secondaryCtaButtonUrl={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
-      facilityNames={facilityNames}
-    />
-  </div>
-);
-
-export const CernerPrescriptionsWidget = ({
-  facilityNames,
-  authenticatedWithSSOe,
-}) => (
-  <div data-testid="cerner-prescription-widget">
-    <h3>Refill and track prescriptions</h3>
-    <CernerAlertBox
-      primaryCtaButtonUrl={getCernerURL('/pages/medications/current')}
-      secondaryCtaButtonText="Use My HealtheVet"
-      secondaryCtaButtonUrl={mhvUrl(
-        authenticatedWithSSOe,
-        'web/myhealthevet/refill-prescriptions',
-      )}
-      facilityNames={facilityNames}
-    />
-  </div>
-);
-
-export const GeneralCernerWidget = ({
-  facilityNames,
-  authenticatedWithSSOe,
-}) => (
+export const CernerWidget = ({ facilityNames, authenticatedWithSSOe }) => (
   <div data-testid="cerner-widget">
     <CernerAlertBox
       facilityNames={facilityNames}
