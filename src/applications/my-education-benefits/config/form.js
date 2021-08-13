@@ -40,6 +40,7 @@ import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView
 import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
 import EmailViewField from '../components/EmailViewField';
 import PhoneViewField from '../components/PhoneViewField';
+<<<<<<< HEAD
 import AccordionField from '../components/AccordionField';
 
 import {
@@ -55,6 +56,9 @@ import {
 // const { } = fullSchema.definitions;
 
 // import { directDepositWarning } from '../helpers';
+=======
+import MailingAddressViewField from '../components/MailingAddressViewField';
+>>>>>>> imported MailingAddressViewField.jsx and added into uiSchema formFields.address
 
 const {
   fullName,
@@ -529,6 +533,16 @@ const formConfig = {
             },
             [formFields.address]: {
               ...address.uiSchema('Mailing address'),
+              'ui:title': 'Your mailing address',
+              'ui:field': ReviewBoxField,
+              'ui:options': {
+                hideLabelText: true,
+                showFieldLabel: false,
+                viewComponent: MailingAddressViewField,
+              },
+              propOne: {
+                'ui:title': 'This phone number is international',
+              },
             },
             'view:note': {
               'ui:description': (
