@@ -64,6 +64,7 @@ jobs:
           timeout_minutes: 5
         env:
           YARN_CACHE_FOLDER: .cache/yarn
+          YARN_REGISTRY: https://devops.va.gov/dots-nexus/repository/npmjs.org-proxy/
 
       - name: Build
         run: yarn build --verbose --buildtype=${{ matrix.buildtype }}
