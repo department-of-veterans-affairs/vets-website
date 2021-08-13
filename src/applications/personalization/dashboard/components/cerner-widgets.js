@@ -51,8 +51,7 @@ const CernerAlertBox = ({
       </p>
       <p>
         <strong className="vads-u-font-family--sans" data-testid="facilities">
-          For
-          <FacilityList facilities={facilityNames} separator=" or " />:{' '}
+          For <FacilityList facilities={facilityNames} separator=" or " />:{' '}
         </strong>
         <a href={primaryCtaButtonUrl} rel="noopener noreferrer" target="_blank">
           Use My VA Health
