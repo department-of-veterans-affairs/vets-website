@@ -220,6 +220,16 @@
   }
 }
 
+.small-screen-font {
+  @media (max-width: $small-screen) {
+    font-size: 15px;
+  }
+}
+.small-screen-header {
+  @media (max-width: $small-screen) {
+    font-size: 17px;
+  }
+}
 .card-bottom-cell {
   display: flex;
   justify-content: center;
