@@ -212,6 +212,7 @@ export default function({
               institutions={institutions}
               showDifferences={showDifferences}
               smallScreen={smallScreen}
+              className="rating-value"
               fieldData={[
                 {
                   label: 'Overall rating',

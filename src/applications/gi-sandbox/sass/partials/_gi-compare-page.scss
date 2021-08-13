@@ -326,12 +326,17 @@
   }
 
   @media (max-width: $small-screen) {
+
+    .rating-value  {
+      vertical-align: top;
+      height: 162px;
+    }
     .grid-data-parent {
       display: table;
     }
 
     .grid-data-2 {
-      width: 800px;
+      width: 720px;
       display: table-cell;
       vertical-align: top;
       padding-right: 2px;
