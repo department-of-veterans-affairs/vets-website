@@ -133,12 +133,14 @@ export function transformVAOSAppointment(appt) {
   let requestFields = {};
   if (isRequest) {
     requestFields = {
-      requestedPeriod: appt.requestedPeriods, // TODO: ask about created and other action dates like cancelled
+      requestedPeriod: appt.requestedPeriods,
+      // TODO: ask about created and other action dates like cancelled
       created: null,
       reason: PURPOSE_TEXT.find(purpose => purpose.serviceName === appt.reason)
         ?.short,
       preferredTimesForPhoneCall: appt.preferredTimesForPhoneCall,
-      requestVisitType: getTypeOfVisit(appt.kind), // TODO: ask about service types for CC and VA requests
+      requestVisitType: getTypeOfVisit(appt.kind),
+      // TODO: ask about service types for CC and VA requests
       type: {
         coding: [
           {

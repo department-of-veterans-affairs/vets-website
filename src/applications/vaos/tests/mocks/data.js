@@ -43,7 +43,7 @@ export function createMockAppointmentByVersion({
   timezone = null,
   ...fields
 } = {}) {
-  const fieldsWithoutProps = omit(['email', 'phone'], fields);
+  const fieldsWithoutProps = omit(['email'], fields);
 
   if (version === 0 && fields.requestedPeriods?.length > 0) {
     return {
