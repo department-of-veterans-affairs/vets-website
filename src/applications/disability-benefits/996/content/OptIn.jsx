@@ -22,3 +22,8 @@ export const OptInLabel = (
     old appeals process, I’m opting them in to the new decision review process.
   </strong>
 );
+
+export const OptInSelections = {
+  true: 'Yes, I choose to opt in to the new process',
+  false: 'You didn’t select this option',
+};

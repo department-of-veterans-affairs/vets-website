@@ -132,6 +132,9 @@ const formConfig = {
           uiSchema: optIn.uiSchema,
           schema: optIn.schema,
           depends: apiVersion2,
+          initialData: {
+            socOptIn: false,
+          },
         },
       },
     },

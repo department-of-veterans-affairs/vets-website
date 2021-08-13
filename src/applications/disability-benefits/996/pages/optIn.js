@@ -1,4 +1,8 @@
-import { OptInDescription, OptInLabel } from '../content/OptIn';
+import {
+  OptInDescription,
+  OptInLabel,
+  OptInSelections,
+} from '../content/OptIn';
 
 export default {
   uiSchema: {
@@ -20,7 +24,7 @@ export default {
       socOptIn: {
         type: 'boolean',
         enum: [true, false],
-        enumNames: ['Yes, I understand', 'No, I don’t want to opt in'],
+        enumNames: Object.values(OptInSelections),
       },
     },
   },
