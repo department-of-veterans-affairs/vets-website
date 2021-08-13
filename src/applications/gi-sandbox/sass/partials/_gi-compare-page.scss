@@ -108,6 +108,11 @@
     background-color: $color-gray-light-alt;
     padding-left: 0px;
 
+    @media (max-width: $small-screen) {
+      border-top: 1px solid $color-gray-light;
+      display: table-cell;
+    }
+
     ul {
       margin-top: .5em;
       margin-bottom: 0;
@@ -331,6 +336,7 @@
       vertical-align: top;
       height: 162px;
     }
+
     .grid-data-parent {
       display: table;
     }
