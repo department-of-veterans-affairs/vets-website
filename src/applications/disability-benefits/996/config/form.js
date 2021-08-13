@@ -24,6 +24,7 @@ import informalConference from '../pages/informalConference';
 import informalConferenceRep from '../pages/informalConferenceRep';
 import informalConferenceRepV2 from '../pages/informalConferenceRepV2';
 import informalConferenceTimes from '../pages/informalConferenceTimes';
+import optIn from '../pages/optIn';
 import sameOffice from '../pages/sameOffice';
 
 import { errorMessages, WIZARD_STATUS } from '../constants';
@@ -124,6 +125,13 @@ const formConfig = {
           uiSchema: contestedIssuesPage.uiSchema,
           schema: contestedIssuesPage.schema,
           // initialData,
+        },
+        optIn: {
+          title: 'Opt in',
+          path: 'opt-in',
+          uiSchema: optIn.uiSchema,
+          schema: optIn.schema,
+          depends: apiVersion2,
         },
       },
     },
