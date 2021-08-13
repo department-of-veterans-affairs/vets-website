@@ -51,7 +51,7 @@ const CernerAlertBox = ({
       </p>
       <p>
         <strong className="vads-u-font-family--sans" data-testid="facilities">
-          <strong>For </strong>
+          For
           <FacilityList facilities={facilityNames} separator=" or " />:{' '}
         </strong>
         <a href={primaryCtaButtonUrl} rel="noopener noreferrer" target="_blank">
@@ -59,15 +59,16 @@ const CernerAlertBox = ({
         </a>
       </p>
       <p>
+        For{' '}
         <strong className="vads-u-font-family--sans">
-          For any other VA health facility:{' '}
+          any other VA health facility:{' '}
         </strong>
         <a href={secondaryCtaButtonUrl}>{secondaryCtaButtonText}</a>
       </p>
       <p>
-        <strong>If you have trouble accessing the portal: </strong> Make sure to
-        disable your pop-up blocker. If you’re prompted to sign in again, use
-        the same account you used to sign in to VA.gov.
+        If you have trouble accessing the portal, make sure to disable your
+        pop-up blocker. If you’re prompted to sign in again, use the same
+        account you used to sign in to VA.gov.
       </p>
     </AlertBox>
   );
