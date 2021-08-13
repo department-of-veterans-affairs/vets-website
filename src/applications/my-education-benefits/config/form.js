@@ -573,6 +573,11 @@ const formConfig = {
               },
               [formFields.address]: {
                 ...address.schema(fullSchema, true),
+                properties: {
+                  propOne: {
+                    type: 'boolean',
+                  },
+                },
               },
               'view:note': {
                 type: 'object',
