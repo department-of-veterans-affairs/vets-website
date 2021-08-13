@@ -8,6 +8,7 @@ import SearchForm from '../../containers/SearchForm';
 import SearchResults from '../../containers/SearchResults';
 import { toggleShowMobileFormAction } from '../../actions';
 import { getYellowRibbonAppState } from '../../helpers/selectors';
+import { CURRENT_SCHOOL_YEAR } from '../../constants';
 
 export const SearchResultsPage = ({
   hasFetchedOnce,
@@ -33,7 +34,7 @@ export const SearchResultsPage = ({
         {/* Pre-form content */}
         <p className="vads-l-col--12 medium-screen:vads-l-col--9">
           Information for participating schools is for the current academic
-          year, August 2020 through July 2021.
+          year, {CURRENT_SCHOOL_YEAR}.
         </p>
       </div>
 
@@ -67,7 +68,7 @@ export const SearchResultsPage = ({
           <h3 className="vads-u-margin-top--2">Helpful links</h3>
           <p className="vads-u-margin-bottom--1">
             <a href="/education/eligibility/">
-              Find out if you&apos;re eligible for the Post-9/11 GI Bill
+              Find out if you’re eligible for the Post-9/11 GI Bill
             </a>
           </p>
           <p className="vads-u-margin-bottom--1 vads-u-margin-top--1">

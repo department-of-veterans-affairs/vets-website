@@ -12,15 +12,16 @@ export function CompareDrawer({
   displayed,
   alwaysDisplay = false,
   dispatchCompareDrawerOpened,
+  preview,
 }) {
   const history = useHistory();
   const [open, setOpen] = useState(compare.open);
   const [promptingFacilityCode, setPromptingFacilityCode] = useState(null);
-  const { loaded, institutions } = compare.search;
   const [stuck, setStuck] = useState(false);
-  const notRendered = !displayed && !alwaysDisplay;
   const placeholder = useRef(null);
   const drawer = useRef(null);
+  const notRendered = !displayed && !alwaysDisplay;
+  const { loaded, institutions } = compare.search;
 
   const handleScroll = () => {
     let currentStuck;
@@ -52,7 +53,11 @@ export function CompareDrawer({
   }
 
   const openCompare = () => {
-    const compareLink = appendQuery(`/compare/?facilities=${loaded.join(',')}`);
+    const compareLink = preview.version
+      ? appendQuery(`/compare/?facilities=${loaded.join(',')}`, {
+          version: preview.version,
+        })
+      : appendQuery(`/compare/?facilities=${loaded.join(',')}`);
     history.push(compareLink);
   };
 
@@ -95,7 +100,7 @@ export function CompareDrawer({
           <RemoveCompareSelectedModal
             name={institutions[promptingFacilityCode].name}
             onClose={() => setPromptingFacilityCode(null)}
-            onAccept={() => {
+            onRemove={() => {
               setPromptingFacilityCode(null);
               dispatchRemoveCompareInstitution(promptingFacilityCode);
             }}
@@ -172,6 +177,7 @@ export function CompareDrawer({
 
 const mapStateToProps = state => ({
   compare: state.compare,
+  preview: state.preview,
   displayed:
     state.search.location.results.length > 0 ||
     state.search.name.results.length > 0 ||

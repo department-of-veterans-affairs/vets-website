@@ -234,7 +234,7 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
     await screen.findByText('We couldn’t schedule this appointment');
 
     expect(screen.baseElement).contain.text(
-      'Something went wrong when we tried to submit your appointment. You’ll',
+      'Something went wrong when we tried to submit your appointment. Call your VA medical center to schedule this appointment.',
     );
 
     await screen.findByText('307-778-7550');
@@ -257,7 +257,7 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
 
   beforeEach(() => {
     mockFetch();
-    start = moment();
+    start = moment.tz();
     store = createTestStore({
       ...initialState,
       featureToggles: {
@@ -330,6 +330,53 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
     });
     store.dispatch(startDirectScheduleFlow());
     store.dispatch(onCalendarChange([start.format()]));
+  });
+
+  it('should show form information for review', async () => {
+    const screen = renderWithStoreAndRouter(<ReviewPage />, {
+      store,
+    });
+
+    await screen.findByText(/scheduling a primary care appointment/i);
+    expect(screen.getByText('Primary care')).to.have.tagName('h2');
+    const [
+      pageHeading,
+      descHeading,
+      typeOfCareHeading,
+      dateHeading,
+      clinicHeading,
+      reasonHeading,
+      contactHeading,
+    ] = screen.getAllByRole('heading');
+    expect(pageHeading).to.contain.text('Review your appointment details');
+    expect(descHeading).to.contain.text(
+      'scheduling a primary care appointment',
+    );
+    expect(typeOfCareHeading).to.contain.text('Primary care');
+    expect(screen.baseElement).to.contain.text('VA Appointment');
+
+    expect(dateHeading).to.contain.text(
+      start.tz('America/Denver').format('dddd, MMMM DD, YYYY [at] h:mm a'),
+    );
+
+    expect(clinicHeading).to.contain.text('Some VA clinic');
+    expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
+
+    expect(reasonHeading).to.contain.text('Follow-up/Routine');
+    expect(screen.baseElement).to.contain.text('I need an appt');
+
+    expect(contactHeading).to.contain.text('Your contact details');
+    expect(screen.baseElement).to.contain.text('joeblow@gmail.com');
+    expect(screen.baseElement).to.contain.text('223-456-7890');
+    expect(screen.baseElement).to.contain.text('Call anytime during the day');
+
+    const editLinks = screen.getAllByText(/^Edit/, { selector: 'a' });
+    const uniqueLinks = new Set();
+    editLinks.forEach(link => {
+      expect(link).to.have.attribute('aria-label');
+      uniqueLinks.add(link.getAttribute('aria-label'));
+    });
+    expect(uniqueLinks.size).to.equal(editLinks.length);
   });
 
   it('should submit successfully', async () => {
@@ -414,7 +461,7 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
     await screen.findByText('We couldn’t schedule this appointment');
 
     expect(screen.baseElement).contain.text(
-      'Something went wrong when we tried to submit your appointment and you’ll need to start over. We suggest you wait a day',
+      'Something went wrong when we tried to submit your appointment. You can try again later, or call your VA medical center to help with your appointment.',
     );
 
     expect(

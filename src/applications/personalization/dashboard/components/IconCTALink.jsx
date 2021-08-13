@@ -42,10 +42,12 @@ const IconCTALink = ({
           {`${firstWords} `}
           <span style={{ whiteSpace: 'nowrap' }}>
             {lastWord}
-            <i
-              aria-hidden="true"
-              className="fas fa-xs fa-chevron-right vads-u-margin-left--1"
-            />
+            {boldText ? (
+              <i
+                aria-hidden="true"
+                className="fas fa-xs fa-chevron-right vads-u-margin-left--1"
+              />
+            ) : null}
           </span>
         </span>
       </span>

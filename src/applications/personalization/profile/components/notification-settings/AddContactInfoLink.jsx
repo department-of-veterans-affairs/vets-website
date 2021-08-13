@@ -10,7 +10,9 @@ const linkMap = {
   },
   EMAIL: {
     linkText: 'add your email address to your profile',
-    linkTarget: `${PROFILE_PATHS.PERSONAL_INFORMATION}#edit-email-address`,
+    linkTarget: `${
+      PROFILE_PATHS.PERSONAL_INFORMATION
+    }#edit-contact-email-address`,
   },
   MOBILE: {
     linkText: 'add your mobile phone number to your profile',

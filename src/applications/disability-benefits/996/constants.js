@@ -18,6 +18,7 @@ export const FACILITY_LOCATOR_URL = '/find-locations';
 export const GET_HELP_REVIEW_REQUEST_URL =
   '/decision-reviews/get-help-with-review-request';
 export const PROFILE_URL = '/profile';
+export const LEGACY_APPEALS_URL = '/decision-reviews/legacy-appeals/';
 
 // 8622 is the ID of the <li> wrapping the "Find addresses for other benefit
 // types" accordion
@@ -43,8 +44,13 @@ export const errorMessages = {
   endDateInPast: 'End date must be in the future',
   endDateBeforeStart: 'End date must be after start date',
   informalConferenceContactChoice: 'Please choose an option',
-  informalConferenceContactName: 'Please enter a name',
-  informalConferenceContactPhone: 'Please enter a number',
+  informalConferenceContactName: 'Please enter your representative’s name',
+  informalConferenceContactFirstName:
+    'Please enter your representative’s first name',
+  informalConferenceContactLastName:
+    'Please enter your representative’s last name',
+  informalConferenceContactPhone:
+    'Please enter your representative’s phone number',
   informalConferenceContactPhonePattern:
     'Please enter a 10-digit phone number (with or without dashes)',
   informalConferenceTimes: 'Please select a time',

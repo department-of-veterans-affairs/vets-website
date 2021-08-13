@@ -89,6 +89,11 @@ const NotificationChannel = ({
   }
   return (
     <div>
+      {!permissionId ? (
+        <p className="vads-u-color--secondary-dark">
+          <strong>We do not have a preference for you</strong>
+        </p>
+      ) : null}
       <input
         type="checkbox"
         id={channelId}

@@ -112,6 +112,7 @@
     "ie 11"
   ],
   "devDependencies": {
+    "@actions/core": "^1.4.0",
     "@babel/core": "^7.10.2",
     "@babel/plugin-proposal-class-properties": "^7.10.1",
     "@babel/plugin-proposal-export-namespace-from": "^7.10.1",
@@ -239,8 +240,6 @@
     "stylelint-scss": "^3.19.0",
     "svg-url-loader": "^2.3.2",
     "terser-webpack-plugin": "^1.3.0",
-    "text-loader": "^0.0.1",
-    "uglify-js": "^3.9.4",
     "url-loader": "^0.6.2",
     "webpack": "^4.46.0",
     "webpack-bundle-analyzer": "^3.8.0",
@@ -261,6 +260,7 @@
   "dependencies": {
     "@department-of-veterans-affairs/component-library": "2.5.5",
     "@department-of-veterans-affairs/formation": "6.16.3",
+    "@department-of-veterans-affairs/formulate": "0.0.1",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@formatjs/intl-datetimeformat": "^3.2.7",
     "@formatjs/intl-getcanonicallocales": "^1.5.3",
@@ -282,6 +282,7 @@
     "express": "^4.17.1",
     "fast-levenshtein": "^2.0.6",
     "fine-uploader": "^5.16.2",
+    "formik": "^2.2.9",
     "foundation-sites": "^5.5.3",
     "history": "3",
     "history-v4": "npm:history@4.9.0",
@@ -323,8 +324,8 @@
     "url-search-params-polyfill": "^8.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#3bec07e95054fb4c6d7892d1ad700a8f4c3b009c",
-    "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.7.1",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#c53691977e6fd6ea717ceb0c4c2bc740f477168b",
+    "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.9.1",
     "whatwg-fetch": "^3.6.2"
   },
   "resolutions": {

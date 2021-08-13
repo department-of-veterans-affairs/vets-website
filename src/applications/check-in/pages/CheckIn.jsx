@@ -6,7 +6,6 @@ import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 
 import { goToNextPage, URLS } from '../utils/navigation';
-import { createAnalyticsSlug } from '../utils/analytics';
 import { checkInUser } from '../api';
 
 import BackToHome from '../components/BackToHome';
@@ -28,10 +27,17 @@ const CheckIn = props => {
   }
 
   const onClick = async () => {
+    recordEvent({
+      event: 'cta-button-click',
+      'button-click-label': 'check in now',
+    });
     const { token } = context;
     setIsLoading(true);
     recordEvent({
-      event: createAnalyticsSlug('api-checking-in-user-started'),
+      event: 'api_call',
+      'api-name': 'check-in-user',
+      'api-status': 'started',
+      UUID: token,
     });
     try {
       const json = await checkInUser({
@@ -40,21 +46,30 @@ const CheckIn = props => {
       const { data, status } = json;
       if (status === 200) {
         recordEvent({
-          event: createAnalyticsSlug('api-checking-in-user-successful'),
+          event: 'api_call',
+          'api-name': 'check-in-user',
+          'api-status': 'success',
+          UUID: token,
         });
         goToNextPage(router, URLS.COMPLETE);
       } else {
         const error = data.error || data.errors;
         recordEvent({
-          event: createAnalyticsSlug('api-checking-in-user-failed'),
-          error,
+          event: 'api_call',
+          'api-name': 'check-in-user',
+          'api-status': 'failed',
+          UUID: token,
+          'error-key': error,
         });
         goToNextPage(router, URLS.ERROR);
       }
     } catch (error) {
       recordEvent({
-        event: createAnalyticsSlug('api-checking-in-user-failed'),
-        data: error,
+        event: 'api_call',
+        'api-name': 'check-in-user',
+        'api-status': 'failed',
+        UUID: token,
+        'error-key': error,
       });
       goToNextPage(router, URLS.ERROR);
     }

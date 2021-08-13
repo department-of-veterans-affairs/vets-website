@@ -12,8 +12,10 @@
         "phone": {
           "countryCode": "1",
           "areaCode": "800",
-          "phoneNumber": "5551212"
-        }
+          "phoneNumber": "5551212",
+          "phoneNumberExt": "1234"
+        },
+        "email": "sully@pixar.com"
       },
       "veteran": {
         "address": {
