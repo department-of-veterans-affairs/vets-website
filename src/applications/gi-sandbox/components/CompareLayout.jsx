@@ -252,7 +252,8 @@ export default function({
                 },
                 {
                   label: '# of Veteran ratings',
-                  className: 'vads-u-text-align--center',
+                  className: () =>
+                    !smallScreen ? 'vads-u-text-align--center' : '',
                   mapper: institution =>
                     institution.ratingCount >= MINIMUM_RATING_COUNT
                       ? institution.ratingCount
