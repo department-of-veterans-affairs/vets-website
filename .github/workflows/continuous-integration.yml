@@ -735,12 +735,11 @@ jobs:
           NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
 
       - name: Output full results
-        run: $COMBINED_RESULTS
-        # run: |
-        #   echo $COMBINED_RESULTS.stats.tests
-        #   echo $COMBINED_RESULTS.stats.passes
-        #   echo $COMBINED_RESULTS.stats.pending
-        #   echo $COMBINED_RESULTS.stats.failures
+        run: |
+          echo $TOTAL_TESTS_RUN
+          echo $TOTAL_TESTS_PASSED
+          echo $TOTAL_TESTS_FAILED
+          echo $TOTAL_TESTS_SKIPPED
 
       - name: Upload Mochawesome report artifact
         uses: actions/upload-artifact@v2
