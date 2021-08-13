@@ -95,7 +95,6 @@ const PreSubmitCheckboxGroup = ({
       setFormData({
         ...formData,
         ...transformObjectForFormData(signatures, 'Signature'),
-        ...transformObjectForFormData(checkBoxesSelected, 'CheckBox'),
       });
     },
     [setFormData, signatures, checkBoxesSelected],
