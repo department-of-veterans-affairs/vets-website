@@ -96,10 +96,14 @@ function getAtlasLocation(appt) {
 }
 
 export function transformVAOSAppointment(appt) {
+  const appointmentType = getAppointmentType(appt);
   const isCC = appt.kind === 'cc';
   const isVideo = appt.kind === 'telehealth';
   const isAtlas = !!appt.telehealth?.atlas;
   const isPast = isPastAppointment(appt);
+  const isRequest =
+    appointmentType === APPOINTMENT_TYPES.request ||
+    appointmentType === APPOINTMENT_TYPES.ccRequest;
   const providers = appt.practitioners;
   const timezone = getTimezoneByFacilityId(appt.locationId);
 
@@ -127,20 +131,14 @@ export function transformVAOSAppointment(appt) {
   }
 
   let requestFields = {};
-  const appointmentType = getAppointmentType(appt);
-  if (
-    appointmentType === APPOINTMENT_TYPES.request ||
-    appointmentType === APPOINTMENT_TYPES.ccRequest
-  ) {
+  if (isRequest) {
     requestFields = {
-      requestedPeriod: appt.requestedPeriods,
-      // TODO: ask about created and other action dates like cancelled
+      requestedPeriod: appt.requestedPeriods, // TODO: ask about created and other action dates like cancelled
       created: null,
       reason: PURPOSE_TEXT.find(purpose => purpose.serviceName === appt.reason)
         ?.short,
       preferredTimesForPhoneCall: appt.preferredTimesForPhoneCall,
-      requestVisitType: getTypeOfVisit(appt.kind),
-      // TODO: ask about service types for CC and VA requests
+      requestVisitType: getTypeOfVisit(appt.kind), // TODO: ask about service types for CC and VA requests
       type: {
         coding: [
           {
@@ -164,7 +162,7 @@ export function transformVAOSAppointment(appt) {
     status: appt.status,
     // TODO Unclear what these reasons are
     // cancelationReason: appt.cancellationReason,
-    start: start.format(),
+    start: !isRequest ? start.format() : null,
     // This contains the vista status for v0 appointments, but
     // we don't have that for v2, so this is a made up status
     description: appt.kind !== 'cc' ? 'VAOS_UNKNOWN' : null,

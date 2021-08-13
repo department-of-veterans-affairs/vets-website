@@ -3,7 +3,7 @@
  */
 import moment from '../../lib/moment-tz';
 import omit from 'platform/utilities/data/omit';
-import { VIDEO_TYPES } from '../../utils/constants';
+import { TYPE_OF_VISIT, VIDEO_TYPES } from '../../utils/constants';
 
 /**
  * Creates a mock appointment record, based on the data and version number
@@ -31,6 +31,7 @@ import { VIDEO_TYPES } from '../../utils/constants';
 export function createMockAppointmentByVersion({
   id = null,
   email = null,
+  phone = null,
   currentStatus = null,
   version = 2,
   clinicFriendlyName = null,
@@ -41,6 +42,33 @@ export function createMockAppointmentByVersion({
   ...fields
 } = {}) {
   const fieldsWithoutProps = omit(['email'], fields);
+
+  if (version === 0 && fields.status === 'proposed') {
+    return {
+      id,
+      attributes: {
+        additionalInformation: null,
+        bestTimetoCall: null,
+        date: moment(),
+        email,
+        facility: {
+          facilityCode: fields.locationId,
+          name: clinicFriendlyName,
+        },
+        optionTime1: 'AM',
+        optionDate1: moment(fields.requestedPeriods[0].start).format(
+          'MM/DD/YYYY',
+        ),
+        phoneNumber: phone,
+        status: fields.status,
+        typeOfCareId: fields.serviceType,
+        uniqueId: id,
+        visitType: TYPE_OF_VISIT.find(type => type.id === fields.kind)
+          .serviceName,
+      },
+    };
+  }
+
   if (version === 0 && fields.kind !== 'cc') {
     const vdsAppointments = [];
     const vvsAppointments = [];
@@ -186,10 +214,8 @@ export function createMockAppointmentByVersion({
         comment: null,
         contact: {
           telecom: [
-            {
-              type: 'email',
-              value: email,
-            },
+            { type: 'phone', value: phone },
+            { type: 'email', value: email },
           ],
         },
         description: null,
@@ -198,11 +224,7 @@ export function createMockAppointmentByVersion({
         locationId: null,
         minutesDuration: null,
         practitioners: communityCareProvider
-          ? [
-              {
-                id: { system: 'HSRM', value: communityCareProvider.uniqueId },
-              },
-            ]
+          ? [{ id: { system: 'HSRM', value: communityCareProvider.uniqueId } }]
           : null,
         preferredTimesForPhoneCall: null,
         priority: null,

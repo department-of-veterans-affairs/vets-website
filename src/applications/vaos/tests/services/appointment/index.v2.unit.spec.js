@@ -743,11 +743,17 @@ describe('VAOS Appointment service', () => {
           .add(3, 'days')
           .format(),
         email: 'test@va.gov',
+        phone: '2125551212',
         kind: 'clinic',
         locationId: '552GA',
         clinic: '5544',
         clinicFriendlyName: 'Friendly clinic name',
-        requestedPeriods: [{ start: moment(), end: moment() }],
+        requestedPeriods: [
+          {
+            start: `${moment().format('YYYY-MM-DD')}T00:00:00.000`,
+            end: `${moment().format('YYYY-MM-DD')}T11:59:59.999`,
+          },
+        ],
         serviceType: 'primaryCare',
         status: 'proposed',
       };
@@ -806,20 +812,41 @@ describe('VAOS Appointment service', () => {
       delete v2Result[0].vaos.apiData;
 
       // differences format is http://jsonpatch.com/
-      const differences = diff(v2Result, v0Result);
+      const differences = diff(v2Result[0], v0Result[0]);
       expect(differences).to.have.deep.members(
         [
-          // The v2 endpoint doesn't send us the clinic name
+          { op: 'remove', path: ['description'] },
+          { op: 'remove', path: ['practitioners'] },
+          {
+            op: 'remove',
+            path: ['vaos', 'isPastAppointment'],
+          },
+          {
+            op: 'remove',
+            path: ['vaos', 'isPhoneAppointment'],
+          },
+          {
+            op: 'remove',
+            path: ['vaos', 'isCOVIDVaccine'],
+          },
+          {
+            op: 'remove',
+            path: ['vaos', 'timeZone'],
+          },
           {
             op: 'replace',
-            path: ['location', 'clinicName'],
-            value: 'Friendly clinic name',
+            path: ['created'],
+            value: moment().format('YYYY-MM-DD'),
           },
-          { op: 'replace', path: ['description'], value: 'FUTURE' },
-          { op: 'remove', path: ['practitioners'] },
+          {
+            op: 'replace',
+            path: ['location', 'clinicId'],
+            value: null,
+          },
+          { op: 'add', path: ['cancelationReason'], value: null },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
-      ); // The v2 endpoint doesn't send us the vista status
+      );
     });
   });
 });

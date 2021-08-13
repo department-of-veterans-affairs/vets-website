@@ -504,7 +504,7 @@ export function transformPendingAppointment(appt) {
       ? UNABLE_TO_REACH_VETERAN_DETCODE
       : null,
     requestedPeriod,
-    start: isExpressCare ? created : undefined,
+    start: isExpressCare ? created : null,
     minutesDuration: 60,
     type: {
       coding: [
