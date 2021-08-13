@@ -404,6 +404,7 @@ jobs:
       num_containers: ${{ steps.containers.outputs.num }}
       ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
       tests: ${{ steps.tests.outputs.selected }}
+      is_master_build: ${{ env.IS_MASTER_BUILD }}
 
     steps:
       - name: Checkout
@@ -438,33 +439,33 @@ jobs:
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
-      - name: Set MASTER_BUILD
+      - name: Set IS_MASTER_BUILD
         run: |
-          if [[ github.ref == 'refs/heads/master' ]]; then
-              echo "MASTER_BUILD=true" >> $GITHUB_ENV
+          if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
+              echo "IS_MASTER_BUILD=true" >> $GITHUB_ENV
           else
-              echo "MASTER_BUILD=false" >> $GITHUB_ENV
+              echo "IS_MASTER_BUILD=false" >> $GITHUB_ENV
           fi
 
       - name: List changed files
         id: changed-files
         run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
 
-      - name: Get number of containers needed
+      - name: Set NUM_CONTAINERS, CI_NODE_INDEX, TESTS variables
         run: node script/github-actions/select-cypress-tests.js
         env:
-          MASTER_BUILD: ${{ env.MASTER_BUILD }}
+          IS_MASTER_BUILD: ${{ env.IS_MASTER_BUILD }}
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
-      - name: Set output of number of containers
+      - name: Set output of NUM_CONTAINERS
         id: containers
         run: echo ::set-output name=num::$NUM_CONTAINERS
 
-      - name: Set output of ci_node_index value for matrix
+      - name: Set output of CI_NODE_INDEX
         id: matrix
         run: echo ::set-output name=ci_node_index::$CI_NODE_INDEX
 
-      - name: Set output of tests to run
+      - name: Set output of TESTS
         id: tests
         run: echo ::set-output name=selected::$TESTS
 
@@ -728,6 +729,9 @@ jobs:
       - name: Create report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
         working-directory: testing-tools-team-dashboard-data
+        env:
+          IS_MASTER_BUILD: ${{ needs.cypress-tests-prep.outputs.is_master_build }}
+          NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
 
       - name: Upload Mochawesome report artifact
         uses: actions/upload-artifact@v2

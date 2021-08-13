@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import JumpLink from './profile/JumpLink';
 
 export const CautionFlagAdditionalInfo = ({
   cautionFlags,
@@ -59,9 +60,10 @@ export const CautionFlagAdditionalInfo = ({
                 ))}
             </ul>
             {viewDetailsLink && (
-              <div className="vads-u-padding--2">
-                <a href="#cautionary-information">View details below</a>
-              </div>
+              <JumpLink
+                label="View details below"
+                jumpToId="cautionary-information"
+              />
             )}
           </div>
         )}

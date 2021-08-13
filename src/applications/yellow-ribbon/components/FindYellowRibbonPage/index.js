@@ -3,6 +3,7 @@ import React from 'react';
 // Relative imports.
 import SearchForm from '../../containers/SearchForm';
 import SearchResults from '../../containers/SearchResults';
+import { CURRENT_SCHOOL_YEAR } from '../../constants';
 
 export const FindYellowRibbonPage = () => (
   <>
@@ -18,21 +19,19 @@ export const FindYellowRibbonPage = () => (
           you already have Post-9/11 GI Bill benefits, this program may help you
           pay for tuition for a degree or training program at a college or other
           institution of higher learning. The amount of money you get varies by
-          school, degree type, and the academic program you&apos;re enrolled in.
+          school, degree type, and the academic program you’re enrolled in.
         </p>
 
         <a href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/">
           Find out if you qualify for the Yellow Ribbon Program
         </a>
 
-        <p>
-          If you don&apos;t already have Post-9/11 GI Bill benefits, you can:
-        </p>
+        <p>If you don’t already have Post-9/11 GI Bill benefits, you can:</p>
 
         <ul>
           <li>
             <a href="/education/eligibility/">
-              Find out if you&apos;re eligible for the Post-9/11 GI Bill
+              Find out if you’re eligible for the Post-9/11 GI Bill
             </a>
           </li>
 
@@ -44,8 +43,8 @@ export const FindYellowRibbonPage = () => (
         </ul>
 
         <p>
-          You may search for schools participating in the current academic year,
-          August 2020 through July 2021.
+          You may search for schools participating in the current academic year,{' '}
+          {CURRENT_SCHOOL_YEAR}.
         </p>
       </div>
 

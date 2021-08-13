@@ -292,3 +292,11 @@ export function isURL(str) {
 
 export const upperCaseFirstLetterOnly = str =>
   str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+
+export const naIfNull = value => {
+  return value || 'N/A';
+};
+
+export const boolYesNo = field => {
+  return field ? 'Yes' : 'No';
+};
