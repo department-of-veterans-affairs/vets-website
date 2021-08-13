@@ -686,6 +686,7 @@ jobs:
           repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           path: testing-tools-team-dashboard-data
+          ref: Cbonade/custom-summary
 
       # TODO: Set .nvmrc in testing-tools-team-dashboard-data.
       # - name: Get Node version
@@ -732,6 +733,9 @@ jobs:
         env:
           IS_MASTER_BUILD: ${{ needs.cypress-tests-prep.outputs.is_master_build }}
           NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
+
+      - name: Output full results
+        run: echo $COMBINED_RESULTS
 
       - name: Upload Mochawesome report artifact
         uses: actions/upload-artifact@v2
