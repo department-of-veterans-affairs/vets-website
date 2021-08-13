@@ -225,3 +225,68 @@ export function createMockAppointmentByVersion({
 
   return null;
 }
+
+/**
+ * Create mock clinic data in the specified version
+ *
+ * @export
+ * @param {Object} params
+ * @param {string} id Clinic id
+ * @param {string} stationId Full location id (sta6aid)
+ * @param {?string} name Standard clinic name,
+ * @param {?string} friendlyName Friendly clinic name,
+ * @param {number} [version=2] Version of the mock data format to use
+ *
+ * @returns
+ */
+export function createMockClinicByVersion({
+  id = null,
+  stationId = null,
+  name = null,
+  friendlyName = null,
+  version = 2,
+}) {
+  if (version === 2) {
+    return {
+      id,
+      type: 'clinics',
+      attributes: {
+        vistaSite: stationId.substr(0, 3),
+        id,
+        serviceName: friendlyName || name,
+        physicalLocation: null,
+        phoneNumber: null,
+        stationId,
+        stationName: null,
+        primaryStopCode: null,
+        primaryStopCodeName: null,
+        secondaryStopCode: null,
+        secondaryStopCodeName: null,
+        patientDirectScheduling: null,
+        patientDisplay: null,
+        char4: null,
+      },
+    };
+  } else if (version === 0) {
+    return {
+      id,
+      type: 'clinic',
+      attributes: {
+        siteCode: stationId.substr(0, 3),
+        clinicId: id,
+        clinicName: name,
+        clinicFriendlyLocationName: friendlyName,
+        primaryStopCode: null,
+        secondaryStopCode: null,
+        directSchedulingFlag: 'Y',
+        displayToPatientFlag: 'Y',
+        institutionName: null,
+        institutionCode: stationId,
+        objectType: 'CdwClinic',
+        link: [],
+      },
+    };
+  }
+
+  throw new Error('Missing version specified');
+}
