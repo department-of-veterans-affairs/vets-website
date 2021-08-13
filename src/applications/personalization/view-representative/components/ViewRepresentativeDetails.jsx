@@ -109,8 +109,8 @@ export const ViewRepresentativeDetails = props => (
     <p>
       No one should charge you a fee to help you file your application for
       benefits, but they may charge you for unusual expenses. Representatives
-      may charge for their services only after we've made a decision about your
-      original claim. Ask up front what fees you'll be charged. If you believe a
+      may charge for their services only after we’ve made a decision about your
+      original claim. Ask up front what fees you’ll be charged. If you believe a
       claims agent or attorney charged a fee that is too high, you can challenge
       it.
     </p>
@@ -125,7 +125,7 @@ export const ViewRepresentativeDetails = props => (
       <p className="help-talk">
         If you have questions about your selected representative, please call
         our MYVA411 main information line at
-        <Telephone contact={CONTACTS.VA_BENEFITS} /> and select 0. We're here
+        <Telephone contact={CONTACTS.VA_BENEFITS} /> and select 0. We’re here
         24/7. If you have hearing loss, call TTY:
         <Telephone contact={CONTACTS['711']} pattern={PATTERNS['3_DIGIT']} />.
       </p>
