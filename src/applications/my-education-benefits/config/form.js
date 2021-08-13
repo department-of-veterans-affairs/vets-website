@@ -517,7 +517,16 @@ const formConfig = {
         [formPages.contactInformation.mailingAddress]: {
           title: 'Contact Information',
           path: 'contact/information/mailing_address',
-          initialData: {},
+          initialData: {
+            [formFields.address]: {
+              street: '2222 Avon Street',
+              street2: 'Apt 6',
+              street3: 'something',
+              city: 'Arlington',
+              state: 'VA',
+              postalCode: '22205',
+            },
+          },
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
