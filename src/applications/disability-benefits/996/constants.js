@@ -18,6 +18,7 @@ export const FACILITY_LOCATOR_URL = '/find-locations';
 export const GET_HELP_REVIEW_REQUEST_URL =
   '/decision-reviews/get-help-with-review-request';
 export const PROFILE_URL = '/profile';
+export const LEGACY_APPEALS_URL = '/decision-reviews/legacy-appeals/';
 
 // 8622 is the ID of the <li> wrapping the "Find addresses for other benefit
 // types" accordion

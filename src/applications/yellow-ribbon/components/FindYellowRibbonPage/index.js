@@ -43,7 +43,7 @@ export const FindYellowRibbonPage = () => (
         </ul>
 
         <p>
-          You may search for schools participating in the current academic year,
+          You may search for schools participating in the current academic year,{' '}
           {CURRENT_SCHOOL_YEAR}.
         </p>
       </div>

@@ -1,6 +1,5 @@
 const pageNames = {
-  claimType: 'claim-type',
-  compensation: 'compensation',
+  start: 'start',
   legacyChoice: 'legacy-choice',
   legacyYes: 'legacy-yes',
   legacyNo: 'legacy-no',
