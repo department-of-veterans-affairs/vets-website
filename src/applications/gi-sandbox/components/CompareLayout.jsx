@@ -212,11 +212,10 @@ export default function({
               institutions={institutions}
               showDifferences={showDifferences}
               smallScreen={smallScreen}
-              className="rating-value"
               fieldData={[
                 {
                   label: 'Overall rating',
-                  className: 'vads-u-text-align--center',
+                  className: 'vads-u-text-align--center rating-value',
                   mapper: institution => {
                     const stars = convertRatingToStars(
                       institution.ratingAverage,
