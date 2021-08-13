@@ -737,6 +737,7 @@ describe('VAOS Appointment service', () => {
   describe('getAppointmentRequests', () => {
     beforeEach(() => mockFetch());
     it('should return matching v0 and v2 data for a VA appointment request', async () => {
+      // Given VA appointment request data
       const data = {
         id: '1234',
         start: moment()
@@ -765,6 +766,7 @@ describe('VAOS Appointment service', () => {
         .add(30, 'days')
         .format();
 
+      // When we request v2 appointment requests
       setFetchJSONResponse(
         global.fetch.withArgs(
           sinon.match(
@@ -780,6 +782,8 @@ describe('VAOS Appointment service', () => {
           ],
         },
       );
+
+      // And When we request v0 appointment requests
       setFetchJSONResponse(
         global.fetch.withArgs(
           sinon.match(
@@ -812,6 +816,7 @@ describe('VAOS Appointment service', () => {
       delete v0Result[0].vaos.apiData;
       delete v2Result[0].vaos.apiData;
 
+      // Then expect these differences
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result[0], v0Result[0]);
       expect(differences).to.have.deep.members(
@@ -851,6 +856,7 @@ describe('VAOS Appointment service', () => {
     });
 
     it('should return matching v0 and v2 data for a CC appointment request', async () => {
+      // Given CC appointment request data
       const data = {
         id: '1234',
         email: 'test@va.gov',
@@ -875,6 +881,7 @@ describe('VAOS Appointment service', () => {
         .add(30, 'days')
         .format();
 
+      // When we request v2 appointment requests
       setFetchJSONResponse(
         global.fetch.withArgs(
           sinon.match(
@@ -890,6 +897,8 @@ describe('VAOS Appointment service', () => {
           ],
         },
       );
+
+      // And When we request v0 appointment requests
       setFetchJSONResponse(
         global.fetch.withArgs(
           sinon.match(
@@ -922,6 +931,7 @@ describe('VAOS Appointment service', () => {
       delete v0Result[0].vaos.apiData;
       delete v2Result[0].vaos.apiData;
 
+      // Then expect these differences
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result[0], v0Result[0]);
       expect(differences).to.have.deep.members(
@@ -955,6 +965,7 @@ describe('VAOS Appointment service', () => {
     });
 
     it('should return matching v0 and v2 data for a cancelled appointment request', async () => {
+      // Given cancelled VA appointment request data
       const data = {
         id: '1234',
         start: moment()
@@ -983,6 +994,7 @@ describe('VAOS Appointment service', () => {
         .add(30, 'days')
         .format();
 
+      // When we request v2 appointment requests
       setFetchJSONResponse(
         global.fetch.withArgs(
           sinon.match(
@@ -998,6 +1010,8 @@ describe('VAOS Appointment service', () => {
           ],
         },
       );
+
+      // And When we request v0 appointment requests
       setFetchJSONResponse(
         global.fetch.withArgs(
           sinon.match(
@@ -1030,6 +1044,7 @@ describe('VAOS Appointment service', () => {
       delete v0Result[0].vaos.apiData;
       delete v2Result[0].vaos.apiData;
 
+      // Then expect these differences
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result[0], v0Result[0]);
       expect(differences).to.have.deep.members(
@@ -1053,6 +1068,7 @@ describe('VAOS Appointment service', () => {
     });
 
     it('should return matching v0 and v2 data for an error fetching requests', async () => {
+      // Given VAOS error
       const error = {
         code: 'VAOS_504',
         title: 'Gateway error',
@@ -1067,6 +1083,7 @@ describe('VAOS Appointment service', () => {
         .add(30, 'days')
         .format();
 
+      // When we request v2 appointment requests
       setFetchJSONFailure(
         global.fetch.withArgs(
           sinon.match(
@@ -1077,6 +1094,8 @@ describe('VAOS Appointment service', () => {
           errors: [error],
         },
       );
+
+      // And When we request v0 appointment requests
       setFetchJSONFailure(
         global.fetch.withArgs(
           sinon.match(
@@ -1092,17 +1111,24 @@ describe('VAOS Appointment service', () => {
       let v2Result = null;
 
       try {
-        await getAppointmentRequests({ startDate, endDate });
+        await getAppointmentRequests({
+          startDate,
+          endDate,
+        });
       } catch (e) {
         v0Result = e;
       }
 
       try {
-        await getAppointmentRequests({ startDate, endDate });
+        await getAppointmentRequests({
+          startDate,
+          endDate,
+        });
       } catch (e) {
         v2Result = e;
       }
 
+      // Then expect the same error for both requests
       expect(v2Result).to.be.ok;
       expect(v0Result).to.be.ok;
 
