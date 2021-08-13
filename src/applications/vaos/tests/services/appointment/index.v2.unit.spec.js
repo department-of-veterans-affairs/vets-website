@@ -688,7 +688,7 @@ describe('VAOS Appointment service', () => {
       );
     });
 
-    it('should return matching v0 and v2 data for an error', async () => {
+    it('should return matching v0 and v2 data for an error fetching appointments', async () => {
       const error = {
         code: 'VAOS_504',
         title: 'Gateway error',
@@ -736,7 +736,7 @@ describe('VAOS Appointment service', () => {
 
   describe('getAppointmentRequests', () => {
     beforeEach(() => mockFetch());
-    it('should return matching v0 and v2 data for an in person VA request', async () => {
+    it('should return matching v0 and v2 data for a VA appointment request', async () => {
       const data = {
         id: '1234',
         start: moment()
@@ -756,6 +756,7 @@ describe('VAOS Appointment service', () => {
         ],
         serviceType: 'primaryCare',
         status: 'proposed',
+        visitType: 'Office Visit',
       };
       const startDate = moment()
         .subtract(30, 'days')
@@ -845,8 +846,268 @@ describe('VAOS Appointment service', () => {
           },
           { op: 'add', path: ['cancelationReason'], value: null },
         ],
-        'Transformers for v0 and v2 appointment data are out of sync',
+        'Transformers for v0 and v2 appointment request data are out of sync',
       );
+    });
+
+    it('should return matching v0 and v2 data for a CC appointment request', async () => {
+      const data = {
+        id: '1234',
+        email: 'test@va.gov',
+        phone: '2125551212',
+        kind: 'cc',
+        clinicFriendlyName: 'Friendly clinic name',
+        requestedPeriods: [
+          {
+            start: `${moment().format('YYYY-MM-DD')}T00:00:00.000`,
+            end: `${moment().format('YYYY-MM-DD')}T11:59:59.999`,
+          },
+        ],
+        serviceType: 'primaryCare',
+        status: 'proposed',
+        typeOfCareId: 'CCPRMYRTNE',
+        visitType: 'Office Visit',
+      };
+      const startDate = moment()
+        .subtract(30, 'days')
+        .format();
+      const endDate = moment()
+        .add(30, 'days')
+        .format();
+
+      setFetchJSONResponse(
+        global.fetch.withArgs(
+          sinon.match(
+            `/vaos/v2/appointments?start=${startDate}&end=${endDate}&statuses[]=proposed&statuses[]=cancelled`,
+          ),
+        ),
+        {
+          data: [
+            createMockAppointmentByVersion({
+              version: 2,
+              ...data,
+            }),
+          ],
+        },
+      );
+      setFetchJSONResponse(
+        global.fetch.withArgs(
+          sinon.match(
+            `/vaos/v0/appointment_requests?start_date=${startDate}&end_date=${endDate}`,
+          ),
+        ),
+        {
+          data: [
+            createMockAppointmentByVersion({
+              version: 0,
+              ...data,
+            }),
+          ],
+        },
+      );
+
+      const [v0Result, v2Result] = await Promise.all([
+        getAppointmentRequests({
+          startDate,
+          endDate,
+        }),
+        getAppointmentRequests({
+          startDate,
+          endDate,
+          useV2: true,
+        }),
+      ]);
+
+      // These are always different
+      delete v0Result[0].vaos.apiData;
+      delete v2Result[0].vaos.apiData;
+
+      // differences format is http://jsonpatch.com/
+      const differences = diff(v2Result[0], v0Result[0]);
+      expect(differences).to.have.deep.members(
+        [
+          { op: 'remove', path: ['description'] },
+          { op: 'remove', path: ['practitioners'] },
+          { op: 'remove', path: ['vaos', 'isPastAppointment'] },
+          { op: 'remove', path: ['vaos', 'isPhoneAppointment'] },
+          { op: 'remove', path: ['vaos', 'isCOVIDVaccine'] },
+          { op: 'remove', path: ['vaos', 'timeZone'] },
+          {
+            op: 'replace',
+            path: ['created'],
+            value: moment().format('YYYY-MM-DD'),
+          },
+          {
+            op: 'replace',
+            path: ['type', 'coding', 0, 'code'],
+            value: 'CCPRMYRTNE',
+          },
+          { op: 'add', path: ['cancelationReason'], value: null },
+          { op: 'replace', path: ['requestVisitType'], value: 'Office visit' },
+          {
+            op: 'add',
+            path: ['preferredCommunityCareProviders'],
+            value: undefined,
+          },
+        ],
+        'Transformers for v0 and v2 appointment request data are out of sync',
+      );
+    });
+
+    it('should return matching v0 and v2 data for a cancelled appointment request', async () => {
+      const data = {
+        id: '1234',
+        start: moment()
+          .add(3, 'days')
+          .format(),
+        email: 'test@va.gov',
+        phone: '2125551212',
+        kind: 'clinic',
+        locationId: '552GA',
+        clinic: '5544',
+        clinicFriendlyName: 'Friendly clinic name',
+        requestedPeriods: [
+          {
+            start: `${moment().format('YYYY-MM-DD')}T00:00:00.000`,
+            end: `${moment().format('YYYY-MM-DD')}T11:59:59.999`,
+          },
+        ],
+        serviceType: 'primaryCare',
+        status: 'cancelled',
+        visitType: 'Office Visit',
+      };
+      const startDate = moment()
+        .subtract(30, 'days')
+        .format();
+      const endDate = moment()
+        .add(30, 'days')
+        .format();
+
+      setFetchJSONResponse(
+        global.fetch.withArgs(
+          sinon.match(
+            `/vaos/v2/appointments?start=${startDate}&end=${endDate}&statuses[]=proposed&statuses[]=cancelled`,
+          ),
+        ),
+        {
+          data: [
+            createMockAppointmentByVersion({
+              version: 2,
+              ...data,
+            }),
+          ],
+        },
+      );
+      setFetchJSONResponse(
+        global.fetch.withArgs(
+          sinon.match(
+            `/vaos/v0/appointment_requests?start_date=${startDate}&end_date=${endDate}`,
+          ),
+        ),
+        {
+          data: [
+            createMockAppointmentByVersion({
+              version: 0,
+              ...data,
+            }),
+          ],
+        },
+      );
+
+      const [v0Result, v2Result] = await Promise.all([
+        getAppointmentRequests({
+          startDate,
+          endDate,
+        }),
+        getAppointmentRequests({
+          startDate,
+          endDate,
+          useV2: true,
+        }),
+      ]);
+
+      // These are always different
+      delete v0Result[0].vaos.apiData;
+      delete v2Result[0].vaos.apiData;
+
+      // differences format is http://jsonpatch.com/
+      const differences = diff(v2Result[0], v0Result[0]);
+      expect(differences).to.have.deep.members(
+        [
+          { op: 'remove', path: ['description'] },
+          { op: 'remove', path: ['practitioners'] },
+          { op: 'remove', path: ['vaos', 'isPastAppointment'] },
+          { op: 'remove', path: ['vaos', 'isPhoneAppointment'] },
+          { op: 'remove', path: ['vaos', 'isCOVIDVaccine'] },
+          { op: 'remove', path: ['vaos', 'timeZone'] },
+          {
+            op: 'replace',
+            path: ['created'],
+            value: moment().format('YYYY-MM-DD'),
+          },
+          { op: 'replace', path: ['location', 'clinicId'], value: null },
+          { op: 'add', path: ['cancelationReason'], value: null },
+        ],
+        'Transformers for v0 and v2 appointment request data are out of sync',
+      );
+    });
+
+    it('should return matching v0 and v2 data for an error fetching requests', async () => {
+      const error = {
+        code: 'VAOS_504',
+        title: 'Gateway error',
+        status: 504,
+        source: 'stack trace',
+      };
+
+      const startDate = moment()
+        .subtract(30, 'days')
+        .format();
+      const endDate = moment()
+        .add(30, 'days')
+        .format();
+
+      setFetchJSONFailure(
+        global.fetch.withArgs(
+          sinon.match(
+            `/vaos/v2/appointments?start=${startDate}&end=${endDate}&statuses[]=proposed&statuses[]=cancelled`,
+          ),
+        ),
+        {
+          errors: [error],
+        },
+      );
+      setFetchJSONFailure(
+        global.fetch.withArgs(
+          sinon.match(
+            `/vaos/v0/appointment_requests?start_date=${startDate}&end_date=${endDate}`,
+          ),
+        ),
+        {
+          errors: [error],
+        },
+      );
+
+      let v0Result = null;
+      let v2Result = null;
+
+      try {
+        await getAppointmentRequests({ startDate, endDate });
+      } catch (e) {
+        v0Result = e;
+      }
+
+      try {
+        await getAppointmentRequests({ startDate, endDate });
+      } catch (e) {
+        v2Result = e;
+      }
+
+      expect(v2Result).to.be.ok;
+      expect(v0Result).to.be.ok;
+
+      const differences = diff(v2Result, v0Result);
+      expect(differences).to.be.empty;
     });
   });
 });

@@ -3,7 +3,7 @@
  */
 import moment from '../../lib/moment-tz';
 import omit from 'platform/utilities/data/omit';
-import { TYPE_OF_VISIT, VIDEO_TYPES } from '../../utils/constants';
+import { VIDEO_TYPES } from '../../utils/constants';
 
 /**
  * Creates a mock appointment record, based on the data and version number
@@ -17,6 +17,7 @@ import { TYPE_OF_VISIT, VIDEO_TYPES } from '../../utils/constants';
  * @param {Object} params
  * @param {?string} params.id The appointment id
  * @param {?string} params.email The email address used
+ * @param {?string} params.phone The phone number used
  * @param {?string} params.currentStatus The VistA status to use. Ignored in version 2
  * @param {Number} [params.version=2] The version of the output data. Currently 0 and 2 are supported
  * @param {?string} params.clinicFriendlyName The clinic name of the appointment (version 0 only)
@@ -24,6 +25,7 @@ import { TYPE_OF_VISIT, VIDEO_TYPES } from '../../utils/constants';
  * @param {?string} params.instructionsTitle The video instructions title string
  * @param {PPMSProvider} params.communityCareProvider The community care provider to use. Info aside from
  *   uniqueId is discarded in version 2
+ * @param {?string} params.timezone The timezone to use
  * @param {...string} params.fields Other fields provided can be any version 2 field. Some are used to set data
  *   on the version 0 output (kind, start, etc) and all are merged into the v2 output
  * @returns {VAOSAppointment|MASAppointment} An appointment object in the specified format
@@ -41,9 +43,9 @@ export function createMockAppointmentByVersion({
   timezone = null,
   ...fields
 } = {}) {
-  const fieldsWithoutProps = omit(['email'], fields);
+  const fieldsWithoutProps = omit(['email', 'phone'], fields);
 
-  if (version === 0 && fields.status === 'proposed') {
+  if (version === 0 && fields.requestedPeriods?.length > 0) {
     return {
       id,
       attributes: {
@@ -60,11 +62,10 @@ export function createMockAppointmentByVersion({
           'MM/DD/YYYY',
         ),
         phoneNumber: phone,
-        status: fields.status,
-        typeOfCareId: fields.serviceType,
+        status: fields.status === 'cancelled' ? 'Cancelled' : fields.status,
+        typeOfCareId: fields.typeOfCareId || fields.serviceType,
         uniqueId: id,
-        visitType: TYPE_OF_VISIT.find(type => type.id === fields.kind)
-          .serviceName,
+        visitType: fields.visitType,
       },
     };
   }
@@ -233,7 +234,7 @@ export function createMockAppointmentByVersion({
         serviceType: null,
         slot: null,
         start:
-          fields.kind === 'cc'
+          fields.kind === 'cc' && !fields.requestedPeriods?.length
             ? moment(fields.start)
                 .utc()
                 .format()
