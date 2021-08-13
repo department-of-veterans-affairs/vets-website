@@ -219,3 +219,10 @@
     padding-bottom: 1em;
   }
 }
+
+.card-bottom-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}

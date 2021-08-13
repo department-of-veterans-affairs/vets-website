@@ -333,6 +333,7 @@ function LocationSearchResults({
           location
           header={header}
           active={activeMarker === name}
+          version={preview.version}
         />
       </div>
     );

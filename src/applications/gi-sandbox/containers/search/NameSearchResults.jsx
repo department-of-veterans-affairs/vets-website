@@ -77,6 +77,7 @@ export function NameSearchResults({
                       <SearchResultCard
                         institution={institution}
                         key={institution.facilityCode}
+                        version={preview.version}
                       />
                     ))}
                   </div>

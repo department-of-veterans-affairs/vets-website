@@ -3,6 +3,7 @@ import {
   CONFERENCE_TIMES_V1,
   CONFERENCE_TIMES_V2,
 } from '../constants';
+import { apiVersion1 } from './helpers';
 
 /**
  * Remove objects with empty string values; Lighthouse doesn't like `null`
@@ -25,29 +26,40 @@ export const getPhoneNumber = (phone = '') => ({
   // phoneNumberExt: '',
 });
 
-export const getRep = (formData, version) => {
-  if (version === 1) {
-    return formData.informalConference === 'rep'
-      ? {
-          name: formData?.informalConferenceRep?.name,
-          phone: getPhoneNumber(formData?.informalConferenceRep?.phone),
-        }
-      : null;
+export const getRep = formData => {
+  if (formData.informalConference !== 'rep') {
+    return null;
   }
-  return formData.informalConference === 'rep'
-    ? {
-        firstName: formData?.informalConferenceRep?.firstName,
-        lastName: formData?.informalConferenceRep?.lastName,
-        phone: getPhoneNumber(formData?.informalConferenceRep?.phone),
-      }
-    : null;
+  const phoneNumber = formData?.informalConferenceRep?.phone;
+  const phone = {
+    countryCode: '1',
+    areaCode: phoneNumber.substring(0, 3),
+    phoneNumber: phoneNumber.substring(3),
+  };
+  if (apiVersion1(formData)) {
+    return {
+      name: formData?.informalConferenceRep?.name,
+      phone,
+    };
+  }
+
+  // Empty string/null are not permitted values
+  return removeEmptyEntries({
+    firstName: formData?.informalConferenceRep?.firstName,
+    lastName: formData?.informalConferenceRep?.lastName,
+    phone: removeEmptyEntries({
+      ...phone,
+      phoneNumberExt: formData.informalConferenceRep.extension || '',
+    }),
+    email: formData.informalConferenceRep.email || '',
+  });
 };
 
-export const getConferenceTimes = (
-  { informalConferenceTimes = [] },
-  version,
-) => {
-  const times = version === 1 ? CONFERENCE_TIMES_V1 : CONFERENCE_TIMES_V2;
+export const getConferenceTimes = (formData = {}) => {
+  const { informalConferenceTimes = [] } = formData;
+  const times = apiVersion1(formData)
+    ? CONFERENCE_TIMES_V1
+    : CONFERENCE_TIMES_V2;
   const xRef = Object.keys(times).reduce(
     (timesAndApi, time) => ({
       ...timesAndApi,
@@ -149,7 +161,12 @@ export const getContact = ({ informalConference }) => {
  * @property {Boolean} homeless
  */
 /**
- * Address~submittable
+ * Address~submittableV1
+ * @typedef {Object}
+ * @property {String} zipCode5
+ */
+/**
+ * Address~submittableV2
  * @typedef {Object}
  * @property {String} addressLine1
  * @property {String} addressLine2
@@ -169,15 +186,20 @@ export const getContact = ({ informalConference }) => {
  * @property {String} phoneNumberExt
  */
 /**
- * Strip out extra profile home address data & rename zipCode to zipCode5
- * @param {Veteran} veteran - Veteran formData object
- * @returns {Object} submittable address
+ * FormData
+ * @typedef {Object}
+ * @property {Veteran} veteran - Veteran formData object
+ * @property {String} zipCode5 - zip code saved in v1
+ * @property {Boolean} hlrV2 - HLR v2 feature flag, true for v2
  */
-export const getAddress = (
-  { veteran = {}, zipCode5 = '' } = {},
-  version = 1,
-) => {
-  if (version === 1) {
+/**
+ * Strip out extra profile home address data & rename zipCode to zipCode5
+ * @param {FormData} formData
+ * @returns {Address~submittableV1|Address~submittableV2}
+ */
+export const getAddress = formData => {
+  const { veteran = {}, zipCode5 = '' } = formData || {};
+  if (apiVersion1(formData)) {
     return { zipCode5: zipCode5 || '00000' };
   }
   return removeEmptyEntries({
