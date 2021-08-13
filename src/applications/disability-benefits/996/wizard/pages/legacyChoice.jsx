@@ -1,12 +1,14 @@
 import React from 'react';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import recordEvent from 'platform/monitoring/record-event';
+import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 
 import pageNames from './pageNames';
 
 const label = (
   <p>
     Is this claim going through the{' '}
+    <span className="sr-only">legacy appeals process?</span>
     <a
       href="/disability/file-an-appeal/"
       onClick={() => {
@@ -16,9 +18,12 @@ const label = (
         });
       }}
     >
-      legacy appeals
-    </a>{' '}
-    process?
+      {srSubstitute(
+        'legacy appeals process',
+        'Learn more about the legacy appeals process',
+      )}
+    </a>
+    <span aria-hidden="true">?</span>
   </p>
 );
 
@@ -31,24 +36,27 @@ const name = 'higher-level-review-legacy';
 
 const LegacyChoice = ({ setPageState, state = {} }) => {
   return (
-    <RadioButtons
-      name={name}
-      id={name}
-      label={label}
-      options={options}
-      onValueChange={({ value }) => {
-        recordEvent({
-          event: 'howToWizard-formChange',
-          'form-field-type': 'form-radio-buttons',
-          'form-field-label':
-            'Is this claim going through the legacy appeals process?',
-          'form-field-value': value,
-        });
-        setPageState({ selected: value }, value);
-      }}
-      value={{ value: state.selected }}
-      additionalFieldsetClass={`${name}-legacy vads-u-margin-top--0`}
-    />
+    <div id={pageNames.legacyChoice} className="vads-u-margin-top--2">
+      <RadioButtons
+        name={name}
+        id={name}
+        label={label}
+        options={options}
+        onValueChange={({ value }) => {
+          recordEvent({
+            event: 'howToWizard-formChange',
+            'form-field-type': 'form-radio-buttons',
+            'form-field-label':
+              'Is this claim going through the legacy appeals process?',
+            'form-field-value': value,
+          });
+          setPageState({ selected: value }, value);
+        }}
+        value={{ value: state.selected }}
+        additionalFieldsetClass={`${name}-legacy vads-u-margin-top--0`}
+        ariaDescribedby={[pageNames.legacyNo, pageNames.legacyYes]}
+      />
+    </div>
   );
 };
 

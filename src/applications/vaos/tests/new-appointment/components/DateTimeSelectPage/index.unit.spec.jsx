@@ -851,6 +851,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
   });
 
   it('should start calendar on preferred date month', async () => {
+    // Given a user eligible for direct scheduling
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -873,13 +874,14 @@ describe('VAOS <DateTimeSelectPage>', () => {
       pastClinics: true,
     });
 
+    // And a preferred date and available slot several months in the future
     const slot309Date = moment()
-      .add(2, 'months')
+      .add(4, 'months')
       .day(11)
       .hour(13)
       .minute(0)
       .second(0);
-    const preferredDate = moment().add(2, 'months');
+    const preferredDate = moment().add(4, 'months');
 
     mockAppointmentSlotFetch({
       siteId: '983',
@@ -905,6 +907,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     await setClinic(store, /Yes/i);
     await setPreferredDate(store, preferredDate);
 
+    // When the page is displayed
     const screen = renderWithStoreAndRouter(
       <Route component={DateTimeSelectPage} />,
       {
@@ -918,14 +921,23 @@ describe('VAOS <DateTimeSelectPage>', () => {
       await waitForElementToBeRemoved(overlay);
     }
 
+    // Then the calendar is on the month of the preferred date
     expect(
       screen.getByRole('heading', {
         level: 2,
         name: moment()
-          .add(2, 'months')
+          .add(4, 'months')
           .format('MMMM YYYY'),
       }),
     ).to.be.ok;
+
+    // And the user is able to continue to the next month
+    expect(
+      // It takes 1.5s to search for buttons by role on this page, this is quicker
+      screen.getByText(
+        (content, el) => el.textContent === 'Next' && el.type === 'button',
+      ),
+    ).to.not.have.attribute('disabled');
   });
 
   it('should fetch slots when moving between months', async () => {

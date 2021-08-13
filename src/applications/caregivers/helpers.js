@@ -1,7 +1,6 @@
-import { mapValues } from 'lodash/fp';
+import { isEmpty, mapValues } from 'lodash';
 import caregiverFacilities from 'vets-json-schema/dist/caregiverProgramFacilities.json';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { isEmpty } from 'lodash';
 import {
   primaryCaregiverFields,
   secondaryOneFields,
@@ -25,9 +24,8 @@ export const medicalCenterLabels = Object.keys(caregiverFacilities).reduce(
 );
 
 // Turns the facility list for each state into an array of strings
-export const medicalCentersByState = mapValues(
-  val => val.map(center => center.code),
-  caregiverFacilities,
+export const medicalCentersByState = mapValues(caregiverFacilities, val =>
+  val.map(center => center.code),
 );
 
 // transforms forData to match fullSchema structure for backend submission
