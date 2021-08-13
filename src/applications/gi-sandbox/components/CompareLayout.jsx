@@ -313,66 +313,59 @@ export default function({
                 },
               ]}
             />
-
-            <CompareGrid
-              sectionLabel="Cautionary information"
-              institutions={institutions}
-              smallScreen={smallScreen}
-              fieldData={[
-                {
-                  label: 'Caution flags',
-                  className: institution =>
-                    classNames('caution-flag-display', {
-                      none: institution.cautionFlags.length === 0,
-                    }),
-                  mapper: institution => {
-                    const hasFlags = institution.cautionFlags.length > 0;
-                    return (
-                      <div className="vads-u-display--flex">
-                        <div className="caution-flag-icon vads-u-flex--1">
-                          {!hasFlags && <i className={`fa fa-check`} />}
-                          {hasFlags && (
-                            <i className={`fa fa-exclamation-triangle`} />
-                          )}
-                        </div>
-                        <div className="vads-u-flex--4">
-                          <div className="caution-header">
-                            {!hasFlags && (
-                              <span>
-                                This school doesn't have any caution flags
-                              </span>
-                            )}
-                            {hasFlags && (
-                              <span>
-                                This school has{' '}
-                                {institution.cautionFlags.length} cautionary
-                                warning
-                                {institution.cautionFlags.length > 1 && 's'}
-                              </span>
-                            )}
-                          </div>
-                          {hasFlags && (
-                            <div>
-                              <ul>
-                                {institution.cautionFlags.map(
-                                  (cautionFlag, index) => {
-                                    return (
-                                      <li key={index}>{cautionFlag.title}</li>
-                                    );
-                                  },
-                                )}
-                              </ul>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    );
-                  },
-                },
-              ]}
-            />
           </>
         )}
+
+      <CompareGrid
+        sectionLabel="Cautionary information"
+        institutions={institutions}
+        smallScreen={smallScreen}
+        fieldData={[
+          {
+            label: 'Caution flags',
+            className: institution =>
+              classNames('caution-flag-display', {
+                none: institution.cautionFlags.length === 0,
+              }),
+            mapper: institution => {
+              const hasFlags = institution.cautionFlags.length > 0;
+              return (
+                <div className="vads-u-display--flex">
+                  <div className="caution-flag-icon vads-u-flex--1">
+                    {!hasFlags && <i className={`fa fa-check`} />}
+                    {hasFlags && <i className={`fa fa-exclamation-triangle`} />}
+                  </div>
+                  <div className="vads-u-flex--4">
+                    <div className="caution-header">
+                      {!hasFlags && (
+                        <span>This school doesn't have any caution flags</span>
+                      )}
+                      {hasFlags && (
+                        <span>
+                          This school has {institution.cautionFlags.length}{' '}
+                          cautionary warning
+                          {institution.cautionFlags.length > 1 && 's'}
+                        </span>
+                      )}
+                    </div>
+                    {hasFlags && (
+                      <div>
+                        <ul>
+                          {institution.cautionFlags.map(
+                            (cautionFlag, index) => {
+                              return <li key={index}>{cautionFlag.title}</li>;
+                            },
+                          )}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            },
+          },
+        ]}
+      />
 
       <CompareGrid
         sectionLabel=""
