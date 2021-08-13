@@ -1,5 +1,4 @@
-import assign from 'lodash/fp/assign';
-import set from 'lodash/fp/set';
+import set from 'platform/utilities/data/set';
 
 const initialState = {
   currentItem: null,
@@ -69,7 +68,7 @@ export default function prescriptions(state = initialState, action) {
         };
       }
 
-      return assign(state, newState);
+      return { ...state, ...newState };
     }
 
     default:

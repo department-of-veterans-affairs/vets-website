@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import set from 'lodash/fp/set';
+import set from 'platform/utilities/data/set';
 
 import {
   FETCH_FOLDER_SUCCESS,
