@@ -32,7 +32,7 @@ const ApplicationsInProgress = ({ savedForms }) => {
         Applications in progress
       </h3>
 
-      {verifiedSavedForms.length > 0 && (
+      {verifiedSavedForms.length > 0 ? (
         <div className="vads-l-row">
           {verifiedSavedForms.map(form => {
             const formId = form.form;
@@ -59,8 +59,7 @@ const ApplicationsInProgress = ({ savedForms }) => {
             );
           })}
         </div>
-      )}
-      {!verifiedSavedForms.length && (
+      ) : (
         <p>You have no applications in progress.</p>
       )}
     </>
