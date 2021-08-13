@@ -800,12 +800,23 @@ jobs:
 
       - name: Publish Cypress test results
         if: ${{ always() }}
-        uses: mikepenz/action-junit-report@v2.4.2
+        # uses: mikepenz/action-junit-report@v2.4.2
+        # with:
+        #   check_name: 'Cypress Tests Summary'
+        #   github_token: ${{ secrets.GITHUB_TOKEN }}
+        #   report_paths: 'cypress-junit-test-results/e2e-test-output-*.xml'
+        #   summary: '[Mochawesome Report](https://reimagined-telegram-c11df05a.pages.github.io/cypress-reports/${{ env.UUID }})'
+        uses: LouisBrunner/checks-action@v1.1.1
         with:
-          check_name: 'Cypress Tests Summary'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          report_paths: 'cypress-junit-test-results/e2e-test-output-*.xml'
-          summary: '[Mochawesome Report](https://reimagined-telegram-c11df05a.pages.github.io/cypress-reports/${{ env.UUID }})'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Cypress Tests Summary
+          conclusion: ${{ needs.cypress-tests.result }}
+          output: |
+            {"Total Tests Run": $TOTAL_TESTS_RUN}
+            {"Total Tests Passed": $TOTAL_TESTS_PASSED} 
+            {"Total Tests Failed": $TOTAL_TESTS_FAILED} 
+            {"Total Tests Skipped": $TOTAL_TESTS_SKIPPED} 
+            { [Mochawesome Report](https://reimagined-telegram-c11df05a.pages.github.io/cypress-reports/${{ env.UUID }})}
 
 # archive:
 #   name: Archive
