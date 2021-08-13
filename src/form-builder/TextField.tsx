@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { useRef, useEffect } from 'react';
-import { useField } from 'formik';
+import { useField, FieldHookConfig } from 'formik';
 
 import { FieldProps } from './types';
 import { getMessage } from '../utils/i18n';
@@ -8,7 +8,7 @@ import { getMessage } from '../utils/i18n';
 // TODO: Figure out how to actually import the type defintions for these web components
 // The @ts-ignore comments are because the web component types aren't available.
 const Wrapper = (props: FieldProps<string>) => {
-  const [field, meta] = useField(props);
+  const [field, meta] = useField(props as FieldHookConfig<string>);
 
   // TODO: Use the web component type
   const ref = useRef<HTMLElement>(null);
@@ -36,13 +36,11 @@ const Wrapper = (props: FieldProps<string>) => {
 const TextField = (props: FieldProps<string>): JSX.Element => {
   const id = props.id || props.name;
   const validate = (value: string) => {
-    console.log(`validation run on ${props.name}:`, value);
     if (props.required && !value) {
       const errorMessage =
         typeof props.required === 'string'
           ? props.required
           : getMessage('required.default');
-      console.log(`  ${errorMessage}`);
       return errorMessage;
     }
 

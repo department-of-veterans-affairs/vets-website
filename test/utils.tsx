@@ -1,18 +1,21 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { Formik, FormikProps, FormikConfig } from 'formik';
+import { fireEvent, waitFor } from '@testing-library/react';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
 
-export const buildRenderForm = (initialValues: Record<string, unknown>) => {
+export const buildRenderForm = (
+  initialValues: Record<string, unknown> = {}
+) => {
   type Values = typeof initialValues;
 
   // Got this from Formik's Field tests
-  return function renderForm(
+  const renderForm = (
     ui?: React.ReactNode,
     props?: Partial<FormikConfig<Values>>
-  ) {
+  ) => {
     let injected: FormikProps<Values>;
     const { rerender, ...rest } = render(
       <Formik onSubmit={noop} initialValues={initialValues} {...props}>
@@ -23,7 +26,7 @@ export const buildRenderForm = (initialValues: Record<string, unknown>) => {
     );
 
     return {
-      getFormProps(): FormikProps<Values> {
+      getFormProps: (): FormikProps<Values> => {
         return injected;
       },
       ...rest,
@@ -37,4 +40,17 @@ export const buildRenderForm = (initialValues: Record<string, unknown>) => {
         ),
     };
   };
+  return renderForm;
+};
+
+export const changeValue = async (
+  el: HTMLInputElement,
+  value: string,
+  eventName = 'vaChange'
+): Promise<void> => {
+  el.value = value;
+
+  await waitFor(() => {
+    fireEvent(el, new CustomEvent(eventName));
+  });
 };

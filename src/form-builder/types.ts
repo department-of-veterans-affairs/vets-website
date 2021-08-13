@@ -1,6 +1,6 @@
 import { FieldHookConfig } from 'formik';
 
-export type FieldProps<V> = FieldHookConfig<V> & {
+export type FieldProps<V> = Omit<FieldHookConfig<V>, 'required'> & {
   label: string;
   id?: string;
   /**

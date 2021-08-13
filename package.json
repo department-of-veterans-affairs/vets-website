@@ -7,9 +7,10 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "build": "tsdx build",
-    "watch": "tsdx watch",
+    "lint": "eslint",
+    "prepare": "husky install && npm run build",
     "test": "jest",
-    "prepare": "husky install && npm run build"
+    "watch": "tsdx watch"
   },
   "author": "",
   "license": "ISC",
