@@ -396,16 +396,14 @@ const formConfig = {
               email: 'hector.stanley@gmail.com',
               confirmEmail: 'hector.stanley@gmail.com',
             },
-            mobilePhoneNumber: '123-456-7890',
-            // {
-            //   phone: '123-456-7890',
-            //   isInternational: true,
-            // },
-            phoneNumber: '098-765-4321',
-            // {
-            //   phone: '098-765-4321',
-            //   isInternational: false,
-            // },
+            mobilePhoneNumber: {
+              phone: '1234567890',
+              isInternational: true,
+            },
+            phoneNumber: {
+              phone: '0987654321',
+              isInternational: false,
+            },
           },
           uiSchema: {
             'view:subHeadings': {
