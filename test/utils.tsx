@@ -45,10 +45,14 @@ export const buildRenderForm = (
 
 export const changeValue = async (
   el: HTMLInputElement,
-  value: string,
+  value: string | boolean,
   eventName = 'vaChange'
 ): Promise<void> => {
-  el.value = value;
+  if (typeof value === 'string') {
+    el.value = value;
+  } else if (typeof value === 'boolean') {
+    el.checked = value;
+  }
 
   await waitFor(() => {
     fireEvent(el, new CustomEvent(eventName));
