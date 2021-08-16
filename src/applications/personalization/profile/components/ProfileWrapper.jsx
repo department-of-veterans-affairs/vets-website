@@ -4,13 +4,18 @@ import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import Telephone, {
+  CONTACTS,
+  PATTERNS,
+} from '@department-of-veterans-affairs/component-library/Telephone';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 
 import { selectProfile } from '~/platform/user/selectors';
+import environment from '~/platform/utilities/environment';
 
 import {
-  cnpDirectDepositLoadError,
-  eduDirectDepositLoadError,
+  // cnpDirectDepositLoadError,
+  // eduDirectDepositLoadError,
   fullNameLoadError,
   militaryInformationLoadError,
   personalInformationLoadError,
@@ -98,6 +103,47 @@ const ProfileWrapper = ({
           </div>
           <div className="vads-l-col--12 vads-u-padding-bottom--4 vads-u-padding-x--1 medium-screen:vads-l-col--9 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--6 small-desktop-screen:vads-l-col--8">
             {showNotAllDataAvailableError && <NotAllDataAvailableError />}
+            {environment.isProduction() ? (
+              <AlertBox
+                status="warning"
+                isVisible
+                headline="Direct deposit isn’t available right now"
+                content={
+                  <>
+                    <p>
+                      We’re sorry. Direct deposit isn’t available right now.
+                      We’re working to fix the issue as soon as possible. Please
+                      check back after 5 p.m. ET, Monday, August 16 for an
+                      update.
+                    </p>
+                    <h4>What you can do</h4>
+                    <p>
+                      If you have questions or concerns related to your direct
+                      deposit, call us at{' '}
+                      <a
+                        href="tel:1-800-827-1000"
+                        aria-label="800. 8 2 7. 1000."
+                        title="Dial the telephone number 800-827-1000"
+                        className="no-wrap"
+                      >
+                        800-827-1000
+                      </a>{' '}
+                      (TTY:{' '}
+                      <Telephone
+                        contact={CONTACTS['711']}
+                        pattern={PATTERNS['911']}
+                      />
+                      ). We’re here Monday through Friday, 8:00 a.m. to 9:00
+                      p.m. ET. Or go to your{' '}
+                      <a href="/find-locations/?facilityType=benefits">
+                        nearest VA regional office
+                      </a>
+                      .
+                    </p>
+                  </>
+                }
+              />
+            ) : null}
             {/* children will be passed in from React Router one level up */}
             {children}
           </div>
@@ -119,8 +165,8 @@ const mapStateToProps = (state, ownProps) => {
     totalDisabilityRatingServerError: hasTotalDisabilityServerError(state),
     showNameTag: ownProps.isLOA3 && isEmpty(hero?.errors),
     showNotAllDataAvailableError:
-      !!cnpDirectDepositLoadError(state) ||
-      !!eduDirectDepositLoadError(state) ||
+      // !!cnpDirectDepositLoadError(state) ||
+      // !!eduDirectDepositLoadError(state) ||
       !!fullNameLoadError(state) ||
       !!personalInformationLoadError(state) ||
       (!!militaryInformationLoadError(state) && !invalidVeteranStatus),

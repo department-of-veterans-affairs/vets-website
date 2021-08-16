@@ -14,6 +14,7 @@ export default function Academics({ institution, onShowModal }) {
           onClick={() => onShowModal('accreditation')}
           ariaLabel={ariaLabels.learnMore.accreditation}
           buttonId={'accreditation-button'}
+          buttonClassName="small-screen-font"
         />
         :
       </strong>
@@ -45,6 +46,7 @@ export default function Academics({ institution, onShowModal }) {
           onClick={() => onShowModal('creditTraining')}
           ariaLabel={ariaLabels.learnMore.militaryTrainingCredit}
           buttonId={'creditTraining-button'}
+          buttonClassName="small-screen-font"
         />
         :
       </strong>
@@ -61,6 +63,7 @@ export default function Academics({ institution, onShowModal }) {
           onClick={() => onShowModal('independentStudy')}
           ariaLabel={ariaLabels.learnMore.independentStudy}
           buttonId={'independentStudy-button'}
+          buttonClassName="small-screen-font"
         />
         :
       </strong>
@@ -76,6 +79,7 @@ export default function Academics({ institution, onShowModal }) {
           text={'Priority Enrollment'}
           onClick={() => onShowModal('priorityEnrollment')}
           ariaLabel={ariaLabels.learnMore.priorityEnrollment}
+          buttonClassName="small-screen-font"
         />
         :
       </strong>
@@ -85,8 +89,8 @@ export default function Academics({ institution, onShowModal }) {
   );
 
   const educationDetails = (
-    <div>
-      <h3>Education details</h3>
+    <div className="small-screen-font">
+      <h3 className="small-screen-font">Education details</h3>
       <hr />
       {typeOfAccreditation}
       {militaryTrainingCredit}
@@ -96,8 +100,8 @@ export default function Academics({ institution, onShowModal }) {
   );
 
   const careerScope = (
-    <div>
-      <h3>Get started with CareerScope</h3>
+    <div className="small-screen-font">
+      <h3 className="small-screen-font">Get started with CareerScope</h3>
       <hr />
       <p>
         CareerScope&reg; take career and educational planning to a new level.

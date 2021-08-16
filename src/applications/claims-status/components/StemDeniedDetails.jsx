@@ -35,7 +35,7 @@ const StemDeniedDetails = ({
         Rogers STEM Scholarship.
       </p>
       <h3 className="vads-u-font-family--sans vads-u-margin-bottom--1">
-        You didn't meet the following criteria for the Rogers STEM Scholarship:
+        You didn’t meet the following criteria for the Rogers STEM Scholarship:
       </h3>
       <ul className="stem-ad-list">
         <li className="stem-ad-list-item">
@@ -60,11 +60,11 @@ const StemDeniedDetails = ({
       </h3>
       <ul className="stem-ad-list">
         <li className="stem-ad-list-item">
-          You're eligible for Post-9/11 GI Bill benefits.
+          You’re eligible for Post-9/11 GI Bill benefits.
           <ul className="stem-ad-list-secondary">
             <li className="stem-ad-list-item">
               According to your service and school data records on file, as of{' '}
-              {date}, you're eligible for Post-9/11 GI Bill benefits.
+              {date}, you’re eligible for Post-9/11 GI Bill benefits.
             </li>
             <li className="stem-ad-list-item">
               By law, all Rogers STEM scholarship recipients must be eligible
@@ -133,7 +133,7 @@ const StemDeniedDetails = ({
           .
         </li>
         <li className="stem-ad-list-item">
-          If you don't have new evidence but would like a more senior reviewer
+          If you don’t have new evidence but would like a more senior reviewer
           to look at your case, you can request a Higher-Level Review by
           completing VA Form 20-0996.{' '}
           <a
@@ -147,7 +147,7 @@ const StemDeniedDetails = ({
           .
         </li>
         <li className="stem-ad-list-item">
-          If you filed a Supplemental Claim or Higher-Level Review and don't
+          If you filed a Supplemental Claim or Higher-Level Review and don’t
           agree with the decision, you can appeal to a Veterans Law Judge by
           completing VA Form 10182.{' '}
           <a
@@ -194,7 +194,7 @@ const StemDeniedDetails = ({
           href="https://www.va.gov/education/other-va-education-benefits/stem-scholarship/"
           onClick={() => {
             recordResourceLinkClick(
-              'Edith Nourse Rogers STEM Scholarship',
+              'More resources about VA benefits',
               'Learn more about eligibility and how to apply for this scholarship.',
             );
           }}

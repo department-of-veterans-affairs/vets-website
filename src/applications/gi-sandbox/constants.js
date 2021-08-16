@@ -105,5 +105,6 @@ export const ariaLabels = Object.freeze({
     principlesOfExcellence: 'Learn more about Principles of Excellence',
     studentVeteranGroup: 'Learn more about Student Veteran Groups',
     vetSuccess: 'Learn more about VetSuccess on Campus',
+    allCampusComplaints: 'Learn more about student complaints for all campuses',
   },
 });
