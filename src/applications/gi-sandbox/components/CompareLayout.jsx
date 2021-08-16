@@ -215,7 +215,7 @@ export default function({
               fieldData={[
                 {
                   label: 'Overall rating',
-                  className: 'vads-u-text-align--center',
+                  className: 'vads-u-text-align--center rating-value',
                   mapper: institution => {
                     const stars = convertRatingToStars(
                       institution.ratingAverage,
@@ -252,7 +252,8 @@ export default function({
                 },
                 {
                   label: '# of Veteran ratings',
-                  className: 'vads-u-text-align--center',
+                  className: () =>
+                    !smallScreen ? 'vads-u-text-align--center' : '',
                   mapper: institution =>
                     institution.ratingCount >= MINIMUM_RATING_COUNT
                       ? institution.ratingCount
