@@ -259,6 +259,8 @@ function LocationSearchResults({
   useEffect(
     () => {
       markers.forEach(marker => marker.remove());
+      setActiveMarker(null);
+
       let visibleResults = [];
       const mapMarkers = [];
 
@@ -327,15 +329,14 @@ function LocationSearchResults({
     );
 
     return (
-      <div key={institution.facilityCode}>
-        <SearchResultCard
-          institution={institution}
-          location
-          header={header}
-          active={activeMarker === name}
-          version={preview.version}
-        />
-      </div>
+      <SearchResultCard
+        institution={institution}
+        location
+        header={header}
+        active={activeMarker === name}
+        version={preview.version}
+        key={institution.facilityCode}
+      />
     );
   });
 
