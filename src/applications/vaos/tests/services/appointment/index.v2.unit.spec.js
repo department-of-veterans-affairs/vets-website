@@ -747,7 +747,6 @@ describe('VAOS Appointment service', () => {
         phone: '2125551212',
         kind: 'clinic',
         locationId: '552GA',
-        clinic: '5544',
         clinicFriendlyName: 'Friendly clinic name',
         requestedPeriods: [
           {
@@ -824,32 +823,10 @@ describe('VAOS Appointment service', () => {
           { op: 'remove', path: ['description'] },
           { op: 'remove', path: ['practitioners'] },
           {
-            op: 'remove',
-            path: ['vaos', 'isPastAppointment'],
-          },
-          {
-            op: 'remove',
-            path: ['vaos', 'isPhoneAppointment'],
-          },
-          {
-            op: 'remove',
-            path: ['vaos', 'isCOVIDVaccine'],
-          },
-          {
-            op: 'remove',
-            path: ['vaos', 'timeZone'],
-          },
-          {
             op: 'replace',
             path: ['created'],
             value: moment().format('YYYY-MM-DD'),
           },
-          {
-            op: 'replace',
-            path: ['location', 'clinicId'],
-            value: null,
-          },
-          { op: 'add', path: ['cancelationReason'], value: null },
         ],
         'Transformers for v0 and v2 appointment request data are out of sync',
       );
@@ -938,10 +915,6 @@ describe('VAOS Appointment service', () => {
         [
           { op: 'remove', path: ['description'] },
           { op: 'remove', path: ['practitioners'] },
-          { op: 'remove', path: ['vaos', 'isPastAppointment'] },
-          { op: 'remove', path: ['vaos', 'isPhoneAppointment'] },
-          { op: 'remove', path: ['vaos', 'isCOVIDVaccine'] },
-          { op: 'remove', path: ['vaos', 'timeZone'] },
           {
             op: 'replace',
             path: ['created'],
@@ -952,12 +925,11 @@ describe('VAOS Appointment service', () => {
             path: ['type', 'coding', 0, 'code'],
             value: 'CCPRMYRTNE',
           },
-          { op: 'add', path: ['cancelationReason'], value: null },
           { op: 'replace', path: ['requestVisitType'], value: 'Office visit' },
           {
             op: 'add',
             path: ['preferredCommunityCareProviders'],
-            value: undefined,
+            value: null,
           },
         ],
         'Transformers for v0 and v2 appointment request data are out of sync',
@@ -975,7 +947,6 @@ describe('VAOS Appointment service', () => {
         phone: '2125551212',
         kind: 'clinic',
         locationId: '552GA',
-        clinic: '5544',
         clinicFriendlyName: 'Friendly clinic name',
         requestedPeriods: [
           {
@@ -1051,17 +1022,11 @@ describe('VAOS Appointment service', () => {
         [
           { op: 'remove', path: ['description'] },
           { op: 'remove', path: ['practitioners'] },
-          { op: 'remove', path: ['vaos', 'isPastAppointment'] },
-          { op: 'remove', path: ['vaos', 'isPhoneAppointment'] },
-          { op: 'remove', path: ['vaos', 'isCOVIDVaccine'] },
-          { op: 'remove', path: ['vaos', 'timeZone'] },
           {
             op: 'replace',
             path: ['created'],
             value: moment().format('YYYY-MM-DD'),
           },
-          { op: 'replace', path: ['location', 'clinicId'], value: null },
-          { op: 'add', path: ['cancelationReason'], value: null },
         ],
         'Transformers for v0 and v2 appointment request data are out of sync',
       );

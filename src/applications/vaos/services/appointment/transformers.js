@@ -330,9 +330,10 @@ function getCommunityCareData(appt) {
               : null,
           }
         : null,
-    preferredCommunityCareProviders: appt.ccAppointmentRequest?.preferredProviders?.map(
-      provider => transformCommunityProvider(provider),
-    ),
+    preferredCommunityCareProviders:
+      appt.ccAppointmentRequest?.preferredProviders?.map(provider =>
+        transformCommunityProvider(provider),
+      ) || null,
   };
 }
 
@@ -526,10 +527,14 @@ export function transformPendingAppointment(appt) {
     ...getCommunityCareData(appt),
     vaos: {
       isVideo,
+      isPastAppointment: false,
       appointmentType: getAppointmentType(appt),
       isCommunityCare: isCC,
       isExpressCare,
+      isPhoneAppointment: false,
+      isCOVIDVaccine: false,
       apiData: appt,
+      timeZone: null,
     },
   };
 }

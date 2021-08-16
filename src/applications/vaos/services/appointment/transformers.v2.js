@@ -135,6 +135,7 @@ export function transformVAOSAppointment(appt) {
     requestFields = {
       requestedPeriod: appt.requestedPeriods,
       // TODO: ask about created and other action dates like cancelled
+      cancelationReason: null,
       created: null,
       reason: PURPOSE_TEXT.find(purpose => purpose.serviceName === appt.reason)
         ?.short,
