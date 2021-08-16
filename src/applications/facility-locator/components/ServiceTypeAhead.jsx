@@ -47,7 +47,7 @@ class ServiceTypeAhead extends Component {
   optionClasses = selected => classNames('dropdown-option', { selected });
 
   getSpecialtyName = specialty => {
-    if (!specialty) return null;
+    if (!specialty) return '';
 
     return specialty.name;
   };
@@ -130,7 +130,7 @@ class ServiceTypeAhead extends Component {
 
   render() {
     const { defaultSelectedItem } = this.state;
-    const { showError } = this.props;
+    const { showError, currentQuery } = this.props;
 
     return (
       <Downshift
@@ -182,6 +182,7 @@ class ServiceTypeAhead extends Component {
                     this.setState({ isFocused: false });
                     this.props.onBlur(e);
                   },
+                  disabled: currentQuery?.fetchSvcsInProgress,
                 })}
                 id="service-type-ahead-input"
               />
@@ -214,7 +215,13 @@ ServiceTypeAhead.propTypes = {
 
 const mapDispatch = { getProviderSpecialties };
 
+const mapStateToProps = state => {
+  return {
+    currentQuery: state.searchQuery,
+  };
+};
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatch,
 )(ServiceTypeAhead);
