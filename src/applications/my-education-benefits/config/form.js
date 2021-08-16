@@ -571,10 +571,10 @@ const formConfig = {
               },
               [formFields.address]: {
                 ...address.schema(fullSchema, true),
-                'ui:order': address
-                  .uiSchema('Your mailing address')
-                  ['ui:order'].concat('livesOnMilitaryBaseInfo'),
                 properties: {
+                  'ui:order': address
+                    .uiSchema('Your mailing address')
+                    ['ui:order'].concat('livesOnMilitaryBaseInfo'),
                   livesOnMilitaryBaseInfo: {
                     type: 'boolean',
                   },
