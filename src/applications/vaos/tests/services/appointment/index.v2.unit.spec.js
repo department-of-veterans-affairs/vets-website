@@ -677,7 +677,7 @@ describe('VAOS Appointment service', () => {
           {
             op: 'add',
             path: ['preferredCommunityCareProviders'],
-            value: undefined,
+            value: null,
           },
           {
             op: 'remove',
