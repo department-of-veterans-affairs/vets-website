@@ -19,7 +19,7 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.contestedIssues.pages.contestedIssues;
+  } = formConfig.chapters.conditions.pages.contestedIssues;
 
   it('renders the contested issue selection field', () => {
     const form = ReactTestUtils.renderIntoDocument(
