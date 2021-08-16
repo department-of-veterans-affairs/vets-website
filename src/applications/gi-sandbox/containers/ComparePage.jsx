@@ -29,6 +29,7 @@ import {
   convertRatingToStars,
   formatCurrency,
   schoolSize,
+  upperCaseFirstLetterOnly,
 } from '../utils/helpers';
 import Checkbox from '../components/Checkbox';
 import ServiceError from '../components/ServiceError';
@@ -233,9 +234,9 @@ export function ComparePage({
               <div className="medium-screen:vads-l-col--3">
                 <div className="compare-header vads-u-padding-right--1">
                   <div className="compare-page-description-label">
-                    School comparison:
+                    Institution comparison:
                   </div>
-                  View school information side by side to compare schools
+                  Compare schools, employers and VET TEC providers side-by-side
                 </div>
                 <div className="compare-action">
                   <Checkbox
@@ -307,7 +308,7 @@ export function ComparePage({
                 },
               },
               {
-                label: 'Type of school',
+                label: 'Type of institution',
                 mapper: institution => {
                   if (institution.vetTecProvider) {
                     return 'VET TEC';
@@ -315,7 +316,7 @@ export function ComparePage({
                   if (institution.type.toLowerCase() === 'ojt') {
                     return 'Employer';
                   }
-                  return 'School';
+                  return `${upperCaseFirstLetterOnly(institution.type)} School`;
                 },
               },
               {
@@ -324,7 +325,7 @@ export function ComparePage({
                 mapper: institution => naIfNull(institution.localeType),
               },
               {
-                label: 'Size of school',
+                label: 'Size of institution',
                 mapper: institution =>
                   schoolSize(institution.undergradEnrollment),
               },
@@ -354,7 +355,7 @@ export function ComparePage({
 
           <CompareGrid
             sectionLabel="Your estimated benefits"
-            subSectionLabel="Payments made to school"
+            subSectionLabel="Payments made to institution"
             institutions={loadedInstitutions}
             showDifferences={showDifferences}
             fieldData={[
@@ -367,7 +368,7 @@ export function ComparePage({
                   ),
               },
               {
-                label: 'GI Bill pays to school',
+                label: 'GI Bill pays to institution',
                 mapper: institution =>
                   formatCurrency(
                     calculated[institution.facilityCode].outputs
@@ -407,7 +408,7 @@ export function ComparePage({
             hasRatings && (
               <>
                 <CompareGrid
-                  sectionLabel="School ratings"
+                  sectionLabel="Veteran ratings"
                   institutions={loadedInstitutions}
                   showDifferences={showDifferences}
                   fieldData={[
