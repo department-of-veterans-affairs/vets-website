@@ -812,7 +812,7 @@ jobs:
           name: Cypress Tests Summary
           conclusion: ${{ needs.cypress-tests.result }}
           output:
-            '{"summary": "Total Tests Run: $TOTAL_TESTS_RUN, Total Tests Passed: $TOTAL_TESTS_PASSED, Total Tests Failed: $TOTAL_TESTS_FAILED, Total Tests Skipped: $TOTAL_TESTS_SKIPPED, [Mochawesome Report](https://reimagined-telegram-c11df05a.pages.github.io/cypress-reports/${{ env.UUID }})"}',
+            {"summary: Total Tests Run: $TOTAL_TESTS_RUN, Total Tests Passed: $TOTAL_TESTS_PASSED, Total Tests Failed: $TOTAL_TESTS_FAILED, Total Tests Skipped: $TOTAL_TESTS_SKIPPED, [Mochawesome Report](https://reimagined-telegram-c11df05a.pages.github.io/cypress-reports/${{ env.UUID }})",
 
 # archive:
 #   name: Archive
