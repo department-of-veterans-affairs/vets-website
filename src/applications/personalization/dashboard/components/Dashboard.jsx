@@ -209,7 +209,10 @@ const Dashboard = ({
               {props.showValidateIdentityAlert ? (
                 <div className="vads-l-row">
                   <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-                    <IdentityNotVerified alertHeadline="Verify your identity to access more VA.gov tools and features" />
+                    <IdentityNotVerified
+                      alertHeadline="Verify your identity to access more VA.gov tools and features"
+                      level={2}
+                    />
                   </div>
                 </div>
               ) : null}
