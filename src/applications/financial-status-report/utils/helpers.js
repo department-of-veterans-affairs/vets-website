@@ -18,6 +18,10 @@ export const dateFormatter = date => {
   return moment(formatDate).format('MM/YYYY');
 };
 
+export const sumValues = (arr, key) => {
+  return arr.reduce((acc, item) => acc + Number(item[key]) || 0, 0);
+};
+
 export const getMonthlyIncome = ({
   questions,
   additionalIncome,
@@ -80,7 +84,7 @@ export const getMonthlyExpenses = formData => {
     expenses,
     otherExpenses,
     utilityRecords,
-    installmentContractsAndOtherDebts,
+    installmentContracts,
   } = formData;
 
   let totalArr = [];
@@ -96,7 +100,7 @@ export const getMonthlyExpenses = formData => {
   }
 
   if (questions.hasRepayments) {
-    const installments = installmentContractsAndOtherDebts.map(
+    const installments = installmentContracts.map(
       installment => installment.amountDueMonthly,
     );
     totalArr = [...totalArr, ...installments];
@@ -117,6 +121,9 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
   const defaultObj = {
     veteranOrSpouse: '',
     occupationName: '',
+    from: '',
+    to: '',
+    present: false,
     employerName: '',
     employerAddress: {
       addresslineOne: '',
@@ -127,9 +134,6 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
       zipOrPostalCode: '',
       countryName: '',
     },
-    from: '',
-    to: '',
-    present: false,
   };
 
   if (questions.vetIsEmployed) {
@@ -137,10 +141,10 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
     const vetEmploymentHistory = employmentRecords.map(employment => ({
       ...defaultObj,
       veteranOrSpouse: 'VETERAN',
-      employerName: employment.employerName,
       from: dateFormatter(employment.from),
       to: employment.isCurrent ? '' : dateFormatter(employment.to),
       present: employment.isCurrent ? employment.isCurrent : false,
+      employerName: employment.employerName,
     }));
     history = [...history, ...vetEmploymentHistory];
   }
@@ -150,10 +154,10 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
     const spouseEmploymentHistory = employmentRecords.map(employment => ({
       ...defaultObj,
       veteranOrSpouse: 'SPOUSE',
-      employerName: employment.employerName,
       from: dateFormatter(employment.from),
       to: employment.isCurrent ? '' : dateFormatter(employment.to),
       present: employment.isCurrent ? employment.isCurrent : false,
+      employerName: employment.employerName,
     }));
     history = [...history, ...spouseEmploymentHistory];
   }
@@ -162,25 +166,10 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
 };
 
 export const getTotalAssets = ({ assets, realEstateRecords }) => {
-  const totVehicles = assets.automobiles?.reduce(
-    (acc, vehicle) => acc + Number(vehicle.resaleValue),
-    0,
-  );
-
-  const totRecVehicles = assets.trailersBoatsCampers?.reduce(
-    (acc, vehicle) => acc + Number(vehicle.recreationalVehicleAmount),
-    0,
-  );
-
-  const totOtherAssets = assets.otherAssets?.reduce(
-    (acc, asset) => acc + Number(asset.amount),
-    0,
-  );
-
-  const totRealEstate = realEstateRecords?.reduce(
-    (acc, record) => acc + Number(record.realEstateAmount),
-    0,
-  );
+  const totVehicles = sumValues(assets.automobiles, 'resaleValue');
+  const totOtherAssets = sumValues(assets.otherAssets, 'amount');
+  const totRealEstate = sumValues(realEstateRecords, 'realEstateAmount');
+  const totRecVehicles = sumValues(assets.recVehicles, 'recVehicleAmount');
 
   const totAssets = Object.values(assets)
     .filter(item => typeof item === 'string')
@@ -239,10 +228,7 @@ export const getIncome = ({
       .map(record => record.deductions)
       .flat();
 
-    const totalDeductions = deductions.reduce(
-      (acc, deduction) => acc + Number(deduction?.amount) || 0,
-      0,
-    );
+    const totalDeductions = sumValues(deductions, 'amount');
 
     income = income.map(item => {
       if (item.veteranOrSpouse === 'VETERAN') {
@@ -279,10 +265,7 @@ export const getIncome = ({
       .map(record => record.deductions)
       .flat();
 
-    const totalDeductions = deductions.reduce(
-      (acc, deduction) => acc + Number(deduction?.amount) || 0,
-      0,
-    );
+    const totalDeductions = sumValues(deductions, 'amount');
 
     income = income.map(item => {
       if (item.veteranOrSpouse === 'SPOUSE') {
@@ -319,10 +302,7 @@ export const getIncome = ({
       .map(record => record.deductions)
       .flat();
 
-    const totalDeductions = deductions.reduce(
-      (acc, deduction) => acc + Number(deduction?.amount) || 0,
-      0,
-    );
+    const totalDeductions = sumValues(deductions, 'amount');
 
     const otherIncome = additionalIncome.additionalIncomeRecords.reduce(
       (acc, record) => acc + Number(record.amount),
@@ -361,10 +341,7 @@ export const getIncome = ({
       .map(record => record.deductions)
       .flat();
 
-    const totalDeductions = deductions.reduce(
-      (acc, deduction) => acc + Number(deduction?.amount) || 0,
-      0,
-    );
+    const totalDeductions = sumValues(deductions, 'amount');
 
     const otherIncome = additionalIncome.spouse.spouseAdditionalIncomeRecords.reduce(
       (acc, record) => acc + Number(record.amount),
