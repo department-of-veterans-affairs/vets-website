@@ -48,7 +48,6 @@ export function ComparePage({
 }) {
   const [showDifferences, setShowDifferences] = useState(false);
   const [promptingFacilityCode, setPromptingFacilityCode] = useState(null);
-  // const [headerClass, setHeaderClass] = useState(null);
   const [headerFixed, setHeaderFixed] = useState(false);
   const [scrollTo, setScrollTo] = useState(null);
   const [initialTop, setInitialTop] = useState(null);
