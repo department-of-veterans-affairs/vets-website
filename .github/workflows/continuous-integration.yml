@@ -622,6 +622,8 @@ jobs:
     name: Testing Reports
     runs-on: ubuntu-latest
     needs: [cypress-tests-prep, cypress-tests]
+    outputs:
+      cypress_test_results: ${{ steps.cypress-test-results.outputs.results }}
     if: ${{ always() && needs.cypress-tests-prep.outputs.num_containers > 0 && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
     steps:
       - name: Configure AWS credentials
