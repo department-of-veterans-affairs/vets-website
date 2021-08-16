@@ -27,25 +27,19 @@ const setup = () => {
   cy.visit(VIEW_DEPENDENTS_PATH);
 };
 
-const testAxe = () => {
-  cy.injectAxe();
-  cy.axeCheck();
-};
-
 const testInlineValidation = async () => {
   const buttons = await cy.findAllByRole('button', {
     name: /Remove this dependent/,
   });
   expect(buttons).to.have.length(2);
+  cy.injectAxeThenAxeCheck();
   buttons[0].click();
-  await cy
-    .findByRole('button', {
-      name: /Submit VA Form 686c to remove this dependent/,
-    })
-    .click();
-  await cy.findByText(/Please select an option/);
+  cy.findByRole('button', {
+    name: /Submit VA Form 686c to remove this dependent/,
+  }).click();
+  cy.findByText(/Please select an option/).should('exist');
   cy.findAllByRole('alert').should('have.length', 4);
-  testAxe();
+  cy.injectAxeThenAxeCheck();
 };
 
 const testSubmissionError = async () => {
@@ -54,6 +48,7 @@ const testSubmissionError = async () => {
   });
   expect(buttons).to.have.length(2);
   buttons[0].click();
+  cy.injectAxeThenAxeCheck();
   cy.selectRadio('root_reasonMarriageEnded', 'DIVORCE');
   cy.fillDate('root_date', '2009-10-10');
   cy.get('select[name="root_location_state"]').select('AL');
@@ -76,9 +71,10 @@ const testSubmissionError = async () => {
   cy.findByRole('heading', {
     name: /We’re sorry. Something went wrong on our end/,
   }).should('exist');
+  cy.injectAxeThenAxeCheck();
 };
 
-describe.skip('View dependents formlett', () => {
+describe('View dependents formlett', () => {
   beforeEach(() => {
     setup();
   });
