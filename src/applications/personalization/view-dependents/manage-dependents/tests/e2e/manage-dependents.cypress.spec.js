@@ -47,8 +47,8 @@ const testSubmissionError = async () => {
     name: /Remove this dependent/,
   });
   expect(buttons).to.have.length(2);
-  buttons[0].click();
   cy.injectAxeThenAxeCheck();
+  buttons[0].click();
   cy.selectRadio('root_reasonMarriageEnded', 'DIVORCE');
   cy.fillDate('root_date', '2009-10-10');
   cy.get('select[name="root_location_state"]').select('AL');
