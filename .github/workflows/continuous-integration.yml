@@ -10,9 +10,9 @@ on:
 env:
   CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
 
-concurrency:
-  group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha  }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
+# concurrency:
+#   group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha  }}
+#   cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
 
 jobs:
   build:
@@ -740,8 +740,7 @@ jobs:
         id: cypress-tests-output
         run: |
           results= echo "##Number of tests run: $TOTAL_TESTS_RUN, Total Tests Passed: $TOTAL_TESTS_PASSED, Total Tests Failed: $TOTAL_TESTS_FAILED, Total Tests Skipped: $TOTAL_TESTS_SKIPPED"
-          echo $results
-          echo ::set-output name=results::$results
+          echo CYPRESS_RESULTS=$results >> $GITHUB_ENV
 
       - name: Output full results
         run: echo ${{steps.cypress-tests-output.outputs.results }}
@@ -817,7 +816,7 @@ jobs:
           name: Cypress Tests Summary
           conclusion: ${{ needs.cypress-tests.result }}
           output: |
-            {"summary":${{ steps.cypress-tests-results.outputs.results }}}
+            {"summary":${{ env.CYPRESS_RESULTS }}}
           # output: |
           #   {"summary":"Total Tests Run: $TOTAL_TESTS_RUN Total Tests Passed: $TOTAL_TESTS_PASSED Total Tests Failed: $TOTAL_TESTS_FAILED Total Tests Skipped: $TOTAL_TESTS_SKIPPED" [Mochawesome Report](https://reimagined-telegram-c11df05a.pages.github.io/cypress-reports/${{ env.UUID }})}
 
