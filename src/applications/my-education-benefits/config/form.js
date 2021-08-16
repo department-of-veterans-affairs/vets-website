@@ -519,7 +519,6 @@ const formConfig = {
             [formFields.address]: {
               street: '2222 Avon Street',
               street2: 'Apt 6',
-              street3: 'something',
               city: 'Arlington',
               state: 'VA',
               postalCode: '22205',
