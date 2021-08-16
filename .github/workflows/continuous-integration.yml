@@ -56,15 +56,20 @@ jobs:
       #       node_modules
       #     key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
+      # - name: Install dependencies
+      #   uses: nick-invision/retry@v2
+      #   with:
+      #     command: yarn install --frozen-lockfile --prefer-offline --production=false --verbose
+      #     max_attempts: 3
+      #     timeout_minutes: 5
+      #   env:
+      #     YARN_REGISTRY: https://devops.va.gov/dots-nexus/repository/npmjs.org-proxy/
+      #     YARN_CACHE_FOLDER: .cache/yarn
+
       - name: Install dependencies
-        uses: nick-invision/retry@v2
-        with:
-          command: yarn install --frozen-lockfile --prefer-offline --production=false --verbose
-          max_attempts: 3
-          timeout_minutes: 5
+        run: yarn install --frozen-lockfile --prefer-offline --production=false --verbose
         env:
           YARN_REGISTRY: https://devops.va.gov/dots-nexus/repository/npmjs.org-proxy/
-          # YARN_CACHE_FOLDER: .cache/yarn
 
       - name: Build
         run: yarn build --verbose --buildtype=${{ matrix.buildtype }}
