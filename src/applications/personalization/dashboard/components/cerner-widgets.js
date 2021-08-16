@@ -50,9 +50,9 @@ const CernerAlertBox = ({
         portal based on the facility for your appointment:
       </p>
       <p>
-        <strong className="vads-u-font-family--sans" data-testid="facilities">
+        <p className="vads-u-font-family--sans" data-testid="facilities">
           For <FacilityList facilities={facilityNames} separator=" or " />:{' '}
-        </strong>
+        </p>
         <a href={primaryCtaButtonUrl} rel="noopener noreferrer" target="_blank">
           Use My VA Health
         </a>
