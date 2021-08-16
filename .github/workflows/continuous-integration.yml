@@ -737,7 +737,7 @@ jobs:
       - name: Set output of Cypress tests
         id: cypress-tests-output
         run: |
-          results= echo "Number of tests run: $TOTAL_TESTS_RUN"
+          results= echo "##Number of tests run: $TOTAL_TESTS_RUN, Total Tests Passed: $TOTAL_TESTS_PASSED, Total Tests Failed: $TOTAL_TESTS_FAILED, Total Tests Skipped: $TOTAL_TESTS_SKIPPED"
           echo $results
           echo ::set-output name=results::$results
 
@@ -815,7 +815,7 @@ jobs:
           name: Cypress Tests Summary
           conclusion: ${{ needs.cypress-tests.result }}
           output: |
-            {"summary":${{ steps.cypress-tests-results.outputs.results }} }
+            {"summary":${{ steps.cypress-tests-results.outputs.results }}}
           # output: |
           #   {"summary":"Total Tests Run: $TOTAL_TESTS_RUN Total Tests Passed: $TOTAL_TESTS_PASSED Total Tests Failed: $TOTAL_TESTS_FAILED Total Tests Skipped: $TOTAL_TESTS_SKIPPED" [Mochawesome Report](https://reimagined-telegram-c11df05a.pages.github.io/cypress-reports/${{ env.UUID }})}
 
