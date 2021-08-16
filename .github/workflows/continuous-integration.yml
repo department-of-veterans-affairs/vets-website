@@ -742,7 +742,7 @@ jobs:
           echo ::set-output name=results::$results
 
       - name: Output full results
-        run: ${{steps.cypress-tests-output.outputs.results }}
+        run: echo ${{steps.cypress-tests-output.outputs.results }}
 
       - name: Upload Mochawesome report artifact
         uses: actions/upload-artifact@v2
