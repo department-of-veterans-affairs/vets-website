@@ -37,7 +37,8 @@
         "email": "user@example.com",
         "homeless": false,
         "timezone": "America/Los_Angeles"
-      }
+      },
+      "socOptIn": true
     }
   },
   "included": [
