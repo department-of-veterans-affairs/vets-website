@@ -231,11 +231,11 @@ export function createMockAppointmentByVersion({
  *
  * @export
  * @param {Object} params
- * @param {string} id Clinic id
- * @param {string} stationId Full location id (sta6aid)
- * @param {?string} name Standard clinic name,
- * @param {?string} friendlyName Friendly clinic name,
- * @param {number} [version=2] Version of the mock data format to use
+ * @param {string} params.id Clinic id
+ * @param {string} params.stationId Full location id (sta6aid)
+ * @param {?string} params.name Standard clinic name,
+ * @param {?string} params.friendlyName Friendly clinic name,
+ * @param {number} [params.version=2] Version of the mock data format to use
  *
  * @returns
  */

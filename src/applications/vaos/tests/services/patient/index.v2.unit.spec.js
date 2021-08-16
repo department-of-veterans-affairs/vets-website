@@ -489,7 +489,7 @@ describe('VAOS Patient service v0/v2 comparison', () => {
       expect(differences).to.be.empty;
     });
 
-    it('should match with DS is disabled by flag', async () => {
+    it('should match when DS is disabled by toggle', async () => {
       // Given a type of care
       const typeOfCare = {
         id: '125',
