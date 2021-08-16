@@ -48,7 +48,8 @@ export function ComparePage({
 }) {
   const [showDifferences, setShowDifferences] = useState(false);
   const [promptingFacilityCode, setPromptingFacilityCode] = useState(null);
-  const [headerClass, setHeaderClass] = useState(null);
+  // const [headerClass, setHeaderClass] = useState(null);
+  const [headerFixed, setHeaderFixed] = useState(false);
   const [scrollTo, setScrollTo] = useState(null);
   const [initialTop, setInitialTop] = useState(null);
   const [currentXScroll, setCurrentXScroll] = useState(0);
@@ -63,7 +64,6 @@ export function ComparePage({
   const { version } = preview;
   const institutionCount = loaded.length;
   const history = useHistory();
-  const isSticky = headerClass === 'sticky';
   const hasScrollTo = scrollTo !== null;
 
   useEffect(
@@ -83,7 +83,7 @@ export function ComparePage({
           behavior: 'smooth',
         });
 
-        if (isSticky) {
+        if (headerFixed) {
           scrollHeaderRef.current.scroll({
             left: scrollTo,
             behavior: 'smooth',
@@ -105,7 +105,7 @@ export function ComparePage({
     return () => window.removeEventListener('resize', checkSize);
   }, []);
 
-  const toggleSticky = useCallback(
+  const handleScroll = useCallback(
     () => {
       if (!initialTop && headerRef.current && headerRef.current.offsetTop) {
         setInitialTop(headerRef.current.offsetTop);
@@ -122,25 +122,25 @@ export function ComparePage({
         if (placeholder) {
           placeholder.style.height = headerRef.current.getBoundingClientRect().height;
         }
-        if (offset > initialTop && !isSticky) {
-          setHeaderClass('sticky');
+        if (offset > initialTop && !headerFixed) {
+          setHeaderFixed(true);
           scrollHeaderRef.current.scroll({
             left: scrollPageRef.current.scrollLeft,
           });
-        } else if (offset < initialTop && isSticky) {
-          setHeaderClass(null);
-        } else if (isSticky) {
+        } else if (offset < initialTop && headerFixed) {
+          setHeaderFixed(false);
+        } else if (headerFixed) {
           headerRef.current.style.top =
             visibleFooterHeight > 0 ? -visibleFooterHeight : 0;
         }
       }
     },
-    [scrollHeaderRef, scrollPageRef, headerClass, initialTop],
+    [scrollHeaderRef, scrollPageRef, headerFixed, initialTop],
   );
 
   const handleBodyScrollReact = () => {
     if (
-      isSticky &&
+      headerFixed &&
       !hasScrollTo &&
       scrollHeaderRef.current.scrollLeft !== scrollPageRef.current.scrollLeft
     ) {
@@ -156,7 +156,7 @@ export function ComparePage({
 
   const handleHeaderScrollReact = () => {
     if (
-      isSticky &&
+      headerFixed &&
       !hasScrollTo &&
       scrollHeaderRef.current.scrollLeft !== scrollPageRef.current.scrollLeft
     ) {
@@ -176,12 +176,12 @@ export function ComparePage({
 
   useLayoutEffect(
     () => {
-      window.addEventListener('scroll', toggleSticky);
+      window.addEventListener('scroll', handleScroll);
       return () => {
-        window.removeEventListener('scroll', toggleSticky);
+        window.removeEventListener('scroll', handleScroll);
       };
     },
-    [toggleSticky],
+    [handleScroll],
   );
 
   if (error) {
@@ -233,13 +233,13 @@ export function ComparePage({
       <div className="content-wrapper">
         <div
           className={classNames('placeholder', {
-            open: isSticky,
+            open: headerFixed,
           })}
         />
         <div
           id="compareHeader"
           className={classNames({
-            [headerClass]: isSticky,
+            fixed: headerFixed,
           })}
           ref={headerRef}
         >

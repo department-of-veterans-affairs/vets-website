@@ -321,7 +321,7 @@
       padding-bottom: 0px;
     }
 
-    &.sticky {
+    &.fixed {
       position: fixed;
       top: 0;
       z-index: 200;
@@ -419,7 +419,6 @@
       text-align: center;
 
       @media (max-width: $small-screen) {
-
         position: sticky;
         left: 0px;
       }
