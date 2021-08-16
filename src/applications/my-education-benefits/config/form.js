@@ -548,7 +548,7 @@ const formConfig = {
                 showFieldLabel: false,
                 viewComponent: MailingAddressViewField,
               },
-              propOne: {
+              livesOnMilitaryBaseInfo: {
                 'ui:title':
                   'I live on a United States military base outside of the country',
               },
