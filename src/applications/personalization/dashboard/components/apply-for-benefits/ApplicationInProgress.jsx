@@ -44,6 +44,7 @@ const ApplicationInProgress = ({
                 aria-hidden="true"
                 className={`fas fa-fw fa-exclamation-circle vads-u-margin-right--1 vads-u-margin-top--0p5`}
               />
+              <span className="sr-only">Alert: </span>
               <div>
                 <p className="vads-u-margin-top--0">
                   Application expires on: {expirationDate}

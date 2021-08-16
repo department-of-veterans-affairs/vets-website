@@ -4,14 +4,14 @@ import Modal from '@department-of-veterans-affairs/component-library/Modal';
 export default function RemoveCompareSelectedModal({
   name,
   onClose,
-  onAccept,
+  onRemove,
   onCancel,
 }) {
   return (
     <Modal
       onClose={() => onClose()}
       primaryButton={{
-        action: onAccept,
+        action: onRemove,
         text: 'Remove',
       }}
       secondaryButton={{

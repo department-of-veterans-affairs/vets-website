@@ -96,6 +96,8 @@ const NotificationSettings = ({
       ) : null}
       {!shouldShowLoadingIndicator
         ? notificationGroups.ids.map(groupId => {
+            // we handle the health care group a little differently
+            // TODO: I don't like this check. what does `group3` even mean?
             if (groupId === 'group3') {
               if (!isPatient) {
                 return null;

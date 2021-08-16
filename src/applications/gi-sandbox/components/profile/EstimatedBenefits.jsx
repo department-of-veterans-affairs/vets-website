@@ -109,7 +109,7 @@ export default function EstimatedBenefits({
           {modal ? (
             <LearnMoreLabel
               text={title}
-              onClick={() => dispatchShowModal('housingAllowanceOJT')}
+              onClick={() => dispatchShowModal(modal)}
               ariaLabel={learnMoreAriaLabel}
               bold
             />
