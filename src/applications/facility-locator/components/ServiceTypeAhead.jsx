@@ -38,7 +38,7 @@ class ServiceTypeAhead extends Component {
 
   handleOnSelect = selectedItem => {
     const value = selectedItem ? selectedItem.specialtyCode.trim() : null;
-    this.props.onSelect({
+    this.props.handleServiceTypeChange({
       target: { value },
       selectedItem,
     });
@@ -78,8 +78,14 @@ class ServiceTypeAhead extends Component {
     const { isFocused } = this.state;
     const { showError } = this.props;
 
+    const inputElement = document.getElementById('service-type-ahead-input');
+
     if (
-      (isFocused && !inputValue && !showError) ||
+      (isFocused &&
+        inputValue === null &&
+        !showError &&
+        inputElement &&
+        inputElement.value === '') ||
       (inputValue && inputValue.length < MIN_SEARCH_CHARS)
     ) {
       return <MessagePromptDiv message="Search for an available service" />;
@@ -131,6 +137,7 @@ class ServiceTypeAhead extends Component {
         onChange={this.handleOnSelect}
         selectedItem={!window.Cypress ? defaultSelectedItem : undefined}
         defaultSelectedItem={window.Cypress ? defaultSelectedItem : undefined}
+        defaultInputValue=""
         itemToString={this.getSpecialtyName}
         onInputValueChange={(inputValue, stateAndHelpers) => {
           const { selectedItem, clearSelection } = stateAndHelpers;
@@ -200,7 +207,7 @@ class ServiceTypeAhead extends Component {
 ServiceTypeAhead.propTypes = {
   getProviderSpecialties: PropTypes.func.isRequired,
   initialSelectedServiceType: PropTypes.string,
-  onSelect: PropTypes.func.isRequired,
+  handleServiceTypeChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func,
   showError: PropTypes.bool,
 };

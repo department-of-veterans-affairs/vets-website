@@ -310,7 +310,7 @@ const SearchControls = props => {
       case LocationType.CC_PROVIDER:
         return (
           <ServiceTypeAhead
-            onSelect={handleServiceTypeChange}
+            handleServiceTypeChange={handleServiceTypeChange}
             onBlur={handleServiceTypeBlur}
             initialSelectedServiceType={serviceType}
             showError={showError}
