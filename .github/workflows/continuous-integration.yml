@@ -485,6 +485,7 @@ jobs:
   testing-reports:
     name: Testing Reports
     runs-on: ubuntu-latest
+    continue-on-error: true
     needs: cypress-tests
     if: ${{ always() && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
     steps:
