@@ -64,7 +64,6 @@ export function ComparePage({
   const institutionCount = loaded.length;
   const history = useHistory();
   const isSticky = headerClass === 'sticky';
-  const isLimited = headerClass === 'limited';
   const hasScrollTo = scrollTo !== null;
 
   useEffect(
@@ -114,25 +113,25 @@ export function ComparePage({
 
       if (initialTop) {
         const offset = window.pageYOffset;
-        if (offset > initialTop && !isSticky && !isLimited) {
+        const placeholder = document.querySelector('.placeholder.open');
+        const footer = document.getElementById('footerNav');
+
+        const visibleFooterHeight = footer
+          ? window.innerHeight - footer.getBoundingClientRect().top
+          : 0;
+        if (placeholder) {
+          placeholder.style.height = headerRef.current.getBoundingClientRect().height;
+        }
+        if (offset > initialTop && !isSticky) {
           setHeaderClass('sticky');
           scrollHeaderRef.current.scroll({
             left: scrollPageRef.current.scrollLeft,
           });
-        } else if (offset < initialTop && isSticky && !isLimited) {
+        } else if (offset < initialTop && isSticky) {
           setHeaderClass(null);
-        } else if (
-          isSticky &&
-          headerRef.current.getBoundingClientRect().bottom >=
-            scrollPageRef.current.getBoundingClientRect().bottom
-        ) {
-          // setHeaderClass('limited');
-        } else if (
-          isLimited &&
-          headerRef.current.getBoundingClientRect().bottom <
-            scrollPageRef.current.getBoundingClientRect().bottom
-        ) {
-          // setHeaderClass('sticky');
+        } else if (isSticky) {
+          headerRef.current.style.top =
+            visibleFooterHeight > 0 ? -visibleFooterHeight : 0;
         }
       }
     },
@@ -233,9 +232,14 @@ export function ComparePage({
       )}
       <div className="content-wrapper">
         <div
+          className={classNames('placeholder', {
+            open: isSticky,
+          })}
+        />
+        <div
           id="compareHeader"
           className={classNames({
-            [headerClass]: isSticky || isLimited,
+            [headerClass]: isSticky,
           })}
           ref={headerRef}
         >

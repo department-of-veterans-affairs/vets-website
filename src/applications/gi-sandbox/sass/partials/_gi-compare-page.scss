@@ -62,6 +62,15 @@
 
     @media (max-width: $small-screen) {
       height: 100%;
+      width: 260px;
+    }
+  }
+
+  .placeholder {
+    display: none;
+
+    &.open {
+      display: block;
     }
   }
 
@@ -320,8 +329,10 @@
       overflow: visible!important;
       background-color: $color-white;
 
-      .compare-header-row {
-        overflow-x: scroll;
+      @media (max-width: $small-screen) {
+        .compare-header-row {
+          overflow-x: scroll;
+        }
       }
     }
 
