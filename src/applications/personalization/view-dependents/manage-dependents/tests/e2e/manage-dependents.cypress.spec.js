@@ -74,7 +74,7 @@ const testSubmissionError = async () => {
   cy.injectAxeThenAxeCheck();
 };
 
-describe('View dependents formlett', () => {
+describe.skip('View dependents formlett', () => {
   beforeEach(() => {
     setup();
   });
