@@ -737,7 +737,7 @@ jobs:
       - name: Set output of Cypress tests
         id: cypress-tests-output
         run: |
-          results=$(Number of tests run: $TOTAL_TESTS_RUN) 
+          results= echo "Number of tests run: $TOTAL_TESTS_RUN"
           echo $results
           echo ::set-output name=results::$results
 
