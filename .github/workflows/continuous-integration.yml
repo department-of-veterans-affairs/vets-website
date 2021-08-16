@@ -739,8 +739,7 @@ jobs:
       - name: Set output of Cypress tests
         id: cypress-tests-output
         run: |
-          cypress_results= echo "##Number of tests run: $TOTAL_TESTS_RUN, Total Tests Passed: $TOTAL_TESTS_PASSED, Total Tests Failed: $TOTAL_TESTS_FAILED, Total Tests Skipped: $TOTAL_TESTS_SKIPPED"
-          echo "CYPRESS_RESULTS=$cypress_results" >> $GITHUB_ENV
+          echo "CYPRESS_RESULTS='##Number of tests run: $TOTAL_TESTS_RUN, Total Tests Passed: $TOTAL_TESTS_PASSED, Total Tests Failed: $TOTAL_TESTS_FAILED, Total Tests Skipped: $TOTAL_TESTS_SKIPPED'" >> $GITHUB_ENV
 
       - name: Output full results
         run: echo ${{steps.cypress-tests-output.outputs.results }}
