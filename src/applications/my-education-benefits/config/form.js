@@ -577,7 +577,7 @@ const formConfig = {
                   .uiSchema('Your mailing address')
                   ['ui:order'].concat('livesOnMilitaryBaseInfo'),
                 properties: {
-                  propOne: {
+                  livesOnMilitaryBaseInfo: {
                     type: 'boolean',
                   },
                 },
