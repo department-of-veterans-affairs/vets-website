@@ -276,7 +276,11 @@ export async function setTypeOfEyeCare(store, label) {
  * @param {VAFacility} facilityData The facility data to use in the mock
  * @returns {string} The url path that was routed to after clicking Continue
  */
-export async function setVAFacility(store, facilityId, facilityData) {
+export async function setVAFacility(
+  store,
+  facilityId,
+  { facilityData = null, directCriteria = {}, requestCriteria = {} } = {},
+) {
   const siteCode = facilityId.substring(0, 3);
   const typeOfCareId = store.getState().newAppointment.data.typeOfCareId;
   const parentSite = {
@@ -290,11 +294,19 @@ export async function setVAFacility(store, facilityId, facilityData) {
   };
 
   const directFacilities = [
-    getDirectBookingEligibilityCriteriaMock({ id: facilityId, typeOfCareId }),
+    getDirectBookingEligibilityCriteriaMock({
+      id: facilityId,
+      typeOfCareId,
+      ...directCriteria,
+    }),
   ];
 
   const requestFacilities = [
-    getRequestEligibilityCriteriaMock({ id: facilityId, typeOfCareId }),
+    getRequestEligibilityCriteriaMock({
+      id: facilityId,
+      typeOfCareId,
+      ...requestCriteria,
+    }),
   ];
 
   const realFacilityID = facilityId.replace('983', '442').replace('984', '552');

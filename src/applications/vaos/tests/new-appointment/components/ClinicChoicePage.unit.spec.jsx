@@ -51,7 +51,7 @@ describe('VAOS <ClinicChoicePage>', () => {
         },
       },
     ];
-    mockFacilityFetch('vha_442', {
+    const facilityData = {
       id: 'vha_442',
       attributes: {
         ...getVAFacilityMock().attributes,
@@ -69,7 +69,7 @@ describe('VAOS <ClinicChoicePage>', () => {
           main: '307-778-7550',
         },
       },
-    });
+    };
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -84,7 +84,7 @@ describe('VAOS <ClinicChoicePage>', () => {
     const store = createTestStore(initialState);
 
     await setTypeOfCare(store, /primary care/i);
-    await setVAFacility(store, '983');
+    await setVAFacility(store, '983', { facilityData });
 
     const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
       store,
@@ -193,6 +193,7 @@ describe('VAOS <ClinicChoicePage>', () => {
   });
 
   it('should show message if user choose a different clinic but is not eligible for requests', async () => {
+    // Given a list of clinics
     const clinics = [
       {
         id: '308',
@@ -215,6 +216,8 @@ describe('VAOS <ClinicChoicePage>', () => {
         },
       },
     ];
+
+    // And the user is not passing the request past visits check
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -227,17 +230,21 @@ describe('VAOS <ClinicChoicePage>', () => {
     });
     mockFacilityFetch('vha_442', getVAFacilityMock());
 
+    // And the page has loaded
     const store = createTestStore(initialState);
-
     await setTypeOfCare(store, /amputation/i);
-    await setVAFacility(store, '983');
-
+    await setVAFacility(store, '983', {
+      requestCriteria: {
+        patientHistoryDuration: 1095,
+        patientHistoryRequired: 'Yes',
+      },
+    });
     const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
       store,
     });
-
     await screen.findByText(/Choose a VA clinic/i);
 
+    // When the user choose a different clinic than what is listed
     // choosing the third option sends you to request flow
     userEvent.click(screen.getByText(/need a different clinic/i));
     await waitFor(
@@ -246,10 +253,12 @@ describe('VAOS <ClinicChoicePage>', () => {
           .true,
     );
 
+    // Then the request past visits warning message is shown
     await screen.findByText(
-      /You need to have visited this facility within the past/i,
+      /You need to have visited this facility within the past 36 months/i,
     );
 
+    // And the user can't continue
     expect(screen.getByText(/continue/i)).to.have.attribute('disabled');
   });
 
@@ -266,7 +275,7 @@ describe('VAOS <ClinicChoicePage>', () => {
         },
       },
     ];
-    mockFacilityFetch('vha_442', {
+    const facilityData = {
       id: 'vha_442',
       attributes: {
         ...getVAFacilityMock().attributes,
@@ -284,7 +293,7 @@ describe('VAOS <ClinicChoicePage>', () => {
           main: '307-778-7550',
         },
       },
-    });
+    };
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -299,7 +308,7 @@ describe('VAOS <ClinicChoicePage>', () => {
     const store = createTestStore(initialState);
 
     await setTypeOfCare(store, /amputation/i);
-    await setVAFacility(store, '983');
+    await setVAFacility(store, '983', { facilityData });
 
     const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
       store,

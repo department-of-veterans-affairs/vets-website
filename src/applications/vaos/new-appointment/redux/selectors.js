@@ -300,15 +300,16 @@ export function getClinicsForChosenFacility(state) {
 export function getClinicPageInfo(state, pageKey) {
   const formPageInfo = getFormPageInfo(state, pageKey);
   const newAppointment = getNewAppointment(state);
-  const facilityDetails = newAppointment.facilityDetails;
   const eligibility = selectEligibility(state);
+  const typeOfCare = getTypeOfCare(formPageInfo.data);
 
   return {
     ...formPageInfo,
-    facilityDetails: facilityDetails?.[formPageInfo.data.vaFacility],
-    typeOfCare: getTypeOfCare(formPageInfo.data),
+    facility: newAppointment.facilities[typeOfCare.id].find(
+      facility => facility.id === formPageInfo.data.vaFacility,
+    ),
+    typeOfCare,
     clinics: getClinicsForChosenFacility(state),
-    facilityDetailsStatus: newAppointment.facilityDetailsStatus,
     eligibility,
     canMakeRequests: eligibility?.request,
   };
