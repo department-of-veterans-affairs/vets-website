@@ -132,24 +132,17 @@ export function FilterYourResults({
   };
 
   const excludedSchoolTypesGroup = () => {
-    const types = INSTITUTION_TYPES.filter(
-      type =>
-        Object.keys(facets.type).includes(type.toUpperCase()) ||
-        excludedSchoolTypes.includes(type.toUpperCase()),
-    );
+    const options = (showAllSchoolTypes
+      ? INSTITUTION_TYPES
+      : INSTITUTION_TYPES.slice(0, 4)
+    ).map(type => {
+      return {
+        name: type.toUpperCase(),
+        checked: excludedSchoolTypes.includes(type.toUpperCase()),
+        optionLabel: type,
+      };
+    });
 
-    const seeMore = types.length > 4 && !showAllSchoolTypes;
-    const seeLess = types.length > 4 && showAllSchoolTypes;
-
-    const options = (showAllSchoolTypes ? types : types.slice(0, 4)).map(
-      type => {
-        return {
-          name: type.toUpperCase(),
-          checked: excludedSchoolTypes.includes(type.toUpperCase()),
-          optionLabel: type,
-        };
-      },
-    );
     return (
       <div className="vads-u-margin-bottom--5">
         <CheckboxGroup
@@ -161,7 +154,7 @@ export function FilterYourResults({
           onChange={handleExcludedSchoolTypesChange}
           options={options}
         />
-        {seeMore && (
+        {!showAllSchoolTypes && (
           <button
             className="va-button-link see-more-less"
             onClick={() => setShowAllSchoolTypes(true)}
@@ -169,7 +162,7 @@ export function FilterYourResults({
             See more...
           </button>
         )}
-        {seeLess && (
+        {showAllSchoolTypes && (
           <button
             className="va-button-link see-more-less"
             onClick={() => setShowAllSchoolTypes(false)}
