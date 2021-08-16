@@ -3,7 +3,7 @@ import { Validator } from 'jsonschema';
 
 import { submitTransform } from '../../../helpers';
 import formConfig from '../../../config/form';
-import simpleSample from 'vets-json-schema/dist/10-10CG-schema.json';
+import caregiversSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 
 import defaultSample from './sample-data/simple.form.data.json';
 import missingSample from './sample-data/missing.form.data.json';
@@ -19,7 +19,7 @@ describe('10-10CG - schema tests', () => {
         JSON.parse(submitData).caregiversAssistanceClaim.form,
       );
 
-      const result = validator.validate(data, simpleSample);
+      const result = validator.validate(data, caregiversSchema);
       expect(result.valid).to.be.true;
     });
     it('should not validates with missing data', () => {
@@ -29,7 +29,7 @@ describe('10-10CG - schema tests', () => {
         JSON.parse(submitData).caregiversAssistanceClaim.form,
       );
 
-      const result = validator.validate(data, simpleSample);
+      const result = validator.validate(data, caregiversSchema);
 
       expect(result.valid).to.be.false;
     });
@@ -40,7 +40,7 @@ describe('10-10CG - schema tests', () => {
         JSON.parse(submitData).caregiversAssistanceClaim.form,
       );
 
-      const result = validator.validate(data, simpleSample);
+      const result = validator.validate(data, caregiversSchema);
 
       expect(result.valid).to.be.false;
     });
