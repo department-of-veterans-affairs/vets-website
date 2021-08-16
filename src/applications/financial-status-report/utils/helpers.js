@@ -81,34 +81,12 @@ export const getMonthlyExpenses = formData => {
     otherExpenses,
     utilityRecords,
     installmentContractsAndOtherDebts,
-    currentEmployment,
-    spouseCurrentEmployment,
   } = formData;
 
   let totalArr = [];
 
   const householdExpenses = Object.values(expenses);
   totalArr = [...totalArr, ...householdExpenses];
-
-  if (questions.vetIsEmployed) {
-    const payrollDeductions = currentEmployment
-      .map(record => record.deductions)
-      .flat();
-    const deductionAmounts = payrollDeductions.map(
-      deduction => Number(deduction?.amount) || 0,
-    );
-    totalArr = [...totalArr, ...deductionAmounts];
-  }
-
-  if (questions.spouseIsEmployed) {
-    const payrollDeductions = spouseCurrentEmployment
-      .map(record => record.deductions)
-      .flat();
-    const deductionAmounts = payrollDeductions.map(
-      deduction => Number(deduction?.amount) || 0,
-    );
-    totalArr = [...totalArr, ...deductionAmounts];
-  }
 
   if (questions.hasUtilities) {
     const utilities = utilityRecords.map(
