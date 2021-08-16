@@ -29,7 +29,6 @@ export const INITIAL_STATE = {
     count: null,
     facets: {
       category: {},
-      type: {},
       state: {},
       country: [],
       cautionFlag: {},
@@ -46,7 +45,6 @@ export const INITIAL_STATE = {
     count: null,
     facets: {
       category: {},
-      type: {},
       state: {},
       country: [],
       cautionFlag: {},
@@ -95,7 +93,6 @@ function uppercaseKeys(obj) {
 
 function normalizedInstitutionFacets(facets) {
   const state = uppercaseKeys(facets.state);
-  const type = uppercaseKeys(facets.type);
   const provider = Array.isArray(facets.provider)
     ? facets.provider.map(providerCount => ({
         ...providerCount,
@@ -103,7 +100,7 @@ function normalizedInstitutionFacets(facets) {
       }))
     : [];
 
-  return { ...facets, state, type, provider };
+  return { ...facets, state, provider };
 }
 
 function derivePaging(links) {
