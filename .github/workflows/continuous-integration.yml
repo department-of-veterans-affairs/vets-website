@@ -59,7 +59,7 @@ jobs:
       - name: Install dependencies
         uses: nick-invision/retry@v2
         with:
-          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          command: yarn install --frozen-lockfile --prefer-offline --production=false --verbose
           max_attempts: 3
           timeout_minutes: 5
         env:
@@ -516,7 +516,7 @@ jobs:
       - name: Install dependencies
         uses: nick-invision/retry@v2
         with:
-          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          command: yarn install --frozen-lockfile --prefer-offline --production=false --verbose
           max_attempts: 3
           timeout_minutes: 5
         env:
