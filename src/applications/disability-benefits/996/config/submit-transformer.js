@@ -35,7 +35,8 @@ export function transform(formConfig, form) {
     if (!version1) {
       attributes.veteran.homeless = formData.homeless;
       attributes.veteran.phone = getPhone(formData);
-      attributes.veteran.email = formData?.veteran.email;
+      attributes.veteran.email = formData.veteran?.email || '';
+      attributes.socOptIn = formData.socOptIn;
     }
 
     // Add informal conference data

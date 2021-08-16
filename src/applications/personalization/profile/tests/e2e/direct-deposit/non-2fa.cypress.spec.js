@@ -14,7 +14,7 @@ function confirmSetUp2FAAlertIsShown() {
     .should('exist');
 }
 
-describe('Direct Deposit', () => {
+describe.skip('Direct Deposit', () => {
   beforeEach(() => {
     cy.login();
   });

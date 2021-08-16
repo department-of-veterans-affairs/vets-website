@@ -2,9 +2,11 @@ import React from 'react';
 
 const GettingStartedWithVetTec = () => {
   return (
-    <div className="vads-u-padding-top--1 vads-u-padding-bottom--3">
+    <div className="vads-u-padding-top--1 vads-u-padding-bottom--3 small-screen-font">
       <div className="vads-u-padding-bottom--1px">
-        <h3>What types of training does VET TEC cover?</h3>
+        <h3 className="small-screen-font">
+          What types of training does VET TEC cover?
+        </h3>
       </div>
       <hr className="vads-u-margin-top--1" />
       You can get training in one of these high-demand training areas:
@@ -16,7 +18,9 @@ const GettingStartedWithVetTec = () => {
         <li>Media applications</li>
       </ul>
       <div className="vads-u-padding-bottom--1px">
-        <h3>What benefits can I get through this program?</h3>
+        <h3 className="small-screen-font">
+          What benefits can I get through this program?
+        </h3>
       </div>
       <hr className="vads-u-margin-top--1" />
       With VET TEC, you can get:
@@ -43,7 +47,7 @@ const GettingStartedWithVetTec = () => {
         prorate your housing payment for the days you train.
       </p>
       <div className="vads-u-padding-bottom--1px">
-        <h3>How do I apply for VET TEC?</h3>
+        <h3 className="small-screen-font">How do I apply for VET TEC?</h3>
       </div>
       <hr className="vads-u-margin-top--1" />
       <b>To apply for the VET TEC program, you’ll need to:</b>
