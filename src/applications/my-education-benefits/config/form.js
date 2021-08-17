@@ -429,6 +429,15 @@ const formConfig = {
               },
               email: emailUI('Email address'),
               confirmEmail: emailUI('Confirm email address'),
+              'ui:validations': [
+                (errors, field) => {
+                  if (field.email !== field.confirmEmail) {
+                    errors.confirmEmail.addError(
+                      'Sorry, your emails must match',
+                    );
+                  }
+                },
+              ],
             },
             [formFields.mobilePhoneNumber]: {
               'ui:title': 'Your mobile phone number',
