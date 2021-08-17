@@ -17,6 +17,7 @@ import { VIDEO_TYPES } from '../../utils/constants';
  * @param {Object} params
  * @param {?string} params.id The appointment id
  * @param {?string} params.email The email address used
+ * @param {?string} params.phone The phone number used
  * @param {?string} params.currentStatus The VistA status to use. Ignored in version 2
  * @param {Number} [params.version=2] The version of the output data. Currently 0 and 2 are supported
  * @param {?string} params.clinicFriendlyName The clinic name of the appointment (version 0 only)
@@ -24,6 +25,7 @@ import { VIDEO_TYPES } from '../../utils/constants';
  * @param {?string} params.instructionsTitle The video instructions title string
  * @param {PPMSProvider} params.communityCareProvider The community care provider to use. Info aside from
  *   uniqueId is discarded in version 2
+ * @param {?string} params.timezone The timezone to use
  * @param {...string} params.fields Other fields provided can be any version 2 field. Some are used to set data
  *   on the version 0 output (kind, start, etc) and all are merged into the v2 output
  * @returns {VAOSAppointment|MASAppointment} An appointment object in the specified format
@@ -31,6 +33,7 @@ import { VIDEO_TYPES } from '../../utils/constants';
 export function createMockAppointmentByVersion({
   id = null,
   email = null,
+  phone = null,
   currentStatus = null,
   version = 2,
   clinicFriendlyName = null,
@@ -41,6 +44,32 @@ export function createMockAppointmentByVersion({
   ...fields
 } = {}) {
   const fieldsWithoutProps = omit(['email'], fields);
+
+  if (version === 0 && fields.requestedPeriods?.length > 0) {
+    return {
+      id,
+      attributes: {
+        additionalInformation: null,
+        bestTimetoCall: null,
+        date: moment(),
+        email,
+        facility: {
+          facilityCode: fields.locationId,
+          name: clinicFriendlyName,
+        },
+        optionTime1: 'AM',
+        optionDate1: moment(fields.requestedPeriods[0].start).format(
+          'MM/DD/YYYY',
+        ),
+        phoneNumber: phone,
+        status: fields.status === 'cancelled' ? 'Cancelled' : fields.status,
+        typeOfCareId: fields.typeOfCareId || fields.serviceType,
+        uniqueId: id,
+        visitType: fields.visitType,
+      },
+    };
+  }
+
   if (version === 0 && fields.kind !== 'cc') {
     const vdsAppointments = [];
     const vvsAppointments = [];
@@ -186,10 +215,8 @@ export function createMockAppointmentByVersion({
         comment: null,
         contact: {
           telecom: [
-            {
-              type: 'email',
-              value: email,
-            },
+            { type: 'phone', value: phone },
+            { type: 'email', value: email },
           ],
         },
         description: null,
@@ -198,11 +225,7 @@ export function createMockAppointmentByVersion({
         locationId: null,
         minutesDuration: null,
         practitioners: communityCareProvider
-          ? [
-              {
-                id: { system: 'HSRM', value: communityCareProvider.uniqueId },
-              },
-            ]
+          ? [{ id: { system: 'HSRM', value: communityCareProvider.uniqueId } }]
           : null,
         preferredTimesForPhoneCall: null,
         priority: null,
@@ -211,7 +234,7 @@ export function createMockAppointmentByVersion({
         serviceType: null,
         slot: null,
         start:
-          fields.kind === 'cc'
+          fields.kind === 'cc' && !fields.requestedPeriods?.length
             ? moment(fields.start)
                 .utc()
                 .format()

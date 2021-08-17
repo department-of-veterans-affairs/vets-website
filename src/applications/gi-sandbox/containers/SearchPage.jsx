@@ -4,14 +4,14 @@ import { connect } from 'react-redux';
 import { changeSearchTab, setPageTitle } from '../actions';
 import { PAGE_TITLE, TABS } from '../constants';
 import SearchTabs from '../components/search/SearchTabs';
-import { updateUrlParams, useQueryParams } from '../utils/helpers';
+import { useQueryParams } from '../utils/helpers';
 import { useHistory } from 'react-router-dom';
 import NameSearchResults from '../containers/search/NameSearchResults';
 import LocationSearchResults from '../containers/search/LocationSearchResults';
 import NameSearchForm from './search/NameSearchForm';
 import LocationSearchForm from './search/LocationSearchForm';
 import AccordionItem from '../components/AccordionItem';
-import { getSearchQueryChanged } from '../selectors/search';
+import { getSearchQueryChanged, updateUrlParams } from '../selectors/search';
 import classNames from 'classnames';
 import GIBillHeaderInfo from '../components/GIBillHeaderInfo';
 
@@ -48,7 +48,7 @@ export function SearchPage({
     window.addEventListener('resize', checkSize);
 
     if (getSearchQueryChanged(search.query)) {
-      updateUrlParams(history, search.tab, search.query, filters, version, 1);
+      updateUrlParams(history, search.tab, search.query, filters, version);
     }
 
     return () => window.removeEventListener('resize', checkSize);

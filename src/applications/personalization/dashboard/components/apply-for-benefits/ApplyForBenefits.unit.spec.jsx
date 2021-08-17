@@ -267,7 +267,7 @@ describe('ApplyForBenefits component', () => {
       expect(applicationsInProgress.length).to.equal(3);
       expect(applicationsInProgress[0]).to.contain.text('21-526EZ');
       expect(applicationsInProgress[1]).to.contain.text('686C-674');
-      expect(applicationsInProgress[2]).to.contain.text('1010ez');
+      expect(applicationsInProgress[2]).to.contain.text('10-10EZ');
     });
   });
   describe('Benefits you might be interested in', () => {

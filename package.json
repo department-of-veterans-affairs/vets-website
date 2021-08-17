@@ -24,7 +24,7 @@
     "prebuild": "node script/prebuild.js",
     "heroku-postbuild": "sh script/heroku-postbuild.sh",
     "lint": "npm run lint:js && npm run lint:sass",
-    "lint:changed": "npm run lint:js:changed && npm run lint:sass",
+    "lint:changed": "npm run lint:js:changed && npm run lint:sass:changed",
     "lint:js": "eslint --quiet --ext .js --ext .jsx .",
     "lint:circle": "eslint --ext .js --ext .jsx -c circle.eslint.json .",
     "lint:js:fix": "eslint --fix --quiet --ext .js --ext .jsx .",
@@ -32,6 +32,7 @@
     "lint:js:changed:fix": "LIST=`git diff-index --diff-filter=d --name-only HEAD | grep \"\\.js[x]\\{0,1\\}$\"`; if [ \"$LIST\" ]; then eslint --fix --quiet $LIST; fi",
     "lint:js:untracked:fix": "LIST=`git ls-files --others --exclude-standard | grep \"\\.js[x]\\{0,1\\}$\"`; if [ \"$LIST\" ]; then eslint --fix --quiet $LIST; fi",
     "lint:sass": "stylelint src/**/*.scss",
+    "lint:sass:changed": "LIST=`git diff-index --diff-filter=d --name-only HEAD -- \"*.scss\"`; if [ \"$LIST\" ]; then stylelint $LIST; fi", 
     "mock-api": "node src/platform/testing/e2e/mockapi.js",
     "migrate-component": "node script/component-migration/index.js",
     "new:app": "yo @department-of-veterans-affairs/vets-website && npm run lint:js:untracked:fix",
@@ -258,7 +259,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/component-library": "2.5.5",
+    "@department-of-veterans-affairs/component-library": "2.5.7",
     "@department-of-veterans-affairs/formation": "6.16.3",
     "@department-of-veterans-affairs/formulate": "0.0.1",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
@@ -324,8 +325,8 @@
     "url-search-params-polyfill": "^8.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#3bec07e95054fb4c6d7892d1ad700a8f4c3b009c",
-    "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.7.1",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#c53691977e6fd6ea717ceb0c4c2bc740f477168b",
+    "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.9.1",
     "whatwg-fetch": "^3.6.2"
   },
   "resolutions": {

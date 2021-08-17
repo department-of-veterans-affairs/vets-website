@@ -6,3 +6,4 @@ export const TOGGLE_TOOL_TIP = 'yellow-ribbon/TOGGLE_TOOL_TIP';
 export const TOOL_TIP_LABEL = 'Tips to improve search results';
 export const TOOL_TIP_CONTENT =
   "Enter a school's full name. For example, search for New York University not NYU.";
+export const CURRENT_SCHOOL_YEAR = 'August 2021 through July 2022';
