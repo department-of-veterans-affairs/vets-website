@@ -244,8 +244,7 @@ describe('VAOS <ClinicChoicePage>', () => {
     });
     await screen.findByText(/Choose a VA clinic/i);
 
-    // When the user choose a different clinic than what is listed
-    // choosing the third option sends you to request flow
+    // When the user chooses the different clinic option
     userEvent.click(screen.getByText(/need a different clinic/i));
     await waitFor(
       () =>
@@ -258,7 +257,7 @@ describe('VAOS <ClinicChoicePage>', () => {
       /You need to have visited this facility within the past 36 months/i,
     );
 
-    // And the user can't continue
+    // And the user can't continue into the request flow
     expect(screen.getByText(/continue/i)).to.have.attribute('disabled');
   });
 
