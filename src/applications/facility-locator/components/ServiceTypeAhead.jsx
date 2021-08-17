@@ -78,14 +78,8 @@ class ServiceTypeAhead extends Component {
     const { isFocused } = this.state;
     const { showError } = this.props;
 
-    const inputElement = document.getElementById('service-type-ahead-input');
-
     if (
-      (isFocused &&
-        inputValue === null &&
-        !showError &&
-        inputElement &&
-        inputElement.value === '') ||
+      (isFocused && inputValue === '' && !showError) ||
       (inputValue && inputValue.length < MIN_SEARCH_CHARS)
     ) {
       return <MessagePromptDiv message="Search for an available service" />;
