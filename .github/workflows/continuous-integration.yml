@@ -734,14 +734,6 @@ jobs:
           IS_MASTER_BUILD: ${{ needs.cypress-tests-prep.outputs.is_master_build }}
           NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
 
-      - name: Set output of Cypress tests
-        id: cypress-tests-output
-        run: |
-          echo 'CYPRESS_RESULTS=$MOCHAWESOME_REPORT_RESULTS' >> $GITHUB_ENV
-
-      - name: Output full results
-        run: echo ${{steps.cypress-tests-output.outputs.results }}
-
       - name: Upload Mochawesome report artifact
         uses: actions/upload-artifact@v2
         with:
@@ -813,7 +805,7 @@ jobs:
           name: Cypress Tests Summary
           conclusion: ${{ needs.cypress-tests.result }}
           output: |
-            {"summary":${{ env.CYPRESS_RESULTS }}}
+            {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
           # output: |
           #   {"summary":"Total Tests Run: $TOTAL_TESTS_RUN Total Tests Passed: $TOTAL_TESTS_PASSED Total Tests Failed: $TOTAL_TESTS_FAILED Total Tests Skipped: $TOTAL_TESTS_SKIPPED" [Mochawesome Report](https://reimagined-telegram-c11df05a.pages.github.io/cypress-reports/${{ env.UUID }})}
 
