@@ -49,10 +49,8 @@ const CernerAlertBox = ({
         Your care team may now use our new My VA Health portal. Choose your
         portal based on the facility for your appointment:
       </p>
-      <p>
-        <p className="vads-u-font-family--sans" data-testid="facilities">
-          For <FacilityList facilities={facilityNames} separator=" or " />:{' '}
-        </p>
+      <p className="vads-u-font-family--sans" data-testid="facilities">
+        For <FacilityList facilities={facilityNames} separator=" or " />:{' '}
         <a href={primaryCtaButtonUrl} rel="noopener noreferrer" target="_blank">
           Use My VA Health
         </a>
