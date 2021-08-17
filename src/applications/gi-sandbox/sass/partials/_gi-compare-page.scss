@@ -18,6 +18,10 @@
     @media (max-width: $small-screen) {
       margin-bottom: 0px;
     }
+
+    .vads-l-row {
+      flex-wrap: nowrap;
+    }
   }
 
   .compare-header-row::-webkit-scrollbar {
@@ -316,7 +320,6 @@
   }
 
   #compareHeader {
-    padding-bottom: 48px;
     @media (max-width: $small-screen) {
       padding-bottom: 0px;
     }
