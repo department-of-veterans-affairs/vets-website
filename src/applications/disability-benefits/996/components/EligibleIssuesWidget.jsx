@@ -6,6 +6,7 @@ import set from 'platform/utilities/data/set';
 import { IssueCard } from './IssueCard';
 import { SELECTED } from '../constants';
 import { someSelected, isEmptyObject } from '../utils/helpers';
+import { ContestedIssuesAlert } from '../content/contestedIssues';
 
 /**
  * EligibleIssuesWidget
@@ -32,7 +33,7 @@ const EligibleIssuesWidget = props => {
     props.onChange(items);
   };
 
-  const { value = [], id, options, formContext = {} } = props;
+  const { value = [], id, options, formContext = {}, required } = props;
 
   const onReviewPage = formContext?.onReviewPage || false;
   // inReviewMode = true (review page view, not in edit mode)
@@ -68,6 +69,10 @@ const EligibleIssuesWidget = props => {
     );
   }
 
+  // HLR v1 only
+  const showError = required && formContext.submitted && !hasSelected;
+  const wrapperClass = showError ? 'usa-input-error vads-u-margin-top--0' : '';
+
   const content = items.map((item, index) => {
     const itemIsSelected = !!item[SELECTED];
     const hideCard = (inReviewMode && !itemIsSelected) || isEmptyObject(item);
@@ -89,7 +94,10 @@ const EligibleIssuesWidget = props => {
   return onReviewPage && inReviewMode ? (
     content
   ) : (
-    <dl className="review">{content}</dl>
+    <div className={wrapperClass}>
+      {showError && <ContestedIssuesAlert />}
+      <dl className="review">{content}</dl>
+    </div>
   );
 };
 
