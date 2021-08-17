@@ -550,14 +550,6 @@ jobs:
           name: cypress-screenshot-artifacts
           path: cypress/screenshots
 
-      - name: Archive JUnit test results
-        uses: actions/upload-artifact@v2
-        if: ${{ always() }}
-        with:
-          name: cypress-junit-test-results
-          path: test-results
-          retention-days: 1
-
       - name: Archive Mochawesome test results
         uses: actions/upload-artifact@v2
         if: ${{ always() }}
@@ -782,13 +774,6 @@ jobs:
       # -------------------------
       # | Cypress Tests Summary |
       # -------------------------
-
-      - name: Download Cypress JUnit test results
-        if: ${{ always() }}
-        uses: actions/download-artifact@v2
-        with:
-          name: cypress-junit-test-results
-          path: cypress-junit-test-results
 
       - name: Publish Cypress test results
         if: ${{ always() }}
