@@ -728,7 +728,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
       ),
     ).to.exist;
 
-    // And the earliest time avaiable is the slot tomorrow
+    // And the time shown as earliest available is tomorrow's slot
     expect(
       screen.getByText(
         new RegExp(
