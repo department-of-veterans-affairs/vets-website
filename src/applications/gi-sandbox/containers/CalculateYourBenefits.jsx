@@ -159,10 +159,12 @@ export function CalculateYourBenefits({
       {!isOJT && (
         <>
           <div className="subsection">
-            <h3>Additional information regarding your benefits</h3>
+            <h3 className="small-screen-header">
+              Additional information regarding your benefits
+            </h3>
           </div>
 
-          <div className="vads-u-padding-bottom--1">
+          <div className="vads-u-padding-bottom--1 small-screen-font">
             <strong>Veterans tuition policy:</strong>{' '}
             {profile.attributes.vetWebsiteLink ? 'Yes' : 'No'}
             {profile.attributes.vetWebsiteLink && (

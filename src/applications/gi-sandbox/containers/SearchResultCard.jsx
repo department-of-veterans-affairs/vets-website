@@ -214,7 +214,11 @@ export function SearchResultCard({
   );
 
   return (
-    <div className={resultCardClasses} id={`${createId(name)}-result-card`}>
+    <div
+      key={institution.facilityCode}
+      className={resultCardClasses}
+      id={`${createId(name)}-result-card`}
+    >
       <div className={containerClasses}>
         {location && <span id={`${createId(name)}-result-card-placeholder`} />}
         {header}

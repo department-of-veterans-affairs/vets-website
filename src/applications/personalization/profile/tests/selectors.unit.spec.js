@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import * as selectors from '../selectors';
+import localStorage from 'platform/utilities/storage/localStorage';
 
 const getDirectDepositInfoError = {
   errors: [
@@ -505,6 +506,40 @@ describe('profile selectors', () => {
       expect(selectors.militaryInformationLoadError(state)).to.be.undefined;
       state = { vaProfile: {} };
       expect(selectors.militaryInformationLoadError(state)).to.be.undefined;
+    });
+  });
+
+  describe('checkAndUpdateNotificationSettings', () => {
+    const makeDefaultState = (flagStatus = true) => ({
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        profile_notification_settings: flagStatus,
+      },
+    });
+
+    beforeEach(() => {
+      localStorage.clear();
+    });
+
+    it('should get feature flag setting if no local storage exists', () => {
+      const state = makeDefaultState();
+      expect(selectors.showNotificationSettings(state)).to.equal(true);
+    });
+
+    it('should return true and ignore feature flag if local storage is true', () => {
+      localStorage.setItem('PROFILE_NOTIFICATION_SETTINGS', true);
+      const state = makeDefaultState(false);
+      expect(selectors.showNotificationSettings(state)).to.equal(true);
+    });
+
+    it('should return false and ignore feature flag if local storage is false', () => {
+      localStorage.setItem('PROFILE_NOTIFICATION_SETTINGS', false);
+      const state = makeDefaultState();
+      expect(selectors.showNotificationSettings(state)).to.equal(false);
+    });
+
+    afterEach(() => {
+      localStorage.clear();
     });
   });
 });

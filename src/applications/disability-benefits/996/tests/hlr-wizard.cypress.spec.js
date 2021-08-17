@@ -3,6 +3,11 @@ import {
   WIZARD_STATUS,
   SAVED_CLAIM_TYPE,
   CONTESTABLE_ISSUES_API,
+  LEGACY_APPEALS_URL,
+  BENEFIT_OFFICES_URL,
+  SUPPLEMENTAL_CLAIM_URL,
+  HLR_INFO_URL,
+  FORM_URL,
 } from '../constants';
 import Timeouts from 'platform/testing/e2e/timeouts';
 
@@ -59,9 +64,7 @@ describe('HLR wizard', () => {
     cy.get('[type="radio"][value="other"]').check(checkOpt);
     cy.checkStorage(SAVED_CLAIM_TYPE, undefined);
     // #8622 set by public websites accordion anchor ID
-    cy.get(
-      'a[href*="/decision-reviews/higher-level-review/#find-addresses-for-other-benef-8622"]',
-    ).should('exist');
+    cy.get(`a[href*="${BENEFIT_OFFICES_URL}"]`).should('exist');
     cy.checkFormChange({
       label: 'For what type of claim are you requesting a Higher-Level Review?',
       value: 'other',
@@ -73,7 +76,7 @@ describe('HLR wizard', () => {
   // legacy appeals flow
   it('should show legacy appeals question & alert', () => {
     cy.get('[type="radio"][value="compensation"]').check(checkOpt);
-    cy.get('a[href*="disability/file-an-appeal"]').should('exist');
+    cy.get(`a[href*="${LEGACY_APPEALS_URL}"]`).should('exist');
     cy.checkFormChange({
       label: 'For what type of claim are you requesting a Higher-Level Review?',
       value: 'compensation',
@@ -81,11 +84,9 @@ describe('HLR wizard', () => {
 
     cy.get('[type="radio"][value="legacy-yes"]').check(checkOpt);
     // download form link
-    cy.get('a[href*="www.vba.va.gov/pubs/forms/VBA-20-0996-ARE.pdf"]').should(
-      'exist',
-    );
+    cy.get(`a[href*="${FORM_URL}"]`).should('exist');
     // supplemental claim link
-    cy.get('a[href*="/decision-reviews/supplemental-claim"]').should('exist');
+    cy.get(`a[href*="${SUPPLEMENTAL_CLAIM_URL}"]`).should('exist');
     cy.checkFormChange({
       label: 'Is this claim going through the legacy appeals process?',
       value: 'legacy-yes',
@@ -110,10 +111,10 @@ describe('HLR wizard', () => {
       value: 'compensation',
     });
 
-    cy.get('a[href*="disability/file-an-appeal"]').should('exist');
+    cy.get(`a[href*="${LEGACY_APPEALS_URL}"]`).should('exist');
     cy.get('[type="radio"][value="legacy-no"]').check(checkOpt);
     // learn more link
-    cy.get('a[href*="/decision-reviews/higher-level-review/"]').should('exist');
+    cy.get(`a[href*="${HLR_INFO_URL}"]`).should('exist');
     cy.checkFormChange({
       label: 'Is this claim going through the legacy appeals process?',
       value: 'legacy-no',

@@ -72,7 +72,11 @@
                 {
                   "id": 1,
                   "name": "Text",
-                  "description": "SMS Notification"
+                  "description": "SMS Notification",
+                  "communicationPermission": {
+                    "id": 1234,
+                    "allowed": false
+                  }
                 }
               ]
             }
