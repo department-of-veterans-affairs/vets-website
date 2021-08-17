@@ -152,6 +152,8 @@ export const transform = (formConfig, form) => {
     },
   };
 
+  // calculated values should formatted then converted to string
+  // input values use form validation and are formatted correctly
   const convertIntegerToString = (key, value) => {
     return typeof value === 'number' ? value.toFixed(2).toString() : value;
   };

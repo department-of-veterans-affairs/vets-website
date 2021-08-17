@@ -19,7 +19,7 @@ export const dateFormatter = date => {
 };
 
 export const sumValues = (arr, key) => {
-  return arr.reduce((acc, item) => acc + Number(item[key]) || 0, 0);
+  return arr?.reduce((acc, item) => acc + Number(item[key]) ?? 0, 0);
 };
 
 export const getMonthlyIncome = ({
@@ -75,7 +75,7 @@ export const getMonthlyIncome = ({
     totalArr = [...totalArr, benefitAmount, educationAmount];
   }
 
-  return totalArr.reduce((acc, income) => acc + Number(income), 0) || 0;
+  return totalArr.reduce((acc, income) => acc + Number(income), 0) ?? 0;
 };
 
 export const getMonthlyExpenses = formData => {
@@ -111,7 +111,7 @@ export const getMonthlyExpenses = formData => {
     totalArr = [...totalArr, ...other];
   }
 
-  return totalArr.reduce((acc, expense) => acc + Number(expense), 0) || 0;
+  return totalArr.reduce((acc, expense) => acc + Number(expense), 0) ?? 0;
 };
 
 export const getEmploymentHistory = ({ questions, personalData }) => {
@@ -184,7 +184,7 @@ export const getTotalAssets = ({ assets, realEstateRecords }) => {
   ];
 
   return totArr
-    .map(amount => amount || 0)
+    .map(amount => amount ?? 0)
     .reduce((acc, amount) => acc + Number(amount), 0);
 };
 
@@ -238,10 +238,10 @@ export const getIncome = ({
             ...item.deductions,
             otherDeductions: {
               name: deductions
-                .map(deduction => deduction?.name || '')
+                .map(deduction => deduction?.name ?? '')
                 .join(', '),
               amount: deductions.reduce(
-                (acc, deduction) => acc + Number(deduction?.amount) || 0,
+                (acc, deduction) => acc + Number(deduction?.amount) ?? 0,
                 0,
               ),
             },
@@ -275,10 +275,10 @@ export const getIncome = ({
             ...item.deductions,
             otherDeductions: {
               name: deductions
-                .map(deduction => deduction?.name || '')
+                .map(deduction => deduction?.name ?? '')
                 .join(', '),
               amount: deductions.reduce(
-                (acc, deduction) => acc + Number(deduction?.amount) || 0,
+                (acc, deduction) => acc + Number(deduction?.amount) ?? 0,
                 0,
               ),
             },
