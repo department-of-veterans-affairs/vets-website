@@ -15,6 +15,7 @@ export function CompareDrawer({
 }) {
   const history = useHistory();
   const [open, setOpen] = useState(compare.open);
+  const [firstPass, setFirstPass] = useState(true);
   const [promptingFacilityCode, setPromptingFacilityCode] = useState(null);
   const { loaded, institutions } = compare.search;
   const [stuck, setStuck] = useState(false);
@@ -28,6 +29,23 @@ export function CompareDrawer({
       );
     }
   };
+  const test = () => {
+    if (loaded.length === 1 && firstPass) {
+      setFirstPass(false);
+      setTimeout(() => {
+        dispatchCompareDrawerOpened(true);
+      }, 300);
+      setTimeout(() => {
+        dispatchCompareDrawerOpened(false);
+      }, 500);
+    } else if (compare.search.loaded.length === 0 && !firstPass) {
+      setFirstPass(true);
+      setTimeout(() => {
+        dispatchCompareDrawerOpened(false);
+      }, 300);
+    }
+  };
+  useEffect(() => test(), [loaded]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, true);
@@ -36,6 +54,8 @@ export function CompareDrawer({
       window.removeEventListener('scroll', handleScroll, true);
     };
   }, []);
+
+  useEffect(() => setOpen(compare.open), [compare.open]);
 
   if (notRendered) {
     return null;
@@ -66,7 +86,10 @@ export function CompareDrawer({
   };
 
   const expandOnClick = () => {
-    setOpen(!open);
+    setTimeout(() => {
+      setOpen(!open);
+    }, 300);
+
     dispatchCompareDrawerOpened(!open);
   };
 

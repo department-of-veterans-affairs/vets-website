@@ -36,6 +36,7 @@ export default function(state = INITIAL_STATE, action) {
             },
           },
           selected: [...state.selected, action.payload.facilityCode],
+          open: true,
         };
       }
       break;
