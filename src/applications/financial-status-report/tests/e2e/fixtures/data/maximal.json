@@ -242,8 +242,8 @@
     "dateOfBirth": "1933-04-05"
   },
   "personalIdentification": {
-    "ssn": "1200",
-    "fileNumber": "1200"
+    "ssn": "1234",
+    "fileNumber": "5678"
   },
   "selectedDebts": [
     {

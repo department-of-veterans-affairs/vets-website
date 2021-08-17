@@ -16,6 +16,7 @@ import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { useHistory } from 'react-router-dom';
 import { updateUrlParams } from '../../selectors/search';
 import { TABS } from '../../constants';
+import { INITIAL_STATE } from '../../reducers/search';
 
 export function LocationSearchForm({
   autocomplete,
@@ -35,6 +36,13 @@ export function LocationSearchForm({
   const [autocompleteSelection, setAutocompleteSelection] = useState(null);
   const { version } = preview;
   const history = useHistory();
+  const distanceDropdownOptions = [
+    { optionValue: '5', optionLabel: 'within 5 miles' },
+    { optionValue: '15', optionLabel: 'within 15 miles' },
+    { optionValue: '25', optionLabel: 'within 25 miles' },
+    { optionValue: '50', optionLabel: 'within 50 miles' },
+    { optionValue: '75', optionLabel: 'within 75 miles' },
+  ];
 
   useEffect(
     () => {
@@ -126,6 +134,16 @@ export function LocationSearchForm({
     [search.query.streetAddress.searchString],
   );
 
+  useEffect(
+    () => {
+      const distanceOption = distanceDropdownOptions.find(
+        option => option.optionValue === search.query.distance,
+      );
+      setDistance(distanceOption?.optionValue || INITIAL_STATE.query.distance);
+    },
+    [search.query.distance],
+  );
+
   return (
     <div className="location-search-form">
       <div className="use-my-location-container">
@@ -193,13 +211,7 @@ export function LocationSearchForm({
               className="vads-u-font-style--italic"
               selectClassName="vads-u-font-style--italic vads-u-color--gray"
               name="distance"
-              options={[
-                { optionValue: '5', optionLabel: 'within 5 miles' },
-                { optionValue: '15', optionLabel: 'within 15 miles' },
-                { optionValue: '25', optionLabel: 'within 25 miles' },
-                { optionValue: '50', optionLabel: 'within 50 miles' },
-                { optionValue: '75', optionLabel: 'within 75 miles' },
-              ]}
+              options={distanceDropdownOptions}
               value={distance}
               alt="distance"
               visible
