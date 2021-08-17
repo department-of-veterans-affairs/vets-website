@@ -20,15 +20,24 @@ import veteranInformation from '../pages/veteranInformation';
 import contactInfo from '../pages/contactInformation';
 import homeless from '../pages/homeless';
 import contestedIssuesPage from '../pages/contestedIssues';
+import additionalIssuesIntro from '../pages/additionalIssuesIntro';
+import additionalIssues from '../pages/additionalIssues';
 import informalConference from '../pages/informalConference';
 import informalConferenceRep from '../pages/informalConferenceRep';
 import informalConferenceRepV2 from '../pages/informalConferenceRepV2';
 import informalConferenceTimes from '../pages/informalConferenceTimes';
 import optIn from '../pages/optIn';
+import issueSummary from '../pages/issueSummary';
 import sameOffice from '../pages/sameOffice';
 
 import { errorMessages, WIZARD_STATUS } from '../constants';
-import { apiVersion1, apiVersion2 } from '../utils/helpers';
+import {
+  apiVersion1,
+  apiVersion2,
+  appStateSelector,
+  showAddIssueQuestion,
+  showAddIssuesPage,
+} from '../utils/helpers';
 // import initialData from '../tests/schema/initialData';
 
 import manifest from '../manifest.json';
@@ -116,7 +125,7 @@ const formConfig = {
         },
       },
     },
-    contestedIssues: {
+    conditions: {
       title: 'Issues eligible for review',
       pages: {
         contestedIssues: {
@@ -125,6 +134,24 @@ const formConfig = {
           uiSchema: contestedIssuesPage.uiSchema,
           schema: contestedIssuesPage.schema,
           // initialData,
+        },
+        additionalIssuesIntro: {
+          title: 'Additional issues for review',
+          path: 'additional-issues-intro',
+          depends: formData =>
+            showAddIssueQuestion(formData) && apiVersion2(formData),
+          uiSchema: additionalIssuesIntro.uiSchema,
+          schema: additionalIssuesIntro.schema,
+          appStateSelector,
+        },
+        additionalIssues: {
+          title: 'Add issues for review',
+          path: 'additional-issues',
+          depends: formData =>
+            showAddIssuesPage(formData) && apiVersion2(formData),
+          uiSchema: additionalIssues.uiSchema,
+          schema: additionalIssues.schema,
+          appStateSelector,
         },
         optIn: {
           title: 'Opt in',
@@ -135,6 +162,13 @@ const formConfig = {
           initialData: {
             socOptIn: false,
           },
+        },
+        issueSummary: {
+          title: 'Issue summary',
+          path: 'issue-summary',
+          uiSchema: issueSummary.uiSchema,
+          schema: issueSummary.schema,
+          depends: apiVersion2,
         },
       },
     },

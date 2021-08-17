@@ -105,14 +105,15 @@ export const createIssueName = ({ attributes } = {}) => {
 
 /* submitted contested issue format
 [{
-"type": "contestableIssue",
-"attributes": {
-  "issue": "tinnitus - 10% - some longer description",
-  "decisionDate": "1900-01-01",
-  "decisionIssueId": 1,
-  "ratingIssueReferenceId": "2",
-  "ratingDecisionReferenceId": "3"
-}
+  "type": "contestableIssue",
+  "attributes": {
+    "issue": "tinnitus - 10% - some longer description",
+    "decisionDate": "1900-01-01",
+    "decisionIssueId": 1,
+    "ratingIssueReferenceId": "2",
+    "ratingDecisionReferenceId": "3",
+    "socDate": "2000-01-01"
+  }
 }]
 */
 export const getContestedIssues = ({ contestedIssues = [] }) =>
@@ -122,6 +123,7 @@ export const getContestedIssues = ({ contestedIssues = [] }) =>
       'decisionIssueId',
       'ratingIssueReferenceId',
       'ratingDecisionReferenceId',
+      'socDate',
     ].reduce(
       (acc, key) => {
         // Don't submit null or empty strings
@@ -142,6 +144,51 @@ export const getContestedIssues = ({ contestedIssues = [] }) =>
       attributes,
     };
   });
+
+/**
+ * @typedef AdditionalIssues
+ * @type {Array<Object>}
+ * @property {AdditionalIssue~Item}
+ */
+/**
+ * @typedef AdditionalIssue~Item - user-added issues
+ * @type {Object}
+ * @property {String} issue - user entered issue name
+ * @property {String} decisionDate - user entered decision date
+ * @property {Boolean} 'view:selected' - user selected issue
+ * @returns {ContestableIssue~Submittable}
+ * @example
+ *  [{
+      "issue": "right shoulder",
+      "decisionDate": "2010-01-06"
+    }]
+ */
+/**
+ * Combine included issues and additional issues
+ * @param {FormData}
+ * @returns {ContestableIssue~Submittable}
+ */
+export const addIncludedIssues = formData => {
+  const issues = getContestedIssues(formData);
+  if (formData['view:hasIssuesToAdd']) {
+    return issues.concat(
+      (formData.additionalIssues || []).reduce((issuesToAdd, issue) => {
+        if (issue[SELECTED] && issue.issue && issue.decisionDate) {
+          // match contested issue pattern
+          issuesToAdd.push({
+            type: 'contestableIssue',
+            attributes: {
+              issue: issue.issue,
+              decisionDate: issue.decisionDate,
+            },
+          });
+        }
+        return issuesToAdd;
+      }, []),
+    );
+  }
+  return issues;
+};
 
 export const getContact = ({ informalConference }) => {
   if (informalConference === 'rep') {
