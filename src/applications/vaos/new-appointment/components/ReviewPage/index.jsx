@@ -24,7 +24,7 @@ export default function ReviewPage() {
     submitStatus,
     submitStatusVaos400,
     systemId,
-    useProviderSelection,
+    hasResidentialAddress,
     vaCityState,
   } = useSelector(selectReviewPage, shallowEqual);
   const history = useHistory();
@@ -67,7 +67,7 @@ export default function ReviewPage() {
           facility={facility}
           vaCityState={vaCityState}
           pageTitle={pageTitle}
-          useProviderSelection={useProviderSelection}
+          hasResidentialAddress={hasResidentialAddress}
         />
       )}
       <div className="vads-u-margin-y--2">

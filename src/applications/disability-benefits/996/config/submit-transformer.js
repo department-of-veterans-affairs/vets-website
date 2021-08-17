@@ -3,7 +3,7 @@ import { DEFAULT_BENEFIT_TYPE } from '../constants';
 import {
   getRep,
   getConferenceTimes,
-  getContestedIssues,
+  addIncludedIssues,
   getContact,
   getAddress,
   getPhone,
@@ -55,7 +55,7 @@ export function transform(formConfig, form) {
         type: 'higherLevelReview',
         attributes,
       },
-      included: getContestedIssues(formData),
+      included: addIncludedIssues(formData),
     };
   };
 

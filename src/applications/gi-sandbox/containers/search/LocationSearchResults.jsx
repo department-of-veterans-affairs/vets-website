@@ -237,6 +237,9 @@ function LocationSearchResults({
    * @param bounds
    */
   const currentLocationMapMarker = bounds => {
+    if (!streetAddress.position.longitude || !streetAddress.position.latitude)
+      return;
+
     const currentMarkerElement = document.createElement('div');
     currentMarkerElement.className = 'current-position';
     new mapboxgl.Marker(currentMarkerElement)
@@ -259,6 +262,8 @@ function LocationSearchResults({
   useEffect(
     () => {
       markers.forEach(marker => marker.remove());
+      setActiveMarker(null);
+
       let visibleResults = [];
       const mapMarkers = [];
 
@@ -295,7 +300,13 @@ function LocationSearchResults({
       );
 
       if (locationBounds) {
-        if (streetAddress.searchString === location) {
+        if (
+          location &&
+          location !== '' &&
+          streetAddress.searchString &&
+          streetAddress.searchString !== '' &&
+          streetAddress.searchString === location
+        ) {
           currentLocationMapMarker(locationBounds);
         }
         map.current.fitBounds(locationBounds, { padding: 20 });
@@ -327,15 +338,14 @@ function LocationSearchResults({
     );
 
     return (
-      <div key={institution.facilityCode}>
-        <SearchResultCard
-          institution={institution}
-          location
-          header={header}
-          active={activeMarker === name}
-          version={preview.version}
-        />
-      </div>
+      <SearchResultCard
+        institution={institution}
+        location
+        header={header}
+        active={activeMarker === name}
+        version={preview.version}
+        key={institution.facilityCode}
+      />
     );
   });
 

@@ -4,14 +4,11 @@ import { api } from '../config';
 
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 
-import {
-  buildSearchFilters,
-  rubyifyKeys,
-  searchCriteriaFromCoords,
-} from '../utils/helpers';
+import { rubyifyKeys, searchCriteriaFromCoords } from '../utils/helpers';
 import { TypeList } from '../constants';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import mapboxClient from '../components/MapboxClient';
+import { buildSearchFilters } from '../selectors/filters';
 
 const mbxClient = mbxGeo(mapboxClient);
 

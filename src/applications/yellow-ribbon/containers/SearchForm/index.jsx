@@ -153,7 +153,9 @@ export class SearchForm extends Component {
         onSubmit={onSubmitHandler}
       >
         <fieldset>
-          <legend className="vads-u-font-family--serif">Search criteria</legend>
+          <legend className="vads-u-font-family--serif">
+            <h2 className="vads-u-margin--0">Search criteria</h2>
+          </legend>
           {/* Name Field */}
           <label
             htmlFor="yr-search-name"
