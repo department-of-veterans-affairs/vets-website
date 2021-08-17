@@ -554,7 +554,7 @@ const formConfig = {
               ),
             },
             [formFields.address]: {
-              ...address.uiSchema('Mailing address'),
+              ...address.uiSchema('Your mailing address'),
               'ui:order': [
                 'livesOnMilitaryBaseInfo',
                 ...address.uiSchema('Your mailing address')['ui:order'],
