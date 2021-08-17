@@ -196,7 +196,6 @@ export function createPastVAAppointments() {
 }
 
 export function mockFeatureToggles({
-  providerSelectionEnabled = false,
   homepageRefresh = false,
   v2Requests = false,
   v2Facilities = false,
@@ -235,10 +234,6 @@ export function mockFeatureToggles({
           {
             name: `cerner_override_668`,
             value: false,
-          },
-          {
-            name: 'vaOnlineSchedulingProviderSelection',
-            value: providerSelectionEnabled,
           },
           {
             name: 'vaOnlineSchedulingHomepageRefresh',
@@ -376,9 +371,13 @@ export function vaosSetup() {
   cy.server();
 }
 
-function setupSchedulingMocks({ cernerFacility = false } = {}) {
+function setupSchedulingMocks({
+  cernerFacility = false,
+  withoutAddress = false,
+} = {}) {
   vaosSetup();
   mockFeatureToggles();
+  cy.getCookies();
 
   if (cernerFacility) {
     const mockCernerUser = {
@@ -391,16 +390,18 @@ function setupSchedulingMocks({ cernerFacility = false } = {}) {
             ...mockUser.data.attributes.vaProfile,
             facilities: [
               ...mockUser.data.attributes.vaProfile.facilities,
-              {
-                facilityId: cernerFacility,
-                isCerner: true,
-              },
+              { facilityId: cernerFacility, isCerner: true },
             ],
           },
         },
       },
     };
     cy.login(mockCernerUser);
+  } else if (withoutAddress) {
+    const mockUserWithoutAddress = JSON.parse(JSON.stringify(mockUser));
+    mockUserWithoutAddress.data.attributes.vet360ContactInformation.residentialAddress.addressLine1 =
+      '';
+    cy.login(mockUserWithoutAddress);
   } else {
     cy.login(mockUser);
   }
@@ -718,8 +719,8 @@ export function initVARequestMock({ cernerFacility = false } = {}) {
   }).as('requestMessages');
 }
 
-export function initCommunityCareMock() {
-  setupSchedulingMocks();
+export function initCommunityCareMock({ withoutAddress = false } = {}) {
+  setupSchedulingMocks({ withoutAddress });
 
   cy.route({
     method: 'GET',

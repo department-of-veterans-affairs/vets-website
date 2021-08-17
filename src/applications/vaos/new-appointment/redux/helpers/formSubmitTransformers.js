@@ -8,7 +8,7 @@ import {
   TYPE_OF_VISIT,
   LANGUAGES,
 } from '../../../utils/constants';
-import { selectUseProviderSelection } from '../../../redux/selectors';
+import { hasVAPResidentialAddress } from '../../../redux/selectors';
 import {
   getTypeOfCare,
   getFormData,
@@ -116,12 +116,12 @@ export function transformFormToVARequest(state) {
 
 export function transformFormToCCRequest(state) {
   const data = getFormData(state);
-  const useProviderSelection = selectUseProviderSelection(state);
+  const hasResidentialAddress = hasVAPResidentialAddress(state);
   const provider = data.communityCareProvider;
   let preferredProviders = [];
 
   if (
-    useProviderSelection &&
+    hasResidentialAddress &&
     !!data.communityCareProvider &&
     Object.keys(data.communityCareProvider).length
   ) {

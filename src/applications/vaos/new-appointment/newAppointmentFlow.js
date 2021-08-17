@@ -1,6 +1,6 @@
 import {
+  hasVAPResidentialAddress,
   selectRegisteredCernerFacilityIds,
-  selectUseProviderSelection,
 } from '../redux/selectors';
 import {
   getChosenFacilityInfo,
@@ -205,7 +205,7 @@ export default {
   ccPreferences: {
     url: '/new-appointment/community-care-preferences',
     next(state) {
-      if (selectUseProviderSelection(state)) {
+      if (hasVAPResidentialAddress(state)) {
         return 'ccLanguage';
       }
 
