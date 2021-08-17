@@ -50,6 +50,7 @@ export const uiSchema = {
           'ui:title': 'Former spouse’s middle name',
           'ui:options': {
             useDlWrap: true,
+            hideEmptyValueInReview: true,
           },
         },
         last: {
@@ -65,6 +66,7 @@ export const uiSchema = {
           'ui:options': {
             widgetClassNames: 'form-select-medium',
             useDlWrap: true,
+            hideEmptyValueInReview: true,
           },
         },
       },
