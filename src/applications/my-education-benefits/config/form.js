@@ -571,9 +571,9 @@ const formConfig = {
               [formFields.address]: {
                 ...address.schema(fullSchema, true),
                 properties: {
-                  // 'ui:order': address
-                  //   .uiSchema('Your mailing address')
-                  //   ['ui:order'].concat('livesOnMilitaryBaseInfo'),
+                  'ui:order': address
+                    .uiSchema('Your mailing address')
+                    ['ui:order'].concat('livesOnMilitaryBaseInfo'),
                   livesOnMilitaryBaseInfo: {
                     type: 'boolean',
                   },
