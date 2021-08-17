@@ -25,20 +25,16 @@ import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
-
-// import { directDepositWarning } from '../helpers';
-// import toursOfDutyUI from '../definitions/toursOfDuty';
+import toursOfDutyUI from '../definitions/toursOfDuty';
 import ReviewBoxField from '../components/ReviewBoxField';
 import FullNameViewField from '../components/FullNameViewField';
 import DateViewField from '../components/DateViewField';
 import CustomReviewDOBField from '../components/CustomReviewDOBField';
+import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView';
 import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
 import EmailViewField from '../components/EmailViewField';
 import PhoneViewField from '../components/PhoneViewField';
+import AccordionField from '../components/AccordionField';
 
 const {
   fullName,
@@ -47,7 +43,7 @@ const {
   dateRange,
   usaPhone,
   // bankAccount,
-  // toursOfDuty,
+  toursOfDuty,
 } = commonDefinitions;
 
 // Define all the fields in the form to aid reuse
@@ -56,6 +52,7 @@ const formFields = {
   dateOfBirth: 'dateOfBirth',
   ssn: 'ssn',
   toursOfDuty: 'toursOfDuty',
+  toursOfDutyCorrect: 'toursOfDutyCorrect',
   viewNoDirectDeposit: 'view:noDirectDeposit',
   viewStopWarning: 'view:stopWarning',
   bankAccount: 'bankAccount',
@@ -66,11 +63,8 @@ const formFields = {
   email: 'email',
   phoneNumber: 'phoneNumber',
   mobilePhoneNumber: 'mobilePhoneNumber',
+  incorrectServiceHistoryExplanation: 'incorrectServiceHistoryExplanation',
 };
-
-// function hasDirectDeposit(formData) {
-//   return formData[formFields.viewNoDirectDeposit] !== true;
-// }
 
 // Define all the form pages to help ensure uniqueness across all form chapters
 const formPages = {
@@ -258,26 +252,111 @@ const formConfig = {
         },
       },
     },
-    // serviceHistoryChapter: {
-    //   title: 'Service History',
-    //   pages: {
-    //     [formPages.serviceHistory]: {
-    //       path: 'service-history',
-    //       title: 'Service History',
-    //       uiSchema: {
-    //         [formFields.toursOfDuty]: toursOfDutyUI,
-    //       },
-    //       schema: {
-    //         type: 'object',
-    //         properties: {
-    //           [formFields.toursOfDuty]: toursOfDuty,
-    //         },
-    //       },
-    //     },
-    //   },
-    // },
-    contactInformationChapter: {
-      title: 'Contact Information',
+    serviceHistoryChapter: {
+      title: 'Service History',
+      pages: {
+        [formPages.serviceHistory]: {
+          path: 'service-history',
+          title: 'Service History',
+          uiSchema: {
+            'view:subHeading': {
+              'ui:description': <h3>Review your service history</h3>,
+            },
+            [formFields.toursOfDuty]: {
+              ...toursOfDutyUI,
+              'ui:field': AccordionField,
+              'ui:options': {
+                ...toursOfDutyUI['ui:options'],
+                reviewMode: true,
+                setEditState: () => {
+                  return true;
+                },
+                showSave: false,
+                viewField: ServicePeriodAccordionView,
+                viewComponent: ServicePeriodAccordionView,
+                viewOnlyMode: true,
+              },
+            },
+            [formFields.toursOfDutyCorrect]: {
+              'ui:title': 'This information is incorrect and/or incomplete',
+            },
+            [formFields.incorrectServiceHistoryExplanation]: {
+              'ui:title':
+                'Please explain what is incorrect and/or incomplete about your service history.',
+              'ui:options': {
+                expandUnder: [formFields.toursOfDutyCorrect],
+                hideIf: formData => !formData[formFields.toursOfDutyCorrect],
+              },
+              'ui:widget': 'textarea',
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:subHeading': {
+                type: 'object',
+                properties: {},
+              },
+              [formFields.toursOfDuty]: toursOfDuty,
+              [formFields.toursOfDutyCorrect]: {
+                type: 'boolean',
+              },
+              [formFields.incorrectServiceHistoryExplanation]: {
+                type: 'string',
+              },
+            },
+          },
+          initialData: {
+            [formFields.toursOfDuty]: [
+              {
+                // applyPeriodToSelected: true,
+                dateRange: {
+                  from: '2011-08-01',
+                  to: '2014-07-30',
+                },
+                exclusionPeriods: [
+                  {
+                    from: '2011-08-01',
+                    to: '2011-09-14',
+                  },
+                  {
+                    from: '2011-11-01',
+                    to: '2011-12-14',
+                  },
+                ],
+                separationReason: 'Expiration term of service',
+                serviceBranch: 'Navy',
+                serviceCharacter: 'Honorable',
+                // serviceStatus: 'Active Duty',
+                trainingPeriods: [
+                  {
+                    from: '2011-08-01',
+                    to: '2011-09-14',
+                  },
+                  {
+                    from: '2011-11-01',
+                    to: '2011-12-14',
+                  },
+                ],
+              },
+              {
+                // applyPeriodToSelected: true,
+                dateRange: {
+                  from: '2015-04-04',
+                  to: '2017-10-12',
+                },
+                separationReason: 'Disability',
+                serviceBranch: 'Navy',
+                serviceCharacter: 'Honorable',
+                // serviceStatus: 'Active Duty',
+              },
+            ],
+          },
+        },
+      },
+    },
+    additionalInformationChapter: {
+      title: 'Additional Information',
       pages: {
         [formPages.contactInformation]: {
           path: 'contact/information',
