@@ -15,6 +15,7 @@ import findDuplicateIndexes from '../utilities/data/findDuplicateIndexes';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
+const scrollToTimeout = process.env.NODE_ENV === 'test' ? 0 : 100;
 
 /* Growable table (Array) field on the Review page
  *
@@ -106,7 +107,7 @@ class ArrayField extends React.Component {
           },
         );
         focusElement(`[name="${scrollElementName}"] ${focusElementSelector}`);
-      }, window.Mocha ? 0 : 100);
+      }, scrollToTimeout);
     }
   }
 
@@ -121,7 +122,7 @@ class ArrayField extends React.Component {
           offset: 0,
         },
       );
-    }, window.Mocha ? 0 : 100);
+    }, scrollToTimeout);
   }
 
   /*
