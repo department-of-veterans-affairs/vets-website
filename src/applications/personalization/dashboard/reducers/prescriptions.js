@@ -1,4 +1,4 @@
-import set from 'platform/utilities/data/set';
+import set from '~/platform/utilities/data/set';
 
 const initialState = {
   currentItem: null,
