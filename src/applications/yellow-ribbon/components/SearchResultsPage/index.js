@@ -60,7 +60,7 @@ export const SearchResultsPage = ({
 
         {/* Helpful Links */}
         <div className="vads-u-display--none medium-screen:vads-u-display--flex vads-u-flex-direction--column">
-          <h3 className="vads-u-margin-top--2">Helpful links</h3>
+          <h2 className="vads-u-margin-top--2">Helpful links</h2>
           <p className="vads-u-margin-bottom--1">
             <a href="/education/eligibility/">
               Find out if you’re eligible for the Post-9/11 GI Bill
