@@ -540,6 +540,10 @@ const formConfig = {
             },
             [formFields.address]: {
               ...address.uiSchema('Mailing address'),
+              'ui:order': [
+                'livesOnMilitaryBaseInfo',
+                ...address.uiSchema('Your mailing address')['ui:order'],
+              ],
               'ui:field': ReviewBoxField,
               'ui:options': {
                 hideLabelText: true,
@@ -572,9 +576,7 @@ const formConfig = {
               [formFields.address]: {
                 ...address.schema(fullSchema, true),
                 properties: {
-                  'ui:order': address
-                    .uiSchema('Your mailing address')
-                    ['ui:order'].concat('livesOnMilitaryBaseInfo'),
+                  ...address.schema(fullSchema, true).properties,
                   livesOnMilitaryBaseInfo: {
                     type: 'boolean',
                   },
