@@ -397,11 +397,11 @@ const formConfig = {
               confirmEmail: 'hector.stanley@gmail.com',
             },
             mobilePhoneNumber: {
-              phone: '1234567890',
+              phone: '123-456-7890',
               isInternational: true,
             },
             phoneNumber: {
-              phone: '0987654321',
+              phone: '098-765-4321',
               isInternational: false,
             },
           },
