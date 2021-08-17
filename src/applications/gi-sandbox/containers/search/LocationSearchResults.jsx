@@ -237,6 +237,9 @@ function LocationSearchResults({
    * @param bounds
    */
   const currentLocationMapMarker = bounds => {
+    if (!streetAddress.position.longitude || !streetAddress.position.latitude)
+      return;
+
     const currentMarkerElement = document.createElement('div');
     currentMarkerElement.className = 'current-position';
     new mapboxgl.Marker(currentMarkerElement)
@@ -297,7 +300,13 @@ function LocationSearchResults({
       );
 
       if (locationBounds) {
-        if (streetAddress.searchString === location) {
+        if (
+          location &&
+          location !== '' &&
+          streetAddress.searchString &&
+          streetAddress.searchString !== '' &&
+          streetAddress.searchString === location
+        ) {
           currentLocationMapMarker(locationBounds);
         }
         map.current.fitBounds(locationBounds, { padding: 20 });
