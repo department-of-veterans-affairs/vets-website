@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { VaAlert } from 'web-components/react-bindings';
 
 import { focusElement } from 'platform/utilities/ui';
 
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 import AppointmentLocation from '../components/AppointmentLocation';
-import { VaAlert } from 'web-components/react-bindings';
 
 const Confirmation = () => {
   return (
