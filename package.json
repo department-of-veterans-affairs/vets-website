@@ -47,7 +47,7 @@
     "tsdx": "^0.14.1",
     "tslib": "^2.3.0",
     "typescript": "^4.3.5",
-    "web-components": "department-of-veterans-affairs/component-library#wc-v0.9.0"
+    "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.9.3"
   },
   "peerDependencies": {
     "formik": "^2.2.9",

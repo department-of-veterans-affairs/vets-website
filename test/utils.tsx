@@ -44,14 +44,14 @@ export const buildRenderForm = (
 };
 
 export const changeValue = async (
-  el: HTMLInputElement,
+  el: HTMLInputElement | HTMLVaSelectElement,
   value: string | boolean,
   eventName = 'vaChange'
 ): Promise<void> => {
   if (typeof value === 'string') {
     el.value = value;
   } else if (typeof value === 'boolean') {
-    el.checked = value;
+    (el as HTMLInputElement).checked = value;
   }
 
   await waitFor(() => {
