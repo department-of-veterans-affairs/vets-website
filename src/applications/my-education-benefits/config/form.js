@@ -522,6 +522,7 @@ const formConfig = {
               city: 'Arlington',
               state: 'VA',
               postalCode: '22205',
+              livesOnMilitaryBaseInfo: false,
             },
           },
           uiSchema: {
