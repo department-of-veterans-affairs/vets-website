@@ -46,6 +46,7 @@ import { otherToolsLink, coronavirusUpdate } from '../utils/mapLinks';
 import SearchAreaControl from '../components/SearchAreaControl';
 import recordEvent from 'platform/monitoring/record-event';
 import Covid19Result from '../components/search-results-items/Covid19Result';
+import Alert from '../components/Alert';
 
 let lastZoom = 3;
 
@@ -391,6 +392,13 @@ const FacilitiesMap = props => {
 
     return (
       <div className={!isMobile ? 'desktop-container' : undefined}>
+        {props.suppressPPMS && (
+          <Alert
+            displayType="warning"
+            title="Some search options aren’t working right now"
+            description="All community care searches, including community urgent care, community emergency care, and community providers, are currently unavailable.  We’re working to fix this. Please check back soon."
+          />
+        )}
         <SearchControls
           geolocateUser={props.geolocateUser}
           clearGeocodeError={props.clearGeocodeError}
