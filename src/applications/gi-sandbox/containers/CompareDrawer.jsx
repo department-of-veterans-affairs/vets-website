@@ -38,7 +38,7 @@ export function CompareDrawer({
       setTimeout(() => {
         dispatchCompareDrawerOpened(false);
       }, 500);
-    } else if (compare.search.loaded.length === 0 && !firstPass) {
+    } else if (loaded.length === 0 && !firstPass) {
       setFirstPass(true);
       setTimeout(() => {
         dispatchCompareDrawerOpened(false);
