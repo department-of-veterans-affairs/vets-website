@@ -9,11 +9,13 @@ import {
   urgentCareServices,
   facilityTypesOptions,
   emergencyCareServices,
+  nonPPMSfacilityTypeOptions,
 } from '../config';
 import { focusElement } from 'platform/utilities/ui';
 import classNames from 'classnames';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { setFocus } from '../utils/helpers';
+import Alert from './Alert';
 
 const SearchControls = props => {
   const {
@@ -220,9 +222,11 @@ const SearchControls = props => {
   };
 
   const renderFacilityTypeDropdown = () => {
-    const { suppressCCP, suppressPharmacies } = props;
+    const { suppressCCP, suppressPharmacies, suppressPPMS } = props;
     const { facilityType, isValid, facilityTypeChanged } = currentQuery;
-    const locationOptions = facilityTypesOptions;
+    const locationOptions = suppressPPMS
+      ? nonPPMSfacilityTypeOptions
+      : facilityTypesOptions;
     const showError = !isValid && facilityTypeChanged && !facilityType;
 
     if (suppressPharmacies) {
@@ -381,37 +385,46 @@ const SearchControls = props => {
   );
 
   return (
-    <div className="search-controls-container clearfix">
-      <Modal
-        title={
-          currentQuery.geocodeError === 1
-            ? 'We need to use your location'
-            : "We couldn't locate you"
-        }
-        onClose={() => clearGeocodeError()}
-        status="warning"
-        visible={currentQuery.geocodeError > 0}
-        contents={
-          <>
-            <p>
-              {currentQuery.geocodeError === 1
-                ? 'Please enable location sharing in your browser to use this feature.'
-                : 'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.'}
-            </p>
-          </>
-        }
-      />
-      <form id="facility-search-controls" onSubmit={handleSubmit}>
-        <div className={'columns'}>
-          {renderLocationInputField()}
-          <div id="search-controls-bottom-row">
-            {renderFacilityTypeDropdown()}
-            {renderServiceTypeDropdown()}
-            <input id="facility-search" type="submit" value="Search" />
+    <>
+      {props.suppressPPMS && (
+        <Alert
+          displayType="warning"
+          title="Some search options aren’t working right now"
+          description="All community care searches, including community urgent care, community emergency care, and community providers, are currently unavailable.  We’re working to fix this. Please check back soon."
+        />
+      )}
+      <div className="search-controls-container clearfix">
+        <Modal
+          title={
+            currentQuery.geocodeError === 1
+              ? 'We need to use your location'
+              : "We couldn't locate you"
+          }
+          onClose={() => clearGeocodeError()}
+          status="warning"
+          visible={currentQuery.geocodeError > 0}
+          contents={
+            <>
+              <p>
+                {currentQuery.geocodeError === 1
+                  ? 'Please enable location sharing in your browser to use this feature.'
+                  : 'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.'}
+              </p>
+            </>
+          }
+        />
+        <form id="facility-search-controls" onSubmit={handleSubmit}>
+          <div className={'columns'}>
+            {renderLocationInputField()}
+            <div id="search-controls-bottom-row">
+              {renderFacilityTypeDropdown()}
+              {renderServiceTypeDropdown()}
+              <input id="facility-search" type="submit" value="Search" />
+            </div>
           </div>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
+    </>
   );
 };
 

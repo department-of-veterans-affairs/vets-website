@@ -17,6 +17,7 @@ import {
   clearGeocodeError,
 } from '../actions';
 import {
+  facilitiesPpmsSuppressAll,
   facilitiesPpmsSuppressCommunityCare,
   facilitiesPpmsSuppressPharmacies,
   facilityLocatorPredictiveLocationSearch,
@@ -396,6 +397,7 @@ const FacilitiesMap = props => {
           currentQuery={currentQuery}
           onChange={props.updateSearchQuery}
           onSubmit={handleSearch}
+          suppressPPMS={props.suppressPPMS}
           suppressCCP={props.suppressCCP}
           suppressPharmacies={props.suppressPharmacies}
           searchCovid19Vaccine={props.searchCovid19Vaccine}
@@ -597,13 +599,15 @@ const FacilitiesMap = props => {
         </div>
         <div className="facility-introtext">
           <p>
-            Find a VA location or in-network community care provider. For
-            same-day care for minor illnesses or injuries, select Urgent care
-            for facility type.
+            Find a VA location or in-network community care provider.
+            {!props.suppressPPMS &&
+              ' For same-day care for minor illnesses or injuries, select Urgent care for facility type.'}
           </p>
-          <p>
-            <strong>Coronavirus update:</strong> {coronavirusUpdate}
-          </p>
+          {!props.suppressPPMS && (
+            <p>
+              <strong>Coronavirus update:</strong> {coronavirusUpdate}
+            </p>
+          )}
         </div>
         {renderView()}
       </div>
@@ -614,6 +618,7 @@ const FacilitiesMap = props => {
 
 const mapStateToProps = state => ({
   currentQuery: state.searchQuery,
+  suppressPPMS: facilitiesPpmsSuppressAll(state),
   suppressPharmacies: facilitiesPpmsSuppressPharmacies(state),
   suppressCCP: facilitiesPpmsSuppressCommunityCare(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
