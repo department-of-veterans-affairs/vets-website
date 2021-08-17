@@ -66,4 +66,4 @@ export const selectFeatureVariantTesting = state =>
   toggleValues(state).vaOnlineSchedulingVariantTesting;
 
 export const selectFeatureCCIterations = state =>
-  toggleValues(state).vaOnlineSchedulingCCInterations;
+  toggleValues(state).vaOnlineSchedulingCCIterations;
