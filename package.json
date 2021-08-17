@@ -52,7 +52,7 @@
   "peerDependencies": {
     "formik": "^2.2.9",
     "react": ">=16",
-    "web-components": "department-of-veterans-affairs/component-library#wc-v0.9.0"
+    "web-components": "*"
   },
   "lint-staged": {
     "*.{js,ts,jsx,tsx}": "eslint --cache --fix",
