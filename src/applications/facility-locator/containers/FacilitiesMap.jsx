@@ -396,7 +396,7 @@ const FacilitiesMap = props => {
           <Alert
             displayType="warning"
             title="Some search options aren’t working right now"
-            description="All community care searches, including community urgent care, community emergency care, and community providers, are currently unavailable.  We’re working to fix this. Please check back soon."
+            description="We’re sorry. Searches for non-VA facilities such as community providers and urgent care are currently unavailable. We’re working to fix this. Please check back soon."
           />
         )}
         <SearchControls
