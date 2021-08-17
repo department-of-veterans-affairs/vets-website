@@ -1,5 +1,7 @@
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '@@profile/constants';
 
+import { mockGETEndpoints } from '@@profile/tests/e2e/helpers';
+
 import mockUserNotInEVSS from '@@profile/tests/fixtures/users/user-non-vet.json';
 import mockUserInEVSS from '@@profile/tests/fixtures/users/user-36.json';
 
@@ -63,12 +65,23 @@ function confirmDirectDepositIsBlocked() {
   );
 }
 
-describe.skip('Direct Deposit', () => {
+describe('Direct Deposit section', () => {
   let getPaymentInfoStub;
   beforeEach(() => {
     getPaymentInfoStub = cy.stub();
     cy.login();
     cy.server();
+    mockGETEndpoints([
+      'v0/profile/personal_information',
+      'v0/profile/service_history',
+      'v0/profile/full_name',
+      // 'v0/profile/ch33_bank_accounts',
+      'v0/profile/status',
+      'v0/mhv_account',
+      // 'v0/feature_toggles*',
+      '/v0/disability_compensation_form/rating_info',
+      // 'v0/ppiu/payment_information',
+    ]);
   });
   it('should be blocked if the user is not in EVSS and they are not signed up for DD4EDU', () => {
     cy.route('GET', 'v0/user', mockUserNotInEVSS);
@@ -121,6 +134,7 @@ describe.skip('Direct Deposit', () => {
   it('should be blocked and show an alert if the user is flagged as being deceased by DD4CNP', () => {
     cy.route('GET', 'v0/user', mockUserInEVSS);
     cy.route('GET', 'v0/ppiu/payment_information', mockDD4CNPDeceased);
+    cy.route('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUEnrolled);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     confirmDirectDepositIsBlocked();
@@ -129,6 +143,7 @@ describe.skip('Direct Deposit', () => {
   it('should be blocked and show an alert if the user is flagged as having a fiduciary by DD4CNP', () => {
     cy.route('GET', 'v0/user', mockUserInEVSS);
     cy.route('GET', 'v0/ppiu/payment_information', mockDD4CNPFiduciary);
+    cy.route('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUEnrolled);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     confirmDirectDepositIsBlocked();
@@ -136,6 +151,10 @@ describe.skip('Direct Deposit', () => {
   });
   it('should be blocked if both the `GET payment_information` and `GET ch33_bank_accounts` endpoints fail', () => {
     cy.route('GET', 'v0/user', mockUserInEVSS);
+    mockGETEndpoints([
+      'v0/ppiu/payment_information',
+      'v0/profile/ch33_bank_accounts',
+    ]);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     confirmDirectDepositIsBlocked();
