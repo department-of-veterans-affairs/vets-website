@@ -21,9 +21,9 @@ describe('Provider search', () => {
     );
 
     // Wait for services to be saved to state and input field to not be disabled
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(500);
-    cy.get('#service-type-ahead-input').focus();
+    cy.get('#service-type-ahead-input')
+      .should('not.be.disabled')
+      .focus();
     cy.get('#search-available-service-prompt').should('exist');
 
     cy.get('#service-type-ahead-input').type('D');
