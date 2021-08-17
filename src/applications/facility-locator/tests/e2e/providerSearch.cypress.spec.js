@@ -11,6 +11,65 @@ describe('Provider search', () => {
     cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
   });
 
+  it('renders "Search for available service" prompt', () => {
+    cy.visit('/find-locations');
+    cy.injectAxe();
+
+    cy.get('#street-city-state-zip').type('Austin, TX');
+    cy.get('#facility-type-dropdown').select(
+      'Community providers (in VA’s network)',
+    );
+
+    // Wait for services to be saved to state and input field to not be disabled
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(500);
+    cy.get('#service-type-ahead-input').focus();
+    cy.get('#search-available-service-prompt').should('exist');
+
+    cy.get('#service-type-ahead-input').type('D');
+    cy.get('#search-available-service-prompt').should('exist');
+
+    cy.get('#service-type-ahead-input').type('De');
+    cy.get('#search-available-service-prompt').should('not.exist');
+  });
+
+  it("renders `We couldn't find that, please try another service ` prompt", () => {
+    cy.visit('/find-locations');
+    cy.injectAxe();
+
+    cy.get('#street-city-state-zip').type('Austin, TX');
+    cy.get('#facility-type-dropdown').select(
+      'Community providers (in VA’s network)',
+    );
+
+    cy.get('#service-type-ahead-input').type('djf');
+    cy.get('#could-not-find-service-prompt').should('exist');
+  });
+
+  it('renders error message if ', () => {
+    cy.visit('/find-locations');
+    cy.injectAxe();
+
+    cy.get('#street-city-state-zip').type('Austin, TX');
+    cy.get('#facility-type-dropdown').select(
+      'Community providers (in VA’s network)',
+    );
+    cy.get('#service-type-ahead-input').type('Dentist');
+    cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
+
+    cy.get('#facility-search').click({ waitForAnimations: true });
+    cy.get('#search-results-subheader').contains(
+      'Results for "Community providers (in VA’s network)", "Dentist - Orofacial Pain " near "Austin, Texas"',
+    );
+    cy.get('#other-tools').should('exist');
+
+    cy.axeCheck();
+
+    cy.get('.facility-result h3').contains('BADEA, LUANA');
+
+    cy.get('.va-pagination').should('not.exist');
+  });
+
   it('finds community dentists', () => {
     cy.visit('/find-locations');
     cy.injectAxe();

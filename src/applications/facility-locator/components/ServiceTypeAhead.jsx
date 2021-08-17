@@ -82,7 +82,12 @@ class ServiceTypeAhead extends Component {
       (isFocused && inputValue === '' && !showError) ||
       (inputValue && inputValue.length < MIN_SEARCH_CHARS)
     ) {
-      return <MessagePromptDiv message="Search for an available service" />;
+      return (
+        <MessagePromptDiv
+          message="Search for an available service"
+          id="search-available-service-prompt"
+        />
+      );
     } else return null;
   };
 
@@ -117,7 +122,10 @@ class ServiceTypeAhead extends Component {
       !this.matchingServices(inputValue).length
     ) {
       return (
-        <MessagePromptDiv message="We couldn't find that, please try another service" />
+        <MessagePromptDiv
+          message="We couldn't find that, please try another service"
+          id="could-not-find-service-prompt"
+        />
       );
     } else return null;
   };
