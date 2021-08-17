@@ -32,6 +32,7 @@ import Scroll from 'react-scroll';
 import { getScrollOptions } from 'platform/utilities/ui';
 import CompareHeader from '../components/CompareHeader';
 import CompareLayout from '../components/CompareLayout';
+import { isSmallScreen } from '../utils/helpers';
 
 const scroll = Scroll.animateScroll;
 
@@ -52,9 +53,7 @@ export function ComparePage({
   const [scrollTo, setScrollTo] = useState(null);
   const [initialTop, setInitialTop] = useState(null);
   const [currentXScroll, setCurrentXScroll] = useState(0);
-  const [smallScreen, setSmallScreen] = useState(
-    matchMedia('(max-width: 480px)').matches,
-  );
+  const [smallScreen, setSmallScreen] = useState(isSmallScreen());
   const headerRef = useRef(null);
   const scrollHeaderRef = useRef(null);
   const scrollPageRef = useRef(null);
@@ -99,7 +98,7 @@ export function ComparePage({
 
   useEffect(() => {
     const checkSize = () => {
-      setSmallScreen(matchMedia('(max-width: 480px)').matches);
+      setSmallScreen(isSmallScreen());
     };
     window.addEventListener('resize', checkSize);
 
