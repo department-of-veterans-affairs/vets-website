@@ -105,7 +105,7 @@ export class ConfirmationPage extends React.Component {
         </p>
         <p>
           If you requested an appeal and haven’t heard back from us yet, please
-          don’t request another review. Call us at{' '}
+          don’t request another appeal. Call us at{' '}
           <Telephone contact={CONTACTS.VA_BENEFITS} />.
         </p>
         <br />

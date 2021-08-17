@@ -310,7 +310,7 @@ export class SchoolLocations extends React.Component {
     const { main } = this.props.institution.facilityMap;
     return (
       <div className="school-locations row">
-        <span>
+        <span className="small-screen-font">
           Below are locations for {main.institution.institution}. The housing
           estimates shown here are based on a full-time student taking in-person
           classes.&nbsp;

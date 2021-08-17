@@ -17,10 +17,10 @@ import {
 } from '../../utils/constants';
 import { getSiteIdFromFacilityId } from '../../services/location';
 import {
+  selectHasVAPResidentialAddress,
   selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
   selectFeatureVariantTesting,
-  selectUseProviderSelection,
   selectRegisteredCernerFacilityIds,
 } from '../../redux/selectors';
 
@@ -339,7 +339,7 @@ export function selectConfirmationPage(state) {
     submitStatus: getNewAppointment(state).submitStatus,
     flowType: getFlowType(state),
     appointmentLength: getAppointmentLength(state),
-    useProviderSelection: selectUseProviderSelection(state),
+    hasResidentialAddress: selectHasVAPResidentialAddress(state),
   };
 }
 
@@ -353,7 +353,7 @@ export function selectReviewPage(state) {
     submitStatus: state.newAppointment.submitStatus,
     submitStatusVaos400: state.newAppointment.submitStatusVaos400,
     systemId: getSiteIdForChosenFacility(state),
-    useProviderSelection: selectUseProviderSelection(state),
+    hasResidentialAddress: selectHasVAPResidentialAddress(state),
     vaCityState: getChosenVACityState(state),
   };
 }
