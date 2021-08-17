@@ -273,7 +273,10 @@ export async function setTypeOfEyeCare(store, label) {
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
  * @param {string} facilityId The facility id of the facility to be selected
- * @param {VAFacility} facilityData The facility data to use in the mock
+ * @param {Object} params
+ * @param {?VAFacility} params.facilityData The facility data to use in the mock
+ * @param {VATSDirectCriteria} [params.directCriteria={}] Direct booking criteria to use
+ * @param {VATSRequestCriteria} [params.requestCriteria={}] Request criteria to use
  * @returns {string} The url path that was routed to after clicking Continue
  */
 export async function setVAFacility(
