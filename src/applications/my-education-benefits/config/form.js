@@ -493,7 +493,10 @@ const formConfig = {
                   isInternational: {
                     type: 'boolean',
                   },
-                  phone: usaPhone,
+                  phone: {
+                    ...usaPhone,
+                    pattern: '^\\d[-]?\\d(?:[0-9-]*\\d)?$',
+                  },
                 },
               },
               [formFields.phoneNumber]: {
@@ -502,7 +505,10 @@ const formConfig = {
                   isInternational: {
                     type: 'boolean',
                   },
-                  phone: usaPhone,
+                  phone: {
+                    ...usaPhone,
+                    pattern: '^\\d[-]?\\d(?:[0-9-]*\\d)?$',
+                  },
                 },
               },
               'view:note': {
