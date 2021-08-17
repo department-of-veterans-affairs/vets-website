@@ -377,7 +377,6 @@ function setupSchedulingMocks({
 } = {}) {
   vaosSetup();
   mockFeatureToggles();
-  cy.getCookies();
 
   if (cernerFacility) {
     const mockCernerUser = {

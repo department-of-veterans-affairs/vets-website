@@ -472,19 +472,7 @@ describe('VAOS newAppointmentFlow', () => {
 
   describe('ccPreferences page', () => {
     describe('next page', () => {
-      it('should be reasonForAppointment if provider selection is disabled', () => {
-        const state = {
-          featureToggles: {
-            loading: false,
-          },
-        };
-
-        expect(newAppointmentFlow.ccPreferences.next(state)).to.equal(
-          'reasonForAppointment',
-        );
-      });
-
-      it('should be reasonForAppointment user has no address on file', () => {
+      it('should be reasonForAppointment if user has no address on file', () => {
         const state = {
           featureToggles: {
             loading: false,
