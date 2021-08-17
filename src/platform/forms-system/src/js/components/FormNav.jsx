@@ -113,7 +113,10 @@ export default function FormNav(props) {
             </h2>
           )}
           {!showHeader && (
-            <div className="vads-u-font-size--h4">{stepText}</div>
+            <div className="vads-u-font-size--h4">
+              {stepText}
+              {inProgressMessage}
+            </div>
           )}
         </div>
       </div>
