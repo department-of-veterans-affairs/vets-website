@@ -17,7 +17,7 @@ import {
 } from '../../utils/constants';
 import { getSiteIdFromFacilityId } from '../../services/location';
 import {
-  hasVAPResidentialAddress,
+  selectHasVAPResidentialAddress,
   selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
   selectFeatureVariantTesting,
@@ -339,7 +339,7 @@ export function selectConfirmationPage(state) {
     submitStatus: getNewAppointment(state).submitStatus,
     flowType: getFlowType(state),
     appointmentLength: getAppointmentLength(state),
-    hasResidentialAddress: hasVAPResidentialAddress(state),
+    hasResidentialAddress: selectHasVAPResidentialAddress(state),
   };
 }
 
@@ -353,7 +353,7 @@ export function selectReviewPage(state) {
     submitStatus: state.newAppointment.submitStatus,
     submitStatusVaos400: state.newAppointment.submitStatusVaos400,
     systemId: getSiteIdForChosenFacility(state),
-    hasResidentialAddress: hasVAPResidentialAddress(state),
+    hasResidentialAddress: selectHasVAPResidentialAddress(state),
     vaCityState: getChosenVACityState(state),
   };
 }

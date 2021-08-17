@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom';
 // import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import {
-  hasVAPResidentialAddress,
+  selectHasVAPResidentialAddress,
   selectIsCernerOnlyPatient,
 } from '../redux/selectors';
 import newAppointmentReducer from './redux/reducer';
@@ -40,7 +40,7 @@ import useVariantSortMethodTracking from './hooks/useVariantSortMethodTracking';
 
 export function NewAppointment() {
   const isCernerOnlyPatient = useSelector(selectIsCernerOnlyPatient);
-  const hasResidentialAddress = useSelector(hasVAPResidentialAddress);
+  const hasResidentialAddress = useSelector(selectHasVAPResidentialAddress);
   const match = useRouteMatch();
   const location = useLocation();
 

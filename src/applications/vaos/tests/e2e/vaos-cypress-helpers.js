@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+import unset from 'platform/utilities/data/unset';
 import { mockContactInformation } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
 
 import moment from '../../lib/moment-tz';
@@ -397,9 +398,10 @@ function setupSchedulingMocks({
     };
     cy.login(mockCernerUser);
   } else if (withoutAddress) {
-    const mockUserWithoutAddress = JSON.parse(JSON.stringify(mockUser));
-    mockUserWithoutAddress.data.attributes.vet360ContactInformation.residentialAddress.addressLine1 =
-      '';
+    const mockUserWithoutAddress = unset(
+      'data.attributes.vet360ContactInformation.residentialAddress.addressLine1',
+      mockUser,
+    );
     cy.login(mockUserWithoutAddress);
   } else {
     cy.login(mockUser);
