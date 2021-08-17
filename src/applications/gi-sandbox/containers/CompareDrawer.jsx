@@ -86,10 +86,7 @@ export function CompareDrawer({
   };
 
   const expandOnClick = () => {
-    setTimeout(() => {
-      setOpen(!open);
-    }, 300);
-
+    setOpen(!open);
     dispatchCompareDrawerOpened(!open);
   };
 
