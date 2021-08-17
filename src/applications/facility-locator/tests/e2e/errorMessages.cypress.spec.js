@@ -43,6 +43,9 @@ describe('Facility search error messages', () => {
     cy.get('#facility-type-dropdown').select(
       'Community providers (in VA’s network)',
     );
+    // Wait for services to be saved to state and input field to not be disabled
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(600);
     cy.get('#service-type-ahead-input').focus();
     cy.get('#facility-search').focus();
     cy.get('.usa-input-error-message').contains(
@@ -51,5 +54,16 @@ describe('Facility search error messages', () => {
     cy.get('#service-type-ahead-input').type('Clinic/Center - Urgent Care');
     cy.get('#downshift-1-item-0').click();
     cy.get('.usa-input-error-message').should('not.exist');
+  });
+
+  it('shows error message when typing in `back pain`, NOT selecting a service type, and attempting to search', () => {
+    cy.get('#facility-type-dropdown').select(
+      'Community providers (in VA’s network)',
+    );
+    cy.get('#service-type-ahead-input').type('back pain');
+    cy.get('#facility-search').click({ waitForAnimations: true });
+    cy.get('.usa-input-error-message').contains(
+      'Please search for an available service.',
+    );
   });
 });
