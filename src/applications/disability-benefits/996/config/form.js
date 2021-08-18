@@ -26,6 +26,7 @@ import informalConference from '../pages/informalConference';
 import informalConferenceRep from '../pages/informalConferenceRep';
 import informalConferenceRepV2 from '../pages/informalConferenceRepV2';
 import informalConferenceTimes from '../pages/informalConferenceTimes';
+import informalConferenceTime from '../pages/informalConferenceTimeV2';
 import optIn from '../pages/optIn';
 import issueSummary from '../pages/issueSummary';
 import sameOffice from '../pages/sameOffice';
@@ -214,9 +215,18 @@ const formConfig = {
         availability: {
           path: 'informal-conference/availability',
           title: 'Scheduling availability',
-          depends: formData => formData?.informalConference !== 'no',
+          depends: formData =>
+            formData?.informalConference !== 'no' && apiVersion1(formData),
           uiSchema: informalConferenceTimes.uiSchema,
           schema: informalConferenceTimes.schema,
+        },
+        conferenceTime: {
+          path: 'informal-conference/conference-availability',
+          title: 'Scheduling availability',
+          depends: formData =>
+            formData?.informalConference !== 'no' && apiVersion2(formData),
+          uiSchema: informalConferenceTime.uiSchema,
+          schema: informalConferenceTime.schema,
         },
       },
     },

@@ -41,7 +41,11 @@ export function transform(formConfig, form) {
 
     // Add informal conference data
     if (informalConference) {
-      attributes.informalConferenceTimes = getConferenceTimes(formData);
+      if (version1) {
+        attributes.informalConferenceTimes = getConferenceTimes(formData);
+      } else {
+        attributes.informalConferenceTime = formData.informalConferenceTime;
+      }
       if (formData.informalConference === 'rep') {
         attributes.informalConferenceRep = getRep(formData);
       }
