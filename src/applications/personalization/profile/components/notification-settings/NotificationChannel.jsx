@@ -15,44 +15,11 @@ import { getContactInfoSelectorByChannelType } from '@@profile/util/notification
 import { LOADING_STATES } from '../../../common/constants';
 
 import NotificationChannelUnavailable from './NotificationChannelUnavailable';
-
-const checkboxLabels = {
-  1: 'Notify by text',
-  2: 'Notify by email',
-};
+import NotificationRadioButtons from './NotificationRadioButtons';
 
 const channelTypes = {
   1: 'text',
   2: 'email',
-};
-
-const SavingIndicator = () => {
-  return (
-    <span>
-      <i
-        className="fa fa-spinner fa-spin"
-        aria-hidden="true"
-        role="presentation"
-      />
-      Saving...
-    </span>
-  );
-};
-
-const SuccessIndicator = ({ channelType }) => {
-  return (
-    <span>
-      You’ve updated your VA {channelTypes[channelType]} notifications.
-    </span>
-  );
-};
-
-const ErrorIndicator = () => {
-  return (
-    <span>
-      We’re sorry. We can’t save your update at this time. Please try again.
-    </span>
-  );
 };
 
 const NotificationChannel = ({
@@ -79,9 +46,9 @@ const NotificationChannel = ({
     [itemId],
   );
 
-  const checkboxAriaLabel = React.useMemo(
-    () => `Notify me of ${itemName} by ${channelTypes[channelType]}`,
-    [itemName, channelType],
+  const currentValue = React.useMemo(
+    () => (isOptedIn === null ? isOptedIn : isOptedIn.toString()),
+    [isOptedIn],
   );
 
   if (isMissingContactInfo) {
@@ -89,40 +56,62 @@ const NotificationChannel = ({
   }
   return (
     <div>
-      {!permissionId ? (
-        <p className="vads-u-color--secondary-dark">
-          <strong>We do not have a preference for you</strong>
-        </p>
-      ) : null}
-      <input
-        type="checkbox"
-        id={channelId}
-        onChange={e => {
+      <NotificationRadioButtons
+        // radio button option values are strings, so we need to convert the
+        // isOptedIn bool to a string
+        value={{ value: currentValue }}
+        label={itemName}
+        options={[
+          {
+            label: `Notify me by ${channelTypes[channelType]}`,
+            value: 'true',
+            ariaLabel: `Notify me of ${itemName} by ${
+              channelTypes[channelType]
+            }`,
+          },
+          {
+            label: `Don’t notify me`,
+            value: 'false',
+            ariaLabel: `Do not notify me of ${itemName} by ${
+              channelTypes[channelType]
+            }`,
+          },
+        ]}
+        onValueChange={e => {
+          const newValue = e.value;
+          // Escape early if no change was made. If an API call fails, it's
+          // possible to then click on a "checked" radio button to fire off
+          // another API call. This check avoids that problem
+          if (newValue === currentValue) {
+            return;
+          }
           const model = new CommunicationChannelModel({
             type: channelType,
             parentItemId: itemIdNumber,
             permissionId,
-            isAllowed: e.currentTarget.checked,
+            isAllowed: newValue === 'true',
+            wasAllowed: currentValue,
           });
           saveSetting(channelId, model.getApiCallObject());
         }}
-        checked={isOptedIn}
+        warningMessage={
+          !permissionId && apiStatus === LOADING_STATES.idle
+            ? 'Select an option.'
+            : null
+        }
+        loadingMessage={
+          apiStatus === LOADING_STATES.pending ? 'Saving...' : null
+        }
+        successMessage={
+          apiStatus === LOADING_STATES.loaded ? 'Update saved.' : null
+        }
+        errorMessage={
+          apiStatus === LOADING_STATES.error
+            ? 'We’re sorry. We had a problem saving your update. Try again.'
+            : null
+        }
         disabled={apiStatus === LOADING_STATES.pending}
       />
-      <label
-        htmlFor={channelId}
-        aria-label={checkboxAriaLabel}
-        className="vads-u-margin-y--1"
-      >
-        {checkboxLabels[channelType]}
-      </label>
-      <div>
-        {apiStatus === LOADING_STATES.pending ? <SavingIndicator /> : null}
-        {apiStatus === LOADING_STATES.error ? <ErrorIndicator /> : null}
-        {apiStatus === LOADING_STATES.loaded ? (
-          <SuccessIndicator channelType={channelType} />
-        ) : null}
-      </div>
     </div>
   );
 };

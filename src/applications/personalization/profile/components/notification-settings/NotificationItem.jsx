@@ -10,7 +10,7 @@ const NotificationItem = ({ itemName, channelIds }) => {
   return (
     <div>
       <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-top--2">
-        {itemName}
+        {/* {itemName} */}
       </h3>
 
       {channelIds.map(channelId => (
