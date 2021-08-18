@@ -96,7 +96,7 @@ const formPages = {
   applicantInformation: 'applicantInformation',
   serviceHistory: 'serviceHistory',
   contactInformation: {
-    ...'contactInformation',
+    contactInformation: 'contactInformation',
     mailingAddress: 'mailingAddress',
     preferredContactMethod: 'preferredContactMethod',
   },
@@ -530,7 +530,7 @@ const formConfig = {
               street: '2222 Avon Street',
               street2: 'Apt 6',
               city: 'Arlington',
-              state: 'VA',
+              state: 'Virginia',
               postalCode: '22205',
               livesOnMilitaryBaseInfo: false,
             },
