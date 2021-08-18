@@ -126,7 +126,12 @@ if (require.main === module) {
 
   const features = [];
   fileList.forEach(f => {
-    parseTestFile(features, fs.readFileSync(f, 'utf8'));
+    if (
+      !fs.lstatSync(f).isDirectory() &&
+      (f.endsWith('.js') || f.endsWith('.jsx'))
+    ) {
+      parseTestFile(features, fs.readFileSync(f, 'utf8'));
+    }
   });
   printTree({ root: true, nodes: features.filter(feature => feature.isGWT) });
 
