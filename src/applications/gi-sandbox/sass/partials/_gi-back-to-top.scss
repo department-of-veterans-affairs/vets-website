@@ -86,10 +86,16 @@
 
   .back-to-top-container-floating {
     bottom: 3.3em;
+    @include media-maxwidth($small-screen - 1) {
+      padding-right: 10px;
+    }
   }
 
   .back-to-top-container-floating-open {
     bottom: 13.3em;
+    @include media-maxwidth($small-screen - 1) {
+      padding-right: 10px;
+    }
   }
 }
 
