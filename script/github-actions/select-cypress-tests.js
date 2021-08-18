@@ -3,7 +3,7 @@ const path = require('path');
 const glob = require('glob');
 const { integrationFolder, testFiles } = require('../../config/cypress.json');
 
-const MASTER_BUILD = process.env.MASTER_BUILD === 'true';
+const IS_MASTER_BUILD = process.env.IS_MASTER_BUILD === 'true';
 const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
 
 function selectedTests() {
@@ -17,7 +17,7 @@ function selectedTests() {
       __dirname,
       '../..',
       'src/applications',
-      `${name}/tests/**/*.cypress.spec.js?(x)`,
+      `${name}/**/tests/**/*.cypress.spec.js?(x)`,
     );
 
     tests.push(...glob.sync(selectedTestsPattern));
@@ -42,7 +42,7 @@ function allTests() {
 
 let tests;
 
-if (MASTER_BUILD) {
+if (IS_MASTER_BUILD) {
   tests = allTests();
 } else {
   let allMdFiles = true;

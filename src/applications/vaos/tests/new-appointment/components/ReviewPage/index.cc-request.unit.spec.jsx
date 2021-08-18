@@ -54,7 +54,6 @@ const initialStateVAOSService = {
     show_new_schedule_view_appointments_page: true,
     vaOnlineSchedulingHomepageRefresh: true,
     vaOnlineSchedulingVAOSServiceRequests: true,
-    vaOnlineSchedulingProviderSelection: true,
   },
 };
 
@@ -364,9 +363,6 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
     mockFetch();
     start = moment();
     store = createTestStore({
-      featureToggles: {
-        vaOnlineSchedulingProviderSelection: true,
-      },
       user: {
         profile: {
           facilities: [{ facilityId: '983', isCerner: false }],

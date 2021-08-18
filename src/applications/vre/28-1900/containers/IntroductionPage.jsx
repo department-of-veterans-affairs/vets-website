@@ -34,17 +34,18 @@ const IntroductionPage = props => {
         messages={props.route.formConfig.savedFormMessages}
         pageList={props.route.pageList}
         startText="Start the Application"
+        headingLevel="2"
       >
         Please complete the 28-1900 form to apply for Vocational Rehabilitation.
       </SaveInProgressIntro>
-      <h4>
+      <h2 className="vads-u-margin-top--0">
         Follow the steps below to apply for Veteran Readiness and Employment.
-      </h4>
+      </h2>
       <div className="process schemaform-process">
         <ol>
           <li className="process-step list-one">
-            <h5>Prepare</h5>
-            <h6>To fill out this application, you’ll need your:</h6>
+            <h3>Prepare</h3>
+            <h4>To fill out this application, you’ll need your:</h4>
             <ul>
               <li>Social Security number (required)</li>
               <li>Your VA file number (if you know it)</li>
@@ -62,7 +63,7 @@ const IntroductionPage = props => {
             </p>
           </li>
           <li className="process-step list-two">
-            <h5>Apply</h5>
+            <h4>Apply</h4>
             <p>Complete this Veteran Readiness and Employment form.</p>
             <p>
               After submitting your application, you’ll get a confirmation
@@ -71,14 +72,14 @@ const IntroductionPage = props => {
             </p>
           </li>
           <li className="process-step list-three">
-            <h5>VA Review</h5>
+            <h4>VA Review</h4>
             <p>
               We process applications in the order we receive them. We may
               contact you if we have questions or need more information.
             </p>
           </li>
           <li className="process-step list-four">
-            <h5>Decision</h5>
+            <h4>Decision</h4>
             <p>
               If you’re eligible for Veteran Readiness and Employment benefits,
               we’ll schedule a meeting for you with a Vocational Rehabilitation

@@ -44,13 +44,14 @@ describe('NOD selected issues summary page', () => {
       />,
     );
 
-    const link = form.find('a');
+    const link = form.find('Link');
 
     expect(link.length).to.equal(1);
-    expect(link.props().children).to.contain('go back and add');
-    expect(link.props().href).to.equal(
-      `${formConfig.chapters.conditions.pages.contestableIssues.path}?redirect`,
+    expect(link.text()).to.contain('go back and add');
+    expect(link.props().to.pathname).to.equal(
+      formConfig.chapters.conditions.pages.contestableIssues.path,
     );
+    expect(link.props().to.search).to.equal('?redirect');
     form.unmount();
   });
   it('should render a link to the additional issues page', () => {
@@ -64,17 +65,18 @@ describe('NOD selected issues summary page', () => {
       />,
     );
 
-    const link = form.find('a');
+    const link = form.find('Link');
 
     expect(link.length).to.equal(1);
-    expect(link.props().children).to.contain('go back and add');
-    expect(link.props().href).to.equal(
-      `${formConfig.chapters.conditions.pages.additionalIssues.path}?redirect`,
+    expect(link.text()).to.contain('go back and add');
+    expect(link.props().to.pathname).to.equal(
+      formConfig.chapters.conditions.pages.additionalIssues.path,
     );
+    expect(link.props().to.search).to.equal('?redirect');
     form.unmount();
   });
 
-  it('should allow contiunue', () => {
+  it('should allow continue', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

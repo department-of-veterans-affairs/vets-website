@@ -37,7 +37,8 @@
         "email": "user@example.com",
         "homeless": false,
         "timezone": "America/Los_Angeles"
-      }
+      },
+      "socOptIn": true
     }
   },
   "included": [
@@ -58,6 +59,13 @@
         "decisionIssueId": 42,
         "ratingIssueReferenceId": "52",
         "ratingDecisionReferenceId": "999"
+      }
+    },
+    {
+      "type": "contestableIssue",
+      "attributes": {
+        "issue": "right shoulder",
+        "decisionDate": "2021-06-06"
       }
     }
   ]

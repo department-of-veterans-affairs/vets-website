@@ -16,7 +16,10 @@ const LegacyNo = ({ setWizardStatus }) => {
   });
 
   return (
-    <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
+    <div
+      id={pageNames.legacyNo}
+      className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2"
+    >
       <p className="vads-u-margin-top--0">
         You can request a Higher-Level Review online using{' '}
         <strong>VA Form 20-0996</strong>.
@@ -38,7 +41,7 @@ const LegacyNo = ({ setWizardStatus }) => {
           });
           setWizardStatus(WIZARD_STATUS_COMPLETE);
         }}
-        className="usa-button-primary va-button-primary"
+        className="vads-c-action-link--green"
         aria-describedby="other_ways_to_request_hlr"
       >
         Request a Higher-Level Review online

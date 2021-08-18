@@ -29,6 +29,7 @@ export default function InstitutionProfile({
   gibctSchoolRatings,
   gibctEybBottomSheet,
   compare,
+  smallScreen,
 }) {
   const shouldShowSchoolLocations = facilityMap =>
     facilityMap &&
@@ -61,7 +62,9 @@ export default function InstitutionProfile({
         </div>
 
         <div className="usa-width-one-fourth">
-          <h2 className="vads-u-padding-top--2">On this page</h2>
+          <h2 className="vads-u-padding-top--2 small-screen-header">
+            On this page
+          </h2>
           <JumpLink
             label="Calculate your benefits"
             jumpToId="calculate-your-benefits"
@@ -168,6 +171,7 @@ export default function InstitutionProfile({
         parentId={institutionProfileId}
         profilePageHeaderId={profilePageHeaderId}
         compare={compare}
+        smallScreen={smallScreen}
       />
     </div>
   );

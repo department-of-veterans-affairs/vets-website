@@ -17,11 +17,11 @@ export function CompareDrawer({
   const history = useHistory();
   const [open, setOpen] = useState(compare.open);
   const [promptingFacilityCode, setPromptingFacilityCode] = useState(null);
-  const { loaded, institutions } = compare.search;
   const [stuck, setStuck] = useState(false);
-  const notRendered = !displayed && !alwaysDisplay;
   const placeholder = useRef(null);
   const drawer = useRef(null);
+  const notRendered = !displayed && !alwaysDisplay;
+  const { loaded, institutions } = compare.search;
 
   const handleScroll = () => {
     let currentStuck;
