@@ -1,4 +1,3 @@
-import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
 
@@ -45,7 +44,7 @@ import manifest from '../manifest.json';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/higher_level_reviews`,
+  submitUrl: 'higher_level_reviews',
   submit: submitForm,
   trackingPrefix: 'decision-reviews-va20-0996-',
   downtime: {
