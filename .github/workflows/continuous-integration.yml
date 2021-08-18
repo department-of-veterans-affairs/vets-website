@@ -436,7 +436,7 @@ jobs:
 
       - name: Diff recent commit
         id: git-diff
-        run: echo ::set-output name=DIFF_RESULTS::$(git diff origin/master...)
+        run: echo ::set-output name=DIFF_RESULTS::$(git diff $(git rev-parse @~)..$(git rev-parse @))
 
       - name: Echo diff
         run: echo ${{ steps.git-diff.outputs.DIFF_RESULTS}}
