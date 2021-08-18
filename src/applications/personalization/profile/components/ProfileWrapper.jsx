@@ -113,7 +113,7 @@ const ProfileWrapper = ({
                     <p>
                       We’re sorry. Direct deposit isn’t available right now.
                       We’re working to fix the issue as soon as possible. Please
-                      check back after 5 p.m. ET, Monday, August 16 for an
+                      check back after 5 p.m. ET, Monday, August 23 for an
                       update.
                     </p>
                     <h4>What you can do</h4>

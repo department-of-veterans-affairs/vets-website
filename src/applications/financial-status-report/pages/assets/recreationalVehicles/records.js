@@ -35,7 +35,7 @@ export const uiSchema = {
     </>
   ),
   assets: {
-    trailersBoatsCampers: {
+    recVehicles: {
       'ui:field': ItemLoop,
       'ui:options': {
         viewField: CardDetailsView,
@@ -45,7 +45,7 @@ export const uiSchema = {
         keepInPageOnReview: true,
       },
       items: {
-        recreationalVehicleType: {
+        recVehicleType: {
           'ui:title': 'Type of vehicle',
           'ui:field': Typeahead,
           'ui:reviewField': CustomReviewField,
@@ -59,7 +59,7 @@ export const uiSchema = {
             required: 'Please enter the type of vehicle.',
           },
         },
-        recreationalVehicleAmount: {
+        recVehicleAmount: {
           'ui:title': 'Estimated value',
           'ui:options': {
             classNames: 'schemaform-currency-input',
@@ -86,16 +86,16 @@ export const schema = {
     assets: {
       type: 'object',
       properties: {
-        trailersBoatsCampers: {
+        recVehicles: {
           type: 'array',
           items: {
             type: 'object',
-            required: ['recreationalVehicleType', 'recreationalVehicleAmount'],
+            required: ['recVehicleType', 'recVehicleAmount'],
             properties: {
-              recreationalVehicleType: {
+              recVehicleType: {
                 type: 'string',
               },
-              recreationalVehicleAmount: {
+              recVehicleAmount: {
                 type: 'string',
               },
             },

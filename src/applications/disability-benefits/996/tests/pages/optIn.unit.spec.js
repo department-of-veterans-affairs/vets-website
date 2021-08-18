@@ -11,7 +11,7 @@ import {
 import formConfig from '../../config/form';
 
 describe('HLR opt-in page', () => {
-  const { schema, uiSchema } = formConfig.chapters.contestedIssues.pages.optIn;
+  const { schema, uiSchema } = formConfig.chapters.conditions.pages.optIn;
 
   it('should render', () => {
     const form = mount(

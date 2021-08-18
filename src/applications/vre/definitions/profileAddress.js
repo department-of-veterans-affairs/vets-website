@@ -230,6 +230,7 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
         required: 'Please enter a valid State, Province, or Region',
       },
       'ui:options': {
+        hideEmptyValueInReview: true,
         /**
          * replaceSchema:
          * Necessary because military addresses require strict options.
