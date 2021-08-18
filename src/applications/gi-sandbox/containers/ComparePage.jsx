@@ -31,7 +31,7 @@ import { MINIMUM_RATING_COUNT } from '../constants';
 import Scroll from 'react-scroll';
 import { getScrollOptions } from 'platform/utilities/ui';
 import CompareHeader from '../components/CompareHeader';
-import CompareLayout from '../components/CompareLayout';
+import CompareLayout from './CompareLayout';
 import { isSmallScreen } from '../utils/helpers';
 
 const scroll = Scroll.animateScroll;
@@ -129,7 +129,7 @@ export function ComparePage({
           setHeaderFixed(false);
         } else if (headerFixed) {
           headerRef.current.style.top =
-            visibleFooterHeight > 0 ? -visibleFooterHeight : 0;
+            visibleFooterHeight > 0 ? `${-visibleFooterHeight}px` : '0px';
         }
       }
     },

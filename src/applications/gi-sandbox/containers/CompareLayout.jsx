@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import CompareGrid from './CompareGrid';
+import CompareGrid from '../components/CompareGrid';
 import {
   boolYesNo,
   convertRatingToStars,
@@ -11,9 +11,9 @@ import {
 } from '../utils/helpers';
 import _ from 'lodash';
 import { ariaLabels, MINIMUM_RATING_COUNT } from '../constants';
-import RatingsStars from './RatingsStars';
+import RatingsStars from '../components/RatingsStars';
 import { showModal } from '../actions';
-import LearnMoreLabel from './LearnMoreLabel';
+import LearnMoreLabel from '../components/LearnMoreLabel';
 
 const CompareLayout = ({
   calculated,
