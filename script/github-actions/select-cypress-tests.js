@@ -18,23 +18,23 @@ const pathsOfChangedFiles = filepaths.filter(filepath => {
 
 function selectedTests() {
   const tests = [];
-  const selectedApplications = [];
+  const applications = [];
   const applicationNames = pathsOfChangedFiles
     .filter(filePath => !filePath.endsWith('.md'))
     .map(filePath => filePath.split('/')[2]);
 
-  [...new Set(applicationNames)].forEach(appName => {
+  [...new Set(applicationNames)].forEach(app => {
     // lookup app in graph to reference which app's tests
     // should run because of cross-app imports
-    selectedApplications.push(...graph[appName]);
+    applications.push(...graph[app]);
   });
 
-  [...new Set(selectedApplications)].forEach(appName => {
+  [...new Set(applications)].forEach(app => {
     const selectedTestsPattern = path.join(
       __dirname,
       '../..',
       'src/applications',
-      `${appName}/**/tests/**/*.cypress.spec.js?(x)`,
+      `${app}/**/tests/**/*.cypress.spec.js?(x)`,
     );
 
     tests.push(...glob.sync(selectedTestsPattern));
