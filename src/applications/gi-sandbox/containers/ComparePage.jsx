@@ -129,7 +129,7 @@ export function ComparePage({
           setHeaderFixed(false);
         } else if (headerFixed) {
           headerRef.current.style.top =
-            visibleFooterHeight > 0 ? -visibleFooterHeight : 0;
+            visibleFooterHeight > 0 ? `${-visibleFooterHeight}px` : '0px';
         }
       }
     },
