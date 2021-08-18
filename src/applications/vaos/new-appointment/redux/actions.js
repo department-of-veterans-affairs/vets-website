@@ -786,7 +786,11 @@ export function submitAppointmentOrRequest(history) {
           history.push('/new-appointment/confirmation');
         }
       } catch (error) {
-        captureError(error, true);
+        const extraData = {
+          vaFacility: data?.vaFacility,
+          clinicId: data?.clinicId,
+        };
+        captureError(error, true, 'Direct submission failure', extraData);
         dispatch({
           type: FORM_SUBMIT_FAILED,
           isVaos400Error: has400LevelError(error),
