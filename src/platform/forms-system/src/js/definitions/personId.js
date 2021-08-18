@@ -1,4 +1,4 @@
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import get from '../../../../utilities/data/get';
 
 import ssnUI from './ssn';
 
@@ -23,9 +23,10 @@ export function uiSchema(
   const fileNumberProp = prefix === 'veteran' ? 'va' : 'relativeVa';
 
   return {
-    [`${prefix}SocialSecurityNumber`]: _.assign(ssnUI, {
-      'ui:required': formData => !_.get(noSSN, formData),
-    }),
+    [`${prefix}SocialSecurityNumber`]: {
+      ...ssnUI,
+      'ui:required': formData => !get(noSSN, formData),
+    },
     'view:noSSN': {
       'ui:title': labelText,
       'ui:options': {
@@ -33,7 +34,7 @@ export function uiSchema(
       },
     },
     [`${fileNumberProp}FileNumber`]: {
-      'ui:required': formData => !!_.get(noSSN, formData),
+      'ui:required': formData => !!get(noSSN, formData),
       'ui:title': 'VA file number',
       'ui:errorMessages': {
         pattern: 'Your VA file number must be between 7 to 9 digits',
