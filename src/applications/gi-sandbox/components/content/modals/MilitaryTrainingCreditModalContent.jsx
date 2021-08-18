@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function CreditTrainingModalContent() {
+export default function MilitaryTrainingCreditModalContent() {
   return (
     <>
       <h3>Credit for military training</h3>

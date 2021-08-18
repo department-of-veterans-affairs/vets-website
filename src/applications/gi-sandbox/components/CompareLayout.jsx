@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import classNames from 'classnames';
 import CompareGrid from './CompareGrid';
 import {
@@ -9,18 +10,21 @@ import {
   schoolSize,
 } from '../utils/helpers';
 import _ from 'lodash';
-import { MINIMUM_RATING_COUNT } from '../constants';
+import { ariaLabels, MINIMUM_RATING_COUNT } from '../constants';
 import RatingsStars from './RatingsStars';
+import { showModal } from '../actions';
+import LearnMoreLabel from './LearnMoreLabel';
 
-export default function({
+const CompareLayout = ({
   calculated,
+  dispatchShowModal,
   estimated,
   hasRatings,
   institutions,
   gibctSchoolRatings,
   showDifferences,
   smallScreen,
-}) {
+}) => {
   const mapRating = (institution, categoryName) => {
     const categoryRatings = institution.institutionCategoryRatings.filter(
       category => category.categoryName === categoryName,
@@ -86,12 +90,24 @@ export default function({
             },
           },
           {
-            label: 'Accreditation',
+            label: (
+              <LearnMoreLabel
+                text="Accreditation"
+                onClick={() => dispatchShowModal('accreditation')}
+                ariaLabel={ariaLabels.learnMore.accreditation}
+              />
+            ),
             className: 'capitalize-value',
             mapper: institution => naIfNull(institution.accreditationType),
           },
           {
-            label: 'GI Bill students',
+            label: (
+              <LearnMoreLabel
+                text="GI Bill students"
+                onClick={() => dispatchShowModal('gibillstudents')}
+                ariaLabel={ariaLabels.learnMore.numberOfStudents}
+              />
+            ),
             mapper: institution => naIfNull(institution.studentCount),
           },
           {
@@ -124,11 +140,23 @@ export default function({
             mapper: institution => naIfNull(institution.localeType),
           },
           {
-            label: 'Size of school',
+            label: (
+              <LearnMoreLabel
+                text="Size of institution"
+                onClick={() => dispatchShowModal('sizeOfInstitution')}
+                ariaLabel={ariaLabels.learnMore.sizeOfInstitution}
+              />
+            ),
             mapper: institution => schoolSize(institution.undergradEnrollment),
           },
           {
-            label: 'Specialized mission',
+            label: (
+              <LearnMoreLabel
+                text="Specialized mission"
+                onClick={() => dispatchShowModal('specializedMission')}
+                ariaLabel={ariaLabels.learnMore.specializedMission}
+              />
+            ),
             mapper: institution => {
               const specialMission = [];
               if (institution.hbcu) {
@@ -159,7 +187,13 @@ export default function({
         smallScreen={smallScreen}
         fieldData={[
           {
-            label: 'Tuition and fees',
+            label: (
+              <LearnMoreLabel
+                text="Tuition and fees"
+                onClick={() => dispatchShowModal('tuitionAndFeesSchool')}
+                ariaLabel={ariaLabels.learnMore.tuitionFees}
+              />
+            ),
             mapper: institution =>
               formatCurrency(
                 calculated[institution.facilityCode].outputs
@@ -192,12 +226,24 @@ export default function({
         smallScreen={smallScreen}
         fieldData={[
           {
-            label: 'Housing allowance',
+            label: (
+              <LearnMoreLabel
+                text="Housing allowance"
+                onClick={() => dispatchShowModal('housingAllowanceSchool')}
+                ariaLabel={ariaLabels.learnMore.housingAllowance}
+              />
+            ),
             mapper: institution =>
               formatEstimate(estimated[institution.facilityCode].housing),
           },
           {
-            label: 'Book stipend',
+            label: (
+              <LearnMoreLabel
+                text="Book stipend"
+                onClick={() => dispatchShowModal('bookStipendInfo')}
+                ariaLabel={ariaLabels.learnMore.bookStipend}
+              />
+            ),
             mapper: institution =>
               formatEstimate(estimated[institution.facilityCode].books),
           },
@@ -323,7 +369,13 @@ export default function({
         smallScreen={smallScreen}
         fieldData={[
           {
-            label: 'Caution flags',
+            label: (
+              <LearnMoreLabel
+                text="Caution flags"
+                onClick={() => dispatchShowModal('cautionFlags')}
+                ariaLabel={ariaLabels.learnMore.cautionFlags}
+              />
+            ),
             className: institution =>
               classNames('caution-flag-display', {
                 none: institution.cautionFlags.length === 0,
@@ -339,7 +391,7 @@ export default function({
                   <div className="vads-u-flex--4">
                     <div className="caution-header">
                       {!hasFlags && (
-                        <span>This school doesn't have any caution flags</span>
+                        <span>This school doesn’t have any caution flags</span>
                       )}
                       {hasFlags && (
                         <span>
@@ -376,7 +428,13 @@ export default function({
         smallScreen={smallScreen}
         fieldData={[
           {
-            label: 'Student complaints',
+            label: (
+              <LearnMoreLabel
+                text="Student complaints"
+                onClick={() => dispatchShowModal('studentComplaints')}
+                ariaLabel={ariaLabels.learnMore.allCampusComplaints}
+              />
+            ),
             mapper: institution => +institution.complaints.mainCampusRollUp,
           },
         ]}
@@ -394,7 +452,13 @@ export default function({
               programHours(institution.programLengthInHours),
           },
           {
-            label: 'Credit for military training',
+            label: (
+              <LearnMoreLabel
+                text="Credit for military training"
+                onClick={() => dispatchShowModal('militaryTrainingCredit')}
+                ariaLabel={ariaLabels.learnMore.militaryTrainingCredit}
+              />
+            ),
             mapper: institution => boolYesNo(institution.creditForMilTraining),
           },
         ]}
@@ -434,4 +498,13 @@ export default function({
       />
     </div>
   );
-}
+};
+
+const mapDispatchToProps = {
+  dispatchShowModal: showModal,
+};
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(CompareLayout);
