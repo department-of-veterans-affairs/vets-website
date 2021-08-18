@@ -10,7 +10,7 @@ describe('VAOS Slot service', () => {
   describe('getSlots', () => {
     beforeEach(() => mockFetch());
     it('should return matching v0 and v2 data for available slots', async () => {
-      // Given the start and end date for type of care at a clinic
+      // Given a veteran starts a VA direct schedule appointment
       const data = {
         siteId: '983',
         typeOfCareId: '323',
@@ -19,7 +19,7 @@ describe('VAOS Slot service', () => {
         endDate: '2021-09-22',
       };
 
-      // when fetching a VA available time slot using v0 API
+      // And the developer fetched available time slots using v2 and v0 API
       setFetchJSONResponse(
         global.fetch.withArgs(
           sinon.match(
@@ -51,7 +51,6 @@ describe('VAOS Slot service', () => {
         },
       );
 
-      // when fetching a VA available time slot using v2 API
       setFetchJSONResponse(
         global.fetch.withArgs(
           sinon.match(
@@ -93,8 +92,9 @@ describe('VAOS Slot service', () => {
           useV2: true,
         }),
       ]);
-      // These are the difference when comparing the two resuts
+      // When they compared the two results
       const differences = diff(v2Result, v0Result);
+      // Then the results have the following differences
       expect(differences).to.have.deep.members(
         [
           // The v2 endpoint doesn't send the freeBusyType property
@@ -102,7 +102,7 @@ describe('VAOS Slot service', () => {
           // the v2 endpoint includes the slot id
           { op: 'add', path: [0, 'id'], value: '3230323' },
           // v2 uses UTC time, hence convert the v0 local time
-          // and replacing +00.00 with the -06:00 offset for mountain time
+          // by replacing +00.00 with the -06:00 offset for mountain time
           {
             op: 'replace',
             path: [0, 'start'],
