@@ -40,6 +40,8 @@ import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities
 import EmailViewField from '../components/EmailViewField';
 import PhoneViewField from '../components/PhoneViewField';
 
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
+
 const {
   fullName,
   // ssn,
@@ -66,6 +68,8 @@ const formFields = {
   email: 'email',
   phoneNumber: 'phoneNumber',
   mobilePhoneNumber: 'mobilePhoneNumber',
+  contactMethodRdoBtnList: 'contactMethodRdoBtnList',
+  notificationTypes: 'notificationTypes',
 };
 
 // function hasDirectDeposit(formData) {
@@ -77,6 +81,7 @@ const formPages = {
   applicantInformation: 'applicantInformation',
   // serviceHistory: 'serviceHistory',
   contactInformation: 'contactInformation',
+  contactInformationPreferences: 'contactInformationPreferences',
   directDeposit: 'directDeposit',
 };
 
@@ -282,7 +287,7 @@ const formConfig = {
         [formPages.contactInformation]: {
           path: 'contact/information',
           title: 'Contact Information',
-          subTitle: 'Review your email and phone numbers',
+          subTitle: 'Select your preferred contact method',
           instructions:
             'This is the contact information we have on file for you. We’ll use this to get in touch with you if we have questions about your application and to communicate important information about your education benefits.',
           uiSchema: {
@@ -361,10 +366,92 @@ const formConfig = {
           },
           initialData: {
             email: 'hector.stanley@gmail.com',
-            mobilePhoneNumber: '123-456-7890',
-            phoneNumber: '098-765-4321',
+            mobilePhoneNumber: '1234567890',
+            phoneNumber: '0987654321',
           },
         },
+        [formPages.contactInformationPreferences]: {
+          path: 'contact/preferences',
+          title: 'Contact Information',
+          uiSchema: {
+            [formFields.contactMethodRdoBtnList]: {
+              'ui:title':
+                'How should we contact you if we have questions about your application?',
+              'ui:widget': 'radio',
+              'ui:options': {
+                widgetProps: {
+                  Email: { 'data-info': 'email' },
+                  'Mobile phone': { 'data-info': 'mobile phone' },
+                  'Home phone': { 'data-info': 'home phone' },
+                  Mail: { 'data-info': 'mail' },
+                },
+                selectedProps: {
+                  Email: { 'aria-describedby': 'email' },
+                  'Mobile phone': { 'aria-describedby': 'mobilePhone' },
+                  'Home phone': { 'aria-describedby': 'homePhone' },
+                  Mail: { 'aria-describedby': 'mail' },
+                },
+              },
+              'ui:validations': [validateBooleanGroup],
+              'ui:errorMessages': {
+                required: 'Please select at least one way we can contact you.',
+              },
+            },
+            [formFields.notificationTypes]: {
+              'ui:title':
+                'How would you like to receive notifications about your education benefits?',
+              canEmailNotify: {
+                'ui:title': 'Email',
+              },
+              canTextNotify: {
+                'ui:title': 'Text',
+              },
+              'ui:validations': [validateBooleanGroup],
+              'ui:errorMessages': {
+                atLeastOne:
+                  'Please select at least one way we can send you notifications.',
+              },
+              'ui:options': {
+                showFieldLabel: true,
+              },
+            },
+            'view:note': {
+              'ui:description': (
+                <p>
+                  <strong>Note</strong>: For text messages, messaging and data
+                  rates may apply. At this time, VA is only ale to send text
+                  messages about your education benefits to US-base mobile
+                  numbers.
+                </p>
+              ),
+            },
+          },
+          schema: {
+            type: 'object',
+            required: [
+              formFields.contactMethodRdoBtnList,
+              formFields.notificationTypes,
+            ],
+            properties: {
+              [formFields.contactMethodRdoBtnList]: {
+                type: 'string',
+                enum: ['Email', 'Mobile phone', 'Home phone', 'Mail'],
+              },
+              [formFields.notificationTypes]: {
+                type: 'object',
+                properties: {
+                  canEmailNotify: { type: 'boolean' },
+                  canTextNotify: { type: 'boolean' },
+                },
+              },
+              'view:note': {
+                type: 'object',
+                properties: {},
+              },
+            },
+          },
+        },
+
         // [formPages.directDeposit]: {
         //   path: 'direct-deposit',
         //   title: 'Direct Deposit',
