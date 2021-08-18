@@ -397,15 +397,15 @@ jobs:
         if: ${{ always() }}
         run: node ./script/github-actions/stylelint-annotation-format.js
 
-  app-dependency-graph:
-    name: App Dependency Graph
+  check-app-dependency-graph:
+    name: Check App Dependency Graph
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0
+          fetch-depth: 2
 
       - name: Get Node version
         id: get-node-version
