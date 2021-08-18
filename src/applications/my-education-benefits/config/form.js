@@ -40,7 +40,6 @@ import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView
 import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
 import EmailViewField from '../components/EmailViewField';
 import PhoneViewField from '../components/PhoneViewField';
-<<<<<<< HEAD
 import AccordionField from '../components/AccordionField';
 
 import {
@@ -56,9 +55,9 @@ import {
 // const { } = fullSchema.definitions;
 
 // import { directDepositWarning } from '../helpers';
-=======
 import MailingAddressViewField from '../components/MailingAddressViewField';
->>>>>>> imported MailingAddressViewField.jsx and added into uiSchema formFields.address
+// import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
+import { states } from 'platform/forms/address';
 
 const {
   fullName,
@@ -551,6 +550,9 @@ const formConfig = {
             },
             [formFields.address]: {
               ...address.uiSchema('Your mailing address'),
+              state: {
+                'ui:title': 'State/Province/Region',
+              },
               'ui:order': [
                 'livesOnMilitaryBaseInfo',
                 ...address.uiSchema('Your mailing address')['ui:order'],
@@ -594,6 +596,14 @@ const formConfig = {
                   ...address.schema(fullSchema, true).properties,
                   livesOnMilitaryBaseInfo: {
                     type: 'boolean',
+                  },
+                  additionalInformation: {
+                    type: 'object',
+                    properties: {},
+                  },
+                  state: {
+                    ...address.schema(fullSchema, true).properties.state,
+                    ...{ enum: states.USA.map(state => state.label) },
                   },
                 },
               },
