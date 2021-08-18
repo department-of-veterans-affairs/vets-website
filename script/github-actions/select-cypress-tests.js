@@ -24,6 +24,8 @@ function selectedTests() {
     .map(filePath => filePath.split('/')[2]);
 
   [...new Set(applicationNames)].forEach(appName => {
+    // lookup app in graph to reference which app's tests
+    // should run because of cross-app imports
     selectedApplications.push(...graph[appName]);
   });
 
