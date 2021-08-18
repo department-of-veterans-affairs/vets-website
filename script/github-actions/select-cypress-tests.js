@@ -5,7 +5,16 @@ const { integrationFolder, testFiles } = require('../../config/cypress.json');
 const graph = require('../../config/cross_app_import_graph.json');
 
 const IS_MASTER_BUILD = process.env.IS_MASTER_BUILD === 'true';
-const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
+const filepaths = process.env.CHANGED_FILE_PATHS.split(' ');
+const pathsOfChangedFiles = filepaths.filter(filepath => {
+  return (
+    filepath !== 'package.json' &&
+    filepath !== 'yarn.lock' &&
+    filepath !== 'config/cross_app_import_graph.json' &&
+    filepath !== 'script/github-actions/select-cypress-tests.js' &&
+    filepath !== 'script/github-actions/create-cross-app-import-graph.js'
+  );
+});
 
 function selectedTests() {
   const tests = [];
