@@ -83,10 +83,7 @@ export const ariaLabels = Object.freeze({
     kickerEligible: 'Learn more about the kicker bonus',
     majorityOfClasses: 'Learn more about the location-based housing allowance',
     militaryTrainingCredit: 'Learn more about credit for military training',
-    militaryTuitionAssistance:
-      'Learn more about how military tuition assistance affects your benefits',
-    militaryTuitionAssistanceProgram:
-      'Learn more about Military Tuition Assistance',
+    militaryTuitionAssistance: 'Learn more about Military Tuition Assistance',
     numberOfStudents:
       'Learn more about how we calculate the number of GI Bill students',
     onlineOnlyDistanceLearning:
@@ -113,6 +110,7 @@ export const ariaLabels = Object.freeze({
     vetSuccess: 'Learn more about VetSuccess on Campus',
     vetTecProgram: 'Learn more about the VET TEC program',
     whenUsedGiBill: 'Learn more about your monthly housing allowance rate',
-    yellowRibbonProgram: 'Learn more about the Yellow Ribbon Program',
+    yellowRibbonProgram:
+      'Learn more about what is covered by the Yellow Ribbon program and who can use it',
   },
 });

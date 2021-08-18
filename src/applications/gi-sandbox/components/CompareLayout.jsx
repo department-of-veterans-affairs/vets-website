@@ -471,27 +471,63 @@ const CompareLayout = ({
         smallScreen={smallScreen}
         fieldData={[
           {
-            label: 'Yellow Ribbon',
+            label: (
+              <LearnMoreLabel
+                text="Yellow Ribbon"
+                onClick={() => dispatchShowModal('yribbon')}
+                ariaLabel={ariaLabels.learnMore.yellowRibbonProgram}
+              />
+            ),
             mapper: institution => boolYesNo(institution.yr),
           },
           {
-            label: 'Student Veteran Group',
+            label: (
+              <LearnMoreLabel
+                text="Student Veteran Group"
+                onClick={() => dispatchShowModal('vetgroups')}
+                ariaLabel={ariaLabels.learnMore.studentVeteranGroup}
+              />
+            ),
             mapper: institution => boolYesNo(institution.studentVeteran),
           },
           {
-            label: 'Principles of Excellence',
+            label: (
+              <LearnMoreLabel
+                text="Principles of Excellence"
+                onClick={() => dispatchShowModal('poe')}
+                ariaLabel={ariaLabels.learnMore.principlesOfExcellence}
+              />
+            ),
             mapper: institution => boolYesNo(institution.poe),
           },
           {
-            label: '8 Keys to Veteran Success',
+            label: (
+              <LearnMoreLabel
+                text="8 Keys to Veteran Success"
+                onClick={() => dispatchShowModal('eightKeys')}
+                ariaLabel={ariaLabels.learnMore.eightKeys}
+              />
+            ),
             mapper: institution => boolYesNo(institution.eightKeys),
           },
           {
-            label: 'Military Tuition Assistance (TA)',
+            label: (
+              <LearnMoreLabel
+                text="Military Tuition Assistance (TA)"
+                onClick={() => dispatchShowModal('ta')}
+                ariaLabel={ariaLabels.learnMore.militaryTuitionAssistance}
+              />
+            ),
             mapper: institution => boolYesNo(institution.dodmou),
           },
           {
-            label: 'Priority Enrollment',
+            label: (
+              <LearnMoreLabel
+                text="Priority Enrollment"
+                onClick={() => dispatchShowModal('priorityEnrollment')}
+                ariaLabel={ariaLabels.learnMore.priorityEnrollment}
+              />
+            ),
             mapper: institution => boolYesNo(institution.priorityEnrollment),
           },
         ]}

@@ -17,7 +17,7 @@ export default function PrinciplesOfExcellenceModalContent() {
         are guidelines for educational institutions receiving federal funding.
         Schools that agree to participate will:
       </p>
-      <ul className="modal-bullets">
+      <ul>
         <li>
           End fraudulent and aggressive recruiting techniques and
           misrepresentation.
