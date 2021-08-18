@@ -69,6 +69,7 @@ jobs:
           path: |
             ~/.cache/yarn
             node_modules
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
