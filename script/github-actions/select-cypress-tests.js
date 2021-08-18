@@ -2,22 +2,28 @@ const core = require('@actions/core');
 const path = require('path');
 const glob = require('glob');
 const { integrationFolder, testFiles } = require('../../config/cypress.json');
+const graph = require('../../config/cross_app_import_graph.json');
 
 const IS_MASTER_BUILD = process.env.IS_MASTER_BUILD === 'true';
 const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
 
 function selectedTests() {
   const tests = [];
+  const selectedApplications = [];
   const applicationNames = pathsOfChangedFiles
     .filter(filePath => !filePath.endsWith('.md'))
     .map(filePath => filePath.split('/')[2]);
 
-  [...new Set(applicationNames)].forEach(name => {
+  [...new Set(applicationNames)].forEach(appName => {
+    selectedApplications.push(...graph[appName]);
+  });
+
+  [...new Set(selectedApplications)].forEach(appName => {
     const selectedTestsPattern = path.join(
       __dirname,
       '../..',
       'src/applications',
-      `${name}/**/tests/**/*.cypress.spec.js?(x)`,
+      `${appName}/**/tests/**/*.cypress.spec.js?(x)`,
     );
 
     tests.push(...glob.sync(selectedTestsPattern));
