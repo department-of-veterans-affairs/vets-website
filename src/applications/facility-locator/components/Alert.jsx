@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 /**
@@ -10,8 +10,6 @@ import PropTypes from 'prop-types';
  * @returns {JSX.Element}
  */
 const Alert = ({ title, description, displayType }) => {
-  const [isMobile] = useState(window.innerWidth <= 481);
-
   let cssClass;
   if (displayType === 'warning') {
     cssClass = 'usa-alert-warning';
@@ -21,11 +19,15 @@ const Alert = ({ title, description, displayType }) => {
 
   return (
     <div
-      className={`usa-alert ${cssClass} vads-u-margin-top--0 vads-u-margin-bottom--2 ${
-        isMobile
-          ? 'vads-u-margin-right--3 vads-u-margin-left--2 vads-u-width--auto'
-          : ''
-      }`}
+      className={`usa-alert ${cssClass}
+      vads-u-margin-top--0 
+      vads-u-margin-bottom--2   
+      vads-u-margin-right--3 
+      vads-u-margin-left--2 
+      vads-u-width--auto
+      small-screen:vads-u-margin-x--0 
+      small-screen-header:vads-u-width--full      
+      `}
     >
       <div className="usa-alert-body">
         <h4 className="usa-alert-heading">{title}</h4>
