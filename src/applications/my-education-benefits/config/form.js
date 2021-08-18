@@ -770,8 +770,3 @@ const formConfig = {
 };
 
 export default formConfig;
-
-// logging out mailing schema for testing aug 16 21.
-// console.log(
-//   formConfig.chapters.contactInformationChapter.pages.mailingAddress.schema,
-// );
