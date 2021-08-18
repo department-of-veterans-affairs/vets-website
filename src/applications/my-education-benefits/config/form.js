@@ -562,8 +562,12 @@ const formConfig = {
                 viewComponent: MailingAddressViewField,
               },
               livesOnMilitaryBaseInfo: {
-                'ui:title':
-                  'I live on a United States military base outside of the country',
+                'ui:title': (
+                  <p id="LearnMoreAboutMilitaryBaseTooltip">
+                    I live on a United States military base outside of the
+                    country
+                  </p>
+                ),
               },
             },
             'view:note': {
