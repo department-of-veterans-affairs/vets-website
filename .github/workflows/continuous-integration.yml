@@ -405,7 +405,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          fetch-depth: 2
+          fetch-depth: 0
 
       - name: Get Node version
         id: get-node-version
@@ -436,7 +436,7 @@ jobs:
 
       - name: Diff recent commit
         id: git-diff
-        run: echo ::set-output name=DIFF_RESULTS::$(git diff --name-only origin/master...)
+        run: echo ::set-output name=DIFF_RESULTS::$(git diff origin/master...)
 
       - name: Echo diff
         run: echo ${{ steps.git-diff.outputs.DIFF_RESULTS}}
