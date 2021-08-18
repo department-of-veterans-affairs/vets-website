@@ -63,7 +63,7 @@ function confirmDirectDepositIsBlocked() {
   );
 }
 
-describe('Direct Deposit', () => {
+describe.skip('Direct Deposit', () => {
   let getPaymentInfoStub;
   beforeEach(() => {
     getPaymentInfoStub = cy.stub();

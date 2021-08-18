@@ -5,86 +5,6 @@ import Telephone, {
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
-export const diaryCodes = Object.freeze({
-  '71': 'Pending Veteran deployment verification',
-  '109': 'Pending payment',
-  '117': 'Pending payment',
-  '123': 'Pending payment',
-  '212': 'Pending Veteran address',
-  '450': 'Pending automatic benefit offset',
-  '811': 'Compromise offer is being reviewed',
-  '815': 'Compromise offer accepted, pending payment',
-  '816': 'Compromise offer payment received',
-  '821':
-    'Your notice of disagreement/reconsideration request is being reviewed',
-  '822': 'Your dispute is being reviewed',
-  '825': 'Your waiver/hearing request is being reviewed',
-  '430': 'Pending automatic benefit offset',
-  '431': 'Pending automatic benefit offset',
-  '002': 'Pending review by the VA',
-  '005': 'Pending review by the VA',
-  '032': 'Pending review by the VA',
-  '609': 'Pending review by the VA',
-  '061': 'Debt collection suspended',
-  '065': 'Debt collection suspended',
-  '070': 'Debt collection suspended',
-  '440': 'Debt collection suspended',
-  '442': 'Debt collection suspended',
-  '448': 'Debt collection suspended',
-  '453': 'Debt collection suspended',
-  '080': 'Referred to the Department of the Treasury',
-  '850': 'Referred to the Department of the Treasury',
-  '852': 'Referred to the Department of the Treasury',
-  '860': 'Referred to the Department of the Treasury',
-  '855': 'Referred to the Department of the Treasury',
-  '081': 'Debt is pending referral to the Department of the Treasury',
-  '500': 'Debt is pending referral to the Department of the Treasury',
-  '510': 'Debt is pending referral to the Department of the Treasury',
-  '503': 'Debt is pending referral to the Department of the Treasury',
-  '100': 'Pending payment',
-  '102': 'Pending payment',
-  '130': 'Pending payment',
-  '140': 'Pending payment',
-  '101': 'Pending automatic benefit offset',
-  '602': 'Pending automatic benefit offset',
-  '607': 'Pending automatic benefit offset',
-  '608': 'Pending automatic benefit offset',
-  '610': 'Pending automatic benefit offset',
-  '611': 'Pending automatic benefit offset',
-  '614': 'Pending automatic benefit offset',
-  '615': 'Pending automatic benefit offset',
-  '617': 'Pending automatic benefit offset',
-  '321': 'Pending review by the VA',
-  '400': 'Pending review by the VA',
-  '420': 'Pending review by the VA',
-  '421': 'Pending review by the VA',
-  '422': 'Pending review by the VA',
-  '425': 'Pending review by the VA',
-  '627': 'Pending review by the VA',
-  '439': 'Debt suspension expired, awaiting payment',
-  '449': 'Debt suspension expired, awaiting payment',
-  '459': 'Debt suspension expired, awaiting payment',
-  '481': 'Pending review by the VA',
-  '482': 'Pending review by the VA',
-  '483': 'Pending review by the VA',
-  '484': 'Pending review by the VA',
-  '600': 'Pending payment',
-  '601': 'Pending payment',
-  '603': 'Payment overdue',
-  '613': 'Payment overdue',
-  '655': 'Pending financial status report',
-  '817': 'Pending financial status report',
-  '680': 'Pending payment',
-  '681': 'Pending payment',
-  '682': 'Pending payment',
-  '801': 'Your waiver request is being reviewed',
-  '802': 'Your waiver request is being reviewed',
-  '803': 'Your waiver request is being reviewed',
-  '804': 'Your waiver request is being reviewed',
-  '809': 'Your waiver request is being reviewed',
-  '820': 'Your waiver request is being reviewed',
-});
-
 const ContactDMC = ({ className }) => (
   <span className={className}>
     {<Telephone contact={CONTACTS.DMC || '800-827-0648'} />} (or
@@ -109,6 +29,12 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
   switch (diaryCode) {
     case '71':
       return {
+        status: (
+          <p className="vads-u-margin-bottom--0">
+            <strong>Status: </strong>
+            We need to verify your military status to update your account.
+          </p>
+        ),
         nextStep: (
           <p>
             <strong>Next step: </strong>
@@ -124,43 +50,38 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             a.m. to 7:00 p.m. ET.
           </p>
         ),
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            We need to verify your military status to update your account. Next
-            step: Please [contact us through
-            IRIS](https://iris.custhelp.va.gov/app/ask) or call us at
-            800-827-0648 (or 1-612-713-6415 from overseas) to verify your
-            military status. We’re here Monday through Friday, 7:30 a.m. to 7:00
-            p.m. ET.
-          </p>
-        ),
       };
     case '109':
       return {
+        status: (
+          <p className="vads-u-margin-bottom--0">
+            <strong>Status: </strong>
+            Your payment is past due, and we’re adding interest to the amount.
+          </p>
+        ),
         nextStep: (
           <p>
             <strong>Next step: </strong>
             Please pay or contact us about payment options now to avoid more
-            late charges, interest, or collection actions. We're here at
+            late charges, interest, or collection actions. We’re here at
             <ContactDMC className="vads-u-margin-left--0p5" />, Monday through
             Friday, 7:30 a.m. to 7:00 p.m. ET.
             <a className="vads-u-margin-left--0p5" href="#howDoIPay">
-              Review payment options
+              .
             </a>
-          </p>
-        ),
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            Your payment is past due, and we're adding interest to the amount.
           </p>
         ),
       };
     case '117':
       return {
+        status: (
+          <p className="vads-u-margin-bottom--0">
+            <strong>Status: </strong>
+            Your payment is past due.
+          </p>
+        ),
         nextStep: (
-          <span data-testid="diary-code-117-nextstep">
+          <span data-testid="diary-code-117-next-step">
             <p>
               <strong>Next step: </strong>
               Please pay now or contact us about payment options by
@@ -171,7 +92,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
               debt reported to credit reporting agencies or referred to the U.S.
               Department of the Treasury.
             </p>
-
             <p>
               You can
               <a
@@ -188,28 +108,29 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
               >
                 Review payment options
               </a>
+              .
             </p>
           </span>
         ),
+      };
+    case '123':
+      return {
         status: (
           <p className="vads-u-margin-bottom--0">
             <strong>Status: </strong>
             Your payment is past due.
           </p>
         ),
-      };
-    case '123':
-      return {
         nextStep: (
-          <span data-testid="diary-code-123-nextstep">
+          <span data-testid="diary-code-123-next-step">
             <p>
               <strong>Next step: </strong>
               Please pay now or contact us about payment options by
               <strong className="vads-u-margin-x--0p5">
                 {dateOfLetter && endDate(dateOfLetter, 60)}
               </strong>
-              to avoid collection actions. If you don't pay or make other
-              arrangements with us by this date, we're required by law to refer
+              to avoid collection actions. If you don’t pay or make other
+              arrangements with us by this date, we’re required by law to refer
               your debt to the U.S. Department of the Treasury.
             </p>
             <p>
@@ -228,18 +149,19 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
               >
                 Review payment options
               </a>
+              .
             </p>
           </span>
-        ),
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            Your payment is past due.
-          </p>
         ),
       };
     case '212':
       return {
+        status: (
+          <p className="vads-u-margin-bottom--0">
+            <strong>Status: </strong>
+            We need your address to update your account.
+          </p>
+        ),
         nextStep: (
           <p>
             <strong>Next step: </strong>
@@ -255,15 +177,15 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             7:00 p.m. ET.
           </p>
         ),
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            We need your address to update your account.
-          </p>
-        ),
       };
     case '815':
       return {
+        status: (
+          <p className="vads-u-margin-bottom--0">
+            <strong>Status: </strong>
+            We’ve accepted your compromise payment.
+          </p>
+        ),
         nextStep: (
           <p>
             <strong>Next step: </strong>
@@ -276,12 +198,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             >
               Review payment options
             </a>
-          </p>
-        ),
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            We've accepted your compromise payment.
+            .
           </p>
         ),
       };
@@ -293,18 +210,14 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
     case '448':
     case '453':
       return {
-        headline: <>We've paused collection on this debt as you requested</>,
-        content: (
-          <p>
-            We’ll let you know when we start collecting on this debt again. You
-            don’t have to do anything until that time.
-          </p>
-        ),
         status: (
           <p className="vads-u-margin-bottom--0">
-            <strong className="vads-u-margin-right--0p5">
-              Status: We've paused collection on this debt as you requested.
-            </strong>
+            <strong>Status: </strong>
+            We’ve paused collection on this debt as you requested.
+          </p>
+        ),
+        nextStep: (
+          <p>
             We’ll let you know when we start collecting on this debt again. You
             don’t have to do anything until that time.
           </p>
@@ -312,10 +225,16 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
       };
     case '811':
       return {
-        headline: <>We’re reviewing your compromise offer</>,
-        content: (
+        status: (
+          <p className="vads-u-margin-bottom--0">
+            <strong>Status: </strong>
+            We’re reviewing your compromise offer.
+          </p>
+        ),
+        nextStep: (
           <p>
-            We'll send you a letter with our decision. Please continue to make
+            <strong>Next step: </strong>
+            We’ll send you a letter with our decision. Please continue to make
             payments while we complete our review.
             <a
               href="#howDoIPay"
@@ -323,20 +242,21 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             >
               Review payment options
             </a>
-          </p>
-        ),
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: We're reviewing your compromise offer</strong>
+            .
           </p>
         ),
       };
     case '816':
       return {
-        headline: <>We've received your compromise payment</>,
-        content: (
+        status: (
+          <p className="vads-u-margin-bottom--0">
+            <strong>Status: </strong>
+            We’ve received your compromise payment.
+          </p>
+        ),
+        nextStep: (
           <p>
-            Please check your debt balance again soon. If it isn't adjusted to
+            Please check your debt balance again soon. If it isn’t adjusted to
             reflect your payment within 30 days, call us at
             <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
             Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
@@ -348,28 +268,19 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
     case '032':
     case '609':
       return {
-        headline: <>We’re updating your account</>,
-        content: (
-          <p>
+        status: (
+          <p className="vads-u-margin-bottom--0">
+            <strong>Status: </strong>
+            We’re updating your account.
+          </p>
+        ),
+        nextStep: (
+          <p data-testid="diary-code-002-next-step">
             Please check back in 1 week for updates. If your account shows the
             same information then, call us at
             <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
             Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
           </p>
-        ),
-        status: (
-          <>
-            <p className="vads-u-margin-bottom--0">
-              <strong>Status: </strong>
-              We're updating your account
-            </p>
-            <p>
-              Please check back in 30 days for updates. If your account shows
-              the same information then, call us at
-              <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
-              Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
-            </p>
-          </>
         ),
       };
     case '321':
@@ -380,8 +291,13 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
     case '425':
     case '627':
       return {
-        headline: <>We're updating your account</>,
-        content: (
+        status: (
+          <p className="vads-u-margin-bottom--0">
+            <strong>Status: </strong>
+            We’re updating your account.
+          </p>
+        ),
+        nextStep: (
           <p>
             Please check back in 30 days for updates. If your account shows the
             same information then, call us at
@@ -389,36 +305,23 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
           </p>
         ),
-        status: (
-          <>
-            <p className="vads-u-margin-bottom--0">
-              <strong>Status: </strong>
-              We're updating your account
-            </p>
-            <p>
-              Please check back in 30 days for updates. If your account shows
-              the same information then, call us at
-              <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
-              Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
-            </p>
-          </>
-        ),
       };
     case '481':
     case '482':
     case '483':
     case '484':
       return {
-        headline: <>We're reviewing your account</>,
-        content: <p>You don't need to do anything at this time.</p>,
         status: (
-          <>
-            <p className="vads-u-margin-bottom--0">
-              <strong>Status: </strong>
-              We're reviewing your account
-            </p>
-            <p>You don't need to do anything at this time.</p>
-          </>
+          <p className="vads-u-margin-bottom--0">
+            <strong>Status: </strong>
+            We’re reviewing your account.
+          </p>
+        ),
+        nextStep: (
+          <p>
+            <strong>Next step: </strong>
+            You don’t need to do anything at this time
+          </p>
         ),
       };
     case '080':
@@ -427,23 +330,23 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
     case '860':
     case '855':
       return {
-        nextStep: (
-          <p data-testid="diary-code-080-nextstep">
-            <strong>Next step: </strong>
-            Call the U.S. Department of the Treasury's Debt Management Center at
-            <Telephone
-              className="vads-u-margin-left--0p5"
-              contact={CONTACTS.DMC_TREASURY || '888-826-3127'}
-            />
-            , 8:30 a.m. to 6:30 p.m. ET. Don't send us payment directly. This
-            will delay posting of payment to your account. And the Treasury
-            Department may continue adding fees and interest.
-          </p>
-        ),
         status: (
           <p className="vads-u-margin-bottom--0">
             <strong>Status: </strong>
             We referred this debt to the U.S. Department of the Treasury.
+          </p>
+        ),
+        nextStep: (
+          <p data-testid="diary-code-080-next-step">
+            <strong>Next step: </strong>
+            Call the U.S. Department of the Treasury’s Debt Management Center at
+            <Telephone
+              className="vads-u-margin-left--0p5"
+              contact={CONTACTS.DMC_TREASURY || '888-826-3127'}
+            />
+            , 8:30 a.m. to 6:30 p.m. ET. Don’t send us payment directly. This
+            will delay posting of payment to your account. And the Treasury
+            Department may continue adding fees and interest.
           </p>
         ),
       };
@@ -452,12 +355,18 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
     case '510':
     case '503':
       return {
+        status: (
+          <p className="vads-u-margin-bottom--0">
+            <strong>Status: </strong> We’re referring this debt to the U.S.
+            Department of the Treasury today.
+          </p>
+        ),
         nextStep: (
-          <span data-testid="diary-code-500-nextstep">
+          <span data-testid="diary-code-500-next-step">
             <p>
               <strong>Next step: </strong>
               Please pay the full amount online or by phone now to prevent
-              referral. If we don't receive your payment today we're required by
+              referral. If we don’t receive your payment today we’re required by
               law to refer your debt to the U.S. Department of the Treasury.
             </p>
             <p>
@@ -470,20 +379,20 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             </p>
           </span>
         ),
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong> We're referring this debt to the U.S.
-            Department of the Treasury today.
-          </p>
-        ),
       };
     case '100':
     case '102':
     case '130':
     case '140':
       return {
+        status: (
+          <p className="vads-u-margin-bottom--0">
+            <strong>Status: </strong>
+            Your payment is due now.
+          </p>
+        ),
         nextStep: (
-          <span data-testid="diary-code-100-nextstep">
+          <span data-testid="diary-code-100-next-step">
             <p>
               <strong>Next step: </strong>
               Please pay now or contact us to start making payments again to
@@ -502,14 +411,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
               >
                 Review payment options
               </a>
+              .
             </p>
           </span>
-        ),
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            Your payment is due now.
-          </p>
         ),
       };
     case '101':
@@ -526,22 +430,22 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
     case '617':
       // we need to have debt type available within this switch
       return {
-        nextStep: (
-          <p data-testid="diary-code-101-nextstep">
-            <strong>Next step: </strong>
-            We'll keep offsetting your benefits each month until your debt is
-            paid in full. If you'd like to pay in full now, please call us first
-            to make sure you don't overpay. If you stop receiving VA benefits,
-            call us to set up a new payment plan. We're here at
-            <ContactDMC className="vads-u-margin-left--0p5" />, Monday through
-            Friday, 7:30 a.m. to 7:00 p.m. ET.
-          </p>
-        ),
         status: (
           <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong> We're keeping part of your
+            <strong>Status: </strong> We’re keeping part of your
             <span className="vads-u-margin-x--0p5">{benefitType}</span>
             payments each month to pay your debt (called monthly offsets).
+          </p>
+        ),
+        nextStep: (
+          <p data-testid="diary-code-608-next-step">
+            <strong>Next step: </strong>
+            We’ll keep offsetting your benefits each month until your debt is
+            paid in full. If you’d like to pay in full now, please call us first
+            to make sure you don’t overpay. If you stop receiving VA benefits,
+            call us to set up a new payment plan. We’re here at
+            <ContactDMC className="vads-u-margin-left--0p5" />, Monday through
+            Friday, 7:30 a.m. to 7:00 p.m. ET.
           </p>
         ),
       };
@@ -549,6 +453,12 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
     case '449':
     case '459':
       return {
+        status: (
+          <p className="vads-u-margin-bottom--0">
+            <strong>Status: </strong>
+            We’ve restarted collection on this debt.
+          </p>
+        ),
         nextStep: (
           <p>
             <strong>Next step: </strong>
@@ -564,36 +474,36 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
           </p>
         ),
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            We've restarted collection on this debt.
-          </p>
-        ),
       };
     case '600':
     case '601':
       return {
-        nextStep: (
-          <p data-testid="diary-code-600-nextstep">
-            <strong>Next step: </strong>
-            Please continue to make payments. If you begin receiving VA
-            benefits, call us to set up an automatic payment plan. We'll keep
-            part of your benefit amount each month to pay your debt. We're here
-            at <ContactDMC className="vads-u-margin-left--0p5" />, Monday
-            through Friday, 7:30 a.m. to 7:00 p.m. ET.
-          </p>
-        ),
         status: (
           <p className="vads-u-margin-bottom--0">
             <strong>Status: </strong>
             Your payment is due.
           </p>
         ),
+        nextStep: (
+          <p data-testid="diary-code-600-next-step">
+            <strong>Next step: </strong>
+            Please continue to make payments. If you begin receiving VA
+            benefits, call us to set up an automatic payment plan. We’ll keep
+            part of your benefit amount each month to pay your debt. We’re here
+            at <ContactDMC className="vads-u-margin-left--0p5" />, Monday
+            through Friday, 7:30 a.m. to 7:00 p.m. ET.
+          </p>
+        ),
       };
     case '603':
     case '613':
       return {
+        status: (
+          <p className="vads-u-margin-bottom--0">
+            <strong>Status: </strong>
+            Your payment is past due.
+          </p>
+        ),
         nextStep: (
           <p>
             <strong>Next step: </strong>
@@ -606,25 +516,27 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
               contact us through IRIS
             </a>
             or call us at <ContactDMC className="vads-u-margin-left--0p5" />.
-            We're here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+            We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             <a
               className="vads-u-margin-y--2 vads-u-margin-left--0p5"
               href="#howDoIPay"
             >
               Review payment options
             </a>
-          </p>
-        ),
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            Your payment is past due.
+            .
           </p>
         ),
       };
     case '655':
     case '817':
       return {
+        status: (
+          <p className="vads-u-margin-bottom--0">
+            <strong>Status: </strong>
+            We need your completed Financial Status Report to make a decision on
+            your request.
+          </p>
+        ),
         nextStep: (
           <>
             <p>
@@ -652,18 +564,17 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             </p>
           </>
         ),
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            We need your completed Financial Status Report to make a decision on
-            your request.
-          </p>
-        ),
       };
     case '680':
     case '681':
     case '682':
       return {
+        status: (
+          <p className="vads-u-margin-bottom--0">
+            <strong>Status: </strong>
+            Your payment is due.
+          </p>
+        ),
         nextStep: (
           <p>
             <strong>Next step: </strong>
@@ -671,7 +582,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             <strong className="vads-u-margin-left--0p5">
               {dateOfLetter && endDate(dateOfLetter, 30)}
             </strong>
-            to avoid late charges, interest, or collection actions. We're here
+            to avoid late charges, interest, or collection actions. We’re here
             at <ContactDMC className="vads-u-margin-left--0p5" />, Monday
             through Friday, 7:30 a.m. to 7:00 p.m. ET.
             <a
@@ -680,12 +591,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             >
               Review payment options
             </a>
-          </p>
-        ),
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            Your payment is due.
+            .
           </p>
         ),
       };
@@ -696,10 +602,15 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
     case '809':
     case '820':
       return {
+        status: (
+          <p className="vads-u-margin-bottom--0">
+            <strong>Status: </strong> We’re reviewing your waiver request.
+          </p>
+        ),
         nextStep: (
           <p>
             <strong>Next step: </strong>
-            We'll send you a letter with our decision. Please continue to make
+            We’ll send you a letter with our decision. Please continue to make
             payments while we complete our review.
             <a
               className="vads-u-margin-y--2 vads-u-margin-left--0p5"
@@ -707,20 +618,21 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             >
               Review payment options
             </a>
-          </p>
-        ),
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong> We're reviewing your waiver request.
+            .
           </p>
         ),
       };
     case '822':
       return {
+        status: (
+          <p className="vads-u-margin-bottom--0">
+            <strong>Status: </strong> We’re reviewing your debt dispute.
+          </p>
+        ),
         nextStep: (
           <p>
             <strong>Next step: </strong>
-            We'll send you a letter with our decision. Please continue to make
+            We’ll send you a letter with our decision. Please continue to make
             payments while we complete our review.
             <a
               className="vads-u-margin-y--2 vads-u-margin-left--0p5"
@@ -728,20 +640,22 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             >
               Review payment options
             </a>
-          </p>
-        ),
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong> We're reviewing your debt dispute.
+            .
           </p>
         ),
       };
     case '825':
       return {
+        status: (
+          <p className="vads-u-margin-bottom--0">
+            <strong>Status: </strong> We’re reviewing your request for a waiver
+            or hearing.
+          </p>
+        ),
         nextStep: (
           <p>
             <strong>Next step: </strong>
-            We'll send you a letter with our decision. Please continue to make
+            We’ll send you a letter with our decision. Please continue to make
             payments while we complete our review.
             <a
               className="vads-u-margin-y--2 vads-u-margin-left--0p5"
@@ -749,21 +663,22 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             >
               Review payment options
             </a>
-          </p>
-        ),
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong> We're reviewing your request for a waiver
-            or hearing.
+            .
           </p>
         ),
       };
     case '821':
       return {
+        status: (
+          <p className="vads-u-margin-bottom--0">
+            <strong>Status: </strong> We’re reviewing your notice of
+            disagreement.
+          </p>
+        ),
         nextStep: (
           <p>
             <strong>Next step: </strong>
-            We'll send you a letter with our decision. Please continue to make
+            We’ll send you a letter with our decision. Please continue to make
             payments while we complete our review.
             <a
               className="vads-u-margin-y--2 vads-u-margin-left--0p5"
@@ -771,30 +686,25 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             >
               Review payment options
             </a>
-          </p>
-        ),
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong> We're reviewing your notice of
-            disagreement.
+            .
           </p>
         ),
       };
     default:
       return {
+        status: (
+          <p className="vads-u-margin-bottom--0">
+            <strong>Status: </strong>
+            We’re updating your account.
+          </p>
+        ),
         nextStep: (
-          <p>
+          <p data-testid="diary-code-default-next-step">
             <strong>Next step: </strong>
             Please check back in 1 week for updates. If your account shows the
             same information then, call us at
             <ContactDMC className="vads-u-margin-left--0p5" />, Monday through
             Friday, 7:30 a.m. to 7:00 p.m. ET.
-          </p>
-        ),
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            We're updating your account.
           </p>
         ),
       };

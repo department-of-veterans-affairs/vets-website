@@ -116,12 +116,14 @@ export const addressUISchema = (
         'ui:title': `${checkBoxTitleState} live on a United States military base outside of the U.S.`,
         'ui:options': {
           hideIf: () => !isMilitaryBaseAddress,
+          hideEmptyValueInReview: true,
         },
       },
       'view:livesOnMilitaryBaseInfo': {
         'ui:description': MilitaryBaseInfo,
         'ui:options': {
           hideIf: () => !isMilitaryBaseAddress,
+          hideEmptyValueInReview: true,
         },
       },
       countryName: {
@@ -169,9 +171,15 @@ export const addressUISchema = (
       },
       addressLine2: {
         'ui:title': 'Street address line 2',
+        'ui:options': {
+          hideEmptyValueInReview: true,
+        },
       },
       addressLine3: {
         'ui:title': 'Street address line 3',
+        'ui:options': {
+          hideEmptyValueInReview: true,
+        },
       },
       city: {
         'ui:required': callback,
@@ -269,6 +277,7 @@ export const addressUISchema = (
       province: {
         'ui:title': 'State/Province/Region',
         'ui:options': {
+          hideEmptyValueInReview: true,
           hideIf: (formData, index) => {
             let militaryBasePath = livesOnMilitaryBasePath;
             let countryNamePath = `${path}.countryName`;

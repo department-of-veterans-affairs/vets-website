@@ -3,6 +3,7 @@ import RadioButtons from '@department-of-veterans-affairs/component-library/Radi
 import recordEvent from 'platform/monitoring/record-event';
 import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 
+import { LEGACY_APPEALS_URL } from '../../constants';
 import pageNames from './pageNames';
 
 const label = (
@@ -10,7 +11,7 @@ const label = (
     Is this claim going through the{' '}
     <span className="sr-only">legacy appeals process?</span>
     <a
-      href="/disability/file-an-appeal/"
+      href={LEGACY_APPEALS_URL}
       onClick={() => {
         recordEvent({
           event: 'howToWizard-alert-link-click',

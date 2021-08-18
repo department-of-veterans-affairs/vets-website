@@ -193,7 +193,7 @@ describe('Profile "Not all data available" error', () => {
     await errorAppearsOnAllPages();
   });
 
-  it('should be shown on all pages if there is an error with the DD4CNP `GET payment_information` endpoint`', async () => {
+  it.skip('should be shown on all pages if there is an error with the DD4CNP `GET payment_information` endpoint`', async () => {
     server.use(...mocks.getDD4CNPFailure);
 
     // don't check for the error on the direct deposit page since that page is unavailable when the `GET payment_information` endpoint fails
@@ -204,7 +204,7 @@ describe('Profile "Not all data available" error', () => {
     ]);
   });
 
-  it('should be shown on all pages if there is an error with the DD4EDU `GET ch33_bank_accounts` endpoint`', async () => {
+  it.skip('should be shown on all pages if there is an error with the DD4EDU `GET ch33_bank_accounts` endpoint`', async () => {
     server.use(...mocks.getDD4EDUFailure);
 
     // don't check for the error on the direct deposit page since that page is unavailable when the `GET payment_information` endpoint fails

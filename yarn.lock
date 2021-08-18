@@ -1522,10 +1522,10 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@2.5.5":
-  version "2.5.5"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-2.5.5.tgz#26902f030c22be6ea8928c7efa2b5a6cd231f555"
-  integrity sha512-tl5A1kOGEQiCTdVoL0RWNhOw9lX5XlC4ljsa4uD26ojrYgqu2Di0ZUOvdaQq6ayZ+qOb+1IIcPCVeEb28KUYwQ==
+"@department-of-veterans-affairs/component-library@2.5.7":
+  version "2.5.7"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-2.5.7.tgz#d6d744e3fc5a9d6ee961a85aa90d3e73b08cebcb"
+  integrity sha512-2GeTk7mR+u5YCwelNS3JVrcuT32wlm4l255RbN1xl27wgFNoCPi3Olr7ahn6HcAtgBhXRFlMukcrzpYEQvm1bw==
   dependencies:
     classnames "^2.2.6"
     core-js "^3.9.0"
@@ -1534,7 +1534,6 @@
     lodash "^4.17.15"
     moment "^2.23.0"
     prop-types "^15.6.2"
-    react "^16.7.0"
     react-focus-lock "^2.4.0"
     react-focus-on "^3.5.1"
     react-scroll "^1.7.16"
@@ -16218,7 +16217,7 @@ react-transition-group@1:
     prop-types "^15.5.6"
     warning "^3.0.0"
 
-react@^16.13.1, react@^16.7.0:
+react@^16.13.1:
   version "16.14.0"
   resolved "https://registry.npmjs.org/react/-/react-16.14.0.tgz"
   integrity sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g==
@@ -19795,9 +19794,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#3bec07e95054fb4c6d7892d1ad700a8f4c3b009c":
-  version "20.8.0"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#3bec07e95054fb4c6d7892d1ad700a8f4c3b009c"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#c53691977e6fd6ea717ceb0c4c2bc740f477168b":
+  version "20.9.0"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#c53691977e6fd6ea717ceb0c4c2bc740f477168b"
 
 vfile-message@^2.0.0:
   version "2.0.4"

@@ -558,6 +558,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
 
       if (
         featureVAOSServiceCCAppointments &&
+        appointment.vaos.isCommunityCare &&
         appointment.practitioners?.length
       ) {
         appointment.communityCareProvider = await getCommunityProvider(

@@ -5,6 +5,7 @@ import { setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import { getVAAppointmentMock } from './v0';
 import { mockEligibilityFetches } from './helpers';
 import { getV2ClinicMock } from './v2';
+import { TYPES_OF_CARE } from '../../utils/constants';
 
 /**
  * Mocks the api calls for the various eligibility related fetches VAOS does in the new appointment flow
@@ -28,7 +29,6 @@ import { getV2ClinicMock } from './v2';
 export function mockEligibilityFetchesByVersion({
   facilityId,
   typeOfCareId,
-  siteId = null,
   limit = false,
   requestPastVisits = false,
   directPastVisits = false,
@@ -46,7 +46,8 @@ export function mockEligibilityFetchesByVersion({
       {
         data: {
           attributes: {
-            hasRequiredAppointmentHistory: directPastVisits,
+            hasRequiredAppointmentHistory:
+              directPastVisits || typeOfCareId === 'primaryCare',
             isEligibleForNewAppointmentRequest: limit,
           },
         },
@@ -61,7 +62,8 @@ export function mockEligibilityFetchesByVersion({
       {
         data: {
           attributes: {
-            hasRequiredAppointmentHistory: requestPastVisits,
+            hasRequiredAppointmentHistory:
+              requestPastVisits || typeOfCareId === 'primaryCare',
             isEligibleForNewAppointmentRequest: limit,
           },
         },
@@ -118,9 +120,9 @@ export function mockEligibilityFetchesByVersion({
     );
   } else if (version === 0) {
     mockEligibilityFetches({
-      siteId,
+      siteId: facilityId.substr(0, 3),
       facilityId,
-      typeOfCareId,
+      typeOfCareId: TYPES_OF_CARE.find(t => t.idV2 === typeOfCareId).id,
       limit,
       requestPastVisits,
       directPastVisits,
