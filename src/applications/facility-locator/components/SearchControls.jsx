@@ -9,6 +9,7 @@ import {
   urgentCareServices,
   facilityTypesOptions,
   emergencyCareServices,
+  nonPPMSfacilityTypeOptions,
 } from '../config';
 import { focusElement } from 'platform/utilities/ui';
 import classNames from 'classnames';
@@ -220,9 +221,11 @@ const SearchControls = props => {
   };
 
   const renderFacilityTypeDropdown = () => {
-    const { suppressCCP, suppressPharmacies } = props;
+    const { suppressCCP, suppressPharmacies, suppressPPMS } = props;
     const { facilityType, isValid, facilityTypeChanged } = currentQuery;
-    const locationOptions = facilityTypesOptions;
+    const locationOptions = suppressPPMS
+      ? nonPPMSfacilityTypeOptions
+      : facilityTypesOptions;
     const showError = !isValid && facilityTypeChanged && !facilityType;
 
     if (suppressPharmacies) {

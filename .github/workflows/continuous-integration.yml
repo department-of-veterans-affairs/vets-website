@@ -550,14 +550,6 @@ jobs:
           name: cypress-screenshot-artifacts
           path: cypress/screenshots
 
-      - name: Archive JUnit test results
-        uses: actions/upload-artifact@v2
-        if: ${{ always() }}
-        with:
-          name: cypress-junit-test-results
-          path: test-results
-          retention-days: 1
-
       - name: Archive Mochawesome test results
         uses: actions/upload-artifact@v2
         if: ${{ always() }}
@@ -681,6 +673,8 @@ jobs:
           IS_MASTER_BUILD: ${{ needs.cypress-tests-prep.outputs.is_master_build }}
           NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
 
+      # env.MOCHAWESOME_REPORT_RESULTS is set and exported during the above step when the mochawesome report is generated.  It contains the output string for the publish step at the end of the job with the numbers from the Mochawesome report.
+
       - name: Upload Mochawesome report artifact
         uses: actions/upload-artifact@v2
         with:
@@ -731,21 +725,15 @@ jobs:
       # | Cypress Tests Summary |
       # -------------------------
 
-      - name: Download Cypress JUnit test results
-        if: ${{ always() }}
-        uses: actions/download-artifact@v2
-        with:
-          name: cypress-junit-test-results
-          path: cypress-junit-test-results
-
       - name: Publish Cypress test results
         if: ${{ always() }}
-        uses: mikepenz/action-junit-report@v2.4.2
+        uses: LouisBrunner/checks-action@v1.1.1
         with:
-          check_name: 'Cypress Tests Summary'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          report_paths: 'cypress-junit-test-results/e2e-test-output-*.xml'
-          summary: '[Mochawesome Report](https://reimagined-telegram-c11df05a.pages.github.io/cypress-reports/${{ env.UUID }})'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Cypress Tests Summary
+          conclusion: ${{ needs.cypress-tests.result }}
+          output: |
+            {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
 
 # archive:
 #   name: Archive
