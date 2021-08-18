@@ -16,9 +16,10 @@ export default () => {
 
   // Create each banner component.
   if (banners) {
-    banners?.forEach(banner => {
+    for (let index = 0; index < banners.length; index++) {
+      const banner = banners[index];
       startReactApp(<Banner {...banner.dataset} />, banner);
-    });
+    }
   }
 
   // Create the maintenance banner component.
