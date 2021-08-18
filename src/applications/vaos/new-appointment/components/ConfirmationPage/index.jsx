@@ -28,7 +28,7 @@ export default function ConfirmationPage() {
     clinic,
     flowType,
     slot,
-    useProviderSelection,
+    hasResidentialAddress,
     submitStatus,
   } = useSelector(selectConfirmationPage, shallowEqual);
 
@@ -77,7 +77,7 @@ export default function ConfirmationPage() {
           data={data}
           facilityDetails={facilityDetails}
           pageTitle={pageTitle}
-          useProviderSelection={useProviderSelection}
+          hasResidentialAddress={hasResidentialAddress}
         />
       )}
       {!featureHomepageRefresh && (

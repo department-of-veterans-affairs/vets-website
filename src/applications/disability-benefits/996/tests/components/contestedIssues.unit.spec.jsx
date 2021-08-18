@@ -19,7 +19,7 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.contestedIssues.pages.contestedIssues;
+  } = formConfig.chapters.conditions.pages.contestedIssues;
 
   it('renders the contested issue selection field', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -70,6 +70,26 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
     expect($$('va-alert', formDOM).length).to.equal(1);
   });
 
+  // This page isn't required in v2 (but one MUST be selected between this page
+  // & the additional issues page)
+  it('allows submission when no conditions selected for HLR v2', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        schema={schema}
+        data={{ ...initialData, hlrV2: true }}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    const formDOM = getFormDOM(form);
+    submitForm(form);
+    expect($$('va-alert', formDOM).length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
+  });
+
   it('renders the information about each disability', () => {
     const issues = initialData.contestedIssues;
     const form = ReactTestUtils.renderIntoDocument(
@@ -94,7 +114,7 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
       );
       expect(content).to.contain(
         `Decision date: ${moment(data.approxDecisionDate).format(
-          'MMM D, YYYY',
+          'MMMM D, YYYY',
         )}`,
       );
     });

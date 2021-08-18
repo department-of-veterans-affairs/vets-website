@@ -111,7 +111,6 @@ export const FORM_ELIGIBILITY_CHECKS_SUCCEEDED =
   'newAppointment/FORM_ELIGIBILITY_CHECKS_SUCCEEDED';
 export const FORM_ELIGIBILITY_CHECKS_FAILED =
   'newAppointment/FORM_ELIGIBILITY_CHECKS_FAILED';
-export const FORM_CLINIC_PAGE_OPENED = 'newAppointment/FORM_CLINIC_PAGE_OPENED';
 export const FORM_CLINIC_PAGE_OPENED_SUCCEEDED =
   'newAppointment/FORM_CLINIC_PAGE_OPENED_SUCCEEDED';
 export const START_DIRECT_SCHEDULE_FLOW =
@@ -538,21 +537,11 @@ export function updateReasonForAppointmentData(page, uiSchema, data) {
 }
 
 export function openClinicPage(page, uiSchema, schema) {
-  return async (dispatch, getState) => {
-    dispatch({
-      type: FORM_CLINIC_PAGE_OPENED,
-    });
-
-    const formData = getFormData(getState());
-    // Remove parse function when converting this call to FHIR service
-    await dispatch(fetchFacilityDetails(formData.vaFacility));
-
-    dispatch({
-      type: FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
-      page,
-      uiSchema,
-      schema,
-    });
+  return {
+    type: FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
+    page,
+    uiSchema,
+    schema,
   };
 }
 
@@ -797,7 +786,11 @@ export function submitAppointmentOrRequest(history) {
           history.push('/new-appointment/confirmation');
         }
       } catch (error) {
-        captureError(error, true);
+        const extraData = {
+          vaFacility: data?.vaFacility,
+          clinicId: data?.clinicId,
+        };
+        captureError(error, true, 'Direct submission failure', extraData);
         dispatch({
           type: FORM_SUBMIT_FAILED,
           isVaos400Error: has400LevelError(error),

@@ -14,7 +14,7 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 
 describe('VAOS community care flow', () => {
   it('should fill out community care form and submit request', () => {
-    initCommunityCareMock();
+    initCommunityCareMock({ withoutAddress: true });
     cy.visit(
       'health-care/schedule-view-va-appointments/appointments/new-appointment/',
     );
@@ -30,7 +30,9 @@ describe('VAOS community care flow', () => {
     // Verify primary care checked
     cy.get('input[value="323"]').should('be.checked');
     // Click continue button
-    cy.get('.usa-button').click();
+    cy.get('.usa-button')
+      .contains('Continue')
+      .click();
 
     // Choose where you want to receive your care step
     cy.url().should(
@@ -258,7 +260,7 @@ describe('VAOS community care flow', () => {
 
   it('should submit form with provider chosen from list and submit request', () => {
     initCommunityCareMock();
-    mockFeatureToggles({ providerSelectionEnabled: true });
+    mockFeatureToggles();
     cy.visit(
       'health-care/schedule-view-va-appointments/appointments/new-appointment/',
     );
@@ -468,7 +470,6 @@ describe('VAOS community care flow using VAOS service', () => {
     mockFeatureToggles({
       v2Requests: true,
       homepageRefresh: true,
-      providerSelectionEnabled: true,
       v2Facilities: true,
     });
     cy.login(mockUser);
