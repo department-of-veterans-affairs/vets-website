@@ -116,7 +116,7 @@ export default function({
               if (institution.type.toLowerCase() === 'ojt') {
                 return 'Employer';
               }
-              return `${upperCaseFirstLetterOnly(institution.type)} School`;
+              return `${upperCaseFirstLetterOnly(institution.type)} school`;
             },
           },
           {
