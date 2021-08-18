@@ -11,8 +11,8 @@ describe('General Widget', () => {
     view = render(<CernerWidget facilityNames={facilityNames} />);
   });
   it('renders the correct text, including the facility names', () => {
-    expect(view.getByTestId('facilities').textContent).to.equal(
-      `For ${facilityNames[0]}: Use My VA Health`,
+    expect(view.getByTestId('facilities').textContent).to.contain(
+      `For ${facilityNames[0]}:`,
     );
   });
   it('renders the correct primary CTA link', () => {
