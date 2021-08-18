@@ -128,7 +128,7 @@ export function ComparePage({
         } else if (offset < initialTop && headerFixed) {
           setHeaderFixed(false);
         } else if (headerFixed) {
-          headerRef.current.style.top =
+          document.getElementById('compareHeader').style.top =
             visibleFooterHeight > 0 ? `${-visibleFooterHeight}px` : '0px';
         }
       }
