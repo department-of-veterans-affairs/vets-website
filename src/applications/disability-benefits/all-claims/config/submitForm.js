@@ -20,7 +20,6 @@ const submitFormFor = eventName =>
     // 2. Sends the Authorization header with the user token
     return new Promise((resolve, reject) => {
       const req = new XMLHttpRequest();
-      //
       req.open('POST', formConfig.submitUrl);
 
       req.withCredentials = true;
