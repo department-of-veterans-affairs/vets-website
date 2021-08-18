@@ -13,6 +13,7 @@ export const transform = (formConfig, form) => {
   const {
     questions,
     personalData,
+    personalIdentification,
     expenses,
     otherExpenses,
     utilityRecords,
@@ -57,7 +58,8 @@ export const transform = (formConfig, form) => {
 
   const submissionObj = {
     personalIdentification: {
-      fileNumber: '',
+      ssn: personalIdentification.ssn,
+      fileNumber: personalIdentification.fileNumber,
       fsrReason: selectedDebts
         .map(({ resolution }) => resolution.resolutionType)
         .join(', '),
