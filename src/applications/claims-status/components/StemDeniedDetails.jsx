@@ -124,7 +124,7 @@ const StemDeniedDetails = ({
           completing VA Form 20-0995.{' '}
           <a
             href="https://www.vba.va.gov/pubs/forms/VBA-20-0995-ARE.pdf"
-            aria-label="Download Decision Review Request for Supplemental Claims VA Form 20 - 0 9 9 5. Opens in new browser tab"
+            aria-label="Download VA Form 20 - 0 9 9 5. Opens in new browser tab."
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -138,7 +138,7 @@ const StemDeniedDetails = ({
           completing VA Form 20-0996.{' '}
           <a
             href="https://www.vba.va.gov/pubs/forms/VBA-20-0996-ARE.pdf"
-            aria-label="Download Decision Review Request: Higher-Level Review VA Form 20 - 0 9 9 6. Opens in new browser tab"
+            aria-label="Download VA Form 20 - 0 9 9 6. Opens in new browser tab."
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -152,7 +152,7 @@ const StemDeniedDetails = ({
           completing VA Form 10182.{' '}
           <a
             href="https://www.va.gov/vaforms/va/pdf/VA10182.pdf"
-            aria-label="Download Decision Review Request: Board Appeal for Notice of Disagreement VA Form 1 0 1 8 2. Opens in new browser tab"
+            aria-label="Download VA Form 1 0 1 8 2. Opens in new browser tab."
             target="_blank"
             rel="noopener noreferrer"
           >
