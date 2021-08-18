@@ -14,8 +14,8 @@ describe('HLR conference times page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.informalConference.pages.availability;
-  const firstSelect = 'select[name="root_informalConferenceTimes_time1"]';
+  } = formConfig.chapters.informalConference.pages.conferenceTime;
+  const v2 = { hlrV2: true };
 
   it('should render', () => {
     const form = mount(
@@ -23,28 +23,12 @@ describe('HLR conference times page', () => {
         definitions={{}}
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
+        data={v2}
+        formData={v2}
       />,
     );
 
-    expect(form.find('select').length).to.equal(2);
-    form.unmount();
-  });
-
-  it('should show v1 options', () => {
-    const form = mount(
-      <DefinitionTester
-        definitions={{}}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-      />,
-    );
-
-    // v1 = 1 empty option + 4 time slots
-    expect(form.find(`${firstSelect} option`).length).to.equal(5);
+    expect(form.find('input[type="radio"]').length).to.equal(2);
     form.unmount();
   });
 
@@ -55,13 +39,13 @@ describe('HLR conference times page', () => {
         definitions={{}}
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
+        data={v2}
+        formData={v2}
         onSubmit={onSubmit}
       />,
     );
 
-    fillData(form, firstSelect, 'time1000to1230');
+    fillData(form, '#root_informalConferenceTime_0', 'time0800to1200');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
@@ -76,8 +60,8 @@ describe('HLR conference times page', () => {
         definitions={{}}
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
+        data={v2}
+        formData={v2}
         onSubmit={onSubmit}
       />,
     );
