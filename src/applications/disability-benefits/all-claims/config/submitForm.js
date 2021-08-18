@@ -20,6 +20,7 @@ const submitFormFor = eventName =>
     // 2. Sends the Authorization header with the user token
     return new Promise((resolve, reject) => {
       const req = new XMLHttpRequest();
+      //
       req.open('POST', formConfig.submitUrl);
 
       req.withCredentials = true;
@@ -75,6 +76,7 @@ const submitFormFor = eventName =>
       req.setRequestHeader('X-Key-Inflection', 'camel');
       req.setRequestHeader('Content-Type', 'application/json');
       req.setRequestHeader('X-CSRF-Token', csrfTokenStored);
+      req.setRequestHeader('Source-App-Name', window.appName);
 
       // Log an error after the timeout fires
       timer = setTimeout(() => {
