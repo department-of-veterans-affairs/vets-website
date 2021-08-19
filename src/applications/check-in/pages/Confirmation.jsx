@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
+import { VaAlert } from 'web-components/react-bindings';
 
 import { focusElement } from 'platform/utilities/ui';
 
@@ -8,12 +9,9 @@ import Footer from '../components/Footer';
 import AppointmentLocation from '../components/AppointmentLocation';
 
 const Confirmation = () => {
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5">
-      <va-alert status="success">
+      <VaAlert status="success" onVaOnLoad={() => focusElement('h1')}>
         <h1
           tabIndex="-1"
           aria-label="Thank you for checking in. "
@@ -25,7 +23,7 @@ const Confirmation = () => {
           Please wait in the <AppointmentLocation /> waiting room. We’ll come
           get you when it’s time for your appointment to start.
         </p>
-      </va-alert>
+      </VaAlert>
       <Footer header={'Not sure where to wait?'} />
       <BackToHome />
     </div>

@@ -1,4 +1,3 @@
-import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
 
@@ -26,6 +25,7 @@ import informalConference from '../pages/informalConference';
 import informalConferenceRep from '../pages/informalConferenceRep';
 import informalConferenceRepV2 from '../pages/informalConferenceRepV2';
 import informalConferenceTimes from '../pages/informalConferenceTimes';
+import informalConferenceTime from '../pages/informalConferenceTimeV2';
 import optIn from '../pages/optIn';
 import issueSummary from '../pages/issueSummary';
 import sameOffice from '../pages/sameOffice';
@@ -45,7 +45,7 @@ import manifest from '../manifest.json';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/higher_level_reviews`,
+  submitUrl: 'higher_level_reviews',
   submit: submitForm,
   trackingPrefix: 'decision-reviews-va20-0996-',
   downtime: {
@@ -106,6 +106,13 @@ const formConfig = {
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },
+        homeless: {
+          title: 'Homelessness question',
+          path: 'homeless',
+          uiSchema: homeless.uiSchema,
+          schema: homeless.schema,
+          depends: apiVersion2,
+        },
         confirmContactInformation: {
           title: 'Contact information',
           path: 'contact-information',
@@ -115,13 +122,6 @@ const formConfig = {
             // stop the mobile phone modal from showing SMS checkbox inline
             'view:showSMSCheckbox': false,
           },
-        },
-        homeless: {
-          title: 'Homelessness question',
-          path: 'homeless',
-          uiSchema: homeless.uiSchema,
-          schema: homeless.schema,
-          depends: apiVersion2,
         },
       },
     },
@@ -214,9 +214,18 @@ const formConfig = {
         availability: {
           path: 'informal-conference/availability',
           title: 'Scheduling availability',
-          depends: formData => formData?.informalConference !== 'no',
+          depends: formData =>
+            formData?.informalConference !== 'no' && apiVersion1(formData),
           uiSchema: informalConferenceTimes.uiSchema,
           schema: informalConferenceTimes.schema,
+        },
+        conferenceTime: {
+          path: 'informal-conference/conference-availability',
+          title: 'Scheduling availability',
+          depends: formData =>
+            formData?.informalConference !== 'no' && apiVersion2(formData),
+          uiSchema: informalConferenceTime.uiSchema,
+          schema: informalConferenceTime.schema,
         },
       },
     },

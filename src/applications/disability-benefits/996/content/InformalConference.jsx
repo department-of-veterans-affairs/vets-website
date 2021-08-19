@@ -74,6 +74,23 @@ export const InformalConferenceTimesDescription = (
   </>
 );
 
+export const InformalConferenceTimesDescriptionV2 = (
+  <>
+    <p>
+      First we’ll call {contacts} to schedule the informal conference. Please
+      indicate <span className="contact-choice selected-me">your</span>
+      <span className="contact-choice selected-rep">their</span> availability by
+      providing a preferred time for a call.
+    </p>
+    <p>
+      <strong>We’ll make two attempts to call {contacts}.</strong> If no one
+      answers, we’ll leave a voice mail and a number for {contacts} to return
+      the call. If we aren’t able to get in touch with {contacts} after 2
+      attempts, we’ll proceed with the Higher-Level Review.
+    </p>
+  </>
+);
+
 export const informalConferenceTimeSelectTitles = {
   first: <>Choose the best time for us to call {contacts}</>,
   second: 'Choose another time for us to call',
