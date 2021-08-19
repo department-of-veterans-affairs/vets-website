@@ -43,8 +43,8 @@ function sliceDiffIntoDiffForEachChangedFile(diff) {
     }
   }
 
-  // // eslint-disable-next-line no-console
-  // console.log('diffForEachChangedFile:', diffForEachChangedFile);
+  // eslint-disable-next-line no-console
+  console.log('diffForEachChangedFile:', diffForEachChangedFile);
   return diffForEachChangedFile;
 }
 
@@ -54,9 +54,18 @@ function shouldRebuildGraph(diff) {
     return isSrcAppicationFileDiff(fileDiff);
   });
 
+  // eslint-disable-next-line no-console
+  console.log('srcApplicationFileDiffs:', srcApplicationFileDiffs);
+
   for (let i = 0; i < srcApplicationFileDiffs.length; i += 1) {
     const includesImport = /import.+from.+;/g.test(srcApplicationFileDiffs[i]);
     const includesRequire = srcApplicationFileDiffs[i].includes("require('");
+
+    // eslint-disable-next-line no-console
+    console.log('includesImport:', includesImport);
+
+    // eslint-disable-next-line no-console
+    console.log('includesRequire:', includesRequire);
 
     if (includesImport || includesRequire) {
       // eslint-disable-next-line no-console
