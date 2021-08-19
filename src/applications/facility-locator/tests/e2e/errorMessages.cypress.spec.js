@@ -30,8 +30,10 @@ describe('Facility search error messages', () => {
   });
 
   it('shows error message when leaving facility type field empty', () => {
+    cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown').focus();
-    cy.get('#street-city-state-zip').focus();
+    // cy.get('#street-city-state-zip').focus();
+    cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('.usa-input-error-message').contains(
       'Please choose a facility type.',
     );
@@ -44,10 +46,10 @@ describe('Facility search error messages', () => {
       'Community providers (in VA’s network)',
     );
     // Wait for services to be saved to state and input field to not be disabled
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(600);
-    cy.get('#service-type-ahead-input').focus();
-    cy.get('#facility-search').focus();
+    cy.get('#service-type-ahead-input')
+      .should('not.be.disabled')
+      .focus();
+    cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('.usa-input-error-message').contains(
       'Please search for an available service.',
     );
@@ -65,5 +67,19 @@ describe('Facility search error messages', () => {
     cy.get('.usa-input-error-message').contains(
       'Please search for an available service.',
     );
+  });
+
+  it('does not show error message when selecting a service type, then tab-ing/focusing back to the facility type field, then tab-ing forward to service type field', () => {
+    cy.get('#facility-type-dropdown').select(
+      'Community providers (in VA’s network)',
+    );
+
+    cy.get('#service-type-ahead-input').type('Clinic/Center - Urgent Care');
+    cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
+
+    cy.get('#facility-type-dropdown').focus();
+    cy.get('#service-type-ahead-input');
+
+    cy.get('.usa-input-error-message').should('not.exist');
   });
 });
