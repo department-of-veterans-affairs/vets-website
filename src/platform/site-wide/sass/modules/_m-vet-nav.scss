@@ -465,23 +465,31 @@ body.va-pos-fixed {
   }
 
   @media (min-width: $xsmall-screen) and (max-width: $medium-screen - 1) {
+    #mega-menu {
+      .login-container {
+        position: relative;
+        top: -40px;
+      }
+    }
+
     .mega-menu {
-      // #vetnav {
-      //   min-height: unset;
-      // }
       .login-container {
         // due to these been nested, this has to have a higher z-level then vet-toolbar
         position: absolute;
         bottom: 40px;
         width: 100%;
         left: 0;
+
+        #vetnav {
+          left: 0;
+        }
       }
     }
 
     #vetnav {
       // 100% width necessary for right aligned items
       width: 100%;
-      left: 0;
+      left: initial;
     }
 
     #vetnav-controls {
