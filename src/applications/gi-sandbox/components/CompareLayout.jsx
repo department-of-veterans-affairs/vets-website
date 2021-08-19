@@ -7,6 +7,7 @@ import {
   formatCurrency,
   naIfNull,
   schoolSize,
+  upperCaseFirstLetterOnly,
 } from '../utils/helpers';
 import _ from 'lodash';
 import { MINIMUM_RATING_COUNT } from '../constants';
@@ -107,7 +108,7 @@ export default function({
             },
           },
           {
-            label: 'Type of school',
+            label: 'Type of institution',
             mapper: institution => {
               if (institution.vetTecProvider) {
                 return 'VET TEC';
@@ -115,7 +116,7 @@ export default function({
               if (institution.type.toLowerCase() === 'ojt') {
                 return 'Employer';
               }
-              return 'School';
+              return `${upperCaseFirstLetterOnly(institution.type)} school`;
             },
           },
           {
@@ -124,7 +125,7 @@ export default function({
             mapper: institution => naIfNull(institution.localeType),
           },
           {
-            label: 'Size of school',
+            label: 'Size of institution',
             mapper: institution => schoolSize(institution.undergradEnrollment),
           },
           {
@@ -153,7 +154,7 @@ export default function({
 
       <CompareGrid
         sectionLabel="Your estimated benefits"
-        subSectionLabel="Payments made to school"
+        subSectionLabel="Payments made to institution"
         institutions={institutions}
         showDifferences={showDifferences}
         smallScreen={smallScreen}
@@ -167,7 +168,7 @@ export default function({
               ),
           },
           {
-            label: 'GI Bill pays to school',
+            label: 'GI Bill pays to institution',
             mapper: institution =>
               formatCurrency(
                 calculated[institution.facilityCode].outputs.giBillPaysToSchool
@@ -208,7 +209,7 @@ export default function({
         hasRatings && (
           <>
             <CompareGrid
-              sectionLabel="School ratings"
+              sectionLabel="Veteran ratings"
               institutions={institutions}
               showDifferences={showDifferences}
               smallScreen={smallScreen}
