@@ -622,6 +622,7 @@ const formConfig = {
           path: 'contact/preferences',
           title: 'Contact Information',
           uiSchema: {
+            'ui:title': 'Select your preferred contact method',
             [formFields.contactMethodRdoBtnList]: {
               'ui:title':
                 'How should we contact you if we have questions about your application?',
