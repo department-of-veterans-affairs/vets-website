@@ -4,7 +4,7 @@ import CallHRC from 'platform/static-data/CallHRC';
 export default function ErrorText() {
   return (
     <p>
-      If it still doesn’t work, <CallHRC />
+      If it still doesn’t work, yo please <CallHRC />
     </p>
   );
 }
