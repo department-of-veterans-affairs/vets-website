@@ -59,8 +59,8 @@ const SearchControls = props => {
 
   const handleServiceTypeChange = ({ target, selectedItem }) => {
     setSelectedServiceType(selectedItem);
-    const option = target.value.trim();
 
+    const option = target.value.trim();
     const serviceType = option === 'All' ? null : option;
     onChange({ serviceType });
   };
@@ -127,6 +127,9 @@ const SearchControls = props => {
     });
 
     onSubmit();
+
+    onChange({ serviceType: ' ' });
+    handleServiceTypeChange(e);
   };
 
   const handleGeolocationButtonClick = e => {
