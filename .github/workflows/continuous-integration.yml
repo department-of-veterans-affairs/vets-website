@@ -439,10 +439,6 @@ jobs:
         id: git-diff
         run: echo ::set-output name=DIFF_RESULTS::$(git diff $(git rev-parse @~)..$(git rev-parse @))
 
-      # delete the following step at clean up
-      - name: Echo diff
-        run: echo ${{ steps.git-diff.outputs.DIFF_RESULTS }}
-
       - name: Set IS_GRAPH_UPDATED and GRAPH variables
         run: node script/github-actions/create-cross-app-import-graph.js
         env:
