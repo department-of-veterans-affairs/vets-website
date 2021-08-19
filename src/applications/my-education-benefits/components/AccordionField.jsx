@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { FORMAT_DATE_READABLE } from '../constants';
@@ -27,8 +28,13 @@ export default class AccordionField extends React.Component {
   itemsOpen = [];
   togglingAll = false;
 
+  MEB_ACORDION_ITEM = 'va-accordion-item';
+  accordionField;
+  accordionFieldItems;
+
   constructor(props) {
     super(props);
+    this.id = _.uniqueId('meb-accordion-field-');
 
     // Throw an error if there’s no viewComponent (should be React component)
     if (
@@ -44,12 +50,31 @@ export default class AccordionField extends React.Component {
     this.state = {
       collapseAll: false,
     };
+  }
 
-    window.addEventListener('click', this.manuallyToggleCollapseLinkOnClick);
+  componentDidMount() {
+    this.accordionField = document.getElementById(this.id);
+    const accordionItemNodes = this.accordionField.querySelectorAll(
+      this.MEB_ACORDION_ITEM,
+    );
+    this.accordionFieldItems = Array.from(accordionItemNodes);
+
+    if (this.accordionFieldItems.length) {
+      this.accordionFieldItems.forEach(item =>
+        item.addEventListener('click', this.manuallyToggleCollapseLinkOnClick),
+      );
+    }
   }
 
   componentWillUnmount() {
-    window.removeEventListener('click', this.manuallyToggleCollapseLinkOnClick);
+    if (this.accordionFieldItems && this.accordionFieldItems.length) {
+      this.accordionFieldItems.forEach(item =>
+        item.removeEventListener(
+          'click',
+          this.manuallyToggleCollapseLinkOnClick,
+        ),
+      );
+    }
   }
 
   getDescription = () => {
@@ -73,11 +98,20 @@ export default class AccordionField extends React.Component {
       event.preventDefault();
     }
 
-    const open = this.state.collapseAll ? 'true' : 'false';
+    if (!this.accordionFieldItems || !this.accordionFieldItems.length) {
+      return;
+    }
+
+    // Set togglingAll to true while we're toggleing the accordions so
+    // manuallyToggleCollapseLinkOnClick doesn't also check if the
+    // Collapse/Expand all link should be toggled, as we would when the
+    // veteran manually collapses or expands the accordions.
     this.togglingAll = true;
+    // Preserve the scroll position as it will otherwise change when
+    // the accordions are expanded.
     const scrollPosition = window.scrollY;
-    document
-      .querySelectorAll(`va-accordion-item[open="${open}"]`)
+    this.accordionFieldItems
+      .filter(item => item.open === this.state.collapseAll)
       .forEach(item => item.shadowRoot.querySelector('button').click());
     window.scrollTo(0, scrollPosition);
     this.togglingAll = false;
@@ -86,16 +120,15 @@ export default class AccordionField extends React.Component {
 
   manuallyToggleCollapseLinkOnClick = event => {
     const clickTarget = event.target.tagName.toLowerCase();
-    if (this.togglingAll || clickTarget !== 'va-accordion-item') {
+    if (this.togglingAll || clickTarget !== this.MEB_ACORDION_ITEM) {
       return;
     }
 
     // event.target.open will be false if an open accordion has just
     // been closed.
     const closing = event.target.open;
-    const open = !closing ? 'true' : 'false';
-    const matchedAccordions = document.querySelectorAll(
-      `va-accordion-item[open="${open}"]`,
+    const matchedAccordions = this.accordionFieldItems.filter(
+      item => item.open === !closing,
     );
 
     // If there are no accordions that apply to the current state, swap
@@ -147,10 +180,10 @@ export default class AccordionField extends React.Component {
           onClick={this.toggleAllButtons}
           type="button"
         >
-          {this.state.collapseAll ? 'Collapse All' : 'Expand All'}
+          {this.state.collapseAll ? 'Collapse all' : 'Expand all'}
         </button>
 
-        <va-accordion bordered>
+        <va-accordion bordered id={this.id}>
           {items.map(item => {
             const subheader = `${moment(item.dateRange.from).format(
               FORMAT_DATE_READABLE,
