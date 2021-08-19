@@ -27,6 +27,11 @@ function findChange() {
     ) {
       // eslint-disable-next-line no-console
       console.log('I AM IN THE SECOND CONDITION');
+      // eslint-disable-next-line no-console
+      console.log(
+        "HERE'S THE CHANGE I'M TRYING TO PUSH TO THE ARRAY: ",
+        diff.slice(start, i),
+      );
       srcApplicationChanges.push(diff.slice(start, i));
       start = null;
     } else if (start && i === diff.length - 1) {
