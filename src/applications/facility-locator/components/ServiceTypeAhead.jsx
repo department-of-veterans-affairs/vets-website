@@ -183,9 +183,7 @@ class ServiceTypeAhead extends Component {
                 })}
                 onBlur={() => {
                   this.setState({ isFocused: false });
-                  // this.props.onBlur(e);
                 }}
-                // onFocus={() => this.setState({ isFocused: true })}
                 id="service-type-ahead-input"
               />
 
