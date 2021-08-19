@@ -133,7 +133,6 @@ class ServiceTypeAhead extends Component {
   render() {
     const { defaultSelectedItem } = this.state;
     const { showError, currentQuery } = this.props;
-
     return (
       <Downshift
         onChange={this.handleOnSelect}
@@ -180,12 +179,13 @@ class ServiceTypeAhead extends Component {
                 {...getInputProps({
                   placeholder: 'like Chiropractor or Optometrist',
                   onFocus: () => this.setState({ isFocused: true }),
-                  onBlur: () => {
-                    this.setState({ isFocused: false });
-                    // this.props.onBlur(e);
-                  },
                   disabled: currentQuery?.fetchSvcsInProgress,
                 })}
+                onBlur={() => {
+                  this.setState({ isFocused: false });
+                  // this.props.onBlur(e);
+                }}
+                // onFocus={() => this.setState({ isFocused: true })}
                 id="service-type-ahead-input"
               />
 

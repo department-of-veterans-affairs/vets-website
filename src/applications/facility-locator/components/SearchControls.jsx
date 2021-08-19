@@ -48,7 +48,10 @@ const SearchControls = props => {
   };
 
   const handleFacilityTypeChange = e => {
-    onChange({ facilityType: e.target.value, serviceType: null });
+    onChange({
+      facilityType: e.target.value,
+      serviceType: null,
+    });
   };
 
   const handleFacilityTypeBlur = e => {
@@ -128,8 +131,7 @@ const SearchControls = props => {
 
     onSubmit();
 
-    onChange({ serviceType: ' ' });
-    handleServiceTypeChange(e);
+    setSelectedServiceType(null);
   };
 
   const handleGeolocationButtonClick = e => {
