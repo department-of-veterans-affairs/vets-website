@@ -17,7 +17,10 @@ import Main from './containers/Main';
  * @param {Redux.Store} store The common store used on the site
  */
 export default function startMegaMenuWidget(data, store) {
-  const megaMenuEls = document.getElementsByClassName('mega-menu');
+  const megaMenuEls = [
+    ...document.getElementsByClassName('mega-menu'),
+    document.getElementById('mega-menu'),
+  ].filter(el => !!el);
 
   for (const el of megaMenuEls) {
     startReactApp(

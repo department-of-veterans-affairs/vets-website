@@ -87,19 +87,23 @@ header.merger {
     }
   }
 
-  .mega-menu .panel-bottom-link {
-    width: 468px;
-  }
+  .mega-menu,
+  #mega-menu {
+    .panel-bottom-link {
+      width: 468px;
+    }
 
-  .mega-menu .vetnav-panel {
-    box-sizing: border-box;
-    .mm-links {
-      font-family: $font-stack;
+    .vetnav-panel {
+      box-sizing: border-box;
+      .mm-links {
+        font-family: $font-stack;
+      }
     }
   }
 
   @media (min-width: $large-screen) {
-    .mega-menu {
+    .mega-menu,
+    #mega-menu {
       .vetnav-panel {
         width: 487px;
 
@@ -141,8 +145,11 @@ header.merger {
       width: 100%;
     }
 
-    .mega-menu .column-three {
-      display: none;
+    .mega-menu,
+    #mega-menu {
+      .column-three {
+        display: none;
+      }
     }
   }
 

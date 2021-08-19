@@ -313,7 +313,7 @@ body.va-pos-fixed {
   background-position: left 1px center;
   background-size: 14px auto;
   border-radius: 0;
-  padding: 16px 16px  16px  30px;
+  padding: 16px 16px 16px 30px;
   text-align: left;
   width: 100%;
   margin: 0;
@@ -465,7 +465,6 @@ body.va-pos-fixed {
   }
 }
 
-
 .merger {
   #vetnav {
     // 100% width necessary for right aligned items
@@ -474,7 +473,8 @@ body.va-pos-fixed {
   }
 
   @media (min-width: $xsmall-screen) and (max-width: $medium-screen - 1) {
-    .mega-menu {
+    .mega-menu,
+    #mega-menu {
       // #vetnav {
       //   min-height: unset;
       // }
@@ -544,5 +544,4 @@ body.va-pos-fixed {
   [class^="vetnav-controller"] {
     position: relative !important;
   }
-
 }

@@ -81,7 +81,8 @@ $medium-phone-screen: 375px;
     }
   }
 
-  .menu-rule {
+  .menu-rule,
+  #menu-rule {
     border-bottom: 1px solid $color-white;
     margin-left: -0.55em;
     padding-bottom: 1em;
@@ -219,7 +220,8 @@ $medium-phone-screen: 375px;
       flex-direction: column;
     }
 
-    .menu-rule {
+    .menu-rule,
+    #menu-rule {
       border-bottom: 0;
       padding-bottom: 0;
     }
