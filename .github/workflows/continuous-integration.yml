@@ -397,6 +397,7 @@ jobs:
         if: ${{ always() }}
         run: node ./script/github-actions/stylelint-annotation-format.js
 
+  # consider moving this job to cpyress-tests-prep job
   check-app-dependency-graph:
     name: Check App Dependency Graph
     runs-on: ubuntu-latest
@@ -449,6 +450,7 @@ jobs:
   
   cypress-tests-prep:
     name: Prep for Cypress Tests
+    needs: check-app-dependency-graph
     runs-on: ubuntu-latest
     outputs:
       num_containers: ${{ steps.containers.outputs.num }}

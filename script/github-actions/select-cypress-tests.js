@@ -4,6 +4,9 @@ const glob = require('glob');
 const { integrationFolder, testFiles } = require('../../config/cypress.json');
 const graph = require('../../config/cross_app_import_graph.json');
 
+// eslint-disable-next-line no-console
+console.log('For testing');
+
 const IS_MASTER_BUILD = process.env.IS_MASTER_BUILD === 'true';
 const filepaths = process.env.CHANGED_FILE_PATHS.split(' ');
 const pathsOfChangedFiles = filepaths.filter(filepath => {

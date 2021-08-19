@@ -6,6 +6,9 @@ const diff = process.env.DIFF_RESULTS;
 // eslint-disable-next-line no-console
 console.log('Diff: ', diff);
 
+// eslint-disable-next-line no-console
+console.log('For testing');
+
 // const files = ['src/applications/**/*.*'];
 // const imports = findImports(files, {
 //   absoluteImports: true,
