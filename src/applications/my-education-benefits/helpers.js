@@ -29,15 +29,15 @@ export const activeDutyLabel = (
       <p>
         Our records indicate you may be eligible for this benefit because you
         served at least two years on active duty and were honorably discharged.
-        <a
-          href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-active-duty/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {' '}
-          Learn more about the Montgomery GI Bill Active Duty
-        </a>
       </p>
+      <a
+        href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-active-duty/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {' '}
+        Learn more about the Montgomery GI Bill Active Duty
+      </a>
     </AdditionalInfo>
   </>
 );
