@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import get from '../../../../utilities/data/get';
 
 import {
   getUiOptions,
@@ -18,7 +18,7 @@ export default function StringField(props) {
   const labels = uiOptions.labels || {};
   const enumOptions = Array.isArray(schema.enum) && optionsList(schema);
 
-  let Widget = _.get('ui:reviewWidget', uiSchema);
+  let Widget = get('ui:reviewWidget', uiSchema);
   if (!Widget) {
     const defaultWidget = schema.format || (enumOptions ? 'select' : 'text');
     Widget = getWidget(
@@ -30,7 +30,7 @@ export default function StringField(props) {
 
   return (
     <Widget
-      options={_.assign(uiOptions, { enumOptions, labels })}
+      options={{ ...uiOptions, ...enumOptions, ...labels }}
       value={formData}
       {...props}
     />
