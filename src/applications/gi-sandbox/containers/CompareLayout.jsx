@@ -8,6 +8,7 @@ import {
   formatCurrency,
   naIfNull,
   schoolSize,
+  upperCaseFirstLetterOnly,
 } from '../utils/helpers';
 import _ from 'lodash';
 import { ariaLabels, MINIMUM_RATING_COUNT } from '../constants';
@@ -123,7 +124,7 @@ const CompareLayout = ({
             },
           },
           {
-            label: 'Type of school',
+            label: 'Type of institution',
             mapper: institution => {
               if (institution.vetTecProvider) {
                 return 'VET TEC';
@@ -131,7 +132,7 @@ const CompareLayout = ({
               if (institution.type.toLowerCase() === 'ojt') {
                 return 'Employer';
               }
-              return 'School';
+              return `${upperCaseFirstLetterOnly(institution.type)} school`;
             },
           },
           {
@@ -181,7 +182,7 @@ const CompareLayout = ({
 
       <CompareGrid
         sectionLabel="Your estimated benefits"
-        subSectionLabel="Payments made to school"
+        subSectionLabel="Payments made to institution"
         institutions={institutions}
         showDifferences={showDifferences}
         smallScreen={smallScreen}
@@ -201,7 +202,7 @@ const CompareLayout = ({
               ),
           },
           {
-            label: 'GI Bill pays to school',
+            label: 'GI Bill pays to institution',
             mapper: institution =>
               formatCurrency(
                 calculated[institution.facilityCode].outputs.giBillPaysToSchool
@@ -254,7 +255,7 @@ const CompareLayout = ({
         hasRatings && (
           <>
             <CompareGrid
-              sectionLabel="School ratings"
+              sectionLabel="Veteran ratings"
               institutions={institutions}
               showDifferences={showDifferences}
               smallScreen={smallScreen}
