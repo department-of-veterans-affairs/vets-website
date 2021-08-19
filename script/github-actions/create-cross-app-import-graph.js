@@ -31,9 +31,16 @@ function findChange() {
       srcApplicationChanges.push(diff.slice(start));
     }
 
-    if (start && diff[i] === 'd') {
+    if (diff[i] === 'd') {
       // eslint-disable-next-line no-console
-      console.log('Slice: ', diff.slice(i, i + endOfChange.length));
+      console.log('i: ', i);
+      // eslint-disable-next-line no-console
+      console.log(
+        'startOfChange slice: ',
+        diff.slice(i, i + startOfChange.length),
+      );
+      // eslint-disable-next-line no-console
+      console.log('endOfChange slice: ', diff.slice(i, i + endOfChange.length));
     }
   }
 
