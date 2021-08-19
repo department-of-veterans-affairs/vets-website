@@ -42,7 +42,7 @@ export const getMonthlyIncome = ({
 
   if (questions.spouseIsEmployed) {
     const monthlyGrossSalary = spouseCurrentEmployment
-      .map(record => Number(record.spouseMonthlyGrossSalary))
+      .map(record => Number(record.spouseGrossSalary))
       .reduce((acc, amount) => acc + amount, 0);
     totalArr = [...totalArr, monthlyGrossSalary];
   }
@@ -258,8 +258,8 @@ export const getIncome = ({
   }
 
   if (questions.spouseIsEmployed) {
-    const spouseMonthlyGrossSalary = spouseCurrentEmployment
-      .map(record => record.spouseMonthlyGrossSalary)
+    const spouseGrossSalary = spouseCurrentEmployment
+      .map(record => record.spouseGrossSalary)
       .reduce((acc, amount) => acc + Number(amount), 0);
 
     const deductions = spouseCurrentEmployment
@@ -284,10 +284,10 @@ export const getIncome = ({
               ),
             },
           },
-          monthlyGrossSalary: spouseMonthlyGrossSalary,
+          monthlyGrossSalary: spouseGrossSalary,
           totalDeductions,
-          netTakeHomePay: spouseMonthlyGrossSalary - totalDeductions,
-          totalMonthlyNetIncome: spouseMonthlyGrossSalary - totalDeductions,
+          netTakeHomePay: spouseGrossSalary - totalDeductions,
+          totalMonthlyNetIncome: spouseGrossSalary - totalDeductions,
         };
       }
       return item;
@@ -333,8 +333,8 @@ export const getIncome = ({
   }
 
   if (questions.spouseHasAdditionalIncome) {
-    const spouseMonthlyGrossSalary = spouseCurrentEmployment
-      .map(record => record.spouseMonthlyGrossSalary)
+    const spouseGrossSalary = spouseCurrentEmployment
+      .map(record => record.spouseGrossSalary)
       .reduce((acc, amount) => acc + Number(amount), 0);
 
     const deductions = spouseCurrentEmployment
@@ -348,8 +348,7 @@ export const getIncome = ({
       0,
     );
 
-    const totalNetIncome =
-      spouseMonthlyGrossSalary + otherIncome - totalDeductions;
+    const totalNetIncome = spouseGrossSalary + otherIncome - totalDeductions;
 
     income = income.map(item => {
       if (item.veteranOrSpouse === 'SPOUSE') {

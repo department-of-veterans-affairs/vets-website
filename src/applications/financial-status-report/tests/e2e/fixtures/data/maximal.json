@@ -477,7 +477,7 @@
   ],
   "spouseCurrentEmployment": [
     {
-      "spouseMonthlyGrossSalary": "4000.45",
+      "spouseGrossSalary": "4000.45",
       "deductions": [
         {
           "name": "Federal tax",

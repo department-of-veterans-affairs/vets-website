@@ -23,6 +23,7 @@ export const transform = (formConfig, form) => {
     realEstateRecords,
     currentEmployment,
     additionalIncome,
+    spouseCurrentEmployment,
   } = form.data;
 
   const {
@@ -52,8 +53,12 @@ export const transform = (formConfig, form) => {
   const employmentHistory = getEmploymentHistory(form.data);
   const totalAssets = getTotalAssets(form.data);
 
+  const {
+    additionalIncomeRecords,
+    spouse: { spouseAdditionalIncomeRecords },
+  } = additionalIncome;
+
   // VETERAN INCOME
-  const { additionalIncomeRecords } = additionalIncome;
   const vetGrossSalary = sumValues(currentEmployment, 'veteranGrossSalary');
   const deductions = currentEmployment?.map(emp => emp.deductions).flat() ?? 0;
   const vetTotDeductions = sumValues(deductions, 'amount');
@@ -61,6 +66,17 @@ export const transform = (formConfig, form) => {
   const vetOtherAmt = sumValues(additionalIncomeRecords, 'amount');
   const vetOtherName = additionalIncomeRecords
     ? additionalIncomeRecords.map(({ name }) => name).join(', ')
+    : '';
+
+  // SPOUSE INCOME
+  const spGrossSalary = sumValues(spouseCurrentEmployment, 'spouseGrossSalary');
+  const spDeductions =
+    spouseCurrentEmployment?.map(emp => emp.deductions).flat() ?? 0;
+  const spTotDeductions = sumValues(spDeductions, 'amount');
+  const spNetPay = spGrossSalary - spTotDeductions;
+  const spOtherAmt = sumValues(spouseAdditionalIncomeRecords, 'amount');
+  const spOtherName = spouseAdditionalIncomeRecords
+    ? spouseAdditionalIncomeRecords.map(({ name }) => name).join(', ')
     : '';
 
   const amountCanBePaidTowardDebt = selectedDebts
@@ -126,7 +142,7 @@ export const transform = (formConfig, form) => {
       },
       {
         veteranOrSpouse: 'SPOUSE',
-        monthlyGrossSalary: '',
+        monthlyGrossSalary: spGrossSalary,
         deductions: {
           taxes: '',
           retirement: '',
@@ -136,13 +152,13 @@ export const transform = (formConfig, form) => {
             amount: '',
           },
         },
-        totalDeductions: '',
-        netTakeHomePay: '',
+        totalDeductions: spTotDeductions,
+        netTakeHomePay: spNetPay,
         otherIncome: {
-          name: '',
-          amount: '',
+          name: spOtherName,
+          amount: spOtherAmt,
         },
-        totalMonthlyNetIncome: '',
+        totalMonthlyNetIncome: spNetPay,
       },
     ],
     expenses: {
