@@ -392,7 +392,6 @@ const formConfig = {
                   Mail: { 'aria-describedby': 'mail' },
                 },
               },
-              'ui:validations': [validateBooleanGroup],
               'ui:errorMessages': {
                 required: 'Please select at least one way we can contact you.',
               },
