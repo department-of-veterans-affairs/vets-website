@@ -77,7 +77,6 @@ class ServiceTypeAhead extends Component {
   renderSearchForAvailableServicePrompt = inputValue => {
     const { isFocused } = this.state;
     const { showError } = this.props;
-
     if (
       (isFocused && inputValue === '' && !showError) ||
       (inputValue && inputValue.length < MIN_SEARCH_CHARS)
@@ -132,7 +131,7 @@ class ServiceTypeAhead extends Component {
 
   render() {
     const { defaultSelectedItem } = this.state;
-    const { showError, currentQuery } = this.props;
+    const { showError, currentQuery, handleServiceTypeChange } = this.props;
     return (
       <Downshift
         onChange={this.handleOnSelect}
@@ -140,13 +139,15 @@ class ServiceTypeAhead extends Component {
         defaultSelectedItem={window.Cypress ? defaultSelectedItem : undefined}
         defaultInputValue=""
         itemToString={this.getSpecialtyName}
-        onInputValueChange={(inputValue, stateAndHelpers) => {
-          const { selectedItem, clearSelection } = stateAndHelpers;
+        onInputValueChange={inputValue => {
           if (
-            selectedItem &&
-            inputValue !== this.getSpecialtyName(selectedItem)
+            currentQuery.serviceType &&
+            inputValue !== currentQuery.specialties[currentQuery.serviceType]
           ) {
-            clearSelection();
+            handleServiceTypeChange({
+              target: { value: '' },
+              selectedItem: null,
+            });
           }
         }}
       >
