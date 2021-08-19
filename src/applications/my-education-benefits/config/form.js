@@ -41,7 +41,11 @@ import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities
 import EmailViewField from '../components/EmailViewField';
 import PhoneViewField from '../components/PhoneViewField';
 
-import { activeDutyLabel, selectedReserveLabel } from '../helpers';
+import {
+  activeDutyLabel,
+  selectedReserveLabel,
+  unsureDescription,
+} from '../helpers';
 
 const {
   fullName,
@@ -483,6 +487,9 @@ const formConfig = {
                   ACTIVE_DUTY: { 'aria-describedby': 'ACTIVE_DUTY' },
                   SELECTED_RESERVE: { 'aria-describedby': 'SELECTED_RESERVE' },
                   UNSURE: { 'aria-describedby': 'UNSURE' },
+                },
+                nestedContent: {
+                  UNSURE: unsureDescription,
                 },
               },
               'ui:errorMessages': {
