@@ -2,7 +2,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import get from '../../../../utilities/data/get';
+import set from '../../../../utilities/data/set';
+import unset from '../../../../utilities/data/unset';
 import classNames from 'classnames';
 
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
@@ -146,21 +148,19 @@ class FileField extends React.Component {
 
   onAttachmentIdChange = (index, value) => {
     if (!value) {
-      this.props.onChange(
-        _.unset([index, 'attachmentId'], this.props.formData),
-      );
+      this.props.onChange(unset([index, 'attachmentId'], this.props.formData));
     } else {
       this.props.onChange(
-        _.set([index, 'attachmentId'], value, this.props.formData),
+        set([index, 'attachmentId'], value, this.props.formData),
       );
     }
   };
 
   onAttachmentNameChange = (index, value) => {
     if (!value) {
-      this.props.onChange(_.unset([index, 'name'], this.props.formData));
+      this.props.onChange(unset([index, 'name'], this.props.formData));
     } else {
-      this.props.onChange(_.set([index, 'name'], value, this.props.formData));
+      this.props.onChange(set([index, 'name'], value, this.props.formData));
     }
   };
 
@@ -267,7 +267,7 @@ class FileField extends React.Component {
       (enableShortWorkflow &&
         !files.some((file, index) => {
           const errors =
-            _.get([index, '__errors'], errorSchema) ||
+            get([index, '__errors'], errorSchema) ||
             [file.errorMessage].filter(error => error);
 
           return errors.length > 0;
@@ -283,7 +283,7 @@ class FileField extends React.Component {
           <ul className="schemaform-file-list">
             {files.map((file, index) => {
               const errors =
-                _.get([index, '__errors'], errorSchema) ||
+                get([index, '__errors'], errorSchema) ||
                 [file.errorMessage].filter(error => error);
               const hasErrors = errors.length > 0;
               const itemClasses = classNames('va-growable-background', {
@@ -297,11 +297,11 @@ class FileField extends React.Component {
               const attachmentNameSchema = {
                 $id: `${idSchema.$id}_${index}_attachmentName`,
               };
-              const attachmentIdErrors = _.get(
+              const attachmentIdErrors = get(
                 [index, 'attachmentId'],
                 errorSchema,
               );
-              const attachmentNameErrors = _.get([index, 'name'], errorSchema);
+              const attachmentNameErrors = get([index, 'name'], errorSchema);
               // feature flag
               const showPasswordContent =
                 requestLockedPdfPassword && file.isEncrypted;
@@ -365,7 +365,7 @@ class FileField extends React.Component {
                   {showPasswordSuccess && <PasswordSuccess />}
                   {!hasErrors &&
                     !showPasswordInput &&
-                    _.get('properties.attachmentId', itemSchema) && (
+                    get('properties.attachmentId', itemSchema) && (
                       <Tag className="schemaform-file-attachment review">
                         <SchemaField
                           name="attachmentId"
