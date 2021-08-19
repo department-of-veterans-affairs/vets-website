@@ -24,6 +24,7 @@ export default Object.freeze({
   dependencyVerification: 'dependency_verification',
   dischargeWizardFeatures: 'discharge_wizard_features',
   evssUploadLimit150Mb: 'evss_upload_limit_150mb',
+  facilitiesPpmsSuppressAll: 'facilities_ppms_suppress_all',
   facilitiesPpmsSuppressCommunityCare: 'facilitiesPpmsSuppressCommunityCare',
   facilitiesPpmsSuppressPharmacies: 'facilitiesPpmsSuppressPharmacies',
   facilityLocatorCovidVaccineWalkInAvailabilityTextFrontend: 'facilityLocatorCovidVaccineWalkInAvailabilityTextFrontend',

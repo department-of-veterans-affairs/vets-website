@@ -370,7 +370,7 @@ export default function({
 
       <CompareGrid
         sectionLabel=""
-        className="vads-u-margin-top--4"
+        className={classNames({ 'vads-u-margin-top--4': !smallScreen })}
         institutions={institutions}
         showDifferences={showDifferences}
         smallScreen={smallScreen}

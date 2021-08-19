@@ -18,7 +18,7 @@ const scrollToTop = () => {
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
-    focusElement('.schemaform-title > h1');
+    focusElement('#thank-you-message');
     scrollToTop();
   }
 
@@ -39,7 +39,10 @@ export class ConfirmationPage extends React.Component {
             Print this page for your records
           </button>
           <div className="inset">
-            <p className="vads-u-font-size--lg vads-u-font-family--serif vads-u-font-weight--bold">
+            <p
+              id="thank-you-message"
+              className="vads-u-font-size--lg vads-u-font-family--serif vads-u-font-weight--bold"
+            >
               Thank you for submitting your application
             </p>
             <p className="vads-u-font-size--base vads-u-font-family--serif vads-u-font-weight--bold vads-u-margin--0">
