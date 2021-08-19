@@ -3,113 +3,62 @@ const path = require('path');
 const findImports = require('find-imports');
 const core = require('@actions/core');
 
-const diff = process.env.DIFF_RESULTS;
-const graph = {};
-// log diff for workflow debugging
-// eslint-disable-next-line no-console
-console.log('Diff: ', diff);
-
-function diffIncludesSrcApplicationsFile() {
+function diffIncludesSrcApplicationsFiles(diff) {
   return diff.includes('diff --git a/src/applications');
 }
 
-// function getChangedFilePath(change) {
-//   const str = change.replace('diff --git a/', '');
-//   return str.slice(0, str.indexOf(' '));
-// }
+function isSrcAppicationFileDiff(fileDiff) {
+  const str = fileDiff.replace('diff --git a/', '');
+  const changedFilePath = str.slice(0, str.indexOf(' '));
+  return changedFilePath.startsWith('src/applications');
+}
 
 function getAppName(filePath) {
   return filePath.split('/')[2];
 }
 
-// function getImportedPath(change, changedFilePath) {
-//   const filePaths = [];
-//   return filePaths;
-// }
-
-// function getRequiredPath(change, changedFilePath) {
-//   const filePaths = [];
-//   return filePaths;
-// }
-
-// function importsFromDifferentApp(change, importPaths, requirePaths) {
-//   const filePath = getChangedFilePath(change);
-//   const importFilePaths =
-//     importPaths === undefined ? requirePaths : importPaths;
-
-//   for (let i = 0; i < importFilePaths.length; i += 1) {
-//     if (
-//       !importFilePaths[i].startsWith(`src/applications/${getAppName(filePath)}`)
-//     ) {
-//       return true;
-//     }
-//   }
-
-//   return false;
-// }
-
-function sliceDiff({ str, startOfChange, endOfChange }) {
-  const slices = [];
+function sliceDiffIntoDiffForEachChangedFile(diff) {
+  const diffForEachChangedFile = [];
+  const startOfChange = 'diff --git a/src/applications';
+  const endOfChange = 'diff --git a/';
   let start = null;
 
-  for (let i = 0; i <= str.length; i += 1) {
+  for (let i = 0; i <= diff.length; i += 1) {
     if (
       !start &&
-      str[i] === startOfChange[0] &&
-      str.slice(i, i + startOfChange.length) === startOfChange
+      diff[i] === startOfChange[0] &&
+      diff.slice(i, i + startOfChange.length) === startOfChange
     ) {
       start = i;
     } else if (
       start &&
       endOfChange &&
-      str[i] === endOfChange[0] &&
-      str.slice(i, i + endOfChange.length) === endOfChange
+      diff[i] === endOfChange[0] &&
+      diff.slice(i, i + endOfChange.length) === endOfChange
     ) {
-      slices.push(str.slice(start, i));
+      diffForEachChangedFile.push(diff.slice(start, i));
       start = null;
-    } else if (start && i === str.length - 1) {
-      slices.push(str.slice(start));
+    } else if (start && i === diff.length - 1) {
+      diffForEachChangedFile.push(diff.slice(start));
     }
   }
 
   // // eslint-disable-next-line no-console
-  // console.log('slices:', slices);
-  return slices;
+  // console.log('diffForEachChangedFile:', diffForEachChangedFile);
+  return diffForEachChangedFile;
 }
 
-function shouldRebuildGraph() {
-  const diffs = sliceDiff({
-    str: diff,
-    startOfChange: 'diff --git a/src/applications',
-    endOfChange: 'diff --git a/',
+function shouldRebuildGraph(diff) {
+  const diffForEachChangedFile = sliceDiffIntoDiffForEachChangedFile(diff);
+  const srcApplicationFileDiffs = diffForEachChangedFile.filter(fileDiff => {
+    return isSrcAppicationFileDiff(fileDiff);
   });
 
-  for (let i = 0; i < diffs.legnth; i += 1) {
-    const change = sliceDiff({
-      str: diffs[i],
-      startOfChange: '+++ b/',
-      endOfChange: null,
-    });
-
-    // const changedFilePath = getChangedFilePath(change);
-    const includesImport = /import.+from.+;/g.test(change);
-    const includesRequire = change.includes("require('");
+  for (let i = 0; i < srcApplicationFileDiffs.length; i += 1) {
+    const includesImport = /import.+from.+;/g.test(srcApplicationFileDiffs[i]);
+    const includesRequire = srcApplicationFileDiffs[i].includes("require('");
 
     if (includesImport || includesRequire) {
-      // let importPaths;
-      // let requirePaths;
-
-      // if (includesImport) {
-      //   importPaths = getImportedPath(change, changedFilePath);
-      // } else {
-      //   requirePaths = getRequiredPath(change, changedFilePath);
-      // }
-
-      // if (importsFromDifferentApp(change, importPaths, requirePaths)) {
-      //   // eslint-disable-next-line no-console
-      //   console.log('shouldRebuildGraph = TRUE');
-      //   return true;
-      // }
       // eslint-disable-next-line no-console
       console.log('shouldRebuildGraph = TRUE');
       return true;
@@ -121,7 +70,7 @@ function shouldRebuildGraph() {
   return false;
 }
 
-function buildGraph() {
+function buildGraph(graph) {
   const files = ['src/applications/**/*.*'];
   const imports = findImports(files, {
     absoluteImports: true,
@@ -133,6 +82,7 @@ function buildGraph() {
     const appName = getAppName(file);
     const filePathAsArray = file.split('/');
 
+    // eslint-disable-next-line no-param-reassign
     if (!graph[appName]) graph[appName] = [appName];
 
     imports[file].forEach(importRelPath => {
@@ -152,6 +102,7 @@ function buildGraph() {
         ) {
           const importAppName = getAppName(importPath);
 
+          // eslint-disable-next-line no-param-reassign
           if (!graph[importAppName]) graph[importAppName] = [importAppName];
 
           graph[appName].push(importAppName);
@@ -162,13 +113,14 @@ function buildGraph() {
   });
 }
 
-function dedupeGraph() {
+function dedupeGraph(graph) {
   Object.keys(graph).forEach(app => {
+    // eslint-disable-next-line no-param-reassign
     graph[app] = [...new Set(graph[app])];
   });
 }
 
-function writeGraph() {
+function writeGraph(graph) {
   try {
     fs.writeFileSync(
       path.resolve(__dirname, '../../config/cross_app_import_graph.json'),
@@ -180,11 +132,18 @@ function writeGraph() {
   }
 }
 
-if (diffIncludesSrcApplicationsFile() && shouldRebuildGraph()) {
-  core.exportVariable('IS_GRAPH_UPDATED', true);
-  buildGraph();
-  dedupeGraph();
-  writeGraph();
-} else {
-  core.exportVariable('IS_GRAPH_UPDATED', false);
+function run() {
+  const diff = process.env.DIFF_RESULTS;
+
+  if (diffIncludesSrcApplicationsFiles(diff) && shouldRebuildGraph(diff)) {
+    const graph = {};
+    buildGraph(graph);
+    dedupeGraph(graph);
+    writeGraph(graph);
+    core.exportVariable('IS_GRAPH_UPDATED', true);
+  } else {
+    core.exportVariable('IS_GRAPH_UPDATED', false);
+  }
 }
+
+run();
