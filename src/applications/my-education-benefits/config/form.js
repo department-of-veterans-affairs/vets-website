@@ -71,7 +71,7 @@ const formFields = {
   phoneNumber: 'phoneNumber',
   mobilePhoneNumber: 'mobilePhoneNumber',
   benefitSelection: 'benefitSelection',
-  incorrectServiceHistoryExplanation: 'incorrectServiceHistoryExplanation'
+  incorrectServiceHistoryExplanation: 'incorrectServiceHistoryExplanation',
 };
 
 // Define all the form pages to help ensure uniqueness across all form chapters
