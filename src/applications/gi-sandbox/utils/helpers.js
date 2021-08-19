@@ -221,3 +221,5 @@ export const naIfNull = value => {
 export const boolYesNo = field => {
   return field ? 'Yes' : 'No';
 };
+
+export const isSmallScreen = () => matchMedia('(max-width: 480px)').matches;

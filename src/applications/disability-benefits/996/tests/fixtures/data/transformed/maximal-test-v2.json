@@ -5,7 +5,7 @@
       "benefitType": "compensation",
       "informalConference": true,
       "informalConferenceContact": "representative",
-      "informalConferenceTimes": ["800-1200 ET", "1200-1630 ET"],
+      "informalConferenceTime": "time0800to1200",
       "informalConferenceRep": {
         "firstName": "James",
         "lastName": "Sullivan",

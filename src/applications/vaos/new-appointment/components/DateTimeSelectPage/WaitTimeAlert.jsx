@@ -9,6 +9,7 @@ import { getRealFacilityId } from '../../../utils/appointment';
 import newAppointmentFlow from '../../newAppointmentFlow';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 import InfoAlert from '../../../components/InfoAlert';
+import { getTimezoneByFacilityId } from '../../../utils/timezone';
 
 export const WaitTimeAlert = ({
   eligibleForRequests,
@@ -20,7 +21,14 @@ export const WaitTimeAlert = ({
 }) => {
   const today = moment();
   const momentPreferredDate = moment(preferredDate);
-  const momentNextAvailableDate = moment(nextAvailableApptDate);
+  let momentNextAvailableDate;
+  if (nextAvailableApptDate?.includes('Z')) {
+    momentNextAvailableDate = moment(nextAvailableApptDate).tz(
+      getTimezoneByFacilityId(facilityId),
+    );
+  } else {
+    momentNextAvailableDate = moment.parseZone(nextAvailableApptDate);
+  }
 
   if (momentPreferredDate.isValid() && momentNextAvailableDate.isValid()) {
     const showUrgentCareMessage = today.isSame(momentPreferredDate, 'day');
