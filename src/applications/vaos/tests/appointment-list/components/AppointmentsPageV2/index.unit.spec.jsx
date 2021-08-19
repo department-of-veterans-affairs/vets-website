@@ -57,7 +57,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
       initialState: defaultState,
     });
 
-    const dropdown = screen.getByLabelText('Show by type');
+    const dropdown = screen.getByLabelText('Show by status');
     fireEvent.change(dropdown, { target: { value: 'requested' } });
 
     await waitFor(() =>
@@ -169,9 +169,8 @@ describe('VAOS <AppointmentsPageV2>', () => {
       },
     });
 
-    expect(
-      screen.getByText(/Primary and specialty care appointments are available/),
-    ).to.be.ok;
+    expect(screen.getByText(/Schedule primary or specialty care appointments./))
+      .to.be.ok;
     userEvent.click(
       await screen.findByRole('button', { name: /Start scheduling/i }),
     );

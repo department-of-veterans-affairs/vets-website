@@ -107,7 +107,7 @@ export default function AppointmentsPageV2() {
         htmlFor="type-dropdown"
         className="vads-u-display--inline-block vads-u-margin-top--0 vads-u-margin-right--2"
       >
-        Show by type
+        Show by status
       </label>
       <Select
         options={options}
