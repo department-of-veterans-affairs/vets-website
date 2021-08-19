@@ -618,6 +618,86 @@ const formConfig = {
             },
           },
         },
+        [formPages.contactInformation.preferredContactMethod]: {
+          path: 'contact/preferences',
+          title: 'Contact Information',
+          uiSchema: {
+            [formFields.contactMethodRdoBtnList]: {
+              'ui:title':
+                'How should we contact you if we have questions about your application?',
+              'ui:widget': 'radio',
+              'ui:options': {
+                widgetProps: {
+                  Email: { 'data-info': 'email' },
+                  'Mobile phone': { 'data-info': 'mobile phone' },
+                  'Home phone': { 'data-info': 'home phone' },
+                  Mail: { 'data-info': 'mail' },
+                },
+                selectedProps: {
+                  Email: { 'aria-describedby': 'email' },
+                  'Mobile phone': { 'aria-describedby': 'mobilePhone' },
+                  'Home phone': { 'aria-describedby': 'homePhone' },
+                  Mail: { 'aria-describedby': 'mail' },
+                },
+              },
+              'ui:errorMessages': {
+                required: 'Please select at least one way we can contact you.',
+              },
+            },
+            [formFields.notificationTypes]: {
+              'ui:title':
+                'How would you like to receive notifications about your education benefits?',
+              canEmailNotify: {
+                'ui:title': 'Email',
+              },
+              canTextNotify: {
+                'ui:title': 'Text',
+              },
+              'ui:validations': [validateBooleanGroup],
+              'ui:errorMessages': {
+                atLeastOne:
+                  'Please select at least one way we can send you notifications.',
+              },
+              'ui:options': {
+                showFieldLabel: true,
+              },
+            },
+            'view:note': {
+              'ui:description': (
+                <p>
+                  <strong>Note</strong>: For text messages, messaging and data
+                  rates may apply. At this time, VA is only ale to send text
+                  messages about your education benefits to US-base mobile
+                  numbers.
+                </p>
+              ),
+            },
+          },
+          schema: {
+            type: 'object',
+            required: [
+              formFields.contactMethodRdoBtnList,
+              formFields.notificationTypes,
+            ],
+            properties: {
+              [formFields.contactMethodRdoBtnList]: {
+                type: 'string',
+                enum: ['Email', 'Mobile phone', 'Home phone', 'Mail'],
+              },
+              [formFields.notificationTypes]: {
+                type: 'object',
+                properties: {
+                  canEmailNotify: { type: 'boolean' },
+                  canTextNotify: { type: 'boolean' },
+                },
+              },
+              'view:note': {
+                type: 'object',
+                properties: {},
+              },
+            },
+          },
+        },
       },
     },
     benefitSelection: {
