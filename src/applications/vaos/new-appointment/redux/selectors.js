@@ -17,10 +17,10 @@ import {
 } from '../../utils/constants';
 import { getSiteIdFromFacilityId } from '../../services/location';
 import {
+  selectHasVAPResidentialAddress,
   selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
   selectFeatureVariantTesting,
-  selectUseProviderSelection,
   selectRegisteredCernerFacilityIds,
 } from '../../redux/selectors';
 
@@ -300,15 +300,16 @@ export function getClinicsForChosenFacility(state) {
 export function getClinicPageInfo(state, pageKey) {
   const formPageInfo = getFormPageInfo(state, pageKey);
   const newAppointment = getNewAppointment(state);
-  const facilityDetails = newAppointment.facilityDetails;
   const eligibility = selectEligibility(state);
+  const typeOfCare = getTypeOfCare(formPageInfo.data);
 
   return {
     ...formPageInfo,
-    facilityDetails: facilityDetails?.[formPageInfo.data.vaFacility],
-    typeOfCare: getTypeOfCare(formPageInfo.data),
+    facility: newAppointment.facilities[typeOfCare.id].find(
+      facility => facility.id === formPageInfo.data.vaFacility,
+    ),
+    typeOfCare,
     clinics: getClinicsForChosenFacility(state),
-    facilityDetailsStatus: newAppointment.facilityDetailsStatus,
     eligibility,
     canMakeRequests: eligibility?.request,
   };
@@ -339,7 +340,7 @@ export function selectConfirmationPage(state) {
     submitStatus: getNewAppointment(state).submitStatus,
     flowType: getFlowType(state),
     appointmentLength: getAppointmentLength(state),
-    useProviderSelection: selectUseProviderSelection(state),
+    hasResidentialAddress: selectHasVAPResidentialAddress(state),
   };
 }
 
@@ -353,7 +354,7 @@ export function selectReviewPage(state) {
     submitStatus: state.newAppointment.submitStatus,
     submitStatusVaos400: state.newAppointment.submitStatusVaos400,
     systemId: getSiteIdForChosenFacility(state),
-    useProviderSelection: selectUseProviderSelection(state),
+    hasResidentialAddress: selectHasVAPResidentialAddress(state),
     vaCityState: getChosenVACityState(state),
   };
 }
