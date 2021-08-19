@@ -1,13 +1,50 @@
 // const fs = require('fs');
 // const path = require('path');
 // const findImports = require('find-imports');
+const core = require('@actions/core');
 
 const diff = process.env.DIFF_RESULTS;
 // eslint-disable-next-line no-console
 console.log('Diff: ', diff);
 
-// eslint-disable-next-line no-console
-console.log('For testing');
+function findChange() {
+  const srcApplicationChanges = [];
+  let start = null;
+
+  diff.forEach((char, i) => {
+    if (!start && char === '+' && diff.includes('+++', i)) {
+      start = i;
+    } else if (
+      start &&
+      char === 'd' &&
+      diff.includes('diff --git a/src/applications', i) // what if file is new? does a/ exist?
+    ) {
+      srcApplicationChanges.push(diff.slice(start), i);
+      start = null;
+    } else if (i === diff.length - 1) {
+      srcApplicationChanges.push(diff.slice(start));
+    }
+  });
+
+  // eslint-disable-next-line no-console
+  console.log('Application changes:');
+  srcApplicationChanges.forEach((change, i) => {
+    // eslint-disable-next-line no-console
+    console.log(`Change ${i}:`);
+    // eslint-disable-next-line no-console
+    console.log(change);
+  });
+}
+
+// diff example where last change is line break
+// rule: scan for + with following by character/no space
+// +// eslint-disable-next-line no-console +console.log('For testing'); +
+
+if (diff.includes('+++ b/src/applications')) {
+  findChange();
+} else {
+  core.exportVariable('IS_GRAPH_UPDATED', false);
+}
 
 // const files = ['src/applications/**/*.*'];
 // const imports = findImports(files, {
