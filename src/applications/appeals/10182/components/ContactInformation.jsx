@@ -62,7 +62,7 @@ export const ContactInfoDescription = ({ formContext, profile }) => {
             <va-alert status="success" background-only>
               <div className="vads-u-font-size--base">
                 The missing information has been added to your application. You
-                may continue. Thanks! Yo!
+                may continue. Thanks!
               </div>
             </va-alert>
           </div>
