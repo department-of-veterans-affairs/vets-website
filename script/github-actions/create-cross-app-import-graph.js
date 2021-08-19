@@ -25,7 +25,7 @@ function findChange() {
       diff[i] === 'd' &&
       diff.slice(i, i + endOfChange.length) === endOfChange
     ) {
-      srcApplicationChanges.push(diff.slice(start), i);
+      srcApplicationChanges.push(diff.slice(start, i));
       start = null;
     } else if (start && i === diff.length - 1) {
       srcApplicationChanges.push(diff.slice(start));
