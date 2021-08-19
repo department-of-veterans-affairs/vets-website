@@ -25,37 +25,37 @@ function findChange() {
       diff[i] === 'd' &&
       diff.slice(i, i + endOfChange.length) === endOfChange
     ) {
-      // eslint-disable-next-line no-console
-      console.log('I AM IN THE SECOND CONDITION');
-      // eslint-disable-next-line no-console
-      console.log(
-        "HERE'S THE CHANGE I'M TRYING TO PUSH TO THE ARRAY: ",
-        diff.slice(start, i),
-      );
+      // // eslint-disable-next-line no-console
+      // console.log('I AM IN THE SECOND CONDITION');
+      // // eslint-disable-next-line no-console
+      // console.log(
+      //   "HERE'S THE CHANGE I'M TRYING TO PUSH TO THE ARRAY: ",
+      //   diff.slice(start, i),
+      // );
       srcApplicationChanges.push(diff.slice(start, i));
       start = null;
     } else if (start && i === diff.length - 1) {
-      // eslint-disable-next-line no-console
-      console.log('I AM IN THE THIRD CONDITION');
-      // eslint-disable-next-line no-console
-      console.log(
-        "HERE'S THE CHANGE I'M TRYING TO PUSH TO THE ARRAY: ",
-        diff.slice(start),
-      );
+      // // eslint-disable-next-line no-console
+      // console.log('I AM IN THE THIRD CONDITION');
+      // // eslint-disable-next-line no-console
+      // console.log(
+      //   "HERE'S THE CHANGE I'M TRYING TO PUSH TO THE ARRAY: ",
+      //   diff.slice(start),
+      // );
       srcApplicationChanges.push(diff.slice(start));
     }
 
-    if (diff[i] === 'd') {
-      // eslint-disable-next-line no-console
-      console.log('i: ', i);
-      // eslint-disable-next-line no-console
-      console.log(
-        'startOfChange slice: ',
-        diff.slice(i, i + startOfChange.length),
-      );
-      // eslint-disable-next-line no-console
-      console.log('endOfChange slice: ', diff.slice(i, i + endOfChange.length));
-    }
+    // if (diff[i] === 'd') {
+    //   // eslint-disable-next-line no-console
+    //   console.log('i: ', i);
+    //   // eslint-disable-next-line no-console
+    //   console.log(
+    //     'startOfChange slice: ',
+    //     diff.slice(i, i + startOfChange.length),
+    //   );
+    //   // eslint-disable-next-line no-console
+    //   console.log('endOfChange slice: ', diff.slice(i, i + endOfChange.length));
+    // }
   }
 
   // eslint-disable-next-line no-console
