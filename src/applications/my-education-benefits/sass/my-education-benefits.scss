@@ -8,12 +8,32 @@
 @import "../../../platform/forms/sass/m-form-confirmation";
 @import "./m-review-box-field";
 
+/* Form Styling Overrides
+---------------------------------------------------------------------*/
 .schemaform-block-header > p {
 	// Overriding generated !importants.
 	margin-bottom: 24/16 + 0em !important;
 	margin-top: 1em !important;
 }
+.schemaform-block-header {
+	margin-bottom: 1em;
+}
+.schemaform-field-template,
+fieldset.schemaform-field-template {
+	margin-top: 24/16 + 0rem; // 24px
+}
+.form-checkbox label,
+.schemaform-block {
+	margin-top: 0;
+}
+[type=checkbox] + label,
+[type=radio] + label {
+	margin-bottom: 1em;
+}
+/* END Form Styling Overrides ---------------------------------------*/
 
+/* Review Box
+---------------------------------------------------------------------*/
 .review-box {
 	align-items: center;
 	background-color: $color-gray-lightest;
@@ -60,6 +80,7 @@
 .review-row {
 	margin: 0;
 }
+/* END Review Box ----------------------------------------------------*/
 
 .process p {
 	margin-bottom: 0;
@@ -140,8 +161,3 @@ va-accordion {
 #LearnMoreAboutMilitaryBaseTooltip {
 	margin-top: 3rem;
 }
-
-//TODO: Add spacing for checkboxes
-//body .schemaform-block {
-//	margin-top: 0;
-//}

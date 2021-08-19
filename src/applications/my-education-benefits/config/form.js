@@ -652,7 +652,7 @@ const formConfig = {
                 'ui:title': 'Email',
               },
               canTextNotify: {
-                'ui:title': 'Text',
+                'ui:title': 'Text message',
               },
               'ui:validations': [validateBooleanGroup],
               'ui:errorMessages': {
