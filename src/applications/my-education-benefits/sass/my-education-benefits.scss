@@ -63,3 +63,49 @@
 .process p {
 	margin-bottom: 0;
 }
+
+/* Service History
+----------------------------------------------------------------------*/
+va-accordion {
+	margin-bottom: 2em;
+}
+.accordion-toggle-button {
+	background: transparent;
+	color: $color-link-default;
+	font-weight: normal;
+	padding-left: 0;
+	padding-right: 0;
+	text-decoration: underline;
+}
+.progress-box .accordion-toggle-button {
+	width: auto;
+}
+.accordion-toggle-button:hover {
+	background: transparent;
+	color: $color-primary-alt-darkest;
+}
+.service-history-details {
+	display: flex;
+	flex-wrap: wrap;
+}
+.service-history-details_term,
+.service-history-details_definition {
+	align-self: flex-start;
+	border-top: 1px solid $color-gray-medium;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 1em 0 1em 1em;
+}
+.service-history-details_term {
+	flex: 0 1 auto;
+	max-width: 40%;
+}
+.service-history-details_definition {
+	flex: 1 1 60%;
+	font-weight: bold;
+	padding-right: 1em;
+	text-align: right;
+}
+.service-history-details_period {
+	display: block;
+}
