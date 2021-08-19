@@ -35,6 +35,13 @@ function findChange() {
       srcApplicationChanges.push(diff.slice(start, i));
       start = null;
     } else if (start && i === diff.length - 1) {
+      // eslint-disable-next-line no-console
+      console.log('I AM IN THE THIRD CONDITION');
+      // eslint-disable-next-line no-console
+      console.log(
+        "HERE'S THE CHANGE I'M TRYING TO PUSH TO THE ARRAY: ",
+        diff.slice(start),
+      );
       srcApplicationChanges.push(diff.slice(start));
     }
 
@@ -52,20 +59,14 @@ function findChange() {
   }
 
   // eslint-disable-next-line no-console
-  console.log('Application changes:');
-  srcApplicationChanges.forEach((change, i) => {
-    // eslint-disable-next-line no-console
-    console.log(`Change ${i}:`);
-    // eslint-disable-next-line no-console
-    console.log(change);
-  });
+  console.log('srcApplicationChanges:', srcApplicationChanges);
 }
 
 // diff example where last change is line break
 // rule: scan for + with following by character/no space
 // +// eslint-disable-next-line no-console +console.log('For testing'); +
 
-if (diff.includes('+++ b/src/applications')) {
+if (diff.includes('diff --git a/src/applications')) {
   findChange();
 } else {
   core.exportVariable('IS_GRAPH_UPDATED', false);
