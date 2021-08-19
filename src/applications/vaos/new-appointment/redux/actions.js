@@ -597,10 +597,12 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
           endDate: endDateString,
           useV2: featureVAOSServiceVAAppointments,
         });
-        const now = moment();
+        const tomorrow = moment()
+          .add(1, 'day')
+          .startOf('day');
 
         mappedSlots = fetchedSlots.filter(slot =>
-          moment(slot.start).isAfter(now),
+          moment(slot.start).isAfter(tomorrow),
         );
 
         // Keep track of which months we've fetched already so we don't

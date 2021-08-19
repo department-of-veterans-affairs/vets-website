@@ -38,10 +38,10 @@ export default function BackToTop({
    */
   useEffect(
     () => {
-      if (smallScreen && compareOpen) {
+      if (smallScreen && compare.open) {
         setFloating(false);
         setScrolled(false);
-      } else if (scrolled) {
+      } else if (scrolled || (smallScreen && !compare.open)) {
         const profilePageHeader = document.getElementById(profilePageHeaderId);
         if (!profilePageHeader || !placeholder.current) return;
 
@@ -62,8 +62,9 @@ export default function BackToTop({
         setFloating(headerNotVisible && footerNotVisible);
         setScrolled(false);
       }
+      setCompareOpen(compare.open);
     },
-    [scrolled, smallScreen, compareOpen],
+    [scrolled, smallScreen, compare.open],
   );
 
   const resize = () => {
@@ -91,13 +92,6 @@ export default function BackToTop({
       resize();
     },
     [floating],
-  );
-
-  useEffect(
-    () => {
-      setCompareOpen(compare.open);
-    },
-    [compare.open],
   );
 
   const backToTopClasses = classNames('back-to-top', {
