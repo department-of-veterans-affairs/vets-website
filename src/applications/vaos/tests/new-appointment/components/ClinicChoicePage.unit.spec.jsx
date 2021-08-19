@@ -361,6 +361,7 @@ describe('VAOS <ClinicChoicePage>', () => {
   });
 
   it('should show the correct clinic name when filtered to matching', async () => {
+    // Given two available clinics
     const clinics = [
       {
         id: '309',
@@ -402,6 +403,8 @@ describe('VAOS <ClinicChoicePage>', () => {
         },
       },
     };
+
+    // And the second clinic matches a past appointment
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -419,25 +422,21 @@ describe('VAOS <ClinicChoicePage>', () => {
     await setTypeOfCare(store, /amputation/i);
     await setVAFacility(store, '983', { facilityData });
 
+    // When the page is displayed
     const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
       store,
     });
-
     await screen.findByText(/last amputation care appointment/i);
+
+    // Then the page says the last appointment was at the matching clinic
     expect(screen.baseElement).to.contain.text(
       'Your last amputation care appointment was at Green team clinic:',
     );
 
+    // And the user is asked if they want an appt at matching clinic
     expect(screen.baseElement).to.contain.text(
       'Would you like to make an appointment at Green team clinic',
     );
-    expect(screen.getAllByRole('radio').length).to.equal(2);
-    expect(
-      screen.getByLabelText('Yes, make my appointment here'),
-    ).to.have.tagName('input');
-    expect(
-      screen.getByLabelText('No, I need a different clinic'),
-    ).to.have.tagName('input');
   });
 
   it('should retain form data after page changes', async () => {
