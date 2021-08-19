@@ -8,7 +8,7 @@ export const AddressDescription = ({ addressType }) => {
         <p style={{ lineHeight: '30px' }}>
           We’ll send any important information about your application to this
           address. Any updates you make here to your address will apply only to
-          this application.
+          this application. Yo
         </p>
       ) : (
         <p style={{ lineHeight: '30px' }}>
