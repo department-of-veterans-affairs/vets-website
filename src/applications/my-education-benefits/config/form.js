@@ -11,6 +11,7 @@ import React from 'react';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import GetFormHelp from '../components/GetFormHelp';
 import FormFooter from 'platform/forms/components/FormFooter';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 // import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
@@ -35,6 +36,12 @@ import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities
 import EmailViewField from '../components/EmailViewField';
 import PhoneViewField from '../components/PhoneViewField';
 import AccordionField from '../components/AccordionField';
+
+import {
+  activeDutyLabel,
+  selectedReserveLabel,
+  unsureDescription,
+} from '../helpers';
 
 const {
   fullName,
@@ -63,6 +70,7 @@ const formFields = {
   email: 'email',
   phoneNumber: 'phoneNumber',
   mobilePhoneNumber: 'mobilePhoneNumber',
+  benefitSelection: 'benefitSelection',
   incorrectServiceHistoryExplanation: 'incorrectServiceHistoryExplanation',
 };
 
@@ -72,6 +80,7 @@ const formPages = {
   // serviceHistory: 'serviceHistory',
   contactInformation: 'contactInformation',
   directDeposit: 'directDeposit',
+  benefitSelect: 'benefitSelect',
 };
 
 function isOnlyWhitespace(str) {
@@ -492,6 +501,108 @@ const formConfig = {
         //     },
         //   },
         // },
+      },
+    },
+    benefitSelection: {
+      title: 'Benefit selection',
+      pages: {
+        [formPages.benefitSelect]: {
+          path: 'select-benefit',
+          title: 'Benefit selection',
+          subTitle: "you're applying for the Post-9/11 GIBill",
+          instructions:
+            'Currrently, you can only apply for Post-9/11 Gi Bill (Chapter 33) benefits through this application/ If you would like to apply for other benefits, please visit out How to Apply page.',
+          uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <div className="usa-alert background-color-only">
+                    <h3>You’re applying for the Post-9/11 GI BIll®</h3>
+                    <p>
+                      Currently, you can only apply for Post-9/11 GI Bill
+                      (Chapter 33) benefits through this application. If you
+                      would like to apply for other benefits, please visit our{' '}
+                      <a href="#">How To Apply</a> page.
+                    </p>
+                  </div>
+                  <div>
+                    <h4>Give up one other benefit</h4>
+                    <p>
+                      Because you are applying for the Post-9/11 GI Bill, you
+                      have to give up one other benefit you may be eligible for.
+                      <strong> This decision is final</strong>, which means you
+                      can’t change your mind after you submit this application.
+                    </p>
+                  </div>
+                  <div>
+                    <AdditionalInfo triggerText="Why do I have to give up a benefit?">
+                      <p>
+                        {' '}
+                        Per 38 USC 3327, If you are eligible for both the
+                        Post-9/11 GI Bill and other education benefits, you must
+                        give up one benefit you may be eligible for.
+                      </p>
+                    </AdditionalInfo>
+                  </div>
+                  <br />
+                </>
+              ),
+            },
+            [formFields.benefitSelection]: {
+              'ui:title': 'Which benefit will you give up?',
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: {
+                  ACTIVE_DUTY: activeDutyLabel,
+                  SELECTED_RESERVE: selectedReserveLabel,
+                  UNSURE: "I'm not sure and I need assistance",
+                },
+                widgetProps: {
+                  ACTIVE_DUTY: { 'data-info': 'ACTIVE_DUTY' },
+                  SELECTED_RESERVE: { 'data-info': 'SELECTED_RESERVE' },
+                  UNSURE: { 'data-info': 'UNSURE' },
+                },
+                selectedProps: {
+                  ACTIVE_DUTY: { 'aria-describedby': 'ACTIVE_DUTY' },
+                  SELECTED_RESERVE: { 'aria-describedby': 'SELECTED_RESERVE' },
+                  UNSURE: { 'aria-describedby': 'UNSURE' },
+                },
+              },
+              'ui:errorMessages': {
+                required: 'Please select an answer.',
+              },
+            },
+            'view:unsureNote': {
+              'ui:description': unsureDescription,
+              'ui:options': {
+                hideIf: formData =>
+                  formData[formFields.benefitSelection] !== 'UNSURE',
+                expandUnder: [formFields.benefitSelection],
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            required: ['benefitSelection'],
+            properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
+              [formFields.benefitSelection]: {
+                type: 'string',
+                enum: ['ACTIVE_DUTY', 'SELECTED_RESERVE', 'UNSURE'],
+              },
+              'view:unsureNote': {
+                type: 'object',
+                properties: {},
+              },
+            },
+          },
+          initialData: {
+            benefitSelection: '',
+          },
+        },
       },
     },
   },

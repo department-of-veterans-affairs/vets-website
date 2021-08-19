@@ -64,6 +64,32 @@
 	margin-bottom: 0;
 }
 
+
+// USA Alert
+.usa-alert,
+.usa-alert.background-color-only {
+	padding: 1em;
+}
+
+.usa-alert h3 {
+	margin-top: 0;
+}
+.usa-alert p {
+	margin-bottom: 0;
+}
+
+// @media only screen and (min-width: 40.0625em) {
+@media only screen and (min-width: 64.0625em) {
+	.usa-alert {
+		margin-left: -2rem;
+		width: calc(117.1875% + 2rem);
+	}
+	.usa-alert,
+	.usa-alert.background-color-only {
+		padding-left: 30/16 + 0em;
+		padding-right: 30/16 + 0em;
+	}
+}
 /* Service History
 ----------------------------------------------------------------------*/
 va-accordion {
