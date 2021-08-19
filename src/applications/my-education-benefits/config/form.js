@@ -488,12 +488,17 @@ const formConfig = {
                   SELECTED_RESERVE: { 'aria-describedby': 'SELECTED_RESERVE' },
                   UNSURE: { 'aria-describedby': 'UNSURE' },
                 },
-                nestedContent: {
-                  UNSURE: unsureDescription,
-                },
               },
               'ui:errorMessages': {
                 required: 'Please select an answer.',
+              },
+            },
+            'view:unsureNote': {
+              'ui:description': unsureDescription,
+              'ui:options': {
+                hideIf: formData =>
+                  formData[formFields.benefitSelection] !== 'UNSURE',
+                expandUnder: [formFields.benefitSelection],
               },
             },
           },
@@ -508,6 +513,10 @@ const formConfig = {
               [formFields.benefitSelection]: {
                 type: 'string',
                 enum: ['ACTIVE_DUTY', 'SELECTED_RESERVE', 'UNSURE'],
+              },
+              'view:unsureNote': {
+                type: 'object',
+                properties: {},
               },
             },
           },

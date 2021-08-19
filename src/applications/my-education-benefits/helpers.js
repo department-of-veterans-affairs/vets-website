@@ -63,9 +63,8 @@ export const selectedReserveLabel = (
 );
 
 export const unsureDescription = (
-  <p>
-    {' '}
+  <>
     <strong>Note:</strong> After you submit this applicaiton, a VA
-    representative will reach out to help via your preferred contact method.{' '}
-  </p>
+    representative will reach out to help via your preferred contact method.
+  </>
 );
