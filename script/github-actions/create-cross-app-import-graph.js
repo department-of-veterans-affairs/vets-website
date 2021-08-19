@@ -25,6 +25,8 @@ function findChange() {
       diff[i] === 'd' &&
       diff.slice(i, i + endOfChange.length) === endOfChange
     ) {
+      // eslint-disable-next-line no-console
+      console.log('I AM IN THE SECOND CONDITION');
       srcApplicationChanges.push(diff.slice(start, i));
       start = null;
     } else if (start && i === diff.length - 1) {
