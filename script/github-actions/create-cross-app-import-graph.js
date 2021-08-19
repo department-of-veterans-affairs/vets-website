@@ -11,20 +11,20 @@ function findChange() {
   const srcApplicationChanges = [];
   let start = null;
 
-  diff.forEach((char, i) => {
-    if (!start && char === '+' && diff.includes('+++', i)) {
+  for (let i = 0; i <= diff.length; i += 1) {
+    if (diff[i] === '+' && diff.includes('+++', i)) {
       start = i;
     } else if (
       start &&
-      char === 'd' &&
-      diff.includes('diff --git a/src/applications', i) // what if file is new? does a/ exist?
+      diff[i] === 'd' &&
+      diff.includes('diff --git a/src/applications', i)
     ) {
       srcApplicationChanges.push(diff.slice(start), i);
       start = null;
     } else if (i === diff.length - 1) {
       srcApplicationChanges.push(diff.slice(start));
     }
-  });
+  }
 
   // eslint-disable-next-line no-console
   console.log('Application changes:');
