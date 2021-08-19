@@ -3,15 +3,13 @@ import moment from 'moment';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 
 import { IntroductionPage } from '../../containers/IntroductionPage';
 import formConfig from '../../config/form';
 
 import { FETCH_CONTESTABLE_ISSUES_INIT } from '../../actions';
-import {
-  WIZARD_STATUS,
-  WIZARD_STATUS_COMPLETE,
-} from 'applications/static-pages/wizard';
+import { setHlrWizardStatus, removeHlrWizardStatus } from '../../wizard/utils';
 
 const defaultProps = {
   getContestableIssues: () => {},
@@ -62,22 +60,12 @@ describe('IntroductionPage', () => {
   });
   afterEach(() => {
     global.window = oldWindow;
-    sessionStorage.removeItem(WIZARD_STATUS);
-  });
-
-  it('should render a work in progress message', () => {
-    const tree = shallow(
-      <IntroductionPage {...defaultProps} allowHlr={false} />,
-    );
-
-    const AlertBox = tree.find('AlertBox');
-    expect(AlertBox.length).to.equal(1);
-    expect(AlertBox.props().headline).to.contain('working on this feature');
-    tree.unmount();
+    removeHlrWizardStatus();
   });
 
   it('should show has empty address message', () => {
     const user = {
+      ...defaultProps.user,
       login: {
         currentlyLoggedIn: true,
       },
@@ -87,16 +75,14 @@ describe('IntroductionPage', () => {
       <IntroductionPage {...defaultProps} user={user} hasEmptyAddress />,
     );
 
-    const AlertBox = tree.find('AlertBox');
-    expect(AlertBox.length).to.equal(1);
-    expect(AlertBox.props().headline).to.contain(
-      'need to have an address on file',
-    );
+    const alert = tree.find('va-alert');
+    expect(alert.length).to.equal(1);
+    expect(alert.text()).to.contain('need to have an address on file');
     tree.unmount();
   });
 
   it('should render CallToActionWidget', () => {
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const tree = shallow(<IntroductionPage {...defaultProps} />);
 
     const callToActionWidget = tree.find('Connect(CallToActionWidget)');
@@ -108,7 +94,7 @@ describe('IntroductionPage', () => {
   });
 
   it('should render alert showing a server error', () => {
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const errorMessage = 'We can’t load your issues';
     const props = {
       ...defaultProps,
@@ -124,15 +110,15 @@ describe('IntroductionPage', () => {
 
     const tree = shallow(<IntroductionPage {...props} />);
 
-    const AlertBox = tree.find('AlertBox').first();
-    expect(AlertBox.render().text()).to.include(errorMessage);
+    const alert = tree.find('va-alert').first();
+    expect(alert.render().text()).to.include(errorMessage);
     const recordedEvent = gaData[gaData.length - 1];
     expect(recordedEvent.event).to.equal('visible-alert-box');
     expect(recordedEvent['alert-box-heading']).to.include(errorMessage);
     tree.unmount();
   });
   it('should render alert showing no contestable issues', () => {
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const errorMessage = 'don’t have any issues on file for you';
     const props = {
       ...defaultProps,
@@ -146,15 +132,15 @@ describe('IntroductionPage', () => {
 
     const tree = shallow(<IntroductionPage {...props} />);
 
-    const AlertBox = tree.find('AlertBox').first();
-    expect(AlertBox.render().text()).to.include(errorMessage);
+    const alert = tree.find('va-alert').first();
+    expect(alert.render().text()).to.include(errorMessage);
     const recordedEvent = gaData[gaData.length - 1];
     expect(recordedEvent.event).to.equal('visible-alert-box');
     expect(recordedEvent['alert-box-heading']).to.include(errorMessage);
     tree.unmount();
   });
   it('should render start button', () => {
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const props = {
       ...defaultProps,
       contestableIssues: {
@@ -173,7 +159,7 @@ describe('IntroductionPage', () => {
     tree.unmount();
   });
   it('should include start button with form event', () => {
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const props = {
       ...defaultProps,
       contestableIssues: {
@@ -193,7 +179,7 @@ describe('IntroductionPage', () => {
   });
 
   it('should show contestable issue loading indicator', () => {
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const props = {
       ...defaultProps,
       contestableIssues: {
@@ -207,16 +193,17 @@ describe('IntroductionPage', () => {
 
     const Intro = tree.find('Connect(CallToActionWidget)').first();
     expect(Intro.props().children.props.message).to.contain(
-      'Loading your contestable issues',
+      'Loading your previous decisions',
     );
     tree.unmount();
   });
 
   // Wizard
   it('should render wizard', () => {
-    sessionStorage.removeItem(WIZARD_STATUS);
+    removeHlrWizardStatus();
     const props = {
       ...defaultProps,
+      isProduction: true,
       contestableIssues: {
         issues: [{}],
         status: 'done',
@@ -225,7 +212,6 @@ describe('IntroductionPage', () => {
     };
 
     const tree = shallow(<IntroductionPage {...props} />);
-    expect(tree.find('FormTitle')).to.have.lengthOf(1);
     expect(tree.find('WizardContainer')).to.have.lengthOf(1);
     expect(tree.find('Connect(CallToActionWidget)')).to.have.lengthOf(0);
     tree.unmount();

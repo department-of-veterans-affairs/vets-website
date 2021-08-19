@@ -1,22 +1,24 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
+import PostFormFieldContent from '../../../components/PostFormFieldContent';
+import NewTabAnchor from '../../../components/NewTabAnchor';
+import InfoAlert from '../../../components/InfoAlert';
 
 export default function TypeOfCareAlert() {
   const headline = 'Not seeing the type of care you need?';
   return (
-    <AlertBox
-      status="info"
-      headline={headline}
-      className="vads-u-margin-top--3 vads-u-margin-bottom--7"
-      content={
+    <PostFormFieldContent>
+      <InfoAlert
+        status="info"
+        headline={headline}
+        level="2"
+        className="vads-u-margin-top--3 vads-u-margin-bottom--7"
+      >
         <p>
           You’ll need to call your VA health facility to schedule an
           appointment. <br />
-          <a
+          <NewTabAnchor
             href="/find-locations"
-            target="_blank"
-            rel="noopener noreferrer"
             onClick={() =>
               recordEvent({
                 event: 'nav-alert-box-link-click',
@@ -28,9 +30,9 @@ export default function TypeOfCareAlert() {
             }
           >
             Find a VA location
-          </a>
+          </NewTabAnchor>
         </p>
-      }
-    />
+      </InfoAlert>
+    </PostFormFieldContent>
   );
 }

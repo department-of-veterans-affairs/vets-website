@@ -4,6 +4,7 @@ import addJumplinkListeners from './addJumpLinkListeners';
 import addQaSectionListeners from './addQaSectionListeners';
 import addTeaserListeners from './addTeaserListeners';
 import addButtonLinkListeners from './addButtonLinkListeners';
+import addActionLinkListeners from './addActionLinkListeners';
 
 /**
  * Use pageListenersMap.set(<page path>, <array of functions>) to register
@@ -16,6 +17,16 @@ PAGE_EVENT_LISTENERS.set('/coronavirus-veteran-frequently-asked-questions/', [
   addJumplinkListeners,
   addQaSectionListeners,
 ]);
+
+PAGE_EVENT_LISTENERS.set(
+  '/coronavirus-veteran-frequently-asked-questions-esp/',
+  [addJumplinkListeners, addQaSectionListeners],
+);
+
+PAGE_EVENT_LISTENERS.set(
+  '/coronavirus-veteran-frequently-asked-questions-tag/',
+  [addJumplinkListeners, addQaSectionListeners],
+);
 
 function attachAnalytics() {
   try {
@@ -30,6 +41,7 @@ function attachAnalytics() {
     // Global listeners
     addTeaserListeners();
     addButtonLinkListeners();
+    addActionLinkListeners();
   } catch (error) {
     Sentry.withScope(scope => {
       scope.setExtra('error', error);

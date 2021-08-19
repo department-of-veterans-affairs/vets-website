@@ -38,7 +38,7 @@ describe('526 v2 migrations', () => {
     });
     // Sanity check
     it('/claim-type should be a valid url', () => {
-      expect(formConfig.chapters.veteranDetails.pages.claimType.path).to.equal(
+      expect(formConfig.chapters.disabilities.pages.claimType.path).to.equal(
         'claim-type',
       );
     });

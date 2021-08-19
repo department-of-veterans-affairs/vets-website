@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
-import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
+import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import recordEvent from 'platform/monitoring/record-event';
 import FacilityPhone from '../../../components/FacilityPhone';
 import { GA_PREFIX } from '../../../utils/constants';
+import State from '../../../components/State';
+import NewTabAnchor from '../../../components/NewTabAnchor';
+import { isTypeOfCareSupported } from '../../../services/location';
 
 const UNSUPPORTED_FACILITY_RANGE = 100;
 
@@ -11,6 +14,7 @@ export default function FacilitiesNotShown({
   facilities,
   sortMethod,
   typeOfCareId,
+  cernerSiteIds,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   useEffect(
@@ -32,8 +36,7 @@ export default function FacilitiesNotShown({
 
   const nearbyUnsupportedFacilities = facilities?.filter(
     facility =>
-      !facility.legacyVAR.directSchedulingSupported[typeOfCareId] &&
-      !facility.legacyVAR.requestSupported[typeOfCareId] &&
+      !isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds) &&
       facility.legacyVAR[sortMethod] < UNSUPPORTED_FACILITY_RANGE,
   );
 
@@ -62,7 +65,7 @@ export default function FacilitiesNotShown({
       onClick={() => setIsOpen(!isOpen)}
     >
       <span className="additional-info-title">
-        Why isn't my facility listed?
+        Why isn’t my facility listed?
         <i className={iconClass} />
       </span>
     </button>
@@ -79,15 +82,18 @@ export default function FacilitiesNotShown({
           <p id="vaos-unsupported-label">
             The facilities below don’t offer online scheduling for this care.
           </p>
+          {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
           <ul
-            className="usa-unstyled-list"
             aria-labelledby="vaos-unsupported-label"
+            className="usa-unstyled-list"
+            role="list"
           >
             {nearbyUnsupportedFacilities.map(facility => (
               <li key={facility.id} className="vads-u-margin-top--2">
                 <strong>{facility.name}</strong>
                 <br />
-                {facility.address?.city}, {facility.address?.state}
+                {facility.address?.city},{' '}
+                <State state={facility.address?.state} />
                 <br />
                 {!!facility.legacyVAR[sortMethod] && (
                   <>
@@ -95,7 +101,6 @@ export default function FacilitiesNotShown({
                     <br />
                   </>
                 )}
-                Main phone:{' '}
                 <FacilityPhone
                   contact={
                     facility.telecom.find(t => t.system === 'phone')?.value
@@ -110,10 +115,8 @@ export default function FacilitiesNotShown({
           <p className="vads-u-margin-top--0">
             Call the facility directly to schedule your appointment,{' '}
             <strong>or </strong>
-            <a
+            <NewTabAnchor
               href="/find-locations"
-              target="_blank"
-              rel="noopener nofollow"
               onClick={() =>
                 recordEvent({
                   event: `${GA_PREFIX}-facilities-not-listed-locator-click`,
@@ -121,7 +124,7 @@ export default function FacilitiesNotShown({
               }
             >
               search for a different VA location
-            </a>
+            </NewTabAnchor>
             .
           </p>
         </div>

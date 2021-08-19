@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Table from '@department-of-veterans-affairs/formation-react/Table';
+import Table from '@department-of-veterans-affairs/component-library/Table';
 import { formattedDate } from '../utils/helpers';
 
 import backendServices from 'platform/user/profile/constants/backendServices';

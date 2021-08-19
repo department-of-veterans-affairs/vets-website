@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 //! moment-timezone.js
 //! version : 0.5.25
 //! Copyright (c) JS Foundation and other contributors

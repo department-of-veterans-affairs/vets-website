@@ -10,11 +10,12 @@ import {
 } from '../content/addDisabilities';
 import NewDisability from '../components/NewDisability';
 import ArrayField from '../components/ArrayField';
-// import ConditionReviewField from '../components/ConditionReviewField';
+import ConditionReviewField from '../components/ConditionReviewField';
 import {
   validateDisabilityName,
   requireDisability,
   limitNewDisabilities,
+  missingConditionMessage,
 } from '../validations';
 import {
   newConditionsOnly,
@@ -35,8 +36,9 @@ export const uiSchema = {
     'ui:options': {
       viewField: NewDisability,
       reviewTitle: 'New Conditions',
+      duplicateKey: 'condition',
       itemName: 'Condition',
-      includeIndexInTitle: true,
+      itemAriaLabel: data => data.condition,
       includeRequiredLabelInTitle: true,
     },
     // Ideally, this would show the validation on the array itself (or the name
@@ -53,7 +55,7 @@ export const uiSchema = {
             })),
           ),
         {
-          // 'ui:reviewField': ({ children }) => children,
+          'ui:reviewField': ({ children }) => children,
           'ui:options': {
             debounceRate: 200,
             freeInput: true,
@@ -77,16 +79,16 @@ export const uiSchema = {
           'ui:validations': [validateDisabilityName, limitNewDisabilities],
           'ui:required': () => true,
           'ui:errorMessages': {
-            required:
-              'Please enter a condition or select one from the suggested list',
+            required: missingConditionMessage,
           },
         },
       ),
       // custom review & submit layout - see https://github.com/department-of-veterans-affairs/vets-website/pull/14091
       // disabled until design changes have been approved
-      // 'ui:objectViewField': ConditionReviewField,
+      'ui:objectViewField': ConditionReviewField,
       'ui:options': {
-        ariaLabelForEditButtonOnReview: 'Edit New condition',
+        itemAriaLabel: data => data.condition,
+        itemName: 'New condition',
       },
     },
   },

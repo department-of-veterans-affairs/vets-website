@@ -37,9 +37,7 @@ describe('VAOS <ReviewPage>', () => {
     });
 
     await waitFor(() => {
-      expect(screen.history.replace.firstCall.args[0]).to.equal(
-        '/new-appointment',
-      );
+      expect(screen.history.location.pathname).to.equal('/new-appointment');
     });
   });
 });

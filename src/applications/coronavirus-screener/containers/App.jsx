@@ -3,6 +3,7 @@ import MetaTags from 'react-meta-tags';
 import MultiQuestionForm from '../components/MultiQuestionForm';
 import { questions, defaultOptions } from '../config/questions';
 import { introText } from '../config/text';
+import { passFormResultsColorOptions } from '../config/colors';
 
 export default function App({ params }) {
   let selectedLanguage = 'en';
@@ -31,6 +32,25 @@ export default function App({ params }) {
     alternateLangauge = 'en';
   }
 
+  // If there is a color indicated, store that for the pass results screen. Customization for Bronx VAMC.
+  let passFormResultsColors = {
+    background: '#112e51',
+    font: 'white',
+    name: '',
+  };
+  const colorKeys = Object.keys(passFormResultsColorOptions);
+  let color = null;
+
+  for (let i = 0; i < colorKeys.length; i++) {
+    color = colorKeys[i];
+    if (location.href.toLowerCase().includes(color)) {
+      passFormResultsColors = passFormResultsColorOptions[color];
+      break;
+    } else {
+      color = null;
+    }
+  }
+
   const alternateRef = `${alternateRefBase}${alternateLangauge}`;
 
   return (
@@ -54,6 +74,7 @@ export default function App({ params }) {
           defaultOptions={defaultOptions}
           customId={customId?.toUpperCase()}
           selectedLanguage={selectedLanguage}
+          passFormResultsColors={passFormResultsColors}
         />
       </div>
     </div>

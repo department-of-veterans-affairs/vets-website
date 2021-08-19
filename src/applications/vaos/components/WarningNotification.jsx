@@ -1,15 +1,15 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import InfoAlert from './InfoAlert';
 import externalServiceStatus from 'platform/monitoring/DowntimeNotification/config/externalServiceStatus';
 
 export default function WarningNotification({ status }) {
   if (status === externalServiceStatus.down) {
     return (
-      <AlertBox
+      <InfoAlert
         className="vads-u-margin-bottom--4"
         headline={`You may have trouble using the VA appointments tool right now.`}
-        isVisible
         status="warning"
+        level="3"
       >
         <p>
           Some Veterans have reported problems with viewing, scheduling, or
@@ -23,7 +23,7 @@ export default function WarningNotification({ status }) {
             Find your health facility or provider’s phone number
           </a>
         </p>
-      </AlertBox>
+      </InfoAlert>
     );
   }
   return null;

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import localStorage from 'platform/utilities/storage/localStorage';
 import * as authUtils from 'platform/user/authentication/utilities';
 import * as keepAliveMod from 'platform/utilities/sso/keepAliveSSO';
@@ -72,7 +72,7 @@ describe('checkAutoSession', () => {
     await checkAutoSession(true, 'X', profile);
 
     expect(global.window.location).to.eq(
-      'https://ehrm-va-test.patientportal.us.healtheintent.com/',
+      'https://staging-patientportal.myhealth.va.gov/',
     );
   });
 
@@ -314,7 +314,6 @@ describe('checkAndUpdateSSOeSession', () => {
     checkAndUpdateSSOeSession();
 
     expect(localStorage.getItem('sessionExpirationSSO')).to.equal('some value');
-    resetFetch();
   });
 
   it('should make a keepalive request for active SSO sessions below the timeout threshold', () => {
@@ -331,7 +330,6 @@ describe('checkAndUpdateSSOeSession', () => {
     expect(localStorage.getItem('sessionExpirationSSO')).to.not.equal(
       expiringSession,
     );
-    resetFetch();
   });
 
   afterEach(() => {

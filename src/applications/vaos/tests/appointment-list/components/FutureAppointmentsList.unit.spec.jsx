@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
 import environment from 'platform/utilities/environment';
-import { setFetchJSONResponse } from 'platform/testing/unit/helpers';
+import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import {
   getVARequestMock,
   getVAFacilityMock,
@@ -12,7 +12,7 @@ import {
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
 import { renderWithStoreAndRouter } from '../../mocks/setup';
 
-import FutureAppointmentsList from '../../../appointment-list/components/FutureAppointmentsList';
+import AppointmentsPage from '../../../appointment-list/components/AppointmentsPage';
 
 const initialState = {
   featureToggles: {
@@ -20,14 +20,18 @@ const initialState = {
   },
 };
 
-describe('VAOS integration: pending appointments', () => {
+describe('VAOS <AppointmentsPage> pending appointments', () => {
+  beforeEach(() => {
+    mockFetch();
+    mockFacilitiesFetch();
+  });
   describe('for va', () => {
     it('should show information with basic facility info', async () => {
       const appointment = getVARequestMock();
       appointment.attributes = {
         ...appointment.attributes,
         status: 'Submitted',
-        appointmentType: 'Primary care',
+        typeOfCareId: '323',
         optionDate1: moment()
           .add(3, 'days')
           .format('MM/DD/YYYY'),
@@ -53,7 +57,7 @@ describe('VAOS integration: pending appointments', () => {
         baseElement,
         getByText,
         queryByText,
-      } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
+      } = renderWithStoreAndRouter(<AppointmentsPage />, {
         initialState,
       });
 
@@ -97,7 +101,7 @@ describe('VAOS integration: pending appointments', () => {
       appointment.attributes = {
         ...appointment.attributes,
         status: 'Submitted',
-        appointmentType: 'Primary care',
+        typeOfCareId: '323',
         optionDate1: moment()
           .add(3, 'days')
           .format('MM/DD/YYYY'),
@@ -131,7 +135,7 @@ describe('VAOS integration: pending appointments', () => {
       mockFacilitiesFetch('vha_442GC', [facility]);
 
       const { findByText, baseElement, queryByText } = renderWithStoreAndRouter(
-        <FutureAppointmentsList />,
+        <AppointmentsPage />,
         {
           initialState,
         },
@@ -151,7 +155,7 @@ describe('VAOS integration: pending appointments', () => {
       );
       expect(baseElement).to.contain.text('Cheyenne VA Medical Center');
       expect(baseElement).to.contain.text('2360 East Pershing Boulevard');
-      expect(baseElement).to.contain.text('Cheyenne, WY 82001-5356');
+      expect(baseElement).to.contain.text('Cheyenne, WyomingWY 82001-5356');
       expect(baseElement).to.contain.text('307-778-7550');
       expect(baseElement.querySelector('h4')).to.be.ok;
     });
@@ -161,7 +165,7 @@ describe('VAOS integration: pending appointments', () => {
       appointment.attributes = {
         ...appointment.attributes,
         status: 'Cancelled',
-        appointmentType: 'Primary care',
+        typeOfCareId: '323',
         optionDate1: moment()
           .add(3, 'days')
           .format('MM/DD/YYYY'),
@@ -175,7 +179,7 @@ describe('VAOS integration: pending appointments', () => {
       mockAppointmentInfo({ requests: [appointment] });
 
       const { findByText, baseElement, queryByText } = renderWithStoreAndRouter(
-        <FutureAppointmentsList />,
+        <AppointmentsPage />,
         {
           initialState,
         },
@@ -197,7 +201,7 @@ describe('VAOS integration: pending appointments', () => {
       appointment.attributes = {
         ...appointment.attributes,
         status: 'Cancelled',
-        appointmentType: 'Primary care',
+        typeOfCareId: '323',
         optionDate1: moment()
           .add(-3, 'days')
           .format('MM/DD/YYYY'),
@@ -210,12 +214,9 @@ describe('VAOS integration: pending appointments', () => {
       };
       mockAppointmentInfo({ requests: [appointment] });
 
-      const { findByText } = renderWithStoreAndRouter(
-        <FutureAppointmentsList />,
-        {
-          initialState,
-        },
-      );
+      const { findByText } = renderWithStoreAndRouter(<AppointmentsPage />, {
+        initialState,
+      });
 
       return expect(findByText(/You don’t have any appointments/i)).to
         .eventually.be.ok;
@@ -233,12 +234,9 @@ describe('VAOS integration: pending appointments', () => {
       };
       mockAppointmentInfo({ requests: [appointment] });
 
-      const { findByText } = renderWithStoreAndRouter(
-        <FutureAppointmentsList />,
-        {
-          initialState,
-        },
-      );
+      const { findByText } = renderWithStoreAndRouter(<AppointmentsPage />, {
+        initialState,
+      });
 
       return expect(findByText(/You don’t have any appointments/i)).to
         .eventually.be.ok;
@@ -273,7 +271,7 @@ describe('VAOS integration: pending appointments', () => {
       );
 
       const { baseElement, findByText } = renderWithStoreAndRouter(
-        <FutureAppointmentsList />,
+        <AppointmentsPage />,
         {
           initialState,
         },
@@ -291,7 +289,7 @@ describe('VAOS integration: pending appointments', () => {
       expect(baseElement).to.contain.text('Your contact details');
       expect(await findByText('Your contact details')).to.have.tagName('h4');
       expect(baseElement).to.contain.text('patient.test@va.gov');
-      expect(baseElement).to.contain.text('5555555566');
+      expect(baseElement).to.contain.text('555-555-5566');
       expect(baseElement.querySelector('h4')).to.be.ok;
     });
 
@@ -300,7 +298,7 @@ describe('VAOS integration: pending appointments', () => {
       appointment.attributes = {
         ...appointment.attributes,
         status: 'Submitted',
-        appointmentType: 'Primary care',
+        typeOfCareId: '323',
         optionDate1: moment()
           .add(3, 'days')
           .format('MM/DD/YYYY'),
@@ -327,7 +325,7 @@ describe('VAOS integration: pending appointments', () => {
         baseElement,
         getByText,
         queryByText,
-      } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
+      } = renderWithStoreAndRouter(<AppointmentsPage />, {
         initialState,
       });
 
@@ -363,7 +361,6 @@ describe('VAOS integration: pending appointments', () => {
       appointment.attributes = {
         ...appointment.attributes,
         status: 'Submitted',
-        appointmentType: 'Primary care',
         optionDate1: moment()
           .add(3, 'days')
           .format('MM/DD/YYYY'),
@@ -405,11 +402,11 @@ describe('VAOS integration: pending appointments', () => {
         baseElement,
         getByText,
         queryByText,
-      } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
+      } = renderWithStoreAndRouter(<AppointmentsPage />, {
         initialState,
       });
 
-      const dateHeader = await findByText(/primary care appointment/i);
+      const dateHeader = await findByText(/hearing aid support appointment/i);
       expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
 
       expect(baseElement).to.contain.text('Community Care');
@@ -433,7 +430,7 @@ describe('VAOS integration: pending appointments', () => {
       expect(baseElement).to.contain.text('Your contact details');
       expect(await findByText('Your contact details')).to.have.tagName('h4');
       expect(baseElement).to.contain.text('patient.test@va.gov');
-      expect(baseElement).to.contain.text('5555555566');
+      expect(baseElement).to.contain.text('555-555-5566');
       expect(baseElement.querySelector('h4')).to.be.ok;
     });
   });

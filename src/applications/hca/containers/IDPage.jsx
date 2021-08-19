@@ -6,8 +6,8 @@ import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -33,7 +33,7 @@ function ContinueButton({ isLoading }) {
       /* to override the `width: 100%` given to SchemaForm submit buttons */
       style={{ width: 'auto' }}
     >
-      Continue to the Application
+      Continue to the application
       <span className="button-icon">&nbsp;»</span>
     </LoadingButton>
   );

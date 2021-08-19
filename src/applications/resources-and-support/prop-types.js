@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import { ENTITY_BUNDLES } from 'site/constants/content-modeling';
+import { ENTITY_BUNDLES } from './content-modeling';
 
 export const TaxonomyTerm = PropTypes.shape({
   entityUrl: PropTypes.shape({
@@ -15,7 +15,7 @@ export const Article = PropTypes.shape({
     path: PropTypes.string.isRequired,
   }).isRequired,
   title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  introText: PropTypes.string.isRequired,
   fieldPrimaryCategory: PropTypes.shape({
     entity: TaxonomyTerm,
   }),

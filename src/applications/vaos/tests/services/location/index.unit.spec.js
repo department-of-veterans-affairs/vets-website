@@ -11,7 +11,6 @@ import {
   getLocation,
   getLocations,
   getLocationsByTypeOfCareAndSiteIds,
-  getParentOfLocation,
   getSupportedLocationsByTypeOfCare,
 } from '../../../services/location';
 import facilities983 from '../../../services/mocks/var/facilities_983.json';
@@ -30,7 +29,7 @@ describe('VAOS Location service', () => {
       setFetchJSONResponse(global.fetch, facilities983);
       data = await getSupportedLocationsByTypeOfCare({
         siteId: '983',
-        parentId: 'var983A6',
+        parentId: '983A6',
         typeOfCareId: '123',
       });
 
@@ -45,7 +44,7 @@ describe('VAOS Location service', () => {
       setFetchJSONResponse(global.fetch, facilities983);
       data = await getSupportedLocationsByTypeOfCare({
         siteId: '983',
-        parentId: 'var983A6',
+        parentId: '983A6',
         typeOfCareId: '123',
       });
 
@@ -66,7 +65,7 @@ describe('VAOS Location service', () => {
       try {
         data = await getSupportedLocationsByTypeOfCare({
           siteId: '983',
-          parentId: 'var983A6',
+          parentId: '983A6',
           typeOfCareId: '123',
         });
       } catch (e) {
@@ -87,7 +86,7 @@ describe('VAOS Location service', () => {
       mockFetch();
       setFetchJSONResponse(global.fetch, facilityDetails);
       data = await getLocations({
-        facilityIds: ['var983A6'],
+        facilityIds: ['983A6'],
       });
 
       expect(global.fetch.firstCall.args[0]).to.contain(
@@ -104,7 +103,7 @@ describe('VAOS Location service', () => {
       let error;
       try {
         data = await getLocations({
-          facilityIds: ['var983'],
+          facilityIds: ['983'],
         });
       } catch (e) {
         error = e;
@@ -124,7 +123,7 @@ describe('VAOS Location service', () => {
       mockFetch();
       setFetchJSONResponse(global.fetch, { data: facilityDetails.data[0] });
       data = await getLocation({
-        facilityId: 'var983A6',
+        facilityId: '983A6',
       });
 
       expect(global.fetch.firstCall.args[0]).to.contain(
@@ -142,7 +141,7 @@ describe('VAOS Location service', () => {
       let error;
       try {
         data = await getLocation({
-          facilityId: 'var983',
+          facilityId: '983',
         });
       } catch (e) {
         error = e;
@@ -170,7 +169,6 @@ describe('VAOS Location service', () => {
       data = await getLocationsByTypeOfCareAndSiteIds({
         typeOfCareId: '323',
         siteIds: ['983', '984'],
-        directSchedulingEnabled: true,
       });
 
       expect(global.fetch.firstCall.args[0]).to.contain(
@@ -184,30 +182,8 @@ describe('VAOS Location service', () => {
       );
       expect(data[0].resourceType).to.equal('Location');
       expect(data[0].name).to.equal('Cheyenne VA Medical Center');
-      expect('requestSupported' in data[0].legacyVAR).to.equal(true);
-      expect('directSchedulingSupported' in data[0].legacyVAR).to.equal(true);
-    });
-
-    it('should skip direct booking fetch if direct scheduling disabled', async () => {
-      mockFetch();
-      setFetchJSONResponse(global.fetch, requestEligbilityCriteria);
-      setFetchJSONResponse(global.fetch.onCall(1), facilityDetails);
-
-      data = await getLocationsByTypeOfCareAndSiteIds({
-        typeOfCareId: '323',
-        siteIds: ['983', '984'],
-        directSchedulingEnabled: false,
-      });
-
-      expect(global.fetch.firstCall.args[0]).to.contain(
-        '/request_eligibility_criteria?parent_sites[]=983&parent_sites[]=984',
-      );
-      expect(global.fetch.secondCall.args[0]).to.contain(
-        '/v1/facilities/va?ids=',
-      );
-      expect(data[0].resourceType).to.equal('Location');
-      expect('requestSupported' in data[0].legacyVAR).to.equal(true);
-      expect('directSchedulingSupported' in data[0].legacyVAR).to.equal(true);
+      expect(data[0].legacyVAR.settings['323'].request.enabled).to.be.true;
+      expect(data[0].legacyVAR.settings['323'].direct.enabled).to.be.true;
     });
 
     it('should return OperationOutcome error', async () => {
@@ -221,7 +197,6 @@ describe('VAOS Location service', () => {
         data = await getLocationsByTypeOfCareAndSiteIds({
           typeOfCareId: '323',
           siteIds: ['983', '984'],
-          directSchedulingEnabled: true,
         });
       } catch (e) {
         error = e;
@@ -231,27 +206,6 @@ describe('VAOS Location service', () => {
         '/request_eligibility_criteria?parent_sites[]=983&parent_sites[]=984',
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
-    });
-  });
-
-  describe('getParentOfLocation', () => {
-    it('should return parent org', () => {
-      const orgs = [
-        {
-          id: 'testorg',
-        },
-        {
-          id: 'testorg2',
-        },
-      ];
-      const location = {
-        id: 'test',
-        managingOrganization: {
-          reference: 'Organization/testorg2',
-        },
-      };
-      const org = getParentOfLocation(orgs, location);
-      expect(org).to.equal(orgs[1]);
     });
   });
 
@@ -286,18 +240,18 @@ describe('VAOS Location service', () => {
           longitude: 42.12,
         },
         typeOfCare: {
-          specialties: ['133N00000X'],
+          specialties: ['133NN1002X'],
         },
       });
 
       expect(global.fetch.firstCall.args[0]).to.contain(
-        '/v1/facilities/ccp?latitude=-72.73&longitude=42.12&radius=60&per_page=15&page=1&bbox[]=-73.598&bbox[]=39.194&bbox[]=-71.862&bbox[]=45.046&specialties[]=133N00000X&type=provider&trim=true',
+        '/facilities_api/v1/ccp/provider?latitude=-72.73&longitude=42.12&radius=60&per_page=15&page=1&bbox[]=-73.598&bbox[]=39.194&bbox[]=-71.862&bbox[]=45.046&specialties[]=133NN1002X&trim=true',
       );
       expect(data.length).to.equal(ccProviders.data.length);
       const firstProvider = ccProviders.data[0];
       const firstLocation = data[0];
       expect(firstLocation.name).to.equal(firstProvider.attributes.name);
-      expect(firstLocation.id).to.equal(firstProvider.attributes.uniqueId);
+      expect(firstLocation.id).to.equal(firstProvider.id);
       expect(firstLocation.telecom[0].value).to.equal(
         firstProvider.attributes.caresitePhone,
       );

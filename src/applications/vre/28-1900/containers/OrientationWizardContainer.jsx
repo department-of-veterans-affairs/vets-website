@@ -1,23 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router';
+import Scroll from 'react-scroll';
+import { focusElement } from 'platform/utilities/ui';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import Wizard from 'applications/static-pages/wizard';
-import { WIZARD_STATUS_COMPLETE } from 'applications/vre/28-1900/constants';
 import pages from 'applications/vre/28-1900/wizard/pages';
 import recordEvent from 'platform/monitoring/record-event';
 import OrientationApp from 'applications/vre/28-1900/orientation/OrientationApp';
 
+const scroller = Scroll.scroller;
+const scrollToTop = () => {
+  scroller.scrollTo('topScrollElement', {
+    duration: 500,
+    delay: 0,
+    smooth: true,
+  });
+};
+
 const OrientationWizardContainer = props => {
   const [showOrientation, setShowOrientation] = useState(false);
-  const [showFormStartButton, setShowFormStartButton] = useState(false);
-  const { handleWizardUpdate } = props;
+  const { wizardStateHandler } = props;
   // pass this down to wizard children so showOrientation can be updated once
   // a user makes it through a valid wizard flow
   const showOrientationHandler = status => {
     setShowOrientation(status);
   };
 
-  const showChapter31FormStartButton = status => {
-    setShowFormStartButton(status);
-  };
+  // Focus on the header on first load
+  useEffect(() => {
+    focusElement('h1');
+    scrollToTop();
+    document.title =
+      'Veteran Readiness and Employment Orientation | Veteran Affairs';
+  }, []);
 
   return (
     <div className="row vads-u-margin-bottom--1">
@@ -31,27 +46,32 @@ const OrientationWizardContainer = props => {
         </p>
         <h2>Is this the form I need?</h2>
         <p>
-          This application is for service members or Veterans who have a
-          service-connected disability and want to apply for employment support
-          and services to help them find and keep a job and live as
-          independently as possible. To see if this is right for you,{' '}
-          <strong>
-            just answer a few questions, then go through the VR&E orientation.
-          </strong>
+          Our online Veteran Readiness and Employment (VR&E) orientation can
+          help you decide if this program will provide the type of support you
+          need to obtain suitable employment or to live independently. The
+          orientation takes just 15 minutes to complete.
         </p>
         <p>
-          <strong>If you already know this is the correct form,</strong> you can
-          go directly to the online application without answering questions.{' '}
-          <a
+          First, answer a few questions below to find out if you’re eligible to
+          apply. If you are, we encourage you to complete the orientation before
+          you apply.
+        </p>
+        <p id="skip-wizard-description">
+          <strong>If you already know you want to apply for VR&E</strong>, you
+          can go directly to the online application without answering the
+          questions below.{' '}
+          <Link
+            to="/"
+            aria-describedby="skip-wizard-description"
             onClick={() => {
               recordEvent({
                 event: 'howToWizard-skip',
               });
-              handleWizardUpdate(WIZARD_STATUS_COMPLETE);
+              wizardStateHandler(WIZARD_STATUS_COMPLETE);
             }}
           >
-            Apply online with VA Form 28-1900
-          </a>
+            Apply for Veteran Readiness and Employment with VA Form 28-1900
+          </Link>
         </p>
         <Wizard
           pages={pages}
@@ -59,29 +79,8 @@ const OrientationWizardContainer = props => {
           setWizardStatus={showOrientationHandler}
         />
         {showOrientation && (
-          <OrientationApp
-            formControlStatus={showFormStartButton}
-            formStartHandler={showChapter31FormStartButton}
-          />
+          <OrientationApp wizardStateHandler={wizardStateHandler} />
         )}
-        {showFormStartButton &&
-          showOrientation && (
-            <div className="vads-u-padding--3 vads-u-background-color--gray-lightest">
-              <p>
-                <strong>Thank you for viewing the VR&E orientation.</strong> To
-                apply for Veteran Readiness & Employment benefits now, click the
-                button below.
-              </p>
-              <a
-                className="usa-button-primary va-button-primary"
-                onClick={() => {
-                  handleWizardUpdate(WIZARD_STATUS_COMPLETE);
-                }}
-              >
-                Apply for Veteran Readiness and Employment
-              </a>
-            </div>
-          )}
       </div>
     </div>
   );

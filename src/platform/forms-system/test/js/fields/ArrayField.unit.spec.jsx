@@ -191,6 +191,84 @@ describe('Schemaform <ArrayField>', () => {
     expect(button[3].text()).to.contain('Add another');
   });
 
+  it('should render unique aria-labels on buttons from ui option key in item', () => {
+    const idSchema = {
+      $id: 'field',
+    };
+    const schema = {
+      type: 'array',
+      items: [
+        {
+          type: 'object',
+          properties: {
+            field: {
+              type: 'string',
+            },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            field: {
+              type: 'string',
+            },
+          },
+        },
+      ],
+      additionalItems: {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string',
+          },
+        },
+      },
+    };
+    const uiSchema = {
+      'ui:title': 'List of things',
+      items: {
+        test: {
+          type: 'string',
+        },
+        'ui:options': {
+          itemAriaLabel: data => data.field,
+        },
+      },
+      'ui:options': {
+        viewField: f => f,
+        showSave: true,
+        itemAriaLabel: data => data.field,
+        itemName: 'Itemz',
+      },
+    };
+    const formData = [{ field: 'foo' }, { field: 'bar' }];
+    const tree = SkinDeep.shallowRender(
+      <ArrayField
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        registry={registry}
+        formData={formData}
+        formContext={formContext}
+        onChange={f => f}
+        requiredSchema={requiredSchema}
+        errorSchema={[]}
+      />,
+    );
+
+    expect(tree.everySubTree('SchemaField').length).to.equal(1);
+    expect(tree.everySubTree('.va-growable-background').length).to.equal(2);
+    const button = tree.everySubTree('button');
+    expect(button.length).to.equal(4);
+    expect(button[0].text()).to.equal('Edit');
+    expect(button[0].props['aria-label']).to.equal('Edit foo');
+    expect(button[1].text()).to.equal('Update');
+    expect(button[1].props['aria-label']).to.equal('Update bar');
+    expect(button[2].text()).to.equal('Remove');
+    expect(button[2].props['aria-label']).to.equal('Remove bar');
+    expect(button[3].text()).to.contain('Add another');
+  });
+
   it('should render invalid items', () => {
     const idSchema = {
       $id: 'field',
@@ -233,6 +311,7 @@ describe('Schemaform <ArrayField>', () => {
     expect(tree.everySubTree('SchemaField').length).to.equal(2);
     expect(tree.everySubTree('.va-growable-background').length).to.equal(2);
   });
+
   describe('should handle', () => {
     let tree;
     let errorSchema;

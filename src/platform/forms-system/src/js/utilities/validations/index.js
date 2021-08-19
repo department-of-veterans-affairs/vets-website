@@ -1,6 +1,8 @@
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import moment from 'moment';
 
+import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
+
 // Conditions for valid SSN from the original 1010ez pdf form:
 // '123456789' is not a valid SSN
 // A value where the first 3 digits are 0 is not a valid SSN
@@ -32,13 +34,7 @@ export function isValidSSN(value) {
 }
 
 export function isValidYear(value) {
-  return (
-    Number(value) >= 1900 &&
-    Number(value) <=
-      moment()
-        .add(100, 'year')
-        .year()
-  );
+  return Number(value) >= minYear && Number(value) <= maxYear;
 }
 
 export function isValidPartialDate(day, month, year) {
@@ -60,7 +56,7 @@ export function isValidCurrentOrFutureDate(day, month, year) {
 }
 
 export function isValidCurrentOrPastYear(value) {
-  return Number(value) >= 1900 && Number(value) < moment().year() + 1;
+  return Number(value) >= minYear && Number(value) < moment().year() + 1;
 }
 
 export function isValidCurrentOrFutureMonthYear(month, year) {
@@ -88,14 +84,16 @@ export function dateToMoment(dateField) {
   });
 }
 
-export function isValidDateRange(fromDate, toDate) {
+export function isValidDateRange(fromDate, toDate, allowSameMonth = false) {
   if (isBlankDateField(toDate) || isBlankDateField(fromDate)) {
     return true;
   }
   const momentStart = dateToMoment(fromDate);
   const momentEnd = dateToMoment(toDate);
 
-  return momentStart.isBefore(momentEnd);
+  return allowSameMonth
+    ? momentStart.isSameOrBefore(momentEnd)
+    : momentStart.isBefore(momentEnd);
 }
 
 // Pulled from https://en.wikipedia.org/wiki/Routing_transit_number#Check_digit

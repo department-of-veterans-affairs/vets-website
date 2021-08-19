@@ -1,11 +1,11 @@
 {
   "data": {
     "id": "",
-    "type": "async_transaction_vet360_address_transactions",
+    "type": "async_transaction_va_profile_address_transactions",
     "attributes": {
       "transactionId": "bfedd909-9dc4-4b27-abc2-a6cccaece35d",
       "transactionStatus": "RECEIVED",
-      "type": "AsyncTransaction::Vet360::AddressTransaction",
+      "type": "AsyncTransaction::VAProfile::AddressTransaction",
       "metadata": []
     }
   }

@@ -105,7 +105,7 @@ describe('Add new disabilities', () => {
       />,
     );
     form.find('form').simulate('submit');
-    const error = form.find('.usa-alert');
+    const error = form.find('va-alert');
     expect(error.length).to.equal(1);
     expect(error.text()).to.contain('add a new disability to claim');
     expect(onSubmit.called).to.be.false;
@@ -132,9 +132,65 @@ describe('Add new disabilities', () => {
       />,
     );
     form.find('form').simulate('submit');
-    const error = form.find('.usa-alert');
+    const error = form.find('va-alert');
     expect(error.length).to.equal(1);
     expect(error.text()).to.contain('add a new disability or choose a rated');
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+
+  it('should not submit when an empty field is submitted', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          newDisabilities: [
+            {
+              condition: '',
+            },
+          ],
+        }}
+        formData={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    const error = form.find('.usa-input-error-message');
+    expect(error.length).to.equal(1);
+    expect(error.text()).to.include('enter a condition or select one');
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+  it('should not submit when "unknown condition" is submitted', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          newDisabilities: [
+            {
+              // case in-sensitive; specifically preventing this because it was
+              // previously the default text used when the user submitted an
+              // empty string
+              condition: 'UNKnowN COnDitioN',
+            },
+          ],
+        }}
+        formData={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    const error = form.find('.usa-input-error-message');
+    expect(error.length).to.equal(1);
+    expect(error.text()).to.include('enter a condition or select one');
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });

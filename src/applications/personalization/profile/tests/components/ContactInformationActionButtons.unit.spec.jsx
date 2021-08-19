@@ -1,84 +1,79 @@
 import React from 'react';
-import enzyme from 'enzyme';
+import sinon from 'sinon';
+import userEvent from '@testing-library/user-event';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
 import ContactInformationActionButtons from '@@profile/components/personal-information/ContactInformationActionButtons';
 
 describe('<ContactInformationActionButtons/>', () => {
-  let props = null;
-
-  beforeEach(() => {
-    props = {
-      transactionRequest: {},
-      onCancel() {},
+  function defaultProps() {
+    return {
+      isLoading: false,
       onDelete() {},
       title: 'TITLE_ATTRIBUTE',
       deleteEnabled: true,
     };
+  }
+
+  let props;
+
+  beforeEach(() => {
+    props = defaultProps();
   });
 
-  it('renders correctly when delete enabled', () => {
-    const component = enzyme.shallow(
+  it('renders correctly when deleteEnabled is true', () => {
+    const view = render(
       <ContactInformationActionButtons {...props}>
         <p>Children</p>
       </ContactInformationActionButtons>,
     );
 
-    expect(component.html(), 'renders children components').to.contain(
-      'Children',
-    );
-
-    expect(component.html(), 'renders a delete button').to.contain(
-      'Remove title_attribute',
-    );
-
-    component.unmount();
+    expect(view.getByText('Children')).to.exist;
+    expect(view.getByRole('button', { name: /Remove title_attribute/ })).to
+      .exist;
   });
 
-  it('renders correctly when delete triggered', () => {
-    const component = enzyme.shallow(
+  it('renders correctly when deleteEnabled is false', () => {
+    props.deleteEnabled = false;
+    const view = render(
       <ContactInformationActionButtons {...props}>
         <p>Children</p>
       </ContactInformationActionButtons>,
     );
 
-    component.setState({
-      deleteInitiated: true,
-    });
-
-    expect(component.html(), 'renders alert contents').to.contain(
-      'Are you sure?',
-    );
-
-    expect(
-      component.html(),
-      'does not render children components after triggered',
-    ).to.not.contain('Children');
-
-    expect(component.html(), 'does not render a delete button').not.to.contain(
-      'Remove title_attribute',
-    );
-    component.unmount();
+    expect(view.getByText('Children')).to.exist;
+    expect(view.queryByRole('button', { name: /remove/i })).to.not.exist;
   });
 
-  it('renders correctly when delete disabled', () => {
-    const component = enzyme.shallow(
+  it('handles the deletion flow', () => {
+    const onDeleteSpy = sinon.spy();
+    props.onDelete = onDeleteSpy;
+    const view = render(
       <ContactInformationActionButtons {...props}>
         <p>Children</p>
       </ContactInformationActionButtons>,
     );
 
-    expect(component.html(), 'renders children components').to.contain(
-      'Children',
-    );
+    // start the deletion flow
+    userEvent.click(view.getByRole('button', { name: /remove/i }));
+    // make sure the UI has changed
+    expect(view.queryByText('Children')).to.not.exist;
+    expect(view.queryByRole('button', { name: /remove/i })).to.not.exist;
+    expect(view.getByText(/Are you sure/i)).to.exist;
+    expect(view.getByText(/This will delete your title_attribute/i)).to.exist;
 
-    component.setProps({
-      deleteEnabled: false,
-    });
+    // cancel the deletion flow
+    userEvent.click(view.getByRole('button', { name: /cancel/i }));
+    // mke sure the UI has returned to its previous start
+    expect(view.getByText('Children')).to.exist;
+    expect(view.getByRole('button', { name: /remove/i })).to.exist;
+    expect(view.queryByText(/Are you sure/i)).to.not.exist;
 
-    expect(component.html(), 'does not render a delete button').not.to.contain(
-      'Remove title_attribute',
-    );
-    component.unmount();
+    // start the deletion flow again
+    userEvent.click(view.getByRole('button', { name: /remove/i }));
+    // and make sure it works
+    userEvent.click(view.getByRole('button', { name: /confirm/i }));
+    expect(onDeleteSpy.calledOnce).to.be.true;
   });
 });

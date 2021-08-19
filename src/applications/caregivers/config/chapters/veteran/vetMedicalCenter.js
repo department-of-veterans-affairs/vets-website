@@ -1,41 +1,42 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { medicalCentersByState } from 'applications/caregivers/helpers';
 import { states } from 'platform/forms/address';
-import { vetFields } from 'applications/caregivers/definitions/constants';
-import definitions from 'applications/caregivers/definitions/caregiverUI';
+import { veteranFields } from 'applications/caregivers/definitions/constants';
+import {
+  previousTreatmentFacilityUI,
+  veteranPreferredFacility,
+  preferredFacilityView,
+} from 'applications/caregivers/definitions/UIDefinitions/veteranUI';
 
 const plannedClinic = fullSchema.properties.veteran.properties.plannedClinic;
 const lastTreatmentFacility =
   fullSchema.properties.veteran.properties.lastTreatmentFacility;
-const { vetUI } = definitions;
 
 const vetMedicalCenterPage = {
   uiSchema: {
-    [vetFields.previousTreatmentFacility]: vetUI.previousTreatmentFacilityUI,
-    [vetFields.preferredFacilityView]: {
-      ...vetUI[vetFields.preferredFacilityView],
-    },
-    [vetFields.preferredFacilityInfoView]: vetUI.preferredFacilityInfo,
+    [veteranFields.previousTreatmentFacility]: previousTreatmentFacilityUI,
+    [veteranFields.preferredFacilityView]: { ...preferredFacilityView },
+    [veteranFields.preferredFacilityInfoView]: veteranPreferredFacility,
   },
   schema: {
     type: 'object',
     properties: {
-      [vetFields.previousTreatmentFacility]: lastTreatmentFacility,
+      [veteranFields.previousTreatmentFacility]: lastTreatmentFacility,
       // dynamic properties for filtering facilities dropDown
-      [vetFields.preferredFacilityView]: {
+      [veteranFields.preferredFacilityView]: {
         type: 'object',
         required: [
-          vetFields.preferredFacilityStateView,
-          vetFields.plannedClinic,
+          veteranFields.preferredFacilityStateView,
+          veteranFields.plannedClinic,
         ],
         properties: {
-          [vetFields.preferredFacilityStateView]: {
+          [veteranFields.preferredFacilityStateView]: {
             type: 'string',
             enum: states.USA.map(state => state.value).filter(
               state => !!medicalCentersByState[state],
             ),
           },
-          [vetFields.plannedClinic]: Object.assign({}, plannedClinic, {
+          [veteranFields.plannedClinic]: Object.assign({}, plannedClinic, {
             enum: [],
           }),
         },

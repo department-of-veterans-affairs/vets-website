@@ -1,5 +1,5 @@
 import environment from 'platform/utilities/environment';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import PreSubmitInfo from '../containers/PreSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
@@ -59,7 +59,11 @@ const formConfig = {
   confirmation: ConfirmationPage,
   title: 'Apply for VET TEC',
   subTitle: 'Form 22-0994',
-  preSubmitInfo,
+  preSubmitInfo: {
+    CustomComponent: PreSubmitInfo,
+    required: true,
+    field: 'privacyAgreementAccepted',
+  },
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,

@@ -2,25 +2,36 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar";
-@import "../../../platform/forms/sass/m-schemaform";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "../../../platform/forms/sass/m-form-confirmation";
+@import "../../../platform/forms/sass/m-schemaform";
 
-.fsr-introduction {
-  .schemaform-title {
-    margin-bottom: 10px;
-  }
-  .subtitle {
-    margin: 0 0 40px;
-    font-size: 20px;
-  }
-  .alert-button {
-    margin: 25px 0 0;
+// adds spacing to form titles
+#root__title {
+  min-height: 40px;
+}
+
+.schemaform-title > h1 {
+  @include media($small-desktop-screen) {
+    white-space: nowrap;
   }
 }
 
+.form-review-panel-page tr td:last-child {
+  font-weight: inherit;
+}
+
+.schemaform-review-page-warning {
+  margin: 0;
+}
+
 .debt-card {
+  padding: 24px;
+  label {
+    user-select: none;
+  }
   [type="checkbox"]:checked + label::before {
     background-color: $color-white;
     color: $color-primary;
@@ -30,60 +41,77 @@
   }
 }
 
+.selected-debt {
+  border: 4px solid $color-blue;
+  padding: 20px;
+}
+
 .schemaform-subtitle {
   width: 100%;
   margin-top: 10px;
 }
 
-#root__title {
-  height: 35px;
-}
-
 .item-loop-container {
   margin-top: 10px;
-  .item-loop-header legend {
-    margin-top: 30px;
+  table {
+    table-layout: fixed;
   }
   .item-loop {
     padding: 5px 15px 20px;
-    background-color: #f1f1f1;
-    .schemaform-field-container {
+    background-color: $color-gray-lightest;
+    .horizontal-field-container .schemaform-field-container {
       display: flex;
-      flex-wrap: wrap;
-      .schemaform-block-header {
-        width: 100%;
-      }
-      fieldset.schemaform-field-template {
-        margin-top: 5px;
-      }
-      .schemaform-label {
-        margin-top: 0;
-      }
+      align-items: center;
+      margin: 20px 0;
+    }
+    .schemaform-block-header {
+      // title prop required in items schema but should be
+      // hidden in item loop component
+      display: none;
+    }
+    .schemaform-label {
+      margin-top: 0;
+    }
+    .schemaform-field-template {
+      margin-right: 15px;
+    }
+    .autosuggest-list {
+      max-height: 140px;
+      overflow-x: hidden;
     }
     .usa-button-secondary {
-      background: #fff;
+      background: $color-white;
     }
     .button-group {
       display: flex;
-      align-items: center;
+      align-items: baseline;
       justify-content: space-between;
+      min-width: 150px;
+    }
+    .usa-input-error {
+      position: relative;
+      right: 0;
+      margin-top: 0;
+      input {
+        width: 100%;
+      }
     }
   }
   .edit-item-container {
     margin: 5px 0;
     .usa-button-secondary {
-      background: #fff;
+      background: $color-white;
     }
   }
   .add-item-container {
     display: flex;
     flex-direction: column;
-    background-color: #f1f1f1;
+    background-color: $color-gray-lightest;
     padding: 20px 30px 20px;
     margin-top: 20px;
     .add-item-link-section {
       .plus-icon {
-        color: #0071bb;
+        color: $color-light-blue;
         margin-right: 5px;
       }
     }
@@ -103,21 +131,141 @@
     }
   }
   .review-card--body {
-    border: 3px solid #0071bb;
+    border: 3px solid $color-light-blue;
     padding: 25px;
   }
 }
 
-// date-widget
-.usa-date-of-birth {
-  padding: 10px 0;
+// form field subtitle
+.formfield-subtitle {
+  margin: 4px 0 8px;
+  font-size: 15px;
+  max-width: 400px;
+  color: $color-gray-medium;
 }
 
+// bankruptcyHistory
+.court-location label {
+  margin-top: 10px;
+}
+
+// monetary assets
+.assets-note {
+  margin: 15px 0 20px;
+}
+
+// resolution options
+.resolution-options-available .schemaform-block-title {
+  font-size: 20px;
+}
+.resolution-options-debt-title {
+  font-size: 18px;
+}
+.resolution-cards {
+  padding: 0 24px 24px 24px;
+  .form-radio-buttons {
+    position: relative;
+    left: -12px;
+  }
+  .form-expanding-group {
+    .fieldset-input {
+      margin-top: 0;
+    }
+    .form-expanding-group-active-radio {
+      margin-left: 0;
+      label {
+        margin-top: 0;
+        margin-bottom: 10px;
+      }
+      .usa-input-error {
+        margin-top: 0;
+        padding-bottom: 0;
+      }
+    }
+  }
+}
+
+.currency-input {
+  position: relative;
+  &:after {
+    content: "$";
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+  }
+  input {
+    padding-left: 25px;
+  }
+}
+
+.resolution-comments {
+  label {
+    @include media($medium-screen) {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+  }
+  .additional-info-button {
+    margin: 10px 0 20px;
+  }
+}
+
+.repayments {
+  #root__title {
+    height: auto;
+  }
+}
+
+.overview-container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 400px;
+}
+
+.max-width-400 {
+  max-width: 400px;
+}
+
+.no-wrap {
+  @include media($medium-screen) {
+    white-space: nowrap;
+  }
+}
+
+.field-disabled {
+  pointer-events: none;
+  input,
+  select {
+    background-color: $color-gray-lightest;
+    color: $color-gray-lightest;
+  }
+}
+
+.schemaform-sip-save-link {
+  margin: 20px 0;
+}
+
+// confirmation page
+.help-container {
+  padding-bottom: 40px;
+}
+
+// wizard
+.fsr-wizard {
+  .wizard-content {
+    margin: 30px 0;
+    .fieldset-input:first-child {
+      margin-top: 0;
+    }
+  }
+}
+
+// input fields
 .input-size-1 {
   @include media($medium-screen) {
     width: 152px;
     max-width: 152px;
-    margin: 5px 10px 20px 0;
   }
 }
 
@@ -125,15 +273,13 @@
   @include media($medium-screen) {
     width: 173px;
     max-width: 173px;
-    margin: 5px 10px 20px 0;
   }
 }
 
 .input-size-3 {
   @include media($medium-screen) {
-    width: 192px;
-    max-width: 192px;
-    margin: 5px 10px 20px 0;
+    width: 196px;
+    max-width: 196px;
   }
 }
 
@@ -141,7 +287,6 @@
   @include media($medium-screen) {
     width: 215px;
     max-width: 215px;
-    margin: 5px 10px 20px 0;
   }
 }
 
@@ -149,7 +294,6 @@
   @include media($medium-screen) {
     width: 262px;
     max-width: 262px;
-    margin: 5px 10px 20px 0;
   }
 }
 
@@ -157,7 +301,6 @@
   @include media($medium-screen) {
     width: 283px;
     max-width: 283px;
-    margin: 5px 10px 20px 0;
   }
 }
 
@@ -165,6 +308,9 @@
   @include media($medium-screen) {
     width: 332px;
     max-width: 332px;
-    margin: 5px 10px 20px 0;
   }
+}
+
+.email {
+  text-transform: lowercase;
 }

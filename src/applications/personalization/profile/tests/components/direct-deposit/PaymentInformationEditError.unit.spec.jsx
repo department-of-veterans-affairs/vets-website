@@ -271,7 +271,7 @@ describe('<PaymentInformationEditError />', () => {
       />,
     );
     expect(wrapper.html()).to.contain(
-      'We’re sorry. The bank routing number you entered requires additional verification before we can save your information. To use this bank routing number, you’ll need to call us at <span class="no-wrap"><a href="tel:1-800-827-1000">800-827-1000</a></span> (TTY: <a class="no-wrap " href="tel:+1711" aria-label="TTY: 7 1 1.">711</a>). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.',
+      'We’re sorry. The bank routing number you entered requires additional verification before we can save your information. To use this bank routing number, you’ll need to call us at <span class="no-wrap"><a href="tel:1-800-827-1000">800-827-1000</a></span> (TTY: <a class="no-wrap " href="tel:711" aria-label="7 1 1.">711</a>). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.',
     );
     wrapper.unmount();
   });
@@ -283,7 +283,7 @@ describe('<PaymentInformationEditError />', () => {
       />,
     );
     expect(wrapper.html()).to.contain(
-      'We’re sorry. We couldn’t update your direct deposit bank information because your mailing address is missing or invalid. Please go back to <a href="/profile/personal-information">your profile</a> and fill in this required information.',
+      'We’re sorry. We couldn’t update your direct deposit bank information because your mailing address is missing or invalid. Please go back to <a href="/profile/personal-information#edit-mailing-address">your profile</a> and fill in this required information.',
     );
     wrapper.unmount();
   });
@@ -295,7 +295,7 @@ describe('<PaymentInformationEditError />', () => {
       />,
     );
     expect(wrapper.html()).to.contain(
-      'We’re sorry. We couldn’t update your direct deposit bank information because your work phone number is missing or invalid. Please go back to <a href="/profile/personal-information">your profile</a> and fill in this required information.',
+      'We’re sorry. We couldn’t update your direct deposit bank information because your work phone number is missing or invalid. Please go back to <a href="/profile/personal-information#edit-work-phone-number">your profile</a> and fill in this required information.',
     );
     wrapper.unmount();
 
@@ -305,7 +305,7 @@ describe('<PaymentInformationEditError />', () => {
       />,
     );
     expect(wrapper.html()).to.contain(
-      'We’re sorry. We couldn’t update your direct deposit bank information because your home phone number is missing or invalid. Please go back to <a href="/profile/personal-information">your profile</a> and fill in this required information.',
+      'We’re sorry. We couldn’t update your direct deposit bank information because your home phone number is missing or invalid. Please go back to <a href="/profile/personal-information#edit-home-phone-number">your profile</a> and fill in this required information.',
     );
     wrapper.unmount();
   });

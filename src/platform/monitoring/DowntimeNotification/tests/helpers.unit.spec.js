@@ -5,7 +5,6 @@ import {
   mockFetch,
   setFetchJSONResponse,
   setFetchJSONFailure,
-  resetFetch,
 } from 'platform/testing/unit/helpers';
 
 import externalServiceStatus from '../config/externalServiceStatus';
@@ -216,10 +215,6 @@ describe('getMostUrgentDowntime', () => {
 describe('getCurrentGlobalDowntime', () => {
   beforeEach(() => {
     mockFetch();
-  });
-
-  afterEach(() => {
-    resetFetch();
   });
 
   it('returns downtime when in the middle of a downtime', async () => {

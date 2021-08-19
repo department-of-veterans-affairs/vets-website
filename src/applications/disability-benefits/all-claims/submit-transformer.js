@@ -262,6 +262,54 @@ export const stringifyRelatedDisabilities = formData => {
   return clonedData;
 };
 
+export const cleanUpPersonsInvolved = incident => {
+  // We don't want to require any PTSD entries, but EVSS is rejecting any
+  // personsInvolved that don't have a "injuryDeath" type set. So we're
+  // setting blank entries to "other" and adding a generic other description
+  // see https://github.com/department-of-veterans-affairs/va.gov-team/issues/21422
+  const personsInvolved = incident.personsInvolved?.map(
+    person =>
+      person.injuryDeath
+        ? person
+        : {
+            ...person,
+            injuryDeath: 'other',
+            injuryDeathOther: person.injuryDeathOther || 'Entry left blank',
+          },
+  );
+  return {
+    ...incident,
+    personsInvolved,
+  };
+};
+
+// Remove extra data that may be included
+// see https://github.com/department-of-veterans-affairs/va.gov-team/issues/19423
+export const cleanUpMailingAddress = formData => {
+  const validKeys = [
+    'country',
+    'addressLine1',
+    'addressLine2',
+    'addressLine3',
+    'city',
+    'state',
+    'zipCode',
+  ];
+  const mailingAddress = Object.entries(formData.mailingAddress).reduce(
+    (address, [key, value]) => {
+      if (value && validKeys.includes(key)) {
+        return {
+          ...address,
+          [key]: value,
+        };
+      }
+      return address;
+    },
+    {},
+  );
+  return { ...formData, mailingAddress };
+};
+
 export function transform(formConfig, form) {
   // Grab isBDD before things are changed/deleted
   const isBDDForm = isBDD(form.data);
@@ -552,7 +600,7 @@ export function transform(formConfig, form) {
     const incidents = incidentKeys
       .filter(incidentKey => clonedData[incidentKey])
       .map(incidentKey => ({
-        ...clonedData[incidentKey],
+        ...cleanUpPersonsInvolved(clonedData[incidentKey]),
         personalAssault: incidentKey.includes('secondary'),
       }));
     incidentKeys.forEach(incidentKey => {
@@ -632,6 +680,17 @@ export function transform(formConfig, form) {
     });
     return { ...clonedData, ...(attachments.length && { attachments }) };
   };
+
+  const fullyDevelopedClaim = formData => {
+    if (isBDD) {
+      const clonedData = _.cloneDeep(formData);
+      // standardClaim = false means it's a fully developed claim (FDC); but
+      // this value is ignored in the BDD flow unless the submission falls out
+      // of BDD status. Then we want it to be a FDC
+      return { ...clonedData, standardClaim: false };
+    }
+    return formData;
+  };
   // End transformation definitions
 
   // Apply the transformations
@@ -643,6 +702,7 @@ export function transform(formConfig, form) {
     filterRatedViewFields, // Must be run after setActionTypes
     filterServicePeriods,
     removeExtraData, // Removed data EVSS does't want
+    cleanUpMailingAddress,
     addPOWSpecialIssues,
     addPTSDCause,
     addClassificationCodeToNewDisabilities,
@@ -656,6 +716,7 @@ export function transform(formConfig, form) {
     addForm0781,
     addForm8940,
     addFileAttachmments,
+    fullyDevelopedClaim,
   ].reduce(
     (formData, transformer) => transformer(formData),
     _.cloneDeep(form.data),

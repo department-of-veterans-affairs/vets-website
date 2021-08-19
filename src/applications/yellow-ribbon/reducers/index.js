@@ -4,6 +4,7 @@ import {
   FETCH_RESULTS_FAILURE,
   FETCH_RESULTS_SUCCESS,
   TOGGLE_SHOW_MOBILE_FORM,
+  TOGGLE_TOOL_TIP,
 } from '../constants';
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
   perPage: 10,
   results: undefined,
   showMobileForm: true,
+  isToolTipOpen: false,
   totalResults: undefined,
   // For comparing:
   schoolIDs: [],
@@ -41,10 +43,14 @@ export const yellowRibbonReducer = (state = initialState, action) => {
         fetching: false,
         results: action?.response?.results,
         totalResults: action?.response?.totalResults,
+        isToolTipOpen: true,
       };
     }
     case TOGGLE_SHOW_MOBILE_FORM: {
       return { ...state, showMobileForm: !state.showMobileForm };
+    }
+    case TOGGLE_TOOL_TIP: {
+      return { ...state, isToolTipOpen: !state.isToolTipOpen };
     }
     default: {
       return { ...state };

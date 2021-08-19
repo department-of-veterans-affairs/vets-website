@@ -1,8 +1,15 @@
-import { api, resolveParamsWithUrl, urgentCareServices } from '../config';
+import { getAPI, resolveParamsWithUrl } from '../config';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
-import { FacilityType } from '../constants';
+import { facilityLocatorRailsEngine } from '../utils/featureFlagSelectors';
 
 class LocatorApi {
+  static shouldUseRailsEngine() {
+    const reduxStore = require('../facility-locator-entry');
+    return reduxStore
+      ? facilityLocatorRailsEngine(reduxStore.default.getState())
+      : false;
+  }
+
   /**
    * Sends the request to vets-api to query which locations exist within the
    * given bounding box's area and optionally cenetered on the given address.
@@ -24,8 +31,10 @@ class LocatorApi {
     page,
     center,
     radius,
+    allUrgentCare,
   ) {
-    const { params, url } = resolveParamsWithUrl(
+    const reduxStore = require('../facility-locator-entry');
+    const { params, url } = resolveParamsWithUrl({
       address,
       locationType,
       serviceType,
@@ -33,33 +42,15 @@ class LocatorApi {
       bounds,
       center,
       radius,
-    );
+      allUrgentCare,
+      reduxStore,
+    });
+
+    const api = getAPI(this.shouldUseRailsEngine());
     const startTime = new Date().getTime();
     return new Promise((resolve, reject) => {
       fetch(`${url}?${params}`, api.settings)
-        .then(async res => {
-          let response = await res.json();
-          if (
-            locationType === FacilityType.URGENT_CARE &&
-            (!serviceType || serviceType === Object.keys(urgentCareServices)[0])
-          ) {
-            response = {
-              meta: {
-                pagination: {
-                  currentPage: 1,
-                  nextPage: null,
-                  prevPage: null,
-                  totalPages: 1,
-                },
-              },
-              links: {},
-              data: response.included,
-            };
-            return response;
-          } else {
-            return response;
-          }
-        })
+        .then(res => res.json())
         .then(res => {
           const endTime = new Date().getTime();
           res.meta.resultTime = endTime - startTime;
@@ -75,6 +66,7 @@ class LocatorApi {
    * @param {string} id The ID of the Facility
    */
   static fetchVAFacility(id) {
+    const api = getAPI(this.shouldUseRailsEngine());
     const url = `${api.url}/${id}`;
 
     return new Promise((resolve, reject) => {
@@ -90,6 +82,7 @@ class LocatorApi {
    * @param {string} id The ID of the CC Provider
    */
   static fetchProviderDetail(id) {
+    const api = getAPI(this.shouldUseRailsEngine());
     const url = `${api.baseUrl}/ccp/${id}`;
 
     return new Promise((resolve, reject) => {
@@ -103,6 +96,7 @@ class LocatorApi {
    * Get all known specialties available from all CC Providers.
    */
   static getProviderSpecialties() {
+    const api = getAPI(this.shouldUseRailsEngine());
     const url = `${api.baseUrl}/ccp/specialties`;
     return new Promise((resolve, reject) => {
       fetch(url, api.settings)

@@ -29,23 +29,20 @@ import {
   isAnswering781aQuestions,
   isUploading781Form,
   isUploading781aForm,
-  servedAfter911,
   isNotUploadingPrivateMedical,
   hasNewPtsdDisability,
   increaseOnly,
   isDisabilityPtsd,
-  directToCorrectForm,
   DISABILITY_SHARED_CONFIG,
   isBDD,
+  isUploadingSTR,
   showSeparationLocation,
   getPageTitle,
   claimingNew,
 } from '../utils';
 
 import captureEvents from '../analytics-functions';
-
 import prefillTransformer from '../prefill-transformer';
-
 import { transform } from '../submit-transformer';
 
 import { disabilitiesOrientation } from '../content/disabilitiesOrientation';
@@ -78,6 +75,7 @@ import {
   physicalHealthChanges,
   prisonerOfWar,
   privateMedicalRecords,
+  privateMedicalRecordsAttachments,
   privateMedicalRecordsRelease,
   ptsd781aChangesIntro,
   ptsdWalkthroughChoice781,
@@ -89,8 +87,8 @@ import {
   secondaryFinalIncident,
   separationLocation,
   separationPay,
-  servedInCombatZone,
   serviceTreatmentRecords,
+  serviceTreatmentRecordsAttachments,
   socialBehaviorChanges,
   summaryOfDisabilities,
   summaryOfEvidence,
@@ -105,8 +103,6 @@ import {
   workBehaviorChanges,
 } from '../pages';
 
-import { form526BDDFeature } from '../config/selectors';
-
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
 import { ptsd781NameTitle } from '../content/ptsdClassification';
@@ -116,9 +112,14 @@ import { createFormConfig781, createFormConfig781a } from './781';
 
 import createformConfig8940 from './8940';
 
-import { PTSD_INCIDENT_ITERATION, NULL_CONDITION_STRING } from '../constants';
+import {
+  PTSD_INCIDENT_ITERATION,
+  NULL_CONDITION_STRING,
+  WIZARD_STATUS,
+} from '../constants';
 
 import migrations from '../migrations';
+import reviewErrors from '../reviewErrors';
 
 import manifest from '../manifest.json';
 
@@ -143,6 +144,11 @@ const formConfig = {
     ],
   },
   formId: VA_FORM_IDS.FORM_21_526EZ,
+  wizardStorageKey: WIZARD_STATUS,
+  customText: {
+    appAction: 'filing',
+    appContinuing: 'for disability compensation',
+  },
   saveInProgress: {
     messages: {
       inProgress:
@@ -152,7 +158,6 @@ const formConfig = {
       saved: 'Your disability compensation application has been saved.',
     },
   },
-  onFormLoaded: directToCorrectForm,
   version: migrations.length,
   migrations,
   prefillTransformer,
@@ -170,11 +175,14 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
+  // Don't show error links on the review page in production
+  showReviewErrors: !environment.isProduction(),
+  reviewErrors,
   defaultDefinitions: {
     ...fullSchema.definitions,
   },
   title: ({ formData }) => getPageTitle(formData),
-  subTitle: 'Form 21-526EZ',
+  subTitle: 'Equal to VA Form 21-526EZ',
   preSubmitInfo,
   chapters: {
     veteranDetails: {
@@ -201,30 +209,10 @@ const formConfig = {
           onContinue: captureEvents.militaryHistory,
           appStateSelector: state => ({
             dob: state.user.profile.dob,
-            allowBDD: form526BDDFeature(state),
+            isBDD: state.form.data?.['view:isBddData'],
+            servicePeriods:
+              state.form.data?.serviceInformation?.servicePeriods || [],
           }),
-        },
-        separationLocation: {
-          title: 'Separation location',
-          path: 'review-veteran-details/separation-location',
-          depends: showSeparationLocation,
-          uiSchema: separationLocation.uiSchema,
-          schema: separationLocation.schema,
-        },
-        servedInCombatZone: {
-          title: 'Combat status',
-          path: 'review-veteran-details/combat-status',
-          depends: servedAfter911,
-          uiSchema: servedInCombatZone.uiSchema,
-          schema: servedInCombatZone.schema,
-        },
-        claimType: {
-          title: 'Claim type',
-          path: 'claim-type',
-          depends: formData => hasRatedDisabilities(formData),
-          uiSchema: claimType.uiSchema,
-          schema: claimType.schema,
-          onContinue: captureEvents.claimType,
         },
         reservesNationalGuardService: {
           title: 'Reserves and National Guard service',
@@ -242,6 +230,13 @@ const formConfig = {
           depends: form => hasGuardOrReservePeriod(form.serviceInformation),
           uiSchema: federalOrders.uiSchema,
           schema: federalOrders.schema,
+        },
+        separationLocation: {
+          title: 'Separation location',
+          path: 'review-veteran-details/separation-location',
+          depends: showSeparationLocation,
+          uiSchema: separationLocation.uiSchema,
+          schema: separationLocation.schema,
         },
         separationPay: {
           title: 'Separation or severance pay',
@@ -272,6 +267,14 @@ const formConfig = {
     disabilities: {
       title: 'Disabilities', // this probably needs to change
       pages: {
+        claimType: {
+          title: 'Claim type',
+          path: 'claim-type',
+          depends: formData => hasRatedDisabilities(formData),
+          uiSchema: claimType.uiSchema,
+          schema: claimType.schema,
+          onContinue: captureEvents.claimType,
+        },
         disabilitiesOrientation: {
           title: '',
           path: DISABILITY_SHARED_CONFIG.orientation.path,
@@ -295,6 +298,13 @@ const formConfig = {
           uiSchema: addDisabilities.uiSchema,
           schema: addDisabilities.schema,
           updateFormData: addDisabilities.updateFormData,
+          appStateSelector: state => ({
+            // needed for validateDisabilityName to work properly on the review
+            // & submit page. Validation functions are provided the pageData and
+            // not the formData on the review & submit page. For more details
+            // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
+            newDisabilities: state.form?.data?.newDisabilities || [],
+          }),
         },
         followUpDesc: {
           title: 'Follow-up questions',
@@ -483,6 +493,9 @@ const formConfig = {
           depends: formData => !increaseOnly(formData) && !isBDD(formData),
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema,
+          appStateSelector: state => ({
+            serviceInformation: state.form?.data?.serviceInformation,
+          }),
         },
         // Ancillary forms wizard
         ancillaryFormsWizardIntro: {
@@ -567,6 +580,13 @@ const formConfig = {
           uiSchema: serviceTreatmentRecords.uiSchema,
           schema: serviceTreatmentRecords.schema,
         },
+        serviceTreatmentRecordsAttachments: {
+          title: 'Service treatment records upload',
+          path: 'supporting-evidence/service-treatment-records-upload',
+          depends: formData => isUploadingSTR(formData),
+          uiSchema: serviceTreatmentRecordsAttachments.uiSchema,
+          schema: serviceTreatmentRecordsAttachments.schema,
+        },
         evidenceTypes: {
           title: 'Supporting evidence types',
           path: 'supporting-evidence/evidence-types',
@@ -575,7 +595,7 @@ const formConfig = {
           schema: evidenceTypes.schema,
         },
         evidenceTypesBDD: {
-          title: 'Supporting evidence types',
+          title: 'Supporting evidence types for BDD',
           path: 'supporting-evidence/evidence-types-bdd',
           depends: formData => isBDD(formData),
           uiSchema: evidenceTypesBDD.uiSchema,
@@ -594,6 +614,15 @@ const formConfig = {
           depends: hasPrivateEvidence,
           uiSchema: privateMedicalRecords.uiSchema,
           schema: privateMedicalRecords.schema,
+        },
+        privateMedicalRecordsAttachments: {
+          title: 'Private medical records',
+          path: 'supporting-evidence/private-medical-records-upload',
+          depends: formData =>
+            hasPrivateEvidence(formData) &&
+            !isNotUploadingPrivateMedical(formData),
+          uiSchema: privateMedicalRecordsAttachments.uiSchema,
+          schema: privateMedicalRecordsAttachments.schema,
         },
         privateMedicalRecordsRelease: {
           title: 'Private medical records',
@@ -687,6 +716,7 @@ const formConfig = {
           path: 'fully-developed-claim',
           uiSchema: fullyDevelopedClaim.uiSchema,
           schema: fullyDevelopedClaim.schema,
+          depends: formData => !isBDD(formData),
         },
       },
     },

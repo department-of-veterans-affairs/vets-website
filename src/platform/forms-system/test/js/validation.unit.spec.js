@@ -11,6 +11,7 @@ import {
   validateCurrentOrFutureDate,
   validateMatch,
   validateDateRange,
+  validateDateRangeAllowSameMonth,
   validateFileField,
   validateBooleanGroup,
   validateMonthYear,
@@ -18,6 +19,7 @@ import {
   validateAutosuggestOption,
   isValidForm,
 } from '../../src/js/validation';
+import { minYear, maxYear } from '../../src/js/helpers';
 
 describe('Schemaform validations', () => {
   describe('transformErrors', () => {
@@ -252,6 +254,16 @@ describe('Schemaform validations', () => {
 
       expect(errors.addError.callCount).to.equal(1);
     });
+    it('should set message if date is less than min year', () => {
+      const errors = { addError: sinon.spy() };
+      validateDate(errors, `${minYear - 1}-01-01`);
+      expect(errors.addError.callCount).to.equal(1);
+    });
+    it('should set message if date is greater than max year', () => {
+      const errors = { addError: sinon.spy() };
+      validateDate(errors, `${maxYear + 1}-01-01`);
+      expect(errors.addError.callCount).to.equal(1);
+    });
   });
   describe('validateCurrentOrPastDate', () => {
     it('should set message if invalid', () => {
@@ -264,6 +276,16 @@ describe('Schemaform validations', () => {
       expect(errors.addError.callCount).to.equal(1);
       expect(errors.addError.firstCall.args[0]).to.equal(
         'Please provide a valid current or past date',
+      );
+    });
+    it('should set message if invalid', () => {
+      const errors = { addError: sinon.spy() };
+      const pastDate = `${minYear - 1}-01-01`;
+      validateCurrentOrPastDate(errors, pastDate);
+
+      expect(errors.addError.callCount).to.equal(1);
+      expect(errors.addError.firstCall.args[0]).to.equal(
+        `Please enter a year between ${minYear} and ${maxYear}`,
       );
     });
     it('should use custom message', () => {
@@ -362,6 +384,48 @@ describe('Schemaform validations', () => {
     it('should set custom message from config if date range is not valid', () => {
       const errors = { to: { addError: sinon.spy() } };
       validateDateRange(
+        errors,
+        {
+          from: '2014-01-04',
+          to: '2012-01-04',
+        },
+        null,
+        null,
+        { pattern: 'Test message' },
+      );
+
+      expect(errors.to.addError.calledWith('Test message')).to.be.true;
+    });
+  });
+  describe('validateDateRangeAllowSameMonth', () => {
+    it('should not set message if date range is valid', () => {
+      const errors = { to: { addError: sinon.spy() } };
+      validateDateRangeAllowSameMonth(errors, {
+        // the difference from validateDateRange
+        from: '2014-01-XX',
+        to: '2014-01-XX',
+      });
+
+      expect(errors.to.addError.called).to.be.false;
+    });
+    it('should set message if date range is not valid', () => {
+      const errors = { to: { addError: sinon.spy() } };
+      validateDateRangeAllowSameMonth(
+        errors,
+        {
+          from: '2014-01-04',
+          to: '2012-01-04',
+        },
+        null,
+        null,
+        {},
+      );
+
+      expect(errors.to.addError.called).to.be.true;
+    });
+    it('should set custom message from config if date range is not valid', () => {
+      const errors = { to: { addError: sinon.spy() } };
+      validateDateRangeAllowSameMonth(
         errors,
         {
           from: '2014-01-04',
@@ -534,7 +598,14 @@ describe('Schemaform validations', () => {
         },
       ];
 
-      expect(isValidForm(form, pageList).isValid).to.be.true;
+      const result = isValidForm(form, pageList, true);
+
+      expect(result.isValid).to.be.true;
+      expect(result.formData.testArray).to.deep.equal(['test']);
+      // schema is _not_ modified since it isn't an array
+      expect(
+        form.pages.testPage.schema.properties.testArray.items,
+      ).to.deep.equal({ type: 'string' });
     });
     it('should not validate pages where depends is false', () => {
       const form = {
@@ -665,7 +736,24 @@ describe('Schemaform validations', () => {
         },
       ];
 
-      expect(isValidForm(form, pageList).isValid).to.be.true;
+      const result = isValidForm(form, pageList, true);
+
+      expect(result.isValid).to.be.true;
+      expect(result.formData.newDisabilities).to.deep.equal([
+        { cause: 'NEW', primaryDescription: 'while in service...' },
+        { cause: 'SECONDARY' },
+      ]);
+      // schema _is_ modified, PTSD schema entry has been removed
+      expect(
+        form.pages.newDisabilityFollowUp.schema.properties.newDisabilities
+          .items,
+      ).to.deep.equal([
+        {
+          type: 'object',
+          required: ['cause', 'primaryDescription'],
+        },
+        { type: 'object', required: ['cause'] },
+      ]);
     });
   });
   describe('validateMonthYear', () => {

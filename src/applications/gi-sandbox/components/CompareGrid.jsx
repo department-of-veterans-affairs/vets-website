@@ -1,0 +1,177 @@
+import React from 'react';
+import classNames from 'classnames';
+import _ from 'lodash';
+
+export function CompareGrid({
+  className,
+  showDifferences,
+  fieldData,
+  institutions,
+  sectionLabel,
+  smallScreen,
+  subSectionLabel,
+}) {
+  const empties = [];
+
+  for (let i = 0; i < 3 - institutions.length; i++) {
+    empties.push(
+      <div
+        key={i}
+        className={classNames('small-screen:vads-l-col--3', {
+          'empty-field-1': smallScreen,
+        })}
+      >
+        <div className="empty-col" />
+      </div>,
+    );
+  }
+
+  const fieldLabel = (field, index, displayDiff) => {
+    return (
+      <div
+        key={`${index}-label`}
+        className={classNames('field-label', {
+          'small-screen:vads-l-col--3':
+            institutions.length === 3 && !smallScreen,
+          'small-screen:vads-l-col--4':
+            institutions.length === 2 && !smallScreen,
+          'small-screen:vads-l-col--6':
+            institutions.length === 1 && !smallScreen,
+          'small-screen:vads-l-col--12':
+            institutions.length === 0 && !smallScreen,
+          'has-diff': displayDiff,
+        })}
+      >
+        <div
+          className={classNames('label-cell', {
+            first: index === 0,
+            'has-diff': displayDiff,
+          })}
+        >
+          {displayDiff && (
+            <div className="label-diff">
+              <i className={`fas fa-asterisk`} />
+            </div>
+          )}
+          {field.label}
+        </div>
+      </div>
+    );
+  };
+
+  const institutionFieldValue = (
+    field,
+    rowIndex,
+    colIndex,
+    institution,
+    displayDiff,
+  ) => {
+    const valueClassName =
+      typeof field.className === 'function'
+        ? field.className(institution)
+        : field.className;
+
+    return (
+      <div
+        key={institution.facilityCode}
+        className={classNames(
+          'field-value',
+          {
+            'small-screen:vads-l-col--3':
+              institutions.length === 3 && !smallScreen,
+            'small-screen:vads-l-col--4':
+              institutions.length === 2 && !smallScreen,
+            'small-screen:vads-l-col--6':
+              institutions.length === 1 && !smallScreen,
+            'first-row': rowIndex === 0,
+            'first-col': colIndex === 0,
+            'last-col': colIndex === institutions.length - 1,
+            'has-diff': displayDiff,
+          },
+          valueClassName,
+        )}
+      >
+        {field.mapper(institution)}
+      </div>
+    );
+  };
+
+  return (
+    <div className={classNames('compare-grid', className)}>
+      {sectionLabel && (
+        <div className="compare-header-section non-scroll-parent">
+          <div className="non-scroll-label">{sectionLabel}</div>{' '}
+        </div>
+      )}
+      {subSectionLabel && (
+        <div
+          className={classNames('compare-header-subsection non-scroll-parent', {
+            'vads-u-margin-top--4': !sectionLabel,
+          })}
+        >
+          <div className="non-scroll-label">{subSectionLabel}</div>
+        </div>
+      )}
+      <div
+        className={classNames('grid-data-parent', {
+          'vads-l-row': !smallScreen,
+        })}
+      >
+        <div
+          className={classNames({
+            'grid-data-2': empties.length === 1,
+            'grid-data-1': empties.length === 2,
+            'small-screen:vads-l-col--12':
+              institutions.length === 3 && !smallScreen,
+            'small-screen:vads-l-col--9':
+              institutions.length === 2 && !smallScreen,
+            'small-screen:vads-l-col--6':
+              institutions.length === 1 && !smallScreen,
+            'small-screen:vads-l-col--3':
+              institutions.length === 0 && !smallScreen,
+          })}
+        >
+          {fieldData.map((field, index) => {
+            const rowValues = institutions.map(field.mapper);
+
+            let allEqual = true;
+
+            for (let i = 0; i < rowValues.length - 1 && allEqual; i++) {
+              allEqual = _.isEqual(rowValues[i], rowValues[i + 1]);
+            }
+
+            const displayDiff = showDifferences && !allEqual;
+
+            const columns = [fieldLabel(field, index, displayDiff)];
+
+            for (let i = 0; i < institutions.length; i++) {
+              columns.push(
+                institutionFieldValue(
+                  field,
+                  index,
+                  i,
+                  institutions[i],
+                  displayDiff,
+                ),
+              );
+            }
+
+            return (
+              <div
+                key={index}
+                className={classNames({
+                  'columns vads-l-row': !smallScreen,
+                })}
+              >
+                {columns}
+              </div>
+            );
+          })}
+        </div>
+        {empties}
+      </div>
+    </div>
+  );
+}
+
+export default CompareGrid;

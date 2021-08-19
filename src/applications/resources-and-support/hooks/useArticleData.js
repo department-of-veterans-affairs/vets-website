@@ -15,6 +15,7 @@ export default function useArticleData() {
     () => {
       const getJson = async () => {
         try {
+          // This is injected here: src/site/stages/build/plugins/create-resources-and-support-section.js
           const response = await fetch(
             `${baseUrl}/resources/search/articles.json`,
           );

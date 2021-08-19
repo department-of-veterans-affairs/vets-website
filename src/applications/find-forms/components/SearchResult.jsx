@@ -1,10 +1,13 @@
 // Node modules.
 import React from 'react';
-import PropTypes from 'prop-types';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 // Relative imports.
 import * as customPropTypes from '../prop-types';
-import { FORM_MOMENT_DATE_FORMAT } from '../constants';
+import {
+  FORM_MOMENT_PRESENTATION_DATE_FORMAT,
+  FORM_MOMENT_CONSTRUCTOR_DATE_FORMAT,
+} from '../constants';
 import FormTitle from './FormTitle';
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -30,12 +33,16 @@ const deriveLinkPropsFromFormURL = url => {
 
 export const deriveLatestIssue = (d1, d2) => {
   if (!d1 && !d2) return 'N/A';
-  if (!d1) return moment(d2).format(FORM_MOMENT_DATE_FORMAT); // null scenarios
-  if (!d2) return moment(d1).format(FORM_MOMENT_DATE_FORMAT);
+  if (!d1) return moment(d2).format(FORM_MOMENT_PRESENTATION_DATE_FORMAT); // null scenarios
+  if (!d2) return moment(d1).format(FORM_MOMENT_PRESENTATION_DATE_FORMAT);
 
-  if (moment(d1).isAfter(d2)) return moment(d1).format(FORM_MOMENT_DATE_FORMAT);
+  const date1Formatted = moment(d1).format(FORM_MOMENT_CONSTRUCTOR_DATE_FORMAT);
+  const date2Formatted = moment(d2).format(FORM_MOMENT_CONSTRUCTOR_DATE_FORMAT);
 
-  return moment(d2).format(FORM_MOMENT_DATE_FORMAT);
+  if (moment(date1Formatted).isAfter(date2Formatted))
+    return moment(date1Formatted).format(FORM_MOMENT_PRESENTATION_DATE_FORMAT);
+
+  return moment(date2Formatted).format(FORM_MOMENT_PRESENTATION_DATE_FORMAT);
 };
 
 const recordGAEventHelper = ({
@@ -64,10 +71,48 @@ const recordGAEventHelper = ({
     'search-typeahead-enabled': false, // consistently populate with false since there's no type ahead enabled for this search feature
   });
 
+const deriveRelatedTo = ({
+  vaFormAdministration,
+  formType,
+  benefitCategories,
+}) => {
+  let relatedTo = vaFormAdministration;
+
+  if (formType === 'employment') {
+    relatedTo = 'Employment or jobs at VA';
+  }
+  if (formType === 'non-va') {
+    relatedTo = (
+      <>
+        A non-VA form. For other government agency forms, go to the{' '}
+        <a href="https://www.gsa.gov/reference/forms">GSA forms library</a>
+      </>
+    );
+  }
+
+  if (benefitCategories?.length > 0) {
+    relatedTo = benefitCategories.map(f => f.name).join(', ');
+  }
+
+  if (relatedTo) {
+    return (
+      <div className="vads-u-margin-top--1 vads-u-margin-bottom--2">
+        <span className="vads-u-font-weight--bold">Related to:</span>{' '}
+        {relatedTo}
+      </div>
+    );
+  }
+
+  return null;
+};
+
 const SearchResult = ({
+  currentPosition,
   form,
   formMetaInfo,
-  showFindFormsResultsLinkToFormDetailPages,
+  showPDFInfoVersionOne,
+  showPDFInfoVersionTwo,
+  showPDFInfoVersionThree,
 }) => {
   // Escape early if we don't have the necessary form attributes.
   if (!form?.attributes) {
@@ -77,10 +122,13 @@ const SearchResult = ({
   const {
     attributes: {
       firstIssuedOn,
+      formType,
       formToolUrl,
       formDetailsUrl,
+      language,
       lastRevisionOn,
       benefitCategories,
+      vaFormAdministration,
       title,
       url,
     },
@@ -94,36 +142,91 @@ const SearchResult = ({
   const pdfLabel = url.toLowerCase().includes('.pdf') ? '(PDF)' : '';
   const lastRevision = deriveLatestIssue(firstIssuedOn, lastRevisionOn);
 
+  const relatedTo = deriveRelatedTo({
+    vaFormAdministration,
+    formType,
+    benefitCategories,
+  });
+
   const recordGAEvent = (eventTitle, eventUrl, eventType) =>
-    showFindFormsResultsLinkToFormDetailPages &&
     recordGAEventHelper({ ...formMetaInfo, eventTitle, eventUrl, eventType });
 
   return (
-    <>
+    <li>
       <FormTitle
+        currentPosition={currentPosition}
         id={id}
         formUrl={formDetailsUrl}
+        lang={language}
         title={title}
         recordGAEvent={recordGAEvent}
-        showFindFormsResultsLinkToFormDetailPages={
-          showFindFormsResultsLinkToFormDetailPages
-        }
+        showPDFInfoVersionTwo={showPDFInfoVersionTwo}
       />
-
-      <dd className="vads-u-margin-y--1 vads-u-margin-y--1">
-        <dfn className="vads-u-font-weight--bold">Form last updated:</dfn>{' '}
+      <div className="vads-u-margin-y--1 vsa-from-last-updated">
+        <span className="vads-u-font-weight--bold">Form last updated:</span>{' '}
         {lastRevision}
-      </dd>
+      </div>
 
-      {benefitCategories && benefitCategories.length > 0 ? (
-        <dd className="vads-u-margin-y--1 vads-u-margin-y--1">
-          <dfn className="vads-u-font-weight--bold">Related to:</dfn>{' '}
-          {benefitCategories.map(f => f.name).join(', ')}
-        </dd>
+      {relatedTo}
+      {formToolUrl ? (
+        <div
+          className={
+            showPDFInfoVersionThree ? null : 'vads-u-margin-bottom--2p5'
+          }
+        >
+          <a
+            className="find-forms-max-content vads-u-display--flex vads-u-align-items--center vads-u-text-decoration--none"
+            href={formToolUrl}
+            onClick={() =>
+              recordGAEvent(`Go to online tool`, formToolUrl, 'cta')
+            }
+          >
+            <i
+              aria-hidden="true"
+              className="fas fa-chevron-circle-right fa-2x vads-u-margin-right--1"
+              role="presentation"
+            />
+            <span className="vads-u-text-decoration--underline vads-u-font-weight--bold">
+              Go to online tool
+            </span>
+            <span className="vads-u-visibility--screen-reader">
+              for {id} {title}
+            </span>
+          </a>
+        </div>
       ) : null}
-
-      <dd className="vads-u-margin-bottom--1">
+      {showPDFInfoVersionOne && (
+        <div className="find-forms-alert-message vads-u-margin-bottom--2 vads-u-background-color--primary-alt-lightest vads-u-display--flex vads-u-padding-y--4 vads-u-padding-right--7 vads-u-padding-left--3 vads-u-width--full">
+          <i aria-hidden="true" role="img" />
+          <span className="sr-only">Alert: </span>
+          <div>
+            <p className="vads-u-margin-top--0">
+              We recommend that you download PDF forms and open them in Adobe
+              Acrobat Reader
+            </p>
+            <a href="https://www.va.gov/resources/how-to-download-and-open-a-vagov-pdf-form/">
+              Get instructions for opening the form in Acrobat Reader
+            </a>
+          </div>
+        </div>
+      )}
+      {showPDFInfoVersionThree && (
+        <div className="vads-u-margin-bottom--1 vads-u-margin-top--6">
+          <span className="vads-u-margin-top--0 vads-u-margin-right--0p5 vads-u-color--gray-medium">
+            You’ll need to download this form and open it in Adobe Acrobat
+            Reader.
+          </span>
+          <a
+            className="vads-u-display--inline "
+            href="https://www.va.gov/resources/how-to-download-and-open-a-vagov-pdf-form/"
+          >
+            Read More
+          </a>
+        </div>
+      )}
+      <div className="vads-u-margin-bottom--5">
         <a
+          className="find-forms-max-content vads-u-text-decoration--none"
           href={url}
           rel="noreferrer noopener"
           onClick={() =>
@@ -131,34 +234,27 @@ const SearchResult = ({
           }
           {...linkProps}
         >
-          Download VA form {id} {pdfLabel}
+          <i
+            aria-hidden="true"
+            className="fas fa-download fa-lg vads-u-margin-right--1"
+            role="presentation"
+          />
+          <span className="vads-u-text-decoration--underline">
+            Download VA form {id} {pdfLabel}
+          </span>
         </a>
-      </dd>
-
-      {showFindFormsResultsLinkToFormDetailPages && formToolUrl ? (
-        <dd>
-          <a
-            className="usa-button usa-button-secondary vads-u-margin-bottom--3"
-            href={formToolUrl}
-            onClick={() =>
-              recordGAEvent(`Go to online tool`, formToolUrl, 'cta')
-            }
-          >
-            Go to online tool{' '}
-            <span className="vads-u-visibility--screen-reader">
-              for {id} {title}
-            </span>
-          </a>
-        </dd>
-      ) : null}
-    </>
+      </div>
+    </li>
   );
 };
 
 SearchResult.propTypes = {
+  currentPosition: PropTypes.number,
   form: customPropTypes.Form.isRequired,
   formMetaInfo: customPropTypes.FormMetaInfo,
-  showFindFormsResultsLinkToFormDetailPages: PropTypes.bool,
+  showPDFInfoVersionOne: PropTypes.bool,
+  showPDFInfoVersionTwo: PropTypes.bool,
+  showPDFInfoVersionThree: PropTypes.bool,
 };
 
 export default SearchResult;

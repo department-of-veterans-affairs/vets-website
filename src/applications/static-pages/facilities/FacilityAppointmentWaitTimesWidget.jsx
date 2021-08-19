@@ -1,5 +1,5 @@
 import React from 'react';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { formatDateLong } from 'platform/utilities/date';
 import FacilityApiAlert from './FacilityApiAlert';
 import { connect } from 'react-redux';
@@ -40,7 +40,7 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
     }
     const facility = this.props.facility.attributes;
     const service = this.props.service.split('(')[0].toLowerCase();
-    const serviceExists = facility.access.health.find(
+    const serviceExists = facility?.access?.health.find(
       s => s.service && s.service.toLowerCase() === service,
     );
     // check if this health service has a wait time associated with it

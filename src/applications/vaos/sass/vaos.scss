@@ -3,12 +3,13 @@
 @import "../../../platform/forms/sass/m-schemaform";
 
 @import "../new-appointment/sass/styles";
-@import "../express-care/sass/styles";
 @import "../appointment-list/sass/styles";
+@import "../covid-19-vaccine/sass/styles";
 
-$vaos-loading-overlay: rgba($color-white, .9);
+$vaos-loading-overlay: rgba($color-white, 0.9);
 
-.vaos-form__title {
+.vaos-form__title,
+.vaos-u-text-transform--uppercase {
   text-transform: uppercase;
 }
 
@@ -32,7 +33,6 @@ h1:focus {
   z-index: 1000;
 }
 
-
 .vaos__loading-overlay-inner {
   position: relative;
   top: 30%;
@@ -44,5 +44,23 @@ h1:focus {
 
   @include media($medium-screen) {
     top: 40%;
+  }
+}
+
+.vaos__form-button-back {
+  order: 2;
+  width: 100%;
+  @media (min-width: $xsmall-screen) {
+    order: 1;
+    width: auto;
+  }
+}
+
+.vaos__form-button-next {
+  order: 1;
+  width: 100%;
+  @media (min-width: $xsmall-screen) {
+    order: 2;
+    width: auto;
   }
 }

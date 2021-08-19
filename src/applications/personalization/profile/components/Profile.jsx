@@ -3,20 +3,21 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { LastLocationProvider } from 'react-router-last-location';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import DowntimeNotification, {
   externalServices,
   externalServiceStatus,
-} from 'platform/monitoring/DowntimeNotification';
-import DowntimeApproaching from 'platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
+} from '~/platform/monitoring/DowntimeNotification';
+import DowntimeApproaching from '~/platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
 import {
   initializeDowntimeWarnings,
   dismissDowntimeWarning,
-} from 'platform/monitoring/DowntimeNotification/actions';
+} from '~/platform/monitoring/DowntimeNotification/actions';
 
-import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
-import backendServices from 'platform/user/profile/constants/backendServices';
+import RequiredLoginView, {
+  RequiredLoginLoader,
+} from '~/platform/user/authorization/components/RequiredLoginView';
+import backendServices from '~/platform/user/profile/constants/backendServices';
 import {
   createIsServiceAvailableSelector,
   isMultifactorEnabled,
@@ -25,8 +26,8 @@ import {
   isLOA3 as isLOA3Selector,
   isInMPI as isInMVISelector,
   isLoggedIn,
-} from 'platform/user/selectors';
-import { fetchMHVAccount as fetchMHVAccountAction } from 'platform/user/profile/actions';
+} from '~/platform/user/selectors';
+import { fetchMHVAccount as fetchMHVAccountAction } from '~/platform/user/profile/actions';
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
@@ -39,12 +40,15 @@ import {
   cnpDirectDepositIsSetUp,
   eduDirectDepositInformation,
   eduDirectDepositIsSetUp,
-  showDirectDepositV2,
+  showNotificationSettings,
 } from '@@profile/selectors';
 import {
   fetchCNPPaymentInformation as fetchCNPPaymentInformationAction,
   fetchEDUPaymentInformation as fetchEDUPaymentInformationAction,
 } from '@@profile/actions/paymentInformation';
+
+import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
+
 import getRoutes from '../routes';
 import { PROFILE_PATHS } from '../constants';
 
@@ -53,21 +57,29 @@ import ProfileWrapper from './ProfileWrapper';
 class Profile extends Component {
   componentDidMount() {
     const {
+      fetchCNPPaymentInformation,
+      fetchEDUPaymentInformation,
       fetchFullName,
       fetchMHVAccount,
       fetchMilitaryInformation,
       fetchPersonalInformation,
-      fetchCNPPaymentInformation,
-      fetchEDUPaymentInformation,
+      fetchTotalDisabilityRating,
+      isLOA3,
       shouldFetchCNPDirectDepositInformation,
+      shouldFetchTotalDisabilityRating,
       shouldFetchEDUDirectDepositInformation,
     } = this.props;
     fetchMHVAccount();
-    fetchFullName();
-    fetchPersonalInformation();
-    fetchMilitaryInformation();
+    if (isLOA3) {
+      fetchFullName();
+      fetchPersonalInformation();
+      fetchMilitaryInformation();
+    }
     if (shouldFetchCNPDirectDepositInformation) {
       fetchCNPPaymentInformation();
+    }
+    if (shouldFetchTotalDisabilityRating) {
+      fetchTotalDisabilityRating();
     }
     if (shouldFetchEDUDirectDepositInformation) {
       fetchEDUPaymentInformation();
@@ -75,17 +87,40 @@ class Profile extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (
-      this.props.shouldFetchCNPDirectDepositInformation &&
-      !prevProps.shouldFetchCNPDirectDepositInformation
-    ) {
-      this.props.fetchCNPPaymentInformation();
+    const {
+      fetchCNPPaymentInformation,
+      fetchEDUPaymentInformation,
+      fetchFullName,
+      fetchMilitaryInformation,
+      fetchPersonalInformation,
+      fetchTotalDisabilityRating,
+      isLOA3,
+      shouldFetchCNPDirectDepositInformation,
+      shouldFetchEDUDirectDepositInformation,
+      shouldFetchTotalDisabilityRating,
+    } = this.props;
+    if (isLOA3 && !prevProps.isLOA3) {
+      fetchFullName();
+      fetchPersonalInformation();
+      fetchMilitaryInformation();
     }
     if (
-      this.props.shouldFetchEDUDirectDepositInformation &&
+      shouldFetchTotalDisabilityRating &&
+      !prevProps.shouldFetchTotalDisabilityRating
+    ) {
+      fetchTotalDisabilityRating();
+    }
+    if (
+      shouldFetchCNPDirectDepositInformation &&
+      !prevProps.shouldFetchCNPDirectDepositInformation
+    ) {
+      fetchCNPPaymentInformation();
+    }
+    if (
+      shouldFetchEDUDirectDepositInformation &&
       !prevProps.shouldFetchEDUDirectDepositInformation
     ) {
-      this.props.fetchEDUPaymentInformation();
+      fetchEDUPaymentInformation();
     }
   }
 
@@ -115,20 +150,11 @@ class Profile extends Component {
     return children;
   };
 
-  // content to show if the component is waiting for data to load. This loader
-  // matches the loader shown by the RequiredLoginView component, so when the
-  // RequiredLoginView is done with its loading and this function takes over, it
-  // appears seamless to the user.
-  loadingContent = () => (
-    <div className="vads-u-margin-y--5">
-      <LoadingIndicator setFocus message="Loading your information..." />
-    </div>
-  );
-
   // content to show after data has loaded
   mainContent = () => {
     const routesOptions = {
       removeDirectDeposit: !this.props.shouldShowDirectDeposit,
+      removeNotificationSettings: !this.props.shouldShowNotificationSettings,
     };
 
     // We need to pass in a config to hide forbidden routes
@@ -139,8 +165,9 @@ class Profile extends Component {
         <LastLocationProvider>
           <ProfileWrapper
             routes={routes}
-            isLOA3={this.props.isLOA3}
             isInMVI={this.props.isInMVI}
+            isLOA3={this.props.isLOA3}
+            showUpdatedNameTag={this.props.shouldFetchTotalDisabilityRating}
           >
             <Switch>
               {/* Redirect users to Account Security to upgrade their account if they need to */}
@@ -181,6 +208,7 @@ class Profile extends Component {
               />
 
               {/* fallback handling: redirect to root route */}
+              {/* Should we consider making a 404 page for this instead? */}
               <Route path="*">
                 <Redirect to={PROFILE_PATHS.PROFILE_ROOT} />
               </Route>
@@ -193,7 +221,7 @@ class Profile extends Component {
 
   renderContent = () => {
     if (this.props.showLoader) {
-      return this.loadingContent();
+      return <RequiredLoginLoader />;
     }
     return this.mainContent();
   };
@@ -207,7 +235,7 @@ class Profile extends Component {
         <DowntimeNotification
           appTitle="profile"
           render={this.handleDowntimeApproaching}
-          loadingIndicator={this.loadingContent()}
+          loadingIndicator={<RequiredLoginLoader />}
           dependencies={[
             externalServices.emis,
             externalServices.evss,
@@ -247,17 +275,20 @@ const mapStateToProps = state => {
   const isCNPDirectDepositBlocked = cnpDirectDepositIsBlocked(state);
   const isEligibleToSetUpCNP = cnpDirectDepositAddressIsSetUp(state);
   const is2faEnabled = isMultifactorEnabled(state);
+
   const shouldFetchCNPDirectDepositInformation =
     isEvssAvailable && is2faEnabled;
-  const shouldFetchEDUDirectDepositInformation =
-    !!showDirectDepositV2(state) && is2faEnabled;
+  const shouldFetchEDUDirectDepositInformation = is2faEnabled;
   const currentlyLoggedIn = isLoggedIn(state);
   const isLOA1 = isLOA1Selector(state);
   const isLOA3 = isLOA3Selector(state);
 
+  const shouldFetchTotalDisabilityRating = isLOA3;
+
   // this piece of state will be set if the call to load military info succeeds
   // or fails:
-  const hasLoadedMilitaryInformation = state.vaProfile?.militaryInformation;
+  const hasLoadedMilitaryInformation =
+    isLOA1 || state.vaProfile?.militaryInformation;
 
   // when the call to load MHV fails, `errors` will be set to a non-null value
   // when the call succeeds, the `accountState` will be set to a non-null value
@@ -267,11 +298,12 @@ const mapStateToProps = state => {
 
   // this piece of state will be set if the call to load personal info succeeds
   // or fails:
-  const hasLoadedPersonalInformation = state.vaProfile?.personalInformation;
+  const hasLoadedPersonalInformation =
+    isLOA1 || state.vaProfile?.personalInformation;
 
   // this piece of state will be set if the call to load name info succeeds or
   // fails:
-  const hasLoadedFullName = state.vaProfile?.hero;
+  const hasLoadedFullName = isLOA1 || state.vaProfile?.hero;
 
   // this piece of state will be set if the call to load name info succeeds or
   // fails:
@@ -279,11 +311,17 @@ const mapStateToProps = state => {
 
   const hasLoadedEDUPaymentInformation = eduDirectDepositInformation(state);
 
+  const hasLoadedTotalDisabilityRating =
+    state.totalRating && !state.totalRating.loading;
+
   const hasLoadedAllData =
     hasLoadedFullName &&
     hasLoadedMHVInformation &&
     hasLoadedPersonalInformation &&
     hasLoadedMilitaryInformation &&
+    (shouldFetchTotalDisabilityRating
+      ? hasLoadedTotalDisabilityRating
+      : true) &&
     (shouldFetchCNPDirectDepositInformation
       ? hasLoadedCNPPaymentInformation
       : true) &&
@@ -312,7 +350,9 @@ const mapStateToProps = state => {
     isLOA3,
     shouldFetchCNPDirectDepositInformation,
     shouldFetchEDUDirectDepositInformation,
+    shouldFetchTotalDisabilityRating,
     shouldShowDirectDeposit: shouldShowDirectDeposit(),
+    shouldShowNotificationSettings: showNotificationSettings(state),
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',
     ),
@@ -326,6 +366,7 @@ const mapDispatchToProps = {
   fetchPersonalInformation: fetchPersonalInformationAction,
   fetchCNPPaymentInformation: fetchCNPPaymentInformationAction,
   fetchEDUPaymentInformation: fetchEDUPaymentInformationAction,
+  fetchTotalDisabilityRating: fetchTotalDisabilityRatingAction,
   initializeDowntimeWarnings,
   dismissDowntimeWarning,
 };

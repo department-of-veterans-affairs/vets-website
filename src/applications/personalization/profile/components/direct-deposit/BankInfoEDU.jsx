@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import { Prompt } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 import recordEvent from '~/platform/monitoring/record-event';
+import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
 import { isLOA3 as isLOA3Selector } from '~/platform/user/selectors';
 import { usePrevious } from '~/platform/utilities/react-hooks';
@@ -21,13 +22,17 @@ import {
   eduDirectDepositAccountInformation,
   eduDirectDepositInformation,
   eduDirectDepositIsSetUp,
+  eduDirectDepositLoadError,
   eduDirectDepositUiState as directDepositUiStateSelector,
 } from '@@profile/selectors';
 
-import BankInfoForm from './BankInfoForm';
+import DirectDepositConnectionError from '../alerts/DirectDepositConnectionError';
+
+import BankInfoForm, { makeFormProperties } from './BankInfoForm';
 
 import PaymentInformationEditError from './PaymentInformationEditError';
 import ProfileInfoTable from '../ProfileInfoTable';
+import { benefitTypes } from './DirectDeposit';
 
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 
@@ -35,11 +40,14 @@ export const DirectDepositEDU = ({
   isLOA3,
   isDirectDepositSetUp,
   directDepositAccountInfo,
+  directDepositServerError,
   directDepositUiState,
   saveBankInformation,
   toggleEditState,
 }) => {
+  const formPrefix = 'EDU';
   const editBankInfoButton = useRef();
+  const editBankInfoForm = useRef();
   const [formData, setFormData] = useState({});
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
   const wasEditingBankInfo = usePrevious(directDepositUiState.isEditing);
@@ -47,12 +55,29 @@ export const DirectDepositEDU = ({
   const isEditingBankInfo = directDepositUiState.isEditing;
   const saveError = directDepositUiState.responseError;
 
-  const { accountNumber, accountType, routingNumber } = formData;
-  const isEmptyForm = !accountNumber && !accountType && !routingNumber;
+  const { accountNumber, accountType, routingNumber } = makeFormProperties(
+    formPrefix,
+  );
+
+  const {
+    [accountNumber]: formAccountNumber,
+    [accountType]: formAccountType,
+    [routingNumber]: formRoutingNumber,
+  } = formData;
+  const isEmptyForm =
+    !formAccountNumber && !formAccountType && !formRoutingNumber;
 
   // when we enter and exit edit mode...
   useEffect(
     () => {
+      if (isEditingBankInfo && !wasEditingBankInfo) {
+        const focusableElement = editBankInfoForm.current?.querySelector(
+          'button, input, select, a, textarea',
+        );
+        if (focusableElement) {
+          focusableElement.focus();
+        }
+      }
       if (wasEditingBankInfo && !isEditingBankInfo) {
         // clear the form data when exiting edit mode so it's blank when the
         // edit form is shown again
@@ -79,36 +104,20 @@ export const DirectDepositEDU = ({
 
   const saveBankInfo = () => {
     const payload = {
-      financialInstitutionRoutingNumber: formData.routingNumber,
-      accountNumber: formData.accountNumber,
-      accountType: formData.accountType,
+      financialInstitutionRoutingNumber: formData[routingNumber],
+      accountNumber: formData[accountNumber],
+      accountType: formData[accountType],
     };
     saveBankInformation(payload);
   };
 
-  const bankInfoClasses = prefixUtilityClasses(
-    [
-      'display--flex',
-      'align-items--flex-start',
-      'flex-direction--row',
-      'justify-content--space-between',
-    ],
-    'medium',
-  );
-
   const editButtonClasses = [
-    'va-button-link',
-    ...prefixUtilityClasses(['margin-top--1p5']),
+    'usa-button-secondary',
+    ...prefixUtilityClasses(['margin--0', 'margin-top--1p5']),
   ];
 
-  const editButtonClassesMedium = prefixUtilityClasses(
-    ['flex--auto', 'margin-top--0'],
-    'medium',
-  );
-
   const classes = {
-    bankInfo: [...bankInfoClasses].join(' '),
-    editButton: [...editButtonClasses, ...editButtonClassesMedium].join(' '),
+    editButton: editButtonClasses.join(' '),
   };
 
   const closeDDForm = () => {
@@ -122,7 +131,7 @@ export const DirectDepositEDU = ({
 
   // When direct deposit is set up we will show the current bank info
   const bankInfoContent = (
-    <div className={classes.bankInfo}>
+    <div>
       <dl className="vads-u-margin-y--0 vads-u-line-height--6">
         <dt className="sr-only">Bank name:</dt>
         <dd>{directDepositAccountInfo?.financialInstitutionName}</dd>
@@ -164,6 +173,13 @@ export const DirectDepositEDU = ({
           target="_blank"
           rel="noopener noreferrer"
           href="https://www.va.gov/education/eligibility/"
+          onClick={() => {
+            recordEvent({
+              event: 'profile-navigation',
+              'profile-action': 'view-link',
+              'profile-section': 'education-benefits',
+            });
+          }}
         >
           Find out if you’re eligible for VA education benefits
         </a>
@@ -175,11 +191,12 @@ export const DirectDepositEDU = ({
   // information
   const editingBankInfoContent = (
     <>
-      <div id="errors" role="alert" aria-atomic="true">
+      <div id="edu-bank-save-errors" role="alert" aria-atomic="true">
         {!!saveError && (
           <PaymentInformationEditError
-            responseError={saveError}
             className="vads-u-margin-top--0 vads-u-margin-bottom--2"
+            level={4}
+            responseError={saveError}
           />
         )}
       </div>
@@ -189,20 +206,69 @@ export const DirectDepositEDU = ({
       </p>
       <div className="vads-u-margin-bottom--2">
         <AdditionalInfo triggerText="Where can I find these numbers?">
-          <img
-            src="/img/direct-deposit-check-guide.png"
-            alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
-          />
+          <figure
+            className="vads-u-margin-x--0"
+            role="figure"
+            aria-labelledby="check-caption"
+          >
+            {/* eslint-disable jsx-a11y/no-redundant-roles */}
+            <img
+              src="/img/direct-deposit-check-guide.svg"
+              role="img"
+              alt="A personal check"
+            />
+            {/* eslint-enable jsx-a11y/no-redundant-roles */}
+            <figcaption
+              id="check-caption"
+              className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-width--auto vads-u-color--gray-dark"
+            >
+              <p>
+                The bank routing number is the first 9 digits on the bottom left
+                corner of a printed check. Your account number is the second set
+                of numbers on the bottom of a check, just to the right of the
+                bank routing number.
+              </p>
+              <p>If you don’t have a printed check, you can:</p>
+              <ul>
+                <li>
+                  Sign in to your online bank account and check your account
+                  details, or
+                </li>
+                <li>Check your bank statement, or</li>
+                <li>Call your bank</li>
+              </ul>
+            </figcaption>
+          </figure>
         </AdditionalInfo>
       </div>
-      <BankInfoForm
-        formChange={data => setFormData(data)}
-        formData={formData}
-        formSubmit={saveBankInfo}
-        isSaving={directDepositUiState.isSaving}
-        onClose={closeDDForm}
-        cancelButtonClasses={['va-button-link', 'vads-u-margin-left--1']}
-      />
+      <div data-testid={`${formPrefix}-bank-info-form`} ref={editBankInfoForm}>
+        <BankInfoForm
+          formChange={data => setFormData(data)}
+          formData={formData}
+          formPrefix={formPrefix}
+          formSubmit={saveBankInfo}
+        >
+          <LoadingButton
+            aria-label="update your bank information for education benefits"
+            type="submit"
+            loadingText="saving bank information"
+            className="usa-button-primary vads-u-margin-top--0 medium-screen:vads-u-width--auto"
+            isLoading={directDepositUiState.isSaving}
+          >
+            Update
+          </LoadingButton>
+          <button
+            aria-label="cancel updating your bank information for education benefits"
+            type="button"
+            disabled={directDepositUiState.isSaving}
+            className="usa-button-secondary small-screen:vads-u-margin-top--0"
+            onClick={closeDDForm}
+            data-qa="cancel-button"
+          >
+            Cancel
+          </button>
+        </BankInfoForm>
+      </div>
     </>
   );
 
@@ -234,6 +300,10 @@ export const DirectDepositEDU = ({
   // serves as another layer of protection.
   if (!isLOA3) {
     return null;
+  }
+
+  if (directDepositServerError) {
+    return <DirectDepositConnectionError benefitType={benefitTypes.EDU} />;
   }
 
   return (
@@ -275,6 +345,7 @@ export const DirectDepositEDU = ({
         className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
         title="Education benefits"
         data={directDepositData()}
+        level={2}
       />
     </>
   );
@@ -289,6 +360,7 @@ DirectDepositEDU.propTypes = {
     financialInstitutionRoutingNumber: PropTypes.string.isRequired,
   }),
   isDirectDepositSetUp: PropTypes.bool.isRequired,
+  directDepositServerError: PropTypes.bool.isRequired,
   directDepositUiState: PropTypes.shape({
     isEditing: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
@@ -303,6 +375,7 @@ export const mapStateToProps = state => ({
   directDepositAccountInfo: eduDirectDepositAccountInformation(state),
   directDepositInfo: eduDirectDepositInformation(state),
   isDirectDepositSetUp: eduDirectDepositIsSetUp(state),
+  directDepositServerError: !!eduDirectDepositLoadError(state),
   directDepositUiState: directDepositUiStateSelector(state),
 });
 

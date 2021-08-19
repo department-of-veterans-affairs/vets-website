@@ -1,12 +1,17 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../../components/FormButtons';
 import { FACILITY_TYPES } from '../../utils/constants';
-import * as actions from '../redux/actions';
 import { getFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import {
+  openFormPage,
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+  updateFormData,
+} from '../redux/actions';
 
 const initialSchema = {
   type: 'object',
@@ -54,18 +59,15 @@ const uiSchema = {
 const pageKey = 'typeOfFacility';
 const pageTitle = 'Choose where you want to receive your care';
 
-function TypeOfFacilityPage({
-  schema,
-  data,
-  openFormPage,
-  updateFormData,
-  routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage,
-  pageChangeInProgress,
-}) {
+export default function TypeOfFacilityPage() {
+  const dispatch = useDispatch();
+  const { schema, data, pageChangeInProgress } = useSelector(
+    state => getFormPageInfo(state, pageKey),
+    shallowEqual,
+  );
   const history = useHistory();
   useEffect(() => {
-    openFormPage(pageKey, uiSchema, initialSchema);
+    dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
   }, []);
@@ -79,12 +81,18 @@ function TypeOfFacilityPage({
           title="Type of appointment"
           schema={schema}
           uiSchema={uiSchema}
-          onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
-          onChange={newData => updateFormData(pageKey, uiSchema, newData)}
+          onSubmit={() =>
+            dispatch(routeToNextAppointmentPage(history, pageKey))
+          }
+          onChange={newData =>
+            dispatch(updateFormData(pageKey, uiSchema, newData))
+          }
           data={data}
         >
           <FormButtons
-            onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
+            onBack={() =>
+              dispatch(routeToPreviousAppointmentPage(history, pageKey))
+            }
             pageChangeInProgress={pageChangeInProgress}
             loadingText="Page change in progress"
           />
@@ -93,19 +101,3 @@ function TypeOfFacilityPage({
     </div>
   );
 }
-
-function mapStateToProps(state) {
-  return getFormPageInfo(state, pageKey);
-}
-
-const mapDispatchToProps = {
-  openFormPage: actions.openFormPage,
-  updateFormData: actions.updateFormData,
-  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(TypeOfFacilityPage);

@@ -2,7 +2,8 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import _ from 'lodash/fp';
+import cloneDeep from 'platform/utilities/data/cloneDeep';
+import set from 'platform/utilities/data/set';
 
 import { YourClaimsPageV2 } from '../../containers/YourClaimsPageV2';
 
@@ -12,6 +13,7 @@ describe('<YourClaimsPageV2>', () => {
     canAccessAppeals: true,
     claimsLoading: false,
     appealsLoading: false,
+    stemClaimsLoading: false,
     loading: false,
     appealsAvailable: 'AVAILABLE',
     claimsAvailable: 'AVAILABLE',
@@ -33,26 +35,28 @@ describe('<YourClaimsPageV2>', () => {
     consolidatedModal: false,
     getClaimsV2: sinon.spy(),
     getAppealsV2: sinon.spy(),
+    getStemClaims: sinon.spy(),
   };
 
   it('should render', () => {
-    const wrapper = shallow(<YourClaimsPageV2 />);
+    const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
     expect(wrapper.type()).to.equal('div');
     wrapper.unmount();
   });
 
-  it('should render a loading indicator if both requests loading', () => {
-    const props = _.cloneDeep(defaultProps);
+  it('should render a loading indicator if all requests loading', () => {
+    const props = cloneDeep(defaultProps);
     props.appealsLoading = true;
     props.claimsLoading = true;
+    props.stemClaimsLoading = true;
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('LoadingIndicator').length).to.equal(1);
     wrapper.unmount();
   });
 
   it('should render a loading indicator if one list empty and other loading', () => {
-    const props = _.cloneDeep(defaultProps);
-    props.appealsLoading = true;
+    const props = cloneDeep(defaultProps);
+    props.stemClaimsLoading = true;
     props.list = [];
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('LoadingIndicator').length).to.equal(1);
@@ -67,7 +71,7 @@ describe('<YourClaimsPageV2>', () => {
   });
 
   it('should render a closed claim message if show30DayNotice is true', () => {
-    const props = _.set('show30DayNotice', true, defaultProps);
+    const props = set('show30DayNotice', true, defaultProps);
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('ClosedClaimMessage').length).to.equal(1);
     wrapper.unmount();
@@ -80,7 +84,7 @@ describe('<YourClaimsPageV2>', () => {
   });
 
   it('should render a no claims message when no claims or appeals present', () => {
-    const props = _.cloneDeep(defaultProps);
+    const props = cloneDeep(defaultProps);
     props.list = [];
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('NoClaims').length).to.equal(1);
@@ -88,7 +92,7 @@ describe('<YourClaimsPageV2>', () => {
   });
 
   it('should not render error messages if appeals are loading', () => {
-    const props = _.set('appealsLoading', true, defaultProps);
+    const props = set('appealsLoading', true, defaultProps);
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('ClaimsAppealsUnavailable').length).to.equal(0);
     expect(wrapper.find('ClaimsUnavailable').length).to.equal(0);
@@ -97,7 +101,7 @@ describe('<YourClaimsPageV2>', () => {
   });
 
   it('should not render error messages if claims are loading', () => {
-    const props = _.set('claimsLoading', true, defaultProps);
+    const props = set('claimsLoading', true, defaultProps);
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('ClaimsAppealsUnavailable').length).to.equal(0);
     expect(wrapper.find('ClaimsUnavailable').length).to.equal(0);
@@ -112,14 +116,14 @@ describe('<YourClaimsPageV2>', () => {
   });
 
   it('should render claims unavailable when claims are unavailable', () => {
-    const props = _.set('claimsAvailable', false, defaultProps);
+    const props = set('claimsAvailable', false, defaultProps);
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('ClaimsUnavailable').length).to.equal(1);
     wrapper.unmount();
   });
 
   it('should render appeals unavailable when appeals are unavailable', () => {
-    const props = _.set('appealsAvailable', false, defaultProps);
+    const props = set('appealsAvailable', false, defaultProps);
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('AppealsUnavailable').length).to.equal(1);
     wrapper.unmount();
@@ -129,7 +133,7 @@ describe('<YourClaimsPageV2>', () => {
   //  since the logic to show / hide the modal is in the parent component.
   it('should call `showConsolidatedMessage` when the relevant button is clicked', () => {
     const messageSpy = sinon.spy();
-    const props = _.set('showConsolidatedMessage', messageSpy, defaultProps);
+    const props = set('showConsolidatedMessage', messageSpy, defaultProps);
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     wrapper
       .find('.claims-combined')
@@ -151,7 +155,7 @@ describe('<YourClaimsPageV2>', () => {
   });
 
   it('should render 30 day notice', () => {
-    const props = _.set('show30DayNotice', true, defaultProps);
+    const props = set('show30DayNotice', true, defaultProps);
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('ClosedClaimMessage').length).to.equal(1);
     wrapper.unmount();

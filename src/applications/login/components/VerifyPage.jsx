@@ -1,5 +1,4 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import recordEvent from 'platform/monitoring/record-event';
 import {
@@ -9,7 +8,7 @@ import {
   verify,
 } from 'platform/user/authentication/utilities';
 
-function handleClick(version) {
+function handleClick(version = 'v1') {
   // For first-time users attempting to navigate to My VA Health, The user must
   // be LOA3. If they aren't, they will get directed to verify here,
   // with a valid redirect URL already in sessionStorage. In that case,
@@ -27,28 +26,22 @@ function handleClick(version) {
 export default function VerifyPage() {
   return (
     <div className="row">
-      <AlertBox
-        content={
-          <div>
-            <h4 className="usa-alert-heading">
-              Please verify your identity before continuing to My VA Health
-            </h4>
-            <p>
-              We take your privacy seriously, and we’re committed to protecting
-              your information. You’ll need to verify your identity before we
-              can give you access to your personal health information.
-            </p>
-            <button
-              onClick={() => handleClick('v1')}
-              className="usa-button-primary va-button-primary"
-            >
-              Verify your identity
-            </button>
-          </div>
-        }
-        isVisible
-        status="continue"
-      />
+      <va-alert visible status="continue">
+        <h4 slot="headline" className="usa-alert-heading">
+          Please verify your identity before continuing to My VA Health
+        </h4>
+        <p>
+          We take your privacy seriously, and we’re committed to protecting your
+          information. You’ll need to verify your identity before we can give
+          you access to your personal health information.
+        </p>
+        <button
+          onClick={() => handleClick('v1')}
+          className="usa-button-primary va-button-primary"
+        >
+          Verify your identity
+        </button>
+      </va-alert>
     </div>
   );
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import Telephone, {
   CONTACTS,
   PATTERNS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 import { links } from 'applications/caregivers/definitions/content';
 
 const NeedHelpFooter = () => {
@@ -14,17 +14,18 @@ const NeedHelpFooter = () => {
           contact={CONTACTS.CAREGIVER}
           className="vads-u-margin-left--0p5"
         />
-        . We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+        . We’re here Monday through Friday, 8:00 a.m. to 10:00 p.m. ET, and
+        Saturday, 8:00 a.m. to 5:00 p.m. ET.
       </p>
 
       <p>
-        You can also call our main VA information line at
+        You can also call
         <Telephone
           contact={CONTACTS.HEALTHCARE_ELIGIBILITY_CENTER}
           className="vads-u-margin-x--0p5"
         />
-        if you have questions about completing your application, or you can
-        contact your local Caregiver Support Coordinator.
+        if you have questions about completing your application, or contact your
+        local Caregiver Support Coordinator.
       </p>
 
       <span>
@@ -39,7 +40,7 @@ const NeedHelpFooter = () => {
       </span>
 
       <p>
-        If this form isn't working right for you, please call us at at
+        If this form isn't working right for you, please call us at
         <Telephone
           contact={CONTACTS.HELP_DESK}
           className="vads-u-margin-left--0p5"

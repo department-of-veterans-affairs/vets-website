@@ -4,7 +4,7 @@ import FormQuestion from './FormQuestion';
 import FormResult from './FormResult';
 import recordEvent from 'platform/monitoring/record-event';
 import moment from 'moment';
-import { isEqual } from 'lodash/fp';
+import { isEqual } from 'lodash';
 import {
   getEnabledQuestions,
   checkFormStatus,
@@ -16,6 +16,7 @@ export default function MultiQuestionForm({
   defaultOptions,
   customId,
   selectedLanguage,
+  passFormResultsColors,
 }) {
   const [formState, setFormState] = useState({
     status: 'incomplete',
@@ -128,7 +129,11 @@ export default function MultiQuestionForm({
     // state and then use it where it is needed.
     <div>
       {formQuestions}
-      <FormResult formState={formState} selectedLanguage={selectedLanguage} />
+      <FormResult
+        formState={formState}
+        selectedLanguage={selectedLanguage}
+        passFormResultsColors={passFormResultsColors}
+      />
     </div>
   );
 }

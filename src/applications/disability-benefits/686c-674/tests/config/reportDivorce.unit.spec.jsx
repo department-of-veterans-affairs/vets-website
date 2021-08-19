@@ -38,7 +38,7 @@ describe('686 report a divorce', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(10);
+    expect(form.find('input').length).to.equal(12);
     form.unmount();
   });
 

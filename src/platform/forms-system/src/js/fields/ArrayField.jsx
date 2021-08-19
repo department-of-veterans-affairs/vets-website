@@ -13,6 +13,7 @@ import {
 import { scrollToFirstError } from '../utilities/ui';
 import { setArrayRecordTouched } from '../helpers';
 import { errorSchemaIsValid } from '../validation';
+import { isReactComponent } from '../../../../utilities/ui';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -23,7 +24,7 @@ export default class ArrayField extends React.Component {
     super(props);
 
     // Throw an error if there’s no viewField (should be React component)
-    if (typeof this.props.uiSchema['ui:options'].viewField !== 'function') {
+    if (!isReactComponent(this.props.uiSchema['ui:options'].viewField)) {
       throw new Error(
         `No viewField found in uiSchema for ArrayField ${
           this.props.idSchema.$id
@@ -221,9 +222,10 @@ export default class ArrayField extends React.Component {
     const description = uiSchema['ui:description'];
     const textDescription =
       typeof description === 'string' ? description : null;
-    const DescriptionField =
-      typeof description === 'function' ? uiSchema['ui:description'] : null;
-    const isReviewMode = uiSchema['ui:options'].reviewMode;
+    const DescriptionField = isReactComponent(description)
+      ? uiSchema['ui:description']
+      : null;
+    const isReviewMode = uiOptions.reviewMode;
     const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
 
     // if we have form data, use that, otherwise use an array with a single default object
@@ -250,9 +252,7 @@ export default class ArrayField extends React.Component {
               />
             ) : null}
             {textDescription && <p>{textDescription}</p>}
-            {DescriptionField && (
-              <DescriptionField options={uiSchema['ui:options']} />
-            )}
+            {DescriptionField && <DescriptionField options={uiOptions} />}
             {!textDescription && !DescriptionField && description}
           </div>
         )}
@@ -267,10 +267,15 @@ export default class ArrayField extends React.Component {
               itemIdPrefix,
               definitions,
             );
-            const showSave = uiSchema['ui:options'].showSave;
+            const showSave = uiOptions.showSave;
             const updateText = showSave && index === 0 ? 'Save' : 'Update';
             const isLast = items.length === index + 1;
             const isEditing = this.state.editing[index];
+            const ariaLabel = uiOptions.itemAriaLabel;
+            const itemName =
+              (typeof ariaLabel === 'function' && ariaLabel(item || {})) ||
+              uiOptions.itemName ||
+              'Item';
             const notLastOrMultipleRows =
               showSave || !isLast || items.length > 1;
 
@@ -285,12 +290,8 @@ export default class ArrayField extends React.Component {
                   <Element name={`table_${itemIdPrefix}`} />
                   <div className="row small-collapse">
                     <div className="small-12 columns va-growable-expanded">
-                      {isLast &&
-                      items.length > 1 &&
-                      uiSchema['ui:options'].itemName ? (
-                        <h3 className="vads-u-font-size--h5">
-                          New {uiSchema['ui:options'].itemName}
-                        </h3>
+                      {isLast && items.length > 1 ? (
+                        <h3 className="vads-u-font-size--h5">New {itemName}</h3>
                       ) : null}
                       <div className="input-section">
                         <SchemaField
@@ -315,9 +316,10 @@ export default class ArrayField extends React.Component {
                           <div className="small-6 left columns">
                             {(!isLast || showSave) && (
                               <button
+                                type="button"
                                 className="float-left"
+                                aria-label={`${updateText} ${itemName}`}
                                 onClick={() => this.handleUpdate(index)}
-                                aria-label={`${updateText} ${title}`}
                               >
                                 {updateText}
                               </button>
@@ -326,8 +328,9 @@ export default class ArrayField extends React.Component {
                           <div className="small-6 right columns">
                             {index !== 0 && (
                               <button
-                                className="usa-button-secondary float-right"
                                 type="button"
+                                className="usa-button-secondary float-right"
+                                aria-label={`Remove ${itemName}`}
                                 onClick={() => this.handleRemove(index)}
                               >
                                 Remove
@@ -351,9 +354,10 @@ export default class ArrayField extends React.Component {
                     />
                   </div>
                   <button
+                    type="button"
                     className="usa-button-secondary edit vads-u-flex--auto"
+                    aria-label={`Edit ${itemName}`}
                     onClick={() => this.handleEdit(index)}
-                    aria-label={`Edit ${title}`}
                   >
                     Edit
                   </button>

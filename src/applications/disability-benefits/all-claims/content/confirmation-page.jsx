@@ -1,8 +1,8 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { capitalizeEachWord, formatDate } from '../utils';
 import {
@@ -23,33 +23,29 @@ const template = (props, title, content, submissionMessage, messageType) => {
     : 'Disability Compensation Claim';
 
   const renderableContent =
-    typeof content === 'string' && content !== '' ? <p>{content}</p> : content;
-
-  const alertBox = (
-    <AlertBox
-      isVisible
-      headline={title}
-      content={renderableContent}
-      status={messageType}
-    />
-  );
+    typeof content === 'string' && content !== '' ? (
+      <p className="vads-u-font-size--base vads-u-margin-top--0">{content}</p>
+    ) : (
+      content
+    );
 
   const backButtonContent = (
     <div className="row form-progress-buttons schemaform-back-buttons">
       <div className="small-6 usa-width-one-half columns">
-        <a href="/">
-          <button className="usa-button-primary">Go back to VA.gov</button>
-        </a>
+        <a href="/">Go back to VA.gov</a>
       </div>
     </div>
   );
 
   if (messageType === 'error') {
     return (
-      <div>
-        {alertBox}
+      <>
+        <va-alert visible status={messageType}>
+          <h2 slot="headline">{title}</h2>
+          {renderableContent}
+        </va-alert>
         {backButtonContent}
-      </div>
+      </>
     );
   }
 
@@ -64,30 +60,22 @@ const template = (props, title, content, submissionMessage, messageType) => {
         <h2>{pageTitle}</h2>
       </div>
 
-      <AlertBox
-        isVisible
-        headline={title}
-        content={renderableContent}
-        status={messageType}
-      />
+      <va-alert visible status={messageType}>
+        <h2 slot="headline">{title}</h2>
+        {renderableContent}
+      </va-alert>
 
-      {props.areConfirmationEmailTogglesOn ? (
-        <h2 className="vads-u-font-size--h5" id="note-email">
-          We'll send you an email to confirm that we received your claim.{' '}
-          <span className="screen-only">
-            You can also print this page for your records.
-          </span>
-        </h2>
-      ) : (
-        <h2 className="vads-u-font-size--h5 screen-only" id="note-print">
-          Please print this page for your records.
-        </h2>
-      )}
+      <h2 className="vads-u-font-size--h5" id="note-email">
+        We’ll send you an email to confirm that we received your claim.{' '}
+        <span className="screen-only">
+          You can also print this page for your records.
+        </span>
+      </h2>
 
       <div className="inset">
-        <h3 className="vads-u-font-size--h4">
+        <h2 className="vads-u-font-size--h4">
           {pageTitle} <span className="additional">(Form 21-526EZ)</span>
-        </h3>
+        </h2>
         <span>
           For {first} {middle} {last} {suffix}
         </span>
@@ -121,9 +109,9 @@ const template = (props, title, content, submissionMessage, messageType) => {
       </div>
 
       <div className="confirmation-guidance-container">
-        <h3 className="confirmation-guidance-heading vads-u-font-size--h4">
+        <h2 className="confirmation-guidance-heading vads-u-font-size--h4">
           How long will it take VA to make a decision on my claim?
-        </h3>
+        </h2>
         <p className="confirmation-guidance-message">
           We process applications in the order we receive them. The amount of
           time it takes us to review you claim depends on:
@@ -141,9 +129,9 @@ const template = (props, title, content, submissionMessage, messageType) => {
           </li>
         </ul>
 
-        <h3 className="confirmation-guidance-heading vads-u-font-size--h4">
+        <h2 className="confirmation-guidance-heading vads-u-font-size--h4">
           How can I check the status of my claim?
-        </h3>
+        </h2>
         <p className="confirmation-guidance-message">
           You can check the status of your claim online. Please allow 24 hours
           for your disability claim to show up there. If you don’t see your
@@ -155,9 +143,9 @@ const template = (props, title, content, submissionMessage, messageType) => {
           <a href="/track-claims">Check the status of your claim</a>
         </p>
 
-        <h3 className="confirmation-guidance-heading vads-u-font-size--h4">
+        <h2 className="confirmation-guidance-heading vads-u-font-size--h4">
           What happens after I file a claim for disability compensation?
-        </h3>
+        </h2>
         <p className="confirmation-guidance-message">
           <a href="/disability/after-you-file-claim/">
             Learn more about what happens after you file a disability claim
@@ -175,15 +163,15 @@ export const retryableErrorContent = props =>
     props,
     "It's taking us longer than expected to submit your claim.",
     <div>
-      <p>
-        This delay should be resolved within a few hours. We'll keep trying to
+      <p className="vads-u-font-size--base">
+        This delay should be resolved within a few hours. We’ll keep trying to
         submit your claim. You can check the status of your claim online after
         24 hours.
       </p>
-      <p>
+      <p className="vads-u-font-size--base">
         <a href="/track-claims">Check the status of your claim</a>
       </p>
-      <p>
+      <p className="vads-u-font-size--base">
         <strong>
           If you don’t see your disability claim online after 24 hours,
         </strong>{' '}
@@ -206,18 +194,22 @@ export const successfulSubmitContent = props =>
     'success',
   );
 
-export const submitErrorContent = props =>
-  template(
+export const submitErrorContent = props => {
+  const submissionIdContent = props.submissionId
+    ? ` and provide this refernce number ${props.submissionId}`
+    : '';
+
+  return template(
     props,
     'We’re sorry. Something went wrong when we tried to submit your claim.',
     <div>
       <h4>For help submitting your claim:</h4>
-      <ul>
+      <ul className="vads-u-font-size--base">
         <li>
           Please call Veterans Benefits Assistance at{' '}
           <Telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
-          8:00 a.m. to 9:00 p.m. ET and provide this reference number{' '}
-          {props.submissionId}, <strong>or</strong>
+          8:00 a.m. to 9:00 p.m. ET
+          {submissionIdContent}, <strong>or</strong>
         </li>
         <li>
           Get in touch with your nearest Veterans Service Officer (VSO).{' '}
@@ -230,3 +222,4 @@ export const submitErrorContent = props =>
     errorMessage(),
     'error',
   );
+};

@@ -74,8 +74,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryRequired": "No",
-            "patientHistoryDuration": 0,
             "stopCodes": [
               {
                 "primary": "211"
@@ -308,8 +306,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryRequired": "No",
-            "patientHistoryDuration": 0,
             "stopCodes": [
               {
                 "primary": "211"
@@ -384,7 +380,6 @@
           {
             "id": "502",
             "typeOfCare": "Outpatient Mental Health",
-            "patientHistoryRequired": "No",
             "patientHistoryDuration": 0,
             "stopCodes": [
               {
@@ -540,7 +535,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryDuration": 0,
             "stopCodes": [
               {
                 "primary": "211"
@@ -771,8 +765,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryRequired": "No",
-            "patientHistoryDuration": 0,
             "stopCodes": [
               {
                 "primary": "211"
@@ -849,7 +841,6 @@
           {
             "id": "502",
             "typeOfCare": "Outpatient Mental Health",
-            "patientHistoryRequired": "No",
             "patientHistoryDuration": 0,
             "stopCodes": [
               {
@@ -978,6 +969,7 @@
           {
             "id": "143",
             "typeOfCare": "Sleep Medicine – Home Sleep Testing",
+            "patientHistoryRequired": "No",
             "patientHistoryDuration": 0,
             "stopCodes": [
               {
@@ -1005,7 +997,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryDuration": 0,
             "stopCodes": [
               {
                 "primary": "211"
@@ -1158,7 +1149,7 @@
             "enterpriseSubmittedRequestLimit": 2
           },
           {
-            "id": "301",
+            "id": "covid",
             "typeOfCare": "Vaccines",
             "patientHistoryRequired": "No",
             "stopCodes": [
@@ -1262,7 +1253,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryDuration": 0,
             "stopCodes": [
               {
                 "primary": "211"
@@ -1395,6 +1385,22 @@
             ],
             "canCancel": true,
             "submittedRequestLimit": 2,
+            "enterpriseSubmittedRequestLimit": 2
+          },
+          {
+            "id": "covid",
+            "typeOfCare": "Vaccines",
+            "patientHistoryRequired": "No",
+            "stopCodes": [
+              {
+                "primary": "301"
+              },
+              {
+                "secondary": "715"
+              }
+            ],
+            "canCancel": true,
+            "submittedRequestLimit": 0,
             "enterpriseSubmittedRequestLimit": 2
           },
           {
@@ -1488,7 +1494,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryDuration": 0,
             "stopCodes": [
               {
                 "primary": "211"
@@ -1635,6 +1640,22 @@
             ],
             "canCancel": true,
             "submittedRequestLimit": 2,
+            "enterpriseSubmittedRequestLimit": 2
+          },
+          {
+            "id": "301",
+            "typeOfCare": "Vaccines",
+            "patientHistoryRequired": "No",
+            "stopCodes": [
+              {
+                "primary": "301"
+              },
+              {
+                "secondary": "715"
+              }
+            ],
+            "canCancel": true,
+            "submittedRequestLimit": 0,
             "enterpriseSubmittedRequestLimit": 2
           }
         ],
@@ -1712,7 +1733,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryDuration": 0,
             "stopCodes": [
               {
                 "primary": "211"
@@ -1860,6 +1880,22 @@
             "canCancel": true,
             "submittedRequestLimit": 2,
             "enterpriseSubmittedRequestLimit": 2
+          },
+          {
+            "id": "301",
+            "typeOfCare": "Vaccines",
+            "patientHistoryRequired": "No",
+            "stopCodes": [
+              {
+                "primary": "301"
+              },
+              {
+                "secondary": "715"
+              }
+            ],
+            "canCancel": true,
+            "submittedRequestLimit": 0,
+            "enterpriseSubmittedRequestLimit": 2
           }
         ],
         "objectType": null,
@@ -1936,7 +1972,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryDuration": 0,
             "stopCodes": [
               {
                 "primary": "211"
@@ -2085,6 +2120,22 @@
             "canCancel": true,
             "submittedRequestLimit": 2,
             "enterpriseSubmittedRequestLimit": 2
+          },
+          {
+            "id": "301",
+            "typeOfCare": "Vaccines",
+            "patientHistoryRequired": "No",
+            "stopCodes": [
+              {
+                "primary": "301"
+              },
+              {
+                "secondary": "715"
+              }
+            ],
+            "canCancel": true,
+            "submittedRequestLimit": 0,
+            "enterpriseSubmittedRequestLimit": 2
           }
         ],
         "objectType": null,
@@ -2161,7 +2212,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryDuration": 0,
             "stopCodes": [
               {
                 "primary": "211"
@@ -2309,6 +2359,22 @@
             "canCancel": true,
             "submittedRequestLimit": 2,
             "enterpriseSubmittedRequestLimit": 2
+          },
+          {
+            "id": "301",
+            "typeOfCare": "Vaccines",
+            "patientHistoryRequired": "No",
+            "stopCodes": [
+              {
+                "primary": "301"
+              },
+              {
+                "secondary": "715"
+              }
+            ],
+            "canCancel": true,
+            "submittedRequestLimit": 0,
+            "enterpriseSubmittedRequestLimit": 2
           }
         ],
         "objectType": null,
@@ -2385,7 +2451,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryDuration": 0,
             "stopCodes": [
               {
                 "primary": "211"

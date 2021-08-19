@@ -1,14 +1,65 @@
 import path from 'path';
 
-import testForm from 'platform/testing/e2e/cypress/support/form-tester';
-import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import formConfig from 'applications/caregivers/config/form';
 import manifest from 'applications/caregivers/manifest.json';
+import testForm from 'platform/testing/e2e/cypress/support/form-tester';
+import featureToggles from './fixtures/mocks/feature-toggles.json';
+import mockUpload from './fixtures/mocks/mock-upload.json';
+import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
+import {
+  veteranSignatureContent,
+  primaryCaregiverContent,
+  secondaryCaregiverContent,
+  veteranLabel,
+  primaryLabel,
+  secondaryOneLabel,
+  secondaryTwoLabel,
+  representativeLabel,
+  representativeSignatureContent,
+} from 'applications/caregivers/definitions/content';
 
-const veteranLabel = `Veteran\u2019s`;
-const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
-const secondaryOneLabel = `Secondary Family Caregiver applicant\u2019s`;
-const secondaryTwoLabel = `Secondary Family Caregiver (2) applicant\u2019s`;
+export const mockVeteranSignatureContent = [
+  'I certify that I give consent to the individual(s) named in this application to perform personal care services for me upon being approved as Primary and/or Secondary Family Caregivers in the Program of Comprehensive Assistance for Family Caregivers.',
+];
+export const mockRepresentativeSignatureContent = [
+  'Signed by the Veteran’s legal representative on behalf of the Veteran.',
+  'I certify that I give consent to the individual(s) named in this application to perform personal care services for me (or if the Veteran’s Representative, the Veteran) upon being approved as a Primary and/or Secondary Family Caregiver(s) in the Program of Comprehensive Assistance for Family Caregivers.',
+];
+export const mockPrimaryCaregiverContent = [
+  'I certify that I am at least 18 years of age.',
+  'I certify that either: (1) I am a member of the Veteran\u2019s family (including a parent, spouse, a son or daughter, a step-family member, or an extended family member) OR (2) I am not a member of the Veteran\u2019s family, and I reside with the Veteran full-time or will do so upon designation as the Veteran\u2019s Primary Family Caregiver.',
+  'I agree to perform personal care services as the Primary Family Caregiver for the Veteran named on this application.',
+  'I understand that the Veteran or the Veteran\u2019s surrogate may request my discharge from the Program of Comprehensive Assistance for Family Caregivers (PCAFC) at any time and that my designation as a Primary Family Caregiver may be revoked or I may be discharged from PCAFC by the Secretary of Veterans Affairs (or designee) as set forth in 38 CFR 71.45.',
+  'I understand that participation in the PCAFC does not create an employment relationship between me and the Department of Veterans Affairs.',
+];
+export const mockSecondaryCaregiverContent = [
+  'I certify that I am at least 18 years of age.',
+  'I certify that either: (1) I am a member of the Veteran\u2019s family (including a parent, spouse, a son or daughter, a step-family member, or an extended family member) OR (2) I am not a member of the Veteran\u2019s family, and I reside with the Veteran full-time or will do so upon designation as the Veteran\u2019s Secondary Family Caregiver.',
+  'I agree to perform personal care services as the Secondary Family Caregiver for the Veteran named on this application.',
+  'I understand that the Veteran or the Veteran\u2019s surrogate may request my discharge from the Program of Comprehensive Assistance for Family Caregivers (PCAFC) at any time and that my designation as a Secondary Family Caregiver may be revoked or I may be discharged from PCAFC by the Secretary of Veterans Affairs (or designee) as set forth in 38 CFR 71.45.',
+  'I understand that participation in the PCAFC does not create an employment relationship between me and the Department of Veterans Affairs.',
+];
+
+const checkContent = (partyLabel, content, mockContent) => {
+  content.forEach((contentItem, idx) => {
+    cy.get(`[data-testid="${partyLabel}"]`)
+      .contains(contentItem, { matchCase: true })
+      .should(signatureParagraph =>
+        expect(signatureParagraph[0].innerText).to.eq(mockContent[idx]),
+      );
+  });
+};
+
+const signAsParty = (partyLabel, signature) => {
+  cy.findByTestId(partyLabel)
+    .find('input')
+    .first()
+    .type(signature);
+
+  cy.findByTestId(partyLabel)
+    .find('[type="checkbox"]')
+    .check();
+};
 
 const testSecondaryTwo = createTestConfig(
   {
@@ -18,6 +69,9 @@ const testSecondaryTwo = createTestConfig(
       'secondaryOneOnly',
       'oneSecondaryCaregivers',
       'twoSecondaryCaregivers',
+      'signAsRepresentativeNoRep',
+      'signAsRepresentativeNo',
+      'signAsRepresentativeYes',
     ],
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
@@ -25,12 +79,14 @@ const testSecondaryTwo = createTestConfig(
     },
 
     setupPerTest: () => {
-      cy.route('GET', '/v0/feature_toggles?*', 'fx:mocks/feature-toggles');
+      cy.server();
+      cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
+      cy.intercept('POST', 'v0/form1010cg/attachments', mockUpload);
     },
     pageHooks: {
       introduction: () => {
         // Hit the start button
-        cy.findAllByText(/start/i, { selector: 'button' })
+        cy.findAllByText(/start/i, { selector: 'a' })
           .first()
           .click();
       },
@@ -38,117 +94,116 @@ const testSecondaryTwo = createTestConfig(
         cy.get('@testKey').then(testKey => {
           switch (testKey) {
             case 'secondaryOneOnly':
-              // sign signature as veteran
-              cy.findByTestId(veteranLabel)
-                .find('input')
-                .first()
-                .type('Micky Mouse');
+              // Check veteran content && sign
+              checkContent(
+                veteranLabel,
+                veteranSignatureContent,
+                mockVeteranSignatureContent,
+              );
+              signAsParty(veteranLabel, 'Micky Mouse');
 
-              cy.findByTestId(veteranLabel)
-                .find('[type="checkbox"]')
-                .check();
+              // check secondary caregiver content && sign
+              checkContent(
+                secondaryOneLabel,
+                secondaryCaregiverContent,
+                mockSecondaryCaregiverContent,
+              );
+              signAsParty(secondaryOneLabel, 'George Geef Goofus');
 
-              // sign signature as secondaryOne caregiver
-              cy.findByTestId(secondaryOneLabel)
-                .find('input')
-                .first()
-                .type('George Geef Goofus');
-
-              cy.findByTestId(secondaryOneLabel)
-                .find('[type="checkbox"]')
-                .check();
               break;
             case 'oneSecondaryCaregivers':
-              // sign signature as veteran
-              cy.findByTestId(veteranLabel)
-                .find('input')
-                .first()
-                .type('Micky Mouse');
+              // check veteran content && sign
+              checkContent(
+                veteranLabel,
+                veteranSignatureContent,
+                mockVeteranSignatureContent,
+              );
+              signAsParty(veteranLabel, 'Micky Mouse');
 
-              cy.findByTestId(veteranLabel)
-                .find('[type="checkbox"]')
-                .check();
+              // Check primary caregiver content && sign
+              checkContent(
+                primaryLabel,
+                primaryCaregiverContent,
+                mockPrimaryCaregiverContent,
+              );
+              signAsParty(primaryLabel, 'Mini Mouse');
 
-              // sign signature as primary caregiver
-              cy.findByTestId(primaryLabel)
-                .find('input')
-                .first()
-                .type('Mini Mouse');
+              // Check secondaryOne caregiver content && sign
+              checkContent(
+                secondaryOneLabel,
+                secondaryCaregiverContent,
+                mockSecondaryCaregiverContent,
+              );
+              signAsParty(secondaryOneLabel, 'George Geef Goofus');
 
-              cy.findByTestId(primaryLabel)
-                .find('[type="checkbox"]')
-                .check();
-
-              // sign signature as secondaryOne caregiver
-              cy.findByTestId(secondaryOneLabel)
-                .find('input')
-                .first()
-                .type('George Geef Goofus');
-
-              cy.findByTestId(secondaryOneLabel)
-                .find('[type="checkbox"]')
-                .check();
               break;
             case 'twoSecondaryCaregivers':
-              cy.findByTestId(veteranLabel)
-                .find('input')
-                .first()
-                .type('Micky Mouse');
+              // check veteran content && sign
+              checkContent(
+                veteranLabel,
+                veteranSignatureContent,
+                mockVeteranSignatureContent,
+              );
+              signAsParty(veteranLabel, 'Micky Mouse');
 
-              cy.findByTestId(veteranLabel)
-                .find('[type="checkbox"]')
-                .check();
+              // Check primary caregiver content && sign
+              checkContent(
+                primaryLabel,
+                primaryCaregiverContent,
+                mockPrimaryCaregiverContent,
+              );
+              signAsParty(primaryLabel, 'Mini Mouse');
 
-              // sign signature as primary caregiver
-              cy.findByTestId(primaryLabel)
-                .find('input')
-                .first()
-                .type('Mini Mouse');
+              // Check secondaryOne caregiver content && sign
+              checkContent(
+                secondaryOneLabel,
+                secondaryCaregiverContent,
+                mockSecondaryCaregiverContent,
+              );
+              signAsParty(secondaryOneLabel, 'George Geef Goofus');
 
-              cy.findByTestId(primaryLabel)
-                .find('[type="checkbox"]')
-                .check();
+              // Check secondaryTwo caregiver content && sign
+              checkContent(
+                secondaryTwoLabel,
+                secondaryCaregiverContent,
+                mockSecondaryCaregiverContent,
+              );
+              signAsParty(secondaryTwoLabel, 'Donald Duck');
+              break;
+            case 'signAsRepresentativeYes':
+            case 'signAsRepresentativeNoRep':
+              // check veteran content && sign as representative
+              checkContent(
+                representativeLabel,
+                representativeSignatureContent,
+                mockRepresentativeSignatureContent,
+              );
+              signAsParty(representativeLabel, 'Mini Mouse');
 
-              // sign signature as secondaryOne caregiver
-              cy.findByTestId(secondaryOneLabel)
-                .find('input')
-                .first()
-                .type('George Geef Goofus');
-
-              cy.findByTestId(secondaryOneLabel)
-                .find('[type="checkbox"]')
-                .check();
-
-              // sign signature as secondaryTwo caregiver
-              cy.findByTestId(secondaryTwoLabel)
-                .find('input')
-                .first()
-                .type('Donald Duck');
-
-              cy.findByTestId(secondaryTwoLabel)
-                .find('[type="checkbox"]')
-                .check();
+              // Check primary caregiver && sign
+              checkContent(
+                primaryLabel,
+                primaryCaregiverContent,
+                mockPrimaryCaregiverContent,
+              );
+              signAsParty(primaryLabel, 'Mini Mouse');
               break;
             default:
-              cy.findByTestId(veteranLabel)
-                .find('input')
-                .first()
-                .type('Micky Mouse');
+              // check veteran content && sign
+              checkContent(
+                veteranLabel,
+                veteranSignatureContent,
+                mockVeteranSignatureContent,
+              );
+              signAsParty(veteranLabel, 'Micky Mouse');
 
-              // check  checkbox as a veteran
-              cy.findByTestId(veteranLabel)
-                .find('[type="checkbox"]')
-                .check();
-
-              // sign signature as primary caregiver
-              cy.findByTestId(primaryLabel)
-                .find('input')
-                .first()
-                .type('Mini Mouse');
-
-              cy.findByTestId(primaryLabel)
-                .find('[type="checkbox"]')
-                .check();
+              // Check primary caregiver && sign
+              checkContent(
+                primaryLabel,
+                primaryCaregiverContent,
+                mockPrimaryCaregiverContent,
+              );
+              signAsParty(primaryLabel, 'Mini Mouse');
               break;
           }
         });

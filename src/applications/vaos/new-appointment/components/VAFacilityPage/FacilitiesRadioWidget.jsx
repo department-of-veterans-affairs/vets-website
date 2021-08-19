@@ -1,6 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { FACILITY_SORT_METHODS } from '../../../utils/constants';
+import { shallowEqual, useSelector } from 'react-redux';
+import { getCernerURL } from 'platform/utilities/cerner';
+import Select from '@department-of-veterans-affairs/component-library/Select';
+import { selectFacilitiesRadioWidget } from '../../redux/selectors';
+import State from '../../../components/State';
+import InfoAlert from '../../../components/InfoAlert';
+import NewTabAnchor from '../../../components/NewTabAnchor';
+import {
+  FACILITY_SORT_METHODS,
+  FETCH_STATUS,
+  GA_PREFIX,
+} from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import { isCernerLocation } from '../../../services/location';
+import recordEvent from 'platform/monitoring/record-event';
 
 const INITIAL_FACILITY_DISPLAY_COUNT = 5;
 
@@ -10,14 +23,29 @@ const INITIAL_FACILITY_DISPLAY_COUNT = 5;
  * form system.
  */
 export default function FacilitiesRadioWidget({
+  id,
   options,
   value,
   onChange,
   formContext,
 }) {
-  const { loadingEligibility, sortMethod } = formContext;
+  const {
+    cernerSiteIds,
+    requestLocationStatus,
+    showVariant,
+    sortMethod,
+    loadingEligibility,
+  } = useSelector(state => selectFacilitiesRadioWidget(state), shallowEqual);
+  const { hasUserAddress, sortOptions, updateFacilitySortMethod } = formContext;
   const { enumOptions } = options;
   const selectedIndex = enumOptions.findIndex(o => o.value === value);
+  const sortedByText = sortMethod
+    ? sortOptions.find(type => type.value === sortMethod).label
+    : sortOptions[0].label;
+  const requestingLocationFailed =
+    requestLocationStatus === FETCH_STATUS.failed;
+  const variantRequestingLocationFailed =
+    showVariant && requestingLocationFailed;
 
   // If user has already selected a value, and the index of that value is > 4,
   // show this view already expanded
@@ -37,61 +65,116 @@ export default function FacilitiesRadioWidget({
   useEffect(
     () => {
       if (displayedOptions.length > INITIAL_FACILITY_DISPLAY_COUNT) {
-        scrollAndFocus(
-          `#${
-            enumOptions[INITIAL_FACILITY_DISPLAY_COUNT].label.id
-          }_${INITIAL_FACILITY_DISPLAY_COUNT + 1}`,
-        );
+        scrollAndFocus(`#${id}_${INITIAL_FACILITY_DISPLAY_COUNT + 1}`);
       }
     },
     [displayedOptions.length, displayAll],
   );
 
   return (
-    <div>
-      {displayedOptions.map((option, i) => {
-        const { id, name, address, legacyVAR } = option?.label;
-        const checked = option.value === value;
-        let distance;
-
-        if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
-          distance = legacyVAR?.distanceFromResidentialAddress;
-        } else if (
-          sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation
-        ) {
-          distance = legacyVAR?.distanceFromCurrentLocation;
-        }
-        const facilityPosition = i + 1;
-
-        return (
-          <div className="form-radio-buttons" key={option.value}>
-            <input
-              type="radio"
-              checked={checked}
-              id={`${id}_${facilityPosition}`}
-              name={`${id}`}
-              value={option.value}
-              onChange={_ => onChange(option.value)}
-              disabled={loadingEligibility}
+    <div className="vads-u-margin-top--3">
+      <div aria-live="assertive" className="sr-only">
+        Showing VA facilities sorted {sortedByText}
+      </div>
+      {showVariant && (
+        <>
+          <div className="vads-u-margin-bottom--3">
+            <Select
+              label="Sort facilities"
+              name="sort"
+              onValueChange={type => {
+                recordEvent({
+                  event: `${GA_PREFIX}-variant-method-${type.value}`,
+                });
+                updateFacilitySortMethod(type.value);
+              }}
+              options={hasUserAddress ? sortOptions : sortOptions.slice(1)}
+              value={{ dirty: false, value: sortMethod }}
+              includeBlankOption={false}
             />
-            <label htmlFor={`${id}_${facilityPosition}`}>
-              <span className="vads-u-display--block vads-u-font-weight--bold">
-                {name}
-              </span>
-              <span className="vads-u-display--block vads-u-font-size--sm">
-                {address?.city}, {address?.state}
-              </span>
-              {!!distance && (
-                <span className="vads-u-display--block vads-u-font-size--sm">
-                  {distance} miles
-                </span>
-              )}
-            </label>
           </div>
-        );
-      })}
+          {!hasUserAddress && (
+            <p>
+              Note: to show facilities near your home, add your residential
+              address{' '}
+              <NewTabAnchor href="/profile">in your VA profile</NewTabAnchor>.
+            </p>
+          )}
+          {requestingLocationFailed && (
+            <div className="vads-u-padding-top--1">
+              <InfoAlert
+                status="warning"
+                headline="Your browser is blocked from finding your current location."
+                className="vads-u-background-color--gold-lightest vads-u-font-size--base"
+                level="3"
+              >
+                <p>Make sure your browser’s location feature is turned on.</p>
+                <a
+                  onClick={() =>
+                    updateFacilitySortMethod(
+                      FACILITY_SORT_METHODS.distanceFromCurrentLocation,
+                    )
+                  }
+                >
+                  Retry searching based on current location
+                </a>
+              </InfoAlert>
+            </div>
+          )}
+        </>
+      )}
+      {!variantRequestingLocationFailed &&
+        displayedOptions.map((option, i) => {
+          const { name, address, legacyVAR } = option?.label;
+          const checked = option.value === value;
+          const isCerner = isCernerLocation(option.value, cernerSiteIds);
+          let distance;
 
+          if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
+            distance = legacyVAR?.distanceFromResidentialAddress;
+          } else if (
+            sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation
+          ) {
+            distance = legacyVAR?.distanceFromCurrentLocation;
+          } else {
+            distance = legacyVAR?.distanceFromResidentialAddress;
+          }
+          const facilityPosition = i + 1;
+
+          return (
+            <div className="form-radio-buttons" key={option.value}>
+              <input
+                type="radio"
+                checked={checked}
+                id={`${id}_${facilityPosition}`}
+                name={`${id}`}
+                value={option.value}
+                onChange={_ => onChange(option.value)}
+                disabled={loadingEligibility}
+              />
+              <label htmlFor={`${id}_${facilityPosition}`}>
+                <span className="vads-u-display--block vads-u-font-weight--bold">
+                  {name}
+                </span>
+                <span className="vads-u-display--block vads-u-font-size--sm">
+                  {address?.city}, <State state={address?.state} />
+                </span>
+                {!!distance && (
+                  <span className="vads-u-display--block vads-u-font-size--sm">
+                    {distance} miles
+                  </span>
+                )}
+                {isCerner && (
+                  <a href={getCernerURL('/pages/scheduling/upcoming')}>
+                    Schedule online at <strong>My VA Health</strong>
+                  </a>
+                )}
+              </label>
+            </div>
+          );
+        })}
       {!displayAll &&
+        !variantRequestingLocationFailed &&
         hiddenCount > 0 && (
           <button
             type="button"

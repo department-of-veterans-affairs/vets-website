@@ -38,7 +38,9 @@ export default function DesktopLinks({ links, visible }) {
             </button>
           </li>
         </ul>
-        <h2 className="va-footer-linkgroup-title">Get answers</h2>
+        <h2 className="va-footer-linkgroup-title vads-u-margin-top--2 vads-u-padding-bottom--1">
+          Get answers
+        </h2>
         {links[FOOTER_COLUMNS.CONTACT]}
       </div>
     </div>

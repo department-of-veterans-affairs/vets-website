@@ -15,14 +15,27 @@ const testConfig = createTestConfig(
     fixtures: { data: path.join(__dirname, 'fixtures') },
     setupPerTest: () => {
       cy.login();
-      cy.route('GET', '/v0/profile/valid_va_file_number', mockVaFileNumber).as(
-        'mockVaFileNumber',
-      );
-      cy.get('@testData').then(testData => {
-        cy.route('GET', '/v0/in_progress_forms/686C-674', testData);
-        cy.route('PUT', 'v0/in_progress_forms/686C-674', testData);
+      cy.intercept('GET', '/v0/feature_toggles*', {
+        data: {
+          type: 'feature_toggles',
+          features: [
+            {
+              name: 'vaViewDependentsAccess',
+              value: true,
+            },
+          ],
+        },
       });
-      cy.route('POST', '/v0/dependents_applications', {
+      cy.intercept(
+        'GET',
+        '/v0/profile/valid_va_file_number',
+        mockVaFileNumber,
+      ).as('mockVaFileNumber');
+      cy.get('@testData').then(testData => {
+        cy.intercept('GET', '/v0/in_progress_forms/686C-674', testData);
+        cy.intercept('PUT', 'v0/in_progress_forms/686C-674', testData);
+      });
+      cy.intercept('POST', '/v0/dependents_applications', {
         formSubmissionId: '123fake-submission-id-567',
         timestamp: '2020-11-12',
         attributes: {

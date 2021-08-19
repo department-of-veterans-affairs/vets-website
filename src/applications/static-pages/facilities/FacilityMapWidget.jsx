@@ -1,5 +1,5 @@
 import React from 'react';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { mapboxToken } from '../../facility-locator/utils/mapboxToken';
 import { buildAddressArray } from '../../facility-locator/utils/facilityAddress';
 import { connect } from 'react-redux';

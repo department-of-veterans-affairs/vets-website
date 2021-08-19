@@ -1,4 +1,5 @@
 import cloneDeep from 'platform/utilities/data/cloneDeep';
+import environment from 'platform/utilities/environment';
 import { buildAddressSchema, addressUISchema } from '../../../address-schema';
 import { addSpouse } from '../../../utilities';
 import { doesLiveTogether, liveWithYouTitle } from './helpers';
@@ -46,7 +47,13 @@ export const uiSchema = {
       },
     },
     spouseIncome: {
+      'ui:options': {
+        hideIf: () => environment.isProduction(),
+        hideEmptyValueInReview: true,
+      },
       'ui:title': 'Did your spouse have income in the last 365 days?',
+      'ui:description':
+        'Answer this question only if you are adding this dependent to your pension.',
       'ui:widget': 'yesNo',
     },
   },

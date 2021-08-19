@@ -1,6 +1,6 @@
 import React from 'react';
 import { apiRequest } from 'platform/utilities/api';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import FacilityApiAlert from './FacilityApiAlert';
 import { cleanPhoneNumber, sortFacilitiesByName } from './facilityUtilities';
 import FacilityAddress from './FacilityAddress';
@@ -14,7 +14,9 @@ export default class OtherFacilityListWidget extends React.Component {
   }
 
   componentDidMount() {
-    this.request = apiRequest(`/facilities/va?ids=${this.props.facilities}`)
+    this.request = apiRequest(`/facilities/va?ids=${this.props.facilities}`, {
+      apiVersion: 'v1',
+    })
       .then(this.handleFacilitiesSuccess)
       .catch(this.handleFacilitiesError);
   }

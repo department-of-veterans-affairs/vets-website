@@ -15,9 +15,8 @@ import {
   eligibilityChange,
   showModal,
 } from '../actions';
-
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import VetTecProgramSearchResult from '../components/vet-tec/VetTecProgramSearchResult';
 import VetTecSearchForm from '../components/vet-tec/VetTecSearchForm';

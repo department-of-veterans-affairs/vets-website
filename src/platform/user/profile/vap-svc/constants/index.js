@@ -27,10 +27,21 @@ export const USA = {
   COUNTRY_ISO3_CODE: 'USA',
 };
 
+// TODO: After https://github.com/department-of-veterans-affairs/va.gov-team/issues/19858
+// is completed and is live on prod, we can update this object to remove the
+// `Vet360` instances:
+//
+// PHONE: 'AsyncTransaction::VAProfile::PhoneTransaction',
+// EMAIL: 'AsyncTransaction::VAProfile::EmailTransaction',
+// ADDRESS: 'AsyncTransaction::VAProfile::AddressTransaction',
+//
 export const TRANSACTION_CATEGORY_TYPES = {
   PHONE: 'AsyncTransaction::Vet360::PhoneTransaction',
   EMAIL: 'AsyncTransaction::Vet360::EmailTransaction',
   ADDRESS: 'AsyncTransaction::Vet360::AddressTransaction',
+  VAP_PHONE: 'AsyncTransaction::VAProfile::PhoneTransaction',
+  VAP_EMAIL: 'AsyncTransaction::VAProfile::EmailTransaction',
+  VAP_ADDRESS: 'AsyncTransaction::VAProfile::AddressTransaction',
 };
 
 export const TRANSACTION_STATUS = {
@@ -62,9 +73,21 @@ export const FIELD_TITLES = {
   [FIELD_NAMES.WORK_PHONE]: 'Work phone number',
   [FIELD_NAMES.TEMP_PHONE]: 'Temporary phone number',
   [FIELD_NAMES.FAX_NUMBER]: 'Fax number',
-  [FIELD_NAMES.EMAIL]: 'Email address',
+  [FIELD_NAMES.EMAIL]: 'Contact email address',
   [FIELD_NAMES.MAILING_ADDRESS]: 'Mailing address',
   [FIELD_NAMES.RESIDENTIAL_ADDRESS]: 'Home address',
+};
+
+// These are intended to be used as values for HTML element id attributes
+export const FIELD_IDS = {
+  [FIELD_NAMES.HOME_PHONE]: 'home-phone-number',
+  [FIELD_NAMES.MOBILE_PHONE]: 'mobile-phone-number',
+  [FIELD_NAMES.WORK_PHONE]: 'work-phone-number',
+  [FIELD_NAMES.TEMP_PHONE]: 'temporary-phone-number',
+  [FIELD_NAMES.FAX_NUMBER]: 'fax-number',
+  [FIELD_NAMES.EMAIL]: 'contact-email-address',
+  [FIELD_NAMES.MAILING_ADDRESS]: 'mailing-address',
+  [FIELD_NAMES.RESIDENTIAL_ADDRESS]: 'home-address',
 };
 
 export const PHONE_TYPE = {

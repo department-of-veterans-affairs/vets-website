@@ -10,6 +10,8 @@ import {
   START_TEXT,
   SAVED_SEPARATION_DATE,
   DISABILITY_526_V2_ROOT_URL,
+  PAGE_TITLE_SUFFIX,
+  DOCUMENT_TITLE_SUFFIX,
 } from '../../constants';
 
 describe('<IntroductionPage/>', () => {
@@ -30,16 +32,6 @@ describe('<IntroductionPage/>', () => {
     },
   };
 
-  const originalClaimsProps = allow => ({
-    ...defaultProps,
-    testOriginalClaim: allow,
-    user: {
-      profile: {
-        services: ['original-claim'],
-      },
-    },
-  });
-
   it('should render', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
     expect(wrapper.length).to.equal(1);
@@ -50,8 +42,11 @@ describe('<IntroductionPage/>', () => {
   it('should render a form title', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
     const title = wrapper.find('FormTitle');
+    const titleText = `${PAGE_TITLES.ALL} ${PAGE_TITLE_SUFFIX}`;
     expect(title.length).to.equal(1);
-    expect(title.props().title).to.equal(PAGE_TITLES.ALL);
+    expect(title.props().title).to.equal(titleText);
+    expect(document.title).to.contain(titleText);
+    expect(document.title).to.contain(DOCUMENT_TITLE_SUFFIX);
     wrapper.unmount();
   });
 
@@ -65,7 +60,9 @@ describe('<IntroductionPage/>', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
     const title = wrapper.find('FormTitle');
     expect(title.length).to.equal(1);
-    expect(title.props().title).to.equal(PAGE_TITLES.BDD);
+    expect(title.props().title).to.equal(
+      `${PAGE_TITLES.BDD} with VA Form 21-526EZ`,
+    );
     wrapper.unmount();
   });
 
@@ -91,39 +88,17 @@ describe('<IntroductionPage/>', () => {
     wrapper.unmount();
   });
 
-  it('should render as usual (allow original claim)', () => {
-    const wrapper = shallow(
-      <IntroductionPage {...originalClaimsProps(true)} />,
-    );
-    expect(
-      wrapper.find('withRouter(Connect(SaveInProgressIntro))').length,
-    ).to.equal(2);
-    expect(wrapper.find('FormTitle').length).to.equal(1);
-    expect(wrapper.find('FileOriginalClaimPage').length).to.equal(0);
-    wrapper.unmount();
-  });
-  it('should block original claim & show alert', () => {
-    const wrapper = shallow(
-      <IntroductionPage {...originalClaimsProps(false)} />,
-    );
-    expect(
-      wrapper.find('withRouter(Connect(SaveInProgressIntro))').length,
-    ).to.equal(0);
-    expect(wrapper.find('FormTitle').length).to.equal(1);
-    expect(wrapper.find('FileOriginalClaimPage').length).to.equal(1);
-    wrapper.unmount();
-  });
   it('should render reset wizard link to info page', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
-    expect(wrapper.find('.va-button-link').props().href).to.contain(
+    expect(wrapper.find('#restart-wizard a').props().href).to.contain(
       'how-to-file-claim',
     );
     wrapper.unmount();
   });
   it('should render reset wizard link to intro page', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} showWizard />);
-    expect(wrapper.find('.va-button-link').props().href).to.equal(
-      DISABILITY_526_V2_ROOT_URL,
+    expect(wrapper.find('#restart-wizard a').props().href).to.equal(
+      `${DISABILITY_526_V2_ROOT_URL}/start`,
     );
     wrapper.unmount();
   });

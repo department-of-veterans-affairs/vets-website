@@ -8,7 +8,7 @@ const Form = PropTypes.shape({
     url: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     lastRevisionOn: PropTypes.string,
-    firstIssuedOn: PropTypes.string, // always null; meaningless property
+    firstIssuedOn: PropTypes.string,
     pages: PropTypes.number,
     sha256: PropTypes.string,
     validPdf: PropTypes.bool,
@@ -21,6 +21,7 @@ const Form = PropTypes.shape({
     deletedAt: PropTypes.string,
     relatedForms: PropTypes.array,
     benefitCategories: PropTypes.array,
+    vaFormAdministration: PropTypes.string,
   }).isRequired,
 });
 

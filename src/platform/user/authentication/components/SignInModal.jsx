@@ -2,14 +2,18 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
+
+import Telephone, {
+  CONTACTS,
+  PATTERNS,
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 // import { getCurrentGlobalDowntime } from 'platform/monitoring/DowntimeNotification/util/helpers';
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
 import { EXTERNAL_SERVICES } from 'platform/monitoring/external-services/config';
 import recordEvent from 'platform/monitoring/record-event';
-import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import { ssoe } from 'platform/user/authentication/selectors';
 import { login, signup } from 'platform/user/authentication/utilities';
 import { formatDowntime } from 'platform/utilities/date';
@@ -312,7 +316,13 @@ export class SignInModal extends React.Component {
                 .
               </p>
               <p>
-                <SubmitSignInForm startSentence />
+                If you need more help, call our MyVA411 main information line at{' '}
+                <Telephone contact={CONTACTS.HELP_DESK} />, select 0 (TTY:{' '}
+                <Telephone
+                  contact={CONTACTS[711]}
+                  pattern={PATTERNS['3_DIGIT']}
+                />
+                ).
               </p>
             </div>
             <hr />

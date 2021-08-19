@@ -63,11 +63,7 @@ describe('<SaveStatus>', () => {
         formId: VA_FORM_IDS.FORM_10_10EZ,
         lastSavedDate: 1505770055,
         autoSavedStatus: 'success',
-        loadedData: {
-          metadata: {
-            inProgressFormId: 98765,
-          },
-        },
+        inProgressFormId: 98765,
       },
       formConfig: {
         customText: {
@@ -83,5 +79,31 @@ describe('<SaveStatus>', () => {
       'Custom message saying your app has been saved.',
     );
     expect(tree.subTree('.panel').text()).to.include('ID number is 98765');
+  });
+  it('should display the appSavedSuccessfullyMessage with custom app type & SiP ID', () => {
+    const appSavedSuccessfullyMessageProps = {
+      ...props,
+      form: {
+        formId: VA_FORM_IDS.FORM_10_10EZ,
+        lastSavedDate: 1505770055,
+        autoSavedStatus: 'success',
+        loadedData: {
+          metadata: {
+            inProgressFormId: 98765,
+          },
+        },
+      },
+      formConfig: {
+        customText: {
+          appType: 'custom application type',
+        },
+      },
+    };
+    const tree = SkinDeep.shallowRender(
+      <SaveStatus {...appSavedSuccessfullyMessageProps} />,
+    );
+    expect(tree.subTree('.panel').text()).to.include(
+      'custom application type ID number is 98765',
+    );
   });
 });

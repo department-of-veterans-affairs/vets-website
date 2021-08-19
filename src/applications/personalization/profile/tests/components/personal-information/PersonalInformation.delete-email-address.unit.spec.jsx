@@ -4,8 +4,6 @@ import { waitForElementToBeRemoved } from '@testing-library/react';
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
 
-import { resetFetch } from 'platform/testing/unit/helpers';
-
 import * as mocks from '@@profile/msw-mocks';
 import PersonalInformation from '@@profile/components/personal-information/PersonalInformation';
 
@@ -14,8 +12,6 @@ import {
   renderWithProfileReducers,
   wait,
 } from '../../unit-test-helpers';
-
-let emailAddress;
 
 const ui = (
   <MemoryRouter>
@@ -37,7 +33,7 @@ function getEditButton() {
   return editButton;
 }
 
-// helper function that enters the `Edit email address` view and clicks on the `Remove` and `Confirm` buttons
+// helper function that enters the `Edit contact email address` view and clicks on the `Remove` and `Confirm` buttons
 function deleteEmailAddress() {
   const editButton = getEditButton();
   editButton.click();
@@ -46,7 +42,7 @@ function deleteEmailAddress() {
   expect(emailAddressInput).to.exist;
 
   // delete
-  view.getByText('Remove email address').click();
+  view.getByText('Remove contact email address').click();
   const confirmDeleteButton = view.getByText('Confirm', { selector: 'button' });
   const cancelDeleteButton = view.getByText('Cancel', { selector: 'button' });
   confirmDeleteButton.click();
@@ -55,17 +51,14 @@ function deleteEmailAddress() {
 }
 
 describe('Deleting email address', () => {
+  const userNameRegex = /alongusername/;
   before(() => {
-    // before we can use msw, we need to make sure that global.fetch has been
-    // restored and is no longer a sinon stub.
-    resetFetch();
     server = setupServer(...mocks.deleteEmailAddressSuccess);
     server.listen();
   });
   beforeEach(() => {
     window.VetsGov = { pollTimeout: 1 };
     const initialState = createBasicInitialState();
-    emailAddress = initialState.user.profile.vapContactInfo.email.emailAddress;
 
     view = renderWithProfileReducers(ui, {
       initialState,
@@ -101,14 +94,12 @@ describe('Deleting email address', () => {
     // wait for the edit mode to exit
     await waitForElementToBeRemoved(emailAddressInput);
 
-    // the edit email button should not exist
-    expect(view.queryByRole('button', { name: /edit.*email address/i })).not.to
-      .exist;
+    // the edit email button should still exist
+    view.getByRole('button', { name: /edit.*email address/i });
     // and the email address should not exist
-    expect(view.queryByText(emailAddress)).not.to.exist;
-    // and the add email button should exist
-    expect(view.getByText(/add.*email address/i, { selector: 'button' })).to
-      .exist;
+    expect(view.queryByText(userNameRegex)).not.to.exist;
+    // and the add email text should exist
+    view.getByText(/add.*email address/i);
   });
   it('should handle a deletion that does not succeed until after the edit view exits', async () => {
     server.use(...mocks.transactionPending);
@@ -120,7 +111,7 @@ describe('Deleting email address', () => {
 
     // check that the "we're saving your..." message appears
     const deletingMessage = await view.findByText(
-      /We’re in the process of deleting your email address. We’ll remove this information soon./i,
+      /We’re in the process of deleting your contact email address. We’ll remove this information soon./i,
     );
     expect(deletingMessage).to.exist;
 
@@ -128,14 +119,12 @@ describe('Deleting email address', () => {
 
     await waitForElementToBeRemoved(deletingMessage);
 
-    // the edit email button should not exist
-    expect(view.queryByRole('button', { name: /edit.*email address/i })).not.to
-      .exist;
+    // the edit email button should still exist
+    view.getByRole('button', { name: /edit.*email address/i });
     // and the email address should not exist
-    expect(view.queryByText(emailAddress)).not.to.exist;
-    // and the add email button should exist
-    expect(view.getByText(/add.*email address/i, { selector: 'button' })).to
-      .exist;
+    expect(view.queryByText(userNameRegex)).not.to.exist;
+    // and the add email text should exist
+    view.getByText(/add.*email address/i);
   });
   it('should show an error and not exit edit mode if the transaction cannot be created', async () => {
     server.use(...mocks.createTransactionFailure);
@@ -146,7 +135,7 @@ describe('Deleting email address', () => {
     const alert = await view.findByTestId('edit-error-alert');
     expect(alert).to.have.descendant('div.usa-alert-error');
     expect(alert).to.contain.text(
-      'We’re sorry. We couldn’t update your email address. Please try again.',
+      'We’re sorry. We couldn’t update your contact email address. Please try again.',
     );
 
     // make sure that edit mode is not automatically exited
@@ -177,7 +166,7 @@ describe('Deleting email address', () => {
     const alert = await view.findByTestId('edit-error-alert');
     expect(alert).to.have.descendant('div.usa-alert-error');
     expect(alert).to.contain.text(
-      'We’re sorry. We couldn’t update your email address. Please try again.',
+      'We’re sorry. We couldn’t update your contact email address. Please try again.',
     );
 
     // the buttons should be enabled again
@@ -201,7 +190,7 @@ describe('Deleting email address', () => {
 
     // check that the "we're saving your..." message appears
     const deletingMessage = await view.findByText(
-      /We’re in the process of deleting your email address. We’ll remove this information soon./i,
+      /We’re in the process of deleting your contact email address. We’ll remove this information soon./i,
     );
     expect(deletingMessage).to.exist;
 
@@ -212,12 +201,12 @@ describe('Deleting email address', () => {
     // make sure the error message appears
     expect(
       view.getByText(
-        /We couldn’t save your recent email address update. Please try again later/i,
+        /We couldn’t save your recent contact email address update. Please try again later/i,
       ),
     ).to.exist;
 
     // and the email address should still exist
-    expect(view.getByText(emailAddress)).to.exist;
+    expect(view.getByText(userNameRegex)).to.exist;
     // and the edit email button should be back
     expect(getEditButton()).to.exist;
   });

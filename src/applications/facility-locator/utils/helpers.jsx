@@ -6,11 +6,12 @@ import { CLINIC_URGENTCARE_SERVICE, LocationType } from '../constants';
 import UrgentCareAlert from '../containers/UrgentCareAlert';
 import { recordMarkerEvents } from '../utils/analytics';
 
-export const setFocus = selector => {
+// https://stackoverflow.com/a/50171440/1000622
+export const setFocus = (selector, tabIndexInclude = true) => {
   const el =
     typeof selector === 'string' ? document.querySelector(selector) : selector;
   if (el) {
-    el.setAttribute('tabIndex', -1);
+    if (tabIndexInclude) el.setAttribute('tabIndex', -1);
     el.focus();
   }
 };
@@ -56,32 +57,8 @@ export const buildMarker = (type, values) => {
   return null;
 };
 
-export const clearSearchAreaCtrl = () => {
-  const searchAreaControlId = document.getElementById(
-    'search-area-control-container',
-  );
-
-  if (searchAreaControlId) {
-    searchAreaControlId.style.display = 'none';
-  }
-};
-
 export const resetMapElements = () => {
   clearLocationMarkers();
-  clearSearchAreaCtrl();
-};
-
-export const setSearchAreaPosition = () => {
-  const searchAreaContainer = document.getElementById(
-    'search-area-control-container',
-  );
-  document
-    .querySelector('.mapboxgl-control-container')
-    .appendChild(searchAreaContainer);
-  document
-    .querySelectorAll('.mapboxgl-ctrl-top-right')
-    // IE 11 doesn't support ChildNode.remove() and core-js doesn't polyfill DOM methods.
-    .forEach(el => el.parentNode.removeChild(el));
 };
 
 /**

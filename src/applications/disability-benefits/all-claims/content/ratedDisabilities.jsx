@@ -1,5 +1,5 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+
 import { capitalizeEachWord } from '../utils';
 import { NULL_CONDITION_STRING } from '../constants';
 
@@ -45,10 +45,12 @@ export const disabilitiesClarification = (
 export const ratedDisabilitiesAlert = ({ formContext }) => {
   if (!formContext.submitted) return null;
   return (
-    <AlertBox
-      status="error"
-      headline="We need you to add a disability"
-      content="You’ll need to add a new disability or choose a rated disability to claim. We can’t process your claim without a disability selected."
-    />
+    <va-alert status="error">
+      <h3 slot="headline">We need you to add a disability</h3>
+      <p className="vads-u-font-size--base">
+        You’ll need to add a new disability or choose a rated disability to
+        claim. We can’t process your claim without a disability selected.
+      </p>
+    </va-alert>
   );
 };

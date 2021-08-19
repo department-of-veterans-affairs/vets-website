@@ -1,17 +1,21 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS } from '@@profile/constants';
 
 import { mockUser } from '@@profile/tests/fixtures/users/user.js';
 import mockPersonalInformation from '@@profile/tests/fixtures/personal-information-success.json';
 import mockServiceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import mockFullName from '@@profile/tests/fixtures/full-name-success.json';
+import { mockGETEndpoints } from '@@profile/tests/e2e/helpers';
 
 const setup = () => {
-  disableFTUXModals();
   cy.login(mockUser);
-  cy.route('GET', 'v0/profile/personal_information', mockPersonalInformation);
-  cy.route('GET', 'v0/profile/service_history', mockServiceHistory);
-  cy.route('GET', 'v0/profile/full_name', mockFullName);
+  cy.intercept('v0/profile/personal_information', mockPersonalInformation);
+  cy.intercept('v0/profile/service_history', mockServiceHistory);
+  cy.intercept('v0/profile/full_name', mockFullName);
+  mockGETEndpoints([
+    'v0/mhv_account',
+    'v0/feature_toggles*',
+    'v0/ppiu/payment_information',
+  ]);
   cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
   // should show a loading indicator
@@ -64,7 +68,9 @@ describe('Content on the personal information section in the profile', () => {
 
     // Check email
     cy.get('div[data-field-name="email"]')
-      .contains(/veteran@gmail.com/i)
+      .contains(/veteran@/)
+      .contains(/gmail/)
+      .contains(/com/)
       .should('exist');
   });
 });

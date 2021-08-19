@@ -103,19 +103,7 @@
         "value": true
       },
       {
-        "name": "form526OriginalClaims",
-        "value": true
-      },
-      {
         "name": "vaViewDependentsAccess",
-        "value": true
-      },
-      {
-        "name": "allow_online_10_10cg_submissions",
-        "value": true
-      },
-      {
-        "name": "allowOnline1010cgSubmissions",
         "value": true
       },
       {
@@ -136,6 +124,14 @@
       },
       {
         "name": "gibctCh33BenefitRateUpdate",
+        "value": true
+      },
+      {
+        "name": "canUpload1010cgPOA",
+        "value": true
+      },
+      {
+        "name": "can_upload_10_10cg_poa",
         "value": true
       }
     ]

@@ -1,9 +1,10 @@
 import React from 'react';
+import State from './State';
 
 export default function ResidentialAddress({ address }) {
   return (
     <>
-      <span className="vads-u-display--block vads-u-border-left--5px vads-u-border-color--primary vads-u-padding-y--0p5 vads-u-padding-left--1p5 vads-u-margin-bottom--3">
+      <span className="vads-u-display--block vads-u-margin-bottom--3">
         {address.addressLine1}
         <br />
         {!!address.addressLine2 && (
@@ -18,7 +19,7 @@ export default function ResidentialAddress({ address }) {
             <br />
           </>
         )}
-        {address.city}, {address.stateCode} {address.zipCode}
+        {address.city}, <State state={address.stateCode} /> {address.zipCode}
       </span>
     </>
   );

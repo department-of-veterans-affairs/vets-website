@@ -1,4 +1,4 @@
-// import _ from 'lodash/fp';
+// import set from 'platform/utilities/data/set';
 import React from 'react';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
@@ -8,7 +8,7 @@ export function prefillTransformer(pages, formData, metadata) {
 
   // const { verified } = state.user.profile;
 
-  // const newFormData = _.set('view:isVerified', !!verified, formData);
+  // const newFormData = set('view:isVerified', !!verified, formData);
 
   return {
     metadata,

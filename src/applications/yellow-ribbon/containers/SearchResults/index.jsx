@@ -1,23 +1,25 @@
 // Dependencies.
 import React, { Component } from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import PropTypes from 'prop-types';
+import recordEvent from 'platform/monitoring/record-event';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
-import map from 'lodash/map';
 // Relative imports.
 import SearchResult from '../../components/SearchResult';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { fetchResultsThunk } from '../../actions';
+import { fetchResultsThunk, toggleSearchResultsToolTip } from '../../actions';
 import { focusElement } from 'platform/utilities/ui';
+import { getYellowRibbonAppState } from '../../helpers/selectors';
+import { TOOL_TIP_CONTENT, TOOL_TIP_LABEL } from '../../constants';
 
 export class SearchResults extends Component {
   static propTypes = {
     // From mapStateToProps.
     error: PropTypes.string.isRequired,
     fetching: PropTypes.bool.isRequired,
+    isToolTipOpen: PropTypes.bool.isRequired,
     results: PropTypes.arrayOf(
       PropTypes.shape({
         city: PropTypes.string.isRequired,
@@ -32,6 +34,9 @@ export class SearchResults extends Component {
     page: PropTypes.number.isRequired,
     perPage: PropTypes.number.isRequired,
     totalResults: PropTypes.number,
+    // mapDispatchToProps
+    toggleAlertToolTip: PropTypes.func,
+    fetchResultsThunk: PropTypes.func,
   };
 
   componentDidUpdate(prevProps) {
@@ -96,19 +101,57 @@ export class SearchResults extends Component {
     return endNumber - (perPage - 1);
   };
 
+  recordEventOnSearchResultClick = (school = {}) => () => {
+    // Derive the current name params.
+    const queryParams = new URLSearchParams(window.location.search);
+
+    // Derive the state values from our query params.
+    const searchQuery = queryParams.get('name') || '';
+    const city = queryParams.get('city') || '';
+    const contributionAmount = queryParams.get('contributionAmount') || '';
+    const numberOfStudents = queryParams.get('numberOfStudents') || '';
+    const stateOrTerritory = queryParams.get('state') || '';
+
+    const { page, perPage, totalResults } = this.props;
+
+    recordEvent({
+      event: 'onsite-search-results-click',
+      'search-result-type': 'cta',
+      'search-filters-list': {
+        stateOrTerritory: stateOrTerritory || undefined,
+        city: city || undefined,
+        contributionAmount: contributionAmount || undefined,
+        numberOfStudents: numberOfStudents || undefined,
+      },
+      'search-results-top-recommendation': undefined,
+      'search-selection': 'Yellow Ribbon',
+      'search-result-chosen-page-url': school?.insturl || undefined,
+      'search-result-chosen-title': school?.nameOfInstitution,
+      'search-query': searchQuery,
+      'search-results-total-count': totalResults,
+      'search-results-total-pages': Math.ceil(totalResults / perPage),
+      'search-result-position': school?.positionInResults,
+      'search-result-page': page,
+      'search-result-chosen-yellow-ribbon-school-attributes': school,
+    });
+  };
+
   render() {
     const {
       deriveResultsEndNumber,
       deriveResultsStartNumber,
       onPageSelect,
+      recordEventOnSearchResultClick,
     } = this;
     const {
       error,
       fetching,
+      isToolTipOpen,
       page,
       perPage,
       results,
       totalResults,
+      toggleAlertToolTip,
     } = this.props;
 
     // Show loading indicator if we are fetching.
@@ -119,11 +162,10 @@ export class SearchResults extends Component {
     // Show the error alert box if there was an error.
     if (error) {
       return (
-        <AlertBox
-          headline="Something went wrong"
-          content={error}
-          status="error"
-        />
+        <va-alert status="error">
+          <h3 slot="headline">Something went wrong</h3>
+          <div className="usa-alert-text vads-u-font-size--base">{error}</div>
+        </va-alert>
       );
     }
 
@@ -142,12 +184,17 @@ export class SearchResults extends Component {
           >
             No schools found for your search criteria.
           </h2>
-          <p>To find participating schools:</p>
-          <ul>
-            <li>Double-check your spelling.</li>
-            <li>Try fewer search terms.</li>
-            <li>Try more general search terms.</li>
-          </ul>
+          <va-alert
+            onClose={toggleAlertToolTip}
+            visible={isToolTipOpen}
+            closeable
+            status="info"
+          >
+            <h3 slot="headline">{TOOL_TIP_LABEL}</h3>
+            <div className="usa-alert-text vads-u-font-size--base">
+              {TOOL_TIP_CONTENT}
+            </div>
+          </va-alert>
         </>
       );
     }
@@ -161,22 +208,41 @@ export class SearchResults extends Component {
         <h2
           className="va-introtext va-u-outline--none vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal"
           data-display-results-header
+          tabIndex="-1"
         >
-          Displaying {resultsStartNumber}
-          <span className="vads-u-visibility--screen-reader">through</span>
-          <span aria-hidden="true" role="presentation">
-            &ndash;
+          {/* eslint-disable-next-line jsx-a11y/aria-role */}
+          <span role="text">
+            <span>Displaying {resultsStartNumber}</span>
+            <span className="vads-u-visibility--screen-reader">through</span>
+            <span aria-hidden="true">&ndash;</span>
+            <span>
+              {resultsEndNumber} of {totalResults} results
+            </span>
           </span>
-          {resultsEndNumber} of {totalResults} results
         </h2>
+        <va-alert
+          onClose={toggleAlertToolTip}
+          visible={isToolTipOpen}
+          closeable
+          status="info"
+        >
+          <h3 slot="headline">{TOOL_TIP_LABEL}</h3>
+          <div className="usa-alert-text vads-u-font-size--base">
+            {TOOL_TIP_CONTENT}
+          </div>
+        </va-alert>
 
         {/* Table of Results */}
         <ul
           className="search-results vads-u-margin-top--2 vads-u-padding--0"
           data-e2e-id="search-results"
         >
-          {map(results, school => (
-            <SearchResult key={school?.id} school={school} />
+          {results?.map((school, index) => (
+            <SearchResult
+              key={school?.id}
+              school={{ ...school, positionInResults: index + 1 }}
+              onSearchResultClick={recordEventOnSearchResultClick}
+            />
           ))}
         </ul>
 
@@ -195,16 +261,18 @@ export class SearchResults extends Component {
 }
 
 const mapStateToProps = state => ({
-  error: state.yellowRibbonReducer.error,
-  fetching: state.yellowRibbonReducer.fetching,
-  results: state.yellowRibbonReducer.results,
-  page: state.yellowRibbonReducer.page,
-  perPage: state.yellowRibbonReducer.perPage,
-  totalResults: state.yellowRibbonReducer.totalResults,
+  error: getYellowRibbonAppState(state).error,
+  fetching: getYellowRibbonAppState(state).fetching,
+  isToolTipOpen: getYellowRibbonAppState(state).isToolTipOpen,
+  results: getYellowRibbonAppState(state).results,
+  page: getYellowRibbonAppState(state).page,
+  perPage: getYellowRibbonAppState(state).perPage,
+  totalResults: getYellowRibbonAppState(state).totalResults,
 });
 
 const mapDispatchToProps = dispatch => ({
   fetchResults: options => fetchResultsThunk(options)(dispatch),
+  toggleAlertToolTip: () => dispatch(toggleSearchResultsToolTip()),
 });
 
 export default connect(

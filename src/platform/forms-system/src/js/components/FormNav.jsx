@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 
-import SegmentedProgressBar from './SegmentedProgressBar';
+import SegmentedProgressBar from '@department-of-veterans-affairs/component-library/SegmentedProgressBar';
 
 import {
   createFormPageList,
@@ -15,7 +15,13 @@ import PropTypes from 'prop-types';
 import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
 
 export default function FormNav(props) {
-  const { formConfig, currentPath, formData } = props;
+  const {
+    formConfig,
+    currentPath,
+    formData,
+    isLoggedIn,
+    inProgressFormId,
+  } = props;
 
   const [index, setIndex] = useState(0);
 
@@ -42,6 +48,7 @@ export default function FormNav(props) {
 
   let current;
   let chapterName;
+  let inProgressMessage = null;
   if (page) {
     current = chapters.indexOf(page.chapterKey) + 1;
     // The review page is always part of our forms, but isn’t listed in chapter list
@@ -52,6 +59,16 @@ export default function FormNav(props) {
     if (typeof chapterName === 'function') {
       chapterName = chapterName();
     }
+  }
+
+  if (isLoggedIn) {
+    inProgressMessage = (
+      <span className="vads-u-display--block vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
+        Your application will be saved on every change.{' '}
+        {inProgressFormId &&
+          `Your application ID number is ${inProgressFormId}.`}
+      </span>
+    );
   }
 
   const stepText = `Step ${current} of ${chapters.length}: ${chapterName}`;
@@ -92,10 +109,14 @@ export default function FormNav(props) {
           {showHeader && (
             <h2 id="nav-form-header" className="vads-u-font-size--h4">
               {stepText}
+              {inProgressMessage}
             </h2>
           )}
           {!showHeader && (
-            <div className="vads-u-font-size--h4">{stepText}</div>
+            <div className="vads-u-font-size--h4">
+              {stepText}
+              {inProgressMessage}
+            </div>
           )}
         </div>
       </div>
@@ -111,6 +132,8 @@ FormNav.defaultProps = {
   },
   currentPath: '',
   formData: {},
+  isLoggedIn: false,
+  inProgressFormId: null,
 };
 
 FormNav.propTypes = {
@@ -119,4 +142,6 @@ FormNav.propTypes = {
       reviewPageTitle: PropTypes.string,
     }),
   }).isRequired,
+  inProgressFormId: PropTypes.number,
+  isLoggedIn: PropTypes.bool,
 };

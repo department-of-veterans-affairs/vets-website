@@ -5,8 +5,6 @@ import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
 
-import { resetFetch } from 'platform/testing/unit/helpers';
-
 import * as mocks from '@@profile/msw-mocks';
 import { renderWithProfileReducers } from '@@profile/tests/unit-test-helpers';
 
@@ -17,6 +15,21 @@ const paymentAccount = {
   financialInstitutionName: 'Bank of EVSS',
   accountNumber: '****5678',
   financialInstitutionRoutingNumber: '*****0021',
+};
+
+const paymentAddress = {
+  type: 'DOMESTIC',
+  addressEffectiveDate: '2016-12-16T06:00:00.000+00:00',
+  addressOne: '123 MAIN ST',
+  addressTwo: '',
+  addressThree: '',
+  city: 'TAMPA',
+  stateCode: 'FL',
+  zipCode: '12345',
+  zipSuffix: '1234',
+  countryName: 'TAMPA',
+  militaryPostOfficeTypeCode: null,
+  militaryStateCode: null,
 };
 
 const emptyPaymentAccount = {
@@ -42,6 +55,7 @@ function createBasicInitialState() {
         responses: [
           {
             paymentAccount,
+            paymentAddress,
           },
         ],
       },
@@ -63,8 +77,8 @@ function fillOutAndSubmitBankInfoForm(view) {
 }
 
 function findSetUpBankInfoButton(view) {
-  return view.queryByText(/please add your bank information/i, {
-    selector: 'button',
+  return view.queryByRole('button', {
+    label: /Edit your direct deposit for disability compensation and pension benefits bank information/i,
   });
 }
 
@@ -85,9 +99,6 @@ function findCancelEditButton(view) {
 describe('DirectDepositCNP', () => {
   let server;
   before(() => {
-    // before we can use msw, we need to make sure that global.fetch has been
-    // restored and is not longer a sinon stub.
-    resetFetch();
     server = setupServer(...mocks.updateDD4CNPSuccess);
     server.listen();
   });
@@ -119,7 +130,7 @@ describe('DirectDepositCNP', () => {
     });
     expect(container).to.be.empty;
   });
-  describe('when bank info is not set up', () => {
+  describe('when bank info is not set up but payment address is', () => {
     let view;
     beforeEach(() => {
       initialState = createBasicInitialState();
@@ -163,13 +174,6 @@ describe('DirectDepositCNP', () => {
         view.queryByLabelText(/account number/i),
       );
 
-      // shows a save succeeded alert
-      expect(
-        view.findByRole('alert', {
-          name: /We’ve updated your bank account information/i,
-        }),
-      ).to.exist;
-
       // and the bank info from the mocked call should be shown
       expect(view.getByText(mocks.newPaymentAccount.financialInstitutionName))
         .to.exist;
@@ -195,7 +199,6 @@ describe('DirectDepositCNP', () => {
       expect(view.getByText(paymentAccount.accountNumber)).to.exist;
       expect(view.getByText(paymentAccount.accountType, { exact: false })).to
         .exist;
-      expect(findSetUpBankInfoButton(view)).not.to.exist;
     });
     it('should handle a successful bank info update', async () => {
       userEvent.click(findEditBankInfoButton(view));
@@ -206,13 +209,6 @@ describe('DirectDepositCNP', () => {
       await waitForElementToBeRemoved(() =>
         view.queryByLabelText(/account number/i),
       );
-
-      // shows a save succeeded alert
-      expect(
-        view.findByRole('alert', {
-          name: /We’ve updated your bank account information/i,
-        }),
-      ).to.exist;
 
       // and the bank info from the mocked call should be shown
       expect(view.getByText(mocks.newPaymentAccount.financialInstitutionName))

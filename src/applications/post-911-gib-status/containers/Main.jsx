@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import { getEnrollmentData } from '../actions/post-911-gib-status';
 import {

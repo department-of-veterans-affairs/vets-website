@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import recordEvent from '~/platform/monitoring/record-event';
 import { mfa } from '~/platform/user/authentication/utilities';
@@ -16,6 +16,7 @@ const SetUp2FAAlert = ({ isAuthenticatedWithSSOe }) => {
     <AlertBox
       className="vads-u-margin-bottom--2"
       headline="You’ll need to set up 2-factor authentication before you can edit your direct deposit information."
+      level={2}
       content={
         <>
           <p>

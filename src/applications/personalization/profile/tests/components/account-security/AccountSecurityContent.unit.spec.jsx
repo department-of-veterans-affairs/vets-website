@@ -2,14 +2,14 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import {
   AccountSecurityContent,
   mapStateToProps,
 } from '@@profile/components/account-security/AccountSecurityContent';
 import ProfileInfoTable from '@@profile/components/ProfileInfoTable';
-import IdentityNotVerified from '@@profile/components/account-security/IdentityNotVerified';
+import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
 import TwoFactorAuthorizationStatus from '@@profile/components/account-security/TwoFactorAuthorizationStatus';
 import MHVTermsAndConditionsStatus from '@@profile/components/account-security/MHVTermsAndConditionsStatus';
 import EmailAddressNotification from '@@profile/components/personal-information/email-addresses/EmailAddressNotification';
@@ -118,7 +118,7 @@ describe('AccountSecurityContent', () => {
     const firstAlertBoxLink = alertBox.find('a').first();
     const secondAlertBoxLink = alertBox.find('a').at(1);
     const thirdAlertBoxLink = alertBox.find('a').at(2);
-    const alertBoxSubtitle = alertBox.find('h4');
+    const alertBoxSubtitle = alertBox.find('h3');
     expect(alertBox.type()).to.equal(AlertBox);
     expect(alertBox.prop('status')).to.equal('info');
     expect(alertBox.prop('headline')).to.equal(

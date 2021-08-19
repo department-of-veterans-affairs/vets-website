@@ -2,7 +2,7 @@ import React from 'react';
 import Telephone, {
   CONTACTS,
   PATTERNS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const isChapterFieldRequired = (formData, option) =>
   formData[`view:selectable686Options`][option];
@@ -23,15 +23,18 @@ export const VerifiedAlert = (
 
 export const VaFileNumberMissingAlert = (
   <>
-    <h2 className="vads-u-margin-y--0 vads-u-font-size--lg">
+    <h2
+      slot="headline"
+      className="vads-u-font-size--h3 vads-u-margin-y--0 vads-u-font-size--lg"
+    >
       Your profile is missing some required information
     </h2>
-    <p>
+    <p className="vads-u-font-size--base">
       The personal information we have on file for your is missing your VA file
       number.
     </p>
-    <p>
-      You'll need to update your personal information. Please call Veterans
+    <p className="vads-u-font-size--base">
+      You’ll need to update your personal information. Please call Veterans
       Benefits Assistance at{' '}
       <a href="tel: 800-827-1000" aria-label="800. 8 2 7. 1000.">
         800-827-1000
@@ -43,14 +46,17 @@ export const VaFileNumberMissingAlert = (
 
 export const ServerErrorAlert = (
   <>
-    <h2 className="vads-u-margin-y--0 vads-u-font-size--lg">
+    <h2
+      slot="headline"
+      className="vads-u-font-size--h3 vads-u-margin-y--0 vads-u-font-size--lg"
+    >
       We’re sorry. Something went wrong on our end
     </h2>
-    <p>
+    <p className="vads-u-font-size--base">
       Please refresh this page or check back later. You can also sign out of
       VA.gov and try signing back into this page.
     </p>
-    <p>
+    <p className="vads-u-font-size--base">
       If you get this error again, please call the VA.gov help desk at{' '}
       <Telephone contact={CONTACTS.VA_311} /> (TTY:{' '}
       <Telephone contact={CONTACTS['711']} pattern={PATTERNS['3_DIGIT']} />
@@ -157,3 +163,11 @@ export const isOutsideListLoopReturn = (
     },
   };
 };
+
+export const PensionIncomeRemovalQuestionTitle = (
+  <p>
+    Did this dependent earn an income in the last 365 days? Answer this question{' '}
+    <strong>only</strong> if you are removing this dependent from your{' '}
+    <strong>pension</strong>.
+  </p>
+);

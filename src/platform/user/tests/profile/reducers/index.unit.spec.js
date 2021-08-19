@@ -36,7 +36,11 @@ describe('Profile reducer', () => {
   });
 
   it('should be loading when creating MHV account', () => {
-    const state = reducer({ mhvAccount: {} }, { type: CREATING_MHV_ACCOUNT });
+    const userProfile = { data: { attributes: { account: {} } } };
+    const state = reducer(
+      { mhvAccount: {}, userProfile },
+      { type: CREATING_MHV_ACCOUNT },
+    );
     expect(state.mhvAccount.loading).to.be.true;
   });
 
@@ -129,6 +133,7 @@ describe('Profile reducer', () => {
         userProfile: {
           data: {
             attributes: {
+              account: {},
               profile: { loa: { current: 3 } },
               vaProfile: {},
               veteranStatus: {},

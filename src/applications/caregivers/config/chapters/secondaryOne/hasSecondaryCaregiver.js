@@ -1,13 +1,12 @@
-import definitions from 'applications/caregivers/definitions/caregiverUI';
+import { secondaryRequiredAlert } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
 import { primaryCaregiverFields } from 'applications/caregivers/definitions/constants';
 import { SecondaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo';
-
-const { secondaryRequiredAlert } = definitions.sharedItems;
 
 const hasSecondaryCaregiverPage = {
   uiSchema: {
     [primaryCaregiverFields.hasSecondaryCaregiverOne]: {
-      'ui:title': 'Would you like to add a Secondary Family Caregiver?',
+      'ui:title':
+        'Would you like to apply for benefits for a Secondary Family Caregiver?',
       'ui:widget': 'yesNo',
       'ui:description': SecondaryCaregiverInfo({
         additionalInfo: true,

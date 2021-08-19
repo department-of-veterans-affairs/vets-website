@@ -1,46 +1,40 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { PrimaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo';
 import { primaryCaregiverFields } from 'applications/caregivers/definitions/constants';
-import definitions, {
+import { primaryInputLabel } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
+import {
+  emailUI,
+  vetRelationshipUI,
+  alternativePhoneNumberUI,
+  primaryPhoneNumberUI,
   addressWithoutCountryUI,
   confirmationEmailUI,
-} from 'applications/caregivers/definitions/caregiverUI';
+} from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 
 const { primaryCaregiver } = fullSchema.properties;
 const primaryCaregiverProps = primaryCaregiver.properties;
 const { address } = fullSchema.definitions;
-const { primaryCaregiverUI } = definitions;
-
-const {
-  alternativePhoneNumberUI,
-  emailUI,
-  primaryPhoneNumberUI,
-  vetRelationshipUI,
-  contactInfoTitle,
-} = definitions.sharedItems;
 
 const primaryContactInfoPage = {
   uiSchema: {
     'ui:description': () =>
-      PrimaryCaregiverInfo({ pageTitle: contactInfoTitle }),
+      PrimaryCaregiverInfo({ pageTitle: 'Contact information' }),
     [primaryCaregiverFields.address]: addressWithoutCountryUI(
-      primaryCaregiverUI.primaryInputLabel,
+      primaryInputLabel,
     ),
     [primaryCaregiverFields.primaryPhoneNumber]: primaryPhoneNumberUI(
-      primaryCaregiverUI.primaryInputLabel,
+      primaryInputLabel,
     ),
     [primaryCaregiverFields.alternativePhoneNumber]: alternativePhoneNumberUI(
-      primaryCaregiverUI.primaryInputLabel,
+      primaryInputLabel,
     ),
-    [primaryCaregiverFields.email]: emailUI(
-      primaryCaregiverUI.primaryInputLabel,
-    ),
+    [primaryCaregiverFields.email]: emailUI(primaryInputLabel),
     [primaryCaregiverFields.verifyEmail]: confirmationEmailUI(
-      primaryCaregiverUI.primaryInputLabel,
+      primaryInputLabel,
       primaryCaregiverFields.email,
     ),
     [primaryCaregiverFields.vetRelationship]: vetRelationshipUI(
-      primaryCaregiverUI.primaryInputLabel,
+      primaryInputLabel,
     ),
   },
   schema: {

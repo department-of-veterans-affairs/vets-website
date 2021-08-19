@@ -28,6 +28,11 @@
       "emailAddress": "test2@test1.net"
     },
     "mailingAddress": {
+      "view:livesOnMilitaryBase": false,
+      "type": "MILITARY",
+      "militaryPostOfficeTypeCode": "APO",
+      "militaryStateCode": "AA",
+      "zipFirstFive": "27103",
       "country": "USA",
       "addressLine1": "123 Main",
       "city": "Bigcity",
@@ -263,7 +268,6 @@
       ],
       "view:militaryHistoryNote": {}
     },
-    "servedInCombatZonePost911": true,
     "view:selectablePtsdTypes": {},
     "view:ptsdTypeHelp": {},
     "view:upload781ChoiceHelp": {},

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { kebabCase } from 'lodash';
 
 import { focusElement } from '~/platform/utilities/ui';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -40,6 +41,8 @@ import AddressValidationView from '@@vap-svc/containers/AddressValidationView';
 import ContactInformationEditView from '@@profile/components/personal-information/ContactInformationEditView';
 import ContactInformationView from '@@profile/components/personal-information/ContactInformationView';
 
+import { showNotificationSettings } from '@@profile/selectors';
+
 import { getInitialFormValues } from '@@profile/util/contact-information/formValues';
 
 import getContactInfoFieldAttributes from '~/applications/personalization/profile/util/contact-information/getContactInfoFieldAttributes';
@@ -47,30 +50,29 @@ import getContactInfoFieldAttributes from '~/applications/personalization/profil
 import CannotEditModal from './CannotEditModal';
 import ConfirmCancelModal from './ConfirmCancelModal';
 
+// Helper function that generates a string that can be used for a contact info
+// field's edit button.
+//
+// Given a valid entry from the vap-svc/constants FIELD
+// NAMES, it will return a string like `#edit-mobile-phone-number`
+export const getEditButtonId = fieldName => {
+  return `edit-${kebabCase(VAP_SERVICE.FIELD_TITLES[fieldName])}`;
+};
+
 const wrapperClasses = prefixUtilityClasses([
   'display--flex',
   'flex-direction--column',
   'align-items--flex-start',
 ]);
 
-const wrapperClassesMedium = prefixUtilityClasses(
-  ['flex-direction--row', 'justify-content--space-between'],
-  'medium',
-);
-
 const editButtonClasses = [
-  'va-button-link',
-  ...prefixUtilityClasses(['margin-top--1p5']),
+  'usa-button-secondary',
+  ...prefixUtilityClasses(['margin--0', 'margin-top--1p5']),
 ];
 
-const editButtonClassesMedium = prefixUtilityClasses(
-  ['flex--auto', 'margin-top--0'],
-  'medium',
-);
-
 const classes = {
-  wrapper: [...wrapperClasses, ...wrapperClassesMedium].join(' '),
-  editButton: [...editButtonClasses, ...editButtonClassesMedium].join(' '),
+  wrapper: wrapperClasses.join(' '),
+  editButton: editButtonClasses.join(' '),
 };
 
 class ContactInformationField extends React.Component {
@@ -114,6 +116,7 @@ class ContactInformationField extends React.Component {
   closeModalTimeoutID = null;
 
   componentDidUpdate(prevProps) {
+    const { fieldName } = this.props;
     // Exit the edit view if it takes more than 5 seconds for the update/save
     // transaction to resolve. If the transaction has not resolved after 5
     // seconds we will show a "we're saving your new information..." message on
@@ -138,9 +141,9 @@ class ContactInformationField extends React.Component {
     if (this.justClosedModal(prevProps, this.props)) {
       clearTimeout(this.closeModalTimeoutID);
       if (this.props.transaction) {
-        focusElement(`div#${this.props.fieldName}-transaction-status`);
+        focusElement(`div#${fieldName}-transaction-status`);
       }
-      focusElement(`button#${this.props.fieldName}-edit-link`);
+      focusElement(`#${getEditButtonId(fieldName)}`);
     }
   }
 
@@ -159,8 +162,8 @@ class ContactInformationField extends React.Component {
     this.props.clearTransactionRequest(this.props.fieldName);
   };
 
-  onEdit = () => {
-    this.captureEvent('edit-link');
+  onEdit = (event = 'edit-link') => {
+    this.captureEvent(event);
     this.openEditModal();
   };
 
@@ -244,15 +247,21 @@ class ContactInformationField extends React.Component {
     // default the content to the read-view
     let content = wrapInTransaction(
       <div className={classes.wrapper}>
-        <ContactInformationView data={data} fieldName={fieldName} />
+        <ContactInformationView
+          data={data}
+          fieldName={fieldName}
+          title={title}
+        />
 
         {this.isEditLinkVisible() && (
           <button
             aria-label={`Edit ${title}`}
             type="button"
             data-action="edit"
-            onClick={this.onEdit}
-            id={`${fieldName}-edit-link`}
+            onClick={() => {
+              this.onEdit(isEmpty ? 'add-link' : 'edit-link');
+            }}
+            id={getEditButtonId(fieldName)}
             className={classes.editButton}
           >
             Edit
@@ -260,22 +269,6 @@ class ContactInformationField extends React.Component {
         )}
       </div>,
     );
-
-    if (isEmpty) {
-      content = wrapInTransaction(
-        <button
-          type="button"
-          onClick={() => {
-            this.captureEvent('add-link');
-            this.openEditModal();
-          }}
-          className="va-button-link va-profile-btn"
-          id={`${fieldName}-edit-link`}
-        >
-          Please add your {title.toLowerCase()}
-        </button>,
-      );
-    }
 
     if (showEditView) {
       content = (
@@ -285,10 +278,9 @@ class ContactInformationField extends React.Component {
               fieldName,
               data: this.props.data,
               showSMSCheckbox: this.props.showSMSCheckbox,
-              editViewData: this.props.editViewData,
+              modalData: this.props.editViewData,
             })
           }
-          hasValidationError={this.props.hasValidationError}
           onCancel={this.onCancel}
           fieldName={this.props.fieldName}
         />
@@ -347,7 +339,9 @@ export const mapStateToProps = (state, ownProps) => {
     activeEditView === ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION;
   const isEnrolledInVAHealthCare = isVAPatient(state);
   const showSMSCheckbox =
-    ownProps.fieldName === FIELD_NAMES.MOBILE_PHONE && isEnrolledInVAHealthCare;
+    ownProps.fieldName === FIELD_NAMES.MOBILE_PHONE &&
+    isEnrolledInVAHealthCare &&
+    !showNotificationSettings(state);
 
   const { title } = getContactInfoFieldAttributes(fieldName);
   return {

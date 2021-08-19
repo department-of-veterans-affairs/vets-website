@@ -21,13 +21,13 @@
 
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 import get from 'platform/utilities/data/get';
 import {
   countries,
-  states50AndDC,
+  states,
   militaryCities,
 } from 'vets-json-schema/dist/constants.json';
 
@@ -38,6 +38,11 @@ import {
  * 3. MilitaryBaseInfo - expandable text to expound on military base addresses.
  * 4. addressSchema - data model for address schema.
  */
+
+// filtered States that include US territories
+const filteredStates = states.USA.filter(
+  state => !['AA', 'AE', 'AP'].includes(state.value),
+);
 
 const MILITARY_STATES = Object.entries(ADDRESS_DATA.states).reduce(
   (militaryStates, [stateCode, stateName]) => {
@@ -111,12 +116,14 @@ export const addressUISchema = (
         'ui:title': `${checkBoxTitleState} live on a United States military base outside of the U.S.`,
         'ui:options': {
           hideIf: () => !isMilitaryBaseAddress,
+          hideEmptyValueInReview: true,
         },
       },
       'view:livesOnMilitaryBaseInfo': {
         'ui:description': MilitaryBaseInfo,
         'ui:options': {
           hideIf: () => !isMilitaryBaseAddress,
+          hideEmptyValueInReview: true,
         },
       },
       countryName: {
@@ -163,10 +170,16 @@ export const addressUISchema = (
         },
       },
       addressLine2: {
-        'ui:title': 'Line 2',
+        'ui:title': 'Street address line 2',
+        'ui:options': {
+          hideEmptyValueInReview: true,
+        },
       },
       addressLine3: {
-        'ui:title': 'Line 3',
+        'ui:title': 'Street address line 3',
+        'ui:options': {
+          hideEmptyValueInReview: true,
+        },
       },
       city: {
         'ui:required': callback,
@@ -255,8 +268,8 @@ export const addressUISchema = (
               };
             }
             return {
-              enum: states50AndDC.map(state => state.value),
-              enumNames: states50AndDC.map(state => state.label),
+              enum: filteredStates.map(state => state.value),
+              enumNames: filteredStates.map(state => state.label),
             };
           },
         },
@@ -264,6 +277,7 @@ export const addressUISchema = (
       province: {
         'ui:title': 'State/Province/Region',
         'ui:options': {
+          hideEmptyValueInReview: true,
           hideIf: (formData, index) => {
             let militaryBasePath = livesOnMilitaryBasePath;
             let countryNamePath = `${path}.countryName`;

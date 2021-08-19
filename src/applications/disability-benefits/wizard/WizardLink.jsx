@@ -13,11 +13,8 @@ import { show526Wizard } from 'applications/disability-benefits/all-claims/utils
 const WizardLink = ({ showWizard, module }) => {
   const { Wizard, pages } = module.default;
   return showWizard ? (
-    <a href={manifest.rootUrl} className="usa-button-primary va-button-primary">
+    <a href={`${manifest.rootUrl}/start`} className="vads-c-action-link--green">
       Let&apos;s get started
-      <span role="img" aria-hidden="true" className="button-icon">
-        &nbsp;»
-      </span>
     </a>
   ) : (
     <Wizard pages={pages} expander buttonText="Let's get started" />

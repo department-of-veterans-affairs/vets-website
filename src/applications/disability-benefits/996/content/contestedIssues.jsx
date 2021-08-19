@@ -1,10 +1,12 @@
 import React from 'react';
 import moment from 'moment';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
+
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import {
   BOARD_APPEALS_URL,
@@ -13,7 +15,8 @@ import {
   NULL_CONDITION_STRING,
 } from '../constants';
 import DownloadLink from './DownloadLink';
-import { scrollTo } from '../helpers';
+
+import { apiVersion1 } from '../utils/helpers';
 
 // We shouldn't ever see the couldn't find contestable issues message since we
 // prevent the user from navigating past the intro page; but it's here just in
@@ -26,9 +29,11 @@ export const ContestedIssuesTitle = props =>
   ) : (
     <legend name="eligibleScrollElement" className="vads-u-font-size--lg">
       Select the issue(s) you would like reviewed
-      <span className="schemaform-required-span vads-u-font-weight--normal vads-u-font-size--base">
-        (*Required)
-      </span>
+      {apiVersion1(props.formData) && (
+        <span className="schemaform-required-span vads-u-font-weight--normal vads-u-font-size--base">
+          (*Required)
+        </span>
+      )}
     </legend>
   );
 
@@ -93,8 +98,8 @@ const disabilitiesList = (
         fill out VA Form 20-0996 and submit it by mail or in person.
       </li>
       <li>
-        The issue or decision isn’t our system yet. You’ll need to fill out VA
-        Form 20-0996 and submit it by mail or in person.
+        The issue or decision isn’t in our system yet. You’ll need to fill out
+        VA Form 20-0996 and submit it by mail or in person.
       </li>
       <li>
         You and another surviving dependent of the Veteran are applying for the
@@ -149,13 +154,16 @@ export const disabilitiesExplanation = (
 /**
  * Shows the alert box only if the form has been submitted
  */
-export const ContestedIssuesAlert = ({ className }) => {
-  setTimeout(() => scrollTo('eligibleScrollElement'), 300);
+export const ContestedIssuesAlert = ({ className = '' }) => {
+  setTimeout(() => scrollToTop(), 300);
   return (
-    <AlertBox
-      status="error"
-      className={`eligible-issues-error vads-u-margin-x--2 vads-u-margin-y--1 vads-u-padding-x--3 vads-u-padding-y--2 ${className}`}
-      headline="Please choose an eligible issue so we can process your request"
-    />
+    <va-alert status="error">
+      <h3
+        slot="headline"
+        className={`eligible-issues-error vads-u-margin-x--2 vads-u-margin-y--1 vads-u-padding-x--3 vads-u-padding-y--2 ${className}`}
+      >
+        Please choose an eligible issue so we can process your request
+      </h3>
+    </va-alert>
   );
 };

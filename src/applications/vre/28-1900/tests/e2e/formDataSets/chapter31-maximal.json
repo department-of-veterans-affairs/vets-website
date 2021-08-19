@@ -10,7 +10,7 @@
     "afternoon": false,
     "other": false
   },
-  "yearsOfEducation": "10",
+  "yearsOfEducation": "17",
   "isMoving": true,
   "newAddress": {
     "view:militaryBaseDescription": {},
@@ -41,8 +41,6 @@
       "last": "Doe",
       "suffix": "Jr."
     },
-    "ssn": "323456789",
-    "vaFileNumber": "323456789",
     "dob": "1988-03-02"
   }
 }

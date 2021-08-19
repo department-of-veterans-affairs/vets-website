@@ -12,7 +12,10 @@ const createStore = (data = {}) =>
       data: {
         'view:benefit': { chapter33: true },
         isEnrolledStem: true,
-        isPursuingTeachingCert: false,
+        'view:teachingCertClinicalTraining': {
+          isPursuingTeachingCert: false,
+          isPursuingClinicalTraining: false,
+        },
         benefitLeft: 'none',
         ...data,
       },
@@ -108,8 +111,10 @@ describe('<ConfirmEligibilityView>', () => {
 
   it('should display checkmark for correct isPursuingTeachingCert', () => {
     const store = createStore({
-      isEnrolledStem: false,
-      isPursuingTeachingCert: true,
+      'view:teachingCertClinicalTraining': {
+        isPursuingTeachingCert: true,
+        isPursuingClinicalTraining: false,
+      },
     });
     const tree = mount(
       <Provider store={store}>
@@ -129,7 +134,10 @@ describe('<ConfirmEligibilityView>', () => {
   it('should display X for invalid enrollment', () => {
     const store = createStore({
       isEnrolledStem: false,
-      isPursuingTeachingCert: false,
+      'view:teachingCertClinicalTraining': {
+        isPursuingTeachingCert: false,
+        isPursuingClinicalTraining: false,
+      },
     });
     const tree = mount(
       <Provider store={store}>
@@ -154,7 +162,7 @@ describe('<ConfirmEligibilityView>', () => {
     );
     const icon = tree
       .find('li')
-      .at(2)
+      .at(5)
       .find('i');
     expect(icon.hasClass('fa-check')).to.equal(true);
     expect(icon.hasClass('vads-u-color--green')).to.equal(true);
@@ -173,7 +181,7 @@ describe('<ConfirmEligibilityView>', () => {
     );
     const icon = tree
       .find('li')
-      .at(2)
+      .at(5)
       .find('i');
     expect(icon.hasClass('fa-times')).to.equal(true);
     expect(icon.hasClass('vads-u-color--gray-medium')).to.equal(true);
@@ -194,8 +202,7 @@ describe('<ConfirmEligibilityView>', () => {
         <ConfirmEligibilityView {...defaultProps} />
       </Provider>,
     );
-
-    expect(tree.html()).to.contain('6 months, 1 days');
+    expect(tree.html()).to.contain('6 months');
 
     tree.unmount();
   });

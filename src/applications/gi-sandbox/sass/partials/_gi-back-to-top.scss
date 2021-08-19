@@ -1,0 +1,107 @@
+// CSS in this file is based on https://github.com/department-of-veterans-affairs/veteran-facing-services-tools/blob/master/packages/formation/sass/modules/_m-back-to-top.scss
+
+.back-to-top {
+  width: 100%;
+  z-index: 2000;
+
+  .usa-content {
+    position: relative;
+  }
+
+  .back-to-top-container {
+    float: right;
+    width: auto;
+    position: inherit;
+    bottom: 0;
+    pointer-events: none;
+
+    button {
+      bottom: 0;
+      background-color: $color-gray-dark;
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
+      height: 44px;
+      margin: 0;
+      opacity: 0;
+      padding: 0;
+      pointer-events: none;
+      position: inherit;
+      right: auto;
+      width: 44px;
+
+      span {
+        i {
+          margin-right: 0;
+          font-size: 2rem;
+
+          @include media($medium-screen) {
+            margin-right: 0.8rem;
+            font-size: 1.5rem;
+          }
+        }
+
+        &:last-child {
+          @media (max-width: $medium-screen) {
+            /* Use the .vads-u-visibility--screen-reader to make text SR-only for mobile */
+            /* https://design.va.gov/utilities/visibility */
+            border: 0;
+            clip: rect(0, 0, 0, 0);
+            -webkit-clip-path: inset(50%);
+            clip-path: inset(50%);
+            height: 1px;
+            margin: -1px;
+            overflow: hidden;
+            padding: 0;
+            position: absolute !important;
+            width: 1px;
+            word-wrap: normal !important;
+          }
+        }
+      }
+
+      &:hover {
+        background-color: $color-black;
+      }
+
+      &.va-top-button-transition-in {
+        pointer-events: all;
+        opacity: 1;
+      }
+
+      @include media($medium-screen) {
+        padding-left: 17px;
+        padding-right: 19px;
+        width: auto;
+      }
+
+      .va-top-button-transition-in {
+        transform: translateY(-12px);
+      }
+    }
+  }
+}
+
+.back-to-top-floating {
+  position: fixed;
+
+  .back-to-top-container-floating {
+    bottom: 3.3em;
+    @include media-maxwidth($small-screen - 1) {
+      padding-right: 10px;
+    }
+  }
+
+  .back-to-top-container-floating-open {
+    bottom: 13.3em;
+    @include media-maxwidth($small-screen - 1) {
+      padding-right: 10px;
+    }
+  }
+}
+
+.placeholder {
+  height: 0;
+  &.button-floating {
+    height: 44px !important;
+  }
+}

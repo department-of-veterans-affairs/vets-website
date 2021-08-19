@@ -1,24 +1,55 @@
-import React, { useEffect } from 'react';
-import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import React, { useCallback, useEffect } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 import { links } from 'applications/caregivers/definitions/content';
 import { withRouter } from 'react-router';
-import { CaregiverSupportInfo } from 'applications/caregivers/components/AdditionalInfo';
+import {
+  CaregiverSupportInfo,
+  CaregiversPrivacyActStatement,
+} from 'applications/caregivers/components/AdditionalInfo';
 import {
   DowntimeNotification,
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { setData } from 'platform/forms-system/src/js/actions';
 
-const IntroductionPage = ({ route, router }) => {
+export const IntroductionPage = ({
+  route,
+  router,
+  formData,
+  setFormData,
+  canUpload1010cgPOA,
+}) => {
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
+
+  const getFeatureFlip = useCallback(
+    () => {
+      setFormData({
+        ...formData,
+        'view:canUpload1010cgPOA': canUpload1010cgPOA,
+      });
+    },
+    [setFormData, canUpload1010cgPOA],
+  );
+
+  useEffect(
+    () => {
+      getFeatureFlip();
+    },
+    [getFeatureFlip],
+  );
 
   const startForm = () => {
     recordEvent({ event: 'caregivers-10-10cg-start-form' });
@@ -29,8 +60,7 @@ const IntroductionPage = ({ route, router }) => {
   const ProcessTimeline = () => (
     <div>
       <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2p5">
-        Follow the steps below to apply for the Program of Comprehensive
-        Assistance for Family Caregivers:
+        Follow these steps to get started:
       </h2>
 
       <div className="process schemaform-process">
@@ -56,7 +86,7 @@ const IntroductionPage = ({ route, router }) => {
               </li>
 
               <li className="call-to-action-bullet">
-                The Veteran&apos;s Social Security number or tax identification
+                The Veteran’s Social Security number or tax identification
                 number (This is required for the online application only.) If
                 you’d like to apply without providing this information, you can
                 download the paper form
@@ -82,6 +112,16 @@ const IntroductionPage = ({ route, router }) => {
                 </p>
               </li>
             </ul>
+
+            {canUpload1010cgPOA && (
+              <p data-testid="poa-info-note">
+                <strong>Note:</strong> A legal representative, or someone with
+                power of attorney, can fill out this application on behalf of
+                the Veteran. They’ll need to sign the application. They’ll also
+                have a chance to submit documentation to show their status as a
+                legal representative.
+              </p>
+            )}
 
             <div>
               <h4 className="vads-u-font-size--h6">
@@ -161,7 +201,7 @@ const IntroductionPage = ({ route, router }) => {
           </li>
 
           {/* Next steps */}
-          <li className="process-step list-three">
+          <li className="process-step list-three vads-u-padding-bottom--0">
             <h3 className="vads-u-font-size--h4">Next steps</h3>
             <p>
               A member of the Caregiver Support Program at the VA medical center
@@ -191,7 +231,7 @@ const IntroductionPage = ({ route, router }) => {
                 href={links.caregiverHelpPage.link}
                 className="vads-u-margin-left--0p5"
               >
-                www.caregiver.va.gov
+                {links.caregiverHelpPage.label}
               </a>
               , or discuss your options with your local Caregiver Support
               Coordinator.
@@ -216,31 +256,52 @@ const IntroductionPage = ({ route, router }) => {
         <p>
           Equal to VA Form 10-10CG (Application for Family Caregiver Benefits)
         </p>
+
         <p className="va-introtext">
           We recognize the important role of family caregivers in supporting the
           health and wellness of Veterans.
         </p>
 
-        <button
-          style={{ display: 'inherit ' }}
-          className="usa-button vads-u-margin-y--3"
-          onClick={startForm}
-        >
+        <a className="vads-c-action-link--green" href="#" onClick={startForm}>
           Start your application
-        </button>
+        </a>
+
         <ProcessTimeline />
-        <button
-          className="usa-button vads-u-margin-bottom--3"
-          onClick={startForm}
-        >
+
+        <a className="vads-c-action-link--green" href="#" onClick={startForm}>
           Start your application
-        </button>
-        <div className="omb-info--container vads-u-padding-left--0">
-          <OMBInfo resBurden={15} ombNumber="2900-0768" expDate="09/30/2021" />
+        </a>
+
+        <div className="omb-info--container vads-u-padding-left--0  vads-u-margin-top--4">
+          <OMBInfo resBurden={15} ombNumber="2900-0768" expDate="04/30/2024">
+            <CaregiversPrivacyActStatement />
+          </OMBInfo>
         </div>
       </DowntimeNotification>
     </div>
   );
 };
 
-export default withRouter(IntroductionPage);
+const mapStateToProps = state => ({
+  formData: state.form.data,
+  canUpload1010cgPOA: toggleValues(state)[
+    FEATURE_FLAG_NAMES.canUpload1010cgPOA
+  ],
+});
+
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
+IntroductionPage.propTypes = {
+  canUpload1010cgPOA: PropTypes.bool,
+  setFormData: PropTypes.func,
+  formData: PropTypes.object,
+};
+
+const introPageWithRouter = withRouter(IntroductionPage);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(introPageWithRouter);

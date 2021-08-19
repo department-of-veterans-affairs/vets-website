@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 // Node modules.
 import each from 'lodash/each';
 import reduce from 'lodash/reduce';
@@ -72,7 +71,7 @@ export const fetchResultsThunk = () => async dispatch => {
       reduce(
         response.data,
         (scopes, app) => {
-          return [...scopes, ...app.service_categories];
+          return [...scopes, ...app.serviceCategories];
         },
         [],
       ),

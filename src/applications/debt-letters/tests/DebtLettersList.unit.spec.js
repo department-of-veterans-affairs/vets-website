@@ -53,9 +53,15 @@ describe('DebtLettersList', () => {
   });
   it('renders correct number of debt rows', () => {
     const wrapper = shallow(<DebtLettersList store={fakeStore} />);
-    expect(wrapper.dive().find(`DebtLettersTable`).length).to.equal(1);
     expect(
       wrapper
+        .dive()
+        .dive()
+        .find(`DebtLettersTable`).length,
+    ).to.equal(1);
+    expect(
+      wrapper
+        .dive()
         .dive()
         .find('DebtLettersTable')
         .dive()
@@ -65,6 +71,7 @@ describe('DebtLettersList', () => {
     ).to.equal('May 29, 2020');
     expect(
       wrapper
+        .dive()
         .dive()
         .find('DebtLettersTable')
         .dive()
@@ -94,7 +101,6 @@ describe('DebtLettersList', () => {
     };
     const wrapper = shallow(<DebtLettersList store={fakeStoreEmptyState} />);
     expect(wrapper.dive().find(`table`).length).to.equal(0);
-    expect(wrapper.dive().find('CoronaVirusAlert').length).to.equal(1);
     wrapper.unmount();
   });
 });

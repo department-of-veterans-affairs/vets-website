@@ -4,8 +4,8 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 // Relative
 import Banners from './index';
-import EmergencyBanner from '@department-of-veterans-affairs/formation-react/EmergencyBanner';
-import MaintenanceBanner from '@department-of-veterans-affairs/formation-react/MaintenanceBanner';
+import EmergencyBanner from '@department-of-veterans-affairs/component-library/EmergencyBanner';
+import MaintenanceBanner from '@department-of-veterans-affairs/component-library/MaintenanceBanner';
 
 describe('<Banners>', () => {
   const defaultProps = {

@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';

@@ -1,5 +1,5 @@
 import React from 'react';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { buildHours } from '../../facility-locator/utils/facilityHours';
 import FacilityAddress from './FacilityAddress';
 import FacilityPhone from './FacilityPhone';

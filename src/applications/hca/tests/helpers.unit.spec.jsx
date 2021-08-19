@@ -202,93 +202,156 @@ describe('HCA helpers', () => {
       newProps = { ...defaultProps, shouldRedirect: true };
       expect(didEnrollmentStatusChange(prevProps, newProps)).to.equal(true);
     });
-    it('prefillTransformer should auto-fill formData from user state', () => {
-      const formData = {
-        veteranFullName: { first: 'Greg', middle: 'A', last: 'Anderson' },
-        gender: 'M',
-        veteranDateOfBirth: '1933-05-04',
-        veteranSocialSecurityNumber: '796121200',
-        homePhone: '4445551212',
-        email: 'test2@test1.net',
-        lastServiceBranch: 'air force',
-        lastEntryDate: '2001-03-21',
-        postNov111998Combat: true,
-        lastDischargeDate: '2014-07-21',
-        dischargeType: 'honorable',
-        vaCompensationType: 'lowDisability',
-        'view:demographicCategories': { isSpanishHispanicLatino: false },
-      };
+  });
 
-      const state = {
-        user: {
-          profile: {
-            vapContactInfo: {
-              residentialAddress: {
-                addressLine1: 'PSC 808 Box 37',
-                addressLine2: null,
-                addressLine3: null,
-                addressPou: 'RESIDENCE/CHOICE',
-                addressType: 'OVERSEAS MILITARY',
-                city: 'FPO',
-                countryCodeFips: 'US',
-                countryCodeIso2: 'US',
-                countryCodeIso3: 'USA',
-                countryName: 'United States',
-                createdAt: '2018-04-21T20:09:50Z',
-                effectiveEndDate: '2018-04-21T20:09:50Z',
-                effectiveStartDate: '2018-04-21T20:09:50Z',
-                id: 124,
-                internationalPostalCode: '54321',
-                latitude: 37.5615,
-                longitude: -121.9988,
-                province: 'string',
-                sourceDate: '2018-04-21T20:09:50Z',
-                stateCode: 'AE',
-                updatedAt: '2018-04-21T20:09:50Z',
-                zipCode: '09618',
-                zipCodeSuffix: '1234',
-              },
-              mailingAddress: {
-                addressLine1: '1493 Martin Luther King Rd',
-                addressLine2: 'Apt 1',
-                addressLine3: null,
-                addressPou: 'CORRESPONDENCE',
-                addressType: 'DOMESTIC',
-                city: 'Fulton',
-                countryName: 'United States',
-                countryCodeFips: 'US',
-                countryCodeIso2: 'US',
-                countryCodeIso3: 'USA',
-                createdAt: '2018-04-21T20:09:50Z',
-                effectiveEndDate: '2018-04-21T20:09:50Z',
-                effectiveStartDate: '2018-04-21T20:09:50Z',
-                id: 123,
-                internationalPostalCode: '54321',
-                province: 'string',
-                sourceDate: '2018-04-21T20:09:50Z',
-                stateCode: 'NY',
-                updatedAt: '2018-04-21T20:09:50Z',
-                zipCode: '97062',
-                zipCodeSuffix: '1234',
-              },
+  it('prefillTransformer should auto-fill formData from user state', () => {
+    const formData = {
+      veteranFullName: { first: 'Greg', middle: 'A', last: 'Anderson' },
+      gender: 'M',
+      veteranDateOfBirth: '1933-05-04',
+      veteranSocialSecurityNumber: '796121200',
+      homePhone: '4445551212',
+      email: 'test2@test1.net',
+      lastServiceBranch: 'air force',
+      lastEntryDate: '2001-03-21',
+      postNov111998Combat: true,
+      lastDischargeDate: '2014-07-21',
+      dischargeType: 'honorable',
+      vaCompensationType: 'lowDisability',
+      'view:demographicCategories': { isSpanishHispanicLatino: false },
+    };
+
+    const state = {
+      user: {
+        profile: {
+          vapContactInfo: {
+            residentialAddress: {
+              addressLine1: 'PSC 808 Box 37',
+              addressLine2: null,
+              addressLine3: null,
+              addressPou: 'RESIDENCE/CHOICE',
+              addressType: 'OVERSEAS MILITARY',
+              city: 'FPO',
+              countryCodeFips: 'US',
+              countryCodeIso2: 'US',
+              countryCodeIso3: 'USA',
+              countryName: 'United States',
+              createdAt: '2018-04-21T20:09:50Z',
+              effectiveEndDate: '2018-04-21T20:09:50Z',
+              effectiveStartDate: '2018-04-21T20:09:50Z',
+              id: 124,
+              internationalPostalCode: '54321',
+              latitude: 37.5615,
+              longitude: -121.9988,
+              province: 'string',
+              sourceDate: '2018-04-21T20:09:50Z',
+              stateCode: 'AE',
+              updatedAt: '2018-04-21T20:09:50Z',
+              zipCode: '09618',
+              zipCodeSuffix: '1234',
+            },
+            mailingAddress: {
+              addressLine1: '1493 Martin Luther King Rd',
+              addressLine2: 'Apt 1',
+              addressLine3: null,
+              addressPou: 'CORRESPONDENCE',
+              addressType: 'DOMESTIC',
+              city: 'Fulton',
+              countryName: 'United States',
+              countryCodeFips: 'US',
+              countryCodeIso2: 'US',
+              countryCodeIso3: 'USA',
+              createdAt: '2018-04-21T20:09:50Z',
+              effectiveEndDate: '2018-04-21T20:09:50Z',
+              effectiveStartDate: '2018-04-21T20:09:50Z',
+              id: 123,
+              internationalPostalCode: '54321',
+              province: 'string',
+              sourceDate: '2018-04-21T20:09:50Z',
+              stateCode: 'NY',
+              updatedAt: '2018-04-21T20:09:50Z',
+              zipCode: '97062',
+              zipCodeSuffix: '1234',
             },
           },
         },
-      };
+      },
+    };
 
-      const prefillData = prefillTransformer(null, formData, null, state)
-        .formData;
+    const prefillData = prefillTransformer(null, formData, null, state)
+      .formData;
 
-      // should have autofill length
-      expect(Object.keys(prefillData).length).to.equal(16);
-      // should have autofill residential address length
-      expect(Object.keys(prefillData.veteranAddress).length).to.equal(7);
-      // should have autofill mailing if exist address length
-      expect(Object.keys(prefillData.veteranMailingAddress).length).to.equal(7);
-      // if addresses match check whether they do or not
-      expect(prefillData['view:doesPermanentAddressMatchMailing']).to.equal(
-        false,
-      );
-    });
+    // should have autofill length
+    expect(Object.keys(prefillData).length).to.equal(16);
+    // should have autofill residential address length
+    expect(Object.keys(prefillData.veteranAddress).length).to.equal(7);
+    // should have autofill mailing if exist address length
+    expect(Object.keys(prefillData.veteranHomeAddress).length).to.equal(7);
+    // if addresses match check whether they do or not
+    expect(prefillData['view:doesMailingMatchHomeAddress']).to.equal(false);
+  });
+
+  it('prefillTransformer should auto-fill formData from user state', () => {
+    const formData = {
+      veteranFullName: { first: 'Greg', middle: 'A', last: 'Anderson' },
+      gender: 'M',
+      veteranDateOfBirth: '1933-05-04',
+      veteranSocialSecurityNumber: '796121200',
+      homePhone: '4445551212',
+      email: 'test2@test1.net',
+      lastServiceBranch: 'air force',
+      lastEntryDate: '2001-03-21',
+      postNov111998Combat: true,
+      lastDischargeDate: '2014-07-21',
+      dischargeType: 'honorable',
+      vaCompensationType: 'lowDisability',
+      'view:demographicCategories': { isSpanishHispanicLatino: false },
+    };
+
+    const state = {
+      user: {
+        profile: {
+          vapContactInfo: {
+            residentialAddress: {
+              addressLine1: 'PSC 808 Box 37',
+              addressLine2: null,
+              addressLine3: null,
+              addressPou: 'RESIDENCE/CHOICE',
+              addressType: 'OVERSEAS MILITARY',
+              city: 'FPO',
+              countryCodeFips: 'US',
+              countryCodeIso2: 'US',
+              countryCodeIso3: 'USA',
+              countryName: 'United States',
+              createdAt: '2018-04-21T20:09:50Z',
+              effectiveEndDate: '2018-04-21T20:09:50Z',
+              effectiveStartDate: '2018-04-21T20:09:50Z',
+              id: 124,
+              internationalPostalCode: '54321',
+              latitude: 37.5615,
+              longitude: -121.9988,
+              province: 'string',
+              sourceDate: '2018-04-21T20:09:50Z',
+              stateCode: 'AE',
+              updatedAt: '2018-04-21T20:09:50Z',
+              zipCode: '09618',
+              zipCodeSuffix: '1234',
+            },
+          },
+        },
+      },
+    };
+
+    const prefillData = prefillTransformer(null, formData, null, state)
+      .formData;
+
+    // should have autofill length
+    expect(Object.keys(prefillData).length).to.equal(15);
+    // should have autofill residential address length
+    expect(prefillData.veteranAddress).to.equal(undefined);
+    // should have autofill mailing if exist address length
+    expect(Object.keys(prefillData.veteranHomeAddress).length).to.equal(7);
+    // if addresses match check whether they do or not
+    expect(prefillData['view:doesMailingMatchHomeAddress']).to.equal(undefined);
   });
 });

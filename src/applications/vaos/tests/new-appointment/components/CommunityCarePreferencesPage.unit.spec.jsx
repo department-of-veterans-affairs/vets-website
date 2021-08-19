@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { cleanup } from '@testing-library/react';
 import { waitFor } from '@testing-library/dom';
 
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 
 import {
   createTestStore,
@@ -17,6 +17,7 @@ import {
   mockCommunityCareEligibility,
   mockParentSites,
 } from '../../mocks/helpers';
+import { GA_PREFIX } from '../../../utils/constants';
 
 import CommunityCarePreferencesPage from '../../../new-appointment/components/CommunityCarePreferencesPage';
 
@@ -32,7 +33,6 @@ const initialState = {
 };
 describe('VAOS <CommunityCarePreferencesPage>', () => {
   beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
   it('should render the page with appropriate inputs and prevent submission without required fields', async () => {
     mockParentSites(
       ['983'],
@@ -64,6 +64,12 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
       /do you have a preferred VA-approved community care provider for this primary care appointment/i,
     );
 
+    expect(
+      global.window.dataLayer.find(
+        ev => ev.event === `${GA_PREFIX}-community-care-legacy-provider-page`,
+      ),
+    ).to.exist;
+
     expect(screen.getAllByRole('radio').length).to.equal(2);
     expect(screen.getAllByRole('combobox').length).to.equal(1);
     expect(screen.queryAllByRole('textbox').length).to.equal(0);
@@ -76,7 +82,7 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
     expect(screen.getAllByRole('combobox').length).to.equal(2);
     expect(
       screen.getByRole('link', { name: /facility locator/i }),
-    ).to.have.attribute('href', '/find-locations/?facilityType=cc_provider');
+    ).to.have.attribute('href', '/find-locations/?facilityType=provider');
     expect(screen.baseElement).to.contain.text(
       'We’ll try to schedule your appointment',
     );

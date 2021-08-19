@@ -3,7 +3,12 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import 'url-search-params-polyfill';
 
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import AutoSSO from 'platform/site-wide/user-nav/containers/AutoSSO';
+import SignInButtons from '../components/SignInButtons';
+import SignInDescription from '../components/SignInDescription';
+import FedWarning from '../components/FedWarning';
+import LogoutAlert from '../components/LogoutAlert';
 
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
@@ -11,11 +16,6 @@ import environment from 'platform/utilities/environment';
 import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { selectProfile, isProfileLoading } from 'platform/user/selectors';
 
-import AutoSSO from 'platform/site-wide/user-nav/containers/AutoSSO';
-import SignInButtons from '../components/SignInButtons';
-import SignInDescription from '../components/SignInDescription';
-import FedWarning from '../components/FedWarning';
-import LogoutAlert from '../components/LogoutAlert';
 import downtimeBanners from '../utilities/downtimeBanners';
 
 const vaGovFullDomain = environment.BASE_URL;

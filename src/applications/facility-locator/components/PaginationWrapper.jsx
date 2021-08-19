@@ -1,4 +1,4 @@
-import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
+import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { LocationType } from '../constants';
@@ -40,9 +40,11 @@ const mapStateToProps = state => {
   let isCommunityProviderSearch = false;
 
   if (
-    [LocationType.CC_PROVIDER, LocationType.URGENT_CARE_PHARMACIES].includes(
-      state.searchQuery.facilityType,
-    )
+    [
+      LocationType.CC_PROVIDER,
+      LocationType.URGENT_CARE_PHARMACIES,
+      LocationType.EMERGENCY_CARE,
+    ].includes(state.searchQuery.facilityType)
   ) {
     isCommunityProviderSearch = true;
   }

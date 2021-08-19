@@ -1,20 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import environment from 'platform/utilities/environment';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 import * as actions from '../redux/actions';
 import {
   selectFeatureCancel,
   selectFeatureRequests,
-  selectFeaturePastAppointments,
   selectIsCernerOnlyPatient,
 } from '../../redux/selectors';
 import {
   selectFutureAppointments,
-  selectExpressCareAvailability,
   selectFutureStatus,
 } from '../redux/selectors';
 import {
@@ -26,9 +22,9 @@ import { getVAAppointmentLocationId } from '../../services/appointment';
 import ConfirmedAppointmentListItem from './cards/confirmed/ConfirmedAppointmentListItem';
 import AppointmentRequestListItem from './cards/pending/AppointmentRequestListItem';
 import NoAppointments from './NoAppointments';
+import InfoAlert from '../../components/InfoAlert';
 
 function FutureAppointmentsList({
-  showPastAppointments,
   showCancelButton,
   showScheduleButton,
   isCernerOnlyPatient,
@@ -36,21 +32,10 @@ function FutureAppointmentsList({
   futureStatus,
   facilityData,
   requestMessages,
-  expressCare,
-  cancelAppointment,
+  startAppointmentCancel,
   fetchRequestMessages,
-  fetchFutureAppointments,
   startNewAppointmentFlow,
 }) {
-  useEffect(
-    () => {
-      if (!expressCare.enabled && futureStatus === FETCH_STATUS.notStarted) {
-        fetchFutureAppointments();
-      }
-    },
-    [expressCare.enabled, fetchFutureAppointments, futureStatus],
-  );
-
   let content;
 
   if (futureStatus === FETCH_STATUS.loading) {
@@ -61,75 +46,55 @@ function FutureAppointmentsList({
     );
   } else if (futureStatus === FETCH_STATUS.succeeded && future?.length > 0) {
     content = (
-      <>
-        {!showPastAppointments && (
-          <>
-            <p>
-              To view past appointments you’ve made,{' '}
-              <a
-                href={`https://${
-                  !environment.isProduction() ? 'mhv-syst' : 'www'
-                }.myhealth.va.gov/mhv-portal-web/appointments`}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() =>
-                  recordEvent({
-                    event: 'vaos-past-appointments-legacy-link-clicked',
-                  })
-                }
-              >
-                go to My HealtheVet
-              </a>
-              .
-            </p>
-          </>
-        )}
-        <ul className="usa-unstyled-list" id="appointments-list">
-          {future.map((appt, index) => {
-            const facilityId = getVAAppointmentLocationId(appt);
+      // eslint-disable-next-line jsx-a11y/no-redundant-roles
+      <ul className="usa-unstyled-list" id="appointments-list" role="list">
+        {future.map((appt, index) => {
+          const facilityId = getVAAppointmentLocationId(appt);
 
-            switch (appt.vaos?.appointmentType) {
-              case APPOINTMENT_TYPES.vaAppointment:
-              case APPOINTMENT_TYPES.ccAppointment:
-                return (
-                  <ConfirmedAppointmentListItem
-                    key={index}
-                    index={index}
-                    appointment={appt}
-                    facility={facilityData[facilityId]}
-                    showCancelButton={showCancelButton}
-                    cancelAppointment={cancelAppointment}
-                  />
-                );
-              case APPOINTMENT_TYPES.request:
-              case APPOINTMENT_TYPES.ccRequest: {
-                return (
-                  <AppointmentRequestListItem
-                    key={index}
-                    index={index}
-                    appointment={appt}
-                    facility={facilityData[facilityId]}
-                    facilityId={facilityId}
-                    showCancelButton={showCancelButton}
-                    cancelAppointment={cancelAppointment}
-                    fetchMessages={fetchRequestMessages}
-                    messages={requestMessages}
-                  />
-                );
-              }
-              default:
-                return null;
+          switch (appt.vaos?.appointmentType) {
+            case APPOINTMENT_TYPES.vaAppointment:
+            case APPOINTMENT_TYPES.ccAppointment:
+              return (
+                <ConfirmedAppointmentListItem
+                  key={index}
+                  index={index}
+                  appointment={appt}
+                  facility={facilityData[facilityId]}
+                  showCancelButton={showCancelButton}
+                  cancelAppointment={startAppointmentCancel}
+                />
+              );
+            case APPOINTMENT_TYPES.request:
+            case APPOINTMENT_TYPES.ccRequest: {
+              return (
+                <AppointmentRequestListItem
+                  key={index}
+                  index={index}
+                  appointment={appt}
+                  facility={facilityData[facilityId]}
+                  facilityId={facilityId}
+                  showCancelButton={showCancelButton}
+                  cancelAppointment={startAppointmentCancel}
+                  fetchMessages={fetchRequestMessages}
+                  messages={requestMessages}
+                />
+              );
             }
-          })}
-        </ul>
-      </>
+            default:
+              return null;
+          }
+        })}
+      </ul>
     );
   } else if (futureStatus === FETCH_STATUS.failed) {
     content = (
-      <AlertBox status="error" headline="We’re sorry. We’ve run into a problem">
+      <InfoAlert
+        status="error"
+        headline="We’re sorry. We’ve run into a problem"
+      >
         We’re having trouble getting your upcoming appointments. Please try
         again later.
-      </AlertBox>
+      </InfoAlert>
     );
   } else {
     content = (
@@ -148,38 +113,20 @@ function FutureAppointmentsList({
     );
   }
 
-  const header = !expressCare.hasRequests && (
-    <h2 className="vads-u-margin-bottom--4 vads-u-font-size--h3">
-      Upcoming appointments
-    </h2>
-  );
-
-  if (!showPastAppointments) {
-    return (
-      <>
-        {header}
-        {content}
-      </>
-    );
-  }
-
   return (
     <div role="tabpanel" aria-labelledby="tabupcoming" id="tabpanelupcoming">
-      {header}
       {content}
     </div>
   );
 }
 
 FutureAppointmentsList.propTypes = {
-  cancelAppointment: PropTypes.func,
+  startAppointmentCancel: PropTypes.func,
   isCernerOnlyPatient: PropTypes.bool,
   fetchRequestMessages: PropTypes.func,
   fetchFutureAppointments: PropTypes.func,
   showCancelButton: PropTypes.bool,
-  showPastAppointments: PropTypes.bool,
   showScheduleButton: PropTypes.bool,
-  showExpressCare: PropTypes.bool,
   startNewAppointmentFlow: PropTypes.func,
 };
 
@@ -191,14 +138,12 @@ function mapStateToProps(state) {
     future: selectFutureAppointments(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showCancelButton: selectFeatureCancel(state),
-    showPastAppointments: selectFeaturePastAppointments(state),
     showScheduleButton: selectFeatureRequests(state),
-    expressCare: selectExpressCareAvailability(state),
   };
 }
 
 const mapDispatchToProps = {
-  cancelAppointment: actions.cancelAppointment,
+  startAppointmentCancel: actions.startAppointmentCancel,
   fetchFutureAppointments: actions.fetchFutureAppointments,
   fetchRequestMessages: actions.fetchRequestMessages,
   startNewAppointmentFlow: actions.startNewAppointmentFlow,

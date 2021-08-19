@@ -34,7 +34,7 @@ class VAPServiceTransactionPending extends React.Component {
       content = (
         <span>
           We’re working on saving your new {this.props.title.toLowerCase()} and
-          text alert preference. They will show on your profile once they've
+          text alert preference. They will show on your profile once they’ve
           been updated.
         </span>
       );

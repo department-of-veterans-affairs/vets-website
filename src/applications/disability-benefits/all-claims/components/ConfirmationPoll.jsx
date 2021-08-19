@@ -4,12 +4,12 @@ import { createSelector } from 'reselect';
 
 import get from 'platform/utilities/data/get';
 import { apiRequest } from 'platform/utilities/api';
+import { focusElement } from 'platform/utilities/ui';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { pendingMessage } from '../content/confirmation-poll';
 
 import { submissionStatuses, terminalStatuses } from '../constants';
-import { confirmationEmailFeature } from '../utils';
 
 export class ConfirmationPoll extends React.Component {
   // Using it as a prop for easy testing
@@ -99,17 +99,13 @@ export class ConfirmationPoll extends React.Component {
   render() {
     const { submissionStatus, claimId } = this.state;
     if (submissionStatus === submissionStatuses.pending) {
+      setTimeout(() => focusElement('.loading-indicator-container'));
       return pendingMessage(this.state.longWait);
     }
 
-    const {
-      fullName,
-      disabilities,
-      submittedAt,
-      jobId,
-      areConfirmationEmailTogglesOn,
-    } = this.props;
+    const { fullName, disabilities, submittedAt, jobId } = this.props;
 
+    setTimeout(() => focusElement('h2'));
     return (
       <ConfirmationPage
         submissionStatus={submissionStatus}
@@ -118,7 +114,6 @@ export class ConfirmationPoll extends React.Component {
         fullName={fullName}
         disabilities={disabilities}
         submittedAt={submittedAt}
-        areConfirmationEmailTogglesOn={areConfirmationEmailTogglesOn}
       />
     );
   }
@@ -140,7 +135,6 @@ function mapStateToProps(state) {
     disabilities: selectAllDisabilityNames(state),
     submittedAt: state.form.submission.timestamp,
     jobId: state.form.submission.response?.attributes?.jobId,
-    areConfirmationEmailTogglesOn: confirmationEmailFeature(state),
   };
 }
 

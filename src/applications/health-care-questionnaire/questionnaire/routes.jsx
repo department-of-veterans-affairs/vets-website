@@ -3,19 +3,26 @@ import formConfig from './config/form';
 import QuestionnaireWrapper from './containers/QuestionnaireWrapper.jsx';
 
 import {
-  getCurrentAppointmentId,
   addAppointmentIdToFormId,
+  getCurrentAppointmentId,
+  getCurrentQuestionnaire,
   onFormEnter,
-} from './utils';
+} from '../shared/utils';
 
 const id = getCurrentAppointmentId(window);
-formConfig.formId = addAppointmentIdToFormId(id, formConfig.formId);
+const questionnaire = getCurrentQuestionnaire(window, id);
+const questionnaireId = questionnaire?.id;
+formConfig.formId = addAppointmentIdToFormId(
+  formConfig.formId,
+  id,
+  questionnaireId,
+);
 
 const route = {
   path: '/',
   component: QuestionnaireWrapper,
   indexRoute: {
-    onEnter: onFormEnter(id),
+    onEnter: onFormEnter(id, window),
   },
 
   childRoutes: createRoutesWithSaveInProgress(formConfig),

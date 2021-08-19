@@ -3,6 +3,9 @@ node_modules/
 /build/
 logs/
 tmp/
+out/
+src/applications/vaos/docs/
+src/site/tests/html/
 
 # Files to ignore
 ._*
@@ -51,5 +54,7 @@ websiteContentBuildHash.txt
 
 cms.diff
 graphql-data.json
-
+/content-object-diffs
+content-object-diff.json
+comparison-output/
 

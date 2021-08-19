@@ -5,7 +5,7 @@ import Scroll from 'react-scroll';
 import { focusElement } from 'platform/utilities/ui';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -18,7 +18,7 @@ const scrollToTop = () => {
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
-    focusElement('.schemaform-title > h1');
+    focusElement('#thank-you-message');
     scrollToTop();
   }
 
@@ -33,7 +33,10 @@ export class ConfirmationPage extends React.Component {
         <p>
           Equal to VA Form 28-8832 (Education/Vocational Counseling Application)
         </p>
-        <h2 className="vads-u-font-size--h3 vads-u-margin-top--1">
+        <h2
+          id="thank-you-message"
+          className="vads-u-font-size--h3 vads-u-margin-top--1"
+        >
           Thank you for submitting your application
         </h2>
         <div className="inset">

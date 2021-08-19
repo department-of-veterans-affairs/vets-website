@@ -5,15 +5,10 @@ import {
   fetchVAFacility,
   getProviderSpecialties,
 } from '../../actions';
-import {
-  decimal,
-  eachLike,
-  integer,
-  string,
-} from '@pact-foundation/pact/dsl/matchers';
+import { Matchers } from '@pact-foundation/pact';
 import sinon from 'sinon';
-import LocatorApi from '../../api/LocatorApi';
 
+const { decimal, eachLike, integer, string } = Matchers;
 const bounds = ['-112.54', '32.53', '-111.04', '34.03'];
 const address = 'South Gilbert Road, Chandler, Arizona 85286, United States';
 
@@ -34,46 +29,6 @@ const ccpInteraction = {
       // eslint-disable-next-line camelcase
       per_page: '10',
       trim: 'true',
-    },
-  },
-  willRespondWith: {
-    status: 200,
-    body: {
-      data: eachLike({
-        id: string('1972660348'),
-        type: 'provider',
-        attributes: {
-          address: {
-            street: string('2750 E GERMANN RD'),
-            city: string('CHANDLER'),
-            state: string('AZ'),
-            zip: string('85249'),
-          },
-          caresitePhone: string('4808122942'),
-          lat: decimal(33.281291),
-          long: decimal(-111.793486),
-          name: string('WAL-MART'),
-        },
-      }),
-    },
-  },
-};
-
-const mashupUrgentCareInteraction = {
-  state: 'mashup urgent care data exists',
-  uponReceiving: 'a request for mashup urgent care data',
-  withRequest: {
-    method: 'GET',
-    path: '/v1/facilities/va_ccp/urgent_care',
-    headers: {
-      'X-Key-Inflection': 'camel',
-    },
-    query: {
-      address,
-      'bbox[]': bounds,
-      page: '1',
-      // eslint-disable-next-line camelcase
-      per_page: '20',
     },
   },
   willRespondWith: {
@@ -305,21 +260,6 @@ contractTest('Facility Locator', 'VA.gov API', mockApi => {
       it('responds appropriately', async () => {
         await mockApi().addInteraction(vaDetailInteraction);
         await fetchVAFacility('vha_123ABC')(dispatch);
-      });
-    });
-  });
-
-  describe.skip('GET /v1/facilities/va_ccp/urgent_care', () => {
-    context('facilities: mashup urgent_care data exists', () => {
-      it('responds appropriately', async () => {
-        await mockApi().addInteraction(mashupUrgentCareInteraction);
-        await LocatorApi.searchWithBounds(
-          address,
-          bounds,
-          'urgent_care',
-          null,
-          1,
-        );
       });
     });
   });

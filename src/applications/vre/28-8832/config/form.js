@@ -7,7 +7,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { statusSelection } from './chapters/status-selection';
 import { veteranInformation } from './chapters/veteran-information';
-import GetFormHelp from '../components/GetFormHelp';
+import GetFormHelp from '../../components/GetFormHelp';
 import PreSubmitInfo from '../components/PreSubmitInfo';
 
 import {
@@ -16,6 +16,8 @@ import {
 } from './chapters/claimant-information';
 import { isDependent, transform } from './helpers';
 import manifest from '../manifest.json';
+
+import { WIZARD_STATUS } from '../constants';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -26,6 +28,10 @@ const formConfig = {
   confirmation: ConfirmationPage,
   transformForSubmit: transform,
   formId: VA_FORM_IDS.FORM_28_8832,
+  wizardStorageKey: WIZARD_STATUS,
+  customText: {
+    appContinuing: 'for planning and career guidance',
+  },
   saveInProgress: {
     messages: {
       inProgress:

@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
@@ -14,14 +14,15 @@ import { selectAvailableServices } from 'platform/user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { itfNotice } from '../content/introductionPage';
-import { originalClaimsFeature } from '../config/selectors';
-import fileOriginalClaimPage from '../../wizard/pages/file-original-claim';
 import { show526Wizard, isBDD, getPageTitle, getStartText } from '../utils';
 import {
   BDD_INFO_URL,
   DISABILITY_526_V2_ROOT_URL,
   WIZARD_STATUS,
+  PAGE_TITLE_SUFFIX,
+  DOCUMENT_TITLE_SUFFIX,
 } from '../constants';
+import { WIZARD_STATUS_RESTARTING } from 'platform/site-wide/wizard';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -30,6 +31,7 @@ class IntroductionPage extends React.Component {
   }
 
   render() {
+    const { formConfig, pageList } = this.props.route;
     const services = selectAvailableServices(this.props) || [];
     const allowOriginalClaim =
       this.props.allowOriginalClaim || this.props.testOriginalClaim;
@@ -39,15 +41,15 @@ class IntroductionPage extends React.Component {
     // be required to proceed; not changing this now in case it breaks something
 
     const isBDDForm = this.props.isBDDForm;
-    const pageTitle = getPageTitle(isBDDForm);
+    const pageTitle = `${getPageTitle(isBDDForm)} ${PAGE_TITLE_SUFFIX}`;
     const startText = getStartText(isBDDForm);
+    document.title = `${pageTitle}${DOCUMENT_TITLE_SUFFIX}`;
 
-    // Remove this once we original claims feature toggle is set to 100%
+    // Remove this once form526_original_claims feature flag is removed
     if (!allowContinue) {
       return (
         <div className="schemaform-intro">
-          <FormTitle title={pageTitle} />
-          <fileOriginalClaimPage.component props={this.props} />
+          <FormTitle title={pageTitle} subTitle={formConfig.subTitle} />
         </div>
       );
     }
@@ -84,27 +86,29 @@ class IntroductionPage extends React.Component {
         )}
         <SaveInProgressIntro
           hideUnauthedStartLink
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
+          headingLevel={2}
+          prefillEnabled={formConfig.prefillEnabled}
           formId={this.props.formId}
-          pageList={this.props.route.pageList}
+          formConfig={formConfig}
+          pageList={pageList}
           startText={startText}
           retentionPeriod="1 year"
-          downtime={this.props.route.formConfig.downtime}
+          downtime={formConfig.downtime}
         />
         {itfNotice}
         <h2 className="vads-u-font-size--h4">{subwayTitle}</h2>
         <div className="process schemaform-process">
-          <p className="vads-u-margin-top--0">
+          <p id="restart-wizard" className="vads-u-margin-top--0">
             if you don’t think this is the right form for you,{' '}
             <a
+              aria-describedby="restart-wizard"
               href={
                 this.props.showWizard
-                  ? DISABILITY_526_V2_ROOT_URL
+                  ? `${DISABILITY_526_V2_ROOT_URL}/start`
                   : '/disability/how-to-file-claim/'
               }
-              className="va-button-link"
               onClick={() => {
-                sessionStorage.removeItem(WIZARD_STATUS);
+                sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_RESTARTING);
                 recordEvent({ event: 'howToWizard-start-over' });
               }}
             >
@@ -115,10 +119,10 @@ class IntroductionPage extends React.Component {
           <ol>
             <li className="process-step list-one">
               <h3 className="vads-u-font-size--h4">Prepare</h3>
-              <h4 className="vads-u-font-size--h6">
+              <p>
                 When you file a disability claim, you’ll have a chance to
                 provide evidence to support your claim. Evidence could include:
-              </h4>
+              </p>
               <ul>
                 <li>
                   {isBDDForm ? 'Service treatment records, ' : ''}
@@ -209,10 +213,10 @@ class IntroductionPage extends React.Component {
               <h3 className="vads-u-font-size--h4">Apply</h3>
               {isBDDForm ? (
                 <>
-                  <h4 className="vads-u-font-size--h6">
+                  <p>
                     Complete the Benefits Delivery at Discharge form. These are
                     the steps you can expect:
-                  </h4>
+                  </p>
                   <ul>
                     <li>Provide your service member information</li>
                     <li>Provide your military history</li>
@@ -252,11 +256,12 @@ class IntroductionPage extends React.Component {
         <SaveInProgressIntro
           hideUnauthedStartLink
           buttonOnly
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
+          prefillEnabled={formConfig.prefillEnabled}
           formId={this.props.formId}
-          pageList={this.props.route.pageList}
+          formConfig={formConfig}
+          pageList={pageList}
           startText={startText}
-          downtime={this.props.route.formConfig.downtime}
+          downtime={formConfig.downtime}
         />
         {itfNotice}
         <div className="omb-info--container">
@@ -270,7 +275,6 @@ class IntroductionPage extends React.Component {
 const mapStateToProps = state => ({
   formId: state.form.formId,
   user: state.user,
-  allowOriginalClaim: originalClaimsFeature(state),
   showWizard: show526Wizard(state),
   isBDDForm: isBDD(state?.form?.data),
 });

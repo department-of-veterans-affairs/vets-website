@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { formatAddress } from '~/platform/forms/address/helpers';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -254,7 +254,7 @@ class AddressValidationView extends React.Component {
     return (
       <>
         {error && (
-          <div className="vads-u-margin-bottom--1">
+          <div className="vads-u-margin-bottom--1" role="alert">
             <VAPServiceEditModalErrorMessage
               title={title}
               error={error}
@@ -262,14 +262,19 @@ class AddressValidationView extends React.Component {
             />
           </div>
         )}
-        <AlertBox
-          className="vads-u-margin-bottom--1 vads-u-margin-top--0"
-          status="warning"
-          headline={addressValidationMessage.headline}
-          scrollOnShow
-        >
-          <addressValidationMessage.ModalText editFunction={this.onEditClick} />
-        </AlertBox>
+        <div role="alert">
+          <AlertBox
+            className="vads-u-margin-bottom--1 vads-u-margin-top--0"
+            level={4}
+            status="warning"
+            headline={addressValidationMessage.headline}
+            scrollOnShow
+          >
+            <addressValidationMessage.ModalText
+              editFunction={this.onEditClick}
+            />
+          </AlertBox>
+        </div>
         <form onSubmit={this.onSubmit}>
           <span className="vads-u-font-weight--bold">You entered:</span>
           {this.renderAddressOption(addressFromUser)}

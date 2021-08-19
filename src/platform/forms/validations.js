@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import moment from 'moment';
 import { dateToMoment } from '../utilities/date';
+import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
 
 /**
  * General Validations *
@@ -51,13 +51,7 @@ function isValidRequiredField(validator, field) {
  * Date Validations *
  */
 function isValidYear(value) {
-  return (
-    Number(value) >= 1900 &&
-    Number(value) <=
-      moment()
-        .add(100, 'year')
-        .year()
-  );
+  return Number(value) >= minYear && Number(value) <= maxYear;
 }
 
 function isValidMonths(value) {

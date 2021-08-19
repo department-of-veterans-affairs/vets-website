@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import classNames from 'classnames';
@@ -10,13 +11,17 @@ import SchemaForm from '../components/SchemaForm';
 import { getArrayFields, getNonArraySchema, showReviewField } from '../helpers';
 import ArrayField from './ArrayField';
 
+import { isValidForm } from '../validation';
+import { reduceErrors } from '../utilities/data/reduceErrors';
+import { setFormErrors } from '../actions';
+
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
 /*
  * Displays all the pages in a chapter on the review page
  */
-export default class ReviewCollapsibleChapter extends React.Component {
+class ReviewCollapsibleChapter extends React.Component {
   constructor() {
     super();
     this.handleEdit = this.handleEdit.bind(this);
@@ -69,20 +74,16 @@ export default class ReviewCollapsibleChapter extends React.Component {
     expandedPages.length === 1 &&
     (chapterTitle || '').toLowerCase() === pageTitle.toLowerCase();
 
-  render() {
-    let pageContent = null;
+  checkValidation = () => {
+    const { form, pageList, reviewErrors = {} } = this.props;
+    const { errors } = isValidForm(form, pageList);
+    this.props.setFormErrors({
+      rawErrors: errors,
+      errors: reduceErrors(errors, pageList, reviewErrors),
+    });
+  };
 
-    const {
-      chapterFormConfig,
-      expandedPages,
-      form,
-      formContext,
-      pageKeys,
-      showUnviewedPageWarning,
-      viewedPages,
-    } = this.props;
-
-    const ChapterDescription = chapterFormConfig.reviewDescription;
+  getChapterTitle = chapterFormConfig => {
     let chapterTitle = chapterFormConfig.title;
     if (typeof chapterFormConfig.title === 'function') {
       chapterTitle = chapterFormConfig.title(true);
@@ -90,180 +91,256 @@ export default class ReviewCollapsibleChapter extends React.Component {
     if (chapterFormConfig.reviewTitle) {
       chapterTitle = chapterFormConfig.reviewTitle;
     }
+    return chapterTitle;
+  };
 
-    if (this.props.open) {
-      pageContent = (
-        <div
-          className="usa-accordion-content schemaform-chapter-accordion-content"
-          aria-hidden="false"
+  getSchemaformPageContent = (page, props, editing) => {
+    const {
+      chapterFormConfig,
+      expandedPages,
+      form,
+      formContext,
+      viewedPages,
+    } = props;
+
+    const pageState = form.pages[page.pageKey];
+    let pageSchema;
+    let pageUiSchema;
+    let pageData;
+    let arrayFields;
+    let fullPageKey;
+
+    if (page.showPagePerItem) {
+      pageSchema =
+        pageState.schema.properties[page.arrayPath].items[page.index];
+      pageUiSchema = pageState.uiSchema[page.arrayPath].items;
+      pageData = _.get([page.arrayPath, page.index], form.data);
+      arrayFields = [];
+      fullPageKey = `${page.pageKey}${page.index}`;
+    } else {
+      // TODO: support array fields inside of an array page?
+      // Our pattern is to separate out array fields (growable tables) from
+      // the normal page and display them separately. The review version of
+      // ObjectField will hide them in the main section.
+      arrayFields = getArrayFields(pageState, page);
+      // This will be undefined if there are no fields other than an array
+      // in a page, in which case we won’t render the form, just the array
+      const pageSchemaObjects = getNonArraySchema(
+        pageState.schema,
+        pageState.uiSchema,
+      );
+      pageSchema = pageSchemaObjects.schema;
+      pageUiSchema = pageSchemaObjects.uiSchema;
+      pageData = form.data;
+      fullPageKey = page.pageKey;
+    }
+
+    const classes = classNames('form-review-panel-page', {
+      'schemaform-review-page-warning': !viewedPages.has(fullPageKey),
+      // Remove bottom margin when the div content is empty
+      'vads-u-margin-bottom--0': !pageSchema && arrayFields.length === 0,
+    });
+    const title = page.reviewTitle || page.title || '';
+    const ariaLabel = `Update ${(typeof title === 'function'
+      ? title(pageData)
+      : title) || 'page'}`;
+
+    const visibleFields =
+      pageSchema &&
+      Object.entries(pageSchema.properties).filter(([propName]) =>
+        showReviewField(
+          propName,
+          pageSchema,
+          pageUiSchema,
+          form.data,
+          formContext,
+        ),
+      ).length > 0;
+
+    if (!visibleFields) {
+      return null;
+    }
+
+    return (
+      <div key={`${fullPageKey}`} className={classes}>
+        <Element name={`${fullPageKey}ScrollElement`} />
+        <SchemaForm
+          name={page.pageKey}
+          title={title}
+          data={pageData}
+          appStateData={page.appStateData}
+          schema={pageSchema}
+          uiSchema={pageUiSchema}
+          trackingPrefix={this.props.form.trackingPrefix}
+          hideHeaderRow={page.hideHeaderRow}
+          hideTitle={this.shouldHideExpandedPageTitle(
+            expandedPages,
+            this.getChapterTitle(chapterFormConfig),
+            title,
+          )}
+          pagePerItemIndex={page.index}
+          onBlur={this.props.onBlur}
+          onEdit={() => this.handleEdit(page.pageKey, !editing, page.index)}
+          onSubmit={({ formData }) =>
+            this.handleSubmit(
+              formData,
+              page.pageKey,
+              page.arrayPath,
+              page.index,
+            )
+          }
+          onChange={formData =>
+            this.onChange(
+              typeof page.updateFormData === 'function'
+                ? page.updateFormData(form.data, formData)
+                : formData,
+              page.arrayPath,
+              page.index,
+            )
+          }
+          uploadFile={this.props.uploadFile}
+          reviewMode={!editing}
+          formContext={formContext}
+          editModeOnReviewPage={page.editModeOnReviewPage}
         >
-          {ChapterDescription && (
-            <ChapterDescription
-              viewedPages={viewedPages}
-              pageKeys={pageKeys}
-              formData={form.data}
-              t
-              push
+          {!editing ? (
+            <div />
+          ) : (
+            <ProgressButton
+              submitButton
+              onButtonClick={() => {
+                // recheck _all_ validations after the user clicks the
+                // update page button - needed to dynamically update
+                // accordion headers
+                this.checkValidation();
+                focusOnChange(
+                  `${page.pageKey}${
+                    typeof page.index === 'number' ? page.index : ''
+                  }`,
+                );
+              }}
+              buttonText="Update page"
+              buttonClass="usa-button-primary"
+              ariaLabel={ariaLabel}
             />
           )}
-          {expandedPages.map(page => {
-            const pageState = form.pages[page.pageKey];
-            let pageSchema;
-            let pageUiSchema;
-            let pageData;
-            let arrayFields;
-            let editing;
-            let fullPageKey;
+        </SchemaForm>
+        {arrayFields.map(arrayField => (
+          <div key={arrayField.path} className="form-review-array">
+            <ArrayField
+              pageKey={page.pageKey}
+              pageTitle={page.title}
+              arrayData={_.get(arrayField.path, form.data)}
+              formData={form.data}
+              appStateData={page.appStateData}
+              formContext={formContext}
+              pageConfig={page}
+              onBlur={this.props.onBlur}
+              schema={arrayField.schema}
+              uiSchema={arrayField.uiSchema}
+              trackingPrefix={this.props.form.trackingPrefix}
+              setData={formData =>
+                this.props.setData(
+                  typeof page.updateFormData === 'function'
+                    ? page.updateFormData(form.data, formData)
+                    : formData,
+                )
+              }
+              path={arrayField.path}
+            />
+          </div>
+        ))}
+      </div>
+    );
+  };
 
-            if (page.showPagePerItem) {
-              editing = pageState.editMode[page.index];
-              pageSchema =
-                pageState.schema.properties[page.arrayPath].items[page.index];
-              pageUiSchema = pageState.uiSchema[page.arrayPath].items;
-              pageData = _.get([page.arrayPath, page.index], form.data);
-              arrayFields = [];
-              fullPageKey = `${page.pageKey}${page.index}`;
-            } else {
-              editing = pageState.editMode;
-              // TODO: support array fields inside of an array page?
-              // Our pattern is to separate out array fields (growable tables) from
-              // the normal page and display them separately. The review version of
-              // ObjectField will hide them in the main section.
-              arrayFields = getArrayFields(pageState, page);
-              // This will be undefined if there are no fields other than an array
-              // in a page, in which case we won’t render the form, just the array
-              const pageSchemaObjects = getNonArraySchema(
-                pageState.schema,
-                pageState.uiSchema,
-              );
-              pageSchema = pageSchemaObjects.schema;
-              pageUiSchema = pageSchemaObjects.uiSchema;
-              pageData = form.data;
-              fullPageKey = page.pageKey;
-            }
-
-            const classes = classNames('form-review-panel-page', {
-              'schemaform-review-page-warning': !viewedPages.has(fullPageKey),
-              // Remove bottom margin when the div content is empty
-              'vads-u-margin-bottom--0':
-                !pageSchema && arrayFields.length === 0,
-            });
-            const title = page.reviewTitle || page.title || '';
-
-            const noVisibleFields =
-              pageSchema &&
-              !Object.entries(pageSchema.properties).filter(([propName]) =>
-                showReviewField(
-                  propName,
-                  pageSchema,
-                  pageUiSchema,
-                  form.data,
-                  formContext,
-                ),
-              ).length > 0;
-
-            if (noVisibleFields) {
-              return null;
-            }
-
-            return (
-              <div key={`${fullPageKey}`} className={classes}>
-                <Element name={`${fullPageKey}ScrollElement`} />
-                {pageSchema && (
-                  <SchemaForm
-                    name={page.pageKey}
-                    title={title}
-                    data={pageData}
-                    appStateData={page.appStateData}
-                    schema={pageSchema}
-                    uiSchema={pageUiSchema}
-                    trackingPrefix={this.props.form.trackingPrefix}
-                    hideHeaderRow={page.hideHeaderRow}
-                    hideTitle={this.shouldHideExpandedPageTitle(
-                      expandedPages,
-                      chapterTitle,
-                      title,
-                    )}
-                    pagePerItemIndex={page.index}
-                    onBlur={this.props.onBlur}
-                    onEdit={() =>
-                      this.handleEdit(page.pageKey, !editing, page.index)
-                    }
-                    onSubmit={({ formData }) =>
-                      this.handleSubmit(
-                        formData,
-                        page.pageKey,
-                        page.arrayPath,
-                        page.index,
-                      )
-                    }
-                    onChange={formData =>
-                      this.onChange(
-                        typeof page.updateFormData === 'function'
-                          ? page.updateFormData(form.data, formData)
-                          : formData,
-                        page.arrayPath,
-                        page.index,
-                      )
-                    }
-                    uploadFile={this.props.uploadFile}
-                    reviewMode={!editing}
-                    formContext={formContext}
-                    editModeOnReviewPage={page.editModeOnReviewPage}
-                  >
-                    {!editing ? (
-                      <div />
-                    ) : (
-                      <ProgressButton
-                        submitButton
-                        onButtonClick={() => {
-                          focusOnChange(
-                            `${page.pageKey}${
-                              typeof page.index === 'number' ? page.index : ''
-                            }`,
-                          );
-                        }}
-                        buttonText="Update page"
-                        buttonClass="usa-button-primary"
-                      />
-                    )}
-                  </SchemaForm>
-                )}
-                {arrayFields.map(arrayField => (
-                  <div key={arrayField.path} className="form-review-array">
-                    <ArrayField
-                      pageKey={page.pageKey}
-                      pageTitle={page.title}
-                      arrayData={_.get(arrayField.path, form.data)}
-                      formData={form.data}
-                      appStateData={page.appStateData}
-                      formContext={formContext}
-                      pageConfig={page}
-                      onBlur={this.props.onBlur}
-                      schema={arrayField.schema}
-                      uiSchema={arrayField.uiSchema}
-                      trackingPrefix={this.props.form.trackingPrefix}
-                      setData={formData =>
-                        this.props.setData(
-                          typeof page.updateFormData === 'function'
-                            ? page.updateFormData(form.data, formData)
-                            : formData,
-                        )
-                      }
-                      path={arrayField.path}
-                    />
-                  </div>
-                ))}
-              </div>
-            );
-          })}
-        </div>
+  getCustomPageContent = (page, props, editing) => {
+    if (editing) {
+      return (
+        <page.CustomPage
+          name={page.pageKey}
+          title={page.title}
+          trackingPrefix={props.form.trackingPrefix}
+          uploadFile={props.uploadFile}
+          onReviewPage
+          data={props.form.data}
+          updatePage={() => this.handleEdit(page.pageKey, false, page.index)}
+          pagePerItemIndex={page.index}
+        />
       );
+    }
+    return (
+      <page.CustomPageReview
+        editPage={() => this.handleEdit(page.pageKey, !editing, page.index)}
+        name={page.pageKey}
+        title={page.title}
+        data={props.form.data}
+        pagePerItemIndex={page.index}
+      />
+    );
+  };
+
+  getChapterContent = props => {
+    const {
+      chapterFormConfig,
+      expandedPages,
+      form,
+      pageKeys,
+      viewedPages,
+    } = props;
+    const ChapterDescription = chapterFormConfig.reviewDescription;
+    return (
+      <div
+        className="usa-accordion-content schemaform-chapter-accordion-content"
+        aria-hidden="false"
+      >
+        {ChapterDescription && (
+          <ChapterDescription
+            viewedPages={viewedPages}
+            pageKeys={pageKeys}
+            formData={form.data}
+            t
+            push
+          />
+        )}
+        {expandedPages.map(page => {
+          const pageConfig = form.pages[page.pageKey];
+          const editing = pageConfig.showPagePerItem
+            ? pageConfig.editMode[page.index]
+            : pageConfig.editMode;
+
+          const showCustomPage = editing
+            ? !!pageConfig.CustomPage
+            : !!pageConfig.CustomPageReview;
+
+          return showCustomPage
+            ? this.getCustomPageContent(page, props, editing)
+            : this.getSchemaformPageContent(page, props, editing);
+        })}
+      </div>
+    );
+  };
+
+  render() {
+    let pageContent = null;
+
+    const chapterTitle = this.getChapterTitle(this.props.chapterFormConfig);
+
+    if (this.props.open) {
+      pageContent = this.getChapterContent(this.props);
     }
 
     const classes = classNames('usa-accordion-bordered', 'form-review-panel', {
-      'schemaform-review-chapter-warning': showUnviewedPageWarning,
+      'schemaform-review-chapter-warning': this.props.hasUnviewedPages,
     });
+
+    const headerClasses = classNames(
+      'accordion-header',
+      'clearfix',
+      'schemaform-chapter-accordion-header',
+      'vads-u-font-size--h4',
+      'vads-u-margin-top--0',
+    );
 
     return (
       <div
@@ -272,9 +349,10 @@ export default class ReviewCollapsibleChapter extends React.Component {
         data-chapter={this.props.chapterKey}
       >
         <Element name={`chapter${this.props.chapterKey}ScrollElement`} />
-        <ul className="usa-unstyled-list">
+        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+        <ul className="usa-unstyled-list" role="list">
           <li>
-            <div className="accordion-header clearfix schemaform-chapter-accordion-header">
+            <h3 className={headerClasses}>
               <button
                 className="usa-button-unstyled"
                 aria-expanded={this.props.open ? 'true' : 'false'}
@@ -283,10 +361,14 @@ export default class ReviewCollapsibleChapter extends React.Component {
               >
                 {chapterTitle || ''}
               </button>
-              {showUnviewedPageWarning && (
-                <span className="schemaform-review-chapter-warning-icon" />
+              {this.props.hasUnviewedPages && (
+                <span
+                  role="presentation"
+                  aria-hidden="true"
+                  className="schemaform-review-chapter-warning-icon"
+                />
               )}
-            </div>
+            </h3>
             <div id={`collapsible-${this.id}`}>{pageContent}</div>
           </li>
         </ul>
@@ -295,9 +377,26 @@ export default class ReviewCollapsibleChapter extends React.Component {
   }
 }
 
+const mapStateToProps = state => state;
+
+const mapDispatchToProps = {
+  setFormErrors,
+};
+
 // TODO: refactor to pass form.data instead of the entire form object
 ReviewCollapsibleChapter.propTypes = {
   chapterFormConfig: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   onEdit: PropTypes.func.isRequired,
+  pageList: PropTypes.array.isRequired,
+  setFormErrors: PropTypes.func.isRequired,
+  reviewErrors: PropTypes.shape({}),
 };
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ReviewCollapsibleChapter);
+
+// for tests
+export { ReviewCollapsibleChapter };

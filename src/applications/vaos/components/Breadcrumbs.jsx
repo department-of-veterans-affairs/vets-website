@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 
 export default function VAOSBreadcrumbs({ children }) {
   return (
-    <Breadcrumbs className="medium-screen:vads-u-padding-x--0">
+    <Breadcrumbs className="medium-screen:vads-u-padding-x--0 vaos-appts__breadcrumbs">
       <a href="/" key="home">
         Home
       </a>
@@ -15,7 +15,7 @@ export default function VAOSBreadcrumbs({ children }) {
         href="/health-care/schedule-view-va-appointments"
         key="schedule-view-va-appointments"
       >
-        Schedule and view appointments
+        Schedule and manage health appointments
       </a>
       <Link to="/" key="vaos-home">
         VA online scheduling

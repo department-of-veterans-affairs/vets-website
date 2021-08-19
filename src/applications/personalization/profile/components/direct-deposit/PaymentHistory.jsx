@@ -1,4 +1,5 @@
 import React from 'react';
+import recordEvent from '~/platform/monitoring/record-event';
 import ProfileInfoTable from '../ProfileInfoTable';
 
 function PaymentHistory() {
@@ -10,7 +11,18 @@ function PaymentHistory() {
             Check your payment history for your VA disability compensation,
             pension, and education benefits
           </p>
-          <a href="/va-payment-history/payments/">View your payment history</a>
+          <a
+            href="/va-payment-history/payments/"
+            onClick={() =>
+              recordEvent({
+                event: 'profile-navigation',
+                'profile-action': 'view-link',
+                'profile-section': 'view-payment-history',
+              })
+            }
+          >
+            View your payment history
+          </a>
         </>
       ),
     },
@@ -21,6 +33,7 @@ function PaymentHistory() {
       className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
       title="VA payment history"
       data={tableData}
+      level={2}
     />
   );
 }

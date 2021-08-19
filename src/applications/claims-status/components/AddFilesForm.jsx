@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 
-import FileInput from '@department-of-veterans-affairs/formation-react/FileInput';
-import Select from '@department-of-veterans-affairs/formation-react/Select';
-import Checkbox from '@department-of-veterans-affairs/formation-react/Checkbox';
-import TextInput from '@department-of-veterans-affairs/formation-react/TextInput';
+import FileInput from '@department-of-veterans-affairs/component-library/FileInput';
+import Select from '@department-of-veterans-affairs/component-library/Select';
+import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
+import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';

@@ -22,3 +22,9 @@
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }
+
+@media print {
+  .va-hide-on-print-view {
+    display: none;
+  }
+}

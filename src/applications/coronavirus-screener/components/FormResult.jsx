@@ -5,9 +5,23 @@ import classnames from 'classnames';
 import { scrollerTo } from '../lib';
 import { resultText } from '../config/text';
 
-function Complete({ children, selectedLanguage }) {
+function Complete({ children, selectedLanguage, selectedColors }) {
+  // If a color other than default is specified, include the name on the results screen.
+  let groupName = '';
+  if (selectedColors.name !== '') {
+    groupName = `Group: ${selectedColors.name}`;
+  }
+
   return (
-    <div>
+    <div
+      style={{
+        backgroundColor: `${selectedColors.background}`,
+        color: `${selectedColors.font}`,
+      }}
+    >
+      <div className="vads-u-font-size--lg vads-u-font-weight--bold">
+        {groupName}
+      </div>
       {children}
       <div className="covid-screener-date vads-u-font-weight--bold">
         <div className="vads-u-font-size--xl">
@@ -18,11 +32,18 @@ function Complete({ children, selectedLanguage }) {
         <div className="vads-u-font-size--xl">{moment().format('h:mm a')}</div>
       </div>
       {resultText.completeText[selectedLanguage]}
+      <div className="vads-u-font-size--lg vads-u-font-weight--bold">
+        {groupName}
+      </div>
     </div>
   );
 }
 
-export default function FormResult({ formState, selectedLanguage }) {
+export default function FormResult({
+  formState,
+  selectedLanguage,
+  passFormResultsColors,
+}) {
   const scrollElementName = 'multi-question-form-result-scroll-element';
 
   const Incomplete = () => (
@@ -30,7 +51,10 @@ export default function FormResult({ formState, selectedLanguage }) {
   );
 
   const Pass = () => (
-    <Complete selectedLanguage={selectedLanguage}>
+    <Complete
+      selectedLanguage={selectedLanguage}
+      selectedColors={passFormResultsColors}
+    >
       <i aria-hidden="true" role="presentation" className="fas fa-check" />
       <h2 className="vads-u-font-size--2xl">
         {resultText.passText[selectedLanguage]}
@@ -39,7 +63,10 @@ export default function FormResult({ formState, selectedLanguage }) {
   );
 
   const MoreScreening = () => (
-    <Complete selectedLanguage={selectedLanguage}>
+    <Complete
+      selectedLanguage={selectedLanguage}
+      selectedColors={{ background: 'white', font: '#112e51', name: '' }}
+    >
       <h2 className="vads-u-font-size--2xl">
         {resultText.moreScreeningText[selectedLanguage]}
       </h2>

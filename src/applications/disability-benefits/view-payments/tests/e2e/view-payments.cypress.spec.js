@@ -21,7 +21,7 @@ const testAxe = () => {
 };
 
 const testPagination = () => {
-  cy.route('GET', PAYMENTS_API_ENDPOINT, mockPayments).as('mockPayments');
+  cy.intercept('GET', PAYMENTS_API_ENDPOINT, mockPayments).as('mockPayments');
   testLoadingState();
   cy.wait('@mockPayments');
   cy.findByText(/Payments you received/i).should('exist');
@@ -33,7 +33,7 @@ const testPagination = () => {
 };
 
 const testNoPayments = () => {
-  cy.route('GET', PAYMENTS_API_ENDPOINT, mockEmptyPayments).as(
+  cy.intercept('GET', PAYMENTS_API_ENDPOINT, mockEmptyPayments).as(
     'mockEmptyPayments',
   );
   cy.visit(PAYMENTS_PATH);
@@ -46,7 +46,7 @@ const testNoPayments = () => {
 
 const testEmptyPaymentsArray = (category = 'payments') => {
   if (category === 'returnPayments') {
-    cy.route('GET', PAYMENTS_API_ENDPOINT, mockEmptyPaymentsReturned).as(
+    cy.intercept('GET', PAYMENTS_API_ENDPOINT, mockEmptyPaymentsReturned).as(
       'mockEmptyReturnedPayments',
     );
     testLoadingState();
@@ -57,7 +57,7 @@ const testEmptyPaymentsArray = (category = 'payments') => {
       'exist',
     );
   } else {
-    cy.route('GET', PAYMENTS_API_ENDPOINT, mockEmptyPaymentsReceived).as(
+    cy.intercept('GET', PAYMENTS_API_ENDPOINT, mockEmptyPaymentsReceived).as(
       'mockEmptyReceivedPayments',
     );
     testLoadingState();
@@ -72,23 +72,19 @@ const testEmptyPaymentsArray = (category = 'payments') => {
 
 const testApiError = (errCode = '500') => {
   if (errCode === '400') {
-    cy.route({
-      method: 'GET',
-      url: PAYMENTS_API_ENDPOINT,
-      status: 404,
-      response: mockClientError,
+    cy.intercept(PAYMENTS_API_ENDPOINT, {
+      body: mockClientError,
+      statusCode: 404,
     }).as('clientError');
     testLoadingState();
     cy.wait('@clientError');
-    cy.findByText(/We don’t have a record of VA payments made to you/i, {
-      selector: 'h2',
-    });
+    cy.findByRole('heading', {
+      name: 'We don’t have a record of VA payments for you',
+    }).should.exist;
   } else {
-    cy.route({
-      method: 'GET',
-      url: PAYMENTS_API_ENDPOINT,
-      status: 500,
-      response: mockServerError,
+    cy.intercept(PAYMENTS_API_ENDPOINT, {
+      body: mockServerError,
+      statusCode: 500,
     }).as('serverError');
     testLoadingState();
     cy.wait('@serverError');
@@ -105,22 +101,22 @@ describe('View payment history', () => {
     disableFTUXModals();
     cy.login(mockUser);
   });
-  it('should pass an aXe scan and paginate through payment data', () => {
+  it('C3916 - Should pass an aXe scan and paginate through payment data', () => {
     testPagination();
   });
-  it('should display an alert when a user has no payment data on file', () => {
+  it('C3917 - Should display an alert when a user has no payment data on file', () => {
     testNoPayments();
   });
-  it('should display an alert when a user has payments received but no payments returned to VA', () => {
+  it('C3918 - Should display an alert when a user has payments received but no payments returned to VA', () => {
     testEmptyPaymentsArray('returnPayments');
   });
-  it('should display an alert when a user has payments returned to VA but no payments received', () => {
+  it('C3919 - Should display an alert when a user has payments returned to VA but no payments received', () => {
     testEmptyPaymentsArray();
   });
-  it('should display an alert when a user recevies a 5xx error', () => {
+  it('C3920 - Should display an alert when a user receives a 5xx error', () => {
     testApiError();
   });
-  it('should display an alert when a user recevies a 4xx error', () => {
+  it('C3921 - Should display an alert when a user receives a 4xx error', () => {
     testApiError('400');
   });
 });

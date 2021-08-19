@@ -18,6 +18,7 @@ describe('Profile', () => {
   let fetchMHVAccountSpy;
   let fetchCNPPaymentInfoSpy;
   let fetchPersonalInfoSpy;
+  let fetchTotalDisabilityRatingSpy;
 
   beforeEach(() => {
     fetchFullNameSpy = sinon.spy();
@@ -25,6 +26,7 @@ describe('Profile', () => {
     fetchMHVAccountSpy = sinon.spy();
     fetchCNPPaymentInfoSpy = sinon.spy();
     fetchPersonalInfoSpy = sinon.spy();
+    fetchTotalDisabilityRatingSpy = sinon.spy();
 
     defaultProps = {
       fetchFullName: fetchFullNameSpy,
@@ -32,8 +34,11 @@ describe('Profile', () => {
       fetchMilitaryInformation: fetchMilitaryInfoSpy,
       fetchCNPPaymentInformation: fetchCNPPaymentInfoSpy,
       fetchPersonalInformation: fetchPersonalInfoSpy,
+      fetchTotalDisabilityRating: fetchTotalDisabilityRatingSpy,
       shouldFetchCNPDirectDepositInformation: true,
+      shouldFetchTotalDisabilityRating: true,
       showLoader: false,
+      isLOA3: true,
       user: {},
       location: {
         pathname: '/profile/personal-information',
@@ -54,28 +59,53 @@ describe('Profile', () => {
     defaultProps.showLoader = true;
     const wrapper = shallow(<Profile {...defaultProps} />);
     wrapper.setProps({ showLoader: true });
-    const loader = wrapper.find('LoadingIndicator');
+    const loader = wrapper.find('RequiredLoginLoader');
     expect(loader.length).to.equal(1);
     wrapper.unmount();
   });
 
   describe('when the component mounts', () => {
-    it('should fetch the military information data', () => {
-      const wrapper = shallow(<Profile {...defaultProps} />);
-      expect(fetchMilitaryInfoSpy.called).to.be.true;
-      wrapper.unmount();
+    context('when user is LOA3', () => {
+      it('should fetch the military information data', () => {
+        const wrapper = shallow(<Profile {...defaultProps} />);
+        expect(fetchMilitaryInfoSpy.called).to.be.true;
+        wrapper.unmount();
+      });
+
+      it('should fetch the full name data', () => {
+        const wrapper = shallow(<Profile {...defaultProps} />);
+        expect(fetchFullNameSpy.called).to.be.true;
+        wrapper.unmount();
+      });
+
+      it('should fetch the personal information data', () => {
+        const wrapper = shallow(<Profile {...defaultProps} />);
+        expect(fetchPersonalInfoSpy.called).to.be.true;
+        wrapper.unmount();
+      });
     });
 
-    it('should fetch the full name data', () => {
-      const wrapper = shallow(<Profile {...defaultProps} />);
-      expect(fetchFullNameSpy.called).to.be.true;
-      wrapper.unmount();
-    });
+    context('when user is not LOA1', () => {
+      beforeEach(() => {
+        defaultProps.isLOA3 = false;
+      });
+      it('should not fetch the military information data', () => {
+        const wrapper = shallow(<Profile {...defaultProps} />);
+        expect(fetchMilitaryInfoSpy.called).to.be.false;
+        wrapper.unmount();
+      });
 
-    it('should fetch the personal information data', () => {
-      const wrapper = shallow(<Profile {...defaultProps} />);
-      expect(fetchPersonalInfoSpy.called).to.be.true;
-      wrapper.unmount();
+      it('should not fetch the full name data', () => {
+        const wrapper = shallow(<Profile {...defaultProps} />);
+        expect(fetchFullNameSpy.called).to.be.false;
+        wrapper.unmount();
+      });
+
+      it('should not fetch the personal information data', () => {
+        const wrapper = shallow(<Profile {...defaultProps} />);
+        expect(fetchPersonalInfoSpy.called).to.be.false;
+        wrapper.unmount();
+      });
     });
 
     it('should fetch the My HealtheVet data', () => {
@@ -97,6 +127,24 @@ describe('Profile', () => {
         defaultProps.shouldFetchCNPDirectDepositInformation = false;
         const wrapper = shallow(<Profile {...defaultProps} />);
         expect(fetchCNPPaymentInfoSpy.called).to.be.false;
+        wrapper.unmount();
+      });
+    });
+
+    describe('when `shouldFetchTotalDisabilityRating` is `true`', () => {
+      it('should fetch the total disability rating', () => {
+        defaultProps.shouldFetchTotalDisabilityRating = true;
+        const wrapper = shallow(<Profile {...defaultProps} />);
+        expect(fetchTotalDisabilityRatingSpy.called).to.be.true;
+        wrapper.unmount();
+      });
+    });
+
+    describe('when `shouldFetchTotalDisabilityRating` is `false`', () => {
+      it('should not fetch the total disability rating', () => {
+        defaultProps.shouldFetchTotalDisabilityRating = false;
+        const wrapper = shallow(<Profile {...defaultProps} />);
+        expect(fetchTotalDisabilityRatingSpy.called).to.be.false;
         wrapper.unmount();
       });
     });
@@ -195,6 +243,12 @@ describe('mapStateToProps', () => {
         },
       ],
     },
+    eduPaymentInformation: {
+      accountType: 'Checking',
+      accountNumber: '*****6789',
+      financialInstitutionRoutingNumber: '*****6800',
+      financialInstitutionName: 'Chase Bank',
+    },
   });
   const makeDefaultState = () => ({
     user: {
@@ -204,6 +258,9 @@ describe('mapStateToProps', () => {
       },
     },
     vaProfile: makeDefaultVaProfileState(),
+    totalRating: {
+      totalDisabilityRating: null,
+    },
   });
 
   it('returns an object with the correct keys', () => {
@@ -216,7 +273,9 @@ describe('mapStateToProps', () => {
       'isLOA3',
       'shouldFetchCNPDirectDepositInformation',
       'shouldFetchEDUDirectDepositInformation',
+      'shouldFetchTotalDisabilityRating',
       'shouldShowDirectDeposit',
+      'shouldShowNotificationSettings',
       'isDowntimeWarningDismissed',
     ];
     expect(Object.keys(props)).to.deep.equal(expectedKeys);
@@ -345,6 +404,7 @@ describe('mapStateToProps', () => {
         state.vaProfile.userFullName = { error: {} };
         state.vaProfile.personalInformation = { error: {} };
         state.vaProfile.militaryInformation = { error: {} };
+        state.totalRating.totalDisabilityRating = { error: {} };
         state.user.profile.mhvAccount = { errors: [] };
         const props = mapStateToProps(state);
         expect(props.showLoader).to.be.false;

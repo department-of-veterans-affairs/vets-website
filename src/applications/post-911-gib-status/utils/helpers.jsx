@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import { formatDateParsedZoneLong } from 'platform/utilities/date';
 import EducationWizard from '../components/EducationWizard';

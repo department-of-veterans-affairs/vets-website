@@ -1,33 +1,24 @@
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import titleCase from 'platform/utilities/data/titleCase';
-import { getTimezoneBySystemId } from '../../../utils/timezone';
-import { getFacilityIdFromLocation } from '../../../services/location';
-import { getSiteIdFromOrganization } from '../../../services/organization';
+import { getTimezoneByFacilityId } from '../../../utils/timezone';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import {
   PURPOSE_TEXT,
   TYPE_OF_VISIT,
   LANGUAGES,
 } from '../../../utils/constants';
-import {
-  selectUseFlatFacilityPage,
-  selectUseProviderSelection,
-} from '../../../redux/selectors';
+import { selectHasVAPResidentialAddress } from '../../../redux/selectors';
 import {
   getTypeOfCare,
   getFormData,
   getChosenClinicInfo,
   getChosenFacilityInfo,
   getSiteIdForChosenFacility,
-  getChosenCCSystemId,
+  getChosenCCSystemById,
   getChosenSlot,
 } from '../selectors';
-import {
-  findCharacteristic,
-  getClinicId,
-  getSiteCode,
-} from '../../../services/healthcare-service/transformers';
+import { getClinicId, getSiteCode } from '../../../services/healthcare-service';
 
 const CC_PURPOSE = 'other';
 
@@ -76,13 +67,8 @@ export function transformFormToVARequest(state) {
   const data = getFormData(state);
   const typeOfCare = getTypeOfCare(data);
   const siteId = getSiteIdForChosenFacility(state);
-  const isFacilityV2Page = selectUseFlatFacilityPage(state);
-  const facilityId = isFacilityV2Page
-    ? facility.id.replace('var', '')
-    : getFacilityIdFromLocation(facility);
-  const facilityName = isFacilityV2Page
-    ? getTestFacilityName(facilityId, facility.name)
-    : facility.name;
+  const facilityId = facility.id;
+  const facilityName = getTestFacilityName(facilityId, facility.name);
 
   return {
     typeOfCare: typeOfCare.id,
@@ -130,12 +116,12 @@ export function transformFormToVARequest(state) {
 
 export function transformFormToCCRequest(state) {
   const data = getFormData(state);
-  const useProviderSelection = selectUseProviderSelection(state);
+  const hasResidentialAddress = selectHasVAPResidentialAddress(state);
   const provider = data.communityCareProvider;
   let preferredProviders = [];
 
   if (
-    useProviderSelection &&
+    hasResidentialAddress &&
     !!data.communityCareProvider &&
     Object.keys(data.communityCareProvider).length
   ) {
@@ -172,8 +158,7 @@ export function transformFormToCCRequest(state) {
   }
 
   const residentialAddress = selectVAPResidentialAddress(state);
-  const organization = getChosenCCSystemId(state);
-  const parentFacilityId = getSiteIdFromOrganization(organization);
+  const organization = getChosenCCSystemById(state);
   let cityState;
 
   if (
@@ -199,8 +184,8 @@ export function transformFormToCCRequest(state) {
     appointmentType: typeOfCare.name,
     facility: {
       name: organization.name,
-      facilityCode: parentFacilityId,
-      parentSiteCode: parentFacilityId.substring(0, 3),
+      facilityCode: organization.id,
+      parentSiteCode: organization.vistaId,
     },
     purposeOfVisit: CC_PURPOSE,
     phoneNumber: data.phoneNumber,
@@ -236,8 +221,7 @@ export function transformFormToCCRequest(state) {
 export function transformFormToAppointment(state) {
   const data = getFormData(state);
   const clinic = getChosenClinicInfo(state);
-  const siteId = getSiteIdForChosenFacility(state);
-  const { timezone = null } = siteId ? getTimezoneBySystemId(siteId) : {};
+  const timezone = getTimezoneByFacilityId(data.vaFacility);
 
   const slot = getChosenSlot(state);
   const purpose = getUserMessage(data);
@@ -248,12 +232,9 @@ export function transformFormToAppointment(state) {
       siteCode: getSiteCode(clinic),
       clinicId: getClinicId(clinic),
       clinicName: clinic.serviceName,
-      clinicFriendlyLocationName: findCharacteristic(
-        clinic,
-        'clinicFriendlyLocationName',
-      ),
-      institutionName: findCharacteristic(clinic, 'institutionName'),
-      institutionCode: findCharacteristic(clinic, 'institutionCode'),
+      clinicFriendlyLocationName: clinic.serviceName,
+      institutionName: clinic.stationName,
+      institutionCode: clinic.stationId,
     },
 
     // These times are a lie, they're actually in local time, but the upstream

@@ -5,10 +5,24 @@ import { SearchResultsHeader } from '../../../components/SearchResultsHeader';
 import { LocationType } from '../../../constants';
 
 describe('SearchResultsHeader', () => {
-  it('should not render header if results are empty', () => {
+  it('should not render header if context is not provided', () => {
     const wrapper = shallow(<SearchResultsHeader results={[]} />);
 
     expect(wrapper.find('h2').length).to.equal(0);
+    wrapper.unmount();
+  });
+
+  it('should render header if results are empty and context exists', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader results={[]} context="11111" />,
+    );
+
+    expect(
+      wrapper
+        .find('h2')
+        .text()
+        .replace(/[^A-Za-z0-9" ]/g, ' '),
+    ).to.equal('No results found for "" near "11111"');
     wrapper.unmount();
   });
 

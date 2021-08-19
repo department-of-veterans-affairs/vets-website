@@ -1,14 +1,11 @@
 /* eslint-disable camelcase, strict */
 'use strict';
 
-const fs = require('fs-extra');
+const chromedriver = require('chromedriver');
 
 require('@babel/register');
-
-const selenium_logs = './logs/selenium';
-const selenium_server_port = process.env.SELENIUM_PORT || 4444;
-
-fs.ensureDirSync(selenium_logs);
+require('core-js/stable');
+require('regenerator-runtime/runtime');
 
 module.exports = {
   src_folders: ['./src'],
@@ -18,13 +15,22 @@ module.exports = {
   live_output: true,
   parallel_process_delay: 10,
   disable_colors: process.env.BUILDTYPE === 'production',
-  test_workers: false,
+
+  webdriver: {
+    start_process: true,
+    server_path: process.env.CHROMEDRIVER_FILEPATH || chromedriver.path,
+    port: 9515,
+  },
+
+  // If set to true, runs the tests in parallel and determines the number of workers automatically.
+  // If set to an object, can specify specify the number of workers as "auto" or a number.
+  // Source: https://nightwatchjs.org/gettingstarted/configuration/#test-runner-settings
+  test_workers: { enabled: true, workers: 4 },
+
   test_settings: {
     default: {
-      launch_url: `vets-website:${process.env.WEB_PORT || 3333}`,
+      launch_url: `localhost:${process.env.WEB_PORT || 3333}`,
       filter: '**/*.e2e.spec.js',
-      selenium_host: 'selenium-chrome',
-      selenium_port: selenium_server_port,
       use_ssl: false,
       silent: true,
       output: true,
@@ -46,12 +52,6 @@ module.exports = {
             '--window-size=1024,768',
           ],
         },
-      },
-      selenium: {
-        start_process: false,
-        log_path: selenium_logs,
-        host: 'selenium-chrome',
-        port: selenium_server_port,
       },
     },
     accessibility: {

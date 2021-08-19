@@ -215,11 +215,11 @@ describe('MilitaryInformation', () => {
         initialState,
       });
 
-      expect(view.getByText(/We don't seem to have your military records/i)).to
+      expect(view.getByText(/We don’t seem to have your military records/i)).to
         .exist;
       expect(
         view.getByText(
-          /We're sorry. We can't match your information to our records./i,
+          /We’re sorry. We can’t match your information to our records./i,
         ),
       ).to.exist;
     });

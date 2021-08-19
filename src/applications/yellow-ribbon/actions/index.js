@@ -8,6 +8,7 @@ import {
   FETCH_RESULTS_FAILURE,
   FETCH_RESULTS_SUCCESS,
   TOGGLE_SHOW_MOBILE_FORM,
+  TOGGLE_TOOL_TIP,
 } from '../constants';
 
 // ============
@@ -34,6 +35,11 @@ export const fetchResultsSuccess = response => ({
 export const toggleShowMobileFormAction = () => ({
   type: TOGGLE_SHOW_MOBILE_FORM,
 });
+
+// ============
+// Toggle alert tool tip
+// ============
+export const toggleSearchResultsToolTip = () => ({ type: TOGGLE_TOOL_TIP });
 
 // ============
 // Redux Thunks
@@ -87,14 +93,26 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
     // Track the API request.
     if (trackSearch) {
       recordEvent({
-        event: 'edu-yellow-ribbon-search',
-        'edu-yellow-ribbon-name': name || undefined,
-        'edu-yellow-ribbon-state': state || undefined,
-        'edu-yellow-ribbon-city': city || undefined,
-        'edu-yellow-ribbon-contribution-amount':
-          contributionAmount || undefined,
-        'edu-yellow-ribbon-number-of-students': numberOfStudents || undefined,
-        'edu-yellow-ribbon-number-of-search-results': response?.totalResults,
+        event: 'view_search_results',
+        'search-page-path': '/education/yellow-ribbon-participating-schools/',
+        'search-query': name,
+        'search-typeahead-enabled': false,
+        'search-selection': 'Yellow Ribbon',
+        'search-filters-list': {
+          stateOrTerritory: state || undefined,
+          city: city || undefined,
+          contributionAmount: contributionAmount || undefined,
+          numberOfStudents: numberOfStudents || undefined,
+        },
+        'search-results-total-count': response.totalResults,
+        'search-results-total-pages': Math.ceil(
+          response.totalResults / perPage,
+        ),
+        'sitewide-search-app-used': false,
+        'type-ahead-option-keyword-selected': undefined,
+        'type-ahead-option-position': undefined,
+        'type-ahead-options-list': undefined,
+        'type-ahead-options-count': undefined,
       });
     }
 

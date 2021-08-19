@@ -9,7 +9,12 @@ import {
 } from '../../forms-system/src/js/constants';
 
 function SaveStatus({
-  form: { lastSavedDate, autoSavedStatus, loadedData },
+  form: {
+    lastSavedDate,
+    autoSavedStatus,
+    loadedData,
+    inProgressFormId = loadedData?.metadata?.inProgressFormId,
+  },
   formConfig,
   isLoggedIn,
   showLoginModal,
@@ -19,18 +24,19 @@ function SaveStatus({
   if (lastSavedDate) {
     const savedAt = moment(lastSavedDate);
     savedAtMessage = ` It was last saved on ${savedAt.format(
-      'MMM D, YYYY [at] h:mm a',
+      'MMMM D, YYYY [at] h:mm a',
     )}`;
   } else {
     savedAtMessage = '';
   }
 
-  const formId = loadedData?.metadata?.inProgressFormId;
+  const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
+
   const formIdMessage =
-    formId && savedAtMessage ? (
+    inProgressFormId && savedAtMessage ? (
       <>
         {' '}
-        Your application ID number is <strong>{formId}</strong>.
+        Your {appType} ID number is <strong>{inProgressFormId}</strong>.
       </>
     ) : null;
 
@@ -39,7 +45,6 @@ function SaveStatus({
     ((autoSavedStatus === SAVE_STATUSES.noAuth && !isLoggedIn) ||
       autoSavedStatus !== SAVE_STATUSES.noAuth);
 
-  const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
   const appSavedSuccessfullyMessage =
     formConfig?.customText?.appSavedSuccessfullyMessage ||
     APP_SAVED_SUCCESSFULLY_DEFAULT_MESSAGE;

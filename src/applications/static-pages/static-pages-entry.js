@@ -10,6 +10,9 @@ import './analytics';
 import './alerts-dismiss-view';
 import './ics-generator';
 import createFacilityPage from './facilities/createFacilityPage';
+import createVetCentersHours from './facilities/createVetCentersHours';
+import createNearByVetCenters from './facilities/vet-center/createNearByVetCenters';
+import createExpandableOperatingStatus from './facilities/vet-center/createExpandableOperatingStatus';
 
 import widgetTypes from './widgetTypes';
 import subscribeAdditionalInfoEvents from './subscribeAdditionalInfoEvents';
@@ -29,10 +32,8 @@ import createHigherLevelReviewApplicationStatus from 'applications/disability-be
 import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
-import initScrollToTopButton from './scroll-top-button';
 
 import form686CTA from './view-modify-dependent/686-cta/form686CTA';
-import createCaregiverContentToggle from './caregiver-content-toggle/createCaregiverContentToggle';
 
 // Health Care | Manage Benefits widgets.
 import createGetMedicalRecordsPage from './health-care-manage-benefits/get-medical-records-page';
@@ -59,6 +60,7 @@ import createChapter36CTA from './vre-chapter36/createChapter36CTA';
 import createChapter31CTA from './vre-chapter31/createChapter31CTA';
 import createViewDependentsCTA from './view-modify-dependents/view-dependents-cta/createViewDependentsCTA';
 import createViewPaymentHistoryCTA from './view-payment-history/createViewPaymentHistoryCTA';
+import createI18Select from './i18Select/createI18Select';
 
 // School resources widgets
 import {
@@ -71,7 +73,14 @@ import createCovidVaccineUpdatesWidget from './covid-vaccine-updates-cta/createC
 import createThirdPartyApps, {
   thirdPartyAppsReducer,
 } from '../third-party-app-directory/createThirdPartyApps';
-import initTranslation from './translation';
+
+import createDependencyVerification from './dependency-verification/createDependencyVerification';
+import dependencyVerificationReducer from './dependency-verification/reducers/index';
+
+import createCOEAccess from './coe-access/createCOEAccess';
+
+// Debt Resolution | Manage VA Debt Widgets
+import createManageVADebtCTA from './manage-va-debt/createManageVADebtCTA';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -84,6 +93,7 @@ const store = createCommonStore({
   ...findVaFormsWidgetReducer,
   ...post911GIBillStatusReducer,
   ...thirdPartyAppsReducer,
+  ...dependencyVerificationReducer,
 });
 
 Sentry.withScope(scope => {
@@ -143,6 +153,9 @@ createResourcesAndSupportSearchWidget(
   widgetTypes.RESOURCES_AND_SUPPORT_SEARCH,
 );
 
+createVetCentersHours(store);
+createExpandableOperatingStatus(store);
+createNearByVetCenters(store);
 createFacilityListWidget();
 createOtherFacilityListWidget();
 createFacilityPage(store);
@@ -170,8 +183,6 @@ createCovidVaccineUpdatesWidget(store, widgetTypes.COVID_VACCINE_UPDATES_CTA);
 createViewDependentsCTA(store, widgetTypes.VIEW_DEPENDENTS_CTA);
 form686CTA(store, widgetTypes.FORM_686_CTA);
 
-createCaregiverContentToggle(store, widgetTypes.CAREGIVER_CONTENT_TOGGLE);
-
 // Create Health Care | Manage Benefits widgets.
 createGetMedicalRecordsPage(store, widgetTypes.GET_MEDICAL_RECORDS_PAGE);
 createRefillTrackPrescriptionsPage(
@@ -191,17 +202,18 @@ createViewTestAndLabResultsPage(
 createChapter36CTA(store, widgetTypes.CHAPTER_36_CTA);
 createChapter31CTA(store, widgetTypes.CHAPTER_31_CTA);
 createViewPaymentHistoryCTA(store, widgetTypes.VIEW_PAYMENT_HISTORY);
+createI18Select(store, widgetTypes.I_18_SELECT);
+
+createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
+
+createCOEAccess(store, widgetTypes.COE_ACCESS);
+
+createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
 
 // homepage widgets
 if (location.pathname === '/') {
   createMyVALoginWidget(store);
 }
-
-// Up to top button for Article Pages
-initScrollToTopButton();
-
-// translation link
-initTranslation();
 
 /* eslint-disable no-unused-vars,camelcase */
 const lazyLoad = new LazyLoad({

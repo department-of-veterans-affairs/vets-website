@@ -17,6 +17,7 @@ import {
   MILITARY_CITIES,
   MILITARY_STATE_VALUES,
   LOWERED_DISABILITY_DESCRIPTIONS,
+  NULL_CONDITION_STRING,
 } from './constants';
 
 export const hasMilitaryRetiredPay = data =>
@@ -226,12 +227,20 @@ export const hasMonthYear = (err, fieldData) => {
   }
 };
 
-export const isWithinServicePeriod = (errors, fieldData, formData) => {
-  const servicePeriods = _.get(
-    'serviceInformation.servicePeriods',
-    formData,
-    [],
-  );
+export const isWithinServicePeriod = (
+  errors,
+  fieldData,
+  formData,
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData,
+) => {
+  // formData === fieldData on review & submit - see #20301
+  const servicePeriods =
+    formData?.serviceInformation?.servicePeriods ||
+    appStateData?.serviceInformation?.servicePeriods ||
+    [];
   const inServicePeriod = servicePeriods.some(pos =>
     isWithinRange(fieldData, pos.dateRange),
   );
@@ -248,7 +257,18 @@ export const isWithinServicePeriod = (errors, fieldData, formData) => {
   }
 };
 
-export const validateDisabilityName = (err, fieldData) => {
+export const missingConditionMessage =
+  'Please enter a condition or select one from the suggested list';
+
+export const validateDisabilityName = (
+  err,
+  fieldData,
+  formData,
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData,
+) => {
   // We're using a validator for length instead of adding a maxLength schema
   // property because the validator is only applied conditionally - when a user
   // chooses a disability from the list supplied to autosuggest, we don't care
@@ -260,6 +280,24 @@ export const validateDisabilityName = (err, fieldData) => {
     fieldData.length > 255
   ) {
     err.addError('Condition names should be less than 256 characters');
+  }
+
+  if (
+    !fieldData ||
+    fieldData.toLowerCase() === NULL_CONDITION_STRING.toLowerCase()
+  ) {
+    err.addError(missingConditionMessage);
+  }
+
+  // Alert Veteran to duplicates
+  const currentList =
+    appStateData?.newDisabilities?.map(disability =>
+      disability.condition?.toLowerCase(),
+    ) || [];
+  const itemLowerCased = fieldData?.toLowerCase() || '';
+  const itemCount = currentList.filter(item => item === itemLowerCased);
+  if (itemCount.length > 1) {
+    err.addError('Please enter a unique condition name');
   }
 };
 
@@ -286,7 +324,7 @@ export const requireRatedDisability = (err, fieldData, formData) => {
   if (isClaimingIncrease(formData) && !claimingRated(formData)) {
     // The actual validation error is displayed as an alert field. The message
     // here will be shown on the review page
-    err.addError('Please selected a rated disability');
+    err.addError('Please select a rated disability');
   }
 };
 
@@ -336,3 +374,46 @@ export function validateBooleanGroup(
     errors.addError(atLeastOne);
   }
 }
+
+/* Military history validations */
+export const validateAge = (
+  errors,
+  dateString,
+  _formData,
+  _schema,
+  _uiSchema,
+  _currentIndex,
+  appStateData,
+) => {
+  if (moment(dateString).isBefore(moment(appStateData.dob).add(13, 'years'))) {
+    errors.addError('Your start date must be after your 13th birthday');
+  }
+};
+
+// partial matches for reserves
+// NOAA & Public Health Service are considered to be active duty
+const reservesList = ['Reserve', 'National Guard'];
+
+export const validateSeparationDate = (
+  errors,
+  dateString,
+  _formData,
+  _schema,
+  _uiSchema,
+  currentIndex,
+  appStateData,
+) => {
+  const { isBDD, servicePeriods = [] } = appStateData;
+  const branch = servicePeriods[currentIndex]?.serviceBranch || '';
+  const isReserves = reservesList.some(match => branch.includes(match));
+  const in90Days = moment().add(90, 'days');
+  if (!isBDD && !isReserves && moment(dateString).isSameOrAfter(in90Days)) {
+    errors.addError('Your separation date must be in the past');
+  } else if (
+    +isBDD &&
+    !isReserves &&
+    moment(dateString).isAfter(moment().add(180, 'days'))
+  ) {
+    errors.addError('Your separation date must be before 180 days from today');
+  }
+};

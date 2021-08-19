@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import merge from 'lodash/merge';
 
 import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 
@@ -27,7 +27,12 @@ import * as personId from 'platform/forms/definitions/personId';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { transform, eligibilityDescription, benefitsLabels } from '../helpers';
+import {
+  transform,
+  eligibilityDescription,
+  benefitsLabels,
+  relationshipLabels,
+} from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
 
@@ -45,6 +50,7 @@ const {
   educationType,
   fullName,
   postHighSchoolTrainings,
+  usaPhone,
 } = fullSchema1990e.definitions;
 
 const formConfig = {
@@ -80,6 +86,7 @@ const formConfig = {
     date,
     dateRange,
     educationType,
+    usaPhone,
   },
   title: 'Apply to use transferred education benefits',
   subTitle: 'Form 22-1990E',
@@ -91,7 +98,9 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: {
-        applicantInformation: applicantInformation(fullSchema1990e),
+        applicantInformation: applicantInformation(fullSchema1990e, {
+          labels: { relationship: relationshipLabels },
+        }),
         additionalBenefits: additionalBenefits(fullSchema1990e),
       },
     },
@@ -128,7 +137,7 @@ const formConfig = {
           title: 'Sponsor information',
           path: 'sponsor/information',
           uiSchema: {
-            veteranFullName: _.merge(fullNameUISchema, {
+            veteranFullName: merge({}, fullNameUISchema, {
               first: {
                 'ui:title': "Sponsor's first name",
               },
@@ -142,7 +151,7 @@ const formConfig = {
                 'ui:title': "Sponsor's suffix",
               },
             }),
-            'view:veteranId': _.merge(personId.uiSchema(), {
+            'view:veteranId': merge({}, personId.uiSchema(), {
               veteranSocialSecurityNumber: {
                 'ui:title': "Sponsor's Social Security number",
               },

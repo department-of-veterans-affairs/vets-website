@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 // import { fireEvent } from '@testing-library/react';
 import { rest } from 'msw';
@@ -7,28 +6,25 @@ import { setupServer } from 'msw/node';
 import { expect } from 'chai';
 
 import environment from 'platform/utilities/environment';
-import { resetFetch } from 'platform/testing/unit/helpers';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 
 import reducer from '../../reducers';
 
-import FormContainer, { Form } from '../../components/Form';
+import Form from '../../components/Form';
+
+const scheduledDowntimeState = {
+  scheduledDowntime: {
+    globalDowntime: null,
+    isReady: true,
+    isPending: false,
+    serviceMap: {
+      get() {},
+    },
+    dismissedDowntimeWarnings: [],
+  },
+};
 
 describe('<Form/>', () => {
-  it('renders without crashing', () => {
-    const div = document.createElement('div');
-    ReactDOM.render(
-      <Form
-        formState={null}
-        updateFormData={() => {}}
-        router={{}}
-        isLoggedIn={false}
-        profile={{}}
-      />,
-      div,
-    );
-  });
-
   it('renders a form', async () => {
     const initialState = {
       user: {
@@ -40,15 +36,16 @@ describe('<Form/>', () => {
       coronavirusVaccinationApp: {
         formState: null,
       },
+      ...scheduledDowntimeState,
     };
 
-    const screen = renderInReduxProvider(<FormContainer />, {
+    const screen = renderInReduxProvider(<Form />, {
       initialState,
       reducers: reducer,
     });
 
-    screen.getByText('Fill out the form below');
-    screen.getByLabelText('Social Security number (SSN)');
+    screen.getByText('Sign up for vaccine updates');
+    await screen.findByLabelText('Social Security number (SSN)');
     screen.getByLabelText('Last name', { exact: false });
     screen.getByLabelText('First name', { exact: false });
     screen.getByText('Date of birth');
@@ -85,7 +82,6 @@ describe('<Form/> prefills -> by old form data', () => {
   let server = null;
 
   before(() => {
-    resetFetch();
     server = setupServer(
       rest.get(
         `${environment.API_URL}/covid_vaccine/v0/registration`,
@@ -136,9 +132,10 @@ describe('<Form/> prefills -> by old form data', () => {
       coronavirusVaccinationApp: {
         formState: null,
       },
+      ...scheduledDowntimeState,
     };
 
-    const screen = renderInReduxProvider(<FormContainer />, {
+    const screen = renderInReduxProvider(<Form />, {
       initialState,
       reducers: reducer,
     });
@@ -159,7 +156,6 @@ describe('<Form/> prefills -> profile data ', () => {
   let server = null;
 
   before(() => {
-    resetFetch();
     server = setupServer(
       rest.get(
         `${environment.API_URL}/covid_vaccine/v0/registration`,
@@ -196,9 +192,10 @@ describe('<Form/> prefills -> profile data ', () => {
         coronavirusVaccinationApp: {
           formState: null,
         },
+        ...scheduledDowntimeState,
       };
 
-      const screen = renderInReduxProvider(<FormContainer />, {
+      const screen = renderInReduxProvider(<Form />, {
         initialState,
         reducers: reducer,
       });

@@ -1,11 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import MetaTags from 'react-meta-tags';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import formConfig from '../config/form';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { connect } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import ErrorMessage from '../components/ErrorMessage';
+
+import {
+  WIZARD_STATUS_NOT_STARTED,
+  WIZARD_STATUS_COMPLETE,
+  WIZARD_STATUS_RESTARTED,
+  restartShouldRedirect,
+} from 'platform/site-wide/wizard';
+import formConfig from '../config/form';
+import { ErrorAlert } from '../components/Alerts';
+import WizardContainer from '../wizard/WizardContainer';
 import { fetchFormStatus } from '../actions/index';
-import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
+import { WIZARD_STATUS } from '../wizard/constants';
+import { fsrWizardFeatureToggle, fsrFeatureToggle } from '../utils/helpers';
 
 const App = ({
   location,
@@ -14,8 +24,39 @@ const App = ({
   pending,
   isLoggedIn,
   getFormStatus,
+  showWizard,
+  showFSR,
+  router,
 }) => {
-  const showMainContent = !pending && !isError;
+  const [wizardState, setWizardState] = useState(
+    sessionStorage.getItem(WIZARD_STATUS) || WIZARD_STATUS_NOT_STARTED,
+  );
+
+  const setWizardStatus = value => {
+    sessionStorage.setItem(WIZARD_STATUS, value);
+    setWizardState(value);
+  };
+
+  const hasRestarted = () => {
+    setWizardStatus(WIZARD_STATUS_RESTARTED);
+    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_RESTARTED);
+    router.push('/');
+  };
+
+  useEffect(() => {
+    if (restartShouldRedirect(WIZARD_STATUS)) {
+      hasRestarted();
+    }
+  });
+
+  useEffect(
+    () => {
+      if (showFSR === false) {
+        setWizardStatus(WIZARD_STATUS_NOT_STARTED);
+      }
+    },
+    [showFSR],
+  );
 
   useEffect(
     () => {
@@ -24,38 +65,42 @@ const App = ({
     [getFormStatus],
   );
 
-  return (
-    <>
-      <Breadcrumbs>
-        <a href="/">Home</a>
-        <a href="#">Debt Management</a>
-        <span>
-          <strong>Financial Status Report</strong>
-        </span>
-      </Breadcrumbs>
-      {pending && (
-        <LoadingIndicator setFocus message="Loading your information..." />
-      )}
-      {isError &&
-        !pending &&
-        isLoggedIn && (
-          <div className="row vads-u-margin-bottom--3">
-            <ErrorMessage />
-          </div>
-        )}
-      {showMainContent && (
-        <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-          {children}
-        </RoutedSavableApp>
-      )}
-    </>
-  );
+  if (pending) {
+    return <LoadingIndicator setFocus message="Loading your information..." />;
+  }
+
+  if (isLoggedIn && isError) {
+    return <ErrorAlert />;
+  }
+
+  if (showWizard && wizardState !== WIZARD_STATUS_COMPLETE) {
+    return (
+      <WizardContainer setWizardStatus={setWizardStatus} showFSR={showFSR} />
+    );
+  }
+
+  return showFSR ? (
+    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+      <MetaTags>
+        {/* TODO: used to prevent staging form being indexed remove once merged to prod */}
+        <meta name="robots" content="noindex" />
+        <meta
+          name="keywords"
+          content="repay debt, debt, debt letters, FSR, financial status report, debt forgiveness, compromise, waiver, monthly offsets, education loans repayment"
+        />
+      </MetaTags>
+
+      {children}
+    </RoutedSavableApp>
+  ) : null;
 };
 
 const mapStateToProps = state => ({
   isLoggedIn: state.user.login.currentlyLoggedIn,
   isError: state.fsr.isError,
   pending: state.fsr.pending,
+  showWizard: fsrWizardFeatureToggle(state),
+  showFSR: fsrFeatureToggle(state),
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -1,9 +1,10 @@
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import { Validator } from 'jsonschema';
 
-import { isActivePage, parseISODate } from './helpers';
+import { isActivePage, parseISODate, minYear, maxYear } from './helpers';
 import {
   isValidSSN,
+  isValidYear,
   isValidPartialDate,
   isValidCurrentOrPastDate,
   isValidCurrentOrPastYear,
@@ -231,7 +232,24 @@ export function errorSchemaIsValid(errorSchema) {
   return _.values(_.omit('__errors', errorSchema)).every(errorSchemaIsValid);
 }
 
-export function isValidForm(form, pageList) {
+/**
+ * IsValidForm~results
+ * @typedef {Object}
+ * @property {Boolean} isValid - Returns true if the formData & schema match and
+ *  are valid
+ * @property {Object[]} errors - Errors returned by jsonschema validator
+ * @property {Object|null} formData - Only available during unit tests
+ */
+/**
+ * Use third-party jsonschema validator to validate the formData against the
+ * schema
+ * @param {Object} form - the entire form object from Redux state
+ * @param {Obect[]} pageList - Page list array from the router
+ * @param {Boolean} isTesting - Testing flag used to return the modified form
+ *  data to verify the correct changes were made
+ * @returns {IsValidForm~results}
+ */
+export function isValidForm(form, pageList, isTesting = false) {
   const pageListMap = new Map();
   pageList.forEach(page => pageListMap.set(page.pageKey, page));
   const validPages = Object.keys(form.pages).filter(pageKey =>
@@ -273,13 +291,9 @@ export function isValidForm(form, pageList) {
             // want to filter the schemas if they can be different. This ensures
             // the data still matches its corresponding schema if we filtered
             // out some data with `itemFilter`.
-            schema.properties[arrayPath] = _.set(
-              'items',
-              schema.properties[arrayPath].items.filter(
-                (item, index) => itemsToKeep[index],
-              ),
-              formData,
-            );
+            schema.properties[arrayPath].items = schema.properties[
+              arrayPath
+            ].items.filter((item, index) => itemsToKeep[index]);
           }
         } else {
           formData = _.unset(arrayPath, formData);
@@ -303,6 +317,7 @@ export function isValidForm(form, pageList) {
         return {
           isValid: isValid && errorSchemaIsValid(customErrors),
           errors: errors.concat(customErrors),
+          formData: isTesting ? formData : null, // for unit tests
         };
       }
 
@@ -310,6 +325,7 @@ export function isValidForm(form, pageList) {
         isValid: false,
         // removes PII
         errors: errors.concat(result.errors.map(_.unset('instance'))),
+        formData: isTesting ? formData : null, // for unit tests
       };
     },
     { isValid: true, errors: [] },
@@ -324,7 +340,9 @@ export function validateSSN(errors, ssn) {
 
 export function validateDate(errors, dateString) {
   const { day, month, year } = parseISODate(dateString);
-  if (!isValidPartialDate(day, month, year)) {
+  if (year?.length >= 4 && !isValidYear(year)) {
+    errors.addError(`Please enter a year between ${minYear} and ${maxYear}`);
+  } else if (!isValidPartialDate(day, month, year)) {
     errors.addError('Please provide a valid date');
   }
 }
@@ -462,15 +480,27 @@ export function validateDateRange(
   formData,
   schema,
   errorMessages,
+  allowSameMonth = false,
 ) {
   const fromDate = convertToDateField(dateRange.from);
   const toDate = convertToDateField(dateRange.to);
 
-  if (!isValidDateRange(fromDate, toDate)) {
+  if (!isValidDateRange(fromDate, toDate, allowSameMonth)) {
     errors.to.addError(
-      errorMessages.pattern || 'To date must be after from date',
+      errorMessages?.pattern || 'To date must be after from date',
     );
   }
+}
+
+// using ...args here breaks unit test that don't include all parameters
+export function validateDateRangeAllowSameMonth(
+  errors,
+  dateRange,
+  formData,
+  schema,
+  errorMessages,
+) {
+  validateDateRange(errors, dateRange, formData, schema, errorMessages, true);
 }
 
 export function getFileError(file) {

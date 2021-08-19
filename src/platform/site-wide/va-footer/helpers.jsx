@@ -20,6 +20,7 @@ export const FOOTER_EVENTS = {
   [FOOTER_COLUMNS.CONTACT]: 'nav-footer-contact',
   [FOOTER_COLUMNS.SUPERLINKS]: 'nav-footer-superlinks',
   CRISIS_LINE: 'nav-footer-crisis',
+  LANGUAGE_SUPPORT: 'nav-footer-language-support',
 };
 
 const renderInnerTag = (link, captureEvent) => (
@@ -31,6 +32,7 @@ const renderInnerTag = (link, captureEvent) => (
     ) : null}
     {link.href ? (
       <a
+        aria-label={link.ariaLabel}
         href={link.href}
         onClick={captureEvent}
         target={link.target}
@@ -67,6 +69,7 @@ function generateSuperLinks(groupedList) {
       {orderBy(groupedList.bottom_rail, 'order', 'asc').map(link => (
         <li key={`${link.order}`}>
           <a
+            aria-label={link.ariaLabel}
             href={link.href}
             onClick={captureEvent}
             target={link.target}

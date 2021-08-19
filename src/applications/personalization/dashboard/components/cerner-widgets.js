@@ -1,18 +1,18 @@
-import React, { Fragment } from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import React from 'react';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
-import { getCernerURL } from 'platform/utilities/cerner';
+import { externalRedirects } from 'platform/user/authentication/utilities';
 
 // Returns an AlertBox to present the user with info about working with the
 // Cerner facility they are enrolled at. Props allow you to edit a small amount
 // of the content that is rendered in the AlertBox.
 const CernerAlertBox = ({
-  primaryCtaText,
   primaryCtaButtonUrl,
   secondaryCtaButtonText,
   secondaryCtaButtonUrl,
   facilityNames,
+  level = 2,
 }) => {
   // Helper component that takes an array of facility names and a separator string and returns some JSX to style the list of facility names.
   const FacilityList = ({ facilities, separator }) => {
@@ -33,7 +33,7 @@ const CernerAlertBox = ({
     return (
       <>
         {newArray.map((el, i) => {
-          return <Fragment key={i}>{el}</Fragment>;
+          return <strong key={i}>{el}</strong>;
         })}
       </>
     );
@@ -42,91 +42,43 @@ const CernerAlertBox = ({
   return (
     <AlertBox
       status="warning"
-      headline="Your VA health care team may be using our new My VA Health portal"
+      headline="Choose your health management portal"
+      level={level}
     >
-      <h3>Our records show you’re registered at:</h3>
-      <h4 className="vads-u-font-family--sans">
-        <FacilityList facilities={facilityNames} separator=" and " />
-        <span className="vads-u-font-weight--normal vads-u-font-size--base">
-          {' '}
-          (Using My VA Health)
-        </span>
-      </h4>
       <p>
-        Please choose a health management portal below, depending on the
-        facility for your appointment. You may need to disable your browser’s
-        pop-up blocker to open the portal. If you’re prompted to sign in again,
-        use the same account you used to sign in on VA.gov.
+        Your care team may now use our new My VA Health portal. Choose your
+        portal based on the facility for your appointment:
       </p>
-      <h3>{primaryCtaText}</h3>
-      <h4 className="vads-u-font-family--sans">
-        <FacilityList facilities={facilityNames} separator=" or " />
-      </h4>
-      <a
-        href={primaryCtaButtonUrl}
-        type="button"
-        className="usa-button-primary"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        Go to My VA Health
-      </a>
-      <h4 className="vads-u-font-family--sans">Another VA health facility</h4>
-      <a
-        href={secondaryCtaButtonUrl}
-        type="button"
-        className="usa-button-secondary"
-      >
-        {secondaryCtaButtonText}
-      </a>
+      <p className="vads-u-font-family--sans" data-testid="facilities">
+        For <FacilityList facilities={facilityNames} separator=" or " />:{' '}
+        <a href={primaryCtaButtonUrl} rel="noopener noreferrer" target="_blank">
+          Use My VA Health
+        </a>
+      </p>
+      <p>
+        For{' '}
+        <strong className="vads-u-font-family--sans">
+          any other VA health facility:{' '}
+        </strong>
+        <a href={secondaryCtaButtonUrl}>{secondaryCtaButtonText}</a>
+      </p>
+      <p>
+        If you have trouble accessing the portal, make sure to disable your
+        pop-up blocker. If you’re prompted to sign in again, use the same
+        account you used to sign in to VA.gov.
+      </p>
     </AlertBox>
   );
 };
 
-export const CernerScheduleAnAppointmentWidget = ({ facilityNames }) => (
-  <div data-testid="cerner-appointment-widget">
-    <h3>View, schedule, or cancel an appointment</h3>
+export const CernerWidget = ({ facilityNames, authenticatedWithSSOe }) => (
+  <div data-testid="cerner-widget">
     <CernerAlertBox
-      primaryCtaButtonUrl={getCernerURL('/pages/scheduling/upcoming')}
-      primaryCtaText="Manage appointments at:"
-      secondaryCtaButtonText="Go to the VA appointments tool"
-      secondaryCtaButtonUrl="/health-care/schedule-view-va-appointments/"
       facilityNames={facilityNames}
-    />
-  </div>
-);
-
-export const CernerSecureMessagingWidget = ({
-  facilityNames,
-  authenticatedWithSSOe,
-}) => (
-  <div data-testid="cerner-messaging-widget">
-    <h3>Send or receive a secure message</h3>
-    <CernerAlertBox
-      primaryCtaButtonUrl={getCernerURL('/pages/messaging/inbox')}
-      primaryCtaText="Send a secure message to a provider at:"
-      secondaryCtaButtonText="Go to My HealtheVet"
-      secondaryCtaButtonUrl={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
-      facilityNames={facilityNames}
-    />
-  </div>
-);
-
-export const CernerPrescriptionsWidget = ({
-  facilityNames,
-  authenticatedWithSSOe,
-}) => (
-  <div data-testid="cerner-prescription-widget">
-    <h3>Refill and track prescriptions</h3>
-    <CernerAlertBox
-      primaryCtaButtonUrl={getCernerURL('/pages/medications/current')}
-      primaryCtaText="Refill prescriptions from:"
-      secondaryCtaButtonText="Go to My HealtheVet"
-      secondaryCtaButtonUrl={mhvUrl(
-        authenticatedWithSSOe,
-        'web/myhealthevet/refill-prescriptions',
-      )}
-      facilityNames={facilityNames}
+      primaryCtaButtonUrl={externalRedirects.myvahealth}
+      secondaryCtaButtonText="Use My HealtheVet"
+      secondaryCtaButtonUrl={mhvUrl(authenticatedWithSSOe, 'home')}
+      level={2}
     />
   </div>
 );

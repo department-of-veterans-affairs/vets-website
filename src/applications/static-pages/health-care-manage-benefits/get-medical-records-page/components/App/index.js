@@ -5,21 +5,11 @@ import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 // Relative imports.
 import AuthContent from '../AuthContent';
-import LegacyContent from '../LegacyContent';
 import UnauthContent from '../UnauthContent';
-import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
-import { selectPatientFacilities } from 'platform/user/selectors';
 import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
+import { selectPatientFacilities } from 'platform/user/selectors';
 
-export const App = ({
-  facilities,
-  showNewGetMedicalRecordsPage,
-  authenticatedWithSSOe,
-}) => {
-  if (!showNewGetMedicalRecordsPage) {
-    return <LegacyContent />;
-  }
-
+export const App = ({ facilities, authenticatedWithSSOe }) => {
   const cernerFacilities = facilities?.filter(f => f.usesCernerMedicalRecords);
   const otherFacilities = facilities?.filter(f => !f.usesCernerMedicalRecords);
   if (!isEmpty(cernerFacilities)) {
@@ -49,14 +39,11 @@ App.propTypes = {
       usesCernerTestResults: PropTypes.bool,
     }).isRequired,
   ),
-  showNewGetMedicalRecordsPage: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
-  facilities: selectPatientFacilities(state),
   authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
-  showNewGetMedicalRecordsPage:
-    state?.featureToggles?.[featureFlagNames.showNewGetMedicalRecordsPage],
+  facilities: selectPatientFacilities(state),
 });
 
 export default connect(

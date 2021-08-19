@@ -33,11 +33,9 @@ export default function CustomReviewField({ children, uiSchema }) {
   }
 
   return children?.props.formData ? (
-    <div>
-      <div className="review-row">
-        <dt>{selectQuestionTitle}:</dt>
-        <dd>{uiSchema['ui:title']}</dd>
-      </div>
+    <div className="review-row">
+      <dt>{selectQuestionTitle}:</dt>
+      <dd>{uiSchema['ui:title']}</dd>
     </div>
   ) : (
     ''

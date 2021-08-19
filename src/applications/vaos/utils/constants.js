@@ -34,61 +34,85 @@ export const PURPOSE_TEXT = [
   {
     id: 'routine-follow-up',
     short: 'Follow-up/Routine',
-    label: 'Routine or follow-up visit',
+    label: 'This is a routine or follow-up visit.',
     serviceName: 'Routine Follow-up',
   },
   {
     id: 'new-issue',
     short: 'New issue',
-    label: 'I have a new medical issue',
+    label: 'I have a new medical issue.',
     serviceName: 'New Issue',
   },
   {
     id: 'medication-concern',
     short: 'Medication concern',
-    label: 'I have a concern or question about my medication',
+    label: 'I have a concern or question about my medication.',
     serviceName: 'Medication Concern',
   },
   {
     id: 'other',
     short: 'My reason isn’t listed',
-    label: 'My reason isn’t listed here',
+    label: 'My reason isn’t listed here.',
     serviceName: 'Other',
   },
 ];
 
 export const PODIATRY_ID = 'tbd-podiatry';
+export const COVID_VACCINE_ID = 'covid';
+
+/**
+ * @typedef TypeOfCare
+ *
+ * @property {string} id Numeric id of the type of care
+ * @property {string} name Name of the type of care
+ * @property {string} label Longer label name for the type of care, used when choosing type
+ * @property {string|Array<string>} ccId Id(s) of the associated community care types of
+ *   care list in VAR resources
+ * @property {string} cceType Id of the associated community care serviceType from the
+ *   Lighthouse eligibility api
+ * @property {Array<string>} specialities PPMS specialty codes associated with this type of care
+ */
+
+export const PRIMARY_CARE = '323';
+export const MENTAL_HEALTH = '502';
+
 export const TYPES_OF_CARE = [
   {
-    id: '323',
+    id: PRIMARY_CARE,
+    idV2: 'primaryCare',
     name: 'Primary care',
     group: 'primary',
     ccId: 'CCPRMYRTNE',
     cceType: 'PrimaryCare',
-    specialties: ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
+    specialties: ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
   },
   {
     id: '160',
+    idV2: 'clinicalPharmacyPrimaryCare',
     name: 'Pharmacy',
     group: 'primary',
   },
   {
-    id: '502',
+    id: MENTAL_HEALTH,
+    idV2: 'outpatientMentalHealth',
     name: 'Mental health',
     group: 'mentalHealth',
   },
   {
     id: '125',
+    idV2: 'socialWork',
     name: 'Social work',
     group: 'mentalHealth',
   },
   {
     id: '211',
+    idV2: 'amputation',
     name: 'Amputation care',
     group: 'specialty',
   },
   {
     id: '203',
+    idV2: 'audiology',
     name: 'Audiology and speech',
     label: 'Audiology and speech (including hearing aid support)',
     group: 'specialty',
@@ -97,25 +121,34 @@ export const TYPES_OF_CARE = [
   },
   {
     id: '372',
+    idV2: 'moveProgram',
     name: 'MOVE! weight management program',
     group: 'specialty',
   },
   {
     id: '123',
+    idV2: 'foodAndNutrition',
     name: 'Nutrition and food',
     group: 'specialty',
     ccId: 'CCNUTRN',
     cceType: 'Nutrition',
-    specialties: ['133N00000X', '136A00000X', '132700000X', '133V00000X'],
+    specialties: ['133V00000X', '133VN1201X', '133N00000X', '133NN1002X'],
   },
   {
     id: PODIATRY_ID,
+    idV2: '411',
     name: 'Podiatry',
     label: 'Podiatry (only available online for Community Care appointments)',
     ccId: 'CCPOD',
     group: 'specialty',
     cceType: 'Podiatry',
-    specialties: ['211D00000X', '213E00000X', '261QP1100X', '207XX0004X'],
+    specialties: [
+      '213E00000X',
+      '213EG0000X',
+      '213EP1101X',
+      '213ES0131X',
+      '213ES0103X',
+    ],
   },
   {
     id: 'SLEEP',
@@ -127,15 +160,21 @@ export const TYPES_OF_CARE = [
     name: 'Eye care',
     group: 'specialty',
   },
+  {
+    id: COVID_VACCINE_ID,
+    name: 'COVID-19 vaccine',
+  },
 ];
 
 export const TYPES_OF_SLEEP_CARE = [
   {
     id: '349',
+    idV2: 'cpap',
     name: 'Continuous Positive Airway Pressure (CPAP)',
   },
   {
     id: '143',
+    idV2: 'homeSleepTesting',
     name: 'Sleep medicine and home sleep testing',
   },
 ];
@@ -143,13 +182,15 @@ export const TYPES_OF_SLEEP_CARE = [
 export const TYPES_OF_EYE_CARE = [
   {
     id: '408',
+    idV2: 'optometry',
     name: 'Optometry',
     ccId: 'CCOPT',
     cceType: 'Optometry',
-    specialties: ['152W00000X', '156F00000X'],
+    specialties: ['152W00000X', '152WC0802X'],
   },
   {
     id: '407',
+    idV2: 'ophthalmology',
     name: 'Ophthalmology',
   },
 ];
@@ -158,12 +199,12 @@ export const AUDIOLOGY_TYPES_OF_CARE = [
   {
     ccId: 'CCAUDRTNE',
     name: 'Routine hearing exam',
-    specialties: ['231H00000X', '261QH0700X'],
+    specialties: ['231H00000X', '237600000X', '261QH0700X'],
   },
   {
     ccId: 'CCAUDHEAR',
     name: 'Hearing aid support',
-    specialties: ['332S00000X', '237600000X', '237700000X', '231H00000X'],
+    specialties: ['231H00000X', '237600000X'],
   },
 ];
 
@@ -248,7 +289,7 @@ export const FLOW_TYPES = {
 
 export const TYPE_OF_VISIT = [
   {
-    id: 'office',
+    id: 'clinic',
     name: 'Office visit',
     serviceName: 'Office Visit',
   },
@@ -280,12 +321,6 @@ export const DISTANCES = [
   },
 ];
 
-export const CALENDAR_INDICATOR_TYPES = {
-  CHECK: 'check',
-  BUBBLES: 'bubbles',
-};
-
-export const MENTAL_HEALTH = '502';
 export const EXPRESS_CARE = 'CR1';
 
 export const GA_PREFIX = 'vaos';
@@ -304,4 +339,37 @@ export const UNABLE_TO_REACH_VETERAN_DETCODE = 'DETCODE23';
 export const EXPRESS_CARE_ERROR_REASON = {
   error: 'error',
   noActiveFacility: 'noActiveFacility',
+};
+
+export const DEFAULT_WEEK_DAYS = [
+  {
+    name: 'Monday',
+    abbr: 'Mon',
+  },
+  {
+    name: 'Tuesday',
+    abbr: 'Tue',
+  },
+  {
+    name: 'Wednesday',
+    abbr: 'Wed',
+  },
+  {
+    name: 'Thursday',
+    abbr: 'Thu',
+  },
+  {
+    name: 'Friday',
+    abbr: 'Fri',
+  },
+];
+
+export const ELIGIBILITY_REASONS = {
+  notEnabled: 'notEnabled',
+  notSupported: 'notSupported',
+  noRecentVisit: 'noRecentVisit',
+  overRequestLimit: 'overRequestLimit',
+  noClinics: 'noClinics',
+  noMatchingClinics: 'noMatchingClinics',
+  error: 'error',
 };

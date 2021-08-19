@@ -1,11 +1,8 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS } from '@@profile/constants';
 
 import { mockUser } from '@@profile/tests/fixtures/users/user.js';
 
 const setup = (mobile = false) => {
-  disableFTUXModals();
-
   if (mobile) {
     cy.viewport('iphone-4');
   }
@@ -32,16 +29,10 @@ const checkModals = options => {
     force: true,
   });
 
-  // confirm that the update button is disabled before a change is made
-  cy.findByRole('button', { name: 'Update' }).should('be.disabled');
-
   // Make an edit
   cy.get(`#${editLineId}`)
-    .click()
-    .type('test');
-
-  // confirm that the update button is enabled
-  cy.findByRole('button', { name: 'Update' }).should('not.be.disabled');
+    .click({ force: true })
+    .type('test', { force: true });
 
   // Click on a different section to edit
   cy.findByRole('button', {
@@ -110,7 +101,7 @@ describe('Modals on the personal information and content page', () => {
     checkModals({
       otherSectionName: 'mailing address',
       editLineId: 'root_emailAddress',
-      sectionName: 'email address',
+      sectionName: 'contact email address',
     });
   });
 
@@ -149,7 +140,7 @@ describe('Modals on the personal information and content page', () => {
     checkModals({
       otherSectionName: 'mailing address',
       editLineId: 'root_emailAddress',
-      sectionName: 'email address',
+      sectionName: 'contact email address',
     });
   });
 });

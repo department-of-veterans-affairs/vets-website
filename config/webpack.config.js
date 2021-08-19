@@ -1,6 +1,9 @@
+/* eslint-disable no-console */
+
 require('core-js/stable');
 require('regenerator-runtime/runtime');
 const fs = require('fs');
+const fetch = require('node-fetch');
 const path = require('path');
 const webpack = require('webpack');
 
@@ -10,12 +13,16 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
-const ManifestPlugin = require('webpack-manifest-plugin');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const WebpackBar = require('webpackbar');
 
 const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
 const BUCKETS = require('../src/site/constants/buckets');
 const ENVIRONMENTS = require('../src/site/constants/environments');
+const scaffoldRegistry = require('../src/applications/registry.scaffold.json');
+const facilitySidebar = require('../src/platform/landing-pages/facility-sidebar.json');
+
+const { VAGOVSTAGING, VAGOVPROD, LOCALHOST } = ENVIRONMENTS;
 
 const {
   getAppManifests,
@@ -29,8 +36,6 @@ const generateWebpackDevConfig = require('./webpack.dev.config.js');
 
 const getAbsolutePath = relativePath =>
   path.join(__dirname, '../', relativePath);
-
-const timestamp = new Date().getTime();
 
 const sharedModules = [
   getAbsolutePath('src/platform/polyfills'),
@@ -54,6 +59,7 @@ const globalEntryFiles = {
   vendor: sharedModules,
   // This is to solve the issue of the vendor file being cached
   'shared-modules': sharedModules,
+  'web-components': getAbsolutePath('src/platform/site-wide/wc-loader.js'),
 };
 
 function getEntryManifests(entry) {
@@ -81,65 +87,202 @@ function getEntryPoints(entry) {
   return getWebpackEntryPoints(manifestsToBuild);
 }
 
-module.exports = env => {
+/**
+ * Creates a mapping of scaffold asset filenames to file contents.
+ * Tries first to read from a local content-build by default and
+ * falls back to downloading from a remote content-build.
+ *
+ * @return {Object} - Map of scaffold asset filenames to file contents.
+ */
+async function getScaffoldAssets() {
+  const LOCAL_CONTENT_BUILD_ROOT = '../content-build';
+
+  const REMOTE_CONTENT_BUILD_ROOT =
+    'https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/master';
+
+  const loadAsset = async contentBuildPath => {
+    const filename = path.basename(contentBuildPath);
+    const localPath = path.join(LOCAL_CONTENT_BUILD_ROOT, contentBuildPath);
+
+    if (fs.existsSync(localPath)) {
+      console.log(`Found local asset at ${localPath}.`);
+      return [filename, fs.readFileSync(localPath)];
+    }
+
+    const fileUrl = new URL(
+      path.join(REMOTE_CONTENT_BUILD_ROOT, contentBuildPath),
+    );
+
+    console.log(`Downloading asset from ${fileUrl.toString()}.`);
+    const response = await fetch(fileUrl);
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch ${fileUrl}.\n\n${response.status}: ${
+          response.statusText
+        }`,
+      );
+    }
+
+    const fileContents = await response.text();
+    console.log(`Successfully downloaded ${filename}.`);
+    return [filename, fileContents];
+  };
+
+  const inlineScripts = [
+    'incompatible-browser.js',
+    'record-event.js',
+    'static-page-widgets.js',
+  ].map(filename => path.join('src/site/assets/js', filename));
+
+  const appRegistry = path.join('src/applications', 'registry.json');
+
+  const loadedAssets = await Promise.all(
+    [...inlineScripts, appRegistry].map(loadAsset),
+  );
+
+  return Object.fromEntries(loadedAssets);
+}
+
+/**
+ * Generates HTML files for each app and widget.
+ *
+ * @param {String} buildPath - Path to the overall build destination.
+ *
+ * @return {HtmlWebpackPlugin[]} - Array of HtmlWebpackPlugin instances,
+ *   representing the HTML files to generate for each app and widget.
+ */
+async function generateHtmlFiles(buildPath) {
+  const scaffoldAssets = await getScaffoldAssets();
+  const appRegistry = JSON.parse(scaffoldAssets['registry.json']);
+  const loadInlineScript = filename => scaffoldAssets[filename];
+
+  // Modifies the style tags output from HTML Webpack Plugin
+  // to match the order and attributes of style tags from real content.
+  const modifyStyleTags = pluginStyleTags =>
+    pluginStyleTags
+      .reduce(
+        (tags, tag) =>
+          // Puts style.css before the app-specific stylesheet.
+          tag.attributes.href.match(/style/) ? [tag, ...tags] : [...tags, tag],
+        [],
+      )
+      .join('');
+
+  // Modifies the script tags output from HTML Webpack Plugin
+  // to match the order and attributes of script tags from real content.
+  const modifyScriptTags = pluginScriptTags =>
+    pluginScriptTags
+      .reduce((tags, tag) => {
+        // Exclude style.entry.js, which gets included with the style chunk.
+        if (tag.attributes.src.match(/style/)) return tags;
+
+        // Force polyfills.entry.js to be first (and set `nomodules`), since
+        // vendor.entry.js gets put first even with chunksSortMode: 'manual'.
+        return tag.attributes.src.match(/polyfills/)
+          ? [
+              { ...tag, attributes: { ...tag.attributes, nomodule: true } },
+              ...tags,
+            ]
+          : [...tags, tag];
+      }, [])
+      .join('');
+
+  /* eslint-disable no-nested-ternary */
+  const generateHtmlFile = ({
+    appName,
+    entryName = 'static-pages',
+    rootUrl,
+    template = {},
+    widgetType,
+    widgetTemplate,
+  }) =>
+    new HtmlPlugin({
+      chunks: ['polyfills', 'web-components', 'vendor', 'style', entryName],
+      filename: path.join(buildPath, rootUrl, 'index.html'),
+      inject: false,
+      scriptLoading: 'defer',
+      template: 'src/platform/landing-pages/dev-template.ejs',
+      templateParameters: {
+        // Menu and navigation content
+        headerFooterData,
+        facilitySidebar,
+
+        // Helper functions
+        loadInlineScript,
+        modifyScriptTags,
+        modifyStyleTags,
+
+        // Default template metadata.
+        breadcrumbs_override: [], // eslint-disable-line camelcase
+        includeBreadcrumbs: false,
+        loadingMessage: 'Please wait while we load the application for you.',
+
+        // App-specific config
+        entryName,
+        widgetType,
+        widgetTemplate,
+        rootUrl,
+        ...template, // Unpack any template metadata from the registry entry.
+      },
+      title:
+        typeof template !== 'undefined' && template.title
+          ? `${template.title} | Veterans Affairs`
+          : typeof appName !== 'undefined'
+            ? appName
+              ? `${appName} | Veterans Affairs`
+              : null
+            : 'VA.gov Home | Veterans Affairs',
+    });
+  /* eslint-enable no-nested-ternary */
+
+  return [...appRegistry, ...scaffoldRegistry]
+    .filter(({ rootUrl }) => rootUrl)
+    .map(generateHtmlFile);
+}
+
+module.exports = async (env = {}) => {
+  const { buildtype = LOCALHOST } = env;
   const buildOptions = {
     api: '',
-    buildtype: 'localhost',
-    host: 'localhost',
+    buildtype,
+    host: LOCALHOST,
     port: 3001,
     scaffold: false,
     watch: false,
-    setPublicPath: false,
+    destination: buildtype,
     ...env,
-    // Using a getter so we can reference the buildtype
-    get destination() {
-      return path.resolve(__dirname, '../', 'build', this.buildtype);
-    },
   };
 
   const apps = getEntryPoints(buildOptions.entry);
   const entryFiles = Object.assign({}, apps, globalEntryFiles);
-  const isOptimizedBuild = [
-    ENVIRONMENTS.VAGOVSTAGING,
-    ENVIRONMENTS.VAGOVPROD,
-  ].includes(buildOptions.buildtype);
-
-  const useHashFilenames = [
-    ENVIRONMENTS.VAGOVSTAGING,
-    ENVIRONMENTS.VAGOVPROD,
-  ].includes(buildOptions.buildtype);
+  const isOptimizedBuild = [VAGOVSTAGING, VAGOVPROD].includes(buildtype);
 
   // enable css sourcemaps for all non-localhost builds
   // or if build options include local-css-sourcemaps or entry
   const enableCSSSourcemaps =
-    buildOptions.buildtype !== ENVIRONMENTS.LOCALHOST ||
+    buildtype !== LOCALHOST ||
     buildOptions['local-css-sourcemaps'] ||
     !!buildOptions.entry;
 
-  const outputPath = `${buildOptions.destination}/generated`;
-
-  // Set the pubilcPath conditional so we can get dynamic modules loading from S3
-  const publicAssetPath =
-    buildOptions.setPublicPath && buildOptions.buildtype !== 'localhost'
-      ? `${BUCKETS[buildOptions.buildtype]}/generated/`
-      : '/generated/';
+  const buildPath = path.resolve(
+    __dirname,
+    '../',
+    'build',
+    buildOptions.destination,
+  );
 
   const baseConfig = {
     mode: 'development',
     entry: entryFiles,
     output: {
-      path: outputPath,
-      publicPath: publicAssetPath,
-      filename: pathData => {
-        return !useHashFilenames || pathData.chunk.name === 'proxy-rewrite' // the unhashed proxy-rewrite file is directly accessed in the prearchive job (src/site/stages/prearchive/link-assets-to-bucket.js#93)
-          ? '[name].entry.js'
-          : `[name].entry.[chunkhash]-${timestamp}.js`;
-      },
-      chunkFilename: !useHashFilenames
-        ? '[name].entry.js'
-        : `[name].entry.[chunkhash]-${timestamp}.js`,
+      path: path.resolve(buildPath, 'generated'),
+      publicPath: '/generated/',
+      filename: '[name].entry.js',
+      chunkFilename: '[name].entry.js',
     },
     module: {
+      strictExportPresence: true,
       rules: [
         {
           test: /\.jsx?$/,
@@ -156,9 +299,8 @@ module.exports = env => {
         {
           test: /\.(sa|sc|c)ss$/,
           use: [
-            {
-              loader: MiniCssExtractPlugin.loader,
-            },
+            MiniCssExtractPlugin.loader,
+            'cache-loader',
             {
               loader: 'css-loader',
               options: {
@@ -259,23 +401,18 @@ module.exports = env => {
     },
     plugins: [
       new webpack.DefinePlugin({
-        __BUILDTYPE__: JSON.stringify(buildOptions.buildtype),
+        __BUILDTYPE__: JSON.stringify(buildtype),
         __API__: JSON.stringify(buildOptions.api),
       }),
 
       new MiniCssExtractPlugin({
         moduleFilename: chunk => {
           const { name } = chunk;
+
           const isMedalliaStyleFile = name === vaMedalliaStylesFilename;
+          if (isMedalliaStyleFile) return `[name].css`;
 
-          const isStaging =
-            buildOptions.buildtype === ENVIRONMENTS.VAGOVSTAGING;
-
-          if (isMedalliaStyleFile && isStaging) return `[name].css`;
-
-          return useHashFilenames
-            ? `[name].[contenthash]-${timestamp}.css`
-            : `[name].css`;
+          return `[name].css`;
         },
       }),
 
@@ -288,129 +425,32 @@ module.exports = env => {
 
   if (!buildOptions.watch) {
     baseConfig.plugins.push(
-      new ManifestPlugin({
+      new WebpackManifestPlugin({
         fileName: 'file-manifest.json',
+        filter: ({ isChunk }) => isChunk,
       }),
     );
   }
 
-  // Optionally generate landing pages in the absence of a content build.
-  if (buildOptions.scaffold) {
-    const landingPagePath = rootUrl =>
-      path.join(outputPath, '../', rootUrl, 'index.html');
-
-    const inlineScripts = [
-      'incompatible-browser.js',
-      'record-event.js',
-      'static-page-widgets.js',
-    ].reduce(
-      (scripts, filename) => ({
-        ...scripts,
-        [filename]: fs.readFileSync(path.join('src/site/assets/js', filename)),
-      }),
-      {},
-    );
-
-    // Modifies the style tags output from HTML Webpack Plugin
-    // to match the order and attributes of style tags from real content.
-    const modifyStyleTags = pluginStyleTags =>
-      pluginStyleTags
-        .reduce(
-          (tags, tag) =>
-            // Puts style.css before the app-specific stylesheet.
-            tag.attributes.href.match(/style/)
-              ? [tag, ...tags]
-              : [...tags, tag],
-          [],
-        )
-        .join('');
-
-    // Modifies the script tags output from HTML Webpack Plugin
-    // to match the order and attributes of script tags from real content.
-    const modifyScriptTags = pluginScriptTags =>
-      pluginScriptTags
-        .reduce((tags, tag) => {
-          // Exclude style.entry.js, which gets included with the style chunk.
-          if (tag.attributes.src.match(/style/)) return tags;
-
-          // Force polyfills.entry.js to be first (and set `nomodules`), since
-          // vendor.entry.js gets put first even with chunksSortMode: 'manual'.
-          return tag.attributes.src.match(/polyfills/)
-            ? [
-                { ...tag, attributes: { ...tag.attributes, nomodule: true } },
-                ...tags,
-              ]
-            : [...tags, tag];
-        }, [])
-        .join('');
-
-    const appRegistryPath = 'src/applications/registry.json';
-    let appRegistry;
-
-    if (fs.existsSync(appRegistryPath)) {
-      appRegistry = JSON.parse(fs.readFileSync(appRegistryPath));
-    }
-
-    const generateLandingPage = ({
-      appName,
-      entryName = 'static-pages',
-      rootUrl,
-      template = {},
-    }) =>
-      new HtmlPlugin({
-        chunks: ['polyfills', 'vendor', 'style', entryName],
-        filename: landingPagePath(rootUrl),
-        inject: false,
-        scriptLoading: 'defer',
-        template: 'src/platform/landing-pages/dev-template.ejs',
-        templateParameters: {
-          entryName,
-          headerFooterData,
-          inlineScripts,
-          modifyScriptTags,
-          modifyStyleTags,
-
-          // Default template metadata.
-          breadcrumbs_override: [], // eslint-disable-line camelcase
-          includeBreadcrumbs: false,
-          loadingMessage: 'Please wait while we load the application for you.',
-          ...template, // Unpack any template metadata from the registry entry.
+  // Copy over image assets for when metalsmith is removed
+  baseConfig.plugins.push(
+    new CopyPlugin({
+      patterns: [
+        {
+          from: 'src/site/assets',
+          to: buildPath,
         },
-        title: template.title || appName ? `${appName} | VA.gov` : 'VA.gov',
-      });
+      ],
+    }),
+  );
 
-    baseConfig.plugins = baseConfig.plugins.concat(
-      // Fall back to using app manifests if app registry no longer exists.
-      // The app registry is used primarily to get the template metadata
-      // so the landing pages can resemble real content more closely.
-      (appRegistry || getAppManifests())
-        .filter(({ rootUrl }) => rootUrl)
-        .map(generateLandingPage),
-    );
+  // Optionally generate mocked HTML pages for apps without running content build.
+  if (buildOptions.scaffold) {
+    const scaffoldedHtml = await generateHtmlFiles(buildPath);
+    baseConfig.plugins.push(...scaffoldedHtml);
+  }
 
-    // Create a placeholder home page.
-    baseConfig.plugins.push(
-      new HtmlPlugin({
-        filename: path.join(outputPath, '..', 'index.html'),
-        inject: false,
-        title: 'VA.gov',
-      }),
-    );
-
-    // Copy over image assets to fill in the header and other content.
-    baseConfig.plugins.push(
-      new CopyPlugin({
-        patterns: [
-          {
-            from: 'src/site/assets/img',
-            to: path.join(outputPath, '..', 'img'),
-          },
-        ],
-      }),
-    );
-
-    // Open the browser to either --env.openTo or one of the root URLs of the
-    // apps we're scaffolding
+  if (buildOptions.open) {
     baseConfig.devServer.open = true;
     baseConfig.devServer.openPage =
       buildOptions.openTo || buildOptions.entry
@@ -420,7 +460,7 @@ module.exports = env => {
   }
 
   if (isOptimizedBuild) {
-    const bucket = BUCKETS[buildOptions.buildtype];
+    const bucket = BUCKETS[buildtype];
 
     baseConfig.plugins.push(
       new webpack.SourceMapDevToolPlugin({

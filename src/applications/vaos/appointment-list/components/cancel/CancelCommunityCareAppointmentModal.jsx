@@ -1,21 +1,17 @@
 import React from 'react';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import NewTabAnchor from '../../../components/NewTabAnchor';
+import FacilityPhone from '../../../components/FacilityPhone';
 
 export default function CancelCommunityCareAppointmentModal({
   onClose,
   appointment,
 }) {
-  const location = appointment.contained.find(
-    res => res.resourceType === 'Location',
-  );
-  const practitionerName = appointment.participant?.find(res =>
-    res.actor.reference.startsWith('Practitioner'),
-  )?.actor.display;
-  const phone = location.telecom?.find(item => item.system === 'phone')?.value;
-  const address = location.address;
+  const provider = appointment.communityCareProvider;
+  const phone = provider.telecom?.find(item => item.system === 'phone')?.value;
+  const address = provider.address;
 
-  const title = location.address
+  const title = provider.address
     ? 'You need to call your community care provider to cancel this appointment'
     : 'You need to call your community care staff at your local VA facility to cancel this appointment';
 
@@ -31,9 +27,7 @@ export default function CancelCommunityCareAppointmentModal({
       {!address && (
         <>
           Please contact your facility community care staff at{' '}
-          <a href="/find-locations" target="_blank" rel="noopener noreferrer">
-            your local VA.
-          </a>
+          <NewTabAnchor href="/find-locations">your local VA.</NewTabAnchor>
           <br />
         </>
       )}
@@ -44,22 +38,18 @@ export default function CancelCommunityCareAppointmentModal({
         </>
       )}
       <div className="vads-u-margin-y--2">
-        {!!practitionerName && (
+        {!!provider.providerName && (
           <>
-            {practitionerName}
+            {provider.providerName}
             <br />
           </>
         )}
-        <strong>{location.name}</strong>
+        <strong>{provider.practiceName}</strong>
         {!!phone && (
-          <dl className="vads-u-margin-y--0">
-            <dt className="vads-u-display--inline">
-              <strong>Main phone:</strong>
-            </dt>{' '}
-            <dd className="vads-u-display--inline">
-              <Telephone contact={phone} />
-            </dd>
-          </dl>
+          <>
+            <br />
+            <FacilityPhone contact={phone} level={4} />
+          </>
         )}
       </div>
       <button onClick={onClose}>OK</button>

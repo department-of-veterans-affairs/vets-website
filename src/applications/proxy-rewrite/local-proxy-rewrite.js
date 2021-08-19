@@ -45,7 +45,13 @@ function fallbackToTeamSiteServer(buildOptions) {
       return;
     }
 
-    const fullFilePath = path.join(buildOptions.destination, req.path);
+    const fullFilePath = path.join(
+      __dirname,
+      '../../../',
+      'build',
+      buildOptions.destination,
+      req.path,
+    );
 
     fs.pathExists(fullFilePath, (err, existsOnLocalhost) => {
       if (err) {

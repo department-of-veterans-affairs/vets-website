@@ -1,9 +1,13 @@
 import merge from 'lodash/merge';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import environment from 'platform/utilities/environment';
 import { TASK_KEYS } from '../../../constants';
 import { validateName, reportChildMarriage } from '../../../utilities';
-import { isChapterFieldRequired } from '../../../helpers';
+import {
+  isChapterFieldRequired,
+  PensionIncomeRemovalQuestionTitle,
+} from '../../../helpers';
 
 export const schema = {
   type: 'object',
@@ -26,7 +30,12 @@ export const uiSchema = {
             TASK_KEYS.reportMarriageOfChildUnder18,
           ),
       },
-      middle: { 'ui:title': 'Middle name' },
+      middle: {
+        'ui:title': 'Middle name',
+        'ui:options': {
+          hideEmptyValueInReview: true,
+        },
+      },
       last: {
         'ui:title': 'Last name before marriage',
         'ui:errorMessages': { required: 'Please enter a last name' },
@@ -38,7 +47,10 @@ export const uiSchema = {
       },
       suffix: {
         'ui:title': 'Suffix',
-        'ui:options': { widgetClassNames: 'form-select-medium' },
+        'ui:options': {
+          widgetClassNames: 'form-select-medium',
+          hideEmptyValueInReview: true,
+        },
       },
     },
     ssn: {
@@ -64,5 +76,13 @@ export const uiSchema = {
           TASK_KEYS.reportMarriageOfChildUnder18,
         ),
     }),
+    dependentIncome: {
+      'ui:options': {
+        hideIf: () => environment.isProduction(),
+        hideEmptyValueInReview: true,
+      },
+      'ui:title': PensionIncomeRemovalQuestionTitle,
+      'ui:widget': 'yesNo',
+    },
   },
 };

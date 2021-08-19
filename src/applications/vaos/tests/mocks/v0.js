@@ -1,18 +1,29 @@
-/*
+/**
+ *
  * Skeleton mocks for different backend data responses
- * Avoid dependening on the data in specific fields in here in your tests, prefer to 
+ *
+ * Avoid dependening on the data in specific fields in here in your tests, prefer to
  * set field data in your test function
+ *
+ * @module testing/mocks/data
  */
 
+/**
+ * Return a MAS appointment object, with a VistA appointment stub (item in vdsAppointments)
+ *
+ * @export
+ * @returns {MASAppointment} MAS appointment object
+ */
 export function getVAAppointmentMock() {
   return {
     id: '21cdc6741c00ac67b6cbf6b972d084c1',
-    type: 'va_appointments',
+    type: 'appointment',
     attributes: {
+      uniqueId: '21cdc6741c00ac67b6cbf6b972d084c1',
       clinicFriendlyName: 'Fake',
       clinicId: 'fake',
       facilityId: 'fake',
-      sta6aid: 'fake',
+      sta6aid: null,
       communityCare: false,
       phoneOnly: false,
       vdsAppointments: [
@@ -34,13 +45,29 @@ export function getVAAppointmentMock() {
   };
 }
 
-export function getVAFacilityMock() {
+/**
+ * Returns a stubbed mock of a VA facility, from the VA facilities api
+ *
+ * @export
+ * @param {Object} [facilityMockParams]
+ * @param {string} [facilityMockParams.id=fake] Facility id
+ * @param {string} [facilityMockParams.name=Fake name] Facility name
+ * @param {number} [facilityMockParams.lat] Latitude of facility
+ * @param {number} [facilityMockParams.long] Longitude of facility
+ * @returns {VAFacility} VA facility object
+ */
+export function getVAFacilityMock({
+  id = 'fake',
+  name = 'Fake name',
+  lat = null,
+  long = null,
+} = {}) {
   return {
-    id: 'vha_fake',
+    id: `vha_${id}`,
     type: 'va_facilities',
     attributes: {
-      uniqueId: 'fake',
-      name: 'Fake name',
+      uniqueId: id,
+      name,
       address: {
         physical: {
           zip: 'fake zip',
@@ -51,6 +78,8 @@ export function getVAFacilityMock() {
           address3: null,
         },
       },
+      lat,
+      long,
       phone: {
         main: 'Fake phone',
       },
@@ -59,29 +88,48 @@ export function getVAFacilityMock() {
   };
 }
 
-export function getVideoAppointmentMock() {
+/**
+ * Return a MAS appointment object, with a video appointment stub (item in vvsAppointments)
+ *
+ * @export
+ * @param {Object} params
+ * @param {string} params.id The appointment id
+ * @param {string} params.facilityId The site id of the appointment
+ * @param {string} params.startDate The start date of the appointment, in ISO format
+ * @param {string} params.appointmentKind The VVS appointment kind to use
+ * @param {string} params.instructionsTitle The type of instructions to use
+ * @returns {MASAppointment} MAS appointment object
+ */
+export function getVideoAppointmentMock({
+  id = '05760f00c80ae60ce49879cf37a05fc8',
+  facilityId = 'fake',
+  startDate = 'fake',
+  appointmentKind = 'fake',
+  instructionsTitle = null,
+} = {}) {
   return {
-    id: '05760f00c80ae60ce49879cf37a05fc8',
+    id,
     type: 'va_appointments',
     attributes: {
-      startDate: 'fake',
+      startDate,
       clinicId: null,
       clinicFriendlyName: null,
-      facilityId: 'fake',
+      facilityId,
       communityCare: false,
       vdsAppointments: [],
       vvsAppointments: [
         {
           id: '8a74bdfa-0e66-4848-87f5-0d9bb413ae6d',
-          appointmentKind: 'fake',
+          appointmentKind,
           sourceSystem: 'SM',
-          dateTime: 'fake',
+          dateTime: startDate,
           duration: 20,
           status: { description: null, code: 'FAKE' },
           schedulingRequestType: 'NEXT_AVAILABLE_APPT',
           type: 'REGULAR',
           bookingNotes: 'fake',
           instructionsOther: false,
+          instructionsTitle,
           patients: [
             {
               name: { firstName: 'JUDY', lastName: 'MORRISON' },
@@ -112,6 +160,47 @@ export function getVideoAppointmentMock() {
   };
 }
 
+/**
+ * Return a stubbed var-resources community care request item
+ *
+ * @export
+ * @returns {VARRequest} var-resources request object
+ */
+export function getCCRequestMock() {
+  return {
+    id: '8a4886886e4c8e22016e6613216d001f',
+    attributes: {
+      dataIdentifier: {
+        uniqueId: '8a4886886e4c8e22016e6613216d001f',
+        systemId: 'var',
+      },
+      lastUpdatedDate: '11/13/2019 11:42:40',
+      optionDate1: 'No Date Selected',
+      optionTime1: 'No Time Selected',
+      optionDate2: 'No Date Selected',
+      optionTime2: 'No Time Selected',
+      optionDate3: 'No Date Selected',
+      optionTime3: 'No Time Selected',
+      status: 'fake',
+      appointmentType: 'fake',
+      visitType: 'fake',
+      email: 'fake',
+      patient: {},
+      bestTimetoCall: [],
+      typeOfCareId: 'fake',
+      ccAppointmentRequest: {
+        preferredProviders: [{}],
+      },
+    },
+  };
+}
+
+/**
+ * Return a stubbed var-resources VA request item
+ *
+ * @export
+ * @returns {VARRequest} var-resources request object
+ */
 export function getVARequestMock() {
   return {
     id: '8a4886886e4c8e22016e6613216d001g',
@@ -149,6 +238,13 @@ export function getVARequestMock() {
   };
 }
 
+/**
+ * Return a stubbed var-resources request message object. Messages are assoicated
+ * with a var-resources request
+ *
+ * @export
+ * @returns {VARRequestMessage} var-resources request message object
+ */
 export function getMessageMock() {
   return {
     id: 'fake',
@@ -166,6 +262,12 @@ export function getMessageMock() {
   };
 }
 
+/**
+ * Returns a stubbed var-resources community care appointment object
+ *
+ * @export
+ * @returns {VARCommunityCareAppointment} var-resources community care appointment object
+ */
 export function getCCAppointmentMock() {
   return {
     id: 'fake',
@@ -189,6 +291,12 @@ export function getCCAppointmentMock() {
   };
 }
 
+/**
+ * Returns a stubbed var-resources cancel reason object
+ *
+ * @export
+ * @returns {CancelReason} var-resources cancel reason object
+ */
 export function getCancelReasonMock() {
   return {
     id: 'fake',
@@ -202,26 +310,44 @@ export function getCancelReasonMock() {
   };
 }
 
-export function getParentSiteMock() {
+/**
+ * Returns a stubbed var-resources parent site object. Mostly unused now.
+ *
+ * @export
+ * @returns {VARParentSite} var-resources parent site object
+ */
+export function getParentSiteMock({ id = 'fake', name = 'fake' } = {}) {
   return {
-    id: 'fake',
+    id,
     type: 'facility',
     attributes: {
-      institutionCode: 'fake',
+      institutionCode: id,
       city: 'fake',
       stateAbbrev: 'FK',
-      authoritativeName: 'fake',
-      rootStationCode: 'fake',
+      authoritativeName: name,
+      rootStationCode: id,
       adminParent: true,
-      parentStationCode: 'fake',
+      parentStationCode: id,
     },
   };
 }
 
+/**
+ * Returns a stubbed VATS request settings object for a specific facility
+ *
+ * @export
+ * @param {Object} [criteriaParams]
+ * @param {string} [criteriaParams.id=fake] Facility id
+ * @param {string} [criteriaParams.typeOfCareId=fake] Type of care id
+ * @param {string} [criteriaParams.patientHistoryRequred=null] Setting that marks facility as enabled or not.
+ *   Pass null to disable, or 'No' or 'Yes' to enable
+ * @returns {VATSRequestCriteria} VATS request setting object for a facility
+ */
 export function getRequestEligibilityCriteriaMock({
   id = 'fake',
   typeOfCareId = 'fake',
   patientHistoryRequired = 'No',
+  patientHistoryDuration = 365,
 } = {}) {
   return {
     id,
@@ -233,7 +359,7 @@ export function getRequestEligibilityCriteriaMock({
           id: typeOfCareId,
           typeOfCare: 'fake',
           patientHistoryRequired,
-          patientHistoryDuration: 0,
+          patientHistoryDuration,
           submittedRequestLimit: 1,
           enterpriseSubmittedRequestLimit: 1,
         },
@@ -242,14 +368,26 @@ export function getRequestEligibilityCriteriaMock({
   };
 }
 
+/**
+ * Returns a stubbed VATS direct schedule settings object for a specific facility
+ *
+ * @export
+ * @param {Object} [criteriaParams]
+ * @param {string} [criteriaParams.id=fake] Facility id
+ * @param {string} [criteriaParams.typeOfCareId=fake] Type of care id
+ * @param {string} [criteriaParams.patientHistoryRequred=null] Setting that marks facility as enabled or not.
+ *   Pass null to disable, or 'No' or 'Yes' to enable
+ * @returns {VATSDirectCriteria} VATS direct schedule setting object for a facility
+ */
 export function getDirectBookingEligibilityCriteriaMock({
   id = 'fake',
   typeOfCareId = 'fake',
   patientHistoryRequired = 'No',
+  patientHistoryDuration = 0,
 } = {}) {
   return {
     id,
-    type: 'request_eligibility_criteria',
+    type: 'direct_booking_eligibility_criteria',
     attributes: {
       id,
       coreSettings: [
@@ -257,7 +395,7 @@ export function getDirectBookingEligibilityCriteriaMock({
           id: typeOfCareId,
           typeOfCare: 'fake',
           patientHistoryRequired,
-          patientHistoryDuration: 0,
+          patientHistoryDuration,
           submittedRequestLimit: 1,
           enterpriseSubmittedRequestLimit: 1,
         },
@@ -266,6 +404,13 @@ export function getDirectBookingEligibilityCriteriaMock({
   };
 }
 
+/**
+ * Returns a stubbed var-resources facility object. Not really used outside of
+ * old parent/child facility page
+ *
+ * @export
+ * @returns {VARFacility} var-resources facility object
+ */
 export function getFacilityMock() {
   return {
     id: 'fake',
@@ -286,6 +431,12 @@ export function getFacilityMock() {
   };
 }
 
+/**
+ * Returns a stubbed var-resources VistA clinic object.
+ *
+ * @export
+ * @returns {VARClinic} var-resources clinic object
+ */
 export function getClinicMock() {
   return {
     id: 'fake',
@@ -307,6 +458,12 @@ export function getClinicMock() {
   };
 }
 
+/**
+ * Returns a stubbed var-resources VistA clinic appointment slot object.
+ *
+ * @export
+ * @returns {VARSlot} var-resources clinic appointment slot object
+ */
 export function getAppointmentSlotMock() {
   return {
     startDateTime: 'fake',
@@ -317,6 +474,27 @@ export function getAppointmentSlotMock() {
   };
 }
 
+/**
+ * @summary
+ *
+ * VATS days settings for Express Care request
+ *
+ * @typedef {Object} SchedulingDay
+ * @static
+ * @property {string} day All caps day of week name
+ * @property {boolean} canSchedule Can you schedule EC on this day
+ * @property {string} startTime Start time in HH:MM format
+ * @property {string} endTime End time in HH:MM format
+ */
+
+/**
+ * Returns a stubbed VATS request setting object for the Express Care type of care
+ *
+ * @export
+ * @param {string} id Facility id
+ * @param {Array<module:testing/mocks/data.SchedulingDay>} schedulingDays List of days with settings for each to determine if scheduling is allowed
+ * @returns {VATSRequestCriteria} var-resources VATS request settings object
+ */
 export function getExpressCareRequestCriteriaMock(id, schedulingDays) {
   return {
     id,
@@ -338,25 +516,18 @@ export function getExpressCareRequestCriteriaMock(id, schedulingDays) {
   };
 }
 
+/**
+ * Returns a stubbed mobile community care eligibility object
+ *
+ * @export
+ * @param {string} typeOfCare CCE type of care id string (not the number, text like PrimaryCare)
+ * @param {boolean} [eligible=true] Mock the response as being eligible for CC or not
+ * @returns {CCEResponse} Stubbed cce object
+ */
 export function getCCEligibilityMock(typeOfCare, eligible = true) {
   return {
     id: typeOfCare,
     type: 'cc_eligibility',
     attributes: { eligible },
-  };
-}
-
-export function getSupportedSiteMock(
-  id,
-  name = 'Cheyenne',
-  timezone = 'US/Mountain',
-) {
-  return {
-    id,
-    type: 'object_type',
-    attributes: {
-      name,
-      timezone,
-    },
   };
 }

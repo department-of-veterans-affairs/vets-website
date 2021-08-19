@@ -1,5 +1,5 @@
 import React from 'react';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { distanceBetween } from '../../../utils/address';
 
 export default function RemoveProviderModal({ onClose, provider, address }) {
@@ -38,13 +38,7 @@ export default function RemoveProviderModal({ onClose, provider, address }) {
   );
 
   return (
-    <Modal
-      id="removeProviderModal"
-      visible
-      onClose={onClose}
-      title={title}
-      hideCloseButton
-    >
+    <Modal id="removeProviderModal" visible onClose={onClose} title={title}>
       {content}
     </Modal>
   );

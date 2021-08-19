@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import ITFBanner from '../components/ITFBanner';
 import { isActiveITF } from '../utils';
@@ -17,7 +17,7 @@ const fetchWaitingStates = [requestStates.notCalled, requestStates.pending];
 
 export class ITFWrapper extends React.Component {
   static defaultProps = {
-    noITFPages: [/\/introduction/, /\/confirmation/],
+    noITFPages: [/\/start/, /\/introduction/, /\/confirmation/],
   };
 
   // When we first enter the form...

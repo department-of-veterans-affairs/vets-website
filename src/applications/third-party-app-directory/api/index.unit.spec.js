@@ -3,7 +3,6 @@ import { expect } from 'chai';
 
 import {
   mockFetch,
-  resetFetch,
   setFetchJSONResponse as setFetchResponse,
 } from 'platform/testing/unit/helpers';
 
@@ -38,7 +37,6 @@ describe('api functions', () => {
       });
       const apiCall = await fetchResults({ mockRequest: true });
       expect(apiCall).to.be.an('object');
-      resetFetch();
     });
   });
 
@@ -57,7 +55,6 @@ describe('api functions', () => {
       });
       const apiCall = await fetchScopes('Health');
       expect(apiCall).to.be.an('object');
-      resetFetch();
     });
   });
 });

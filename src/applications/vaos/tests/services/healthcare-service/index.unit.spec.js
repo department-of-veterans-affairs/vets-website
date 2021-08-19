@@ -9,9 +9,7 @@ import {
   getAvailableHealthcareServices,
   getSupportedHealthcareServicesAndLocations,
 } from '../../../services/healthcare-service';
-import mockLocations983 from '../../../services/mocks/fhir//mock_locations_983.json';
 import clinicList983 from '../../../services/mocks/var/clinicList983.json';
-import mockHealthcareSystem983 from '../../../services/mocks/fhir/mock_healthcare_system_983.json';
 
 describe('VAOS Healthcare service', () => {
   beforeEach(() => {
@@ -22,8 +20,8 @@ describe('VAOS Healthcare service', () => {
   describe('getAvailableHealthcareServices', () => {
     it('should make successful request', async () => {
       await getAvailableHealthcareServices({
-        facilityId: 'var983',
-        typeOfCareId: '123',
+        facilityId: '983',
+        typeOfCare: { id: '123' },
         systemId: '456',
       });
 
@@ -34,8 +32,8 @@ describe('VAOS Healthcare service', () => {
 
     it('should sort by serviceName', async () => {
       const data = await getAvailableHealthcareServices({
-        facilityId: 'var983',
-        typeOfCareId: '123',
+        facilityId: '983',
+        typeOfCare: { id: '123' },
         systemId: '456',
       });
 
@@ -45,52 +43,40 @@ describe('VAOS Healthcare service', () => {
       expect(data[3].serviceName).to.equal('Green Team Clinic2');
     });
 
-    it('should set identifier', async () => {
+    it('should set an id', async () => {
       const data = await getAvailableHealthcareServices({
-        facilityId: 'var983',
-        typeOfCareId: '123',
+        facilityId: '983',
+        typeOfCare: { id: '123' },
         systemId: '456',
       });
 
-      expect(data[0].identifier[0].value).to.equal(
-        'urn:va:healthcareservice:983:983:455',
-      );
+      expect(data[0].id).to.equal('983_455');
     });
 
-    it('should set providedBy', async () => {
+    it('should set stationId to the id of the VA facility where the clinic is located', async () => {
       const data = await getAvailableHealthcareServices({
-        facilityId: 'var983',
-        typeOfCareId: '123',
+        facilityId: '983',
+        typeOfCare: { id: '123' },
         systemId: '456',
       });
 
-      expect(data[2].providedBy).to.equal('Organization/var983');
+      expect(data[0].stationId).to.equal('983');
     });
 
-    it('should set location', async () => {
+    it('should set stationName to the name of the VA facility where the clinic is located', async () => {
       const data = await getAvailableHealthcareServices({
-        facilityId: 'var983',
-        typeOfCareId: '123',
+        facilityId: '983',
+        typeOfCare: { id: '123' },
         systemId: '456',
       });
 
-      expect(data[2].location.reference).to.equal('Location/var983');
-    });
-
-    it('should set serviceType', async () => {
-      const data = await getAvailableHealthcareServices({
-        facilityId: 'var983',
-        typeOfCareId: '123',
-        systemId: '456',
-      });
-
-      expect(data[2].serviceType[0].type.coding.code).to.equal('123');
+      expect(data[0].stationName).to.equal('CHYSHR-Cheyenne VA Medical Center');
     });
 
     it('should set service name to clinic name', async () => {
       const data = await getAvailableHealthcareServices({
-        facilityId: 'var983',
-        typeOfCareId: '123',
+        facilityId: '983',
+        typeOfCare: { id: '123' },
         systemId: '456',
       });
 
@@ -99,8 +85,8 @@ describe('VAOS Healthcare service', () => {
 
     it('should set service name to friendly name when present', async () => {
       const data = await getAvailableHealthcareServices({
-        facilityId: 'var983',
-        typeOfCareId: '123',
+        facilityId: '983',
+        typeOfCare: { id: '123' },
         systemId: '456',
       });
 
@@ -108,7 +94,6 @@ describe('VAOS Healthcare service', () => {
     });
 
     it('should return OperationOutcome error', async () => {
-      mockFetch();
       setFetchJSONFailure(global.fetch, {
         errors: [],
       });
@@ -116,8 +101,8 @@ describe('VAOS Healthcare service', () => {
       let error;
       try {
         await getAvailableHealthcareServices({
-          facilityId: 'var983',
-          typeOfCareId: '123',
+          facilityId: '983',
+          typeOfCare: { id: '123' },
           systemId: '456',
         });
       } catch (e) {
@@ -128,39 +113,6 @@ describe('VAOS Healthcare service', () => {
         `/vaos/v0/facilities/983/clinics?type_of_care_id=123&system_id=456`,
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
-    });
-
-    describe('Test making call to Vista Scheduling Provider (VSP) api', () => {
-      beforeEach(() => {
-        mockFetch();
-        setFetchJSONResponse(global.fetch, mockHealthcareSystem983);
-      });
-
-      it('should make successful request to VSP api', async () => {
-        await getAvailableHealthcareServices({
-          facilityId: '983',
-          typeOfCareId: '123',
-          systemId: '456',
-          useVSP: true,
-        });
-
-        expect(global.fetch.firstCall.args[0]).to.contain(
-          '/HealthcareService?location:Location.identifier=983' +
-            '&characteristic=PATIENTDS_ENABLED',
-        );
-      });
-
-      it('should return collection of Healthcare Services', async () => {
-        const data = await getAvailableHealthcareServices({
-          facilityId: '983',
-          typeOfCareId: '123',
-          systemId: '456',
-          useVSP: true,
-        });
-
-        expect(data.length).to.equal(13);
-        expect(data[0].resourceType).to.equal('HealthcareService');
-      });
     });
   });
 
@@ -178,7 +130,6 @@ describe('VAOS Healthcare service', () => {
     });
 
     it('should return OperationOutcome error', async () => {
-      mockFetch();
       setFetchJSONFailure(global.fetch, {
         errors: [],
       });
@@ -198,26 +149,6 @@ describe('VAOS Healthcare service', () => {
         '/v0/systems/983/direct_scheduling_facilities?type_of_care_id=123&parent_code=983GC',
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
-    });
-
-    it('should make successful request to VSP api', async () => {
-      mockFetch();
-      setFetchJSONResponse(global.fetch, mockLocations983);
-      const data = await getSupportedHealthcareServicesAndLocations({
-        siteId: '983',
-        useVSP: true,
-      });
-
-      expect(global.fetch.firstCall.args[0]).to.contain(
-        '/HealthcareService?organization:Organization.identifier=983' +
-          '&characteristic=PATIENTDS_ENABLED&_include=HealthcareService:location',
-      );
-      expect(data.locations.length).to.equal(3);
-      expect(data.healthcareServices.length).to.equal(7);
-      expect(data.locations[0].resourceType).to.equal('Location');
-      expect(data.healthcareServices[0].resourceType).to.equal(
-        'HealthcareService',
-      );
     });
   });
 });

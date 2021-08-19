@@ -1,20 +1,15 @@
-import path from 'path';
 import mockFeatureTogglesEnabled from '../fixtures/toggle-ccp-enabled.json';
 import { facilityTypesOptions } from '../../config';
 import { LocationType } from '../../constants';
+import mockFacilityData from '../../constants/mock-facility-data.json';
+import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 
 describe('Facility Search - CCP (community care providers) enabled', () => {
-  before(() => {
-    cy.syncFixtures({
-      constants: path.join(__dirname, '..', '..', 'constants'),
-    });
-  });
-
   beforeEach(() => {
     cy.server();
-    cy.route('GET', '/v0/maintenance_windows', []);
-    cy.route('GET', '/v1/facilities/va?*', 'fx:constants/mock-facility-data');
-    cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data');
+    cy.intercept('GET', '/v0/maintenance_windows', []);
+    cy.intercept('GET', '/v1/facilities/va?*', mockFacilityData);
+    cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
   });
 
   it('Does render community care option in the dropdown by default, flag does not exist', () => {

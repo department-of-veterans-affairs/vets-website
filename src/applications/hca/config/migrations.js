@@ -1,19 +1,19 @@
-import _ from 'lodash/fp';
+import { unset, get, set, omit } from 'lodash/fp';
 
 export default [
   // 0 -> 1, we had a bug where isSpanishHispanicLatino was defaulted in the wrong place
   // and this removes it and defaults it in the right spot if necessary
   savedData => {
     const newData = savedData;
-    newData.formData = _.unset('isSpanishHispanicLatino', savedData.formData);
+    newData.formData = unset('isSpanishHispanicLatino', savedData.formData);
 
     if (
-      typeof _.get(
+      typeof get(
         'view:demographicCategories.isSpanishHispanicLatino',
         newData.formData,
       ) === 'undefined'
     ) {
-      newData.formData = _.set(
+      newData.formData = set(
         'view:demographicCategories.isSpanishHispanicLatino',
         false,
         newData.formData,
@@ -29,12 +29,12 @@ export default [
     let newData = formData;
 
     if (typeof newData['view:reportChildren'] !== 'undefined') {
-      newData = _.unset('view:reportChildren', newData);
+      newData = unset('view:reportChildren', newData);
       newData['view:reportDependents'] = formData['view:reportChildren'];
     }
 
     if (newData.children) {
-      newData = _.unset('children', newData);
+      newData = unset('children', newData);
       newData.dependents = formData.children.map(child =>
         Object.keys(child).reduce((acc, field) => {
           if (field === 'view:childSupportDescription') {
@@ -66,7 +66,7 @@ export default [
     let newMetadata = metadata;
 
     if (url === '/household-information/child-information') {
-      newMetadata = _.set(
+      newMetadata = set(
         'returnUrl',
         '/household-information/dependent-information',
         metadata,
@@ -91,7 +91,7 @@ export default [
       return { formData, metadata };
     }
 
-    const newFormData = _.omit(
+    const newFormData = omit(
       [
         'compensableVaServiceConnected',
         'isVaServiceConnected',
@@ -108,7 +108,7 @@ export default [
       receivesVaPension === false
     ) {
       return {
-        formData: _.set('vaCompensationType', 'none', newFormData),
+        formData: set('vaCompensationType', 'none', newFormData),
         metadata,
       };
     }
@@ -119,7 +119,7 @@ export default [
       receivesVaPension === false
     ) {
       return {
-        formData: _.set('vaCompensationType', 'lowDisability', newFormData),
+        formData: set('vaCompensationType', 'lowDisability', newFormData),
         metadata,
       };
     }
@@ -130,7 +130,7 @@ export default [
       receivesVaPension === false
     ) {
       return {
-        formData: _.set('vaCompensationType', 'highDisability', newFormData),
+        formData: set('vaCompensationType', 'highDisability', newFormData),
         metadata,
       };
     }
@@ -141,7 +141,7 @@ export default [
       receivesVaPension === true
     ) {
       return {
-        formData: _.set('vaCompensationType', 'pension', newFormData),
+        formData: set('vaCompensationType', 'pension', newFormData),
         metadata,
       };
     }
@@ -152,7 +152,7 @@ export default [
       formData: newFormData,
       metadata: metadata.prefill
         ? metadata
-        : _.set('returnUrl', '/va-benefits/basic-information', metadata),
+        : set('returnUrl', '/va-benefits/basic-information', metadata),
     };
   },
   // required strings can not pass validation with only spaces
@@ -179,9 +179,9 @@ export default [
         returnUrl: 'veteran-information/personal-information',
       },
     ].forEach(({ selector, returnUrl }) => {
-      if (!notBlankStringPattern.test(_.get(selector, newFormData))) {
-        newFormData = _.unset(selector, newFormData);
-        newMetaData = _.set('returnUrl', returnUrl, newMetaData);
+      if (!notBlankStringPattern.test(get(selector, newFormData))) {
+        newFormData = unset(selector, newFormData);
+        newMetaData = set('returnUrl', returnUrl, newMetaData);
       }
     });
 
@@ -199,11 +199,11 @@ export default [
     if (newFormData.providers) {
       newFormData.providers.forEach((provider, index) => {
         if (!notBlankStringPattern.test(provider.insuranceGroupCode)) {
-          newFormData = _.unset(
+          newFormData = unset(
             ['providers', index, 'insuranceGroupCode'],
             newFormData,
           );
-          newMetaData = _.set(
+          newMetaData = set(
             'returnUrl',
             'insurance-information/general',
             newMetaData,
@@ -211,11 +211,11 @@ export default [
         }
 
         if (!notBlankStringPattern.test(provider.insurancePolicyNumber)) {
-          newFormData = _.unset(
+          newFormData = unset(
             ['providers', index, 'insurancePolicyNumber'],
             newFormData,
           );
-          newMetaData = _.set(
+          newMetaData = set(
             'returnUrl',
             'insurance-information/general',
             newMetaData,

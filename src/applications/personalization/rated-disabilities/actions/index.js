@@ -6,6 +6,7 @@ export const FETCH_RATED_DISABILITIES_SUCCESS =
 export const FETCH_RATED_DISABILITIES_FAILED =
   'FETCH_RATED_DISABILITIES_FAILED';
 
+export const FETCH_TOTAL_RATING_STARTED = 'FETCH_TOTAL_RATING_STARTED';
 export const FETCH_TOTAL_RATING_SUCCEEDED = 'FETCH_TOTAL_RATING_SUCCEEDED';
 export const FETCH_TOTAL_RATING_FAILED = 'FETCH_TOTAL_RATING_FAILED';
 
@@ -44,12 +45,29 @@ export function fetchRatedDisabilities() {
   };
 }
 
+function getResponseError(response) {
+  if (response.errors?.length) {
+    const { code, detail } = response.errors[0];
+    return { code, detail };
+  } else if (response.error) {
+    return {
+      code: response.status,
+      detail: response.error,
+    };
+  }
+  return null;
+}
+
 export function fetchTotalDisabilityRating() {
   return async dispatch => {
+    dispatch({
+      type: FETCH_TOTAL_RATING_STARTED,
+    });
     const response = await getData('/disability_compensation_form/rating_info');
 
-    if (response.errors) {
-      const errorCode = response.errors[0].code;
+    const error = getResponseError(response);
+    if (error) {
+      const errorCode = error.code;
       if (isServerError(errorCode)) {
         recordEvent({
           event: `${DISABILITY_PREFIX}-combined-load-failed`,
@@ -63,7 +81,7 @@ export function fetchTotalDisabilityRating() {
       }
       dispatch({
         type: FETCH_TOTAL_RATING_FAILED,
-        response,
+        error,
       });
     } else {
       recordEvent({ event: `${DISABILITY_PREFIX}-combined-load-success` });

@@ -5,8 +5,10 @@ import { render } from '@testing-library/react';
 
 import TextareaWidget from '../../components/TextareaWidget';
 import userEvent from '@testing-library/user-event';
+import { mockFetch } from 'platform/testing/unit/helpers';
 
 describe('VAOS <TextareaWidget>', () => {
+  beforeEach(() => mockFetch());
   it('should render character limit', () => {
     const screen = render(
       <TextareaWidget value="Test" schema={{ maxLength: 20 }} />,

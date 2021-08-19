@@ -25,7 +25,19 @@ export const APPEAL_TYPES = {
   appeal: 'appeal',
 };
 
-const appealTypes = Object.values(APPEAL_TYPES);
+export const appealTypes = Object.values(APPEAL_TYPES);
+
+export const programAreaMap = {
+  compensation: 'disability compensation',
+  pension: 'pension',
+  insurance: 'insurance',
+  loan_guaranty: 'loan guaranty', // eslint-disable-line camelcase
+  education: 'education',
+  vre: 'vocational rehabilitation and employment',
+  medical: 'health care',
+  burial: 'burial benefits',
+  fiduciary: 'fiduciary',
+};
 
 /**
  * Returns a string with the formatted name of the type of appeal.
@@ -2107,9 +2119,7 @@ export const getErrorStatus = response => {
       Sentry.captureException(response);
     });
   }
-  return response.errors && response.errors.length
-    ? response.errors[0].status
-    : UNKNOWN_STATUS;
+  return response?.errors?.[0]?.status ?? UNKNOWN_STATUS;
 };
 
 // Series of utility functions to sort claims and appeals by last updated date

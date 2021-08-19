@@ -18,14 +18,14 @@ const scroller = Scroll.scroller;
 
 function ReviewSources({ sources }) {
   return (
-    <div>
+    <>
       {sources.map((source, index) => (
         <div key={index} className="review-row">
           <dt>{source.name}</dt>
           <dd>{source.amount}</dd>
         </div>
       ))}
-    </div>
+    </>
   );
 }
 

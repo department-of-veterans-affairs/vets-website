@@ -9,26 +9,10 @@ import {
 import {
   isUpcomingAppointmentOrRequest,
   isValidPastAppointment,
-  getATLASConfirmationCode,
-  getATLASLocation,
-  getBookedAppointments,
+  fetchAppointments,
   getAppointmentRequests,
-  isVideoAppointment,
-  isVideoGFE,
-  hasPractitioner,
-  getPractitionerDisplay,
   FUTURE_APPOINTMENTS_HIDDEN_SET,
 } from '../../../services/appointment';
-import {
-  transformConfirmedAppointments,
-  transformPendingAppointments,
-} from '../../../services/appointment/transformers';
-import { transformATLASLocation } from '../../../services/location/transformers';
-import {
-  getVAAppointmentMock,
-  getVideoAppointmentMock,
-  getVARequestMock,
-} from '../../mocks/v0';
 import confirmed from '../../../services/mocks/var/confirmed_va.json';
 import requests from '../../../services/mocks/var/requests.json';
 import { setRequestedPeriod } from '../../mocks/helpers';
@@ -40,7 +24,7 @@ import {
 const now = moment();
 
 describe('VAOS Appointment service', () => {
-  describe('getBookedAppointments', () => {
+  describe('fetchAppointments', () => {
     it('should make successful request', async () => {
       mockFetch();
       setFetchJSONResponse(global.fetch, confirmed);
@@ -48,7 +32,7 @@ describe('VAOS Appointment service', () => {
       const startDate = '2020-05-01';
       const endDate = '2020-06-30';
 
-      const data = await getBookedAppointments({
+      const data = await fetchAppointments({
         startDate,
         endDate,
       });
@@ -76,7 +60,7 @@ describe('VAOS Appointment service', () => {
 
       let error;
       try {
-        await getBookedAppointments({
+        await fetchAppointments({
           startDate,
           endDate,
         });
@@ -95,157 +79,6 @@ describe('VAOS Appointment service', () => {
         ).toISOString()}&end_date=${moment(endDate).toISOString()}&type=cc`,
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
-    });
-  });
-
-  describe('isVideoAppointment', () => {
-    it('should return false if confirmed non video', () => {
-      const confirmedVA = transformConfirmedAppointments([
-        {
-          ...getVAAppointmentMock().attributes,
-        },
-      ])[0];
-      expect(isVideoAppointment(confirmedVA)).to.equal(false);
-    });
-
-    it('should return false if confirmed non video', () => {
-      const confirmedVideo = transformConfirmedAppointments([
-        {
-          ...getVideoAppointmentMock().attributes,
-        },
-      ])[0];
-
-      expect(isVideoAppointment(confirmedVideo)).to.equal(true);
-    });
-
-    it('should return false if non video request', () => {
-      const request = transformPendingAppointments([
-        {
-          ...getVARequestMock().attributes,
-        },
-      ])[0];
-
-      expect(isVideoAppointment(request)).to.equal(false);
-    });
-
-    it('should return true if video request', () => {
-      const request = transformPendingAppointments([
-        {
-          ...getVARequestMock().attributes,
-          visitType: 'Video Conference',
-        },
-      ])[0];
-
-      expect(isVideoAppointment(request)).to.equal(true);
-    });
-  });
-
-  describe('isVideoGFE', () => {
-    it('should return false if confirmed non gfe', () => {
-      const confirmedVA = transformConfirmedAppointments([
-        {
-          ...getVAAppointmentMock().attributes,
-        },
-      ])[0];
-
-      expect(isVideoGFE(confirmedVA)).to.equal(false);
-    });
-
-    it('should return false if video but non gfe', () => {
-      const confirmedVideo = transformConfirmedAppointments([
-        {
-          ...getVideoAppointmentMock().attributes,
-        },
-      ])[0];
-      expect(isVideoGFE(confirmedVideo)).to.equal(false);
-    });
-
-    it('should return true if confirmed gfe', () => {
-      const mock = getVideoAppointmentMock();
-      const gfe = transformConfirmedAppointments([
-        {
-          ...mock.attributes,
-          vvsAppointments: [
-            {
-              ...mock.attributes.vvsAppointments[0],
-              appointmentKind: 'MOBILE_GFE',
-            },
-          ],
-        },
-      ])[0];
-
-      expect(isVideoGFE(gfe)).to.equal(true);
-    });
-  });
-
-  describe('getATLASLocation', () => {
-    it('should return the ATLAS address', () => {
-      const mock = getVideoAppointmentMock();
-      const tasInfo = {
-        confirmationCode: '7VBBCA',
-        address: {
-          streetAddress: '114 Dewey Ave',
-          city: 'Eureka',
-          state: 'MT',
-          zipCode: '59917',
-          country: 'USA',
-          longitude: -115.1,
-          latitude: 48.8,
-          additionalDetails: '',
-        },
-        siteCode: 9931,
-      };
-
-      const confirmedVA = transformConfirmedAppointments([
-        {
-          ...mock.attributes,
-          vvsAppointments: [
-            {
-              ...mock.attributes.vvsAppointments[0],
-              tasInfo,
-            },
-          ],
-        },
-      ])[0];
-
-      expect(getATLASLocation(confirmedVA)).to.eql(
-        transformATLASLocation(tasInfo),
-      );
-    });
-  });
-
-  describe('getATLASConfirmationCode', () => {
-    it('should return the ATLAS confirmation code', () => {
-      const mock = getVideoAppointmentMock();
-      const tasInfo = {
-        confirmationCode: '7VBBCA',
-        address: {
-          streetAddress: '114 Dewey Ave',
-          city: 'Eureka',
-          state: 'MT',
-          zipCode: '59917',
-          country: 'USA',
-          longitude: null,
-          latitude: null,
-          additionalDetails: '',
-        },
-      };
-
-      const confirmedVA = transformConfirmedAppointments([
-        {
-          ...mock.attributes,
-          vvsAppointments: [
-            {
-              ...mock.attributes.vvsAppointments[0],
-              tasInfo,
-            },
-          ],
-        },
-      ])[0];
-
-      expect(getATLASConfirmationCode(confirmedVA)).to.eql(
-        tasInfo.confirmationCode,
-      );
     });
   });
 
@@ -336,7 +169,7 @@ describe('VAOS Appointment service', () => {
             setRequestedPeriod(
               now
                 .clone()
-                .add(13, 'months')
+                .add(395, 'days')
                 .add(-1, 'days'),
               'AM',
             ),
@@ -511,37 +344,6 @@ describe('VAOS Appointment service', () => {
       const filtered = appointments.filter(isValidPastAppointment);
 
       expect(filtered.length).to.equal(3);
-    });
-  });
-
-  describe('appointment practitioner', () => {
-    it('should return boolean if appointment contains keyword practitioner', () => {
-      const appointmentTrue = {
-        participant: [
-          { actor: { reference: 'Location/test' } },
-          { actor: { reference: 'Practitioner/Tester', display: 'Tester' } },
-        ],
-      };
-
-      const appointmentFalse = {
-        participant: [{ actor: { reference: 'Location/test' } }],
-      };
-
-      const responseTrue = hasPractitioner(appointmentTrue);
-      expect(responseTrue).to.be.true;
-
-      const responseFalse = hasPractitioner(appointmentFalse);
-      expect(responseFalse).to.be.false;
-    });
-
-    it('should return string of practitioner display', () => {
-      const appointment = [
-        { actor: { reference: 'Location/test' } },
-        { actor: { reference: 'Practitioner/Tester', display: 'Tester' } },
-      ];
-
-      const response = getPractitionerDisplay(appointment);
-      expect(response).to.equal('Tester');
     });
   });
 });

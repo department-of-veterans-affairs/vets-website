@@ -52,11 +52,7 @@ export const uiSchema = {
   },
   healthHeaderText: {
     'view:healthText': {
-      'ui:description': <span>Help us understand your health</span>,
-    },
-    'ui:options': {
-      classNames:
-        'schemaform-block-title schemaform-block-subtitle vads-u-margin-top--3 vads-u-font-size--h2',
+      'ui:description': <h2>Help us understand your health</h2>,
     },
   },
   'ui:validations': [conditionalValidateBooleanGroup],
@@ -221,11 +217,7 @@ export const uiSchema = {
   },
   exposureRiskHeaderText: {
     'view:exposureRiskText': {
-      'ui:description': 'Help us understand your COVID-19 exposure risk',
-      'ui:options': {
-        classNames:
-          'schemaform-block-title schemaform-block-subtitle vads-u-margin-top--3 vads-u-margin-bottom--neg2 vads-u-font-size--h2',
-      },
+      'ui:description': <h2>Help us understand your COVID-19 exposure risk</h2>,
     },
   },
   EMPLOYMENT_STATUS: {
@@ -355,11 +347,7 @@ export const uiSchema = {
   },
   contactHeaderText: {
     'view:contactText': {
-      'ui:description': 'Your contact and personal information',
-      'ui:options': {
-        classNames:
-          'schemaform-block-title schemaform-block-subtitle vads-u-margin-top--3 vads-u-font-size--h2',
-      },
+      'ui:description': <h2>Your contact and personal information</h2>,
     },
   },
   veteranFullName: _.merge(fullNameUI, {

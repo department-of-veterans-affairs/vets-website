@@ -1,12 +1,15 @@
 import React from 'react';
 import { expect } from 'chai';
+import { mount } from 'enzyme';
 import sinon from 'sinon';
+import moment from 'moment';
+
 import {
   DefinitionTester,
   fillData,
   fillDate,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import { mount } from 'enzyme';
+
 import formConfig from '../../config/form';
 
 describe('Military history', () => {
@@ -17,7 +20,6 @@ describe('Military history', () => {
 
   const appStateData = {
     dob: '1990-01-01',
-    allowBDD: true,
   };
 
   it('should render', () => {
@@ -95,6 +97,108 @@ describe('Military history', () => {
       'root_serviceInformation_servicePeriods_0_dateRange_from',
       '2003-01-01',
     );
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
+    form.unmount();
+  });
+
+  it('should fail when the start date is in the future', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        formData={{}}
+        onSubmit={onSubmit}
+        appStateData={appStateData}
+      />,
+    );
+
+    fillData(
+      form,
+      'select#root_serviceInformation_servicePeriods_0_serviceBranch',
+      'Army',
+    );
+    fillDate(
+      form,
+      'root_serviceInformation_servicePeriods_0_dateRange_from',
+      moment()
+        .add(1, 'days')
+        .format('YYYY-MM-DD'),
+    );
+    fillDate(
+      form,
+      'root_serviceInformation_servicePeriods_0_dateRange_to',
+      moment()
+        .add(7, 'days')
+        .format('YYYY-MM-DD'),
+    );
+
+    form.find('form').simulate('submit');
+    const errorMsg = form.find('.usa-input-error-message');
+    expect(errorMsg.length).to.equal(1);
+    expect(errorMsg.text()).to.contain('valid current or past date');
+    expect(onSubmit.called).to.be.false;
+
+    fillDate(
+      form,
+      'root_serviceInformation_servicePeriods_0_dateRange_from',
+      moment()
+        .subtract(1, 'days')
+        .format('YYYY-MM-DD'),
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
+    form.unmount();
+  });
+
+  it('should fail when the end date is before the start date', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        formData={{}}
+        onSubmit={onSubmit}
+        appStateData={appStateData}
+      />,
+    );
+
+    fillData(
+      form,
+      'select#root_serviceInformation_servicePeriods_0_serviceBranch',
+      'Army',
+    );
+    fillDate(
+      form,
+      'root_serviceInformation_servicePeriods_0_dateRange_from',
+      '2020-02-05',
+    );
+    fillDate(
+      form,
+      'root_serviceInformation_servicePeriods_0_dateRange_to',
+      '2020-02-01',
+    );
+
+    form.find('form').simulate('submit');
+    const errorMsg = form.find('.usa-input-error-message');
+    expect(errorMsg.length).to.equal(1);
+    expect(errorMsg.text()).to.contain('must be after start');
+    expect(onSubmit.called).to.be.false;
+
+    fillDate(
+      form,
+      'root_serviceInformation_servicePeriods_0_dateRange_from',
+      '2020-01-01',
+    );
+
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

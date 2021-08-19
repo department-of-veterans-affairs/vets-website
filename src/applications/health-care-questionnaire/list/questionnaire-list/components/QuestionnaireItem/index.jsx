@@ -1,31 +1,43 @@
 import React from 'react';
-import moment from 'moment';
 
-import { getAppointmentTypeFromClinic } from '../../../../questionnaire/utils';
+import { isAppointmentCancelled } from '../../../utils';
+import {
+  appointmentSelector,
+  locationSelector,
+  organizationSelector,
+} from '../../../../shared/utils/selectors';
+
+import Status from '../Shared/Labels/Status';
 
 const index = props => {
-  const { data, DueDate, Actions } = props;
-  const { appointment } = data;
-  const { clinic } = appointment;
-  const appointmentType = getAppointmentTypeFromClinic(clinic, {
+  const { data, DueDate, Actions, extraText } = props;
+  const { appointment, organization, location } = data;
+
+  const appointmentStatus = appointmentSelector.getStatus(appointment);
+  const appointmentType = locationSelector.getType(location, {
     titleCase: true,
   });
+  const isCancelled = isAppointmentCancelled(appointmentStatus);
+
+  const facilityName = organizationSelector.getName(organization);
+  const clinicName = locationSelector.getName(location);
   return (
     <li data-request-id={appointment.id} className="card">
-      <header data-testid="appointment-type-header">
+      <Status data={data} />
+      <h3 data-testid="appointment-type-header">
         {appointmentType} questionnaire
-      </header>
-      <section className="due-details">{DueDate && <DueDate />}</section>
-      <section className="details">
-        <p>Appointment details:</p>
-        <p data-testid="facility-name">{appointment.facilityName}</p>
-        <time
-          data-testid="appointment-time"
-          dateTime={appointment.appointmentTime}
-        >
-          {moment(appointment.appointmentTime).format('MMMM D, YYYY')}
-        </time>
-      </section>
+      </h3>
+      <dl className="vads-u-margin-bottom--0p5">
+        <dt data-testid="appointment-status">
+          For your {isCancelled ? 'canceled or rescheduled ' : ''}
+          appointment at
+        </dt>
+        <dd data-testid="appointment-location">
+          {clinicName}, {facilityName}
+          {extraText && `. ${extraText}`}
+        </dd>
+        {DueDate && <DueDate />}
+      </dl>
       {Actions && <Actions />}
     </li>
   );

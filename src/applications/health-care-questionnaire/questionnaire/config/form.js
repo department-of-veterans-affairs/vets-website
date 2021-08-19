@@ -2,48 +2,58 @@ import React from 'react';
 
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import VeteranInfoPage from '../components/veteran-info';
 import ReasonForVisit from '../components/reason-for-visit';
 import ReasonForVisitDescription from '../components/reason-for-visit-description';
-import GetHelp from '../components/get-help';
+import { GetHelpFooter, NeedHelpSmall } from '../../shared/components/footer';
 import ExpiresAt from '../components/expires-at';
-import HiddenFields from '../components/hidden-fields';
+import Messages from '../components/messages';
 
 import { TITLES, createPathFromTitle } from './utils';
-
+import { preventLargeFields } from './validators';
 import manifest from '../manifest.json';
-import { submit, transformForSubmit } from '../api';
+import { submit, transformForSubmit } from '../../shared/api';
 
 import { updateUrls } from './migrations';
+
+import { TRACKING_PREFIX } from '../../shared/constants/analytics';
+import {
+  getQuestionTextById,
+  QUESTION_IDS,
+} from '../../shared/constants/questionnaire.questions';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/health_quest/v0/questionnaire_responses`,
-  trackingPrefix: 'health-care-questionnaire',
+  submitUrl: `${environment.API_URL}/health_quest/v0/questionnaire_manager`,
+  trackingPrefix: TRACKING_PREFIX,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  downtime: {
+    dependencies: [externalServices.hcq],
+  },
   submit,
   transformForSubmit,
+  submissionError: Messages.ServiceDown,
   formId: VA_FORM_IDS.FORM_HC_QSTNR,
   saveInProgress: {
     resumeOnly: true,
     messages: {
       inProgress: '',
-      expired:
-        'Your saved upcoming appointment questionnaire has expired. If you want to apply for appointment questionnaire, please start a new application.',
+      expired: 'Your saved upcoming appointment questionnaire has expired.',
       saved: 'Your questionnaire has been saved.',
     },
   },
   version: 1,
   migrations: [updateUrls],
   prefillEnabled: true,
-  footerContent: GetHelp.footer,
+  footerContent: GetHelpFooter,
   preSubmitInfo: {
-    CustomComponent: GetHelp.review,
+    CustomComponent: NeedHelpSmall,
   },
   savedFormMessages: {
     notFound: 'Please start over to apply for Upcoming Visit questionnaire.',
@@ -63,7 +73,7 @@ const formConfig = {
   },
   chapters: {
     chapter1: {
-      title: 'Veteran Information',
+      title: TITLES.demographics,
       reviewDescription: VeteranInfoPage.review,
       pages: {
         demographicsPage: {
@@ -77,6 +87,7 @@ const formConfig = {
                 hideLabelText: true,
               },
             },
+
             daysTillExpires: {
               'ui:field': ExpiresAt.field,
               'ui:options': {
@@ -101,74 +112,47 @@ const formConfig = {
       },
     },
     chapter2: {
-      title: 'Prepare for Your Appointment',
+      title: TITLES.reasonForVisit,
       pages: {
         reasonForVisit: {
           path: createPathFromTitle(TITLES.reasonForVisit),
           title: TITLES.reasonForVisit,
           uiSchema: {
-            'hidden:fields': {
-              'ui:field': HiddenFields.fields,
-              'ui:options': {
-                hideLabelText: true,
-                hideOnReview: true,
-              },
-            },
             reasonForVisit: {
               'ui:field': ReasonForVisit.field,
-              'ui:title': ' ',
+              'ui:options': {
+                hideLabelText: true,
+              },
               'ui:reviewField': ReasonForVisit.review,
             },
             reasonForVisitDescription: {
               'ui:widget': ReasonForVisitDescription.field,
+              'ui:validations': [preventLargeFields],
               'ui:title': (
                 <span>
-                  Are there any additional details you’d like to share with your
-                  provider about this appointment?
+                  {getQuestionTextById(
+                    QUESTION_IDS.REASON_FOR_VISIT_DESCRIPTION,
+                  )}
                 </span>
               ),
             },
             lifeEvents: {
               'ui:widget': 'textarea',
-              'ui:title': (
-                <span>
-                  Are there any other concerns or changes in your life that are
-                  affecting you or your health? (For example, a marriage,
-                  divorce, new baby, change in your job, or other medical
-                  conditions)
-                </span>
-              ),
+              'ui:title': <>{getQuestionTextById(QUESTION_IDS.LIFE_EVENTS)}</>,
+              'ui:validations': [preventLargeFields],
             },
             questions: {
-              items: {
-                additionalQuestions: {
-                  'ui:title':
-                    'Do you have a question you want to ask your provider? Please enter your most important question first.',
-                },
-              },
-              'ui:options': {
-                doNotScroll: true,
-                keepInPageOnReview: true,
-                itemName: 'question',
-                viewField: formData => {
-                  return <>{formData.formData.additionalQuestions}</>;
-                },
-              },
-              'ui:title': 'Additional questions for your provider',
+              'ui:widget': 'textarea',
+              'ui:validations': [preventLargeFields],
+              'ui:title': getQuestionTextById(
+                QUESTION_IDS.ADDITIONAL_QUESTIONS,
+              ),
             },
           },
           schema: {
             type: 'object',
             required: ['reasonForVisitDescription'],
             properties: {
-              'hidden:fields': {
-                type: 'object',
-                properties: {
-                  appointmentId: { type: 'string' },
-                  questionnaireId: { type: 'string' },
-                },
-              },
-
               reasonForVisit: {
                 type: 'string',
               },
@@ -179,13 +163,7 @@ const formConfig = {
                 type: 'string',
               },
               questions: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    additionalQuestions: { type: 'string' },
-                  },
-                },
+                type: 'string',
               },
             },
           },

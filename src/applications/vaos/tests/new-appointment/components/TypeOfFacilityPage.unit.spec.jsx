@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import TypeOfFacilityPage from '../../../new-appointment/components/TypeOfFacilityPage';
@@ -9,7 +9,6 @@ import { cleanup } from '@testing-library/react';
 
 const initialState = {
   featureToggles: {
-    vaOnlineSchedulingVSPAppointmentNew: false,
     vaOnlineSchedulingDirect: true,
     vaOnlineSchedulingCommunityCare: true,
   },
@@ -23,11 +22,10 @@ const initialState = {
   },
 };
 
-describe('VAOS integration: VA facility page with a single-site user', () => {
+describe('VAOS <TypeOfFacilityPage>', () => {
   beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
 
-  it('should show page', async () => {
+  it('should show form fields', async () => {
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<TypeOfFacilityPage />, {
       store,

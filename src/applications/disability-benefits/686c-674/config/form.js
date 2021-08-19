@@ -95,11 +95,11 @@ const formConfig = {
       'Please sign in again to continue your application for declare or remove a dependent.',
   },
   title: 'Add or remove a dependent on your VA disability benefits',
-  subTitle: 'VA Form 21-686c (and 21-674)',
+  subTitle: 'VA Form 21-686c (with 21P-527EZ and 21-674)',
   defaultDefinitions: { ...fullSchema.definitions },
   chapters: {
     optionSelection: {
-      title: 'What do you want to do?',
+      title: 'What do you want to do',
       pages: {
         wizard: {
           hideHeaderRow: true,
@@ -112,7 +112,7 @@ const formConfig = {
     },
 
     veteranInformation: {
-      title: "Veteran's Information",
+      title: "Veteran's information",
       pages: {
         veteranInformation: {
           path: 'veteran-information',
@@ -205,7 +205,7 @@ const formConfig = {
       },
     },
     addChild: {
-      title: 'Information needed to add your child',
+      title: 'Information needed to add children',
       pages: {
         addChildInformation: {
           depends: formData =>
@@ -311,7 +311,7 @@ const formConfig = {
       },
     },
     reportDivorce: {
-      title: 'Information needed to report a divorce',
+      title: 'Information needed to remove a divorced spouse',
       pages: {
         formerSpouseDetails: {
           depends: formData =>
@@ -325,7 +325,7 @@ const formConfig = {
     },
     reportStepchildNotInHousehold: {
       title:
-        'Information needed to report a stepchild is no longer part of your household',
+        'Information needed to remove a stepchild who has left your household',
       pages: {
         stepchildren: {
           depends: formData =>
@@ -356,7 +356,7 @@ const formConfig = {
       },
     },
     deceasedDependents: {
-      title: 'Report the death of a dependent',
+      title: 'Information needed to remove a dependent who has died',
       pages: {
         dependentInformation: {
           depends: formData =>
@@ -379,7 +379,7 @@ const formConfig = {
       },
     },
     reportChildMarriage: {
-      title: 'Information needed to report the marriage of a child under 18',
+      title: 'Information to remove a child under 18 who has married',
       pages: {
         childInformation: {
           depends: formData =>
@@ -397,7 +397,7 @@ const formConfig = {
     },
     reportChildStoppedAttendingSchool: {
       title:
-        'Information needed to report a child 18-23 years old stopped attending school',
+        'Information to remove a child 18 to 23 years old who has stopped attending school',
       pages: {
         childNoLongerInSchool: {
           depends: formData =>

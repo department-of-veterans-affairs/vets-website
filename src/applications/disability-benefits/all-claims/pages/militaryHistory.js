@@ -1,10 +1,12 @@
-import moment from 'moment';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
+import { validateCurrentOrPastDate } from 'platform/forms-system/src/js/validation';
+
 import ValidatedServicePeriodView from '../components/ValidatedServicePeriodView';
 import ArrayField from '../components/ArrayField';
-import { isUndefined } from '../utils';
+import { isValidServicePeriod, formatDate } from '../utils';
+import { validateAge, validateSeparationDate } from '../validations';
 
 const dateRangeUISchema = dateRangeUI(
   'Service start date',
@@ -12,42 +14,19 @@ const dateRangeUISchema = dateRangeUI(
   'End of service must be after start of service',
 );
 
-const validateAge = (
-  errors,
-  dateString,
-  formData,
-  schema,
-  uiSchema,
-  currentIndex,
-  appStateData,
-) => {
-  if (moment(dateString).isBefore(moment(appStateData.dob).add(13, 'years'))) {
-    errors.addError('Your start date must be after your 13th birthday');
-  }
-};
-
-const validateSeparationDate = (
-  errors,
-  dateString,
-  formData,
-  schema,
-  uiSchema,
-  currentIndex,
-  appStateData,
-) => {
-  const allowBDD = appStateData.allowBDD;
-  if (!allowBDD && moment(dateString).isAfter(moment())) {
-    errors.addError('Your separation date must be in the past');
-  } else if (
-    allowBDD &&
-    moment(dateString).isAfter(moment().add(180, 'days'))
-  ) {
-    errors.addError('Your separation date must be before 180 days from today');
-  }
-};
-
-dateRangeUISchema.from['ui:validations'].push(validateAge);
+dateRangeUISchema.from['ui:validations'].push(
+  validateAge,
+  validateCurrentOrPastDate,
+);
 dateRangeUISchema.to['ui:validations'].push(validateSeparationDate);
+
+const itemAriaLabel = data => {
+  const hasDate =
+    data.serviceBranch && data.dateRange?.from
+      ? ` started on ${formatDate(data.dateRange.from)}`
+      : '';
+  return `${data.serviceBranch || ''}${hasDate}`;
+};
 
 export const uiSchema = {
   serviceInformation: {
@@ -58,16 +37,12 @@ export const uiSchema = {
       'ui:field': ArrayField,
       'ui:options': {
         itemName: 'Service Period',
+        itemAriaLabel,
         viewField: ValidatedServicePeriodView,
         reviewMode: true,
         showSave: true,
         setEditState: formData =>
-          formData.map(
-            data =>
-              isUndefined(data?.serviceBranch) ||
-              isUndefined(data?.dateRange?.from) ||
-              isUndefined(data?.dateRange?.to),
-          ),
+          formData.map(data => !isValidServicePeriod(data)),
       },
       items: {
         serviceBranch: {
@@ -75,7 +50,8 @@ export const uiSchema = {
         },
         dateRange: dateRangeUISchema,
         'ui:options': {
-          ariaLabelForEditButtonOnReview: 'Edit Military service history',
+          itemAriaLabel,
+          itemName: 'Military service history',
         },
       },
     },

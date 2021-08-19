@@ -1,5 +1,4 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 export const benefitDescription = (
   <p>
@@ -11,31 +10,31 @@ export const benefitDescription = (
 );
 
 const doubleAllowanceAlertContent = (
-  <div>
-    <p>
+  <>
+    <p className="vads-u-font-size--base vads-u-margin-top--0">
       Typically, you can receive the automobile allowance only once in your
       lifetime. You may be eligible for a second automobile allowance in the
       following situations:
     </p>
-    <ul>
+    <ul className="vads-u-font-size--base">
       <li>
         Your first adapted vehicle was destroyed as a result of a natural
         catastrophe, <strong>or</strong>
       </li>
       <li>Your first adapted vehicle was destroyed and it wasn’t your fault</li>
     </ul>
-    <p style={{ paddingLeft: '2rem' }}>
+    <p className="vads-u-font-size--base vads-u-padding-left--2">
       <strong>and</strong>
     </p>
-    <ul>
+    <ul className="vads-u-font-size--base">
       <li>
         You didn’t receive compensation for the vehicle’s loss from a property
         insurer
       </li>
     </ul>
-  </div>
+  </>
 );
 
 export const doubleAllowanceAlert = (
-  <AlertBox status="warning" content={doubleAllowanceAlertContent} />
+  <va-alert status="warning">{doubleAllowanceAlertContent}</va-alert>
 );

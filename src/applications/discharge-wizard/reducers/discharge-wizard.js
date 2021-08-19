@@ -1,5 +1,5 @@
-import { DW_UPDATE_FIELD } from '../actions';
-import _ from 'lodash';
+import { DW_UPDATE_FIELD } from '../constants';
+import { set } from 'lodash';
 import moment from 'moment';
 
 const initialState = {
@@ -120,14 +120,14 @@ function nextQuestion(currentQuestion, answer, state) {
   return next;
 }
 
-function form(state = initialState, action) {
+export default (state = initialState, action) => {
   const isPastOrCurrentStep = e => {
     const num = e.split('_')[0];
     const nextNum = action.key.split('_')[0];
     return parseInt(num, 10) <= parseInt(nextNum, 10);
   };
 
-  if (action.type === DW_UPDATE_FIELD) {
+  if (action?.type === DW_UPDATE_FIELD) {
     // no-op if clicking on the same value
     if (action.value === state[action.key]) {
       return state;
@@ -150,7 +150,7 @@ function form(state = initialState, action) {
         const num = k.split('_')[0];
         const nextNum = action.key.split('_')[0];
         if (parseInt(num, 10) > parseInt(nextNum, 10)) {
-          return _.set(a, k, initialState[k]);
+          return set(a, k, initialState[k]);
         }
         return a;
       }, {}),
@@ -161,6 +161,4 @@ function form(state = initialState, action) {
     };
   }
   return state;
-}
-
-export default form;
+};

@@ -2,6 +2,7 @@ import 'platform/polyfills';
 import cookie from 'cookie';
 
 import buckets from 'site/constants/buckets';
+import bucketsContent from 'site/constants/buckets-content';
 import environments from 'site/constants/environments';
 
 import createCommonStore from 'platform/startup/store';
@@ -70,19 +71,21 @@ function activateHeaderFooter() {
   document.body.appendChild(footerContainer);
 }
 
-function renderFooter(data) {
+function renderFooter(data, commonStore) {
   const subFooter = document.querySelectorAll('#sub-footer .small-print');
   const lastUpdated = subFooter && subFooter.item(0).textContent;
 
-  startVAFooter(data, () => {
-    addOverlayTriggers();
-    addFocusBehaviorToCrisisLineModal();
+  startVAFooter(
+    data,
+    () => {
+      addOverlayTriggers();
+      addFocusBehaviorToCrisisLineModal();
 
-    if (lastUpdated) {
-      const lastUpdatedPanel = document.createElement('div');
-      const lastUpdatedDate = lastUpdated.replace('Last updated ', '');
+      if (lastUpdated) {
+        const lastUpdatedPanel = document.createElement('div');
+        const lastUpdatedDate = lastUpdated.replace('Last updated ', '');
 
-      lastUpdatedPanel.innerHTML = `
+        lastUpdatedPanel.innerHTML = `
         <div class="footer-lastupdated">
           <div class="usa-grid">
             <div class="col-md-3"></div>
@@ -93,11 +96,13 @@ function renderFooter(data) {
         </div>
       `;
 
-      const footer = document.getElementById(footerElemementId);
+        const footer = document.getElementById(footerElemementId);
 
-      footer.parentElement.insertBefore(lastUpdatedPanel, footer);
-    }
-  });
+        footer.parentElement.insertBefore(lastUpdatedPanel, footer);
+      }
+    },
+    commonStore,
+  );
 }
 
 function mountReactComponents(headerFooterData, commonStore) {
@@ -120,16 +125,25 @@ function mountReactComponents(headerFooterData, commonStore) {
   startMobileMenuButton(commonStore);
   // startLRNHealthCarWidget(commonStore);
   // startAnnouncementWidget(commonStore);
-  renderFooter(headerFooterData.footerData);
+  renderFooter(headerFooterData.footerData, commonStore);
 }
 
-function getAssetHostName() {
+function getContentHostName() {
   if (environment.BUILDTYPE === environments.LOCALHOST) {
     return environment.BASE_URL;
   }
 
-  return buckets[environment.BUILDTYPE];
+  return bucketsContent[environment.BUILDTYPE];
 }
+
+// TO DO remove on clean up
+// function getAssetHostName() {
+//   if (environment.BUILDTYPE === environments.LOCALHOST) {
+//     return environment.BASE_URL;
+//   }
+
+//   return buckets[environment.BUILDTYPE];
+// }
 
 function removeCurrentHeaderFooter() {
   const observer = new MutationObserver(createMutationObserverCallback());
@@ -143,9 +157,10 @@ function removeCurrentHeaderFooter() {
     observer.disconnect();
   });
 }
+
 function activateInjectedAssets() {
   activateHeaderFooter();
-  fetch(`${getAssetHostName()}/generated/headerFooter.json`)
+  fetch(`${getContentHostName()}/generated/headerFooter.json`)
     .then(resp => {
       if (resp.ok) {
         return resp.json();

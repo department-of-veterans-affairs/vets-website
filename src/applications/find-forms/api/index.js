@@ -1,7 +1,5 @@
 // Dependencies.
-import * as Sentry from '@sentry/browser';
 import appendQuery from 'append-query';
-import sortBy from 'lodash/sortBy';
 import { apiRequest } from 'platform/utilities/api';
 // Relative imports.
 import STUBBED_RESPONSE from '../constants/stub.json';
@@ -36,23 +34,8 @@ export const fetchFormsApi = async (query, options = {}) => {
   // checks to see if all the forms in the results have been tombstone/ deleted.
   const hasOnlyRetiredForms = forms?.length > 0 && onlyValidForms?.length === 0;
 
-  const potentialServerIssue =
-    (query === '' || query === '10-10ez') && onlyValidForms?.length === 0;
-
-  if (potentialServerIssue) {
-    // A query-less search should always include hundreds of results, and a
-    // search for "10-10ez" should always yield helath care form 10-10EZ.
-    // If there are no results, this is likely an indicator of an unexpected server response.
-
-    Sentry.withScope(scope => {
-      scope.setExtra('query', query);
-      scope.setExtra('forms', forms);
-      Sentry.captureMessage(`Find Forms - unexpected empty results`);
-    });
-  }
-
   return {
     hasOnlyRetiredForms,
-    results: sortBy(onlyValidForms, 'id'),
+    results: onlyValidForms,
   };
 };

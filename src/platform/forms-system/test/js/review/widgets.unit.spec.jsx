@@ -22,6 +22,20 @@ describe('Schemaform review widgets', () => {
 
       expect(tree.text()).to.equal('');
     });
+    it('should render custom value for true', () => {
+      const tree = SkinDeep.shallowRender(
+        <CheckboxWidget value schema={{ enumNames: ['Yes!'] }} />,
+      );
+
+      expect(tree.text()).to.equal('Yes!');
+    });
+    it('should render custom value for false', () => {
+      const tree = SkinDeep.shallowRender(
+        <CheckboxWidget schema={{ enumNames: ['Yes', 'Nope'] }} />,
+      );
+
+      expect(tree.text()).to.equal('Nope');
+    });
   });
   describe('<TextWidget>', () => {
     it('should render', () => {

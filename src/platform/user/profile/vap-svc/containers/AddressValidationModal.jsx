@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { formatAddress } from '~/platform/forms/address/helpers';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import {

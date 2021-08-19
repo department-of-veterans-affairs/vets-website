@@ -1,14 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
-import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import ProgressButton from '@department-of-veterans-affairs/component-library/ProgressButton';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   CONTINUE_APP_DEFAULT_MESSAGE,
   START_NEW_APP_DEFAULT_MESSAGE,
   APP_TYPE_DEFAULT,
 } from '../../forms-system/src/js/constants';
+
+import {
+  WIZARD_STATUS,
+  WIZARD_STATUS_RESTARTING,
+} from 'platform/site-wide/wizard';
 
 class FormStartControls extends React.Component {
   constructor(props) {
@@ -65,6 +70,14 @@ class FormStartControls extends React.Component {
       this.props.migrations,
       this.props.prefillTransformer,
     );
+
+    const { formConfig = {} } = this.props.routes?.[1] || {};
+    // Wizard status needs an intermediate value between not-started &
+    // complete to prevent infinite loops in the RoutedSavableApp
+    sessionStorage.setItem(
+      formConfig.wizardStorageKey || WIZARD_STATUS,
+      WIZARD_STATUS_RESTARTING,
+    );
   };
 
   render() {
@@ -119,12 +132,24 @@ class FormStartControls extends React.Component {
         </div>
       );
     }
+    const startText = this.props.startText;
 
-    return (
+    return this.props.testActionLink ? (
+      <a
+        href="#"
+        className="vads-c-action-link--green vads-u-padding-left--0"
+        onClick={event => {
+          event.preventDefault();
+          this.handleLoadPrefill();
+        }}
+      >
+        {startText}
+      </a>
+    ) : (
       <div>
         <ProgressButton
           onButtonClick={this.handleLoadPrefill}
-          buttonText={this.props.startText || 'Get Started'}
+          buttonText={startText}
           buttonClass="usa-button-primary va-button-primary schemaform-start-button"
           afterText="»"
         />
@@ -147,6 +172,7 @@ FormStartControls.propTypes = {
   startText: PropTypes.string,
   resumeOnly: PropTypes.bool,
   gaStartEventName: PropTypes.string,
+  testActionLink: PropTypes.bool,
   formConfig: PropTypes.shape({
     customText: PropTypes.shape({
       startNewAppButtonText: PropTypes.string,
@@ -156,7 +182,9 @@ FormStartControls.propTypes = {
 };
 
 FormStartControls.defaultProps = {
+  startText: 'Get Started',
   gaStartEventName: 'login-successful-start-form',
+  testActionLink: false,
   formConfig: {
     customText: {
       startNewAppButtonText: '',

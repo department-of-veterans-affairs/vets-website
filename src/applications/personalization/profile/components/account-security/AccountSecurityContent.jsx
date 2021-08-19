@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   isLOA3 as isLOA3Selector,
@@ -16,11 +16,11 @@ import {
   signInServiceName as signInServiceNameSelector,
 } from 'platform/user/authentication/selectors';
 
+import MPIConnectionError from '~/applications/personalization/components/MPIConnectionError';
+import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
+import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
 import ProfileInfoTable from '../ProfileInfoTable';
 import TwoFactorAuthorizationStatus from './TwoFactorAuthorizationStatus';
-import IdentityNotVerified from './IdentityNotVerified';
-import NotInMPIError from './NotInMPIError';
-import MPIConnectionError from '../alerts/MPIConnectionError';
 import MHVTermsAndConditionsStatus from './MHVTermsAndConditionsStatus';
 import EmailAddressNotification from '../personal-information/email-addresses/EmailAddressNotification';
 import Verified from './Verified';
@@ -72,15 +72,38 @@ export const AccountSecurityContent = ({
 
   return (
     <>
-      {!isIdentityVerified && <IdentityNotVerified />}
-      {showMPIConnectionError && <MPIConnectionError />}
-      {showNotInMPIError && <NotInMPIError />}
+      {!isIdentityVerified && (
+        <IdentityNotVerified
+          alertHeadline="Verify your identity to view your complete profile"
+          additionalInfoClickHandler={() =>
+            recordEvent({
+              event: 'profile-navigation',
+              'profile-action': 'view-link',
+              'additional-info': 'learn-more-identity',
+            })
+          }
+          level={2}
+        />
+      )}
+      {showMPIConnectionError && (
+        <MPIConnectionError
+          level={2}
+          className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4"
+        />
+      )}
+      {showNotInMPIError && (
+        <NotInMPIError
+          level={2}
+          className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4"
+        />
+      )}
       <ProfileInfoTable data={securitySections} fieldName="accountSecurity" />
       <AlertBox
         status="info"
         headline="Have questions about signing in to VA.gov?"
         className="medium-screen:vads-u-margin-top--4"
         backgroundOnly
+        level={2}
       >
         <div className="vads-u-display--flex vads-u-flex-direction--column">
           <p>
@@ -89,7 +112,9 @@ export const AccountSecurityContent = ({
             security on VA.gov.
           </p>
 
-          <h4>Go to FAQs about these topics:</h4>
+          <h3 className="vads-u-font-size--h4">
+            Go to FAQs about these topics:
+          </h3>
           <a
             href="/resources/signing-in-to-vagov/"
             className="vads-u-margin-y--1"

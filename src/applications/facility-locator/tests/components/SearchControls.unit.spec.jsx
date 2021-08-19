@@ -67,4 +67,51 @@ describe('SearchControls', () => {
     );
     wrapper.unmount();
   });
+
+  it('Shows modal error message if geocodeError is 1 (permission denied)', () => {
+    const query = {
+      geocodeError: 1,
+    };
+    const wrapper = shallow(<SearchControls currentQuery={query} />);
+    const modal = wrapper.find('Modal');
+    expect(modal.prop('visible')).to.be.true;
+    expect(modal.prop('title')).to.equal('We need to use your location');
+    expect(
+      modal
+        .dive()
+        .find('.usa-alert-text')
+        .text(),
+    ).to.equal(
+      'Please enable location sharing in your browser to use this feature.',
+    );
+    wrapper.unmount();
+  });
+
+  it('Shows modal error message if geocodeError is > 1', () => {
+    const query = {
+      geocodeError: 2,
+    };
+    const wrapper = shallow(<SearchControls currentQuery={query} />);
+    const modal = wrapper.find('Modal');
+    expect(modal.prop('visible')).to.be.true;
+    expect(modal.prop('title')).to.equal("We couldn't locate you");
+    expect(
+      modal
+        .dive()
+        .find('.usa-alert-text')
+        .text(),
+    ).to.equal(
+      'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.',
+    );
+    wrapper.unmount();
+  });
+
+  it('Does not show modal error message if geocodeError is 0', () => {
+    const query = {
+      geocodeError: 0,
+    };
+    const wrapper = shallow(<SearchControls currentQuery={query} />);
+    expect(wrapper.find('Modal').prop('visible')).to.be.false;
+    wrapper.unmount();
+  });
 });

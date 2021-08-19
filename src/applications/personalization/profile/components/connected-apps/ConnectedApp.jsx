@@ -3,7 +3,7 @@ import { isEmpty } from 'lodash';
 import moment from 'moment';
 
 import PropTypes from 'prop-types';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 import { ConnectedAppDeleteModal } from './ConnectedAppDeleteModal';
 
@@ -33,14 +33,14 @@ export class ConnectedApp extends Component {
         <img
           className="va-connected-app-account-logo vads-u-margin-right--2p5"
           src={logo}
-          alt={`${title} logo`}
+          alt={``}
         />
         <div className="vads-u-flex--4 vads-u-align-items--flex-start">
           <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
             <div>
-              <h3 className="vads-u-margin--0 vads-u-color--gray-dark">
+              <h2 className="vads-u-margin--0 vads-u-color--gray-dark vads-u-font-size--h3">
                 {title}
-              </h3>
+              </h2>
               <p className="vads-u-margin-top--0p5">
                 Connected on{' '}
                 {moment(grants[0]?.created).format('MMMM D, YYYY h:mm A')}

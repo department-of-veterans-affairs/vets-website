@@ -11,12 +11,21 @@ import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
 import { focusElement } from '~/platform/utilities/ui';
 
 import PaymentInformationBlocked from '@@profile/components/direct-deposit/PaymentInformationBlocked';
-import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import { cnpDirectDepositIsBlocked } from '@@profile/selectors';
+
+import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
+import Headline from '../ProfileSectionHeadline';
 
 import PersonalInformationContent from './PersonalInformationContent';
 
 import { PROFILE_PATHS } from '../../constants';
+
+// drops the leading `edit` from the hash and looks for that element
+const getScrollTarget = _hash => {
+  const hash = _hash.replace('#', '');
+  const hashWithoutLeadingEdit = hash.replace(/^edit-/, '');
+  return document.querySelector(`#${hashWithoutLeadingEdit}`);
+};
 
 const PersonalInformation = ({
   showDirectDepositBlockedError,
@@ -30,14 +39,34 @@ const PersonalInformation = ({
 
   useEffect(
     () => {
-      // Do not manage the focus if the user just came to this route via the
-      // root profile route. If a user got to the Profile via a link to /profile
-      // or /profile/ we want to focus on the "Your Profile" sub-nav H1, not the
-      // H2 on this page
+      // Set the focus on the page's focus target _unless_ one of the following
+      // is true:
+      // - there is a hash in the URL and there is a named-anchor that matches
+      //   the hash
+      // - the user just came to this route via the root profile route. If a
+      //   user got to the Profile via a link to /profile or /profile/ we want
+      //   to focus on the "Profile" sub-nav H1, not the H2 on this page, for
+      //   a11y reasons
       const pathRegExp = new RegExp(`${PROFILE_PATHS.PROFILE_ROOT}/?$`);
       if (lastLocation?.pathname.match(new RegExp(pathRegExp))) {
         return;
       }
+      if (window.location.hash) {
+        // We will always attempt to focus on the element that matches the
+        // location.hash
+        const focusTarget = document.querySelector(window.location.hash);
+        // But if the hash starts with `edit` will will scroll a different
+        // element into view
+        const scrollTarget = getScrollTarget(window.location.hash);
+        if (scrollTarget) {
+          scrollTarget.scrollIntoView();
+        }
+        if (focusTarget) {
+          focusElement(focusTarget);
+          return;
+        }
+      }
+
       focusElement('[data-focus-target]');
     },
     [lastLocation],
@@ -62,13 +91,7 @@ const PersonalInformation = ({
         message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
         when={hasUnsavedEdits}
       />
-      <h2
-        tabIndex="-1"
-        className="vads-u-margin-y--2 medium-screen:vads-u-margin-bottom--4 medium-screen:vads-u-margin-top--3"
-        data-focus-target
-      >
-        Personal and contact information
-      </h2>
+      <Headline>Personal and contact information</Headline>
       <DowntimeNotification
         render={handleDowntimeForSection('personal and contact')}
         dependencies={[externalServices.mvi, externalServices.vaProfile]}

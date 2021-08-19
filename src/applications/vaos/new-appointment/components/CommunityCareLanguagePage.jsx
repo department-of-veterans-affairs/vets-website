@@ -23,7 +23,7 @@ const initialSchema = {
 const uiSchema = {
   preferredLanguage: {
     'ui:title':
-      'Do you prefer that your community care provider speak a certain language?',
+      'Select the preferred language for your community care provider.',
   },
 };
 

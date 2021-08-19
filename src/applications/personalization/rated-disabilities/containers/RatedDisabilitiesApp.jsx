@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
-import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';

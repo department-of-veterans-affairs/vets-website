@@ -1,6 +1,6 @@
 import React from 'react';
 import { pageNames } from './pageList';
-import RadioButtons from '@department-of-veterans-affairs/formation-react/RadioButtons';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import { formIdSuffixes } from 'applications/static-pages/wizard/';
 
 const claimingBenefitOwnServiceOptions = [

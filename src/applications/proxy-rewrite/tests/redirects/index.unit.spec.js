@@ -1,5 +1,6 @@
+// Node modules.
 import { expect } from 'chai';
-
+// Relative imports.
 import redirectIfNecessary from '../../redirects';
 import redirects from '../../redirects/crossDomainRedirects.json';
 
@@ -28,6 +29,37 @@ describe('Redirect replaced pages', () => {
     redirectIfNecessary(fakeWindow);
 
     expect(fakeWindow.location.href).to.be.undefined;
+  });
+
+  it('should redirect absolute redirects over catch-all redirects', () => {
+    const fakeWindow = {
+      location: {
+        host: 'www.altoona.va.gov',
+        pathname: '/locations/DuBois.asp',
+      },
+    };
+
+    redirectIfNecessary(fakeWindow);
+
+    expect(
+      fakeWindow.location.href.endsWith(
+        '.gov/altoona-health-care/locations/dubois-va-clinic/',
+      ),
+    ).to.be.true;
+  });
+
+  it('should redirect catch-all redirects if no absolute redirect matches', () => {
+    const fakeWindow = {
+      location: {
+        host: 'www.altoona.va.gov',
+        pathname: '/blahblahblah',
+      },
+    };
+
+    redirectIfNecessary(fakeWindow);
+
+    expect(fakeWindow.location.href.endsWith('.gov/altoona-health-care/')).to.be
+      .true;
   });
 });
 

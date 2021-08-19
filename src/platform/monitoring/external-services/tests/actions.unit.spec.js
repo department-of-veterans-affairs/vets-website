@@ -10,14 +10,8 @@ import {
   getBackendStatuses,
 } from '../actions';
 
-const originalFetch = global.fetch;
-
 describe('External services actions', () => {
   describe('getBackendStatuses', () => {
-    afterEach(() => {
-      global.fetch = originalFetch;
-    });
-
     it('should handle a success response', () => {
       const response = {
         data: {

@@ -41,7 +41,7 @@ export const uiSchema = {
       hideOnReviewIfFalse: true,
     },
   },
-  'view:directDespositInfo': {
+  'view:directDepositInfo': {
     'ui:description': directDepositAlert,
   },
   'view:bankInfoHelpText': {
@@ -57,7 +57,7 @@ export const schema = {
   properties: {
     bankAccount,
     declineDirectDeposit,
-    'view:directDespositInfo': {
+    'view:directDepositInfo': {
       type: 'object',
       properties: {},
     },

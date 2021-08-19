@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Checkbox from '@department-of-veterans-affairs/formation-react/Checkbox';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import {
   isVAPatient,
   selectProfile,
@@ -95,15 +95,15 @@ class ReceiveTextMessages extends React.Component {
             }
             label={
               <span>
-                We’ll send VA health care appointment text reminders to this
-                number
+                We’ll send VA health care appointment text reminders to your
+                mobile number
               </span>
             }
             onValueChange={this.onChange}
           />
           <AlertBox
             isVisible={this.isSuccessVisible()}
-            content={<p>We've saved your preference.</p>}
+            content={<p>We’ve saved your preference.</p>}
             status="success"
             backgroundOnly
           />

@@ -9,6 +9,7 @@ import {
   SET_SUBMISSION,
   SET_SUBMITTED,
   SET_VIEWED_PAGES,
+  SET_FORM_ERRORS,
 } from '../actions';
 
 import { recalculateSchemaAndData } from '../state/helpers';
@@ -85,4 +86,10 @@ export default {
 
     return _.set('reviewPageView.viewedPages', viewedPages, state);
   },
+  [SET_FORM_ERRORS]: (state, { data = {} }) => ({
+    ...state,
+    // See platform/forms-system/src/js/utilities/data/reduceErrors.js for
+    // data structure
+    formErrors: data,
+  }),
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -14,7 +14,6 @@ import { startDirectScheduleFlow } from '../../../new-appointment/redux/actions'
 
 const initialState = {
   featureToggles: {
-    vaOnlineSchedulingVSPAppointmentNew: false,
     vaOnlineSchedulingDirect: true,
     vaOnlineSchedulingCommunityCare: true,
   },
@@ -28,9 +27,8 @@ const initialState = {
   },
 };
 
-describe('VAOS integration: reason for appointment page with a single-site user', () => {
+describe('VAOS <ReasonForAppointmentPage>', () => {
   beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
 
   it('should show page for VA medical request', async () => {
     const store = createTestStore(initialState);
@@ -38,10 +36,16 @@ describe('VAOS integration: reason for appointment page with a single-site user'
       store,
     });
 
+    const textBox = await screen.findByRole('textbox');
+    expect(textBox).to.exist;
+    expect(textBox)
+      .to.have.attribute('maxlength')
+      .to.equal('250');
+
     expect((await screen.findAllByRole('radio')).length).to.equal(4);
 
     expect(screen.baseElement).to.contain.text(
-      'Please let us know why you’re making this appointment',
+      'Let us know why you’re making this appointment',
     );
 
     expect(
@@ -63,7 +67,7 @@ describe('VAOS integration: reason for appointment page with a single-site user'
     expect(textBox).to.exist;
     expect(textBox)
       .to.have.attribute('maxlength')
-      .to.equal('100');
+      .to.equal('250');
 
     expect(screen.baseElement).to.contain.text(
       'Tell us the reason for this appointment',
@@ -84,9 +88,9 @@ describe('VAOS integration: reason for appointment page with a single-site user'
 
     await screen.findByLabelText(/Routine or follow-up visit/i);
     fireEvent.click(screen.getByText(/Continue/));
-    expect(await screen.findByRole('alert')).to.contain.text(
-      'Please provide a response',
-    );
+
+    const alerts = await screen.findAllByRole('alert');
+    expect(alerts[0]).to.contain.text('Please provide a response');
   });
 
   it('should show error msg when enter all spaces for VA medical request', async () => {
@@ -151,9 +155,7 @@ describe('VAOS integration: reason for appointment page with a single-site user'
 
     fireEvent.click(screen.getByText(/Continue/));
 
-    expect(await screen.findByRole('alert')).to.contain.text(
-      'Please provide a response',
-    );
+    expect(await screen.findByText('Please provide a response')).to.be.ok;
   });
 
   it('should continue to the correct page based on type choice for VA medical request', async () => {

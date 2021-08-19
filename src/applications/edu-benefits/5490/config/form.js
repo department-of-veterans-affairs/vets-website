@@ -1,8 +1,9 @@
-import _ from 'lodash/fp';
+import { merge, omit, without } from 'lodash';
+import get from 'platform/utilities/data/get';
 import { createSelector } from 'reselect';
 
 import fullSchema5490 from 'vets-json-schema/dist/22-5490-schema.json';
-
+import PreSubmitInfo from '../containers/PreSubmitInfo';
 import {
   benefitsRelinquishedInfo,
   benefitsRelinquishedWarning,
@@ -30,7 +31,6 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import * as personId from 'platform/forms/definitions/personId';
 import dateRangeUi from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUi from 'platform/forms/definitions/fullName';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
 import FormFooter from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
@@ -41,7 +41,7 @@ import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings
 
 import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositPage from '../../pages/directDeposit';
-import applicantInformationPage from 'platform/forms/pages/applicantInformation';
+import applicantInformationUpdate from '../components/applicantInformationUpdate';
 import applicantServicePage from '../../pages/applicantService';
 import createSchoolSelectionPage, {
   schoolSelectionOptionsFor,
@@ -58,16 +58,17 @@ import manifest from '../manifest.json';
 
 const {
   benefit,
-  highSchool,
+  benefitsRelinquishedDate,
   currentlyActiveDuty,
   currentSameAsPrevious,
+  highSchool,
   outstandingFelony,
   previousBenefits,
   serviceBranch,
+  sponsorStatus,
   spouseInfo,
   veteranDateOfBirth,
   veteranDateOfDeath,
-  benefitsRelinquishedDate,
 } = fullSchema5490.properties;
 
 const {
@@ -112,7 +113,11 @@ const formConfig = {
   confirmation: ConfirmationPage,
   title: 'Apply for education benefits as an eligible dependent',
   subTitle: 'Form 22-5490',
-  preSubmitInfo,
+  preSubmitInfo: {
+    CustomComponent: PreSubmitInfo,
+    required: true,
+    field: 'privacyAgreementAccepted',
+  },
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
@@ -128,7 +133,7 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: {
-        applicantInformation: applicantInformationPage(fullSchema5490, {
+        applicantInformation: applicantInformationUpdate(fullSchema5490, {
           labels: { relationship: relationshipLabels },
         }),
         additionalBenefits: additionalBenefitsPage(fullSchema5490, {
@@ -149,13 +154,13 @@ const formConfig = {
             'view:benefitsDisclaimerChild': {
               'ui:description': benefitsDisclaimerChild,
               'ui:options': {
-                hideIf: form => _.get('relationship', form) !== 'child',
+                hideIf: form => get('relationship', form) !== 'child',
               },
             },
             'view:benefitsDisclaimerSpouse': {
               'ui:description': benefitsDisclaimerSpouse,
               'ui:options': {
-                hideIf: form => _.get('relationship', form) !== 'spouse',
+                hideIf: form => get('relationship', form) !== 'spouse',
               },
             },
             benefit: {
@@ -164,7 +169,7 @@ const formConfig = {
               'ui:options': {
                 labels: survivorBenefitsLabels,
                 updateSchema: (form, schema, uiSchema) => {
-                  const relationship = _.get('relationship', form);
+                  const relationship = get('relationship', form);
                   const nestedContent = {
                     chapter33: benefitSelectionWarning(
                       'chapter33',
@@ -175,7 +180,7 @@ const formConfig = {
                       relationship,
                     ),
                   };
-                  const uiOptions = _.get('ui:options', uiSchema);
+                  const uiOptions = get('ui:options', uiSchema);
                   uiOptions.nestedContent = nestedContent;
                   return schema;
                 },
@@ -241,7 +246,6 @@ const formConfig = {
               'Before this application, have you ever applied for or received any of the following VA benefits?',
             previousBenefits: {
               'ui:order': [
-                'view:noPreviousBenefits',
                 'disability',
                 'dic',
                 'chapter31',
@@ -253,10 +257,14 @@ const formConfig = {
                 'transferOfEntitlement',
                 'veteranFullName',
                 'view:veteranId',
+                'view:otherBenefitReceived',
                 'other',
               ],
               'view:noPreviousBenefits': {
                 'ui:title': 'None',
+              },
+              'view:otherBenefitReceived': {
+                'ui:title': 'Other benefit',
               },
               disability: {
                 'ui:title': 'Disability Compensation or Pension',
@@ -308,13 +316,13 @@ const formConfig = {
                   expandUnder: 'view:claimedSponsorService',
                 },
               },
-              veteranFullName: _.merge(fullNameUi, {
+              veteranFullName: merge({}, fullNameUi, {
                 'ui:title': 'Sponsor Veteran’s name',
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService',
                   updateSchema: form => {
                     if (
-                      _.get('previousBenefits.view:claimedSponsorService', form)
+                      get('previousBenefits.view:claimedSponsorService', form)
                     ) {
                       return fullName;
                     }
@@ -327,15 +335,15 @@ const formConfig = {
                 middle: { 'ui:title': "Sponsor's middle name" },
                 suffix: { 'ui:title': "Sponsor's suffix" },
               }),
-              'view:veteranId': _.merge(personId.uiSchema(), {
+              'view:veteranId': merge({}, personId.uiSchema(), {
                 veteranSocialSecurityNumber: {
                   'ui:title': "Sponsor's Social Security number",
                   'ui:required': formData =>
-                    _.get(
+                    get(
                       'previousBenefits.view:claimedSponsorService',
                       formData,
                     ) &&
-                    !_.get(
+                    !get(
                       'previousBenefits.view:veteranId.view:noSSN',
                       formData,
                     ),
@@ -347,11 +355,11 @@ const formConfig = {
                 vaFileNumber: {
                   'ui:title': "Sponsor's VA number",
                   'ui:required': formData =>
-                    _.get(
+                    get(
                       'previousBenefits.view:claimedSponsorService',
                       formData,
                     ) &&
-                    !!_.get(
+                    !!get(
                       'previousBenefits.view:veteranId.view:noSSN',
                       formData,
                     ),
@@ -361,30 +369,31 @@ const formConfig = {
                 },
               }),
               other: {
-                'ui:title': 'Other benefit',
+                'ui:title': 'What benefit?',
+                'ui:options': {
+                  expandUnder: 'view:otherBenefitReceived',
+                },
               },
             },
           },
           schema: {
             type: 'object',
             properties: {
-              previousBenefits: _.merge(
-                _.omit(
-                  [
-                    'anyOf',
-                    'properties.veteranFullName',
-                    'properties.veteranSocialSecurityNumber',
-                    'properties.vaFileNumber',
-                  ],
-                  previousBenefits,
-                ),
+              previousBenefits: merge(
+                {},
+                omit(previousBenefits, [
+                  'anyOf',
+                  'properties.veteranFullName',
+                  'properties.veteranSocialSecurityNumber',
+                  'properties.vaFileNumber',
+                ]),
                 {
                   properties: {
-                    'view:noPreviousBenefits': { type: 'boolean' },
                     'view:ownServiceBenefits': { type: 'boolean' },
                     'view:claimedSponsorService': { type: 'boolean' },
                     veteranFullName: fullName,
                     'view:veteranId': personId.schema(fullSchema5490),
+                    'view:otherBenefitReceived': { type: 'boolean' },
                   },
                 },
               ),
@@ -406,32 +415,29 @@ const formConfig = {
                   'Is there a divorce or annulment pending with your sponsor?',
                 'ui:widget': 'yesNo',
                 'ui:required': formData =>
-                  _.get('relationship', formData) === 'spouse',
+                  get('relationship', formData) === 'spouse',
               },
               remarried: {
                 'ui:title':
                   'If you’re the surviving spouse, did you get remarried?',
                 'ui:widget': 'yesNo',
               },
-              remarriageDate: _.assign(dateUI('Date you got remarried'), {
+              remarriageDate: {
+                ...dateUI('Date you got remarried'),
                 'ui:options': {
                   expandUnder: 'remarried',
                 },
                 'ui:required': formData =>
-                  _.get('spouseInfo.remarried', formData),
-              }),
+                  get('spouseInfo.remarried', formData),
+              },
               'ui:options': {
-                hideIf: formData =>
-                  _.get('relationship', formData) !== 'spouse',
+                hideIf: formData => get('relationship', formData) !== 'spouse',
               },
             },
             currentSameAsPrevious: {
               'ui:options': {
                 hideIf: formData =>
-                  !_.get(
-                    'previousBenefits.view:claimedSponsorService',
-                    formData,
-                  ),
+                  !get('previousBenefits.view:claimedSponsorService', formData),
               },
               'ui:title': 'Same sponsor as previously claimed benefits',
             },
@@ -439,10 +445,10 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData => formData.currentSameAsPrevious,
               },
-              veteranFullName: _.merge(fullNameUi, {
+              veteranFullName: merge({}, fullNameUi, {
                 'ui:options': {
                   updateSchema: form => {
-                    if (!_.get('currentSameAsPrevious', form)) {
+                    if (!get('currentSameAsPrevious', form)) {
                       return fullName;
                     }
                     return nonRequiredFullName;
@@ -462,12 +468,12 @@ const formConfig = {
                   'ui:title': "Sponsor's suffix",
                 },
               }),
-              'view:veteranId': _.merge(personId.uiSchema(), {
+              'view:veteranId': merge({}, personId.uiSchema(), {
                 veteranSocialSecurityNumber: {
                   'ui:title': "Sponsor's Social Security number",
                   'ui:required': formData =>
-                    !_.get('currentSameAsPrevious', formData) &&
-                    !_.get(
+                    !get('currentSameAsPrevious', formData) &&
+                    !get(
                       'view:currentSponsorInformation.view:veteranId.view:noSSN',
                       formData,
                     ),
@@ -478,7 +484,7 @@ const formConfig = {
                 },
                 vaFileNumber: {
                   'ui:required': formData =>
-                    !!_.get(
+                    !!get(
                       'view:currentSponsorInformation.view:veteranId.view:noSSN',
                       formData,
                     ),
@@ -486,10 +492,53 @@ const formConfig = {
                 },
               }),
             },
-            veteranDateOfBirth: currentOrPastDateUI("Sponsor's date of birth"),
-            veteranDateOfDeath: currentOrPastDateUI(
-              "Sponsor's date of death or date listed as MIA or POW",
-            ),
+            veteranDateOfBirth: currentOrPastDateUI('Sponsor’s date of birth'),
+            veteranDateOfDeath: {
+              ...currentOrPastDateUI(
+                "Sponsor's date of death or date listed as MIA or POW",
+              ),
+              'ui:options': {
+                hideIf: formData =>
+                  get('benefit', formData) === 'chapter33' &&
+                  get('relationship', formData) === 'spouse',
+              },
+            },
+            sponsorStatus: {
+              'ui:title': 'Do any of these situations apply to your sponsor?',
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: {
+                  diedOnDuty:
+                    'Died while serving on active duty or duty other than active duty',
+                  diedFromDisabilityOrOnReserve:
+                    'Died from a service-connected disability while a member of the Selected Reserve',
+                  powOrMia: 'Listed as MIA or POW',
+                },
+                hideIf: formData =>
+                  get('benefit', formData) === 'chapter35' ||
+                  get('relationship', formData) === 'child',
+              },
+            },
+            'view:sponsorDateOfDeath': {
+              ...currentOrPastDateUI('Sponsor’s date of death'),
+              'ui:options': {
+                expandUnder: 'sponsorStatus',
+                expandUnderCondition: status => status && status !== 'powOrMia',
+                hideIf: formData =>
+                  get('benefit', formData) === 'chapter35' ||
+                  get('relationship', formData) === 'child',
+              },
+            },
+            'view:sponsorDateListedMiaOrPow': {
+              ...currentOrPastDateUI('Sponsor’s date listed as MIA or POW'),
+              'ui:options': {
+                expandUnder: 'sponsorStatus',
+                expandUnderCondition: status => status && status === 'powOrMia',
+                hideIf: formData =>
+                  get('benefit', formData) === 'chapter35' ||
+                  get('relationship', formData) === 'child',
+              },
+            },
           },
           schema: {
             type: 'object',
@@ -506,6 +555,13 @@ const formConfig = {
               },
               veteranDateOfBirth,
               veteranDateOfDeath,
+              sponsorStatus,
+              'view:sponsorDateOfDeath': {
+                $ref: '#/definitions/date',
+              },
+              'view:sponsorDateListedMiaOrPow': {
+                $ref: '#/definitions/date',
+              },
             },
           },
         },
@@ -554,14 +610,15 @@ const formConfig = {
                   expandUnderClassNames: 'schemaform-expandUnder-indent',
                 },
               },
-              highSchoolOrGedCompletionDate: _.assign(monthYearUI(null), {
+              highSchoolOrGedCompletionDate: {
+                ...monthYearUI(null),
                 'ui:options': {
                   monthYear: true,
                   expandUnderCondition: status =>
                     status === 'graduated' || status === 'graduationExpected',
                   expandUnder: 'status',
                   updateSchema: form => {
-                    const status = _.get('highSchool.status', form);
+                    const status = get('highSchool.status', form);
 
                     if (status === 'graduationExpected') {
                       return {
@@ -579,7 +636,7 @@ const formConfig = {
                   validateMonthYear,
                   validateFutureDateIfExpectedGrad,
                 ],
-              }),
+              },
               'view:hasHighSchool': {
                 'ui:options': {
                   expandUnderCondition: status => status === 'discontinued',
@@ -605,7 +662,7 @@ const formConfig = {
               'ui:widget': 'yesNo',
               'ui:options': {
                 hideIf: form => {
-                  const status = _.get('highSchool.status', form);
+                  const status = get('highSchool.status', form);
                   return (
                     status === 'discontinued' ||
                     status === 'graduationExpected' ||
@@ -614,7 +671,7 @@ const formConfig = {
                 },
               },
             },
-            postHighSchoolTrainings: _.merge(postHighSchoolTrainingsUi, {
+            postHighSchoolTrainings: merge({}, postHighSchoolTrainingsUi, {
               'ui:options': {
                 expandUnder: 'view:hasTrainings',
               },
@@ -657,7 +714,8 @@ const formConfig = {
     schoolSelection: {
       title: 'School selection',
       pages: {
-        schoolSelection: _.merge(
+        schoolSelection: merge(
+          {},
           createSchoolSelectionPage(
             fullSchema5490,
             schoolSelectionOptionsFor['5490'],
@@ -678,8 +736,8 @@ const formConfig = {
                       // and creating a new object unless either benefit or
                       // relationship has changed
                       const filterEducationType = createSelector(
-                        _.get('benefit'),
-                        _.get('relationship'),
+                        form => get('benefit', form),
+                        form => get('relationship', form),
                         (benefitData, relationshipData) => {
                           // Remove tuition top-up
                           const filterOut = ['tuitionTopUp'];
@@ -695,7 +753,7 @@ const formConfig = {
                             filterOut.push('flightTraining');
                           }
 
-                          return { enum: _.without(filterOut, edTypes) };
+                          return { enum: without(edTypes, filterOut) };
                         },
                       );
 
@@ -732,10 +790,10 @@ const formConfig = {
               sameAddress: {
                 'ui:title': 'Address for secondary contact is the same as mine',
               },
-              address: _.merge(address.uiSchema(), {
+              address: merge({}, address.uiSchema(), {
                 'ui:options': {
                   hideIf: formData =>
-                    _.get('secondaryContact.sameAddress', formData) === true,
+                    get('secondaryContact.sameAddress', formData) === true,
                 },
               }),
             },

@@ -9,8 +9,9 @@ import { DEBTS_FETCH_SUCCESS } from '../../debt-letters/actions';
 
 const initialState = {
   isError: false,
-  errorCode: '',
+  errorCode: {},
   pending: true,
+  pendingDebts: true,
   debts: [],
 };
 
@@ -33,12 +34,12 @@ const fsrApi = (state = initialState, action) => {
         ...state,
         pending: true,
       };
-    case DEBTS_FETCH_SUCCESS: {
+    case DEBTS_FETCH_SUCCESS:
       return {
         ...state,
         debts: action.debts,
+        pendingDebts: false,
       };
-    }
     default:
       return state;
   }

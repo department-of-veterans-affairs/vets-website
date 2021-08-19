@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 
 import {
   createTestStore,
@@ -45,6 +45,7 @@ const initialState = {
     },
   },
 };
+
 describe('VAOS <CommunityCareProviderSelectionPage>', () => {
   beforeEach(() => {
     mockFetch();
@@ -91,7 +92,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     });
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
-      ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
       calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
@@ -100,7 +101,6 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       CC_PROVIDERS_DATA,
     );
   });
-  afterEach(() => resetFetch());
   it('should display closest city question when user has multiple supported sites', async () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
@@ -113,6 +113,13 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     );
 
     expect((await screen.findAllByRole('radio')).length).to.equal(2);
+
+    expect(
+      global.window.dataLayer.some(
+        e => e === `${GA_PREFIX}-community-care-provider-selection-page`,
+      ),
+    );
+
     expect(screen.getByLabelText('Bozeman, MT')).to.exist;
     expect(screen.getByLabelText('Belgrade, MT')).to.exist;
     expect(screen.baseElement).to.contain.text(
@@ -173,39 +180,56 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     // Trigger provider list loading
     userEvent.click(await screen.findByText(/Choose a provider/i));
-    expect(await screen.findByText(/your address on file:/i)).to.exist;
+    expect(
+      await screen.findByText(
+        /You can choose a provider based on your address on file. Or you can/i,
+      ),
+    ).to.exist;
 
     // Verify provider list count and get load more button
     expect(screen.baseElement).to.contain.text(
-      '123 big sky stCincinnati, OH 45220',
+      '123 big sky stCincinnati, OhioOH 45220',
     );
-    expect(screen.baseElement).to.contain.text(
-      'Displaying 1 to 5 of 16 providers',
-    );
-    expect((await screen.findAllByRole('radio')).length).to.equal(7);
+
+    expect(await screen.findByText(/Displaying 1 to 5 of 16 providers/i)).to.be
+      .ok;
+    expect(screen.getAllByRole('radio').length).to.equal(7);
 
     userEvent.click(await screen.findByText(/\+ 5 more providers/i));
     expect(await screen.findByText(/displaying 1 to 10 of 16 providers/i)).to
       .exist;
     expect((await screen.findAllByRole('radio')).length).to.equal(12);
-    expect(document.activeElement.id).to.equal('root_communityCareProvider_6');
+    await waitFor(() => {
+      expect(document.activeElement.id).to.equal(
+        'root_communityCareProvider_6',
+      );
+    });
 
     userEvent.click(await screen.findByText(/\+ 5 more providers/i));
     expect(await screen.findByText(/displaying 1 to 15 of 16 providers/i)).to
       .exist;
     expect((await screen.findAllByRole('radio')).length).to.equal(17);
-    expect(document.activeElement.id).to.equal('root_communityCareProvider_11');
+    await waitFor(() => {
+      expect(document.activeElement.id).to.equal(
+        'root_communityCareProvider_11',
+      );
+    });
 
     userEvent.click(await screen.findByText(/\+ 1 more providers/i));
     expect(await screen.findByText(/displaying 1 to 16 of 16 providers/i)).to
       .exist;
     expect((await screen.findAllByRole('radio')).length).to.equal(18);
-    expect(document.activeElement.id).to.equal('root_communityCareProvider_16');
+    await waitFor(() => {
+      expect(document.activeElement.id).to.equal(
+        'root_communityCareProvider_16',
+      );
+    });
     // Choose Provider
     userEvent.click(await screen.findByText(/AJADI, ADEDIWURA/i));
     userEvent.click(
       await screen.getByRole('button', { name: /choose provider/i }),
     );
+    expect(screen.baseElement).to.contain.text('Selected Provider');
     expect(screen.baseElement).to.contain.text(
       'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-6599',
     );
@@ -260,19 +284,6 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     );
     expect(screen.baseElement).to.contain.text('408.5 miles');
 
-    // Remove Provider Cancel
-    userEvent.click(await screen.findByRole('button', { name: /remove/i }));
-    userEvent.click(
-      await screen.findByText(
-        /Are you sure you want to remove this provider\?/i,
-      ),
-    );
-    userEvent.click(await screen.findByRole('button', { name: /Cancel/i }));
-    expect(screen.baseElement).to.contain.text(
-      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-6599',
-    );
-    expect(screen.baseElement).to.contain.text('408.5 miles');
-
     // Remove Provider
     userEvent.click(await screen.findByRole('button', { name: /remove/i }));
     userEvent.click(
@@ -283,7 +294,10 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     userEvent.click(
       await screen.findByRole('button', { name: /Yes, remove provider/i }),
     );
-    expect(await screen.findByRole('button', { name: /Choose a provider/i }));
+    expect(await screen.findByText(/Choose a provider/i));
+    expect(screen.baseElement).not.to.contain.text(
+      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-6599',
+    );
   });
 
   it('should display an error when choose a provider clicked and provider fetch error', async () => {
@@ -292,7 +306,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     await setTypeOfFacility(store, /Community Care/i);
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
-      ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
       calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
@@ -312,12 +326,12 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     userEvent.click(await screen.findByText(/Choose a provider/i));
     expect(
       await screen.findByRole('heading', {
-        name: /we’re sorry\. we’ve run into a problem/i,
+        name: /We can’t load provider information/i,
       }),
     );
     expect(
       await screen.findByText(
-        /something went wrong on our end. please try again later./i,
+        /We’re sorry. Something went wrong on our end. To request this appointment, you can:/i,
       ),
     );
   });
@@ -328,7 +342,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     await setTypeOfFacility(store, /Community Care/i);
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
-      ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
       calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
@@ -345,10 +359,15 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     // Trigger provider list loading
     userEvent.click(await screen.findByText(/Choose a provider/i));
-    expect(await screen.findByText(/your address on file:/i)).to.exist;
     expect(
-      await screen.findByRole('heading', {
-        name: /We can’t find any Primary care providers close to you/i,
+      await screen.findByText(
+        /You can choose a provider based on your address on file. Or you can/i,
+      ),
+    ).to.exist;
+    expect(
+      screen.findByRole('heading', {
+        level: 3,
+        name: /We .* find any Primary care providers close to you/i,
       }),
     );
     expect(
@@ -365,7 +384,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
-      ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
       calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
@@ -389,8 +408,15 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     userEvent.click(await screen.findByText(/use your current location/i));
 
     expect(
-      await screen.findByText(
-        /Your browser is blocked from finding your current location. Make sure your browser’s location feature is turned on./i,
+      await screen.findByRole('heading', {
+        level: 3,
+        name: /Your browser is blocked from finding your current location/,
+      }),
+    ).to.be.ok;
+
+    expect(
+      screen.getByText(
+        /Make sure your browser’s location feature is turned on./i,
       ),
     ).to.be.ok;
   });
@@ -400,7 +426,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
-      ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
       calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
@@ -439,7 +465,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     }).to.not.throw();
   });
 
-  it('should sort provider addresses by distance from current location in ascending order', async () => {
+  it('should sort provider addresses by distance from current location in ascending order and display distance from current location when chosen', async () => {
     const store = createTestStore(initialState);
     const currentPosition = {
       latitude: 37.5615,
@@ -451,7 +477,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     mockCCProviderFetch(
       currentPosition,
-      ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
       calculateBoundingBox(
         currentPosition.latitude,
         currentPosition.longitude,
@@ -474,7 +500,14 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     userEvent.click(await screen.findByText(/Choose a provider/i));
 
     // Choose Provider based on current location
-    userEvent.click(await screen.findByText(/use your current location$/i));
+    const currentLocButton = await screen.findByText(
+      /use your current location$/i,
+    );
+    await screen.findByText(/Displaying 1 to /i);
+    userEvent.click(currentLocButton);
+    await screen.findByText(
+      /You can choose a provider based on your current location/i,
+    );
     userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/more providers$/i));
@@ -491,6 +524,15 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
           throw new Error();
       }
     }).to.not.throw();
+
+    userEvent.click(await screen.findByText(/OH, JANICE/i));
+    userEvent.click(
+      await screen.findByRole('button', { name: /choose provider/i }),
+    );
+
+    expect(screen.baseElement).to.contain.text(
+      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-24007019.4 miles',
+    );
   });
 
   it('should reset provider selected when type of care changes', async () => {
@@ -498,7 +540,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
-      ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
       calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
@@ -530,6 +572,23 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     // remove the page and change the type of care
     await cleanup();
+
+    // Mock CC calls for Podiatry, now that we've switched
+    mockCommunityCareEligibility({
+      parentSites: ['983', '983GJ', '983GC'],
+      supportedSites: ['983', '983GJ'],
+      careType: 'Podiatry',
+    });
+    mockCCProviderFetch(
+      initialState.user.profile.vapContactInfo.residentialAddress,
+      ['213E00000X', '213EG0000X', '213EP1101X', '213ES0131X', '213ES0103X'],
+      calculateBoundingBox(
+        initialState.user.profile.vapContactInfo.residentialAddress.latitude,
+        initialState.user.profile.vapContactInfo.residentialAddress.longitude,
+        60,
+      ),
+      CC_PROVIDERS_DATA,
+    );
     await setTypeOfCare(store, /podiatry/i);
 
     screen = renderWithStoreAndRouter(<CommunityCareProviderSelectionPage />, {
@@ -539,5 +598,78 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     // the provider should no longer be set
     expect(await screen.findByText(/Choose a provider/i)).to.exist;
     expect(screen.queryByText(/OH, JANICE/i)).to.not.exist;
+  });
+
+  it('should allow user to retry fetching location when it is blocked', async () => {
+    const store = createTestStore(initialState);
+
+    mockGetCurrentPosition({ fail: true });
+
+    mockCCProviderFetch(
+      initialState.user.profile.vapContactInfo.residentialAddress,
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
+      calculateBoundingBox(
+        initialState.user.profile.vapContactInfo.residentialAddress.latitude,
+        initialState.user.profile.vapContactInfo.residentialAddress.longitude,
+        60,
+      ),
+      CC_PROVIDERS_DATA,
+    );
+
+    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfFacility(store, /Community Care/i);
+
+    const screen = renderWithStoreAndRouter(
+      <CommunityCareProviderSelectionPage />,
+      {
+        store,
+      },
+    );
+
+    // Choose Provider
+    userEvent.click(await screen.findByText(/Choose a provider/i));
+    userEvent.click(await screen.findByText(/use your current location/i));
+
+    expect(
+      await screen.findByRole('heading', {
+        level: 3,
+        name: /Your browser is blocked from finding your current location/,
+      }),
+    ).to.be.ok;
+
+    expect(
+      screen.getByText(
+        /Make sure your browser’s location feature is turned on./i,
+      ),
+    ).to.be.ok;
+
+    const currentPosition = {
+      latitude: 37.5615,
+      longitude: 121.9988,
+      fail: false,
+    };
+
+    mockGetCurrentPosition(currentPosition);
+    mockCCProviderFetch(
+      currentPosition,
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
+      calculateBoundingBox(
+        currentPosition.latitude,
+        currentPosition.longitude,
+        60,
+      ),
+      // Only return one provider to distinguish from initial request
+      // by residential address
+      CC_PROVIDERS_DATA.slice(0, 1),
+    );
+
+    userEvent.click(
+      screen.getByText(/Retry searching based on current location/i),
+    );
+
+    // should eventually be one provder, plus the two site radio buttons
+    await waitFor(() =>
+      expect(screen.getAllByRole('radio').length).to.equal(3),
+    );
   });
 });

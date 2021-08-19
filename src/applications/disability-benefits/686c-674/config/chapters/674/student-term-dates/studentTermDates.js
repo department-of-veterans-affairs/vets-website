@@ -44,6 +44,8 @@ export const uiSchema = {
       'ui:widget': 'yesNo',
       'ui:title':
         'Is the student enrolled full-time in high school or college?',
+      'ui:description':
+        'Complete this section if the student is enrolled in an education/training program other than high school or college, or if the student will attend high school or college less than full-time.',
       'ui:errorMessages': { required: 'Please select an option' },
     },
     courseOfStudy: {
@@ -53,7 +55,7 @@ export const uiSchema = {
         expandUnder: 'studentIsEnrolledFullTime',
         expandUnderCondition: false,
       },
-      'ui:title': 'Course of study or educational program',
+      'ui:title': 'Subject or educational/training program',
       'ui:errorMessages': { required: 'Please enter a course or program name' },
     },
     classesPerWeek: {
@@ -64,7 +66,7 @@ export const uiSchema = {
         expandUnderCondition: false,
         widgetClassNames: 'form-select-medium',
       },
-      'ui:title': 'Number of classes a week',
+      'ui:title': 'Number of session a week',
       'ui:errorMessages': { required: 'Please enter a number' },
     },
     hoursPerWeek: {

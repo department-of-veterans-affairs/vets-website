@@ -110,13 +110,13 @@ describe('HCA veteranInformation', () => {
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(7);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(9);
     expect(formDOM.querySelector('#root_veteranAddress_country')).not.to.be
       .null;
 
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(5);
     expect(onSubmit.called).to.be.false;
   });
 

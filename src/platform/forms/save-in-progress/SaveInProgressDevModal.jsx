@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
-import TextArea from '@department-of-veterans-affairs/formation-react/TextArea';
-import Select from '@department-of-veterans-affairs/formation-react/Select';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import TextArea from '@department-of-veterans-affairs/component-library/TextArea';
+import Select from '@department-of-veterans-affairs/component-library/Select';
 
 import environment from 'platform/utilities/environment';
 import { getActivePages } from 'platform/forms-system/src/js/helpers';

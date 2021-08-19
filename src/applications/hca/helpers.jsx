@@ -1,7 +1,7 @@
 import React from 'react';
-import _ from 'lodash/fp';
+import { set, mapValues } from 'lodash/fp';
 import moment from 'moment';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import vaMedicalFacilities from 'vets-json-schema/dist/vaMedicalFacilities.json';
 
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
@@ -25,10 +25,9 @@ export {
   medicalCenterLabels,
 } from 'platform/utilities/medical-centers/medical-centers';
 
-/*  clean address so we only get address related properties 
-    then return the object as JSON so we can match them
-*/
+// clean address so we only get address related properties then return the object
 const cleanAddressObject = address => {
+  if (!address) return null;
   // take the address data we want from profile
   const {
     addressLine1,
@@ -59,6 +58,8 @@ export function prefillTransformer(pages, formData, metadata, state) {
     mailingAddress,
   } = state.user.profile?.vapContactInfo;
 
+  /* mailingAddress === veteranAddress 
+     residentialAddress === veteranHomeAddress */
   const cleanedResidentialAddress = cleanAddressObject(residentialAddress);
   const cleanedMailingAddress = cleanAddressObject(mailingAddress);
   const doesAddressMatch =
@@ -71,21 +72,29 @@ export function prefillTransformer(pages, formData, metadata, state) {
     newData = { ...newData, 'view:isUserInMvi': true };
   }
 
-  if (residentialAddress) {
-    // spread in permanentAddress (residentialAddress) from profile if it exist
-    newData = { ...newData, veteranAddress: cleanedResidentialAddress };
+  if (mailingAddress) {
+    // spread in permanentAddress (mailingAddress) from profile if it exist
+    newData = { ...newData, veteranAddress: cleanedMailingAddress };
   }
 
   /* auto-fill doesPermanentAddressMatchMailing yes/no field
    does not get sent to api due to being a view do not need to guard */
   newData = {
     ...newData,
-    'view:doesPermanentAddressMatchMailing': doesAddressMatch,
+    'view:doesMailingMatchHomeAddress': doesAddressMatch,
   };
 
-  // if hasMailingAddress && addresses are not the same auto fill mailing address
-  if (mailingAddress && !doesAddressMatch) {
-    newData = { ...newData, veteranMailingAddress: cleanedMailingAddress };
+  // if either of the addresses are not present we should not fill the yes/no comparison since it will always be false
+  if (!cleanedMailingAddress || !cleanedResidentialAddress) {
+    newData = {
+      ...newData,
+      'view:doesMailingMatchHomeAddress': undefined,
+    };
+  }
+
+  // if residentialAddress && addresses are not the same auto fill mailing address
+  if (residentialAddress && !doesAddressMatch) {
+    newData = { ...newData, veteranHomeAddress: cleanedResidentialAddress };
   }
 
   return {
@@ -124,12 +133,11 @@ export function transform(formConfig, form) {
     form,
   );
   let withoutViewFields = filterViewFields(withoutInactivePages);
-  const hasMultipleAddress = form.data['view:hasMultipleAddress'];
-  const addressesMatch = form.data['view:doesPermanentAddressMatchMailing'];
+  const addressesMatch = form.data['view:doesMailingMatchHomeAddress'];
 
   // add back dependents here, because it could have been removed in filterViewFields
   if (!withoutViewFields.dependents) {
-    withoutViewFields = _.set('dependents', [], withoutViewFields);
+    withoutViewFields = set('dependents', [], withoutViewFields);
   }
 
   // convert `attachmentId` values to a `dd214` boolean
@@ -138,13 +146,8 @@ export function transform(formConfig, form) {
   }
 
   // duplicate address before submit if they are the same
-  if (hasMultipleAddress && addressesMatch) {
-    withoutViewFields.veteranMailingAddress = withoutViewFields.veteranAddress;
-  }
-
-  // if feature flip is off remove second address and yes/no question
-  if (!hasMultipleAddress) {
-    delete withoutViewFields.veteranMailingAddress;
+  if (addressesMatch) {
+    withoutViewFields.veteranHomeAddress = withoutViewFields.veteranAddress;
   }
 
   const formData =
@@ -251,7 +254,7 @@ export function fileHelp({ formContext }) {
 }
 
 // Turns the facility list for each state into an array of strings
-export const medicalCentersByState = _.mapValues(
+export const medicalCentersByState = mapValues(
   val => val.map(center => center.value),
   vaMedicalFacilities,
 );
@@ -273,6 +276,7 @@ export const lastServiceBranchLabels = {
   'merchant seaman': 'Merchant Seaman',
   navy: 'Navy',
   noaa: 'Noaa',
+  'space force': 'Space Force',
   usphs: 'USPHS',
   'f.commonwealth': 'Filipino Commonwealth Army',
   'f.guerilla': 'Filipino Guerilla Forces',
@@ -495,26 +499,26 @@ export const isEssentialAcaCoverageDescription = (
   </div>
 );
 export const medicaidDescription = (
-  <div>
-    <div className="hca-tooltip-wrapper">
-      <AdditionalInfo triggerText="Learn more about Medicaid.">
-        Medicaid is a government health program for eligible low-income
-        individuals and families and people with disabilities.
-      </AdditionalInfo>
-    </div>
-  </div>
+  <section className="vads-u-margin-bottom--3">
+    <p>
+      Medicaid is a federal health insurance program for adults and families
+      with low income levels and people with disabilities.
+    </p>
+    <p>
+      <strong>Note:</strong> Some states use different names for their Medicaid
+      programs.
+    </p>
+  </section>
 );
 export const medicarePartADescription = (
-  <div>
-    <div className="hca-tooltip-wrapper">
-      <AdditionalInfo triggerText="Learn more about Medicare Part A insurance.">
-        Medicare is a federal health insurance program providing coverage for
-        people who are 65 years or older or who meet who meet special criteria.
-        Part A insurance covers hospital care, skilled nursing and nursing home
-        care, hospice, and home health services.
-      </AdditionalInfo>
-    </div>
-  </div>
+  <section className="vads-u-margin-bottom--3">
+    <p>
+      Medicare is a federal health insurance program providing coverage for
+      people who are 65 years or older or who meet who meet special criteria.
+      Part A insurance covers hospital care, skilled nursing and nursing home
+      care, hospice, and home health services.
+    </p>
+  </section>
 );
 
 export const idFormSchema = {

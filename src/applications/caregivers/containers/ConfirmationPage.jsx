@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import moment from 'moment';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import { links } from 'applications/caregivers/definitions/content';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 import { connect } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
@@ -126,14 +127,19 @@ const ConfirmationPage = props => {
               className="vads-u-margin-x--0p5"
             />
             or visit
-            <a className="vads-u-margin-left--0p5" href="www.va.caregiver.gov">
-              www.va.caregiver.gov
+            <a
+              className="vads-u-margin-left--0p5"
+              href={links.caregiverHelpPage.link}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              {links.caregiverHelpPage.label}
             </a>
             .
           </p>
 
           <a
-            className="usa-button-primary va-button-primary vads-u-margin-top--1p5 vads-u-margin-bottom--2p5"
+            className="vads-u-display--inline-block vads-u-margin-bottom--4"
             href="https://www.va.gov/"
           >
             Go back to VA.gov

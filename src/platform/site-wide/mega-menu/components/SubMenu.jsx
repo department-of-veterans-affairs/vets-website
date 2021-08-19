@@ -54,6 +54,7 @@ const SubMenu = ({
           {seeAllLink && (
             <div className="panel-bottom-link">
               <a
+                data-e2e-id={`${_.kebabCase(seeAllLink.text)}`}
                 href={seeAllLink.href}
                 onClick={linkClicked.bind(null, seeAllLink)}
               >

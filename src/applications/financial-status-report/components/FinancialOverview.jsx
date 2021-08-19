@@ -1,33 +1,45 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-const FinancialOverview = () => {
+import { getMonthlyIncome, getMonthlyExpenses } from '../utils/helpers';
+
+const FinancialOverview = ({ formData }) => {
+  const monthlyIncome = getMonthlyIncome(formData);
+  const monthlyExpenses = getMonthlyExpenses(formData);
+  const incomeMinusExpenses = monthlyIncome - monthlyExpenses;
+  const totalIncome = incomeMinusExpenses > 0 ? incomeMinusExpenses : 0;
+
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+  });
+
   return (
     <>
-      <h4>Your financial overview</h4>
-      <div className="usa-alert usa-alert-info background-color-only vads-u-margin-bottom--5">
-        <div>Total income: $3,000.00</div>
-        <div>Total expenses: $2,800.00</div>
-        <div>Discretionary income: $200.00</div>
+      <div className="usa-alert usa-alert-info background-color-only">
+        <h4 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+          Your financial overview
+        </h4>
+        <div className="vads-u-margin-bottom--1 overview-container">
+          <div>Total monthly income:</div>
+          <div>{formatter.format(parseFloat(monthlyIncome))}</div>
+        </div>
+        <div className="vads-u-margin-bottom--1 overview-container">
+          <div>Total monthly taxes and expenses:</div>
+          <div>{formatter.format(parseFloat(monthlyExpenses))}</div>
+        </div>
+        <div className="vads-u-margin-bottom--0 overview-container">
+          <div>Income after taxes and expenses:</div>
+          <div>{formatter.format(parseFloat(totalIncome))}</div>
+        </div>
       </div>
     </>
   );
 };
 
-FinancialOverview.propTypes = {
-  income: PropTypes.object,
-};
-
-FinancialOverview.defaultProps = {
-  income: {},
-};
-
-const mapStateToProps = state => ({
-  income: state.form?.data,
+const mapStateToProps = ({ form }) => ({
+  formData: form.data,
 });
 
-export default connect(
-  mapStateToProps,
-  null,
-)(FinancialOverview);
+export default connect(mapStateToProps)(FinancialOverview);

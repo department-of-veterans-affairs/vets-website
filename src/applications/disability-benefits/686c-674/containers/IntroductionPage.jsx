@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { focusElement } from 'platform/utilities/ui';
 import { hasSession } from 'platform/user/profile/utilities';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
@@ -16,8 +17,6 @@ import {
 } from '../config/helpers';
 import { isServerError } from '../config/utilities';
 
-const alertClasses =
-  'vads-u-padding-y--2p5 vads-u-padding-right--4 vads-u-padding-left--2';
 class IntroductionPage extends React.Component {
   componentDidMount() {
     if (hasSession()) {
@@ -30,6 +29,7 @@ class IntroductionPage extends React.Component {
     const {
       vaFileNumber: { hasVaFileNumber, isLoading },
       user,
+      dependentsToggle,
     } = this.props;
     let ctaState;
     let content;
@@ -37,22 +37,36 @@ class IntroductionPage extends React.Component {
     // Case 1: User is logged in and we are checking for va file number.
     // Case 2: User is logged in and they have a valid va file number.
     // Case 3: User is logged in and they do not have a valid va file number.
-    if (user?.login?.currentlyLoggedIn && hasVaFileNumber?.errors) {
+    if (dependentsToggle === undefined) {
+      content = <LoadingIndicator message="Loading..." />;
+    } else if (!dependentsToggle) {
+      content = (
+        <>
+          <h1>Application to add or remove dependents</h1>
+          <va-alert status="info">
+            <h2 slot="headline" className="vads-u-font-size--h3">
+              We’re still working on this feature
+            </h2>
+            <p className="vads-u-font-size--base">
+              We’re rolling out the Form 21-686c (Application to add and/or
+              remove dependents) in stages. It’s not quite ready yet. Please
+              check back again soon.{' '}
+            </p>
+            <a
+              href="/view-change-dependents/"
+              className="u-vads-display--block u-vads-margin-top--2 vads-u-font-size--base"
+            >
+              Return to Dependents Benefits page
+            </a>
+          </va-alert>
+        </>
+      );
+    } else if (user?.login?.currentlyLoggedIn && hasVaFileNumber?.errors) {
       const errCode = hasVaFileNumber.errors[0].code;
       ctaState = isServerError(errCode) ? (
-        <AlertBox
-          className={alertClasses}
-          content={ServerErrorAlert}
-          status="error"
-          isVisible
-        />
+        <va-alert status="error">{ServerErrorAlert}</va-alert>
       ) : (
-        <AlertBox
-          className={alertClasses}
-          content={VaFileNumberMissingAlert}
-          status="error"
-          isVisible
-        />
+        <va-alert status="error">{VaFileNumberMissingAlert}</va-alert>
       );
       content = (
         <div className="schemaform-intro">
@@ -68,12 +82,7 @@ class IntroductionPage extends React.Component {
       content = (
         <div className="schemaform-intro">
           <IntroductionPageHeader />
-          <AlertBox
-            className={alertClasses}
-            content={VaFileNumberMissingAlert}
-            status="error"
-            isVisible
-          />
+          <va-alert status="error">{VaFileNumberMissingAlert}</va-alert>
         </div>
       );
     } else if (user?.login?.currentlyLoggedIn && isLoading) {
@@ -98,6 +107,7 @@ class IntroductionPage extends React.Component {
           downtime={this.props.route.formConfig.downtime}
           pageList={this.props.route.pageList}
           startText="Add or remove a dependent"
+          headingLevel="2"
         />
       );
       content = (
@@ -133,7 +143,11 @@ class IntroductionPage extends React.Component {
 
 const mapStateToProps = state => {
   const { form, user, vaFileNumber } = state;
+  const dependentsToggle = toggleValues(state)[
+    FEATURE_FLAG_NAMES.vaViewDependentsAccess
+  ];
   return {
+    dependentsToggle,
     form,
     user,
     vaFileNumber,

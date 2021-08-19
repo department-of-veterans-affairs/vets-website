@@ -8,41 +8,6 @@ import { appointmentsToolLink, getCernerURL } from 'platform/utilities/cerner';
 
 export const AuthContent = ({ cernerFacilities, otherFacilities }) => (
   <>
-    <div
-      className="usa-alert usa-alert-info"
-      data-testid="cerner-content"
-      role="alert"
-    >
-      <div className="usa-alert-body">
-        <h2
-          className="usa-alert-heading vads-u-font-size--h3"
-          id="due-to-covid-19-you-can-only-r"
-        >
-          Due to COVID-19, we&apos;ll need to contact you to confirm your
-          appointment
-        </h2>
-        <p className="vads-u-margin--0">
-          You can still use our online appointments tool to request an
-          appointment. We'll then contact you to confirm the date, time, and
-          location.
-        </p>
-      </div>
-    </div>
-    <br />
-    <div className="processed-content">
-      <p>
-        <strong>Please note:</strong> The fastest way to make all your VA
-        appointments is usually to call the VA or community care health facility
-        where you want to receive care. If you can’t keep an existing
-        appointment, please contact the facility as soon as possible to
-        reschedule or cancel.
-        <br />
-        <a href="/find-locations/">Find your health facility’s phone number</a>
-      </p>
-      <h2 id="view-schedule-or-cancel-a-va-a">
-        View, schedule, or cancel a VA appointment online
-      </h2>
-    </div>
     <CernerCallToAction
       cernerFacilities={cernerFacilities}
       otherFacilities={otherFacilities}
@@ -50,6 +15,14 @@ export const AuthContent = ({ cernerFacilities, otherFacilities }) => (
       myHealtheVetLink={appointmentsToolLink}
       myVAHealthLink={getCernerURL('/pages/scheduling/upcoming')}
     />
+    <p data-testid="cerner-content">
+      <strong>Please note:</strong> The fastest way to make all your VA
+      appointments is usually to call the VA or community care health facility
+      where you want to receive care. If you can’t keep an existing appointment,
+      please contact the facility as soon as possible to reschedule or cancel.
+      <br />
+      <a href="/find-locations/">Find your health facility’s phone number</a>
+    </p>
     <h2>How can these appointment tools help me manage my care?</h2>
     <p>
       These tools offer a secure, online way to schedule, view, and organize
@@ -222,7 +195,7 @@ export const AuthContent = ({ cernerFacilities, otherFacilities }) => (
       <a href="tel:711" aria-label="TTY. 7 1 1.">
         TTY: 711
       </a>
-      ). We’re here Monday through Saturday, 7:00 a.m. to 11:00 p.m. ET.
+      ). We’re here 24/7.
     </p>
     <MoreInfoAboutBenefits />
   </>

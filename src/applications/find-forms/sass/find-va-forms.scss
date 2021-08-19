@@ -1,6 +1,10 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
 [data-widget-type="find-va-forms"] {
+  i {
+    pointer-events: none;
+  }
+
   .vads-l-grid-container--full {
     border-bottom: 1px solid $color-gray-lighter;
     margin-bottom: 0;
@@ -8,5 +12,44 @@
 
   .find-va-froms-pagination-override {
     border: none;
+  }
+
+  .find-forms-search-metadata {
+    div {
+      align-items: center;
+      display: flex;
+      label {
+        margin-top: 0;
+        width: 75px;
+      }
+    }
+  }
+
+  .find-forms-max-content {
+    width: max-content;
+  }
+
+  .find-forms-alert-message {
+    i {
+      font-family: "Font Awesome 5 Free";
+      font-style: normal;
+      font-weight: 900;
+    }
+    i::before {
+      content: "\F05A";
+      display: flex;
+      margin-right: 1.6rem;
+      font-size: 2rem;
+    }
+  }
+}
+
+@media (min-width: $medium-screen) {
+  [data-widget-type="find-va-forms"] {
+    [data-e2e-id="find-form-search-form"] {
+      .find-form-button {
+        border-radius: 0px;
+      }
+    }
   }
 }

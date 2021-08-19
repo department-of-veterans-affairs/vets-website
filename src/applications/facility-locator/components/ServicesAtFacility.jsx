@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { object } from 'prop-types';
 import moment from 'moment';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { vetCenterServices } from '../config';
 import { formatServiceName } from '../utils/formatServiceName';
 import { FacilityType } from '../constants';

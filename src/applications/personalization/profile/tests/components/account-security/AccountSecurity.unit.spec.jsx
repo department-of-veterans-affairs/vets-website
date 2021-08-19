@@ -6,6 +6,7 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 
+import ProfileSectionHeadline from '@@profile/components/ProfileSectionHeadline';
 import AccountSecurity from '@@profile/components/account-security/AccountSecurity';
 import AccountSecurityContent from '@@profile/components/account-security/AccountSecurityContent';
 
@@ -17,9 +18,9 @@ describe('AccountSecurity', () => {
   afterEach(() => {
     wrapper.unmount();
   });
-  it('renders an h2 tag as its first child', () => {
+  it('renders a ProfileSectionHeadline component as its first child', () => {
     const firstChild = wrapper.childAt(0);
-    expect(firstChild.type()).to.equal('h2');
+    expect(firstChild.type()).to.equal(ProfileSectionHeadline);
   });
 
   it('renders a properly configured DowntimeNotification component as its second child', () => {

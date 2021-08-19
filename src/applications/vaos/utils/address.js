@@ -58,6 +58,9 @@ export function getPreciseLocation() {
       position => resolve(position),
       error =>
         reject(new Error(`Geolocation error ${error.code}: ${error.message}`)),
+      {
+        timeout: 10000,
+      },
     );
   });
 }

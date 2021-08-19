@@ -11,8 +11,11 @@ import {
 import SchemaForm from '../components/SchemaForm';
 import { focusElement } from '../utilities/ui';
 
+import findDuplicateIndexes from '../utilities/data/findDuplicateIndexes';
+
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
+const scrollToTimeout = process.env.NODE_ENV === 'test' ? 0 : 100;
 
 /* Growable table (Array) field on the Review page
  *
@@ -26,10 +29,21 @@ class ArrayField extends React.Component {
     super(props);
     // In contrast to the normal array field, we don’t want to add an empty item
     // and always show at least one item on the review page
-    const arrayData = Array.isArray(props.arrayData) ? props.arrayData : null;
+    const arrayData = (Array.isArray(props.arrayData) && props.arrayData) || [];
+
+    // Including a `duplicateKey` is what causes this unique entry validation to
+    // open the array card in edit mode
+    const key = props.uiSchema?.['ui:options']?.duplicateKey || '';
+    const duplicates = key
+      ? findDuplicateIndexes(props?.arrayData || [], key)
+      : [];
     this.state = {
-      items: arrayData || [],
-      editing: (this.props.arrayData || []).map(() => false),
+      items: arrayData,
+      editing: arrayData.map(
+        (item, index) =>
+          // put empty fields & duplicate entries into edit mode
+          duplicates.includes(index) || (key && (item[key] || '') === ''),
+      ),
     };
     this.handleAdd = this.handleAdd.bind(this);
     this.handleSave = this.handleSave.bind(this);
@@ -38,6 +52,16 @@ class ArrayField extends React.Component {
     this.scrollToRow = this.scrollToRow.bind(this);
     this.isLocked = this.isLocked.bind(this);
   }
+
+  componentDidMount() {
+    const { formContext, arrayData = [] } = this.props;
+    // Automatically add a new item when editing & no data
+    // called when the review page error link is used
+    if (arrayData.length === 0 && formContext?.onReviewPage) {
+      this.handleAdd();
+    }
+  }
+
   /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillReceiveProps(newProps) {
     if (newProps.arrayData !== this.props.arrayData) {
@@ -83,7 +107,7 @@ class ArrayField extends React.Component {
           },
         );
         focusElement(`[name="${scrollElementName}"] ${focusElementSelector}`);
-      }, 100);
+      }, scrollToTimeout);
     }
   }
 
@@ -98,7 +122,7 @@ class ArrayField extends React.Component {
           offset: 0,
         },
       );
-    }, 100);
+    }, scrollToTimeout);
   }
 
   /*
@@ -181,8 +205,14 @@ class ArrayField extends React.Component {
    *   determined from path
    */
   handleSave(index, fieldName) {
-    const newEditingArray = _.set(index, false, this.state.editing);
-    this.setState({ editing: newEditingArray }, () => {
+    const { uiSchema, arrayData } = this.props;
+    // Prevent card from closing (stay in edit mode) if the `duplicateKey`
+    // option is set and the field is a duplicate
+    const key = uiSchema?.['ui:options']?.duplicateKey;
+    const duplicates = key ? findDuplicateIndexes(arrayData, key) : [];
+    const editing = arrayData.map((__, indx) => duplicates.includes(indx));
+
+    this.setState({ editing }, () => {
       // Return focus to button that toggled edit mode
       this.scrollToAndFocus(`${fieldName}-${index}`, '.edit-btn');
     });
@@ -220,9 +250,9 @@ class ArrayField extends React.Component {
       >
         {title && (
           <div className="form-review-panel-page-header-row">
-            <h3 className="form-review-panel-page-header vads-u-font-size--h4">
+            <h4 className="form-review-panel-page-header vads-u-font-size--h4">
               {title}
-            </h3>
+            </h4>
             {itemsNeeded && (
               <span className="schemaform-review-array-warning-icon" />
             )}
@@ -240,6 +270,11 @@ class ArrayField extends React.Component {
               (!schema.minItems || items.length > schema.minItems);
             const itemSchema = this.getItemSchema(index);
             const itemTitle = itemSchema ? itemSchema.title : '';
+            const ariaLabel = uiOptions.itemAriaLabel;
+            const itemName =
+              (typeof ariaLabel === 'function' && ariaLabel(item || {})) ||
+              uiOptions.itemName ||
+              'Item';
 
             const idSchema = toIdSchema(
               itemSchema,
@@ -263,7 +298,7 @@ class ArrayField extends React.Component {
                           tabIndex="-1"
                           ref={focusElement}
                         >
-                          New {uiOptions.itemName || 'Item'}
+                          New {itemName}
                         </h4>
                       ) : null}
                       <SchemaForm
@@ -284,13 +319,20 @@ class ArrayField extends React.Component {
                       >
                         <div className="row small-collapse">
                           <div className="small-6 left columns">
-                            <button className="float-left">Update</button>
+                            <button
+                              type="submit"
+                              className="float-left"
+                              aria-label={`Update ${itemName}`}
+                            >
+                              Update
+                            </button>
                           </div>
                           <div className="small-6 right columns">
                             {showReviewButton && (
                               <button
                                 type="button"
                                 className="usa-button-secondary float-right"
+                                aria-label={`Remove ${itemName}`}
                                 onClick={() =>
                                   this.handleRemove(index, fieldName)
                                 }
@@ -372,7 +414,7 @@ export default ArrayField;
 ArrayField.propTypes = {
   schema: PropTypes.object.isRequired,
   uiSchema: PropTypes.object,
-  trackingPrefix: PropTypes.string.required,
+  trackingPrefix: PropTypes.string.isRequired,
   pageKey: PropTypes.string.isRequired,
   path: PropTypes.array.isRequired,
   formData: PropTypes.object,

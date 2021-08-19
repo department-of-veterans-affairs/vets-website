@@ -391,9 +391,15 @@ export const serviceRecordsUI = {
     itemName: 'Service Period',
   },
   items: {
-    'ui:order': ['serviceBranch', '*'],
+    'ui:order': [
+      'serviceBranch',
+      'dateRange',
+      'dischargeType',
+      'highestRank',
+      'nationalGuardState',
+    ],
     'ui:options': {
-      ariaLabelForEditButtonOnReview: 'Service Period',
+      itemName: 'Service Period',
     },
     serviceBranch: autosuggest.uiSchema('Branch of service', null, {
       'ui:options': {

@@ -92,7 +92,7 @@ function appointmentDateTimeTest(client, nextElement) {
     .click(
       '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
     )
-    .axeCheck('.main')
+    .axeCheckBestPractice('.main')
     .click('.form-progress-buttons [type="submit"]')
     .waitForElementPresent(nextElement, Timeouts.slow);
 
@@ -107,7 +107,7 @@ function appointmentReasonTest(client, nextElement) {
       Timeouts.normal,
     )
     .setValue('textarea#root_reasonAdditionalInfo', 'Additonal information')
-    .axeCheck('.main')
+    .axeCheckBestPractice('.main')
     .click('.rjsf [type="submit"]')
     .waitForElementPresent(nextElement, Timeouts.normal);
 
@@ -121,7 +121,7 @@ function appointmentReasonCommunityCareTest(client, nextElement) {
       Timeouts.normal,
     )
     .setValue('textarea#root_reasonAdditionalInfo', 'Additonal information')
-    .axeCheck('.main')
+    .axeCheckBestPractice('.main')
     .click('.rjsf [type="submit"]')
     .waitForElementPresent(nextElement, Timeouts.normal);
 
@@ -131,7 +131,7 @@ function appointmentReasonCommunityCareTest(client, nextElement) {
 function howToBeSeenTest(client, nextElement) {
   client
     .click('input#root_visitType_0')
-    .axeCheck('.main')
+    .axeCheckBestPractice('.main')
     .click('.rjsf [type="submit"]')
     .waitForElementPresent(nextElement, Timeouts.normal);
 }
@@ -139,7 +139,7 @@ function howToBeSeenTest(client, nextElement) {
 function contactInformationTest(client, nextElement) {
   client
     .click('input#root_bestTimeToCall_morning')
-    .axeCheck('.main')
+    .axeCheckBestPractice('.main')
     .click('.rjsf [type="submit"]')
     .waitForElementPresent(nextElement, Timeouts.normal);
 
@@ -148,7 +148,7 @@ function contactInformationTest(client, nextElement) {
 
 function reviewAppointmentTest(client, nextElement = '.usa-alert-success') {
   client
-    .axeCheck('.main')
+    .axeCheckBestPractice('.main')
     .click('button.usa-button.usa-button-primary')
     .waitForElementPresent(nextElement, Timeouts.normal);
 
@@ -157,7 +157,7 @@ function reviewAppointmentTest(client, nextElement = '.usa-alert-success') {
 
 function appointmentSubmittedTest(client) {
   client
-    .axeCheck('.main')
+    .axeCheckBestPractice('.main')
     .click('.usa-button[href$="appointments/"]')
     .assert.containsText('h1', 'VA appointments');
 

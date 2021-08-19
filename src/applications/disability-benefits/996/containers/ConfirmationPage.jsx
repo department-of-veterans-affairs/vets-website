@@ -1,25 +1,15 @@
 import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
 import { selectProfile } from 'platform/user/selectors';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
-import { WIZARD_STATUS } from 'applications/static-pages/wizard';
-import { SELECTED, SAVED_CLAIM_TYPE } from '../constants';
-
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
+import { SELECTED, SAVED_CLAIM_TYPE, WIZARD_STATUS } from '../constants';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -76,11 +66,11 @@ export class ConfirmationPage extends React.Component {
               <p>
                 <strong>Date submitted</strong>
                 <br />
-                <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
+                <span>{moment(response.timestamp).format('MMMM D, YYYY')}</span>
               </p>
               <strong>
                 Issue
-                {issues.length > 1 ? 's' : ''} contested
+                {issues.length > 1 ? 's' : ''} submitted
               </strong>
               <ul className="vads-u-margin-top--0">{issues}</ul>
               <button

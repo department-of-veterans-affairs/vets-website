@@ -1,24 +1,104 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { cloneDeep } from 'lodash';
 
+import { setData } from 'platform/forms-system/src/js/actions';
 import SignatureCheckbox from './SignatureCheckbox';
+import SubmitLoadingIndicator from './SubmitLoadingIndicator';
+import {
+  PrivacyPolicy,
+  veteranSignatureContent,
+  primaryCaregiverContent,
+  signatureBoxNoteContent,
+  representativeSignatureContent,
+  SecondaryCaregiverCopy,
+  veteranLabel,
+  primaryLabel,
+  representativeLabel,
+  secondaryOneLabel,
+  secondaryTwoLabel,
+} from 'applications/caregivers/definitions/content';
 
-const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
-  const veteranLabel = `Veteran\u2019s`;
-  const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
-  const secondaryOneLabel = `Secondary Family Caregiver applicant\u2019s`;
-  const secondaryTwoLabel = `Secondary Family Caregiver (2) applicant\u2019s`;
+const PreSubmitCheckboxGroup = ({
+  onSectionComplete,
+  formData,
+  showError,
+  submission,
+  setFormData,
+}) => {
   const hasPrimary = formData['view:hasPrimaryCaregiver'];
   const hasSecondaryOne = formData['view:hasSecondaryCaregiverOne'];
   const hasSecondaryTwo = formData['view:hasSecondaryCaregiverTwo'];
+  const hasSubmittedForm = !!submission.status;
+  const showRepresentativeSignatureBox =
+    formData.signAsRepresentativeYesNo === 'yes' ||
+    formData.signAsRepresentativeYesNo === 'noRep';
+  // we are separating the first paragraph due to each paragraph having unique styling
+  const veteranFirstParagraph = veteranSignatureContent[0];
+  const veteranWithoutFirstParagraph = veteranSignatureContent.slice(1);
+  const primaryFirstParagraph = primaryCaregiverContent[0];
+  const primaryWithoutFirstParagraph = primaryCaregiverContent.slice(1);
+  const representativeFirstParagraph = representativeSignatureContent[0];
+  const representativeWithoutFirstParagraph = representativeSignatureContent.slice(
+    1,
+  );
 
   const [signatures, setSignatures] = useState({
-    [veteranLabel]: false,
+    [showRepresentativeSignatureBox ? representativeLabel : veteranLabel]: '',
   });
 
   const unSignedLength = Object.values(signatures).filter(
-    obj => Boolean(obj) === false,
+    signature => Boolean(signature) === false,
   ).length;
+
+  const transformSignatures = signature => {
+    const keys = Object.keys(signature);
+
+    // takes in labels and renames to what schema expects
+    const getKeyName = key => {
+      switch (key) {
+        case veteranLabel:
+          return 'veteran';
+        case representativeLabel:
+          return 'veteran';
+        case primaryLabel:
+          return 'primary';
+        case secondaryOneLabel:
+          return 'secondaryOne';
+        case secondaryTwoLabel:
+          return 'secondaryTwo';
+        default:
+          return null;
+      }
+    };
+
+    // iterates through all keys and normalizes them using getKeyName
+    const renameObjectKeys = (keysMap, obj) =>
+      Object.keys(obj).reduce((acc, key) => {
+        const cleanKey = `${getKeyName(key)}Signature`;
+        return {
+          ...acc,
+          ...{ [keysMap[cleanKey] || cleanKey]: obj[key] },
+        };
+      }, {});
+
+    return renameObjectKeys(keys, signatures);
+  };
+
+  useEffect(
+    () => {
+      // do not clear signatures once form has been submitted
+      if (hasSubmittedForm) return;
+
+      // Add signatures to formData before submission
+      setFormData({
+        ...formData,
+        ...transformSignatures(signatures),
+      });
+    },
+    [setFormData, signatures],
+  );
 
   // when there is no unsigned signatures set AGREED (onSectionComplete) to true
   // if goes to another page (unmount), set AGREED (onSectionComplete) to false
@@ -35,97 +115,32 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
     [unSignedLength],
   );
 
+  const removePartyIfFalsy = (predicate, label) => {
+    if (!predicate) {
+      setSignatures(prevState => {
+        const newState = cloneDeep(prevState);
+        delete newState[label];
+        return newState;
+      });
+    }
+  };
+
+  /* Remove party signature box if yes/no question is answered falsy */
   useEffect(
     () => {
-      if (!hasPrimary) {
-        setSignatures(prevState => {
-          const newState = cloneDeep(prevState);
-          delete newState[primaryLabel];
-          return newState;
-        });
-      }
-
-      if (!hasSecondaryOne) {
-        setSignatures(prevState => {
-          const newState = cloneDeep(prevState);
-          delete newState[secondaryOneLabel];
-          return newState;
-        });
-      }
-
-      if (!hasSecondaryTwo) {
-        setSignatures(prevState => {
-          const newState = cloneDeep(prevState);
-          delete newState[secondaryTwoLabel];
-          return newState;
-        });
-      }
+      removePartyIfFalsy(hasPrimary, primaryLabel);
+      removePartyIfFalsy(hasSecondaryOne, secondaryOneLabel);
+      removePartyIfFalsy(hasSecondaryTwo, secondaryTwoLabel);
+      removePartyIfFalsy(showRepresentativeSignatureBox, representativeLabel);
+      removePartyIfFalsy(!showRepresentativeSignatureBox, veteranLabel);
     },
-
     [
       hasPrimary,
       hasSecondaryOne,
       hasSecondaryTwo,
-      secondaryOneLabel,
-      secondaryTwoLabel,
-      primaryLabel,
+      showRepresentativeSignatureBox,
     ],
   );
-
-  const PrivacyPolicy = () => (
-    <p>
-      I have read and accept the
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        className="vads-u-margin-left--0p5"
-        href="https://www.va.gov/privacy-policy/"
-      >
-        privacy policy
-      </a>
-      .
-    </p>
-  );
-
-  const SecondaryCaregiverCopy = ({ label }) => {
-    const header = title => `${title} Statement of Truth`;
-    return (
-      <div>
-        <h3 className="vads-u-margin-top--4">{header(label)}</h3>
-
-        <p className="vads-u-margin-y--4">
-          I certify that I am at least 18 years of age.
-        </p>
-
-        <p>
-          I certify that I am a family member of the Veteran named in this
-          application or I reside with the Veteran, or will do so upon
-          designation as the Veteran's Secondary Family Caregiver.
-        </p>
-
-        <p>
-          I agree to perform personal care services as the Secondary Family
-          Caregiver for the Veteran named on this application.
-        </p>
-
-        <p>
-          I understand that the Veteran or Veteran’s surrogate may request my
-          discharge from the Program of Comprehensive Assistance for Family
-          Caregivers (PCAFC) at any time. I understand that my designation as a
-          Secondary Family Caregiver may be revoked or I may be discharged from
-          the program by the Secretary of Veterans Affairs or his designee, as
-          set forth in 38 CFR 71.45.
-        </p>
-
-        <p>
-          I understand that participation in PCAFC does not create an employment
-          relationship between me and the Department of Veterans Affairs.
-        </p>
-
-        <PrivacyPolicy />
-      </div>
-    );
-  };
 
   /*
     - Vet first && last name must match, and be checked
@@ -134,73 +149,83 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
    */
 
   return (
-    <section className="signature-container">
+    <section className="vads-u-display--flex vads-u-flex-direction--column">
       <p className="vads-u-margin-bottom--5">
-        Please review information entered into this application. The Veteran and
-        each family caregiver applicant must sign the appropriate section.
+        Please review information entered into this application. The{' '}
+        {showRepresentativeSignatureBox ? 'Representative' : 'Veteran'} and each
+        family caregiver applicant must sign the appropriate section.
       </p>
 
-      <SignatureCheckbox
-        fullName={formData.veteranFullName}
-        label={veteranLabel}
-        signatures={signatures}
-        setSignature={setSignatures}
-        isRequired
-        showError={showError}
-      >
-        <h3>Veteran&apos;s statement of truth</h3>
-        <p>
-          I certify that I give consent to the individual(s) named in this
-          application to perform personal care services for me upon being
-          approved as Primary and/or Secondary Family Caregivers in the Program
-          of Comprehensive Assistance for Family Caregivers.
-        </p>
+      {showRepresentativeSignatureBox ? (
+        <SignatureCheckbox
+          fullName={formData.veteranFullName}
+          label={representativeLabel}
+          signatures={signatures}
+          setSignatures={setSignatures}
+          showError={showError}
+          submission={submission}
+          isRepresentative
+          isRequired
+        >
+          <h3>Veteran’s statement of truth</h3>
 
-        <PrivacyPolicy />
-      </SignatureCheckbox>
+          <h4 className="vads-u-font-size--sm" style={{ fontWeight: 600 }}>
+            {representativeFirstParagraph}
+          </h4>
+
+          {/* currently this array is empty due to it only having one string
+            checking for empty array then mapping it for future compatibility and consistency */}
+          {representativeWithoutFirstParagraph &&
+            representativeWithoutFirstParagraph.map((veteranContent, idx) => (
+              <p key={`representative-signature-${idx}`}>{veteranContent}</p>
+            ))}
+
+          <PrivacyPolicy />
+        </SignatureCheckbox>
+      ) : (
+        <SignatureCheckbox
+          fullName={formData.veteranFullName}
+          label={veteranLabel}
+          signatures={signatures}
+          setSignatures={setSignatures}
+          showError={showError}
+          submission={submission}
+          isRequired
+        >
+          <h3>Veteran’s statement of truth</h3>
+
+          <p>{veteranFirstParagraph}</p>
+
+          {/* currently this array is empty due to it only having one string
+            checking for empty array then mapping it for future compatibility and consistency */}
+          {veteranWithoutFirstParagraph &&
+            veteranWithoutFirstParagraph.map((veteranContent, idx) => (
+              <p key={`veteran-signature-${idx}`}>{veteranContent}</p>
+            ))}
+
+          <PrivacyPolicy />
+        </SignatureCheckbox>
+      )}
 
       {hasPrimary && (
         <SignatureCheckbox
           fullName={formData.primaryFullName}
           label={primaryLabel}
           signatures={signatures}
-          setSignature={setSignatures}
-          isRequired
+          setSignatures={setSignatures}
           showError={showError}
+          submission={submission}
+          isRequired
         >
           <h3 className="vads-u-margin-top--4">
-            Primary Family Caregiver applicant&apos;s statement of truth
+            Primary Family Caregiver applicant’s statement of truth
           </h3>
 
-          <p className="vads-u-margin-y--4">
-            I certify that I am at least 18 years of age.
-          </p>
+          <p className="vads-u-margin-y--2">{primaryFirstParagraph}</p>
 
-          <p>
-            I certify that I am a family member of the Veteran named in this
-            application or I reside with the Veteran, or will do so upon
-            designation as the Veteran's Primary Family Caregiver.
-          </p>
-
-          <p>
-            I agree to perform personal care services as the Primary Family
-            Caregiver for the Veteran named on this application.
-          </p>
-
-          <p>
-            I understand that the Veteran or Veteran’s surrogate may request my
-            discharge from the Program of Comprehensive Assistance for Family
-            Caregivers (PCAFC) at any time. I understand that my designation as
-            a Primary Family Caregiver may be revoked or I may be discharged
-            from the program by the Secretary of Veterans Affairs or his
-            designee, as set forth in 38 CFR 71.45.
-          </p>
-
-          <p>
-            I understand that participation in PCAFC does not create an
-            employment relationship between me and the Department of Veterans
-            Affairs.
-          </p>
+          {primaryWithoutFirstParagraph.map((primaryContent, idx) => (
+            <p key={`primary-signature-${idx}`}>{primaryContent}</p>
+          ))}
 
           <PrivacyPolicy />
         </SignatureCheckbox>
@@ -211,9 +236,10 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
           fullName={formData.secondaryOneFullName}
           label={secondaryOneLabel}
           signatures={signatures}
-          setSignature={setSignatures}
-          isRequired
+          setSignatures={setSignatures}
           showError={showError}
+          submission={submission}
+          isRequired
         >
           <SecondaryCaregiverCopy label={secondaryOneLabel} />
         </SignatureCheckbox>
@@ -224,25 +250,52 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
           fullName={formData.secondaryTwoFullName}
           label={secondaryTwoLabel}
           signatures={signatures}
-          setSignature={setSignatures}
-          isRequired
+          setSignatures={setSignatures}
           showError={showError}
+          submission={submission}
+          isRequired
         >
           <SecondaryCaregiverCopy label={secondaryTwoLabel} />
         </SignatureCheckbox>
       )}
 
       <p className="vads-u-margin-bottom--6">
-        <strong>Note:</strong> According to federal law, there are criminal
-        penalties, including a fine and/or imprisonment for up to 5 years, for
-        withholding information or providing incorrect information. (See 18
-        U.S.C. 1001)
+        <strong>Note:</strong> {signatureBoxNoteContent}
       </p>
+
+      <div aria-live="polite">
+        <SubmitLoadingIndicator submission={submission} />
+      </div>
     </section>
   );
 };
 
+PreSubmitCheckboxGroup.propTypes = {
+  showError: PropTypes.bool.isRequired,
+  onSectionComplete: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  formData: PropTypes.object.isRequired,
+  submission: PropTypes.shape({
+    hasAttemptedSubmit: PropTypes.bool,
+    errorMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    status: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  }),
+};
+
+const mapStateToProps = state => {
+  return {
+    submission: state.form.submission,
+  };
+};
+
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
 export default {
   required: true,
-  CustomComponent: PreSubmitCheckboxGroup,
+  CustomComponent: connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(PreSubmitCheckboxGroup),
 };

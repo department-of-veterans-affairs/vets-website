@@ -1,9 +1,9 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import Telephone, {
   CONTACTS,
   PATTERNS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 import {
   hasAccountFlaggedError,
@@ -87,26 +87,30 @@ function UpdateAddressError() {
     <p>
       We’re sorry. We couldn’t update your direct deposit bank information
       because your mailing address is missing or invalid. Please go back to{' '}
-      <a href="/profile/personal-information">your profile</a> and fill in this
-      required information.
+      <a href="/profile/personal-information#edit-mailing-address">
+        your profile
+      </a>{' '}
+      and fill in this required information.
     </p>
   );
 }
 
 function UpdatePhoneNumberError({ phoneNumberType = 'home' }) {
+  const editLink = `/profile/personal-information#edit-${phoneNumberType}-phone-number`;
   return (
     <p>
       We’re sorry. We couldn’t update your direct deposit bank information
       because your {phoneNumberType} phone number is missing or invalid. Please
-      go back to <a href="/profile/personal-information">your profile</a> and
-      fill in this required information.
+      go back to <a href={editLink}>your profile</a> and fill in this required
+      information.
     </p>
   );
 }
 
 export default function PaymentInformationEditError({
-  responseError,
   className,
+  level,
+  responseError,
 }) {
   let content = <GenericError error={responseError} />;
   let headline = 'We couldn’t update your bank information';
@@ -139,6 +143,7 @@ export default function PaymentInformationEditError({
       headline={headline}
       isVisible
       className={className}
+      level={level || 3}
       scrollOnShow
     >
       {content}

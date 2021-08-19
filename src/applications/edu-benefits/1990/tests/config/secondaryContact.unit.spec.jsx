@@ -15,7 +15,12 @@ describe('Edu 1990 secondaryContact', () => {
   } = formConfig.chapters.personalInformation.pages.secondaryContact;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
+      <DefinitionTester
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+      />,
     );
     const formDOM = getFormDOM(form);
 
@@ -23,7 +28,12 @@ describe('Edu 1990 secondaryContact', () => {
   });
   it('should hide address fields when address is shared', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
+      <DefinitionTester
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+      />,
     );
     const formDOM = getFormDOM(form);
     formDOM.setCheckbox(
@@ -35,7 +45,12 @@ describe('Edu 1990 secondaryContact', () => {
   });
   it('should submit without information', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
+      <DefinitionTester
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+      />,
     );
     const formDOM = getFormDOM(form);
 

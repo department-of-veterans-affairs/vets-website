@@ -1,5 +1,5 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 const { isTerminallyIll } = fullSchema.properties;

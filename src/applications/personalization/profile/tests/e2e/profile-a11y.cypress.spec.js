@@ -1,12 +1,11 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
-import { PROFILE_PATHS } from '../../constants';
+import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 
 import mockUser from '../fixtures/users/user-36.json';
 import mockPaymentInfo from '../fixtures/dd4cnp/dd4cnp-is-set-up.json';
 
 function clickSubNavButton(buttonLabel, mobile) {
   if (mobile) {
-    cy.findByRole('button', { name: /your profile menu/i }).click();
+    cy.findByRole('button', { name: /profile menu/i }).click();
   }
   cy.findByRole('link', { name: buttonLabel }).click();
 }
@@ -39,8 +38,8 @@ function checkAllPages(mobile = false) {
   cy.findByText(/loading your information/i).should('not.exist');
 
   // since we did not mock the `GET profile/full_name` endpoint, the
-  // ProfileHeader should not be rendered on the page
-  cy.findByTestId('profile-header').should('not.exist');
+  // NameTag should not be rendered on the page
+  cy.findByTestId('name-tag').should('not.exist');
 
   // visiting /profile should redirect to profile/personal-information
   cy.url().should(
@@ -52,60 +51,48 @@ function checkAllPages(mobile = false) {
     'Personal And Contact Information | Veterans Affairs',
   );
 
-  // focus should be on the sub-nav's h1 when redirected from /profile/
-  cy.focused()
-    .contains(/your profile/i)
-    .and('have.prop', 'tagName')
-    .should('eq', 'H1');
+  // focus should be on the sub-nav's heading when redirected from /profile/
+  cy.focused().contains(/profile/i);
 
   // make the a11y check on the Personal Info section
   cy.injectAxe();
   cy.axeCheck();
 
   // make the a11y and focus management check on the Military Info section
-  clickSubNavButton('Military information', mobile);
+  clickSubNavButton(PROFILE_PATH_NAMES.MILITARY_INFORMATION, mobile);
   cy.url().should(
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.MILITARY_INFORMATION}`,
   );
   cy.title().should('eq', 'Military Information | Veterans Affairs');
   cy.axeCheck();
-  // focus should be on the section's h2
-  cy.focused()
-    .contains(/military information/i)
-    .and('have.prop', 'tagName')
-    .should('eq', 'H2');
+  // focus should be on the section's heading
+  cy.focused().contains(PROFILE_PATH_NAMES.MILITARY_INFORMATION);
 
   // make the a11y and focus management check on the Direct Deposit section
-  clickSubNavButton('Direct deposit', mobile);
+  clickSubNavButton(PROFILE_PATH_NAMES.DIRECT_DEPOSIT, mobile);
   cy.url().should(
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.DIRECT_DEPOSIT}`,
   );
-  cy.title().should('eq', 'Direct Deposit | Veterans Affairs');
+  cy.title().should('eq', 'Direct Deposit Information | Veterans Affairs');
   cy.axeCheck();
-  // focus should be on the section's h2
-  cy.focused()
-    .contains(/direct deposit/i)
-    .and('have.prop', 'tagName')
-    .should('eq', 'H2');
+  // focus should be on the section's heading
+  cy.focused().contains(PROFILE_PATH_NAMES.DIRECT_DEPOSIT);
 
   // make the a11y and focus management check on the Account Security section
-  clickSubNavButton('Account security', mobile);
+  clickSubNavButton(PROFILE_PATH_NAMES.ACCOUNT_SECURITY, mobile);
   cy.url().should(
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.ACCOUNT_SECURITY}`,
   );
   cy.title().should('eq', 'Account Security | Veterans Affairs');
   cy.axeCheck();
-  // focus should be on the section's h2
-  cy.focused()
-    .contains(/account security/i)
-    .and('have.prop', 'tagName')
-    .should('eq', 'H2');
+  // focus should be on the section's heading
+  cy.focused().contains(PROFILE_PATH_NAMES.ACCOUNT_SECURITY);
 
   // make the a11y and focus management check on the Connected Apps section
-  clickSubNavButton('Connected apps', mobile);
+  clickSubNavButton(PROFILE_PATH_NAMES.CONNECTED_APPLICATIONS, mobile);
   cy.url().should(
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.CONNECTED_APPLICATIONS}`,
@@ -114,29 +101,22 @@ function checkAllPages(mobile = false) {
   // wait for this section's loading spinner to disappear...
   cy.findByRole('progressbar').should('not.exist');
   cy.axeCheck();
-  // focus should be on the section's h2
-  cy.focused()
-    .contains(/connected apps/i)
-    .and('have.prop', 'tagName')
-    .should('eq', 'H2');
+  // focus should be on the section's heading
+  cy.focused().contains(PROFILE_PATH_NAMES.CONNECTED_APPLICATIONS);
 
   // navigate directly to the Personal and Contact Info section via the sub-nav to confirm focus is managed correctly
-  clickSubNavButton(/Personal and contact info/i, mobile);
+  clickSubNavButton(PROFILE_PATH_NAMES.PERSONAL_INFORMATION, mobile);
   cy.url().should(
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.PERSONAL_INFORMATION}`,
   );
-  cy.focused()
-    .contains(/personal and contact info/i)
-    .and('have.prop', 'tagName')
-    .should('eq', 'H2');
+  cy.focused().contains(PROFILE_PATH_NAMES.PERSONAL_INFORMATION);
 }
 
 describe('Profile', () => {
   beforeEach(() => {
-    disableFTUXModals();
     cy.login(mockUser);
-    // login() calls cy.server() so we can now mock routes
+    cy.server();
     cy.route('GET', '/v0/ppiu/payment_information', mockPaymentInfo);
   });
   it('should pass an aXe scan and manage focus on all pages at desktop size', () => {

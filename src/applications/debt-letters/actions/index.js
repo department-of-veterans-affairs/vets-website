@@ -3,10 +3,7 @@ import { apiRequest } from '~/platform/utilities/api';
 import environment from '~/platform/utilities/environment';
 import { isVAProfileServiceConfigured } from '@@vap-svc/util/local-vapsvc';
 
-import {
-  debtLettersSuccess,
-  debtLettersSuccessVBMS,
-} from '../utils/mockResponses';
+import { debtMockResponse, debtMockResponseVBMS } from '../utils/mockResponses';
 import { deductionCodes } from '../const/deduction-codes';
 
 export const DEBTS_FETCH_INITIATED = 'DEBTS_FETCH_INITIATED';
@@ -17,9 +14,10 @@ export const DEBT_LETTERS_FETCH_INITIATED = 'DEBT_LETTERS_FETCH_INITIATED';
 export const DEBT_LETTERS_FETCH_SUCCESS = 'DEBT_LETTERS_FETCH_SUCCESS';
 export const DEBT_LETTERS_FETCH_FAILURE = 'DEBT_LETTERS_FETCH_FAILURE';
 
-const fetchDebtLettersSuccess = debts => ({
+const fetchDebtLettersSuccess = (debts, hasDependentDebts) => ({
   type: DEBTS_FETCH_SUCCESS,
   debts,
+  hasDependentDebts,
 });
 
 const fetchDebtLettersVBMSSuccess = debtLinks => ({
@@ -27,7 +25,10 @@ const fetchDebtLettersVBMSSuccess = debtLinks => ({
   debtLinks,
 });
 
-const fetchDebtLettersFailure = () => ({ type: DEBTS_FETCH_FAILURE });
+const fetchDebtLettersFailure = errors => ({
+  type: DEBTS_FETCH_FAILURE,
+  errors,
+});
 const fetchDebtLettersVBMSFailure = () => ({
   type: DEBT_LETTERS_FETCH_FAILURE,
 });
@@ -56,9 +57,9 @@ export const fetchDebtLettersVBMS = () => async dispatch => {
     };
     const response = isVAProfileServiceConfigured()
       ? await apiRequest(`${environment.API_URL}/v0/debt_letters`, options)
-      : await debtLettersSuccessVBMS();
+      : await debtMockResponseVBMS();
 
-    // Remove DMC  -  prefixing added by VBMS
+    // Remove DMC prefixing added by VBMS
     const filteredResponse = response.map(debtLetter => {
       if (debtLetter.typeDescription.includes('DMC - ')) {
         return {
@@ -91,13 +92,14 @@ export const fetchDebtLetters = () => async dispatch => {
     };
     const response = isVAProfileServiceConfigured()
       ? await apiRequest(`${environment.API_URL}/v0/debts`, options)
-      : await debtLettersSuccess();
+      : await debtMockResponse();
 
-    if (Object.keys(response).includes('error')) {
+    if (Object.keys(response).includes('errors')) {
       recordEvent({ event: 'bam-get-veteran-dmc-info-failed' });
-      return dispatch(fetchDebtLettersFailure());
+      return dispatch(fetchDebtLettersFailure(response.errors));
     }
 
+    const { hasDependentDebts } = response;
     const approvedDeductionCodes = Object.keys(deductionCodes);
     // remove any debts that do not have approved deductionCodes or
     // that have a current amount owed of 0
@@ -107,7 +109,7 @@ export const fetchDebtLetters = () => async dispatch => {
 
     recordEvent({
       event: 'bam-get-veteran-dmc-info-successful',
-      'veteran-has-dependent-debt': response.hasDependentDebts,
+      'veteran-has-dependent-debt': hasDependentDebts,
     });
 
     if (filteredResponse.length > 0) {
@@ -116,13 +118,15 @@ export const fetchDebtLetters = () => async dispatch => {
         'number-of-current-debt-cards': filteredResponse.length,
       });
     }
-    // suppress VBMS call if they have dependent debt
-    if (!response.hasDependentDebts) {
+    // if a veteran has dependent debt do NOT fetch debt letters
+    if (!hasDependentDebts) {
       dispatch(fetchDebtLettersVBMS());
     }
-    return dispatch(fetchDebtLettersSuccess(filteredResponse));
+    return dispatch(
+      fetchDebtLettersSuccess(filteredResponse, hasDependentDebts),
+    );
   } catch (error) {
     recordEvent({ event: 'bam-get-veteran-dmc-info-failed' });
-    return dispatch(fetchDebtLettersFailure());
+    return dispatch(fetchDebtLettersFailure(error.errors));
   }
 };

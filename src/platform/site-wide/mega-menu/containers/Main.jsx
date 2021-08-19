@@ -1,18 +1,19 @@
-import React from 'react';
-import { createSelector } from 'reselect';
+// Node modules.
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
+// Relative imports.
+import MY_VA_LINK from '../constants/MY_VA_LINK';
+import MegaMenu from '../components/MegaMenu';
 import authenticatedUserLinkData from '../mega-menu-link-data-for-authenticated-users.json';
-import {
-  togglePanelOpen,
-  toggleMobileDisplayHidden,
-  updateCurrentSection,
-} from '../actions';
 import recordEvent from '../../../monitoring/record-event';
 import { isLoggedIn } from '../../../user/selectors';
 import { replaceDomainsInData } from '../../../utilities/environment/stagingDomains';
-
-import MegaMenu from '../components/MegaMenu';
+import {
+  toggleMobileDisplayHidden,
+  togglePanelOpen,
+  updateCurrentSection,
+} from '../actions';
 
 export function flagCurrentPageInTopLevelLinks(
   links = [],
@@ -38,7 +39,31 @@ export function getAuthorizedLinkData(
   ];
 }
 
-export class Main extends React.Component {
+export class Main extends Component {
+  static propTypes = {
+    megaMenuData: PropTypes.arrayOf(
+      PropTypes.shape({
+        href: PropTypes.string,
+        menuSections: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+      }).isRequired,
+    ),
+    toggleMobileDisplayHidden: PropTypes.func.isRequired,
+    togglePanelOpen: PropTypes.func.isRequired,
+    updateCurrentSection: PropTypes.func.isRequired,
+    // From mapStateToProps.
+    currentDropdown: PropTypes.string,
+    currentSection: PropTypes.string,
+    data: PropTypes.arrayOf(
+      PropTypes.shape({
+        href: PropTypes.string,
+        menuSections: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+        title: PropTypes.string.isRequired,
+      }).isRequired,
+    ).isRequired,
+    display: PropTypes.object,
+    loggedIn: PropTypes.bool.isRequired,
+  };
+
   toggleDropDown = currentDropdown => {
     const isVisible = !!currentDropdown;
     if (isVisible) {
@@ -94,27 +119,26 @@ export class Main extends React.Component {
   }
 }
 
-const mainSelector = createSelector(
-  ({ state }) => isLoggedIn(state),
-  ({ state }) => state.megaMenu,
-  ({ megaMenuData }) => megaMenuData,
-  (loggedIn, megaMenu, megaMenuData) => {
-    const data = flagCurrentPageInTopLevelLinks(
-      getAuthorizedLinkData(loggedIn, megaMenuData),
-    );
+const mapStateToProps = (state, ownProps) => {
+  const loggedIn = isLoggedIn(state);
 
-    return {
-      ...megaMenu,
-      data,
-    };
-  },
-);
+  // Derive the default mega menu links (both auth + unauth).
+  const defaultLinks = ownProps?.megaMenuData ? [...ownProps.megaMenuData] : [];
 
-const mapStateToProps = (state, ownProps) =>
-  mainSelector({
-    state,
-    megaMenuData: ownProps.megaMenuData,
-  });
+  defaultLinks.push(MY_VA_LINK);
+
+  const data = flagCurrentPageInTopLevelLinks(
+    getAuthorizedLinkData(loggedIn, defaultLinks),
+  );
+
+  return {
+    currentDropdown: state.megaMenu?.currentDropdown,
+    currentSection: state.megaMenu?.currentSection,
+    data,
+    display: state.megaMenu?.display,
+    loggedIn,
+  };
+};
 
 const mapDispatchToProps = {
   toggleMobileDisplayHidden,

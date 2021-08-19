@@ -5,6 +5,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import WizardLink from './WizardLink';
+import { WIZARD_STATUS } from '../all-claims/constants';
 
 const disabilityForms = new Set([VA_FORM_IDS.FORM_21_526EZ]);
 
@@ -31,6 +32,7 @@ export default function createDisabilityIncreaseApplicationStatus(
         <ApplicationStatus
           formIds={disabilityForms}
           formType="disability compensation"
+          wizardStatus={WIZARD_STATUS}
           showApplyButton={root.getAttribute('data-hide-apply-button') === null}
           stayAfterDelete
           applyRender={() => (

@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import classNames from 'classnames';
+import { isReactComponent } from '../../../../utilities/ui';
 // import environment from 'platform/utilities/environment';
 
 /*
@@ -35,8 +36,9 @@ export default function FieldTemplate(props) {
 
   const description = uiSchema['ui:description'];
   const textDescription = typeof description === 'string' ? description : null;
-  const DescriptionField =
-    typeof description === 'function' ? uiSchema['ui:description'] : null;
+  const DescriptionField = isReactComponent(description)
+    ? uiSchema['ui:description']
+    : null;
   const isFieldGroup =
     isDateField ||
     uiSchema['ui:widget'] === 'yesNo' ||
@@ -46,7 +48,7 @@ export default function FieldTemplate(props) {
   let errorSpan;
   let errorClass;
   if (hasErrors) {
-    errorClass = isDateField ? 'input-error-date' : 'usa-input-error';
+    errorClass = `usa-input-error ${isDateField ? 'input-error-date' : ''}`;
     errorSpanId = `${id}-error-message`;
     errorSpan = (
       <span className="usa-input-error-message" role="alert" id={errorSpanId}>
@@ -66,7 +68,7 @@ export default function FieldTemplate(props) {
   });
 
   const inputWrapperClassNames = classNames('schemaform-widget-wrapper', {
-    'usa-input-error form-error-date': isDateField && hasErrors,
+    'form-error-date': isDateField && hasErrors,
   });
 
   const noWrapperContent =
@@ -105,7 +107,10 @@ export default function FieldTemplate(props) {
       {showLabel && labelElement}
       {textDescription && <p>{textDescription}</p>}
       {DescriptionField && (
-        <DescriptionField options={uiSchema['ui:options']} />
+        <DescriptionField
+          options={uiSchema['ui:options']}
+          index={formContext?.pagePerItemIndex}
+        />
       )}
       {!textDescription && !DescriptionField && description}
       {errorSpan}

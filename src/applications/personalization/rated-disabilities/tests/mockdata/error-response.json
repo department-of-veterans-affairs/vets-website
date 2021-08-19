@@ -1,38 +1,9 @@
-[
-  {
-    "path": "/v0/disability_compensation_form/rated_disabilities",
-    "verb": "get",
-    "value": {
-      "data": {
-        "attributes": {
-          "errors": [
-            {
-              "title": "error",
-              "detail": "access denied",
-              "code": "404",
-              "status": "404"
-            }
-          ]
-        }
-      }
+{
+  "errors": [
+    {
+      "title": "Not Authorized",
+      "code": "404",
+      "statue": "404"
     }
-  },
-  {
-    "path": "/v0/disability_compensation_form/rating_info",
-    "verb": "get",
-    "value": {
-      "data": {
-        "attributes": {
-          "errors": [
-            {
-              "title": "error",
-              "detail": "access denied",
-              "code": "404",
-              "status": "404"
-            }
-          ]
-        }
-      }
-    }
-  }
-]
+  ]
+}

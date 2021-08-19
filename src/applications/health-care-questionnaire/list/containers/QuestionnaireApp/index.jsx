@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import Home from '../../questionnaire-list/components/Home';
 import {
   selectShowQuestionnaire,
   selectLoadingFeatureFlags,
-} from '../../selectors';
+} from '../../../shared/redux-selectors';
 
 const QuestionnaireApp = props => {
   const { isLoadingFeatureFlags, isQuestionnaireEnabled } = props;
@@ -24,6 +24,7 @@ const QuestionnaireApp = props => {
   } else {
     return (
       <div className="questionnaire-app">
+        <meta name="robots" content="noindex" />
         <Home />
       </div>
     );

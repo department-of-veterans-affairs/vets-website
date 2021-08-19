@@ -4,8 +4,8 @@ import _ from 'lodash';
 import { scroller } from 'react-scroll';
 import classNames from 'classnames';
 
-import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
-import TextInput from '@department-of-veterans-affairs/formation-react/TextInput';
+import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
+import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import recordEvent from 'platform/monitoring/record-event';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import AlertBox from '../AlertBox';
@@ -17,6 +17,7 @@ import {
   isCountryInternational,
   locationInfo,
   handleInputFocusWithPotentialOverLap,
+  isURL,
 } from '../../utils/helpers';
 import { renderLearnMoreLabel } from '../../utils/render';
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
@@ -336,6 +337,19 @@ class EstimateYourBenefitsForm extends React.Component {
    */
   renderInState = () => {
     if (!this.props.displayedInputs.inState) return null;
+    const { inStateTuitionInformation } = this.props.profile.attributes;
+
+    const label = this.renderLearnMoreLabel({
+      text: 'Are you an in-state student?',
+      modal:
+        isURL(inStateTuitionInformation) &&
+        inStateTuitionInformation !==
+          'Contact the School Certifying Official (SCO) for requirements'
+          ? 'inStateWithLink'
+          : 'inStateWithoutLink',
+      ariaLabel: ariaLabels.learnMore.inState,
+    });
+
     return (
       <ExpandingGroup
         open={
@@ -344,7 +358,7 @@ class EstimateYourBenefitsForm extends React.Component {
         }
       >
         <RadioButtons
-          label="Are you an in-state student?"
+          label={label}
           name="inState"
           options={[
             { value: 'yes', label: 'Yes' },

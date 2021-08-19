@@ -9,6 +9,8 @@ import {
   RepresentativePhoneTitle,
 } from '../content/InformalConference';
 
+import { validatePhone } from '../validations';
+
 export default {
   uiSchema: {
     'ui:title': ' ',
@@ -33,6 +35,7 @@ export default {
           pattern: errorMessages.informalConferenceContactPhonePattern,
           required: errorMessages.informalConferenceContactPhone,
         },
+        'ui:validations': [validatePhone],
       },
     },
   },
@@ -52,6 +55,7 @@ export default {
           },
           phone: {
             type: 'string',
+            pattern: '[0-9]+',
           },
         },
       },

@@ -1,5 +1,5 @@
 import React from 'react';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { formatDateLong } from 'platform/utilities/date';
 import { displayPercent } from 'platform/utilities/ui';
 import FacilityApiAlert from './FacilityApiAlert';
@@ -18,8 +18,20 @@ export function FacilityPatientSatisfactionScoresWidget(props) {
 
   const facility = props.facility.attributes;
 
+  if (
+    Object.values(facility.feedback.health).length === 0 ||
+    Object.values(facility.feedback.health).some(x => x <= 0)
+  )
+    return null;
+
   return (
     <div>
+      <h2
+        id="our-patient-satisfaction-scores"
+        className="vads-u-margin-top--4 vads-u-font-size--lg small-screen:vads-u-font-size--xl"
+      >
+        Veteran satisfaction with appointment wait times at this location
+      </h2>
       <p>
         VA measures Veteran satisfaction with getting timely appointments at
         each of our health facilities. We use a health care industry standard,

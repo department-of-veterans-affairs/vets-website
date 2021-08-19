@@ -24,9 +24,9 @@ const StaticInformationReviewField = props => {
       {!isLoggedIn ? null : (
         <>
           <div className="form-review-panel-page-header-row">
-            <h3 className="vads-u-font-size--h5 vads-u-margin--0">
+            <h4 className="vads-u-font-size--h5 vads-u-margin--0">
               Veteran Information
-            </h3>
+            </h4>
           </div>
           <dl className="review vads-u-border-bottom--0">
             {Object.entries(display).map(([label, value]) => {

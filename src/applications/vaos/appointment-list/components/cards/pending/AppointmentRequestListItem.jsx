@@ -4,27 +4,19 @@ import moment from 'moment';
 
 import ListBestTimeToCall from './ListBestTimeToCall';
 import { sentenceCase } from '../../../../utils/formatters';
-import {
-  getPatientTelecom,
-  isVideoAppointment,
-} from '../../../../services/appointment';
+import { getPatientTelecom } from '../../../../services/appointment';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import AppointmentStatus from '../AppointmentStatus';
 import VAFacilityLocation from '../../../../components/VAFacilityLocation';
 import AppointmentRequestCommunityCareLocation from './AppointmentRequestCommunityCareLocation';
 import AdditionalInfoRow from '../AdditionalInfoRow';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 const TIME_TEXT = {
   AM: 'in the morning',
   PM: 'in the afternoon',
   'No Time Selected': '',
 };
-
-// Only use this when we need to pass data that comes back from one of our
-// services files to one of the older api functions
-function parseFakeFHIRId(id) {
-  return id ? id.replace('var', '') : id;
-}
 
 export default function AppointmentRequestListItem({
   appointment,
@@ -39,21 +31,17 @@ export default function AppointmentRequestListItem({
   const [showMore, setShowMore] = useState(false);
 
   const toggleShowMore = () => {
-    const id = parseFakeFHIRId(appointment.id);
-
-    if (!showMore && !messages[id] && !appointment.vaos.isExpressCare) {
-      fetchMessages(id);
+    if (!showMore && !messages[appointment.id]) {
+      fetchMessages(appointment.id);
     }
 
     setShowMore(!showMore);
   };
 
   const isCC = appointment.vaos.isCommunityCare;
-  const isExpressCare = appointment.vaos.isExpressCare;
-  const isVideoRequest = isVideoAppointment(appointment);
+  const isVideoRequest = appointment.vaos.isVideo;
   const cancelled = appointment.status === APPOINTMENT_STATUS.cancelled;
-  const firstMessage =
-    messages?.[parseFakeFHIRId(appointment.id)]?.[0]?.attributes?.messageText;
+  const firstMessage = messages?.[appointment.id]?.[0]?.attributes?.messageText;
 
   const itemClasses = classNames(
     'vaos-appts__list-item vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3',
@@ -91,33 +79,30 @@ export default function AppointmentRequestListItem({
               appointment={appointment}
             />
           )}
-          {isExpressCare && facility?.name}
-          {!isCC &&
-            !isExpressCare && (
-              <VAFacilityLocation
-                facility={facility}
-                facilityName={facility?.name}
-                facilityId={parseFakeFHIRId(facilityId)}
-              />
-            )}
+          {!isCC && (
+            <VAFacilityLocation
+              facility={facility}
+              facilityName={facility?.name}
+              facilityId={facilityId}
+            />
+          )}
         </div>
-        {!isExpressCare && (
-          <div className="vads-u-flex--1 vaos-u-word-break--break-word">
-            <h4 className="vaos-appts__block-label">Preferred date and time</h4>
-            <div>
-              <ul className="usa-unstyled-list">
-                {appointment.requestedPeriod.map((option, optionIndex) => (
-                  <li key={`${appointment.id}-option-${optionIndex}`}>
-                    {moment(option.start).format('ddd, MMMM D, YYYY')}{' '}
-                    {option.start.includes('00:00:00')
-                      ? TIME_TEXT.AM
-                      : TIME_TEXT.PM}
-                  </li>
-                ))}
-              </ul>
-            </div>
+        <div className="vads-u-flex--1 vaos-u-word-break--break-word">
+          <h4 className="vaos-appts__block-label">Preferred date and time</h4>
+          <div>
+            {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+            <ul className="usa-unstyled-list" role="list">
+              {appointment.requestedPeriod.map((option, optionIndex) => (
+                <li key={`${appointment.id}-option-${optionIndex}`}>
+                  {moment(option.start).format('ddd, MMMM D, YYYY')}{' '}
+                  {option.start.includes('00:00:00')
+                    ? TIME_TEXT.AM
+                    : TIME_TEXT.PM}
+                </li>
+              ))}
+            </ul>
           </div>
-        )}
+        </div>
       </div>
       <div className="vads-u-margin-top--2 vads-u-display--flex vads-u-flex-wrap--wrap">
         <AdditionalInfoRow
@@ -128,33 +113,22 @@ export default function AppointmentRequestListItem({
         >
           <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
             <div className="vaos_appts__message vads-u-flex--1 vads-u-margin-right--1 vaos-u-word-break--break-word">
-              {isExpressCare && (
-                <>
-                  <h4 className="vaos-appts__block-label">
-                    Reason for appointment
-                  </h4>
-                  <div>{appointment.reason}</div>
-                </>
-              )}
-              {!isExpressCare && (
-                <>
-                  <h4 className="vaos-appts__block-label">
-                    {appointment.reason}
-                  </h4>
-                  <div>{firstMessage}</div>
-                </>
-              )}
+              <h4 className="vaos-appts__block-label">{appointment.reason}</h4>
+              <div>{firstMessage}</div>
             </div>
             <div className="vads-u-flex--1 vads-u-margin-top--2 small-screen:vads-u-margin-top--0 vaos-u-word-break--break-word">
               <h4 className="vaos-appts__block-label">Your contact details</h4>
               <div>
                 {getPatientTelecom(appointment, 'email')}
                 <br />
-                {getPatientTelecom(appointment, 'phone')}
+                <Telephone
+                  notClickable
+                  contact={getPatientTelecom(appointment, 'phone')}
+                />
                 <br />
                 <span className="vads-u-font-style--italic">
                   <ListBestTimeToCall
-                    timesToCall={appointment.legacyVAR?.bestTimeToCall}
+                    timesToCall={appointment.preferredTimesForPhoneCall}
                   />
                 </span>
               </div>

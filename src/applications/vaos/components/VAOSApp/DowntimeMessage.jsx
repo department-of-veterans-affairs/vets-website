@@ -1,28 +1,29 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import { useDispatch, useSelector } from 'react-redux';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import externalServiceStatus from 'platform/monitoring/DowntimeNotification/config/externalServiceStatus';
-import * as actions from 'platform/monitoring/DowntimeNotification/actions';
+import { dismissDowntimeWarning } from 'platform/monitoring/DowntimeNotification/actions';
 import FullWidthLayout from '../FullWidthLayout';
+import InfoAlert from '../InfoAlert';
 
 const appTitle = 'VA online scheduling tool';
 
-function DowntimeMessage({
+export default function DowntimeMessage({
   startTime,
   endTime,
   status,
   children,
-  isDowntimeWarningDismissed,
-  dismissDowntimeWarning,
 }) {
+  const dispatch = useDispatch();
+  const isDowntimeWarningDismissed = useSelector(state =>
+    state.scheduledDowntime.dismissedDowntimeWarnings.includes(appTitle),
+  );
   if (status === externalServiceStatus.down) {
     return (
       <FullWidthLayout>
-        <AlertBox
+        <InfoAlert
           className="vads-u-margin-bottom--4"
           headline="The VA appointments tool is down for maintenance"
-          isVisible
           status="warning"
         >
           <p>
@@ -33,12 +34,12 @@ function DowntimeMessage({
             center. Use the <a href="/find-locations">VA facility locator</a> to
             find contact information for your medical center.
           </p>
-        </AlertBox>
+        </InfoAlert>
       </FullWidthLayout>
     );
   }
 
-  const close = () => dismissDowntimeWarning(appTitle);
+  const close = () => dispatch(dismissDowntimeWarning(appTitle));
   return (
     <>
       {status === externalServiceStatus.downtimeApproaching && (
@@ -69,20 +70,3 @@ function DowntimeMessage({
     </>
   );
 }
-
-function mapStateToProps(state) {
-  return {
-    isDowntimeWarningDismissed: state.scheduledDowntime.dismissedDowntimeWarnings.includes(
-      appTitle,
-    ),
-  };
-}
-
-const mapDispatchToProps = {
-  dismissDowntimeWarning: actions.dismissDowntimeWarning,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(DowntimeMessage);

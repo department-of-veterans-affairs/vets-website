@@ -14,7 +14,7 @@ function LocationDirectionsLink({ location, from }) {
   }
 
   return (
-    <div className="vads-u-margin-bottom--2p5">
+    <div className="vads-u-margin-bottom--1p5">
       <a
         href={`https://maps.google.com?saddr=${
           location.searchString
