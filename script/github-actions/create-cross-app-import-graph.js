@@ -9,19 +9,25 @@ console.log('Diff: ', diff);
 
 function findChange() {
   const srcApplicationChanges = [];
+  const startOfChange = 'diff --git a/src/applications';
+  const endOfChange = 'diff --git a/';
   let start = null;
 
   for (let i = 0; i <= diff.length; i += 1) {
-    if (diff[i] === '+' && diff.includes('+++', i)) {
+    if (
+      !start &&
+      diff[i] === 'd' &&
+      diff.slice(i, i + startOfChange.length) === startOfChange
+    ) {
       start = i;
     } else if (
       start &&
       diff[i] === 'd' &&
-      diff.includes('diff --git a/src/applications', i)
+      diff.slice(i, i + endOfChange.length) === endOfChange
     ) {
       srcApplicationChanges.push(diff.slice(start), i);
       start = null;
-    } else if (i === diff.length - 1) {
+    } else if (start && i === diff.length - 1) {
       srcApplicationChanges.push(diff.slice(start));
     }
   }
