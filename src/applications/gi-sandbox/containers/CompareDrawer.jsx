@@ -32,8 +32,8 @@ export function CompareDrawer({
     });
     if (placeholder.current) {
       placeholder.current.style.height = currentStuck
-        ? 0
-        : drawer.current.getBoundingClientRect().height;
+        ? '0px'
+        : `${drawer.current.getBoundingClientRect().height}px`;
       setStuck(
         placeholder.current.getBoundingClientRect().bottom < window.innerHeight,
       );

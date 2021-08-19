@@ -11,10 +11,16 @@ const scroll = Scroll.animateScroll;
  * @param parentId containing element's id, used to float element right when floating at bottom of page
  * @param profilePageHeaderId once bottom of this element is less than zero triggers floating behavior
  * @param compare
+ * @param smallScreen
  * @return {JSX.Element}
  * @constructor
  */
-export default function BackToTop({ parentId, profilePageHeaderId, compare }) {
+export default function BackToTop({
+  parentId,
+  profilePageHeaderId,
+  compare,
+  smallScreen,
+}) {
   const [floating, setFloating] = useState(false);
   const [backToTopContainerStyle, setBackToTopContainerStyle] = useState({});
   const [compareOpen, setCompareOpen] = useState(compare.open);
@@ -32,7 +38,10 @@ export default function BackToTop({ parentId, profilePageHeaderId, compare }) {
    */
   useEffect(
     () => {
-      if (scrolled) {
+      if (smallScreen && compare.open) {
+        setFloating(false);
+        setScrolled(false);
+      } else if (scrolled || (smallScreen && !compare.open)) {
         const profilePageHeader = document.getElementById(profilePageHeaderId);
         if (!profilePageHeader || !placeholder.current) return;
 
@@ -53,8 +62,9 @@ export default function BackToTop({ parentId, profilePageHeaderId, compare }) {
         setFloating(headerNotVisible && footerNotVisible);
         setScrolled(false);
       }
+      setCompareOpen(compare.open);
     },
-    [scrolled],
+    [scrolled, smallScreen, compare.open],
   );
 
   const resize = () => {
@@ -82,13 +92,6 @@ export default function BackToTop({ parentId, profilePageHeaderId, compare }) {
       resize();
     },
     [floating],
-  );
-
-  useEffect(
-    () => {
-      setCompareOpen(compare.open);
-    },
-    [compare.open],
   );
 
   const backToTopClasses = classNames('back-to-top', {

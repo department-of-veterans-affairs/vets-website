@@ -12,7 +12,7 @@ export const uiSchema = {
     </>
   ),
   personalData: {
-    agesOfOtherDependents: {
+    dependents: {
       'ui:field': ItemLoop,
       'ui:options': {
         viewField: CardDetailsView,
@@ -44,7 +44,7 @@ export const schema = {
     personalData: {
       type: 'object',
       properties: {
-        agesOfOtherDependents: {
+        dependents: {
           type: 'array',
           items: {
             type: 'object',

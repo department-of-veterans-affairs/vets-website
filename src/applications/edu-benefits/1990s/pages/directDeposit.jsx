@@ -1,5 +1,9 @@
 import directDeposit from 'platform/forms-system/src/js/definitions/directDeposit';
-import { bankInfoHelpText, directDepositAlert } from '../content/directDeposit';
+import {
+  bankInfoHelpText,
+  directDepositAlert,
+  paymentText,
+} from '../content/directDeposit';
 import _ from 'lodash';
 import PaymentReviewView from '../components/PaymentReviewView';
 import { hasNewBankInformation } from '../utils';
@@ -34,8 +38,7 @@ export const uiSchema = {
       startInEdit: data => startInEdit(data),
     },
     'view:paymentText': {
-      'ui:description':
-        'We make payments only through direct deposit, also called electronic funds transfer (EFT). Please provide your direct deposit information below. We’ll send your housing payment to this account.',
+      'ui:description': paymentText,
     },
     accountType: {
       ...bankAccountUiSchema.accountType,
@@ -61,8 +64,8 @@ export const uiSchema = {
     },
   },
   declineDirectDeposit: directDepositUiSchema.declineDirectDeposit,
-  'view:directDespositInfo': {
-    ...directDepositUiSchema['view:directDespositInfo'],
+  'view:directDepositInfo': {
+    ...directDepositUiSchema['view:directDepositInfo'],
     'ui:description': directDepositAlert,
   },
   'view:bankInfoHelpText': {
@@ -90,8 +93,8 @@ export const schema = {
     declineDirectDeposit: {
       type: 'boolean',
     },
-    'view:directDespositInfo':
-      directDepositSchema.properties['view:directDespositInfo'],
+    'view:directDepositInfo':
+      directDepositSchema.properties['view:directDepositInfo'],
     'view:bankInfoHelpText':
       directDepositSchema.properties['view:bankInfoHelpText'],
   },
