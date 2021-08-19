@@ -505,7 +505,7 @@ const formConfig = {
             },
           },
           initialData: {
-            benefitSelection: 'ACTIVE_DUTY',
+            benefitSelection: '',
           },
         },
       },
