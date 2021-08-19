@@ -144,6 +144,9 @@ function writeGraph(graph) {
 function run() {
   const diff = process.env.DIFF_RESULTS;
 
+  // eslint-disable-next-line no-console
+  console.error('Diff: ', diff);
+
   if (diffIncludesSrcApplicationsFiles(diff) && shouldRebuildGraph(diff)) {
     const graph = {};
     buildGraph(graph);
