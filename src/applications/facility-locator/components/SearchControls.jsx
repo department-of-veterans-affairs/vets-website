@@ -54,12 +54,6 @@ const SearchControls = props => {
     });
   };
 
-  const handleFacilityTypeBlur = e => {
-    // force redux state to register a change
-    onChange({ facilityType: ' ' });
-    handleFacilityTypeChange(e);
-  };
-
   const handleServiceTypeChange = ({ target, selectedItem }) => {
     setSelectedServiceType(selectedItem);
 
@@ -267,7 +261,6 @@ const SearchControls = props => {
           value={facilityType || ''}
           className="bor-rad"
           onChange={handleFacilityTypeChange}
-          onBlur={handleFacilityTypeBlur}
           style={{ fontWeight: 'bold' }}
         >
           {options}
