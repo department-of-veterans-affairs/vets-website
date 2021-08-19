@@ -1,12 +1,11 @@
 import moment from 'moment';
 import {
+  sumValues,
   dateFormatter,
-  getIncome,
   getMonthlyIncome,
   getMonthlyExpenses,
   getEmploymentHistory,
   getTotalAssets,
-  sumValues,
 } from '../utils/helpers';
 
 export const transform = (formConfig, form) => {
@@ -22,6 +21,8 @@ export const transform = (formConfig, form) => {
     additionalData,
     selectedDebts,
     realEstateRecords,
+    currentEmployment,
+    additionalIncome,
   } = form.data;
 
   const {
@@ -50,7 +51,17 @@ export const transform = (formConfig, form) => {
   const monthlyExpenses = getMonthlyExpenses(form.data);
   const employmentHistory = getEmploymentHistory(form.data);
   const totalAssets = getTotalAssets(form.data);
-  const income = getIncome(form.data);
+
+  // VETERAN INCOME
+  const { additionalIncomeRecords } = additionalIncome;
+  const vetGrossSalary = sumValues(currentEmployment, 'veteranGrossSalary');
+  const deductions = currentEmployment?.map(emp => emp.deductions).flat() ?? 0;
+  const vetTotDeductions = sumValues(deductions, 'amount');
+  const vetNetPay = vetGrossSalary - vetTotDeductions;
+  const vetOtherAmt = sumValues(additionalIncomeRecords, 'amount');
+  const vetOtherName = additionalIncomeRecords
+    ? additionalIncomeRecords.map(({ name }) => name).join(', ')
+    : '';
 
   const amountCanBePaidTowardDebt = selectedDebts
     .filter(item => item.resolution.offerToPay !== undefined)
@@ -92,7 +103,48 @@ export const transform = (formConfig, form) => {
         : [],
       employmentHistory,
     },
-    income,
+    income: [
+      {
+        veteranOrSpouse: 'VETERAN',
+        monthlyGrossSalary: vetGrossSalary,
+        deductions: {
+          taxes: '',
+          retirement: '',
+          socialSecurity: '',
+          otherDeductions: {
+            name: '',
+            amount: '',
+          },
+        },
+        totalDeductions: vetTotDeductions,
+        netTakeHomePay: vetNetPay,
+        otherIncome: {
+          name: vetOtherName,
+          amount: vetOtherAmt,
+        },
+        totalMonthlyNetIncome: vetNetPay,
+      },
+      {
+        veteranOrSpouse: 'SPOUSE',
+        monthlyGrossSalary: '',
+        deductions: {
+          taxes: '',
+          retirement: '',
+          socialSecurity: '',
+          otherDeductions: {
+            name: '',
+            amount: '',
+          },
+        },
+        totalDeductions: '',
+        netTakeHomePay: '',
+        otherIncome: {
+          name: '',
+          amount: '',
+        },
+        totalMonthlyNetIncome: '',
+      },
+    ],
     expenses: {
       ...expenses,
       utilities: sumValues(utilityRecords, 'monthlyUtilityAmount'),

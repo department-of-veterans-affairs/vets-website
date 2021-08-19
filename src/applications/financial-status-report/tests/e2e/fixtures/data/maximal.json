@@ -439,7 +439,7 @@
   },
   "currentEmployment": [
     {
-      "veteranMonthlyGrossSalary": "5000.54",
+      "veteranGrossSalary": "5000.54",
       "deductions": [
         {
           "name": "Federal tax",
@@ -461,7 +461,7 @@
       "employerName": "Veteran Current One"
     },
     {
-      "veteranMonthlyGrossSalary": "2000.56",
+      "veteranGrossSalary": "2000.56",
       "deductions": [
         {
           "name": "Federal tax",
