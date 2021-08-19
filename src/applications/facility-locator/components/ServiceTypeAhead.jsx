@@ -180,9 +180,9 @@ class ServiceTypeAhead extends Component {
                 {...getInputProps({
                   placeholder: 'like Chiropractor or Optometrist',
                   onFocus: () => this.setState({ isFocused: true }),
-                  onBlur: e => {
+                  onBlur: () => {
                     this.setState({ isFocused: false });
-                    this.props.onBlur(e);
+                    // this.props.onBlur(e);
                   },
                   disabled: currentQuery?.fetchSvcsInProgress,
                 })}
