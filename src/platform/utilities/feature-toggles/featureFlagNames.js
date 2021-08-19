@@ -24,6 +24,7 @@ export default Object.freeze({
   dependencyVerification: 'dependency_verification',
   dischargeWizardFeatures: 'discharge_wizard_features',
   evssUploadLimit150Mb: 'evss_upload_limit_150mb',
+  facilitiesPpmsSuppressAll: 'facilities_ppms_suppress_all',
   facilitiesPpmsSuppressCommunityCare: 'facilitiesPpmsSuppressCommunityCare',
   facilitiesPpmsSuppressPharmacies: 'facilitiesPpmsSuppressPharmacies',
   facilityLocatorCovidVaccineWalkInAvailabilityTextFrontend: 'facilityLocatorCovidVaccineWalkInAvailabilityTextFrontend',
@@ -47,7 +48,6 @@ export default Object.freeze({
   requestLockedPdfPassword: 'request_locked_pdf_password',
   searchRepresentative: 'search_representative',
   searchTypeaheadEnabled: 'search_typeahead_enabled',
-  sharableLinks: 'sharable_link',
   show526Wizard: 'show526Wizard',
   showEduBenefits0994Wizard: 'show_edu_benefits_0994_wizard',
   showEduBenefits1990EWizard: 'show_edu_benefits_1990e_wizard',
@@ -88,6 +88,7 @@ export default Object.freeze({
   vaOnlineSchedulingVAOSServiceVAAppointments: 'vaOnlineSchedulingVAOSServiceVAAppointments',
   vaOnlineSchedulingFacilitiesServiceV2: 'vaOnlineSchedulingFacilitiesServiceV2',
   vaOnlineSchedulingVariantTesting: 'vaOnlineSchedulingVariantTesting',
+  vaOnlineSchedulingCCIterations: 'vaOnlineSchedulingCCIterations',
   vaViewDependentsAccess: 'vaViewDependentsAccess',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
 });

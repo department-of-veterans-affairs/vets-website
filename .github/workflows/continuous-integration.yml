@@ -404,6 +404,7 @@ jobs:
       num_containers: ${{ steps.containers.outputs.num }}
       ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
       tests: ${{ steps.tests.outputs.selected }}
+      is_master_build: ${{ env.IS_MASTER_BUILD }}
 
     steps:
       - name: Checkout
@@ -438,12 +439,12 @@ jobs:
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
-      - name: Set MASTER_BUILD
+      - name: Set IS_MASTER_BUILD
         run: |
           if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
-              echo "MASTER_BUILD=true" >> $GITHUB_ENV
+              echo "IS_MASTER_BUILD=true" >> $GITHUB_ENV
           else
-              echo "MASTER_BUILD=false" >> $GITHUB_ENV
+              echo "IS_MASTER_BUILD=false" >> $GITHUB_ENV
           fi
 
       - name: List changed files
@@ -453,7 +454,7 @@ jobs:
       - name: Set NUM_CONTAINERS, CI_NODE_INDEX, TESTS variables
         run: node script/github-actions/select-cypress-tests.js
         env:
-          MASTER_BUILD: ${{ env.MASTER_BUILD }}
+          IS_MASTER_BUILD: ${{ env.IS_MASTER_BUILD }}
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
       - name: Set output of NUM_CONTAINERS
@@ -548,14 +549,6 @@ jobs:
         with:
           name: cypress-screenshot-artifacts
           path: cypress/screenshots
-
-      - name: Archive JUnit test results
-        uses: actions/upload-artifact@v2
-        if: ${{ always() }}
-        with:
-          name: cypress-junit-test-results
-          path: test-results
-          retention-days: 1
 
       - name: Archive Mochawesome test results
         uses: actions/upload-artifact@v2
@@ -728,6 +721,11 @@ jobs:
       - name: Create report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
         working-directory: testing-tools-team-dashboard-data
+        env:
+          IS_MASTER_BUILD: ${{ needs.cypress-tests-prep.outputs.is_master_build }}
+          NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
+
+      # env.MOCHAWESOME_REPORT_RESULTS is set and exported during the above step when the mochawesome report is generated.  It contains the output string for the publish step at the end of the job with the numbers from the Mochawesome report.
 
       - name: Upload Mochawesome report artifact
         uses: actions/upload-artifact@v2
@@ -779,21 +777,15 @@ jobs:
       # | Cypress Tests Summary |
       # -------------------------
 
-      - name: Download Cypress JUnit test results
-        if: ${{ always() }}
-        uses: actions/download-artifact@v2
-        with:
-          name: cypress-junit-test-results
-          path: cypress-junit-test-results
-
       - name: Publish Cypress test results
         if: ${{ always() }}
-        uses: mikepenz/action-junit-report@v2.4.2
+        uses: LouisBrunner/checks-action@v1.1.1
         with:
-          check_name: 'Cypress Tests Summary'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          report_paths: 'cypress-junit-test-results/e2e-test-output-*.xml'
-          summary: '[Mochawesome Report](https://reimagined-telegram-c11df05a.pages.github.io/cypress-reports/${{ env.UUID }})'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Cypress Tests Summary
+          conclusion: ${{ needs.cypress-tests.result }}
+          output: |
+            {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
 
 # archive:
 #   name: Archive

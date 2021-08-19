@@ -3,7 +3,7 @@ import { DEFAULT_BENEFIT_TYPE } from '../constants';
 import {
   getRep,
   getConferenceTimes,
-  getContestedIssues,
+  addIncludedIssues,
   getContact,
   getAddress,
   getPhone,
@@ -35,12 +35,17 @@ export function transform(formConfig, form) {
     if (!version1) {
       attributes.veteran.homeless = formData.homeless;
       attributes.veteran.phone = getPhone(formData);
-      attributes.veteran.email = formData?.veteran.email;
+      attributes.veteran.email = formData.veteran?.email || '';
+      attributes.socOptIn = formData.socOptIn;
     }
 
     // Add informal conference data
     if (informalConference) {
-      attributes.informalConferenceTimes = getConferenceTimes(formData);
+      if (version1) {
+        attributes.informalConferenceTimes = getConferenceTimes(formData);
+      } else {
+        attributes.informalConferenceTime = formData.informalConferenceTime;
+      }
       if (formData.informalConference === 'rep') {
         attributes.informalConferenceRep = getRep(formData);
       }
@@ -54,7 +59,7 @@ export function transform(formConfig, form) {
         type: 'higherLevelReview',
         attributes,
       },
-      included: getContestedIssues(formData),
+      included: addIncludedIssues(formData),
     };
   };
 

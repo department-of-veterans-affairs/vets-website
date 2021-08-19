@@ -48,6 +48,7 @@ export const saveInProgressReducers = {
     if (action.status === SAVE_STATUSES.success) {
       newState.lastSavedDate = action.lastSavedDate;
       newState.expirationDate = action.expirationDate;
+      newState.inProgressFormId = action.inProgressFormId;
     }
 
     if (saveErrors.has(action.status)) {
