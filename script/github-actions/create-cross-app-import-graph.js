@@ -24,25 +24,37 @@ function sliceDiffIntoDiffForEachChangedFile(diff) {
   const diffForEachChangedFile = [];
   const startOfChange = 'diff --git a/src/applications';
   const endOfChange = 'diff --git a/';
-  let start = null;
+  let startOfDiffIndex = null;
 
   for (let i = 0; i <= diff.length; i += 1) {
     if (
-      !start &&
+      startOfDiffIndex === null &&
       diff[i] === startOfChange[0] &&
       diff.slice(i, i + startOfChange.length) === startOfChange
     ) {
-      start = i;
+      // eslint-disable-next-line no-console
+      console.log('i = ', i);
+      // eslint-disable-next-line no-console
+      console.log('In condition 1');
+      startOfDiffIndex = i;
     } else if (
-      start &&
+      startOfDiffIndex !== null &&
       endOfChange &&
       diff[i] === endOfChange[0] &&
       diff.slice(i, i + endOfChange.length) === endOfChange
     ) {
-      diffForEachChangedFile.push(diff.slice(start, i));
-      start = null;
-    } else if (start && i === diff.length - 1) {
-      diffForEachChangedFile.push(diff.slice(start));
+      // eslint-disable-next-line no-console
+      console.log('i = ', i);
+      // eslint-disable-next-line no-console
+      console.log('In condition 2');
+      diffForEachChangedFile.push(diff.slice(startOfDiffIndex, i));
+      startOfDiffIndex = null;
+    } else if (startOfDiffIndex !== null && i === diff.length - 1) {
+      // eslint-disable-next-line no-console
+      console.log('i = ', i);
+      // eslint-disable-next-line no-console
+      console.log('In condition 3');
+      diffForEachChangedFile.push(diff.slice(startOfDiffIndex));
     }
   }
 
