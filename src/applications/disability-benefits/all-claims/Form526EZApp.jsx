@@ -75,6 +75,7 @@ export const Form526Entry = ({
   savedForms,
 }) => {
   const wizardStatus = sessionStorage.getItem(WIZARD_STATUS);
+  const loggedIn = user.login?.currentlyLoggedIn || false;
 
   const hasSavedForm = savedForms.some(
     form =>
@@ -115,6 +116,7 @@ export const Form526Entry = ({
 
   // showWizard feature flag is initially undefined
   if (
+    loggedIn &&
     showWizard &&
     ((!hasSavedForm && wizardStatus !== WIZARD_STATUS_COMPLETE) ||
       (hasSavedForm && wizardStatus === WIZARD_STATUS_RESTARTING))
@@ -137,7 +139,7 @@ export const Form526Entry = ({
 
   // Not logged in, so show the rendered content. The RoutedSavableApp shows
   // an alert with the sign in button
-  if (!user.login.currentlyLoggedIn) {
+  if (!loggedIn) {
     return wrapWithBreadcrumb(title, content);
   }
   // "add-person" service means the user has a edipi and SSN in the system, but
