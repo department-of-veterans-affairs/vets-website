@@ -5,3 +5,5 @@ coverage/
 .eslintrc.js
 jest.config.js
 babel.config.js
+
+examples/webpack.config.js

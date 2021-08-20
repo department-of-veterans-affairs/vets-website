@@ -13,6 +13,20 @@ library" instead.
 
 _Instructions for getting up and running go here._
 
+## Examples
+
+Run the [examples](examples) in this repo with:
+
+```sh
+yarn serve-examples
+```
+
+To create new example:
+
+- Make an entry file at `examples/my-new-example/index.jsx`
+- (Optional) Add a new bullet to the directory listing at `examples/index.jsx`
+  to appear on the home page so other developers can quickly go to it
+
 ## Documentation
 
 When we write documentation, we'll put links to it here.
