@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import moment from 'moment';
 
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
@@ -92,7 +93,7 @@ export function benefitEndDateExplanation(condition, delimitingDate) {
       return (
         <div className="section benefit-end-date">
           <h4>Benefit end date</h4>
-          {delimitingDate ? (
+          {moment(delimitingDate).isValid() ? (
             <div>
               You have until{' '}
               <strong>{formatDateParsedZoneLong(delimitingDate)}</strong> to use
