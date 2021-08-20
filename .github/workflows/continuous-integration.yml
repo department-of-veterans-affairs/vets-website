@@ -450,7 +450,7 @@ jobs:
       #   working-directory: testing-reports
 
       - name: git add config/cross_app_import_graph.json
-        if: ${{ $IS_GRAPH_UPDATED == 'true' }}
+        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
         run: git add config/cross_app_import_graph.json
         # working-directory: testing-reports
 
