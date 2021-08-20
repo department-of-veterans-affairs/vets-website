@@ -854,17 +854,11 @@ jobs:
       - name: Run git status before add
         run: git status
 
-      - name: Run git status with 'echo' before add
-        run: echo ${{ git status }}
-
       - name: Run git add.
         run: git add .
 
       - name: Run git status after add
         run: git status
-
-      - name: Run git status with 'echo' after add
-        run: echo ${{ git status }}
 
       - name: Commit and push changes
         uses: actions-js/push@master
