@@ -46,6 +46,8 @@ const NotificationChannel = ({
     [itemId],
   );
 
+  // radio button option values are strings, so we need to convert the isOptedIn
+  // bool to a string
   const currentValue = React.useMemo(
     () => (isOptedIn === null ? isOptedIn : isOptedIn.toString()),
     [isOptedIn],
@@ -57,8 +59,6 @@ const NotificationChannel = ({
   return (
     <div>
       <NotificationRadioButtons
-        // radio button option values are strings, so we need to convert the
-        // isOptedIn bool to a string
         value={{ value: currentValue }}
         label={itemName}
         options={[
