@@ -141,7 +141,7 @@
     "@testing-library/user-event": "^12.2.2",
     "append-query": "2.0.1",
     "autoprefixer": "^9.5.1",
-    "axe-core": "^4.3.2",
+    "axe-core": "^4.2.3",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^23.4.2",
     "babel-loader": "^8.0.0",
