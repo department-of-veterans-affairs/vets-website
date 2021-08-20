@@ -48,7 +48,7 @@ import {
 // import { directDepositWarning } from '../helpers';
 
 import MailingAddressViewField from '../components/MailingAddressViewField';
-// import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
+import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
 import { states } from 'platform/forms/address';
 
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
@@ -573,11 +573,14 @@ const formConfig = {
               },
               livesOnMilitaryBaseInfo: {
                 'ui:title': (
-                  <p id="LearnMoreAboutMilitaryBaseTooltip">
+                  <p id="LiveOnMilitaryBaseTooltip">
                     I live on a United States military base outside of the
                     country
                   </p>
                 ),
+              },
+              additionalInformation: {
+                'ui:description': LearnMoreAboutMilitaryBaseTooltip(),
               },
             },
             'view:note': {
