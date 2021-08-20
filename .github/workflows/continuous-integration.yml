@@ -449,19 +449,19 @@ jobs:
       #   run: git pull origin master
       #   working-directory: testing-reports
 
-      # - name: git add config/cross_app_import_graph.json
-      #   if: ${{ $IS_GRAPH_UPDATED == 'true' }}
-      #   run: git add config/cross_app_import_graph.json
-      #   # working-directory: testing-reports
+      - name: git add config/cross_app_import_graph.json
+        if: ${{ $IS_GRAPH_UPDATED == 'true' }}
+        run: git add config/cross_app_import_graph.json
+        # working-directory: testing-reports
 
-      # - name: Commit and push changes
-      #   if: ${{ $IS_GRAPH_UPDATED == 'true' }}
-      #   uses: actions-js/push@master
-      #   with:
-      #     github_token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-      #     repository: department-of-veterans-affairs/testing-reports
-      #     directory: testing-reports
-      #     branch: master
+      - name: Commit and push changes
+        if: ${{ $IS_GRAPH_UPDATED == 'true' }}
+        uses: actions-js/push@master
+        with:
+          github_token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          # repository: department-of-veterans-affairs/testing-reports
+          # directory: testing-reports
+          branch: $GITHUB_HEAD_REF
   
   cypress-tests-prep:
     name: Prep for Cypress Tests
