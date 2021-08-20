@@ -658,11 +658,11 @@ const formConfig = {
             'view:note': {
               'ui:description': (
                 <p>
-                  <strong>Note</strong>: For text messages, messaging and data
-                  rates may apply. At this time, VA is only able to send text
-                  messages about your education benefits to US-base mobile phone
-                  numbers. Notifications may include monthly enrollment
-                  verification required to receive payment.
+                  <strong>Note</strong>: Notifications may include monthly
+                  enrollment verification required to receive payment. For text
+                  messages, messaging and data rates may apply. At this time, VA
+                  is only able to send text messages about your education
+                  benefits to US-base mobile phone numbers.
                 </p>
               ),
             },
