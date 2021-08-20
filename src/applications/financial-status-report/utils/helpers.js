@@ -19,7 +19,7 @@ export const dateFormatter = date => {
 };
 
 export const sumValues = (arr, key) => {
-  if (!arr) return 0;
+  if (!Array.isArray(arr) || !arr.length) return 0;
   return arr?.reduce((acc, item) => acc + Number(item[key]) ?? 0, 0);
 };
 
@@ -37,9 +37,9 @@ export const getMonthlyIncome = ({
   const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
   const vetOtherAmt = sumValues(addlIncRecords, 'amount');
   const spOtherAmt = sumValues(spAddlIncome, 'amount');
-  const socialSecAmt = Number(socialSecurity.socialSecAmt) ?? 0;
-  const spSocialSecAmt = Number(socialSecurity.spouse.socialSecAmt) ?? 0;
-  const spBenefits = Number(benefits.spouseBenefits.benefitAmount) ?? 0;
+  const socialSecAmt = Number(socialSecurity.socialSecAmt ?? 0);
+  const spSocialSecAmt = Number(socialSecurity.spouse.socialSecAmt ?? 0);
+  const spBenefits = Number(benefits.spouseBenefits.benefitAmount ?? 0);
 
   return (
     vetGrossSalary +
