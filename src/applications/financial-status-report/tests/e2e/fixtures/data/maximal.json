@@ -71,7 +71,7 @@
   ],
   "additionalIncome": {
     "spouse": {
-      "spouseAdditionalIncomeRecords": [
+      "spAddlIncome": [
         {
           "name": "Child care income",
           "amount": "800.54"
@@ -82,7 +82,7 @@
         }
       ]
     },
-    "additionalIncomeRecords": [
+    "addlIncRecords": [
       {
         "name": "Bonus payment",
         "amount": "1500.67"
@@ -437,7 +437,7 @@
     "deductionCode": "",
     "originalAr": 0
   },
-  "currentEmployment": [
+  "currEmployment": [
     {
       "veteranGrossSalary": "5000.54",
       "deductions": [
@@ -475,7 +475,7 @@
       "employerName": "Veteran Current Two"
     }
   ],
-  "spouseCurrentEmployment": [
+  "spCurrEmployment": [
     {
       "spouseGrossSalary": "4000.45",
       "deductions": [

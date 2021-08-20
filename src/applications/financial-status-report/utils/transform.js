@@ -44,11 +44,11 @@ export const transform = (formConfig, form) => {
     additionalData,
     selectedDebts,
     realEstateRecords,
-    currentEmployment,
-    spouseCurrentEmployment,
+    currEmployment,
+    spCurrEmployment,
     additionalIncome: {
-      additionalIncomeRecords,
-      spouse: { spouseAdditionalIncomeRecords },
+      addlIncRecords,
+      spouse: { spAddlIncome },
     },
   } = form.data;
 
@@ -58,25 +58,20 @@ export const transform = (formConfig, form) => {
   const totalAssets = getTotalAssets(form.data);
 
   // veteran income
-  const vetGrossSalary = sumValues(currentEmployment, 'veteranGrossSalary');
-  const deductions = currentEmployment?.map(emp => emp.deductions).flat() ?? 0;
+  const vetGrossSalary = sumValues(currEmployment, 'veteranGrossSalary');
+  const deductions = currEmployment?.map(emp => emp.deductions).flat() ?? 0;
   const vetTotDeductions = sumValues(deductions, 'amount');
   const vetNetPay = vetGrossSalary - vetTotDeductions;
-  const vetOtherAmt = sumValues(additionalIncomeRecords, 'amount');
-  const vetOtherName = additionalIncomeRecords
-    ? additionalIncomeRecords.map(({ name }) => name).join(', ')
-    : '';
+  const vetOtherAmt = sumValues(addlIncRecords, 'amount');
+  const vetOtherName = addlIncRecords?.map(({ name }) => name).join(', ') ?? '';
 
   // spouse income
-  const spGrossSalary = sumValues(spouseCurrentEmployment, 'spouseGrossSalary');
-  const spDeductions =
-    spouseCurrentEmployment?.map(emp => emp.deductions).flat() ?? 0;
+  const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
+  const spDeductions = spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
   const spTotDeductions = sumValues(spDeductions, 'amount');
   const spNetPay = spGrossSalary - spTotDeductions;
-  const spOtherAmt = sumValues(spouseAdditionalIncomeRecords, 'amount');
-  const spOtherName = spouseAdditionalIncomeRecords
-    ? spouseAdditionalIncomeRecords.map(({ name }) => name).join(', ')
-    : '';
+  const spOtherAmt = sumValues(spAddlIncome, 'amount');
+  const spOtherName = spAddlIncome?.map(({ name }) => name).join(', ') ?? '';
 
   const amountCanBePaidTowardDebt = selectedDebts
     .filter(item => item.resolution.offerToPay !== undefined)

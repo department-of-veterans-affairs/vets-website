@@ -10,7 +10,7 @@ import {
 } from '../../../../constants/typeaheadOptions';
 
 export const uiSchema = {
-  spouseCurrentEmployment: {
+  spCurrEmployment: {
     items: {
       'ui:title': ({ formData }) => (
         <legend className="schemaform-block-title">
@@ -75,7 +75,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    spouseCurrentEmployment: {
+    spCurrEmployment: {
       type: 'array',
       items: {
         type: 'object',

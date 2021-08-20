@@ -25,18 +25,18 @@ export const sumValues = (arr, key) => {
 
 export const getMonthlyIncome = ({
   additionalIncome: {
-    additionalIncomeRecords,
-    spouse: { spouseAdditionalIncomeRecords },
+    addlIncRecords,
+    spouse: { spAddlIncome },
   },
   socialSecurity,
   benefits,
-  currentEmployment,
-  spouseCurrentEmployment,
+  currEmployment,
+  spCurrEmployment,
 }) => {
-  const vetGrossSalary = sumValues(currentEmployment, 'veteranGrossSalary');
-  const spGrossSalary = sumValues(spouseCurrentEmployment, 'spouseGrossSalary');
-  const vetOtherAmt = sumValues(additionalIncomeRecords, 'amount');
-  const spOtherAmt = sumValues(spouseAdditionalIncomeRecords, 'amount');
+  const vetGrossSalary = sumValues(currEmployment, 'veteranGrossSalary');
+  const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
+  const vetOtherAmt = sumValues(addlIncRecords, 'amount');
+  const spOtherAmt = sumValues(spAddlIncome, 'amount');
   const socialSecAmt = Number(socialSecurity.socialSecAmt) ?? 0;
   const spSocialSecAmt = Number(socialSecurity.spouse.socialSecAmt) ?? 0;
   const spBenefits = Number(benefits.spouseBenefits.benefitAmount) ?? 0;
