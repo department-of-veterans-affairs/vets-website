@@ -91,22 +91,23 @@ function shouldRebuildGraph(diff) {
       );
       const filePath = getAppPathFromFileDiff(srcApplicationFileDiff);
       const filePathAsArray = filePath.split('/');
-
       const imports = findImports(filePath, {
         absoluteImports: true,
         relativeImports: true,
         packageImports: false,
       });
+      const importedFiles = imports[Object.keys(imports)[0]];
 
       // eslint-disable-next-line no-console
       console.log('Imports in shouldRebuildGraph(): ', imports);
       // eslint-disable-next-line no-console
       console.log('It should be an array with on file');
 
-      // eslint-disable-next-line consistent-return
-      Object.keys(imports).forEach(file => {
-        for (let j = 0; j < imports[file].length; j += 1) {
-          const importRelPath = imports[file][j];
+      for (let j = 0; j < importedFiles.length; j += 1) {
+        const file = importedFiles[j];
+
+        for (let k = 0; k < imports[file].length; k += 1) {
+          const importRelPath = imports[file][k];
           let importPath;
 
           if (importRelPath.startsWith('../')) {
@@ -146,7 +147,7 @@ function shouldRebuildGraph(diff) {
             }
           }
         }
-      });
+      }
     }
   }
 
