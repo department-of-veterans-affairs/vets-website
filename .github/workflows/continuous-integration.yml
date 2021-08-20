@@ -478,7 +478,7 @@ jobs:
         with:
           github_token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           message: 'update graph'
-          branch: ${{ github.ref }}
+          # branch: ${{ github.ref }}
   
   cypress-tests-prep:
     name: Prep for Cypress Tests
@@ -851,9 +851,20 @@ jobs:
         run: git pull origin master
         working-directory: testing-reports
 
-      - name: Add changes
+      - name: Run git status before add
+        run: git status
+
+      - name: Run git status with 'echo' before add
+        run: echo ${{ git status }}
+
+      - name: Run git add.
         run: git add .
-        working-directory: testing-reports
+
+      - name: Run git status after add
+        run: git status
+
+      - name: Run git status with 'echo' after add
+        run: echo ${{ git status }}
 
       - name: Commit and push changes
         uses: actions-js/push@master
