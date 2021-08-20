@@ -75,7 +75,8 @@ function shouldRebuildGraph(diff) {
 
   for (let i = 0; i < srcApplicationFileDiffs.length; i += 1) {
     const srcApplicationFileDiff = srcApplicationFileDiffs[i];
-    const includesImport = /import.+from.+;/g.test(srcApplicationFileDiff);
+    // const includesImport = /import .+from.+;/g.test(srcApplicationFileDiff); // including 'from' might not work, becuase it could be many lines later and might not be included in the diff
+    const includesImport = /import /g.test(srcApplicationFileDiff);
     const includesRequire = srcApplicationFileDiff.includes("require('");
 
     // eslint-disable-next-line no-console
@@ -122,6 +123,11 @@ function shouldRebuildGraph(diff) {
             importPath = importRelPath;
           }
 
+          // eslint-disable-next-line no-console
+          console.log('File path to compare with: ', filePath);
+          // eslint-disable-next-line no-console
+          console.log('Import path: ', importPath);
+
           if (
             importPath.startsWith('src/applications') &&
             !importPath.startsWith(`src/applications/${appName}`)
@@ -129,6 +135,9 @@ function shouldRebuildGraph(diff) {
             const importPathAsArray = importPath.split('/');
             const importFileName =
               importPathAsArray[importPathAsArray.length - 1];
+
+            // eslint-disable-next-line no-console
+            console.log('Import filename: ', importFileName);
 
             if (srcApplicationFileDiff.includes(importFileName)) {
               // eslint-disable-next-line no-console
