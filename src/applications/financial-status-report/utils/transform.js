@@ -11,8 +11,31 @@ import {
 export const transform = (formConfig, form) => {
   const {
     questions,
-    personalData,
     personalIdentification,
+    personalData: {
+      veteranFullName: {
+        first: vetFirst = '',
+        middle: vetMiddle = '',
+        last: vetLast = '',
+      },
+      spouseFullName: {
+        first: spouseFirst = '',
+        middle: spouseMiddle = '',
+        last: spouseLast = '',
+      },
+      address: {
+        street,
+        street2 = '',
+        street3 = '',
+        city,
+        state,
+        postalCode,
+        country,
+      },
+      telephoneNumber,
+      dateOfBirth,
+      dependents,
+    },
     expenses,
     otherExpenses,
     utilityRecords,
@@ -28,28 +51,6 @@ export const transform = (formConfig, form) => {
       spouse: { spouseAdditionalIncomeRecords },
     },
   } = form.data;
-
-  const {
-    first: vetFirst = '',
-    middle: vetMiddle = '',
-    last: vetLast = '',
-  } = personalData.veteranFullName;
-
-  const {
-    first: spouseFirst = '',
-    middle: spouseMiddle = '',
-    last: spouseLast = '',
-  } = personalData.spouseFullName;
-
-  const {
-    street,
-    street2 = '',
-    street3 = '',
-    city,
-    state,
-    postalCode,
-    country,
-  } = personalData.address;
 
   const monthlyIncome = getMonthlyIncome(form.data);
   const monthlyExpenses = getMonthlyExpenses(form.data);
@@ -104,17 +105,16 @@ export const transform = (formConfig, form) => {
         zipOrPostalCode: postalCode,
         countryName: country,
       },
-      telephoneNumber: personalData.telephoneNumber,
-      dateOfBirth: moment(personalData.dateOfBirth).format('MM/DD/YYYY'),
+      telephoneNumber,
+      dateOfBirth: moment(dateOfBirth).format('MM/DD/YYYY'),
       married: questions.isMarried,
       spouseFullName: {
         first: spouseFirst,
         middle: spouseMiddle,
         last: spouseLast,
       },
-      agesOfOtherDependents: personalData.dependents
-        ? personalData.dependents.map(dependent => dependent.dependentAge)
-        : [],
+      agesOfOtherDependents:
+        dependents?.map(dependent => dependent.dependentAge) ?? [],
       employmentHistory,
     },
     income: [
