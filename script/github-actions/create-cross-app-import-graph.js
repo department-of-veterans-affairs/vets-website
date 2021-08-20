@@ -48,6 +48,7 @@ function sliceDiffIntoDiffForEachChangedFile(diff) {
       // eslint-disable-next-line no-console
       console.log('In condition 2');
       diffForEachChangedFile.push(diff.slice(startOfDiffIndex, i));
+      i -= 1; // reduce i by 1 so the next iteration picks up the beginning of this diff
       startOfDiffIndex = null;
     } else if (startOfDiffIndex !== null && i === diff.length - 1) {
       // eslint-disable-next-line no-console
