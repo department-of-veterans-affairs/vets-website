@@ -33,7 +33,7 @@ function getDropdownValueFromLocation(pathname) {
   if (pathname.endsWith(DROPDOWN_VALUES.requested)) {
     return {
       dropdownValue: DROPDOWN_VALUES.requested,
-      subPageTitle: 'Open requests',
+      subPageTitle: 'Requested',
       subHeading: 'Requested',
     };
   } else if (pathname.endsWith(DROPDOWN_VALUES.past)) {

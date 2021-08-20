@@ -73,7 +73,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
 
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        `Open requests | VA online scheduling | Veterans Affairs`,
+        `Requested | VA online scheduling | Veterans Affairs`,
       );
     });
 
