@@ -667,8 +667,8 @@ const formConfig = {
               'ui:description': (
                 <p>
                   <strong>Note</strong>: For text messages, messaging and data
-                  rates may apply. At this time, VA is only ale to send text
-                  messages about your education benefits to US-base mobile
+                  rates may apply. At this time, VA is only able to send text
+                  messages about your education benefits to US-base mobile phone
                   numbers.
                 </p>
               ),
