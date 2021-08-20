@@ -84,57 +84,57 @@ function shouldRebuildGraph(diff) {
         relativeImports: true,
         packageImports: false,
       });
-      const importedFiles = imports[Object.keys(imports)[0]];
+      const importRelPaths = imports[Object.keys(imports)[0]];
 
       // eslint-disable-next-line no-console
       console.log('Imports in shouldRebuildGraph(): ', imports);
       // eslint-disable-next-line no-console
       console.log('It should be an array with on file');
 
-      for (let j = 0; j < importedFiles.length; j += 1) {
-        const file = importedFiles[j];
+      for (let j = 0; j < importRelPaths.length; j += 1) {
+        // const file = importRelPaths[j];
+        const importRelPath = importRelPaths[j];
 
-        for (let k = 0; k < imports[file].length; k += 1) {
-          const importRelPath = imports[file][k];
-          let importPath;
+        // for (let k = 0; k < imports[file].length; k += 1) {
+        //   const importRelPath = imports[file][k];
+        let importPath;
 
-          if (importRelPath.startsWith('../')) {
-            const numDirsUp = importRelPath
-              .split('/')
-              .filter(str => str === '..').length;
-            importPath = importRelPath.replace(
-              '../'.repeat(numDirsUp),
-              `${filePathAsArray
-                .slice(0, filePathAsArray.length - 1 - numDirsUp)
-                .join('/')}/`,
-            );
-          } else {
-            importPath = importRelPath;
-          }
+        if (importRelPath.startsWith('../')) {
+          const numDirsUp = importRelPath.split('/').filter(str => str === '..')
+            .length;
+          importPath = importRelPath.replace(
+            '../'.repeat(numDirsUp),
+            `${filePathAsArray
+              .slice(0, filePathAsArray.length - 1 - numDirsUp)
+              .join('/')}/`,
+          );
+        } else {
+          importPath = importRelPath;
+        }
+
+        // eslint-disable-next-line no-console
+        console.log('File path to compare with: ', filePath);
+        // eslint-disable-next-line no-console
+        console.log('Import path: ', importPath);
+
+        if (
+          importPath.startsWith('src/applications') &&
+          !importPath.startsWith(`src/applications/${appName}`)
+        ) {
+          const importPathAsArray = importPath.split('/');
+          const importFileName =
+            importPathAsArray[importPathAsArray.length - 1];
 
           // eslint-disable-next-line no-console
-          console.log('File path to compare with: ', filePath);
-          // eslint-disable-next-line no-console
-          console.log('Import path: ', importPath);
+          console.log('Import filename: ', importFileName);
 
-          if (
-            importPath.startsWith('src/applications') &&
-            !importPath.startsWith(`src/applications/${appName}`)
-          ) {
-            const importPathAsArray = importPath.split('/');
-            const importFileName =
-              importPathAsArray[importPathAsArray.length - 1];
-
+          if (srcApplicationFileDiff.includes(importFileName)) {
             // eslint-disable-next-line no-console
-            console.log('Import filename: ', importFileName);
-
-            if (srcApplicationFileDiff.includes(importFileName)) {
-              // eslint-disable-next-line no-console
-              console.log('shouldRebuildGraph = TRUE');
-              return true;
-            }
+            console.log('shouldRebuildGraph = TRUE');
+            return true;
           }
         }
+        // }
       }
     }
   }
