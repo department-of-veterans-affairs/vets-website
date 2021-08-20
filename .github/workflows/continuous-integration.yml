@@ -465,12 +465,25 @@ jobs:
       #   run: git pull origin master
       #   working-directory: testing-reports
 
-      - name: Git add config/cross_app_import_graph.json
+      # - name: Git add config/cross_app_import_graph.json
+      #   if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
+      #   run: git add .
+
+      # - name: Echo branch name
+      #   if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
+      #   run: echo ${{ github.ref }}
+
+      - name: Run git status before add
+        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
+        run: git status
+
+      - name: Run git add.
         if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
         run: git add .
 
-      - name: Echo branch name
-        run: echo ${{ github.ref }}
+      - name: Run git status after add
+        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
+        run: git status
 
       - name: Git commit and push changes
         if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
@@ -851,14 +864,9 @@ jobs:
         run: git pull origin master
         working-directory: testing-reports
 
-      - name: Run git status before add
-        run: git status
-
-      - name: Run git add.
+      - name: Add changes
         run: git add .
-
-      - name: Run git status after add
-        run: git status
+        working-directory: testing-reports
 
       - name: Commit and push changes
         uses: actions-js/push@master
