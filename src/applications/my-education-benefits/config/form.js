@@ -667,7 +667,7 @@ const formConfig = {
                   enrollment verification required to receive payment. For text
                   messages, messaging and data rates may apply. At this time, VA
                   is only able to send text messages about your education
-                  benefits to US-base mobile phone numbers.
+                  benefits to US-based mobile phone numbers.
                 </p>
               ),
             },
