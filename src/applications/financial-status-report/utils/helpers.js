@@ -24,95 +24,72 @@ export const sumValues = (arr, key) => {
 };
 
 export const getMonthlyIncome = ({
-  questions,
-  additionalIncome,
+  additionalIncome: {
+    additionalIncomeRecords,
+    spouse: { spouseAdditionalIncomeRecords },
+  },
   socialSecurity,
   benefits,
   currentEmployment,
   spouseCurrentEmployment,
 }) => {
-  let totalArr = [];
+  const vetGrossSalary = sumValues(currentEmployment, 'veteranGrossSalary');
+  const spGrossSalary = sumValues(spouseCurrentEmployment, 'spouseGrossSalary');
+  const vetOtherAmt = sumValues(additionalIncomeRecords, 'amount');
+  const spOtherAmt = sumValues(spouseAdditionalIncomeRecords, 'amount');
+  const socialSecAmt = Number(socialSecurity.socialSecAmt) ?? 0;
+  const spSocialSecAmt = Number(socialSecurity.spouse.socialSecAmt) ?? 0;
+  const spBenefits = Number(benefits.spouseBenefits.benefitAmount) ?? 0;
 
-  if (questions.vetIsEmployed) {
-    const monthlyGrossSalary = currentEmployment
-      .map(record => Number(record.veteranGrossSalary))
-      .reduce((acc, amount) => acc + amount, 0);
-    totalArr = [...totalArr, monthlyGrossSalary];
-  }
-
-  if (questions.spouseIsEmployed) {
-    const monthlyGrossSalary = spouseCurrentEmployment
-      .map(record => Number(record.spouseGrossSalary))
-      .reduce((acc, amount) => acc + amount, 0);
-    totalArr = [...totalArr, monthlyGrossSalary];
-  }
-
-  if (questions.hasAdditionalIncome) {
-    const vetAddl = additionalIncome.additionalIncomeRecords.map(record =>
-      Number(record.amount),
-    );
-    totalArr = [...totalArr, ...vetAddl];
-  }
-
-  if (questions.spouseHasAdditionalIncome) {
-    const spouseAddl = additionalIncome.spouse.spouseAdditionalIncomeRecords.map(
-      record => Number(record.amount),
-    );
-    totalArr = [...totalArr, ...spouseAddl];
-  }
-
-  if (questions.hasSocialSecurity) {
-    const { socialSecurityAmount } = socialSecurity;
-    totalArr = [...totalArr, socialSecurityAmount];
-  }
-
-  if (questions.spouseHasSocialSecurity) {
-    const { socialSecurityAmount } = socialSecurity.spouse;
-    totalArr = [...totalArr, socialSecurityAmount];
-  }
-
-  if (questions.spouseHasBenefits) {
-    const { benefitAmount, educationAmount } = benefits.spouseBenefits;
-    totalArr = [...totalArr, benefitAmount, educationAmount];
-  }
-
-  return totalArr.reduce((acc, income) => acc + Number(income), 0) ?? 0;
+  return (
+    vetGrossSalary +
+    spGrossSalary +
+    vetOtherAmt +
+    spOtherAmt +
+    socialSecAmt +
+    spSocialSecAmt +
+    spBenefits
+  );
 };
 
 export const getMonthlyExpenses = formData => {
   const {
-    questions,
     expenses,
     otherExpenses,
     utilityRecords,
     installmentContracts,
   } = formData;
 
-  let totalArr = [];
+  const expVals = Object.values(expenses);
+  const totalExp = expVals.reduce((acc, expense) => acc + Number(expense), 0);
+  const utilities = sumValues(utilityRecords, 'monthlyUtilityAmount');
+  const installments = sumValues(installmentContracts, 'amountDueMonthly');
+  const otherExp = sumValues(otherExpenses, 'amount');
 
-  const householdExpenses = Object.values(expenses);
-  totalArr = [...totalArr, ...householdExpenses];
+  return totalExp + utilities + installments + otherExp;
+};
 
-  if (questions.hasUtilities) {
-    const utilities = utilityRecords.map(
-      utility => utility.monthlyUtilityAmount,
-    );
-    totalArr = [...totalArr, ...utilities];
-  }
+export const getTotalAssets = ({ assets, realEstateRecords }) => {
+  const totVehicles = sumValues(assets.automobiles, 'resaleValue');
+  const totOtherAssets = sumValues(assets.otherAssets, 'amount');
+  const totRealEstate = sumValues(realEstateRecords, 'realEstateAmount');
+  const totRecVehicles = sumValues(assets.recVehicles, 'recVehicleAmount');
 
-  if (questions.hasRepayments) {
-    const installments = installmentContracts.map(
-      installment => installment.amountDueMonthly,
-    );
-    totalArr = [...totalArr, ...installments];
-  }
+  const totAssets = Object.values(assets) // TODO: refactor this to match expVals
+    .filter(item => typeof item === 'string')
+    .reduce((acc, amount) => acc + Number(amount), 0);
 
-  if (questions.hasOtherExpenses) {
-    const other = otherExpenses.map(expense => expense.amount);
-    totalArr = [...totalArr, ...other];
-  }
+  const totArr = [
+    totVehicles,
+    totRecVehicles,
+    totRealEstate,
+    totOtherAssets,
+    totAssets,
+  ];
 
-  return totalArr.reduce((acc, expense) => acc + Number(expense), 0) ?? 0;
+  return totArr
+    .map(amount => amount ?? 0)
+    .reduce((acc, amount) => acc + Number(amount), 0);
 };
 
 export const getEmploymentHistory = ({ questions, personalData }) => {
@@ -164,27 +141,4 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
   }
 
   return history;
-};
-
-export const getTotalAssets = ({ assets, realEstateRecords }) => {
-  const totVehicles = sumValues(assets.automobiles, 'resaleValue');
-  const totOtherAssets = sumValues(assets.otherAssets, 'amount');
-  const totRealEstate = sumValues(realEstateRecords, 'realEstateAmount');
-  const totRecVehicles = sumValues(assets.recVehicles, 'recVehicleAmount');
-
-  const totAssets = Object.values(assets)
-    .filter(item => typeof item === 'string')
-    .reduce((acc, amount) => acc + Number(amount), 0);
-
-  const totArr = [
-    totVehicles,
-    totRecVehicles,
-    totRealEstate,
-    totOtherAssets,
-    totAssets,
-  ];
-
-  return totArr
-    .map(amount => amount ?? 0)
-    .reduce((acc, amount) => acc + Number(amount), 0);
 };

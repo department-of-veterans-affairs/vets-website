@@ -22,8 +22,11 @@ export const transform = (formConfig, form) => {
     selectedDebts,
     realEstateRecords,
     currentEmployment,
-    additionalIncome,
     spouseCurrentEmployment,
+    additionalIncome: {
+      additionalIncomeRecords,
+      spouse: { spouseAdditionalIncomeRecords },
+    },
   } = form.data;
 
   const {
@@ -53,12 +56,7 @@ export const transform = (formConfig, form) => {
   const employmentHistory = getEmploymentHistory(form.data);
   const totalAssets = getTotalAssets(form.data);
 
-  const {
-    additionalIncomeRecords,
-    spouse: { spouseAdditionalIncomeRecords },
-  } = additionalIncome;
-
-  // VETERAN INCOME
+  // veteran income
   const vetGrossSalary = sumValues(currentEmployment, 'veteranGrossSalary');
   const deductions = currentEmployment?.map(emp => emp.deductions).flat() ?? 0;
   const vetTotDeductions = sumValues(deductions, 'amount');
@@ -68,7 +66,7 @@ export const transform = (formConfig, form) => {
     ? additionalIncomeRecords.map(({ name }) => name).join(', ')
     : '';
 
-  // SPOUSE INCOME
+  // spouse income
   const spGrossSalary = sumValues(spouseCurrentEmployment, 'spouseGrossSalary');
   const spDeductions =
     spouseCurrentEmployment?.map(emp => emp.deductions).flat() ?? 0;
@@ -138,7 +136,7 @@ export const transform = (formConfig, form) => {
           name: vetOtherName,
           amount: vetOtherAmt,
         },
-        totalMonthlyNetIncome: vetNetPay,
+        totalMonthlyNetIncome: '',
       },
       {
         veteranOrSpouse: 'SPOUSE',
@@ -158,11 +156,12 @@ export const transform = (formConfig, form) => {
           name: spOtherName,
           amount: spOtherAmt,
         },
-        totalMonthlyNetIncome: spNetPay,
+        totalMonthlyNetIncome: '',
       },
     ],
     expenses: {
-      ...expenses,
+      rentOrMortgage: expenses.rentOrMortgage,
+      food: expenses.food,
       utilities: sumValues(utilityRecords, 'monthlyUtilityAmount'),
       otherLivingExpenses: {
         name: otherExpenses?.map(expense => expense.name).join(', '),

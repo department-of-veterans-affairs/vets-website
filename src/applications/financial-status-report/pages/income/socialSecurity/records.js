@@ -3,7 +3,7 @@ import { validateCurrency } from '../../../utils/validations';
 export const uiSchema = {
   'ui:title': 'Your other income',
   socialSecurity: {
-    socialSecurityAmount: {
+    socialSecAmt: {
       'ui:title': 'How much do you get for Social Security each month?',
       'ui:options': {
         classNames: 'schemaform-currency-input',
@@ -22,9 +22,9 @@ export const schema = {
   properties: {
     socialSecurity: {
       type: 'object',
-      required: ['socialSecurityAmount'],
+      required: ['socialSecAmt'],
       properties: {
-        socialSecurityAmount: {
+        socialSecAmt: {
           type: 'string',
         },
       },

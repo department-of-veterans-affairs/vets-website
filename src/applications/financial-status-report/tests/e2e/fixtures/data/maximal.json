@@ -95,9 +95,9 @@
   },
   "socialSecurity": {
     "spouse": {
-      "socialSecurityAmount": "1400.45"
+      "socialSecAmt": "1400.45"
     },
-    "socialSecurityAmount": "1200.65"
+    "socialSecAmt": "1200.65"
   },
   "benefits": {
     "spouseBenefits": {
