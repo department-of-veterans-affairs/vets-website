@@ -20,13 +20,9 @@ import emailUI from 'platform/forms-system/src/js/definitions/email';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-// import * as address from 'platform/forms-system/src/js/definitions/address';
-
-// eslint-disable-next-line no-unused-vars
-// import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-// import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-// eslint-disable-next-line no-unused-vars
 import * as address from 'platform/forms-system/src/js/definitions/address';
+
+// import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 
 import manifest from '../manifest.json';
 
@@ -51,11 +47,6 @@ import {
 
 // import { directDepositWarning } from '../helpers';
 
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
-
-// import { directDepositWarning } from '../helpers';
 import MailingAddressViewField from '../components/MailingAddressViewField';
 // import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
 import { states } from 'platform/forms/address';
@@ -108,7 +99,6 @@ const formPages = {
     mailingAddress: 'mailingAddress',
     preferredContactMethod: 'preferredContactMethod',
   },
-  contactInformationPreferences: 'contactInformationPreferences',
   benefitSelection: 'benefitSelection',
   // directDeposit: 'directDeposit',
 };
@@ -248,7 +238,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [formFields.veteranFullName],
+            required: [formFields.fullName],
             properties: {
               'view:subHeadings': {
                 type: 'object',
@@ -342,6 +332,7 @@ const formConfig = {
               },
               [formFields.incorrectServiceHistoryExplanation]: {
                 type: 'string',
+                maxLength: 250,
               },
             },
           },
@@ -397,7 +388,7 @@ const formConfig = {
     additionalInformationChapter: {
       title: 'Additional Information',
       pages: {
-        [formPages.contactInformation]: {
+        [formPages.contactInformation.contactInformation]: {
           title: 'Contact Information',
           path: 'contact/information',
           initialData: {
@@ -672,10 +663,11 @@ const formConfig = {
             'view:note': {
               'ui:description': (
                 <p>
-                  <strong>Note</strong>: For text messages, messaging and data
-                  rates may apply. At this time, VA is only able to send text
-                  messages about your education benefits to US-base mobile phone
-                  numbers.
+                  <strong>Note</strong>: Notifications may include monthly
+                  enrollment verification required to receive payment. For text
+                  messages, messaging and data rates may apply. At this time, VA
+                  is only able to send text messages about your education
+                  benefits to US-base mobile phone numbers.
                 </p>
               ),
             },
