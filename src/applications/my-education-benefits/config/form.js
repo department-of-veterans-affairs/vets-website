@@ -328,6 +328,7 @@ const formConfig = {
               },
               [formFields.incorrectServiceHistoryExplanation]: {
                 type: 'string',
+                maxLength: 250,
               },
             },
           },
