@@ -21,6 +21,7 @@ jobs:
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+      NEXUS_REGISTRY: https://devops.va.gov/dots-nexus/repository/npmjs.org-proxy/
 
     strategy:
       fail-fast: false
@@ -66,11 +67,22 @@ jobs:
       #     YARN_REGISTRY: https://devops.va.gov/dots-nexus/repository/npmjs.org-proxy/
       #     YARN_CACHE_FOLDER: .cache/yarn
 
-      - name: Set yarn registry to DOT NEXUS
-        run: yarn config set registry https://devops.va.gov/dots-nexus/repository/npmjs.org-proxy/
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: Verify registry for yarn
-        run: yarn config get registry
+      - name: Get GitHub token
+        uses: marvinpinto/action-inject-ssm-secrets@latest
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Authenticate NEXUS
+        run: |
+          npm install -g npm-cli-adduser
+          npm-cli-adduser -u va-vsp-bot -p ${{ env.VA_VSP_BOT_GITHUB_TOKEN }} -e va-vsp-bot@test.com -r ${{ env.NEXUS_REGISTRY }}
 
       - name: Force yarn cache clean
         run: yarn cache clean
@@ -528,12 +540,11 @@ jobs:
       - name: Install dependencies
         uses: nick-invision/retry@v2
         with:
-          command: yarn install --frozen-lockfile --prefer-offline --production=false --verbose
+          command: yarn install --frozen-lockfile --prefer-offline --production=false
           max_attempts: 3
           timeout_minutes: 5
         env:
           YARN_CACHE_FOLDER: .cache/yarn
-          YARN_REGISTRY: https://devops.va.gov/dots-nexus/repository/npmjs.org-proxy/
 
       - name: Start server
         run: node src/platform/testing/e2e/test-server.js --buildtype vagovprod --port=3001 &
