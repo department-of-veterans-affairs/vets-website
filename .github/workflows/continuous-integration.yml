@@ -406,6 +406,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
+          persist-credentials: false
           fetch-depth: 0
 
       - name: Get Node version
@@ -445,6 +446,7 @@ jobs:
           DIFF_RESULTS: ${{ steps.git-diff.outputs.DIFF_RESULTS }}
 
       - name: Configure AWS credentials
+        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -452,6 +454,7 @@ jobs:
           aws-region: 'us-gov-west-1'
 
       - name: Get va-vsp-bot token
+        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
         uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
@@ -462,22 +465,20 @@ jobs:
       #   run: git pull origin master
       #   working-directory: testing-reports
 
-      - name: git add config/cross_app_import_graph.json
+      - name: Git add config/cross_app_import_graph.json
         if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
         run: git add .
-        # working-directory: testing-reports
 
       - name: Echo branch name
-        run: echo ${{ env.GITHUB_HEAD_REF }}
+        run: echo ${{ github.ref }}
 
-      - name: Commit and push changes
+      - name: Git commit and push changes
         if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
         uses: actions-js/push@master
         with:
           github_token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-          # repository: department-of-veterans-affairs/vets-website
-          # directory: testing-reports
-          # branch: ${{ env.GITHUB_HEAD_REF }}
+          message: 'update graph'
+          branch: ${{ github.ref }}
   
   cypress-tests-prep:
     name: Prep for Cypress Tests
