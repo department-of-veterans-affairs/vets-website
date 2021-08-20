@@ -70,26 +70,15 @@ export const getMonthlyExpenses = formData => {
 };
 
 export const getTotalAssets = ({ assets, realEstateRecords }) => {
-  const totVehicles = sumValues(assets.automobiles, 'resaleValue');
   const totOtherAssets = sumValues(assets.otherAssets, 'amount');
-  const totRealEstate = sumValues(realEstateRecords, 'realEstateAmount');
   const totRecVehicles = sumValues(assets.recVehicles, 'recVehicleAmount');
-
-  const totAssets = Object.values(assets) // TODO: refactor this to match expVals
-    .filter(item => typeof item === 'string')
+  const totVehicles = sumValues(assets.automobiles, 'resaleValue');
+  const realEstate = sumValues(realEstateRecords, 'realEstateAmount');
+  const totAssets = Object.values(assets)
+    .filter(item => !Array.isArray(item))
     .reduce((acc, amount) => acc + Number(amount), 0);
 
-  const totArr = [
-    totVehicles,
-    totRecVehicles,
-    totRealEstate,
-    totOtherAssets,
-    totAssets,
-  ];
-
-  return totArr
-    .map(amount => amount ?? 0)
-    .reduce((acc, amount) => acc + Number(amount), 0);
+  return totVehicles + totRecVehicles + totOtherAssets + realEstate + totAssets;
 };
 
 export const getEmploymentHistory = ({ questions, personalData }) => {
