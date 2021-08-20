@@ -437,12 +437,31 @@ jobs:
 
       - name: Diff recent commit
         id: git-diff
-        run: echo ::set-output name=DIFF_RESULTS::$(git diff $(git rev-parse @~)..$(git rev-parse @))
+        run: echo ::set-output name=DIFF_RESULTS::$(git diff $(git rev-parse @~)..$(git rev-parse @) --unified=0)
 
-      - name: Set IS_GRAPH_UPDATED and GRAPH variables
+      - name: Set IS_GRAPH_UPDATED
         run: node script/github-actions/create-cross-app-import-graph.js
         env:
           DIFF_RESULTS: ${{ steps.git-diff.outputs.DIFF_RESULTS }}
+
+      # - name: Pull any changes since checkout
+      #   if: ${{ $IS_GRAPH_UPDATED == 'true' }}
+      #   run: git pull origin master
+      #   working-directory: testing-reports
+
+      # - name: git add config/cross_app_import_graph.json
+      #   if: ${{ $IS_GRAPH_UPDATED == 'true' }}
+      #   run: git add config/cross_app_import_graph.json
+      #   # working-directory: testing-reports
+
+      # - name: Commit and push changes
+      #   if: ${{ $IS_GRAPH_UPDATED == 'true' }}
+      #   uses: actions-js/push@master
+      #   with:
+      #     github_token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+      #     repository: department-of-veterans-affairs/testing-reports
+      #     directory: testing-reports
+      #     branch: master
   
   cypress-tests-prep:
     name: Prep for Cypress Tests
