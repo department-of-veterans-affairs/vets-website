@@ -82,4 +82,25 @@ describe('Facility search error messages', () => {
 
     cy.get('.usa-input-error-message').should('not.exist');
   });
+
+  it('shows error message when deleting service after search', () => {
+    cy.get('#street-city-state-zip').type('Austin, TX');
+    cy.get('#facility-type-dropdown').select(
+      'Community providers (in VA’s network)',
+    );
+    cy.get('#service-type-ahead-input').type('Dentist');
+    cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
+
+    cy.get('#facility-search').click({ waitForAnimations: true });
+    cy.get('#search-results-subheader').contains(
+      'Results for "Community providers (in VA’s network)", "Dentist - Orofacial Pain " near "Austin, Texas"',
+    );
+
+    cy.get('#service-type-ahead-input').clear();
+    cy.get('#facility-search').click({ waitForAnimations: true });
+    cy.get('.usa-input-error-message').contains(
+      'Please search for an available service.',
+    );
+    cy.get('#service-type-ahead-input').should('be.empty');
+  });
 });
