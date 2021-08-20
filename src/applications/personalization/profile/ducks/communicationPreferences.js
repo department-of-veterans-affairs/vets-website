@@ -107,7 +107,7 @@ export const saveCommunicationPreferenceChannel = (channelId, apiCallInfo) => {
       dispatch(saveChannelSucceeded(channelId, response.bio));
     } catch (error) {
       const errors = error.errors ?? [error];
-      dispatch(saveChannelFailed(channelId, !apiCallInfo.isAllowed, errors));
+      dispatch(saveChannelFailed(channelId, apiCallInfo.wasAllowed, errors));
     }
   };
 };
@@ -171,7 +171,7 @@ function communicationChannelsReducer(accumulator, item) {
     const communicationChannel = {
       channelType: channel.id,
       parentItem: itemId,
-      isAllowed: channel.communicationPermission?.allowed ?? false,
+      isAllowed: channel.communicationPermission?.allowed ?? null,
       permissionId: channel.communicationPermission?.id ?? null,
       ui: {
         updateStatus: LOADING_STATES.idle,
