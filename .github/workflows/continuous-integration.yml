@@ -461,7 +461,7 @@ jobs:
           github_token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           # repository: department-of-veterans-affairs/testing-reports
           # directory: testing-reports
-          branch: ${{ $GITHUB_HEAD_REF }}
+          branch: ${{ env.GITHUB_HEAD_REF }}
   
   cypress-tests-prep:
     name: Prep for Cypress Tests
