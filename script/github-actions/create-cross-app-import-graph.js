@@ -7,14 +7,17 @@ function diffIncludesSrcApplicationsFiles(diff) {
   return diff.includes('diff --git a/src/applications');
 }
 
-function isSrcAppicationFileDiff(fileDiff) {
-  const str = fileDiff.replace('diff --git a/', '');
-  const changedFilePath = str.slice(0, str.indexOf(' '));
-  return changedFilePath.startsWith('src/applications');
+function getAppNameFromFilePath(filePath) {
+  return filePath.split('/')[2];
 }
 
-function getAppName(filePath) {
-  return filePath.split('/')[2];
+function isSrcAppicationFileDiff(fileDiff) {
+  return fileDiff.replace('diff --git a/', '').startsWith('src/applications');
+}
+
+function getAppPathFromFileDiff(fileDiff) {
+  const str = fileDiff.replace('diff --git a/', '');
+  return str.slice(0, str.indexOf(' '));
 }
 
 function sliceDiffIntoDiffForEachChangedFile(diff) {
@@ -58,8 +61,9 @@ function shouldRebuildGraph(diff) {
   console.log('srcApplicationFileDiffs:', srcApplicationFileDiffs);
 
   for (let i = 0; i < srcApplicationFileDiffs.length; i += 1) {
-    const includesImport = /import.+from.+;/g.test(srcApplicationFileDiffs[i]);
-    const includesRequire = srcApplicationFileDiffs[i].includes("require('");
+    const srcApplicationFileDiff = srcApplicationFileDiffs[i];
+    const includesImport = /import.+from.+;/g.test(srcApplicationFileDiff);
+    const includesRequire = srcApplicationFileDiff.includes("require('");
 
     // eslint-disable-next-line no-console
     console.log('includesImport:', includesImport);
@@ -68,9 +72,59 @@ function shouldRebuildGraph(diff) {
     console.log('includesRequire:', includesRequire);
 
     if (includesImport || includesRequire) {
+      const appName = getAppNameFromFilePath(
+        getAppPathFromFileDiff(srcApplicationFileDiff),
+      );
+      const filePath = getAppPathFromFileDiff(srcApplicationFileDiff);
+      const filePathAsArray = filePath.split('/');
+
+      const imports = findImports(filePath, {
+        absoluteImports: true,
+        relativeImports: true,
+        packageImports: false,
+      });
+
       // eslint-disable-next-line no-console
-      console.log('shouldRebuildGraph = TRUE');
-      return true;
+      console.log('imports in shouldRebuildGraph(): ', imports);
+      // eslint-disable-next-line no-console
+      console.log('It should be an array with on file');
+
+      // eslint-disable-next-line consistent-return
+      Object.keys(imports).forEach(file => {
+        for (let j = 0; j < imports[file]; j += 1) {
+          const importRelPath = imports[file][j];
+          let importPath;
+
+          if (importRelPath.startsWith('../')) {
+            const numDirsUp = importRelPath
+              .split('/')
+              .filter(str => str === '..').length;
+            importPath = importRelPath.replace(
+              '../'.repeat(numDirsUp),
+              `${filePathAsArray
+                .slice(0, filePathAsArray.length - 1 - numDirsUp)
+                .join('/')}/`,
+            );
+          } else {
+            importPath = importRelPath;
+          }
+
+          if (
+            importPath.startsWith('src/applications') &&
+            !importPath.startsWith(`src/applications/${appName}`)
+          ) {
+            const importPathAsArray = importPath.split('/');
+            const importFileName =
+              importPathAsArray[importPathAsArray.length - 1];
+
+            if (srcApplicationFileDiff.includes(importFileName)) {
+              // eslint-disable-next-line no-console
+              console.log('shouldRebuildGraph = TRUE');
+              return true;
+            }
+          }
+        }
+      });
     }
   }
 
@@ -88,7 +142,7 @@ function buildGraph(graph) {
   });
 
   Object.keys(imports).forEach(file => {
-    const appName = getAppName(file);
+    const appName = getAppNameFromFilePath(file);
     const filePathAsArray = file.split('/');
 
     // eslint-disable-next-line no-param-reassign
@@ -109,7 +163,7 @@ function buildGraph(graph) {
           importPath.startsWith('src/applications') &&
           !importPath.startsWith(`src/applications/${appName}`)
         ) {
-          const importAppName = getAppName(importPath);
+          const importAppName = getAppNameFromFilePath(importPath);
 
           // eslint-disable-next-line no-param-reassign
           if (!graph[importAppName]) graph[importAppName] = [importAppName];
