@@ -20,7 +20,7 @@ const StartForm = props => {
     <a
       onClick={handleClick}
       href={`${PCPG_ROOT_URL}/introduction`}
-      className="usa-button-primary va-button-primary"
+      className="vads-c-action-link--green"
     >
       Apply for career planning and guidance
     </a>

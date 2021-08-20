@@ -63,3 +63,75 @@
 .process p {
 	margin-bottom: 0;
 }
+
+
+// USA Alert
+.usa-alert,
+.usa-alert.background-color-only {
+	padding: 1em;
+}
+
+.usa-alert h3 {
+	margin-top: 0;
+}
+.usa-alert p {
+	margin-bottom: 0;
+}
+
+// @media only screen and (min-width: 40.0625em) {
+@media only screen and (min-width: 64.0625em) {
+	.usa-alert {
+		margin-left: -2rem;
+		width: calc(117.1875% + 2rem);
+	}
+	.usa-alert,
+	.usa-alert.background-color-only {
+		padding-left: 30/16 + 0em;
+		padding-right: 30/16 + 0em;
+	}
+}
+/* Service History
+----------------------------------------------------------------------*/
+va-accordion {
+	margin-bottom: 2em;
+}
+.accordion-toggle-button {
+	background: transparent;
+	color: $color-link-default;
+	font-weight: normal;
+	padding-left: 0;
+	padding-right: 0;
+	text-decoration: underline;
+}
+.progress-box .accordion-toggle-button {
+	width: auto;
+}
+.accordion-toggle-button:hover {
+	background: transparent;
+	color: $color-primary-alt-darkest;
+}
+.service-history-details {
+	display: flex;
+	flex-wrap: wrap;
+}
+.service-history-details_term,
+.service-history-details_definition {
+	align-self: flex-start;
+	border-top: 1px solid $color-gray-medium;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 1em 0 1em 1em;
+}
+.service-history-details_term {
+	flex: 0 1 auto;
+	max-width: 40%;
+}
+.service-history-details_definition {
+	flex: 1 1 60%;
+	font-weight: bold;
+	padding-right: 1em;
+	text-align: right;
+}
+.service-history-details_period {
+	display: block;
+}
