@@ -244,9 +244,8 @@ describe('VAOS <AppointmentsPage>', () => {
       initialState: defaultState,
     });
 
-    expect(
-      screen.getByText(/Primary and specialty care appointments are available/),
-    ).to.be.ok;
+    expect(screen.getByText(/Schedule primary or specialty care appointments./))
+      .to.be.ok;
     userEvent.click(
       await screen.findByRole('button', { name: /Start scheduling/i }),
     );
