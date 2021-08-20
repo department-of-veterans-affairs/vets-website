@@ -63,7 +63,6 @@ function shouldRebuildGraph(diff) {
 
   for (let i = 0; i < srcApplicationFileDiffs.length; i += 1) {
     const srcApplicationFileDiff = srcApplicationFileDiffs[i];
-    // const includesImport = /import .+from.+;/g.test(srcApplicationFileDiff); // including 'from' might not work, becuase it could be many lines later and might not be included in the diff
     const includesImport = /import /g.test(srcApplicationFileDiff);
     const includesRequire = srcApplicationFileDiff.includes("require('");
 
@@ -88,15 +87,9 @@ function shouldRebuildGraph(diff) {
 
       // eslint-disable-next-line no-console
       console.log('Imports in shouldRebuildGraph(): ', imports);
-      // eslint-disable-next-line no-console
-      console.log('It should be an array with on file');
 
       for (let j = 0; j < importRelPaths.length; j += 1) {
-        // const file = importRelPaths[j];
         const importRelPath = importRelPaths[j];
-
-        // for (let k = 0; k < imports[file].length; k += 1) {
-        //   const importRelPath = imports[file][k];
         let importPath;
 
         if (importRelPath.startsWith('../')) {
@@ -130,11 +123,14 @@ function shouldRebuildGraph(diff) {
 
           if (srcApplicationFileDiff.includes(importFileName)) {
             // eslint-disable-next-line no-console
+            console.log(
+              'Import filename is in diff, so it was probably changed', // filename should be on line with + or - representing it was
+            );
+            // eslint-disable-next-line no-console
             console.log('shouldRebuildGraph = TRUE');
             return true;
           }
         }
-        // }
       }
     }
   }
