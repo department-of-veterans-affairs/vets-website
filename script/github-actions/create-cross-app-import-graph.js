@@ -105,7 +105,7 @@ function shouldRebuildGraph(diff) {
 
       // eslint-disable-next-line consistent-return
       Object.keys(imports).forEach(file => {
-        for (let j = 0; j < imports[file]; j += 1) {
+        for (let j = 0; j < imports[file].length; j += 1) {
           const importRelPath = imports[file][j];
           let importPath;
 
