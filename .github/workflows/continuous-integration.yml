@@ -73,10 +73,17 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
+      # - name: Authenticate NEXUS
+      #   run: |
+      #     npm install -g npm-cli-adduser
+      #     npm-cli-adduser -u va-vsp-bot -p ${{ env.VA_VSP_BOT_GITHUB_TOKEN }} -e va-vsp-bot@test.com -r ${{ env.NEXUS_REGISTRY }}
+
       - name: Authenticate NEXUS
         run: |
-          npm install -g npm-cli-adduser
-          npm-cli-adduser -u va-vsp-bot -p ${{ env.VA_VSP_BOT_GITHUB_TOKEN }} -e va-vsp-bot@test.com -r ${{ env.NEXUS_REGISTRY }}
+          export NPM_AUTH_TOKEN=$(echo -n 'va-vsp-bot:${{ env.VA_VSP_BOT_GITHUB_TOKEN }}' | openssl base64)
+          export NPM_EMAIL=va-vsp-bot@test.com
+          echo "_auth = $NPM_AUTH_TOKEN" > ~/.npmrc
+          echo "email = $NPM_EMAIL" >> ~/.npmrc
 
       - name: Set yarn registry to DOT NEXUS
         run: yarn config set registry ${{ env.NEXUS_REGISTRY }}
