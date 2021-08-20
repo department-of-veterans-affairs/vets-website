@@ -670,7 +670,8 @@ const formConfig = {
                   <strong>Note</strong>: For text messages, messaging and data
                   rates may apply. At this time, VA is only able to send text
                   messages about your education benefits to US-base mobile phone
-                  numbers.
+                  numbers. Notifications may include monthly enrollment
+                  verification required to receive payment.
                 </p>
               ),
             },
