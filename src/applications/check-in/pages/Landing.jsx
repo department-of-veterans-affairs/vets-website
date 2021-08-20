@@ -10,6 +10,7 @@ import { receivedAppointmentDetails } from '../actions';
 import { setCurrentToken, clearCurrentSession } from '../utils/session';
 import { createAnalyticsSlug } from '../utils/analytics';
 import { isUUID } from '../utils/token-format-validator';
+import SpeedTracker from '../components/SpeedTracker';
 
 const Landing = props => {
   const { router, setAppointment, location, isLowAuthEnabled } = props;
@@ -85,6 +86,7 @@ const Landing = props => {
   );
   return (
     <>
+      <SpeedTracker />
       <LoadingIndicator message="Finding your appointment" />
     </>
   );
