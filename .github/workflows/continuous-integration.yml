@@ -79,7 +79,7 @@ jobs:
           npm-cli-adduser -u va-vsp-bot -p ${{ env.VA_VSP_BOT_GITHUB_TOKEN }} -e va-vsp-bot@test.com -r ${{ env.NEXUS_REGISTRY }}
 
       - name: Set yarn registry to DOT NEXUS
-        run: yarn config set registry https://devops.va.gov/dots-nexus/repository/npmjs.org-proxy/
+        run: yarn config set registry ${{ env.NEXUS_REGISTRY }}
 
       - name: Verify registry for yarn
         run: yarn config get registry
