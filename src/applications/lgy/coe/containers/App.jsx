@@ -52,8 +52,12 @@ function App(props) {
   return (
     <>
       <header className="row">
-        <FormTitle title="Apply for a VA home loan Certificate of Eligibility" />
-        <p>Request for a Certificate of Eligibility (VA Form 26-1880)</p>
+        <div className="usa-width-two-thirds medium-8 columns">
+          <FormTitle title="Apply for a VA home loan Certificate of Eligibility" />
+          <p className="vads-u-padding-bottom--4">
+            Request for a Certificate of Eligibility (VA Form 26-1880)
+          </p>
+        </div>
       </header>
       {content}
       <FormFooter formConfig={formConfig} />
