@@ -85,7 +85,7 @@ function shouldRebuildGraph(diff) {
       });
 
       // eslint-disable-next-line no-console
-      console.log('imports in shouldRebuildGraph(): ', imports);
+      console.log('Imports in shouldRebuildGraph(): ', imports);
       // eslint-disable-next-line no-console
       console.log('It should be an array with on file');
 
