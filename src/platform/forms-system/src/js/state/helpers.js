@@ -1,4 +1,5 @@
 import { dropRight, merge } from 'lodash';
+import dataGet from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 import unset from '../../../../utilities/data/unset';
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
@@ -609,7 +610,7 @@ export function recalculateSchemaAndData(initialState) {
     }
 
     if (page.showPagePerItem) {
-      const arrayData = get(page.arrayPath, newState.data) || [];
+      const arrayData = dataGet(page.arrayPath, newState.data) || [];
       // If an item was added or removed for the data used by a showPagePerItem page,
       // we have to reset everything because we can’t match the edit states to rows directly
       // This will rarely ever be noticeable
