@@ -6,6 +6,7 @@ import {
   getMonthlyExpenses,
   getEmploymentHistory,
   getTotalAssets,
+  filterDeductions,
 } from '../utils/helpers';
 
 export const transform = (formConfig, form) => {
@@ -77,21 +78,16 @@ export const transform = (formConfig, form) => {
   const spOtherAmt = sumValues(spAddlIncome, 'amount');
   const spOtherName = spAddlIncome?.map(({ name }) => name).join(', ') ?? '';
 
-  // veteran deductions
+  // deductions
   const taxFilters = ['State tax', 'Federal tax', 'Local tax'];
-  const vetTaxes = deductions
-    .filter(({ name }) => taxFilters.includes(name))
-    .reduce((acc, tax) => acc + Number(tax.amount), 0);
-
   const retirementFilters = ['401K', 'IRA', 'Pension'];
-  const vetRetirement = deductions
-    .filter(({ name }) => retirementFilters.includes(name))
-    .reduce((acc, tax) => acc + Number(tax.amount), 0);
-
   const socialSecFilters = ['FICA (Social Security and Medicare)'];
-  const vetSocialSec = deductions
-    .filter(({ name }) => socialSecFilters.includes(name))
-    .reduce((acc, tax) => acc + Number(tax.amount), 0);
+  const vetTaxes = filterDeductions(deductions, taxFilters);
+  const vetRetirement = filterDeductions(deductions, retirementFilters);
+  const vetSocialSec = filterDeductions(deductions, socialSecFilters);
+  const spTaxes = filterDeductions(spDeductions, taxFilters);
+  const spRetirement = filterDeductions(spDeductions, retirementFilters);
+  const spSocialSec = filterDeductions(spDeductions, socialSecFilters);
 
   const submissionObj = {
     personalIdentification: {
@@ -153,9 +149,9 @@ export const transform = (formConfig, form) => {
         veteranOrSpouse: 'SPOUSE',
         monthlyGrossSalary: spGrossSalary,
         deductions: {
-          taxes: '',
-          retirement: '',
-          socialSecurity: '',
+          taxes: spTaxes,
+          retirement: spRetirement,
+          socialSecurity: spSocialSec,
           otherDeductions: {
             name: '',
             amount: '',

@@ -23,6 +23,12 @@ export const sumValues = (arr, key) => {
   return arr?.reduce((acc, item) => acc + Number(item[key]) ?? 0, 0);
 };
 
+export const filterDeductions = (deductions, filters) => {
+  return deductions
+    .filter(({ name }) => filters.includes(name))
+    .reduce((acc, curr) => acc + Number(curr.amount), 0);
+};
+
 export const getMonthlyIncome = ({
   additionalIncome: {
     addlIncRecords,
