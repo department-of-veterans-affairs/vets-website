@@ -23,7 +23,7 @@ function baseSet(arrayPath, value, object, level = 0) {
     return value;
   }
 
-  const newObj = clone(object);
+  const newObj = clone(object) || {};
 
   const pathSegment = arrayPath[level];
   const nextPathSegment = arrayPath[level + 1];
