@@ -464,17 +464,20 @@ jobs:
 
       - name: git add config/cross_app_import_graph.json
         if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
-        run: git add config/cross_app_import_graph.json
+        run: git add .
         # working-directory: testing-reports
+
+      - name: Echo branch name
+        run: echo ${{ env.GITHUB_HEAD_REF }}
 
       - name: Commit and push changes
         if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
         uses: actions-js/push@master
         with:
           github_token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-          # repository: department-of-veterans-affairs/testing-reports
+          # repository: department-of-veterans-affairs/vets-website
           # directory: testing-reports
-          branch: ${{ env.GITHUB_HEAD_REF }}
+          # branch: ${{ env.GITHUB_HEAD_REF }}
   
   cypress-tests-prep:
     name: Prep for Cypress Tests
