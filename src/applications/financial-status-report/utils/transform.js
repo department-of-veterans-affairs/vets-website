@@ -208,12 +208,13 @@ export const transform = (formConfig, form) => {
       amountPastDue: sumValues(installmentContracts, 'amountPastDue'),
     },
     additionalData: {
-      ...additionalData,
       bankruptcy: {
-        ...additionalData.bankruptcy,
         hasBeenAdjudicatedBankrupt: questions.hasBeenAdjudicatedBankrupt,
         dateDischarged: dateFormatter(additionalData.bankruptcy.dateDischarged),
+        courtLocation: additionalData.bankruptcy.courtLocation,
+        docketNumber: additionalData.bankruptcy.docketNumber,
       },
+      additionalComments: additionalData.additionalComments,
     },
     applicantCertifications: {
       veteranSignature: `${vetFirst} ${vetMiddle} ${vetLast}`,
