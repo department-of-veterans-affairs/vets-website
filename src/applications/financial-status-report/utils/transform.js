@@ -52,6 +52,10 @@ export const transform = (formConfig, form) => {
     },
   } = form.data;
 
+  const amountCanBePaidTowardDebt = selectedDebts
+    .filter(item => item.resolution.offerToPay !== undefined)
+    .reduce((acc, debt) => acc + Number(debt.resolution?.offerToPay), 0);
+
   const monthlyIncome = getMonthlyIncome(form.data);
   const monthlyExpenses = getMonthlyExpenses(form.data);
   const employmentHistory = getEmploymentHistory(form.data);
@@ -73,9 +77,21 @@ export const transform = (formConfig, form) => {
   const spOtherAmt = sumValues(spAddlIncome, 'amount');
   const spOtherName = spAddlIncome?.map(({ name }) => name).join(', ') ?? '';
 
-  const amountCanBePaidTowardDebt = selectedDebts
-    .filter(item => item.resolution.offerToPay !== undefined)
-    .reduce((acc, debt) => acc + Number(debt.resolution?.offerToPay), 0);
+  // veteran deductions
+  const taxFilters = ['State tax', 'Federal tax', 'Local tax'];
+  const vetTaxes = deductions
+    .filter(({ name }) => taxFilters.includes(name))
+    .reduce((acc, tax) => acc + Number(tax.amount), 0);
+
+  const retirementFilters = ['401K', 'IRA', 'Pension'];
+  const vetRetirement = deductions
+    .filter(({ name }) => retirementFilters.includes(name))
+    .reduce((acc, tax) => acc + Number(tax.amount), 0);
+
+  const socialSecFilters = ['FICA (Social Security and Medicare)'];
+  const vetSocialSec = deductions
+    .filter(({ name }) => socialSecFilters.includes(name))
+    .reduce((acc, tax) => acc + Number(tax.amount), 0);
 
   const submissionObj = {
     personalIdentification: {
@@ -117,9 +133,9 @@ export const transform = (formConfig, form) => {
         veteranOrSpouse: 'VETERAN',
         monthlyGrossSalary: vetGrossSalary,
         deductions: {
-          taxes: '',
-          retirement: '',
-          socialSecurity: '',
+          taxes: vetTaxes,
+          retirement: vetRetirement,
+          socialSecurity: vetSocialSec,
           otherDeductions: {
             name: '',
             amount: '',
