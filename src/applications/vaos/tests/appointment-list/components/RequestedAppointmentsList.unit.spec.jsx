@@ -40,6 +40,7 @@ describe('VAOS <RequestedAppointmentsList>', () => {
     MockDate.reset();
   });
   it('should show va request', async () => {
+    // Given a veteran has VA appointment request
     const startDate = moment.utc();
     const appointment = getVARequestMock();
     appointment.attributes = {
@@ -84,17 +85,24 @@ describe('VAOS <RequestedAppointmentsList>', () => {
     };
     mockFacilitiesFetch('vha_442GC', [facility]);
 
+    // When the veteran selects the Requested dropdown selection
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
       initialState,
       reducers,
     });
 
+    // Then it should display the requested appointments
     expect(await screen.findByText('Primary care')).to.be.ok;
     expect(await screen.findByText(facility.attributes.name)).to.be.ok;
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
+    expect(screen.baseElement).to.contain.text(
+      'Below is your list of appointment requests that haven’t been scheduled yet.',
+    );
   });
 
   it('should show cc request', async () => {
+    // Given a veteran has CC appointment request
+
     const startDate = moment.utc();
     const appointment = getVARequestMock();
     appointment.attributes = {
@@ -117,15 +125,18 @@ describe('VAOS <RequestedAppointmentsList>', () => {
     };
     appointment.id = '1234';
     mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
-
+    // When the veteran selects the Requested dropdown selection
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
       initialState,
       reducers,
     });
-
+    // Then it should display the requested appointment
     expect(await screen.findByText('Hearing aid support')).to.be.ok;
     expect(screen.baseElement).to.contain.text('Community care');
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
+    expect(screen.baseElement).to.contain.text(
+      'Below is your list of appointment requests that haven’t been scheduled yet.',
+    );
   });
 
   it('should show cc request and provider facility name if available', async () => {
@@ -244,6 +255,7 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
     MockDate.reset();
   });
   it('should show va request', async () => {
+    // Given a veteran has VA appointment request
     const startDate = moment.utc();
     const appointment = getVAOSRequestMock();
     appointment.id = '1234';
@@ -276,7 +288,7 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
       start: null,
       status: 'proposed',
     };
-
+    // And developer is using the v2 API
     mockVAOSAppointmentsFetch({
       start: moment()
         .subtract(120, 'days')
@@ -306,18 +318,22 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
       },
     };
     mockFacilitiesFetch('vha_442GC', [facility]);
-
+    // When veteran selects the Requested dropdown selection
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
       initialState: initialStateVAOSService,
       reducers,
     });
-
+    // Then it should display the requested appointments
     expect(await screen.findByText('Primary care')).to.be.ok;
     expect(await screen.findByText(facility.attributes.name)).to.be.ok;
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
+    expect(screen.baseElement).to.contain.text(
+      'Below is your list of appointment requests that haven’t been scheduled yet.',
+    );
   });
 
   it('should show cc request', async () => {
+    // Given a veteran has CC appointment request
     const startDate = moment.utc();
     const ccAppointmentRequest = getVAOSRequestMock();
     ccAppointmentRequest.id = '1234';
@@ -350,7 +366,7 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
       serviceType: '203',
       status: 'proposed',
     };
-
+    // And developer is using the v2 API
     mockVAOSAppointmentsFetch({
       start: moment()
         .subtract(120, 'days')
@@ -359,7 +375,7 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
       statuses: ['proposed', 'cancelled'],
       requests: [ccAppointmentRequest],
     });
-
+    // When veteran selects the Requested dropdown selection
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
       initialState: initialStateVAOSService,
       reducers,
@@ -368,8 +384,11 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
     expect(await screen.findByText('Audiology and speech')).to.be.ok;
     expect(screen.baseElement).to.contain.text('Community care');
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
+    expect(screen.baseElement).to.contain.text(
+      'Below is your list of appointment requests that haven’t been scheduled yet.',
+    );
   });
-
+  // Then it should display the requested appointments
   it('should show error message when request fails', async () => {
     mockVAOSAppointmentsFetch({ error: true });
 

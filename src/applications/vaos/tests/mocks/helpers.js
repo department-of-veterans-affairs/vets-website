@@ -508,6 +508,7 @@ export function mockEligibilityFetches({
   requestPastVisits = false,
   directPastVisits = false,
   clinics = [],
+  matchingClinics = null,
   pastClinics = false,
 }) {
   mockRequestLimits({
@@ -558,7 +559,7 @@ export function mockEligibilityFetches({
     },
   );
 
-  const pastAppointments = clinics.map(clinic => {
+  const pastAppointments = (matchingClinics || clinics).map(clinic => {
     const appointment = getVAAppointmentMock();
     appointment.attributes = {
       ...appointment.attributes,
