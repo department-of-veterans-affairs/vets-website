@@ -385,8 +385,8 @@ const formConfig = {
         },
       },
     },
-    additionalInformationChapter: {
-      title: 'Additional Information',
+    contactInformationChapter: {
+      title: 'Contact Information',
       pages: {
         [formPages.contactInformation.contactInformation]: {
           title: 'Contact Information',
@@ -427,7 +427,14 @@ const formConfig = {
                 showFieldLabel: false,
                 viewComponent: EmailViewField,
               },
-              email: emailUI('Email address'),
+              email: {
+                ...emailUI('Email address'),
+                'ui:validations': [
+                  // (errors, field) => {
+                  // TODO:
+                  // },
+                ],
+              },
               confirmEmail: emailUI('Confirm email address'),
               'ui:validations': [
                 (errors, field) => {
@@ -555,6 +562,7 @@ const formConfig = {
               },
               'ui:order': [
                 'livesOnMilitaryBaseInfo',
+                'additionalInformation',
                 ...address.uiSchema('Your mailing address')['ui:order'],
               ],
               'ui:field': ReviewBoxField,
