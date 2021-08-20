@@ -445,7 +445,7 @@ jobs:
           DIFF_RESULTS: ${{ steps.git-diff.outputs.DIFF_RESULTS }}
 
       # - name: Pull any changes since checkout
-      #   if: ${{ $IS_GRAPH_UPDATED == 'true' }}
+      #   if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
       #   run: git pull origin master
       #   working-directory: testing-reports
 
@@ -455,7 +455,7 @@ jobs:
         # working-directory: testing-reports
 
       - name: Commit and push changes
-        if: ${{ $IS_GRAPH_UPDATED == 'true' }}
+        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
         uses: actions-js/push@master
         with:
           github_token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
