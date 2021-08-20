@@ -92,11 +92,15 @@ export function benefitEndDateExplanation(condition, delimitingDate) {
       return (
         <div className="section benefit-end-date">
           <h4>Benefit end date</h4>
-          <div>
-            You have until{' '}
-            <strong>{formatDateParsedZoneLong(delimitingDate)}</strong> to use
-            these benefits.
-          </div>
+          {delimitingDate ? (
+            <div>
+              You have until{' '}
+              <strong>{formatDateParsedZoneLong(delimitingDate)}</strong> to use
+              these benefits.
+            </div>
+          ) : (
+            <div>There’s no time limit to use these education benefits.</div>
+          )}
         </div>
       );
     default:
@@ -158,7 +162,7 @@ export function notQualifiedWarning() {
 export const backendErrorMessage = (
   <div id="backendErrorMessage">
     <h3>
-      We’re sorry. Our system isn't working right now. Please try again or check
+      We’re sorry. Our system isn’t working right now. Please try again or check
       back soon.
     </h3>
     <Link className="usa-button usa-button-primary" to="/">
@@ -192,7 +196,7 @@ export const authenticationErrorMessage = (
             </p>
 
             <p>
-              After you apply, it'll take us on average 30 days to process your
+              After you apply, it’ll take us on average 30 days to process your
               application. If you’re awarded GI Bill benefits, you’ll be able to
               access and view your benefit statement.
             </p>
