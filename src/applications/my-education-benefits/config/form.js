@@ -14,11 +14,11 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import GetFormHelp from '../components/GetFormHelp';
 import FormFooter from 'platform/forms/components/FormFooter';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+// import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 // import bankAccountUI from 'platform/forms-system/src/js/definitions/bankAccount';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+// import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 // import * as address from 'platform/forms-system/src/js/definitions/address';
 
 // eslint-disable-next-line no-unused-vars
@@ -33,11 +33,11 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import toursOfDutyUI from '../definitions/toursOfDuty';
 import ReviewBoxField from '../components/ReviewBoxField';
-import FullNameViewField from '../components/FullNameViewField';
-import DateViewField from '../components/DateViewField';
-import CustomReviewDOBField from '../components/CustomReviewDOBField';
+// import FullNameViewField from '../components/FullNameViewField';
+// import DateViewField from '../components/DateViewField';
+// import CustomReviewDOBField from '../components/CustomReviewDOBField';
 import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView';
-import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
+// import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
 import EmailViewField from '../components/EmailViewField';
 import PhoneViewField from '../components/PhoneViewField';
 import AccordionField from '../components/AccordionField';
@@ -104,14 +104,13 @@ const formPages = {
     mailingAddress: 'mailingAddress',
     preferredContactMethod: 'preferredContactMethod',
   },
-  contactInformationPreferences: 'contactInformationPreferences',
   benefitSelection: 'benefitSelection',
   // directDeposit: 'directDeposit',
 };
 
-function isOnlyWhitespace(str) {
-  return str && !str.trim().length;
-}
+// function isOnlyWhitespace(str) {
+//   return str && !str.trim().length;
+// }
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -149,144 +148,144 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   chapters: {
-    applicantInformationChapter: {
-      title: 'Applicant information',
-      pages: {
-        [formPages.applicantInformation]: {
-          path: 'applicant/information',
-          subTitle: 'Review your personal information',
-          instructions:
-            'This is the personal information we have on file for you.',
-          uiSchema: {
-            'view:subHeadings': {
-              'ui:description': (
-                <>
-                  <h3>Review your personal information</h3>
-                  <p>
-                    This is the personal information we have on file for you.
-                  </p>
-                </>
-              ),
-            },
-            [formFields.fullName]: {
-              ...fullNameUI,
-              first: {
-                ...fullNameUI.first,
-                'ui:title': 'Your first name',
-                'ui:validations': [
-                  (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter a first name');
-                    }
-                  },
-                ],
-              },
-              last: {
-                ...fullNameUI.last,
-                'ui:title': 'Your last name',
-                'ui:validations': [
-                  (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter a last name');
-                    }
-                  },
-                ],
-              },
-              middle: {
-                ...fullNameUI.middle,
-                'ui:title': 'Your middle name',
-              },
-              'ui:title': 'Your full name',
-              'ui:field': ReviewBoxField,
-              'ui:options': {
-                hideLabelText: true,
-                showFieldLabel: false,
-                viewComponent: FullNameViewField,
-              },
-            },
-            'view:dateOfBirth': {
-              'ui:title': 'Your date of birth',
-              'ui:field': ReviewBoxField,
-              'ui:options': {
-                hideLabelText: true,
-                showFieldLabel: false,
-                startInEdit: formData => {
-                  const { dateOfBirth } = formData;
+    // applicantInformationChapter: {
+    //   title: 'Applicant information',
+    //   pages: {
+    //     [formPages.applicantInformation]: {
+    //       path: 'applicant/information',
+    //       subTitle: 'Review your personal information',
+    //       instructions:
+    //         'This is the personal information we have on file for you.',
+    //       uiSchema: {
+    //         'view:subHeadings': {
+    //           'ui:description': (
+    //             <>
+    //               <h3>Review your personal information</h3>
+    //               <p>
+    //                 This is the personal information we have on file for you.
+    //               </p>
+    //             </>
+    //           ),
+    //         },
+    //         [formFields.fullName]: {
+    //           ...fullNameUI,
+    //           first: {
+    //             ...fullNameUI.first,
+    //             'ui:title': 'Your first name',
+    //             'ui:validations': [
+    //               (errors, field) => {
+    //                 if (isOnlyWhitespace(field)) {
+    //                   errors.addError('Please enter a first name');
+    //                 }
+    //               },
+    //             ],
+    //           },
+    //           last: {
+    //             ...fullNameUI.last,
+    //             'ui:title': 'Your last name',
+    //             'ui:validations': [
+    //               (errors, field) => {
+    //                 if (isOnlyWhitespace(field)) {
+    //                   errors.addError('Please enter a last name');
+    //                 }
+    //               },
+    //             ],
+    //           },
+    //           middle: {
+    //             ...fullNameUI.middle,
+    //             'ui:title': 'Your middle name',
+    //           },
+    //           'ui:title': 'Your full name',
+    //           'ui:field': ReviewBoxField,
+    //           'ui:options': {
+    //             hideLabelText: true,
+    //             showFieldLabel: false,
+    //             viewComponent: FullNameViewField,
+    //           },
+    //         },
+    //         'view:dateOfBirth': {
+    //           'ui:title': 'Your date of birth',
+    //           'ui:field': ReviewBoxField,
+    //           'ui:options': {
+    //             hideLabelText: true,
+    //             showFieldLabel: false,
+    //             startInEdit: formData => {
+    //               const { dateOfBirth } = formData;
 
-                  if (!dateOfBirth) {
-                    return true;
-                  }
+    //               if (!dateOfBirth) {
+    //                 return true;
+    //               }
 
-                  const dateParts = dateOfBirth.split('-');
-                  return !isValidCurrentOrPastDate(
-                    dateParts[2],
-                    dateParts[1],
-                    dateParts[0],
-                  );
-                },
-                viewComponent: DateViewField,
-              },
-              [formFields.dateOfBirth]: {
-                ...currentOrPastDateUI('Date of birth'),
-                'ui:reviewField': CustomReviewDOBField,
-              },
-            },
-            'view:note': {
-              'ui:description': (
-                <p>
-                  <strong>Note</strong>: Any updates you make here will change
-                  your personal information for VA education benefits only. To
-                  change your personal information for all benefits across VA,{' '}
-                  <a href="#">visit your VA profile</a>.
-                </p>
-              ),
-            },
-          },
-          schema: {
-            type: 'object',
-            required: [formFields.veteranFullName],
-            properties: {
-              'view:subHeadings': {
-                type: 'object',
-                properties: {},
-              },
-              [formFields.fullName]: {
-                ...fullName,
-                properties: {
-                  ...fullName.properties,
-                  middle: {
-                    ...fullName.properties.middle,
-                    maxLength: 30,
-                  },
-                },
-              },
-              'view:dateOfBirth': {
-                type: 'object',
-                required: [formFields.dateOfBirth],
-                properties: {
-                  [formFields.dateOfBirth]: date,
-                },
-              },
-              'view:note': {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
-          initialData: {
-            fullName: {
-              first: 'Hector',
-              middle: 'Oliver',
-              last: 'Stanley',
-              suffix: 'Jr.',
-            },
-            'view:dateOfBirth': {
-              dateOfBirth: '1992-07-23',
-            },
-          },
-        },
-      },
-    },
+    //               const dateParts = dateOfBirth.split('-');
+    //               return !isValidCurrentOrPastDate(
+    //                 dateParts[2],
+    //                 dateParts[1],
+    //                 dateParts[0],
+    //               );
+    //             },
+    //             viewComponent: DateViewField,
+    //           },
+    //           [formFields.dateOfBirth]: {
+    //             ...currentOrPastDateUI('Date of birth'),
+    //             'ui:reviewField': CustomReviewDOBField,
+    //           },
+    //         },
+    //         'view:note': {
+    //           'ui:description': (
+    //             <p>
+    //               <strong>Note</strong>: Any updates you make here will change
+    //               your personal information for VA education benefits only. To
+    //               change your personal information for all benefits across VA,{' '}
+    //               <a href="#">visit your VA profile</a>.
+    //             </p>
+    //           ),
+    //         },
+    //       },
+    //       schema: {
+    //         type: 'object',
+    //         required: [formFields.veteranFullName],
+    //         properties: {
+    //           'view:subHeadings': {
+    //             type: 'object',
+    //             properties: {},
+    //           },
+    //           [formFields.fullName]: {
+    //             ...fullName,
+    //             properties: {
+    //               ...fullName.properties,
+    //               middle: {
+    //                 ...fullName.properties.middle,
+    //                 maxLength: 30,
+    //               },
+    //             },
+    //           },
+    //           'view:dateOfBirth': {
+    //             type: 'object',
+    //             required: [formFields.dateOfBirth],
+    //             properties: {
+    //               [formFields.dateOfBirth]: date,
+    //             },
+    //           },
+    //           'view:note': {
+    //             type: 'object',
+    //             properties: {},
+    //           },
+    //         },
+    //       },
+    //       initialData: {
+    //         fullName: {
+    //           first: 'Hector',
+    //           middle: 'Oliver',
+    //           last: 'Stanley',
+    //           suffix: 'Jr.',
+    //         },
+    //         'view:dateOfBirth': {
+    //           dateOfBirth: '1992-07-23',
+    //         },
+    //       },
+    //     },
+    //   },
+    // },
     serviceHistoryChapter: {
       title: 'Service History',
       pages: {
@@ -393,7 +392,7 @@ const formConfig = {
     additionalInformationChapter: {
       title: 'Additional Information',
       pages: {
-        [formPages.contactInformation]: {
+        [formPages.contactInformation.contactInformation]: {
           title: 'Contact Information',
           path: 'contact/information',
           initialData: {
