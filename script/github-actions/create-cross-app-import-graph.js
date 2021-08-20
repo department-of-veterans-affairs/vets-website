@@ -32,10 +32,6 @@ function sliceDiffIntoDiffForEachChangedFile(diff) {
       diff[i] === startOfChange[0] &&
       diff.slice(i, i + startOfChange.length) === startOfChange
     ) {
-      // eslint-disable-next-line no-console
-      console.log('i = ', i);
-      // eslint-disable-next-line no-console
-      console.log('In condition 1');
       startOfDiffIndex = i;
     } else if (
       startOfDiffIndex !== null &&
@@ -43,18 +39,10 @@ function sliceDiffIntoDiffForEachChangedFile(diff) {
       diff[i] === endOfChange[0] &&
       diff.slice(i, i + endOfChange.length) === endOfChange
     ) {
-      // eslint-disable-next-line no-console
-      console.log('i = ', i);
-      // eslint-disable-next-line no-console
-      console.log('In condition 2');
       diffForEachChangedFile.push(diff.slice(startOfDiffIndex, i));
       i -= 1; // reduce i by 1 so the next iteration picks up the beginning of this diff
       startOfDiffIndex = null;
     } else if (startOfDiffIndex !== null && i === diff.length - 1) {
-      // eslint-disable-next-line no-console
-      console.log('i = ', i);
-      // eslint-disable-next-line no-console
-      console.log('In condition 3');
       diffForEachChangedFile.push(diff.slice(startOfDiffIndex));
     }
   }
