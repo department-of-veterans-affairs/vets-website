@@ -18,6 +18,7 @@ import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 // import bankAccountUI from 'platform/forms-system/src/js/definitions/bankAccount';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 // import * as address from 'platform/forms-system/src/js/definitions/address';
 
@@ -60,6 +61,9 @@ import MailingAddressViewField from '../components/MailingAddressViewField';
 import { states } from 'platform/forms/address';
 
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
+
+// import CustomPhoneNumberWidget from '../components/CustomPhoneNumberWidget';
+import CustomPhoneUI from '../components/CustomPhoneUI';
 
 const {
   fullName,
@@ -452,7 +456,7 @@ const formConfig = {
                 showFieldLabel: false,
                 viewComponent: PhoneViewField,
               },
-              phone: phoneUI('Mobile phone number'),
+              phone: CustomPhoneUI('Mobile phone number'),
               isInternational: {
                 'ui:title': 'This phone number is international',
               },
