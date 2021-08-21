@@ -474,6 +474,9 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
+      - name: Pull any changes since checkout
+        run: git pull
+
       - name: Run git status before add
         if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
         run: git status
