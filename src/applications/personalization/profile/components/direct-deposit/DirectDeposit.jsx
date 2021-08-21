@@ -16,10 +16,7 @@ import {
   isLOA3 as isLOA3Selector,
   isMultifactorEnabled,
 } from '~/platform/user/selectors';
-import {
-  isAuthenticatedWithSSOe as isAuthenticatedWithSSOeSelector,
-  signInServiceName as signInServiceNameSelector,
-} from '~/platform/user/authentication/selectors';
+import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
 import environment from '~/platform/utilities/environment';
 import { focusElement } from '~/platform/utilities/ui';
 import { usePrevious } from '~/platform/utilities/react-hooks';
@@ -73,12 +70,7 @@ const SuccessMessage = ({ benefit }) => {
   return content;
 };
 
-const DirectDeposit = ({
-  cnpUiState,
-  eduUiState,
-  isAuthenticatedWithSSOe,
-  isVerifiedUser,
-}) => {
+const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
   const [
     recentlySavedBankInfo,
     setRecentlySavedBankInfoForBenefit,
@@ -210,9 +202,7 @@ const DirectDeposit = ({
             </ReactCSSTransitionGroup>
           </div>
 
-          {showSetUp2FactorAuthentication && (
-            <SetUp2FAAlert isAuthenticatedWithSSOe={isAuthenticatedWithSSOe} />
-          )}
+          {showSetUp2FactorAuthentication && <SetUp2FAAlert />}
           {!showSetUp2FactorAuthentication && (
             <DowntimeNotification
               appTitle="direct deposit"
@@ -243,7 +233,6 @@ const mapStateToProps = state => {
   const isIDme = signInServiceNameSelector(state) === 'idme';
   return {
     isVerifiedUser: isLOA3 && isIDme && is2faEnabled,
-    isAuthenticatedWithSSOe: isAuthenticatedWithSSOeSelector(state),
     cnpUiState: cnpDirectDepositUiState(state),
     eduUiState: eduDirectDepositUiState(state),
   };
