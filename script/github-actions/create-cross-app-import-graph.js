@@ -196,6 +196,9 @@ function writeGraph(graph) {
       path.resolve(__dirname, '../../config/cross_app_import_graph.json'),
       JSON.stringify(graph, null, 2),
     );
+
+    // eslint-disable-next-line no-console
+    console.log('File saved: config/cross_app_import_graph.json');
   } catch (err) {
     // eslint-disable-next-line no-console
     console.error(err);
