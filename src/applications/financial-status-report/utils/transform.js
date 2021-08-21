@@ -7,6 +7,8 @@ import {
   getEmploymentHistory,
   getTotalAssets,
   filterDeductions,
+  otherDeductionsName,
+  otherDeductionsAmt,
 } from '../utils/helpers';
 
 export const transform = (formConfig, form) => {
@@ -78,16 +80,25 @@ export const transform = (formConfig, form) => {
   const spOtherAmt = sumValues(spAddlIncome, 'amount');
   const spOtherName = spAddlIncome?.map(({ name }) => name).join(', ') ?? '';
 
-  // deductions
+  // deduction filters
   const taxFilters = ['State tax', 'Federal tax', 'Local tax'];
   const retirementFilters = ['401K', 'IRA', 'Pension'];
   const socialSecFilters = ['FICA (Social Security and Medicare)'];
+  const allFilters = [...taxFilters, ...retirementFilters, ...socialSecFilters];
+
+  // veteran deductions
   const vetTaxes = filterDeductions(deductions, taxFilters);
   const vetRetirement = filterDeductions(deductions, retirementFilters);
   const vetSocialSec = filterDeductions(deductions, socialSecFilters);
+  const vetOtherDeductionsName = otherDeductionsName(deductions, allFilters);
+  const vetOtherDeductionsAmt = otherDeductionsAmt(deductions, allFilters);
+
+  // spouse deductions
   const spTaxes = filterDeductions(spDeductions, taxFilters);
   const spRetirement = filterDeductions(spDeductions, retirementFilters);
   const spSocialSec = filterDeductions(spDeductions, socialSecFilters);
+  const spOtherDeductionsName = otherDeductionsName(spDeductions, allFilters);
+  const spOtherDeductionsAmt = otherDeductionsAmt(spDeductions, allFilters);
 
   const submissionObj = {
     personalIdentification: {
@@ -133,8 +144,8 @@ export const transform = (formConfig, form) => {
           retirement: vetRetirement,
           socialSecurity: vetSocialSec,
           otherDeductions: {
-            name: '',
-            amount: '',
+            name: vetOtherDeductionsName,
+            amount: vetOtherDeductionsAmt,
           },
         },
         totalDeductions: vetTotDeductions,
@@ -143,7 +154,7 @@ export const transform = (formConfig, form) => {
           name: vetOtherName,
           amount: vetOtherAmt,
         },
-        totalMonthlyNetIncome: '',
+        totalMonthlyNetIncome: vetNetPay + vetOtherAmt,
       },
       {
         veteranOrSpouse: 'SPOUSE',
@@ -153,8 +164,8 @@ export const transform = (formConfig, form) => {
           retirement: spRetirement,
           socialSecurity: spSocialSec,
           otherDeductions: {
-            name: '',
-            amount: '',
+            name: spOtherDeductionsName,
+            amount: spOtherDeductionsAmt,
           },
         },
         totalDeductions: spTotDeductions,
@@ -163,7 +174,7 @@ export const transform = (formConfig, form) => {
           name: spOtherName,
           amount: spOtherAmt,
         },
-        totalMonthlyNetIncome: '',
+        totalMonthlyNetIncome: spNetPay + spOtherAmt,
       },
     ],
     expenses: {

@@ -29,6 +29,19 @@ export const filterDeductions = (deductions, filters) => {
     .reduce((acc, curr) => acc + Number(curr.amount), 0);
 };
 
+export const otherDeductionsName = (deductions, filters) => {
+  return deductions
+    .filter(({ name }) => !filters.includes(name))
+    .map(({ name }) => name)
+    .join(', ');
+};
+
+export const otherDeductionsAmt = (deductions, filters) => {
+  return deductions
+    .filter(({ name }) => !filters.includes(name))
+    .reduce((acc, curr) => acc + Number(curr.amount), 0);
+};
+
 export const getMonthlyIncome = ({
   additionalIncome: {
     addlIncRecords,
