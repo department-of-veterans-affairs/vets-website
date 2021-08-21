@@ -447,9 +447,9 @@ jobs:
       # - name: Create cross_app_import_graph.json
       #   run: date +%s > report.txt
 
-      - name: Create arbitrary file for testing
-        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
-        run: ${{ env.UPDATED_GRAPH }} > config/cross_app_import_graph.json
+      # - name: Write updated graph file
+      #   if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
+      #   run: ${{ env.UPDATED_GRAPH }} > config/cross_app_import_graph.json
 
       # - name: Archive updated graph
       #   if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
