@@ -435,7 +435,6 @@ jobs:
           timeout_minutes: 5
         env:
           YARN_CACHE_FOLDER: .cache/yarn
-        working-directory: vets-website
 
       - name: Diff recent commit
         id: git-diff
