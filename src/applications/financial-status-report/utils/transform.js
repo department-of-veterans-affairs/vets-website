@@ -59,8 +59,8 @@ export const transform = (formConfig, form) => {
     .filter(item => item.resolution.offerToPay !== undefined)
     .reduce((acc, debt) => acc + Number(debt.resolution?.offerToPay), 0);
 
-  const monthlyIncome = getMonthlyIncome(form.data);
-  const monthlyExpenses = getMonthlyExpenses(form.data);
+  const totMonthlyNetIncome = getMonthlyIncome(form.data);
+  const totMonthlyExpenses = getMonthlyExpenses(form.data);
   const employmentHistory = getEmploymentHistory(form.data);
   const totalAssets = getTotalAssets(form.data);
 
@@ -189,10 +189,10 @@ export const transform = (formConfig, form) => {
         installmentContracts,
         'amountDueMonthly',
       ),
-      totalMonthlyExpenses: monthlyExpenses,
+      totalMonthlyExpenses: totMonthlyExpenses,
     },
     discretionaryIncome: {
-      netMonthlyIncomeLessExpenses: monthlyIncome - monthlyExpenses,
+      netMonthlyIncomeLessExpenses: totMonthlyNetIncome - totMonthlyExpenses,
       amountCanBePaidTowardDebt,
     },
     assets: {

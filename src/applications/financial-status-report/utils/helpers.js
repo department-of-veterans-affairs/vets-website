@@ -52,17 +52,29 @@ export const getMonthlyIncome = ({
   currEmployment,
   spCurrEmployment,
 }) => {
+  // TODO: verify field 17 total monthly net income calculation with PDF
   const vetGrossSalary = sumValues(currEmployment, 'veteranGrossSalary');
   const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
+
+  const deductions = currEmployment?.map(emp => emp.deductions).flat() ?? 0;
+  const spDeductions = spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
+  const vetTotDeductions = sumValues(deductions, 'amount');
+  const spTotDeductions = sumValues(spDeductions, 'amount');
+
+  const vetNetPay = vetGrossSalary - vetTotDeductions;
+  const spNetPay = spGrossSalary - spTotDeductions;
+
   const vetOtherAmt = sumValues(addlIncRecords, 'amount');
   const spOtherAmt = sumValues(spAddlIncome, 'amount');
   const socialSecAmt = Number(socialSecurity.socialSecAmt ?? 0);
   const spSocialSecAmt = Number(socialSecurity.spouse.socialSecAmt ?? 0);
+
+  // TODO: verify veteran benefits theres a field for spouse where is veteran?
   const spBenefits = Number(benefits.spouseBenefits.benefitAmount ?? 0);
 
   return (
-    vetGrossSalary +
-    spGrossSalary +
+    vetNetPay +
+    spNetPay +
     vetOtherAmt +
     spOtherAmt +
     socialSecAmt +
