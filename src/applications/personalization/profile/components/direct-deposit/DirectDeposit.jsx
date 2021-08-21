@@ -16,7 +16,10 @@ import {
   isLOA3 as isLOA3Selector,
   isMultifactorEnabled,
 } from '~/platform/user/selectors';
-import { isAuthenticatedWithSSOe as isAuthenticatedWithSSOeSelector } from '~/platform/user/authentication/selectors';
+import {
+  isAuthenticatedWithSSOe as isAuthenticatedWithSSOeSelector,
+  signInServiceName as signInServiceNameSelector,
+} from '~/platform/user/authentication/selectors';
 import environment from '~/platform/utilities/environment';
 import { focusElement } from '~/platform/utilities/ui';
 import { usePrevious } from '~/platform/utilities/react-hooks';
@@ -73,9 +76,8 @@ const SuccessMessage = ({ benefit }) => {
 const DirectDeposit = ({
   cnpUiState,
   eduUiState,
-  is2faEnabled,
   isAuthenticatedWithSSOe,
-  isLOA3,
+  isVerifiedUser,
 }) => {
   const [
     recentlySavedBankInfo,
@@ -88,7 +90,7 @@ const DirectDeposit = ({
   const isSavingEDUBankInfo = eduUiState.isSaving;
   const wasSavingEDUBankInfo = usePrevious(eduUiState.isSaving);
   const eduSaveError = eduUiState.responseError;
-  const showSetUp2FactorAuthentication = isLOA3 && !is2faEnabled;
+  const showSetUp2FactorAuthentication = !isVerifiedUser;
 
   const bankInfoUpdatedAlertSettings = {
     FADE_SPEED: window.Cypress ? 1 : 500,
@@ -236,10 +238,12 @@ const DirectDeposit = ({
 };
 
 const mapStateToProps = state => {
+  const isLOA3 = isLOA3Selector(state);
+  const is2faEnabled = isMultifactorEnabled(state);
+  const isIDme = signInServiceNameSelector(state) === 'idme';
   return {
-    is2faEnabled: isMultifactorEnabled(state),
+    isVerifiedUser: isLOA3 && isIDme && is2faEnabled,
     isAuthenticatedWithSSOe: isAuthenticatedWithSSOeSelector(state),
-    isLOA3: isLOA3Selector(state),
     cnpUiState: cnpDirectDepositUiState(state),
     eduUiState: eduDirectDepositUiState(state),
   };
