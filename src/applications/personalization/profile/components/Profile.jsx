@@ -27,7 +27,7 @@ import {
   isInMPI as isInMVISelector,
   isLoggedIn,
 } from '~/platform/user/selectors';
-import { signInServiceName as signInServiceNameSelector } from 'platform/user/authentication/selectors';
+import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
 import { fetchMHVAccount as fetchMHVAccountAction } from '~/platform/user/profile/actions';
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
