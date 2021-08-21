@@ -8,7 +8,7 @@ import Telephone, {
 
 import recordEvent from '~/platform/monitoring/record-event';
 
-const SetUp2FAAlert = () => {
+const SetUpVerifiedIDMeAlert = () => {
   return (
     <AlertBox
       className="vads-u-margin-bottom--2"
@@ -50,4 +50,4 @@ const SetUp2FAAlert = () => {
   );
 };
 
-export default SetUp2FAAlert;
+export default SetUpVerifiedIDMeAlert;

@@ -27,7 +27,7 @@ import {
 } from '@@profile/selectors';
 
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
-import SetUp2FAAlert from '../alerts/SetUp2FAAlert';
+import SetUpVerifiedIDMeAlert from '../alerts/SetUpVerifiedIDMeAlert';
 
 import Headline from '../ProfileSectionHeadline';
 
@@ -202,7 +202,7 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
             </ReactCSSTransitionGroup>
           </div>
 
-          {showSetUp2FactorAuthentication && <SetUp2FAAlert />}
+          {showSetUp2FactorAuthentication && <SetUpVerifiedIDMeAlert />}
           {!showSetUp2FactorAuthentication && (
             <DowntimeNotification
               appTitle="direct deposit"
