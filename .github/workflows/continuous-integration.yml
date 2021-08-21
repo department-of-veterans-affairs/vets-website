@@ -435,17 +435,21 @@ jobs:
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
-      # - name: Diff recent commit
-      #   id: git-diff
-      #   run: echo ::set-output name=DIFF_RESULTS::$(git diff $(git rev-parse @~)..$(git rev-parse @) --unified=0)
+      - name: Diff recent commit
+        id: git-diff
+        run: echo ::set-output name=DIFF_RESULTS::$(git diff $(git rev-parse @~)..$(git rev-parse @) --unified=0)
 
-      # - name: Set IS_GRAPH_UPDATED
-      #   run: node script/github-actions/create-cross-app-import-graph.js
-      #   env:
-      #     DIFF_RESULTS: ${{ steps.git-diff.outputs.DIFF_RESULTS }}
+      - name: Set IS_GRAPH_UPDATED
+        run: node script/github-actions/create-cross-app-import-graph.js
+        env:
+          DIFF_RESULTS: ${{ steps.git-diff.outputs.DIFF_RESULTS }}
+
+      # - name: Create cross_app_import_graph.json
+      #   run: date +%s > report.txt
 
       - name: Create arbitrary file for testing
-        run: date +%s > report.txt
+        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
+        run: ${{ env.UPDATED_GRAPH }} > config/cross_app_import_graph.json
 
       # - name: Archive updated graph
       #   if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
@@ -462,7 +466,7 @@ jobs:
       #     path: config
 
       - name: Push updated graph
-        # if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
+        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: update graph

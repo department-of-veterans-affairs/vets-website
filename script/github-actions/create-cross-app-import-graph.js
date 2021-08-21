@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+// const fs = require('fs');
+// const path = require('path');
 const findImports = require('find-imports');
 const core = require('@actions/core');
 
@@ -190,20 +190,20 @@ function dedupeGraph(graph) {
   });
 }
 
-function writeGraph(graph) {
-  try {
-    fs.writeFileSync(
-      path.resolve(__dirname, '../../config/cross_app_import_graph.json'),
-      JSON.stringify(graph, null, 2),
-    );
+// function writeGraph(graph) {
+//   try {
+//     fs.writeFileSync(
+//       path.resolve(__dirname, '../../config/cross_app_import_graph.json'),
+//       JSON.stringify(graph, null, 2),
+//     );
 
-    // eslint-disable-next-line no-console
-    console.log('File saved: config/cross_app_import_graph.json');
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err);
-  }
-}
+//     // eslint-disable-next-line no-console
+//     console.log('File saved: config/cross_app_import_graph.json');
+//   } catch (err) {
+//     // eslint-disable-next-line no-console
+//     console.error(err);
+//   }
+// }
 
 function run() {
   const diff = process.env.DIFF_RESULTS;
@@ -215,8 +215,9 @@ function run() {
     const graph = {};
     buildGraph(graph);
     dedupeGraph(graph);
-    writeGraph(graph);
+    // writeGraph(graph);
     core.exportVariable('IS_GRAPH_UPDATED', true);
+    core.exportVariable('UPDATED_GRAPH', JSON.stringify(graph, null, 2));
   } else {
     core.exportVariable('IS_GRAPH_UPDATED', false);
   }
