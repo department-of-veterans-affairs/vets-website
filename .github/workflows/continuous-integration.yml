@@ -426,7 +426,6 @@ jobs:
             .cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-        working-directory: vets-website
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
