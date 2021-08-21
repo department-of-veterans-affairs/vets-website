@@ -4,7 +4,7 @@
  * @param {Array} fields
  * @param {Object} object
  */
-export default function omit(fields, object) {
+export default function omit(fields, object = {}) {
   let fieldOmitted = false;
 
   const withOmittedFields = Object.keys(object).reduce((newObj, k) => {
