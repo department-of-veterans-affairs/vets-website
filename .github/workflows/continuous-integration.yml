@@ -435,14 +435,17 @@ jobs:
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
-      - name: Diff recent commit
-        id: git-diff
-        run: echo ::set-output name=DIFF_RESULTS::$(git diff $(git rev-parse @~)..$(git rev-parse @) --unified=0)
+      # - name: Diff recent commit
+      #   id: git-diff
+      #   run: echo ::set-output name=DIFF_RESULTS::$(git diff $(git rev-parse @~)..$(git rev-parse @) --unified=0)
 
-      - name: Set IS_GRAPH_UPDATED
-        run: node script/github-actions/create-cross-app-import-graph.js
-        env:
-          DIFF_RESULTS: ${{ steps.git-diff.outputs.DIFF_RESULTS }}
+      # - name: Set IS_GRAPH_UPDATED
+      #   run: node script/github-actions/create-cross-app-import-graph.js
+      #   env:
+      #     DIFF_RESULTS: ${{ steps.git-diff.outputs.DIFF_RESULTS }}
+
+      - name: Create arbitrary file for testing
+        run: date +%s > report.txt
 
       # - name: Archive updated graph
       #   if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
