@@ -23,7 +23,7 @@ export function makeUserObject(options = {}) {
           zip: '21122-6706',
           lastSignedIn: '2020-07-21T00:04:51.589Z',
           loa: { current: options.loa || 3, highest: 3 },
-          multifactor: options.multifactor || true,
+          multifactor: options.multifactor ?? true,
           verified: true,
           signIn: {
             serviceName: options.serviceName || 'idme',
@@ -38,9 +38,9 @@ export function makeUserObject(options = {}) {
           familyName: 'Ford',
           gender: 'M',
           givenNames: ['Wesley', 'Watson'],
-          isCernerPatient: !!options.isCerner,
+          isCernerPatient: options.isCerner ?? false,
           facilities: options.facilities || [],
-          vaPatient: !!options.isPatient,
+          vaPatient: options.isPatient ?? false,
           mhvAccountState: 'NONE',
         },
         veteranStatus: {
