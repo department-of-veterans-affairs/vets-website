@@ -407,7 +407,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          path: vets-website
 
       - name: Get Node version
         id: get-node-version
@@ -433,40 +432,17 @@ jobs:
           command: yarn install --frozen-lockfile --prefer-offline --production=false
           max_attempts: 3
           timeout_minutes: 5
-          path: vets-website
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
       - name: Diff recent commit
         id: git-diff
         run: echo ::set-output name=DIFF_RESULTS::$(git diff $(git rev-parse @~)..$(git rev-parse @) --unified=0)
-        working-directory: vets-website
 
       - name: Set IS_GRAPH_UPDATED
         run: node script/github-actions/create-cross-app-import-graph.js
         env:
           DIFF_RESULTS: ${{ steps.git-diff.outputs.DIFF_RESULTS }}
-        working-directory: vets-website
-
-      - name: Archive updated graph
-        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
-        uses: actions/upload-artifact@v2
-        with:
-          name: updated-graph-artifact
-          path: vets-website/config/cross_app_import_graph.json
-
-      - name: Download updated graph
-        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
-        uses: actions/download-artifact@v2
-        with:
-          name: updated-graph-artifact
-          path: vets-website/config
-
-      - name: Push updated graph
-        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: update graph
 
       # - name: Archive updated graph
       #   if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
@@ -482,43 +458,11 @@ jobs:
       #     name: updated-graph-artifact
       #     path: config
 
-      # - name: Configure AWS credentials
-      #   if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
-      #   uses: aws-actions/configure-aws-credentials@v1
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws-region: 'us-gov-west-1'
-
-      # - name: Get va-vsp-bot token
-      #   if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
-      #   uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
-      #   with:
-      #     ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-      #     env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
-      # - name: Pull any changes since checkout
-      #   run: git pull
-
-      # - name: Run git status before add
-      #   if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
-      #   run: git status
-
-      # - name: Run git add .
-      #   if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
-      #   run: git add .
-
-      # - name: Run git status after add
-      #   if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
-      #   run: git status
-
-      # - name: Git commit and push changes
-      #   if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
-      #   uses: actions-js/push@master
-      #   with:
-      #     github_token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-      #     message: 'update graph'
-      #     # branch: ${{ github.ref }}
+      - name: Push updated graph
+        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: update graph
   
   cypress-tests-prep:
     name: Prep for Cypress Tests
