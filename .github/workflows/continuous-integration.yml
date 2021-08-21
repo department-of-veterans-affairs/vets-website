@@ -445,6 +445,20 @@ jobs:
         env:
           DIFF_RESULTS: ${{ steps.git-diff.outputs.DIFF_RESULTS }}
 
+      - name: Archive updated graph
+        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: updated-graph-artifact
+          path: config/cross_app_import_graph.json
+
+      - name: Download updated graph
+        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
+        uses: actions/download-artifact@v2
+        with:
+          name: updated-graph-artifact
+          path: config
+
       - name: Configure AWS credentials
         if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
         uses: aws-actions/configure-aws-credentials@v1
@@ -459,19 +473,6 @@ jobs:
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
-      # - name: Pull any changes since checkout
-      #   if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
-      #   run: git pull origin master
-      #   working-directory: testing-reports
-
-      # - name: Git add config/cross_app_import_graph.json
-      #   if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
-      #   run: git add .
-
-      # - name: Echo branch name
-      #   if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
-      #   run: echo ${{ github.ref }}
 
       - name: Run git status before add
         if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
