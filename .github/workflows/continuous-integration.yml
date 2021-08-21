@@ -406,7 +406,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          persist-credentials: false
           fetch-depth: 0
 
       - name: Get Node version
@@ -444,6 +443,20 @@ jobs:
         run: node script/github-actions/create-cross-app-import-graph.js
         env:
           DIFF_RESULTS: ${{ steps.git-diff.outputs.DIFF_RESULTS }}
+
+      - name: Archive updated graph
+        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: updated-graph-artifact
+          path: config/cross_app_import_graph.json
+
+      - name: Download updated graph
+        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
+        uses: actions/download-artifact@v2
+        with:
+          name: updated-graph-artifact
+          path: config
 
       - name: Push updated graph
         if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
