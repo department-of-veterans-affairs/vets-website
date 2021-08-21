@@ -462,7 +462,7 @@ jobs:
       #     path: config
 
       - name: Push updated graph
-        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
+        # if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: update graph
