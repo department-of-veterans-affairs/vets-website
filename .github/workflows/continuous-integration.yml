@@ -407,6 +407,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+          path: vets-website
 
       - name: Get Node version
         id: get-node-version
@@ -416,6 +417,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+        working-directory: vets-website
 
       - name: Cache dependencies
         id: cache-dependencies
@@ -425,6 +427,7 @@ jobs:
             .cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+        working-directory: vets-website
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
@@ -434,35 +437,39 @@ jobs:
           timeout_minutes: 5
         env:
           YARN_CACHE_FOLDER: .cache/yarn
+        working-directory: vets-website
 
       - name: Diff recent commit
         id: git-diff
         run: echo ::set-output name=DIFF_RESULTS::$(git diff $(git rev-parse @~)..$(git rev-parse @) --unified=0)
+        working-directory: vets-website
 
       - name: Set IS_GRAPH_UPDATED
         run: node script/github-actions/create-cross-app-import-graph.js
         env:
           DIFF_RESULTS: ${{ steps.git-diff.outputs.DIFF_RESULTS }}
+        working-directory: vets-website
 
       - name: Archive updated graph
         if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
         uses: actions/upload-artifact@v2
         with:
           name: updated-graph-artifact
-          path: config/cross_app_import_graph.json
+          path: vets-website/config/cross_app_import_graph.json
 
       - name: Download updated graph
         if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
         uses: actions/download-artifact@v2
         with:
           name: updated-graph-artifact
-          path: config
+          path: vets-website/config
 
       - name: Push updated graph
         if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: update graph
+        working-directory: vets-website
 
       # - name: Archive updated graph
       #   if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
