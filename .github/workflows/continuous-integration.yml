@@ -445,57 +445,63 @@ jobs:
         env:
           DIFF_RESULTS: ${{ steps.git-diff.outputs.DIFF_RESULTS }}
 
-      - name: Archive updated graph
+      - name: Push updated graph
         if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
-        uses: actions/upload-artifact@v2
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          name: updated-graph-artifact
-          path: config/cross_app_import_graph.json
+          commit_message: update graph
 
-      - name: Download updated graph
-        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
-        uses: actions/download-artifact@v2
-        with:
-          name: updated-graph-artifact
-          path: config
+      # - name: Archive updated graph
+      #   if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: updated-graph-artifact
+      #     path: config/cross_app_import_graph.json
 
-      - name: Configure AWS credentials
-        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: 'us-gov-west-1'
+      # - name: Download updated graph
+      #   if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: updated-graph-artifact
+      #     path: config
 
-      - name: Get va-vsp-bot token
-        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
-        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+      # - name: Configure AWS credentials
+      #   if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: 'us-gov-west-1'
 
-      - name: Pull any changes since checkout
-        run: git pull
+      # - name: Get va-vsp-bot token
+      #   if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
+      #   uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+      #   with:
+      #     ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+      #     env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      - name: Run git status before add
-        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
-        run: git status
+      # - name: Pull any changes since checkout
+      #   run: git pull
 
-      - name: Run git add.
-        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
-        run: git add .
+      # - name: Run git status before add
+      #   if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
+      #   run: git status
 
-      - name: Run git status after add
-        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
-        run: git status
+      # - name: Run git add .
+      #   if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
+      #   run: git add .
 
-      - name: Git commit and push changes
-        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
-        uses: actions-js/push@master
-        with:
-          github_token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-          message: 'update graph'
-          # branch: ${{ github.ref }}
+      # - name: Run git status after add
+      #   if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
+      #   run: git status
+
+      # - name: Git commit and push changes
+      #   if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
+      #   uses: actions-js/push@master
+      #   with:
+      #     github_token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+      #     message: 'update graph'
+      #     # branch: ${{ github.ref }}
   
   cypress-tests-prep:
     name: Prep for Cypress Tests
