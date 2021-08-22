@@ -12,6 +12,7 @@ import ResidentialAddress from '../../../components/ResidentialAddress';
 
 export default function ProviderSort({
   loadingLocations,
+  notLoading,
   requestLocationStatus,
   sortByDistanceFromResidential,
   sortByDistanceFromCurrentLocation,
@@ -45,6 +46,9 @@ export default function ProviderSort({
     requestLocationStatus === FETCH_STATUS.failed;
   return (
     <>
+      {/* <va-select label="Show providers closest to" name="sort">
+        <option>test</option>
+      </va-select> */}
       {showSortByDistanceFromResidential && (
         <>
           {!requestLocationStatusFailed && (
@@ -109,25 +113,26 @@ export default function ProviderSort({
           )}
         </>
       )}
-      {sortByDistanceFromCurrentLocation && (
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
-          You can choose a provider based on your current location. Or you can{' '}
-          <button
-            type="button"
-            className="va-button-link"
-            onClick={() => {
-              dispatch(
-                updateCCProviderSortMethod(
-                  FACILITY_SORT_METHODS.distanceFromResidential,
-                ),
-              );
-            }}
-          >
-            use your address on file
-          </button>
-          .
-        </p>
-      )}
+      {sortByDistanceFromCurrentLocation &&
+        notLoading && (
+          <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+            You can choose a provider based on your current location. Or you can{' '}
+            <button
+              type="button"
+              className="va-button-link"
+              onClick={() => {
+                dispatch(
+                  updateCCProviderSortMethod(
+                    FACILITY_SORT_METHODS.distanceFromResidential,
+                  ),
+                );
+              }}
+            >
+              use your address on file
+            </button>
+            .
+          </p>
+        )}
     </>
   );
 }

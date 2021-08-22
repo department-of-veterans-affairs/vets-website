@@ -18,6 +18,7 @@ import {
 import { getSiteIdFromFacilityId } from '../../services/location';
 import {
   selectHasVAPResidentialAddress,
+  selectFeatureCCIterations,
   selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
   selectFeatureVariantTesting,
@@ -192,6 +193,7 @@ export function selectCernerOrgIds(state) {
 }
 
 export function selectProviderSelectionInfo(state) {
+  const showCCIterations = selectFeatureCCIterations(state);
   const {
     communityCareProviders,
     data,
@@ -205,13 +207,14 @@ export function selectProviderSelectionInfo(state) {
 
   return {
     address: selectVAPResidentialAddress(state),
-    typeOfCareName: typeOfCare.name,
     communityCareProviderList:
       communityCareProviders[`${sortMethod}_${typeOfCare.ccId}`],
-    requestStatus,
-    requestLocationStatus,
     currentLocation,
+    requestLocationStatus,
+    requestStatus,
+    showCCIterations,
     sortMethod,
+    typeOfCareName: typeOfCare.name,
   };
 }
 

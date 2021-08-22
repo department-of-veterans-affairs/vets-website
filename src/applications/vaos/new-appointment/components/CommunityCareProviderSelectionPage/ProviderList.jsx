@@ -29,6 +29,7 @@ export default function ProviderList({
     communityCareProviderList,
     requestLocationStatus,
     requestStatus,
+    showCCIterations,
     sortMethod,
     typeOfCareName,
   } = useSelector(selectProviderSelectionInfo, shallowEqual);
@@ -88,10 +89,24 @@ export default function ProviderList({
       >
         Choose a provider
       </h2>
+      {notLoading &&
+        showCCIterations && (
+          <p
+            id="provider-list-status"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            Displaying 1 to {currentlyShownProvidersList.length} of{' '}
+            {communityCareProviderList.length} providers
+          </p>
+        )}
       <ProviderSort
         address={address}
         loadingLocations={loadingLocations}
+        notLoading={notLoading}
         requestLocationStatus={requestLocationStatus}
+        sortByDistanceFromCurrentLocation={sortByDistanceFromCurrentLocation}
         sortByDistanceFromResidential={sortByDistanceFromResidential}
       />
       {loadingProviders && (
@@ -112,11 +127,6 @@ export default function ProviderList({
       {notLoading &&
         !!currentlyShownProvidersList && (
           <>
-            <ProviderSort
-              sortByDistanceFromCurrentLocation={
-                sortByDistanceFromCurrentLocation
-              }
-            />
             {currentlyShownProvidersList.length === 0 && (
               <NoProvidersAlert
                 sortMethod={sortMethod}
@@ -125,15 +135,17 @@ export default function ProviderList({
             )}
             {currentlyShownProvidersList.length > 0 && (
               <>
-                <p
-                  id="provider-list-status"
-                  role="status"
-                  aria-live="polite"
-                  aria-atomic="true"
-                >
-                  Displaying 1 to {currentlyShownProvidersList.length} of{' '}
-                  {communityCareProviderList.length} providers
-                </p>
+                {!showCCIterations && (
+                  <p
+                    id="provider-list-status"
+                    role="status"
+                    aria-live="polite"
+                    aria-atomic="true"
+                  >
+                    Displaying 1 to {currentlyShownProvidersList.length} of{' '}
+                    {communityCareProviderList.length} providers
+                  </p>
+                )}
                 {currentlyShownProvidersList.map((provider, providerIndex) => {
                   const { name } = provider;
                   const checked = provider.id === checkedProvider;
