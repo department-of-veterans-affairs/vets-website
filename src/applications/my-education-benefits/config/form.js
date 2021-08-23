@@ -52,7 +52,7 @@ import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilit
 import { states } from 'platform/forms/address';
 
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
-import { isValidEmail } from 'platform/forms/validations';
+import { validatePhone, validateEmail } from '../utils/validation';
 
 const {
   fullName,
@@ -105,24 +105,55 @@ function isOnlyWhitespace(str) {
   return str && !str.trim().length;
 }
 
-function isValidPhoneLength(field) {
-  return field.length >= 10;
-}
-
 function livesOnMilitaryBaseOutsideUS() {
   return { enum: states.USA.map(state => state.label) };
 }
 
-function phoneValidation() {
-  return [
-    (errors, field) => {
-      if (!isValidPhoneLength(field)) {
-        errors.addError(
-          'Please enter a 10-digit phone number (with or without dashes)',
-        );
-      }
+function startPhoneEditValidation({ phone }) {
+  if (!phone) {
+    return true;
+  }
+  return validatePhone(phone);
+}
+
+function titleCase(str) {
+  return str[0].toUpperCase() + str.slice(1).toLowerCase();
+}
+
+function phoneUISchema(category) {
+  return {
+    'ui:title': `Your ${category} phone number`,
+    'ui:field': ReviewBoxField,
+    'ui:options': {
+      hideLabelText: true,
+      showFieldLabel: false,
+      startInEdit: formData => startPhoneEditValidation(formData),
+      viewComponent: PhoneViewField,
     },
-  ];
+    phone: {
+      ...phoneUI(`${titleCase(category)} phone number`),
+      'ui:validations': [validatePhone],
+    },
+    isInternational: {
+      'ui:title': 'This phone number is international',
+    },
+  };
+}
+
+function phoneSchema() {
+  return {
+    type: 'object',
+    properties: {
+      isInternational: {
+        type: 'boolean',
+      },
+      phone: {
+        ...usaPhone,
+        required: ['phone'],
+        pattern: '^\\d[-]?\\d(?:[0-9-]*\\d)?$',
+      },
+    },
+  };
 }
 
 const formConfig = {
@@ -447,13 +478,7 @@ const formConfig = {
               },
               email: {
                 ...emailUI('Email address'),
-                'ui:validations': [
-                  (errors, field) => {
-                    if (!isValidEmail(field)) {
-                      errors.addError('Please enter a valid email');
-                    }
-                  },
-                ],
+                'ui:validations': [validateEmail],
               },
               confirmEmail: emailUI('Confirm email address'),
               'ui:validations': [
@@ -466,38 +491,8 @@ const formConfig = {
                 },
               ],
             },
-            [formFields.mobilePhoneNumber]: {
-              'ui:title': 'Your mobile phone number',
-              'ui:field': ReviewBoxField,
-              'ui:options': {
-                hideLabelText: true,
-                showFieldLabel: false,
-                viewComponent: PhoneViewField,
-              },
-              phone: {
-                ...phoneUI('Mobile phone number'),
-                'ui:validations': phoneValidation(),
-              },
-              isInternational: {
-                'ui:title': 'This phone number is international',
-              },
-            },
-            [formFields.phoneNumber]: {
-              'ui:title': 'Your home phone number',
-              'ui:field': ReviewBoxField,
-              'ui:options': {
-                hideLabelText: true,
-                showFieldLabel: false,
-                viewComponent: PhoneViewField,
-              },
-              phone: {
-                ...phoneUI('Home phone number'),
-                'ui:validations': phoneValidation(),
-              },
-              isInternational: {
-                'ui:title': 'This phone number is international',
-              },
-            },
+            [formFields.mobilePhoneNumber]: phoneUISchema('mobile'),
+            [formFields.phoneNumber]: phoneUISchema('home'),
             'view:note': {
               'ui:description': (
                 <p>
@@ -524,30 +519,8 @@ const formConfig = {
                   confirmEmail: email,
                 },
               },
-              [formFields.mobilePhoneNumber]: {
-                type: 'object',
-                properties: {
-                  isInternational: {
-                    type: 'boolean',
-                  },
-                  phone: {
-                    ...usaPhone,
-                    pattern: '^\\d[-]?\\d(?:[0-9-]*\\d)?$',
-                  },
-                },
-              },
-              [formFields.phoneNumber]: {
-                type: 'object',
-                properties: {
-                  isInternational: {
-                    type: 'boolean',
-                  },
-                  phone: {
-                    ...usaPhone,
-                    pattern: '^\\d[-]?\\d(?:[0-9-]*\\d)?$',
-                  },
-                },
-              },
+              [formFields.mobilePhoneNumber]: phoneSchema(),
+              [formFields.phoneNumber]: phoneSchema(),
               'view:note': {
                 type: 'object',
                 properties: {},
@@ -627,11 +600,6 @@ const formConfig = {
                     country
                   </p>
                 ),
-                // 'ui:options': {
-                //   hideIf: (formData) => {
-                //     console.log(formData.address.livesOnMilitaryBaseInfo)
-                //   }
-                // },
               },
               additionalInformation: {
                 'ui:description': LearnMoreAboutMilitaryBaseTooltip(),
