@@ -4,10 +4,6 @@ import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/component-library/AlertBox';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
 
 import DowntimeNotification, {
   externalServices,
@@ -16,8 +12,7 @@ import {
   isLOA3 as isLOA3Selector,
   isMultifactorEnabled,
 } from '~/platform/user/selectors';
-import { isAuthenticatedWithSSOe as isAuthenticatedWithSSOeSelector } from '~/platform/user/authentication/selectors';
-import environment from '~/platform/utilities/environment';
+import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
 import { focusElement } from '~/platform/utilities/ui';
 import { usePrevious } from '~/platform/utilities/react-hooks';
 
@@ -27,7 +22,7 @@ import {
 } from '@@profile/selectors';
 
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
-import SetUp2FAAlert from '../alerts/SetUp2FAAlert';
+import SetUpVerifiedIDMeAlert from '../alerts/SetUpVerifiedIDMeAlert';
 
 import Headline from '../ProfileSectionHeadline';
 
@@ -70,13 +65,7 @@ const SuccessMessage = ({ benefit }) => {
   return content;
 };
 
-const DirectDeposit = ({
-  cnpUiState,
-  eduUiState,
-  is2faEnabled,
-  isAuthenticatedWithSSOe,
-  isLOA3,
-}) => {
+const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
   const [
     recentlySavedBankInfo,
     setRecentlySavedBankInfoForBenefit,
@@ -88,7 +77,7 @@ const DirectDeposit = ({
   const isSavingEDUBankInfo = eduUiState.isSaving;
   const wasSavingEDUBankInfo = usePrevious(eduUiState.isSaving);
   const eduSaveError = eduUiState.responseError;
-  const showSetUp2FactorAuthentication = isLOA3 && !is2faEnabled;
+  const showSetUp2FactorAuthentication = !isVerifiedUser;
 
   const bankInfoUpdatedAlertSettings = {
     FADE_SPEED: window.Cypress ? 1 : 500,
@@ -144,91 +133,46 @@ const DirectDeposit = ({
   return (
     <>
       <Headline>Direct deposit information</Headline>
-      {environment.isProduction() ? (
-        <AlertBox
-          status="warning"
-          isVisible
-          headline="Direct deposit isn’t available right now"
-          content={
-            <>
-              <p>
-                We’re sorry. Direct deposit isn’t available right now. We’re
-                working to fix the issue as soon as possible. Please check back
-                after 5 p.m. ET, Monday, August 23 for an update.
-              </p>
-              <h4>What you can do</h4>
-              <p>
-                If you have questions or concerns related to your direct
-                deposit, call us at{' '}
-                <a
-                  href="tel:1-800-827-1000"
-                  aria-label="800. 8 2 7. 1000."
-                  title="Dial the telephone number 800-827-1000"
-                  className="no-wrap"
-                >
-                  800-827-1000
-                </a>{' '}
-                (TTY:{' '}
-                <Telephone
-                  contact={CONTACTS['711']}
-                  pattern={PATTERNS['911']}
-                />
-                ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
-                Or go to your{' '}
-                <a href="/find-locations/?facilityType=benefits">
-                  nearest VA regional office
-                </a>
-                .
-              </p>
-            </>
-          }
-        />
-      ) : (
-        <>
-          <div id="success" role="alert" aria-atomic="true">
-            <ReactCSSTransitionGroup
-              transitionName="form-expanding-group-inner"
-              transitionAppear
-              transitionAppearTimeout={bankInfoUpdatedAlertSettings.FADE_SPEED}
-              transitionEnterTimeout={bankInfoUpdatedAlertSettings.FADE_SPEED}
-              transitionLeaveTimeout={bankInfoUpdatedAlertSettings.FADE_SPEED}
-            >
-              {!!recentlySavedBankInfo && (
-                <div data-testid="bankInfoUpdateSuccessAlert">
-                  <AlertBox
-                    status={ALERT_TYPE.SUCCESS}
-                    backgroundOnly
-                    className="vads-u-margin-top--0 vads-u-margin-bottom--2"
-                    scrollOnShow
-                  >
-                    <SuccessMessage benefit={recentlySavedBankInfo} />
-                  </AlertBox>
-                </div>
-              )}
-            </ReactCSSTransitionGroup>
-          </div>
+      <div id="success" role="alert" aria-atomic="true">
+        <ReactCSSTransitionGroup
+          transitionName="form-expanding-group-inner"
+          transitionAppear
+          transitionAppearTimeout={bankInfoUpdatedAlertSettings.FADE_SPEED}
+          transitionEnterTimeout={bankInfoUpdatedAlertSettings.FADE_SPEED}
+          transitionLeaveTimeout={bankInfoUpdatedAlertSettings.FADE_SPEED}
+        >
+          {!!recentlySavedBankInfo && (
+            <div data-testid="bankInfoUpdateSuccessAlert">
+              <AlertBox
+                status={ALERT_TYPE.SUCCESS}
+                backgroundOnly
+                className="vads-u-margin-top--0 vads-u-margin-bottom--2"
+                scrollOnShow
+              >
+                <SuccessMessage benefit={recentlySavedBankInfo} />
+              </AlertBox>
+            </div>
+          )}
+        </ReactCSSTransitionGroup>
+      </div>
 
-          {showSetUp2FactorAuthentication && (
-            <SetUp2FAAlert isAuthenticatedWithSSOe={isAuthenticatedWithSSOe} />
+      {showSetUp2FactorAuthentication && <SetUpVerifiedIDMeAlert />}
+      {!showSetUp2FactorAuthentication && (
+        <DowntimeNotification
+          appTitle="direct deposit"
+          render={handleDowntimeForSection(
+            'direct deposit for compensation and pension',
           )}
-          {!showSetUp2FactorAuthentication && (
-            <DowntimeNotification
-              appTitle="direct deposit"
-              render={handleDowntimeForSection(
-                'direct deposit for compensation and pension',
-              )}
-              dependencies={[externalServices.evss]}
-            >
-              <BankInfoCNP />
-            </DowntimeNotification>
-          )}
-          <FraudVictimAlert status={ALERT_TYPE.INFO} />
-          {!showSetUp2FactorAuthentication && (
-            <>
-              <BankInfoEDU />
-              <PaymentHistory />
-            </>
-          )}
+          dependencies={[externalServices.evss]}
+        >
+          <BankInfoCNP />
+        </DowntimeNotification>
+      )}
+      <FraudVictimAlert status={ALERT_TYPE.INFO} />
+      {!showSetUp2FactorAuthentication && (
+        <>
+          <BankInfoEDU />
+          <PaymentHistory />
         </>
       )}
     </>
@@ -236,10 +180,11 @@ const DirectDeposit = ({
 };
 
 const mapStateToProps = state => {
+  const isLOA3 = isLOA3Selector(state);
+  const is2faEnabled = isMultifactorEnabled(state);
+  const isIDme = signInServiceNameSelector(state) === 'idme';
   return {
-    is2faEnabled: isMultifactorEnabled(state),
-    isAuthenticatedWithSSOe: isAuthenticatedWithSSOeSelector(state),
-    isLOA3: isLOA3Selector(state),
+    isVerifiedUser: isLOA3 && isIDme && is2faEnabled,
     cnpUiState: cnpDirectDepositUiState(state),
     eduUiState: eduDirectDepositUiState(state),
   };

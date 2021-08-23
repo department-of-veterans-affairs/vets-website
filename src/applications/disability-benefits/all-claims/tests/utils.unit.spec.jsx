@@ -1,4 +1,3 @@
-import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import moment from 'moment';
@@ -21,7 +20,6 @@ import {
   increaseOnly,
   isAnswering781aQuestions,
   isAnswering781Questions,
-  isInFuture,
   isUploading781aForm,
   isUploading781aSupportingDocuments,
   isUploading781Form,
@@ -146,26 +144,6 @@ describe('526 helpers', () => {
       };
 
       expect(ReservesGuardDescription(form)).to.equal(null);
-    });
-  });
-
-  describe('isInFuture', () => {
-    it('adds an error when entered date is today or earlier', () => {
-      const addError = sinon.spy();
-      const errors = { addError };
-      const fieldData = '2018-04-12';
-
-      isInFuture(errors, fieldData);
-      expect(addError.calledOnce).to.be.true;
-    });
-
-    it('does not add an error when the entered date is in the future', () => {
-      const addError = sinon.spy();
-      const errors = { addError };
-      const fieldData = '2099-04-12';
-
-      isInFuture(errors, fieldData);
-      expect(addError.callCount).to.equal(0);
     });
   });
 
