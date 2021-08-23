@@ -630,6 +630,11 @@ const formConfig = {
                     country
                   </p>
                 ),
+                // 'ui:options': {
+                //   hideIf: (formData) => {
+                //     console.log(formData.address.livesOnMilitaryBaseInfo)
+                //   }
+                // },
               },
               additionalInformation: {
                 'ui:description': LearnMoreAboutMilitaryBaseTooltip(),
