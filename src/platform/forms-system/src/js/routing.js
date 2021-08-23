@@ -1,4 +1,4 @@
-import findIndex from 'lodash/findIndex'; // eslint-disable-line no-restricted-imports
+import findIndex from 'lodash/findIndex';
 import {
   getActiveExpandedPages,
   createFormPageList,

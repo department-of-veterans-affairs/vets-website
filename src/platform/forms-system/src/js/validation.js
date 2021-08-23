@@ -1,4 +1,3 @@
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import find from 'lodash/find';
 import get from '../../../utilities/data/get';
 import omit from '../../../utilities/data/omit';
@@ -50,7 +49,7 @@ function getMessage(path, name, uiSchema, errorArgument) {
     const cleanPath = path
       .replace('instance.', '')
       .replace(/\[\d+\]/g, '.items');
-    pathSpecificMessage = _.get(
+    pathSpecificMessage = get(
       `${cleanPath}['ui:errorMessages'].${name}`,
       uiSchema,
     );

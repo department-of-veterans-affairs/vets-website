@@ -1,4 +1,4 @@
-import range from 'lodash/range'; // eslint-disable-line no-restricted-imports
+import range from 'lodash/range';
 import moment from 'moment';
 
 import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
