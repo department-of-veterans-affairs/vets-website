@@ -506,8 +506,8 @@ const formConfig = {
               'ui:description': (
                 <p>
                   <strong>Note</strong>: Any updates you make here will change
-                  your personal information for VA education benefits only. To
-                  change your email and phone numbers for all benefits across
+                  your email and phone numbers for VA education benefits only.
+                  To change your email and phone numbers for all benefits across
                   VA, <a href="#">visit your VA profile</a>.
                 </p>
               ),
