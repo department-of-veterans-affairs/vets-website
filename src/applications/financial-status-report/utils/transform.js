@@ -9,6 +9,7 @@ import {
   filterDeductions,
   otherDeductionsName,
   otherDeductionsAmt,
+  nameStr,
 } from '../utils/helpers';
 
 export const transform = (formConfig, form) => {
@@ -75,13 +76,13 @@ export const transform = (formConfig, form) => {
 
   // benefits, social security and other income
   const vetAddlInc = sumValues(addlIncRecords, 'amount');
-  const vetSocialSecAmt = Number(socialSecurity.socialSecAmt ?? 0);
+  const vetSocSecAmt = Number(socialSecurity.socialSecAmt ?? 0);
   const vetComp = sumValues(income, 'compensationAndPension');
-  const vetEducation = sumValues(income, 'education');
-  const vetBenefits = vetComp + vetEducation;
-  // TODO: add benefits and social security to vetOtherName string
-  const vetOtherName = addlIncRecords?.map(({ name }) => name).join(', ') ?? '';
-  const vetOtherAmt = vetAddlInc + vetBenefits + vetSocialSecAmt;
+  const vetEdu = sumValues(income, 'education');
+  const vetBenefits = vetComp + vetEdu;
+
+  const vetOtherName = nameStr(vetSocSecAmt, vetComp, vetEdu, addlIncRecords);
+  const vetOtherAmt = vetAddlInc + vetBenefits + vetSocSecAmt;
 
   // spouse income
   const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
@@ -92,10 +93,10 @@ export const transform = (formConfig, form) => {
   const spAddlInc = sumValues(spAddlIncome, 'amount');
   const spSocialSecAmt = Number(socialSecurity.socialSecAmt ?? 0);
   const spComp = Number(benefits.spouseBenefits.compensationAndPension ?? 0);
-  const spEducation = Number(benefits.spouseBenefits.education ?? 0);
-  const spBenefits = spComp + spEducation;
-  // TODO: add benefits and social security to vetOtherName string
-  const spOtherName = spAddlIncome?.map(({ name }) => name).join(', ') ?? '';
+  const spEdu = Number(benefits.spouseBenefits.education ?? 0);
+  const spBenefits = spComp + spEdu;
+
+  const spOtherName = nameStr(spSocialSecAmt, spComp, spEdu, spAddlIncome);
   const spOtherAmt = spAddlInc + spBenefits + spSocialSecAmt;
 
   // deduction filters

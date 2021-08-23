@@ -18,18 +18,25 @@ export const dateFormatter = date => {
   return moment(formatDate).format('MM/YYYY');
 };
 
+const hasProperty = (arr, key) => {
+  return arr.filter(item => item[key]).length > 0 ?? false;
+};
+
 export const sumValues = (arr, key) => {
-  if (!Array.isArray(arr) || !arr.length) return 0;
-  return arr?.reduce((acc, item) => acc + Number(item[key]) ?? 0, 0);
+  const isValid = Array.isArray(arr) && arr.length && hasProperty(arr, key);
+  if (!isValid) return 0;
+  return arr.reduce((acc, item) => acc + (Number(item[key]) ?? 0), 0);
 };
 
 export const filterDeductions = (deductions, filters) => {
+  if (!deductions.length) return 0;
   return deductions
     .filter(({ name }) => filters.includes(name))
     .reduce((acc, curr) => acc + Number(curr.amount), 0);
 };
 
 export const otherDeductionsName = (deductions, filters) => {
+  if (!deductions.length) return '';
   return deductions
     .filter(({ name }) => !filters.includes(name))
     .map(({ name }) => name)
@@ -37,9 +44,27 @@ export const otherDeductionsName = (deductions, filters) => {
 };
 
 export const otherDeductionsAmt = (deductions, filters) => {
+  if (!deductions.length) return 0;
   return deductions
     .filter(({ name }) => !filters.includes(name))
     .reduce((acc, curr) => acc + Number(curr.amount), 0);
+};
+
+export const nameStr = (socialSecurity, compensation, education, addlInc) => {
+  const benTypes = [];
+  if (socialSecurity) {
+    benTypes.push('Social Security');
+  }
+  if (compensation) {
+    benTypes.push('Disability Compensation');
+  }
+  if (education) {
+    benTypes.push('Education');
+  }
+  const vetAddlNames = addlInc?.map(({ name }) => name) ?? [];
+  const mergedArr = [...benTypes, ...vetAddlNames];
+
+  return mergedArr?.map(item => item).join(', ') ?? '';
 };
 
 export const getMonthlyIncome = ({
