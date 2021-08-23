@@ -63,13 +63,6 @@ function StemAskVAQuestions() {
         </span>{' '}
         <span id="outside-US-tele">(outside the U.S.)</span>
       </p>
-      <br />
-      <p>
-        <a href="https://www.va.gov/find-locations" onClick={recordLinkClick}>
-          VA Regional Office Location
-        </a>
-      </p>
-      <br />
       <p>
         TTY, Federal Relay:{' '}
         <Telephone
@@ -78,6 +71,13 @@ function StemAskVAQuestions() {
           onClick={recordLinkClick}
         />
       </p>
+      <br />
+      <p>
+        <a href="https://www.va.gov/find-locations" onClick={recordLinkClick}>
+          VA Regional Office Location
+        </a>
+      </p>
+      <br />
       <h3 className="vads-u-font-size--h4 vads-u-margin-bottom--0p5">
         Send us mail
       </h3>
