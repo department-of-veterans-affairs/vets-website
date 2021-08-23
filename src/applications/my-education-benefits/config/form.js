@@ -583,8 +583,30 @@ const formConfig = {
             },
             [formFields.address]: {
               ...address.uiSchema('Your mailing address'),
+              street: {
+                'ui:title': 'Street Address',
+                'ui:validations': [
+                  (errors, field) => {
+                    if (isOnlyWhitespace(field)) {
+                      errors.addError('Please enter your full street address');
+                    }
+                  },
+                ],
+              },
+              city: {
+                'ui:validations': [
+                  (errors, field) => {
+                    if (isOnlyWhitespace(field)) {
+                      errors.addError('Please enter your city');
+                    }
+                  },
+                ],
+              },
               state: {
                 'ui:title': 'State/Province/Region',
+              },
+              postalCode: {
+                'ui:title': 'Postal Code (5-digit)',
               },
               'ui:order': [
                 'livesOnMilitaryBaseInfo',
