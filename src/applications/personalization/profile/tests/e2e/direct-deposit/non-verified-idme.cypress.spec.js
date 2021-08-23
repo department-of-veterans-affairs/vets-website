@@ -25,7 +25,7 @@ function directDepositAPIsNotCalled() {
   });
 }
 
-describe.skip('Direct Deposit', () => {
+describe('Direct Deposit', () => {
   beforeEach(() => {
     // explicitly mock all required APIs to be 500s to speed up the tests
     mockGETEndpoints([
