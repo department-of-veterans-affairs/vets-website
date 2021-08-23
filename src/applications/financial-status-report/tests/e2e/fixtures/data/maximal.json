@@ -71,7 +71,7 @@
   ],
   "additionalIncome": {
     "spouse": {
-      "spouseAdditionalIncomeRecords": [
+      "spAddlIncome": [
         {
           "name": "Child care income",
           "amount": "800.54"
@@ -82,7 +82,7 @@
         }
       ]
     },
-    "additionalIncomeRecords": [
+    "addlIncRecords": [
       {
         "name": "Bonus payment",
         "amount": "1500.67"
@@ -95,9 +95,9 @@
   },
   "socialSecurity": {
     "spouse": {
-      "socialSecurityAmount": "1400.45"
+      "socialSecAmt": "1400.45"
     },
-    "socialSecurityAmount": "1200.65"
+    "socialSecAmt": "1200.65"
   },
   "benefits": {
     "spouseBenefits": {
@@ -437,9 +437,9 @@
     "deductionCode": "",
     "originalAr": 0
   },
-  "currentEmployment": [
+  "currEmployment": [
     {
-      "veteranMonthlyGrossSalary": "5000.54",
+      "veteranGrossSalary": "5000.54",
       "deductions": [
         {
           "name": "Federal tax",
@@ -461,7 +461,7 @@
       "employerName": "Veteran Current One"
     },
     {
-      "veteranMonthlyGrossSalary": "2000.56",
+      "veteranGrossSalary": "2000.56",
       "deductions": [
         {
           "name": "Federal tax",
@@ -475,9 +475,9 @@
       "employerName": "Veteran Current Two"
     }
   ],
-  "spouseCurrentEmployment": [
+  "spCurrEmployment": [
     {
-      "spouseMonthlyGrossSalary": "4000.45",
+      "spouseGrossSalary": "4000.45",
       "deductions": [
         {
           "name": "Federal tax",
