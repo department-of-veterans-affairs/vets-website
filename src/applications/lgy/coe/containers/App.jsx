@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import FormFooter from 'platform/forms/components/FormFooter';
@@ -12,6 +12,10 @@ import { COE_FORM_NUMBER } from '../constants';
 
 function App(props) {
   const { location, children } = props;
+
+  useEffect(() => {
+    props.generateCoe();
+  }, []);
 
   const content = (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
