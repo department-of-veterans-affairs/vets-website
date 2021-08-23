@@ -10,7 +10,7 @@ export default function HousingAllowanceSchoolModalContent() {
           allowance. We calculate this monthly housing allowance based on where
           you take classes.
         </p>
-        <a href="https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp?_ga=2.144591223.39405460.1542131207-1582256389.1508352376">
+        <a href="https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp">
           View the current housing allowance payment rates
         </a>
       </div>

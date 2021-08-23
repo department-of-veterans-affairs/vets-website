@@ -36,6 +36,9 @@ function createBasicInitialState() {
           current: 3,
           highest: 3,
         },
+        signIn: {
+          serviceName: 'idme',
+        },
         vapContactInfo: {},
         multifactor: true,
         services: ['evss-claims', 'user-profile', 'vet360'],
@@ -193,7 +196,7 @@ describe('Profile "Not all data available" error', () => {
     await errorAppearsOnAllPages();
   });
 
-  it.skip('should be shown on all pages if there is an error with the DD4CNP `GET payment_information` endpoint`', async () => {
+  it('should be shown on all pages if there is an error with the DD4CNP `GET payment_information` endpoint`', async () => {
     server.use(...mocks.getDD4CNPFailure);
 
     // don't check for the error on the direct deposit page since that page is unavailable when the `GET payment_information` endpoint fails
@@ -204,7 +207,7 @@ describe('Profile "Not all data available" error', () => {
     ]);
   });
 
-  it.skip('should be shown on all pages if there is an error with the DD4EDU `GET ch33_bank_accounts` endpoint`', async () => {
+  it('should be shown on all pages if there is an error with the DD4EDU `GET ch33_bank_accounts` endpoint`', async () => {
     server.use(...mocks.getDD4EDUFailure);
 
     // don't check for the error on the direct deposit page since that page is unavailable when the `GET payment_information` endpoint fails
