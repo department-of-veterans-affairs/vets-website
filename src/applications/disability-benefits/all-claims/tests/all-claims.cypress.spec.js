@@ -91,6 +91,26 @@ const testConfig = createTestConfig(
         });
       },
 
+      'review-veteran-details/military-service-history/federal-orders': () => {
+        cy.get('@testData').then(data => {
+          cy.fillPage();
+          if (
+            data.serviceInformation.reservesNationalGuardService[
+              'view:isTitle10Activated'
+            ]
+          ) {
+            // active title 10 activation puts this into BDD flow
+            cy.get('select[name$="SeparationDateMonth"]').select(
+              todayPlus120[1],
+            );
+            cy.get('select[name$="SeparationDateDay"]').select(todayPlus120[2]);
+            cy.get('input[name$="SeparationDateYear"]')
+              .clear()
+              .type(todayPlus120[0]);
+          }
+        });
+      },
+
       'review-veteran-details/separation-location': () => {
         cy.get('@testData').then(data => {
           cy.get(
