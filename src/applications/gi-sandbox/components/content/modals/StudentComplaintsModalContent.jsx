@@ -10,13 +10,13 @@ export default function StudentComplaintsModalContent() {
         school.
       </p>
       <p>
-        To learn more visit the{' '}
+        To learn more{' '}
         <a
           href="https://www.benefits.va.gov/GIBILL/Feedback.asp"
           target="_blank"
           rel="noopener noreferrer"
         >
-          VA GI Bill Feedback Tool
+          visit the VA GI Bill Feedback Tool
         </a>
         .
       </p>

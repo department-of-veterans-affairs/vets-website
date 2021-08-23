@@ -36,9 +36,10 @@ const formConfig = {
   downtime: {
     requiredForPrefill: true,
     dependencies: [
-      externalServices.vre,
-      externalServices.vaProfile,
       externalServices.mvi,
+      externalServices.vaProfile,
+      externalServices.vbms,
+      externalServices.vre,
     ],
   },
   version: 0,

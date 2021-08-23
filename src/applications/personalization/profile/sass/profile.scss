@@ -6,6 +6,7 @@
 @import "./profile-mobile-subnav";
 @import "./connected-apps";
 @import "./personal-contact-information";
+@import "./notification-radio-buttons";
 
 [tabindex="-1"]:focus {
   outline: 0;
@@ -53,8 +54,7 @@
   width: 100%;
   padding: 0 5px;
 
-
-  [type=radio] + label::before {
+  [type="radio"] + label::before {
     min-width: 1.4rem;
   }
 }

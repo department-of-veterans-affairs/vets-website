@@ -79,14 +79,14 @@ export const isValidDate = dateString => {
 };
 
 export const contactInfoValidation = (errors, _fieldData, formData) => {
-  const { veteran = {} } = formData;
+  const { veteran = {}, homeless } = formData;
   if (!veteran.email) {
     errors.addError('Please add an email address to your profile');
   }
   if (!veteran.phone?.phoneNumber) {
     errors.addError('Please add a phone number to your profile');
   }
-  if (!veteran.address?.addressLine1) {
+  if (!homeless && !veteran.address?.addressLine1) {
     errors.addError('Please add an address to your profile');
   }
 };

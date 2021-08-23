@@ -360,6 +360,85 @@ describe('VAOS <ClinicChoicePage>', () => {
     );
   });
 
+  it('should show the correct clinic name when filtered to matching', async () => {
+    // Given two available clinics
+    const clinics = [
+      {
+        id: '309',
+        attributes: {
+          ...getClinicMock(),
+          siteCode: '983',
+          clinicId: '309',
+          institutionCode: '983',
+          clinicFriendlyLocationName: 'Filtered out clinic',
+        },
+      },
+      {
+        id: '308',
+        attributes: {
+          ...getClinicMock(),
+          siteCode: '983',
+          clinicId: '308',
+          institutionCode: '983',
+          clinicFriendlyLocationName: 'Green team clinic',
+        },
+      },
+    ];
+    const facilityData = {
+      id: 'vha_442',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442',
+        name: 'Cheyenne VA Medical Center',
+        address: {
+          physical: {
+            zip: '82001-5356',
+            city: 'Cheyenne',
+            state: 'WY',
+            address1: '2360 East Pershing Boulevard',
+          },
+        },
+        phone: {
+          main: '307-778-7550',
+        },
+      },
+    };
+
+    // And the second clinic matches a past appointment
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '211',
+      limit: true,
+      requestPastVisits: true,
+      directPastVisits: true,
+      clinics,
+      matchingClinics: clinics.slice(1),
+      pastClinics: true,
+    });
+
+    const store = createTestStore(initialState);
+
+    await setTypeOfCare(store, /amputation/i);
+    await setVAFacility(store, '983', { facilityData });
+
+    // When the page is displayed
+    const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
+      store,
+    });
+    await screen.findByText(/last amputation care appointment/i);
+
+    // Then the page says the last appointment was at the matching clinic
+    expect(screen.baseElement).to.contain.text(
+      'Your last amputation care appointment was at Green team clinic:',
+    );
+
+    // And the user is asked if they want an appt at matching clinic
+    expect(screen.baseElement).to.contain.text(
+      'Would you like to make an appointment at Green team clinic',
+    );
+  });
+
   it('should retain form data after page changes', async () => {
     const clinics = [
       {
