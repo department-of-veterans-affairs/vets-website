@@ -113,6 +113,18 @@ function livesOnMilitaryBaseOutsideUS() {
   return { enum: states.USA.map(state => state.label) };
 }
 
+function phoneValidation() {
+  return [
+    (errors, field) => {
+      if (!isValidPhoneLength(field)) {
+        errors.addError(
+          'Please enter a 10-digit phone number (with or without dashes)',
+        );
+      }
+    },
+  ];
+}
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -464,15 +476,7 @@ const formConfig = {
               },
               phone: {
                 ...phoneUI('Mobile phone number'),
-                'ui:validations': [
-                  (errors, field) => {
-                    if (!isValidPhoneLength(field)) {
-                      errors.addError(
-                        'Please enter a 10-digit phone number (with or without dashes)',
-                      );
-                    }
-                  },
-                ],
+                'ui:validations': phoneValidation(),
               },
               isInternational: {
                 'ui:title': 'This phone number is international',
@@ -488,15 +492,7 @@ const formConfig = {
               },
               phone: {
                 ...phoneUI('Home phone number'),
-                'ui:validations': [
-                  (errors, field) => {
-                    if (!isValidPhoneLength(field)) {
-                      errors.addError(
-                        'Please enter a 10-digit phone number (with or without dashes)',
-                      );
-                    }
-                  },
-                ],
+                'ui:validations': phoneValidation(),
               },
               isInternational: {
                 'ui:title': 'This phone number is international',
