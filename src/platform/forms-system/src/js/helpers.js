@@ -1,6 +1,5 @@
 import moment from 'moment';
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
-import { intersection, merge, uniq } from 'lodash';
+import { intersection, matches, merge, uniq } from 'lodash';
 import get from '../../../utilities/data/get';
 import omit from '../../../utilities/data/omit';
 import set from '../../../utilities/data/set';
@@ -23,10 +22,10 @@ export function isActivePage(page, data) {
   }
 
   if (Array.isArray(page.depends)) {
-    return page.depends.some(condition => _.matches(condition)(data));
+    return page.depends.some(condition => matches(condition)(data));
   }
 
-  return page.depends === undefined || _.matches(page.depends)(data);
+  return page.depends === undefined || matches(page.depends)(data);
 }
 
 export function getActivePages(pages, data) {
