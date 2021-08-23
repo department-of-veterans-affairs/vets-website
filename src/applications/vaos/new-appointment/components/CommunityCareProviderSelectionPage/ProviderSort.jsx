@@ -22,6 +22,7 @@ export default function ProviderSort({
     address,
     communityCareProviderList,
     currentLocation,
+    parentFacilitiesCityState,
     sortMethod,
   } = useSelector(selectProviderSelectionInfo, shallowEqual);
 
@@ -39,6 +40,20 @@ export default function ProviderSort({
     },
     [sortMethod],
   );
+  // TODO: select additional parent facility from redux store
+  // separate variant sort into another component
+
+  const sortOptions = [
+    {
+      value: FACILITY_SORT_METHODS.distanceFromResidential,
+      label: 'Your home address',
+    },
+    {
+      value: FACILITY_SORT_METHODS.distanceFromCurrentLocation,
+      label: 'Your current location',
+    },
+    // rest of parent facilities
+  ];
 
   const showSortByDistanceFromResidential =
     !loadingLocations && sortByDistanceFromResidential;
@@ -46,9 +61,15 @@ export default function ProviderSort({
     requestLocationStatus === FETCH_STATUS.failed;
   return (
     <>
-      {/* <va-select label="Show providers closest to" name="sort">
-        <option>test</option>
-      </va-select> */}
+      <va-select label="Show providers closest to" name="sort">
+        {sortOptions.map(option => {
+          return (
+            <option key={option.label} value={option.value}>
+              {option.label}
+            </option>
+          );
+        })}
+      </va-select>
       {showSortByDistanceFromResidential && (
         <>
           {!requestLocationStatusFailed && (
