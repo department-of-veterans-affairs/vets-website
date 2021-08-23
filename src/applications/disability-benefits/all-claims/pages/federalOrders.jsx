@@ -3,7 +3,8 @@ import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import { validateDate } from 'platform/forms-system/src/js/validation';
 
-import { title10DatesRequired, isInFuture, title10BeforeRad } from '../utils';
+import { title10DatesRequired } from '../utils';
+import { title10BeforeRad, isLessThan180DaysInFuture } from '../validations';
 
 const {
   title10Activation,
@@ -29,7 +30,7 @@ export const uiSchema = {
         },
         anticipatedSeparationDate: {
           ...dateUI('Expected separation date'),
-          'ui:validations': [validateDate, isInFuture],
+          'ui:validations': [validateDate, isLessThan180DaysInFuture],
           'ui:required': title10DatesRequired,
         },
       },

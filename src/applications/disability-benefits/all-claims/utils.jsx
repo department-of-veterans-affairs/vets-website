@@ -202,27 +202,6 @@ export const title10DatesRequired = formData =>
     false,
   );
 
-export const isInFuture = (errors, fieldData) => {
-  const enteredDate = new Date(fieldData);
-  if (enteredDate < Date.now()) {
-    errors.addError('Expected separation date must be in the future');
-  }
-};
-
-export const title10BeforeRad = (errors, pageData) => {
-  const { anticipatedSeparationDate, title10ActivationDate } =
-    pageData?.reservesNationalGuardService?.title10Activation || {};
-
-  const rad = moment(anticipatedSeparationDate);
-  const activation = moment(title10ActivationDate);
-
-  if (rad.isValid() && activation.isValid() && rad.isBefore(activation)) {
-    errors.reservesNationalGuardService.title10Activation.anticipatedSeparationDate.addError(
-      'Please enter an expected separation date that is after your activation date',
-    );
-  }
-};
-
 const capitalizeWord = word => {
   const capFirstLetter = word[0].toUpperCase();
   return `${capFirstLetter}${word.slice(1)}`;

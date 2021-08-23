@@ -3,6 +3,7 @@ import merge from 'lodash/merge';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { uiSchema as autoSuggestUiSchema } from 'platform/forms-system/src/js/definitions/autosuggest';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/monthYearRange';
+
 import { treatmentView } from '../content/vaMedicalRecords';
 import { queryForFacilities, makeSchemaForAllDisabilities } from '../utils';
 import {
@@ -29,6 +30,7 @@ export const uiSchema = {
       itemName: 'Facility',
       itemAriaLabel: data => data.treatmentCenterName,
       viewField: treatmentView,
+      showSave: true,
     },
     items: {
       'ui:order': [

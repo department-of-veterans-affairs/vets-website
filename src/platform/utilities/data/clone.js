@@ -16,6 +16,8 @@ export default function clone(object) {
     }
     // Probably just ye olde object
     return Object.assign({}, object);
+  } else if (typeof object === 'undefined') {
+    return undefined;
   }
   throw new Error(`Unknown type in clone: ${typeof object}`);
   /* eslint-enable no-prototype-builtins */

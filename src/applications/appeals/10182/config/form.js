@@ -101,21 +101,17 @@ const formConfig = {
           schema: veteranInfo.schema,
           // initialData,
         },
-        contactInformation: {
-          title: 'Contact information',
-          path: 'contact-information',
-          uiSchema: contactInfo.uiSchema,
-          schema: contactInfo.schema,
-          initialData: {
-            // stop the mobile phone modal from showing SMS checkbox inline
-            'view:showSMSCheckbox': false,
-          },
-        },
         homeless: {
           title: 'Homelessness question',
           path: 'homeless',
           uiSchema: homeless.uiSchema,
           schema: homeless.schema,
+        },
+        contactInformation: {
+          title: 'Contact information',
+          path: 'contact-information',
+          uiSchema: contactInfo.uiSchema,
+          schema: contactInfo.schema,
         },
       },
     },
