@@ -1,5 +1,20 @@
 # Check in Application
 
+- [Check in Application](#check-in-application)
+  - [Description](#description)
+  - [Slack Channels](#slack-channels)
+  - [Approval Groups](#approval-groups)
+  - [Project Documentation](#project-documentation)
+  - [Good to knows](#good-to-knows)
+    - [Project URLS](#project-urls)
+    - [How to run locally](#how-to-run-locally)
+    - [Where is the data coming from?](#where-is-the-data-coming-from)
+    - [Why is this not a VA forms app (formation)](#why-is-this-not-a-va-forms-app-formation)
+    - [What API(s) does this use?](#what-apis-does-this-use)
+    - [Feature toggles](#feature-toggles)
+    - [How to test this?](#how-to-test-this)
+    - [Useful acronym and terms](#useful-acronym-and-terms)
+
 ## Description
 
 This application for for veterans to check into their health appointments the day of care. This is half of the experience. The other have is a QR and a series of text messages (see full diagrams).
