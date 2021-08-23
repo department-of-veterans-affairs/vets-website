@@ -76,7 +76,7 @@ jobs:
       - name: Authenticate NEXUS
         run: |
           export NPM_AUTH_TOKEN=$(echo -n 'va-vsp-bot:${{ env.VA_VSP_BOT_GITHUB_TOKEN }}' | openssl base64)
-          echo "_auth = $NPM_AUTH_TOKEN" > ~/.npmrc
+          npm config set _auth $NPM_AUTH_TOKEN
           npm install -g npm-cli-adduser
           npm-cli-adduser -u va-vsp-bot -p ${{ env.VA_VSP_BOT_GITHUB_TOKEN }} -e va-vsp-bot@test.com -r ${{ env.NEXUS_REGISTRY }}
 
