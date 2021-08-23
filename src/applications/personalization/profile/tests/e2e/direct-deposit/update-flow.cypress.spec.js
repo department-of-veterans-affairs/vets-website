@@ -60,7 +60,7 @@ function saveSuccessAlertRemoved() {
   cy.findByTestId('bankInfoUpdateSuccessAlert').should('not.exist');
 }
 
-describe.skip('Direct Deposit', () => {
+describe('Direct Deposit', () => {
   beforeEach(() => {
     cy.login(mockUserInEVSS);
     cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPNotEnrolled);
