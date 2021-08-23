@@ -50,7 +50,7 @@ function getMessage(path, name, uiSchema, errorArgument) {
       .replace('instance.', '')
       .replace(/\[\d+\]/g, '.items');
     pathSpecificMessage = get(
-      `${cleanPath}['ui:errorMessages'].${name}`,
+      `${cleanPath}[ui:errorMessages].${name}`,
       uiSchema,
     );
   }
