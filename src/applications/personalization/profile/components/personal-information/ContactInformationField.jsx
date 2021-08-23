@@ -18,15 +18,12 @@ import {
   createTransaction,
   refreshTransaction,
   clearTransactionRequest,
-  updateFormFieldWithSchema,
   openModal,
-  validateAddress,
 } from '@@vap-svc/actions';
 
 import {
   selectAddressValidationType,
   selectCurrentlyOpenEditModal,
-  selectEditedFormField,
   selectVAPContactInfoField,
   selectVAPServiceTransaction,
   selectEditViewData,
@@ -49,6 +46,8 @@ import getContactInfoFieldAttributes from '~/applications/personalization/profil
 
 import CannotEditModal from './CannotEditModal';
 import ConfirmCancelModal from './ConfirmCancelModal';
+import ConfirmRemoveModal from './ConfirmRemoveModal';
+import { usePrevious } from '~/platform/utilities/react-hooks';
 
 // Helper function that generates a string that can be used for a contact info
 // field's edit button.
@@ -66,7 +65,9 @@ const wrapperClasses = prefixUtilityClasses([
 ]);
 
 const editButtonClasses = [
-  'usa-button-secondary',
+  'usa-button-primary',
+  'vads-u-margin-right--0',
+  'medium-screen:vads-u-margin-right--3',
   ...prefixUtilityClasses(['margin--0', 'margin-top--1p5']),
 ];
 
@@ -75,55 +76,86 @@ const classes = {
   editButton: editButtonClasses.join(' '),
 };
 
-class ContactInformationField extends React.Component {
-  static propTypes = {
-    activeEditView: PropTypes.string,
-    analyticsSectionName: PropTypes.oneOf(
-      Object.values(VAP_SERVICE.ANALYTICS_FIELD_MAP),
-    ).isRequired,
-    blockEditMode: PropTypes.bool.isRequired,
-    clearTransactionRequest: PropTypes.func.isRequired,
-    createTransaction: PropTypes.func.isRequired,
-    data: PropTypes.object,
-    editViewData: PropTypes.object,
-    field: PropTypes.object,
-    fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES))
-      .isRequired,
-    hasUnsavedEdits: PropTypes.bool.isRequired,
-    isEmpty: PropTypes.bool.isRequired,
-    openModal: PropTypes.func.isRequired,
-    refreshTransaction: PropTypes.func.isRequired,
-    showEditView: PropTypes.bool.isRequired,
-    showSMSCheckBox: PropTypes.bool,
-    showValidationView: PropTypes.bool.isRequired,
-    title: PropTypes.string,
-    transaction: PropTypes.object,
-    transactionRequest: PropTypes.object,
-    updateFormFieldWithSchema: PropTypes.func.isRequired,
-    validateAddress: PropTypes.func.isRequired,
+function ContactInformationField({
+  activeEditView,
+  analyticsSectionName,
+  apiRoute,
+  blockEditMode,
+  clearTransaction,
+  convertCleanDataToPayload,
+  createTransactionRequest,
+  data,
+  editViewData,
+  fieldName,
+  formSchema,
+  hasUnsavedEdits,
+  isEmpty,
+  isEnrolledInVAHealthCare,
+  openModalAlert,
+  refreshTransactionRequest,
+  showEditView,
+  showSMSCheckBox,
+  showValidationView,
+  title,
+  transaction,
+  transactionRequest,
+  uiSchema,
+}) {
+  const [focusDeleteAlert, setFocusDeleteAlert] = React.useState(false);
+  const [showCannotEditModal, setShowCannotEditModal] = React.useState(false);
+  const [showConfirmCancelModal, setShowConfirmCancelModal] = React.useState(
+    false,
+  );
+  const [showConfirmRemoveModal, setShowConfirmRemoveModal] = React.useState(
+    false,
+  );
+  const prevTransactionRef = usePrevious(transaction);
+  const prevShowEditViewRef = usePrevious(showEditView);
+  const prevShowValidationViewRef = usePrevious(showValidationView);
+  let closeModalTimeoutID = null;
+
+  const closeModal = () => {
+    openModalAlert(null);
   };
 
-  static defaultProps = {
-    fieldName: '',
-    hasUnsavedEdits: false,
+  const transactionJustFailed = () => {
+    return (
+      !isFailedTransaction(prevTransactionRef) &&
+      isFailedTransaction(transaction)
+    );
   };
 
-  state = {
-    showCannotEditModal: false,
-    showConfirmCancelModal: false,
+  const justClosedModal = () => {
+    return (
+      (prevShowEditViewRef && !showEditView) ||
+      (prevShowValidationViewRef && !showValidationView)
+    );
   };
 
-  closeModalTimeoutID = null;
+  const captureEvent = actionName => {
+    recordEvent({
+      event: 'profile-navigation',
+      'profile-action': actionName,
+      'profile-section': analyticsSectionName,
+    });
+  };
 
-  componentDidUpdate(prevProps) {
-    const { fieldName } = this.props;
+  const isLoading =
+    transactionRequest?.isPending || isPendingTransaction(transaction);
+
+  React.useEffect(() => {
+    const previousTransaction = prevTransactionRef;
+    const currentTransaction = transaction;
     // Exit the edit view if it takes more than 5 seconds for the update/save
     // transaction to resolve. If the transaction has not resolved after 5
     // seconds we will show a "we're saving your new information..." message on
     // the Profile
-    if (!prevProps.transaction && this.props.transaction) {
-      this.closeModalTimeoutID = setTimeout(
-        () => this.closeModal(),
+    if (!previousTransaction && currentTransaction) {
+      closeModalTimeoutID = setTimeout(
+        () => {
+          closeModal();
+          setShowConfirmRemoveModal(false);
+        },
         // Using 50ms as the unit test timeout before exiting edit view while
         // waiting for an update to happen. Being too aggressive, like 5ms,
         // results in exiting the edit view before Redux has had time to do
@@ -132,197 +164,257 @@ class ContactInformationField extends React.Component {
         window.VetsGov.pollTimeout ? 50 : 5000,
       );
     }
-
     // Do not auto-exit edit view if the transaction failed
-    if (this.transactionJustFailed(prevProps, this.props)) {
-      clearTimeout(this.closeModalTimeoutID);
+    if (transactionJustFailed()) {
+      clearTimeout(closeModalTimeoutID);
     }
 
-    if (this.justClosedModal(prevProps, this.props)) {
-      clearTimeout(this.closeModalTimeoutID);
-      if (this.props.transaction) {
+    if (justClosedModal()) {
+      clearTimeout(closeModalTimeoutID);
+      if (transaction) {
         focusElement(`div#${fieldName}-transaction-status`);
       }
       focusElement(`#${getEditButtonId(fieldName)}`);
     }
-  }
+  });
 
-  onCancel = () => {
-    this.captureEvent('cancel-button');
+  React.useEffect(
+    () => {
+      if (focusDeleteAlert) {
+        setFocusDeleteAlert(false);
+      }
+    },
+    [focusDeleteAlert, setFocusDeleteAlert],
+  );
 
-    if (!this.props.hasUnsavedEdits) {
-      this.closeModal();
+  const onCancel = () => {
+    captureEvent('cancel-button');
+
+    if (!hasUnsavedEdits) {
+      closeModal();
       return;
     }
-
-    this.setState({ showConfirmCancelModal: true });
+    setShowConfirmCancelModal(true);
   };
 
-  clearErrors = () => {
-    this.props.clearTransactionRequest(this.props.fieldName);
-  };
-
-  onEdit = (event = 'edit-link') => {
-    this.captureEvent(event);
-    this.openEditModal();
-  };
-
-  justClosedModal(prevProps, props) {
-    return (
-      (prevProps.showEditView && !props.showEditView) ||
-      (prevProps.showValidationView && !props.showValidationView)
-    );
-  }
-
-  transactionJustFailed(prevProps, props) {
-    const previousTransaction = prevProps.transaction;
-    const currentTransaction = props.transaction;
-    return (
-      !isFailedTransaction(previousTransaction) &&
-      isFailedTransaction(currentTransaction)
-    );
-  }
-
-  closeModal = () => {
-    this.props.openModal(null);
-  };
-
-  openEditModal = () => {
-    if (this.props.blockEditMode) {
-      this.setState({ showCannotEditModal: true });
-    } else {
-      this.props.openModal(this.props.fieldName);
-    }
-  };
-
-  refreshTransactionNotProps = () => {
-    this.props.refreshTransaction(
-      this.props.transaction,
-      this.props.analyticsSectionName,
-    );
-  };
-
-  captureEvent(actionName) {
+  const cancelDeleteAction = () => {
+    setShowConfirmRemoveModal(false);
     recordEvent({
       event: 'profile-navigation',
-      'profile-action': actionName,
-      'profile-section': this.props.analyticsSectionName,
+      'profile-action': 'cancel-delete-button',
+      'profile-section': analyticsSectionName,
     });
-  }
+  };
 
-  isEditLinkVisible = () => !isPendingTransaction(this.props.transaction);
-
-  render() {
-    const {
-      activeEditView,
+  const onDelete = () => {
+    let payload = data;
+    if (convertCleanDataToPayload) {
+      payload = convertCleanDataToPayload(payload, fieldName);
+    }
+    createTransactionRequest(
+      apiRoute,
+      'DELETE',
       fieldName,
-      isEmpty,
-      showEditView,
-      showValidationView,
-      title,
-      transaction,
-      transactionRequest,
-      data,
-    } = this.props;
-
-    const activeSection = VAP_SERVICE.FIELD_TITLES[
-      activeEditView
-    ]?.toLowerCase();
-
-    const wrapInTransaction = children => {
-      return (
-        <VAPServiceTransaction
-          isModalOpen={showEditView || showValidationView}
-          id={`${fieldName}-transaction-status`}
-          title={title}
-          transaction={transaction}
-          transactionRequest={transactionRequest}
-          refreshTransaction={this.refreshTransactionNotProps}
-        >
-          {children}
-        </VAPServiceTransaction>
-      );
-    };
-
-    // default the content to the read-view
-    let content = wrapInTransaction(
-      <div className={classes.wrapper}>
-        <ContactInformationView
-          data={data}
-          fieldName={fieldName}
-          title={title}
-        />
-
-        {this.isEditLinkVisible() && (
-          <button
-            aria-label={`Edit ${title}`}
-            type="button"
-            data-action="edit"
-            onClick={() => {
-              this.onEdit(isEmpty ? 'add-link' : 'edit-link');
-            }}
-            id={getEditButtonId(fieldName)}
-            className={classes.editButton}
-          >
-            Edit
-          </button>
-        )}
-      </div>,
+      payload,
+      analyticsSectionName,
     );
+  };
 
-    if (showEditView) {
-      content = (
-        <ContactInformationEditView
-          getInitialFormValues={() =>
-            getInitialFormValues({
-              fieldName,
-              data: this.props.data,
-              showSMSCheckbox: this.props.showSMSCheckbox,
-              modalData: this.props.editViewData,
-            })
-          }
-          onCancel={this.onCancel}
-          fieldName={this.props.fieldName}
-        />
-      );
+  const confirmDeleteAction = e => {
+    e.preventDefault();
+    recordEvent({
+      event: 'profile-navigation',
+      'profile-action': 'confirm-delete-button',
+      'profile-section': analyticsSectionName,
+    });
+    onDelete();
+  };
+
+  const clearErrors = () => {
+    clearTransaction(fieldName);
+  };
+
+  const openEditModal = () => {
+    if (blockEditMode) {
+      setShowCannotEditModal(true);
+    } else {
+      openModalAlert(fieldName);
     }
+  };
 
-    if (showValidationView) {
-      content = (
-        <AddressValidationView
-          refreshTransaction={this.refreshTransactionNotProps}
-          transaction={transaction}
-          transactionRequest={transactionRequest}
-          title={title}
-          clearErrors={this.clearErrors}
-        />
-      );
-    }
+  const onEdit = (event = 'edit-link') => {
+    captureEvent(event);
+    openEditModal();
+  };
 
+  const refreshTransactionNotProps = () => {
+    refreshTransactionRequest(transaction, analyticsSectionName);
+  };
+
+  const isEditLinkVisible = () => !isPendingTransaction(transaction);
+
+  const handleDeleteInitiated = () => {
+    recordEvent({
+      event: 'profile-navigation',
+      'profile-action': 'delete-button',
+      'profile-section': analyticsSectionName,
+    });
+    setShowConfirmRemoveModal(true);
+  };
+
+  const activeSection = VAP_SERVICE.FIELD_TITLES[activeEditView]?.toLowerCase();
+
+  const wrapInTransaction = children => {
     return (
-      <div
-        className="vet360-profile-field"
-        data-field-name={fieldName}
-        data-testid={fieldName}
+      <VAPServiceTransaction
+        isModalOpen={showEditView || showValidationView}
+        id={`${fieldName}-transaction-status`}
+        title={title}
+        transaction={transaction}
+        transactionRequest={transactionRequest}
+        refreshTransaction={refreshTransactionNotProps}
       >
-        <ConfirmCancelModal
-          activeSection={activeSection}
-          closeModal={this.closeModal}
-          onHide={() => this.setState({ showConfirmCancelModal: false })}
-          isVisible={this.state.showConfirmCancelModal}
-        />
+        {children}
+      </VAPServiceTransaction>
+    );
+  };
 
-        <CannotEditModal
-          activeSection={activeSection}
-          onHide={() => this.setState({ showCannotEditModal: false })}
-          isVisible={this.state.showCannotEditModal}
-        />
+  // default the content to the read-view
+  let content = wrapInTransaction(
+    <div className={classes.wrapper}>
+      <ContactInformationView data={data} fieldName={fieldName} title={title} />
 
-        {content}
+      <div className="vads-u-display--flex vads-u-flex-wrap--wrap vads-u-flex-direction--column vads-u-width--full">
+        <div>
+          {isEditLinkVisible() && (
+            <button
+              aria-label={`Edit ${title}`}
+              type="button"
+              data-action="edit"
+              onClick={() => {
+                onEdit(isEmpty ? 'add-link' : 'edit-link');
+              }}
+              id={getEditButtonId(fieldName)}
+            >
+              Edit
+            </button>
+          )}
+          {data &&
+            fieldName !== FIELD_NAMES.MAILING_ADDRESS && (
+              <button
+                type="button"
+                className="small-screen:vads-u-margin--0 usa-button-secondary"
+                onClick={handleDeleteInitiated}
+              >
+                Remove
+              </button>
+            )}
+        </div>
       </div>
+    </div>,
+  );
+
+  if (showEditView) {
+    content = (
+      <ContactInformationEditView
+        getInitialFormValues={() =>
+          getInitialFormValues({
+            fieldName,
+            data,
+            showSMSCheckBox,
+            modalData: editViewData,
+          })
+        }
+        onCancel={onCancel}
+        fieldName={fieldName}
+        apiRoute={apiRoute}
+        convertCleanDataToPayload={convertCleanDataToPayload}
+        uiSchema={uiSchema}
+        formSchema={formSchema}
+        title={title}
+      />
     );
   }
+
+  if (showValidationView) {
+    content = (
+      <AddressValidationView
+        refreshTransaction={refreshTransactionNotProps}
+        transaction={transaction}
+        transactionRequest={transactionRequest}
+        title={title}
+        clearErrors={clearErrors}
+      />
+    );
+  }
+
+  return (
+    <div
+      className="vet360-profile-field"
+      data-field-name={fieldName}
+      data-testid={fieldName}
+    >
+      <ConfirmCancelModal
+        activeSection={activeSection}
+        closeModal={closeModal}
+        onHide={() => setShowConfirmCancelModal(false)}
+        isVisible={showConfirmCancelModal}
+      />
+
+      <CannotEditModal
+        activeSection={activeSection}
+        onHide={() => setShowCannotEditModal(false)}
+        isVisible={showCannotEditModal}
+      />
+
+      <ConfirmRemoveModal
+        cancelAction={cancelDeleteAction}
+        deleteAction={confirmDeleteAction}
+        isLoading={isLoading}
+        title={title}
+        fieldName={fieldName}
+        isEnrolledInVAHealthCare={isEnrolledInVAHealthCare}
+        isVisible={showConfirmRemoveModal}
+        onHide={() => setShowConfirmRemoveModal(false)}
+      />
+
+      {content}
+    </div>
+  );
 }
+
+ContactInformationField.propTypes = {
+  activeEditView: PropTypes.string,
+  analyticsSectionName: PropTypes.oneOf(
+    Object.values(VAP_SERVICE.ANALYTICS_FIELD_MAP),
+  ).isRequired,
+  apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
+  blockEditMode: PropTypes.bool.isRequired,
+  clearTransaction: PropTypes.func.isRequired,
+  convertCleanDataToPayload: PropTypes.func.isRequired,
+  createTransactionRequest: PropTypes.func.isRequired,
+  data: PropTypes.object,
+  editViewData: PropTypes.object,
+  fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
+  formSchema: PropTypes.object.isRequired,
+  hasUnsavedEdits: PropTypes.bool.isRequired,
+  isEmpty: PropTypes.bool.isRequired,
+  isEnrolledInVAHealthCare: PropTypes.bool.isRequired,
+  openModalAlert: PropTypes.func.isRequired,
+  refreshTransactionRequest: PropTypes.func.isRequired,
+  showEditView: PropTypes.bool.isRequired,
+  showSMSCheckBox: PropTypes.bool,
+  showValidationView: PropTypes.bool.isRequired,
+  title: PropTypes.string,
+  transaction: PropTypes.object,
+  transactionRequest: PropTypes.object,
+  uiSchema: PropTypes.object.isRequired,
+};
+
+ContactInformationField.defaultProps = {
+  fieldName: '',
+  hasUnsavedEdits: false,
+};
 
 export const mapStateToProps = (state, ownProps) => {
   const { fieldName } = ownProps;
@@ -338,12 +430,18 @@ export const mapStateToProps = (state, ownProps) => {
     addressValidationType === fieldName &&
     activeEditView === ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION;
   const isEnrolledInVAHealthCare = isVAPatient(state);
-  const showSMSCheckbox =
+  const showSMSCheckBox =
     ownProps.fieldName === FIELD_NAMES.MOBILE_PHONE &&
     isEnrolledInVAHealthCare &&
     !showNotificationSettings(state);
 
-  const { title } = getContactInfoFieldAttributes(fieldName);
+  const {
+    apiRoute,
+    convertCleanDataToPayload,
+    uiSchema,
+    formSchema,
+    title,
+  } = getContactInfoFieldAttributes(fieldName);
   return {
     hasUnsavedEdits: state.vapService.hasUnsavedEdits,
     analyticsSectionName: VAP_SERVICE.ANALYTICS_FIELD_MAP[fieldName],
@@ -361,25 +459,27 @@ export const mapStateToProps = (state, ownProps) => {
         : activeEditView,
     data,
     fieldName,
-    field: selectEditedFormField(state, fieldName),
     showEditView: activeEditView === fieldName,
     showValidationView: !!showValidationView,
     isEmpty,
     transaction,
     transactionRequest,
     editViewData: selectEditViewData(state),
-    showSMSCheckbox,
+    showSMSCheckBox,
     title,
+    apiRoute,
+    convertCleanDataToPayload,
+    uiSchema,
+    formSchema,
+    isEnrolledInVAHealthCare,
   };
 };
 
 const mapDispatchToProps = {
-  clearTransactionRequest,
-  refreshTransaction,
-  openModal,
-  createTransaction,
-  updateFormFieldWithSchema,
-  validateAddress,
+  clearTransaction: clearTransactionRequest,
+  refreshTransactionRequest: refreshTransaction,
+  openModalAlert: openModal,
+  createTransactionRequest: createTransaction,
 };
 
 const ContactInformationFieldContainer = connect(
