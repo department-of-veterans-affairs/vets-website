@@ -77,7 +77,6 @@ function StemAskVAQuestions() {
           VA Regional Office Location
         </a>
       </p>
-      <br />
       <h3 className="vads-u-font-size--h4 vads-u-margin-bottom--0p5">
         Send us mail
       </h3>
