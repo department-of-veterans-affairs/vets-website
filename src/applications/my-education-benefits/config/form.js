@@ -53,9 +53,6 @@ import { states } from 'platform/forms/address';
 
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 
-// import CustomPhoneNumberWidget from '../components/CustomPhoneNumberWidget';
-import CustomPhoneUI from '../components/CustomPhoneUI';
-
 const {
   fullName,
   // ssn,
@@ -105,6 +102,10 @@ const formPages = {
 
 function isOnlyWhitespace(str) {
   return str && !str.trim().length;
+}
+
+function isValidPhoneLength(field) {
+  return field.length >= 10;
 }
 
 const formConfig = {
@@ -429,11 +430,6 @@ const formConfig = {
               },
               email: {
                 ...emailUI('Email address'),
-                'ui:validations': [
-                  // (errors, field) => {
-                  // TODO:
-                  // },
-                ],
               },
               confirmEmail: emailUI('Confirm email address'),
               'ui:validations': [
@@ -454,7 +450,18 @@ const formConfig = {
                 showFieldLabel: false,
                 viewComponent: PhoneViewField,
               },
-              phone: CustomPhoneUI('Mobile phone number'),
+              phone: {
+                ...phoneUI('Mobile phone number'),
+                'ui:validations': [
+                  (errors, field) => {
+                    if (!isValidPhoneLength(field)) {
+                      errors.addError(
+                        'Please enter a 10-digit phone number (with or without dashes)',
+                      );
+                    }
+                  },
+                ],
+              },
               isInternational: {
                 'ui:title': 'This phone number is international',
               },
@@ -467,7 +474,18 @@ const formConfig = {
                 showFieldLabel: false,
                 viewComponent: PhoneViewField,
               },
-              phone: phoneUI('Home phone number'),
+              phone: {
+                ...phoneUI('Home phone number'),
+                'ui:validations': [
+                  (errors, field) => {
+                    if (!isValidPhoneLength(field)) {
+                      errors.addError(
+                        'Please enter a 10-digit phone number (with or without dashes)',
+                      );
+                    }
+                  },
+                ],
+              },
               isInternational: {
                 'ui:title': 'This phone number is international',
               },
