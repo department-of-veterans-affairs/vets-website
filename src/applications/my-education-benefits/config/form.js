@@ -52,6 +52,7 @@ import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilit
 import { states } from 'platform/forms/address';
 
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
+import { isValidEmail } from 'platform/forms/validations';
 
 const {
   fullName,
@@ -430,6 +431,13 @@ const formConfig = {
               },
               email: {
                 ...emailUI('Email address'),
+                'ui:validations': [
+                  (errors, field) => {
+                    if (!isValidEmail(field)) {
+                      errors.addError('Please enter a valid email');
+                    }
+                  },
+                ],
               },
               confirmEmail: emailUI('Confirm email address'),
               'ui:validations': [
