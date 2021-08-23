@@ -13,7 +13,7 @@ export const YellowRibbonModalContent = () => (
     </p>
     <p>
       <a
-        href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
+        href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -23,7 +23,7 @@ export const YellowRibbonModalContent = () => (
     </p>
     <p>
       <a
-        href="https://www.va.gov/education/yellow-ribbon-participating-schools/"
+        href="/education/yellow-ribbon-participating-schools/"
         target="_blank"
         rel="noopener noreferrer"
       >

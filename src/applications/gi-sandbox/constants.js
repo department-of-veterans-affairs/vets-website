@@ -60,8 +60,8 @@ export const ariaLabels = Object.freeze({
   learnMore: {
     accreditation:
       'Learn more about the different accreditation types and why it matters',
-    allCampusComplaints: 'Learn more about student complaints for all campuses',
-    bookStipend: 'Learn more about how we calculate your annual book stipend',
+    allCampusComplaints: 'Learn more about student complaints',
+    bookStipend: 'Learn more about the book stipend',
     calcEnrolled:
       'Learn more about enrollment status and how it may affect your education benefits',
     calcWorking:
@@ -74,7 +74,7 @@ export const ariaLabels = Object.freeze({
     eightKeys: 'Learn more about 8 Keys to Veteran Success',
     facilityCode: 'Learn more about the VA facility code',
     giBillBenefits: 'Learn more about VA education and training programs',
-    housingAllowance: 'Learn more about the book stipend',
+    housingAllowance: 'Learn more about how housing allowance is determined',
     independentStudy: 'Learn more about Independent study',
     inState: 'Learn more about qualifying for in-state tuition.',
     inStateTuitionFeesPerYear:

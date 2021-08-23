@@ -8,7 +8,7 @@ export default function PrinciplesOfExcellenceModalContent() {
         The{' '}
         <a
           title="Principles of Excellence"
-          href="http://www.gpo.gov/fdsys/pkg/FR-2012-05-02/pdf/2012-10715.pdf"
+          href="https://www.govinfo.gov/content/pkg/FR-2012-05-02/pdf/2012-10715.pdf"
           target="_blank"
           rel="noopener noreferrer"
         >
