@@ -598,6 +598,7 @@ const formConfig = {
                 ],
               },
               city: {
+                'ui:title': 'City',
                 'ui:validations': [
                   (errors, field) => {
                     if (isOnlyWhitespace(field)) {
