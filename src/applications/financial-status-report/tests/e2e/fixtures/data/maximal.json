@@ -101,8 +101,8 @@
   },
   "benefits": {
     "spouseBenefits": {
-      "benefitAmount": "1000.09",
-      "educationAmount": "500.46"
+      "compensationAndPension": "1000.09",
+      "education": "500.46"
     }
   },
   "additionalData": {
@@ -515,7 +515,9 @@
   "availableOptions": {},
   "income": [
     {
-      "veteranOrSpouse": "VETERAN"
+      "veteranOrSpouse": "VETERAN",
+      "compensationAndPension": "3261.1",
+      "education": "50"
     }
   ]
 }

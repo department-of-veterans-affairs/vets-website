@@ -51,8 +51,8 @@ export const getMonthlyIncome = ({
   benefits,
   currEmployment,
   spCurrEmployment,
+  income,
 }) => {
-  // TODO: verify field 17 total monthly net income calculation with PDF
   const vetGrossSalary = sumValues(currEmployment, 'veteranGrossSalary');
   const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
 
@@ -69,8 +69,13 @@ export const getMonthlyIncome = ({
   const socialSecAmt = Number(socialSecurity.socialSecAmt ?? 0);
   const spSocialSecAmt = Number(socialSecurity.spouse.socialSecAmt ?? 0);
 
-  // TODO: verify veteran benefits theres a field for spouse where is veteran?
-  const spBenefits = Number(benefits.spouseBenefits.benefitAmount ?? 0);
+  const spComp = Number(benefits.spouseBenefits.compensationAndPension ?? 0);
+  const spEducation = Number(benefits.spouseBenefits.education ?? 0);
+  const spBenefits = spComp + spEducation;
+
+  const vetComp = sumValues(income, 'compensationAndPension');
+  const vetEducation = sumValues(income, 'education');
+  const vetBenefits = vetComp + vetEducation;
 
   return (
     vetNetPay +
@@ -79,7 +84,8 @@ export const getMonthlyIncome = ({
     spOtherAmt +
     socialSecAmt +
     spSocialSecAmt +
-    spBenefits
+    spBenefits +
+    vetBenefits
   );
 };
 
