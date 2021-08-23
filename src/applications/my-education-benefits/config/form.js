@@ -557,7 +557,7 @@ const formConfig = {
         },
         [formPages.contactInformation.mailingAddress]: {
           title: 'Contact Information',
-          path: 'contact/information/mailing_address',
+          path: 'contact/information/mailing/address',
           initialData: {
             [formFields.address]: {
               street: '2222 Avon Street',
