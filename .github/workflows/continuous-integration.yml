@@ -78,7 +78,7 @@ jobs:
           export NPM_AUTH_TOKEN=$(echo -n 'va-vsp-bot:${{ env.VA_VSP_BOT_GITHUB_TOKEN }}' | openssl base64)
           npm config set _auth $NPM_AUTH_TOKEN
           npm install -g npm-cli-adduser
-          npm-cli-adduser -u va-vsp-bot -p ${{ env.VA_VSP_BOT_GITHUB_TOKEN }} -e va-vsp-bot@test.com -r ${{ env.NEXUS_REGISTRY }}
+          npm-cli-adduser -u va-vsp-bot -p ${{ env.VA_VSP_BOT_GITHUB_TOKEN }} -e va-vsp-bot@test.com -r https://devops.va.gov/dots-nexus/repository/npmjs.org-proxy/
 
       - name: Set yarn registry to DOT NEXUS
         run: yarn config set registry ${{ env.NEXUS_REGISTRY }}
