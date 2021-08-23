@@ -1,4 +1,3 @@
-import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
 
@@ -46,7 +45,7 @@ import manifest from '../manifest.json';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/higher_level_reviews`,
+  submitUrl: 'higher_level_reviews',
   submit: submitForm,
   trackingPrefix: 'decision-reviews-va20-0996-',
   downtime: {
@@ -107,22 +106,18 @@ const formConfig = {
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },
-        confirmContactInformation: {
-          title: 'Contact information',
-          path: 'contact-information',
-          uiSchema: contactInfo.uiSchema,
-          schema: contactInfo.schema,
-          initialData: {
-            // stop the mobile phone modal from showing SMS checkbox inline
-            'view:showSMSCheckbox': false,
-          },
-        },
         homeless: {
           title: 'Homelessness question',
           path: 'homeless',
           uiSchema: homeless.uiSchema,
           schema: homeless.schema,
           depends: apiVersion2,
+        },
+        confirmContactInformation: {
+          title: 'Contact information',
+          path: 'contact-information',
+          uiSchema: contactInfo.uiSchema,
+          schema: contactInfo.schema,
         },
       },
     },

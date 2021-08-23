@@ -1,5 +1,5 @@
 class CommunicationChannel {
-  constructor({ type, parentItemId, permissionId, isAllowed }) {
+  constructor({ type, parentItemId, permissionId, isAllowed, wasAllowed }) {
     if (typeof type !== 'number' || type < 1 || type > 2) {
       throw new Error(
         'Invalid Argument: options.type must be a valid channel type',
@@ -14,6 +14,7 @@ class CommunicationChannel {
     this.parentItemId = parentItemId;
     this.permissionId = permissionId;
     this.isAllowed = !!isAllowed;
+    this.wasAllowed = wasAllowed;
   }
 
   setIsAllowed(isAllowed) {
@@ -53,6 +54,7 @@ class CommunicationChannel {
         },
       },
       isAllowed: allowed,
+      wasAllowed: this.wasAllowed,
     };
   }
 

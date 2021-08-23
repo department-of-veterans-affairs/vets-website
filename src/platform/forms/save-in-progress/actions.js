@@ -63,12 +63,14 @@ export function setSaveFormStatus(
   status,
   lastSavedDate = null,
   expirationDate = null,
+  inProgressFormId = null,
 ) {
   return {
     type: statusActionsByType.get(saveType),
     status,
     lastSavedDate,
     expirationDate,
+    inProgressFormId,
   };
 }
 
@@ -203,6 +205,7 @@ function saveForm(saveType, formId, formData, version, returnUrl, submission) {
             SAVE_STATUSES.success,
             savedAt,
             json.data.attributes.metadata.expiresAt,
+            json.data.id,
           ),
         );
 

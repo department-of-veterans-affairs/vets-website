@@ -252,7 +252,7 @@ function LocationSearchResults({
       streetAddress.position.longitude,
       streetAddress.position.latitude,
     ]);
-    markers.current.push(currentMarkerElement);
+    markers.push(currentMarkerElement);
   };
 
   /**

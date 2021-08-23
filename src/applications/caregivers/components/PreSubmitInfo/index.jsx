@@ -167,7 +167,7 @@ const PreSubmitCheckboxGroup = ({
           isRepresentative
           isRequired
         >
-          <h3>Veteran&apos;s statement of truth</h3>
+          <h3>Veteran’s statement of truth</h3>
 
           <h4 className="vads-u-font-size--sm" style={{ fontWeight: 600 }}>
             {representativeFirstParagraph}
@@ -192,7 +192,7 @@ const PreSubmitCheckboxGroup = ({
           submission={submission}
           isRequired
         >
-          <h3>Veteran&apos;s statement of truth</h3>
+          <h3>Veteran’s statement of truth</h3>
 
           <p>{veteranFirstParagraph}</p>
 
@@ -218,7 +218,7 @@ const PreSubmitCheckboxGroup = ({
           isRequired
         >
           <h3 className="vads-u-margin-top--4">
-            Primary Family Caregiver applicant&apos;s statement of truth
+            Primary Family Caregiver applicant’s statement of truth
           </h3>
 
           <p className="vads-u-margin-y--2">{primaryFirstParagraph}</p>

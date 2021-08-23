@@ -1,5 +1,5 @@
 .rb-fieldset-input {
-  margin-top: 3rem;
+  margin-bottom: 2rem;
   position: relative;
   right: calc(1.9rem - 4px); //this is to account for the border
 }
@@ -12,56 +12,55 @@
   padding-bottom: 1rem;
 }
 
-//warning
-.rb-input-warning {
-  border-left: 4px solid $color-gold;
-  margin-top: 3rem;
+.rb-input {
+  border-left: 4px solid;
   position: relative;
   right: 1.9rem;
 }
 
-.rb-input-warning-message {
-  background: $color-gold-lightest;
+.rb-input-message {
   display: block;
   font-size: 1.7rem;
   font-weight: 700;
   padding-bottom: 3px;
   padding-top: 3px;
+}
+
+//warning
+.rb-input-warning {
+  border-left-color: $color-gold;
+}
+
+.rb-input-message-warning {
+  background: $color-gold-lightest;
 }
 
 //error
-
 .rb-input-error {
-  border-left: 4px solid $color-red;
-  margin-top: 3rem;
-  position: relative;
-  right: 1.9rem;
+  border-left-color: $color-red;
 }
 
-.rb-input-error-message {
+.rb-input-message-error {
   background: $color-red-lightest;
-  display: block;
-  font-size: 1.7rem;
-  font-weight: 700;
-  padding-bottom: 3px;
-  padding-top: 3px;
 }
 
 //success
 .rb-input-success {
-  border-left: 4px solid $color-green;
-  margin-top: 3rem;
-  position: relative;
-  right: 1.9rem;
+  border-left-color: $color-green;
 }
 
-.rb-input-success-message {
+.rb-input-message-success {
   background: $color-green-lightest;
-  display: block;
-  font-size: 1.7rem;
-  font-weight: 700;
-  padding-bottom: 3px;
-  padding-top: 3px;
+}
+
+// loading
+.rb-input-loading {
+  border-left-color: transparent;
+}
+
+.rb-input-message-loading {
+  font-weight: normal;
+  font-style: italic;
 }
 
 .rb-buttons {
