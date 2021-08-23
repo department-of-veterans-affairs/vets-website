@@ -4,6 +4,7 @@ import get from 'platform/utilities/data/get';
 
 import {
   evidenceTypeTitle,
+  evidenceLayStatements,
   evidenceTypeHelp,
 } from '../content/evidenceTypesBDD';
 
@@ -34,7 +35,7 @@ export const uiSchema = {
         'ui:title': 'Private medical records',
       },
       'view:hasOtherEvidence': {
-        'ui:title': 'Supporting (lay) statements or other evidence',
+        'ui:title': evidenceLayStatements,
       },
     },
     'view:evidenceTypeHelp': {
