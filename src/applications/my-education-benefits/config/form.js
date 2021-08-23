@@ -109,6 +109,10 @@ function isValidPhoneLength(field) {
   return field.length >= 10;
 }
 
+function livesOnMilitaryBaseOutsideUS() {
+  return { enum: states.USA.map(state => state.label) };
+}
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -662,7 +666,7 @@ const formConfig = {
                   },
                   state: {
                     ...address.schema(fullSchema, true).properties.state,
-                    ...{ enum: states.USA.map(state => state.label) },
+                    ...livesOnMilitaryBaseOutsideUS(),
                   },
                 },
               },
