@@ -84,7 +84,7 @@ export default `
     <div id="va-nav-controls"></div>
     <div class="medium-screen:vads-u-display--none usa-grid usa-grid-full">
       <div class="menu-rule" class="usa-one-whole"></div>
-      <div class="mega-menu"></div>
+      <div class="mega-menu" id="mega-menu-mobile"></div>
       <!-- for the mega-menu, but if you add the ID the css breaks rn -->
     </div>
     <div id="login-root" class="vet-toolbar"></div>
@@ -94,7 +94,7 @@ export default `
   class now hard-codes the width. -->
   <div class="vads-u-display--none medium-screen:vads-u-display--block usa-grid usa-grid-full">
     <div class="menu-rule" class="usa-one-whole"></div>
-    <div class="mega-menu"></div>
+    <div class="mega-menu" id="mega-menu-desktop"></div>
   </div>
 </header>
 `;
