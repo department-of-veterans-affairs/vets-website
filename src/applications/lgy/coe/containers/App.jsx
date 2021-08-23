@@ -8,7 +8,6 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
 
 import { generateCoe } from '../actions';
-import { COE_FORM_NUMBER } from '../constants';
 
 function App(props) {
   const { location, children } = props;
@@ -41,9 +40,6 @@ function App(props) {
 
 const mapStateToProps = state => ({
   certificateOfEligibility: state.certificateOfEligibility,
-  hasSavedForm: state?.user?.profile?.savedForms.some(
-    form => form.form === COE_FORM_NUMBER,
-  ),
 });
 
 const mapDispatchToProps = {

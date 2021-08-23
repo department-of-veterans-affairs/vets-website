@@ -4,7 +4,7 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 export const notLoggedInContent = props => (
   <div>
     <va-alert status="info">
-      <h3 slot="headline">You may be able to get an automatic COR online</h3>
+      <h2 slot="headline">You may be able to get an automatic COE online</h2>
       <div>
         <p>
           If we have all the information we need, you won’t need to fill out the
@@ -16,7 +16,7 @@ export const notLoggedInContent = props => (
         </p>
       </div>
     </va-alert>
-    <h2>Apply, got your COE, or check your status</h2>
+    <h2>Apply, get your COE, or check your status</h2>
     <p>Sign into VA.gov if you want to:</p>
     <ul className="vads-u-padding-bottom--4">
       <li>Apply for a COE</li>
@@ -28,6 +28,7 @@ export const notLoggedInContent = props => (
       messages={props?.route?.formConfig?.savedFormMessages}
       pageList={props?.route?.pageList}
       startText="Start the Application"
+      headingLevel={2}
       hideUnauthedStartLink
     />
   </div>

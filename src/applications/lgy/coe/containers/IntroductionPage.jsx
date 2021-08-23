@@ -5,6 +5,7 @@ import { isLoggedIn } from 'platform/user/selectors';
 import { notLoggedInContent } from './introductionContent/notLoggedInContent.jsx';
 import { loggedInContent } from './introductionContent/loggedInContent.jsx';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { CALLSTATUS } from '../constants';
 
 function IntroductionPage(props) {
   let content;
@@ -12,13 +13,14 @@ function IntroductionPage(props) {
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
   });
+  // Set the content to be the loading indicator
+  content = <LoadingIndicator message="Loading your application..." />;
 
-  if (props.status === 'idle') {
-    content = <LoadingIndicator message="Loading your application..." />;
-  } else if (
-    props.status === 'success' ||
-    props.status === 'failed' ||
-    props.status === 'skip'
+  // Once the coe call is done, render the rest of the content
+  if (
+    props.status === CALLSTATUS.success ||
+    props.status === CALLSTATUS.failed ||
+    props.status === CALLSTATUS.skip
   ) {
     if (props.loggedIn === false) {
       content = notLoggedInContent(props);

@@ -4,7 +4,9 @@ import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 
 export const loggedInContent = () => (
   <>
-    <h2 className="">Follow these steps to apply for a VA home loan COE</h2>
+    <h2 className="vads-u-margin-top--1">
+      Follow these steps to apply for a VA home loan COE
+    </h2>
     <div className="process schemaform-process">
       <ol>
         <li className="process-step list-one">
@@ -22,6 +24,7 @@ export const loggedInContent = () => (
               served
             </li>
           </ul>
+          <a href="#">Eligibility requirements for VA home loan programs</a>
         </li>
         <li className="process-step list-two">
           <h3>Gather your information</h3>
@@ -76,6 +79,9 @@ export const loggedInContent = () => (
               proof of your honorable service.
             </li>
           </ul>
+          <AdditionalInfo triggerText="What's a statement of service?">
+            <p>hey</p>
+          </AdditionalInfo>
         </li>
         <li className="process-step list-three">
           <h3>Start your application</h3>
