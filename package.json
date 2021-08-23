@@ -133,7 +133,7 @@
     "@cypress/webpack-preprocessor": "^5.4.1",
     "@department-of-veterans-affairs/generator-vets-website": "^3.5.0",
     "@octokit/rest": "^18.9.1",
-    "@pact-foundation/pact": "^9.15.3",
+    "@pact-foundation/pact": "^9.16.0",
     "@sentry/browser": "^6.9.0",
     "@testing-library/cypress": "^7.0.1",
     "@testing-library/dom": "^7.26.6",
