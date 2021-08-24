@@ -26,7 +26,7 @@ export const schema = {
  */
 export function uiSchema(label, getOptions, options = {}) {
   const validations = [];
-  if (!options['ui:options'].freeInput) {
+  if (!options['ui:options']?.freeInput) {
     validations.push(validateAutosuggestOption);
   }
 
