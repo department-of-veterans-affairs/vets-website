@@ -51,7 +51,7 @@ describe('VAOS <ClinicChoicePage>', () => {
         },
       },
     ];
-    mockFacilityFetch('vha_442', {
+    const facilityData = {
       id: 'vha_442',
       attributes: {
         ...getVAFacilityMock().attributes,
@@ -69,7 +69,7 @@ describe('VAOS <ClinicChoicePage>', () => {
           main: '307-778-7550',
         },
       },
-    });
+    };
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -84,7 +84,7 @@ describe('VAOS <ClinicChoicePage>', () => {
     const store = createTestStore(initialState);
 
     await setTypeOfCare(store, /primary care/i);
-    await setVAFacility(store, '983');
+    await setVAFacility(store, '983', { facilityData });
 
     const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
       store,
@@ -193,6 +193,7 @@ describe('VAOS <ClinicChoicePage>', () => {
   });
 
   it('should show message if user choose a different clinic but is not eligible for requests', async () => {
+    // Given a list of clinics
     const clinics = [
       {
         id: '308',
@@ -215,6 +216,8 @@ describe('VAOS <ClinicChoicePage>', () => {
         },
       },
     ];
+
+    // And the user is not passing the request past visits check
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -227,18 +230,21 @@ describe('VAOS <ClinicChoicePage>', () => {
     });
     mockFacilityFetch('vha_442', getVAFacilityMock());
 
+    // And the page has loaded
     const store = createTestStore(initialState);
-
     await setTypeOfCare(store, /amputation/i);
-    await setVAFacility(store, '983');
-
+    await setVAFacility(store, '983', {
+      requestCriteria: {
+        patientHistoryDuration: 1095,
+        patientHistoryRequired: 'Yes',
+      },
+    });
     const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
       store,
     });
-
     await screen.findByText(/Choose a VA clinic/i);
 
-    // choosing the third option sends you to request flow
+    // When the user chooses the different clinic option
     userEvent.click(screen.getByText(/need a different clinic/i));
     await waitFor(
       () =>
@@ -246,10 +252,12 @@ describe('VAOS <ClinicChoicePage>', () => {
           .true,
     );
 
+    // Then the request past visits warning message is shown
     await screen.findByText(
-      /You need to have visited this facility within the past/i,
+      /You need to have visited this facility within the past 36 months/i,
     );
 
+    // And the user can't continue into the request flow
     expect(screen.getByText(/continue/i)).to.have.attribute('disabled');
   });
 
@@ -266,7 +274,7 @@ describe('VAOS <ClinicChoicePage>', () => {
         },
       },
     ];
-    mockFacilityFetch('vha_442', {
+    const facilityData = {
       id: 'vha_442',
       attributes: {
         ...getVAFacilityMock().attributes,
@@ -284,7 +292,7 @@ describe('VAOS <ClinicChoicePage>', () => {
           main: '307-778-7550',
         },
       },
-    });
+    };
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -299,7 +307,7 @@ describe('VAOS <ClinicChoicePage>', () => {
     const store = createTestStore(initialState);
 
     await setTypeOfCare(store, /amputation/i);
-    await setVAFacility(store, '983');
+    await setVAFacility(store, '983', { facilityData });
 
     const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
       store,
@@ -349,6 +357,85 @@ describe('VAOS <ClinicChoicePage>', () => {
       expect(screen.history.push.secondCall.args[0]).to.equal(
         '/new-appointment/request-date',
       ),
+    );
+  });
+
+  it('should show the correct clinic name when filtered to matching', async () => {
+    // Given two available clinics
+    const clinics = [
+      {
+        id: '309',
+        attributes: {
+          ...getClinicMock(),
+          siteCode: '983',
+          clinicId: '309',
+          institutionCode: '983',
+          clinicFriendlyLocationName: 'Filtered out clinic',
+        },
+      },
+      {
+        id: '308',
+        attributes: {
+          ...getClinicMock(),
+          siteCode: '983',
+          clinicId: '308',
+          institutionCode: '983',
+          clinicFriendlyLocationName: 'Green team clinic',
+        },
+      },
+    ];
+    const facilityData = {
+      id: 'vha_442',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442',
+        name: 'Cheyenne VA Medical Center',
+        address: {
+          physical: {
+            zip: '82001-5356',
+            city: 'Cheyenne',
+            state: 'WY',
+            address1: '2360 East Pershing Boulevard',
+          },
+        },
+        phone: {
+          main: '307-778-7550',
+        },
+      },
+    };
+
+    // And the second clinic matches a past appointment
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '211',
+      limit: true,
+      requestPastVisits: true,
+      directPastVisits: true,
+      clinics,
+      matchingClinics: clinics.slice(1),
+      pastClinics: true,
+    });
+
+    const store = createTestStore(initialState);
+
+    await setTypeOfCare(store, /amputation/i);
+    await setVAFacility(store, '983', { facilityData });
+
+    // When the page is displayed
+    const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
+      store,
+    });
+    await screen.findByText(/last amputation care appointment/i);
+
+    // Then the page says the last appointment was at the matching clinic
+    expect(screen.baseElement).to.contain.text(
+      'Your last amputation care appointment was at Green team clinic:',
+    );
+
+    // And the user is asked if they want an appt at matching clinic
+    expect(screen.baseElement).to.contain.text(
+      'Would you like to make an appointment at Green team clinic',
     );
   });
 

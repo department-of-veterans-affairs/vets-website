@@ -1,7 +1,7 @@
 import moment from 'moment';
 import {
+  sumValues,
   dateFormatter,
-  getIncome,
   getMonthlyIncome,
   getMonthlyExpenses,
   getEmploymentHistory,
@@ -11,52 +11,76 @@ import {
 export const transform = (formConfig, form) => {
   const {
     questions,
-    personalData,
+    personalIdentification,
+    personalData: {
+      veteranFullName: {
+        first: vetFirst = '',
+        middle: vetMiddle = '',
+        last: vetLast = '',
+      },
+      spouseFullName: {
+        first: spouseFirst = '',
+        middle: spouseMiddle = '',
+        last: spouseLast = '',
+      },
+      address: {
+        street,
+        street2 = '',
+        street3 = '',
+        city,
+        state,
+        postalCode,
+        country,
+      },
+      telephoneNumber,
+      dateOfBirth,
+      dependents,
+    },
     expenses,
     otherExpenses,
     utilityRecords,
     assets,
-    installmentContractsAndOtherDebts,
+    installmentContracts,
     additionalData,
     selectedDebts,
     realEstateRecords,
+    currEmployment,
+    spCurrEmployment,
+    additionalIncome: {
+      addlIncRecords,
+      spouse: { spAddlIncome },
+    },
   } = form.data;
-
-  const {
-    first: vetFirst = '',
-    middle: vetMiddle = '',
-    last: vetLast = '',
-  } = personalData.veteranFullName;
-
-  const {
-    first: spouseFirst = '',
-    middle: spouseMiddle = '',
-    last: spouseLast = '',
-  } = personalData.spouseFullName;
-
-  const {
-    street,
-    street2 = '',
-    street3 = '',
-    city,
-    state,
-    postalCode,
-    country,
-  } = personalData.address;
 
   const monthlyIncome = getMonthlyIncome(form.data);
   const monthlyExpenses = getMonthlyExpenses(form.data);
   const employmentHistory = getEmploymentHistory(form.data);
   const totalAssets = getTotalAssets(form.data);
-  const income = getIncome(form.data);
 
-  const totalAmountCanBePaidTowardDebt = selectedDebts
+  // veteran income
+  const vetGrossSalary = sumValues(currEmployment, 'veteranGrossSalary');
+  const deductions = currEmployment?.map(emp => emp.deductions).flat() ?? 0;
+  const vetTotDeductions = sumValues(deductions, 'amount');
+  const vetNetPay = vetGrossSalary - vetTotDeductions;
+  const vetOtherAmt = sumValues(addlIncRecords, 'amount');
+  const vetOtherName = addlIncRecords?.map(({ name }) => name).join(', ') ?? '';
+
+  // spouse income
+  const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
+  const spDeductions = spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
+  const spTotDeductions = sumValues(spDeductions, 'amount');
+  const spNetPay = spGrossSalary - spTotDeductions;
+  const spOtherAmt = sumValues(spAddlIncome, 'amount');
+  const spOtherName = spAddlIncome?.map(({ name }) => name).join(', ') ?? '';
+
+  const amountCanBePaidTowardDebt = selectedDebts
     .filter(item => item.resolution.offerToPay !== undefined)
     .reduce((acc, debt) => acc + Number(debt.resolution?.offerToPay), 0);
 
   const submissionObj = {
     personalIdentification: {
-      fileNumber: '',
+      ssn: personalIdentification.ssn,
+      fileNumber: personalIdentification.fileNumber,
       fsrReason: selectedDebts
         .map(({ resolution }) => resolution.resolutionType)
         .join(', '),
@@ -67,11 +91,6 @@ export const transform = (formConfig, form) => {
         middle: vetMiddle,
         last: vetLast,
       },
-      agesOfOtherDependents: personalData.agesOfOtherDependents
-        ? personalData.agesOfOtherDependents.map(
-            dependent => dependent.dependentAge,
-          )
-        : [],
       address: {
         addresslineOne: street,
         addresslineTwo: street2,
@@ -81,92 +100,116 @@ export const transform = (formConfig, form) => {
         zipOrPostalCode: postalCode,
         countryName: country,
       },
+      telephoneNumber,
+      dateOfBirth: moment(dateOfBirth).format('MM/DD/YYYY'),
       married: questions.isMarried,
       spouseFullName: {
         first: spouseFirst,
         middle: spouseMiddle,
         last: spouseLast,
       },
+      agesOfOtherDependents:
+        dependents?.map(dependent => dependent.dependentAge) ?? [],
       employmentHistory,
-      telephoneNumber: personalData.telephoneNumber,
-      dateOfBirth: moment(personalData.dateOfBirth).format('MM/DD/YYYY'),
     },
-    income,
+    income: [
+      {
+        veteranOrSpouse: 'VETERAN',
+        monthlyGrossSalary: vetGrossSalary,
+        deductions: {
+          taxes: '',
+          retirement: '',
+          socialSecurity: '',
+          otherDeductions: {
+            name: '',
+            amount: '',
+          },
+        },
+        totalDeductions: vetTotDeductions,
+        netTakeHomePay: vetNetPay,
+        otherIncome: {
+          name: vetOtherName,
+          amount: vetOtherAmt,
+        },
+        totalMonthlyNetIncome: '',
+      },
+      {
+        veteranOrSpouse: 'SPOUSE',
+        monthlyGrossSalary: spGrossSalary,
+        deductions: {
+          taxes: '',
+          retirement: '',
+          socialSecurity: '',
+          otherDeductions: {
+            name: '',
+            amount: '',
+          },
+        },
+        totalDeductions: spTotDeductions,
+        netTakeHomePay: spNetPay,
+        otherIncome: {
+          name: spOtherName,
+          amount: spOtherAmt,
+        },
+        totalMonthlyNetIncome: '',
+      },
+    ],
     expenses: {
-      ...expenses,
-      utilities: utilityRecords?.reduce(
-        (acc, record) => acc + Number(record.monthlyUtilityAmount) || 0,
-        0,
-      ),
+      rentOrMortgage: expenses.rentOrMortgage,
+      food: expenses.food,
+      utilities: sumValues(utilityRecords, 'monthlyUtilityAmount'),
       otherLivingExpenses: {
         name: otherExpenses?.map(expense => expense.name).join(', '),
-        amount: otherExpenses?.reduce(
-          (acc, expense) => acc + Number(expense.amount) || 0,
-          0,
-        ),
+        amount: sumValues(otherExpenses, 'amount'),
       },
-      expensesInstallmentContractsAndOtherDebts: installmentContractsAndOtherDebts?.reduce(
-        (acc, debt) => acc + Number(debt.amountDueMonthly) || 0,
-        0,
+      expensesInstallmentContractsAndOtherDebts: sumValues(
+        installmentContracts,
+        'amountDueMonthly',
       ),
       totalMonthlyExpenses: monthlyExpenses,
     },
     discretionaryIncome: {
       netMonthlyIncomeLessExpenses: monthlyIncome - monthlyExpenses,
-      amountCanBePaidTowardDebt: totalAmountCanBePaidTowardDebt,
+      amountCanBePaidTowardDebt,
     },
     assets: {
-      ...assets,
-      trailersBoatsCampers: assets.trailersBoatsCampers?.reduce(
-        (acc, record) => acc + Number(record.recreationalVehicleAmount) || 0,
-        0,
-      ),
-      realEstateOwned: realEstateRecords?.reduce(
-        (acc, record) => acc + Number(record.realEstateAmount) || 0,
-        0,
-      ),
+      cashInBank: assets.cashInBank,
+      cashOnHand: assets.cashOnHand,
+      automobiles: assets.automobiles,
+      trailersBoatsCampers: sumValues(assets.recVehicles, 'recVehicleAmount'),
+      usSavingsBonds: assets.usSavingsBonds,
+      stocksAndOtherBonds: assets.stocksAndOtherBonds,
+      realEstateOwned: sumValues(realEstateRecords, 'realEstateAmount'),
+      otherAssets: assets.otherAssets,
       totalAssets,
     },
-    installmentContractsAndOtherDebts: installmentContractsAndOtherDebts?.map(
-      debt => ({
-        ...debt,
-        dateStarted: dateFormatter(debt.dateStarted),
-        creditorAddress: {
-          addresslineOne: '',
-          addresslineTwo: '',
-          addresslineThree: '',
-          city: '',
-          stateORProvince: '',
-          zipORPostalCode: '',
-          countryName: '',
-        },
-      }),
-    ),
+    installmentContractsAndOtherDebts: installmentContracts?.map(debt => ({
+      ...debt,
+      dateStarted: dateFormatter(debt.dateStarted),
+      creditorAddress: {
+        addresslineOne: '',
+        addresslineTwo: '',
+        addresslineThree: '',
+        city: '',
+        stateORProvince: '',
+        zipORPostalCode: '',
+        countryName: '',
+      },
+    })),
     totalOfInstallmentContractsAndOtherDebts: {
-      originalAmount: installmentContractsAndOtherDebts?.reduce(
-        (acc, debt) => acc + Number(debt.originalAmount) || 0,
-        0,
-      ),
-      unpaidBalance: installmentContractsAndOtherDebts?.reduce(
-        (acc, debt) => acc + Number(debt.unpaidBalance) || 0,
-        0,
-      ),
-      amountDueMonthly: installmentContractsAndOtherDebts?.reduce(
-        (acc, debt) => acc + Number(debt.amountDueMonthly) || 0,
-        0,
-      ),
-      amountPastDue: installmentContractsAndOtherDebts?.reduce(
-        (acc, debt) => acc + Number(debt.amountPastDue) || 0,
-        0,
-      ),
+      originalAmount: sumValues(installmentContracts, 'originalAmount'),
+      unpaidBalance: sumValues(installmentContracts, 'unpaidBalance'),
+      amountDueMonthly: sumValues(installmentContracts, 'amountDueMonthly'),
+      amountPastDue: sumValues(installmentContracts, 'amountPastDue'),
     },
     additionalData: {
-      ...additionalData,
       bankruptcy: {
-        ...additionalData.bankruptcy,
         hasBeenAdjudicatedBankrupt: questions.hasBeenAdjudicatedBankrupt,
         dateDischarged: dateFormatter(additionalData.bankruptcy.dateDischarged),
+        courtLocation: additionalData.bankruptcy.courtLocation,
+        docketNumber: additionalData.bankruptcy.docketNumber,
       },
+      additionalComments: additionalData.additionalComments,
     },
     applicantCertifications: {
       veteranSignature: `${vetFirst} ${vetMiddle} ${vetLast}`,
@@ -174,8 +217,10 @@ export const transform = (formConfig, form) => {
     },
   };
 
+  // calculated values should formatted then converted to string
+  // input values use form validation and are formatted correctly
   const convertIntegerToString = (key, value) => {
-    return typeof value === 'number' ? value.toString() : value;
+    return typeof value === 'number' ? value.toFixed(2).toString() : value;
   };
 
   return JSON.stringify(submissionObj, convertIntegerToString);

@@ -17,11 +17,11 @@ export function CompareDrawer({
   const history = useHistory();
   const [open, setOpen] = useState(compare.open);
   const [promptingFacilityCode, setPromptingFacilityCode] = useState(null);
-  const { loaded, institutions } = compare.search;
   const [stuck, setStuck] = useState(false);
-  const notRendered = !displayed && !alwaysDisplay;
   const placeholder = useRef(null);
   const drawer = useRef(null);
+  const notRendered = !displayed && !alwaysDisplay;
+  const { loaded, institutions } = compare.search;
 
   const handleScroll = () => {
     let currentStuck;
@@ -32,8 +32,8 @@ export function CompareDrawer({
     });
     if (placeholder.current) {
       placeholder.current.style.height = currentStuck
-        ? 0
-        : drawer.current.getBoundingClientRect().height;
+        ? '0px'
+        : `${drawer.current.getBoundingClientRect().height}px`;
       setStuck(
         placeholder.current.getBoundingClientRect().bottom < window.innerHeight,
       );

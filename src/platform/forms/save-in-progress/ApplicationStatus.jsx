@@ -134,7 +134,7 @@ export class ApplicationStatus extends React.Component {
       if (!isExpired) {
         const lastSavedDateTime = moment
           .unix(lastSaved)
-          .format('M/D/YYYY [at] h:mm a');
+          .format('MMMM D, YYYY [at] h:mm a');
 
         return (
           <div className="usa-alert usa-alert-info background-color-only sip-application-status">
@@ -151,7 +151,7 @@ export class ApplicationStatus extends React.Component {
               You can continue {appAction} now, or come back later to finish
               your {appType}. Your {appType}{' '}
               <span className="expires">
-                will expire on {expirationDate.format('M/D/YYYY')}.
+                will expire on {expirationDate.format('MMMM D, YYYY')}.
               </span>
             </div>
             <p>

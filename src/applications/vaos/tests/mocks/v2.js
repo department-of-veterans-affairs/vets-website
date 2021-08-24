@@ -166,7 +166,7 @@ export function getV2ClinicMock({ id, stationId, serviceName }) {
     id,
     type: 'clinics',
     attributes: {
-      vistaSite: id.substr(0, 3),
+      vistaSite: stationId.substr(0, 3),
       id,
       serviceName,
       physicalLocation: null,

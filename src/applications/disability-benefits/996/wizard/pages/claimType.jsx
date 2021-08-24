@@ -52,6 +52,7 @@ const ClaimType = ({ setPageState, state = {} }) => {
       options={options}
       onValueChange={setState}
       value={{ value: state.selected }}
+      ariaDescribedby={[pageNames.legacyChoice, pageNames.other]}
     />
   );
 };

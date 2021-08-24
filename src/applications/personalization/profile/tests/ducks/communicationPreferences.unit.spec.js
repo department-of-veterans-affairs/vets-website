@@ -105,7 +105,7 @@ describe('fetching communication preferences', () => {
             'channel1-2': {
               channelType: 2,
               parentItem: 'item1',
-              isAllowed: false,
+              isAllowed: null,
               permissionId: null,
               ui: {
                 errors: null,
@@ -316,7 +316,7 @@ describe('saveCommunicationPreferenceChannel', () => {
             'channel1-2': {
               channelType: 2,
               parentItem: 'item1',
-              isAllowed: false,
+              isAllowed: null,
               permissionId: null,
               ui: {
                 updateStatus: LOADING_STATES.idle,
@@ -371,6 +371,7 @@ describe('saveCommunicationPreferenceChannel', () => {
             endpoint: apiURL,
             body: {},
             isAllowed: true,
+            wasAllowed: null,
           }),
         );
         // it should set that part of the UI as loading
@@ -398,6 +399,7 @@ describe('saveCommunicationPreferenceChannel', () => {
             endpoint: apiURL,
             body: {},
             isAllowed: true,
+            wasAllowed: null,
           }),
         );
         channelState = selectChannelById(store.getState(), channelId);
@@ -435,6 +437,7 @@ describe('saveCommunicationPreferenceChannel', () => {
             endpoint: `${apiURL}/1728`,
             body: {},
             isAllowed: false,
+            wasAllowed: true,
           }),
         );
         // it should set that part of the UI as loading
@@ -460,6 +463,7 @@ describe('saveCommunicationPreferenceChannel', () => {
             endpoint: `${apiURL}/1728`,
             body: {},
             isAllowed: false,
+            wasAllowed: true,
           }),
         );
         // it should set that part of the UI as loading

@@ -1,4 +1,6 @@
-import _ from 'lodash/fp';
+import merge from 'lodash/merge';
+import get from 'platform/utilities/data/get';
+import set from 'platform/utilities/data/set';
 import moment from 'moment';
 import { createSelector } from 'reselect';
 
@@ -163,7 +165,7 @@ const formConfig = {
               other: {
                 'ui:title': 'Please specify',
                 'ui:required': form =>
-                  _.get('relationship.type', form) === 'other',
+                  get('relationship.type', form) === 'other',
                 'ui:options': {
                   expandUnder: 'type',
                   expandUnderCondition: 'other',
@@ -198,11 +200,12 @@ const formConfig = {
           path: 'veteran-information',
           uiSchema: {
             veteranFullName: fullNameUI,
-            veteranSocialSecurityNumber: _.assign(ssnUI, {
+            veteranSocialSecurityNumber: {
+              ...ssnUI,
               'ui:title':
                 'Social Security number (must have this or a VA file number)',
               'ui:required': form => !form.vaFileNumber,
-            }),
+            },
             vaFileNumber: {
               'ui:title':
                 'VA file number (must have this or a Social Security number)',
@@ -264,7 +267,7 @@ const formConfig = {
               other: {
                 'ui:title': 'Please specify',
                 'ui:required': form =>
-                  _.get('locationOfDeath.location', form) === 'other',
+                  get('locationOfDeath.location', form) === 'other',
                 'ui:options': {
                   expandUnder: 'location',
                   expandUnderCondition: 'other',
@@ -332,9 +335,10 @@ const formConfig = {
               'view:serveUnderOtherNames': {
                 type: 'boolean',
               },
-              previousNames: _.assign(previousNames, {
+              previousNames: {
+                ...previousNames,
                 minItems: 1,
-              }),
+              },
             },
           },
         },
@@ -364,11 +368,12 @@ const formConfig = {
                   expandUnderClassNames: 'schemaform-expandUnder-indent',
                 },
               },
-              amountIncurred: _.merge(
+              amountIncurred: merge(
+                {},
                 currencyUI('Transportation amount incurred'),
                 {
                   'ui:required': form =>
-                    _.get('view:claimedBenefits.transportation', form) === true,
+                    get('view:claimedBenefits.transportation', form) === true,
                   'ui:options': {
                     expandUnder: 'transportation',
                   },
@@ -413,7 +418,7 @@ const formConfig = {
           title: 'Burial allowance',
           path: 'benefits/burial-allowance',
           depends: form =>
-            _.get('view:claimedBenefits.burialAllowance', form) === true,
+            get('view:claimedBenefits.burialAllowance', form) === true,
           uiSchema: {
             'ui:title': 'Burial allowance',
             burialAllowanceRequested: {
@@ -424,7 +429,7 @@ const formConfig = {
                 updateSchema: (() => {
                   const burialAllowanceTypes = burialAllowanceRequested.enum;
                   const filterAllowanceType = createSelector(
-                    _.get('locationOfDeath.location'),
+                    form => get('locationOfDeath.location', form),
                     locationData => {
                       let allowanceTypes = burialAllowanceTypes;
                       if (
@@ -456,7 +461,7 @@ const formConfig = {
                 },
               },
             },
-            burialCost: _.merge(currencyUI('Actual burial cost'), {
+            burialCost: merge({}, currencyUI('Actual burial cost'), {
               'ui:options': {
                 expandUnder: 'burialAllowanceRequested',
                 expandUnderCondition: 'vaMC',
@@ -466,19 +471,18 @@ const formConfig = {
               'ui:title': 'Did you previously receive a VA burial allowance?',
               'ui:widget': 'yesNo',
               'ui:required': form =>
-                _.get('relationship.type', form) === 'spouse',
+                get('relationship.type', form) === 'spouse',
               'ui:options': {
-                hideIf: form => _.get('relationship.type', form) !== 'spouse',
+                hideIf: form => get('relationship.type', form) !== 'spouse',
               },
             },
             benefitsUnclaimedRemains: {
               'ui:title':
                 'Are you seeking burial benefits for the unclaimed remains of a Veteran?',
               'ui:widget': 'yesNo',
-              'ui:required': form =>
-                _.get('relationship.type', form) === 'other',
+              'ui:required': form => get('relationship.type', form) === 'other',
               'ui:options': {
-                hideIf: form => _.get('relationship.type', form) !== 'other',
+                hideIf: form => get('relationship.type', form) !== 'other',
               },
             },
           },
@@ -498,7 +502,7 @@ const formConfig = {
           title: 'Plot or interment allowance',
           path: 'benefits/plot-allowance',
           depends: form =>
-            _.get('view:claimedBenefits.plotAllowance', form) === true,
+            get('view:claimedBenefits.plotAllowance', form) === true,
           uiSchema: {
             'ui:title': 'Plot or interment allowance',
             placeOfRemains: {
@@ -525,7 +529,8 @@ const formConfig = {
                 'Did a federal/state government or the Veteran’s employer contribute to the burial?  (Not including employer life insurance)',
               'ui:widget': 'yesNo',
             },
-            amountGovtContribution: _.merge(
+            amountGovtContribution: merge(
+              {},
               currencyUI('Amount of government or employer contribution:'),
               {
                 'ui:options': {
@@ -563,17 +568,17 @@ const formConfig = {
             firmName: {
               'ui:title': 'Full name of firm, corporation or state agency',
               'ui:options': {
-                hideIf: form => _.get('relationship.isEntity', form) !== true,
+                hideIf: form => get('relationship.isEntity', form) !== true,
               },
             },
             officialPosition: {
               'ui:title':
                 'Position of person signing on behalf of firm, corporation or state agency',
               'ui:options': {
-                hideIf: form => _.get('relationship.isEntity', form) !== true,
+                hideIf: form => get('relationship.isEntity', form) !== true,
               },
             },
-            claimantAddress: _.set(
+            claimantAddress: set(
               'ui:validations[1]',
               validateCentralMailPostalCode,
               address.uiSchema('Address'),
@@ -604,29 +609,27 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Document upload',
             'ui:description': fileHelp,
-            deathCertificate: _.assign(
-              fileUploadUI('Veteran’s death certificate', {
+            deathCertificate: {
+              ...fileUploadUI('Veteran’s death certificate', {
                 fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
                 hideIf: form => form.burialAllowanceRequested !== 'service',
               }),
-              {
-                'ui:required': form =>
-                  form.burialAllowanceRequested === 'service',
-              },
-            ),
-            transportationReceipts: _.assign(
-              fileUploadUI(
+              'ui:required': form =>
+                form.burialAllowanceRequested === 'service',
+            },
+
+            transportationReceipts: {
+              ...fileUploadUI(
                 'Documentation for transportation of the Veteran’s remains or other supporting evidence',
                 {
                   addAnotherLabel: 'Add Another Document',
                   fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
                 },
               ),
-              {
-                'ui:required': form =>
-                  _.get('view:claimedBenefits.transportation', form) === true,
-              },
-            ),
+              'ui:required': form =>
+                get('view:claimedBenefits.transportation', form) === true,
+            },
+
             'view:serviceRecordWarning': {
               'ui:description': serviceRecordWarning,
               'ui:options': {
@@ -637,13 +640,15 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              deathCertificate: _.assign(files, {
+              deathCertificate: {
+                ...files,
                 minItems: 1,
                 maxItems: 1,
-              }),
-              transportationReceipts: _.assign(files, {
+              },
+              transportationReceipts: {
+                ...files,
                 minItems: 1,
-              }),
+              },
               'view:serviceRecordWarning': {
                 type: 'object',
                 properties: {},

@@ -5,7 +5,7 @@ import Telephone from '@department-of-veterans-affairs/component-library/Telepho
 
 function Footer({
   contactNumber,
-  header = 'Need Help?',
+  header = 'Need help?',
   message = 'Ask a staff member or call us at',
 }) {
   return (

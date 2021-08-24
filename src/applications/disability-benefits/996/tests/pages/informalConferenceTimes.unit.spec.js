@@ -47,21 +47,6 @@ describe('HLR conference times page', () => {
     expect(form.find(`${firstSelect} option`).length).to.equal(5);
     form.unmount();
   });
-  it('should show v2 options', () => {
-    const form = mount(
-      <DefinitionTester
-        definitions={{}}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{ hlrV2: true }}
-        formData={{ hlrV2: true }}
-      />,
-    );
-
-    // v2 = 1 empty option + 2 time slots
-    expect(form.find(`${firstSelect} option`).length).to.equal(3);
-    form.unmount();
-  });
 
   it('should allow submit', () => {
     const onSubmit = sinon.spy();

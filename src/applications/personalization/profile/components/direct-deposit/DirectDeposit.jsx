@@ -12,7 +12,7 @@ import {
   isLOA3 as isLOA3Selector,
   isMultifactorEnabled,
 } from '~/platform/user/selectors';
-import { isAuthenticatedWithSSOe as isAuthenticatedWithSSOeSelector } from '~/platform/user/authentication/selectors';
+import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
 import { focusElement } from '~/platform/utilities/ui';
 import { usePrevious } from '~/platform/utilities/react-hooks';
 
@@ -22,7 +22,7 @@ import {
 } from '@@profile/selectors';
 
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
-import SetUp2FAAlert from '../alerts/SetUp2FAAlert';
+import SetUpVerifiedIDMeAlert from '../alerts/SetUpVerifiedIDMeAlert';
 
 import Headline from '../ProfileSectionHeadline';
 
@@ -65,13 +65,7 @@ const SuccessMessage = ({ benefit }) => {
   return content;
 };
 
-const DirectDeposit = ({
-  cnpUiState,
-  eduUiState,
-  is2faEnabled,
-  isAuthenticatedWithSSOe,
-  isLOA3,
-}) => {
+const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
   const [
     recentlySavedBankInfo,
     setRecentlySavedBankInfoForBenefit,
@@ -83,7 +77,7 @@ const DirectDeposit = ({
   const isSavingEDUBankInfo = eduUiState.isSaving;
   const wasSavingEDUBankInfo = usePrevious(eduUiState.isSaving);
   const eduSaveError = eduUiState.responseError;
-  const showSetUp2FactorAuthentication = isLOA3 && !is2faEnabled;
+  const showSetUp2FactorAuthentication = !isVerifiedUser;
 
   const bankInfoUpdatedAlertSettings = {
     FADE_SPEED: window.Cypress ? 1 : 500,
@@ -162,9 +156,7 @@ const DirectDeposit = ({
         </ReactCSSTransitionGroup>
       </div>
 
-      {showSetUp2FactorAuthentication && (
-        <SetUp2FAAlert isAuthenticatedWithSSOe={isAuthenticatedWithSSOe} />
-      )}
+      {showSetUp2FactorAuthentication && <SetUpVerifiedIDMeAlert />}
       {!showSetUp2FactorAuthentication && (
         <DowntimeNotification
           appTitle="direct deposit"
@@ -188,10 +180,11 @@ const DirectDeposit = ({
 };
 
 const mapStateToProps = state => {
+  const isLOA3 = isLOA3Selector(state);
+  const is2faEnabled = isMultifactorEnabled(state);
+  const isIDme = signInServiceNameSelector(state) === 'idme';
   return {
-    is2faEnabled: isMultifactorEnabled(state),
-    isAuthenticatedWithSSOe: isAuthenticatedWithSSOeSelector(state),
-    isLOA3: isLOA3Selector(state),
+    isVerifiedUser: isLOA3 && isIDme && is2faEnabled,
     cnpUiState: cnpDirectDepositUiState(state),
     eduUiState: eduDirectDepositUiState(state),
   };

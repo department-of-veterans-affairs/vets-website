@@ -78,7 +78,7 @@ const ProfilePageHeader = ({
   const displayStars =
     gibctSchoolRatings && stars && ratingCount >= MINIMUM_RATING_COUNT;
 
-  const titleClasses = classNames({
+  const titleClasses = classNames('small-screen-header', {
     'vads-u-margin-bottom--0': displayStars,
   });
 
@@ -308,7 +308,7 @@ const ProfilePageHeader = ({
       {!expanded && vetTecProvider && renderVetTecIconSection()}
 
       <div className="card-bottom-cell vads-u-flex--1 vads-u-margin--0 vads-u-border-top--4px vads-u-border-color--white">
-        <div className="vads-u-padding--0 vads-u-margin-top--neg2 vads-u-margin-bottom--0p5 vads-u-width--full compare-checkbox">
+        <div className="vads-u-padding--0 vads-u-margin-top--neg2 vads-u-margin-bottom--0p5">
           <Checkbox
             label="Compare"
             checked={compareChecked}

@@ -50,8 +50,8 @@ const IntroductionPage = props => {
                 number of the Veteran or service member who sponsors you.
               </li>
             </ul>
+            <h4>What if I need help filling out my application?</h4>
             <p>
-              <strong>What if I need help filling out my application?</strong>{' '}
               An accredited representative, with a Veterans Service Organization
               (VSO), can help you fill out your claim.{' '}
               <a href="/disability/how-to-file-claim/">

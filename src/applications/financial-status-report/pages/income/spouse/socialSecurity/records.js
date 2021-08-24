@@ -7,7 +7,7 @@ export const uiSchema = {
       'ui:options': {
         classNames: 'no-wrap',
       },
-      socialSecurityAmount: {
+      socialSecAmt: {
         'ui:title':
           'How much does your spouse get for Social Security each month?',
         'ui:options': {
@@ -32,9 +32,9 @@ export const schema = {
       properties: {
         spouse: {
           type: 'object',
-          required: ['socialSecurityAmount'],
+          required: ['socialSecAmt'],
           properties: {
-            socialSecurityAmount: {
+            socialSecAmt: {
               type: 'string',
             },
           },

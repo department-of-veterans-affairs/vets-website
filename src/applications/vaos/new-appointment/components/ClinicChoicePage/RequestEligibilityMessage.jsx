@@ -5,7 +5,7 @@ import FacilityAddress from '../../../components/FacilityAddress';
 import InfoAlert from '../../../components/InfoAlert';
 import { ELIGIBILITY_REASONS } from '../../../utils/constants';
 
-export default function EligibilityCheckMessage({
+export default function RequestEligibilityMessage({
   eligibility,
   facilityDetails,
   typeOfCare,

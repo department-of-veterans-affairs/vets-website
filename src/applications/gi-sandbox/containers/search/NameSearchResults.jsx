@@ -7,7 +7,7 @@ import { fetchSearchByNameResults } from '../../actions/index';
 import SearchResultCard from '../SearchResultCard';
 import FilterYourResults from '../FilterYourResults';
 import TuitionAndHousingEstimates from '../TuitionAndHousingEstimates';
-import { updateUrlParams } from '../../utils/helpers';
+import { updateUrlParams } from '../../selectors/search';
 import { getFiltersChanged } from '../../selectors/filters';
 import MobileFilterControls from '../../components/MobileFilterControls';
 
@@ -45,7 +45,6 @@ export function NameSearchResults({
       },
       filters,
       version,
-      page,
     );
   };
 

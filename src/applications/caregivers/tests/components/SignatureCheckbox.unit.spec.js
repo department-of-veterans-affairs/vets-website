@@ -9,7 +9,6 @@ const getData = ({ isRepresentative = false, label } = {}) => ({
     fullName: '',
     label,
     setSignatures: () => {},
-    setCheckBoxesSelected: () => {},
     showError: false,
     submission: {},
     isRequired: false,

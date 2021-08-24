@@ -68,7 +68,7 @@ export const setInitialEditMode = (formData = []) =>
 
 // getEligibleContestableIssues will remove deferred issues and issues > 1 year
 // past their decision date. This function removes issues with no title & sorts
-// the list by decending (newest first) decision date
+// the list by descending (newest first) decision date
 export const processContestableIssues = contestableIssues => {
   const regexDash = /-/g;
   const getDate = entry =>
