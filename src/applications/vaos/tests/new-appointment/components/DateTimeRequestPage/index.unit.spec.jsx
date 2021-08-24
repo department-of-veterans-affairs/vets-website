@@ -12,9 +12,12 @@ import DateTimeRequestPage from '../../../../new-appointment/components/DateTime
 import { FETCH_STATUS } from '../../../../utils/constants';
 import { waitFor, within } from '@testing-library/dom';
 import { Route } from 'react-router-dom';
+import { mockFetch } from 'platform/testing/unit/helpers';
+import { mockCommunityCareFlow } from '../../../mocks/fetch';
 
 describe('VAOS <DateTimeRequestPage>', () => {
   beforeEach(() => {
+    mockFetch();
     MockDate.set(moment('2020-01-26T14:00:00'));
   });
   afterEach(() => {
@@ -444,5 +447,146 @@ describe('VAOS <DateTimeRequestPage>', () => {
       // if the max date is in a month we can't get to, make sure next button is disabled
       expect(nextButton.disabled).to.be.true;
     }
+  });
+
+  describe('community care iterations flag is turned on', () => {
+    const toggles = {
+      vaOnlineSchedulingCCIterations: true,
+    };
+
+    it('should continue to closest city page', async () => {
+      // Given the CC iterations toggle is turned on
+      // And the user has two or more supported parent sites
+      // And the user is in the community care flow
+      const store = await mockCommunityCareFlow({
+        toggles,
+        registeredSites: ['983'],
+        parentSites: [{ id: '983' }, { id: '983GC' }],
+        supportedSites: ['983', '983GC'],
+      });
+
+      // And the page has loaded
+      const screen = renderWithStoreAndRouter(<DateTimeRequestPage />, {
+        store,
+      });
+
+      expect(
+        await screen.findByRole('heading', {
+          level: 1,
+          name: /Choose an appointment day and time/i,
+        }),
+      ).to.be.ok;
+
+      let currentMonth = moment()
+        .add(5, 'days')
+        .format('MMMM');
+
+      let buttons = screen
+        .getAllByLabelText(new RegExp(currentMonth))
+        .filter(button => button.disabled === false);
+
+      // Towards the end of the month our 4 days out min date will be in the next
+      // month, and we need to move the calendar to the next month before selecting a date
+      if (!buttons.length) {
+        userEvent.click(screen.getByText('Next'));
+        await screen.findByRole('heading', {
+          name: moment()
+            .add(1, 'month')
+            .format('MMMM YYYY'),
+        });
+        currentMonth = moment()
+          .add(1, 'month')
+          .format('MMMM');
+
+        buttons = screen
+          .getAllByLabelText(new RegExp(currentMonth))
+          .filter(button => button.disabled === false);
+      }
+
+      // And the user has chosen a time slot
+      userEvent.click(buttons[0]);
+
+      const checkbox = screen.getByRole('checkbox', {
+        name: 'AM appointment',
+      });
+      userEvent.click(checkbox);
+
+      // When the user continues
+      userEvent.click(screen.getByText(/^Continue/));
+
+      // Then they're sent to the closest city selection page
+      await waitFor(() => {
+        expect(screen.history.push.lastCall.args[0]).to.equal(
+          '/new-appointment/choose-closest-city',
+        );
+      });
+    });
+
+    it('should skip closest city page for single site', async () => {
+      // Given the CC iterations toggle is turned on
+      // And the user has one supported parent site
+      // And the user is in the community care flow
+      const store = await mockCommunityCareFlow({
+        toggles,
+        registeredSites: ['983'],
+        parentSites: [{ id: '983' }, { id: '983GC' }],
+        supportedSites: ['983'],
+      });
+
+      // And the page has loaded
+      const screen = renderWithStoreAndRouter(<DateTimeRequestPage />, {
+        store,
+      });
+
+      expect(
+        await screen.findByRole('heading', {
+          level: 1,
+          name: /Choose an appointment day and time/i,
+        }),
+      ).to.be.ok;
+
+      let currentMonth = moment()
+        .add(5, 'days')
+        .format('MMMM');
+
+      let buttons = screen
+        .getAllByLabelText(new RegExp(currentMonth))
+        .filter(button => button.disabled === false);
+
+      // Towards the end of the month our 4 days out min date will be in the next
+      // month, and we need to move the calendar to the next month before selecting a date
+      if (!buttons.length) {
+        userEvent.click(screen.getByText('Next'));
+        await screen.findByRole('heading', {
+          name: moment()
+            .add(1, 'month')
+            .format('MMMM YYYY'),
+        });
+        currentMonth = moment()
+          .add(1, 'month')
+          .format('MMMM');
+
+        buttons = screen
+          .getAllByLabelText(new RegExp(currentMonth))
+          .filter(button => button.disabled === false);
+      }
+
+      // And the user has chosen a time slot
+      userEvent.click(buttons[0]);
+      const checkbox = screen.getByRole('checkbox', {
+        name: 'AM appointment',
+      });
+      userEvent.click(checkbox);
+
+      // When the user continues
+      userEvent.click(screen.getByText(/^Continue/));
+
+      // Then they're sent to the closest city selection page
+      await waitFor(() => {
+        expect(screen.history.push.lastCall.args[0]).to.equal(
+          '/new-appointment/community-care-preferences',
+        );
+      });
+    });
   });
 });

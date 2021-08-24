@@ -2,10 +2,19 @@
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import { setFetchJSONResponse } from 'platform/testing/unit/helpers';
-import { getVAAppointmentMock } from './v0';
-import { mockEligibilityFetches } from './helpers';
-import { getV2ClinicMock } from './v2';
+import { getParentSiteMock, getVAAppointmentMock } from './v0';
+import {
+  mockCommunityCareEligibility,
+  mockEligibilityFetches,
+  mockParentSites,
+} from './helpers';
+import { getV2ClinicMock, getV2FacilityMock } from './v2';
 import { TYPES_OF_CARE } from '../../utils/constants';
+import { createTestStore, setTypeOfCare, setTypeOfFacility } from './setup';
+import {
+  mockV2CommunityCareEligibility,
+  mockVAOSParentSites,
+} from './helpers.v2';
 
 /**
  * Mocks the api calls for the various eligibility related fetches VAOS does in the new appointment flow
@@ -170,4 +179,61 @@ export function mockSingleClinicFetchByVersion({
   } else {
     throw new Error('This should only be used with v2 endpoints');
   }
+}
+
+export async function mockCommunityCareFlow({
+  toggles = {},
+  registeredSites,
+  parentSites,
+  supportedSites,
+  typeOfCareId = 'primaryCare',
+}) {
+  const typeOfCare = TYPES_OF_CARE.find(care => care.idV2 === typeOfCareId);
+  const useV2 = toggles.vaOnlineSchedulingFacilitiesServiceV2;
+  const store = createTestStore({
+    featureToggles: {
+      vaOnlineSchedulingCommunityCare: true,
+      ...toggles,
+    },
+    user: {
+      profile: {
+        facilities: registeredSites.map(id => ({
+          facilityId: id,
+          isCerner: false,
+        })),
+      },
+    },
+  });
+  if (useV2) {
+    mockVAOSParentSites(
+      registeredSites,
+      parentSites.map(data => getV2FacilityMock({ ...data, isParent: true })),
+      true,
+    );
+    mockV2CommunityCareEligibility({
+      parentSites: parentSites.map(data => data.id),
+      supportedSites,
+      careType: typeOfCare.cceType,
+    });
+  } else {
+    mockParentSites(
+      registeredSites,
+      parentSites.map(data =>
+        getParentSiteMock({
+          ...data,
+          city: data.address?.city,
+          state: data.address?.state,
+        }),
+      ),
+    );
+    mockCommunityCareEligibility({
+      parentSites: parentSites.map(data => data.id),
+      supportedSites,
+      careType: typeOfCare.cceType,
+    });
+  }
+  await setTypeOfCare(store, new RegExp(typeOfCare.name));
+  await setTypeOfFacility(store, /Community Care/i);
+
+  return store;
 }
