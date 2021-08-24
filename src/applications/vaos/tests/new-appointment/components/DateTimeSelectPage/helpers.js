@@ -7,7 +7,7 @@ import {
 import { getAppointmentSlotMock, getClinicMock } from '../../../mocks/v0';
 
 export function setDateTimeSelectMockFetches({
-  preferredDateToSet = undefined,
+  preferredDate = moment(),
   singleClinic = false,
   singleSlot = false,
   slotError = false,
@@ -57,7 +57,6 @@ export function setDateTimeSelectMockFetches({
       .hour(13)
       .minute(0)
       .second(0);
-    const preferredDate = preferredDateToSet || moment();
 
     mockAppointmentSlotFetch({
       siteId: '983',

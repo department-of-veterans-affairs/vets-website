@@ -579,10 +579,10 @@ describe('VAOS <DateTimeSelectPage>', () => {
       .hour(13)
       .minute(0)
       .second(0);
-    const preferredDateToSet = moment().add(4, 'months');
+    const preferredDate = moment().add(4, 'months');
 
     setDateTimeSelectMockFetches({
-      preferredDateToSet,
+      preferredDate,
       singleClinic: true,
       singleSlot: true,
       slotsToSet: slot308Date,
@@ -593,7 +593,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     await setTypeOfCare(store, /primary care/i);
     await setVAFacility(store, '983');
     await setClinic(store, /Yes/i);
-    await setPreferredDate(store, preferredDateToSet);
+    await setPreferredDate(store, preferredDate);
 
     // When the page is displayed
     const screen = renderWithStoreAndRouter(
@@ -650,7 +650,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     setDateTimeSelectMockFetches({
       singleClinic: true,
       singleSlot: true,
-      preferredDateToSet: preferredDate,
+      preferredDate,
     });
 
     mockAppointmentSlotFetch({
