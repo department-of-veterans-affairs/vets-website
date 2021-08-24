@@ -538,8 +538,8 @@ const formConfig = {
               city: 'Arlington',
               state: 'Virginia',
               postalCode: '22205',
-              livesOnMilitaryBaseInfo: false,
             },
+            livesOnMilitaryBase: true,
           },
           uiSchema: {
             'view:subHeadings': {
@@ -554,55 +554,59 @@ const formConfig = {
                 </>
               ),
             },
-            [formFields.address]: {
-              ...address.uiSchema('Your mailing address'),
-              street: {
-                'ui:title': 'Street Address',
-                'ui:validations': [
-                  (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter your full street address');
-                    }
-                  },
+            'view:mailingAddress': {
+              [formFields.address]: {
+                ...address.uiSchema('Your mailing address'),
+                street: {
+                  'ui:title': 'Street Address',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (isOnlyWhitespace(field)) {
+                        errors.addError(
+                          'Please enter your full street address',
+                        );
+                      }
+                    },
+                  ],
+                },
+                city: {
+                  'ui:title': 'City',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (isOnlyWhitespace(field)) {
+                        errors.addError('Please enter your city');
+                      }
+                    },
+                  ],
+                },
+                state: {
+                  'ui:title': 'State/Province/Region',
+                },
+                postalCode: {
+                  'ui:title': 'Postal Code (5-digit)',
+                },
+                'ui:order': [
+                  'livesOnMilitaryBase',
+                  'livesOnMilitaryBaseInfo',
+                  ...address.uiSchema('Your mailing address')['ui:order'],
                 ],
-              },
-              city: {
-                'ui:title': 'City',
-                'ui:validations': [
-                  (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter your city');
-                    }
-                  },
-                ],
-              },
-              state: {
-                'ui:title': 'State/Province/Region',
-              },
-              postalCode: {
-                'ui:title': 'Postal Code (5-digit)',
-              },
-              'ui:order': [
-                'livesOnMilitaryBaseInfo',
-                'additionalInformation',
-                ...address.uiSchema('Your mailing address')['ui:order'],
-              ],
-              'ui:field': ReviewBoxField,
-              'ui:options': {
-                hideLabelText: true,
-                showFieldLabel: false,
-                viewComponent: MailingAddressViewField,
-              },
-              livesOnMilitaryBaseInfo: {
-                'ui:title': (
-                  <p id="LiveOnMilitaryBaseTooltip">
-                    I live on a United States military base outside of the
-                    country
-                  </p>
-                ),
-              },
-              additionalInformation: {
-                'ui:description': LearnMoreAboutMilitaryBaseTooltip(),
+                'ui:field': ReviewBoxField,
+                'ui:options': {
+                  hideLabelText: true,
+                  showFieldLabel: false,
+                  viewComponent: MailingAddressViewField,
+                },
+                livesOnMilitaryBase: {
+                  'ui:title': (
+                    <p id="LiveOnMilitaryBaseTooltip">
+                      I live on a United States military base outside of the
+                      country
+                    </p>
+                  ),
+                },
+                livesOnMilitaryBaseInfo: {
+                  'ui:description': LearnMoreAboutMilitaryBaseTooltip(),
+                },
               },
             },
             'view:note': {
