@@ -69,7 +69,7 @@ function baseSet(arrayPath, value, object, level = 0) {
  * @param {Object} object
  * @return {Object} A new object with the appropriate value set
  */
-export default function set(path, value, object) {
+export default function set(path, value, object = {}) {
   const arrayPath = Array.isArray(path) ? path : deconstructPath(path);
   checkValidPath(arrayPath);
   return baseSet(arrayPath, value, object, 0);

@@ -1,5 +1,6 @@
 import React from 'react';
-import { set, mapValues } from 'lodash/fp';
+import mapValues from 'lodash/mapValues';
+import set from 'platform/utilities/data/set';
 import moment from 'moment';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import vaMedicalFacilities from 'vets-json-schema/dist/vaMedicalFacilities.json';
@@ -254,9 +255,8 @@ export function fileHelp({ formContext }) {
 }
 
 // Turns the facility list for each state into an array of strings
-export const medicalCentersByState = mapValues(
-  val => val.map(center => center.value),
-  vaMedicalFacilities,
+export const medicalCentersByState = mapValues(vaMedicalFacilities, val =>
+  val.map(center => center.value),
 );
 
 export const dischargeTypeLabels = {
