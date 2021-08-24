@@ -1,4 +1,3 @@
-import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 import unset from '../../../../utilities/data/unset';
 import { createSelector } from 'reselect';
