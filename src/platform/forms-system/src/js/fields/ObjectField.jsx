@@ -285,7 +285,7 @@ class ObjectField extends React.Component {
           if (objectFields.length > 1) {
             const [first, ...rest] = objectFields;
             const visible = rest.filter(
-              prop => !get(['properties', prop, 'ui:collapsed'], schema),
+              prop => !schema.properties[prop]['ui:collapsed'],
             );
             return (
               <ExpandingGroup open={visible.length > 0} key={index}>
