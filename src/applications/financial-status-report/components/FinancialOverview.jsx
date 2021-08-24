@@ -7,7 +7,6 @@ const FinancialOverview = ({ formData }) => {
   const monthlyIncome = getMonthlyIncome(formData);
   const monthlyExpenses = getMonthlyExpenses(formData);
   const incomeMinusExpenses = monthlyIncome - monthlyExpenses;
-  const totalIncome = incomeMinusExpenses > 0 ? incomeMinusExpenses : 0;
 
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -31,7 +30,7 @@ const FinancialOverview = ({ formData }) => {
         </div>
         <div className="vads-u-margin-bottom--0 overview-container">
           <div>Income after taxes and expenses:</div>
-          <div>{formatter.format(parseFloat(totalIncome))}</div>
+          <div>{formatter.format(parseFloat(incomeMinusExpenses))}</div>
         </div>
       </div>
     </>
