@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import set from '../../../utilities/data/set';
+import set from 'platform/utilities/data/set';
 
-import localStorage from '../../../utilities/storage/localStorage';
+import localStorage from 'platform/utilities/storage/localStorage';
 import { selectUserGreeting } from '../selectors';
 
 describe('User navigation selectors', () => {
