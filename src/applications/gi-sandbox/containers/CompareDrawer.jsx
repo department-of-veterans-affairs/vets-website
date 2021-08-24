@@ -40,6 +40,28 @@ export function CompareDrawer({
     }
   };
 
+  const expandCollapse = !open
+    ? 'compare-drawer-collapsed'
+    : 'compare-drawer-expanded';
+
+  const compareDrawerAwareness = () => {
+    if (loaded.length === 0) {
+      setOpen(false);
+    } else if (loaded.length === 1 && !open) {
+      setTimeout(() => {
+        setOpen(true);
+        setTimeout(() => {
+          setOpen(false);
+        }, 800);
+      }, 300);
+    } else if (loaded.length > 1 && loaded.length <= 3) {
+      setOpen(true);
+    }
+    dispatchCompareDrawerOpened(open);
+  };
+
+  useEffect(() => compareDrawerAwareness(), [loaded]);
+
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, true);
 
@@ -47,6 +69,16 @@ export function CompareDrawer({
       window.removeEventListener('scroll', handleScroll, true);
     };
   }, []);
+  // function usePrevious(value) {
+  //   const ref = useRef();
+  //   useEffect(() => {
+  //     ref.current = value.length;
+  //   });
+
+  //   return ref.current;
+  // }
+
+  // const prevCount = usePrevious(loaded);
 
   if (notRendered) {
     return null;
@@ -93,29 +125,31 @@ export function CompareDrawer({
     'drawer-open': open && !stuck,
     'drawer-stuck': stuck,
   });
+
   return (
     <>
       <div className={compareDrawerClasses} ref={drawer}>
-        {promptingFacilityCode && (
-          <RemoveCompareSelectedModal
-            name={institutions[promptingFacilityCode].name}
-            onClose={() => setPromptingFacilityCode(null)}
-            onRemove={() => {
-              setPromptingFacilityCode(null);
-              dispatchRemoveCompareInstitution(promptingFacilityCode);
-            }}
-            onCancel={() => setPromptingFacilityCode(null)}
-          />
-        )}
-        <div
-          className="compare-header vads-l-grid-container"
-          onClick={expandOnClick}
-        >
-          <div className={headerLabelClasses}>
-            Compare Institutions ({loaded.length} of 3)
+        <div className={expandCollapse}>
+          {promptingFacilityCode && (
+            <RemoveCompareSelectedModal
+              name={institutions[promptingFacilityCode].name}
+              onClose={() => setPromptingFacilityCode(null)}
+              onRemove={() => {
+                setPromptingFacilityCode(null);
+                dispatchRemoveCompareInstitution(promptingFacilityCode);
+              }}
+              onCancel={() => setPromptingFacilityCode(null)}
+            />
+          )}
+          <div
+            className="compare-header vads-l-grid-container"
+            onClick={expandOnClick}
+          >
+            <div className={headerLabelClasses}>
+              Compare Institutions ({loaded.length} of 3)
+            </div>
           </div>
-        </div>
-        {open && (
+
           <div className="compare-body vads-l-grid-container">
             <div className="small-function-label">
               You can compare 2 to 3 institutions
@@ -127,22 +161,30 @@ export function CompareDrawer({
                     className="compare-item vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3"
                     key={index}
                   >
-                    <div className="institution">
+                    {loaded.length === 1 && open ? (
                       <div className="compare-name">
-                        {institutions[facilityCode].name}
+                        <div className="blank" />
                       </div>
-                      <div className="vads-u-padding-top--1p5">
-                        <button
-                          type="button"
-                          className="va-button-link learn-more-button"
-                          onClick={() => {
-                            setPromptingFacilityCode(facilityCode);
-                          }}
-                        >
-                          Remove
-                        </button>
+                    ) : (
+                      <div className="compare-name">
+                        <div className="institution">
+                          <div className="compare-name">
+                            {institutions[facilityCode].name}
+                          </div>
+                          <div className="vads-u-padding-top--1p5">
+                            <button
+                              type="button"
+                              className="va-button-link learn-more-button"
+                              onClick={() => {
+                                setPromptingFacilityCode(facilityCode);
+                              }}
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                 );
               })}
@@ -166,7 +208,7 @@ export function CompareDrawer({
               </div>
             </div>
           </div>
-        )}
+        </div>
       </div>
       <div ref={placeholder} className={placeholderClasses}>
         &nbsp;

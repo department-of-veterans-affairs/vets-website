@@ -9,6 +9,21 @@
     position: static;
   }
 
+  .compare-drawer-expanded{
+    transition: height 0.3s ease-in-out;
+    height:12.5em; 
+    
+    @media (max-width: $small-screen) {
+      transition: height 0.3s ease-in-out;
+      height: 100%;
+    }
+
+  }
+  .compare-drawer-collapsed{
+    transition: height 0.3s ease-in-out;
+    height: 2.5em;
+  }
+
   .compare-header{
     background-color: $color-primary;
     color: $color-white;
