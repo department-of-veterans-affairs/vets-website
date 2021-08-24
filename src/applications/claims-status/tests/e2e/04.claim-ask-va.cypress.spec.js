@@ -37,9 +37,7 @@ describe('Ask VA Claim Test', () => {
     cy.get('.va-tabs li:nth-child(2) > a')
       .click()
       .then(() => {
-        cy.get('.file-request-list-item', { timeout: Timeouts.normal }).should(
-          'be.visible',
-        );
+        cy.get('.file-request-list-item').should('be.visible');
         cy.axeCheck();
       });
 
@@ -54,7 +52,7 @@ describe('Ask VA Claim Test', () => {
     cy.get('.claims-alert-status a')
       .click()
       .then(() => {
-        cy.get('.usa-button-secondary', { timeout: Timeouts.normal });
+        cy.get('.usa-button-secondary');
         cy.axeCheck();
       });
 
@@ -75,9 +73,7 @@ describe('Ask VA Claim Test', () => {
     // should have gone back to status page
     cy.url().should('contain', 'status');
 
-    cy.get('.usa-alert-success', { timeout: Timeouts.normal }).should(
-      'be.visible',
-    );
+    cy.get('.usa-alert-success').should('be.visible');
     cy.axeCheck();
   });
 });

@@ -604,7 +604,9 @@ jobs:
           YARN_CACHE_FOLDER: .cache/yarn
 
       - name: Run Nightwatch tests
-        run: yarn test:e2e:headless --suiteRetries 3
+        run: |
+          chmod +x script/run-nightwatch.sh
+          yarn test:e2e:headless  --suiteRetries 3
         timeout-minutes: 30
         env:
           BUILDTYPE: vagovprod
