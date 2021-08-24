@@ -27,6 +27,25 @@ export function CompareDrawer({
     <>Compare Institutions ({loaded.length} of 3)</>,
   );
 
+  const renderBlanks = () => {
+    const blanks = [];
+    for (let i = 0; i < 3 - loaded.length; i++) {
+      blanks.push(
+        <div
+          key={i}
+          className="compare-item vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3"
+        >
+          <div className="compare-name">
+            <div className="blank" />
+          </div>
+        </div>,
+      );
+    }
+    return blanks;
+  };
+
+  const [blanks, setBlanks] = useState(renderBlanks());
+
   const handleScroll = () => {
     let currentStuck;
     setStuck(currentState => {
@@ -92,6 +111,7 @@ export function CompareDrawer({
         case 0:
           makeHeaderLabel();
           makeLoadedCards();
+          setBlanks(renderBlanks());
           dispatchCompareDrawerOpened(false);
           break;
         case 1:
@@ -99,10 +119,11 @@ export function CompareDrawer({
           setTimeout(() => {
             makeHeaderLabel();
             makeLoadedCards();
+            setBlanks(renderBlanks());
+            setTimeout(() => {
+              dispatchCompareDrawerOpened(false);
+            }, 800);
           }, 300);
-          setTimeout(() => {
-            dispatchCompareDrawerOpened(false);
-          }, 800);
           break;
         default:
           break;
@@ -135,23 +156,6 @@ export function CompareDrawer({
     open,
     closed: !open,
   });
-
-  const renderBlanks = () => {
-    const blanks = [];
-    for (let i = 0; i < 3 - loaded.length; i++) {
-      blanks.push(
-        <div
-          key={i}
-          className="compare-item vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3"
-        >
-          <div className="compare-name">
-            <div className="blank" />
-          </div>
-        </div>,
-      );
-    }
-    return blanks;
-  };
 
   const expandOnClick = () => {
     setOpen(!open);
@@ -191,7 +195,7 @@ export function CompareDrawer({
             <div className="vads-l-row vads-u-padding-top--1">
               {loadedCards}
 
-              {renderBlanks()}
+              {blanks}
 
               <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3 action-cell ">
                 <div className="large-function-label compare-name">
