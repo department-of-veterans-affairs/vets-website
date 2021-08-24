@@ -32,7 +32,6 @@ describe('Facility search error messages', () => {
   it('shows error message when leaving facility type field empty', () => {
     cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown').focus();
-    // cy.get('#street-city-state-zip').focus();
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('.usa-input-error-message').contains(
       'Please choose a facility type.',

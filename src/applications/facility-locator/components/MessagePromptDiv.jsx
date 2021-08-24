@@ -23,6 +23,7 @@ const MessagePromptDiv = ({ id, message, waitBeforeShow = 0 }) => {
 MessagePromptDiv.propTypes = {
   id: PropTypes.string,
   message: PropTypes.string,
+  waitBeforeShow: PropTypes.number,
 };
 
 export default MessagePromptDiv;
