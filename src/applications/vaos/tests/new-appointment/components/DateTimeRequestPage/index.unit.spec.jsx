@@ -455,8 +455,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
     };
 
     it('should continue to closest city page', async () => {
-      // Given the CC iterations toggle is turned on
-      // And the user has two or more supported parent sites
+      // Given the user has two or more supported parent sites
       // And the user is in the community care flow
       const store = await setCommunityCareFlow({
         toggles,
@@ -523,8 +522,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
     });
 
     it('should skip closest city page for single site', async () => {
-      // Given the CC iterations toggle is turned on
-      // And the user has one supported parent site
+      // Given the user has one supported parent site
       // And the user is in the community care flow
       const store = await setCommunityCareFlow({
         toggles,
