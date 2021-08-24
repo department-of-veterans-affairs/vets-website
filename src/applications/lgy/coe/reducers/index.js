@@ -16,6 +16,7 @@ const initialState = {
   coe: null,
   errors: null,
   profileIsUpdating: true,
+  isLoading: true,
 };
 
 const certificateOfEligibility = (state = initialState, action) => {
@@ -23,7 +24,11 @@ const certificateOfEligibility = (state = initialState, action) => {
     case UPDATE_LOGGEDIN_STATUS:
       return { ...state, profileIsUpdating: false };
     case SKIP_AUTOMATIC_COE_CHECK:
-      return { ...state, generateAutoCoeStatus: CALLSTATUS.skip };
+      return {
+        ...state,
+        generateAutoCoeStatus: CALLSTATUS.skip,
+        isLoading: false,
+      };
     case GENERATE_AUTOMATIC_COE_STARTED:
       return { ...state, generateAutoCoeStatus: CALLSTATUS.pending };
     case GENERATE_AUTOMATIC_COE_FAILED:
@@ -31,12 +36,14 @@ const certificateOfEligibility = (state = initialState, action) => {
         ...state,
         generateAutoCoeStatus: CALLSTATUS.failed,
         errors: action.response.errors,
+        isLoading: false,
       };
     case GENERATE_AUTOMATIC_COE_SUCCEEDED:
       return {
         ...state,
         generateAutoCoeStatus: CALLSTATUS.success,
         coe: action.response,
+        isLoading: false,
       };
     default:
       return state;
