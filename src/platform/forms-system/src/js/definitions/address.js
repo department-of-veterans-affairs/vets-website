@@ -149,8 +149,8 @@ export function uiSchema(
   }
 
   const addressChangeSelector = createSelector(
-    ({ formData, path }) => get(path.concat('country'), formData),
-    ({ formData, path }) => get(path.concat('city'), formData),
+    ({ formData, path }) => formData[path.concat('country')],
+    ({ formData, path }) => formData[path.concat('city')],
     ({ addressSchema }) => addressSchema,
     (currentCountry, city, addressSchema) => {
       const schemaUpdate = {
