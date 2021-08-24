@@ -24,12 +24,14 @@ export default class MegaMenu extends React.Component {
    * Remove event listener
    */
   componentWillUnmount() {
+    this.props.updateCurrentSection('');
+    this.props.toggleDisplayHidden(true);
     this.mobileMediaQuery.removeListener(this.resetDefaultState);
     document.body.removeEventListener('click', this.handleDocumentClick, false);
   }
 
   getSubmenu(item, currentSection) {
-    if (this.mobileMediaQuery.matches) {
+    if (this.mobileMediaQuery?.matches) {
       const menuSections = [
         item.menuSections.mainColumn,
         item.menuSections.columnOne,
@@ -83,7 +85,7 @@ export default class MegaMenu extends React.Component {
   }
 
   defaultSection(sections) {
-    if (this.mobileMediaQuery.matches) {
+    if (this.mobileMediaQuery?.matches) {
       return '';
     }
 
@@ -97,7 +99,7 @@ export default class MegaMenu extends React.Component {
   };
 
   resetDefaultState = () => {
-    if (this.mobileMediaQuery.matches) {
+    if (this.mobileMediaQuery?.matches) {
       this.props.toggleDisplayHidden(true);
     } else {
       this.props.toggleDisplayHidden(false);
@@ -117,7 +119,7 @@ export default class MegaMenu extends React.Component {
   updateCurrentSection(title) {
     let sectionTitle = title;
 
-    if (this.mobileMediaQuery.matches) {
+    if (this.mobileMediaQuery?.matches) {
       sectionTitle = this.props.currentSection === title ? '' : title;
     }
 

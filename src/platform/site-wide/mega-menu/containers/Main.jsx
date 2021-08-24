@@ -62,6 +62,7 @@ export class Main extends Component {
     ).isRequired,
     display: PropTypes.object,
     loggedIn: PropTypes.bool.isRequired,
+    isMobile: PropTypes.bool,
   };
 
   toggleDropDown = currentDropdown => {
@@ -106,6 +107,8 @@ export class Main extends Component {
   };
 
   render() {
+    this.mobileMediaQuery = window.matchMedia('(max-width: 767px)');
+
     const childProps = {
       ...this.props,
       toggleDisplayHidden: this.toggleDisplayHidden,
@@ -114,6 +117,14 @@ export class Main extends Component {
       linkClicked: this.linkClicked,
       columnThreeLinkClicked: this.columnThreeLinkClicked,
     };
+
+    if (this.props.isMobile && !this.mobileMediaQuery.matches) {
+      return null;
+    }
+
+    if (!this.props.isMobile && this.mobileMediaQuery.matches) {
+      return null;
+    }
 
     return <MegaMenu {...childProps} />;
   }
