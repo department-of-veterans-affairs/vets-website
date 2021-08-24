@@ -18,6 +18,12 @@ export const dateFormatter = date => {
   return moment(formatDate).format('MM/YYYY');
 };
 
+export const currency = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 2,
+});
+
 const hasProperty = (arr, key) => {
   return arr.filter(item => item[key]).length > 0 ?? false;
 };
