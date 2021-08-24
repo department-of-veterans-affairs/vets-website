@@ -267,7 +267,7 @@ class FileField extends React.Component {
       (enableShortWorkflow &&
         !files.some((file, index) => {
           const errors =
-            get([index, '__errors'], errorSchema) ||
+            errorSchema[index].__errors ||
             [file.errorMessage].filter(error => error);
 
           return errors.length > 0;
