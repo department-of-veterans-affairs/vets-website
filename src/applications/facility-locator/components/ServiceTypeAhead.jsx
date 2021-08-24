@@ -124,6 +124,7 @@ class ServiceTypeAhead extends Component {
         <MessagePromptDiv
           message="We couldn't find that, please try another service"
           id="could-not-find-service-prompt"
+          waitBeforeShow={3000}
         />
       );
     } else return null;
