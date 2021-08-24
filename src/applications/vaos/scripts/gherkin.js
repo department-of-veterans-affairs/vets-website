@@ -26,9 +26,13 @@ function isBlock(path) {
 }
 
 function getComments(path) {
-  return path.node.arguments[1].body.body
+  const commentBlocks = path.node.arguments[1].body.body
     .filter(item => item.leadingComments?.length)
-    .map(item => item.leadingComments[0].value.trim())
+    .map(item => item.leadingComments);
+
+  return []
+    .concat(...commentBlocks)
+    .map(item => item.value.trim())
     .filter(
       item =>
         item.startsWith('Given') ||

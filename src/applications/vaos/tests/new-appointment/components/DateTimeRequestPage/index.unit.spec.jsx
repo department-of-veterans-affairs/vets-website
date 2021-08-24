@@ -581,7 +581,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       // When the user continues
       userEvent.click(screen.getByText(/^Continue/));
 
-      // Then they're sent to the closest city selection page
+      // Then they're sent to the preferences page
       await waitFor(() => {
         expect(screen.history.push.lastCall.args[0]).to.equal(
           '/new-appointment/community-care-preferences',
