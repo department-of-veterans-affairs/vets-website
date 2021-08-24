@@ -96,7 +96,7 @@ va-accordion {
 	border-top: 1px solid $color-gray-medium;
 	box-sizing: border-box;
 	margin: 0;
-	padding: 1em 0 1em 1em;
+	padding: 1em 0;
 }
 .service-history-details_term {
 	flex: 0 1 auto;
@@ -105,11 +105,19 @@ va-accordion {
 .service-history-details_definition {
 	flex: 1 1 60%;
 	font-weight: bold;
-	padding-right: 1em;
+	padding-left: 1em;
 	text-align: right;
 }
 .service-history-details_period {
 	display: block;
+}
+@media only screen and (min-width: 40.0625em) {
+	.service-history-details_term {
+		padding-left: 1em;
+	}
+	.service-history-details_definition {
+		padding-right: 1em;
+	}
 }
 
 #LiveOnMilitaryBaseTooltip {
