@@ -630,6 +630,12 @@ jobs:
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           path: testing-reports
 
+      - name: current directory
+        run: ls -la
+
+      - name: workspace dir
+        run: ls $GITHUB_WORKSPACE
+
       - name: Download Mochawesome report artifact
         uses: actions/download-artifact@v2
         with:
