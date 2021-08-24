@@ -482,15 +482,38 @@ export async function setPreferredDate(store, preferredDate) {
   return screen.history.push.firstCall.args[0];
 }
 
+/**
+ * Set up community care flow for use in page tests from
+ * the calendar page forward.
+ *
+ * @export
+ * @param {Object} params
+ * @param {Object} toggles Any feature toggles to set. CC toggle is set by default
+ * @param {Array<Object>} parentSites List of parent sites and data, in the format used
+ *  by the getV2FacilityMock params, so you can pass name, id, and address
+ * @param {?Array<string>} supportedSites List of site ids that support community care.
+ *  Defaults to the parent site ids if not provided
+ * @param {?Array<string>} registeredSites List of registered site ids. Will use ids
+ *  from parentSites list if not provided
+ * @param {string} typeOfCareId Type of care id string to use. Use V2 id format (idV2 in
+ *  type of care list)
+ * @param {Object} [residentialAddress=null] VA Profile address to use for the user
+ * @returns {ReduxStore} Redux store with data set up
+ */
 export async function setCommunityCareFlow({
   toggles = {},
-  registeredSites,
   parentSites,
+  registeredSites,
   supportedSites,
   typeOfCareId = 'primaryCare',
+  residentialAddress = null,
 }) {
   const typeOfCare = TYPES_OF_CARE.find(care => care.idV2 === typeOfCareId);
   const useV2 = toggles.vaOnlineSchedulingFacilitiesServiceV2;
+  const registered =
+    registeredSites ||
+    parentSites.filter(data => data.id.length === 3).map(data => data.id);
+
   const store = createTestStore({
     featureToggles: {
       vaOnlineSchedulingCommunityCare: true,
@@ -498,27 +521,31 @@ export async function setCommunityCareFlow({
     },
     user: {
       profile: {
-        facilities: registeredSites.map(id => ({
+        facilities: registered.map(id => ({
           facilityId: id,
           isCerner: false,
         })),
       },
+      vapContactInfo: {
+        residentialAddress,
+      },
     },
   });
+
   if (useV2) {
     mockVAOSParentSites(
-      registeredSites,
+      registered,
       parentSites.map(data => getV2FacilityMock({ ...data, isParent: true })),
       true,
     );
     mockV2CommunityCareEligibility({
       parentSites: parentSites.map(data => data.id),
-      supportedSites,
+      supportedSites: supportedSites || parentSites.map(data => data.id),
       careType: typeOfCare.cceType,
     });
   } else {
     mockParentSites(
-      registeredSites,
+      registered,
       parentSites.map(data =>
         getParentSiteMock({
           ...data,
@@ -529,7 +556,7 @@ export async function setCommunityCareFlow({
     );
     mockCommunityCareEligibility({
       parentSites: parentSites.map(data => data.id),
-      supportedSites,
+      supportedSites: supportedSites || parentSites.map(data => data.id),
       careType: typeOfCare.cceType,
     });
   }

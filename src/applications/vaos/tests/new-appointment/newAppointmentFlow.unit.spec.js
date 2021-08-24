@@ -407,19 +407,6 @@ describe('VAOS newAppointmentFlow', () => {
 
   describe('requestDateTime page', () => {
     describe('next page', () => {
-      it('should be ccPreferences if in the CC flow', () => {
-        const state = {
-          newAppointment: {
-            data: {
-              facilityType: FACILITY_TYPES.COMMUNITY_CARE,
-            },
-          },
-        };
-
-        const nextState = newAppointmentFlow.requestDateTime.next(state);
-
-        expect(nextState).to.equal('ccPreferences');
-      });
       it('should be reasonForAppointment if in the VA flow', () => {
         const state = {
           newAppointment: {
