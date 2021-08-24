@@ -16,7 +16,7 @@ import set from 'platform/utilities/data/set';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import { isReactComponent } from 'platform/utilities/ui';
-import { validatePhoneErr } from '../utils/validation';
+import { validatePhone } from '../utils/validation';
 
 /**
  * Displays a review card if the information inside is valid.
@@ -391,20 +391,6 @@ export default class ReviewBoxField extends React.Component {
     }
   };
 
-  render() {
-    const description = this.getDescription();
-    const viewOrEditCard = this.state.editing
-      ? this.getEditView()
-      : this.getReviewView();
-
-    return (
-      <>
-        {description}
-        {viewOrEditCard}
-      </>
-    );
-  }
-
   formHasErrors() {
     const startInEditFunction =
       typeof this.props.uiSchema['ui:options']?.startInEdit === 'function';
@@ -457,9 +443,25 @@ export default class ReviewBoxField extends React.Component {
         this.__errors.push(error);
       },
     };
-    let errorMessages;
-    validatePhoneErr(errors, this.props.formData, null, null, errorMessages);
+
+    validatePhone(errors, this.props.formData);
+
+    this.errorClass = 'usa-input-error';
   };
+
+  render() {
+    const description = this.getDescription();
+    const viewOrEditCard = this.state.editing
+      ? this.getEditView()
+      : this.getReviewView();
+
+    return (
+      <>
+        {description}
+        {viewOrEditCard}
+      </>
+    );
+  }
 }
 
 ReviewBoxField.propTypes = {
