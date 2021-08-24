@@ -17,16 +17,13 @@ function IntroductionPage(props) {
   content = <LoadingIndicator message="Loading your application..." />;
 
   // Once the coe call is done, render the rest of the content
-  if (
-    props.status === CALLSTATUS.success ||
-    props.status === CALLSTATUS.failed ||
-    props.status === CALLSTATUS.skip
-  ) {
-    if (props.loggedIn === false) {
-      content = notLoggedInContent(props);
-    } else {
-      content = loggedInContent();
-    }
+  const coeCallEnded = [CALLSTATUS.failed, CALLSTATUS.success, CALLSTATUS.skip];
+
+  if (!props.loggedIn && coeCallEnded.includes(props.status)) {
+    content = notLoggedInContent(props);
+  }
+  if (props.loggedIn && coeCallEnded.includes(props.status)) {
+    content = loggedInContent();
   }
 
   return <div>{content}</div>;
