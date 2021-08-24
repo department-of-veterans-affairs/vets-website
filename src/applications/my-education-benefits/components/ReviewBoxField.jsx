@@ -369,7 +369,10 @@ export default class ReviewBoxField extends React.Component {
 
     if (this.props.uiSchema['ui:widget'] === 'date') {
       this.updateDateErrors(hasErrors);
-    } else if (
+    }
+
+    if (
+      this.props.uiSchema.phone &&
       this.props.uiSchema.phone['ui:widget'].name === 'PhoneNumberWidget'
     ) {
       this.updatePhoneErrors(hasErrors);
