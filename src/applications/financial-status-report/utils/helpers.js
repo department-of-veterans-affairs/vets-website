@@ -51,20 +51,20 @@ export const otherDeductionsAmt = (deductions, filters) => {
 };
 
 export const nameStr = (socialSecurity, compensation, education, addlInc) => {
-  const benTypes = [];
+  const benefitTypes = [];
   if (socialSecurity) {
-    benTypes.push('Social Security');
+    benefitTypes.push('Social Security');
   }
   if (compensation) {
-    benTypes.push('Disability Compensation');
+    benefitTypes.push('Disability Compensation');
   }
   if (education) {
-    benTypes.push('Education');
+    benefitTypes.push('Education');
   }
   const vetAddlNames = addlInc?.map(({ name }) => name) ?? [];
-  const mergedArr = [...benTypes, ...vetAddlNames];
+  const otherIncNames = [...benefitTypes, ...vetAddlNames];
 
-  return mergedArr?.map(item => item).join(', ') ?? '';
+  return otherIncNames?.map(item => item).join(', ') ?? '';
 };
 
 export const getMonthlyIncome = ({
@@ -78,53 +78,45 @@ export const getMonthlyIncome = ({
   spCurrEmployment,
   income,
 }) => {
-  // veteran income
-  const vetGrossSalary = sumValues(currEmployment, 'veteranGrossSalary');
-  const vetAddlInc = sumValues(addlIncRecords, 'amount');
-  const vetSocSecAmt = Number(socialSecurity.socialSecAmt ?? 0);
-  const vetComp = sumValues(income, 'compensationAndPension');
-  const vetEdu = sumValues(income, 'education');
-  const vetBenefits = vetComp + vetEdu;
-  const vetOtherAmt = vetAddlInc + vetBenefits + vetSocSecAmt;
-
-  // spouse income
-  const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
-  const spAddlInc = sumValues(spAddlIncome, 'amount');
-  const spSocialSecAmt = Number(socialSecurity.socialSecAmt ?? 0);
-  const spComp = Number(benefits.spouseBenefits.compensationAndPension ?? 0);
-  const spEdu = Number(benefits.spouseBenefits.education ?? 0);
-  const spBenefits = spComp + spEdu;
-  const spOtherAmt = spAddlInc + spBenefits + spSocialSecAmt;
-
   // deduction filters
   const taxFilters = ['State tax', 'Federal tax', 'Local tax'];
   const retirementFilters = ['401K', 'IRA', 'Pension'];
   const socialSecFilters = ['FICA (Social Security and Medicare)'];
   const allFilters = [...taxFilters, ...retirementFilters, ...socialSecFilters];
 
-  // veteran deductions
+  // veteran
+  const vetGrossSalary = sumValues(currEmployment, 'veteranGrossSalary');
+  const vetAddlInc = sumValues(addlIncRecords, 'amount');
+  const vetSocSecAmt = Number(socialSecurity.socialSecAmt ?? 0);
+  const vetComp = sumValues(income, 'compensationAndPension');
+  const vetEdu = sumValues(income, 'education');
+  const vetBenefits = vetComp + vetEdu;
   const vetDeductions = currEmployment?.map(emp => emp.deductions).flat() ?? 0;
   const vetTaxes = filterDeductions(vetDeductions, taxFilters);
   const vetRetirement = filterDeductions(vetDeductions, retirementFilters);
   const vetSocialSec = filterDeductions(vetDeductions, socialSecFilters);
-  const vetOtherDeductionsAmt = otherDeductionsAmt(vetDeductions, allFilters);
+  const vetOther = otherDeductionsAmt(vetDeductions, allFilters);
+  const vetTotDeductions = vetTaxes + vetRetirement + vetSocialSec + vetOther;
+  const vetOtherIncome = vetAddlInc + vetBenefits + vetSocSecAmt;
+  const vetNetIncome = vetGrossSalary - vetTotDeductions;
 
-  // spouse deductions
+  // spouse
+  const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
+  const spAddlInc = sumValues(spAddlIncome, 'amount');
+  const spSocialSecAmt = Number(socialSecurity.socialSecAmt ?? 0);
+  const spComp = Number(benefits.spouseBenefits.compensationAndPension ?? 0);
+  const spEdu = Number(benefits.spouseBenefits.education ?? 0);
+  const spBenefits = spComp + spEdu;
   const spDeductions = spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
   const spTaxes = filterDeductions(spDeductions, taxFilters);
   const spRetirement = filterDeductions(spDeductions, retirementFilters);
   const spSocialSec = filterDeductions(spDeductions, socialSecFilters);
-  const spOtherDeductionsAmt = otherDeductionsAmt(spDeductions, allFilters);
+  const spOtherAmt = otherDeductionsAmt(spDeductions, allFilters);
+  const spTotDeductions = spTaxes + spRetirement + spSocialSec + spOtherAmt;
+  const spOtherIncome = spAddlInc + spBenefits + spSocialSecAmt;
+  const spNetIncome = spGrossSalary - spTotDeductions;
 
-  const vetTotDeductions =
-    vetTaxes + vetRetirement + vetSocialSec + vetOtherDeductionsAmt;
-  const vetNetPay = vetGrossSalary - vetTotDeductions;
-
-  const spTotDeductions =
-    spTaxes + spRetirement + spSocialSec + spOtherDeductionsAmt;
-  const spNetPay = spGrossSalary - spTotDeductions;
-
-  return vetNetPay + vetOtherAmt + spNetPay + spOtherAmt;
+  return vetNetIncome + vetOtherIncome + spNetIncome + spOtherIncome;
 };
 
 export const getMonthlyExpenses = formData => {
