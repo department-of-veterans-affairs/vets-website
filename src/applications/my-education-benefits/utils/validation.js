@@ -1,4 +1,14 @@
-import { isValidPhone, isValidEmail } from 'platform/forms/validations';
+import { isValidEmail } from 'platform/forms/validations';
+
+function isValidPhone(value) {
+  let stripped;
+  try {
+    stripped = value.replace(/[^\d]/g, '');
+  } catch (err) {
+    stripped = value;
+  }
+  return /^\d{10}$/.test(stripped);
+}
 
 export const validatePhone = (errors, phone) => {
   if (phone && !isValidPhone(phone)) {
@@ -13,18 +23,3 @@ export const validateEmail = (errors, email) => {
     errors.addError('Please enter a valid email address.');
   }
 };
-
-export function validatePhoneErr(
-  errors,
-  phone,
-  formData,
-  schema,
-  errorMessages = {},
-) {
-  const {
-    phoneError = 'Please enter a 10-digit phone number (with or without dashes)',
-  } = errorMessages;
-  if (isValidPhone(phone)) {
-    errors.addError(phoneError);
-  }
-}
