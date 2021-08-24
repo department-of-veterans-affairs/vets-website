@@ -6,7 +6,6 @@ tmp/
 out/
 src/applications/vaos/docs/
 src/site/tests/html/
-.husky/_
 
 # Files to ignore
 ._*
