@@ -446,11 +446,11 @@ const formConfig = {
               confirmEmail: 'hector.stanley@gmail.com',
             },
             mobilePhoneNumber: {
-              phone: undefined,
+              phone: '123-456-7890',
               isInternational: true,
             },
             phoneNumber: {
-              phone: undefined,
+              phone: '098-765-4321',
               isInternational: false,
             },
           },
