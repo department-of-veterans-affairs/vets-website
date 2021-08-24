@@ -63,12 +63,6 @@ const SearchControls = props => {
     onChange({ serviceType });
   };
 
-  const handleServiceTypeBlur = e => {
-    // force redux state to register a change
-    onChange({ serviceType: ' ' });
-    handleServiceTypeChange(e);
-  };
-
   const handleSubmit = e => {
     e.preventDefault();
 
@@ -309,7 +303,6 @@ const SearchControls = props => {
         return (
           <ServiceTypeAhead
             handleServiceTypeChange={handleServiceTypeChange}
-            onBlur={handleServiceTypeBlur}
             initialSelectedServiceType={serviceType}
             showError={showError}
           />
