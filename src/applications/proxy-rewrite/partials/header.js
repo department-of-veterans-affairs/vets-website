@@ -89,9 +89,6 @@ export default `
     </div>
     <div id="login-root" class="vet-toolbar"></div>
   </div>
-  <!-- HACK: Using padding-h-none class to remove horizontal padding introduced
-  by usa-grid. Should be able to use usa-grid-full to remove padding, but that
-  class now hard-codes the width. -->
   <div class="vads-u-display--none medium-screen:vads-u-display--block usa-grid usa-grid-full">
     <div class="menu-rule" class="usa-one-whole"></div>
     <div class="mega-menu" id="mega-menu-desktop"></div>
