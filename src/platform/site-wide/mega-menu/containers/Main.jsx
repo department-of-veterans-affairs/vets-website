@@ -2,9 +2,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 // Relative imports.
 import MY_VA_LINK from '../constants/MY_VA_LINK';
 import MegaMenu from '../components/MegaMenu';
+import { megaMenuMobileV2Enabled } from '../selectors';
 import authenticatedUserLinkData from '../mega-menu-link-data-for-authenticated-users.json';
 import recordEvent from '../../../monitoring/record-event';
 import { isLoggedIn } from '../../../user/selectors';
@@ -63,6 +65,7 @@ export class Main extends Component {
     display: PropTypes.object,
     loggedIn: PropTypes.bool.isRequired,
     isMobile: PropTypes.bool,
+    isMegaMenuMobileV2Enabled: PropTypes.bool,
   };
 
   toggleDropDown = currentDropdown => {
@@ -107,8 +110,6 @@ export class Main extends Component {
   };
 
   render() {
-    this.mobileMediaQuery = window.matchMedia('(max-width: 767px)');
-
     const childProps = {
       ...this.props,
       toggleDisplayHidden: this.toggleDisplayHidden,
@@ -117,13 +118,18 @@ export class Main extends Component {
       linkClicked: this.linkClicked,
       columnThreeLinkClicked: this.columnThreeLinkClicked,
     };
+    const { isMegaMenuMobileV2Enabled, isMobile } = this.props;
 
-    if (this.props.isMobile && !this.mobileMediaQuery.matches) {
-      return null;
-    }
+    this.mobileMediaQuery = window.matchMedia('(max-width: 767px)');
 
-    if (!this.props.isMobile && this.mobileMediaQuery.matches) {
-      return null;
+    if (isMegaMenuMobileV2Enabled) {
+      if (isMobile && !this.mobileMediaQuery.matches) {
+        return null;
+      }
+
+      if (!isMobile && this.mobileMediaQuery.matches) {
+        return null;
+      }
     }
 
     return <MegaMenu {...childProps} />;
@@ -148,6 +154,7 @@ const mapStateToProps = (state, ownProps) => {
     data,
     display: state.megaMenu?.display,
     loggedIn,
+    isMegaMenuMobileV2Enabled: megaMenuMobileV2Enabled(state),
   };
 };
 
