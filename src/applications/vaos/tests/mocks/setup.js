@@ -49,6 +49,7 @@ import {
 } from './helpers.v2';
 import { getV2FacilityMock } from './v2';
 import { TYPES_OF_CARE } from '../../utils/constants';
+import userEvent from '@testing-library/user-event';
 
 /**
  * Creates a Redux store when the VAOS reducers loaded and the thunk middleware applied
@@ -564,4 +565,46 @@ export async function setCommunityCareFlow({
   await setTypeOfFacility(store, /Community Care/i);
 
   return store;
+}
+
+/**
+ * Chooses the first valid morning request slot available, moving
+ * to the next month if necessary
+ *
+ * @export
+ * @param {Object} screen Screen object returned from render helper
+ */
+export async function chooseMorningRequestSlot(screen) {
+  let currentMonth = moment()
+    .add(5, 'days')
+    .format('MMMM');
+
+  let buttons = screen
+    .getAllByLabelText(new RegExp(currentMonth))
+    .filter(button => button.disabled === false);
+
+  // Towards the end of the month our 4 days out min date will be in the next
+  // month, and we need to move the calendar to the next month before selecting a date
+  if (!buttons.length) {
+    userEvent.click(screen.getByText('Next'));
+    await screen.findByRole('heading', {
+      name: moment()
+        .add(1, 'month')
+        .format('MMMM YYYY'),
+    });
+    currentMonth = moment()
+      .add(1, 'month')
+      .format('MMMM');
+
+    buttons = screen
+      .getAllByLabelText(new RegExp(currentMonth))
+      .filter(button => button.disabled === false);
+  }
+
+  userEvent.click(buttons[0]);
+
+  const checkbox = screen.getByRole('checkbox', {
+    name: 'AM appointment',
+  });
+  userEvent.click(checkbox);
 }

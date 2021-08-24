@@ -3,6 +3,7 @@ import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import {
+  chooseMorningRequestSlot,
   createTestStore,
   renderWithStoreAndRouter,
   setCommunityCareFlow,
@@ -476,39 +477,8 @@ describe('VAOS <DateTimeRequestPage>', () => {
         }),
       ).to.be.ok;
 
-      let currentMonth = moment()
-        .add(5, 'days')
-        .format('MMMM');
-
-      let buttons = screen
-        .getAllByLabelText(new RegExp(currentMonth))
-        .filter(button => button.disabled === false);
-
-      // Towards the end of the month our 4 days out min date will be in the next
-      // month, and we need to move the calendar to the next month before selecting a date
-      if (!buttons.length) {
-        userEvent.click(screen.getByText('Next'));
-        await screen.findByRole('heading', {
-          name: moment()
-            .add(1, 'month')
-            .format('MMMM YYYY'),
-        });
-        currentMonth = moment()
-          .add(1, 'month')
-          .format('MMMM');
-
-        buttons = screen
-          .getAllByLabelText(new RegExp(currentMonth))
-          .filter(button => button.disabled === false);
-      }
-
       // And the user has chosen a time slot
-      userEvent.click(buttons[0]);
-
-      const checkbox = screen.getByRole('checkbox', {
-        name: 'AM appointment',
-      });
-      userEvent.click(checkbox);
+      await chooseMorningRequestSlot(screen);
 
       // When the user continues
       userEvent.click(screen.getByText(/^Continue/));
@@ -543,38 +513,8 @@ describe('VAOS <DateTimeRequestPage>', () => {
         }),
       ).to.be.ok;
 
-      let currentMonth = moment()
-        .add(5, 'days')
-        .format('MMMM');
-
-      let buttons = screen
-        .getAllByLabelText(new RegExp(currentMonth))
-        .filter(button => button.disabled === false);
-
-      // Towards the end of the month our 4 days out min date will be in the next
-      // month, and we need to move the calendar to the next month before selecting a date
-      if (!buttons.length) {
-        userEvent.click(screen.getByText('Next'));
-        await screen.findByRole('heading', {
-          name: moment()
-            .add(1, 'month')
-            .format('MMMM YYYY'),
-        });
-        currentMonth = moment()
-          .add(1, 'month')
-          .format('MMMM');
-
-        buttons = screen
-          .getAllByLabelText(new RegExp(currentMonth))
-          .filter(button => button.disabled === false);
-      }
-
       // And the user has chosen a time slot
-      userEvent.click(buttons[0]);
-      const checkbox = screen.getByRole('checkbox', {
-        name: 'AM appointment',
-      });
-      userEvent.click(checkbox);
+      await chooseMorningRequestSlot(screen);
 
       // When the user continues
       userEvent.click(screen.getByText(/^Continue/));
