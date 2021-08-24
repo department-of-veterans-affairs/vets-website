@@ -205,16 +205,13 @@ export function selectProviderSelectionInfo(state) {
   } = getNewAppointment(state);
 
   const typeOfCare = getTypeOfCare(data);
-  const parentFacilitiesCityState = ccEnabledSystems.map(
-    facility => `${facility.address?.city}, ${facility.address?.state}`,
-  );
 
   return {
     address: selectVAPResidentialAddress(state),
+    ccEnabledSystems,
     communityCareProviderList:
       communityCareProviders[`${sortMethod}_${typeOfCare.ccId}`],
     currentLocation,
-    parentFacilitiesCityState,
     requestLocationStatus,
     requestStatus,
     showCCIterations,

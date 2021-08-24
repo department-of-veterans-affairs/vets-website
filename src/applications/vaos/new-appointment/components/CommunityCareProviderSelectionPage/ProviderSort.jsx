@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import Select from '@department-of-veterans-affairs/component-library/Select';
 import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
 import { selectProviderSelectionInfo } from '../../redux/selectors';
 import {
@@ -20,9 +21,9 @@ export default function ProviderSort({
   const dispatch = useDispatch();
   const {
     address,
+    ccEnabledSystems,
     communityCareProviderList,
     currentLocation,
-    parentFacilitiesCityState,
     sortMethod,
   } = useSelector(selectProviderSelectionInfo, shallowEqual);
 
@@ -52,7 +53,12 @@ export default function ProviderSort({
       value: FACILITY_SORT_METHODS.distanceFromCurrentLocation,
       label: 'Your current location',
     },
-    // rest of parent facilities
+    ...ccEnabledSystems.map(facility => {
+      return {
+        value: FACILITY_SORT_METHODS.distanceFromFacility,
+        label: `${facility.address?.city}, ${facility.address?.state}`,
+      };
+    }),
   ];
 
   const showSortByDistanceFromResidential =
@@ -61,15 +67,16 @@ export default function ProviderSort({
     requestLocationStatus === FETCH_STATUS.failed;
   return (
     <>
-      <va-select label="Show providers closest to" name="sort">
-        {sortOptions.map(option => {
-          return (
-            <option key={option.label} value={option.value}>
-              {option.label}
-            </option>
-          );
-        })}
-      </va-select>
+      <Select
+        label="Show providers closest to"
+        name="sort"
+        onValueChange={type => {
+          dispatch(updateCCProviderSortMethod(type.value));
+        }}
+        options={sortOptions}
+        value={{ dirty: false, value: sortMethod }}
+        includeBlankOption={false}
+      />
       {showSortByDistanceFromResidential && (
         <>
           {!requestLocationStatusFailed && (
