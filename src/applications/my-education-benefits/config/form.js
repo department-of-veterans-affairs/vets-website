@@ -631,10 +631,10 @@ const formConfig = {
                 ...address.schema(fullSchema, true),
                 properties: {
                   ...address.schema(fullSchema, true).properties,
-                  livesOnMilitaryBaseInfo: {
+                  livesOnMilitaryBase: {
                     type: 'boolean',
                   },
-                  additionalInformation: {
+                  livesOnMilitaryBaseInfo: {
                     type: 'object',
                     properties: {},
                   },
