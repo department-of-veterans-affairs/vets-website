@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import BalanceQuestions from '../components/BalanceQuestions';
+import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import FinancialHelp from '../components/FinancialHelp';
@@ -41,7 +42,7 @@ const DetailPage = () => {
         </p>
         <p>
           <a className="vads-c-action-link--blue" href="#">
-            Pay full balance
+            Learn how to pay your copay bill
           </a>
         </p>
         <p>
@@ -49,10 +50,21 @@ const DetailPage = () => {
             Request help with your bill
           </a>
         </p>
+        <h4>What if I’ve already requested financial help with my bill?</h4>
+        <p>
+          You may need to continue making payments while we review your request.
+          Call us at
+          <Telephone
+            contact={'866-400-1238'}
+            className="vads-u-margin-x--0p5"
+          />
+          , Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+        </p>
       </va-alert>
       <va-on-this-page />
       <HowToPay />
       <FinancialHelp />
+      <DisputeCharges />
       <BalanceQuestions
         contact={
           <span>
