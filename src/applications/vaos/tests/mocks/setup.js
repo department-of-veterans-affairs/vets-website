@@ -30,6 +30,7 @@ import {
   getVAFacilityMock,
 } from './v0';
 import {
+  mockCommunityCareEligibility,
   mockDirectBookingEligibilityCriteria,
   mockFacilitiesFetch,
   mockParentSites,
@@ -42,6 +43,12 @@ import TypeOfFacilityPage from '../../new-appointment/components/TypeOfFacilityP
 import VAFacilityPageV2 from '../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
 import VaccineFacilityPage from '../../covid-19-vaccine/components/VAFacilityPage';
 import { TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
+import {
+  mockV2CommunityCareEligibility,
+  mockVAOSParentSites,
+} from './helpers.v2';
+import { getV2FacilityMock } from './v2';
+import { TYPES_OF_CARE } from '../../utils/constants';
 
 /**
  * Creates a Redux store when the VAOS reducers loaded and the thunk middleware applied
@@ -473,4 +480,61 @@ export async function setPreferredDate(store, preferredDate) {
   await cleanup();
 
   return screen.history.push.firstCall.args[0];
+}
+
+export async function setCommunityCareFlow({
+  toggles = {},
+  registeredSites,
+  parentSites,
+  supportedSites,
+  typeOfCareId = 'primaryCare',
+}) {
+  const typeOfCare = TYPES_OF_CARE.find(care => care.idV2 === typeOfCareId);
+  const useV2 = toggles.vaOnlineSchedulingFacilitiesServiceV2;
+  const store = createTestStore({
+    featureToggles: {
+      vaOnlineSchedulingCommunityCare: true,
+      ...toggles,
+    },
+    user: {
+      profile: {
+        facilities: registeredSites.map(id => ({
+          facilityId: id,
+          isCerner: false,
+        })),
+      },
+    },
+  });
+  if (useV2) {
+    mockVAOSParentSites(
+      registeredSites,
+      parentSites.map(data => getV2FacilityMock({ ...data, isParent: true })),
+      true,
+    );
+    mockV2CommunityCareEligibility({
+      parentSites: parentSites.map(data => data.id),
+      supportedSites,
+      careType: typeOfCare.cceType,
+    });
+  } else {
+    mockParentSites(
+      registeredSites,
+      parentSites.map(data =>
+        getParentSiteMock({
+          ...data,
+          city: data.address?.city,
+          state: data.address?.state,
+        }),
+      ),
+    );
+    mockCommunityCareEligibility({
+      parentSites: parentSites.map(data => data.id),
+      supportedSites,
+      careType: typeOfCare.cceType,
+    });
+  }
+  await setTypeOfCare(store, new RegExp(typeOfCare.name));
+  await setTypeOfFacility(store, /Community Care/i);
+
+  return store;
 }

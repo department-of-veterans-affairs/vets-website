@@ -5,6 +5,7 @@ import moment from 'moment';
 import {
   createTestStore,
   renderWithStoreAndRouter,
+  setCommunityCareFlow,
 } from '../../../mocks/setup';
 import userEvent from '@testing-library/user-event';
 
@@ -13,7 +14,6 @@ import { FETCH_STATUS } from '../../../../utils/constants';
 import { waitFor, within } from '@testing-library/dom';
 import { Route } from 'react-router-dom';
 import { mockFetch } from 'platform/testing/unit/helpers';
-import { mockCommunityCareFlow } from '../../../mocks/fetch';
 
 describe('VAOS <DateTimeRequestPage>', () => {
   beforeEach(() => {
@@ -458,7 +458,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       // Given the CC iterations toggle is turned on
       // And the user has two or more supported parent sites
       // And the user is in the community care flow
-      const store = await mockCommunityCareFlow({
+      const store = await setCommunityCareFlow({
         toggles,
         registeredSites: ['983'],
         parentSites: [{ id: '983' }, { id: '983GC' }],
@@ -526,7 +526,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       // Given the CC iterations toggle is turned on
       // And the user has one supported parent site
       // And the user is in the community care flow
-      const store = await mockCommunityCareFlow({
+      const store = await setCommunityCareFlow({
         toggles,
         registeredSites: ['983'],
         parentSites: [{ id: '983' }, { id: '983GC' }],

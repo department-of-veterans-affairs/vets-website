@@ -1,12 +1,14 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderWithStoreAndRouter } from '../../mocks/setup';
+import {
+  renderWithStoreAndRouter,
+  setCommunityCareFlow,
+} from '../../mocks/setup';
 import userEvent from '@testing-library/user-event';
 
 import ClosestCityStatePage from '../../../new-appointment/components/ClosestCityStatePage';
 import { waitFor } from '@testing-library/dom';
 import { mockFetch } from 'platform/testing/unit/helpers';
-import { mockCommunityCareFlow } from '../../mocks/fetch';
 
 describe('VAOS <ClosestCityStatePage>', () => {
   beforeEach(() => mockFetch());
@@ -16,7 +18,7 @@ describe('VAOS <ClosestCityStatePage>', () => {
 
   it('should show supported parent sites', async () => {
     // Given the user has two supported parent sites
-    const store = await mockCommunityCareFlow({
+    const store = await setCommunityCareFlow({
       toggles,
       registeredSites: ['983'],
       parentSites: [
@@ -48,7 +50,7 @@ describe('VAOS <ClosestCityStatePage>', () => {
 
   it('should not submit without choosing a site', async () => {
     // Given the user has two supported parent sites
-    const store = await mockCommunityCareFlow({
+    const store = await setCommunityCareFlow({
       toggles,
       registeredSites: ['983'],
       parentSites: [
@@ -80,7 +82,7 @@ describe('VAOS <ClosestCityStatePage>', () => {
 
   it('should continue to preferences page', async () => {
     // Given the user has two supported parent sites
-    const store = await mockCommunityCareFlow({
+    const store = await setCommunityCareFlow({
       toggles,
       registeredSites: ['983'],
       parentSites: [
