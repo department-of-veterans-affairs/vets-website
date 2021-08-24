@@ -143,13 +143,13 @@ function phoneUISchema(category) {
 function phoneSchema() {
   return {
     type: 'object',
+    required: ['phone'],
     properties: {
       isInternational: {
         type: 'boolean',
       },
       phone: {
         ...usaPhone,
-        required: ['phone'],
         pattern: '^\\d[-]?\\d(?:[0-9-]*\\d)?$',
       },
     },
