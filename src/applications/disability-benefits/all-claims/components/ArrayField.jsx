@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import cloneDeep from 'platform/utilities/data/cloneDeep';
 import set from 'platform/utilities/data/set';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
@@ -94,8 +93,7 @@ export default class ArrayField extends React.Component {
   };
 
   onItemChange = (indexToChange, value) => {
-    const newItems = cloneDeep(this.props.formData || []);
-    newItems[indexToChange] = value;
+    const newItems = set(indexToChange, value, this.props.formData || []);
     this.props.onChange(newItems);
   };
 
