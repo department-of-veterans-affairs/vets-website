@@ -2,13 +2,22 @@ import {
   DEFAULT_LANGUAGE,
   TRANSLATED_LANGUAGES,
   ALL_LANGUAGES,
+  PATHNAME_DICT,
 } from './constants';
+
+export function stripTrailingSlash(str) {
+  return str.endsWith('/') ? str.slice(0, -1) : str;
+}
 
 export const getConfigFromLanguageCode = languageCode => {
   return (
     ALL_LANGUAGES.find(language => language.code === languageCode) ||
     DEFAULT_LANGUAGE
   );
+};
+
+export const getPageTypeFromPathname = pathname => {
+  return PATHNAME_DICT?.[stripTrailingSlash(pathname)]?.pageType ?? null;
 };
 
 const getLinksInSelector = selector => {
@@ -50,10 +59,10 @@ export const getConfigFromUrl = (url, languages) => {
 
     const parsedUrlPatternResults = [
       ...included.map(
-        includedTerm => includedTerm && url && url.includes(includedTerm),
+        includedTerm => includedTerm && url?.includes(includedTerm),
       ),
       ...suffixed.map(
-        suffixedTerm => suffixedTerm && url && url.endsWith(suffixedTerm),
+        suffixedTerm => suffixedTerm && url?.endsWith(suffixedTerm),
       ),
     ];
 
