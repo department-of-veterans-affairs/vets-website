@@ -62,10 +62,12 @@ describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI', ()
       'v0/feature_toggles*',
     ]);
   });
-  it('should only have access to the Account Security section at desktop size', () => {
-    test();
-  });
-  it('should only have access to the Account Security section at mobile size', () => {
-    test(true);
-  });
+  for (let i = 0; i < 20; i++) {
+    it('should only have access to the Account Security section at desktop size', () => {
+      test();
+    });
+    it('should only have access to the Account Security section at mobile size', () => {
+      test(true);
+    });
+  }
 });
