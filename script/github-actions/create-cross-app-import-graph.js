@@ -184,9 +184,6 @@ function shouldRebuildGraph(diff) {
       for (let j = 0; j < importRelPaths.length; j += 1) {
         const importPath = getImportPath(filePathAsArray, importRelPaths[j]);
 
-        // check to see if files imported is
-        // 1) in another application
-        // 2) the file name is in the diff
         if (
           importIsFromOtherApplication(appName, importPath) &&
           diffIncludesImportedFilename(srcApplicationFileDiff, importPath)
@@ -228,30 +225,6 @@ function buildGraph(graph) {
         graph[appName].push(importAppName);
         graph[importAppName].push(appName);
       }
-
-      // if (importRelPath.startsWith('../')) {
-      //   const numDirsUp = importRelPath.split('/').filter(str => str === '..')
-      //     .length;
-      //   const importPath = importRelPath.replace(
-      //     '../'.repeat(numDirsUp),
-      //     `${filePathAsArray
-      //       .slice(0, filePathAsArray.length - 1 - numDirsUp)
-      //       .join('/')}/`,
-      //   );
-
-      //   if (
-      //     importPath.startsWith('src/applications') &&
-      //     !importPath.startsWith(`src/applications/${appName}`)
-      //   ) {
-      //     const importAppName = getAppNameFromFilePath(importPath);
-
-      //     // eslint-disable-next-line no-param-reassign
-      //     if (!graph[importAppName]) graph[importAppName] = [importAppName];
-
-      //     graph[appName].push(importAppName);
-      //     graph[importAppName].push(appName);
-      //   }
-      // }
     });
   });
 }
