@@ -24,6 +24,7 @@ export default function ProviderSort({
     ccEnabledSystems,
     communityCareProviderList,
     currentLocation,
+    showCCIterations,
     sortMethod,
   } = useSelector(selectProviderSelectionInfo, shallowEqual);
 
@@ -57,6 +58,7 @@ export default function ProviderSort({
       return {
         value: FACILITY_SORT_METHODS.distanceFromFacility,
         label: `${facility.address?.city}, ${facility.address?.state}`,
+        location: facility.position,
       };
     }),
   ];
@@ -67,16 +69,18 @@ export default function ProviderSort({
     requestLocationStatus === FETCH_STATUS.failed;
   return (
     <>
-      <Select
-        label="Show providers closest to"
-        name="sort"
-        onValueChange={type => {
-          dispatch(updateCCProviderSortMethod(type.value));
-        }}
-        options={sortOptions}
-        value={{ dirty: false, value: sortMethod }}
-        includeBlankOption={false}
-      />
+      {showCCIterations && (
+        <Select
+          label="Show providers closest to"
+          name="sort"
+          onValueChange={option => {
+            dispatch(updateCCProviderSortMethod(option.value, option.location));
+          }}
+          options={sortOptions}
+          value={{ dirty: false, value: sortMethod }}
+          includeBlankOption={false}
+        />
+      )}
       {showSortByDistanceFromResidential && (
         <>
           {!requestLocationStatusFailed && (

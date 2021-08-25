@@ -441,6 +441,12 @@ export function updateCCProviderSortMethod(sortMethod) {
           type: FORM_REQUEST_CURRENT_LOCATION_FAILED,
         });
       }
+    } else if (sortMethod.position) {
+      dispatch({
+        ...action,
+        location: sortMethod.position,
+        sortMethod: FACILITY_SORT_METHODS.distanceFromFacility,
+      });
     } else {
       dispatch(action);
     }

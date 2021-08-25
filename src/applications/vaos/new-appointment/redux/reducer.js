@@ -370,7 +370,6 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED: {
       let requestLocationStatus = state.requestLocationStatus;
-
       requestLocationStatus = FETCH_STATUS.succeeded;
 
       if (
@@ -381,6 +380,18 @@ export default function formReducer(state = initialState, action) {
           currentLocation: {
             latitude: action.location?.coords.latitude,
             longitude: action.location?.coords.longitude,
+          },
+          ccProviderPageSortMethod: action.sortMethod,
+          requestLocationStatus,
+        };
+      } else if (
+        action.sortMethod === FACILITY_SORT_METHODS.distanceFromFacility
+      ) {
+        return {
+          ...state,
+          currentLocation: {
+            latitude: action.location?.latitude,
+            longitude: action.location?.longitude,
           },
           ccProviderPageSortMethod: action.sortMethod,
           requestLocationStatus,
