@@ -66,13 +66,13 @@ function sliceDiffIntoDiffForEachChangedFile(diff) {
 
   for (let i = 0; i <= diff.length; i += 1) {
     if (
-      startOfDiffIndex === null &&
+      !startOfDiffIndex &&
       diff[i] === startOfChange[0] &&
       diff.slice(i, i + startOfChange.length) === startOfChange
     ) {
       startOfDiffIndex = i;
     } else if (
-      startOfDiffIndex !== null &&
+      startOfDiffIndex &&
       endOfChange &&
       diff[i] === endOfChange[0] &&
       diff.slice(i, i + endOfChange.length) === endOfChange
@@ -80,9 +80,27 @@ function sliceDiffIntoDiffForEachChangedFile(diff) {
       diffForEachChangedFile.push(diff.slice(startOfDiffIndex, i));
       i -= 1; // reduce i by 1 so the next iteration picks up the beginning of this diff
       startOfDiffIndex = null;
-    } else if (startOfDiffIndex !== null && i === diff.length - 1) {
+    } else if (startOfDiffIndex && i === diff.length - 1) {
       diffForEachChangedFile.push(diff.slice(startOfDiffIndex));
     }
+    // if (
+    //   startOfDiffIndex === null &&
+    //   diff[i] === startOfChange[0] &&
+    //   diff.slice(i, i + startOfChange.length) === startOfChange
+    // ) {
+    //   startOfDiffIndex = i;
+    // } else if (
+    //   startOfDiffIndex !== null &&
+    //   endOfChange &&
+    //   diff[i] === endOfChange[0] &&
+    //   diff.slice(i, i + endOfChange.length) === endOfChange
+    // ) {
+    //   diffForEachChangedFile.push(diff.slice(startOfDiffIndex, i));
+    //   i -= 1; // reduce i by 1 so the next iteration picks up the beginning of this diff
+    //   startOfDiffIndex = null;
+    // } else if (startOfDiffIndex !== null && i === diff.length - 1) {
+    //   diffForEachChangedFile.push(diff.slice(startOfDiffIndex));
+    // }
   }
 
   // eslint-disable-next-line no-console
