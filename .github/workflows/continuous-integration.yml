@@ -21,7 +21,7 @@ jobs:
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
-      NEXUS_REGISTRY: https://devops.va.gov/dots-nexus/repository/npmjs.org-proxy/
+      NEXUS_REGISTRY: https://devops.va.gov/dots-nexus/repository/npm-public/
 
     strategy:
       fail-fast: false
