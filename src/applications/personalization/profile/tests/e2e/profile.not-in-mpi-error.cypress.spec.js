@@ -1,5 +1,6 @@
 import { PROFILE_PATHS } from '../../constants';
 
+import Timeouts from 'platform/testing/e2e/timeouts';
 import mockUserNotInMPI from '../fixtures/users/user-not-in-mpi.json';
 
 import {
@@ -23,7 +24,9 @@ function test(mobile = false) {
   cy.findByText(/loading your information/i).should('exist');
 
   // and then the loading indicator should be removed
-  cy.findByRole('progressbar').should('not.exist');
+  cy.get('.loading-indicator-container', { timeout: Timeouts.slow }).should(
+    'not.exist',
+  );
   cy.findByText(/loading your information/i).should('not.exist');
 
   // should redirect to profile/account-security on load
