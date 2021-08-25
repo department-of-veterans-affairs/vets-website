@@ -77,7 +77,7 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
   const isSavingEDUBankInfo = eduUiState.isSaving;
   const wasSavingEDUBankInfo = usePrevious(eduUiState.isSaving);
   const eduSaveError = eduUiState.responseError;
-  const showSetUp2FactorAuthentication = !isVerifiedUser;
+  const showBankInformation = isVerifiedUser;
 
   const bankInfoUpdatedAlertSettings = {
     FADE_SPEED: window.Cypress ? 1 : 500,
@@ -156,8 +156,7 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
         </ReactCSSTransitionGroup>
       </div>
 
-      {showSetUp2FactorAuthentication && <SetUpVerifiedIDMeAlert />}
-      {!showSetUp2FactorAuthentication && (
+      {showBankInformation ? (
         <DowntimeNotification
           appTitle="direct deposit"
           render={handleDowntimeForSection(
@@ -167,14 +166,16 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
         >
           <BankInfoCNP />
         </DowntimeNotification>
+      ) : (
+        <SetUpVerifiedIDMeAlert />
       )}
       <FraudVictimAlert status={ALERT_TYPE.INFO} />
-      {!showSetUp2FactorAuthentication && (
+      {showBankInformation ? (
         <>
           <BankInfoEDU />
           <PaymentHistory />
         </>
-      )}
+      ) : null}
     </>
   );
 };
