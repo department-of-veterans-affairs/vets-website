@@ -438,7 +438,7 @@ jobs:
       # make sure this works on new branches, first commit
       - name: Diff recent commit
         id: git-diff
-        run: echo ::set-output name=DIFF_RESULTS::$(git diff ${{ github.event.before }} ${{ github.event.after }} --unified=0)
+        run: echo ::set-output name=DIFF_RESULTS::$(git diff ${{ github.event.before }} ${{ github.event.after }} porcelain --unified=0)
         # run: echo ::set-output name=DIFF_RESULTS::$(git diff $(git rev-parse @~)..$(git rev-parse @) --unified=0)
 
 
