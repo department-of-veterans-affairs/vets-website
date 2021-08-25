@@ -1,7 +1,16 @@
 {
   "recommendations": [
+    "davidanson.vscode-markdownlint",
     "dbaeumer.vscode-eslint",
+    "eamodio.gitlens",
+    "esbenp.prettier-vscode",
+    "github.vscode-pull-request-github",
+    "ms-vsliveshare.vsliveshare",
+    "ms-vsliveshare.vsliveshare-pack",
+    "redhat.vscode-yaml",
     "stylelint.vscode-stylelint",
-    "msjsdiag.debugger-for-chrome"
+    "tyriar.sort-lines",
+    "visualstudioexptteam.vscodeintellicode",
+    "wayou.vscode-todo-highlight"
   ]
 }

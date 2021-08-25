@@ -18,8 +18,8 @@ printf "\n\n#####" Installing dependencies #####\n""
 yarn install
 
 # download content repo
-printf "\n\n##### Downloading content repo #####\n"
-yarn install-repos
+# printf "\n\n##### Downloading content repo #####\n"
+# yarn install-repos
 
 # build content
 # yarn build
