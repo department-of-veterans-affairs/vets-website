@@ -267,7 +267,7 @@ class FileField extends React.Component {
       (enableShortWorkflow &&
         !files.some((file, index) => {
           const errors =
-            errorSchema[index].__errors ||
+            errorSchema?.[index]?.__errors ||
             [file.errorMessage].filter(error => error);
 
           return errors.length > 0;
@@ -283,7 +283,7 @@ class FileField extends React.Component {
           <ul className="schemaform-file-list">
             {files.map((file, index) => {
               const errors =
-                errorSchema[index].__errors ||
+                errorSchema?.[index]?.__errors ||
                 [file.errorMessage].filter(error => error);
               const hasErrors = errors.length > 0;
               const itemClasses = classNames('va-growable-background', {
