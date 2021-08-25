@@ -329,7 +329,7 @@
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#c53691977e6fd6ea717ceb0c4c2bc740f477168b",
-    "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.9.3",
+    "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.9.4",
     "whatwg-fetch": "^3.6.2"
   },
   "resolutions": {
