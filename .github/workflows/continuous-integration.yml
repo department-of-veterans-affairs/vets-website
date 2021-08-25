@@ -81,11 +81,11 @@ jobs:
           npm config set email va-vsp-bot-1@va.gov
           npm config set always-auth true
 
-      # - name: Set yarn registry to DOT NEXUS
-      #   run: yarn config set registry ${{ env.NEXUS_REGISTRY }}
+      - name: Set yarn registry to DOT NEXUS
+        run: yarn config set registry ${{ env.NEXUS_REGISTRY }}
 
-      # - name: Verify registry for yarn
-      #   run: yarn config get registry
+      - name: Verify registry for yarn
+        run: yarn config get registry
 
       - name: Install dependencies
         run: yarn install --verbose
