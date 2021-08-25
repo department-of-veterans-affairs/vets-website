@@ -19,6 +19,7 @@ export default function InstitutionProfile({
   preSelectedProgram,
   selectedProgram,
   compare,
+  smallScreen,
 }) {
   const program =
     selectedProgram ||
@@ -132,6 +133,7 @@ export default function InstitutionProfile({
         parentId={institutionProfileId}
         profilePageHeaderId={profilePageHeaderId}
         compare={compare}
+        smallScreen={smallScreen}
       />
     </div>
   );

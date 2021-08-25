@@ -35,7 +35,7 @@ export default function ConfirmationRequestInfo({
   data,
   facilityDetails,
   pageTitle,
-  useProviderSelection,
+  hasResidentialAddress,
 }) {
   const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
   const isVideoVisit = data.visitType === 'telehealth';
@@ -79,8 +79,8 @@ export default function ConfirmationRequestInfo({
           <div className="vads-u-flex--1 vads-u-margin-right--1 vads-u-margin-top--2 vaos-u-word-break--break-word">
             <div className="vads-u-margin--0">
               {isCommunityCare &&
-                ((!useProviderSelection && !data.hasCommunityCareProvider) ||
-                  (useProviderSelection && !hasSelectedProvider)) && (
+                ((!hasResidentialAddress && !data.hasCommunityCareProvider) ||
+                  (hasResidentialAddress && !hasSelectedProvider)) && (
                   <>
                     <h3 className="vaos-appts__block-label">
                       <strong>Preferred provider</strong>
@@ -94,7 +94,7 @@ export default function ConfirmationRequestInfo({
                   </>
                 )}
               {isCommunityCare &&
-                !useProviderSelection &&
+                !hasResidentialAddress &&
                 data.hasCommunityCareProvider && (
                   <>
                     <h3 className="vaos-appts__block-label">
@@ -130,42 +130,39 @@ export default function ConfirmationRequestInfo({
                     </div>
                   </>
                 )}
-              {isCommunityCare &&
-                useProviderSelection &&
-                hasSelectedProvider && (
-                  <>
-                    <h3 className="vaos-appts__block-label">
-                      <strong>Preferred provider</strong>
-                    </h3>
-                    <div>
-                      {data.communityCareProvider.name}
-                      <br />
-                      {data.communityCareProvider.address.line.map(
-                        (line, index) => (
-                          <React.Fragment key={index}>
-                            {line}
-                            <br />
-                          </React.Fragment>
-                        ),
-                      )}
-                      {data.communityCareProvider.address.city},{' '}
-                      <State state={data.communityCareProvider.address.state} />{' '}
-                      {data.communityCareProvider.address.postalCode}
-                      <br />
-                    </div>
-                  </>
-                )}
-              {!isCommunityCare &&
-                !!facilityDetails && (
-                  <>
-                    <h3 className="vaos-appts__block-label">
-                      <strong>{facilityDetails.name}</strong>
-                    </h3>
-                    <div>
-                      <FacilityAddress facility={facilityDetails} level={3} />
-                    </div>
-                  </>
-                )}
+              {isCommunityCare && hasResidentialAddress && hasSelectedProvider && (
+                <>
+                  <h3 className="vaos-appts__block-label">
+                    <strong>Preferred provider</strong>
+                  </h3>
+                  <div>
+                    {data.communityCareProvider.name}
+                    <br />
+                    {data.communityCareProvider.address.line.map(
+                      (line, index) => (
+                        <React.Fragment key={index}>
+                          {line}
+                          <br />
+                        </React.Fragment>
+                      ),
+                    )}
+                    {data.communityCareProvider.address.city},{' '}
+                    <State state={data.communityCareProvider.address.state} />{' '}
+                    {data.communityCareProvider.address.postalCode}
+                    <br />
+                  </div>
+                </>
+              )}
+              {!isCommunityCare && !!facilityDetails && (
+                <>
+                  <h3 className="vaos-appts__block-label">
+                    <strong>{facilityDetails.name}</strong>
+                  </h3>
+                  <div>
+                    <FacilityAddress facility={facilityDetails} level={3} />
+                  </div>
+                </>
+              )}
             </div>
           </div>
           <div className="vads-u-flex--1 vads-u-margin-top--2 vads-u-margin-right--1 vaos-u-word-break--break-word">

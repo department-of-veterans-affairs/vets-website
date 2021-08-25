@@ -108,12 +108,10 @@ export function fetchAppealsSuccess(response) {
 export function getAppealsV2() {
   return dispatch => {
     dispatch({ type: FETCH_APPEALS_PENDING });
-    return apiRequest(
-      '/appeals',
-      null,
-      appeals => dispatch(fetchAppealsSuccess(appeals)),
-      response => {
-        const status = getErrorStatus(response);
+    return apiRequest('/appeals')
+      .then(appeals => dispatch(fetchAppealsSuccess(appeals)))
+      .catch(error => {
+        const status = getErrorStatus(error);
         const action = { type: '' };
         switch (status) {
           case '403':
@@ -137,8 +135,7 @@ export function getAppealsV2() {
           Sentry.captureException(`vets_appeals_v2_err_get_appeals ${status}`);
         });
         return dispatch(action);
-      },
-    );
+      });
   };
 }
 
@@ -444,9 +441,7 @@ export function submitFiles(claimId, trackedItem, files) {
         const { FineUploaderBasic } = require('fine-uploader/lib/core');
         const uploader = new FineUploaderBasic({
           request: {
-            endpoint: `${
-              environment.API_URL
-            }/v0/evss_claims/${claimId}/documents`,
+            endpoint: `${environment.API_URL}/v0/evss_claims/${claimId}/documents`,
             inputName: 'file',
             customHeaders: {
               'X-Key-Inflection': 'camel',

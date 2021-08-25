@@ -23,6 +23,9 @@ export const uiSchema = {
       },
       middle: {
         'ui:title': 'Spouse’s middle name',
+        'ui:options': {
+          hideEmptyValueInReview: true,
+        },
       },
       last: {
         'ui:required': formData =>
@@ -34,6 +37,7 @@ export const uiSchema = {
         'ui:title': 'Spouse’s suffix',
         'ui:options': {
           widgetClassNames: 'form-select-medium',
+          hideEmptyValueInReview: true,
         },
       },
     },
@@ -63,6 +67,7 @@ export const uiSchema = {
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
         expandUnder: 'isVeteran',
+        hideEmptyValueInReview: true,
       },
     },
     serviceNumber: {
@@ -71,6 +76,7 @@ export const uiSchema = {
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
         expandUnder: 'isVeteran',
+        hideEmptyValueInReview: true,
       },
     },
   },

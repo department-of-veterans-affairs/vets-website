@@ -80,20 +80,17 @@ export default function FormNav(props) {
   // we want to force react to remove the <h2> and re-render it. This should
   // ensure that VoiceOver on iOS will pick up on the new <h2>
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/12323
-  useEffect(
-    () => {
-      if (current > index + 1) {
-        setIndex(index + 1);
-      } else if (current === index) {
-        setIndex(index - 1);
-      }
+  useEffect(() => {
+    if (current > index + 1) {
+      setIndex(index + 1);
+    } else if (current === index) {
+      setIndex(index - 1);
+    }
 
-      return () => {
-        focusElement('.nav-header > h2');
-      };
-    },
-    [current, index],
-  );
+    return () => {
+      focusElement('.nav-header > h2');
+    };
+  }, [current, index]);
 
   return (
     <div>
@@ -113,7 +110,10 @@ export default function FormNav(props) {
             </h2>
           )}
           {!showHeader && (
-            <div className="vads-u-font-size--h4">{stepText}</div>
+            <div className="vads-u-font-size--h4">
+              {stepText}
+              {inProgressMessage}
+            </div>
           )}
         </div>
       </div>

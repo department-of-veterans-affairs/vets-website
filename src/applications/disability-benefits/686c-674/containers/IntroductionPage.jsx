@@ -107,6 +107,7 @@ class IntroductionPage extends React.Component {
           downtime={this.props.route.formConfig.downtime}
           pageList={this.props.route.pageList}
           startText="Add or remove a dependent"
+          headingLevel="2"
         />
       );
       content = (
@@ -157,9 +158,6 @@ const mapDispatchToProps = {
   verifyVaFileNumber,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(IntroductionPage);
+export default connect(mapStateToProps, mapDispatchToProps)(IntroductionPage);
 
 export { IntroductionPage };

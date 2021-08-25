@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable camelcase */
 const { Octokit } = require('@octokit/rest');
+const { sleep } = require('../../script/utils');
 
 const { GITHUB_TOKEN: auth, GITHUB_REPOSITORY } = process.env;
 const args = process.argv.slice(2);
@@ -81,10 +82,6 @@ function getLatestWorkflow(page) {
     });
 }
 
-function sleep(minutes) {
-  return new Promise(resolve => setTimeout(resolve, minutes * 60 * 1000));
-}
-
 /**
  * Validates the workflow
  * @param {Object} workflow
@@ -122,7 +119,7 @@ async function main() {
 
     if (success === undefined) {
       console.log(`Check runs still pending. Sleeping for ${timeout} minutes`);
-      await sleep(timeout);
+      await sleep(timeout * 60 * 1000);
       await main();
       return;
     }

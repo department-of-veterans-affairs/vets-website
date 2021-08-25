@@ -184,7 +184,6 @@ describe('VAOS VA request flow using VAOS service', () => {
     mockFeatureToggles({
       v2Requests: true,
       homepageRefresh: true,
-      providerSelectionEnabled: true,
     });
     cy.login(mockUser);
     cy.route({

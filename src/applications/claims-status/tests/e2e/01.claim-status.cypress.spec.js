@@ -26,7 +26,7 @@ describe('Claims status test', () => {
     cy.get('.claim-list-item-container:first-child a.vads-c-action-link--blue')
       .click()
       .then(() => {
-        cy.get('body', { timeout: Timeouts.normal }).should('be.visible');
+        cy.get('body').should('be.visible');
         // Currently does not load data after button click, React prop error, rest of test fails
 
         cy.get('.claim-title', { timeout: Timeouts.slow }).should('be.visible');

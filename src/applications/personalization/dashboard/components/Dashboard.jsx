@@ -119,35 +119,29 @@ const Dashboard = ({
   }, []);
 
   // focus on the name tag or the header when we are done loading
-  useEffect(
-    () => {
-      if (!showLoader) {
-        if (showNameTag) {
-          focusElement('#name-tag');
-        } else {
-          focusElement('#dashboard-title');
-        }
+  useEffect(() => {
+    if (!showLoader) {
+      if (showNameTag) {
+        focusElement('#name-tag');
+      } else {
+        focusElement('#dashboard-title');
       }
-    },
-    [showLoader, showNameTag],
-  );
+    }
+  }, [showLoader, showNameTag]);
 
   // fetch data when we determine they are LOA3
-  useEffect(
-    () => {
-      if (isLOA3) {
-        fetchFullName();
-        fetchMilitaryInformation();
-        fetchTotalDisabilityRating();
-      }
-    },
-    [
-      isLOA3,
-      fetchFullName,
-      fetchMilitaryInformation,
-      fetchTotalDisabilityRating,
-    ],
-  );
+  useEffect(() => {
+    if (isLOA3) {
+      fetchFullName();
+      fetchMilitaryInformation();
+      fetchTotalDisabilityRating();
+    }
+  }, [
+    isLOA3,
+    fetchFullName,
+    fetchMilitaryInformation,
+    fetchTotalDisabilityRating,
+  ]);
 
   return (
     <RequiredLoginView
@@ -209,7 +203,10 @@ const Dashboard = ({
               {props.showValidateIdentityAlert ? (
                 <div className="vads-l-row">
                   <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-                    <IdentityNotVerified alertHeadline="Verify your identity to access more VA.gov tools and features" />
+                    <IdentityNotVerified
+                      alertHeadline="Verify your identity to access more VA.gov tools and features"
+                      level={2}
+                    />
                   </div>
                 </div>
               ) : null}
@@ -299,7 +296,4 @@ const mapDispatchToProps = {
   fetchTotalDisabilityRating: fetchTotalDisabilityRatingAction,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Dashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

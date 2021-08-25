@@ -66,7 +66,11 @@ const ProfilePageHeader = ({
   const compareChecked = !!compare.search.institutions[facilityCode];
   const handleCompareUpdate = e => {
     if (e.target.checked && !compareChecked) {
-      dispatchAddCompareInstitution(institution);
+      if (compare.search.loaded.length === 3) {
+        dispatchShowModal('comparisonLimit');
+      } else {
+        dispatchAddCompareInstitution(institution);
+      }
     } else {
       dispatchRemoveCompareInstitution(facilityCode);
     }
@@ -197,9 +201,7 @@ const ProfilePageHeader = ({
           <IconWithInfo icon="phone" present={hasVetTecPhone}>
             {'   '}{' '}
             <a
-              href={`tel:${programs[0].phoneAreaCode}${
-                programs[0].phoneNumber
-              }`}
+              href={`tel:${programs[0].phoneAreaCode}${programs[0].phoneNumber}`}
             >
               {`${programs[0].phoneAreaCode}-${programs[0].phoneNumber}`}
             </a>
@@ -338,7 +340,4 @@ const mapDispatchToProps = {
   dispatchShowModal: showModal,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ProfilePageHeader);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePageHeader);

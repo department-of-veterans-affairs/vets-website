@@ -27,6 +27,7 @@ import {
   isInMPI as isInMVISelector,
   isLoggedIn,
 } from '~/platform/user/selectors';
+import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
 import { fetchMHVAccount as fetchMHVAccountAction } from '~/platform/user/profile/actions';
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
@@ -275,10 +276,12 @@ const mapStateToProps = state => {
   const isCNPDirectDepositBlocked = cnpDirectDepositIsBlocked(state);
   const isEligibleToSetUpCNP = cnpDirectDepositAddressIsSetUp(state);
   const is2faEnabled = isMultifactorEnabled(state);
+  const signInService = signInServiceNameSelector(state);
 
   const shouldFetchCNPDirectDepositInformation =
-    isEvssAvailable && is2faEnabled;
-  const shouldFetchEDUDirectDepositInformation = is2faEnabled;
+    isEvssAvailable && signInService === 'idme' && is2faEnabled;
+  const shouldFetchEDUDirectDepositInformation =
+    signInService === 'idme' && is2faEnabled;
   const currentlyLoggedIn = isLoggedIn(state);
   const isLOA1 = isLOA1Selector(state);
   const isLOA3 = isLOA3Selector(state);
@@ -337,6 +340,7 @@ const mapStateToProps = state => {
     if (isCNPDirectDepositBlocked) return false;
     return (
       (isLOA3 && !is2faEnabled) || // we _want_ to show the DD section to non-2FA users
+      (isLOA3 && signInService !== 'idme') || // we _want_ to show the DD section to users who did not sign in with ID.me
       isCNPDirectDepositSetUp ||
       isEligibleToSetUpCNP ||
       isEDUDirectDepositSetUp
@@ -373,7 +377,4 @@ const mapDispatchToProps = {
 
 export { Profile as ProfileUnconnected, mapStateToProps };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

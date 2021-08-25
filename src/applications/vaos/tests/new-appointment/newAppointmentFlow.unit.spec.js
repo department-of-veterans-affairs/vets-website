@@ -472,7 +472,7 @@ describe('VAOS newAppointmentFlow', () => {
 
   describe('ccPreferences page', () => {
     describe('next page', () => {
-      it('should be reasonForAppointment if provider selection is disabled', () => {
+      it('should be reasonForAppointment if user has no address on file', () => {
         const state = {
           featureToggles: {
             loading: false,
@@ -484,20 +484,7 @@ describe('VAOS newAppointmentFlow', () => {
         );
       });
 
-      it('should be reasonForAppointment if provider selection is enabled but user has no address on file', () => {
-        const state = {
-          featureToggles: {
-            loading: false,
-            vaOnlineSchedulingProviderSelection: true,
-          },
-        };
-
-        expect(newAppointmentFlow.ccPreferences.next(state)).to.equal(
-          'reasonForAppointment',
-        );
-      });
-
-      it('should be ccLanguage if provider selection is enabled', () => {
+      it('should be ccLanguage if user has an address on file', () => {
         const state = {
           user: {
             profile: {
@@ -510,7 +497,6 @@ describe('VAOS newAppointmentFlow', () => {
           },
           featureToggles: {
             loading: false,
-            vaOnlineSchedulingProviderSelection: true,
           },
         };
 

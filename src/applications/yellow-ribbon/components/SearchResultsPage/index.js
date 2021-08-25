@@ -55,11 +55,6 @@ export const SearchResultsPage = ({
           />
         </button>
 
-        {/* Search Form Header */}
-        <h2 className="vads-u-display--none vads-u-font-size--h3 vads-u-margin-top--1p5 medium-screen:vads-u-display--flex">
-          Search criteria
-        </h2>
-
         {/* Search Form Fields */}
         <SearchForm />
 
@@ -111,7 +106,4 @@ const mapDispatchToProps = dispatch => ({
   toggleShowMobileForm: () => dispatch(toggleShowMobileFormAction()),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SearchResultsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchResultsPage);

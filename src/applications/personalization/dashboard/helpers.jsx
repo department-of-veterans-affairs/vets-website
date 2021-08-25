@@ -158,10 +158,11 @@ export const presentableFormIDs = Object.keys(formBenefits).reduce(
   (prefixedIDs, formID) => {
     if (formID === VA_FORM_IDS.FEEDBACK_TOOL) {
       prefixedIDs[formID] = 'FEEDBACK TOOL'; // eslint-disable-line no-param-reassign
+    } else if (formID === VA_FORM_IDS.FORM_10_10EZ) {
+      prefixedIDs[formID] = `FORM 10-10EZ`; // eslint-disable-line no-param-reassign
     } else {
       prefixedIDs[formID] = `FORM ${formID}`; // eslint-disable-line no-param-reassign
     }
-    // TODO: add an exception for 1010ez since that form ID is lowercase and lacks a dash?
     return prefixedIDs;
   },
   {},
@@ -175,9 +176,7 @@ export function isSIPEnabledForm(savedForm) {
   }
   if (!sipEnabledForms.has(formNumber)) {
     throw new Error(
-      `Could not find form ${
-        trackingPrefixes[formNumber]
-      } in list of sipEnabledForms`,
+      `Could not find form ${trackingPrefixes[formNumber]} in list of sipEnabledForms`,
     );
   }
   return true;

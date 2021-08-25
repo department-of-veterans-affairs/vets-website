@@ -15,7 +15,7 @@ describe('check-in', () => {
       };
       const screen = render(<Footer store={fakeStore} />);
 
-      expect(screen.getByTestId('heading')).to.have.text('Need Help?');
+      expect(screen.getByTestId('heading')).to.have.text('Need help?');
       expect(screen.getByTestId('message')).to.have.text(
         'Ask a staff member or call us at 555-867-5309.',
       );
@@ -60,7 +60,7 @@ describe('check-in', () => {
       };
       const screen = render(<Footer store={fakeStore} />);
 
-      expect(screen.getByTestId('heading')).to.have.text('Need Help?');
+      expect(screen.getByTestId('heading')).to.have.text('Need help?');
       expect(screen.getByTestId('message')).to.have.text('Ask a staff member.');
     });
   });

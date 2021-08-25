@@ -14,8 +14,9 @@ import KeywordSearch from '../../components/search/KeywordSearch';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { useHistory } from 'react-router-dom';
-import { updateUrlParams } from '../../utils/helpers';
+import { updateUrlParams } from '../../selectors/search';
 import { TABS } from '../../constants';
+import { INITIAL_STATE } from '../../reducers/search';
 
 export function LocationSearchForm({
   autocomplete,
@@ -35,24 +36,28 @@ export function LocationSearchForm({
   const [autocompleteSelection, setAutocompleteSelection] = useState(null);
   const { version } = preview;
   const history = useHistory();
+  const distanceDropdownOptions = [
+    { optionValue: '5', optionLabel: 'within 5 miles' },
+    { optionValue: '15', optionLabel: 'within 15 miles' },
+    { optionValue: '25', optionLabel: 'within 25 miles' },
+    { optionValue: '50', optionLabel: 'within 50 miles' },
+    { optionValue: '75', optionLabel: 'within 75 miles' },
+  ];
 
-  useEffect(
-    () => {
-      if (
-        search.loadFromUrl &&
-        search.query.location !== null &&
-        search.query.location !== ''
-      ) {
-        dispatchFetchSearchByLocationResults(
-          search.query.location,
-          distance,
-          filters,
-          version,
-        );
-      }
-    },
-    [search.loadFromUrl],
-  );
+  useEffect(() => {
+    if (
+      search.loadFromUrl &&
+      search.query.location !== null &&
+      search.query.location !== ''
+    ) {
+      dispatchFetchSearchByLocationResults(
+        search.query.location,
+        distance,
+        filters,
+        version,
+      );
+    }
+  }, [search.loadFromUrl]);
 
   const doSearch = event => {
     if (event) {
@@ -92,19 +97,16 @@ export function LocationSearchForm({
    * Triggers a search for search form when the "Update results" button in "Filter your results"
    * is clicked
    */
-  useEffect(
-    () => {
-      if (
-        !search.loadFromUrl &&
-        filters.search &&
-        search.tab === TABS.location &&
-        !search.query.mapState.changed
-      ) {
-        doSearch(null);
-      }
-    },
-    [filters.search],
-  );
+  useEffect(() => {
+    if (
+      !search.loadFromUrl &&
+      filters.search &&
+      search.tab === TABS.location &&
+      !search.query.mapState.changed
+    ) {
+      doSearch(null);
+    }
+  }, [filters.search]);
 
   const doAutocompleteSuggestionsSearch = value => {
     dispatchFetchLocationAutocompleteSuggestions(value);
@@ -115,16 +117,20 @@ export function LocationSearchForm({
     dispatchUpdateAutocompleteLocation(value);
   };
 
-  useEffect(
-    () => {
-      if (
-        search.query.streetAddress.searchString !== null &&
-        search.query.streetAddress.searchString !== ''
-      )
-        setLocation(search.query.streetAddress.searchString);
-    },
-    [search.query.streetAddress.searchString],
-  );
+  useEffect(() => {
+    if (
+      search.query.streetAddress.searchString !== null &&
+      search.query.streetAddress.searchString !== ''
+    )
+      setLocation(search.query.streetAddress.searchString);
+  }, [search.query.streetAddress.searchString]);
+
+  useEffect(() => {
+    const distanceOption = distanceDropdownOptions.find(
+      option => option.optionValue === search.query.distance,
+    );
+    setDistance(distanceOption?.optionValue || INITIAL_STATE.query.distance);
+  }, [search.query.distance]);
 
   return (
     <div className="location-search-form">
@@ -193,13 +199,7 @@ export function LocationSearchForm({
               className="vads-u-font-style--italic"
               selectClassName="vads-u-font-style--italic vads-u-color--gray"
               name="distance"
-              options={[
-                { optionValue: '5', optionLabel: 'within 5 miles' },
-                { optionValue: '15', optionLabel: 'within 15 miles' },
-                { optionValue: '25', optionLabel: 'within 25 miles' },
-                { optionValue: '50', optionLabel: 'within 50 miles' },
-                { optionValue: '75', optionLabel: 'within 75 miles' },
-              ]}
+              options={distanceDropdownOptions}
               value={distance}
               alt="distance"
               visible
@@ -235,7 +235,4 @@ const mapDispatchToProps = {
   dispatchMapChanged: mapChanged,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(LocationSearchForm);
+export default connect(mapStateToProps, mapDispatchToProps)(LocationSearchForm);

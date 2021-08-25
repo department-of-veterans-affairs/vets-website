@@ -31,7 +31,7 @@ export const uiSchema = {
             'ui:options': {
               classNames: 'vads-u-margin-bottom--3',
               userType: 'veteran',
-              userArray: 'currentEmployment',
+              userArray: 'currEmployment',
             },
           },
         },

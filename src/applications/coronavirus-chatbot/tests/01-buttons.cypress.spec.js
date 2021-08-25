@@ -32,7 +32,7 @@ describe('Chatbot buttons', () => {
       .should('be.disabled');
     cy.get(benefitsAndClaimsButton).should('be.disabled');
     // xpath?  Searching shows that Cypress doesn't need it - hard to say without testing
-    cy.get(responseBubble, { timeout: Timeouts.normal })
+    cy.get(responseBubble)
       .should('be.visible')
       .then(bubble => {
         cy.wrap(bubble).should(

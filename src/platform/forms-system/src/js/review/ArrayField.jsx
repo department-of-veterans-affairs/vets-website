@@ -15,6 +15,7 @@ import findDuplicateIndexes from '../utilities/data/findDuplicateIndexes';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
+const scrollToTimeout = process.env.NODE_ENV === 'test' ? 0 : 100;
 
 /* Growable table (Array) field on the Review page
  *
@@ -106,7 +107,7 @@ class ArrayField extends React.Component {
           },
         );
         focusElement(`[name="${scrollElementName}"] ${focusElementSelector}`);
-      }, 100);
+      }, scrollToTimeout);
     }
   }
 
@@ -121,7 +122,7 @@ class ArrayField extends React.Component {
           offset: 0,
         },
       );
-    }, 100);
+    }, scrollToTimeout);
   }
 
   /*
@@ -382,26 +383,25 @@ class ArrayField extends React.Component {
               </div>
             </div>
           )}
-          {title &&
-            !itemCountLocked && (
-              <>
-                <button
-                  type="button"
-                  name={`add-another-${fieldName}`}
-                  disabled={addAnotherDisabled}
-                  className="add-btn primary-outline"
-                  onClick={() => this.handleAdd()}
-                >
-                  {uiOptions.itemName
-                    ? `Add another ${uiOptions.itemName}`
-                    : 'Add another'}
-                </button>
-                <div>
-                  {addAnotherDisabled &&
-                    `You’ve entered the maximum number of items allowed.`}
-                </div>
-              </>
-            )}
+          {title && !itemCountLocked && (
+            <>
+              <button
+                type="button"
+                name={`add-another-${fieldName}`}
+                disabled={addAnotherDisabled}
+                className="add-btn primary-outline"
+                onClick={() => this.handleAdd()}
+              >
+                {uiOptions.itemName
+                  ? `Add another ${uiOptions.itemName}`
+                  : 'Add another'}
+              </button>
+              <div>
+                {addAnotherDisabled &&
+                  `You’ve entered the maximum number of items allowed.`}
+              </div>
+            </>
+          )}
         </div>
       </div>
     );

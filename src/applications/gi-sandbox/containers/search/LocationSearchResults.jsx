@@ -66,12 +66,9 @@ function LocationSearchResults({
    * When LocationSearchForm triggers a search it will set the value of changed to false disabling behavior
    * related to "Search this area of the map"
    */
-  useEffect(
-    () => {
-      setMapState(search.query.mapState);
-    },
-    [search.query.mapState],
-  );
+  useEffect(() => {
+    setMapState(search.query.mapState);
+  }, [search.query.mapState]);
 
   /**
    * Initialize map if the element is present
@@ -131,14 +128,11 @@ function LocationSearchResults({
   /**
    * Initialize the map on load and if the mobileTab changes
    */
-  useEffect(
-    () => {
-      if (mapContainer.current) {
-        setupMap();
-      }
-    },
-    [mobileTab],
-  );
+  useEffect(() => {
+    if (mapContainer.current) {
+      setupMap();
+    }
+  }, [mobileTab]);
 
   /**
    * Used to exclude results from appearing in cards or as a marker when using "Search this area of the map" button
@@ -186,15 +180,12 @@ function LocationSearchResults({
    * Using a useEffect since on smallScreen need to switch tabs first before scrolling to search result card
    * Both desktop and mobile will trigger this useEffect
    */
-  useEffect(
-    () => {
-      if (markerClicked && (!smallScreen || mobileTab === LIST_TAB)) {
-        mapMarkerClicked(markerClicked);
-        setMarkerClicked(null);
-      }
-    },
-    [markerClicked],
-  );
+  useEffect(() => {
+    if (markerClicked && (!smallScreen || mobileTab === LIST_TAB)) {
+      mapMarkerClicked(markerClicked);
+      setMarkerClicked(null);
+    }
+  }, [markerClicked]);
 
   /**
    * Adds a map marker to the map and includes in a LngLatBounds object if provided
@@ -237,6 +228,9 @@ function LocationSearchResults({
    * @param bounds
    */
   const currentLocationMapMarker = bounds => {
+    if (!streetAddress.position.longitude || !streetAddress.position.latitude)
+      return;
+
     const currentMarkerElement = document.createElement('div');
     currentMarkerElement.className = 'current-position';
     new mapboxgl.Marker(currentMarkerElement)
@@ -249,64 +243,69 @@ function LocationSearchResults({
       streetAddress.position.longitude,
       streetAddress.position.latitude,
     ]);
-    markers.current.push(currentMarkerElement);
+    markers.push(currentMarkerElement);
   };
 
   /**
    * Takes results and puts them on the map
    * Excludes results that are not visible on the map when using "Search this area of the map"
    */
-  useEffect(
-    () => {
-      markers.forEach(marker => marker.remove());
-      let visibleResults = [];
-      const mapMarkers = [];
+  useEffect(() => {
+    markers.forEach(marker => marker.remove());
+    setActiveMarker(null);
 
-      if (smallScreen) {
-        visibleResults = results;
-      }
+    let visibleResults = [];
+    const mapMarkers = [];
 
-      // reset map if no results found
-      if (map.current && results.length === 0 && !mapState.changed) {
-        map.current.setCenter([
-          MapboxInit.centerInit.longitude,
-          MapboxInit.centerInit.latitude,
-        ]);
-        map.current.zoomTo(MapboxInit.zoomInit, { duration: 300 });
-      }
+    if (smallScreen) {
+      visibleResults = results;
+    }
 
-      // wait for map to initialize or no results are returned
-      if (!map.current || results.length === 0) {
-        setUsedFilters(getFiltersChanged(filters));
-        setCardResults(visibleResults);
-        setMarkers(mapMarkers);
-        return;
-      }
+    // reset map if no results found
+    if (map.current && results.length === 0 && !mapState.changed) {
+      map.current.setCenter([
+        MapboxInit.centerInit.longitude,
+        MapboxInit.centerInit.latitude,
+      ]);
+      map.current.zoomTo(MapboxInit.zoomInit, { duration: 300 });
+    }
 
-      const locationBounds = !mapState.changed
-        ? new mapboxgl.LngLatBounds()
-        : null;
-
-      visibleResults = results.filter(institution =>
-        markerIsVisible(institution),
-      );
-      visibleResults.forEach((institution, index) =>
-        addMapMarker(institution, index, locationBounds, mapMarkers),
-      );
-
-      if (locationBounds) {
-        if (streetAddress.searchString === location) {
-          currentLocationMapMarker(locationBounds);
-        }
-        map.current.fitBounds(locationBounds, { padding: 20 });
-      }
-
-      setCardResults(visibleResults);
+    // wait for map to initialize or no results are returned
+    if (!map.current || results.length === 0) {
       setUsedFilters(getFiltersChanged(filters));
+      setCardResults(visibleResults);
       setMarkers(mapMarkers);
-    },
-    [results, smallScreen, mobileTab],
-  );
+      return;
+    }
+
+    const locationBounds = !mapState.changed
+      ? new mapboxgl.LngLatBounds()
+      : null;
+
+    visibleResults = results.filter(institution =>
+      markerIsVisible(institution),
+    );
+    visibleResults.forEach((institution, index) =>
+      addMapMarker(institution, index, locationBounds, mapMarkers),
+    );
+
+    if (locationBounds) {
+      if (
+        location &&
+        location !== '' &&
+        streetAddress.searchString &&
+        streetAddress.searchString !== '' &&
+        streetAddress.searchString === location
+      ) {
+        currentLocationMapMarker(locationBounds);
+      }
+      map.current.fitBounds(locationBounds, { padding: 20 });
+    }
+
+    setCardResults(visibleResults);
+    setUsedFilters(getFiltersChanged(filters));
+    setMarkers(mapMarkers);
+  }, [results, smallScreen, mobileTab]);
 
   /**
    * Creates result cards for display
@@ -327,15 +326,14 @@ function LocationSearchResults({
     );
 
     return (
-      <div key={institution.facilityCode}>
-        <SearchResultCard
-          institution={institution}
-          location
-          header={header}
-          active={activeMarker === name}
-          version={preview.version}
-        />
-      </div>
+      <SearchResultCard
+        institution={institution}
+        location
+        header={header}
+        active={activeMarker === name}
+        version={preview.version}
+        key={institution.facilityCode}
+      />
     );
   });
 
@@ -361,19 +359,16 @@ function LocationSearchResults({
    * Triggers a search for "Search this area of the map" when the "Update results" button in "Filter your results"
    * is clicked
    */
-  useEffect(
-    () => {
-      if (
-        !search.loadFromUrl &&
-        filters.search &&
-        search.tab === TABS.location &&
-        search.query.mapState.changed
-      ) {
-        searchArea(null);
-      }
-    },
-    [filters.search],
-  );
+  useEffect(() => {
+    if (
+      !search.loadFromUrl &&
+      filters.search &&
+      search.tab === TABS.location &&
+      search.query.mapState.changed
+    ) {
+      searchArea(null);
+    }
+  }, [filters.search]);
 
   /**
    * Renders the Eligibility and Filters accordions/buttons
@@ -549,22 +544,21 @@ function LocationSearchResults({
           className="desktop-map-container"
           role="region"
         >
-          {mapState.changed &&
-            !smallScreen && (
-              <div
-                id="search-area-control-container"
-                className={'mapboxgl-ctrl-top-center'}
+          {mapState.changed && !smallScreen && (
+            <div
+              id="search-area-control-container"
+              className={'mapboxgl-ctrl-top-center'}
+            >
+              <button
+                id="search-area-control"
+                className={'usa-button'}
+                onClick={searchArea}
+                disabled={!areaSearchWithinBounds}
               >
-                <button
-                  id="search-area-control"
-                  className={'usa-button'}
-                  onClick={searchArea}
-                  disabled={!areaSearchWithinBounds}
-                >
-                  {areaSearchLabel}
-                </button>
-              </div>
-            )}
+                {areaSearchLabel}
+              </button>
+            </div>
+          )}
         </map>
       </div>
     );

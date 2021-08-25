@@ -1,4 +1,110 @@
 {
+  "otherExpenses": [
+    {
+      "name": "Pool service",
+      "amount": "200"
+    },
+    {
+      "name": "Lawn service",
+      "amount": "100.54"
+    }
+  ],
+  "view:components": {
+    "view:assetInfo": {},
+    "view:recVehicleInfo": {},
+    "view:vehicleInfo": {},
+    "view:maritalStatus": {},
+    "view:veteranInfo": {},
+    "view:vaBenefitsOnFile": {}
+  },
+  "expenses": {
+    "rentOrMortgage": "1200.53",
+    "food": "4000.38"
+  },
+  "assets": {
+    "otherAssets": [
+      {
+        "name": "Bitcoin",
+        "amount": "50000.57"
+      },
+      {
+        "name": "Gambling earning",
+        "amount": "16000.34"
+      }
+    ],
+    "recVehicles": [
+      {
+        "recVehicleType": "Boat",
+        "recVehicleAmount": "15000.23"
+      }
+    ],
+    "cashInBank": "3000.45",
+    "cashOnHand": "10000.67",
+    "usSavingsBonds": "25000.65",
+    "stocksAndOtherBonds": "50000.84",
+    "automobiles": [
+      {
+        "type": "Truck",
+        "make": "Dodge",
+        "model": "RAM",
+        "year": "2020",
+        "resaleValue": "75000.45"
+      },
+      {
+        "type": "Car",
+        "make": "Dodge",
+        "model": "Charger",
+        "year": "2020",
+        "resaleValue": "40000.54"
+      }
+    ]
+  },
+  "realEstateRecords": [
+    {
+      "realEstateType": "Vacation property",
+      "realEstateAmount": "350000.47"
+    },
+    {
+      "realEstateType": "Single-family home",
+      "realEstateAmount": "450000.34"
+    }
+  ],
+  "additionalIncome": {
+    "spouse": {
+      "spAddlIncome": [
+        {
+          "name": "Child care income",
+          "amount": "800.54"
+        },
+        {
+          "name": "Alimony payment",
+          "amount": "1000.23"
+        }
+      ]
+    },
+    "addlIncRecords": [
+      {
+        "name": "Bonus payment",
+        "amount": "1500.67"
+      },
+      {
+        "name": "Freelance service",
+        "amount": "1000.43"
+      }
+    ]
+  },
+  "socialSecurity": {
+    "spouse": {
+      "socialSecAmt": "1400.45"
+    },
+    "socialSecAmt": "1200.65"
+  },
+  "benefits": {
+    "spouseBenefits": {
+      "compensationAndPension": "1000.09",
+      "education": "500.46"
+    }
+  },
   "additionalData": {
     "bankruptcy": {
       "dateDischarged": "2004-10-XX",
@@ -26,40 +132,22 @@
     "hasSocialSecurity": true,
     "vetIsEmployed": true
   },
-  "otherExpenses": [
-    {
-      "name": "Pool service",
-      "amount": "200"
-    },
-    {
-      "name": "Lawn service",
-      "amount": "100"
-    }
-  ],
-  "view:components": {
-    "view:assetInfo": {},
-    "view:recVehicleInfo": {},
-    "view:vehicleInfo": {},
-    "view:maritalStatus": {},
-    "view:veteranInfo": {},
-    "view:vaBenefitsOnFile": {}
-  },
-  "installmentContractsAndOtherDebts": [
+  "installmentContracts": [
     {
       "purpose": "Credit card payments",
       "creditorName": "Creditor One",
-      "originalAmount": "50000",
-      "unpaidBalance": "15000",
-      "amountDueMonthly": "800",
+      "originalAmount": "50000.54",
+      "unpaidBalance": "15000.56",
+      "amountDueMonthly": "800.10",
       "dateStarted": "2017-03-XX",
-      "amountPastDue": "25"
+      "amountPastDue": "125.43"
     },
     {
       "purpose": "Car payment/lease",
       "creditorName": "Creditor Two",
-      "originalAmount": "100000",
-      "unpaidBalance": "50000",
-      "amountDueMonthly": "1200",
+      "originalAmount": "100000.43",
+      "unpaidBalance": "50000.26",
+      "amountDueMonthly": "1200.54",
       "dateStarted": "2019-05-XX",
       "amountPastDue": "0"
     }
@@ -67,71 +155,19 @@
   "utilityRecords": [
     {
       "utilityType": "Electricity",
-      "monthlyUtilityAmount": "350"
+      "monthlyUtilityAmount": "350.45"
     },
     {
       "utilityType": "Water",
-      "monthlyUtilityAmount": "75"
+      "monthlyUtilityAmount": "75.43"
     },
     {
       "utilityType": "Cable",
-      "monthlyUtilityAmount": "275"
-    }
-  ],
-  "expenses": {
-    "rentOrMortgage": "1200",
-    "food": "4000"
-  },
-  "assets": {
-    "otherAssets": [
-      {
-        "name": "Bitcoin",
-        "amount": "50000"
-      },
-      {
-        "name": "Gambling earning",
-        "amount": "16000"
-      }
-    ],
-    "trailersBoatsCampers": [
-      {
-        "recreationalVehicleType": "Boat",
-        "recreationalVehicleAmount": "15000"
-      }
-    ],
-    "automobiles": [
-      {
-        "type": "Truck",
-        "make": "Dodge",
-        "model": "RAM",
-        "year": "2020",
-        "resaleValue": "75000"
-      },
-      {
-        "type": "Car",
-        "make": "Dodge",
-        "model": "Charger",
-        "year": "2020",
-        "resaleValue": "40000"
-      }
-    ],
-    "cashInBank": "3000",
-    "cashOnHand": "10000",
-    "usSavingsBonds": "25000",
-    "stocksAndOtherBonds": "50000"
-  },
-  "realEstateRecords": [
-    {
-      "realEstateType": "Vacation property",
-      "realEstateAmount": "350000"
-    },
-    {
-      "realEstateType": "Single-family home",
-      "realEstateAmount": "450000"
+      "monthlyUtilityAmount": "275.47"
     }
   ],
   "personalData": {
-    "agesOfOtherDependents": [
+    "dependents": [
       {
         "dependentAge": "12"
       },
@@ -205,45 +241,9 @@
     },
     "dateOfBirth": "1933-04-05"
   },
-  "additionalIncome": {
-    "spouse": {
-      "spouseAdditionalIncomeRecords": [
-        {
-          "name": "Child care income",
-          "amount": "800"
-        },
-        {
-          "name": "Alimony payment",
-          "amount": "1000"
-        }
-      ]
-    },
-    "additionalIncomeRecords": [
-      {
-        "name": "Bonus payment",
-        "amount": "1500"
-      },
-      {
-        "name": "Freelance service",
-        "amount": "1000"
-      }
-    ]
-  },
-  "socialSecurity": {
-    "spouse": {
-      "socialSecurityAmount": "1400"
-    },
-    "socialSecurityAmount": "1200"
-  },
-  "benefits": {
-    "spouseBenefits": {
-      "benefitAmount": "1000",
-      "educationAmount": "500"
-    }
-  },
   "personalIdentification": {
-    "ssn": "1200",
-    "fileNumber": "1200"
+    "ssn": "1234",
+    "fileNumber": "5678"
   },
   "selectedDebts": [
     {
@@ -308,7 +308,7 @@
       "id": 4,
       "resolution": {
         "resolutionType": "Extended monthly payments",
-        "offerToPay": "100"
+        "offerToPay": "100.54"
       }
     },
     {
@@ -348,7 +348,7 @@
       "id": 3,
       "resolution": {
         "resolutionType": "Compromise",
-        "offerToPay": "700"
+        "offerToPay": "700.43"
       }
     },
     {
@@ -437,21 +437,25 @@
     "deductionCode": "",
     "originalAr": 0
   },
-  "currentEmployment": [
+  "currEmployment": [
     {
-      "veteranMonthlyGrossSalary": "5000",
+      "veteranGrossSalary": "5000.54",
       "deductions": [
         {
           "name": "Federal tax",
-          "amount": "350"
+          "amount": "350.5643534"
+        },
+        {
+          "name": "State tax",
+          "amount": "230.45"
+        },
+        {
+          "name": "Pension",
+          "amount": "100"
         },
         {
           "name": "Health insurance",
-          "amount": "400"
-        },
-        {
-          "name": "401K",
-          "amount": "100"
+          "amount": "254.45"
         }
       ],
       "type": "Full time",
@@ -461,11 +465,19 @@
       "employerName": "Veteran Current One"
     },
     {
-      "veteranMonthlyGrossSalary": "2000",
+      "veteranGrossSalary": "2000.56",
       "deductions": [
         {
           "name": "Federal tax",
-          "amount": "200"
+          "amount": "200.0254334"
+        },
+        {
+          "name": "Allotment",
+          "amount": "134.56"
+        },
+        {
+          "name": "FICA (Social Security and Medicare)",
+          "amount": "122.4"
         }
       ],
       "type": "Part time",
@@ -475,17 +487,21 @@
       "employerName": "Veteran Current Two"
     }
   ],
-  "spouseCurrentEmployment": [
+  "spCurrEmployment": [
     {
-      "spouseMonthlyGrossSalary": "4000",
+      "spouseGrossSalary": "4000.45",
       "deductions": [
         {
           "name": "Federal tax",
-          "amount": "325"
+          "amount": "325.54432"
         },
         {
           "name": "Health insurance",
-          "amount": "250"
+          "amount": "250.344324"
+        },
+        {
+          "name": "Garnishment",
+          "amount": "150"
         }
       ],
       "type": "Full time",
@@ -499,7 +515,9 @@
   "availableOptions": {},
   "income": [
     {
-      "veteranOrSpouse": "VETERAN"
+      "veteranOrSpouse": "VETERAN",
+      "compensationAndPension": "3261.1",
+      "education": "50"
     }
   ]
 }

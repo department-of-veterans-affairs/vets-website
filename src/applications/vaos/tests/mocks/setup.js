@@ -202,10 +202,11 @@ export function getTimezoneTestDate(zone = 'America/Denver') {
  * @returns {string} The url path that was routed to after clicking Continue
  */
 export async function setTypeOfFacility(store, label) {
-  const { findByLabelText, getByText, history } = renderWithStoreAndRouter(
-    <TypeOfFacilityPage />,
-    { store },
-  );
+  const {
+    findByLabelText,
+    getByText,
+    history,
+  } = renderWithStoreAndRouter(<TypeOfFacilityPage />, { store });
 
   const radioButton = await findByLabelText(label);
   fireEvent.click(radioButton);
@@ -227,10 +228,11 @@ export async function setTypeOfFacility(store, label) {
  * @returns {string} The url path that was routed to after clicking Continue
  */
 export async function setTypeOfCare(store, label) {
-  const { findByLabelText, getByText, history } = renderWithStoreAndRouter(
-    <TypeOfCarePage />,
-    { store },
-  );
+  const {
+    findByLabelText,
+    getByText,
+    history,
+  } = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
 
   const radioButton = await findByLabelText(label);
   fireEvent.click(radioButton);
@@ -252,10 +254,11 @@ export async function setTypeOfCare(store, label) {
  * @returns {string} The url path that was routed to after clicking Continue
  */
 export async function setTypeOfEyeCare(store, label) {
-  const { findByLabelText, getByText, history } = renderWithStoreAndRouter(
-    <TypeOfEyeCarePage />,
-    { store },
-  );
+  const {
+    findByLabelText,
+    getByText,
+    history,
+  } = renderWithStoreAndRouter(<TypeOfEyeCarePage />, { store });
 
   const radioButton = await findByLabelText(label);
   fireEvent.click(radioButton);
@@ -273,10 +276,17 @@ export async function setTypeOfEyeCare(store, label) {
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
  * @param {string} facilityId The facility id of the facility to be selected
- * @param {VAFacility} facilityData The facility data to use in the mock
+ * @param {Object} params
+ * @param {?VAFacility} params.facilityData The facility data to use in the mock
+ * @param {VATSDirectCriteria} [params.directCriteria={}] Direct booking criteria to use
+ * @param {VATSRequestCriteria} [params.requestCriteria={}] Request criteria to use
  * @returns {string} The url path that was routed to after clicking Continue
  */
-export async function setVAFacility(store, facilityId, facilityData) {
+export async function setVAFacility(
+  store,
+  facilityId,
+  { facilityData = null, directCriteria = {}, requestCriteria = {} } = {},
+) {
   const siteCode = facilityId.substring(0, 3);
   const typeOfCareId = store.getState().newAppointment.data.typeOfCareId;
   const parentSite = {
@@ -290,11 +300,19 @@ export async function setVAFacility(store, facilityId, facilityData) {
   };
 
   const directFacilities = [
-    getDirectBookingEligibilityCriteriaMock({ id: facilityId, typeOfCareId }),
+    getDirectBookingEligibilityCriteriaMock({
+      id: facilityId,
+      typeOfCareId,
+      ...directCriteria,
+    }),
   ];
 
   const requestFacilities = [
-    getRequestEligibilityCriteriaMock({ id: facilityId, typeOfCareId }),
+    getRequestEligibilityCriteriaMock({
+      id: facilityId,
+      typeOfCareId,
+      ...requestCriteria,
+    }),
   ];
 
   const realFacilityID = facilityId.replace('983', '442').replace('984', '552');

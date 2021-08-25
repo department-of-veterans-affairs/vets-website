@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash/fp';
+import set from 'platform/utilities/data/set';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
 
@@ -34,9 +34,7 @@ export default class ArrayField extends React.Component {
     // Throw an error if there’s no viewField (should be React component)
     if (!isReactComponent(this.props.uiSchema['ui:options'].viewField)) {
       throw new Error(
-        `No viewField found in uiSchema for ArrayField ${
-          this.props.idSchema.$id
-        }.`,
+        `No viewField found in uiSchema for ArrayField ${this.props.idSchema.$id}.`,
       );
     }
 
@@ -93,7 +91,7 @@ export default class ArrayField extends React.Component {
   };
 
   onItemChange = (indexToChange, value) => {
-    const newItems = _.set(indexToChange, value, this.props.formData || []);
+    const newItems = set(indexToChange, value, this.props.formData || []);
     this.props.onChange(newItems);
   };
 
@@ -172,7 +170,7 @@ export default class ArrayField extends React.Component {
   // restore data in event of cancellation
   handleCancelEdit = index => {
     this.props.onChange(this.state.oldData);
-    this.setState(_.set(['editing', index], false, this.state), () => {
+    this.setState(set(['editing', index], false, this.state), () => {
       this.focusOnEditButton(index);
     });
   };
@@ -183,11 +181,10 @@ export default class ArrayField extends React.Component {
    */
   handleEdit = (index, status = true) => {
     this.setState(
-      _.set(
-        ['editing', index],
-        status,
-        _.assign(this.state, { oldData: this.props.formData }),
-      ),
+      set(['editing', index], status, {
+        ...this.state,
+        oldData: this.props.formData,
+      }),
       () => {
         this.targetLabel(index);
       },
@@ -199,7 +196,7 @@ export default class ArrayField extends React.Component {
    */
   handleUpdate = index => {
     if (errorSchemaIsValid(this.props.errorSchema[index])) {
-      this.setState(_.set(['editing', index], false, this.state), () => {
+      this.setState(set(['editing', index], false, this.state), () => {
         this.scrollToTop();
         this.focusOnEditButton(index);
       });
@@ -222,8 +219,8 @@ export default class ArrayField extends React.Component {
       // last item, but not ones above it
       this.setState(
         state => {
-          const newEditing = this.state.editing.map(
-            (val, index) => (index + 1 === state.editing.length ? false : val),
+          const newEditing = this.state.editing.map((val, index) =>
+            index + 1 === state.editing.length ? false : val,
           );
           return { editing: newEditing };
         },
@@ -248,12 +245,13 @@ export default class ArrayField extends React.Component {
     if (errorSchemaIsValid(this.props.errorSchema[lastIndex])) {
       // When we add another, we want to change the editing state of the currently
       // last item, but not ones above it
-      const newEditing = this.state.editing.map(
-        (val, index) => (index + 1 === this.state.editing.length ? false : val),
+      const newEditing = this.state.editing.map((val, index) =>
+        index + 1 === this.state.editing.length ? false : val,
       );
-      const newState = _.assign(this.state, {
+      const newState = {
+        ...this.state,
         editing: newEditing.concat(true),
-      });
+      };
 
       this.setState(newState, () => {
         const newFormData = this.props.formData.concat(
@@ -284,11 +282,12 @@ export default class ArrayField extends React.Component {
     const newItems = this.props.formData.filter(
       (val, index) => index !== indexToRemove,
     );
-    const newState = _.assign(this.state, {
+    const newState = {
+      ...this.state,
       editing: this.state.editing.filter(
         (val, index) => index !== indexToRemove,
       ),
-    });
+    };
     this.props.onChange(newItems);
     this.setState(newState, () => {
       const lastIndex = this.props.formData.length - 1;

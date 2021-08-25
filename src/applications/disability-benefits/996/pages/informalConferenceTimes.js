@@ -1,10 +1,5 @@
 import { checkConferenceTimes } from '../validations';
-import {
-  errorMessages,
-  CONFERENCE_TIMES_V1,
-  CONFERENCE_TIMES_V2,
-} from '../constants';
-import { apiVersion2 } from '../utils/helpers';
+import { errorMessages, CONFERENCE_TIMES_V1 } from '../constants';
 
 import {
   InformalConferenceTimesTitle,
@@ -12,6 +7,7 @@ import {
   informalConferenceTimeSelectTitles,
 } from '../content/InformalConference';
 
+// HLR version 1
 export default {
   uiSchema: {
     'ui:title': InformalConferenceTimesTitle,
@@ -21,13 +17,12 @@ export default {
       'ui:options': {
         forceDivWrapper: true,
         updateSchema: formData => {
-          const data = apiVersion2(formData)
-            ? CONFERENCE_TIMES_V2
-            : CONFERENCE_TIMES_V1;
           const time1Setting = formData?.informalConferenceTimes?.time1 || '';
           const time2Setting = formData?.informalConferenceTimes?.time2 || '';
-          const enums = Object.keys(data);
-          const enumNames = Object.values(data).map(name => name.label);
+          const enums = Object.keys(CONFERENCE_TIMES_V1);
+          const enumNames = Object.values(CONFERENCE_TIMES_V1).map(
+            name => name.label,
+          );
           return {
             type: 'object',
             properties: {
@@ -35,14 +30,14 @@ export default {
                 type: 'string',
                 enum: enums.filter(val => val !== time2Setting),
                 enumNames: enumNames.filter(
-                  label => label !== data[time2Setting]?.label,
+                  label => label !== CONFERENCE_TIMES_V1[time2Setting]?.label,
                 ),
               },
               time2: {
                 type: 'string',
                 enum: enums.filter(val => val !== time1Setting),
                 enumNames: enumNames.filter(
-                  label => label !== data[time1Setting]?.label,
+                  label => label !== CONFERENCE_TIMES_V1[time1Setting]?.label,
                 ),
               },
             },

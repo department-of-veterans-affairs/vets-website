@@ -1,0 +1,68 @@
+.rb-fieldset-input {
+  margin-bottom: 2rem;
+  position: relative;
+  right: calc(1.9rem - 4px); //this is to account for the border
+}
+
+.rb-input-notify-label {
+  display: block;
+  font-size: 1.7rem;
+  font-weight: 700;
+  padding-left: 1.2rem;
+  padding-bottom: 1rem;
+}
+
+.rb-input {
+  border-left: 4px solid;
+  position: relative;
+  right: 1.9rem;
+}
+
+.rb-input-message {
+  display: block;
+  font-size: 1.7rem;
+  font-weight: 700;
+  padding-bottom: 3px;
+  padding-top: 3px;
+}
+
+//warning
+.rb-input-warning {
+  border-left-color: $color-gold;
+}
+
+.rb-input-message-warning {
+  background: $color-gold-lightest;
+}
+
+//error
+.rb-input-error {
+  border-left-color: $color-red;
+}
+
+.rb-input-message-error {
+  background: $color-red-lightest;
+}
+
+//success
+.rb-input-success {
+  border-left-color: $color-green;
+}
+
+.rb-input-message-success {
+  background: $color-green-lightest;
+}
+
+// loading
+.rb-input-loading {
+  border-left-color: transparent;
+}
+
+.rb-input-message-loading {
+  font-weight: normal;
+  font-style: italic;
+}
+
+.rb-buttons {
+  padding-left: 1.5rem;
+}

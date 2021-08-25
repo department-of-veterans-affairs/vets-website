@@ -5,6 +5,7 @@ import { setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import { getVAAppointmentMock } from './v0';
 import { mockEligibilityFetches } from './helpers';
 import { getV2ClinicMock } from './v2';
+import { TYPES_OF_CARE } from '../../utils/constants';
 
 /**
  * Mocks the api calls for the various eligibility related fetches VAOS does in the new appointment flow
@@ -28,7 +29,6 @@ import { getV2ClinicMock } from './v2';
 export function mockEligibilityFetchesByVersion({
   facilityId,
   typeOfCareId,
-  siteId = null,
   limit = false,
   requestPastVisits = false,
   directPastVisits = false,
@@ -39,14 +39,13 @@ export function mockEligibilityFetchesByVersion({
   if (version === 2) {
     setFetchJSONResponse(
       global.fetch.withArgs(
-        `${
-          environment.API_URL
-        }/vaos/v2/patient?facility_id=${facilityId}&clinical_service_id=${typeOfCareId}&type=direct`,
+        `${environment.API_URL}/vaos/v2/patient?facility_id=${facilityId}&clinical_service_id=${typeOfCareId}&type=direct`,
       ),
       {
         data: {
           attributes: {
-            hasRequiredAppointmentHistory: directPastVisits,
+            hasRequiredAppointmentHistory:
+              directPastVisits || typeOfCareId === 'primaryCare',
             isEligibleForNewAppointmentRequest: limit,
           },
         },
@@ -54,14 +53,13 @@ export function mockEligibilityFetchesByVersion({
     );
     setFetchJSONResponse(
       global.fetch.withArgs(
-        `${
-          environment.API_URL
-        }/vaos/v2/patient?facility_id=${facilityId}&clinical_service_id=${typeOfCareId}&type=request`,
+        `${environment.API_URL}/vaos/v2/patient?facility_id=${facilityId}&clinical_service_id=${typeOfCareId}&type=request`,
       ),
       {
         data: {
           attributes: {
-            hasRequiredAppointmentHistory: requestPastVisits,
+            hasRequiredAppointmentHistory:
+              requestPastVisits || typeOfCareId === 'primaryCare',
             isEligibleForNewAppointmentRequest: limit,
           },
         },
@@ -69,9 +67,7 @@ export function mockEligibilityFetchesByVersion({
     );
     setFetchJSONResponse(
       global.fetch.withArgs(
-        `${
-          environment.API_URL
-        }/vaos/v2/locations/${facilityId}/clinics?clinical_service=${typeOfCareId}`,
+        `${environment.API_URL}/vaos/v2/locations/${facilityId}/clinics?clinical_service=${typeOfCareId}`,
       ),
       {
         data: clinics,
@@ -118,9 +114,9 @@ export function mockEligibilityFetchesByVersion({
     );
   } else if (version === 0) {
     mockEligibilityFetches({
-      siteId,
+      siteId: facilityId.substr(0, 3),
       facilityId,
-      typeOfCareId,
+      typeOfCareId: TYPES_OF_CARE.find(t => t.idV2 === typeOfCareId).id,
       limit,
       requestPastVisits,
       directPastVisits,
@@ -151,9 +147,7 @@ export function mockSingleClinicFetchByVersion({
   if (version === 2) {
     setFetchJSONResponse(
       global.fetch.withArgs(
-        `${
-          environment.API_URL
-        }/vaos/v2/locations/${locationId}/clinics?clinic_ids%5B%5D=${clinicId}`,
+        `${environment.API_URL}/vaos/v2/locations/${locationId}/clinics?clinic_ids%5B%5D=${clinicId}`,
       ),
       {
         data: [

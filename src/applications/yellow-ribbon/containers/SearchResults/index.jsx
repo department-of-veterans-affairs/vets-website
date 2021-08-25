@@ -208,6 +208,7 @@ export class SearchResults extends Component {
         <h2
           className="va-introtext va-u-outline--none vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal"
           data-display-results-header
+          tabIndex="-1"
         >
           {/* eslint-disable-next-line jsx-a11y/aria-role */}
           <span role="text">
@@ -274,7 +275,4 @@ const mapDispatchToProps = dispatch => ({
   toggleAlertToolTip: () => dispatch(toggleSearchResultsToolTip()),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SearchResults);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchResults);

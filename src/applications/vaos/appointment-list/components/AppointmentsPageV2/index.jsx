@@ -33,7 +33,7 @@ function getDropdownValueFromLocation(pathname) {
   if (pathname.endsWith(DROPDOWN_VALUES.requested)) {
     return {
       dropdownValue: DROPDOWN_VALUES.requested,
-      subPageTitle: 'Open requests',
+      subPageTitle: 'Requested',
       subHeading: 'Requested',
     };
   } else if (pathname.endsWith(DROPDOWN_VALUES.past)) {
@@ -67,12 +67,9 @@ export default function AppointmentsPageV2() {
     subHeading,
   } = getDropdownValueFromLocation(location.pathname);
 
-  useEffect(
-    () => {
-      document.title = `${subPageTitle} | ${pageTitle} | Veterans Affairs`;
-    },
-    [subPageTitle],
-  );
+  useEffect(() => {
+    document.title = `${subPageTitle} | ${pageTitle} | Veterans Affairs`;
+  }, [subPageTitle]);
 
   const history = useHistory();
 
@@ -107,7 +104,7 @@ export default function AppointmentsPageV2() {
         htmlFor="type-dropdown"
         className="vads-u-display--inline-block vads-u-margin-top--0 vads-u-margin-right--2"
       >
-        Show by type
+        Show by status
       </label>
       <Select
         options={options}

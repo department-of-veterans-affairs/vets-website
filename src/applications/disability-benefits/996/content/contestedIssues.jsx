@@ -1,11 +1,12 @@
 import React from 'react';
 import moment from 'moment';
-import Scroll from 'react-scroll';
 
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
+
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import {
   BOARD_APPEALS_URL,
@@ -15,17 +16,7 @@ import {
 } from '../constants';
 import DownloadLink from './DownloadLink';
 
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo(
-    'eligibleScrollElement',
-    window.VetsGov?.scroll || {
-      duration: 500,
-      delay: 0,
-      smooth: true,
-    },
-  );
-};
+import { apiVersion1 } from '../utils/helpers';
 
 // We shouldn't ever see the couldn't find contestable issues message since we
 // prevent the user from navigating past the intro page; but it's here just in
@@ -38,9 +29,11 @@ export const ContestedIssuesTitle = props =>
   ) : (
     <legend name="eligibleScrollElement" className="vads-u-font-size--lg">
       Select the issue(s) you would like reviewed
-      <span className="schemaform-required-span vads-u-font-weight--normal vads-u-font-size--base">
-        (*Required)
-      </span>
+      {apiVersion1(props.formData) && (
+        <span className="schemaform-required-span vads-u-font-weight--normal vads-u-font-size--base">
+          (*Required)
+        </span>
+      )}
     </legend>
   );
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
@@ -11,7 +11,7 @@ import { fetchProfile, setPageTitle, showModal, hideModal } from '../actions';
 import VetTecInstitutionProfile from '../components/vet-tec/InstitutionProfile';
 import InstitutionProfile from '../components/profile/InstitutionProfile';
 import ServiceError from '../components/ServiceError';
-import { useQueryParams } from '../utils/helpers';
+import { isSmallScreen, useQueryParams } from '../utils/helpers';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -33,36 +33,34 @@ export function ProfilePage({
   const queryParams = useQueryParams();
   const version = queryParams.get('version');
   const institutionName = _.get(profile, 'attributes.name');
+  const [smallScreen, setSmallScreen] = useState(isSmallScreen());
 
   useEffect(() => {
+    const checkSize = () => {
+      setSmallScreen(isSmallScreen());
+    };
+    window.addEventListener('resize', checkSize);
+
     return () => {
+      window.removeEventListener('resize', checkSize);
       dispatchHideModal();
     };
   }, []);
 
-  useEffect(
-    () => {
-      if (institutionName) {
-        dispatchSetPageTitle(`${institutionName} - GI Bill® Comparison Tool`);
-      }
-    },
-    [institutionName],
-  );
+  useEffect(() => {
+    if (institutionName) {
+      dispatchSetPageTitle(`${institutionName} - GI Bill® Comparison Tool`);
+    }
+  }, [institutionName]);
 
-  useEffect(
-    () => {
-      scroller.scrollTo('profilePage', getScrollOptions());
-      focusElement('.profile-page h1');
-    },
-    [profile.inProgress],
-  );
+  useEffect(() => {
+    scroller.scrollTo('profilePage', getScrollOptions());
+    focusElement('.profile-page h1');
+  }, [profile.inProgress]);
 
-  useEffect(
-    () => {
-      dispatchFetchProfile(facilityCode, version);
-    },
-    [version],
-  );
+  useEffect(() => {
+    dispatchFetchProfile(facilityCode, version);
+  }, [version]);
 
   let content;
 
@@ -80,6 +78,7 @@ export function ProfilePage({
           preSelectedProgram={preSelectedProgram}
           selectedProgram={calculator.selectedProgram}
           compare={compare}
+          smallScreen={smallScreen}
         />
       );
     } else {
@@ -95,6 +94,7 @@ export function ProfilePage({
           gibctEybBottomSheet={gibctEybBottomSheet}
           gibctSchoolRatings={gibctSchoolRatings}
           compare={compare}
+          smallScreen={smallScreen}
         />
       );
     }
@@ -143,7 +143,4 @@ const mapDispatchToProps = {
   dispatchHideModal: hideModal,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ProfilePage);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);

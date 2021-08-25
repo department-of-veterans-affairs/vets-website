@@ -6,7 +6,7 @@ import {
   updateAutocompleteName,
 } from '../../actions';
 import KeywordSearch from '../../components/search/KeywordSearch';
-import { updateUrlParams } from '../../utils/helpers';
+import { updateUrlParams } from '../../selectors/search';
 import { useHistory } from 'react-router-dom';
 import { TABS } from '../../constants';
 
@@ -35,7 +35,6 @@ export function NameSearchForm({
       },
       filters,
       version,
-      1,
     );
   };
 
@@ -43,27 +42,21 @@ export function NameSearchForm({
    * Triggers a search for search form when the "Update results" button in "Filter your results"
    * is clicked
    */
-  useEffect(
-    () => {
-      if (!search.loadFromUrl && filters.search && search.tab === TABS.name) {
-        doSearch(search.query.name || name);
-      }
-    },
-    [filters.search],
-  );
+  useEffect(() => {
+    if (!search.loadFromUrl && filters.search && search.tab === TABS.name) {
+      doSearch(search.query.name || name);
+    }
+  }, [filters.search]);
 
-  useEffect(
-    () => {
-      if (
-        search.loadFromUrl &&
-        search.query.name !== null &&
-        search.query.name !== ''
-      ) {
-        doSearch(search.query.name);
-      }
-    },
-    [search.loadFromUrl],
-  );
+  useEffect(() => {
+    if (
+      search.loadFromUrl &&
+      search.query.name !== null &&
+      search.query.name !== ''
+    ) {
+      doSearch(search.query.name);
+    }
+  }, [search.loadFromUrl]);
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -129,7 +122,4 @@ const mapDispatchToProps = {
   dispatchFetchSearchByNameResults: fetchSearchByNameResults,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(NameSearchForm);
+export default connect(mapStateToProps, mapDispatchToProps)(NameSearchForm);

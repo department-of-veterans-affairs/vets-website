@@ -86,19 +86,16 @@ const PreSubmitCheckboxGroup = ({
     return renameObjectKeys(keys, signatures);
   };
 
-  useEffect(
-    () => {
-      // do not clear signatures once form has been submitted
-      if (hasSubmittedForm) return;
+  useEffect(() => {
+    // do not clear signatures once form has been submitted
+    if (hasSubmittedForm) return;
 
-      // Add signatures to formData before submission
-      setFormData({
-        ...formData,
-        ...transformSignatures(signatures),
-      });
-    },
-    [setFormData, signatures],
-  );
+    // Add signatures to formData before submission
+    setFormData({
+      ...formData,
+      ...transformSignatures(signatures),
+    });
+  }, [setFormData, signatures]);
 
   // when there is no unsigned signatures set AGREED (onSectionComplete) to true
   // if goes to another page (unmount), set AGREED (onSectionComplete) to false
@@ -126,21 +123,18 @@ const PreSubmitCheckboxGroup = ({
   };
 
   /* Remove party signature box if yes/no question is answered falsy */
-  useEffect(
-    () => {
-      removePartyIfFalsy(hasPrimary, primaryLabel);
-      removePartyIfFalsy(hasSecondaryOne, secondaryOneLabel);
-      removePartyIfFalsy(hasSecondaryTwo, secondaryTwoLabel);
-      removePartyIfFalsy(showRepresentativeSignatureBox, representativeLabel);
-      removePartyIfFalsy(!showRepresentativeSignatureBox, veteranLabel);
-    },
-    [
-      hasPrimary,
-      hasSecondaryOne,
-      hasSecondaryTwo,
-      showRepresentativeSignatureBox,
-    ],
-  );
+  useEffect(() => {
+    removePartyIfFalsy(hasPrimary, primaryLabel);
+    removePartyIfFalsy(hasSecondaryOne, secondaryOneLabel);
+    removePartyIfFalsy(hasSecondaryTwo, secondaryTwoLabel);
+    removePartyIfFalsy(showRepresentativeSignatureBox, representativeLabel);
+    removePartyIfFalsy(!showRepresentativeSignatureBox, veteranLabel);
+  }, [
+    hasPrimary,
+    hasSecondaryOne,
+    hasSecondaryTwo,
+    showRepresentativeSignatureBox,
+  ]);
 
   /*
     - Vet first && last name must match, and be checked
@@ -167,7 +161,7 @@ const PreSubmitCheckboxGroup = ({
           isRepresentative
           isRequired
         >
-          <h3>Veteran&apos;s statement of truth</h3>
+          <h3>Veteran’s statement of truth</h3>
 
           <h4 className="vads-u-font-size--sm" style={{ fontWeight: 600 }}>
             {representativeFirstParagraph}
@@ -192,7 +186,7 @@ const PreSubmitCheckboxGroup = ({
           submission={submission}
           isRequired
         >
-          <h3>Veteran&apos;s statement of truth</h3>
+          <h3>Veteran’s statement of truth</h3>
 
           <p>{veteranFirstParagraph}</p>
 
@@ -218,7 +212,7 @@ const PreSubmitCheckboxGroup = ({
           isRequired
         >
           <h3 className="vads-u-margin-top--4">
-            Primary Family Caregiver applicant&apos;s statement of truth
+            Primary Family Caregiver applicant’s statement of truth
           </h3>
 
           <p className="vads-u-margin-y--2">{primaryFirstParagraph}</p>

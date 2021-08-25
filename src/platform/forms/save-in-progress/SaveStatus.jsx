@@ -9,7 +9,12 @@ import {
 } from '../../forms-system/src/js/constants';
 
 function SaveStatus({
-  form: { lastSavedDate, autoSavedStatus, loadedData },
+  form: {
+    lastSavedDate,
+    autoSavedStatus,
+    loadedData,
+    inProgressFormId = loadedData?.metadata?.inProgressFormId,
+  },
   formConfig,
   isLoggedIn,
   showLoginModal,
@@ -19,20 +24,19 @@ function SaveStatus({
   if (lastSavedDate) {
     const savedAt = moment(lastSavedDate);
     savedAtMessage = ` It was last saved on ${savedAt.format(
-      'MMM D, YYYY [at] h:mm a',
+      'MMMM D, YYYY [at] h:mm a',
     )}`;
   } else {
     savedAtMessage = '';
   }
 
-  const formId = loadedData?.metadata?.inProgressFormId;
   const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
 
   const formIdMessage =
-    formId && savedAtMessage ? (
+    inProgressFormId && savedAtMessage ? (
       <>
         {' '}
-        Your {appType} ID number is <strong>{formId}</strong>.
+        Your {appType} ID number is <strong>{inProgressFormId}</strong>.
       </>
     ) : null;
 
@@ -69,21 +73,20 @@ function SaveStatus({
             `We’re sorry. We’re unable to connect to VA.gov. Please check that you’re connected to the Internet, so we can save your ${appType} in progress.`}
           {autoSavedStatus === SAVE_STATUSES.failure &&
             `We’re sorry, but we’re having some issues and are working to fix them. You can continue filling out the ${appType}, but it will not be automatically saved as you fill it out.`}
-          {!isLoggedIn &&
-            autoSavedStatus === SAVE_STATUSES.noAuth && (
-              <span>
-                Sorry, you’re no longer signed in.{' '}
-                <SignInLink
-                  className="va-button-link"
-                  isLoggedIn={isLoggedIn}
-                  showLoginModal={showLoginModal}
-                  toggleLoginModal={toggleLoginModal}
-                >
-                  Sign in to save your {appType} in progress
-                </SignInLink>
-                .
-              </span>
-            )}
+          {!isLoggedIn && autoSavedStatus === SAVE_STATUSES.noAuth && (
+            <span>
+              Sorry, you’re no longer signed in.{' '}
+              <SignInLink
+                className="va-button-link"
+                isLoggedIn={isLoggedIn}
+                showLoginModal={showLoginModal}
+                toggleLoginModal={toggleLoginModal}
+              >
+                Sign in to save your {appType} in progress
+              </SignInLink>
+              .
+            </span>
+          )}
         </div>
       )}
     </div>
