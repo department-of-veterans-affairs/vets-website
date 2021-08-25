@@ -59,26 +59,8 @@ describe('VAOS <DateTimeSelectPage>', () => {
       .second(0);
     setDateTimeSelectMockFetches({
       slotDatesByClinicId: {
-        308: [
-          {
-            ...getAppointmentSlotMock(),
-            startDateTime: slot308Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-            endDateTime: slot308Date
-              .clone()
-              .minute(20)
-              .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-          },
-        ],
-        309: [
-          {
-            ...getAppointmentSlotMock(),
-            startDateTime: slot309Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-            endDateTime: slot309Date
-              .clone()
-              .minute(20)
-              .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-          },
-        ],
+        308: [slot308Date],
+        309: [slot309Date],
       },
     });
     const preferredDate = moment();
@@ -213,26 +195,8 @@ describe('VAOS <DateTimeSelectPage>', () => {
 
     setDateTimeSelectMockFetches({
       slotDatesByClinicId: {
-        308: [
-          {
-            ...getAppointmentSlotMock(),
-            startDateTime: slot308Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-            endDateTime: slot308Date
-              .clone()
-              .minute(20)
-              .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-          },
-        ],
-        309: [
-          {
-            ...getAppointmentSlotMock(),
-            startDateTime: slot309Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-            endDateTime: slot309Date
-              .clone()
-              .minute(20)
-              .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-          },
-        ],
+        308: [slot308Date],
+        309: [slot309Date],
       },
     });
 
@@ -334,18 +298,9 @@ describe('VAOS <DateTimeSelectPage>', () => {
       .second(0);
     const preferredDate = moment();
 
-    const slot = {
-      ...getAppointmentSlotMock(),
-      startDateTime: slot308Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-      endDateTime: slot308Date
-        .clone()
-        .minute(20)
-        .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-    };
-
     setDateTimeSelectMockFetches({
       slotDatesByClinicId: {
-        308: [slot, slot, slot, slot, slot],
+        308: [slot308Date, slot308Date, slot308Date, slot308Date, slot308Date],
       },
     });
 
@@ -453,16 +408,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
 
     setDateTimeSelectMockFetches({
       slotDatesByClinicId: {
-        308: [
-          {
-            ...getAppointmentSlotMock(),
-            startDateTime: slot308Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-            endDateTime: slot308Date
-              .clone()
-              .minute(20)
-              .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-          },
-        ],
+        308: [slot308Date],
       },
     });
 
@@ -504,29 +450,10 @@ describe('VAOS <DateTimeSelectPage>', () => {
     // And there are slots available today and tomorrow
     const slot308Date = moment().add(1, 'hour');
     const slot308TomorrowDate = moment().add(1, 'day');
-    const slots308 = [
-      {
-        ...getAppointmentSlotMock(),
-        startDateTime: slot308Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-        endDateTime: slot308Date
-          .clone()
-          .minute(20)
-          .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-      },
-      {
-        ...getAppointmentSlotMock(),
-        startDateTime: slot308TomorrowDate.format(
-          'YYYY-MM-DDTHH:mm:ss[+00:00]',
-        ),
-        endDateTime: slot308TomorrowDate
-          .clone()
-          .minute(20)
-          .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-      },
-    ];
+
     setDateTimeSelectMockFetches({
       slotDatesByClinicId: {
-        308: slots308,
+        308: [slot308Date, slot308TomorrowDate],
       },
     });
 
@@ -561,22 +488,11 @@ describe('VAOS <DateTimeSelectPage>', () => {
 
   it.skip('should show info standard of care alert when there is a wait for a mental health appointments', async () => {
     const slot308Date = moment().add(22, 'days');
-    const slots308 = [
-      {
-        ...getAppointmentSlotMock(),
-        startDateTime: slot308Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-        endDateTime: slot308Date
-          .clone()
-          .minute(20)
-          .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-      },
-    ];
-
     const preferredDate = moment().add(6, 'days');
 
     setDateTimeSelectMockFetches({
       slotDatesByClinicId: {
-        308: slots308,
+        308: [slot308Date],
       },
     });
 
@@ -603,22 +519,11 @@ describe('VAOS <DateTimeSelectPage>', () => {
 
   it.skip('should show info standard of care alert when there is a wait for non mental health appointments', async () => {
     const slot308Date = moment().add(30, 'days');
-    const slots308 = [
-      {
-        ...getAppointmentSlotMock(),
-        startDateTime: slot308Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-        endDateTime: slot308Date
-          .clone()
-          .minute(20)
-          .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-      },
-    ];
-
     const preferredDate = moment().add(6, 'days');
 
     setDateTimeSelectMockFetches({
       slotDatesByClinicId: {
-        308: slots308,
+        308: [slot308Date],
       },
     });
 
@@ -730,16 +635,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     setDateTimeSelectMockFetches({
       preferredDate,
       slotDatesByClinicId: {
-        308: [
-          {
-            ...getAppointmentSlotMock(),
-            startDateTime: slot308Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-            endDateTime: slot308Date
-              .clone()
-              .minute(20)
-              .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-          },
-        ],
+        308: [slot308Date],
       },
     });
 

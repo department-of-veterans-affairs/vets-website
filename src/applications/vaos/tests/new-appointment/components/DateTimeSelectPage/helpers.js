@@ -4,7 +4,7 @@ import {
   mockAppointmentSlotFetch,
   mockEligibilityFetches,
 } from '../../../mocks/helpers';
-import { getClinicMock } from '../../../mocks/v0';
+import { getAppointmentSlotMock, getClinicMock } from '../../../mocks/v0';
 
 export function setDateTimeSelectMockFetches({
   preferredDate = moment(),
@@ -14,21 +14,21 @@ export function setDateTimeSelectMockFetches({
   const clinicIds = Object.keys(slotDatesByClinicId);
   const clinics = [
     {
-      id: '308',
+      id: clinicIds[0],
       attributes: {
         ...getClinicMock(),
         siteCode: '983',
-        clinicId: '308',
+        clinicId: clinicIds[0],
         institutionCode: '983',
         clinicFriendlyLocationName: 'Green team clinic',
       },
     },
     {
-      id: '309',
+      id: clinicIds[1],
       attributes: {
         ...getClinicMock(),
         siteCode: '983',
-        clinicId: '309',
+        clinicId: clinicIds[1],
         institutionCode: '983',
         clinicFriendlyLocationName: 'Red team clinic',
       },
@@ -47,11 +47,21 @@ export function setDateTimeSelectMockFetches({
   });
   if (!slotError) {
     clinicIds.forEach(id => {
+      const slots = slotDatesByClinicId[id].map(date => {
+        return {
+          ...getAppointmentSlotMock(),
+          startDateTime: date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+          endDateTime: date
+            .clone()
+            .minute(20)
+            .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+        };
+      });
       mockAppointmentSlotFetch({
         siteId: '983',
         clinicId: id,
         typeOfCareId: '323',
-        slots: slotDatesByClinicId[id],
+        slots,
         preferredDate,
       });
     });
