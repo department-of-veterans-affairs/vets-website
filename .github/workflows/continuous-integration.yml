@@ -67,12 +67,6 @@ jobs:
       #     YARN_REGISTRY: https://devops.va.gov/dots-nexus/repository/npmjs.org-proxy/
       #     YARN_CACHE_FOLDER: .cache/yarn
 
-      - name: Get va-vsp-bot token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
       # - name: Force yarn cache clean
       #   run: yarn cache clean
 
@@ -91,7 +85,7 @@ jobs:
       #   run: yarn config get registry
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline --production=false --verbose
+        run: npm install --verbose
 
       - name: Build
         run: yarn build --verbose --buildtype=${{ matrix.buildtype }}
