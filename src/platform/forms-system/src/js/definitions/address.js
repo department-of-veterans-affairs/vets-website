@@ -176,12 +176,8 @@ export function uiSchema(
       if (stateList) {
         // We have a list and it’s different, so we need to make schema updates
         if (addressSchema.properties.state.enum !== stateList) {
-          const withEnum = set(
-            'state.enum',
-            stateList,
-            schemaUpdate.properties,
-          );
-          schemaUpdate.properties = set('state.enumNames', labelList, withEnum);
+          schemaUpdate.properties.state.enum = stateList;
+          schemaUpdate.properties.state.enumNames = labelList;
 
           // all the countries with state lists require the state field, so add that if necessary
           if (
