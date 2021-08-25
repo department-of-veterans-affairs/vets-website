@@ -67,8 +67,11 @@ jobs:
       #     YARN_REGISTRY: https://devops.va.gov/dots-nexus/repository/npmjs.org-proxy/
       #     YARN_CACHE_FOLDER: .cache/yarn
 
-      - name: Force yarn cache clean
-        run: yarn cache clean
+      # - name: Force yarn cache clean
+      #   run: yarn cache clean
+
+      - name: clean npm
+        run: npm cache clean --force
 
       - name: Authenticate NEXUS
         run: |
@@ -78,14 +81,14 @@ jobs:
           npm config set email va-vsp-bot-1@va.gov
           npm config set always-auth true
 
-      - name: Set yarn registry to DOT NEXUS
-        run: yarn config set registry ${{ env.NEXUS_REGISTRY }}
+      # - name: Set yarn registry to DOT NEXUS
+      #   run: yarn config set registry ${{ env.NEXUS_REGISTRY }}
 
-      - name: Verify registry for yarn
-        run: yarn config get registry
+      # - name: Verify registry for yarn
+      #   run: yarn config get registry
 
       - name: Install dependencies
-        run: npm install --verbose
+        run: npm install
 
       - name: Build
         run: yarn build --verbose --buildtype=${{ matrix.buildtype }}
