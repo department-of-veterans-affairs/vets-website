@@ -1,5 +1,7 @@
 import mockFacilityDataV1 from '../../constants/mock-facility-data-v1.json';
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
+import { facilityTypes, urgentCareServices } from '../../config.js';
+import { LocationType } from '../../constants';
 
 describe('Provider search', () => {
   beforeEach(() => {
@@ -17,14 +19,16 @@ describe('Provider search', () => {
 
     cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown').select(
-      'Community providers (in VA’s network)',
+      facilityTypes[LocationType.CC_PROVIDER],
     );
     cy.get('#service-type-ahead-input').type('Dentist');
     cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
 
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').contains(
-      'Results for "Community providers (in VA’s network)", "Dentist - Orofacial Pain " near "Austin, Texas"',
+      `Results for "${
+        facilityTypes[LocationType.CC_PROVIDER]
+      }", "Dentist - Orofacial Pain " near "Austin, Texas"`,
     );
     cy.get('#other-tools').should('exist');
 
@@ -41,14 +45,16 @@ describe('Provider search', () => {
 
     cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown').select(
-      'Community providers (in VA’s network)',
+      facilityTypes[LocationType.CC_PROVIDER],
     );
     cy.get('#service-type-ahead-input').type('Clinic/Center - Urgent Care');
     cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
 
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').contains(
-      'Results for "Community providers (in VA’s network)", "Clinic/Center - Urgent Care" near "Austin, Texas"',
+      `Results for "${
+        facilityTypes[LocationType.CC_PROVIDER]
+      }", "Clinic/Center - Urgent Care" near "Austin, Texas"`,
     );
     cy.get('#other-tools').should('exist');
 
@@ -58,17 +64,17 @@ describe('Provider search', () => {
     cy.get('.va-pagination').should('not.exist');
   });
 
-  it('finds community urgent care - Community urgent care providers (in VA’s network)', () => {
+  it('finds community urgent care', () => {
     cy.visit('/find-locations');
 
     cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown').select('Urgent care');
-    cy.get('#service-type-dropdown').select(
-      'Community urgent care providers (in VA’s network)',
-    );
+    cy.get('#service-type-dropdown').select(urgentCareServices.NonVAUrgentCare);
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').contains(
-      'Results for "Urgent care", "Community urgent care providers (in VA’s network)" near "Austin, Texas"',
+      `Results for "Urgent care", "${
+        urgentCareServices.NonVAUrgentCare
+      }" near "Austin, Texas"`,
     );
     cy.get('#other-tools').should('exist');
 
