@@ -91,7 +91,7 @@ jobs:
       #   run: yarn cache clean
 
       - name: Install dependencies
-        run: npm install --frozen-lockfile --prefer-offline --production=false --verbose
+        run: npm install --verbose
 
       - name: Build
         run: yarn build --verbose --buildtype=${{ matrix.buildtype }}
