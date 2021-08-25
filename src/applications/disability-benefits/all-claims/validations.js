@@ -178,6 +178,34 @@ export const isInFuture = (err, fieldData) => {
   }
 };
 
+export const isLessThan180DaysInFuture = (errors, fieldData) => {
+  const enteredDate = moment(fieldData);
+  const in180Days = moment().add(180, 'days');
+  if (enteredDate.isValid()) {
+    if (enteredDate.isBefore()) {
+      errors.addError('Please enter a future separation date');
+    } else if (enteredDate.isSameOrAfter(in180Days)) {
+      errors.addError(
+        'Please enter a separation date less than 180 days in the future',
+      );
+    }
+  }
+};
+
+export const title10BeforeRad = (errors, pageData) => {
+  const { anticipatedSeparationDate, title10ActivationDate } =
+    pageData?.reservesNationalGuardService?.title10Activation || {};
+
+  const rad = moment(anticipatedSeparationDate);
+  const activation = moment(title10ActivationDate);
+
+  if (rad.isValid() && activation.isValid() && rad.isBefore(activation)) {
+    errors.reservesNationalGuardService.title10Activation.anticipatedSeparationDate.addError(
+      'Please enter an expected separation date that is after your activation date',
+    );
+  }
+};
+
 export const isValidYear = (err, fieldData) => {
   const parsedInt = Number.parseInt(fieldData, 10);
 

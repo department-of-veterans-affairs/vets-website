@@ -101,8 +101,8 @@
   },
   "benefits": {
     "spouseBenefits": {
-      "benefitAmount": "1000.09",
-      "educationAmount": "500.46"
+      "compensationAndPension": "1000.09",
+      "education": "500.46"
     }
   },
   "additionalData": {
@@ -446,12 +446,16 @@
           "amount": "350.5643534"
         },
         {
-          "name": "Health insurance",
-          "amount": "400.3443543"
+          "name": "State tax",
+          "amount": "230.45"
         },
         {
-          "name": "401K",
-          "amount": "100.32432"
+          "name": "Pension",
+          "amount": "100"
+        },
+        {
+          "name": "Health insurance",
+          "amount": "254.45"
         }
       ],
       "type": "Full time",
@@ -466,6 +470,14 @@
         {
           "name": "Federal tax",
           "amount": "200.0254334"
+        },
+        {
+          "name": "Allotment",
+          "amount": "134.56"
+        },
+        {
+          "name": "FICA (Social Security and Medicare)",
+          "amount": "122.4"
         }
       ],
       "type": "Part time",
@@ -486,6 +498,10 @@
         {
           "name": "Health insurance",
           "amount": "250.344324"
+        },
+        {
+          "name": "Garnishment",
+          "amount": "150"
         }
       ],
       "type": "Full time",
@@ -499,7 +515,9 @@
   "availableOptions": {},
   "income": [
     {
-      "veteranOrSpouse": "VETERAN"
+      "veteranOrSpouse": "VETERAN",
+      "compensationAndPension": "3261.1",
+      "education": "50"
     }
   ]
 }

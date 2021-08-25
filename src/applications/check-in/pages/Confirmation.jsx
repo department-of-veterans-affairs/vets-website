@@ -11,7 +11,12 @@ import AppointmentLocation from '../components/AppointmentLocation';
 const Confirmation = () => {
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5">
-      <VaAlert status="success" onVaOnLoad={() => focusElement('h1')}>
+      <VaAlert
+        status="success"
+        onVa-component-did-load={() => {
+          focusElement('h1');
+        }}
+      >
         <h1
           tabIndex="-1"
           aria-label="Thank you for checking in. "
