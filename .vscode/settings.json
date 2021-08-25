@@ -1,10 +1,17 @@
 {
+  // for stylelint https://github.com/stylelint/vscode-stylelint#optional-but-recommended-setup
   "css.validate": false,
   "less.validate": false,
   "scss.validate": false,
-  "stylelint.configFile": "./.stylelintrc.json",
+
+  // prettier config
+  "prettier.configPath": ".prettierrc",
   "editor.formatOnSave": true,
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+
+  // gitlens
+  "gitlens.showWelcomeOnInstall": false,
+  "gitlens.showWhatsNewAfterUpgrades": false
 }

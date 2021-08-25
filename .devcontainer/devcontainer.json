@@ -1,28 +1,30 @@
 {
   "name": "vets-website",
   "settings": {
+    "extensions.ignoreRecommendations": true,
     "terminal.integrated.defaultShell.linux": "/bin/bash",
     "workbench.startupEditor": "readme"
   },
   "extensions": [
-	"davidanson.vscode-markdownlint",
-	"dbaeumer.vscode-eslint",
-	"eamodio.gitlens",
-	"esbenp.prettier-vscode",
-	"github.vscode-pull-request-github",
-	"ms-vsliveshare.vsliveshare",
-	"ms-vsliveshare.vsliveshare-pack",
-	"redhat.vscode-yaml",
-	"stylelint.vscode-stylelint",
-	"tyriar.sort-lines",
-	"visualstudioexptteam.vscodeintellicode",
-	"wayou.vscode-todo-highlight"
-],
-"build": {
-	"dockerfile": "Dockerfile",
-	"args": {
-		"VARIANT": "14"
-	}
-},
-"remoteUser": "node"
+    "davidanson.vscode-markdownlint",
+    "dbaeumer.vscode-eslint",
+    "eamodio.gitlens",
+    "esbenp.prettier-vscode",
+    "github.vscode-pull-request-github",
+    "ms-vsliveshare.vsliveshare",
+    "ms-vsliveshare.vsliveshare-pack",
+    "redhat.vscode-yaml",
+    "stylelint.vscode-stylelint",
+    "tyriar.sort-lines",
+    "visualstudioexptteam.vscodeintellicode",
+    "wayou.vscode-todo-highlight"
+  ],
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "VARIANT": "14"
+    }
+  },
+  "remoteUser": "node",
+  "postCreateCommand": "yarn install --prefer-offline"
 }
