@@ -532,14 +532,16 @@ const formConfig = {
           title: 'Contact Information',
           path: 'contact/information/mailing/address',
           initialData: {
-            [formFields.address]: {
-              street: '2222 Avon Street',
-              street2: 'Apt 6',
-              city: 'Arlington',
-              state: 'Virginia',
-              postalCode: '22205',
+            'view:mailingAddress': {
+              livesOnMilitaryBase: true,
+              [formFields.address]: {
+                street: '2222 Avon Street',
+                street2: 'Apt 6',
+                city: 'Arlington',
+                state: 'VA',
+                postalCode: '22205',
+              },
             },
-            livesOnMilitaryBase: true,
           },
           uiSchema: {
             'view:subHeadings': {
@@ -555,8 +557,20 @@ const formConfig = {
               ),
             },
             'view:mailingAddress': {
+              'ui:title': 'Your mailing address',
+              livesOnMilitaryBase: {
+                'ui:title': (
+                  <p id="LiveOnMilitaryBaseTooltip">
+                    I live on a United States military base outside of the
+                    country
+                  </p>
+                ),
+              },
+              livesOnMilitaryBaseInfo: {
+                'ui:description': LearnMoreAboutMilitaryBaseTooltip(),
+              },
               [formFields.address]: {
-                ...address.uiSchema('Your mailing address'),
+                ...address.uiSchema(''),
                 street: {
                   'ui:title': 'Street Address',
                   'ui:validations': [
@@ -585,29 +599,13 @@ const formConfig = {
                 postalCode: {
                   'ui:title': 'Postal Code (5-digit)',
                 },
-                'ui:order': [
-                  'livesOnMilitaryBase',
-                  'livesOnMilitaryBaseInfo',
-                  ...address.uiSchema('Your mailing address')['ui:order'],
-                ],
-                'ui:field': ReviewBoxField,
-                'ui:options': {
-                  hideLabelText: true,
-                  showFieldLabel: false,
-                  viewComponent: MailingAddressViewField,
-                },
-                livesOnMilitaryBase: {
-                  'ui:title': (
-                    <p id="LiveOnMilitaryBaseTooltip">
-                      I live on a United States military base outside of the
-                      country
-                    </p>
-                  ),
-                },
-                livesOnMilitaryBaseInfo: {
-                  'ui:description': LearnMoreAboutMilitaryBaseTooltip(),
-                },
               },
+              'ui:options': {
+                hideLabelText: true,
+                showFieldLabel: false,
+                viewComponent: MailingAddressViewField,
+              },
+              'ui:field': ReviewBoxField,
             },
             'view:note': {
               'ui:description': (
@@ -627,10 +625,9 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [formFields.address]: {
-                ...address.schema(fullSchema, true),
+              'view:mailingAddress': {
+                type: 'object',
                 properties: {
-                  ...address.schema(fullSchema, true).properties,
                   livesOnMilitaryBase: {
                     type: 'boolean',
                   },
@@ -638,9 +635,15 @@ const formConfig = {
                     type: 'object',
                     properties: {},
                   },
-                  state: {
-                    ...address.schema(fullSchema, true).properties.state,
-                    ...livesOnMilitaryBaseOutsideUS(),
+                  [formFields.address]: {
+                    ...address.schema(fullSchema, true),
+                    properties: {
+                      ...address.schema(fullSchema, true).properties,
+                      state: {
+                        ...address.schema(fullSchema, true).properties.state,
+                        ...livesOnMilitaryBaseOutsideUS(),
+                      },
+                    },
                   },
                 },
               },
