@@ -8,45 +8,10 @@
     "ask-a-question",
     "claims-status"
   ],
-  "auth": [
-    "auth"
-  ],
-  "beta-enrollment": [
-    "beta-enrollment"
-  ],
-  "burials": [
-    "burials",
-    "personalization"
-  ],
   "claims-status": [
     "claims-status",
     "caregivers",
     "personalization"
-  ],
-  "check-in": [
-    "check-in"
-  ],
-  "coronavirus-chatbot": [
-    "coronavirus-chatbot",
-    "static-pages"
-  ],
-  "coronavirus-research": [
-    "coronavirus-research"
-  ],
-  "coronavirus-screener": [
-    "coronavirus-screener"
-  ],
-  "coronavirus-vaccination-expansion": [
-    "coronavirus-vaccination-expansion"
-  ],
-  "coronavirus-vaccination": [
-    "coronavirus-vaccination",
-    "static-pages"
-  ],
-  "debt-letters": [
-    "debt-letters",
-    "financial-status-report",
-    "static-pages"
   ],
   "disability-benefits": [
     "disability-benefits",
@@ -69,23 +34,10 @@
     "third-party-app-directory",
     "vre"
   ],
-  "discharge-wizard": [
-    "discharge-wizard"
-  ],
-  "e-folders": [
-    "e-folders"
-  ],
   "edu-benefits": [
     "edu-benefits",
     "static-pages",
     "personalization"
-  ],
-  "facility-locator": [
-    "facility-locator",
-    "hca",
-    "personalization",
-    "pre-need",
-    "static-pages"
   ],
   "financial-status-report": [
     "financial-status-report",
@@ -93,8 +45,9 @@
     "static-pages",
     "personalization"
   ],
-  "find-forms": [
-    "find-forms",
+  "debt-letters": [
+    "debt-letters",
+    "financial-status-report",
     "static-pages"
   ],
   "gi-sandbox": [
@@ -124,11 +77,12 @@
     "static-pages",
     "vre"
   ],
-  "health-care-questionnaire": [
-    "health-care-questionnaire"
-  ],
-  "letters": [
-    "letters"
+  "facility-locator": [
+    "facility-locator",
+    "hca",
+    "personalization",
+    "pre-need",
+    "static-pages"
   ],
   "lgy": [
     "lgy",
@@ -141,20 +95,8 @@
     "static-pages",
     "disability-benefits"
   ],
-  "login": [
-    "login"
-  ],
-  "medical-copays": [
-    "medical-copays"
-  ],
-  "messages": [
-    "messages"
-  ],
-  "my-education-benefits": [
-    "my-education-benefits"
-  ],
-  "pensions": [
-    "pensions",
+  "burials": [
+    "burials",
     "personalization"
   ],
   "pre-need": [
@@ -162,18 +104,9 @@
     "personalization",
     "facility-locator"
   ],
-  "post-911-gib-status": [
-    "post-911-gib-status",
-    "static-pages"
-  ],
-  "proxy-rewrite": [
-    "proxy-rewrite"
-  ],
-  "public-outreach-materials": [
-    "public-outreach-materials"
-  ],
-  "registry.scaffold.json": [
-    "registry.scaffold.json"
+  "pensions": [
+    "pensions",
+    "personalization"
   ],
   "resources-and-support": [
     "resources-and-support",
@@ -183,34 +116,32 @@
     "search",
     "resources-and-support"
   ],
+  "coronavirus-vaccination": [
+    "coronavirus-vaccination",
+    "static-pages"
+  ],
+  "find-forms": [
+    "find-forms",
+    "static-pages"
+  ],
+  "post-911-gib-status": [
+    "post-911-gib-status",
+    "static-pages"
+  ],
+  "coronavirus-chatbot": [
+    "coronavirus-chatbot",
+    "static-pages"
+  ],
   "third-party-app-directory": [
     "third-party-app-directory",
     "static-pages"
-  ],
-  "terms-and-conditions": [
-    "terms-and-conditions"
-  ],
-  "validate-mhv-account": [
-    "validate-mhv-account"
-  ],
-  "vaos": [
-    "vaos",
-    "virtual-agent"
-  ],
-  "verify": [
-    "verify"
-  ],
-  "veteran-id-card": [
-    "veteran-id-card"
-  ],
-  "veteran-representative": [
-    "veteran-representative"
   ],
   "virtual-agent": [
     "virtual-agent",
     "vaos"
   ],
-  "yellow-ribbon": [
-    "yellow-ribbon"
+  "vaos": [
+    "vaos",
+    "virtual-agent"
   ]
 }
