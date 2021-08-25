@@ -1,20 +1,17 @@
-export const BASE_URLS = {
-  faq: {
-    en: '/coronavirus-veteran-frequently-asked-questions/',
-    es: '/coronavirus-veteran-frequently-asked-questions-esp/',
-    tl: '/coronavirus-veteran-frequently-asked-questions-tag/',
-  },
-  vaccine: {
-    en: '/health-care/covid-19-vaccine/',
-    es: '/health-care/covid-19-vaccine-esp/',
-    tl: '/health-care/covid-19-vaccine-tag/',
-  },
-};
+import BASE_URLS from './urls';
+import { stripTrailingSlash } from './helpers';
 
-export const TRANSLATABLE_LINKS = new Set(
-  Object.values(BASE_URLS).reduce((accumulator, links) => {
-    return accumulator.concat(Object.values(links));
-  }, []),
+export const PATHNAME_DICT = Object.entries(BASE_URLS).reduce(
+  (accumulator, [pageType, languageObj]) => {
+    Object.entries(languageObj).forEach(([code, slug]) => {
+      accumulator[stripTrailingSlash(slug)] = {
+        code,
+        pageType,
+      };
+    });
+    return accumulator;
+  },
+  {},
 );
 
 export const DEFAULT_LANGUAGE = {

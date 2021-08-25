@@ -7,13 +7,17 @@ import {
 } from 'platform/forms-system/src/js/utilities/validations';
 
 import { $, areaOfDisagreementWorkAround } from './utils/ui';
-import { hasSomeSelected } from './utils/helpers';
+import { getSelected, hasSomeSelected } from './utils/helpers';
 import { optInErrorMessage } from './content/OptIn';
-import { missingIssuesErrorMessageText } from './content/additionalIssues';
+import {
+  missingIssuesErrorMessageText,
+  maxSelected,
+} from './content/additionalIssues';
 import {
   missingAreaOfDisagreementErrorMessage,
   missingAreaOfDisagreementOtherErrorMessage,
 } from './content/areaOfDisagreement';
+import { MAX_SELECTIONS } from './constants';
 
 export const requireIssue = (
   errors,
@@ -105,6 +109,12 @@ export const validAdditionalIssue = (
         errors.addError(missingIssuesErrorMessageText);
       }
     });
+  }
+};
+
+export const maxIssues = (error, data) => {
+  if (getSelected(data).length > MAX_SELECTIONS) {
+    error.addError(maxSelected);
   }
 };
 
