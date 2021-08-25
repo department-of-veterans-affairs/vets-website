@@ -1,5 +1,6 @@
 {
   "recommendations": [
+    "Gruntfuggly.todo-tree",
     "davidanson.vscode-markdownlint",
     "dbaeumer.vscode-eslint",
     "eamodio.gitlens",
@@ -10,7 +11,6 @@
     "redhat.vscode-yaml",
     "stylelint.vscode-stylelint",
     "tyriar.sort-lines",
-    "visualstudioexptteam.vscodeintellicode",
-    "wayou.vscode-todo-highlight"
+    "visualstudioexptteam.vscodeintellicode"
   ]
 }
