@@ -438,7 +438,7 @@ jobs:
       # make sure this works on new branches, first commit
       - name: Diff recent commit
         id: git-diff
-        run: echo ::set-output name=DIFF_RESULTS::$(git diff ${{ github.event.before }} ${{ github.event.after }} --word-diff=porcelain --unified=0)
+        run: echo ::set-output name=DIFF_RESULTS::$(git diff ${{ github.event.before }} ${{ github.event.after }} --line-prefix=new_line --unified=0)
 
       - name: Set IS_GRAPH_UPDATED and update the graph if necessary
         run: node script/github-actions/create-cross-app-import-graph.js
