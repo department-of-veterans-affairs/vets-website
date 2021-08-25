@@ -62,7 +62,7 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
         headline="We’re sorry. We’ve run into a problem"
       >
         We’re having trouble getting your appointment requests. Please try again
-        later. TDW
+        later.
       </InfoAlert>
     );
   }
