@@ -75,7 +75,7 @@ jobs:
 
       - name: Authenticate NEXUS
         run: |
-          npm config set _auth $(echo -n 'va-vsp-bot-1:${{ secrets.AWS_ACCESS_KEY_ID }}' | openssl base64)
+          npm config set _auth $(echo -n 'va-vsp-bot-1:${{ secrets.VA_VSP_BOT_1_TEMP }}' | openssl base64)
           npm config set cafile ${{ env.NODE_EXTRA_CA_CERTS }}
           npm config set registry ${{ env.NEXUS_REGISTRY }}
           npm config set email va-vsp-bot-1@va.gov
