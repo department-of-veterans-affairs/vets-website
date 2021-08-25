@@ -15,8 +15,13 @@ Mission: Make it easier for Veterans and Caregivers to apply for, track, and man
 
 ## Project Documentation
 
-- [Sketch File](????)
+- [UX Pin](https://preview.uxpin.com/3bf6496017f55041a94c2cfc8009c35dad5a79f2#/pages/137666459/simulate/sitemap?mode=i)
+- [Sketch](https://www.sketch.com/s/5a676881-7aa8-4054-9b6e-34d86ced43d8)
+- [Content Source or Truth](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/caregivers/1010cg-mvp/10-10CG-application-copy.md)
 - [Project Documents](https://github.com/department-of-veterans-affairs/va.gov-team/tree/master/products/caregivers)
+- [Product Outline](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/teams/vsa/teams/caregiver/product-outline.md)
+- [Product Guide](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/teams/vsa/teams/caregiver/Online-10-10CG-Product-Guide-Updated-05.26.2021.docx)
+- [Submission Process](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/caregivers/ux-capture/future.md)
 
 ## Good to knows
 
@@ -32,7 +37,7 @@ Follow the standard directions to run the app. The API needs to be running in or
 
 ### Where is the data goin?
 
-The data is going to a system called CARMA.
+The data is going to a system called CARMA (Caregiver Record Management Application).
 
 ### VA Forms
 
@@ -52,6 +57,10 @@ Currently, there are no lower environments for CARMA. We are currently working t
 
 Each feature should have unit tests and e2e tests. Since this is an unauthenticated form, we use teh Review Instances to review before merging a PR.
 
+### Useful CARMA integrations Slack Channel
+
+<https://github.com/department-of-veterans-affairs/devops/blob/master/docs/External%20Service%20Integrations/CARMA.md#logging-and-stats>
+
 ### Useful acronym and terms
 
-- ???
+- CARMA (Caregiver Record Management Application).
