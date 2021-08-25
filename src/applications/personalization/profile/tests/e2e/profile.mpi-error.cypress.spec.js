@@ -21,7 +21,6 @@ function test(mobile = false) {
 
   // should show a loading indicator
   cy.findByRole('progressbar').should('exist');
-  cy.get('.loading-indicator-container').should('be.visible');
   cy.findByText(/loading your information/i).should('exist');
 
   // and then the loading indicator should be removed
