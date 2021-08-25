@@ -147,16 +147,7 @@ function diffIncludesImportedFilename(srcApplicationFileDiff, importPath) {
   const importPathAsArray = importPath.split('/');
   const importFileName = importPathAsArray[importPathAsArray.length - 1];
 
-  // eslint-disable-next-line no-console
-  console.log('Import filename: ', importFileName);
-
   if (srcApplicationFileDiff.includes(importFileName)) {
-    // eslint-disable-next-line no-console
-    console.log(
-      'Import filename is in diff, so it was probably changed', // filename should be on line with + or - representing it was
-    );
-    // eslint-disable-next-line no-console
-    console.log('shouldRebuildGraph = TRUE');
     return true;
   }
 
@@ -218,6 +209,9 @@ function shouldRebuildGraph(diff) {
             srcApplicationDiff.pathAsArray,
             importRelPath,
           );
+
+          // eslint-disable-next-line no-console
+          console.log('importPath: ', importPath);
 
           // eslint-disable-next-line no-console
           console.log(
