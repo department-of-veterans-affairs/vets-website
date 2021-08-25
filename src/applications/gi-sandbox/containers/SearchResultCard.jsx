@@ -5,7 +5,11 @@ import appendQuery from 'append-query';
 import { Link } from 'react-router-dom';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { addCompareInstitution, removeCompareInstitution } from '../actions';
+import {
+  addCompareInstitution,
+  removeCompareInstitution,
+  showModal,
+} from '../actions';
 import { MINIMUM_RATING_COUNT } from '../constants';
 import Checkbox from '../components/Checkbox';
 import { estimatedBenefits } from '../selectors/estimator';
@@ -23,6 +27,7 @@ export function SearchResultCard({
   estimated,
   dispatchAddCompareInstitution,
   dispatchRemoveCompareInstitution,
+  dispatchShowModal,
   institution,
   location = false,
   header = null,
@@ -50,7 +55,11 @@ export function SearchResultCard({
   const compareChecked = !!compare.search.institutions[facilityCode];
   const handleCompareUpdate = e => {
     if (e.target.checked && !compareChecked) {
-      dispatchAddCompareInstitution(institution);
+      if (compare.search.loaded.length === 3) {
+        dispatchShowModal('comparisonLimit');
+      } else {
+        dispatchAddCompareInstitution(institution);
+      }
     } else {
       dispatchRemoveCompareInstitution(facilityCode);
     }
@@ -302,6 +311,7 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = {
   dispatchAddCompareInstitution: addCompareInstitution,
   dispatchRemoveCompareInstitution: removeCompareInstitution,
+  dispatchShowModal: showModal,
 };
 
 export default connect(
