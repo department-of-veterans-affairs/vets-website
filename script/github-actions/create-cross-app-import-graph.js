@@ -37,6 +37,14 @@ const core = require('@actions/core');
 // build the path
 // if that path is in a different app, rebuild the graph
 
+function getImports(filePath) {
+  return findImports(filePath, {
+    absoluteImports: true,
+    relativeImports: true,
+    packageImports: false,
+  });
+}
+
 function diffIncludesSrcApplicationsFiles(diff) {
   return diff.includes('diff --git a/src/applications');
 }
@@ -122,14 +130,14 @@ function getImportPath(filePathAsArray, importRelPath) {
   }
 }
 
-function isOtherApplication(appName, importPath) {
+function importIsFromOtherApplication(appName, importPath) {
   return (
     importPath.startsWith('src/applications') &&
     !importPath.startsWith(`src/applications/${appName}`)
   );
 }
 
-function diffIncludesChangeCrossAppImport(srcApplicationFileDiff, importPath) {
+function diffIncludesImportedFilename(srcApplicationFileDiff, importPath) {
   const importPathAsArray = importPath.split('/');
   const importFileName = importPathAsArray[importPathAsArray.length - 1];
 
@@ -167,11 +175,7 @@ function shouldRebuildGraph(diff) {
       );
       const filePath = getAppPathFromFileDiff(srcApplicationFileDiff);
       const filePathAsArray = filePath.split('/');
-      const imports = findImports(filePath, {
-        absoluteImports: true,
-        relativeImports: true,
-        packageImports: false,
-      });
+      const imports = getImports(filePath);
       const importRelPaths = imports[Object.keys(imports)[0]];
 
       // eslint-disable-next-line no-console
@@ -180,9 +184,12 @@ function shouldRebuildGraph(diff) {
       for (let j = 0; j < importRelPaths.length; j += 1) {
         const importPath = getImportPath(filePathAsArray, importRelPaths[j]);
 
+        // check to see if files imported is
+        // 1) in another application
+        // 2) the file name is in the diff
         if (
-          isOtherApplication(appName, importPath) &&
-          diffIncludesChangeCrossAppImport(srcApplicationFileDiff, importPath)
+          importIsFromOtherApplication(appName, importPath) &&
+          diffIncludesImportedFilename(srcApplicationFileDiff, importPath)
         ) {
           return true;
         }
@@ -197,11 +204,7 @@ function shouldRebuildGraph(diff) {
 
 function buildGraph(graph) {
   const files = ['src/applications/**/*.*'];
-  const imports = findImports(files, {
-    absoluteImports: true,
-    relativeImports: true,
-    packageImports: false,
-  });
+  const imports = getImports(files);
 
   Object.keys(imports).forEach(file => {
     const appName = getAppNameFromFilePath(file);
@@ -211,29 +214,44 @@ function buildGraph(graph) {
     if (!graph[appName]) graph[appName] = [appName];
 
     imports[file].forEach(importRelPath => {
-      if (importRelPath.startsWith('../')) {
-        const numDirsUp = importRelPath.split('/').filter(str => str === '..')
-          .length;
-        const importPath = importRelPath.replace(
-          '../'.repeat(numDirsUp),
-          `${filePathAsArray
-            .slice(0, filePathAsArray.length - 1 - numDirsUp)
-            .join('/')}/`,
-        );
+      const importPath = getImportPath(filePathAsArray, importRelPath);
 
-        if (
-          importPath.startsWith('src/applications') &&
-          !importPath.startsWith(`src/applications/${appName}`)
-        ) {
-          const importAppName = getAppNameFromFilePath(importPath);
+      if (
+        importPath.startsWith('src/applications') &&
+        !importPath.startsWith(`src/applications/${appName}`)
+      ) {
+        const importAppName = getAppNameFromFilePath(importPath);
 
-          // eslint-disable-next-line no-param-reassign
-          if (!graph[importAppName]) graph[importAppName] = [importAppName];
+        // eslint-disable-next-line no-param-reassign
+        if (!graph[importAppName]) graph[importAppName] = [importAppName];
 
-          graph[appName].push(importAppName);
-          graph[importAppName].push(appName);
-        }
+        graph[appName].push(importAppName);
+        graph[importAppName].push(appName);
       }
+
+      // if (importRelPath.startsWith('../')) {
+      //   const numDirsUp = importRelPath.split('/').filter(str => str === '..')
+      //     .length;
+      //   const importPath = importRelPath.replace(
+      //     '../'.repeat(numDirsUp),
+      //     `${filePathAsArray
+      //       .slice(0, filePathAsArray.length - 1 - numDirsUp)
+      //       .join('/')}/`,
+      //   );
+
+      //   if (
+      //     importPath.startsWith('src/applications') &&
+      //     !importPath.startsWith(`src/applications/${appName}`)
+      //   ) {
+      //     const importAppName = getAppNameFromFilePath(importPath);
+
+      //     // eslint-disable-next-line no-param-reassign
+      //     if (!graph[importAppName]) graph[importAppName] = [importAppName];
+
+      //     graph[appName].push(importAppName);
+      //     graph[importAppName].push(appName);
+      //   }
+      // }
     });
   });
 }
