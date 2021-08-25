@@ -132,7 +132,7 @@ const formConfig = {
         income: {
           title: 'Income',
           path: 'income/:index',
-          arrayPath: 'currentEmployment',
+          arrayPath: 'currEmployment',
           showPagePerItem: true,
           uiSchema: pages.income.uiSchema,
           schema: pages.income.schema,
@@ -196,7 +196,7 @@ const formConfig = {
         spouseIncome: {
           title: 'Income',
           path: 'spouse/income/:index',
-          arrayPath: 'spouseCurrentEmployment',
+          arrayPath: 'spCurrEmployment',
           showPagePerItem: true,
           uiSchema: pages.spouseIncome.uiSchema,
           schema: pages.spouseIncome.schema,

@@ -1,5 +1,7 @@
 import React from 'react';
-import { get, omit, merge } from 'lodash/fp';
+import { merge } from 'lodash';
+import get from 'platform/utilities/data/get';
+import omit from 'platform/utilities/data/omit';
 import * as Sentry from '@sentry/browser';
 
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
@@ -147,7 +149,7 @@ export function transform(formConfig, form) {
   // Copy over sponsor data if the claimant is the veteran.
   const populateSponsorData = application =>
     isVeteran({ application })
-      ? merge(application, {
+      ? merge({}, application, {
           veteran: {
             address: application.claimant.address,
             currentName: application.claimant.name,
@@ -163,7 +165,7 @@ export function transform(formConfig, form) {
   // Copy over preparer data if the claimant is the applicant.
   const populatePreparerData = application =>
     !isAuthorizedAgent({ application })
-      ? merge(application, {
+      ? merge({}, application, {
           applicant: {
             mailingAddress: application.claimant.address,
             name: application.claimant.name,
@@ -173,7 +175,7 @@ export function transform(formConfig, form) {
 
   // Copy over veteran data if a sponsor is filling out the form
   const populateVeteranData = application =>
-    merge(application, {
+    merge({}, application, {
       veteran: {
         serviceName:
           application.veteran.serviceName || application.veteran.currentName,
@@ -203,7 +205,7 @@ export function transform(formConfig, form) {
    *  formCopy.applications = formCopy.applications.map(application => {
    *    // Fill in veteran info that veterans didn't need to enter separately.
    *    if (isVeteran(application)) {
-   *      return merge(application, {
+   *      return merge({}, application, {
    *        veteran: {
    *          address: application.claimant.address,
    *          currentName: application.claimant.name,
@@ -245,7 +247,7 @@ export function transform(formConfig, form) {
    */
 }
 
-export const fullMaidenNameUI = merge(fullNameUI, {
+export const fullMaidenNameUI = merge({}, fullNameUI, {
   maiden: { 'ui:title': 'Maiden name' },
   'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
 });
@@ -282,7 +284,7 @@ class SSNWidget extends React.Component {
 }
 
 // Modify default uiSchema for SSN to insert any missing dashes.
-export const ssnDashesUI = merge(ssnUI, { 'ui:widget': SSNWidget });
+export const ssnDashesUI = merge({}, ssnUI, { 'ui:widget': SSNWidget });
 
 export const veteranUI = {
   militaryServiceNumber: {
@@ -447,7 +449,7 @@ export const militaryNameUI = {
         'ui:title': 'Did you serve under another name?',
         'ui:widget': 'yesNo',
       },
-      serviceName: merge(nonRequiredFullNameUI, {
+      serviceName: merge({}, nonRequiredFullNameUI, {
         'ui:options': {
           expandUnder: 'view:hasServiceName',
         },

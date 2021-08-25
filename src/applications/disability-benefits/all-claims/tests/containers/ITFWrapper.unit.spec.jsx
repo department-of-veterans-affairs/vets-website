@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
-import { merge } from 'lodash/fp';
+import { merge } from 'lodash';
 import moment from 'moment';
 
 import { ITFWrapper } from '../../containers/ITFWrapper';
@@ -79,7 +79,7 @@ describe('526 ITFWrapper', () => {
   });
 
   it('should fetch the ITF if the form is loaded on the intro and navigated to the next page', () => {
-    const props = merge(defaultProps, {
+    const props = merge({}, defaultProps, {
       location: { pathname: '/introduction' },
     });
     const tree = shallow(
@@ -88,7 +88,7 @@ describe('526 ITFWrapper', () => {
       </ITFWrapper>,
     );
     expect(fetchITF.called).to.be.false;
-    tree.setProps(merge(props, { location: { pathname: '/middle' } }));
+    tree.setProps(merge({}, props, { location: { pathname: '/middle' } }));
     expect(fetchITF.called).to.be.true;
     tree.unmount();
   });
@@ -101,14 +101,16 @@ describe('526 ITFWrapper', () => {
     );
     expect(tree.find('LoadingIndicator').length).to.equal(1);
     tree.setProps(
-      merge(defaultProps, { itf: { fetchCallState: requestStates.pending } }),
+      merge({}, defaultProps, {
+        itf: { fetchCallState: requestStates.pending },
+      }),
     );
     expect(tree.find('LoadingIndicator').length).to.equal(1);
     tree.unmount();
   });
 
   it('should render an error message if the ITF fetch failed', () => {
-    const props = merge(defaultProps, {
+    const props = merge({}, defaultProps, {
       itf: {
         fetchCallState: requestStates.failed,
       },
@@ -125,7 +127,7 @@ describe('526 ITFWrapper', () => {
   });
 
   it('should submit a new ITF if the fetch failed', () => {
-    const props = merge(defaultProps, {
+    const props = merge({}, defaultProps, {
       itf: {
         fetchCallState: requestStates.pending,
       },
@@ -137,7 +139,7 @@ describe('526 ITFWrapper', () => {
     );
     // The ITF call happens in componentWillReceiveProps, so trigger that function call
     tree.setProps(
-      merge(props, { itf: { fetchCallState: requestStates.failed } }),
+      merge({}, props, { itf: { fetchCallState: requestStates.failed } }),
     );
     expect(createITF.called).to.be.true;
     tree.unmount();
@@ -151,7 +153,9 @@ describe('526 ITFWrapper', () => {
     );
     // Fetch succeded, but no ITFs were returned
     tree.setProps(
-      merge(defaultProps, { itf: { fetchCallState: requestStates.succeeded } }),
+      merge({}, defaultProps, {
+        itf: { fetchCallState: requestStates.succeeded },
+      }),
     );
     expect(createITF.called).to.be.true;
     tree.unmount();
@@ -169,7 +173,7 @@ describe('526 ITFWrapper', () => {
     // Fetch succeded and expired ITF was returned
     // This is used to catch cases where the status field is out of date
     tree.setProps(
-      merge(defaultProps, {
+      merge({}, defaultProps, {
         itf: {
           fetchCallState: requestStates.succeeded,
           currentITF: {
@@ -184,7 +188,7 @@ describe('526 ITFWrapper', () => {
   });
 
   it('should render an error message if the ITF creation failed', () => {
-    const props = merge(defaultProps, {
+    const props = merge({}, defaultProps, {
       itf: {
         fetchCallState: requestStates.succeeded,
         // But no ITF is found
@@ -207,7 +211,7 @@ describe('526 ITFWrapper', () => {
     const expirationDate = moment()
       .add(1, 'd')
       .format();
-    const props = merge(defaultProps, {
+    const props = merge({}, defaultProps, {
       itf: {
         fetchCallState: requestStates.succeeded,
         currentITF: {
@@ -237,7 +241,7 @@ describe('526 ITFWrapper', () => {
     const previousExpirationDate = moment()
       .subtract(1, 'd')
       .format();
-    const props = merge(defaultProps, {
+    const props = merge({}, defaultProps, {
       itf: {
         fetchCallState: requestStates.succeeded,
         currentITF: {
