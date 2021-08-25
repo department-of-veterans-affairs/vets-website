@@ -45,6 +45,11 @@ function getImports(filePath) {
   });
 }
 
+// function getImportFilename(importPath) {
+//   const importPathAsArray = importPath.split('/');
+//   return importPathAsArray[importPathAsArray.length - 1];
+// }
+
 function diffIncludesSrcApplicationsFiles(diff) {
   return diff.includes('diff --git a/src/applications');
 }
@@ -56,6 +61,18 @@ function getAppNameFromFilePath(filePath) {
 function getAppPathFromFileDiff(fileDiff) {
   const str = fileDiff.replace('diff --git a/', '');
   return str.slice(0, str.indexOf(' '));
+}
+
+function getDeletions(diffLines) {
+  return diffLines.filter(
+    line => line.startsWith('-') && !line.startsWith('---'),
+  );
+}
+
+function getAdditions(diffLines) {
+  return diffLines.filter(
+    line => line.startsWith('+') && !line.startsWith('+++'),
+  );
 }
 
 function sliceDiffIntoDiffForEachChangedFile(diff) {
@@ -83,24 +100,6 @@ function sliceDiffIntoDiffForEachChangedFile(diff) {
     } else if (startOfDiffIndex && i === diff.length - 1) {
       diffForEachChangedFile.push(diff.slice(startOfDiffIndex));
     }
-    // if (
-    //   startOfDiffIndex === null &&
-    //   diff[i] === startOfChange[0] &&
-    //   diff.slice(i, i + startOfChange.length) === startOfChange
-    // ) {
-    //   startOfDiffIndex = i;
-    // } else if (
-    //   startOfDiffIndex !== null &&
-    //   endOfChange &&
-    //   diff[i] === endOfChange[0] &&
-    //   diff.slice(i, i + endOfChange.length) === endOfChange
-    // ) {
-    //   diffForEachChangedFile.push(diff.slice(startOfDiffIndex, i));
-    //   i -= 1; // reduce i by 1 so the next iteration picks up the beginning of this diff
-    //   startOfDiffIndex = null;
-    // } else if (startOfDiffIndex !== null && i === diff.length - 1) {
-    //   diffForEachChangedFile.push(diff.slice(startOfDiffIndex));
-    // }
   }
 
   // eslint-disable-next-line no-console
@@ -110,12 +109,6 @@ function sliceDiffIntoDiffForEachChangedFile(diff) {
 
 function isSrcAppicationFileDiff(fileDiff) {
   return fileDiff.replace('diff --git a/', '').startsWith('src/applications');
-}
-
-function getSrcApplicationDiffs(diff) {
-  return sliceDiffIntoDiffForEachChangedFile(diff).filter(fileDiff => {
-    return isSrcAppicationFileDiff(fileDiff);
-  });
 }
 
 function diffIncludesImport(srcApplicationFileDiff) {
@@ -130,6 +123,28 @@ function diffIncludesRequire(srcApplicationFileDiff) {
   // eslint-disable-next-line no-console
   console.log('includesRequire:', includesRequire);
   return includesRequire;
+}
+
+function getSrcApplicationDiffs(diff) {
+  return sliceDiffIntoDiffForEachChangedFile(diff)
+    .filter(fileDiff => {
+      return isSrcAppicationFileDiff(fileDiff);
+    })
+    .map(fileDiff => {
+      const appPath = getAppPathFromFileDiff(fileDiff);
+      const name = getAppNameFromFilePath(appPath);
+      const diffLines = fileDiff.split('new_line');
+
+      return {
+        diff: diffLines,
+        path: appPath,
+        name,
+        includesImport: diffIncludesImport(fileDiff),
+        includesRequire: diffIncludesRequire(fileDiff),
+        deletions: getDeletions(diffLines),
+        additions: getAdditions(diffLines),
+      };
+    });
 }
 
 function getImportPath(filePathAsArray, importRelPath) {
@@ -147,6 +162,21 @@ function getImportPath(filePathAsArray, importRelPath) {
     return importRelPath;
   }
 }
+
+// function getImportPaths(filePathAsArray, importRelPaths) {
+//   return importRelPaths.map(importRelPath => {
+//     return getImportPath(filePathAsArray, importRelPath);
+//   });
+// }
+
+// function getFilenamesMentionedInDeletedLines(deletions) {
+//   const filenames = [];
+
+//   deletions.forEach(line => {
+//   });
+
+//   return filenames;
+// }
 
 function importIsFromOtherApplication(appName, importPath) {
   return (
@@ -175,26 +205,30 @@ function diffIncludesImportedFilename(srcApplicationFileDiff, importPath) {
   return false;
 }
 
+// function deletionsIncludesFileNotReportedInImports(relPaths, deletions) {
+//   const importedFileNames = relPaths(relPath => getImportFilename(relPath));
+// }
+
 function shouldRebuildGraph(diff) {
-  const srcApplicationFileDiffs = getSrcApplicationDiffs(diff);
+  const srcApplicationDiffs = getSrcApplicationDiffs(diff);
 
   // eslint-disable-next-line no-console
-  console.log('srcApplicationFileDiffs:', srcApplicationFileDiffs);
+  console.log('srcApplicationDiffs:', srcApplicationDiffs);
 
-  for (let i = 0; i < srcApplicationFileDiffs.length; i += 1) {
-    const srcApplicationFileDiff = srcApplicationFileDiffs[i];
+  for (let i = 0; i < srcApplicationDiffs.length; i += 1) {
+    const srcApplicationDiff = srcApplicationDiffs[i];
 
     if (
-      diffIncludesImport(srcApplicationFileDiff) ||
-      diffIncludesRequire(srcApplicationFileDiff)
+      srcApplicationDiff.includesImport ||
+      srcApplicationDiff.includesRequire
     ) {
-      const appName = getAppNameFromFilePath(
-        getAppPathFromFileDiff(srcApplicationFileDiff),
-      );
-      const filePath = getAppPathFromFileDiff(srcApplicationFileDiff);
-      const filePathAsArray = filePath.split('/');
-      const imports = getImports(filePath);
+      const filePathAsArray = srcApplicationDiff.path.split('/');
+      const imports = getImports(srcApplicationDiff.path);
       const importRelPaths = imports[Object.keys(imports)[0]];
+      // const importPaths = getImportPaths(filePathAsArray, importRelPaths);
+      // const filenamesMentionedInDeletedLines = getFilenamesMentionedInDeletedLines(
+      //   srcApplicationDiff.deletions,
+      // );
 
       // eslint-disable-next-line no-console
       console.log('Imports in shouldRebuildGraph(): ', imports);
@@ -206,15 +240,64 @@ function shouldRebuildGraph(diff) {
           const importPath = getImportPath(filePathAsArray, importRelPath);
 
           if (
-            importIsFromOtherApplication(appName, importPath) &&
-            diffIncludesImportedFilename(srcApplicationFileDiff, importPath)
+            importIsFromOtherApplication(srcApplicationDiff.name, importPath) &&
+            diffIncludesImportedFilename(srcApplicationDiff.diff, importPath)
           ) {
             return true;
           }
+
+          // if (
+          //   importIsFromOtherApplication(srcApplicationDiff.name, importPath) &&
+          //   (diffIncludesImportedFilename(
+          //     srcApplicationDiff.diff,
+          //     importPath,
+          //   ) ||
+          //     deletionsIncludesFileNotReportedInImports( // maybe delete this
+          //       importRelPaths,
+          //       srcApplicationDiff.deletions,
+          //     ))
+          // ) {
+          //   return true;
+          // }
         }
       }
     }
   }
+
+  // for (let i = 0; i < srcApplicationFileDiffs.length; i += 1) {
+  //   const srcApplicationFileDiff = srcApplicationFileDiffs[i];
+
+  //   if (
+  //     diffIncludesImport(srcApplicationFileDiff) ||
+  //     diffIncludesRequire(srcApplicationFileDiff)
+  //   ) {
+  //     const appName = getAppNameFromFilePath(
+  //       getAppPathFromFileDiff(srcApplicationFileDiff),
+  //     ); // in object
+  //     const filePath = getAppPathFromFileDiff(srcApplicationFileDiff); // in object
+  //     const filePathAsArray = filePath.split('/');
+  //     const imports = getImports(filePath);
+  //     const importRelPaths = imports[Object.keys(imports)[0]];
+
+  //     // eslint-disable-next-line no-console
+  //     console.log('Imports in shouldRebuildGraph(): ', imports);
+
+  //     for (let j = 0; j < importRelPaths.length; j += 1) {
+  //       const importRelPath = importRelPaths[j];
+
+  //       if (!importRelPath.startsWith('./')) {
+  //         const importPath = getImportPath(filePathAsArray, importRelPath);
+
+  //         if (
+  //           importIsFromOtherApplication(appName, importPath) &&
+  //           diffIncludesImportedFilename(srcApplicationFileDiff, importPath)
+  //         ) {
+  //           return true;
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 
   // eslint-disable-next-line no-console
   console.log('shouldRebuildGraph = FALSE');
