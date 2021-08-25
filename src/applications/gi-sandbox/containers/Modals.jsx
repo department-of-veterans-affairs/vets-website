@@ -902,6 +902,17 @@ export function Modals({ hideModal, modals, profile }) {
 
       <Modal
         onClose={hideModal}
+        visible={shouldDisplayModal('comparisonLimit')}
+      >
+        <h3>You’ve reached the comparison limit</h3>
+        <p>
+          You can compare up to 3 schools or employers. You’ll have to remove
+          one of your selections before you can add another to the comparison.
+        </p>
+      </Modal>
+
+      <Modal
+        onClose={hideModal}
         visible={shouldDisplayModal('enlistmentService')}
       >
         <h3>Completed an enlistment of (MGIB):</h3>

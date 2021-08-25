@@ -8,10 +8,10 @@ let getDD4EDUBankInfoStub;
 
 function notIDme2FAAlertShown() {
   cy.findByRole('link', {
-    name: /create a verified account through ID\.me/i,
+    name: /create a verified account on ID\.me/i,
   }).should('exist');
   cy.findByText(
-    /You’ll need to verify your account to edit direct deposit information/i,
+    /You’ll need to verify your identity with ID.me to update any of your direct deposit information online/i,
   )
     .should('exist')
     .closest('.usa-alert-continue')
