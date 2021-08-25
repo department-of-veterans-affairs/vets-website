@@ -24,7 +24,6 @@ function test(mobile = false) {
   cy.findByText(/loading your information/i).should('exist');
 
   // and then the loading indicator should be removed
-  cy.findByRole('progressbar').should('not.exist');
   cy.get('.loading-indicator-container', { timeout: Timeouts.slow }).should(
     'not.exist',
   );
