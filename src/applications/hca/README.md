@@ -38,6 +38,10 @@ We are using version 1 of the forms library, Formation. This is a straight forwa
 
 ### What API(s) does this use?
 
+The data ends up in the ESR (Enrollment).
+
+Not sure what Vets-API endpoints are used.
+
 ### Feature toggles
 
 Wwe have a feature toggle for multiple address field, `multiple_address_10_10ez`, Its currently enabled in all environments.
