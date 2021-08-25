@@ -1,3 +1,4 @@
+import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 import unset from '../../../../utilities/data/unset';
 import { createSelector } from 'reselect';
@@ -148,8 +149,8 @@ export function uiSchema(
   }
 
   const addressChangeSelector = createSelector(
-    ({ formData, path }) => formData[path.concat('country')],
-    ({ formData, path }) => formData[path.concat('city')],
+    ({ formData, path }) => get(path.concat('country'), formData),
+    ({ formData, path }) => get(path.concat('city'), formData),
     ({ addressSchema }) => addressSchema,
     (currentCountry, city, addressSchema) => {
       const schemaUpdate = {
