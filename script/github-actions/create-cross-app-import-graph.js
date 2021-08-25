@@ -199,6 +199,16 @@ function shouldRebuildGraph(diff) {
   return false;
 }
 
+function updateGraph(graph, appName, importAppName) {
+  // eslint-disable-next-line no-param-reassign
+  if (!graph[appName]) graph[appName] = [appName];
+  // eslint-disable-next-line no-param-reassign
+  if (!graph[importAppName]) graph[importAppName] = [importAppName];
+
+  graph[appName].push(importAppName);
+  graph[importAppName].push(appName);
+}
+
 function buildGraph(graph) {
   const files = ['src/applications/**/*.*'];
   const imports = getImports(files);
@@ -208,22 +218,19 @@ function buildGraph(graph) {
     const filePathAsArray = file.split('/');
 
     // eslint-disable-next-line no-param-reassign
-    if (!graph[appName]) graph[appName] = [appName];
+    // if (!graph[appName]) graph[appName] = [appName];
 
     imports[file].forEach(importRelPath => {
       const importPath = getImportPath(filePathAsArray, importRelPath);
 
-      if (
-        importPath.startsWith('src/applications') &&
-        !importPath.startsWith(`src/applications/${appName}`)
-      ) {
-        const importAppName = getAppNameFromFilePath(importPath);
+      if (importIsFromOtherApplication(appName, importPath)) {
+        updateGraph(graph, appName, getAppNameFromFilePath(importPath));
+        // const importAppName = getAppNameFromFilePath(importPath);
+        // // eslint-disable-next-line no-param-reassign
+        // if (!graph[importAppName]) graph[importAppName] = [importAppName];
 
-        // eslint-disable-next-line no-param-reassign
-        if (!graph[importAppName]) graph[importAppName] = [importAppName];
-
-        graph[appName].push(importAppName);
-        graph[importAppName].push(appName);
+        // graph[appName].push(importAppName);
+        // graph[importAppName].push(appName);
       }
     });
   });
