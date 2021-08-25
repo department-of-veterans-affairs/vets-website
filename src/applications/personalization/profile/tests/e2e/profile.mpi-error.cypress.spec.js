@@ -1,5 +1,6 @@
 import { PROFILE_PATHS } from '../../constants';
 
+import Timeouts from 'platform/testing/e2e/timeouts';
 import mockMPIErrorUser from '../fixtures/users/user-mpi-error.json';
 
 import {
@@ -20,10 +21,14 @@ function test(mobile = false) {
 
   // should show a loading indicator
   cy.findByRole('progressbar').should('exist');
+  cy.get('.loading-indicator-container').should('be.visible');
   cy.findByText(/loading your information/i).should('exist');
 
   // and then the loading indicator should be removed
   cy.findByRole('progressbar').should('not.exist');
+  cy.get('.loading-indicator-container', { timeout: Timeouts.slow }).should(
+    'not.exist',
+  );
   cy.findByText(/loading your information/i).should('not.exist');
 
   // should redirect to profile/account-security on load
@@ -61,10 +66,12 @@ describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI', ()
       'v0/feature_toggles*',
     ]);
   });
-  it('should only have access to the Account Security section at desktop size', () => {
-    test();
-  });
-  it('should only have access to the Account Security section at mobile size', () => {
-    test(true);
-  });
+  for (let i = 0; i < 20; i++) {
+    it('should only have access to the Account Security section at desktop size', () => {
+      test();
+    });
+    it('should only have access to the Account Security section at mobile size', () => {
+      test(true);
+    });
+  }
 });
