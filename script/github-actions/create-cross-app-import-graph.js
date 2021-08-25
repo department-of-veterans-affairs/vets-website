@@ -150,10 +150,6 @@ function diffIncludesChangeCrossAppImport(srcApplicationFileDiff, importPath) {
 }
 
 function shouldRebuildGraph(diff) {
-  // const diffForEachChangedFile = sliceDiffIntoDiffForEachChangedFile(diff);
-  // const srcApplicationFileDiffs = diffForEachChangedFile.filter(fileDiff => {
-  //   return isSrcAppicationFileDiff(fileDiff);
-  // });
   const srcApplicationFileDiffs = getSrcApplicationDiffs(diff);
 
   // eslint-disable-next-line no-console
@@ -183,25 +179,6 @@ function shouldRebuildGraph(diff) {
 
       for (let j = 0; j < importRelPaths.length; j += 1) {
         const importPath = getImportPath(filePathAsArray, importRelPaths[j]);
-        // let importPath;
-
-        // if (importRelPath.startsWith('../')) {
-        //   const numDirsUp = importRelPath.split('/').filter(str => str === '..')
-        //     .length;
-        //   importPath = importRelPath.replace(
-        //     '../'.repeat(numDirsUp),
-        //     `${filePathAsArray
-        //       .slice(0, filePathAsArray.length - 1 - numDirsUp)
-        //       .join('/')}/`,
-        //   );
-        // } else {
-        //   importPath = importRelPath;
-        // }
-
-        // // eslint-disable-next-line no-console
-        // console.log('File path to compare with: ', filePath);
-        // // eslint-disable-next-line no-console
-        // console.log('Import path: ', importPath);
 
         if (
           isOtherApplication(appName, importPath) &&
@@ -209,55 +186,7 @@ function shouldRebuildGraph(diff) {
         ) {
           return true;
         }
-        // if (
-        //   importPath.startsWith('src/applications') &&
-        //   !importPath.startsWith(`src/applications/${appName}`)
-        // ) {
-        // const importPathAsArray = importPath.split('/');
-        // const importFileName =
-        //   importPathAsArray[importPathAsArray.length - 1];
-
-        // // eslint-disable-next-line no-console
-        // console.log('Import filename: ', importFileName);
-
-        // if (srcApplicationFileDiff.includes(importFileName)) {
-        //   // eslint-disable-next-line no-console
-        //   console.log(
-        //     'Import filename is in diff, so it was probably changed', // filename should be on line with + or - representing it was
-        //   );
-        //   // eslint-disable-next-line no-console
-        //   console.log('shouldRebuildGraph = TRUE');
-        //   return true;
-        // }
       }
-
-      // if (isOtherApplication(appName, importPath)) {
-      //   // if (
-      //   //   importPath.startsWith('src/applications') &&
-      //   //   !importPath.startsWith(`src/applications/${appName}`)
-      //   // ) {
-
-      //   if (
-      //     diffIncludesChangeCrossAppImport(srcApplicationFileDiff, importPath)
-      //   )
-      //     return true;
-      //   // const importPathAsArray = importPath.split('/');
-      //   // const importFileName =
-      //   //   importPathAsArray[importPathAsArray.length - 1];
-
-      //   // // eslint-disable-next-line no-console
-      //   // console.log('Import filename: ', importFileName);
-
-      //   // if (srcApplicationFileDiff.includes(importFileName)) {
-      //   //   // eslint-disable-next-line no-console
-      //   //   console.log(
-      //   //     'Import filename is in diff, so it was probably changed', // filename should be on line with + or - representing it was
-      //   //   );
-      //   //   // eslint-disable-next-line no-console
-      //   //   console.log('shouldRebuildGraph = TRUE');
-      //   //   return true;
-      //   // }
-      // }
     }
   }
 
