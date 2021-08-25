@@ -5,7 +5,7 @@ import {
 } from '../actions';
 
 const initialState = {
-  pending: true,
+  pending: false,
   errors: null,
   statements: [],
 };

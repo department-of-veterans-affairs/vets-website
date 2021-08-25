@@ -2,15 +2,14 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { mcpFeatureToggle } from '../utils/helpers';
 import { getStatements } from '../actions';
-import { isLoggedIn } from 'platform/user/selectors';
+import { isProfileLoading, isLoggedIn } from 'platform/user/selectors';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 const MedicalCopaysApp = ({ children }) => {
   const showMCP = useSelector(state => mcpFeatureToggle(state));
   const userLoggedIn = useSelector(state => isLoggedIn(state));
-
-  // const profileLoading = useSelector(state => isProfileLoading(state));
-  // console.log('profileLoading: ', profileLoading);
-
+  const profileLoading = useSelector(state => isProfileLoading(state));
+  const fetchPending = useSelector(({ mcp }) => mcp.pending);
   const dispatch = useDispatch();
 
   useEffect(
@@ -22,8 +21,16 @@ const MedicalCopaysApp = ({ children }) => {
     [userLoggedIn], // eslint-disable-line react-hooks/exhaustive-deps
   );
 
-  if (showMCP === false) {
-    return window.location.replace('/');
+  if (showMCP === false || (!profileLoading && !userLoggedIn)) {
+    return window.location.replace('/health-care/pay-copay-bill');
+  }
+
+  if (profileLoading || fetchPending) {
+    return (
+      <div className="vads-u-margin--5">
+        <LoadingIndicator message="Please wait while we load the application for you." />
+      </div>
+    );
   }
 
   return (
