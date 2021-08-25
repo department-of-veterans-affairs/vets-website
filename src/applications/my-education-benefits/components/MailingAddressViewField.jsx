@@ -1,8 +1,14 @@
 import React from 'react';
 
 export default function MailingAddressViewField({ formData }) {
-  const { country, street, street2, city, state, postalCode } = formData;
-  // console.log(formData)
+  const {
+    country,
+    street,
+    street2,
+    city,
+    state,
+    postalCode,
+  } = formData.address;
   return (
     <>
       {country}
