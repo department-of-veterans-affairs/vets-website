@@ -16,6 +16,7 @@ export const getConfigFromLanguageCode = languageCode => {
   );
 };
 
+// used on page load to find translation links relating to document.location.pathname
 export const getPageTypeFromPathname = pathname => {
   return PATHNAME_DICT?.[stripTrailingSlash(pathname)]?.pageType ?? null;
 };
