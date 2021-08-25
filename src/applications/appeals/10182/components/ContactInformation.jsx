@@ -9,9 +9,8 @@ import EmailField from '@@vap-svc/components/EmailField/EmailField';
 import AddressField from '@@vap-svc/components/AddressField/AddressField';
 import { TRANSACTION_CATEGORY_TYPES, FIELD_NAMES } from '@@vap-svc/constants';
 
-import { selectProfile } from '~/platform/user/selectors';
-
 import { readableList } from '../utils/helpers';
+import { selectProfile } from '~/platform/user/selectors';
 
 export const ContactInfoDescription = ({ formContext, profile }) => {
   const [hadError, setHadError] = useState(false);
