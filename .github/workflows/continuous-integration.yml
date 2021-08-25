@@ -437,7 +437,8 @@ jobs:
 
       - name: Diff recent commit
         id: git-diff
-        run: echo ::set-output name=DIFF_RESULTS::$(git diff $(git rev-parse @~)..$(git rev-parse @) --unified=0)
+        # run: echo ::set-output name=DIFF_RESULTS::$(git diff $(git rev-parse @~)..$(git rev-parse @) --unified=0)
+        run: echo ::set-output name=DIFF_RESULTS::$(git diff ${{ github.event.before }} ${{ github.event.after }} --unified=0)
 
       - name: Set IS_GRAPH_UPDATED and update the graph if necessary
         run: node script/github-actions/create-cross-app-import-graph.js
