@@ -124,7 +124,7 @@ class ServiceTypeAhead extends Component {
         <MessagePromptDiv
           message="We couldn't find that, please try another service"
           id="could-not-find-service-prompt"
-          waitBeforeShow={3000}
+          waitBeforeShow={2000}
         />
       );
     } else return null;
@@ -172,8 +172,10 @@ class ServiceTypeAhead extends Component {
             </label>
             {showError && (
               <span className="usa-input-error-message" role="alert">
-                <span className="sr-only">Error</span>
-                Please search for an available service.
+                <span id="error-message">
+                  <span className="sr-only">Error</span>
+                  Please search for an available service.
+                </span>
               </span>
             )}
             <span id="service-typeahead">
@@ -187,6 +189,7 @@ class ServiceTypeAhead extends Component {
                   this.setState({ isFocused: false });
                 }}
                 id="service-type-ahead-input"
+                aria-describedby="could-not-find-service-prompt error-message"
               />
 
               {this.renderSearchForAvailableServicePrompt(inputValue)}

@@ -14,8 +14,10 @@ const MessagePromptDiv = ({ id, message, waitBeforeShow = 0 }) => {
   );
 
   return isShown ? (
-    <div className="dropdown" role="alert" id={id}>
-      <div className="vads-u-margin--1p5">{message}</div>
+    <div className="dropdown" role="alert">
+      <div className="vads-u-margin--1p5" id={id}>
+        {message}
+      </div>
     </div>
   ) : null;
 };
