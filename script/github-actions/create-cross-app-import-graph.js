@@ -24,13 +24,16 @@ const core = require('@actions/core');
 // Part 1
 // in each src/applications diff:
 // count up to two instances of @@
+// save second the second instance of '@@'
 // then look for '-' or '+'
 // after 1 '-' or '+', reset counter to 0
 // look for @@ again, but continue to look for '-' or '+' because there might be more
 // save '-' or '+' to 'deleted' and 'added' arrays for each src/applications diff
 
 // Part 2
-// check if a deletion has a path in it,
+// if second instance of '@@' === 'import { ' and a following deleted line has the next closing '}' has 'from' and a path
+//  || deleted line starts with 'import'
+// get the path
 // build the path
 // if that path is in a different app, rebuild the graph
 
