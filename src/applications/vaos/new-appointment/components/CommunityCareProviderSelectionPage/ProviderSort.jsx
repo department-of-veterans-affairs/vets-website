@@ -10,6 +10,7 @@ import {
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import InfoAlert from '../../../components/InfoAlert';
 import ResidentialAddress from '../../../components/ResidentialAddress';
+import ProviderSortVariant from './ProviderSortVariant';
 
 export default function ProviderSort({
   loadingLocations,
@@ -56,9 +57,8 @@ export default function ProviderSort({
     },
     ...ccEnabledSystems.map(facility => {
       return {
-        value: FACILITY_SORT_METHODS.distanceFromFacility,
+        value: facility.id,
         label: `${facility.address?.city}, ${facility.address?.state}`,
-        location: facility.position,
       };
     }),
   ];
@@ -69,18 +69,7 @@ export default function ProviderSort({
     requestLocationStatus === FETCH_STATUS.failed;
   return (
     <>
-      {showCCIterations && (
-        <Select
-          label="Show providers closest to"
-          name="sort"
-          onValueChange={option => {
-            dispatch(updateCCProviderSortMethod(option.value, option.location));
-          }}
-          options={sortOptions}
-          value={{ dirty: false, value: sortMethod }}
-          includeBlankOption={false}
-        />
-      )}
+      {showCCIterations && <ProviderSortVariant />}
       {showSortByDistanceFromResidential && (
         <>
           {!requestLocationStatusFailed && (

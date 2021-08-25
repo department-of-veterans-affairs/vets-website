@@ -404,7 +404,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
   };
 }
 
-export function updateCCProviderSortMethod(sortMethod) {
+export function updateCCProviderSortMethod(sortMethod, facilityLocation) {
   return async (dispatch, getState) => {
     let location = null;
     const { currentLocation } = getNewAppointment(getState());
@@ -441,11 +441,10 @@ export function updateCCProviderSortMethod(sortMethod) {
           type: FORM_REQUEST_CURRENT_LOCATION_FAILED,
         });
       }
-    } else if (sortMethod.position) {
+    } else if (sortMethod === FACILITY_SORT_METHODS.distanceFromFacility) {
       dispatch({
         ...action,
-        location: sortMethod.position,
-        sortMethod: FACILITY_SORT_METHODS.distanceFromFacility,
+        location: facilityLocation,
       });
     } else {
       dispatch(action);
