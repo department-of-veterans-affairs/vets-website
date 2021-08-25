@@ -81,6 +81,9 @@ jobs:
       # - name: Verify registry for yarn
       #   run: yarn config get registry
 
+      - name: clean cache
+        run: yarn cache clean
+
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline --production=false --verbose --network-concurrency 1
 
