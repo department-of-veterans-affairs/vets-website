@@ -5,18 +5,24 @@
     "workbench.startupEditor": "readme"
   },
   "extensions": [
-    "davidanson.vscode-markdownlint",
-    "dbaeumer.vscode-eslint",
-    "eamodio.gitlens",
-    "esbenp.prettier-vscode",
-    "github.vscode-pull-request-github",
-    "ms-vsliveshare.vsliveshare",
-    "ms-vsliveshare.vsliveshare-pack",
-    "redhat.vscode-yaml",
-    "stylelint.vscode-stylelint",
-    "tyriar.sort-lines",
-    "visualstudioexptteam.vscodeintellicode",
-    "wayou.vscode-todo-highlight"
-  ]
-  // "postCreateCommand": "/bin/bash ./.devcontainer/post-create.sh 2>&1 | tee ~/post-create.log"
+	"davidanson.vscode-markdownlint",
+	"dbaeumer.vscode-eslint",
+	"eamodio.gitlens",
+	"esbenp.prettier-vscode",
+	"github.vscode-pull-request-github",
+	"ms-vsliveshare.vsliveshare",
+	"ms-vsliveshare.vsliveshare-pack",
+	"redhat.vscode-yaml",
+	"stylelint.vscode-stylelint",
+	"tyriar.sort-lines",
+	"visualstudioexptteam.vscodeintellicode",
+	"wayou.vscode-todo-highlight"
+],
+"build": {
+	"dockerfile": "Dockerfile",
+	"args": {
+		"VARIANT": "14"
+	}
+},
+"remoteUser": "node"
 }
