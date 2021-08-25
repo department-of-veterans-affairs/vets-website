@@ -201,10 +201,7 @@ function shouldRebuildGraph(diff) {
 
 function updateGraph(graph, appName, importAppName) {
   // eslint-disable-next-line no-param-reassign
-  if (!graph[appName]) graph[appName] = [appName];
-  // eslint-disable-next-line no-param-reassign
   if (!graph[importAppName]) graph[importAppName] = [importAppName];
-
   graph[appName].push(importAppName);
   graph[importAppName].push(appName);
 }
@@ -218,7 +215,7 @@ function buildGraph(graph) {
     const filePathAsArray = file.split('/');
 
     // eslint-disable-next-line no-param-reassign
-    // if (!graph[appName]) graph[appName] = [appName];
+    if (!graph[appName]) graph[appName] = [appName];
 
     imports[file].forEach(importRelPath => {
       const importPath = getImportPath(filePathAsArray, importRelPath);
