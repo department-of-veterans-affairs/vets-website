@@ -49,7 +49,6 @@ import {
 
 import MailingAddressViewField from '../components/MailingAddressViewField';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
-import { states } from 'platform/forms/address';
 
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import { validatePhone, validateEmail } from '../utils/validation';
@@ -103,10 +102,6 @@ const formPages = {
 
 function isOnlyWhitespace(str) {
   return str && !str.trim().length;
-}
-
-function livesOnMilitaryBaseOutsideUS() {
-  return { enum: states.USA.map(state => state.label) };
 }
 
 function startPhoneEditValidation({ phone }) {
@@ -533,7 +528,7 @@ const formConfig = {
           path: 'contact/information/mailing/address',
           initialData: {
             'view:mailingAddress': {
-              livesOnMilitaryBase: true,
+              livesOnMilitaryBase: false,
               [formFields.address]: {
                 street: '2222 Avon Street',
                 street2: 'Apt 6',
@@ -649,13 +644,6 @@ const formConfig = {
                   },
                   [formFields.address]: {
                     ...address.schema(fullSchema, true),
-                    properties: {
-                      ...address.schema(fullSchema, true).properties,
-                      state: {
-                        ...address.schema(fullSchema, true).properties.state,
-                        ...livesOnMilitaryBaseOutsideUS(),
-                      },
-                    },
                   },
                 },
               },
