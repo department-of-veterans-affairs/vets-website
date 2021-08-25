@@ -1,20 +1,33 @@
-import { SOME_ACTION, ANOTHER_ACTION } from '../actions';
+import {
+  MCP_STATEMENTS_FETCH_INIT,
+  MCP_STATEMENTS_FETCH_SUCCESS,
+  MCP_STATEMENTS_FETCH_FAILURE,
+} from '../actions';
 
 const initialState = {
-  pending: false,
+  pending: true,
+  errors: null,
+  statements: [],
 };
 
-const medicalCopays = (state = initialState, action) => {
+const medicalCopaysReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SOME_ACTION:
+    case MCP_STATEMENTS_FETCH_INIT:
       return {
         ...state,
         pending: true,
       };
-    case ANOTHER_ACTION:
+    case MCP_STATEMENTS_FETCH_SUCCESS:
       return {
         ...state,
         pending: false,
+        statements: action.response,
+      };
+    case MCP_STATEMENTS_FETCH_FAILURE:
+      return {
+        ...state,
+        pending: false,
+        errors: action.errors,
       };
     default:
       return state;
@@ -22,5 +35,5 @@ const medicalCopays = (state = initialState, action) => {
 };
 
 export default {
-  medicalCopays,
+  mcp: medicalCopaysReducer,
 };
