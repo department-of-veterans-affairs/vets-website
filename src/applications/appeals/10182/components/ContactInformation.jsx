@@ -9,8 +9,9 @@ import EmailField from '@@vap-svc/components/EmailField/EmailField';
 import AddressField from '@@vap-svc/components/AddressField/AddressField';
 import { TRANSACTION_CATEGORY_TYPES, FIELD_NAMES } from '@@vap-svc/constants';
 
-import { readableList } from '../utils/helpers';
 import { selectProfile } from '~/platform/user/selectors';
+
+import { readableList } from '../utils/helpers';
 
 export const ContactInfoDescription = ({ formContext, profile }) => {
   const [hadError, setHadError] = useState(false);
@@ -61,7 +62,7 @@ export const ContactInfoDescription = ({ formContext, profile }) => {
             <va-alert status="success" background-only>
               <div className="vads-u-font-size--base">
                 The missing information has been added to your application. You
-                may continue. yo
+                may continue.
               </div>
             </va-alert>
           </div>

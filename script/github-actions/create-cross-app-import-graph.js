@@ -3,40 +3,6 @@ const path = require('path');
 const findImports = require('find-imports');
 const core = require('@actions/core');
 
-// Example diffs:
-// srcApplicationFileDiffs: [
-//   "diff --git a/src/applications/ask-a-question/form/contactInformation/contactInformationPage.js b/src/applications/ask-a-question/form/contactInformation/contactInformationPage.js index 2d88eed33..7b6b3d683 100644 --- a/src/applications/ask-a-question/form/contactInformation/contactInformationPage.js +++ b/src/applications/ask-a-question/form/contactInformation/contactInformationPage.js @@ -4 +4 @@ import emailUI from 'platform/forms-system/src/js/definitions/email'; -import { confirmationEmailUI } from 'applications/caregivers/definitions/UIDefinitions/sharedUI'; +// import { confirmationEmailUI } from 'applications/caregivers/definitions/UIDefinitions/sharedUI'; @@ -14 +14 @@ import { - verifyEmailAddressError, + // verifyEmailAddressError, @@ -41,8 +41,8 @@ const contactInformationPage = { - [formFields.verifyEmail]: _.merge( - confirmationEmailUI('', formFields.email), - { - 'ui:errorMessages': { - required: verifyEmailAddressError, - }, - }, - ), + // [formFields.verifyEmail]: _.merge( + // confirmationEmailUI('', formFields.email), + // { + // 'ui:errorMessages': { + // required: verifyEmailAddressError, + // }, + // }, + // ),"
-// ]
-
-// Each diff as two sets of '@@' before the deletions and additions:
-// The first instance of '@@' represents the change lines/columns
-// Examples:
-// @@ -437,0 +438
-// @@ -4 +4
-
-// The second instance of '@@' represents the first line before the line that's being modified that is at col 1
-// examples:
-// @@ jobs:
-// @@ import emailUI from 'platform/forms-system/src/js/definitions/email';
-// Note: there's a space after the line, before the '-' or '+'
-
-// Solution:
-// Part 1
-// in each src/applications diff:
-// count up to two instances of @@
-// save second the second instance of '@@'
-// then look for '-' or '+'
-// after 1 '-' or '+', reset counter to 0
-// look for @@ again, but continue to look for '-' or '+' because there might be more
-// save '-' or '+' to 'deleted' and 'added' arrays for each src/applications diff
-
-// Part 2
-// if second instance of '@@' === 'import { ' and a following deleted line has the next closing '}' has 'from' and a path
-//  || deleted line starts with 'import'
-// get the path
-// build the path
-// if that path is in a different app, rebuild the graph
-
 function getImports(filePath) {
   return findImports(filePath, {
     absoluteImports: true,
@@ -136,7 +102,7 @@ function getSrcApplicationDiffs(diff) {
       const diffLines = fileDiff.split('new_line');
 
       return {
-        diff: diffLines,
+        diff: fileDiff,
         path: appPath,
         name,
         includesImport: diffIncludesImport(fileDiff),
