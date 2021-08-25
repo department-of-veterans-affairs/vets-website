@@ -573,6 +573,9 @@ const formConfig = {
                 ...address.uiSchema(''),
                 street: {
                   'ui:title': 'Street Address',
+                  'ui:errorMessages': {
+                    required: 'Please enter your full street address',
+                  },
                   'ui:validations': [
                     (errors, field) => {
                       if (isOnlyWhitespace(field)) {
@@ -585,19 +588,28 @@ const formConfig = {
                 },
                 city: {
                   'ui:title': 'City',
+                  'ui:errorMessages': {
+                    required: 'Please enter a valid city',
+                  },
                   'ui:validations': [
                     (errors, field) => {
                       if (isOnlyWhitespace(field)) {
-                        errors.addError('Please enter your city');
+                        errors.addError('Please enter a valid city');
                       }
                     },
                   ],
                 },
                 state: {
                   'ui:title': 'State/Province/Region',
+                  'ui:errorMessages': {
+                    required: 'State is required',
+                  },
                 },
                 postalCode: {
                   'ui:title': 'Postal Code (5-digit)',
+                  'ui:errorMessages': {
+                    required: 'Zip code must be 5 digits',
+                  },
                 },
               },
               'ui:options': {
