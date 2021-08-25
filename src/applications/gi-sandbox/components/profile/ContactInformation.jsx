@@ -7,6 +7,8 @@ import { ariaLabels } from '../../constants';
 import classNames from 'classnames';
 
 export default function ContactInformation({ institution, showModal }) {
+  const isOJT = institution.type.toLowerCase() === 'ojt';
+
   const versionedSchoolCertifyingOfficials = _.get(
     institution,
     'versionedSchoolCertifyingOfficials',
@@ -151,34 +153,38 @@ export default function ContactInformation({ institution, showModal }) {
         &nbsp;
         {institution.facilityCode || 'N/A'}
       </div>
-      <div>
-        <strong>
-          <LearnMoreLabel
-            text={'ED IPEDS code'}
-            onClick={() => showModal('ipedsCode')}
-            ariaLabel={ariaLabels.learnMore.ipedsCode}
-            buttonId={'ipedsCode-button'}
-            buttonClassName="small-screen-font"
-          />
-          :
-        </strong>
-        &nbsp;
-        {institution.cross || 'N/A'}
-      </div>
-      <div>
-        <strong>
-          <LearnMoreLabel
-            text={'ED OPE code'}
-            onClick={() => showModal('opeCode')}
-            ariaLabel={ariaLabels.learnMore.opeCode}
-            buttonId={'opeCode-button'}
-            buttonClassName="small-screen-font"
-          />
-          :
-        </strong>
-        &nbsp;
-        {institution.ope || 'N/A'}
-      </div>
+      {!isOJT && (
+        <div>
+          <strong>
+            <LearnMoreLabel
+              text={'ED IPEDS code'}
+              onClick={() => showModal('ipedsCode')}
+              ariaLabel={ariaLabels.learnMore.ipedsCode}
+              buttonId={'ipedsCode-button'}
+              buttonClassName="small-screen-font"
+            />
+            :
+          </strong>
+          &nbsp;
+          {institution.cross || 'N/A'}
+        </div>
+      )}
+      {!isOJT && (
+        <div>
+          <strong>
+            <LearnMoreLabel
+              text={'ED OPE code'}
+              onClick={() => showModal('opeCode')}
+              ariaLabel={ariaLabels.learnMore.opeCode}
+              buttonId={'opeCode-button'}
+              buttonClassName="small-screen-font"
+            />
+            :
+          </strong>
+          &nbsp;
+          {institution.ope || 'N/A'}
+        </div>
+      )}
     </div>
   );
 
@@ -186,7 +192,7 @@ export default function ContactInformation({ institution, showModal }) {
     <div>
       {physicalAddress()}
       {mailingAddress()}
-      {!institution.vetTecProvider && singlePointContact()}
+      {!institution.vetTecProvider && !isOJT && singlePointContact()}
       {schoolCertifyingOfficials()}
       {institutionCodes()}
     </div>

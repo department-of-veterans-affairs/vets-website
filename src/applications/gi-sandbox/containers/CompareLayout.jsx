@@ -15,6 +15,7 @@ import { ariaLabels, MINIMUM_RATING_COUNT } from '../constants';
 import RatingsStars from '../components/RatingsStars';
 import { showModal } from '../actions';
 import LearnMoreLabel from '../components/LearnMoreLabel';
+import { religiousAffiliations } from '../utils/data/religiousAffiliations';
 
 const CompareLayout = ({
   calculated,
@@ -161,10 +162,12 @@ const CompareLayout = ({
             mapper: institution => {
               const specialMission = [];
               if (institution.hbcu) {
-                specialMission.push('HBCU');
+                specialMission.push('Historically Black College or University');
               }
               if (institution.relaffil) {
-                specialMission.push('Religious');
+                specialMission.push(
+                  religiousAffiliations[institution.relaffil],
+                );
               }
               if (institution.womenOnly) {
                 specialMission.push('Women-only');

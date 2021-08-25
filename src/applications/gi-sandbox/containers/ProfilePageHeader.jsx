@@ -204,13 +204,17 @@ const ProfilePageHeader = ({
               {`${programs[0].phoneAreaCode}-${programs[0].phoneNumber}`}
             </a>
           </IconWithInfo>
-          <IconWithInfo
-            icon="map"
-            present={localeType && lowerType && lowerType !== 'ojt'}
-          >
-            {'   '}
-            {_.capitalize(localeType)} locale
-          </IconWithInfo>
+          {programs[0].schoolLocale && (
+            <IconWithInfo
+              icon="map"
+              present={
+                programs[0].schoolLocale && lowerType && lowerType !== 'ojt'
+              }
+            >
+              {'   '}
+              {_.capitalize(programs[0].schoolLocale)} locale
+            </IconWithInfo>
+          )}
           <IconWithInfo icon="globe" present={programs.length > 0}>
             <a
               href={programs[0].providerWebsite}
