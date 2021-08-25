@@ -144,13 +144,15 @@ describe('Facility VA search', () => {
     cy.get('#facility-type-dropdown').select(
       facilityTypesOptions[LocationType.CC_PROVIDER],
     );
-    cy.get('#service-type-ahead-input').type('foo');
+    cy.get('#service-type-ahead-input').type('General');
+    cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
+
     cy.get('#facility-search').click({ waitForAnimations: true });
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(3000);
 
     cy.focused().contains(
-      'No results found for "Community providers (in VA’s network)" near "Raleigh, North Carolina 27606"',
+      'No results found for "Community providers (in VA’s network)", "General Acute Care Hospital" near "Raleigh, North Carolina 27606"',
     );
     cy.get('#other-tools').should('exist');
   });
