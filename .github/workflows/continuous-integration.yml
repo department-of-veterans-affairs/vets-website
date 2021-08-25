@@ -67,8 +67,8 @@ jobs:
       #     YARN_REGISTRY: https://devops.va.gov/dots-nexus/repository/npmjs.org-proxy/
       #     YARN_CACHE_FOLDER: .cache/yarn
 
-      # - name: Force yarn cache clean
-      #   run: yarn cache clean
+      - name: Force yarn cache clean
+        run: yarn cache clean
 
       - name: clean npm
         run: npm cache clean --force
@@ -88,7 +88,7 @@ jobs:
       #   run: yarn config get registry
 
       - name: Install dependencies
-        run: npm install
+        run: yarn install --verbose
 
       - name: Build
         run: yarn build --verbose --buildtype=${{ matrix.buildtype }}
