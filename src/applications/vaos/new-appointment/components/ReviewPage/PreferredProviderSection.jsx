@@ -44,7 +44,7 @@ export default function PreferredProviderSection(props) {
             <div>
               <Link
                 to={newAppointmentFlow.ccPreferences.url}
-                aria-label="Edit provider preference"
+                aria-label="Edit Choose a preferred language"
               >
                 Edit
               </Link>
@@ -77,7 +77,7 @@ export default function PreferredProviderSection(props) {
               <div>
                 <Link
                   to={newAppointmentFlow.ccPreferences.url}
-                  aria-label="Edit provider preference"
+                  aria-label="Edit Choose a preferred language"
                 >
                   Edit
                 </Link>{' '}
