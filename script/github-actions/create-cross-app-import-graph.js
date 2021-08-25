@@ -182,13 +182,17 @@ function shouldRebuildGraph(diff) {
       console.log('Imports in shouldRebuildGraph(): ', imports);
 
       for (let j = 0; j < importRelPaths.length; j += 1) {
-        const importPath = getImportPath(filePathAsArray, importRelPaths[j]);
+        const importRelPath = importRelPaths[j];
 
-        if (
-          importIsFromOtherApplication(appName, importPath) &&
-          diffIncludesImportedFilename(srcApplicationFileDiff, importPath)
-        ) {
-          return true;
+        if (!importRelPath.startsWith('./')) {
+          const importPath = getImportPath(filePathAsArray, importRelPath);
+
+          if (
+            importIsFromOtherApplication(appName, importPath) &&
+            diffIncludesImportedFilename(srcApplicationFileDiff, importPath)
+          ) {
+            return true;
+          }
         }
       }
     }
@@ -218,16 +222,12 @@ function buildGraph(graph) {
     if (!graph[appName]) graph[appName] = [appName];
 
     imports[file].forEach(importRelPath => {
-      const importPath = getImportPath(filePathAsArray, importRelPath);
+      if (!importRelPath.startsWith('./')) {
+        const importPath = getImportPath(filePathAsArray, importRelPath);
 
-      if (importIsFromOtherApplication(appName, importPath)) {
-        updateGraph(graph, appName, getAppNameFromFilePath(importPath));
-        // const importAppName = getAppNameFromFilePath(importPath);
-        // // eslint-disable-next-line no-param-reassign
-        // if (!graph[importAppName]) graph[importAppName] = [importAppName];
-
-        // graph[appName].push(importAppName);
-        // graph[importAppName].push(appName);
+        if (importIsFromOtherApplication(appName, importPath)) {
+          updateGraph(graph, appName, getAppNameFromFilePath(importPath));
+        }
       }
     });
   });
