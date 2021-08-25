@@ -86,6 +86,36 @@ function sliceDiffIntoDiffForEachChangedFile(diff) {
   return diffForEachChangedFile;
 }
 
+function diffIncludesImport(srcApplicationFileDiff) {
+  const includesImport = /import /g.test(srcApplicationFileDiff);
+  // eslint-disable-next-line no-console
+  console.log('includesImport:', includesImport);
+  return includesImport;
+}
+
+function diffIncludesRequire(srcApplicationFileDiff) {
+  const includesRequire = srcApplicationFileDiff.includes("require('");
+  // eslint-disable-next-line no-console
+  console.log('includesRequire:', includesRequire);
+  return includesRequire;
+}
+
+function getImportPath(filePathAsArray, importRelPath) {
+  if (importRelPath.startsWith('../')) {
+    const numDirsUp = importRelPath.split('/').filter(str => str === '..')
+      .length;
+
+    return importRelPath.replace(
+      '../'.repeat(numDirsUp),
+      `${filePathAsArray
+        .slice(0, filePathAsArray.length - 1 - numDirsUp)
+        .join('/')}/`,
+    );
+  } else {
+    return importRelPath;
+  }
+}
+
 function shouldRebuildGraph(diff) {
   const diffForEachChangedFile = sliceDiffIntoDiffForEachChangedFile(diff);
   const srcApplicationFileDiffs = diffForEachChangedFile.filter(fileDiff => {
@@ -97,16 +127,11 @@ function shouldRebuildGraph(diff) {
 
   for (let i = 0; i < srcApplicationFileDiffs.length; i += 1) {
     const srcApplicationFileDiff = srcApplicationFileDiffs[i];
-    const includesImport = /import /g.test(srcApplicationFileDiff);
-    const includesRequire = srcApplicationFileDiff.includes("require('");
 
-    // eslint-disable-next-line no-console
-    console.log('includesImport:', includesImport);
-
-    // eslint-disable-next-line no-console
-    console.log('includesRequire:', includesRequire);
-
-    if (includesImport || includesRequire) {
+    if (
+      diffIncludesImport(srcApplicationFileDiff) ||
+      diffIncludesRequire(srcApplicationFileDiff)
+    ) {
       const appName = getAppNameFromFilePath(
         getAppPathFromFileDiff(srcApplicationFileDiff),
       );
@@ -124,25 +149,26 @@ function shouldRebuildGraph(diff) {
 
       for (let j = 0; j < importRelPaths.length; j += 1) {
         const importRelPath = importRelPaths[j];
-        let importPath;
+        const importPath = getImportPath(filePathAsArray, importRelPath);
+        // let importPath;
 
-        if (importRelPath.startsWith('../')) {
-          const numDirsUp = importRelPath.split('/').filter(str => str === '..')
-            .length;
-          importPath = importRelPath.replace(
-            '../'.repeat(numDirsUp),
-            `${filePathAsArray
-              .slice(0, filePathAsArray.length - 1 - numDirsUp)
-              .join('/')}/`,
-          );
-        } else {
-          importPath = importRelPath;
-        }
+        // if (importRelPath.startsWith('../')) {
+        //   const numDirsUp = importRelPath.split('/').filter(str => str === '..')
+        //     .length;
+        //   importPath = importRelPath.replace(
+        //     '../'.repeat(numDirsUp),
+        //     `${filePathAsArray
+        //       .slice(0, filePathAsArray.length - 1 - numDirsUp)
+        //       .join('/')}/`,
+        //   );
+        // } else {
+        //   importPath = importRelPath;
+        // }
 
-        // eslint-disable-next-line no-console
-        console.log('File path to compare with: ', filePath);
-        // eslint-disable-next-line no-console
-        console.log('Import path: ', importPath);
+        // // eslint-disable-next-line no-console
+        // console.log('File path to compare with: ', filePath);
+        // // eslint-disable-next-line no-console
+        // console.log('Import path: ', importPath);
 
         if (
           importPath.startsWith('src/applications') &&
