@@ -47,7 +47,40 @@ describe('VAOS <DateTimeSelectPage>', () => {
     MockDate.reset();
   });
   it('should not submit form with validation error', async () => {
-    setDateTimeSelectMockFetches();
+    const slot308Date = moment()
+      .day(9)
+      .hour(9)
+      .minute(0)
+      .second(0);
+    const slot309Date = moment()
+      .day(11)
+      .hour(13)
+      .minute(0)
+      .second(0);
+    setDateTimeSelectMockFetches({
+      slotDatesByClinicId: {
+        308: [
+          {
+            ...getAppointmentSlotMock(),
+            startDateTime: slot308Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+            endDateTime: slot308Date
+              .clone()
+              .minute(20)
+              .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+          },
+        ],
+        309: [
+          {
+            ...getAppointmentSlotMock(),
+            startDateTime: slot309Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+            endDateTime: slot309Date
+              .clone()
+              .minute(20)
+              .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+          },
+        ],
+      },
+    });
     const preferredDate = moment();
 
     const store = createTestStore(initialState);
@@ -111,7 +144,13 @@ describe('VAOS <DateTimeSelectPage>', () => {
   });
 
   it('should display error message if slots call fails', async () => {
-    setDateTimeSelectMockFetches({ slotError: true });
+    setDateTimeSelectMockFetches({
+      slotDatesByClinicId: {
+        308: [],
+        309: [],
+      },
+      slotError: true,
+    });
 
     const store = createTestStore(initialState);
 
@@ -172,7 +211,30 @@ describe('VAOS <DateTimeSelectPage>', () => {
       .second(0);
     const preferredDate = moment();
 
-    setDateTimeSelectMockFetches();
+    setDateTimeSelectMockFetches({
+      slotDatesByClinicId: {
+        308: [
+          {
+            ...getAppointmentSlotMock(),
+            startDateTime: slot308Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+            endDateTime: slot308Date
+              .clone()
+              .minute(20)
+              .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+          },
+        ],
+        309: [
+          {
+            ...getAppointmentSlotMock(),
+            startDateTime: slot309Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+            endDateTime: slot309Date
+              .clone()
+              .minute(20)
+              .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+          },
+        ],
+      },
+    });
 
     const store = createTestStore(initialState);
 
@@ -282,9 +344,9 @@ describe('VAOS <DateTimeSelectPage>', () => {
     };
 
     setDateTimeSelectMockFetches({
-      singleClinic: true,
-      singleSlot: true,
-      slotsToSet: [slot, slot, slot, slot, slot],
+      slotDatesByClinicId: {
+        308: [slot, slot, slot, slot, slot],
+      },
     });
 
     const store = createTestStore(initialState);
@@ -382,9 +444,27 @@ describe('VAOS <DateTimeSelectPage>', () => {
   });
 
   it('should show validation error if no date selected', async () => {
+    const slot308Date = moment()
+      .day(9)
+      .hour(9)
+      .minute(0)
+      .second(0);
     const preferredDate = moment();
 
-    setDateTimeSelectMockFetches({ singleClinic: true, singleSlot: true });
+    setDateTimeSelectMockFetches({
+      slotDatesByClinicId: {
+        308: [
+          {
+            ...getAppointmentSlotMock(),
+            startDateTime: slot308Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+            endDateTime: slot308Date
+              .clone()
+              .minute(20)
+              .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+          },
+        ],
+      },
+    });
 
     const store = createTestStore(initialState);
 
@@ -445,9 +525,9 @@ describe('VAOS <DateTimeSelectPage>', () => {
       },
     ];
     setDateTimeSelectMockFetches({
-      singleClinic: true,
-      singleSlot: true,
-      slotsToSet: slots308,
+      slotDatesByClinicId: {
+        308: slots308,
+      },
     });
 
     await setTypeOfCare(store, /primary care/i);
@@ -495,9 +575,9 @@ describe('VAOS <DateTimeSelectPage>', () => {
     const preferredDate = moment().add(6, 'days');
 
     setDateTimeSelectMockFetches({
-      singleClinic: true,
-      singleSlot: true,
-      slotsToSet: slots308,
+      slotDatesByClinicId: {
+        308: slots308,
+      },
     });
 
     const store = createTestStore(initialState);
@@ -537,9 +617,9 @@ describe('VAOS <DateTimeSelectPage>', () => {
     const preferredDate = moment().add(6, 'days');
 
     setDateTimeSelectMockFetches({
-      singleClinic: true,
-      singleSlot: true,
-      slotsToSet: slots308,
+      slotDatesByClinicId: {
+        308: slots308,
+      },
     });
 
     const store = createTestStore(initialState);
@@ -583,9 +663,9 @@ describe('VAOS <DateTimeSelectPage>', () => {
 
     setDateTimeSelectMockFetches({
       preferredDate,
-      singleClinic: true,
-      singleSlot: true,
-      slotsToSet: slot308Date,
+      slotDatesByClinicId: {
+        308: [slot308Date],
+      },
     });
 
     const store = createTestStore(initialState);
@@ -648,9 +728,19 @@ describe('VAOS <DateTimeSelectPage>', () => {
       .minute(0)
       .second(0);
     setDateTimeSelectMockFetches({
-      singleClinic: true,
-      singleSlot: true,
       preferredDate,
+      slotDatesByClinicId: {
+        308: [
+          {
+            ...getAppointmentSlotMock(),
+            startDateTime: slot308Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+            endDateTime: slot308Date
+              .clone()
+              .minute(20)
+              .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+          },
+        ],
+      },
     });
 
     mockAppointmentSlotFetch({
