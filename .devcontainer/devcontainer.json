@@ -2,10 +2,11 @@
   "name": "vets-website",
   "settings": {
     "extensions.ignoreRecommendations": true,
-    "terminal.integrated.defaultShell.linux": "/bin/bash",
+    "terminal.integrated.defaultShell.linux": "/usr/bin/zsh",
     "workbench.startupEditor": "readme"
   },
   "extensions": [
+    "Gruntfuggly.todo-tree",
     "davidanson.vscode-markdownlint",
     "dbaeumer.vscode-eslint",
     "eamodio.gitlens",
@@ -16,8 +17,7 @@
     "redhat.vscode-yaml",
     "stylelint.vscode-stylelint",
     "tyriar.sort-lines",
-    "visualstudioexptteam.vscodeintellicode",
-    "wayou.vscode-todo-highlight"
+    "visualstudioexptteam.vscodeintellicode"
   ],
   "build": {
     "dockerfile": "Dockerfile",
