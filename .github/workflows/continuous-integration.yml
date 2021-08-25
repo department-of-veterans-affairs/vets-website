@@ -75,17 +75,17 @@ jobs:
 
       - name: Authenticate NEXUS
         run: |
-          npm config set _auth $(echo -n 'va-vsp-bot:${{ env.VA_VSP_BOT_GITHUB_TOKEN }}' | openssl base64)
+          npm config set _auth $(echo -n 'va-vsp-bot-1:${{ secrets.AWS_ACCESS_KEY_ID }}' | openssl base64)
           npm config set cafile ${{ env.NODE_EXTRA_CA_CERTS }}
           npm config set registry ${{ env.NEXUS_REGISTRY }}
-          npm config set email va-vsp-bot@va.gov
+          npm config set email va-vsp-bot-1@va.gov
           npm config set always-auth true
 
       # - name: Set yarn registry to DOT NEXUS
       #   run: yarn config set registry ${{ env.NEXUS_REGISTRY }}
 
-      - name: Verify registry for yarn
-        run: yarn config get registry
+      # - name: Verify registry for yarn
+      #   run: yarn config get registry
 
       # - name: Force yarn cache clean
       #   run: yarn cache clean
