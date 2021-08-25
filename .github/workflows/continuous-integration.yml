@@ -82,7 +82,7 @@ jobs:
       #   run: yarn config get registry
 
       - name: Install dependencies
-        run: yarn install --verbose --network-concurrency 1
+        run: yarn install --frozen-lockfile --prefer-offline --production=false --verbose
 
       - name: Build
         run: yarn build --verbose --buildtype=${{ matrix.buildtype }}
