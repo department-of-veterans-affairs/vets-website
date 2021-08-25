@@ -1,4 +1,51 @@
 {
+  "appeals": [
+    "appeals"
+  ],
+  "ask-a-question": [
+    "ask-a-question",
+    "caregivers"
+  ],
+  "caregivers": [
+    "caregivers",
+    "ask-a-question",
+    "claims-status"
+  ],
+  "auth": [
+    "auth"
+  ],
+  "beta-enrollment": [
+    "beta-enrollment"
+  ],
+  "burials": [
+    "burials",
+    "personalization"
+  ],
+  "claims-status": [
+    "claims-status",
+    "caregivers",
+    "personalization"
+  ],
+  "check-in": [
+    "check-in"
+  ],
+  "coronavirus-chatbot": [
+    "coronavirus-chatbot",
+    "static-pages"
+  ],
+  "coronavirus-research": [
+    "coronavirus-research"
+  ],
+  "coronavirus-screener": [
+    "coronavirus-screener"
+  ],
+  "coronavirus-vaccination-expansion": [
+    "coronavirus-vaccination-expansion"
+  ],
+  "coronavirus-vaccination": [
+    "coronavirus-vaccination",
+    "static-pages"
+  ],
   "debt-letters": [
     "debt-letters",
     "financial-status-report",
