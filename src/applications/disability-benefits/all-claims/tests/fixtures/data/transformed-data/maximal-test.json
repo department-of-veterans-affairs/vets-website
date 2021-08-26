@@ -90,10 +90,6 @@
     ],
     "serviceInformation": {
       "reservesNationalGuardService": {
-        "title10Activation": {
-          "title10ActivationDate": "2015-01-01",
-          "anticipatedSeparationDate": "2120-01-01"
-        },
         "obligationTermOfServiceDateRange": {
           "from": "2007-05-22",
           "to": "2008-06-05"

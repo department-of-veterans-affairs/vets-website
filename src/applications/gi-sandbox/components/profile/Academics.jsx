@@ -43,7 +43,7 @@ export default function Academics({ institution, onShowModal }) {
       <strong>
         <LearnMoreLabel
           text={'Credit for military training'}
-          onClick={() => onShowModal('creditTraining')}
+          onClick={() => onShowModal('militaryTrainingCredit')}
           ariaLabel={ariaLabels.learnMore.militaryTrainingCredit}
           buttonId={'creditTraining-button'}
           buttonClassName="small-screen-font"

@@ -12,6 +12,9 @@ import {
   validateBooleanGroup,
   validateAge,
   validateSeparationDate,
+  isInFuture,
+  isLessThan180DaysInFuture,
+  title10BeforeRad,
 } from '../validations';
 
 import disabilityLabels from '../content/disabilityLabels';
@@ -531,6 +534,83 @@ describe('526 All Claims validations', () => {
       );
 
       expect(errors.addError.called).to.be.false;
+    });
+  });
+
+  describe('isInFuture', () => {
+    it('adds an error when entered date is today or earlier', () => {
+      const addError = sinon.spy();
+      const errors = { addError };
+      const fieldData = '2018-04-12';
+
+      isInFuture(errors, fieldData);
+      expect(addError.calledOnce).to.be.true;
+    });
+
+    it('does not add an error when the entered date is in the future', () => {
+      const addError = sinon.spy();
+      const errors = { addError };
+      const fieldData = '2099-04-12';
+
+      isInFuture(errors, fieldData);
+      expect(addError.callCount).to.equal(0);
+    });
+  });
+
+  describe('isLessThan180DaysInFuture', () => {
+    it('adds an error when date is > 180 days in the future', () => {
+      const addError = sinon.spy();
+      const errors = { addError };
+      const fieldData = daysFromToday(190);
+
+      isLessThan180DaysInFuture(errors, fieldData);
+      expect(addError.calledOnce).to.be.true;
+    });
+
+    it('does not add an error when the entered date is < 180 days in the future', () => {
+      const addError = sinon.spy();
+      const errors = { addError };
+      const fieldData = daysFromToday(170);
+
+      isLessThan180DaysInFuture(errors, fieldData);
+      expect(addError.callCount).to.equal(0);
+    });
+  });
+
+  describe('title10BeforeRad', () => {
+    const getErrors = addError => ({
+      reservesNationalGuardService: {
+        title10Activation: {
+          anticipatedSeparationDate: {
+            addError,
+          },
+        },
+      },
+    });
+    const getData = (start, end) => ({
+      reservesNationalGuardService: {
+        title10Activation: {
+          title10ActivationDate: daysFromToday(start),
+          anticipatedSeparationDate: daysFromToday(end),
+        },
+      },
+    });
+    it('adds an error when date is > 180 days in the future', () => {
+      const addError = sinon.spy();
+      const errors = getErrors(addError);
+      const fieldData = getData(150, 140);
+
+      title10BeforeRad(errors, fieldData);
+      expect(addError.calledOnce).to.be.true;
+    });
+
+    it('does not add an error when the entered date is < 180 days in the future', () => {
+      const addError = sinon.spy();
+      const errors = getErrors(addError);
+      const fieldData = getData(140, 150);
+
+      title10BeforeRad(errors, fieldData);
+      expect(addError.callCount).to.equal(0);
     });
   });
 });

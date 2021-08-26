@@ -11,14 +11,18 @@ export default Object.freeze({
   cernerOverride687: 'cerner_override_687',
   cernerOverride692: 'cerner_override_692',
   cernerOverride757: 'cerner_override_757',
-  checkInExperienceEnabled:'check_in_experience_enabled',
-  checkInExperienceLowRiskAuthenicationEnabled:'check_in_experience_low_authentication_enabled',
-  checkInExperienceMultipleAppointmentEnabled:'check_in_experience_multiple_appointment_support',
+  checkInExperienceEnabled: 'check_in_experience_enabled',
+  checkInExperienceLowRiskAuthenicationEnabled:
+    'check_in_experience_low_authentication_enabled',
+  checkInExperienceMultipleAppointmentEnabled:
+    'check_in_experience_multiple_appointment_support',
   coeAccess: 'coe_access',
   covidVaccineSchedulingFrontend: 'covid_vaccine_scheduling_frontend',
   covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
-  covidVaccineUpdatesDisableAuth: 'covid_vaccine_registration_frontend_hide_auth',
-  covidVaccineUpdatesEnableExpandedEligibility: 'covid_vaccine_registration_frontend_enable_expanded_eligibility',
+  covidVaccineUpdatesDisableAuth:
+    'covid_vaccine_registration_frontend_hide_auth',
+  covidVaccineUpdatesEnableExpandedEligibility:
+    'covid_vaccine_registration_frontend_enable_expanded_eligibility',
   covidVaccineUpdatesForm: 'covid_vaccine_registration_frontend',
   debtLettersShowLetters: 'debtLettersShowLetters',
   dependencyVerification: 'dependency_verification',
@@ -27,12 +31,16 @@ export default Object.freeze({
   facilitiesPpmsSuppressAll: 'facilities_ppms_suppress_all',
   facilitiesPpmsSuppressCommunityCare: 'facilitiesPpmsSuppressCommunityCare',
   facilitiesPpmsSuppressPharmacies: 'facilitiesPpmsSuppressPharmacies',
-  facilityLocatorCovidVaccineWalkInAvailabilityTextFrontend: 'facilityLocatorCovidVaccineWalkInAvailabilityTextFrontend',
-  facilityLocatorLighthouseCovidVaccineQuery: 'facilityLocatorLighthouseCovidVaccineQuery',
-  facilityLocatorPredictiveLocationSearch: 'facilityLocatorPredictiveLocationSearch',
+  facilityLocatorCovidVaccineWalkInAvailabilityTextFrontend:
+    'facilityLocatorCovidVaccineWalkInAvailabilityTextFrontend',
+  facilityLocatorLighthouseCovidVaccineQuery:
+    'facilityLocatorLighthouseCovidVaccineQuery',
+  facilityLocatorPredictiveLocationSearch:
+    'facilityLocatorPredictiveLocationSearch',
   facilityLocatorRailsEngine: 'facilityLocatorRailsEngine',
   facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares', // Facilities team has deprecated this flag for the frontEnd logic, there is still backend support though.
-  facilityLocatorShowOperationalHoursSpecialInstructions: 'facilityLocatorShowOperationalHoursSpecialInstructions',
+  facilityLocatorShowOperationalHoursSpecialInstructions:
+    'facilityLocatorShowOperationalHoursSpecialInstructions',
   findFormsEnhancementFlagOne: 'find_forms_first_flag',
   findFormsEnhancementFlagTwo: 'find_forms_second_flag',
   findFormsEnhancementFlagThree: 'find_forms_third_flag',
@@ -43,6 +51,7 @@ export default Object.freeze({
   hlrv2: 'hlr_v2',
   languageSupport: 'language_support',
   manageDependents: 'dependents_management',
+  megaMenuMobileV2: 'mega_menu_mobile_v2',
   preEntryCovid19Screener: 'preEntryCovid19Screener',
   profileNotificationSettings: 'profile_notification_settings',
   requestLockedPdfPassword: 'request_locked_pdf_password',
@@ -59,10 +68,13 @@ export default Object.freeze({
   showFinancialStatusReport: 'showFinancialStatusReport',
   showFinancialStatusReportWizard: 'showFinancialStatusReportWizard',
   showMedicalCopays: 'show_medical_copays',
-  showHealthcareExperienceQuestionnaire: 'showHealthcareExperienceQuestionnaire',
+  showHealthcareExperienceQuestionnaire:
+    'showHealthcareExperienceQuestionnaire',
   showNewGetMedicalRecordsPage: 'show_new_get_medical_records_page',
-  showNewRefillTrackPrescriptionsPage: 'show_new_refill_track_prescriptions_page',
-  showNewScheduleViewAppointmentsPage: 'show_new_schedule_view_appointments_page',
+  showNewRefillTrackPrescriptionsPage:
+    'show_new_refill_track_prescriptions_page',
+  showNewScheduleViewAppointmentsPage:
+    'show_new_schedule_view_appointments_page',
   showNewSecureMessagingPage: 'show_new_secure_messaging_page',
   showNewViewTestLabResultsPage: 'show_new_view_test_lab_results_page',
   ssoe: 'ssoe',
@@ -83,10 +95,14 @@ export default Object.freeze({
   vaOnlineSchedulingProviderSelection: 'vaOnlineSchedulingProviderSelection',
   vaOnlineSchedulingRequests: 'vaOnlineSchedulingRequests',
   vaOnlineSchedulingUnenrolledVaccine: 'vaOnlineSchedulingUnenrolledVaccine',
-  vaOnlineSchedulingVAOSServiceCCAppointments: 'vaOnlineSchedulingVAOSServiceCCAppointments',
-  vaOnlineSchedulingVAOSServiceRequests: 'vaOnlineSchedulingVAOSServiceRequests',
-  vaOnlineSchedulingVAOSServiceVAAppointments: 'vaOnlineSchedulingVAOSServiceVAAppointments',
-  vaOnlineSchedulingFacilitiesServiceV2: 'vaOnlineSchedulingFacilitiesServiceV2',
+  vaOnlineSchedulingVAOSServiceCCAppointments:
+    'vaOnlineSchedulingVAOSServiceCCAppointments',
+  vaOnlineSchedulingVAOSServiceRequests:
+    'vaOnlineSchedulingVAOSServiceRequests',
+  vaOnlineSchedulingVAOSServiceVAAppointments:
+    'vaOnlineSchedulingVAOSServiceVAAppointments',
+  vaOnlineSchedulingFacilitiesServiceV2:
+    'vaOnlineSchedulingFacilitiesServiceV2',
   vaOnlineSchedulingVariantTesting: 'vaOnlineSchedulingVariantTesting',
   vaOnlineSchedulingCCIterations: 'vaOnlineSchedulingCCIterations',
   vaViewDependentsAccess: 'vaViewDependentsAccess',

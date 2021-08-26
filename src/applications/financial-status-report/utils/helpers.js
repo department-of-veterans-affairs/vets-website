@@ -18,9 +18,59 @@ export const dateFormatter = date => {
   return moment(formatDate).format('MM/YYYY');
 };
 
+export const currency = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 2,
+});
+
+const hasProperty = (arr, key) => {
+  return arr.filter(item => item[key]).length > 0 ?? false;
+};
+
 export const sumValues = (arr, key) => {
-  if (!Array.isArray(arr) || !arr.length) return 0;
-  return arr?.reduce((acc, item) => acc + Number(item[key]) ?? 0, 0);
+  const isValid = Array.isArray(arr) && arr.length && hasProperty(arr, key);
+  if (!isValid) return 0;
+  return arr.reduce((acc, item) => acc + (Number(item[key]) ?? 0), 0);
+};
+
+export const filterDeductions = (deductions, filters) => {
+  if (!deductions.length) return 0;
+  return deductions
+    .filter(({ name }) => filters.includes(name))
+    .reduce((acc, curr) => acc + Number(curr.amount), 0);
+};
+
+export const otherDeductionsName = (deductions, filters) => {
+  if (!deductions.length) return '';
+  return deductions
+    .filter(({ name }) => !filters.includes(name))
+    .map(({ name }) => name)
+    .join(', ');
+};
+
+export const otherDeductionsAmt = (deductions, filters) => {
+  if (!deductions.length) return 0;
+  return deductions
+    .filter(({ name }) => !filters.includes(name))
+    .reduce((acc, curr) => acc + Number(curr.amount), 0);
+};
+
+export const nameStr = (socialSecurity, compensation, education, addlInc) => {
+  const benefitTypes = [];
+  if (socialSecurity) {
+    benefitTypes.push('Social Security');
+  }
+  if (compensation) {
+    benefitTypes.push('Disability Compensation');
+  }
+  if (education) {
+    benefitTypes.push('Education');
+  }
+  const vetAddlNames = addlInc?.map(({ name }) => name) ?? [];
+  const otherIncNames = [...benefitTypes, ...vetAddlNames];
+
+  return otherIncNames?.map(item => item).join(', ') ?? '';
 };
 
 export const getMonthlyIncome = ({
@@ -32,34 +82,55 @@ export const getMonthlyIncome = ({
   benefits,
   currEmployment,
   spCurrEmployment,
+  income,
 }) => {
-  const vetGrossSalary = sumValues(currEmployment, 'veteranGrossSalary');
-  const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
-  const vetOtherAmt = sumValues(addlIncRecords, 'amount');
-  const spOtherAmt = sumValues(spAddlIncome, 'amount');
-  const socialSecAmt = Number(socialSecurity.socialSecAmt ?? 0);
-  const spSocialSecAmt = Number(socialSecurity.spouse.socialSecAmt ?? 0);
-  const spBenefits = Number(benefits.spouseBenefits.benefitAmount ?? 0);
+  // deduction filters
+  const taxFilters = ['State tax', 'Federal tax', 'Local tax'];
+  const retirementFilters = ['401K', 'IRA', 'Pension'];
+  const socialSecFilters = ['FICA (Social Security and Medicare)'];
+  const allFilters = [...taxFilters, ...retirementFilters, ...socialSecFilters];
 
-  return (
-    vetGrossSalary +
-    spGrossSalary +
-    vetOtherAmt +
-    spOtherAmt +
-    socialSecAmt +
-    spSocialSecAmt +
-    spBenefits
-  );
+  // veteran
+  const vetGrossSalary = sumValues(currEmployment, 'veteranGrossSalary');
+  const vetAddlInc = sumValues(addlIncRecords, 'amount');
+  const vetSocSecAmt = Number(socialSecurity.socialSecAmt ?? 0);
+  const vetComp = sumValues(income, 'compensationAndPension');
+  const vetEdu = sumValues(income, 'education');
+  const vetBenefits = vetComp + vetEdu;
+  const vetDeductions = currEmployment?.map(emp => emp.deductions).flat() ?? 0;
+  const vetTaxes = filterDeductions(vetDeductions, taxFilters);
+  const vetRetirement = filterDeductions(vetDeductions, retirementFilters);
+  const vetSocialSec = filterDeductions(vetDeductions, socialSecFilters);
+  const vetOther = otherDeductionsAmt(vetDeductions, allFilters);
+  const vetTotDeductions = vetTaxes + vetRetirement + vetSocialSec + vetOther;
+  const vetOtherIncome = vetAddlInc + vetBenefits + vetSocSecAmt;
+  const vetNetIncome = vetGrossSalary - vetTotDeductions;
+
+  // spouse
+  const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
+  const spAddlInc = sumValues(spAddlIncome, 'amount');
+  const spSocialSecAmt = Number(socialSecurity.socialSecAmt ?? 0);
+  const spComp = Number(benefits.spouseBenefits.compensationAndPension ?? 0);
+  const spEdu = Number(benefits.spouseBenefits.education ?? 0);
+  const spBenefits = spComp + spEdu;
+  const spDeductions = spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
+  const spTaxes = filterDeductions(spDeductions, taxFilters);
+  const spRetirement = filterDeductions(spDeductions, retirementFilters);
+  const spSocialSec = filterDeductions(spDeductions, socialSecFilters);
+  const spOtherAmt = otherDeductionsAmt(spDeductions, allFilters);
+  const spTotDeductions = spTaxes + spRetirement + spSocialSec + spOtherAmt;
+  const spOtherIncome = spAddlInc + spBenefits + spSocialSecAmt;
+  const spNetIncome = spGrossSalary - spTotDeductions;
+
+  return vetNetIncome + vetOtherIncome + spNetIncome + spOtherIncome;
 };
 
-export const getMonthlyExpenses = formData => {
-  const {
-    expenses,
-    otherExpenses,
-    utilityRecords,
-    installmentContracts,
-  } = formData;
-
+export const getMonthlyExpenses = ({
+  expenses,
+  otherExpenses,
+  utilityRecords,
+  installmentContracts,
+}) => {
   const expVals = Object.values(expenses);
   const totalExp = expVals.reduce((acc, expense) => acc + Number(expense), 0);
   const utilities = sumValues(utilityRecords, 'monthlyUtilityAmount');
@@ -108,6 +179,7 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
     const vetEmploymentHistory = employmentRecords.map(employment => ({
       ...defaultObj,
       veteranOrSpouse: 'VETERAN',
+      occupationName: employment.type,
       from: dateFormatter(employment.from),
       to: employment.isCurrent ? '' : dateFormatter(employment.to),
       present: employment.isCurrent ? employment.isCurrent : false,
@@ -121,6 +193,7 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
     const spouseEmploymentHistory = employmentRecords.map(employment => ({
       ...defaultObj,
       veteranOrSpouse: 'SPOUSE',
+      occupationName: employment.type,
       from: dateFormatter(employment.from),
       to: employment.isCurrent ? '' : dateFormatter(employment.to),
       present: employment.isCurrent ? employment.isCurrent : false,

@@ -33,9 +33,7 @@ describe('Claim Files Test', () => {
     cy.get('.va-tabs li:nth-child(2) > a')
       .click()
       .then(() => {
-        cy.get('.file-request-list-item', { timeout: Timeouts.normal }).should(
-          'be.visible',
-        );
+        cy.get('.file-request-list-item').should('be.visible');
         cy.injectAxeThenAxeCheck();
       });
 

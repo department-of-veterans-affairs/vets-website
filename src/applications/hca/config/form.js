@@ -1,4 +1,4 @@
-import { set } from 'lodash/fp';
+import set from 'platform/utilities/data/set';
 
 // platform imports
 import environment from 'platform/utilities/environment';
