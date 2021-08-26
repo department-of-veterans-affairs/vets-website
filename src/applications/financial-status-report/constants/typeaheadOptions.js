@@ -83,14 +83,6 @@ export const realEstateTypes = [
   'Acreage or land',
 ];
 
-export const vehicleTypes = [
-  'Car',
-  'Sports utility vehicle (SUV)',
-  'Van',
-  'Truck',
-  'Motorcycle',
-];
-
 export const recreationalVehicleTypes = [
   'Recreational vehicle (RV)',
   'Motorhome',

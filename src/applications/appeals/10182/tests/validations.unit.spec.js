@@ -8,11 +8,12 @@ import {
   isValidDate,
   contactInfoValidation,
   validAdditionalIssue,
+  maxIssues,
   areaOfDisagreementRequired,
   optInValidation,
 } from '../validations';
 import { optInErrorMessage } from '../content/OptIn';
-import { SELECTED } from '../constants';
+import { SELECTED, MAX_SELECTIONS } from '../constants';
 
 describe('requireIssue validation', () => {
   const _ = undefined; // placeholder
@@ -79,33 +80,27 @@ describe('requireIssue validation', () => {
 describe('validAdditionalIssue', () => {
   it('should not show an error for valid additional issues', () => {
     const errors = { addError: sinon.spy() };
-    expect(
-      validAdditionalIssue(errors, {
-        additionalIssues: [
-          { issue: 'foo', decisionDate: getDate({ offset: { months: -1 } }) },
-        ],
-      }),
-    );
+    validAdditionalIssue(errors, {
+      additionalIssues: [
+        { issue: 'foo', decisionDate: getDate({ offset: { months: -1 } }) },
+      ],
+    });
     expect(errors.addError.called).to.be.false;
   });
   it('should show an error for additional issues with no name', () => {
     const errors = { addError: sinon.spy() };
-    expect(
-      validAdditionalIssue(errors, {
-        additionalIssues: [
-          { issue: '', decisionDate: getDate({ offset: { months: -1 } }) },
-        ],
-      }),
-    );
+    validAdditionalIssue(errors, {
+      additionalIssues: [
+        { issue: '', decisionDate: getDate({ offset: { months: -1 } }) },
+      ],
+    });
     expect(errors.addError.called).to.be.true;
   });
   it('should show an error for additional issues with an empty decision date', () => {
     const errors = { addError: sinon.spy() };
-    expect(
-      validAdditionalIssue(errors, {
-        additionalIssues: [{ issue: 'test', decisionDate: '' }],
-      }),
-    );
+    validAdditionalIssue(errors, {
+      additionalIssues: [{ issue: 'test', decisionDate: '' }],
+    });
     expect(errors.addError.called).to.be.true;
   });
   it('should show an error for additional issues with an old decision date', () => {
@@ -117,6 +112,27 @@ describe('validAdditionalIssue', () => {
         ],
       }),
     );
+    expect(errors.addError.called).to.be.true;
+  });
+});
+
+describe('maxIssues', () => {
+  it('should show not show an error when the array length is less than max', () => {
+    const errors = { addError: sinon.spy() };
+    maxIssues(errors, []);
+    expect(errors.addError.called).to.be.false;
+  });
+  it('should show not show an error when the array length is greater than max', () => {
+    const errors = { addError: sinon.spy() };
+    const validDate = getDate({ offset: { months: -2 } });
+    const template = {
+      issue: 'x',
+      decisionDate: validDate,
+      [SELECTED]: true,
+    };
+    maxIssues(errors, {
+      contestableIssues: new Array(MAX_SELECTIONS + 1).fill(template),
+    });
     expect(errors.addError.called).to.be.true;
   });
 });

@@ -11,6 +11,7 @@ import {
   requireIssue,
   validateDate,
   validAdditionalIssue,
+  maxIssues,
 } from '../validations';
 import { SELECTED } from '../constants';
 import { setInitialEditMode, showAddIssuesPage } from '../utils/helpers';
@@ -20,7 +21,7 @@ import dateUiSchema from 'platform/forms-system/src/js/definitions/date';
 export default {
   uiSchema: {
     'ui:title': AdditionalIssuesLabel,
-    'ui:validations': [requireIssue, validAdditionalIssue],
+    'ui:validations': [requireIssue, validAdditionalIssue, maxIssues],
     additionalIssues: {
       'ui:title': '',
       'ui:field': AddIssuesField,
