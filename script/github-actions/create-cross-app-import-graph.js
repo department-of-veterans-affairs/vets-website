@@ -127,15 +127,6 @@ function getImportPath(filePathAsArray, importRelPath) {
 //   });
 // }
 
-// function getFilenamesMentionedInDeletedLines(deletions) {
-//   const filenames = [];
-
-//   deletions.forEach(line => {
-//   });
-
-//   return filenames;
-// }
-
 function importIsFromOtherApplication(appName, importPath) {
   return (
     importPath.startsWith('src/applications') &&
@@ -153,10 +144,6 @@ function diffIncludesImportedFilename(srcApplicationFileDiff, importPath) {
 
   return false;
 }
-
-// function deletionsIncludesFileNotReportedInImports(relPaths, deletions) {
-//   const importedFileNames = relPaths(relPath => getImportFilename(relPath));
-// }
 
 function shouldRebuildGraph(diff) {
   const srcApplicationDiffs = getSrcApplicationDiffs(diff);
@@ -243,20 +230,6 @@ function shouldRebuildGraph(diff) {
             console.log('shouldRebuildGraph = TRUE');
             return true;
           }
-
-          // if (
-          //   importIsFromOtherApplication(srcApplicationDiff.name, importPath) &&
-          //   (diffIncludesImportedFilename(
-          //     srcApplicationDiff.diff,
-          //     importPath,
-          //   ) ||
-          //     deletionsIncludesFileNotReportedInImports( // maybe delete this
-          //       importRelPaths,
-          //       srcApplicationDiff.deletions,
-          //     ))
-          // ) {
-          //   return true;
-          // }
         }
       }
     }
