@@ -622,7 +622,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           repository: department-of-veterans-affairs/vets-website
-          event-type: testing-complete
+          event-type: tested
           client-payload: '{"success": false}'
 
   # testing-reports:
