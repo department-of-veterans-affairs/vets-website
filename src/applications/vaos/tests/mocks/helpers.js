@@ -74,7 +74,9 @@ export function mockAppointmentInfo({
     global.fetch.withArgs(
       `${environment.API_URL}/vaos/v0/appointment_requests?start_date=${moment()
         .add(isHomepageRefresh ? -120 : -30, 'days')
-        .format('YYYY-MM-DD')}&end_date=${moment().format('YYYY-MM-DD')}`,
+        .format('YYYY-MM-DD')}&end_date=${moment()
+        .add(1, 'days')
+        .format('YYYY-MM-DD')}`,
     ),
     { data: requests },
   );
