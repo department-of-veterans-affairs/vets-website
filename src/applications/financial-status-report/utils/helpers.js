@@ -125,14 +125,12 @@ export const getMonthlyIncome = ({
   return vetNetIncome + vetOtherIncome + spNetIncome + spOtherIncome;
 };
 
-export const getMonthlyExpenses = formData => {
-  const {
-    expenses,
-    otherExpenses,
-    utilityRecords,
-    installmentContracts,
-  } = formData;
-
+export const getMonthlyExpenses = ({
+  expenses,
+  otherExpenses,
+  utilityRecords,
+  installmentContracts,
+}) => {
   const expVals = Object.values(expenses);
   const totalExp = expVals.reduce((acc, expense) => acc + Number(expense), 0);
   const utilities = sumValues(utilityRecords, 'monthlyUtilityAmount');
@@ -181,6 +179,7 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
     const vetEmploymentHistory = employmentRecords.map(employment => ({
       ...defaultObj,
       veteranOrSpouse: 'VETERAN',
+      occupationName: employment.type,
       from: dateFormatter(employment.from),
       to: employment.isCurrent ? '' : dateFormatter(employment.to),
       present: employment.isCurrent ? employment.isCurrent : false,
@@ -194,6 +193,7 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
     const spouseEmploymentHistory = employmentRecords.map(employment => ({
       ...defaultObj,
       veteranOrSpouse: 'SPOUSE',
+      occupationName: employment.type,
       from: dateFormatter(employment.from),
       to: employment.isCurrent ? '' : dateFormatter(employment.to),
       present: employment.isCurrent ? employment.isCurrent : false,

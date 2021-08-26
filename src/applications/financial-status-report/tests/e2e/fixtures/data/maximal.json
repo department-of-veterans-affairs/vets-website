@@ -44,14 +44,12 @@
     "stocksAndOtherBonds": "50000.84",
     "automobiles": [
       {
-        "type": "Truck",
         "make": "Dodge",
         "model": "RAM",
         "year": "2020",
         "resaleValue": "75000.45"
       },
       {
-        "type": "Car",
         "make": "Dodge",
         "model": "Charger",
         "year": "2020",

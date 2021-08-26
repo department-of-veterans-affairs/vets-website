@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ServiceTypeAhead from './ServiceTypeAhead';
 import recordEvent from 'platform/monitoring/record-event';
 import omit from 'platform/utilities/data/omit';
@@ -26,6 +26,7 @@ const SearchControls = props => {
     clearGeocodeError,
   } = props;
 
+  const [selectedServiceType, setSelectedServiceType] = useState(null);
   const locationInputFieldRef = useRef(null);
 
   const onlySpaces = str => /^\s+$/.test(str);
@@ -48,26 +49,18 @@ const SearchControls = props => {
   };
 
   const handleFacilityTypeChange = e => {
-    onChange({ facilityType: e.target.value, serviceType: null });
+    onChange({
+      facilityType: e.target.value,
+      serviceType: null,
+    });
   };
 
-  const handleFacilityTypeBlur = e => {
-    // force redux state to register a change
-    onChange({ facilityType: ' ' });
-    handleFacilityTypeChange(e);
-  };
+  const handleServiceTypeChange = ({ target, selectedItem }) => {
+    setSelectedServiceType(selectedItem);
 
-  const handleServiceTypeChange = ({ target }) => {
     const option = target.value.trim();
-
     const serviceType = option === 'All' ? null : option;
     onChange({ serviceType });
-  };
-
-  const handleServiceTypeBlur = e => {
-    // force redux state to register a change
-    onChange({ serviceType: ' ' });
-    handleServiceTypeChange(e);
   };
 
   const handleSubmit = e => {
@@ -90,7 +83,7 @@ const SearchControls = props => {
     };
 
     if (facilityType === LocationType.CC_PROVIDER) {
-      if (!serviceType) {
+      if (!serviceType || !selectedServiceType) {
         updateReduxState('serviceType');
         focusElement('#service-type-ahead-input');
         return;
@@ -126,6 +119,8 @@ const SearchControls = props => {
     });
 
     onSubmit();
+
+    setSelectedServiceType(null);
   };
 
   const handleGeolocationButtonClick = e => {
@@ -263,7 +258,6 @@ const SearchControls = props => {
           value={facilityType || ''}
           className="bor-rad"
           onChange={handleFacilityTypeChange}
-          onBlur={handleFacilityTypeBlur}
           style={{ fontWeight: 'bold' }}
         >
           {options}
@@ -308,8 +302,7 @@ const SearchControls = props => {
       case LocationType.CC_PROVIDER:
         return (
           <ServiceTypeAhead
-            onSelect={handleServiceTypeChange}
-            onBlur={handleServiceTypeBlur}
+            handleServiceTypeChange={handleServiceTypeChange}
             initialSelectedServiceType={serviceType}
             showError={showError}
           />
