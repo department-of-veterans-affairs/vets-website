@@ -3,61 +3,23 @@ import { connect } from 'react-redux';
 import { toggleMobileDisplayHidden } from '../../mega-menu/actions';
 
 export class Main extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      closeMenu: {
-        hidden: true,
-      },
-      openMenu: {},
-    };
-  }
-
-  componentDidMount() {
-    window.addEventListener('resize', this.resetDefaultState.bind(this));
-  }
-
-  /**
-   * Remove event listener
-   */
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.resetDefaultState.bind(this));
-  }
-
-  resetDefaultState() {
-    this.setState({
-      closeMenu: {
-        hidden: true,
-      },
-      openMenu: {},
-    });
-  }
-
   handleOpenMenu() {
-    this.setState({
-      closeMenu: {},
-      openMenu: { hidden: true },
-    });
-
     this.props.toggleMobileDisplayHidden();
   }
 
   handleCloseMenu() {
-    this.setState({
-      closeMenu: { hidden: true },
-      openMenu: {},
-    });
-
     this.props.toggleMobileDisplayHidden();
   }
 
   render() {
+    const { hidden } = this.props.display;
+
     return (
       <div>
         <button
           aria-controls="vetnav"
           aria-expanded="false"
-          {...this.state.closeMenu}
+          hidden={hidden}
           type="button"
           onClick={() => this.handleCloseMenu()}
           className="vetnav-controller-close"
@@ -76,7 +38,7 @@ export class Main extends React.Component {
           </span>
         </button>
         <button
-          {...this.state.openMenu}
+          hidden={!hidden}
           aria-controls="vetnav"
           type="button"
           aria-expanded="false"
@@ -101,6 +63,12 @@ export class Main extends React.Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    display: state.megaMenu?.display,
+  };
+};
+
 const mapDispatchToProps = dispatch => ({
   toggleMobileDisplayHidden: () => {
     dispatch(toggleMobileDisplayHidden());
@@ -108,6 +76,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-  undefined,
+  mapStateToProps,
   mapDispatchToProps,
 )(Main);

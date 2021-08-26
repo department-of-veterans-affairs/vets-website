@@ -114,13 +114,17 @@ describe('Mega Menu', () => {
 
   context('on mobile', () => {
     beforeEach(() => {
-      cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
+      cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles).as(
+        'getFeatureToggles',
+      );
       cy.viewport('iphone-4');
     });
 
     it('looks as expected unauthenticated', () => {
       // Visit the homepage.
       cy.visit('/');
+
+      cy.wait('@getFeatureToggles');
 
       // Test the menu sections.
       testMobileMenuSections();
@@ -136,6 +140,8 @@ describe('Mega Menu', () => {
 
       // Visit the homepage.
       cy.visit('/');
+
+      cy.wait('@getFeatureToggles');
 
       // Test the menu sections.
       testMobileMenuSections();
