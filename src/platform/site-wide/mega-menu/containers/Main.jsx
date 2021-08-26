@@ -1,5 +1,6 @@
 // Node modules.
 import React, { Component } from 'react';
+import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -64,7 +65,6 @@ export class Main extends Component {
     ).isRequired,
     display: PropTypes.object,
     loggedIn: PropTypes.bool.isRequired,
-    isMobile: PropTypes.bool,
     isMegaMenuMobileV2Enabled: PropTypes.bool,
   };
 
@@ -118,21 +118,24 @@ export class Main extends Component {
       linkClicked: this.linkClicked,
       columnThreeLinkClicked: this.columnThreeLinkClicked,
     };
-    const { isMegaMenuMobileV2Enabled, isMobile } = this.props;
+    const { isMegaMenuMobileV2Enabled } = this.props;
 
     this.mobileMediaQuery = window.matchMedia('(max-width: 767px)');
 
-    if (isMegaMenuMobileV2Enabled) {
-      if (isMobile && !this.mobileMediaQuery.matches) {
-        return null;
-      }
-
-      if (!isMobile && this.mobileMediaQuery.matches) {
-        return null;
-      }
-    }
-
-    return <MegaMenu {...childProps} />;
+    return isMegaMenuMobileV2Enabled ? (
+      <>
+        {this.mobileMediaQuery.matches ? (
+          createPortal(
+            <MegaMenu {...childProps} />,
+            document.getElementById('mega-menu-mobile'),
+          )
+        ) : (
+          <MegaMenu {...childProps} />
+        )}
+      </>
+    ) : (
+      <MegaMenu {...childProps} />
+    );
   }
 }
 

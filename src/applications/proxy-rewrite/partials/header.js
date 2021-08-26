@@ -89,9 +89,10 @@ export default `
     </div>
     <div id="login-root" class="vet-toolbar"></div>
   </div>
-  <div class="vads-u-display--none medium-screen:vads-u-display--block usa-grid usa-grid-full">
+  <div class="usa-grid usa-grid-full">
     <div class="menu-rule" class="usa-one-whole"></div>
-    <div class="mega-menu" id="mega-menu-desktop"></div>
+    <div id="mega-menu"></div>
+    <!-- for the mega-menu, but if you add the ID the css breaks rn -->
   </div>
 </header>
 `;
