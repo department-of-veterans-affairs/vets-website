@@ -9,4 +9,9 @@ export default {
     es: '/health-care/covid-19-vaccine-esp/',
     tl: '/health-care/covid-19-vaccine-tag/',
   },
+  booster: {
+    en: '/health-care/covid-19-vaccine/booster-shots-and-additional-doses/',
+    es: '/health-care/covid-19-vaccine-esp/booster-shots-and-additional-doses/',
+    tl: '/health-care/covid-19-vaccine-tag/booster-shots-and-additional-doses/',
+  },
 };
