@@ -21,6 +21,7 @@ jobs:
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+      NEXUS_REGISTRY: https://devops.va.gov/dots-nexus/repository/npm-public/
 
     strategy:
       fail-fast: false
@@ -47,23 +48,40 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
-      - name: Cache dependencies
-        id: cache-dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            .cache/yarn
-            node_modules
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+      # - name: Cache dependencies
+      #   id: cache-dependencies
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: |
+      #       .cache/yarn
+      #       node_modules
+      #     key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+
+      # - name: Install dependencies
+      #   uses: nick-invision/retry@v2
+      #   with:
+      #     command: yarn install --frozen-lockfile --prefer-offline --production=false
+      #     max_attempts: 3
+      #     timeout_minutes: 5
+      #   env:
+      #     YARN_CACHE_FOLDER: .cache/yarn
+
+      - name: Change registry in yarn.lock
+        run: sed -i -e "s#https://registry.yarnpkg.com/#${{ env.NEXUS_REGISTRY }}#g" yarn.lock
+
+      - name: Authenticate NEXUS
+        run: |
+          npm config set _auth $(echo -n 'va-vsp-bot-1:${{ secrets.VA_VSP_BOT_1_TEMP }}' | openssl base64)
+          npm config set cafile ${{ env.NODE_EXTRA_CA_CERTS }}
+          npm config set registry ${{ env.NEXUS_REGISTRY }}
+          npm config set email va-vsp-bot-1@va.gov
+          npm config set always-auth true
+
+      - name: clean cache
+        run: yarn cache clean
 
       - name: Install dependencies
-        uses: nick-invision/retry@v2
-        with:
-          command: yarn install --frozen-lockfile --prefer-offline --production=false
-          max_attempts: 3
-          timeout_minutes: 5
-        env:
-          YARN_CACHE_FOLDER: .cache/yarn
+        run: yarn install --frozen-lockfile --prefer-offline --production=false --verbose --network-concurrency 1
 
       - name: Build
         run: yarn build --verbose --buildtype=${{ matrix.buildtype }}
