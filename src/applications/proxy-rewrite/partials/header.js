@@ -85,14 +85,12 @@ export default `
     <div class="usa-grid usa-grid-full">
       <div class="menu-rule usa-one-whole"></div>
       <div class="mega-menu" id="mega-menu-mobile"></div>
-      <!-- for the mega-menu, but if you add the ID the css breaks rn -->
     </div>
     <div id="login-root" class="vet-toolbar"></div>
   </div>
   <div class="usa-grid usa-grid-full">
     <div class="menu-rule usa-one-whole"></div>
     <div id="mega-menu"></div>
-    <!-- for the mega-menu, but if you add the ID the css breaks rn -->
   </div>
 </header>
 `;
