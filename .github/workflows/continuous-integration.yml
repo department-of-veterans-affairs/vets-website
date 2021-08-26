@@ -612,6 +612,9 @@ jobs:
           BUILDTYPE: vagovprod
           NODE_ENV: production
 
+  testing-complete:
+    name: Testing complete
+    steps:
       - name: Declare testing complete
         uses: peter-evans/repository-dispatch@v1
         with:
