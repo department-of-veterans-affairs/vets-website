@@ -161,6 +161,16 @@ function diffIncludesImportedFilename(srcApplicationFileDiff, importPath) {
 function shouldRebuildGraph(diff) {
   const srcApplicationDiffs = getSrcApplicationDiffs(diff);
 
+  // new approach:
+  // for each src/application diff:
+  //   get changes (deletions and additions)
+  //   go through each line looking for imports and requires
+  //     if import or require
+  //       get the rel import or path
+  //         rebuild path if rel import
+  //       check to see if import is from another app
+  //         if so, rebuild graph
+
   // eslint-disable-next-line no-console
   console.log('srcApplicationDiffs:', srcApplicationDiffs);
 
