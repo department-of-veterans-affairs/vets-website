@@ -1437,7 +1437,7 @@ __metadata:
     tsdx: ^0.14.1
     tslib: ^2.3.0
     typescript: ^4.3.5
-    web-components: "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.9.3"
+    web-components: "https://github.com/department-of-veterans-affairs/component-library/releases/download/wc-v0.9.4/web-components-v0.9.4.tgz"
     webpack: ^5.50.0
     webpack-cli: ^4.8.0
     webpack-dev-middleware: ^5.0.0
@@ -15396,16 +15396,16 @@ typescript@^4.3.5:
   languageName: node
   linkType: hard
 
-"web-components@https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.9.3":
-  version: 0.9.3
-  resolution: "web-components@https://github.com/department-of-veterans-affairs/component-library.git#commit=f07426f6f0095b257796ef8404ea64d039570a10"
+"web-components@https://github.com/department-of-veterans-affairs/component-library/releases/download/wc-v0.9.4/web-components-v0.9.4.tgz":
+  version: 0.9.4
+  resolution: "web-components@https://github.com/department-of-veterans-affairs/component-library/releases/download/wc-v0.9.4/web-components-v0.9.4.tgz"
   dependencies:
     "@stencil/core": ^2.0.1
     "@stencil/postcss": ^2.0.0
     postcss-url: ^10.1.1
   peerDependencies:
     "@department-of-veterans-affairs/formation": ^6.14.0
-  checksum: 7aa0b8b2502d89d0b0ceb60f3bcc75c8b152f2d108bdce8b9fc2b42c149432af9437f8d4b092dfa8296ca1969efa6c414b676301d12da6d94f2cc786cc7a952f
+  checksum: 9d57874ad8f136caf671c6b2c0308f8bde21eb94b54e05b265e12ff061c5c6551671fb655bf0dd348f105e850388955f0f28bb95d6252f92bda6b6bd780e03c7
   languageName: node
   linkType: hard
 
