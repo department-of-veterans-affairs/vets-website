@@ -69,6 +69,11 @@ function getImportPath(filePathAsArray, importRef) {
   console.log('**** in getImportPath()');
 
   // eslint-disable-next-line no-console
+  console.log("logging importRef's chars");
+  // eslint-disable-next-line no-console
+  console.log(importRef.split(''));
+
+  // eslint-disable-next-line no-console
   console.log('importRef: ', importRef);
 
   // eslint-disable-next-line no-console
