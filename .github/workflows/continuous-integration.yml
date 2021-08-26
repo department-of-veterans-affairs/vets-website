@@ -57,6 +57,7 @@ jobs:
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
+      # Required to change registry in yarn.lock file
       - name: Change registry in yarn.lock
         run: |
           sed -i -e "s#https://registry.yarnpkg.com/#${{ env.NEXUS_REGISTRY }}#g" yarn.lock
@@ -526,6 +527,7 @@ jobs:
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}-cypress
 
+      # Required to change registry in yarn.lock file
       - name: Change registry in yarn.lock
         run: |
           sed -i -e "s#https://registry.yarnpkg.com/#${{ env.NEXUS_REGISTRY }}#g" yarn.lock
