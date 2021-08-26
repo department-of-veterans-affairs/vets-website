@@ -503,8 +503,6 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
           type: FORM_REQUEST_CURRENT_LOCATION_FAILED,
         });
       }
-    } else if (sortMethod === FACILITY_SORT_METHODS.distanceFromFacility) {
-      // todo
     } else {
       dispatch(action);
     }
@@ -663,6 +661,7 @@ export function openCommunityCareProviderSelectionPage(page, uiSchema, schema) {
       uiSchema,
       schema,
       featureCCIteration: selectFeatureCCIterations(getState()),
+      residentialAddress: selectVAPResidentialAddress(getState()),
     });
   };
 }

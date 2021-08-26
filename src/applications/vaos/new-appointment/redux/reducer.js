@@ -819,6 +819,14 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_PAGE_COMMUNITY_CARE_PROVIDER_SELECTION_OPENED: {
       let formData = state.data;
+      const hasResidentialCoordinates =
+        !!action.residentialAddress?.latitude &&
+        !!action.residentialAddress?.longitude;
+      const ccProviderPageSortMethod = hasResidentialCoordinates
+        ? FACILITY_SORT_METHODS.distanceFromResidential
+        : FACILITY_SORT_METHODS.distanceFromFacility;
+      const selectedCCFacility =
+        !hasResidentialCoordinates && state.ccEnabledSystems[0];
       const typeOfCare = getTypeOfCare(formData);
       let initialSchema = set(
         'properties.communityCareProvider.title',
@@ -864,6 +872,8 @@ export default function formReducer(state = initialState, action) {
           ...state.pages,
           [action.page]: schema,
         },
+        ccProviderPageSortMethod,
+        selectedCCFacility,
       };
     }
     case FORM_SUBMIT:

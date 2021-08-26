@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import Select from '@department-of-veterans-affairs/component-library/Select';
 import { FACILITY_SORT_METHODS } from '../../../utils/constants';
@@ -7,7 +7,7 @@ import { updateCCProviderSortMethod } from '../../redux/actions';
 
 export default function ProviderSortVariant() {
   const dispatch = useDispatch();
-  const { ccEnabledSystems, sortMethod } = useSelector(
+  const { address, ccEnabledSystems, sortMethod } = useSelector(
     selectProviderSelectionInfo,
     shallowEqual,
   );
@@ -28,6 +28,13 @@ export default function ProviderSortVariant() {
       };
     }),
   ];
+  const hasUserAddress = address && !!Object.keys(address).length;
+
+  useEffect(() => {
+    if (sortMethod === FACILITY_SORT_METHODS.distanceFromFacility) {
+      setSelectedSortMethod(ccEnabledSystems[0].id);
+    }
+  }, []);
 
   const handleValueChange = option => {
     if (Object.values(FACILITY_SORT_METHODS).includes(option.value)) {
@@ -52,7 +59,7 @@ export default function ProviderSortVariant() {
         label="Show providers closest to"
         name="sort"
         onValueChange={handleValueChange}
-        options={sortOptions}
+        options={hasUserAddress ? sortOptions : sortOptions.slice(1)}
         value={{ dirty: false, value: selectedSortMethod }}
         includeBlankOption={false}
       />
