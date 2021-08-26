@@ -1,8 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { toggleMobileDisplayHidden } from '../../mega-menu/actions';
 
 export class Main extends React.Component {
+  static propTypes = {
+    display: PropTypes.object,
+  };
+
   handleOpenMenu() {
     this.props.toggleMobileDisplayHidden();
   }
