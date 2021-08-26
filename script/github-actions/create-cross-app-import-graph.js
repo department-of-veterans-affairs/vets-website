@@ -105,9 +105,9 @@ function getChanges(fileDiff) {
 
 function lineIsPartOfImport(line) {
   return (
-    line.startsWith('import') ||
-    line.startsWith('@import') ||
-    line.startsWith('} from')
+    line.includes('import') ||
+    line.includes('@import') ||
+    line.includes('} from')
   );
 }
 
