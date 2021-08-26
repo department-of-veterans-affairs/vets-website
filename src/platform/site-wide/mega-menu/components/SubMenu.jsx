@@ -6,7 +6,7 @@ import _ from 'lodash';
 import ArrowRightBlueSVG from './arrow-right-blue';
 
 const getColumns = (mobileMediaQuery, columns) => {
-  if (mobileMediaQuery.matches) {
+  if (mobileMediaQuery?.matches) {
     return {
       columnOne: {
         title: columns.columnOne.title,
@@ -36,11 +36,11 @@ const SubMenu = ({
 
     return (
       <div
-        className={mobileMediaQuery.matches ? 'mm-link-container-small' : ''}
+        className={mobileMediaQuery?.matches ? 'mm-link-container-small' : ''}
         id={id}
         role="group"
       >
-        <FocusLock disabled={!mobileMediaQuery.matches}>
+        <FocusLock disabled={!mobileMediaQuery?.matches}>
           <div>
             <button
               className="back-button"
@@ -77,7 +77,7 @@ const SubMenu = ({
               linkClicked={linkClicked}
               mobileMediaQuery={mobileMediaQuery}
               hidden={
-                keyName === 'columnThree' && smallDesktopMediaQuery.matches
+                keyName === 'columnThree' && smallDesktopMediaQuery?.matches
               }
               columnThreeLinkClicked={columnThreeLinkClicked}
             />

@@ -3,13 +3,25 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 
+import { Provider } from 'react-redux';
+import { combineReducers, createStore } from 'redux';
+
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import { commonReducer } from 'platform/startup/store';
+
 import formConfig from '../../config/form.js';
 import initialData from '../initialData.js';
-
+import reducers from '../../reducers';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe('Select related disabilities for unemployability', () => {
+  const fakeStore = createStore(
+    combineReducers({
+      ...commonReducer,
+      ...reducers,
+    }),
+  );
+
   const {
     schema,
     uiSchema,
@@ -19,12 +31,14 @@ describe('Select related disabilities for unemployability', () => {
     const disabilitiesLength =
       initialData.ratedDisabilities.length + initialData.newDisabilities.length;
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={initialData}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={fakeStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={initialData}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     expect(form.find('input[type="checkbox"]').length).to.equal(
@@ -36,13 +50,15 @@ describe('Select related disabilities for unemployability', () => {
   it('successfully submits when at least one condition is selected', () => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={initialData}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={fakeStore}>
+        <DefinitionTester
+          onSubmit={onSubmit}
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={initialData}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     form
@@ -58,13 +74,15 @@ describe('Select related disabilities for unemployability', () => {
   it('should not submit without at least one disability selected', () => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={initialData}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={fakeStore}>
+        <DefinitionTester
+          onSubmit={onSubmit}
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={initialData}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     form.find('form').simulate('submit');
@@ -75,12 +93,14 @@ describe('Select related disabilities for unemployability', () => {
 
   it('renders the information about each disability', () => {
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={initialData}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={fakeStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={initialData}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     const labels = form.find('input[type="checkbox"] + label');
