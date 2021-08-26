@@ -134,9 +134,9 @@ function getImportRef(line) {
 
   for (let i = 0; i < line.length; i += 1) {
     if (!start && line[i] === "'") {
-      start = i;
+      start = i + 1;
     } else if (start && line[i] === "'") {
-      finish = i + 1;
+      finish = i + 2;
       break;
     }
   }
