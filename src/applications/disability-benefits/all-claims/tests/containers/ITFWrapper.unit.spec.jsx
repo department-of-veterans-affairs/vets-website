@@ -71,7 +71,7 @@ describe('526 ITFWrapper', () => {
   it('should fetch the ITF if the form is loaded not on the intro or confirmation pages', () => {
     const tree = mount(
       <ITFWrapper {...defaultProps}>
-        <p>Shouldn't see me yet...</p>
+        <p>Shouldn’t see me yet...</p>
       </ITFWrapper>,
     );
     expect(fetchITF.called).to.be.true;
@@ -84,7 +84,7 @@ describe('526 ITFWrapper', () => {
     });
     const tree = shallow(
       <ITFWrapper {...props}>
-        <p>Shouldn't see me yet...</p>
+        <p>Shouldn’t see me yet...</p>
       </ITFWrapper>,
     );
     expect(fetchITF.called).to.be.false;
@@ -96,7 +96,7 @@ describe('526 ITFWrapper', () => {
   it('should render a loading indicator', () => {
     const tree = shallow(
       <ITFWrapper {...defaultProps}>
-        <p>Shouldn't see me yet...</p>
+        <p>Shouldn’t see me yet...</p>
       </ITFWrapper>,
     );
     expect(tree.find('LoadingIndicator').length).to.equal(1);
@@ -117,7 +117,7 @@ describe('526 ITFWrapper', () => {
     });
     const tree = shallow(
       <ITFWrapper {...props}>
-        <p>Shouldn't see me yet...</p>
+        <p>Shouldn’t see me yet...</p>
       </ITFWrapper>,
     );
     const banner = tree.find('ITFBanner');
@@ -134,7 +134,7 @@ describe('526 ITFWrapper', () => {
     });
     const tree = mount(
       <ITFWrapper {...props}>
-        <p>Shouldn't see me yet...</p>
+        <p>Shouldn’t see me yet...</p>
       </ITFWrapper>,
     );
     // The ITF call happens in componentWillReceiveProps, so trigger that function call
@@ -148,7 +148,7 @@ describe('526 ITFWrapper', () => {
   it('should submit a new ITF if no active ITF is found', () => {
     const tree = shallow(
       <ITFWrapper {...defaultProps}>
-        <p>Shouldn't see me yet...</p>
+        <p>Shouldn’t see me yet...</p>
       </ITFWrapper>,
     );
     // Fetch succeded, but no ITFs were returned
@@ -167,7 +167,7 @@ describe('526 ITFWrapper', () => {
       .format();
     const tree = shallow(
       <ITFWrapper {...defaultProps}>
-        <p>Shouldn't see me yet...</p>
+        <p>Shouldn’t see me yet...</p>
       </ITFWrapper>,
     );
     // Fetch succeded and expired ITF was returned
@@ -197,7 +197,7 @@ describe('526 ITFWrapper', () => {
     });
     const tree = shallow(
       <ITFWrapper {...props}>
-        <p>I'm a ninja; you can't see me!</p>
+        <p>I'm a ninja; you can’t see me!</p>
       </ITFWrapper>,
     );
     const banner = tree.find('ITFBanner');
