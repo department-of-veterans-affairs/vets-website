@@ -104,6 +104,7 @@ export function CautionaryInformation({ institution, showModal }) {
     <div className="small-screen-font">
       <LearnMoreLabel
         id="typeAccredited-button"
+        bold
         text={'All campuses'}
         onClick={() => {
           recordEvent({
