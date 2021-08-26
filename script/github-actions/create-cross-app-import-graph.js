@@ -73,15 +73,6 @@ function getImportPath(filePathAsArray, importRef) {
   // eslint-disable-next-line no-console
   console.log(importRef.split(''));
 
-  // eslint-disable-next-line no-console
-  console.log('importRef: ', importRef);
-
-  // eslint-disable-next-line no-console
-  console.log(
-    "importRef.startsWith('applications/'): ",
-    importRef.startsWith('applications/'),
-  );
-
   if (importRef.startsWith('applications/')) {
     return `src/${importRef}`;
   } else if (importRef.startsWith('../')) {
@@ -136,7 +127,7 @@ function getImportRef(line) {
     if (!start && line[i] === "'") {
       start = i + 1;
     } else if (start && line[i] === "'") {
-      finish = i + 2;
+      finish = i;
       break;
     }
   }
@@ -150,9 +141,6 @@ function isCrossAppImport(fileDiff, line) {
 
   // eslint-disable-next-line no-console
   console.log('fileDiff: ', fileDiff);
-
-  // eslint-disable-next-line no-console
-  console.log('line: ', line);
 
   const filePath = getAppPathFromFileDiff(fileDiff);
   const filePathAsArray = filePath.split('/');
