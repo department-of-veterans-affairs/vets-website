@@ -1,23 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import Select from '@department-of-veterans-affairs/component-library/Select';
-import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
+import { FACILITY_SORT_METHODS } from '../../../utils/constants';
 import { selectProviderSelectionInfo } from '../../redux/selectors';
-import {
-  requestProvidersList,
-  updateCCProviderSortMethod,
-} from '../../redux/actions';
+import { updateCCProviderSortMethod } from '../../redux/actions';
 
 export default function ProviderSortVariant() {
   const dispatch = useDispatch();
-  const {
-    address,
-    ccEnabledSystems,
-    communityCareProviderList,
-    currentLocation,
-    showCCIterations,
-    sortMethod,
-  } = useSelector(selectProviderSelectionInfo, shallowEqual);
+  const { ccEnabledSystems, sortMethod } = useSelector(
+    selectProviderSelectionInfo,
+    shallowEqual,
+  );
+  const [selectedSortMethod, setSelectedSortMethod] = useState(sortMethod);
   const sortOptions = [
     {
       value: FACILITY_SORT_METHODS.distanceFromResidential,
@@ -34,29 +28,34 @@ export default function ProviderSortVariant() {
       };
     }),
   ];
+
   const handleValueChange = option => {
     if (Object.values(FACILITY_SORT_METHODS).includes(option.value)) {
+      setSelectedSortMethod(option.value);
       dispatch(updateCCProviderSortMethod(option.value));
     } else {
-      const facilityPosition = ccEnabledSystems.find(
+      const selectedFacility = ccEnabledSystems.find(
         facility => facility.id === option.value,
-      ).position;
+      );
+      setSelectedSortMethod(selectedFacility.id);
       dispatch(
         updateCCProviderSortMethod(
           FACILITY_SORT_METHODS.distanceFromFacility,
-          facilityPosition,
+          selectedFacility,
         ),
       );
     }
   };
   return (
-    <Select
-      label="Show providers closest to"
-      name="sort"
-      onValueChange={handleValueChange}
-      options={sortOptions}
-      value={{ dirty: false, value: sortMethod }}
-      includeBlankOption={false}
-    />
+    <div className="vads-u-margin-bottom--3">
+      <Select
+        label="Show providers closest to"
+        name="sort"
+        onValueChange={handleValueChange}
+        options={sortOptions}
+        value={{ dirty: false, value: selectedSortMethod }}
+        includeBlankOption={false}
+      />
+    </div>
   );
 }

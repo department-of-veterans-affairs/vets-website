@@ -404,7 +404,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
   };
 }
 
-export function updateCCProviderSortMethod(sortMethod, facilityLocation) {
+export function updateCCProviderSortMethod(sortMethod, selectedFacility = {}) {
   return async (dispatch, getState) => {
     let location = null;
     const { currentLocation } = getNewAppointment(getState());
@@ -442,10 +442,7 @@ export function updateCCProviderSortMethod(sortMethod, facilityLocation) {
         });
       }
     } else if (sortMethod === FACILITY_SORT_METHODS.distanceFromFacility) {
-      dispatch({
-        ...action,
-        location: facilityLocation,
-      });
+      dispatch({ ...action, location: selectedFacility });
     } else {
       dispatch(action);
     }
@@ -942,20 +939,42 @@ export function submitAppointmentOrRequest(history) {
 export function requestProvidersList(address) {
   return async (dispatch, getState) => {
     try {
+      const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
+        getState(),
+      );
+      let location = address;
       const newAppointment = getState().newAppointment;
       const communityCareProviders = newAppointment.communityCareProviders;
       const sortMethod = newAppointment.ccProviderPageSortMethod;
+      let selectedCCFacility = newAppointment.selectedCCFacility;
       const typeOfCare = getTypeOfCare(newAppointment.data);
-      let typeOfCareProviders =
-        communityCareProviders[`${sortMethod}_${typeOfCare.ccId}`];
+      let ccProviderCacheKey = `${sortMethod}_${typeOfCare.ccId}`;
+      if (sortMethod === FACILITY_SORT_METHODS.distanceFromFacility) {
+        ccProviderCacheKey = `${sortMethod}_${
+          selectedCCFacility.position?.latitude
+        }_${typeOfCare.ccId}`;
+      }
+      let typeOfCareProviders = communityCareProviders[ccProviderCacheKey];
 
       dispatch({
         type: FORM_REQUESTED_PROVIDERS,
       });
 
+      if (!featureFacilitiesServiceV2 && !address) {
+        try {
+          selectedCCFacility = await getLocation({
+            facilityId: selectedCCFacility.id,
+          });
+          location = selectedCCFacility.position;
+        } catch (error) {
+          location = null;
+          captureError(error);
+        }
+      }
+
       if (!typeOfCareProviders) {
         typeOfCareProviders = await getCommunityProvidersByTypeOfCare({
-          address,
+          address: location,
           typeOfCare,
         });
       }
@@ -963,7 +982,8 @@ export function requestProvidersList(address) {
       dispatch({
         type: FORM_REQUESTED_PROVIDERS_SUCCEEDED,
         typeOfCareProviders,
-        address,
+        address: location,
+        selectedCCFacility,
       });
     } catch (e) {
       captureError(e);

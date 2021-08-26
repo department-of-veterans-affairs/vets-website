@@ -14,6 +14,7 @@ import {
   TYPES_OF_EYE_CARE,
   FETCH_STATUS,
   AUDIOLOGY_TYPES_OF_CARE,
+  FACILITY_SORT_METHODS,
 } from '../../utils/constants';
 import { getSiteIdFromFacilityId } from '../../services/location';
 import {
@@ -202,18 +203,24 @@ export function selectProviderSelectionInfo(state) {
     currentLocation,
     ccProviderPageSortMethod: sortMethod,
     ccEnabledSystems,
+    selectedCCFacility,
   } = getNewAppointment(state);
 
   const typeOfCare = getTypeOfCare(data);
-
+  let ccProviderCacheKey = `${sortMethod}_${typeOfCare.ccId}`;
+  if (sortMethod === FACILITY_SORT_METHODS.distanceFromFacility) {
+    ccProviderCacheKey = `${sortMethod}_${
+      selectedCCFacility.position?.latitude
+    }_${typeOfCare.ccId}`;
+  }
   return {
     address: selectVAPResidentialAddress(state),
     ccEnabledSystems,
-    communityCareProviderList:
-      communityCareProviders[`${sortMethod}_${typeOfCare.ccId}`],
+    communityCareProviderList: communityCareProviders[ccProviderCacheKey],
     currentLocation,
     requestLocationStatus,
     requestStatus,
+    selectedCCFacility,
     showCCIterations,
     sortMethod,
     typeOfCareName: typeOfCare.name,

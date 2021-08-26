@@ -389,10 +389,7 @@ export default function formReducer(state = initialState, action) {
       ) {
         return {
           ...state,
-          currentLocation: {
-            latitude: action.location?.latitude,
-            longitude: action.location?.longitude,
-          },
+          selectedCCFacility: action.location,
           ccProviderPageSortMethod: action.sortMethod,
           requestLocationStatus,
         };
@@ -894,9 +891,14 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_REQUESTED_PROVIDERS_SUCCEEDED: {
-      const { address, typeOfCareProviders } = action;
+      const { address, typeOfCareProviders, selectedCCFacility } = action;
       const { ccProviderPageSortMethod: sortMethod, data } = state;
-      const cacheKey = `${sortMethod}_${getTypeOfCare(data)?.ccId}`;
+      let cacheKey = `${sortMethod}_${getTypeOfCare(data)?.ccId}`;
+      if (sortMethod === FACILITY_SORT_METHODS.distanceFromFacility) {
+        cacheKey = `${sortMethod}_${address.latitude}_${
+          getTypeOfCare(data)?.ccId
+        }`;
+      }
 
       const providers =
         state.communityCareProviders[cacheKey] ||
@@ -922,6 +924,7 @@ export default function formReducer(state = initialState, action) {
           ...state.communityCareProviders,
           [cacheKey]: providers,
         },
+        selectedCCFacility,
       };
     }
     case FORM_REQUESTED_PROVIDERS_FAILED: {

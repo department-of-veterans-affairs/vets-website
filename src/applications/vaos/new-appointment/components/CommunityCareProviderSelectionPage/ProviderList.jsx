@@ -92,6 +92,7 @@ export default function ProviderList({
       {notLoading &&
         showCCIterations && (
           <p
+            className="vads-u-margin--0"
             id="provider-list-status"
             role="status"
             aria-live="polite"
@@ -106,6 +107,7 @@ export default function ProviderList({
         loadingLocations={loadingLocations}
         notLoading={notLoading}
         requestLocationStatus={requestLocationStatus}
+        requestStatus={requestStatus}
         sortByDistanceFromCurrentLocation={sortByDistanceFromCurrentLocation}
         sortByDistanceFromResidential={sortByDistanceFromResidential}
       />
