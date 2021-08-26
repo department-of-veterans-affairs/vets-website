@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import { AddIssuesField } from '../../components/AddIssuesField';
 import additionalIssues from '../../pages/additionalIssues';
-import { MAX_NEW_CONDITIONS } from '../../constants';
+import { MAX_SELECTIONS, SELECTED } from '../../constants';
 import { getDate } from '../../utils/dates';
 
 const { items } = additionalIssues.schema.properties.additionalIssues;
@@ -13,6 +13,7 @@ const { items } = additionalIssues.schema.properties.additionalIssues;
 const getProps = ({
   onChange = () => {},
   formData = [{}],
+  contestedIssues = [],
   errorSchema = [],
   touched = {},
   onReviewPage,
@@ -30,6 +31,7 @@ const getProps = ({
   formData,
   fullFormData: {
     'view:hasIssuesToAdd': true,
+    contestedIssues,
   },
   registry: {
     definitions: {},
@@ -186,9 +188,11 @@ describe('<AddIssuesField>', () => {
     it('max conditions by hiding the add button', () => {
       const onChange = sinon.spy();
       const props = getProps({
-        formData: new Array(MAX_NEW_CONDITIONS + 2).fill({
+        contestedIssues: [],
+        formData: new Array(MAX_SELECTIONS + 2).fill({
           issue: 'x',
           decisionDate: validDate,
+          [SELECTED]: true,
         }),
         onChange,
       });
@@ -197,14 +201,56 @@ describe('<AddIssuesField>', () => {
       expect(wrapper.find('.va-growable-add-btn').length).to.equal(0);
       expect(wrapper.find('.editing').length).to.equal(0);
       expect(wrapper.find('.widget-outline').length).to.equal(
-        MAX_NEW_CONDITIONS + 2,
+        MAX_SELECTIONS + 2,
       );
       wrapper.unmount();
     });
   });
+  it('should show an alert when max selected issues are exceeded', () => {
+    const onChange = sinon.spy();
+    const props = getProps({
+      // one extra to push us over the max selections limit
+      formData: new Array(MAX_SELECTIONS + 1).fill({
+        issue: 'x',
+        decisionDate: validDate,
+        [SELECTED]: true,
+      }),
+      onChange,
+    });
+
+    const wrapper = mount(<AddIssuesField {...props} />);
+
+    wrapper
+      .find('.widget-checkbox-wrap input[type="checkbox"]')
+      .first()
+      .simulate('change'); // change instead of click
+
+    expect(wrapper.find('.va-modal').length).to.eq(1);
+    wrapper.unmount();
+  });
+  it('should show an alert when max selected issues are exceeded after trying to submit', () => {
+    const onChange = sinon.spy();
+    const props = getProps({
+      contestedIssues: [
+        { attributes: { ratingIssueSubjectText: 'issue-1', [SELECTED]: true } },
+      ],
+      formData: new Array(MAX_SELECTIONS).fill({
+        issue: 'x',
+        decisionDate: validDate,
+        [SELECTED]: true,
+      }),
+      onChange,
+    });
+    const wrapper = mount(
+      <AddIssuesField {...props} submission={{ hasAttemptedSubmit: true }} />,
+    );
+
+    expect(wrapper.find('.va-modal').length).to.eq(1);
+    wrapper.unmount();
+  });
   it('should set view additional issues flag when visible', () => {
     const setFormData = sinon.spy();
-    const wrapper = shallow(
+    const wrapper = mount(
       <AddIssuesField
         {...getProps()}
         setFormData={setFormData}

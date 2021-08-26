@@ -5,6 +5,7 @@ import {
   someSelected,
   hasSomeSelected,
   getSelected,
+  getSelectedCount,
   getIssueName,
   showAddIssuesPage,
   showAddIssueQuestion,
@@ -55,56 +56,60 @@ describe('hasSomeSelected', () => {
   });
 });
 
-describe('getSelected', () => {
+describe('getSelected & getSelectedCount', () => {
   it('should return selected contestable issues', () => {
-    expect(
-      getSelected({
-        contestableIssues: [
-          { type: 'no', [SELECTED]: false },
-          { type: 'ok', [SELECTED]: true },
-        ],
-      }),
-    ).to.deep.equal([{ type: 'ok', [SELECTED]: true, index: 0 }]);
+    const data = {
+      contestableIssues: [
+        { type: 'no', [SELECTED]: false },
+        { type: 'ok', [SELECTED]: true },
+      ],
+    };
+    expect(getSelected(data)).to.deep.equal([
+      { type: 'ok', [SELECTED]: true, index: 0 },
+    ]);
+    expect(getSelectedCount(data, data.additionalIssues)).to.eq(1);
   });
   it('should not return selected additional issues when Veteran chooses not to include them', () => {
-    expect(
-      getSelected({
-        'view:hasIssuesToAdd': false,
-        additionalIssues: [
-          { type: 'no', [SELECTED]: false },
-          { type: 'ok', [SELECTED]: true },
-        ],
-      }),
-    ).to.deep.equal([]);
+    const data = {
+      'view:hasIssuesToAdd': false,
+      additionalIssues: [
+        { type: 'no', [SELECTED]: false },
+        { type: 'ok', [SELECTED]: true },
+      ],
+    };
+    expect(getSelected(data)).to.deep.equal([]);
+    expect(getSelectedCount(data, data.additionalIssues)).to.eq(0);
   });
   it('should return selected additional issues', () => {
-    expect(
-      getSelected({
-        'view:hasIssuesToAdd': true,
-        additionalIssues: [
-          { type: 'no', [SELECTED]: false },
-          { type: 'ok', [SELECTED]: true },
-        ],
-      }),
-    ).to.deep.equal([{ type: 'ok', [SELECTED]: true, index: 0 }]);
+    const data = {
+      'view:hasIssuesToAdd': true,
+      additionalIssues: [
+        { type: 'no', [SELECTED]: false },
+        { type: 'ok', [SELECTED]: true },
+      ],
+    };
+    expect(getSelected(data)).to.deep.equal([
+      { type: 'ok', [SELECTED]: true, index: 0 },
+    ]);
+    expect(getSelectedCount(data, data.additionalIssues)).to.eq(1);
   });
   it('should return all selected issues', () => {
-    expect(
-      getSelected({
-        contestableIssues: [
-          { type: 'no1', [SELECTED]: false },
-          { type: 'ok1', [SELECTED]: true },
-        ],
-        'view:hasIssuesToAdd': true,
-        additionalIssues: [
-          { type: 'no2', [SELECTED]: false },
-          { type: 'ok2', [SELECTED]: true },
-        ],
-      }),
-    ).to.deep.equal([
+    const data = {
+      contestableIssues: [
+        { type: 'no1', [SELECTED]: false },
+        { type: 'ok1', [SELECTED]: true },
+      ],
+      'view:hasIssuesToAdd': true,
+      additionalIssues: [
+        { type: 'no2', [SELECTED]: false },
+        { type: 'ok2', [SELECTED]: true },
+      ],
+    };
+    expect(getSelected(data)).to.deep.equal([
       { type: 'ok1', [SELECTED]: true, index: 0 },
       { type: 'ok2', [SELECTED]: true, index: 1 },
     ]);
+    expect(getSelectedCount(data, data.additionalIssues)).to.eq(2);
   });
 });
 
