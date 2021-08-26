@@ -122,7 +122,7 @@ export function SearchResultCard({
   ) : (
     <div>
       <p>
-        <strong>School rating:</strong> Not yet rated
+        <strong>Not yet rated by Veterans</strong>
       </p>
     </div>
   );
