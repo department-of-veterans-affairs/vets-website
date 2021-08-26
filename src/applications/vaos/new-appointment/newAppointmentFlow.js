@@ -1,4 +1,5 @@
 import {
+  selectFeatureCCIterations,
   selectHasVAPResidentialAddress,
   selectRegisteredCernerFacilityIds,
 } from '../redux/selectors';
@@ -7,6 +8,7 @@ import {
   getFormData,
   getNewAppointment,
   getTypeOfCare,
+  selectCommunityCareSupportedSites,
   selectEligibility,
 } from './redux/selectors';
 import {
@@ -216,6 +218,10 @@ export default {
     url: '/new-appointment/community-care-language',
     next: 'reasonForAppointment',
   },
+  ccClosestCity: {
+    url: '/new-appointment/choose-closest-city',
+    next: 'ccPreferences',
+  },
   vaFacility: {
     url: '/new-appointment/va-facility',
     next: vaFacilityNext,
@@ -250,7 +256,15 @@ export default {
   requestDateTime: {
     url: '/new-appointment/request-date',
     next(state) {
-      if (isCCFacility(state)) {
+      const supportedSites = selectCommunityCareSupportedSites(state);
+      const featureCCIteration = selectFeatureCCIterations(state);
+      if (
+        isCCFacility(state) &&
+        supportedSites.length > 1 &&
+        featureCCIteration
+      ) {
+        return 'ccClosestCity';
+      } else if (isCCFacility(state)) {
         return 'ccPreferences';
       }
 
