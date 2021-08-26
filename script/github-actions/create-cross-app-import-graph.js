@@ -65,14 +65,8 @@ function getSrcApplicationDiffs(diff) {
 }
 
 function getImportPath(filePathAsArray, importRef) {
-  if (
-    !importRef.includes('/') ||
-    importRef.startsWith('@') ||
-    importRef.startsWith('~@') ||
-    importRef.startsWith('platform') ||
-    importRef.startsWith('./')
-  ) {
-    return importRef;
+  if (importRef.startsWith('applications/')) {
+    return `src/${importRef}`;
   } else if (importRef.startsWith('../')) {
     const numDirsUp = importRef.split('/').filter(str => str === '..').length;
 
