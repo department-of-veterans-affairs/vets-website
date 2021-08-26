@@ -57,7 +57,7 @@ const formConfig = {
   defaultDefinitions: { ...fullSchema.definitions },
   chapters: {
     veteranInformation: {
-      title: 'Veteran Information',
+      title: 'Applicant Information',
       // TODO: related to the comment direcly below; add reviewDescription back in once the issues with static veteran information have been resolved.
       // reviewDescription: StaticInformationReviewField,
       pages: {
