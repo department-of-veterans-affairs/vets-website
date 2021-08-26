@@ -141,7 +141,7 @@ const IntroductionPage = props => {
       </p>
       <a
         className="vads-u-padding-bottom--2 vads-u-display--inline-block"
-        href="https://www.va.gov/find-forms/about-form-28-1900/"
+        href="/find-forms/about-form-28-1900/"
       >
         <i
           aria-hidden="true"
