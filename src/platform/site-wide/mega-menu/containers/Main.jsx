@@ -122,20 +122,22 @@ export class Main extends Component {
 
     this.mobileMediaQuery = window.matchMedia('(max-width: 767px)');
 
-    return isMegaMenuMobileV2Enabled ? (
-      <>
-        {this.mobileMediaQuery.matches ? (
-          createPortal(
-            <MegaMenu {...childProps} />,
-            document.getElementById('mega-menu-mobile'),
-          )
-        ) : (
-          <MegaMenu {...childProps} />
-        )}
-      </>
-    ) : (
-      <MegaMenu {...childProps} />
-    );
+    if (isMegaMenuMobileV2Enabled) {
+      return (
+        <>
+          {this.mobileMediaQuery.matches ? (
+            createPortal(
+              <MegaMenu {...childProps} />,
+              document.getElementById('mega-menu-mobile'),
+            )
+          ) : (
+            <MegaMenu {...childProps} />
+          )}
+        </>
+      );
+    }
+
+    return <MegaMenu {...childProps} />;
   }
 }
 
