@@ -613,8 +613,12 @@ jobs:
           NODE_ENV: production
 
       - name: Declare testing complete
-        run: |
-          echo "Testing Complete: ${{ github.event.inputs.testingComplete }}"
+         uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: department-of-veterans-affairs/vets-website
+          event-type: testing-complete
+          client-payload: '{"success": false}'
 
   # testing-reports:
   #   name: Testing Reports
