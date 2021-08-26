@@ -207,12 +207,10 @@ export function selectProviderSelectionInfo(state) {
   } = getNewAppointment(state);
 
   const typeOfCare = getTypeOfCare(data);
-  let ccProviderCacheKey = `${sortMethod}_${typeOfCare.ccId}`;
-  if (sortMethod === FACILITY_SORT_METHODS.distanceFromFacility) {
-    ccProviderCacheKey = `${sortMethod}_${
-      selectedCCFacility.position?.latitude
-    }_${typeOfCare.ccId}`;
-  }
+  const ccProviderCacheKey =
+    sortMethod === FACILITY_SORT_METHODS.distanceFromFacility
+      ? `${sortMethod}_${selectedCCFacility.id}_${typeOfCare.ccId}`
+      : `${sortMethod}_${typeOfCare.ccId}`;
   return {
     address: selectVAPResidentialAddress(state),
     ccEnabledSystems,

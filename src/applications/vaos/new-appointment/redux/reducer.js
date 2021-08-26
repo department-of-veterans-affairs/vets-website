@@ -893,12 +893,12 @@ export default function formReducer(state = initialState, action) {
     case FORM_REQUESTED_PROVIDERS_SUCCEEDED: {
       const { address, typeOfCareProviders, selectedCCFacility } = action;
       const { ccProviderPageSortMethod: sortMethod, data } = state;
-      let cacheKey = `${sortMethod}_${getTypeOfCare(data)?.ccId}`;
-      if (sortMethod === FACILITY_SORT_METHODS.distanceFromFacility) {
-        cacheKey = `${sortMethod}_${address.latitude}_${
-          getTypeOfCare(data)?.ccId
-        }`;
-      }
+      const cacheKey =
+        sortMethod === FACILITY_SORT_METHODS.distanceFromFacility
+          ? `${sortMethod}_${selectedCCFacility.id}_${
+              getTypeOfCare(data)?.ccId
+            }`
+          : `${sortMethod}_${getTypeOfCare(data)?.ccId}`;
 
       const providers =
         state.communityCareProviders[cacheKey] ||

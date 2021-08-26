@@ -370,7 +370,7 @@ const responses = {
         { name: 'vaOnlineSchedulingFacilitiesServiceV2', value: false },
         { name: 'vaOnlineSchedulingVAOSServiceCCAppointments', value: true },
         { name: 'vaOnlineSchedulingVariantTesting', value: false },
-        { name: 'vaOnlineSchedulingCCIterations', value: true },
+        { name: 'vaOnlineSchedulingCCIterations', value: false },
         { name: 'ssoe', value: true },
         { name: 'ssoeInbound', value: false },
         { name: 'ssoeEbenefitsLinks', value: false },
