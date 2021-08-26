@@ -210,9 +210,9 @@ export const ccUrgentCareLabels = {
 };
 
 export const urgentCareServices = {
-  AllUrgentCare: 'All urgent care',
+  AllUrgentCare: 'All in-network urgent care',
   UrgentCare: 'VA urgent care',
-  NonVAUrgentCare: 'Community urgent care providers (in VA’s network)',
+  NonVAUrgentCare: 'In-network community urgent care',
 };
 
 export const emergencyCareServices = {

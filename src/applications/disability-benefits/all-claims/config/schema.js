@@ -1,8 +1,8 @@
 // This file to be moved to vets-json-schema repo before form hits production
 
-// This needs to be imported from lodash/fp because that's what we use in the
-// vets-json-schema repo
-import _ from 'lodash/fp';
+import { merge, pick } from 'lodash';
+import omit from 'platform/utilities/data/omit';
+import set from 'platform/utilities/data/set';
 import { countries, states } from 'platform/forms/address';
 
 const documentTypes526 = [
@@ -142,7 +142,7 @@ const vaTreatmentCenterAddressDef = (addressSchema => {
     {
       type,
       required: ['country'],
-      properties: _.pick(['country', 'city', 'state'], properties),
+      properties: pick(properties, ['country', 'city', 'state']),
     },
   );
 })(baseAddressDef);
@@ -354,7 +354,7 @@ const schema = {
                 type: 'object',
                 required: [],
                 properties: {
-                  ..._.omit(['addressLine3'], baseAddressDef.properties),
+                  ...omit(['addressLine3'], baseAddressDef.properties),
                   country: {
                     default: 'USA',
                     type: 'string',
@@ -628,14 +628,14 @@ const schema = {
     // 3. There are effectiveStartDate and effectiveEndDate properties that
     //    specify the date at which the forwarding address should start to be
     //    used
-    forwardingAddress: _.set(
+    forwardingAddress: set(
       'properties.effectiveDate',
       {
         $ref: '#/definitions/dateRange',
       },
-      _.omit(
+      omit(
         'required',
-        _.merge(baseAddressDef, {
+        merge({}, baseAddressDef, {
           properties: {
             addressLine1: {
               maxLength: 35,
@@ -821,7 +821,7 @@ const schema = {
           },
           hospitalAddress: {
             type: 'object',
-            properties: _.omit(
+            properties: omit(
               ['addressLine3', 'country'],
               baseAddressDef.properties,
             ),

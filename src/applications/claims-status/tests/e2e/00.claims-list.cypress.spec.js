@@ -1,5 +1,3 @@
-const Timeouts = require('platform/testing/e2e/timeouts.js');
-
 import claimsList from './fixtures/mocks/claims-list.json';
 
 describe('Claimst List Test', () => {
@@ -12,9 +10,7 @@ describe('Claimst List Test', () => {
 
     // Combined claim link
     cy.get('button.claims-combined').click();
-    cy.get('.claims-status-upload-header', { timeout: Timeouts.normal }).should(
-      'be.visible',
-    );
+    cy.get('.claims-status-upload-header').should('be.visible');
 
     // check modal
     cy.injectAxeThenAxeCheck();

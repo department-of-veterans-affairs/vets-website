@@ -239,11 +239,7 @@
     "view:disabilitiesClarification": {},
     "serviceInformation": {
       "reservesNationalGuardService": {
-        "view:isTitle10Activated": true,
-        "title10Activation": {
-          "title10ActivationDate": "2015-01-01",
-          "anticipatedSeparationDate": "2120-01-01"
-        },
+        "view:isTitle10Activated": false,
         "obligationTermOfServiceDateRange": {
           "from": "2007-05-22",
           "to": "2008-06-05"

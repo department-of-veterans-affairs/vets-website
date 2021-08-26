@@ -24,7 +24,7 @@ export const UploadDescription = ({
     <p>Guidelines for uploading a file:</p>
     <ul>
       <li>
-        File types you can upload: .pdf, .jpg, .jpeg, .png, .gif,.bmp, or .txt
+        File types you can upload: .pdf, .jpg, .jpeg, .png, .gif, .bmp, or .txt
       </li>
       <li>
         {`Maximum ${

@@ -11,6 +11,7 @@ import React from 'react';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import GetFormHelp from '../components/GetFormHelp';
 import FormFooter from 'platform/forms/components/FormFooter';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 // import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
@@ -25,20 +26,22 @@ import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
-
-// import { directDepositWarning } from '../helpers';
-// import toursOfDutyUI from '../definitions/toursOfDuty';
+import toursOfDutyUI from '../definitions/toursOfDuty';
 import ReviewBoxField from '../components/ReviewBoxField';
 import FullNameViewField from '../components/FullNameViewField';
 import DateViewField from '../components/DateViewField';
 import CustomReviewDOBField from '../components/CustomReviewDOBField';
+import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView';
 import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
 import EmailViewField from '../components/EmailViewField';
 import PhoneViewField from '../components/PhoneViewField';
+import AccordionField from '../components/AccordionField';
+
+import {
+  activeDutyLabel,
+  selectedReserveLabel,
+  unsureDescription,
+} from '../helpers';
 
 const {
   fullName,
@@ -47,7 +50,7 @@ const {
   dateRange,
   usaPhone,
   // bankAccount,
-  // toursOfDuty,
+  toursOfDuty,
 } = commonDefinitions;
 
 // Define all the fields in the form to aid reuse
@@ -56,6 +59,7 @@ const formFields = {
   dateOfBirth: 'dateOfBirth',
   ssn: 'ssn',
   toursOfDuty: 'toursOfDuty',
+  toursOfDutyCorrect: 'toursOfDutyCorrect',
   viewNoDirectDeposit: 'view:noDirectDeposit',
   viewStopWarning: 'view:stopWarning',
   bankAccount: 'bankAccount',
@@ -66,11 +70,9 @@ const formFields = {
   email: 'email',
   phoneNumber: 'phoneNumber',
   mobilePhoneNumber: 'mobilePhoneNumber',
+  benefitSelection: 'benefitSelection',
+  incorrectServiceHistoryExplanation: 'incorrectServiceHistoryExplanation',
 };
-
-// function hasDirectDeposit(formData) {
-//   return formData[formFields.viewNoDirectDeposit] !== true;
-// }
 
 // Define all the form pages to help ensure uniqueness across all form chapters
 const formPages = {
@@ -78,6 +80,7 @@ const formPages = {
   // serviceHistory: 'serviceHistory',
   contactInformation: 'contactInformation',
   directDeposit: 'directDeposit',
+  benefitSelect: 'benefitSelect',
 };
 
 function isOnlyWhitespace(str) {
@@ -258,26 +261,111 @@ const formConfig = {
         },
       },
     },
-    // serviceHistoryChapter: {
-    //   title: 'Service History',
-    //   pages: {
-    //     [formPages.serviceHistory]: {
-    //       path: 'service-history',
-    //       title: 'Service History',
-    //       uiSchema: {
-    //         [formFields.toursOfDuty]: toursOfDutyUI,
-    //       },
-    //       schema: {
-    //         type: 'object',
-    //         properties: {
-    //           [formFields.toursOfDuty]: toursOfDuty,
-    //         },
-    //       },
-    //     },
-    //   },
-    // },
-    contactInformationChapter: {
-      title: 'Contact Information',
+    serviceHistoryChapter: {
+      title: 'Service History',
+      pages: {
+        [formPages.serviceHistory]: {
+          path: 'service-history',
+          title: 'Service History',
+          uiSchema: {
+            'view:subHeading': {
+              'ui:description': <h3>Review your service history</h3>,
+            },
+            [formFields.toursOfDuty]: {
+              ...toursOfDutyUI,
+              'ui:field': AccordionField,
+              'ui:options': {
+                ...toursOfDutyUI['ui:options'],
+                reviewMode: true,
+                setEditState: () => {
+                  return true;
+                },
+                showSave: false,
+                viewField: ServicePeriodAccordionView,
+                viewComponent: ServicePeriodAccordionView,
+                viewOnlyMode: true,
+              },
+            },
+            [formFields.toursOfDutyCorrect]: {
+              'ui:title': 'This information is incorrect and/or incomplete',
+            },
+            [formFields.incorrectServiceHistoryExplanation]: {
+              'ui:title':
+                'Please explain what is incorrect and/or incomplete about your service history.',
+              'ui:options': {
+                expandUnder: [formFields.toursOfDutyCorrect],
+                hideIf: formData => !formData[formFields.toursOfDutyCorrect],
+              },
+              'ui:widget': 'textarea',
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:subHeading': {
+                type: 'object',
+                properties: {},
+              },
+              [formFields.toursOfDuty]: toursOfDuty,
+              [formFields.toursOfDutyCorrect]: {
+                type: 'boolean',
+              },
+              [formFields.incorrectServiceHistoryExplanation]: {
+                type: 'string',
+              },
+            },
+          },
+          initialData: {
+            [formFields.toursOfDuty]: [
+              {
+                // applyPeriodToSelected: true,
+                dateRange: {
+                  from: '2011-08-01',
+                  to: '2014-07-30',
+                },
+                exclusionPeriods: [
+                  {
+                    from: '2011-08-01',
+                    to: '2011-09-14',
+                  },
+                  {
+                    from: '2011-11-01',
+                    to: '2011-12-14',
+                  },
+                ],
+                separationReason: 'Expiration term of service',
+                serviceBranch: 'Navy',
+                serviceCharacter: 'Honorable',
+                // serviceStatus: 'Active Duty',
+                trainingPeriods: [
+                  {
+                    from: '2011-08-01',
+                    to: '2011-09-14',
+                  },
+                  {
+                    from: '2011-11-01',
+                    to: '2011-12-14',
+                  },
+                ],
+              },
+              {
+                // applyPeriodToSelected: true,
+                dateRange: {
+                  from: '2015-04-04',
+                  to: '2017-10-12',
+                },
+                separationReason: 'Disability',
+                serviceBranch: 'Navy',
+                serviceCharacter: 'Honorable',
+                // serviceStatus: 'Active Duty',
+              },
+            ],
+          },
+        },
+      },
+    },
+    additionalInformationChapter: {
+      title: 'Additional Information',
       pages: {
         [formPages.contactInformation]: {
           path: 'contact/information',
@@ -413,6 +501,108 @@ const formConfig = {
         //     },
         //   },
         // },
+      },
+    },
+    benefitSelection: {
+      title: 'Benefit selection',
+      pages: {
+        [formPages.benefitSelect]: {
+          path: 'select-benefit',
+          title: 'Benefit selection',
+          subTitle: "you're applying for the Post-9/11 GIBill",
+          instructions:
+            'Currrently, you can only apply for Post-9/11 Gi Bill (Chapter 33) benefits through this application/ If you would like to apply for other benefits, please visit out How to Apply page.',
+          uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <div className="usa-alert background-color-only">
+                    <h3>You’re applying for the Post-9/11 GI BIll®</h3>
+                    <p>
+                      Currently, you can only apply for Post-9/11 GI Bill
+                      (Chapter 33) benefits through this application. If you
+                      would like to apply for other benefits, please visit our{' '}
+                      <a href="#">How To Apply</a> page.
+                    </p>
+                  </div>
+                  <div>
+                    <h4>Give up one other benefit</h4>
+                    <p>
+                      Because you are applying for the Post-9/11 GI Bill, you
+                      have to give up one other benefit you may be eligible for.
+                      <strong> This decision is final</strong>, which means you
+                      can’t change your mind after you submit this application.
+                    </p>
+                  </div>
+                  <div>
+                    <AdditionalInfo triggerText="Why do I have to give up a benefit?">
+                      <p>
+                        {' '}
+                        Per 38 USC 3327, If you are eligible for both the
+                        Post-9/11 GI Bill and other education benefits, you must
+                        give up one benefit you may be eligible for.
+                      </p>
+                    </AdditionalInfo>
+                  </div>
+                  <br />
+                </>
+              ),
+            },
+            [formFields.benefitSelection]: {
+              'ui:title': 'Which benefit will you give up?',
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: {
+                  ACTIVE_DUTY: activeDutyLabel,
+                  SELECTED_RESERVE: selectedReserveLabel,
+                  UNSURE: "I'm not sure and I need assistance",
+                },
+                widgetProps: {
+                  ACTIVE_DUTY: { 'data-info': 'ACTIVE_DUTY' },
+                  SELECTED_RESERVE: { 'data-info': 'SELECTED_RESERVE' },
+                  UNSURE: { 'data-info': 'UNSURE' },
+                },
+                selectedProps: {
+                  ACTIVE_DUTY: { 'aria-describedby': 'ACTIVE_DUTY' },
+                  SELECTED_RESERVE: { 'aria-describedby': 'SELECTED_RESERVE' },
+                  UNSURE: { 'aria-describedby': 'UNSURE' },
+                },
+              },
+              'ui:errorMessages': {
+                required: 'Please select an answer.',
+              },
+            },
+            'view:unsureNote': {
+              'ui:description': unsureDescription,
+              'ui:options': {
+                hideIf: formData =>
+                  formData[formFields.benefitSelection] !== 'UNSURE',
+                expandUnder: [formFields.benefitSelection],
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            required: ['benefitSelection'],
+            properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
+              [formFields.benefitSelection]: {
+                type: 'string',
+                enum: ['ACTIVE_DUTY', 'SELECTED_RESERVE', 'UNSURE'],
+              },
+              'view:unsureNote': {
+                type: 'object',
+                properties: {},
+              },
+            },
+          },
+          initialData: {
+            benefitSelection: '',
+          },
+        },
       },
     },
   },

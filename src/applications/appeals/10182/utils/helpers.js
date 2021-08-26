@@ -51,6 +51,11 @@ export const getSelected = formData => {
   }));
 };
 
+// additionalIssues (items) are separate because we're checking the count before
+// the formData is updated
+export const getSelectedCount = (formData, items) =>
+  getSelected({ ...formData, additionalIssues: items }).length;
+
 export const getIssueName = (entry = {}) =>
   entry.issue || entry.attributes?.ratingIssueSubjectText;
 

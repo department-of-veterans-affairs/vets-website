@@ -1,4 +1,6 @@
-import { merge, omit, assign, pick, get } from 'lodash/fp';
+import { merge, pick } from 'lodash';
+import get from 'platform/utilities/data/get';
+import omit from 'platform/utilities/data/omit';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
@@ -8,7 +10,7 @@ import { validateDependentDate } from '../validation';
 const incomeFields = ['grossIncome', 'netIncome', 'otherIncome'];
 
 export const createDependentSchema = hcaSchema => {
-  const schema = merge(hcaSchema.definitions.dependent, {
+  const schema = merge({}, hcaSchema.definitions.dependent, {
     required: [
       'dependentRelation',
       'socialSecurityNumber',
@@ -27,10 +29,11 @@ export const createDependentSchema = hcaSchema => {
 
 export const createDependentIncomeSchema = hcaSchema => {
   const dependent = hcaSchema.definitions.dependent;
-  return assign(dependent, {
-    properties: pick(incomeFields, dependent.properties),
+  return {
+    ...dependent,
+    properties: pick(dependent.properties, incomeFields),
     required: incomeFields,
-  });
+  };
 };
 
 export const uiSchema = {
@@ -70,12 +73,11 @@ export const uiSchema = {
     'ui:title': 'Dependent\u2019s Social Security number',
   },
   dateOfBirth: currentOrPastDateUI('Dependent’s date of birth'),
-  becameDependent: assign(
-    currentOrPastDateUI('When did they become your dependent?'),
-    {
-      'ui:validations': [validateDependentDate],
-    },
-  ),
+  becameDependent: {
+    ...currentOrPastDateUI('When did they become your dependent?'),
+    'ui:validations': [validateDependentDate],
+  },
+
   disabledBefore18: {
     'ui:title':
       'Was your dependent permanently and totally disabled before the age of 18?',

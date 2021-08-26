@@ -71,7 +71,7 @@
   ],
   "additionalIncome": {
     "spouse": {
-      "spouseAdditionalIncomeRecords": [
+      "spAddlIncome": [
         {
           "name": "Child care income",
           "amount": "800.54"
@@ -82,7 +82,7 @@
         }
       ]
     },
-    "additionalIncomeRecords": [
+    "addlIncRecords": [
       {
         "name": "Bonus payment",
         "amount": "1500.67"
@@ -95,14 +95,14 @@
   },
   "socialSecurity": {
     "spouse": {
-      "socialSecurityAmount": "1400.45"
+      "socialSecAmt": "1400.45"
     },
-    "socialSecurityAmount": "1200.65"
+    "socialSecAmt": "1200.65"
   },
   "benefits": {
     "spouseBenefits": {
-      "benefitAmount": "1000.09",
-      "educationAmount": "500.46"
+      "compensationAndPension": "1000.09",
+      "education": "500.46"
     }
   },
   "additionalData": {
@@ -437,21 +437,25 @@
     "deductionCode": "",
     "originalAr": 0
   },
-  "currentEmployment": [
+  "currEmployment": [
     {
-      "veteranMonthlyGrossSalary": "5000.54",
+      "veteranGrossSalary": "5000.54",
       "deductions": [
         {
           "name": "Federal tax",
           "amount": "350.5643534"
         },
         {
-          "name": "Health insurance",
-          "amount": "400.3443543"
+          "name": "State tax",
+          "amount": "230.45"
         },
         {
-          "name": "401K",
-          "amount": "100.32432"
+          "name": "Pension",
+          "amount": "100"
+        },
+        {
+          "name": "Health insurance",
+          "amount": "254.45"
         }
       ],
       "type": "Full time",
@@ -461,11 +465,19 @@
       "employerName": "Veteran Current One"
     },
     {
-      "veteranMonthlyGrossSalary": "2000.56",
+      "veteranGrossSalary": "2000.56",
       "deductions": [
         {
           "name": "Federal tax",
           "amount": "200.0254334"
+        },
+        {
+          "name": "Allotment",
+          "amount": "134.56"
+        },
+        {
+          "name": "FICA (Social Security and Medicare)",
+          "amount": "122.4"
         }
       ],
       "type": "Part time",
@@ -475,9 +487,9 @@
       "employerName": "Veteran Current Two"
     }
   ],
-  "spouseCurrentEmployment": [
+  "spCurrEmployment": [
     {
-      "spouseMonthlyGrossSalary": "4000.45",
+      "spouseGrossSalary": "4000.45",
       "deductions": [
         {
           "name": "Federal tax",
@@ -486,6 +498,10 @@
         {
           "name": "Health insurance",
           "amount": "250.344324"
+        },
+        {
+          "name": "Garnishment",
+          "amount": "150"
         }
       ],
       "type": "Full time",
@@ -499,7 +515,9 @@
   "availableOptions": {},
   "income": [
     {
-      "veteranOrSpouse": "VETERAN"
+      "veteranOrSpouse": "VETERAN",
+      "compensationAndPension": "3261.1",
+      "education": "50"
     }
   ]
 }

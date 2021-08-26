@@ -5,10 +5,10 @@ export default function MilitaryTuitionAssistanceModalContent() {
     <>
       <h3>Military Tuition Assistance (TA)</h3>
       <p>
-        Are you receiving any military tuition assistance this year? If so, how
-        much? The Post-9/11 GI Bill pays the net-cost of your education after
-        scholarships or financial aid amounts are applied. This includes amounts
-        already paid by military tuition assistance.
+        Military Tuition Assistance is a benefit paid to eligible members of the
+        Army, Navy, Marines, Air Force, and Coast Guard. Each service has its
+        own criteria for eligibility and application process. This money is
+        usually paid directly to the institution by the individual service.
       </p>
     </>
   );

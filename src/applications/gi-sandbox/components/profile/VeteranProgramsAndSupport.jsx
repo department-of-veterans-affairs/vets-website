@@ -19,7 +19,7 @@ export default function VeteranProgramsAndSupport({
       modal: 'ta',
       text: 'Military Tuition Assistance (TA)',
       link: false,
-      ariaLabel: ariaLabels.learnMore.militaryTuitionAssistanceProgram,
+      ariaLabel: ariaLabels.learnMore.militaryTuitionAssistance,
     },
     poe: {
       modal: 'poe',
