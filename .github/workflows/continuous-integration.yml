@@ -67,7 +67,9 @@ jobs:
       #     YARN_CACHE_FOLDER: .cache/yarn
 
       - name: Change registry in yarn.lock
-        run: sed -i -e "s#https://registry.yarnpkg.com/#${{ env.NEXUS_REGISTRY }}#g" yarn.lock
+        run: |
+          sed -i -e "s#https://registry.yarnpkg.com/#${{ env.NEXUS_REGISTRY }}#g" yarn.lock
+          sed -i -e "s#https://registry.npmjs.org/#${{ env.NEXUS_REGISTRY }}#g" yarn.lock
 
       - name: Authenticate NEXUS
         run: |
