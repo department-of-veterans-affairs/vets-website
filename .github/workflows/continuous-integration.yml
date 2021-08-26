@@ -396,11 +396,15 @@ jobs:
       - name: Annotate Stylelint results
         if: ${{ always() }}
         run: node ./script/github-actions/stylelint-annotation-format.js
-
-  # consider moving this job to cpyress-tests-prep job
-  check-app-dependency-graph:
-    name: Check App Dependency Graph
+  
+  cypress-tests-prep:
+    name: Prep for Cypress Tests
     runs-on: ubuntu-latest
+    outputs:
+      num_containers: ${{ steps.containers.outputs.num }}
+      ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
+      tests: ${{ steps.tests.outputs.selected }}
+      is_master_build: ${{ env.IS_MASTER_BUILD }}
 
     steps:
       - name: Checkout
@@ -436,63 +440,20 @@ jobs:
           YARN_CACHE_FOLDER: .cache/yarn
 
       # make sure this works on new branches, first commit
-      - name: Diff recent commit
+      - name: Run git diff and set DIFF_RESULTS
         id: git-diff
         run: echo ::set-output name=DIFF_RESULTS::$(git diff ${{ github.event.before }} ${{ github.event.after }} --line-prefix=new_line --unified=0)
 
-      - name: Set IS_GRAPH_UPDATED and update the graph if necessary
+      - name: Set IS_GRAPH_UPDATED and update the cross-app import graph if necessary
         run: node script/github-actions/create-cross-app-import-graph.js
         env:
           DIFF_RESULTS: ${{ steps.git-diff.outputs.DIFF_RESULTS }}
 
-      - name: Push updated graph
+      - name: Push the updated cross-app import graph
         if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: update graph
-  
-  cypress-tests-prep:
-    name: Prep for Cypress Tests
-    needs: check-app-dependency-graph
-    runs-on: ubuntu-latest
-    outputs:
-      num_containers: ${{ steps.containers.outputs.num }}
-      ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
-      tests: ${{ steps.tests.outputs.selected }}
-      is_master_build: ${{ env.IS_MASTER_BUILD }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0 # this is required to list all changed files in branch
-
-      - name: Get Node version
-        id: get-node-version
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-
-      - name: Cache dependencies
-        id: cache-dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            .cache/yarn
-            node_modules
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-
-      - name: Install dependencies
-        uses: nick-invision/retry@v2
-        with:
-          command: yarn install --frozen-lockfile --prefer-offline --production=false
-          max_attempts: 3
-          timeout_minutes: 5
-        env:
-          YARN_CACHE_FOLDER: .cache/yarn
 
       - name: Set IS_MASTER_BUILD
         run: |
