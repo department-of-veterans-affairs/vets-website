@@ -129,10 +129,7 @@ const IntroductionPage = props => {
         pageList={props.route.pageList}
         startText="Apply for Veteran Readiness and Employment"
       />
-      <div
-        className="omb-info--container vads-u-margin-top--1p5"
-        style={{ paddingLeft: '0px' }}
-      >
+      <div className="omb-info--container vads-u-margin-top--1p5 vads-u-padding-left--0">
         <OMBInfo resBurden={15} ombNumber="2900-0009" expDate="11/30/2022" />
       </div>
       <h2 className="vads-u-font-size--h3">To apply by mail</h2>
