@@ -1,5 +1,4 @@
 // Relative imports.
-import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import { mockUser } from '@@profile/tests/fixtures/users/user.js';
 
 const testFirstMenuSection = isMobile => {
@@ -74,7 +73,6 @@ const testDesktopMenuSections = () => {
 describe('Mega Menu', () => {
   context('on desktop', () => {
     beforeEach(() => {
-      cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
       cy.viewport(1280, 720);
     });
 
@@ -114,17 +112,12 @@ describe('Mega Menu', () => {
 
   context('on mobile', () => {
     beforeEach(() => {
-      cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles).as(
-        'getFeatureToggles',
-      );
       cy.viewport('iphone-4');
     });
 
     it('looks as expected unauthenticated', () => {
       // Visit the homepage.
       cy.visit('/');
-
-      cy.wait('@getFeatureToggles');
 
       // Test the menu sections.
       testMobileMenuSections();
@@ -140,8 +133,6 @@ describe('Mega Menu', () => {
 
       // Visit the homepage.
       cy.visit('/');
-
-      cy.wait('@getFeatureToggles');
 
       // Test the menu sections.
       testMobileMenuSections();
