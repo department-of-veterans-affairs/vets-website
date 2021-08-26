@@ -1,27 +1,19 @@
 .rb-fieldset-input {
   margin-bottom: 2rem;
   position: relative;
-  right: calc(1.9rem - 4px); //this is to account for the border
 }
 
-.rb-input-notify-label {
-  display: block;
-  font-size: 1.7rem;
-  font-weight: 700;
-  padding-left: 1.2rem;
-  padding-bottom: 1rem;
+.rb-legend {
+  float: left;
 }
 
 .rb-input {
   border-left: 4px solid;
   position: relative;
-  right: 1.9rem;
 }
 
 .rb-input-message {
   display: block;
-  font-size: 1.7rem;
-  font-weight: 700;
   padding-bottom: 3px;
   padding-top: 3px;
 }
@@ -56,11 +48,6 @@
 // loading
 .rb-input-loading {
   border-left-color: transparent;
-}
-
-.rb-input-message-loading {
-  font-weight: normal;
-  font-style: italic;
 }
 
 .rb-buttons {

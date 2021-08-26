@@ -57,7 +57,7 @@ const NotificationRadioButtons = ({
     errorSpanId = `${id}-error-message`;
     errorSpan = (
       <span
-        className="rb-input-message rb-input-message-error"
+        className="rb-input-message rb-input-message-error vads-u-font-weight--bold"
         role="alert"
         id={errorSpanId}
       >
@@ -76,7 +76,7 @@ const NotificationRadioButtons = ({
     warningSpanId = `${id}-warning-message`;
     warningSpan = (
       <span
-        className="rb-input-message rb-input-message-warning"
+        className="rb-input-message rb-input-message-warning vads-u-font-weight--bold"
         role="alert"
         id={warningSpanId}
       >
@@ -95,7 +95,7 @@ const NotificationRadioButtons = ({
     loadingSpanId = `${id}-loading-message`;
     loadingSpan = (
       <span
-        className="rb-input-message rb-input-message-loading"
+        className="rb-input-message rb-input-message-loading vads-u-font-style--italic"
         role="alert"
         id={loadingSpanId}
       >
@@ -114,7 +114,7 @@ const NotificationRadioButtons = ({
     successSpanId = `${id}-success-message`;
     successSpan = (
       <span
-        className="rb-input-message rb-input-message-success"
+        className="rb-input-message rb-input-message-success vads-u-font-weight--bold"
         role="alert"
         id={successSpanId}
       >
@@ -128,10 +128,11 @@ const NotificationRadioButtons = ({
   }
 
   // Calculate required.
-  let requiredSpan = undefined;
-  if (required) {
-    requiredSpan = <span className="form-required-span">(*Required)</span>;
-  }
+  const requiredSpan = required ? (
+    <span className="form-required-span">(*Required)</span>
+  ) : (
+    undefined
+  );
 
   const buttonOptions = isArray(options) ? options : [];
   const storedValue = value?.value;
@@ -197,16 +198,21 @@ const NotificationRadioButtons = ({
   );
 
   const legendClass = classNames(
-    'rb-input-notify-label',
+    'rb-legend',
+    'vads-u-font-weight--bold',
+    'vads-u-font-size--base',
+    'vads-u-padding-left--1p5',
     additionalLegendClass,
   );
 
   return (
     <fieldset className={fieldsetClass} disabled={disabled}>
-      <span className={legendClass}>
-        {label}
-        {requiredSpan}
-      </span>
+      <div className="clearfix">
+        <legend className={legendClass}>
+          {label}
+          {requiredSpan}
+        </legend>
+      </div>
       {!loadingMessage && !successMessage && !warningMessage && errorSpan}
       {!loadingMessage && !errorMessage && !successMessage && warningSpan}
       {!loadingMessage && !errorMessage && !warningMessage && successSpan}
