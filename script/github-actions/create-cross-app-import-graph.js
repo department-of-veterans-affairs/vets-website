@@ -70,6 +70,13 @@ function getImportPath(filePathAsArray, importRef) {
 
   // eslint-disable-next-line no-console
   console.log('importRef: ', importRef);
+
+  // eslint-disable-next-line no-console
+  console.log(
+    "importRef.startsWith('applications/'): ",
+    importRef.startsWith('applications/'),
+  );
+
   if (importRef.startsWith('applications/')) {
     return `src/${importRef}`;
   } else if (importRef.startsWith('../')) {
