@@ -1,8 +1,10 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import _ from 'lodash/fp';
 
 import dateUI from 'platform/forms-system/src/js/definitions/date';
-import { title10DatesRequired, isInFuture } from '../utils';
+import { validateDate } from 'platform/forms-system/src/js/validation';
+
+import { title10DatesRequired } from '../utils';
+import { title10BeforeRad, isLessThan180DaysInFuture } from '../validations';
 
 const {
   title10Activation,
@@ -11,6 +13,7 @@ const {
 export const uiSchema = {
   'ui:title': 'Federal Orders',
   serviceInformation: {
+    'ui:validations': [title10BeforeRad],
     reservesNationalGuardService: {
       'view:isTitle10Activated': {
         'ui:title':
@@ -21,13 +24,15 @@ export const uiSchema = {
         'ui:options': {
           expandUnder: 'view:isTitle10Activated',
         },
-        title10ActivationDate: _.merge(dateUI('Activation date'), {
+        title10ActivationDate: {
+          ...dateUI('Activation date'),
           'ui:required': title10DatesRequired,
-        }),
-        anticipatedSeparationDate: _.merge(dateUI('Expected separation date'), {
-          'ui:validations': [isInFuture],
+        },
+        anticipatedSeparationDate: {
+          ...dateUI('Expected separation date'),
+          'ui:validations': [validateDate, isLessThan180DaysInFuture],
           'ui:required': title10DatesRequired,
-        }),
+        },
       },
     },
   },

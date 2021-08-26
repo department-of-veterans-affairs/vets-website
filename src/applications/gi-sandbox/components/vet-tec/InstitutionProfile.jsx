@@ -19,6 +19,7 @@ export default function InstitutionProfile({
   preSelectedProgram,
   selectedProgram,
   compare,
+  smallScreen,
 }) {
   const program =
     selectedProgram ||
@@ -31,7 +32,7 @@ export default function InstitutionProfile({
   const hasPrograms = institution.programs.length > 0;
 
   return (
-    <div id={institutionProfileId}>
+    <div id={institutionProfileId} className="institution-profile">
       <div
         id={profilePageHeaderId}
         className="usa-grid vads-u-padding--0 vads-u-margin-bottom--4"
@@ -41,7 +42,9 @@ export default function InstitutionProfile({
         </div>
 
         <div className="usa-width-one-fourth">
-          <h2 className="vads-u-padding-top--2">On this page</h2>
+          <h2 className="vads-u-padding-top--2 small-screen-header">
+            On this page
+          </h2>
           {hasPrograms && (
             <JumpLink
               label="Calculate your benefits"
@@ -130,6 +133,7 @@ export default function InstitutionProfile({
         parentId={institutionProfileId}
         profilePageHeaderId={profilePageHeaderId}
         compare={compare}
+        smallScreen={smallScreen}
       />
     </div>
   );

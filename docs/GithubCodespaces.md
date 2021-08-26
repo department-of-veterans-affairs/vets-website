@@ -6,9 +6,9 @@ Github Codespaces provide an Integrated Development Environment (IDE) that is ac
 
 Codespaces is [currently in beta](https://github.com/features/codespaces) and VA users have been given early access to test.
 
-If you are interested in helping test Codespaces please join `#codespaces` on dsva.slack.com
+If you are interested in helping test Codespaces please [sign up here](https://github.com/department-of-veterans-affairs/github-user-requests/issues/new?assignees=&labels=general+issue%2C+user-created&template=general-help-request.md&title=Add%20user%20to%20Codespaces) and join [#codespaces](https://dsva.slack.com/archives/C01AN96U39V).
 
-Note: Support for Codespaces is a work in progress. During the beta all Codespaces are free, but restricted to the smallest size and can be quite slow. Codespaces auto pause after 30 min of inactivity, and there is a limite of 2 Codespaces per user.
+Note: Support for Codespaces is a work in progress. During the beta all Codespaces are free, but restricted to medium size and can be slow. Codespaces auto pause after 30 min of inactivity, and there is a limit of 2 Codespaces per user.
 
 [Codespaces Documentation](https://docs.github.com/en/github/developing-online-with-codespaces/about-codespaces)
 

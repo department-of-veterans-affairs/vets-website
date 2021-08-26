@@ -1,5 +1,3 @@
-const Timeouts = require('../../../platform/testing/e2e/timeouts');
-// const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const manifest = require('../manifest.json');
 const environments = require('../../../site/constants/environments');
 
@@ -12,7 +10,7 @@ describe('Login Page', () => {
       )
     ) {
       cy.visit('/login');
-      cy.get('body').should('be.visible', { timeout: Timeouts.normal });
+      cy.get('body').should('be.visible');
       cy.injectAxeThenAxeCheck();
     }
   });

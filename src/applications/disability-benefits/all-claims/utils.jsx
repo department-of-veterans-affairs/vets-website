@@ -202,13 +202,6 @@ export const title10DatesRequired = formData =>
     false,
   );
 
-export const isInFuture = (errors, fieldData) => {
-  const enteredDate = new Date(fieldData);
-  if (enteredDate < Date.now()) {
-    errors.addError('Expected separation date must be in the future');
-  }
-};
-
 const capitalizeWord = word => {
   const capFirstLetter = word[0].toUpperCase();
   return `${capFirstLetter}${word.slice(1)}`;
@@ -1012,13 +1005,12 @@ export const wrapWithBreadcrumb = (title, component) => (
   </>
 );
 
+const today = moment().endOf('day');
 export const isExpired = date => {
   if (!date) {
     return true;
   }
-  const today = moment().endOf('day');
   // expiresAt: Ruby saves as time from Epoch date in seconds (not milliseconds)
-  // we plan to update the expiresAt date to "YYYY-MM-DD" format in the future
-  const expires = moment(isNaN(date) ? date : date * 1000);
+  const expires = moment.unix(date?.expiresAt);
   return !(expires.isValid() && expires.endOf('day').isSameOrAfter(today));
 };

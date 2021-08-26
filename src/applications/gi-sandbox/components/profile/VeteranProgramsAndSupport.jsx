@@ -19,7 +19,7 @@ export default function VeteranProgramsAndSupport({
       modal: 'ta',
       text: 'Military Tuition Assistance (TA)',
       link: false,
-      ariaLabel: ariaLabels.learnMore.militaryTuitionAssistanceProgram,
+      ariaLabel: ariaLabels.learnMore.militaryTuitionAssistance,
     },
     poe: {
       modal: 'poe',
@@ -86,7 +86,7 @@ export default function VeteranProgramsAndSupport({
 
   const veteranPrograms = (
     <div className="usa-width-one-half medium-6 columns">
-      <h3>Veteran Programs</h3>
+      <h3 className="small-screen-font">Veteran Programs</h3>
       {available.length > 0 ? (
         <div>{available.map(program => programLabel(program))}</div>
       ) : (

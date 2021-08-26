@@ -64,6 +64,10 @@
 
   .main-rating {
     width: 160px;
+
+    @include media-maxwidth($small-screen) {
+      width: 100%;
+    }
   }
 
   @include media-maxwidth($medium-screen - 1) {
@@ -84,9 +88,6 @@
     .category-main {
       padding-left: 10px;
       padding-right: 10px;
-      //@include media-maxwidth($small-screen - 1) {
-      //  width: 100px;
-      //}
     }
 
     .bar-outer {
@@ -646,12 +647,6 @@
       position: relative;
     }
   }
-  .compare-checkbox {
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    display: flex;
-  }
 
   .profile-section {
     border: 3px solid $color-gray-lightest;
@@ -678,6 +673,10 @@
       font-weight: 700;
       margin-bottom: 20px;
       margin-top: 10px;
+    }
+
+    @include media-maxwidth($small-screen) {
+      border: none;
     }
   }
 
@@ -713,5 +712,12 @@
     .historical-information.table {
       display: none;
     }
+  }
+}
+
+.institution-profile {
+  @include media-maxwidth($small-screen) {
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }

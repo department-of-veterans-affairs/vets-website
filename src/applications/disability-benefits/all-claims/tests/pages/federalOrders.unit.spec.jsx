@@ -99,13 +99,89 @@ describe('Federal orders info', () => {
       form,
       'root_serviceInformation_reservesNationalGuardService_title10Activation_anticipatedSeparationDate',
       moment()
-        .add(1, 'year')
+        .add(160, 'days') // < 180 days
         .format('YYYY-MM-DD'),
     );
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
+  });
+  it('should fail to submit when separation date is before activation', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        formData={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    selectRadio(
+      form,
+      'root_serviceInformation_reservesNationalGuardService_view:isTitle10Activated',
+      'Y',
+    );
+    fillDate(
+      form,
+      'root_serviceInformation_reservesNationalGuardService_title10Activation_title10ActivationDate',
+      moment()
+        .add(100, 'days')
+        .format('YYYY-MM-DD'),
+    );
+    fillDate(
+      form,
+      'root_serviceInformation_reservesNationalGuardService_title10Activation_anticipatedSeparationDate',
+      moment()
+        .add(90, 'days')
+        .format('YYYY-MM-DD'),
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+  it('should fail to submit when separation date is > 180 days in the future', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        formData={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    selectRadio(
+      form,
+      'root_serviceInformation_reservesNationalGuardService_view:isTitle10Activated',
+      'Y',
+    );
+    fillDate(
+      form,
+      'root_serviceInformation_reservesNationalGuardService_title10Activation_title10ActivationDate',
+      moment()
+        .add(-10, 'days')
+        .format('YYYY-MM-DD'),
+    );
+    fillDate(
+      form,
+      'root_serviceInformation_reservesNationalGuardService_title10Activation_anticipatedSeparationDate',
+      moment()
+        .add(190, 'days')
+        .format('YYYY-MM-DD'),
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 });

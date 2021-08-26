@@ -1,7 +1,22 @@
 import React from 'react';
 
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
+
 export const missingIssueErrorMessage = 'Please add the name of an issue';
 export const noneSelected = 'Please add and select at least one issue';
+
+export const maxSelected =
+  'You’ve reached the maximum number of allowed selected issues';
+
+// Not setting "visible" as a variable since we're controlling rendering at a
+// higher level
+export const MaxSelectionsAlert = ({ closeModal }) => (
+  <Modal title={maxSelected} status="warning" onClose={closeModal} visible>
+    You are limited to 100 selected issues for each Notice of Disagreement
+    request. If you would like to select more than 100, please submit this
+    request and create a new request for the remaining issues.
+  </Modal>
+);
 
 export const missingIssuesErrorMessageText =
   'Please add and select an issue, or select an eligible issue on the previous page';

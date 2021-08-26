@@ -109,7 +109,7 @@ export default function EstimatedBenefits({
           {modal ? (
             <LearnMoreLabel
               text={title}
-              onClick={() => dispatchShowModal('housingAllowanceOJT')}
+              onClick={() => dispatchShowModal(modal)}
               ariaLabel={learnMoreAriaLabel}
               bold
             />
@@ -155,7 +155,7 @@ export default function EstimatedBenefits({
 
     return (
       <div>
-        <h3>
+        <h3 className="small-screen-header">
           Estimated benefits per {calculator.type === 'OJT' ? 'month' : 'term'}
         </h3>
         {sections}
@@ -166,7 +166,7 @@ export default function EstimatedBenefits({
   return (
     <div className="medium-6 columns">
       <div className="your-estimated-benefits">
-        <h3 id="estimated-benefits" tabIndex="-1">
+        <h3 id="estimated-benefits small-screen-header" tabIndex="-1">
           Your estimated benefits
         </h3>
         <div aria-atomic="true" aria-live="polite" role="status">

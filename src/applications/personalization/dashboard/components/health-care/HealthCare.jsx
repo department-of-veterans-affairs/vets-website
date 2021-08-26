@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 import backendServices from '~/platform/user/profile/constants/backendServices';
-import { GeneralCernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
+import { CernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
 import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
 import { selectUnreadCount } from '~/applications/personalization/dashboard/selectors';
 import { fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction } from '~/applications/personalization/appointments/actions';
@@ -83,7 +83,7 @@ const HealthCare = ({
     return (
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-          <GeneralCernerWidget
+          <CernerWidget
             facilityNames={facilityNames}
             authenticatedWithSSOe={authenticatedWithSSOe}
           />

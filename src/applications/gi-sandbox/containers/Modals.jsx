@@ -7,19 +7,25 @@ import AccreditationModalContent from '../components/content/modals/Accreditatio
 import AllCampusesModalContent from '../components/content/modals/AllCampusesModalContent';
 import BookStipedInfoModalContent from '../components/content/modals/BookStipedInfoModalContent';
 import CalcBeneficiaryLocationQuestionModalContent from '../components/content/modals/CalcBeneficiaryLocationQuestionModalContent';
-import CreditTrainingModalContent from '../components/content/modals/CreditTrainingModalContent';
+import CautionFlagsModalContent from '../components/content/modals/CautionFlagsModalContent';
 import EightKeysModalContent from '../components/content/modals/EightKeysModalContent';
 import FacilityCodeModalContent from '../components/content/modals/FacilityCodeModalContent';
+import GiBillStudentsModalContent from '../components/content/modals/GiBillStudentsModalContent';
 import HousingAllowanceOJTModalConent from '../components/content/modals/HousingAllowanceOJTModalContent';
+import HousingAllowanceSchoolModalContent from '../components/content/modals/HousingAllowanceSchoolModalContent';
 import IndependentStudyModalContent from '../components/content/modals/IndependentStudyModalContent';
 import IpedsCodeModalContent from '../components/content/modals/IpedsCodeModalContent';
+import MilitaryTrainingCreditModalContent from '../components/content/modals/MilitaryTrainingCreditModalContent';
 import MilitaryTuitionAssistanceModalContent from '../components/content/modals/MilitaryTuitionAssistanceModalContent';
 import OpeCodeModalContent from '../components/content/modals/OpeCodeModalContent';
 import PrinciplesOfExcellenceModalContent from '../components/content/modals/PrinciplesOfExcellenceModalContent';
 import PriorityEnrollmentModalContent from '../components/content/modals/PriorityEnrollmentModalContent';
 import SingleContactModalContent from '../components/content/modals/SingleContactModalContent';
+import SizeOfInstitutionsModalContent from '../components/content/modals/SizeOfInstitutionsModalContent';
+import SpecializedMissionModalContent from '../components/content/modals/SpecializedMissionModalContent';
 import StudentComplaintsModalContent from '../components/content/modals/StudentComplaintsModalContent';
 import StudentVeteranGroupModalContent from '../components/content/modals/StudentVeteranGroupModalContent';
+import TuitionAndFeesModalContent from '../components/content/modals/TuitionAndFeesModalContent';
 import VeteranSuccessModalContent from '../components/content/modals/VeteranSuccessModalContent';
 import YellowRibbonModalContent from '../components/content/modals/YellowRibbonModalContent';
 
@@ -147,16 +153,7 @@ export function Modals({ hideModal, modals, profile }) {
   const renderProfileSchoolHeaderModals = () => (
     <span>
       <Modal onClose={hideModal} visible={shouldDisplayModal('gibillstudents')}>
-        <h3>GI Bill students</h3>
-        <p>
-          The number of Veterans, service members and family members using their
-          GI Bill benefits attending this school in the last calendar year. This
-          includes all chapters of the GI Bill program (e.g., Post-9/11,
-          Montgomery GI Bill, Reserve Education Assistance Program, and Veteran
-          Readiness and Employment). Keep in mind that differences in attendee
-          numbers don’t necessarily mean one school is more military friendly
-          than another. This information will be updated annually.
-        </p>
+        <GiBillStudentsModalContent />
       </Modal>
     </span>
   );
@@ -228,7 +225,18 @@ export function Modals({ hideModal, modals, profile }) {
           </p>
         </div>
       </Modal>
-
+      <Modal
+        onClose={hideModal}
+        visible={shouldDisplayModal('tuitionAndFeesSchool')}
+      >
+        <TuitionAndFeesModalContent />
+      </Modal>
+      <Modal
+        onClose={hideModal}
+        visible={shouldDisplayModal('housingAllowanceSchool')}
+      >
+        <HousingAllowanceSchoolModalContent />
+      </Modal>
       <Modal
         onClose={hideModal}
         visible={shouldDisplayModal('housingAllowanceOJT')}
@@ -318,10 +326,10 @@ export function Modals({ hideModal, modals, profile }) {
 
       <Modal
         onClose={hideModal}
-        visible={shouldDisplayModal('creditTraining')}
+        visible={shouldDisplayModal('militaryTrainingCredit')}
         elementToFocusOnClose="creditTraining-button"
       >
-        <CreditTrainingModalContent />
+        <MilitaryTrainingCreditModalContent />
       </Modal>
       <Modal
         onClose={hideModal}
@@ -797,7 +805,11 @@ export function Modals({ hideModal, modals, profile }) {
           </p>
           <p>
             Visit this school’s website to{' '}
-            <a href={inStateTuitionInformation}>
+            <a
+              href={inStateTuitionInformation}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
               see any in-state tuition requirements.
             </a>
           </p>
@@ -886,6 +898,17 @@ export function Modals({ hideModal, modals, profile }) {
             honorable discharge.
           </p>
         </div>
+      </Modal>
+
+      <Modal
+        onClose={hideModal}
+        visible={shouldDisplayModal('comparisonLimit')}
+      >
+        <h3>You’ve reached the comparison limit</h3>
+        <p>
+          You can compare up to 3 schools or employers. You’ll have to remove
+          one of your selections before you can add another to the comparison.
+        </p>
       </Modal>
 
       <Modal
@@ -988,6 +1011,28 @@ export function Modals({ hideModal, modals, profile }) {
     </span>
   );
 
+  const renderComparePageModals = () => {
+    return (
+      <span>
+        <Modal
+          onClose={hideModal}
+          visible={shouldDisplayModal('sizeOfInstitution')}
+        >
+          <SizeOfInstitutionsModalContent />
+        </Modal>
+        <Modal
+          onClose={hideModal}
+          visible={shouldDisplayModal('specializedMission')}
+        >
+          <SpecializedMissionModalContent />
+        </Modal>
+        <Modal onClose={hideModal} visible={shouldDisplayModal('cautionFlags')}>
+          <CautionFlagsModalContent />
+        </Modal>
+      </span>
+    );
+  };
+
   return (
     <span>
       {renderLandingPageModals()}
@@ -999,6 +1044,7 @@ export function Modals({ hideModal, modals, profile }) {
       {renderProfileCautionFlagModals()}
       {renderProfileCalculatorModals()}
       {renderVetTecSearchResultsModals()}
+      {renderComparePageModals()}
     </span>
   );
 }

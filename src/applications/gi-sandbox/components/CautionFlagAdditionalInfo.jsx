@@ -1,10 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
+import JumpLink from './profile/JumpLink';
 
 export const CautionFlagAdditionalInfo = ({
   cautionFlags,
   expanded,
   toggleExpansion,
+  viewDetailsLink,
 }) => {
   const validFlags = cautionFlags
     ? [...cautionFlags].filter(flag => flag.title)
@@ -41,21 +43,29 @@ export const CautionFlagAdditionalInfo = ({
         </div>
 
         {expanded && (
-          <ul className="vads-u-padding-right--4">
-            {validFlags
-              .sort(
-                (a, b) =>
-                  a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1,
-              )
-              .map((flag, index) => (
-                <li
-                  className="headingFlag"
-                  key={`caution-flag-heading-${index}`}
-                >
-                  {flag.title}
-                </li>
-              ))}
-          </ul>
+          <div>
+            <ul className="vads-u-padding-right--4">
+              {validFlags
+                .sort(
+                  (a, b) =>
+                    a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1,
+                )
+                .map((flag, index) => (
+                  <li
+                    className="headingFlag"
+                    key={`caution-flag-heading-${index}`}
+                  >
+                    {flag.title}
+                  </li>
+                ))}
+            </ul>
+            {viewDetailsLink && (
+              <JumpLink
+                label="View details below"
+                jumpToId="cautionary-information"
+              />
+            )}
+          </div>
         )}
       </div>
     </div>

@@ -71,7 +71,7 @@ const renderWidgetDowntimeNotification = (downtime, children) => {
 
 const DashboardHeader = () => {
   return (
-    <div className="medium-screen:vads-u-display--flex medium-screen:vads-u-justify-content--space-between medium-screen:vads-u-align-items--center">
+    <div>
       <h1
         id="dashboard-title"
         data-testid="dashboard-title"
@@ -83,7 +83,7 @@ const DashboardHeader = () => {
       <CTALink
         href="/profile"
         text="Go to your profile"
-        className="vads-u-margin-top--2 medium-screen:vads-u-margin-top--0"
+        className="vads-u-margin-top--2"
         onClick={() => {
           recordEvent({
             event: 'dashboard-navigation',
@@ -209,7 +209,10 @@ const Dashboard = ({
               {props.showValidateIdentityAlert ? (
                 <div className="vads-l-row">
                   <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-                    <IdentityNotVerified alertHeadline="Verify your identity to access more VA.gov tools and features" />
+                    <IdentityNotVerified
+                      alertHeadline="Verify your identity to access more VA.gov tools and features"
+                      level={2}
+                    />
                   </div>
                 </div>
               ) : null}
