@@ -614,7 +614,7 @@ jobs:
 
       - name: Declare testing complete
         run: |
-        echo "Testing Complete: ${{ github.event.inputs.testingComplete }}"
+          echo "Testing Complete: ${{ github.event.inputs.testingComplete }}"
 
   # testing-reports:
   #   name: Testing Reports
