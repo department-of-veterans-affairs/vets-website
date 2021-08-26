@@ -1,7 +1,7 @@
 name: Testing Reports
 
 on:
-  repository-dispatch:
+  repository_dispatch:
     types: ['testing-complete']
 
 jobs:
