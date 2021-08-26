@@ -613,7 +613,7 @@ jobs:
           NODE_ENV: production
 
       - name: Declare testing complete
-         uses: peter-evans/repository-dispatch@v1
+        uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           repository: department-of-veterans-affairs/vets-website
