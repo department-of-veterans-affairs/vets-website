@@ -835,7 +835,7 @@ export default function formReducer(state = initialState, action) {
           'properties.communityCareSystemId',
           initialSchema,
         );
-      } else {
+      } else if (!action.featureCCIteration) {
         initialSchema = set(
           'properties.communityCareSystemId.enum',
           state.ccEnabledSystems.map(system => system.id),
@@ -845,6 +845,11 @@ export default function formReducer(state = initialState, action) {
           system => `${system.address?.city}, ${system.address?.state}`,
         );
         initialSchema.required = ['communityCareSystemId'];
+      } else {
+        initialSchema = unset(
+          'properties.communityCareSystemId',
+          initialSchema,
+        );
       }
       const { data, schema } = setupFormData(
         formData,

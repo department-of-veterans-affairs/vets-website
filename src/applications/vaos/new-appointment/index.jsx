@@ -25,6 +25,7 @@ import DateTimeRequestPage from './components/DateTimeRequestPage';
 import DateTimeSelectPage from './components/DateTimeSelectPage';
 import VAFacilityPageV2 from './components/VAFacilityPage/VAFacilityPageV2';
 import CommunityCarePreferencesPage from './components/CommunityCarePreferencesPage';
+import ClosestCityStatePage from './components/ClosestCityStatePage';
 import CommunityCareLanguagePage from './components/CommunityCareLanguagePage';
 import CommunityCareProviderSelectionPage from './components/CommunityCareProviderSelectionPage';
 import ClinicChoicePage from './components/ClinicChoicePage';
@@ -127,6 +128,10 @@ export function NewAppointment() {
             component={CommunityCareLanguagePage}
           />
         )}
+        <Route
+          path={`${match.url}/choose-closest-city`}
+          component={ClosestCityStatePage}
+        />
         <Route path={`${match.url}/clinics`} component={ClinicChoicePage} />
         <Route
           path={`${match.url}/reason-appointment`}

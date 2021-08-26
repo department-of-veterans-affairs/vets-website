@@ -1,4 +1,5 @@
-import { merge, get } from 'lodash/fp';
+import merge from 'lodash/merge';
+import get from 'platform/utilities/data/get';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
 import InsuranceProviderView from '../../../components/InsuranceProviderView';
@@ -58,7 +59,7 @@ export default {
       providers: {
         type: 'array',
         minItems: 1,
-        items: merge(provider, {
+        items: merge({}, provider, {
           required: [
             'insuranceName',
             'insurancePolicyHolderName',

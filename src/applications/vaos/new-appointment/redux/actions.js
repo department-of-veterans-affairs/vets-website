@@ -15,6 +15,7 @@ import {
   selectRegisteredCernerFacilityIds,
   selectFeatureFacilitiesServiceV2,
   selectFeatureVAOSServiceVAAppointments,
+  selectFeatureCCIterations,
 } from '../../redux/selectors';
 import {
   getTypeOfCare,
@@ -655,11 +656,14 @@ export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
 }
 
 export function openCommunityCareProviderSelectionPage(page, uiSchema, schema) {
-  return {
-    type: FORM_PAGE_COMMUNITY_CARE_PROVIDER_SELECTION_OPENED,
-    page,
-    uiSchema,
-    schema,
+  return (dispatch, getState) => {
+    dispatch({
+      type: FORM_PAGE_COMMUNITY_CARE_PROVIDER_SELECTION_OPENED,
+      page,
+      uiSchema,
+      schema,
+      featureCCIteration: selectFeatureCCIterations(getState()),
+    });
   };
 }
 

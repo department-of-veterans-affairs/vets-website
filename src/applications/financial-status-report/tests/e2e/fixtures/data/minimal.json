@@ -124,9 +124,7 @@
   "availableOptions": {},
   "income": [
     {
-      "veteranOrSpouse": "VETERAN",
-      "compensationAndPension": "3261.1",
-      "education": "50"
+      "veteranOrSpouse": "VETERAN"
     }
   ]
 }

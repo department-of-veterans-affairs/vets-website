@@ -107,6 +107,10 @@ export function getChosenFacilityInfo(state) {
   );
 }
 
+export function selectCommunityCareSupportedSites(state) {
+  return getNewAppointment(state).ccEnabledSystems;
+}
+
 export function getChosenCCSystemById(state) {
   const communityCareSystemId = getFormData(state).communityCareSystemId;
 
@@ -114,7 +118,7 @@ export function getChosenCCSystemById(state) {
     return null;
   }
 
-  return getNewAppointment(state).ccEnabledSystems.find(
+  return selectCommunityCareSupportedSites(state).find(
     facility => facility.id === communityCareSystemId,
   );
 }
