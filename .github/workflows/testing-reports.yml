@@ -1,11 +1,8 @@
 name: Testing Reports
 
 on:
-  workflow_dispatch:
-    inputs:
-      testingComplete:
-        description: 'Testing complete'
-        required: true
+  repository-dispatch:
+    types: ['testing-complete']
 
 jobs:
   testing-reports:
