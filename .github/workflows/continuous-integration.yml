@@ -57,6 +57,18 @@ jobs:
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
+      - name: Get NEXUS username
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_1_NEXUS_USERNAME
+          env_variable_name: VA_VSP_BOT_1_NEXUS_USERNAME
+
+      - name: Get NEXUS token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_1_NEXUS_PASSWORD
+          env_variable_name: VA_VSP_BOT_1_NEXUS_PASSWORD
+
       # Required to change registry in yarn.lock file
       - name: Change registry in yarn.lock
         run: |
@@ -65,7 +77,7 @@ jobs:
 
       - name: Authenticate NEXUS
         run: |
-          npm config set _auth $(echo -n 'va-vsp-bot-1:${{ secrets.NEXUS_SECRET_VA_VSP_BOT_1 }}' | openssl base64)
+          npm config set _auth $(echo -n '${{ env.VA_VSP_BOT_1_NEXUS_USERNAME }}:${{ env.VA_VSP_BOT_1_NEXUS_PASSWORD }}' | openssl base64)
           npm config set cafile ${{ env.NODE_EXTRA_CA_CERTS }}
           npm config set registry ${{ env.NEXUS_REGISTRY }}
           npm config set email va-vsp-bot-1@va.gov
@@ -527,6 +539,18 @@ jobs:
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}-cypress
 
+      - name: Get NEXUS username
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_1_NEXUS_USERNAME
+          env_variable_name: VA_VSP_BOT_1_NEXUS_USERNAME
+
+      - name: Get NEXUS token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_1_NEXUS_PASSWORD
+          env_variable_name: VA_VSP_BOT_1_NEXUS_PASSWORD
+
       # Required to change registry in yarn.lock file
       - name: Change registry in yarn.lock
         run: |
@@ -535,7 +559,7 @@ jobs:
 
       - name: Authenticate NEXUS
         run: |
-          npm config set _auth $(echo -n 'va-vsp-bot-1:${{ secrets.NEXUS_SECRET_VA_VSP_BOT_1 }}' | openssl base64)
+          npm config set _auth $(echo -n '${{ env.VA_VSP_BOT_1_NEXUS_USERNAME }}:${{ env.VA_VSP_BOT_1_NEXUS_PASSWORD }}' | openssl base64)
           npm config set cafile ${{ env.NODE_EXTRA_CA_CERTS }}
           npm config set registry ${{ env.NEXUS_REGISTRY }}
           npm config set email va-vsp-bot-1@va.gov
