@@ -46,7 +46,7 @@ export default function SelectedProviderSection({ data, vaCityState }) {
         <div>
           <Link
             to={newAppointmentFlow.ccPreferences.url}
-            aria-label="Edit Choose a preferred language"
+            aria-label="Edit provider preference"
           >
             Edit
           </Link>
