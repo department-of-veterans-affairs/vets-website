@@ -6,7 +6,9 @@ import VeteranProgramsAndSupport from '../../../components/profile/VeteranProgra
 
 describe('<VeteranProgramsAndSupport>', () => {
   it('should render', () => {
-    const tree = shallow(<VeteranProgramsAndSupport />);
+    const tree = shallow(
+      <VeteranProgramsAndSupport institution={{}} constants={{}} />,
+    );
     expect(tree.type()).to.not.equal(null);
     tree.unmount();
   });
