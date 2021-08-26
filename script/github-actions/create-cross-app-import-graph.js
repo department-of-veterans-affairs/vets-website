@@ -65,6 +65,11 @@ function getSrcApplicationDiffs(diff) {
 }
 
 function getImportPath(filePathAsArray, importRef) {
+  // eslint-disable-next-line no-console
+  console.log('**** in getImportPath()');
+
+  // eslint-disable-next-line no-console
+  console.log('importRef: ', importRef);
   if (importRef.startsWith('applications/')) {
     return `src/${importRef}`;
   } else if (importRef.startsWith('../')) {
