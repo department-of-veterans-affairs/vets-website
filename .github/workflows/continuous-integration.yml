@@ -612,19 +612,6 @@ jobs:
           BUILDTYPE: vagovprod
           NODE_ENV: production
 
-  testing-complete:
-    name: Testing complete
-    runs-on: ubuntu-latest
-    needs: [cypress-tests-prep, cypress-tests]
-    steps:
-      - name: Declare testing complete
-        uses: peter-evans/repository-dispatch@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          repository: department-of-veterans-affairs/vets-website
-          event-type: tested
-          client-payload: '{"success": false}'
-
   # testing-reports:
   #   name: Testing Reports
   #   runs-on: ubuntu-latest
