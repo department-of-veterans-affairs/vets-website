@@ -397,8 +397,61 @@ jobs:
         if: ${{ always() }}
         run: node ./script/github-actions/stylelint-annotation-format.js
   
+  check-app-dependency-graph:
+    name: Check App Dependency Graph
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            .cache/yarn
+            node_modules
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          max_attempts: 3
+          timeout_minutes: 5
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
+
+      - name: Run git diff and set DIFF_RESULTS
+        id: git-diff
+        run: echo ::set-output name=DIFF_RESULTS::$(git diff ${{ github.event.before }} ${{ github.event.after }} --line-prefix=new_line --unified=0)
+
+      - name: Set IS_GRAPH_UPDATED and update the cross-app import graph if necessary
+        run: node script/github-actions/create-cross-app-import-graph.js
+        env:
+          DIFF_RESULTS: ${{ steps.git-diff.outputs.DIFF_RESULTS }}
+
+      - name: Push the updated cross-app import graph
+        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: update graph
+
   cypress-tests-prep:
     name: Prep for Cypress Tests
+    needs: check-app-dependency-graph
     runs-on: ubuntu-latest
     outputs:
       num_containers: ${{ steps.containers.outputs.num }}
@@ -439,22 +492,6 @@ jobs:
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
-      # make sure this works on new branches, first commit
-      - name: Run git diff and set DIFF_RESULTS
-        id: git-diff
-        run: echo ::set-output name=DIFF_RESULTS::$(git diff ${{ github.event.before }} ${{ github.event.after }} --line-prefix=new_line --unified=0)
-
-      - name: Set IS_GRAPH_UPDATED and update the cross-app import graph if necessary
-        run: node script/github-actions/create-cross-app-import-graph.js
-        env:
-          DIFF_RESULTS: ${{ steps.git-diff.outputs.DIFF_RESULTS }}
-
-      - name: Push the updated cross-app import graph
-        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: update graph
-
       - name: Set IS_MASTER_BUILD
         run: |
           if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
@@ -465,9 +502,7 @@ jobs:
 
       - name: List changed files
         id: changed-files
-        # run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...) -- was sometimes getting "fatal: origin/master...HEAD: no merge base" errors
-        # run: echo ::set-output name=all_changed_files::$(git diff --name-only master...HEAD) -- doesn't work
-        run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...HEAD)
+        run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...) -- was sometimes getting "fatal: origin/master...HEAD: no merge base" errors
 
       - name: Set NUM_CONTAINERS, CI_NODE_INDEX, TESTS variables
         run: node script/github-actions/select-cypress-tests.js
