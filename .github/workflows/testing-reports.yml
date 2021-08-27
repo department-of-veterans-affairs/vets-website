@@ -2,7 +2,7 @@ name: Testing Reports
 
 on:
   push:
-  workflow_dispatch:
+  workflow_run:
     workflows: ['Continuous Integration']
     branches: [poc/split-testing-reports-workflow]
     types:
