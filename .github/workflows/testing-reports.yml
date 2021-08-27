@@ -2,7 +2,7 @@ name: Testing Reports
 
 on:
   workflow_run:
-    workflows: ['continuous-integration']
+    workflows: ['Continuous Integration']
     types:
       - completed
 
