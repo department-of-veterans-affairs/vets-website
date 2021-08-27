@@ -1,7 +1,6 @@
 name: Testing Reports
 
 on:
-  push:
   workflow_run:
     workflows: ['Continuous Integration']
     branches: [poc/split-testing-reports-workflow]
