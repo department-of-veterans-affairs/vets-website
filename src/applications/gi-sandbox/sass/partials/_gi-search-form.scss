@@ -30,7 +30,16 @@
   .search-tab {
     font-size: 25px;
     border-bottom: 2px solid $color-gray-light;
-    text-decoration: none;
+    border-radius: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+
+
+    &:focus-visible {
+      outline-style: auto;
+      outline: 2px solid $color-gold;
+    }
+
   }
 
   .name-search-tab {

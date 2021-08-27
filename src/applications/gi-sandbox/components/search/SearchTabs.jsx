@@ -27,6 +27,7 @@ export default function SearchTabs({ onChange, search }) {
     const activeTab = tabName === tab;
     const tabClasses = classNames(
       {
+        'aria-selected': activeTab,
         'active-search-tab': activeTab,
         'vads-u-color--gray-dark': activeTab,
         'vads-u-background-color--white': activeTab,
@@ -45,20 +46,19 @@ export default function SearchTabs({ onChange, search }) {
     );
 
     return (
-      <a
+      <button
         className={tabClasses}
-        role="button"
-        href="#"
+        role="tab"
         onClick={() => onChange(tabName)}
       >
-        <div>{label}</div>
-      </a>
+        {label}
+      </button>
     );
   };
 
   return (
     <div className="search-form">
-      <div className="vads-u-display--flex">
+      <div role="tablist" className="vads-u-display--flex">
         {getTab(TABS.name, 'Search by name')}
         {getTab(TABS.location, 'Search by location')}
       </div>
