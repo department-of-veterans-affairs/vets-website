@@ -12,6 +12,7 @@ import fullSchema from '../22-1990-schema.json';
 // imported above would import and use these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import GetFormHelp from '../components/GetFormHelp';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
@@ -31,6 +32,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import toursOfDutyUI from '../definitions/toursOfDuty';
 import ReviewBoxField from '../components/ReviewBoxField';
 import FullNameViewField from '../components/FullNameViewField';
+import FullNameReviewField from '../components/FullNameReviewField';
 import DateViewField from '../components/DateViewField';
 import CustomReviewDOBField from '../components/CustomReviewDOBField';
 import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView';
@@ -186,11 +188,13 @@ const formConfig = {
   },
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  preSubmitInfo,
   chapters: {
     applicantInformationChapter: {
       title: 'Applicant information',
       pages: {
         [formPages.applicantInformation]: {
+          title: 'Applicant information',
           path: 'applicant/information',
           subTitle: 'Review your personal information',
           instructions:
@@ -236,6 +240,7 @@ const formConfig = {
               },
               'ui:title': 'Your full name',
               'ui:field': ReviewBoxField,
+              'ui:objectViewField': FullNameReviewField,
               'ui:options': {
                 hideLabelText: true,
                 showFieldLabel: false,
@@ -338,9 +343,10 @@ const formConfig = {
             [formFields.toursOfDuty]: {
               ...toursOfDutyUI,
               'ui:field': AccordionField,
+              'ui:title': 'Service history',
               'ui:options': {
                 ...toursOfDutyUI['ui:options'],
-                reviewMode: true,
+                reviewTitle: <></>,
                 setEditState: () => {
                   return true;
                 },
@@ -348,6 +354,10 @@ const formConfig = {
                 viewField: ServicePeriodAccordionView,
                 viewComponent: ServicePeriodAccordionView,
                 viewOnlyMode: true,
+              },
+              items: {
+                ...toursOfDutyUI.items,
+                'ui:objectViewField': ServicePeriodAccordionView,
               },
             },
             [formFields.toursOfDutyCorrect]: {
