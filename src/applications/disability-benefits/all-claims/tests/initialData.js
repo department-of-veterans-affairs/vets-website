@@ -42,12 +42,8 @@ export default {
       ratedDisabilityId: '9459392',
       ratingDecisionId: '63655',
       ratingPercentage: 40,
-      specialIssues: [
-        {
-          code: 'TRM',
-          name: 'Personal Trauma PTSD',
-        },
-      ],
+      specialIssues: ['PTSD/1'],
+      disabilityActionType: 'NONE',
     },
     {
       diagnosticCode: 5678,
@@ -57,6 +53,7 @@ export default {
       ratingPercentage: 0,
       ratingDecisionId: '63456',
       specialIssues: [],
+      disabilityActionType: 'NONE',
     },
   ],
   newDisabilities: [

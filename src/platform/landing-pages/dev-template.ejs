@@ -109,11 +109,16 @@
           </a>
         </div>
         <div id="va-nav-controls"></div>
+        <div class="medium-screen:vads-u-display--none usa-grid usa-grid-full">
+          <div class="menu-rule" class="usa-one-whole"></div>
+          <div class="mega-menu" id="mega-menu-mobile"></div>
+          <!-- for the mega-menu, but if you add the ID the css breaks rn -->
+        </div>
         <div id="login-root" class="vet-toolbar"></div>
       </div>
-      <div class="usa-grid usa-grid-full">
-        <div id="menu-rule" class="usa-one-whole"></div>
-        <div id="mega-menu"></div>
+      <div class="vads-u-display--none medium-screen:vads-u-display--block usa-grid usa-grid-full">
+        <div class="menu-rule" class="usa-one-whole"></div>
+        <div class="mega-menu" id="mega-menu-desktop"></div>
         <!-- for the mega-menu, but if you add the ID the css breaks rn -->
       </div>
     </header>
@@ -132,7 +137,7 @@
       <ul id="va-breadcrumbs-list" class="row va-nav-breadcrumbs-list columns" tabindex="-1">
       <% breadcrumbs_override.forEach(({ name, path }, index) => { %>
         <li>
-          <a 
+          <a
             <% if (index === breadcrumbs_override.length - 1) { %>
             aria-current="page"
             <% } %>
@@ -156,7 +161,7 @@
               </script>
               <nav data-template="navigation/facility_sidebar_nav" aria-label="secondary" data-widget-type="side-nav"></nav>
             <% } %>
-            
+
             <div class="usa-width-three-fourths">
               <article class="usa-content">
                 <div data-template="paragraphs/react_widget" data-widget-type="<%= widgetType %>" data-widget-timeout="20">

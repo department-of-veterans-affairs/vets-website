@@ -8,19 +8,31 @@ let gwtTests = 0;
 let regularTests = 0;
 
 function isTest(path) {
-  return path.node.type === 'CallExpression' && path.node.callee.name === 'it';
+  return (
+    path.node.type === 'CallExpression' &&
+    (path.node.callee.name === 'it' ||
+      (path.node.callee.object?.name === 'it' &&
+        path.node.callee.property?.name === 'only'))
+  );
 }
 
 function isBlock(path) {
   return (
-    path.node.type === 'CallExpression' && path.node.callee.name === 'describe'
+    path.node.type === 'CallExpression' &&
+    (path.node.callee.name === 'describe' ||
+      (path.node.callee.object?.name === 'describe' &&
+        path.node.callee.property?.name === 'only'))
   );
 }
 
 function getComments(path) {
-  return path.node.arguments[1].body.body
+  const commentBlocks = path.node.arguments[1].body.body
     .filter(item => item.leadingComments?.length)
-    .map(item => item.leadingComments[0].value.trim())
+    .map(item => item.leadingComments);
+
+  return []
+    .concat(...commentBlocks)
+    .map(item => item.value.trim())
     .filter(
       item =>
         item.startsWith('Given') ||
