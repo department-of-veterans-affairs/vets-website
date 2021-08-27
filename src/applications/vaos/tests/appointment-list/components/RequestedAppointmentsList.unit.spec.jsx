@@ -293,7 +293,9 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
       start: moment()
         .subtract(120, 'days')
         .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
+      end: moment()
+        .add(1, 'days')
+        .format('YYYY-MM-DD'),
       statuses: ['proposed', 'cancelled'],
       requests: [appointment],
     });
@@ -371,7 +373,9 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
       start: moment()
         .subtract(120, 'days')
         .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
+      end: moment()
+        .add(1, 'days')
+        .format('YYYY-MM-DD'),
       statuses: ['proposed', 'cancelled'],
       requests: [ccAppointmentRequest],
     });
