@@ -2,7 +2,7 @@
 
 ## How to Contribute
 
-There are many ways to contribute to this project:
+There are many ways to contribute to this project::
 
 ### Bugs
 
