@@ -1,8 +1,10 @@
 name: Testing Reports
 
 on:
-  repository_dispatch:
-    types: ['tested']
+  workflow_run:
+    workflows: ['continuous-integration']
+    types:
+      - completed
 
 jobs:
   testing-reports:
