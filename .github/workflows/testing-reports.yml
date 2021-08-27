@@ -23,3 +23,21 @@ jobs:
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+      # ------------------------
+      # | Upload BigQuery Data |
+      # ------------------------
+      - name: Checkout Testing Tools Team Dashboard Data repo
+        uses: actions/checkout@v2
+        with:
+          repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          path: testing-tools-team-dashboard-data
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14 # ${{ steps.get-node-version.outputs.NODE_VERSION }}
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline --production=false
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
+        working-directory: testing-tools-team-dashboard-data
