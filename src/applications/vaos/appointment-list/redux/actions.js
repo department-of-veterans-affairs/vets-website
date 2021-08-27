@@ -330,7 +330,7 @@ export function fetchPendingAppointments() {
           .subtract(featureHomepageRefresh ? 120 : 30, 'days')
           .format('YYYY-MM-DD'),
         endDate: moment()
-          .add(1, 'days')
+          .add(featureVAOSServiceRequests ? 1 : 0, 'days')
           .format('YYYY-MM-DD'),
         useV2: featureVAOSServiceRequests,
       });
