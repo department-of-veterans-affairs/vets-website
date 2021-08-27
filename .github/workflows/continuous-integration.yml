@@ -443,10 +443,6 @@ jobs:
         env:
           DIFF_RESULTS: ${{ steps.git-diff.outputs.DIFF_RESULTS }}
 
-      - name: Run git pull just in case
-        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
-        run: git pull --rebase
-
       - name: Push the updated cross-app import graph
         if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
         uses: stefanzweifel/git-auto-commit-action@v4
