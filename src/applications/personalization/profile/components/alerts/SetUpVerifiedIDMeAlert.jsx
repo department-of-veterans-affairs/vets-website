@@ -12,23 +12,24 @@ const SetUpVerifiedIDMeAlert = () => {
   return (
     <AlertBox
       className="vads-u-margin-bottom--2"
-      headline="You’ll need to verify your account to edit direct deposit information online."
+      headline="You’ll need to verify your identity with ID.me to update any of your direct deposit information online"
       level={2}
       content={
         <>
           <p>
-            We require this to help protect your bank account information and
-            prevent fraud.
+            We require this to protect your bank account information and prevent
+            fraud.
           </p>
-          <h3 className="vads-u-font-size--h4">What you can do</h3>
           <p>
-            If you have questions or concerns about your direct deposit, call us
-            at <Telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
+            <strong>Get help updating your direct deposit information.</strong>{' '}
+            You can call us at <Telephone contact={CONTACTS.VA_BENEFITS} />{' '}
+            (TTY:{' '}
             <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
             ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
           </p>
           <p>
-            You can also{' '}
+            <strong>Sign in with a verified ID.me account.</strong>
+            You can{' '}
             <a
               href="https://www.id.me/registration/new"
               target="_blank"
@@ -37,10 +38,11 @@ const SetUpVerifiedIDMeAlert = () => {
                 recordEvent({ event: 'multifactor-link-clicked' });
               }}
             >
-              create a verified account through ID.me
+              create a verified account on ID.me
             </a>
-            , and then use it to log into VA.gov and update your direct deposit
-            information.
+            . Or, if you already have one, please sign out and sign back in
+            using your existing verified ID.me account. Then you’ll be able to
+            update your direct deposit information online.
           </p>
         </>
       }
