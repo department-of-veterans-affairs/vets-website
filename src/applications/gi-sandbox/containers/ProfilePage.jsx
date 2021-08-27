@@ -93,7 +93,7 @@ export function ProfilePage({
     } else {
       content = (
         <InstitutionProfile
-          profile={profile}
+          institution={profile.attributes}
           isOJT={isOJT}
           constants={constants}
           showModal={dispatchShowModal}
