@@ -3,8 +3,10 @@ name: Testing Reports
 on:
   workflow_dispatch:
     workflows: ['Continuous Integration']
+    branches: [poc/split-testing-reports-workflow]
     types:
       - completed
+      - requested
 
 jobs:
   testing-reports:
