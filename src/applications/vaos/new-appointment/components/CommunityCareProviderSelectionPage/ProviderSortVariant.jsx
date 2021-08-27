@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import Select from '@department-of-veterans-affairs/component-library/Select';
-import { FACILITY_SORT_METHODS } from '../../../utils/constants';
+import { FACILITY_SORT_METHODS, FETCH_STATUS } from '../../../utils/constants';
 import { selectProviderSelectionInfo } from '../../redux/selectors';
 import {
   requestProvidersList,
@@ -9,14 +9,19 @@ import {
 } from '../../redux/actions';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import NewTabAnchor from '../../../components/NewTabAnchor';
+import InfoAlert from '../../../components/InfoAlert';
 
-export default function ProviderSortVariant({ currentlyShownProvidersList }) {
+export default function ProviderSortVariant({
+  currentlyShownProvidersList,
+  notLoading,
+}) {
   const dispatch = useDispatch();
   const {
     address,
     ccEnabledSystems,
     communityCareProviderList,
     currentLocation,
+    requestLocationStatus,
     selectedCCFacility,
     sortMethod,
   } = useSelector(selectProviderSelectionInfo, shallowEqual);
@@ -37,7 +42,6 @@ export default function ProviderSortVariant({ currentlyShownProvidersList }) {
       };
     }),
   ];
-  const hasUserAddress = address && !!Object.keys(address).length;
 
   useEffect(() => {
     if (sortMethod === FACILITY_SORT_METHODS.distanceFromFacility) {
@@ -79,18 +83,23 @@ export default function ProviderSortVariant({ currentlyShownProvidersList }) {
       );
     }
   };
+  const hasUserAddress = address && !!Object.keys(address).length;
+  const requestLocationStatusFailed =
+    requestLocationStatus === FETCH_STATUS.failed;
   return (
     <div className="vads-u-margin-bottom--3">
-      <p
-        className="vads-u-margin--0"
-        id="provider-list-status"
-        role="status"
-        aria-live="polite"
-        aria-atomic="true"
-      >
-        Displaying 1 to {currentlyShownProvidersList.length} of{' '}
-        {communityCareProviderList.length} providers
-      </p>
+      {notLoading && (
+        <p
+          className="vads-u-margin--0"
+          id="provider-list-status"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          Displaying 1 to {currentlyShownProvidersList.length} of{' '}
+          {communityCareProviderList.length} providers
+        </p>
+      )}
       <Select
         label="Show providers closest to"
         name="sort"
@@ -105,6 +114,36 @@ export default function ProviderSortVariant({ currentlyShownProvidersList }) {
           address to{' '}
           <NewTabAnchor href="/profile">your VA profile</NewTabAnchor>.
         </p>
+      )}
+      {requestLocationStatusFailed && (
+        <div
+          id="providerSelectionBlockedLocation"
+          className="vads-u-margin-top--3"
+        >
+          <InfoAlert
+            status="warning"
+            headline="Your browser is blocked from finding your current location."
+            className="vads-u-background-color--gold-lightest vads-u-font-size--base"
+            level="3"
+          >
+            <>
+              <p>Make sure your browser’s location feature is turned on.</p>
+
+              <button
+                className="va-button-link"
+                onClick={() =>
+                  dispatch(
+                    updateCCProviderSortMethod(
+                      FACILITY_SORT_METHODS.distanceFromCurrentLocation,
+                    ),
+                  )
+                }
+              >
+                Retry searching based on current location
+              </button>
+            </>
+          </InfoAlert>
+        </div>
       )}
     </div>
   );

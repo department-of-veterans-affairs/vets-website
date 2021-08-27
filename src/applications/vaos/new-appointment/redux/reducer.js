@@ -369,8 +369,7 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED: {
-      let requestLocationStatus = state.requestLocationStatus;
-      requestLocationStatus = FETCH_STATUS.succeeded;
+      const requestLocationStatus = FETCH_STATUS.notStarted;
 
       if (
         action.sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation
@@ -397,6 +396,7 @@ export default function formReducer(state = initialState, action) {
         return {
           ...state,
           ccProviderPageSortMethod: action.sortMethod,
+          requestLocationStatus,
         };
       }
     }

@@ -92,21 +92,23 @@ export default function ProviderList({
       >
         Choose a provider
       </h2>
-      {notLoading &&
-        showCCIterations && (
-          <ProviderSortVariant
-            currentlyShownProvidersList={currentlyShownProvidersList}
-          />
-        )}
-      <ProviderSort
-        address={address}
-        loadingLocations={loadingLocations}
-        notLoading={notLoading}
-        requestLocationStatus={requestLocationStatus}
-        requestStatus={requestStatus}
-        sortByDistanceFromCurrentLocation={sortByDistanceFromCurrentLocation}
-        sortByDistanceFromResidential={sortByDistanceFromResidential}
-      />
+      {showCCIterations && (
+        <ProviderSortVariant
+          currentlyShownProvidersList={currentlyShownProvidersList}
+          notLoading={notLoading}
+        />
+      )}
+      {!showCCIterations && (
+        <ProviderSort
+          address={address}
+          loadingLocations={loadingLocations}
+          notLoading={notLoading}
+          requestLocationStatus={requestLocationStatus}
+          requestStatus={requestStatus}
+          sortByDistanceFromCurrentLocation={sortByDistanceFromCurrentLocation}
+          sortByDistanceFromResidential={sortByDistanceFromResidential}
+        />
+      )}
       {loadingProviders && (
         <div className="vads-u-padding-bottom--2">
           <LoadingIndicator message="Loading the list of providers." />

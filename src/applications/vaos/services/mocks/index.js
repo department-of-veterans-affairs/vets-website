@@ -367,7 +367,7 @@ const responses = {
         { name: 'vaGlobalDowntimeNotification', value: false },
         { name: 'vaOnlineSchedulingVAOSServiceRequests', value: true },
         { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: true },
-        { name: 'vaOnlineSchedulingFacilitiesServiceV2', value: false },
+        { name: 'vaOnlineSchedulingFacilitiesServiceV2', value: true },
         { name: 'vaOnlineSchedulingVAOSServiceCCAppointments', value: true },
         { name: 'vaOnlineSchedulingVariantTesting', value: false },
         { name: 'vaOnlineSchedulingCCIterations', value: true },
