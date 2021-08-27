@@ -47,10 +47,12 @@ export function getAppointmentLength(state) {
 }
 
 export function getFormPageInfo(state, pageKey) {
+  const showCCIterations = selectFeatureCCIterations(state);
   return {
     schema: getNewAppointment(state).pages[pageKey],
     data: getFormData(state),
     pageChangeInProgress: getNewAppointment(state).pageChangeInProgress,
+    showCCIterations,
   };
 }
 
