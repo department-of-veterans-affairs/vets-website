@@ -43,7 +43,7 @@ describe('VA Medical Records', () => {
     form.unmount();
   });
 
-  it.skip('should not submit without all required info', () => {
+  it('should not submit without all required info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
