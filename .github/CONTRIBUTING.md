@@ -2,7 +2,7 @@
 
 ## How to Contribute
 
-There are many ways to contribute to VA.gov projects:
+There are many ways to contribute to this project:
 
 ### Bugs
 
