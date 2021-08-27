@@ -54,6 +54,8 @@
       width: auto;
       text-align: center;
       vertical-align: middle;
+      background-color: transparent;
+      margin-top: -5px;
     }
 
     .header-label::after {
@@ -63,6 +65,7 @@
       vertical-align: middle;
       padding-left: 0.5em;
       margin-top: -4px;
+      background-color: transparent;
     }
 
     .header-label.open::after {

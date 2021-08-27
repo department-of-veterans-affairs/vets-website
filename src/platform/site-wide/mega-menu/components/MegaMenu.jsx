@@ -24,12 +24,14 @@ export default class MegaMenu extends React.Component {
    * Remove event listener
    */
   componentWillUnmount() {
+    this.props.updateCurrentSection('');
+    this.props.toggleDisplayHidden(true);
     this.mobileMediaQuery.removeListener(this.resetDefaultState);
     document.body.removeEventListener('click', this.handleDocumentClick, false);
   }
 
   getSubmenu(item, currentSection) {
-    if (this.mobileMediaQuery.matches) {
+    if (this.mobileMediaQuery?.matches) {
       const menuSections = [
         item.menuSections.mainColumn,
         item.menuSections.columnOne,
@@ -83,7 +85,7 @@ export default class MegaMenu extends React.Component {
   }
 
   defaultSection(sections) {
-    if (this.mobileMediaQuery.matches) {
+    if (this.mobileMediaQuery?.matches) {
       return '';
     }
 
@@ -97,7 +99,7 @@ export default class MegaMenu extends React.Component {
   };
 
   resetDefaultState = () => {
-    if (this.mobileMediaQuery.matches) {
+    if (this.mobileMediaQuery?.matches) {
       this.props.toggleDisplayHidden(true);
     } else {
       this.props.toggleDisplayHidden(false);
@@ -117,7 +119,7 @@ export default class MegaMenu extends React.Component {
   updateCurrentSection(title) {
     let sectionTitle = title;
 
-    if (this.mobileMediaQuery.matches) {
+    if (this.mobileMediaQuery?.matches) {
       sectionTitle = this.props.currentSection === title ? '' : title;
     }
 
@@ -143,8 +145,8 @@ export default class MegaMenu extends React.Component {
           }}
         >
           <div id="vetnav" role="navigation">
-            <ul id="vetnav-menu">
-              <li>
+            <ul id="vetnav-menu" role="menubar">
+              <li role="menuitem">
                 <a
                   className="vetnav-level1"
                   data-e2e-id="mobile-home-nav-link"
@@ -159,6 +161,8 @@ export default class MegaMenu extends React.Component {
                   className={`${item.className || ''} ${
                     item.currentPage ? 'current-page' : ''
                   }`}
+                  role="menuitem"
+                  aria-haspopup={!!item.menuSections}
                 >
                   {item.menuSections ? (
                     <button
@@ -188,7 +192,7 @@ export default class MegaMenu extends React.Component {
                   >
                     {item.title === currentDropdown &&
                       item.menuSections && (
-                        <ul aria-label={item.title}>
+                        <ul aria-label={item.title} role="menu">
                           {Array.isArray(item.menuSections)
                             ? item.menuSections.map((section, j) => (
                                 <MenuSection
