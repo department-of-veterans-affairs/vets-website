@@ -26,5 +26,5 @@
     }
   },
   "remoteUser": "node",
-  "postCreateCommand": "yarn install --prefer-offline"
+  "postCreateCommand": "bash script/codespaces/setup-codespaces.sh"
 }
