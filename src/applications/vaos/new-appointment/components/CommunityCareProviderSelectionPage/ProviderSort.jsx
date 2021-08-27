@@ -12,7 +12,6 @@ import ResidentialAddress from '../../../components/ResidentialAddress';
 
 export default function ProviderSort({
   loadingLocations,
-  notLoading,
   requestLocationStatus,
   sortByDistanceFromResidential,
   sortByDistanceFromCurrentLocation,
@@ -22,7 +21,6 @@ export default function ProviderSort({
     address,
     communityCareProviderList,
     currentLocation,
-    selectedCCFacility,
     sortMethod,
   } = useSelector(selectProviderSelectionInfo, shallowEqual);
 
@@ -38,7 +36,7 @@ export default function ProviderSort({
         scrollAndFocus('#providerSelectionHeader');
       }
     },
-    [selectedCCFacility, sortMethod],
+    [sortMethod],
   );
 
   const showSortByDistanceFromResidential =
@@ -111,26 +109,25 @@ export default function ProviderSort({
           )}
         </>
       )}
-      {sortByDistanceFromCurrentLocation &&
-        notLoading && (
-          <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
-            You can choose a provider based on your current location. Or you can{' '}
-            <button
-              type="button"
-              className="va-button-link"
-              onClick={() => {
-                dispatch(
-                  updateCCProviderSortMethod(
-                    FACILITY_SORT_METHODS.distanceFromResidential,
-                  ),
-                );
-              }}
-            >
-              use your address on file
-            </button>
-            .
-          </p>
-        )}
+      {sortByDistanceFromCurrentLocation && (
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+          You can choose a provider based on your current location. Or you can{' '}
+          <button
+            type="button"
+            className="va-button-link"
+            onClick={() => {
+              dispatch(
+                updateCCProviderSortMethod(
+                  FACILITY_SORT_METHODS.distanceFromResidential,
+                ),
+              );
+            }}
+          >
+            use your address on file
+          </button>
+          .
+        </p>
+      )}
     </>
   );
 }
