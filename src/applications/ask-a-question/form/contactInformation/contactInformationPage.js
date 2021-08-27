@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-// import { confirmationEmailUI } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 import fullNameUI from './fullName/fullName';
 
 import fullSchema from '../0873-schema.json';
@@ -11,7 +10,6 @@ import {
   phoneNumberError,
   phoneTitle,
   preferredContactMethodTitle,
-  // verifyEmailAddressError,
 } from '../../constants/labels';
 
 const { email, phone } = fullSchema.definitions;
@@ -38,14 +36,6 @@ const contactInformationPage = {
         required: emailAddressError,
       },
     }),
-    // [formFields.verifyEmail]: _.merge(
-    //   confirmationEmailUI('', formFields.email),
-    //   {
-    //     'ui:errorMessages': {
-    //       required: verifyEmailAddressError,
-    //     },
-    //   },
-    // ),
     [formFields.phone]: _.merge(phoneUI(phoneTitle), {
       'ui:required': (formData, _index) =>
         formData.preferredContactMethod === 'phone',
