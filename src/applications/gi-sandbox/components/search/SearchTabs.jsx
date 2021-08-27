@@ -45,7 +45,17 @@ export default function SearchTabs({ onChange, search }) {
     );
 
     return (
-      <div className={tabClasses} onClick={() => onChange(tabName)}>
+      <div
+        className={tabClasses}
+        onKeyDown={e => {
+          if (e.key === 'Enter') {
+            onChange(tabName);
+          }
+        }}
+        onClick={() => onChange(tabName)}
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+        tabIndex={0}
+      >
         {label}
       </div>
     );
