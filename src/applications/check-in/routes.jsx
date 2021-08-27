@@ -3,10 +3,12 @@ import { Route, Switch } from 'react-router-dom';
 
 import CheckIn from './pages/CheckIn';
 import Confirmation from './pages/Confirmation';
-import Failed from './pages/Failed';
-import UpdateInformationQuestion from './pages/UpdateInformationQuestion';
-import Landing from './pages/Landing';
 import Error from './pages/Error';
+import Failed from './pages/Failed';
+import Landing from './pages/Landing';
+import UpdateInformationQuestion from './pages/UpdateInformationQuestion';
+import ValidateVeteran from './pages/ValidateVeteran';
+
 import withFeatureFlip from './containers/withFeatureFlip';
 import withRequiredData from './containers/withRequiredData';
 
@@ -17,8 +19,12 @@ const createRoutesWithStore = () => {
     <Switch>
       <Route path="/" component={withFeatureFlip(Landing)} />
       <Route
+        path={`/${URLS.VALIDATION_NEEDED}`}
+        component={withFeatureFlip(ValidateVeteran)}
+      />
+      <Route
         path={`/${URLS.UPDATE_INSURANCE}`}
-        component={withFeatureFlip(withRequiredData(UpdateInformationQuestion))}
+        component={withFeatureFlip(UpdateInformationQuestion)}
       />
       <Route
         path={`/${URLS.DETAILS}`}
