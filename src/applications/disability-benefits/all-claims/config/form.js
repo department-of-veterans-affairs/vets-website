@@ -194,6 +194,12 @@ const formConfig = {
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
         },
+        contactInformation: {
+          title: 'Veteran contact information',
+          path: 'contact-information',
+          uiSchema: contactInformation.uiSchema,
+          schema: contactInformation.schema,
+        },
         alternateNames: {
           title: 'Service under another name',
           path: 'alternate-names',
@@ -657,12 +663,6 @@ const formConfig = {
     additionalInformation: {
       title: 'Additional information',
       pages: {
-        contactInformation: {
-          title: 'Veteran contact information',
-          path: 'contact-information',
-          uiSchema: contactInformation.uiSchema,
-          schema: contactInformation.schema,
-        },
         paymentInformation: {
           title: 'Payment information',
           path: 'payment-information',

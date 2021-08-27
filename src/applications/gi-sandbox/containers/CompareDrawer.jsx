@@ -189,7 +189,7 @@ export function CompareDrawer({
             className="compare-header vads-l-grid-container"
             onClick={expandOnClick}
           >
-            <div className={headerLabelClasses}>{headerLabel}</div>
+            <button className={headerLabelClasses}>{headerLabel}</button>
           </div>
 
           <div className="compare-body vads-l-grid-container">
