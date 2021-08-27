@@ -14,12 +14,11 @@ fi
 # Build vets-website
 set -e
 yarn install --production=false --prefer-offline
-yarn build -- --buildtype=localhost --api=https://department-of-veterans-affairs-vets-website-7vrv7553xrg9-3002.githubpreview.dev/ --host=department-of-veterans-affairs-vets-website-7vrv7553xrg9-3002.githubpreview.dev/ --port=3002
+yarn build -- --buildtype=localhost --api=https://api.va.gov --host=department-of-veterans-affairs-vets-website-7vrv7553xrg9-3002.githubpreview.dev/ --port=3002
 
 # Build content-build and serve site
 cd ../content-build
 yarn install --production=false
 yarn fetch-drupal-cache
-yarn build -- --buildtype=localhost --api=https://department-of-veterans-affairs-vets-website-7vrv7553xrg9-3002.githubpreview.dev/ --host=department-of-veterans-affairs-vets-website-7vrv7553xrg9-3002.githubpreview.dev/ --port=3002 --apps-directory-name=vets-website
+yarn build -- --buildtype=localhost --api=https://api.va.gov --host=department-of-veterans-affairs-vets-website-7vrv7553xrg9-3002.githubpreview.dev/ --port=3002 --apps-directory-name=vets-website
 yarn heroku-serve -- build/localhost -p 3002
-
