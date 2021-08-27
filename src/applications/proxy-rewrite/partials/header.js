@@ -82,13 +82,14 @@ export default `
       </a>
     </div>
     <div id="va-nav-controls"></div>
+    <div class="usa-grid usa-grid-full">
+      <div class="menu-rule usa-one-whole"></div>
+      <div class="mega-menu" id="mega-menu-mobile"></div>
+    </div>
     <div id="login-root" class="vet-toolbar"></div>
   </div>
-  <!-- HACK: Using padding-h-none class to remove horizontal padding introduced
-  by usa-grid. Should be able to use usa-grid-full to remove padding, but that
-  class now hard-codes the width. -->
-  <div class="usa-grid padding-h-none">
-    <div id="menu-rule" class="usa-one-whole"></div>
+  <div class="usa-grid usa-grid-full">
+    <div class="menu-rule usa-one-whole"></div>
     <div id="mega-menu"></div>
   </div>
 </header>

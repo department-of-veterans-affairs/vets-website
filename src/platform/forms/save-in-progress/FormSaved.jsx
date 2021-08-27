@@ -52,7 +52,7 @@ class FormSaved extends React.Component {
     const { success } = this.props.route.formConfig.savedFormMessages || {};
     const expirationDate = moment
       .unix(this.props.expirationDate)
-      .format('M/D/YYYY');
+      .format('MMMM D, YYYY');
     const appType =
       this.props.route.formConfig?.customText?.appType || APP_TYPE_DEFAULT;
 
@@ -67,7 +67,7 @@ class FormSaved extends React.Component {
                 <div className="saved-form-metadata-container">
                   <span className="saved-form-metadata">
                     Last saved on{' '}
-                    {moment(lastSavedDate).format('M/D/YYYY [at] h:mm a')}
+                    {moment(lastSavedDate).format('MMMM D, YYYY [at] h:mm a')}
                   </span>
                   {expirationMessage || (
                     <p className="expires-container">

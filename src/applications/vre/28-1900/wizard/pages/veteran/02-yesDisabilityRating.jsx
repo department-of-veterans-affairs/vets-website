@@ -21,8 +21,7 @@ const YesDisabilityRating = props => {
     >
       <p className="vads-u-margin--0" id="orientation-complete-notification">
         <span className="vads-u-display--block vads-u-margin-y--1">
-          Based on your answers, you probably qualify to apply for VR&E
-          benefits.
+          Based on your answers, you can apply for VR&E benefits.
         </span>
         <strong>Before you apply,</strong> please go through the VR&E
         orientation below. If you already know you want to apply for VR&E, you

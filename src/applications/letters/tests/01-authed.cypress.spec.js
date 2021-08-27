@@ -23,7 +23,7 @@ describe('Authed Letter Test', () => {
     cy.login(mockUserData);
     cy.visit('/records/download-va-letters/letters');
 
-    cy.get('body', { timeout: Timeouts.normal }).should('be.visible');
+    cy.get('body').should('be.visible');
     cy.injectAxeThenAxeCheck();
     cy.title().should(
       'contain',
@@ -36,18 +36,14 @@ describe('Authed Letter Test', () => {
     cy.get('.view-letters-button')
       .click()
       .then(() => {
-        cy.get('.usa-accordion-bordered', { timeout: Timeouts.normal }).should(
-          'exist',
-        );
+        cy.get('.usa-accordion-bordered').should('exist');
         cy.get('.usa-accordion-bordered').should('have.length', 5);
       });
 
     cy.get(`.usa-accordion-bordered:nth-of-type(1)`)
       .click()
       .then(() => {
-        cy.get('.va-button-primary', { timeout: Timeouts.normal }).should(
-          'exist',
-        );
+        cy.get('.va-button-primary').should('exist');
       });
 
     cy.get(`.usa-accordion-bordered:nth-of-type(2)`).click();
@@ -68,47 +64,41 @@ describe('Authed Letter Test', () => {
       .then(() => {
         cy.get('.view-letters-button').click();
         cy.url().should('contain', '/letters/letter-list');
-        cy.get('.step-content', { timeout: Timeouts.normal });
+        cy.get('.step-content');
         cy.get('.step-content div.form-review-panel:nth-of-type(4) button')
           .click() // open the bsl accordion
           .then(() => {
-            cy.get('#militaryService', { timeout: Timeouts.normal });
+            cy.get('#militaryService');
           })
           .should('exist');
       });
 
     // poke all the checkboxes and expect them to all be unselected
-    cy.get('#militaryService', { timeout: Timeouts.normal }).should('exist');
-    cy.get('#militaryService', { timeout: Timeouts.normal }).should(
-      'be.checked',
-    );
+    cy.get('#militaryService').should('exist');
+    cy.get('#militaryService').should('be.checked');
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(200);
-    cy.get('#militaryService', { timeout: Timeouts.normal }).click({
+    cy.get('#militaryService').click({
       force: true,
     });
-    cy.get('#militaryService', { timeout: Timeouts.normal }).should(
-      'not.be.checked',
-    );
+    cy.get('#militaryService').should('not.be.checked');
     cy.get('#benefitInfoTable input[type="checkbox"]').then(checkboxes => {
       cy.wrap(Array.from(checkboxes).map(checkbox => checkbox.id)).each(id => {
-        cy.get(`#${id}`, { timeout: Timeouts.normal }).should('exist');
-        cy.get(`#${id}`, { timeout: Timeouts.normal }).should('be.checked');
+        cy.get(`#${id}`).should('exist');
+        cy.get(`#${id}`).should('be.checked');
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(200);
-        cy.get(`#${id}`, { timeout: Timeouts.normal }).click('center');
+        cy.get(`#${id}`).click('center');
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(200);
-        cy.get(`#${id}`, { timeout: Timeouts.normal }).should('not.be.checked');
+        cy.get(`#${id}`).should('not.be.checked');
       });
     });
     // collapse the bsl accordion
     cy.get(
       '.step-content div.form-review-panel:nth-of-type(4) .usa-accordion-button',
     ).click();
-    cy.get('#militaryService', { timeout: Timeouts.normal }).should(
-      'not.exist',
-    );
+    cy.get('#militaryService').should('not.exist');
 
     // poke the back button
     cy.get('.step-content p:nth-of-type(4) a').click();

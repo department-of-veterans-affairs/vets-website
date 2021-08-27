@@ -1,7 +1,9 @@
 // Node modules.
 import React, { Component } from 'react';
+import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 // Relative imports.
 import MY_VA_LINK from '../constants/MY_VA_LINK';
 import MegaMenu from '../components/MegaMenu';
@@ -62,6 +64,7 @@ export class Main extends Component {
     ).isRequired,
     display: PropTypes.object,
     loggedIn: PropTypes.bool.isRequired,
+    isMegaMenuMobileV2Enabled: PropTypes.bool,
   };
 
   toggleDropDown = currentDropdown => {
@@ -114,6 +117,18 @@ export class Main extends Component {
       linkClicked: this.linkClicked,
       columnThreeLinkClicked: this.columnThreeLinkClicked,
     };
+
+    this.mobileMediaQuery = window.matchMedia('(max-width: 767px)');
+
+    if (
+      this.mobileMediaQuery.matches &&
+      document.getElementById('mega-menu-mobile')
+    ) {
+      return createPortal(
+        <MegaMenu {...childProps} />,
+        document.getElementById('mega-menu-mobile'),
+      );
+    }
 
     return <MegaMenu {...childProps} />;
   }

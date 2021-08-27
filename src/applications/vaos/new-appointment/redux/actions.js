@@ -15,6 +15,7 @@ import {
   selectRegisteredCernerFacilityIds,
   selectFeatureFacilitiesServiceV2,
   selectFeatureVAOSServiceVAAppointments,
+  selectFeatureCCIterations,
 } from '../../redux/selectors';
 import {
   getTypeOfCare,
@@ -597,10 +598,12 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
           endDate: endDateString,
           useV2: featureVAOSServiceVAAppointments,
         });
-        const now = moment();
+        const tomorrow = moment()
+          .add(1, 'day')
+          .startOf('day');
 
         mappedSlots = fetchedSlots.filter(slot =>
-          moment(slot.start).isAfter(now),
+          moment(slot.start).isAfter(tomorrow),
         );
 
         // Keep track of which months we've fetched already so we don't
@@ -649,11 +652,14 @@ export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
 }
 
 export function openCommunityCareProviderSelectionPage(page, uiSchema, schema) {
-  return {
-    type: FORM_PAGE_COMMUNITY_CARE_PROVIDER_SELECTION_OPENED,
-    page,
-    uiSchema,
-    schema,
+  return (dispatch, getState) => {
+    dispatch({
+      type: FORM_PAGE_COMMUNITY_CARE_PROVIDER_SELECTION_OPENED,
+      page,
+      uiSchema,
+      schema,
+      featureCCIteration: selectFeatureCCIterations(getState()),
+    });
   };
 }
 

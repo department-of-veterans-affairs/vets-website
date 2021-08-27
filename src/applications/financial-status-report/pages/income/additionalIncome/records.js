@@ -19,7 +19,7 @@ export const uiSchema = {
     </>
   ),
   additionalIncome: {
-    additionalIncomeRecords: {
+    addlIncRecords: {
       'ui:field': ItemLoop,
       'ui:options': {
         viewType: 'table',
@@ -67,7 +67,7 @@ export const schema = {
     additionalIncome: {
       type: 'object',
       properties: {
-        additionalIncomeRecords: {
+        addlIncRecords: {
           type: 'array',
           items: {
             type: 'object',

@@ -83,7 +83,7 @@ describe('<NotificationRadioButtons>', () => {
     );
 
     // assert that legend element was rendered with label value as its text
-    const legendText = wrapper.find('span').text();
+    const legendText = wrapper.find('legend').text();
     expect(legendText).to.eql(labelValue);
     wrapper.unmount();
   });

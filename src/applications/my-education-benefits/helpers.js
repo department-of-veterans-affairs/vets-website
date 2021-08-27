@@ -1,4 +1,5 @@
 import React from 'react';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 export const directDepositWarning = (
   <div className="pension-dd-warning">
@@ -19,4 +20,47 @@ export const directDepositWarning = (
     <a href="tel:8882242950">1-888-224-2950</a>. They will address any questions
     or concerns you may have and encourage your participation in EFT.
   </div>
+);
+
+export const activeDutyLabel = (
+  <>
+    Montgomery GI Bill Active Duty (Chapter 30)
+    <AdditionalInfo triggerText="Learn more">
+      Our records indicate you may be eligible for this benefit because you
+      served at least two years on active duty and were honorably discharged.
+      <a
+        href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-active-duty/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {' '}
+        Learn more about the Montgomery GI Bill Active Duty
+      </a>
+    </AdditionalInfo>
+  </>
+);
+
+export const selectedReserveLabel = (
+  <>
+    Montgomery GI Bill Selected Reserve (Chapter 1606)
+    <AdditionalInfo triggerText="Learn more">
+      Our records indicate you may be eligible for this benefit because you
+      agreed to serve six years in the Selected Reserve.
+      <a
+        href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-selected-reserve/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {' '}
+        Learn more about the Montgomery GI Bill Selected Reserve
+      </a>
+    </AdditionalInfo>
+  </>
+);
+
+export const unsureDescription = (
+  <>
+    <strong>Note:</strong> After you submit this applicaiton, a VA
+    representative will reach out to help via your preferred contact method.
+  </>
 );

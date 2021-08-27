@@ -50,6 +50,7 @@ import {
   START_TEXT,
   FORM_STATUS_BDD,
   PDF_SIZE_FEATURE,
+  CHAR_LIMITS,
 } from './constants';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
@@ -201,27 +202,6 @@ export const title10DatesRequired = formData =>
     formData,
     false,
   );
-
-export const isInFuture = (errors, fieldData) => {
-  const enteredDate = new Date(fieldData);
-  if (enteredDate < Date.now()) {
-    errors.addError('Expected separation date must be in the future');
-  }
-};
-
-export const title10BeforeRad = (errors, pageData) => {
-  const { anticipatedSeparationDate, title10ActivationDate } =
-    pageData?.reservesNationalGuardService?.title10Activation || {};
-
-  const rad = moment(anticipatedSeparationDate);
-  const activation = moment(title10ActivationDate);
-
-  if (rad.isValid() && activation.isValid() && rad.isBefore(activation)) {
-    errors.reservesNationalGuardService.title10Activation.anticipatedSeparationDate.addError(
-      'Please enter an expected separation date that is after your activation date',
-    );
-  }
-};
 
 const capitalizeWord = word => {
   const capFirstLetter = word[0].toUpperCase();
@@ -1026,13 +1006,42 @@ export const wrapWithBreadcrumb = (title, component) => (
   </>
 );
 
+const today = moment().endOf('day');
 export const isExpired = date => {
   if (!date) {
     return true;
   }
-  const today = moment().endOf('day');
   // expiresAt: Ruby saves as time from Epoch date in seconds (not milliseconds)
-  // we plan to update the expiresAt date to "YYYY-MM-DD" format in the future
-  const expires = moment(isNaN(date) ? date : date * 1000);
+  const expires = moment.unix(date?.expiresAt);
   return !(expires.isValid() && expires.endOf('day').isSameOrAfter(today));
 };
+
+/**
+ * @typedef NewDisability~entry
+ * @property {String} condition - disability name
+ * @property {String} cause - disability type
+ * @property {String} primaryDescription - new disability description
+ * @property {String} causedByDisabilityDescription - name of rated disability
+ * @property {String} worsenedDescription - worsened description
+ * @property {String} worsenedEffects - result
+ * @property {String} vaMistreatmentDescription - VA involved
+ * @property {String} vaMistreatmentLocation - location
+ * @property {String} vaMistreatmentDate - date
+ */
+/**
+ * Truncate long descriptions
+ * @param {NewDisability~entry} data - new disability array entry
+ * @returns new disability array entry with over-the-limit descriptions
+ *  truncated
+ */
+export const truncateDescriptions = data =>
+  Object.keys(data).reduce(
+    (entry, key) => ({
+      ...entry,
+      [key]:
+        key in CHAR_LIMITS
+          ? data[key].substring(0, CHAR_LIMITS[key])
+          : data[key],
+    }),
+    {},
+  );

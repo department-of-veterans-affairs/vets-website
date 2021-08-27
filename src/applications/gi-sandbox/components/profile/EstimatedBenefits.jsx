@@ -5,7 +5,6 @@ import _ from 'lodash';
 import LearnMoreLabel from '../LearnMoreLabel';
 
 export default function EstimatedBenefits({
-  profile,
   outputs,
   calculator,
   isOJT,
@@ -224,9 +223,7 @@ export default function EstimatedBenefits({
               id={'book-stipend'}
               value={outputs.bookStipend.value}
               visible={outputs.bookStipend.visible}
-              screenReaderSpan={
-                profile.attributes.type === 'ojt' ? month : year
-              }
+              screenReaderSpan={year}
               bold
             />
             <CalculatorResultRow

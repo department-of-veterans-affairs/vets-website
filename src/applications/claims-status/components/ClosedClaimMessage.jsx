@@ -80,7 +80,7 @@ export default function ClosedClaimMessage({ claims, onClose }) {
       >
         <i
           className="fas fa-times-circle va-alert-close-icon"
-          aria-label="Close icon"
+          aria-hidden="true"
         />
       </button>
       <div className="usa-alert-body">

@@ -13,14 +13,14 @@ import { selectProfile } from '~/platform/user/selectors';
 
 import { readableList } from '../utils/helpers';
 
-export const ContactInfoDescription = ({ formContext, profile }) => {
+export const ContactInfoDescription = ({ formContext, profile, homeless }) => {
   const [hadError, setHadError] = useState(false);
 
   /* use vapContactInfo because it comes directly from the profile. We're using
    * VAP components to render the information along with an edit button. Editing
    * and updating will refresh the store user > profile > vapContactInfo. Once
    * that is done, the FormApp outer wrapper _should_ automatically update the
-   * formData.veteran for email, phone & address - the validation functio then
+   * formData.veteran for email, phone & address - the validation function then
    * checks for these values and prevents or allows advancement in the form -
    * this is convoluted but it's the only way to block the form system continue
    * button to prevent continuing on in the form when we're missing essential
@@ -31,10 +31,13 @@ export const ContactInfoDescription = ({ formContext, profile }) => {
     profile?.vapContactInfo || {};
   const { submitted } = formContext || {};
 
+  // Don't require an address if the Veteran is homeless
+  const requireAddress = homeless ? '' : 'address';
+
   const missingInfo = [
     email?.emailAddress ? '' : 'email',
     mobilePhone?.phoneNumber ? '' : 'phone',
-    mailingAddress.addressLine1 ? '' : 'address',
+    mailingAddress.addressLine1 ? '' : requireAddress,
   ].filter(Boolean);
 
   const list = readableList(missingInfo);
@@ -160,9 +163,11 @@ ContactInfoDescription.propTypes = {
       }),
     }),
   }).isRequired,
+  homeless: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
+  homeless: state.form.data.homeless,
   profile: selectProfile(state),
 });
 
