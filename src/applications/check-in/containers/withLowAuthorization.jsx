@@ -4,7 +4,9 @@ import { compose } from 'redux';
 import { goToNextPage, URLS } from '../utils/navigation';
 import { getCurrentToken } from '../utils/session';
 
-const withRequiredData = WrappedComponent => props => {
+// Currently does the similar logic as withAppointmentData.
+// This will be updated in a future PR to use the low auth checks when the logic is implemented
+const withLowAuthorization = WrappedComponent => props => {
   const { checkInData, router } = props;
   const { appointment } = checkInData;
 
@@ -38,6 +40,6 @@ const mapStateToProps = state => ({
 
 const composedWrapper = compose(
   connect(mapStateToProps),
-  withRequiredData,
+  withLowAuthorization,
 );
 export default composedWrapper;
