@@ -122,11 +122,22 @@ function lineIncludesRequire(line) {
 function getImportRef(line) {
   let start = null;
   let finish = null;
+  let lookForSingleQuote = true;
+  let lookForDoubleQuote = true;
 
   for (let i = 0; i < line.length; i += 1) {
-    if (!start && line[i] === "'") {
+    if (!start && (line[i] === "'" || line[i] === '"')) {
       start = i + 1;
-    } else if (start && line[i] === "'") {
+      if (line[i] === "'") {
+        lookForDoubleQuote = false;
+      } else {
+        lookForSingleQuote = false;
+      }
+    } else if (
+      start &&
+      ((lookForSingleQuote && line[i] === "'") ||
+        (lookForDoubleQuote && line[i] === '"'))
+    ) {
       finish = i;
       break;
     }
