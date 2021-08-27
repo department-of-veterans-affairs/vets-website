@@ -13,6 +13,39 @@ describe('Provider search', () => {
     cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
   });
 
+  it('renders "Search for available service" prompt', () => {
+    cy.visit('/find-locations');
+
+    cy.get('#street-city-state-zip').type('Austin, TX');
+    cy.get('#facility-type-dropdown').select(
+      'Community providers (in VA’s network)',
+    );
+
+    // Wait for services to be saved to state and input field to not be disabled
+    cy.get('#service-type-ahead-input')
+      .should('not.be.disabled')
+      .focus();
+    cy.get('#search-available-service-prompt').should('exist');
+
+    cy.get('#service-type-ahead-input').type('D');
+    cy.get('#search-available-service-prompt').should('exist');
+
+    cy.get('#service-type-ahead-input').type('De');
+    cy.get('#search-available-service-prompt').should('not.exist');
+  });
+
+  it("renders `We couldn't find that, please try another service ` prompt", () => {
+    cy.visit('/find-locations');
+
+    cy.get('#street-city-state-zip').type('Austin, TX');
+    cy.get('#facility-type-dropdown').select(
+      'Community providers (in VA’s network)',
+    );
+
+    cy.get('#service-type-ahead-input').type('djf');
+    cy.get('#could-not-find-service-prompt').should('exist');
+  });
+
   it('finds community dentists', () => {
     cy.visit('/find-locations');
     cy.injectAxe();

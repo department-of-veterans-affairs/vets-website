@@ -1,0 +1,11 @@
+{
+  "data": {
+    "type": "feature_toggles",
+    "features": [
+      {
+        "name": "mega_menu_mobile_v2",
+        "value": true
+      }
+    ]
+  }
+}

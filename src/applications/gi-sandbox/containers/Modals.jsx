@@ -5,7 +5,7 @@ import * as actions from '../actions';
 import Modal from '../components/Modal';
 import AccreditationModalContent from '../components/content/modals/AccreditationModalContent';
 import AllCampusesModalContent from '../components/content/modals/AllCampusesModalContent';
-import BookStipedInfoModalContent from '../components/content/modals/BookStipedInfoModalContent';
+import BookStipendInfoModalContent from '../components/content/modals/BookStipendInfoModalContent';
 import CalcBeneficiaryLocationQuestionModalContent from '../components/content/modals/CalcBeneficiaryLocationQuestionModalContent';
 import CautionFlagsModalContent from '../components/content/modals/CautionFlagsModalContent';
 import EightKeysModalContent from '../components/content/modals/EightKeysModalContent';
@@ -680,7 +680,7 @@ export function Modals({ hideModal, modals, profile }) {
           <h3>Scholarships (excluding Pell Grants)</h3>
           <p>
             Are you receiving any scholarships or grants that go directly to pay
-            tution/fees this year? If so, add that number here.
+            tuition/fees this year? If so, add that number here.
           </p>
         </Modal>
 
@@ -850,7 +850,7 @@ export function Modals({ hideModal, modals, profile }) {
         onClose={hideModal}
         visible={shouldDisplayModal('bookStipendInfo')}
       >
-        <BookStipedInfoModalContent />
+        <BookStipendInfoModalContent />
       </Modal>
       <Modal onClose={hideModal} visible={shouldDisplayModal('vetTec')}>
         <div>
@@ -898,6 +898,17 @@ export function Modals({ hideModal, modals, profile }) {
             honorable discharge.
           </p>
         </div>
+      </Modal>
+
+      <Modal
+        onClose={hideModal}
+        visible={shouldDisplayModal('comparisonLimit')}
+      >
+        <h3>You’ve reached the comparison limit</h3>
+        <p>
+          You can compare up to 3 schools or employers. You’ll have to remove
+          one of your selections before you can add another to the comparison.
+        </p>
       </Modal>
 
       <Modal

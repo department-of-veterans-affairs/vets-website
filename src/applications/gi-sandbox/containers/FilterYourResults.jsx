@@ -243,8 +243,8 @@ export function FilterYourResults({
         value={specialMission}
         name="specialMission"
         options={addAllOption(options)}
-        alt="Special mission (i.e., Single-gender, Religious affiliation, HBCU)"
-        label="Special mission (i.e., Single-gender, Religious affiliation, HBCU)"
+        alt="Specialized mission (i.e., Single-gender, Religious affiliation, HBCU)"
+        label="Specialized mission (i.e., Single-gender, Religious affiliation, HBCU)"
         visible
       />
     );

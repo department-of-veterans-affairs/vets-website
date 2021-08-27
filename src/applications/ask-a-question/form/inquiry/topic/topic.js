@@ -1,4 +1,7 @@
-import _ from 'lodash/fp';
+import { flatten, orderBy } from 'lodash';
+import clone from 'platform/utilities/data/clone';
+import get from 'platform/utilities/data/get';
+import set from 'platform/utilities/data/set';
 import { createSelector } from 'reselect';
 import { states } from 'vets-json-schema/dist/constants.json';
 
@@ -27,7 +30,7 @@ import {
 } from './medicalCenters';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 
-const topicSchemaCopy = _.clone(fullSchema.properties.topic);
+const topicSchemaCopy = clone(fullSchema.properties.topic);
 topicSchemaCopy.anyOf.pop();
 
 const formFields = {
@@ -69,13 +72,13 @@ export const filterTopicArrayByLabel = (
   if (childSchema.type === 'string') {
     labelList = childSchema.enum;
   } else {
-    labelList = _.flatten(
+    labelList = flatten(
       childSchema.anyOf.map(subSchema => {
         return subSchema.properties.subLevelTwo.enum;
       }),
     );
   }
-  return isLevelThree ? labelList : _.orderBy([], 'asc', labelList);
+  return isLevelThree ? labelList : orderBy(labelList, [], 'asc');
 };
 
 const levelOneTopicLabels = topicSchemaCopy.anyOf.map(topicSchema => {
@@ -134,7 +137,7 @@ export const updateFormData = (oldData, newData) => {
 };
 
 export const levelThreeRequiredTopics = new Set(
-  _.flatten(Object.values(getTopicsWithSubtopicsByCategory(topicSchemaCopy))),
+  flatten(Object.values(getTopicsWithSubtopicsByCategory(topicSchemaCopy))),
 );
 
 export const medicalCenterRequiredTopics = new Set([
@@ -183,10 +186,11 @@ export function schema(currentSchema, topicProperty = 'topic') {
   return {
     type: 'object',
     required: ['levelOne', 'levelTwo'],
-    properties: _.assign(topicSchema.properties, {
+    properties: {
+      ...topicSchema.properties,
       levelOne: {
         type: 'string',
-        enum: _.orderBy([], 'asc', levelOneTopicLabels),
+        enum: orderBy(levelOneTopicLabels, [], 'asc'),
       },
       levelTwo: {
         type: 'string',
@@ -214,15 +218,15 @@ export function schema(currentSchema, topicProperty = 'topic') {
         enum: states.USA.map(state => state.value),
         enumNames: states.USA.map(state => state.label),
       },
-    }),
+    },
   };
 }
 
 export function uiSchema() {
   const topicChangeSelector = createSelector(
-    ({ formData }) => _.get(['topic'].concat('levelOne'), formData),
-    ({ formData }) => _.get(['topic'].concat('levelTwo'), formData),
-    _.get('topicSchema'),
+    ({ formData }) => get(['topic'].concat('levelOne'), formData),
+    ({ formData }) => get(['topic'].concat('levelTwo'), formData),
+    ({ topicSchema }) => topicSchema,
     (levelOne, levelTwo, topicSchema) => {
       const schemaUpdate = {
         properties: topicSchema.properties,
@@ -233,19 +237,19 @@ export function uiSchema() {
         topicSchema.properties.levelTwo.enum !== levelTwoLabelList
       ) {
         // We have a list and it’s different, so we need to make schema updates
-        const withEnum = _.set(
+        const withEnum = set(
           'levelTwo.enum',
           levelTwoLabelList,
           schemaUpdate.properties,
         );
-        schemaUpdate.properties = _.set(
+        schemaUpdate.properties = set(
           'levelTwo.enumNames',
           levelTwoLabelList,
           withEnum,
         );
       } else if (levelTwoLabelList === undefined) {
-        const withEnum = _.set('levelTwo.enum', [], schemaUpdate.properties);
-        schemaUpdate.properties = _.set('levelTwo.enumNames', [], withEnum);
+        const withEnum = set('levelTwo.enum', [], schemaUpdate.properties);
+        schemaUpdate.properties = set('levelTwo.enumNames', [], withEnum);
       }
 
       if (levelTwo) {
@@ -256,23 +260,19 @@ export function uiSchema() {
           topicSchema.properties.levelThree.enum !== levelThreeLabelList
         ) {
           // We have a list and it’s different, so we need to make schema updates
-          const withEnum = _.set(
+          const withEnum = set(
             'levelThree.enum',
             levelThreeLabelList,
             schemaUpdate.properties,
           );
-          schemaUpdate.properties = _.set(
+          schemaUpdate.properties = set(
             'levelThree.enumNames',
             levelThreeLabelList,
             withEnum,
           );
         } else if (levelThreeLabelList === undefined) {
-          const withEnum = _.set(
-            'levelThree.enum',
-            [],
-            schemaUpdate.properties,
-          );
-          schemaUpdate.properties = _.set('levelThree.enumNames', [], withEnum);
+          const withEnum = set('levelThree.enum', [], schemaUpdate.properties);
+          schemaUpdate.properties = set('levelThree.enumNames', [], withEnum);
         }
       }
 
