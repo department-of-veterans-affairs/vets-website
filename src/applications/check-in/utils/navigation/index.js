@@ -24,7 +24,7 @@ const goToNextPage = (router, target, params) => {
 };
 
 const URLS = Object.freeze({
-  VALIDATION_NEEDED: 'validation',
+  VALIDATION_NEEDED: 'verify',
   UPDATE_INSURANCE: 'update-information',
   SEE_STAFF: 'see-staff',
   DETAILS: 'details',

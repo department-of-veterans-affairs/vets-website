@@ -10,7 +10,8 @@ import UpdateInformationQuestion from './pages/UpdateInformationQuestion';
 import ValidateVeteran from './pages/ValidateVeteran';
 
 import withFeatureFlip from './containers/withFeatureFlip';
-import withRequiredData from './containers/withRequiredData';
+import withAppointmentData from './containers/withAppointmentData';
+import withLowAuthorization from './containers/withLowAuthorization';
 
 import { URLS } from './utils/navigation';
 
@@ -24,19 +25,21 @@ const createRoutesWithStore = () => {
       />
       <Route
         path={`/${URLS.UPDATE_INSURANCE}`}
-        component={withFeatureFlip(UpdateInformationQuestion)}
+        component={withFeatureFlip(
+          withLowAuthorization(UpdateInformationQuestion),
+        )}
       />
       <Route
         path={`/${URLS.DETAILS}`}
-        component={withFeatureFlip(withRequiredData(CheckIn))}
+        component={withFeatureFlip(withAppointmentData(CheckIn))}
       />
       <Route
         path={`/${URLS.COMPLETE}`}
-        component={withFeatureFlip(withRequiredData(Confirmation))}
+        component={withFeatureFlip(withAppointmentData(Confirmation))}
       />
       <Route
         path={`/${URLS.SEE_STAFF}`}
-        component={withFeatureFlip(withRequiredData(Failed))}
+        component={withFeatureFlip(withAppointmentData(Failed))}
       />
       <Route path={`/${URLS.ERROR}`} component={withFeatureFlip(Error)} />
     </Switch>
