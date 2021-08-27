@@ -122,7 +122,7 @@ export function SearchResultCard({
   ) : (
     <div>
       <p>
-        <strong>School rating:</strong> Not yet rated
+        <strong>Not yet rated by Veterans</strong>
       </p>
     </div>
   );
@@ -181,7 +181,7 @@ export function SearchResultCard({
       </div>
       <div className="vads-u-flex--1">
         <p className="secondary-info-label">
-          <strong>GI Bill Students:</strong>
+          <strong>GI Bill students:</strong>
         </p>
         <p className="vads-u-margin-top--1 vads-u-margin-bottom--2p5">
           {studentCount || '0'}

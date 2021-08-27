@@ -1,12 +1,12 @@
 // Node modules.
 import React, { Component } from 'react';
+import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // Relative imports.
 import MY_VA_LINK from '../constants/MY_VA_LINK';
 import MegaMenu from '../components/MegaMenu';
-import { megaMenuMobileV2Enabled } from '../selectors';
 import authenticatedUserLinkData from '../mega-menu-link-data-for-authenticated-users.json';
 import recordEvent from '../../../monitoring/record-event';
 import { isLoggedIn } from '../../../user/selectors';
@@ -64,7 +64,6 @@ export class Main extends Component {
     ).isRequired,
     display: PropTypes.object,
     loggedIn: PropTypes.bool.isRequired,
-    isMobile: PropTypes.bool,
     isMegaMenuMobileV2Enabled: PropTypes.bool,
   };
 
@@ -118,18 +117,17 @@ export class Main extends Component {
       linkClicked: this.linkClicked,
       columnThreeLinkClicked: this.columnThreeLinkClicked,
     };
-    const { isMegaMenuMobileV2Enabled, isMobile } = this.props;
 
     this.mobileMediaQuery = window.matchMedia('(max-width: 767px)');
 
-    if (isMegaMenuMobileV2Enabled) {
-      if (isMobile && !this.mobileMediaQuery.matches) {
-        return null;
-      }
-
-      if (!isMobile && this.mobileMediaQuery.matches) {
-        return null;
-      }
+    if (
+      this.mobileMediaQuery.matches &&
+      document.getElementById('mega-menu-mobile')
+    ) {
+      return createPortal(
+        <MegaMenu {...childProps} />,
+        document.getElementById('mega-menu-mobile'),
+      );
     }
 
     return <MegaMenu {...childProps} />;
@@ -154,7 +152,6 @@ const mapStateToProps = (state, ownProps) => {
     data,
     display: state.megaMenu?.display,
     loggedIn,
-    isMegaMenuMobileV2Enabled: megaMenuMobileV2Enabled(state),
   };
 };
 
