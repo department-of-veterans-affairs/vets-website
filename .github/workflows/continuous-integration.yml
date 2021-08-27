@@ -410,7 +410,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0
+          # fetch-depth: 0
+          fetch-depth: $(git rev-list HEAD --count --first-parent)
 
       - name: Get Node version
         id: get-node-version
