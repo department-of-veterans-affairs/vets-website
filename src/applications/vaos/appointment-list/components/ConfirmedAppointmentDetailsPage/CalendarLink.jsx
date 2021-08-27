@@ -1,8 +1,16 @@
 import React from 'react';
 import AddToCalendar from '../../../components/AddToCalendar';
 import { getCalendarData } from '../../../services/appointment';
+import { APPOINTMENT_STATUS } from '../../../utils/constants';
 
 export default function CalendarLink({ appointment, facility }) {
+  const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
+  const isPastAppointment = appointment.vaos.isPastAppointment;
+
+  if (canceled || isPastAppointment) {
+    return null;
+  }
+
   const calendarData = getCalendarData({
     appointment,
     facility,

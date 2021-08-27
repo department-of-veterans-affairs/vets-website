@@ -1,7 +1,9 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import moment from '../../../lib/moment-tz';
-import { useDispatch } from 'react-redux';
 import { startAppointmentCancel } from '../../redux/actions';
+import { selectFeatureCancel } from '../../../redux/selectors';
+import { APPOINTMENT_STATUS } from '../../../utils/constants';
 
 function formatAppointmentDate(date) {
   if (!date.isValid()) {
@@ -13,6 +15,14 @@ function formatAppointmentDate(date) {
 
 export default function CancelLink({ appointment }) {
   const dispatch = useDispatch();
+  const showCancelButton = useSelector(selectFeatureCancel);
+  const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
+  const isPastAppointment = appointment.vaos.isPastAppointment;
+
+  if (canceled || !showCancelButton || isPastAppointment) {
+    return null;
+  }
+
   return (
     <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
       <i
