@@ -1,10 +1,28 @@
 // Node modules.
 import React from 'react';
+import recordEvent from 'platform/monitoring/record-event';
+import Banner from '@department-of-veterans-affairs/component-library/Banner';
 // Relative imports.
 import startReactApp from '../../startup/react';
-import Banner from './components/Banner';
 import MaintenanceBanner from './components/MaintenanceBanner';
 import widgetTypes from '~/applications/static-pages/widgetTypes';
+
+const deriveStorage = banner => {
+  const dismissibleStatus = banner?.dataset?.dismissibleStatus;
+
+  // Don't have storage if the banner is not dismissible.
+  if (dismissibleStatus === 'perm') {
+    return undefined;
+  }
+
+  // If the banner is dismiss-session, we'll use sessionStorage.
+  if (dismissibleStatus === 'dismiss-session') {
+    return window.sessionStorage;
+  }
+
+  // Use localStorage by default.
+  return window.localStorage;
+};
 
 // Are you looking for where this is used?
 // Search for `data-widget-type="banner"` and `data-widget-type="maintenance-banner"` to find all the places this React widget is used.
@@ -21,7 +39,20 @@ export default () => {
   if (banners) {
     for (let index = 0; index < banners.length; index++) {
       const banner = banners[index];
-      startReactApp(<Banner {...banner.dataset} />, banner);
+
+      // Render the banner.
+      startReactApp(
+        <Banner
+          content={banner.dataset.content}
+          recordEvent={recordEvent}
+          showClose={banner?.dataset?.dismissibleStatus !== 'perm'}
+          storage={deriveStorage(banner)}
+          title={banner.dataset.title}
+          type={banner.dataset.type}
+          visible={banner.dataset.visible}
+        />,
+        banner,
+      );
     }
   }
 
