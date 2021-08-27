@@ -94,11 +94,7 @@ const NotificationRadioButtons = ({
   if (loadingMessage) {
     loadingSpanId = `${id}-loading-message`;
     loadingSpan = (
-      <span
-        className="rb-input-message rb-input-message-loading vads-u-font-style--italic"
-        role="alert"
-        id={loadingSpanId}
-      >
+      <span className="rb-input-message" role="alert" id={loadingSpanId}>
         <i
           className="fas fa-spinner fa-spin vads-u-margin-x--1"
           aria-hidden="true"
