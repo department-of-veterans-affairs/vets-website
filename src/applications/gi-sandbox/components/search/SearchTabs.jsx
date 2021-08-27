@@ -27,7 +27,6 @@ export default function SearchTabs({ onChange, search }) {
     const activeTab = tabName === tab;
     const tabClasses = classNames(
       {
-        'aria-selected': activeTab,
         'active-search-tab': activeTab,
         'vads-u-color--gray-dark': activeTab,
         'vads-u-background-color--white': activeTab,
@@ -48,6 +47,7 @@ export default function SearchTabs({ onChange, search }) {
     return (
       <button
         className={tabClasses}
+        aria-selected={activeTab}
         role="tab"
         onClick={() => onChange(tabName)}
       >
