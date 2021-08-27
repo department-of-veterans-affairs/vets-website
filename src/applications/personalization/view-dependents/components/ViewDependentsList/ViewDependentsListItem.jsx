@@ -28,6 +28,7 @@ function ViewDependentsListItem(props) {
     dateOfBirth,
     stateKey,
     openFormlett,
+    submittedDependents,
   } = props;
 
   const handleClick = () => {
@@ -82,7 +83,7 @@ function ViewDependentsListItem(props) {
               type="button"
               onClick={handleClick}
               className="usa-button-secondary vads-u-background-color--white"
-              disabled={openFormlett}
+              disabled={openFormlett || submittedDependents.includes(stateKey)}
             >
               Remove this dependent
             </button>
@@ -114,6 +115,7 @@ function ViewDependentsListItem(props) {
 
 const mapStateToProps = state => ({
   openFormlett: state?.removeDependents?.openFormlett,
+  submittedDependents: state?.removeDependents?.submittedDependents,
 });
 
 export default connect(
