@@ -3,14 +3,23 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import Select from '@department-of-veterans-affairs/component-library/Select';
 import { FACILITY_SORT_METHODS } from '../../../utils/constants';
 import { selectProviderSelectionInfo } from '../../redux/selectors';
-import { updateCCProviderSortMethod } from '../../redux/actions';
+import {
+  requestProvidersList,
+  updateCCProviderSortMethod,
+} from '../../redux/actions';
+import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
-export default function ProviderSortVariant() {
+export default function ProviderSortVariant({ currentlyShownProvidersList }) {
   const dispatch = useDispatch();
-  const { address, ccEnabledSystems, sortMethod } = useSelector(
-    selectProviderSelectionInfo,
-    shallowEqual,
-  );
+  const {
+    address,
+    ccEnabledSystems,
+    communityCareProviderList,
+    currentLocation,
+    selectedCCFacility,
+    sortMethod,
+  } = useSelector(selectProviderSelectionInfo, shallowEqual);
   const [selectedSortMethod, setSelectedSortMethod] = useState(sortMethod);
   const sortOptions = [
     {
@@ -36,6 +45,23 @@ export default function ProviderSortVariant() {
     }
   }, []);
 
+  useEffect(
+    () => {
+      if (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation) {
+        dispatch(requestProvidersList(currentLocation));
+      } else if (sortMethod === FACILITY_SORT_METHODS.distanceFromFacility) {
+        dispatch(requestProvidersList(selectedCCFacility.position));
+      } else {
+        dispatch(requestProvidersList(address));
+      }
+
+      if (communityCareProviderList) {
+        scrollAndFocus('#providerSelectionHeader');
+      }
+    },
+    [selectedCCFacility, sortMethod],
+  );
+
   const handleValueChange = option => {
     if (Object.values(FACILITY_SORT_METHODS).includes(option.value)) {
       setSelectedSortMethod(option.value);
@@ -55,6 +81,16 @@ export default function ProviderSortVariant() {
   };
   return (
     <div className="vads-u-margin-bottom--3">
+      <p
+        className="vads-u-margin--0"
+        id="provider-list-status"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        Displaying 1 to {currentlyShownProvidersList.length} of{' '}
+        {communityCareProviderList.length} providers
+      </p>
       <Select
         label="Show providers closest to"
         name="sort"
@@ -63,6 +99,13 @@ export default function ProviderSortVariant() {
         value={{ dirty: false, value: selectedSortMethod }}
         includeBlankOption={false}
       />
+      {!hasUserAddress && (
+        <p>
+          Note: To show providers near your home, you need to add your home
+          address to{' '}
+          <NewTabAnchor href="/profile">your VA profile</NewTabAnchor>.
+        </p>
+      )}
     </div>
   );
 }

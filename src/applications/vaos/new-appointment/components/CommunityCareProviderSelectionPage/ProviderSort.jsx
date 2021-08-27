@@ -9,7 +9,6 @@ import {
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import InfoAlert from '../../../components/InfoAlert';
 import ResidentialAddress from '../../../components/ResidentialAddress';
-import ProviderSortVariant from './ProviderSortVariant';
 
 export default function ProviderSort({
   loadingLocations,
@@ -24,7 +23,6 @@ export default function ProviderSort({
     communityCareProviderList,
     currentLocation,
     selectedCCFacility,
-    showCCIterations,
     sortMethod,
   } = useSelector(selectProviderSelectionInfo, shallowEqual);
 
@@ -32,8 +30,6 @@ export default function ProviderSort({
     () => {
       if (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation) {
         dispatch(requestProvidersList(currentLocation));
-      } else if (sortMethod === FACILITY_SORT_METHODS.distanceFromFacility) {
-        dispatch(requestProvidersList(selectedCCFacility.position));
       } else {
         dispatch(requestProvidersList(address));
       }
@@ -51,74 +47,71 @@ export default function ProviderSort({
     requestLocationStatus === FETCH_STATUS.failed;
   return (
     <>
-      {showCCIterations && <ProviderSortVariant />}
-      {showSortByDistanceFromResidential &&
-        !showCCIterations && (
-          <>
-            {!requestLocationStatusFailed && (
-              <>
-                <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-                  You can choose a provider based on your address on file. Or
-                  you can{' '}
-                  <span>
+      {showSortByDistanceFromResidential && (
+        <>
+          {!requestLocationStatusFailed && (
+            <>
+              <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+                You can choose a provider based on your address on file. Or you
+                can{' '}
+                <span>
+                  <button
+                    type="button"
+                    className="va-button-link"
+                    onClick={() => {
+                      dispatch(
+                        updateCCProviderSortMethod(
+                          FACILITY_SORT_METHODS.distanceFromCurrentLocation,
+                        ),
+                      );
+                    }}
+                  >
+                    use your current location
+                  </button>
+                  .
+                </span>
+              </p>
+              <ResidentialAddress address={address} />
+            </>
+          )}
+          {requestLocationStatusFailed && (
+            <>
+              <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+                You can choose a provider based on your address on file:
+              </p>
+              <ResidentialAddress address={address} />
+              <div id="providerSelectionBlockedLocation">
+                <InfoAlert
+                  status="warning"
+                  headline="Your browser is blocked from finding your current location."
+                  className="vads-u-background-color--gold-lightest vads-u-font-size--base"
+                  level="3"
+                >
+                  <>
+                    <p>
+                      Make sure your browser’s location feature is turned on.
+                    </p>
+
                     <button
-                      type="button"
                       className="va-button-link"
-                      onClick={() => {
+                      onClick={() =>
                         dispatch(
                           updateCCProviderSortMethod(
                             FACILITY_SORT_METHODS.distanceFromCurrentLocation,
                           ),
-                        );
-                      }}
+                        )
+                      }
                     >
-                      use your current location
+                      Retry searching based on current location
                     </button>
-                    .
-                  </span>
-                </p>
-                <ResidentialAddress address={address} />
-              </>
-            )}
-            {requestLocationStatusFailed && (
-              <>
-                <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-                  You can choose a provider based on your address on file:
-                </p>
-                <ResidentialAddress address={address} />
-                <div id="providerSelectionBlockedLocation">
-                  <InfoAlert
-                    status="warning"
-                    headline="Your browser is blocked from finding your current location."
-                    className="vads-u-background-color--gold-lightest vads-u-font-size--base"
-                    level="3"
-                  >
-                    <>
-                      <p>
-                        Make sure your browser’s location feature is turned on.
-                      </p>
-
-                      <button
-                        className="va-button-link"
-                        onClick={() =>
-                          dispatch(
-                            updateCCProviderSortMethod(
-                              FACILITY_SORT_METHODS.distanceFromCurrentLocation,
-                            ),
-                          )
-                        }
-                      >
-                        Retry searching based on current location
-                      </button>
-                    </>
-                  </InfoAlert>
-                </div>
-              </>
-            )}
-          </>
-        )}
+                  </>
+                </InfoAlert>
+              </div>
+            </>
+          )}
+        </>
+      )}
       {sortByDistanceFromCurrentLocation &&
-        !showCCIterations &&
         notLoading && (
           <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
             You can choose a provider based on your current location. Or you can{' '}

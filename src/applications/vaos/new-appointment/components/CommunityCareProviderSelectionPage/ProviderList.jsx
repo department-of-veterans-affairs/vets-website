@@ -12,6 +12,7 @@ import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import LoadProvidersErrorAlert from './LoadProvidersErrorAlert';
 import NoProvidersAlert from './NoProvidersAlert';
 import ProviderSort from './ProviderSort';
+import ProviderSortVariant from './ProviderSortVariant';
 
 export default function ProviderList({
   checkedProvider,
@@ -81,6 +82,8 @@ export default function ProviderList({
 
   const sortByDistanceFromCurrentLocation =
     sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation;
+  const ccIterationRequestingLocationFailed =
+    requestLocationStatus === FETCH_STATUS.failed && showCCIterations;
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-padding--2 medium-screen:vads-u-padding--3">
       <h2
@@ -91,16 +94,9 @@ export default function ProviderList({
       </h2>
       {notLoading &&
         showCCIterations && (
-          <p
-            className="vads-u-margin--0"
-            id="provider-list-status"
-            role="status"
-            aria-live="polite"
-            aria-atomic="true"
-          >
-            Displaying 1 to {currentlyShownProvidersList.length} of{' '}
-            {communityCareProviderList.length} providers
-          </p>
+          <ProviderSortVariant
+            currentlyShownProvidersList={currentlyShownProvidersList}
+          />
         )}
       <ProviderSort
         address={address}
@@ -127,7 +123,8 @@ export default function ProviderList({
         </div>
       )}
       {notLoading &&
-        !!currentlyShownProvidersList && (
+        !!currentlyShownProvidersList &&
+        !ccIterationRequestingLocationFailed && (
           <>
             {currentlyShownProvidersList.length === 0 && (
               <NoProvidersAlert
