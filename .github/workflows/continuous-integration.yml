@@ -455,10 +455,6 @@ jobs:
         with:
           commit_message: update graph
 
-      - name: Run git pull
-        if: ${{ env.IS_GRAPH_UPDATED == 'true' }}
-        run: git pull --rebase
-
       - name: Set IS_MASTER_BUILD
         run: |
           if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
