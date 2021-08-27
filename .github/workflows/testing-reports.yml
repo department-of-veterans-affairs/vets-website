@@ -3,8 +3,7 @@ name: Testing Reports
 on:
   workflow_run:
     workflows: ['Continuous Integration']
-    types:
-      - completed
+    types: [completed]
 
 jobs:
   testing-reports:
