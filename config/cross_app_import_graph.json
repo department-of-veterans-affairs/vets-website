@@ -3,13 +3,7 @@
     "appeals"
   ],
   "ask-a-question": [
-    "ask-a-question",
-    "caregivers"
-  ],
-  "caregivers": [
-    "caregivers",
-    "ask-a-question",
-    "claims-status"
+    "ask-a-question"
   ],
   "auth": [
     "auth"
@@ -20,6 +14,10 @@
   "burials": [
     "burials",
     "personalization"
+  ],
+  "caregivers": [
+    "caregivers",
+    "claims-status"
   ],
   "claims-status": [
     "claims-status",
