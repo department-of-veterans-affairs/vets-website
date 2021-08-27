@@ -15,7 +15,8 @@ const pathsOfChangedFiles = filepaths.filter(filepath => {
     filepath !== 'yarn.lock' &&
     filepath !== 'config/cross_app_import_graph.json' &&
     filepath !== 'script/github-actions/select-cypress-tests.js' &&
-    filepath !== 'script/github-actions/create-cross-app-import-graph.js'
+    filepath !== 'script/github-actions/create-cross-app-import-graph.js' &&
+    filepath !== '.github/workflows/continuous-integration.yml'
   );
 });
 
