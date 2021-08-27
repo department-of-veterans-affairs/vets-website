@@ -16,6 +16,7 @@ import set from 'platform/utilities/data/set';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import { isReactComponent } from 'platform/utilities/ui';
+import { validatePhone } from '../utils/validation';
 
 /**
  * Displays a review card if the information inside is valid.
@@ -365,8 +366,16 @@ export default class ReviewBoxField extends React.Component {
 
     // manually call the validation functions
     const hasErrors = this.formHasErrors();
+
     if (this.props.uiSchema['ui:widget'] === 'date') {
       this.updateDateErrors(hasErrors);
+    }
+
+    if (
+      this.props.uiSchema.phone &&
+      this.props.uiSchema.phone['ui:widget'].name === 'PhoneNumberWidget'
+    ) {
+      this.updatePhoneErrors(hasErrors);
     }
 
     if (hasErrors || !errorSchemaIsValid(this.props.errorSchema)) {
@@ -384,20 +393,6 @@ export default class ReviewBoxField extends React.Component {
       }
     }
   };
-
-  render() {
-    const description = this.getDescription();
-    const viewOrEditCard = this.state.editing
-      ? this.getEditView()
-      : this.getReviewView();
-
-    return (
-      <>
-        {description}
-        {viewOrEditCard}
-      </>
-    );
-  }
 
   formHasErrors() {
     const startInEditFunction =
@@ -438,6 +433,38 @@ export default class ReviewBoxField extends React.Component {
     // const errorSpanId = `${this.props.idSchema.$id}-error-message`;
     // this.errorSpan = ();
   };
+
+  updatePhoneErrors = hasErrors => {
+    if (!hasErrors) {
+      this.errorSpan = null;
+      this.errorClass = '';
+      return;
+    }
+    const errors = {
+      __errors: [],
+      addError(error) {
+        this.__errors.push(error);
+      },
+    };
+
+    validatePhone(errors, this.props.formData);
+
+    this.errorClass = 'usa-input-error';
+  };
+
+  render() {
+    const description = this.getDescription();
+    const viewOrEditCard = this.state.editing
+      ? this.getEditView()
+      : this.getReviewView();
+
+    return (
+      <>
+        {description}
+        {viewOrEditCard}
+      </>
+    );
+  }
 }
 
 ReviewBoxField.propTypes = {
@@ -497,7 +524,6 @@ ReviewBoxField.propTypes = {
       PropTypes.elementType,
       PropTypes.string,
     ]),
-    'ui:title': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     'ui:subtitle': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     saveClickTrackEvent: PropTypes.object,
   }).isRequired,
