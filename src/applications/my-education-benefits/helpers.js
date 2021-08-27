@@ -24,12 +24,10 @@ export const directDepositWarning = (
 
 export const activeDutyLabel = (
   <>
-    <p>Montgomery GI Bill Active Duty (Chapter 30)</p>
+    Montgomery GI Bill Active Duty (Chapter 30)
     <AdditionalInfo triggerText="Learn more">
-      <p>
-        Our records indicate you may be eligible for this benefit because you
-        served at least two years on active duty and were honorably discharged.
-      </p>
+      Our records indicate you may be eligible for this benefit because you
+      served at least two years on active duty and were honorably discharged.
       <a
         href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-active-duty/"
         target="_blank"
@@ -44,12 +42,10 @@ export const activeDutyLabel = (
 
 export const selectedReserveLabel = (
   <>
-    <p>Montgomery GI Bill Selected Reserve (Chapter 1606)</p>
+    Montgomery GI Bill Selected Reserve (Chapter 1606)
     <AdditionalInfo triggerText="Learn more">
-      <p>
-        Our records indicate you may be eligible for this benefit because you
-        agreed to serve six years in the Selected Reserve.
-      </p>
+      Our records indicate you may be eligible for this benefit because you
+      agreed to serve six years in the Selected Reserve.
       <a
         href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-selected-reserve/"
         target="_blank"

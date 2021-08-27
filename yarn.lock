@@ -1160,7 +1160,7 @@
     "@babel/helper-create-regexp-features-plugin" "^7.14.5"
     "@babel/helper-plugin-utils" "^7.14.5"
 
-"@babel/preset-env@^7.10.2":
+"@babel/preset-env@^7.15.0":
   version "7.15.0"
   resolved "https://registry.yarnpkg.com/@babel/preset-env/-/preset-env-7.15.0.tgz#e2165bf16594c9c05e52517a194bf6187d6fe464"
   integrity sha512-FhEpCNFCcWW3iZLg0L2NPE9UerdtsCR6ZcsGHUX6Om6kbCQeL5QZDqFDmeNHC6/fy6UH3jEge7K4qG5uC9In0Q==
@@ -1528,10 +1528,10 @@
     react-transition-group "1"
     recast "^0.14.4"
 
-"@department-of-veterans-affairs/formation@6.16.3":
-  version "6.16.3"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.16.3.tgz#5e986b6bdcda1d4bf96d4e1725e29340acc9f98f"
-  integrity sha512-QtQgz5ewSz8XyQE8FeUsjdOWYtC5b7GZE1WxdtvL+4pcsBSXCR6kqb75cVQ5tPBf7q488UNm9+BIaSJqHZRrHQ==
+"@department-of-veterans-affairs/formation@6.16.4":
+  version "6.16.4"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.16.4.tgz#8eb2744e098902af04114ee934884fe6f286806c"
+  integrity sha512-9AOfPJGTw5Qv03dFVxFbEDf+gtlOwtJpci4am7KEJvPpw5Q8OkYQKQkHiUpGoaqTvfvNUyXbV9q75h2jUghclA==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
@@ -19978,9 +19978,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#c53691977e6fd6ea717ceb0c4c2bc740f477168b":
-  version "20.9.0"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#c53691977e6fd6ea717ceb0c4c2bc740f477168b"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#fc6d6a217164f49d2baf5ad2c803923c6ba21206":
+  version "20.11.1"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#fc6d6a217164f49d2baf5ad2c803923c6ba21206"
 
 vfile-message@^2.0.0:
   version "2.0.4"
