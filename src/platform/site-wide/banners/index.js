@@ -7,7 +7,7 @@ import startReactApp from '../../startup/react';
 import MaintenanceBanner from './components/MaintenanceBanner';
 import widgetTypes from '~/applications/static-pages/widgetTypes';
 
-const deriveStorage = banner => {
+export const deriveStorage = banner => {
   const dismissibleStatus = banner?.dataset?.dismissibleStatus;
 
   // Don't have storage if the banner is not dismissible.
