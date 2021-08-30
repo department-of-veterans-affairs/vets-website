@@ -739,7 +739,7 @@ jobs:
       - name: Get AWS IAM role
         uses: marvinpinto/action-inject-ssm-secrets@latest
         with:
-          ssm_parameter: /frontend-team/github-actions/parameters/svc-gha-frontendteam-user
+          ssm_parameter: /devops/service_account/svc-gha-frontendteam-user
           env_variable_name: SVC_GHA_FRONTENDTEAM_USER
 
       - name: Configure AWS Credentials (2)
