@@ -237,10 +237,6 @@ class ContactInformationField extends React.Component {
     );
   };
 
-  clearErrors = () => {
-    clearTransactionRequest(this.props.fieldName);
-  };
-
   captureEvent(actionName) {
     recordEvent({
       event: 'profile-navigation',
@@ -404,7 +400,6 @@ class ContactInformationField extends React.Component {
           isVisible={this.state.showConfirmRemoveModal}
           onHide={() => this.setState({ showConfirmRemoveModal: false })}
           error={error}
-          clearErrors={this.clearErrors}
         />
 
         {content}

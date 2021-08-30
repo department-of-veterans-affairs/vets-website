@@ -16,7 +16,6 @@ const ConfirmRemoveModal = ({
   isVisible,
   onHide,
   error,
-  clearErrors,
 }) => {
   return (
     <Modal
@@ -61,11 +60,7 @@ const ConfirmRemoveModal = ({
           className="vads-u-margin-bottom--2"
           data-testid="delete-error-alert"
         >
-          <VAPServiceEditModalErrorMessage
-            title={title}
-            error={error}
-            clearErrors={clearErrors}
-          />
+          <VAPServiceEditModalErrorMessage title={title} error={error} />
         </div>
       )}
       <div>
@@ -102,7 +97,6 @@ ConfirmRemoveModal.propTypes = {
   isVisible: PropTypes.bool.isRequired,
   onHide: PropTypes.func.isRequired,
   error: PropTypes.string,
-  clearErrors: PropTypes.func.isRequired,
 };
 
 export default ConfirmRemoveModal;
