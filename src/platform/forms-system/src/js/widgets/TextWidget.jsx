@@ -14,6 +14,7 @@ export default function TextWidget(props) {
    * addIndex
    * ui:options.ariaDescribedby id may be within an array, so the page index
    * from formContext pagePerItemIndex will be appended
+   * test
    * @param {String|null} id - aria-describedby id of associated content
    */
   const addIndex = (id = '') =>
