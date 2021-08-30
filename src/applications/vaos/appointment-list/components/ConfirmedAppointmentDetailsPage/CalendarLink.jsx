@@ -3,7 +3,14 @@ import AddToCalendar from '../../../components/AddToCalendar';
 import { getCalendarData } from '../../../services/appointment';
 
 export default function CalendarLink({ appointment, facility }) {
-  const calendarData = getCalendarData({
+  const {
+    text,
+    providerName,
+    phone,
+    additionalText,
+    location,
+    summary,
+  } = getCalendarData({
     appointment,
     facility,
   });
@@ -15,14 +22,14 @@ export default function CalendarLink({ appointment, facility }) {
         className="far fa-calendar vads-u-margin-right--1 vads-u-color--link-default"
       />
       <AddToCalendar
-        summary={calendarData.summary}
+        summary={summary}
         description={{
-          text: calendarData.text,
-          providerName: calendarData.providerName,
-          phone: calendarData.phone,
-          additionalText: calendarData.additionalText,
+          text,
+          providerName,
+          phone,
+          additionalText,
         }}
-        location={calendarData.location}
+        location={location}
         duration={appointment.minutesDuration}
         startDateTime={appointment.start}
       />
