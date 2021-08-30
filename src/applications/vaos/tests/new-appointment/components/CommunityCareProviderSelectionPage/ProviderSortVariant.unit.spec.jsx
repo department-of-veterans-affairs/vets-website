@@ -251,17 +251,6 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
           throw new Error();
       }
     }).to.not.throw();
-
-    userEvent.click(await screen.findByText(/OH, JANICE/i));
-    userEvent.click(
-      await screen.findByRole('button', {
-        name: /choose provider/i,
-      }),
-    );
-
-    expect(screen.baseElement).to.contain.text(
-      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-24007019.4 miles',
-    );
   });
 
   it('should allow user to retry fetching location when it is blocked', async () => {
@@ -408,17 +397,6 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
           throw new Error();
       }
     }).to.not.throw();
-
-    userEvent.click(await screen.findByText(/OH, JANICE/i));
-    userEvent.click(
-      await screen.findByRole('button', {
-        name: /choose provider/i,
-      }),
-    );
-
-    expect(screen.baseElement).to.contain.text(
-      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400 miles',
-    );
   });
 
   it('should default to first ccEnabledSystem if user is missing a residential address', async () => {
