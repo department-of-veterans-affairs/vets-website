@@ -492,7 +492,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     expect(screen.baseElement).not.to.contain.text('Cancel appointment');
 
     expect(screen.baseElement).to.contain.text(
-      'Contact this provider if you need to reschedule or cancel your appointment.',
+      'Contact this facility if you need to reschedule or cancel your',
     );
   });
 
