@@ -28,7 +28,7 @@
 }
 
 .rb-input {
-  border-left: 4px solid;
+  border-left: 4px solid transparent;
   position: relative;
 }
 
@@ -63,13 +63,4 @@
 
 .rb-input-message-success {
   background: $color-green-lightest;
-}
-
-// loading
-.rb-input-loading {
-  border-left-color: transparent;
-}
-
-.rb-buttons {
-  padding-left: 1.5rem;
 }

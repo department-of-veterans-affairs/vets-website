@@ -14,7 +14,7 @@ const NotificationGroup = ({ children, groupName, itemIds }) => {
         return <NotificationItem key={itemId} itemId={itemId} />;
       })}
       {children}
-      <hr />
+      <hr className="vads-u-margin-y--2" />
     </div>
   );
 };

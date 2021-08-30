@@ -62,7 +62,7 @@ const NotificationRadioButtons = ({
         id={errorSpanId}
       >
         <i
-          className="fas fa-exclamation-circle vads-u-margin-x--1"
+          className="fas fa-exclamation-circle vads-u-margin-left--1p5 vads-u-margin-right--1"
           aria-hidden="true"
         />{' '}
         <span className="sr-only">Error</span> {errorMessage}
@@ -81,7 +81,7 @@ const NotificationRadioButtons = ({
         id={warningSpanId}
       >
         <i
-          className="fas fa-exclamation-triangle vads-u-margin-x--1"
+          className="fas fa-exclamation-triangle vads-u-margin-left--1p5 vads-u-margin-right--1"
           aria-hidden="true"
         />{' '}
         <span className="sr-only">Warning</span> {warningMessage}
@@ -96,7 +96,7 @@ const NotificationRadioButtons = ({
     loadingSpan = (
       <span className="rb-input-message" role="alert" id={loadingSpanId}>
         <i
-          className="fas fa-spinner fa-spin vads-u-margin-x--1"
+          className="fas fa-spinner fa-spin vads-u-margin-left--1p5 vads-u-margin-right--1"
           aria-hidden="true"
         />{' '}
         {loadingMessage}
@@ -115,7 +115,7 @@ const NotificationRadioButtons = ({
         id={successSpanId}
       >
         <i
-          className="fas fa-check-circle vads-u-margin-x--1"
+          className="fas fa-check-circle vads-u-margin-left--1p5 vads-u-margin-right--1"
           aria-hidden="true"
         />{' '}
         <span className="sr-only">Success</span> {successMessage}
@@ -184,12 +184,12 @@ const NotificationRadioButtons = ({
 
   const fieldsetClass = classNames(
     'rb-fieldset-input',
+    'rb-input',
     additionalFieldsetClass,
     {
-      'rb-input rb-input-error': errorMessage,
-      'rb-input rb-input-warning': warningMessage,
-      'rb-input rb-input-success': successMessage,
-      'rb-input rb-input-loading': loadingMessage,
+      'rb-input-error': errorMessage,
+      'rb-input-warning': warningMessage,
+      'rb-input-success': successMessage,
     },
   );
 
