@@ -15,13 +15,14 @@ export function CompareDrawer({
   preview,
 }) {
   const history = useHistory();
+  const { loaded, institutions } = compare.search;
   const [open, setOpen] = useState(compare.open);
   const [promptingFacilityCode, setPromptingFacilityCode] = useState(null);
   const [stuck, setStuck] = useState(false);
   const placeholder = useRef(null);
   const drawer = useRef(null);
   const notRendered = !displayed && !alwaysDisplay;
-  const { loaded, institutions } = compare.search;
+  const [previousLoaded, setPreviousLoaded] = useState(loaded);
   const [loadedCards, setLoadedCards] = useState(null);
   const [headerLabel, setHeaderLabel] = useState(
     <>Compare Institutions ({loaded.length} of 3)</>,
@@ -64,7 +65,45 @@ export function CompareDrawer({
   };
 
   const makeHeaderLabel = () => {
-    setHeaderLabel(<>Compare Institutions ({loaded.length} of 3)</>);
+    const removed = [];
+    const added = [];
+
+    loaded.forEach(loadedCode => {
+      if (
+        previousLoaded.filter(previousCode => previousCode === loadedCode)
+          .length === 0
+      ) {
+        added.push(loadedCode);
+      }
+    });
+
+    previousLoaded.forEach(previousCode => {
+      if (
+        loaded.filter(loadedCode => previousCode === loadedCode).length === 0
+      ) {
+        removed.push(previousCode);
+      }
+    });
+
+    let srMessage;
+    if (added.length > 0) {
+      srMessage = `${
+        institutions[added[0]].name
+      } added. Compare institutions, ${loaded.length} of three.`;
+    } else if (removed.length > 0) {
+      srMessage = `${
+        institutions[removed[0]].name
+      } removed. Compare institutions, ${loaded.length} of three.`;
+    }
+
+    setHeaderLabel(
+      <>
+        Compare Institutions ({loaded.length} of 3)
+        <span className="sr-only" aria-live="polite" aria-atomic="true">
+          {srMessage}
+        </span>
+      </>,
+    );
   };
 
   const makeLoadedCards = () => {
@@ -124,6 +163,8 @@ export function CompareDrawer({
         setBlanks(renderBlanks());
         dispatchCompareDrawerOpened(true);
       }
+
+      setPreviousLoaded(loaded);
     },
     [loaded],
   );
