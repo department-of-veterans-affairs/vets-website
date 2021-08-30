@@ -30,7 +30,7 @@ function selectedTests() {
   [...new Set(applicationNames)].forEach(app => {
     // lookup app in graph to reference which app's tests
     // should run because of cross-app imports
-    applications.push(...graph[app]);
+    applications.push(...graph[app].appsToTest);
   });
 
   [...new Set(applications)].forEach(app => {
