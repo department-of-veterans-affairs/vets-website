@@ -107,7 +107,7 @@ describe('Deleting email address', () => {
     // and the add email text should exist
     view.getByText(/add.*email address/i);
   });
-  it('should handle a deletion that does not succeed until after the edit view exits', async () => {
+  it('should handle a deletion that does not succeed until after the delete modal exits', async () => {
     server.use(...mocks.transactionPending);
     const { confirmDeleteButton } = deleteEmailAddress();
 
@@ -175,12 +175,12 @@ describe('Deleting email address', () => {
     expect(!!confirmDeleteButton.attributes.disabled).to.be.false;
     expect(confirmDeleteButton).to.contain.text('Yes, remove my information');
   });
-  it('should show an error if the deletion fails after the edit view exits', async () => {
+  it('should show an error if the deletion fails after the delete modal exits', async () => {
     server.use(...mocks.transactionPending);
 
     const { confirmDeleteButton } = deleteEmailAddress();
 
-    // wait for the edit mode to exit and the new address to show up
+    // wait for the delete modal to exit and the new address to show up
     await waitForElementToBeRemoved(confirmDeleteButton);
 
     // check that the "we're saving your..." message appears

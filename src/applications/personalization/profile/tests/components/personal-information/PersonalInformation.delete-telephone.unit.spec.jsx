@@ -52,7 +52,7 @@ function deletePhoneNumber(numberName) {
   return { confirmDeleteButton };
 }
 
-// When the update happens while the Edit View is still active
+// When the update happens while the Delete Modal is still active
 async function testQuickSuccess(numberName) {
   server.use(...mocks.transactionPending);
 
@@ -74,7 +74,7 @@ async function testQuickSuccess(numberName) {
 
   server.use(...mocks.transactionSucceeded);
 
-  // wait for the edit mode to exit
+  // wait for the Delete Modal to exit
   await waitForElementToBeRemoved(confirmDeleteButton);
 
   // the edit phone number button should still exist
@@ -83,14 +83,14 @@ async function testQuickSuccess(numberName) {
   view.getByText(new RegExp(`add.*${numberName}`, 'i'));
 }
 
-// When the update happens but not until after the Edit View has exited and the
+// When the update happens but not until after the Delete Modal has exited and the
 // user returned to the read-only view
 async function testSlowSuccess(numberName) {
   server.use(...mocks.transactionPending);
 
   const { confirmDeleteButton } = deletePhoneNumber(numberName);
 
-  // wait for the edit mode to exit
+  // wait for the Delete Modal to exit
   await waitForElementToBeRemoved(confirmDeleteButton);
 
   // check that the "we're deleting your..." message appears
@@ -125,14 +125,14 @@ async function testTransactionCreationFails(numberName) {
     `We’re sorry. We can’t save your ${numberName.toLowerCase()} at this time. We’re working to fix this problem. Please try again or check back soon.`,
   );
 
-  // make sure that edit mode is not automatically exited
+  // make sure that Delete Modal is not automatically exited
   await wait(75);
   expect(view.getByTestId('delete-error-alert')).to.exist;
   const editButton = getEditButton();
   expect(editButton).to.not.exist;
 }
 
-// When the update fails while the Edit View is still active
+// When the update fails while the Delete Modal is still active
 async function testQuickFailure(numberName) {
   server.use(...mocks.transactionPending);
 
@@ -166,14 +166,14 @@ async function testQuickFailure(numberName) {
   expect(confirmDeleteButton).to.contain.text('Yes, remove my information');
 }
 
-// When the update fails but not until after the Edit View has exited and the
+// When the update fails but not until after the Delete Modal has exited and the
 // user returned to the read-only view
 async function testSlowFailure(numberName) {
   server.use(...mocks.transactionPending);
 
   const { confirmDeleteButton } = deletePhoneNumber(numberName);
 
-  // wait for the edit mode to exit
+  // wait for the Delete Modal to exit
   await waitForElementToBeRemoved(confirmDeleteButton);
 
   // check that the "we're deleting your..." message appears
@@ -233,16 +233,16 @@ describe('Deleting', () => {
       it('should handle a transaction that succeeds quickly', async () => {
         await testQuickSuccess(numberName);
       });
-      it('should handle a transaction that does not succeed until after the edit view exits', async () => {
+      it('should handle a transaction that does not succeed until after the Delete Modal exits', async () => {
         await testSlowSuccess(numberName);
       });
-      it('should show an error and not auto-exit edit mode if the transaction cannot be created', async () => {
+      it('should show an error and not auto-exit Delete Modal if the transaction cannot be created', async () => {
         await testTransactionCreationFails(numberName);
       });
-      it('should show an error and not auto-exit edit mode if the transaction fails quickly', async () => {
+      it('should show an error and not auto-exit Delete Modal if the transaction fails quickly', async () => {
         await testQuickFailure(numberName);
       });
-      it('should show an error if the transaction fails after the edit view exits', async () => {
+      it('should show an error if the transaction fails after the Delete Modal exits', async () => {
         await testSlowFailure(numberName);
       });
     });
