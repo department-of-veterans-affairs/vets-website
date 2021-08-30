@@ -85,22 +85,22 @@ export function CompareDrawer({
       }
     });
 
-    let srMessage;
+    let srActionMessage;
     if (added.length > 0) {
-      srMessage = `${
+      srActionMessage = `${
         institutions[added[0]].name
-      } added. Compare institutions, ${loaded.length} of three.`;
+      } added. Compare institutions, ${loaded.length} of 3.`;
     } else if (removed.length > 0) {
-      srMessage = `${
+      srActionMessage = `${
         institutions[removed[0]].name
-      } removed. Compare institutions, ${loaded.length} of three.`;
+      } removed. Compare institutions, ${loaded.length} of 3.`;
     }
 
     setHeaderLabel(
       <>
         Compare Institutions ({loaded.length} of 3)
         <span className="sr-only" aria-live="polite" aria-atomic="true">
-          {srMessage}
+          {srActionMessage}
         </span>
       </>,
     );
