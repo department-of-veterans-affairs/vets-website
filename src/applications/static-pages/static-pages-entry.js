@@ -7,8 +7,8 @@ import startSitewideComponents from 'platform/site-wide';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import './analytics';
-import './alerts-dismiss-view';
-import './ics-generator';
+import alertsBuildShow from './alerts-dismiss-view';
+import icsCreate from './ics-generator';
 import createFacilityPage from './facilities/createFacilityPage';
 import createVetCentersHours from './facilities/createVetCentersHours';
 import createNearByVetCenters from './facilities/vet-center/createNearByVetCenters';
@@ -46,7 +46,7 @@ import createViewTestAndLabResultsPage from './health-care-manage-benefits/view-
 import './sass/static-pages.scss';
 
 // Social share links behavior
-import './social-share-links';
+import openShareLink from './social-share-links';
 
 // Resources and support widgets
 import createResourcesAndSupportSearchWidget from './resources-and-support-search';
@@ -104,6 +104,10 @@ Sentry.withScope(scope => {
 subscribeAdditionalInfoEvents();
 
 subscribeAccordionEvents();
+
+alertsBuildShow();
+icsCreate();
+openShareLink();
 
 createApplicationStatus(store, {
   formId: VA_FORM_IDS.FORM_21P_527EZ,
