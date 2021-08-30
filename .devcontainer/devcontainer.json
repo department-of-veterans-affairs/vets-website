@@ -1,30 +1,48 @@
 {
   "name": "vets-website",
   "settings": {
-    "extensions.ignoreRecommendations": true,
-    "terminal.integrated.defaultShell.linux": "/usr/bin/zsh",
-    "workbench.startupEditor": "readme"
-  },
-  "extensions": [
-    "Gruntfuggly.todo-tree",
-    "davidanson.vscode-markdownlint",
-    "dbaeumer.vscode-eslint",
-    "eamodio.gitlens",
-    "esbenp.prettier-vscode",
-    "github.vscode-pull-request-github",
-    "ms-vsliveshare.vsliveshare",
-    "ms-vsliveshare.vsliveshare-pack",
-    "redhat.vscode-yaml",
-    "stylelint.vscode-stylelint",
-    "tyriar.sort-lines",
-    "visualstudioexptteam.vscodeintellicode"
-  ],
-  "build": {
-    "dockerfile": "Dockerfile",
-    "args": {
-      "VARIANT": "14"
+    "go.toolsManagement.checkForUpdates": "local",
+    "go.useLanguageServer": true,
+    "go.gopath": "/go",
+    "go.goroot": "/usr/local/go",
+    "python.pythonPath": "/opt/python/latest/bin/python",
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "python.formatting.autopep8Path": "/usr/local/py-utils/bin/autopep8",
+    "python.formatting.blackPath": "/usr/local/py-utils/bin/black",
+    "python.formatting.yapfPath": "/usr/local/py-utils/bin/yapf",
+    "python.linting.banditPath": "/usr/local/py-utils/bin/bandit",
+    "python.linting.flake8Path": "/usr/local/py-utils/bin/flake8",
+    "python.linting.mypyPath": "/usr/local/py-utils/bin/mypy",
+    "python.linting.pycodestylePath": "/usr/local/py-utils/bin/pycodestyle",
+    "python.linting.pydocstylePath": "/usr/local/py-utils/bin/pydocstyle",
+    "python.linting.pylintPath": "/usr/local/py-utils/bin/pylint",
+    "lldb.executable": "/usr/bin/lldb",
+    "files.watcherExclude": {
+      "**/target/**": true
     }
   },
-  "remoteUser": "node",
+  "remoteUser": "codespace",
+  "overrideCommand": false,
+  "mounts": [
+    "source=codespaces-linux-var-lib-docker,target=/var/lib/docker,type=volume"
+  ],
+  "runArgs": [
+    "--cap-add=SYS_PTRACE",
+    "--security-opt",
+    "seccomp=unconfined",
+    "--privileged",
+    "--init"
+  ],
+  // Add the IDs of extensions you want installed when the container is created.
+  "extensions": [
+    "GitHub.vscode-pull-request-github"
+  ],
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  "forwardPorts": [
+    3000,
+    3001,
+    3002
+  ],
   "postCreateCommand": "bash script/codespaces/setup-codespaces.sh"
 }
