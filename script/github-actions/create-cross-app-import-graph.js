@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const fs = require('fs');
 const path = require('path');
 const findImports = require('find-imports');
@@ -229,29 +230,63 @@ function shouldRebuildGraph(diff) {
   return false;
 }
 
-function updateGraph(graph, appName, importAppName) {
-  // eslint-disable-next-line no-param-reassign
-  if (!graph[importAppName]) graph[importAppName] = [importAppName];
-  graph[appName].push(importAppName);
-  graph[importAppName].push(appName);
+function updateGraph(graph, appName, importerFilePath, importeeFilePath) {
+  const importAppName = getAppNameFromFilePath(importeeFilePath);
+
+  if (!graph[importAppName]) {
+    graph[importAppName] = {
+      appsToTest: [importAppName],
+      appsThatThisAppImportsFrom: {},
+      appsThatImportFromThisApp: {},
+    };
+  }
+
+  graph[importAppName].appsToTest.push(appName);
+
+  if (!graph[appName].appsThatThisAppImportsFrom[importAppName]) {
+    graph[appName].appsThatThisAppImportsFrom[importAppName] = {
+      filesImported: [],
+    };
+  }
+
+  graph[appName].appsThatThisAppImportsFrom[importAppName].filesImported.push({
+    importer: importerFilePath,
+    importee: importeeFilePath,
+  });
+
+  if (!graph[importAppName].appsThatImportFromThisApp[appName]) {
+    graph[importAppName].appsThatImportFromThisApp[appName] = {
+      filesImported: [],
+    };
+  }
+
+  graph[importAppName].appsThatImportFromThisApp[appName].filesImported.push({
+    importer: importerFilePath,
+    importee: importeeFilePath,
+  });
 }
 
 function buildGraph(graph) {
   const files = ['src/applications/**/*.*'];
   const imports = getImports(files);
 
-  Object.keys(imports).forEach(file => {
-    const appName = getAppNameFromFilePath(file);
-    const filePathAsArray = file.split('/');
+  Object.keys(imports).forEach(importerFilePath => {
+    const appName = getAppNameFromFilePath(importerFilePath);
+    const filePathAsArray = importerFilePath.split('/');
 
-    // eslint-disable-next-line no-param-reassign
-    if (!graph[appName]) graph[appName] = [appName];
+    if (!graph[appName]) {
+      graph[appName] = {
+        appsToTest: [appName],
+        appsThatThisAppImportsFrom: [],
+        appsThatImportFromThisApp: [],
+      };
+    }
 
-    imports[file].forEach(importRef => {
-      const importPath = getImportPath(filePathAsArray, importRef);
+    imports[importerFilePath].forEach(importRef => {
+      const importeeFilePath = getImportPath(filePathAsArray, importRef);
 
-      if (importIsFromOtherApplication(appName, importPath)) {
-        updateGraph(graph, appName, getAppNameFromFilePath(importPath));
+      if (importIsFromOtherApplication(appName, importeeFilePath)) {
+        updateGraph(graph, appName, importerFilePath, importeeFilePath);
       }
     });
   });
@@ -259,8 +294,7 @@ function buildGraph(graph) {
 
 function dedupeGraph(graph) {
   Object.keys(graph).forEach(app => {
-    // eslint-disable-next-line no-param-reassign
-    graph[app] = [...new Set(graph[app])];
+    graph[app].appsToTest = [...new Set(graph[app].appsToTest)];
   });
 }
 
