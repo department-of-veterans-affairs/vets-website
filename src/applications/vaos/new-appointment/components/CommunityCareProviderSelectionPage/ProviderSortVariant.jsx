@@ -43,20 +43,14 @@ export default function ProviderSortVariant({
     }),
   ];
 
-  useEffect(() => {
-    if (sortMethod === FACILITY_SORT_METHODS.distanceFromFacility) {
-      setSelectedSortMethod(ccEnabledSystems[0].id);
-    }
-  }, []);
-
   useEffect(
     () => {
       if (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation) {
         dispatch(requestProvidersList(currentLocation));
-      } else if (sortMethod === FACILITY_SORT_METHODS.distanceFromFacility) {
-        dispatch(requestProvidersList(selectedCCFacility.position));
-      } else {
+      } else if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
         dispatch(requestProvidersList(address));
+      } else {
+        dispatch(requestProvidersList(selectedCCFacility.position));
       }
 
       if (communityCareProviderList) {

@@ -217,6 +217,10 @@ export function selectProviderSelectionInfo(state) {
     sortMethod === FACILITY_SORT_METHODS.distanceFromFacility
       ? `${sortMethod}_${selectedCCFacility.id}_${typeOfCare.ccId}`
       : `${sortMethod}_${typeOfCare.ccId}`;
+  const updatedSortMethod =
+    sortMethod === FACILITY_SORT_METHODS.distanceFromFacility
+      ? selectedCCFacility.id
+      : sortMethod;
   return {
     address: selectVAPResidentialAddress(state),
     ccEnabledSystems,
@@ -226,7 +230,7 @@ export function selectProviderSelectionInfo(state) {
     requestStatus,
     selectedCCFacility,
     showCCIterations,
-    sortMethod,
+    sortMethod: updatedSortMethod,
     typeOfCareName: typeOfCare.name,
   };
 }

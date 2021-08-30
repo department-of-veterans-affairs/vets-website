@@ -57,7 +57,7 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
         {
           id: '983',
           attributes: {
-            ...getParentSiteMock().attributes,
+            ...getParentSiteMock({ id: '983' }).attributes,
             city: 'Bozeman',
             stateAbbrev: 'MT',
             institutionCode: '983',
@@ -68,7 +68,7 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
         {
           id: '983GJ',
           attributes: {
-            ...getParentSiteMock().attributes,
+            ...getParentSiteMock({ id: '983GJ' }).attributes,
             city: 'Belgrade',
             stateAbbrev: 'MT',
             institutionCode: '983GJ',
@@ -79,7 +79,7 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
         {
           id: '983GC',
           attributes: {
-            ...getParentSiteMock().attributes,
+            ...getParentSiteMock({ id: '983GC' }).attributes,
             institutionCode: '983GC',
             rootStationCode: '983',
             parentStationCode: '983GC',
@@ -104,7 +104,7 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
     );
     mockFacilityFetch(
       'vha_442',
-      getVAFacilityMock({ lat: 38.5615, long: 122.9988 }),
+      getVAFacilityMock({ id: '442', lat: 38.5615, long: 122.9988 }),
     );
   });
 
@@ -121,7 +121,11 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
     );
 
     // When the user clicks the choose a provider button
-    userEvent.click(await screen.findByText(/Choose a provider/i));
+    userEvent.click(
+      await screen.findByText(/Choose a provider/i, {
+        selector: 'button',
+      }),
+    );
     // Then providers should be displayed
     expect(await screen.findByText(/Show providers closest to/i)).to.exist;
     expect(screen.baseElement).to.contain.text('Your home address');
@@ -129,78 +133,6 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
     expect(await screen.findByText(/Displaying 1 to 5 of 16 providers/i)).to.be
       .ok;
     expect(screen.getAllByRole('radio').length).to.equal(5);
-
-    userEvent.click(await screen.findByText(/\+ 5 more providers/i));
-    expect(await screen.findByText(/displaying 1 to 10 of 16 providers/i)).to
-      .exist;
-    expect((await screen.findAllByRole('radio')).length).to.equal(10);
-    await waitFor(() => {
-      expect(document.activeElement.id).to.equal(
-        'root_communityCareProvider_6',
-      );
-    });
-
-    userEvent.click(await screen.findByText(/\+ 5 more providers/i));
-    expect(await screen.findByText(/displaying 1 to 15 of 16 providers/i)).to
-      .exist;
-    expect((await screen.findAllByRole('radio')).length).to.equal(15);
-    await waitFor(() => {
-      expect(document.activeElement.id).to.equal(
-        'root_communityCareProvider_11',
-      );
-    });
-
-    userEvent.click(await screen.findByText(/\+ 1 more providers/i));
-    expect(await screen.findByText(/displaying 1 to 16 of 16 providers/i)).to
-      .exist;
-    expect((await screen.findAllByRole('radio')).length).to.equal(16);
-    await waitFor(() => {
-      expect(document.activeElement.id).to.equal(
-        'root_communityCareProvider_16',
-      );
-    });
-    // provider selection
-    userEvent.click(await screen.findByText(/AJADI, ADEDIWURA/i));
-    userEvent.click(
-      await screen.getByRole('button', {
-        name: /choose provider/i,
-      }),
-    );
-    expect(screen.baseElement).to.contain.text('Selected Provider');
-    expect(screen.baseElement).to.contain.text(
-      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-6599',
-    );
-    expect(screen.baseElement).to.contain.text('408.5 miles');
-
-    // changing provider
-    userEvent.click(
-      await screen.findByRole('button', {
-        name: /change provider/i,
-      }),
-    );
-    userEvent.click(await screen.findByText(/OH, JANICE/i));
-    userEvent.click(
-      await screen.findByRole('button', {
-        name: /choose provider/i,
-      }),
-    );
-
-    expect(screen.baseElement).to.contain.text(
-      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400397.3 miles',
-    );
-
-    // Cancel Selection (not clearing of a selected provider)
-    userEvent.click(
-      await screen.findByRole('button', {
-        name: /change provider/i,
-      }),
-    );
-    expect(await screen.findByText(/displaying 1 to 5 of 16 providers/i)).to
-      .exist;
-    userEvent.click(await screen.findByRole('button', { name: /cancel/i }));
-    expect(screen.baseElement).to.contain.text(
-      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400397.3 miles',
-    );
   });
 
   it('should notify user that the browser is blocked from using current location information', async () => {
@@ -231,7 +163,11 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
     );
 
     // When the user selects to sort providers by distance from current location
-    userEvent.click(await screen.findByText(/Choose a provider/i));
+    userEvent.click(
+      await screen.findByText(/Choose a provider/i, {
+        selector: 'button',
+      }),
+    );
     fireEvent.change(await screen.getByLabelText('Show providers closest to'), {
       target: {
         value: FACILITY_SORT_METHODS.distanceFromCurrentLocation,
@@ -285,7 +221,11 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
     );
 
     // Choose Provider based on home address
-    userEvent.click(await screen.findByText(/Choose a provider/i));
+    userEvent.click(
+      await screen.findByText(/Choose a provider/i, {
+        selector: 'button',
+      }),
+    );
 
     // When the user selects to sort providers by distance from current location
     // Choose Provider based on current location
@@ -352,7 +292,11 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
     );
 
     // Choose Provider
-    userEvent.click(await screen.findByText(/Choose a provider/i));
+    userEvent.click(
+      await screen.findByText(/Choose a provider/i, {
+        selector: 'button',
+      }),
+    );
     fireEvent.change(await screen.getByLabelText('Show providers closest to'), {
       target: {
         value: FACILITY_SORT_METHODS.distanceFromCurrentLocation,
@@ -434,7 +378,11 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
     );
 
     // Choose Provider based on home address
-    userEvent.click(await screen.findByText(/Choose a provider/i));
+    userEvent.click(
+      await screen.findByText(/Choose a provider/i, {
+        selector: 'button',
+      }),
+    );
 
     // When the user selects to sort providers by distance from a specific facility
     // Choose Provider based on facility address
@@ -469,7 +417,7 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
     );
 
     expect(screen.baseElement).to.contain.text(
-      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-24006938.2 miles',
+      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400 miles',
     );
   });
 
@@ -515,7 +463,11 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
     );
     // When the user tries to choose a provider
     // Trigger provider list loading
-    userEvent.click(await screen.findByText(/Choose a provider/i));
+    userEvent.click(
+      await screen.findByText(/Choose a provider/i, {
+        selector: 'button',
+      }),
+    );
     expect(await screen.findByText(/Show providers closest to/i)).to.exist;
 
     // Then the select options should default to sort by distance from the first CC enabled facility

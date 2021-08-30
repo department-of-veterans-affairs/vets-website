@@ -953,9 +953,9 @@ export function requestProvidersList(address) {
       const typeOfCare = getTypeOfCare(newAppointment.data);
       let ccProviderCacheKey = `${sortMethod}_${typeOfCare.ccId}`;
       if (sortMethod === FACILITY_SORT_METHODS.distanceFromFacility) {
-        ccProviderCacheKey = `${sortMethod}_${
-          selectedCCFacility.position?.latitude
-        }_${typeOfCare.ccId}`;
+        ccProviderCacheKey = `${sortMethod}_${selectedCCFacility.id}_${
+          typeOfCare.ccId
+        }`;
       }
       let typeOfCareProviders = communityCareProviders[ccProviderCacheKey];
 
