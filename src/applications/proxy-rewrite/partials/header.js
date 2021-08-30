@@ -83,7 +83,7 @@ export default `
     </div>
     <div id="va-nav-controls"></div>
     <div class="usa-grid usa-grid-full">
-      <div class="menu-rule usa-one-whole"></div>
+      <div class="medium-screen:vads-u-display--none menu-rule usa-one-whole"></div>
       <div class="mega-menu" id="mega-menu-mobile"></div>
     </div>
     <div id="login-root" class="vet-toolbar"></div>
