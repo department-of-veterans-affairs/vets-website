@@ -1,5 +1,9 @@
 import React from 'react';
 
 export default function EmailViewField({ formData }) {
-  return <>{formData}</>;
+  try {
+    return <>{formData.email}</>;
+  } catch (err) {
+    return '';
+  }
 }
