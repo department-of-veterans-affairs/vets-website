@@ -277,8 +277,8 @@ function buildGraph(graph) {
     if (!graph[appName]) {
       graph[appName] = {
         appsToTest: [appName],
-        appsThatThisAppImportsFrom: [],
-        appsThatImportFromThisApp: [],
+        appsThatThisAppImportsFrom: {},
+        appsThatImportFromThisApp: {},
       };
     }
 
