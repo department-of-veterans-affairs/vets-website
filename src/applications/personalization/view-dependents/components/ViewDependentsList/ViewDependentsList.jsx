@@ -75,4 +75,5 @@ ViewDependentsList.propTypes = {
   header: PropTypes.string,
   subHeader: PropTypes.object,
   manageDependentsToggle: PropTypes.bool,
+  submittedDependents: PropTypes.array,
 };
