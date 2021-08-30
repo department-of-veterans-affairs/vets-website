@@ -39,12 +39,9 @@
     margin-top: 0px;
     margin-bottom: 0px;
 
-
-    &:focus-visible {
-      outline-style: auto;
-      outline: 2px solid $color-gold;
+    &:focus:not(:focus-visible) {
+      outline: none;
     }
-
   }
 
   .name-search-tab {
