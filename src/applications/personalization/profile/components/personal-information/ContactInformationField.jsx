@@ -90,7 +90,7 @@ class ContactInformationField extends React.Component {
     isEmpty: PropTypes.bool.isRequired,
     isEnrolledInVAHealthCare: PropTypes.bool.isRequired,
     openModal: PropTypes.func.isRequired,
-    refreshTransactionRequest: PropTypes.func.isRequired,
+    refreshTransactionRequest: PropTypes.func,
     showEditView: PropTypes.bool.isRequired,
     showSMSCheckBox: PropTypes.bool,
     showValidationView: PropTypes.bool.isRequired,

@@ -15,7 +15,7 @@ describe('<ContactInformationField/>', () => {
 
   beforeEach(() => {
     props = {
-      analyticsSectionName: 'some-field',
+      analyticsSectionName: 'home-telephone',
       clearErrors() {},
       data: { someField: 'someFieldValue' },
       field: null,
