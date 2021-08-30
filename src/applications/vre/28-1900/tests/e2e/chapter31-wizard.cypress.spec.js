@@ -13,9 +13,9 @@ describe('Chapter 31 wizard', () => {
       'have.text',
       'Apply for Veteran Readiness and Employment with VA Form 28-1900',
     );
-    cy.findByRole('heading', { name: /Is this the form I need?/i }).should(
-      'exist',
-    );
+    cy.findByRole('heading', {
+      name: /How do I know if this program is right for me?/i,
+    }).should('exist');
     cy.axeCheck();
   });
   it('should fill out the wizard and orientation', () => {
