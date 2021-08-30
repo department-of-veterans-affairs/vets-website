@@ -44,7 +44,7 @@ export default function VideoLocation({ appointment, facility }) {
             listed below.
           </span>
         )}
-        {isPast && <span>Video conference</span>}
+        {isPast && genericPastContent}
 
         <div className="vads-u-margin-top--2">
           <AtlasLocation appointment={appointment} isPast={isPast} />
@@ -61,7 +61,7 @@ export default function VideoLocation({ appointment, facility }) {
             You can join this video meeting using a device provided by VA.
           </span>
         )}
-        {isPast && <span>Video conference</span>}
+        {isPast && genericPastContent}
       </>
     );
   }
