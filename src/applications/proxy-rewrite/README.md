@@ -25,35 +25,3 @@ http://localhost:3001/?target=https://www.va.gov/health/
 
 ## Charles Proxy
 You can also use an application called Charles Proxy to map the `proxy-rewrite` bundles of TeamSite pages to your local machine. This way you can navigate directly to `https://www.va.gov/health/` and when the request for the production bundle of `proxy-rewrite` is sent, Charles will have overridden that file to instead be served locally. Instructions to set this up are located here, https://github.com/department-of-veterans-affairs/vets.gov-team/blob/master/Work%20Practices/Engineering/Teamsite.md.
-
-## Teamsite Visual Regression Testing
-
-Both scripts compare production Teamsite header and footer against images in `vets-website` repo
-
-- `npm run vrt` - test fails and generates diff images when images differ
-- `npm run vrt:baseline` - test always succeeds and replaces existing baseline images when images differ
-
-- If no baseline images exist for a test, both scripts will
-  - succeed on each test that has no baseline image and
-  - generate a new baseline image for it.
-- Diff images are removed automatically when their associated test succeeds.
-
-### Details
-- compares snapsshots of `<header>` and `.footerNav` on current subdomain Teamsite pages
-- [jest-image-snapshot](https://github.com/americanexpress/jest-image-snapshot) uses [pixelmatch](https://github.com/mapbox/pixelmatch) to detect failure
-- Diff images show **left center right** the **baseline diff new** images
-![Example Diff Image](./readme-assets/diff-image-example.png)
-
-## What To Do When The Test Fails
-- If needed, run `npm run vrt` locally
-- The test log will show a
-  - Summary of successes and failures
- ![Test Summary Example](./readme-assets/vrt-test-summary-example.png)
-  - Failure details for each test with path to diff image for failure
- ![Failure Detail Example](./readme-assets/cli-failure-example.png)
-- **If failure is caused by production issue**
-  - Repair issue and publish to production
-  - Verify `npm run test:vrt` succeeds
-- **If failure is caused by an update**
-  - Run `npm run test:vrt:baseline`
-  - Check in new baseline images to `vets-website`
