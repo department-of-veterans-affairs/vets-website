@@ -58,7 +58,23 @@ function ViewDependentsListItem(props) {
         >
           {firstName} {lastName}
         </dt>
-
+        {manageDependentsToggle &&
+          submittedDependents.includes(stateKey) && (
+            <dd
+              aria-live="polite"
+              className="vads-l-col--12 vads-u-margin-y--1p5"
+            >
+              <dfn title="status">
+                <i
+                  aria-hidden="true"
+                  role="img"
+                  className="fas fa-exclamation-triangle"
+                />{' '}
+                Status:
+              </dfn>{' '}
+              Removal of dependent pending
+            </dd>
+          )}
         <dd className="vads-l-col--12 vads-u-margin--0">
           <dfn title="relationship">Relationship:</dfn> {relationship}
         </dd>
