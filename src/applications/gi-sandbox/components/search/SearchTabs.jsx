@@ -9,14 +9,11 @@ import { getScrollOptions } from 'platform/utilities/ui';
 export default function SearchTabs({ onChange, search }) {
   const { tab } = search;
 
-  useEffect(
-    () => {
-      if (search.inProgress) {
-        scroller.scrollTo('search-form', getScrollOptions());
-      }
-    },
-    [search.inProgress],
-  );
+  useEffect(() => {
+    if (search.inProgress) {
+      scroller.scrollTo('search-form', getScrollOptions());
+    }
+  }, [search.inProgress]);
 
   const tabbedSearch = {
     [TABS.name]: <NameSearchForm />,
@@ -45,9 +42,9 @@ export default function SearchTabs({ onChange, search }) {
     );
 
     return (
-      <div className={tabClasses} onClick={() => onChange(tabName)}>
+      <button className={tabClasses} onClick={() => onChange(tabName)}>
         {label}
-      </div>
+      </button>
     );
   };
 
