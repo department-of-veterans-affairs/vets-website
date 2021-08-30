@@ -12,7 +12,7 @@ const ValidateVeteran = props => {
   };
   return (
     <div>
-      We need more information
+      <h1>Check in at VA</h1>
       <button
         type="button"
         className="usa-button usa-button-big"
@@ -21,7 +21,7 @@ const ValidateVeteran = props => {
         disabled={isLoading}
         aria-label="Check in now for your appointment"
       >
-        {isLoading ? <>Loading...</> : <>Check in now</>}
+        {isLoading ? <>Loading...</> : <>Continue</>}
       </button>
       <BackToHome />
     </div>
