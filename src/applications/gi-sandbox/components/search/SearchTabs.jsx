@@ -45,9 +45,9 @@ export default function SearchTabs({ onChange, search }) {
     );
 
     return (
-      <div className={tabClasses} onClick={() => onChange(tabName)}>
+      <button className={tabClasses} onClick={() => onChange(tabName)}>
         {label}
-      </div>
+      </button>
     );
   };
 
