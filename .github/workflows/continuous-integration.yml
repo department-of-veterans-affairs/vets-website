@@ -739,8 +739,8 @@ jobs:
       - name: Get AWS IAM role
         uses: marvinpinto/action-inject-ssm-secrets@latest
         with:
-          ssm_parameter: /frontend-team/github-actions/parameters/GHA_FRONTEND_USER_S3_TESTINGTOOLS
-          env_variable_name: GHA_FRONTEND_USER_S3_TESTINGTOOLS
+          ssm_parameter: /frontend-team/github-actions/parameters/svc-gha-frontendteam-user
+          env_variable_name: SVC_GHA_FRONTENDTEAM_USER
 
       - name: Configure AWS Credentials (2)
         uses: aws-actions/configure-aws-credentials@v1
@@ -748,7 +748,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
-          role-to-assume: ${{ env.GHA_FRONTEND_USER_S3_TESTINGTOOLS }}
+          role-to-assume: ${{ env.SVC_GHA_FRONTENDTEAM_USER }}
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
 
