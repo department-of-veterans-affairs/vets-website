@@ -399,7 +399,7 @@ export class RenderedComponent extends React.Component {
       <div className="site-c-reactcomp__rendered">
         <header className="header">
           <div className="usa-grid usa-grid-full">
-            <div class="mega-menu" id="mega-menu-desktop">
+            <div id="mega-menu">
               <div
                 onClick={() => this.toggleDisplayHidden()}
                 style={{
