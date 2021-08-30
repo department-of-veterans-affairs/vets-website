@@ -672,8 +672,8 @@ jobs:
           BUILDTYPE: vagovprod
           NODE_ENV: production
 
-  testing-reports:
-    name: Testing Reports
+  failure-notifications:
+    name: Failure Notifications
     runs-on: ubuntu-latest
     needs: [cypress-tests-prep, cypress-tests]
     if: ${{ needs.cypress-tests.result == 'failure' }}
