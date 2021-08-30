@@ -7,6 +7,7 @@ module.exports = {
   },
   settings: {
     'import/resolver': {
+      node: {}, // need to add this
       'babel-module': {},
     },
   },

@@ -37,6 +37,7 @@ import {
   fetchConfirmedAppointmentDetails,
 } from '../../redux/actions';
 import { getConfirmedAppointmentDetailsInfo } from '../../redux/selectors';
+import DetailsVA from './DetailsVA';
 
 function formatAppointmentDate(date) {
   if (!date.isValid()) {
@@ -141,6 +142,23 @@ export default function ConfirmedAppointmentDetailsPage() {
       <FullWidthLayout>
         <LoadingIndicator setFocus message="Loading your appointment..." />
       </FullWidthLayout>
+    );
+  }
+
+  if (
+    appointment.vaos.isCOVIDVaccine ||
+    appointment.vaos.isPhoneAppointment ||
+    !appointment.vaos.isVideo
+  ) {
+    return (
+      <>
+        <DetailsVA appointment={appointment} facilityData={facilityData} />
+        <CancelAppointmentModal
+          {...cancelInfo}
+          onConfirm={() => dispatch(confirmCancelAppointment())}
+          onClose={() => dispatch(closeCancelAppointment())}
+        />
+      </>
     );
   }
 

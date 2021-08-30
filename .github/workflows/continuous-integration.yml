@@ -695,7 +695,6 @@ jobs:
       # ----------------
       # | Notify Slack |
       # ----------------
-
       - name: Checkout VSP actions
         if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: actions/checkout@v2
@@ -734,7 +733,6 @@ jobs:
       # ------------------------
       # | Upload BigQuery Data |
       # ------------------------
-
       - name: Checkout Testing Tools Team Dashboard Data repo
         uses: actions/checkout@v2
         with:
@@ -747,7 +745,6 @@ jobs:
       #   id: get-node-version
       #   run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
       #   working-directory: testing-tools-team-dashboard-data
-
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
@@ -787,7 +784,6 @@ jobs:
         env:
           IS_MASTER_BUILD: ${{ needs.cypress-tests-prep.outputs.is_master_build }}
           NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
-
       # env.MOCHAWESOME_REPORT_RESULTS is set and exported during the above step when the mochawesome report is generated.  It contains the output string for the publish step at the end of the job with the numbers from the Mochawesome report.
 
       - name: Upload Mochawesome report artifact
@@ -799,7 +795,6 @@ jobs:
       # --------------------------
       # | Publish Testing Report |
       # --------------------------
-
       - name: Checkout Testing Reports repo
         uses: actions/checkout@v2
         with:
@@ -839,7 +834,6 @@ jobs:
       # -------------------------
       # | Cypress Tests Summary |
       # -------------------------
-
       - name: Publish Cypress test results
         if: ${{ always() }}
         uses: LouisBrunner/checks-action@v1.1.1
