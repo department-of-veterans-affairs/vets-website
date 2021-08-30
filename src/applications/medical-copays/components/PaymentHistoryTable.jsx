@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import SortableTable from '../components/SortableTable';
 import { currency } from '../utils/helpers';
@@ -14,48 +14,23 @@ const fields = [
 const data = [
   {
     date: 'March 13, 2021',
-    desc: 'Prescription copay (service connected)',
-    amount: 10,
+    desc: 'A',
+    amount: 1,
   },
   {
     date: 'June 3, 2021',
     desc: 'Inpatient Community Care Network copay for May 5, 2021',
-    amount: 290,
+    amount: 2,
   },
   {
     date: 'May 7, 2021',
     desc: 'Payments made from April 3, 2021 to May 3, 2021',
-    amount: 56,
-  },
-  {
-    date: 'April 22, 2021',
-    desc: 'Inpatient Community Care Network copay for May 5, 2021',
-    amount: 60,
-  },
-  {
-    date: 'August 2, 2021',
-    desc: 'Late fee',
     amount: 3,
   },
   {
-    date: 'March 13, 2021',
-    desc: 'Prescription copay (service connected)',
-    amount: 10,
-  },
-  {
-    date: 'June 3, 2021',
-    desc: 'Inpatient Community Care Network copay for May 5, 2021',
-    amount: 110,
-  },
-  {
-    date: 'May 7, 2021',
-    desc: 'Payments made from April 3, 2021 to May 3, 2021',
-    amount: 101,
-  },
-  {
     date: 'April 22, 2021',
-    desc: 'Inpatient Community Care Network copay for May 5, 2021',
-    amount: 60,
+    desc: 'Inpatient Community Care Network copay for May 3, 2021',
+    amount: 4,
   },
   {
     date: 'August 2, 2021',
@@ -65,102 +40,22 @@ const data = [
   {
     date: 'March 13, 2021',
     desc: 'Prescription copay (service connected)',
-    amount: 10,
-  },
-  {
-    date: 'June 3, 2021',
-    desc: 'Inpatient Community Care Network copay for May 5, 2021',
-    amount: 490,
-  },
-  {
-    date: 'May 7, 2021',
-    desc: 'Payments made from April 3, 2021 to May 3, 2021',
-    amount: 76,
-  },
-  {
-    date: 'April 22, 2021',
-    desc: 'Inpatient Community Care Network copay for May 5, 2021',
-    amount: 60,
-  },
-  {
-    date: 'August 2, 2021',
-    desc: 'Late fee',
-    amount: 4,
-  },
-  {
-    date: 'March 13, 2021',
-    desc: 'Prescription copay (service connected)',
-    amount: 10,
-  },
-  {
-    date: 'June 3, 2021',
-    desc: 'Inpatient Community Care Network copay for May 5, 2021',
-    amount: 77,
-  },
-  {
-    date: 'May 7, 2021',
-    desc: 'Payments made from April 3, 2021 to May 3, 2021',
-    amount: 102,
-  },
-  {
-    date: 'April 22, 2021',
-    desc: 'Inpatient Community Care Network copay for May 5, 2021',
-    amount: 58,
-  },
-  {
-    date: 'August 2, 2021',
-    desc: 'Late fee',
     amount: 6,
   },
   {
-    date: 'March 13, 2021',
-    desc: 'Prescription copay (service connected)',
-    amount: 45,
-  },
-  {
     date: 'June 3, 2021',
-    desc: 'Inpatient Community Care Network copay for May 5, 2021',
-    amount: 65,
+    desc: 'B',
+    amount: 7,
   },
   {
     date: 'May 7, 2021',
-    desc: 'Payments made from April 3, 2021 to May 3, 2021',
-    amount: 22,
+    desc: 'Payments made from April 7, 2021 to May 3, 2021',
+    amount: 8,
   },
   {
     date: 'April 22, 2021',
-    desc: 'Inpatient Community Care Network copay for May 5, 2021',
-    amount: 60,
-  },
-  {
-    date: 'August 2, 2021',
-    desc: 'Late fee',
+    desc: 'C',
     amount: 9,
-  },
-  {
-    date: 'March 13, 2021',
-    desc: 'Prescription copay (service connected)',
-    amount: 10,
-  },
-  {
-    date: 'June 3, 2021',
-    desc: 'Inpatient Community Care Network copay for May 5, 2021',
-    amount: 95,
-  },
-  {
-    date: 'May 7, 2021',
-    desc: 'Payments made from April 3, 2021 to May 3, 2021',
-    amount: 64,
-  },
-  {
-    date: 'April 22, 2021',
-    desc: 'Inpatient Community Care Network copay for May 5, 2021',
-    amount: 13,
-  },
-  {
-    date: 'August 2, 2021',
-    desc: 'Late fee',
-    amount: 1,
   },
 ];
 
@@ -181,19 +76,32 @@ const PaymentHistoryTable = () => {
   const end = Math.min(page * MAX_ROWS_PER_PAGE, tableData.length);
   const currentPage = tableData.slice(start, end);
 
-  const handleSort = useCallback(
-    sortOrder => {
-      const sortedData = data.sort((a, b) => {
-        return sortOrder.order === 'ASC'
-          ? b.amount - a.amount
-          : a.amount - b.amount;
-      });
+  const sortByColumn = (array, field) => {
+    return array.sort((a, b) => {
+      if (sort.order && field === 'date') {
+        const ascending = Date.parse(a[field]) - Date.parse(b[field]);
+        const descending = Date.parse(b[field]) - Date.parse(a[field]);
+        return sort.order === 'ASC' ? ascending : descending;
+      }
 
-      setSort(sortOrder);
-      setTableData(sortedData);
-    },
-    [setSort],
-  );
+      if (sort.order && field === 'desc') {
+        const ascending = a[field].localeCompare(b[field]);
+        const descending = b[field].localeCompare(a[field]);
+        return sort.order === 'ASC' ? ascending : descending;
+      }
+
+      return array;
+    });
+  };
+
+  const handleSort = field => {
+    const sortedData = sortByColumn(tableData, field);
+    setTableData(sortedData);
+    setSort(prevState => ({
+      value: field,
+      order: prevState.order === 'ASC' ? 'DESC' : 'ASC',
+    }));
+  };
 
   const onPageSelect = useCallback(
     selectedPage => {
@@ -201,8 +109,6 @@ const PaymentHistoryTable = () => {
     },
     [setPage],
   );
-
-  useEffect(() => {}, []);
 
   return (
     <article className="vads-u-padding--0">
@@ -224,7 +130,7 @@ const PaymentHistoryTable = () => {
           data={formatTableData(currentPage)}
           fields={fields}
           sort={sort}
-          handleSort={handleSort}
+          onSort={handleSort}
         />
         <Pagination
           page={page}

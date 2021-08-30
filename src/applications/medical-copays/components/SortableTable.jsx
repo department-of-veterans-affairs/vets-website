@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 const borderClasses = `vads-u-border-top--0 vads-u-border-right--0 vads-u-border-left--0 vads-u-font-family--sans vads-u-padding--0 vads-u-padding-y--0p5 medium-screen:vads-u-padding--2`;
-const buttonClasses = `va-button-link vads-u-font-weight--bold vads-u-color--base vads-u-text-decoration--none`;
+const buttonClasses = `va-button-link vads-u-font-weight--bold vads-u-color--base vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--center`;
 const rowPaddingClass = `vads-u-padding-y--2`;
 
-const SortableTable = ({ sort, handleSort, fields, data, ariaLabelledBy }) => (
+const SortableTable = ({ sort, onSort, fields, data, ariaLabelledBy }) => (
   <table aria-labelledby={ariaLabelledBy} className="responsive" role="table">
     <thead>
       <tr role="row">
@@ -21,22 +21,19 @@ const SortableTable = ({ sort, handleSort, fields, data, ariaLabelledBy }) => (
               >
                 <button
                   className={buttonClasses}
-                  onClick={() =>
-                    handleSort({
-                      value: field.value,
-                      order: sort.order === 'ASC' ? 'DESC' : 'ASC',
-                    })
-                  }
+                  onClick={() => onSort(field.value)}
                 >
                   {field.label}
-                  {sort?.value === field.value && (
+                  {sort?.value === field.value ? (
                     <i
                       className={classNames({
-                        fa: true,
-                        'fas fa-caret-down': sort.order === 'DESC',
-                        'fas fa-caret-up': sort.order === 'ASC',
+                        fas: true,
+                        'fa-caret-up': sort.order === 'ASC',
+                        'fa-caret-down': sort.order === 'DESC',
                       })}
                     />
+                  ) : (
+                    <i className={'fas fa-sort'} />
                   )}
                 </button>
               </th>
