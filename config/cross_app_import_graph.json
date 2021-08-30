@@ -1362,14 +1362,6 @@
             "importee": "src/applications/static-pages/dependency-verification/reducers"
           }
         ]
-      },
-      "vre": {
-        "filesImported": [
-          {
-            "importer": "src/applications/personalization/view-dependents/manage-dependents/schemas.js",
-            "importee": "src/applications/vre/definitions/profileAddress"
-          }
-        ]
       }
     },
     "appsThatImportFromThisApp": {
@@ -1441,7 +1433,6 @@
     "appsToTest": [
       "vre",
       "lgy",
-      "personalization",
       "static-pages"
     ],
     "appsThatThisAppImportsFrom": {
@@ -1487,14 +1478,6 @@
         "filesImported": [
           {
             "importer": "src/applications/lgy/coe/config/chapters/applicant/applicantContactInformation.js",
-            "importee": "src/applications/vre/definitions/profileAddress"
-          }
-        ]
-      },
-      "personalization": {
-        "filesImported": [
-          {
-            "importer": "src/applications/personalization/view-dependents/manage-dependents/schemas.js",
             "importee": "src/applications/vre/definitions/profileAddress"
           }
         ]
