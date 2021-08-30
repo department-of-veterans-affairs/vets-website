@@ -44,12 +44,8 @@ export default function ProviderSelectionField({
 
   useEffect(
     () => {
-      if (mounted && Object.keys(formData).length === 0) {
-        if (showCCIterations) {
-          scrollAndFocus('select');
-        } else {
-          scrollAndFocus('.va-button-link');
-        }
+      if (mounted && Object.keys(formData).length === 0 && !showCCIterations) {
+        scrollAndFocus('.va-button-link');
       }
     },
     [formData],
