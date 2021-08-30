@@ -10,8 +10,43 @@
     "appsToTest": [
       "ask-a-question"
     ],
-    "appsThatThisAppImportsFrom": {},
+    "appsThatThisAppImportsFrom": {
+      "caregivers": {
+        "filesImported": [
+          {
+            "importer": "src/applications/ask-a-question/form/contactInformation/contactInformationPage.js",
+            "importee": "src/applications/caregivers/definitions/UIDefinitions/sharedUI"
+          }
+        ]
+      }
+    },
     "appsThatImportFromThisApp": {}
+  },
+  "caregivers": {
+    "appsToTest": [
+      "caregivers",
+      "ask-a-question"
+    ],
+    "appsThatThisAppImportsFrom": {
+      "claims-status": {
+        "filesImported": [
+          {
+            "importer": "src/applications/caregivers/containers/ConfirmationPage.jsx",
+            "importee": "src/applications/claims-status/utils/page"
+          }
+        ]
+      }
+    },
+    "appsThatImportFromThisApp": {
+      "ask-a-question": {
+        "filesImported": [
+          {
+            "importer": "src/applications/ask-a-question/form/contactInformation/contactInformationPage.js",
+            "importee": "src/applications/caregivers/definitions/UIDefinitions/sharedUI"
+          }
+        ]
+      }
+    }
   },
   "auth": {
     "appsToTest": [
@@ -43,22 +78,6 @@
         ]
       }
     }
-  },
-  "caregivers": {
-    "appsToTest": [
-      "caregivers"
-    ],
-    "appsThatThisAppImportsFrom": {
-      "claims-status": {
-        "filesImported": [
-          {
-            "importer": "src/applications/caregivers/containers/ConfirmationPage.jsx",
-            "importee": "src/applications/claims-status/utils/page"
-          }
-        ]
-      }
-    },
-    "appsThatImportFromThisApp": {}
   },
   "claims-status": {
     "appsToTest": [
@@ -454,10 +473,6 @@
       },
       "find-forms": {
         "filesImported": [
-          {
-            "importer": "src/applications/static-pages/static-pages-entry.js",
-            "importee": "src/applications/find-forms/createFindVaForms"
-          },
           {
             "importer": "src/applications/static-pages/static-pages-entry.js",
             "importee": "src/applications/find-forms/widgets/createInvalidPdfAlert"
@@ -1029,10 +1044,6 @@
     "appsThatImportFromThisApp": {
       "static-pages": {
         "filesImported": [
-          {
-            "importer": "src/applications/static-pages/static-pages-entry.js",
-            "importee": "src/applications/find-forms/createFindVaForms"
-          },
           {
             "importer": "src/applications/static-pages/static-pages-entry.js",
             "importee": "src/applications/find-forms/widgets/createInvalidPdfAlert"
