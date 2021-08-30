@@ -40,6 +40,10 @@ describe('Notification Settings', () => {
       cy.loadingIndicatorWorks();
 
       cy.findByText('veteran@gmail.com').should('exist');
+      cy.findByText('Appointment reminders').should('exist');
+      cy.findByText('Prescription shipment and tracking updates').should(
+        'exist',
+      );
       cy.findByTestId('missing-contact-info-alert')
         .should('exist')
         .and('contain.text', 'mobile phone')
