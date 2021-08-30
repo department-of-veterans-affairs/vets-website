@@ -9,16 +9,6 @@ export default function TextWidget(props) {
     inputType = numberTypes.has(props.schema.type) ? 'number' : props.type;
   }
 
-  const pageIndex = props.formContext?.pagePerItemIndex;
-  /**
-   * addIndex
-   * ui:options.ariaDescribedby id may be within an array, so the page index
-   * from formContext pagePerItemIndex will be appended
-   * @param {String|null} id - aria-describedby id of associated content
-   */
-  const addIndex = (id = '') =>
-    id && typeof pageIndex !== 'undefined' ? `${id}_${pageIndex}` : id;
-
   const inputProps = {
     ...(props.schema.minValue && { min: props.schema.minValue }),
     ...(props.schema.maxValue && { max: props.schema.maxValue }),
@@ -34,7 +24,7 @@ export default function TextWidget(props) {
     onChange: event =>
       props.onChange(event.target.value ? event.target.value : undefined),
     onFocus: props.onFocus,
-    'aria-describedby': addIndex(props.options?.ariaDescribedby || null),
+    'aria-describedby': `${props.id}-error-message`,
   };
 
   return <input {...inputProps} />;
