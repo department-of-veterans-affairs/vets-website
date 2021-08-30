@@ -1,0 +1,10 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+table {
+  .date-column {
+    min-width: 175px;
+  }
+  .desc-column {
+    min-width: 450px;
+  }
+}

@@ -1,13 +1,13 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
-import Table from '@department-of-veterans-affairs/component-library/Table';
+import SortableTable from '../components/SortableTable';
 import { currency } from '../utils/helpers';
 
 export const MAX_ROWS_PER_PAGE = 6;
 
 const fields = [
-  { label: 'Statement date', value: 'date' },
-  { label: 'Description', value: 'desc' },
+  { label: 'Statement date', value: 'date', sortable: true },
+  { label: 'Description', value: 'desc', sortable: true },
   { label: 'Amount', value: 'amount' },
 ];
 
@@ -25,7 +25,7 @@ const data = [
   {
     date: 'May 7, 2021',
     desc: 'Payments made from April 3, 2021 to May 3, 2021',
-    amount: 102,
+    amount: 56,
   },
   {
     date: 'April 22, 2021',
@@ -35,7 +35,7 @@ const data = [
   {
     date: 'August 2, 2021',
     desc: 'Late fee',
-    amount: 2,
+    amount: 3,
   },
   {
     date: 'March 13, 2021',
@@ -45,12 +45,12 @@ const data = [
   {
     date: 'June 3, 2021',
     desc: 'Inpatient Community Care Network copay for May 5, 2021',
-    amount: 290,
+    amount: 110,
   },
   {
     date: 'May 7, 2021',
     desc: 'Payments made from April 3, 2021 to May 3, 2021',
-    amount: 102,
+    amount: 101,
   },
   {
     date: 'April 22, 2021',
@@ -60,7 +60,7 @@ const data = [
   {
     date: 'August 2, 2021',
     desc: 'Late fee',
-    amount: 2,
+    amount: 5,
   },
   {
     date: 'March 13, 2021',
@@ -70,12 +70,12 @@ const data = [
   {
     date: 'June 3, 2021',
     desc: 'Inpatient Community Care Network copay for May 5, 2021',
-    amount: 290,
+    amount: 490,
   },
   {
     date: 'May 7, 2021',
     desc: 'Payments made from April 3, 2021 to May 3, 2021',
-    amount: 102,
+    amount: 76,
   },
   {
     date: 'April 22, 2021',
@@ -85,7 +85,7 @@ const data = [
   {
     date: 'August 2, 2021',
     desc: 'Late fee',
-    amount: 2,
+    amount: 4,
   },
   {
     date: 'March 13, 2021',
@@ -95,7 +95,7 @@ const data = [
   {
     date: 'June 3, 2021',
     desc: 'Inpatient Community Care Network copay for May 5, 2021',
-    amount: 290,
+    amount: 77,
   },
   {
     date: 'May 7, 2021',
@@ -105,12 +105,37 @@ const data = [
   {
     date: 'April 22, 2021',
     desc: 'Inpatient Community Care Network copay for May 5, 2021',
+    amount: 58,
+  },
+  {
+    date: 'August 2, 2021',
+    desc: 'Late fee',
+    amount: 6,
+  },
+  {
+    date: 'March 13, 2021',
+    desc: 'Prescription copay (service connected)',
+    amount: 45,
+  },
+  {
+    date: 'June 3, 2021',
+    desc: 'Inpatient Community Care Network copay for May 5, 2021',
+    amount: 65,
+  },
+  {
+    date: 'May 7, 2021',
+    desc: 'Payments made from April 3, 2021 to May 3, 2021',
+    amount: 22,
+  },
+  {
+    date: 'April 22, 2021',
+    desc: 'Inpatient Community Care Network copay for May 5, 2021',
     amount: 60,
   },
   {
     date: 'August 2, 2021',
     desc: 'Late fee',
-    amount: 2,
+    amount: 9,
   },
   {
     date: 'March 13, 2021',
@@ -120,47 +145,22 @@ const data = [
   {
     date: 'June 3, 2021',
     desc: 'Inpatient Community Care Network copay for May 5, 2021',
-    amount: 290,
+    amount: 95,
   },
   {
     date: 'May 7, 2021',
     desc: 'Payments made from April 3, 2021 to May 3, 2021',
-    amount: 102,
+    amount: 64,
   },
   {
     date: 'April 22, 2021',
     desc: 'Inpatient Community Care Network copay for May 5, 2021',
-    amount: 60,
+    amount: 13,
   },
   {
     date: 'August 2, 2021',
     desc: 'Late fee',
-    amount: 2,
-  },
-  {
-    date: 'March 13, 2021',
-    desc: 'Prescription copay (service connected)',
-    amount: 10,
-  },
-  {
-    date: 'June 3, 2021',
-    desc: 'Inpatient Community Care Network copay for May 5, 2021',
-    amount: 290,
-  },
-  {
-    date: 'May 7, 2021',
-    desc: 'Payments made from April 3, 2021 to May 3, 2021',
-    amount: 102,
-  },
-  {
-    date: 'April 22, 2021',
-    desc: 'Inpatient Community Care Network copay for May 5, 2021',
-    amount: 60,
-  },
-  {
-    date: 'August 2, 2021',
-    desc: 'Late fee',
-    amount: 2,
+    amount: 1,
   },
 ];
 
@@ -174,10 +174,26 @@ const formatTableData = tableData => {
 
 const PaymentHistoryTable = () => {
   const [page, setPage] = useState(1);
-  const pages = Math.ceil(data.length / MAX_ROWS_PER_PAGE);
+  const [tableData, setTableData] = useState(data);
+  const [sort, setSort] = useState({ value: 'date', order: 'DESC' });
+  const pages = Math.ceil(tableData.length / MAX_ROWS_PER_PAGE);
   const start = (page - 1) * MAX_ROWS_PER_PAGE;
-  const end = Math.min(page * MAX_ROWS_PER_PAGE, data.length);
-  const currentPage = data.slice(start, end);
+  const end = Math.min(page * MAX_ROWS_PER_PAGE, tableData.length);
+  const currentPage = tableData.slice(start, end);
+
+  const handleSort = useCallback(
+    sortOrder => {
+      const sortedData = data.sort((a, b) => {
+        return sortOrder.order === 'ASC'
+          ? b.amount - a.amount
+          : a.amount - b.amount;
+      });
+
+      setSort(sortOrder);
+      setTableData(sortedData);
+    },
+    [setSort],
+  );
 
   const onPageSelect = useCallback(
     selectedPage => {
@@ -185,6 +201,8 @@ const PaymentHistoryTable = () => {
     },
     [setPage],
   );
+
+  useEffect(() => {}, []);
 
   return (
     <article className="vads-u-padding--0">
@@ -202,20 +220,18 @@ const PaymentHistoryTable = () => {
         </div>
       </div>
       <div className="payment-history-table">
-        <Table
-          fields={fields}
+        <SortableTable
           data={formatTableData(currentPage)}
-          currentSort={{
-            value: 'date',
-            order: 'ASC',
-          }}
+          fields={fields}
+          sort={sort}
+          handleSort={handleSort}
         />
         <Pagination
-          onPageSelect={onPageSelect}
           page={page}
           pages={pages}
-          maxPageListLength={MAX_ROWS_PER_PAGE}
           showLastPage
+          maxPageListLength={MAX_ROWS_PER_PAGE}
+          onPageSelect={onPageSelect}
         />
       </div>
       <p>
