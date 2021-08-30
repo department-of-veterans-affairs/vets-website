@@ -37,7 +37,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: 14 # ${{ steps.get-node-version.outputs.NODE_VERSION }}
+          node-version: 14
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline --production=false
@@ -50,7 +50,6 @@ jobs:
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: continuous-integration.yml
-          workflow_conclusion: success
           name: cypress-mochawesome-test-results
           path: testing-tools-team-dashboard-data/src/mochawesome/data
 
@@ -100,8 +99,8 @@ jobs:
           path: testing-reports/cypress-reports
 
       - name: Download video artifacts
-        if: ${{ needs.cypress-tests.result == 'failure' }}
-        uses: actions/download-artifact@v2
+        if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+        uses: dawidd6/action-download-artifact@v2
         with:
           name: cypress-video-artifacts
           path: testing-reports/cypress-reports/videos/${{ env.UUID }}
