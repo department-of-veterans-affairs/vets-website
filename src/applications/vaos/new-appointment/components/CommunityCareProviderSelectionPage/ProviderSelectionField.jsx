@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { shallowEqual, useSelector } from 'react-redux';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import { selectProviderSelectionInfo } from '../../redux/selectors';
 import ProviderSelect from './ProviderSelect';
 import ProviderList from './ProviderList';
 
@@ -12,10 +10,6 @@ export default function ProviderSelectionField({
   onChange,
   idSchema,
 }) {
-  const { showCCIterations } = useSelector(
-    selectProviderSelectionInfo,
-    shallowEqual,
-  );
   const [checkedProvider, setCheckedProvider] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [showProvidersList, setShowProvidersList] = useState(false);
@@ -39,16 +33,7 @@ export default function ProviderSelectionField({
         scrollAndFocus('#providerPostSelectionHeader');
       }
     },
-    [showProvidersList],
-  );
-
-  useEffect(
-    () => {
-      if (mounted && Object.keys(formData).length === 0 && !showCCIterations) {
-        scrollAndFocus('.va-button-link');
-      }
-    },
-    [formData],
+    [providerSelected, showProvidersList],
   );
 
   if (!showProvidersList) {
