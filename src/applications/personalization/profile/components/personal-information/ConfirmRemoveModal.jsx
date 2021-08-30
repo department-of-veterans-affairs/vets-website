@@ -4,18 +4,20 @@ import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { toLower } from 'lodash';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import { FIELD_NAMES } from '@@vap-svc/constants';
+import VAPServiceEditModalErrorMessage from '~/platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
 
-const ConfirmRemoveModal = props => {
-  const {
-    cancelAction,
-    deleteAction,
-    title,
-    fieldName,
-    isEnrolledInVAHealthCare,
-    isLoading,
-    isVisible,
-    onHide,
-  } = props;
+const ConfirmRemoveModal = ({
+  cancelAction,
+  deleteAction,
+  title,
+  fieldName,
+  isEnrolledInVAHealthCare,
+  isLoading,
+  isVisible,
+  onHide,
+  error,
+  clearErrors,
+}) => {
   return (
     <Modal
       title={`Are you sure?`}
@@ -49,9 +51,23 @@ const ConfirmRemoveModal = props => {
         )}
       </ul>
       <div className="vads-u-margin-top--1">
-        You can always come back to your profile later if you want to add this
+        You can always come back to your profile later if you want to add this{' '}
+        {}
         {toLower(title)} again.
       </div>
+      {error && (
+        <div
+          role="alert"
+          className="vads-u-margin-bottom--2"
+          data-testid="delete-error-alert"
+        >
+          <VAPServiceEditModalErrorMessage
+            title={title}
+            error={error}
+            clearErrors={clearErrors}
+          />
+        </div>
+      )}
       <div>
         <LoadingButton
           isLoading={isLoading}
@@ -85,6 +101,8 @@ ConfirmRemoveModal.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   isVisible: PropTypes.bool.isRequired,
   onHide: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  clearErrors: PropTypes.func.isRequired,
 };
 
 export default ConfirmRemoveModal;

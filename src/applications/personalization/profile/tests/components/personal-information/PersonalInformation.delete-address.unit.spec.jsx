@@ -6,7 +6,7 @@ import { setupServer } from 'msw/node';
 
 import { FIELD_TITLES, FIELD_NAMES } from '@@vap-svc/constants';
 
-import * as mocks from '@@profile/msw-mocks';
+import * as mocks from '../../../msw-mocks';
 import PersonalInformation from '@@profile/components/personal-information/PersonalInformation';
 
 import {
@@ -32,22 +32,18 @@ function getEditButton(addressName) {
 }
 
 function deleteAddress(addressName) {
-  getEditButton(addressName).click();
-
-  const cityInput = view.getByLabelText(/City/);
-  expect(cityInput).to.exist;
-
   // delete
   view
-    .getByText(new RegExp(`remove ${addressName}`, 'i'), {
+    .getByLabelText(new RegExp(`remove ${addressName}`, 'i'), {
       selector: 'button',
     })
     .click();
-  const confirmDeleteButton = view.getByText('Confirm', { selector: 'button' });
+  const confirmDeleteButton = view.getByText('Yes, remove my information', {
+    selector: 'button',
+  });
   confirmDeleteButton.click();
 
   return {
-    cityInput,
     confirmDeleteButton,
   };
 }
@@ -56,7 +52,7 @@ function deleteAddress(addressName) {
 async function testQuickSuccess(addressName) {
   server.use(...mocks.transactionPending);
 
-  const { confirmDeleteButton, cityInput } = deleteAddress(addressName);
+  const { confirmDeleteButton } = deleteAddress(addressName);
 
   // Buttons should be disabled while the delete transaction is pending...
   // Waiting 10ms to make this check so that it happens _after_ the initial
@@ -75,7 +71,7 @@ async function testQuickSuccess(addressName) {
   server.use(...mocks.transactionSucceeded);
 
   // wait for the edit mode to exit
-  await waitForElementToBeRemoved(cityInput);
+  await waitForElementToBeRemoved(confirmDeleteButton);
 
   // the edit address button should still exist
   view.getByRole('button', { name: new RegExp(`edit.*${addressName}`, 'i') });
@@ -88,10 +84,10 @@ async function testQuickSuccess(addressName) {
 async function testSlowSuccess(addressName) {
   server.use(...mocks.transactionPending);
 
-  const { cityInput } = deleteAddress(addressName);
+  const { confirmDeleteButton } = deleteAddress(addressName);
 
   // wait for the edit mode to exit
-  await waitForElementToBeRemoved(cityInput);
+  await waitForElementToBeRemoved(confirmDeleteButton);
 
   // check that the "we're deleting your..." message appears
   const deletingMessage = await view.findByText(
@@ -119,15 +115,15 @@ async function testTransactionCreationFails(addressName) {
   deleteAddress(addressName);
 
   // expect an error to be shown
-  const alert = await view.findByTestId('edit-error-alert');
+  const alert = await view.findByTestId('delete-error-alert');
   expect(alert).to.have.descendant('div.usa-alert-error');
   expect(alert).to.contain.text(
-    `We’re sorry. We couldn’t update your ${addressName.toLowerCase()}. Please try again.`,
+    `We’re sorry. We can’t save your ${addressName.toLowerCase()} at this time. We’re working to fix this problem. Please try again or check back soon.`,
   );
 
   // make sure that edit mode is not automatically exited
   await wait(75);
-  expect(view.getByTestId('edit-error-alert')).to.exist;
+  expect(view.getByTestId('delete-error-alert')).to.exist;
   const editButton = getEditButton();
   expect(editButton).to.not.exist;
 }
@@ -136,20 +132,19 @@ async function testTransactionCreationFails(addressName) {
 async function testQuickFailure(addressName) {
   server.use(...mocks.transactionFailed);
 
-  deleteAddress(addressName);
+  const { confirmDeleteButton } = deleteAddress(addressName);
 
   // expect an error to be shown
-  const alert = await view.findByTestId('edit-error-alert');
+  const alert = await view.findByTestId('delete-error-alert');
   expect(alert).to.have.descendant('div.usa-alert-error');
   expect(alert).to.contain.text(
-    `We’re sorry. We couldn’t update your ${addressName.toLowerCase()}. Please try again.`,
+    `We’re sorry. We can’t save your ${addressName.toLowerCase()} at this time. We’re working to fix this problem. Please try again or check back soon.`,
   );
 
-  // make sure that edit mode is not automatically exited
+  // waiting to make sure it doesn't auto exit
   await wait(75);
-  expect(view.getByTestId('edit-error-alert')).to.exist;
-  const editButton = getEditButton();
-  expect(editButton).to.not.exist;
+  expect(view.getByTestId('delete-error-alert')).to.exist;
+  expect(confirmDeleteButton).to.exist;
 }
 
 // When the update fails but not until after the Edit View has exited and the
@@ -157,10 +152,10 @@ async function testQuickFailure(addressName) {
 async function testSlowFailure(addressName) {
   server.use(...mocks.transactionPending);
 
-  const { cityInput } = deleteAddress(addressName);
+  const { confirmDeleteButton } = deleteAddress(addressName);
 
   // wait for the edit mode to exit
-  await waitForElementToBeRemoved(cityInput);
+  await waitForElementToBeRemoved(confirmDeleteButton);
 
   // check that the "we're deleting your..." message appears
   const deletingMessage = await view.findByText(
