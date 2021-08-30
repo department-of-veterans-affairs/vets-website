@@ -7,10 +7,10 @@ import sinon from 'sinon';
 
 import { render } from '@testing-library/react';
 
-import withRequiredData from '../withRequiredData';
+import withAppointmentData from '../withAppointmentData';
 
 describe('check-in', () => {
-  describe('withRequiredData', () => {
+  describe('withAppointmentData', () => {
     it('shows the provided component if the data is in the store', () => {
       const middleware = [];
       const mockStore = configureStore(middleware);
@@ -25,7 +25,7 @@ describe('check-in', () => {
         },
       };
       const store = mockStore(initState);
-      const Test = withRequiredData(() => (
+      const Test = withAppointmentData(() => (
         <span data-testid="data">magic</span>
       ));
       const withRequired = render(
@@ -51,7 +51,7 @@ describe('check-in', () => {
           token: 'token-123',
         },
       };
-      const Test = withRequiredData(() => (
+      const Test = withAppointmentData(() => (
         <span data-testid="data">magic</span>
       ));
       const withRequired = render(
