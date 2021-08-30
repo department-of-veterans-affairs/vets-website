@@ -130,6 +130,6 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: Cypress Tests Summary
-          conclusion: ${{ needs.cypress-tests.result }}
+          conclusion: ${{ github.event.workflow_run.conclusion }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
