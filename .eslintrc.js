@@ -14,7 +14,6 @@ module.exports = {
     'cypress',
     'deprecate',
     'fp',
-    'jest',
     'mocha',
     'react-hooks',
     'sonarjs',
@@ -31,7 +30,6 @@ module.exports = {
     commonjs: true,
     'cypress/globals': true,
     es2020: true,
-    jest: true,
     mocha: true,
   },
   globals: {
