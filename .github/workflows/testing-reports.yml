@@ -6,6 +6,10 @@ on:
     types:
       - completed
 
+concurrency:
+  group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha  }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
+
 jobs:
   testing-reports:
     name: Testing Reports
@@ -121,7 +125,7 @@ jobs:
           directory: testing-reports
           branch: master
 
-          # -------------------------
+      # -------------------------
       # | Cypress Tests Summary |
       # -------------------------
       - name: Publish Cypress test results
