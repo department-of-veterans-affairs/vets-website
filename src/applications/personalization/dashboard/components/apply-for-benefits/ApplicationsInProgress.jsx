@@ -7,7 +7,7 @@ import { selectProfile } from '~/platform/user/selectors';
 import {
   filterOutExpiredForms,
   formLinks,
-  formTitles,
+  formBenefits,
   isSIPEnabledForm,
   presentableFormIDs,
   sipFormSorter,
@@ -32,11 +32,11 @@ const ApplicationsInProgress = ({ savedForms }) => {
         Applications in progress
       </h3>
 
-      {verifiedSavedForms.length > 0 && (
+      {verifiedSavedForms.length > 0 ? (
         <div className="vads-l-row">
           {verifiedSavedForms.map(form => {
             const formId = form.form;
-            const formTitle = `application for ${formTitles[formId]}`;
+            const formTitle = `application for ${formBenefits[formId]}`;
             const presentableFormId = presentableFormIDs[formId];
             const { lastUpdated, expiresAt } = form.metadata || {};
             const lastOpenedDate = moment
@@ -59,8 +59,7 @@ const ApplicationsInProgress = ({ savedForms }) => {
             );
           })}
         </div>
-      )}
-      {!verifiedSavedForms.length && (
+      ) : (
         <p>You have no applications in progress.</p>
       )}
     </>

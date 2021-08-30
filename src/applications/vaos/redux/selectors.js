@@ -35,10 +35,7 @@ export const selectFeatureToggleLoading = state => toggleValues(state).loading;
 // Use flat facility page for non Cerner patients
 export const selectUseFlatFacilityPage = state => !selectIsCernerPatient(state);
 
-const selectFeatureProviderSelection = state =>
-  toggleValues(state).vaOnlineSchedulingProviderSelection;
-export const selectUseProviderSelection = state =>
-  selectFeatureProviderSelection(state) &&
+export const selectHasVAPResidentialAddress = state =>
   !!selectVAPResidentialAddress(state)?.addressLine1;
 
 export const selectSystemIds = state =>
@@ -67,3 +64,6 @@ export const selectFeatureFacilitiesServiceV2 = state =>
 
 export const selectFeatureVariantTesting = state =>
   toggleValues(state).vaOnlineSchedulingVariantTesting;
+
+export const selectFeatureCCIterations = state =>
+  toggleValues(state).vaOnlineSchedulingCCIterations;

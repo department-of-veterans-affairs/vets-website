@@ -51,6 +51,11 @@ export const getSelected = formData => {
   }));
 };
 
+// additionalIssues (items) are separate because we're checking the count before
+// the formData is updated
+export const getSelectedCount = (formData, items) =>
+  getSelected({ ...formData, additionalIssues: items }).length;
+
 export const getIssueName = (entry = {}) =>
   entry.issue || entry.attributes?.ratingIssueSubjectText;
 
@@ -68,7 +73,7 @@ export const setInitialEditMode = (formData = []) =>
 
 // getEligibleContestableIssues will remove deferred issues and issues > 1 year
 // past their decision date. This function removes issues with no title & sorts
-// the list by decending (newest first) decision date
+// the list by descending (newest first) decision date
 export const processContestableIssues = contestableIssues => {
   const regexDash = /-/g;
   const getDate = entry =>

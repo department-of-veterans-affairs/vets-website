@@ -1,4 +1,6 @@
-import _ from 'lodash/fp';
+import get from 'platform/utilities/data/get';
+import set from 'platform/utilities/data/set';
+import unset from 'platform/utilities/data/unset';
 import { createSelector } from 'reselect';
 
 import {
@@ -87,7 +89,8 @@ export function schema(currentSchema, isRequired = false) {
   return {
     type: 'object',
     required: isRequired ? requiredFields : [],
-    properties: _.assign(addressSchema.properties, {
+    properties: {
+      ...addressSchema.properties,
       country: {
         default: 'USA',
         type: 'string',
@@ -103,7 +106,7 @@ export function schema(currentSchema, isRequired = false) {
         type: 'string',
         maxLength: 6,
       },
-    }),
+    },
   };
 }
 
@@ -137,8 +140,8 @@ export function uiSchema(
   }
 
   const addressChangeSelector = createSelector(
-    ({ formData, path }) => _.get(path.concat('country'), formData),
-    ({ formData, path }) => _.get(path.concat('city'), formData),
+    ({ formData, path }) => get(path.concat('country'), formData),
+    ({ formData, path }) => get(path.concat('city'), formData),
     ({ addressSchema }) => addressSchema,
     (currentCountry, city, addressSchema) => {
       const schemaUpdate = {
@@ -162,16 +165,12 @@ export function uiSchema(
       if (stateList) {
         // We have a list and it’s different, so we need to make schema updates
         if (addressSchema.properties.state.enum !== stateList) {
-          const withEnum = _.set(
+          const withEnum = set(
             'state.enum',
             stateList,
             schemaUpdate.properties,
           );
-          schemaUpdate.properties = _.set(
-            'state.enumNames',
-            labelList,
-            withEnum,
-          );
+          schemaUpdate.properties = set('state.enumNames', labelList, withEnum);
 
           // all the countries with state lists require the state field, so add that if necessary
           if (
@@ -185,8 +184,8 @@ export function uiSchema(
         // We don’t have a state list for the current country, but there’s an enum in the schema
         // so we need to update it
       } else if (addressSchema.properties.state.enum) {
-        const withoutEnum = _.unset('state.enum', schemaUpdate.properties);
-        schemaUpdate.properties = _.unset('state.enumNames', withoutEnum);
+        const withoutEnum = unset('state.enum', schemaUpdate.properties);
+        schemaUpdate.properties = unset('state.enumNames', withoutEnum);
         if (!ignoreRequired && required) {
           schemaUpdate.required = addressSchema.required.filter(
             field => field !== 'state',
@@ -199,7 +198,7 @@ export function uiSchema(
         country === 'CAN' &&
         addressSchema.properties.state.title !== 'Province'
       ) {
-        schemaUpdate.properties = _.set(
+        schemaUpdate.properties = set(
           'state.title',
           'Province',
           schemaUpdate.properties,
@@ -208,7 +207,7 @@ export function uiSchema(
         country !== 'CAN' &&
         addressSchema.properties.state.title !== 'State'
       ) {
-        schemaUpdate.properties = _.set(
+        schemaUpdate.properties = set(
           'state.title',
           'State',
           schemaUpdate.properties,
@@ -221,12 +220,12 @@ export function uiSchema(
         isMilitaryCity(city) &&
         schemaUpdate.properties.state.enum !== militaryStates
       ) {
-        const withEnum = _.set(
+        const withEnum = set(
           'state.enum',
           militaryStates,
           schemaUpdate.properties,
         );
-        schemaUpdate.properties = _.set(
+        schemaUpdate.properties = set(
           'state.enumNames',
           militaryLabels,
           withEnum,
@@ -235,13 +234,13 @@ export function uiSchema(
 
       // Hide the state field for non US and CAN addresses
       if (!stateList && !schemaUpdate.properties.state['ui:hidden']) {
-        schemaUpdate.properties = _.set(
+        schemaUpdate.properties = set(
           'state.ui:hidden',
           true,
           schemaUpdate.properties,
         );
       } else if (stateList && schemaUpdate.properties.state['ui:hidden']) {
-        schemaUpdate.properties = _.unset(
+        schemaUpdate.properties = unset(
           'state.ui:hidden',
           schemaUpdate.properties,
         );
@@ -260,9 +259,9 @@ export function uiSchema(
         if (isRequired) {
           const required = isRequired(formData, index);
           if (required && currentSchema.required.length === 0) {
-            currentSchema = _.set('required', requiredFields, currentSchema);
+            currentSchema = set('required', requiredFields, currentSchema);
           } else if (!required && currentSchema.required.length > 0) {
-            currentSchema = _.set('required', [], currentSchema);
+            currentSchema = set('required', [], currentSchema);
           }
         }
         return addressChangeSelector({

@@ -262,21 +262,20 @@ describe('Form 526EZ Entry Page', () => {
   });
 
   // Wizard
-  it('should redirect to the wizard when not logged in', () => {
+  it('should not redirect to the wizard when not logged in', () => {
     sessionStorage.removeItem(WIZARD_STATUS);
     const tree = testPage({
       currentlyLoggedIn: false,
     });
-    expect(tree.find('h1').text()).to.contain('restart the app');
+    expect(tree.find('h1').text()).to.contain('Log in');
     tree.unmount();
   });
   it('should redirect to the wizard when logged in', () => {
     localStorage.setItem('hasSession', true);
     sessionStorage.removeItem(WIZARD_STATUS);
     const tree = testPage({
-      currentlyLoggedIn: false,
+      currentlyLoggedIn: true,
     });
-    localStorage.removeItem('hasSession');
     expect(tree.find('h1').text()).to.contain('restart the app');
     tree.unmount();
   });

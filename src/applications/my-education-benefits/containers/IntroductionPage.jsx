@@ -5,6 +5,8 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 import HowToApplyPost911GiBill from '../HowToApplyPost911GiBill';
+import { connect } from 'react-redux';
+import { fetchUser } from '../selectors/userDispatch';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -19,6 +21,7 @@ class IntroductionPage extends React.Component {
         <HowToApplyPost911GiBill />
         <SaveInProgressIntro
           testActionLink
+          user={this.props.user}
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
@@ -106,4 +109,8 @@ class IntroductionPage extends React.Component {
   }
 }
 
-export default IntroductionPage;
+const mapStateToProps = state => ({
+  user: fetchUser(state),
+});
+
+export default connect(mapStateToProps)(IntroductionPage);

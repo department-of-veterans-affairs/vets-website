@@ -19,7 +19,7 @@ import VeteranProgramsAndSupport from './VeteranProgramsAndSupport';
 import BackToTop from '../BackToTop';
 
 export default function InstitutionProfile({
-  profile,
+  institution,
   isOJT,
   constants,
   showModal,
@@ -29,6 +29,7 @@ export default function InstitutionProfile({
   gibctSchoolRatings,
   gibctEybBottomSheet,
   compare,
+  smallScreen,
 }) {
   const shouldShowSchoolLocations = facilityMap =>
     facilityMap &&
@@ -38,8 +39,6 @@ export default function InstitutionProfile({
   const scrollToLocations = () => {
     scroller.scrollTo('school-locations', getScrollOptions());
   };
-
-  const institution = profile.attributes;
 
   const stars = convertRatingToStars(institution.ratingAverage);
   const displayStars =
@@ -170,6 +169,7 @@ export default function InstitutionProfile({
         parentId={institutionProfileId}
         profilePageHeaderId={profilePageHeaderId}
         compare={compare}
+        smallScreen={smallScreen}
       />
     </div>
   );

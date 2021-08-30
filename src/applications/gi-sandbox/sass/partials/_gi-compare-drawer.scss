@@ -9,14 +9,44 @@
     position: static;
   }
 
-  .compare-header{
+  .compare-drawer-expanded {
+    transition: height 0.3s ease-in-out;
+    height: 12.5em;
+
+    @media (max-width: $small-screen) {
+      transition: height 0.3s ease-in-out;
+      height: 100%;
+    }
+  }
+
+  .compare-drawer-collapsed {
+    transition: height 0.3s ease-in-out;
+    height: 2.5em;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .compare-drawer-expanded {
+      transition: 0s;
+      height: 12.5em;
+
+      @media (max-width: $small-screen) {
+        transition: 0s;
+        height: 100%;
+      }
+    }
+    .compare-drawer-collapsed {
+      transition: 0s;
+      height: 2.5em;
+    }
+  }
+
+  .compare-header {
     background-color: $color-primary;
     color: $color-white;
     text-align: center;
     height: 2.5em;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
-    padding-top: .5em;
+    padding-top: 0.5em;
     font-weight: bold;
 
     .header-label {
@@ -24,6 +54,8 @@
       width: auto;
       text-align: center;
       vertical-align: middle;
+      background-color: transparent;
+      margin-top: -5px;
     }
 
     .header-label::after {
@@ -31,15 +63,16 @@
       font-weight: 900;
       font-size: 150%;
       vertical-align: middle;
-      padding-left: .5em;
+      padding-left: 0.5em;
       margin-top: -4px;
+      background-color: transparent;
     }
 
-    .header-label.open::after{
+    .header-label.open::after {
       content: "\F107";
     }
 
-    .header-label.closed::after{
+    .header-label.closed::after {
       content: "\F106";
     }
   }
@@ -48,8 +81,8 @@
     background-color: $color-white;
     border: 1px solid $color-gray-light;
     height: 10em;
-    padding-left: .75em;
-    padding-right: .75em;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
 
     .action-cell {
       padding-left: 1em;
@@ -57,7 +90,7 @@
 
     .compare-name {
       height: 6em;
-      padding-top: .5em;
+      padding-top: 0.5em;
       padding-right: 1.5em;
     }
 
@@ -67,7 +100,7 @@
 
     .large-function-label {
       height: 6em;
-      padding-top: .5em;
+      padding-top: 0.5em;
       padding-right: 1.5em;
     }
 

@@ -44,17 +44,16 @@ const OrientationWizardContainer = props => {
           Equal to VA Form 28-1900 (Vocational Rehabilitation for Claimants With
           Service-Connected Disabilities)
         </p>
-        <h2>Is this the form I need?</h2>
+        <h2>How do I know if this program is right for me?</h2>
         <p>
           Our online Veteran Readiness and Employment (VR&E) orientation can
-          help you decide if this program will provide the type of support you
-          need to obtain suitable employment or to live independently. The
-          orientation takes just 15 minutes to complete.
+          help you decide if this program can assist you in finding good
+          employment or living independently. We encourage you to go through the
+          orientation before you fill out the application.
         </p>
         <p>
           First, answer a few questions below to find out if you’re eligible to
-          apply. If you are, we encourage you to complete the orientation before
-          you apply.
+          apply. If you are, you can start the 15 minute orientation.
         </p>
         <p id="skip-wizard-description">
           <strong>If you already know you want to apply for VR&E</strong>, you

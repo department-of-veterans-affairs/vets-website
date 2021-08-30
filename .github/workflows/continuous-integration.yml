@@ -9,6 +9,7 @@ on:
 
 env:
   CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
+  NEXUS_REGISTRY: https://devops.va.gov/dots-nexus/repository/npm-public/
 
 concurrency:
   group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha  }}
@@ -56,10 +57,36 @@ jobs:
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
+      - name: Get NEXUS username
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_1_NEXUS_USERNAME
+          env_variable_name: VA_VSP_BOT_1_NEXUS_USERNAME
+
+      - name: Get NEXUS token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_1_NEXUS_PASSWORD
+          env_variable_name: VA_VSP_BOT_1_NEXUS_PASSWORD
+
+      # Required to change registry in yarn.lock file
+      - name: Change registry in yarn.lock
+        run: |
+          sed -i -e "s#https://registry.yarnpkg.com/#${{ env.NEXUS_REGISTRY }}#g" yarn.lock
+          sed -i -e "s#https://registry.npmjs.org/#${{ env.NEXUS_REGISTRY }}#g" yarn.lock
+
+      - name: Authenticate NEXUS
+        run: |
+          npm config set _auth $(echo -n '${{ env.VA_VSP_BOT_1_NEXUS_USERNAME }}:${{ env.VA_VSP_BOT_1_NEXUS_PASSWORD }}' | openssl base64)
+          npm config set cafile ${{ env.NODE_EXTRA_CA_CERTS }}
+          npm config set registry ${{ env.NEXUS_REGISTRY }}
+          npm config set email va-vsp-bot-1@va.gov
+          npm config set always-auth true
+
       - name: Install dependencies
         uses: nick-invision/retry@v2
         with:
-          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          command: yarn install --frozen-lockfile --prefer-offline --production=false --network-concurrency 1
           max_attempts: 3
           timeout_minutes: 5
         env:
@@ -489,6 +516,13 @@ jobs:
       NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
 
     steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: 'us-gov-west-1'
+
       - name: Checkout vets-website
         uses: actions/checkout@v2
 
@@ -512,10 +546,36 @@ jobs:
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}-cypress
 
+      - name: Get NEXUS username
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_1_NEXUS_USERNAME
+          env_variable_name: VA_VSP_BOT_1_NEXUS_USERNAME
+
+      - name: Get NEXUS token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_1_NEXUS_PASSWORD
+          env_variable_name: VA_VSP_BOT_1_NEXUS_PASSWORD
+
+      # Required to change registry in yarn.lock file
+      - name: Change registry in yarn.lock
+        run: |
+          sed -i -e "s#https://registry.yarnpkg.com/#${{ env.NEXUS_REGISTRY }}#g" yarn.lock
+          sed -i -e "s#https://registry.npmjs.org/#${{ env.NEXUS_REGISTRY }}#g" yarn.lock
+
+      - name: Authenticate NEXUS
+        run: |
+          npm config set _auth $(echo -n '${{ env.VA_VSP_BOT_1_NEXUS_USERNAME }}:${{ env.VA_VSP_BOT_1_NEXUS_PASSWORD }}' | openssl base64)
+          npm config set cafile ${{ env.NODE_EXTRA_CA_CERTS }}
+          npm config set registry ${{ env.NEXUS_REGISTRY }}
+          npm config set email va-vsp-bot-1@va.gov
+          npm config set always-auth true
+
       - name: Install dependencies
         uses: nick-invision/retry@v2
         with:
-          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          command: yarn install --frozen-lockfile --prefer-offline --production=false --network-concurrency 1
           max_attempts: 3
           timeout_minutes: 5
         env:
@@ -549,14 +609,6 @@ jobs:
         with:
           name: cypress-screenshot-artifacts
           path: cypress/screenshots
-
-      - name: Archive JUnit test results
-        uses: actions/upload-artifact@v2
-        if: ${{ always() }}
-        with:
-          name: cypress-junit-test-results
-          path: test-results
-          retention-days: 1
 
       - name: Archive Mochawesome test results
         uses: actions/upload-artifact@v2
@@ -612,7 +664,9 @@ jobs:
           YARN_CACHE_FOLDER: .cache/yarn
 
       - name: Run Nightwatch tests
-        run: yarn test:e2e:headless --suiteRetries 3
+        run: |
+          chmod +x script/run-nightwatch.sh
+          yarn test:e2e:headless  --suiteRetries 3
         timeout-minutes: 30
         env:
           BUILDTYPE: vagovprod
@@ -623,6 +677,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [cypress-tests-prep, cypress-tests]
     if: ${{ always() && needs.cypress-tests-prep.outputs.num_containers > 0 && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
+    continue-on-error: true
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -640,7 +695,6 @@ jobs:
       # ----------------
       # | Notify Slack |
       # ----------------
-
       - name: Checkout VSP actions
         if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: actions/checkout@v2
@@ -679,7 +733,6 @@ jobs:
       # ------------------------
       # | Upload BigQuery Data |
       # ------------------------
-
       - name: Checkout Testing Tools Team Dashboard Data repo
         uses: actions/checkout@v2
         with:
@@ -692,7 +745,6 @@ jobs:
       #   id: get-node-version
       #   run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
       #   working-directory: testing-tools-team-dashboard-data
-
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
@@ -732,6 +784,7 @@ jobs:
         env:
           IS_MASTER_BUILD: ${{ needs.cypress-tests-prep.outputs.is_master_build }}
           NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
+      # env.MOCHAWESOME_REPORT_RESULTS is set and exported during the above step when the mochawesome report is generated.  It contains the output string for the publish step at the end of the job with the numbers from the Mochawesome report.
 
       - name: Upload Mochawesome report artifact
         uses: actions/upload-artifact@v2
@@ -742,7 +795,6 @@ jobs:
       # --------------------------
       # | Publish Testing Report |
       # --------------------------
-
       - name: Checkout Testing Reports repo
         uses: actions/checkout@v2
         with:
@@ -782,22 +834,15 @@ jobs:
       # -------------------------
       # | Cypress Tests Summary |
       # -------------------------
-
-      - name: Download Cypress JUnit test results
-        if: ${{ always() }}
-        uses: actions/download-artifact@v2
-        with:
-          name: cypress-junit-test-results
-          path: cypress-junit-test-results
-
       - name: Publish Cypress test results
         if: ${{ always() }}
-        uses: mikepenz/action-junit-report@v2.4.2
+        uses: LouisBrunner/checks-action@v1.1.1
         with:
-          check_name: 'Cypress Tests Summary'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          report_paths: 'cypress-junit-test-results/e2e-test-output-*.xml'
-          summary: '[Mochawesome Report](https://reimagined-telegram-c11df05a.pages.github.io/cypress-reports/${{ env.UUID }})'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Cypress Tests Summary
+          conclusion: ${{ needs.cypress-tests.result }}
+          output: |
+            {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
 
 # archive:
 #   name: Archive

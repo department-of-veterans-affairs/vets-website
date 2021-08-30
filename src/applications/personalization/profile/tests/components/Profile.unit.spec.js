@@ -176,6 +176,9 @@ describe('mapStateToProps', () => {
     veteranStatus: {
       servedInMilitary: true,
     },
+    signIn: {
+      serviceName: 'idme',
+    },
     loa: {
       current: 3,
     },
@@ -290,27 +293,27 @@ describe('mapStateToProps', () => {
   });
 
   describe('#shouldFetchCNPDirectDepositInformation', () => {
-    it('is `true` when user has 2FA set and has access to EVSS', () => {
+    it('is `true` when ID.me user has 2FA set and has access to EVSS', () => {
       const state = makeDefaultState();
       const props = mapStateToProps(state);
       expect(props.shouldFetchCNPDirectDepositInformation).to.be.true;
     });
 
-    it('is `false` when user has 2FA set but does not have access to EVSS', () => {
+    it('is `false` when ID.me user has 2FA set but does not have access to EVSS', () => {
       const state = makeDefaultState();
       state.user.profile.services = [];
       const props = mapStateToProps(state);
       expect(props.shouldFetchCNPDirectDepositInformation).to.be.false;
     });
 
-    it('is `false` when the user has access to EVSS but does not have 2FA set', () => {
+    it('is `false` when the ID.me user has access to EVSS but does not have 2FA set', () => {
       const state = makeDefaultState();
       state.user.profile.multifactor = false;
       const props = mapStateToProps(state);
       expect(props.shouldFetchCNPDirectDepositInformation).to.be.false;
     });
 
-    it('is `false` when the user does not have 2FA set and does not have access to EVSS', () => {
+    it('is `false` when the ID.me user does not have 2FA set and does not have access to EVSS', () => {
       const state = makeDefaultState();
       state.user.profile.multifactor = false;
       state.user.profile.services = [];

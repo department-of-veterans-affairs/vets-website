@@ -6,11 +6,7 @@ import FormButtons from '../../../components/FormButtons';
 import RequestEligibilityMessage from './RequestEligibilityMessage';
 import FacilityAddress from '../../../components/FacilityAddress';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import {
-  FETCH_STATUS,
-  MENTAL_HEALTH,
-  PRIMARY_CARE,
-} from '../../../utils/constants';
+import { MENTAL_HEALTH, PRIMARY_CARE } from '../../../utils/constants';
 import {
   openClinicPage,
   routeToNextAppointmentPage,
@@ -65,8 +61,7 @@ export default function ClinicChoicePage() {
     canMakeRequests,
     clinics,
     eligibility,
-    facilityDetails,
-    facilityDetailsStatus,
+    facility,
     pageChangeInProgress,
     schema,
     typeOfCare,
@@ -78,12 +73,10 @@ export default function ClinicChoicePage() {
     data.clinicId === 'NONE' && !canMakeRequests;
   const usingPastClinics =
     typeOfCare.id !== PRIMARY_CARE && typeOfCare.id !== MENTAL_HEALTH;
-  const schemaAndFacilityReady =
-    schema && facilityDetailsStatus !== FETCH_STATUS.loading;
+  const schemaAndFacilityReady = !!schema;
   useEffect(() => {
     dispatch(openClinicPage(pageKey, uiSchema, initialSchema));
   }, []);
-
   useEffect(
     () => {
       scrollAndFocus();
@@ -100,6 +93,10 @@ export default function ClinicChoicePage() {
     return <LoadingIndicator message="Loading your facility and clinic info" />;
   }
 
+  const firstMatchingClinic = clinics?.find(
+    clinic => clinic.id === schema?.properties.clinicId.enum[0],
+  );
+
   return (
     <div>
       {schema.properties.clinicId.enum.length === 2 && (
@@ -113,16 +110,14 @@ export default function ClinicChoicePage() {
           {!usingPastClinics && (
             <>{typeOfCare.name} appointments are available at </>
           )}
-          {clinics[0].serviceName}:
-          {facilityDetails && (
-            <p>
-              <FacilityAddress
-                name={facilityDetails.name}
-                facility={facilityDetails}
-                level={2}
-              />
-            </p>
-          )}
+          {firstMatchingClinic.serviceName}:
+          <p>
+            <FacilityAddress
+              name={facility.name}
+              facility={facility}
+              level={2}
+            />
+          </p>
         </>
       )}
       {schema.properties.clinicId.enum.length > 2 && (
@@ -134,13 +129,13 @@ export default function ClinicChoicePage() {
             <p>
               In the last 24 months you’ve had{' '}
               {vowelCheck(typeOfCareLabel) ? 'an' : 'a'} {typeOfCareLabel}{' '}
-              appointment at the following {facilityDetails?.name} clinics:
+              appointment at the following {facility.name} clinics:
             </p>
           )}
           {!usingPastClinics && (
             <p>
               {typeOfCare.name} appointments are available at the following{' '}
-              {facilityDetails?.name} clinics:
+              {facility.name} clinics:
             </p>
           )}
         </>
@@ -161,6 +156,7 @@ export default function ClinicChoicePage() {
             <RequestEligibilityMessage
               eligibility={eligibility}
               typeOfCare={typeOfCare}
+              facilityDetails={facility}
               typeOfCareName={typeOfCareLabel}
             />
           </div>
