@@ -1,6 +1,6 @@
 import { countries, states } from 'vets-json-schema/dist/constants.json';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-// import { addressUiSchema } from 'applications/vre/definitions/profileAddress';
+import { addressUiSchema } from 'applications/vre/definitions/profileAddress';
 
 const validateAtLeastOneSelected = (errors, fieldData, formData) => {
   if (
@@ -92,8 +92,8 @@ const isNotRemovingStepchild = value => {
   return value && removalReasonArray.indexOf(value) > -1;
 };
 
-// const checkBoxTitle =
-//   'This is on a United States military base outside of the U.S.';
+const checkBoxTitle =
+  'This is on a United States military base outside of the U.S.';
 
 export const SCHEMAS = {
   Spouse: {
@@ -310,19 +310,19 @@ export const SCHEMAS = {
             formData.reasonForRemoval === 'reportStepchildNotInHousehold',
         },
       },
-      // address: {
-      //   'ui:title': 'Stepchild’s new address',
-      //   'ui:options': {
-      //     hideIf: formData =>
-      //       formData.reasonForRemoval !== 'reportStepchildNotInHousehold',
-      //   },
-      //   ...addressUiSchema(
-      //     'address',
-      //     checkBoxTitle,
-      //     formData =>
-      //       formData.reasonForRemoval === 'reportStepchildNotInHousehold',
-      //   ),
-      // },
+      address: {
+        'ui:title': 'Stepchild’s new address',
+        'ui:options': {
+          hideIf: formData =>
+            formData.reasonForRemoval !== 'reportStepchildNotInHousehold',
+        },
+        ...addressUiSchema(
+          'address',
+          checkBoxTitle,
+          formData =>
+            formData.reasonForRemoval === 'reportStepchildNotInHousehold',
+        ),
+      },
       childStatus: {
         'ui:title': 'Child’s status (Check all that apply)',
         'ui:required': formData => formData.reasonForRemoval === 'reportDeath',
