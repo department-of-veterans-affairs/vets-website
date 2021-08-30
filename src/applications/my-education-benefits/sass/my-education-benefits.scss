@@ -32,10 +32,6 @@ fieldset.schemaform-field-template {
 }
 /* END Form Styling Overrides ---------------------------------------*/
 
-.review-row {
-	margin: 0;
-}
-
 .process p {
 	margin-bottom: 0;
 }
@@ -166,6 +162,18 @@ va-accordion-item .service-history-details {
 }
 
 // Review Page
+.review {
+	margin-bottom: 0;
+}
+dl.review {
+	border-bottom: 0;
+}
+.review-row {
+	margin: 0;
+}
+dl.review .review-row:last-child {
+	padding-bottom: 0;
+}
 .form-review-panel-page form.rjsf {
 	margin: 0;
 }

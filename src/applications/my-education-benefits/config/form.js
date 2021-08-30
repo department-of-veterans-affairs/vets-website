@@ -40,6 +40,7 @@ import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities
 import EmailViewField from '../components/EmailViewField';
 import PhoneViewField from '../components/PhoneViewField';
 import AccordionField from '../components/AccordionField';
+import YesNoReviewField from '../components/YesNoReviewField';
 
 import {
   activeDutyLabel,
@@ -331,11 +332,11 @@ const formConfig = {
       },
     },
     serviceHistoryChapter: {
-      title: 'Service History',
+      title: 'Service history',
       pages: {
         [formPages.serviceHistory]: {
           path: 'service-history',
-          title: 'Service History',
+          title: 'Service history',
           uiSchema: {
             'view:subHeading': {
               'ui:description': <h3>Review your service history</h3>,
@@ -362,6 +363,7 @@ const formConfig = {
             },
             [formFields.toursOfDutyCorrect]: {
               'ui:title': 'This information is incorrect and/or incomplete',
+              'ui:reviewField': YesNoReviewField,
             },
             [formFields.incorrectServiceHistoryExplanation]: {
               'ui:title':
