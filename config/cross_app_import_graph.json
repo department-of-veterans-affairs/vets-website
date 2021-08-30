@@ -10,43 +10,8 @@
     "appsToTest": [
       "ask-a-question"
     ],
-    "appsThatThisAppImportsFrom": {
-      "caregivers": {
-        "filesImported": [
-          {
-            "importer": "src/applications/ask-a-question/form/contactInformation/contactInformationPage.js",
-            "importee": "src/applications/caregivers/definitions/UIDefinitions/sharedUI"
-          }
-        ]
-      }
-    },
+    "appsThatThisAppImportsFrom": {},
     "appsThatImportFromThisApp": {}
-  },
-  "caregivers": {
-    "appsToTest": [
-      "caregivers",
-      "ask-a-question"
-    ],
-    "appsThatThisAppImportsFrom": {
-      "claims-status": {
-        "filesImported": [
-          {
-            "importer": "src/applications/caregivers/containers/ConfirmationPage.jsx",
-            "importee": "src/applications/claims-status/utils/page"
-          }
-        ]
-      }
-    },
-    "appsThatImportFromThisApp": {
-      "ask-a-question": {
-        "filesImported": [
-          {
-            "importer": "src/applications/ask-a-question/form/contactInformation/contactInformationPage.js",
-            "importee": "src/applications/caregivers/definitions/UIDefinitions/sharedUI"
-          }
-        ]
-      }
-    }
   },
   "auth": {
     "appsToTest": [
@@ -78,6 +43,22 @@
         ]
       }
     }
+  },
+  "caregivers": {
+    "appsToTest": [
+      "caregivers"
+    ],
+    "appsThatThisAppImportsFrom": {
+      "claims-status": {
+        "filesImported": [
+          {
+            "importer": "src/applications/caregivers/containers/ConfirmationPage.jsx",
+            "importee": "src/applications/claims-status/utils/page"
+          }
+        ]
+      }
+    },
+    "appsThatImportFromThisApp": {}
   },
   "claims-status": {
     "appsToTest": [
@@ -1362,6 +1343,14 @@
             "importee": "src/applications/static-pages/dependency-verification/reducers"
           }
         ]
+      },
+      "vre": {
+        "filesImported": [
+          {
+            "importer": "src/applications/personalization/view-dependents/manage-dependents/schemas.js",
+            "importee": "src/applications/vre/definitions/profileAddress"
+          }
+        ]
       }
     },
     "appsThatImportFromThisApp": {
@@ -1433,6 +1422,7 @@
     "appsToTest": [
       "vre",
       "lgy",
+      "personalization",
       "static-pages"
     ],
     "appsThatThisAppImportsFrom": {
@@ -1478,6 +1468,14 @@
         "filesImported": [
           {
             "importer": "src/applications/lgy/coe/config/chapters/applicant/applicantContactInformation.js",
+            "importee": "src/applications/vre/definitions/profileAddress"
+          }
+        ]
+      },
+      "personalization": {
+        "filesImported": [
+          {
+            "importer": "src/applications/personalization/view-dependents/manage-dependents/schemas.js",
             "importee": "src/applications/vre/definitions/profileAddress"
           }
         ]
