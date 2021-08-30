@@ -106,6 +106,8 @@ jobs:
         if: ${{ github.event.workflow_run.conclusion == 'failure' }}
         uses: dawidd6/action-download-artifact@v2
         with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: continuous-integration.yml
           name: cypress-video-artifacts
           path: testing-reports/cypress-reports/videos/${{ env.UUID }}
 
