@@ -21,10 +21,15 @@
 
   .active-search-tab {
     border-top: 4px solid $color-primary;
+    border-radius: 0%;
+    height: 2.8em;
+    margin-bottom: -1px;
   }
 
   .inactive-search-tab {
     border-top: 2px solid $color-gray-light;
+    border-radius: 0%;
+    margin-bottom: -1px;
   }
 
   .search-tab {
