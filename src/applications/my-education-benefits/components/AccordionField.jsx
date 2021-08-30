@@ -170,7 +170,7 @@ export default class AccordionField extends React.Component {
 
     const uiOptions = this.props.uiSchema['ui:options'] || {};
     const ViewField = uiOptions.viewField;
-    let vaAccordionKeyId = 0;
+    let vaAccordionItemKeyId = 0;
 
     return (
       <>
@@ -193,7 +193,7 @@ export default class AccordionField extends React.Component {
             return (
               <va-accordion-item
                 header={item.serviceBranch}
-                key={`${this.id}-${vaAccordionKeyId++}`}
+                key={`${this.id}-${vaAccordionItemKeyId++}`}
                 open="false"
                 subheader={subheader}
               >
