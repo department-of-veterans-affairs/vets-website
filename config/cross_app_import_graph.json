@@ -475,6 +475,10 @@
         "filesImported": [
           {
             "importer": "src/applications/static-pages/static-pages-entry.js",
+            "importee": "src/applications/find-forms/createFindVaForms"
+          },
+          {
+            "importer": "src/applications/static-pages/static-pages-entry.js",
             "importee": "src/applications/find-forms/widgets/createInvalidPdfAlert"
           }
         ]
@@ -1044,6 +1048,10 @@
     "appsThatImportFromThisApp": {
       "static-pages": {
         "filesImported": [
+          {
+            "importer": "src/applications/static-pages/static-pages-entry.js",
+            "importee": "src/applications/find-forms/createFindVaForms"
+          },
           {
             "importer": "src/applications/static-pages/static-pages-entry.js",
             "importee": "src/applications/find-forms/widgets/createInvalidPdfAlert"
