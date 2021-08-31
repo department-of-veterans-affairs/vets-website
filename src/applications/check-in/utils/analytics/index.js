@@ -2,7 +2,7 @@ const createAnalyticsSlug = slug => {
   return `check-in-${slug}`;
 };
 
-const createApiEvent = (name, status, time, token) => {
+const createApiEvent = (name, status, time, token, error) => {
   const rv = {
     event: 'api_call',
     'api-name': name,
@@ -13,6 +13,9 @@ const createApiEvent = (name, status, time, token) => {
   }
   if (token) {
     rv['api-request-id'] = token;
+  }
+  if (error) {
+    rv['error-key'] = error;
   }
   return rv;
 };
