@@ -1,9 +1,9 @@
 import React, { useState, useCallback } from 'react';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import Table from '@department-of-veterans-affairs/component-library/Table';
-import { currency } from '../utils/helpers';
-
-export const MAX_ROWS_PER_PAGE = 6;
+import { formatTableData } from '../utils/helpers';
+import { mockTableData as data } from '../utils/mockData';
+import { MAX_ROWS_PER_PAGE } from '../constants';
 
 const fields = [
   { label: 'Statement date', value: 'date' },
@@ -11,68 +11,13 @@ const fields = [
   { label: 'Amount', value: 'amount' },
 ];
 
-const data = [
-  {
-    date: 'March 13, 2021',
-    desc: 'A',
-    amount: 1,
-  },
-  {
-    date: 'June 3, 2021',
-    desc: 'Inpatient Community Care Network copay for May 5, 2021',
-    amount: 2,
-  },
-  {
-    date: 'May 7, 2021',
-    desc: 'Payments made from April 3, 2021 to May 3, 2021',
-    amount: 3,
-  },
-  {
-    date: 'April 22, 2021',
-    desc: 'Inpatient Community Care Network copay for May 3, 2021',
-    amount: 4,
-  },
-  {
-    date: 'August 2, 2021',
-    desc: 'Late fee',
-    amount: 5,
-  },
-  {
-    date: 'March 13, 2021',
-    desc: 'Prescription copay (service connected)',
-    amount: 6,
-  },
-  {
-    date: 'June 3, 2021',
-    desc: 'B',
-    amount: 7,
-  },
-  {
-    date: 'May 7, 2021',
-    desc: 'Payments made from April 7, 2021 to May 3, 2021',
-    amount: 8,
-  },
-  {
-    date: 'April 22, 2021',
-    desc: 'C',
-    amount: 9,
-  },
-];
-
-const formatTableData = tableData => {
-  return tableData.map(row => ({
-    date: row.date,
-    desc: <strong>{row.desc}</strong>,
-    amount: currency(row.amount),
-  }));
-};
-
 const PaymentHistoryTable = () => {
   const [page, setPage] = useState(1);
   const pages = Math.ceil(data.length / MAX_ROWS_PER_PAGE);
   const start = (page - 1) * MAX_ROWS_PER_PAGE;
   const end = Math.min(page * MAX_ROWS_PER_PAGE, data.length);
   const currentPage = data.slice(start, end);
+  const formattedData = formatTableData(currentPage);
 
   const onPageSelect = useCallback(
     selectedPage => {
@@ -96,9 +41,9 @@ const PaymentHistoryTable = () => {
           <div className="charge-detail-value">July 3, 2021</div>
         </div>
       </div>
-      <>
+      <div className="vads-u-margin-bottom--2">
         <Table
-          data={formatTableData(currentPage)}
+          data={formattedData}
           fields={fields}
           ariaLabelledBy={'payment-history-table'}
         />
@@ -109,7 +54,7 @@ const PaymentHistoryTable = () => {
           maxPageListLength={MAX_ROWS_PER_PAGE}
           onPageSelect={onPageSelect}
         />
-      </>
+      </div>
       <p>
         <a href="#">
           <i
