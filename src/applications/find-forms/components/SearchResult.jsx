@@ -45,6 +45,21 @@ export const deriveLatestIssue = (d1, d2) => {
   return moment(date2Formatted).format(FORM_MOMENT_PRESENTATION_DATE_FORMAT);
 };
 
+const deriveLanguageTranslation = (lang = 'en', whichNode, id) => {
+  const languages = {
+    es: {
+      goToOnlineTool: `Llene el formulario VA ${id} en línea.`,
+      downloadVaForm: `Descargar el formulario VA ${id}`,
+    },
+    en: {
+      goToOnlineTool: `Fill out VA Form ${id} online`,
+      downloadVaForm: `Download VA Form ${id}`,
+    },
+  };
+
+  return languages[lang][whichNode];
+};
+
 const recordGAEventHelper = ({
   query,
   eventUrl,
@@ -193,7 +208,7 @@ const SearchResult = ({
                   lang={language}
                   className="vads-u-text-decoration--underline vads-u-font-weight--bold"
                 >
-                  Llene el formulario VA {id} en línea.
+                  {deriveLanguageTranslation('es', 'goToOnlineTool', id)}
                 </span>
               </>
             ) : (
@@ -203,7 +218,7 @@ const SearchResult = ({
                   lang={language}
                   className="vads-u-text-decoration--underline vads-u-font-weight--bold"
                 >
-                  Fill out VA Form {id} online
+                  {deriveLanguageTranslation('en', 'goToOnlineTool', id)}
                 </span>
               </>
             )}
@@ -256,11 +271,11 @@ const SearchResult = ({
           />
           {language === 'es' ? (
             <span lang={language} className="vads-u-text-decoration--underline">
-              Descargar el formulario VA {id} {pdfLabel}
+              {deriveLanguageTranslation('es', 'downloadVaForm', id)} {pdfLabel}
             </span>
           ) : (
             <span lang={language} className="vads-u-text-decoration--underline">
-              Download VA Form {id} {pdfLabel}
+              {deriveLanguageTranslation('en', 'downloadVaForm', id)} {pdfLabel}
             </span>
           )}
         </a>
