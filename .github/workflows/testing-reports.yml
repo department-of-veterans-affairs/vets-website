@@ -50,7 +50,7 @@ jobs:
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: continuous-integration.yml
-          name: cypress-mochawwesome-test-results
+          name: cypress-mochawesome-test-results
           path: testing-tools-team-dashboard-data/src/mochawesome/data
 
       - name: Get BigQuery service credentials
