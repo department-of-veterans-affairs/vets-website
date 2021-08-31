@@ -50,7 +50,7 @@ jobs:
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: continuous-integration.yml
-          name: cypress-mochawesome-test-results
+          name: cypress-mochawwesome-test-results
           path: testing-tools-team-dashboard-data/src/mochawesome/data
 
       - name: Get BigQuery service credentials
@@ -102,6 +102,8 @@ jobs:
         if: ${{ github.event.workflow_run.conclusion == 'failure' }}
         uses: dawidd6/action-download-artifact@v2
         with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: continuous-integration.yml
           name: cypress-video-artifacts
           path: testing-reports/cypress-reports/videos/${{ env.UUID }}
 
@@ -121,9 +123,10 @@ jobs:
           directory: testing-reports
           branch: master
 
-          # -------------------------
+      # -------------------------
       # | Cypress Tests Summary |
       # -------------------------
+
       - name: Publish Cypress test results
         if: ${{ always() }}
         uses: LouisBrunner/checks-action@v1.1.1
@@ -133,3 +136,4 @@ jobs:
           conclusion: ${{ github.event.workflow_run.conclusion }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+          details_url: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}

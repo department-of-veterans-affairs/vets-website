@@ -35,6 +35,13 @@
   .search-tab {
     font-size: 25px;
     border-bottom: 2px solid $color-gray-light;
+    border-radius: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+
+    &:focus:not(:focus-visible) {
+      outline: none;
+    }
   }
 
   .name-search-tab {
