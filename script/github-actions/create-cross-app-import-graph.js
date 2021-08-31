@@ -25,7 +25,7 @@ function getAppPathFromFileDiff(fileDiff) {
   return str.slice(0, str.indexOf(' '));
 }
 
-/* function iterates through the characters in a diff and
+/* Function iterates through the characters in a diff and
  * and extracts, to an array, each part that pertains to
  * changes to a src/application file, then returns the array
  */
@@ -68,6 +68,12 @@ function getSrcApplicationDiffs(diff) {
     return isSrcAppicationFileDiff(fileDiff);
   });
 }
+
+/* Function takes an import reference and returns the path
+ * to the referenced file from 'src/' if the reference begins
+ * with 'applications/' or starts with '../'. Otherwise
+ * it returns the given reference.
+ */
 
 function getImportPath(filePathAsArray, importRef) {
   if (importRef.startsWith('applications/')) {
