@@ -18,8 +18,9 @@ export default function CancelLink({ appointment }) {
   const showCancelButton = useSelector(selectFeatureCancel);
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isPastAppointment = appointment.vaos.isPastAppointment;
+  const hideCanceledOrPast = canceled || !showCancelButton || isPastAppointment;
 
-  if (canceled || !showCancelButton || isPastAppointment) {
+  if (hideCanceledOrPast) {
     return null;
   }
 

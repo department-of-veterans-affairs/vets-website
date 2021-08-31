@@ -6,8 +6,9 @@ import { APPOINTMENT_STATUS } from '../../../utils/constants';
 export default function CalendarLink({ appointment, facility }) {
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isPastAppointment = appointment.vaos.isPastAppointment;
+  const hideCanceledOrPast = canceled || isPastAppointment;
 
-  if (canceled || isPastAppointment) {
+  if (hideCanceledOrPast) {
     return null;
   }
 
