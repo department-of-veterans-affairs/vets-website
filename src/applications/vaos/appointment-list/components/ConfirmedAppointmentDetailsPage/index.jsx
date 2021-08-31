@@ -25,7 +25,7 @@ import {
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import AppointmentDateTime from '../AppointmentDateTime';
 import VideoVisitSection from './VideoVisitSection';
-import PageLayout from '../AppointmentsPage/PageLayout';
+import PageLayout from '../PageLayout';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
 import Breadcrumbs from '../../../components/Breadcrumbs';

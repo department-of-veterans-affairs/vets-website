@@ -12,6 +12,7 @@ import DowntimeNotification, {
 import WarningNotification from '../../../components/WarningNotification';
 import Select from '../../../components/Select';
 import ScheduleNewAppointment from '../ScheduleNewAppointment';
+import PageLayout from '../PageLayout';
 
 const pageTitle = 'VA online scheduling';
 
@@ -91,7 +92,7 @@ export default function AppointmentsPageV2() {
   }
 
   return (
-    <>
+    <PageLayout showBreadcrumbs showNeedHelp>
       <h1 className="vads-u-flex--1 vads-u-margin-bottom--1p5">{pageTitle}</h1>
       <DowntimeNotification
         appTitle="VA online scheduling tool"
@@ -129,6 +130,6 @@ export default function AppointmentsPageV2() {
           <CanceledAppointmentsList hasTypeChanged={hasTypeChanged} />
         </Route>
       </Switch>
-    </>
+    </PageLayout>
   );
 }

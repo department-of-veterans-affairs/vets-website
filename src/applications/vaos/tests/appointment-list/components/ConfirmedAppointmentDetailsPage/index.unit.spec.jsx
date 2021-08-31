@@ -380,12 +380,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       number: '5',
     };
     mockVACancelFetches('983', [cancelReason]);
-    const screen = renderWithStoreAndRouter(
-      <AppointmentList featureHomepageRefresh />,
-      {
-        initialState,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+    });
 
     const detailLinks = await screen.findAllByRole('link', {
       name: /Detail/i,
@@ -632,12 +629,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockFacilityFetch('vha_442GC', facility);
 
-    const screen = renderWithStoreAndRouter(
-      <AppointmentList featureHomepageRefresh />,
-      {
-        initialState,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+    });
 
     const oldPrint = global.window.print;
     const printSpy = sinon.spy();

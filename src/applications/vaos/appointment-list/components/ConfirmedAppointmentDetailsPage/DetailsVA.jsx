@@ -4,7 +4,7 @@ import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import { getVAAppointmentLocationId } from '../../../services/appointment';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import AppointmentDateTime from '../AppointmentDateTime';
-import PageLayout from '../AppointmentsPage/PageLayout';
+import PageLayout from '../PageLayout';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import InfoAlert from '../../../components/InfoAlert';
 import CalendarLink from './CalendarLink';
