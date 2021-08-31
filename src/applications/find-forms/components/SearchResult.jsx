@@ -45,6 +45,21 @@ export const deriveLatestIssue = (d1, d2) => {
   return moment(date2Formatted).format(FORM_MOMENT_PRESENTATION_DATE_FORMAT);
 };
 
+const deriveLanguageTranslation = (lang = 'en', whichNode, id) => {
+  const languages = {
+    es: {
+      goToOnlineTool: `Llene el formulario VA ${id} en línea.`,
+      downloadVaForm: `Descargar el formulario VA ${id}`,
+    },
+    en: {
+      goToOnlineTool: `Fill out VA Form ${id} online`,
+      downloadVaForm: `Download VA Form ${id}`,
+    },
+  };
+
+  return languages[lang][whichNode];
+};
+
 const recordGAEventHelper = ({
   query,
   eventUrl,
@@ -60,8 +75,8 @@ const recordGAEventHelper = ({
     'search-page-path': '/find-forms', // consistent for all search result clicks from this page
     'search-query': query, // dynamically populate with the search query
     'search-result-chosen-page-url': eventUrl, // populate with the full href of the form detail page or tool page
-    'search-result-chosen-title': eventTitle, // or 'Download VA form 10-10EZ (PDF)' or 'Go to online tool'
-    'search-result-type': eventType, // populate with 'pdf' if pdf, or 'cta' if "Go to online tool"
+    'search-result-chosen-title': eventTitle, // or 'Download VA form 10-10EZ (PDF)' or 'Go to online tool' (NOW => "Fill out VA Form {id} online")
+    'search-result-type': eventType, // populate with 'pdf' if pdf, or 'cta' if "Go to online tool" (NOW => "Fill out VA Form {id} online")
     'search-results-pagination-current-page': currentPage, // populate with the current pagination number at time of result click
     'search-results-position': currentPositionOnPage, // populate with position on page of result click, beginning with 1 as the first result, number in relation to total results on the page (10 being last with 10 results are shown)
     'search-results-total-count': totalResultsCount, // populate with the total number of search results at time of click
@@ -186,11 +201,11 @@ const SearchResult = ({
               className="fas fa-chevron-circle-right fa-2x vads-u-margin-right--1"
               role="presentation"
             />
-            <span className="vads-u-text-decoration--underline vads-u-font-weight--bold">
-              Go to online tool
-            </span>
-            <span className="vads-u-visibility--screen-reader">
-              for {id} {title}
+            <span
+              lang={language}
+              className="vads-u-text-decoration--underline vads-u-font-weight--bold"
+            >
+              {deriveLanguageTranslation(language, 'goToOnlineTool', id)}
             </span>
           </a>
         </div>
@@ -239,8 +254,9 @@ const SearchResult = ({
             className="fas fa-download fa-lg vads-u-margin-right--1"
             role="presentation"
           />
-          <span className="vads-u-text-decoration--underline">
-            Download VA form {id} {pdfLabel}
+
+          <span lang={language} className="vads-u-text-decoration--underline">
+            {deriveLanguageTranslation(language, 'downloadVaForm', id)}
           </span>
         </a>
       </div>
