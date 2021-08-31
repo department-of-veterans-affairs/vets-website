@@ -105,11 +105,9 @@ export function ComparePage({
 
   const handleScroll = useCallback(
     () => {
-      if (!initialTop && headerRef.current && headerRef.current.offsetTop) {
-        setInitialTop(headerRef.current.offsetTop);
-      }
+      const offsetTop = headerRef.current?.offsetTop;
 
-      if (initialTop) {
+      if (offsetTop) {
         const offset = window.pageYOffset;
         const placeholder = document.querySelector('.placeholder.open');
         const footer = document.getElementById('footerNav');
@@ -120,17 +118,21 @@ export function ComparePage({
         if (placeholder) {
           placeholder.style.height = headerRef.current.getBoundingClientRect().height;
         }
-        if (offset > initialTop && !headerFixed) {
+        if (offset > offsetTop && !headerFixed) {
           setHeaderFixed(true);
           scrollHeaderRef.current.scroll({
             left: scrollPageRef.current.scrollLeft,
           });
-        } else if (offset < initialTop && headerFixed) {
+        } else if (offset < offsetTop && headerFixed) {
           setHeaderFixed(false);
         } else if (headerFixed) {
           headerRef.current.style.top =
             visibleFooterHeight > 0 ? `${-visibleFooterHeight}px` : '0px';
         }
+      }
+
+      if (!initialTop && offsetTop) {
+        setInitialTop(offsetTop);
       }
     },
     [scrollHeaderRef, scrollPageRef, headerFixed, initialTop],
