@@ -60,8 +60,8 @@ const recordGAEventHelper = ({
     'search-page-path': '/find-forms', // consistent for all search result clicks from this page
     'search-query': query, // dynamically populate with the search query
     'search-result-chosen-page-url': eventUrl, // populate with the full href of the form detail page or tool page
-    'search-result-chosen-title': eventTitle, // or 'Download VA form 10-10EZ (PDF)' or 'Go to online tool'
-    'search-result-type': eventType, // populate with 'pdf' if pdf, or 'cta' if "Go to online tool"
+    'search-result-chosen-title': eventTitle, // or 'Download VA form 10-10EZ (PDF)' or 'Go to online tool' (NOW => "Fill out VA Form {id} online")
+    'search-result-type': eventType, // populate with 'pdf' if pdf, or 'cta' if "Go to online tool" (NOW => "Fill out VA Form {id} online")
     'search-results-pagination-current-page': currentPage, // populate with the current pagination number at time of result click
     'search-results-position': currentPositionOnPage, // populate with position on page of result click, beginning with 1 as the first result, number in relation to total results on the page (10 being last with 10 results are shown)
     'search-results-total-count': totalResultsCount, // populate with the total number of search results at time of click
