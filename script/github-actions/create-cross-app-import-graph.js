@@ -66,14 +66,6 @@ function getSrcApplicationDiffs(diff) {
 }
 
 function getImportPath(filePathAsArray, importRef) {
-  // eslint-disable-next-line no-console
-  console.log('**** in getImportPath()');
-
-  // eslint-disable-next-line no-console
-  console.log("logging importRef's chars");
-  // eslint-disable-next-line no-console
-  console.log(importRef.split(''));
-
   if (importRef.startsWith('applications/')) {
     return `src/${importRef}`;
   } else if (importRef.startsWith('../')) {
@@ -118,8 +110,6 @@ function lineIncludesRequire(line) {
   return line.includes('= require(');
 }
 
-// update this to look for both single and double quotes
-// i found an instance where double quotes are used
 function getImportRef(line) {
   let start = null;
   let finish = null;
@@ -148,57 +138,19 @@ function getImportRef(line) {
 }
 
 function isCrossAppImport(fileDiff, line) {
-  // eslint-disable-next-line no-console
-  console.log('**** in isCrossAppImport()');
-
-  // eslint-disable-next-line no-console
-  console.log('fileDiff: ', fileDiff);
-
   const filePath = getAppPathFromFileDiff(fileDiff);
   const filePathAsArray = filePath.split('/');
   const appName = getAppNameFromFilePath(filePath);
-
-  // eslint-disable-next-line no-console
-  console.log('filePath: ', filePath);
-
-  // eslint-disable-next-line no-console
-  console.log('filePathAsArray: ', filePathAsArray);
-
-  // eslint-disable-next-line no-console
-  console.log('appName: ', appName);
-
   const importRef = getImportRef(line);
   const importPath = getImportPath(filePathAsArray, importRef);
-
-  // eslint-disable-next-line no-console
-  console.log('importRef: ', importRef);
-
-  // eslint-disable-next-line no-console
-  console.log('importPath: ', importPath);
-
   return importIsFromOtherApplication(appName, importPath);
 }
 
 function changesIncludeChangesToCrossAppImports(srcApplicationDiff) {
-  // eslint-disable-next-line no-console
-  console.log('**** in changesIncludeChangesToCrossAppImports()');
-
   const changes = getChanges(srcApplicationDiff);
-
-  // eslint-disable-next-line no-console
-  console.log('changes: ', changes);
 
   for (let i = 0; i < changes.length; i += 1) {
     const line = changes[i];
-
-    // eslint-disable-next-line no-console
-    console.log('line: ', line);
-
-    // eslint-disable-next-line no-console
-    console.log('lineIsPartOfImport(line): ', lineIsPartOfImport(line));
-
-    // eslint-disable-next-line no-console
-    console.log('lineIncludesRequire(line): ', lineIncludesRequire(line));
 
     if (
       (lineIsPartOfImport(line) || lineIncludesRequire(line)) &&
@@ -219,14 +171,10 @@ function shouldRebuildGraph(diff) {
 
   for (let i = 0; i < srcApplicationDiffs.length; i += 1) {
     if (changesIncludeChangesToCrossAppImports(srcApplicationDiffs[i])) {
-      // eslint-disable-next-line no-console
-      console.log('shouldRebuildGraph = TRUE');
       return true;
     }
   }
 
-  // eslint-disable-next-line no-console
-  console.log('shouldRebuildGraph = FALSE');
   return false;
 }
 
