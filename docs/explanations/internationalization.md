@@ -1,3 +1,9 @@
+---
+layout: page
+title: Internationalization
+parent: Explanations
+---
+
 # Internationalization
 
 All default messages will be retrieved with a `getMessage` function. For

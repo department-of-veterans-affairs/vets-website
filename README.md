@@ -29,7 +29,15 @@ To create new example:
 
 ## Documentation
 
-When we write documentation, we'll put links to it here.
+We have documentation in `/docs` that is [hosted using GitHub Pages](https://department-of-veterans-affairs.github.io/formulate/).
+
+To run the Jekyll site locally, run the following commands:
+
+```shell
+cd docs
+bundle install
+bundle exec jekyll serve
+```
 
 ## Contributing
 
