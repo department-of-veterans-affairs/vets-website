@@ -24,5 +24,7 @@ export const getDate = ({
   pattern = FORMAT_YMD,
 } = {}) => {
   const dateObj = moment(date);
+  // eslint-disable-next-line no-console
+  console.log(dateObj);
   return dateObj.isValid() ? dateObj.add(offset).format(pattern) : date;
 };
