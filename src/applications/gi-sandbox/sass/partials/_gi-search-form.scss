@@ -21,15 +21,27 @@
 
   .active-search-tab {
     border-top: 4px solid $color-primary;
+    border-radius: 0%;
+    height: 2.8em;
+    margin-bottom: -1px;
   }
 
   .inactive-search-tab {
     border-top: 2px solid $color-gray-light;
+    border-radius: 0%;
+    margin-bottom: -1px;
   }
 
   .search-tab {
     font-size: 25px;
     border-bottom: 2px solid $color-gray-light;
+    border-radius: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+
+    &:focus:not(:focus-visible) {
+      outline: none;
+    }
   }
 
   .name-search-tab {
