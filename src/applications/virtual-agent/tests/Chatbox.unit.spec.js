@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { expect } from 'chai';
-import { waitFor, screen } from '@testing-library/react';
+import { waitFor, screen, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import * as Sentry from '@sentry/browser';
 
@@ -377,6 +377,37 @@ describe('App', () => {
 
       expect(window.React).to.eql(React);
       expect(window.ReactDOM).to.eql(ReactDOM);
+    });
+  });
+
+  describe.only('when user is not logged in', () => {
+    it('displays a login widget', async () => {
+      const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
+        initialState: {
+          featureToggles: {
+            loading: false,
+          },
+        },
+      });
+
+      await waitFor(
+        () =>
+          expect(wrapper.getByText('Please sign in to access the chatbot.')).to
+            .exist,
+      );
+    });
+
+    it('displays sign in modal when user clicks sign in button', async () => {
+      const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
+        initialState: {
+          featureToggles: {
+            loading: false,
+          },
+        },
+      });
+      const button = wrapper.getByRole('button');
+      fireEvent.click(button);
+      expect(wrapper.getByRole('alertdialog')).to.exist;
     });
   });
 });

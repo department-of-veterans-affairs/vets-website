@@ -36,6 +36,12 @@ export default function Chatbox(props) {
           VA Virtual Agent (beta)
         </h2>
       </div>
+      <va-alert status="continue">
+        <p>Please sign in to access the chatbot.</p>
+        <button className="usa-button-primary" onClick={() => {}}>
+          Sign in to VA.gov
+        </button>
+      </va-alert>
       <App timeout={props.timeout || ONE_MINUTE} />
     </div>
   );
