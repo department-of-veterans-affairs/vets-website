@@ -13,14 +13,14 @@ import { selectProfile } from '~/platform/user/selectors';
 
 import { readableList } from '../utils/helpers';
 
-export const ContactInfoDescription = ({ formContext, profile }) => {
+export const ContactInfoDescription = ({ formContext, profile, homeless }) => {
   const [hadError, setHadError] = useState(false);
 
   /* use vapContactInfo because it comes directly from the profile. We're using
    * VAP components to render the information along with an edit button. Editing
    * and updating will refresh the store user > profile > vapContactInfo. Once
    * that is done, the FormApp outer wrapper _should_ automatically update the
-   * formData.veteran for email, phone & address - the validation functio then
+   * formData.veteran for email, phone & address - the validation function then
    * checks for these values and prevents or allows advancement in the form -
    * this is convoluted but it's the only way to block the form system continue
    * button to prevent continuing on in the form when we're missing essential
@@ -31,24 +31,24 @@ export const ContactInfoDescription = ({ formContext, profile }) => {
     profile?.vapContactInfo || {};
   const { submitted } = formContext || {};
 
+  // Don't require an address if the Veteran is homeless
+  const requireAddress = homeless ? '' : 'address';
+
   const missingInfo = [
     email?.emailAddress ? '' : 'email',
     mobilePhone?.phoneNumber ? '' : 'phone',
-    mailingAddress.addressLine1 ? '' : 'address',
+    mailingAddress.addressLine1 ? '' : requireAddress,
   ].filter(Boolean);
 
   const list = readableList(missingInfo);
   const plural = missingInfo.length > 1;
 
-  useEffect(
-    () => {
-      if (missingInfo.length) {
-        // page had an error flag, so we know when to show a success alert
-        setHadError(true);
-      }
-    },
-    [missingInfo],
-  );
+  useEffect(() => {
+    if (missingInfo.length) {
+      // page had an error flag, so we know when to show a success alert
+      setHadError(true);
+    }
+  }, [missingInfo]);
 
   return (
     <>
@@ -56,17 +56,16 @@ export const ContactInfoDescription = ({ formContext, profile }) => {
         This is the contact information we have on file for you. We’ll send any
         updates or information about your Board Appeal request to this address.
       </p>
-      {hadError &&
-        missingInfo.length === 0 && (
-          <div className="vads-u-margin-top--1p5">
-            <va-alert status="success" background-only>
-              <div className="vads-u-font-size--base">
-                The missing information has been added to your application. You
-                may continue.
-              </div>
-            </va-alert>
-          </div>
-        )}
+      {hadError && missingInfo.length === 0 && (
+        <div className="vads-u-margin-top--1p5">
+          <va-alert status="success" background-only>
+            <div className="vads-u-font-size--base">
+              The missing information has been added to your application. You
+              may continue.
+            </div>
+          </va-alert>
+        </div>
+      )}
       {missingInfo.length > 0 && (
         <>
           <p className="vads-u-margin-top--1p5">
@@ -160,9 +159,11 @@ ContactInfoDescription.propTypes = {
       }),
     }),
   }).isRequired,
+  homeless: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
+  homeless: state.form.data.homeless,
   profile: selectProfile(state),
 });
 

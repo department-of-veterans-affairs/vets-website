@@ -129,9 +129,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
-  submitUrl: `${
-    environment.API_URL
-  }/v0/disability_compensation_form/submit_all_claim`,
+  submitUrl: `${environment.API_URL}/v0/disability_compensation_form/submit_all_claim`,
   submit: submitFormFor('disability-526EZ'),
   trackingPrefix: 'disability-526EZ-',
   downtime: {
@@ -193,6 +191,12 @@ const formConfig = {
           path: 'veteran-information',
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
+        },
+        contactInformation: {
+          title: 'Veteran contact information',
+          path: 'contact-information',
+          uiSchema: contactInformation.uiSchema,
+          schema: contactInformation.schema,
         },
         alternateNames: {
           title: 'Service under another name',
@@ -657,12 +661,6 @@ const formConfig = {
     additionalInformation: {
       title: 'Additional information',
       pages: {
-        contactInformation: {
-          title: 'Veteran contact information',
-          path: 'contact-information',
-          uiSchema: contactInformation.uiSchema,
-          schema: contactInformation.schema,
-        },
         paymentInformation: {
           title: 'Payment information',
           path: 'payment-information',

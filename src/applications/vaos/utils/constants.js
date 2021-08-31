@@ -216,6 +216,7 @@ export const FACILITY_TYPES = {
 export const FACILITY_SORT_METHODS = {
   distanceFromResidential: 'distanceFromResidentialAddress',
   distanceFromCurrentLocation: 'distanceFromCurrentLocation',
+  distanceFromFacility: 'distanceFromFacility',
   alphabetical: 'alphabetical',
 };
 

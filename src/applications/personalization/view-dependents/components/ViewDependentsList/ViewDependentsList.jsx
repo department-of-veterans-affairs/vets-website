@@ -1,8 +1,18 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import ViewDependentsListItem from '../ViewDependentsList/ViewDependentsListItem';
 
+const RemoveDependentSuccessMessage = () => (
+  <p
+    aria-live="polite"
+    className="vads-u-background-color--green-lightest vads-u-padding--2"
+  >
+    We’ll update your information for this dependent. If we need you to give us
+    more information or documents, we’ll contact you by mail.
+  </p>
+);
 function ViewDependentsList(props) {
   let mainContent;
   const manageDependentsToggle = props?.manageDependentsToggle ?? null;
@@ -41,16 +51,25 @@ function ViewDependentsList(props) {
       >
         {props.linkText}
       </a>
+      {manageDependentsToggle && props?.submittedDependents?.length > 0 && (
+        <RemoveDependentSuccessMessage />
+      )}
       {mainContent}
     </>
   );
 }
 
+const mapStateToProps = state => ({
+  submittedDependents: state?.removeDependents?.submittedDependents,
+});
+
+export default connect(mapStateToProps, null)(ViewDependentsList);
+
+export { ViewDependentsList };
 ViewDependentsList.propTypes = {
   dependents: PropTypes.array,
   header: PropTypes.string,
   subHeader: PropTypes.object,
   manageDependentsToggle: PropTypes.bool,
+  submittedDependents: PropTypes.array,
 };
-
-export default ViewDependentsList;

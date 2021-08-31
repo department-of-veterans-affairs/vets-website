@@ -52,7 +52,7 @@ class FormSaved extends React.Component {
     const { success } = this.props.route.formConfig.savedFormMessages || {};
     const expirationDate = moment
       .unix(this.props.expirationDate)
-      .format('M/D/YYYY');
+      .format('MMMM D, YYYY');
     const appType =
       this.props.route.formConfig?.customText?.appType || APP_TYPE_DEFAULT;
 
@@ -62,23 +62,22 @@ class FormSaved extends React.Component {
           <div className="usa-alert-body">
             <strong>{savedMessage(this.props.route.formConfig)}</strong>
             <br />
-            {!!lastSavedDate &&
-              !!expirationDate && (
-                <div className="saved-form-metadata-container">
-                  <span className="saved-form-metadata">
-                    Last saved on{' '}
-                    {moment(lastSavedDate).format('M/D/YYYY [at] h:mm a')}
-                  </span>
-                  {expirationMessage || (
-                    <p className="expires-container">
-                      Your saved {appType}{' '}
-                      <span className="expires">
-                        will expire on {expirationDate}.
-                      </span>
-                    </p>
-                  )}
-                </div>
-              )}
+            {!!lastSavedDate && !!expirationDate && (
+              <div className="saved-form-metadata-container">
+                <span className="saved-form-metadata">
+                  Last saved on{' '}
+                  {moment(lastSavedDate).format('MMMM D, YYYY [at] h:mm a')}
+                </span>
+                {expirationMessage || (
+                  <p className="expires-container">
+                    Your saved {appType}{' '}
+                    <span className="expires">
+                      will expire on {expirationDate}.
+                    </span>
+                  </p>
+                )}
+              </div>
+            )}
             {success}
             If you’re on a public computer, please sign out of your account
             before you leave so your information stays secure.
@@ -151,10 +150,7 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(FormSaved),
+  connect(mapStateToProps, mapDispatchToProps)(FormSaved),
 );
 
 export { FormSaved };

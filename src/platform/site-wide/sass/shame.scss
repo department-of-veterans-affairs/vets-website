@@ -40,6 +40,10 @@ $medium-phone-screen: 375px;
 
   #va-header-logo-menu {
     align-items: center;
+
+    @media (min-width: $xsmall-screen) and (max-width: $medium-screen - 1) {
+      position: relative;
+    }
   }
 
   @import "iconography";
@@ -77,6 +81,7 @@ $medium-phone-screen: 375px;
     }
   }
 
+  .menu-rule,
   #menu-rule {
     border-bottom: 1px solid $color-white;
     margin-left: -0.55em;
@@ -215,6 +220,7 @@ $medium-phone-screen: 375px;
       flex-direction: column;
     }
 
+    .menu-rule,
     #menu-rule {
       border-bottom: 0;
       padding-bottom: 0;

@@ -31,7 +31,8 @@ import { MINIMUM_RATING_COUNT } from '../constants';
 import Scroll from 'react-scroll';
 import { getScrollOptions } from 'platform/utilities/ui';
 import CompareHeader from '../components/CompareHeader';
-import CompareLayout from '../components/CompareLayout';
+import CompareLayout from './CompareLayout';
+import { isSmallScreen } from '../utils/helpers';
 
 const scroll = Scroll.animateScroll;
 
@@ -48,13 +49,11 @@ export function ComparePage({
 }) {
   const [showDifferences, setShowDifferences] = useState(false);
   const [promptingFacilityCode, setPromptingFacilityCode] = useState(null);
-  const [headerClass, setHeaderClass] = useState(null);
+  const [headerFixed, setHeaderFixed] = useState(false);
   const [scrollTo, setScrollTo] = useState(null);
   const [initialTop, setInitialTop] = useState(null);
   const [currentXScroll, setCurrentXScroll] = useState(0);
-  const [smallScreen, setSmallScreen] = useState(
-    matchMedia('(max-width: 480px)').matches,
-  );
+  const [smallScreen, setSmallScreen] = useState(isSmallScreen());
   const headerRef = useRef(null);
   const scrollHeaderRef = useRef(null);
   const scrollPageRef = useRef(null);
@@ -63,85 +62,74 @@ export function ComparePage({
   const { version } = preview;
   const institutionCount = loaded.length;
   const history = useHistory();
-  const isSticky = headerClass === 'sticky';
-  const isLimited = headerClass === 'limited';
   const hasScrollTo = scrollTo !== null;
 
-  useEffect(
-    () => {
-      if (!allLoaded) {
-        dispatchFetchCompareDetails(selected, filters, version);
-      }
-    },
-    [allLoaded, dispatchFetchCompareDetails, filters, selected, version],
-  );
+  useEffect(() => {
+    if (!allLoaded) {
+      dispatchFetchCompareDetails(selected, filters, version);
+    }
+  }, [allLoaded, dispatchFetchCompareDetails, filters, selected, version]);
 
-  useEffect(
-    () => {
-      if (hasScrollTo) {
-        scrollPageRef.current.scroll({
+  useEffect(() => {
+    if (hasScrollTo) {
+      scrollPageRef.current.scroll({
+        left: scrollTo,
+        behavior: 'smooth',
+      });
+
+      if (headerFixed) {
+        scrollHeaderRef.current.scroll({
           left: scrollTo,
           behavior: 'smooth',
         });
-
-        if (isSticky) {
-          scrollHeaderRef.current.scroll({
-            left: scrollTo,
-            behavior: 'smooth',
-          });
-        }
-
-        setScrollTo(null);
       }
-    },
-    [scrollTo],
-  );
+
+      setScrollTo(null);
+    }
+  }, [scrollTo]);
 
   useEffect(() => {
     const checkSize = () => {
-      setSmallScreen(matchMedia('(max-width: 480px)').matches);
+      setSmallScreen(isSmallScreen());
     };
     window.addEventListener('resize', checkSize);
 
     return () => window.removeEventListener('resize', checkSize);
   }, []);
 
-  const toggleSticky = useCallback(
-    () => {
-      if (!initialTop && headerRef.current && headerRef.current.offsetTop) {
-        setInitialTop(headerRef.current.offsetTop);
-      }
+  const handleScroll = useCallback(() => {
+    if (!initialTop && headerRef.current && headerRef.current.offsetTop) {
+      setInitialTop(headerRef.current.offsetTop);
+    }
 
-      if (initialTop) {
-        const offset = window.pageYOffset;
-        if (offset > initialTop && !isSticky && !isLimited) {
-          setHeaderClass('sticky');
-          scrollHeaderRef.current.scroll({
-            left: scrollPageRef.current.scrollLeft,
-          });
-        } else if (offset < initialTop && isSticky && !isLimited) {
-          setHeaderClass(null);
-        } else if (
-          isSticky &&
-          headerRef.current.getBoundingClientRect().bottom >=
-            scrollPageRef.current.getBoundingClientRect().bottom
-        ) {
-          // setHeaderClass('limited');
-        } else if (
-          isLimited &&
-          headerRef.current.getBoundingClientRect().bottom <
-            scrollPageRef.current.getBoundingClientRect().bottom
-        ) {
-          // setHeaderClass('sticky');
-        }
+    if (initialTop) {
+      const offset = window.pageYOffset;
+      const placeholder = document.querySelector('.placeholder.open');
+      const footer = document.getElementById('footerNav');
+
+      const visibleFooterHeight = footer
+        ? window.innerHeight - footer.getBoundingClientRect().top
+        : 0;
+      if (placeholder) {
+        placeholder.style.height = headerRef.current.getBoundingClientRect().height;
       }
-    },
-    [scrollHeaderRef, scrollPageRef, headerClass, initialTop],
-  );
+      if (offset > initialTop && !headerFixed) {
+        setHeaderFixed(true);
+        scrollHeaderRef.current.scroll({
+          left: scrollPageRef.current.scrollLeft,
+        });
+      } else if (offset < initialTop && headerFixed) {
+        setHeaderFixed(false);
+      } else if (headerFixed) {
+        headerRef.current.style.top =
+          visibleFooterHeight > 0 ? `${-visibleFooterHeight}px` : '0px';
+      }
+    }
+  }, [scrollHeaderRef, scrollPageRef, headerFixed, initialTop]);
 
   const handleBodyScrollReact = () => {
     if (
-      isSticky &&
+      headerFixed &&
       !hasScrollTo &&
       scrollHeaderRef.current.scrollLeft !== scrollPageRef.current.scrollLeft
     ) {
@@ -157,7 +145,7 @@ export function ComparePage({
 
   const handleHeaderScrollReact = () => {
     if (
-      isSticky &&
+      headerFixed &&
       !hasScrollTo &&
       scrollHeaderRef.current.scrollLeft !== scrollPageRef.current.scrollLeft
     ) {
@@ -175,15 +163,12 @@ export function ComparePage({
     scroll.scrollToTop(getScrollOptions());
   }, []);
 
-  useLayoutEffect(
-    () => {
-      window.addEventListener('scroll', toggleSticky);
-      return () => {
-        window.removeEventListener('scroll', toggleSticky);
-      };
-    },
-    [toggleSticky],
-  );
+  useLayoutEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [handleScroll]);
 
   if (error) {
     return <ServiceError />;
@@ -233,9 +218,14 @@ export function ComparePage({
       )}
       <div className="content-wrapper">
         <div
+          className={classNames('placeholder', {
+            open: headerFixed,
+          })}
+        />
+        <div
           id="compareHeader"
           className={classNames({
-            [headerClass]: isSticky || isLimited,
+            fixed: headerFixed,
           })}
           ref={headerRef}
         >
@@ -329,7 +319,4 @@ const mapDispatchToProps = {
   dispatchHideModal: hideModal,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ComparePage);
+export default connect(mapStateToProps, mapDispatchToProps)(ComparePage);

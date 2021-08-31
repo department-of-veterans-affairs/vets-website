@@ -19,7 +19,7 @@ const testConfig = createTestConfig(
         cy.get('#vre-benefits-1').click();
         cy.get('#education-benefits-0').click();
         cy.get('#begin-form-now-0').click();
-        cy.get('.va-button-primary').click();
+        cy.get('.vads-c-action-link--green').click();
 
         // Previous button click fully loads a new page, so we need to
         // re-inject aXe to get the automatic aXe checks working.

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -10,9 +10,9 @@ import { scrollToFirstError } from 'platform/utilities/ui';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import { scrollAndFocus } from '../utils/ui';
-import { someSelected } from '../utils/helpers';
-import { SELECTED, MAX_NEW_CONDITIONS } from '../constants';
-import { getContent, renderPage } from './AddIssues';
+import { getSelectedCount } from '../utils/helpers';
+import { SELECTED, MAX_SELECTIONS } from '../constants';
+import { GetContent, RenderPage } from './AddIssues';
 
 /* Non-review growable table (array) field */
 const AddIssuesField = props => {
@@ -27,17 +27,32 @@ const AddIssuesField = props => {
     onBlur,
     fullFormData,
     submission,
+    setFormData,
   } = props;
 
   const id = idSchema.$id;
   const uiOptions = uiSchema['ui:options'] || {};
+  const [showErrorModal, setShowErrorModal] = useState(false);
 
-  if (!fullFormData['view:hasIssuesToAdd']) {
-    props.setFormData({
-      ...fullFormData,
-      'view:hasIssuesToAdd': true,
-    });
-  }
+  // if we have form data, use that, otherwise use an array with a single default object
+  const items = formData.length
+    ? formData
+    : [getDefaultFormState(schema.additionalItems, undefined, {})];
+  const hasSubmitted = formContext.submitted || submission?.hasAttemptedSubmit;
+  const selectedCount = getSelectedCount(fullFormData, items);
+
+  useEffect(() => {
+    if (!fullFormData['view:hasIssuesToAdd']) {
+      setFormData({
+        ...fullFormData,
+        'view:hasIssuesToAdd': true,
+      });
+    }
+    // Show modal error since it's the best choice for a11y in this situation
+    if (hasSubmitted && selectedCount >= MAX_SELECTIONS) {
+      setShowErrorModal(true);
+    }
+  }, [fullFormData, setFormData, hasSubmitted, selectedCount]);
 
   const initialEditingState = uiOptions.setInitialEditMode?.(formData);
   // Editing state: 1 = new edit, true = update edit & false = view state
@@ -46,20 +61,46 @@ const AddIssuesField = props => {
   );
 
   const handlers = {
+    closeModal: () => setShowErrorModal(false),
+    /**
+     * Change to the issue card checkbox
+     * @param {Number} indexToChange - index of current card
+     * @param {Boolean} checked - checked state
+     */
     toggleSelection: (indexToChange, checked) => {
       const newItems = formData.map((item, index) => ({
         ...item,
         [SELECTED]: index === indexToChange ? checked : item[SELECTED],
       }));
-      props.onChange(newItems);
+      const count = getSelectedCount(fullFormData, newItems);
+      if (checked && count > MAX_SELECTIONS) {
+        setShowErrorModal(true);
+      } else {
+        props.onChange(newItems);
+      }
     },
+    /**
+     * Change to the issue name/date
+     * @param {Number} indexToChange  - index of current card
+     * @param {Object} value - form element values
+     */
     onItemChange: (indexToChange, value) => {
-      const newItems = formData.map(
-        (item, index) =>
-          index === indexToChange ? { ...value, [SELECTED]: true } : item,
+      const count = getSelectedCount(fullFormData, formData);
+      const selectedValue = count + 1 <= MAX_SELECTIONS;
+      // Set newly added issue as selected unless it goes over the max
+      // Doing this because it's better for UX && a11y
+      const newItems = formData.map((item, index) =>
+        index === indexToChange
+          ? { ...value, [SELECTED]: selectedValue }
+          : item,
       );
       props.onChange(newItems);
     },
+    /**
+     * Schema for each item, used to assign unique IDs
+     * @param {Number} index - index of current card
+     * @returns {Object} - item schema with IDs of nested elements
+     */
     getItemSchema: index => {
       const itemSchema = schema;
       if (itemSchema.items.length > index) {
@@ -67,9 +108,14 @@ const AddIssuesField = props => {
       }
       return itemSchema.additionalItems;
     },
+    /**
+     * Blur function passed in from json-schemaform field
+     */
     blur: onBlur,
-    /*
+    /**
      * Clicking edit on an item that’s not last and so is in view mode
+     * @param {Number} index - index of current card
+     * @param {Boolean} status - edit mode state
      */
     edit: (index, status = true) => {
       setEditing(editing.map((mode, indx) => (indx === index ? status : mode)));
@@ -78,9 +124,10 @@ const AddIssuesField = props => {
         timer: 50,
       });
     },
-    /*
-    * Clicking Update on an item that’s not last and is in edit mode
-    */
+    /**
+     * Clicking Update on an item that’s not last and is in edit mode
+     * @param {Number} index - index of current card
+     */
     update: index => {
       const { issue, decisionDate } = formData[index];
       if (errorSchemaIsValid(errorSchema[index]) && issue && decisionDate) {
@@ -99,8 +146,8 @@ const AddIssuesField = props => {
         });
       }
     },
-    /*
-     * Clicking Add another
+    /**
+     * Clicking Add another opens a new issue card
      */
     add: () => {
       const lastIndex = formData.length - 1;
@@ -124,8 +171,9 @@ const AddIssuesField = props => {
         });
       }
     },
-    /*
+    /**
      * Clicking Remove on an item in edit mode
+     * @param {Number} indexToRemove - index of card to remove
      */
     remove: indexToRemove => {
       const newItems = formData.filter((_, index) => index !== indexToRemove);
@@ -143,21 +191,14 @@ const AddIssuesField = props => {
   const isReviewMode = formContext.reviewMode;
   const showCheckbox = !onReviewPage || (onReviewPage && !isReviewMode);
 
-  // if we have form data, use that, otherwise use an array with a single default object
-  const items = formData.length
-    ? formData
-    : [getDefaultFormState(schema.additionalItems, undefined, {})];
-
-  const atMax = items.length > MAX_NEW_CONDITIONS;
-
   // first issue does not have a header or grey card background
   const singleIssue = items.length === 1;
-  const hasSelected =
-    someSelected(formData) || someSelected(fullFormData.contestableIssues);
-  const hasSubmitted = formContext.submitted || submission?.hasAttemptedSubmit;
-  const showError = hasSubmitted && !hasSelected;
+  const showContent = formData.length > 0;
+  const hasSelected = selectedCount > 0;
+  const showNoneSelectedError = hasSubmitted && !hasSelected;
+  const maxItemsLength = items.length >= schema.maxItems;
 
-  const content = getContent({
+  const content = GetContent({
     handlers,
     registry,
     items,
@@ -172,17 +213,18 @@ const AddIssuesField = props => {
     showCheckbox,
   });
 
-  return renderPage({
+  return RenderPage({
     id,
     isReviewMode,
     isEditing: editing.some(edit => edit),
     hasSelected,
-    showError,
-    showContent: formData.length > 0,
+    showNoneSelectedError,
+    showContent,
     showCheckbox,
-    atMax,
+    maxItemsLength,
     content,
     handlers,
+    showErrorModal,
   });
 };
 
@@ -217,7 +259,4 @@ const mapStateToProps = state => ({
 
 export { AddIssuesField };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(AddIssuesField);
+export default connect(mapStateToProps, mapDispatchToProps)(AddIssuesField);

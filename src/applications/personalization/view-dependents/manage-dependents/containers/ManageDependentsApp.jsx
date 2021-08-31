@@ -34,7 +34,11 @@ const ManageDependents = props => {
       veteranContactInformation,
       userInfo,
     );
-    submitFormData(stateKey, payload);
+    submitFormData(stateKey, payload).then(data => {
+      if (data.status === LOADING_STATUS.success) {
+        closeFormHandler();
+      }
+    });
   };
 
   const onChange = useCallback(
@@ -71,15 +75,12 @@ const ManageDependents = props => {
     initialize();
   }, []);
 
-  useEffect(
-    () => {
-      if (dependentsState?.[stateKey]) {
-        setSchema(dependentsState[stateKey].formSchema);
-        setUiSchema(dependentsState[stateKey].uiSchema);
-      }
-    },
-    [dependentsState, stateKey],
-  );
+  useEffect(() => {
+    if (dependentsState?.[stateKey]) {
+      setSchema(dependentsState[stateKey].formSchema);
+      setUiSchema(dependentsState[stateKey].uiSchema);
+    }
+  }, [dependentsState, stateKey]);
 
   return schema ? (
     <div>
@@ -135,10 +136,7 @@ const mapDispatchToProps = {
   ...actions,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ManageDependents);
+export default connect(mapStateToProps, mapDispatchToProps)(ManageDependents);
 export { ManageDependents };
 
 ManageDependents.propTypes = {

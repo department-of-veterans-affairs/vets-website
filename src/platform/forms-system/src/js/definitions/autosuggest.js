@@ -1,4 +1,4 @@
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import merge from 'lodash/merge';
 
 import AutosuggestField from '../fields/AutosuggestField';
 import { validateAutosuggestOption } from '../validation';
@@ -26,11 +26,12 @@ export const schema = {
  */
 export function uiSchema(label, getOptions, options = {}) {
   const validations = [];
-  if (!_.get('ui:options.freeInput', options)) {
+  if (!options['ui:options']?.freeInput) {
     validations.push(validateAutosuggestOption);
   }
 
-  return _.merge(
+  return merge(
+    {},
     {
       'ui:title': label,
       'ui:field': AutosuggestField,

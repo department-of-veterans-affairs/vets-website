@@ -11,10 +11,16 @@ const scroll = Scroll.animateScroll;
  * @param parentId containing element's id, used to float element right when floating at bottom of page
  * @param profilePageHeaderId once bottom of this element is less than zero triggers floating behavior
  * @param compare
+ * @param smallScreen
  * @return {JSX.Element}
  * @constructor
  */
-export default function BackToTop({ parentId, profilePageHeaderId, compare }) {
+export default function BackToTop({
+  parentId,
+  profilePageHeaderId,
+  compare,
+  smallScreen,
+}) {
   const [floating, setFloating] = useState(false);
   const [backToTopContainerStyle, setBackToTopContainerStyle] = useState({});
   const [compareOpen, setCompareOpen] = useState(compare.open);
@@ -30,32 +36,33 @@ export default function BackToTop({ parentId, profilePageHeaderId, compare }) {
    * Accounts for if CompareDrawer is open or not
    * Using an useEffect so can correctly access the value of compareOpen
    */
-  useEffect(
-    () => {
-      if (scrolled) {
-        const profilePageHeader = document.getElementById(profilePageHeaderId);
-        if (!profilePageHeader || !placeholder.current) return;
+  useEffect(() => {
+    if (smallScreen && compare.open) {
+      setFloating(false);
+      setScrolled(false);
+    } else if (scrolled || (smallScreen && !compare.open)) {
+      const profilePageHeader = document.getElementById(profilePageHeaderId);
+      if (!profilePageHeader || !placeholder.current) return;
 
-        const headerNotVisible =
-          profilePageHeader.getBoundingClientRect().bottom < 0;
+      const headerNotVisible =
+        profilePageHeader.getBoundingClientRect().bottom < 0;
 
-        // Values below are based on whether Compare Drawer is open or closed as this component needs to sit 0.8em above
-        // the Compare Drawer when open or closed
-        // See _gi-back-to-top.scss: 212 = 13.3em, 52 = 3.3em
-        // These values are the 2 heights of compare drawer plus 0.8em
-        const adjustment = compareOpen ? 212 : 52;
+      // Values below are based on whether Compare Drawer is open or closed as this component needs to sit 0.8em above
+      // the Compare Drawer when open or closed
+      // See _gi-back-to-top.scss: 212 = 13.3em, 52 = 3.3em
+      // These values are the 2 heights of compare drawer plus 0.8em
+      const adjustment = compareOpen ? 212 : 52;
 
-        // Has a consistent adjustment 52 because placeholder ends up above the Button in the dom
-        const footerNotVisible =
-          placeholder.current.getBoundingClientRect().bottom >=
-          window.innerHeight - 52 - adjustment;
+      // Has a consistent adjustment 52 because placeholder ends up above the Button in the dom
+      const footerNotVisible =
+        placeholder.current.getBoundingClientRect().bottom >=
+        window.innerHeight - 52 - adjustment;
 
-        setFloating(headerNotVisible && footerNotVisible);
-        setScrolled(false);
-      }
-    },
-    [scrolled],
-  );
+      setFloating(headerNotVisible && footerNotVisible);
+      setScrolled(false);
+    }
+    setCompareOpen(compare.open);
+  }, [scrolled, smallScreen, compare.open]);
 
   const resize = () => {
     if (floating) {
@@ -77,19 +84,9 @@ export default function BackToTop({ parentId, profilePageHeaderId, compare }) {
     };
   }, []);
 
-  useEffect(
-    () => {
-      resize();
-    },
-    [floating],
-  );
-
-  useEffect(
-    () => {
-      setCompareOpen(compare.open);
-    },
-    [compare.open],
-  );
+  useEffect(() => {
+    resize();
+  }, [floating]);
 
   const backToTopClasses = classNames('back-to-top', {
     'back-to-top-floating': floating,

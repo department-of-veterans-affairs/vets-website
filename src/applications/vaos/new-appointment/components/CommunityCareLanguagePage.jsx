@@ -23,12 +23,12 @@ const initialSchema = {
 const uiSchema = {
   preferredLanguage: {
     'ui:title':
-      'Select the preferred language for your community care provider.',
+      'Select your language preference for your community care provider.',
   },
 };
 
 const pageKey = 'ccLanguage';
-const pageTitle = 'Provider preferences';
+const pageTitle = 'Choose a preferred language';
 
 function CommunityCareLanguagePage({
   schema,
@@ -40,14 +40,11 @@ function CommunityCareLanguagePage({
   openFormPage,
 }) {
   const history = useHistory();
-  useEffect(
-    () => {
-      document.title = `${pageTitle} | Veterans Affairs`;
-      scrollAndFocus();
-      openFormPage(pageKey, uiSchema, initialSchema);
-    },
-    [openFormPage],
-  );
+  useEffect(() => {
+    document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus();
+    openFormPage(pageKey, uiSchema, initialSchema);
+  }, [openFormPage]);
 
   return (
     <div>

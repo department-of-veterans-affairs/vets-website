@@ -15,13 +15,40 @@ export function CompareDrawer({
   preview,
 }) {
   const history = useHistory();
+  const { loaded, institutions } = compare.search;
   const [open, setOpen] = useState(compare.open);
   const [promptingFacilityCode, setPromptingFacilityCode] = useState(null);
   const [stuck, setStuck] = useState(false);
   const placeholder = useRef(null);
   const drawer = useRef(null);
   const notRendered = !displayed && !alwaysDisplay;
-  const { loaded, institutions } = compare.search;
+  const [previousLoaded, setPreviousLoaded] = useState(loaded);
+  const [previousInstitutions, setPreviousInstitutions] = useState(
+    institutions,
+  );
+  const [loadedCards, setLoadedCards] = useState(null);
+  const [headerLabel, setHeaderLabel] = useState(
+    <>Compare Institutions ({loaded.length} of 3)</>,
+  );
+
+  const renderBlanks = () => {
+    const blanks = [];
+    for (let i = 0; i < 3 - loaded.length; i++) {
+      blanks.push(
+        <div
+          key={i}
+          className="compare-item vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3"
+        >
+          <div className="compare-name">
+            <div className="blank" />
+          </div>
+        </div>,
+      );
+    }
+    return blanks;
+  };
+
+  const [blanks, setBlanks] = useState(renderBlanks());
 
   const handleScroll = () => {
     let currentStuck;
@@ -32,14 +59,119 @@ export function CompareDrawer({
     });
     if (placeholder.current) {
       placeholder.current.style.height = currentStuck
-        ? 0
-        : drawer.current.getBoundingClientRect().height;
+        ? '0px'
+        : `${drawer.current.getBoundingClientRect().height}px`;
       setStuck(
         placeholder.current.getBoundingClientRect().bottom < window.innerHeight,
       );
     }
   };
 
+  const makeHeaderLabel = () => {
+    const removed = [];
+    const added = [];
+
+    loaded.forEach(loadedCode => {
+      if (
+        previousLoaded.filter(previousCode => previousCode === loadedCode)
+          .length === 0
+      ) {
+        added.push(loadedCode);
+      }
+    });
+
+    previousLoaded.forEach(previousCode => {
+      if (
+        loaded.filter(loadedCode => previousCode === loadedCode).length === 0
+      ) {
+        removed.push(previousCode);
+      }
+    });
+
+    let srActionMessage;
+    if (added.length > 0) {
+      srActionMessage = `${
+        institutions[added[0]].name
+      } added. Compare institutions, ${loaded.length} of 3.`;
+    } else if (removed.length > 0) {
+      srActionMessage = `${
+        previousInstitutions[removed[0]].name
+      } removed. Compare institutions, ${loaded.length} of 3.`;
+    }
+
+    setHeaderLabel(
+      <>
+        Compare Institutions ({loaded.length} of 3)
+        <span className="sr-only" aria-live="polite" aria-atomic="true">
+          {srActionMessage}
+        </span>
+      </>,
+    );
+  };
+
+  const makeLoadedCards = () => {
+    setLoadedCards(
+      loaded.map((facilityCode, index) => {
+        return (
+          <div
+            className="compare-item vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3"
+            key={index}
+          >
+            <div className="institution">
+              <div className="compare-name">
+                {institutions[facilityCode].name}
+              </div>
+              <div className="vads-u-padding-top--1p5">
+                <button
+                  type="button"
+                  className="va-button-link learn-more-button"
+                  onClick={() => {
+                    setPromptingFacilityCode(facilityCode);
+                  }}
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      }),
+    );
+  };
+
+  const expandCollapse = !open
+    ? 'compare-drawer-collapsed'
+    : 'compare-drawer-expanded';
+
+  useEffect(() => {
+    if (loaded.length === 0) {
+      makeHeaderLabel();
+      makeLoadedCards();
+      setBlanks(renderBlanks());
+      dispatchCompareDrawerOpened(false);
+    } else if (loaded.length === 1 && !open) {
+      dispatchCompareDrawerOpened(true);
+      setTimeout(() => {
+        makeHeaderLabel();
+        makeLoadedCards();
+        setBlanks(renderBlanks());
+        setTimeout(() => {
+          dispatchCompareDrawerOpened(false);
+        }, 800);
+      }, 300);
+    } else if (loaded.length >= 1 && loaded.length <= 3) {
+      makeHeaderLabel();
+      makeLoadedCards();
+      setBlanks(renderBlanks());
+      dispatchCompareDrawerOpened(true);
+    }
+
+    setPreviousLoaded(loaded);
+    setPreviousInstitutions(institutions);
+  }, [loaded]);
+  useEffect(() => {
+    setOpen(compare.open);
+  }, [compare.open]);
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, true);
 
@@ -66,23 +198,6 @@ export function CompareDrawer({
     closed: !open,
   });
 
-  const renderBlanks = () => {
-    const blanks = [];
-    for (let i = 0; i < 3 - loaded.length; i++) {
-      blanks.push(
-        <div
-          key={i}
-          className="compare-item vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3"
-        >
-          <div className="compare-name">
-            <div className="blank" />
-          </div>
-        </div>,
-      );
-    }
-    return blanks;
-  };
-
   const expandOnClick = () => {
     setOpen(!open);
     dispatchCompareDrawerOpened(!open);
@@ -93,62 +208,37 @@ export function CompareDrawer({
     'drawer-open': open && !stuck,
     'drawer-stuck': stuck,
   });
+
   return (
     <>
       <div className={compareDrawerClasses} ref={drawer}>
-        {promptingFacilityCode && (
-          <RemoveCompareSelectedModal
-            name={institutions[promptingFacilityCode].name}
-            onClose={() => setPromptingFacilityCode(null)}
-            onRemove={() => {
-              setPromptingFacilityCode(null);
-              dispatchRemoveCompareInstitution(promptingFacilityCode);
-            }}
-            onCancel={() => setPromptingFacilityCode(null)}
-          />
-        )}
-        <div
-          className="compare-header vads-l-grid-container"
-          onClick={expandOnClick}
-        >
-          <div className={headerLabelClasses}>
-            Compare Institutions ({loaded.length} of 3)
+        <div className={expandCollapse}>
+          {promptingFacilityCode && (
+            <RemoveCompareSelectedModal
+              name={institutions[promptingFacilityCode].name}
+              onClose={() => setPromptingFacilityCode(null)}
+              onRemove={() => {
+                setPromptingFacilityCode(null);
+                dispatchRemoveCompareInstitution(promptingFacilityCode);
+              }}
+              onCancel={() => setPromptingFacilityCode(null)}
+            />
+          )}
+          <div
+            className="compare-header vads-l-grid-container"
+            onClick={expandOnClick}
+          >
+            <button className={headerLabelClasses}>{headerLabel}</button>
           </div>
-        </div>
-        {open && (
+
           <div className="compare-body vads-l-grid-container">
             <div className="small-function-label">
               You can compare 2 to 3 institutions
             </div>
             <div className="vads-l-row vads-u-padding-top--1">
-              {loaded.map((facilityCode, index) => {
-                return (
-                  <div
-                    className="compare-item vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3"
-                    key={index}
-                  >
-                    <div className="institution">
-                      <div className="compare-name">
-                        {institutions[facilityCode].name}
-                      </div>
-                      <div className="vads-u-padding-top--1p5">
-                        <button
-                          type="button"
-                          className="va-button-link learn-more-button"
-                          onClick={() => {
-                            setPromptingFacilityCode(facilityCode);
-                          }}
-                        >
-                          Remove
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+              {loadedCards}
 
-              {renderBlanks()}
-
+              {blanks}
               <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3 action-cell ">
                 <div className="large-function-label compare-name">
                   You can compare 2 to 3 institutions
@@ -166,7 +256,7 @@ export function CompareDrawer({
               </div>
             </div>
           </div>
-        )}
+        </div>
       </div>
       <div ref={placeholder} className={placeholderClasses}>
         &nbsp;
@@ -189,7 +279,4 @@ const mapDispatchToProps = {
   dispatchCompareDrawerOpened: compareDrawerOpened,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CompareDrawer);
+export default connect(mapStateToProps, mapDispatchToProps)(CompareDrawer);

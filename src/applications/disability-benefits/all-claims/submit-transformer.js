@@ -12,6 +12,7 @@ import {
   PTSD_INCIDENT_ITERATION,
   PTSD_CHANGE_LABELS,
   ATTACHMENT_KEYS,
+  CHAR_LIMITS,
   disabilityActionTypes,
   defaultDisabilityDescriptions,
 } from './constants';
@@ -21,6 +22,7 @@ import {
   hasGuardOrReservePeriod,
   isBDD,
   isDisabilityPtsd,
+  truncateDescriptions,
 } from './utils';
 
 import disabilityLabels from './content/disabilityLabels';
@@ -113,9 +115,10 @@ function getClaimedConditionNames(
   formData,
   includeDisabilityActionTypeNone = true,
 ) {
-  return getDisabilities(formData, includeDisabilityActionTypeNone).map(
-    disability => getDisabilityName(disability),
-  );
+  return getDisabilities(
+    formData,
+    includeDisabilityActionTypeNone,
+  ).map(disability => getDisabilityName(disability));
 }
 
 const setActionType = disability =>
@@ -267,15 +270,14 @@ export const cleanUpPersonsInvolved = incident => {
   // personsInvolved that don't have a "injuryDeath" type set. So we're
   // setting blank entries to "other" and adding a generic other description
   // see https://github.com/department-of-veterans-affairs/va.gov-team/issues/21422
-  const personsInvolved = incident.personsInvolved?.map(
-    person =>
-      person.injuryDeath
-        ? person
-        : {
-            ...person,
-            injuryDeath: 'other',
-            injuryDeathOther: person.injuryDeathOther || 'Entry left blank',
-          },
+  const personsInvolved = incident.personsInvolved?.map(person =>
+    person.injuryDeath
+      ? person
+      : {
+          ...person,
+          injuryDeath: 'other',
+          injuryDeathOther: person.injuryDeathOther || 'Entry left blank',
+        },
   );
   return {
     ...incident,
@@ -344,7 +346,7 @@ export function transform(formConfig, form) {
       : formData;
 
   const addBackAndTransformSeparationLocation = formData =>
-    formData.serviceInformation.separationLocation
+    formData.serviceInformation?.separationLocation
       ? _.set(
           'serviceInformation.separationLocation',
           {
@@ -386,11 +388,10 @@ export function transform(formConfig, form) {
     formData.newDisabilities
       ? _.set(
           'newDisabilities',
-          formData.newDisabilities.map(
-            disability =>
-              isDisabilityPtsd(disability.condition)
-                ? _.set('cause', causeTypes.NEW, disability)
-                : disability,
+          formData.newDisabilities.map(disability =>
+            isDisabilityPtsd(disability.condition)
+              ? _.set('cause', causeTypes.NEW, disability)
+              : disability,
           ),
           formData,
         )
@@ -482,12 +483,12 @@ export function transform(formConfig, form) {
     }
     const clonedData = _.cloneDeep(formData);
     // Split newDisabilities into primary and secondary arrays for backend
-    const newPrimaryDisabilities = clonedData.newDisabilities.filter(
-      disability => disability.cause !== causeTypes.SECONDARY,
-    );
-    const newSecondaryDisabilities = clonedData.newDisabilities.filter(
-      disability => disability.cause === causeTypes.SECONDARY,
-    );
+    const newPrimaryDisabilities = clonedData.newDisabilities
+      .filter(disability => disability.cause !== causeTypes.SECONDARY)
+      .map(entry => truncateDescriptions(entry));
+    const newSecondaryDisabilities = clonedData.newDisabilities
+      .filter(disability => disability.cause === causeTypes.SECONDARY)
+      .map(entry => truncateDescriptions(entry));
     if (newPrimaryDisabilities.length) {
       clonedData.newPrimaryDisabilities = newPrimaryDisabilities;
     }
@@ -521,7 +522,10 @@ export function transform(formConfig, form) {
           cause: causeTypes.NEW,
           classificationCode: sd.classificationCode,
           // truncate description to 400 characters
-          primaryDescription: descString.substring(0, 400),
+          primaryDescription: descString.substring(
+            0,
+            CHAR_LIMITS.primaryDescription,
+          ),
         };
       },
     );
@@ -669,7 +673,7 @@ export function transform(formConfig, form) {
     return clonedData;
   };
   // Flatten all attachment pages into attachments ARRAY
-  const addFileAttachmments = formData => {
+  const addFileAttachments = formData => {
     const clonedData = _.cloneDeep(formData);
     let attachments = [];
 
@@ -701,7 +705,7 @@ export function transform(formConfig, form) {
     setActionTypes, // Must run after addBackRatedDisabilities
     filterRatedViewFields, // Must be run after setActionTypes
     filterServicePeriods,
-    removeExtraData, // Removed data EVSS does't want
+    removeExtraData, // Removed data EVSS doesn't want
     cleanUpMailingAddress,
     addPOWSpecialIssues,
     addPTSDCause,
@@ -715,7 +719,7 @@ export function transform(formConfig, form) {
     addForm4142,
     addForm0781,
     addForm8940,
-    addFileAttachmments,
+    addFileAttachments,
     fullyDevelopedClaim,
   ].reduce(
     (formData, transformer) => transformer(formData),

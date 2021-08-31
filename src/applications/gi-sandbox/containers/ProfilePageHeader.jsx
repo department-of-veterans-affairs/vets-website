@@ -66,7 +66,11 @@ const ProfilePageHeader = ({
   const compareChecked = !!compare.search.institutions[facilityCode];
   const handleCompareUpdate = e => {
     if (e.target.checked && !compareChecked) {
-      dispatchAddCompareInstitution(institution);
+      if (compare.search.loaded.length === 3) {
+        dispatchShowModal('comparisonLimit');
+      } else {
+        dispatchAddCompareInstitution(institution);
+      }
     } else {
       dispatchRemoveCompareInstitution(facilityCode);
     }
@@ -197,20 +201,22 @@ const ProfilePageHeader = ({
           <IconWithInfo icon="phone" present={hasVetTecPhone}>
             {'   '}{' '}
             <a
-              href={`tel:${programs[0].phoneAreaCode}${
-                programs[0].phoneNumber
-              }`}
+              href={`tel:${programs[0].phoneAreaCode}${programs[0].phoneNumber}`}
             >
               {`${programs[0].phoneAreaCode}-${programs[0].phoneNumber}`}
             </a>
           </IconWithInfo>
-          <IconWithInfo
-            icon="map"
-            present={localeType && lowerType && lowerType !== 'ojt'}
-          >
-            {'   '}
-            {_.capitalize(localeType)} locale
-          </IconWithInfo>
+          {programs[0].schoolLocale && (
+            <IconWithInfo
+              icon="map"
+              present={
+                programs[0].schoolLocale && lowerType && lowerType !== 'ojt'
+              }
+            >
+              {'   '}
+              {_.capitalize(programs[0].schoolLocale)} locale
+            </IconWithInfo>
+          )}
           <IconWithInfo icon="globe" present={programs.length > 0}>
             <a
               href={programs[0].providerWebsite}
@@ -338,7 +344,4 @@ const mapDispatchToProps = {
   dispatchShowModal: showModal,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ProfilePageHeader);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePageHeader);

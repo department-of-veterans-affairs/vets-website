@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { SearchResultsHeader } from '../../../components/SearchResultsHeader';
 import { LocationType } from '../../../constants';
+import { urgentCareServices } from '../../../config';
 
 describe('SearchResultsHeader', () => {
   it('should not render header if context is not provided', () => {
@@ -90,7 +91,9 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Results for "Urgent care",\s+"Community urgent care providers \(in VA’s network\)"\s+near\s+"new york"/,
+      new RegExp(
+        `Results for "Urgent care",\\s+"${urgentCareServices.NonVAUrgentCare}"\\s+near\\s+"new york"`,
+      ),
     );
     wrapper.unmount();
   });
@@ -105,7 +108,9 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Results for "Urgent care",\s+"All urgent care"\s+near\s+"new york"/,
+      new RegExp(
+        `Results for "Urgent care",\\s+"${urgentCareServices.AllUrgentCare}"\\s+near\\s+"new york"`,
+      ),
     );
     wrapper.unmount();
   });

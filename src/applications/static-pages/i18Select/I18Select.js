@@ -5,12 +5,9 @@ import { connect } from 'react-redux';
 import { ALL_LANGUAGES } from './utilities/constants';
 
 const I18Select = ({ baseUrls, languageCode }) => {
-  useEffect(
-    () => {
-      setOnThisPageText(languageCode);
-    },
-    [languageCode],
-  );
+  useEffect(() => {
+    setOnThisPageText(languageCode);
+  }, [languageCode]);
 
   return (
     <div className="vads-u-display--inline-block vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-border--0 vads-u-border-bottom--1px vads-u-border-style--solid vads-u-border-color--gray">
@@ -30,7 +27,7 @@ const I18Select = ({ baseUrls, languageCode }) => {
                 onClick={_ => {
                   recordEvent({
                     event: 'nav-pipe-delimited-list-click',
-                    'pipe-delimited-list-header': languageConfig.lang,
+                    'pipe-delimited-list-header': languageConfig.code,
                   });
                 }}
                 href={baseUrls[languageConfig.code]}

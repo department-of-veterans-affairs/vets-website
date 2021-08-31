@@ -76,8 +76,16 @@ const getDerivedValues = createSelector(
       onlineClasses,
     } = eligibility;
 
+    let giBillChapter;
+    if (
+      eligibility.giBillChapter === '33a' ||
+      eligibility.giBillChapter === '33b'
+    ) {
+      giBillChapter = 33;
+    } else {
+      giBillChapter = +eligibility.giBillChapter;
+    }
     const consecutiveService = +eligibility.consecutiveService;
-    const giBillChapter = +eligibility.giBillChapter;
     const numberOfDependents = +eligibility.numberOfDependents;
     const spouseActiveDuty = eligibility.spouseActiveDuty === 'yes';
     const serviceDischarge = cumulativeService === 'service discharge';
@@ -360,8 +368,8 @@ const getDerivedValues = createSelector(
       isOJT ||
       oldGiBill ||
       (giBillChapter === 31 && isFlightOrCorrespondence) ||
-      (inputs.calendar === 'semesters' ||
-        (inputs.calendar === 'nontraditional' && numberOfTerms < 3));
+      inputs.calendar === 'semesters' ||
+      (inputs.calendar === 'nontraditional' && numberOfTerms < 3);
 
     if (shouldHaveNoTuitionFeesTerm3) {
       tuitionFeesTerm3 = 0;
@@ -762,7 +770,7 @@ const getDerivedValues = createSelector(
 
     // Calculate Book Stipend for Year - getBookStipendYear
     if (isOJT && giBillChapter === 33) {
-      bookStipendTotal = constant.BSOJTMONTH;
+      bookStipendTotal = constant.BSCAP;
     } else {
       bookStipendTotal = bookStipendTerm1 + bookStipendTerm2 + bookStipendTerm3;
     }
@@ -896,10 +904,18 @@ export const getCalculatedBenefits = createSelector(
     if ([eligibility, institution, form, derived].some(e => !e || isEmpty(e))) {
       return calculatedBenefits;
     }
-
     const { militaryStatus } = eligibility;
-    const giBillChapter = +eligibility.giBillChapter;
     const institutionType = getInstitutionType(institution);
+
+    let giBillChapter;
+    if (
+      eligibility.giBillChapter === '33a' ||
+      eligibility.giBillChapter === '33b'
+    ) {
+      giBillChapter = 33;
+    } else {
+      giBillChapter = +eligibility.giBillChapter;
+    }
 
     calculatedBenefits.inputs = {
       inState: false,

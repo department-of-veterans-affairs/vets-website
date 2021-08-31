@@ -274,22 +274,14 @@ export function mockCCProviderFetch(
   if (vaError) {
     setFetchJSONFailure(
       global.fetch.withArgs(
-        `${environment.API_URL}/facilities_api/v1/ccp/provider?latitude=${
-          address.latitude
-        }&longitude=${
-          address.longitude
-        }&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&trim=true`,
+        `${environment.API_URL}/facilities_api/v1/ccp/provider?latitude=${address.latitude}&longitude=${address.longitude}&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&trim=true`,
       ),
       { errors: [] },
     );
   } else {
     setFetchJSONResponse(
       global.fetch.withArgs(
-        `${environment.API_URL}/facilities_api/v1/ccp/provider?latitude=${
-          address.latitude
-        }&longitude=${
-          address.longitude
-        }&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&trim=true`,
+        `${environment.API_URL}/facilities_api/v1/ccp/provider?latitude=${address.latitude}&longitude=${address.longitude}&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&trim=true`,
       ),
       { data: providers },
     );
@@ -433,9 +425,7 @@ export function mockSupportedFacilities({
 }) {
   setFetchJSONResponse(
     global.fetch.withArgs(
-      `${
-        environment.API_URL
-      }/vaos/v0/systems/${siteId}/direct_scheduling_facilities?type_of_care_id=${typeOfCareId}&parent_code=${parentId}`,
+      `${environment.API_URL}/vaos/v0/systems/${siteId}/direct_scheduling_facilities?type_of_care_id=${typeOfCareId}&parent_code=${parentId}`,
     ),
     { data },
   );
@@ -508,6 +498,7 @@ export function mockEligibilityFetches({
   requestPastVisits = false,
   directPastVisits = false,
   clinics = [],
+  matchingClinics = null,
   pastClinics = false,
 }) {
   mockRequestLimits({
@@ -519,9 +510,7 @@ export function mockEligibilityFetches({
 
   setFetchJSONResponse(
     global.fetch.withArgs(
-      `${
-        environment.API_URL
-      }/vaos/v0/facilities/${facilityId}/visits/direct?system_id=${siteId}&type_of_care_id=${typeOfCareId}`,
+      `${environment.API_URL}/vaos/v0/facilities/${facilityId}/visits/direct?system_id=${siteId}&type_of_care_id=${typeOfCareId}`,
     ),
     {
       data: {
@@ -534,9 +523,7 @@ export function mockEligibilityFetches({
   );
   setFetchJSONResponse(
     global.fetch.withArgs(
-      `${
-        environment.API_URL
-      }/vaos/v0/facilities/${facilityId}/visits/request?system_id=${siteId}&type_of_care_id=${typeOfCareId}`,
+      `${environment.API_URL}/vaos/v0/facilities/${facilityId}/visits/request?system_id=${siteId}&type_of_care_id=${typeOfCareId}`,
     ),
     {
       data: {
@@ -549,16 +536,14 @@ export function mockEligibilityFetches({
   );
   setFetchJSONResponse(
     global.fetch.withArgs(
-      `${
-        environment.API_URL
-      }/vaos/v0/facilities/${facilityId}/clinics?type_of_care_id=${typeOfCareId}&system_id=${siteId}`,
+      `${environment.API_URL}/vaos/v0/facilities/${facilityId}/clinics?type_of_care_id=${typeOfCareId}&system_id=${siteId}`,
     ),
     {
       data: clinics,
     },
   );
 
-  const pastAppointments = clinics.map(clinic => {
+  const pastAppointments = (matchingClinics || clinics).map(clinic => {
     const appointment = getVAAppointmentMock();
     appointment.attributes = {
       ...appointment.attributes,
@@ -632,9 +617,7 @@ export function mockAppointmentSlotFetch({
 
   setFetchJSONResponse(
     global.fetch.withArgs(
-      `${
-        environment.API_URL
-      }/vaos/v0/facilities/${siteId}/available_appointments?type_of_care_id=${typeOfCareId}&clinic_ids[]=${clinicId}` +
+      `${environment.API_URL}/vaos/v0/facilities/${siteId}/available_appointments?type_of_care_id=${typeOfCareId}&clinic_ids[]=${clinicId}` +
         `&start_date=${start.format('YYYY-MM-DD')}` +
         `&end_date=${end.format('YYYY-MM-DD')}`,
     ),
@@ -976,8 +959,9 @@ export function mockGetCurrentPosition({
   fail = false,
 } = {}) {
   global.navigator.geolocation = {
-    getCurrentPosition: sinon.stub().callsFake(
-      (successCallback, failureCallback) =>
+    getCurrentPosition: sinon
+      .stub()
+      .callsFake((successCallback, failureCallback) =>
         fail
           ? Promise.resolve(
               failureCallback({
@@ -988,7 +972,7 @@ export function mockGetCurrentPosition({
           : Promise.resolve(
               successCallback({ coords: { latitude, longitude } }),
             ),
-    ),
+      ),
   };
 }
 
@@ -1003,9 +987,7 @@ export function mockGetCurrentPosition({
  * }
  */
 export function mockSingleRequestFetch({ request, error = null }) {
-  const baseUrl = `${environment.API_URL}/vaos/v0/appointment_requests/${
-    request.id
-  }`;
+  const baseUrl = `${environment.API_URL}/vaos/v0/appointment_requests/${request.id}`;
 
   if (error) {
     setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
@@ -1025,9 +1007,7 @@ export function mockSingleRequestFetch({ request, error = null }) {
  * }
  */
 export function mockSingleAppointmentFetch({ appointment, error = null }) {
-  const baseUrl = `${environment.API_URL}/vaos/v0/appointments/va/${
-    appointment.id
-  }`;
+  const baseUrl = `${environment.API_URL}/vaos/v0/appointments/va/${appointment.id}`;
 
   if (error) {
     setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
@@ -1097,9 +1077,7 @@ export function mockSingleVistaCommunityCareAppointmentFetch({
     data: [],
   });
 
-  const vaUrl = `${environment.API_URL}/vaos/v0/appointments/va/${
-    appointment.id
-  }`;
+  const vaUrl = `${environment.API_URL}/vaos/v0/appointments/va/${appointment.id}`;
 
   if (error) {
     setFetchJSONFailure(global.fetch.withArgs(vaUrl), { errors: [] });

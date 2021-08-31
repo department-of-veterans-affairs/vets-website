@@ -1,8 +1,11 @@
 // Relative imports.
 import { mockUser } from '@@profile/tests/fixtures/users/user.js';
 
-const testFirstMenuSection = () => {
+const testFirstMenuSection = isMobile => {
   cy.get('[data-e2e-id="vetnav-level2--disability"').should('not.exist');
+  cy.get(`#mega-menu-${isMobile ? 'desktop' : 'mobile'} #vetnav`).should(
+    'not.exist',
+  );
   cy.get('[data-e2e-id="va-benefits-and-health-care-0"]').click();
   cy.get('[data-e2e-id="vetnav-level2--disability"]').click();
   cy.get('[data-e2e-id="view-all-in-disability"]');
@@ -13,8 +16,11 @@ const testFirstMenuSection = () => {
   cy.get('[data-e2e-id="find-a-va-location-2"]');
 };
 
-const testSecondMenuSection = () => {
+const testSecondMenuSection = isMobile => {
   cy.get('[data-e2e-id="vetnav-main-column-header"]').should('not.exist');
+  cy.get(`#mega-menu-${isMobile ? 'desktop' : 'mobile'} #vetnav`).should(
+    'not.exist',
+  );
   cy.get('[data-e2e-id="about-va-1"]').click();
   cy.get('[data-e2e-id="vetnav-main-column-header"]').contains(
     'VA organizations',
@@ -37,6 +43,7 @@ const testFindLocationsLink = () => {
 
 const testMobileMenuSections = () => {
   cy.get('[data-e2e-id="about-va-1"]').should('not.be.visible');
+  cy.get('#mega-menu-desktop #vetnav').should('not.exist');
 
   // Open the menu.
   cy.get('.vetnav-controller-open').contains('Menu');
@@ -58,8 +65,8 @@ const testMobileMenuSections = () => {
 };
 
 const testDesktopMenuSections = () => {
-  testFirstMenuSection();
-  testSecondMenuSection();
+  testFirstMenuSection(false);
+  testSecondMenuSection(false);
   testFindLocationsLink();
 };
 

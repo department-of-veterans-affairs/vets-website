@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import { flow, groupBy } from 'lodash';
+import get from '../../../../utilities/data/get';
+import set from '../../../../utilities/data/set';
 
 import {
   getDefaultFormState,
@@ -31,7 +33,7 @@ class ObjectField extends React.Component {
   constructor() {
     super();
     this.isRequired = this.isRequired.bind(this);
-    this.orderAndFilterProperties = _.flow(
+    this.orderAndFilterProperties = flow(
       properties =>
         orderProperties(
           properties,
@@ -45,14 +47,15 @@ class ObjectField extends React.Component {
               Object.keys(this.props.schema.properties).includes(prop),
           ),
         ),
-      _.groupBy(item => {
-        const expandUnderField = _.get(
-          [item, 'ui:options', 'expandUnder'],
-          this.props.uiSchema,
-        );
-        return expandUnderField || item;
-      }),
-      _.values,
+      properties =>
+        groupBy(properties, item => {
+          const expandUnderField = get(
+            [item, 'ui:options', 'expandUnder'],
+            this.props.uiSchema,
+          );
+          return expandUnderField || item;
+        }),
+      properties => Object.values(properties),
     );
   }
 
@@ -69,7 +72,7 @@ class ObjectField extends React.Component {
             undefined,
             this.props.registry.definitions,
           );
-      this.props.onChange(_.set(name, value, formData));
+      this.props.onChange(set(name, value, formData));
     };
   }
 
@@ -116,7 +119,7 @@ class ObjectField extends React.Component {
         // expand under functionality is controlled in the reducer by setting ui:collapsed, so
         // we can check if its expanded by seeing if there are any visible "children"
         const visible = rest.filter(
-          prop => !_.get(['properties', prop, 'ui:collapsed'], schema),
+          prop => !get(['properties', prop, 'ui:collapsed'], schema),
         );
         // Use div or dl to wrap content for array type schemas (e.g. bank info)
         // fixes axe issue on review-and-submit
@@ -190,12 +193,11 @@ class ObjectField extends React.Component {
         <>
           {!formContext.hideHeaderRow && (
             <div className="form-review-panel-page-header-row">
-              {title?.trim() &&
-                !formContext.hideTitle && (
-                  <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-                    {title}
-                  </h4>
-                )}
+              {title?.trim() && !formContext.hideTitle && (
+                <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+                  {title}
+                </h4>
+              )}
               {defaultEditButton()}
             </div>
           )}

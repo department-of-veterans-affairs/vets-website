@@ -10,7 +10,7 @@ import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { selectAvailableServices } from 'platform/user/selectors';
+import { isLoggedIn } from 'platform/user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { itfNotice } from '../content/introductionPage';
@@ -31,28 +31,14 @@ class IntroductionPage extends React.Component {
   }
 
   render() {
-    const { formConfig, pageList } = this.props.route;
-    const services = selectAvailableServices(this.props) || [];
-    const allowOriginalClaim =
-      this.props.allowOriginalClaim || this.props.testOriginalClaim;
-    const allowContinue = services.includes('original-claim')
-      ? allowOriginalClaim // original claim feature flag
-      : true; // services.includes('form526'); // <- "form526" service should
-    // be required to proceed; not changing this now in case it breaks something
+    const { route, loggedIn } = this.props;
+    const { formConfig, pageList } = route;
 
     const isBDDForm = this.props.isBDDForm;
     const pageTitle = `${getPageTitle(isBDDForm)} ${PAGE_TITLE_SUFFIX}`;
     const startText = getStartText(isBDDForm);
     document.title = `${pageTitle}${DOCUMENT_TITLE_SUFFIX}`;
 
-    // Remove this once form526_original_claims feature flag is removed
-    if (!allowContinue) {
-      return (
-        <div className="schemaform-intro">
-          <FormTitle title={pageTitle} subTitle={formConfig.subTitle} />
-        </div>
-      );
-    }
     const subwayTitle = `Follow the steps below to file ${
       isBDDForm
         ? 'a BDD claim.'
@@ -98,24 +84,29 @@ class IntroductionPage extends React.Component {
         {itfNotice}
         <h2 className="vads-u-font-size--h4">{subwayTitle}</h2>
         <div className="process schemaform-process">
-          <p id="restart-wizard" className="vads-u-margin-top--0">
-            if you don’t think this is the right form for you,{' '}
-            <a
-              aria-describedby="restart-wizard"
-              href={
-                this.props.showWizard
-                  ? `${DISABILITY_526_V2_ROOT_URL}/start`
-                  : '/disability/how-to-file-claim/'
-              }
-              onClick={() => {
-                sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_RESTARTING);
-                recordEvent({ event: 'howToWizard-start-over' });
-              }}
-            >
-              go back and answer questions again
-            </a>
-            .
-          </p>
+          {loggedIn && (
+            <p id="restart-wizard" className="vads-u-margin-top--0">
+              if you don’t think this is the right form for you,{' '}
+              <a
+                aria-describedby="restart-wizard"
+                href={
+                  this.props.showWizard
+                    ? `${DISABILITY_526_V2_ROOT_URL}/start`
+                    : '/disability/how-to-file-claim/'
+                }
+                onClick={() => {
+                  sessionStorage.setItem(
+                    WIZARD_STATUS,
+                    WIZARD_STATUS_RESTARTING,
+                  );
+                  recordEvent({ event: 'howToWizard-start-over' });
+                }}
+              >
+                go back and answer questions again
+              </a>
+              .
+            </p>
+          )}
           <ol>
             <li className="process-step list-one">
               <h3 className="vads-u-font-size--h4">Prepare</h3>
@@ -274,7 +265,7 @@ class IntroductionPage extends React.Component {
 
 const mapStateToProps = state => ({
   formId: state.form.formId,
-  user: state.user,
+  loggedIn: isLoggedIn(state),
   showWizard: show526Wizard(state),
   isBDDForm: isBDD(state?.form?.data),
 });
@@ -287,8 +278,7 @@ IntroductionPage.propTypes = {
     }),
     pageList: PropTypes.array.isRequired,
   }).isRequired,
-  user: PropTypes.shape({}),
-  allowOriginalClaim: PropTypes.bool,
+  loggedIn: PropTypes.bool,
   showWizard: PropTypes.bool,
   isBDDForm: PropTypes.bool,
 };

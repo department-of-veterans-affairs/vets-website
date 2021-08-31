@@ -77,22 +77,22 @@ export default function ClinicChoicePage() {
   useEffect(() => {
     dispatch(openClinicPage(pageKey, uiSchema, initialSchema));
   }, []);
-
-  useEffect(
-    () => {
-      scrollAndFocus();
-      document.title = `${getPageTitle(
-        schema,
-        typeOfCare,
-        usingPastClinics,
-      )} | Veterans Affairs`;
-    },
-    [schemaAndFacilityReady, usingPastClinics],
-  );
+  useEffect(() => {
+    scrollAndFocus();
+    document.title = `${getPageTitle(
+      schema,
+      typeOfCare,
+      usingPastClinics,
+    )} | Veterans Affairs`;
+  }, [schemaAndFacilityReady, usingPastClinics]);
 
   if (!schemaAndFacilityReady) {
     return <LoadingIndicator message="Loading your facility and clinic info" />;
   }
+
+  const firstMatchingClinic = clinics?.find(
+    clinic => clinic.id === schema?.properties.clinicId.enum[0],
+  );
 
   return (
     <div>
@@ -107,7 +107,7 @@ export default function ClinicChoicePage() {
           {!usingPastClinics && (
             <>{typeOfCare.name} appointments are available at </>
           )}
-          {clinics[0].serviceName}:
+          {firstMatchingClinic.serviceName}:
           <p>
             <FacilityAddress
               name={facility.name}

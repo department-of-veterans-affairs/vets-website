@@ -26,9 +26,7 @@ describe('Burial claim test', () => {
       });
 
     // Claimant Information
-    cy.get('input[name="root_claimantFullName_first"]', {
-      timeout: Timeouts.normal,
-    });
+    cy.get('input[name="root_claimantFullName_first"]');
     cy.get('.progress-bar-segmented div.progress-segment:nth-child(1)').should(
       'have.class',
       'progress-segment-complete',
@@ -36,9 +34,7 @@ describe('Burial claim test', () => {
     cy.fillName('root_claimantFullName', testData.data.claimantFullName);
     cy.selectRadio('root_relationship_type', testData.data.relationship.type);
     if (testData.data.relationship.type === 'other') {
-      cy.get('input[name="root_relationship_other"]', {
-        timeout: Timeouts.normal,
-      }).should('be.visible');
+      cy.get('input[name="root_relationship_other"]').should('be.visible');
       cy.fill(
         'input[name="root_relationship_other"]',
         testData.data.relationship.other,
@@ -53,9 +49,7 @@ describe('Burial claim test', () => {
       });
 
     // Veteran Information
-    cy.get('input[name="root_veteranFullName_first"]', {
-      timeout: Timeouts.normal,
-    }).should('be.visible');
+    cy.get('input[name="root_veteranFullName_first"]').should('be.visible');
     cy.fillName('root_veteranFullName', testData.data.veteranFullName);
     cy.fill(
       'input[name="root_veteranSocialSecurityNumber"]',
@@ -68,9 +62,7 @@ describe('Burial claim test', () => {
     cy.get('.form-panel .usa-button-primary').click();
 
     // Burial Information
-    cy.get('input[name="root_deathDateYear"]', {
-      timeout: Timeouts.normal,
-    }).should('be.visible');
+    cy.get('input[name="root_deathDateYear"]').should('be.visible');
     cy.fillDate('root_deathDate', testData.data.deathDate);
     cy.fillDate('root_burialDate', testData.data.burialDate);
     cy.selectRadio(
@@ -88,14 +80,14 @@ describe('Burial claim test', () => {
     cy.url().should('not.contain', '/veteran-information/burial');
 
     // Service Periods
-    cy.get('input[name="root_toursOfDuty_0_dateRange_fromYear"]', {
-      timeout: Timeouts.normal,
-    }).should('be.visible');
+    cy.get('input[name="root_toursOfDuty_0_dateRange_fromYear"]').should(
+      'be.visible',
+    );
 
     testData.data.toursOfDuty.forEach((tour, index) => {
-      cy.get(`input[name="root_toursOfDuty_${index}_dateRange_fromYear"]`, {
-        timeout: Timeouts.normal,
-      }).should('be.visible');
+      cy.get(
+        `input[name="root_toursOfDuty_${index}_dateRange_fromYear"]`,
+      ).should('be.visible');
       cy.fillDate(
         `root_toursOfDuty_${index}_dateRange_from`,
         tour.dateRange.from,
@@ -133,9 +125,7 @@ describe('Burial claim test', () => {
     cy.url().should('not.contain', '/military-history/service-periods');
 
     // Previous Names
-    cy.get('label[for$="serveUnderOtherNamesYes"]', {
-      timeout: Timeouts.normal,
-    });
+    cy.get('label[for$="serveUnderOtherNamesYes"]');
     if (testData.data.previousNames.length) {
       cy.selectYesNo('root_view:serveUnderOtherNames', true);
       testData.data.previousNames.forEach((name, index) => {
@@ -153,9 +143,7 @@ describe('Burial claim test', () => {
     cy.url().should('not.contain', '/military-history/previous-names');
 
     // Benefit Selection
-    cy.get('label[for="root_view:claimedBenefits_burialAllowance"]', {
-      timeout: Timeouts.normal,
-    });
+    cy.get('label[for="root_view:claimedBenefits_burialAllowance"]');
     cy.get('.progress-bar-segmented div.progress-segment:nth-child(4)').should(
       'have.class',
       'progress-segment-complete',
@@ -182,9 +170,7 @@ describe('Burial claim test', () => {
 
     // Burial Allowance -- conditional
     if (testData.data['view:claimedBenefits'].burialAllowance) {
-      cy.get('label[for="root_burialAllowanceRequested_0"]', {
-        timeout: Timeouts.normal,
-      });
+      cy.get('label[for="root_burialAllowanceRequested_0"]');
       cy.selectRadio(
         'root_burialAllowanceRequested',
         testData.data.burialAllowanceRequested,
@@ -209,9 +195,7 @@ describe('Burial claim test', () => {
     }
     // Plot Allowance -- conditional
     if (testData.data['view:claimedBenefits'].plotAllowance) {
-      cy.get('input[name="root_placeOfRemains"]', {
-        timeout: Timeouts.normal,
-      });
+      cy.get('input[name="root_placeOfRemains"]');
       cy.fill(
         'input[name="root_placeOfRemains"]',
         testData.data.placeOfRemains,
@@ -235,9 +219,7 @@ describe('Burial claim test', () => {
     }
 
     // Additional Information
-    cy.get('select[name="root_claimantAddress_country"]', {
-      timeout: Timeouts.normal,
-    });
+    cy.get('select[name="root_claimantAddress_country"]');
     cy.get('.progress-bar-segmented div.progress-segment:nth-child(5)').should(
       'have.class',
       'progress-segment-complete',
@@ -270,7 +252,7 @@ describe('Burial claim test', () => {
     cy.get('label[name="privacyAgreementAccepted-label"]', {
       timeout: Timeouts.slow,
     }).should('be.visible');
-    cy.get('input[type="checkbox"]', { timeout: Timeouts.normal }).click({
+    cy.get('input[type="checkbox"]').click({
       force: true,
     });
     cy.axeCheck();
@@ -279,7 +261,7 @@ describe('Burial claim test', () => {
     cy.get('.js-test-location', { timeout: Timeouts.slow })
       .invoke('attr', 'data-location')
       .should('not.contain', '/review-and-submit');
-    cy.get('.confirmation-page-title', { timeout: Timeouts.normal });
+    cy.get('.confirmation-page-title');
     cy.axeCheck();
   });
 });

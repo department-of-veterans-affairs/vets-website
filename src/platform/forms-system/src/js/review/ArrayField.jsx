@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import get from '../../../../utilities/data/get';
+import set from '../../../../utilities/data/set';
 import Scroll from 'react-scroll';
 
 import {
@@ -15,6 +16,7 @@ import findDuplicateIndexes from '../utilities/data/findDuplicateIndexes';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
+const scrollToTimeout = process.env.NODE_ENV === 'test' ? 0 : 100;
 
 /* Growable table (Array) field on the Review page
  *
@@ -106,7 +108,7 @@ class ArrayField extends React.Component {
           },
         );
         focusElement(`[name="${scrollElementName}"] ${focusElementSelector}`);
-      }, 100);
+      }, scrollToTimeout);
     }
   }
 
@@ -121,14 +123,14 @@ class ArrayField extends React.Component {
           offset: 0,
         },
       );
-    }, 100);
+    }, scrollToTimeout);
   }
 
   /*
    * Clicking edit on the item in review mode
    */
   handleEdit(index, status = true) {
-    this.setState(_.set(['editing', index], status, this.state), () => {
+    this.setState(set(['editing', index], status, this.state), () => {
       const id = `${this.props.path[this.props.path.length - 1]}_${index}`;
       this.scrollToRow(id);
       focusElement(`#table_${id}`);
@@ -165,14 +167,15 @@ class ArrayField extends React.Component {
    */
   handleRemove(indexToRemove, fieldName) {
     const { path, formData } = this.props;
-    const newState = _.assign(this.state, {
+    const newState = {
+      ...this.state,
       items: this.state.items.filter((val, index) => index !== indexToRemove),
       editing: this.state.editing.filter(
         (val, index) => index !== indexToRemove,
       ),
-    });
+    };
     this.setState(newState, () => {
-      this.props.setData(_.set(path, this.state.items, formData));
+      this.props.setData(set(path, this.state.items, formData));
       // Move focus back to the add button
       this.scrollToAndFocus(`add-another-${fieldName}`);
     });
@@ -186,9 +189,9 @@ class ArrayField extends React.Component {
    */
   handleSetData(index, data) {
     const { path, formData } = this.props;
-    const newArray = _.set(index, data, this.state.items);
+    const newArray = set(index, data, this.state.items);
     this.setState({ items: newArray }, () => {
-      this.props.setData(_.set(path, newArray, formData));
+      this.props.setData(set(path, newArray, formData));
     });
   }
 
@@ -226,7 +229,7 @@ class ArrayField extends React.Component {
 
     const uiOptions = uiSchema['ui:options'] || {};
     const fieldName = path[path.length - 1];
-    const schemaTitle = _.get('ui:title', uiSchema);
+    const schemaTitle = get('ui:title', uiSchema);
     const title =
       uiOptions.reviewTitle ||
       (typeof schemaTitle === 'string' ? schemaTitle.trim() : schemaTitle) ||
@@ -377,31 +380,30 @@ class ArrayField extends React.Component {
           {itemsNeeded && (
             <div className="usa-alert usa-alert-warning usa-alert-no-color usa-alert-mini">
               <div className="usa-alert-body">
-                {_.get('ui:errorMessages.minItems', uiSchema) ||
+                {get('ui:errorMessages.minItems', uiSchema) ||
                   'You need to add at least one item.'}
               </div>
             </div>
           )}
-          {title &&
-            !itemCountLocked && (
-              <>
-                <button
-                  type="button"
-                  name={`add-another-${fieldName}`}
-                  disabled={addAnotherDisabled}
-                  className="add-btn primary-outline"
-                  onClick={() => this.handleAdd()}
-                >
-                  {uiOptions.itemName
-                    ? `Add another ${uiOptions.itemName}`
-                    : 'Add another'}
-                </button>
-                <div>
-                  {addAnotherDisabled &&
-                    `You’ve entered the maximum number of items allowed.`}
-                </div>
-              </>
-            )}
+          {title && !itemCountLocked && (
+            <>
+              <button
+                type="button"
+                name={`add-another-${fieldName}`}
+                disabled={addAnotherDisabled}
+                className="add-btn primary-outline"
+                onClick={() => this.handleAdd()}
+              >
+                {uiOptions.itemName
+                  ? `Add another ${uiOptions.itemName}`
+                  : 'Add another'}
+              </button>
+              <div>
+                {addAnotherDisabled &&
+                  `You’ve entered the maximum number of items allowed.`}
+              </div>
+            </>
+          )}
         </div>
       </div>
     );

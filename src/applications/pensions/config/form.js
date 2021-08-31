@@ -1,4 +1,6 @@
-import _ from 'lodash/fp';
+import merge from 'lodash/merge';
+import get from 'platform/utilities/data/get';
+import set from 'platform/utilities/data/set';
 import moment from 'moment';
 import { createSelector } from 'reselect';
 
@@ -163,13 +165,15 @@ function usingDirectDeposit(formData) {
 
 const marriageProperties = marriages.items.properties;
 
-const marriageType = _.assign(marriageProperties.marriageType, {
+const marriageType = {
+  ...marriageProperties.marriageType,
   enum: ['Ceremonial', 'Common-law', 'Proxy', 'Tribal', 'Other'],
-});
+};
 
-const reasonForSeparation = _.assign(marriageProperties.reasonForSeparation, {
+const reasonForSeparation = {
+  ...marriageProperties.reasonForSeparation,
   enum: ['Widowed', 'Divorced'],
-});
+};
 
 function createSpouseLabelSelector(nameTemplate) {
   return createSelector(
@@ -247,11 +251,12 @@ const formConfig = {
           uiSchema: {
             'ui:description': applicantDescription,
             veteranFullName: fullNameUI,
-            veteranSocialSecurityNumber: _.assign(ssnUI, {
+            veteranSocialSecurityNumber: {
+              ...ssnUI,
               'ui:title':
                 'Social Security number (must have this or a VA file number)',
               'ui:required': form => !form.vaFileNumber,
-            }),
+            },
             vaFileNumber: {
               'ui:title':
                 'VA file number (must have this or a Social Security number)',
@@ -344,9 +349,10 @@ const formConfig = {
                     serviceBranch: {
                       type: 'string',
                     },
-                    activeServiceDateRange: _.assign(dateRange, {
+                    activeServiceDateRange: {
+                      ...dateRange,
                       required: ['from', 'to'],
-                    }),
+                    },
                   },
                 },
               },
@@ -409,9 +415,10 @@ const formConfig = {
               'view:serveUnderOtherNames': {
                 type: 'boolean',
               },
-              previousNames: _.assign(previousNames, {
+              previousNames: {
+                ...previousNames,
                 minItems: 1,
-              }),
+              },
               placeOfSeparation,
               combatSince911,
             },
@@ -435,7 +442,8 @@ const formConfig = {
                 'ui:title': 'Name of Reserve/National Guard unit',
                 'ui:required': form => form.nationalGuardActivation === true,
               },
-              address: _.merge(
+              address: merge(
+                {},
                 address.uiSchema('Unit address', false, false, true),
                 {
                   state: {
@@ -453,7 +461,7 @@ const formConfig = {
             required: ['nationalGuardActivation'],
             properties: {
               nationalGuardActivation,
-              nationalGuard: _.set(
+              nationalGuard: set(
                 'properties.address',
                 address.schema(fullSchemaPensions),
                 nationalGuard,
@@ -476,7 +484,7 @@ const formConfig = {
               'ui:title': 'Have you ever been a POW?',
               'ui:widget': 'yesNo',
             },
-            powDateRange: _.set(
+            powDateRange: set(
               'ui:options.expandUnder',
               'view:powStatus',
               dateRangeUI(
@@ -590,9 +598,10 @@ const formConfig = {
               'view:hasVisitedVAMC': {
                 type: 'boolean',
               },
-              vamcTreatmentCenters: _.assign(vamcTreatmentCenters, {
+              vamcTreatmentCenters: {
+                ...vamcTreatmentCenters,
                 minItems: 1,
-              }),
+              },
             },
           },
         },
@@ -653,10 +662,11 @@ const formConfig = {
                         'daysMissed',
                         'annualEarnings',
                       ],
-                      properties: _.assign(jobs.items.properties, {
+                      properties: {
+                        ...jobs.items.properties,
                         address: address.schema(fullSchemaPensions, true),
-                        dateRange: _.set('required', ['to', 'from'], dateRange),
-                      }),
+                        dateRange: set('required', ['to', 'from'], dateRange),
+                      },
                     },
                   },
                 },
@@ -682,7 +692,7 @@ const formConfig = {
               'ui:widget': ArrayCountWidget,
               'ui:field': 'StringField',
               'ui:required': form =>
-                !!_.get('maritalStatus', form) &&
+                !!get('maritalStatus', form) &&
                 form.maritalStatus !== 'Never Married',
               'ui:options': {
                 showFieldLabel: 'label',
@@ -719,7 +729,7 @@ const formConfig = {
                     title: getMarriageTitleWithCurrent(form, index),
                   }),
                 },
-                spouseFullName: _.merge(fullNameUI, {
+                spouseFullName: merge({}, fullNameUI, {
                   first: {
                     'ui:title': 'Spouse first name',
                   },
@@ -745,8 +755,7 @@ const formConfig = {
                 otherExplanation: {
                   'ui:title': 'Please specify',
                   'ui:required': (form, index) =>
-                    _.get(['marriages', index, 'marriageType'], form) ===
-                    'Other',
+                    get(['marriages', index, 'marriageType'], form) === 'Other',
                   'ui:options': {
                     expandUnder: 'marriageType',
                     expandUnderCondition: 'Other',
@@ -756,7 +765,7 @@ const formConfig = {
                   'ui:description': marriageWarning,
                   'ui:options': {
                     hideIf: (form, index) =>
-                      _.get(['marriages', index, 'marriageType'], form) !==
+                      get(['marriages', index, 'marriageType'], form) !==
                       'Common-law',
                   },
                 },
@@ -769,13 +778,12 @@ const formConfig = {
                     'ui:widget': 'radio',
                     'ui:required': (...args) => !isCurrentMarriage(...args),
                   },
-                  dateOfSeparation: _.assign(
-                    currentOrPastDateUI('Date marriage ended'),
-                    {
-                      'ui:required': (...args) => !isCurrentMarriage(...args),
-                      'ui:validations': [validateAfterMarriageDate],
-                    },
-                  ),
+                  dateOfSeparation: {
+                    ...currentOrPastDateUI('Date marriage ended'),
+                    'ui:required': (...args) => !isCurrentMarriage(...args),
+                    'ui:validations': [validateAfterMarriageDate],
+                  },
+
                   locationOfSeparation: {
                     'ui:title':
                       'Place marriage ended (city and state or foreign country)',
@@ -826,7 +834,7 @@ const formConfig = {
           depends: isMarried,
           uiSchema: {
             'ui:title': 'Spouse information',
-            spouseDateOfBirth: _.merge(currentOrPastDateUI(''), {
+            spouseDateOfBirth: merge({}, currentOrPastDateUI(''), {
               'ui:options': {
                 updateSchema: createSpouseLabelSelector(
                   spouseName =>
@@ -834,14 +842,12 @@ const formConfig = {
                 ),
               },
             }),
-            spouseSocialSecurityNumber: _.merge(ssnUI, {
+            spouseSocialSecurityNumber: merge({}, ssnUI, {
               'ui:title': '',
               'ui:options': {
                 updateSchema: createSpouseLabelSelector(
                   spouseName =>
-                    `${spouseName.first} ${
-                      spouseName.last
-                    }’s Social Security number`,
+                    `${spouseName.first} ${spouseName.last}’s Social Security number`,
                 ),
               },
             }),
@@ -872,7 +878,8 @@ const formConfig = {
                 ),
               },
             },
-            spouseAddress: _.merge(
+            spouseAddress: merge(
+              {},
               address.uiSchema(
                 'Spouse address',
                 false,
@@ -894,7 +901,7 @@ const formConfig = {
                 expandUnderCondition: false,
               },
             },
-            monthlySpousePayment: _.merge(currencyUI(spouseContribution), {
+            monthlySpousePayment: merge({}, currencyUI(spouseContribution), {
               'ui:required': form => form.liveWithSpouse === false,
               'ui:options': {
                 expandUnder: 'liveWithSpouse',
@@ -949,7 +956,7 @@ const formConfig = {
             spouseMarriages: {
               items: {
                 'ui:title': SpouseMarriageTitle,
-                spouseFullName: _.merge(fullNameUI, {
+                spouseFullName: merge({}, fullNameUI, {
                   first: {
                     'ui:title': 'Their spouse’s first name',
                   },
@@ -963,13 +970,11 @@ const formConfig = {
                     'ui:title': 'Their spouse’s suffix',
                   },
                 }),
-                dateOfMarriage: _.merge(currentOrPastDateUI(''), {
+                dateOfMarriage: merge({}, currentOrPastDateUI(''), {
                   'ui:options': {
                     updateSchema: createSpouseLabelSelector(
                       spouseName =>
-                        `Date of ${spouseName.first} ${
-                          spouseName.last
-                        }’s marriage`,
+                        `Date of ${spouseName.first} ${spouseName.last}’s marriage`,
                     ),
                   },
                 }),
@@ -977,9 +982,7 @@ const formConfig = {
                   'ui:options': {
                     updateSchema: createSpouseLabelSelector(
                       spouseName =>
-                        `Place of ${spouseName.first} ${
-                          spouseName.last
-                        }’s marriage (city and state or foreign country)`,
+                        `Place of ${spouseName.first} ${spouseName.last}’s marriage (city and state or foreign country)`,
                     ),
                   },
                 },
@@ -990,7 +993,7 @@ const formConfig = {
                 otherExplanation: {
                   'ui:title': 'Please specify',
                   'ui:required': (form, index) =>
-                    _.get(['spouseMarriages', index, 'marriageType'], form) ===
+                    get(['spouseMarriages', index, 'marriageType'], form) ===
                     'Other',
                   'ui:options': {
                     expandUnder: 'marriageType',
@@ -1001,22 +1004,19 @@ const formConfig = {
                   'ui:description': marriageWarning,
                   'ui:options': {
                     hideIf: (form, index) =>
-                      _.get(
-                        ['spouseMarriages', index, 'marriageType'],
-                        form,
-                      ) !== 'Common-law',
+                      get(['spouseMarriages', index, 'marriageType'], form) !==
+                      'Common-law',
                   },
                 },
                 reasonForSeparation: {
                   'ui:title': 'Why did the marriage end?',
                   'ui:widget': 'radio',
                 },
-                dateOfSeparation: _.assign(
-                  currentOrPastDateUI('Date marriage ended'),
-                  {
-                    'ui:validations': [validateAfterMarriageDate],
-                  },
-                ),
+                dateOfSeparation: {
+                  ...currentOrPastDateUI('Date marriage ended'),
+                  'ui:validations': [validateAfterMarriageDate],
+                },
+
                 locationOfSeparation: {
                   'ui:title':
                     'Place marriage ended (city and state or foreign country)',
@@ -1165,10 +1165,10 @@ const formConfig = {
                   'ui:title':
                     'Place of birth (city and state or foreign country)',
                 },
-                childSocialSecurityNumber: _.merge(ssnUI, {
+                childSocialSecurityNumber: merge({}, ssnUI, {
                   'ui:title': 'Social Security number',
                   'ui:required': (formData, index) =>
-                    !_.get(`dependents.${index}.view:noSSN`, formData),
+                    !get(`dependents.${index}.view:noSSN`, formData),
                 }),
                 'view:noSSN': {
                   'ui:title':
@@ -1190,15 +1190,12 @@ const formConfig = {
                   'ui:widget': 'yesNo',
                   'ui:required': (formData, index) =>
                     isBetween18And23(
-                      _.get(
-                        ['dependents', index, 'childDateOfBirth'],
-                        formData,
-                      ),
+                      get(['dependents', index, 'childDateOfBirth'], formData),
                     ),
                   'ui:options': {
                     hideIf: (formData, index) =>
                       !isBetween18And23(
-                        _.get(
+                        get(
                           ['dependents', index, 'childDateOfBirth'],
                           formData,
                         ),
@@ -1215,15 +1212,12 @@ const formConfig = {
                   'ui:title': 'Is your child seriously disabled?',
                   'ui:required': (formData, index) =>
                     !isEligibleForDisabilitySupport(
-                      _.get(
-                        ['dependents', index, 'childDateOfBirth'],
-                        formData,
-                      ),
+                      get(['dependents', index, 'childDateOfBirth'], formData),
                     ),
                   'ui:options': {
                     hideIf: (formData, index) =>
                       isEligibleForDisabilitySupport(
-                        _.get(
+                        get(
                           ['dependents', index, 'childDateOfBirth'],
                           formData,
                         ),
@@ -1241,9 +1235,9 @@ const formConfig = {
                   'ui:description': dependentWarning,
                   'ui:options': {
                     hideIf: (formData, index) =>
-                      _.get(['dependents', index, 'disabled'], formData) !==
+                      get(['dependents', index, 'disabled'], formData) !==
                         false ||
-                      _.get(
+                      get(
                         ['dependents', index, 'attendingCollege'],
                         formData,
                       ) !== false,
@@ -1257,10 +1251,7 @@ const formConfig = {
                   'ui:title': 'Are they currently married?',
                   'ui:widget': 'yesNo',
                   'ui:required': (formData, index) =>
-                    !!_.get(
-                      ['dependents', index, 'previouslyMarried'],
-                      formData,
-                    ),
+                    !!get(['dependents', index, 'previouslyMarried'], formData),
                   'ui:options': {
                     expandUnder: 'previouslyMarried',
                   },
@@ -1303,12 +1294,13 @@ const formConfig = {
                   'ui:title': 'Does your child live with you?',
                   'ui:widget': 'yesNo',
                 },
-                childAddress: _.merge(
+                childAddress: merge(
+                  {},
                   address.uiSchema(
                     'Address',
                     false,
                     (form, index) =>
-                      !_.get(['dependents', index, 'childInHousehold'], form),
+                      !get(['dependents', index, 'childInHousehold'], form),
                   ),
                   {
                     'ui:options': {
@@ -1317,12 +1309,12 @@ const formConfig = {
                     },
                   },
                 ),
-                personWhoLivesWithChild: _.merge(fullNameUI, {
+                personWhoLivesWithChild: merge({}, fullNameUI, {
                   'ui:title': 'Who do they live with?',
                   'ui:options': {
                     updateSchema: (form, UISchema, schema, index) => {
                       if (
-                        !_.get(['dependents', index, 'childInHousehold'], form)
+                        !get(['dependents', index, 'childInHousehold'], form)
                       ) {
                         return fullName;
                       }
@@ -1332,13 +1324,14 @@ const formConfig = {
                     expandUnderCondition: false,
                   },
                 }),
-                monthlyPayment: _.merge(
+                monthlyPayment: merge(
+                  {},
                   currencyUI(
                     'How much do you contribute per month to their support?',
                   ),
                   {
                     'ui:required': (form, index) =>
-                      !_.get(['dependents', index, 'childInHousehold'], form),
+                      !get(['dependents', index, 'childInHousehold'], form),
                     'ui:options': {
                       expandUnder: 'childInHousehold',
                       expandUnderCondition: false,
@@ -1358,9 +1351,7 @@ const formConfig = {
         netWorth: {
           path: 'financial-disclosure/net-worth',
           title: item =>
-            `${item.veteranFullName.first} ${
-              item.veteranFullName.last
-            } net worth`,
+            `${item.veteranFullName.first} ${item.veteranFullName.last} net worth`,
           schema: {
             type: 'object',
             required: ['netWorth'],
@@ -1380,9 +1371,7 @@ const formConfig = {
         monthlyIncome: {
           path: 'financial-disclosure/monthly-income',
           title: item =>
-            `${item.veteranFullName.first} ${
-              item.veteranFullName.last
-            } monthly income`,
+            `${item.veteranFullName.first} ${item.veteranFullName.last} monthly income`,
           initialData: {},
           schema: {
             type: 'object',
@@ -1404,9 +1393,7 @@ const formConfig = {
         expectedIncome: {
           path: 'financial-disclosure/expected-income',
           title: item =>
-            `${item.veteranFullName.first} ${
-              item.veteranFullName.last
-            } expected income`,
+            `${item.veteranFullName.first} ${item.veteranFullName.last} expected income`,
           initialData: {},
           schema: {
             type: 'object',
@@ -1427,9 +1414,7 @@ const formConfig = {
         otherExpenses: {
           path: 'financial-disclosure/other-expenses',
           title: item =>
-            `${item.veteranFullName.first} ${
-              item.veteranFullName.last
-            } expenses`,
+            `${item.veteranFullName.first} ${item.veteranFullName.last} expenses`,
           schema: {
             type: 'object',
             required: ['view:hasOtherExpenses'],
@@ -1456,7 +1441,7 @@ const formConfig = {
                 useDlWrap: true,
               },
             },
-            otherExpenses: _.merge(otherExpensesUI, {
+            otherExpenses: merge({}, otherExpensesUI, {
               'ui:options': {
                 expandUnder: 'view:hasOtherExpenses',
               },
@@ -1545,7 +1530,7 @@ const formConfig = {
                 useDlWrap: true,
               },
             },
-            spouseOtherExpenses: _.merge(otherExpensesUI, {
+            spouseOtherExpenses: merge({}, otherExpensesUI, {
               'ui:options': {
                 expandUnder: 'view:spouseHasOtherExpenses',
               },
@@ -1696,7 +1681,7 @@ const formConfig = {
                     useDlWrap: true,
                   },
                 },
-                otherExpenses: _.merge(otherExpensesUI, {
+                otherExpenses: merge({}, otherExpensesUI, {
                   'ui:options': {
                     expandUnder: 'view:hasOtherExpenses',
                   },
@@ -1719,7 +1704,7 @@ const formConfig = {
             'view:noDirectDeposit': {
               'ui:title': 'I don’t want to use direct deposit',
             },
-            bankAccount: _.merge(bankAccountUI, {
+            bankAccount: merge({}, bankAccountUI, {
               'ui:order': [
                 'accountType',
                 'bankName',
@@ -1768,7 +1753,7 @@ const formConfig = {
           path: 'additional-information/contact',
           uiSchema: {
             'ui:title': 'Contact information',
-            veteranAddress: _.set(
+            veteranAddress: set(
               'ui:validations[1]',
               validateCentralMailPostalCode,
               address.uiSchema('Mailing address'),

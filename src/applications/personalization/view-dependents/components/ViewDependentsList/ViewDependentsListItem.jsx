@@ -28,6 +28,7 @@ function ViewDependentsListItem(props) {
     dateOfBirth,
     stateKey,
     openFormlett,
+    submittedDependents,
   } = props;
 
   const handleClick = () => {
@@ -57,7 +58,22 @@ function ViewDependentsListItem(props) {
         >
           {firstName} {lastName}
         </dt>
-
+        {manageDependentsToggle && submittedDependents.includes(stateKey) && (
+          <dd
+            aria-live="polite"
+            className="vads-l-col--12 vads-u-margin-y--1p5"
+          >
+            <dfn title="status">
+              <i
+                aria-hidden="true"
+                role="img"
+                className="fas fa-exclamation-triangle"
+              />{' '}
+              Status:
+            </dfn>{' '}
+            Removal of dependent pending
+          </dd>
+        )}
         <dd className="vads-l-col--12 vads-u-margin--0">
           <dfn title="relationship">Relationship:</dfn> {relationship}
         </dd>
@@ -82,7 +98,7 @@ function ViewDependentsListItem(props) {
               type="button"
               onClick={handleClick}
               className="usa-button-secondary vads-u-background-color--white"
-              disabled={openFormlett}
+              disabled={openFormlett || submittedDependents.includes(stateKey)}
             >
               Remove this dependent
             </button>
@@ -114,12 +130,10 @@ function ViewDependentsListItem(props) {
 
 const mapStateToProps = state => ({
   openFormlett: state?.removeDependents?.openFormlett,
+  submittedDependents: state?.removeDependents?.submittedDependents,
 });
 
-export default connect(
-  mapStateToProps,
-  null,
-)(ViewDependentsListItem);
+export default connect(mapStateToProps, null)(ViewDependentsListItem);
 
 export { ViewDependentsListItem };
 

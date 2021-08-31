@@ -7,6 +7,10 @@ export const evidenceTypeTitle = (
   </h3>
 );
 
+export const evidenceLayStatements = `Additional VA forms, medical records,
+  separation documents (DD Form 214), supporting (lay) statements, or other
+  evidence`;
+
 export const evidenceTypeHelp = (
   <AdditionalInfo triggerText="Which evidence type should I choose?">
     <h4>Types of evidence</h4>

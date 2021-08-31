@@ -11,7 +11,7 @@ import {
 
 import { validateLength } from 'platform/forms/validations';
 
-import { NULL_CONDITION_STRING } from '../constants';
+import { NULL_CONDITION_STRING, CHAR_LIMITS } from '../constants';
 
 const {
   cause,
@@ -32,19 +32,17 @@ const getDisabilitiesList = createSelector(
   (ratedDisabilities = [], newDisabilities = [], currentIndex) => {
     const newDisabilitiesWithoutCurrent = newDisabilities
       .filter((item, index) => index !== currentIndex)
-      .map(
-        item =>
-          typeof item.condition === 'string'
-            ? capitalizeEachWord(item.condition)
-            : NULL_CONDITION_STRING,
+      .map(item =>
+        typeof item.condition === 'string'
+          ? capitalizeEachWord(item.condition)
+          : NULL_CONDITION_STRING,
       );
 
     return ratedDisabilities
-      .map(
-        disability =>
-          typeof disability.name === 'string'
-            ? capitalizeEachWord(disability.name)
-            : NULL_CONDITION_STRING,
+      .map(disability =>
+        typeof disability.name === 'string'
+          ? capitalizeEachWord(disability.name)
+          : NULL_CONDITION_STRING,
       )
       .concat(newDisabilitiesWithoutCurrent);
   },
@@ -95,7 +93,7 @@ export const uiSchema = {
           expandUnderCondition: 'NEW',
           hideIf: isBDD,
         },
-        'ui:validations': [validateLength(400)],
+        'ui:validations': [validateLength(CHAR_LIMITS.primaryDescription)],
       },
       'view:secondaryFollowUp': {
         'ui:options': {
@@ -134,7 +132,9 @@ export const uiSchema = {
           'ui:options': {
             hideIf: isBDD,
           },
-          'ui:validations': [validateLength(400)],
+          'ui:validations': [
+            validateLength(CHAR_LIMITS.causedByDisabilityDescription),
+          ],
         },
       },
       'view:worsenedFollowUp': {
@@ -150,7 +150,7 @@ export const uiSchema = {
             !isBDD(formData) &&
             formData.newDisabilities[index]?.cause === 'WORSENED' &&
             getDisabilitiesList(formData, index).length > 0,
-          'ui:validations': [validateLength(50)],
+          'ui:validations': [validateLength(CHAR_LIMITS.worsenedDescription)],
         },
         worsenedEffects: {
           'ui:title':
@@ -160,7 +160,7 @@ export const uiSchema = {
             !isBDD(formData) &&
             formData.newDisabilities[index]?.cause === 'WORSENED' &&
             getDisabilitiesList(formData, index).length > 0,
-          'ui:validations': [validateLength(350)],
+          'ui:validations': [validateLength(CHAR_LIMITS.worsenedEffects)],
         },
       },
       'view:vaFollowUp': {
@@ -179,7 +179,9 @@ export const uiSchema = {
           'ui:options': {
             hideIf: isBDD,
           },
-          'ui:validations': [validateLength(350)],
+          'ui:validations': [
+            validateLength(CHAR_LIMITS.vaMistreatmentDescription),
+          ],
         },
         vaMistreatmentLocation: {
           'ui:title':
@@ -187,7 +189,9 @@ export const uiSchema = {
           'ui:required': (formData, index) =>
             formData.newDisabilities[index]?.cause === 'VA' &&
             getDisabilitiesList(formData, index).length > 0,
-          'ui:validations': [validateLength(25)],
+          'ui:validations': [
+            validateLength(CHAR_LIMITS.vaMistreatmentLocation),
+          ],
         },
         vaMistreatmentDate: {
           'ui:title':
@@ -195,7 +199,7 @@ export const uiSchema = {
           'ui:required': (formData, index) =>
             formData.newDisabilities[index]?.cause === 'VA' &&
             getDisabilitiesList(formData, index).length > 0,
-          'ui:validations': [validateLength(25)],
+          'ui:validations': [validateLength(CHAR_LIMITS.vaMistreatmentDate)],
         },
       },
       'view:serviceConnectedDisability': {
