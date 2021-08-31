@@ -140,3 +140,4 @@ jobs:
           conclusion: ${{ github.event.workflow_run.conclusion }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+          details_url: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}
