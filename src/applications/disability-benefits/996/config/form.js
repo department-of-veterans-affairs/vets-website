@@ -63,7 +63,7 @@ const formConfig = {
   saveInProgress: {
     messages: {
       inProgress:
-        'Your Higher-Level Review application (20-0996) is in progress.',
+        'Your Higher-Level Review application (20-0996) is in progress!',
       expired:
         'Your saved Higher-Level Review application (20-0996) has expired. If you want to apply for Higher-Level Review, please start a new application.',
       saved: 'Your Higher-Level Review application has been saved.',
