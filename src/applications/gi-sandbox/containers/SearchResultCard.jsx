@@ -5,7 +5,11 @@ import appendQuery from 'append-query';
 import { Link } from 'react-router-dom';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { addCompareInstitution, removeCompareInstitution } from '../actions';
+import {
+  addCompareInstitution,
+  removeCompareInstitution,
+  showModal,
+} from '../actions';
 import { MINIMUM_RATING_COUNT } from '../constants';
 import Checkbox from '../components/Checkbox';
 import { estimatedBenefits } from '../selectors/estimator';
@@ -23,6 +27,7 @@ export function SearchResultCard({
   estimated,
   dispatchAddCompareInstitution,
   dispatchRemoveCompareInstitution,
+  dispatchShowModal,
   institution,
   location = false,
   header = null,
@@ -50,7 +55,11 @@ export function SearchResultCard({
   const compareChecked = !!compare.search.institutions[facilityCode];
   const handleCompareUpdate = e => {
     if (e.target.checked && !compareChecked) {
-      dispatchAddCompareInstitution(institution);
+      if (compare.search.loaded.length === 3) {
+        dispatchShowModal('comparisonLimit');
+      } else {
+        dispatchAddCompareInstitution(institution);
+      }
     } else {
       dispatchRemoveCompareInstitution(facilityCode);
     }
@@ -113,7 +122,7 @@ export function SearchResultCard({
   ) : (
     <div>
       <p>
-        <strong>School rating:</strong> Not yet rated
+        <strong>Not yet rated by Veterans</strong>
       </p>
     </div>
   );
@@ -172,7 +181,7 @@ export function SearchResultCard({
       </div>
       <div className="vads-u-flex--1">
         <p className="secondary-info-label">
-          <strong>GI Bill Students:</strong>
+          <strong>GI Bill students:</strong>
         </p>
         <p className="vads-u-margin-top--1 vads-u-margin-bottom--2p5">
           {studentCount || '0'}
@@ -214,7 +223,11 @@ export function SearchResultCard({
   );
 
   return (
-    <div className={resultCardClasses} id={`${createId(name)}-result-card`}>
+    <div
+      key={institution.facilityCode}
+      className={resultCardClasses}
+      id={`${createId(name)}-result-card`}
+    >
       <div className={containerClasses}>
         {location && <span id={`${createId(name)}-result-card-placeholder`} />}
         {header}
@@ -298,6 +311,7 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = {
   dispatchAddCompareInstitution: addCompareInstitution,
   dispatchRemoveCompareInstitution: removeCompareInstitution,
+  dispatchShowModal: showModal,
 };
 
 export default connect(

@@ -13,16 +13,18 @@ import { selectProfile } from 'platform/user/selectors';
 
 import { readableList } from '../utils/helpers';
 
-export const ContactInfoDescription = ({ formContext, profile }) => {
+export const ContactInfoDescription = ({ formContext, profile, homeless }) => {
   const [hadError, setHadError] = useState(false);
   const { email = {}, mobilePhone = {}, mailingAddress = {} } =
     profile?.vapContactInfo || {};
   const { submitted } = formContext || {};
 
+  // Don't require an address if the Veteran is homeless
+  const requireAddress = homeless ? '' : 'address';
   const missingInfo = [
     email?.emailAddress ? '' : 'email',
     mobilePhone?.phoneNumber ? '' : 'phone',
-    mailingAddress.addressLine1 ? '' : 'address',
+    mailingAddress.addressLine1 ? '' : requireAddress,
   ].filter(Boolean);
 
   const list = readableList(missingInfo);
@@ -153,9 +155,11 @@ ContactInfoDescription.propTypes = {
       }),
     }),
   }).isRequired,
+  homeless: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
+  homeless: state.form.data.homeless,
   profile: selectProfile(state),
 });
 

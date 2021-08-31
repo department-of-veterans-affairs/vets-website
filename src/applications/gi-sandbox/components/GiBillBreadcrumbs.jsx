@@ -1,6 +1,6 @@
 import React from 'react';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
-import { useRouteMatch, Link } from 'react-router-dom';
+import { useRouteMatch, Link, useHistory } from 'react-router-dom';
 import { useQueryParams } from '../utils/helpers';
 
 const GiBillBreadcrumbs = () => {
@@ -8,6 +8,7 @@ const GiBillBreadcrumbs = () => {
   const compareMatch = useRouteMatch('/compare');
   const queryParams = useQueryParams();
   const version = queryParams.get('version');
+  const history = useHistory();
 
   const root = version
     ? {
@@ -26,6 +27,12 @@ const GiBillBreadcrumbs = () => {
       GI Bill® Comparison Tool
     </Link>,
   ];
+
+  if (history.location?.state?.prevPath) {
+    crumbs.push(
+      <Link onClick={() => history.goBack()}>Compare institutions</Link>,
+    );
+  }
 
   if (profileMatch) {
     crumbs.push(

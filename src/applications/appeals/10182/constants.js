@@ -30,7 +30,7 @@ export const SUPPORTED_UPLOAD_TYPES = ['pdf'];
 export const MAX_FILE_SIZE_MB = 100;
 export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
 
-export const MAX_NEW_CONDITIONS = 99;
+export const MAX_SELECTIONS = 100;
 
 // Values from Lighthouse maintained schema
 // see https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v1/10182.json

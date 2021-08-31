@@ -9,13 +9,8 @@ export default function LearnMoreLabel({
   text,
   buttonId,
   bold,
-  boldLabel,
-  boldValue,
+  buttonClassName,
 }) {
-  const boldAll = !boldLabel && !boldValue && bold;
-  const boldClass = boldCheck =>
-    boldCheck ? 'vads-u-font-weight--bold' : null;
-
   let displayText = text && <React.Fragment>{text} </React.Fragment>;
   if (labelFor && text) {
     displayText = (
@@ -31,20 +26,30 @@ export default function LearnMoreLabel({
   return (
     <span
       className={classNames(
+        buttonClassName,
         'vads-u-margin--0',
         'vads-u-display--inline-block',
-        boldClass(boldAll),
+        {
+          'vads-u-font-weight--bold': bold,
+        },
       )}
       onClick={focusElement(labelFor)}
     >
       {bold ? <strong>{displayText}</strong> : displayText}
-      <span className="vads-u-margin--0 vads-u-display--inline-block ">
+      <span
+        className={classNames('vads-u-margin--0 vads-u-display--inline-block', {
+          'vads-u-font-weight--bold': bold,
+        })}
+      >
         (
         <button
           id={buttonId}
           aria-label={ariaLabel}
           type="button"
-          className="va-button-link learn-more-button vads-u-margin--0"
+          className={classNames(
+            buttonClassName,
+            'va-button-link learn-more-button vads-u-margin--0',
+          )}
           onClick={onClick}
         >
           Learn more

@@ -1,19 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
 import LearnMoreLabel from '../components/LearnMoreLabel';
+import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import {
   getStateNameForCode,
   sortOptionsByStateName,
   addAllOption,
-  updateUrlParams,
 } from '../utils/helpers';
 import { showModal, filterChange } from '../actions';
 import { connect } from 'react-redux';
-import { TABS } from '../constants';
+import { TABS, INSTITUTION_TYPES } from '../constants';
+import CheckboxGroup from '../components/CheckboxGroup';
+import _ from 'lodash';
+import { updateUrlParams } from '../selectors/search';
 
 export function FilterYourResults({
   dispatchShowModal,
@@ -29,23 +33,23 @@ export function FilterYourResults({
   const {
     expanded,
     schools,
+    excludedSchoolTypes,
+    excludeCautionFlags,
     accredited,
     studentVeteran,
     yellowRibbonScholarship,
-    singleGenderSchool,
-    hbcu,
-    excludeCautionFlags,
-    relaffil,
-    type,
-    country,
-    state,
+    specialMission,
+    employers,
     vettec,
     preferredProvider,
-    employers,
+    country,
+    state,
   } = filters;
 
   const facets =
     search.tab === TABS.name ? search.name.facets : search.location.facets;
+
+  const [showAllSchoolTypes, setShowAllSchoolTypes] = useState(false);
 
   const updateInstitutionFilters = (name, value) => {
     dispatchFilterChange({ ...filters, [name]: value });
@@ -57,6 +61,37 @@ export function FilterYourResults({
 
   const onAccordionChange = value => {
     updateInstitutionFilters('expanded', value);
+  };
+
+  const handleSchoolChange = e => {
+    const checked = e.target.checked;
+
+    if (!checked) {
+      dispatchFilterChange({
+        ...filters,
+        schools: false,
+        excludedSchoolTypes: [],
+        excludeCautionFlags: false,
+        accredited: false,
+        studentVeteran: false,
+        yellowRibbonScholarship: false,
+        specialMission: 'ALL',
+      });
+    } else {
+      onChangeCheckbox(e);
+    }
+  };
+
+  const handleExcludedSchoolTypesChange = e => {
+    const name = e.target.name;
+    const checked = e.target.checked;
+    const newExcluded = _.cloneDeep(excludedSchoolTypes);
+    updateInstitutionFilters(
+      'excludedSchoolTypes',
+      checked
+        ? newExcluded.concat(name)
+        : newExcluded.filter(type => type !== name),
+    );
   };
 
   const handleVetTecChange = e => {
@@ -88,14 +123,7 @@ export function FilterYourResults({
   const updateResults = () => {
     updateInstitutionFilters('search', true);
 
-    updateUrlParams(
-      history,
-      search.tab,
-      search.query,
-      filters,
-      version,
-      search.tab === TABS.name ? 1 : null,
-    );
+    updateUrlParams(history, search.tab, search.query, filters, version);
   };
 
   const closeAndUpdate = () => {
@@ -103,36 +131,169 @@ export function FilterYourResults({
     modalClose();
   };
 
-  const renderTypeOfInstitution = () => {
+  const excludedSchoolTypesGroup = () => {
+    const options = (showAllSchoolTypes
+      ? INSTITUTION_TYPES
+      : INSTITUTION_TYPES.slice(0, 4)
+    ).map(type => {
+      return {
+        name: type.toUpperCase(),
+        checked: excludedSchoolTypes.includes(type.toUpperCase()),
+        optionLabel: type,
+      };
+    });
+
+    return (
+      <div className="vads-u-margin-bottom--5">
+        <CheckboxGroup
+          label={
+            <div className="vads-u-margin-left--neg0p25">
+              Exclude these school types:
+            </div>
+          }
+          onChange={handleExcludedSchoolTypesChange}
+          options={options}
+        />
+        {!showAllSchoolTypes && (
+          <button
+            className="va-button-link see-more-less"
+            onClick={() => setShowAllSchoolTypes(true)}
+          >
+            See more...
+          </button>
+        )}
+        {showAllSchoolTypes && (
+          <button
+            className="va-button-link see-more-less"
+            onClick={() => setShowAllSchoolTypes(false)}
+          >
+            See less...
+          </button>
+        )}
+      </div>
+    );
+  };
+
+  const schoolAttributes = () => {
     return (
       <>
-        <h3>Type of institution</h3>
+        <p>About the school</p>
         <Checkbox
-          checked={schools}
-          name="schools"
-          label="Schools"
+          checked={excludeCautionFlags}
+          name="excludeCautionFlags"
+          label={
+            <LearnMoreLabel
+              text="Has no cautionary warnings"
+              onClick={() => dispatchShowModal('cautionaryWarnings')}
+              ariaLabel="Learn more about VA education and training programs"
+            />
+          }
           onChange={onChangeCheckbox}
         />
+        <Checkbox
+          checked={accredited}
+          name="accredited"
+          label={
+            <LearnMoreLabel
+              text="Is accredited"
+              onClick={() => dispatchShowModal('accredited')}
+              ariaLabel="Learn more about VA education and training programs"
+            />
+          }
+          onChange={onChangeCheckbox}
+        />
+        <Checkbox
+          checked={studentVeteran}
+          name="studentVeteran"
+          label="Has a Student Veteran Group"
+          onChange={onChangeCheckbox}
+        />
+        <Checkbox
+          checked={yellowRibbonScholarship}
+          name="yellowRibbonScholarship"
+          label="Offers Yellow Ribbon Program"
+          onChange={onChangeCheckbox}
+        />
+      </>
+    );
+  };
+
+  const specialMissions = () => {
+    const options = [
+      {
+        optionValue: 'hbcu',
+        optionLabel: 'Historically Black College or University',
+      },
+      {
+        optionValue: 'menonly',
+        optionLabel: 'Men-only',
+      },
+      {
+        optionValue: 'womenonly',
+        optionLabel: 'Women-only',
+      },
+      {
+        optionValue: 'relaffil',
+        optionLabel: 'Religious Affiliation',
+      },
+    ];
+    return (
+      <Dropdown
+        onChange={onChange}
+        value={specialMission}
+        name="specialMission"
+        options={addAllOption(options)}
+        alt="Specialized mission (i.e., Single-gender, Religious affiliation, HBCU)"
+        label="Specialized mission (i.e., Single-gender, Religious affiliation, HBCU)"
+        visible
+      />
+    );
+  };
+
+  const typeOfInstitution = () => {
+    return (
+      <>
+        <div className="vads-u-margin-bottom--4">
+          <h3 className="vads-u-margin-bottom--3">Type of institution</h3>
+          <ExpandingGroup open={schools}>
+            <Checkbox
+              checked={schools}
+              name="schools"
+              label="Schools"
+              onChange={handleSchoolChange}
+              className="expanding-header-checkbox"
+            />
+            <div className="school-types expanding-group-children">
+              {excludedSchoolTypesGroup()}
+              {schoolAttributes()}
+              {specialMissions()}
+            </div>
+          </ExpandingGroup>
+        </div>
         <Checkbox
           checked={employers}
           name="employers"
-          label="Employers (on the job training and apprenticeships)"
+          label="On-the-job training and apprenticeships"
           onChange={onChangeCheckbox}
+          className="vads-u-margin-bottom--4"
         />
-        <Checkbox
-          checked={vettec}
-          name="vettec"
-          label="VET TEC providers"
-          onChange={handleVetTecChange}
-        />
-        <div className="vads-u-padding-left--3">
+        <ExpandingGroup open={vettec}>
           <Checkbox
-            checked={preferredProvider}
-            name="preferredProvider"
-            label="Preferred providers"
-            onChange={handlePreferredProviderChange}
+            checked={vettec}
+            name="vettec"
+            label="VET TEC providers"
+            onChange={handleVetTecChange}
+            className="expanding-header-checkbox"
           />
-        </div>
+          <div className="expanding-group-children">
+            <Checkbox
+              checked={preferredProvider}
+              name="preferredProvider"
+              label="Preferred providers"
+              onChange={handlePreferredProviderChange}
+            />
+          </div>
+        </ExpandingGroup>
       </>
     );
   };
@@ -186,110 +347,15 @@ export function FilterYourResults({
     );
   };
 
-  const renderSchoolAttributes = () => {
-    return (
-      <>
-        <h3>School attributes</h3>
-        <p>About the school</p>
-        <Checkbox
-          checked={excludeCautionFlags}
-          name="excludeCautionFlags"
-          label={
-            <LearnMoreLabel
-              text="Has no cautionary warnings"
-              onClick={() => dispatchShowModal('cautionaryWarnings')}
-              ariaLabel="Learn more about VA education and training programs"
-            />
-          }
-          onChange={onChangeCheckbox}
-        />
-        <Checkbox
-          checked={accredited}
-          name="accredited"
-          label={
-            <LearnMoreLabel
-              text="Is accredited"
-              onClick={() => dispatchShowModal('accredited')}
-              ariaLabel="Learn more about VA education and training programs"
-            />
-          }
-          onChange={onChangeCheckbox}
-        />
-        <Checkbox
-          checked={studentVeteran}
-          name="studentVeteran"
-          label="Has a Student Veteran Group"
-          onChange={onChangeCheckbox}
-        />
-        <Checkbox
-          checked={yellowRibbonScholarship}
-          name="yellowRibbonScholarship"
-          label="Offers Yellow Ribbon Program"
-          onChange={onChangeCheckbox}
-        />
-      </>
-    );
-  };
-
-  const renderTypeOfSchool = () => {
-    const options = [
-      ...Object.keys(facets.type).map(facetSchoolType => ({
-        optionValue: facetSchoolType,
-        optionLabel: facetSchoolType,
-      })),
-    ];
-
-    return (
-      <Dropdown
-        label="Type of school"
-        name="type"
-        options={addAllOption(options)}
-        value={type}
-        alt="Filter results by institution type"
-        visible
-        onChange={onChange}
-      />
-    );
-  };
-
-  const renderSchoolMission = () => {
-    return (
-      <>
-        <p>School mission</p>
-        <Checkbox
-          checked={hbcu}
-          name="hbcu"
-          label="Historically Black Colleges and Universities"
-          onChange={onChangeCheckbox}
-        />
-        <Checkbox
-          checked={singleGenderSchool}
-          name="singleGenderSchool"
-          label="Single gender school"
-          onChange={onChangeCheckbox}
-        />
-        <Checkbox
-          checked={relaffil}
-          name="relaffil"
-          label="Religious affiliation"
-          onChange={onChangeCheckbox}
-        />
-      </>
-    );
-  };
-
   const controls = (
     <div>
-      {renderTypeOfInstitution()}
+      {typeOfInstitution()}
       {renderLocation()}
-      {renderSchoolAttributes()}
-      {renderTypeOfSchool()}
-      {renderSchoolMission()}
     </div>
   );
 
   return (
-    <div className="vads-u-margin-bottom--2">
+    <div className="filter-your-results vads-u-margin-bottom--2">
       {!smallScreen && (
         <SearchAccordion
           button="Filter your results"
@@ -299,14 +365,16 @@ export function FilterYourResults({
           expanded={expanded}
           onClick={onAccordionChange}
         >
-          {controls}
+          {search.inProgress && <LoadingIndicator />}
+          {!search.inProgress && controls}
         </SearchAccordion>
       )}
       {smallScreen && (
         <div className="modal-wrapper">
           <div>
             <h1>Filter your results</h1>
-            {controls}
+            {search.inProgress && <LoadingIndicator />}
+            {!search.inProgress && controls}
           </div>
           <div className="modal-button-wrapper">
             <button

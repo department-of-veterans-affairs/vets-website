@@ -66,7 +66,11 @@ const ProfilePageHeader = ({
   const compareChecked = !!compare.search.institutions[facilityCode];
   const handleCompareUpdate = e => {
     if (e.target.checked && !compareChecked) {
-      dispatchAddCompareInstitution(institution);
+      if (compare.search.loaded.length === 3) {
+        dispatchShowModal('comparisonLimit');
+      } else {
+        dispatchAddCompareInstitution(institution);
+      }
     } else {
       dispatchRemoveCompareInstitution(facilityCode);
     }
@@ -78,7 +82,7 @@ const ProfilePageHeader = ({
   const displayStars =
     gibctSchoolRatings && stars && ratingCount >= MINIMUM_RATING_COUNT;
 
-  const titleClasses = classNames({
+  const titleClasses = classNames('small-screen-header', {
     'vads-u-margin-bottom--0': displayStars,
   });
 
@@ -204,13 +208,17 @@ const ProfilePageHeader = ({
               {`${programs[0].phoneAreaCode}-${programs[0].phoneNumber}`}
             </a>
           </IconWithInfo>
-          <IconWithInfo
-            icon="map"
-            present={localeType && lowerType && lowerType !== 'ojt'}
-          >
-            {'   '}
-            {_.capitalize(localeType)} locale
-          </IconWithInfo>
+          {programs[0].schoolLocale && (
+            <IconWithInfo
+              icon="map"
+              present={
+                programs[0].schoolLocale && lowerType && lowerType !== 'ojt'
+              }
+            >
+              {'   '}
+              {_.capitalize(programs[0].schoolLocale)} locale
+            </IconWithInfo>
+          )}
           <IconWithInfo icon="globe" present={programs.length > 0}>
             <a
               href={programs[0].providerWebsite}

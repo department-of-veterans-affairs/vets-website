@@ -257,7 +257,7 @@ const responses = {
     });
   },
   'GET /vaos/v2/locations/:facility_id/clinics/:clinic_id/slots': appointmentSlotsV2,
-  'GET /vaos/v2/patient': (req, res) => {
+  'GET /vaos/v2/patients': (req, res) => {
     return res.json({
       data: {
         attributes: {
@@ -362,7 +362,6 @@ const responses = {
         { name: 'vaOnlineSchedulingPast', value: true },
         { name: 'vaOnlineSchedulingExpressCare', value: true },
         { name: 'vaOnlineSchedulingFlatFacilityPage', value: true },
-        { name: 'vaOnlineSchedulingProviderSelection', value: true },
         { name: 'vaOnlineSchedulingHomepageRefresh', value: true },
         { name: 'vaOnlineSchedulingUnenrolledVaccine', value: true },
         { name: 'vaGlobalDowntimeNotification', value: false },
@@ -371,6 +370,7 @@ const responses = {
         { name: 'vaOnlineSchedulingFacilitiesServiceV2', value: true },
         { name: 'vaOnlineSchedulingVAOSServiceCCAppointments', value: true },
         { name: 'vaOnlineSchedulingVariantTesting', value: false },
+        { name: 'vaOnlineSchedulingCCIterations', value: false },
         { name: 'ssoe', value: true },
         { name: 'ssoeInbound', value: false },
         { name: 'ssoeEbenefitsLinks', value: false },

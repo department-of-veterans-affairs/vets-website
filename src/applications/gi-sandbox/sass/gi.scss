@@ -13,6 +13,7 @@
 @import "partials/gi-search-form";
 @import "partials/gi-search-location";
 @import "partials/gi-back-to-top";
+@import "partials/gi-filter";
 
 .gi-app {
   div.military-status-info {
@@ -96,10 +97,6 @@
   h1:focus,
   h2:focus,
   h3:focus,
-  button:focus {
-    outline: none;
-  }
-
   nav {
     margin-left: 0.5rem;
   }
@@ -220,6 +217,16 @@
   }
 }
 
+.small-screen-font {
+  @media (max-width: $small-screen) {
+    font-size: 15px;
+  }
+}
+.small-screen-header {
+  @media (max-width: $small-screen) {
+    font-size: 17px;
+  }
+}
 .card-bottom-cell {
   display: flex;
   justify-content: center;

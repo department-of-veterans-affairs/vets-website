@@ -7,9 +7,10 @@ import {
   useLocation,
   Redirect,
 } from 'react-router-dom';
+// import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import {
+  selectHasVAPResidentialAddress,
   selectIsCernerOnlyPatient,
-  selectUseProviderSelection,
 } from '../redux/selectors';
 import newAppointmentReducer from './redux/reducer';
 import FormLayout from './components/FormLayout';
@@ -24,6 +25,7 @@ import DateTimeRequestPage from './components/DateTimeRequestPage';
 import DateTimeSelectPage from './components/DateTimeSelectPage';
 import VAFacilityPageV2 from './components/VAFacilityPage/VAFacilityPageV2';
 import CommunityCarePreferencesPage from './components/CommunityCarePreferencesPage';
+import ClosestCityStatePage from './components/ClosestCityStatePage';
 import CommunityCareLanguagePage from './components/CommunityCareLanguagePage';
 import CommunityCareProviderSelectionPage from './components/CommunityCareProviderSelectionPage';
 import ClinicChoicePage from './components/ClinicChoicePage';
@@ -38,12 +40,8 @@ import ScheduleCernerPage from './components/ScheduleCernerPage';
 import useVariantSortMethodTracking from './hooks/useVariantSortMethodTracking';
 
 export function NewAppointment() {
-  const isCernerOnlyPatient = useSelector(state =>
-    selectIsCernerOnlyPatient(state),
-  );
-  const providerSelectionEnabled = useSelector(state =>
-    selectUseProviderSelection(state),
-  );
+  const isCernerOnlyPatient = useSelector(selectIsCernerOnlyPatient);
+  const hasResidentialAddress = useSelector(selectHasVAPResidentialAddress);
   const match = useRouteMatch();
   const location = useLocation();
 
@@ -112,24 +110,28 @@ export function NewAppointment() {
           path={`${match.url}/how-to-schedule`}
           component={ScheduleCernerPage}
         />
-        {!providerSelectionEnabled && (
+        {!hasResidentialAddress && (
           <Route
             path={`${match.url}/community-care-preferences`}
             component={CommunityCarePreferencesPage}
           />
         )}
-        {providerSelectionEnabled && (
+        {hasResidentialAddress && (
           <Route
             path={`${match.url}/community-care-preferences`}
             component={CommunityCareProviderSelectionPage}
           />
         )}
-        {providerSelectionEnabled && (
+        {hasResidentialAddress && (
           <Route
             path={`${match.url}/community-care-language`}
             component={CommunityCareLanguagePage}
           />
         )}
+        <Route
+          path={`${match.url}/choose-closest-city`}
+          component={ClosestCityStatePage}
+        />
         <Route path={`${match.url}/clinics`} component={ClinicChoicePage} />
         <Route
           path={`${match.url}/reason-appointment`}

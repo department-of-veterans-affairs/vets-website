@@ -314,6 +314,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
       await screen.findByText(
         /We couldn’t find a recent appointment at this location/i,
       );
+      expect(screen.baseElement).to.contain.text('last 12 months');
       const loadingEvent = global.window.dataLayer.find(
         ev => ev.event === 'loading-indicator-displayed',
       );
@@ -566,35 +567,22 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
       mockDirectBookingEligibilityCriteria(
         parentSiteIds,
-        directFacilities.map(f => ({
-          ...f,
-          attributes: {
-            ...f.attributes,
-            coreSettings: [
-              {
-                ...f.attributes.coreSettings[0],
-                id: '502',
-                typeOfCare: 'Outpatient Mental Health',
-              },
-            ],
-          },
-        })),
+        facilityIds.map(id =>
+          getDirectBookingEligibilityCriteriaMock({
+            id,
+            typeOfCareId: '502',
+          }),
+        ),
       );
       mockRequestEligibilityCriteria(
         parentSiteIds,
-        requestFacilities.map(f => ({
-          ...f,
-          attributes: {
-            ...f.attributes,
-            requestSettings: [
-              {
-                ...f.attributes.requestSettings[0],
-                id: '502',
-                typeOfCare: 'Outpatient Mental Health',
-              },
-            ],
-          },
-        })),
+        facilityIds.map(id =>
+          getRequestEligibilityCriteriaMock({
+            id,
+            typeOfCareId: '502',
+            patientHistoryDuration: 1095,
+          }),
+        ),
       );
       mockFacilitiesFetch(vhaIds.join(','), facilities);
       mockEligibilityFetches({
@@ -614,6 +602,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
       fireEvent.click(screen.getByText(/Continue/));
       await screen.findByText(/We can’t find a recent appointment for you/i);
       expect(screen.getByRole('alertdialog')).to.be.ok;
+      expect(screen.baseElement).to.contain.text('last 36 months');
       fireEvent.click(screen.getByRole('button', { name: 'Close this modal' }));
 
       await waitFor(

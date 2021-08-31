@@ -7,6 +7,7 @@ import {
 
 import { requireRatedDisability } from '../validations';
 import { SELECTED } from '../constants';
+import { apiVersion1 } from '../utils/helpers';
 
 const contestedIssuesPage = {
   uiSchema: {
@@ -22,7 +23,7 @@ const contestedIssuesPage = {
         keepInPageOnReview: true,
       },
       'ui:validations': [requireRatedDisability],
-      'ui:required': () => true,
+      'ui:required': apiVersion1,
     },
     'view:disabilitiesExplanation': {
       'ui:description': disabilitiesExplanation,

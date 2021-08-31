@@ -1,4 +1,3 @@
-import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import moment from 'moment';
@@ -8,6 +7,7 @@ import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import {
   SAVED_SEPARATION_DATE,
   PTSD_MATCHES,
+  CHAR_LIMITS,
 } from '../../all-claims/constants';
 import {
   makeSchemaForNewDisabilities,
@@ -21,7 +21,6 @@ import {
   increaseOnly,
   isAnswering781aQuestions,
   isAnswering781Questions,
-  isInFuture,
   isUploading781aForm,
   isUploading781aSupportingDocuments,
   isUploading781Form,
@@ -46,6 +45,7 @@ import {
   isDisabilityPtsd,
   showSeparationLocation,
   isExpired,
+  truncateDescriptions,
 } from '../utils';
 
 describe('526 helpers', () => {
@@ -146,26 +146,6 @@ describe('526 helpers', () => {
       };
 
       expect(ReservesGuardDescription(form)).to.equal(null);
-    });
-  });
-
-  describe('isInFuture', () => {
-    it('adds an error when entered date is today or earlier', () => {
-      const addError = sinon.spy();
-      const errors = { addError };
-      const fieldData = '2018-04-12';
-
-      isInFuture(errors, fieldData);
-      expect(addError.calledOnce).to.be.true;
-    });
-
-    it('does not add an error when the entered date is in the future', () => {
-      const addError = sinon.spy();
-      const errors = { addError };
-      const fieldData = '2099-04-12';
-
-      isInFuture(errors, fieldData);
-      expect(addError.callCount).to.equal(0);
     });
   });
 
@@ -1227,23 +1207,47 @@ describe('526 v2 depends functions', () => {
 });
 
 describe('isExpired', () => {
-  const oneDayInSeconds = 24 * 60 * 60;
-  const getDays = days =>
-    moment()
+  const getDays = days => ({
+    expiresAt: moment()
       .add(days, 'days')
-      .format('YYYY-MM-DD');
+      .unix(),
+  });
   it('should return true for dates that are invalid or in the past', () => {
-    const expiredSeconds = Date.now() / 1000 - oneDayInSeconds;
     expect(isExpired('')).to.be.true;
     expect(isExpired(0)).to.be.true;
     expect(isExpired(getDays(-1))).to.be.true;
-    expect(isExpired(expiredSeconds)).to.be.true;
   });
-  it('should return false for dates in the past', () => {
-    const futureSeconds = Date.now() / 1000 + oneDayInSeconds;
+  it('should return false for dates in the future', () => {
     expect(isExpired(getDays(0))).to.be.false;
     expect(isExpired(getDays(1))).to.be.false;
     expect(isExpired(getDays(365))).to.be.false;
-    expect(isExpired(futureSeconds)).to.be.false;
+  });
+});
+
+describe('truncateDescriptions', () => {
+  const getResult = (key, sizeDiff) =>
+    truncateDescriptions({
+      [key]: new Array(CHAR_LIMITS[key] + sizeDiff).fill('-').join(''),
+    });
+  it('should return an object untouched', () => {
+    const data = { test: 'abc', test2: 123 };
+    expect(truncateDescriptions(data)).to.deep.equal(data);
+    data.primaryDescription = 'blah';
+    expect(truncateDescriptions(data)).to.deep.equal(data);
+    const key = 'primaryDescription';
+    expect(getResult(key, -20)[key].length).to.equal(CHAR_LIMITS[key] - 20);
+  });
+  it('should truncate long descriptions', () => {
+    [
+      'primaryDescription', // 400
+      'causedByDisabilityDescription', // 400
+      'worsenedDescription', // 50
+      'worsenedEffects', // 350
+      'vaMistreatmentDescription', // 350
+      'vaMistreatmentLocation', // 25
+      'vaMistreatmentDate', // 25
+    ].forEach(key => {
+      expect(getResult(key, +20)[key].length).to.eq(CHAR_LIMITS[key]);
+    });
   });
 });

@@ -33,10 +33,16 @@ const ApplicationInProgress = ({
       >
         <div className="vads-u-display--flex vads-u-width--full vads-u-flex-direction--column vads-u-justify-content--space-between vads-u-align-items--flex-start vads-u-background-color--gray-lightest vads-u-padding--2p5">
           <div className="vads-u-width--full">
-            <p className="vads-u-text-transform--uppercase vads-u-margin-y--0">
+            <p
+              id={formId}
+              className="vads-u-text-transform--uppercase vads-u-margin-y--0"
+            >
               {presentableFormId}
             </p>
-            <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
+            <h4
+              aria-describedby={formId}
+              className="vads-u-font-size--h3 vads-u-margin-top--0"
+            >
               {capitalizeFirstLetter(formTitle)}
             </h4>
             <div className="vads-u-display--flex">
@@ -44,6 +50,7 @@ const ApplicationInProgress = ({
                 aria-hidden="true"
                 className={`fas fa-fw fa-exclamation-circle vads-u-margin-right--1 vads-u-margin-top--0p5`}
               />
+              <span className="sr-only">Alert: </span>
               <div>
                 <p className="vads-u-margin-top--0">
                   Application expires on: {expirationDate}

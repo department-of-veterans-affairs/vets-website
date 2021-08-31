@@ -36,9 +36,10 @@ const formConfig = {
   downtime: {
     requiredForPrefill: true,
     dependencies: [
-      externalServices.vre,
-      externalServices.vaProfile,
       externalServices.mvi,
+      externalServices.vaProfile,
+      externalServices.vbms,
+      externalServices.vre,
     ],
   },
   version: 0,
@@ -56,7 +57,7 @@ const formConfig = {
   defaultDefinitions: { ...fullSchema.definitions },
   chapters: {
     veteranInformation: {
-      title: 'Veteran Information',
+      title: 'Applicant information',
       // TODO: related to the comment direcly below; add reviewDescription back in once the issues with static veteran information have been resolved.
       // reviewDescription: StaticInformationReviewField,
       pages: {
@@ -77,20 +78,20 @@ const formConfig = {
         // },
         veteranInformation: {
           path: 'veteran-information-review',
-          title: 'Veteran Information',
+          title: 'Veteran information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },
         contactInformation: {
           path: 'veteran-contact-information',
-          title: 'Veteran Contact Information',
+          title: 'Veteran contact information',
           uiSchema: veteranAddress.uiSchema,
           schema: veteranAddress.schema,
         },
       },
     },
     additionalInformation: {
-      title: 'Additional Information',
+      title: 'Additional information',
       pages: {
         additionalInformation: {
           path: 'additional-information',
@@ -101,11 +102,11 @@ const formConfig = {
       },
     },
     communicationPreferences: {
-      title: 'Communication Preferences',
+      title: 'Communication preferences',
       pages: {
         communicationPreferences: {
           path: 'communication-preferences',
-          title: 'VR&E Communication Preferences',
+          title: 'VR&E communication preferences',
           uiSchema: communicationPreferences.uiSchema,
           schema: communicationPreferences.schema,
         },

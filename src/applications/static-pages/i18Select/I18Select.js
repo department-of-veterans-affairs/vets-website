@@ -30,7 +30,7 @@ const I18Select = ({ baseUrls, languageCode }) => {
                 onClick={_ => {
                   recordEvent({
                     event: 'nav-pipe-delimited-list-click',
-                    'pipe-delimited-list-header': languageConfig.lang,
+                    'pipe-delimited-list-header': languageConfig.code,
                   });
                 }}
                 href={baseUrls[languageConfig.code]}

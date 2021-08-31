@@ -64,6 +64,10 @@
 
   .main-rating {
     width: 160px;
+
+    @include media-maxwidth($small-screen) {
+      width: 100%;
+    }
   }
 
   @include media-maxwidth($medium-screen - 1) {
@@ -84,9 +88,6 @@
     .category-main {
       padding-left: 10px;
       padding-right: 10px;
-      //@include media-maxwidth($small-screen - 1) {
-      //  width: 100px;
-      //}
     }
 
     .bar-outer {
@@ -673,6 +674,10 @@
       margin-bottom: 20px;
       margin-top: 10px;
     }
+
+    @include media-maxwidth($small-screen) {
+      border: none;
+    }
   }
 
   .jump-link {
@@ -707,5 +712,12 @@
     .historical-information.table {
       display: none;
     }
+  }
+}
+
+.institution-profile {
+  @include media-maxwidth($small-screen) {
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }

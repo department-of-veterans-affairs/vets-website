@@ -9,6 +9,7 @@ import { mockFetch } from 'platform/testing/unit/helpers';
 import {
   createTestStore,
   renderWithStoreAndRouter,
+  setCommunityCareFlow,
   setTypeOfCare,
   setTypeOfFacility,
 } from '../../../mocks/setup';
@@ -628,6 +629,9 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     // Choose Provider
     userEvent.click(await screen.findByText(/Choose a provider/i));
+    await waitFor(() =>
+      expect(screen.getAllByRole('radio').length).to.equal(7),
+    );
     userEvent.click(await screen.findByText(/use your current location/i));
 
     expect(
@@ -671,5 +675,33 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     await waitFor(() =>
       expect(screen.getAllByRole('radio').length).to.equal(3),
     );
+  });
+
+  it('should not display closest city question when using iterations toggle', async () => {
+    // Given a user with two supported sites
+    // And the CC iterations toggle is on
+    const store = await setCommunityCareFlow({
+      toggles: {
+        vaOnlineSchedulingCCIterations: true,
+      },
+      parentSites: [
+        { id: '983', address: { city: 'Bozeman', state: 'MT' } },
+        { id: '984', address: { city: 'Belgrade', state: 'MT' } },
+      ],
+    });
+
+    // When the page is displayed
+    const screen = renderWithStoreAndRouter(
+      <CommunityCareProviderSelectionPage />,
+      {
+        store,
+      },
+    );
+    await screen.findByText(/You can request a provider for this care/);
+
+    // Then the closest city/state question is not shown
+    expect(screen.queryByLabelText('Bozeman, MT')).not.to.exist;
+    expect(screen.queryByLabelText('Belgrade, MT')).not.to.exist;
+    expect(screen.queryByText(/closest city and state/i)).not.to.exist;
   });
 });

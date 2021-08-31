@@ -12,7 +12,10 @@ const LegacyYes = () => {
       'Veteran has, or may have, a claim in the legacy appeals process',
   });
   return (
-    <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
+    <div
+      id={pageNames.legacyYes}
+      className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2"
+    >
       <p className="vads-u-margin-top--0">
         Since your claim is in the legacy appeals process, you’ll need to opt in
         to the new decision review process within 60 days of receiving your

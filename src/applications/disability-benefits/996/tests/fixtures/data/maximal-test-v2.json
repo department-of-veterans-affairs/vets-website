@@ -33,10 +33,8 @@
       "extension": "1234",
       "email": "sully@pixar.com"
     },
-    "informalConferenceTimes": {
-      "time1": "time0800to1200",
-      "time2": "time1200to1630"
-    },
+    "socOptIn": true,
+    "informalConferenceTime": "time0800to1200",
     "contestedIssues": [
       {
         "type": "contestableIssue",
@@ -74,6 +72,19 @@
           "ratingIssueReferenceId": "2",
           "ratingDecisionReferenceId": ""
         }
+      }
+    ],
+    "view:hasIssuesToAdd": true,
+    "additionalIssues": [
+      {
+        "issue": "right arm",
+        "decisionDate": "2021-06-07",
+        "view:selected": false
+      },
+      {
+        "issue": "right shoulder",
+        "decisionDate": "2021-06-06",
+        "view:selected": true
       }
     ]
   }

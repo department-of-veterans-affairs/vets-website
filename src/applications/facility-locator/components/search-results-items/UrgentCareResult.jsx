@@ -54,7 +54,7 @@ const UrgentCareResult = ({ provider, query }) => {
                 recordEvent({ event: 'cta-primary-button-click' });
               }}
             >
-              In-network urgent care benefit{' '}
+              Learn about your in-network urgent care benefits{' '}
             </a>
           </div>
         </div>
