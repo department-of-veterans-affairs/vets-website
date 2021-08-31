@@ -37,7 +37,13 @@ export const CoePending = () => (
         <Telephone contact={877 - 827 - 3702} />. We’re here Monday through
         Friday, 8:00 a.m. to 6:00 p.m. ET.
       </p>
-      <a>Find your regional loan center.</a>
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        href="https://www.benefits.va.gov/HOMELOANS/contact_rlc_info.asp"
+      >
+        Find your regional loan center.
+      </a>
     </div>
   </div>
 );
