@@ -201,27 +201,14 @@ const SearchResult = ({
               className="fas fa-chevron-circle-right fa-2x vads-u-margin-right--1"
               role="presentation"
             />
-            {language === 'es' ? (
-              <>
-                {' '}
-                <span
-                  lang={language}
-                  className="vads-u-text-decoration--underline vads-u-font-weight--bold"
-                >
-                  {deriveLanguageTranslation('es', 'goToOnlineTool', id)}
-                </span>
-              </>
-            ) : (
-              <>
-                {' '}
-                <span
-                  lang={language}
-                  className="vads-u-text-decoration--underline vads-u-font-weight--bold"
-                >
-                  {deriveLanguageTranslation('en', 'goToOnlineTool', id)}
-                </span>
-              </>
-            )}
+            <span
+              lang={language}
+              className="vads-u-text-decoration--underline vads-u-font-weight--bold"
+            >
+              {language === 'es'
+                ? deriveLanguageTranslation('es', 'goToOnlineTool', id)
+                : deriveLanguageTranslation('en', 'goToOnlineTool', id)}
+            </span>
           </a>
         </div>
       ) : null}
@@ -269,15 +256,13 @@ const SearchResult = ({
             className="fas fa-download fa-lg vads-u-margin-right--1"
             role="presentation"
           />
-          {language === 'es' ? (
-            <span lang={language} className="vads-u-text-decoration--underline">
-              {deriveLanguageTranslation('es', 'downloadVaForm', id)} {pdfLabel}
-            </span>
-          ) : (
-            <span lang={language} className="vads-u-text-decoration--underline">
-              {deriveLanguageTranslation('en', 'downloadVaForm', id)} {pdfLabel}
-            </span>
-          )}
+
+          <span lang={language} className="vads-u-text-decoration--underline">
+            {language === 'es'
+              ? deriveLanguageTranslation('es', 'downloadVaForm', id)
+              : deriveLanguageTranslation('en', 'downloadVaForm', id)}{' '}
+            {pdfLabel}
+          </span>
         </a>
       </div>
     </li>
