@@ -24,9 +24,9 @@ import createDisabilityFormWizard from '../disability-benefits/wizard/createWiza
 import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
-// import createFindVaForms, {
-//   findVaFormsWidgetReducer,
-// } from '../find-forms/createFindVaForms';
+import createFindVaForms, {
+  findVaFormsWidgetReducer,
+} from '../find-forms/createFindVaForms';
 import createFindVaFormsInvalidPdfAlert from '../find-forms/widgets/createInvalidPdfAlert';
 import createHigherLevelReviewApplicationStatus from 'applications/disability-benefits/996/components/createHLRApplicationStatus';
 import createPost911GiBillStatusWidget, {
@@ -90,7 +90,7 @@ Sentry.configureScope(scope => scope.setTag('source', 'static-pages'));
 
 const store = createCommonStore({
   ...facilityReducer,
-  // ...findVaFormsWidgetReducer,
+  ...findVaFormsWidgetReducer,
   ...post911GIBillStatusReducer,
   ...thirdPartyAppsReducer,
   ...dependencyVerificationReducer,
@@ -167,7 +167,7 @@ createScoAnnouncementsWidget();
 // App Directory third party applications widget
 createThirdPartyApps(store, widgetTypes.THIRD_PARTY_APP_DIRECTORY);
 
-// createFindVaForms(store, widgetTypes.FIND_VA_FORMS);
+createFindVaForms(store, widgetTypes.FIND_VA_FORMS);
 createFindVaFormsInvalidPdfAlert(
   store,
   widgetTypes.FIND_VA_FORMS_INVALID_PDF_ALERT,
