@@ -12,7 +12,7 @@ on:
 
 # TODO: Change to correct channel_id when ready
 env:
-  CHANNEL_ID: C024DUC9S1K # -test-tim-accessibility-gha
+  CHANNEL_ID: C0MQ281DJ # vfs-platform-builds
   DSVA_SCHEDULE_ENABLED: true
 
 jobs:
@@ -153,21 +153,17 @@ jobs:
         with:
           version: ${{ needs.set-env.outputs.LATEST_TAG_VERSION }}
 
-      # TODO: Uncomment when ready for prod
-      # - name: Tag release
-      #   run: git tag ${{ steps.bump-tag-version.outputs.v_patch }} ${{ github.sha }} && git push origin ${{ steps.bump-tag-version.outputs.v_patch }} 
+      - name: Tag release
+        run: git tag ${{ steps.bump-tag-version.outputs.v_patch }} ${{ github.sha }} && git push origin ${{ steps.bump-tag-version.outputs.v_patch }} 
 
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
     needs: create-release
 
-    # TODO: Uncomment when ready for prod
     env:
-      # ENVIRONMENT: vagovprod
-      # BUCKET: prod-va-gov-assets
-      ENVIRONMENT: vagovdev
-      BUCKET: dev-va-gov-assets
+      ENVIRONMENT: vagovprod
+      BUCKET: prod-va-gov-assets
 
     steps:
       - name: Checkout
@@ -253,5 +249,5 @@ jobs:
       with:
         slack_app_token: ${{ env.SLACK_APP_TOKEN }}
         slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
-        attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "Production deploy for vets-website has failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}]'
+        attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "@here Production deploy for vets-website has failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}]'
         channel_id: ${{ env.CHANNEL_ID }}
