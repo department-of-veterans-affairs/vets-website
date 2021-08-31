@@ -64,7 +64,7 @@ const NotificationChannel = ({
     );
   }
   return (
-    <div>
+    <div id={!permissionId ? `no-selection-${itemId}` : null}>
       <NotificationRadioButtons
         value={{ value: currentValue }}
         label={itemName}
