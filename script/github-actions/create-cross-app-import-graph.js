@@ -126,7 +126,6 @@ function lineIncludesRequire(line) {
  * to extract the reference to the file being imported,
  * then it returns it.
  */
-
 function getImportRef(line) {
   let start = null;
   let finish = null;
