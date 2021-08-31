@@ -56,7 +56,11 @@ const checkInUser = async ({ token }) => {
     mode: 'cors',
   };
 
-  const json = await apiRequest(`${environment.API_URL}${url}`, settings);
+  const json = await makeApiCall(
+    apiRequest(`${environment.API_URL}${url}`, settings),
+    'check-in-user',
+    token,
+  );
   return {
     ...json,
   };
