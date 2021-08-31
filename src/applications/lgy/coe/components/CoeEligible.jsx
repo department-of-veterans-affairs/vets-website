@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
-export const CertificateDownload = props => (
+export const CoeEligible = props => (
   <div className="row vads-u-margin-bottom--1">
     <div className="medium-8 columns">
       <va-alert status="success">
@@ -10,8 +10,8 @@ export const CertificateDownload = props => (
           We have all the information we need for your COE
         </h2>
         <p className="vads-u-font-size--base">
-          You don’t need to apply for a COE because we already have all the
-          information we need. You can download your COE now.
+          We have all the information we need, so you don’t need to fill out an
+          application. You can download your COE now.
         </p>
       </va-alert>
       <h2>Review and download your COE</h2>
