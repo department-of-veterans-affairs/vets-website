@@ -6,7 +6,13 @@ const borderClasses = `vads-u-border-top--0 vads-u-border-right--0 vads-u-border
 const buttonClasses = `va-button-link vads-u-font-weight--bold vads-u-color--base vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--center`;
 const rowPaddingClass = `vads-u-padding-y--2`;
 
-const SortableTable = ({ sort, onSort, fields, data, ariaLabelledBy }) => (
+const SortableTable = ({
+  currentSort,
+  onSort,
+  fields,
+  data,
+  ariaLabelledBy,
+}) => (
   <table aria-labelledby={ariaLabelledBy} className="responsive" role="table">
     <thead>
       <tr role="row">
@@ -24,12 +30,12 @@ const SortableTable = ({ sort, onSort, fields, data, ariaLabelledBy }) => (
                   onClick={() => onSort(field.value)}
                 >
                   {field.label}
-                  {sort?.value === field.value ? (
+                  {currentSort?.value === field.value ? (
                     <i
                       className={classNames({
                         fas: true,
-                        'fa-caret-up': sort.order === 'ASC',
-                        'fa-caret-down': sort.order === 'DESC',
+                        'fa-caret-up': currentSort.order === 'ASC',
+                        'fa-caret-down': currentSort.order === 'DESC',
                       })}
                     />
                   ) : (
@@ -107,7 +113,7 @@ SortableTable.propTypes = {
   /**
    * A way to change the sorted order of the data.
    */
-  sort: PropTypes.shape({
+  currentSort: PropTypes.shape({
     value: PropTypes.string,
     order: PropTypes.string,
   }),

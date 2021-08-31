@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import SortableTable from '../components/SortableTable';
 import { currency } from '../utils/helpers';
@@ -69,25 +69,25 @@ const formatTableData = tableData => {
 
 const PaymentHistoryTable = () => {
   const [page, setPage] = useState(1);
-  const [tableData, setTableData] = useState(data);
-  const [sort, setSort] = useState({ value: 'date', order: 'DESC' });
+  const [tableData, setTableData] = useState([]);
+  const [currentSort, setCurrentSort] = useState({ value: '', order: '' });
   const pages = Math.ceil(tableData.length / MAX_ROWS_PER_PAGE);
   const start = (page - 1) * MAX_ROWS_PER_PAGE;
   const end = Math.min(page * MAX_ROWS_PER_PAGE, tableData.length);
   const currentPage = tableData.slice(start, end);
 
-  const sortByColumn = (array, field) => {
+  const sortByColumn = (array, order, field) => {
     return array.sort((a, b) => {
-      if (sort.order && field === 'date') {
+      if (field === 'date') {
         const ascending = Date.parse(a[field]) - Date.parse(b[field]);
         const descending = Date.parse(b[field]) - Date.parse(a[field]);
-        return sort.order === 'ASC' ? ascending : descending;
+        return order === 'ASC' ? ascending : descending;
       }
 
-      if (sort.order && field === 'desc') {
+      if (field === 'desc') {
         const ascending = a[field].localeCompare(b[field]);
         const descending = b[field].localeCompare(a[field]);
-        return sort.order === 'ASC' ? ascending : descending;
+        return order === 'ASC' ? ascending : descending;
       }
 
       return array;
@@ -95,9 +95,9 @@ const PaymentHistoryTable = () => {
   };
 
   const handleSort = field => {
-    const sortedData = sortByColumn(tableData, field);
+    const sortedData = sortByColumn(tableData, currentSort.order, field);
     setTableData(sortedData);
-    setSort(prevState => ({
+    setCurrentSort(prevState => ({
       value: field,
       order: prevState.order === 'ASC' ? 'DESC' : 'ASC',
     }));
@@ -109,6 +109,12 @@ const PaymentHistoryTable = () => {
     },
     [setPage],
   );
+
+  useEffect(() => {
+    const sortedData = sortByColumn(data, 'ASC', 'date');
+    setCurrentSort({ value: 'date', order: 'DESC' });
+    setTableData(sortedData);
+  }, []);
 
   return (
     <article className="vads-u-padding--0">
@@ -127,9 +133,10 @@ const PaymentHistoryTable = () => {
       </div>
       <div className="payment-history-table">
         <SortableTable
+          ariaLabelledBy={'payment-history-table'}
           data={formatTableData(currentPage)}
           fields={fields}
-          sort={sort}
+          currentSort={currentSort}
           onSort={handleSort}
         />
         <Pagination
