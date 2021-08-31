@@ -151,37 +151,37 @@ class ObjectField extends React.Component {
       },
     );
 
+    let title = formContext.pageTitle;
+    if (!formContext.hideTitle && typeof title === 'function') {
+      title = title(formData, formContext);
+    }
+    const uiOptions = uiSchema['ui:options'] || {};
+    const ariaLabel = uiOptions.itemAriaLabel;
+    const itemName =
+      (typeof ariaLabel === 'function' && ariaLabel(formData || {})) ||
+      formData[uiOptions.itemName] ||
+      uiOptions.itemName;
+    const editLabel = (itemName && `Edit ${itemName}`) || `Edit ${title}`;
+
+    const Tag = divWrapper ? 'div' : 'dl';
+    const ObjectViewField = uiSchema?.['ui:objectViewField'];
+
+    const defaultEditButton = ({
+      label = editLabel,
+      onEdit = formContext.onEdit,
+      text = 'Edit',
+    } = {}) => (
+      <button
+        type="button"
+        className="edit-btn primary-outline"
+        aria-label={label}
+        onClick={onEdit}
+      >
+        {text}
+      </button>
+    );
+
     if (isRoot) {
-      let title = formContext.pageTitle;
-      if (!formContext.hideTitle && typeof title === 'function') {
-        title = title(formData, formContext);
-      }
-      const uiOptions = uiSchema['ui:options'] || {};
-      const ariaLabel = uiOptions.itemAriaLabel;
-      const itemName =
-        (typeof ariaLabel === 'function' && ariaLabel(formData || {})) ||
-        formData[uiOptions.itemName] ||
-        uiOptions.itemName;
-      const editLabel = (itemName && `Edit ${itemName}`) || `Edit ${title}`;
-
-      const Tag = divWrapper ? 'div' : 'dl';
-      const ObjectViewField = uiSchema?.['ui:objectViewField'];
-
-      const defaultEditButton = ({
-        label = editLabel,
-        onEdit = formContext.onEdit,
-        text = 'Edit',
-      } = {}) => (
-        <button
-          type="button"
-          className="edit-btn primary-outline"
-          aria-label={label}
-          onClick={onEdit}
-        >
-          {text}
-        </button>
-      );
-
       return isReactComponent(ObjectViewField) ? (
         <ObjectViewField
           {...this.props}
