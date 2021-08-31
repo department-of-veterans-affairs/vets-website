@@ -77,9 +77,9 @@ function getImportPath(filePathAsArray, importRef) {
         .slice(0, filePathAsArray.length - 1 - numDirsUp)
         .join('/')}/`,
     );
-  } else {
-    return importRef;
   }
+
+  return importRef;
 }
 
 function importIsFromOtherApplication(appName, importPath) {
