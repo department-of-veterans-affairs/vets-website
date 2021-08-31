@@ -9,7 +9,8 @@ const createApiEvent = (name, status, time, token, error) => {
     'api-status': status,
   };
   if (time) {
-    rv['api-latency-ms'] = time;
+    // eslint-disable-next-line camelcase
+    rv.api_latency_ms = time;
   }
   if (token) {
     rv['api-request-id'] = token;
