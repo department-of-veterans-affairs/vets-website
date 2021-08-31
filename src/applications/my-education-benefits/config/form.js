@@ -90,12 +90,12 @@ const formFields = {
 // Define all the form pages to help ensure uniqueness across all form chapters
 const formPages = {
   applicantInformation: 'applicantInformation',
-  serviceHistory: 'serviceHistory',
   contactInformation: {
     contactInformation: 'contactInformation',
     mailingAddress: 'mailingAddress',
     preferredContactMethod: 'preferredContactMethod',
   },
+  serviceHistory: 'serviceHistory',
   benefitSelection: 'benefitSelection',
   // directDeposit: 'directDeposit',
 };
@@ -321,110 +321,6 @@ const formConfig = {
             'view:dateOfBirth': {
               dateOfBirth: '1992-07-23',
             },
-          },
-        },
-      },
-    },
-    serviceHistoryChapter: {
-      title: 'Service History',
-      pages: {
-        [formPages.serviceHistory]: {
-          path: 'service-history',
-          title: 'Service History',
-          uiSchema: {
-            'view:subHeading': {
-              'ui:description': <h3>Review your service history</h3>,
-            },
-            [formFields.toursOfDuty]: {
-              ...toursOfDutyUI,
-              'ui:field': AccordionField,
-              'ui:options': {
-                ...toursOfDutyUI['ui:options'],
-                reviewMode: true,
-                setEditState: () => {
-                  return true;
-                },
-                showSave: false,
-                viewField: ServicePeriodAccordionView,
-                viewComponent: ServicePeriodAccordionView,
-                viewOnlyMode: true,
-              },
-            },
-            [formFields.toursOfDutyCorrect]: {
-              'ui:title': 'This information is incorrect and/or incomplete',
-            },
-            [formFields.incorrectServiceHistoryExplanation]: {
-              'ui:title':
-                'Please explain what is incorrect and/or incomplete about your service history.',
-              'ui:options': {
-                expandUnder: [formFields.toursOfDutyCorrect],
-                hideIf: formData => !formData[formFields.toursOfDutyCorrect],
-              },
-              'ui:widget': 'textarea',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:subHeading': {
-                type: 'object',
-                properties: {},
-              },
-              [formFields.toursOfDuty]: toursOfDuty,
-              [formFields.toursOfDutyCorrect]: {
-                type: 'boolean',
-              },
-              [formFields.incorrectServiceHistoryExplanation]: {
-                type: 'string',
-                maxLength: 250,
-              },
-            },
-          },
-          initialData: {
-            [formFields.toursOfDuty]: [
-              {
-                // applyPeriodToSelected: true,
-                dateRange: {
-                  from: '2011-08-01',
-                  to: '2014-07-30',
-                },
-                exclusionPeriods: [
-                  {
-                    from: '2011-08-01',
-                    to: '2011-09-14',
-                  },
-                  {
-                    from: '2011-11-01',
-                    to: '2011-12-14',
-                  },
-                ],
-                separationReason: 'Expiration term of service',
-                serviceBranch: 'Navy',
-                serviceCharacter: 'Honorable',
-                // serviceStatus: 'Active Duty',
-                trainingPeriods: [
-                  {
-                    from: '2011-08-01',
-                    to: '2011-09-14',
-                  },
-                  {
-                    from: '2011-11-01',
-                    to: '2011-12-14',
-                  },
-                ],
-              },
-              {
-                // applyPeriodToSelected: true,
-                dateRange: {
-                  from: '2015-04-04',
-                  to: '2017-10-12',
-                },
-                separationReason: 'Disability',
-                serviceBranch: 'Navy',
-                serviceCharacter: 'Honorable',
-                // serviceStatus: 'Active Duty',
-              },
-            ],
           },
         },
       },
@@ -735,6 +631,110 @@ const formConfig = {
                 properties: {},
               },
             },
+          },
+        },
+      },
+    },
+    serviceHistoryChapter: {
+      title: 'Service History',
+      pages: {
+        [formPages.serviceHistory]: {
+          path: 'service-history',
+          title: 'Service History',
+          uiSchema: {
+            'view:subHeading': {
+              'ui:description': <h3>Review your service history</h3>,
+            },
+            [formFields.toursOfDuty]: {
+              ...toursOfDutyUI,
+              'ui:field': AccordionField,
+              'ui:options': {
+                ...toursOfDutyUI['ui:options'],
+                reviewMode: true,
+                setEditState: () => {
+                  return true;
+                },
+                showSave: false,
+                viewField: ServicePeriodAccordionView,
+                viewComponent: ServicePeriodAccordionView,
+                viewOnlyMode: true,
+              },
+            },
+            [formFields.toursOfDutyCorrect]: {
+              'ui:title': 'This information is incorrect and/or incomplete',
+            },
+            [formFields.incorrectServiceHistoryExplanation]: {
+              'ui:title':
+                'Please explain what is incorrect and/or incomplete about your service history.',
+              'ui:options': {
+                expandUnder: [formFields.toursOfDutyCorrect],
+                hideIf: formData => !formData[formFields.toursOfDutyCorrect],
+              },
+              'ui:widget': 'textarea',
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:subHeading': {
+                type: 'object',
+                properties: {},
+              },
+              [formFields.toursOfDuty]: toursOfDuty,
+              [formFields.toursOfDutyCorrect]: {
+                type: 'boolean',
+              },
+              [formFields.incorrectServiceHistoryExplanation]: {
+                type: 'string',
+                maxLength: 250,
+              },
+            },
+          },
+          initialData: {
+            [formFields.toursOfDuty]: [
+              {
+                // applyPeriodToSelected: true,
+                dateRange: {
+                  from: '2011-08-01',
+                  to: '2014-07-30',
+                },
+                exclusionPeriods: [
+                  {
+                    from: '2011-08-01',
+                    to: '2011-09-14',
+                  },
+                  {
+                    from: '2011-11-01',
+                    to: '2011-12-14',
+                  },
+                ],
+                separationReason: 'Expiration term of service',
+                serviceBranch: 'Navy',
+                serviceCharacter: 'Honorable',
+                // serviceStatus: 'Active Duty',
+                trainingPeriods: [
+                  {
+                    from: '2011-08-01',
+                    to: '2011-09-14',
+                  },
+                  {
+                    from: '2011-11-01',
+                    to: '2011-12-14',
+                  },
+                ],
+              },
+              {
+                // applyPeriodToSelected: true,
+                dateRange: {
+                  from: '2015-04-04',
+                  to: '2017-10-12',
+                },
+                separationReason: 'Disability',
+                serviceBranch: 'Navy',
+                serviceCharacter: 'Honorable',
+                // serviceStatus: 'Active Duty',
+              },
+            ],
           },
         },
       },
