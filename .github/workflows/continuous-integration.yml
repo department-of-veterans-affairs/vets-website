@@ -31,7 +31,7 @@ jobs:
     steps:
       - name: Set workflow URL
         run: |
-          echo 'ENV_WORKFLOW_URL=https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}' >> $GITHUB_ENV
+          echo 'ENV_WORKFLOW_URL=https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}' >> $GITHUB_ENV
           echo ${{env.ENV_WORKFLOW_URL}}
 
       - name: Configure AWS credentials
