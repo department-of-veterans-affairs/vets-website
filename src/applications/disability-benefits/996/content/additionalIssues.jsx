@@ -18,7 +18,7 @@ export const addIssuesIntroLabel =
 export const AdditionalIssuesLabel = (
   <>
     <span className="vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans">
-      Add an issue and our decision date on this issue! You can find the
+      Add an issue and our decision date on this issue. You can find the
       decision date on your decision notice (the letter you got in the mail from
       us).
     </span>

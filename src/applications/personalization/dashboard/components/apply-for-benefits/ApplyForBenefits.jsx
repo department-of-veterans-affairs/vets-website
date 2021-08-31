@@ -35,7 +35,7 @@ const AllBenefits = () => (
   <div className="vads-u-margin-top--2">
     <AdditionalInfo triggerText="What benefits does VA offer?">
       <p className="vads-u-font-weight--bold">
-        Explore VA.gov to learn about the benies we offer.
+        Explore VA.gov to learn about the benefits we offer.
       </p>
       <ul>
         <li>
@@ -63,10 +63,10 @@ const AllBenefits = () => (
           <a href="/life-insurance/">Life insurance</a>
         </li>
         <li>
-          <a href="/service-member-benefits/">Service member benies</a>
+          <a href="/service-member-benefits/">Service member benefits</a>
         </li>
         <li>
-          <a href="/family-member-benefits/">Family member benies</a>
+          <a href="/family-member-benefits/">Family member benefits</a>
         </li>
       </ul>
     </AdditionalInfo>
