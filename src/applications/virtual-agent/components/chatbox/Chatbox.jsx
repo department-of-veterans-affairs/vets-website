@@ -10,6 +10,8 @@ import {
   ERROR,
   LOADING,
 } from './loadingStatus';
+import { useSelector } from "react-redux";
+import RequiredLoginView from "../../../../platform/user/authorization/components/RequiredLoginView";
 
 function useWebChat(props) {
   const webchatFramework = useWebChatFramework(props);
@@ -28,6 +30,8 @@ function useWebChat(props) {
 }
 
 export default function Chatbox(props) {
+  const user = useSelector(state => state.user);
+
   const ONE_MINUTE = 1 * 60 * 1000;
   return (
     <div className="vads-u-padding--1p5 vads-u-background-color--gray-lightest">
@@ -36,7 +40,9 @@ export default function Chatbox(props) {
           VA Virtual Agent (beta)
         </h2>
       </div>
-      <App timeout={props.timeout || ONE_MINUTE} />
+      <RequiredLoginView serviceRequired={[]} user={user}>
+        <App timeout={props.timeout || ONE_MINUTE} />
+      </RequiredLoginView>
     </div>
   );
 }
