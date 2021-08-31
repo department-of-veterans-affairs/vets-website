@@ -205,9 +205,7 @@ const SearchResult = ({
               lang={language}
               className="vads-u-text-decoration--underline vads-u-font-weight--bold"
             >
-              {language === 'es'
-                ? deriveLanguageTranslation('es', 'goToOnlineTool', id)
-                : deriveLanguageTranslation('en', 'goToOnlineTool', id)}
+              {deriveLanguageTranslation(language, 'goToOnlineTool', id)}
             </span>
           </a>
         </div>
@@ -258,10 +256,7 @@ const SearchResult = ({
           />
 
           <span lang={language} className="vads-u-text-decoration--underline">
-            {language === 'es'
-              ? deriveLanguageTranslation('es', 'downloadVaForm', id)
-              : deriveLanguageTranslation('en', 'downloadVaForm', id)}{' '}
-            {pdfLabel}
+            {deriveLanguageTranslation(language, 'downloadVaForm', id)}
           </span>
         </a>
       </div>
