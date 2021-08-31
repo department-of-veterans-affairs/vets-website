@@ -105,9 +105,11 @@ export function ComparePage({
 
   const handleScroll = useCallback(
     () => {
-      const offsetTop = headerRef.current?.offsetTop;
+      if (!initialTop && headerRef.current && headerRef.current.offsetTop) {
+        setInitialTop(headerRef.current.offsetTop);
+      }
 
-      if (offsetTop) {
+      if (initialTop) {
         const offset = window.pageYOffset;
         const placeholder = document.querySelector('.placeholder.open');
         const footer = document.getElementById('footerNav');
@@ -115,24 +117,25 @@ export function ComparePage({
         const visibleFooterHeight = footer
           ? window.innerHeight - footer.getBoundingClientRect().top
           : 0;
-        if (placeholder) {
-          placeholder.style.height = headerRef.current.getBoundingClientRect().height;
-        }
-        if (offset > offsetTop && !headerFixed) {
+        if (offset > initialTop && !headerFixed) {
           setHeaderFixed(true);
+          headerRef.current.classList.add('fixed');
           scrollHeaderRef.current.scroll({
             left: scrollPageRef.current.scrollLeft,
           });
-        } else if (offset < offsetTop && headerFixed) {
+        } else if (offset < initialTop && headerFixed) {
           setHeaderFixed(false);
+          headerRef.current.classList.remove('fixed');
         } else if (headerFixed) {
           headerRef.current.style.top =
             visibleFooterHeight > 0 ? `${-visibleFooterHeight}px` : '0px';
         }
-      }
 
-      if (!initialTop && offsetTop) {
-        setInitialTop(offsetTop);
+        if (placeholder) {
+          placeholder.style.height = `${
+            headerRef.current.getBoundingClientRect().height
+          }px`;
+        }
       }
     },
     [scrollHeaderRef, scrollPageRef, headerFixed, initialTop],
@@ -236,13 +239,7 @@ export function ComparePage({
             open: headerFixed,
           })}
         />
-        <div
-          id="compareHeader"
-          className={classNames({
-            fixed: headerFixed,
-          })}
-          ref={headerRef}
-        >
+        <div id="compareHeader" ref={headerRef}>
           <div
             className={classNames('header-content-row', {
               'row vads-l-grid-container': !smallScreen,
