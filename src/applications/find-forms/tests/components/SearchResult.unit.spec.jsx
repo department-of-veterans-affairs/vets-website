@@ -123,11 +123,11 @@ describe('Find VA Forms <SearchResult />', () => {
     tree.unmount();
   });
 
-  it('should have "Go to online tool" link', () => {
+  it('should have "Fill out VA Form" link', () => {
     const tree = mount(
       <SearchResult formMetaInfo={formMetaInfo} form={form} />,
     );
-    expect(tree.html()).to.include('Go to online tool');
+    expect(tree.html()).to.include('Fill out VA Form');
     tree.unmount();
   });
 
