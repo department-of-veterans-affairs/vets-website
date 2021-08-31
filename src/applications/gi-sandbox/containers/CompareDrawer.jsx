@@ -23,6 +23,9 @@ export function CompareDrawer({
   const drawer = useRef(null);
   const notRendered = !displayed && !alwaysDisplay;
   const [previousLoaded, setPreviousLoaded] = useState(loaded);
+  const [previousInstitutions, setPreviousInstitutions] = useState(
+    institutions,
+  );
   const [loadedCards, setLoadedCards] = useState(null);
   const [headerLabel, setHeaderLabel] = useState(
     <>Compare Institutions ({loaded.length} of 3)</>,
@@ -92,7 +95,7 @@ export function CompareDrawer({
       } added. Compare institutions, ${loaded.length} of 3.`;
     } else if (removed.length > 0) {
       srActionMessage = `${
-        institutions[removed[0]].name
+        previousInstitutions[removed[0]].name
       } removed. Compare institutions, ${loaded.length} of 3.`;
     }
 
@@ -165,6 +168,7 @@ export function CompareDrawer({
       }
 
       setPreviousLoaded(loaded);
+      setPreviousInstitutions(institutions);
     },
     [loaded],
   );
