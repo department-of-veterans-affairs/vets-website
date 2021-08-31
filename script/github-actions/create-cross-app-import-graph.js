@@ -120,6 +120,13 @@ function lineIncludesRequire(line) {
   return line.includes('= require(');
 }
 
+/* Function takes a deletion or addition line from a diff
+ * that contains a reference to an import or require
+ * and iterates through the characters in the line
+ * to extract the reference to the file being imported,
+ * then it returns it.
+ */
+
 function getImportRef(line) {
   let start = null;
   let finish = null;
