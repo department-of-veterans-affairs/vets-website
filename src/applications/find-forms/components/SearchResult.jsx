@@ -186,12 +186,27 @@ const SearchResult = ({
               className="fas fa-chevron-circle-right fa-2x vads-u-margin-right--1"
               role="presentation"
             />
-            <span className="vads-u-text-decoration--underline vads-u-font-weight--bold">
-              Go to online tool
-            </span>
-            <span className="vads-u-visibility--screen-reader">
-              for {id} {title}
-            </span>
+            {language === 'es' ? (
+              <>
+                {' '}
+                <span
+                  lang={language}
+                  className="vads-u-text-decoration--underline vads-u-font-weight--bold"
+                >
+                  Llene el formulario VA {id} en línea.
+                </span>
+              </>
+            ) : (
+              <>
+                {' '}
+                <span
+                  lang={language}
+                  className="vads-u-text-decoration--underline vads-u-font-weight--bold"
+                >
+                  Fill out VA Form {id} online
+                </span>
+              </>
+            )}
           </a>
         </div>
       ) : null}
@@ -239,9 +254,15 @@ const SearchResult = ({
             className="fas fa-download fa-lg vads-u-margin-right--1"
             role="presentation"
           />
-          <span className="vads-u-text-decoration--underline">
-            Download VA form {id} {pdfLabel}
-          </span>
+          {language === 'es' ? (
+            <span lang={language} className="vads-u-text-decoration--underline">
+              Descargar el formulario VA {id} {pdfLabel}
+            </span>
+          ) : (
+            <span lang={language} className="vads-u-text-decoration--underline">
+              Download VA Form {id} {pdfLabel}
+            </span>
+          )}
         </a>
       </div>
     </li>
