@@ -629,6 +629,9 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     // Choose Provider
     userEvent.click(await screen.findByText(/Choose a provider/i));
+    await waitFor(() =>
+      expect(screen.getAllByRole('radio').length).to.equal(7),
+    );
     userEvent.click(await screen.findByText(/use your current location/i));
 
     expect(
