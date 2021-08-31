@@ -111,7 +111,6 @@ class ObjectField extends React.Component {
         registry={this.props.registry}
       />
     );
-    let divWrapper = false;
 
     const renderedProperties = this.orderAndFilterProperties(properties).map(
       (objectFields, index) => {
@@ -121,16 +120,7 @@ class ObjectField extends React.Component {
         const visible = rest.filter(
           prop => !get(['properties', prop, 'ui:collapsed'], schema),
         );
-        // Use div or dl to wrap content for array type schemas (e.g. bank info)
-        // fixes axe issue on review-and-submit
-        divWrapper = objectFields.some(name => {
-          const options = uiSchema?.[name]?.['ui:options'] || {};
-          return (
-            (options.volatileData && !formContext.reviewMode) || // ReviewCardField
-            options.customTitle || // SelectArrayItemsWidget
-            (options.addAnotherLabel && formContext.reviewMode) // fileUiSchema
-          );
-        });
+
         if (objectFields.length > 1 && visible.length > 0) {
           return objectFields
             .filter(propName =>
@@ -163,7 +153,6 @@ class ObjectField extends React.Component {
       uiOptions.itemName;
     const editLabel = (itemName && `Edit ${itemName}`) || `Edit ${title}`;
 
-    const Tag = divWrapper ? 'div' : 'dl';
     const ObjectViewField = uiSchema?.['ui:objectViewField'];
 
     const defaultEditButton = ({
@@ -190,20 +179,7 @@ class ObjectField extends React.Component {
           defaultEditButton={defaultEditButton}
         />
       ) : (
-        <>
-          {!formContext.hideHeaderRow && (
-            <div className="form-review-panel-page-header-row">
-              {title?.trim() &&
-                !formContext.hideTitle && (
-                  <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-                    {title}
-                  </h4>
-                )}
-              {defaultEditButton()}
-            </div>
-          )}
-          <Tag className="review">{renderedProperties}</Tag>
-        </>
+        <>{renderedProperties}</>
       );
     }
 
