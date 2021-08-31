@@ -43,6 +43,7 @@ export function CompareGrid({
         })}
       >
         <div
+          role="columnheader"
           className={classNames('label-cell', {
             first: index === 0,
             'has-diff': displayDiff,
@@ -74,6 +75,7 @@ export function CompareGrid({
     return (
       <div
         key={institution.facilityCode}
+        role="cell"
         className={classNames(
           'field-value',
           {
@@ -118,6 +120,7 @@ export function CompareGrid({
         })}
       >
         <div
+          role="rowgroup"
           className={classNames({
             'grid-data-2': empties.length === 1,
             'grid-data-1': empties.length === 2,
@@ -159,6 +162,7 @@ export function CompareGrid({
             return (
               <div
                 key={index}
+                role="row"
                 className={classNames({
                   'columns vads-l-row': !smallScreen,
                 })}
