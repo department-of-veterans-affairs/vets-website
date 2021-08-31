@@ -257,7 +257,7 @@ const responses = {
     });
   },
   'GET /vaos/v2/locations/:facility_id/clinics/:clinic_id/slots': appointmentSlotsV2,
-  'GET /vaos/v2/patient': (req, res) => {
+  'GET /vaos/v2/patients': (req, res) => {
     return res.json({
       data: {
         attributes: {
