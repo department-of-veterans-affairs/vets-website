@@ -1,7 +1,7 @@
 {
   "baseUrl": "http://localhost:3001",
-  "viewportWidth": 1280,
-  "viewportHeight": 960,
+  "viewportWidth": 2000,
+  "viewportHeight": 1000,
   "integrationFolder": "src",
   "modifyObstructiveCode": false,
   "nodeVersion": "system",
