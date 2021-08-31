@@ -672,6 +672,10 @@ jobs:
           attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "E2E tests in `vets-website` have failed, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
           channel_id: C026PD47Z19 # gha-test-status
 
+      - name: Set workflow URL
+        run: |
+          echo 'ENV_WORKFLOW_URL=https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}' >> $GITHUB_ENV
+
 # archive:
 #   name: Archive
 #   runs-on: ubuntu-latest
