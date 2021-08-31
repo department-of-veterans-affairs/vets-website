@@ -1,13 +1,13 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
-import SortableTable from '../components/SortableTable';
+import Table from '@department-of-veterans-affairs/component-library/Table';
 import { currency } from '../utils/helpers';
 
 export const MAX_ROWS_PER_PAGE = 6;
 
 const fields = [
-  { label: 'Statement date', value: 'date', sortable: true },
-  { label: 'Description', value: 'desc', sortable: true },
+  { label: 'Statement date', value: 'date' },
+  { label: 'Description', value: 'desc' },
   { label: 'Amount', value: 'amount' },
 ];
 
@@ -69,39 +69,10 @@ const formatTableData = tableData => {
 
 const PaymentHistoryTable = () => {
   const [page, setPage] = useState(1);
-  const [tableData, setTableData] = useState([]);
-  const [currentSort, setCurrentSort] = useState({ value: '', order: '' });
-  const pages = Math.ceil(tableData.length / MAX_ROWS_PER_PAGE);
+  const pages = Math.ceil(data.length / MAX_ROWS_PER_PAGE);
   const start = (page - 1) * MAX_ROWS_PER_PAGE;
-  const end = Math.min(page * MAX_ROWS_PER_PAGE, tableData.length);
-  const currentPage = tableData.slice(start, end);
-
-  const sortByColumn = (array, order, field) => {
-    return array.sort((a, b) => {
-      if (field === 'date') {
-        const ascending = Date.parse(a[field]) - Date.parse(b[field]);
-        const descending = Date.parse(b[field]) - Date.parse(a[field]);
-        return order === 'ASC' ? ascending : descending;
-      }
-
-      if (field === 'desc') {
-        const ascending = a[field].localeCompare(b[field]);
-        const descending = b[field].localeCompare(a[field]);
-        return order === 'ASC' ? ascending : descending;
-      }
-
-      return array;
-    });
-  };
-
-  const handleSort = field => {
-    const sortedData = sortByColumn(tableData, currentSort.order, field);
-    setTableData(sortedData);
-    setCurrentSort(prevState => ({
-      value: field,
-      order: prevState.order === 'ASC' ? 'DESC' : 'ASC',
-    }));
-  };
+  const end = Math.min(page * MAX_ROWS_PER_PAGE, data.length);
+  const currentPage = data.slice(start, end);
 
   const onPageSelect = useCallback(
     selectedPage => {
@@ -109,12 +80,6 @@ const PaymentHistoryTable = () => {
     },
     [setPage],
   );
-
-  useEffect(() => {
-    const sortedData = sortByColumn(data, 'ASC', 'date');
-    setCurrentSort({ value: 'date', order: 'DESC' });
-    setTableData(sortedData);
-  }, []);
 
   return (
     <article className="vads-u-padding--0">
@@ -131,13 +96,11 @@ const PaymentHistoryTable = () => {
           <div className="charge-detail-value">July 3, 2021</div>
         </div>
       </div>
-      <div className="payment-history-table">
-        <SortableTable
-          ariaLabelledBy={'payment-history-table'}
+      <>
+        <Table
           data={formatTableData(currentPage)}
           fields={fields}
-          currentSort={currentSort}
-          onSort={handleSort}
+          ariaLabelledBy={'payment-history-table'}
         />
         <Pagination
           page={page}
@@ -146,7 +109,7 @@ const PaymentHistoryTable = () => {
           maxPageListLength={MAX_ROWS_PER_PAGE}
           onPageSelect={onPageSelect}
         />
-      </div>
+      </>
       <p>
         <a href="#">
           <i
