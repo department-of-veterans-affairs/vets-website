@@ -130,9 +130,6 @@ jobs:
       # -------------------------
       # | Cypress Tests Summary |
       # -------------------------
-      - name: Failure catch
-        if: ${{ failure() }}
-        run: echo 'MOCHAWESOME_REPORT_RESULTS=Something went wrong generating your test results. See more at https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}' >> $GITHUB_ENV
 
       - name: Publish Cypress test results
         if: ${{ always() }}
