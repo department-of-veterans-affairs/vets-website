@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { BASIC_FACILITY_LOCATIONS_LIST } from '../widgetTypes';
+import widgetTypes from '../widgetTypes';
 
 export default async function createBasicFacilityListWidget() {
   const widgets = Array.from(
     document.querySelectorAll(`
-    [data-widget-type="${BASIC_FACILITY_LOCATIONS_LIST}"]`),
+    [data-widget-type="${widgetTypes.BASIC_FACILITY_LOCATIONS_LIST}"]`),
   );
 
   if (widgets.length) {

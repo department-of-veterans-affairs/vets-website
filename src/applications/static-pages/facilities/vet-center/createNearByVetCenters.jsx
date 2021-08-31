@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-import { VET_CENTER_NEARBY } from '../../widgetTypes';
+import widgetTypes from '../../widgetTypes';
 
 export default async function createNearByVetCenters(store) {
   const nearByVetCentersWidget = document.querySelector(
-    `[data-widget-type="${VET_CENTER_NEARBY}"]`,
+    `[data-widget-type="${widgetTypes.VET_CENTER_NEARBY}"]`,
   );
 
   if (nearByVetCentersWidget) {

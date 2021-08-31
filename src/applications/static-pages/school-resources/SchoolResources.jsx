@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { SCO_ANNOUNCEMENTS, SCO_EVENTS } from '../widgetTypes';
+import widgetTypes from '../widgetTypes';
 
 export async function createScoEventsWidget() {
   const widgets = Array.from(
     document.querySelectorAll(`
-    [data-widget-type="${SCO_EVENTS}"]`),
+    [data-widget-type="${widgetTypes.SCO_EVENTS}"]`),
   );
 
   if (widgets.length) {
@@ -26,7 +26,7 @@ export async function createScoEventsWidget() {
 export async function createScoAnnouncementsWidget() {
   const widgets = Array.from(
     document.querySelectorAll(`
-    [data-widget-type="${SCO_ANNOUNCEMENTS}"]`),
+    [data-widget-type="${widgetTypes.SCO_ANNOUNCEMENTS}"]`),
   );
 
   if (widgets.length) {

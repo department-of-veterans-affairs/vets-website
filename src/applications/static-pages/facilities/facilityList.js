@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { FACILITY_LOCATIONS_LIST } from '../widgetTypes';
+import widgetTypes from '../widgetTypes';
 
 export default async function createFacilityListWidget() {
   const widgets = Array.from(
     document.querySelectorAll(
-      `[data-widget-type="${FACILITY_LOCATIONS_LIST}"]`,
+      `[data-widget-type="${widgetTypes.FACILITY_LOCATIONS_LIST}"]`,
     ),
   );
 
