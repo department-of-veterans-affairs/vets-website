@@ -54,7 +54,7 @@ jobs:
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: continuous-integration.yml
-          name: cypress-mochawesome-test-results
+          name: cypress-mochawwesome-test-results
           path: testing-tools-team-dashboard-data/src/mochawesome/data
 
       - name: Get BigQuery service credentials
@@ -130,6 +130,10 @@ jobs:
       # -------------------------
       # | Cypress Tests Summary |
       # -------------------------
+      - name: Failure catch
+        if: ${{ failure() }}
+        run: echo 'MOCHAWESOME_REPORT_RESULTS=Something went wrong generating your test results. See more at https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}' >> $GITHUB_ENV
+
       - name: Publish Cypress test results
         if: ${{ always() }}
         uses: LouisBrunner/checks-action@v1.1.1
