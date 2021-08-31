@@ -25,6 +25,10 @@ function getAppPathFromFileDiff(fileDiff) {
   return str.slice(0, str.indexOf(' '));
 }
 
+/* function iterates through the characters in a diff and
+ * and extracts, to an array, each part that pertains to
+ * changes to a src/application file, then returns the array
+ */
 function sliceDiffIntoDiffForEachChangedFile(diff) {
   const diffForEachChangedFile = [];
   const startOfChange = 'diff --git a/src/applications';
