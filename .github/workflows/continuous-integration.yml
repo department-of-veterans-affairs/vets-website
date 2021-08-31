@@ -29,14 +29,6 @@ jobs:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
     steps:
-      - name: Set workflow URL
-        run: |
-          echo "ENV_WORKFLOW_URL=https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}" >> $GITHUB_ENV
-
-      - name: Echo workflow URL
-        run: |
-          echo ${{ env.ENV_WORKFLOW_URL }}
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
