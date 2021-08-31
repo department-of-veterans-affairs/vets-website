@@ -18,6 +18,10 @@
     @media (max-width: $small-screen) {
       margin-bottom: 0px;
     }
+
+    .vads-l-row {
+      flex-wrap: nowrap;
+    }
   }
 
   .compare-header-row::-webkit-scrollbar {
@@ -62,6 +66,15 @@
 
     @media (max-width: $small-screen) {
       height: 100%;
+      width: 260px;
+    }
+  }
+
+  .placeholder {
+    display: none;
+
+    &.open {
+      display: block;
     }
   }
 
@@ -307,12 +320,11 @@
   }
 
   #compareHeader {
-    padding-bottom: 48px;
     @media (max-width: $small-screen) {
       padding-bottom: 0px;
     }
 
-    &.sticky {
+    &.fixed {
       position: fixed;
       top: 0;
       z-index: 200;
@@ -320,8 +332,10 @@
       overflow: visible!important;
       background-color: $color-white;
 
-      .compare-header-row {
-        overflow-x: scroll;
+      @media (max-width: $small-screen) {
+        .compare-header-row {
+          overflow-x: scroll;
+        }
       }
     }
 
@@ -408,7 +422,6 @@
       text-align: center;
 
       @media (max-width: $small-screen) {
-
         position: sticky;
         left: 0px;
       }

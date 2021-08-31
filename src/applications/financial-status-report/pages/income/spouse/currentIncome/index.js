@@ -10,14 +10,14 @@ import {
 } from '../../../../constants/typeaheadOptions';
 
 export const uiSchema = {
-  spouseCurrentEmployment: {
+  spCurrEmployment: {
     items: {
       'ui:title': ({ formData }) => (
         <legend className="schemaform-block-title">
           Income for your spouse’s job at {formData.employerName}
         </legend>
       ),
-      spouseMonthlyGrossSalary: {
+      spouseGrossSalary: {
         'ui:title': 'Gross monthly income',
         'ui:description': (
           <p className="formfield-subtitle">
@@ -75,13 +75,13 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    spouseCurrentEmployment: {
+    spCurrEmployment: {
       type: 'array',
       items: {
         type: 'object',
-        required: ['spouseMonthlyGrossSalary'],
+        required: ['spouseGrossSalary'],
         properties: {
-          spouseMonthlyGrossSalary: {
+          spouseGrossSalary: {
             type: 'string',
           },
           deductions: {

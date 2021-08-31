@@ -14,9 +14,7 @@ describe('Opt Out Test', () => {
     cy.get('body').should('be.visible');
 
     // Claimant information
-    cy.get('input[name="root_claimantFullName_first"]', {
-      timeout: Timeouts.normal,
-    });
+    cy.get('input[name="root_claimantFullName_first"]');
     cy.injectAxeThenAxeCheck();
 
     cy.fillName('root_claimantFullName', testData.claimantFullName);
@@ -38,7 +36,7 @@ describe('Opt Out Test', () => {
     })
       .should('be.visible')
       .then(() => {
-        cy.get('input[type="checkbox"]', { timeout: Timeouts.normal })
+        cy.get('input[type="checkbox"]')
           .should('exist')
           .then(checkbox => {
             cy.wrap(checkbox).click();
@@ -53,9 +51,7 @@ describe('Opt Out Test', () => {
     );
 
     // Confirmation Page
-    cy.get('.confirmation-page-title', {
-      timeout: Timeouts.normal,
-    }).should('be.visible');
+    cy.get('.confirmation-page-title').should('be.visible');
     cy.axeCheck();
   });
 });

@@ -105,6 +105,7 @@ const testConfig = createTestConfig(
       cy.intercept('PUT', 'v0/in_progress_forms/20-0996', mockInProgress);
 
       cy.intercept('POST', '/v0/higher_level_reviews', mockSubmit);
+      cy.intercept('POST', '/v1/higher_level_reviews', mockSubmit);
 
       cy.get('@testData').then(testData => {
         cy.intercept('GET', '/v0/in_progress_forms/20-0996', testData);

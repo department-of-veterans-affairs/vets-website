@@ -7,13 +7,14 @@ import {
   FORM_DATA_UPDATED,
   FORM_DATA_CLEANUP,
   FORM_DATA_SUBMIT_FAILED,
-  // FORM_DATA_SUBMIT_SUCCESS,
+  FORM_DATA_SUBMIT_SUCCESS,
   FORM_DATA_SUBMIT_START,
 } from './actions';
 
 const initialState = {
   dependentsState: null,
   openFormlett: null,
+  submittedDependents: [],
 };
 
 export function removeDependents(state = initialState, action) {
@@ -54,6 +55,25 @@ export function removeDependents(state = initialState, action) {
   if (action.type === FORM_DATA_SUBMIT_START) {
     return {
       ...state,
+      dependentsState: {
+        ...state.dependentsState,
+        [action.stateKey]: {
+          ...state.dependentsState[action.stateKey],
+          status: action.status,
+        },
+      },
+    };
+  }
+
+  // we want to clean up the data but also keep track of
+  // which dependents have been submitted. We need to
+  // switch off openFormlett and include a way to track
+  // which indexes have been submitted
+  if (action.type === FORM_DATA_SUBMIT_SUCCESS) {
+    return {
+      ...state,
+      openFormlett: null,
+      submittedDependents: [...state.submittedDependents, action.stateKey],
       dependentsState: {
         ...state.dependentsState,
         [action.stateKey]: {

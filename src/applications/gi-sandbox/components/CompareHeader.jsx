@@ -50,9 +50,9 @@ export default function({
         <div className="non-scroll-label">
           <div className="test-header compare-header vads-u-padding-right--1">
             <div className="compare-page-description-label">
-              School comparison:
+              Institution comparison:
             </div>
-            View school information side by side to compare schools
+            Compare schools, employers and VET TEC providers side-by-side
           </div>
           <div className="compare-action">
             <Checkbox
@@ -81,12 +81,22 @@ export default function({
             >
               <div className="compare-header institution-header">
                 <div>
-                  <SchoolClassification institution={institution} />
+                  <SchoolClassification
+                    institution={institution}
+                    displayTraits={false}
+                  />
                   <div className="header-fields">
                     <div className="institution-name">
                       {smallScreen && institution.name}
                       {!smallScreen && (
-                        <Link to={profileLink}>{institution.name}</Link>
+                        <Link
+                          to={{
+                            pathname: profileLink,
+                            state: { prevPath: location.pathname },
+                          }}
+                        >
+                          {institution.name}
+                        </Link>
                       )}
                     </div>
                   </div>

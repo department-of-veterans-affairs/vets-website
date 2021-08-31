@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
@@ -11,7 +11,7 @@ import { fetchProfile, setPageTitle, showModal, hideModal } from '../actions';
 import VetTecInstitutionProfile from '../components/vet-tec/InstitutionProfile';
 import InstitutionProfile from '../components/profile/InstitutionProfile';
 import ServiceError from '../components/ServiceError';
-import { useQueryParams } from '../utils/helpers';
+import { isSmallScreen, useQueryParams } from '../utils/helpers';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -33,9 +33,16 @@ export function ProfilePage({
   const queryParams = useQueryParams();
   const version = queryParams.get('version');
   const institutionName = _.get(profile, 'attributes.name');
+  const [smallScreen, setSmallScreen] = useState(isSmallScreen());
 
   useEffect(() => {
+    const checkSize = () => {
+      setSmallScreen(isSmallScreen());
+    };
+    window.addEventListener('resize', checkSize);
+
     return () => {
+      window.removeEventListener('resize', checkSize);
       dispatchHideModal();
     };
   }, []);
@@ -80,12 +87,13 @@ export function ProfilePage({
           preSelectedProgram={preSelectedProgram}
           selectedProgram={calculator.selectedProgram}
           compare={compare}
+          smallScreen={smallScreen}
         />
       );
     } else {
       content = (
         <InstitutionProfile
-          profile={profile}
+          institution={profile.attributes}
           isOJT={isOJT}
           constants={constants}
           showModal={dispatchShowModal}
@@ -95,6 +103,7 @@ export function ProfilePage({
           gibctEybBottomSheet={gibctEybBottomSheet}
           gibctSchoolRatings={gibctSchoolRatings}
           compare={compare}
+          smallScreen={smallScreen}
         />
       );
     }

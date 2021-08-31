@@ -210,9 +210,9 @@ export const ccUrgentCareLabels = {
 };
 
 export const urgentCareServices = {
-  AllUrgentCare: 'All urgent care',
+  AllUrgentCare: 'All in-network urgent care',
   UrgentCare: 'VA urgent care',
-  NonVAUrgentCare: 'Community urgent care providers (in VA’s network)',
+  NonVAUrgentCare: 'In-network community urgent care',
 };
 
 export const emergencyCareServices = {
@@ -263,6 +263,14 @@ export const facilityTypesOptions = {
   [LocationType.CC_PROVIDER]: 'Community providers (in VA’s network)',
   [LocationType.URGENT_CARE_PHARMACIES]:
     'Community pharmacies (in VA’s network)',
+  [LocationType.BENEFITS]: 'VA benefits',
+  [LocationType.CEMETARY]: 'VA cemeteries',
+  [LocationType.VET_CENTER]: 'Vet Centers',
+};
+
+export const nonPPMSfacilityTypeOptions = {
+  [LocationType.NONE]: 'Choose a facility type',
+  [LocationType.HEALTH]: 'VA health',
   [LocationType.BENEFITS]: 'VA benefits',
   [LocationType.CEMETARY]: 'VA cemeteries',
   [LocationType.VET_CENTER]: 'Vet Centers',

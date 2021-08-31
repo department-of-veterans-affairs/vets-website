@@ -68,6 +68,7 @@ export function GiBillApp({
 
   const onProfilePage = location.pathname.includes('/profile');
   const onComparePage = location.pathname.includes('/compare');
+  const showDisclaimer = onComparePage || !compare.open;
 
   return (
     <div className="gi-app" role="application">
@@ -86,8 +87,8 @@ export function GiBillApp({
               {children}
             </DowntimeNotification>
           )}
-          {compare.open && <div style={{ height: '12px' }}>&nbsp;</div>}
-          {!compare.open && (
+          {!showDisclaimer && <div style={{ height: '12px' }}>&nbsp;</div>}
+          {showDisclaimer && (
             <div className="row vads-u-padding--1p5 small-screen:vads-u-padding--0">
               <>
                 <AboutThisTool />

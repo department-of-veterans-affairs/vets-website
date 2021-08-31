@@ -44,7 +44,7 @@ describe('Notification Settings', () => {
           'match',
           /You can manage your health care email notifications through my healthevet/i,
         );
-      cy.findAllByText(/we do not have a preference/i).should('have.length', 3);
+      cy.findAllByText(/^select an option/i).should('have.length', 3);
     });
   });
   context('when user is not a VA patient', () => {
