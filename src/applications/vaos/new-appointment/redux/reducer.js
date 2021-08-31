@@ -908,12 +908,14 @@ export default function formReducer(state = initialState, action) {
     case FORM_REQUESTED_PROVIDERS_SUCCEEDED: {
       const { address, typeOfCareProviders, selectedCCFacility } = action;
       const { ccProviderPageSortMethod: sortMethod, data } = state;
-      const cacheKey =
-        sortMethod === FACILITY_SORT_METHODS.distanceFromFacility
-          ? `${sortMethod}_${selectedCCFacility.id}_${
-              getTypeOfCare(data)?.ccId
-            }`
-          : `${sortMethod}_${getTypeOfCare(data)?.ccId}`;
+      const sortByFacilityDistance =
+        sortMethod === FACILITY_SORT_METHODS.distanceFromFacility;
+      const updatedSortMethod = sortByFacilityDistance
+        ? selectedCCFacility.id
+        : sortMethod;
+      const cacheKey = sortByFacilityDistance
+        ? `${sortMethod}_${selectedCCFacility.id}_${getTypeOfCare(data)?.ccId}`
+        : `${updatedSortMethod}_${getTypeOfCare(data)?.ccId}`;
 
       const providers =
         state.communityCareProviders[cacheKey] ||
@@ -925,12 +927,9 @@ export default function formReducer(state = initialState, action) {
               facility.position.latitude,
               facility.position.longitude,
             );
-            return {
-              ...facility,
-              [sortMethod]: distance,
-            };
+            return { ...facility, [updatedSortMethod]: distance };
           })
-          .sort((a, b) => a[sortMethod] - b[sortMethod]);
+          .sort((a, b) => a[updatedSortMethod] - b[updatedSortMethod]);
 
       return {
         ...state,
