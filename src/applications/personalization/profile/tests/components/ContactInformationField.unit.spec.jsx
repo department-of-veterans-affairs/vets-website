@@ -7,7 +7,7 @@ import {
   ContactInformationField,
   mapStateToProps,
 } from '@@profile/components/personal-information/ContactInformationField';
-import { FIELD_NAMES, TRANSACTION_STATUS } from '@@vap-svc/constants';
+import { FIELD_NAMES } from '@@vap-svc/constants';
 
 describe('<ContactInformationField/>', () => {
   let props = null;
@@ -78,34 +78,6 @@ describe('<ContactInformationField/>', () => {
       component.find('ContactInformationView'),
       'the ContactInformationView was rendered',
     ).to.have.lengthOf(1);
-
-    component.unmount();
-  });
-
-  it('renders the edit link', () => {
-    component = enzyme.shallow(<ContactInformationField {...props} />);
-
-    let editButton = component.find('[id="edit-home-phone-number"]');
-
-    const onEditClick = editButton.props().onClick;
-    onEditClick();
-    props.openModal();
-    expect(props.openModal.callCount, 'onEdit').to.be.equal(2);
-
-    component.setProps({
-      transaction: {
-        data: {
-          attributes: { transactionStatus: TRANSACTION_STATUS.RECEIVED },
-        },
-      },
-    });
-
-    editButton = component.find('ContactInformationEditButton');
-
-    expect(
-      editButton,
-      'Edit button should be hidden when a transaction is pending',
-    ).to.have.length(0);
 
     component.unmount();
   });
