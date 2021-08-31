@@ -288,7 +288,7 @@
     "js-cookie": "^2.2.1",
     "jsonschema": "^1.1.1",
     "leaflet": "^1.6.0",
-    "libxmljs2": "^0.27.0",
+    "libxmljs2": "^0.28.0",
     "local-storage-fallback": "^4.1.1",
     "lodash": "^4.17.21",
     "mapbox-gl": "^1.12.0",
