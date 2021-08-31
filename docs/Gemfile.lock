@@ -224,6 +224,7 @@ PLATFORMS
 
 DEPENDENCIES
   github-pages (~> 217)
+  jekyll-remote-theme
   just-the-docs
   tzinfo (~> 1.2)
   tzinfo-data
