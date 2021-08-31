@@ -6,7 +6,7 @@ title: Formulate documentation
 description: >- # this means to ignore newlines until "baseurl:"
   This site contains documentation for "formulate" - the forms library
   for the Department of Veterans Affairs.
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "/formulate" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Build settings
