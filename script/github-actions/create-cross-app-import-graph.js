@@ -74,7 +74,6 @@ function getSrcApplicationDiffs(diff) {
  * with 'applications/' or starts with '../'. Otherwise
  * it returns the given reference.
  */
-
 function getImportPath(filePathAsArray, importRef) {
   if (importRef.startsWith('applications/')) {
     return `src/${importRef}`;
