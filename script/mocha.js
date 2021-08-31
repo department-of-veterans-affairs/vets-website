@@ -3,7 +3,7 @@ const { Writable } = require('stream');
 const path = require('path');
 const chalk = require('chalk');
 // babel-register only looks for environment variables
-process.env.BABEL_ENV = process.env.BABEL_ENV || 'test';
+// process.env.BABEL_ENV = process.env.BABEL_ENV || 'test';
 // use babel-register to compile files on the fly
 require('babel-register');
 require('babel-polyfill');
