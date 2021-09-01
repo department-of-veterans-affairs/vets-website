@@ -10,7 +10,6 @@ import {
   FETCH_STATUS,
 } from '../../../utils/constants';
 import ConfirmationDirectScheduleInfoV2 from './ConfirmationDirectScheduleInfoV2';
-import ConfirmationRequestInfo from './ConfirmationRequestInfo';
 
 export default function ConfirmationPage() {
   const dispatch = useDispatch();
@@ -20,7 +19,6 @@ export default function ConfirmationPage() {
     clinic,
     flowType,
     slot,
-    hasResidentialAddress,
     submitStatus,
   } = useSelector(selectConfirmationPage, shallowEqual);
 
@@ -47,22 +45,12 @@ export default function ConfirmationPage() {
 
   return (
     <div>
-      {isDirectSchedule && (
-        <ConfirmationDirectScheduleInfoV2
-          data={data}
-          facilityDetails={facilityDetails}
-          clinic={clinic}
-          slot={slot}
-        />
-      )}
-      {!isDirectSchedule && (
-        <ConfirmationRequestInfo
-          data={data}
-          facilityDetails={facilityDetails}
-          pageTitle={pageTitle}
-          hasResidentialAddress={hasResidentialAddress}
-        />
-      )}
+      <ConfirmationDirectScheduleInfoV2
+        data={data}
+        facilityDetails={facilityDetails}
+        clinic={clinic}
+        slot={slot}
+      />
     </div>
   );
 }

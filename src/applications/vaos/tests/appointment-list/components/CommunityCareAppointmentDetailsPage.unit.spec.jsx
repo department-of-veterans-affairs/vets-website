@@ -33,7 +33,6 @@ const initialState = {
     vaOnlineSchedulingPast: true,
     // eslint-disable-next-line camelcase
     show_new_schedule_view_appointments_page: true,
-    vaOnlineSchedulingHomepageRefresh: true,
   },
 };
 
@@ -75,7 +74,6 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
       va: [],
       cc: [appointment],
       requests: [],
-      isHomepageRefresh: true,
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -223,7 +221,6 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
       va: [],
       cc: [appointment],
       requests: [],
-      isHomepageRefresh: true,
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {

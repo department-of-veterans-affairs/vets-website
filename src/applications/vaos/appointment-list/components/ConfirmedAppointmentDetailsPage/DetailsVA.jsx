@@ -58,7 +58,6 @@ export default function DetailsVA({ appointment, facilityData }) {
         facility={facility}
         facilityName={facility?.name}
         facilityId={locationId}
-        isHomepageRefresh
         clinicFriendlyName={appointment.location?.clinicName}
         showCovidPhone={isCovid}
       />

@@ -28,7 +28,6 @@ import {
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    vaOnlineSchedulingHomepageRefresh: true,
   },
 };
 
@@ -90,7 +89,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
       const facility = {
         id: 'vha_442',
@@ -225,7 +223,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
 
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -311,7 +308,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
 
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -398,7 +394,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
 
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -477,7 +472,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
       mockFacilityFetch(
         'vha_442',
@@ -647,7 +641,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
 
       const facility = {
@@ -748,7 +741,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
 
       const facility = {
@@ -865,7 +857,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
 
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -951,7 +942,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
 
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -1057,7 +1047,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
 
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -1160,7 +1149,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
 
       const facility = {
@@ -1314,7 +1302,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
 
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -1436,7 +1423,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
 
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -1663,7 +1649,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
 
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -1714,7 +1699,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
 
       const screen = renderWithStoreAndRouter(<AppointmentList />, {

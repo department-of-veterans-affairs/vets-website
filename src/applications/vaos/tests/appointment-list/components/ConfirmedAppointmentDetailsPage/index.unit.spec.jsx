@@ -39,7 +39,6 @@ const initialState = {
     vaOnlineSchedulingPast: true,
     // eslint-disable-next-line camelcase
     show_new_schedule_view_appointments_page: true,
-    vaOnlineSchedulingHomepageRefresh: true,
   },
 };
 
@@ -74,7 +73,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockAppointmentInfo({
       va: [appointment],
-      isHomepageRefresh: true,
     });
 
     mockSingleAppointmentFetch({
@@ -200,7 +198,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockAppointmentInfo({
       va: [appointment],
-      isHomepageRefresh: true,
     });
 
     mockSingleAppointmentFetch({
@@ -258,7 +255,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockAppointmentInfo({
       va: [appointment],
-      isHomepageRefresh: true,
     });
 
     mockSingleAppointmentFetch({
@@ -360,7 +356,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockAppointmentInfo({
       va: [appointment],
-      isHomepageRefresh: true,
     });
 
     const facility = {
@@ -611,7 +606,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockAppointmentInfo({
       va: [appointment],
-      isHomepageRefresh: true,
     });
 
     mockSingleAppointmentFetch({
@@ -705,7 +699,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       sta6aid: '983GC',
     };
 
-    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    mockAppointmentInfo({ va: [appointment] });
 
     mockSingleAppointmentFetch({ appointment });
 
@@ -756,7 +750,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     mockSingleAppointmentFetch({ appointment });
     mockAppointmentInfo({
       va: [appointment],
-      isHomepageRefresh: true,
     });
 
     const facility = {
@@ -804,7 +797,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockAppointmentInfo({
       va: [appointment],
-      isHomepageRefresh: true,
     });
 
     mockSingleAppointmentFetch({
@@ -924,7 +916,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockAppointmentInfo({
       va: [appointment],
-      isHomepageRefresh: true,
     });
 
     mockSingleAppointmentFetch({
@@ -1040,7 +1031,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockAppointmentInfo({
       va: [appointment],
-      isHomepageRefresh: true,
     });
 
     mockSingleAppointmentFetch({

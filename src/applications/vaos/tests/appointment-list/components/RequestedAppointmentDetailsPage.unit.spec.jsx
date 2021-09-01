@@ -35,14 +35,12 @@ const testDate = getTimezoneTestDate();
 
 const initialState = {
   featureToggles: {
-    vaOnlineSchedulingHomepageRefresh: true,
     vaOnlineSchedulingVAOSServiceRequests: false,
   },
 };
 
 const initialStateVAOSService = {
   featureToggles: {
-    vaOnlineSchedulingHomepageRefresh: true,
     vaOnlineSchedulingVAOSServiceRequests: true,
   },
 };
@@ -204,7 +202,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       optionTime1: 'AM',
     };
 
-    mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
+    mockAppointmentInfo({ requests: [appointment] });
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
       path: '/requested',
@@ -248,7 +246,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     mockAppointmentInfo({
       requests: [ccAppointmentRequest],
-      isHomepageRefresh: true,
     });
 
     const message = getMessageMock();
@@ -342,7 +339,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       optionTime1: 'AM',
     };
 
-    mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
+    mockAppointmentInfo({ requests: [appointment] });
     mockRequestCancelFetch(appointment);
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
@@ -590,7 +587,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       optionTime1: 'AM',
     };
 
-    mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
+    mockAppointmentInfo({ requests: [appointment] });
     // missing cancel request mock
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,

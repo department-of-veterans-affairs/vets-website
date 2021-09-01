@@ -206,7 +206,6 @@ export default function RequestedAppointmentDetailsPage() {
             facility={facility}
             facilityName={facility?.name}
             facilityId={facilityId}
-            isHomepageRefresh
           />
         )}
 

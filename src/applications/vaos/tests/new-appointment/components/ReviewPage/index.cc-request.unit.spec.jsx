@@ -38,21 +38,11 @@ const initialState = {
   },
 };
 
-const initialStateHomepageRefresh = {
-  featureToggles: {
-    vaOnlineSchedulingCancel: true,
-    // eslint-disable-next-line camelcase
-    show_new_schedule_view_appointments_page: true,
-    vaOnlineSchedulingHomepageRefresh: true,
-  },
-};
-
 const initialStateVAOSService = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
     // eslint-disable-next-line camelcase
     show_new_schedule_view_appointments_page: true,
-    vaOnlineSchedulingHomepageRefresh: true,
     vaOnlineSchedulingVAOSServiceRequests: true,
   },
 };
@@ -66,223 +56,6 @@ describe('VAOS <ReviewPage> CC request', () => {
     start = moment();
     store = createTestStore({
       ...initialState,
-      newAppointment: {
-        pages: {},
-        data: {
-          facilityType: FACILITY_TYPES.COMMUNITY_CARE,
-          typeOfCareId: '323',
-          phoneNumber: '2234567890',
-          email: 'joeblow@gmail.com',
-          reasonAdditionalInfo: 'I need an appt',
-          communityCareSystemId: '983',
-          preferredLanguage: 'english',
-          hasCommunityCareProvider: true,
-          communityCareProvider: {
-            practiceName: 'Community medical center',
-            firstName: 'Jane',
-            lastName: 'Doe',
-            address: {
-              street: '123 big sky st',
-              city: 'Bozeman',
-              state: 'MT',
-              postalCode: '59715',
-            },
-          },
-          bestTimeToCall: {
-            morning: true,
-            afternoon: true,
-            evening: true,
-          },
-        },
-        clinics: {},
-        ccEnabledSystems: [
-          {
-            id: '983',
-            vistaId: '983',
-            name: 'Cheyenne VA Medical Center',
-            address: {
-              line: ['2360 East Pershing Boulevard'],
-              city: 'Cheyenne',
-              state: 'WY',
-              postalCode: '82001-5356',
-            },
-          },
-        ],
-        parentFacilities: [
-          {
-            id: '983',
-            vistaId: '983',
-            name: 'Cheyenne VA Medical Center',
-            address: {
-              line: ['2360 East Pershing Boulevard'],
-              city: 'Cheyenne',
-              state: 'WY',
-              postalCode: '82001-5356',
-            },
-          },
-        ],
-        facilities: {},
-      },
-    });
-    store.dispatch(startRequestAppointmentFlow());
-    store.dispatch(
-      onCalendarChange([start.format('YYYY-MM-DD[T00:00:00.000]')]),
-    );
-  });
-
-  it('should show form information for review', async () => {
-    const screen = renderWithStoreAndRouter(<ReviewPage />, {
-      store,
-    });
-
-    await screen.findByText(/requesting a community care appointment/i);
-    expect(screen.getByText('Primary care')).to.have.tagName('h2');
-    const [
-      pageHeading,
-      descHeading,
-      typeOfCareHeading,
-      dateHeading,
-      providerHeading,
-      additionalHeading,
-      contactHeading,
-    ] = screen.getAllByRole('heading');
-    expect(pageHeading).to.contain.text('Review your appointment details');
-    expect(descHeading).to.contain.text(
-      'requesting a community care appointment',
-    );
-    expect(typeOfCareHeading).to.contain.text('Primary care');
-    expect(screen.baseElement).to.contain.text('Community Care');
-
-    expect(dateHeading).to.contain.text('Preferred date and time');
-    expect(screen.baseElement).to.contain.text(
-      `${start.format('MMMM DD, YYYY')} in the morning`,
-    );
-
-    expect(providerHeading).to.contain.text('Preferred provider');
-    expect(screen.baseElement).to.contain.text('Community medical center');
-    expect(screen.baseElement).to.contain.text('Jane Doe');
-    expect(screen.baseElement).to.contain.text('123 big sky st');
-    expect(screen.baseElement).to.contain.text('Bozeman, MontanaMT 59715');
-
-    expect(additionalHeading).to.contain.text('Additional details');
-    expect(screen.baseElement).to.contain.text('I need an appt');
-
-    expect(contactHeading).to.contain.text('Your contact details');
-    expect(screen.baseElement).to.contain.text('joeblow@gmail.com');
-    expect(screen.baseElement).to.contain.text('223-456-7890');
-    expect(screen.baseElement).to.contain.text('Call anytime during the day');
-
-    const editLinks = screen.getAllByText(/^Edit/, { selector: 'a' });
-    const uniqueLinks = new Set();
-    editLinks.forEach(link => {
-      expect(link).to.have.attribute('aria-label');
-      uniqueLinks.add(link.getAttribute('aria-label'));
-    });
-    expect(uniqueLinks.size).to.equal(editLinks.length);
-  });
-
-  it('should submit successfully', async () => {
-    mockRequestSubmit('cc', {
-      id: 'fake_id',
-    });
-    mockPreferences(null);
-    mockMessagesFetch('fake_id', {});
-
-    const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
-      store,
-    });
-
-    await screen.findByText(/requesting a community care appointment/i);
-
-    userEvent.click(screen.getByText(/Request appointment/i));
-    await waitFor(() => {
-      expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/new-appointment/confirmation',
-      );
-    });
-    const submitData = JSON.parse(global.fetch.getCall(0).args[1].body);
-
-    expect(submitData.facility.facilityCode).to.equal('983');
-    expect(submitData.facility.parentSiteCode).to.equal('983');
-    expect(submitData.typeOfCareId).to.equal('CCPRMYRTNE');
-
-    const messageData = JSON.parse(global.fetch.getCall(1).args[1].body);
-    expect(messageData.messageText).to.equal('I need an appt');
-
-    const preferences = JSON.parse(global.fetch.getCall(3).args[1].body);
-    expect(preferences.emailAddress).to.equal('joeblow@gmail.com');
-
-    const dataLayer = global.window.dataLayer;
-    expect(dataLayer[1]).to.deep.equal({
-      event: 'vaos-community-care-submission',
-      'health-TypeOfCare': 'Primary care',
-      'health-ReasonForAppointment': undefined,
-      'vaos-number-of-preferred-providers': 1,
-      'vaos-community-care-preferred-language': 'english',
-      'vaos-preferred-combination': 'afternoon-evening-morning',
-      flow: 'cc-request',
-    });
-  });
-
-  it('should show error message on failure', async () => {
-    mockFacilityFetch('vha_442', {
-      id: 'vha_442',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '442',
-        name: 'Cheyenne VA Medical Center',
-        address: {
-          physical: {
-            zip: '82001-5356',
-            city: 'Cheyenne',
-            state: 'WY',
-            address1: '2360 East Pershing Boulevard',
-          },
-        },
-        phone: {
-          main: '307-778-7550',
-        },
-      },
-    });
-    setFetchJSONFailure(
-      global.fetch.withArgs(
-        `${environment.API_URL}/vaos/v0/appointment_requests?type=cc`,
-      ),
-      {
-        errors: [{}],
-      },
-    );
-
-    const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
-      store,
-    });
-
-    await screen.findByText(/requesting a community care appointment/i);
-
-    userEvent.click(screen.getByText(/Request appointment/i));
-
-    await screen.findByText('We couldn’t schedule this appointment');
-
-    expect(screen.baseElement).contain.text(
-      'Something went wrong when we tried to submit your request. You can try again later, or call your VA medical center to help with your request.',
-    );
-
-    expect(screen.baseElement).contain.text('Cheyenne VA Medical Center');
-    expect(screen.baseElement).contain.text('2360 East Pershing Boulevard');
-
-    expect(screen.history.push.called).to.be.false;
-  });
-});
-
-describe('VAOS <ReviewPage> CC request: homepage refresh', () => {
-  let store;
-  let start;
-
-  beforeEach(() => {
-    mockFetch();
-    start = moment();
-    store = createTestStore({
-      ...initialStateHomepageRefresh,
       newAppointment: {
         pages: {},
         data: {
@@ -352,6 +125,106 @@ describe('VAOS <ReviewPage> CC request: homepage refresh', () => {
         '/requests/fake_id?confirmMsg=true',
       );
     });
+  });
+
+  it('should show form information for review', async () => {
+    const screen = renderWithStoreAndRouter(<ReviewPage />, {
+      store,
+    });
+
+    await screen.findByText(/requesting a community care appointment/i);
+    expect(screen.getByText('Primary care')).to.have.tagName('h2');
+    const [
+      pageHeading,
+      descHeading,
+      typeOfCareHeading,
+      dateHeading,
+      providerHeading,
+      additionalHeading,
+      contactHeading,
+    ] = screen.getAllByRole('heading');
+    expect(pageHeading).to.contain.text('Review your appointment details');
+    expect(descHeading).to.contain.text(
+      'requesting a community care appointment',
+    );
+    expect(typeOfCareHeading).to.contain.text('Primary care');
+    expect(screen.baseElement).to.contain.text('Community Care');
+
+    expect(dateHeading).to.contain.text('Preferred date and time');
+    expect(screen.baseElement).to.contain.text(
+      `${start.format('MMMM DD, YYYY')} in the morning`,
+    );
+
+    expect(providerHeading).to.contain.text('Preferred provider');
+    expect(screen.baseElement).to.contain.text('Community medical center');
+    expect(screen.baseElement).to.contain.text('Jane Doe');
+    expect(screen.baseElement).to.contain.text('123 big sky st');
+    expect(screen.baseElement).to.contain.text('Bozeman, MontanaMT 59715');
+
+    expect(additionalHeading).to.contain.text('Additional details');
+    expect(screen.baseElement).to.contain.text('I need an appt');
+
+    expect(contactHeading).to.contain.text('Your contact details');
+    expect(screen.baseElement).to.contain.text('joeblow@gmail.com');
+    expect(screen.baseElement).to.contain.text('223-456-7890');
+    expect(screen.baseElement).to.contain.text('Call anytime during the day');
+
+    const editLinks = screen.getAllByText(/^Edit/, { selector: 'a' });
+    const uniqueLinks = new Set();
+    editLinks.forEach(link => {
+      expect(link).to.have.attribute('aria-label');
+      uniqueLinks.add(link.getAttribute('aria-label'));
+    });
+    expect(uniqueLinks.size).to.equal(editLinks.length);
+  });
+
+  it('should show error message on failure', async () => {
+    mockFacilityFetch('vha_442', {
+      id: 'vha_442',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442',
+        name: 'Cheyenne VA Medical Center',
+        address: {
+          physical: {
+            zip: '82001-5356',
+            city: 'Cheyenne',
+            state: 'WY',
+            address1: '2360 East Pershing Boulevard',
+          },
+        },
+        phone: {
+          main: '307-778-7550',
+        },
+      },
+    });
+    setFetchJSONFailure(
+      global.fetch.withArgs(
+        `${environment.API_URL}/vaos/v0/appointment_requests?type=cc`,
+      ),
+      {
+        errors: [{}],
+      },
+    );
+
+    const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
+      store,
+    });
+
+    await screen.findByText(/requesting a community care appointment/i);
+
+    userEvent.click(screen.getByText(/Request appointment/i));
+
+    await screen.findByText('We couldn’t schedule this appointment');
+
+    expect(screen.baseElement).contain.text(
+      'Something went wrong when we tried to submit your request. You can try again later, or call your VA medical center to help with your request.',
+    );
+
+    expect(screen.baseElement).contain.text('Cheyenne VA Medical Center');
+    expect(screen.baseElement).contain.text('2360 East Pershing Boulevard');
+
+    expect(screen.history.push.called).to.be.false;
   });
 });
 
@@ -530,7 +403,7 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
     userEvent.click(screen.getByText(/Request appointment/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/new-appointment/confirmation',
+        '/requests/fake_id?confirmMsg=true',
       );
     });
     const submitData = JSON.parse(global.fetch.getCall(0).args[1].body);

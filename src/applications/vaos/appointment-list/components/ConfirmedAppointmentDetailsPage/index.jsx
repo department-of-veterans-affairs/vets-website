@@ -259,7 +259,6 @@ export default function ConfirmedAppointmentDetailsPage() {
             facility={facility}
             facilityName={facility?.name}
             facilityId={locationId}
-            isHomepageRefresh
             clinicFriendlyName={appointment.location?.clinicName}
             showCovidPhone={isCovid}
           />
