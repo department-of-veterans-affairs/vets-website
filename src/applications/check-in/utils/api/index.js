@@ -14,7 +14,7 @@ const makeApiCall = async (request, eventName, token) => {
     const timeDiff = endTime.getTime() - startTime.getTime();
 
     const { data } = json;
-    const error = data.error || data.errors;
+    const error = data?.error || data?.errors;
     const status = error ? 'failed' : 'success';
     const event = createApiEvent(eventName, status, timeDiff, token, error);
     recordEvent(event);
