@@ -33,44 +33,18 @@ const CheckIn = props => {
     });
     const { token } = context;
     setIsLoading(true);
-    recordEvent({
-      event: 'api_call',
-      'api-name': 'check-in-user',
-      'api-status': 'started',
-      UUID: token,
-    });
+
     try {
       const json = await checkInUser({
         token,
       });
-      const { data, status } = json;
+      const { status } = json;
       if (status === 200) {
-        recordEvent({
-          event: 'api_call',
-          'api-name': 'check-in-user',
-          'api-status': 'success',
-          UUID: token,
-        });
         goToNextPage(router, URLS.COMPLETE);
       } else {
-        const error = data.error || data.errors;
-        recordEvent({
-          event: 'api_call',
-          'api-name': 'check-in-user',
-          'api-status': 'failed',
-          UUID: token,
-          'error-key': error,
-        });
         goToNextPage(router, URLS.ERROR);
       }
     } catch (error) {
-      recordEvent({
-        event: 'api_call',
-        'api-name': 'check-in-user',
-        'api-status': 'failed',
-        UUID: token,
-        'error-key': error,
-      });
       goToNextPage(router, URLS.ERROR);
     }
   };
