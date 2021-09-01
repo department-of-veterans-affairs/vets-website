@@ -29,6 +29,7 @@ export function CompareDrawer({
   );
   const [sizeChanged, setSizeChanged] = useState(false);
   const tooTall = () => {
+    // magic numbers based on rough heights of the drawer when expanded
     const maxDrawerHeight = isSmallScreen() ? 334 : 200;
     return compare.open && maxDrawerHeight >= window.innerHeight;
   };
