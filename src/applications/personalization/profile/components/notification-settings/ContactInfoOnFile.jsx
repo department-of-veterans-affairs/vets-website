@@ -1,46 +1,49 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { PROFILE_PATHS } from '@@profile/constants';
+import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
 
 const ContactInfoOnFile = ({ emailAddress, mobilePhoneNumber }) => {
   return (
     <>
       <p>
-        We’ll use the contact information from your profile to send
-        notifications:
+        We’ll use the contact information from your profile to send you the
+        notifications you choose:
       </p>
-      {emailAddress ? (
-        <p className="vads-u-margin-y--0p5">
-          <strong>{emailAddress}</strong>
-        </p>
-      ) : null}
-      {mobilePhoneNumber ? (
-        <p className="vads-u-margin-y--0p5">
-          <strong>
+      <ul>
+        {emailAddress ? (
+          <li className="vads-u-margin-y--0p5">
+            {emailAddress}{' '}
+            <Link
+              to={`${PROFILE_PATHS.PERSONAL_INFORMATION}#edit-${
+                FIELD_IDS[FIELD_NAMES.EMAIL]
+              }`}
+            >
+              Update email
+            </Link>
+          </li>
+        ) : null}
+        {mobilePhoneNumber ? (
+          <li className="vads-u-margin-y--0p5">
             <Telephone
               contact={`${mobilePhoneNumber.areaCode}${
                 mobilePhoneNumber.phoneNumber
               }`}
               notClickable
-            />
-          </strong>
-        </p>
-      ) : null}
-      <p>
-        <Link to={PROFILE_PATHS.PERSONAL_INFORMATION}>
-          Update your contact information
-        </Link>
-      </p>
-      <AdditionalInfo triggerText="Why can’t I get all notifications by email and text?">
-        <p>Some info about email and text notifications.</p>
-        <p className="vads-u-margin-bottom--0">
-          Some more information about email and text notifications.
-        </p>
-      </AdditionalInfo>
+            />{' '}
+            <Link
+              to={`${PROFILE_PATHS.PERSONAL_INFORMATION}#edit-${
+                FIELD_IDS[FIELD_NAMES.MOBILE_PHONE]
+              }`}
+            >
+              Update mobile phone
+            </Link>
+          </li>
+        ) : null}
+      </ul>
       <hr />
     </>
   );

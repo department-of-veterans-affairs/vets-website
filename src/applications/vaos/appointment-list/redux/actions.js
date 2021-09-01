@@ -491,7 +491,7 @@ export function fetchRequestDetails(id) {
       }
       if (featureVAOSServiceRequests && request.practitioners?.length) {
         request.preferredCommunityCareProviders = [
-          await getCommunityProvider(request.practitioners[0].id.value),
+          await getCommunityProvider(request.practitioners[0].identifier.value),
         ];
       }
 
@@ -564,7 +564,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
         appointment.practitioners?.length
       ) {
         appointment.communityCareProvider = await getCommunityProvider(
-          appointment.practitioners[0].id.value,
+          appointment.practitioners[0].identifier.value,
         );
       }
 
