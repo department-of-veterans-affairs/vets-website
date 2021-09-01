@@ -40,7 +40,10 @@ import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities
 import EmailViewField from '../components/EmailViewField';
 import PhoneViewField from '../components/PhoneViewField';
 import AccordionField from '../components/AccordionField';
+import MailingAddressReviewField from '../components/MailingAddressReviewField';
 import YesNoReviewField from '../components/YesNoReviewField';
+import SelectedCheckboxesReviewField from '../components/SelectedCheckboxesReviewField';
+import PhoneReviewField from '../components/PhoneReviewField';
 
 import {
   activeDutyLabel,
@@ -138,7 +141,9 @@ function phoneUISchema(category) {
     },
     isInternational: {
       'ui:title': 'This phone number is international',
+      'ui:reviewField': YesNoReviewField,
     },
+    'ui:objectViewField': PhoneReviewField,
   };
 }
 
@@ -336,10 +341,10 @@ const formConfig = {
       },
     },
     contactInformationChapter: {
-      title: 'Contact Information',
+      title: 'Contact information',
       pages: {
         [formPages.contactInformation.contactInformation]: {
-          title: 'Contact Information',
+          title: 'Email & phone',
           path: 'contact/information',
           initialData: {
             email: {
@@ -381,7 +386,13 @@ const formConfig = {
                 ...emailUI('Email address'),
                 'ui:validations': [validateEmail],
               },
-              confirmEmail: emailUI('Confirm email address'),
+              confirmEmail: {
+                ...emailUI('Confirm email address'),
+                'ui:options': {
+                  ...emailUI()['ui:options'],
+                  hideOnReview: true,
+                },
+              },
               'ui:validations': [
                 (errors, field) => {
                   if (field.email !== field.confirmEmail) {
@@ -430,7 +441,7 @@ const formConfig = {
           },
         },
         [formPages.contactInformation.mailingAddress]: {
-          title: 'Contact Information',
+          title: 'Mailing address',
           path: 'contact/information/mailing/address',
           initialData: {
             'view:mailingAddress': {
@@ -513,6 +524,7 @@ const formConfig = {
                   },
                 },
               },
+              'ui:objectViewField': MailingAddressReviewField,
               'ui:options': {
                 hideLabelText: true,
                 showFieldLabel: false,
@@ -562,7 +574,7 @@ const formConfig = {
         },
         [formPages.contactInformation.preferredContactMethod]: {
           path: 'contact/preferences',
-          title: 'Contact Information',
+          title: 'Preferred contact method',
           uiSchema: {
             'ui:description': <h3>Select your preferred contact method</h3>,
             [formFields.contactMethodRdoBtnList]: {
@@ -605,6 +617,7 @@ const formConfig = {
               'ui:options': {
                 showFieldLabel: true,
               },
+              'ui:objectViewField': SelectedCheckboxesReviewField,
             },
             'view:note': {
               'ui:description': (
