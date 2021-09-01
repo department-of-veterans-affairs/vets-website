@@ -26,9 +26,6 @@
     }
 
     @media (max-width: $small-screen) {
-      &.floating {
-        transition: height 0.3s ease-in-out;
-      }
       height: 100%;
     }
   }
@@ -47,9 +44,6 @@
       height: 12.5em;
 
       @media (max-width: $small-screen) {
-        &.floating {
-          transition: 0s;
-        }
         height: 100%;
       }
     }
