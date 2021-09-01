@@ -104,10 +104,6 @@ export function CompareDrawer({
     );
   };
 
-  const expandCollapse = !open
-    ? 'compare-drawer-collapsed'
-    : 'compare-drawer-expanded';
-
   useEffect(
     () => {
       if (loaded.length === 0) {
@@ -193,6 +189,11 @@ export function CompareDrawer({
   const compareDrawerClasses = classNames('compare-drawer', {
     stuck,
     scrollable,
+  });
+  const expandCollapse = classNames({
+    'compare-drawer-collapsed': !open,
+    'compare-drawer-expanded': open,
+    floating: !stuck,
   });
   const placeholderClasses = classNames('placeholder', {
     'drawer-open': open && !stuck,

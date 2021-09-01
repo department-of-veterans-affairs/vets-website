@@ -15,31 +15,43 @@
   }
 
   .compare-drawer-expanded {
-    transition: height 0.3s ease-in-out;
     height: 12.5em;
+    &.floating {
+      transition: height 0.3s ease-in-out;
+    }
 
     @media (max-width: $small-screen) {
-      transition: height 0.3s ease-in-out;
+      &.floating {
+        transition: height 0.3s ease-in-out;
+      }
       height: 100%;
     }
   }
 
   .compare-drawer-collapsed {
-    transition: height 0.3s ease-in-out;
+    &.floating {
+      transition: height 0.3s ease-in-out;
+    }
     height: 2.5em;
   }
   @media (prefers-reduced-motion: reduce) {
     .compare-drawer-expanded {
-      transition: 0s;
+      &.floating {
+        transition: 0s;
+      }
       height: 12.5em;
 
       @media (max-width: $small-screen) {
-        transition: 0s;
+        &.floating {
+          transition: 0s;
+        }
         height: 100%;
       }
     }
     .compare-drawer-collapsed {
-      transition: 0s;
+      &.floating {
+        transition: 0s;
+      }
       height: 2.5em;
     }
   }
