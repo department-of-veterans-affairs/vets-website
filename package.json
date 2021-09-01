@@ -257,7 +257,7 @@
     "dotenv": "^10.0.0",
     "downloadjs": "^1.4.7",
     "downshift": "^1.22.5",
-    "electron-to-chromium": "1.3.825",
+    "electron-to-chromium": "^1.3.825",
     "express": "^4.17.1",
     "fast-levenshtein": "^2.0.6",
     "fine-uploader": "^5.16.2",
