@@ -75,10 +75,7 @@ const CompareLayout = ({
     return 'N/A';
   };
   return (
-    <div
-      row="table"
-      className={classNames({ 'row vads-l-grid-container': !smallScreen })}
-    >
+    <div className={classNames({ 'row vads-l-grid-container': !smallScreen })}>
       <CompareGrid
         sectionLabel="Summary"
         institutions={institutions}
