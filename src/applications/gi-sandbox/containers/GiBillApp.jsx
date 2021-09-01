@@ -37,6 +37,19 @@ export function GiBillApp({
   const shouldEnterPreviewMode = !preview.display && versionChange;
   const location = useLocation();
 
+  document.addEventListener(
+    'focus',
+    () => {
+      const focussedElement = document.getElementById(
+        document.activeElement.id,
+      );
+      if (focussedElement) {
+        focussedElement.scrollIntoView();
+      }
+    },
+    true,
+  );
+
   useEffect(
     () => {
       if (shouldExitPreviewMode) {
