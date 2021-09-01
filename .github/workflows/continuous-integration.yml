@@ -736,11 +736,17 @@ jobs:
 
       # env.MOCHAWESOME_REPORT_RESULTS is set and exported during the above step when the mochawesome report is generated.  It contains the output string for the publish step at the end of the job with the numbers from the Mochawesome report.
 
-      - name: Upload Mochawesome report artifact
-        uses: actions/upload-artifact@v2
+      # - name: Upload Mochawesome report artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: mochawesome-report
+      #     path: testing-tools-team-dashboard-data/mochawesome-report
+      - name: Download video artifacts
+        if: ${{ needs.cypress-tests.result == 'failure' }}
+        uses: actions/download-artifact@v2
         with:
-          name: mochawesome-report
-          path: testing-tools-team-dashboard-data/mochawesome-report
+          name: cypress-video-artifacts
+          path: testing-tools-team-dashboard-data/cypress-reports/videos/${{ env.UUID }}
 
       - name: Get AWS IAM role
         uses: marvinpinto/action-inject-ssm-secrets@latest
@@ -758,8 +764,9 @@ jobs:
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
 
-      - name: Upload test report to s3
-        run: aws s3 cp testing-tools-team-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/cypress-reports --acl public-read --region us-gov-west-1 --recursive
+      - name: Upload test videos to s3
+        if: ${{ needs.cypress-tests.result == 'failure' }}
+        run: aws s3 cp testing-tools-team-dashboard-data/cypress-reports/videos/${{ env.UUID }} s3://testing-tools-testing-reports/cypress-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
 
       - name: Upload test report to s3
         run: aws s3 cp testing-tools-team-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/cypress-reports --acl public-read --region us-gov-west-1 --recursive
@@ -767,18 +774,18 @@ jobs:
       # | Publish Testing Report |
       # --------------------------
 
-      - name: Checkout Testing Reports repo
-        uses: actions/checkout@v2
-        with:
-          repository: department-of-veterans-affairs/testing-reports
-          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-          path: testing-reports
+      # - name: Checkout Testing Reports repo
+      #   uses: actions/checkout@v2
+      #   with:
+      #     repository: department-of-veterans-affairs/testing-reports
+      #     token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+      #     path: testing-reports
 
-      - name: Download Mochawesome report artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: mochawesome-report
-          path: testing-reports/cypress-reports
+      # - name: Download Mochawesome report artifact
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: mochawesome-report
+      #     path: testing-reports/cypress-reports
 
       - name: Download video artifacts
         if: ${{ needs.cypress-tests.result == 'failure' }}
