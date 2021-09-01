@@ -62,7 +62,7 @@ const NotificationRadioButtons = ({
         id={errorSpanId}
       >
         <i
-          className="fas fa-exclamation-circle vads-u-margin-left--1p5 vads-u-margin-right--1"
+          className="fas fa-exclamation-circle vads-u-margin-right--1"
           aria-hidden="true"
         />{' '}
         <span className="sr-only">Error</span> {errorMessage}
@@ -81,7 +81,7 @@ const NotificationRadioButtons = ({
         id={warningSpanId}
       >
         <i
-          className="fas fa-exclamation-triangle vads-u-margin-left--1p5 vads-u-margin-right--1"
+          className="fas fa-exclamation-triangle vads-u-margin-right--1"
           aria-hidden="true"
         />{' '}
         <span className="sr-only">Warning</span> {warningMessage}
@@ -96,7 +96,7 @@ const NotificationRadioButtons = ({
     loadingSpan = (
       <span className="rb-input-message" role="alert" id={loadingSpanId}>
         <i
-          className="fas fa-spinner fa-spin vads-u-margin-left--1p5 vads-u-margin-right--1"
+          className="fas fa-spinner fa-spin vads-u-margin-right--1"
           aria-hidden="true"
         />{' '}
         {loadingMessage}
@@ -115,7 +115,7 @@ const NotificationRadioButtons = ({
         id={successSpanId}
       >
         <i
-          className="fas fa-check-circle vads-u-margin-left--1p5 vads-u-margin-right--1"
+          className="fas fa-check-circle vads-u-margin-right--1"
           aria-hidden="true"
         />{' '}
         <span className="sr-only">Success</span> {successMessage}
@@ -156,7 +156,8 @@ const NotificationRadioButtons = ({
         key={optionAdditional ? undefined : optionIndex}
         className="form-radio-buttons"
       >
-        <div className="errorable-radio-button rb-buttons">
+        <div>
+          {/* <div className="errorable-radio-button rb-buttons"> */}
           <input
             checked={checked}
             id={`${id}-${optionIndex}`}
@@ -197,7 +198,7 @@ const NotificationRadioButtons = ({
     'rb-legend',
     'vads-u-font-weight--bold',
     'vads-u-font-size--base',
-    'vads-u-padding-left--1p5',
+    // 'vads-u-padding-left--1p5',
     additionalLegendClass,
   );
 

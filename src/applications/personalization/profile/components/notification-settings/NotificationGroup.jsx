@@ -10,10 +10,12 @@ const NotificationGroup = ({ children, groupName, itemIds }) => {
   return (
     <div data-testid="notification-group">
       <h2 className="vads-u-font-size--h3">{groupName}</h2>
-      {itemIds.map(itemId => {
-        return <NotificationItem key={itemId} itemId={itemId} />;
-      })}
-      {children}
+      <div className="vads-u-margin-left--1p5">
+        {itemIds.map(itemId => {
+          return <NotificationItem key={itemId} itemId={itemId} />;
+        })}
+        {children}
+      </div>
       <hr className="vads-u-margin-y--2" />
     </div>
   );
