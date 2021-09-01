@@ -629,6 +629,9 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     // Choose Provider
     userEvent.click(await screen.findByText(/Choose a provider/i));
+    await waitFor(() =>
+      expect(screen.getAllByRole('radio').length).to.equal(7),
+    );
     userEvent.click(await screen.findByText(/use your current location/i));
 
     expect(
@@ -694,7 +697,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
         store,
       },
     );
-    await screen.findByText(/You can request a provider for this care/);
+    await screen.findByText(/We’ll call you to confirm your provider choice/);
 
     // Then the closest city/state question is not shown
     expect(screen.queryByLabelText('Bozeman, MT')).not.to.exist;

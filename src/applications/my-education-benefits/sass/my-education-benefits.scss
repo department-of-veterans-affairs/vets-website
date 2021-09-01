@@ -6,55 +6,31 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
+@import "./m-review-box-field";
 
+/* Form Styling Overrides
+---------------------------------------------------------------------*/
 .schemaform-block-header > p {
 	// Overriding generated !importants.
 	margin-bottom: 24/16 + 0em !important;
 	margin-top: 1em !important;
 }
-
-.review-box {
-	align-items: center;
-	background-color: $color-gray-lightest;
-	margin-bottom: 16px;
-	padding: 22px 16px;
+.schemaform-block-header {
+	margin-bottom: 1em;
 }
-.review-box--view {
-	display: flex;
-	justify-content: space-between;
+.schemaform-field-template,
+fieldset.schemaform-field-template {
+	margin-top: 24/16 + 0rem; // 24px
 }
-.review-box_body {
-	margin: 0;
-	padding: 0;
-}
-.review-box_title {
+.form-checkbox label,
+.schemaform-block {
 	margin-top: 0;
 }
-.review-box .usa-input-error {
-	margin-top: 0;
+[type=checkbox] + label,
+[type=radio] + label {
+	margin-bottom: 1em;
 }
-.review-box_group {
-	display: flex;
-	flex-direction: column;
-	margin: 0;
-}
-.review-box_label {
-	// Trying to match h5 styling here. Couldn't find an appropriate
-	// mixin, so I'm manually copying the styling here.
-	font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
-	font-size: 15/16 + 0em; // i.e. 15px
-	font-weight: 700;
-	line-height: 20/15 + 0em; // i.e. 20px
-	margin-bottom: 6/15 + 0em; // i.e. 6px
-}
-.review-box_button {
-	flex: 0 1;
-	margin: 0;
-}
-.review-box_button,
-.review-box .usa-button-secondary {
-	background: $color-white;
-}
+/* END Form Styling Overrides ---------------------------------------*/
 
 .review-row {
 	margin: 0;
@@ -120,7 +96,7 @@ va-accordion {
 	border-top: 1px solid $color-gray-medium;
 	box-sizing: border-box;
 	margin: 0;
-	padding: 1em 0 1em 1em;
+	padding: 1em 0;
 }
 .service-history-details_term {
 	flex: 0 1 auto;
@@ -129,9 +105,28 @@ va-accordion {
 .service-history-details_definition {
 	flex: 1 1 60%;
 	font-weight: bold;
-	padding-right: 1em;
+	padding-left: 1em;
 	text-align: right;
 }
 .service-history-details_period {
 	display: block;
 }
+@media only screen and (min-width: 40.0625em) {
+	.service-history-details_term {
+		padding-left: 1em;
+	}
+	.service-history-details_definition {
+		padding-right: 1em;
+	}
+}
+
+#LiveOnMilitaryBaseTooltip {
+	margin-top: 3rem;
+}
+
+// Additional Considerations page - BEGIN
+.form-field-footer-additional-info {
+	margin-top: 1em;
+	max-width: 425px;
+}
+// Additional Considerations page - END

@@ -94,7 +94,7 @@ node('vetsgov-general-purpose') {
             }
             build job: 'deploys/vets-review-instance-deploy', parameters: [
               stringParam(name: 'devops_branch', value: 'master'),
-              stringParam(name: 'api_branch', value: 'master'),
+              stringParam(name: 'api_branch', value: env.BRANCH_NAME),
               stringParam(name: 'web_branch', value: env.BRANCH_NAME),
               stringParam(name: 'content_branch', value: env.BRANCH_NAME),
               stringParam(name: 'source_repo', value: 'vets-website'),
@@ -125,10 +125,6 @@ node('vetsgov-general-purpose') {
         try {
           parallel (
             failFast: true,
-
-            'nightwatch-e2e': {
-              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} up -d && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
-            },
             'cypress-1': {
               sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e STEP=0 vets-website run cy:test:docker"
             },
@@ -152,14 +148,12 @@ node('vetsgov-general-purpose') {
           commonStages.slackNotify()
           throw error
         } finally {
-          sh "docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} down --remove-orphans"
           sh "docker-compose -p cypress-${env.EXECUTOR_NUMBER} down --remove-orphans"
           sh "docker-compose -p cypress2-${env.EXECUTOR_NUMBER} down --remove-orphans"
           sh "docker-compose -p cypress3-${env.EXECUTOR_NUMBER} down --remove-orphans"
           sh "docker-compose -p cypress4-${env.EXECUTOR_NUMBER} down --remove-orphans"
           sh "docker-compose -p cypress5-${env.EXECUTOR_NUMBER} down --remove-orphans"
           sh "docker-compose -p cypress6-${env.EXECUTOR_NUMBER} down --remove-orphans"
-          step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
         }
       }
     }

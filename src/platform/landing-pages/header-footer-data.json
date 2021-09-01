@@ -149,8 +149,15 @@
     },
     {
       "column": 3,
-      "href": "https://public.govdelivery.com/accounts/USVA/subscriber/new/",
+      "href": "https://www.va.gov/opa/pressrel/",
       "order": 2,
+      "target": null,
+      "title": "Get VA updates"
+    },
+    {
+      "column": 3,
+      "href": "https://public.govdelivery.com/accounts/USVA/subscriber/new/",
+      "order": 3,
       "target": "_blank",
       "title": "Email updates",
       "rel": "noopener noreferrer"
@@ -158,7 +165,7 @@
     {
       "column": 3,
       "href": "https://www.facebook.com/VeteransAffairs",
-      "order": 3,
+      "order": 4,
       "target": "_blank",
       "title": "Facebook",
       "rel": "noopener noreferrer"
@@ -166,7 +173,7 @@
     {
       "column": 3,
       "href": "https://www.instagram.com/deptvetaffairs/",
-      "order": 4,
+      "order": 5,
       "target": "_blank",
       "title": "Instagram",
       "rel": "noopener noreferrer"
@@ -174,7 +181,7 @@
     {
       "column": 3,
       "href": "https://www.twitter.com/DeptVetAffairs/",
-      "order": 5,
+      "order": 6,
       "target": "_blank",
       "title": "Twitter",
       "rel": "noopener noreferrer"
@@ -182,7 +189,7 @@
     {
       "column": 3,
       "href": "https://www.flickr.com/photos/VeteransAffairs/",
-      "order": 6,
+      "order": 7,
       "target": "_blank",
       "title": "Flickr",
       "rel": "noopener noreferrer"
@@ -190,7 +197,7 @@
     {
       "column": 3,
       "href": "https://www.youtube.com/user/DeptVetAffairs",
-      "order": 7,
+      "order": 8,
       "target": "_blank",
       "title": "YouTube",
       "rel": "noopener noreferrer"
@@ -198,7 +205,7 @@
     {
       "column": 3,
       "href": "https://www.va.gov/opa/socialmedia.asp",
-      "order": 8,
+      "order": 9,
       "target": null,
       "title": "All VA social media"
     },

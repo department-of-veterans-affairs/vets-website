@@ -169,10 +169,10 @@ const CompareLayout = ({
                   religiousAffiliations[institution.relaffil],
                 );
               }
-              if (institution.womenOnly) {
+              if (institution.womenonly) {
                 specialMission.push('Women-only');
               }
-              if (institution.menOnly) {
+              if (institution.menonly) {
                 specialMission.push('Men-only');
               }
               return specialMission.length > 0
