@@ -9,7 +9,9 @@ if (process.argv[2] === 'help') {
 
 // Otherwise, run the command
 runCommand(
-  `NODE_OPTIONS=--max-old-space-size=4096 webpack-dev-server --config config/webpack.config.js --env.scaffold --env.watch ${process.argv
+  `NODE_OPTIONS=--max-old-space-size=${(process.env.VA_BUILD_MEMORY_LIMIT = 4096)} webpack-dev-server --config config/webpack.config.js --env.scaffold --env.watch ${
+    process.argv
+  }
     .slice(2)
     .join(' ')}`,
 );
