@@ -5,10 +5,8 @@ on:
     workflows: ['Continuous Integration']
     types:
       - completed
-
-concurrency:
-  group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha  }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
+    branches:
+      - '**'
 
 jobs:
   testing-reports:
@@ -130,6 +128,10 @@ jobs:
       # -------------------------
       # | Cypress Tests Summary |
       # -------------------------
+      - name: Set workflow URL
+        run: |
+          echo "ENV_WORKFLOW_URL=https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}" >> $GITHUB_ENV
+
       - name: Publish Cypress test results
         if: ${{ always() }}
         uses: LouisBrunner/checks-action@v1.1.1
@@ -139,3 +141,4 @@ jobs:
           conclusion: ${{ github.event.workflow_run.conclusion }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+          details_url: ${{env.ENV_WORKFLOW_URL}}
