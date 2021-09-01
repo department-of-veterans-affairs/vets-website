@@ -1,5 +1,5 @@
 import React from 'react';
-import CallToActionAlert from './../CallToActionAlert';
+import CallToActionAlert from '../CallToActionAlert';
 
 const alertText = (
   <p>
