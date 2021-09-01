@@ -5,6 +5,8 @@ on:
     workflows: ['Continuous Integration']
     types:
       - completed
+    branches:
+      - '**'
 
 jobs:
   testing-reports:
