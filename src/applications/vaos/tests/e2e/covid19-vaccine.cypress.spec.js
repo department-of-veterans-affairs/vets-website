@@ -117,7 +117,6 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     initVaccineAppointmentMock();
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
-    cy.findAllByRole('tab').should('exist');
     // Start flow
     cy.findByText('Start scheduling').click();
 
