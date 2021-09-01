@@ -5,8 +5,9 @@
 // that VA.gov ever stops using USWDS, or upgrades to USWDS 2+, these rules will
 // probably have to updated or removed.
 $border-weight: 4px;
-$left-margin: calc(#{units(1.5)} - #{$border-weight});
-$left-margin-negative: calc(#{units(-1.5)} + #{$border-weight});
+$margin-left: units(1.5);
+$padding-left: calc(#{$margin-left} - #{$border-weight});
+$padding-left-negative: calc(-#{$margin-left} + #{$border-weight});
 
 [type="radio"]:disabled + label {
   color: $color-gray-lighter;
@@ -33,8 +34,8 @@ $left-margin-negative: calc(#{units(-1.5)} + #{$border-weight});
 
 .rb-input {
   border-left: $border-weight solid transparent;
-  padding-left: $left-margin;
-  margin-left: units(-1.5);
+  padding-left: $padding-left;
+  margin-left: -#{$margin-left};
   position: relative;
 }
 
@@ -42,8 +43,8 @@ $left-margin-negative: calc(#{units(-1.5)} + #{$border-weight});
   display: block;
   padding-bottom: 3px;
   padding-top: 3px;
-  padding-left: $left-margin;
-  margin-left: $left-margin-negative;
+  padding-left: $padding-left;
+  margin-left: $padding-left-negative;
 }
 
 //warning
