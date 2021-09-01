@@ -1,6 +1,8 @@
 import React from 'react';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
+import { CoeDocumentUpload } from './CoeDocumentUpload';
+
 export const CoePending = () => (
   <div className="row vads-u-margin-bottom--1">
     <div className="medium-8 columns">
@@ -14,6 +16,7 @@ export const CoePending = () => (
           email or mail to let you know how to get your COE.
         </p>
       </va-alert>
+      <CoeDocumentUpload />
       <h2>How will I know if VA needs more information from me?</h2>
       <p className="vads-u-margin-bottom--0">
         If we need more information, we’ll notify you by email or mail. You can
