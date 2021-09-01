@@ -88,19 +88,23 @@ const formFields = {
   incorrectServiceHistoryExplanation: 'incorrectServiceHistoryExplanation',
   contactMethodRdoBtnList: 'contactMethodRdoBtnList',
   notificationTypes: 'notificationTypes',
+  militaryCommissionReceived: 'militaryCommissionReceived',
+  isSrROTCCommissioned: 'srROTCCommissioned',
+  hasDoDLoanPaymentPeriod: 'hasDoDLoanPaymentPeriod',
 };
 
 // Define all the form pages to help ensure uniqueness across all form chapters
 const formPages = {
   applicantInformation: 'applicantInformation',
-  serviceHistory: 'serviceHistory',
   contactInformation: {
     contactInformation: 'contactInformation',
     mailingAddress: 'mailingAddress',
     preferredContactMethod: 'preferredContactMethod',
   },
+  serviceHistory: 'serviceHistory',
   benefitSelection: 'benefitSelection',
   // directDeposit: 'directDeposit',
+  additionalConsiderations: 'additionalConsiderations',
 };
 
 function isOnlyWhitespace(str) {
@@ -327,116 +331,6 @@ const formConfig = {
             'view:dateOfBirth': {
               dateOfBirth: '1992-07-23',
             },
-          },
-        },
-      },
-    },
-    serviceHistoryChapter: {
-      title: 'Service history',
-      pages: {
-        [formPages.serviceHistory]: {
-          path: 'service-history',
-          title: 'Service history',
-          uiSchema: {
-            'view:subHeading': {
-              'ui:description': <h3>Review your service history</h3>,
-            },
-            [formFields.toursOfDuty]: {
-              ...toursOfDutyUI,
-              'ui:field': AccordionField,
-              'ui:title': 'Service history',
-              'ui:options': {
-                ...toursOfDutyUI['ui:options'],
-                reviewTitle: <></>,
-                setEditState: () => {
-                  return true;
-                },
-                showSave: false,
-                viewField: ServicePeriodAccordionView,
-                viewComponent: ServicePeriodAccordionView,
-                viewOnlyMode: true,
-              },
-              items: {
-                ...toursOfDutyUI.items,
-                'ui:objectViewField': ServicePeriodAccordionView,
-              },
-            },
-            [formFields.toursOfDutyCorrect]: {
-              'ui:title': 'This information is incorrect and/or incomplete',
-              'ui:reviewField': YesNoReviewField,
-            },
-            [formFields.incorrectServiceHistoryExplanation]: {
-              'ui:title':
-                'Please explain what is incorrect and/or incomplete about your service history.',
-              'ui:options': {
-                expandUnder: [formFields.toursOfDutyCorrect],
-                hideIf: formData => !formData[formFields.toursOfDutyCorrect],
-              },
-              'ui:widget': 'textarea',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:subHeading': {
-                type: 'object',
-                properties: {},
-              },
-              [formFields.toursOfDuty]: toursOfDuty,
-              [formFields.toursOfDutyCorrect]: {
-                type: 'boolean',
-              },
-              [formFields.incorrectServiceHistoryExplanation]: {
-                type: 'string',
-                maxLength: 250,
-              },
-            },
-          },
-          initialData: {
-            [formFields.toursOfDuty]: [
-              {
-                // applyPeriodToSelected: true,
-                dateRange: {
-                  from: '2011-08-01',
-                  to: '2014-07-30',
-                },
-                exclusionPeriods: [
-                  {
-                    from: '2011-08-01',
-                    to: '2011-09-14',
-                  },
-                  {
-                    from: '2011-11-01',
-                    to: '2011-12-14',
-                  },
-                ],
-                separationReason: 'Expiration term of service',
-                serviceBranch: 'Navy',
-                serviceCharacter: 'Honorable',
-                // serviceStatus: 'Active Duty',
-                trainingPeriods: [
-                  {
-                    from: '2011-08-01',
-                    to: '2011-09-14',
-                  },
-                  {
-                    from: '2011-11-01',
-                    to: '2011-12-14',
-                  },
-                ],
-              },
-              {
-                // applyPeriodToSelected: true,
-                dateRange: {
-                  from: '2015-04-04',
-                  to: '2017-10-12',
-                },
-                separationReason: 'Disability',
-                serviceBranch: 'Navy',
-                serviceCharacter: 'Honorable',
-                // serviceStatus: 'Active Duty',
-              },
-            ],
           },
         },
       },
@@ -670,7 +564,7 @@ const formConfig = {
           path: 'contact/preferences',
           title: 'Contact Information',
           uiSchema: {
-            'ui:title': 'Select your preferred contact method',
+            'ui:description': <h3>Select your preferred contact method</h3>,
             [formFields.contactMethodRdoBtnList]: {
               'ui:title':
                 'How should we contact you if we have questions about your application?',
@@ -743,6 +637,206 @@ const formConfig = {
                 },
               },
               'view:note': {
+                type: 'object',
+                properties: {},
+              },
+            },
+          },
+        },
+      },
+    },
+    serviceHistoryChapter: {
+      title: 'Service history',
+      pages: {
+        [formPages.serviceHistory]: {
+          path: 'service-history',
+          title: 'Service history',
+          uiSchema: {
+            'view:subHeading': {
+              'ui:description': <h3>Review your service history</h3>,
+            },
+            [formFields.toursOfDuty]: {
+              ...toursOfDutyUI,
+              'ui:field': AccordionField,
+              'ui:title': 'Service history',
+              'ui:options': {
+                ...toursOfDutyUI['ui:options'],
+                reviewTitle: <></>,
+                setEditState: () => {
+                  return true;
+                },
+                showSave: false,
+                viewField: ServicePeriodAccordionView,
+                viewComponent: ServicePeriodAccordionView,
+                viewOnlyMode: true,
+              },
+              items: {
+                ...toursOfDutyUI.items,
+                'ui:objectViewField': ServicePeriodAccordionView,
+              },
+            },
+            [formFields.toursOfDutyCorrect]: {
+              'ui:title': 'This information is incorrect and/or incomplete',
+              'ui:reviewField': YesNoReviewField,
+            },
+            [formFields.incorrectServiceHistoryExplanation]: {
+              'ui:title':
+                'Please explain what is incorrect and/or incomplete about your service history.',
+              'ui:options': {
+                expandUnder: [formFields.toursOfDutyCorrect],
+                hideIf: formData => !formData[formFields.toursOfDutyCorrect],
+              },
+              'ui:widget': 'textarea',
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:subHeading': {
+                type: 'object',
+                properties: {},
+              },
+              [formFields.toursOfDuty]: toursOfDuty,
+              [formFields.toursOfDutyCorrect]: {
+                type: 'boolean',
+              },
+              [formFields.incorrectServiceHistoryExplanation]: {
+                type: 'string',
+                maxLength: 250,
+              },
+            },
+          },
+          initialData: {
+            [formFields.toursOfDuty]: [
+              {
+                // applyPeriodToSelected: true,
+                dateRange: {
+                  from: '2011-08-01',
+                  to: '2014-07-30',
+                },
+                exclusionPeriods: [
+                  {
+                    from: '2011-08-01',
+                    to: '2011-09-14',
+                  },
+                  {
+                    from: '2011-11-01',
+                    to: '2011-12-14',
+                  },
+                ],
+                separationReason: 'Expiration term of service',
+                serviceBranch: 'Navy',
+                serviceCharacter: 'Honorable',
+                // serviceStatus: 'Active Duty',
+                trainingPeriods: [
+                  {
+                    from: '2011-08-01',
+                    to: '2011-09-14',
+                  },
+                  {
+                    from: '2011-11-01',
+                    to: '2011-12-14',
+                  },
+                ],
+              },
+              {
+                // applyPeriodToSelected: true,
+                dateRange: {
+                  from: '2015-04-04',
+                  to: '2017-10-12',
+                },
+                separationReason: 'Disability',
+                serviceBranch: 'Navy',
+                serviceCharacter: 'Honorable',
+                // serviceStatus: 'Active Duty',
+              },
+            ],
+          },
+        },
+      },
+    },
+    additionalConsiderationsChapter: {
+      title: 'Additional Considerations',
+      pages: {
+        [formPages.additionalConsiderations]: {
+          path: 'additional-considerations',
+          title: 'Additional Considerations',
+          uiSchema: {
+            'ui:description': <h3>Enter your service obligations</h3>,
+            [formFields.militaryCommissionReceived]: {
+              'ui:title':
+                'Did you receive a commission from a federally-sponsored U.S. military service academy?',
+              'ui:widget': 'yesNo',
+            },
+            [formFields.isSrROTCCommissioned]: {
+              'ui:title': 'Were you commissioned as a result of Senior ROTC?',
+              'ui:widget': 'yesNo',
+            },
+            'view:isSrROTCCommissionedDescription': {
+              'ui:description': (
+                <>
+                  <div className="form-field-footer-additional-info">
+                    <AdditionalInfo triggerText="What is a Senior ROTC?">
+                      <p>
+                        The Senior Reserve Officer Training Corps (SROTC)—more
+                        commonly referred to as the Reserve Officer Traing Corps
+                        (ROTC)—is an officer training and scholarship program
+                        for postsecondary students authorized under Chapter 103
+                        of Title 10 of the United States Code.
+                      </p>
+                    </AdditionalInfo>
+                  </div>
+                </>
+              ),
+            },
+            [formFields.hasDoDLoanPaymentPeriod]: {
+              'ui:title':
+                'Do you have a period of service that the Department of Defense counts towards an education loan payment?',
+              'ui:widget': 'yesNo',
+            },
+            'view:hasDoDLoanPaymentPeriodDescription': {
+              'ui:description': (
+                <>
+                  <div className="form-field-footer-additional-info">
+                    <AdditionalInfo triggerText="What does this mean?">
+                      <p>
+                        This is a Loan Repayment Program, which is a special
+                        incentive that certain military branches offer to
+                        qualified applicants. Under a Loan Repayment Program,
+                        the branch of service will repay part of an applicant’s
+                        qualifying student loans.
+                      </p>
+                    </AdditionalInfo>
+                  </div>
+                </>
+              ),
+            },
+          },
+          schema: {
+            type: 'object',
+            required: [
+              formFields.militaryCommissionReceived,
+              formFields.isSrROTCCommissioned,
+              formFields.hasDoDLoanPaymentPeriod,
+            ],
+            properties: {
+              [formFields.militaryCommissionReceived]: {
+                type: 'boolean',
+                properties: {},
+              },
+              [formFields.isSrROTCCommissioned]: {
+                type: 'boolean',
+                properties: {},
+              },
+              'view:isSrROTCCommissionedDescription': {
+                type: 'object',
+                properties: {},
+              },
+              [formFields.hasDoDLoanPaymentPeriod]: {
+                type: 'boolean',
+                properties: {},
+              },
+              'view:hasDoDLoanPaymentPeriodDescription': {
                 type: 'object',
                 properties: {},
               },

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import get from '../../../../utilities/data/get';
+import set from '../../../../utilities/data/set';
 import Scroll from 'react-scroll';
 
 import {
@@ -129,7 +130,7 @@ class ArrayField extends React.Component {
    * Clicking edit on the item in review mode
    */
   handleEdit(index, status = true) {
-    this.setState(_.set(['editing', index], status, this.state), () => {
+    this.setState(set(['editing', index], status, this.state), () => {
       const id = `${this.props.path[this.props.path.length - 1]}_${index}`;
       this.scrollToRow(id);
       focusElement(`#table_${id}`);
@@ -166,14 +167,15 @@ class ArrayField extends React.Component {
    */
   handleRemove(indexToRemove, fieldName) {
     const { path, formData } = this.props;
-    const newState = _.assign(this.state, {
+    const newState = {
+      ...this.state,
       items: this.state.items.filter((val, index) => index !== indexToRemove),
       editing: this.state.editing.filter(
         (val, index) => index !== indexToRemove,
       ),
-    });
+    };
     this.setState(newState, () => {
-      this.props.setData(_.set(path, this.state.items, formData));
+      this.props.setData(set(path, this.state.items, formData));
       // Move focus back to the add button
       this.scrollToAndFocus(`add-another-${fieldName}`);
     });
@@ -187,9 +189,9 @@ class ArrayField extends React.Component {
    */
   handleSetData(index, data) {
     const { path, formData } = this.props;
-    const newArray = _.set(index, data, this.state.items);
+    const newArray = set(index, data, this.state.items);
     this.setState({ items: newArray }, () => {
-      this.props.setData(_.set(path, newArray, formData));
+      this.props.setData(set(path, newArray, formData));
     });
   }
 
@@ -227,7 +229,7 @@ class ArrayField extends React.Component {
 
     const uiOptions = uiSchema['ui:options'] || {};
     const fieldName = path[path.length - 1];
-    const schemaTitle = _.get('ui:title', uiSchema);
+    const schemaTitle = get('ui:title', uiSchema);
     const title =
       uiOptions.reviewTitle ||
       (typeof schemaTitle === 'string' ? schemaTitle.trim() : schemaTitle) ||
@@ -379,7 +381,7 @@ class ArrayField extends React.Component {
           {itemsNeeded && (
             <div className="usa-alert usa-alert-warning usa-alert-no-color usa-alert-mini">
               <div className="usa-alert-body">
-                {_.get('ui:errorMessages.minItems', uiSchema) ||
+                {get('ui:errorMessages.minItems', uiSchema) ||
                   'You need to add at least one item.'}
               </div>
             </div>
