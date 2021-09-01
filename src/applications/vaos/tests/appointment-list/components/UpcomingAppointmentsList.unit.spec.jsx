@@ -2,8 +2,7 @@ import React from 'react';
 import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
-import environment from 'platform/utilities/environment';
-import { mockFetch, setFetchJSONFailure } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import reducers from '../../../redux/reducer';
 import {
   getCCAppointmentMock,
@@ -204,17 +203,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
   });
 
   it('should show error message when request fails', async () => {
-    mockAppointmentInfo({});
-    setFetchJSONFailure(
-      global.fetch.withArgs(
-        `${
-          environment.API_URL
-        }/vaos/v0/appointment_requests?start_date=${moment()
-          .add(-120, 'days')
-          .format('YYYY-MM-DD')}&end_date=${moment().format('YYYY-MM-DD')}`,
-      ),
-      { errors: [] },
-    );
+    mockAppointmentInfo({ vaError: true });
 
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState,
