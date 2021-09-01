@@ -89,6 +89,13 @@ describe('VAOS <ReviewPage> CC request', () => {
           {
             id: '983',
             vistaId: '983',
+            name: 'Cheyenne VA Medical Center',
+            address: {
+              line: ['2360 East Pershing Boulevard'],
+              city: 'Cheyenne',
+              state: 'WY',
+              postalCode: '82001-5356',
+            },
           },
         ],
         parentFacilities: [
