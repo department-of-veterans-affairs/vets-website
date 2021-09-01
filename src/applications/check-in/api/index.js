@@ -1,6 +1,6 @@
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
-import { makeApiCall } from './utils';
+import { makeApiCall } from '../utils/api';
 
 const validateToken = async token => {
   const url = '/check_in/v0/patient_check_ins/';

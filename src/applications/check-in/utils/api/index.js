@@ -1,4 +1,4 @@
-import { createApiEvent } from '../utils/analytics';
+import { createApiEvent } from '../analytics';
 import recordEvent from 'platform/monitoring/record-event';
 
 const makeApiCall = async (request, eventName, token) => {
