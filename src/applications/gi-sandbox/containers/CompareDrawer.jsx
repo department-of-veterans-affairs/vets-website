@@ -195,6 +195,9 @@ export function CompareDrawer({
     'compare-drawer-expanded': open,
     floating: !stuck,
   });
+  const compareHeaderClasses = classNames('compare-header', {
+    'vads-l-grid-container': !isSmallScreen(),
+  });
   const placeholderClasses = classNames('placeholder', {
     'drawer-open': open && !stuck,
     'drawer-stuck': stuck,
@@ -215,10 +218,7 @@ export function CompareDrawer({
               onCancel={() => setPromptingFacilityCode(null)}
             />
           )}
-          <div
-            className="compare-header vads-l-grid-container"
-            onClick={expandOnClick}
-          >
+          <div className={compareHeaderClasses} onClick={expandOnClick}>
             <button className={headerLabelClasses}>{headerLabel}</button>
           </div>
 

@@ -5,6 +5,11 @@
   z-index: 2000;
   width: 100% !important;
 
+  @media (max-width: $small-screen) {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
   &.stuck {
     position: static;
   }
@@ -68,13 +73,13 @@
 
     .header-label {
       display: inline-flex;
-      width: auto;
+      width: max-content;
       text-align: center;
       vertical-align: middle;
       background-color: transparent;
       margin-top: -5px;
     }
-
+    
     .header-label::after {
       font-family: "Font Awesome 5 Free";
       font-weight: 900;
@@ -164,10 +169,5 @@
         display: none;
       }
     }
-  }
-
-  @media (max-width: $small-screen) {
-    padding-left: 8px;
-    padding-right: 8px;
   }
 }
