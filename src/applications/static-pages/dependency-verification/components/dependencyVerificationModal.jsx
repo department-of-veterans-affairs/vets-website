@@ -11,8 +11,7 @@ import DependencyVerificationList from './dependencyVerificationList';
 import DependencyVerificationFooter from './dependencyVerificationFooter';
 
 const DependencyVerificationModal = props => {
-  const targetNode = document.getElementsByTagName('body');
-  const [nodeToWatch] = useState(targetNode[0]);
+  const nodeToWatch = document.getElementsByTagName('body')[0];
   const [otherModal, setOtherModal] = useState(null);
 
   const openModal = () => {
