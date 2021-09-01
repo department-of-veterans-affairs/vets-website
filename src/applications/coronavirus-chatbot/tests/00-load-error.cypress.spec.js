@@ -15,7 +15,7 @@ describe('Chatbot Load Error', () => {
 
     cy.visit(coronavirusChatbotPath);
     cy.get('body', { timeout: Timeouts.verySlow }).should('be.visible');
-    cy.title().should('eq', 'VA coronavirus chatbot | Veterans Affairs');
+    cy.title().should('eq', 'VA coronaaaavirus chatbot | Veterans Affairs');
     cy.wait('@getErrorState');
     cy.get(loadError)
       .should('be.visible')
