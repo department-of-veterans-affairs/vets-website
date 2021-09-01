@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import get from '../../../../utilities/data/get';
 import classNames from 'classnames';
 import { isReactComponent } from '../../../../utilities/ui';
 // import environment from 'platform/utilities/environment';
@@ -60,7 +60,7 @@ export default function FieldTemplate(props) {
   const containerClassNames = classNames(
     'schemaform-field-template',
     errorClass,
-    _.get(['ui:options', 'classNames'], uiSchema),
+    get(['ui:options', 'classNames'], uiSchema),
   );
   const labelClassNames = classNames({
     'usa-input-error-label': hasErrors && !isDateField,
