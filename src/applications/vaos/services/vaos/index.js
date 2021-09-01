@@ -56,7 +56,7 @@ export function getClinics({ locationId, clinicIds, typeOfCareId }) {
 
 export function getPatientMetadata(locationId, typeOfCareId, schedulingType) {
   return apiRequestWithUrl(
-    `/vaos/v2/patient?facility_id=${locationId}&clinical_service_id=${typeOfCareId}&type=${schedulingType}`,
+    `/vaos/v2/patients?facility_id=${locationId}&clinical_service_id=${typeOfCareId}&type=${schedulingType}`,
   ).then(parseApiObject);
 }
 

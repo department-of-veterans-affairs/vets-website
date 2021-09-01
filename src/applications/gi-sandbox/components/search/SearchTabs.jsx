@@ -45,7 +45,12 @@ export default function SearchTabs({ onChange, search }) {
     );
 
     return (
-      <button className={tabClasses} onClick={() => onChange(tabName)}>
+      <button
+        className={tabClasses}
+        aria-selected={activeTab}
+        role="tab"
+        onClick={() => onChange(tabName)}
+      >
         {label}
       </button>
     );
@@ -53,7 +58,7 @@ export default function SearchTabs({ onChange, search }) {
 
   return (
     <div className="search-form">
-      <div className="vads-u-display--flex">
+      <div role="tablist" className="vads-u-display--flex">
         {getTab(TABS.name, 'Search by name')}
         {getTab(TABS.location, 'Search by location')}
       </div>

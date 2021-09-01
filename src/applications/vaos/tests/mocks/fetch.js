@@ -41,7 +41,7 @@ export function mockEligibilityFetchesByVersion({
       global.fetch.withArgs(
         `${
           environment.API_URL
-        }/vaos/v2/patient?facility_id=${facilityId}&clinical_service_id=${typeOfCareId}&type=direct`,
+        }/vaos/v2/patients?facility_id=${facilityId}&clinical_service_id=${typeOfCareId}&type=direct`,
       ),
       {
         data: {
@@ -57,7 +57,7 @@ export function mockEligibilityFetchesByVersion({
       global.fetch.withArgs(
         `${
           environment.API_URL
-        }/vaos/v2/patient?facility_id=${facilityId}&clinical_service_id=${typeOfCareId}&type=request`,
+        }/vaos/v2/patients?facility_id=${facilityId}&clinical_service_id=${typeOfCareId}&type=request`,
       ),
       {
         data: {

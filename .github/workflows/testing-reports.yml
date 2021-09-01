@@ -5,6 +5,8 @@ on:
     workflows: ['Continuous Integration']
     types:
       - completed
+    branches:
+      - '**'
 
 jobs:
   testing-reports:
@@ -102,6 +104,8 @@ jobs:
         if: ${{ github.event.workflow_run.conclusion == 'failure' }}
         uses: dawidd6/action-download-artifact@v2
         with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: continuous-integration.yml
           name: cypress-video-artifacts
           path: testing-reports/cypress-reports/videos/${{ env.UUID }}
 
@@ -121,9 +125,13 @@ jobs:
           directory: testing-reports
           branch: master
 
-          # -------------------------
+      # -------------------------
       # | Cypress Tests Summary |
       # -------------------------
+      - name: Set workflow URL
+        run: |
+          echo "ENV_WORKFLOW_URL=https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}" >> $GITHUB_ENV
+
       - name: Publish Cypress test results
         if: ${{ always() }}
         uses: LouisBrunner/checks-action@v1.1.1
@@ -133,3 +141,4 @@ jobs:
           conclusion: ${{ github.event.workflow_run.conclusion }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+          details_url: ${{env.ENV_WORKFLOW_URL}}
