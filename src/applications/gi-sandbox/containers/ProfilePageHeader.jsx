@@ -25,6 +25,7 @@ import Checkbox from '../components/Checkbox';
 import { CautionFlagAdditionalInfo } from '../components/CautionFlagAdditionalInfo';
 import IconWithInfo from '../components/IconWithInfo';
 import SchoolClassification from '../components/SchoolClassification';
+import LearnMoreLabel from '../components/LearnMoreLabel';
 
 const ProfilePageHeader = ({
   compare,
@@ -137,17 +138,12 @@ const ProfilePageHeader = ({
             </IconWithInfo>
             <IconWithInfo icon="award" present={accreditationType}>
               {'   '}
-              {_.capitalize(accreditationType)} Accreditation (
-              <button
-                type="button"
-                id="typeAccredited-button"
-                className="va-button-link learn-more-button"
+              <LearnMoreLabel
+                text={<>{_.capitalize(accreditationType)} Accreditation</>}
                 onClick={() => dispatchShowModal('typeAccredited')}
-                aria-label={ariaLabels.learnMore.numberOfStudents}
-              >
-                Learn more
-              </button>
-              )
+                ariaLabel={ariaLabels.learnMore.numberOfStudents}
+                buttonId={'typeAccredited-button'}
+              />
             </IconWithInfo>
           </div>
         )}
@@ -250,18 +246,17 @@ const ProfilePageHeader = ({
         <div className="vads-u-padding-bottom--1p5">
           {preferredProvider && (
             <span className="preferred-provider-text">
-              <i className="fa fa-star vads-u-color--gold" />
-              <strong> Preferred Provider</strong> (
-              <button
-                type="button"
-                id="preferredProviders-button"
-                className="va-button-link learn-more-button"
+              <LearnMoreLabel
+                text={
+                  <>
+                    <i className="fa fa-star vads-u-color--gold" />
+                    <strong> Preferred Provider</strong>
+                  </>
+                }
                 onClick={() => dispatchShowModal('preferredProviders')}
-                aria-label={ariaLabels.learnMore.numberOfStudents}
-              >
-                Learn more
-              </button>
-              )
+                ariaLabel={ariaLabels.learnMore.numberOfStudents}
+                buttonId={'preferredProviders-button'}
+              />
             </span>
           )}
         </div>
@@ -288,16 +283,15 @@ const ProfilePageHeader = ({
         )}
         {studentCount > 0 && (
           <p>
-            <strong>{formatNumber(studentCount)}</strong> GI Bill students (
-            <button
-              type="button"
-              className="va-button-link learn-more-button"
+            <LearnMoreLabel
+              text={
+                <>
+                  <strong>{formatNumber(studentCount)}</strong> GI Bill students
+                </>
+              }
               onClick={() => dispatchShowModal('gibillstudents')}
-              aria-label={ariaLabels.learnMore.numberOfStudents}
-            >
-              Learn more
-            </button>
-            )
+              ariaLabel={ariaLabels.learnMore.numberOfStudents}
+            />
           </p>
         )}
       </div>

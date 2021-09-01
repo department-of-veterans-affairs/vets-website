@@ -9,6 +9,7 @@ on:
 
 env:
   CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
+  NEXUS_REGISTRY: https://devops.va.gov/dots-nexus/repository/npm-public/
 
 concurrency:
   group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha  }}
@@ -56,10 +57,36 @@ jobs:
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
+      - name: Get NEXUS username
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_1_NEXUS_USERNAME
+          env_variable_name: VA_VSP_BOT_1_NEXUS_USERNAME
+
+      - name: Get NEXUS token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_1_NEXUS_PASSWORD
+          env_variable_name: VA_VSP_BOT_1_NEXUS_PASSWORD
+
+      # Required to change registry in yarn.lock file
+      - name: Change registry in yarn.lock
+        run: |
+          sed -i -e "s#https://registry.yarnpkg.com/#${{ env.NEXUS_REGISTRY }}#g" yarn.lock
+          sed -i -e "s#https://registry.npmjs.org/#${{ env.NEXUS_REGISTRY }}#g" yarn.lock
+
+      - name: Authenticate NEXUS
+        run: |
+          npm config set _auth $(echo -n '${{ env.VA_VSP_BOT_1_NEXUS_USERNAME }}:${{ env.VA_VSP_BOT_1_NEXUS_PASSWORD }}' | openssl base64)
+          npm config set cafile ${{ env.NODE_EXTRA_CA_CERTS }}
+          npm config set registry ${{ env.NEXUS_REGISTRY }}
+          npm config set email va-vsp-bot-1@va.gov
+          npm config set always-auth true
+
       - name: Install dependencies
         uses: nick-invision/retry@v2
         with:
-          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          command: yarn install --frozen-lockfile --prefer-offline --production=false --network-concurrency 1
           max_attempts: 3
           timeout_minutes: 5
         env:
@@ -489,6 +516,13 @@ jobs:
       NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
 
     steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: 'us-gov-west-1'
+
       - name: Checkout vets-website
         uses: actions/checkout@v2
 
@@ -512,10 +546,36 @@ jobs:
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}-cypress
 
+      - name: Get NEXUS username
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_1_NEXUS_USERNAME
+          env_variable_name: VA_VSP_BOT_1_NEXUS_USERNAME
+
+      - name: Get NEXUS token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_1_NEXUS_PASSWORD
+          env_variable_name: VA_VSP_BOT_1_NEXUS_PASSWORD
+
+      # Required to change registry in yarn.lock file
+      - name: Change registry in yarn.lock
+        run: |
+          sed -i -e "s#https://registry.yarnpkg.com/#${{ env.NEXUS_REGISTRY }}#g" yarn.lock
+          sed -i -e "s#https://registry.npmjs.org/#${{ env.NEXUS_REGISTRY }}#g" yarn.lock
+
+      - name: Authenticate NEXUS
+        run: |
+          npm config set _auth $(echo -n '${{ env.VA_VSP_BOT_1_NEXUS_USERNAME }}:${{ env.VA_VSP_BOT_1_NEXUS_PASSWORD }}' | openssl base64)
+          npm config set cafile ${{ env.NODE_EXTRA_CA_CERTS }}
+          npm config set registry ${{ env.NEXUS_REGISTRY }}
+          npm config set email va-vsp-bot-1@va.gov
+          npm config set always-auth true
+
       - name: Install dependencies
         uses: nick-invision/retry@v2
         with:
-          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          command: yarn install --frozen-lockfile --prefer-offline --production=false --network-concurrency 1
           max_attempts: 3
           timeout_minutes: 5
         env:
@@ -557,60 +617,6 @@ jobs:
           name: cypress-mochawesome-test-results
           path: cypress/results
           retention-days: 1
-
-  nightwatch-tests:
-    name: Nightwatch E2E Tests
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Checkout vets-website
-        uses: actions/checkout@v2
-
-      - name: Download production build artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: vagovprod.tar.bz2
-
-      - name: Unpack build
-        run: |
-          mkdir -p build/vagovprod
-          tar -C build/vagovprod -xjf vagovprod.tar.bz2
-
-      - name: Get Node version
-        id: get-node-version
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-
-      - name: Cache dependencies
-        id: cache-dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            .cache/yarn
-            node_modules
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-
-      - name: Install dependencies
-        uses: nick-invision/retry@v2
-        with:
-          command: yarn install --frozen-lockfile --prefer-offline --production=false
-          max_attempts: 3
-          timeout_minutes: 5
-        env:
-          YARN_CACHE_FOLDER: .cache/yarn
-
-      - name: Run Nightwatch tests
-        run: |
-          chmod +x script/run-nightwatch.sh
-          yarn test:e2e:headless  --suiteRetries 3
-        timeout-minutes: 30
-        env:
-          BUILDTYPE: vagovprod
-          NODE_ENV: production
 
   testing-reports:
     name: Testing Reports
@@ -669,7 +675,7 @@ jobs:
           slack_app_token: ${{ env.SLACK_APP_TOKEN }}
           slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
           attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "E2E tests in `vets-website` have failed, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
-          channel_id: C026PD47Z19 # gha-test-status
+          channel_id: C026PD47Z19 #gha-test-status
 
       # ------------------------
       # | Upload BigQuery Data |
