@@ -9,6 +9,10 @@
     position: static;
   }
 
+  &.scrollable {
+    overflow-y: scroll;
+  }
+
   .compare-drawer-expanded {
     transition: height 0.3s ease-in-out;
     height: 12.5em;
