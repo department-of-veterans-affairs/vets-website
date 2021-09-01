@@ -151,8 +151,8 @@ class ObjectField extends React.Component {
       },
     );
 
-    let title = formContext.pageTitle;
-    if (!formContext.hideTitle && typeof title === 'function') {
+    let title = formContext?.pageTitle;
+    if (!formContext?.hideTitle && typeof title === 'function') {
       title = title(formData, formContext);
     }
     const uiOptions = uiSchema['ui:options'] || {};
@@ -168,7 +168,7 @@ class ObjectField extends React.Component {
 
     const defaultEditButton = ({
       label = editLabel,
-      onEdit = formContext.onEdit,
+      onEdit = formContext?.onEdit,
       text = 'Edit',
     } = {}) => (
       <button
@@ -191,10 +191,10 @@ class ObjectField extends React.Component {
         />
       ) : (
         <>
-          {!formContext.hideHeaderRow && (
+          {!formContext?.hideHeaderRow && (
             <div className="form-review-panel-page-header-row">
               {title?.trim() &&
-                !formContext.hideTitle && (
+                !formContext?.hideTitle && (
                   <h4 className="form-review-panel-page-header vads-u-font-size--h5">
                     {title}
                   </h4>
