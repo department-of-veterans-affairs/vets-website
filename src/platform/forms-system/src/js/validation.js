@@ -1,4 +1,8 @@
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import find from 'lodash/find';
+import get from '../../../utilities/data/get';
+import omit from '../../../utilities/data/omit';
+import set from '../../../utilities/data/set';
+import unset from '../../../utilities/data/unset';
 import { Validator } from 'jsonschema';
 
 import { isActivePage, parseISODate, minYear, maxYear } from './helpers';
@@ -40,13 +44,13 @@ const defaultMessages = {
 function getMessage(path, name, uiSchema, errorArgument) {
   let pathSpecificMessage;
   if (path === 'instance') {
-    pathSpecificMessage = _.get(['ui:errorMessages', name], uiSchema);
+    pathSpecificMessage = get(['ui:errorMessages', name], uiSchema);
   } else {
     const cleanPath = path
       .replace('instance.', '')
       .replace(/\[\d+\]/g, '.items');
-    pathSpecificMessage = _.get(
-      `${cleanPath}['ui:errorMessages'].${name}`,
+    pathSpecificMessage = get(
+      `${cleanPath}[ui:errorMessages].${name}`,
       uiSchema,
     );
   }
@@ -71,10 +75,11 @@ export function transformErrors(errors, uiSchema) {
   return errors.map(error => {
     if (error.name === 'required') {
       const path = `${error.property}.${error.argument}`;
-      return _.assign(error, {
+      return {
+        ...error,
         property: path,
         message: getMessage(path, error.name, uiSchema, error.argument),
-      });
+      };
     }
 
     const newMessage = getMessage(
@@ -84,7 +89,7 @@ export function transformErrors(errors, uiSchema) {
       error.argument,
     );
     if (newMessage) {
-      return _.set('message', newMessage, error);
+      return set('message', newMessage, error);
     }
 
     return error;
@@ -138,7 +143,7 @@ export function uiSchemaValidate(
   appStateData,
 ) {
   if (uiSchema && schema) {
-    const currentData = path !== '' ? _.get(path, formData) : formData;
+    const currentData = path !== '' ? get(path, formData) : formData;
     if (uiSchema.items && currentData) {
       currentData.forEach((item, index) => {
         const newPath = `${path}[${index}]`;
@@ -146,8 +151,8 @@ export function uiSchemaValidate(
           index < schema.items.length
             ? schema.items[index]
             : schema.additionalItems;
-        if (!_.get(newPath, errors)) {
-          const currentErrors = path ? _.get(path, errors) : errors;
+        if (!get(newPath, errors)) {
+          const currentErrors = path ? get(path, errors) : errors;
           currentErrors[index] = {
             __errors: [],
             addError(error) {
@@ -170,8 +175,8 @@ export function uiSchemaValidate(
         .filter(prop => !prop.startsWith('ui:'))
         .forEach(item => {
           const nextPath = path !== '' ? `${path}.${item}` : item;
-          if (!_.get(nextPath, errors)) {
-            const currentErrors = path === '' ? errors : _.get(path, errors);
+          if (!get(nextPath, errors)) {
+            const currentErrors = path === '' ? errors : get(path, errors);
 
             currentErrors[item] = {
               __errors: [],
@@ -195,7 +200,7 @@ export function uiSchemaValidate(
     const validations = uiSchema['ui:validations'];
     if (validations && currentData !== undefined) {
       validations.forEach(validation => {
-        const pathErrors = path ? _.get(path, errors) : errors;
+        const pathErrors = path ? get(path, errors) : errors;
         if (typeof validation === 'function') {
           validation(
             pathErrors,
@@ -229,7 +234,7 @@ export function errorSchemaIsValid(errorSchema) {
     return false;
   }
 
-  return _.values(_.omit('__errors', errorSchema)).every(errorSchemaIsValid);
+  return Object.values(omit('__errors', errorSchema)).every(errorSchemaIsValid);
 }
 
 /**
@@ -253,7 +258,7 @@ export function isValidForm(form, pageList, isTesting = false) {
   const pageListMap = new Map();
   pageList.forEach(page => pageListMap.set(page.pageKey, page));
   const validPages = Object.keys(form.pages).filter(pageKey =>
-    isActivePage(_.find({ pageKey }, pageList), form.data),
+    isActivePage(find(pageList, { pageKey }), form.data),
   );
 
   const v = new Validator();
@@ -275,7 +280,7 @@ export function isValidForm(form, pageList, isTesting = false) {
         if (arrayData) {
           const itemsToKeep = arrayData.map(itemFilter || (() => true));
           // Remove the excluded array data
-          formData = _.set(
+          formData = set(
             arrayPath,
             arrayData.filter((item, index) => itemsToKeep[index]),
             formData,
@@ -296,7 +301,7 @@ export function isValidForm(form, pageList, isTesting = false) {
             ].items.filter((item, index) => itemsToKeep[index]);
           }
         } else {
-          formData = _.unset(arrayPath, formData);
+          formData = unset(arrayPath, formData);
         }
       }
 
@@ -324,7 +329,9 @@ export function isValidForm(form, pageList, isTesting = false) {
       return {
         isValid: false,
         // removes PII
-        errors: errors.concat(result.errors.map(_.unset('instance'))),
+        errors: errors.concat(
+          result.errors.map(error => unset('instance', error)),
+        ),
         formData: isTesting ? formData : null, // for unit tests
       };
     },
@@ -470,7 +477,7 @@ export function convertToDateField(dateStr) {
     datePart[part] = {
       value: date[part],
     };
-    return _.assign(dateField, datePart);
+    return { ...dateField, ...datePart };
   }, date);
 }
 

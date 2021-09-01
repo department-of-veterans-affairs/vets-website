@@ -34,7 +34,11 @@ const ManageDependents = props => {
       veteranContactInformation,
       userInfo,
     );
-    submitFormData(stateKey, payload);
+    submitFormData(stateKey, payload).then(data => {
+      if (data.status === LOADING_STATUS.success) {
+        closeFormHandler();
+      }
+    });
   };
 
   const onChange = useCallback(
