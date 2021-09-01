@@ -69,6 +69,9 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_1_NEXUS_PASSWORD
           env_variable_name: VA_VSP_BOT_1_NEXUS_PASSWORD
 
+      - name: cache clean
+        run: yarn cache clean
+
       # Required to change registry in yarn.lock file
       - name: Change registry in yarn.lock
         run: |
