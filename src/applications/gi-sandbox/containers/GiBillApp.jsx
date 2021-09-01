@@ -12,7 +12,7 @@ import {
 import GiBillBreadcrumbs from '../components/GiBillBreadcrumbs';
 import PreviewBanner from '../components/PreviewBanner';
 import Modals from './Modals';
-import { useQueryParams } from '../utils/helpers';
+import { scrollToFocusedElement, useQueryParams } from '../utils/helpers';
 import ServiceError from '../components/ServiceError';
 import AboutThisTool from '../components/content/AboutThisTool';
 import Disclaimer from '../components/content/Disclaimer';
@@ -37,18 +37,13 @@ export function GiBillApp({
   const shouldEnterPreviewMode = !preview.display && versionChange;
   const location = useLocation();
 
-  document.addEventListener(
-    'focus',
-    () => {
-      const focussedElement = document.getElementById(
-        document.activeElement.id,
-      );
-      if (focussedElement) {
-        focussedElement.scrollIntoView();
-      }
-    },
-    true,
-  );
+  useEffect(() => {
+    document.addEventListener('focus', scrollToFocusedElement, true);
+
+    return () => {
+      document.removeEventListener('focus', scrollToFocusedElement);
+    };
+  }, []);
 
   useEffect(
     () => {
