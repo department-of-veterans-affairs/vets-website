@@ -736,11 +736,10 @@ jobs:
 
       # env.MOCHAWESOME_REPORT_RESULTS is set and exported during the above step when the mochawesome report is generated.  It contains the output string for the publish step at the end of the job with the numbers from the Mochawesome report.
 
-      # - name: Upload Mochawesome report artifact
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: mochawesome-report
-      #     path: testing-tools-team-dashboard-data/mochawesome-report
+      # --------------------------
+      # | Publish Testing Report |
+      # --------------------------
+
       - name: Download video artifacts
         if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: actions/download-artifact@v2
@@ -770,45 +769,6 @@ jobs:
 
       - name: Upload test report to s3
         run: aws s3 cp testing-tools-team-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/cypress-reports --acl public-read --region us-gov-west-1 --recursive
-      # --------------------------
-      # | Publish Testing Report |
-      # --------------------------
-
-      # - name: Checkout Testing Reports repo
-      #   uses: actions/checkout@v2
-      #   with:
-      #     repository: department-of-veterans-affairs/testing-reports
-      #     token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-      #     path: testing-reports
-
-      # - name: Download Mochawesome report artifact
-      #   uses: actions/download-artifact@v2
-      #   with:
-      #     name: mochawesome-report
-      #     path: testing-reports/cypress-reports
-
-      # - name: Download video artifacts
-      #   if: ${{ needs.cypress-tests.result == 'failure' }}
-      #   uses: actions/download-artifact@v2
-      #   with:
-      #     name: cypress-video-artifacts
-      #     path: testing-reports/cypress-reports/videos/${{ env.UUID }}
-
-      # - name: Pull any changes since checkout
-      #   run: git pull origin master
-      #   working-directory: testing-reports
-
-      # - name: Add changes
-      #   run: git add .
-      #   working-directory: testing-reports
-
-      # - name: Commit and push changes
-      #   uses: actions-js/push@master
-      #   with:
-      #     github_token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-      #     repository: department-of-veterans-affairs/testing-reports
-      #     directory: testing-reports
-      #     branch: master
 
       # -------------------------
       # | Cypress Tests Summary |
