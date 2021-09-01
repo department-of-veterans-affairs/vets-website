@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import appendQuery from 'append-query';
 import { removeCompareInstitution, compareDrawerOpened } from '../actions';
 import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal';
+import { isSmallScreen } from '../utils/helpers';
 
 export function CompareDrawer({
   compare,
@@ -26,7 +27,6 @@ export function CompareDrawer({
   const [headerLabel, setHeaderLabel] = useState(
     <>Compare Institutions ({loaded.length} of 3)</>,
   );
-  const [openHeight, setOpenHeight] = useState(null);
   const [sizeChanged, setSizeChanged] = useState(false);
 
   const renderBlanks = () => {
@@ -131,17 +131,19 @@ export function CompareDrawer({
   );
 
   const addScrolling = () => {
-    if (drawer.current && open) {
-      const drawerHeight = drawer.current.getBoundingClientRect().height;
-      if (!openHeight) {
-        setOpenHeight(drawerHeight);
-      }
-      if (drawerHeight >= window.innerHeight) {
-        drawer.current.classList.add('scrollable');
-        drawer.current.style.height = `${window.innerHeight}px`;
+    if (drawer.current) {
+      const maxDrawerHeight = isSmallScreen() ? 334 : 200;
+      if (open) {
+        if (maxDrawerHeight >= window.innerHeight) {
+          drawer.current.classList.add('scrollable');
+          drawer.current.style.height = `${window.innerHeight}px`;
+        } else {
+          drawer.current.style.removeProperty('height');
+          drawer.current.classList.remove('scrollable');
+        }
       } else {
+        drawer.current.style.removeProperty('height');
         drawer.current.classList.remove('scrollable');
-        drawer.current.style.height = `${openHeight}px`;
       }
     }
   };
@@ -156,16 +158,17 @@ export function CompareDrawer({
     [sizeChanged],
   );
 
-  useEffect(
-    () => {
-      setOpen(compare.open);
-    },
-    [compare.open],
-  );
-
   const checkSize = () => {
     setSizeChanged(true);
   };
+
+  useEffect(
+    () => {
+      setOpen(compare.open);
+      checkSize();
+    },
+    [compare.open],
+  );
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, true);
