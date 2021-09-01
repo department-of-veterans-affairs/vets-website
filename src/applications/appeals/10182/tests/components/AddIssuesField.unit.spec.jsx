@@ -248,7 +248,7 @@ describe('<AddIssuesField>', () => {
     expect(wrapper.find('.va-modal').length).to.eq(1);
     wrapper.unmount();
   });
-  it('should set view additional issues flag when visible', () => {
+  it.skip('should set view additional issues flag when visible', () => {
     const setFormData = sinon.spy();
     const wrapper = mount(
       <AddIssuesField

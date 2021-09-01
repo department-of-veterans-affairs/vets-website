@@ -5,7 +5,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { connect } from 'react-redux';
 import OMBInfo from '../content/OMBInfo';
-import CallToActionWidget from 'platform/site-wide/cta-widget';
+import CallToActionWidget from 'applications/static-pages/cta-widget';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {

@@ -4,7 +4,7 @@ import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 // Relative imports.
-import CallToActionWidget from 'platform/site-wide/cta-widget';
+import CallToActionWidget from 'applications/static-pages/cta-widget';
 
 const UnauthContent = () => (
   <>
@@ -174,7 +174,7 @@ const UnauthContent = () => (
       participating community care providers as well as the Department of
       Defense.
     </p>
-    <h3>What's VHIE, and how can it help me manage my health?</h3>
+    <h3>What’s VHIE, and how can it help me manage my health?</h3>
     <p>
       VHIE gives your health care providers a more complete view of your health
       record to help them make more informed treatment decisions. Through VHIE,
@@ -184,7 +184,7 @@ const UnauthContent = () => (
 
     <p>
       VHIE helps improve continuity of your care, reduce test duplication, and
-      avoid clinical error. That's because you can see all your health care
+      avoid clinical error. That’s because you can see all your health care
       providers from different practices or networks in one place. Our secure
       system also eliminates the need to send paper medical records by mail, and
       to carry your records to appointments with community providers.
@@ -192,14 +192,14 @@ const UnauthContent = () => (
 
     <p>
       We share your health information only with participating community
-      providers via VHIE when they're treating you. Visit the{' '}
+      providers via VHIE when they’re treating you. Visit the{' '}
       <a href="/VHIE/">VHIE page</a> to learn more about how the program helps
       your providers better understand your health history and develop safer,
       more effective treatment plans.
     </p>
     <h4>VHIE sharing options</h4>
     <p>
-      If you don't want your community providers to receive your information via
+      If you don’t want your community providers to receive your information via
       VHIE, you may opt out of electronic sharing at any time. And if you
       previously opted out but want to resume secure, seamless sharing, you may
       opt back in. Visit the{' '}
@@ -224,7 +224,7 @@ const UnauthContent = () => (
       .
     </p>
     <p>
-      <strong>Note:</strong> If you haven't already done so, you'll need to
+      <strong>Note:</strong> If you haven’t already done so, you’ll need to
       upgrade your My HealtheVet account to Premium status to opt out. Visit{' '}
       <a
         href="https://www.myhealth.va.gov/mhv-portal-web/home"
@@ -248,7 +248,7 @@ const UnauthContent = () => (
       <a href="/vaforms/medical/pdf/10-10163-fill.pdf">
         VA Form 10-10163 (PDF)
       </a>{' '}
-      and return it to your VA facility's ROI office, or submit it online
+      and return it to your VA facility’s ROI office, or submit it online
       through{' '}
       <a
         href="https://www.myhealth.va.gov/mhv-portal-web/home"
@@ -260,7 +260,7 @@ const UnauthContent = () => (
     </p>
     <h3>Can I check my sharing preference status?</h3>
     <p>
-      Yes. Please contact your VA facility's ROI office. If you've already
+      Yes. Please contact your VA facility’s ROI office. If you’ve already
       submitted your form to opt out, or to opt back in, to the electronic
       sharing program, your request may be in process.
     </p>
