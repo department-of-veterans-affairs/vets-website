@@ -21,7 +21,7 @@ export function transformFormToVAOSCCRequest(state) {
   if (provider?.identifier) {
     practitioners = [
       {
-        system: 'HSRM',
+        system: 'http://hl7.org/fhir/sid/us-npi',
         value: data.communityCareProvider.identifier.find(
           item => item.system === 'PPMS',
         )?.value,

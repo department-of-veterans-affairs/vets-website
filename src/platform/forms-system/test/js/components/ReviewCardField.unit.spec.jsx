@@ -2,7 +2,7 @@ import React from 'react';
 import { spy } from 'sinon';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
-import _ from 'lodash/fp';
+import flow from 'lodash/flow';
 
 import set from 'platform/utilities/data/set';
 
@@ -172,9 +172,9 @@ describe('Schemaform: ReviewCardField', () => {
   });
 
   it('should handle a subtitle', () => {
-    const props = _.flow(
-      _.set('uiSchema.ui:subtitle', 'Subtitle text'),
-      _.set('uiSchema.ui:options.startInEdit', true),
+    const props = flow(
+      defProps => set('uiSchema.ui:subtitle', 'Subtitle text', defProps),
+      defProps => set('uiSchema.ui:options.startInEdit', true, defProps),
     )(defaultProps);
 
     const tree = shallow(<ReviewCardField {...props} />);
