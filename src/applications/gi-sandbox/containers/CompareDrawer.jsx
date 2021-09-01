@@ -15,13 +15,17 @@ export function CompareDrawer({
   preview,
 }) {
   const history = useHistory();
+  const { loaded, institutions } = compare.search;
   const [open, setOpen] = useState(compare.open);
   const [promptingFacilityCode, setPromptingFacilityCode] = useState(null);
   const [stuck, setStuck] = useState(false);
   const placeholder = useRef(null);
   const drawer = useRef(null);
   const notRendered = !displayed && !alwaysDisplay;
-  const { loaded, institutions } = compare.search;
+  const [previousLoaded, setPreviousLoaded] = useState(loaded);
+  const [previousInstitutions, setPreviousInstitutions] = useState(
+    institutions,
+  );
   const [loadedCards, setLoadedCards] = useState(null);
   const [headerLabel, setHeaderLabel] = useState(
     <>Compare Institutions ({loaded.length} of 3)</>,
@@ -64,7 +68,45 @@ export function CompareDrawer({
   };
 
   const makeHeaderLabel = () => {
-    setHeaderLabel(<>Compare Institutions ({loaded.length} of 3)</>);
+    const removed = [];
+    const added = [];
+
+    loaded.forEach(loadedCode => {
+      if (
+        previousLoaded.filter(previousCode => previousCode === loadedCode)
+          .length === 0
+      ) {
+        added.push(loadedCode);
+      }
+    });
+
+    previousLoaded.forEach(previousCode => {
+      if (
+        loaded.filter(loadedCode => previousCode === loadedCode).length === 0
+      ) {
+        removed.push(previousCode);
+      }
+    });
+
+    let srActionMessage;
+    if (added.length > 0) {
+      srActionMessage = `${
+        institutions[added[0]].name
+      } added. Compare institutions, ${loaded.length} of 3.`;
+    } else if (removed.length > 0) {
+      srActionMessage = `${
+        previousInstitutions[removed[0]].name
+      } removed. Compare institutions, ${loaded.length} of 3.`;
+    }
+
+    setHeaderLabel(
+      <>
+        Compare Institutions ({loaded.length} of 3)
+        <span className="sr-only" aria-live="polite" aria-atomic="true">
+          {srActionMessage}
+        </span>
+      </>,
+    );
   };
 
   const makeLoadedCards = () => {
@@ -124,6 +166,9 @@ export function CompareDrawer({
         setBlanks(renderBlanks());
         dispatchCompareDrawerOpened(true);
       }
+
+      setPreviousLoaded(loaded);
+      setPreviousInstitutions(institutions);
     },
     [loaded],
   );
@@ -189,7 +234,7 @@ export function CompareDrawer({
             className="compare-header vads-l-grid-container"
             onClick={expandOnClick}
           >
-            <div className={headerLabelClasses}>{headerLabel}</div>
+            <button className={headerLabelClasses}>{headerLabel}</button>
           </div>
 
           <div className="compare-body vads-l-grid-container">

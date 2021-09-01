@@ -12,7 +12,7 @@ import { createAnalyticsSlug } from '../utils/analytics';
 import { isUUID } from '../utils/token-format-validator';
 
 const Landing = props => {
-  const { router, setAppointment, location } = props;
+  const { router, setAppointment, location, isLowAuthEnabled } = props;
 
   useEffect(
     () => {
@@ -61,7 +61,11 @@ const Landing = props => {
               // dispatch data into redux and local storage
               setAppointment(data, token);
               setCurrentToken(window, token);
-              goToNextPage(router, URLS.UPDATE_INSURANCE);
+              if (isLowAuthEnabled) {
+                goToNextPage(router, URLS.VALIDATION_NEEDED);
+              } else {
+                goToNextPage(router, URLS.UPDATE_INSURANCE);
+              }
             }
           })
           .catch(error => {
@@ -77,7 +81,7 @@ const Landing = props => {
           });
       }
     },
-    [router, setAppointment, location],
+    [router, setAppointment, location, isLowAuthEnabled],
   );
   return (
     <>
