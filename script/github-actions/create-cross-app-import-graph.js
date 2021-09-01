@@ -280,7 +280,7 @@ function run() {
   const diff = process.env.DIFF_RESULTS;
 
   // eslint-disable-next-line no-console
-  console.error('Diff: ', diff);
+  console.log('Diff: ', diff);
 
   if (diffIncludesSrcApplicationsFiles(diff) && shouldRebuildGraph(diff)) {
     const graph = {};
