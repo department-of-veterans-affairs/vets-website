@@ -787,28 +787,28 @@ jobs:
       #     name: mochawesome-report
       #     path: testing-reports/cypress-reports
 
-      - name: Download video artifacts
-        if: ${{ needs.cypress-tests.result == 'failure' }}
-        uses: actions/download-artifact@v2
-        with:
-          name: cypress-video-artifacts
-          path: testing-reports/cypress-reports/videos/${{ env.UUID }}
+      # - name: Download video artifacts
+      #   if: ${{ needs.cypress-tests.result == 'failure' }}
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: cypress-video-artifacts
+      #     path: testing-reports/cypress-reports/videos/${{ env.UUID }}
 
-      - name: Pull any changes since checkout
-        run: git pull origin master
-        working-directory: testing-reports
+      # - name: Pull any changes since checkout
+      #   run: git pull origin master
+      #   working-directory: testing-reports
 
-      - name: Add changes
-        run: git add .
-        working-directory: testing-reports
+      # - name: Add changes
+      #   run: git add .
+      #   working-directory: testing-reports
 
-      - name: Commit and push changes
-        uses: actions-js/push@master
-        with:
-          github_token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-          repository: department-of-veterans-affairs/testing-reports
-          directory: testing-reports
-          branch: master
+      # - name: Commit and push changes
+      #   uses: actions-js/push@master
+      #   with:
+      #     github_token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+      #     repository: department-of-veterans-affairs/testing-reports
+      #     directory: testing-reports
+      #     branch: master
 
       # -------------------------
       # | Cypress Tests Summary |
