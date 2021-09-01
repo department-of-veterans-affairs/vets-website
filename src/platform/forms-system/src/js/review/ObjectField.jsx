@@ -207,7 +207,16 @@ class ObjectField extends React.Component {
       );
     }
 
-    return <>{renderedProperties}</>;
+    return isReactComponent(ObjectViewField) ? (
+      <ObjectViewField
+        {...this.props}
+        renderedProperties={renderedProperties}
+        title={title}
+        defaultEditButton={defaultEditButton}
+      />
+    ) : (
+      <>{renderedProperties}</>
+    );
   }
 }
 
