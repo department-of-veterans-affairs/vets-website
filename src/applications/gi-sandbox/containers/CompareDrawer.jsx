@@ -28,6 +28,11 @@ export function CompareDrawer({
     <>Compare Institutions ({loaded.length} of 3)</>,
   );
   const [sizeChanged, setSizeChanged] = useState(false);
+  const tooTall = () => {
+    const maxDrawerHeight = isSmallScreen() ? 334 : 200;
+    return compare.open && maxDrawerHeight >= window.innerHeight;
+  };
+  const [scrollable, setScrollable] = useState(tooTall());
 
   const renderBlanks = () => {
     const blanks = [];
@@ -130,28 +135,10 @@ export function CompareDrawer({
     [loaded],
   );
 
-  const addScrolling = () => {
-    if (drawer.current) {
-      const maxDrawerHeight = isSmallScreen() ? 334 : 200;
-      if (open) {
-        if (maxDrawerHeight >= window.innerHeight) {
-          drawer.current.classList.add('scrollable');
-          drawer.current.style.height = `${window.innerHeight}px`;
-        } else {
-          drawer.current.style.removeProperty('height');
-          drawer.current.classList.remove('scrollable');
-        }
-      } else {
-        drawer.current.style.removeProperty('height');
-        drawer.current.classList.remove('scrollable');
-      }
-    }
-  };
-
   useEffect(
     () => {
       if (sizeChanged) {
-        addScrolling();
+        setScrollable(tooTall());
         setSizeChanged(false);
       }
     },
@@ -203,7 +190,10 @@ export function CompareDrawer({
     dispatchCompareDrawerOpened(!open);
   };
 
-  const compareDrawerClasses = classNames('compare-drawer', { stuck });
+  const compareDrawerClasses = classNames('compare-drawer', {
+    stuck,
+    scrollable,
+  });
   const placeholderClasses = classNames('placeholder', {
     'drawer-open': open && !stuck,
     'drawer-stuck': stuck,
