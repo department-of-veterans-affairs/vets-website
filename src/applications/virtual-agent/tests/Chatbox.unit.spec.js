@@ -417,5 +417,24 @@ describe('App', () => {
 
       expect(store.getState().navigation.showLoginModal).to.be.true;
     });
+
+    it('does not display chatbot', async () => {
+      const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
+        initialState: {
+          featureToggles: {
+            loading: true,
+          },
+          user: {
+            loggedIn: {
+              currentlyLoggedIn: false,
+            },
+          },
+        },
+      });
+
+      const alertText = wrapper.queryByText('Loading Virtual Agent');
+
+      expect(alertText).to.not.exist;
+    });
   });
 });
