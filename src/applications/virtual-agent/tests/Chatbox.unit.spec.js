@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { expect } from 'chai';
-import { waitFor, screen, fireEvent } from '@testing-library/react';
+import { waitFor, screen, fireEvent, act } from '@testing-library/react';
 import sinon from 'sinon';
 import * as Sentry from '@sentry/browser';
 
@@ -398,16 +398,24 @@ describe('App', () => {
     });
 
     it('displays sign in modal when user clicks sign in button', async () => {
-      const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
-        initialState: {
-          featureToggles: {
-            loading: false,
-          },
+      const store = createTestStore({
+        navigation: {
+          showLoginModal: false,
+        },
+        featureToggles: {
+          loading: true,
         },
       });
+
+      const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
+        store,
+      });
       const button = wrapper.getByRole('button');
-      fireEvent.click(button);
-      expect(wrapper.getByRole('alertdialog')).to.exist;
+      await act(async () => {
+        fireEvent.click(button);
+      });
+
+      expect(store.getState().navigation.showLoginModal).to.be.true;
     });
   });
 });

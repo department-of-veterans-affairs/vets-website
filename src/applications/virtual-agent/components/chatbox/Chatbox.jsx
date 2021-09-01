@@ -10,6 +10,8 @@ import {
   ERROR,
   LOADING,
 } from './loadingStatus';
+import { connect } from 'react-redux';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 
 function useWebChat(props) {
   const webchatFramework = useWebChatFramework(props);
@@ -36,16 +38,34 @@ export default function Chatbox(props) {
           VA Virtual Agent (beta)
         </h2>
       </div>
-      <va-alert status="continue">
-        <p>Please sign in to access the chatbot.</p>
-        <button className="usa-button-primary" onClick={() => {}}>
-          Sign in to VA.gov
-        </button>
-      </va-alert>
+      <ConnectedSignInAlert />
       <App timeout={props.timeout || ONE_MINUTE} />
     </div>
   );
 }
+
+function SignInAlert({ toggleLoginModal }) {
+  return (
+    <va-alert status="continue">
+      <p>Please sign in to access the chatbot.</p>
+      <button
+        className="usa-button-primary"
+        onClick={() => toggleLoginModal(true)}
+      >
+        Sign in to VA.gov
+      </button>
+    </va-alert>
+  );
+}
+
+const mapDispatchToProps = {
+  toggleLoginModal,
+};
+
+const ConnectedSignInAlert = connect(
+  null,
+  mapDispatchToProps,
+)(SignInAlert);
 
 function App(props) {
   const { token, WebChatFramework, loadingStatus } = useWebChat(props);
