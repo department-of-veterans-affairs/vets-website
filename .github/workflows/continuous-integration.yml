@@ -48,14 +48,14 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
-      - name: Cache dependencies
-        id: cache-dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            .cache/yarn
-            node_modules
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+      # - name: Cache dependencies
+      #   id: cache-dependencies
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: |
+      #       .cache/yarn
+      #       node_modules
+      #     key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Get NEXUS username
         uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
@@ -82,6 +82,9 @@ jobs:
           npm config set registry ${{ env.NEXUS_REGISTRY }}
           npm config set email va-vsp-bot-1@va.gov
           npm config set always-auth true
+
+      - name: cache clean
+        run: yarn cache clean
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
