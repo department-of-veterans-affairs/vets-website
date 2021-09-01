@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import appendQuery from 'append-query';
 import { removeCompareInstitution, compareDrawerOpened } from '../actions';
 import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal';
-import { isSmallScreen } from '../utils/helpers';
 
 export function CompareDrawer({
   compare,
@@ -27,7 +26,8 @@ export function CompareDrawer({
   const [headerLabel, setHeaderLabel] = useState(
     <>Compare Institutions ({loaded.length} of 3)</>,
   );
-  const [smallScreen, setSmallScreen] = useState(isSmallScreen());
+  const [openHeight, setOpenHeight] = useState(null);
+  const [sizeChanged, setSizeChanged] = useState(false);
 
   const renderBlanks = () => {
     const blanks = [];
@@ -130,20 +130,31 @@ export function CompareDrawer({
     [loaded],
   );
 
-  const checkSize = () => {
-    setSmallScreen(isSmallScreen());
-
+  const addScrolling = () => {
     if (drawer.current && open) {
-      const offsetHeight = smallScreen ? 334 : 200;
-      if (offsetHeight >= window.innerHeight) {
+      const drawerHeight = drawer.current.getBoundingClientRect().height;
+      if (!openHeight) {
+        setOpenHeight(drawerHeight);
+      }
+      if (drawerHeight >= window.innerHeight) {
         drawer.current.classList.add('scrollable');
         drawer.current.style.height = `${window.innerHeight}px`;
       } else {
         drawer.current.classList.remove('scrollable');
-        drawer.current.style.height = `${offsetHeight}px`;
+        drawer.current.style.height = `${openHeight}px`;
       }
     }
   };
+
+  useEffect(
+    () => {
+      if (sizeChanged) {
+        addScrolling();
+        setSizeChanged(false);
+      }
+    },
+    [sizeChanged],
+  );
 
   useEffect(
     () => {
@@ -151,6 +162,10 @@ export function CompareDrawer({
     },
     [compare.open],
   );
+
+  const checkSize = () => {
+    setSizeChanged(true);
+  };
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, true);
