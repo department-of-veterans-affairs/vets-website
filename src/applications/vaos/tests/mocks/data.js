@@ -225,7 +225,14 @@ export function createMockAppointmentByVersion({
         locationId: null,
         minutesDuration: null,
         practitioners: communityCareProvider
-          ? [{ id: { system: 'HSRM', value: communityCareProvider.uniqueId } }]
+          ? [
+              {
+                identifier: {
+                  system: 'http://hl7.org/fhir/sid/us-npi',
+                  value: communityCareProvider.uniqueId,
+                },
+              },
+            ]
           : null,
         preferredTimesForPhoneCall: null,
         priority: null,

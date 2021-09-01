@@ -2,19 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import { getVAAppointmentLocationId } from '../../../services/appointment';
-import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import AppointmentDateTime from '../AppointmentDateTime';
-import PageLayout from '../PageLayout';
 import Breadcrumbs from '../../../components/Breadcrumbs';
-import InfoAlert from '../../../components/InfoAlert';
 import CalendarLink from './CalendarLink';
 import CancelLink from './CancelLink';
 import StatusAlert from './StatusAlert';
 import TypeHeader from './TypeHeader';
 import PrintLink from './PrintLink';
 import VAInstructions from './VAInstructions';
-import { selectFeatureCancel } from '../../../redux/selectors';
-import { useSelector } from 'react-redux';
+import NoOnlineCancelAlert from './NoOnlineCancelAlert';
 
 function formatHeader(appointment) {
   if (appointment.vaos.isCOVIDVaccine) {
@@ -27,21 +23,15 @@ function formatHeader(appointment) {
 }
 
 export default function DetailsVA({ appointment, facilityData }) {
-  const showCancelButton = useSelector(selectFeatureCancel);
   const locationId = getVAAppointmentLocationId(appointment);
 
-  const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
-  const isPastAppointment = appointment.vaos.isPastAppointment;
   const facility = facilityData?.[locationId];
   const isCovid = appointment.vaos.isCOVIDVaccine;
 
   const header = formatHeader(appointment);
 
-  const canCancel =
-    !canceled && showCancelButton && !isPastAppointment && !isCovid;
-
   return (
-    <PageLayout>
+    <>
       <Breadcrumbs>
         <Link to={`/va/${appointment.id}`}>Appointment detail</Link>
       </Breadcrumbs>
@@ -64,23 +54,12 @@ export default function DetailsVA({ appointment, facilityData }) {
 
       <VAInstructions appointment={appointment} />
 
-      {!canceled &&
-        !isPastAppointment && (
-          <CalendarLink appointment={appointment} facility={facility} />
-        )}
-      {!canceled && <PrintLink />}
-      {canCancel && <CancelLink appointment={appointment} />}
-      {!canceled &&
-        isCovid && (
-          <InfoAlert
-            status="info"
-            headline="Need to make changes?"
-            backgroundOnly
-          >
-            Contact this provider if you need to reschedule or cancel your
-            appointment.
-          </InfoAlert>
-        )}
-    </PageLayout>
+      <CalendarLink appointment={appointment} facility={facility} />
+      <PrintLink appointment={appointment} />
+      {!isCovid && <CancelLink appointment={appointment} />}
+      {isCovid && (
+        <NoOnlineCancelAlert appointment={appointment} facility={facility} />
+      )}
+    </>
   );
 }

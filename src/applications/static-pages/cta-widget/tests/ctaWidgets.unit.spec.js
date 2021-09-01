@@ -1,7 +1,7 @@
 // Node modules.
 import { expect } from 'chai';
 // Relative imports.
-import environment from '../../../utilities/environment';
+import environment from 'platform/utilities/environment';
 import { CTA_WIDGET_TYPES, ctaWidgetsLookup } from '../ctaWidgets';
 import { eauthEnvironmentPrefixes } from 'platform/utilities/sso/constants';
 

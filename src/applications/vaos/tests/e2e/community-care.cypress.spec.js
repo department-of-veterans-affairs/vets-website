@@ -699,7 +699,7 @@ describe('VAOS community care flow using VAOS service', () => {
       expect(request.requestedPeriods[0].start).to.equal(date);
       expect(request.practitionerIds).to.deep.eq([
         {
-          system: 'HSRM',
+          system: 'http://hl7.org/fhir/sid/us-npi',
           value: '1497723753',
         },
       ]);
