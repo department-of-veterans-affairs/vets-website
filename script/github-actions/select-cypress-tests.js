@@ -2,22 +2,34 @@ const core = require('@actions/core');
 const path = require('path');
 const glob = require('glob');
 const { integrationFolder, testFiles } = require('../../config/cypress.json');
+const graph = require('../../config/cross_app_import_graph.json');
 
 const IS_MASTER_BUILD = process.env.IS_MASTER_BUILD === 'true';
-const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
+const filepaths = process.env.CHANGED_FILE_PATHS.split(' ');
+const pathsOfChangedFiles = filepaths.filter(filepath => {
+  // Ignore the cross-app import graph file
+  return filepath !== 'script/github-actions/create-cross-app-import-graph.js';
+});
 
 function selectedTests() {
   const tests = [];
+  const applications = [];
   const applicationNames = pathsOfChangedFiles
     .filter(filePath => !filePath.endsWith('.md'))
     .map(filePath => filePath.split('/')[2]);
 
-  [...new Set(applicationNames)].forEach(name => {
+  [...new Set(applicationNames)].forEach(app => {
+    // Lookup app in cross-app imports graph to reference which app's tests
+    // should run
+    applications.push(...graph[app].appsToTest);
+  });
+
+  [...new Set(applications)].forEach(app => {
     const selectedTestsPattern = path.join(
       __dirname,
       '../..',
       'src/applications',
-      `${name}/**/tests/**/*.cypress.spec.js?(x)`,
+      `${app}/**/tests/**/*.cypress.spec.js?(x)`,
     );
 
     tests.push(...glob.sync(selectedTestsPattern));
@@ -46,7 +58,7 @@ if (IS_MASTER_BUILD) {
   tests = allTests();
 } else {
   let allMdFiles = true;
-  let allMdOrSrcApplicationsFiles = true;
+  let allMdAndOrSrcApplicationsFiles = true;
 
   for (let i = 0; i < pathsOfChangedFiles.length; i += 1) {
     if (!pathsOfChangedFiles[i].endsWith('.md')) {
@@ -57,17 +69,17 @@ if (IS_MASTER_BUILD) {
       !pathsOfChangedFiles[i].endsWith('.md') &&
       !pathsOfChangedFiles[i].startsWith('src/applications')
     ) {
-      allMdOrSrcApplicationsFiles = false;
+      allMdAndOrSrcApplicationsFiles = false;
     }
 
-    if (allMdFiles === false && allMdOrSrcApplicationsFiles === false) {
+    if (allMdFiles === false && allMdAndOrSrcApplicationsFiles === false) {
       break;
     }
   }
 
   if (allMdFiles) {
     tests = [];
-  } else if (allMdOrSrcApplicationsFiles) {
+  } else if (allMdAndOrSrcApplicationsFiles) {
     tests = selectedTests();
   } else {
     tests = allTests();
