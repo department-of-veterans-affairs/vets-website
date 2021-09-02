@@ -91,7 +91,7 @@
     "ie 11"
   ],
   "devDependencies": {
-    "@actions/core": "^1.4.0",
+    "@actions/core": "^1.5.0",
     "@babel/core": "^7.15.0",
     "@babel/parser": "^7.15.3",
     "@babel/plugin-proposal-class-properties": "^7.14.5",
