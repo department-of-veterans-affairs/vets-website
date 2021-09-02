@@ -259,6 +259,7 @@
     "downshift": "^1.22.5",
     "express": "^4.17.1",
     "fast-levenshtein": "^2.0.6",
+    "find-imports": "^1.1.0",
     "fine-uploader": "^5.16.2",
     "formik": "^2.2.9",
     "foundation-sites": "^5.5.3",
@@ -336,6 +337,7 @@
     "**/meow": "^9.0.0",
     "**/set-value": "^2.0.1",
     "web-components/**/postcss": "^8.2.10",
-    "**/tar": "^4.4.18"
+    "**/tar": "^4.4.18",
+    "**/kind-of": "^6.0.3"
   }
 }
