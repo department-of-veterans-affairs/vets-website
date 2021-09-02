@@ -65,17 +65,6 @@ export const unsureDescription = (
   </>
 );
 
-// export const benefitSelectionNote = (
-//   <div className="usa-alert background-color-only">
-//     <h3>You’re applying for the Post-9/11 GI BIll®</h3>
-//     <p>
-//       Currently, you can only apply for Post-9/11 GI Bill (Chapter 33) benefits
-//       through this application. If you would like to apply for other benefits,
-//       please visit our <a href="#">How To Apply</a> page.
-//     </p>
-//   </div>
-// );
-
 /**
  * This function recieves the uiSchema and formData objects and returns
  * a comma separated list of the selected checkboxes in a checkbox

@@ -42,7 +42,6 @@ import AccordionField from '../components/AccordionField';
 
 import {
   activeDutyLabel,
-  // benefitSelectionNote,
   selectedReserveLabel,
   unsureDescription,
 } from '../helpers';
@@ -780,24 +779,6 @@ const formConfig = {
     benefitSelection: {
       title: 'Benefit selection',
       pages: {
-        // [formPages.benefitSelectionIntro]: {
-        //   path: 'benefit-selection-intro',
-        //   title: 'Benefit selection',
-        //   uiSchema: {
-        //     'view:benefitSelectionNote': {
-        //       'ui:description': benefitSelectionNote,
-        //     },
-        //   },
-        //   schema: {
-        //     type: 'object',
-        //     properties: {
-        //       'view:benefitSelectionNote': {
-        //         type: 'object',
-        //         properties: {},
-        //       },
-        //     },
-        //   },
-        // },
         [formPages.benefitSelect]: {
           path: 'benefit-selection',
           title: 'Benefit selection',
