@@ -15,7 +15,7 @@ const url = new URL(
     'https://dev.va.gov/jenkins',
     'job/testing',
     'job/vets-website',
-    `job/${branchName}`,
+    `job/feat%2Fgithub-actions%2Fgha-jenkins`,
     'build',
   ),
 );
