@@ -107,7 +107,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
         <tbody>
           {history.map((debtEntry, index) => (
             <tr key={`${debtEntry.date}-${index}`}>
-              <td>{moment(debtEntry.date).format('MMMM D, YYYY')}</td>
+              <td>{moment(new Date(debtEntry.date)).format('MMMM D, YYYY')}</td>
               <td>
                 <div className="vads-u-margin-top--0">
                   {renderLetterHistory(debtEntry.letterCode)}
@@ -141,7 +141,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
           <p className="va-introtext vads-u-margin-top--0">
             Updated on
             <span className="vads-u-margin-left--0p5">
-              {moment(last(currentDebt.debtHistory).date).format(
+              {moment(new Date(last(currentDebt.debtHistory).date)).format(
                 'MMMM D, YYYY',
               )}
             </span>
@@ -154,7 +154,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
                   <strong>Date of first notice: </strong>
                 </dt>
                 <dd className="vads-u-margin-left--1">
-                  {moment(first(currentDebt.debtHistory).date).format(
+                  {moment(new Date(first(currentDebt.debtHistory).date)).format(
                     'MMMM D, YYYY',
                   )}
                 </dd>

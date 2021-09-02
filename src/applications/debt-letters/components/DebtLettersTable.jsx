@@ -73,7 +73,7 @@ export const DebtLettersTable = ({ debtLinks }) => {
             role="row"
           >
             <td className="vads-u-border--0 vads-u-padding-left--3">
-              {moment(debtLetter.receivedAt).format('MMM D, YYYY')}
+              {moment(new Date(debtLetter.receivedAt)).format('MMM D, YYYY')}
             </td>
             <td className="vads-u-border--0">{debtLetter.typeDescription}</td>
 
@@ -84,11 +84,13 @@ export const DebtLettersTable = ({ debtLinks }) => {
                 onClick={() =>
                   handleDownloadClick(
                     debtLetter.typeDescription,
-                    moment(debtLetter.receivedAt).format('MMM D, YYYY'),
+                    moment(new Date(debtLetter.receivedAt)).format(
+                      'MMM D, YYYY',
+                    ),
                   )
                 }
                 download={`${debtLetter.typeDescription} dated ${moment(
-                  debtLetter.receivedAt,
+                  new Date(debtLetter.receivedAt),
                 ).format('MMM D, YYYY')}`}
                 href={encodeURI(
                   `${environment.API_URL}/v0/debt_letters/${
@@ -105,7 +107,9 @@ export const DebtLettersTable = ({ debtLinks }) => {
                 <span className="sr-only">
                   Download {debtLetter.typeDescription} dated
                   <span className="vads-u-margin-left--0p5">
-                    {moment(debtLetter.receivedAt).format('MMM D, YYYY')}
+                    {moment(new Date(debtLetter.receivedAt)).format(
+                      'MMM D, YYYY',
+                    )}
                   </span>
                 </span>
                 <dfn>
