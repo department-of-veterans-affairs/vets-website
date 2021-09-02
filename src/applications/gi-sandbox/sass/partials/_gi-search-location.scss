@@ -138,8 +138,15 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
 }
 
 .use-my-location-container {
+  display: block;
+
   @media (min-width: $medium-screen) {
-    margin-left: 21em;
+    display: inline-block;
+    float: right;
+    vertical-align: bottom;
+    margin-right: 40px;
+    margin-top: 20px;
+    margin-bottom: -10px;
   }
 }
 
@@ -152,8 +159,9 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
   margin: 0 0 0 20px;
 
   @media (max-width: $small-desktop-screen) {
-    margin: 1em 0;
+    margin: .75em 0;
     text-align: left;
+    width: 140px;
   }
 }
 
@@ -162,7 +170,6 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
   color: $color-link-default;
 
   @media (max-width: $small-desktop-screen) {
-    margin: 1em 0;
     text-align: left;
   }
 }
@@ -206,6 +213,10 @@ button.location-search-button {
 }
 
 @media (max-width: $small-screen) {
+  #institution-search-label {
+    margin-top: 0px;
+  }
+
   button.location-search-button {
     width: 100% !important;
 
@@ -222,9 +233,5 @@ button.location-search-button {
   .input-row {
     padding-top: 5px;
     padding-bottom: 5px;
-  }
-
-  .use-my-location-container {
-    margin-bottom: -10px;
   }
 }

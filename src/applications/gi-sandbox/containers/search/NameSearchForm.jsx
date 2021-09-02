@@ -21,6 +21,7 @@ export function NameSearchForm({
 }) {
   const { version } = preview;
   const [name, setName] = useState(search.query.name);
+  const [error, setError] = useState(null);
   const history = useHistory();
 
   const doSearch = value => {
@@ -64,8 +65,17 @@ export function NameSearchForm({
     [search.loadFromUrl],
   );
 
+  const validateSearchTerm = searchTerm => {
+    if (searchTerm.trim() === '') {
+      setError('Please fill in a school, employer, or training provider.');
+    } else {
+      setError(null);
+    }
+  };
+
   const handleSubmit = event => {
     event.preventDefault();
+    validateSearchTerm(name);
     doSearch(name);
   };
 
@@ -91,22 +101,26 @@ export function NameSearchForm({
           <div className="vads-l-row">
             <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--9 medium-screen:vads-l-col--10 input-row">
               <KeywordSearch
-                version={version}
                 className="name-search"
+                error={error}
                 inputValue={name}
+                label="School, employer, or training provider"
                 onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
                 onPressEnter={e => handleSubmit(e)}
                 onSelection={s => setName(s.label)}
                 onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
-                placeholder="school, employer, or training provider"
                 suggestions={[...autocomplete.nameSuggestions]}
+                validateSearchTerm={validateSearchTerm}
+                version={version}
               />
             </div>
-            <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3 medium-screen:vads-l-col--2 vads-u-text-align--right input-row">
-              <button type="submit" className="usa-button name-search-button">
-                Search
-                <i aria-hidden="true" className="fa fa-search" />
-              </button>
+            <div className="name-search-inputs vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3 medium-screen:vads-l-col--2 vads-u-text-align--right input-row">
+              <div className="bottom-positioner">
+                <button type="submit" className="usa-button name-search-button">
+                  Search
+                  <i aria-hidden="true" className="fa fa-search" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
