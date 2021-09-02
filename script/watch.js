@@ -7,7 +7,7 @@ if (process.argv[2] === 'help') {
   process.exit(0);
 }
 
-// Otherwise, run the command
+// Otherwise, run the command (8192)
 runCommand(
   `NODE_OPTIONS=--max-old-space-size=${(process.env.VA_BUILD_MEMORY_LIMIT = 4096)} webpack-dev-server --config config/webpack.config.js --env.scaffold --env.watch ${
     process.argv
