@@ -64,3 +64,56 @@ export const unsureDescription = (
     representative will reach out to help via your preferred contact method.
   </>
 );
+
+// export const benefitSelectionNote = (
+//   <div className="usa-alert background-color-only">
+//     <h3>You’re applying for the Post-9/11 GI BIll®</h3>
+//     <p>
+//       Currently, you can only apply for Post-9/11 GI Bill (Chapter 33) benefits
+//       through this application. If you would like to apply for other benefits,
+//       please visit our <a href="#">How To Apply</a> page.
+//     </p>
+//   </div>
+// );
+
+/**
+ * This function recieves the uiSchema and formData objects and returns
+ * a comma separated list of the selected checkboxes in a checkbox
+ * group.  The formData object contains the name of the checkbox
+ * elements in the group as the keys with a boolean value as the proerty
+ * (true if checked, false if unchecked). Here is an example:
+ *
+ * ```
+ * {
+ *   canEmailNotify: true,
+ *   canTextNotify: false
+ * }
+ * ```
+ *
+ * The following function splits the formData object into a 2D array
+ * where each array item has two properties: the key and the form value
+ * (a boolean).  So, our example above would end up being:
+ *
+ * ```
+ * [
+ *   ['canEmailNotify', true],
+ *   ['canTextNotify', false]
+ * ]
+ * ```
+ *
+ * It then filters the formData object, selecting only the checkboxes
+ * that are checked.  Then, it retrieves the titles of the selected keys
+ * from the uiSchema and joins them with a comma.
+ *
+ * Also, Object.entries splits the formData data object into
+ *
+ * @param {*} uiSchema UI Schema object
+ * @param {*} formData Form Data object.
+ * @returns Comma separated list of selected checkbox titles.
+ */
+export const getSelectedCheckboxes = (uiSchema, formData) =>
+  Object.entries(formData)
+    .filter(checkboxOption => checkboxOption[1]) // true/false
+    .map(checkboxOption => checkboxOption[0]) // object key
+    .map(selectedCheckboxKey => uiSchema[selectedCheckboxKey]['ui:title'])
+    .join(', ');

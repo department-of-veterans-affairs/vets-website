@@ -130,3 +130,43 @@ va-accordion {
 	max-width: 425px;
 }
 // Additional Considerations page - END
+
+// Review Page
+.review {
+	margin-bottom: 0;
+}
+dl.review {
+	border-bottom: 0;
+}
+.review-row {
+	margin: 0;
+}
+dl.review .review-row:last-child {
+	padding-bottom: 0;
+}
+.form-review-panel-page form.rjsf {
+	margin: 0;
+}
+.va-growable-review {
+	margin-top: 0;
+}
+.va-growable-review .va-growable-background {
+	background-color: transparent;
+	margin-bottom: 0;
+	padding: 0;
+}
+.form-review-array .add-btn {
+	display: none;
+}
+.form-review-panel-page .input-section div:last-child fieldset {
+	margin-bottom: 0;
+}
+.form-review-panel fieldset {
+	margin-bottom: 2em;
+}
+.form-review-panel fieldset fieldset {
+	margin-bottom: 0;
+}
+.review-row .form-expanding-group {
+	display: none;
+}

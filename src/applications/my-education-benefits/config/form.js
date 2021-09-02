@@ -20,6 +20,7 @@ import emailUI from 'platform/forms-system/src/js/definitions/email';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import dateUI from 'platform/forms-system/src/js/definitions/date';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 
 // import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
@@ -41,6 +42,7 @@ import AccordionField from '../components/AccordionField';
 
 import {
   activeDutyLabel,
+  // benefitSelectionNote,
   selectedReserveLabel,
   unsureDescription,
 } from '../helpers';
@@ -82,6 +84,7 @@ const formFields = {
   phoneNumber: 'phoneNumber',
   mobilePhoneNumber: 'mobilePhoneNumber',
   benefitSelection: 'benefitSelection',
+  benefitEffectiveDate: 'benefitEffectiveDate',
   incorrectServiceHistoryExplanation: 'incorrectServiceHistoryExplanation',
   contactMethodRdoBtnList: 'contactMethodRdoBtnList',
   notificationTypes: 'notificationTypes',
@@ -99,6 +102,7 @@ const formPages = {
     preferredContactMethod: 'preferredContactMethod',
   },
   serviceHistory: 'serviceHistory',
+  // benefitSelectionIntro: 'benefitSelectionIntro',
   benefitSelection: 'benefitSelection',
   // directDeposit: 'directDeposit',
   additionalConsiderations: 'additionalConsiderations',
@@ -153,6 +157,16 @@ function phoneSchema() {
       },
     },
   };
+}
+
+function givingUpBenefitSelected(formData) {
+  return ['ACTIVE_DUTY', 'SELECTED_RESERVE'].includes(
+    formData[formFields.benefitSelection],
+  );
+}
+
+function notGivingUpBenefitSelected(formData) {
+  return !givingUpBenefitSelected(formData);
 }
 
 const formConfig = {
@@ -465,11 +479,14 @@ const formConfig = {
               'ui:title': 'Your mailing address',
               livesOnMilitaryBase: {
                 'ui:title': (
-                  <p id="LiveOnMilitaryBaseTooltip">
+                  <span id="LiveOnMilitaryBaseTooltip">
                     I live on a United States military base outside of the
                     country
-                  </p>
+                  </span>
                 ),
+                // TODO: Uncomment this once this PR is merged:
+                // https://github.com/department-of-veterans-affairs/vets-website/pull/18437
+                // 'ui:reviewField': YesNoReviewField,
               },
               livesOnMilitaryBaseInfo: {
                 'ui:description': LearnMoreAboutMilitaryBaseTooltip(),
@@ -646,6 +663,13 @@ const formConfig = {
               },
             },
           },
+          // initialData: {
+          //   [formFields.contactMethodRdoBtnList]: 'Email',
+          //   [formFields.notificationTypes]: {
+          //     canEmailNotify: true,
+          //     canTextNotify: true,
+          //   },
+          // },
         },
       },
     },
@@ -756,10 +780,28 @@ const formConfig = {
     benefitSelection: {
       title: 'Benefit selection',
       pages: {
+        // [formPages.benefitSelectionIntro]: {
+        //   path: 'benefit-selection-intro',
+        //   title: 'Benefit selection',
+        //   uiSchema: {
+        //     'view:benefitSelectionNote': {
+        //       'ui:description': benefitSelectionNote,
+        //     },
+        //   },
+        //   schema: {
+        //     type: 'object',
+        //     properties: {
+        //       'view:benefitSelectionNote': {
+        //         type: 'object',
+        //         properties: {},
+        //       },
+        //     },
+        //   },
+        // },
         [formPages.benefitSelect]: {
-          path: 'select-benefit',
+          path: 'benefit-selection',
           title: 'Benefit selection',
-          subTitle: "you're applying for the Post-9/11 GIBill",
+          subTitle: "You're applying for the Post-9/11 GI Bill®",
           instructions:
             'Currently, you can only apply for Post-9/11 Gi Bill (Chapter 33) benefits through this application/ If you would like to apply for other benefits, please visit out How to Apply page.',
           uiSchema: {
@@ -775,26 +817,22 @@ const formConfig = {
                       <a href="#">How To Apply</a> page.
                     </p>
                   </div>
-                  <div>
-                    <h4>Give up one other benefit</h4>
+                  <h3>Give up one other benefit</h3>
+                  <p>
+                    Because you are applying for the Post-9/11 GI Bill, you have
+                    to give up one other benefit you may be eligible for.
+                  </p>
+                  <p>
+                    <strong>This decision is final</strong>, which means you
+                    can’t change your mind after you submit this application.
+                  </p>
+                  <AdditionalInfo triggerText="Why do I have to give up a benefit?">
                     <p>
-                      Because you are applying for the Post-9/11 GI Bill, you
-                      have to give up one other benefit you may be eligible for.
-                      <strong> This decision is final</strong>, which means you
-                      can’t change your mind after you submit this application.
+                      Per 38 USC 3327, If you are eligible for both the
+                      Post-9/11 GI Bill and other education benefits, you must
+                      give up one benefit you may be eligible for.
                     </p>
-                  </div>
-                  <div>
-                    <AdditionalInfo triggerText="Why do I have to give up a benefit?">
-                      <p>
-                        {' '}
-                        Per 38 USC 3327, If you are eligible for both the
-                        Post-9/11 GI Bill and other education benefits, you must
-                        give up one benefit you may be eligible for.
-                      </p>
-                    </AdditionalInfo>
-                  </div>
-                  <br />
+                  </AdditionalInfo>
                 </>
               ),
             },
@@ -822,6 +860,36 @@ const formConfig = {
                 required: 'Please select an answer.',
               },
             },
+            [formFields.benefitEffectiveDate]: {
+              ...dateUI('Effective date'),
+              'ui:options': {
+                hideIf: notGivingUpBenefitSelected,
+                expandUnder: [formFields.benefitSelection],
+              },
+              'ui:required': givingUpBenefitSelected,
+            },
+            'view:effectiveDateNotes': {
+              'ui:description': (
+                <ul>
+                  <li>
+                    We’ve set the date to one year ago to begin paying you
+                    immediately
+                  </li>
+                  <li>
+                    Select a future date if you don’t need to use your benefits
+                    until then
+                  </li>
+                  <li>
+                    If your classes started less than 2 years ago, enter the
+                    date they began
+                  </li>
+                </ul>
+              ),
+              'ui:options': {
+                hideIf: notGivingUpBenefitSelected,
+                expandUnder: [formFields.benefitSelection],
+              },
+            },
             'view:unsureNote': {
               'ui:description': unsureDescription,
               'ui:options': {
@@ -833,7 +901,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['benefitSelection'],
+            required: [formFields.benefitSelection],
             properties: {
               'view:subHeadings': {
                 type: 'object',
@@ -842,6 +910,11 @@ const formConfig = {
               [formFields.benefitSelection]: {
                 type: 'string',
                 enum: ['ACTIVE_DUTY', 'SELECTED_RESERVE', 'UNSURE'],
+              },
+              [formFields.benefitEffectiveDate]: date,
+              'view:effectiveDateNotes': {
+                type: 'object',
+                properties: {},
               },
               'view:unsureNote': {
                 type: 'object',
@@ -925,13 +998,11 @@ const formConfig = {
                 <>
                   <div className="form-field-footer-additional-info">
                     <AdditionalInfo triggerText="What is a Senior ROTC?">
-                      <p>
-                        The Senior Reserve Officer Training Corps (SROTC)—more
-                        commonly referred to as the Reserve Officer Traing Corps
-                        (ROTC)—is an officer training and scholarship program
-                        for postsecondary students authorized under Chapter 103
-                        of Title 10 of the United States Code.
-                      </p>
+                      The Senior Reserve Officer Training Corps (SROTC)—more
+                      commonly referred to as the Reserve Officer Traing Corps
+                      (ROTC)—is an officer training and scholarship program for
+                      postsecondary students authorized under Chapter 103 of
+                      Title 10 of the United States Code.
                     </AdditionalInfo>
                   </div>
                 </>
@@ -990,6 +1061,11 @@ const formConfig = {
               },
             },
           },
+          // initialData: {
+          //   [formFields.militaryCommissionReceived]: true,
+          //   [formFields.isSrROTCCommissioned]: true,
+          //   [formFields.hasDoDLoanPaymentPeriod]: true,
+          // },
         },
       },
     },
