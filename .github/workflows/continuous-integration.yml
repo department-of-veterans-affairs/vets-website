@@ -664,7 +664,7 @@ jobs:
           STEP: ${{ matrix.ci_node_index }}
           NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
           TESTS: ${{ needs.cypress-tests-prep.outputs.tests }}
-          PERCY_TOKEN: ${{ TO_COME }}
+          PERCY_TOKEN: ${{ env.PERCY_TOKEN }}
           PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
 
       - name: Archive test videos
