@@ -1,28 +1,31 @@
 import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
 
-export const makeMockUser = () => {
+export const makeMockUser = ({
+  isPatient = true,
+  services = [
+    'appeals-status',
+    'claim_increase',
+    'edu-benefits',
+    'evss_common_client',
+    'evss-claims',
+    'facilities',
+    'form-prefill',
+    'form-save-in-progress',
+    'form526',
+    'hca',
+    'id-card',
+    'identity-proofed',
+    'mhv-accounts',
+    'user-profile',
+    'vet360',
+  ],
+} = {}) => {
   return {
     data: {
       id: '',
       type: 'users_scaffolds',
       attributes: {
-        services: [
-          'appeals-status',
-          'claim_increase',
-          'edu-benefits',
-          'evss_common_client',
-          'evss-claims',
-          'facilities',
-          'form-prefill',
-          'form-save-in-progress',
-          'form526',
-          'hca',
-          'id-card',
-          'identity-proofed',
-          'mhv-accounts',
-          'user-profile',
-          'vet360',
-        ],
+        services,
         account: { accountUuid: 'c049d895-ecdf-40a4-ac0f-7947a06ea0c2' },
         profile: {
           email: 'vets.gov.user+36@gmail.com',
@@ -47,7 +50,7 @@ export const makeMockUser = () => {
           givenNames: ['Wesley', 'Watson'],
           isCernerPatient: false,
           facilities: [{ facilityId: '983', isCerner: false }],
-          vaPatient: true,
+          vaPatient: isPatient,
           mhvAccountState: 'NONE',
         },
         veteranStatus: {
