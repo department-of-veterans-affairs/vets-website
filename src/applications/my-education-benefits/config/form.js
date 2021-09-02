@@ -88,6 +88,8 @@ const formFields = {
   militaryCommissionReceived: 'militaryCommissionReceived',
   isSrROTCCommissioned: 'srROTCCommissioned',
   hasDoDLoanPaymentPeriod: 'hasDoDLoanPaymentPeriod',
+  activeDutyKicker: 'activeDutyKicker',
+  reserveKicker: 'reserveKicker',
 };
 
 // Define all the form pages to help ensure uniqueness across all form chapters
