@@ -15,7 +15,7 @@ export const fsrFeatureToggle = state => {
 export const dateFormatter = date => {
   if (!date) return undefined;
   const formatDate = date?.slice(0, -3);
-  return moment(formatDate, 'MM-DD-YYYY').format('MM/YYYY');
+  return moment(formatDate, 'YYYY-MM').format('MM/YYYY');
 };
 
 export const currency = new Intl.NumberFormat('en-US', {

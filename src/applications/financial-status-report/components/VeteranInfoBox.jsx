@@ -35,7 +35,7 @@ const VeteranInfoBox = ({
           <p className="vads-u-margin--1px">
             Date of birth:
             <span className="vads-u-margin-left--0p5">
-              {moment(dateOfBirth, 'MM-DD-YYYY').format('DD/MM/YYYY')}
+              {moment(dateOfBirth, 'YYYY-MM-DD').format('DD/MM/YYYY')}
             </span>
           </p>
         </div>
