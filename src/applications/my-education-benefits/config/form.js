@@ -101,7 +101,6 @@ const formPages = {
     preferredContactMethod: 'preferredContactMethod',
   },
   serviceHistory: 'serviceHistory',
-  // benefitSelectionIntro: 'benefitSelectionIntro',
   benefitSelection: 'benefitSelection',
   // directDeposit: 'directDeposit',
   additionalConsiderations: 'additionalConsiderations',
