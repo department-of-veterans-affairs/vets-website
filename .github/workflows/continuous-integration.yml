@@ -647,6 +647,15 @@ jobs:
       - name: Create test results directory
         run: mkdir -p test-results
 
+      - name: Get PERCY_TOKEN
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /dsva-vagov/testing-team/percy-token
+          env_variable_name: PERCY_TOKEN
+
+      - name: Set PERCY_PARALLEL_NONCE
+        run: echo "PERCY_PARALLEL_NONCE=$(uuidgen)" >> $GITHUB_ENV
+
       - name: Run Cypress tests
         run: node script/github-actions/run-cypress-tests.js
         timeout-minutes: 30
@@ -655,6 +664,8 @@ jobs:
           STEP: ${{ matrix.ci_node_index }}
           NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
           TESTS: ${{ needs.cypress-tests-prep.outputs.tests }}
+          PERCY_TOKEN: ${{ TO_COME }}
+          PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
 
       - name: Archive test videos
         uses: actions/upload-artifact@v2
