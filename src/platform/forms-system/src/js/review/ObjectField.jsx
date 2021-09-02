@@ -152,6 +152,8 @@ class ObjectField extends React.Component {
 
     let title = formContext?.pageTitle;
     if (!formContext?.hideTitle && typeof title === 'function') {
+      // the `formData` is local to the object, not the page.
+      // A page would have access to properties that a child object wouldn't
       title = isRoot && title(formData, formContext);
     }
     const uiOptions = uiSchema['ui:options'] || {};
