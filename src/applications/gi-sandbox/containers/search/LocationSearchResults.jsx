@@ -496,8 +496,7 @@ function LocationSearchResults({
    */
   const searchResultsShowing = count => (
     <p>
-      Showing <strong>{count} search results</strong> for '
-      <strong>{location}</strong>'
+      Showing {count} search results for "<strong>{location}</strong>"
     </p>
   );
 
