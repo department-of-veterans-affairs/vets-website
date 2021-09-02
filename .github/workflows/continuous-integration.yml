@@ -12,7 +12,7 @@ env:
   NEXUS_REGISTRY: https://devops.va.gov/dots-nexus/repository/npm-public/
 
 concurrency:
-  group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha  }}
+  group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
 
 jobs:
@@ -34,7 +34,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: 'us-gov-west-1'
+          aws-region: us-gov-west-1
 
       - name: Checkout
         uses: actions/checkout@v2
@@ -581,7 +581,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: 'us-gov-west-1'
+          aws-region: us-gov-west-1
 
       - name: Checkout vets-website
         uses: actions/checkout@v2
@@ -690,7 +690,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: 'us-gov-west-1'
+          aws-region: us-gov-west-1
 
       - name: Get va-vsp-bot token
         uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
