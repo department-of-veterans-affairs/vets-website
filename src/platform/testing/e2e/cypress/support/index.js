@@ -3,6 +3,7 @@ import '@testing-library/cypress/add-commands';
 import 'cypress-axe';
 import 'cypress-plugin-tab';
 import addContext from 'mochawesome/addContext';
+import '@percy/cypress';
 import './commands';
 
 Cypress.on('window:before:load', window => {
