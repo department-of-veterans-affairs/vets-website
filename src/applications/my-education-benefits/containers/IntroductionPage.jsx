@@ -4,7 +4,7 @@ import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
-import HowToApplyPost911GiBill from '../HowToApplyPost911GiBill';
+import HowToApplyPost911GiBill from '../components/HowToApplyPost911GiBill';
 import { connect } from 'react-redux';
 import { fetchUser } from '../selectors/userDispatch';
 
