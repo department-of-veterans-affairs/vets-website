@@ -106,7 +106,7 @@ export function TuitionAndHousingEstimates({
       {!smallScreen && (
         <SearchAccordion
           button="Update tuition and housing estimates"
-          buttonLabel="Update estimates"
+          buttonLabel="Update results"
           buttonOnClick={updateStore}
           name="benefitEstimates"
           expanded={expanded}
@@ -128,7 +128,7 @@ export function TuitionAndHousingEstimates({
               className="update-results-button"
               onClick={closeAndUpdate}
             >
-              Update estimates
+              Update results
             </button>
           </div>
         </div>
