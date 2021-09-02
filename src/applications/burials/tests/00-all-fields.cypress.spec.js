@@ -7,6 +7,7 @@ import testData from './schema/maximal-test.json';
 describe('Burial claim test', () => {
   it('Fills out and submits the form', () => {
     cy.intercept('GET', '/v0/burial_claims/1234', burial1234);
+    cy.percySnapshot();
     cy.intercept('POST', '/v0/burial_claims', { body: burialPost });
 
     cy.visit('/burials-and-memorials/application/530');

@@ -28,6 +28,7 @@ describe('SIP Load Fail Test', () => {
       preferredFacility: '987 - CHEY6',
       parsedStatus: 'none_of_the_above',
     });
+    cy.percySnapshot();
 
     cy.title().should('contain', 'Apply for Health Care | Veterans Affairs');
     cy.get('.main .usa-button-primary', { timeout: Timeouts.slow }).should(

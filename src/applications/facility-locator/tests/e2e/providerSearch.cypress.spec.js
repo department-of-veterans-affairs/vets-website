@@ -15,6 +15,7 @@ describe('Provider search', () => {
 
   it('renders "Search for available service" prompt', () => {
     cy.visit('/find-locations');
+    cy.percySnapshot();
 
     cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown').select(

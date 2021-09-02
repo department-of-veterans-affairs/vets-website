@@ -22,6 +22,7 @@ describe('SIP Review Test', () => {
     cy.login();
 
     cy.visit(reviewUrl);
+    cy.percySnapshot();
     cy.get('body').should('be.visible');
     cy.get('.main .usa-button-primary', { timeout: Timeouts.slow });
 

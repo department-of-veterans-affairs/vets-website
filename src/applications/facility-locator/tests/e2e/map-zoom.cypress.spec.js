@@ -64,6 +64,7 @@ it('finds community care pharmacies', () => {
         'Results for "Community pharmacies (in VA’s network)" near "Austin, Texas"',
       );
       cy.get('#other-tools').should('exist');
+      cy.percySnapshot();
 
       cy.injectAxe();
       cy.axeCheck();

@@ -13,6 +13,7 @@ describe('Facility search error messages', () => {
 
   it('shows error message in location field on invalid search', () => {
     cy.get('#facility-search').click({ waitForAnimations: true });
+    cy.percySnapshot();
     cy.get('.usa-input-error-message').contains(
       'Please fill in a city, state, or postal code.',
     );

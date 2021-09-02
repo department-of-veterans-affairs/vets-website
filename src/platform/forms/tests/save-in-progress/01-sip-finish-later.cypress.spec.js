@@ -23,6 +23,7 @@ describe('SIP Finish Later', () => {
     cy.login();
 
     cy.visit('/health-care/apply/application');
+    cy.percySnapshot();
     cy.get('body').should('be.visible');
     cy.title().should('contain', 'Apply for Health Care | Veterans Affairs');
     cy.get('.usa-button-primary', { timeout: Timeouts.slow });

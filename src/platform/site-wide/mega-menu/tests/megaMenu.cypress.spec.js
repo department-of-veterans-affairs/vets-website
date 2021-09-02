@@ -79,6 +79,7 @@ describe('Mega Menu', () => {
     it('looks as expected unauthenticated', () => {
       // Visit the homepage.
       cy.visit('/');
+      cy.percySnapshot();
 
       // Back to home button should not appear on desktop.
       cy.get('[data-e2e-id="mobile-home-nav-link"]').should('not.be.visible');
@@ -118,6 +119,7 @@ describe('Mega Menu', () => {
     it('looks as expected unauthenticated', () => {
       // Visit the homepage.
       cy.visit('/');
+      cy.percySnapshot();
 
       // Test the menu sections.
       testMobileMenuSections();

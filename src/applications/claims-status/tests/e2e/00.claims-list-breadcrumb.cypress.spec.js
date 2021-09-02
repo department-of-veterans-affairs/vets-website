@@ -7,6 +7,7 @@ describe('Breadcrumb Test', () => {
     cy.intercept('GET', '/v0/evss_claims_async', claimsList);
     cy.login();
     cy.visit('/track-claims');
+    cy.percySnapshot();
     cy.title().should('eq', 'Track Claims: VA.gov');
     cy.get('.claim-list-item-container', { timeout: Timeouts.slow }).should(
       'be.visible',

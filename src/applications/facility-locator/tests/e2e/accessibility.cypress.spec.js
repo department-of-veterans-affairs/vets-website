@@ -14,6 +14,7 @@ describe('Accessibility', () => {
 
   it('traverses form controls via keyboard input', () => {
     cy.visit('/find-locations/');
+    cy.percySnapshot();
 
     cy.injectAxe();
     cy.axeCheck();

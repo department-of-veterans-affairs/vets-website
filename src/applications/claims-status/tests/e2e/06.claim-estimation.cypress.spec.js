@@ -19,6 +19,7 @@ describe('Claim Estimation Breadcrumb Test', () => {
     cy.login();
 
     cy.visit('/track-claims');
+    cy.percySnapshot();
     cy.get('.claim-list-item-container', { timeout: Timeouts.slow }).should(
       'be.visible',
     );
