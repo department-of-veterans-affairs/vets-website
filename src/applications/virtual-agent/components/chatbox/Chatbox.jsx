@@ -26,6 +26,7 @@ function useWebChat(props) {
     token: token.token,
     WebChatFramework: webchatFramework.WebChatFramework,
     loadingStatus,
+    apiSession: token.apiSession,
   };
 }
 
@@ -73,7 +74,9 @@ const ConnectedSignInAlert = connect(
 )(SignInAlert);
 
 function App(props) {
-  const { token, WebChatFramework, loadingStatus } = useWebChat(props);
+  const { token, WebChatFramework, loadingStatus, apiSession } = useWebChat(
+    props,
+  );
 
   switch (loadingStatus) {
     case ERROR:
@@ -81,7 +84,13 @@ function App(props) {
     case LOADING:
       return <LoadingIndicator message={'Loading Virtual Agent'} />;
     case COMPLETE:
-      return <WebChat token={token} WebChatFramework={WebChatFramework} />;
+      return (
+        <WebChat
+          token={token}
+          WebChatFramework={WebChatFramework}
+          apiSession={apiSession}
+        />
+      );
     default:
       throw new Error(`Invalid loading status: ${loadingStatus}`);
   }

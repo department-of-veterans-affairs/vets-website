@@ -14,6 +14,7 @@ import {
 import { createTestStore } from '../../vaos/tests/mocks/setup';
 import { FETCH_TOGGLE_VALUES_SUCCEEDED } from 'platform/site-wide/feature-toggles/actionTypes';
 import Main from 'platform/site-wide/user-nav/containers/Main';
+import GreetUser from '../components/webchat/makeBotGreetUser';
 
 export const CHATBOT_ERROR_MESSAGE = /We’re making some updates to the Virtual Agent. We’re sorry it’s not working right now. Please check back soon. If you require immediate assistance please call the VA.gov help desk/i;
 
@@ -41,7 +42,9 @@ describe('App', () => {
     createStoreSpy = sandbox.spy();
     directLineSpy = sandbox.spy();
     oldWindow = global.window;
+    global.window.localStorage.setItem('csrfToken', 'FAKECSRF');
     sandbox.spy(Sentry, 'captureException');
+    sandbox.spy(GreetUser, 'makeBotGreetUser');
   });
 
   afterEach(() => {
@@ -93,6 +96,24 @@ describe('App', () => {
         await waitFor(() => expect(getByTestId('webchat')).to.exist);
 
         expect(createStoreSpy.callCount).to.equal(1);
+      });
+
+      it('passes CSRF Token and Api Session to greet user', async () => {
+        loadWebChat();
+        mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+
+        const { getByTestId } = renderInReduxProvider(
+          <Chatbox {...defaultProps} />,
+          initialStoreState,
+        );
+
+        await waitFor(() => expect(getByTestId('webchat')).to.exist);
+
+        sinon.assert.calledWith(
+          GreetUser.makeBotGreetUser,
+          'FAKECSRF',
+          'FAKEAPISESSION',
+        );
       });
     });
 
