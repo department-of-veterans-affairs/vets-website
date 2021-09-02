@@ -1,5 +1,5 @@
 import React from 'react';
-import CallToActionAlert from './../CallToActionAlert';
+import CallToActionAlert from '../CallToActionAlert';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import Telephone, {
   CONTACTS,

@@ -3,7 +3,7 @@ import Telephone, {
   CONTACTS,
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
-import CallToActionAlert from './../../CallToActionAlert';
+import CallToActionAlert from '../../CallToActionAlert';
 
 const NotFound = () => {
   const content = {

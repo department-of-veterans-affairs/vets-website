@@ -1,5 +1,5 @@
 import React from 'react';
-import CallToActionAlert from './../CallToActionAlert';
+import CallToActionAlert from '../CallToActionAlert';
 
 const HealthToolsDown = () => {
   const content = {
@@ -7,7 +7,7 @@ const HealthToolsDown = () => {
     alertText: (
       <>
         <p>
-          We're sorry. Something went wrong on our end, and we couldn't connect
+          We’re sorry. Something went wrong on our end, and we couldn’t connect
           you to our health tools.
         </p>
 
