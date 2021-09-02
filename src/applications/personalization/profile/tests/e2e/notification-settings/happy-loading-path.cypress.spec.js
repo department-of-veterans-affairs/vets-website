@@ -42,7 +42,7 @@ describe('Notification Settings', () => {
         .invoke('text')
         .should(
           'match',
-          /You can manage your health care email notifications through my healthevet/i,
+          /Manage your health care email notifications on My HealtheVet/i,
         );
       cy.findAllByText(/^select an option/i).should('have.length', 3);
     });

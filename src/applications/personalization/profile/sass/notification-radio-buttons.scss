@@ -4,6 +4,11 @@
 // radio buttons so we are setting up custom styling here. In the unlikely event
 // that VA.gov ever stops using USWDS, or upgrades to USWDS 2+, these rules will
 // probably have to updated or removed.
+$border-weight: 4px;
+$margin-left: units(1.5);
+$padding-left: calc(#{$margin-left} - #{$border-weight});
+$padding-left-negative: calc(-#{$margin-left} + #{$border-weight});
+
 [type="radio"]:disabled + label {
   color: $color-gray-lighter;
 }
@@ -28,7 +33,9 @@
 }
 
 .rb-input {
-  border-left: 4px solid;
+  border-left: $border-weight solid transparent;
+  padding-left: $padding-left;
+  margin-left: -#{$margin-left};
   position: relative;
 }
 
@@ -36,6 +43,8 @@
   display: block;
   padding-bottom: 3px;
   padding-top: 3px;
+  padding-left: $padding-left;
+  margin-left: $padding-left-negative;
 }
 
 //warning
@@ -63,13 +72,4 @@
 
 .rb-input-message-success {
   background: $color-green-lightest;
-}
-
-// loading
-.rb-input-loading {
-  border-left-color: transparent;
-}
-
-.rb-buttons {
-  padding-left: 1.5rem;
 }

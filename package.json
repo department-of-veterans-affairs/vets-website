@@ -91,7 +91,7 @@
     "ie 11"
   ],
   "devDependencies": {
-    "@actions/core": "^1.4.0",
+    "@actions/core": "^1.5.0",
     "@babel/core": "^7.15.0",
     "@babel/parser": "^7.15.3",
     "@babel/plugin-proposal-class-properties": "^7.14.5",
@@ -110,7 +110,7 @@
     "@babel/traverse": "^7.15.0",
     "@cypress/webpack-preprocessor": "^5.4.1",
     "@department-of-veterans-affairs/generator-vets-website": "^3.5.0",
-    "@octokit/rest": "^18.9.1",
+    "@octokit/rest": "^18.10.0",
     "@pact-foundation/pact": "^9.16.0",
     "@sentry/browser": "^6.9.0",
     "@testing-library/cypress": "^7.0.1",
@@ -236,7 +236,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/component-library": "^2.5.8",
+    "@department-of-veterans-affairs/component-library": "^3.0.0",
     "@department-of-veterans-affairs/formation": "6.16.4",
     "@department-of-veterans-affairs/formulate": "0.0.1",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
@@ -259,6 +259,7 @@
     "downshift": "^1.22.5",
     "express": "^4.17.1",
     "fast-levenshtein": "^2.0.6",
+    "find-imports": "^1.1.0",
     "fine-uploader": "^5.16.2",
     "formik": "^2.2.9",
     "foundation-sites": "^5.5.3",

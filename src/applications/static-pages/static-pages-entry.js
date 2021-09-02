@@ -7,19 +7,19 @@ import startSitewideComponents from 'platform/site-wide';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import './analytics';
-import './alerts-dismiss-view';
-import './ics-generator';
+import alertsBuildShow from './widget-creators/alerts-dismiss-view';
+import icsCreate from './widget-creators/ics-generator';
 import createFacilityPage from './facilities/createFacilityPage';
 import createVetCentersHours from './facilities/createVetCentersHours';
 import createNearByVetCenters from './facilities/vet-center/createNearByVetCenters';
 import createExpandableOperatingStatus from './facilities/vet-center/createExpandableOperatingStatus';
 
 import widgetTypes from './widgetTypes';
-import subscribeAdditionalInfoEvents from './subscribeAdditionalInfoEvents';
-import subscribeAccordionEvents from './subscribeAccordionEvents';
-import createApplicationStatus from './createApplicationStatus';
-import createCallToActionWidget from './createCallToActionWidget';
-import createMyVALoginWidget from './createMyVALoginWidget';
+import subscribeAdditionalInfoEvents from './subscription-creators/subscribeAdditionalInfoEvents';
+import subscribeAccordionEvents from './subscription-creators/subscribeAccordionEvents';
+import createApplicationStatus from './widget-creators/createApplicationStatus';
+import createCallToActionWidget from './widget-creators/createCallToActionWidget';
+import createMyVALoginWidget from './widget-creators/createMyVALoginWidget';
 import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
 import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
@@ -46,10 +46,10 @@ import createViewTestAndLabResultsPage from './health-care-manage-benefits/view-
 import './sass/static-pages.scss';
 
 // Social share links behavior
-import './social-share-links';
+import openShareLink from './widget-creators/social-share-links';
 
 // Resources and support widgets
-import createResourcesAndSupportSearchWidget from './resources-and-support-search';
+import createResourcesAndSupportSearchWidget from './widget-creators/resources-and-support-search';
 
 // Health care facility widgets
 import createFacilityListWidget from './facilities/facilityList';
@@ -104,6 +104,10 @@ Sentry.withScope(scope => {
 subscribeAdditionalInfoEvents();
 
 subscribeAccordionEvents();
+
+alertsBuildShow();
+icsCreate();
+openShareLink();
 
 createApplicationStatus(store, {
   formId: VA_FORM_IDS.FORM_21P_527EZ,

@@ -40,15 +40,21 @@ describe('Notification Settings', () => {
       cy.loadingIndicatorWorks();
 
       cy.findByText('veteran@gmail.com').should('exist');
-      cy.findByTestId('missing-contact-info-alert')
-        .should('exist')
-        .and('contain.text', 'mobile phone');
-      cy.findByRole('link', { name: /update your contact info/i }).should(
+      cy.findByText('Appointment reminders').should('exist');
+      cy.findByText('Prescription shipment and tracking updates').should(
         'exist',
       );
+      cy.findByTestId('missing-contact-info-alert')
+        .should('exist')
+        .and('contain.text', 'mobile phone')
+        .within(() => {
+          cy.findByRole('link', { name: /add.*mobile.*profile/i }).should(
+            'exist',
+          );
+        });
       cy.findAllByRole('link', { name: /add your mobile/i }).should(
         'have.length.above',
-        1,
+        2,
       );
       cy.findAllByTestId('notification-group').should('exist');
       cy.findByRole('link', { name: /add your email/i }).should('not.exist');
@@ -70,13 +76,15 @@ describe('Notification Settings', () => {
       cy.findByText('503-555-1234').should('exist');
       cy.findByTestId('missing-contact-info-alert')
         .should('exist')
-        .and('contain.text', 'email address');
-      cy.findByRole('link', { name: /update your contact info/i }).should(
-        'exist',
-      );
+        .and('contain.text', 'email address')
+        .within(() => {
+          cy.findByRole('link', { name: /add.*email.*profile/i }).should(
+            'exist',
+          );
+        });
       cy.findAllByRole('link', { name: /add your email/i }).should(
-        'have.length.above',
-        1,
+        'have.lengthOf',
+        2,
       );
       cy.findAllByTestId('notification-group').should('exist');
       cy.findByRole('link', { name: /add your mobile/i }).should('not.exist');
@@ -101,7 +109,10 @@ describe('Notification Settings', () => {
       cy.findByTestId('missing-contact-info-alert')
         .should('exist')
         .and('contain.text', 'mobile phone')
-        .and('contain.text', 'email address');
+        .and('contain.text', 'email address')
+        .invoke('text')
+        .should('match', /we don’t have your contact info/i)
+        .and('match', /update.*contact info/i);
       cy.should(() => {
         expect(getCommPrefsStub).not.to.be.called;
       });
