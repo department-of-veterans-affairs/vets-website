@@ -152,7 +152,7 @@ class ObjectField extends React.Component {
 
     let title = formContext?.pageTitle;
     if (!formContext?.hideTitle && typeof title === 'function') {
-      title = title(formData, formContext);
+      title = isRoot && title(formData, formContext);
     }
     const uiOptions = uiSchema['ui:options'] || {};
     const ariaLabel = uiOptions.itemAriaLabel;
