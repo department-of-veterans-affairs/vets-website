@@ -10,10 +10,6 @@ export const buildRoutes = () => {
     <GiBillApp>
       <Switch>
         <Route
-          path="/institution/:facilityCode/:preSelectedProgram"
-          render={({ match }) => <ProfilePage match={match} />}
-        />
-        <Route
           path="/institution/:facilityCode"
           render={({ match }) => <ProfilePage match={match} />}
         />
