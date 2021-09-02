@@ -245,6 +245,8 @@
     "@formatjs/intl-locale": "^2.4.14",
     "@fortawesome/fontawesome-free": "^5.6.3",
     "@mapbox/mapbox-sdk": "^0.10.0",
+    "@percy/cli": "^1.0.0-beta.67",
+    "@percy/cypress": "^3.1.1",
     "blob-polyfill": "^4.0.20200601",
     "camelcase-keys-recursive": "^0.8.3",
     "classlist-polyfill": "^1.2.0",
