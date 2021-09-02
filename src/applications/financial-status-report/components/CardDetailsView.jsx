@@ -61,11 +61,11 @@ const CardDetailsView = ({ formData, onEdit, index, title }) => {
     }
     if (key.toLowerCase().includes('from')) {
       const formatDate = formData[key]?.slice(0, -3);
-      startDate = moment(new Date(formatDate)).format('MMMM YYYY');
+      startDate = moment(formatDate, 'MM-DD-YYYY').format('MMMM YYYY');
     }
     if (key.toLowerCase().includes('to')) {
       const formatDate = formData[key]?.slice(0, -3);
-      endDate = moment(new Date(formatDate)).format('MMMM YYYY');
+      endDate = moment(formatDate, 'MM-DD-YYYY').format('MMMM YYYY');
       if (!formatDate) {
         endDate = 'Present';
       }

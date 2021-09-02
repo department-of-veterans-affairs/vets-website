@@ -53,7 +53,7 @@ const RequestDetailsCard = ({ data, response }) => {
           <strong>Date submitted</strong>
         </p>
         <p className="vads-u-margin-top--0p5">
-          {moment(new Date(response.timestamp)).format('MMMM D, YYYY')}
+          {moment(response.timestamp).format('MMMM D, YYYY')}
         </p>
         <p className="vads-u-margin-bottom--0p5">
           <strong>Your request was sent to</strong>
