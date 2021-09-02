@@ -761,7 +761,7 @@ const formConfig = {
           title: 'Benefit selection',
           subTitle: "you're applying for the Post-9/11 GIBill",
           instructions:
-            'Currrently, you can only apply for Post-9/11 Gi Bill (Chapter 33) benefits through this application/ If you would like to apply for other benefits, please visit out How to Apply page.',
+            'Currently, you can only apply for Post-9/11 Gi Bill (Chapter 33) benefits through this application/ If you would like to apply for other benefits, please visit out How to Apply page.',
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -901,6 +901,96 @@ const formConfig = {
         //     },
         //   },
         // },
+      },
+    },
+    additionalConsiderationsChapter: {
+      title: 'Additional Considerations',
+      pages: {
+        [formPages.additionalConsiderations]: {
+          path: 'additional-considerations',
+          title: 'Additional Considerations',
+          uiSchema: {
+            'ui:description': <h3>Enter your service obligations</h3>,
+            [formFields.militaryCommissionReceived]: {
+              'ui:title':
+                'Did you receive a commission from a federally-sponsored U.S. military service academy?',
+              'ui:widget': 'yesNo',
+            },
+            [formFields.isSrROTCCommissioned]: {
+              'ui:title': 'Were you commissioned as a result of Senior ROTC?',
+              'ui:widget': 'yesNo',
+            },
+            'view:isSrROTCCommissionedDescription': {
+              'ui:description': (
+                <>
+                  <div className="form-field-footer-additional-info">
+                    <AdditionalInfo triggerText="What is a Senior ROTC?">
+                      <p>
+                        The Senior Reserve Officer Training Corps (SROTC)—more
+                        commonly referred to as the Reserve Officer Traing Corps
+                        (ROTC)—is an officer training and scholarship program
+                        for postsecondary students authorized under Chapter 103
+                        of Title 10 of the United States Code.
+                      </p>
+                    </AdditionalInfo>
+                  </div>
+                </>
+              ),
+            },
+            [formFields.hasDoDLoanPaymentPeriod]: {
+              'ui:title':
+                'Do you have a period of service that the Department of Defense counts towards an education loan payment?',
+              'ui:widget': 'yesNo',
+            },
+            'view:hasDoDLoanPaymentPeriodDescription': {
+              'ui:description': (
+                <>
+                  <div className="form-field-footer-additional-info">
+                    <AdditionalInfo triggerText="What does this mean?">
+                      <p>
+                        This is a Loan Repayment Program, which is a special
+                        incentive that certain military branches offer to
+                        qualified applicants. Under a Loan Repayment Program,
+                        the branch of service will repay part of an applicant’s
+                        qualifying student loans.
+                      </p>
+                    </AdditionalInfo>
+                  </div>
+                </>
+              ),
+            },
+          },
+          schema: {
+            type: 'object',
+            required: [
+              formFields.militaryCommissionReceived,
+              formFields.isSrROTCCommissioned,
+              formFields.hasDoDLoanPaymentPeriod,
+            ],
+            properties: {
+              [formFields.militaryCommissionReceived]: {
+                type: 'boolean',
+                properties: {},
+              },
+              [formFields.isSrROTCCommissioned]: {
+                type: 'boolean',
+                properties: {},
+              },
+              'view:isSrROTCCommissionedDescription': {
+                type: 'object',
+                properties: {},
+              },
+              [formFields.hasDoDLoanPaymentPeriod]: {
+                type: 'boolean',
+                properties: {},
+              },
+              'view:hasDoDLoanPaymentPeriodDescription': {
+                type: 'object',
+                properties: {},
+              },
+            },
+          },
+        },
       },
     },
   },
