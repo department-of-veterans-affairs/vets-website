@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
-import { toLower } from 'lodash';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import { FIELD_NAMES } from '@@vap-svc/constants';
 import VAPServiceEditModalErrorMessage from '~/platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
@@ -25,7 +24,7 @@ const ConfirmRemoveModal = ({
       onClose={onHide}
     >
       <div>
-        This will delete your {toLower(title)} across these VA benefits and
+        This will delete your {title.toLowerCase()} across these VA benefits and
         services:
       </div>
       <ul>
@@ -39,11 +38,12 @@ const ConfirmRemoveModal = ({
         <li>Pension benefits</li>
         <li>Claims and appeals</li>
         <li>Veteran Readiness and Employment (VR&E)</li>
-        {fieldName !== FIELD_NAMES.EMAIL ||
-        fieldName !== FIELD_NAMES.MOBILE_PHONE ? (
+        {fieldName === FIELD_NAMES.EMAIL ||
+        fieldName === FIELD_NAMES.MOBILE_PHONE ? (
           <li>
-            Some VA notifications. This means you’ll stop getting any VA [email
-            or text] notifications you signed up for.
+            Some VA notifications. This means you’ll stop getting any VA{' '}
+            {fieldName === FIELD_NAMES.EMAIL ? 'email' : 'text'} notifications
+            you signed up for.
           </li>
         ) : (
           undefined
@@ -52,7 +52,7 @@ const ConfirmRemoveModal = ({
       <div className="vads-u-margin-top--1">
         You can always come back to your profile later if you want to add this{' '}
         {}
-        {toLower(title)} again.
+        {title.toLowerCase()} again.
       </div>
       {error && (
         <div
@@ -68,7 +68,7 @@ const ConfirmRemoveModal = ({
           isLoading={isLoading}
           onClick={deleteAction}
           aria-label={`Remove ${title}`}
-          loadingText="saving bank information"
+          loadingText="Removing your information"
         >
           Yes, remove my information
         </LoadingButton>

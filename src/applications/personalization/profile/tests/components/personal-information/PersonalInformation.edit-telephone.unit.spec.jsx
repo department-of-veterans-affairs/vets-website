@@ -164,7 +164,7 @@ async function testQuickFailure(numberName) {
 
   // make sure that edit mode is not automatically exited
   await wait(75);
-  expect(view.findByTestId('edit-error-alert')).to.exist;
+  expect(view.getByTestId('edit-error-alert')).to.exist;
   const editButton = getEditButton();
   expect(editButton).to.not.exist;
 }

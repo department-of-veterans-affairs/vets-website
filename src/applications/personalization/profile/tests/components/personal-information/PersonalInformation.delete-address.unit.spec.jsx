@@ -6,7 +6,7 @@ import { setupServer } from 'msw/node';
 
 import { FIELD_TITLES, FIELD_NAMES } from '@@vap-svc/constants';
 
-import * as mocks from '../../../msw-mocks';
+import * as mocks from '@@profile/msw-mocks';
 import PersonalInformation from '@@profile/components/personal-information/PersonalInformation';
 
 import {

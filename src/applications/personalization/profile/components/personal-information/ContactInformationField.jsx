@@ -301,7 +301,7 @@ class ContactInformationField extends React.Component {
           title={title}
         />
 
-        <div className="vads-u-display--flex vads-u-flex-wrap--wrap vads-u-flex-direction--column vads-u-width--full">
+        <div className="vads-u-width--full">
           <div>
             {this.isEditLinkVisible() && (
               <button
