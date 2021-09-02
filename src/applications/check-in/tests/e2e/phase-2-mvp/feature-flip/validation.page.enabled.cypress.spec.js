@@ -33,17 +33,5 @@ describe('Check In Experience -- ', () => {
     cy.get('[data-testid=check-in-button]').click();
     // update information page
     cy.get('legend > h2').contains('information');
-    cy.injectAxe();
-    cy.axeCheck();
-    cy.get('[data-testid="no-button"]').click();
-    // your appointment page
-    cy.get('h1').contains('Your appointment');
-    cy.injectAxe();
-    cy.axeCheck();
-    cy.get('.usa-button').click();
-    // confirmation page
-    cy.get('va-alert > h1').contains('checked in');
-    cy.injectAxe();
-    cy.axeCheck();
   });
 });
