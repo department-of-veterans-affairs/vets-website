@@ -908,70 +908,64 @@ describe('Schemaform review: ObjectField', () => {
   it('should render custom ObjectViewField even when not attached to the root', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
-    const onClick = sinon.spy();
 
     const schema = {
+      type: 'object',
       properties: {
         testz: {
           type: 'object',
+          properties: {
+            foo: { type: 'boolean' },
+            bar: { type: 'boolean' },
+            baz: { type: 'boolean' },
+          },
         },
       },
     };
 
     const uiSchema = {
       testz: {
-        'ui:objectViewField': ({
-          title,
-          defaultEditButton,
-          renderedProperties,
-        }) => (
-          <div>
-            <h3 className="test-title">{title}</h3>
-            <div className="test-edit">
-              {defaultEditButton({
-                label: 'fooz',
-                onEdit: onClick,
-                text: 'barz',
-              })}
-            </div>
-            <div className="test-props">{renderedProperties}</div>
-          </div>
-        ),
+        'ui:objectViewField': () => <div data-testid="child-objectviewfield" />,
       },
     };
 
-    const formData = { testz: 'foo' };
+    const formData = { testz: { foo: 'blah' } };
 
+    const formContext = {
+      pageTitle: 'Blah',
+    };
+
+    const idSchema = {
+      $id: 'root',
+      testz: {
+        $id: 'root_testz',
+        foo: { $id: 'root_testz_foo' },
+        bar: { $id: 'root_testz_bar' },
+        baz: { $id: 'root_testz_baz' },
+      },
+    };
+
+    // Simulating the nested child ObjectField.
+    // Rendering the root didn't render the ReviewFieldTemplate,
+    // which means that ObjectViewField wasn't rendered
     const tree = render(
       <ObjectField
-        schema={schema}
-        uiSchema={uiSchema}
+        schema={schema.properties.testz}
+        uiSchema={uiSchema.testz}
         formData={formData}
-        formContext={{ pageTitle: 'Blah' }}
-        idSchema={{ $id: 'root' }}
+        formContext={formContext}
+        idSchema={idSchema.testz}
         requiredSchema={{}}
         onChange={onChange}
         onBlur={onBlur}
       />,
     );
 
-    const title = tree.getByRole('heading');
-    expect(title).to.contain.text('Blah');
-    expect(title.className).to.contain('test-title');
+    const objectViewField = tree.getByTestId('child-objectviewfield');
+    expect(objectViewField).to.exist;
 
-    const testProps = within(document.querySelector('.test-props'));
-    const testField = testProps.getByRole('textbox');
-    const testLabel = testProps.getByText('testz', { selector: 'label' });
-    expect(testField).to.exist;
-    expect(testField.value).to.equal('foo');
-    expect(testLabel).to.exist;
-
-    const testEdit = within(document.querySelector('.test-edit'));
-    const editButton = testEdit.getByRole('button', { name: 'fooz' });
-    expect(editButton).to.exist;
-    expect(editButton.textContent).to.equal('barz');
-
-    fireEvent.click(editButton);
-    expect(onClick.called).to.be.true;
+    expect(tree.queryByLabelText('foo')).to.be.null;
+    expect(tree.queryByLabelText('bar')).to.be.null;
+    expect(tree.queryByLabelText('baz')).to.be.null;
   });
 });
