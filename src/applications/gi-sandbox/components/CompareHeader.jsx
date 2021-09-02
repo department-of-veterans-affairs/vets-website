@@ -72,8 +72,10 @@ export default function({
       {smallWrap(
         institutions.map((institution, index) => {
           const profileLink = version
-            ? appendQuery(`/profile/${institution.facilityCode}`, { version })
-            : `/profile/${institution.facilityCode}`;
+            ? appendQuery(`/institution/${institution.facilityCode}`, {
+                version,
+              })
+            : `/institution/${institution.facilityCode}`;
           return (
             <div
               className="small-screen:vads-l-col--3 institution-card"
