@@ -103,7 +103,12 @@ const formPages = {
   serviceHistory: 'serviceHistory',
   benefitSelection: 'benefitSelection',
   // directDeposit: 'directDeposit',
-  additionalConsiderations: 'additionalConsiderations',
+  additionalConsiderations: {
+    questionOne: 'questionOne',
+    questionTwo: 'questionTwo',
+    questionThree: 'questionThree',
+    questionFour: 'questionFour',
+  },
 };
 
 function isOnlyWhitespace(str) {
