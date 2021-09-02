@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import uniq from 'lodash/uniq';
 
 import SegmentedProgressBar from '@department-of-veterans-affairs/component-library/SegmentedProgressBar';
 
@@ -32,7 +32,7 @@ export default function FormNav(props) {
 
   const eligiblePageList = getActiveExpandedPages(pageList, formData);
 
-  const chapters = _.uniq(
+  const chapters = uniq(
     eligiblePageList.map(p => p.chapterKey).filter(key => !!key),
   );
 

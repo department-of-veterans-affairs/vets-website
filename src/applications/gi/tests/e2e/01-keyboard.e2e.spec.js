@@ -1,6 +1,6 @@
 const E2eHelpers = require('platform/testing/e2e/helpers');
 const Timeouts = require('platform/testing/e2e/timeouts');
-const GiHelpers = require('./gibct-helpers');
+// const GiHelpers = require('./gibct-helpers');
 
 /**
  * Go through CT via keyboard
@@ -16,7 +16,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     TAB,
   } = client.Keys;
 
-  GiHelpers.initApplicationMock();
+  // GiHelpers.initApplicationMock();
 
   client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
 
