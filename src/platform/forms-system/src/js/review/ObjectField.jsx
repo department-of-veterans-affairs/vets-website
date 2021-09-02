@@ -180,39 +180,32 @@ class ObjectField extends React.Component {
       </button>
     );
 
-    if (isRoot) {
-      return isReactComponent(ObjectViewField) ? (
+    if (isReactComponent(ObjectViewField)) {
+      return (
         <ObjectViewField
           {...this.props}
           renderedProperties={renderedProperties}
           title={title}
           defaultEditButton={defaultEditButton}
         />
-      ) : (
-        <>
-          {!formContext?.hideHeaderRow && (
-            <div className="form-review-panel-page-header-row">
-              {title?.trim() &&
-                !formContext?.hideTitle && (
-                  <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-                    {title}
-                  </h4>
-                )}
-              {defaultEditButton()}
-            </div>
-          )}
-          <Tag className="review">{renderedProperties}</Tag>
-        </>
       );
     }
 
-    return isReactComponent(ObjectViewField) ? (
-      <ObjectViewField
-        {...this.props}
-        renderedProperties={renderedProperties}
-        title={title}
-        defaultEditButton={defaultEditButton}
-      />
+    return isRoot ? (
+      <>
+        {!formContext?.hideHeaderRow && (
+          <div className="form-review-panel-page-header-row">
+            {title?.trim() &&
+              !formContext?.hideTitle && (
+                <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+                  {title}
+                </h4>
+              )}
+            {defaultEditButton()}
+          </div>
+        )}
+        <Tag className="review">{renderedProperties}</Tag>
+      </>
     ) : (
       <>{renderedProperties}</>
     );
