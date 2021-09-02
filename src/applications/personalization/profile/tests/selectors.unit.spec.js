@@ -509,11 +509,25 @@ describe('profile selectors', () => {
     });
   });
 
-  describe('checkAndUpdateNotificationSettings', () => {
-    const makeDefaultState = (flagStatus = true) => ({
+  describe('showNotificationSettings', () => {
+    const makeDefaultState = ({
+      flagStatus = true,
+      isPatient = true,
+      hasClaims = true,
+      hasAppeals = true,
+    } = {}) => ({
       featureToggles: {
         // eslint-disable-next-line camelcase
         profile_notification_settings: flagStatus,
+      },
+      user: {
+        profile: {
+          services: [
+            hasAppeals ? 'appeals-status' : null,
+            hasClaims ? 'evss-claims' : null,
+          ],
+          vaPatient: isPatient ? !!isPatient : false,
+        },
       },
     });
 
@@ -528,7 +542,7 @@ describe('profile selectors', () => {
 
     it('should return true and ignore feature flag if local storage is true', () => {
       localStorage.setItem('PROFILE_NOTIFICATION_SETTINGS', true);
-      const state = makeDefaultState(false);
+      const state = makeDefaultState({ flagStatus: false });
       expect(selectors.showNotificationSettings(state)).to.equal(true);
     });
 
@@ -536,6 +550,42 @@ describe('profile selectors', () => {
       localStorage.setItem('PROFILE_NOTIFICATION_SETTINGS', false);
       const state = makeDefaultState();
       expect(selectors.showNotificationSettings(state)).to.equal(false);
+    });
+
+    context('feature flag is turned on', () => {
+      context(
+        'user is not a patient and does not have claims or appeals',
+        () => {
+          const state = makeDefaultState({
+            flagStatus: true,
+            isPatient: false,
+            hasClaims: false,
+            hasAppeals: false,
+          });
+          it('should return false', () => {
+            expect(selectors.showNotificationSettings(state)).to.equal(false);
+          });
+          it('should return true when the local storage flag is true', () => {
+            localStorage.setItem('PROFILE_NOTIFICATION_SETTINGS', true);
+            expect(selectors.showNotificationSettings(state)).to.equal(true);
+          });
+        },
+      );
+      context('user is not a patient but has claims', () => {
+        const state = makeDefaultState({
+          flagStatus: true,
+          isPatient: false,
+          hasClaims: true,
+          hasAppeals: false,
+        });
+        it('should return true', () => {
+          expect(selectors.showNotificationSettings(state)).to.equal(true);
+        });
+        it('should return false when the local storage flag is false', () => {
+          localStorage.setItem('PROFILE_NOTIFICATION_SETTINGS', false);
+          expect(selectors.showNotificationSettings(state)).to.equal(false);
+        });
+      });
     });
 
     afterEach(() => {

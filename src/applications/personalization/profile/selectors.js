@@ -1,4 +1,9 @@
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
+import backendServices from '~/platform/user/profile/constants/backendServices';
+import {
+  createIsServiceAvailableSelector,
+  isVAPatient as isVAPatientSelector,
+} from '~/platform/user/selectors';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import localStorage from '~/platform/utilities/storage/localStorage';
 import {
@@ -7,6 +12,13 @@ import {
   isSignedUpForCNPDirectDeposit,
   isSignedUpForEDUDirectDeposit,
 } from './util';
+
+const isClaimsAvailableSelector = createIsServiceAvailableSelector(
+  backendServices.EVSS_CLAIMS,
+);
+const isAppealsAvailableSelector = createIsServiceAvailableSelector(
+  backendServices.APPEALS_STATUS,
+);
 
 export const cnpDirectDepositInformation = state =>
   state.vaProfile?.cnpPaymentInformation;
@@ -80,18 +92,27 @@ export const militaryInformationLoadError = state => {
   return state.vaProfile?.militaryInformation?.serviceHistory?.error;
 };
 
+// the local storage value will always take precedence over all other factors.
+// This will give us an easy way to force the feature on for testing purposes
 export const showNotificationSettings = state => {
   const LSProfileNotificationSetting = localStorage.getItem(
     'PROFILE_NOTIFICATION_SETTINGS', // true or false
   );
-  const FFProfileNotificationSettings = toggleValues(state)[
-    FEATURE_FLAG_NAMES.profileNotificationSettings
-  ];
   // local setting takes precedent over FF
   if (LSProfileNotificationSetting === 'false') {
     return false;
   } else if (LSProfileNotificationSetting === 'true') {
     return true;
   }
-  return !!FFProfileNotificationSettings;
+  const FFProfileNotificationSettings = toggleValues(state)[
+    FEATURE_FLAG_NAMES.profileNotificationSettings
+  ];
+  if (!FFProfileNotificationSettings) {
+    return false;
+  }
+  return (
+    isVAPatientSelector(state) ||
+    isClaimsAvailableSelector(state) ||
+    isAppealsAvailableSelector(state)
+  );
 };
