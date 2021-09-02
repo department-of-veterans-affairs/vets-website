@@ -165,12 +165,12 @@ function LocationSearchResults({
    */
   const mapMarkerClicked = name => {
     const locationSearchResults = document.getElementById(
-      'location-search-results',
+      'location-search-results-container',
     );
     scroller.scrollTo(
       `${createId(name)}-result-card-placeholder`,
       getScrollOptions({
-        containerId: 'location-search-results',
+        containerId: 'location-search-results-container',
         offset: -locationSearchResults.getBoundingClientRect().top,
       }),
     );
@@ -502,7 +502,7 @@ function LocationSearchResults({
   );
 
   /**
-   * Renders the showing message if not on smallScreen, and the result cards
+   * Renders the result cards
    * smallScreen count is different from desktop count
    * @param count
    * @param visible
@@ -514,22 +514,18 @@ function LocationSearchResults({
         'location-search-results-container',
         'usa-grid',
         'vads-u-padding--1p5',
-        { 'vads-u-display--none': !visible },
+        {
+          'vads-u-display--none': !visible,
+          'vads-u-flex-wrap--wrap': !smallScreen,
+        },
       );
-      const resultsClassnames = classNames('location-search-results', {
-        'vads-l-row': !smallScreen && !location,
-        'vads-u-flex-wrap--wrap': !smallScreen,
-      });
 
       return (
         <div
           id="location-search-results-container"
           className={containerClassNames}
         >
-          {!smallScreen && searchResultsShowing(count)}
-          <div id="location-search-results" className={resultsClassnames}>
-            {resultCards}
-          </div>
+          {resultCards}
         </div>
       );
     }
@@ -635,6 +631,7 @@ function LocationSearchResults({
             )}
             {hasSearchLatLong && (
               <>
+                {searchResultsShowing(desktopCount)}
                 {eligibilityAndFilters(desktopCount)}
                 {searchResults(desktopCount)}
                 {noResultsFound(desktopCount)}
