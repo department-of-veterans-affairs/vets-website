@@ -914,7 +914,7 @@ jobs:
           #   bucket: staging-va-gov-assets
 
     steps:
-      - name: Checkout
+      - name: Checkout 
         uses: actions/checkout@v2
 
       - name: Configure AWS credentials (1)
