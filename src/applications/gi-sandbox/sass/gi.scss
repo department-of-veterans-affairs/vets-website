@@ -207,13 +207,15 @@
 }
 
 .tool-description {
-  text-align: center;
-  padding-bottom: 3em;
+  text-align: left;
+  padding-bottom: 2em;
+  margin-left: 26%;
 
   @media (max-width: $small-screen) {
     text-align: left;
     padding-left: 20px;
     padding-bottom: 1em;
+    margin-left: 0;
   }
 }
 
