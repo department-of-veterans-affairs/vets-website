@@ -123,7 +123,7 @@ export function TuitionAndHousingEstimates({
               className="update-results-button"
               onClick={closeAndUpdate}
             >
-              Update results
+              Update estimates
             </button>
           </div>
         </div>
