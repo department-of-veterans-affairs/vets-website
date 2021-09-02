@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CallToActionAlert from './../CallToActionAlert';
+import CallToActionAlert from '../CallToActionAlert';
 
 const SignIn = ({ serviceDescription, primaryButtonHandler, headerLevel }) => {
   const content = {

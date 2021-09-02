@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { createAnalyticsSlug } from './index';
+import { createAnalyticsSlug, createApiEvent } from './index';
 
 describe('check in', () => {
   describe('analytics utils', () => {
@@ -14,6 +14,71 @@ describe('check in', () => {
         const slug = 'testing';
         const result = createAnalyticsSlug(slug);
         expect(result).to.equal('check-in-testing');
+      });
+    });
+    describe('createApiEvent', () => {
+      it('no parameters are provided and it stuff creates and objects', () => {
+        const result = createApiEvent();
+        expect(result).to.deep.equal({
+          'api-status': undefined,
+          event: 'api_call',
+          'api-name': undefined,
+        });
+      });
+      it('name and status are provided', () => {
+        const name = 'hello-there';
+        const status = 'success';
+        const result = createApiEvent(name, status);
+        expect(result).to.deep.equal({
+          'api-status': status,
+          event: 'api_call',
+          'api-name': name,
+        });
+      });
+      it('time is added', () => {
+        const name = 'hello-there';
+        const status = 'success';
+        const time = 1234;
+        const result = createApiEvent(name, status, time);
+        expect(result).to.deep.equal({
+          'api-status': status,
+          event: 'api_call',
+          'api-name': name,
+          // eslint-disable-next-line camelcase
+          api_latency_ms: time,
+        });
+      });
+      it('token is added', () => {
+        const name = 'hello-there';
+        const status = 'success';
+        const time = 1234;
+        const token = 'UUID';
+        const result = createApiEvent(name, status, time, token);
+        expect(result).to.deep.equal({
+          'api-status': status,
+          event: 'api_call',
+          'api-name': name,
+          // eslint-disable-next-line camelcase
+          api_latency_ms: time,
+          'api-request-id': token,
+        });
+      });
+      it('has an error', () => {
+        const name = 'hello-there';
+        const status = 'success';
+        const time = 1234;
+        const token = 'UUID';
+        const error = 'something went wrong';
+        const result = createApiEvent(name, status, time, token, error);
+        expect(result).to.deep.equal({
+          'api-status': status,
+          event: 'api_call',
+          'api-name': name,
+          // eslint-disable-next-line camelcase
+          api_latency_ms: time,
+          'error-key': error,
+          'api-request-id': token,
+        });
       });
     });
   });

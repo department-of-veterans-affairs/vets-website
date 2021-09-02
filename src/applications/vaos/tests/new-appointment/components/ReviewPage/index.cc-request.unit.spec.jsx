@@ -745,7 +745,9 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
       preferredTimesForPhoneCall: ['Morning', 'Afternoon', 'Evening'],
       preferredLanguage: 'English',
       preferredLocation: { city: 'Cincinnati', state: 'OH' },
-      practitionerIds: [{ system: 'HSRM', value: 'ppmsid' }],
+      practitionerIds: [
+        { system: 'http://hl7.org/fhir/sid/us-npi', value: 'ppmsid' },
+      ],
     });
   });
 

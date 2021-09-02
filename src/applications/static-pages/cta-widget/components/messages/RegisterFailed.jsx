@@ -6,37 +6,39 @@ import Telephone, {
 } from '@department-of-veterans-affairs/component-library/Telephone';
 import CallToActionAlert from '../CallToActionAlert';
 
-const UpgradeFailed = ({ upgradeMHVAccount }) => {
+const RegisterFailed = ({ createAndUpgradeMHVAccount }) => {
   const content = {
-    heading: 'We couldn’t upgrade your My HealtheVet account',
+    heading: 'We couldn’t create a MyHealtheVet account for you',
     alertText: (
       <>
         <p>
-          We’re sorry. Something went wrong on our end while we were trying to
-          upgrade your account. You won’t be able to use VA.gov health tools
-          until we can fix the problem.
+          We’re sorry. We couldn’t create a My HealtheVet account for you. To
+          use our online health tools, you’ll need to create an account.
         </p>
         <h5>What you can do</h5>
         <p className="vads-u-margin-top--0">Please try again.</p>
-        <button className="usa-button-primary" onClick={upgradeMHVAccount}>
-          Try again to upgrade your account
+        <button
+          className="usa-button-primary"
+          onClick={createAndUpgradeMHVAccount}
+        >
+          Try again to create your account
         </button>
         <p>
           <strong>
-            If you try again and continue to see this error, you can upgrade
-            your My HealtheVet account in one of these ways:
+            If you try again and continue to see this error, you can create a My
+            HealtheVet account in one of these ways:
           </strong>
         </p>
         <AdditionalInfo triggerText="Call the My HealtheVet help desk">
           <p>
-            Call us at <a href="tel:877-327-0022">877-327-0022</a>. We're here
+            Call us at <a href="tel:877-327-0022">877-327-0022</a>. We’re here
             Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. If you have
             hearing loss, call TTY: <Telephone contact={CONTACTS.HELP_TTY} />.
           </p>
           <p>
             Tell the representative that you tried to sign in to use the online
             health tools on VA.gov, but received an error messaging telling you
-            that we couldn't create an account for you.
+            that we couldn’t create an account for you.
           </p>
         </AdditionalInfo>
         <div className="vads-u-margin-top--1p5">
@@ -62,7 +64,7 @@ const UpgradeFailed = ({ upgradeMHVAccount }) => {
                 below:
                 <p>
                   “When I tried to sign in to use the health tools on VA.gov, I
-                  received an error message telling me that the site couldn't
+                  received an error message telling me that the site couldn’t
                   create a My HealtheVet account for me.”
                 </p>
               </li>
@@ -90,8 +92,8 @@ const UpgradeFailed = ({ upgradeMHVAccount }) => {
   return <CallToActionAlert {...content} />;
 };
 
-UpgradeFailed.propTypes = {
-  upgradeMHVAccount: PropTypes.func.isRequired,
+RegisterFailed.propTypes = {
+  createAndUpgradeMHVAccount: PropTypes.func.isRequired,
 };
 
-export default UpgradeFailed;
+export default RegisterFailed;
