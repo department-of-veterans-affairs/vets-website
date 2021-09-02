@@ -17,7 +17,7 @@ export const MobileTableView = ({ debtLinks }) => {
           <p className="vads-u-margin-top--0">
             Received on
             <span className="vads-u-margin-left--0p5">
-              {moment(new Date(debt.receivedAt)).format('MMM D, YYYY')}
+              {moment(debt.receivedAt, 'MM-DD-YYYY').format('MMM D, YYYY')}
             </span>
           </p>
           <p className="vads-u-margin-bottom--2">

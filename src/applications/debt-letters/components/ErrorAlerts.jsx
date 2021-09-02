@@ -41,7 +41,7 @@ export const DowntimeMessage = () => {
       </p>
 
       <p className="vads-u-font-size--base vads-u-font-family--sans">
-        Date: {moment(Date.now()).format('dddd, MMMM D, YYYY')}
+        Date: {moment(Date.now(), 'MM-DD-YYYY').format('dddd, MMMM D, YYYY')}
       </p>
       <p className="vads-u-font-size--base vads-u-font-family--sans">
         Start/End time: 12:30 a.m. to 3:00 a.m. ET
