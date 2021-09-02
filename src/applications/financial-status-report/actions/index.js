@@ -21,7 +21,9 @@ export const fetchFormStatus = () => async dispatch => {
     type: FSR_API_CALL_INITIATED,
   });
   const sessionExpiration = localStorage.getItem('sessionExpiration');
-  const remainingSessionTime = moment(sessionExpiration).diff(moment());
+  const remainingSessionTime = moment(new Date(sessionExpiration)).diff(
+    moment(),
+  );
 
   if (!remainingSessionTime) {
     // reset errors if user is not logged in or session has expired
