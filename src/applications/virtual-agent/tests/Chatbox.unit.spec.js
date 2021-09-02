@@ -13,6 +13,7 @@ import {
 } from 'platform/testing/unit/helpers';
 import { createTestStore } from '../../vaos/tests/mocks/setup';
 import { FETCH_TOGGLE_VALUES_SUCCEEDED } from 'platform/site-wide/feature-toggles/actionTypes';
+import Main from 'platform/site-wide/user-nav/containers/Main';
 
 export const CHATBOT_ERROR_MESSAGE = /We’re making some updates to the Virtual Agent. We’re sorry it’s not working right now. Please check back soon. If you require immediate assistance please call the VA.gov help desk/i;
 
@@ -54,23 +55,28 @@ describe('App', () => {
     });
   }
   describe('user is logged in', () => {
+    const initialStoreState = {
+      initialState: {
+        featureToggles: {
+          loading: false,
+        },
+        user: {
+          login: {
+            currentlyLoggedIn: true,
+          },
+        },
+      },
+    };
+
     describe('web chat script is already loaded', () => {
       it('renders web chat', async () => {
         loadWebChat();
         mockApiRequest({});
 
-        const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
-          initialState: {
-            featureToggles: {
-              loading: false,
-            },
-            user: {
-              login: {
-                currentlyLoggedIn: true,
-              },
-            },
-          },
-        });
+        const wrapper = renderInReduxProvider(
+          <Chatbox {...defaultProps} />,
+          initialStoreState,
+        );
 
         await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
       });
@@ -81,18 +87,7 @@ describe('App', () => {
 
         const { getByTestId } = renderInReduxProvider(
           <Chatbox {...defaultProps} />,
-          {
-            initialState: {
-              featureToggles: {
-                loading: false,
-              },
-              user: {
-                login: {
-                  currentlyLoggedIn: true,
-                },
-              },
-            },
-          },
+          initialStoreState,
         );
 
         await waitFor(() => expect(getByTestId('webchat')).to.exist);
@@ -105,18 +100,10 @@ describe('App', () => {
       it('should not render webchat until webchat framework is loaded', async () => {
         mockApiRequest({});
 
-        const wrapper = renderInReduxProvider(<Chatbox timeout={1000} />, {
-          initialState: {
-            featureToggles: {
-              loading: false,
-            },
-            user: {
-              login: {
-                currentlyLoggedIn: true,
-              },
-            },
-          },
-        });
+        const wrapper = renderInReduxProvider(
+          <Chatbox timeout={1000} />,
+          initialStoreState,
+        );
 
         expect(wrapper.getByRole('progressbar')).to.exist;
         expect(wrapper.queryByTestId('webchat')).to.not.exist;
@@ -131,18 +118,10 @@ describe('App', () => {
       it('should display error if webchat does not load after x milliseconds', async () => {
         mockApiRequest({});
 
-        const wrapper = renderInReduxProvider(<Chatbox timeout={1500} />, {
-          initialState: {
-            featureToggles: {
-              loading: false,
-            },
-            user: {
-              login: {
-                currentlyLoggedIn: true,
-              },
-            },
-          },
-        });
+        const wrapper = renderInReduxProvider(
+          <Chatbox timeout={1500} />,
+          initialStoreState,
+        );
 
         expect(wrapper.getByRole('progressbar')).to.exist;
 
@@ -167,23 +146,26 @@ describe('App', () => {
         return fetch.called;
       };
 
+      const initialStoreStateWithLoadingToggleTrue = {
+        featureToggles: {
+          loading: true,
+        },
+        user: {
+          login: {
+            currentlyLoggedIn: true,
+          },
+        },
+      };
+
       it('should not fetch token', () => {
         loadWebChat();
 
         mockApiRequest({});
 
-        renderInReduxProvider(<Chatbox {...defaultProps} />, {
-          initialState: {
-            featureToggles: {
-              loading: true,
-            },
-            user: {
-              login: {
-                currentlyLoggedIn: true,
-              },
-            },
-          },
-        });
+        renderInReduxProvider(
+          <Chatbox {...defaultProps} />,
+          initialStoreStateWithLoadingToggleTrue,
+        );
 
         expect(getTokenCalled()).to.equal(false);
       });
@@ -194,16 +176,7 @@ describe('App', () => {
         mockApiRequest({});
 
         const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
-          initialState: {
-            featureToggles: {
-              loading: true,
-            },
-            user: {
-              login: {
-                currentlyLoggedIn: true,
-              },
-            },
-          },
+          initialState: initialStoreStateWithLoadingToggleTrue,
         });
 
         expect(wrapper.getByRole('progressbar')).to.exist;
@@ -215,16 +188,7 @@ describe('App', () => {
         loadWebChat();
 
         const wrapper = renderInReduxProvider(<Chatbox timeout={100} />, {
-          initialState: {
-            featureToggles: {
-              loading: true,
-            },
-            user: {
-              login: {
-                currentlyLoggedIn: true,
-              },
-            },
-          },
+          initialState: initialStoreStateWithLoadingToggleTrue,
         });
 
         expect(wrapper.getByRole('progressbar')).to.exist;
@@ -277,16 +241,7 @@ describe('App', () => {
 
         mockApiRequest({});
 
-        const store = createTestStore({
-          featureToggles: {
-            loading: true,
-          },
-          user: {
-            login: {
-              currentlyLoggedIn: true,
-            },
-          },
-        });
+        const store = createTestStore(initialStoreStateWithLoadingToggleTrue);
 
         const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
           store,
@@ -306,18 +261,10 @@ describe('App', () => {
       it('should show loading indicator', () => {
         loadWebChat();
         mockApiRequest({ token: 'ANOTHERFAKETOKEN' });
-        const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
-          initialState: {
-            featureToggles: {
-              loading: false,
-            },
-            user: {
-              login: {
-                currentlyLoggedIn: true,
-              },
-            },
-          },
-        });
+        const wrapper = renderInReduxProvider(
+          <Chatbox {...defaultProps} />,
+          initialStoreState,
+        );
 
         expect(wrapper.getByRole('progressbar')).to.exist;
       });
@@ -327,18 +274,10 @@ describe('App', () => {
       it('should render web chat', async () => {
         loadWebChat();
         mockApiRequest({ token: 'FAKETOKEN' });
-        const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
-          initialState: {
-            featureToggles: {
-              loading: false,
-            },
-            user: {
-              login: {
-                currentlyLoggedIn: true,
-              },
-            },
-          },
-        });
+        const wrapper = renderInReduxProvider(
+          <Chatbox {...defaultProps} />,
+          initialStoreState,
+        );
 
         await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
 
@@ -357,18 +296,10 @@ describe('App', () => {
       it('should display error message', async () => {
         loadWebChat();
         mockApiRequest({}, false);
-        const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
-          initialState: {
-            featureToggles: {
-              loading: false,
-            },
-            user: {
-              login: {
-                currentlyLoggedIn: true,
-              },
-            },
-          },
-        });
+        const wrapper = renderInReduxProvider(
+          <Chatbox {...defaultProps} />,
+          initialStoreState,
+        );
 
         await waitFor(
           () => expect(wrapper.getByText(CHATBOT_ERROR_MESSAGE)).to.exist,
@@ -389,18 +320,10 @@ describe('App', () => {
           { response: { token: 'FAKETOKEN' }, shouldResolve: true },
         ]);
 
-        const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
-          initialState: {
-            featureToggles: {
-              loading: false,
-            },
-            user: {
-              login: {
-                currentlyLoggedIn: true,
-              },
-            },
-          },
-        });
+        const wrapper = renderInReduxProvider(
+          <Chatbox {...defaultProps} />,
+          initialStoreState,
+        );
 
         await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
 
@@ -420,18 +343,10 @@ describe('App', () => {
       it('loads the webchat framework only once', async () => {
         loadWebChat();
         mockApiRequest({ token: 'FAKETOKEN' });
-        const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
-          initialState: {
-            featureToggles: {
-              loading: false,
-            },
-            user: {
-              login: {
-                currentlyLoggedIn: true,
-              },
-            },
-          },
-        });
+        const wrapper = renderInReduxProvider(
+          <Chatbox {...defaultProps} />,
+          initialStoreState,
+        );
 
         await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
         expect(
@@ -451,13 +366,21 @@ describe('App', () => {
     });
   });
   describe('when user is not logged in', () => {
+    const initialStateNotLoggedIn = {
+      navigation: {
+        showLoginModal: false,
+        utilitiesMenuIsOpen: { search: false },
+      },
+      user: {
+        login: {
+          currentlyLoggedIn: false,
+        },
+      },
+    };
+
     it('displays a login widget', async () => {
       const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
-        initialState: {
-          featureToggles: {
-            loading: false,
-          },
-        },
+        initialState: initialStateNotLoggedIn,
       });
 
       await waitFor(
@@ -468,37 +391,33 @@ describe('App', () => {
     });
 
     it('displays sign in modal when user clicks sign in button', async () => {
-      const store = createTestStore({
-        navigation: {
-          showLoginModal: false,
-        },
-        featureToggles: {
-          loading: true,
-        },
-      });
+      const store = createTestStore(initialStateNotLoggedIn);
 
-      const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
-        store,
-      });
-      const button = wrapper.getByRole('button');
+      const wrapper = renderInReduxProvider(
+        <>
+          <Chatbox {...defaultProps} />
+          <Main />
+        </>,
+        {
+          store,
+        },
+      );
+      const button = wrapper.getByText('Sign in to VA.gov');
+
+      expect(wrapper.queryByRole('alertdialog')).to.not.exist;
+
       await act(async () => {
         fireEvent.click(button);
       });
 
       expect(store.getState().navigation.showLoginModal).to.be.true;
+      expect(wrapper.getByRole('alertdialog')).to.exist;
     });
 
     it('does not display chatbot', async () => {
       const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
         initialState: {
-          featureToggles: {
-            loading: true,
-          },
-          user: {
-            login: {
-              currentlyLoggedIn: false,
-            },
-          },
+          initialStateNotLoggedIn,
         },
       });
 
