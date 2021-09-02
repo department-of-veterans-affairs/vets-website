@@ -33,16 +33,7 @@ export default function ProviderSelectionField({
         scrollAndFocus('#providerPostSelectionHeader');
       }
     },
-    [showProvidersList],
-  );
-
-  useEffect(
-    () => {
-      if (mounted && Object.keys(formData).length === 0) {
-        scrollAndFocus('.va-button-link');
-      }
-    },
-    [formData],
+    [providerSelected, showProvidersList],
   );
 
   if (!showProvidersList) {

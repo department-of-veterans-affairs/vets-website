@@ -16,16 +16,11 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
 
   .location-search-results-container {
     border: solid $color-gray-lightest;
-    .location-search-results {
-      height: 565px;
-      overflow-y: scroll;
-
-      @include media-maxwidth($small-screen) {
-        height: 75vh;
-      }
-    }
+    height: 565px;
+    overflow-y: scroll;
 
     @include media-maxwidth($small-screen) {
+      height: 75vh;
       border: none;
     }
   }

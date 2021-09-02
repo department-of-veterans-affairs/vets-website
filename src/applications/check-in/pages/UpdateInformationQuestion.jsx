@@ -16,7 +16,7 @@ const UpdateInformationQuestion = props => {
   const noButtonClicked = () => {
     recordEvent({
       event: 'cta-button-click',
-      'button-click-label': 'no',
+      'button-click-label': 'no-to-update-information',
     });
     goToNextPage(router, URLS.DETAILS);
   };
@@ -24,7 +24,7 @@ const UpdateInformationQuestion = props => {
   const yesButtonClicked = () => {
     recordEvent({
       event: 'cta-button-click',
-      'button-click-label': 'yes',
+      'button-click-label': 'yes-to-update-information',
     });
     goToNextPage(router, URLS.SEE_STAFF);
   };
