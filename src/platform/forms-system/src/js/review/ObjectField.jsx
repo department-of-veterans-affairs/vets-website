@@ -114,7 +114,7 @@ class ObjectField extends React.Component {
     let divWrapper = false;
 
     const renderedProperties = this.orderAndFilterProperties(properties).map(
-      (objectFields, index) => {
+      objectFields => {
         const [first, ...rest] = objectFields;
         // expand under functionality is controlled in the reducer by setting ui:collapsed, so
         // we can check if its expanded by seeing if there are any visible "children"
@@ -145,8 +145,7 @@ class ObjectField extends React.Component {
             .map(renderField);
         }
         return showReviewField(first, schema, uiSchema, formData, formContext)
-          ? // eslint-disable-next-line sonarjs/no-extra-arguments
-            renderField(first, index)
+          ? renderField(first)
           : null;
       },
     );
