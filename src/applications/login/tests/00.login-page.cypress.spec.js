@@ -10,7 +10,6 @@ describe('Login Page', () => {
       )
     ) {
       cy.visit('/login');
-      cy.percySnapshot();
       cy.get('body').should('be.visible');
       cy.injectAxeThenAxeCheck();
     }
