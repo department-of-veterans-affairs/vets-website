@@ -909,7 +909,7 @@ describe('Schemaform review: ObjectField', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
 
-    const schema = {
+    const pageSchema = {
       type: 'object',
       properties: {
         testz: {
@@ -923,7 +923,7 @@ describe('Schemaform review: ObjectField', () => {
       },
     };
 
-    const uiSchema = {
+    const pageUiSchema = {
       testz: {
         'ui:objectViewField': () => <div data-testid="child-objectviewfield" />,
       },
@@ -935,7 +935,7 @@ describe('Schemaform review: ObjectField', () => {
       pageTitle: 'Blah',
     };
 
-    const idSchema = {
+    const pageIdSchema = {
       $id: 'root',
       testz: {
         $id: 'root_testz',
@@ -950,11 +950,11 @@ describe('Schemaform review: ObjectField', () => {
     // which means that ObjectViewField wasn't rendered
     const tree = render(
       <ObjectField
-        schema={schema.properties.testz}
-        uiSchema={uiSchema.testz}
+        schema={pageSchema.properties.testz}
+        uiSchema={pageUiSchema.testz}
         formData={formData}
         formContext={formContext}
-        idSchema={idSchema.testz}
+        idSchema={pageIdSchema.testz}
         requiredSchema={{}}
         onChange={onChange}
         onBlur={onBlur}
