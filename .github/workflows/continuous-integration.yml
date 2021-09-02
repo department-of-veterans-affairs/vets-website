@@ -850,7 +850,7 @@ jobs:
 
     strategy:
       matrix:
-        buildtype: [vagovdev]
+        buildtype: [vagovdev, vagovstaging, vagovprod]
 
     needs: [cypress-tests, unit-tests, contract-tests, security-audit, linting]
 
