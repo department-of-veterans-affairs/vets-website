@@ -18,19 +18,23 @@ export const CoeIneligible = () => (
         19, 2019, you can choose from 3 decision review options. These your
         options: Supplemental Claim, Higher-Level Review, or Board Appeal.
       </p>
-      <a>Learn more about VA decision reviews and appeals</a>
+      <a href="/decision-reviews/">
+        Learn more about VA decision reviews and appeals
+      </a>
       <h2>What if I appealed VA’s decision?</h2>
       <p className="vads-u-margin-bottom--0">
         If you have an appeal in progress, you can check it online. You’ll see
         where your claim or appeal is in our review process, and when we think
         we’ll complete our review.
       </p>
-      <a>Check your VA claim or appeal status</a>
+      <a href="/track-claims">Check your VA claim or appeal status</a>
       <h2>What if I have more questions?</h2>
       <p className="vads-u-margin-bottom--0">
         Get answers to frequently asked questions about decision reviews.
       </p>
-      <a>See frequently asked questions about decision reviews.</a>
+      <a href="/decision-reviews/faq/">
+        See frequently asked questions about decision reviews.
+      </a>
     </div>
   </div>
 );

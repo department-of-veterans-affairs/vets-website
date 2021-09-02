@@ -15,12 +15,17 @@ export const CoeEligible = props => (
         </p>
       </va-alert>
       <h2>Review and download your COE</h2>
-      <p>
-        To see your Certificate of Eligibility, click the link below. Your COE
-        will appear in a new tab on your browser. To download this PDF to your
-        computer, click on your File menu, then "Save as..."
+      <p className="vads-u-margin-bottom--0">
+        You can download your COE right now. If you need help, go to our
+        instructions for how to download and open a VA.gov PDF form.
       </p>
-      <a className="vads-u-font-size--base" href="#">
+      <a href="/resources/how-to-download-and-open-a-vagov-pdf-form/">
+        Get instructions for downloading your PDF
+      </a>
+      <a
+        className="vads-u-font-size--base vads-u-display--block vads-u-margin-top--2"
+        href="#"
+      >
         <i
           aria-hidden="true"
           role="img"
@@ -30,10 +35,16 @@ export const CoeEligible = props => (
       </a>
       <h2>What if I need to make changes to my COE?</h2>
       <p>
-        If you need to make changes or corrections to your COE - or are applying
-        for a restoration of entitlement - you’ll need to complete and submit VA
-        Form 26-1880.
+        Complete and submit a Request for a Certificate of Eligibility (VA Form
+        26-1880) if you need to:
       </p>
+      <ul>
+        <li>
+          Make changes to your COE (correct an error or update your
+          information), or
+        </li>
+        <li>Apply for a restoration of entitlement</li>
+      </ul>
       <Link to="/introduction" onClick={props.clickHandler}>
         Make changes online COE with VA Form 26-1880
       </Link>
