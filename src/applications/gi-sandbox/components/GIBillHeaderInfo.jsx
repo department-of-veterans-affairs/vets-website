@@ -5,8 +5,8 @@ export default function GIBillHeaderInfo() {
     <div className="tool-description">
       <h1>GI Bill® Comparison Tool</h1>
       <p className="vads-u-font-size--h3 vads-u-color--gray-dark">
-        Use the GI Bill Comparison Tool to see how VA education benefits can pay
-        for your education.
+        Learn about and compare your GI Bill benefits at approved schools,
+        employers, and VET TEC providers.
       </p>
     </div>
   );
