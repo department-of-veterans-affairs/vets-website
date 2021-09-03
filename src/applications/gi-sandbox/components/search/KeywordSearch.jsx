@@ -146,7 +146,7 @@ export function KeywordSearch({
                 onChange: handleChange,
                 onKeyUp: handleEnterPress,
                 onFocus: handleFocus,
-                'aria-labelledby': 'institution-search',
+                'aria-labelledby': 'institution-search-label',
               })}
             />
             {isOpen && (
