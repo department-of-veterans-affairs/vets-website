@@ -10,7 +10,8 @@ const pathsOfChangedFiles = filepaths.filter(filepath => {
   // Ignore the cross-app import graph file
   return (
     filepath !== 'script/github-actions/create-cross-app-import-graph.js' &&
-    !filepath.endsWith('.yml')
+    !filepath.endsWith('.yml') &&
+    filepath !== 'script/github-actions/select-cypress-tests.js'
   );
 });
 
