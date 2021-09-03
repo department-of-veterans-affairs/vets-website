@@ -225,7 +225,7 @@ class ArrayField extends React.Component {
   }
 
   render() {
-    const { schema, uiSchema, path, pageTitle = '', formContext } = this.props;
+    const { schema, uiSchema, path, pageTitle, formContext } = this.props;
 
     const uiOptions = uiSchema['ui:options'] || {};
     const fieldName = path[path.length - 1];
@@ -271,8 +271,7 @@ class ArrayField extends React.Component {
               !itemCountLocked &&
               (!schema.minItems || items.length > schema.minItems);
             const itemSchema = this.getItemSchema(index);
-            const itemTitle =
-              itemSchema && itemSchema.title ? itemSchema.title : '';
+            const itemTitle = itemSchema ? itemSchema.title : '';
             const ariaLabel = uiOptions.itemAriaLabel;
             const itemName =
               (typeof ariaLabel === 'function' && ariaLabel(item || {})) ||

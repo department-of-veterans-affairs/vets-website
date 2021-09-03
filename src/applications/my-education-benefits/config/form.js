@@ -709,7 +709,10 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [formFields.toursOfDuty]: toursOfDuty,
+              [formFields.toursOfDuty]: {
+                ...toursOfDuty,
+                title: '', // Hack to prevent console warning
+              },
               [formFields.toursOfDutyCorrect]: {
                 type: 'boolean',
               },
