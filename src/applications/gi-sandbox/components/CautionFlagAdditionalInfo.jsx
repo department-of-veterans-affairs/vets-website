@@ -31,6 +31,7 @@ export const CautionFlagAdditionalInfo = ({
             </div>
             <div>
               <i
+                aria-hidden="true"
                 style={{
                   float: 'right',
                   margin: '5px',
