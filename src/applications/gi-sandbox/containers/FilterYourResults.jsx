@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
@@ -51,6 +51,7 @@ export function FilterYourResults({
     search.tab === TABS.name ? search.name.facets : search.location.facets;
 
   const [showAllSchoolTypes, setShowAllSchoolTypes] = useState(false);
+  const SEE_LESS_SIZE = 4;
 
   const updateInstitutionFilters = (name, value) => {
     dispatchFilterChange({ ...filters, [name]: value });
@@ -132,10 +133,14 @@ export function FilterYourResults({
     modalClose();
   };
 
+  const setFocusByName = name => {
+    document.getElementsByName(name)[0].focus();
+  };
+
   const excludedSchoolTypesGroup = () => {
     const options = (showAllSchoolTypes
       ? INSTITUTION_TYPES
-      : INSTITUTION_TYPES.slice(0, 4)
+      : INSTITUTION_TYPES.slice(0, SEE_LESS_SIZE)
     ).map(type => {
       return {
         name: type.toUpperCase(),
@@ -174,6 +179,21 @@ export function FilterYourResults({
       </div>
     );
   };
+
+  useEffect(
+    () => {
+      if (showAllSchoolTypes) {
+        setFocusByName(
+          `${INSTITUTION_TYPES[SEE_LESS_SIZE].toUpperCase()}-label`,
+        );
+      } else {
+        setFocusByName(
+          `${INSTITUTION_TYPES[SEE_LESS_SIZE - 1].toUpperCase()}-label`,
+        );
+      }
+    },
+    [showAllSchoolTypes],
+  );
 
   const schoolAttributes = () => {
     const options = [
