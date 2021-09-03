@@ -69,7 +69,12 @@ const DebtCard = ({ debt, selectedDebts, formData, setDebts }) => {
       </h3>
       {mostRecentHistory && (
         <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
-          Updated on {moment(mostRecentHistory.date).format('MMMM D, YYYY')}
+          Updated on
+          <span className="vads-u-margin-left--0p5">
+            {moment(mostRecentHistory.date, 'MM-DD-YYYY').format(
+              'MMMM D, YYYY',
+            )}
+          </span>
         </p>
       )}
       <p className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
@@ -80,7 +85,7 @@ const DebtCard = ({ debt, selectedDebts, formData, setDebts }) => {
 
       <p className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
         <strong>Date of first notice: </strong>
-        {moment(firstDebtLetter.date).format('MMMM D, YYYY')}
+        {moment(firstDebtLetter.date, 'MM-DD-YYYY').format('MMMM D, YYYY')}
       </p>
 
       <div className="vads-u-margin-top--2">
