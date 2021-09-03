@@ -66,17 +66,20 @@ export function NameSearchForm({
   );
 
   const validateSearchTerm = searchTerm => {
-    if (searchTerm.trim() === '') {
+    const empty = searchTerm.trim() === '';
+    if (empty) {
       setError('Please fill in a school, employer, or training provider.');
-    } else {
+    } else if (error !== null) {
       setError(null);
     }
+    return !empty;
   };
 
   const handleSubmit = event => {
     event.preventDefault();
-    validateSearchTerm(name);
-    doSearch(name);
+    if (validateSearchTerm(name)) {
+      doSearch(name);
+    }
   };
 
   const doAutocompleteSuggestionsSearch = value => {
