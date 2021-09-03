@@ -949,7 +949,7 @@ jobs:
   jenkins:
     name: Run Jenkins CI
     runs-on: ubuntu-latest
-    needs: archive
+    # needs: archive
     # if: ${{ always() && needs.archive.result == 'success' }}
     steps:
       - name: Configure AWS credentials
