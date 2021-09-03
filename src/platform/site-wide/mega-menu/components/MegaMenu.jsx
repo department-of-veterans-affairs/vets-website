@@ -151,6 +151,7 @@ export default class MegaMenu extends React.Component {
                   className="vetnav-level1"
                   data-e2e-id="mobile-home-nav-link"
                   href="/"
+                  tabIndex={currentSection ? -1 : undefined}
                 >
                   Home
                 </a>
@@ -171,6 +172,11 @@ export default class MegaMenu extends React.Component {
                       className="vetnav-level1"
                       data-e2e-id={`${_.kebabCase(item.title)}-${i}`}
                       onClick={() => this.toggleDropDown(item.title)}
+                      tabIndex={
+                        currentSection && currentSection !== item.title
+                          ? -1
+                          : undefined
+                      }
                     >
                       {item.title}
                     </button>
@@ -181,6 +187,11 @@ export default class MegaMenu extends React.Component {
                       href={item.href}
                       onClick={linkClicked.bind(null, item)}
                       target={item.target || null}
+                      tabIndex={
+                        currentSection && currentSection !== item.title
+                          ? -1
+                          : undefined
+                      }
                     >
                       {item.title}
                     </a>

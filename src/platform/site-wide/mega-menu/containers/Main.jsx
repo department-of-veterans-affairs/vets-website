@@ -17,6 +17,9 @@ import {
   updateCurrentSection,
 } from '../actions';
 
+const tabbableSelectors =
+  'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
 export function flagCurrentPageInTopLevelLinks(
   links = [],
   href = window.location.href,
@@ -108,6 +111,37 @@ export class Main extends Component {
     this.props.toggleMobileDisplayHidden(hidden);
   };
 
+  focusTrap = e => {
+    const buttonContainer = document.getElementById('va-nav-controls');
+    const megaMenuContainer = document.getElementById('mega-menu-mobile');
+    const focusable = [
+      ...Array.from(buttonContainer.querySelectorAll(tabbableSelectors)).filter(
+        el =>
+          el.getAttribute('tabindex') !== '-1' &&
+          el.getAttribute('hidden') === null,
+      ),
+      ...Array.from(
+        megaMenuContainer.querySelectorAll(tabbableSelectors),
+      ).filter(
+        el =>
+          el.getAttribute('tabindex') !== '-1' &&
+          el.getAttribute('hidden') === null,
+      ),
+    ];
+    const firstEl = focusable[0];
+    const lastEl = focusable[focusable.length - 1];
+
+    if (e.keyCode === 9) {
+      if (e.shiftKey && document.activeElement === firstEl) {
+        e.preventDefault();
+        lastEl.focus();
+      } else if (!e.shiftKey && document.activeElement === lastEl) {
+        e.preventDefault();
+        firstEl.focus();
+      }
+    }
+  };
+
   render() {
     const childProps = {
       ...this.props,
@@ -119,14 +153,18 @@ export class Main extends Component {
     };
 
     this.mobileMediaQuery = window.matchMedia('(max-width: 767px)');
+    const megaMenuMobileContainer = document.getElementById('mega-menu-mobile');
 
-    if (
-      this.mobileMediaQuery.matches &&
-      document.getElementById('mega-menu-mobile')
-    ) {
+    if (this.mobileMediaQuery.matches && megaMenuMobileContainer) {
+      if (!this.props.display.hidden) {
+        document.body.addEventListener('keydown', this.focusTrap);
+      } else {
+        document.body.removeEventListener('keydown', this.focusTrap);
+      }
+
       return createPortal(
         <MegaMenu {...childProps} />,
-        document.getElementById('mega-menu-mobile'),
+        megaMenuMobileContainer,
       );
     }
 
