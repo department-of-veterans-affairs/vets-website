@@ -607,9 +607,9 @@ const FacilitiesMap = props => {
         </div>
         <div className="facility-introtext">
           <p>
-            [TESTING] Find a VA location or in-network community care provider.
-            For same-day care for minor illnesses or injuries, select Urgent
-            care for facility type.
+            Find a VA location or in-network community care provider. For
+            same-day care for minor illnesses or injuries, select Urgent care
+            for facility type.
           </p>
           <p>
             <strong>Coronavirus update:</strong> {coronavirusUpdate}
