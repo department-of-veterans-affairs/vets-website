@@ -204,3 +204,24 @@ dl.review .review-row:last-child {
 .form-review-panel fieldset fieldset {
 	margin-bottom: 0;
 }
+
+// Confirmation Page
+.meb-confirmation-page .feature h3 {
+	font-weight: normal;
+	line-height: 34/20 + 0em;
+	margin-bottom: 14/20 + 0em;
+}
+.meb-confirmation-page button {
+	display: block;
+	margin: 24px 0;
+	width: auto;
+}
+@media only screen and (min-width: 64.0625em) {
+	.meb-confirmation-page .feature {
+		padding: 30/16 + 0em;
+	}
+}
+.meb-confirmation-page .help-footer-box{
+	padding-top: 2em;
+}
+// END - Confirmation Page
