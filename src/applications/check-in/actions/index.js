@@ -12,7 +12,11 @@ export const receivedAppointmentDetails = (data, token) => {
 export const TOKEN_WAS_VALIDATED = 'TOKEN_WAS_VALIDATED';
 
 const organizeData = data => {
-  return { ...data, appointment: {}, facility: {} };
+  return {
+    ...data,
+    appointments: [{ ...data }],
+    facility: { ...data },
+  };
 };
 export const tokenWasValidated = (payload, token, scope) => {
   const data = organizeData(payload);
