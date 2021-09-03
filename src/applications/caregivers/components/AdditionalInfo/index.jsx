@@ -15,7 +15,7 @@ export const VeteranSSNInfo = () => (
     <AdditionalInfo triggerText="Why is this required?">
       We need the Veteran’s Social Security number or tax identification number
       to process the application when it’s submitted online, but it’s not a
-      requirement to apply for the program!
+      requirement to apply for the program.
     </AdditionalInfo>
   </div>
 );
