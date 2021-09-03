@@ -34,6 +34,7 @@ const approvedPage = (
       </button>
       <a href="#">View an explanation of your benefits</a>
     </div>
+
     <h2>What happens next?</h2>
     <ul>
       <li>
@@ -71,6 +72,7 @@ const approvedPage = (
     </AdditionalInfo>
 
     <button className="usa-button-secondary">Download your application</button>
+
     <a href="#">Go to your My VA dashboard</a>
 
     <FormFooter />
@@ -95,6 +97,7 @@ const deniedPage = (
       </button>
       <a href="#">View an explanation of your benefits</a>
     </div>
+
     <h2>What happens next?</h2>
     <ul>
       <li>
@@ -114,6 +117,68 @@ const deniedPage = (
     <button className="usa-button-secondary">Download your application</button>
 
     <a href="#">Go to your My VA dashboard</a>
+
+    <FormFooter />
+  </div>
+);
+
+const pendingPage = (
+  <div className="meb-confirmation-page meb-confirmation-page_denied">
+    <h1>Your application is under review</h1>
+    <div className="feature">
+      <h3>
+        Your application requires additional review. Once we have reviewed your
+        application, we will reach out to notify you about next steps.
+      </h3>
+      <p>
+        For now, you can download a copy of your application for your records.
+      </p>
+      <button type="button" className="usa-button">
+        Download your application
+      </button>
+    </div>
+
+    <h2>When will I hear back about my application?</h2>
+    <div className="feature meb-feature--secondary">
+      <h2>
+        <em>In 1</em> Month
+      </h2>
+      <p>
+        If more than a month has passed since you gave us your application and
+        you haven’t heard back, please don’t apply again. Call our toll-free
+        Education Call Center at <a href="tel:1-888-442-4551">1-888-442-4551</a>{' '}
+        or <a href="tel:001-918-781-5678">001-918-781-5678</a> if you are
+        outside the U.S.
+      </p>
+    </div>
+
+    <h2>What happens next?</h2>
+    <ul>
+      <li>We will review your eligibility for the Post-9/11 GI Bill.</li>
+      <li>We may reach out with questions about your application.</li>
+      <li>You will be notified about your eligibility.</li>
+      <li>There is no further action required by you at this time.</li>
+    </ul>
+
+    <h2>What can I do while I wait?</h2>
+    <ul>
+      <li>
+        Use our <a href="#">GI Bill Comparison Tool</a> to help you decide which
+        education program and school is best for you.
+      </li>
+      <li>Upload any supporting documents.</li>
+      <li>
+        Review and/or update your direct deposit information on your{' '}
+        <a href="#">VA.gov profile</a>.
+      </li>
+      <li>
+        Learn more about VA benefits and programs through the{' '}
+        <a href="#">Building Your Future with the GI Bill Series</a>.
+      </li>
+    </ul>
+
+    <a href="#">Go to your My VA dashboard</a>
+
     <FormFooter />
   </div>
 );
@@ -139,7 +204,7 @@ export class ConfirmationPage extends React.Component {
         return deniedPage;
       }
       case 'pending': {
-        return <h1>Pending</h1>;
+        return pendingPage;
       }
       default: {
         return (
