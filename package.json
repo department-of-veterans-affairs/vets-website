@@ -138,7 +138,7 @@
     "chokidar": "^3.5.2",
     "choma": "^1.1.0",
     "chromedriver": "^91.0.0",
-    "cli-table": "^0.3.1",
+    "cli-table": "^0.3.6",
     "command-line-args": "^3.0.1",
     "command-line-usage": "^6.1.0",
     "copy-webpack-plugin": "^6.0.2",
