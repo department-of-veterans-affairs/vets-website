@@ -691,15 +691,9 @@ jobs:
       - name: Set PERCY_PARALLEL_NONCE
         run: echo "PERCY_PARALLEL_NONCE=$(uuidgen)" >> $GITHUB_ENV
 
-      - name: Echo a test batch
-        run: echo ${{ needs.cypress-tests-prep.outputs.batch_0_tests }}
-
-      - name: Echo a test batch as json
-        run: echo ${{ fromJson(needs.cypress-tests-prep.outputs.batch_0_tests) }}
-
       - name: Run Cypress tests, batch 0
         if: ${{ matrix.ci_node_index == 0 }}
-        run: npx percy exec -- cypress run --config-file config/cypress.json percy finalize --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json"
+        run: npx percy exec -- cypress run --config-file config/cypress.json percy finalize --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec '${{ needs.cypress-tests-prep.outputs.batch_0_tests }}'
         env:
           PERCY_TOKEN: ${{ env.PERCY_TOKEN }}
           PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
@@ -707,7 +701,7 @@ jobs:
 
       - name: Run Cypress tests, batch 1
         if: ${{ matrix.ci_node_index == 1 }}
-        run: npx percy exec -- cypress run --config-file config/cypress.json percy finalize --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json"
+        run: npx percy exec -- cypress run --config-file config/cypress.json percy finalize --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec '${{ needs.cypress-tests-prep.outputs.batch_1_tests }}'
         env:
           PERCY_TOKEN: ${{ env.PERCY_TOKEN }}
           PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
@@ -715,7 +709,7 @@ jobs:
 
       - name: Run Cypress tests, batch 2
         if: ${{ matrix.ci_node_index == 2 }}
-        run: npx percy exec -- cypress run --config-file config/cypress.json percy finalize --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json"
+        run: npx percy exec -- cypress run --config-file config/cypress.json percy finalize --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec '${{ needs.cypress-tests-prep.outputs.batch_2_tests }}'
         env:
           PERCY_TOKEN: ${{ env.PERCY_TOKEN }}
           PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
@@ -723,7 +717,7 @@ jobs:
 
       - name: Run Cypress tests, batch 3
         if: ${{ matrix.ci_node_index == 4 }}
-        run: npx percy exec -- cypress run --config-file config/cypress.json percy finalize --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json"
+        run: npx percy exec -- cypress run --config-file config/cypress.json percy finalize --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec '${{ needs.cypress-tests-prep.outputs.batch_3_tests }}'
         env:
           PERCY_TOKEN: ${{ env.PERCY_TOKEN }}
           PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
@@ -731,7 +725,7 @@ jobs:
 
       - name: Run Cypress tests, batch 4
         if: ${{ matrix.ci_node_index == 4 }}
-        run: npx percy exec -- cypress run --config-file config/cypress.json percy finalize --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json"
+        run: npx percy exec -- cypress run --config-file config/cypress.json percy finalize --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec '${{ needs.cypress-tests-prep.outputs.batch_4_tests }}'
         env:
           PERCY_TOKEN: ${{ env.PERCY_TOKEN }}
           PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
@@ -739,7 +733,7 @@ jobs:
 
       - name: Run Cypress tests, batch 5
         if: ${{ matrix.ci_node_index == 5 }}
-        run: npx percy exec -- cypress run --config-file config/cypress.json percy finalize --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json"
+        run: npx percy exec -- cypress run --config-file config/cypress.json percy finalize --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec '${{ needs.cypress-tests-prep.outputs.batch_5_tests }}'
         env:
           PERCY_TOKEN: ${{ env.PERCY_TOKEN }}
           PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
@@ -747,7 +741,7 @@ jobs:
 
       - name: Run Cypress tests, batch 6
         if: ${{ matrix.ci_node_index == 6 }}
-        run: npx percy exec -- cypress run --config-file config/cypress.json percy finalize --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json"
+        run: npx percy exec -- cypress run --config-file config/cypress.json percy finalize --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec '${{ needs.cypress-tests-prep.outputs.batch_6_tests }}'
         env:
           PERCY_TOKEN: ${{ env.PERCY_TOKEN }}
           PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
@@ -755,7 +749,7 @@ jobs:
 
       - name: Run Cypress tests, batch 7
         if: ${{ matrix.ci_node_index == 7 }}
-        run: npx percy exec -- cypress run --config-file config/cypress.json percy finalize --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json"
+        run: npx percy exec -- cypress run --config-file config/cypress.json percy finalize --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec '${{ needs.cypress-tests-prep.outputs.batch_7_tests }}'
         env:
           PERCY_TOKEN: ${{ env.PERCY_TOKEN }}
           PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
