@@ -5,7 +5,7 @@ import {
   RECEIVED_APPOINTMENT_DETAILS,
   tokenWasValidated,
   TOKEN_WAS_VALIDATED,
-} from '../actions';
+} from '.';
 
 describe('health care -- check in -- actions --', () => {
   it('receivedAppointmentDetails -- should return correct action', () => {
@@ -22,5 +22,19 @@ describe('health care -- check in -- actions --', () => {
   it('tokenWasValidated -- should return correct action', () => {
     const action = tokenWasValidated();
     expect(action.type).to.equal(TOKEN_WAS_VALIDATED);
+  });
+  it('tokenWasValidated -- should return correct structure', () => {
+    const data = {};
+    const token = 'some-token';
+    const scope = 'some-scope';
+    const action = tokenWasValidated(data, token, scope);
+    expect(action.data).to.haveOwnProperty('context');
+    expect(action.data.context).to.haveOwnProperty('token');
+    expect(action.data.context.token).to.equal('some-token');
+    expect(action.data.context).to.haveOwnProperty('scope');
+    expect(action.data.context.scope).to.equal('some-scope');
+    // TODO: add test for data object structure
+    expect(action.data).to.haveOwnProperty('appointment');
+    expect(action.data).to.haveOwnProperty('facility');
   });
 });

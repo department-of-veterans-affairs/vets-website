@@ -12,16 +12,15 @@ export const receivedAppointmentDetails = (data, token) => {
 export const TOKEN_WAS_VALIDATED = 'TOKEN_WAS_VALIDATED';
 
 const organizeData = data => {
-  return { ...data };
+  return { ...data, appointment: {}, facility: {} };
 };
 export const tokenWasValidated = (payload, token, scope) => {
   const data = organizeData(payload);
   return {
     type: TOKEN_WAS_VALIDATED,
-    value: {
+    data: {
       context: { token, scope },
-      appointment: data.appointment,
-      facility: data.facility,
+      ...data,
     },
   };
 };
