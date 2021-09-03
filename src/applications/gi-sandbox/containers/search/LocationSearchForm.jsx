@@ -208,6 +208,7 @@ export function LocationSearchForm({
 
           <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--4 medium-screen:vads-l-col--3 input-row">
             <Dropdown
+              ariaLabel="Distance"
               className="vads-u-font-style--italic"
               selectClassName="vads-u-font-style--italic vads-u-color--gray"
               name="distance"
