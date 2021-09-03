@@ -52,7 +52,7 @@ export default class ReviewBoxField extends React.Component {
     const acceptedTypes = ['object', 'array', 'string'];
     if (!acceptedTypes.includes(this.props.schema.type)) {
       throw new Error(
-        `Unknown schema type in ReviewBoxField. Expected one of [${acceptedTypes.join(
+        `Unknown schema type in ReviewCardField. Expected one of [${acceptedTypes.join(
           ', ',
         )}], but got ${this.props.schema.type}.`,
       );
@@ -256,11 +256,7 @@ export default class ReviewBoxField extends React.Component {
       // Check the data type and use the appropriate review field
       const dataType = this.props.schema.type;
       if (dataType === 'object') {
-        const ObjectField =
-          this.props.uiSchema['ui:objectViewField'] &&
-          this.props.formContext.reviewMode
-            ? this.props.uiSchema['ui:objectViewField']
-            : this.props.registry.fields.ObjectField;
+        const { ObjectField } = this.props.registry.fields;
         return <ObjectField {...this.props} />;
       } else if (dataType === 'array') {
         const { ArrayField } = this.props.registry.fields;
@@ -527,10 +523,6 @@ ReviewBoxField.propTypes = {
       PropTypes.func,
       PropTypes.elementType,
       PropTypes.string,
-    ]),
-    'ui:objectViewField': PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.object,
     ]),
     'ui:subtitle': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     saveClickTrackEvent: PropTypes.object,
