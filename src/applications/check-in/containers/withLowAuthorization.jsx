@@ -9,10 +9,9 @@ import { getCurrentToken } from '../utils/session';
 const withLowAuthorization = WrappedComponent => props => {
   const { checkInData, router } = props;
   const { appointments } = checkInData;
-
   useEffect(
     () => {
-      if (!appointments) {
+      if (!appointments[0]) {
         const session = getCurrentToken(window);
         if (session) {
           const { token } = session;

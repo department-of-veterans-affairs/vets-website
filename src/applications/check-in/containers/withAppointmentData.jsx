@@ -9,7 +9,7 @@ const withAppointmentData = WrappedComponent => props => {
   const { appointments } = checkInData;
   useEffect(
     () => {
-      if (!appointments) {
+      if (!appointments[0]) {
         const session = getCurrentToken(window);
         if (session) {
           const { token } = session;
