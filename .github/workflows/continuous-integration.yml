@@ -691,6 +691,12 @@ jobs:
       - name: Set PERCY_PARALLEL_NONCE
         run: echo "PERCY_PARALLEL_NONCE=$(uuidgen)" >> $GITHUB_ENV
 
+      - name: Echo a test batch
+        run: echo ${{ needs.cypress-tests-prep.outputs.batch_0_tests }}
+
+      - name: Echo a test batch as json
+        run: echo ${{ fromJson(needs.cypress-tests-prep.outputs.batch_0_tests) }}
+
       - name: Run Cypress tests, batch 0
         if: ${{ matrix.ci_node_index == 0 }}
         run: npx percy exec -- cypress run --config-file config/cypress.json percy finalize --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec '${{ fromJson(needs.cypress-tests-prep.outputs.batch_0_tests) }}'
