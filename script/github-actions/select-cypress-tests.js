@@ -69,7 +69,7 @@ function exportVariables(tests, ciNodeIndex, numContainers) {
   core.exportVariable('NUM_CONTAINERS', numContainers);
 
   ciNodeIndex.forEach(step => {
-    core.exportVariable(`BATCH_${step}`, true);
+    // core.exportVariable(`BATCH_${step}`, true);
     core.exportVariable(
       `BATCH_${step}_TESTS`,
       getTestBatch(tests, step, numContainers),
