@@ -19,7 +19,6 @@ import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 // import bankAccountUI from 'platform/forms-system/src/js/definitions/bankAccount';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 
@@ -166,17 +165,6 @@ function phoneSchema() {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  preSubmitInfo: {
-    ...preSubmitInfo,
-    notice: (
-      <p>
-        <strong>Note</strong>: According to federal law, there are criminal
-        penalties, including a fine and/or imprisonment for up to 5 years, for
-        withholding information or for providing incorrect information (See 18
-        U.S.C. 1001).
-      </p>
-    ),
-  },
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'my-education-benefits-',
