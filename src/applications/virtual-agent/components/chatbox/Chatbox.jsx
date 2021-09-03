@@ -10,7 +10,7 @@ import {
   ERROR,
   LOADING,
 } from './loadingStatus';
-import {connect, useSelector} from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 
 function useWebChat(props) {
@@ -50,13 +50,13 @@ export default function Chatbox(props) {
   );
 }
 
-function SignInAlert({ toggleLoginModal }) {
+function SignInAlert({ showLoginModal }) {
   return (
     <va-alert status="continue">
       <p>Please sign in to access the chatbot.</p>
       <button
         className="usa-button-primary"
-        onClick={() => toggleLoginModal(true)}
+        onClick={() => showLoginModal(true)}
       >
         Sign in to VA.gov
       </button>
@@ -65,7 +65,7 @@ function SignInAlert({ toggleLoginModal }) {
 }
 
 const mapDispatchToProps = {
-  toggleLoginModal,
+  showLoginModal: toggleLoginModal,
 };
 
 const ConnectedSignInAlert = connect(
