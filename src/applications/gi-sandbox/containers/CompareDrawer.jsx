@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import appendQuery from 'append-query';
 import { removeCompareInstitution, compareDrawerOpened } from '../actions';
 import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal';
+import { isSmallScreen } from '../utils/helpers';
 
 export function CompareDrawer({
   compare,
@@ -15,17 +16,28 @@ export function CompareDrawer({
   preview,
 }) {
   const history = useHistory();
+  const { loaded, institutions } = compare.search;
   const [open, setOpen] = useState(compare.open);
   const [promptingFacilityCode, setPromptingFacilityCode] = useState(null);
   const [stuck, setStuck] = useState(false);
   const placeholder = useRef(null);
   const drawer = useRef(null);
   const notRendered = !displayed && !alwaysDisplay;
-  const { loaded, institutions } = compare.search;
+  const [previousLoaded, setPreviousLoaded] = useState(loaded);
+  const [previousInstitutions, setPreviousInstitutions] = useState(
+    institutions,
+  );
   const [loadedCards, setLoadedCards] = useState(null);
   const [headerLabel, setHeaderLabel] = useState(
     <>Compare Institutions ({loaded.length} of 3)</>,
   );
+  const [sizeChanged, setSizeChanged] = useState(false);
+  const tooTall = () => {
+    // magic numbers based on rough heights of the drawer when expanded
+    const maxDrawerHeight = isSmallScreen() ? 334 : 200;
+    return compare.open && maxDrawerHeight >= window.innerHeight;
+  };
+  const [scrollable, setScrollable] = useState(tooTall());
 
   const renderBlanks = () => {
     const blanks = [];
@@ -64,7 +76,45 @@ export function CompareDrawer({
   };
 
   const makeHeaderLabel = () => {
-    setHeaderLabel(<>Compare Institutions ({loaded.length} of 3)</>);
+    const removed = [];
+    const added = [];
+
+    loaded.forEach(loadedCode => {
+      if (
+        previousLoaded.filter(previousCode => previousCode === loadedCode)
+          .length === 0
+      ) {
+        added.push(loadedCode);
+      }
+    });
+
+    previousLoaded.forEach(previousCode => {
+      if (
+        loaded.filter(loadedCode => previousCode === loadedCode).length === 0
+      ) {
+        removed.push(previousCode);
+      }
+    });
+
+    let srActionMessage;
+    if (added.length > 0) {
+      srActionMessage = `${
+        institutions[added[0]].name
+      } added. Compare institutions, ${loaded.length} of 3.`;
+    } else if (removed.length > 0) {
+      srActionMessage = `${
+        previousInstitutions[removed[0]].name
+      } removed. Compare institutions, ${loaded.length} of 3.`;
+    }
+
+    setHeaderLabel(
+      <>
+        Compare Institutions ({loaded.length} of 3)
+        <span className="sr-only" aria-live="polite" aria-atomic="true">
+          {srActionMessage}
+        </span>
+      </>,
+    );
   };
 
   const makeLoadedCards = () => {
@@ -97,10 +147,6 @@ export function CompareDrawer({
     );
   };
 
-  const expandCollapse = !open
-    ? 'compare-drawer-collapsed'
-    : 'compare-drawer-expanded';
-
   useEffect(
     () => {
       if (loaded.length === 0) {
@@ -124,20 +170,42 @@ export function CompareDrawer({
         setBlanks(renderBlanks());
         dispatchCompareDrawerOpened(true);
       }
+
+      setPreviousLoaded(loaded);
+      setPreviousInstitutions(institutions);
     },
     [loaded],
   );
+
+  useEffect(
+    () => {
+      if (sizeChanged) {
+        setScrollable(tooTall());
+        setSizeChanged(false);
+      }
+    },
+    [sizeChanged],
+  );
+
+  const checkSize = () => {
+    setSizeChanged(true);
+  };
+
   useEffect(
     () => {
       setOpen(compare.open);
+      checkSize();
     },
     [compare.open],
   );
+
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, true);
+    window.addEventListener('resize', checkSize);
 
     return () => {
       window.removeEventListener('scroll', handleScroll, true);
+      window.removeEventListener('resize', checkSize);
     };
   }, []);
 
@@ -164,7 +232,18 @@ export function CompareDrawer({
     dispatchCompareDrawerOpened(!open);
   };
 
-  const compareDrawerClasses = classNames('compare-drawer', { stuck });
+  const compareDrawerClasses = classNames('compare-drawer', {
+    stuck,
+    scrollable,
+  });
+  const expandCollapse = classNames({
+    'compare-drawer-collapsed': !open,
+    'compare-drawer-expanded': open,
+    floating: !stuck,
+  });
+  const compareHeaderClasses = classNames('compare-header', {
+    'vads-l-grid-container': !isSmallScreen(),
+  });
   const placeholderClasses = classNames('placeholder', {
     'drawer-open': open && !stuck,
     'drawer-stuck': stuck,
@@ -185,10 +264,7 @@ export function CompareDrawer({
               onCancel={() => setPromptingFacilityCode(null)}
             />
           )}
-          <div
-            className="compare-header vads-l-grid-container"
-            onClick={expandOnClick}
-          >
+          <div className={compareHeaderClasses} onClick={expandOnClick}>
             <button className={headerLabelClasses}>{headerLabel}</button>
           </div>
 

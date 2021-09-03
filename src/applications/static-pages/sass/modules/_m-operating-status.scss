@@ -80,14 +80,14 @@
 }
 
 .limited {
-  background-color: $color-gold-lightest !important;
+  background-color: $color-primary-alt-lightest !important;
 
   span.status-label:hover {
-    background-color: $color-gold-lighter !important;
+    background-color: $color-primary-alt-light !important;
   }
 
   span.status-label:active {
-    background-color: $color-gold-lighter !important;
+    background-color: $color-primary-alt-light !important;
   }
 
 }

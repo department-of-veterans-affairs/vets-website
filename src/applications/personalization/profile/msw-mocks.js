@@ -11,6 +11,14 @@ import mockServiceHistorySuccess from './tests/fixtures/service-history-success.
 import mock401 from './tests/fixtures/401.json';
 import mock500 from './tests/fixtures/500.json';
 
+const errorResponseHandler500 = (req, res, ctx) => {
+  return res(ctx.status(500), ctx.json(mock500));
+};
+
+const errorResponseHandler401 = (req, res, ctx) => {
+  return res(ctx.status(401), ctx.json(mock401));
+};
+
 // The transactionId of a resolved/failed transaction must match the
 // transactionId of the pending transaction or the status of the transaction
 // will never update.
@@ -101,9 +109,7 @@ const createTransactionRequestFailedError = {
 };
 
 export const validateAddressFailure = [
-  rest.post(`${prefix}/v0/profile/address_validation`, (req, res, ctx) => {
-    return res(ctx.status(500), ctx.json(mock500));
-  }),
+  rest.post(`${prefix}/v0/profile/address_validation`, errorResponseHandler500),
 ];
 
 // Response when transaction fails to be created.
@@ -837,40 +843,39 @@ export const allProfileEndpointsLoaded = [
   rest.get(`${prefix}/v0/profile/ch33_bank_accounts`, (req, res, ctx) => {
     return res(ctx.json(mockDD4EDUSuccess));
   }),
+  rest.get(
+    `${prefix}/v0/disability_compensation_form/rating_info`,
+    errorResponseHandler500,
+  ),
+  rest.get(
+    `${prefix}/v0/profile/connected_applications`,
+    errorResponseHandler500,
+  ),
 ];
 
 export const getFullNameFailure = [
-  rest.get(`${prefix}/v0/profile/full_name`, (req, res, ctx) => {
-    return res(ctx.status(401), ctx.json(mock401));
-  }),
+  rest.get(`${prefix}/v0/profile/full_name`, errorResponseHandler401),
 ];
 
 export const getPersonalInformationFailure = [
-  rest.get(`${prefix}/v0/profile/personal_information`, (req, res, ctx) => {
-    return res(ctx.status(500), ctx.json(mock500));
-  }),
+  rest.get(
+    `${prefix}/v0/profile/personal_information`,
+    errorResponseHandler500,
+  ),
 ];
 
 export const getServiceHistory500 = [
-  rest.get(`${prefix}/v0/profile/service_history`, (req, res, ctx) => {
-    return res(ctx.status(500), ctx.json(mock500));
-  }),
+  rest.get(`${prefix}/v0/profile/service_history`, errorResponseHandler500),
 ];
 
 export const getServiceHistory401 = [
-  rest.get(`${prefix}/v0/profile/service_history`, (req, res, ctx) => {
-    return res(ctx.status(401), ctx.json(mock401));
-  }),
+  rest.get(`${prefix}/v0/profile/service_history`, errorResponseHandler401),
 ];
 
 export const getDD4CNPFailure = [
-  rest.get(`${prefix}/v0/ppiu/payment_information`, (req, res, ctx) => {
-    return res(ctx.status(401), ctx.json(mock401));
-  }),
+  rest.get(`${prefix}/v0/ppiu/payment_information`, errorResponseHandler401),
 ];
 
 export const getDD4EDUFailure = [
-  rest.get(`${prefix}/v0/profile/ch33_bank_accounts`, (req, res, ctx) => {
-    return res(ctx.status(401), ctx.json(mock401));
-  }),
+  rest.get(`${prefix}/v0/profile/ch33_bank_accounts`, errorResponseHandler401),
 ];

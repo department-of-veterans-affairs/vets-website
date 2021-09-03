@@ -1,7 +1,7 @@
 // Node modules.
 import React from 'react';
 // Relative imports.
-import CallToActionWidget from 'platform/site-wide/cta-widget';
+import CallToActionWidget from 'applications/static-pages/cta-widget';
 import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
 
 export const UnauthContent = () => (

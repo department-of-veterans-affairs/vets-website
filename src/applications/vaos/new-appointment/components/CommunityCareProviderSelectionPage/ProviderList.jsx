@@ -12,6 +12,7 @@ import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import LoadProvidersErrorAlert from './LoadProvidersErrorAlert';
 import NoProvidersAlert from './NoProvidersAlert';
 import ProviderSort from './ProviderSort';
+import ProviderSortVariant from './ProviderSortVariant';
 
 export default function ProviderList({
   checkedProvider,
@@ -29,6 +30,7 @@ export default function ProviderList({
     communityCareProviderList,
     requestLocationStatus,
     requestStatus,
+    showCCIterations,
     sortMethod,
     typeOfCareName,
   } = useSelector(selectProviderSelectionInfo, shallowEqual);
@@ -80,6 +82,8 @@ export default function ProviderList({
 
   const sortByDistanceFromCurrentLocation =
     sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation;
+  const ccIterationRequestingLocationFailed =
+    requestLocationStatus === FETCH_STATUS.failed && showCCIterations;
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-padding--2 medium-screen:vads-u-padding--3">
       <h2
@@ -88,12 +92,23 @@ export default function ProviderList({
       >
         Choose a provider
       </h2>
-      <ProviderSort
-        address={address}
-        loadingLocations={loadingLocations}
-        requestLocationStatus={requestLocationStatus}
-        sortByDistanceFromResidential={sortByDistanceFromResidential}
-      />
+      {showCCIterations && (
+        <ProviderSortVariant
+          currentlyShownProvidersList={currentlyShownProvidersList}
+          notLoading={notLoading}
+        />
+      )}
+      {!showCCIterations && (
+        <ProviderSort
+          address={address}
+          loadingLocations={loadingLocations}
+          notLoading={notLoading}
+          requestLocationStatus={requestLocationStatus}
+          requestStatus={requestStatus}
+          sortByDistanceFromCurrentLocation={sortByDistanceFromCurrentLocation}
+          sortByDistanceFromResidential={sortByDistanceFromResidential}
+        />
+      )}
       {loadingProviders && (
         <div className="vads-u-padding-bottom--2">
           <LoadingIndicator message="Loading the list of providers." />
@@ -110,13 +125,9 @@ export default function ProviderList({
         </div>
       )}
       {notLoading &&
-        !!currentlyShownProvidersList && (
+        !!currentlyShownProvidersList &&
+        !ccIterationRequestingLocationFailed && (
           <>
-            <ProviderSort
-              sortByDistanceFromCurrentLocation={
-                sortByDistanceFromCurrentLocation
-              }
-            />
             {currentlyShownProvidersList.length === 0 && (
               <NoProvidersAlert
                 sortMethod={sortMethod}
@@ -125,15 +136,17 @@ export default function ProviderList({
             )}
             {currentlyShownProvidersList.length > 0 && (
               <>
-                <p
-                  id="provider-list-status"
-                  role="status"
-                  aria-live="polite"
-                  aria-atomic="true"
-                >
-                  Displaying 1 to {currentlyShownProvidersList.length} of{' '}
-                  {communityCareProviderList.length} providers
-                </p>
+                {!showCCIterations && (
+                  <p
+                    id="provider-list-status"
+                    role="status"
+                    aria-live="polite"
+                    aria-atomic="true"
+                  >
+                    Displaying 1 to {currentlyShownProvidersList.length} of{' '}
+                    {communityCareProviderList.length} providers
+                  </p>
+                )}
                 {currentlyShownProvidersList.map((provider, providerIndex) => {
                   const { name } = provider;
                   const checked = provider.id === checkedProvider;
