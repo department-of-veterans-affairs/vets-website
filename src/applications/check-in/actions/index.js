@@ -12,3 +12,9 @@ export const receivedAppointmentDetails = (data, token) => {
     value: { appointment: data, context: { token } },
   };
 };
+
+export const VETERAN_HAS_BEEN_VALIDATED = 'VETERAN_HAS_BEEN_VALIDATED';
+
+export const veteranHasBeenValidated = data => {
+  return { type: VETERAN_HAS_BEEN_VALIDATED, value: data };
+};
