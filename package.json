@@ -338,6 +338,7 @@
     "**/set-value": "^2.0.1",
     "web-components/**/postcss": "^8.2.10",
     "**/tar": "^4.4.18",
-    "**/kind-of": "^6.0.3"
+    "**/kind-of": "^6.0.3",
+    "**/glob-parent": "^5.1.2"
   }
 }
