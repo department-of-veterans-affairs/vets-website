@@ -488,9 +488,24 @@ jobs:
     needs: check-app-dependency-graph
     runs-on: ubuntu-latest
     outputs:
+      batch_0: ${{ steps.batch_0.outputs.batch_0 }}
+      batch_1: ${{ steps.batch_1.outputs.batch_1 }}
+      batch_2: ${{ steps.batch_2.outputs.batch_2 }}
+      batch_3: ${{ steps.batch_3.outputs.batch_3 }}
+      batch_4: ${{ steps.batch_4.outputs.batch_4 }}
+      batch_5: ${{ steps.batch_5.outputs.batch_5 }}
+      batch_6: ${{ steps.batch_6.outputs.batch_6 }}
+      batch_7: ${{ steps.batch_7.outputs.batch_7 }}
+      batch_0_tests: ${{ steps.batch_0_tests.outputs.batch_0_tests }}
+      batch_1_tests: ${{ steps.batch_1_tests.outputs.batch_1_tests }}
+      batch_2_tests: ${{ steps.batch_2_tests.outputs.batch_2_tests }}
+      batch_3_tests: ${{ steps.batch_3_tests.outputs.batch_3_tests }}
+      batch_4_tests: ${{ steps.batch_4_tests.outputs.batch_4_tests }}
+      batch_5_tests: ${{ steps.batch_5_tests.outputs.batch_5_tests }}
+      batch_6_tests: ${{ steps.batch_6_tests.outputs.batch_6_tests }}
+      batch_7_tests: ${{ steps.batch_7_tests.outputs.batch_7_tests }}
       num_containers: ${{ steps.containers.outputs.num }}
       ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
-      tests: ${{ steps.tests.outputs.selected }}
       is_master_build: ${{ env.IS_MASTER_BUILD }}
 
     steps:
@@ -552,9 +567,69 @@ jobs:
         id: matrix
         run: echo ::set-output name=ci_node_index::$CI_NODE_INDEX
 
-      - name: Set output of TESTS
-        id: tests
-        run: echo ::set-output name=selected::$TESTS
+      - name: Set output for batch_0
+        id: batch_0
+        run: echo ::set-output name=selected::$BATCH_0
+
+      - name: Set output for batch_1
+        id: batch_1
+        run: echo ::set-output name=selected::$BATCH_1
+
+      - name: Set output for batch_2
+        id: batch_2
+        run: echo ::set-output name=selected::$BATCH_2
+
+      - name: Set output for batch_3
+        id: batch_3
+        run: echo ::set-output name=selected::$BATCH_3
+
+      - name: Set output for batch_4
+        id: batch_4
+        run: echo ::set-output name=selected::$BATCH_4
+
+      - name: Set output for batch_5
+        id: batch_5
+        run: echo ::set-output name=selected::$BATCH_5
+
+      - name: Set output for batch_6
+        id: batch_6
+        run: echo ::set-output name=selected::$BATCH_6
+
+      - name: Set output for batch_7
+        id: batch_7
+        run: echo ::set-output name=selected::$BATCH_7
+
+      - name: Set output for batch_0_tests
+        id: batch_0_tests
+        run: echo ::set-output name=selected::$BATCH_0_TESTS
+
+      - name: Set output for batch_1_tests
+        id: batch_1_tests
+        run: echo ::set-output name=selected::$BATCH_1_TESTS
+
+      - name: Set output for batch_2_tests
+        id: batch_2_tests
+        run: echo ::set-output name=selected::$BATCH_2_TESTS
+
+      - name: Set output for batch_3_tests
+        id: batch_3_tests
+        run: echo ::set-output name=selected::$BATCH_3_TESTS
+
+      - name: Set output for batch_4_tests
+        id: batch_4_tests
+        run: echo ::set-output name=selected::$BATCH_4_TESTS
+
+      - name: Set output for batch_5_tests
+        id: batch_5_tests
+        run: echo ::set-output name=selected::$BATCH_5_TESTS
+
+      - name: Set output for batch_6_tests
+        id: batch_6_tests
+        run: echo ::set-output name=selected::$BATCH_6_TESTS
+
+      - name: Set output for batch_7_tests
+        id: batch_7_tests
+        run: echo ::set-output name=selected::$BATCH_7_TESTS
   
   cypress-tests:
     name: Cypress E2E Tests
@@ -656,16 +731,90 @@ jobs:
       - name: Set PERCY_PARALLEL_NONCE
         run: echo "PERCY_PARALLEL_NONCE=$(uuidgen)" >> $GITHUB_ENV
 
-      - name: Run Cypress tests
-        run: node script/github-actions/run-cypress-tests.js
-        timeout-minutes: 30
+      - name: Run Cypress tests, batch 0
+        if: ${{ needs.cypress-tests-prep.outputs.batch_0 }}
+        run: npx percy exec -- cypress run --config-file config/cypress.json percy finalize --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec ${{ fromJson(needs.cypress-tests-prep.outputs.batch_0_tests) }}
         env:
-          CYPRESS_CI: true
-          STEP: ${{ matrix.ci_node_index }}
-          NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
-          TESTS: ${{ needs.cypress-tests-prep.outputs.tests }}
           PERCY_TOKEN: ${{ env.PERCY_TOKEN }}
           PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
+          PERCY_PARALLEL_TOTAL: ${{ needs.cypress-tests-prep.outputs.num_containers }}
+
+      - name: Run Cypress tests, batch 1
+        if: ${{ needs.cypress-tests-prep.outputs.batch_1 }}
+        run: npx percy exec -- cypress run --config-file config/cypress.json percy finalize --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec ${{ fromJson(needs.cypress-tests-prep.outputs.batch_1_tests) }}
+        env:
+          PERCY_TOKEN: ${{ env.PERCY_TOKEN }}
+          PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
+          PERCY_PARALLEL_TOTAL: ${{ needs.cypress-tests-prep.outputs.num_containers }}
+
+      - name: Run Cypress tests, batch 2
+        if: ${{ needs.cypress-tests-prep.outputs.batch_2 }}
+        run: npx percy exec -- cypress run --config-file config/cypress.json percy finalize --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec ${{ fromJson(needs.cypress-tests-prep.outputs.batch_2_tests) }}
+        env:
+          PERCY_TOKEN: ${{ env.PERCY_TOKEN }}
+          PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
+          PERCY_PARALLEL_TOTAL: ${{ needs.cypress-tests-prep.outputs.num_containers }}
+
+      - name: Run Cypress tests, batch 3
+        if: ${{ needs.cypress-tests-prep.outputs.batch_3 }}
+        run: npx percy exec -- cypress run --config-file config/cypress.json percy finalize --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec ${{ fromJson(needs.cypress-tests-prep.outputs.batch_3_tests) }}
+        env:
+          PERCY_TOKEN: ${{ env.PERCY_TOKEN }}
+          PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
+          PERCY_PARALLEL_TOTAL: ${{ needs.cypress-tests-prep.outputs.num_containers }}
+
+      - name: Run Cypress tests, batch 4
+        if: ${{ needs.cypress-tests-prep.outputs.batch_4 }}
+        run: npx percy exec -- cypress run --config-file config/cypress.json percy finalize --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec ${{ fromJson(needs.cypress-tests-prep.outputs.batch_4_tests) }}
+        env:
+          PERCY_TOKEN: ${{ env.PERCY_TOKEN }}
+          PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
+          PERCY_PARALLEL_TOTAL: ${{ needs.cypress-tests-prep.outputs.num_containers }}
+
+      - name: Run Cypress tests, batch 5
+        if: ${{ needs.cypress-tests-prep.outputs.batch_5 }}
+        run: npx percy exec -- cypress run --config-file config/cypress.json percy finalize --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec ${{ fromJson(needs.cypress-tests-prep.outputs.batch_5_tests) }}
+        env:
+          PERCY_TOKEN: ${{ env.PERCY_TOKEN }}
+          PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
+          PERCY_PARALLEL_TOTAL: ${{ needs.cypress-tests-prep.outputs.num_containers }}
+
+      - name: Run Cypress tests, batch 6
+        if: ${{ needs.cypress-tests-prep.outputs.batch_6 }}
+        run: npx percy exec -- cypress run --config-file config/cypress.json percy finalize --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec ${{ fromJson(needs.cypress-tests-prep.outputs.batch_6_tests) }}
+        env:
+          PERCY_TOKEN: ${{ env.PERCY_TOKEN }}
+          PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
+          PERCY_PARALLEL_TOTAL: ${{ needs.cypress-tests-prep.outputs.num_containers }}
+
+      - name: Run Cypress tests, batch 7
+        if: ${{ needs.cypress-tests-prep.outputs.batch_7 }}
+        run: npx percy exec -- cypress run --config-file config/cypress.json percy finalize --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec ${{ fromJson(needs.cypress-tests-prep.outputs.batch_7_tests) }}
+        env:
+          PERCY_TOKEN: ${{ env.PERCY_TOKEN }}
+          PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
+          PERCY_PARALLEL_TOTAL: ${{ needs.cypress-tests-prep.outputs.num_containers }}
+
+      # - name: Run Cypress tests
+      #   run: node script/github-actions/run-cypress-tests.js
+      #   timeout-minutes: 30
+      #   env:
+      #     CYPRESS_CI: true
+      #     STEP: ${{ matrix.ci_node_index }}
+      #     NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
+      #     TESTS: ${{ needs.cypress-tests-prep.outputs.tests }}
+      #     PERCY_TOKEN: ${{ env.PERCY_TOKEN }}
+      #     PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
+
+      # package.json
+      # "cy:run": "percy exec -- cypress run --config-file config/cypress.json percy finalize",
+
+      # run-cypress-tests.js
+      # const status = runCommandSync(
+      #   `PERCY_TOKEN=${process.env.PERCY_TOKEN} PERCY_PARALLEL_NONCE=${
+      #     process.env.PERCY_PARALLEL_NONCE
+      #   } PERCY_PARALLEL_TOTAL=${numContainers} yarn cy:run --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec '${batch}'`,
+      # );
 
       - name: Archive test videos
         uses: actions/upload-artifact@v2
