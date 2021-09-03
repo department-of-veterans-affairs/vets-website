@@ -1,29 +1,6 @@
 import React from 'react';
 import BalanceCard from './BalanceCard';
-
-const mockCopayBalanceData = [
-  {
-    id: '3fa85f64-5717-4562-b3fc-2c973f66afa6',
-    amount: 300,
-    facility: 'James A. Haley Veterans’ Hospital',
-    city: 'Tampa',
-    dueDate: 'July 9, 2021',
-  },
-  {
-    id: '3fa85f64-5717-4562-b3fc-2c963f66afa1',
-    amount: 230,
-    facility: 'San Diego VA Medical Center',
-    city: 'San Diego',
-    dueDate: 'July 2, 2021',
-  },
-  {
-    id: '3fa85f64-5717-4562-b3fc-2c963f66acw3',
-    amount: 0,
-    facility: 'Philadelphia VA Medical Center',
-    city: 'Philadelphia',
-    dueDate: null,
-  },
-];
+import { mockCopayBalanceData } from '../utils/mockData';
 
 export const Balances = () => {
   return (
