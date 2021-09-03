@@ -37,6 +37,7 @@ const options = {
 };
 
 const handleResponse = response => {
+  console.log(response);
   if (!response.ok) {
     const status = `${response.status} ${response.statusText}`;
     const message = `Failed to trigger Jenkins pipeline: ${status}`;
