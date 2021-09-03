@@ -134,7 +134,8 @@ export function FilterYourResults({
   };
 
   const setFocusByName = name => {
-    document.getElementsByName(name)[0].focus();
+    const element = document.getElementsByName(name)[0];
+    if (element) element.focus();
   };
 
   const excludedSchoolTypesGroup = () => {
