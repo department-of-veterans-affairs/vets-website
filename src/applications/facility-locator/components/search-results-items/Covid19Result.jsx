@@ -86,6 +86,7 @@ const Covid19Result = ({
           showCovidVaccineWalkInAvailabilityText={
             showCovidVaccineWalkInAvailabilityText
           }
+          labelId={`${location.id}-phoneLabel`}
         />
         {infoURL && (
           <span className="vads-u-margin-top--2 vads-u-display--block">
