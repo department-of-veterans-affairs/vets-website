@@ -12,13 +12,13 @@ import fullSchema from '../22-1990-schema.json';
 // imported above would import and use these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import GetFormHelp from '../components/GetFormHelp';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 // import bankAccountUI from 'platform/forms-system/src/js/definitions/bankAccount';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 
@@ -31,6 +31,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import toursOfDutyUI from '../definitions/toursOfDuty';
 import ReviewBoxField from '../components/ReviewBoxField';
 import FullNameViewField from '../components/FullNameViewField';
+import FullNameReviewField from '../components/FullNameReviewField';
 import DateViewField from '../components/DateViewField';
 import CustomReviewDOBField from '../components/CustomReviewDOBField';
 import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView';
@@ -38,6 +39,10 @@ import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities
 import EmailViewField from '../components/EmailViewField';
 import PhoneViewField from '../components/PhoneViewField';
 import AccordionField from '../components/AccordionField';
+import MailingAddressReviewField from '../components/MailingAddressReviewField';
+import YesNoReviewField from '../components/YesNoReviewField';
+import SelectedCheckboxesReviewField from '../components/SelectedCheckboxesReviewField';
+import PhoneReviewField from '../components/PhoneReviewField';
 
 import {
   activeDutyLabel,
@@ -135,7 +140,9 @@ function phoneUISchema(category) {
     },
     isInternational: {
       'ui:title': 'This phone number is international',
+      'ui:reviewField': YesNoReviewField,
     },
+    'ui:objectViewField': PhoneReviewField,
   };
 }
 
@@ -158,17 +165,6 @@ function phoneSchema() {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  preSubmitInfo: {
-    ...preSubmitInfo,
-    notice: (
-      <p>
-        <strong>Note</strong>: According to federal law, there are criminal
-        penalties, including a fine and/or imprisonment for up to 5 years, for
-        withholding information or for providing incorrect information (See 18
-        U.S.C. 1001).
-      </p>
-    ),
-  },
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'my-education-benefits-',
@@ -200,11 +196,13 @@ const formConfig = {
   },
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  preSubmitInfo,
   chapters: {
     applicantInformationChapter: {
       title: 'Applicant information',
       pages: {
         [formPages.applicantInformation]: {
+          title: 'Applicant information',
           path: 'applicant/information',
           subTitle: 'Review your personal information',
           instructions:
@@ -250,6 +248,7 @@ const formConfig = {
               },
               'ui:title': 'Your full name',
               'ui:field': ReviewBoxField,
+              'ui:objectViewField': FullNameReviewField,
               'ui:options': {
                 hideLabelText: true,
                 showFieldLabel: false,
@@ -340,10 +339,10 @@ const formConfig = {
       },
     },
     contactInformationChapter: {
-      title: 'Contact Information',
+      title: 'Contact information',
       pages: {
         [formPages.contactInformation.contactInformation]: {
-          title: 'Contact Information',
+          title: 'Email & phone',
           path: 'contact/information',
           initialData: {
             email: {
@@ -385,7 +384,13 @@ const formConfig = {
                 ...emailUI('Email address'),
                 'ui:validations': [validateEmail],
               },
-              confirmEmail: emailUI('Confirm email address'),
+              confirmEmail: {
+                ...emailUI('Confirm email address'),
+                'ui:options': {
+                  ...emailUI()['ui:options'],
+                  hideOnReview: true,
+                },
+              },
               'ui:validations': [
                 (errors, field) => {
                   if (field.email !== field.confirmEmail) {
@@ -434,7 +439,7 @@ const formConfig = {
           },
         },
         [formPages.contactInformation.mailingAddress]: {
-          title: 'Contact Information',
+          title: 'Mailing address',
           path: 'contact/information/mailing/address',
           initialData: {
             'view:mailingAddress': {
@@ -517,6 +522,7 @@ const formConfig = {
                   },
                 },
               },
+              'ui:objectViewField': MailingAddressReviewField,
               'ui:options': {
                 hideLabelText: true,
                 showFieldLabel: false,
@@ -566,7 +572,7 @@ const formConfig = {
         },
         [formPages.contactInformation.preferredContactMethod]: {
           path: 'contact/preferences',
-          title: 'Contact Information',
+          title: 'Preferred contact method',
           uiSchema: {
             'ui:description': <h3>Select your preferred contact method</h3>,
             [formFields.contactMethodRdoBtnList]: {
@@ -609,6 +615,7 @@ const formConfig = {
               'ui:options': {
                 showFieldLabel: true,
               },
+              'ui:objectViewField': SelectedCheckboxesReviewField,
             },
             'view:note': {
               'ui:description': (
@@ -650,11 +657,11 @@ const formConfig = {
       },
     },
     serviceHistoryChapter: {
-      title: 'Service History',
+      title: 'Service history',
       pages: {
         [formPages.serviceHistory]: {
           path: 'service-history',
-          title: 'Service History',
+          title: 'Service history',
           uiSchema: {
             'view:subHeading': {
               'ui:description': <h3>Review your service history</h3>,
@@ -662,9 +669,10 @@ const formConfig = {
             [formFields.toursOfDuty]: {
               ...toursOfDutyUI,
               'ui:field': AccordionField,
+              'ui:title': 'Service history',
               'ui:options': {
                 ...toursOfDutyUI['ui:options'],
-                reviewMode: true,
+                reviewTitle: <></>,
                 setEditState: () => {
                   return true;
                 },
@@ -673,9 +681,14 @@ const formConfig = {
                 viewComponent: ServicePeriodAccordionView,
                 viewOnlyMode: true,
               },
+              items: {
+                ...toursOfDutyUI.items,
+                'ui:objectViewField': ServicePeriodAccordionView,
+              },
             },
             [formFields.toursOfDutyCorrect]: {
               'ui:title': 'This information is incorrect and/or incomplete',
+              'ui:reviewField': YesNoReviewField,
             },
             [formFields.incorrectServiceHistoryExplanation]: {
               'ui:title':
@@ -694,7 +707,10 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [formFields.toursOfDuty]: toursOfDuty,
+              [formFields.toursOfDuty]: {
+                ...toursOfDuty,
+                title: '', // Hack to prevent console warning
+              },
               [formFields.toursOfDutyCorrect]: {
                 type: 'boolean',
               },
