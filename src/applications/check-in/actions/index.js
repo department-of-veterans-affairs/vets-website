@@ -1,9 +1,4 @@
-export const WAS_CHECKED_IN = 'WAS_CHECKED_IN';
-
-export const wasCheckedIn = data => {
-  return { type: WAS_CHECKED_IN, value: data };
-};
-
+// Depricate this
 export const RECEIVED_APPOINTMENT_DETAILS = 'RECEIVED_APPOINTMENT_DETAILS';
 
 export const receivedAppointmentDetails = (data, token) => {
@@ -13,8 +8,20 @@ export const receivedAppointmentDetails = (data, token) => {
   };
 };
 
-export const VETERAN_HAS_BEEN_VALIDATED = 'VETERAN_HAS_BEEN_VALIDATED';
+// replace with
+export const TOKEN_WAS_VALIDATED = 'TOKEN_WAS_VALIDATED';
 
-export const veteranHasBeenValidated = data => {
-  return { type: VETERAN_HAS_BEEN_VALIDATED, value: data };
+const organizeData = data => {
+  return { ...data };
+};
+export const tokenWasValidated = (payload, token, scope) => {
+  const data = organizeData(payload);
+  return {
+    type: TOKEN_WAS_VALIDATED,
+    value: {
+      context: { token, scope },
+      appointment: data.appointment,
+      facility: data.facility,
+    },
+  };
 };
