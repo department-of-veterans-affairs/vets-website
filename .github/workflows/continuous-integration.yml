@@ -563,9 +563,9 @@ jobs:
         id: containers
         run: echo ::set-output name=num::$NUM_CONTAINERS
 
-      # - name: Set output of CI_NODE_INDEX
-      #   id: matrix
-      #   run: echo ::set-output name=ci_node_index::$CI_NODE_INDEX
+      - name: Set output of CI_NODE_INDEX
+        id: matrix
+        run: echo ::set-output name=ci_node_index::$CI_NODE_INDEX
 
       # - name: Set output for batch_0
       #   id: batch_0
