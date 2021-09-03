@@ -117,7 +117,10 @@ export function ComparePage({
         const visibleFooterHeight = footer
           ? window.innerHeight - footer.getBoundingClientRect().top
           : 0;
-        if (offset > initialTop && !headerFixed) {
+        const tooTall =
+          headerRef.current.offsetHeight >= window.innerHeight / 2;
+
+        if (offset > initialTop && !headerFixed && !tooTall) {
           setHeaderFixed(true);
           headerRef.current.classList.add('fixed');
           scrollHeaderRef.current.scroll({

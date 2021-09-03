@@ -55,8 +55,7 @@ export function NameSearchResults({
           <div className="row vads-u-padding--0 vads-u-margin--0">
             {smallScreen && <MobileFilterControls />}
             <p className="vads-u-padding-x--1p5 small-screen:vads-u-padding-x--0">
-              Showing <strong>{count} search results</strong> for '
-              <strong>{name}</strong>'
+              Showing {count} search results for "<strong>{name}</strong>"
             </p>
             {!smallScreen && (
               <div className="column small-4 vads-u-padding--0">
