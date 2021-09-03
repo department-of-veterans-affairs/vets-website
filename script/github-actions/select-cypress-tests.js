@@ -8,7 +8,11 @@ const IS_MASTER_BUILD = process.env.IS_MASTER_BUILD === 'true';
 const filepaths = process.env.CHANGED_FILE_PATHS.split(' ');
 const pathsOfChangedFiles = filepaths.filter(filepath => {
   // Ignore the cross-app import graph file
-  return filepath !== 'script/github-actions/create-cross-app-import-graph.js';
+  return (
+    filepath !== '.github/workflows/continuous-integration.yml' &&
+    filepath !== 'script/github-actions/create-cross-app-import-graph.js' &&
+    filepath !== 'config/cross_app_import_graph.json'
+  );
 });
 
 function selectedTests() {
