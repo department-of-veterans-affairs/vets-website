@@ -94,8 +94,7 @@ export function TuitionAndHousingEstimates({
           setOnlineClasses(e.target.value);
         }}
       />
-      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
-      <div tabIndex="0" className="vads-u-padding-top--2">
+      <div id="note" className="vads-u-padding-top--2">
         <b>Note:</b> Changing these settings modifies the tuition and housing
         benefits shown on the search cards.
       </div>
@@ -112,6 +111,7 @@ export function TuitionAndHousingEstimates({
           buttonOnClick={updateStore}
           expanded={expanded}
           onClick={onExpand}
+          ariaDescribedBy="note"
         >
           {controls}
         </SearchAccordion>
