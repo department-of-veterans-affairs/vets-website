@@ -5,6 +5,7 @@ import RadioButtons from '../components/RadioButtons';
 import LearnMoreLabel from '../components/LearnMoreLabel';
 import { showModal, eligibilityChange } from '../actions';
 import { connect } from 'react-redux';
+import { createId } from '../utils/helpers';
 
 export function TuitionAndHousingEstimates({
   eligibility,
@@ -100,15 +101,15 @@ export function TuitionAndHousingEstimates({
       </div>
     </div>
   );
+  const title = 'Update tuition and housing estimates';
 
   return (
     <div className="vads-u-margin-bottom--2">
       {!smallScreen && (
         <SearchAccordion
-          button="Update tuition and housing estimates"
-          buttonLabel="Update results"
+          button={title}
+          buttonLabel="Update estimates"
           buttonOnClick={updateStore}
-          name="benefitEstimates"
           expanded={expanded}
           onClick={onExpand}
         >
@@ -124,11 +125,11 @@ export function TuitionAndHousingEstimates({
           <div className="modal-button-wrapper">
             <button
               type="button"
-              id="update-benefits-button"
+              id={`update-${createId(title)}-button`}
               className="update-results-button"
               onClick={closeAndUpdate}
             >
-              Update results
+              Update estimates
             </button>
           </div>
         </div>

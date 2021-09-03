@@ -91,7 +91,7 @@
     "ie 11"
   ],
   "devDependencies": {
-    "@actions/core": "^1.4.0",
+    "@actions/core": "^1.5.0",
     "@babel/core": "^7.15.0",
     "@babel/parser": "^7.15.3",
     "@babel/plugin-proposal-class-properties": "^7.14.5",
@@ -110,7 +110,7 @@
     "@babel/traverse": "^7.15.0",
     "@cypress/webpack-preprocessor": "^5.4.1",
     "@department-of-veterans-affairs/generator-vets-website": "^3.5.0",
-    "@octokit/rest": "^18.9.1",
+    "@octokit/rest": "^18.10.0",
     "@pact-foundation/pact": "^9.16.0",
     "@sentry/browser": "^6.9.0",
     "@testing-library/cypress": "^7.0.1",
@@ -135,12 +135,12 @@
     "chai-as-promised": "^7.1.1",
     "chai-dom": "^1.9.0",
     "chalk": "^2.4.2",
-    "chokidar": "^3.4.0",
+    "chokidar": "^3.5.2",
     "choma": "^1.1.0",
     "chromedriver": "^91.0.0",
-    "cli-table": "^0.3.1",
+    "cli-table": "^0.3.6",
     "command-line-args": "^3.0.1",
-    "command-line-usage": "^6.1.0",
+    "command-line-usage": "^6.1.1",
     "copy-webpack-plugin": "^6.0.2",
     "cors": "^2.7.1",
     "css-loader": "^1.0.0",
@@ -236,7 +236,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/component-library": "^2.5.8",
+    "@department-of-veterans-affairs/component-library": "^3.0.1",
     "@department-of-veterans-affairs/formation": "6.16.4",
     "@department-of-veterans-affairs/formulate": "0.0.1",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
@@ -338,6 +338,7 @@
     "**/set-value": "^2.0.1",
     "web-components/**/postcss": "^8.2.10",
     "**/tar": "^4.4.18",
-    "**/kind-of": "^6.0.3"
+    "**/kind-of": "^6.0.3",
+    "**/glob-parent": "^5.1.2"
   }
 }
