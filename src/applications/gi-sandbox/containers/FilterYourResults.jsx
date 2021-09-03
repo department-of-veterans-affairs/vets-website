@@ -11,6 +11,7 @@ import {
   getStateNameForCode,
   sortOptionsByStateName,
   addAllOption,
+  createId,
 } from '../utils/helpers';
 import { showModal, filterChange } from '../actions';
 import { connect } from 'react-redux';
@@ -354,14 +355,15 @@ export function FilterYourResults({
     </div>
   );
 
+  const title = 'Filter your results';
+
   return (
     <div className="filter-your-results vads-u-margin-bottom--2">
       {!smallScreen && (
         <SearchAccordion
-          button="Filter your results"
+          button={title}
           buttonLabel="Update results"
           buttonOnClick={() => updateResults()}
-          name="benefitEstimates"
           expanded={expanded}
           onClick={onAccordionChange}
         >
@@ -379,7 +381,7 @@ export function FilterYourResults({
           <div className="modal-button-wrapper">
             <button
               type="button"
-              id="update-benefits-button"
+              id={`update-${createId(title)}-button`}
               className="update-results-button"
               onClick={closeAndUpdate}
             >
