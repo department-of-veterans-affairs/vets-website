@@ -423,9 +423,69 @@ jobs:
       - name: Annotate Stylelint results
         if: ${{ always() }}
         run: node ./script/github-actions/stylelint-annotation-format.js
+  
+  check-app-dependency-graph:
+    name: Check App Dependency Graph
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        if: ${{ github.ref != 'refs/heads/master' }}
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Get Node version
+        if: ${{ github.ref != 'refs/heads/master' }}
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node
+        if: ${{ github.ref != 'refs/heads/master' }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Cache dependencies
+        if: ${{ github.ref != 'refs/heads/master' }}
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            .cache/yarn
+            node_modules
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        if: ${{ github.ref != 'refs/heads/master' }}
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          max_attempts: 3
+          timeout_minutes: 5
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
+
+      - name: Run git diff and set DIFF_RESULTS
+        if: ${{ github.ref != 'refs/heads/master' }}
+        id: git-diff
+        run: echo ::set-output name=DIFF_RESULTS::$(git diff ${{ github.event.before }} ${{ github.event.after }} --line-prefix=new_line --unified=0)
+
+      - name: Set IS_GRAPH_UPDATED and update the cross-app import graph if necessary
+        if: ${{ github.ref != 'refs/heads/master' }}
+        run: node script/github-actions/create-cross-app-import-graph.js
+        env:
+          DIFF_RESULTS: ${{ steps.git-diff.outputs.DIFF_RESULTS }}
+
+      - name: Push the updated cross-app import graph
+        if: ${{ github.ref != 'refs/heads/master' && env.IS_GRAPH_UPDATED == 'true' }}
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: update graph
 
   cypress-tests-prep:
     name: Prep for Cypress Tests
+    needs: check-app-dependency-graph
     runs-on: ubuntu-latest
     outputs:
       num_containers: ${{ steps.containers.outputs.num }}
@@ -437,7 +497,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0 # this is required to list all changed files in branch
+          fetch-depth: 0
 
       - name: Get Node version
         id: get-node-version
@@ -495,14 +555,14 @@ jobs:
       - name: Set output of TESTS
         id: tests
         run: echo ::set-output name=selected::$TESTS
-
+  
   cypress-tests:
     name: Cypress E2E Tests
     runs-on: self-hosted
     needs: [build, cypress-tests-prep]
     if: ${{ needs.cypress-tests-prep.outputs.num_containers > 0 }}
     container:
-      image: public.ecr.aws/cypress-io/cypress/browsers:node14.16.0-chrome89-ff77
+      image: public.ecr.aws/cypress-io/cypress/browsers:node14.16.0-chrome90-ff88
       options: -u 1001:1001 -v /usr/local/share:/share
 
     strategy:
@@ -618,11 +678,11 @@ jobs:
           path: cypress/results
           retention-days: 1
 
-  failure-notifications:
-    name: Failure Notifications
+  testing-reports:
+    name: Testing Reports
     runs-on: ubuntu-latest
-    needs: cypress-tests
-    if: ${{ needs.cypress-tests.result == 'failure' }}
+    needs: [cypress-tests-prep, cypress-tests]
+    if: ${{ always() && needs.cypress-tests-prep.outputs.num_containers > 0 && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
     continue-on-error: true
     steps:
       - name: Configure AWS credentials
@@ -641,7 +701,9 @@ jobs:
       # ----------------
       # | Notify Slack |
       # ----------------
+
       - name: Checkout VSP actions
+        if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: actions/checkout@v2
         with:
           repository: department-of-veterans-affairs/vsp-github-actions
@@ -651,18 +713,21 @@ jobs:
           path: ./.github/actions/vsp-github-actions
 
       - name: Get Slack app token
+        if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
         with:
           ssm_parameter: /devops/github_actions_slack_socket_token
           env_variable_name: SLACK_APP_TOKEN
 
       - name: Get Slack bot token
+        if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
         with:
           ssm_parameter: /devops/github_actions_slack_bot_user_token
           env_variable_name: SLACK_BOT_TOKEN
 
       - name: Notify Slack about Cypress test failures
+        if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: ./.github/actions/vsp-github-actions/slack-socket
         env:
           SSL_CERT_DIR: /etc/ssl/certs
@@ -670,7 +735,114 @@ jobs:
           slack_app_token: ${{ env.SLACK_APP_TOKEN }}
           slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
           attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "E2E tests in `vets-website` have failed, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
-          channel_id: C026PD47Z19 # gha-test-status
+          channel_id: C026PD47Z19 #gha-test-status
+
+      # ------------------------
+      # | Upload BigQuery Data |
+      # ------------------------
+
+      - name: Checkout Testing Tools Team Dashboard Data repo
+        uses: actions/checkout@v2
+        with:
+          repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          path: testing-tools-team-dashboard-data
+
+      # TODO: Set .nvmrc in testing-tools-team-dashboard-data.
+      # - name: Get Node version
+      #   id: get-node-version
+      #   run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+      #   working-directory: testing-tools-team-dashboard-data
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14 # ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline --production=false
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
+        working-directory: testing-tools-team-dashboard-data
+
+      - name: Download Mochawesome test results
+        uses: actions/download-artifact@v2
+        with:
+          name: cypress-mochawesome-test-results
+          path: testing-tools-team-dashboard-data/src/mochawesome/data
+
+      - name: Get BigQuery service credentials
+        uses: marvinpinto/action-inject-ssm-secrets@latest
+        with:
+          ssm_parameter: /dsva-vagov/testing-team/bigquery_service_credentials
+          env_variable_name: BIGQUERY_SERVICE_CREDENTIALS
+
+      - name: Setup Cloud SDK
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: vsp-analytics-and-insights
+          service_account_key: ${{ env.BIGQUERY_SERVICE_CREDENTIALS }}
+          export_default_credentials: true
+
+      - name: Set UUID for Mochawesome report
+        run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
+
+      - name: Create report and post results to BigQuery
+        run: yarn cypress-mochawesome-to-bigquery
+        working-directory: testing-tools-team-dashboard-data
+        env:
+          IS_MASTER_BUILD: ${{ needs.cypress-tests-prep.outputs.is_master_build }}
+          NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
+
+      # env.MOCHAWESOME_REPORT_RESULTS is set and exported during the above step when the mochawesome report is generated.  It contains the output string for the publish step at the end of the job with the numbers from the Mochawesome report.
+
+      # --------------------------
+      # | Publish Testing Report |
+      # --------------------------
+
+      - name: Download video artifacts
+        if: ${{ needs.cypress-tests.result == 'failure' }}
+        uses: actions/download-artifact@v2
+        with:
+          name: cypress-video-artifacts
+          path: testing-tools-team-dashboard-data/cypress-reports/videos/${{ env.UUID }}
+
+      - name: Get AWS IAM role
+        uses: marvinpinto/action-inject-ssm-secrets@latest
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+      - name: Configure AWS Credentials (2)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role-duration-seconds: 900
+          role-session-name: vsp-frontendteam-githubaction
+
+      - name: Upload test videos to s3
+        if: ${{ needs.cypress-tests.result == 'failure' }}
+        run: aws s3 cp testing-tools-team-dashboard-data/cypress-reports/videos/${{ env.UUID }} s3://testing-tools-testing-reports/cypress-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
+
+      - name: Upload test report to s3
+        run: aws s3 cp testing-tools-team-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/cypress-reports --acl public-read --region us-gov-west-1 --recursive
+
+      # -------------------------
+      # | Cypress Tests Summary |
+      # -------------------------
+
+      - name: Publish Cypress test results
+        if: ${{ always() }}
+        uses: LouisBrunner/checks-action@v1.1.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Cypress Tests Summary
+          conclusion: ${{ needs.cypress-tests.result }}
+          output: |
+            {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
 
 # archive:
 #   name: Archive
