@@ -40,14 +40,14 @@ function selectedTests() {
   });
 
   // Always run the tests in src/platform
-  const defaultTestsPattern = path.join(
-    __dirname,
-    '../..',
-    'src/platform',
-    '**/tests/**/*.cypress.spec.js?(x)',
-  );
+  // const defaultTestsPattern = path.join(
+  //   __dirname,
+  //   '../..',
+  //   'src/platform',
+  //   '**/tests/**/*.cypress.spec.js?(x)',
+  // );
 
-  tests.push(...glob.sync(defaultTestsPattern));
+  // tests.push(...glob.sync(defaultTestsPattern));
   return tests;
 }
 
