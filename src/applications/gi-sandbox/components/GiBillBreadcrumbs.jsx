@@ -40,7 +40,7 @@ const GiBillBreadcrumbs = () => {
         to={`/profile/${profileMatch.params.facilityCode}`}
         key="result-detail"
       >
-        School details
+        Institution details
       </Link>,
     );
   }

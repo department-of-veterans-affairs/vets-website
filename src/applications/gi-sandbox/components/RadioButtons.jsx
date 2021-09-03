@@ -1,35 +1,41 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
-import classNames from 'classnames';
+
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import { handleScrollOnInputFocus } from '../utils/helpers';
 
-const RadioButtons = ({
-  errorMessage,
-  label,
-  name,
-  onChange,
-  onFocus,
-  options,
-  required,
-  value,
-}) => {
-  const inputId = _.uniqueId('radio-buttons-');
+/**
+ * A radio button group with a label.
+ *
+ * `label` - String for the group field label.
+ * `name` - String for the name attribute.
+ * `toolTipText` - String with help text for user.
+ * `tabIndex` - Number for keyboard tab order.
+ * `options` - Array of options to populate group.
+ * `required` - is this field required.
+ * `value` - string. Value of the select field.
+ * `onValueChange` - a function with this prototype: (newValue)
+ */
+class RadioButtons extends React.Component {
+  constructor(props) {
+    super(props);
+    this.inputId = _.uniqueId('radio-buttons-');
+  }
 
-  const handleFocus = () => {
-    onFocus(`${inputId}-field`);
+  handleChange = domEvent => {
+    this.handleFocus();
+    this.props.onChange(domEvent);
   };
 
-  const handleChange = e => {
-    handleFocus();
-    onChange(e);
+  handleFocus = () => {
+    this.props.onFocus(`${this.inputId}-field`);
   };
 
-  const renderOptions = () => {
-    const optionsArr = _.isArray(options) ? options : [];
-    const storedValue = value;
-    return optionsArr.map((obj, index) => {
+  renderOptions = () => {
+    const options = _.isArray(this.props.options) ? this.props.options : [];
+    const storedValue = this.props.value;
+    return options.map((obj, index) => {
       let optionLabel;
       let optionValue;
       let optionAdditional;
@@ -48,8 +54,8 @@ const RadioButtons = ({
         }
       }
       const checked = optionValue === storedValue ? 'checked=true' : '';
-      const inputElementId = `${inputId}-${index}`;
-      const labelId = `${inputElementId}-label`;
+      const inputId = `${this.inputId}-${index}`;
+      const labelId = `${inputId}-label`;
       const radioButton = (
         <div
           key={optionAdditional ? undefined : index}
@@ -58,17 +64,17 @@ const RadioButtons = ({
           <input
             className="gids-radio-buttons-input"
             checked={checked}
-            id={inputElementId}
-            name={name}
+            id={inputId}
+            name={this.props.name}
             type="radio"
             value={optionValue}
-            onChange={handleChange}
-            aria-labelledby={`${inputElementId}-legend ${labelId}`}
+            onChange={this.handleChange}
+            aria-labelledby={`${this.inputId}-legend ${labelId}`}
           />
           <label
             id={labelId}
-            name={`${name}-${index}-label`}
-            htmlFor={inputElementId}
+            name={`${this.props.name}-${index}-label`}
+            htmlFor={inputId}
             className="vads-u-margin-top--1 vads-u-margin-bottom--1"
           >
             {optionLabel}
@@ -97,48 +103,52 @@ const RadioButtons = ({
     });
   };
 
-  // TODO: extract error logic into a utility function
-  // Calculate error state.
-  let errorSpan = '';
-  let errorSpanId = undefined;
-  if (errorMessage) {
-    errorSpanId = `${inputId}-error-message`;
-    errorSpan = (
-      <span className="usa-input-error-message" role="alert" id={errorSpanId}>
-        <span className="sr-only">Error</span> {errorMessage}
-      </span>
+  render() {
+    // TODO: extract error logic into a utility function
+    // Calculate error state.
+    let errorSpan = '';
+    let errorSpanId = undefined;
+    if (this.props.errorMessage) {
+      errorSpanId = `${this.inputId}-error-message`;
+      errorSpan = (
+        <span className="usa-input-error-message" role="alert" id={errorSpanId}>
+          <span className="sr-only">Error</span> {this.props.errorMessage}
+        </span>
+      );
+    }
+
+    // Calculate required.
+    let requiredSpan = undefined;
+    if (this.props.required) {
+      requiredSpan = <span className="form-required-span">*</span>;
+    }
+
+    return (
+      <div
+        id={`${this.inputId}-field`}
+        className={this.props.errorMessage ? 'usa-input-error' : ''}
+      >
+        <fieldset>
+          <div>
+            <span
+              id={`${this.inputId}-legend`}
+              className={
+                this.props.errorMessage
+                  ? 'usa-input-error-label'
+                  : 'gibct-legend'
+              }
+            >
+              {this.props.label}
+              {requiredSpan}
+            </span>
+            {errorSpan}
+            {this.renderOptions()}
+          </div>
+        </fieldset>
+      </div>
     );
   }
-
-  // Calculate required.
-  let requiredSpan = undefined;
-  if (required) {
-    requiredSpan = <span className="form-required-span">*</span>;
-  }
-
-  return (
-    <div
-      id={`${inputId}-field`}
-      className={classNames({
-        'usa-input-error': errorMessage,
-      })}
-    >
-      <fieldset>
-        <div>
-          <span
-            id={`${inputId}-legend`}
-            className={errorMessage ? 'usa-input-error-label' : 'gibct-legend'}
-          >
-            {label}
-            {requiredSpan}
-          </span>
-          {errorSpan}
-          {renderOptions()}
-        </div>
-      </fieldset>
-    </div>
-  );
-};
+}
 
 RadioButtons.propTypes = {
   errorMessage: PropTypes.string,
