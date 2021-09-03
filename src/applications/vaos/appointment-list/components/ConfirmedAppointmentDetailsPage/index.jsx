@@ -100,14 +100,14 @@ export default function ConfirmedAppointmentDetailsPage() {
     !appointment.vaos.isVideo
   ) {
     return (
-      <>
+      <PageLayout>
         <DetailsVA appointment={appointment} facilityData={facilityData} />
         <CancelAppointmentModal
           {...cancelInfo}
           onConfirm={() => dispatch(confirmCancelAppointment())}
           onClose={() => dispatch(closeCancelAppointment())}
         />
-      </>
+      </PageLayout>
     );
   }
 

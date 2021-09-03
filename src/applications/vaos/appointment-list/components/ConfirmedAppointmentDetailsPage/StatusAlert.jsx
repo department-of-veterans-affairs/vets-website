@@ -2,7 +2,11 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 import InfoAlert from '../../../components/InfoAlert';
-import { APPOINTMENT_STATUS, GA_PREFIX } from '../../../utils/constants';
+import {
+  APPOINTMENT_STATUS,
+  CANCELLATION_REASONS,
+  GA_PREFIX,
+} from '../../../utils/constants';
 
 export default function StatusAlert({ appointment, facility }) {
   const { search } = useLocation();
@@ -11,9 +15,10 @@ export default function StatusAlert({ appointment, facility }) {
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isPastAppointment = appointment.vaos.isPastAppointment;
-  const canceler = appointment.description?.includes('CANCELLED BY PATIENT')
-    ? 'You'
-    : facility?.name || 'Facility';
+  const canceler =
+    appointment.cancellationReason === CANCELLATION_REASONS.pat
+      ? 'You'
+      : facility?.name || 'Facility';
 
   if (canceled) {
     return (
