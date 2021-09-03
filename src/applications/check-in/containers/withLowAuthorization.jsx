@@ -8,11 +8,11 @@ import { getCurrentToken } from '../utils/session';
 // This will be updated in a future PR to use the low auth checks when the logic is implemented
 const withLowAuthorization = WrappedComponent => props => {
   const { checkInData, router } = props;
-  const { appointment } = checkInData;
+  const { appointments } = checkInData;
 
   useEffect(
     () => {
-      if (!appointment) {
+      if (!appointments) {
         const session = getCurrentToken(window);
         if (session) {
           const { token } = session;
@@ -22,9 +22,9 @@ const withLowAuthorization = WrappedComponent => props => {
         }
       }
     },
-    [appointment, router],
+    [appointments, router],
   );
-  if (!appointment) {
+  if (!appointments) {
     return <></>;
   }
   return (

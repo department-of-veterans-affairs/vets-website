@@ -6,11 +6,10 @@ import { getCurrentToken } from '../utils/session';
 
 const withAppointmentData = WrappedComponent => props => {
   const { checkInData, router } = props;
-  const { appointment } = checkInData;
-
+  const { appointments } = checkInData;
   useEffect(
     () => {
-      if (!appointment) {
+      if (!appointments) {
         const session = getCurrentToken(window);
         if (session) {
           const { token } = session;
@@ -20,9 +19,9 @@ const withAppointmentData = WrappedComponent => props => {
         }
       }
     },
-    [appointment, router],
+    [appointments, router],
   );
-  if (!appointment) {
+  if (!appointments) {
     return <></>;
   }
   return (

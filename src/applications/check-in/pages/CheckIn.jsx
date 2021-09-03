@@ -16,6 +16,7 @@ import AppointmentLocation from '../components/AppointmentLocation';
 const CheckIn = props => {
   const [isLoading, setIsLoading] = useState(false);
   const { router, appointment, context, isUpdatePageEnabled } = props;
+  const appointment = appointments[0];
 
   useEffect(() => {
     focusElement('h1');
@@ -74,7 +75,7 @@ const CheckIn = props => {
           Clinic:{' '}
         </dt>
         <dd data-testid="clinic-name" className="vads-u-font-size--lg">
-          <AppointmentLocation />
+          <AppointmentLocation appointment={appointment} />
         </dd>
       </dl>
       <button
@@ -95,7 +96,7 @@ const CheckIn = props => {
 
 const mapStateToProps = state => {
   return {
-    appointment: state.checkInData.appointment,
+    appointments: state.checkInData.appointments,
     context: state.checkInData.context,
   };
 };
