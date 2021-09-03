@@ -11,6 +11,7 @@ import {
   getStateNameForCode,
   sortOptionsByStateName,
   addAllOption,
+  createId,
 } from '../utils/helpers';
 import { showModal, filterChange } from '../actions';
 import { connect } from 'react-redux';
@@ -254,10 +255,18 @@ export function FilterYourResults({
   };
 
   const typeOfInstitution = () => {
+    const name = 'Type of institution';
+    const legendId = `${createId(name)}-legend`;
     return (
       <>
         <div className="vads-u-margin-bottom--4">
-          <h3 className="vads-u-margin-bottom--3">Type of institution</h3>
+          <h3
+            className="vads-u-margin-bottom--3"
+            aria-label={`${name}:`}
+            id={legendId}
+          >
+            {name}
+          </h3>
           <ExpandingGroup open={schools}>
             <Checkbox
               checked={schools}
@@ -265,6 +274,7 @@ export function FilterYourResults({
               label="Schools"
               onChange={handleSchoolChange}
               className="expanding-header-checkbox"
+              ariaLabelInputLegendId={legendId}
             />
             <div className="school-types expanding-group-children">
               {excludedSchoolTypesGroup()}
@@ -279,6 +289,7 @@ export function FilterYourResults({
           label="On-the-job training and apprenticeships"
           onChange={onChangeCheckbox}
           className="vads-u-margin-bottom--4"
+          ariaLabelInputLegendId={legendId}
         />
         <ExpandingGroup open={vettec}>
           <Checkbox
@@ -287,6 +298,7 @@ export function FilterYourResults({
             label="VET TEC providers"
             onChange={handleVetTecChange}
             className="expanding-header-checkbox"
+            ariaLabelInputLegendId={legendId}
           />
           <div className="expanding-group-children">
             <Checkbox
@@ -294,6 +306,8 @@ export function FilterYourResults({
               name="preferredProvider"
               label="Preferred providers"
               onChange={handlePreferredProviderChange}
+              ariaLabel="VET TEC Preferred providers"
+              ariaLabelInputLegendId={legendId}
             />
           </div>
         </ExpandingGroup>
