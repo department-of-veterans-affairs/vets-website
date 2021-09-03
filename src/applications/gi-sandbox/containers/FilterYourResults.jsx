@@ -175,46 +175,49 @@ export function FilterYourResults({
   };
 
   const schoolAttributes = () => {
+    const options = [
+      {
+        name: 'excludeCautionFlags',
+        checked: excludeCautionFlags,
+        optionLabel: (
+          <LearnMoreLabel
+            text="Has no cautionary warnings"
+            onClick={() => dispatchShowModal('cautionaryWarnings')}
+            ariaLabel="Learn more about VA education and training programs"
+          />
+        ),
+      },
+      {
+        name: 'accredited',
+        checked: accredited,
+        optionLabel: (
+          <LearnMoreLabel
+            text="Is accredited"
+            onClick={() => dispatchShowModal('accredited')}
+            ariaLabel="Learn more about VA education and training programs"
+          />
+        ),
+      },
+      {
+        name: 'studentVeteran',
+        checked: studentVeteran,
+        optionLabel: 'Has a Student Veteran Group',
+      },
+      {
+        name: 'yellowRibbonScholarship',
+        checked: yellowRibbonScholarship,
+        optionLabel: 'Offers Yellow Ribbon Program',
+      },
+    ];
+
     return (
-      <>
-        <p>About the school</p>
-        <Checkbox
-          checked={excludeCautionFlags}
-          name="excludeCautionFlags"
-          label={
-            <LearnMoreLabel
-              text="Has no cautionary warnings"
-              onClick={() => dispatchShowModal('cautionaryWarnings')}
-              ariaLabel="Learn more about VA education and training programs"
-            />
-          }
-          onChange={onChangeCheckbox}
-        />
-        <Checkbox
-          checked={accredited}
-          name="accredited"
-          label={
-            <LearnMoreLabel
-              text="Is accredited"
-              onClick={() => dispatchShowModal('accredited')}
-              ariaLabel="Learn more about VA education and training programs"
-            />
-          }
-          onChange={onChangeCheckbox}
-        />
-        <Checkbox
-          checked={studentVeteran}
-          name="studentVeteran"
-          label="Has a Student Veteran Group"
-          onChange={onChangeCheckbox}
-        />
-        <Checkbox
-          checked={yellowRibbonScholarship}
-          name="yellowRibbonScholarship"
-          label="Offers Yellow Ribbon Program"
-          onChange={onChangeCheckbox}
-        />
-      </>
+      <CheckboxGroup
+        label={
+          <div className="vads-u-margin-left--neg0p25">About the school:</div>
+        }
+        onChange={onChangeCheckbox}
+        options={options}
+      />
     );
   };
 
