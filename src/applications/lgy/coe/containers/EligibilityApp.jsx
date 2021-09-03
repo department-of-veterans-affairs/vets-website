@@ -16,7 +16,6 @@ import {
 
 const EligibilityApp = props => {
   const {
-    router,
     loggedIn,
     certificateOfEligibility: { generateAutoCoeStatus, profileIsUpdating, coe },
     hasSavedForm,
@@ -28,9 +27,7 @@ const EligibilityApp = props => {
 
   useEffect(
     () => {
-      if (!profileIsUpdating && !loggedIn) {
-        router.push('/');
-      } else if (!profileIsUpdating && loggedIn && !hasSavedForm && !coe) {
+      if (!profileIsUpdating && loggedIn && !hasSavedForm && !coe) {
         props.generateCoe();
       }
     },
@@ -63,7 +60,7 @@ const EligibilityApp = props => {
         content = <LoadingIndicator message="Loading..." />;
     }
   } else {
-    router.push('/introduction');
+    content = <p>failed</p>;
   }
 
   return (

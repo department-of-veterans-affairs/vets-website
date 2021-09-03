@@ -2,7 +2,7 @@ import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 
-export const loggedInContent = () => (
+const LoggedInContent = () => (
   <>
     <h2 className="vads-u-margin-top--1">
       Follow these steps to apply for a VA home loan COE
@@ -104,3 +104,5 @@ export const loggedInContent = () => (
     </div>
   </>
 );
+
+export default LoggedInContent;
