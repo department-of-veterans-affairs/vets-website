@@ -13,6 +13,7 @@ const ValidateVeteran = props => {
   return (
     <div>
       <h1>Check in at VA</h1>
+      <h1>Testing</h1>
       <button
         type="button"
         className="usa-button usa-button-big"
