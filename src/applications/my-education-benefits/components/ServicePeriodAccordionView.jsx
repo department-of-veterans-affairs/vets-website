@@ -27,8 +27,12 @@ export default function ServicePeriodAccordionView({ formData }) {
       return [];
     }
 
+    let key = 0;
     return periods.map(period => (
-      <span key={period.path} className="service-history-details_period">
+      <span
+        key={`service-period-${key++}`}
+        className="service-history-details_period"
+      >
         {moment(period.from).format(FORMAT_DATE_READABLE)} {` – `}
         {moment(period.to).format(FORMAT_DATE_READABLE)}
       </span>
