@@ -1578,10 +1578,10 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@^3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.0.1.tgz#dc471ac652316bf4c3e4d3c7232c7da54df1dfc5"
-  integrity sha512-Xk+nqVJaPCASIufwGOI01MewU7rFFjOPkK9mHbI5A1ONu7mc7KtpDP88j3D5jRm/oiLhnl1Fz/trxRu0pMKZ0Q==
+"@department-of-veterans-affairs/component-library@^3.0.3":
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.0.3.tgz#a69834616cc226fbd3f66b093a85f53f585a4bc1"
+  integrity sha512-BhsS9uEX5HyN94UFxl2xILJMkUfBODtYsQ6ubOx1FNBPw6EJlJE9UPJIXgwAGpTFc3C+9FpJ3JginP3oJAkPNg==
   dependencies:
     classnames "^2.2.6"
     core-js "^3.9.0"
@@ -3189,7 +3189,7 @@ array-back@^1.0.3, array-back@^1.0.4:
   dependencies:
     typical "^2.6.0"
 
-array-back@^4.0.0, array-back@^4.0.1:
+array-back@^4.0.1:
   version "4.0.1"
   resolved "https://registry.npmjs.org/array-back/-/array-back-4.0.1.tgz"
   integrity sha512-Z/JnaVEXv+A9xabHzN43FiiiWEE7gPCRXMrVmRm00tWbjZRul1iHm7ECzlyNq1p4a4ATXz+G9FJ3GqGOkOV3fg==
@@ -5066,14 +5066,14 @@ command-line-args@^3.0.1:
     find-replace "^1.0.2"
     typical "^2.6.0"
 
-command-line-usage@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.npmjs.org/command-line-usage/-/command-line-usage-6.1.0.tgz"
-  integrity sha512-Ew1clU4pkUeo6AFVDFxCbnN7GIZfXl48HIOQeFQnkO3oOqvpI7wdqtLRwv9iOCZ/7A+z4csVZeiDdEcj8g6Wiw==
+command-line-usage@^6.1.1:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/command-line-usage/-/command-line-usage-6.1.1.tgz#c908e28686108917758a49f45efb4f02f76bc03f"
+  integrity sha512-F59pEuAR9o1SF/bD0dQBDluhpT4jJQNWUHEuVBqpDmCUo6gPjCi+m9fCWnWZVR/oG6cMTUms4h+3NPl74wGXvA==
   dependencies:
-    array-back "^4.0.0"
+    array-back "^4.0.1"
     chalk "^2.4.2"
-    table-layout "^1.0.0"
+    table-layout "^1.0.1"
     typical "^5.2.0"
 
 commander@^2.18.0, commander@^2.19.0, commander@^2.20.0, commander@^2.8.1, commander@~2.20.3:
@@ -5348,9 +5348,10 @@ core-util-is@1.0.2, core-util-is@~1.0.0:
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
   integrity sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=
 
-cors@^2.7.1:
-  version "2.8.3"
-  resolved "https://registry.npmjs.org/cors/-/cors-2.8.3.tgz"
+cors@^2.8.5:
+  version "2.8.5"
+  resolved "https://registry.yarnpkg.com/cors/-/cors-2.8.5.tgz#eac11da51592dd86b9f06f6e7ac293b3df875d29"
+  integrity sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==
   dependencies:
     object-assign "^4"
     vary "^1"
@@ -17131,10 +17132,10 @@ syntax-error@^1.1.1:
   dependencies:
     acorn-node "^1.2.0"
 
-table-layout@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/table-layout/-/table-layout-1.0.1.tgz"
-  integrity sha512-dEquqYNJiGwY7iPfZ3wbXDI944iqanTSchrACLL2nOB+1r+h1Nzu2eH+DuPPvWvm5Ry7iAPeFlgEtP5bIp5U7Q==
+table-layout@^1.0.1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/table-layout/-/table-layout-1.0.2.tgz#c4038a1853b0136d63365a734b6931cf4fad4a04"
+  integrity sha512-qd/R7n5rQTRFi+Zf2sk5XVVd9UQl6ZkduPFC3S7WEGJAmetDTjY3qPN50eSKzwuzEyQKy5TN2TiZdkIjos2L6A==
   dependencies:
     array-back "^4.0.1"
     deep-extend "~0.6.0"
