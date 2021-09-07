@@ -47,7 +47,7 @@ const SelectNotificationOptionsAlert = ({ firstChannelId }) => {
           <p>
             <a
               href={`#${firstChannelId}`}
-              // className="vads-u-text-decoration--none vads-u-padding--1 vads-u-margin-left--neg1 vads-u-margin-top--neg1 vads-u-margin-bottom--neg1"
+              className="vads-u-text-decoration--none vads-u-padding--1 vads-u-margin-left--neg1 vads-u-margin-top--neg1 vads-u-margin-bottom--neg1"
             >
               <i
                 aria-hidden="true"
