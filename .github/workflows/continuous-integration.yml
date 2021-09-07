@@ -477,6 +477,10 @@ jobs:
         with:
           commit_message: The cross-app import graph was automatically updated. Don't delete!
 
+      - name: Echo changes_detected
+        if: ${{ github.ref != 'refs/heads/master' }}
+        run: echo ${{ steps.commit.outputs.changes_detected == 'true' }}
+
       - name: Cancel workflow if graph was updated
         if: steps.commit.outputs.changes_detected == 'true'
         uses: andymckay/cancel-action@0.2
