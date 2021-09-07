@@ -55,9 +55,6 @@ describe('check-in', () => {
         expect(state.context).haveOwnProperty('scope');
         expect(state.context.scope).to.equal('some-scope');
       });
-      it('should set appointments', () => {
-        // TODO: fill in
-      });
     });
   });
 });
