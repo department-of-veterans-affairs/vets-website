@@ -139,6 +139,7 @@ export function KeywordSearch({
         }) => (
           <div>
             <input
+              aria-controls="ctKeywordSearch"
               className={classNames('input-box-margin', className)}
               {...getInputProps({
                 type: 'text',
@@ -150,7 +151,11 @@ export function KeywordSearch({
               })}
             />
             {isOpen && (
-              <div className="suggestions-list" role="listbox">
+              <div
+                className="suggestions-list"
+                role="listbox"
+                id="ctKeywordSearch"
+              >
                 {suggestions.map((item, index) => (
                   <div
                     key={index}
