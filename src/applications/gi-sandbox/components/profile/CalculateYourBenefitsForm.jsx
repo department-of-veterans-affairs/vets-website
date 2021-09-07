@@ -980,6 +980,17 @@ function CalculateYourBenefitsForm({
     );
   };
 
+  const renderUpdateBenefitsButton = name => (
+    <button
+      id={`update-${createId(name)}-button`}
+      className="calculate-button"
+      onClick={() => handleCalculateBenefitsClick(name)}
+      disabled={!inputUpdated}
+    >
+      Update benefits
+    </button>
+  );
+
   const renderMilitaryDetails = () => {
     const name = 'Your military details';
 
@@ -1004,14 +1015,7 @@ function CalculateYourBenefitsForm({
             {renderGbBenefit()}
           </BenefitsForm>
         </div>
-        <button
-          id="update-benefits-button"
-          className="calculate-button"
-          onClick={() => handleCalculateBenefitsClick(name)}
-          disabled={!inputUpdated}
-        >
-          Update benefits
-        </button>
+        {renderUpdateBenefitsButton(name)}
         {renderEYBSkipLink()}
       </AccordionItem>
     );
@@ -1055,14 +1059,7 @@ function CalculateYourBenefitsForm({
           {renderCalendar()}
           {renderEnrolled()}
         </div>
-        <button
-          id="update-benefits-button"
-          className="calculate-button"
-          onClick={() => handleCalculateBenefitsClick(name)}
-          disabled={!inputUpdated}
-        >
-          Update benefits
-        </button>
+        {renderUpdateBenefitsButton(name)}
         {renderEYBSkipLink()}
       </AccordionItem>
     );
@@ -1088,14 +1085,7 @@ function CalculateYourBenefitsForm({
           {renderExtensionBeneficiaryZIP()}
           {renderWorking()}
         </div>
-        <button
-          id="update-benefits-button"
-          className="calculate-button"
-          onClick={() => handleCalculateBenefitsClick(name)}
-          disabled={!inputUpdated}
-        >
-          Update benefits
-        </button>
+        {renderUpdateBenefitsButton(name)}
         {renderEYBSkipLink()}
       </AccordionItem>
     );
@@ -1132,14 +1122,7 @@ function CalculateYourBenefitsForm({
           {renderBuyUp()}
           {renderScholarships()}
         </div>
-        <button
-          id="update-benefits-button"
-          className="calculate-button"
-          onClick={() => handleCalculateBenefitsClick(name)}
-          disabled={!inputUpdated}
-        >
-          Update benefits
-        </button>
+        {renderUpdateBenefitsButton(name)}
         {renderEYBSkipLink()}
       </AccordionItem>
     );

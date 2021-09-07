@@ -113,6 +113,12 @@ const NotificationSettings = ({
             }
           })
         : null}
+      {showContactInfoOnFile ? (
+        <p className="vads-u-margin-bottom--0">
+          <strong>Note:</strong> We have limited notification options at this
+          time. Check back for more options in the future.
+        </p>
+      ) : null}
     </>
   );
 };
