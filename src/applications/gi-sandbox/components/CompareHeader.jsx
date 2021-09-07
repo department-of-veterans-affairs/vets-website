@@ -109,6 +109,7 @@ export default function({
                   onClick={() => {
                     setPromptingFacilityCode(institution.facilityCode);
                   }}
+                  aria-label={`Remove ${institution.name} from comparison`}
                 >
                   Remove
                 </button>
