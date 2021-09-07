@@ -186,6 +186,7 @@
     "just-diff": "^3.1.1",
     "lint-staged": ">=10",
     "mini-css-extract-plugin": "^0.9.0",
+    "minimist": "^1.2.5",
     "mocha": "^8.2.1",
     "mocha-junit-reporter": "^2.0.0",
     "mocha-snapshots": "^4.2.0",

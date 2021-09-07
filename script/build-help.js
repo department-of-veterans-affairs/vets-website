@@ -47,6 +47,12 @@ const helpSections = [
           'Automatically generate application landing pages. Can be used as an alternative to running a full content build.',
       },
       {
+        name: 'env.memory',
+        type: Boolean,
+        description:
+          'Set NODE_OPTION --max-old-space-size to: 1024, 2048, 3072, 4096, 5120, 6144, 7168, or 8192 (e.g. --env.memory=8192)',
+      },
+      {
         name: 'env.openTo',
         typeLabel: '{underline URL}',
         description:
