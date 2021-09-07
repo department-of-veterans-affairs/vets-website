@@ -936,7 +936,7 @@ jobs:
         working-directory: testing-tools-team-dashboard-data
         env:
           FULL_ACCESS_PERCY_TOKEN: ${{ env.FULL_ACCESS_PERCY_TOKEN }}
-          COMMIT_SHA: ${{ $GITHUB_SHA }}
+          COMMIT_SHA: $GITHUB_SHA
 
       # --------------------------
       # | Publish Testing Report |
