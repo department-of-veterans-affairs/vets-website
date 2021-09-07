@@ -88,7 +88,7 @@ jobs:
         with:
           command: yarn install --frozen-lockfile --prefer-offline --production=false --network-concurrency 1
           max_attempts: 3
-          timeout_minutes: 5
+          timeout_minutes: 7
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -200,7 +200,7 @@ jobs:
         with:
           command: yarn install --frozen-lockfile --prefer-offline --production=false
           max_attempts: 3
-          timeout_minutes: 5
+          timeout_minutes: 7
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -307,7 +307,7 @@ jobs:
         with:
           command: yarn install --frozen-lockfile --prefer-offline --production=false
           max_attempts: 3
-          timeout_minutes: 5
+          timeout_minutes: 7
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -410,7 +410,7 @@ jobs:
         with:
           command: yarn install --frozen-lockfile --prefer-offline --production=false
           max_attempts: 3
-          timeout_minutes: 5
+          timeout_minutes: 7
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -462,7 +462,7 @@ jobs:
         with:
           command: yarn install --frozen-lockfile --prefer-offline --production=false
           max_attempts: 3
-          timeout_minutes: 5
+          timeout_minutes: 7
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -522,7 +522,7 @@ jobs:
         with:
           command: yarn install --frozen-lockfile --prefer-offline --production=false
           max_attempts: 3
-          timeout_minutes: 5
+          timeout_minutes: 7
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -637,7 +637,7 @@ jobs:
         with:
           command: yarn install --frozen-lockfile --prefer-offline --production=false --network-concurrency 1
           max_attempts: 3
-          timeout_minutes: 5
+          timeout_minutes: 7
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
