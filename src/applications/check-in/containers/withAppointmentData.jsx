@@ -9,7 +9,8 @@ const withAppointmentData = WrappedComponent => props => {
   const { appointments } = checkInData;
   useEffect(
     () => {
-      if (!appointments[0]) {
+      // if appointments doesn't exist or is empty or the first element doesnt
+      if (!appointments || !appointments[0]) {
         const session = getCurrentToken(window);
         if (session) {
           const { token } = session;
@@ -21,7 +22,7 @@ const withAppointmentData = WrappedComponent => props => {
     },
     [appointments, router],
   );
-  if (!appointments) {
+  if (!appointments || appointments.length === 0) {
     return <></>;
   }
   return (

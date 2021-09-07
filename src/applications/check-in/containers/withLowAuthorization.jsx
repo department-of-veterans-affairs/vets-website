@@ -11,7 +11,7 @@ const withLowAuthorization = WrappedComponent => props => {
   const { appointments } = checkInData;
   useEffect(
     () => {
-      if (!appointments[0]) {
+      if (!appointments || !appointments[0]) {
         const session = getCurrentToken(window);
         if (session) {
           const { token } = session;
@@ -23,7 +23,7 @@ const withLowAuthorization = WrappedComponent => props => {
     },
     [appointments, router],
   );
-  if (!appointments) {
+  if (!appointments || appointments.length === 0) {
     return <></>;
   }
   return (
