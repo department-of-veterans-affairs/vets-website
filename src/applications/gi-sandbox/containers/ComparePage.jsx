@@ -63,7 +63,7 @@ export function ComparePage({
   const institutionCount = loaded.length;
   const history = useHistory();
   const hasScrollTo = scrollTo !== null;
-  const placeholder = useRef(null);
+  const placeholderRef = useRef(null);
 
   useEffect(
     () => {
@@ -110,7 +110,7 @@ export function ComparePage({
         !initialTop &&
         headerRef.current &&
         headerRef.current.offsetTop &&
-        placeholder.current
+        placeholderRef.current
       ) {
         setInitialTop(headerRef.current.offsetTop);
       }
@@ -130,19 +130,19 @@ export function ComparePage({
           scrollHeaderRef.current.scroll({
             left: scrollPageRef.current.scrollLeft,
           });
-          placeholder.current.style.height = `${
+          placeholderRef.current.style.height = `${
             headerRef.current.getBoundingClientRect().height
           }px`;
         } else if (offset < initialTop && headerFixed) {
           setHeaderFixed(false);
-          placeholder.current.style.height = '0px';
+          placeholderRef.current.style.height = '0px';
         } else if (headerFixed) {
           headerRef.current.style.top =
             visibleFooterHeight > 0 ? `${-visibleFooterHeight}px` : '0px';
         }
       }
     },
-    [scrollHeaderRef, scrollPageRef, headerFixed, initialTop, placeholder],
+    [scrollHeaderRef, scrollPageRef, headerFixed, initialTop, placeholderRef],
   );
 
   const handleBodyScrollReact = () => {
@@ -238,7 +238,7 @@ export function ComparePage({
         />
       )}
       <div className="content-wrapper">
-        <div ref={placeholder} className="placeholder">
+        <div ref={placeholderRef} className="placeholder">
           &nbsp;
         </div>
         <div
