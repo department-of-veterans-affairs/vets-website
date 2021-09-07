@@ -17,7 +17,7 @@ exec("find src -name '*.cypress.*.js' | tr '\n' ','", function(_err, stdout) {
     )
     .join(',');
 
-  if (process.env.STEP === 5) {
+  if (Number(process.env.STEP) === 5) {
     runCommand(
       `CYPRESS_BASE_URL=http://vets-website:3001 CYPRESS_CI=${
         process.env.CI
