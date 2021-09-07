@@ -59,6 +59,7 @@ const FormTitle = ({
         <h3
           aria-describedby={id}
           className="vads-u-font-family--serif vads-u-font-size--base vads-u-margin--0"
+          lang={lang}
         >
           {title}
         </h3>

@@ -1,6 +1,13 @@
 import React from 'react';
+import { APPOINTMENT_STATUS } from '../../../utils/constants';
 
-export default function PrintLink() {
+export default function PrintLink({ appointment }) {
+  const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
+
+  if (canceled) {
+    return null;
+  }
+
   return (
     <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
       <i
