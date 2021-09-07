@@ -904,6 +904,10 @@ jobs:
           service_account_key: ${{ env.BIGQUERY_SERVICE_CREDENTIALS }}
           export_default_credentials: true
 
+      # -------------------------------------
+      # | Upload BigQuery Data > Mochawesome|
+      # -------------------------------------
+
       - name: Set UUID for Mochawesome report
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
@@ -915,6 +919,23 @@ jobs:
           NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
 
       # env.MOCHAWESOME_REPORT_RESULTS is set and exported during the above step when the mochawesome report is generated.  It contains the output string for the publish step at the end of the job with the numbers from the Mochawesome report.
+
+      # -------------------------------
+      # | Upload BigQuery Data > Percy|
+      # -------------------------------
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /dsva-vagov/testing-team/full-access-percy-token
+          env_variable_name: FULL_ACCESS_PERCY_TOKEN
+
+      - name: Get Percy build results and post to BigQuery
+        run: yarn percy-to-bigquery
+        working-directory: testing-tools-team-dashboard-data
+        env:
+          FULL_ACCESS_PERCY_TOKEN: ${{ env.FULL_ACCESS_PERCY_TOKEN }}
+          COMMIT_SHA: ${{ $GITHUB_SHA }}
 
       # --------------------------
       # | Publish Testing Report |
