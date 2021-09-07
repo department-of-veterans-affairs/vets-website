@@ -5,6 +5,7 @@ import CautionFlagDetails from './CautionFlagDetails';
 import SchoolClosingDetails from './SchoolClosingDetails';
 import LearnMoreLabel from '../LearnMoreLabel';
 import { ariaLabels } from '../../constants';
+import { createId } from '../../utils/helpers';
 
 export function CautionaryInformation({ institution, showModal }) {
   const {
@@ -115,6 +116,7 @@ export function CautionaryInformation({ institution, showModal }) {
         }}
         ariaLabel={ariaLabels.learnMore.allCampusComplaints}
         buttonClassName="small-screen-font"
+        buttonId={createId('all campuses learn more')}
       />
     </div>
   );
@@ -182,6 +184,7 @@ export function CautionaryInformation({ institution, showModal }) {
               onClick={() => {
                 showModal('studentComplaints');
               }}
+              buttonId={createId('student-complaints')}
               buttonClassName="small-screen-font"
             />
           </span>
@@ -284,6 +287,7 @@ export function CautionaryInformation({ institution, showModal }) {
           href="/education/submit-school-feedback/introduction"
           target="_blank"
           rel="noopener noreferrer"
+          id="submit-a-complaint"
         >
           Submit a complaint through our Feedback System
         </a>

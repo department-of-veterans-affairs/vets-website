@@ -7,6 +7,7 @@ import { ariaLabels } from '../../constants';
 import Dropdown from '../Dropdown';
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import LearnMoreLabel from '../LearnMoreLabel';
+import { createId } from '../../utils/helpers';
 
 export class BenefitsForm extends React.Component {
   state = { showYourMilitaryDetails: false };
@@ -43,12 +44,13 @@ export class BenefitsForm extends React.Component {
     { optionValue: 'purple heart', optionLabel: 'Purple Heart Service: 100%' },
   ];
 
-  renderLearnMoreLabel = ({ text, modal, ariaLabel, labelFor }) => (
+  renderLearnMoreLabel = ({ text, modal, ariaLabel, labelFor, buttonId }) => (
     <LearnMoreLabel
       text={text}
       onClick={() => this.props.showModal(modal)}
       ariaLabel={ariaLabel}
       labelFor={labelFor || modal}
+      buttonId={buttonId}
     />
   );
 
@@ -108,6 +110,7 @@ export class BenefitsForm extends React.Component {
               text: 'Which GI Bill benefit do you want to use?',
               modal: 'giBillChapter',
               ariaLabel: ariaLabels.learnMore.giBillBenefits,
+              buttonId: createId('gi bill benefits learn more'),
             })}
             name="giBillChapter"
             options={[
@@ -168,6 +171,7 @@ export class BenefitsForm extends React.Component {
                 text: 'Cumulative Post-9/11 active-duty service',
                 modal: 'cumulativeService',
                 ariaLabel: ariaLabels.learnMore.post911Chapter33,
+                buttonId: createId('cumulative service learn more'),
               })}
               name="cumulativeService"
               options={this.cumulativeServiceOptions()}
@@ -182,6 +186,7 @@ export class BenefitsForm extends React.Component {
                 text: 'Completed an enlistment of:',
                 modal: 'enlistmentService',
                 ariaLabel: ariaLabels.learnMore.montgomeryGIBill,
+                buttonId: createId('enlistment service'),
               })}
               name="enlistmentService"
               options={[

@@ -116,6 +116,7 @@ export default function EstimatedBenefits({
             }}
             ariaLabel={learnMoreAriaLabel}
             bold
+            buttonId={createId(`${title} learn more`)}
           />
 
           {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
@@ -204,6 +205,7 @@ export default function EstimatedBenefits({
                   text="Book stipend"
                   onClick={() => dispatchShowModal('bookStipendInfo')}
                   ariaLabel="Learn more about the book stipend"
+                  buttonId={createId('book stipend learn more')}
                 />
               }
               id={'book-stipend'}

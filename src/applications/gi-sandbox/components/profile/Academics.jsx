@@ -1,6 +1,6 @@
 import React from 'react';
 import { ariaLabels } from '../../constants';
-import { upperCaseFirstLetterOnly } from '../../utils/helpers';
+import { createId, upperCaseFirstLetterOnly } from '../../utils/helpers';
 import LearnMoreLabel from '../LearnMoreLabel';
 
 export default function Academics({ institution, onShowModal }) {
@@ -28,6 +28,7 @@ export default function Academics({ institution, onShowModal }) {
             }#accred`}
             target="_blank"
             rel="noopener noreferrer"
+            id={createId('see accreditors')}
           >
             See accreditors
           </a>
@@ -80,6 +81,7 @@ export default function Academics({ institution, onShowModal }) {
           onClick={() => onShowModal('priorityEnrollment')}
           ariaLabel={ariaLabels.learnMore.priorityEnrollment}
           buttonClassName="small-screen-font"
+          buttonId="priority-enrollment-learn-more"
         />
         :
       </strong>
@@ -114,6 +116,7 @@ export default function Academics({ institution, onShowModal }) {
           target="_blank"
           rel="noopener noreferrer"
           className="vads-c-action-link--blue"
+          id="get-started-with-careerscope"
         >
           Get started with CareerScope
         </a>

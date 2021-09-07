@@ -1,4 +1,5 @@
 import React from 'react';
+import { createId } from '../../utils/helpers';
 
 const GettingStartedWithBenefits = () => {
   return (
@@ -11,7 +12,11 @@ const GettingStartedWithBenefits = () => {
           <hr className="vads-u-margin-top--neg0p25" />
           <ul className="getting-started-with-benefits-li">
             <li>
-              <a href="/education/eligibility/" rel="noopener noreferrer">
+              <a
+                href="/education/eligibility/"
+                rel="noopener noreferrer"
+                id={createId('find out if youre eligible')}
+              >
                 Find out if you’re eligible for VA education benefits
               </a>
             </li>
@@ -32,6 +37,7 @@ const GettingStartedWithBenefits = () => {
             <a
               href="/careers-employment/vocational-rehabilitation/how-to-apply/"
               rel="noopener noreferrer"
+              id={createId('chapter 31')}
             >
               Find out how to apply for Veteran Readiness and Employment
               (Chapter 31)
@@ -41,6 +47,7 @@ const GettingStartedWithBenefits = () => {
             <a
               href="/careers-employment/education-and-career-counseling/"
               rel="noopener noreferrer"
+              id={createId('chapter 36')}
             >
               Find out how to apply for educational and career counseling
               (Chapter 36)
@@ -86,6 +93,7 @@ const GettingStartedWithBenefits = () => {
                 href="/education/how-to-apply/"
                 rel="noopener noreferrer"
                 className="vads-c-action-link--blue"
+                id="apply-for-edu-benefits"
               >
                 Apply for education benefits
               </a>

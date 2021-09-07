@@ -5,6 +5,7 @@ import CompareGrid from '../components/CompareGrid';
 import {
   boolYesNo,
   convertRatingToStars,
+  createId,
   formatCurrency,
   naIfNull,
   schoolSize,
@@ -108,6 +109,7 @@ const CompareLayout = ({
                 text="GI Bill students"
                 onClick={() => dispatchShowModal('gibillstudents')}
                 ariaLabel={ariaLabels.learnMore.numberOfStudents}
+                buttonId={createId('GI Bill students compare')}
               />
             ),
             mapper: institution => naIfNull(institution.studentCount),
@@ -480,6 +482,7 @@ const CompareLayout = ({
                 text="Yellow Ribbon"
                 onClick={() => dispatchShowModal('yribbon')}
                 ariaLabel={ariaLabels.learnMore.yellowRibbonProgram}
+                buttonId="veteran-programs-yellow-ribbon"
               />
             ),
             mapper: institution => boolYesNo(institution.yr),
@@ -490,6 +493,7 @@ const CompareLayout = ({
                 text="Student Veteran Group"
                 onClick={() => dispatchShowModal('vetgroups')}
                 ariaLabel={ariaLabels.learnMore.studentVeteranGroup}
+                buttonId="student-veteran-group"
               />
             ),
             mapper: institution => boolYesNo(institution.studentVeteran),
@@ -500,6 +504,7 @@ const CompareLayout = ({
                 text="Principles of Excellence"
                 onClick={() => dispatchShowModal('poe')}
                 ariaLabel={ariaLabels.learnMore.principlesOfExcellence}
+                buttonId="principles-of-excellence"
               />
             ),
             mapper: institution => boolYesNo(institution.poe),
@@ -510,6 +515,7 @@ const CompareLayout = ({
                 text="8 Keys to Veteran Success"
                 onClick={() => dispatchShowModal('eightKeys')}
                 ariaLabel={ariaLabels.learnMore.eightKeys}
+                buttonId="eight-keys-to-veteran-success"
               />
             ),
             mapper: institution => boolYesNo(institution.eightKeys),
@@ -520,6 +526,7 @@ const CompareLayout = ({
                 text="Military Tuition Assistance (TA)"
                 onClick={() => dispatchShowModal('ta')}
                 ariaLabel={ariaLabels.learnMore.militaryTuitionAssistance}
+                buttonId="military-tuition-assistance"
               />
             ),
             mapper: institution => boolYesNo(institution.dodmou),
@@ -530,6 +537,7 @@ const CompareLayout = ({
                 text="Priority Enrollment"
                 onClick={() => dispatchShowModal('priorityEnrollment')}
                 ariaLabel={ariaLabels.learnMore.priorityEnrollment}
+                buttonId="priority-enrollments"
               />
             ),
             mapper: institution => boolYesNo(institution.priorityEnrollment),
