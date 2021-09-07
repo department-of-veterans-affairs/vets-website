@@ -16,7 +16,6 @@ export const COE_ELIGIBILITY_STATUS = {
 };
 
 export const DOCUMENT_TYPES = [
-  '',
   'Discharge or seperation papers (DD214)',
   'Statement of service',
   'Retirement Points Statement (NGB Form 23)',
