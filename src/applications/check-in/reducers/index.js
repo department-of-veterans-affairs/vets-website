@@ -1,5 +1,4 @@
 const initialState = {
-  facility: {},
   appointments: [],
   context: {},
 };
