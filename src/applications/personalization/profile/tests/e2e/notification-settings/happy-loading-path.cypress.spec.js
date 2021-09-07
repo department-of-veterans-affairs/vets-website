@@ -44,7 +44,7 @@ describe('Notification Settings', () => {
           'match',
           /Manage your health care email notifications on My HealtheVet/i,
         );
-      cy.findAllByText(/^select an option/i).should('have.length', 3);
+      cy.findAllByText(/^select an option/i).should('have.length', 1);
     });
   });
   context('when user is not a VA patient', () => {
