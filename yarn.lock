@@ -7656,9 +7656,10 @@ expand-tilde@^2.0.0, expand-tilde@^2.0.2:
   dependencies:
     homedir-polyfill "^1.0.1"
 
-express-history-api-fallback@^2.0.0:
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/express-history-api-fallback/-/express-history-api-fallback-2.1.0.tgz"
+express-history-api-fallback@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/express-history-api-fallback/-/express-history-api-fallback-2.2.1.tgz#3a2ad27f7bebc90fc533d110d7c6d83097bcd057"
+  integrity sha1-OirSf3vryQ/FM9EQ18bYMJe80Fc=
 
 express@4.17.1, express@^4.16.3, express@^4.17.1:
   version "4.17.1"
