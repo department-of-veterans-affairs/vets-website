@@ -4,8 +4,6 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 import SkinDeep from 'skin-deep';
-import configureStore from 'redux-mock-store';
-import { Provider } from 'react-redux';
 
 import AcceptTermsPrompt from '../../../authorization/components/AcceptTermsPrompt';
 import { axeCheck } from '../../helpers';
@@ -75,17 +73,13 @@ describe('<AcceptTermsPrompt>', () => {
   });
 
   it('passes aXe check when Submit button is enabled', () => {
-    const middleware = [];
-    const mockStore = configureStore(middleware);
-    const initState = {
+    const acceptTermsPrompt = <AcceptTermsPrompt {...defaultProps} />;
+    const acceptTermsPromptState = {
       yesSelected: true,
       scrolledToBottom: true,
     };
-    const store = mockStore(initState);
-    axeCheck(
-      <Provider store={store}>
-        <AcceptTermsPrompt {...defaultProps} />
-      </Provider>,
-    );
+
+    // console.log(acceptTermsPrompt);
+    axeCheck(acceptTermsPrompt, acceptTermsPromptState);
   });
 });

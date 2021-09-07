@@ -1,7 +1,7 @@
 import axe from 'axe-core';
 import { mount } from 'enzyme';
 
-export function axeCheck(component) {
+export function axeCheck(component, state) {
   let div = document.getElementById('axeContainer');
   if (!div) {
     div = document.createElement('div');
@@ -10,7 +10,11 @@ export function axeCheck(component) {
   }
   div.innerHTML = '';
 
-  mount(component, { attachTo: div });
+  if (state) {
+    mount(component, { attachTo: div }).setState(state);
+  } else {
+    mount(component, { attachTo: div });
+  }
 
   return new Promise((resolve, reject) => {
     axe.run(document.body, (err, result) => {
