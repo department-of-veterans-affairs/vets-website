@@ -87,17 +87,14 @@ export default function({
                   />
                   <div className="header-fields">
                     <div className="institution-name">
-                      {smallScreen && institution.name}
-                      {!smallScreen && (
-                        <Link
-                          to={{
-                            pathname: profileLink,
-                            state: { prevPath: location.pathname },
-                          }}
-                        >
-                          {institution.name}
-                        </Link>
-                      )}
+                      <Link
+                        to={{
+                          pathname: profileLink,
+                          state: { prevPath: location.pathname },
+                        }}
+                      >
+                        {institution.name}
+                      </Link>
                     </div>
                   </div>
                 </div>
