@@ -13,7 +13,7 @@ export default function HowToApplyPost911GiBill() {
               Currently, we are only providing Post-9/11 GI Bill (Chapter 33)
               benefits through this application. If you would like to apply for
               other benefits, please go to our <a href="#">How To Apply</a>{' '}
-              page. [TEST]
+              page.
             </p>
           </div>
         </div>

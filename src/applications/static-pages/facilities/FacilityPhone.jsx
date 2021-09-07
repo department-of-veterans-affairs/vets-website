@@ -10,7 +10,7 @@ export default function FacilityPhone({ facility }) {
     <div className="vads-u-margin-bottom--0">
       {facility.attributes.phone.main && (
         <div className="main-phone vads-u-margin-bottom--1">
-          <strong>Main phone: </strong>
+          <strong> [TESTING] Main phone: </strong>
           <a href={`tel:${mainPhone}`}>{mainPhone}</a>
         </div>
       )}
