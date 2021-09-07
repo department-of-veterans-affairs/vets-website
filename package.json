@@ -19,6 +19,7 @@
     "cy:test:docker": "node script/run-cypress-tests-docker.js",
     "cy:test:gha": "node script/run-cypress-tests-gha.js",
     "cy:testrail-run": "cypress run --config-file config/cypress-testrail.json --reporter-options host=https://dsvavsp.testrail.io/,username=$TR_USER,password=$TR_API_KEY,projectId=$TR_PROJECTID,suiteId=$TR_SUITEID,runName=$TR_RUN_NAME,includeAllInTestRun=$TR_INCLUDE_ALL,groupId=$TR_GROUPID,filter=$TR_FILTER",
+    "cy:my-testrail-run": "cypress run --config-file config/my-cypress-testrail.json",
     "heroku-serve": "http-server",
     "jsdoc": "jsdoc",
     "prebuild": "node script/prebuild.js",
