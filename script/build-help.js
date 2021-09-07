@@ -48,7 +48,7 @@ const helpSections = [
       },
       {
         name: 'env.memory',
-        type: Boolean,
+        type: Number,
         description:
           'Set NODE_OPTION --max-old-space-size to: 1024, 2048, 3072, 4096, 5120, 6144, 7168, or 8192 (e.g. --env.memory=8192)',
       },
