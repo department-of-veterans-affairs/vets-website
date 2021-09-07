@@ -66,6 +66,7 @@ export function createMockAppointmentByVersion({
         typeOfCareId: fields.typeOfCareId || fields.serviceType,
         uniqueId: id,
         visitType: fields.visitType,
+        cancellationReason: null,
       },
     };
   }

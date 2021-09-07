@@ -16,6 +16,7 @@ export default function StatusAlert({ appointment, facility }) {
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isPastAppointment = appointment.vaos.isPastAppointment;
   const canceler =
+    appointment.description?.includes('CANCELLED BY PATIENT') ||
     appointment.cancellationReason === CANCELLATION_REASONS.pat
       ? 'You'
       : facility?.name || 'Facility';
