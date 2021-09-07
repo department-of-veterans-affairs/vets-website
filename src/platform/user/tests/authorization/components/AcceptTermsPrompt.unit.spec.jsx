@@ -79,7 +79,6 @@ describe('<AcceptTermsPrompt>', () => {
       scrolledToBottom: true,
     };
 
-    // console.log(acceptTermsPrompt);
     axeCheck(acceptTermsPrompt, acceptTermsPromptState);
   });
 });
