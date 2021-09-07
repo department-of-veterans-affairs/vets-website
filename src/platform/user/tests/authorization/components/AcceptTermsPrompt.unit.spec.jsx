@@ -74,7 +74,7 @@ describe('<AcceptTermsPrompt>', () => {
     axeCheck(<AcceptTermsPrompt {...defaultProps} />);
   });
 
-  it('passes aXe check when Submit button is enables', () => {
+  it('passes aXe check when Submit button is enabled', () => {
     const middleware = [];
     const mockStore = configureStore(middleware);
     const initState = {
