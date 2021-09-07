@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import appendQuery from 'append-query';
 import classNames from 'classnames';
 import Checkbox from './Checkbox';
 import SchoolClassification from './SchoolClassification';
 import { Link } from 'react-router-dom';
 import CompareScroller from './CompareScroller';
+import { focusElement } from 'platform/utilities/ui';
 
 export default function({
   currentScroll,
@@ -17,6 +18,10 @@ export default function({
   smallScreen,
   version,
 }) {
+  useEffect(() => {
+    focusElement('.compare-page-description-label');
+  }, []);
+
   const empties = [];
   for (let i = 0; i < 3 - institutionCount; i++) {
     empties.push(

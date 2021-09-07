@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { scroller } from 'react-scroll';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
-import { getScrollOptions } from 'platform/utilities/ui';
+import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import SearchResultCard from '../../containers/SearchResultCard';
@@ -385,6 +385,13 @@ function LocationSearchResults({
     [filters.search],
   );
 
+  useEffect(
+    () => {
+      focusElement('#location-search-results-count');
+    },
+    [results],
+  );
+
   /**
    * Renders the Eligibility and Filters accordions/buttons
    * @type {function(JSX.Element): (*|null)}
@@ -495,7 +502,7 @@ function LocationSearchResults({
    * @return {JSX.Element}
    */
   const searchResultsShowing = count => (
-    <p>
+    <p id="location-search-results-count">
       Showing {count} search results for "<strong>{location}</strong>"
     </p>
   );
