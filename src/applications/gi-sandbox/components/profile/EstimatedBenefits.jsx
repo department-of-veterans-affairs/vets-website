@@ -205,7 +205,7 @@ export default function EstimatedBenefits({
                   text="Book stipend"
                   onClick={() => dispatchShowModal('bookStipendInfo')}
                   ariaLabel="Learn more about the book stipend"
-                  buttonId={createId('book stipend learn more')}
+                  buttonId="book-stipend-learn-more"
                 />
               }
               id={'book-stipend'}

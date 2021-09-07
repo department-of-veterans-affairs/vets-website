@@ -251,7 +251,7 @@ export function CompareDrawer({
 
   return (
     <>
-      <div className={compareDrawerClasses} ref={drawer}>
+      <div className={compareDrawerClasses} ref={drawer} id="compare-drawer">
         <div className={expandCollapse}>
           {promptingFacilityCode && (
             <RemoveCompareSelectedModal

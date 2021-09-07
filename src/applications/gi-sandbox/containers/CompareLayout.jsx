@@ -5,7 +5,6 @@ import CompareGrid from '../components/CompareGrid';
 import {
   boolYesNo,
   convertRatingToStars,
-  createId,
   formatCurrency,
   naIfNull,
   schoolSize,
@@ -109,7 +108,7 @@ const CompareLayout = ({
                 text="GI Bill students"
                 onClick={() => dispatchShowModal('gibillstudents')}
                 ariaLabel={ariaLabels.learnMore.numberOfStudents}
-                buttonId={createId('GI Bill students compare')}
+                buttonId="GI-Bill-students-compare"
               />
             ),
             mapper: institution => naIfNull(institution.studentCount),

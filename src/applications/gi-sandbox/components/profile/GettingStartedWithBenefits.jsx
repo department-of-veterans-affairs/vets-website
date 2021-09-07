@@ -1,5 +1,4 @@
 import React from 'react';
-import { createId } from '../../utils/helpers';
 
 const GettingStartedWithBenefits = () => {
   return (
@@ -15,7 +14,7 @@ const GettingStartedWithBenefits = () => {
               <a
                 href="/education/eligibility/"
                 rel="noopener noreferrer"
-                id={createId('find out if youre eligible')}
+                id="find-out-if-youre-eligible"
               >
                 Find out if you’re eligible for VA education benefits
               </a>
@@ -37,7 +36,7 @@ const GettingStartedWithBenefits = () => {
             <a
               href="/careers-employment/vocational-rehabilitation/how-to-apply/"
               rel="noopener noreferrer"
-              id={createId('chapter 31')}
+              id="how-to-apply-for-chapter-31"
             >
               Find out how to apply for Veteran Readiness and Employment
               (Chapter 31)
@@ -47,7 +46,7 @@ const GettingStartedWithBenefits = () => {
             <a
               href="/careers-employment/education-and-career-counseling/"
               rel="noopener noreferrer"
-              id={createId('chapter 36')}
+              id="how-to-apply-for-chapter-36"
             >
               Find out how to apply for educational and career counseling
               (Chapter 36)

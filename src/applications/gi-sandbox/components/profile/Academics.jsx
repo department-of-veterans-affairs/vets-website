@@ -1,6 +1,6 @@
 import React from 'react';
 import { ariaLabels } from '../../constants';
-import { createId, upperCaseFirstLetterOnly } from '../../utils/helpers';
+import { upperCaseFirstLetterOnly } from '../../utils/helpers';
 import LearnMoreLabel from '../LearnMoreLabel';
 
 export default function Academics({ institution, onShowModal }) {
@@ -28,7 +28,7 @@ export default function Academics({ institution, onShowModal }) {
             }#accred`}
             target="_blank"
             rel="noopener noreferrer"
-            id={createId('see accreditors')}
+            id="see-accreditors"
           >
             See accreditors
           </a>

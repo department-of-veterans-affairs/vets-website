@@ -228,9 +228,8 @@ export const boolYesNo = field => {
 export const isSmallScreen = () => matchMedia('(max-width: 480px)').matches;
 
 export const scrollToFocusedElement = () => {
-  const compareDrawerHeight = document.getElementsByClassName(
-    'compare-drawer',
-  )[0].clientHeight;
+  const compareDrawerHeight = document.getElementById('compare-drawer')
+    .clientHeight;
   const activeElementBounding = document.activeElement.getBoundingClientRect();
 
   if (activeElementBounding.bottom > window.innerHeight - compareDrawerHeight) {

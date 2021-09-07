@@ -5,7 +5,6 @@ import RadioButtons from '../components/RadioButtons';
 import LearnMoreLabel from '../components/LearnMoreLabel';
 import { showModal, eligibilityChange } from '../actions';
 import { connect } from 'react-redux';
-import { createId } from '../utils/helpers';
 
 export function TuitionAndHousingEstimates({
   eligibility,
@@ -85,7 +84,7 @@ export function TuitionAndHousingEstimates({
             text="Will you be taking any classes in person?"
             onClick={() => dispatchShowModal('onlineOnlyDistanceLearning')}
             ariaLabel="Learn more about how we calculate your housing allowance based on where you take classes"
-            butttonId={createId('classes in person learn more')}
+            butttonId="classes-in-person-learn-more"
           />
         }
         name="inPersonClasses"

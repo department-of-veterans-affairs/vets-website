@@ -5,7 +5,6 @@ import CautionFlagDetails from './CautionFlagDetails';
 import SchoolClosingDetails from './SchoolClosingDetails';
 import LearnMoreLabel from '../LearnMoreLabel';
 import { ariaLabels } from '../../constants';
-import { createId } from '../../utils/helpers';
 
 export function CautionaryInformation({ institution, showModal }) {
   const {
@@ -116,7 +115,7 @@ export function CautionaryInformation({ institution, showModal }) {
         }}
         ariaLabel={ariaLabels.learnMore.allCampusComplaints}
         buttonClassName="small-screen-font"
-        buttonId={createId('all campuses learn more')}
+        buttonId="all-campuses-learn-more"
       />
     </div>
   );
@@ -184,7 +183,7 @@ export function CautionaryInformation({ institution, showModal }) {
               onClick={() => {
                 showModal('studentComplaints');
               }}
-              buttonId={createId('student-complaints')}
+              buttonId="student-complaints"
               buttonClassName="small-screen-font"
             />
           </span>

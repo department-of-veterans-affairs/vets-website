@@ -17,7 +17,6 @@ import EstimatedBenefits from '../components/profile/EstimatedBenefits';
 import EstimateYourBenefitsSummarySheet from '../components/profile/EstimateYourBenefitsSummarySheet';
 import recordEvent from 'platform/monitoring/record-event';
 import LearnMoreLabel from '../components/LearnMoreLabel';
-import { createId } from '../utils/helpers';
 
 export function CalculateYourBenefits({
   calculated,
@@ -175,7 +174,7 @@ export function CalculateYourBenefits({
                   href={profile.attributes.vetWebsiteLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  id={createId('view policy link')}
+                  id="view-policy-link"
                 >
                   View policy
                 </a>
@@ -197,7 +196,7 @@ export function CalculateYourBenefits({
               }}
               buttonClassName="small-screen-font"
               bold
-              buttonId={createId('protection against late payments learn more')}
+              buttonId="protection-against-late-payments-learn-more"
             />
             <strong>:</strong>
             &nbsp;
@@ -218,7 +217,7 @@ export function CalculateYourBenefits({
               }}
               buttonClassName="small-screen-font"
               bold
-              buttonId={createId('yellow ribbon additional info learn more')}
+              buttonId="yellow-ribbon-additional-info-learn-more"
             />
             <strong>:</strong>
             &nbsp;
@@ -237,7 +236,7 @@ export function CalculateYourBenefits({
               }}
               buttonClassName="small-screen-font"
               bold
-              buttonId={createId('vrrap learn more')}
+              buttonId="vrrap-learn-more"
             />
             <strong>:</strong>
             &nbsp;
