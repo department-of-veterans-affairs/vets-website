@@ -21,11 +21,6 @@
                     "id": 4281,
                     "allowed": true
                   }
-                },
-                {
-                  "id": 2,
-                  "name": "Email",
-                  "description": "Email Notification"
                 }
               ]
             }
@@ -45,7 +40,7 @@
                   "name": "Email",
                   "description": "Email Notification",
                   "communicationPermission": {
-                    "id": 4281,
+                    "id": 2814,
                     "allowed": true
                   }
                 }
@@ -67,7 +62,7 @@
                   "name": "Text",
                   "description": "SMS Notification",
                   "communicationPermission": {
-                    "id": 4281,
+                    "id": 8142,
                     "allowed": true
                   }
                 }
@@ -82,8 +77,8 @@
                   "name": "Text",
                   "description": "SMS Notification",
                   "communicationPermission": {
-                    "id": 1234,
-                    "allowed": false
+                    "id": 1428,
+                    "allowed": true
                   }
                 }
               ]

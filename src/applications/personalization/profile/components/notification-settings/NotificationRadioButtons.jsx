@@ -206,7 +206,7 @@ const NotificationRadioButtons = ({
   );
 
   return (
-    <fieldset className={fieldsetClass} disabled={disabled}>
+    <fieldset className={fieldsetClass} disabled={disabled} id={id}>
       <div className="clearfix">
         <legend className={legendClass}>
           {label}
