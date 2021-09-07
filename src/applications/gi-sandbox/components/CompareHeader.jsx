@@ -49,9 +49,9 @@ export default function({
       <div className="small-screen:vads-l-col--3 compare-controls non-scroll-parent">
         <div className="non-scroll-label">
           <div className="test-header compare-header vads-u-padding-right--1">
-            <div className="compare-page-description-label">
+            <h1 className="compare-page-description-label">
               Institution comparison:
-            </div>
+            </h1>
             Compare schools, employers and VET TEC providers side-by-side
           </div>
           <div className="compare-action">
