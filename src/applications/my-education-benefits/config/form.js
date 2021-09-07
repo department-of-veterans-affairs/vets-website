@@ -91,7 +91,7 @@ const formFields = {
   contactMethodRdoBtnList: 'contactMethodRdoBtnList',
   notificationTypes: 'notificationTypes',
   militaryCommissionReceived: 'militaryCommissionReceived',
-  isSrROTCCommissioned: 'srROTCCommissioned',
+  isSrRotcCommissioned: 'isSrRotcCommissioned',
   hasDoDLoanPaymentPeriod: 'hasDoDLoanPaymentPeriod',
 };
 
@@ -932,7 +932,7 @@ const formConfig = {
                 'Did you receive a commission from a federally-sponsored U.S. military service academy?',
               'ui:widget': 'yesNo',
             },
-            [formFields.isSrROTCCommissioned]: {
+            [formFields.isSrRotcCommissioned]: {
               'ui:title': 'Were you commissioned as a result of Senior ROTC?',
               'ui:widget': 'yesNo',
             },
@@ -980,7 +980,7 @@ const formConfig = {
             type: 'object',
             required: [
               formFields.militaryCommissionReceived,
-              formFields.isSrROTCCommissioned,
+              formFields.isSrRotcCommissioned,
               formFields.hasDoDLoanPaymentPeriod,
             ],
             properties: {
@@ -988,7 +988,7 @@ const formConfig = {
                 type: 'boolean',
                 properties: {},
               },
-              [formFields.isSrROTCCommissioned]: {
+              [formFields.isSrRotcCommissioned]: {
                 type: 'boolean',
                 properties: {},
               },
