@@ -470,11 +470,19 @@ jobs:
         if: ${{ github.ref != 'refs/heads/master' }}
         run: node script/github-actions/create-cross-app-import-graph.js
 
+      - name: Detect if graph has changed
+        if: ${{ github.ref != 'refs/heads/master' && steps.auto-commit-action.outputs.changes_detected == 'true'}}
+        run: echo "GRAPH_CHANGED=true" >> $GITHUB_ENV
+
       - name: Push the updated cross-app import graph
         if: ${{ github.ref != 'refs/heads/master' }}
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: The cross-app import graph was automatically updated. Don't delete!
+
+      - name: Cancel workflow 
+        if: ${{ github.ref != 'refs/heads/master' && env.GRAPH_CHANGED == 'true' }}
+        uses: andymckay/cancel-action@0.2
 
   cypress-tests-prep:
     name: Prep for Cypress Tests
