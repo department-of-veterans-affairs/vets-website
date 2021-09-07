@@ -16,16 +16,7 @@
                 {
                   "id": 1,
                   "name": "Text",
-                  "description": "SMS Notification",
-                  "communicationPermission": {
-                    "id": 4281,
-                    "allowed": true
-                  }
-                },
-                {
-                  "id": 2,
-                  "name": "Email",
-                  "description": "Email Notification"
+                  "description": "SMS Notification"
                 }
               ]
             }
@@ -43,11 +34,7 @@
                 {
                   "id": 2,
                   "name": "Email",
-                  "description": "Email Notification",
-                  "communicationPermission": {
-                    "id": 4281,
-                    "allowed": true
-                  }
+                  "description": "Email Notification"
                 }
               ]
             }
@@ -65,11 +52,7 @@
                 {
                   "id": 1,
                   "name": "Text",
-                  "description": "SMS Notification",
-                  "communicationPermission": {
-                    "id": 4281,
-                    "allowed": true
-                  }
+                  "description": "SMS Notification"
                 }
               ]
             },
@@ -80,11 +63,7 @@
                 {
                   "id": 1,
                   "name": "Text",
-                  "description": "SMS Notification",
-                  "communicationPermission": {
-                    "id": 1234,
-                    "allowed": false
-                  }
+                  "description": "SMS Notification"
                 }
               ]
             }
