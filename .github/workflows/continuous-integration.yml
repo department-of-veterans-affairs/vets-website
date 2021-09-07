@@ -429,11 +429,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: 'us-gov-west-1'
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
       - name: Checkout
         if: ${{ github.ref != 'refs/heads/master' }}
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
 
       - name: Get Node version
         if: ${{ github.ref != 'refs/heads/master' }}
