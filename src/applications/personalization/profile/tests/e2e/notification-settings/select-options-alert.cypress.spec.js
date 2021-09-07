@@ -38,9 +38,6 @@ describe('Notification Settings', () => {
           cy.findByRole('link', {
             name: /select your notification options/i,
           }).click();
-
-          // Focus should be on the first radio button group
-          cy.focused().contains(/appointment reminders/i);
         });
       },
     );

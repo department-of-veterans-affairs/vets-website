@@ -31,29 +31,39 @@ import HealthCareGroupSupportingText from './HealthCareGroupSupportingText';
 import MissingContactInfoAlert from './MissingContactInfoAlert';
 import NotificationGroup from './NotificationGroup';
 
-const SelectNotificationOptionsAlert = () => {
+const SelectNotificationOptionsAlert = ({ firstChannelId }) => {
   return (
-    <AlertBox
-      status={ALERT_TYPE.WARNING}
-      headline="Select your notification options"
-      level={2}
-    >
-      <div>
-        <p>
-          We’ve added notification options to your profile. Tell us how you’d
-          like us to contact you.
-        </p>
-        <p>
-          <a href="#">Select your notification options</a>
-        </p>
-      </div>
-    </AlertBox>
+    <div data-testid="select-options-alert">
+      <AlertBox
+        status={ALERT_TYPE.WARNING}
+        headline="Select your notification options"
+        level={2}
+      >
+        <div>
+          <p>
+            We’ve added notification options to your profile. Tell us how you’d
+            like us to contact you.
+          </p>
+          <p>
+            <a
+              href={`#${firstChannelId}`}
+              // className="vads-u-text-decoration--none vads-u-padding--1 vads-u-margin-left--neg1 vads-u-margin-top--neg1 vads-u-margin-bottom--neg1"
+            >
+              <i
+                aria-hidden="true"
+                className="fas fa-arrow-down vads-u-margin-right--1"
+              />{' '}
+              Select your notification options
+            </a>
+          </p>
+        </div>
+      </AlertBox>
+    </div>
   );
 };
 
 const NotificationSettings = ({
   allContactInfoOnFile,
-  unselectedChannels,
   emailAddress,
   fetchCurrentSettings,
   mobilePhoneNumber,
@@ -62,6 +72,7 @@ const NotificationSettings = ({
   shouldFetchNotificationSettings,
   shouldShowAPIError,
   shouldShowLoadingIndicator,
+  unselectedChannels,
 }) => {
   React.useEffect(() => {
     focusElement('[data-focus-target]');
@@ -101,7 +112,7 @@ const NotificationSettings = ({
 
   const firstChannelIdThatNeedsSelection = React.useMemo(
     () => {
-      return unselectedChannels.ids.pop();
+      return unselectedChannels.ids[0];
     },
     [unselectedChannels],
   );
@@ -114,7 +125,9 @@ const NotificationSettings = ({
       ) : null}
       {shouldShowAPIError ? <APIErrorAlert /> : null}
       {firstChannelIdThatNeedsSelection ? (
-        <SelectNotificationOptionsAlert />
+        <SelectNotificationOptionsAlert
+          firstChannelId={firstChannelIdThatNeedsSelection}
+        />
       ) : null}
       {showMissingContactInfoAlert ? (
         <MissingContactInfoAlert
