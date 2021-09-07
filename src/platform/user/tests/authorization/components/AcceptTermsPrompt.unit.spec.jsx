@@ -4,8 +4,11 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 import SkinDeep from 'skin-deep';
+import configureStore from 'redux-mock-store';
+import { Provider } from 'react-redux';
 
 import AcceptTermsPrompt from '../../../authorization/components/AcceptTermsPrompt';
+import { axeCheck } from '../../helpers';
 
 const defaultProps = {
   terms: {
@@ -65,5 +68,24 @@ describe('<AcceptTermsPrompt>', () => {
     expect(submitButton).to.be.ok;
     expect(submitButton.disabled).to.be.false;
     expect(submitButton.className).to.eq('usa-button submit-button');
+  });
+
+  it('passes aXe check when Submit button is disabled', () => {
+    axeCheck(<AcceptTermsPrompt {...defaultProps} />);
+  });
+
+  it('passes aXe check when Submit button is enables', () => {
+    const middleware = [];
+    const mockStore = configureStore(middleware);
+    const initState = {
+      yesSelected: true,
+      scrolledToBottom: true,
+    };
+    const store = mockStore(initState);
+    axeCheck(
+      <Provider store={store}>
+        <AcceptTermsPrompt {...defaultProps} />
+      </Provider>,
+    );
   });
 });
