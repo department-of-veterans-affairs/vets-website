@@ -472,12 +472,13 @@ jobs:
 
       - name: Push the updated cross-app import graph
         if: ${{ github.ref != 'refs/heads/master' }}
+        id: commit
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: The cross-app import graph was automatically updated. Don't delete!
 
       - name: Cancel workflow if graph was updated
-        if: steps.auto-commit-action.outputs.changes_detected == true
+        if: steps.commit.outputs.changes_detected == true
         uses: andymckay/cancel-action@0.2
 
   cypress-tests-prep:
