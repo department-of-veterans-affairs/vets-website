@@ -1,4 +1,4 @@
-// Depricate this
+// phased out until multiple appointments
 export const RECEIVED_APPOINTMENT_DETAILS = 'RECEIVED_APPOINTMENT_DETAILS';
 
 export const receivedAppointmentDetails = (data, token) => {
@@ -8,7 +8,6 @@ export const receivedAppointmentDetails = (data, token) => {
   };
 };
 
-// replace with
 export const TOKEN_WAS_VALIDATED = 'TOKEN_WAS_VALIDATED';
 
 const organizeData = data => {
