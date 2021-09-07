@@ -471,6 +471,7 @@ jobs:
         run: node script/github-actions/create-cross-app-import-graph.js
 
       - name: Detect if graph has changed
+        uses: stefanzweifel/git-auto-commit-action@v4
         if: ${{ github.ref != 'refs/heads/master' && steps.auto-commit-action.outputs.changes_detected == 'true'}}
         run: echo "GRAPH_CHANGED=true" >> $GITHUB_ENV
 
