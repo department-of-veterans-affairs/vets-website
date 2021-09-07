@@ -15,8 +15,7 @@ export default function HCASubwayMap() {
           <li className="process-step list-one">
             <h3 className="vads-u-font-size--h4">Check your eligibility</h3>
             <p>
-              Make sure you meet our eligibility requirements for
-              enrollment before you apply.
+              Make sure you meet our eligibility requirements for enrollment before you apply.
             </p>
             <p>
               <strong>Note:</strong> We can help connect you with mental health
