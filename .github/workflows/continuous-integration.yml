@@ -478,7 +478,7 @@ jobs:
           commit_message: The cross-app import graph was automatically updated. Don't delete!
 
       - name: Cancel workflow if graph was updated
-        if: steps.commit.outputs.changes_detected == true
+        if: steps.commit.outputs.changes_detected == 'true'
         uses: andymckay/cancel-action@0.2
 
   cypress-tests-prep:
