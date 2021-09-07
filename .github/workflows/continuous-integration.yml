@@ -493,7 +493,7 @@ jobs:
         with:
           commit_message: The cross-app import graph was automatically updated. Don't delete!
 
-      - name: Cancel workflow if graph was updated
+      - name: Cancel the current workflow if the graph was updated
         if: steps.commit.outputs.changes_detected == 'true'
         uses: andymckay/cancel-action@0.2
 
