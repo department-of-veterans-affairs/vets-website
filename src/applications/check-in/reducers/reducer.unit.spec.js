@@ -41,7 +41,6 @@ describe('check-in', () => {
       it('should create basic structure', () => {
         const action = tokenWasValidated({}, 'some-token', 'some-scope');
         const state = reducer.checkInData(undefined, action);
-        expect(state).haveOwnProperty('facility');
         expect(state).haveOwnProperty('appointments');
         expect(state.appointments).to.be.an('array');
         expect(state).haveOwnProperty('context');
@@ -57,9 +56,6 @@ describe('check-in', () => {
         expect(state.context.scope).to.equal('some-scope');
       });
       it('should set appointments', () => {
-        // TODO: fill in
-      });
-      it('should set facility', () => {
         // TODO: fill in
       });
     });

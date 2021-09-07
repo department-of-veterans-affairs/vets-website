@@ -34,7 +34,6 @@ describe('health care -- check in -- actions --', () => {
     expect(action.data.context).to.haveOwnProperty('scope');
     expect(action.data.context.scope).to.equal('some-scope');
     // TODO: add test for data object structure
-    expect(action.data).to.haveOwnProperty('appointment');
-    expect(action.data).to.haveOwnProperty('facility');
+    expect(action.data).to.haveOwnProperty('appointments');
   });
 });
