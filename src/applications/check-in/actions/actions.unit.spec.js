@@ -5,7 +5,7 @@ import {
   RECEIVED_APPOINTMENT_DETAILS,
   tokenWasValidated,
   TOKEN_WAS_VALIDATED,
-} from '.';
+} from './index';
 
 describe('health care -- check in -- actions --', () => {
   it('receivedAppointmentDetails -- should return correct action', () => {
