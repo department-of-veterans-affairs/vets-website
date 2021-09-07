@@ -594,7 +594,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       kind: 'cc',
       practitioners: [
         {
-          id: { system: null, value: '123' },
+          identifier: { system: null, value: '123' },
           firstName: 'Dr',
           lastName: 'Hyde',
           practiceName: 'Atlantic Medical Care',
@@ -722,7 +722,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       kind: 'cc',
       practitioners: [
         {
-          id: { system: null, value: '123' },
+          identifier: { system: null, value: '123' },
           firstName: 'Dr',
           lastName: 'Hyde',
           practiceName: 'Jeckle and Hyde',

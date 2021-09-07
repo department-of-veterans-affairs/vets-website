@@ -12,7 +12,7 @@ import { createAnalyticsSlug } from '../utils/analytics';
 import { isUUID } from '../utils/token-format-validator';
 
 const Landing = props => {
-  const { router, setAppointment, location } = props;
+  const { router, setAppointment, location, isLowAuthEnabled } = props;
 
   useEffect(
     () => {
@@ -32,52 +32,29 @@ const Landing = props => {
       }
 
       if (token) {
-        recordEvent({
-          event: 'api_call',
-          'api-name': 'lorota-token-validation',
-          'api-status': 'started',
-          UUID: token,
-        });
         validateToken(token)
           .then(json => {
             const { data } = json;
             if (data.error || data.errors) {
-              const error = data.error || data.errors;
-              recordEvent({
-                event: 'api_call',
-                'api-name': 'lorota-token-validation',
-                'api-status': 'failed',
-                'error-key': error,
-                UUID: token,
-              });
               goToNextPage(router, URLS.ERROR);
             } else {
-              recordEvent({
-                event: 'api_call',
-                'api-name': 'lorota-token-validation',
-                'api-status': 'success',
-                UUID: token,
-              });
               // dispatch data into redux and local storage
               setAppointment(data, token);
               setCurrentToken(window, token);
-              goToNextPage(router, URLS.UPDATE_INSURANCE);
+              if (isLowAuthEnabled) {
+                goToNextPage(router, URLS.VALIDATION_NEEDED);
+              } else {
+                goToNextPage(router, URLS.UPDATE_INSURANCE);
+              }
             }
           })
-          .catch(error => {
+          .catch(() => {
             clearCurrentSession(window);
-            recordEvent({
-              event: 'api_call',
-              'api-name': 'lorota-token-validation',
-              'api-status': 'failed',
-              'error-key': error.message || error,
-              UUID: token,
-            });
             goToNextPage(router, URLS.ERROR);
           });
       }
     },
-    [router, setAppointment, location],
+    [router, setAppointment, location, isLowAuthEnabled],
   );
   return (
     <>

@@ -22,12 +22,7 @@ const Dropdown = ({
   }
 
   const dropdownId = `${name}-dropdown`;
-  const labelElement =
-    typeof label === 'string' ? (
-      <label htmlFor={name}>{label}</label>
-    ) : (
-      <div className="vads-u-margin-top--3">{label}</div>
-    );
+  const labelElement = <label htmlFor={name}>{label}</label>;
 
   const selectClasses = classNames('vads-u-color--gray', selectClassName, {
     hideArrows,

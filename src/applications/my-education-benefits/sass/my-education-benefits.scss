@@ -22,7 +22,7 @@
 fieldset.schemaform-field-template {
 	margin-top: 24/16 + 0rem; // 24px
 }
-.form-checkbox label,
+.form-checkbox label:not([name="privacyAgreementAccepted-label"]),
 .schemaform-block {
 	margin-top: 0;
 }
@@ -31,10 +31,6 @@ fieldset.schemaform-field-template {
 	margin-bottom: 1em;
 }
 /* END Form Styling Overrides ---------------------------------------*/
-
-.review-row {
-	margin: 0;
-}
 
 .process p {
 	margin-bottom: 0;
@@ -71,6 +67,9 @@ fieldset.schemaform-field-template {
 va-accordion {
 	margin-bottom: 2em;
 }
+va-accordion-item .service-history-details {
+	margin-bottom: 0;
+}
 .accordion-toggle-button {
 	background: transparent;
 	color: $color-link-default;
@@ -93,29 +92,67 @@ va-accordion {
 .service-history-details_term,
 .service-history-details_definition {
 	align-self: flex-start;
-	border-top: 1px solid $color-gray-medium;
 	box-sizing: border-box;
+	flex: 1 1 100%;
 	margin: 0;
-	padding: 1em 0;
 }
 .service-history-details_term {
-	flex: 0 1 auto;
-	max-width: 40%;
+	border-top: 1px solid $color-gray-medium;
+	padding-top: 1em;
 }
 .service-history-details_definition {
-	flex: 1 1 60%;
 	font-weight: bold;
+	padding-bottom: 1em;
 	padding-left: 1em;
 	text-align: right;
+}
+.va-growable-review .va-growable-background:not(:nth-last-child(3)) .service-history-details_definition:last-child {
+	padding-bottom: 1em;
+}
+:not(.va-growable-review) .service-history-details_term:nth-last-child(2),
+:not(.va-growable-review) .service-history-details_definition:last-child,
+.va-growable-review .va-growable-background:last-child .service-history-details_term:nth-last-child(2),
+.va-growable-review .va-growable-background:last-child .service-history-details_definition:last-child,
+.va-growable-review .va-growable-background:nth-last-child(3) .service-history-details_term:nth-last-child(2),
+.va-growable-review .va-growable-background:nth-last-child(3) .service-history-details_definition:last-child {
+	padding-bottom: 0
 }
 .service-history-details_period {
 	display: block;
 }
+.form-review-panel-page .service-history-details {
+	margin: 0;
+}
+.form-review-panel-page .service-history-details_term:first-of-type {
+	border-top-color: $color-gray-dark;
+	border-top-width: 2px;
+}
+@media (min-width: $small-screen) {
+	.service-history-details_term,
+	.va-growable-background .service-history-details_term:last-child {
+		padding-bottom: 1em;
+	}
+	.service-history-details_term {
+		flex: 0 1 40%;
+	}
+	.service-history-details_definition {
+		border-top: 1px solid $color-gray-medium;
+		flex: 1 1 60%;
+		padding-top: 1em;
+	}
+	.form-review-panel-page .service-history-details_definition:first-of-type {
+		border-top-color: $color-gray-dark;
+		border-top-width: 2px;
+	}
+}
 @media only screen and (min-width: 40.0625em) {
 	.service-history-details_term {
+		flex: 0 1 auto;
+		max-width: 40%;
 		padding-left: 1em;
 	}
 	.service-history-details_definition {
+		padding-top: 1em;
 		padding-right: 1em;
 	}
 }
@@ -123,3 +160,78 @@ va-accordion {
 #LiveOnMilitaryBaseTooltip {
 	margin-top: 3rem;
 }
+
+// Additional Considerations page - BEGIN
+.form-field-footer-additional-info {
+	margin-top: 1em;
+	max-width: 425px;
+}
+// Additional Considerations page - END
+
+// Review Page
+.review {
+	margin-bottom: 0;
+}
+dl.review {
+	border-bottom: 0;
+}
+.review-row {
+	margin: 0;
+}
+dl.review .review-row:last-child {
+	padding-bottom: 0;
+}
+.form-review-panel-page form.rjsf {
+	margin: 0;
+}
+.va-growable-review {
+	margin-top: 0;
+}
+.va-growable-review .va-growable-background {
+	background-color: transparent;
+	margin-bottom: 0;
+	padding: 0;
+}
+.form-review-array .add-btn {
+	display: none;
+}
+.form-review-panel-page .input-section div:last-child fieldset {
+	margin-bottom: 0;
+}
+.form-review-panel fieldset {
+	margin-bottom: 2em;
+}
+.form-review-panel fieldset fieldset {
+	margin-bottom: 0;
+}
+
+// Confirmation Page
+.meb-feature--secondary {
+	background-color: $color-gray-lightest;
+}
+.meb-feature--secondary h2 em {
+	border-bottom: 1px solid $color-gray-dark;
+	font-style: normal;
+}
+.meb-confirmation-page .feature h3 {
+	font-weight: normal;
+	line-height: 34/20 + 0em;
+	margin-bottom: 14/20 + 0em;
+}
+.meb-confirmation-page button {
+	display: block;
+	margin: 24px 0;
+	width: auto;
+}
+.meb-confirmation-page button:last-child {
+	margin-bottom: 0;
+}
+@media only screen and (min-width: 64.0625em) {
+	.meb-confirmation-page .feature {
+		padding: 30/16 + 0em;
+	}
+}
+.meb-confirmation-page .help-footer-box{
+	padding-top: 2em;
+}
+// END - Confirmation Page

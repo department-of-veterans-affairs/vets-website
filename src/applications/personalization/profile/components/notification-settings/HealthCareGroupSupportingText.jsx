@@ -6,15 +6,13 @@ import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selector
 
 const HealthCareGroupSupportingText = ({ authenticatedWithSSOe }) => {
   return (
-    <p>
-      <strong>Note:</strong> You can manage your health care email notifications
-      through{' '}
+    <p className="vads-u-margin-top--0">
       <a
         href={mhvUrl(authenticatedWithSSOe, 'home')}
         rel="noreferrer noopener"
         target="_blank"
       >
-        My HealtheVet
+        Manage your health care email notifications on My HealtheVet
       </a>
     </p>
   );
