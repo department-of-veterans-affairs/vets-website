@@ -44,7 +44,7 @@
     "pr-check": "node script/pr-check.js",
     "reset:env": "./script/reset-environment.sh",
     "security-check": "node ./script/security-check.js",
-    "test": "npm run test:unit && npm run test:e2e",
+    "test": "npm run test:unit",
     "test:contract": "BUILDTYPE=localhost npm run test:unit -- --reporter mocha-junit-reporter 'src/**/tests/**/*.pact.spec.js'",
     "test:coverage": "npm run test:unit -- --coverage --log-level debug",
     "test:coverage-apps": "npm run test:coverage && node script/app-coverage-report.js",
