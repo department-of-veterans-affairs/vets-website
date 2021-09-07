@@ -910,8 +910,8 @@ jobs:
         include:
           - environment: vagovdev
             bucket: dev-va-gov-assets
-          # - environment: vagovstaging
-          #   bucket: staging-va-gov-assets
+          - environment: vagovstaging
+            bucket: staging-va-gov-assets
 
     steps:
       - name: Checkout
