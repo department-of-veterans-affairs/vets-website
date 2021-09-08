@@ -11,9 +11,9 @@ env:
   CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
   NEXUS_REGISTRY: https://devops.va.gov/dots-nexus/repository/npm-public/
 
-# concurrency:
-#   group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha  }}
-#   cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
+concurrency:
+  group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha  }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
 
 jobs:
   build:

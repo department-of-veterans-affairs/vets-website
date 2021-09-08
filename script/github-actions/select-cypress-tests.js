@@ -232,19 +232,8 @@ function exportVariables(tests) {
 }
 
 function run() {
-  const filepaths = process.env.CHANGED_FILE_PATHS.split(' ');
-  const pathsOfChangedFiles = filepaths.filter(filepath => {
-    // Ignore the cross-app import graph file
-    return (
-      filepath !== '.github/workflows/continuous-integration.yml' &&
-      filepath !== 'config/cross_app_import_graph.json' &&
-      filepath !== 'script/github-actions/create-cross-app-import-graph.js' &&
-      filepath !== 'script/github-actions/select-cypress-tests.js'
-    );
-  });
+  const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
   const graph = dedupeGraph(buildGraph());
-  // eslint-disable-next-line no-console
-  console.log('Graph: ', graph);
   const tests = selectTests(graph, pathsOfChangedFiles);
   exportVariables(tests);
 }
