@@ -15,7 +15,7 @@ describe('Check In Experience -- ', () => {
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
-        createFeatureToggles(true, true),
+        createFeatureToggles(true, true, false, true),
       );
     });
     afterEach(() => {
