@@ -93,8 +93,17 @@ export function ResultCard({
   const nameCityStateHeader = (
     <>
       <div>
-        <Link to={profileLink}>
-          <h3 className={nameClasses}>{name}</h3>
+        <Link
+          to={profileLink}
+          aria-labelledby={`${facilityCode}-label ${facilityCode}-classification`}
+        >
+          <h3
+            className={nameClasses}
+            aria-label={`${institution.name}, `}
+            id={`${institution.facilityCode}-label`}
+          >
+            {name}
+          </h3>
         </Link>
       </div>
       <p className="vads-u-padding--0">
