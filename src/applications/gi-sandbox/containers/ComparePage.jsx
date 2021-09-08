@@ -6,6 +6,7 @@ import React, {
   useLayoutEffect,
 } from 'react';
 import { useHistory } from 'react-router-dom';
+import appendQuery from 'append-query';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import _ from 'lodash';
@@ -23,10 +24,7 @@ import {
 } from '../actions';
 import { estimatedBenefits } from '../selectors/estimator';
 import { getCalculatedBenefits } from '../selectors/calculator';
-import {
-  getCompareCalculatorState,
-  updateUrlParams,
-} from '../selectors/compare';
+import { getCompareCalculatorState } from '../selectors/compare';
 import ServiceError from '../components/ServiceError';
 import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal';
 import { MINIMUM_RATING_COUNT } from '../constants';
@@ -228,7 +226,12 @@ export function ComparePage({
             const newSelected = selected.filter(
               facilityCode => facilityCode !== promptingFacilityCode,
             );
-            history.replace(updateUrlParams(newSelected, version));
+            const compareLink = version
+              ? appendQuery(`/compare/?facilities=${newSelected.join(',')}`, {
+                  version,
+                })
+              : appendQuery(`/compare/?facilities=${newSelected.join(',')}`);
+            history.replace(compareLink);
             dispatchRemoveCompareInstitution(promptingFacilityCode);
           }}
           onCancel={() => setPromptingFacilityCode(null)}

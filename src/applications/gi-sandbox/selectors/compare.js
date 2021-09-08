@@ -1,5 +1,3 @@
-import appendQuery from 'append-query';
-
 export const getCompareCalculatorState = (
   calculator,
   institution,
@@ -80,23 +78,4 @@ export const getCompareCalculatorState = (
     yellowRibbonPrograms,
     yellowRibbonProgramIndex,
   };
-};
-
-export const updateUrlParams = (facilityCodes, version) => {
-  return version
-    ? appendQuery(
-        `/compare/`,
-        {
-          facilities: facilityCodes.join(','),
-          version,
-        },
-        { encodeComponents: false },
-      )
-    : appendQuery(
-        `/compare/`,
-        {
-          facilities: facilityCodes.join(','),
-        },
-        { encodeComponents: false },
-      );
 };
