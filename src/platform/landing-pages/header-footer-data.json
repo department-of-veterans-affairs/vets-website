@@ -264,50 +264,57 @@
     },
     {
       "column": "bottom_rail",
-      "href": "https://www.va.gov/ormdi/NOFEAR_Select.asp",
+      "href": "https://www.va.gov/resources/your-civil-rights-and-how-to-file-a-discrimination-complaint/",
       "order": 2,
+      "target": null,
+      "title": "Civil Rights"
+    },
+    {
+      "column": "bottom_rail",
+      "href": "https://www.va.gov/ormdi/NOFEAR_Select.asp",
+      "order": 3,
       "target": null,
       "title": "No FEAR Act Data"
     },
     {
       "column": "bottom_rail",
       "href": "https://www.va.gov/oig/",
-      "order": 3,
+      "order": 4,
       "target": null,
       "title": "Office of Inspector General"
     },
     {
       "column": "bottom_rail",
       "href": "https://www.va.gov/opa/Plain_Language.asp",
-      "order": 4,
+      "order": 5,
       "target": null,
       "title": "Plain language"
     },
     {
       "column": "bottom_rail",
       "href": "https://www.va.gov/privacy-policy/",
-      "order": 5,
+      "order": 6,
       "target": null,
       "title": "Privacy, policies, and legal information"
     },
     {
       "column": "bottom_rail",
       "href": "https://www.va.gov/privacy/",
-      "order": 6,
+      "order": 7,
       "target": null,
       "title": "VA Privacy Service"
     },
     {
       "column": "bottom_rail",
       "href": "https://www.va.gov/foia/",
-      "order": 7,
+      "order": 8,
       "target": null,
       "title": "Freedom of Information Act (FOIA)"
     },
     {
       "column": "bottom_rail",
       "href": "https://www.usa.gov/",
-      "order": 8,
+      "order": 9,
       "target": "_blank",
       "title": "USA.gov",
       "rel": "noopener noreferrer"
@@ -315,7 +322,7 @@
     {
       "column": "bottom_rail",
       "href": "https://www.va.gov/veterans-portrait-project/",
-      "order": 9,
+      "order": 10,
       "target": null,
       "title": "Veterans Portrait Project"
     }
