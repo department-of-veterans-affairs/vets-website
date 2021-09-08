@@ -207,22 +207,30 @@
 }
 
 .main-title {
-  margin-right: 9em;
-  @media (max-width: $large-screen) {
-    margin-right: 0;
+  padding-right: 9em;
+  @media (max-width: 1004px) {
+    padding-right: 0;
+    text-align: left;
+  }
+  @media (max-width: $small-screen) {
+    text-align: center;
   }
 }
 
 .tool-description {
   text-align: center;
   padding-bottom: 2em;
-  margin-right: 9em;
+  padding-right: 9em;
+
+  @media (max-width: 1004px) {
+    padding-right: 0;
+    text-align: left;
+  }
 
   @media (max-width: $small-screen) {
-    text-align: left;
     padding-left: 20px;
     padding-bottom: 1em;
-    margin-right: 0;
+    padding-right: 0;
   }
 }
 
