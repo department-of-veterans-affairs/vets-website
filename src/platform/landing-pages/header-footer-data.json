@@ -210,6 +210,13 @@
       "title": "All VA social media"
     },
     {
+      "column": "bottom_rail",
+      "href": "https://www.va.gov/performance-dashboard/",
+      "order": 10,
+      "target": null,
+      "title": "VA performance dashboard"
+    },
+    {
       "column": 4,
       "href": "https://www.va.gov/resources/",
       "order": 1,
@@ -307,15 +314,8 @@
     },
     {
       "column": "bottom_rail",
-      "href": "https://www.va.gov/performance-dashboard/",
-      "order": 9,
-      "target": null,
-      "title": "VA performance dashboard"
-    },
-    {
-      "column": "bottom_rail",
       "href": "https://www.va.gov/veterans-portrait-project/",
-      "order": 10,
+      "order": 9,
       "target": null,
       "title": "Veterans Portrait Project"
     }
