@@ -10,6 +10,8 @@ import {
   ERROR,
   LOADING,
 } from './loadingStatus';
+import { connect, useSelector } from 'react-redux';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 
 function useWebChat(props) {
   const webchatFramework = useWebChatFramework(props);
@@ -24,10 +26,13 @@ function useWebChat(props) {
     token: token.token,
     WebChatFramework: webchatFramework.WebChatFramework,
     loadingStatus,
+    apiSession: token.apiSession,
   };
 }
 
 export default function Chatbox(props) {
+  const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
+
   const ONE_MINUTE = 1 * 60 * 1000;
   return (
     <div className="vads-u-padding--1p5 vads-u-background-color--gray-lightest">
@@ -36,13 +41,42 @@ export default function Chatbox(props) {
           VA Virtual Agent (beta)
         </h2>
       </div>
-      <App timeout={props.timeout || ONE_MINUTE} />
+      {!isLoggedIn ? (
+        <ConnectedSignInAlert />
+      ) : (
+        <App timeout={props.timeout || ONE_MINUTE} />
+      )}
     </div>
   );
 }
 
+function SignInAlert({ showLoginModal }) {
+  return (
+    <va-alert status="continue">
+      <p>Please sign in to access the chatbot.</p>
+      <button
+        className="usa-button-primary"
+        onClick={() => showLoginModal(true)}
+      >
+        Sign in to VA.gov
+      </button>
+    </va-alert>
+  );
+}
+
+const mapDispatchToProps = {
+  showLoginModal: toggleLoginModal,
+};
+
+const ConnectedSignInAlert = connect(
+  null,
+  mapDispatchToProps,
+)(SignInAlert);
+
 function App(props) {
-  const { token, WebChatFramework, loadingStatus } = useWebChat(props);
+  const { token, WebChatFramework, loadingStatus, apiSession } = useWebChat(
+    props,
+  );
 
   switch (loadingStatus) {
     case ERROR:
@@ -50,7 +84,13 @@ function App(props) {
     case LOADING:
       return <LoadingIndicator message={'Loading Virtual Agent'} />;
     case COMPLETE:
-      return <WebChat token={token} WebChatFramework={WebChatFramework} />;
+      return (
+        <WebChat
+          token={token}
+          WebChatFramework={WebChatFramework}
+          apiSession={apiSession}
+        />
+      );
     default:
       throw new Error(`Invalid loading status: ${loadingStatus}`);
   }

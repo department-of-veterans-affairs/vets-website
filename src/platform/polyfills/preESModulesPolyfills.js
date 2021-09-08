@@ -192,3 +192,6 @@ import '@formatjs/intl-datetimeformat/polyfill';
 //     import '@formatjs/intl-datetimeformat/add-all-tz';
 // ...only add the minimum required data for EST/EDT
 import './polyfill-timezone-data';
+
+// Polyfill for childNode.remove() - https://caniuse.com/childnode-remove
+import 'element-remove';

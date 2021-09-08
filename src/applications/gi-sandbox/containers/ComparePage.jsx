@@ -63,6 +63,7 @@ export function ComparePage({
   const institutionCount = loaded.length;
   const history = useHistory();
   const hasScrollTo = scrollTo !== null;
+  const placeholderRef = useRef(null);
 
   useEffect(
     () => {
@@ -105,13 +106,17 @@ export function ComparePage({
 
   const handleScroll = useCallback(
     () => {
-      if (!initialTop && headerRef.current && headerRef.current.offsetTop) {
+      if (
+        !initialTop &&
+        headerRef.current &&
+        headerRef.current.offsetTop &&
+        placeholderRef.current
+      ) {
         setInitialTop(headerRef.current.offsetTop);
       }
 
       if (initialTop) {
         const offset = window.pageYOffset;
-        const placeholder = document.querySelector('.placeholder.open');
         const footer = document.getElementById('footerNav');
 
         const visibleFooterHeight = footer
@@ -122,26 +127,22 @@ export function ComparePage({
 
         if (offset > initialTop && !headerFixed && !tooTall) {
           setHeaderFixed(true);
-          headerRef.current.classList.add('fixed');
           scrollHeaderRef.current.scroll({
             left: scrollPageRef.current.scrollLeft,
           });
+          placeholderRef.current.style.height = `${
+            headerRef.current.getBoundingClientRect().height
+          }px`;
         } else if (offset < initialTop && headerFixed) {
           setHeaderFixed(false);
-          headerRef.current.classList.remove('fixed');
+          placeholderRef.current.style.height = '0px';
         } else if (headerFixed) {
           headerRef.current.style.top =
             visibleFooterHeight > 0 ? `${-visibleFooterHeight}px` : '0px';
         }
-
-        if (placeholder) {
-          placeholder.style.height = `${
-            headerRef.current.getBoundingClientRect().height
-          }px`;
-        }
       }
     },
-    [scrollHeaderRef, scrollPageRef, headerFixed, initialTop],
+    [scrollHeaderRef, scrollPageRef, headerFixed, initialTop, placeholderRef],
   );
 
   const handleBodyScrollReact = () => {
@@ -237,12 +238,14 @@ export function ComparePage({
         />
       )}
       <div className="content-wrapper">
+        <div ref={placeholderRef} className="placeholder">
+          &nbsp;
+        </div>
         <div
-          className={classNames('placeholder', {
-            open: headerFixed,
-          })}
-        />
-        <div id="compareHeader" ref={headerRef}>
+          id="compareHeader"
+          ref={headerRef}
+          className={classNames({ fixed: headerFixed })}
+        >
           <div
             className={classNames('header-content-row', {
               'row vads-l-grid-container': !smallScreen,

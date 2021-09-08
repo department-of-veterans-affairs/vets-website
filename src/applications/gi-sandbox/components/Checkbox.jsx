@@ -3,7 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import { handleScrollOnInputFocus } from '../utils/helpers';
+import { createId, handleScrollOnInputFocus } from '../utils/helpers';
 
 const Checkbox = ({
   checked,
@@ -15,6 +15,8 @@ const Checkbox = ({
   onChange,
   onFocus,
   required,
+  ariaLabel,
+  ariaLabelInputLegendId,
 }) => {
   const inputId = _.uniqueId('errorable-checkbox-');
   const hasErrors = !!errorMessage;
@@ -34,13 +36,16 @@ const Checkbox = ({
         type="checkbox"
         onChange={onChange}
         onFocus={onFocus}
+        aria-labelledby={`${ariaLabelInputLegendId} ${createId(name)}-label`}
       />
       <label
         className={classNames('gi-checkbox-label', {
           'usa-input-error-label': hasErrors,
         })}
+        id={`${createId(name)}-label`}
         name={`${name}-label`}
         htmlFor={inputId}
+        aria-label={ariaLabel}
       >
         {label}
         {required && <span className="form-required-span">*</span>}

@@ -223,9 +223,3 @@ export const boolYesNo = field => {
 };
 
 export const isSmallScreen = () => matchMedia('(max-width: 480px)').matches;
-
-export const scrollToFocusedElement = () => {
-  if (document.activeElement) {
-    document.activeElement.scrollIntoView();
-  }
-};

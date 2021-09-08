@@ -67,7 +67,7 @@ export const UnauthContent = () => (
       href="https://www.myhealth.va.gov/mhv-portal-web/my-healthevet-offers-three-account-types"
       rel="noreferrer noopener"
     >
-      Learn about the 3 different My HealtheVet account types
+      Learn about the 2 different My HealtheVet account types
     </a>
     <h2>Can I view all my VA lab and test information using this tool?</h2>
     <p>
@@ -109,7 +109,7 @@ export const UnauthContent = () => (
       href="https://www.myhealth.va.gov/mhv-portal-web/my-healthevet-offers-three-account-types"
       rel="noreferrer noopener"
     >
-      Learn about the 3 different My HealtheVet account types
+      Learn about the 2 different My HealtheVet account types
     </a>
     <h2>Will my personal health information be protected?</h2>
     <p>

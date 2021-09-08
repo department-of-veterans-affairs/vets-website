@@ -35,19 +35,17 @@ function getEditButton() {
 
 // helper function that enters the `Edit contact email address` view and clicks on the `Remove` and `Confirm` buttons
 function deleteEmailAddress() {
-  const editButton = getEditButton();
-  editButton.click();
-
-  const emailAddressInput = view.getByLabelText(/email address/i);
-  expect(emailAddressInput).to.exist;
-
   // delete
-  view.getByText('Remove contact email address').click();
-  const confirmDeleteButton = view.getByText('Confirm', { selector: 'button' });
+  view
+    .getByLabelText(/remove contact email address/i, { selector: 'button' })
+    .click();
+  const confirmDeleteButton = view.getByText('Yes, remove my information', {
+    selector: 'button',
+  });
   const cancelDeleteButton = view.getByText('Cancel', { selector: 'button' });
   confirmDeleteButton.click();
 
-  return { emailAddressInput, confirmDeleteButton, cancelDeleteButton };
+  return { confirmDeleteButton, cancelDeleteButton };
 }
 
 describe('Deleting email address', () => {
@@ -73,7 +71,7 @@ describe('Deleting email address', () => {
 
   it('should handle a deletion that succeeds quickly', async () => {
     server.use(...mocks.transactionPending);
-    const { confirmDeleteButton, emailAddressInput } = deleteEmailAddress();
+    const { confirmDeleteButton } = deleteEmailAddress();
 
     // Button should be disabled while the delete transaction is pending...
     // Waiting 10ms to make this check so that it happens _after_ the initial
@@ -83,16 +81,24 @@ describe('Deleting email address', () => {
     // added to prevent regressing back to that poor experience where users were
     // able to interact with buttons that created duplicate XHRs.
     await wait(10);
-    expect(view.queryByText('Cancel', { selector: 'button' })).to.not.exist;
     expect(!!confirmDeleteButton.attributes.disabled).to.be.true;
     expect(confirmDeleteButton)
       .to.have.descendant('i')
       .and.have.class('fa-spinner');
+    // wait for the modal to exit
+    await waitForElementToBeRemoved(confirmDeleteButton);
+
+    // check that the "we're saving your..." message appears
+    const deletingMessage = await view.findByText(
+      /We’re in the process of deleting your contact email address. We’ll remove this information soon./i,
+    );
+    expect(deletingMessage).to.exist;
 
     server.use(...mocks.transactionSucceeded);
 
-    // wait for the edit mode to exit
-    await waitForElementToBeRemoved(emailAddressInput);
+    await waitForElementToBeRemoved(deletingMessage);
+    // shouldn't the above actually wait for this element to be removed?
+    // await wait(13);
 
     // the edit email button should still exist
     view.getByRole('button', { name: /edit.*email address/i });
@@ -101,13 +107,12 @@ describe('Deleting email address', () => {
     // and the add email text should exist
     view.getByText(/add.*email address/i);
   });
-  it('should handle a deletion that does not succeed until after the edit view exits', async () => {
+  it('should handle a deletion that does not succeed until after the delete modal exits', async () => {
     server.use(...mocks.transactionPending);
+    const { confirmDeleteButton } = deleteEmailAddress();
 
-    const { emailAddressInput } = deleteEmailAddress();
-
-    // wait for the edit mode to exit
-    await waitForElementToBeRemoved(emailAddressInput);
+    // wait for the modal to exit
+    await waitForElementToBeRemoved(confirmDeleteButton);
 
     // check that the "we're saving your..." message appears
     const deletingMessage = await view.findByText(
@@ -126,28 +131,22 @@ describe('Deleting email address', () => {
     // and the add email text should exist
     view.getByText(/add.*email address/i);
   });
-  it('should show an error and not exit edit mode if the transaction cannot be created', async () => {
+  it('should show an error if the transaction cannot be created', async () => {
     server.use(...mocks.createTransactionFailure);
 
     deleteEmailAddress();
 
     // expect an error to be shown
-    const alert = await view.findByTestId('edit-error-alert');
+    const alert = await view.findByTestId('delete-error-alert');
     expect(alert).to.have.descendant('div.usa-alert-error');
     expect(alert).to.contain.text(
-      'We’re sorry. We couldn’t update your contact email address. Please try again.',
+      `We’re sorry. We can’t save your contact email address at this time. We’re working to fix this problem. Please try again or check back soon.`,
     );
-
-    // make sure that edit mode is not automatically exited
-    await wait(75);
-    expect(view.getByTestId('edit-error-alert')).to.exist;
-    const editButton = getEditButton();
-    expect(editButton).to.not.exist;
   });
-  it('should show an error and not auto-exit edit mode if the deletion fails quickly', async () => {
+  it('should show an error if the deletion fails quickly', async () => {
     server.use(...mocks.transactionPending);
 
-    const { cancelDeleteButton, confirmDeleteButton } = deleteEmailAddress();
+    const { confirmDeleteButton } = deleteEmailAddress();
 
     // Wait for the transaction to be created before checking the state of the
     // buttons. In the past the buttons worked correctly while making the
@@ -163,30 +162,26 @@ describe('Deleting email address', () => {
     server.use(...mocks.transactionFailed);
 
     // expect an error to be shown
-    const alert = await view.findByTestId('edit-error-alert');
+    const alert = await view.findByTestId('delete-error-alert');
     expect(alert).to.have.descendant('div.usa-alert-error');
     expect(alert).to.contain.text(
-      'We’re sorry. We couldn’t update your contact email address. Please try again.',
+      `We’re sorry. We can’t save your contact email address at this time. We’re working to fix this problem. Please try again or check back soon.`,
     );
 
-    // the buttons should be enabled again
-    expect(cancelDeleteButton).to.be.visible;
-    expect(!!confirmDeleteButton.attributes.disabled).to.be.false;
-    expect(confirmDeleteButton).to.contain.text('Confirm');
-
-    // make sure that edit mode is not automatically exited
+    // waiting to make sure it doesn't auto exit
     await wait(75);
-    expect(view.getByTestId('edit-error-alert')).to.exist;
-    const editButton = getEditButton();
-    expect(editButton).to.not.exist;
+
+    // the buttons should be enabled again
+    expect(!!confirmDeleteButton.attributes.disabled).to.be.false;
+    expect(confirmDeleteButton).to.contain.text('Yes, remove my information');
   });
-  it('should show an error if the deletion fails after the edit view exits', async () => {
+  it('should show an error if the deletion fails after the delete modal exits', async () => {
     server.use(...mocks.transactionPending);
 
-    const { emailAddressInput } = deleteEmailAddress();
+    const { confirmDeleteButton } = deleteEmailAddress();
 
-    // wait for the edit mode to exit and the new address to show up
-    await waitForElementToBeRemoved(emailAddressInput);
+    // wait for the delete modal to exit and the new address to show up
+    await waitForElementToBeRemoved(confirmDeleteButton);
 
     // check that the "we're saving your..." message appears
     const deletingMessage = await view.findByText(

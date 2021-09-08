@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import PaymentHistoryTable from '../components/PaymentHistoryTable';
 import BalanceQuestions from '../components/BalanceQuestions';
 import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
@@ -62,6 +63,7 @@ const DetailPage = () => {
         </p>
       </va-alert>
       <va-on-this-page />
+      <PaymentHistoryTable />
       <HowToPay />
       <FinancialHelp />
       <DisputeCharges />

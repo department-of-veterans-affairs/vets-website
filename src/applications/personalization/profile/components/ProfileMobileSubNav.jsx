@@ -59,22 +59,19 @@ const ProfileMobileSubNav = ({ isLOA3, isInMVI, routes }) => {
   return (
     <div className="mobile-nav">
       <nav aria-label="secondary" className="menu-wrapper">
-        {!isMenuOpen && (
-          <button
-            ref={openMenuButton}
-            className="open-menu"
-            type="button"
-            onClick={() => setIsMenuOpen(true)}
-          >
-            <strong>
-              <h4 id="mobile-subnav-header" className={menuButtonClasses}>
-                Profile
-              </h4>{' '}
-              menu
-            </strong>
-            <i className="fa fa-bars" aria-hidden="true" role="img" />
-          </button>
-        )}
+        <h4 tabIndex="-1" className={menuButtonClasses}>
+          {!isMenuOpen && (
+            <button
+              ref={openMenuButton}
+              className="open-menu"
+              type="button"
+              onClick={() => setIsMenuOpen(true)}
+            >
+              <strong id="mobile-subnav-header">Profile menu</strong>
+              <i className="fa fa-bars" aria-hidden="true" role="img" />
+            </button>
+          )}
+        </h4>
         {isMenuOpen && (
           <>
             <div className="menu-header vads-u-display--flex">

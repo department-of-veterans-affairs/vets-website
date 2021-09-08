@@ -14,7 +14,8 @@ import { focusElement } from '~/platform/utilities/ui';
 import { PROFILE_PATH_NAMES } from '@@profile/constants';
 import {
   fetchCommunicationPreferenceGroups,
-  selectGroups,
+  selectChannelsWithoutSelection,
+  selectAvailableGroups,
 } from '@@profile/ducks/communicationPreferences';
 import { selectCommunicationPreferences } from '@@profile/reducers';
 
@@ -27,17 +28,43 @@ import HealthCareGroupSupportingText from './HealthCareGroupSupportingText';
 import MissingContactInfoAlert from './MissingContactInfoAlert';
 import NotificationGroup from './NotificationGroup';
 
+const SelectNotificationOptionsAlert = ({ firstChannelId }) => {
+  return (
+    <div data-testid="select-options-alert">
+      <va-alert status="warning">
+        <h2 slot="headline">Select your notification options</h2>
+        <p>
+          We’ve added notification options to your profile. Tell us how you’d
+          like us to contact you.
+        </p>
+        <p>
+          <a
+            href={`#${firstChannelId}`}
+            className="vads-u-text-decoration--none vads-u-padding--1 vads-u-margin-left--neg1 vads-u-margin-top--neg1 vads-u-margin-bottom--neg1"
+          >
+            <i
+              aria-hidden="true"
+              className="fas fa-arrow-down vads-u-margin-right--1"
+            />{' '}
+            Select your notification options
+          </a>
+        </p>
+      </va-alert>
+    </div>
+  );
+};
+
 const NotificationSettings = ({
   allContactInfoOnFile,
   emailAddress,
   fetchCurrentSettings,
-  isPatient,
   mobilePhoneNumber,
   noContactInfoOnFile,
   notificationGroups,
   shouldFetchNotificationSettings,
   shouldShowAPIError,
   shouldShowLoadingIndicator,
+  unselectedChannels,
 }) => {
   React.useEffect(() => {
     focusElement('[data-focus-target]');
@@ -75,6 +102,13 @@ const NotificationSettings = ({
     [noContactInfoOnFile, shouldShowAPIError, shouldShowLoadingIndicator],
   );
 
+  const firstChannelIdThatNeedsSelection = React.useMemo(
+    () => {
+      return !shouldShowLoadingIndicator && unselectedChannels.ids[0];
+    },
+    [shouldShowLoadingIndicator, unselectedChannels],
+  );
+
   return (
     <>
       <Headline>{PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS}</Headline>
@@ -82,6 +116,11 @@ const NotificationSettings = ({
         <LoadingIndicator message="We’re loading your information." />
       ) : null}
       {shouldShowAPIError ? <APIErrorAlert /> : null}
+      {firstChannelIdThatNeedsSelection ? (
+        <SelectNotificationOptionsAlert
+          firstChannelId={firstChannelIdThatNeedsSelection}
+        />
+      ) : null}
       {showMissingContactInfoAlert ? (
         <MissingContactInfoAlert
           missingMobilePhone={!mobilePhoneNumber}
@@ -94,20 +133,16 @@ const NotificationSettings = ({
           mobilePhoneNumber={mobilePhoneNumber}
         />
       ) : null}
-      {!shouldShowLoadingIndicator
+      {showContactInfoOnFile
         ? notificationGroups.ids.map(groupId => {
             // we handle the health care group a little differently
             // TODO: I don't like this check. what does `group3` even mean?
             if (groupId === 'group3') {
-              if (!isPatient) {
-                return null;
-              } else {
-                return (
-                  <NotificationGroup groupId={groupId} key={groupId}>
-                    <HealthCareGroupSupportingText />
-                  </NotificationGroup>
-                );
-              }
+              return (
+                <NotificationGroup groupId={groupId} key={groupId}>
+                  <HealthCareGroupSupportingText />
+                </NotificationGroup>
+              );
             } else {
               return <NotificationGroup groupId={groupId} key={groupId} />;
             }
@@ -137,13 +172,23 @@ const mapStateToProps = state => {
   const shouldFetchNotificationSettings =
     !noContactInfoOnFile && !hasVAPServiceError;
   const shouldShowAPIError = hasVAPServiceError || hasLoadingError;
+  const isPatient = isVAPatient(state);
   return {
     allContactInfoOnFile,
     emailAddress,
-    isPatient: isVAPatient(state),
     mobilePhoneNumber,
     noContactInfoOnFile,
-    notificationGroups: selectGroups(communicationPreferencesState),
+    notificationGroups: selectAvailableGroups(communicationPreferencesState, {
+      isPatient,
+    }),
+    unselectedChannels: selectChannelsWithoutSelection(
+      communicationPreferencesState,
+      {
+        isPatient,
+        hasEmailAddress: !!emailAddress,
+        hasMobilePhone: !!mobilePhoneNumber,
+      },
+    ),
     shouldFetchNotificationSettings,
     shouldShowAPIError,
     shouldShowLoadingIndicator:
