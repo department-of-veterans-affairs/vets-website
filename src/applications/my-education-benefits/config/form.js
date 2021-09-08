@@ -85,11 +85,13 @@ const formFields = {
   incorrectServiceHistoryExplanation: 'incorrectServiceHistoryExplanation',
   contactMethodRdoBtnList: 'contactMethodRdoBtnList',
   notificationTypes: 'notificationTypes',
-  militaryCommissionReceived: 'militaryCommissionReceived',
   isSrROTCCommissioned: 'srROTCCommissioned',
   hasDoDLoanPaymentPeriod: 'hasDoDLoanPaymentPeriod',
   activeDutyKicker: 'activeDutyKicker',
-  reserveKicker: 'reserveKicker',
+  selectedReserveKicker: 'selectedReserveKicker',
+  federallySponsoredAcademy: 'federallySponsoredAcademy',
+  militaryCommissionReceived: 'militaryCommissionReceived',
+  loanPayment: 'loanPayment',
 };
 
 // Define all the form pages to help ensure uniqueness across all form chapters
@@ -104,11 +106,26 @@ const formPages = {
   benefitSelection: 'benefitSelection',
   // directDeposit: 'directDeposit',
   additionalConsiderations: {
-    questionOne: 'questionOne',
-    questionTwo: 'questionTwo',
-    questionThree: 'questionThree',
-    questionFour: 'questionFour',
-    questionFive: 'questionFive',
+    activeDutyKicker: {
+      name: 'activeDutyKicker',
+      order: 1,
+    },
+    reserveKicker: {
+      name: 'reserveKicker',
+      order: 1,
+    },
+    militaryAcademy: {
+      name: 'militaryAcademy',
+      order: 2,
+    },
+    seniorRotc: {
+      name: 'seniorRotc',
+      order: 3,
+    },
+    loanPayment: {
+      name: 'loanPayment',
+      order: 4,
+    },
   },
 };
 
@@ -162,68 +179,26 @@ function phoneSchema() {
     },
   };
 }
+function additionalConsiderationsQuestionTitle(benefitSelection, order) {
+  const isUnsure = benefitSelection === 'UNSURE';
+  const pageNumber = isUnsure ? order - 1 : order;
+  const totalPages = isUnsure ? 3 : 4;
+
+  return (
+    <h3 className="meb-additional-considerations-title">
+      {`Question ${pageNumber} of ${totalPages}`}
+    </h3>
+  );
+}
 
 function AdditionalConsiderationTemplate(
-  num,
+  page,
+  formField,
   title,
   trigger,
   info,
-  fField,
-  benefitSelection,
 ) {
-  let numString;
   let additionalInfo;
-  let totalPages = 4;
-  let pageNumber = 1;
-  // let showPage = true;
-
-  if (num === 1) {
-    if (benefitSelection !== 'ACTIVE_DUTY') {
-      // showPage = false;
-    }
-    numString = 'One';
-  } else if (num === 2) {
-    if (benefitSelection !== 'SELECTED_RESERVE') {
-      // showPage = false;
-    }
-    numString = 'One';
-  } else if (num === 3) {
-    if (
-      benefitSelection === 'ACTIVE_DUTY' ||
-      benefitSelection === 'SELECTED_RESERVE'
-    ) {
-      pageNumber = 2;
-      numString = 'Two';
-    } else {
-      totalPages = 3;
-      numString = 'Three';
-    }
-  } else if (num === 4) {
-    if (
-      benefitSelection === 'ACTIVE_DUTY' ||
-      benefitSelection === 'SELECTED_RESERVE'
-    ) {
-      pageNumber = 3;
-      numString = 'Three';
-    } else {
-      pageNumber = 2;
-      totalPages = 3;
-      numString = 'Two';
-    }
-  } else if (num === 5) {
-    if (
-      benefitSelection === 'ACTIVE_DUTY' ||
-      benefitSelection === 'SELECTED_RESERVE'
-    ) {
-      pageNumber = 4;
-      numString = 'Four';
-    } else {
-      pageNumber = 3;
-      totalPages = 3;
-      numString = 'Three';
-    }
-  }
-
   if (trigger) {
     additionalInfo = {
       'view:note': {
@@ -236,22 +211,16 @@ function AdditionalConsiderationTemplate(
     };
   }
 
-  // const _benefitSelection = formData => formData[formFields.benefitSelection];
-  // const _formData = formData => formData;
-  // let test = _formData;
-
   return {
-    depends: formData =>
-      (formData[formFields.benefitSelection] === 'ACTIVE_DUTY' && num !== 2) ||
-      (formData[formFields.benefitSelection] === 'SELECTED_RESERVE' &&
-        num !== 1) ||
-      (formData[formFields.benefitSelection] === 'UNSURE' &&
-        (num !== 1 && num !== 2)),
-    // depends: showPage,
-    path: `question-${numString.toLowerCase()}`,
+    path: page.name,
     uiSchema: {
-      'ui:title': `Question ${pageNumber} of ${totalPages}`,
-      [formFields[fField]]: {
+      'ui:title': data => {
+        return additionalConsiderationsQuestionTitle(
+          data.formData[formFields.benefitSelection],
+          page.order,
+        );
+      },
+      [formFields[formField]]: {
         'ui:title': title,
         'ui:widget': 'radio',
       },
@@ -259,9 +228,9 @@ function AdditionalConsiderationTemplate(
     },
     schema: {
       type: 'object',
-      required: [fField],
+      required: [formField],
       properties: {
-        [formFields[fField]]: {
+        [formFields[formField]]: {
           type: 'string',
           enum: ['Yes', 'No'],
         },
@@ -1025,51 +994,53 @@ const formConfig = {
     additionalConsiderationsChapter: {
       title: 'Additional Considerations',
       pages: {
-        [formPages.additionalConsiderations
-          .questionOne]: AdditionalConsiderationTemplate(
-          1,
-          'Do you qualify for an active duty kicker, sometimes called a College Fund?',
-          'What is an active duty kicker?',
-          'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
-          'activeDutyKicker',
-          formData => formData[formFields.benefitSelection],
-        ),
-        [formPages.additionalConsiderations
-          .questionTwo]: AdditionalConsiderationTemplate(
-          2,
-          'Do you qualify for a reserve kicker, sometimes called a College Fund?',
-          'What is an reserve kicker?',
-          'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
-          'selectedReserveKicker',
-          formData => formData[formFields.benefitSelection],
-        ),
-        [formPages.additionalConsiderations
-          .questionThree]: AdditionalConsiderationTemplate(
-          3,
-          'Did you receive a commission from a federally-sponsored U.S. military service academy?',
-          false,
-          false,
-          'federallySponsoredAcademy',
-          formData => formData[formFields.benefitSelection],
-        ),
-        [formPages.additionalConsiderations
-          .questionFour]: AdditionalConsiderationTemplate(
-          4,
-          'Did you receive a commission from a federally-sponsored U.S. military service academy?',
-          false,
-          false,
-          'militaryCommissionReceived',
-          formData => formData[formFields.benefitSelection],
-        ),
-        [formPages.additionalConsiderations
-          .questionFive]: AdditionalConsiderationTemplate(
-          5,
-          'Question 5?',
-          false,
-          false,
-          'questionfive',
-          formData => formData[formFields.benefitSelection],
-        ),
+        [formPages.additionalConsiderations.activeDutyKicker.name]: {
+          ...AdditionalConsiderationTemplate(
+            formPages.additionalConsiderations.activeDutyKicker,
+            formFields.activeDutyKicker,
+            'Do you qualify for an active duty kicker, sometimes called a College Fund?',
+            'What is an active duty kicker?',
+            'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
+          ),
+          depends: formData =>
+            formData[formFields.benefitSelection] === 'ACTIVE_DUTY',
+        },
+        [formPages.additionalConsiderations.reserveKicker.name]: {
+          ...AdditionalConsiderationTemplate(
+            formPages.additionalConsiderations.reserveKicker,
+            formFields.selectedReserveKicker,
+            'Do you qualify for a reserve kicker, sometimes called a College Fund?',
+            'What is an reserve kicker?',
+            'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
+          ),
+          depends: formData =>
+            formData[formFields.benefitSelection] === 'SELECTED_RESERVE',
+        },
+        [formPages.additionalConsiderations.militaryAcademy.name]: {
+          ...AdditionalConsiderationTemplate(
+            formPages.additionalConsiderations.militaryAcademy,
+            formFields.federallySponsoredAcademy,
+            'Did you receive a commission from a federally-sponsored U.S. military service academy?',
+          ),
+        },
+        [formPages.additionalConsiderations.seniorRotc.name]: {
+          ...AdditionalConsiderationTemplate(
+            formPages.additionalConsiderations.seniorRotc,
+            formFields.militaryCommissionReceived,
+            'Were you commissioned as a result of Senior ROTC?',
+            'What is Senior ROTC?',
+            'The Senior Reserve Officer Training Corps (SROTC)—more commonly referred to as the Reserve Officer Training Corps (ROTC)—is an officer training and scholarship program for postsecondary students authorized under Chapter 103 of Title 10 of the United States Code.',
+          ),
+        },
+        [formPages.additionalConsiderations.loanPayment.name]: {
+          ...AdditionalConsiderationTemplate(
+            formPages.additionalConsiderations.loanPayment,
+            formFields.loanPayment,
+            'Do you have a period of service that the Department of Defense counts towards an education loan payment?',
+            'What does this mean?',
+            "This is a Loan Repayment Program, which is a special incentive that certain military branches offer to qualified applicants. Under a Loan Repayment Program, the branch of service will repay part of an applicant's qualifying student loans.",
+          ),
+        },
       },
     },
   },
