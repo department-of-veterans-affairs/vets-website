@@ -159,6 +159,12 @@
     font-family: "Bitter";
     font-size: 20px;
 
+    h2 {
+      margin: 0px;
+      font-size: 20px;
+      font-weight: 400;
+    }
+
     @media (max-width: $small-screen) {
       .compare-header-section-value {
         left: 10px;
@@ -176,6 +182,12 @@
     height: 2em;
     font-family: "Bitter";
     font-size: 17px;
+
+    h3 {
+      margin: 0px;
+      font-size: 17px;
+      font-weight: 400;
+    }
 
     @media (max-width: $small-screen) {
       padding-left: 20px;
