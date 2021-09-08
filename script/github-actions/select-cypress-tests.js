@@ -243,6 +243,8 @@ function run() {
     );
   });
   const graph = dedupeGraph(buildGraph());
+  // eslint-disable-next-line no-console
+  console.log('Graph: ', graph);
   const tests = selectTests(graph, pathsOfChangedFiles);
   exportVariables(tests);
 }
