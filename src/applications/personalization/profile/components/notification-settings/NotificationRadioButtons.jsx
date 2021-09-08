@@ -102,7 +102,7 @@ const NotificationRadioButtons = ({
   if (loadingMessage) {
     loadingSpanId = `${id}-loading-message`;
     loadingSpan = (
-      <MessageWrapper id={loadingSpanId}>
+      <MessageWrapper id={loadingSpanId} classes="vads-u-font-weight--normal">
         <i
           className="fas fa-spinner fa-spin vads-u-margin-right--1"
           aria-hidden="true"
@@ -189,12 +189,12 @@ const NotificationRadioButtons = ({
   const fieldsetClass = classNames(
     'rb-fieldset-input',
     'rb-input',
-    additionalFieldsetClass,
     {
       'rb-input-error': errorMessage,
       'rb-input-warning': warningMessage,
       'rb-input-success': successMessage,
     },
+    additionalFieldsetClass,
   );
 
   const legendClass = classNames(

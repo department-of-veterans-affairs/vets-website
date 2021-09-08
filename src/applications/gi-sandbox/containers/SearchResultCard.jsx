@@ -68,8 +68,8 @@ export function SearchResultCard({
   const [expanded, toggleExpansion] = useState(false);
 
   const profileLink = version
-    ? appendQuery(`/profile/${facilityCode}`, { version })
-    : `/profile/${facilityCode}`;
+    ? appendQuery(`/institution/${facilityCode}`, { version })
+    : `/institution/${facilityCode}`;
 
   const resultCardClasses = classNames('result-card', {
     'vads-u-margin-bottom--2': location,

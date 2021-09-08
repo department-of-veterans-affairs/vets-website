@@ -109,16 +109,29 @@ export function setPrefillComplete() {
 }
 
 /**
+ * @typedef SaveInProgressData~metadata
+ * @type {Object}
+ * @property {Integer} version - form-specific migration version
+ * @property {Boolean} prefill - flag indicating if the save in progress data is
+ *   from prefill (true) or in-progress data (false)
+ * @property {String} returnUrl - path to form page, e.g. `/vet-info`
+ */
+/**
+ * @typedef SaveInProgressData
+ * @type {Object}
+ * @property {Object} formData - form-specific data
+ * @property {SaveInProgressData~metadata} metadata
+ */
+/**
  * Transforms the data from an old version of a form to be used in the latest
  *  version.
  *
- * @param  {Object}  savedData    The formData from the old version of the form.
- * @param  {Ingeter} savedVersion The version of the form the corresponding
- *                                 data was saved with.
- * @param  {Array}   migrations   An array of functions which transform the
- *                                 data saved to work with the current version.
- * @return {Object}               The modified formData which should work with
- *                                 the current version of the form.
+ * @param {SaveInProgressData} savedData The old version of the
+ *  save-in-progress data.
+ * @param {Array} migrations - An array of functions which transform the data
+ *  saved to work with the current version.
+ * @return {SaveInProgressData} The modified save-in-progress data which should
+ *  work with the current version of the form.
  */
 export function migrateFormData(savedData, migrations) {
   // migrations is an array that looks like this:
@@ -177,7 +190,7 @@ export function migrateFormData(savedData, migrations) {
  * @param  {String}  saveType  The type of save that's happening, auto or save and redirect
  * @param  {String}  formId    The form’s formId
  * @param  {Object}  formData  The data the user has entered so far
- * @param  {Ingeter} version   The form’s version
+ * @param  {Integer} version   The form’s version
  * @param  {String}  returnUrl The last URL the user was at before saving
  * @param  {Form~submission} submission Form submission data
  */
