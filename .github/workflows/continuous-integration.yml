@@ -155,8 +155,11 @@ jobs:
         run: |
           cat > build/${{ matrix.buildtype }}/BUILD.txt << EOF
           BUILDTYPE=${{ matrix.buildtype }}
+          NODE_ENV=production
           BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
+          CHANGE_TARGET=null
           RUN_ID=${{ github.run_id }}
+          RUN_NUMBER=${{ github.run_number }}
           REF=${{ github.sha }}
           BUILDTIME=$(date +%s)
           EOF
