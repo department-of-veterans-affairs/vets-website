@@ -210,7 +210,7 @@
       "title": "All VA social media"
     },
     {
-      "column": "bottom_rail",
+      "column": 3,
       "href": "https://www.va.gov/performance-dashboard/",
       "order": 10,
       "target": null,
