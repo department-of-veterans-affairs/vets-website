@@ -271,10 +271,10 @@
     },
     {
       "column": "bottom_rail",
-      "href": "https://www.va.gov/ormdi/NOFEAR_Select.asp",
+      "href": "https://www.va.gov/foia/",
       "order": 3,
       "target": null,
-      "title": "No FEAR Act Data"
+      "title": "Freedom of Information Act (FOIA)"
     },
     {
       "column": "bottom_rail",
@@ -306,10 +306,10 @@
     },
     {
       "column": "bottom_rail",
-      "href": "https://www.va.gov/foia/",
+      "href": "https://www.va.gov/ormdi/NOFEAR_Select.asp",
       "order": 8,
       "target": null,
-      "title": "Freedom of Information Act (FOIA)"
+      "title": "No FEAR Act Data"
     },
     {
       "column": "bottom_rail",
