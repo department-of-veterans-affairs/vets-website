@@ -149,7 +149,7 @@ export default class MegaMenu extends React.Component {
               <li role="menuitem">
                 <a
                   className="vetnav-level1"
-                  data-e2e-id="mobile-home-nav-link"
+                  data-testid="mobile-home-nav-link"
                   href="/"
                   tabIndex={currentSection ? -1 : undefined}
                 >
