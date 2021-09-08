@@ -191,7 +191,7 @@ describe('526 helpers', () => {
       };
       expect(makeSchemaForNewDisabilities(formData)).to.eql({
         properties: {
-          'ptsd personal trauma': {
+          ptsdpersonaltrauma: {
             title: 'Ptsd Personal Trauma',
             type: 'boolean',
           },
@@ -209,7 +209,7 @@ describe('526 helpers', () => {
       };
       expect(makeSchemaForNewDisabilities(formData)).to.eql({
         properties: {
-          'period. period.': {
+          periodperiod: {
             title: 'Period. Period.',
             type: 'boolean',
           },
@@ -234,7 +234,7 @@ describe('526 helpers', () => {
       };
       expect(makeSchemaForRatedDisabilities(formData)).to.eql({
         properties: {
-          'diabetes mellitus': {
+          diabetesmellitus: {
             title: 'Diabetes Mellitus',
             type: 'boolean',
           },
@@ -264,11 +264,11 @@ describe('526 helpers', () => {
       };
       expect(makeSchemaForAllDisabilities(formData)).to.eql({
         properties: {
-          'diabetes mellitus': {
+          diabetesmellitus: {
             title: 'Diabetes Mellitus',
             type: 'boolean',
           },
-          'a new condition.': {
+          anewcondition: {
             title: 'A New Condition.',
             type: 'boolean',
           },

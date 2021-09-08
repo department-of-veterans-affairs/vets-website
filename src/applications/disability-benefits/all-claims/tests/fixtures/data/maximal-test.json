@@ -99,9 +99,9 @@
           "state": "AK"
         },
         "treatedDisabilityNames": {
-          "diabetes mellitus0": true,
-          "diabetes mellitus1": true,
-          "myocardial infarction (mi)": true
+          "diabetesmellitus0": true,
+          "diabetesmellitus1": true,
+          "myocardialinfarctionmi": true
         }
       },
       {
@@ -116,7 +116,7 @@
         "treatedDisabilityNames": {
           "asthma": true,
           "phlebitis": true,
-          "knee replacement": true
+          "kneereplacement": true
         }
       }
     ],
@@ -149,8 +149,8 @@
         }
       ],
       "powDisabilities": {
-        "knee replacement": true,
-        "myocardial infarction (mi)": true
+        "kneereplacement": true,
+        "myocardialinfarctionmi": true
       }
     },
     "newDisabilities": [
