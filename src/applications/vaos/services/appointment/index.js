@@ -634,6 +634,23 @@ export function isVideoHome(appointment) {
 }
 
 /**
+ * Method to get patient video instruction
+ * @param {Appointment} appointment A FHIR appointment resource
+ * @return {string} Returns patient video instruction title and exclude remaining data
+ */
+
+export function getPatientInstruction(appointment) {
+  if (appointment?.patientInstruction.includes('Medication Review')) {
+    return 'Medication Review';
+  }
+  if (appointment?.patientInstruction.includes('Video Visit Preparation')) {
+    return 'Video Visit Preparation';
+  } else {
+    return null;
+  }
+}
+
+/**
  * Get the name of the first preferred community care provider, or generic text
  *
  * @param {Appointment} appointment An appointment object
