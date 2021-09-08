@@ -108,6 +108,7 @@ const formPages = {
     questionTwo: 'questionTwo',
     questionThree: 'questionThree',
     questionFour: 'questionFour',
+    questionFive: 'questionFive',
   },
 };
 
@@ -162,21 +163,65 @@ function phoneSchema() {
   };
 }
 
-function AdditionalConsiderationTemplate(num, title, trigger, info, fField) {
+function AdditionalConsiderationTemplate(
+  num,
+  title,
+  trigger,
+  info,
+  fField,
+  benefitSelection,
+) {
   let numString;
   let additionalInfo;
+  let totalPages = 4;
+  let pageNumber = 1;
+  // let showPage = true;
 
   if (num === 1) {
+    if (benefitSelection !== 'ACTIVE_DUTY') {
+      // showPage = false;
+    }
     numString = 'One';
-  }
-  if (num === 2) {
-    numString = 'Two';
-  }
-  if (num === 3) {
-    numString = 'Three';
-  }
-  if (num === 4) {
-    numString = 'Four';
+  } else if (num === 2) {
+    if (benefitSelection !== 'SELECTED_RESERVE') {
+      // showPage = false;
+    }
+    numString = 'One';
+  } else if (num === 3) {
+    if (
+      benefitSelection === 'ACTIVE_DUTY' ||
+      benefitSelection === 'SELECTED_RESERVE'
+    ) {
+      pageNumber = 2;
+      numString = 'Two';
+    } else {
+      totalPages = 3;
+      numString = 'Three';
+    }
+  } else if (num === 4) {
+    if (
+      benefitSelection === 'ACTIVE_DUTY' ||
+      benefitSelection === 'SELECTED_RESERVE'
+    ) {
+      pageNumber = 3;
+      numString = 'Three';
+    } else {
+      pageNumber = 2;
+      totalPages = 3;
+      numString = 'Two';
+    }
+  } else if (num === 5) {
+    if (
+      benefitSelection === 'ACTIVE_DUTY' ||
+      benefitSelection === 'SELECTED_RESERVE'
+    ) {
+      pageNumber = 4;
+      numString = 'Four';
+    } else {
+      pageNumber = 3;
+      totalPages = 3;
+      numString = 'Three';
+    }
   }
 
   if (trigger) {
@@ -191,10 +236,21 @@ function AdditionalConsiderationTemplate(num, title, trigger, info, fField) {
     };
   }
 
+  // const _benefitSelection = formData => formData[formFields.benefitSelection];
+  // const _formData = formData => formData;
+  // let test = _formData;
+
   return {
+    depends: formData =>
+      (formData[formFields.benefitSelection] === 'ACTIVE_DUTY' && num !== 2) ||
+      (formData[formFields.benefitSelection] === 'SELECTED_RESERVE' &&
+        num !== 1) ||
+      (formData[formFields.benefitSelection] === 'UNSURE' &&
+        (num !== 1 && num !== 2)),
+    // depends: showPage,
     path: `question-${numString.toLowerCase()}`,
     uiSchema: {
-      'ui:title': `Question ${num} of 4`,
+      'ui:title': `Question ${pageNumber} of ${totalPages}`,
       [formFields[fField]]: {
         'ui:title': title,
         'ui:widget': 'radio',
@@ -976,14 +1032,16 @@ const formConfig = {
           'What is an active duty kicker?',
           'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
           'activeDutyKicker',
+          formData => formData[formFields.benefitSelection],
         ),
         [formPages.additionalConsiderations
           .questionTwo]: AdditionalConsiderationTemplate(
           2,
-          'Did you receive a commission from a federally-sponsored U.S. military service academy?',
-          false,
-          false,
-          'reserveKicker',
+          'Do you qualify for a reserve kicker, sometimes called a College Fund?',
+          'What is an reserve kicker?',
+          'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
+          'selectedReserveKicker',
+          formData => formData[formFields.benefitSelection],
         ),
         [formPages.additionalConsiderations
           .questionThree]: AdditionalConsiderationTemplate(
@@ -991,7 +1049,26 @@ const formConfig = {
           'Did you receive a commission from a federally-sponsored U.S. military service academy?',
           false,
           false,
+          'federallySponsoredAcademy',
+          formData => formData[formFields.benefitSelection],
+        ),
+        [formPages.additionalConsiderations
+          .questionFour]: AdditionalConsiderationTemplate(
+          4,
+          'Did you receive a commission from a federally-sponsored U.S. military service academy?',
+          false,
+          false,
           'militaryCommissionReceived',
+          formData => formData[formFields.benefitSelection],
+        ),
+        [formPages.additionalConsiderations
+          .questionFive]: AdditionalConsiderationTemplate(
+          5,
+          'Question 5?',
+          false,
+          false,
+          'questionfive',
+          formData => formData[formFields.benefitSelection],
         ),
       },
     },
