@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { Formik, Form } from 'formik';
 import {
   TextField,
+  CheckboxField,
   DebuggerView,
 } from '@department-of-veterans-affairs/formulate';
 
@@ -17,9 +18,10 @@ const App = () => (
     style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}
   >
     <h1>Example form</h1>
-    <Formik initialValues={{ foo: '' }}>
+    <Formik initialValues={{ foo: '', bar: true }}>
       <Form>
         <TextField name="foo" label="Example" required />
+        <CheckboxField name="bar" label="Do you have pets?" required />
         <DebuggerView />
       </Form>
     </Formik>

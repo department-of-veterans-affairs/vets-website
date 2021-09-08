@@ -6,8 +6,8 @@ import { buildRenderForm, changeValue } from '../utils';
 
 const renderForm = buildRenderForm({ thing: false });
 
-const getInput = (container: HTMLElement) => {
-  const input = container.querySelector('va-checkbox') as HTMLInputElement;
+const getInput = (container: HTMLElement): HTMLVaCheckboxElement => {
+  const input = container.querySelector('va-checkbox') as HTMLVaCheckboxElement;
   if (!input) throw new Error('No va-checkbox found');
   return input;
 };

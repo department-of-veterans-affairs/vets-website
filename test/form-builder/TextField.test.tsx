@@ -9,8 +9,10 @@ import { buildRenderForm, changeValue } from '../utils';
 
 const renderForm = buildRenderForm({});
 
-const getInput = (container: HTMLElement): HTMLInputElement => {
-  const input = container.querySelector('va-text-input') as HTMLInputElement;
+const getInput = (container: HTMLElement): HTMLVaTextInputElement => {
+  const input = container.querySelector(
+    'va-text-input'
+  ) as HTMLVaTextInputElement;
   if (!input) throw new Error('No va-text-input found');
   return input;
 };

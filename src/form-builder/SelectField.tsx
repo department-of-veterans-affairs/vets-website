@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { useField, FieldHookConfig } from 'formik';
 
 import { FieldProps } from './types';
