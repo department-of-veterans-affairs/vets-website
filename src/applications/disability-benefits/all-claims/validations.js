@@ -11,6 +11,7 @@ import {
   hasRatedDisabilities,
   claimingRated,
   showSeparationLocation,
+  sippableId,
 } from './utils';
 
 import {
@@ -291,7 +292,7 @@ export const missingConditionMessage =
 export const validateDisabilityName = (
   err,
   fieldData,
-  formData,
+  _formData,
   _schema,
   _uiSchema,
   _index,
@@ -322,8 +323,13 @@ export const validateDisabilityName = (
     appStateData?.newDisabilities?.map(disability =>
       disability.condition?.toLowerCase(),
     ) || [];
+  // look for full text duplicates
   const itemLowerCased = fieldData?.toLowerCase() || '';
-  const itemCount = currentList.filter(item => item === itemLowerCased);
+  // look for duplicates that may occur from stripping out
+  const itemSippableId = sippableId(fieldData || '');
+  const itemCount = currentList.filter(
+    item => item === itemLowerCased || sippableId(item) === itemSippableId,
+  );
   if (itemCount.length > 1) {
     err.addError('Please enter a unique condition name');
   }
