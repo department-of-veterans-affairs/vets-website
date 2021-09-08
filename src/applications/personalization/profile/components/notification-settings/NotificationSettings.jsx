@@ -133,7 +133,7 @@ const NotificationSettings = ({
           mobilePhoneNumber={mobilePhoneNumber}
         />
       ) : null}
-      {!shouldShowLoadingIndicator
+      {showContactInfoOnFile
         ? notificationGroups.ids.map(groupId => {
             // we handle the health care group a little differently
             // TODO: I don't like this check. what does `group3` even mean?
