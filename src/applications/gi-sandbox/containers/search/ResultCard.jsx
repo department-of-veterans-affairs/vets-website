@@ -9,20 +9,20 @@ import {
   addCompareInstitution,
   removeCompareInstitution,
   showModal,
-} from '../actions';
-import { MINIMUM_RATING_COUNT } from '../constants';
-import Checkbox from '../components/Checkbox';
-import { estimatedBenefits } from '../selectors/estimator';
+} from '../../actions';
+import { MINIMUM_RATING_COUNT } from '../../constants';
+import Checkbox from '../../components/Checkbox';
+import { estimatedBenefits } from '../../selectors/estimator';
 import {
   formatCurrency,
   createId,
   convertRatingToStars,
-} from '../utils/helpers';
-import { CautionFlagAdditionalInfo } from '../components/CautionFlagAdditionalInfo';
-import RatingsStars from '../components/RatingsStars';
-import SchoolClassification from '../components/SchoolClassification';
+} from '../../utils/helpers';
+import { CautionFlagAdditionalInfo } from '../../components/CautionFlagAdditionalInfo';
+import RatingsStars from '../../components/RatingsStars';
+import SchoolClassification from '../../components/SchoolClassification';
 
-export function SearchResultCard({
+export function ResultCard({
   compare,
   estimated,
   dispatchAddCompareInstitution,
@@ -317,4 +317,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(SearchResultCard);
+)(ResultCard);
