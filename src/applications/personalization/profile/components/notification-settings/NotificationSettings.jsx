@@ -1,9 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import AlertBox, {
-  ALERT_TYPE,
-} from '@department-of-veterans-affairs/component-library/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import {
@@ -34,30 +31,25 @@ import NotificationGroup from './NotificationGroup';
 const SelectNotificationOptionsAlert = ({ firstChannelId }) => {
   return (
     <div data-testid="select-options-alert">
-      <AlertBox
-        status={ALERT_TYPE.WARNING}
-        headline="Select your notification options"
-        level={2}
-      >
-        <div>
-          <p>
-            We’ve added notification options to your profile. Tell us how you’d
-            like us to contact you.
-          </p>
-          <p>
-            <a
-              href={`#${firstChannelId}`}
-              className="vads-u-text-decoration--none vads-u-padding--1 vads-u-margin-left--neg1 vads-u-margin-top--neg1 vads-u-margin-bottom--neg1"
-            >
-              <i
-                aria-hidden="true"
-                className="fas fa-arrow-down vads-u-margin-right--1"
-              />{' '}
-              Select your notification options
-            </a>
-          </p>
-        </div>
-      </AlertBox>
+      <va-alert status="warning">
+        <h2 slot="headline">Select your notification options</h2>
+        <p>
+          We’ve added notification options to your profile. Tell us how you’d
+          like us to contact you.
+        </p>
+        <p>
+          <a
+            href={`#${firstChannelId}`}
+            className="vads-u-text-decoration--none vads-u-padding--1 vads-u-margin-left--neg1 vads-u-margin-top--neg1 vads-u-margin-bottom--neg1"
+          >
+            <i
+              aria-hidden="true"
+              className="fas fa-arrow-down vads-u-margin-right--1"
+            />{' '}
+            Select your notification options
+          </a>
+        </p>
+      </va-alert>
     </div>
   );
 };
@@ -112,9 +104,9 @@ const NotificationSettings = ({
 
   const firstChannelIdThatNeedsSelection = React.useMemo(
     () => {
-      return unselectedChannels.ids[0];
+      return !shouldShowLoadingIndicator && unselectedChannels.ids[0];
     },
-    [unselectedChannels],
+    [shouldShowLoadingIndicator, unselectedChannels],
   );
 
   return (
@@ -141,7 +133,7 @@ const NotificationSettings = ({
           mobilePhoneNumber={mobilePhoneNumber}
         />
       ) : null}
-      {!shouldShowLoadingIndicator
+      {showContactInfoOnFile
         ? notificationGroups.ids.map(groupId => {
             // we handle the health care group a little differently
             // TODO: I don't like this check. what does `group3` even mean?

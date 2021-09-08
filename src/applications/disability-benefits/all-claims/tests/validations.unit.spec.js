@@ -310,6 +310,7 @@ describe('526 All Claims validations', () => {
   describe('validateDisabilityName', () => {
     const tooLong =
       'et pharetra pharetra massa massa ultricies mi quis hendrerit dolor magna eget est lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas integer eget aliquet nibh praesent';
+
     it('should not add error when disability is in list', () => {
       const err = { addError: sinon.spy() };
       validateDisabilityName(err, disabilityLabels[7100]);
@@ -329,6 +330,21 @@ describe('526 All Claims validations', () => {
       const err = { addError: sinon.spy() };
       validateDisabilityName(err, tooLong);
       expect(err.addError.calledOnce).to.be.true;
+    });
+    it('should add error when duplicate names are encountered', () => {
+      const _ = null;
+      const err = { addError: sinon.spy() };
+      const test = condition =>
+        validateDisabilityName(err, condition, _, _, _, _, {
+          newDisabilities: [{ condition: 'diabetes type 2' }, { condition }],
+        });
+
+      test('DiaBeTes type 2');
+      expect(err.addError.callCount).to.eq(1);
+      test('DIABETES TYPE 2');
+      expect(err.addError.callCount).to.eq(2);
+      test('diabetes type (2)');
+      expect(err.addError.callCount).to.eq(3);
     });
   });
 

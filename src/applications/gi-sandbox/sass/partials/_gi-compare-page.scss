@@ -71,11 +71,7 @@
   }
 
   .placeholder {
-    display: none;
-
-    &.open {
-      display: block;
-    }
+    height: 0;
   }
 
   .institution-name {

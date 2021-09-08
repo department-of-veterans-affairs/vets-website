@@ -94,6 +94,10 @@ export function TuitionAndHousingEstimates({
           setOnlineClasses(e.target.value);
         }}
       />
+      <div id="note" className="vads-u-padding-top--2">
+        <b>Note:</b> Changing these settings modifies the tuition and housing
+        benefits shown on the search cards.
+      </div>
     </div>
   );
   const title = 'Update tuition and housing estimates';
@@ -107,6 +111,7 @@ export function TuitionAndHousingEstimates({
           buttonOnClick={updateStore}
           expanded={expanded}
           onClick={onExpand}
+          ariaDescribedBy="note"
         >
           {controls}
         </SearchAccordion>

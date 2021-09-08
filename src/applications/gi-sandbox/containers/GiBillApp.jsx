@@ -66,7 +66,7 @@ export function GiBillApp({
     dispatchUpdateQueryParams(params);
   }, []);
 
-  const onProfilePage = location.pathname.includes('/profile');
+  const onProfilePage = location.pathname.includes('/institution');
   const onComparePage = location.pathname.includes('/compare');
   const showDisclaimer = onComparePage || !compare.open;
 
