@@ -917,7 +917,7 @@ jobs:
       matrix:
         include:
           - environment: vagovdev
-            bucket: dev-va-gov-assets
+            bucket: apps.dev.va.gov
           # - environment: vagovstaging
           #   bucket: staging-va-gov-assets
 
