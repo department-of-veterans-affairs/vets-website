@@ -2,10 +2,10 @@ import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
-import appendQuery from 'append-query';
 import { removeCompareInstitution, compareDrawerOpened } from '../actions';
 import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal';
 import { isSmallScreen } from '../utils/helpers';
+import { updateUrlParams } from '../selectors/compare';
 
 export function CompareDrawer({
   compare,
@@ -214,12 +214,7 @@ export function CompareDrawer({
   }
 
   const openCompare = () => {
-    const compareLink = preview.version
-      ? appendQuery(`/compare/?facilities=${loaded.join(',')}`, {
-          version: preview.version,
-        })
-      : appendQuery(`/compare/?facilities=${loaded.join(',')}`);
-    history.push(compareLink);
+    history.push(updateUrlParams(loaded, preview.version));
   };
 
   const headerLabelClasses = classNames('header-label', {
