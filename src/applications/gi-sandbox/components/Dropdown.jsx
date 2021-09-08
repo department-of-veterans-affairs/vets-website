@@ -31,35 +31,33 @@ const Dropdown = ({
   return (
     <div className={classNames(className, { disabled })} id={dropdownId}>
       {label && labelElement}
-      <label className="wrap vads-u-margin--0">
-        <select
-          className={selectClasses}
-          id={name}
-          name={name}
-          alt={alt}
-          value={value}
-          onChange={onChange}
-          disabled={disabled}
-          onFocus={() => onFocus(dropdownId)}
-        >
-          {options.map(
-            ({ optionValue, optionLabel }, index) =>
-              optionLabel && (
-                <option
-                  key={index}
-                  value={optionValue}
-                  className={
-                    optionValue === value
-                      ? 'vads-u-font-weight--bold'
-                      : 'vads-u-font-weight--normal'
-                  }
-                >
-                  {optionLabel}
-                </option>
-              ),
-          )}
-        </select>
-      </label>
+      <select
+        className={selectClasses}
+        id={name}
+        name={name}
+        alt={alt}
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+        onFocus={() => onFocus(dropdownId)}
+      >
+        {options.map(
+          ({ optionValue, optionLabel }, index) =>
+            optionLabel && (
+              <option
+                key={index}
+                value={optionValue}
+                className={
+                  optionValue === value
+                    ? 'vads-u-font-weight--bold'
+                    : 'vads-u-font-weight--normal'
+                }
+              >
+                {optionLabel}
+              </option>
+            ),
+        )}
+      </select>
     </div>
   );
 };
