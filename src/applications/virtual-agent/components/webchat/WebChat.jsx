@@ -1,13 +1,17 @@
 import React, { useMemo } from 'react';
 import MarkdownRenderer from './markdownRenderer';
-import makeBotGreetUser from './makeBotGreetUser';
+import GreetUser from './makeBotGreetUser';
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
-const WebChat = ({ token, WebChatFramework }) => {
+const WebChat = ({ token, WebChatFramework, apiSession }) => {
   const { ReactWebChat, createDirectLine, createStore } = WebChatFramework;
+  const csrfToken = localStorage.getItem('csrfToken');
 
-  const store = useMemo(() => createStore({}, makeBotGreetUser), [createStore]);
+  const store = useMemo(
+    () => createStore({}, GreetUser.makeBotGreetUser(csrfToken, apiSession)),
+    [createStore],
+  );
 
   const directLine = useMemo(
     () =>

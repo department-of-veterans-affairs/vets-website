@@ -137,8 +137,9 @@ async function testTransactionCreationFails(numberName) {
   const alert = await view.findByTestId('edit-error-alert');
   expect(alert).to.have.descendant('div.usa-alert-error');
   // TODO: would be nice to be able to check the contents against a RegExp
-  expect(alert).to.contain.text('We’re sorry. We couldn’t update your');
-  expect(alert).to.contain.text('Please try again.');
+  expect(alert).to.contain.text(
+    `We’re sorry. We can’t save your ${numberName.toLowerCase()} at this time. We’re working to fix this problem. Please try again or check back soon.`,
+  );
 
   // make sure that edit mode is not automatically exited
   await wait(75);
@@ -157,8 +158,9 @@ async function testQuickFailure(numberName) {
   const alert = await view.findByTestId('edit-error-alert');
   expect(alert).to.have.descendant('div.usa-alert-error');
   // TODO: would be nice to be able to check the contents against a RegExp
-  expect(alert).to.contain.text('We’re sorry. We couldn’t update your');
-  expect(alert).to.contain.text('Please try again.');
+  expect(alert).to.contain.text(
+    `We’re sorry. We can’t save your ${numberName.toLowerCase()} at this time. We’re working to fix this problem. Please try again or check back soon.`,
+  );
 
   // make sure that edit mode is not automatically exited
   await wait(75);
