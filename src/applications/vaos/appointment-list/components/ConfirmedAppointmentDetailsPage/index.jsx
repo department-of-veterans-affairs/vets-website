@@ -94,23 +94,6 @@ export default function ConfirmedAppointmentDetailsPage() {
     );
   }
 
-  if (
-    appointment.vaos.isCOVIDVaccine ||
-    appointment.vaos.isPhoneAppointment ||
-    !appointment.vaos.isVideo
-  ) {
-    return (
-      <>
-        <DetailsVA appointment={appointment} facilityData={facilityData} />
-        <CancelAppointmentModal
-          {...cancelInfo}
-          onConfirm={() => dispatch(confirmCancelAppointment())}
-          onClose={() => dispatch(closeCancelAppointment())}
-        />
-      </>
-    );
-  }
-
   const isVideo = appointment.vaos.isVideo;
   const isCommunityCare = appointment.vaos.isCommunityCare;
   const isVA = !isVideo && !isCommunityCare;

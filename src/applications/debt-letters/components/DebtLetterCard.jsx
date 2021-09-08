@@ -35,7 +35,12 @@ const DebtLetterCard = ({ debt, setActiveDebt }) => {
 
       {mostRecentHistory && (
         <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
-          Updated on {moment(mostRecentHistory.date).format('MMMM D, YYYY')}
+          Updated on
+          <span className="vads-u-margin-x--0p5">
+            {moment(mostRecentHistory.date, 'MM-DD-YYYY').format(
+              'MMMM D, YYYY',
+            )}
+          </span>
         </p>
       )}
 
