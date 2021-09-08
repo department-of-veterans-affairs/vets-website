@@ -68,8 +68,9 @@ export default function VAPServiceEditModalErrorMessage({
     default:
       content = (
         <p>
-          We’re sorry. We couldn’t update your {title.toLowerCase()}. Please try
-          again.
+          We’re sorry. We can’t save your {title.toLowerCase()} at this time.
+          We’re working to fix this problem. Please try again or check back
+          soon.
         </p>
       );
   }
