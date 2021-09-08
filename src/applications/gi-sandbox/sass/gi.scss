@@ -206,16 +206,23 @@
   text-transform: capitalize;
 }
 
+.main-title {
+  margin-right: 9em;
+  @media (max-width: $large-screen) {
+    margin-right: 0;
+  }
+}
+
 .tool-description {
-  text-align: left;
+  text-align: center;
   padding-bottom: 2em;
-  margin-left: 26%;
+  margin-right: 9em;
 
   @media (max-width: $small-screen) {
     text-align: left;
     padding-left: 20px;
     padding-bottom: 1em;
-    margin-left: 0;
+    margin-right: 0;
   }
 }
 
