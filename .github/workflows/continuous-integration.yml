@@ -424,7 +424,6 @@ jobs:
         if: ${{ always() }}
         run: node ./script/github-actions/stylelint-annotation-format.js
   
-  regenerate-cross-app-import-graph:
     name: Regenerate the Cross-App Import Graph
     runs-on: ubuntu-latest
 
@@ -499,7 +498,6 @@ jobs:
 
   cypress-tests-prep:
     name: Prep for Cypress Tests
-    needs: regenerate-cross-app-import-graph
     runs-on: ubuntu-latest
     outputs:
       num_containers: ${{ steps.containers.outputs.num }}
