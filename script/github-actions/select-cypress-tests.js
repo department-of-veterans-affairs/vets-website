@@ -235,7 +235,12 @@ function run() {
   const filepaths = process.env.CHANGED_FILE_PATHS.split(' ');
   const pathsOfChangedFiles = filepaths.filter(filepath => {
     // Ignore the cross-app import graph file
-    return filepath !== 'config/cross_app_import_graph.json';
+    return (
+      filepath !== '.github/workflows/continuous-integration.yml' &&
+      filepath !== 'config/cross_app_import_graph.json' &&
+      filepath !== 'script/github-actions/create-cross-app-import-graph.js' &&
+      filepath !== 'script/github-actions/select-cypress-tests.js'
+    );
   });
   const graph = dedupeGraph(buildGraph());
   const tests = selectTests(graph, pathsOfChangedFiles);
