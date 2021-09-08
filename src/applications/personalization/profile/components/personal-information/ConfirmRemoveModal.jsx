@@ -24,7 +24,7 @@ const ConfirmRemoveModal = ({
       onClose={onHide}
     >
       <div>
-        This will delete your {title.toLowerCase()} across these VA benefits and
+        This will remove your {title.toLowerCase()} across these VA benefits and
         services:
       </div>
       <ul>
