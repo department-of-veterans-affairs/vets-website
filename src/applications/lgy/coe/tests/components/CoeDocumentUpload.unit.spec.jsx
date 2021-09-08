@@ -20,4 +20,19 @@ describe('CoeDocumentUpload', () => {
     expect(screen.getByRole('option', { name: 'Other' }).selected).to.be.true;
     expect(screen.getByLabelText(/Document description/i)).to.exist;
   });
+
+  it('should display an uploaded file', () => {
+    const file = new File(['hello'], 'hello.png', { type: 'image/png' });
+    const screen = render(<CoeDocumentUpload />);
+    const input = screen.getByLabelText(/Upload this document/i);
+    expect(input).to.exist;
+    userEvent.selectOptions(screen.getByRole('combobox'), [
+      'Discharge or seperation papers (DD214)',
+    ]);
+    userEvent.upload(input, file);
+    expect(input.files[0]).to.equal(file);
+    expect(input.files.item(0)).to.equal(file);
+    expect(input.files).to.have.lengthOf(1);
+    expect(screen.getByText('hello.png')).to.exist;
+  });
 });

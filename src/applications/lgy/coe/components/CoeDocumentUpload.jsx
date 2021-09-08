@@ -11,6 +11,8 @@ export const CoeDocumentUpload = () => {
     documentDescription: '',
   });
 
+  const [files, setFiles] = useState([]);
+
   const onSelectChange = e => {
     setFormData({
       ...formData,
@@ -25,6 +27,11 @@ export const CoeDocumentUpload = () => {
     });
   };
 
+  const onUploadFile = e => {
+    const newFiles = [...files, e[0]];
+    setFiles(newFiles);
+  };
+
   return (
     <>
       <h2>We need documents from you</h2>
@@ -33,6 +40,14 @@ export const CoeDocumentUpload = () => {
         COE application. Please send us all the documents listed so we can make
         a decision about your application.
       </p>
+      {files.map((file, index) => (
+        <div
+          className="vads-u-background-color--gray-lightest vads-u-padding-y--1 vads-u-padding-x--2 vads-u-margin-y--1"
+          key={index}
+        >
+          <p>{file.name}</p>
+        </div>
+      ))}
       <Select
         required
         name="document_type"
@@ -50,7 +65,7 @@ export const CoeDocumentUpload = () => {
           onValueChange={onTextInputValueChange}
         />
       )}
-      <FileInput buttonText="Upload this document" onChange={() => {}} />
+      <FileInput buttonText="Upload this document" onChange={onUploadFile} />
     </>
   );
 };
