@@ -645,9 +645,8 @@ export function getPatientInstruction(appointment) {
   }
   if (appointment?.patientInstruction.includes('Video Visit Preparation')) {
     return 'Video Visit Preparation';
-  } else {
-    return null;
   }
+  return null;
 }
 
 /**

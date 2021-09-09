@@ -100,7 +100,7 @@
         "locationId": "983",
         "minutesDuration": 30,
         "patientIcn": null,
-        "patientInstruction": "Video Visit Preparation contains extranious stuff",
+        "patientInstruction": "Video Visit Preparation contains extraneous stuff",
         "practitioners": [
           {
             "identifier": {
