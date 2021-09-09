@@ -1,6 +1,8 @@
 import React from 'react';
+import moment from 'moment';
 
-import { getIssueName } from '../utils/helpers';
+import { getIssueName, getIssueDate } from '../utils/helpers';
+import { FORMAT_YMD, FORMAT_READABLE } from '../constants';
 
 export const missingAreaOfDisagreementErrorMessage =
   'Please choose an area of disagreement';
@@ -12,12 +14,16 @@ export const issueName = ({ formData, formContext } = {}) => {
   const index = formContext.pagePerItemIndex || formData.index;
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/27096
   const Header = formContext.onReviewPage ? 'h4' : 'h3';
+  const date = moment(getIssueDate(formData), FORMAT_YMD).format(
+    FORMAT_READABLE,
+  );
+  const title = `${getIssueName(formData)}${date ? ` \u2014 ${date}` : ''}`;
   return (
     <legend
       className="schemaform-block-title schemaform-title-underline"
       aria-describedby={`area-of-disagreement-label-${index}`}
     >
-      <Header className="vads-u-margin-top--0">{getIssueName(formData)}</Header>
+      <Header className="vads-u-margin-top--0">{title}</Header>
     </legend>
   );
 };
