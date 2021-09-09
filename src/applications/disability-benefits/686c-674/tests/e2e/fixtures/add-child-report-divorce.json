@@ -28,9 +28,16 @@
           "biological": false,
           "adopted": false,
           "stepchild": true,
-          "dateBecameDependent": "2009-06-09"
+          "dateBecameDependent": "2009-06-09",
+          "stepchildParent": {
+            "first": "betty",
+            "last": "boop"
+          },
+          "ssn": "123211234",
+          "birthDate": "2015-06-08"
         },
         "view:childStatusInformation": {},
+        "notSelfSufficient": "N",
         "previouslyMarried": "Yes",
         "previousMarriageDetails": {
           "dateMarriageEnded": "2019-07-10",

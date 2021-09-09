@@ -71,6 +71,7 @@
         },
         "childStatus": { "biological": true },
         "view:childStatusInformation": {},
+        "notSelfSufficient": "N",
         "previouslyMarried": "No",
         "childIncome": true,
         "fullName": { "first": "Jonathan", "last": "Yuen" },

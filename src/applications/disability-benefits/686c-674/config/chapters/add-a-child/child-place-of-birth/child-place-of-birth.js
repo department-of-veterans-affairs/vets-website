@@ -1,5 +1,6 @@
 import merge from 'lodash/merge';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import environment from 'platform/utilities/environment';
 import { isChapterFieldRequired } from '../../../helpers';
@@ -8,6 +9,7 @@ import { TASK_KEYS } from '../../../constants';
 import { ChildNameHeader } from '../helpers';
 import { childInfo } from '../child-information/helpers';
 import { childStatusDescription } from './childStatusDescription';
+import { notSelfSufficientDescription } from './notSelfSufficientDescription';
 import { locationUISchema } from '../../../location-schema';
 
 export const schema = addChild.properties.addChildPlaceOfBirth;
@@ -52,12 +54,6 @@ export const uiSchema = {
             hideEmptyValueInReview: true,
           },
         },
-        notCapable: {
-          'ui:title': 'Not capable of self-support',
-          'ui:options': {
-            hideEmptyValueInReview: true,
-          },
-        },
         stepchild: {
           'ui:title': 'Stepchild',
           'ui:options': {
@@ -77,10 +73,74 @@ export const uiSchema = {
               true,
           },
         ),
+        stepchildParent: {
+          'ui:options': {
+            expandUnder: 'stepchild',
+            expandUnderCondition: true,
+          },
+          first: {
+            'ui:title': 'Parent’s first name',
+            'ui:required': (formData, index) =>
+              formData?.childrenToAdd[`${index}`]?.childStatus?.stepchild ===
+              true,
+          },
+          middle: {
+            'ui:title': 'Child’s middle name',
+            'ui:options': {
+              hideEmptyValueInReview: true,
+              hideIf: () => true,
+            },
+          },
+          last: {
+            'ui:title': 'Parent’s last name',
+            'ui:required': (formData, index) =>
+              formData?.childrenToAdd[`${index}`]?.childStatus?.stepchild ===
+              true,
+          },
+          suffix: {
+            'ui:title': 'Child’s suffix',
+            'ui:options': {
+              widgetClassNames: 'usa-input-medium',
+
+              hideEmptyValueInReview: true,
+              hideIf: () => true,
+            },
+          },
+        },
+        ssn: {
+          ...ssnUI,
+          'ui:title': 'Parent’s Social Security number',
+          'ui:required': (formData, index) =>
+            formData?.childrenToAdd[`${index}`]?.childStatus?.stepchild ===
+            true,
+          'ui:options': {
+            widgetClassNames: 'usa-input-medium',
+            expandUnder: 'stepchild',
+            expandUnderCondition: true,
+          },
+        },
+        birthDate: merge(currentOrPastDateUI("Parent's date of birth"), {
+          'ui:required': (formData, index) =>
+            formData?.childrenToAdd[`${index}`]?.childStatus?.stepchild ===
+            true,
+          'ui:options': {
+            expandUnder: 'stepchild',
+            expandUnderCondition: true,
+          },
+        }),
       },
       'view:childStatusInformation': {
-        'ui:title': 'Additional evidence needed',
+        'ui:title': 'Additional evidence needed to add children',
         'ui:description': childStatusDescription,
+      },
+      notSelfSufficient: {
+        'ui:title': 'Is this child capable of self-support?',
+        'ui:widget': 'yesNo',
+        'ui:required': formData =>
+          isChapterFieldRequired(formData, TASK_KEYS.addChild),
+      },
+      'view:notSelfSufficientDescription': {
+        'ui:description': notSelfSufficientDescription,
       },
       previouslyMarried: {
         'ui:widget': 'radio',
