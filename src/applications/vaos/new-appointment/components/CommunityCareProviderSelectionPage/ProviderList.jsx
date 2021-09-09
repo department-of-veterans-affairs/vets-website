@@ -34,8 +34,8 @@ export default function ProviderList({
     sortMethod,
     typeOfCareName,
   } = useSelector(selectProviderSelectionInfo, shallowEqual);
-  const loadingProviders =
-    !communityCareProviderList && requestStatus !== FETCH_STATUS.failed;
+  const requestLocationFailed = requestStatus === FETCH_STATUS.failed;
+  const loadingProviders = !communityCareProviderList && !requestLocationFailed;
 
   const loadingLocations = requestLocationStatus === FETCH_STATUS.loading;
 
@@ -84,6 +84,10 @@ export default function ProviderList({
     sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation;
   const ccIterationRequestingLocationFailed =
     requestLocationStatus === FETCH_STATUS.failed && showCCIterations;
+  const displayProviderList =
+    notLoading &&
+    !!currentlyShownProvidersList &&
+    !ccIterationRequestingLocationFailed;
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-padding--2 medium-screen:vads-u-padding--3">
       <h2
@@ -120,134 +124,132 @@ export default function ProviderList({
           <LoadingIndicator message="Finding your location. Be sure to allow your browser to find your current location." />
         </div>
       )}
-      {requestStatus === FETCH_STATUS.failed && (
+      {requestLocationFailed && (
         <div className="vads-u-padding-bottom--2">
           <LoadProvidersErrorAlert />
         </div>
       )}
-      {notLoading &&
-        !!currentlyShownProvidersList &&
-        !ccIterationRequestingLocationFailed && (
-          <>
-            {currentlyShownProvidersList.length === 0 && (
-              <NoProvidersAlert
-                sortMethod={sortMethod}
-                typeOfCareName={typeOfCareName}
-              />
-            )}
-            {currentlyShownProvidersList.length > 0 && (
-              <>
-                {!showCCIterations && (
-                  <p
-                    id="provider-list-status"
-                    role="status"
-                    aria-live="polite"
-                    aria-atomic="true"
-                  >
-                    Displaying 1 to {currentlyShownProvidersList.length} of{' '}
-                    {communityCareProviderList.length} providers
-                  </p>
-                )}
-                {currentlyShownProvidersList.map((provider, providerIndex) => {
-                  const { name } = provider;
-                  const checked = provider.id === checkedProvider;
-                  const providerPosition = providerIndex + 1;
-                  return (
-                    <div className="form-radio-buttons" key={provider.id}>
-                      <input
-                        type="radio"
-                        checked={checked}
-                        id={`${idSchema.$id}_${providerPosition}`}
-                        name={`${idSchema.$id}`}
-                        value={provider.id}
-                        onChange={_ => setCheckedProvider(provider.id)}
-                        disabled={loadingProviders}
-                      />
-                      <label htmlFor={`${idSchema.$id}_${providerPosition}`}>
-                        <span className="vads-u-display--block vads-u-font-weight--bold">
-                          {name}
-                        </span>
-                        <span className="vads-u-display--block">
-                          {provider.address?.line}
-                        </span>
-                        <span className="vads-u-display--block">
-                          {provider.address.city}, {provider.address.state}{' '}
-                          {provider.address.postalCode}
-                        </span>
-                        <span className="vads-u-display--block vads-u-font-size--sm vads-u-font-weight--bold">
-                          {provider[sortMethod]} miles
-                          <span className="sr-only">
-                            {' '}
-                            {sortByDistanceFromCurrentLocation
-                              ? 'from your current location'
-                              : 'from your home address'}
-                          </span>
-                        </span>
-                      </label>
-                      {checked && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            onChange(provider);
-                            setCheckedProvider();
-                            setShowProvidersList(false);
-                            recordEvent({
-                              event: `${GA_PREFIX}-order-position-provider-selection`,
-                              providerPosition,
-                            });
-                          }}
-                        >
-                          Choose provider
-                        </button>
-                      )}
-                    </div>
-                  );
-                })}
-              </>
-            )}
-            <div className="vads-u-display--flex">
-              {providersListLength < communityCareProviderList?.length && (
-                <>
-                  <button
-                    type="button"
-                    className="additional-info-button va-button-link vads-u-display--block vads-u-margin-right--2"
-                    onClick={() => {
-                      setProvidersListLength(
-                        providersListLength + initialProviderDisplayCount,
-                      );
-                      recordEvent({
-                        event: `${GA_PREFIX}-provider-list-paginate`,
-                      });
-                    }}
-                  >
-                    <span className="sr-only">show</span>
-                    <span className="va-button-link">
-                      +{' '}
-                      {Math.min(
-                        communityCareProviderList.length - providersListLength,
-                        initialProviderDisplayCount,
-                      )}{' '}
-                      more providers
-                    </span>
-                  </button>
-                </>
+      {displayProviderList && (
+        <>
+          {currentlyShownProvidersList.length === 0 && (
+            <NoProvidersAlert
+              sortMethod={sortMethod}
+              typeOfCareName={typeOfCareName}
+            />
+          )}
+          {currentlyShownProvidersList.length > 0 && (
+            <>
+              {!showCCIterations && (
+                <p
+                  id="provider-list-status"
+                  role="status"
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
+                  Displaying 1 to {currentlyShownProvidersList.length} of{' '}
+                  {communityCareProviderList.length} providers
+                </p>
               )}
-              {communityCareProviderList?.length > 0 && (
+              {currentlyShownProvidersList.map((provider, providerIndex) => {
+                const { name } = provider;
+                const checked = provider.id === checkedProvider;
+                const providerPosition = providerIndex + 1;
+                return (
+                  <div className="form-radio-buttons" key={provider.id}>
+                    <input
+                      type="radio"
+                      checked={checked}
+                      id={`${idSchema.$id}_${providerPosition}`}
+                      name={`${idSchema.$id}`}
+                      value={provider.id}
+                      onChange={_ => setCheckedProvider(provider.id)}
+                      disabled={loadingProviders}
+                    />
+                    <label htmlFor={`${idSchema.$id}_${providerPosition}`}>
+                      <span className="vads-u-display--block vads-u-font-weight--bold">
+                        {name}
+                      </span>
+                      <span className="vads-u-display--block">
+                        {provider.address?.line}
+                      </span>
+                      <span className="vads-u-display--block">
+                        {provider.address.city}, {provider.address.state}{' '}
+                        {provider.address.postalCode}
+                      </span>
+                      <span className="vads-u-display--block vads-u-font-size--sm vads-u-font-weight--bold">
+                        {provider[sortMethod]} miles
+                        <span className="sr-only">
+                          {' '}
+                          {sortByDistanceFromCurrentLocation
+                            ? 'from your current location'
+                            : 'from your home address'}
+                        </span>
+                      </span>
+                    </label>
+                    {checked && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          onChange(provider);
+                          setCheckedProvider();
+                          setShowProvidersList(false);
+                          recordEvent({
+                            event: `${GA_PREFIX}-order-position-provider-selection`,
+                            providerPosition,
+                          });
+                        }}
+                      >
+                        Choose provider
+                      </button>
+                    )}
+                  </div>
+                );
+              })}
+            </>
+          )}
+          <div className="vads-u-display--flex">
+            {providersListLength < communityCareProviderList?.length && (
+              <>
                 <button
                   type="button"
-                  className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
+                  className="additional-info-button va-button-link vads-u-display--block vads-u-margin-right--2"
                   onClick={() => {
-                    setProvidersListLength(initialProviderDisplayCount);
-                    setShowProvidersList(false);
+                    setProvidersListLength(
+                      providersListLength + initialProviderDisplayCount,
+                    );
+                    recordEvent({
+                      event: `${GA_PREFIX}-provider-list-paginate`,
+                    });
                   }}
-                  aria-label="Cancel choosing a provider"
                 >
-                  Cancel
+                  <span className="sr-only">show</span>
+                  <span className="va-button-link">
+                    +{' '}
+                    {Math.min(
+                      communityCareProviderList.length - providersListLength,
+                      initialProviderDisplayCount,
+                    )}{' '}
+                    more providers
+                  </span>
                 </button>
-              )}
-            </div>
-          </>
-        )}
+              </>
+            )}
+            {communityCareProviderList?.length > 0 && (
+              <button
+                type="button"
+                className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
+                onClick={() => {
+                  setProvidersListLength(initialProviderDisplayCount);
+                  setShowProvidersList(false);
+                }}
+                aria-label="Cancel choosing a provider"
+              >
+                Cancel
+              </button>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 }
