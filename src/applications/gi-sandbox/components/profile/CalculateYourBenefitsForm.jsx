@@ -255,12 +255,13 @@ function CalculateYourBenefitsForm({
     }
   };
 
-  const learnMoreLabel = ({ text, modal, ariaLabel, labelFor }) => (
+  const learnMoreLabel = ({ text, modal, ariaLabel, labelFor, buttonId }) => (
     <LearnMoreLabel
       text={text}
       onClick={() => showModal(modal)}
       ariaLabel={ariaLabel}
       labelFor={labelFor}
+      buttonId={buttonId}
     />
   );
 
@@ -278,6 +279,7 @@ function CalculateYourBenefitsForm({
             text: 'In-state tuition and fees per year',
             modal: 'calcInStateTuition',
             ariaLabel: ariaLabels.learnMore.inStateTuitionFeesPerYear,
+            buttonId: 'tuition-and-fees-learn-more',
           })}
         </label>
         <input
@@ -314,6 +316,7 @@ function CalculateYourBenefitsForm({
           ? 'inStateWithLink'
           : 'inStateWithoutLink',
       ariaLabel: ariaLabels.learnMore.inState,
+      buttonId: 'in-state-student-learn-more',
     });
     return (
       <ExpandingGroup open={displayedInputs.tuition && inputs.inState === 'no'}>
@@ -347,6 +350,7 @@ function CalculateYourBenefitsForm({
         {learnMoreLabel({
           modal: 'calcTuition',
           ariaLabel: ariaLabels.learnMore.tuitionFeesPerYear,
+          buttonId: 'tuition-and-fees-per-year-learn-more',
         })}
         <input
           inputMode="decimal"
@@ -415,6 +419,7 @@ function CalculateYourBenefitsForm({
             text: 'Will you be a Yellow Ribbon recipient?',
             modal: 'calcYr',
             ariaLabel: ariaLabels.learnMore.yellowRibbonProgram,
+            buttonId: 'yellow-ribbon-recipient-learn-more',
           })}
           name="yellowRibbonRecipient"
           options={[
@@ -501,6 +506,7 @@ function CalculateYourBenefitsForm({
             text: 'Scholarships (excluding Pell Grants)',
             modal: 'calcScholarships',
             ariaLabel: ariaLabels.learnMore.calcScholarships,
+            buttonId: 'scholarships-learn-more',
           })}
         </label>
         <input
@@ -529,6 +535,7 @@ function CalculateYourBenefitsForm({
             text: 'How much are you receiving in military tuition assistance',
             modal: 'calcTuitionAssist',
             ariaLabel: ariaLabels.learnMore.militaryTuitionAssistance,
+            buttonId: 'military-tuition-assistance-learn-more',
           })}
         </label>
         <input
@@ -586,6 +593,7 @@ function CalculateYourBenefitsForm({
           modal: 'calcEnrolled',
           ariaLabel: ariaLabels.learnMore.calcEnrolled,
           labelFor: name,
+          buttonId: 'enrolled-learn-more',
         })}
         name={name}
         alt="Enrolled"
@@ -655,6 +663,7 @@ function CalculateYourBenefitsForm({
               modal: 'calcSchoolCalendar',
               ariaLabel: ariaLabels.learnMore.calcSchoolCalendar,
               labelFor: 'calendar',
+              buttonId: 'school-calendar-learn-more',
             })}
             name="calendar"
             alt="School calendar"
@@ -705,6 +714,7 @@ function CalculateYourBenefitsForm({
             text: 'Eligible for kicker bonus?',
             modal: 'calcKicker',
             ariaLabel: ariaLabels.learnMore.kickerEligible,
+            buttonId: 'eligible-kicker-learn-more',
           })}
           name="kickerEligible"
           options={[
@@ -837,6 +847,7 @@ function CalculateYourBenefitsForm({
             text: 'Where will you take the majority of your classes?',
             modal: 'calcBeneficiaryLocationQuestion',
             ariaLabel: ariaLabels.learnMore.majorityOfClasses,
+            buttonId: 'majority-of-classes-learn-more',
           })}
           name="beneficiaryLocationQuestion"
           options={beneficiaryLocationQuestionOptions}
@@ -906,6 +917,7 @@ function CalculateYourBenefitsForm({
           modal: 'calcWorking',
           ariaLabel: ariaLabels.learnMore.calcWorking,
           labelFor: 'working',
+          buttonId: 'working-learn-more',
         })}
         name="working"
         alt="Will be working"
@@ -955,6 +967,7 @@ function CalculateYourBenefitsForm({
             'Did you use your Post-9/11 GI Bill benefits for tuition, housing, or books for a term that started before January 1, 2018?',
           modal: 'whenUsedGiBill',
           ariaLabel: ariaLabels.learnMore.whenUsedGiBill,
+          buttonId: 'used-gi-bill-learn-more',
         })}
         name="giBillBenefit"
         options={[{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }]}
@@ -973,6 +986,7 @@ function CalculateYourBenefitsForm({
           className="eyb-skip-link vads-u-display--block"
           aria-label="Skip to your estimated benefits"
           href="#estimated-benefits"
+          id="skip-to-eyb"
         >
           Skip to your estimated benefits
         </a>

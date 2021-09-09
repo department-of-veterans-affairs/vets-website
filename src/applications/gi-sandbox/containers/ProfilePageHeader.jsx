@@ -11,6 +11,7 @@ import {
 
 import {
   convertRatingToStars,
+  createId,
   formatNumber,
   locationInfo,
   schoolSize,
@@ -164,7 +165,12 @@ const ProfilePageHeader = ({
               {_.capitalize(localeType)} locale
             </IconWithInfo>
             <IconWithInfo icon="globe" present={website}>
-              <a href={website} target="_blank" rel="noopener noreferrer">
+              <a
+                href={website}
+                target="_blank"
+                rel="noopener noreferrer"
+                id={createId('website')}
+              >
                 {'  '}
                 {website}
               </a>
@@ -289,6 +295,7 @@ const ProfilePageHeader = ({
                   <strong>{formatNumber(studentCount)}</strong> GI Bill students
                 </>
               }
+              buttonId={createId('GI Bill students profile')}
               onClick={() => dispatchShowModal('gibillstudents')}
               ariaLabel={ariaLabels.learnMore.numberOfStudents}
             />

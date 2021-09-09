@@ -85,6 +85,7 @@ export function TuitionAndHousingEstimates({
             text="Will you be taking any classes in person?"
             onClick={() => dispatchShowModal('onlineOnlyDistanceLearning')}
             ariaLabel="Learn more about how we calculate your housing allowance based on where you take classes"
+            butttonId="classes-in-person-learn-more"
           />
         }
         name="inPersonClasses"

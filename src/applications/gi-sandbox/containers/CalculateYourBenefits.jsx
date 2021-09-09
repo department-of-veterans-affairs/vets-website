@@ -174,6 +174,7 @@ export function CalculateYourBenefits({
                   href={profile.attributes.vetWebsiteLink}
                   target="_blank"
                   rel="noopener noreferrer"
+                  id="view-policy-link"
                 >
                   View policy
                 </a>
@@ -195,6 +196,7 @@ export function CalculateYourBenefits({
               }}
               buttonClassName="small-screen-font"
               bold
+              buttonId="protection-against-late-payments-learn-more"
             />
             <strong>:</strong>
             &nbsp;
@@ -215,6 +217,7 @@ export function CalculateYourBenefits({
               }}
               buttonClassName="small-screen-font"
               bold
+              buttonId="yellow-ribbon-additional-info-learn-more"
             />
             <strong>:</strong>
             &nbsp;
@@ -233,6 +236,7 @@ export function CalculateYourBenefits({
               }}
               buttonClassName="small-screen-font"
               bold
+              buttonId="vrrap-learn-more"
             />
             <strong>:</strong>
             &nbsp;
