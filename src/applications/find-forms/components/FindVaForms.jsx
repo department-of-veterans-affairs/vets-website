@@ -42,7 +42,7 @@ export default () => (
         </p>
         <a
           className="vads-u-display--block vads-u-padding-top--1 vads-u-text-decoration--none"
-          href="https://www.va.gov/disability/file-disability-claim-form-21-526ez/"
+          href="/disability/file-disability-claim-form-21-526ez/"
           onClick={onFeaturedContentClick('File a VA disability claim')}
         >
           <span>
@@ -72,7 +72,7 @@ export default () => (
         </p>
         <a
           className="vads-u-display--block vads-u-padding-top--1 vads-u-text-decoration--none"
-          href="https://www.va.gov/education/apply-for-education-benefits/application/1990/"
+          href="/education/apply-for-education-benefits/application/1990/"
           onClick={onFeaturedContentClick(
             'Apply for the GI Bill and other education benefits',
           )}
