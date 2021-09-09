@@ -9,6 +9,9 @@ export const getCompareCalculatorState = (
     books,
     calendar,
     type,
+    country,
+    dodBah,
+    bah,
   } = institution;
   let { yellowRibbonPrograms } = institution;
   let yellowRibbonDegreeLevelOptions = [];
@@ -45,17 +48,15 @@ export const getCompareCalculatorState = (
     yellowRibbonMaxNumberOfStudents = yellowRibbonPrograms[0].numberOfStudents;
     yellowRibbonProgramIndex = yellowRibbonPrograms[0].index;
   }
-  let giBillBenefit = calculator.giBillBenefit;
+  let giBillBenefit =
+    constants.AVGDODBAH && constants.AVGDODBAH < constants.AVGVABAH
+      ? 'no'
+      : 'yes';
   // Set default GI BILL benefit status to the lowest rate (DOD or BAH)
-  if (institution.country === 'USA') {
-    giBillBenefit =
-      institution.dodBah && institution.dodBah < institution.bah ? 'no' : 'yes';
-  } else {
-    giBillBenefit =
-      constants.AVGDODBAH && constants.AVGDODBAH < constants.AVGVABAH
-        ? 'no'
-        : 'yes';
+  if (country === 'USA') {
+    giBillBenefit = dodBah && dodBah < bah ? 'no' : 'yes';
   }
+
   return {
     ...calculator,
     giBillBenefit,
