@@ -46,7 +46,7 @@ export default () => (
           onClick={onFeaturedContentClick('File a VA disability claim')}
         >
           <span>
-            Apply Online
+            Apply online
             <span className="vads-u-visibility--screen-reader">
               about filing a VA disability claim
             </span>
@@ -78,7 +78,7 @@ export default () => (
           )}
         >
           <span>
-            Apply Online
+            Apply online
             <span className="vads-u-visibility--screen-reader">
               about applying for the GI Bill and other education benefits
             </span>
