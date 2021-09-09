@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import { fetchSearchByNameResults } from '../../actions/index';
-import SearchResultCard from '../SearchResultCard';
+import ResultCard from '../search/ResultCard';
 import FilterYourResults from '../FilterYourResults';
 import TuitionAndHousingEstimates from '../TuitionAndHousingEstimates';
 import { updateUrlParams } from '../../selectors/search';
@@ -82,7 +82,7 @@ export function NameSearchResults({
                 count > 0 && (
                   <div className="vads-l-row">
                     {results.map(institution => (
-                      <SearchResultCard
+                      <ResultCard
                         institution={institution}
                         key={institution.facilityCode}
                         version={preview.version}

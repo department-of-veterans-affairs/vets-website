@@ -64,5 +64,34 @@ describe('check-in', () => {
         </Provider>,
       );
     });
+    describe('back button visibility based on update page', () => {
+      it('shows the back button if update page is enabled', () => {
+        const mockRouter = {
+          params: {
+            token: 'token-123',
+          },
+        };
+        const checkIn = render(
+          <Provider store={store}>
+            <CheckIn router={mockRouter} isUpdatePageEnabled />
+          </Provider>,
+        );
+
+        expect(checkIn.getByTestId('back-button')).to.exist;
+      });
+      it('hides the back button if update page is enabled', () => {
+        const mockRouter = {
+          params: {
+            token: 'token-123',
+          },
+        };
+        const checkIn = render(
+          <Provider store={store}>
+            <CheckIn router={mockRouter} isUpdatePageEnabled={false} />
+          </Provider>,
+        );
+        expect(checkIn.queryByTestId('back-button')).to.not.exist;
+      });
+    });
   });
 });
