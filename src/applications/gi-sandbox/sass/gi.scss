@@ -167,6 +167,18 @@
       margin-bottom: 0.625em;
     }
   }
+
+  .caution-flag-toggle {
+    display: block;
+    color: $color-gray-dark;
+    background-color: transparent;
+    padding: 0px;
+    margin: 0px;
+
+    i {
+      font-size: 16px;
+    }
+  }
 }
 
 .section-item,
