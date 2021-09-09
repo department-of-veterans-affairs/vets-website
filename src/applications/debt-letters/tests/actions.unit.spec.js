@@ -28,9 +28,9 @@ describe('fetchDebtLetters', () => {
           debtHistory: [
             {
               date: '09/18/2012',
-              letterCode: '100',
               description:
                 'First Demand Letter - Inactive Benefits - Due Process',
+              letterCode: '100',
             },
           ],
         },
@@ -46,19 +46,7 @@ describe('fetchDebtLetters', () => {
           amountWithheld: 321.76,
           originalAr: 321.76,
           currentAr: 50,
-          debtHistory: [
-            {
-              date: '08/08/2018',
-              letterCode: 608,
-              description: 'Full C&P Benefit Offset Notification',
-            },
-            {
-              date: '07/19/2018',
-              letterCode: 100,
-              description:
-                'First Demand Letter - Inactive Benefits - Due Process',
-            },
-          ],
+          debtHistory: [],
         },
         {
           fileNumber: '796121213',
@@ -138,22 +126,22 @@ describe('fetchDebtLetters', () => {
           debtHistory: [
             {
               date: '04/01/2017',
-              letterCode: 608,
+              letterCode: '608',
               description: 'Full C&P Benefit Offset Notification',
             },
             {
               date: '11/18/2015',
-              letterCode: 130,
+              letterCode: '130',
               description: 'Debt Increase - Due P',
             },
             {
               date: '04/08/2015',
-              letterCode: 608,
+              letterCode: '608',
               description: 'Full C&P Benefit Offset Notification',
             },
             {
               date: '03/26/2015',
-              letterCode: 100,
+              letterCode: '100',
               description:
                 'First Demand Letter - Inactive Benefits - Due Process',
             },
@@ -174,12 +162,12 @@ describe('fetchDebtLetters', () => {
           debtHistory: [
             {
               date: '08/08/2018',
-              letterCode: 608,
+              letterCode: '608',
               description: 'Full C&P Benefit Offset Notification',
             },
             {
               date: '07/19/2018',
-              letterCode: 100,
+              letterCode: '100',
               description:
                 'First Demand Letter - Inactive Benefits - Due Process',
             },
