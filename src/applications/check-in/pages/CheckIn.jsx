@@ -15,7 +15,7 @@ import AppointmentLocation from '../components/AppointmentLocation';
 
 const CheckIn = props => {
   const [isLoading, setIsLoading] = useState(false);
-  const { router, appointment, context, isUpdatePageEnabled } = props;
+  const { router, appointments, context, isUpdatePageEnabled } = props;
   const appointment = appointments[0];
 
   useEffect(() => {
