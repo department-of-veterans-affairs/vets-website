@@ -8,6 +8,12 @@ import VAPlusVetsModal from '../components/VAPlusVetsModal';
 const config = {
   announcements: [
     {
+      name: 'afghanistan-banner',
+      // All pages.
+      paths: /(.)/,
+      component: AfghanistanPromoBanner,
+    },
+    {
       name: 'brand-consolidation-va-plus-vets',
       // All pages.
       paths: /(.)/,
@@ -34,12 +40,6 @@ const config = {
       // All pages except the sign-in page and subroutes.
       paths: /^(?!.*\/sign-in\/).*$/,
       component: SingleSignOnInfoModal,
-    },
-    {
-      name: 'covid-vaccine-signup',
-      // All pages.
-      paths: /(.)/,
-      component: AfghanistanPromoBanner,
     },
   ],
 };

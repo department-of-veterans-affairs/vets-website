@@ -1,8 +1,8 @@
 // Node modules.
 import React from 'react';
-import { PROMO_BANNER_TYPES } from '@department-of-veterans-affairs/component-library/PromoBanner';
-// Relative imports.
-import PromoBanner from './PromoBanner';
+import PromoBanner, {
+  PROMO_BANNER_TYPES,
+} from '@department-of-veterans-affairs/component-library/PromoBanner';
 
 export default ({ dismiss }) => (
   <PromoBanner
