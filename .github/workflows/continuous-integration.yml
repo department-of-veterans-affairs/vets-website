@@ -48,6 +48,13 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
+      - name: ls
+        run: ls -la
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: yarn cache dir
+
       - name: Cache dependencies
         id: cache-dependencies
         uses: actions/cache@v2
@@ -57,6 +64,13 @@ jobs:
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
           restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
+
+      - name: ls
+        run: ls -la
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: yarn cache dir
 
       - name: Get NEXUS username
         uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
