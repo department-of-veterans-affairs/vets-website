@@ -7,10 +7,15 @@ import {
 } from 'platform/forms-system/src/js/utilities/validations';
 
 import { $, areaOfDisagreementWorkAround } from './utils/ui';
-import { getSelected, hasSomeSelected } from './utils/helpers';
+import {
+  getSelected,
+  hasSomeSelected,
+  getIssueNameAndDate,
+} from './utils/helpers';
 import { optInErrorMessage } from './content/OptIn';
 import {
   missingIssuesErrorMessageText,
+  uniqueIssueErrorMessage,
   maxSelected,
 } from './content/additionalIssues';
 import {
@@ -109,6 +114,31 @@ export const validAdditionalIssue = (
         errors.addError(missingIssuesErrorMessageText);
       }
     });
+  }
+};
+
+const processIssues = (array = []) =>
+  array.filter(Boolean).map(entry => getIssueNameAndDate(entry));
+
+// Alert Veteran to duplicates based on name & decision date
+export const uniqueIssue = (
+  errors,
+  _fieldData,
+  _formData,
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData,
+) => {
+  if (errors?.addError) {
+    const contestableIssues = processIssues(appStateData?.contestableIssues);
+    const additionalIssues = processIssues(appStateData?.additionalIssues);
+    // ignore duplicate contestable issues (if any)
+    const fullList = [...new Set(contestableIssues)].concat(additionalIssues);
+
+    if (fullList.length !== new Set(fullList).size) {
+      errors.addError(uniqueIssueErrorMessage);
+    }
   }
 };
 

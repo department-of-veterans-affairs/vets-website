@@ -11,6 +11,7 @@ import {
   requireIssue,
   validateDate,
   validAdditionalIssue,
+  uniqueIssue,
   maxIssues,
 } from '../validations';
 import { SELECTED } from '../constants';
@@ -46,6 +47,7 @@ export default {
           'ui:errorMessages': {
             required: missingIssueErrorMessage,
           },
+          'ui:validations': [uniqueIssue],
         },
         decisionDate: {
           ...dateUiSchema('Date of decision'),

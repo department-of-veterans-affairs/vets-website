@@ -59,6 +59,11 @@ export const getSelectedCount = (formData, items) =>
 export const getIssueName = (entry = {}) =>
   entry.issue || entry.attributes?.ratingIssueSubjectText;
 
+export const getIssueNameAndDate = (entry = {}) =>
+  `${(getIssueName(entry) || '').toLowerCase()}${entry.decisionDate ||
+    entry.attributes?.approxDecisionDate ||
+    ''}`;
+
 // Simple one level deep check
 export const isEmptyObject = obj =>
   obj && typeof obj === 'object' && !Array.isArray(obj)
