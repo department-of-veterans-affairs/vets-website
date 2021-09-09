@@ -7,11 +7,7 @@ import {
 } from 'platform/forms-system/src/js/utilities/validations';
 
 import { $, areaOfDisagreementWorkAround } from './utils/ui';
-import {
-  getSelected,
-  hasSomeSelected,
-  getIssueNameAndDate,
-} from './utils/helpers';
+import { getSelected, hasSomeSelected, hasDuplicates } from './utils/helpers';
 import { optInErrorMessage } from './content/OptIn';
 import {
   missingIssuesErrorMessageText,
@@ -117,9 +113,6 @@ export const validAdditionalIssue = (
   }
 };
 
-const processIssues = (array = []) =>
-  array.filter(Boolean).map(entry => getIssueNameAndDate(entry));
-
 // Alert Veteran to duplicates based on name & decision date
 export const uniqueIssue = (
   errors,
@@ -130,15 +123,8 @@ export const uniqueIssue = (
   _index,
   appStateData,
 ) => {
-  if (errors?.addError) {
-    const contestableIssues = processIssues(appStateData?.contestableIssues);
-    const additionalIssues = processIssues(appStateData?.additionalIssues);
-    // ignore duplicate contestable issues (if any)
-    const fullList = [...new Set(contestableIssues)].concat(additionalIssues);
-
-    if (fullList.length !== new Set(fullList).size) {
-      errors.addError(uniqueIssueErrorMessage);
-    }
+  if (errors?.addError && hasDuplicates(appStateData)) {
+    errors.addError(uniqueIssueErrorMessage);
   }
 };
 

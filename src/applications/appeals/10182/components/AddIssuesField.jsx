@@ -57,7 +57,7 @@ const AddIssuesField = props => {
     [fullFormData, setFormData, hasSubmitted, selectedCount],
   );
 
-  const initialEditingState = uiOptions.setInitialEditMode?.(formData);
+  const initialEditingState = uiOptions.setInitialEditMode?.(fullFormData);
   // Editing state: 1 = new edit, true = update edit & false = view state
   const [editing, setEditing] = useState(
     initialEditingState?.length ? initialEditingState : [1],

@@ -155,6 +155,17 @@ describe('uniqueIssue', () => {
     });
     expect(errors.addError.called).to.be.true;
   });
+  it('should show an error when there are multiple duplicate additional issue', () => {
+    const errors = { addError: sinon.spy() };
+    uniqueIssue(errors, _, _, _, _, _, {
+      contestableIssues,
+      additionalIssues: [
+        { issue: 'test2', decisionDate: '2021-02-01' },
+        { issue: 'test2', decisionDate: '2021-02-01' },
+      ],
+    });
+    expect(errors.addError.called).to.be.true;
+  });
 });
 
 describe('maxIssues', () => {

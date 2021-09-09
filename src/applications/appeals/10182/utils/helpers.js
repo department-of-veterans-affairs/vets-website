@@ -64,17 +64,44 @@ export const getIssueNameAndDate = (entry = {}) =>
     entry.attributes?.approxDecisionDate ||
     ''}`;
 
+const processIssues = (array = []) =>
+  array.filter(Boolean).map(entry => getIssueNameAndDate(entry));
+
+export const hasDuplicates = (data = {}) => {
+  const contestableIssues = processIssues(data.contestableIssues);
+  const additionalIssues = processIssues(data.additionalIssues);
+  // ignore duplicate contestable issues (if any)
+  const fullList = [...new Set(contestableIssues)].concat(additionalIssues);
+
+  return fullList.length !== new Set(fullList).size;
+};
+
 // Simple one level deep check
 export const isEmptyObject = obj =>
   obj && typeof obj === 'object' && !Array.isArray(obj)
     ? Object.keys(obj)?.length === 0 || false
     : false;
 
-export const setInitialEditMode = (formData = []) =>
-  formData.map(
-    ({ issue, decisionDate } = {}) =>
-      !issue || !decisionDate || !isValidDate(decisionDate),
+export const setInitialEditMode = (formData = {}) => {
+  const contestedIssues = (formData.contestableIssues || []).map(entry =>
+    getIssueNameAndDate(entry),
   );
+  const additionalIssues = (formData.additionalIssues || []).map(entry =>
+    getIssueNameAndDate(entry),
+  );
+  return (formData.additionalIssues || []).map((issue = {}, index) => {
+    const currentIssue = getIssueNameAndDate(issue);
+    return (
+      !issue.issue ||
+      !issue.decisionDate ||
+      !isValidDate(issue.decisionDate) ||
+      // check for duplicates
+      contestedIssues.includes(currentIssue) ||
+      additionalIssues.lastIndexOf(currentIssue) !== index ||
+      additionalIssues.indexOf(currentIssue) !== index
+    );
+  });
+};
 
 // getEligibleContestableIssues will remove deferred issues and issues > 1 year
 // past their decision date. This function removes issues with no title & sorts
