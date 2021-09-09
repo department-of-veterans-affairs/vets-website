@@ -9,7 +9,6 @@ import first from 'lodash/first';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
-
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
@@ -24,9 +23,35 @@ import {
   renderLetterHistory,
 } from '../const/diary-codes';
 
+const HistoryTable = ({ history }) => (
+  <table className="vads-u-margin-y--4">
+    <thead>
+      <tr>
+        <th className="vads-u-font-weight--bold" scope="col">
+          Date
+        </th>
+        <th className="vads-u-font-weight--bold" scope="col">
+          Letter
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {history.map((debtEntry, index) => (
+        <tr key={`${debtEntry.date}-${index}`}>
+          <td>{moment(debtEntry.date, 'MM-DD-YYYY').format('MMMM D, YYYY')}</td>
+          <td>
+            <div className="vads-u-margin-top--0">
+              {renderLetterHistory(debtEntry.letterCode)}
+            </div>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+);
+
 const DebtDetails = ({ selectedDebt, debts }) => {
   const location = useLocation();
-
   /* 
     TODO TECH DEBT: https://github.com/department-of-veterans-affairs/va.gov-team/issues/27790
     Once debt.id is available via backend
@@ -53,74 +78,37 @@ const DebtDetails = ({ selectedDebt, debts }) => {
     return debtsWithId.filter(debt => debt.debtId === currentDebt)[0];
   };
 
-  const hasSelectedDebt = !Object.keys(selectedDebt).length === 0;
-  const currentDebt = (hasSelectedDebt && selectedDebt) || getCurrentDebt();
-
-  useEffect(() => {
-    scrollToTop();
-    setPageFocus('h1');
-  }, []);
-
-  const mostRecentHistory = head(currentDebt.debtHistory);
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: 2,
   });
 
-  const letterCodes = ['100', '101', '102', '109', '117', '123', '130'];
-
+  const approvedLetterCodes = ['100', '101', '102', '109', '117', '123', '130'];
+  const hasSelectedDebt = !Object.keys(selectedDebt).length === 0;
+  const currentDebt = (hasSelectedDebt && selectedDebt) || getCurrentDebt();
+  const mostRecentHistory = head(currentDebt.debtHistory);
+  const whyContent = renderWhyMightIHaveThisDebt(currentDebt.deductionCode);
+  const dateUpdated = last(currentDebt.debtHistory)?.date;
+  const dateFirstNotice = first(currentDebt.debtHistory)?.date;
   const filteredHistory = currentDebt.debtHistory
-    .filter(history => letterCodes.includes(history.letterCode.toString()))
+    ?.filter(history => approvedLetterCodes.includes(history.letterCode))
     .reverse();
-
   const hasFilteredHistory = filteredHistory && filteredHistory.length > 0;
-
-  if (Object.keys(currentDebt).length === 0) {
-    return window.location.replace('/manage-va-debt/your-debt');
-  }
-
   const additionalInfo = renderAdditionalInfo(
     currentDebt.diaryCode,
     mostRecentHistory?.date,
     currentDebt.benefitType,
   );
 
-  const whyMightIHaveThisDebtContent = renderWhyMightIHaveThisDebt(
-    currentDebt.deductionCode,
-  );
+  useEffect(() => {
+    scrollToTop();
+    setPageFocus('h1');
+  }, []);
 
-  const dateUpdated = last(currentDebt.debtHistory)?.date;
-  const dateFirstNotice = first(currentDebt.debtHistory)?.date;
-
-  const renderHistoryTable = history => (
-    <table className="vads-u-margin-y--4">
-      <thead>
-        <tr>
-          <th className="vads-u-font-weight--bold" scope="col">
-            Date
-          </th>
-          <th className="vads-u-font-weight--bold" scope="col">
-            Letter
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {history.map((debtEntry, index) => (
-          <tr key={`${debtEntry.date}-${index}`}>
-            <td>
-              {moment(debtEntry.date, 'MM-DD-YYYY').format('MMMM D, YYYY')}
-            </td>
-            <td>
-              <div className="vads-u-margin-top--0">
-                {renderLetterHistory(debtEntry.letterCode.toString())}
-              </div>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
+  if (Object.keys(currentDebt).length === 0) {
+    return window.location.replace('/manage-va-debt/your-debt');
+  }
 
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column">
@@ -130,14 +118,12 @@ const DebtDetails = ({ selectedDebt, debts }) => {
         <a href="/manage-va-debt/your-debt">Your VA debt</a>
         <a href="/manage-va-debt/your-debt/debt-detail">Details</a>
       </Breadcrumbs>
-
       <h1
         className="vads-u-font-family--serif vads-u-margin-bottom--2"
         tabIndex="-1"
       >
         Your {deductionCodes[currentDebt.deductionCode]}
       </h1>
-
       <section className="vads-l-row">
         <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-right--2p5 vads-l-col--12 medium-screen:vads-l-col--8 vads-u-font-family--sans">
           {dateUpdated && (
@@ -180,7 +166,6 @@ const DebtDetails = ({ selectedDebt, debts }) => {
               </div>
             </dl>
           </div>
-
           <va-alert
             status="info"
             class="vads-u-margin-bottom--4 vads-u-font-size--base"
@@ -188,14 +173,12 @@ const DebtDetails = ({ selectedDebt, debts }) => {
           >
             {additionalInfo.nextStep}
           </va-alert>
-
-          {whyMightIHaveThisDebtContent && (
+          {whyContent && (
             <AdditionalInfo triggerText="Why might I have this debt?">
-              {whyMightIHaveThisDebtContent}
+              {whyContent}
             </AdditionalInfo>
           )}
-          <OnThisPageLinks isDetailsPage />
-
+          <OnThisPageLinks isDetailsPage hasHistory={hasFilteredHistory} />
           {hasFilteredHistory && (
             <>
               <h2
@@ -218,7 +201,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
                 />
                 .
               </p>
-              {renderHistoryTable(filteredHistory)}
+              <HistoryTable history={filteredHistory} />
               <h3 id="downloadDebtLetters" className="vads-u-margin-top--0">
                 Download debt letters
               </h3>
@@ -231,10 +214,8 @@ const DebtDetails = ({ selectedDebt, debts }) => {
               </Link>
             </>
           )}
-
           <HowDoIPay />
           <NeedHelp />
-
           <Link className="vads-u-margin-top--4" to="/">
             <i aria-hidden="true" className="fa fa-chevron-left" /> Return to
             your list of debts.
