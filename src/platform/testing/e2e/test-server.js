@@ -11,7 +11,9 @@ const fallback = require('express-history-api-fallback');
 const morgan = require('morgan');
 const path = require('path');
 
-const getAppRoutes = require('../../../../config/webpack/helpers/get-app-routes');
+const {
+  getAppRoutes,
+} = require('../../../../config/webpack/helpers/get-app-routes');
 const ENVIRONMENTS = require('../../../site/constants/environments');
 
 const optionDefinitions = [
