@@ -85,6 +85,7 @@ export function TuitionAndHousingEstimates({
             text="Will you be taking any classes in person?"
             onClick={() => dispatchShowModal('onlineOnlyDistanceLearning')}
             ariaLabel="Learn more about how we calculate your housing allowance based on where you take classes"
+            butttonId="classes-in-person-learn-more"
           />
         }
         name="inPersonClasses"
@@ -94,6 +95,10 @@ export function TuitionAndHousingEstimates({
           setOnlineClasses(e.target.value);
         }}
       />
+      <div id="note" className="vads-u-padding-top--2">
+        <b>Note:</b> Changing these settings modifies the tuition and housing
+        benefits shown on the search cards.
+      </div>
     </div>
   );
   const title = 'Update tuition and housing estimates';
@@ -107,6 +112,7 @@ export function TuitionAndHousingEstimates({
           buttonOnClick={updateStore}
           expanded={expanded}
           onClick={onExpand}
+          ariaDescribedBy="note"
         >
           {controls}
         </SearchAccordion>

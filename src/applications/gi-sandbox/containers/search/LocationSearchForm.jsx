@@ -33,6 +33,7 @@ export function LocationSearchForm({
 }) {
   const [distance, setDistance] = useState(search.query.distance);
   const [location, setLocation] = useState(search.query.location);
+  const [error, setError] = useState(null);
   const [autocompleteSelection, setAutocompleteSelection] = useState(null);
   const { version } = preview;
   const history = useHistory();
@@ -62,6 +63,14 @@ export function LocationSearchForm({
     [search.loadFromUrl],
   );
 
+  const validateSearchTerm = searchTerm => {
+    if (searchTerm.trim() === '') {
+      setError('Please fill in a city, state, or postal code.');
+    } else if (error !== null) {
+      setError(null);
+    }
+  };
+
   const doSearch = event => {
     if (event) {
       event.preventDefault();
@@ -79,12 +88,18 @@ export function LocationSearchForm({
         version,
       );
     } else {
-      dispatchFetchSearchByLocationResults(
-        location,
-        distance,
-        filters,
-        version,
-      );
+      if (location.trim() !== '') {
+        dispatchFetchSearchByLocationResults(
+          location,
+          distance,
+          filters,
+          version,
+        );
+      }
+
+      if (event) {
+        validateSearchTerm(location);
+      }
     }
 
     updateUrlParams(
@@ -146,30 +161,6 @@ export function LocationSearchForm({
 
   return (
     <div className="location-search-form">
-      <div className="use-my-location-container">
-        {search.geolocationInProgress ? (
-          <div className="use-my-location-link">
-            <i
-              className="fa fa-spinner fa-spin"
-              aria-hidden="true"
-              role="presentation"
-            />
-            <span aria-live="assertive">Finding your location...</span>
-          </div>
-        ) : (
-          <button
-            onClick={dispatchGeolocateUser}
-            className="use-my-location-link"
-          >
-            <i
-              className="use-my-location-button"
-              aria-hidden="true"
-              role="presentation"
-            />
-            Use my location
-          </button>
-        )}
-      </div>
       <Modal
         title={
           search.geocodeError === 1
@@ -191,39 +182,72 @@ export function LocationSearchForm({
       />
       <form onSubmit={doSearch} className="vads-u-margin-y--0">
         <div className="vads-l-row">
-          <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--5 medium-screen:vads-l-col--7 input-row">
+          <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--7 medium-screen:vads-l-col--7 input-row">
             <KeywordSearch
-              version={version}
-              name="locationSearch"
               className="location-search"
+              error={error}
               inputValue={location}
+              label="City, state, or postal code"
+              labelAdditional={
+                <span className="use-my-location-container">
+                  {search.geolocationInProgress ? (
+                    <div className="use-my-location-link">
+                      <i
+                        className="fa fa-spinner fa-spin"
+                        aria-hidden="true"
+                        role="presentation"
+                      />
+                      <span aria-live="assertive">
+                        Finding your location...
+                      </span>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={dispatchGeolocateUser}
+                      className="use-my-location-link"
+                    >
+                      <i
+                        className="use-my-location-button"
+                        aria-hidden="true"
+                        role="presentation"
+                      />
+                      Use my location
+                    </button>
+                  )}
+                </span>
+              }
+              name="locationSearch"
               onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
               onPressEnter={e => doSearch(e)}
               onSelection={selected => setAutocompleteSelection(selected)}
               onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
-              placeholder="city, state, or postal code"
               suggestions={[...autocomplete.locationSuggestions]}
+              validateSearchTerm={validateSearchTerm}
+              version={version}
             />
           </div>
 
-          <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--4 medium-screen:vads-l-col--3 input-row">
-            <Dropdown
-              ariaLabel="Distance"
-              className="vads-u-font-style--italic"
-              selectClassName="vads-u-font-style--italic vads-u-color--gray"
-              name="distance"
-              options={distanceDropdownOptions}
-              value={distance}
-              alt="distance"
-              visible
-              onChange={e => setDistance(e.target.value)}
-            />
-          </div>
-          <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3 medium-screen:vads-l-col--2 vads-u-text-align--right input-row">
-            <button type="submit" className="usa-button location-search-button">
-              Search
-              <i aria-hidden="true" className="fa fa-search" />
-            </button>
+          <div className="location-search-inputs vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--5 medium-screen:vads-l-col--5 input-row">
+            <div className="bottom-positioner">
+              <Dropdown
+                ariaLabel="Distance"
+                className="vads-u-font-style--italic vads-u-display--inline-block "
+                selectClassName="vads-u-font-style--italic vads-u-color--gray"
+                name="distance"
+                options={distanceDropdownOptions}
+                value={distance}
+                alt="distance"
+                visible
+                onChange={e => setDistance(e.target.value)}
+              />
+              <button
+                type="submit"
+                className="usa-button location-search-button"
+              >
+                Search
+                <i aria-hidden="true" className="fa fa-search" />
+              </button>
+            </div>
           </div>
         </div>
       </form>

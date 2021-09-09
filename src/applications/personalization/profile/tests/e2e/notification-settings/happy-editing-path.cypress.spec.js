@@ -38,6 +38,8 @@ describe('Updating Notification Settings', () => {
       cy.login(mockPatient);
       cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
 
+      cy.findByTestId('select-options-alert').should('exist');
+
       // both radio buttons will start off unchecked because of the mocked
       // response from mockCommunicationPreferences
       cy.findByRole('radio', {
@@ -65,6 +67,8 @@ describe('Updating Notification Settings', () => {
       })
         .should('be.checked')
         .should('not.be.disabled');
+
+      cy.findByTestId('select-options-alert').should('not.exist');
     });
 
     it('should allow opting out of getting notifications', () => {

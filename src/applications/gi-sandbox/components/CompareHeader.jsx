@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import appendQuery from 'append-query';
 import classNames from 'classnames';
 import Checkbox from './Checkbox';
 import SchoolClassification from './SchoolClassification';
 import { Link } from 'react-router-dom';
 import CompareScroller from './CompareScroller';
+import { focusElement } from 'platform/utilities/ui';
 
 export default function({
   currentScroll,
@@ -17,6 +18,10 @@ export default function({
   smallScreen,
   version,
 }) {
+  useEffect(() => {
+    focusElement('.compare-page-description-label');
+  }, []);
+
   const empties = [];
   for (let i = 0; i < 3 - institutionCount; i++) {
     empties.push(
@@ -72,8 +77,10 @@ export default function({
       {smallWrap(
         institutions.map((institution, index) => {
           const profileLink = version
-            ? appendQuery(`/profile/${institution.facilityCode}`, { version })
-            : `/profile/${institution.facilityCode}`;
+            ? appendQuery(`/institution/${institution.facilityCode}`, {
+                version,
+              })
+            : `/institution/${institution.facilityCode}`;
           return (
             <div
               className="small-screen:vads-l-col--3 institution-card"
@@ -87,17 +94,14 @@ export default function({
                   />
                   <div className="header-fields">
                     <div className="institution-name">
-                      {smallScreen && institution.name}
-                      {!smallScreen && (
-                        <Link
-                          to={{
-                            pathname: profileLink,
-                            state: { prevPath: location.pathname },
-                          }}
-                        >
-                          {institution.name}
-                        </Link>
-                      )}
+                      <Link
+                        to={{
+                          pathname: profileLink,
+                          state: { prevPath: location.pathname },
+                        }}
+                      >
+                        {institution.name}
+                      </Link>
                     </div>
                   </div>
                 </div>

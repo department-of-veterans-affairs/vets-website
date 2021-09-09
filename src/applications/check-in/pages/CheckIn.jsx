@@ -10,7 +10,7 @@ import { checkInUser } from '../api';
 
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
-import BackButton from '../components/BackButton';
+// import BackButton from '../components/BackButton';
 import AppointmentLocation from '../components/AppointmentLocation';
 
 const CheckIn = props => {
@@ -53,7 +53,7 @@ const CheckIn = props => {
   const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 appointment-check-in">
-      <BackButton router={router} />
+      {/* <BackButton router={router} /> */}
       <h1 tabIndex="-1" className="vads-u-margin-top--2">
         Your appointment
       </h1>
