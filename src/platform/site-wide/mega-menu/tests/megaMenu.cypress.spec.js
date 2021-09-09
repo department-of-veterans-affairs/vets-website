@@ -51,7 +51,7 @@ const testMobileMenuSections = () => {
   cy.get('.vetnav-controller-close').contains('Close');
 
   // Check the links to make sure they all look right.
-  cy.get('[data-e2e-id="mobile-home-nav-link"]');
+  cy.findByTestId('mobile-home-nav-link');
   cy.get('[data-e2e-id="about-va-1"]').click();
   cy.get('[data-e2e-id="vetnav-level2--va-organizations"]').click();
   cy.get('[data-e2e-id="all-va-offices-and-organizations-6"]');
@@ -62,6 +62,57 @@ const testMobileMenuSections = () => {
   // Close the mobile menu.
   cy.get('.vetnav-controller-close').click();
   cy.get('.vetnav-controller-open').contains('Menu');
+};
+
+const testMobileTabFocus = () => {
+  cy.get('[data-e2e-id="about-va-1"]').should('not.be.visible');
+  cy.get('#mega-menu-desktop #vetnav').should('not.exist');
+
+  cy.get('.vetnav-controller-open').contains('Menu');
+  cy.get('.vetnav-controller-open').click();
+  cy.get('.vetnav-controller-close').contains('Close');
+
+  // tabbing through first level menu wraps around to open/close button
+  cy.findByTestId('mobile-home-nav-link').focus();
+
+  for (let i = 0; i < 5; i++) {
+    cy.focused().tab();
+  }
+
+  cy.focused().should('have.attr', 'aria-controls', 'vetnav');
+
+  // shift tabbing through first level menu wraps around to open/close button
+
+  for (let i = 0; i < 6; i++) {
+    cy.focused().tab({ shift: true });
+  }
+
+  cy.focused().should('have.attr', 'aria-controls', 'vetnav');
+
+  // tabbing through second level menu wraps around to open/close button
+  cy.findByTestId('mobile-home-nav-link')
+    .tab()
+    .click();
+
+  for (let i = 0; i < 15; i++) {
+    cy.focused().tab();
+  }
+
+  cy.focused().should('have.attr', 'aria-controls', 'vetnav');
+
+  // tabbing through third level menu wraps around to open/close button
+  cy.findByTestId('mobile-home-nav-link')
+    .tab()
+    .tab()
+    .click();
+
+  cy.get('#vetnav-health-care-ms button').focus();
+
+  for (let i = 0; i < 11; i++) {
+    cy.focused().tab();
+  }
+
+  cy.focused().should('have.attr', 'aria-controls', 'vetnav');
 };
 
 const testDesktopMenuSections = () => {
@@ -81,7 +132,7 @@ describe('Mega Menu', () => {
       cy.visit('/');
 
       // Back to home button should not appear on desktop.
-      cy.get('[data-e2e-id="mobile-home-nav-link"]').should('not.be.visible');
+      cy.findByTestId('mobile-home-nav-link').should('not.be.visible');
 
       // Test the menu sections.
       testDesktopMenuSections();
@@ -99,7 +150,7 @@ describe('Mega Menu', () => {
       cy.visit('/');
 
       // Back to home button should not appear on desktop.
-      cy.get('[data-e2e-id="mobile-home-nav-link"]').should('not.be.visible');
+      cy.findByTestId('mobile-home-nav-link').should('not.be.visible');
 
       // Test the menu sections.
       testDesktopMenuSections();
@@ -140,6 +191,12 @@ describe('Mega Menu', () => {
       // Authenticated links should appear.
       cy.get('[data-e2e-id="my-va-3"]');
       cy.get('[data-e2e-id="my-health-4"]');
+    });
+
+    it('traps focus inside mega menu when opened', () => {
+      cy.visit('/');
+
+      testMobileTabFocus();
     });
   });
 });
