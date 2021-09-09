@@ -101,6 +101,11 @@ const testConfig = createTestConfig(
         `/v0${CONTESTABLE_ISSUES_API}compensation`,
         mockContestableIssues,
       );
+      cy.intercept(
+        'GET',
+        `/v1${CONTESTABLE_ISSUES_API}compensation`,
+        mockContestableIssues,
+      );
 
       cy.intercept('PUT', 'v0/in_progress_forms/20-0996', mockInProgress);
 
