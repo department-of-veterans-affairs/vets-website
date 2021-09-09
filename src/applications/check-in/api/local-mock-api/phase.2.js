@@ -68,6 +68,7 @@ const responses = {
     true,
     true,
     false,
+    false,
   ),
 
   'GET /check_in/v0/patient_check_ins/:id': (req, res) => {
