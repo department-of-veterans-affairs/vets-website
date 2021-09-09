@@ -58,5 +58,6 @@ graphql-data.json
 content-object-diff.json
 comparison-output/
 
-# Ignore custom generated Cypress config
+# Ignore custom generated Cypress-TestRail configs
 my-cypress-testrail.json
+script/cypress-testrail-helper/my-config.json
