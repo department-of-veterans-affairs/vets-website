@@ -10,7 +10,7 @@ import { scrollToFirstError } from 'platform/utilities/ui';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import { scrollAndFocus } from '../utils/ui';
-import { getSelectedCount } from '../utils/helpers';
+import { getSelectedCount, hasDuplicates } from '../utils/helpers';
 import { SELECTED, MAX_SELECTIONS } from '../constants';
 import { GetContent, RenderPage } from './AddIssues';
 
@@ -134,7 +134,13 @@ const AddIssuesField = props => {
      */
     update: index => {
       const { issue, decisionDate } = formData[index];
-      if (errorSchemaIsValid(errorSchema[index]) && issue && decisionDate) {
+      if (
+        errorSchemaIsValid(errorSchema[index]) &&
+        issue &&
+        decisionDate &&
+        // prevent saving on return to page (hit back then continue)
+        !hasDuplicates(fullFormData)
+      ) {
         setEditing(
           editing.map((mode, indx) => (indx === index ? false : mode)),
         );
