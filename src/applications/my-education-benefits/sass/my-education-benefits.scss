@@ -181,9 +181,19 @@ dl.review {
 .review-row {
 	margin: 0;
 }
+dl.review .review-row {
+	padding: 1em 0;
+}
 dl.review .review-row:last-child {
 	padding-bottom: 0;
 }
+@media only screen and (min-width: 40.0625em) {
+	dl.review .review-row {
+		padding-left: 1em;
+		padding-right: 1em;
+	}
+}
+
 .form-review-panel-page form.rjsf {
 	margin: 0;
 }
