@@ -32,7 +32,6 @@ describe('Check In Experience -- ', () => {
     cy.visit(featureRoute);
     // redirected back to landing page to reload the data
     cy.url().should('match', /id=46bebc0a-b99c-464f-a5c5-560bc9eae287/);
-    // cy.get('legend > h2').contains('information');
     cy.get('h1').contains('Your appointment');
   });
 });

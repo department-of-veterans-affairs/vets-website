@@ -59,10 +59,12 @@ export const getSelectedCount = (formData, items) =>
 export const getIssueName = (entry = {}) =>
   entry.issue || entry.attributes?.ratingIssueSubjectText;
 
+export const getIssueDate = (entry = {}) =>
+  entry.decisionDate || entry.attributes?.approxDecisionDate || '';
+
+// used for string comparison
 export const getIssueNameAndDate = (entry = {}) =>
-  `${(getIssueName(entry) || '').toLowerCase()}${entry.decisionDate ||
-    entry.attributes?.approxDecisionDate ||
-    ''}`;
+  `${(getIssueName(entry) || '').toLowerCase()}${getIssueDate(entry)}`;
 
 const processIssues = (array = []) =>
   array.filter(Boolean).map(entry => getIssueNameAndDate(entry));

@@ -11,14 +11,18 @@ describe('Check In Experience -- ', () => {
     cy.intercept('POST', '/check_in/v0/patient_check_ins/', req => {
       req.reply(mockCheckIn.createMockSuccessResponse({}));
     });
-    cy.intercept('GET', '/v0/feature_toggles*', createFeatureToggles());
+    cy.intercept(
+      'GET',
+      '/v0/feature_toggles*',
+      createFeatureToggles(true, false, false, true),
+    );
   });
   afterEach(() => {
     cy.window().then(window => {
       window.sessionStorage.clear();
     });
   });
-  it.skip('C5685 - Back button from staff page', () => {
+  it('C5685 - Back button from staff page', () => {
     const featureRoute =
       '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
     cy.visit(featureRoute);

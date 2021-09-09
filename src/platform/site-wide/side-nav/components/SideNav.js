@@ -147,6 +147,7 @@ class SideNav extends Component {
           )}
           onClick={this.toggleUlClass}
           id="sidenav-menu"
+          aria-label="In this section menu"
         >
           <span className="sr-only">View sub-navigation for </span>
           In this section
