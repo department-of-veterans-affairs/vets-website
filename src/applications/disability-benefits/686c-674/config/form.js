@@ -92,6 +92,7 @@ const formConfig = {
       externalServices.global,
       externalServices.mvi,
       externalServices.vaProfile,
+      externalServices.vbms,
     ],
   },
   savedFormMessages: {
