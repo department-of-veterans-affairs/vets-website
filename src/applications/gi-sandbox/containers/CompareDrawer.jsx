@@ -43,14 +43,14 @@ export function CompareDrawer({
     const blanks = [];
     for (let i = 0; i < 3 - loaded.length; i++) {
       blanks.push(
-        <div
+        <li
           key={i}
-          className="compare-item vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3"
+          className="compare-item vads-u-padding-right--1 vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3"
         >
           <div className="compare-name">
             <div className="blank" />
           </div>
-        </div>,
+        </li>,
       );
     }
     return blanks;
@@ -121,7 +121,7 @@ export function CompareDrawer({
     setLoadedCards(
       loaded.map((facilityCode, index) => {
         return (
-          <div
+          <li
             className="compare-item vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3"
             key={index}
           >
@@ -141,7 +141,7 @@ export function CompareDrawer({
                 </button>
               </div>
             </div>
-          </div>
+          </li>
         );
       }),
     );
@@ -273,10 +273,12 @@ export function CompareDrawer({
               You can compare 2 to 3 institutions
             </div>
             <div className="vads-l-row vads-u-padding-top--1">
-              {loadedCards}
+              <ol id="cd" className="test">
+                {loadedCards}
+                {blanks}
+              </ol>
 
-              {blanks}
-              <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3 action-cell ">
+              <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3 action-cell test2">
                 <div className="large-function-label compare-name">
                   You can compare 2 to 3 institutions
                 </div>
