@@ -17,7 +17,7 @@ export const issueName = ({ formData, formContext } = {}) => {
   const date = moment(getIssueDate(formData), FORMAT_YMD).format(
     FORMAT_READABLE,
   );
-  const title = `${getIssueName(formData)}${date ? ` \u2014 ${date}` : ''}`;
+  const title = `${getIssueName(formData)}${date ? ` \u2013 ${date}` : ''}`;
   return (
     <legend
       className="schemaform-block-title schemaform-title-underline"
