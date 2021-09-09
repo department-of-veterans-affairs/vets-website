@@ -44,7 +44,10 @@ const Landing = props => {
               if (isLowAuthEnabled) {
                 goToNextPage(router, URLS.VALIDATION_NEEDED);
               } else {
-                goToNextPage(router, URLS.UPDATE_INSURANCE);
+                // Disabled because
+                // https://github.com/department-of-veterans-affairs/va.gov-team/issues/29690
+                // goToNextPage(router, URLS.UPDATE_INSURANCE);
+                goToNextPage(router, URLS.DETAILS);
               }
             }
           })

@@ -66,8 +66,9 @@ const ProfileMobileSubNav = ({ isLOA3, isInMVI, routes }) => {
               className="open-menu"
               type="button"
               onClick={() => setIsMenuOpen(true)}
+              id="mobile-subnav-header"
             >
-              <strong id="mobile-subnav-header">Profile menu</strong>
+              <strong>Profile menu</strong>
               <i className="fa fa-bars" aria-hidden="true" role="img" />
             </button>
           )}

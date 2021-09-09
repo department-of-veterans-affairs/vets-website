@@ -9,10 +9,10 @@ describe('SIP Load Fail Test', () => {
       formSubmissionId: '123fake-submission-id-567',
       timestamp: '2016-05-16',
     });
-    cy.intercept('GET', '/v0/sessions/slo/new', {
+    cy.intercept('GET', '/v1/sessions/slo/new', {
       url: 'http://fake',
     });
-    cy.intercept('GET', '/v0/sessions/new', {
+    cy.intercept('GET', '/v1/sessions/new', {
       url: 'http://fake',
     });
     cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
