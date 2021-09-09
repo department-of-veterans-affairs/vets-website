@@ -7,6 +7,7 @@ import {
   getSelected,
   getSelectedCount,
   getIssueName,
+  getIssueDate,
   getIssueNameAndDate,
   hasDuplicates,
   showAddIssuesPage,
@@ -126,6 +127,20 @@ describe('getIssueName', () => {
   });
   it('should return an added issue name', () => {
     expect(getIssueName({ issue: 'test2' })).to.eq('test2');
+  });
+});
+
+describe('getIssueDate', () => {
+  it('should return undefined', () => {
+    expect(getIssueDate()).to.eq('');
+  });
+  it('should return a contestable issue date', () => {
+    expect(
+      getIssueDate({ attributes: { approxDecisionDate: '2021-01-01' } }),
+    ).to.eq('2021-01-01');
+  });
+  it('should return an added issue name', () => {
+    expect(getIssueDate({ decisionDate: '2021-02-01' })).to.eq('2021-02-01');
   });
 });
 

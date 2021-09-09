@@ -23,6 +23,7 @@ describe('area of disagreement page', () => {
       {
         attributes: {
           ratingIssueSubjectText: 'Tinnitus',
+          approxDecisionDate: '2021-01-01',
         },
       },
     ],
@@ -41,6 +42,7 @@ describe('area of disagreement page', () => {
     );
 
     expect(form.find('input[type="checkbox"]').length).to.equal(4);
+    expect(form.find('h3').text()).to.equal('Tinnitus \u2014 January 1, 2021');
     form.unmount();
   });
 
