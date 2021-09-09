@@ -230,6 +230,7 @@ export function LocationSearchForm({
           <div className="location-search-inputs vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--5 medium-screen:vads-l-col--5 input-row">
             <div className="bottom-positioner">
               <Dropdown
+                ariaLabel="Distance"
                 className="vads-u-font-style--italic vads-u-display--inline-block "
                 selectClassName="vads-u-font-style--italic vads-u-color--gray"
                 name="distance"
