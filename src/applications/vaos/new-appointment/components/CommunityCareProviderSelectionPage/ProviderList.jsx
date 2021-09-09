@@ -109,11 +109,12 @@ export default function ProviderList({
           sortByDistanceFromResidential={sortByDistanceFromResidential}
         />
       )}
-      {loadingProviders && (
-        <div className="vads-u-padding-bottom--2">
-          <LoadingIndicator message="Loading the list of providers." />
-        </div>
-      )}
+      {loadingProviders &&
+        !loadingLocations && (
+          <div className="vads-u-padding-bottom--2">
+            <LoadingIndicator message="Loading the list of providers." />
+          </div>
+        )}
       {loadingLocations && (
         <div className="vads-u-padding-bottom--2">
           <LoadingIndicator message="Finding your location. Be sure to allow your browser to find your current location." />
