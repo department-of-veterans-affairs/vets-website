@@ -111,7 +111,7 @@ export class Main extends Component {
     this.props.toggleMobileDisplayHidden(hidden);
   };
 
-  focusTrap = e => {
+  focusTrap = event => {
     const buttonContainer = document.getElementById('va-nav-controls');
     const megaMenuContainer = document.getElementById('mega-menu-mobile');
     const focusable = [
@@ -131,12 +131,12 @@ export class Main extends Component {
     const firstEl = focusable[0];
     const lastEl = focusable[focusable.length - 1];
 
-    if (e.keyCode === 9) {
-      if (e.shiftKey && document.activeElement === firstEl) {
-        e.preventDefault();
+    if (event.code === 'Tab') {
+      if (event.shiftKey && document.activeElement === firstEl) {
+        event.preventDefault();
         lastEl.focus();
-      } else if (!e.shiftKey && document.activeElement === lastEl) {
-        e.preventDefault();
+      } else if (!event.shiftKey && document.activeElement === lastEl) {
+        event.preventDefault();
         firstEl.focus();
       }
     }

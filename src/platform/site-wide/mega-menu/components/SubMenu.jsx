@@ -39,15 +39,13 @@ const SubMenu = ({
         id={id}
         role="group"
       >
-        <div>
-          <button
-            className="back-button"
-            aria-controls={`vetnav-${_.kebabCase(navTitle)}`}
-            onClick={() => handleBackToMenu()}
-          >
-            Back to Menu
-          </button>
-        </div>
+        <button
+          className="back-button"
+          aria-controls={`vetnav-${_.kebabCase(navTitle)}`}
+          onClick={() => handleBackToMenu()}
+        >
+          Back to Menu
+        </button>
 
         {seeAllLink && (
           <div className="panel-bottom-link">
