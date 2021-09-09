@@ -2,7 +2,7 @@ import { createFeatureToggles } from '../../../../api/local-mock-api/mocks/featu
 import mockCheckIn from '../../../../api/local-mock-api/mocks/check.in.response';
 import mockValidate from '../../../../api/local-mock-api/mocks/validate.responses';
 
-describe('Check In Experience -- happy path', () => {
+describe('Check In Experience', () => {
   beforeEach(function() {
     cy.intercept(
       'GET',
