@@ -14,7 +14,7 @@ describe('Check In Experience -- ', () => {
     cy.intercept(
       'GET',
       '/v0/feature_toggles*',
-      createFeatureToggles(true, true, false, true),
+      createFeatureToggles(true, false, false, true),
     );
   });
   afterEach(() => {
@@ -26,18 +26,6 @@ describe('Check In Experience -- ', () => {
     const featureRoute =
       '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
     cy.visit(featureRoute);
-    cy.get('h1').contains('Check in at VA');
-    cy.injectAxe();
-    cy.axeCheck();
-    cy.get('[label="Your last name"]')
-      .shadow()
-      .find('input')
-      .type('Smith');
-    cy.get('[label="Last 4 digits of your Social Security number"]')
-      .shadow()
-      .find('input')
-      .type('4837');
-    cy.get('[data-testid=check-in-button]').click();
     cy.get('legend > h2').contains('information');
     cy.injectAxe();
     cy.axeCheck();

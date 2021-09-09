@@ -14,7 +14,7 @@ describe('Check In Experience -- ', () => {
     cy.intercept(
       'GET',
       '/v0/feature_toggles*',
-      createFeatureToggles(true, true, false, true),
+      createFeatureToggles(true, true, false, false),
     );
   });
   afterEach(() => {
@@ -38,10 +38,7 @@ describe('Check In Experience -- ', () => {
       .find('input')
       .type('4837');
     cy.get('[data-testid=check-in-button]').click();
-    cy.get('legend > h2').contains('information');
-    cy.injectAxe();
-    cy.axeCheck();
-    cy.get('[data-testid="no-button"]').click();
+
     cy.get('h1').contains('Your appointment');
     cy.injectAxe();
     cy.axeCheck();
