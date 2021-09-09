@@ -4,6 +4,7 @@ const commonResponses = require('../../../../platform/testing/local-dev-mock-api
 const mockCheckIns = require('./mocks/check.in.response');
 const mockValidates = require('./mocks/validate.responses');
 const featureToggles = require('./mocks/feature.toggles');
+
 const delay = require('mocker-api/lib/delay');
 
 const responses = {
@@ -66,11 +67,10 @@ const responses = {
   },
   'GET /v0/feature_toggles': featureToggles.createFeatureToggles(
     true,
-    true,
+    false,
     false,
     false,
   ),
-
   'GET /check_in/v0/patient_check_ins/:id': (req, res) => {
     const { id } = req.params;
     return res.json(mockValidates.createMockSuccessResponse({ id }));
