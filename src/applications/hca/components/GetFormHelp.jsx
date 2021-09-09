@@ -28,7 +28,7 @@ function GetFormHelp() {
       </p>
       <p className="help-talk">
         <strong>If you have questions about VA health care, </strong>
-        call our Health Resource Center at{' '}
+        call our Health Eligibility Center at{' '}
         <a href="tel:+18772228387">877-222-8387</a> (TTY:{' '}
         <Telephone
           contact={CONTACTS['711']}

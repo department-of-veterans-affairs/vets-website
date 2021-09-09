@@ -5,6 +5,7 @@ import RadioButtons from '../components/RadioButtons';
 import LearnMoreLabel from '../components/LearnMoreLabel';
 import { showModal, eligibilityChange } from '../actions';
 import { connect } from 'react-redux';
+import { createId } from '../utils/helpers';
 
 export function TuitionAndHousingEstimates({
   eligibility,
@@ -84,6 +85,7 @@ export function TuitionAndHousingEstimates({
             text="Will you be taking any classes in person?"
             onClick={() => dispatchShowModal('onlineOnlyDistanceLearning')}
             ariaLabel="Learn more about how we calculate your housing allowance based on where you take classes"
+            butttonId="classes-in-person-learn-more"
           />
         }
         name="inPersonClasses"
@@ -93,19 +95,24 @@ export function TuitionAndHousingEstimates({
           setOnlineClasses(e.target.value);
         }}
       />
+      <div id="note" className="vads-u-padding-top--2">
+        <b>Note:</b> Changing these settings modifies the tuition and housing
+        benefits shown on the search cards.
+      </div>
     </div>
   );
+  const title = 'Update tuition and housing estimates';
 
   return (
     <div className="vads-u-margin-bottom--2">
       {!smallScreen && (
         <SearchAccordion
-          button="Update tuition and housing estimates"
-          buttonLabel="Update results"
+          button={title}
+          buttonLabel="Update estimates"
           buttonOnClick={updateStore}
-          name="benefitEstimates"
           expanded={expanded}
           onClick={onExpand}
+          ariaDescribedBy="note"
         >
           {controls}
         </SearchAccordion>
@@ -119,11 +126,11 @@ export function TuitionAndHousingEstimates({
           <div className="modal-button-wrapper">
             <button
               type="button"
-              id="update-benefits-button"
+              id={`update-${createId(title)}-button`}
               className="update-results-button"
               onClick={closeAndUpdate}
             >
-              Update results
+              Update estimates
             </button>
           </div>
         </div>

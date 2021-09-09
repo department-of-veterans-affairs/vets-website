@@ -4,6 +4,7 @@ import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 export const missingIssueErrorMessage = 'Please add the name of an issue';
 export const noneSelected = 'Please add and select at least one issue';
+export const uniqueIssueErrorMessage = 'Please enter a unique condition name';
 
 export const maxSelected =
   'You’ve reached the maximum number of allowed selected issues';
