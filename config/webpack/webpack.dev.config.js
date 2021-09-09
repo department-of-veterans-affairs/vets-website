@@ -1,9 +1,9 @@
 const path = require('path');
-const setupLocalProxyRewrite = require('../src/applications/proxy-rewrite/local-proxy-rewrite');
-const manifestHelpers = require('./manifest-helpers');
+const setupLocalProxyRewrite = require('../../src/applications/proxy-rewrite/local-proxy-rewrite');
+const { getAppRoutes } = require('./helpers/get-app-routes');
 
 function generateWebpackDevConfig(buildOptions) {
-  const routes = manifestHelpers.getAppRoutes();
+  const routes = getAppRoutes();
   const appRewrites = routes
     .map(url => ({
       from: `^${url}(.*)`,
@@ -15,7 +15,7 @@ function generateWebpackDevConfig(buildOptions) {
   return {
     contentBase: path.resolve(
       __dirname,
-      '../',
+      '../../',
       'build',
       buildOptions.destination,
     ),
