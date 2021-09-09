@@ -42,11 +42,11 @@ export default () => (
         </p>
         <a
           className="vads-u-display--block vads-u-padding-top--1 vads-u-text-decoration--none"
-          href="/disability/how-to-file-claim/"
+          href="https://www.va.gov/disability/file-disability-claim-form-21-526ez/"
           onClick={onFeaturedContentClick('File a VA disability claim')}
         >
           <span>
-            Read more
+            Apply Online
             <span className="vads-u-visibility--screen-reader">
               about filing a VA disability claim
             </span>
@@ -72,13 +72,13 @@ export default () => (
         </p>
         <a
           className="vads-u-display--block vads-u-padding-top--1 vads-u-text-decoration--none"
-          href="/education/how-to-apply/"
+          href="https://www.va.gov/education/apply-for-education-benefits/application/1990/"
           onClick={onFeaturedContentClick(
             'Apply for the GI Bill and other education benefits',
           )}
         >
           <span>
-            Read more
+            Apply Online
             <span className="vads-u-visibility--screen-reader">
               about applying for the GI Bill and other education benefits
             </span>
@@ -102,7 +102,7 @@ export default () => (
         <p className="va-nav-linkslist-description">Equal to VA Form 10-10EZ</p>
         <a
           className="vads-u-display--block vads-u-padding-top--1 vads-u-text-decoration--none"
-          href="/health-care/apply/application/introduction"
+          href="/health-care/apply/application/"
           onClick={onFeaturedContentClick('Apply for VA health care benefits')}
         >
           <span>
