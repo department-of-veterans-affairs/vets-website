@@ -60,7 +60,6 @@ export function ComparePage({
   const { selected, error } = compare;
   const { loaded, institutions } = compare.details;
   const { version } = preview;
-  const institutionCount = loaded.length;
   const history = useHistory();
   const hasScrollTo = scrollTo !== null;
   const placeholderRef = useRef(null);
@@ -262,7 +261,6 @@ export function ComparePage({
               <CompareHeader
                 currentScroll={currentXScroll}
                 institutions={loadedInstitutions}
-                institutionCount={institutionCount}
                 scrollClickHandler={scrollClickHandler}
                 setShowDifferences={setShowDifferences}
                 showDifferences={showDifferences}
