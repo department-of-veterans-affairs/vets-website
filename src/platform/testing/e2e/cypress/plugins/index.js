@@ -5,7 +5,7 @@ module.exports = on => {
   const ENV = 'localhost';
 
   // Import our own Webpack config.
-  require('../../../../../../config/webpack.config.js')(ENV).then(
+  require('../../../../../../config/webpack/webpack.config.js')(ENV).then(
     webpackConfig => {
       const options = {
         webpackOptions: {
