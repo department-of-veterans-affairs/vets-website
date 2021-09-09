@@ -99,8 +99,16 @@ export default function({
                           pathname: profileLink,
                           state: { prevPath: location.pathname },
                         }}
+                        aria-labelledby={`${institution.facilityCode}-label ${
+                          institution.facilityCode
+                        }-classification`}
                       >
-                        {institution.name}
+                        <span
+                          aria-label={`${institution.name}, `}
+                          id={`${institution.facilityCode}-label`}
+                        >
+                          {institution.name}
+                        </span>
                       </Link>
                     </div>
                   </div>

@@ -11,7 +11,12 @@ export default function SchoolClassification({
   relaffil = institution.relaffil,
   locationResultCard = false,
 }) {
-  const { schoolProvider, employerProvider, vetTecProvider } = institution;
+  const {
+    schoolProvider,
+    employerProvider,
+    vetTecProvider,
+    facilityCode,
+  } = institution;
 
   const institutionTraits = displayTraits
     ? [
@@ -40,7 +45,10 @@ export default function SchoolClassification({
 
   return (
     <>
-      <div className={schoolClassificationClasses}>
+      <div
+        className={schoolClassificationClasses}
+        id={`${facilityCode}-classification`}
+      >
         <p className={schoolClassificationPTagClasses}>
           <strong>
             {schoolProvider && 'School'}
