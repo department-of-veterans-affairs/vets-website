@@ -5,6 +5,7 @@ import { handleScrollOnInputFocus } from '../utils/helpers';
 
 const Dropdown = ({
   alt,
+  ariaLabel,
   className,
   disabled,
   hideArrows,
@@ -33,6 +34,7 @@ const Dropdown = ({
       {label && labelElement}
       <label className="wrap vads-u-margin--0">
         <select
+          aria-label={ariaLabel}
           className={selectClasses}
           id={name}
           name={name}

@@ -6,6 +6,9 @@ import constants from 'vets-json-schema/dist/constants.json';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import mapboxClient from '../components/MapboxClient';
 
+import { scroller } from 'react-scroll';
+import { getScrollOptions } from 'platform/utilities/ui';
+
 const mbxClient = mbxGeo(mapboxClient);
 import { SMALL_SCREEN_WIDTH } from '../constants';
 
@@ -223,3 +226,13 @@ export const boolYesNo = field => {
 };
 
 export const isSmallScreen = () => matchMedia('(max-width: 480px)').matches;
+
+export const scrollToFocusedElement = () => {
+  const compareDrawerHeight = document.getElementById('compare-drawer')
+    .clientHeight;
+  const activeElementBounding = document.activeElement.getBoundingClientRect();
+
+  if (activeElementBounding.bottom > window.innerHeight - compareDrawerHeight) {
+    scroller.scrollTo(document.activeElement.id, getScrollOptions());
+  }
+};
