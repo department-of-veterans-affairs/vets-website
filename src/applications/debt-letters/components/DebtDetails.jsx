@@ -14,41 +14,12 @@ import NeedHelp from './NeedHelp';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { setPageFocus } from '../utils/page';
 import { OnThisPageLinks } from './OnThisPageLinks';
+import { renderAdditionalInfo } from '../const/diary-codes';
+import HistoryTable from './HistoryTable';
 import {
   deductionCodes,
   renderWhyMightIHaveThisDebt,
 } from '../const/deduction-codes';
-import {
-  renderAdditionalInfo,
-  renderLetterHistory,
-} from '../const/diary-codes';
-
-const HistoryTable = ({ history }) => (
-  <table className="vads-u-margin-y--4">
-    <thead>
-      <tr>
-        <th className="vads-u-font-weight--bold" scope="col">
-          Date
-        </th>
-        <th className="vads-u-font-weight--bold" scope="col">
-          Letter
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      {history.map((debtEntry, index) => (
-        <tr key={`${debtEntry.date}-${index}`}>
-          <td>{moment(debtEntry.date, 'MM-DD-YYYY').format('MMMM D, YYYY')}</td>
-          <td>
-            <div className="vads-u-margin-top--0">
-              {renderLetterHistory(debtEntry.letterCode)}
-            </div>
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-);
 
 const DebtDetails = ({ selectedDebt, debts }) => {
   const location = useLocation();
