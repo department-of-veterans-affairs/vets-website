@@ -25,7 +25,7 @@ const DebtLetterCard = ({ debt, setActiveDebt }) => {
 
   const additionalInfo = renderAdditionalInfo(
     debt.diaryCode,
-    mostRecentHistory.date,
+    mostRecentHistory?.date,
     debt.benefitType,
   );
 

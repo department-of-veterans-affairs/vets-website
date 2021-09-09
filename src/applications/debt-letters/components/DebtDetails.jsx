@@ -71,7 +71,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
   const letterCodes = ['100', '101', '102', '109', '117', '123', '130'];
 
   const filteredHistory = currentDebt.debtHistory
-    .filter(history => letterCodes.includes(history.letterCode))
+    .filter(history => letterCodes.includes(history.letterCode.toString()))
     .reverse();
 
   const hasFilteredHistory = filteredHistory && filteredHistory.length > 0;
@@ -82,7 +82,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
 
   const additionalInfo = renderAdditionalInfo(
     currentDebt.diaryCode,
-    mostRecentHistory.date,
+    mostRecentHistory?.date,
     currentDebt.benefitType,
   );
 
@@ -90,37 +90,37 @@ const DebtDetails = ({ selectedDebt, debts }) => {
     currentDebt.deductionCode,
   );
 
-  const renderHistoryTable = history => {
-    if (!hasFilteredHistory) return null;
-    return (
-      <table className="vads-u-margin-y--4">
-        <thead>
-          <tr>
-            <th className="vads-u-font-weight--bold" scope="col">
-              Date
-            </th>
-            <th className="vads-u-font-weight--bold" scope="col">
-              Letter
-            </th>
+  const dateUpdated = last(currentDebt.debtHistory)?.date;
+  const dateFirstNotice = first(currentDebt.debtHistory)?.date;
+
+  const renderHistoryTable = history => (
+    <table className="vads-u-margin-y--4">
+      <thead>
+        <tr>
+          <th className="vads-u-font-weight--bold" scope="col">
+            Date
+          </th>
+          <th className="vads-u-font-weight--bold" scope="col">
+            Letter
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {history.map((debtEntry, index) => (
+          <tr key={`${debtEntry.date}-${index}`}>
+            <td>
+              {moment(debtEntry.date, 'MM-DD-YYYY').format('MMMM D, YYYY')}
+            </td>
+            <td>
+              <div className="vads-u-margin-top--0">
+                {renderLetterHistory(debtEntry.letterCode.toString())}
+              </div>
+            </td>
           </tr>
-        </thead>
-        <tbody>
-          {history.map((debtEntry, index) => (
-            <tr key={`${debtEntry.date}-${index}`}>
-              <td>
-                {moment(debtEntry.date, 'MM-DD-YYYY').format('MMMM D, YYYY')}
-              </td>
-              <td>
-                <div className="vads-u-margin-top--0">
-                  {renderLetterHistory(debtEntry.letterCode)}
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    );
-  };
+        ))}
+      </tbody>
+    </table>
+  );
 
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column">
@@ -140,28 +140,28 @@ const DebtDetails = ({ selectedDebt, debts }) => {
 
       <section className="vads-l-row">
         <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-right--2p5 vads-l-col--12 medium-screen:vads-l-col--8 vads-u-font-family--sans">
-          <p className="va-introtext vads-u-margin-top--0">
-            Updated on
-            <span className="vads-u-margin-left--0p5">
-              {moment(last(currentDebt.debtHistory).date, 'MM-DD-YYYY').format(
-                'MMMM D, YYYY',
-              )}
-            </span>
-          </p>
-
+          {dateUpdated && (
+            <p className="va-introtext vads-u-margin-top--0">
+              Updated on
+              <span className="vads-u-margin-left--0p5">
+                {moment(dateUpdated, 'MM-DD-YYYY').format('MMMM D, YYYY')}
+              </span>
+            </p>
+          )}
           <div className="vads-u-display--flex vads-u-flex-direction--row">
             <dl className="vads-u-display--flex vads-u-flex-direction--column">
-              <div className="vads-u-margin-y--1 vads-u-display--flex">
-                <dt>
-                  <strong>Date of first notice: </strong>
-                </dt>
-                <dd className="vads-u-margin-left--1">
-                  {moment(
-                    first(currentDebt.debtHistory).date,
-                    'MM-DD-YYYY',
-                  ).format('MMMM D, YYYY')}
-                </dd>
-              </div>
+              {dateFirstNotice && (
+                <div className="vads-u-margin-y--1 vads-u-display--flex">
+                  <dt>
+                    <strong>Date of first notice: </strong>
+                  </dt>
+                  <dd className="vads-u-margin-left--1">
+                    {moment(dateFirstNotice, 'MM-DD-YYYY').format(
+                      'MMMM D, YYYY',
+                    )}
+                  </dd>
+                </div>
+              )}
               <div className="vads-u-display--flex ">
                 <dt>
                   <strong>Original debt amount: </strong>
@@ -196,41 +196,41 @@ const DebtDetails = ({ selectedDebt, debts }) => {
           )}
           <OnThisPageLinks isDetailsPage />
 
-          <h2
-            id="debtLetterHistory"
-            className="vads-u-margin-top--5 vads-u-margin-bottom--0"
-          >
-            Debt letter history
-          </h2>
-
-          <p className="vads-u-margin-y--2">
-            You can view the status or download the letters for this debt.
-          </p>
-          <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-            <strong>Note:</strong> The content of the debt letters below may not
-            include recent updates to your debt reflected above. If you have any
-            questions about your debt history, please contact the Debt
-            Management Center at
-            <Telephone
-              className="vads-u-margin-left--0p5"
-              contact="8008270648"
-            />
-            .
-          </p>
-
-          {renderHistoryTable(filteredHistory)}
-
-          <h3 id="downloadDebtLetters" className="vads-u-margin-top--0">
-            Download debt letters
-          </h3>
-
-          <p className="vads-u-margin-bottom--0">
-            You can download some of your letters for education, compensation
-            and pension debt.
-          </p>
-          <Link to="/debt-letters" className="vads-u-margin-top--1">
-            Download letters related to your VA debt
-          </Link>
+          {hasFilteredHistory && (
+            <>
+              <h2
+                id="debtLetterHistory"
+                className="vads-u-margin-top--5 vads-u-margin-bottom--0"
+              >
+                Debt letter history
+              </h2>
+              <p className="vads-u-margin-y--2">
+                You can view the status or download the letters for this debt.
+              </p>
+              <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+                <strong>Note:</strong> The content of the debt letters below may
+                not include recent updates to your debt reflected above. If you
+                have any questions about your debt history, please contact the
+                Debt Management Center at
+                <Telephone
+                  className="vads-u-margin-left--0p5"
+                  contact="8008270648"
+                />
+                .
+              </p>
+              {renderHistoryTable(filteredHistory)}
+              <h3 id="downloadDebtLetters" className="vads-u-margin-top--0">
+                Download debt letters
+              </h3>
+              <p className="vads-u-margin-bottom--0">
+                You can download some of your letters for education,
+                compensation and pension debt.
+              </p>
+              <Link to="/debt-letters" className="vads-u-margin-top--1">
+                Download letters related to your VA debt
+              </Link>
+            </>
+          )}
 
           <HowDoIPay />
           <NeedHelp />
