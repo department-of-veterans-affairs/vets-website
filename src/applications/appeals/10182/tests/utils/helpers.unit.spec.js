@@ -7,6 +7,7 @@ import {
   getSelected,
   getSelectedCount,
   getIssueName,
+  getIssueNameAndDate,
   showAddIssuesPage,
   showAddIssueQuestion,
   isEmptyObject,
@@ -124,6 +125,27 @@ describe('getIssueName', () => {
   });
   it('should return an added issue name', () => {
     expect(getIssueName({ issue: 'test2' })).to.eq('test2');
+  });
+});
+
+describe('getIssueNameAndDate', () => {
+  it('should return empty string', () => {
+    expect(getIssueNameAndDate()).to.equal('');
+  });
+  it('should return a contestable issue name', () => {
+    expect(
+      getIssueNameAndDate({
+        attributes: {
+          ratingIssueSubjectText: 'test',
+          approxDecisionDate: '2021-01-01',
+        },
+      }),
+    ).to.eq('test2021-01-01');
+  });
+  it('should return an added issue name', () => {
+    expect(
+      getIssueNameAndDate({ issue: 'test2', decisionDate: '2021-02-02' }),
+    ).to.eq('test22021-02-02');
   });
 });
 
