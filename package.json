@@ -291,7 +291,7 @@
     "react-router-dom": "^5.2.0",
     "react-router-last-location": "^2.0.1",
     "react-scroll": "^1.8.4",
-    "react-tabs": "^3.1.1",
+    "react-tabs": "^3.2.2",
     "react-transition-group": "1",
     "recompose": "^0.30.0",
     "redux": "^4.0.5",
