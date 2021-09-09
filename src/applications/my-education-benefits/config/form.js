@@ -1025,7 +1025,7 @@ const formConfig = {
             formPages.additionalConsiderations.reserveKicker,
             formFields.selectedReserveKicker,
             'Do you qualify for a reserve kicker, sometimes called a College Fund?',
-            'What is an reserve kicker?',
+            'What is a reserve kicker?',
             'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
           ),
           depends: formData =>
