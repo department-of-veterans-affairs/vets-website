@@ -54,6 +54,9 @@ jobs:
       - name: Get yarn cache directory path
         run: yarn cache dir
 
+      - name: pwd
+        run: pwd
+
       - name: Cache dependencies
         id: cache-dependencies
         uses: actions/cache@v2
@@ -69,6 +72,9 @@ jobs:
 
       - name: Get yarn cache directory path
         run: yarn cache dir
+
+      - name: pwd
+        run: pwd
 
       - name: Get NEXUS username
         uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
