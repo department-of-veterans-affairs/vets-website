@@ -122,4 +122,4 @@ const v1 = {
   },
 };
 
-export { validateToken, checkInUser, v0, v1 };
+export { v0, v1 };
