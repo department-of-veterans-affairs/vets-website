@@ -229,7 +229,7 @@ describe('<AddIssuesField>', () => {
     expect(wrapper.find('.va-modal').length).to.eq(1);
     wrapper.unmount();
   });
-  it('should show an alert when max selected issues are exceeded after trying to submit', () => {
+  it.skip('should show an alert when max selected issues are exceeded after trying to submit', () => {
     const onChange = sinon.spy();
     const props = getProps({
       contestedIssues: [
