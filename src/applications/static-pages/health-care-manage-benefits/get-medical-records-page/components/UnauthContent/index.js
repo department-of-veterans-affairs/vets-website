@@ -103,7 +103,7 @@ const UnauthContent = () => (
       href="https://www.myhealth.va.gov/mhv-portal-web/my-healthevet-offers-three-account-types"
       rel="noreferrer noopener"
     >
-      Learn about the 3 different My HealtheVet account types
+      Learn about the 2 different My HealtheVet account types
     </a>
     <h3>Once I’m signed in, how do I access my medical records?</h3>
 
