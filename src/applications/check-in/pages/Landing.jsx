@@ -12,7 +12,13 @@ import { createAnalyticsSlug } from '../utils/analytics';
 import { isUUID } from '../utils/token-format-validator';
 
 const Landing = props => {
-  const { router, setAppointment, location, isLowAuthEnabled } = props;
+  const {
+    router,
+    setAppointment,
+    location,
+    isLowAuthEnabled,
+    isUpdatePageEnabled,
+  } = props;
 
   useEffect(
     () => {
@@ -43,10 +49,9 @@ const Landing = props => {
               setCurrentToken(window, token);
               if (isLowAuthEnabled) {
                 goToNextPage(router, URLS.VALIDATION_NEEDED);
+              } else if (isUpdatePageEnabled) {
+                goToNextPage(router, URLS.UPDATE_INSURANCE);
               } else {
-                // Disabled because
-                // https://github.com/department-of-veterans-affairs/va.gov-team/issues/29690
-                // goToNextPage(router, URLS.UPDATE_INSURANCE);
                 goToNextPage(router, URLS.DETAILS);
               }
             }
@@ -57,7 +62,7 @@ const Landing = props => {
           });
       }
     },
-    [router, setAppointment, location, isLowAuthEnabled],
+    [router, setAppointment, location, isLowAuthEnabled, isUpdatePageEnabled],
   );
   return (
     <>
