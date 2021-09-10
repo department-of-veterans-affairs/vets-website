@@ -21,9 +21,7 @@ export default function BenefitSelectionWarning(chapter, relationship) {
               A parent who has a permanent and total service-connected
               disability, or
             </li>
-            <li>
-              Based on any other criteria as listed in 38 U.S.C. § 3501(a)(1).
-            </li>
+            <li>Any other criteria as listed in 38 U.S.C. § 3501(a)(1)</li>
           </ul>
         </div>
       );
