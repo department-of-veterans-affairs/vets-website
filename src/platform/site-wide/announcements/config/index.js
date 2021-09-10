@@ -4,15 +4,10 @@ import ExploreVAModal from '../components/ExploreVAModal';
 import SingleSignOnInfoModal from '../components/SingleSignOnInfoModal';
 import VAMCWelcomeModal, { VAMC_PATHS } from '../components/VAMCWelcomeModal';
 import VAPlusVetsModal from '../components/VAPlusVetsModal';
+import environment from 'platform/utilities/environment';
 
 const config = {
   announcements: [
-    {
-      name: 'afghanistan-banner',
-      // Only the homepage (e.g. `/`).
-      paths: /^(\/)$/,
-      component: AfghanistanPromoBanner,
-    },
     {
       name: 'brand-consolidation-va-plus-vets',
       // All pages.
@@ -43,5 +38,15 @@ const config = {
     },
   ],
 };
+
+// Add the Afghanistan banner on non-prod environments.
+if (!environment.isProduction()) {
+  config.announcements.unshift({
+    name: 'afghanistan-banner',
+    // Only the homepage (e.g. `/`).
+    paths: /^(\/)$/,
+    component: AfghanistanPromoBanner,
+  });
+}
 
 export default config;
