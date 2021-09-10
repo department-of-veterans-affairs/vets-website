@@ -161,6 +161,27 @@ export const selectAvailableGroups = (state, { isPatient = false } = {}) => {
   );
 };
 
+// Makes a callback function to use with Array.filter()
+export const makeRxTrackingItemFilter = facilities => {
+  // 554: parent facility of Denver
+  // 637: parent facility of Asheville
+  // 983: test-only facility ID, used by user 36 among others
+  const supportedFacilities = new Set(['554', '637', '983']);
+  return itemId => {
+    if (itemId === 'item4') {
+      return facilities.some(facility => {
+        return supportedFacilities.has(facility.facilityId);
+      })
+        ? itemId
+        : null;
+    }
+    return itemId;
+  };
+};
+
+// Filter out the items the user does not have access to
+// 1. Filter out the Rx tracking item (item4) unless they are a patient at a
+//    facility that supports the feature
 export const selectAvailableItems = (
   state,
   { facilities = [], isPatient = false } = {},
@@ -170,17 +191,7 @@ export const selectAvailableItems = (
     availableGroups.ids.map(groupId => {
       return availableGroups.entities[groupId].items;
     }),
-  ).filter(itemId => {
-    if (itemId === 'item4') {
-      return facilities.some(facility => {
-        const supportedFacilities = new Set(['554', '637', '983']);
-        return supportedFacilities.has(facility.facilityId);
-      })
-        ? itemId
-        : null;
-    }
-    return itemId;
-  });
+  ).filter(makeRxTrackingItemFilter(facilities));
   const itemEntities = itemIds.reduce((acc, itemId) => {
     acc[itemId] = selectItemById(state, itemId);
     return acc;
