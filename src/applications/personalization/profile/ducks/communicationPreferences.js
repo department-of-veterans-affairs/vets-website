@@ -161,15 +161,26 @@ export const selectAvailableGroups = (state, { isPatient = false } = {}) => {
   );
 };
 
-// TODO: Filter out the Rx tracking item if they aren't a patient in a facility
-// that supports it. We need the list of facilities that support this feature.
-export const selectAvailableItems = (state, { isPatient = false } = {}) => {
+export const selectAvailableItems = (
+  state,
+  { facilities = [], isPatient = false } = {},
+) => {
   const availableGroups = selectAvailableGroups(state, { isPatient });
   const itemIds = flatten(
     availableGroups.ids.map(groupId => {
       return availableGroups.entities[groupId].items;
     }),
-  );
+  ).filter(itemId => {
+    if (itemId === 'item4') {
+      return facilities.some(facility => {
+        const supportedFacilities = new Set(['554', '637', '983']);
+        return supportedFacilities.has(facility.facilityId);
+      })
+        ? itemId
+        : null;
+    }
+    return itemId;
+  });
   const itemEntities = itemIds.reduce((acc, itemId) => {
     acc[itemId] = selectItemById(state, itemId);
     return acc;
@@ -180,9 +191,14 @@ export const selectAvailableItems = (state, { isPatient = false } = {}) => {
 // Filter out the channels the user doesn't have contact info for
 export const selectAvailableChannels = (
   state,
-  { isPatient = false, hasMobilePhone = false, hasEmailAddress = false } = {},
+  {
+    facilities = [],
+    hasMobilePhone = false,
+    hasEmailAddress = false,
+    isPatient = false,
+  } = {},
 ) => {
-  const availableItems = selectAvailableItems(state, { isPatient });
+  const availableItems = selectAvailableItems(state, { isPatient, facilities });
   const availableItemsChannels = flatten(
     availableItems.ids.map(itemId => {
       return availableItems.entities[itemId].channels;
@@ -207,9 +223,15 @@ export const selectAvailableChannels = (
 
 export const selectChannelsWithoutSelection = (
   state,
-  { isPatient = false, hasMobilePhone = false, hasEmailAddress = false } = {},
+  {
+    facilities = [],
+    hasMobilePhone = false,
+    hasEmailAddress = false,
+    isPatient = false,
+  } = {},
 ) => {
   const availableChannels = selectAvailableChannels(state, {
+    facilities,
     isPatient,
     hasMobilePhone,
     hasEmailAddress,
