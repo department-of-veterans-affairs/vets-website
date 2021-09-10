@@ -9,7 +9,7 @@ export const maxSelected =
   'You’ve reached the maximum number of allowed selected issues';
 
 // Not setting "visible" as a variable since we're controlling rendering at a
-// higher level
+// higher level [TESTING]
 export const MaxSelectionsAlert = ({ closeModal }) => (
   <Modal title={maxSelected} status="warning" onClose={closeModal} visible>
     You are limited to 100 selected issues for each Notice of Disagreement
