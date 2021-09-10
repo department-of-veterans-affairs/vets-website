@@ -2,13 +2,12 @@
 
 ## This PR
 
-- Add call to session endpoint on landing load
-  - behind the validation flag
-- Add call to POST session on validation page
-
-## Next PR
-
-- Update the check in page
-
-- Pull in master
-- validate redux is storing correctly
+- Update the check in page for new version
+  - get sessions to get all data
+- Refactor check in component to have a display only component
+- refactor API stuff
+  - rename v0 an v1
+  - refactor mock responses gerneator
+- unit tests
+- e2e tests
+- backwards componatability
