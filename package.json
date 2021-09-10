@@ -192,7 +192,6 @@
     "mochawesome": "^6.2.2",
     "mockdate": "^3.0.5",
     "mocker-api": "^2.9.0",
-    "moment-timezone": "^0.5.31",
     "morgan": "^1.10.0",
     "msw": "^0.19.4",
     "node-fetch": "^2.6.1",
