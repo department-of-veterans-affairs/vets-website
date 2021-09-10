@@ -45,7 +45,7 @@ export function CompareDrawer({
       blanks.push(
         <li
           key={i}
-          className="compare-item vads-u-padding-right--1 vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3"
+          className="compare-item vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3"
         >
           <div className="compare-name">
             <div className="blank" />
@@ -273,12 +273,12 @@ export function CompareDrawer({
               You can compare 2 to 3 institutions
             </div>
             <div className="vads-l-row vads-u-padding-top--1">
-              <ol id="cd" className="test">
+              <ol id="cd" className="compare-list">
                 {loadedCards}
                 {blanks}
               </ol>
 
-              <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3 action-cell test2">
+              <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3 action-cell compare-button">
                 <div className="large-function-label compare-name">
                   You can compare 2 to 3 institutions
                 </div>
