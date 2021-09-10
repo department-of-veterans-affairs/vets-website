@@ -130,7 +130,6 @@ describe('checkAutoSession', () => {
     sinon.assert.calledWith(
       auto,
       'custom',
-      'v1',
       { authn: 'dslogon' },
       'sso-automatic-login',
     );
@@ -145,7 +144,7 @@ describe('checkAutoSession', () => {
     await checkAutoSession(true, 'X');
 
     sinon.assert.calledOnce(auto);
-    sinon.assert.calledWith(auto, 'v1', 'sso-automatic-logout', {
+    sinon.assert.calledWith(auto, 'sso-automatic-logout', {
       'auto-logout': 'true',
     });
   });
@@ -175,7 +174,6 @@ describe('checkAutoSession', () => {
     sinon.assert.calledWith(
       auto,
       'custom',
-      'v1',
       { authn: 'dslogon' },
       'sso-automatic-login',
     );
@@ -224,7 +222,6 @@ describe('checkAutoSession', () => {
     sinon.assert.calledWith(
       auto,
       'custom',
-      'v1',
       { authn: 'dslogon' },
       'sso-automatic-login',
     );
@@ -245,7 +242,6 @@ describe('checkAutoSession', () => {
     sinon.assert.calledWith(
       auto,
       'custom',
-      'v1',
       { authn: 'myhealthevet' },
       'sso-automatic-login',
     );

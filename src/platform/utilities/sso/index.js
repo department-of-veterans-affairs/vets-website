@@ -53,13 +53,13 @@ export async function checkAutoSession(
       // could also be undefined if we failed to get a response from the SSOe server,
       // in which case we don't want to logout the user, because we don't know
       // their SSOe status.
-      logout('v1', 'sso-automatic-logout', { 'auto-logout': 'true' });
+      logout('sso-automatic-logout', { 'auto-logout': 'true' });
     } else if (transactionid && transactionid !== ssoeTransactionId) {
       // compare the transaction id from the keepalive endpoint with the existing
       // transaction id. If they don't match, it means we might have a different
       // user logged in. Thus, we should perform an auto login, which will
       // effectively logout the user then log them back in.
-      login('custom', 'v1', { authn }, 'sso-automatic-login');
+      login('custom', { authn }, 'sso-automatic-login');
     } else if (
       loginAppUrlRE.test(window.location.pathname) &&
       ttl > 0 &&
@@ -76,7 +76,7 @@ export async function checkAutoSession(
     // c) has not previously tried to login (if the last attempt to login failed
     //    don't keep retrying)
     // d) we have a non empty type value from the keepalive call to login with
-    login('custom', 'v1', { authn }, 'sso-automatic-login');
+    login('custom', { authn }, 'sso-automatic-login');
   }
 }
 

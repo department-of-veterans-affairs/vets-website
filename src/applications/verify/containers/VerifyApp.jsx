@@ -53,7 +53,6 @@ export class VerifyApp extends React.Component {
 
   render() {
     const { profile } = this.props;
-    const authVersion = this.props.authenticatedWithSSOe ? 'v1' : 'v0';
 
     if (profile.loading) {
       return <LoadingIndicator message="Loading the application..." />;
@@ -88,7 +87,7 @@ export class VerifyApp extends React.Component {
                 </p>
                 <button
                   className="usa-button-primary va-button-primary"
-                  onClick={() => verify(authVersion)}
+                  onClick={() => verify()}
                 >
                   <img alt="ID.me" src="/img/signin/idme-icon-white.svg" />
                   <strong> Verify with ID.me</strong>

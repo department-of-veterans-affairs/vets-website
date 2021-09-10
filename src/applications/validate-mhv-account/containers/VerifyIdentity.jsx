@@ -6,8 +6,7 @@ import MessageTemplate from './../components/MessageTemplate';
 import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { verify } from 'platform/user/authentication/utilities';
 
-export function VerifyIdentity({ authenticatedWithSSOe }) {
-  const authVersion = authenticatedWithSSOe ? 'v1' : 'v0';
+export function VerifyIdentity() {
   const content = {
     heading: 'Verify your identity to access health tools',
     body: (
@@ -18,7 +17,7 @@ export function VerifyIdentity({ authenticatedWithSSOe }) {
           you access to your personal health information.
         </p>
         <button
-          onClick={() => verify(authVersion)}
+          onClick={() => verify()}
           className="usa-button-primary va-button-primary"
         >
           Verify your identity

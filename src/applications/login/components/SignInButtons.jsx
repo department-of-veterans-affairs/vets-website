@@ -8,7 +8,7 @@ const vaGovFullDomain = environment.BASE_URL;
 
 function loginHandler(loginType) {
   recordEvent({ event: `login-attempted-${loginType}` });
-  login(loginType, 'v1');
+  login(loginType);
 }
 
 export default function SignInButtons({ isDisabled }) {
@@ -61,7 +61,7 @@ export default function SignInButtons({ isDisabled }) {
         <button
           disabled={isDisabled}
           className="idme-create usa-button usa-button-secondary"
-          onClick={() => signup('v1')}
+          onClick={() => signup()}
         >
           <img
             aria-hidden="true"

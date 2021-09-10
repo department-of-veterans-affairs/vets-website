@@ -27,13 +27,9 @@ export const ssoKeepAliveEndpoint = () => {
   return `https://${envPrefix}eauth.va.gov/keepalive`;
 };
 
-export function sessionTypeUrl({
-  type = '',
-  version = 'v1',
-  queryParams = {},
-}) {
+export function sessionTypeUrl({ type = '', queryParams = {} }) {
   // force v1 regardless of version
-  const base = `${environment.API_URL}/${version}/sessions`.replace(/v0/, 'v1');
+  const base = `${environment.API_URL}/v1/sessions`;
   const searchParams = new URLSearchParams(queryParams);
 
   const queryString =
@@ -106,44 +102,27 @@ function redirect(redirectUrl, clickedEvent) {
 
 export function login(
   policy,
-  version = 'v1',
   queryParams = {},
   clickedEvent = 'login-link-clicked-modal',
 ) {
-  const url = sessionTypeUrl({ type: policy, version, queryParams });
+  const url = sessionTypeUrl({ type: policy, queryParams });
   setLoginAttempted();
   return redirect(url, clickedEvent);
 }
 
-export function mfa(version = 'v1') {
-  return redirect(
-    sessionTypeUrl({ type: 'mfa', version }),
-    'multifactor-link-clicked',
-  );
+export function mfa() {
+  return redirect(sessionTypeUrl({ type: 'mfa' }), 'multifactor-link-clicked');
 }
 
-export function verify(version = 'v1') {
-  return redirect(
-    sessionTypeUrl({ type: 'verify', version }),
-    'verify-link-clicked',
-  );
+export function verify() {
+  return redirect(sessionTypeUrl({ type: 'verify' }), 'verify-link-clicked');
 }
 
-export function logout(
-  version = 'v1',
-  clickedEvent = 'logout-link-clicked',
-  queryParams = {},
-) {
+export function logout(clickedEvent = 'logout-link-clicked', queryParams = {}) {
   clearSentryLoginType();
-  return redirect(
-    sessionTypeUrl({ type: 'slo', version, queryParams }),
-    clickedEvent,
-  );
+  return redirect(sessionTypeUrl({ type: 'slo', queryParams }), clickedEvent);
 }
 
-export function signup(version = 'v1') {
-  return redirect(
-    sessionTypeUrl({ type: 'signup', version }),
-    'register-link-clicked',
-  );
+export function signup() {
+  return redirect(sessionTypeUrl({ type: 'signup' }), 'register-link-clicked');
 }

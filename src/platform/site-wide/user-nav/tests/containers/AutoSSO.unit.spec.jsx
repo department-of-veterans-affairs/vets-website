@@ -12,7 +12,6 @@ describe('<AutoSSO>', () => {
 
   beforeEach(() => {
     props = {
-      useInboundSSOe: false,
       hasCalledKeepAlive: false,
       transactionId: undefined,
       loggedIn: false,
@@ -43,7 +42,6 @@ describe('<AutoSSO>', () => {
   it('should not call checkAutoSession if it already has', () => {
     const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
     Object.assign(props, {
-      useInboundSSOe: true,
       profileLoading: false,
       hasCalledKeepAlive: true,
     });
@@ -56,7 +54,6 @@ describe('<AutoSSO>', () => {
   it('should call keepalive if it has yet to', () => {
     const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
     Object.assign(props, {
-      useInboundSSOe: true,
       profileLoading: false,
       hasCalledKeepAlive: false,
     });

@@ -83,18 +83,6 @@
         "value": true
       },
       {
-        "name": "ssoe",
-        "value": true
-      },
-      {
-        "name": "ssoeInbound",
-        "value": true
-      },
-      {
-        "name": "ssoeEbenefitsLinks",
-        "value": true
-      },
-      {
         "name": "eduBenefitsStemScholarship",
         "value": true
       },

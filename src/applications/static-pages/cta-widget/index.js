@@ -462,22 +462,18 @@ export class CallToActionWidget extends Component {
     }
   };
 
-  authVersion() {
-    return this.props.authenticatedWithSSOe ? 'v1' : 'v0';
-  }
-
   signOut = () => {
     recordEvent({ event: 'logout-link-clicked-createcta-mhv' });
-    logout(this.authVersion());
+    logout();
   };
 
   mfaHandler = () => {
     recordEvent({ event: 'multifactor-link-clicked' });
-    mfa(this.authVersion());
+    mfa();
   };
 
   verifyHandler = () => {
-    verify(this.authVersion());
+    verify();
   };
 
   render() {

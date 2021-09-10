@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
@@ -14,7 +13,6 @@ import Telephone, {
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
 import { EXTERNAL_SERVICES } from 'platform/monitoring/external-services/config';
 import recordEvent from 'platform/monitoring/record-event';
-import { ssoe } from 'platform/user/authentication/selectors';
 import { login, signup } from 'platform/user/authentication/utilities';
 import { formatDowntime } from 'platform/utilities/date';
 import environment from 'platform/utilities/environment';
@@ -41,17 +39,13 @@ export class SignInModal extends React.Component {
     }
   }
 
-  authVersion() {
-    return this.props.useSSOe ? 'v1' : 'v0';
-  }
-
   loginHandler = loginType => () => {
     recordEvent({ event: `login-attempted-${loginType}` });
-    login(loginType, this.authVersion());
+    login(loginType);
   };
 
   signupHandler = () => {
-    signup(this.authVersion());
+    signup();
   };
 
   downtimeBanner = (dependencies, headline, status, message, onRender) => (
@@ -375,10 +369,4 @@ SignInModal.propTypes = {
   visible: PropTypes.bool,
 };
 
-function mapStateToProps(state) {
-  return {
-    useSSOe: ssoe(state),
-  };
-}
-
-export default connect(mapStateToProps)(SignInModal);
+export default SignInModal;

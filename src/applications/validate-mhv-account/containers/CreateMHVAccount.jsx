@@ -9,7 +9,7 @@ import { createAndUpgradeMHVAccount } from 'platform/user/profile/actions';
 
 class CreateMHVAccount extends React.Component {
   logoutHandler = () => {
-    logout(this.props.authenticatedWithSSOe ? 'v1' : 'v0');
+    logout();
   };
 
   render() {

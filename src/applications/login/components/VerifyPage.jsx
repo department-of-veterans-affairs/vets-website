@@ -8,7 +8,7 @@ import {
   verify,
 } from 'platform/user/authentication/utilities';
 
-function handleClick(version = 'v1') {
+function handleClick() {
   // For first-time users attempting to navigate to My VA Health, The user must
   // be LOA3. If they aren't, they will get directed to verify here,
   // with a valid redirect URL already in sessionStorage. In that case,
@@ -17,9 +17,9 @@ function handleClick(version = 'v1') {
 
   if (returnUrl && returnUrl.includes(externalRedirects.myvahealth)) {
     recordEvent({ event: 'verify-link-clicked' });
-    window.location = sessionTypeUrl('verify', version);
+    window.location = sessionTypeUrl({ type: 'verify' });
   } else {
-    verify(version);
+    verify();
   }
 }
 
@@ -36,7 +36,7 @@ export default function VerifyPage() {
           you access to your personal health information.
         </p>
         <button
-          onClick={() => handleClick('v1')}
+          onClick={() => handleClick()}
           className="usa-button-primary va-button-primary"
         >
           Verify your identity
