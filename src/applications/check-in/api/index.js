@@ -57,7 +57,33 @@ const v1 = {
       data: json.data,
     };
   },
-  postSession: () => {},
+  postSession: async ({ lastName, last4, token }) => {
+    const url = '/check_in/v1/sessions/';
+    const headers = { 'Content-Type': 'application/json' };
+    const data = {
+      session: {
+        id: token,
+        last4,
+        lastName,
+      },
+    };
+    const body = JSON.stringify(data);
+    const settings = {
+      headers,
+      body,
+      method: 'POST',
+      mode: 'cors',
+    };
+
+    const json = await makeApiCall(
+      apiRequest(`${environment.API_URL}${url}`, settings),
+      'validating-user',
+      token,
+    );
+    return {
+      ...json,
+    };
+  },
   getCheckInData: async token => {
     const url = '/check_in/v1/patient_check_ins/';
     const json = await makeApiCall(

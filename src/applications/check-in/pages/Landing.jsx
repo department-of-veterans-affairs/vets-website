@@ -47,8 +47,9 @@ const Landing = props => {
               goToNextPage(router, URLS.DETAILS);
             } else {
               // else get the data then go to validate page
-              v1.getCheckInData(token).then(data => {
+              v1.getCheckInData(token).then(json => {
                 // going to be read.basic data, which is facility name and number
+                const { data } = json;
                 setAppointment(data, token);
                 goToNextPage(router, URLS.VALIDATION_NEEDED);
               });

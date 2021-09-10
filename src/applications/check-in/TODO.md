@@ -9,3 +9,6 @@
 ## Next PR
 
 - Update the check in page
+
+- Pull in master
+- validate redux is storing correctly

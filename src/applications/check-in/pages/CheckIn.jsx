@@ -6,7 +6,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 
 import { goToNextPage, URLS } from '../utils/navigation';
-import { checkInUser } from '../api';
+import { v0 } from '../api';
 
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
@@ -17,7 +17,6 @@ const CheckIn = props => {
   const [isLoading, setIsLoading] = useState(false);
   const { router, appointments, context, isUpdatePageEnabled } = props;
   const appointment = appointments[0];
-
   useEffect(() => {
     focusElement('h1');
   }, []);
@@ -36,7 +35,7 @@ const CheckIn = props => {
     setIsLoading(true);
 
     try {
-      const json = await checkInUser({
+      const json = await v0.checkInUser({
         token,
       });
       const { status } = json;
@@ -52,6 +51,7 @@ const CheckIn = props => {
   const appointmentDateTime = new Date(appointment.startTime);
   const appointmentDate = format(appointmentDateTime, 'cccc, LLLL d, yyyy');
   const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
+
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 appointment-check-in">
       {isUpdatePageEnabled && <BackButton router={router} />}
