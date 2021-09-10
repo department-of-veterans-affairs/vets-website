@@ -16,7 +16,7 @@ const deepLinks = [
     url: `${PROFILE_PATHS.PERSONAL_INFORMATION}#email-address`,
     expectedTarget: {
       role: 'heading',
-      name: 'Contact email address',
+      name: 'Email addresses',
     },
   },
   {

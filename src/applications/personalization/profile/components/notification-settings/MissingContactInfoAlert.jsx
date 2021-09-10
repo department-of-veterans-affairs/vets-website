@@ -30,17 +30,18 @@ const missingMobilePhoneContent = (
     </p>
   </>
 );
-const missingAllContactInfoContent = (
-  <>
-    <p>
-      We don’t have your contact email address or mobile phone number. To manage
-      your notification settings, first update your contact information.{' '}
-    </p>
-    <p>
-      <AddContactInfoLink strong missingInfo={MISSING_CONTACT_INFO.ALL} />
-    </p>
-  </>
-);
+// TODO: uncomment when email is a supported communication channel
+// const missingAllContactInfoContent = (
+//   <>
+//     <p>
+//       We don’t have your contact email address or mobile phone number. To manage
+//       your notification settings, first update your contact information.{' '}
+//     </p>
+//     <p>
+//       <AddContactInfoLink strong missingInfo={MISSING_CONTACT_INFO.ALL} />
+//     </p>
+//   </>
+// );
 
 const MissingContactInfoAlert = ({
   missingMobilePhone,
@@ -49,7 +50,9 @@ const MissingContactInfoAlert = ({
   const alertContents = React.useMemo(
     () => {
       if (missingEmailAddress && missingMobilePhone) {
-        return missingAllContactInfoContent;
+        return missingMobilePhoneContent;
+        // TODO: uncomment when email is a supported communication channel
+        // return missingAllContactInfoContent;
       } else if (missingEmailAddress) {
         return missingEmailAddressContent;
       } else if (missingMobilePhone) {
@@ -64,7 +67,9 @@ const MissingContactInfoAlert = ({
   const alertTitle = React.useMemo(
     () => {
       if (missingEmailAddress && missingMobilePhone) {
-        return 'We don’t have your contact information';
+        return 'We don’t have your mobile phone number';
+        // TODO: uncomment when email is a supported communication channel
+        // return 'We don’t have your contact information';
       } else if (missingEmailAddress) {
         return 'We don’t have your email address';
       } else if (missingMobilePhone) {

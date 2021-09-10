@@ -60,8 +60,8 @@ export const UnauthContent = () => (
       </li>
     </ul>
     <p className="vads-u-margin-bottom--0">
-      <strong>Note:</strong> If you sign in with a Basic or Advanced account,
-      you’ll find only the results you’ve entered yourself.
+      <strong>Note:</strong> If you sign in with a Basic account, you’ll find
+      only the results you’ve entered yourself.
     </p>
     <a
       href="https://www.myhealth.va.gov/mhv-portal-web/my-healthevet-offers-three-account-types"
