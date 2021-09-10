@@ -12,7 +12,7 @@ import {
 const checkInReducer = (state = initialState, action) => {
   switch (action.type) {
     case RECEIVED_APPOINTMENT_DETAILS:
-      return { ...state, ...action.value };
+      return { ...state, ...action.data };
     case PERMISSIONS_UPDATED:
       return {
         ...state,

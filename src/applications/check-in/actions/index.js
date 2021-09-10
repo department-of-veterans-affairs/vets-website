@@ -1,10 +1,19 @@
-// phased out until multiple appointments
+const organizeData = data => {
+  return {
+    appointments: [{ ...data }],
+  };
+};
+
 export const RECEIVED_APPOINTMENT_DETAILS = 'RECEIVED_APPOINTMENT_DETAILS';
 
-export const receivedAppointmentDetails = (data, token) => {
+export const receivedAppointmentDetails = payload => {
+  const data = organizeData(payload);
+
   return {
     type: RECEIVED_APPOINTMENT_DETAILS,
-    value: { appointment: data, context: { token } },
+    data: {
+      ...data,
+    },
   };
 };
 
@@ -20,11 +29,6 @@ export const permissionsUpdated = (data, scope) => {
 
 export const TOKEN_WAS_VALIDATED = 'TOKEN_WAS_VALIDATED';
 
-const organizeData = data => {
-  return {
-    appointments: [{ ...data }],
-  };
-};
 export const tokenWasValidated = (payload, token, scope) => {
   const data = organizeData(payload);
   return {
