@@ -8,6 +8,16 @@ export const receivedAppointmentDetails = (data, token) => {
   };
 };
 
+export const PERMISSIONS_UPDATED = 'PERMISSIONS_UPDATED';
+
+export const permissionsUpdated = (data, scope) => {
+  const { permissions } = data;
+  return {
+    type: PERMISSIONS_UPDATED,
+    value: { permissions, scope },
+  };
+};
+
 export const TOKEN_WAS_VALIDATED = 'TOKEN_WAS_VALIDATED';
 
 const organizeData = data => {
