@@ -56,7 +56,7 @@ export const benefitsRelinquishedInfo = (
   <span>
     While receiving DEA or FRY scholarship benefits you may not receive payments
     of Dependency and Indemnity Compensation (DIC) or Pension and you may not be
-    claimed as a dependent in a Compensation claim. If you are unsure of this
+    claimed as a dependent in a Compensation claim. If you’re unsure of this
     decision it is strongly encouraged you talk with a VA counselor.
   </span>
 );
@@ -73,11 +73,11 @@ export const benefitsRelinquishedWarning = (
 
 export const benefitsDisclaimerSpouse = (
   <p>
-    IMPORTANT: If you qualify for both the Survivors’ and Dependents’
-    Educational Assistance (DEA, Chapter 35) program and the Marine Gunnery
-    Sergeant John David Fry Scholarship (Fry Scholarship, Chapter 33), you need
-    to pick one or the other. You must give up entitlement to the benefit that
-    you’re not applying for.{' '}
+    <strong>IMPORTANT:</strong> If you qualify for both the Survivors’ and
+    Dependents’ Educational Assistance (DEA, Chapter 35) program and the Marine
+    Gunnery Sergeant John David Fry Scholarship (Fry Scholarship, Chapter 33),
+    you need to pick one or the other. You must give up entitlement to the
+    benefit that you’re not applying for.{' '}
     <strong>
       You can’t retain eligibility for both programs at the same time
     </strong>
@@ -87,12 +87,12 @@ export const benefitsDisclaimerSpouse = (
 
 export const benefitsDisclaimerChild = (
   <p>
-    IMPORTANT: If you qualify for both the Survivors’ and Dependents’
-    Educational Assistance (DEA, Chapter 35) program and the Marine Gunnery
-    Sergeant John David Fry Scholarship (Fry Scholarship, Chapter 33), you need
-    to pick one or the other. You must give up entitlement to the benefit that
-    you’re not applying for (but only for the entitlement arising from the same
-    event).{' '}
+    <strong>IMPORTANT:</strong> If you qualify for both the Survivors’ and
+    Dependents’ Educational Assistance (DEA, Chapter 35) program and the Marine
+    Gunnery Sergeant John David Fry Scholarship (Fry Scholarship, Chapter 33),
+    you need to pick one or the other. You must give up entitlement to the
+    benefit that you’re not applying for (but only for the entitlement arising
+    from the same event).{' '}
     <strong>
       You can’t retain eligibility for both programs based on the same event
     </strong>
@@ -110,10 +110,10 @@ export const ageWarning = (
     </div>
     <div className="vads-u-flex--5">
       <p className="vads-u-font-size--base">
-        Applicants under the age of 18 cannot legally make a benefits election.
-        Based on your date of birth, please have a parent, guardian or custodian
-        review the information on this application and click the “Submit
-        application” button at the end of this form.
+        Applicants under the age of 18 can’t legally make a benefits election.
+        Based on your date of birth, please have a parent, guardian, or
+        custodian review the information on this application and click the
+        "Submit application" button at the end of this form.
       </p>
     </div>
   </div>
