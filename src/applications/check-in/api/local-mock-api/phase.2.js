@@ -33,7 +33,10 @@ const responses = {
   'GET /check_in/v1/patient_check_ins/:uuid': (req, res) => {
     return res.json({
       data: {
-        // the data from LoROTA, not sure what that looks like
+        facility: 'LOMA LINDA VA CLINIC',
+        clinicPhoneNumber: '5551234567',
+        clinicFriendlyName: 'TEST CLINIC',
+        clinicName: 'LOM ACC CLINIC TEST',
       },
     });
   },

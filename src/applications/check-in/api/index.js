@@ -39,4 +39,37 @@ const checkInUser = async ({ token }) => {
     ...json,
   };
 };
-export { validateToken, checkInUser };
+
+const v0 = {
+  validateToken,
+  checkInUser,
+};
+
+const v1 = {
+  getSession: async token => {
+    const url = '/check_in/v1/sessions/';
+    const json = await makeApiCall(
+      apiRequest(`${environment.API_URL}${url}${token}`),
+      'get-current-session',
+      token,
+    );
+    return {
+      data: json.data,
+    };
+  },
+  postSession: () => {},
+  getCheckInData: async token => {
+    const url = '/check_in/v1/patient_check_ins/';
+    const json = await makeApiCall(
+      apiRequest(`${environment.API_URL}${url}${token}`),
+      'get-lorota-data',
+      token,
+    );
+    return {
+      data: json.data,
+    };
+  },
+  postCheckInData: () => {},
+};
+
+export { validateToken, checkInUser, v0, v1 };
