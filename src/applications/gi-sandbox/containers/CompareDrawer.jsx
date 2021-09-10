@@ -273,7 +273,7 @@ export function CompareDrawer({
               You can compare 2 to 3 institutions
             </div>
             <div className="vads-l-row vads-u-padding-top--1">
-              <ol id="cd" className="compare-list">
+              <ol id="compare-list-item" className="compare-list">
                 {loadedCards}
                 {blanks}
               </ol>
