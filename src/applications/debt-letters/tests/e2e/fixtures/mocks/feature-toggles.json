@@ -1,8 +1,6 @@
 {
   "data": {
     "type": "feature_toggles",
-    "features": [
-      { "name": "debtLettersShowLetters", "value": true }
-    ]
+    "features": [{ "name": "debt_letters_show_letters", "value": true }]
   }
 }
