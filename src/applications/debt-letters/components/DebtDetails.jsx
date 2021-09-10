@@ -58,7 +58,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
   const approvedLetterCodes = ['100', '101', '102', '109', '117', '123', '130'];
   const hasSelectedDebt = !Object.keys(selectedDebt).length === 0;
   const currentDebt = (hasSelectedDebt && selectedDebt) || getCurrentDebt();
-  const mostRecentHistory = head(currentDebt.debtHistory);
+  const mostRecentHistory = head(currentDebt?.debtHistory);
   const whyContent = renderWhyMightIHaveThisDebt(currentDebt.deductionCode);
   const dateUpdated = last(currentDebt.debtHistory)?.date;
   const dateFirstNotice = first(currentDebt.debtHistory)?.date;

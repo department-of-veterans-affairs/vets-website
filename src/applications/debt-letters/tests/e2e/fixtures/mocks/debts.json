@@ -32,8 +32,7 @@
       "amountOverpaid": 0,
       "amountWithheld": 321.76,
       "originalAr": 321.76,
-      "currentAr": 50,
-      "debtHistory": []
+      "currentAr": 50
     },
     {
       "fileNumber": "796121213",
