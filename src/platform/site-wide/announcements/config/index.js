@@ -41,7 +41,7 @@ const config = {
 
 // Add the Afghanistan banner on non-prod environments.
 if (!environment.isProduction()) {
-  config.announcements.push({
+  config.announcements.unshift({
     name: 'afghanistan-banner',
     // Only the homepage (e.g. `/`).
     paths: /^(\/)$/,
