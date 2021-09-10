@@ -59,7 +59,9 @@ const CheckIn = props => {
       });
       setIsCheckingIn(true);
       try {
-        const json = await v0.checkInUser({
+        const checkIn = isLowAuthEnabled ? v1.postCheckInData : v0.checkInUser;
+
+        const json = await checkIn({
           token,
         });
         const { status } = json;
