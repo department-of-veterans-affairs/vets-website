@@ -1,6 +1,9 @@
 import { expect } from 'chai';
 
-import { getCompareCalculatorState } from '../../selectors/compare';
+import {
+  getCompareCalculatorState,
+  updateUrlParams,
+} from '../../selectors/compare';
 import { getDefaultState } from '../helpers';
 
 const defaultState = getDefaultState();
@@ -358,6 +361,23 @@ describe('getCompareCalculatorState', () => {
     );
     expect(compareState.yellowRibbonProgramIndex).to.equal(
       compareState.yellowRibbonPrograms[0].index,
+    );
+  });
+});
+
+describe('updateUrlParams', () => {
+  it('returns url string with facility codes', () => {
+    const facilityCodes = ['1', '2'];
+    expect(updateUrlParams(facilityCodes)).to.equal(
+      `/compare/?facilities=${facilityCodes.join(',')}`,
+    );
+  });
+
+  it('returns url string with facility codes and version', () => {
+    const facilityCodes = ['1', '2'];
+    const version = 1;
+    expect(updateUrlParams(facilityCodes, version)).to.equal(
+      `/compare/?facilities=${facilityCodes.join(',')}&version=${version}`,
     );
   });
 });
