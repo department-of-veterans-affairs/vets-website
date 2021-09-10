@@ -229,10 +229,13 @@ export const isSmallScreen = () => matchMedia('(max-width: 480px)').matches;
 
 export const scrollToFocusedElement = () => {
   const compareDrawerHeight = document.getElementById('compare-drawer')
-    .clientHeight;
+    ?.clientHeight;
   const activeElementBounding = document.activeElement.getBoundingClientRect();
 
-  if (activeElementBounding.bottom > window.innerHeight - compareDrawerHeight) {
+  if (
+    compareDrawerHeight &&
+    activeElementBounding.bottom > window.innerHeight - compareDrawerHeight
+  ) {
     scroller.scrollTo(document.activeElement.id, getScrollOptions());
   }
 };
