@@ -266,11 +266,11 @@ export function CompareDrawer({
             <button className={headerLabelClasses}>{headerLabel}</button>
           </div>
 
-          <div className="compare-body vads-l-grid-container">
-            <div className="small-function-label">
-              You can compare 2 to 3 institutions
-            </div>
-            {open && (
+          {open && (
+            <div className="compare-body vads-l-grid-container">
+              <div className="small-function-label">
+                You can compare 2 to 3 institutions
+              </div>
               <div className="vads-l-row vads-u-padding-top--1">
                 {loadedCards}
 
@@ -291,8 +291,8 @@ export function CompareDrawer({
                   </div>
                 </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
       <div ref={placeholder} className={placeholderClasses}>
