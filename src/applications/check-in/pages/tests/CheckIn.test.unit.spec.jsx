@@ -18,12 +18,14 @@ describe('check-in', () => {
       const mockStore = configureStore(middleware);
       const initState = {
         checkInData: {
-          appointment: {
-            clinicPhone: '555-867-5309',
-            startTime: '2021-07-19T13:56:31',
-            facilityName: 'Acme VA',
-            clinicName: 'Green Team Clinic1',
-          },
+          appointments: [
+            {
+              clinicPhone: '555-867-5309',
+              startTime: '2021-07-19T13:56:31',
+              facilityName: 'Acme VA',
+              clinicName: 'Green Team Clinic1',
+            },
+          ],
         },
       };
       store = mockStore(initState);

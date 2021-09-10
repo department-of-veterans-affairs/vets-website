@@ -7,10 +7,10 @@ import sinon from 'sinon';
 
 import { render } from '@testing-library/react';
 
-import withAppointmentData from '../withAppointmentData';
+import withLowAuthorization from '../withLowAuthorization';
 
 describe('check-in', () => {
-  describe('withAppointmentData', () => {
+  describe('withLowAuthorization', () => {
     it('shows the provided component if the data is in the store', () => {
       const middleware = [];
       const mockStore = configureStore(middleware);
@@ -27,7 +27,7 @@ describe('check-in', () => {
         },
       };
       const store = mockStore(initState);
-      const Test = withAppointmentData(() => (
+      const Test = withLowAuthorization(() => (
         <span data-testid="data">magic</span>
       ));
       const withRequired = render(
@@ -53,7 +53,7 @@ describe('check-in', () => {
           token: 'token-123',
         },
       };
-      const Test = withAppointmentData(() => (
+      const Test = withLowAuthorization(() => (
         <span data-testid="data">magic</span>
       ));
       const withRequired = render(
@@ -80,7 +80,7 @@ describe('check-in', () => {
           token: 'token-123',
         },
       };
-      const Test = withAppointmentData(() => (
+      const Test = withLowAuthorization(() => (
         <span data-testid="data">magic</span>
       ));
       const withRequired = render(

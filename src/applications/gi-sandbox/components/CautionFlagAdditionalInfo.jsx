@@ -74,3 +74,5 @@ export const CautionFlagAdditionalInfo = ({
     </div>
   );
 };
+
+export default CautionFlagAdditionalInfo;
