@@ -9,8 +9,8 @@ const config = {
   announcements: [
     {
       name: 'afghanistan-banner',
-      // All pages.
-      paths: /(.)/,
+      // Only the homepage (e.g. `/`).
+      paths: /^(\/)$/,
       component: AfghanistanPromoBanner,
     },
     {
