@@ -46,7 +46,13 @@ const formConfig = {
   preSubmitInfo: PreSubmitInfo,
   prefillEnabled: true,
   downtime: {
-    dependencies: [externalServices.icmhs],
+    dependencies: [
+      externalServices.icmhs,
+      externalServices.global,
+      externalServices.mvi,
+      externalServices.vaProfile,
+      externalServices.vbms,
+    ],
   },
   savedFormMessages: {
     notFound: 'Please start over to apply for Planning and career guidance.',
