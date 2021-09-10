@@ -73,7 +73,7 @@ export const benefitsRelinquishedWarning = (
 
 export const benefitsDisclaimerSpouse = (
   <p>
-    <strong>IMPORTANT:</strong> If you qualify for both the Survivors’ and
+    <strong>Important:</strong> If you qualify for both the Survivors’ and
     Dependents’ Educational Assistance (DEA, Chapter 35) program and the Marine
     Gunnery Sergeant John David Fry Scholarship (Fry Scholarship, Chapter 33),
     you need to pick one or the other. You must give up entitlement to the
@@ -87,7 +87,7 @@ export const benefitsDisclaimerSpouse = (
 
 export const benefitsDisclaimerChild = (
   <p>
-    <strong>IMPORTANT:</strong> If you qualify for both the Survivors’ and
+    <strong>Important:</strong> If you qualify for both the Survivors’ and
     Dependents’ Educational Assistance (DEA, Chapter 35) program and the Marine
     Gunnery Sergeant John David Fry Scholarship (Fry Scholarship, Chapter 33),
     you need to pick one or the other. You must give up entitlement to the
