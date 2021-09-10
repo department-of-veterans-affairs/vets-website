@@ -1,13 +1,18 @@
+<!-- markdownlint-disable MD033 -->
+
 # TODO
 
-## This PR
-
-- Update the check in page for new version
-  - get sessions to get all data
 - Refactor check in component to have a display only component
+  - <LoadAppointments/>
+  - <DisplayAppointments>
 - refactor API stuff
   - rename v0 an v1
-  - refactor mock responses gerneator
-- unit tests
+  - refactor mock responses generator
+- refactor/unit tests
+  - actions/reducers
+  - validate veteran
+  - landing page?
+  - Check in display component
 - e2e tests
-- backwards componatability
+  - e2e mock endpoints
+- backwards compatibility
