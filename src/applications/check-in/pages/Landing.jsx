@@ -6,10 +6,10 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import { getTokenFromLocation, URLS, goToNextPage } from '../utils/navigation';
 import { validateToken } from '../api';
-import { receivedAppointmentDetails } from '../actions';
+import { tokenWasValidated } from '../actions';
 import { setCurrentToken, clearCurrentSession } from '../utils/session';
 import { createAnalyticsSlug } from '../utils/analytics';
-import { isUUID } from '../utils/token-format-validator';
+import { isUUID, SCOPES } from '../utils/token-format-validator';
 
 const Landing = props => {
   const {
@@ -74,7 +74,7 @@ const Landing = props => {
 const mapDispatchToProps = dispatch => {
   return {
     setAppointment: (data, token) =>
-      dispatch(receivedAppointmentDetails(data, token)),
+      dispatch(tokenWasValidated(data, token, SCOPES.READ_BASIC)),
   };
 };
 

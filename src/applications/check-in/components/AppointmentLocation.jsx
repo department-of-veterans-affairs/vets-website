@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 const AppointmentLocation = ({ appointment }) => {
   let display;
@@ -15,10 +14,4 @@ const AppointmentLocation = ({ appointment }) => {
   return <>{display}</>;
 };
 
-const mapStateToProps = state => {
-  return {
-    appointment: state.checkInData.appointment,
-  };
-};
-
-export default connect(mapStateToProps)(AppointmentLocation);
+export default AppointmentLocation;

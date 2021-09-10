@@ -109,10 +109,11 @@ describe('App', () => {
 
         await waitFor(() => expect(getByTestId('webchat')).to.exist);
 
-        sinon.assert.calledWith(
+        sinon.assert.calledWithExactly(
           GreetUser.makeBotGreetUser,
           'FAKECSRF',
           'FAKEAPISESSION',
+          'https://dev-api.va.gov',
         );
       });
     });

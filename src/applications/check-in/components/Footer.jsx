@@ -4,10 +4,13 @@ import { connect } from 'react-redux';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 function Footer({
-  contactNumber,
+  appointments,
   header = 'Need help?',
   message = 'Ask a staff member or call us at',
 }) {
+  const contactNumber = appointments
+    ? appointments[0]?.clinicPhoneNumber
+    : null;
   return (
     <footer className="row">
       <h2
@@ -31,7 +34,7 @@ function Footer({
 
 const mapStateToProps = state => {
   return {
-    contactNumber: state.checkInData.appointment?.clinicPhoneNumber,
+    appointments: state.checkInData.appointments,
   };
 };
 
