@@ -23,7 +23,6 @@ export default function BenefitSelectionWarning(chapter, relationship) {
             </li>
             <li>Any other criteria as listed in 38 U.S.C. § 3501(a)(1)</li>
           </ul>
-          based on any other criteria as listed in 38 U.S.C. § 3501(a)(1).
         </div>
       );
     } else {
@@ -35,15 +34,15 @@ export default function BenefitSelectionWarning(chapter, relationship) {
           includes DEA benefits based on:
           <ul>
             <li>
-              the death of the qualifying individual listed in this application
+              The death of the qualifying individual listed in this application
               and/or the qualifying death of any others not listed, or
             </li>
             <li>
-              a spouse who has a permanent and total service-connected
+              A spouse who has a permanent and total service-connected
               disability, or
             </li>
             <li>
-              based on any other criteria as listed in 38 U.S.C. § 3501(a)(1) .
+              Based on any other criteria as listed in 38 U.S.C. § 3501(a)(1).
             </li>
           </ul>
         </div>
