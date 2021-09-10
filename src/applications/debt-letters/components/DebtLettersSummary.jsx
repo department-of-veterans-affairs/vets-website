@@ -11,18 +11,16 @@ import DebtCardsList from './DebtCardsList';
 import ExpandableAlert from './ExpandableAlert';
 import { OnThisPageLinks } from './OnThisPageLinks';
 
-const Chapter33Alert = () => {
-  return (
-    <ExpandableAlert
-      className="vads-u-margin-top--3"
-      iconType="triangle"
-      status="limited"
-      trackingPrefix="-debt-letters-ch33"
-      label="If you got an email about Chapter 33 tuition debt with code 75B"
-      content="This is a debt assigned to your school. You won’t find it listed here. Before you make a payment on this debt, check with your school.They may have already paid."
-    />
-  );
-};
+const Chapter33Alert = () => (
+  <ExpandableAlert
+    className="vads-u-margin-top--3"
+    iconType="triangle"
+    status="limited"
+    trackingPrefix="-debt-letters-ch33"
+    label="If you got an email about Chapter 33 tuition debt with code 75B"
+    content="This is a debt assigned to your school. You won’t find it listed here. Before you make a payment on this debt, check with your school. They may have already paid."
+  />
+);
 
 const ErrorAlert = () => (
   <section

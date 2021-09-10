@@ -90,9 +90,12 @@ const formFields = {
   incorrectServiceHistoryExplanation: 'incorrectServiceHistoryExplanation',
   contactMethodRdoBtnList: 'contactMethodRdoBtnList',
   notificationTypes: 'notificationTypes',
-  militaryCommissionReceived: 'militaryCommissionReceived',
-  isSrRotcCommissioned: 'isSrRotcCommissioned',
   hasDoDLoanPaymentPeriod: 'hasDoDLoanPaymentPeriod',
+  activeDutyKicker: 'activeDutyKicker',
+  selectedReserveKicker: 'selectedReserveKicker',
+  federallySponsoredAcademy: 'federallySponsoredAcademy',
+  seniorRotcCommission: 'seniorRotcCommission',
+  loanPayment: 'loanPayment',
 };
 
 // Define all the form pages to help ensure uniqueness across all form chapters
@@ -106,7 +109,28 @@ const formPages = {
   serviceHistory: 'serviceHistory',
   benefitSelection: 'benefitSelection',
   // directDeposit: 'directDeposit',
-  additionalConsiderations: 'additionalConsiderations',
+  additionalConsiderations: {
+    activeDutyKicker: {
+      name: 'activeDutyKicker',
+      order: 1,
+    },
+    reserveKicker: {
+      name: 'reserveKicker',
+      order: 1,
+    },
+    militaryAcademy: {
+      name: 'militaryAcademy',
+      order: 2,
+    },
+    seniorRotc: {
+      name: 'seniorRotc',
+      order: 3,
+    },
+    loanPayment: {
+      name: 'loanPayment',
+      order: 4,
+    },
+  },
 };
 
 function isOnlyWhitespace(str) {
@@ -157,6 +181,69 @@ function phoneSchema() {
       phone: {
         ...usaPhone,
         pattern: '^\\d[-]?\\d(?:[0-9-]*\\d)?$',
+      },
+    },
+  };
+}
+function additionalConsiderationsQuestionTitle(benefitSelection, order) {
+  const isUnsure = benefitSelection === 'UNSURE';
+  const pageNumber = isUnsure ? order - 1 : order;
+  const totalPages = isUnsure ? 3 : 4;
+
+  return (
+    <h3 className="meb-additional-considerations-title">
+      {`Question ${pageNumber} of ${totalPages}`}
+    </h3>
+  );
+}
+
+function AdditionalConsiderationTemplate(
+  page,
+  formField,
+  title,
+  trigger,
+  info,
+) {
+  let additionalInfo;
+  if (trigger) {
+    additionalInfo = {
+      'view:note': {
+        'ui:description': (
+          <AdditionalInfo triggerText={trigger}>
+            <p>{info}</p>
+          </AdditionalInfo>
+        ),
+      },
+    };
+  }
+
+  return {
+    path: page.name,
+    uiSchema: {
+      'ui:title': data => {
+        return additionalConsiderationsQuestionTitle(
+          data.formData[formFields.benefitSelection],
+          page.order,
+        );
+      },
+      [formFields[formField]]: {
+        'ui:title': title,
+        'ui:widget': 'radio',
+      },
+      ...additionalInfo,
+    },
+    schema: {
+      type: 'object',
+      required: [formField],
+      properties: {
+        [formFields[formField]]: {
+          type: 'string',
+          enum: ['Yes', 'No'],
+        },
+        'view:note': {
+          type: 'object',
+          properties: {},
+        },
       },
     },
   };
@@ -922,90 +1009,52 @@ const formConfig = {
     additionalConsiderationsChapter: {
       title: 'Additional Considerations',
       pages: {
-        [formPages.additionalConsiderations]: {
-          path: 'additional-considerations',
-          title: 'Additional Considerations',
-          uiSchema: {
-            'ui:description': <h3>Enter your service obligations</h3>,
-            [formFields.militaryCommissionReceived]: {
-              'ui:title':
-                'Did you receive a commission from a federally-sponsored U.S. military service academy?',
-              'ui:widget': 'yesNo',
-            },
-            [formFields.isSrRotcCommissioned]: {
-              'ui:title': 'Were you commissioned as a result of Senior ROTC?',
-              'ui:widget': 'yesNo',
-            },
-            'view:isSrROTCCommissionedDescription': {
-              'ui:description': (
-                <>
-                  <div className="form-field-footer-additional-info">
-                    <AdditionalInfo triggerText="What is a Senior ROTC?">
-                      <p>
-                        The Senior Reserve Officer Training Corps (SROTC)—more
-                        commonly referred to as the Reserve Officer Traing Corps
-                        (ROTC)—is an officer training and scholarship program
-                        for postsecondary students authorized under Chapter 103
-                        of Title 10 of the United States Code.
-                      </p>
-                    </AdditionalInfo>
-                  </div>
-                </>
-              ),
-            },
-            [formFields.hasDoDLoanPaymentPeriod]: {
-              'ui:title':
-                'Do you have a period of service that the Department of Defense counts towards an education loan payment?',
-              'ui:widget': 'yesNo',
-            },
-            'view:hasDoDLoanPaymentPeriodDescription': {
-              'ui:description': (
-                <>
-                  <div className="form-field-footer-additional-info">
-                    <AdditionalInfo triggerText="What does this mean?">
-                      <p>
-                        This is a Loan Repayment Program, which is a special
-                        incentive that certain military branches offer to
-                        qualified applicants. Under a Loan Repayment Program,
-                        the branch of service will repay part of an applicant’s
-                        qualifying student loans.
-                      </p>
-                    </AdditionalInfo>
-                  </div>
-                </>
-              ),
-            },
-          },
-          schema: {
-            type: 'object',
-            required: [
-              formFields.militaryCommissionReceived,
-              formFields.isSrRotcCommissioned,
-              formFields.hasDoDLoanPaymentPeriod,
-            ],
-            properties: {
-              [formFields.militaryCommissionReceived]: {
-                type: 'boolean',
-                properties: {},
-              },
-              [formFields.isSrRotcCommissioned]: {
-                type: 'boolean',
-                properties: {},
-              },
-              'view:isSrROTCCommissionedDescription': {
-                type: 'object',
-                properties: {},
-              },
-              [formFields.hasDoDLoanPaymentPeriod]: {
-                type: 'boolean',
-                properties: {},
-              },
-              'view:hasDoDLoanPaymentPeriodDescription': {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
+        [formPages.additionalConsiderations.activeDutyKicker.name]: {
+          ...AdditionalConsiderationTemplate(
+            formPages.additionalConsiderations.activeDutyKicker,
+            formFields.activeDutyKicker,
+            'Do you qualify for an active duty kicker, sometimes called a College Fund?',
+            'What is an active duty kicker?',
+            'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
+          ),
+          depends: formData =>
+            formData[formFields.benefitSelection] === 'ACTIVE_DUTY',
+        },
+        [formPages.additionalConsiderations.reserveKicker.name]: {
+          ...AdditionalConsiderationTemplate(
+            formPages.additionalConsiderations.reserveKicker,
+            formFields.selectedReserveKicker,
+            'Do you qualify for a reserve kicker, sometimes called a College Fund?',
+            'What is a reserve kicker?',
+            'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
+          ),
+          depends: formData =>
+            formData[formFields.benefitSelection] === 'SELECTED_RESERVE',
+        },
+        [formPages.additionalConsiderations.militaryAcademy.name]: {
+          ...AdditionalConsiderationTemplate(
+            formPages.additionalConsiderations.militaryAcademy,
+            formFields.federallySponsoredAcademy,
+            'Did you receive a commission from a federally-sponsored U.S. military service academy?',
+          ),
+        },
+        [formPages.additionalConsiderations.seniorRotc.name]: {
+          ...AdditionalConsiderationTemplate(
+            formPages.additionalConsiderations.seniorRotc,
+            formFields.seniorRotcCommission,
+            'Were you commissioned as a result of Senior ROTC?',
+            'What is Senior ROTC?',
+            'The Senior Reserve Officer Training Corps (SROTC)—more commonly referred to as the Reserve Officer Training Corps (ROTC)—is an officer training and scholarship program for postsecondary students authorized under Chapter 103 of Title 10 of the United States Code.',
+          ),
+        },
+        [formPages.additionalConsiderations.loanPayment.name]: {
+          ...AdditionalConsiderationTemplate(
+            formPages.additionalConsiderations.loanPayment,
+            formFields.loanPayment,
+            'Do you have a period of service that the Department of Defense counts towards an education loan payment?',
+            'What does this mean?',
+            "This is a Loan Repayment Program, which is a special incentive that certain military branches offer to qualified applicants. Under a Loan Repayment Program, the branch of service will repay part of an applicant's qualifying student loans.",
+          ),
         },
       },
     },

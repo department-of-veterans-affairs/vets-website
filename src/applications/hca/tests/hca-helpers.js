@@ -439,7 +439,7 @@ function initSaveInProgressMock(url, client) {
 
   /* eslint-disable camelcase */
   mock(token, {
-    path: '/v0/sessions/slo/new',
+    path: '/v1/sessions/slo/new',
     verb: 'get',
     value: {
       url: 'http://fake',
@@ -447,7 +447,7 @@ function initSaveInProgressMock(url, client) {
   });
 
   mock(token, {
-    path: '/v0/sessions/new',
+    path: '/v1/sessions/new',
     verb: 'get',
     value: {
       url: 'http://fake',
