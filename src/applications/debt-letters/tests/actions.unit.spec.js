@@ -46,7 +46,6 @@ describe('fetchDebtLetters', () => {
           amountWithheld: 321.76,
           originalAr: 321.76,
           currentAr: 50,
-          debtHistory: [],
         },
         {
           fileNumber: '796121213',
