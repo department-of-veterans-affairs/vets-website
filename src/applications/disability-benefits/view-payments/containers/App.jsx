@@ -15,7 +15,13 @@ function ViewPaymentsApp(props) {
     >
       <DowntimeNotification
         appTitle="VA Payment History"
-        dependencies={[externalServices.bgs]}
+        dependencies={[
+          externalServices.bgs,
+          externalServices.global,
+          externalServices.mvi,
+          externalServices.vaProfile,
+          externalServices.vbms,
+        ]}
       >
         <div>
           <div className="vads-l-grid-container vads-u-padding--0">

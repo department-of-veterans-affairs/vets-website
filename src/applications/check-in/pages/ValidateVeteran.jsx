@@ -8,12 +8,16 @@ import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 
 const ValidateVeteran = props => {
-  const { router } = props;
+  const { router, isUpdatePageEnabled } = props;
   const [isLoading] = useState(false);
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
   const onClick = async () => {
-    goToNextPage(router, URLS.UPDATE_INSURANCE);
+    if (isUpdatePageEnabled) {
+      goToNextPage(router, URLS.UPDATE_INSURANCE);
+    } else {
+      goToNextPage(router, URLS.DETAILS);
+    }
   };
   useEffect(() => {
     focusElement('h1');
