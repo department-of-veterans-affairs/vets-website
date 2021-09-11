@@ -4,84 +4,16 @@ const clear = require('clear');
 const figlet = require('figlet');
 const fs = require('fs');
 
-const inquirer = require('./lib/app-inquirer');
-
-const cyConfig = require('../../config/cypress-testrail.json');
+const utils = require('./lib/utils');
 
 const appArgs = process.argv.slice(2);
 const myConfigPath = './script/cypress-testrail-helper/my-config.json'; // Path for fs.
 
 // Runtime variables.
-let myConfig = undefined;
-let projectSwitching = false;
+let myConfig = undefined; // Config's generated & saved on first launch.
+let projectSwitching = false; // Flag for changing config's saved Project & Suite IDs.
 
-// App functions.
-const getSetCypressConfig = async () => {
-  let projectAnswers = undefined;
-  let answers = undefined;
-  let newCyConfig = undefined;
-
-  if (projectSwitching) {
-    projectAnswers = await inquirer.askTestRailProjectOptions();
-    myConfig = Object.assign(myConfig, projectAnswers);
-    fs.writeFileSync(
-      './script/cypress-testrail-helper/my-config.json',
-      JSON.stringify({ ...myConfig, trIncludeAllInTestRun: false }),
-    );
-    // console.log('Updated myConfig:', myConfig);
-    console.log(chalk.green('APP CONFIG-FILE UPDATED!'));
-  }
-
-  answers = await inquirer.askTestRailRunOptions();
-  newCyConfig = Object.assign(cyConfig, {
-    reporterOptions: {
-      ...cyConfig.reporterOptions,
-      username: myConfig.trUsername,
-      password: myConfig.trPassword,
-      projectId: parseInt(myConfig.trProjectId, 10),
-      suiteId: parseInt(myConfig.trSuiteId, 10),
-      includeAllInTestRun: false,
-      groupId: parseInt(answers.groupId, 10),
-      runName: answers.runName,
-      filter: '',
-    },
-  });
-  console.log('Your Run-specific Cypress config:', newCyConfig);
-
-  // Write run-specific Cypress config-file.
-  return new Promise((myResolve, myReject) => {
-    try {
-      fs.writeFileSync(
-        './config/my-cypress-testrail.json',
-        JSON.stringify(newCyConfig),
-      );
-      myResolve('succeeded');
-    } catch (err) {
-      myReject('failed');
-    }
-  });
-};
-const getSetAppConfig = async () => {
-  const answers = await inquirer.askTestRailConfigOptions();
-
-  myConfig = answers;
-
-  return new Promise((myResolve, myReject) => {
-    try {
-      fs.writeFileSync(
-        './script/cypress-testrail-helper/my-config.json',
-        JSON.stringify({ ...answers, trIncludeAllInTestRun: false }),
-      );
-      myResolve('succeeded');
-    } catch (err) {
-      myReject('failed');
-    }
-  });
-};
-
-// RUNTIME CODE.
-
-// Display banner.
+// DISPLAY BANNER.
 clear();
 console.log(
   chalk.green(
@@ -92,73 +24,67 @@ console.log(
   ),
 );
 
-console.log('process.argv:', process.argv);
-console.log('appArgs:', appArgs);
+// console.log('process.argv:', process.argv);
+// console.log('appArgs:', appArgs);
 
-// Set projectSwitching.
+// SET PROJECTSWITCHING FLAG.
 if (
   (appArgs.includes('--switch-project') || appArgs.includes('--sp')) &&
   fs.existsSync(myConfigPath)
 ) {
-  console.log('Project-switch option detected!');
+  console.log(chalk.yellow('Switching projects...'));
   projectSwitching = true;
 }
 
+// CHECK FOR CONFIG-FILE, GET/SET CONFIG(S), THEN RUN CYPRESS SPEC.
 // IF no config-file exists, create one.
 // IF config-file does exist, create run-specific Cypress config-file.
 switch (fs.existsSync(myConfigPath)) {
   case true:
     // eslint-disable-next-line import/no-unresolved
     myConfig = require('./my-config.json');
-    getSetCypressConfig().then(
-      () => {
+    console.log(
+      chalk.yellow('CREATING CYPRESS RUN-SPECIFIC CONFIG-FILE NOW...'),
+    );
+    utils.getSetCypressConfig(myConfig, projectSwitching).then(
+      specPath => {
+        console.log(chalk.green('CYPRESS RUN-SPECIFIC CONFIG-FILE CREATED!'));
         console.log(
-          chalk.green('RUN-SPECIFIC CYPRESS CONFIG-FILE CREATED!  Now run:'),
-        );
-        console.log(
-          chalk.bgBlue(
-            'yarn cy:my-testrail-run --spec <project-root-path-to-spec-file>',
+          chalk.green(
+            'NOW RUNNING CYPRESS SPEC.\nCLI-prompt will return after Cypress child-process exits.\nTHANKS FOR USING CYPRESS-TESTRAIL-HELPER!',
           ),
         );
-        console.log(chalk.green('THANK YOU & GOOD-BYE!'));
+        utils.runCySpec(specPath);
       },
       () => {
-        console.error(
-          chalk.red(
-            'ERROR: Cypress config-file write failed!  Please try to create it manually. [See the app README.md file for instructions.]',
-          ),
-        );
+        console.error(chalk.red('ERROR: Cypress config-file write failed!]'));
       },
     );
     break;
   case false:
-    console.log(chalk.yellow('App config-file missing -- creating one now...'));
-    getSetAppConfig().then(
+    console.log(chalk.yellow('APP CONFIG-FILE MISSING -- CREATING ONE NOW...'));
+    utils.getSetAppConfig(myConfig).then(
       () => {
         console.log(
           chalk.green(
-            'APP CONFIG-FILE SUCCESSFULLY CREATED!  Now creating run-specific Cypress config-file...',
+            'APP CONFIG-FILE SUCCESSFULLY CREATED!\nCREATING CYPRESS RUN-SPECIFIC CONFIG-FILE NOW...',
           ),
         );
-        getSetCypressConfig().then(
-          () => {
+        utils.getSetCypressConfig(myConfig, projectSwitching).then(
+          specPath => {
+            console.log(
+              chalk.green('CYPRESS RUN-SPECIFIC CONFIG-FILE CREATED!'),
+            );
             console.log(
               chalk.green(
-                'RUN-SPECIFIC CYPRESS CONFIG-FILE CREATED!  Now run:',
+                'NOW RUNNING CYPRESS SPEC...\nCLI-prompt will return after Cypress child-process exits.\nTHANKS FOR USING CYPRESS-TESTRAIL-HELPER!',
               ),
             );
-            console.log(
-              chalk.bgBlue(
-                'yarn cy:my-testrail-run --spec <project-root-path-to-spec-file>',
-              ),
-            );
-            console.log(chalk.green('THANK YOU & GOOD-BYE!'));
+            utils.runCySpec(specPath);
           },
           () => {
             console.error(
-              chalk.red(
-                'ERROR: Cypress config-file write failed!  Please try to create it manually. [See the app README.md file for instructions.]',
-              ),
+              chalk.red('ERROR: Cypress config-file write failed!]'),
             );
           },
         );
@@ -175,5 +101,7 @@ switch (fs.existsSync(myConfigPath)) {
   default:
     break;
 }
+
+// Run Cypress spec
 
 /* eslint-disable no-console */

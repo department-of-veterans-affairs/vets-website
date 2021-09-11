@@ -1,7 +1,5 @@
 const inq = require('inquirer');
 
-/* eslint-disable object-shorthand */
-
 module.exports = {
   askTestRailConfigOptions() {
     const questions = [
@@ -57,13 +55,14 @@ module.exports = {
 
     return inq.prompt(questions);
   },
+
   askTestRailRunOptions() {
     const questions = [
       {
         name: 'groupId',
         type: 'input',
         message: "Enter your Cypress spec's corresponding TestRail Group ID:",
-        validate: function(val) {
+        validate(val) {
           if (val.length) {
             return true;
           }
@@ -74,19 +73,36 @@ module.exports = {
       {
         name: 'runName',
         type: 'input',
-        message: 'Enter the TestRail Run Name [no spaces]:',
-        validate: function(val) {
-          if (!val.includes(' ')) {
+        message: 'Enter your TestRail Run Name [no spaces]:',
+        validate(val) {
+          if (val.length && !val.includes(' ')) {
             return true;
           }
 
-          return 'Please do not use spaces.  Use underscore ("_") instead.';
+          return val.length
+            ? 'Please do not use spaces!  Use underscore ("_") instead.'
+            : 'Please enter Run Name!';
+        },
+      },
+      {
+        name: 'specPath',
+        type: 'input',
+        message: 'Enter path of your Cypress spec-file:',
+        validate(val) {
+          if (val.length && val.includes('.cypress.spec.js')) {
+            return true;
+          }
+
+          return val.length
+            ? 'File extension ".cypress.spec.js(x)" not found!'
+            : 'Please enter spec-file path!';
         },
       },
     ];
 
     return inq.prompt(questions);
   },
+
   askTestRailProjectOptions() {
     const questions = [
       {
@@ -106,7 +122,7 @@ module.exports = {
         type: 'input',
         message: 'Enter the TestRail Suite ID:',
         validate(val) {
-          if (val.length > 0) {
+          if (val.length) {
             return true;
           }
 
@@ -118,5 +134,3 @@ module.exports = {
     return inq.prompt(questions);
   },
 };
-
-/* eslint-enable object-shorthand */
