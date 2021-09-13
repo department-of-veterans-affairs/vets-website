@@ -53,7 +53,7 @@ export default Object.freeze({
   languageSupport: 'language_support',
   manageDependents: 'dependents_management',
   megaMenuMobileV2: 'mega_menu_mobile_v2',
-  preEntryCovid19Screener: 'preEntryCovid19Screener',
+  preEntryCovid19Screener: 'pre_entry_covid19_screener',
   profileNotificationSettings: 'profile_notification_settings',
   requestLockedPdfPassword: 'request_locked_pdf_password',
   searchRepresentative: 'search_representative',
