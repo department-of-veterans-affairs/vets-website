@@ -539,10 +539,15 @@ describe('selectors', () => {
     });
   });
   describe('selectAvailableItems', () => {
-    context('when user is a patient', () => {
-      it('keeps the health care items', () => {
+    context('when user is a patient at 554', () => {
+      it('keeps the Rx tracking item (item 4) in the available items', () => {
         const availableItems = selectAvailableItems(state, {
           isPatient: true,
+          facilities: [
+            { facilityId: '123', isCerner: false },
+            { facilityId: '456', isCerner: true },
+            { facilityId: '554', isCerner: false },
+          ],
         });
         expect(availableItems.ids.length).to.equal(4);
         expect(availableItems.entities.item1).to.not.be.undefined;
@@ -550,6 +555,37 @@ describe('selectors', () => {
         expect(availableItems.entities.item4).to.not.be.undefined;
       });
     });
+    context('when user is a patient at 637', () => {
+      it('keeps the Rx tracking item (item 4) in the available items', () => {
+        const availableItems = selectAvailableItems(state, {
+          isPatient: true,
+          facilities: [
+            { facilityId: '123', isCerner: false },
+            { facilityId: '637', isCerner: false },
+            { facilityId: '333', isCerner: false },
+          ],
+        });
+        expect(availableItems.ids.length).to.equal(4);
+        expect(availableItems.entities.item1).to.not.be.undefined;
+        expect(availableItems.entities.item3).to.not.be.undefined;
+        expect(availableItems.entities.item4).to.not.be.undefined;
+      });
+    });
+    context(
+      'when user is a patient at a facility that does not offer prescription tracking',
+      () => {
+        it('removes the Rx tracking item (item 4) from the available items', () => {
+          const availableItems = selectAvailableItems(state, {
+            isPatient: true,
+            facilities: [{ facilityId: '558', isCerner: false }],
+          });
+          expect(availableItems.ids.length).to.equal(3);
+          expect(availableItems.entities.item1).to.not.be.undefined;
+          expect(availableItems.entities.item3).to.not.be.undefined;
+          expect(availableItems.entities.item4).to.be.undefined;
+        });
+      },
+    );
     context('when user is not a patient', () => {
       it('filters out the health care items', () => {
         const availableItems = selectAvailableItems(state, {
@@ -567,6 +603,7 @@ describe('selectors', () => {
     context('when user is patient and has all contact info on file', () => {
       it('returns the correct channels', () => {
         const availableChannels = selectAvailableChannels(state, {
+          facilities: [{ facilityId: '983' }],
           isPatient: true,
           hasMobilePhone: true,
           hasEmailAddress: true,
@@ -577,6 +614,7 @@ describe('selectors', () => {
     context('when user is patient but lacks a mobile phone', () => {
       it('returns the correct channels', () => {
         const availableChannels = selectAvailableChannels(state, {
+          facilities: [{ facilityId: '983' }],
           isPatient: true,
           hasMobilePhone: false,
           hasEmailAddress: true,
@@ -589,6 +627,7 @@ describe('selectors', () => {
     context('when user is not patient and has all contact info on file', () => {
       it('returns the correct channels', () => {
         const availableChannels = selectAvailableChannels(state, {
+          facilities: [],
           isPatient: false,
           hasMobilePhone: true,
           hasEmailAddress: true,
@@ -602,11 +641,12 @@ describe('selectors', () => {
     context('when user is a patient and has all contact info on file', () => {
       it('returns the correct channels', () => {
         const availableChannels = selectAvailableChannels(state, {
+          facilities: [{ facilityId: '123' }, { facilityId: '456' }],
           isPatient: true,
           hasMobilePhone: true,
           hasEmailAddress: true,
         });
-        expect(availableChannels.ids.length).to.equal(5);
+        expect(availableChannels.ids.length).to.equal(4);
         expect(availableChannels.entities['channel1-1']).to.not.be.undefined;
         expect(availableChannels.entities['channel1-2']).to.not.be.undefined;
         expect(availableChannels.entities['channel2-2']).to.not.be.undefined;
@@ -630,6 +670,7 @@ describe('selectors', () => {
       });
       it('returns the first channel', () => {
         const channelsWithoutSelection = selectChannelsWithoutSelection(state, {
+          facilities: [{ facilityId: '983' }],
           isPatient: true,
           hasMobilePhone: true,
           hasEmailAddress: true,
@@ -657,6 +698,7 @@ describe('selectors', () => {
       });
       it('returns no channels', () => {
         const channelsWithoutSelection = selectChannelsWithoutSelection(state, {
+          facilities: [{ facilityId: '983' }],
           isPatient: true,
           hasMobilePhone: true,
           hasEmailAddress: true,

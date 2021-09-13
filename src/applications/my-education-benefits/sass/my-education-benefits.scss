@@ -217,6 +217,9 @@ dl.review .review-row:last-child {
 .form-review-panel fieldset fieldset {
 	margin-bottom: 0;
 }
+.review-row .form-expanding-group {
+	display: none;
+}
 
 // Confirmation Page
 .meb-feature--secondary {

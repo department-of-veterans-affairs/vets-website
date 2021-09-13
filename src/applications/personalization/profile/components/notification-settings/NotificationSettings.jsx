@@ -8,6 +8,7 @@ import {
   isVAPatient,
   // TODO: uncomment when email is a supported communication channel
   // selectVAPEmailAddress,
+  selectPatientFacilities,
   selectVAPMobilePhone,
 } from '~/platform/user/selectors';
 import { focusElement } from '~/platform/utilities/ui';
@@ -192,6 +193,7 @@ const mapStateToProps = state => {
         isPatient,
         hasEmailAddress: !!emailAddress,
         hasMobilePhone: !!mobilePhoneNumber,
+        facilities: selectPatientFacilities(state),
       },
     ),
     shouldFetchNotificationSettings,

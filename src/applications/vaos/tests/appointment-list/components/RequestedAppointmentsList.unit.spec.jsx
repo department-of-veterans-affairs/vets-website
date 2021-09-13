@@ -18,14 +18,12 @@ import RequestedAppointmentsList from '../../../appointment-list/components/Requ
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    vaOnlineSchedulingHomepageRefresh: true,
   },
 };
 
 const initialStateVAOSService = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    vaOnlineSchedulingHomepageRefresh: true,
     vaOnlineSchedulingVAOSServiceRequests: true,
   },
 };
@@ -62,7 +60,7 @@ describe('VAOS <RequestedAppointmentsList>', () => {
       },
     };
     appointment.id = '1234';
-    mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
+    mockAppointmentInfo({ requests: [appointment] });
 
     const facility = {
       id: 'vha_442GC',
@@ -124,7 +122,7 @@ describe('VAOS <RequestedAppointmentsList>', () => {
       },
     };
     appointment.id = '1234';
-    mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
+    mockAppointmentInfo({ requests: [appointment] });
     // When the veteran selects the Requested dropdown selection
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
       initialState,
@@ -174,7 +172,7 @@ describe('VAOS <RequestedAppointmentsList>', () => {
       },
     };
     appointment.id = '1234';
-    mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
+    mockAppointmentInfo({ requests: [appointment] });
 
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
       initialState,
@@ -234,7 +232,7 @@ describe('VAOS <RequestedAppointmentsList>', () => {
       },
     };
     appointment.id = '1234';
-    mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
+    mockAppointmentInfo({ requests: [appointment] });
 
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
       initialState,
