@@ -12,7 +12,7 @@ import { renderAdditionalInfo } from '../const/diary-codes';
 
 const DebtLetterCard = ({ debt, setActiveDebt }) => {
   // TODO: currently we do not have a debtID so we need to make one by combining fileNumber and diaryCode
-  const mostRecentHistory = head(debt.debtHistory);
+  const mostRecentHistory = head(debt?.debtHistory);
 
   const debtCardHeading =
     deductionCodes[debt.deductionCode] || debt.benefitType;
@@ -25,7 +25,7 @@ const DebtLetterCard = ({ debt, setActiveDebt }) => {
 
   const additionalInfo = renderAdditionalInfo(
     debt.diaryCode,
-    mostRecentHistory.date,
+    mostRecentHistory?.date,
     debt.benefitType,
   );
 
@@ -35,7 +35,12 @@ const DebtLetterCard = ({ debt, setActiveDebt }) => {
 
       {mostRecentHistory && (
         <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
-          Updated on {moment(mostRecentHistory.date).format('MMMM D, YYYY')}
+          Updated on
+          <span className="vads-u-margin-x--0p5">
+            {moment(mostRecentHistory.date, 'MM-DD-YYYY').format(
+              'MMMM D, YYYY',
+            )}
+          </span>
         </p>
       )}
 

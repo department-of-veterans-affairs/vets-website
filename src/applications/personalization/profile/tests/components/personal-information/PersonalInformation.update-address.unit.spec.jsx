@@ -137,7 +137,7 @@ async function testAddressValidation500(addressName) {
   const alert = await view.findByTestId('edit-error-alert');
   expect(alert).to.have.descendant('div.usa-alert-error');
   expect(alert).to.contain.text(
-    `We’re sorry. We couldn’t update your ${addressName.toLowerCase()}. Please try again.`,
+    `We’re sorry. We can’t save your ${addressName.toLowerCase()} at this time. We’re working to fix this problem. Please try again or check back soon.`,
   );
 
   // make sure that edit mode is not automatically exited
@@ -157,7 +157,7 @@ async function testTransactionCreationFails(addressName) {
   const alert = await view.findByTestId('edit-error-alert');
   expect(alert).to.have.descendant('div.usa-alert-error');
   expect(alert).to.contain.text(
-    `We’re sorry. We couldn’t update your ${addressName.toLowerCase()}. Please try again.`,
+    `We’re sorry. We can’t save your ${addressName.toLowerCase()} at this time. We’re working to fix this problem. Please try again or check back soon.`,
   );
 
   // make sure that edit mode is not automatically exited
@@ -177,7 +177,7 @@ async function testQuickFailure(addressName) {
   const alert = await view.findByTestId('edit-error-alert');
   expect(alert).to.have.descendant('div.usa-alert-error');
   expect(alert).to.contain.text(
-    `We’re sorry. We couldn’t update your ${addressName.toLowerCase()}. Please try again.`,
+    `We’re sorry. We can’t save your ${addressName.toLowerCase()} at this time. We’re working to fix this problem. Please try again or check back soon.`,
   );
 
   // make sure that edit mode is not automatically exited
