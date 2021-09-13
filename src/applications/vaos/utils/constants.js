@@ -376,6 +376,6 @@ export const ELIGIBILITY_REASONS = {
 };
 
 export const CANCELLATION_REASONS = {
-  pat: 'pat',
-  prov: 'prov',
+  patient: 'pat',
+  provider: 'prov',
 };

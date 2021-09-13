@@ -14,6 +14,7 @@ import {
   TYPES_OF_SLEEP_CARE,
   AUDIOLOGY_TYPES_OF_CARE,
   TYPES_OF_CARE,
+  CANCELLATION_REASONS,
 } from '../../utils/constants';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import {
@@ -413,6 +414,12 @@ export function transformConfirmedAppointment(appt) {
   const isCC = isCommunityCare(appt);
   const videoData = setVideoData(appt);
 
+  const CANCELLATION_REASON_MAP = new Map([
+    ['CANCELLED BY PATIENT', 'pat'],
+    ['CANCELLED BY CLINIC', 'prov'],
+    [null, null],
+  ]);
+
   return {
     resourceType: 'Appointment',
     // Temporary fix until https://issues.mobilehealth.va.gov/browse/VAOSR-2058 is complete
@@ -426,6 +433,7 @@ export function transformConfirmedAppointment(appt) {
       (!appt.communityCare && appt.vdsAppointments?.[0]?.bookingNote) ||
       appt.vvsAppointments?.[0]?.instructionsTitle ||
       null,
+    cancellationReason: CANCELLATION_REASON_MAP.get(getVistaStatus(appt)),
     location: setLocation(appt),
     videoData,
     ...getCommunityCareData(appt),
@@ -501,8 +509,8 @@ export function transformPendingAppointment(appt) {
     id: appt.id,
     status: getRequestStatus(appt, isExpressCare),
     created,
-    cancelationReason: unableToReachVeteran
-      ? UNABLE_TO_REACH_VETERAN_DETCODE
+    cancellationReason: unableToReachVeteran
+      ? CANCELLATION_REASONS.provider
       : null,
     requestedPeriod,
     start: isExpressCare ? created : null,

@@ -15,16 +15,18 @@ export default function StatusAlert({ appointment, facility }) {
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isPastAppointment = appointment.vaos.isPastAppointment;
-  const canceler =
-    appointment.description?.includes('CANCELLED BY PATIENT') ||
-    appointment.cancellationReason === CANCELLATION_REASONS.pat
-      ? 'You'
-      : facility?.name || 'Facility';
+
+  const canceler = new Map([
+    [CANCELLATION_REASONS.patient, 'You'],
+    [CANCELLATION_REASONS.provider, `${facility?.name || 'Facility'}`],
+  ]);
 
   if (canceled) {
     return (
       <InfoAlert status="error" backgroundOnly>
-        {`${canceler} canceled this appointment.`}
+        {`${canceler.get(
+          appointment.cancellationReason,
+        )} canceled this appointment.`}
       </InfoAlert>
     );
   } else if (isPastAppointment) {
