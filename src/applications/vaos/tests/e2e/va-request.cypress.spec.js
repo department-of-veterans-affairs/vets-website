@@ -18,7 +18,6 @@ describe('VAOS VA request flow', () => {
   function fillOutForm(facilitySelection) {
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
-    cy.findAllByRole('tab').should('exist');
 
     // Start flow
     cy.findByText('Start scheduling').click();
@@ -101,13 +100,9 @@ describe('VAOS VA request flow', () => {
     });
 
     // Confirmation page
-    cy.findByText('Your appointment request has been submitted');
+    cy.url().should('include', '/requests/testing');
     cy.findByText('VA appointment');
-    cy.get('.additional-info-button')
-      .focus()
-      .click();
-    cy.findByText('Follow-up/Routine');
-    cy.findByText('cough');
+    cy.findByText(/your appointment request has been submitted/i);
     cy.axeCheckBestPractice();
   }
 
@@ -155,7 +150,6 @@ describe('VAOS VA request flow', () => {
     });
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
-    cy.findAllByRole('tab').should('exist');
 
     // Start flow
     cy.findByText('Start scheduling').click();
@@ -183,7 +177,6 @@ describe('VAOS VA request flow using VAOS service', () => {
     vaosSetup();
     mockFeatureToggles({
       v2Requests: true,
-      homepageRefresh: true,
     });
     cy.login(mockUser);
     cy.route({
@@ -325,5 +318,6 @@ describe('VAOS VA request flow using VAOS service', () => {
     });
     cy.url().should('include', '/requests/25957');
     cy.findByText('VA appointment');
+    cy.findByText(/your appointment request has been submitted/i);
   });
 });

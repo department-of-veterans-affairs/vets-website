@@ -26,7 +26,7 @@ const DebtCard = ({ debt, selectedDebts, formData, setDebts }) => {
 
   const additionalInfo = renderAdditionalInfo(
     debt.diaryCode,
-    mostRecentHistory.date,
+    mostRecentHistory?.date,
     debt.benefitType,
   );
 

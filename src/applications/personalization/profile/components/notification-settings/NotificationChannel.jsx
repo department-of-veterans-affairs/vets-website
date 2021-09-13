@@ -33,7 +33,7 @@ const NotificationChannel = ({
   permissionId,
   saveSetting,
 }) => {
-  // when parentItem = "item2", parentItemId will be 2
+  // when itemId = "item2", itemIdNumber will be 2
   const itemIdNumber = React.useMemo(
     () => {
       if (itemId) {
@@ -64,10 +64,16 @@ const NotificationChannel = ({
     );
   }
   return (
-    <div id={!permissionId ? `no-selection-${itemId}` : null}>
+    <div>
       <NotificationRadioButtons
+        id={channelId}
         value={{ value: currentValue }}
         label={itemName}
+        description={
+          channelId === 'channel4-1'
+            ? 'Only available at some Asheville and Denver VA health facilities. Check with your facility first.'
+            : null
+        }
         options={[
           {
             label: `Notify me by ${channelTypes[channelType]}`,

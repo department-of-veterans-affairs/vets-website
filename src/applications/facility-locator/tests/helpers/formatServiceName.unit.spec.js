@@ -21,4 +21,9 @@ describe('formatServiceName', () => {
     const serviceTest = formatServiceName(null);
     expect(serviceTest).to.be.null;
   });
+
+  it('Should display Covid19 vaccine as COVID-19 vaccines', () => {
+    const serviceTest = formatServiceName('Covid19 vaccine');
+    expect(serviceTest).to.equal('COVID-19 vaccines');
+  });
 });

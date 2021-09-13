@@ -11,6 +11,7 @@ import {
 
 import {
   convertRatingToStars,
+  createId,
   formatNumber,
   locationInfo,
   schoolSize,
@@ -83,9 +84,13 @@ const ProfilePageHeader = ({
   const displayStars =
     gibctSchoolRatings && stars && ratingCount >= MINIMUM_RATING_COUNT;
 
-  const titleClasses = classNames('small-screen-header', {
-    'vads-u-margin-bottom--0': displayStars,
-  });
+  const titleClasses = classNames(
+    'small-screen-header',
+    'vads-u-margin-right--2',
+    {
+      'vads-u-margin-bottom--0': displayStars,
+    },
+  );
 
   const starClasses = classNames(
     'vads-u-margin-bottom--1',
@@ -164,7 +169,12 @@ const ProfilePageHeader = ({
               {_.capitalize(localeType)} locale
             </IconWithInfo>
             <IconWithInfo icon="globe" present={website}>
-              <a href={website} target="_blank" rel="noopener noreferrer">
+              <a
+                href={website}
+                target="_blank"
+                rel="noopener noreferrer"
+                id={createId('website')}
+              >
                 {'  '}
                 {website}
               </a>
@@ -289,6 +299,7 @@ const ProfilePageHeader = ({
                   <strong>{formatNumber(studentCount)}</strong> GI Bill students
                 </>
               }
+              buttonId={createId('GI Bill students profile')}
               onClick={() => dispatchShowModal('gibillstudents')}
               ariaLabel={ariaLabels.learnMore.numberOfStudents}
             />

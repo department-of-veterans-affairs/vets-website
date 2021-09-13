@@ -9,7 +9,6 @@ import {
   selectFeatureDirectScheduling,
   selectFeatureCommunityCare,
   selectSystemIds,
-  selectFeatureHomepageRefresh,
   selectFeatureVAOSServiceRequests,
   selectFeatureVariantTesting,
   selectRegisteredCernerFacilityIds,
@@ -733,7 +732,6 @@ async function buildPreferencesDataAndUpdate(email) {
 export function submitAppointmentOrRequest(history) {
   return async (dispatch, getState) => {
     const state = getState();
-    const isFeatureHomepageRefresh = selectFeatureHomepageRefresh(state);
     const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(state);
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
       state,
@@ -896,11 +894,7 @@ export function submitAppointmentOrRequest(history) {
           ...additionalEventData,
         });
         resetDataLayer();
-        if (isFeatureHomepageRefresh) {
-          history.push(`/requests/${requestData.id}?confirmMsg=true`);
-        } else {
-          history.push('/new-appointment/confirmation');
-        }
+        history.push(`/requests/${requestData.id}?confirmMsg=true`);
       } catch (error) {
         let extraData = null;
         if (requestBody) {

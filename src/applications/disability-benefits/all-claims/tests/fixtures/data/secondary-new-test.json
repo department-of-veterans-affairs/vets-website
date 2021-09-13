@@ -85,8 +85,7 @@
       {
         "treatmentCenterName": "Treatment Center the First",
         "treatmentDateRange": {
-          "from": "2008-01-XX",
-          "to": "2010-01-XX"
+          "from": "2008-01-XX"
         },
         "treatmentCenterAddress": {
           "country": "USA",
@@ -94,9 +93,9 @@
           "state": "AK"
         },
         "treatedDisabilityNames": {
-          "Diabetes mellitus0": true,
-          "De-selected": false,
-          "knee replacement": true
+          "diabetesmellitus0": true,
+          "deselected": false,
+          "kneereplacement": true
         }
       }
     ],
