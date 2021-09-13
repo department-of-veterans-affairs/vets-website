@@ -9,7 +9,6 @@ import createCommonStore, { commonReducer } from 'platform/startup/store';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 
 import reducers from '../reducers';
-import reducer from '../../gi/reducers';
 
 const calculatorConstants = require('./data/calculator-constants.json');
 
@@ -56,7 +55,7 @@ export function renderWithStoreAndRouter(
 }
 
 export const getDefaultState = () => {
-  const defaultState = createCommonStore(reducer).getState();
+  const defaultState = createCommonStore(reducers).getState();
 
   defaultState.constants = {
     constants: {},

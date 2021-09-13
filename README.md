@@ -29,6 +29,12 @@ To **build all applications**, run the following:
 yarn build
 ```
 
+To **build one or more applications**, you can use the `--entry` option:
+
+```sh
+yarn build --entry static-pages,auth
+```
+
 To **recompile your application when you make changes**, run:
 
 ```sh

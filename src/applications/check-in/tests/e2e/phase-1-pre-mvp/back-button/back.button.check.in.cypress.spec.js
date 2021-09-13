@@ -11,7 +11,11 @@ describe('Check In Experience -- ', () => {
     cy.intercept('POST', '/check_in/v0/patient_check_ins/', req => {
       req.reply(mockCheckIn.createMockSuccessResponse({}));
     });
-    cy.intercept('GET', '/v0/feature_toggles*', createFeatureToggles());
+    cy.intercept(
+      'GET',
+      '/v0/feature_toggles*',
+      createFeatureToggles(true, false, false, true),
+    );
   });
   afterEach(() => {
     cy.window().then(window => {

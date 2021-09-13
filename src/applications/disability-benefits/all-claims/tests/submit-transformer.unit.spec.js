@@ -84,9 +84,9 @@ describe('transformRelatedDisabilities', () => {
   it('should return an array of strings', () => {
     const claimedConditions = ['Some Condition Name', 'Another Condition Name'];
     const treatedDisabilityNames = {
-      'some condition name': true,
-      'another condition name': true,
-      'this condition is falsey!': false,
+      someconditionname: true,
+      anotherconditionname: true,
+      thisconditionisfalsey: false,
     };
     expect(
       transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
@@ -95,9 +95,9 @@ describe('transformRelatedDisabilities', () => {
   it('should not add conditions if they are not claimed', () => {
     const claimedConditions = ['Some Condition Name'];
     const treatedDisabilityNames = {
-      'some condition name': true,
-      'another condition name': true,
-      'this condition is falsey!': false,
+      someconditionname: true,
+      anotherconditionname: true,
+      thisconditionisfalsey: false,
     };
     expect(
       transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
@@ -122,9 +122,9 @@ describe('stringifyRelatedDisabilities', () => {
       vaTreatmentFacilities: [
         {
           treatedDisabilityNames: {
-            'some condition name': true,
-            'another condition name': true,
-            'this condition is falsey!': false,
+            someconditionname: true,
+            anotherconditionname: true,
+            thisconditionisfalsey: false,
           },
         },
       ],
@@ -149,13 +149,17 @@ describe('stringifyRelatedDisabilities', () => {
         {
           condition: 'this condition is falsey!',
         },
+        {
+          condition: 'something with symbols *($#^%$@) not in the key',
+        },
       ],
       vaTreatmentFacilities: [
         {
           treatedDisabilityNames: {
-            'some condition name': true,
-            'another condition name': true,
-            'this condition is falsey!': false,
+            someconditionname: true,
+            anotherconditionname: true,
+            thisconditionisfalsey: false,
+            somethingwithsymbolsnotinthekey: true,
           },
         },
       ],
@@ -164,7 +168,10 @@ describe('stringifyRelatedDisabilities', () => {
       stringifyRelatedDisabilities(formData).vaTreatmentFacilities,
     ).to.deep.equal([
       {
-        treatedDisabilityNames: ['some condition name'],
+        treatedDisabilityNames: [
+          'some condition name',
+          'something with symbols *($#^%$@) not in the key',
+        ],
       },
     ]);
   });

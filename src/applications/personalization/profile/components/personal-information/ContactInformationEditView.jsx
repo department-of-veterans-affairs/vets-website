@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import getContactInfoFieldAttributes from '~/applications/personalization/profile/util/contact-information/getContactInfoFieldAttributes';
-
 import recordEvent from '~/platform/monitoring/record-event';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import { focusElement } from '~/platform/utilities/ui';
@@ -225,23 +223,6 @@ export class ContactInformationEditView extends Component {
     );
   };
 
-  onDelete = () => {
-    let payload = this.props.data;
-    if (this.props.convertCleanDataToPayload) {
-      payload = this.props.convertCleanDataToPayload(
-        payload,
-        this.props.fieldName,
-      );
-    }
-    this.props.createTransaction(
-      this.props.apiRoute,
-      'DELETE',
-      this.props.fieldName,
-      payload,
-      this.props.analyticsSectionName,
-    );
-  };
-
   copyMailingAddress = mailingAddress => {
     const newAddressValue = { ...this.props.field.value, ...mailingAddress };
     this.onChangeFormDataAndSchemas(
@@ -256,7 +237,6 @@ export class ContactInformationEditView extends Component {
       onSubmit,
       props: {
         analyticsSectionName,
-        data,
         field,
         fieldName,
         onCancel,
@@ -316,13 +296,9 @@ export class ContactInformationEditView extends Component {
             >
               <ContactInformationActionButtons
                 onCancel={onCancel}
-                onDelete={this.onDelete}
                 title={title}
                 analyticsSectionName={analyticsSectionName}
                 isLoading={isLoading}
-                deleteEnabled={
-                  data && fieldName !== FIELD_NAMES.MAILING_ADDRESS
-                }
               >
                 <div>
                   <LoadingButton
@@ -364,14 +340,6 @@ export const mapStateToProps = (state, ownProps) => {
   // const addressValidationType = selectAddressValidationType(state);
   const activeEditView = selectCurrentlyOpenEditModal(state);
 
-  const {
-    apiRoute,
-    convertCleanDataToPayload,
-    uiSchema,
-    formSchema,
-    title,
-  } = getContactInfoFieldAttributes(fieldName);
-
   return {
     /*
     This ternary is to deal with an edge case: if the user is currently viewing
@@ -384,18 +352,13 @@ export const mapStateToProps = (state, ownProps) => {
       activeEditView === ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION
         ? ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION
         : selectCurrentlyOpenEditModal(state),
-    apiRoute,
-    convertCleanDataToPayload,
     data,
     fieldName,
     analyticsSectionName: VAP_SERVICE.ANALYTICS_FIELD_MAP[fieldName],
     field: selectEditedFormField(state, fieldName),
-    title,
     transaction,
     transactionRequest,
     editViewData: selectEditViewData(state),
-    uiSchema,
-    formSchema,
   };
 };
 

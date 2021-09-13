@@ -12,14 +12,15 @@ import fullSchema from '../22-1990-schema.json';
 // imported above would import and use these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import GetFormHelp from '../components/GetFormHelp';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 // import bankAccountUI from 'platform/forms-system/src/js/definitions/bankAccount';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import dateUI from 'platform/forms-system/src/js/definitions/date';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 
 // import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
@@ -31,6 +32,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import toursOfDutyUI from '../definitions/toursOfDuty';
 import ReviewBoxField from '../components/ReviewBoxField';
 import FullNameViewField from '../components/FullNameViewField';
+import FullNameReviewField from '../components/FullNameReviewField';
 import DateViewField from '../components/DateViewField';
 import CustomReviewDOBField from '../components/CustomReviewDOBField';
 import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView';
@@ -38,6 +40,10 @@ import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities
 import EmailViewField from '../components/EmailViewField';
 import PhoneViewField from '../components/PhoneViewField';
 import AccordionField from '../components/AccordionField';
+import MailingAddressReviewField from '../components/MailingAddressReviewField';
+import YesNoReviewField from '../components/YesNoReviewField';
+import SelectedCheckboxesReviewField from '../components/SelectedCheckboxesReviewField';
+import PhoneReviewField from '../components/PhoneReviewField';
 
 import {
   activeDutyLabel,
@@ -82,12 +88,16 @@ const formFields = {
   phoneNumber: 'phoneNumber',
   mobilePhoneNumber: 'mobilePhoneNumber',
   benefitSelection: 'benefitSelection',
+  benefitEffectiveDate: 'benefitEffectiveDate',
   incorrectServiceHistoryExplanation: 'incorrectServiceHistoryExplanation',
   contactMethodRdoBtnList: 'contactMethodRdoBtnList',
   notificationTypes: 'notificationTypes',
-  militaryCommissionReceived: 'militaryCommissionReceived',
-  isSrROTCCommissioned: 'srROTCCommissioned',
   hasDoDLoanPaymentPeriod: 'hasDoDLoanPaymentPeriod',
+  activeDutyKicker: 'activeDutyKicker',
+  selectedReserveKicker: 'selectedReserveKicker',
+  federallySponsoredAcademy: 'federallySponsoredAcademy',
+  seniorRotcCommission: 'seniorRotcCommission',
+  loanPayment: 'loanPayment',
 };
 
 // Define all the form pages to help ensure uniqueness across all form chapters
@@ -101,7 +111,28 @@ const formPages = {
   serviceHistory: 'serviceHistory',
   benefitSelection: 'benefitSelection',
   // directDeposit: 'directDeposit',
-  additionalConsiderations: 'additionalConsiderations',
+  additionalConsiderations: {
+    activeDutyKicker: {
+      name: 'activeDutyKicker',
+      order: 1,
+    },
+    reserveKicker: {
+      name: 'reserveKicker',
+      order: 1,
+    },
+    militaryAcademy: {
+      name: 'militaryAcademy',
+      order: 2,
+    },
+    seniorRotc: {
+      name: 'seniorRotc',
+      order: 3,
+    },
+    loanPayment: {
+      name: 'loanPayment',
+      order: 4,
+    },
+  },
 };
 
 function isOnlyWhitespace(str) {
@@ -135,7 +166,9 @@ function phoneUISchema(category) {
     },
     isInternational: {
       'ui:title': 'This phone number is international',
+      'ui:reviewField': YesNoReviewField,
     },
+    'ui:objectViewField': PhoneReviewField,
   };
 }
 
@@ -154,21 +187,83 @@ function phoneSchema() {
     },
   };
 }
+function additionalConsiderationsQuestionTitle(benefitSelection, order) {
+  const isUnsure = benefitSelection === 'UNSURE';
+  const pageNumber = isUnsure ? order - 1 : order;
+  const totalPages = isUnsure ? 3 : 4;
+
+  return (
+    <h3 className="meb-additional-considerations-title">
+      {`Question ${pageNumber} of ${totalPages}`}
+    </h3>
+  );
+}
+
+function AdditionalConsiderationTemplate(
+  page,
+  formField,
+  title,
+  trigger,
+  info,
+) {
+  let additionalInfo;
+  if (trigger) {
+    additionalInfo = {
+      'view:note': {
+        'ui:description': (
+          <AdditionalInfo triggerText={trigger}>
+            <p>{info}</p>
+          </AdditionalInfo>
+        ),
+      },
+    };
+  }
+
+  return {
+    path: page.name,
+    uiSchema: {
+      'ui:title': data => {
+        return additionalConsiderationsQuestionTitle(
+          data.formData[formFields.benefitSelection],
+          page.order,
+        );
+      },
+      [formFields[formField]]: {
+        'ui:title': title,
+        'ui:widget': 'radio',
+      },
+      ...additionalInfo,
+    },
+    schema: {
+      type: 'object',
+      required: [formField],
+      properties: {
+        [formFields[formField]]: {
+          type: 'string',
+          enum: ['Yes', 'No'],
+        },
+        'view:note': {
+          type: 'object',
+          properties: {},
+        },
+      },
+    },
+  };
+}
+
+function givingUpBenefitSelected(formData) {
+  return ['ACTIVE_DUTY', 'SELECTED_RESERVE'].includes(
+    formData[formFields.benefitSelection],
+  );
+}
+
+function notGivingUpBenefitSelected(formData) {
+  return !givingUpBenefitSelected(formData);
+}
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  preSubmitInfo: {
-    ...preSubmitInfo,
-    notice: (
-      <p>
-        <strong>Note</strong>: According to federal law, there are criminal
-        penalties, including a fine and/or imprisonment for up to 5 years, for
-        withholding information or for providing incorrect information (See 18
-        U.S.C. 1001).
-      </p>
-    ),
-  },
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'my-education-benefits-',
@@ -200,11 +295,13 @@ const formConfig = {
   },
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  preSubmitInfo,
   chapters: {
     applicantInformationChapter: {
       title: 'Applicant information',
       pages: {
         [formPages.applicantInformation]: {
+          title: 'Applicant information',
           path: 'applicant/information',
           subTitle: 'Review your personal information',
           instructions:
@@ -250,6 +347,7 @@ const formConfig = {
               },
               'ui:title': 'Your full name',
               'ui:field': ReviewBoxField,
+              'ui:objectViewField': FullNameReviewField,
               'ui:options': {
                 hideLabelText: true,
                 showFieldLabel: false,
@@ -340,10 +438,10 @@ const formConfig = {
       },
     },
     contactInformationChapter: {
-      title: 'Contact Information',
+      title: 'Contact information',
       pages: {
         [formPages.contactInformation.contactInformation]: {
-          title: 'Contact Information',
+          title: 'Email & phone',
           path: 'contact/information',
           initialData: {
             email: {
@@ -385,7 +483,13 @@ const formConfig = {
                 ...emailUI('Email address'),
                 'ui:validations': [validateEmail],
               },
-              confirmEmail: emailUI('Confirm email address'),
+              confirmEmail: {
+                ...emailUI('Confirm email address'),
+                'ui:options': {
+                  ...emailUI()['ui:options'],
+                  hideOnReview: true,
+                },
+              },
               'ui:validations': [
                 (errors, field) => {
                   if (field.email !== field.confirmEmail) {
@@ -434,7 +538,7 @@ const formConfig = {
           },
         },
         [formPages.contactInformation.mailingAddress]: {
-          title: 'Contact Information',
+          title: 'Mailing address',
           path: 'contact/information/mailing/address',
           initialData: {
             'view:mailingAddress': {
@@ -465,11 +569,14 @@ const formConfig = {
               'ui:title': 'Your mailing address',
               livesOnMilitaryBase: {
                 'ui:title': (
-                  <p id="LiveOnMilitaryBaseTooltip">
+                  <span id="LiveOnMilitaryBaseTooltip">
                     I live on a United States military base outside of the
                     country
-                  </p>
+                  </span>
                 ),
+                // TODO: Uncomment this once this PR is merged:
+                // https://github.com/department-of-veterans-affairs/vets-website/pull/18437
+                // 'ui:reviewField': YesNoReviewField,
               },
               livesOnMilitaryBaseInfo: {
                 'ui:description': LearnMoreAboutMilitaryBaseTooltip(),
@@ -517,6 +624,7 @@ const formConfig = {
                   },
                 },
               },
+              'ui:objectViewField': MailingAddressReviewField,
               'ui:options': {
                 hideLabelText: true,
                 showFieldLabel: false,
@@ -566,7 +674,7 @@ const formConfig = {
         },
         [formPages.contactInformation.preferredContactMethod]: {
           path: 'contact/preferences',
-          title: 'Contact Information',
+          title: 'Preferred contact method',
           uiSchema: {
             'ui:description': <h3>Select your preferred contact method</h3>,
             [formFields.contactMethodRdoBtnList]: {
@@ -609,6 +717,7 @@ const formConfig = {
               'ui:options': {
                 showFieldLabel: true,
               },
+              'ui:objectViewField': SelectedCheckboxesReviewField,
             },
             'view:note': {
               'ui:description': (
@@ -646,15 +755,22 @@ const formConfig = {
               },
             },
           },
+          // initialData: {
+          //   [formFields.contactMethodRdoBtnList]: 'Email',
+          //   [formFields.notificationTypes]: {
+          //     canEmailNotify: true,
+          //     canTextNotify: true,
+          //   },
+          // },
         },
       },
     },
     serviceHistoryChapter: {
-      title: 'Service History',
+      title: 'Service history',
       pages: {
         [formPages.serviceHistory]: {
           path: 'service-history',
-          title: 'Service History',
+          title: 'Service history',
           uiSchema: {
             'view:subHeading': {
               'ui:description': <h3>Review your service history</h3>,
@@ -662,9 +778,10 @@ const formConfig = {
             [formFields.toursOfDuty]: {
               ...toursOfDutyUI,
               'ui:field': AccordionField,
+              'ui:title': 'Service history',
               'ui:options': {
                 ...toursOfDutyUI['ui:options'],
-                reviewMode: true,
+                reviewTitle: <></>,
                 setEditState: () => {
                   return true;
                 },
@@ -673,9 +790,14 @@ const formConfig = {
                 viewComponent: ServicePeriodAccordionView,
                 viewOnlyMode: true,
               },
+              items: {
+                ...toursOfDutyUI.items,
+                'ui:objectViewField': ServicePeriodAccordionView,
+              },
             },
             [formFields.toursOfDutyCorrect]: {
               'ui:title': 'This information is incorrect and/or incomplete',
+              'ui:reviewField': YesNoReviewField,
             },
             [formFields.incorrectServiceHistoryExplanation]: {
               'ui:title':
@@ -694,7 +816,10 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [formFields.toursOfDuty]: toursOfDuty,
+              [formFields.toursOfDuty]: {
+                ...toursOfDuty,
+                title: '', // Hack to prevent console warning
+              },
               [formFields.toursOfDutyCorrect]: {
                 type: 'boolean',
               },
@@ -757,9 +882,9 @@ const formConfig = {
       title: 'Benefit selection',
       pages: {
         [formPages.benefitSelect]: {
-          path: 'select-benefit',
+          path: 'benefit-selection',
           title: 'Benefit selection',
-          subTitle: "you're applying for the Post-9/11 GIBill",
+          subTitle: "You're applying for the Post-9/11 GI Bill®",
           instructions:
             'Currently, you can only apply for Post-9/11 Gi Bill (Chapter 33) benefits through this application/ If you would like to apply for other benefits, please visit out How to Apply page.',
           uiSchema: {
@@ -775,26 +900,22 @@ const formConfig = {
                       <a href="#">How To Apply</a> page.
                     </p>
                   </div>
-                  <div>
-                    <h4>Give up one other benefit</h4>
+                  <h3>Give up one other benefit</h3>
+                  <p>
+                    Because you are applying for the Post-9/11 GI Bill, you have
+                    to give up one other benefit you may be eligible for.
+                  </p>
+                  <p>
+                    <strong>This decision is final</strong>, which means you
+                    can’t change your mind after you submit this application.
+                  </p>
+                  <AdditionalInfo triggerText="Why do I have to give up a benefit?">
                     <p>
-                      Because you are applying for the Post-9/11 GI Bill, you
-                      have to give up one other benefit you may be eligible for.
-                      <strong> This decision is final</strong>, which means you
-                      can’t change your mind after you submit this application.
+                      Per 38 USC 3327, If you are eligible for both the
+                      Post-9/11 GI Bill and other education benefits, you must
+                      give up one benefit you may be eligible for.
                     </p>
-                  </div>
-                  <div>
-                    <AdditionalInfo triggerText="Why do I have to give up a benefit?">
-                      <p>
-                        {' '}
-                        Per 38 USC 3327, If you are eligible for both the
-                        Post-9/11 GI Bill and other education benefits, you must
-                        give up one benefit you may be eligible for.
-                      </p>
-                    </AdditionalInfo>
-                  </div>
-                  <br />
+                  </AdditionalInfo>
                 </>
               ),
             },
@@ -822,6 +943,36 @@ const formConfig = {
                 required: 'Please select an answer.',
               },
             },
+            [formFields.benefitEffectiveDate]: {
+              ...dateUI('Effective date'),
+              'ui:options': {
+                hideIf: notGivingUpBenefitSelected,
+                expandUnder: [formFields.benefitSelection],
+              },
+              'ui:required': givingUpBenefitSelected,
+            },
+            'view:effectiveDateNotes': {
+              'ui:description': (
+                <ul>
+                  <li>
+                    We’ve set the date to one year ago to begin paying you
+                    immediately
+                  </li>
+                  <li>
+                    Select a future date if you don’t need to use your benefits
+                    until then
+                  </li>
+                  <li>
+                    If your classes started less than 2 years ago, enter the
+                    date they began
+                  </li>
+                </ul>
+              ),
+              'ui:options': {
+                hideIf: notGivingUpBenefitSelected,
+                expandUnder: [formFields.benefitSelection],
+              },
+            },
             'view:unsureNote': {
               'ui:description': unsureDescription,
               'ui:options': {
@@ -833,7 +984,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['benefitSelection'],
+            required: [formFields.benefitSelection],
             properties: {
               'view:subHeadings': {
                 type: 'object',
@@ -842,6 +993,11 @@ const formConfig = {
               [formFields.benefitSelection]: {
                 type: 'string',
                 enum: ['ACTIVE_DUTY', 'SELECTED_RESERVE', 'UNSURE'],
+              },
+              [formFields.benefitEffectiveDate]: date,
+              'view:effectiveDateNotes': {
+                type: 'object',
+                properties: {},
               },
               'view:unsureNote': {
                 type: 'object',
@@ -906,90 +1062,52 @@ const formConfig = {
     additionalConsiderationsChapter: {
       title: 'Additional Considerations',
       pages: {
-        [formPages.additionalConsiderations]: {
-          path: 'additional-considerations',
-          title: 'Additional Considerations',
-          uiSchema: {
-            'ui:description': <h3>Enter your service obligations</h3>,
-            [formFields.militaryCommissionReceived]: {
-              'ui:title':
-                'Did you receive a commission from a federally-sponsored U.S. military service academy?',
-              'ui:widget': 'yesNo',
-            },
-            [formFields.isSrROTCCommissioned]: {
-              'ui:title': 'Were you commissioned as a result of Senior ROTC?',
-              'ui:widget': 'yesNo',
-            },
-            'view:isSrROTCCommissionedDescription': {
-              'ui:description': (
-                <>
-                  <div className="form-field-footer-additional-info">
-                    <AdditionalInfo triggerText="What is a Senior ROTC?">
-                      <p>
-                        The Senior Reserve Officer Training Corps (SROTC)—more
-                        commonly referred to as the Reserve Officer Traing Corps
-                        (ROTC)—is an officer training and scholarship program
-                        for postsecondary students authorized under Chapter 103
-                        of Title 10 of the United States Code.
-                      </p>
-                    </AdditionalInfo>
-                  </div>
-                </>
-              ),
-            },
-            [formFields.hasDoDLoanPaymentPeriod]: {
-              'ui:title':
-                'Do you have a period of service that the Department of Defense counts towards an education loan payment?',
-              'ui:widget': 'yesNo',
-            },
-            'view:hasDoDLoanPaymentPeriodDescription': {
-              'ui:description': (
-                <>
-                  <div className="form-field-footer-additional-info">
-                    <AdditionalInfo triggerText="What does this mean?">
-                      <p>
-                        This is a Loan Repayment Program, which is a special
-                        incentive that certain military branches offer to
-                        qualified applicants. Under a Loan Repayment Program,
-                        the branch of service will repay part of an applicant’s
-                        qualifying student loans.
-                      </p>
-                    </AdditionalInfo>
-                  </div>
-                </>
-              ),
-            },
-          },
-          schema: {
-            type: 'object',
-            required: [
-              formFields.militaryCommissionReceived,
-              formFields.isSrROTCCommissioned,
-              formFields.hasDoDLoanPaymentPeriod,
-            ],
-            properties: {
-              [formFields.militaryCommissionReceived]: {
-                type: 'boolean',
-                properties: {},
-              },
-              [formFields.isSrROTCCommissioned]: {
-                type: 'boolean',
-                properties: {},
-              },
-              'view:isSrROTCCommissionedDescription': {
-                type: 'object',
-                properties: {},
-              },
-              [formFields.hasDoDLoanPaymentPeriod]: {
-                type: 'boolean',
-                properties: {},
-              },
-              'view:hasDoDLoanPaymentPeriodDescription': {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
+        [formPages.additionalConsiderations.activeDutyKicker.name]: {
+          ...AdditionalConsiderationTemplate(
+            formPages.additionalConsiderations.activeDutyKicker,
+            formFields.activeDutyKicker,
+            'Do you qualify for an active duty kicker, sometimes called a College Fund?',
+            'What is an active duty kicker?',
+            'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
+          ),
+          depends: formData =>
+            formData[formFields.benefitSelection] === 'ACTIVE_DUTY',
+        },
+        [formPages.additionalConsiderations.reserveKicker.name]: {
+          ...AdditionalConsiderationTemplate(
+            formPages.additionalConsiderations.reserveKicker,
+            formFields.selectedReserveKicker,
+            'Do you qualify for a reserve kicker, sometimes called a College Fund?',
+            'What is a reserve kicker?',
+            'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
+          ),
+          depends: formData =>
+            formData[formFields.benefitSelection] === 'SELECTED_RESERVE',
+        },
+        [formPages.additionalConsiderations.militaryAcademy.name]: {
+          ...AdditionalConsiderationTemplate(
+            formPages.additionalConsiderations.militaryAcademy,
+            formFields.federallySponsoredAcademy,
+            'Did you receive a commission from a federally-sponsored U.S. military service academy?',
+          ),
+        },
+        [formPages.additionalConsiderations.seniorRotc.name]: {
+          ...AdditionalConsiderationTemplate(
+            formPages.additionalConsiderations.seniorRotc,
+            formFields.seniorRotcCommission,
+            'Were you commissioned as a result of Senior ROTC?',
+            'What is Senior ROTC?',
+            'The Senior Reserve Officer Training Corps (SROTC)—more commonly referred to as the Reserve Officer Training Corps (ROTC)—is an officer training and scholarship program for postsecondary students authorized under Chapter 103 of Title 10 of the United States Code.',
+          ),
+        },
+        [formPages.additionalConsiderations.loanPayment.name]: {
+          ...AdditionalConsiderationTemplate(
+            formPages.additionalConsiderations.loanPayment,
+            formFields.loanPayment,
+            'Do you have a period of service that the Department of Defense counts towards an education loan payment?',
+            'What does this mean?',
+            "This is a Loan Repayment Program, which is a special incentive that certain military branches offer to qualified applicants. Under a Loan Repayment Program, the branch of service will repay part of an applicant's qualifying student loans.",
+          ),
         },
       },
     },

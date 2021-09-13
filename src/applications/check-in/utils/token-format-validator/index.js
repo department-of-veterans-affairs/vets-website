@@ -3,4 +3,9 @@ const isUUID = token => {
   return regex.test(token);
 };
 
-export { isUUID };
+const SCOPES = Object.freeze({
+  READ_BASIC: 'read.basic',
+  READ_FULL: 'read.full',
+});
+
+export { isUUID, SCOPES };

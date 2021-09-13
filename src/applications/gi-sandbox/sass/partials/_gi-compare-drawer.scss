@@ -78,6 +78,12 @@
       vertical-align: middle;
       background-color: transparent;
       margin-top: -5px;
+      margin-bottom: 0px;
+      padding-bottom: 3px;
+
+      &:focus:not(:focus-visible) {
+        outline: none;
+      }
     }
 
     .header-label::after {

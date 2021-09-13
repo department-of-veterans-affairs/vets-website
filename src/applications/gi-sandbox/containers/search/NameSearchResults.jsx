@@ -4,12 +4,13 @@ import { useHistory } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import { fetchSearchByNameResults } from '../../actions/index';
-import SearchResultCard from '../SearchResultCard';
+import ResultCard from '../search/ResultCard';
 import FilterYourResults from '../FilterYourResults';
 import TuitionAndHousingEstimates from '../TuitionAndHousingEstimates';
 import { updateUrlParams } from '../../selectors/search';
 import { getFiltersChanged } from '../../selectors/filters';
 import MobileFilterControls from '../../components/MobileFilterControls';
+import { focusElement } from 'platform/utilities/ui';
 
 export function NameSearchResults({
   dispatchFetchSearchByNameResults,
@@ -33,9 +34,14 @@ export function NameSearchResults({
     },
     [search.name.results],
   );
+  useEffect(
+    () => {
+      focusElement('#name-search-results-count');
+    },
+    [results],
+  );
   const fetchPage = page => {
     dispatchFetchSearchByNameResults(name, page, filters, version);
-
     updateUrlParams(
       history,
       tab,
@@ -54,9 +60,13 @@ export function NameSearchResults({
         name !== null && (
           <div className="row vads-u-padding--0 vads-u-margin--0">
             {smallScreen && <MobileFilterControls />}
-            <p className="vads-u-padding-x--1p5 small-screen:vads-u-padding-x--0">
+            <p
+              className="vads-u-padding-x--1p5 small-screen:vads-u-padding-x--0"
+              id="name-search-results-count"
+            >
               Showing {count} search results for "<strong>{name}</strong>"
             </p>
+
             {!smallScreen && (
               <div className="column small-4 vads-u-padding--0">
                 <TuitionAndHousingEstimates smallScreen={smallScreen} />
@@ -72,7 +82,7 @@ export function NameSearchResults({
                 count > 0 && (
                   <div className="vads-l-row">
                     {results.map(institution => (
-                      <SearchResultCard
+                      <ResultCard
                         institution={institution}
                         key={institution.facilityCode}
                         version={preview.version}

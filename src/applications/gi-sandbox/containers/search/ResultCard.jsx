@@ -9,20 +9,20 @@ import {
   addCompareInstitution,
   removeCompareInstitution,
   showModal,
-} from '../actions';
-import { MINIMUM_RATING_COUNT } from '../constants';
-import Checkbox from '../components/Checkbox';
-import { estimatedBenefits } from '../selectors/estimator';
+} from '../../actions';
+import { MINIMUM_RATING_COUNT } from '../../constants';
+import Checkbox from '../../components/Checkbox';
+import { estimatedBenefits } from '../../selectors/estimator';
 import {
   formatCurrency,
   createId,
   convertRatingToStars,
-} from '../utils/helpers';
-import { CautionFlagAdditionalInfo } from '../components/CautionFlagAdditionalInfo';
-import RatingsStars from '../components/RatingsStars';
-import SchoolClassification from '../components/SchoolClassification';
+} from '../../utils/helpers';
+import { CautionFlagAdditionalInfo } from '../../components/CautionFlagAdditionalInfo';
+import RatingsStars from '../../components/RatingsStars';
+import SchoolClassification from '../../components/SchoolClassification';
 
-export function SearchResultCard({
+export function ResultCard({
   compare,
   estimated,
   dispatchAddCompareInstitution,
@@ -68,8 +68,8 @@ export function SearchResultCard({
   const [expanded, toggleExpansion] = useState(false);
 
   const profileLink = version
-    ? appendQuery(`/profile/${facilityCode}`, { version })
-    : `/profile/${facilityCode}`;
+    ? appendQuery(`/institution/${facilityCode}`, { version })
+    : `/institution/${facilityCode}`;
 
   const resultCardClasses = classNames('result-card', {
     'vads-u-margin-bottom--2': location,
@@ -93,8 +93,17 @@ export function SearchResultCard({
   const nameCityStateHeader = (
     <>
       <div>
-        <Link to={profileLink}>
-          <h3 className={nameClasses}>{name}</h3>
+        <Link
+          to={profileLink}
+          aria-labelledby={`${facilityCode}-label ${facilityCode}-classification`}
+        >
+          <h3
+            className={nameClasses}
+            aria-label={`${institution.name}, `}
+            id={`${institution.facilityCode}-label`}
+          >
+            {name}
+          </h3>
         </Link>
       </div>
       <p className="vads-u-padding--0">
@@ -317,4 +326,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(SearchResultCard);
+)(ResultCard);

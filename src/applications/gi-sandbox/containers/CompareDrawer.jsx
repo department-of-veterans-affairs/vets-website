@@ -2,10 +2,10 @@ import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
-import appendQuery from 'append-query';
 import { removeCompareInstitution, compareDrawerOpened } from '../actions';
 import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal';
 import { isSmallScreen } from '../utils/helpers';
+import { updateUrlParams } from '../selectors/compare';
 
 export function CompareDrawer({
   compare,
@@ -17,7 +17,7 @@ export function CompareDrawer({
 }) {
   const history = useHistory();
   const { loaded, institutions } = compare.search;
-  const [open, setOpen] = useState(compare.open);
+  const { open } = compare;
   const [promptingFacilityCode, setPromptingFacilityCode] = useState(null);
   const [stuck, setStuck] = useState(false);
   const placeholder = useRef(null);
@@ -35,7 +35,7 @@ export function CompareDrawer({
   const tooTall = () => {
     // magic numbers based on rough heights of the drawer when expanded
     const maxDrawerHeight = isSmallScreen() ? 334 : 200;
-    return compare.open && maxDrawerHeight >= window.innerHeight;
+    return open && maxDrawerHeight >= window.innerHeight;
   };
   const [scrollable, setScrollable] = useState(tooTall());
 
@@ -193,10 +193,9 @@ export function CompareDrawer({
 
   useEffect(
     () => {
-      setOpen(compare.open);
       checkSize();
     },
-    [compare.open],
+    [open],
   );
 
   useEffect(() => {
@@ -214,12 +213,7 @@ export function CompareDrawer({
   }
 
   const openCompare = () => {
-    const compareLink = preview.version
-      ? appendQuery(`/compare/?facilities=${loaded.join(',')}`, {
-          version: preview.version,
-        })
-      : appendQuery(`/compare/?facilities=${loaded.join(',')}`);
-    history.push(compareLink);
+    history.push(updateUrlParams(loaded, preview.version));
   };
 
   const headerLabelClasses = classNames('header-label', {
@@ -228,7 +222,6 @@ export function CompareDrawer({
   });
 
   const expandOnClick = () => {
-    setOpen(!open);
     dispatchCompareDrawerOpened(!open);
   };
 
@@ -251,7 +244,7 @@ export function CompareDrawer({
 
   return (
     <>
-      <div className={compareDrawerClasses} ref={drawer}>
+      <div className={compareDrawerClasses} ref={drawer} id="compare-drawer">
         <div className={expandCollapse}>
           {promptingFacilityCode && (
             <RemoveCompareSelectedModal
@@ -265,34 +258,42 @@ export function CompareDrawer({
             />
           )}
           <div className={compareHeaderClasses} onClick={expandOnClick}>
-            <button className={headerLabelClasses}>{headerLabel}</button>
+            <button
+              aria-expanded={open}
+              aria-controls="compare-body"
+              className={headerLabelClasses}
+            >
+              {headerLabel}
+            </button>
           </div>
 
-          <div className="compare-body vads-l-grid-container">
-            <div className="small-function-label">
-              You can compare 2 to 3 institutions
-            </div>
-            <div className="vads-l-row vads-u-padding-top--1">
-              {loadedCards}
+          {open && (
+            <div className="compare-body vads-l-grid-container">
+              <div className="small-function-label">
+                You can compare 2 to 3 institutions
+              </div>
+              <div className="vads-l-row vads-u-padding-top--1">
+                {loadedCards}
 
-              {blanks}
-              <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3 action-cell ">
-                <div className="large-function-label compare-name">
-                  You can compare 2 to 3 institutions
-                </div>
-                <div>
-                  <button
-                    type="button"
-                    className="usa-button vads-u-width--full"
-                    disabled={loaded.length < 2}
-                    onClick={openCompare}
-                  >
-                    Compare
-                  </button>
+                {blanks}
+                <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3 action-cell ">
+                  <div className="large-function-label compare-name">
+                    You can compare 2 to 3 institutions
+                  </div>
+                  <div>
+                    <button
+                      type="button"
+                      className="usa-button vads-u-width--full"
+                      disabled={loaded.length < 2}
+                      onClick={openCompare}
+                    >
+                      Compare
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
       <div ref={placeholder} className={placeholderClasses}>

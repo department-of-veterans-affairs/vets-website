@@ -1691,7 +1691,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         ...appointment.attributes.vvsAppointments[0],
         dateTime: startDate.format(),
         bookingNotes: 'Some random note',
-        appointmentKind: 'ADHOC',
+        appointmentKind: 'MOBILE_ANY',
         status: { description: 'F', code: 'FUTURE' },
         instructionsTitle: 'Medication Review',
       };
