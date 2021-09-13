@@ -142,6 +142,7 @@ To **run Cypress tests from the command line**:
 yarn cy:run
 ```
 
+.
 To **run specific Cypress tests from the command line**:
 
 ```sh
