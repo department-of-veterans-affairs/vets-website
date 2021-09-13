@@ -11,7 +11,7 @@ import { fetchConfirmedAppointmentDetails } from '../redux/actions';
 import AppointmentDateTime from './AppointmentDateTime';
 import AddToCalendar from '../../components/AddToCalendar';
 import FacilityAddress from '../../components/FacilityAddress';
-import PageLayout from './AppointmentsPage/PageLayout';
+import PageLayout from './PageLayout';
 import ErrorMessage from '../../components/ErrorMessage';
 import { selectCommunityCareDetailsInfo } from '../redux/selectors';
 import FullWidthLayout from '../../components/FullWidthLayout';

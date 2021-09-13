@@ -137,14 +137,6 @@ export function reviewTest() {
   cy.findByText('Confirm appointment').click();
 }
 
-export function confirmationPageTest(additionalInfo) {
-  cy.findByText('Your appointment has been scheduled');
-  cy.findByText('VA Appointment');
-  cy.findByText('Follow-up/Routine');
-  cy.findByText(additionalInfo);
-  cy.axeCheckBestPractice();
-}
-
 export function confirmationPageV2Test(fullReason) {
   cy.findByText('Your appointment has been scheduled and is confirmed.');
   cy.findByText('VA Appointment');

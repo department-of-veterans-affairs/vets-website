@@ -258,7 +258,13 @@ export function CompareDrawer({
             />
           )}
           <div className={compareHeaderClasses} onClick={expandOnClick}>
-            <button className={headerLabelClasses}>{headerLabel}</button>
+            <button
+              aria-expanded={open}
+              aria-controls="compare-body"
+              className={headerLabelClasses}
+            >
+              {headerLabel}
+            </button>
           </div>
 
           {open && (
