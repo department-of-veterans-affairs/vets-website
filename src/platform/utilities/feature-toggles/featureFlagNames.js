@@ -30,18 +30,18 @@ export default Object.freeze({
   dischargeWizardFeatures: 'discharge_wizard_features',
   evssUploadLimit150Mb: 'evss_upload_limit_150mb',
   facilitiesPpmsSuppressAll: 'facilities_ppms_suppress_all',
-  facilitiesPpmsSuppressCommunityCare: 'facilitiesPpmsSuppressCommunityCare',
-  facilitiesPpmsSuppressPharmacies: 'facilitiesPpmsSuppressPharmacies',
+  facilitiesPpmsSuppressCommunityCare: 'facilities_ppms_suppress_community_care',
+  facilitiesPpmsSuppressPharmacies: 'facilities_ppms_suppress_pharmacies',
   facilityLocatorCovidVaccineWalkInAvailabilityTextFrontend:
-    'facilityLocatorCovidVaccineWalkInAvailabilityTextFrontend',
+    'facility_locator_covid_vaccine_walk_in_availability_text_frontend',
   facilityLocatorLighthouseCovidVaccineQuery:
-    'facilityLocatorLighthouseCovidVaccineQuery',
+    'facility_locator_lighthouse_covid_vaccine_query',
   facilityLocatorPredictiveLocationSearch:
-    'facilityLocatorPredictiveLocationSearch',
-  facilityLocatorRailsEngine: 'facilityLocatorRailsEngine',
-  facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares', // Facilities team has deprecated this flag for the frontEnd logic, there is still backend support though.
+    'facility_locator_predictive_location_search',
+  facilityLocatorRailsEngine: 'facility_locator_rails_engine',
+  facilityLocatorShowCommunityCares: 'facility_locator_show_community_cares', // Facilities team has deprecated this flag for the frontEnd logic, there is still backend support though.
   facilityLocatorShowOperationalHoursSpecialInstructions:
-    'facilityLocatorShowOperationalHoursSpecialInstructions',
+    'facility_locator_show_operational_hours_special_instructions',
   findFormsEnhancementFlagOne: 'find_forms_first_flag',
   findFormsEnhancementFlagTwo: 'find_forms_second_flag',
   findFormsEnhancementFlagThree: 'find_forms_third_flag',
