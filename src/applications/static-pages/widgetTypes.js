@@ -1,4 +1,5 @@
 export default {
+  ASK_VA: 'ask-va',
   BANNER: 'banner',
   BASIC_FACILITY_LOCATIONS_LIST: 'basic-facility-locations-list',
   BURIALS_APP_STATUS: 'burials-app-status',

@@ -31,6 +31,7 @@ import createViewDependentsCTA from './view-modify-dependents/view-dependents-ct
 import createViewPaymentHistoryCTA from './view-payment-history/createViewPaymentHistoryCTA';
 import facilityReducer from './facilities/reducers';
 // Other widgets.
+import createAskVAWidget from './ask-va';
 import createApplicationStatus from './widget-creators/createApplicationStatus';
 import createCOEAccess from './coe-access/createCOEAccess';
 import createCallToActionWidget from './widget-creators/createCallToActionWidget';
@@ -157,6 +158,7 @@ createCoronavirusChatbot(store, widgetTypes.CORONAVIRUS_CHATBOT);
 createCovidVaccineUpdatesWidget(store, widgetTypes.COVID_VACCINE_UPDATES_CTA);
 createViewDependentsCTA(store, widgetTypes.VIEW_DEPENDENTS_CTA);
 form686CTA(store, widgetTypes.FORM_686_CTA);
+createAskVAWidget(store, widgetTypes.ASK_VA);
 createGetMedicalRecordsPage(store, widgetTypes.GET_MEDICAL_RECORDS_PAGE);
 createRefillTrackPrescriptionsPage(
   store,
