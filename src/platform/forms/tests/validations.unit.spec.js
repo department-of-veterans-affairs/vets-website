@@ -176,7 +176,7 @@ describe('Validations unit tests', () => {
           dirty: true,
         },
         month: {
-          value: null,
+          value: '',
           dirty: true,
         },
         year: {
