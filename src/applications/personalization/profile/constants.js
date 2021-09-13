@@ -39,3 +39,8 @@ export const ACCOUNT_TYPES_OPTIONS = {
   checking: 'Checking',
   savings: 'Savings',
 };
+
+// 554: Denver
+// 637: Asheville
+// 983: test-only facility ID, used by user 36 among others
+export const RX_TRACKING_SUPPORTING_FACILITIES = new Set(['554', '637', '983']);

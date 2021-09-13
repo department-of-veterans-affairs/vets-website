@@ -8,9 +8,12 @@ import {
   selectChannelById,
   selectChannelUiById,
 } from '@@profile/ducks/communicationPreferences';
+import { RX_TRACKING_SUPPORTING_FACILITIES } from '@@profile/constants';
 import { selectCommunicationPreferences } from '@@profile/reducers';
 
 import { getContactInfoSelectorByChannelType } from '@@profile/util/notification-settings';
+
+import { selectPatientFacilities } from '~/platform/user/selectors';
 
 import { LOADING_STATES } from '../../../common/constants';
 
@@ -31,6 +34,7 @@ const NotificationChannel = ({
   itemName,
   itemId,
   permissionId,
+  radioButtonDescription,
   saveSetting,
 }) => {
   // when itemId = "item2", itemIdNumber will be 2
@@ -69,11 +73,7 @@ const NotificationChannel = ({
         id={channelId}
         value={{ value: currentValue }}
         label={itemName}
-        description={
-          channelId === 'channel4-1'
-            ? 'Only available at some Asheville and Denver VA health facilities. Check with your facility first.'
-            : null
-        }
+        description={radioButtonDescription}
         options={[
           {
             label: `Notify me by ${channelTypes[channelType]}`,
@@ -145,6 +145,14 @@ const mapStateToProps = (state, ownProps) => {
     channel.channelType,
   );
   const isMissingContactInfo = !contactInfoSelector(state);
+  const facilities = selectPatientFacilities(state);
+  const allFacilitiesSupportRxTracking = facilities?.every(facility => {
+    return RX_TRACKING_SUPPORTING_FACILITIES.has(facility.facilityId);
+  });
+  const radioButtonDescription =
+    ownProps.channelId === 'channel4-1' && !allFacilitiesSupportRxTracking
+      ? 'Only available at some Asheville and Denver VA health facilities. Check with your facility first.'
+      : null;
   return {
     apiStatus: uiState.updateStatus,
     channelType: channel.channelType,
@@ -153,6 +161,7 @@ const mapStateToProps = (state, ownProps) => {
     isOptedIn: channel.isAllowed,
     isMissingContactInfo,
     permissionId: channel.permissionId,
+    radioButtonDescription,
   };
 };
 
