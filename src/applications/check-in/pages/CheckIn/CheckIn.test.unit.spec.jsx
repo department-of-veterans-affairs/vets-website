@@ -8,7 +8,7 @@ import { render } from '@testing-library/react';
 
 import configureStore from 'redux-mock-store';
 
-import CheckIn from '../CheckIn';
+import CheckIn from './index';
 
 describe('check-in', () => {
   describe('CheckIn component', () => {
