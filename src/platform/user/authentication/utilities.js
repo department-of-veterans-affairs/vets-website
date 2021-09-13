@@ -19,7 +19,7 @@ export const externalRedirects = {
     : 'https://staging-patientportal.myhealth.va.gov/',
   mhv: `https://${
     eauthEnvironmentPrefixes[environment.BUILDTYPE]
-  }.eauth.va.gov/mhv-portal-web/web/myhealthevet/`,
+  }eauth.va.gov/mhv-portal-web/web/myhealthevet/`,
 };
 
 export const ssoKeepAliveEndpoint = () => {
