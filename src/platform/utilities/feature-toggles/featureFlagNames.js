@@ -106,6 +106,6 @@ export default Object.freeze({
     'vaOnlineSchedulingFacilitiesServiceV2',
   vaOnlineSchedulingVariantTesting: 'vaOnlineSchedulingVariantTesting',
   vaOnlineSchedulingCCIterations: 'vaOnlineSchedulingCCIterations',
-  vaViewDependentsAccess: 'vaViewDependentsAccess',
+  vaViewDependentsAccess: 'va_view_dependents_access',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
 });

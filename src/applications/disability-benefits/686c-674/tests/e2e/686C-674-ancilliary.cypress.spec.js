@@ -24,7 +24,7 @@ const testConfig = createTestConfig(
           type: 'feature_toggles',
           features: [
             {
-              name: 'vaViewDependentsAccess',
+              name: 'va_view_dependents_access',
               value: true,
             },
           ],
