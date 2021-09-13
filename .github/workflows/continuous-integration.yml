@@ -503,7 +503,7 @@ jobs:
       - name: Set output of TESTS
         id: tests
         run: echo ::set-output name=selected::$TESTS
-  
+
   cypress-tests:
     name: Cypress E2E Tests
     runs-on: self-hosted
@@ -647,9 +647,9 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      # ----------------
-      # | Notify Slack |
-      # ----------------
+      # -----------------
+      # | Notify Slack  a|
+      # -----------------
 
       - name: Checkout VSP actions
         if: ${{ needs.cypress-tests.result == 'failure' }}
