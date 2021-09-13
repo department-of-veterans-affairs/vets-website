@@ -1,86 +1,71 @@
-import 'platform/polyfills';
+// Node modules.
 import LazyLoad from 'vanilla-lazyload/dist/lazyload';
 import * as Sentry from '@sentry/browser';
-
-import createCommonStore from 'platform/startup/store';
-import startSitewideComponents from 'platform/site-wide';
-import { VA_FORM_IDS } from 'platform/forms/constants';
-
+// Relative imports.
 import './analytics';
+import './sass/static-pages.scss';
+import 'platform/polyfills';
 import alertsBuildShow from './widget-creators/alerts-dismiss-view';
-import icsCreate from './widget-creators/ics-generator';
-import createFacilityPage from './facilities/createFacilityPage';
-import createVetCentersHours from './facilities/createVetCentersHours';
-import createNearByVetCenters from './facilities/vet-center/createNearByVetCenters';
-import createExpandableOperatingStatus from './facilities/vet-center/createExpandableOperatingStatus';
-
-import widgetTypes from './widgetTypes';
-import subscribeAdditionalInfoEvents from './subscription-creators/subscribeAdditionalInfoEvents';
-import subscribeAccordionEvents from './subscription-creators/subscribeAccordionEvents';
-import createApplicationStatus from './widget-creators/createApplicationStatus';
-import createCallToActionWidget from './widget-creators/createCallToActionWidget';
-import createMyVALoginWidget from './widget-creators/createMyVALoginWidget';
-import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
-import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
-import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
-import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
-import createFindVaForms, {
-  findVaFormsWidgetReducer,
-} from '../find-forms/createFindVaForms';
-import createFindVaFormsInvalidPdfAlert from '../find-forms/widgets/createInvalidPdfAlert';
-import createHigherLevelReviewApplicationStatus from 'applications/disability-benefits/996/components/createHLRApplicationStatus';
-import createPost911GiBillStatusWidget, {
-  post911GIBillStatusReducer,
-} from '../post-911-gib-status/createPost911GiBillStatusWidget';
-
 import form686CTA from './view-modify-dependent/686-cta/form686CTA';
-
+import icsCreate from './widget-creators/ics-generator';
+import openShareLink from './widget-creators/social-share-links';
+import startSitewideComponents from 'platform/site-wide';
+import subscribeAccordionEvents from './subscription-creators/subscribeAccordionEvents';
+import subscribeAdditionalInfoEvents from './subscription-creators/subscribeAdditionalInfoEvents';
+import widgetTypes from './widgetTypes';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 // Health Care | Manage Benefits widgets.
 import createGetMedicalRecordsPage from './health-care-manage-benefits/get-medical-records-page';
 import createRefillTrackPrescriptionsPage from './health-care-manage-benefits/refill-track-prescriptions-page';
 import createScheduleViewVAAppointmentsPage from './health-care-manage-benefits/schedule-view-va-appointments-page';
 import createSecureMessagingPage from './health-care-manage-benefits/secure-messaging-page';
 import createViewTestAndLabResultsPage from './health-care-manage-benefits/view-test-and-lab-results-page';
-
-// No-react styles.
-import './sass/static-pages.scss';
-
-// Social share links behavior
-import openShareLink from './widget-creators/social-share-links';
-
-// Resources and support widgets
-import createResourcesAndSupportSearchWidget from './widget-creators/resources-and-support-search';
-
-// Health care facility widgets
-import createFacilityListWidget from './facilities/facilityList';
+// Health care facility widgets.
 import createBasicFacilityListWidget from './facilities/basicFacilityList';
-import facilityReducer from './facilities/reducers';
-import createOtherFacilityListWidget from './facilities/otherFacilityList';
-import createChapter36CTA from './vre-chapter36/createChapter36CTA';
 import createChapter31CTA from './vre-chapter31/createChapter31CTA';
+import createChapter36CTA from './vre-chapter36/createChapter36CTA';
+import createFacilityListWidget from './facilities/facilityList';
+import createI18Select from './i18Select/createI18Select';
+import createOtherFacilityListWidget from './facilities/otherFacilityList';
 import createViewDependentsCTA from './view-modify-dependents/view-dependents-cta/createViewDependentsCTA';
 import createViewPaymentHistoryCTA from './view-payment-history/createViewPaymentHistoryCTA';
-import createI18Select from './i18Select/createI18Select';
-
-// School resources widgets
+import facilityReducer from './facilities/reducers';
+// School resources widgets.
+import createCOEAccess from './coe-access/createCOEAccess';
+import createCoronavirusChatbot from '../coronavirus-chatbot/createCoronavirusChatbot';
+import createCovidVaccineUpdatesWidget from './covid-vaccine-updates-cta/createCovidVaccineUpdatesWidget';
+import createDependencyVerification from './dependency-verification/createDependencyVerification';
+import createThirdPartyApps, {
+  thirdPartyAppsReducer,
+} from '../third-party-app-directory/createThirdPartyApps';
+import dependencyVerificationReducer from './dependency-verification/reducers/index';
 import {
   createScoEventsWidget,
   createScoAnnouncementsWidget,
 } from './school-resources/SchoolResources';
-import createCoronavirusChatbot from '../coronavirus-chatbot/createCoronavirusChatbot';
-import createCovidVaccineUpdatesWidget from './covid-vaccine-updates-cta/createCovidVaccineUpdatesWidget';
-
-import createThirdPartyApps, {
-  thirdPartyAppsReducer,
-} from '../third-party-app-directory/createThirdPartyApps';
-
-import createDependencyVerification from './dependency-verification/createDependencyVerification';
-import dependencyVerificationReducer from './dependency-verification/reducers/index';
-
-import createCOEAccess from './coe-access/createCOEAccess';
-
-// Debt Resolution | Manage VA Debt Widgets
+// Other widgets.
+import createApplicationStatus from './widget-creators/createApplicationStatus';
+import createCallToActionWidget from './widget-creators/createCallToActionWidget';
+import createCommonStore from 'platform/startup/store';
+import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
+import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
+import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
+import createExpandableOperatingStatus from './facilities/vet-center/createExpandableOperatingStatus';
+import createFacilityPage from './facilities/createFacilityPage';
+import createFindVaForms, {
+  findVaFormsWidgetReducer,
+} from '../find-forms/createFindVaForms';
+import createFindVaFormsInvalidPdfAlert from '../find-forms/widgets/createInvalidPdfAlert';
+import createHigherLevelReviewApplicationStatus from 'applications/disability-benefits/996/components/createHLRApplicationStatus';
 import createManageVADebtCTA from './manage-va-debt/createManageVADebtCTA';
+import createMyVALoginWidget from './widget-creators/createMyVALoginWidget';
+import createNearByVetCenters from './facilities/vet-center/createNearByVetCenters';
+import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
+import createPost911GiBillStatusWidget, {
+  post911GIBillStatusReducer,
+} from '../post-911-gib-status/createPost911GiBillStatusWidget';
+import createResourcesAndSupportSearchWidget from './widget-creators/resources-and-support-search';
+import createVetCentersHours from './facilities/createVetCentersHours';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
