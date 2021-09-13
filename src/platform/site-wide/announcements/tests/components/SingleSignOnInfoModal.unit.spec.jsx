@@ -6,14 +6,6 @@ import sinon from 'sinon';
 import SingleSignOnInfoModal from '../../components/SingleSignOnInfoModal';
 
 describe('Announcements <SingleSignOnInfoModal>', () => {
-  it('does not render for users that are logged in but without SSO', () => {
-    const tree = mount(<SingleSignOnInfoModal isLoggedIn />);
-
-    expect(tree.html()).to.equal(null);
-
-    tree.unmount();
-  });
-
   it('renders for logged in SSO users', () => {
     const dismiss = sinon.spy();
 
