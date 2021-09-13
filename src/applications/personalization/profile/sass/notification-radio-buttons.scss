@@ -3,11 +3,18 @@
 // sheet. Unlike checkboxes, USWDS provides virtually no styling for disabled
 // radio buttons so we are setting up custom styling here. In the unlikely event
 // that VA.gov ever stops using USWDS, or upgrades to USWDS 2+, these rules will
-// probably have to updated or removed.
-$border-weight: 4px;
+// probably have to be updated or removed.
+$border-weight-left: 4px;
 $margin-left: units(1.5);
-$padding-left: calc(#{$margin-left} - #{$border-weight});
-$padding-left-negative: calc(-#{$margin-left} + #{$border-weight});
+$padding-left: calc(#{$margin-left} - #{$border-weight-left});
+$padding-left-negative: calc(-#{$margin-left} + #{$border-weight-left});
+
+input[type="radio"] {
+  height: 0;
+  width: 0;
+  margin: 0;
+  padding: 0;
+}
 
 [type="radio"]:disabled + label {
   color: $color-gray-lighter;
@@ -24,7 +31,7 @@ $padding-left-negative: calc(-#{$margin-left} + #{$border-weight});
 }
 
 .rb-fieldset-input {
-  margin-bottom: 2rem;
+  margin-bottom: units(1.5);
   position: relative;
 }
 
@@ -33,7 +40,7 @@ $padding-left-negative: calc(-#{$margin-left} + #{$border-weight});
 }
 
 .rb-input {
-  border-left: $border-weight solid transparent;
+  border-left: $border-weight-left solid transparent;
   padding-left: $padding-left;
   margin-left: -#{$margin-left};
   position: relative;

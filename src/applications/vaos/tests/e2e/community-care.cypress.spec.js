@@ -249,12 +249,10 @@ describe('VAOS community care flow', () => {
     });
 
     // Your appointment request has been submitted step
-    cy.url().should(
-      'contain',
-      '/health-care/schedule-view-va-appointments/appointments/new-appointment/confirmation',
-    );
+    cy.url().should('include', '/requests/testing');
+    cy.findByText('Preferred community care provider');
+    cy.findByText(/your appointment request has been submitted/i);
     cy.axeCheckBestPractice();
-    cy.get('va-alert').contains('We’re reviewing your request');
   });
 
   it('should submit form with provider chosen from list and submit request', () => {
@@ -454,12 +452,10 @@ describe('VAOS community care flow', () => {
     });
 
     // Your appointment request has been submitted step
-    cy.url().should(
-      'contain',
-      '/health-care/schedule-view-va-appointments/appointments/new-appointment/confirmation',
-    );
+    cy.url().should('include', '/requests/testing');
+    cy.findByText('Preferred community care provider');
+    cy.findByText(/your appointment request has been submitted/i);
     cy.axeCheckBestPractice();
-    cy.get('va-alert').contains('We’re reviewing your request');
   });
 });
 
@@ -468,7 +464,6 @@ describe('VAOS community care flow using VAOS service', () => {
     vaosSetup();
     mockFeatureToggles({
       v2Requests: true,
-      homepageRefresh: true,
       v2Facilities: true,
     });
     cy.login(mockUser);

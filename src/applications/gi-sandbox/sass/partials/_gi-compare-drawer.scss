@@ -118,8 +118,21 @@
 
     .compare-name {
       height: 6em;
+      width: 100%;
       padding-top: 0.5em;
       padding-right: 1.5em;
+    }
+    .compare-list {
+      display: contents;
+    }
+    .compare-button {
+      float: right;
+      width: 100%;
+    }
+    #compare-list-item li {
+      display: inline;
+      list-style-type: none;
+      float: left;
     }
 
     .small-function-label {
