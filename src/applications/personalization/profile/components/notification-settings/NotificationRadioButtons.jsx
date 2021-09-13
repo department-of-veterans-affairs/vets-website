@@ -138,7 +138,6 @@ const NotificationRadioButtons = ({
   const buttonOptions = isArray(options) ? options : [];
   const storedValue = value?.value;
   const optionElements = buttonOptions.map((option, optionIndex) => {
-    const isLastRadioButtonInGroup = optionIndex >= buttonOptions.length - 1;
     let optionLabel;
     let optionValue;
     let optionAriaLabel;
@@ -175,10 +174,7 @@ const NotificationRadioButtons = ({
           name={`${name}-${optionIndex}-label`}
           htmlFor={`${id}-${optionIndex}`}
           aria-label={optionAriaLabel}
-          className={classNames('vads-u-margin--0', 'vads-u-margin-top--1', {
-            'vads-u-margin-bottom--1': isLastRadioButtonInGroup,
-            'vads-u-margin-bottom--2p5': !isLastRadioButtonInGroup,
-          })}
+          className="vads-u-margin--0 vads-u-padding-y--1p5"
         >
           {optionLabel}
         </label>
