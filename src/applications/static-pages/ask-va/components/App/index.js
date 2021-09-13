@@ -10,7 +10,12 @@ import {
 } from '../../helpers';
 import { selectProfile } from 'platform/user/selectors';
 
-export const App = ({ loa }) => {
+export const App = ({ loa, hidden }) => {
+  // Do not render if the widget is hidden.
+  if (hidden) {
+    return null;
+  }
+
   const deriveURL = () => {
     if (loa === 1) {
       return deriveLOA1URL();
@@ -31,6 +36,7 @@ export const App = ({ loa }) => {
 };
 
 App.propTypes = {
+  hidden: PropTypes.bool,
   // From mapStateToProps.
   loa: PropTypes.number,
 };
