@@ -1,6 +1,6 @@
 import React from 'react';
-import Breadcrumbs from '../../../components/Breadcrumbs';
-import NeedHelp from '../../../components/NeedHelp';
+import Breadcrumbs from '../../components/Breadcrumbs';
+import NeedHelp from '../../components/NeedHelp';
 
 export default function PageLayout({
   children,
