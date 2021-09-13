@@ -22,7 +22,7 @@ export default function AccordionItem({
       setStateExpanded(!displayExpanded);
     }
 
-    const event = displayExpanded ? 'expand' : 'collapse';
+    const event = !displayExpanded ? 'expand' : 'collapse';
     const size = section ? 'small' : 'full-content-width';
     recordEvent({
       event: `nav-accordion-${event}`,

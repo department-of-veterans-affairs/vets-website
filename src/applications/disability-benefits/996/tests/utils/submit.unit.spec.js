@@ -6,6 +6,7 @@ import {
   createIssueName,
   getContestedIssues,
   getConferenceTimes,
+  getConferenceTime,
   removeEmptyEntries,
   getRep,
   getAddress,
@@ -188,35 +189,36 @@ describe('getRep', () => {
 });
 
 describe('getConferenceTimes', () => {
-  const wrap = (times, v = 'v1') => ({
-    hlrV2: v === 'v2',
-    informalConferenceTimes: times,
-  });
   it('should return v1 times', () => {
-    expect(getConferenceTimes(wrap({ time1: 'time0800to1000' }))).to.deep.equal(
-      ['800-1000 ET'],
-    );
-    expect(getConferenceTimes(wrap({ time1: 'time1230to1400' }))).to.deep.equal(
-      ['1230-1400 ET'],
-    );
     expect(
-      getConferenceTimes(
-        wrap({ time1: 'time0800to1000', time2: 'time1400to1630' }),
-      ),
+      getConferenceTimes({
+        informalConferenceTimes: { time1: 'time0800to1000' },
+      }),
+    ).to.deep.equal(['800-1000 ET']);
+    expect(
+      getConferenceTimes({
+        informalConferenceTimes: { time1: 'time1230to1400' },
+      }),
+    ).to.deep.equal(['1230-1400 ET']);
+    expect(
+      getConferenceTimes({
+        informalConferenceTimes: {
+          time1: 'time0800to1000',
+          time2: 'time1400to1630',
+        },
+      }),
     ).to.deep.equal(['800-1000 ET', '1400-1630 ET']);
   });
+});
+
+describe('getConferenceTime', () => {
   it('should return v2 times', () => {
     expect(
-      getConferenceTimes(wrap({ time1: 'time0800to1200' }, 'v2')),
-    ).to.deep.equal(['800-1200 ET']);
+      getConferenceTime({ informalConferenceTime: 'time0800to1200' }),
+    ).to.deep.equal('800-1200 ET');
     expect(
-      getConferenceTimes(wrap({ time1: 'time1200to1630' }, 'v2')),
-    ).to.deep.equal(['1200-1630 ET']);
-    expect(
-      getConferenceTimes(
-        wrap({ time1: 'time0800to1200', time2: 'time1200to1630' }, 'v2'),
-      ),
-    ).to.deep.equal(['800-1200 ET', '1200-1630 ET']);
+      getConferenceTime({ informalConferenceTime: 'time1200to1630' }),
+    ).to.deep.equal('1200-1630 ET');
   });
 });
 

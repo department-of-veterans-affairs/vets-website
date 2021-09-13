@@ -9,7 +9,6 @@ import { focusElement } from 'platform/utilities/ui';
 
 export default function({
   currentScroll,
-  institutionCount,
   institutions,
   setPromptingFacilityCode,
   setShowDifferences,
@@ -23,7 +22,7 @@ export default function({
   }, []);
 
   const empties = [];
-  for (let i = 0; i < 3 - institutionCount; i++) {
+  for (let i = 0; i < 3 - institutions.length; i++) {
     empties.push(
       <div key={i} className="small-screen:vads-l-col--3 institution-card">
         <div className="compare-header empty-header" />
@@ -99,8 +98,16 @@ export default function({
                           pathname: profileLink,
                           state: { prevPath: location.pathname },
                         }}
+                        aria-labelledby={`${institution.facilityCode}-label ${
+                          institution.facilityCode
+                        }-classification`}
                       >
-                        {institution.name}
+                        <span
+                          aria-label={`${institution.name}, `}
+                          id={`${institution.facilityCode}-label`}
+                        >
+                          {institution.name}
+                        </span>
                       </Link>
                     </div>
                   </div>
