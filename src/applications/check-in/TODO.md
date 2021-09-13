@@ -2,13 +2,10 @@
 
 # TODO
 
-- Refactor check in component to have a display only component
-  - <LoadAppointments/>
-  - <DisplayAppointments>
 - refactor API stuff
   - rename v0 an v1
   - refactor mock responses generator
-- refactor/unit tests
+- refactor/unit tests (8)
   - actions/reducers
   - validate veteran
   - landing page?
