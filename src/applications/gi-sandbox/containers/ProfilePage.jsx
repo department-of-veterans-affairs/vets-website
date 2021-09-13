@@ -29,7 +29,7 @@ export function ProfilePage({
   match,
   compare,
 }) {
-  const { facilityCode, preSelectedProgram } = match.params;
+  const { facilityCode } = match.params;
   const queryParams = useQueryParams();
   const version = queryParams.get('version');
   const institutionName = _.get(profile, 'attributes.name');
@@ -84,7 +84,6 @@ export function ProfilePage({
         <VetTecInstitutionProfile
           institution={profile.attributes}
           showModal={dispatchShowModal}
-          preSelectedProgram={preSelectedProgram}
           selectedProgram={calculator.selectedProgram}
           compare={compare}
           smallScreen={smallScreen}
@@ -93,7 +92,7 @@ export function ProfilePage({
     } else {
       content = (
         <InstitutionProfile
-          profile={profile}
+          institution={profile.attributes}
           isOJT={isOJT}
           constants={constants}
           showModal={dispatchShowModal}

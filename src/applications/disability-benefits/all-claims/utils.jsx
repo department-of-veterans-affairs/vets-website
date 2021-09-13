@@ -50,6 +50,7 @@ import {
   START_TEXT,
   FORM_STATUS_BDD,
   PDF_SIZE_FEATURE,
+  CHAR_LIMITS,
 } from './constants';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
@@ -293,7 +294,9 @@ export const disabilityIsSelected = disability => disability['view:selected'];
  * @param {string} str - The string to make SiP-friendly
  * @return {string} The SiP-friendly string
  */
-export const sippableId = str => (str || 'blank').toLowerCase();
+const regexNonWord = /[^\w]/g;
+export const sippableId = str =>
+  (str || 'blank').replace(regexNonWord, '').toLowerCase();
 
 const createCheckboxSchema = (schema, disabilityName) => {
   const capitalizedDisabilityName =
@@ -1014,3 +1017,33 @@ export const isExpired = date => {
   const expires = moment.unix(date?.expiresAt);
   return !(expires.isValid() && expires.endOf('day').isSameOrAfter(today));
 };
+
+/**
+ * @typedef NewDisability~entry
+ * @property {String} condition - disability name
+ * @property {String} cause - disability type
+ * @property {String} primaryDescription - new disability description
+ * @property {String} causedByDisabilityDescription - name of rated disability
+ * @property {String} worsenedDescription - worsened description
+ * @property {String} worsenedEffects - result
+ * @property {String} vaMistreatmentDescription - VA involved
+ * @property {String} vaMistreatmentLocation - location
+ * @property {String} vaMistreatmentDate - date
+ */
+/**
+ * Truncate long descriptions
+ * @param {NewDisability~entry} data - new disability array entry
+ * @returns new disability array entry with over-the-limit descriptions
+ *  truncated
+ */
+export const truncateDescriptions = data =>
+  Object.keys(data).reduce(
+    (entry, key) => ({
+      ...entry,
+      [key]:
+        key in CHAR_LIMITS
+          ? data[key].substring(0, CHAR_LIMITS[key])
+          : data[key],
+    }),
+    {},
+  );

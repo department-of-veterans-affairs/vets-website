@@ -329,7 +329,9 @@ export function fetchPendingAppointments() {
         startDate: moment()
           .subtract(featureHomepageRefresh ? 120 : 30, 'days')
           .format('YYYY-MM-DD'),
-        endDate: moment().format('YYYY-MM-DD'),
+        endDate: moment()
+          .add(featureVAOSServiceRequests ? 1 : 0, 'days')
+          .format('YYYY-MM-DD'),
         useV2: featureVAOSServiceRequests,
       });
 
@@ -489,7 +491,7 @@ export function fetchRequestDetails(id) {
       }
       if (featureVAOSServiceRequests && request.practitioners?.length) {
         request.preferredCommunityCareProviders = [
-          await getCommunityProvider(request.practitioners[0].id.value),
+          await getCommunityProvider(request.practitioners[0].identifier.value),
         ];
       }
 
@@ -562,7 +564,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
         appointment.practitioners?.length
       ) {
         appointment.communityCareProvider = await getCommunityProvider(
-          appointment.practitioners[0].id.value,
+          appointment.practitioners[0].identifier.value,
         );
       }
 

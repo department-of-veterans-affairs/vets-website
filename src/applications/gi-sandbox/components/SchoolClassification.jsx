@@ -4,20 +4,28 @@ import { religiousAffiliations } from '../utils/data/religiousAffiliations';
 
 export default function SchoolClassification({
   institution,
+  displayTraits = true,
   menonly = institution.menonly,
   womenonly = institution.womenonly,
   hbcu = institution.hbcu,
   relaffil = institution.relaffil,
   locationResultCard = false,
 }) {
-  const { schoolProvider, employerProvider, vetTecProvider } = institution;
+  const {
+    schoolProvider,
+    employerProvider,
+    vetTecProvider,
+    facilityCode,
+  } = institution;
 
-  const institutionTraits = [
-    menonly === 1 && 'Men-only',
-    womenonly === 1 && 'Women-only',
-    hbcu && 'Historically Black College or University',
-    relaffil && religiousAffiliations[relaffil],
-  ].filter(Boolean);
+  const institutionTraits = displayTraits
+    ? [
+        menonly === 1 && 'Men-only',
+        womenonly === 1 && 'Women-only',
+        hbcu && 'Historically Black College or University',
+        relaffil && religiousAffiliations[relaffil],
+      ].filter(Boolean)
+    : [];
 
   const schoolClassificationClasses = classNames('school-classification', {
     'school-header': schoolProvider,
@@ -37,7 +45,10 @@ export default function SchoolClassification({
 
   return (
     <>
-      <div className={schoolClassificationClasses}>
+      <div
+        className={schoolClassificationClasses}
+        id={`${facilityCode}-classification`}
+      >
         <p className={schoolClassificationPTagClasses}>
           <strong>
             {schoolProvider && 'School'}

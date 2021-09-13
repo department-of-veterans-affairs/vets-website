@@ -15,6 +15,7 @@ import { ariaLabels, MINIMUM_RATING_COUNT } from '../constants';
 import RatingsStars from '../components/RatingsStars';
 import { showModal } from '../actions';
 import LearnMoreLabel from '../components/LearnMoreLabel';
+import { religiousAffiliations } from '../utils/data/religiousAffiliations';
 
 const CompareLayout = ({
   calculated,
@@ -107,6 +108,7 @@ const CompareLayout = ({
                 text="GI Bill students"
                 onClick={() => dispatchShowModal('gibillstudents')}
                 ariaLabel={ariaLabels.learnMore.numberOfStudents}
+                buttonId="GI-Bill-students-compare"
               />
             ),
             mapper: institution => naIfNull(institution.studentCount),
@@ -161,15 +163,17 @@ const CompareLayout = ({
             mapper: institution => {
               const specialMission = [];
               if (institution.hbcu) {
-                specialMission.push('HBCU');
+                specialMission.push('Historically Black College or University');
               }
               if (institution.relaffil) {
-                specialMission.push('Religious');
+                specialMission.push(
+                  religiousAffiliations[institution.relaffil],
+                );
               }
-              if (institution.womenOnly) {
+              if (institution.womenonly) {
                 specialMission.push('Women-only');
               }
-              if (institution.menOnly) {
+              if (institution.menonly) {
                 specialMission.push('Men-only');
               }
               return specialMission.length > 0
@@ -477,6 +481,7 @@ const CompareLayout = ({
                 text="Yellow Ribbon"
                 onClick={() => dispatchShowModal('yribbon')}
                 ariaLabel={ariaLabels.learnMore.yellowRibbonProgram}
+                buttonId="veteran-programs-yellow-ribbon"
               />
             ),
             mapper: institution => boolYesNo(institution.yr),
@@ -487,6 +492,7 @@ const CompareLayout = ({
                 text="Student Veteran Group"
                 onClick={() => dispatchShowModal('vetgroups')}
                 ariaLabel={ariaLabels.learnMore.studentVeteranGroup}
+                buttonId="student-veteran-group"
               />
             ),
             mapper: institution => boolYesNo(institution.studentVeteran),
@@ -497,6 +503,7 @@ const CompareLayout = ({
                 text="Principles of Excellence"
                 onClick={() => dispatchShowModal('poe')}
                 ariaLabel={ariaLabels.learnMore.principlesOfExcellence}
+                buttonId="principles-of-excellence"
               />
             ),
             mapper: institution => boolYesNo(institution.poe),
@@ -507,6 +514,7 @@ const CompareLayout = ({
                 text="8 Keys to Veteran Success"
                 onClick={() => dispatchShowModal('eightKeys')}
                 ariaLabel={ariaLabels.learnMore.eightKeys}
+                buttonId="eight-keys-to-veteran-success"
               />
             ),
             mapper: institution => boolYesNo(institution.eightKeys),
@@ -517,6 +525,7 @@ const CompareLayout = ({
                 text="Military Tuition Assistance (TA)"
                 onClick={() => dispatchShowModal('ta')}
                 ariaLabel={ariaLabels.learnMore.militaryTuitionAssistance}
+                buttonId="military-tuition-assistance"
               />
             ),
             mapper: institution => boolYesNo(institution.dodmou),
@@ -527,6 +536,7 @@ const CompareLayout = ({
                 text="Priority Enrollment"
                 onClick={() => dispatchShowModal('priorityEnrollment')}
                 ariaLabel={ariaLabels.learnMore.priorityEnrollment}
+                buttonId="priority-enrollments"
               />
             ),
             mapper: institution => boolYesNo(institution.priorityEnrollment),

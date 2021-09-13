@@ -54,11 +54,19 @@ const NotificationChannel = ({
   );
 
   if (isMissingContactInfo) {
-    return <NotificationChannelUnavailable channelType={channelType} />;
+    return (
+      <div className="vads-u-margin-bottom--3">
+        <p className="vads-u-font-weight--bold vads-u-font-size--base vads-u-margin-y--1">
+          {itemName}
+        </p>
+        <NotificationChannelUnavailable channelType={channelType} />
+      </div>
+    );
   }
   return (
     <div>
       <NotificationRadioButtons
+        id={channelId}
         value={{ value: currentValue }}
         label={itemName}
         options={[

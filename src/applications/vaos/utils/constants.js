@@ -162,6 +162,7 @@ export const TYPES_OF_CARE = [
   },
   {
     id: COVID_VACCINE_ID,
+    idV2: COVID_VACCINE_ID,
     name: 'COVID-19 vaccine',
   },
 ];
@@ -216,6 +217,7 @@ export const FACILITY_TYPES = {
 export const FACILITY_SORT_METHODS = {
   distanceFromResidential: 'distanceFromResidentialAddress',
   distanceFromCurrentLocation: 'distanceFromCurrentLocation',
+  distanceFromFacility: 'distanceFromFacility',
   alphabetical: 'alphabetical',
 };
 

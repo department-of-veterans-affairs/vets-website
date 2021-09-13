@@ -15,7 +15,8 @@ import AppointmentLocation from '../components/AppointmentLocation';
 
 const CheckIn = props => {
   const [isLoading, setIsLoading] = useState(false);
-  const { router, appointment, context } = props;
+  const { router, appointments, context, isUpdatePageEnabled } = props;
+  const appointment = appointments[0];
 
   useEffect(() => {
     focusElement('h1');
@@ -33,44 +34,18 @@ const CheckIn = props => {
     });
     const { token } = context;
     setIsLoading(true);
-    recordEvent({
-      event: 'api_call',
-      'api-name': 'check-in-user',
-      'api-status': 'started',
-      UUID: token,
-    });
+
     try {
       const json = await checkInUser({
         token,
       });
-      const { data, status } = json;
+      const { status } = json;
       if (status === 200) {
-        recordEvent({
-          event: 'api_call',
-          'api-name': 'check-in-user',
-          'api-status': 'success',
-          UUID: token,
-        });
         goToNextPage(router, URLS.COMPLETE);
       } else {
-        const error = data.error || data.errors;
-        recordEvent({
-          event: 'api_call',
-          'api-name': 'check-in-user',
-          'api-status': 'failed',
-          UUID: token,
-          'error-key': error,
-        });
         goToNextPage(router, URLS.ERROR);
       }
     } catch (error) {
-      recordEvent({
-        event: 'api_call',
-        'api-name': 'check-in-user',
-        'api-status': 'failed',
-        UUID: token,
-        'error-key': error,
-      });
       goToNextPage(router, URLS.ERROR);
     }
   };
@@ -79,7 +54,7 @@ const CheckIn = props => {
   const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 appointment-check-in">
-      <BackButton router={router} />
+      {isUpdatePageEnabled && <BackButton router={router} />}
       <h1 tabIndex="-1" className="vads-u-margin-top--2">
         Your appointment
       </h1>
@@ -100,7 +75,7 @@ const CheckIn = props => {
           Clinic:{' '}
         </dt>
         <dd data-testid="clinic-name" className="vads-u-font-size--lg">
-          <AppointmentLocation />
+          <AppointmentLocation appointment={appointment} />
         </dd>
       </dl>
       <button
@@ -121,7 +96,7 @@ const CheckIn = props => {
 
 const mapStateToProps = state => {
   return {
-    appointment: state.checkInData.appointment,
+    appointments: state.checkInData.appointments,
     context: state.checkInData.context,
   };
 };

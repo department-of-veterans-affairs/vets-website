@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import appendQuery from 'append-query';
 import classNames from 'classnames';
 import Checkbox from './Checkbox';
 import SchoolClassification from './SchoolClassification';
 import { Link } from 'react-router-dom';
 import CompareScroller from './CompareScroller';
+import { focusElement } from 'platform/utilities/ui';
 
 export default function({
   currentScroll,
-  institutionCount,
   institutions,
   setPromptingFacilityCode,
   setShowDifferences,
@@ -17,8 +17,12 @@ export default function({
   smallScreen,
   version,
 }) {
+  useEffect(() => {
+    focusElement('.compare-page-description-label');
+  }, []);
+
   const empties = [];
-  for (let i = 0; i < 3 - institutionCount; i++) {
+  for (let i = 0; i < 3 - institutions.length; i++) {
     empties.push(
       <div key={i} className="small-screen:vads-l-col--3 institution-card">
         <div className="compare-header empty-header" />
@@ -72,8 +76,10 @@ export default function({
       {smallWrap(
         institutions.map((institution, index) => {
           const profileLink = version
-            ? appendQuery(`/profile/${institution.facilityCode}`, { version })
-            : `/profile/${institution.facilityCode}`;
+            ? appendQuery(`/institution/${institution.facilityCode}`, {
+                version,
+              })
+            : `/institution/${institution.facilityCode}`;
           return (
             <div
               className="small-screen:vads-l-col--3 institution-card"
@@ -81,13 +87,28 @@ export default function({
             >
               <div className="compare-header institution-header">
                 <div>
-                  <SchoolClassification institution={institution} />
+                  <SchoolClassification
+                    institution={institution}
+                    displayTraits={false}
+                  />
                   <div className="header-fields">
                     <div className="institution-name">
-                      {smallScreen && institution.name}
-                      {!smallScreen && (
-                        <Link to={profileLink}>{institution.name}</Link>
-                      )}
+                      <Link
+                        to={{
+                          pathname: profileLink,
+                          state: { prevPath: location.pathname },
+                        }}
+                        aria-labelledby={`${institution.facilityCode}-label ${
+                          institution.facilityCode
+                        }-classification`}
+                      >
+                        <span
+                          aria-label={`${institution.name}, `}
+                          id={`${institution.facilityCode}-label`}
+                        >
+                          {institution.name}
+                        </span>
+                      </Link>
                     </div>
                   </div>
                 </div>

@@ -12,6 +12,7 @@ export default Object.freeze({
   cernerOverride692: 'cerner_override_692',
   cernerOverride757: 'cerner_override_757',
   checkInExperienceEnabled: 'check_in_experience_enabled',
+  checkInExperienceUpdateInformationPageEnabled: 'check_in_experience_update_information_page_enabled',
   checkInExperienceLowRiskAuthenicationEnabled:
     'check_in_experience_low_authentication_enabled',
   checkInExperienceMultipleAppointmentEnabled:
@@ -46,8 +47,8 @@ export default Object.freeze({
   findFormsEnhancementFlagThree: 'find_forms_third_flag',
   fileUploadShortWorkflowEnabled: 'file_upload_short_workflow_enabled',
   form10182Nod: 'form10182_nod',
-  gibctEybBottomSheet: 'gibctEybBottomSheet',
-  gibctSchoolRatings: 'gibctSchoolRatings',
+  gibctEybBottomSheet: 'gibct_eyb_bottom_sheet',
+  gibctSchoolRatings: 'gibct_school_ratings',
   hlrv2: 'hlr_v2',
   languageSupport: 'language_support',
   manageDependents: 'dependents_management',

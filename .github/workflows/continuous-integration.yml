@@ -9,9 +9,10 @@ on:
 
 env:
   CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
+  NEXUS_REGISTRY: https://devops.va.gov/dots-nexus/repository/npm-public/
 
 concurrency:
-  group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha  }}
+  group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
 
 jobs:
@@ -33,7 +34,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: 'us-gov-west-1'
+          aws-region: us-gov-west-1
 
       - name: Checkout
         uses: actions/checkout@v2
@@ -55,13 +56,40 @@ jobs:
             .cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
+
+      - name: Get NEXUS username
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_1_NEXUS_USERNAME
+          env_variable_name: VA_VSP_BOT_1_NEXUS_USERNAME
+
+      - name: Get NEXUS token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_1_NEXUS_PASSWORD
+          env_variable_name: VA_VSP_BOT_1_NEXUS_PASSWORD
+
+      # Required to change registry in yarn.lock file
+      - name: Change registry in yarn.lock
+        run: |
+          sed -i -e "s#https://registry.yarnpkg.com/#${{ env.NEXUS_REGISTRY }}#g" yarn.lock
+          sed -i -e "s#https://registry.npmjs.org/#${{ env.NEXUS_REGISTRY }}#g" yarn.lock
+
+      - name: Authenticate NEXUS
+        run: |
+          npm config set _auth $(echo -n '${{ env.VA_VSP_BOT_1_NEXUS_USERNAME }}:${{ env.VA_VSP_BOT_1_NEXUS_PASSWORD }}' | openssl base64)
+          npm config set cafile ${{ env.NODE_EXTRA_CA_CERTS }}
+          npm config set registry ${{ env.NEXUS_REGISTRY }}
+          npm config set email va-vsp-bot-1@va.gov
+          npm config set always-auth true
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
         with:
-          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          command: yarn install --frozen-lockfile --prefer-offline --production=false --network-concurrency 1
           max_attempts: 3
-          timeout_minutes: 5
+          timeout_minutes: 7
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -127,8 +155,11 @@ jobs:
         run: |
           cat > build/${{ matrix.buildtype }}/BUILD.txt << EOF
           BUILDTYPE=${{ matrix.buildtype }}
+          NODE_ENV=production
           BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
+          CHANGE_TARGET=null
           RUN_ID=${{ github.run_id }}
+          RUN_NUMBER=${{ github.run_number }}
           REF=${{ github.sha }}
           BUILDTIME=$(date +%s)
           EOF
@@ -167,13 +198,14 @@ jobs:
             .cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
         with:
           command: yarn install --frozen-lockfile --prefer-offline --production=false
           max_attempts: 3
-          timeout_minutes: 5
+          timeout_minutes: 7
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -274,13 +306,14 @@ jobs:
             .cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
         with:
           command: yarn install --frozen-lockfile --prefer-offline --production=false
           max_attempts: 3
-          timeout_minutes: 5
+          timeout_minutes: 7
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -377,13 +410,14 @@ jobs:
             .cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
         with:
           command: yarn install --frozen-lockfile --prefer-offline --production=false
           max_attempts: 3
-          timeout_minutes: 5
+          timeout_minutes: 7
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -410,7 +444,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0 # this is required to list all changed files in branch
+          fetch-depth: 0
 
       - name: Get Node version
         id: get-node-version
@@ -429,13 +463,14 @@ jobs:
             .cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
         with:
           command: yarn install --frozen-lockfile --prefer-offline --production=false
           max_attempts: 3
-          timeout_minutes: 5
+          timeout_minutes: 7
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -468,14 +503,14 @@ jobs:
       - name: Set output of TESTS
         id: tests
         run: echo ::set-output name=selected::$TESTS
-
+  
   cypress-tests:
     name: Cypress E2E Tests
     runs-on: self-hosted
     needs: [build, cypress-tests-prep]
     if: ${{ needs.cypress-tests-prep.outputs.num_containers > 0 }}
     container:
-      image: public.ecr.aws/cypress-io/cypress/browsers:node14.16.0-chrome89-ff77
+      image: public.ecr.aws/cypress-io/cypress/browsers:node14.16.0-chrome90-ff88
       options: -u 1001:1001 -v /usr/local/share:/share
 
     strategy:
@@ -489,6 +524,13 @@ jobs:
       NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
 
     steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
       - name: Checkout vets-website
         uses: actions/checkout@v2
 
@@ -511,13 +553,40 @@ jobs:
             /github/home/.cache/Cypress
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}-cypress
+          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
+
+      - name: Get NEXUS username
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_1_NEXUS_USERNAME
+          env_variable_name: VA_VSP_BOT_1_NEXUS_USERNAME
+
+      - name: Get NEXUS token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_1_NEXUS_PASSWORD
+          env_variable_name: VA_VSP_BOT_1_NEXUS_PASSWORD
+
+      # Required to change registry in yarn.lock file
+      - name: Change registry in yarn.lock
+        run: |
+          sed -i -e "s#https://registry.yarnpkg.com/#${{ env.NEXUS_REGISTRY }}#g" yarn.lock
+          sed -i -e "s#https://registry.npmjs.org/#${{ env.NEXUS_REGISTRY }}#g" yarn.lock
+
+      - name: Authenticate NEXUS
+        run: |
+          npm config set _auth $(echo -n '${{ env.VA_VSP_BOT_1_NEXUS_USERNAME }}:${{ env.VA_VSP_BOT_1_NEXUS_PASSWORD }}' | openssl base64)
+          npm config set cafile ${{ env.NODE_EXTRA_CA_CERTS }}
+          npm config set registry ${{ env.NEXUS_REGISTRY }}
+          npm config set email va-vsp-bot-1@va.gov
+          npm config set always-auth true
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
         with:
-          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          command: yarn install --frozen-lockfile --prefer-offline --production=false --network-concurrency 1
           max_attempts: 3
-          timeout_minutes: 5
+          timeout_minutes: 7
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -558,60 +627,6 @@ jobs:
           path: cypress/results
           retention-days: 1
 
-  nightwatch-tests:
-    name: Nightwatch E2E Tests
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Checkout vets-website
-        uses: actions/checkout@v2
-
-      - name: Download production build artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: vagovprod.tar.bz2
-
-      - name: Unpack build
-        run: |
-          mkdir -p build/vagovprod
-          tar -C build/vagovprod -xjf vagovprod.tar.bz2
-
-      - name: Get Node version
-        id: get-node-version
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-
-      - name: Cache dependencies
-        id: cache-dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            .cache/yarn
-            node_modules
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-
-      - name: Install dependencies
-        uses: nick-invision/retry@v2
-        with:
-          command: yarn install --frozen-lockfile --prefer-offline --production=false
-          max_attempts: 3
-          timeout_minutes: 5
-        env:
-          YARN_CACHE_FOLDER: .cache/yarn
-
-      - name: Run Nightwatch tests
-        run: |
-          chmod +x script/run-nightwatch.sh
-          yarn test:e2e:headless  --suiteRetries 3
-        timeout-minutes: 30
-        env:
-          BUILDTYPE: vagovprod
-          NODE_ENV: production
-
   testing-reports:
     name: Testing Reports
     runs-on: ubuntu-latest
@@ -624,7 +639,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: 'us-gov-west-1'
+          aws-region: us-gov-west-1
 
       - name: Get va-vsp-bot token
         uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
@@ -669,7 +684,7 @@ jobs:
           slack_app_token: ${{ env.SLACK_APP_TOKEN }}
           slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
           attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "E2E tests in `vets-website` have failed, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
-          channel_id: C026PD47Z19 # gha-test-status
+          channel_id: C026PD47Z19 #gha-test-status
 
       # ------------------------
       # | Upload BigQuery Data |
@@ -730,51 +745,39 @@ jobs:
 
       # env.MOCHAWESOME_REPORT_RESULTS is set and exported during the above step when the mochawesome report is generated.  It contains the output string for the publish step at the end of the job with the numbers from the Mochawesome report.
 
-      - name: Upload Mochawesome report artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: mochawesome-report
-          path: testing-tools-team-dashboard-data/mochawesome-report
-
       # --------------------------
       # | Publish Testing Report |
       # --------------------------
-
-      - name: Checkout Testing Reports repo
-        uses: actions/checkout@v2
-        with:
-          repository: department-of-veterans-affairs/testing-reports
-          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-          path: testing-reports
-
-      - name: Download Mochawesome report artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: mochawesome-report
-          path: testing-reports/cypress-reports
 
       - name: Download video artifacts
         if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: actions/download-artifact@v2
         with:
           name: cypress-video-artifacts
-          path: testing-reports/cypress-reports/videos/${{ env.UUID }}
+          path: testing-tools-team-dashboard-data/cypress-reports/videos/${{ env.UUID }}
 
-      - name: Pull any changes since checkout
-        run: git pull origin master
-        working-directory: testing-reports
-
-      - name: Add changes
-        run: git add .
-        working-directory: testing-reports
-
-      - name: Commit and push changes
-        uses: actions-js/push@master
+      - name: Get AWS IAM role
+        uses: marvinpinto/action-inject-ssm-secrets@latest
         with:
-          github_token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-          repository: department-of-veterans-affairs/testing-reports
-          directory: testing-reports
-          branch: master
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+      - name: Configure AWS Credentials (2)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role-duration-seconds: 900
+          role-session-name: vsp-frontendteam-githubaction
+
+      - name: Upload test videos to s3
+        if: ${{ needs.cypress-tests.result == 'failure' }}
+        run: aws s3 cp testing-tools-team-dashboard-data/cypress-reports/videos/${{ env.UUID }} s3://testing-tools-testing-reports/cypress-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
+
+      - name: Upload test report to s3
+        run: aws s3 cp testing-tools-team-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/cypress-reports --acl public-read --region us-gov-west-1 --recursive
 
       # -------------------------
       # | Cypress Tests Summary |
@@ -790,108 +793,108 @@ jobs:
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
 
-# archive:
-#   name: Archive
-#   runs-on: ubuntu-latest
+  archive:
+    name: Archive
+    runs-on: ubuntu-latest
 
-#   strategy:
-#     matrix:
-#       buildtype: [vagovdev, vagovstaging, vagovprod]
+    strategy:
+      matrix:
+        # buildtype: [vagovdev, vagovstaging, vagovprod] # TODO: Enable when ready
+        buildtype: [vagovdev]
 
-#   needs: [cypress-tests, nightwatch-tests, unit-tests, contract-tests, security-audit, linting]
+    needs: [cypress-tests, unit-tests, contract-tests, security-audit, linting]
 
-#   # Archive should still run even when linting is skipped (as in PRs).
-#   # This if overrides the dependency on linting success to include skipped.
-#   # Because of always(), the rest of the needed jobs have to be checked too.
-#   # By doing this, later jobs that need this job require similar overrides
-#   # or else they will also be skipped when linting is skipped.
-#   if: |
-#     always() &&
-#     needs.cypress-tests.result == 'success' &&
-#     needs.nightwatch-tests.result == 'success' &&
-#     needs.unit-tests.result == 'success' &&
-#     needs.contract-tests.result == 'success' &&
-#     needs.security-audit.result == 'success' &&
-#     (needs.linting.result == 'success' || needs.linting.result == 'skipped')
+    # Archive should still run even when linting is skipped (as in PRs).
+    # This if overrides the dependency on linting success to include skipped.
+    # Because of always(), the rest of the needed jobs have to be checked too.
+    # By doing this, later jobs that need this job require similar overrides
+    # or else they will also be skipped when linting is skipped.
+    if: |
+      always() &&
+      needs.cypress-tests.result == 'success' &&
+      needs.unit-tests.result == 'success' &&
+      needs.contract-tests.result == 'success' &&
+      needs.security-audit.result == 'success' &&
+      (needs.linting.result == 'success' || needs.linting.result == 'skipped')
 
-#   steps:
-#     - name: Download build artifact
-#       uses: actions/download-artifact@v2
-#       with:
-#         name: ${{ matrix.buildtype }}.tar.bz2
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ matrix.buildtype }}.tar.bz2
 
-#     - name: Configure AWS credentials (1)
-#       uses: aws-actions/configure-aws-credentials@v1
-#       with:
-#         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#         aws-region: us-gov-west-1
+      - name: Configure AWS credentials (1)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
 
-#     - name: Get AWS IAM role
-#       uses: marvinpinto/action-inject-ssm-secrets@latest
-#       with:
-#         ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-#         env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+      - name: Get AWS IAM role
+        uses: marvinpinto/action-inject-ssm-secrets@latest
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
 
-#     - name: Configure AWS Credentials (2)
-#       uses: aws-actions/configure-aws-credentials@v1
-#       with:
-#         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#         aws-region: us-gov-west-1
-#         role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-#         role-duration-seconds: 900
-#         role-session-name: vsp-frontendteam-githubaction
+      - name: Configure AWS Credentials (2)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role-duration-seconds: 900
+          role-session-name: vsp-frontendteam-githubaction
 
-#     - name: Upload build
-#       run: aws s3 cp ${{ matrix.buildtype }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/application-build/$GITHUB_SHA/${{ matrix.buildtype }}.tar.bz2 --acl public-read --region us-gov-west-1
+      - name: Upload build
+        run: aws s3 cp ${{ matrix.buildtype }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/application-build/$GITHUB_SHA/${{ matrix.buildtype }}.tar.bz2 --acl public-read --region us-gov-west-1
 
-# deploy:
-#   name: Deploy
-#   runs-on: ubuntu-latest
-#   if: ${{ always() && github.ref == 'refs/heads/master' && needs.archive.result == 'success' }}
-#   needs: archive
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    if: ${{ always() && github.ref == 'refs/heads/master' && needs.archive.result == 'success' }}
+    needs: archive
 
-#   strategy:
-#     matrix:
-#       include:
-#         - environment: vagovdev
-#           bucket: dev-va-gov-assets
-#         - environment: vagovstaging
-#           bucket: staging-va-gov-assets
+    strategy:
+      matrix:
+        include:
+          - environment: vagovdev
+            bucket: apps.dev.va.gov
+          # - environment: vagovstaging
+          #   bucket: staging-va-gov-assets
 
-#   steps:
-#     - name: Checkout
-#       uses: actions/checkout@v2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
-#     - name: Configure AWS credentials (1)
-#       uses: aws-actions/configure-aws-credentials@v1
-#       with:
-#         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#         aws-region: us-gov-west-1
+      - name: Configure AWS credentials (1)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
 
-#     - name: Get AWS IAM role
-#       uses: marvinpinto/action-inject-ssm-secrets@latest
-#       with:
-#         ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-#         env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+      - name: Get AWS IAM role
+        uses: marvinpinto/action-inject-ssm-secrets@latest
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
 
-#     - name: Configure AWS Credentials (2)
-#       uses: aws-actions/configure-aws-credentials@v1
-#       with:
-#         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#         aws-region: us-gov-west-1
-#         role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-#         role-duration-seconds: 900
-#         role-session-name: vsp-frontendteam-githubaction
+      - name: Configure AWS Credentials (2)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role-duration-seconds: 900
+          role-session-name: vsp-frontendteam-githubaction
 
-#     - name: Deploy
-#       run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
-#       env:
-#         SRC: s3://vetsgov-website-builds-s3-upload/application-build/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
-#         DEST: s3://${{ matrix.bucket }}
+      - name: Deploy
+        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
+        env:
+          SRC: s3://vetsgov-website-builds-s3-upload/application-build/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
+          DEST: s3://${{ matrix.bucket }}
 
 # jenkins:
 #   name: Run Jenkins CI

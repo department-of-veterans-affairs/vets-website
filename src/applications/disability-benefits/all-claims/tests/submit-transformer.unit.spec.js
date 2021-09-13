@@ -24,6 +24,7 @@ import maximalData from './fixtures/data/maximal-test.json';
 import {
   PTSD_INCIDENT_ITERATION,
   PTSD_CHANGE_LABELS,
+  CHAR_LIMITS,
   disabilityActionTypes,
 } from '../constants';
 
@@ -83,9 +84,9 @@ describe('transformRelatedDisabilities', () => {
   it('should return an array of strings', () => {
     const claimedConditions = ['Some Condition Name', 'Another Condition Name'];
     const treatedDisabilityNames = {
-      'some condition name': true,
-      'another condition name': true,
-      'this condition is falsey!': false,
+      someconditionname: true,
+      anotherconditionname: true,
+      thisconditionisfalsey: false,
     };
     expect(
       transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
@@ -94,9 +95,9 @@ describe('transformRelatedDisabilities', () => {
   it('should not add conditions if they are not claimed', () => {
     const claimedConditions = ['Some Condition Name'];
     const treatedDisabilityNames = {
-      'some condition name': true,
-      'another condition name': true,
-      'this condition is falsey!': false,
+      someconditionname: true,
+      anotherconditionname: true,
+      thisconditionisfalsey: false,
     };
     expect(
       transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
@@ -121,9 +122,9 @@ describe('stringifyRelatedDisabilities', () => {
       vaTreatmentFacilities: [
         {
           treatedDisabilityNames: {
-            'some condition name': true,
-            'another condition name': true,
-            'this condition is falsey!': false,
+            someconditionname: true,
+            anotherconditionname: true,
+            thisconditionisfalsey: false,
           },
         },
       ],
@@ -148,13 +149,17 @@ describe('stringifyRelatedDisabilities', () => {
         {
           condition: 'this condition is falsey!',
         },
+        {
+          condition: 'something with symbols *($#^%$@) not in the key',
+        },
       ],
       vaTreatmentFacilities: [
         {
           treatedDisabilityNames: {
-            'some condition name': true,
-            'another condition name': true,
-            'this condition is falsey!': false,
+            someconditionname: true,
+            anotherconditionname: true,
+            thisconditionisfalsey: false,
+            somethingwithsymbolsnotinthekey: true,
           },
         },
       ],
@@ -163,7 +168,10 @@ describe('stringifyRelatedDisabilities', () => {
       stringifyRelatedDisabilities(formData).vaTreatmentFacilities,
     ).to.deep.equal([
       {
-        treatedDisabilityNames: ['some condition name'],
+        treatedDisabilityNames: [
+          'some condition name',
+          'something with symbols *($#^%$@) not in the key',
+        ],
       },
     ]);
   });
@@ -343,5 +351,94 @@ describe('cleanUpPersonsInvolved', () => {
         },
       ],
     });
+  });
+});
+
+describe('Test internal transform functions', () => {
+  it('will truncate long descriptions', () => {
+    const getString = (key, diff = 0) =>
+      new Array(42)
+        .fill('1234567890')
+        .join('')
+        .substring(0, CHAR_LIMITS[key] + diff);
+    const longString = getString('primaryDescription', 20);
+    const phlebitisPrefix = 'Secondary to Diabetes Mellitus0\n';
+    const form = {
+      data: {
+        ...maximalData.data,
+        newDisabilities: [
+          {
+            cause: 'NEW',
+            primaryDescription: longString,
+            condition: 'asthma',
+            'view:descriptionInfo': {},
+          },
+          {
+            cause: 'SECONDARY',
+            'view:secondaryFollowUp': {
+              causedByDisability: 'Diabetes Mellitus0',
+              causedByDisabilityDescription: longString,
+            },
+            condition: 'phlebitis',
+            'view:descriptionInfo': {},
+          },
+          {
+            cause: 'WORSENED',
+            'view:worsenedFollowUp': {
+              worsenedDescription: longString,
+              worsenedEffects: longString,
+            },
+            condition: 'knee replacement',
+            'view:descriptionInfo': {},
+          },
+          {
+            cause: 'VA',
+            'view:vaFollowUp': {
+              vaMistreatmentDescription: longString,
+              vaMistreatmentLocation: longString,
+              vaMistreatmentDate: longString,
+            },
+            condition: 'myocardial infarction (MI)',
+            'view:descriptionInfo': {},
+          },
+        ],
+      },
+    };
+    expect(
+      JSON.parse(transform(formConfig, form)).form526.newPrimaryDisabilities,
+    ).to.deep.equal([
+      {
+        cause: 'NEW',
+        primaryDescription: getString('primaryDescription'),
+        condition: 'asthma',
+        classificationCode: '540',
+      },
+      {
+        cause: 'WORSENED',
+        worsenedDescription: getString('worsenedDescription'),
+        worsenedEffects: getString('worsenedEffects'),
+        condition: 'knee replacement',
+        specialIssues: ['POW'],
+        classificationCode: '8919',
+      },
+      {
+        cause: 'VA',
+        vaMistreatmentDescription: getString('vaMistreatmentDescription'),
+        vaMistreatmentLocation: getString('vaMistreatmentLocation'),
+        vaMistreatmentDate: getString('vaMistreatmentDate'),
+        condition: 'myocardial infarction (MI)',
+        specialIssues: ['POW'],
+        classificationCode: '4440',
+      },
+      {
+        condition: 'phlebitis',
+        cause: 'NEW',
+        classificationCode: '5300',
+        primaryDescription: `${phlebitisPrefix}${getString(
+          'primaryDescription',
+          -phlebitisPrefix.length,
+        )}`,
+      },
+    ]);
   });
 });

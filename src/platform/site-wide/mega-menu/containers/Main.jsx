@@ -1,12 +1,12 @@
 // Node modules.
 import React, { Component } from 'react';
+import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // Relative imports.
 import MY_VA_LINK from '../constants/MY_VA_LINK';
 import MegaMenu from '../components/MegaMenu';
-import { megaMenuMobileV2Enabled } from '../selectors';
 import authenticatedUserLinkData from '../mega-menu-link-data-for-authenticated-users.json';
 import recordEvent from '../../../monitoring/record-event';
 import { isLoggedIn } from '../../../user/selectors';
@@ -16,6 +16,9 @@ import {
   togglePanelOpen,
   updateCurrentSection,
 } from '../actions';
+
+const tabbableSelectors =
+  'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
 export function flagCurrentPageInTopLevelLinks(
   links = [],
@@ -64,7 +67,6 @@ export class Main extends Component {
     ).isRequired,
     display: PropTypes.object,
     loggedIn: PropTypes.bool.isRequired,
-    isMobile: PropTypes.bool,
     isMegaMenuMobileV2Enabled: PropTypes.bool,
   };
 
@@ -109,6 +111,37 @@ export class Main extends Component {
     this.props.toggleMobileDisplayHidden(hidden);
   };
 
+  focusTrap = event => {
+    const buttonContainer = document.getElementById('va-nav-controls');
+    const megaMenuContainer = document.getElementById('mega-menu-mobile');
+    const focusable = [
+      ...Array.from(buttonContainer.querySelectorAll(tabbableSelectors)).filter(
+        el =>
+          el.getAttribute('tabindex') !== '-1' &&
+          el.getAttribute('hidden') === null,
+      ),
+      ...Array.from(
+        megaMenuContainer.querySelectorAll(tabbableSelectors),
+      ).filter(
+        el =>
+          el.getAttribute('tabindex') !== '-1' &&
+          el.getAttribute('hidden') === null,
+      ),
+    ];
+    const firstEl = focusable[0];
+    const lastEl = focusable[focusable.length - 1];
+
+    if (event.code === 'Tab') {
+      if (event.shiftKey && document.activeElement === firstEl) {
+        event.preventDefault();
+        lastEl.focus();
+      } else if (!event.shiftKey && document.activeElement === lastEl) {
+        event.preventDefault();
+        firstEl.focus();
+      }
+    }
+  };
+
   render() {
     const childProps = {
       ...this.props,
@@ -118,18 +151,21 @@ export class Main extends Component {
       linkClicked: this.linkClicked,
       columnThreeLinkClicked: this.columnThreeLinkClicked,
     };
-    const { isMegaMenuMobileV2Enabled, isMobile } = this.props;
 
     this.mobileMediaQuery = window.matchMedia('(max-width: 767px)');
+    const megaMenuMobileContainer = document.getElementById('mega-menu-mobile');
 
-    if (isMegaMenuMobileV2Enabled) {
-      if (isMobile && !this.mobileMediaQuery.matches) {
-        return null;
+    if (this.mobileMediaQuery.matches && megaMenuMobileContainer) {
+      if (!this.props.display.hidden) {
+        document.body.addEventListener('keydown', this.focusTrap);
+      } else {
+        document.body.removeEventListener('keydown', this.focusTrap);
       }
 
-      if (!isMobile && this.mobileMediaQuery.matches) {
-        return null;
-      }
+      return createPortal(
+        <MegaMenu {...childProps} />,
+        megaMenuMobileContainer,
+      );
     }
 
     return <MegaMenu {...childProps} />;
@@ -154,7 +190,6 @@ const mapStateToProps = (state, ownProps) => {
     data,
     display: state.megaMenu?.display,
     loggedIn,
-    isMegaMenuMobileV2Enabled: megaMenuMobileV2Enabled(state),
   };
 };
 

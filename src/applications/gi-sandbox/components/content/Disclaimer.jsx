@@ -15,6 +15,7 @@ export default function Disclaimer() {
           target="_blank"
           rel="noopener noreferrer"
           href="https://www.va.gov/ogc/apps/accreditation/index.asp"
+          id="disclaimer-link"
         >
           Search Accredited Attorneys, Claims Agents, or Veterans Service
           Organizations (VSO) Representatives

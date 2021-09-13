@@ -1,7 +1,7 @@
 // Node modules.
 import React from 'react';
 // Relative imports.
-import CallToActionWidget from 'platform/site-wide/cta-widget';
+import CallToActionWidget from 'applications/static-pages/cta-widget';
 
 export const UnauthContent = () => (
   <>
@@ -60,14 +60,14 @@ export const UnauthContent = () => (
       </li>
     </ul>
     <p className="vads-u-margin-bottom--0">
-      <strong>Note:</strong> If you sign in with a Basic or Advanced account,
-      you’ll find only the results you’ve entered yourself.
+      <strong>Note:</strong> If you sign in with a Basic account, you’ll find
+      only the results you’ve entered yourself.
     </p>
     <a
       href="https://www.myhealth.va.gov/mhv-portal-web/my-healthevet-offers-three-account-types"
       rel="noreferrer noopener"
     >
-      Learn about the 3 different My HealtheVet account types
+      Learn about the 2 different My HealtheVet account types
     </a>
     <h2>Can I view all my VA lab and test information using this tool?</h2>
     <p>
@@ -109,7 +109,7 @@ export const UnauthContent = () => (
       href="https://www.myhealth.va.gov/mhv-portal-web/my-healthevet-offers-three-account-types"
       rel="noreferrer noopener"
     >
-      Learn about the 3 different My HealtheVet account types
+      Learn about the 2 different My HealtheVet account types
     </a>
     <h2>Will my personal health information be protected?</h2>
     <p>

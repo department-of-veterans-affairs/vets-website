@@ -5,7 +5,6 @@ import _ from 'lodash';
 import LearnMoreLabel from '../LearnMoreLabel';
 
 export default function EstimatedBenefits({
-  profile,
   outputs,
   calculator,
   isOJT,
@@ -106,32 +105,19 @@ export default function EstimatedBenefits({
 
       return (
         <div key={section} className="per-term-section">
-          {modal ? (
-            <LearnMoreLabel
-              text={title}
-              onClick={() => dispatchShowModal(modal)}
-              ariaLabel={learnMoreAriaLabel}
-              bold
-            />
-          ) : (
-            <div className="link-header">
-              <span id={headerId}>
-                <strong>{title}</strong>
-              </span>
-              <span className="vads-u-padding-left--2">
-                (
-                <a
-                  href={learnMoreLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={learnMoreAriaLabel || ''}
-                >
-                  Learn more
-                </a>
-                )
-              </span>
-            </div>
-          )}
+          <LearnMoreLabel
+            text={title}
+            onClick={() => {
+              if (modal) {
+                dispatchShowModal(modal);
+              } else {
+                window.open(learnMoreLink, '_blank');
+              }
+            }}
+            ariaLabel={learnMoreAriaLabel}
+            bold
+            buttonId={createId(`${title} learn more`)}
+          />
 
           {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
           <ul aria-labelledby={headerId} role="list">
@@ -219,14 +205,13 @@ export default function EstimatedBenefits({
                   text="Book stipend"
                   onClick={() => dispatchShowModal('bookStipendInfo')}
                   ariaLabel="Learn more about the book stipend"
+                  buttonId="book-stipend-learn-more"
                 />
               }
               id={'book-stipend'}
               value={outputs.bookStipend.value}
               visible={outputs.bookStipend.visible}
-              screenReaderSpan={
-                profile.attributes.type === 'ojt' ? month : year
-              }
+              screenReaderSpan={year}
               bold
             />
             <CalculatorResultRow

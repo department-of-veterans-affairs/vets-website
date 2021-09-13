@@ -12,6 +12,7 @@ import {
   PTSD_INCIDENT_ITERATION,
   PTSD_CHANGE_LABELS,
   ATTACHMENT_KEYS,
+  CHAR_LIMITS,
   disabilityActionTypes,
   defaultDisabilityDescriptions,
 } from './constants';
@@ -21,6 +22,8 @@ import {
   hasGuardOrReservePeriod,
   isBDD,
   isDisabilityPtsd,
+  truncateDescriptions,
+  sippableId,
 } from './utils';
 
 import disabilityLabels from './content/disabilityLabels';
@@ -164,7 +167,7 @@ export function transformRelatedDisabilities(
   const findCondition = (list, name) =>
     list.find(
       // name should already be lower-case, but just in case...no pun intended
-      claimedName => claimedName.toLowerCase() === name.toLowerCase(),
+      claimedName => sippableId(claimedName) === name.toLowerCase(),
     );
 
   return (
@@ -344,7 +347,7 @@ export function transform(formConfig, form) {
       : formData;
 
   const addBackAndTransformSeparationLocation = formData =>
-    formData.serviceInformation.separationLocation
+    formData.serviceInformation?.separationLocation
       ? _.set(
           'serviceInformation.separationLocation',
           {
@@ -482,12 +485,12 @@ export function transform(formConfig, form) {
     }
     const clonedData = _.cloneDeep(formData);
     // Split newDisabilities into primary and secondary arrays for backend
-    const newPrimaryDisabilities = clonedData.newDisabilities.filter(
-      disability => disability.cause !== causeTypes.SECONDARY,
-    );
-    const newSecondaryDisabilities = clonedData.newDisabilities.filter(
-      disability => disability.cause === causeTypes.SECONDARY,
-    );
+    const newPrimaryDisabilities = clonedData.newDisabilities
+      .filter(disability => disability.cause !== causeTypes.SECONDARY)
+      .map(entry => truncateDescriptions(entry));
+    const newSecondaryDisabilities = clonedData.newDisabilities
+      .filter(disability => disability.cause === causeTypes.SECONDARY)
+      .map(entry => truncateDescriptions(entry));
     if (newPrimaryDisabilities.length) {
       clonedData.newPrimaryDisabilities = newPrimaryDisabilities;
     }
@@ -521,7 +524,10 @@ export function transform(formConfig, form) {
           cause: causeTypes.NEW,
           classificationCode: sd.classificationCode,
           // truncate description to 400 characters
-          primaryDescription: descString.substring(0, 400),
+          primaryDescription: descString.substring(
+            0,
+            CHAR_LIMITS.primaryDescription,
+          ),
         };
       },
     );
@@ -669,7 +675,7 @@ export function transform(formConfig, form) {
     return clonedData;
   };
   // Flatten all attachment pages into attachments ARRAY
-  const addFileAttachmments = formData => {
+  const addFileAttachments = formData => {
     const clonedData = _.cloneDeep(formData);
     let attachments = [];
 
@@ -701,7 +707,7 @@ export function transform(formConfig, form) {
     setActionTypes, // Must run after addBackRatedDisabilities
     filterRatedViewFields, // Must be run after setActionTypes
     filterServicePeriods,
-    removeExtraData, // Removed data EVSS does't want
+    removeExtraData, // Removed data EVSS doesn't want
     cleanUpMailingAddress,
     addPOWSpecialIssues,
     addPTSDCause,
@@ -715,7 +721,7 @@ export function transform(formConfig, form) {
     addForm4142,
     addForm0781,
     addForm8940,
-    addFileAttachmments,
+    addFileAttachments,
     fullyDevelopedClaim,
   ].reduce(
     (formData, transformer) => transformer(formData),

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
@@ -11,6 +11,7 @@ import {
   getStateNameForCode,
   sortOptionsByStateName,
   addAllOption,
+  createId,
 } from '../utils/helpers';
 import { showModal, filterChange } from '../actions';
 import { connect } from 'react-redux';
@@ -50,6 +51,7 @@ export function FilterYourResults({
     search.tab === TABS.name ? search.name.facets : search.location.facets;
 
   const [showAllSchoolTypes, setShowAllSchoolTypes] = useState(false);
+  const SEE_LESS_SIZE = 4;
 
   const updateInstitutionFilters = (name, value) => {
     dispatchFilterChange({ ...filters, [name]: value });
@@ -131,10 +133,15 @@ export function FilterYourResults({
     modalClose();
   };
 
+  const setFocusByName = name => {
+    const element = document.getElementsByName(name)[0];
+    if (element) element.focus();
+  };
+
   const excludedSchoolTypesGroup = () => {
     const options = (showAllSchoolTypes
       ? INSTITUTION_TYPES
-      : INSTITUTION_TYPES.slice(0, 4)
+      : INSTITUTION_TYPES.slice(0, SEE_LESS_SIZE)
     ).map(type => {
       return {
         name: type.toUpperCase(),
@@ -174,47 +181,65 @@ export function FilterYourResults({
     );
   };
 
+  useEffect(
+    () => {
+      if (showAllSchoolTypes) {
+        setFocusByName(
+          `${INSTITUTION_TYPES[SEE_LESS_SIZE].toUpperCase()}-label`,
+        );
+      } else {
+        setFocusByName(
+          `${INSTITUTION_TYPES[SEE_LESS_SIZE - 1].toUpperCase()}-label`,
+        );
+      }
+    },
+    [showAllSchoolTypes],
+  );
+
   const schoolAttributes = () => {
+    const options = [
+      {
+        name: 'excludeCautionFlags',
+        checked: excludeCautionFlags,
+        optionLabel: (
+          <LearnMoreLabel
+            text="Has no cautionary warnings"
+            onClick={() => dispatchShowModal('cautionaryWarnings')}
+            ariaLabel="Learn more about VA education and training programs"
+          />
+        ),
+      },
+      {
+        name: 'accredited',
+        checked: accredited,
+        optionLabel: (
+          <LearnMoreLabel
+            text="Is accredited"
+            onClick={() => dispatchShowModal('accredited')}
+            ariaLabel="Learn more about VA education and training programs"
+          />
+        ),
+      },
+      {
+        name: 'studentVeteran',
+        checked: studentVeteran,
+        optionLabel: 'Has a Student Veteran Group',
+      },
+      {
+        name: 'yellowRibbonScholarship',
+        checked: yellowRibbonScholarship,
+        optionLabel: 'Offers Yellow Ribbon Program',
+      },
+    ];
+
     return (
-      <>
-        <p>About the school</p>
-        <Checkbox
-          checked={excludeCautionFlags}
-          name="excludeCautionFlags"
-          label={
-            <LearnMoreLabel
-              text="Has no cautionary warnings"
-              onClick={() => dispatchShowModal('cautionaryWarnings')}
-              ariaLabel="Learn more about VA education and training programs"
-            />
-          }
-          onChange={onChangeCheckbox}
-        />
-        <Checkbox
-          checked={accredited}
-          name="accredited"
-          label={
-            <LearnMoreLabel
-              text="Is accredited"
-              onClick={() => dispatchShowModal('accredited')}
-              ariaLabel="Learn more about VA education and training programs"
-            />
-          }
-          onChange={onChangeCheckbox}
-        />
-        <Checkbox
-          checked={studentVeteran}
-          name="studentVeteran"
-          label="Has a Student Veteran Group"
-          onChange={onChangeCheckbox}
-        />
-        <Checkbox
-          checked={yellowRibbonScholarship}
-          name="yellowRibbonScholarship"
-          label="Offers Yellow Ribbon Program"
-          onChange={onChangeCheckbox}
-        />
-      </>
+      <CheckboxGroup
+        label={
+          <div className="vads-u-margin-left--neg0p25">About the school:</div>
+        }
+        onChange={onChangeCheckbox}
+        options={options}
+      />
     );
   };
 
@@ -243,18 +268,26 @@ export function FilterYourResults({
         value={specialMission}
         name="specialMission"
         options={addAllOption(options)}
-        alt="Special mission (i.e., Single-gender, Religious affiliation, HBCU)"
-        label="Special mission (i.e., Single-gender, Religious affiliation, HBCU)"
+        alt="Specialized mission (i.e., Single-gender, Religious affiliation, HBCU)"
+        label="Specialized mission (i.e., Single-gender, Religious affiliation, HBCU)"
         visible
       />
     );
   };
 
   const typeOfInstitution = () => {
+    const name = 'Type of institution';
+    const legendId = `${createId(name)}-legend`;
     return (
       <>
         <div className="vads-u-margin-bottom--4">
-          <h3 className="vads-u-margin-bottom--3">Type of institution</h3>
+          <h3
+            className="vads-u-margin-bottom--3"
+            aria-label={`${name}:`}
+            id={legendId}
+          >
+            {name}
+          </h3>
           <ExpandingGroup open={schools}>
             <Checkbox
               checked={schools}
@@ -262,6 +295,7 @@ export function FilterYourResults({
               label="Schools"
               onChange={handleSchoolChange}
               className="expanding-header-checkbox"
+              ariaLabelInputLegendId={legendId}
             />
             <div className="school-types expanding-group-children">
               {excludedSchoolTypesGroup()}
@@ -276,6 +310,7 @@ export function FilterYourResults({
           label="On-the-job training and apprenticeships"
           onChange={onChangeCheckbox}
           className="vads-u-margin-bottom--4"
+          ariaLabelInputLegendId={legendId}
         />
         <ExpandingGroup open={vettec}>
           <Checkbox
@@ -284,6 +319,7 @@ export function FilterYourResults({
             label="VET TEC providers"
             onChange={handleVetTecChange}
             className="expanding-header-checkbox"
+            ariaLabelInputLegendId={legendId}
           />
           <div className="expanding-group-children">
             <Checkbox
@@ -291,6 +327,8 @@ export function FilterYourResults({
               name="preferredProvider"
               label="Preferred providers"
               onChange={handlePreferredProviderChange}
+              ariaLabel="VET TEC Preferred providers"
+              ariaLabelInputLegendId={legendId}
             />
           </div>
         </ExpandingGroup>
@@ -354,14 +392,15 @@ export function FilterYourResults({
     </div>
   );
 
+  const title = 'Filter your results';
+
   return (
     <div className="filter-your-results vads-u-margin-bottom--2">
       {!smallScreen && (
         <SearchAccordion
-          button="Filter your results"
+          button={title}
           buttonLabel="Update results"
           buttonOnClick={() => updateResults()}
-          name="benefitEstimates"
           expanded={expanded}
           onClick={onAccordionChange}
         >
@@ -379,7 +418,7 @@ export function FilterYourResults({
           <div className="modal-button-wrapper">
             <button
               type="button"
-              id="update-benefits-button"
+              id={`update-${createId(title)}-button`}
               className="update-results-button"
               onClick={closeAndUpdate}
             >

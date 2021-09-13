@@ -10,9 +10,11 @@ export default function SearchAccordion({
   buttonOnClick,
   onClick,
   headerClass,
+  ariaDescribedBy,
 }) {
   const [isExpanded, setExpanded] = useState(expanded || false);
   const [id] = useState(`${createId(button)}-accordion`);
+  const [buttonId] = useState(`update-${createId(button)}-button`);
   useEffect(
     () => {
       setExpanded(expanded);
@@ -68,9 +70,10 @@ export default function SearchAccordion({
           {' '}
           <button
             type="button"
-            id="update-benefits-button"
+            id={buttonId}
             className="update-results-button"
             onClick={buttonOnClick}
+            aria-describedby={ariaDescribedBy}
           >
             {buttonLabel}
           </button>

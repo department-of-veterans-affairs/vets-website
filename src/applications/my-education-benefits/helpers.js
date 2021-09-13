@@ -24,12 +24,10 @@ export const directDepositWarning = (
 
 export const activeDutyLabel = (
   <>
-    <p>Montgomery GI Bill Active Duty (Chapter 30)</p>
+    Montgomery GI Bill Active Duty (Chapter 30)
     <AdditionalInfo triggerText="Learn more">
-      <p>
-        Our records indicate you may be eligible for this benefit because you
-        served at least two years on active duty and were honorably discharged.
-      </p>
+      Our records indicate you may be eligible for this benefit because you
+      served at least two years on active duty and were honorably discharged.
       <a
         href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-active-duty/"
         target="_blank"
@@ -44,12 +42,10 @@ export const activeDutyLabel = (
 
 export const selectedReserveLabel = (
   <>
-    <p>Montgomery GI Bill Selected Reserve (Chapter 1606)</p>
+    Montgomery GI Bill Selected Reserve (Chapter 1606)
     <AdditionalInfo triggerText="Learn more">
-      <p>
-        Our records indicate you may be eligible for this benefit because you
-        agreed to serve six years in the Selected Reserve.
-      </p>
+      Our records indicate you may be eligible for this benefit because you
+      agreed to serve six years in the Selected Reserve.
       <a
         href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-selected-reserve/"
         target="_blank"
@@ -64,7 +60,91 @@ export const selectedReserveLabel = (
 
 export const unsureDescription = (
   <>
-    <strong>Note:</strong> After you submit this applicaiton, a VA
-    representative will reach out to help via your preferred contact method.
+    <strong>Note:</strong> After you submit this applicaton, a VA representative
+    will reach out to help via your preferred contact method.
   </>
 );
+
+/**
+ * Formats a date in human-readable form. For example:
+ * January 1, 2000.
+ *
+ * @param {*} rawDate A date in the form '01-01-2000'
+ * @returns A human-readable date string.
+ */
+export const formatReadableDate = rawDate => {
+  const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
+  let dateParts;
+  let date;
+
+  if (rawDate) {
+    dateParts = rawDate.split('-');
+    date = new Date(
+      Number.parseInt(dateParts[0], 10),
+      Number.parseInt(dateParts[1], 10) - 1,
+      Number.parseInt(dateParts[2], 10),
+    );
+  }
+
+  if (!date) {
+    return '';
+  }
+
+  return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+};
+
+/**
+ * This function recieves the uiSchema and formData objects and returns
+ * a comma separated list of the selected checkboxes in a checkbox
+ * group.  The formData object contains the name of the checkbox
+ * elements in the group as the keys with a boolean value as the proerty
+ * (true if checked, false if unchecked). Here is an example:
+ *
+ * ```
+ * {
+ *   canEmailNotify: true,
+ *   canTextNotify: false
+ * }
+ * ```
+ *
+ * The following function splits the formData object into a 2D array
+ * where each array item has two properties: the key and the form value
+ * (a boolean).  So, our example above would end up being:
+ *
+ * ```
+ * [
+ *   ['canEmailNotify', true],
+ *   ['canTextNotify', false]
+ * ]
+ * ```
+ *
+ * It then filters the formData object, selecting only the checkboxes
+ * that are checked.  Then, it retrieves the titles of the selected keys
+ * from the uiSchema and joins them with a comma.
+ *
+ * Also, Object.entries splits the formData data object into
+ *
+ * @param {*} uiSchema UI Schema object
+ * @param {*} formData Form Data object.
+ * @returns Comma separated list of selected checkbox titles.
+ */
+export const getSelectedCheckboxes = (uiSchema, formData) =>
+  Object.entries(formData)
+    .filter(checkboxOption => checkboxOption[1]) // true/false
+    .map(checkboxOption => checkboxOption[0]) // object key
+    .map(selectedCheckboxKey => uiSchema[selectedCheckboxKey]['ui:title'])
+    .join(', ');

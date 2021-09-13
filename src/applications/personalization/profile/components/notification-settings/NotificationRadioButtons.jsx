@@ -4,6 +4,22 @@ import { isArray, isString, uniqueId } from 'lodash';
 import classNames from 'classnames';
 import { makeField } from '~/platform/forms/fields';
 
+const MessageWrapper = ({ children, classes, id }) => {
+  return (
+    <span
+      id={id}
+      className={classNames(
+        'vads-u-margin-top--0p5',
+        'rb-input-message',
+        'vads-u-font-weight--bold',
+        classes,
+      )}
+    >
+      {children}
+    </span>
+  );
+};
+
 /**
  * A radio button group with a label.
  *
@@ -56,17 +72,13 @@ const NotificationRadioButtons = ({
   if (errorMessage) {
     errorSpanId = `${id}-error-message`;
     errorSpan = (
-      <span
-        className="rb-input-message rb-input-message-error"
-        role="alert"
-        id={errorSpanId}
-      >
+      <MessageWrapper id={errorSpanId} classes={'rb-input-message-error'}>
         <i
-          className="fas fa-exclamation-circle vads-u-margin-x--1"
+          className="fas fa-exclamation-circle vads-u-margin-right--1"
           aria-hidden="true"
         />{' '}
         <span className="sr-only">Error</span> {errorMessage}
-      </span>
+      </MessageWrapper>
     );
   }
 
@@ -75,17 +87,13 @@ const NotificationRadioButtons = ({
   if (warningMessage) {
     warningSpanId = `${id}-warning-message`;
     warningSpan = (
-      <span
-        className="rb-input-message rb-input-message-warning"
-        role="alert"
-        id={warningSpanId}
-      >
+      <MessageWrapper id={warningSpanId} classes={'rb-input-message-warning'}>
         <i
-          className="fas fa-exclamation-triangle vads-u-margin-x--1"
+          className="fas fa-exclamation-triangle vads-u-margin-right--1"
           aria-hidden="true"
         />{' '}
         <span className="sr-only">Warning</span> {warningMessage}
-      </span>
+      </MessageWrapper>
     );
   }
 
@@ -94,17 +102,13 @@ const NotificationRadioButtons = ({
   if (loadingMessage) {
     loadingSpanId = `${id}-loading-message`;
     loadingSpan = (
-      <span
-        className="rb-input-message rb-input-message-loading"
-        role="alert"
-        id={loadingSpanId}
-      >
+      <MessageWrapper id={loadingSpanId} classes="vads-u-font-weight--normal">
         <i
-          className="fas fa-spinner fa-spin vads-u-margin-x--1"
+          className="fas fa-spinner fa-spin vads-u-margin-right--1"
           aria-hidden="true"
         />{' '}
         {loadingMessage}
-      </span>
+      </MessageWrapper>
     );
   }
 
@@ -113,29 +117,27 @@ const NotificationRadioButtons = ({
   if (successMessage) {
     successSpanId = `${id}-success-message`;
     successSpan = (
-      <span
-        className="rb-input-message rb-input-message-success"
-        role="alert"
-        id={successSpanId}
-      >
+      <MessageWrapper id={successSpanId} classes={'rb-input-message-success'}>
         <i
-          className="fas fa-check-circle vads-u-margin-x--1"
+          className="fas fa-check-circle vads-u-margin-right--1"
           aria-hidden="true"
         />{' '}
         <span className="sr-only">Success</span> {successMessage}
-      </span>
+      </MessageWrapper>
     );
   }
 
   // Calculate required.
-  let requiredSpan = undefined;
-  if (required) {
-    requiredSpan = <span className="form-required-span">(*Required)</span>;
-  }
+  const requiredSpan = required ? (
+    <span className="form-required-span">(*Required)</span>
+  ) : (
+    undefined
+  );
 
   const buttonOptions = isArray(options) ? options : [];
   const storedValue = value?.value;
   const optionElements = buttonOptions.map((option, optionIndex) => {
+    const isLastRadioButtonInGroup = optionIndex >= buttonOptions.length - 1;
     let optionLabel;
     let optionValue;
     let optionAriaLabel;
@@ -155,58 +157,62 @@ const NotificationRadioButtons = ({
     const buttonAriaDescribedby =
       (checked && ariaDescribedby?.[optionIndex]) || null;
     return (
-      <div
-        key={optionAdditional ? undefined : optionIndex}
-        className="form-radio-buttons"
-      >
-        <div className="errorable-radio-button rb-buttons">
-          <input
-            checked={checked}
-            id={`${id}-${optionIndex}`}
-            name={name}
-            type="radio"
-            onMouseDown={onMouseDown}
-            onKeyDown={onKeyDown}
-            value={optionValue}
-            onChange={handleChange}
-            aria-describedby={buttonAriaDescribedby}
-          />
+      <div key={optionAdditional ? undefined : optionIndex}>
+        <input
+          checked={checked}
+          id={`${id}-${optionIndex}`}
+          name={name}
+          type="radio"
+          onMouseDown={onMouseDown}
+          onKeyDown={onKeyDown}
+          value={optionValue}
+          onChange={handleChange}
+          aria-describedby={buttonAriaDescribedby}
+        />
 
-          <label
-            name={`${name}-${optionIndex}-label`}
-            htmlFor={`${id}-${optionIndex}`}
-            aria-label={optionAriaLabel}
-          >
-            {optionLabel}
-          </label>
-          {option.content}
-        </div>
+        <label
+          name={`${name}-${optionIndex}-label`}
+          htmlFor={`${id}-${optionIndex}`}
+          aria-label={optionAriaLabel}
+          className={classNames('vads-u-margin--0', 'vads-u-margin-top--1', {
+            'vads-u-margin-bottom--1': isLastRadioButtonInGroup,
+            'vads-u-margin-bottom--2p5': !isLastRadioButtonInGroup,
+          })}
+        >
+          {optionLabel}
+        </label>
+        {option.content}
       </div>
     );
   });
 
   const fieldsetClass = classNames(
     'rb-fieldset-input',
-    additionalFieldsetClass,
+    'rb-input',
     {
-      'rb-input rb-input-error': errorMessage,
-      'rb-input rb-input-warning': warningMessage,
-      'rb-input rb-input-success': successMessage,
-      'rb-input rb-input-loading': loadingMessage,
+      'rb-input-error': errorMessage,
+      'rb-input-warning': warningMessage,
+      'rb-input-success': successMessage,
     },
+    additionalFieldsetClass,
   );
 
   const legendClass = classNames(
-    'rb-input-notify-label',
+    'rb-legend',
+    'vads-u-font-weight--bold',
+    'vads-u-font-size--base',
+    'vads-u-padding--0',
     additionalLegendClass,
   );
 
   return (
-    <fieldset className={fieldsetClass} disabled={disabled}>
-      <span className={legendClass}>
-        {label}
-        {requiredSpan}
-      </span>
+    <fieldset className={fieldsetClass} disabled={disabled} id={id}>
+      <div className="clearfix">
+        <legend className={legendClass}>
+          {label}
+          {requiredSpan}
+        </legend>
+      </div>
       {!loadingMessage && !successMessage && !warningMessage && errorSpan}
       {!loadingMessage && !errorMessage && !successMessage && warningSpan}
       {!loadingMessage && !errorMessage && !warningMessage && successSpan}
