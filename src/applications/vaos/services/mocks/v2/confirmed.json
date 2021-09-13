@@ -244,7 +244,6 @@
         }
       }
     },
-
     {
       "id": "05aa456va",
       "type": "Appointment",
@@ -283,7 +282,6 @@
         }
       }
     },
-
     {
       "id": "10aa456va",
       "type": "Appointment",
@@ -332,7 +330,6 @@
         }
       }
     },
-
     {
       "id": "06aa456va",
       "type": "Appointment",
@@ -367,7 +364,6 @@
         "telehealth": null
       }
     },
-
     {
       "id": "07aa456va",
       "type": "Appointment",
@@ -402,7 +398,6 @@
         "telehealth": null
       }
     },
-
     {
       "id": "09aa456va",
       "type": "Appointment",
@@ -451,12 +446,11 @@
         }
       }
     },
-
     {
       "id": "08aa456va",
       "type": "Appointment",
       "attributes": {
-        "cancellationReason": "Cancelled by clinic",
+        "cancellationReason": "prov",
         "clinic": null,
         "comment": "Follow-up/Routine: comment test",
         "contact": {
@@ -482,6 +476,40 @@
         "serviceType": "primaryCare",
         "slot": null,
         "start": "2021-12-31T18:19:34",
+        "status": "cancelled",
+        "telehealth": null
+      }
+    },
+    {
+      "id": "08aa457va",
+      "type": "Appointment",
+      "attributes": {
+        "cancellationReason": "pat",
+        "clinic": null,
+        "comment": "Follow-up/Routine: comment test",
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
+        "description": "Cancelled appointment",
+        "end": "2021-09-28T18:19:34.954Z",
+        "id": "08aa456va",
+        "kind": "clinic",
+        "locationId": "983GC",
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "practitioners": [],
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reason": "Routine Follow-up",
+        "requestedPeriods": null,
+        "serviceType": "primaryCare",
+        "slot": null,
+        "start": "2021-12-30T18:19:34",
         "status": "cancelled",
         "telehealth": null
       }
