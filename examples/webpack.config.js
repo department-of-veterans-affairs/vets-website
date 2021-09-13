@@ -56,6 +56,8 @@ const config = {
         __dirname,
         '../src'
       ),
+      // So npm- / yarn-linked packages don't give us a hooks problem
+      react: path.resolve(__dirname, '../node_modules/react/'),
     },
   },
   plugins: [new CleanWebpackPlugin()],
