@@ -17,9 +17,9 @@ export const externalRedirects = {
   myvahealth: environment.isProduction()
     ? 'https://patientportal.myhealth.va.gov/'
     : 'https://staging-patientportal.myhealth.va.gov/',
-  mhv: environment.isProduction()
-    ? 'https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/'
-    : 'https://mhv-syst.myhealth.va.gov/mhv-portal-web/web/myhealthevet/',
+  mhv: `https://${
+    eauthEnvironmentPrefixes[environment.BUILDTYPE]
+  }.eauth.va.gov/mhv-portal-web/web/myhealthevet/`,
 };
 
 export const ssoKeepAliveEndpoint = () => {
