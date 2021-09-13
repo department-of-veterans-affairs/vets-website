@@ -18,6 +18,9 @@ describe('check-in', () => {
       const mockStore = configureStore(middleware);
       const initState = {
         checkInData: {
+          context: {
+            token: 'some-token',
+          },
           appointments: [
             {
               clinicPhone: '555-867-5309',

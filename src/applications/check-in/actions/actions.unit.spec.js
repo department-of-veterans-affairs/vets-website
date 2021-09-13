@@ -15,14 +15,9 @@ describe('check inactions', () => {
         expect(action.type).to.equal(RECEIVED_APPOINTMENT_DETAILS);
       });
       it('should return correct structure', () => {
-        const action = receivedAppointmentDetails(
-          { id: 'some-id' },
-          'some-token',
-        );
-        expect(action.value.appointment).to.haveOwnProperty('id');
-        expect(action.value.appointment.id).to.equal('some-id');
-        expect(action.value.context).to.haveOwnProperty('token');
-        expect(action.value.context.token).to.equal('some-token');
+        const action = receivedAppointmentDetails({ id: 'some-id' });
+        expect(action.data.appointments[0]).to.haveOwnProperty('id');
+        expect(action.data.appointments[0].id).to.equal('some-id');
       });
     });
     describe('tokenWasValidated', () => {

@@ -8,7 +8,7 @@ import Footer from '../../components/Footer';
 import BackButton from '../../components/BackButton';
 import AppointmentLocation from '../../components/AppointmentLocation';
 
-import { v0, v1 } from '../../api';
+import { api } from '../../api';
 
 import { goToNextPage, URLS } from '../../utils/navigation';
 
@@ -29,7 +29,9 @@ export default function Display(props) {
     });
     setIsCheckingIn(true);
     try {
-      const checkIn = isLowAuthEnabled ? v1.postCheckInData : v0.checkInUser;
+      const checkIn = isLowAuthEnabled
+        ? api.v1.postCheckInData
+        : api.v0.checkInUser;
 
       const json = await checkIn({
         token,
