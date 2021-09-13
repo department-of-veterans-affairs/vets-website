@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { VaTextInput } from 'web-components/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 
-import { v1 } from '../api';
+import { api } from '../api';
 
 import { permissionsUpdated } from '../actions';
 import { goToNextPage, URLS } from '../utils/navigation';
@@ -24,7 +24,7 @@ const ValidateVeteran = props => {
   const onClick = async () => {
     // API call
     setIsLoading(true);
-    v1.postSession({ lastName, last4: last4Ssn, token }).then(json => {
+    api.v1.postSession({ lastName, last4: last4Ssn, token }).then(json => {
       const { data } = json;
 
       // update sessions with new permissions

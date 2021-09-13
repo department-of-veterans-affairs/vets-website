@@ -7,7 +7,7 @@ import { focusElement } from 'platform/utilities/ui';
 
 import { receivedAppointmentDetails } from '../../actions';
 import { goToNextPage, URLS } from '../../utils/navigation';
-import { v1 } from '../../api';
+import { api } from '../../api';
 
 import Display from './Display';
 
@@ -28,7 +28,7 @@ const CheckIn = props => {
     () => {
       if (isLowAuthEnabled) {
         // load data from checks route
-        v1.getCheckInData(token).then(json => {
+        api.v1.getCheckInData(token).then(json => {
           const { data } = json;
           setAppointment(data, token);
           setIsLoadingData(false);

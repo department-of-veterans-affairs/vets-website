@@ -5,7 +5,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import recordEvent from 'platform/monitoring/record-event';
 
 import { getTokenFromLocation, URLS, goToNextPage } from '../utils/navigation';
-import { v0, v1 } from '../api';
+import { api } from '../api';
 import { tokenWasValidated } from '../actions';
 import { setCurrentToken, clearCurrentSession } from '../utils/session';
 import { createAnalyticsSlug } from '../utils/analytics';
@@ -19,6 +19,7 @@ const Landing = props => {
     isLowAuthEnabled,
     isUpdatePageEnabled,
   } = props;
+
   const [loadMessage, setLoadMessage] = useState('Finding your appointment');
   useEffect(
     () => {
@@ -39,7 +40,7 @@ const Landing = props => {
 
       if (token) {
         if (isLowAuthEnabled) {
-          v1.getSession(token).then(session => {
+          api.v1.getSession(token).then(session => {
             // if session with read.full exists, go to check in page
             setCurrentToken(window, token);
             setLoadMessage('Loading your appointment');
@@ -47,7 +48,7 @@ const Landing = props => {
               goToNextPage(router, URLS.DETAILS);
             } else {
               // else get the data then go to validate page
-              v1.getCheckInData(token).then(json => {
+              api.v1.getCheckInData(token).then(json => {
                 // going to be read.basic data, which is facility name and number
                 const { data } = json;
                 setAppointment(data, token);
@@ -56,7 +57,8 @@ const Landing = props => {
             }
           });
         } else {
-          v0.validateToken(token)
+          api.v0
+            .validateToken(token)
             .then(json => {
               const { data } = json;
               if (data.error || data.errors) {
