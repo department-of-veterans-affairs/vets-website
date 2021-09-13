@@ -32,3 +32,5 @@ export const DOCUMENT_TYPES = [
   'Birth certificate',
   'Other',
 ];
+
+export const FILE_TYPES = ['pdf', 'gif', 'jpeg', 'jpg', 'bmp', 'txt', 'png'];

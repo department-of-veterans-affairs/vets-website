@@ -21,6 +21,14 @@ describe('CoeDocumentUpload', () => {
     expect(screen.getByLabelText(/Document description/i)).to.exist;
   });
 
+  it('should display an error message for invalid file type upload', () => {
+    const file = new File(['hello'], 'hello.tif', { type: 'image/tif' });
+    const screen = render(<CoeDocumentUpload />);
+    const input = screen.getByLabelText(/Upload this document/i);
+    userEvent.upload(input, file);
+    expect(screen.getByText(/accepted file types/i)).to.exist;
+  });
+
   it('should display an uploaded file', () => {
     const file = new File(['hello'], 'hello.png', { type: 'image/png' });
     const screen = render(<CoeDocumentUpload />);
@@ -34,5 +42,45 @@ describe('CoeDocumentUpload', () => {
     expect(input.files.item(0)).to.equal(file);
     expect(input.files).to.have.lengthOf(1);
     expect(screen.getByText('hello.png')).to.exist;
+  });
+
+  it('should display a list of multiple uploaded files', () => {
+    const file1 = new File(['hello'], 'hello.png', { type: 'image/png' });
+    const file2 = new File(['there'], 'there.png', { type: 'image/png' });
+    const screen = render(<CoeDocumentUpload />);
+    const input = screen.getByLabelText(/Upload this document/i);
+    expect(input).to.exist;
+    userEvent.selectOptions(screen.getByRole('combobox'), [
+      'Discharge or seperation papers (DD214)',
+    ]);
+    userEvent.upload(input, file1);
+    userEvent.upload(input, file2);
+    expect(screen.getByText('hello.png')).to.exist;
+    expect(screen.getByText('there.png')).to.exist;
+  });
+
+  it('should delete an uploaded file and update the list of uploaded files displayed', () => {
+    const files = [
+      new File(['hello'], 'hello.png', { type: 'image/png' }),
+      new File(['there'], 'there.png', { type: 'image/png' }),
+      new File(['kenobi'], 'kenobi.png', { type: 'image/png' }),
+    ];
+    const screen = render(<CoeDocumentUpload />);
+    userEvent.selectOptions(screen.getByRole('combobox'), [
+      'Discharge or seperation papers (DD214)',
+    ]);
+    const input = screen.getByLabelText(/Upload this document/i);
+    files.forEach(file => {
+      userEvent.upload(input, file);
+    });
+    expect(screen.getByText('hello.png')).to.exist;
+    expect(screen.getByText('there.png')).to.exist;
+    expect(screen.getByText('kenobi.png')).to.exist;
+    const deleteBtn = screen.getAllByText(/Delete file/i)[1];
+    userEvent.click(deleteBtn);
+    expect(screen.getAllByText(/Delete file/i)).to.have.lengthOf(2);
+    expect(screen.getByText('hello.png')).to.exist;
+    expect(screen.getByText('kenobi.png')).to.exist;
+    expect(screen.queryByText('there.png')).to.not.exist;
   });
 });

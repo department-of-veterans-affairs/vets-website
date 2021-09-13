@@ -3,7 +3,13 @@ import FileInput from '@department-of-veterans-affairs/component-library/FileInp
 import Select from '@department-of-veterans-affairs/component-library/Select';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 
-import { DOCUMENT_TYPES } from '../constants';
+import { DOCUMENT_TYPES, FILE_TYPES } from '../constants';
+import { isValidFileType } from '../validations';
+
+// TODO:
+// 1. Uploading a file needs visual feedback as well as SR feedback
+// 2. Deleting a file should provide SR confirmation of succesful deletion
+// 3. formData should be added as properties to respective files uploaded
 
 export const CoeDocumentUpload = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +18,8 @@ export const CoeDocumentUpload = () => {
   });
 
   const [files, setFiles] = useState([]);
+
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const onSelectChange = e => {
     setFormData({
@@ -27,8 +35,20 @@ export const CoeDocumentUpload = () => {
     });
   };
 
-  const onUploadFile = e => {
-    const newFiles = [...files, e[0]];
+  const onUploadFile = uploadedFiles => {
+    setErrorMessage(null);
+    if (!isValidFileType(uploadedFiles[0])) {
+      setErrorMessage(
+        'Please choose a file from one of the accepted file types.',
+      );
+      return;
+    }
+    const newFiles = [...files, uploadedFiles[0]];
+    setFiles(newFiles);
+  };
+
+  const onDeleteFile = idx => {
+    const newFiles = files.filter((file, index) => index !== idx);
     setFiles(newFiles);
   };
 
@@ -44,8 +64,17 @@ export const CoeDocumentUpload = () => {
         <div
           className="vads-u-background-color--gray-lightest vads-u-padding-y--1 vads-u-padding-x--2 vads-u-margin-y--1"
           key={index}
+          id={index}
         >
-          <p>{file.name}</p>
+          <p>
+            <strong>{file.name}</strong>
+          </p>
+          <button
+            onClick={() => onDeleteFile(index)}
+            className="usa-button-secondary vads-u-background-color--white vads-u-margin-top--0"
+          >
+            Delete file
+          </button>
         </div>
       ))}
       <Select
@@ -65,7 +94,15 @@ export const CoeDocumentUpload = () => {
           onValueChange={onTextInputValueChange}
         />
       )}
-      <FileInput buttonText="Upload this document" onChange={onUploadFile} />
+      <FileInput
+        additionalClass={errorMessage ? 'vads-u-padding-left--1p5' : null}
+        additionalErrorClass="vads-u-margin-bottom--1"
+        buttonText="Upload this document"
+        onChange={onUploadFile}
+        name="fileUpload"
+        accept={FILE_TYPES.map(type => `.${type}`).join(',')}
+        errorMessage={errorMessage}
+      />
     </>
   );
 };
