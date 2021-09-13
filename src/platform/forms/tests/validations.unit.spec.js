@@ -172,11 +172,11 @@ describe('Validations unit tests', () => {
       };
       const toDate = {
         day: {
-          value: '',
+          value: null,
           dirty: true,
         },
         month: {
-          value: '',
+          value: null,
           dirty: true,
         },
         year: {

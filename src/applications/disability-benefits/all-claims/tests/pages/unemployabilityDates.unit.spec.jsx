@@ -73,7 +73,7 @@ describe('Unemployability affective Dates', () => {
     fillDate(
       form,
       'root_unemployability_disabilityAffectedEmploymentFullTimeDate',
-      '2017-03-04"',
+      '2017-03-04',
     );
 
     form.find('form').simulate('submit');

@@ -402,8 +402,8 @@ describe('Schemaform validations', () => {
       const errors = { to: { addError: sinon.spy() } };
       validateDateRangeAllowSameMonth(errors, {
         // the difference from validateDateRange
-        from: '2014-01-XX',
-        to: '2014-01-XX',
+        from: '2014-01-04',
+        to: '2014-01-05',
       });
 
       expect(errors.to.addError.called).to.be.false;
