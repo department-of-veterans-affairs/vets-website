@@ -312,6 +312,11 @@ describe('526 All Claims validations', () => {
     const tooLong =
       'et pharetra pharetra massa massa ultricies mi quis hendrerit dolor magna eget est lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas integer eget aliquet nibh praesent';
 
+    it('should not throw a JS error when there is no data', () => {
+      const err = { addError: sinon.spy() };
+      validateDisabilityName(err);
+      expect(err.addError.calledOnce).to.be.true;
+    });
     it('should not add error when disability is in list', () => {
       const err = { addError: sinon.spy() };
       validateDisabilityName(err, disabilityLabels[7100]);
