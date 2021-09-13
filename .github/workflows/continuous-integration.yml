@@ -647,9 +647,15 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
+<<<<<<< HEAD
       # ----------------
       # | Notify Slack |
       # ----------------
+=======
+      # -----------------
+      # | Notify Slack  |
+      # -----------------
+>>>>>>> 58b2c583a4d0279aa3daef0529b2fbd5471c2d50
 
       - name: Checkout VSP actions
         if: ${{ needs.cypress-tests.result == 'failure' }}
