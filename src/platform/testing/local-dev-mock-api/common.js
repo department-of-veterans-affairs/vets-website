@@ -84,7 +84,6 @@ const responses = {
         { name: 'vaOnlineSchedulingVAOSServiceRequests', value: false },
         { name: 'vaGlobalDowntimeNotification', value: false },
         { name: 'ssoe', value: true },
-        { name: 'ssoeInbound', value: false },
         { name: 'ssoeEbenefitsLinks', value: false },
         { name: 'edu_section_103', value: true },
         { name: 'vaViewDependentsAccess', value: false },

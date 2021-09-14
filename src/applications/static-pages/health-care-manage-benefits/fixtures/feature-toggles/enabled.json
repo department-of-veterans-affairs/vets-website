@@ -87,10 +87,6 @@
         "value": true
       },
       {
-        "name": "ssoeInbound",
-        "value": true
-      },
-      {
         "name": "ssoeEbenefitsLinks",
         "value": true
       },

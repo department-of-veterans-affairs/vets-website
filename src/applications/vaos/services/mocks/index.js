@@ -371,7 +371,6 @@ const responses = {
         { name: 'vaOnlineSchedulingVariantTesting', value: false },
         { name: 'vaOnlineSchedulingCCIterations', value: false },
         { name: 'ssoe', value: true },
-        { name: 'ssoeInbound', value: false },
         { name: 'ssoeEbenefitsLinks', value: false },
         { name: 'edu_section_103', value: true },
         { name: 'vaViewDependentsAccess', value: false },
