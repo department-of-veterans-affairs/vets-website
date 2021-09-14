@@ -11,7 +11,7 @@ import {
   showModal,
 } from '../../actions';
 import { MINIMUM_RATING_COUNT } from '../../constants';
-import Checkbox from '../../components/Checkbox';
+import CompareCheckbox from '../../components/CompareCheckbox';
 import { estimatedBenefits } from '../../selectors/estimator';
 import {
   formatCurrency,
@@ -294,13 +294,11 @@ export function ResultCard({
             )}
           >
             <div className="card-bottom-cell vads-u-flex--1 vads-u-margin--0">
-              <div className="vads-u-padding--0 vads-u-margin-top--neg2 vads-u-margin-bottom--0p5">
-                <Checkbox
-                  label="Compare"
-                  checked={compareChecked}
-                  onChange={handleCompareUpdate}
-                />
-              </div>
+              <CompareCheckbox
+                institution={name}
+                compareChecked={compareChecked}
+                handleCompareUpdate={handleCompareUpdate}
+              />
             </div>
           </div>
         </div>

@@ -12,9 +12,9 @@ export function ConfirmationPageContent({
   formName = 'Education benefit application',
   guidance = (
     <>
-      <h4 className="confirmation-guidance-heading">
+      <h3 className="confirmation-guidance-heading vads-u-font-size--h4">
         What happens after I apply?
-      </h4>
+      </h3>
       <p className="confirmation-guidance-message">
         We usually decide on applications within 30 days.
       </p>
@@ -70,9 +70,9 @@ export function ConfirmationPageContent({
           </h1>
           <span>{displayFormId}</span>
         </div>
-        <h3 className="confirmation-page-title screen-only">
+        <h2 className="confirmation-page-title screen-only vads-u-font-size--h3">
           We've received your application.
-        </h3>
+        </h2>
         <h4 className="print-only">We've received your application.</h4>
         <p>
           We usually process claims within <strong>30 days</strong>.<br />
@@ -91,12 +91,12 @@ export function ConfirmationPageContent({
       {afterTitleContent}
 
       <div className="inset">
-        <h4 className="vads-u-margin-top--0 confirmation-header">
+        <h3 className="vads-u-margin-top--0 confirmation-header vads-u-font-size--h4">
           {formName}{' '}
           <span className="vads-u-margin--0 vads-u-display--inline-block">
             ({displayFormId})
           </span>
-        </h4>
+        </h3>
         {name && (
           <span className="applicant-name">
             for {name.first}
@@ -146,9 +146,9 @@ export function ConfirmationPageContent({
       <div className="confirmation-guidance-container">
         {additionalGuidance}
         {guidance}
-        <h4 className="confirmation-guidance-heading vads-u-border-bottom--3px vads-u-border-color--primary vads-u-line-height--4">
+        <h3 className="confirmation-guidance-heading vads-u-border-bottom--3px vads-u-border-color--primary vads-u-line-height--4 vads-u-font-size--h4">
           Need help?
-        </h4>
+        </h3>
 
         <p className="confirmation-guidance-message">
           If you have questions, call 1-888-GI-BILL-1 (
