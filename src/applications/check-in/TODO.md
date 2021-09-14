@@ -2,8 +2,6 @@
 
 # TODO
 
-- refactor API stuff
-  - refactor mock responses generator
 - e2e tests
   - e2e mock endpoints
 - backwards compatibility
@@ -19,3 +17,5 @@
 - refactor API in to version files
 - Add required around the form fields
 - add validation around the last 4 digits of the SSN
+- Refactor API mock endpoints in to smaller files???
+- Error handling of API calls

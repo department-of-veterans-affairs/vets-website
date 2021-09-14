@@ -3,6 +3,7 @@
 const commonResponses = require('../../../../platform/testing/local-dev-mock-api/common');
 const mockCheckIns = require('./mocks/check.in.response');
 const mockValidates = require('./mocks/validate.responses');
+const mockPatientCheckIns = require('./mocks/patient.check.in.response');
 const featureToggles = require('./mocks/feature.toggles');
 const sessions = require('./mocks/sessions.responses');
 const delay = require('mocker-api/lib/delay');
@@ -36,26 +37,9 @@ const responses = {
   'GET /check_in/v1/patient_check_ins/:uuid': (req, res) => {
     if (hasBeenValidated) {
       hasBeenValidated = false;
-      return res.json({
-        id: '46bebc0a-b99c-464f-a5c5-560bc9eae287',
-        payload: {
-          startTime: '2021-08-19T13:56:31',
-          facility: 'LOMA LINDA VA CLINIC',
-          clinicPhoneNumber: '5551234567',
-          clinicFriendlyName: 'TEST CLINIC',
-          clinicName: 'LOM ACC CLINIC TEST',
-        },
-      });
+      return res.json(mockPatientCheckIns.createMockSuccessResponse({}, true));
     } else {
-      return res.json({
-        id: '46bebc0a-b99c-464f-a5c5-560bc9eae287',
-        payload: {
-          facility: 'LOMA LINDA VA CLINIC',
-          clinicPhoneNumber: '5551234567',
-          clinicFriendlyName: 'TEST CLINIC',
-          clinicName: 'LOM ACC CLINIC TEST',
-        },
-      });
+      return res.json(mockPatientCheckIns.createMockSuccessResponse({}, false));
     }
   },
   'POST /check_in/v1/patient_check_ins/': (_req, res) => {
