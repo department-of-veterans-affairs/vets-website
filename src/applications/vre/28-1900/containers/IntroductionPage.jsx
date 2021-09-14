@@ -1,17 +1,13 @@
 import { Link } from 'react-router';
-import Scroll from 'react-scroll';
-import { focusElement, getScrollOptions } from 'platform/utilities/ui';
+
+import { scrollToTop } from 'platform/utilities/ui/scrollToTop';
+import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import React, { useEffect } from 'react';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { WIZARD_STATUS } from '../constants';
 import recordEvent from 'platform/monitoring/record-event';
-
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo(getScrollOptions());
-};
 
 const IntroductionPage = props => {
   useEffect(() => {
