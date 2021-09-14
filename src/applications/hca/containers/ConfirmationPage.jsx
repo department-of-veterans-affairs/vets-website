@@ -8,7 +8,7 @@ import { focusElement } from 'platform/utilities/ui';
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
     focusElement('.schemaform-title > h1');
-    scrollToTop();
+    scrollToTop('topScrollElement');
   }
 
   render() {
