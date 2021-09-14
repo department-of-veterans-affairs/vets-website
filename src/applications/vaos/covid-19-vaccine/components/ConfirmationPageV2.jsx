@@ -80,7 +80,6 @@ function ConfirmationPageV2({
             facility={facilityDetails}
             facilityName={facilityDetails?.name}
             facilityId={facilityDetails.id}
-            isHomepageRefresh
             clinicFriendlyName={clinic?.serviceName}
             showCovidPhone
           />

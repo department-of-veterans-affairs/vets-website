@@ -39,7 +39,6 @@ const initialState = {
     vaOnlineSchedulingPast: true,
     // eslint-disable-next-line camelcase
     show_new_schedule_view_appointments_page: true,
-    vaOnlineSchedulingHomepageRefresh: true,
   },
 };
 
@@ -74,7 +73,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockAppointmentInfo({
       va: [appointment],
-      isHomepageRefresh: true,
     });
 
     mockSingleAppointmentFetch({
@@ -200,7 +198,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockAppointmentInfo({
       va: [appointment],
-      isHomepageRefresh: true,
     });
 
     mockSingleAppointmentFetch({
@@ -258,7 +255,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockAppointmentInfo({
       va: [appointment],
-      isHomepageRefresh: true,
     });
 
     mockSingleAppointmentFetch({
@@ -360,7 +356,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockAppointmentInfo({
       va: [appointment],
-      isHomepageRefresh: true,
     });
 
     const facility = {
@@ -380,12 +375,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       number: '5',
     };
     mockVACancelFetches('983', [cancelReason]);
-    const screen = renderWithStoreAndRouter(
-      <AppointmentList featureHomepageRefresh />,
-      {
-        initialState,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+    });
 
     const detailLinks = await screen.findAllByRole('link', {
       name: /Detail/i,
@@ -614,7 +606,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockAppointmentInfo({
       va: [appointment],
-      isHomepageRefresh: true,
     });
 
     mockSingleAppointmentFetch({
@@ -632,12 +623,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockFacilityFetch('vha_442GC', facility);
 
-    const screen = renderWithStoreAndRouter(
-      <AppointmentList featureHomepageRefresh />,
-      {
-        initialState,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+    });
 
     const oldPrint = global.window.print;
     const printSpy = sinon.spy();
@@ -711,7 +699,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       sta6aid: '983GC',
     };
 
-    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    mockAppointmentInfo({ va: [appointment] });
 
     mockSingleAppointmentFetch({ appointment });
 
@@ -762,7 +750,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     mockSingleAppointmentFetch({ appointment });
     mockAppointmentInfo({
       va: [appointment],
-      isHomepageRefresh: true,
     });
 
     const facility = {
@@ -810,7 +797,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockAppointmentInfo({
       va: [appointment],
-      isHomepageRefresh: true,
     });
 
     mockSingleAppointmentFetch({
@@ -930,7 +916,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockAppointmentInfo({
       va: [appointment],
-      isHomepageRefresh: true,
     });
 
     mockSingleAppointmentFetch({
@@ -1046,7 +1031,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockAppointmentInfo({
       va: [appointment],
-      isHomepageRefresh: true,
     });
 
     mockSingleAppointmentFetch({

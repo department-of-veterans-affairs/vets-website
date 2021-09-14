@@ -503,7 +503,7 @@ jobs:
       - name: Set output of TESTS
         id: tests
         run: echo ::set-output name=selected::$TESTS
-  
+
   cypress-tests:
     name: Cypress E2E Tests
     runs-on: self-hosted
