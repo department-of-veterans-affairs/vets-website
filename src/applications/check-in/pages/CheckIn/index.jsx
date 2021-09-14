@@ -29,9 +29,10 @@ const CheckIn = props => {
       if (isLowAuthEnabled) {
         // load data from checks route
         api.v1.getCheckInData(token).then(json => {
-          const { data } = json;
-          setAppointment(data, token);
+          const { payload } = json;
+          setAppointment(payload, token);
           setIsLoadingData(false);
+          focusElement('h1');
         });
       } else {
         focusElement('h1');

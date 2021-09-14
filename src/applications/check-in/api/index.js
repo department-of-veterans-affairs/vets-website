@@ -62,7 +62,7 @@ const v1 = {
     const headers = { 'Content-Type': 'application/json' };
     const data = {
       session: {
-        id: token,
+        uuid: token,
         last4,
         lastName,
       },
@@ -92,7 +92,7 @@ const v1 = {
       token,
     );
     return {
-      data: json.data,
+      ...json,
     };
   },
   postCheckInData: async ({ token }) => {

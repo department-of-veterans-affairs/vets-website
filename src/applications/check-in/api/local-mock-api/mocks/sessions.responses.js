@@ -1,10 +1,11 @@
-const createMockSuccessResponse = (id, permissions) => {
+const createMockSuccessResponse = (uuid, permissions) => {
   return {
     data: {
+      jwt: `${permissions}-123-123`,
       permissions,
       status: 'success',
       error: undefined,
-      id,
+      uuid,
     },
   };
 };

@@ -3,13 +3,19 @@
 # TODO
 
 - refactor API stuff
-  - rename v0 an v1
   - refactor mock responses generator
+- e2e tests
+  - e2e mock endpoints
+- backwards compatibility
+
+## Next PR
+
 - refactor/unit tests (8)
   - actions/reducers
   - validate veteran
   - landing page?
   - Check in display component
-- e2e tests
-  - e2e mock endpoints
-- backwards compatibility
+  - Check in loading component
+- refactor API in to version files
+- Add required around the form fields
+- add validation around the last 4 digits of the SSN
