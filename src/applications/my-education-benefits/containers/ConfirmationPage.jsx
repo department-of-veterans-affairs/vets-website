@@ -203,7 +203,7 @@ export class ConfirmationPage extends React.Component {
     const { response } = submission;
     const name = data.veteranFullName;
 
-    const confirmationResult = 'approved';
+    const confirmationResult = 'loading';
 
     switch (confirmationResult) {
       case 'approved': {
