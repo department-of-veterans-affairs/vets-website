@@ -99,9 +99,7 @@ const v1 = {
     const url = '/check_in/v1/patient_check_ins/';
     const headers = { 'Content-Type': 'application/json' };
     const data = {
-      patientCheckIns: {
-        id: token,
-      },
+      id: token,
     };
     const body = JSON.stringify(data);
     const settings = {

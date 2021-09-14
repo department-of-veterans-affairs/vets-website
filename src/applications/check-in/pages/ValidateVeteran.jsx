@@ -24,9 +24,7 @@ const ValidateVeteran = props => {
   const onClick = async () => {
     // API call
     setIsLoading(true);
-    api.v1.postSession({ lastName, last4: last4Ssn, token }).then(json => {
-      const { data } = json;
-
+    api.v1.postSession({ lastName, last4: last4Ssn, token }).then(data => {
       // update sessions with new permissions
       setPermissions(data);
 
