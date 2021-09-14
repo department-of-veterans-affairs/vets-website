@@ -85,7 +85,7 @@ export default Object.freeze({
   stemSCOEmail: 'stem_sco_email',
   subform89404192: 'subform_8940_4192',
   useLighthouseFormsSearchLogic: 'new_va_forms_search',
-  vaGlobalDowntimeNotification: 'vaGlobalDowntimeNotification',
+  vaGlobalDowntimeNotification: 'va_global_downtime_notification',
   vaOnlineFacilitySelectionV22: 'vaOnlineFacilitySelectionV22',
   vaOnlineScheduling: 'vaOnlineScheduling',
   vaOnlineSchedulingCancel: 'vaOnlineSchedulingCancel',
