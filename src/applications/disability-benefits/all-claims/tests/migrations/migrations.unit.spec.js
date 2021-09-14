@@ -4,6 +4,7 @@ import redirectToClaimTypePage from '../../migrations/01-require-claim-type';
 import upgradeHasSeparationPay from '../../migrations/03-upgrade-hasSeparationPay';
 import truncateOtherHomelessHousing from '../../migrations/04-truncate-otherHomelessHousing';
 import truncateOtherAtRiskHousing from '../../migrations/05-truncate-otherAtRiskHousing';
+import fixTreatedDisabilityNamesKey from '../../migrations/06-fix-treatedDisabilityNames';
 
 import formConfig from '../../config/form';
 import { MAX_HOUSING_STRING_LENGTH } from '../../constants';
@@ -115,6 +116,66 @@ describe('526 v2 migrations', () => {
         formData: {
           otherAtRiskHousing: longString(0),
           test: true,
+        },
+        metadata: { version: 1 },
+      });
+    });
+  });
+
+  describe('06-fix-treatedDisabilityNames', () => {
+    it('should migrate treatedDisabilityNames & powDisabilities', () => {
+      const savedData = {
+        formData: {
+          vaTreatmentFacilities: [
+            {
+              treatedDisabilityNames: {
+                'diabetes mellitus 0': true,
+                'diabetes mellitus 1': true,
+                'myocardial infarction (mi)': true,
+              },
+            },
+            {
+              treatedDisabilityNames: {
+                'asthma 123': true,
+                'phlebitis (456)': true,
+                'knee replacement': true,
+              },
+            },
+          ],
+          'view:isPow': {
+            powDisabilities: {
+              'knee replacement': true,
+              'myocardial infarction (mi)': true,
+            },
+          },
+        },
+        metadata: { version: 1 },
+      };
+      const migratedData = fixTreatedDisabilityNamesKey(savedData);
+      expect(migratedData).to.deep.equal({
+        formData: {
+          vaTreatmentFacilities: [
+            {
+              treatedDisabilityNames: {
+                diabetesmellitus0: true,
+                diabetesmellitus1: true,
+                myocardialinfarctionmi: true,
+              },
+            },
+            {
+              treatedDisabilityNames: {
+                asthma123: true,
+                phlebitis456: true,
+                kneereplacement: true,
+              },
+            },
+          ],
+          'view:isPow': {
+            powDisabilities: {
+              kneereplacement: true,
+              myocardialinfarctionmi: true,
+            },
+          },
         },
         metadata: { version: 1 },
       });

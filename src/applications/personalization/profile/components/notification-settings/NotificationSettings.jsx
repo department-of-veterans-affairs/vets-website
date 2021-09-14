@@ -6,7 +6,9 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import {
   hasVAPServiceConnectionError,
   isVAPatient,
-  selectVAPEmailAddress,
+  // TODO: uncomment when email is a supported communication channel
+  // selectVAPEmailAddress,
+  selectPatientFacilities,
   selectVAPMobilePhone,
 } from '~/platform/user/selectors';
 import { focusElement } from '~/platform/utilities/ui';
@@ -133,7 +135,7 @@ const NotificationSettings = ({
           mobilePhoneNumber={mobilePhoneNumber}
         />
       ) : null}
-      {!shouldShowLoadingIndicator
+      {showContactInfoOnFile
         ? notificationGroups.ids.map(groupId => {
             // we handle the health care group a little differently
             // TODO: I don't like this check. what does `group3` even mean?
@@ -165,10 +167,14 @@ const mapStateToProps = state => {
   const hasVAPServiceError = hasVAPServiceConnectionError(state);
   const hasLoadingError = !!communicationPreferencesState.loadingErrors;
 
-  const emailAddress = selectVAPEmailAddress(state);
+  // TODO: uncomment when email is a supported notification channel
+  // const emailAddress = selectVAPEmailAddress(state);
+  const emailAddress = null;
   const mobilePhoneNumber = selectVAPMobilePhone(state);
   const noContactInfoOnFile = !emailAddress && !mobilePhoneNumber;
-  const allContactInfoOnFile = emailAddress && mobilePhoneNumber;
+  // TODO: uncomment when email is a supported notification channel
+  // const allContactInfoOnFile = emailAddress && mobilePhoneNumber;
+  const allContactInfoOnFile = mobilePhoneNumber;
   const shouldFetchNotificationSettings =
     !noContactInfoOnFile && !hasVAPServiceError;
   const shouldShowAPIError = hasVAPServiceError || hasLoadingError;
@@ -187,6 +193,7 @@ const mapStateToProps = state => {
         isPatient,
         hasEmailAddress: !!emailAddress,
         hasMobilePhone: !!mobilePhoneNumber,
+        facilities: selectPatientFacilities(state),
       },
     ),
     shouldFetchNotificationSettings,

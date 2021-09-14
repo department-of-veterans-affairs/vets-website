@@ -14,4 +14,9 @@ export const checkInExperienceMultipleAppointmentEnabled = state =>
     FEATURE_FLAG_NAMES.checkInExperienceMultipleAppointmentEnabled
   ];
 
+export const checkInExperienceUpdateInformationPageEnabled = state =>
+  toggleValues(state)[
+    FEATURE_FLAG_NAMES.checkInExperienceUpdateInformationPageEnabled
+  ];
+
 export const loadingFeatureFlags = state => state?.featureToggles?.loading;

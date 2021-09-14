@@ -159,7 +159,7 @@ export const stateLabels = createUSAStateLabels(states);
 export const civilianBenefitsLabel = (
   <span>
     Are you getting benefits from the U.S. Government as a{' '}
-    <strong>civilian employee</strong> during the same time as you are seeking
+    <strong>civilian employee</strong> during the same time as you’re seeking
     benefits from VA?
   </span>
 );

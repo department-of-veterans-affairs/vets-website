@@ -1,7 +1,6 @@
 import { PROFILE_PATHS } from '@@profile/constants';
 
-import mockPatient from '@@profile/tests/fixtures/users/user-36.json';
-import mockNonPatient from '@@profile/tests/fixtures/users/user-non-patient.json';
+import { makeUserObject } from '~/applications/personalization/common/helpers';
 import mockCommunicationPreferences from '@@profile/tests/fixtures/communication-preferences/get-200-maximal.json';
 
 import {
@@ -22,34 +21,81 @@ describe('Notification Settings', () => {
       body: mockCommunicationPreferences,
     });
   });
-  context('when user is a VA patient', () => {
-    it('should show the notification preferences groups with Health Care first', () => {
-      cy.login(mockPatient);
-      cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
-      cy.findByRole('heading', {
-        name: 'Notification settings',
-        level: 1,
-      }).should('exist');
-
-      cy.loadingIndicatorWorks();
-
-      cy.findByText('555-555-5559').should('exist');
-      cy.findByText('alongusername@domain.com').should('exist');
-      cy.findAllByTestId('notification-group')
-        .should('have.length', 3)
-        .first()
-        .should('contain.text', 'Your health care')
-        .invoke('text')
-        .should(
-          'match',
-          /Manage your health care email notifications on My HealtheVet/i,
+  context(
+    'when user is a VA patient at a facility that supports Rx tracking',
+    () => {
+      it('should show the Health Care group first and show the Rx tracking item', () => {
+        cy.login(
+          makeUserObject({
+            isPatient: true,
+            facilities: [{ facilityId: '983' }],
+          }),
         );
-      cy.findAllByText(/^select an option/i).should('have.length', 1);
-    });
-  });
+        cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
+        cy.findByRole('heading', {
+          name: 'Notification settings',
+          level: 1,
+        }).should('exist');
+
+        cy.loadingIndicatorWorks();
+
+        cy.findByText('503-555-1234').should('exist');
+        // TODO: uncomment when email is a supported communication channel
+        // cy.findByText('veteran@gmail.com').should('exist');
+        cy.findAllByTestId('notification-group')
+          .should('have.length', 3)
+          .first()
+          .should('contain.text', 'Your health care')
+          .invoke('text')
+          .should(
+            'match',
+            /Manage your health care email notifications on My HealtheVet/i,
+          )
+          .should('match', /prescription.*shipment/i)
+          .should('match', /prescription.*tracking/i);
+        cy.findAllByText(/^select an option/i).should('have.length', 1);
+      });
+    },
+  );
+  context(
+    'when user is a VA patient at a facility that does not support Rx tracking',
+    () => {
+      it('should show the Health Care group first but not show the Rx tracking item', () => {
+        cy.login(
+          makeUserObject({
+            isPatient: true,
+            facilities: [{ facilityId: '123' }],
+          }),
+        );
+        cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
+        cy.findByRole('heading', {
+          name: 'Notification settings',
+          level: 1,
+        }).should('exist');
+
+        cy.loadingIndicatorWorks();
+
+        cy.findByText('503-555-1234').should('exist');
+        // TODO: uncomment when email is a supported communication channel
+        // cy.findByText('veteran@gmail.com').should('exist');
+        cy.findAllByTestId('notification-group')
+          .should('have.length', 3)
+          .first()
+          .should('contain.text', 'Your health care')
+          .invoke('text')
+          .should(
+            'match',
+            /Manage your health care email notifications on My HealtheVet/i,
+          )
+          .should('not.match', /prescription.*shipment/i)
+          .should('not.match', /prescription.*tracking/i);
+        cy.findAllByText(/^select an option/i).should('have.length', 1);
+      });
+    },
+  );
   context('when user is not a VA patient', () => {
     it('should not show the Health Care notification group', () => {
-      cy.login(mockNonPatient);
+      cy.login(makeUserObject({ isPatient: false }));
       cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
       cy.findByRole('heading', {
         name: 'Notification settings',
@@ -58,8 +104,9 @@ describe('Notification Settings', () => {
 
       cy.loadingIndicatorWorks();
 
-      cy.findByText('555-555-5559').should('exist');
-      cy.findByText('alongusername@domain.com').should('exist');
+      cy.findByText('503-555-1234').should('exist');
+      // uncomment when email is a supported communication channel
+      // cy.findByText('veteran@gmail.com').should('exist');
       cy.findAllByTestId('notification-group')
         .should('have.length.above', 0)
         .each($el => {

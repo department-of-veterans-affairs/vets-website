@@ -23,9 +23,7 @@ export function KeywordSearch({
   version,
 }) {
   const fetchSuggestion = () => {
-    if (inputValue !== '') {
-      onFetchAutocompleteSuggestions(inputValue, version);
-    }
+    onFetchAutocompleteSuggestions(inputValue, version);
   };
 
   const debouncedFetchSuggestion = useCallback(

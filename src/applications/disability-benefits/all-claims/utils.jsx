@@ -294,7 +294,9 @@ export const disabilityIsSelected = disability => disability['view:selected'];
  * @param {string} str - The string to make SiP-friendly
  * @return {string} The SiP-friendly string
  */
-export const sippableId = str => (str || 'blank').toLowerCase();
+const regexNonWord = /[^\w]/g;
+export const sippableId = str =>
+  (str || 'blank').replace(regexNonWord, '').toLowerCase();
 
 const createCheckboxSchema = (schema, disabilityName) => {
   const capitalizedDisabilityName =
