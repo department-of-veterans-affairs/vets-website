@@ -21,43 +21,40 @@ import {
   renderWhyMightIHaveThisDebt,
 } from '../const/deduction-codes';
 
+/* 
+  TODO TECH DEBT: https://github.com/department-of-veterans-affairs/va.gov-team/issues/27790
+  Once debt.id is available via backend and endpoint to fetch single debtById is created
+  remove getCurrentDebt and replace with backend single item call
+*/
+const getCurrentDebt = (selectedDebt, debts, location) => {
+  if (Object.keys(selectedDebt).length !== 0) {
+    return selectedDebt;
+  }
+  // get debtId out of the URL
+  const urlDebtId = location.pathname.replace(/[^0-9]/g, '');
+  // create debtIds derived from the debt fileNumber and deductionCode and add to debts
+  const debtsWithId = debts.reduce((acc, debt) => {
+    acc.push({
+      ...debt,
+      debtId: `${debt.fileNumber + debt.deductionCode}`,
+    });
+    return acc;
+  }, []);
+  // return debt that has the same debtId as the currentDebt
+  const [filteredDebt] = debtsWithId.filter(debt => debt.debtId === urlDebtId);
+  return filteredDebt;
+};
+
+const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 2,
+});
+
 const DebtDetails = ({ selectedDebt, debts }) => {
-  const location = useLocation();
-  /* 
-    TODO TECH DEBT: https://github.com/department-of-veterans-affairs/va.gov-team/issues/27790
-    Once debt.id is available via backend
-    and endpoint to fetch single debtById is created
-    remove getCurrentDebt and replace with backend single item call
-  */
-  const getCurrentDebt = () => {
-    // get debtId out of the URL
-    const currentDebt = location.pathname.replace(/[^0-9]/g, '');
-
-    // Add debtIds derived from the debt fileNumber and deductionCode to debts
-    const debtsWithId = debts.reduce((acc, debt) => {
-      if (!debt.debtId) {
-        acc.push({
-          ...debt,
-          debtId: `${debt.fileNumber + debt.deductionCode}`,
-        });
-      }
-
-      return acc;
-    }, []);
-
-    // return debt that has the same debtId as the currentDebt
-    return debtsWithId.filter(debt => debt.debtId === currentDebt)[0];
-  };
-
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2,
-  });
-
   const approvedLetterCodes = ['100', '101', '102', '109', '117', '123', '130'];
-  const hasSelectedDebt = !Object.keys(selectedDebt).length === 0;
-  const currentDebt = (hasSelectedDebt && selectedDebt) || getCurrentDebt();
+  const location = useLocation();
+  const currentDebt = getCurrentDebt(selectedDebt, debts, location);
   const mostRecentHistory = head(currentDebt?.debtHistory);
   const whyContent = renderWhyMightIHaveThisDebt(currentDebt.deductionCode);
   const dateUpdated = last(currentDebt.debtHistory)?.date;
