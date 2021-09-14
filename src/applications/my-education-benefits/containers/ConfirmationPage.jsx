@@ -5,6 +5,7 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import FormFooter from '../components/FormFooter';
 
 const scroller = Scroll.scroller;
@@ -183,6 +184,14 @@ const pendingPage = (
   </div>
 );
 
+const loadingPage = (
+  <div className="meb-confirmation-page meb-confirmation-page_loading">
+    <h1>Wait right there</h1>
+    <p>We are currently processing your application.</p>
+    <LoadingIndicator message="Loading your results" />
+  </div>
+);
+
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
     focusElement('.schemaform-title > h1');
@@ -205,6 +214,9 @@ export class ConfirmationPage extends React.Component {
       }
       case 'pending': {
         return pendingPage;
+      }
+      case 'loading': {
+        return loadingPage;
       }
       default: {
         return (
