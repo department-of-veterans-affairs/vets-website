@@ -14,7 +14,7 @@ import { isValidFileType } from '../validations';
 export const CoeDocumentUpload = () => {
   const [formData, setFormData] = useState({
     documentType: DOCUMENT_TYPES[0],
-    documentDescription: '',
+    documentDescription: null,
   });
 
   const [files, setFiles] = useState([]);
@@ -43,8 +43,17 @@ export const CoeDocumentUpload = () => {
       );
       return;
     }
-    const newFiles = [...files, uploadedFiles[0]];
+    const file = uploadedFiles[0];
+    file.documentType = formData.documentType;
+    if (formData.documentDescription) {
+      file.documentDescription = formData.documentDescription;
+    }
+    const newFiles = [...files, file];
     setFiles(newFiles);
+    setFormData({
+      documentType: DOCUMENT_TYPES[0],
+      documentDescription: null,
+    });
   };
 
   const onDeleteFile = idx => {
