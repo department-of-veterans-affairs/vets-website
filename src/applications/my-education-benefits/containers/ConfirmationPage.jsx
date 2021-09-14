@@ -17,22 +17,35 @@ const scrollToTop = () => {
 };
 
 const approvedPage = (
-  <div className="meb-confirmation-page meb-confirmation-page_denied">
-    <h1>You have been approved</h1>
-    <div className="feature">
-      <h3>
-        Congratulations! We reviewed your application and have determined that
-        you are entitled to educational benefits under the{' '}
-        <strong>Post-9/11 GI Bill</strong>.
+  <div className="meb-confirmation-page meb-confirmation-page_approved">
+    <va-alert onClose={function noRefCheck() {}} status="success">
+      <h3 slot="headline">
+        Congratulations! You have been approved for the Post-9/11 GI Bill
       </h3>
       <p>
-        Your Certificate of Eligibility is now available. A physical copy will
-        also be mailed to your mailing address.
+        We reviewed your application and have determined that you are entitled
+        to educational benefits under the Post-9/11 GI Bill. Your Certificate of
+        Eligibility is now available. A physical copy will also be mailed to
+        your mailing address.
       </p>
       <button type="button" className="usa-button">
         Download your Certificate of Eligibility
       </button>
-      <a href="#">View an explanation of your benefits</a>
+      <a href="#">View a statement of your benefits</a>
+    </va-alert>
+
+    <div className="feature">
+      <h3>Application for VA education benefits (Form 22-1990)</h3>
+      <p>For Hector Oliver Stanley Jr.</p>
+      <dl>
+        <dt>Confirmation number</dt>
+        <dd>V-EBC-8827</dd>
+        <dt>Date received</dt>
+        <dd>September 8, 2021</dd>
+      </dl>
+      <button type="button" className="usa-button">
+        Print this page
+      </button>
     </div>
 
     <h2>What happens next?</h2>
@@ -71,9 +84,9 @@ const approvedPage = (
       </a>
     </AdditionalInfo>
 
-    <button className="usa-button-secondary">Download your application</button>
-
-    <a href="#">Go to your My VA dashboard</a>
+    <a className="vads-c-action-link--green" href="#">
+      Go to your My VA dashboard
+    </a>
 
     <FormFooter />
   </div>

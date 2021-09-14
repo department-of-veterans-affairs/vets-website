@@ -229,10 +229,14 @@ dl.review .review-row:last-child {
 	border-bottom: 1px solid $color-gray-dark;
 	font-style: normal;
 }
+.meb-confirmation-page .feature {
+	padding: 2em;
+}
 .meb-confirmation-page .feature h3 {
-	font-weight: normal;
-	line-height: 34/20 + 0em;
 	margin-bottom: 14/20 + 0em;
+}
+.meb-confirmation-page .feature dt {
+	font-weight: bold;
 }
 .meb-confirmation-page button {
 	display: block;
