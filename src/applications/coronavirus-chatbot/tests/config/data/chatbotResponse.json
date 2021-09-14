@@ -194,8 +194,6 @@
       { "name": "ssoe", "value": true },
       { "name": "ssoeEbenefitsLinks", "value": false },
       { "name": "ssoe_ebenefits_links", "value": false },
-      { "name": "ssoeInbound", "value": true },
-      { "name": "ssoe_inbound", "value": true },
       { "name": "stemAutomatedDecision", "value": false },
       { "name": "stem_automated_decision", "value": false },
       { "name": "subform89404192", "value": false },
