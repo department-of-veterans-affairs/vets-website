@@ -25,7 +25,7 @@ export const TRANSLATED_LANGUAGES = [
     label: 'Español',
     code: 'es',
     urlPatterns: {
-      included: ['espanol'],
+      included: ['espanol', 'vacunas'],
       suffixed: ['-esp', '-esp/'],
     },
     onThisPage: 'En esta página',
