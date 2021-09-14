@@ -5,6 +5,8 @@ import {
   RECEIVED_APPOINTMENT_DETAILS,
   tokenWasValidated,
   TOKEN_WAS_VALIDATED,
+  permissionsUpdated,
+  PERMISSIONS_UPDATED,
 } from './index';
 
 describe('check inactions', () => {
@@ -36,6 +38,22 @@ describe('check inactions', () => {
         expect(action.data.context).to.haveOwnProperty('scope');
         expect(action.data.context.scope).to.equal('some-scope');
         expect(action.data).to.haveOwnProperty('appointments');
+      });
+    });
+    describe('permissionsUpdated', () => {
+      it('should return correct action', () => {
+        const action = permissionsUpdated({}, '');
+        expect(action.type).to.equal(PERMISSIONS_UPDATED);
+      });
+      it('should return correct structure', () => {
+        const action = permissionsUpdated(
+          { permissions: 'some-permissions' },
+          'some-scope',
+        );
+        expect(action.value).to.haveOwnProperty('permissions');
+        expect(action.value.permissions).to.equal('some-permissions');
+        expect(action.value).to.haveOwnProperty('scope');
+        expect(action.value.scope).to.equal('some-scope');
       });
     });
   });
