@@ -158,7 +158,7 @@ describe('getFocuableElements', () => {
     const focusableElements = getFocusableElements(dom);
     expect(focusableElements.length).to.eq(0);
   });
-  it('should return an empty array from hidden elements', () => {
+  it.skip('should return an empty array from hidden elements', () => {
     setOffset('offsetHeight', offsets.height);
     setOffset('offsetWidth', offsets.width);
     /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
