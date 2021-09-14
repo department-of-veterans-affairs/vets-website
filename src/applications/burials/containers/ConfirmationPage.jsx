@@ -2,19 +2,10 @@ import React from 'react';
 import _ from 'lodash';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import Scroll from 'react-scroll';
 
+import { scrollToTop } from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import { benefitsLabels } from '../labels';
-
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
 
 class ConfirmationPage extends React.Component {
   constructor(props) {
@@ -24,7 +15,7 @@ class ConfirmationPage extends React.Component {
 
   componentDidMount() {
     focusElement('.confirmation-page-title');
-    scrollToTop();
+    scrollToTop('topScrollElement');
   }
 
   toggleExpanded = e => {

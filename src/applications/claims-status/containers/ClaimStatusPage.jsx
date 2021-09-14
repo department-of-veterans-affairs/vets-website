@@ -5,7 +5,8 @@ import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimComplete from '../components/ClaimComplete';
 import ClaimsTimeline from '../components/ClaimsTimeline';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
-import { setUpPage, isTab, scrollToTop, setFocus } from '../utils/page';
+import { setUpPage, isTab, setFocus } from '../utils/page';
+import { scrollToTop } from 'platform/utilities/ui/scrollToTop';
 import {
   itemsNeedingAttentionFromVet,
   getClaimType,
