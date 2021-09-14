@@ -279,6 +279,7 @@
     "markdown-it-link-attributes": "^3.0.0",
     "moment": "^2.19.3",
     "moment-timezone": "^0.5.33",
+    "nightwatch": "^1.7.9",
     "prop-types": "^15.6.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
