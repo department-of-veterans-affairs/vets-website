@@ -13,7 +13,7 @@ describe('Ask VA <App>', () => {
     wrapper.unmount();
   });
 
-  it('renders what we expect when not authenticated', () => {
+  it('renders ask va link when not authenticated', () => {
     const expectedHref = environment.isProduction()
       ? 'https://ava.va.gov/'
       : 'https://ask-staging.va.gov';
