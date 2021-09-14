@@ -2,8 +2,12 @@
 
 ## Next PR
 
+- page refresh
+  - on validate
+  - on check in
+  - on error
+  - on success
 - refactor/unit tests (8)
-  - actions/reducers
   - validate veteran
   - landing page?
   - Check in display component
