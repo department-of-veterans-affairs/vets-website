@@ -9,6 +9,8 @@ import {
   getDefaultFormState,
   deepEquals,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+import { scrollTo } from 'platform/utilities/ui/scrollTo';
+import { getScrollOptions, isReactComponent } from 'platform/utilities/ui';
 
 import {
   scrollToFirstError,
@@ -20,10 +22,8 @@ import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import findDuplicateIndexes from 'platform/forms-system/src/js/utilities/data/findDuplicateIndexes';
 
 import { NULL_CONDITION_STRING } from '../constants';
-import { isReactComponent } from 'platform/utilities/ui';
 
 const Element = Scroll.Element;
-const scroller = Scroll.scroller;
 
 /* Non-review growable table (array) field */
 // Mostly copied from USFS with a few additions/modifications:
@@ -108,28 +108,18 @@ export default class ArrayField extends React.Component {
 
   scrollToTop = () => {
     setTimeout(() => {
-      scroller.scrollTo(
+      scrollTo(
         `topOfTable_${this.props.idSchema.$id}`,
-        window.Forms?.scroll || {
-          duration: 500,
-          delay: 0,
-          smooth: true,
-          offset: -60,
-        },
+        window.Forms?.scroll || getScrollOptions({ offset: -60 }),
       );
     }, 100);
   };
 
   scrollToRow = id => {
     setTimeout(() => {
-      scroller.scrollTo(
+      scrollTo(
         `table_${id}`,
-        window.Forms?.scroll || {
-          duration: 500,
-          delay: 0,
-          smooth: true,
-          offset: 0,
-        },
+        window.Forms?.scroll || getScrollOptions({ offset: 0 }),
       );
     }, 100);
   };
