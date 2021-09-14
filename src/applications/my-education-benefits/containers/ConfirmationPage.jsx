@@ -94,21 +94,35 @@ const approvedPage = (
 
 const deniedPage = (
   <div className="meb-confirmation-page meb-confirmation-page_denied">
-    <h1>You are not eligible</h1>
-    <div className="feature">
-      <h3>
+    <va-alert onClose={function noRefCheck() {}} status="info">
+      <h3 slot="headline">You’re not eligible for this benefit</h3>
+      <p>
         Unfortunately, based on the information you provided and Department of
         Defense records, we have determined you are not eligible for the
         Post-9/11 GI Bill program at this time.
-      </h3>
+      </p>
       <p>
         Your denial letter, which explains why you are ineligible, is now
-        available. A physical copy will also be mailed to your mailing address.
+        available. A physical copy will also be mailed to your mailing address.{' '}
       </p>
       <button type="button" className="usa-button">
         Download your letter
       </button>
       <a href="#">View an explanation of your benefits</a>
+    </va-alert>
+
+    <div className="feature">
+      <h3>Application for VA education benefits (Form 22-1990)</h3>
+      <p>For Hector Oliver Stanley Jr.</p>
+      <dl>
+        <dt>Confirmation number</dt>
+        <dd>V-EBC-8827</dd>
+        <dt>Date received</dt>
+        <dd>September 8, 2021</dd>
+      </dl>
+      <button type="button" className="usa-button">
+        Print this page
+      </button>
     </div>
 
     <h2>What happens next?</h2>
@@ -123,13 +137,13 @@ const deniedPage = (
     <p>
       If you disagree with our decision, you have until one year from the date
       of your letter to request an additional review. For more information,
-      please see <a href="#">VA Form 20-0998</a>,
+      please see <a href="#">VA Form 20-0998</a>,{' '}
       <em>Your Rights to Seek Further Review of Our Decision</em>.{' '}
     </p>
 
-    <button className="usa-button-secondary">Download your application</button>
-
-    <a href="#">Go to your My VA dashboard</a>
+    <a className="vads-c-action-link--green" href="#">
+      Go to your My VA dashboard
+    </a>
 
     <FormFooter />
   </div>
@@ -227,7 +241,7 @@ export class ConfirmationPage extends React.Component {
     const { response } = submission;
     const name = data.veteranFullName;
 
-    const confirmationResult = 'pending';
+    const confirmationResult = 'denied';
 
     switch (confirmationResult) {
       case 'approved': {
