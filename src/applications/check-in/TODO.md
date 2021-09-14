@@ -1,11 +1,5 @@
 <!-- markdownlint-disable MD033 -->
 
-# TODO
-
-- e2e tests
-  - e2e mock endpoints
-- backwards compatibility
-
 ## Next PR
 
 - refactor/unit tests (8)
