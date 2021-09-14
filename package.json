@@ -193,7 +193,7 @@
     "mockdate": "^3.0.5",
     "mocker-api": "^2.9.0",
     "morgan": "^1.10.0",
-    "msw": "^0.19.4",
+    "msw": "^0.35.0",
     "node-fetch": "^2.6.1",
     "node-resemble-js": "^0.2.0",
     "node-sass": "^4.14.1",
