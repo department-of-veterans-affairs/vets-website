@@ -42,9 +42,8 @@ export default function CommunityCareProviderSelectionPage() {
   const pageTitle = showCCIterations
     ? `Request a ${typeOfCare.name} provider`
     : 'Tell us your community care preferences';
-  const descriptionText = showCCIterations
-    ? 'We’ll call you to confirm your provider choice or to help you choose a provider if you skip this step.'
-    : 'You can request a provider for this care. If they aren’t available, we’ll schedule your appointment with a provider close to your home.';
+  const descriptionText =
+    'You can request a provider for this care. If they aren’t available, we’ll schedule your appointment with a provider close to your home.';
 
   const uiSchema = {
     communityCareSystemId: {
@@ -53,7 +52,7 @@ export default function CommunityCareProviderSelectionPage() {
     },
     communityCareProvider: {
       'ui:options': {
-        showFieldLabel: true,
+        showFieldLabel: !showCCIterations,
       },
       'ui:description': (
         <p id="providerSelectionDescription">{descriptionText}</p>
