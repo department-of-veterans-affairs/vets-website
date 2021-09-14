@@ -15,6 +15,7 @@ import {
   isInFuture,
   isLessThan180DaysInFuture,
   title10BeforeRad,
+  validateTitle10StartDate,
 } from '../validations';
 
 import disabilityLabels from '../content/disabilityLabels';
@@ -311,6 +312,11 @@ describe('526 All Claims validations', () => {
     const tooLong =
       'et pharetra pharetra massa massa ultricies mi quis hendrerit dolor magna eget est lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas integer eget aliquet nibh praesent';
 
+    it('should not throw a JS error when there is no data', () => {
+      const err = { addError: sinon.spy() };
+      validateDisabilityName(err);
+      expect(err.addError.calledOnce).to.be.true;
+    });
     it('should not add error when disability is in list', () => {
       const err = { addError: sinon.spy() };
       validateDisabilityName(err, disabilityLabels[7100]);
@@ -627,6 +633,63 @@ describe('526 All Claims validations', () => {
 
       title10BeforeRad(errors, fieldData);
       expect(addError.callCount).to.equal(0);
+    });
+  });
+
+  describe('validateTitle10StartDate', () => {
+    const _ = null;
+    it('should not show an error for an activation date after start date', () => {
+      const addError = sinon.spy();
+      const errors = { addError };
+      const formData = {
+        servicePeriods: [
+          { serviceBranch: 'Reserve', dateRange: { from: '2003-03-12' } },
+          { serviceBranch: 'Reserve', dateRange: { from: '2000-01-14' } },
+        ],
+      };
+      validateTitle10StartDate(errors, '2001-01-01', _, _, _, _, formData);
+      expect(addError.called).to.be.false;
+    });
+    it('should show an error for an activation date before start date', () => {
+      const addError = sinon.spy();
+      const errors = { addError };
+      const data = {
+        servicePeriods: [
+          { serviceBranch: 'Reserve', dateRange: { from: '2003-03-12' } },
+          { serviceBranch: 'Reserve', dateRange: { from: '2000-01-14' } },
+          { serviceBranch: 'Reserve', dateRange: { from: '2005-12-25' } },
+        ],
+      };
+      validateTitle10StartDate(errors, '1999-12-31', _, _, _, _, data);
+      expect(addError.called).to.be.true;
+    });
+    it('should show an error for an activation date before start date after filtering out active duty periods', () => {
+      const addError = sinon.spy();
+      const errors = { addError };
+      const data = {
+        servicePeriods: [
+          { serviceBranch: 'Army', dateRange: { from: '2000-01-14' } },
+          { serviceBranch: 'Reserve', dateRange: { from: '2003-03-12' } },
+          { serviceBranch: 'Navy', dateRange: { from: '2005-12-25' } },
+        ],
+      };
+      validateTitle10StartDate(errors, '2001-12-31', _, _, _, _, data);
+      expect(addError.called).to.be.true;
+    });
+    // should never happen since the page is only shown if a Veteran includes
+    // a Reserve/National Guard period
+    it('should show an error if there are no Reserve/National Guard periods', () => {
+      const addError = sinon.spy();
+      const errors = { addError };
+      const data = {
+        servicePeriods: [
+          { serviceBranch: 'Army', dateRange: { from: '2003-03-12' } },
+          { serviceBranch: 'Navy', dateRange: { from: '2000-01-14' } },
+          { serviceBranch: 'Marines', dateRange: { from: '2005-12-25' } },
+        ],
+      };
+      validateTitle10StartDate(errors, '2010-12-31', _, _, _, _, data);
+      expect(addError.called).to.be.true;
     });
   });
 });

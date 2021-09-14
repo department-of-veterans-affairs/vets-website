@@ -5,7 +5,7 @@ import mapboxgl from 'mapbox-gl';
 import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-import SearchResultCard from '../../containers/SearchResultCard';
+import ResultCard from '../../containers/search/ResultCard';
 import { mapboxToken } from '../../utils/mapboxToken';
 import { MapboxInit, MAX_SEARCH_AREA_DISTANCE, TABS } from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
@@ -338,7 +338,7 @@ function LocationSearchResults({
     );
 
     return (
-      <SearchResultCard
+      <ResultCard
         institution={institution}
         location
         header={header}

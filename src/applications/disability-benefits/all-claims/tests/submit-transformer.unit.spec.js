@@ -81,6 +81,11 @@ describe('transform', () => {
 });
 
 describe('transformRelatedDisabilities', () => {
+  it('should not throw an error', () => {
+    expect(transformRelatedDisabilities({ '': true }, [undefined, ''])).to.eql(
+      [],
+    );
+  });
   it('should return an array of strings', () => {
     const claimedConditions = ['Some Condition Name', 'Another Condition Name'];
     const treatedDisabilityNames = {

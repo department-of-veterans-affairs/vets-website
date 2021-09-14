@@ -291,7 +291,7 @@ export const missingConditionMessage =
 
 export const validateDisabilityName = (
   err,
-  fieldData,
+  fieldData = '',
   _formData,
   _schema,
   _uiSchema,
@@ -449,5 +449,34 @@ export const validateSeparationDate = (
     moment(dateString).isAfter(moment().add(180, 'days'))
   ) {
     errors.addError('Your separation date must be before 180 days from today');
+  }
+};
+
+export const validateTitle10StartDate = (
+  errors,
+  dateString,
+  _formData,
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData = {},
+) => {
+  const startTimes = (appStateData.servicePeriods || [])
+    // include only reserve/guard service periods
+    .filter(period =>
+      reservesList.some(match => period.serviceBranch.includes(match)),
+    )
+    .map(period => period.dateRange.from)
+    .sort((a, b) => {
+      // string comparison of dates in the 'YYYY-MM-DD' format work as expected
+      if (a === b) {
+        return 0;
+      }
+      return b > a ? -1 : 1;
+    });
+  if (!startTimes[0] || dateString < startTimes[0]) {
+    errors.addError(
+      'Your activation date must be after your earliest service start date for Reserves or National Guard',
+    );
   }
 };

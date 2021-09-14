@@ -3,26 +3,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
-
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
 import DebtCardsList from './DebtCardsList';
-import ExpandableAlert from './ExpandableAlert';
 import { OnThisPageLinks } from './OnThisPageLinks';
-
-const Chapter33Alert = () => {
-  return (
-    <ExpandableAlert
-      className="vads-u-margin-top--3"
-      iconType="triangle"
-      status="limited"
-      trackingPrefix="-debt-letters-ch33"
-      label="If you got an email about Chapter 33 tuition debt with code 75B"
-      content="This is a debt assigned to your school. You won’t find it listed here. Before you make a payment on this debt, check with your school.They may have already paid."
-    />
-  );
-};
 
 const ErrorAlert = () => (
   <section
@@ -105,8 +90,6 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
 
             {!allDebtsFetchFailure && (
               <>
-                <Chapter33Alert />
-
                 <OnThisPageLinks />
 
                 <DebtCardsList />

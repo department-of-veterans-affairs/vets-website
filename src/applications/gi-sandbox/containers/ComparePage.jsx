@@ -6,7 +6,6 @@ import React, {
   useLayoutEffect,
 } from 'react';
 import { useHistory } from 'react-router-dom';
-import appendQuery from 'append-query';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import _ from 'lodash';
@@ -24,7 +23,10 @@ import {
 } from '../actions';
 import { estimatedBenefits } from '../selectors/estimator';
 import { getCalculatedBenefits } from '../selectors/calculator';
-import { getCompareCalculatorState } from '../selectors/compare';
+import {
+  getCompareCalculatorState,
+  updateUrlParams,
+} from '../selectors/compare';
 import ServiceError from '../components/ServiceError';
 import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal';
 import { MINIMUM_RATING_COUNT } from '../constants';
@@ -60,7 +62,6 @@ export function ComparePage({
   const { selected, error } = compare;
   const { loaded, institutions } = compare.details;
   const { version } = preview;
-  const institutionCount = loaded.length;
   const history = useHistory();
   const hasScrollTo = scrollTo !== null;
   const placeholderRef = useRef(null);
@@ -226,12 +227,7 @@ export function ComparePage({
             const newSelected = selected.filter(
               facilityCode => facilityCode !== promptingFacilityCode,
             );
-            const compareLink = version
-              ? appendQuery(`/compare/?facilities=${newSelected.join(',')}`, {
-                  version,
-                })
-              : appendQuery(`/compare/?facilities=${newSelected.join(',')}`);
-            history.replace(compareLink);
+            history.replace(updateUrlParams(newSelected, version));
             dispatchRemoveCompareInstitution(promptingFacilityCode);
           }}
           onCancel={() => setPromptingFacilityCode(null)}
@@ -262,7 +258,6 @@ export function ComparePage({
               <CompareHeader
                 currentScroll={currentXScroll}
                 institutions={loadedInstitutions}
-                institutionCount={institutionCount}
                 scrollClickHandler={scrollClickHandler}
                 setShowDifferences={setShowDifferences}
                 showDifferences={showDifferences}

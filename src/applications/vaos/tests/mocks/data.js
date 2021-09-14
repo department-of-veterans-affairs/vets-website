@@ -22,7 +22,6 @@ import { VIDEO_TYPES } from '../../utils/constants';
  * @param {Number} [params.version=2] The version of the output data. Currently 0 and 2 are supported
  * @param {?string} params.clinicFriendlyName The clinic name of the appointment (version 0 only)
  * @param {?string} params.clinicName The regular clinic name of the appointment (version 0 only)
- * @param {?string} params.instructionsTitle The video instructions title string
  * @param {PPMSProvider} params.communityCareProvider The community care provider to use. Info aside from
  *   uniqueId is discarded in version 2
  * @param {?string} params.timezone The timezone to use
@@ -38,7 +37,6 @@ export function createMockAppointmentByVersion({
   version = 2,
   clinicFriendlyName = null,
   clinicName = null,
-  instructionsTitle = null,
   communityCareProvider = null,
   timezone = null,
   ...fields
@@ -123,7 +121,7 @@ export function createMockAppointmentByVersion({
         type: null,
         bookingNotes: fields.comment,
         instructionsOther: null,
-        instructionsTitle,
+        instructionsTitle: 'Video Visit Preparation',
         patients: [
           {
             name: { firstName: 'JUDY', lastName: 'MORRISON' },
@@ -224,6 +222,7 @@ export function createMockAppointmentByVersion({
         kind: null,
         locationId: null,
         minutesDuration: null,
+        patientInstruction: 'Video Visit Preparation plus extra data',
         practitioners: communityCareProvider
           ? [
               {

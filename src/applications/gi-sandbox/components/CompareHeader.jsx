@@ -9,7 +9,6 @@ import { focusElement } from 'platform/utilities/ui';
 
 export default function({
   currentScroll,
-  institutionCount,
   institutions,
   setPromptingFacilityCode,
   setShowDifferences,
@@ -23,7 +22,7 @@ export default function({
   }, []);
 
   const empties = [];
-  for (let i = 0; i < 3 - institutionCount; i++) {
+  for (let i = 0; i < 3 - institutions.length; i++) {
     empties.push(
       <div key={i} className="small-screen:vads-l-col--3 institution-card">
         <div className="compare-header empty-header" />
@@ -54,9 +53,9 @@ export default function({
       <div className="small-screen:vads-l-col--3 compare-controls non-scroll-parent">
         <div className="non-scroll-label">
           <div className="test-header compare-header vads-u-padding-right--1">
-            <div className="compare-page-description-label">
+            <h1 className="compare-page-description-label">
               Institution comparison:
-            </div>
+            </h1>
             Compare schools, employers and VET TEC providers side-by-side
           </div>
           <div className="compare-action">
@@ -99,8 +98,16 @@ export default function({
                           pathname: profileLink,
                           state: { prevPath: location.pathname },
                         }}
+                        aria-labelledby={`${institution.facilityCode}-label ${
+                          institution.facilityCode
+                        }-classification`}
                       >
-                        {institution.name}
+                        <span
+                          aria-label={`${institution.name}, `}
+                          id={`${institution.facilityCode}-label`}
+                        >
+                          {institution.name}
+                        </span>
                       </Link>
                     </div>
                   </div>
@@ -113,6 +120,7 @@ export default function({
                   onClick={() => {
                     setPromptingFacilityCode(institution.facilityCode);
                   }}
+                  aria-label={`Remove ${institution.name} from comparison`}
                 >
                   Remove
                 </button>
