@@ -22,11 +22,10 @@ export default function StatusAlert({ appointment, facility }) {
   ]);
 
   if (canceled) {
+    const who = canceler.get(appointment.cancellationReason);
     return (
       <InfoAlert status="error" backgroundOnly>
-        {`${canceler.get(
-          appointment.cancellationReason,
-        )} canceled this appointment.`}
+        {`${who || 'Facility'} canceled this appointment.`}
       </InfoAlert>
     );
   } else if (isPastAppointment) {

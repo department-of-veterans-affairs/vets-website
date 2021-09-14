@@ -8,13 +8,11 @@ import {
   APPOINTMENT_TYPES,
   PURPOSE_TEXT,
   EXPRESS_CARE,
-  UNABLE_TO_REACH_VETERAN_DETCODE,
   TYPE_OF_VISIT,
   TYPES_OF_EYE_CARE,
   TYPES_OF_SLEEP_CARE,
   AUDIOLOGY_TYPES_OF_CARE,
   TYPES_OF_CARE,
-  CANCELLATION_REASONS,
 } from '../../utils/constants';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import {
@@ -433,7 +431,8 @@ export function transformConfirmedAppointment(appt) {
       (!appt.communityCare && appt.vdsAppointments?.[0]?.bookingNote) ||
       appt.vvsAppointments?.[0]?.instructionsTitle ||
       null,
-    cancellationReason: CANCELLATION_REASON_MAP.get(getVistaStatus(appt)),
+    cancellationReason:
+      CANCELLATION_REASON_MAP.get(getVistaStatus(appt)) || null,
     location: setLocation(appt),
     videoData,
     ...getCommunityCareData(appt),
@@ -498,9 +497,6 @@ export function transformPendingAppointment(appt) {
   const isCC = isCommunityCare(appt);
   const isExpressCare = appt.typeOfCareId === EXPRESS_CARE;
   const requestedPeriod = getRequestedPeriods(appt);
-  const unableToReachVeteran = appt.appointmentRequestDetailCode?.some(
-    detail => detail.detailCode?.code === UNABLE_TO_REACH_VETERAN_DETCODE,
-  );
   const created = moment.parseZone(appt.date).format('YYYY-MM-DD');
   const isVideo = appt.visitType === 'Video Conference';
 
@@ -509,9 +505,7 @@ export function transformPendingAppointment(appt) {
     id: appt.id,
     status: getRequestStatus(appt, isExpressCare),
     created,
-    cancellationReason: unableToReachVeteran
-      ? CANCELLATION_REASONS.provider
-      : null,
+    cancellationReason: null,
     requestedPeriod,
     start: isExpressCare ? created : null,
     minutesDuration: 60,
