@@ -230,7 +230,14 @@ dl.review .review-row:last-child {
 	font-style: normal;
 }
 .meb-confirmation-page .feature {
-	padding: 2em;
+	padding-bottom: 2em;
+	padding-top: 2em;
+}
+@media only screen and (min-width: 40.0625em) {
+	.meb-confirmation-page .feature {
+		padding-left: 2em;
+		padding-right: 2em;
+	}
 }
 .meb-confirmation-page .feature h3 {
 	margin-bottom: 14/20 + 0em;
@@ -245,11 +252,6 @@ dl.review .review-row:last-child {
 }
 .meb-confirmation-page button:last-child {
 	margin-bottom: 0;
-}
-@media only screen and (min-width: 64.0625em) {
-	.meb-confirmation-page .feature {
-		padding: 30/16 + 0em;
-	}
 }
 .meb-confirmation-page .help-footer-box{
 	padding-top: 2em;

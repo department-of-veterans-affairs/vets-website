@@ -137,24 +137,32 @@ const deniedPage = (
 
 const pendingPage = (
   <div className="meb-confirmation-page meb-confirmation-page_denied">
-    <h1>Your application is under review</h1>
-    <div className="feature">
-      <h3>
+    <va-alert onClose={function noRefCheck() {}} status="success">
+      <h3 slot="headline">We’ve received your application</h3>
+      <p>
         Your application requires additional review. Once we have reviewed your
         application, we will reach out to notify you about next steps.
-      </h3>
-      <p>
-        For now, you can download a copy of your application for your records.
       </p>
+    </va-alert>
+
+    <div className="feature">
+      <h3>Application for VA education benefits (Form 22-1990)</h3>
+      <p>For Hector Oliver Stanley Jr.</p>
+      <dl>
+        <dt>Confirmation number</dt>
+        <dd>V-EBC-8827</dd>
+        <dt>Date received</dt>
+        <dd>September 8, 2021</dd>
+      </dl>
       <button type="button" className="usa-button">
-        Download your application
+        Print this page
       </button>
     </div>
 
     <h2>When will I hear back about my application?</h2>
     <div className="feature meb-feature--secondary">
       <h2>
-        <em>In 1</em> Month
+        <em>In 1</em> month
       </h2>
       <p>
         If more than a month has passed since you gave us your application and
@@ -169,28 +177,40 @@ const pendingPage = (
     <ul>
       <li>We will review your eligibility for the Post-9/11 GI Bill.</li>
       <li>We may reach out with questions about your application.</li>
-      <li>You will be notified about your eligibility.</li>
+      <li>
+        You will be notified of the results of our review for potential
+        eligibility.
+      </li>
       <li>There is no further action required by you at this time.</li>
     </ul>
 
     <h2>What can I do while I wait?</h2>
     <ul>
       <li>
+        If you need to submit documentation to VA, such as service records,
+        please send this through our <a href="#">Ask VA feature</a>.
+      </li>
+      <li>
+        Review and/or update your direct deposit information on{' '}
+        <a href="#">your VA.gov profile</a>.
+      </li>
+      <li>
         Use our <a href="#">GI Bill Comparison Tool</a> to help you decide which
         education program and school is best for you.
-      </li>
-      <li>Upload any supporting documents.</li>
-      <li>
-        Review and/or update your direct deposit information on your{' '}
-        <a href="#">VA.gov profile</a>.
       </li>
       <li>
         Learn more about VA benefits and programs through the{' '}
         <a href="#">Building Your Future with the GI Bill Series</a>.
       </li>
+      <li>
+        Measure your interests and skill levels and help figure out your career
+        path with <a href="#">CareerScope®</a>.
+      </li>
     </ul>
 
-    <a href="#">Go to your My VA dashboard</a>
+    <a className="vads-c-action-link--green" href="#">
+      Go to your My VA dashboard
+    </a>
 
     <FormFooter />
   </div>
@@ -207,7 +227,7 @@ export class ConfirmationPage extends React.Component {
     const { response } = submission;
     const name = data.veteranFullName;
 
-    const confirmationResult = 'approved';
+    const confirmationResult = 'pending';
 
     switch (confirmationResult) {
       case 'approved': {
