@@ -40,10 +40,12 @@ import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities
 import EmailViewField from '../components/EmailViewField';
 import PhoneViewField from '../components/PhoneViewField';
 import AccordionField from '../components/AccordionField';
-import MailingAddressReviewField from '../components/MailingAddressReviewField';
+// import MailingAddressReviewField from '../components/MailingAddressReviewField';
+import BenefitGivenUpReviewField from '../components/BenefitGivenUpReviewField';
 import YesNoReviewField from '../components/YesNoReviewField';
 import SelectedCheckboxesReviewField from '../components/SelectedCheckboxesReviewField';
 import PhoneReviewField from '../components/PhoneReviewField';
+import DateReviewField from '../components/DateReviewField';
 
 import {
   activeDutyLabel,
@@ -441,7 +443,7 @@ const formConfig = {
       title: 'Contact information',
       pages: {
         [formPages.contactInformation.contactInformation]: {
-          title: 'Email & phone',
+          title: 'Email and phone numbers',
           path: 'contact/information',
           initialData: {
             email: {
@@ -574,9 +576,7 @@ const formConfig = {
                     country
                   </span>
                 ),
-                // TODO: Uncomment this once this PR is merged:
-                // https://github.com/department-of-veterans-affairs/vets-website/pull/18437
-                // 'ui:reviewField': YesNoReviewField,
+                'ui:reviewField': YesNoReviewField,
               },
               livesOnMilitaryBaseInfo: {
                 'ui:description': LearnMoreAboutMilitaryBaseTooltip(),
@@ -624,7 +624,7 @@ const formConfig = {
                   },
                 },
               },
-              'ui:objectViewField': MailingAddressReviewField,
+              // 'ui:objectViewField': MailingAddressReviewField,
               'ui:options': {
                 hideLabelText: true,
                 showFieldLabel: false,
@@ -674,7 +674,7 @@ const formConfig = {
         },
         [formPages.contactInformation.preferredContactMethod]: {
           path: 'contact/preferences',
-          title: 'Preferred contact method',
+          title: 'Contact preferences',
           uiSchema: {
             'ui:description': <h3>Select your preferred contact method</h3>,
             [formFields.contactMethodRdoBtnList]: {
@@ -921,6 +921,7 @@ const formConfig = {
             },
             [formFields.benefitSelection]: {
               'ui:title': 'Which benefit will you give up?',
+              'ui:reviewField': BenefitGivenUpReviewField,
               'ui:widget': 'radio',
               'ui:options': {
                 labels: {
@@ -950,6 +951,7 @@ const formConfig = {
                 expandUnder: [formFields.benefitSelection],
               },
               'ui:required': givingUpBenefitSelected,
+              'ui:reviewField': DateReviewField,
             },
             'view:effectiveDateNotes': {
               'ui:description': (
