@@ -57,11 +57,11 @@ export const getConfigFromUrl = (url, languages) =>
     const parsedUrlPatternResults = [
       ...included.map(
         includedTerm =>
-          includedTerm && url.toLowerCase()?.includes(includedTerm),
+          includedTerm && url?.toLowerCase()?.includes(includedTerm),
       ),
       ...suffixed.map(
         suffixedTerm =>
-          suffixedTerm && url.toLowerCase()?.endsWith(suffixedTerm),
+          suffixedTerm && url?.toLowerCase()?.endsWith(suffixedTerm),
       ),
     ];
 
