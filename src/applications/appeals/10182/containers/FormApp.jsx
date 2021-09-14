@@ -10,7 +10,7 @@ import {
   noticeOfDisagreementFeature,
   issuesNeedUpdating,
   getSelected,
-  getIssueName,
+  getIssueNameAndDate,
   processContestableIssues,
 } from '../utils/helpers';
 
@@ -67,8 +67,8 @@ export const FormApp = ({
           areaOfDisagreement?.length !== formData.areaOfDisagreement?.length ||
           !areaOfDisagreement.every(
             (entry, index) =>
-              getIssueName(entry) ===
-              getIssueName(formData.areaOfDisagreement[index]),
+              getIssueNameAndDate(entry) ===
+              getIssueNameAndDate(formData.areaOfDisagreement[index]),
           )
         ) {
           setFormData({
