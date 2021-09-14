@@ -3,6 +3,7 @@ import { DEFAULT_BENEFIT_TYPE } from '../constants';
 import {
   getRep,
   getConferenceTimes,
+  getConferenceTime, // v2
   addIncludedIssues,
   getContact,
   getAddress,
@@ -44,7 +45,7 @@ export function transform(formConfig, form) {
       if (version1) {
         attributes.informalConferenceTimes = getConferenceTimes(formData);
       } else {
-        attributes.informalConferenceTime = formData.informalConferenceTime;
+        attributes.informalConferenceTime = getConferenceTime(formData);
       }
       if (formData.informalConference === 'rep') {
         attributes.informalConferenceRep = getRep(formData);

@@ -46,6 +46,7 @@ const NotificationRadioButtons = ({
   id = uniqueId('notification-radio-buttons-'),
   additionalFieldsetClass,
   additionalLegendClass,
+  description,
   errorMessage,
   warningMessage,
   loadingMessage,
@@ -137,7 +138,6 @@ const NotificationRadioButtons = ({
   const buttonOptions = isArray(options) ? options : [];
   const storedValue = value?.value;
   const optionElements = buttonOptions.map((option, optionIndex) => {
-    const isLastRadioButtonInGroup = optionIndex >= buttonOptions.length - 1;
     let optionLabel;
     let optionValue;
     let optionAriaLabel;
@@ -174,10 +174,7 @@ const NotificationRadioButtons = ({
           name={`${name}-${optionIndex}-label`}
           htmlFor={`${id}-${optionIndex}`}
           aria-label={optionAriaLabel}
-          className={classNames('vads-u-margin--0', 'vads-u-margin-top--1', {
-            'vads-u-margin-bottom--1': isLastRadioButtonInGroup,
-            'vads-u-margin-bottom--2p5': !isLastRadioButtonInGroup,
-          })}
+          className="vads-u-margin--0 vads-u-padding-y--1p5"
         >
           {optionLabel}
         </label>
@@ -186,7 +183,7 @@ const NotificationRadioButtons = ({
     );
   });
 
-  const fieldsetClass = classNames(
+  const fieldsetClasses = classNames(
     'rb-fieldset-input',
     'rb-input',
     {
@@ -197,7 +194,7 @@ const NotificationRadioButtons = ({
     additionalFieldsetClass,
   );
 
-  const legendClass = classNames(
+  const legendClasses = classNames(
     'rb-legend',
     'vads-u-font-weight--bold',
     'vads-u-font-size--base',
@@ -206,13 +203,18 @@ const NotificationRadioButtons = ({
   );
 
   return (
-    <fieldset className={fieldsetClass} disabled={disabled} id={id}>
+    <fieldset className={fieldsetClasses} disabled={disabled} id={id}>
       <div className="clearfix">
-        <legend className={legendClass}>
+        <legend className={legendClasses}>
           {label}
           {requiredSpan}
         </legend>
       </div>
+      {description ? (
+        <p className="vads-u-margin-y--0p5 vads-u-color--gray-medium">
+          {description}
+        </p>
+      ) : null}
       {!loadingMessage && !successMessage && !warningMessage && errorSpan}
       {!loadingMessage && !errorMessage && !successMessage && warningSpan}
       {!loadingMessage && !errorMessage && !warningMessage && successSpan}

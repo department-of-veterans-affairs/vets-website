@@ -291,7 +291,7 @@ export const missingConditionMessage =
 
 export const validateDisabilityName = (
   err,
-  fieldData,
+  fieldData = '',
   _formData,
   _schema,
   _uiSchema,

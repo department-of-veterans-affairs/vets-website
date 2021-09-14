@@ -503,7 +503,7 @@ jobs:
       - name: Set output of TESTS
         id: tests
         run: echo ::set-output name=selected::$TESTS
-  
+
   cypress-tests:
     name: Cypress E2E Tests
     runs-on: self-hosted
@@ -859,7 +859,7 @@ jobs:
       matrix:
         include:
           - environment: vagovdev
-            bucket: apps.dev.va.gov
+            bucket: dev-va-gov-assets
           # - environment: vagovstaging
           #   bucket: staging-va-gov-assets
 

@@ -179,6 +179,10 @@ dl.review .additional-issue.review-row {
   font-weight: bold;
 }
 
+.review-row > dd {
+  word-break: break-word;
+}
+
 /* IE11 hack to fix edit button placement, see
  * https://github.com/department-of-veterans-affairs/va.gov-team/issues/25108
  */

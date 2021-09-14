@@ -7,7 +7,7 @@ import CancelAppointmentModal from '../cancel/CancelAppointmentModal';
 import moment from '../../../lib/moment-tz';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import PageLayout from '../AppointmentsPage/PageLayout';
+import PageLayout from '../PageLayout';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
 import {

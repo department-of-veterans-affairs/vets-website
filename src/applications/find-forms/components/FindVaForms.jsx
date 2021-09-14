@@ -72,13 +72,13 @@ export default () => (
         </p>
         <a
           className="vads-u-display--block vads-u-padding-top--1 vads-u-text-decoration--none"
-          href="/education/apply-for-education-benefits/application/1990/"
+          href="/education/how-to-apply/"
           onClick={onFeaturedContentClick(
             'Apply for the GI Bill and other education benefits',
           )}
         >
           <span>
-            Apply online
+            Learn how to apply online
             <span className="vads-u-visibility--screen-reader">
               about applying for the GI Bill and other education benefits
             </span>
