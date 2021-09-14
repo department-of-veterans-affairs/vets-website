@@ -11,6 +11,7 @@ export function CompareGrid({
   smallScreen,
   subSectionLabel,
 }) {
+  const sectionLabelId = `sectionLabel${sectionLabel}`;
   const empties = [];
 
   for (let i = 0; i < 3 - institutions.length; i++) {
@@ -26,9 +27,18 @@ export function CompareGrid({
     );
   }
 
+  const colHeaders = institutions.map((institution, index) => {
+    return (
+      <div role="columnheader" key={index} className="sr-only">
+        {institution.name}
+      </div>
+    );
+  });
+
   const fieldLabel = (field, index, displayDiff) => {
     return (
       <div
+        role="rowheader"
         key={`${index}-label`}
         className={classNames('field-label', {
           'small-screen:vads-l-col--3':
@@ -74,6 +84,7 @@ export function CompareGrid({
     return (
       <div
         key={institution.facilityCode}
+        role="cell"
         className={classNames(
           'field-value',
           {
@@ -100,7 +111,9 @@ export function CompareGrid({
     <div className={classNames('compare-grid', className)}>
       {sectionLabel && (
         <div className="compare-header-section non-scroll-parent">
-          <div className="non-scroll-label">{sectionLabel}</div>{' '}
+          <div className="non-scroll-label" id={sectionLabelId}>
+            <h2>{sectionLabel}</h2>
+          </div>{' '}
         </div>
       )}
       {subSectionLabel && (
@@ -109,15 +122,29 @@ export function CompareGrid({
             'vads-u-margin-top--4': !sectionLabel,
           })}
         >
-          <div className="non-scroll-label">{subSectionLabel}</div>
+          <div className="non-scroll-label">
+            <h3>{subSectionLabel}</h3>
+          </div>
         </div>
       )}
       <div
+        role="table"
+        aria-labelledby={sectionLabelId}
         className={classNames('grid-data-parent', {
           'vads-l-row': !smallScreen,
         })}
       >
+        <div role="rowgroup">
+          <div role="row">
+            <div role="columnheader" className="sr-only">
+              Comparing
+            </div>
+            {colHeaders}
+          </div>
+        </div>
+
         <div
+          role="rowgroup"
           className={classNames({
             'grid-data-2': empties.length === 1,
             'grid-data-1': empties.length === 2,
@@ -133,7 +160,6 @@ export function CompareGrid({
         >
           {fieldData.map((field, index) => {
             const rowValues = institutions.map(field.mapper);
-
             let allEqual = true;
 
             for (let i = 0; i < rowValues.length - 1 && allEqual; i++) {
@@ -141,7 +167,6 @@ export function CompareGrid({
             }
 
             const displayDiff = showDifferences && !allEqual;
-
             const columns = [fieldLabel(field, index, displayDiff)];
 
             for (let i = 0; i < institutions.length; i++) {
@@ -159,6 +184,7 @@ export function CompareGrid({
             return (
               <div
                 key={index}
+                role="row"
                 className={classNames({
                   'columns vads-l-row': !smallScreen,
                 })}

@@ -15,12 +15,17 @@ const Checkbox = ({
   onChange,
   onFocus,
   required,
-  ariaLabel,
-  ariaLabelInputLegendId,
+  labelAriaLabel,
+  inputAriaLabelledBy,
+  inputAriaLabel,
 }) => {
   const inputId = _.uniqueId('errorable-checkbox-');
   const hasErrors = !!errorMessage;
   const errorSpanId = hasErrors ? `${inputId}-error-message` : undefined;
+  const labelId = `${createId(name)}-label`;
+  const ariaLabelledBy = [inputAriaLabelledBy, labelId].filter(
+    ariaId => ariaId !== null && ariaId !== undefined,
+  );
 
   return (
     <div
@@ -32,20 +37,21 @@ const Checkbox = ({
         aria-describedby={errorSpanId}
         checked={checked}
         id={id || inputId}
-        name={name}
+        name={createId(name)}
         type="checkbox"
         onChange={onChange}
         onFocus={onFocus}
-        aria-labelledby={`${ariaLabelInputLegendId} ${createId(name)}-label`}
+        aria-label={inputAriaLabel}
+        aria-labelledby={inputAriaLabel ? null : ariaLabelledBy.join(' ')}
       />
       <label
         className={classNames('gi-checkbox-label', {
           'usa-input-error-label': hasErrors,
         })}
-        id={`${createId(name)}-label`}
-        name={`${name}-label`}
+        id={labelId}
+        name={labelId}
         htmlFor={inputId}
-        aria-label={ariaLabel}
+        aria-label={labelAriaLabel}
       >
         {label}
         {required && <span className="form-required-span">*</span>}
@@ -62,11 +68,12 @@ const Checkbox = ({
 Checkbox.propTypes = {
   checked: PropTypes.bool,
   errorMessage: PropTypes.string,
-  name: PropTypes.string,
+  name: PropTypes.string.isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   onChange: PropTypes.func.isRequired,
   required: PropTypes.bool,
   onFocus: PropTypes.func,
+  ariaLabel: PropTypes.string.isRequired,
 };
 
 Checkbox.defaultProps = {

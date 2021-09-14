@@ -18,12 +18,14 @@ describe('check-in', () => {
       const mockStore = configureStore(middleware);
       const initState = {
         checkInData: {
-          appointment: {
-            clinicPhone: '555-867-5309',
-            startTime: '2021-07-19T13:56:31',
-            facilityName: 'Acme VA',
-            clinicName: 'Green Team Clinic1',
-          },
+          appointments: [
+            {
+              clinicPhone: '555-867-5309',
+              startTime: '2021-07-19T13:56:31',
+              facilityName: 'Acme VA',
+              clinicName: 'Green Team Clinic1',
+            },
+          ],
         },
       };
       store = mockStore(initState);
@@ -63,6 +65,35 @@ describe('check-in', () => {
           <CheckIn router={mockRouter} />
         </Provider>,
       );
+    });
+    describe('back button visibility based on update page', () => {
+      it('shows the back button if update page is enabled', () => {
+        const mockRouter = {
+          params: {
+            token: 'token-123',
+          },
+        };
+        const checkIn = render(
+          <Provider store={store}>
+            <CheckIn router={mockRouter} isUpdatePageEnabled />
+          </Provider>,
+        );
+
+        expect(checkIn.getByTestId('back-button')).to.exist;
+      });
+      it('hides the back button if update page is enabled', () => {
+        const mockRouter = {
+          params: {
+            token: 'token-123',
+          },
+        };
+        const checkIn = render(
+          <Provider store={store}>
+            <CheckIn router={mockRouter} isUpdatePageEnabled={false} />
+          </Provider>,
+        );
+        expect(checkIn.queryByTestId('back-button')).to.not.exist;
+      });
     });
   });
 });

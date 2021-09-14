@@ -2,12 +2,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
+// Relative imports.
 import {
   isAuthenticatedWithSSOe,
   ssoeEbenefitsLinks,
 } from 'platform/user/authentication/selectors';
-// Relative imports.
 import { isLoggedIn, selectProfile } from '../../../user/selectors';
 import { selectAnnouncement } from '../selectors';
 import { initDismissedAnnouncements, dismissAnnouncement } from '../actions';

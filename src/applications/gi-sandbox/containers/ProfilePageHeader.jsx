@@ -11,6 +11,7 @@ import {
 
 import {
   convertRatingToStars,
+  createId,
   formatNumber,
   locationInfo,
   schoolSize,
@@ -21,11 +22,11 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import recordEvent from 'platform/monitoring/record-event';
 import { ariaLabels, MINIMUM_RATING_COUNT } from '../constants';
 import RatingsStars from '../components/RatingsStars';
-import Checkbox from '../components/Checkbox';
 import { CautionFlagAdditionalInfo } from '../components/CautionFlagAdditionalInfo';
 import IconWithInfo from '../components/IconWithInfo';
 import SchoolClassification from '../components/SchoolClassification';
 import LearnMoreLabel from '../components/LearnMoreLabel';
+import CompareCheckbox from '../components/CompareCheckbox';
 
 const ProfilePageHeader = ({
   compare,
@@ -83,9 +84,13 @@ const ProfilePageHeader = ({
   const displayStars =
     gibctSchoolRatings && stars && ratingCount >= MINIMUM_RATING_COUNT;
 
-  const titleClasses = classNames('small-screen-header', {
-    'vads-u-margin-bottom--0': displayStars,
-  });
+  const titleClasses = classNames(
+    'small-screen-header',
+    'vads-u-margin-right--2',
+    {
+      'vads-u-margin-bottom--0': displayStars,
+    },
+  );
 
   const starClasses = classNames(
     'vads-u-margin-bottom--1',
@@ -164,7 +169,12 @@ const ProfilePageHeader = ({
               {_.capitalize(localeType)} locale
             </IconWithInfo>
             <IconWithInfo icon="globe" present={website}>
-              <a href={website} target="_blank" rel="noopener noreferrer">
+              <a
+                href={website}
+                target="_blank"
+                rel="noopener noreferrer"
+                id={createId('website')}
+              >
                 {'  '}
                 {website}
               </a>
@@ -289,6 +299,7 @@ const ProfilePageHeader = ({
                   <strong>{formatNumber(studentCount)}</strong> GI Bill students
                 </>
               }
+              buttonId={createId('GI Bill students profile')}
               onClick={() => dispatchShowModal('gibillstudents')}
               ariaLabel={ariaLabels.learnMore.numberOfStudents}
             />
@@ -310,13 +321,11 @@ const ProfilePageHeader = ({
       {!expanded && vetTecProvider && renderVetTecIconSection()}
 
       <div className="card-bottom-cell vads-u-flex--1 vads-u-margin--0 vads-u-border-top--4px vads-u-border-color--white">
-        <div className="vads-u-padding--0 vads-u-margin-top--neg2 vads-u-margin-bottom--0p5">
-          <Checkbox
-            label="Compare"
-            checked={compareChecked}
-            onChange={handleCompareUpdate}
-          />
-        </div>
+        <CompareCheckbox
+          institution={name}
+          compareChecked={compareChecked}
+          handleCompareUpdate={handleCompareUpdate}
+        />
       </div>
     </div>
   );

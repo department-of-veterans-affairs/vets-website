@@ -1,3 +1,5 @@
+import flatten from 'lodash/flatten';
+
 import { apiRequest } from '~/platform/utilities/api';
 
 import { LOADING_STATES } from '../../common/constants';
@@ -133,6 +135,131 @@ export const selectChannelById = (state, channelId) => {
 };
 export const selectChannelUiById = (state, channelId) => {
   return selectChannelById(state, channelId).ui;
+};
+
+// The selectors below are specific to the business requirements for the
+// Notification Settings section of the Profile
+
+// Filters out the health care group if the user is not a patient
+export const selectAvailableGroups = (state, { isPatient = false } = {}) => {
+  const allGroups = selectGroups(state);
+  return allGroups.ids.reduce(
+    (acc, groupId) => {
+      // remove the health care group (group3) if not a patient
+      if (groupId === 'group3' && !isPatient) {
+        return acc;
+      } else {
+        acc.ids.push(groupId);
+        acc.entities[groupId] = allGroups.entities[groupId];
+        return acc;
+      }
+    },
+    {
+      ids: [],
+      entities: {},
+    },
+  );
+};
+
+// Makes a callback function to use with Array.filter()
+export const makeRxTrackingItemFilter = facilities => {
+  // 554: parent facility of Denver
+  // 637: parent facility of Asheville
+  // 983: test-only facility ID, used by user 36 among others
+  const supportedFacilities = new Set(['554', '637', '983']);
+  return itemId => {
+    if (itemId === 'item4') {
+      return facilities.some(facility => {
+        return supportedFacilities.has(facility.facilityId);
+      })
+        ? itemId
+        : null;
+    }
+    return itemId;
+  };
+};
+
+// Filter out the items the user does not have access to
+// 1. Filter out the Rx tracking item (item4) unless they are a patient at a
+//    facility that supports the feature
+export const selectAvailableItems = (
+  state,
+  { facilities = [], isPatient = false } = {},
+) => {
+  const availableGroups = selectAvailableGroups(state, { isPatient });
+  const itemIds = flatten(
+    availableGroups.ids.map(groupId => {
+      return availableGroups.entities[groupId].items;
+    }),
+  ).filter(makeRxTrackingItemFilter(facilities));
+  const itemEntities = itemIds.reduce((acc, itemId) => {
+    acc[itemId] = selectItemById(state, itemId);
+    return acc;
+  }, {});
+  return { ids: itemIds, entities: itemEntities };
+};
+
+// Filter out the channels the user doesn't have contact info for
+export const selectAvailableChannels = (
+  state,
+  {
+    facilities = [],
+    hasMobilePhone = false,
+    hasEmailAddress = false,
+    isPatient = false,
+  } = {},
+) => {
+  const availableItems = selectAvailableItems(state, { isPatient, facilities });
+  const availableItemsChannels = flatten(
+    availableItems.ids.map(itemId => {
+      return availableItems.entities[itemId].channels;
+    }),
+  );
+  return availableItemsChannels.reduce(
+    (acc, channelId) => {
+      const channel = selectChannelById(state, channelId);
+      const { channelType } = channel;
+      if (
+        (channelType === 1 && hasMobilePhone) ||
+        (channelType === 2 && hasEmailAddress)
+      ) {
+        acc.ids.push(channelId);
+        acc.entities[channelId] = channel;
+      }
+      return acc;
+    },
+    { ids: [], entities: {} },
+  );
+};
+
+export const selectChannelsWithoutSelection = (
+  state,
+  {
+    facilities = [],
+    hasMobilePhone = false,
+    hasEmailAddress = false,
+    isPatient = false,
+  } = {},
+) => {
+  const availableChannels = selectAvailableChannels(state, {
+    facilities,
+    isPatient,
+    hasMobilePhone,
+    hasEmailAddress,
+  });
+  return availableChannels.ids.reduce(
+    (acc, channelId) => {
+      if (availableChannels.entities[channelId].permissionId === null) {
+        acc.ids.push(channelId);
+        acc.entities[channelId] = selectChannelById(state, channelId);
+      }
+      return acc;
+    },
+    {
+      ids: [],
+      entities: {},
+    },
+  );
 };
 
 // REDUCERS

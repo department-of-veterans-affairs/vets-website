@@ -13,11 +13,17 @@ import reducer, {
   saveCommunicationPreferenceChannel,
   selectChannelById,
   selectGroups,
+  selectAvailableChannels,
+  selectAvailableGroups,
+  selectAvailableItems,
+  selectChannelsWithoutSelection,
 } from '../../ducks/communicationPreferences';
 import error401 from '../fixtures/401.json';
 import error500 from '../fixtures/500.json';
 import getMinimalCommunicationGroupsSuccess from '../fixtures/communication-preferences/get-200-minimal.json';
 import getMaximalCommunicationGroupsSuccess from '../fixtures/communication-preferences/get-200-maximal.json';
+import allSelectionsMade from '../fixtures/communication-preferences/get-200-maximal-all-selections.json';
+import noSelectionsMade from '../fixtures/communication-preferences/get-200-maximal-no-selections.json';
 import postSuccess from '../fixtures/communication-preferences/post-200-success.json';
 import patchSuccess from '../fixtures/communication-preferences/patch-200-success.json';
 
@@ -484,4 +490,221 @@ describe('saveCommunicationPreferenceChannel', () => {
       });
     },
   );
+});
+
+describe('selectors', () => {
+  let server;
+  let state;
+  before(() => {
+    server = setupServer(
+      rest.get(apiURL, (req, res, ctx) => {
+        return res(ctx.json(getMaximalCommunicationGroupsSuccess));
+      }),
+    );
+    server.listen();
+  });
+  beforeEach(() => {
+    const store = mockStore(createState({}));
+    const promise = store.dispatch(fetchCommunicationPreferenceGroups());
+    return promise.then(() => {
+      state = store.getState();
+    });
+  });
+  afterEach(() => {
+    server.resetHandlers();
+  });
+  after(() => {
+    server.close();
+  });
+  describe('selectAvailableGroups', () => {
+    context('when user is a patient', () => {
+      it('keeps the health care group in the full list', () => {
+        const availableGroups = selectAvailableGroups(state, {
+          isPatient: true,
+        });
+        expect(availableGroups.ids.length).to.equal(3);
+        expect(availableGroups.ids[0]).to.equal('group3');
+        expect(availableGroups.entities.group3).to.not.be.undefined;
+      });
+    });
+    context('when user is not a patient', () => {
+      it('filters the health care group out of the full list', () => {
+        const availableGroups = selectAvailableGroups(state, {
+          isPatient: false,
+        });
+        expect(availableGroups.ids.length).to.equal(2);
+        expect(availableGroups.ids[0]).to.equal('group1');
+        expect(availableGroups.entities.group3).to.be.undefined;
+      });
+    });
+  });
+  describe('selectAvailableItems', () => {
+    context('when user is a patient at 554', () => {
+      it('keeps the Rx tracking item (item 4) in the available items', () => {
+        const availableItems = selectAvailableItems(state, {
+          isPatient: true,
+          facilities: [
+            { facilityId: '123', isCerner: false },
+            { facilityId: '456', isCerner: true },
+            { facilityId: '554', isCerner: false },
+          ],
+        });
+        expect(availableItems.ids.length).to.equal(4);
+        expect(availableItems.entities.item1).to.not.be.undefined;
+        expect(availableItems.entities.item3).to.not.be.undefined;
+        expect(availableItems.entities.item4).to.not.be.undefined;
+      });
+    });
+    context('when user is a patient at 637', () => {
+      it('keeps the Rx tracking item (item 4) in the available items', () => {
+        const availableItems = selectAvailableItems(state, {
+          isPatient: true,
+          facilities: [
+            { facilityId: '123', isCerner: false },
+            { facilityId: '637', isCerner: false },
+            { facilityId: '333', isCerner: false },
+          ],
+        });
+        expect(availableItems.ids.length).to.equal(4);
+        expect(availableItems.entities.item1).to.not.be.undefined;
+        expect(availableItems.entities.item3).to.not.be.undefined;
+        expect(availableItems.entities.item4).to.not.be.undefined;
+      });
+    });
+    context(
+      'when user is a patient at a facility that does not offer prescription tracking',
+      () => {
+        it('removes the Rx tracking item (item 4) from the available items', () => {
+          const availableItems = selectAvailableItems(state, {
+            isPatient: true,
+            facilities: [{ facilityId: '558', isCerner: false }],
+          });
+          expect(availableItems.ids.length).to.equal(3);
+          expect(availableItems.entities.item1).to.not.be.undefined;
+          expect(availableItems.entities.item3).to.not.be.undefined;
+          expect(availableItems.entities.item4).to.be.undefined;
+        });
+      },
+    );
+    context('when user is not a patient', () => {
+      it('filters out the health care items', () => {
+        const availableItems = selectAvailableItems(state, {
+          isPatient: false,
+        });
+        expect(availableItems.ids.length).to.equal(2);
+        expect(availableItems.entities.item2).to.not.be.undefined;
+        expect(availableItems.entities.item1).to.not.be.undefined;
+        expect(availableItems.entities.item3).to.be.undefined;
+        expect(availableItems.entities.item4).to.be.undefined;
+      });
+    });
+  });
+  describe('selectAvailableChannels', () => {
+    context('when user is patient and has all contact info on file', () => {
+      it('returns the correct channels', () => {
+        const availableChannels = selectAvailableChannels(state, {
+          facilities: [{ facilityId: '983' }],
+          isPatient: true,
+          hasMobilePhone: true,
+          hasEmailAddress: true,
+        });
+        expect(availableChannels.ids.length).to.equal(5);
+      });
+    });
+    context('when user is patient but lacks a mobile phone', () => {
+      it('returns the correct channels', () => {
+        const availableChannels = selectAvailableChannels(state, {
+          facilities: [{ facilityId: '983' }],
+          isPatient: true,
+          hasMobilePhone: false,
+          hasEmailAddress: true,
+        });
+        expect(availableChannels.ids.length).to.equal(2);
+        expect(availableChannels.entities['channel1-2']).to.not.be.undefined;
+        expect(availableChannels.entities['channel2-2']).to.not.be.undefined;
+      });
+    });
+    context('when user is not patient and has all contact info on file', () => {
+      it('returns the correct channels', () => {
+        const availableChannels = selectAvailableChannels(state, {
+          facilities: [],
+          isPatient: false,
+          hasMobilePhone: true,
+          hasEmailAddress: true,
+        });
+        expect(availableChannels.ids.length).to.equal(3);
+        expect(availableChannels.entities['channel2-2']).to.not.be.undefined;
+        expect(availableChannels.entities['channel3-1']).to.be.undefined;
+        expect(availableChannels.entities['channel4-1']).to.be.undefined;
+      });
+    });
+    context('when user is a patient and has all contact info on file', () => {
+      it('returns the correct channels', () => {
+        const availableChannels = selectAvailableChannels(state, {
+          facilities: [{ facilityId: '123' }, { facilityId: '456' }],
+          isPatient: true,
+          hasMobilePhone: true,
+          hasEmailAddress: true,
+        });
+        expect(availableChannels.ids.length).to.equal(4);
+        expect(availableChannels.entities['channel1-1']).to.not.be.undefined;
+        expect(availableChannels.entities['channel1-2']).to.not.be.undefined;
+        expect(availableChannels.entities['channel2-2']).to.not.be.undefined;
+      });
+    });
+  });
+  describe('selectChannelsWithoutSelection', () => {
+    context('when user has not made any selections', () => {
+      beforeEach(() => {
+        server.use(
+          rest.get(apiURL, (req, res, ctx) => {
+            return res(ctx.status(200), ctx.json(noSelectionsMade));
+          }),
+        );
+
+        const store = mockStore(createState({}));
+        const promise = store.dispatch(fetchCommunicationPreferenceGroups());
+        return promise.then(() => {
+          state = store.getState();
+        });
+      });
+      it('returns the first channel', () => {
+        const channelsWithoutSelection = selectChannelsWithoutSelection(state, {
+          facilities: [{ facilityId: '983' }],
+          isPatient: true,
+          hasMobilePhone: true,
+          hasEmailAddress: true,
+        });
+        const ids = channelsWithoutSelection.ids;
+        expect(ids.length).to.equal(4);
+        expect(channelsWithoutSelection.entities[ids[0]].parentItem).to.equal(
+          'item3',
+        );
+      });
+    });
+    context('when user has made a selection for all available channels', () => {
+      beforeEach(() => {
+        server.use(
+          rest.get(apiURL, (req, res, ctx) => {
+            return res(ctx.status(200), ctx.json(allSelectionsMade));
+          }),
+        );
+
+        const store = mockStore(createState({}));
+        const promise = store.dispatch(fetchCommunicationPreferenceGroups());
+        return promise.then(() => {
+          state = store.getState();
+        });
+      });
+      it('returns no channels', () => {
+        const channelsWithoutSelection = selectChannelsWithoutSelection(state, {
+          facilities: [{ facilityId: '983' }],
+          isPatient: true,
+          hasMobilePhone: true,
+          hasEmailAddress: true,
+        });
+        expect(channelsWithoutSelection.ids).to.deep.equal([]);
+      });
+    });
+  });
 });

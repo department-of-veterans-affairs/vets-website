@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { scroller } from 'react-scroll';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
-import { getScrollOptions } from 'platform/utilities/ui';
+import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-import SearchResultCard from '../../containers/SearchResultCard';
+import ResultCard from '../../containers/search/ResultCard';
 import { mapboxToken } from '../../utils/mapboxToken';
 import { MapboxInit, MAX_SEARCH_AREA_DISTANCE, TABS } from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
@@ -338,7 +338,7 @@ function LocationSearchResults({
     );
 
     return (
-      <SearchResultCard
+      <ResultCard
         institution={institution}
         location
         header={header}
@@ -383,6 +383,13 @@ function LocationSearchResults({
       }
     },
     [filters.search],
+  );
+
+  useEffect(
+    () => {
+      focusElement('#location-search-results-count');
+    },
+    [results],
   );
 
   /**
@@ -495,7 +502,7 @@ function LocationSearchResults({
    * @return {JSX.Element}
    */
   const searchResultsShowing = count => (
-    <p>
+    <p id="location-search-results-count">
       Showing {count} search results for "<strong>{location}</strong>"
     </p>
   );
