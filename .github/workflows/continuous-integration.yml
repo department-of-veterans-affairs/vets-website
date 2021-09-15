@@ -33,7 +33,7 @@ jobs:
         run: echo ${{ github.sha }}
 
       - name: Test HEAD SHA
-        run: echo ${{ github }}
+        run: echo ${{ github.head_ref }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
