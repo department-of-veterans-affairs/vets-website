@@ -13,10 +13,11 @@ import formConfig from '../../config/form';
 import { SELECTED } from '../../constants';
 import { getDate } from '../../utils/dates';
 
-const mockStore = () => ({
+const mockStore = data => ({
   getState: () => ({
     form: {
       data: {
+        ...data,
         contestableIssues: [],
       },
     },
@@ -78,27 +79,28 @@ describe('add issues page', () => {
   // the widget
   it('should render additional issues cards', () => {
     const onSubmit = sinon.spy();
+    const data = {
+      // commenting this next line out will cause a React render error
+      // contestableIssues: [],
+      additionalIssues: [
+        {
+          issue: 'Back sprain',
+          decisionDate: validDate,
+          [SELECTED]: false,
+        },
+        {
+          issue: 'Ankle sprain',
+          decisionDate: validDate,
+        },
+      ],
+    };
     const form = mount(
-      <Provider store={mockStore()}>
+      <Provider store={mockStore(data)}>
         <DefinitionTester
           definitions={{}}
           schema={schema}
           uiSchema={uiSchema}
-          data={{
-            // commenting this next line out will cause a React render error
-            // contestableIssues: [],
-            additionalIssues: [
-              {
-                issue: 'Back sprain',
-                decisionDate: validDate,
-                [SELECTED]: false,
-              },
-              {
-                issue: 'Ankle sprain',
-                decisionDate: validDate,
-              },
-            ],
-          }}
+          data={data}
           onSubmit={onSubmit}
         />
       </Provider>,
@@ -126,7 +128,7 @@ describe('add issues page', () => {
       ],
     };
     const form = mount(
-      <Provider store={mockStore()}>
+      <Provider store={mockStore(data)}>
         <DefinitionTester
           definitions={{}}
           schema={schema}

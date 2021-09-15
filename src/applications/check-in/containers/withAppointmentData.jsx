@@ -6,11 +6,11 @@ import { getCurrentToken } from '../utils/session';
 
 const withAppointmentData = WrappedComponent => props => {
   const { checkInData, router } = props;
-  const { appointment } = checkInData;
-
+  const { appointments } = checkInData;
   useEffect(
     () => {
-      if (!appointment) {
+      // if appointments doesn't exist or is empty or the first element doesnt
+      if (!appointments || !appointments[0]) {
         const session = getCurrentToken(window);
         if (session) {
           const { token } = session;
@@ -20,9 +20,9 @@ const withAppointmentData = WrappedComponent => props => {
         }
       }
     },
-    [appointment, router],
+    [appointments, router],
   );
-  if (!appointment) {
+  if (!appointments || appointments.length === 0) {
     return <></>;
   }
   return (

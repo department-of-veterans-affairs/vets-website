@@ -452,7 +452,7 @@
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
               "canCancel": true,
-              "enabled": true
+              "enabled": false
             }
           },
           {
@@ -1592,7 +1592,7 @@
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
               "canCancel": true,
-              "enabled": true
+              "enabled": false
             }
           },
           {

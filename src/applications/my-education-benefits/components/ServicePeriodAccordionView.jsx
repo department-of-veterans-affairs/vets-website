@@ -44,42 +44,24 @@ export default function ServicePeriodAccordionView({ formData }) {
 
   return (
     <dl className="service-history-details">
-      {serviceBranch && (
-        <>
-          <dt className="service-history-details_term">Branch of service</dt>
-          <dd className="service-history-details_definition">
-            {serviceBranch}
-          </dd>
-        </>
-      )}
+      <dt className="service-history-details_term">Branch of service</dt>
+      <dd className="service-history-details_definition">{serviceBranch}</dd>
 
-      {servicePeriodFrom &&
-        servicePeriodTo && (
-          <>
-            <dt className="service-history-details_term">Service period</dt>
-            <dd className="service-history-details_definition">
+      <dt className="service-history-details_term">Service period</dt>
+      <dd className="service-history-details_definition">
+        {servicePeriodFrom &&
+          servicePeriodTo && (
+            <>
               {servicePeriodFrom} &ndash; {servicePeriodTo}
-            </dd>
-          </>
-        )}
+            </>
+          )}
+      </dd>
 
-      {serviceCharacter && (
-        <>
-          <dt className="service-history-details_term">Character of service</dt>
-          <dd className="service-history-details_definition">
-            {serviceCharacter}
-          </dd>
-        </>
-      )}
+      <dt className="service-history-details_term">Character of service</dt>
+      <dd className="service-history-details_definition">{serviceCharacter}</dd>
 
-      {separationReason && (
-        <>
-          <dt className="service-history-details_term">Separation reason</dt>
-          <dd className="service-history-details_definition">
-            {separationReason}
-          </dd>
-        </>
-      )}
+      <dt className="service-history-details_term">Separation reason</dt>
+      <dd className="service-history-details_definition">{separationReason}</dd>
 
       {!!formattedTrainingPeriods.length && (
         <>

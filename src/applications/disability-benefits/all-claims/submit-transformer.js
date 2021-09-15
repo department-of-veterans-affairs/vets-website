@@ -23,6 +23,7 @@ import {
   isBDD,
   isDisabilityPtsd,
   truncateDescriptions,
+  sippableId,
 } from './utils';
 
 import disabilityLabels from './content/disabilityLabels';
@@ -163,10 +164,10 @@ export function transformRelatedDisabilities(
   conditionContainer,
   claimedConditions,
 ) {
-  const findCondition = (list, name) =>
+  const findCondition = (list, name = '') =>
     list.find(
       // name should already be lower-case, but just in case...no pun intended
-      claimedName => claimedName.toLowerCase() === name.toLowerCase(),
+      claimedName => sippableId(claimedName) === name.toLowerCase(),
     );
 
   return (
@@ -369,7 +370,7 @@ export function transform(formConfig, form) {
       const powDisabilities = transformRelatedDisabilities(
         clonedData.powDisabilities,
         getClaimedConditionNames(formData),
-      ).map(name => name.toLowerCase());
+      ).map(name => name?.toLowerCase());
       clonedData.newDisabilities = clonedData.newDisabilities.map(d => {
         if (powDisabilities.includes(d.condition?.toLowerCase())) {
           const newSpecialIssues = (d.specialIssues || []).slice();

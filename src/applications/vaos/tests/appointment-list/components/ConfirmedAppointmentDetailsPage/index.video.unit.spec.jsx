@@ -28,7 +28,6 @@ import {
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    vaOnlineSchedulingHomepageRefresh: true,
   },
 };
 
@@ -90,7 +89,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
       const facility = {
         id: 'vha_442',
@@ -114,12 +112,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       mockFacilitiesFetch('vha_442', [facility]);
       mockFacilityFetch('vha_442', facility);
 
-      const screen = renderWithStoreAndRouter(
-        <AppointmentList featureHomepageRefresh />,
-        {
-          initialState,
-        },
-      );
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+      });
 
       fireEvent.click(await screen.findByText(/Details/));
 
@@ -228,15 +223,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
 
-      const screen = renderWithStoreAndRouter(
-        <AppointmentList featureHomepageRefresh />,
-        {
-          initialState,
-        },
-      );
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+      });
 
       fireEvent.click(await screen.findByText(/Details/));
 
@@ -317,15 +308,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
 
-      const screen = renderWithStoreAndRouter(
-        <AppointmentList featureHomepageRefresh />,
-        {
-          initialState,
-        },
-      );
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+      });
 
       fireEvent.click(await screen.findByText(/Details/));
 
@@ -407,15 +394,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
 
-      const screen = renderWithStoreAndRouter(
-        <AppointmentList featureHomepageRefresh />,
-        {
-          initialState,
-        },
-      );
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+      });
 
       fireEvent.click(await screen.findByText(/Details/));
 
@@ -489,19 +472,15 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
       mockFacilityFetch(
         'vha_442',
         getVAFacilityMock({ id: '442', name: 'Cheyenne VA medical center' }),
       );
 
-      const screen = renderWithStoreAndRouter(
-        <AppointmentList featureHomepageRefresh />,
-        {
-          initialState,
-        },
-      );
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+      });
 
       fireEvent.click(await screen.findByText(/Details/));
 
@@ -569,13 +548,10 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         appointment,
       });
 
-      const screen = renderWithStoreAndRouter(
-        <AppointmentList featureHomepageRefresh />,
-        {
-          initialState,
-          path: '/va/05760f00c80ae60ce49879cf37a05fc8',
-        },
-      );
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+        path: '/va/05760f00c80ae60ce49879cf37a05fc8',
+      });
 
       await screen.findByText(
         new RegExp(
@@ -665,7 +641,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
 
       const facility = {
@@ -689,12 +664,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       };
       mockFacilitiesFetch('vha_442GD', [facility]);
 
-      const screen = renderWithStoreAndRouter(
-        <AppointmentList featureHomepageRefresh />,
-        {
-          initialState,
-        },
-      );
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+      });
 
       fireEvent.click(await screen.findByText(/Details/));
 
@@ -769,7 +741,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
 
       const facility = {
@@ -793,12 +764,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       };
       mockFacilitiesFetch('vha_442GD', [facility]);
 
-      const screen = renderWithStoreAndRouter(
-        <AppointmentList featureHomepageRefresh />,
-        {
-          initialState,
-        },
-      );
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+      });
 
       fireEvent.click(await screen.findByText(/Details/));
 
@@ -889,15 +857,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
 
-      const screen = renderWithStoreAndRouter(
-        <AppointmentList featureHomepageRefresh />,
-        {
-          initialState,
-        },
-      );
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+      });
 
       const oldPrint = global.window.print;
       const printSpy = sinon.spy();
@@ -978,15 +942,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
 
-      const screen = renderWithStoreAndRouter(
-        <AppointmentList featureHomepageRefresh />,
-        {
-          initialState,
-        },
-      );
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+      });
 
       fireEvent.click(await screen.findByText(/Details/));
 
@@ -1087,15 +1047,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
 
-      const screen = renderWithStoreAndRouter(
-        <AppointmentList featureHomepageRefresh />,
-        {
-          initialState,
-        },
-      );
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+      });
 
       fireEvent.click(await screen.findByText(/Details/));
 
@@ -1193,7 +1149,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
 
       const facility = {
@@ -1218,12 +1173,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       mockFacilitiesFetch('vha_442', [facility]);
       mockFacilityFetch('vha_442', facility);
 
-      const screen = renderWithStoreAndRouter(
-        <AppointmentList featureHomepageRefresh />,
-        {
-          initialState,
-        },
-      );
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+      });
 
       fireEvent.click(await screen.findByText(/Details/));
 
@@ -1350,15 +1302,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
 
-      const screen = renderWithStoreAndRouter(
-        <AppointmentList featureHomepageRefresh />,
-        {
-          initialState,
-        },
-      );
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+      });
 
       fireEvent.click(await screen.findByText(/Details/));
 
@@ -1475,15 +1423,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
 
-      const screen = renderWithStoreAndRouter(
-        <AppointmentList featureHomepageRefresh />,
-        {
-          initialState,
-        },
-      );
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+      });
 
       fireEvent.click(await screen.findByText(/Details/));
 
@@ -1705,15 +1649,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
 
-      const screen = renderWithStoreAndRouter(
-        <AppointmentList featureHomepageRefresh />,
-        {
-          initialState,
-        },
-      );
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+      });
 
       fireEvent.click(await screen.findByText(/Details/));
 
@@ -1751,7 +1691,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         ...appointment.attributes.vvsAppointments[0],
         dateTime: startDate.format(),
         bookingNotes: 'Some random note',
-        appointmentKind: 'ADHOC',
+        appointmentKind: 'MOBILE_ANY',
         status: { description: 'F', code: 'FUTURE' },
         instructionsTitle: 'Medication Review',
       };
@@ -1759,15 +1699,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         va: [appointment],
         cc: [],
         requests: [],
-        isHomepageRefresh: true,
       });
 
-      const screen = renderWithStoreAndRouter(
-        <AppointmentList featureHomepageRefresh />,
-        {
-          initialState,
-        },
-      );
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+      });
 
       fireEvent.click(await screen.findByText(/Details/));
 

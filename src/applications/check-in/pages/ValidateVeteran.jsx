@@ -1,19 +1,39 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 
 import { VaTextInput } from 'web-components/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 
+import { api } from '../api';
+
+import { permissionsUpdated } from '../actions';
 import { goToNextPage, URLS } from '../utils/navigation';
+import { SCOPES } from '../utils/token-format-validator';
+
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 
 const ValidateVeteran = props => {
-  const { router } = props;
-  const [isLoading] = useState(false);
+  const { router, isUpdatePageEnabled, setPermissions, context } = props;
+  const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
+
+  const { token } = context;
+
   const onClick = async () => {
-    goToNextPage(router, URLS.UPDATE_INSURANCE);
+    // API call
+    setIsLoading(true);
+    api.v1.postSession({ lastName, last4: last4Ssn, token }).then(data => {
+      // update sessions with new permissions
+      setPermissions(data);
+
+      if (isUpdatePageEnabled) {
+        goToNextPage(router, URLS.UPDATE_INSURANCE);
+      } else {
+        goToNextPage(router, URLS.DETAILS);
+      }
+    });
   };
   useEffect(() => {
     focusElement('h1');
@@ -52,5 +72,20 @@ const ValidateVeteran = props => {
     </div>
   );
 };
+const mapStateToProps = state => {
+  return {
+    appointments: state.checkInData.appointments,
+    context: state.checkInData.context,
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    setPermissions: data =>
+      dispatch(permissionsUpdated(data, SCOPES.READ_FULL)),
+  };
+};
 
-export default ValidateVeteran;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ValidateVeteran);

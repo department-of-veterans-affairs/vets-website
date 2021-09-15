@@ -8,7 +8,8 @@ function GetFormHelp() {
   return (
     <>
       <p className="help-talk">
-        Need help enrolling or have questions about enrollment or eligibility?
+        Need help with your application or have questions about enrollment or
+        eligibility?
         <br />
         Call our Education Call Center, toll-free:{' '}
         <a href="tel:">1-888-GIBILL-1 (1-888-442-4551)</a>

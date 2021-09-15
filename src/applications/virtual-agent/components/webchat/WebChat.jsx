@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import MarkdownRenderer from './markdownRenderer';
 import GreetUser from './makeBotGreetUser';
+import environment from 'platform/utilities/environment';
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
@@ -9,7 +10,11 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
   const csrfToken = localStorage.getItem('csrfToken');
 
   const store = useMemo(
-    () => createStore({}, GreetUser.makeBotGreetUser(csrfToken, apiSession)),
+    () =>
+      createStore(
+        {},
+        GreetUser.makeBotGreetUser(csrfToken, apiSession, environment.API_URL),
+      ),
     [createStore],
   );
 

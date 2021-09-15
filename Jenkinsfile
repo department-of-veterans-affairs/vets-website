@@ -165,10 +165,10 @@ node('vetsgov-general-purpose') {
     try {
       if (!commonStages.isDeployable()) { return }
 
-      if (commonStages.IS_DEV_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovdev')) {
-        commonStages.runDeploy('deploys/application-build-vagovdev', ref, false)
-        commonStages.runDeploy('deploys/vets-website-vagovdev', ref, false)
-      }
+      // if (commonStages.IS_DEV_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovdev')) {
+      //   commonStages.runDeploy('deploys/application-build-vagovdev', ref, false)
+      //   commonStages.runDeploy('deploys/vets-website-vagovdev', ref, false)
+      // }
 
       if (commonStages.IS_STAGING_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovstaging')) {
         commonStages.runDeploy('deploys/application-build-vagovstaging', ref, false)

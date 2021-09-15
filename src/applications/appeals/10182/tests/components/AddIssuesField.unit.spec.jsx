@@ -30,6 +30,7 @@ const getProps = ({
   idSchema: { $id: 'additionalIssues' },
   formData,
   fullFormData: {
+    additionalIssues: formData,
     'view:hasIssuesToAdd': true,
     contestedIssues,
   },
@@ -189,11 +190,11 @@ describe('<AddIssuesField>', () => {
       const onChange = sinon.spy();
       const props = getProps({
         contestedIssues: [],
-        formData: new Array(MAX_SELECTIONS + 2).fill({
-          issue: 'x',
+        formData: new Array(MAX_SELECTIONS + 2).fill({}).map((_, index) => ({
+          issue: `x${index}`,
           decisionDate: validDate,
           [SELECTED]: true,
-        }),
+        })),
         onChange,
       });
       const wrapper = mount(<AddIssuesField {...props} />);
@@ -210,11 +211,11 @@ describe('<AddIssuesField>', () => {
     const onChange = sinon.spy();
     const props = getProps({
       // one extra to push us over the max selections limit
-      formData: new Array(MAX_SELECTIONS + 1).fill({
-        issue: 'x',
+      formData: new Array(MAX_SELECTIONS + 1).fill({}).map((_, index) => ({
+        issue: `x${index}`,
         decisionDate: validDate,
         [SELECTED]: true,
-      }),
+      })),
       onChange,
     });
 
@@ -234,11 +235,11 @@ describe('<AddIssuesField>', () => {
       contestedIssues: [
         { attributes: { ratingIssueSubjectText: 'issue-1', [SELECTED]: true } },
       ],
-      formData: new Array(MAX_SELECTIONS).fill({
-        issue: 'x',
+      formData: new Array(MAX_SELECTIONS).fill({}).map((_, index) => ({
+        issue: `x${index}`,
         decisionDate: validDate,
         [SELECTED]: true,
-      }),
+      })),
       onChange,
     });
     const wrapper = mount(
