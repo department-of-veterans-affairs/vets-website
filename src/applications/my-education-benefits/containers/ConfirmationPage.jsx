@@ -5,6 +5,7 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import FormFooter from '../components/FormFooter';
 
 const scroller = Scroll.scroller;
@@ -17,22 +18,35 @@ const scrollToTop = () => {
 };
 
 const approvedPage = (
-  <div className="meb-confirmation-page meb-confirmation-page_denied">
-    <h1>You have been approved</h1>
-    <div className="feature">
-      <h3>
-        Congratulations! We reviewed your application and have determined that
-        you are entitled to educational benefits under the{' '}
-        <strong>Post-9/11 GI Bill</strong>.
+  <div className="meb-confirmation-page meb-confirmation-page_approved">
+    <va-alert onClose={function noRefCheck() {}} status="success">
+      <h3 slot="headline">
+        Congratulations! You have been approved for the Post-9/11 GI Bill
       </h3>
       <p>
-        Your Certificate of Eligibility is now available. A physical copy will
-        also be mailed to your mailing address.
+        We reviewed your application and have determined that you are entitled
+        to educational benefits under the Post-9/11 GI Bill. Your Certificate of
+        Eligibility is now available. A physical copy will also be mailed to
+        your mailing address.
       </p>
       <button type="button" className="usa-button">
         Download your Certificate of Eligibility
       </button>
-      <a href="#">View an explanation of your benefits</a>
+      <a href="#">View a statement of your benefits</a>
+    </va-alert>
+
+    <div className="feature">
+      <h3>Application for VA education benefits (Form 22-1990)</h3>
+      <p>For Hector Oliver Stanley Jr.</p>
+      <dl>
+        <dt>Confirmation number</dt>
+        <dd>V-EBC-8827</dd>
+        <dt>Date received</dt>
+        <dd>September 8, 2021</dd>
+      </dl>
+      <button type="button" className="usa-button">
+        Print this page
+      </button>
     </div>
 
     <h2>What happens next?</h2>
@@ -71,9 +85,9 @@ const approvedPage = (
       </a>
     </AdditionalInfo>
 
-    <button className="usa-button-secondary">Download your application</button>
-
-    <a href="#">Go to your My VA dashboard</a>
+    <a className="vads-c-action-link--green" href="#">
+      Go to your My VA dashboard
+    </a>
 
     <FormFooter />
   </div>
@@ -81,21 +95,35 @@ const approvedPage = (
 
 const deniedPage = (
   <div className="meb-confirmation-page meb-confirmation-page_denied">
-    <h1>You are not eligible</h1>
-    <div className="feature">
-      <h3>
+    <va-alert onClose={function noRefCheck() {}} status="info">
+      <h3 slot="headline">You’re not eligible for this benefit</h3>
+      <p>
         Unfortunately, based on the information you provided and Department of
         Defense records, we have determined you are not eligible for the
         Post-9/11 GI Bill program at this time.
-      </h3>
+      </p>
       <p>
         Your denial letter, which explains why you are ineligible, is now
-        available. A physical copy will also be mailed to your mailing address.
+        available. A physical copy will also be mailed to your mailing address.{' '}
       </p>
       <button type="button" className="usa-button">
         Download your letter
       </button>
       <a href="#">View an explanation of your benefits</a>
+    </va-alert>
+
+    <div className="feature">
+      <h3>Application for VA education benefits (Form 22-1990)</h3>
+      <p>For Hector Oliver Stanley Jr.</p>
+      <dl>
+        <dt>Confirmation number</dt>
+        <dd>V-EBC-8827</dd>
+        <dt>Date received</dt>
+        <dd>September 8, 2021</dd>
+      </dl>
+      <button type="button" className="usa-button">
+        Print this page
+      </button>
     </div>
 
     <h2>What happens next?</h2>
@@ -110,13 +138,13 @@ const deniedPage = (
     <p>
       If you disagree with our decision, you have until one year from the date
       of your letter to request an additional review. For more information,
-      please see <a href="#">VA Form 20-0998</a>,
+      please see <a href="#">VA Form 20-0998</a>,{' '}
       <em>Your Rights to Seek Further Review of Our Decision</em>.{' '}
     </p>
 
-    <button className="usa-button-secondary">Download your application</button>
-
-    <a href="#">Go to your My VA dashboard</a>
+    <a className="vads-c-action-link--green" href="#">
+      Go to your My VA dashboard
+    </a>
 
     <FormFooter />
   </div>
@@ -124,24 +152,32 @@ const deniedPage = (
 
 const pendingPage = (
   <div className="meb-confirmation-page meb-confirmation-page_denied">
-    <h1>Your application is under review</h1>
-    <div className="feature">
-      <h3>
+    <va-alert onClose={function noRefCheck() {}} status="success">
+      <h3 slot="headline">We’ve received your application</h3>
+      <p>
         Your application requires additional review. Once we have reviewed your
         application, we will reach out to notify you about next steps.
-      </h3>
-      <p>
-        For now, you can download a copy of your application for your records.
       </p>
+    </va-alert>
+
+    <div className="feature">
+      <h3>Application for VA education benefits (Form 22-1990)</h3>
+      <p>For Hector Oliver Stanley Jr.</p>
+      <dl>
+        <dt>Confirmation number</dt>
+        <dd>V-EBC-8827</dd>
+        <dt>Date received</dt>
+        <dd>September 8, 2021</dd>
+      </dl>
       <button type="button" className="usa-button">
-        Download your application
+        Print this page
       </button>
     </div>
 
     <h2>When will I hear back about my application?</h2>
     <div className="feature meb-feature--secondary">
       <h2>
-        <em>In 1</em> Month
+        <em>In 1</em> month
       </h2>
       <p>
         If more than a month has passed since you gave us your application and
@@ -156,30 +192,50 @@ const pendingPage = (
     <ul>
       <li>We will review your eligibility for the Post-9/11 GI Bill.</li>
       <li>We may reach out with questions about your application.</li>
-      <li>You will be notified about your eligibility.</li>
+      <li>
+        You will be notified of the results of our review for potential
+        eligibility.
+      </li>
       <li>There is no further action required by you at this time.</li>
     </ul>
 
     <h2>What can I do while I wait?</h2>
     <ul>
       <li>
+        If you need to submit documentation to VA, such as service records,
+        please send this through our <a href="#">Ask VA feature</a>.
+      </li>
+      <li>
+        Review and/or update your direct deposit information on{' '}
+        <a href="#">your VA.gov profile</a>.
+      </li>
+      <li>
         Use our <a href="#">GI Bill Comparison Tool</a> to help you decide which
         education program and school is best for you.
-      </li>
-      <li>Upload any supporting documents.</li>
-      <li>
-        Review and/or update your direct deposit information on your{' '}
-        <a href="#">VA.gov profile</a>.
       </li>
       <li>
         Learn more about VA benefits and programs through the{' '}
         <a href="#">Building Your Future with the GI Bill Series</a>.
       </li>
+      <li>
+        Measure your interests and skill levels and help figure out your career
+        path with <a href="#">CareerScope®</a>.
+      </li>
     </ul>
 
-    <a href="#">Go to your My VA dashboard</a>
+    <a className="vads-c-action-link--green" href="#">
+      Go to your My VA dashboard
+    </a>
 
     <FormFooter />
+  </div>
+);
+
+const loadingPage = (
+  <div className="meb-confirmation-page meb-confirmation-page_loading">
+    <h1>Wait right there</h1>
+    <p>We are currently processing your application.</p>
+    <LoadingIndicator message="Loading your results" />
   </div>
 );
 
@@ -194,7 +250,7 @@ export class ConfirmationPage extends React.Component {
     const { response } = submission;
     const name = data.veteranFullName;
 
-    const confirmationResult = 'approved';
+    const confirmationResult = 'loading';
 
     switch (confirmationResult) {
       case 'approved': {
@@ -205,6 +261,9 @@ export class ConfirmationPage extends React.Component {
       }
       case 'pending': {
         return pendingPage;
+      }
+      case 'loading': {
+        return loadingPage;
       }
       default: {
         return (

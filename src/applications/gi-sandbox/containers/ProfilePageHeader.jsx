@@ -22,11 +22,11 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import recordEvent from 'platform/monitoring/record-event';
 import { ariaLabels, MINIMUM_RATING_COUNT } from '../constants';
 import RatingsStars from '../components/RatingsStars';
-import Checkbox from '../components/Checkbox';
 import { CautionFlagAdditionalInfo } from '../components/CautionFlagAdditionalInfo';
 import IconWithInfo from '../components/IconWithInfo';
 import SchoolClassification from '../components/SchoolClassification';
 import LearnMoreLabel from '../components/LearnMoreLabel';
+import CompareCheckbox from '../components/CompareCheckbox';
 
 const ProfilePageHeader = ({
   compare,
@@ -321,13 +321,11 @@ const ProfilePageHeader = ({
       {!expanded && vetTecProvider && renderVetTecIconSection()}
 
       <div className="card-bottom-cell vads-u-flex--1 vads-u-margin--0 vads-u-border-top--4px vads-u-border-color--white">
-        <div className="vads-u-padding--0 vads-u-margin-top--neg2 vads-u-margin-bottom--0p5">
-          <Checkbox
-            label="Compare"
-            checked={compareChecked}
-            onChange={handleCompareUpdate}
-          />
-        </div>
+        <CompareCheckbox
+          institution={name}
+          compareChecked={compareChecked}
+          handleCompareUpdate={handleCompareUpdate}
+        />
       </div>
     </div>
   );

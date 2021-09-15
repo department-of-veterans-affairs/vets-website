@@ -85,7 +85,7 @@ export default class ArrayField extends React.Component {
         : formData.map(
             (obj, index) =>
               !obj[key] ||
-              obj[key].toLowerCase() === NULL_CONDITION_STRING.toLowerCase() ||
+              obj[key]?.toLowerCase() === NULL_CONDITION_STRING.toLowerCase() ||
               duplicates.includes(index),
           );
     }

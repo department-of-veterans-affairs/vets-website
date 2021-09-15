@@ -22,13 +22,14 @@ describe('Notification Settings', () => {
     });
   });
   context(
-    'when user is a VA patient at a facility that supports Rx tracking',
+    'when user is a VA patient at at least one facility that supports Rx tracking',
     () => {
-      it('should show the Health Care group first and show the Rx tracking item', () => {
+      it('should show the Health Care group first and show the Rx tracking item along with the radio button hint text', () => {
         cy.login(
           makeUserObject({
             isPatient: true,
-            facilities: [{ facilityId: '983' }],
+            // 983 supports Rx-tracking, 123 does not
+            facilities: [{ facilityId: '983' }, { facilityId: '123' }],
           }),
         );
         cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
@@ -54,6 +55,48 @@ describe('Notification Settings', () => {
           .should('match', /prescription.*shipment/i)
           .should('match', /prescription.*tracking/i);
         cy.findAllByText(/^select an option/i).should('have.length', 1);
+        cy.findAllByText(/check with your facility first/i).should(
+          'have.length',
+          1,
+        );
+      });
+    },
+  );
+  context(
+    'when user is a VA patient and is only associated with facilities that supports Rx tracking',
+    () => {
+      it('should show the Health Care group first and show the Rx tracking item but hide the radio button hint text', () => {
+        cy.login(
+          makeUserObject({
+            isPatient: true,
+            // both 983 and 554 support Rx tracking
+            facilities: [{ facilityId: '983' }, { facilityId: '554' }],
+          }),
+        );
+        cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
+        cy.findByRole('heading', {
+          name: 'Notification settings',
+          level: 1,
+        }).should('exist');
+
+        cy.loadingIndicatorWorks();
+
+        cy.findByText('503-555-1234').should('exist');
+        // TODO: uncomment when email is a supported communication channel
+        // cy.findByText('veteran@gmail.com').should('exist');
+        cy.findAllByTestId('notification-group')
+          .should('have.length', 3)
+          .first()
+          .should('contain.text', 'Your health care')
+          .invoke('text')
+          .should(
+            'match',
+            /Manage your health care email notifications on My HealtheVet/i,
+          )
+          .should('match', /prescription.*shipment/i)
+          .should('match', /prescription.*tracking/i);
+        cy.findAllByText(/^select an option/i).should('have.length', 1);
+        cy.findAllByText(/check with your facility first/i).should('not.exist');
       });
     },
   );
@@ -90,6 +133,7 @@ describe('Notification Settings', () => {
           .should('not.match', /prescription.*shipment/i)
           .should('not.match', /prescription.*tracking/i);
         cy.findAllByText(/^select an option/i).should('have.length', 1);
+        cy.findAllByText(/check with your facility first/i).should('not.exist');
       });
     },
   );

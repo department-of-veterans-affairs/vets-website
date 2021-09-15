@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
-import PaymentHistoryTable from '../components/PaymentHistoryTable';
+import DownloadStatements from '../components/DownloadStatements';
 import BalanceQuestions from '../components/BalanceQuestions';
 import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
@@ -28,7 +28,7 @@ const DetailPage = () => {
         </a>
       </Breadcrumbs>
       <h1 className="vads-u-margin-bottom--1">
-        Your $300.00 bill for James A. Haley Veterans' Hospital
+        Your copay bill for James A. Haley Veterans' Hospital
       </h1>
       <p className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--5">
         Updated on June 3, 2021
@@ -63,7 +63,7 @@ const DetailPage = () => {
         </p>
       </va-alert>
       <va-on-this-page />
-      <PaymentHistoryTable />
+      <DownloadStatements />
       <HowToPay />
       <FinancialHelp />
       <DisputeCharges />
