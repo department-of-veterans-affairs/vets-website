@@ -73,6 +73,7 @@ const classes = {
 class ContactInformationField extends React.Component {
   static propTypes = {
     activeEditView: PropTypes.string,
+    activeRemoveView: PropTypes.string,
     analyticsSectionName: PropTypes.oneOf(
       Object.values(VAP_SERVICE.ANALYTICS_FIELD_MAP),
     ).isRequired,
@@ -108,7 +109,6 @@ class ContactInformationField extends React.Component {
   state = {
     showCannotEditModal: false,
     showConfirmCancelModal: false,
-    showConfirmRemoveModal: false,
   };
 
   closeModalTimeoutID = null;
@@ -219,6 +219,9 @@ class ContactInformationField extends React.Component {
 
   closeModal = () => {
     this.props.openModal(null);
+  };
+
+  closeRemoveModal = () => {
     this.setState({ showConfirmRemoveModal: false });
   };
 
@@ -228,6 +231,10 @@ class ContactInformationField extends React.Component {
     } else {
       this.props.openModal(this.props.fieldName);
     }
+  };
+
+  openRemoveModal = () => {
+    this.props.openModal(`remove-${this.props.fieldName}`);
   };
 
   refreshTransactionNotProps = () => {
@@ -253,7 +260,7 @@ class ContactInformationField extends React.Component {
       'profile-action': 'delete-button',
       'profile-section': this.props.analyticsSectionName,
     });
-    this.setState({ showConfirmRemoveModal: true });
+    this.openRemoveModal();
   };
 
   render() {
@@ -262,6 +269,7 @@ class ContactInformationField extends React.Component {
       fieldName,
       isEmpty,
       showEditView,
+      showRemoveView,
       showValidationView,
       title,
       transaction,
@@ -280,7 +288,7 @@ class ContactInformationField extends React.Component {
     const wrapInTransaction = children => {
       return (
         <VAPServiceTransaction
-          isModalOpen={showEditView || showValidationView}
+          isModalOpen={showEditView || showValidationView || showRemoveView}
           id={`${fieldName}-transaction-status`}
           title={title}
           transaction={transaction}
@@ -397,8 +405,8 @@ class ContactInformationField extends React.Component {
           title={title}
           fieldName={fieldName}
           isEnrolledInVAHealthCare={isEnrolledInVAHealthCare}
-          isVisible={this.state.showConfirmRemoveModal}
-          onHide={() => this.setState({ showConfirmRemoveModal: false })}
+          isVisible={showRemoveView}
+          onHide={() => this.closeModal()}
           error={error}
         />
 
@@ -417,7 +425,9 @@ export const mapStateToProps = (state, ownProps) => {
   const data = selectVAPContactInfoField(state, fieldName);
   const isEmpty = !data;
   const addressValidationType = selectAddressValidationType(state);
-  const activeEditView = selectCurrentlyOpenEditModal(state);
+  const activeView = selectCurrentlyOpenEditModal(state);
+  const activeEditView = activeView?.includes('remove') ? '' : activeView;
+  const activeRemoveView = activeView?.includes('remove') ? activeView : '';
   const showValidationView =
     addressValidationType === fieldName &&
     activeEditView === ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION;
@@ -452,6 +462,7 @@ export const mapStateToProps = (state, ownProps) => {
     data,
     fieldName,
     showEditView: activeEditView === fieldName,
+    showRemoveView: activeRemoveView === `remove-${fieldName}`,
     showValidationView: !!showValidationView,
     isEmpty,
     transaction,
