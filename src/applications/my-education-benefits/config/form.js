@@ -558,15 +558,19 @@ const formConfig = {
                 <>
                   <h3>Review your mailing address</h3>
                   <p>
-                    This is the mailing address we have on file for you. We’ll
-                    send any important information about your application to
-                    this address.
+                    We’ll send any important information about your application
+                    to this address.
+                  </p>
+                  <p>
+                    Any updates you make here to your mailing address will only
+                    apply to your education benefits. To update your mailing
+                    address for all of the benefits across VA, .
+                    <a href="#">please go to your profile page</a>
                   </p>
                 </>
               ),
             },
             'view:mailingAddress': {
-              'ui:title': 'Your mailing address',
               livesOnMilitaryBase: {
                 'ui:title': (
                   <span id="LiveOnMilitaryBaseTooltip">
