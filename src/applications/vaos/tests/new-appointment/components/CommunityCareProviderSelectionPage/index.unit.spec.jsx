@@ -690,7 +690,6 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
         { id: '984', address: { city: 'Belgrade', state: 'MT' } },
       ],
     });
-    await setTypeOfCare(store, /primary care/i);
 
     // When the page is displayed
     const screen = renderWithStoreAndRouter(
@@ -707,8 +706,9 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
         name: /Request a Primary care provider/i,
       }),
     ).to.be.ok;
-    expect(screen.getByText(/We’ll call you to confirm your provider choice/))
-      .to.be.ok;
+    expect(
+      await screen.findByText(/We’ll call you to confirm your provider choice/),
+    ).to.be.ok;
 
     // And the closest city/state question is not shown
     expect(screen.queryByLabelText('Bozeman, MT')).not.to.exist;

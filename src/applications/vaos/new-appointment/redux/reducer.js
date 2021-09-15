@@ -828,8 +828,11 @@ export default function formReducer(state = initialState, action) {
       const selectedCCFacility =
         !hasResidentialCoordinates && state.ccEnabledSystems[0];
       const typeOfCare = getTypeOfCare(formData);
-      let initialSchema = action.schema;
-
+      let initialSchema = set(
+        'properties.communityCareProvider.title',
+        `Request a ${typeOfCare.name} provider. (Optional)`,
+        action.schema,
+      );
       if (state.ccEnabledSystems?.length === 1) {
         formData = {
           ...formData,
@@ -849,11 +852,6 @@ export default function formReducer(state = initialState, action) {
           system => `${system.address?.city}, ${system.address?.state}`,
         );
         initialSchema.required = ['communityCareSystemId'];
-        initialSchema = set(
-          'properties.communityCareProvider.title',
-          `Request a ${typeOfCare.name} provider. (Optional)`,
-          initialSchema,
-        );
       } else {
         initialSchema = unset(
           'properties.communityCareSystemId',
