@@ -1,64 +1,85 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import FileInput from '@department-of-veterans-affairs/component-library/FileInput';
 import Select from '@department-of-veterans-affairs/component-library/Select';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 
-import { DOCUMENT_TYPES, FILE_TYPES } from '../constants';
+import { ACTIONS, DOCUMENT_TYPES, FILE_TYPES } from '../constants';
 import { isValidFileType } from '../validations';
 
-// TODO:
-// 1. Uploading a file needs visual feedback as well as SR feedback
-// 2. Deleting a file should provide SR confirmation of succesful deletion
-// 3. formData should be added as properties to respective files uploaded
+const initialState = {
+  documentType: DOCUMENT_TYPES[0],
+  documentDescription: null,
+  errorMessage: null,
+  files: [],
+};
+
+const {
+  DOC_TYPE,
+  DOC_DESC,
+  FILE_UPLOAD_SUCCESS,
+  FILE_UPLOAD_FAIL,
+  FILE_UPLOAD_PENDING,
+  DELETE_FILE,
+} = ACTIONS;
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case DOC_TYPE:
+      return { ...state, documentType: action.documentType };
+    case DOC_DESC:
+      return { ...state, documentDescription: action.documentDescription };
+    case FILE_UPLOAD_SUCCESS:
+      return {
+        ...state,
+        files: [...state.files, action.file],
+        documentType: DOCUMENT_TYPES[0],
+        errorMessage: null,
+      };
+    case FILE_UPLOAD_PENDING:
+      return { ...state, errorMessage: null };
+    case FILE_UPLOAD_FAIL:
+      return { ...state, errorMessage: action.errorMessage };
+    case DELETE_FILE:
+      return { ...state, files: action.files };
+    default:
+      return state;
+  }
+};
 
 export const CoeDocumentUpload = () => {
-  const [formData, setFormData] = useState({
-    documentType: DOCUMENT_TYPES[0],
-    documentDescription: null,
-  });
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-  const [files, setFiles] = useState([]);
-
-  const [errorMessage, setErrorMessage] = useState(null);
+  const { documentType, documentDescription, errorMessage, files } = state;
 
   const onSelectChange = e => {
-    setFormData({
-      ...formData,
-      documentType: e?.value,
-    });
+    dispatch({ type: DOC_TYPE, documentType: e?.value });
   };
 
   const onTextInputValueChange = e => {
-    setFormData({
-      ...formData,
-      documentDescription: e?.value,
-    });
+    dispatch({ type: DOC_DESC, documentDescription: e?.value });
   };
 
   const onUploadFile = uploadedFiles => {
-    setErrorMessage(null);
+    dispatch({ type: FILE_UPLOAD_PENDING });
     if (!isValidFileType(uploadedFiles[0])) {
-      setErrorMessage(
-        'Please choose a file from one of the accepted file types.',
-      );
+      dispatch({
+        type: FILE_UPLOAD_FAIL,
+        errorMessage:
+          'Please choose a file from one of the accepted file types.',
+      });
       return;
     }
     const file = uploadedFiles[0];
-    file.documentType = formData.documentType;
-    if (formData.documentDescription) {
-      file.documentDescription = formData.documentDescription;
+    file.documentType = documentType;
+    if (documentDescription) {
+      file.documentDescription = documentDescription;
     }
-    const newFiles = [...files, file];
-    setFiles(newFiles);
-    setFormData({
-      documentType: DOCUMENT_TYPES[0],
-      documentDescription: null,
-    });
+    dispatch({ type: FILE_UPLOAD_SUCCESS, file });
   };
 
   const onDeleteFile = idx => {
-    const newFiles = files.filter((file, index) => index !== idx);
-    setFiles(newFiles);
+    const newFiles = state.files.filter((file, index) => index !== idx);
+    dispatch({ type: DELETE_FILE, files: newFiles });
   };
 
   return (
@@ -92,14 +113,14 @@ export const CoeDocumentUpload = () => {
         label="Select a document to upload"
         options={DOCUMENT_TYPES}
         onValueChange={onSelectChange}
-        value={{ dirty: false, value: formData.documentType }}
+        value={{ dirty: false, value: documentType }}
       />
-      {formData.documentType === 'Other' && (
+      {documentType === 'Other' && (
         <TextInput
           label="Document description"
           name="document_description"
-          field={{ dirty: false, value: formData.documentDescription }}
-          required={formData.documentType === 'Other'}
+          field={{ dirty: false, value: documentDescription }}
+          required={documentType === 'Other'}
           onValueChange={onTextInputValueChange}
         />
       )}

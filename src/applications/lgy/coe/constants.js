@@ -33,4 +33,13 @@ export const DOCUMENT_TYPES = [
   'Other',
 ];
 
+export const ACTIONS = {
+  DOC_TYPE: 'DOC_TYPE',
+  DOC_DESC: 'DOC_DESC',
+  FILE_UPLOAD_SUCESS: 'FILE_UPLOAD_SUCCESS',
+  FILE_UPLOAD_FAIL: 'FILE_UPLOAD_FAIL',
+  FILE_UPLOAD_PENDING: 'FILE_UPLOAD_PENDING',
+  DELETE_FILE: 'DELETE_FILE',
+};
+
 export const FILE_TYPES = ['pdf', 'gif', 'jpeg', 'jpg', 'bmp', 'txt', 'png'];
