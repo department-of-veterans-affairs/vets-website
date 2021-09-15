@@ -480,8 +480,6 @@ const formConfig = {
               ),
             },
             [formFields.email]: {
-              'ui:title': 'Your email address',
-              'ui:field': ReviewBoxField,
               'ui:options': {
                 hideLabelText: true,
                 showFieldLabel: false,
