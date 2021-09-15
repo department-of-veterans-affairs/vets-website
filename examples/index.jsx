@@ -10,6 +10,9 @@ const App = () => (
       <li>
         <a href="simple-form">Simple form</a>
       </li>
+      <li>
+        <a href="multipage-form">Multipage form</a>
+      </li>
     </ul>
   </div>
 );

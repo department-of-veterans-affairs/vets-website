@@ -4,6 +4,21 @@
 
 ## formulate package
 
+## Functions
+
+|  Function | Description |
+|  --- | --- |
+|  [Page(props)](./formulate.page.md) | <b><i>(BETA)</i></b> Renders the page contents |
+|  [Router(props)](./formulate.router.md) | <b><i>(BETA)</i></b> Manages form pages as routes |
+
+## Interfaces
+
+|  Interface | Description |
+|  --- | --- |
+|  [PageProps](./formulate.pageprops.md) | <b><i>(BETA)</i></b> The properties for the Page React component |
+|  [Routable](./formulate.routable.md) | <b><i>(BETA)</i></b> Indicates if a component can be routed using <code>react-router-dom</code>. The <code>path</code> prop must be present. |
+|  [RouterProps](./formulate.routerprops.md) | <b><i>(BETA)</i></b> The properties for the Router React component |
+
 ## Variables
 
 |  Variable | Description |
