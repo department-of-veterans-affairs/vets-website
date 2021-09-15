@@ -64,15 +64,27 @@ const NearByVetCenters = props => {
     });
   };
 
-  useEffect(() => {
-    if (props.automateNearbyVetCenters) {
-      fetchNearbyVetCenters();
-    } else {
-      fetchUnpublishedVetCenters();
-    }
-  }, []);
+  useEffect(
+    () => {
+      if (!props.togglesLoading) {
+        if (props.automateNearbyVetCenters) {
+          // eslint-disable-next-line no-console
+          console.log('fetching nearby vet centers');
+          fetchNearbyVetCenters();
+        } else {
+          // eslint-disable-next-line no-console
+          console.log('fetching unpublished vet centers');
+          fetchUnpublishedVetCenters();
+        }
+      } else {
+        // eslint-disable-next-line no-console
+        console.log('toggles are loading...');
+      }
+    },
+    [props.togglesLoading],
+  );
 
-  if (props.loading) {
+  if (props.facilitiesLoading) {
     return <LoadingIndicator message="Loading facilities..." />;
   }
 
@@ -173,7 +185,8 @@ NearByVetCenters.propTypes = {
 
 const mapStateToProps = store => ({
   automateNearbyVetCenters: facilitiesVetCenterAutomateNearby(store),
-  loading: store.facility?.loading,
+  facilitiesLoading: store.facility?.loading,
+  togglesLoading: store.featureToggles?.loading,
 });
 
 export default connect(mapStateToProps)(NearByVetCenters);
