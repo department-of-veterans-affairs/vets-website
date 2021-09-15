@@ -114,12 +114,13 @@ describe('The My VA Dashboard', () => {
     });
   });
   describe('when user is not a patient, has not applied for health care, and applied to education benefits', () => {
+    let getBankInfoStub;
     beforeEach(() => {
+      getBankInfoStub = cy.stub();
       const user = makeMockUser();
       const now = Date.now() / 1000;
       const oneDayInSeconds = 24 * 60 * 60;
       const savedForms = [
-        // This form is unknown and will be filtered out of the list of applications
         {
           form: VA_FORM_IDS.FORM_22_1990E,
           metadata: {
@@ -144,7 +145,7 @@ describe('The My VA Dashboard', () => {
       user.data.attributes.vaProfile.facilities = [];
       user.data.attributes.inProgressForms = savedForms;
       cy.intercept('/v0/health_care_applications/enrollment_status', notInESR);
-      cy.intercept('/v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
+      cy.intercept('/v0/profile/ch33_bank_accounts', getBankInfoStub);
       cy.login(user);
       mockFeatureToggles();
       cy.visit(manifest.rootUrl);
@@ -157,6 +158,9 @@ describe('The My VA Dashboard', () => {
       healthCareInfoExists(true);
       disabilityCompensationExists(true);
       educationBenefitExists(false);
+      cy.should(() => {
+        expect(getBankInfoStub).not.to.be.called;
+      });
 
       cy.injectAxe();
       cy.axeCheck();
