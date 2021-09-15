@@ -312,7 +312,10 @@ const formConfig = {
                 <>
                   <h3>Review your personal information</h3>
                   <p>
-                    This is the personal information we have on file for you.
+                    Any updates you make here to your personal information will
+                    only apply to your education benefits. To update your
+                    personal information for all of the benefits across VA,{' '}
+                    <a href="#">please go to your profile page</a>.
                   </p>
                 </>
               ),
