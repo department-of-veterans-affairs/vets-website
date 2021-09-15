@@ -8,7 +8,6 @@ import {
   APPOINTMENT_TYPES,
   PURPOSE_TEXT,
   EXPRESS_CARE,
-  UNABLE_TO_REACH_VETERAN_DETCODE,
   TYPE_OF_VISIT,
   TYPES_OF_EYE_CARE,
   TYPES_OF_SLEEP_CARE,
@@ -413,6 +412,12 @@ export function transformConfirmedAppointment(appt) {
   const isCC = isCommunityCare(appt);
   const videoData = setVideoData(appt);
 
+  const CANCELLATION_REASON_MAP = new Map([
+    ['CANCELLED BY PATIENT', 'pat'],
+    ['CANCELLED BY CLINIC', 'prov'],
+    [null, null],
+  ]);
+
   return {
     resourceType: 'Appointment',
     // Temporary fix until https://issues.mobilehealth.va.gov/browse/VAOSR-2058 is complete
@@ -426,6 +431,8 @@ export function transformConfirmedAppointment(appt) {
       (!appt.communityCare && appt.vdsAppointments?.[0]?.bookingNote) ||
       appt.vvsAppointments?.[0]?.instructionsTitle ||
       null,
+    cancellationReason:
+      CANCELLATION_REASON_MAP.get(getVistaStatus(appt)) || null,
     location: setLocation(appt),
     videoData,
     ...getCommunityCareData(appt),
@@ -490,9 +497,6 @@ export function transformPendingAppointment(appt) {
   const isCC = isCommunityCare(appt);
   const isExpressCare = appt.typeOfCareId === EXPRESS_CARE;
   const requestedPeriod = getRequestedPeriods(appt);
-  const unableToReachVeteran = appt.appointmentRequestDetailCode?.some(
-    detail => detail.detailCode?.code === UNABLE_TO_REACH_VETERAN_DETCODE,
-  );
   const created = moment.parseZone(appt.date).format('YYYY-MM-DD');
   const isVideo = appt.visitType === 'Video Conference';
 
@@ -501,9 +505,7 @@ export function transformPendingAppointment(appt) {
     id: appt.id,
     status: getRequestStatus(appt, isExpressCare),
     created,
-    cancelationReason: unableToReachVeteran
-      ? UNABLE_TO_REACH_VETERAN_DETCODE
-      : null,
+    cancellationReason: null,
     requestedPeriod,
     start: isExpressCare ? created : null,
     minutesDuration: 60,

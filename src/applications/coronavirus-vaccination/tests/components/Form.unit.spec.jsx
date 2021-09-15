@@ -164,6 +164,7 @@ describe('<Form/> prefills -> profile data ', () => {
         },
       ),
     );
+    server.listen();
   });
 
   after(() => {
