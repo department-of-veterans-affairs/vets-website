@@ -4,7 +4,7 @@ import moment from 'moment';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import { getClaimType } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
-import { scrollToTop } from 'platform/utilities/ui/scrollToTop';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 class DetailsPage extends React.Component {
   componentDidMount() {

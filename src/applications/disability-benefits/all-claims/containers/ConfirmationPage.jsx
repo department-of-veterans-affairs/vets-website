@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
-import { scrollToTop } from 'platform/utilities/ui/scrollToTop';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import {
   submissionStatuses,

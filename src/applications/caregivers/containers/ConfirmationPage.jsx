@@ -8,7 +8,7 @@ import Telephone, {
 import { connect } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
-import { scrollToTop } from 'platform/utilities/ui/scrollToTop';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 const ConfirmationPage = props => {
   useEffect(() => {

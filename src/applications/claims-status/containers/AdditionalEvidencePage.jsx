@@ -8,8 +8,8 @@ import Notification from '../components/Notification';
 import EvidenceWarning from '../components/EvidenceWarning';
 import { setPageFocus, setUpPage } from '../utils/page';
 import { getScrollOptions } from 'platform/utilities/ui';
-import { scrollToTop } from 'platform/utilities/ui/scrollToTop';
-import { scrollTo } from 'platform/utilities/ui/scrollTo';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 import {
   addFile,

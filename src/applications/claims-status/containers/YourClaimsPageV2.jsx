@@ -35,7 +35,7 @@ import Pagination from '@department-of-veterans-affairs/component-library/Pagina
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { setUpPage, setPageFocus } from '../utils/page';
-import { scrollToTop } from 'platform/utilities/ui/scrollToTop';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import StemClaimListItem from '../components/StemClaimListItem';
 

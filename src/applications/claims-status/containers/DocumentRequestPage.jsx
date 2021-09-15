@@ -10,7 +10,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import Notification from '../components/Notification';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import { setPageFocus, setUpPage } from '../utils/page';
-import { scrollToTop } from 'platform/utilities/ui/scrollToTop';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import {
   addFile,

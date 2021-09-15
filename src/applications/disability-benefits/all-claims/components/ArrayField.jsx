@@ -9,7 +9,7 @@ import {
   getDefaultFormState,
   deepEquals,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
-import { scrollTo } from 'platform/utilities/ui/scrollTo';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import { getScrollOptions, isReactComponent } from 'platform/utilities/ui';
 
 import {
