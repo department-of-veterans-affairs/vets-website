@@ -27,6 +27,33 @@ function communicationGroupsSorter(groupA, groupB) {
   );
 }
 
+// Makes a filter callback to operate on the raw communication groups API data
+// 1. Removes the health care group if there are no facilities available
+const makeHealthCareGroupFilter = facilities => group => {
+  if (group.id === 3 && !facilities?.length) {
+    return false;
+  }
+  return true;
+};
+
+// Makes a reducer callback to operate on the raw communication groups API data
+// 1. Removes the RX tracking item if there are no facilities that support that
+// feature
+const makeRxTrackingItemFilterReducer = facilities => (groups, group) => {
+  const newGroup = { ...group };
+  const filteredItems = newGroup.communicationItems.filter(item => {
+    if (item.id === 4) {
+      return facilities.some(facility =>
+        RX_TRACKING_SUPPORTING_FACILITIES.has(facility.facilityId),
+      );
+    }
+    return true;
+  });
+  newGroup.communicationItems = filteredItems;
+  groups.push(newGroup);
+  return groups;
+};
+
 // ACTION TYPES
 const FETCH_STARTED = '@@profile/communicationPreferences/fetchStarted';
 const FETCH_FAILED = '@@profile/communicationPreferences/fetchFailed';
@@ -45,8 +72,11 @@ const startFetch = () => {
   return { type: FETCH_STARTED };
 };
 
-const fetchSucceeded = communicationGroups => {
-  return { type: FETCH_SUCCEEDED, payload: communicationGroups };
+const fetchSucceeded = (communicationGroups, { facilities } = {}) => {
+  return {
+    type: FETCH_SUCCEEDED,
+    payload: { communicationGroups, facilities },
+  };
 };
 
 const fetchFailed = errors => {
@@ -68,7 +98,9 @@ const saveChannelSucceeded = (channelId, data) => {
   return { type: SAVE_CHANNEL_SUCCEEDED, payload: { channelId, data } };
 };
 
-export const fetchCommunicationPreferenceGroups = () => {
+export const fetchCommunicationPreferenceGroups = ({
+  facilities = [],
+} = {}) => {
   return async dispatch => {
     dispatch(startFetch());
 
@@ -78,7 +110,7 @@ export const fetchCommunicationPreferenceGroups = () => {
       if (!communicationGroups) {
         throw new TypeError('communicationGroups is undefined');
       }
-      dispatch(fetchSucceeded(communicationGroups));
+      dispatch(fetchSucceeded(communicationGroups, { facilities }));
     } catch (error) {
       const errors = error.errors || [error];
       dispatch(fetchFailed(errors));
@@ -141,72 +173,12 @@ export const selectChannelUiById = (state, channelId) => {
 // The selectors below are specific to the business requirements for the
 // Notification Settings section of the Profile
 
-// Filters out the health care group if the user is not a patient
-export const selectAvailableGroups = (state, { isPatient = false } = {}) => {
-  const allGroups = selectGroups(state);
-  return allGroups.ids.reduce(
-    (acc, groupId) => {
-      // remove the health care group (group3) if not a patient
-      if (groupId === 'group3' && !isPatient) {
-        return acc;
-      } else {
-        acc.ids.push(groupId);
-        acc.entities[groupId] = allGroups.entities[groupId];
-        return acc;
-      }
-    },
-    {
-      ids: [],
-      entities: {},
-    },
-  );
-};
-
-// Makes a callback function to use with Array.filter()
-export const makeRxTrackingItemFilter = facilities => {
-  return itemId => {
-    if (itemId === 'item4') {
-      return facilities.some(facility => {
-        return RX_TRACKING_SUPPORTING_FACILITIES.has(facility.facilityId);
-      })
-        ? itemId
-        : null;
-    }
-    return itemId;
-  };
-};
-
-// Filter out the items the user does not have access to
-// 1. Filter out the Rx tracking item (item4) unless they are a patient at a
-//    facility that supports the feature
-export const selectAvailableItems = (
-  state,
-  { facilities = [], isPatient = false } = {},
-) => {
-  const availableGroups = selectAvailableGroups(state, { isPatient });
-  const itemIds = flatten(
-    availableGroups.ids.map(groupId => {
-      return availableGroups.entities[groupId].items;
-    }),
-  ).filter(makeRxTrackingItemFilter(facilities));
-  const itemEntities = itemIds.reduce((acc, itemId) => {
-    acc[itemId] = selectItemById(state, itemId);
-    return acc;
-  }, {});
-  return { ids: itemIds, entities: itemEntities };
-};
-
 // Filter out the channels the user doesn't have contact info for
-export const selectAvailableChannels = (
+const selectAvailableChannels = (
   state,
-  {
-    facilities = [],
-    hasMobilePhone = false,
-    hasEmailAddress = false,
-    isPatient = false,
-  } = {},
+  { hasMobilePhone = false, hasEmailAddress = false } = {},
 ) => {
-  const availableItems = selectAvailableItems(state, { isPatient, facilities });
+  const availableItems = selectItems(state);
   const availableItemsChannels = flatten(
     availableItems.ids.map(itemId => {
       return availableItems.entities[itemId].channels;
@@ -225,22 +197,18 @@ export const selectAvailableChannels = (
       }
       return acc;
     },
-    { ids: [], entities: {} },
+    {
+      ids: [],
+      entities: {},
+    },
   );
 };
 
 export const selectChannelsWithoutSelection = (
   state,
-  {
-    facilities = [],
-    hasMobilePhone = false,
-    hasEmailAddress = false,
-    isPatient = false,
-  } = {},
+  { hasMobilePhone = false, hasEmailAddress = false } = {},
 ) => {
   const availableChannels = selectAvailableChannels(state, {
-    facilities,
-    isPatient,
     hasMobilePhone,
     hasEmailAddress,
   });
@@ -337,28 +305,42 @@ export default function reducer(state = initialState, action = {}) {
       };
     }
     case FETCH_SUCCEEDED: {
-      const communicationGroups = action.payload;
-      // Array.sort sorts the array in place
-      communicationGroups.sort(communicationGroupsSorter);
-      // flat array of all communication items that exist across all groups
-      const fetchedItems = communicationGroups.reduce((acc, group) => {
-        return [...acc, ...group.communicationItems];
-      }, []);
+      const { communicationGroups, facilities } = action.payload;
+      // sort the raw API data and filter out any groups the user should not see
+      const availableCommunicationGroups = communicationGroups
+        .filter(makeHealthCareGroupFilter(facilities))
+        .reduce(makeRxTrackingItemFilterReducer(facilities), [])
+        .sort(communicationGroupsSorter);
+      const availableCommunicationItems = availableCommunicationGroups.reduce(
+        (acc, group) => {
+          return [...acc, ...group.communicationItems];
+        },
+        [],
+      );
       // massaged communication group data to store in Redux
-      const groups = communicationGroups.reduce(communicationGroupsReducer, {
-        ids: [],
-        entities: {},
-      });
-      // massaged communication items data to store in Redux
-      const items = fetchedItems.reduce(communicationItemsReducer, {
-        ids: [],
-        entities: {},
-      });
+      const groups = availableCommunicationGroups.reduce(
+        communicationGroupsReducer,
+        {
+          ids: [],
+          entities: {},
+        },
+      );
+      // massaged and filtered communication items data to store in Redux
+      const items = availableCommunicationItems.reduce(
+        communicationItemsReducer,
+        {
+          ids: [],
+          entities: {},
+        },
+      );
       // massaged communication channels data to store in Redux
-      const channels = fetchedItems.reduce(communicationChannelsReducer, {
-        ids: [],
-        entities: {},
-      });
+      const channels = availableCommunicationItems.reduce(
+        communicationChannelsReducer,
+        {
+          ids: [],
+          entities: {},
+        },
+      );
       return {
         ...state,
         loadingStatus: LOADING_STATES.loaded,
