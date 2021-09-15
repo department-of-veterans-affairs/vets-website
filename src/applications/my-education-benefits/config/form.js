@@ -269,7 +269,7 @@ const formConfig = {
   trackingPrefix: 'my-education-benefits-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: 'MEB-22-1990',
+  formId: '22-1990-MEB',
   saveInProgress: {
     messages: {
       inProgress:
