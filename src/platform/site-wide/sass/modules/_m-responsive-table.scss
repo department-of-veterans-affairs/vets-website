@@ -14,9 +14,13 @@
       display: block;
     }
 
-    thead button.sortable {
+    thead button.sort {
       display: flex;
       align-items: center;
+    }
+
+    thead svg.usa-icon.sort {
+      width: 24px;
     }
   }
   .va-table--responsive {
