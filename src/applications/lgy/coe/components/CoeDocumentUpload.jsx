@@ -1,14 +1,18 @@
 import React, { useReducer } from 'react';
+import Scroll from 'react-scroll';
 import FileInput from '@department-of-veterans-affairs/component-library/FileInput';
 import Select from '@department-of-veterans-affairs/component-library/Select';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 
+import { getScrollOptions } from 'platform/utilities/ui';
+
 import { ACTIONS, DOCUMENT_TYPES, FILE_TYPES } from '../constants';
+import { getTopPosition } from '../utils';
 import { isValidFileType } from '../validations';
 
 const initialState = {
   documentType: DOCUMENT_TYPES[0],
-  documentDescription: null,
+  documentDescription: '',
   errorMessage: null,
   files: [],
 };
@@ -19,8 +23,19 @@ const {
   FILE_UPLOAD_SUCCESS,
   FILE_UPLOAD_FAIL,
   FILE_UPLOAD_PENDING,
+  FORM_SUBMIT_FAIL,
   DELETE_FILE,
 } = ACTIONS;
+
+const scrollToError = () => {
+  const errors = document.querySelectorAll('.usa-input-error');
+  if (errors.length) {
+    const errorPosition = getTopPosition(errors[0]);
+    const options = getScrollOptions({ offset: -25 });
+    Scroll.animateScroll.scrollTo(errorPosition, options);
+    errors[0].querySelectorAll('label')[1].focus();
+  }
+};
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -33,10 +48,12 @@ const reducer = (state, action) => {
         ...state,
         files: [...state.files, action.file],
         documentType: DOCUMENT_TYPES[0],
+        documentDescription: '',
         errorMessage: null,
       };
     case FILE_UPLOAD_PENDING:
       return { ...state, errorMessage: null };
+    case FORM_SUBMIT_FAIL:
     case FILE_UPLOAD_FAIL:
       return { ...state, errorMessage: action.errorMessage };
     case DELETE_FILE:
@@ -82,6 +99,16 @@ export const CoeDocumentUpload = () => {
     dispatch({ type: DELETE_FILE, files: newFiles });
   };
 
+  const onSubmit = () => {
+    if (!files.length) {
+      dispatch({
+        type: FORM_SUBMIT_FAIL,
+        errorMessage: 'Please choose a file to upload',
+      });
+      setTimeout(scrollToError);
+    }
+  };
+
   return (
     <>
       <h2>We need documents from you</h2>
@@ -107,23 +134,31 @@ export const CoeDocumentUpload = () => {
           </button>
         </div>
       ))}
-      <Select
-        required
-        name="document_type"
-        label="Select a document to upload"
-        options={DOCUMENT_TYPES}
-        onValueChange={onSelectChange}
-        value={{ dirty: false, value: documentType }}
-      />
-      {documentType === 'Other' && (
-        <TextInput
-          label="Document description"
-          name="document_description"
-          field={{ dirty: false, value: documentDescription }}
-          required={documentType === 'Other'}
-          onValueChange={onTextInputValueChange}
+      <div
+        className={
+          documentType === 'Other'
+            ? 'vads-u-padding-left--1p5 vads-u-border-left--5px vads-u-border-color--primary-alt-light'
+            : null
+        }
+      >
+        <Select
+          required
+          name="document_type"
+          label="Select a document to upload"
+          options={DOCUMENT_TYPES}
+          onValueChange={onSelectChange}
+          value={{ dirty: false, value: documentType }}
         />
-      )}
+        {documentType === 'Other' && (
+          <TextInput
+            label="Document description"
+            name="document_description"
+            field={{ dirty: false, value: documentDescription }}
+            required={documentType === 'Other'}
+            onValueChange={onTextInputValueChange}
+          />
+        )}
+      </div>
       <FileInput
         additionalClass={errorMessage ? 'vads-u-padding-left--1p5' : null}
         additionalErrorClass="vads-u-margin-bottom--1"
@@ -133,6 +168,9 @@ export const CoeDocumentUpload = () => {
         accept={FILE_TYPES.map(type => `.${type}`).join(',')}
         errorMessage={errorMessage}
       />
+      <button className="vads-u-margin-top--3 usa-button" onClick={onSubmit}>
+        Submit uploaded documents
+      </button>
     </>
   );
 };

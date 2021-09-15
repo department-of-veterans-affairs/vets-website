@@ -29,6 +29,17 @@ describe('CoeDocumentUpload', () => {
     expect(screen.getByText(/accepted file types/i)).to.exist;
   });
 
+  it('should not submit with no documents', () => {
+    const screen = render(<CoeDocumentUpload />);
+    userEvent.selectOptions(screen.getByRole('combobox'), [
+      'Discharge or seperation papers (DD214)',
+    ]);
+    userEvent.click(
+      screen.getByRole('button', { name: /Submit uploaded documents/ }),
+    );
+    expect(screen.getByText(/Please choose a file to upload/i)).to.exist;
+  });
+
   it('should display an uploaded file', () => {
     const file = new File(['hello'], 'hello.png', { type: 'image/png' });
     const screen = render(<CoeDocumentUpload />);
