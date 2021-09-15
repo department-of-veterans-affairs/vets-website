@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom';
 // import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import {
+  selectFeatureCCIterations,
   selectHasVAPResidentialAddress,
   selectIsCernerOnlyPatient,
 } from '../redux/selectors';
@@ -42,6 +43,8 @@ import useVariantSortMethodTracking from './hooks/useVariantSortMethodTracking';
 export function NewAppointment() {
   const isCernerOnlyPatient = useSelector(selectIsCernerOnlyPatient);
   const hasResidentialAddress = useSelector(selectHasVAPResidentialAddress);
+  const featureCCIteration = useSelector(selectFeatureCCIterations);
+
   const match = useRouteMatch();
   const location = useLocation();
 
@@ -110,6 +113,13 @@ export function NewAppointment() {
           path={`${match.url}/how-to-schedule`}
           component={ScheduleCernerPage}
         />
+        {featureCCIteration &&
+          !hasResidentialAddress && (
+            <Route
+              path={`${match.url}/community-care-preferences`}
+              component={CommunityCareProviderSelectionPage}
+            />
+          )}
         {!hasResidentialAddress && (
           <Route
             path={`${match.url}/community-care-preferences`}

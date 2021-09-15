@@ -20,6 +20,7 @@ import { resetDataLayer } from '../../../utils/events';
 
 import { PODIATRY_ID, TYPES_OF_CARE } from '../../../utils/constants';
 import useFormState from '../../../hooks/useFormState';
+import { selectFeatureCCIterations } from '../../../redux/selectors';
 
 const pageKey = 'typeOfCare';
 const pageTitle = 'Choose the type of care you need';
@@ -35,11 +36,12 @@ export default function TypeOfCarePage() {
     showDirectScheduling,
     showPodiatryApptUnavailableModal,
   } = useSelector(selectTypeOfCarePage, shallowEqual);
+  const featureCCIteration = useSelector(selectFeatureCCIterations);
+
   const history = useHistory();
   const showUpdateAddressAlert =
     !hideUpdateAddressAlert && (!addressLine1 || addressLine1.match(/^PO Box/));
 
-  const featureCCIteration = true;
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();

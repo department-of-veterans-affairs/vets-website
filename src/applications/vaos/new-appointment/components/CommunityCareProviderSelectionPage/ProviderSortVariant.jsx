@@ -10,6 +10,7 @@ import {
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 import InfoAlert from '../../../components/InfoAlert';
+import ResidentialAddress from '../../../components/ResidentialAddress';
 
 export default function ProviderSortVariant({
   currentlyShownProvidersList,
@@ -77,28 +78,39 @@ export default function ProviderSortVariant({
   const requestLocationStatusFailed =
     requestLocationStatus === FETCH_STATUS.failed;
 
-  // const hasHomeAddress = false;
-  // if (hasHomeAddress) {
-  //   // TODO: Might need to do something else since home address is currently 1st in the list
-  //   sortOptions.push({
-  //     value: FACILITY_SORT_METHODS.distanceFromResidential,
-  //     label: 'Your home address',
-  //   });
-  // }
+  if (hasUserAddress) {
+    sortOptions.unshift({
+      value: FACILITY_SORT_METHODS.distanceFromResidential,
+      label: 'Your home address',
+    });
+  } else {
+    sortOptions.push({
+      value: FACILITY_SORT_METHODS.distanceFromCurrentLocation,
+      label: 'Your current location',
+    });
+  }
 
   return (
     <div className="vads-u-margin-bottom--3">
       {notLoading && (
-        <p
-          className="vads-u-margin--0"
-          id="provider-list-status"
-          role="status"
-          aria-live="polite"
-          aria-atomic="true"
-        >
-          Displaying 1 to {currentlyShownProvidersList.length} of{' '}
-          {communityCareProviderList.length} providers
-        </p>
+        <>
+          <p
+            className="vads-u-margin--0"
+            id="provider-list-status"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            Displaying 1 to {currentlyShownProvidersList.length} of{' '}
+            {communityCareProviderList.length} providers
+          </p>
+          <h3 className="vads-u-font-size--h5">
+            {hasUserAddress
+              ? 'Home address on file'
+              : 'No home address on file'}
+          </h3>
+          {hasUserAddress && <ResidentialAddress address={address} />}
+        </>
       )}
       <Select
         label="Show providers closest to"

@@ -14,6 +14,7 @@ import { getFormPageInfo, getTypeOfCare } from '../../redux/selectors';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import ProviderSelectionField from './ProviderSelectionField';
 import recordEvent from 'platform/monitoring/record-event';
+import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -38,10 +39,13 @@ export default function CommunityCareProviderSelectionPage() {
     state => getFormPageInfo(state, pageKey),
     shallowEqual,
   );
+  const residentialAddress = useSelector(
+    state => selectVAPResidentialAddress(state),
+    shallowEqual,
+  );
   const history = useHistory();
 
-  const hasHomeAddress = false;
-  if (!hasHomeAddress) {
+  if (showCCIterations && residentialAddress) {
     // TODO: Should the type of care name be lower case???
     pageTitle = `Request a ${getTypeOfCare(data).name} provider`;
   }
@@ -50,7 +54,7 @@ export default function CommunityCareProviderSelectionPage() {
     : 'You can request a provider for this care. If they aren’t available, we’ll schedule your appointment with a provider close to your home.';
 
   let uiSchema;
-  if (!hasHomeAddress) {
+  if (showCCIterations) {
     uiSchema = {
       communityCareProvider: {
         'ui:title': ' ',
