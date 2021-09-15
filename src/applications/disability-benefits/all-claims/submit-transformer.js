@@ -9,27 +9,25 @@ import removeDeeplyEmptyObjects from 'platform/utilities/data/removeDeeplyEmptyO
 import {
   causeTypes,
   specialIssueTypes,
-  ATTACHMENT_KEYS,
   CHAR_LIMITS,
   defaultDisabilityDescriptions,
 } from './constants';
 
-import { isBDD, isDisabilityPtsd, truncateDescriptions } from './utils';
+import { isBDD, truncateDescriptions } from './utils';
 import {
   customReplacer,
-  transformProviderFacilities,
-  getDisabilities,
-  getDisabilityName,
   getClaimedConditionNames,
   setActionTypes,
   transformRelatedDisabilities,
   removeExtraData,
-  getFlatIncidentKeys,
-  getPtsdChangeText,
   filterServicePeriods,
   stringifyRelatedDisabilities,
-  cleanUpPersonsInvolved,
   cleanUpMailingAddress,
+  addPTSDCause,
+  addForm4142,
+  addForm0781,
+  addForm8940,
+  addFileAttachments,
 } from './utils/submit';
 
 import disabilityLabels from './content/disabilityLabels';
@@ -104,21 +102,6 @@ export function transform(formConfig, form) {
     }
     return clonedData;
   };
-
-  // Add 'cause' of 'NEW' to new ptsd disabilities since form does not ask
-  const addPTSDCause = formData =>
-    formData.newDisabilities
-      ? _.set(
-          'newDisabilities',
-          formData.newDisabilities.map(
-            disability =>
-              isDisabilityPtsd(disability.condition)
-                ? _.set('cause', causeTypes.NEW, disability)
-                : disability,
-          ),
-          formData,
-        )
-      : formData;
 
   // new disabilities that match a name on our mapped list need their
   // respective classification code added
@@ -299,113 +282,6 @@ export function transform(formConfig, form) {
     };
 
     return _.set('homelessnessContact', sanitizedHomelessnessContact, formData);
-  };
-
-  const addForm4142 = formData => {
-    if (!formData.providerFacility) {
-      return formData;
-    }
-    const clonedData = _.cloneDeep(formData);
-    clonedData.form4142 = {
-      ...(clonedData.limitedConsent && {
-        limitedConsent: clonedData.limitedConsent,
-      }),
-      ...(clonedData.providerFacility && {
-        providerFacility: transformProviderFacilities(
-          clonedData.providerFacility,
-        ),
-      }),
-    };
-    delete clonedData.limitedConsent;
-    delete clonedData.providerFacility;
-    return clonedData;
-  };
-
-  const addForm0781 = formData => {
-    const clonedData = _.cloneDeep(formData);
-    const incidentKeys = getFlatIncidentKeys();
-    const incidents = incidentKeys
-      .filter(incidentKey => clonedData[incidentKey])
-      .map(incidentKey => ({
-        ...cleanUpPersonsInvolved(clonedData[incidentKey]),
-        personalAssault: incidentKey.includes('secondary'),
-      }));
-    incidentKeys.forEach(incidentKey => {
-      delete clonedData[incidentKey];
-    });
-    if (incidents.length > 0) {
-      clonedData.form0781 = {
-        incidents,
-        remarks: clonedData.additionalRemarks781,
-        additionalIncidentText: clonedData.additionalIncidentText,
-        additionalSecondaryIncidentText:
-          clonedData.additionalSecondaryIncidentText,
-        otherInformation: [
-          ...getPtsdChangeText(clonedData.physicalChanges),
-          _.get('physicalChanges.otherExplanation', clonedData, ''),
-          ...getPtsdChangeText(clonedData.socialBehaviorChanges),
-          _.get('socialBehaviorChanges.otherExplanation', clonedData, ''),
-          ...getPtsdChangeText(clonedData.mentalChanges),
-          _.get('mentalChanges.otherExplanation', clonedData, ''),
-          ...getPtsdChangeText(clonedData.workBehaviorChanges),
-          _.get('workBehaviorChanges.otherExplanation', clonedData, ''),
-          _.get('additionalChanges', clonedData, ''),
-        ].filter(info => info.length > 0),
-      };
-      delete clonedData.physicalChanges;
-      delete clonedData.socialBehaviorChanges;
-      delete clonedData.mentalChanges;
-      delete clonedData.workBehaviorChanges;
-      delete clonedData.additionalChanges;
-      delete clonedData.additionalRemarks781;
-      delete clonedData.additionalIncidentText;
-      delete clonedData.additionalSecondaryIncidentText;
-    }
-    return clonedData;
-  };
-
-  const addForm8940 = formData => {
-    const clonedData = _.cloneDeep(formData);
-    const { unemployability } = clonedData;
-
-    if (unemployability) {
-      const disabilities = getDisabilities(formData);
-
-      clonedData.form8940 = {
-        unemployability: {
-          ...unemployability,
-          disabilityPreventingEmployment: disabilities
-            .filter(disability => disability.unemployabilityDisability)
-            .map(disability => getDisabilityName(disability))
-            .join(),
-          underDoctorHopitalCarePast12M:
-            unemployability.underDoctorsCare || unemployability.hospitalized,
-          mostEarningsInAYear: (
-            unemployability.mostEarningsInAYear || ''
-          ).toString(),
-          disabilityPreventMilitaryDuties:
-            unemployability.disabilityPreventMilitaryDuties === 'yes',
-        },
-      };
-
-      delete clonedData.form8940.unemployability.underDoctorsCare;
-      delete clonedData.form8940.unemployability.hospitalized;
-      delete clonedData.unemployability;
-    }
-
-    return clonedData;
-  };
-  // Flatten all attachment pages into attachments ARRAY
-  const addFileAttachments = formData => {
-    const clonedData = _.cloneDeep(formData);
-    let attachments = [];
-
-    ATTACHMENT_KEYS.forEach(key => {
-      const documentArr = _.get(key, clonedData, []);
-      attachments = [...attachments, ...documentArr];
-      delete clonedData[key];
-    });
-    return { ...clonedData, ...(attachments.length && { attachments }) };
   };
 
   const fullyDevelopedClaim = formData => {
