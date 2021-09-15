@@ -152,8 +152,6 @@ function titleCase(str) {
 
 function phoneUISchema(category) {
   return {
-    'ui:title': `Your ${category} phone number`,
-    'ui:field': ReviewBoxField,
     'ui:options': {
       hideLabelText: true,
       showFieldLabel: false,
@@ -177,12 +175,12 @@ function phoneSchema() {
     type: 'object',
     required: ['phone'],
     properties: {
-      isInternational: {
-        type: 'boolean',
-      },
       phone: {
         ...usaPhone,
         pattern: '^\\d[-]?\\d(?:[0-9-]*\\d)?$',
+      },
+      isInternational: {
+        type: 'boolean',
       },
     },
   };
