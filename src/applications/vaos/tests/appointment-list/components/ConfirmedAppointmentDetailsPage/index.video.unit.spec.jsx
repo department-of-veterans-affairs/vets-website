@@ -121,9 +121,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
       fireEvent.click(await screen.findByText(/Details/));
 
-      await waitFor(() =>
-        expect(screen.history.push.lastCall.args[0]).to.equal(url),
-      );
+      await screen.findByText(/Cheyenne VA medical center/i);
 
       await screen.findByText(
         new RegExp(
@@ -317,9 +315,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
       fireEvent.click(await screen.findByText(/Details/));
 
-      await waitFor(() =>
-        expect(screen.history.push.lastCall.args[0]).to.equal(url),
-      );
+      await screen.findByText(/Cheyenne VA medical center/i);
 
       await screen.findByText(
         new RegExp(
@@ -403,9 +399,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
       fireEvent.click(await screen.findByText(/Details/));
 
-      await waitFor(() =>
-        expect(screen.history.push.lastCall.args[0]).to.equal(url),
-      );
+      await screen.findByText(/Cheyenne VA medical center/i);
 
       await screen.findByText(
         new RegExp(
@@ -669,9 +663,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
       fireEvent.click(await screen.findByText(/Details/));
 
-      await waitFor(() =>
-        expect(screen.history.push.lastCall.args[0]).to.equal(url),
-      );
+      await screen.findAllByText(/Cheyenne VA medical center/i);
 
       await screen.findByText(
         new RegExp(
@@ -769,9 +761,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
       fireEvent.click(await screen.findByText(/Details/));
 
-      await waitFor(() =>
-        expect(screen.history.push.lastCall.args[0]).to.equal(url),
-      );
+      await screen.findAllByText(/Cheyenne VA medical center/i);
 
       await screen.findByText(
         new RegExp(
