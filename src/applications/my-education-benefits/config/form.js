@@ -380,16 +380,6 @@ const formConfig = {
                 'ui:reviewField': CustomReviewDOBField,
               },
             },
-            'view:note': {
-              'ui:description': (
-                <p>
-                  <strong>Note</strong>: Any updates you make here will change
-                  your personal information for VA education benefits only. To
-                  change your personal information for all benefits across VA,{' '}
-                  <a href="#">visit your VA profile</a>.
-                </p>
-              ),
-            },
           },
           schema: {
             type: 'object',
@@ -415,10 +405,6 @@ const formConfig = {
                 properties: {
                   [formFields.dateOfBirth]: date,
                 },
-              },
-              'view:note': {
-                type: 'object',
-                properties: {},
               },
             },
           },
