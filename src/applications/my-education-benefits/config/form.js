@@ -634,17 +634,6 @@ const formConfig = {
                 showFieldLabel: false,
                 viewComponent: MailingAddressViewField,
               },
-              'ui:field': ReviewBoxField,
-            },
-            'view:note': {
-              'ui:description': (
-                <p>
-                  <strong>Note</strong>: Any updates you make here will change
-                  your mailing address for VA education benefits only. To change
-                  your mailing address for all benefits VA,{' '}
-                  <a href="#">visit your VA profile</a>.
-                </p>
-              ),
             },
           },
           schema: {
@@ -668,10 +657,6 @@ const formConfig = {
                     ...address.schema(fullSchema, true),
                   },
                 },
-              },
-              'view:note': {
-                type: 'object',
-                properties: {},
               },
             },
           },
