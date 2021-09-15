@@ -8,7 +8,7 @@ import {
   SAVED_SEPARATION_DATE,
   PTSD_MATCHES,
   CHAR_LIMITS,
-} from '../../all-claims/constants';
+} from '../../constants';
 import {
   makeSchemaForNewDisabilities,
   makeSchemaForRatedDisabilities,
@@ -46,7 +46,7 @@ import {
   showSeparationLocation,
   isExpired,
   truncateDescriptions,
-} from '../utils';
+} from '../../utils';
 
 describe('526 helpers', () => {
   describe('hasGuardOrReservePeriod', () => {
