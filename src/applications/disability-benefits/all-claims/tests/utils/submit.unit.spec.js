@@ -247,7 +247,11 @@ describe('cleanUpPersonsInvolved', () => {
     expect(cleanUpPersonsInvolved(incident)).to.deep.equal({
       personsInvolved: [
         {
-          name: {},
+          name: {
+            first: '',
+            middle: '',
+            last: '',
+          },
           'view:individualAddMsg': {},
           injuryDeath: 'other',
           injuryDeathOther: 'Entry left blank',
@@ -255,7 +259,7 @@ describe('cleanUpPersonsInvolved', () => {
       ],
     });
   });
-  it('should only modify empty entries', () => {
+  it('should only modify empty entries & add an empty name object', () => {
     const person = {
       name: {
         first: 'First',
@@ -272,7 +276,9 @@ describe('cleanUpPersonsInvolved', () => {
       personsInvolved: [
         person,
         {
-          name: {},
+          name: {
+            first: 'test',
+          },
           'view:individualAddMsg': {},
         },
         {
@@ -285,12 +291,21 @@ describe('cleanUpPersonsInvolved', () => {
       personsInvolved: [
         person,
         {
-          name: {},
+          name: {
+            first: 'test',
+            middle: '',
+            last: '',
+          },
           'view:individualAddMsg': {},
           injuryDeath: 'other',
           injuryDeathOther: 'Entry left blank',
         },
         {
+          name: {
+            first: '',
+            middle: '',
+            last: '',
+          },
           injuryDeath: 'other',
           description: 'should not change',
         },

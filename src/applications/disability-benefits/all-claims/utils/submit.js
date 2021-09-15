@@ -259,16 +259,23 @@ export const cleanUpPersonsInvolved = incident => {
   // personsInvolved that don't have a "injuryDeath" type set. So we're
   // setting blank entries to "other" and adding a generic other description
   // see https://github.com/department-of-veterans-affairs/va.gov-team/issues/21422
-  const personsInvolved = incident.personsInvolved?.map(
-    person =>
-      person.injuryDeath
-        ? person
-        : {
-            ...person,
-            injuryDeath: 'other',
-            injuryDeathOther: person.injuryDeathOther || 'Entry left blank',
-          },
-  );
+  const personsInvolved = incident.personsInvolved?.map((person = {}) => {
+    const name = ['first', 'middle', 'last'].reduce(
+      (fullName, part) => ({
+        ...fullName,
+        [part]: person.name?.[part] || '',
+      }),
+      {},
+    );
+    return person.injuryDeath
+      ? { ...person, name }
+      : {
+          ...person,
+          name,
+          injuryDeath: 'other',
+          injuryDeathOther: person.injuryDeathOther || 'Entry left blank',
+        };
+  });
   return {
     ...incident,
     personsInvolved,
