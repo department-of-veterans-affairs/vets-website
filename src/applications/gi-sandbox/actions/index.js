@@ -280,6 +280,10 @@ export function changeSearchTab(tab) {
 }
 
 export function fetchNameAutocompleteSuggestions(name, filterFields, version) {
+  if (name === '' || name === null || name === undefined) {
+    return { type: NAME_AUTOCOMPLETE_SUCCEEDED, payload: [] };
+  }
+
   const url = appendQuery(`${api.url}/institutions/autocomplete`, {
     term: name,
     ...rubyifyKeys(filterFields),
@@ -307,6 +311,10 @@ export function fetchNameAutocompleteSuggestions(name, filterFields, version) {
 }
 
 export function fetchLocationAutocompleteSuggestions(location) {
+  if (location === '' || location === null || location === undefined) {
+    return { type: LOCATION_AUTOCOMPLETE_SUCCEEDED, payload: [] };
+  }
+
   return dispatch => {
     dispatch({ type: AUTOCOMPLETE_STARTED });
 

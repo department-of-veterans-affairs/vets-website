@@ -69,6 +69,7 @@ export function getVAOSAppointmentMock() {
       kind: null,
       locationId: null,
       minutesDuration: null,
+      patientInstruction: null,
       practitioners: [],
       preferredTimesForPhoneCall: [],
       priority: null,

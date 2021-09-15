@@ -7,3 +7,10 @@ export const CALLSTATUS = {
   skip: 'skipped',
   idle: 'idle',
 };
+
+export const COE_ELIGIBILITY_STATUS = {
+  eligible: 'eligible',
+  ineligible: 'ineligible',
+  unableToDetermine: 'unable-to-determine-eligibility',
+  pending: 'pending',
+};

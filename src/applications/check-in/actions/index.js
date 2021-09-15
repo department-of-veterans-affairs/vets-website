@@ -1,14 +1,41 @@
-export const WAS_CHECKED_IN = 'WAS_CHECKED_IN';
-
-export const wasCheckedIn = data => {
-  return { type: WAS_CHECKED_IN, value: data };
+const organizeData = data => {
+  return {
+    appointments: [{ ...data }],
+  };
 };
 
 export const RECEIVED_APPOINTMENT_DETAILS = 'RECEIVED_APPOINTMENT_DETAILS';
 
-export const receivedAppointmentDetails = (data, token) => {
+export const receivedAppointmentDetails = payload => {
+  const data = organizeData(payload);
+
   return {
     type: RECEIVED_APPOINTMENT_DETAILS,
-    value: { appointment: data, context: { token } },
+    data: {
+      ...data,
+    },
+  };
+};
+
+export const PERMISSIONS_UPDATED = 'PERMISSIONS_UPDATED';
+
+export const permissionsUpdated = (data, scope) => {
+  const { permissions } = data;
+  return {
+    type: PERMISSIONS_UPDATED,
+    value: { permissions, scope },
+  };
+};
+
+export const TOKEN_WAS_VALIDATED = 'TOKEN_WAS_VALIDATED';
+
+export const tokenWasValidated = (payload, token, scope) => {
+  const data = organizeData(payload);
+  return {
+    type: TOKEN_WAS_VALIDATED,
+    data: {
+      context: { token, scope },
+      ...data,
+    },
   };
 };

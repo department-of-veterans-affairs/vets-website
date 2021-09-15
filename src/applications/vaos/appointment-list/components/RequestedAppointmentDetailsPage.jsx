@@ -12,7 +12,7 @@ import {
 } from '../../utils/constants';
 import { lowerCase } from '../../utils/formatters';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import ListBestTimeToCall from './cards/pending/ListBestTimeToCall';
+import ListBestTimeToCall from './ListBestTimeToCall';
 import VAFacilityLocation from '../../components/VAFacilityLocation';
 import CancelAppointmentModal from './cancel/CancelAppointmentModal';
 import Breadcrumbs from '../../components/Breadcrumbs';
@@ -22,7 +22,7 @@ import {
 } from '../../services/appointment';
 import { selectRequestedAppointmentDetails } from '../redux/selectors';
 import ErrorMessage from '../../components/ErrorMessage';
-import PageLayout from './AppointmentsPage/PageLayout';
+import PageLayout from './PageLayout';
 import FullWidthLayout from '../../components/FullWidthLayout';
 import InfoAlert from '../../components/InfoAlert';
 import {
@@ -206,7 +206,6 @@ export default function RequestedAppointmentDetailsPage() {
             facility={facility}
             facilityName={facility?.name}
             facilityId={facilityId}
-            isHomepageRefresh
           />
         )}
 

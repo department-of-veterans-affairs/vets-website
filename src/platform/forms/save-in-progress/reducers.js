@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-restricted-imports
-import { merge } from 'lodash/fp';
+import { merge } from 'lodash';
 import set from '../../utilities/data/set';
 
 import {
@@ -73,7 +73,7 @@ export const saveInProgressReducers = {
 
     // if we’re prefilling, we want to use whatever initial data the form has
     if (state.prefillStatus === PREFILL_STATUSES.pending) {
-      const formData = merge(state.data, action.data.formData);
+      const formData = merge({}, state.data, action.data.formData);
       const loadedData = set('formData', formData, action.data);
       newState = set('loadedData', loadedData, state);
 

@@ -36,7 +36,7 @@ describe('<ContactInformationEditView/>', () => {
   beforeEach(() => {
     props = {
       activeEditView: 'email',
-      analyticsSectionName: 'some-field',
+      analyticsSectionName: 'email',
       apiRoute: 'string',
       clearErrors() {},
       convertCleanDataToPayload() {},

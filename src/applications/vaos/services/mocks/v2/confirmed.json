@@ -58,7 +58,7 @@
         "patientIcn": null,
         "practitioners": [
           {
-            "id": {
+            "identifier": {
               "system": null,
               "value": "1801312053"
             },
@@ -73,7 +73,7 @@
         "requestedPeriods": null,
         "serviceType": "audiology",
         "slot": null,
-        "start": "2021-12-31T18:19:34",
+        "start": "2021-12-30T18:19:34",
         "status": "booked",
         "telehealth": null
       }
@@ -93,16 +93,17 @@
             }
           ]
         },
-        "description": "Upcoming Home telehealth ADHOC appointment",
+        "description": "Upcoming Home telehealth ADHOC appointment with instructions",
         "end": "2021-11-23T20:00:00Z",
         "id": "02aa456va",
         "kind": "telehealth",
         "locationId": "983",
         "minutesDuration": 30,
         "patientIcn": null,
+        "patientInstruction": "Video Visit Preparation contains extraneous stuff",
         "practitioners": [
           {
-            "id": {
+            "identifier": {
               "system": null,
               "value": "1801312053"
             },
@@ -150,7 +151,7 @@
         "patientIcn": null,
         "practitioners": [
           {
-            "id": {
+            "identifier": {
               "system": null,
               "value": "1801312053"
             },
@@ -202,16 +203,17 @@
             }
           ]
         },
-        "description": "Upcoming at home telehealth appointment",
+        "description": "Upcoming at home telehealth appointment with instructions",
         "end": "2021-09-09T20:30:00Z",
         "id": "04aa456va",
         "kind": "telehealth",
         "locationId": "983",
         "minutesDuration": 30,
         "patientIcn": null,
+        "patientInstruction": "Medication Review to prepare patient",
         "practitioners": [
           {
-            "id": {
+            "identifier": {
               "system": null,
               "value": "1801312053"
             },
@@ -220,7 +222,7 @@
             "practiceName": null
           },
           {
-            "id": {
+            "identifier": {
               "system": null,
               "value": "1801312053"
             },
@@ -261,7 +263,7 @@
           ]
         },
         "description": "Upcoming VA location telehealth appointment",
-        "end": "2021-12-31T18:19:34",
+        "end": "2021-12-22T18:30:34",
         "id": "05aa456va",
         "kind": "telehealth",
         "locationId": "983",
@@ -274,7 +276,7 @@
         "requestedPeriods": null,
         "serviceType": "foodAndNutrition",
         "slot": null,
-        "start": "2021-12-31T18:19:34",
+        "start": "2021-12-22T18:10:34",
         "status": "booked",
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
@@ -308,7 +310,7 @@
         "patientIcn": null,
         "practitioners": [
           {
-            "id": {
+            "identifier": {
               "system": null,
               "value": "1801312053"
             },
@@ -425,9 +427,10 @@
         "locationId": "983",
         "minutesDuration": 30,
         "patientIcn": null,
+        "patientInstruction": "Medication Review",
         "practitioners": [
           {
-            "id": {
+            "identifier": {
               "system": null,
               "value": "1801312053"
             },

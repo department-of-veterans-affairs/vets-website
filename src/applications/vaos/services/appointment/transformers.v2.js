@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { getPatientInstruction } from '../appointment';
 import {
   TYPES_OF_CARE,
   APPOINTMENT_TYPES,
@@ -179,7 +180,10 @@ export function transformVAOSAppointment(appt) {
       stationId: appt.locationId,
       clinicName: null,
     },
-    comment: appt.comment,
+    comment:
+      isVideo && !!appt.patientInstruction
+        ? getPatientInstruction(appt)
+        : appt.comment || null,
     videoData,
     communityCareProvider: null,
     practitioners: appt.practitioners,

@@ -10,7 +10,7 @@ import Telephone, {
 import recordEvent from 'platform/monitoring/record-event';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import CallToActionWidget from 'platform/site-wide/cta-widget';
+import CallToActionWidget from 'applications/static-pages/cta-widget';
 import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
@@ -56,12 +56,12 @@ export class IntroductionPage extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { contestableIssues = {}, getContestableIssues } = this.props;
+    const { contestableIssues = {}, getContestableIssues, hlrV2 } = this.props;
     const wizardComplete = this.state.status === WIZARD_STATUS_COMPLETE;
     if (wizardComplete) {
       const benefitType = sessionStorage.getItem(SAVED_CLAIM_TYPE);
       if (!contestableIssues?.status) {
-        getContestableIssues({ benefitType });
+        getContestableIssues({ benefitType, hlrV2 });
       }
 
       // set focus on h1 only after wizard completes
@@ -303,6 +303,7 @@ function mapStateToProps(state) {
     hasEmptyAddress: isEmptyAddress(
       selectVAPContactInfoField(state, FIELD_NAMES.MAILING_ADDRESS),
     ),
+    hlrV2: state.featureToggles.hlrV2,
   };
 }
 

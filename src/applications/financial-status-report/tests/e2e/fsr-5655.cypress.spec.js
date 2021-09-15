@@ -23,8 +23,8 @@ const testConfig = createTestConfig(
       cy.intercept('GET', '/v0/feature_toggles*', {
         data: {
           features: [
-            { name: 'showFinancialStatusReportWizard', value: true },
-            { name: 'showFinancialStatusReport', value: true },
+            { name: 'show_financial_status_report_wizard', value: true },
+            { name: 'show_financial_status_report', value: true },
           ],
         },
       });

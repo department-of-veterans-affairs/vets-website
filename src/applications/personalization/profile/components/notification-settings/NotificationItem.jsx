@@ -9,7 +9,7 @@ import NotificationChannel from './NotificationChannel';
 const NotificationItem = ({ channelIds }) => {
   return (
     <div>
-      {/* Leaving this here for future reference since we might need to bring the item name back to this component. Not that to re-enable the h3, we need to add itemName to the destructured props up on line 9 */}
+      {/* Leaving this here for future reference since we might need to bring the item name back to this component. Note that to re-enable the h3, we need to add itemName to the destructured props up on line 9 */}
       {/* <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-top--2">
         {itemName}
       </h3> */}

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import { merge, once } from 'lodash';
+import set from '../../../../utilities/data/set';
 import Form from '@department-of-veterans-affairs/react-jsonschema-form';
 import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
@@ -56,7 +57,7 @@ class SchemaForm extends React.Component {
       this.setState(this.getEmptyState(newProps));
     } else if (newProps.title !== this.props.title) {
       this.setState({
-        formContext: _.set('pageTitle', newProps.title, this.state.formContext),
+        formContext: set('pageTitle', newProps.title, this.state.formContext),
       });
     } else if (!!newProps.reviewMode !== !!this.state.formContext.reviewMode) {
       this.setState(this.getEmptyState(newProps));
@@ -89,14 +90,14 @@ class SchemaForm extends React.Component {
   }
 
   onError() {
-    const formContext = _.set('submitted', true, this.state.formContext);
+    const formContext = set('submitted', true, this.state.formContext);
     this.setState({ formContext });
     scrollToFirstError();
   }
 
   onBlur(id) {
     if (!this.state.formContext.touched[id]) {
-      const formContext = _.set(['touched', id], true, this.state.formContext);
+      const formContext = set(['touched', id], true, this.state.formContext);
       this.setState({ formContext });
     }
   }
@@ -137,8 +138,8 @@ class SchemaForm extends React.Component {
   }
 
   setTouched(touchedItem, setStateCallback) {
-    const touched = _.merge(this.state.formContext.touched, touchedItem);
-    const formContext = _.set('touched', touched, this.state.formContext);
+    const touched = merge({}, this.state.formContext.touched, touchedItem);
+    const formContext = set('touched', touched, this.state.formContext);
     this.setState({ formContext }, setStateCallback);
   }
 
@@ -198,7 +199,7 @@ class SchemaForm extends React.Component {
         schema={schema}
         uiSchema={uiSchema}
         idSchema={idSchema}
-        validate={_.once(this.validate)}
+        validate={once(this.validate)}
         showErrorList={false}
         formData={data}
         widgets={useReviewMode ? reviewWidgets : widgets}

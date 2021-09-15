@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FocusLock from 'react-focus-lock';
 import Column from './Column';
 import _ from 'lodash';
 import ArrowRightBlueSVG from './arrow-right-blue';
@@ -40,49 +39,45 @@ const SubMenu = ({
         id={id}
         role="group"
       >
-        <FocusLock disabled={!mobileMediaQuery?.matches}>
-          <div>
-            <button
-              className="back-button"
-              aria-controls={`vetnav-${_.kebabCase(navTitle)}`}
-              onClick={() => handleBackToMenu()}
+        <button
+          className="back-button"
+          aria-controls={`vetnav-${_.kebabCase(navTitle)}`}
+          onClick={() => handleBackToMenu()}
+        >
+          Back to Menu
+        </button>
+
+        {seeAllLink && (
+          <div className="panel-bottom-link">
+            <a
+              data-e2e-id={`${_.kebabCase(seeAllLink.text)}`}
+              href={seeAllLink.href}
+              onClick={linkClicked.bind(null, seeAllLink)}
             >
-              Back to Menu
-            </button>
+              {seeAllLink.text}
+              <ArrowRightBlueSVG />
+            </a>
           </div>
+        )}
 
-          {seeAllLink && (
-            <div className="panel-bottom-link">
-              <a
-                data-e2e-id={`${_.kebabCase(seeAllLink.text)}`}
-                href={seeAllLink.href}
-                onClick={linkClicked.bind(null, seeAllLink)}
-              >
-                {seeAllLink.text}
-                <ArrowRightBlueSVG />
-              </a>
-            </div>
-          )}
-
-          {Object.keys(filteredColumns).map(keyName => (
-            <Column
-              key={keyName}
-              data={filteredColumns[keyName]}
-              keyName={keyName}
-              navTitle={navTitle}
-              panelWhite={Object.prototype.hasOwnProperty.call(
-                filteredColumns,
-                'mainColumn',
-              )}
-              linkClicked={linkClicked}
-              mobileMediaQuery={mobileMediaQuery}
-              hidden={
-                keyName === 'columnThree' && smallDesktopMediaQuery?.matches
-              }
-              columnThreeLinkClicked={columnThreeLinkClicked}
-            />
-          ))}
-        </FocusLock>
+        {Object.keys(filteredColumns).map(keyName => (
+          <Column
+            key={keyName}
+            data={filteredColumns[keyName]}
+            keyName={keyName}
+            navTitle={navTitle}
+            panelWhite={Object.prototype.hasOwnProperty.call(
+              filteredColumns,
+              'mainColumn',
+            )}
+            linkClicked={linkClicked}
+            mobileMediaQuery={mobileMediaQuery}
+            hidden={
+              keyName === 'columnThree' && smallDesktopMediaQuery?.matches
+            }
+            columnThreeLinkClicked={columnThreeLinkClicked}
+          />
+        ))}
       </div>
     );
   }

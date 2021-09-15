@@ -2,19 +2,24 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { fetchFacility } from './actions';
+import widgetTypes from '../widgetTypes';
 
 export default async function createFacilityPage(store) {
   let facilityID = '';
   const detailWidget = document.querySelector(
-    `[data-widget-type="facility-detail"]`,
+    `[data-widget-type="${widgetTypes.FACILITY_DETAIL}"]`,
   );
-  const mapWidget = document.querySelector(`[data-widget-type="facility-map"]`);
+  const mapWidget = document.querySelector(
+    `[data-widget-type="${widgetTypes.FACILITY_MAP}"]`,
+  );
   const scoreWidget = document.querySelector(
-    `[data-widget-type="facility-patient-satisfaction-scores"]`,
+    `[data-widget-type="${widgetTypes.FACILITY_PATIENT_SATISFACTION_SCORES}"]`,
   );
   const waitTimeWidgets = Array.from(
     document.querySelectorAll(
-      `[data-widget-type="facility-appointment-wait-times-widget"]`,
+      `[data-widget-type="${
+        widgetTypes.FACILITY_APPOINTMENT_WAIT_TIMES_WIDGET
+      }"]`,
     ),
   );
 

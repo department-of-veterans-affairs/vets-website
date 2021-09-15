@@ -16,15 +16,12 @@ import BackToTop from '../BackToTop';
 export default function InstitutionProfile({
   institution,
   showModal,
-  preSelectedProgram,
   selectedProgram,
   compare,
   smallScreen,
 }) {
   const program =
-    selectedProgram ||
-    preSelectedProgram ||
-    _.get(institution, 'programs[0].description', '');
+    selectedProgram || _.get(institution, 'programs[0].description', '');
 
   const institutionProfileId = 'institution-profile';
   const profilePageHeaderId = 'profile-page-header';
@@ -80,7 +77,6 @@ export default function InstitutionProfile({
             institution={institution}
             showModal={showModal}
             selectedProgram={program}
-            preSelectedProgram={preSelectedProgram}
           />
         </ProfileSection>
       )}

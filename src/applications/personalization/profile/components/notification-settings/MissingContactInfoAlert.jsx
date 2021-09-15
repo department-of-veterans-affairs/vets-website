@@ -1,28 +1,47 @@
 import React from 'react';
 
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import AlertBox, {
+  ALERT_TYPE,
+} from '@department-of-veterans-affairs/component-library/AlertBox';
 
-import AddContactInfoLink from './AddContactInfoLink';
+import AddContactInfoLink, {
+  MISSING_CONTACT_INFO,
+} from './MissingContactInfoAlertLink';
 
 const missingEmailAddressContent = (
-  <p>
-    To get notifications by email, first{' '}
-    <AddContactInfoLink missingInfo={AddContactInfoLink.EMAIL} />.
-  </p>
+  <>
+    <p>
+      To manage settings for email notifications, first add an email address to
+      your profile.
+    </p>
+    <p>
+      <AddContactInfoLink strong missingInfo={MISSING_CONTACT_INFO.EMAIL} />
+    </p>
+  </>
 );
 const missingMobilePhoneContent = (
-  <p>
-    To get notifications by SMS text message, first{' '}
-    <AddContactInfoLink missingInfo={AddContactInfoLink.MOBILE} />.
-  </p>
+  <>
+    <p>
+      To manage settings for text message notifications, first add a mobile
+      phone number to your profile.
+    </p>
+    <p>
+      <AddContactInfoLink strong missingInfo={MISSING_CONTACT_INFO.MOBILE} />
+    </p>
+  </>
 );
-const missingAllContactInfoContent = (
-  <p>
-    We don‘t have an email address or mobile phone number for you. To manage
-    notification settings, please{' '}
-    <AddContactInfoLink missingInfo={AddContactInfoLink.ALL} />.
-  </p>
-);
+// TODO: uncomment when email is a supported communication channel
+// const missingAllContactInfoContent = (
+//   <>
+//     <p>
+//       We don’t have your contact email address or mobile phone number. To manage
+//       your notification settings, first update your contact information.{' '}
+//     </p>
+//     <p>
+//       <AddContactInfoLink strong missingInfo={MISSING_CONTACT_INFO.ALL} />
+//     </p>
+//   </>
+// );
 
 const MissingContactInfoAlert = ({
   missingMobilePhone,
@@ -31,7 +50,9 @@ const MissingContactInfoAlert = ({
   const alertContents = React.useMemo(
     () => {
       if (missingEmailAddress && missingMobilePhone) {
-        return missingAllContactInfoContent;
+        return missingMobilePhoneContent;
+        // TODO: uncomment when email is a supported communication channel
+        // return missingAllContactInfoContent;
       } else if (missingEmailAddress) {
         return missingEmailAddressContent;
       } else if (missingMobilePhone) {
@@ -43,10 +64,27 @@ const MissingContactInfoAlert = ({
     [missingEmailAddress, missingMobilePhone],
   );
 
+  const alertTitle = React.useMemo(
+    () => {
+      if (missingEmailAddress && missingMobilePhone) {
+        return 'We don’t have your mobile phone number';
+        // TODO: uncomment when email is a supported communication channel
+        // return 'We don’t have your contact information';
+      } else if (missingEmailAddress) {
+        return 'We don’t have your email address';
+      } else if (missingMobilePhone) {
+        return 'We don’t have your mobile phone number';
+      } else {
+        return null;
+      }
+    },
+    [missingEmailAddress, missingMobilePhone],
+  );
+
   if (alertContents) {
     return (
       <div data-testid="missing-contact-info-alert">
-        <AlertBox status="info" backgroundOnly>
+        <AlertBox status={ALERT_TYPE.WARNING} headline={alertTitle} level={2}>
           {alertContents}
         </AlertBox>
       </div>

@@ -6,6 +6,7 @@ const Covid19PhoneLink = ({
   phone,
   showCovidVaccineSchedulingLink,
   showCovidVaccineWalkInAvailabilityText,
+  labelId,
 }) => {
   if (!phone) {
     return null;
@@ -29,7 +30,7 @@ const Covid19PhoneLink = ({
 
   return (
     <div>
-      <strong>
+      <strong id={labelId}>
         {labelText}
         :&nbsp;
       </strong>
@@ -37,6 +38,7 @@ const Covid19PhoneLink = ({
         className="vads-u-margin-left--0p25"
         contact={contact}
         extension={extension || parsedExtension}
+        ariaDescribedById={labelId}
       />
     </div>
   );
