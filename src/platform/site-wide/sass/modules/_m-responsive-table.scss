@@ -13,6 +13,11 @@
     td {
       display: block;
     }
+
+    thead button.sortable {
+      display: flex;
+      align-items: center;
+    }
   }
   .va-table--responsive {
     tr {
