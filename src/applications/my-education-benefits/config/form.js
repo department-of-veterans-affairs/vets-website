@@ -312,7 +312,10 @@ const formConfig = {
                 <>
                   <h3>Review your personal information</h3>
                   <p>
-                    This is the personal information we have on file for you.
+                    Any updates you make here to your personal information will
+                    only apply to your education benefits. To update your
+                    personal information for all of the benefits across VA,{' '}
+                    <a href="#">please go to your profile page</a>.
                   </p>
                 </>
               ),
@@ -345,8 +348,6 @@ const formConfig = {
                 ...fullNameUI.middle,
                 'ui:title': 'Your middle name',
               },
-              'ui:title': 'Your full name',
-              'ui:field': ReviewBoxField,
               'ui:objectViewField': FullNameReviewField,
               'ui:options': {
                 hideLabelText: true,
@@ -355,8 +356,6 @@ const formConfig = {
               },
             },
             'view:dateOfBirth': {
-              'ui:title': 'Your date of birth',
-              'ui:field': ReviewBoxField,
               'ui:options': {
                 hideLabelText: true,
                 showFieldLabel: false,
@@ -380,16 +379,6 @@ const formConfig = {
                 ...currentOrPastDateUI('Date of birth'),
                 'ui:reviewField': CustomReviewDOBField,
               },
-            },
-            'view:note': {
-              'ui:description': (
-                <p>
-                  <strong>Note</strong>: Any updates you make here will change
-                  your personal information for VA education benefits only. To
-                  change your personal information for all benefits across VA,{' '}
-                  <a href="#">visit your VA profile</a>.
-                </p>
-              ),
             },
           },
           schema: {
@@ -416,10 +405,6 @@ const formConfig = {
                 properties: {
                   [formFields.dateOfBirth]: date,
                 },
-              },
-              'view:note': {
-                type: 'object',
-                properties: {},
               },
             },
           },
