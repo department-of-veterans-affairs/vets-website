@@ -11,13 +11,11 @@ import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 import { renderAdditionalInfo } from '../../debt-letters/const/diary-codes';
 
 const DebtCard = ({ debt, selectedDebts, formData, setDebts }) => {
-  const mostRecentHistory = head(debt.debtHistory);
-  const firstDebtLetter = last(debt.debtHistory);
+  const mostRecentHistory = head(debt?.debtHistory);
+  const firstDebtLetter = last(debt?.debtHistory);
   const debtCardHeading =
     deductionCodes[debt.deductionCode] || debt.benefitType;
-  const debtIdentifier = `${debt.currentAr}-${debt.originalAr}-${
-    debt.debtHistory.length
-  }`;
+  const debtIdentifier = `${debt.currentAr}-${debt.originalAr}`;
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -82,12 +80,12 @@ const DebtCard = ({ debt, selectedDebts, formData, setDebts }) => {
         {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
       </p>
       <div className="vads-u-margin-y--2">{additionalInfo.status}</div>
-
-      <p className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
-        <strong>Date of first notice: </strong>
-        {moment(firstDebtLetter.date, 'MM-DD-YYYY').format('MMMM D, YYYY')}
-      </p>
-
+      {firstDebtLetter && (
+        <p className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
+          <strong>Date of first notice: </strong>
+          {moment(firstDebtLetter.date, 'MM-DD-YYYY').format('MMMM D, YYYY')}
+        </p>
+      )}
       <div className="vads-u-margin-top--2">
         <input
           name="request-help-with-debt"
