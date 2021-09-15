@@ -30,7 +30,6 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import toursOfDutyUI from '../definitions/toursOfDuty';
-import ReviewBoxField from '../components/ReviewBoxField';
 import FullNameViewField from '../components/FullNameViewField';
 import FullNameReviewField from '../components/FullNameReviewField';
 import DateViewField from '../components/DateViewField';
