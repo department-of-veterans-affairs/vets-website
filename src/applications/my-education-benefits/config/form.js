@@ -269,13 +269,15 @@ const formConfig = {
   trackingPrefix: 'my-education-benefits-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '22-1990',
+  formId: 'MEB-22-1990',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your my education benefits application (22-1990) is in progress.',
-    //   expired: 'Your saved my education benefits application (22-1990) has expired. If you want to apply for my education benefits, please start a new application.',
-    //   saved: 'Your my education benefits application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your my education benefits application (22-1990) is in progress.',
+      expired:
+        'Your saved my education benefits application (22-1990) has expired. If you want to apply for my education benefits, please start a new application.',
+      saved: 'Your my education benefits application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
