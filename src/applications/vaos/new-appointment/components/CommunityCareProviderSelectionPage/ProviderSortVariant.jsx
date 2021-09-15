@@ -28,10 +28,6 @@ export default function ProviderSortVariant({
   const [selectedSortMethod, setSelectedSortMethod] = useState(sortMethod);
   const sortOptions = [
     {
-      value: FACILITY_SORT_METHODS.distanceFromResidential,
-      label: 'Your home address',
-    },
-    {
       value: FACILITY_SORT_METHODS.distanceFromCurrentLocation,
       label: 'Your current location',
     },
@@ -80,6 +76,16 @@ export default function ProviderSortVariant({
   const hasUserAddress = address && !!Object.keys(address).length;
   const requestLocationStatusFailed =
     requestLocationStatus === FETCH_STATUS.failed;
+
+  // const hasHomeAddress = false;
+  // if (hasHomeAddress) {
+  //   // TODO: Might need to do something else since home address is currently 1st in the list
+  //   sortOptions.push({
+  //     value: FACILITY_SORT_METHODS.distanceFromResidential,
+  //     label: 'Your home address',
+  //   });
+  // }
+
   return (
     <div className="vads-u-margin-bottom--3">
       {notLoading && (

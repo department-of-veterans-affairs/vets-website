@@ -10,7 +10,7 @@ import {
   routeToPreviousAppointmentPage,
   updateFormData,
 } from '../../redux/actions';
-import { getFormPageInfo } from '../../redux/selectors';
+import { getFormPageInfo, getTypeOfCare } from '../../redux/selectors';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import ProviderSelectionField from './ProviderSelectionField';
 import recordEvent from 'platform/monitoring/record-event';
@@ -30,7 +30,7 @@ const initialSchema = {
 };
 
 const pageKey = 'ccPreferences';
-const pageTitle = 'Tell us your community care preferences';
+let pageTitle = 'Tell us your community care preferences';
 
 export default function CommunityCareProviderSelectionPage() {
   const dispatch = useDispatch();
@@ -40,25 +40,46 @@ export default function CommunityCareProviderSelectionPage() {
   );
   const history = useHistory();
 
+  const hasHomeAddress = false;
+  if (!hasHomeAddress) {
+    // TODO: Should the type of care name be lower case???
+    pageTitle = `Request a ${getTypeOfCare(data).name} provider`;
+  }
   const descriptionText = showCCIterations
     ? 'We’ll call you to confirm your provider choice or to help you choose a provider if you skip this step.'
     : 'You can request a provider for this care. If they aren’t available, we’ll schedule your appointment with a provider close to your home.';
 
-  const uiSchema = {
-    communityCareSystemId: {
-      'ui:title': 'What’s the closest city and state to you?',
-      'ui:widget': 'radio',
-    },
-    communityCareProvider: {
-      'ui:options': {
-        showFieldLabel: true,
+  let uiSchema;
+  if (!hasHomeAddress) {
+    uiSchema = {
+      communityCareProvider: {
+        'ui:title': ' ',
+        'ui:options': {
+          showFieldLabel: true,
+        },
+        'ui:description': (
+          <p id="providerSelectionDescription">{descriptionText}</p>
+        ),
+        'ui:field': ProviderSelectionField,
       },
-      'ui:description': (
-        <p id="providerSelectionDescription">{descriptionText}</p>
-      ),
-      'ui:field': ProviderSelectionField,
-    },
-  };
+    };
+  } else {
+    uiSchema = {
+      communityCareSystemId: {
+        'ui:title': 'What’s the closest city and state to you?',
+        'ui:widget': 'radio',
+      },
+      communityCareProvider: {
+        'ui:options': {
+          showFieldLabel: true,
+        },
+        'ui:description': (
+          <p id="providerSelectionDescription">{descriptionText}</p>
+        ),
+        'ui:field': ProviderSelectionField,
+      },
+    };
+  }
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;

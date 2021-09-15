@@ -843,6 +843,15 @@ export default function formReducer(state = initialState, action) {
           'properties.communityCareSystemId',
           initialSchema,
         );
+      } else if (action.featureCCIteration) {
+        initialSchema = unset(
+          'properties.communityCareProvider.title',
+          initialSchema,
+        );
+        initialSchema = unset(
+          'properties.communityCareSystemId',
+          initialSchema,
+        );
       } else if (!action.featureCCIteration) {
         initialSchema = set(
           'properties.communityCareSystemId.enum',
