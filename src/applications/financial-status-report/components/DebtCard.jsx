@@ -5,10 +5,10 @@ import last from 'lodash/last';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-
 import { setData } from 'platform/forms-system/src/js/actions';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 import { renderAdditionalInfo } from '../../debt-letters/const/diary-codes';
+import { currency } from '../utils/helpers';
 
 const DebtCard = ({ debt, selectedDebts, formData, setDebts }) => {
   const mostRecentHistory = head(debt?.debtHistory);
@@ -16,11 +16,6 @@ const DebtCard = ({ debt, selectedDebts, formData, setDebts }) => {
   const debtCardHeading =
     deductionCodes[debt.deductionCode] || debt.benefitType;
   const debtIdentifier = `${debt.currentAr}-${debt.originalAr}`;
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2,
-  });
 
   const additionalInfo = renderAdditionalInfo(
     debt.diaryCode,
@@ -77,7 +72,7 @@ const DebtCard = ({ debt, selectedDebts, formData, setDebts }) => {
       )}
       <p className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
         <strong>Amount owed: </strong>
-        {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
+        {debt.currentAr && currency.format(parseFloat(debt.currentAr))}
       </p>
       <div className="vads-u-margin-y--2">{additionalInfo.status}</div>
       {firstDebtLetter && (
