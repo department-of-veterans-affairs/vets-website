@@ -38,10 +38,10 @@ const NearByVetCenters = props => {
       mainAddress.administrativeArea
     } ${mainAddress.postalCode}`;
     getFeaturesFromAddress(query, ({ body: { features } }) => {
-      const coordinates = features[0].center;
+      const coordinates = features[0].center; // [longitude,latitude]
       const boundingBox = calculateBoundingBox(
-        coordinates[0],
         coordinates[1],
+        coordinates[0],
         NEARBY_VET_CENTER_RADIUS_MILES,
       );
       const params = [
@@ -156,15 +156,20 @@ const NearByVetCenters = props => {
   );
 
   if (props.automateNearbyVetCenters) {
-    return renderNearbyVetCenterContainer(
-      normalizeFetchedVetCenters(
-        fetchedNearbyVetCenters.filter(
-          vc =>
-            vc.id !== props.mainVetCenterId &&
-            !props.satteliteVetCenters.includes(vc.id),
-        ),
-      ),
+    const filteredVetCenters = fetchedNearbyVetCenters.filter(
+      vc =>
+        vc.id !== props.mainVetCenterId &&
+        !props.satteliteVetCenters.includes(vc.id),
     );
+    if (filteredVetCenters.length > 0) {
+      return renderNearbyVetCenterContainer(
+        normalizeFetchedVetCenters(filteredVetCenters),
+      );
+    } else {
+      // eslint-disable-next-line no-console
+      console.log('No filtered vet centers found');
+      return null;
+    }
   }
 
   const publishedVetCenters = getPublishedVetCenters();

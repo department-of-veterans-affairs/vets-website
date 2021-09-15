@@ -51,10 +51,12 @@ export function calculateBoundingBox(lat, long, radius) {
   const minLatitude = radLat - radDist;
   const maxLatitude = radLat + radDist;
 
+  // facilities API wants minLong, minLat, maxLong, maxLat
+
   return [
-    toDegrees(minLatitude).toFixed(3),
     toDegrees(minLongitude).toFixed(3),
-    toDegrees(maxLatitude).toFixed(3),
+    toDegrees(minLatitude).toFixed(3),
     toDegrees(maxLongitude).toFixed(3),
+    toDegrees(maxLatitude).toFixed(3),
   ];
 }
