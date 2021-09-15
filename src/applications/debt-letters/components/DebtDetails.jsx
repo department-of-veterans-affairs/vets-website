@@ -12,7 +12,7 @@ import Telephone from '@department-of-veterans-affairs/component-library/Telepho
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { setPageFocus } from '../utils/page';
+import { setPageFocus, getCurrentDebt, formatter } from '../utils/page';
 import { OnThisPageLinks } from './OnThisPageLinks';
 import { renderAdditionalInfo } from '../const/diary-codes';
 import HistoryTable from './HistoryTable';
@@ -20,36 +20,6 @@ import {
   deductionCodes,
   renderWhyMightIHaveThisDebt,
 } from '../const/deduction-codes';
-
-/* 
-  TODO TECH DEBT: https://github.com/department-of-veterans-affairs/va.gov-team/issues/27790
-  Once debt.id is available via backend and endpoint to fetch single debtById is created
-  remove getCurrentDebt and replace with backend single item call
-*/
-const getCurrentDebt = (selectedDebt, debts, location) => {
-  if (Object.keys(selectedDebt).length !== 0) {
-    return selectedDebt;
-  }
-  // get debtId out of the URL
-  const urlDebtId = location.pathname.replace(/[^0-9]/g, '');
-  // create debtIds derived from the debt fileNumber and deductionCode and add to debts
-  const debtsWithId = debts.reduce((acc, debt) => {
-    acc.push({
-      ...debt,
-      debtId: `${debt.fileNumber + debt.deductionCode}`,
-    });
-    return acc;
-  }, []);
-  // return debt that has the same debtId as the currentDebt
-  const [filteredDebt] = debtsWithId.filter(debt => debt.debtId === urlDebtId);
-  return filteredDebt;
-};
-
-const formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  minimumFractionDigits: 2,
-});
 
 const DebtDetails = ({ selectedDebt, debts }) => {
   const approvedLetterCodes = ['100', '101', '102', '109', '117', '123', '130'];
