@@ -348,8 +348,6 @@ const formConfig = {
                 ...fullNameUI.middle,
                 'ui:title': 'Your middle name',
               },
-              'ui:title': 'Your full name',
-              'ui:field': ReviewBoxField,
               'ui:objectViewField': FullNameReviewField,
               'ui:options': {
                 hideLabelText: true,
@@ -358,8 +356,6 @@ const formConfig = {
               },
             },
             'view:dateOfBirth': {
-              'ui:title': 'Your date of birth',
-              'ui:field': ReviewBoxField,
               'ui:options': {
                 hideLabelText: true,
                 showFieldLabel: false,
