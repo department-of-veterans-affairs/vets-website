@@ -1,10 +1,11 @@
 import contractTest from 'platform/testing/contract';
 
-import { checkInUser, validateToken } from '../../../../api';
+import { v0 } from '../../../../api';
 import checkInResponses from '../../../../api/local-mock-api/mocks/check.in.response';
 
 import validateResponses from '../../../../api/local-mock-api/mocks/validate.responses';
 
+const { checkInUser, validateToken } = v0;
 contractTest('Check In', 'VA.gov API', mockApi => {
   // Skipped until the pact is created on the API
   describe.skip('GET /check_in/v0/patient_check_ins', () => {

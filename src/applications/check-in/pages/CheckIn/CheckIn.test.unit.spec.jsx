@@ -8,7 +8,7 @@ import { render } from '@testing-library/react';
 
 import configureStore from 'redux-mock-store';
 
-import CheckIn from '../CheckIn';
+import CheckIn from './index';
 
 describe('check-in', () => {
   describe('CheckIn component', () => {
@@ -18,6 +18,9 @@ describe('check-in', () => {
       const mockStore = configureStore(middleware);
       const initState = {
         checkInData: {
+          context: {
+            token: 'some-token',
+          },
           appointments: [
             {
               clinicPhone: '555-867-5309',

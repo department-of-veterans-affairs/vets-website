@@ -295,7 +295,7 @@ export function FilterYourResults({
               label="Schools"
               onChange={handleSchoolChange}
               className="expanding-header-checkbox"
-              ariaLabelInputLegendId={legendId}
+              inputAriaLabelledBy={legendId}
             />
             <div className="school-types expanding-group-children">
               {excludedSchoolTypesGroup()}
@@ -310,7 +310,7 @@ export function FilterYourResults({
           label="On-the-job training and apprenticeships"
           onChange={onChangeCheckbox}
           className="vads-u-margin-bottom--4"
-          ariaLabelInputLegendId={legendId}
+          inputAriaLabelledBy={legendId}
         />
         <ExpandingGroup open={vettec}>
           <Checkbox
@@ -319,7 +319,7 @@ export function FilterYourResults({
             label="VET TEC providers"
             onChange={handleVetTecChange}
             className="expanding-header-checkbox"
-            ariaLabelInputLegendId={legendId}
+            inputAriaLabelledBy={legendId}
           />
           <div className="expanding-group-children">
             <Checkbox
@@ -327,8 +327,8 @@ export function FilterYourResults({
               name="preferredProvider"
               label="Preferred providers"
               onChange={handlePreferredProviderChange}
-              ariaLabel="VET TEC Preferred providers"
-              ariaLabelInputLegendId={legendId}
+              labelAriaLabel="VET TEC Preferred providers"
+              inputAriaLabelledBy={legendId}
             />
           </div>
         </ExpandingGroup>

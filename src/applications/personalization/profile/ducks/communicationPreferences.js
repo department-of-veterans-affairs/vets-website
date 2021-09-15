@@ -3,6 +3,7 @@ import flatten from 'lodash/flatten';
 import { apiRequest } from '~/platform/utilities/api';
 
 import { LOADING_STATES } from '../../common/constants';
+import { RX_TRACKING_SUPPORTING_FACILITIES } from '../constants';
 
 // HELPERS
 
@@ -163,14 +164,10 @@ export const selectAvailableGroups = (state, { isPatient = false } = {}) => {
 
 // Makes a callback function to use with Array.filter()
 export const makeRxTrackingItemFilter = facilities => {
-  // 554: parent facility of Denver
-  // 637: parent facility of Asheville
-  // 983: test-only facility ID, used by user 36 among others
-  const supportedFacilities = new Set(['554', '637', '983']);
   return itemId => {
     if (itemId === 'item4') {
       return facilities.some(facility => {
-        return supportedFacilities.has(facility.facilityId);
+        return RX_TRACKING_SUPPORTING_FACILITIES.has(facility.facilityId);
       })
         ? itemId
         : null;

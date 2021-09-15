@@ -41,7 +41,8 @@ export function makeUserObject(options = {}) {
           gender: 'M',
           givenNames: ['Wesley', 'Watson'],
           isCernerPatient: options.isCerner ?? false,
-          facilities: options.facilities || [],
+          facilities:
+            options.isPatient && options.facilities ? options.facilities : null,
           vaPatient: options.isPatient ?? false,
           mhvAccountState: 'NONE',
         },
