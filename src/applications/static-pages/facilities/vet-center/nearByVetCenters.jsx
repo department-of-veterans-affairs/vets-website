@@ -78,6 +78,9 @@ const NearByVetCenters = props => {
 
   // TODO: consider moving to a separate component
   const renderVetCenter = (vetCenter, mainVetCenterPhone) => {
+    // TODO - fix unique key warning
+    // Tried adding this to the div but it causes rendering to fail for some reason:
+    // key={vetCenter.id}
     return (
       <div
         className="region-list usa-width-one-whole vads-u-display--flex vads-u-flex-direction--column
@@ -109,6 +112,7 @@ const NearByVetCenters = props => {
 
   const normalizeFetchedVetCenters = vcs => {
     return vcs.map(vc => ({
+      id: vc.id,
       entityBundle: vc.attributes.facilityType,
       fieldPhoneNumber: vc.attributes.phone.main,
       title: vc.attributes.name,
