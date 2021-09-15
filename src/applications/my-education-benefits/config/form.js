@@ -152,8 +152,6 @@ function titleCase(str) {
 
 function phoneUISchema(category) {
   return {
-    'ui:title': `Your ${category} phone number`,
-    'ui:field': ReviewBoxField,
     'ui:options': {
       hideLabelText: true,
       showFieldLabel: false,
@@ -177,12 +175,12 @@ function phoneSchema() {
     type: 'object',
     required: ['phone'],
     properties: {
-      isInternational: {
-        type: 'boolean',
-      },
       phone: {
         ...usaPhone,
         pattern: '^\\d[-]?\\d(?:[0-9-]*\\d)?$',
+      },
+      isInternational: {
+        type: 'boolean',
       },
     },
   };
@@ -446,19 +444,27 @@ const formConfig = {
             'view:subHeadings': {
               'ui:description': (
                 <>
-                  <h3>Review your email and phone numbers</h3>
+                  <h3>Review your phone numbers and email address</h3>
+                  <p>We’ll use this information to:</p>
+                  <ul>
+                    <li>
+                      Get in touch with you if we have questions about your
+                      application
+                    </li>
+                    <li>
+                      Communicate important information about your benefits
+                    </li>
+                  </ul>
                   <p>
-                    This is the contact information we have on file for you.
-                    We’ll use this to get in touch with you if we have questions
-                    about your application and to communicate important
-                    information about your education benefits.
+                    Any updates you make here to your contact information will
+                    only apply to your education benefits. To update your
+                    contact information for all of the benefits across VA,{' '}
+                    <a href="#">please go to your profile page</a>.
                   </p>
                 </>
               ),
             },
             [formFields.email]: {
-              'ui:title': 'Your email address',
-              'ui:field': ReviewBoxField,
               'ui:options': {
                 hideLabelText: true,
                 showFieldLabel: false,
@@ -487,16 +493,6 @@ const formConfig = {
             },
             [formFields.mobilePhoneNumber]: phoneUISchema('mobile'),
             [formFields.phoneNumber]: phoneUISchema('home'),
-            'view:note': {
-              'ui:description': (
-                <p>
-                  <strong>Note</strong>: Any updates you make here will change
-                  your email and phone numbers for VA education benefits only.
-                  To change your email and phone numbers for all benefits across
-                  VA, <a href="#">visit your VA profile</a>.
-                </p>
-              ),
-            },
           },
           schema: {
             type: 'object',
@@ -505,6 +501,8 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
+              [formFields.mobilePhoneNumber]: phoneSchema(),
+              [formFields.phoneNumber]: phoneSchema(),
               [formFields.email]: {
                 type: 'object',
                 required: [formFields.email, 'confirmEmail'],
@@ -512,12 +510,6 @@ const formConfig = {
                   email,
                   confirmEmail: email,
                 },
-              },
-              [formFields.mobilePhoneNumber]: phoneSchema(),
-              [formFields.phoneNumber]: phoneSchema(),
-              'view:note': {
-                type: 'object',
-                properties: {},
               },
             },
           },
