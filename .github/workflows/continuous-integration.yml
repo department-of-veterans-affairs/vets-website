@@ -326,7 +326,7 @@ jobs:
           MOCHA_FILE: ./test-results/test-results.xml
 
       - name: Print Pact failures
-        run: find . -name "test-results.xml"
+        run: find . -name "*.xml"
         if: ${{ failure() }}
 
       - name: Run Pact publish
