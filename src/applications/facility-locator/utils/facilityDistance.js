@@ -4,6 +4,10 @@ function toRadians(value) {
   return (value * Math.PI) / 180;
 }
 
+function toDegrees(value) {
+  return (value * 180) / Math.PI;
+}
+
 export function distBetween(lat1, lng1, lat2, lng2) {
   const R = 3959; // radius in miles
   const dLat = toRadians(lat2 - lat1);
@@ -32,3 +36,25 @@ export const radiusFromBoundingBox = fbox => {
 
   return Math.max(radius, MIN_RADIUS);
 };
+
+// Copied from src/applications/vaos/utils/address.js
+export function calculateBoundingBox(lat, long, radius) {
+  const earthRadius = 3959;
+  const radDist = radius / earthRadius;
+  const radLat = toRadians(lat);
+  const radLong = toRadians(long);
+  // The space between lines of longitude differs depending on where you are
+  // on Earth, this takes that into account
+  const deltaLongitude = Math.asin(Math.sin(radDist) / Math.cos(radLat));
+  const minLongitude = radLong - deltaLongitude;
+  const maxLongitude = radLong + deltaLongitude;
+  const minLatitude = radLat - radDist;
+  const maxLatitude = radLat + radDist;
+
+  return [
+    toDegrees(minLatitude).toFixed(3),
+    toDegrees(minLongitude).toFixed(3),
+    toDegrees(maxLatitude).toFixed(3),
+    toDegrees(maxLongitude).toFixed(3),
+  ];
+}

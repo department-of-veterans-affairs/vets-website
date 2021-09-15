@@ -16,6 +16,9 @@ export default async function createNearByVetCenters(store) {
         <NearByVetCenters
           vetCenters={window.nearbyVetCenters}
           mainVetCenterPhone={window.mainVetCenterPhone}
+          mainVetCenterAddress={window.mainVetCenterAddress}
+          mainVetCenterId={window.mainVetCenterId}
+          satteliteVetCenters={window.satteliteVetCenters}
         />
       </Provider>,
       nearByVetCentersWidget,

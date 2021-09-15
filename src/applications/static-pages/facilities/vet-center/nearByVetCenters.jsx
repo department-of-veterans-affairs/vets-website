@@ -7,6 +7,10 @@ import VetCenterImageSection from './components/VetCenterImageSection';
 import { connect, useDispatch } from 'react-redux';
 import { facilitiesVetCenterAutomateNearby } from '../../../facility-locator/utils/featureFlagSelectors';
 import { fetchFacilityStarted, fetchFacilitySuccess } from '../actions';
+import { calculateBoundingBox } from '../../../facility-locator/utils/facilityDistance';
+import { getFeaturesFromAddress } from '../../../facility-locator/actions';
+
+const NEARBY_VET_CENTER_RADIUS_MILES = 80;
 
 const NearByVetCenters = props => {
   const [fetchedVetCenters, setFetchedVetCenters] = useState([]);
@@ -29,13 +33,34 @@ const NearByVetCenters = props => {
   };
 
   const fetchNearbyVetCenters = () => {
-    // TODO: get bounding box of 80 mile radius from main vc
-    dispatch(fetchFacilityStarted());
-    apiRequest(`/facilities/va/`, {
-      apiVersion: 'v1',
-    }).then(res => {
-      dispatch(fetchFacilitySuccess());
-      setFetchedNearbyVetCenters(res.data);
+    const mainAddress = props.mainVetCenterAddress;
+    const query = `${mainAddress.addressLine1}, ${mainAddress.locality} ${
+      mainAddress.administrativeArea
+    } ${mainAddress.postalCode}`;
+    getFeaturesFromAddress(query, ({ body: { features } }) => {
+      const coordinates = features[0].center;
+      const boundingBox = calculateBoundingBox(
+        coordinates[0],
+        coordinates[1],
+        NEARBY_VET_CENTER_RADIUS_MILES,
+      );
+      const params = [
+        'type=vet_center',
+        'page=1',
+        'per_page=5',
+        'mobile=false',
+        `radius=${NEARBY_VET_CENTER_RADIUS_MILES}`,
+        `latitude=${coordinates[1]}`,
+        `longitude=${coordinates[0]}`,
+        ...boundingBox.map(c => `bbox[]=${c}`),
+      ].join('&');
+      dispatch(fetchFacilityStarted());
+      apiRequest(`/facilities/va/?${params}`, {
+        apiVersion: 'v1',
+      }).then(res => {
+        dispatch(fetchFacilitySuccess());
+        setFetchedNearbyVetCenters(res.data);
+      });
     });
   };
 
@@ -51,7 +76,7 @@ const NearByVetCenters = props => {
     return <LoadingIndicator message="Loading facilities..." />;
   }
 
-  // TODO: consider separate component
+  // TODO: consider moving to a separate component
   const renderVetCenter = (vetCenter, mainVetCenterPhone) => {
     return (
       <div
@@ -82,8 +107,8 @@ const NearByVetCenters = props => {
       .map(v => v.entity);
   };
 
-  const normalizeUnPublishedVetCenters = () => {
-    return fetchedVetCenters.map(vc => ({
+  const normalizeFetchedVetCenters = vcs => {
+    return vcs.map(vc => ({
       entityBundle: vc.attributes.facilityType,
       fieldPhoneNumber: vc.attributes.phone.main,
       title: vc.attributes.name,
@@ -115,11 +140,19 @@ const NearByVetCenters = props => {
   );
 
   if (props.automateNearbyVetCenters) {
-    return renderNearbyVetCenterContainer(fetchedNearbyVetCenters);
+    return renderNearbyVetCenterContainer(
+      normalizeFetchedVetCenters(
+        fetchedNearbyVetCenters.filter(
+          vc =>
+            vc.id !== props.mainVetCenterId &&
+            !props.satteliteVetCenters.includes(vc.id),
+        ),
+      ),
+    );
   }
 
   const publishedVetCenters = getPublishedVetCenters();
-  const unPublishedVetCenters = normalizeUnPublishedVetCenters();
+  const unPublishedVetCenters = normalizeFetchedVetCenters(fetchedVetCenters);
   return renderNearbyVetCenterContainer([
     ...publishedVetCenters,
     ...unPublishedVetCenters,
@@ -129,6 +162,9 @@ const NearByVetCenters = props => {
 NearByVetCenters.propTypes = {
   vetCenters: PropTypes.array,
   mainVetCenterPhone: PropTypes.string,
+  mainVetCenterAddress: PropTypes.object,
+  mainVetCenterId: PropTypes.string,
+  satteliteVetCenters: PropTypes.array,
 };
 
 const mapStateToProps = store => ({
