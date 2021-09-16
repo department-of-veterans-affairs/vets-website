@@ -24,16 +24,21 @@ const ValidateVeteran = props => {
   const onClick = async () => {
     // API call
     setIsLoading(true);
-    api.v1.postSession({ lastName, last4: last4Ssn, token }).then(data => {
-      // update sessions with new permissions
-      setPermissions(data);
+    api.v1
+      .postSession({ lastName, last4: last4Ssn, token })
+      .then(data => {
+        // update sessions with new permissions
+        setPermissions(data);
 
-      if (isUpdatePageEnabled) {
-        goToNextPage(router, URLS.UPDATE_INSURANCE);
-      } else {
-        goToNextPage(router, URLS.DETAILS);
-      }
-    });
+        if (isUpdatePageEnabled) {
+          goToNextPage(router, URLS.UPDATE_INSURANCE);
+        } else {
+          goToNextPage(router, URLS.DETAILS);
+        }
+      })
+      .catch(() => {
+        goToNextPage(router, URLS.ERROR);
+      });
   };
   useEffect(() => {
     focusElement('h1');
