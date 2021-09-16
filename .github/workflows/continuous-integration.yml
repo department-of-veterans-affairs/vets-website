@@ -29,6 +29,9 @@ jobs:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
     steps:
+      - name: Get directory
+        run: ls
+
       - name: Test Current SHA
         run: echo ${{ github.sha }}
 
