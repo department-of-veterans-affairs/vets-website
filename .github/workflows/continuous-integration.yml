@@ -858,9 +858,12 @@ jobs:
       - name: Upload build
         run: aws s3 cp ${{ matrix.buildtype }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/application-build/$GITHUB_SHA/${{ matrix.buildtype }}.tar.bz2 --acl public-read --region us-gov-west-1
 
+      - name: Get directory
+        run: ls
+
       - name: Test Current SHA
         run: echo ${{ github.sha }}
-        
+
       - name: Test Current SHA with REVPARSE
         run: git rev-parse HEAD
 
