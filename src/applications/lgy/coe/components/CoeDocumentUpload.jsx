@@ -8,11 +8,14 @@ import { getScrollOptions } from 'platform/utilities/ui';
 
 import { ACTIONS, DOCUMENT_TYPES, FILE_TYPES } from '../constants';
 import { getTopPosition } from '../utils';
-import { isValidFileType } from '../validations';
+import { isValidFileType, isNotBlank, validateIfDirty } from '../validations';
 
 const initialState = {
   documentType: DOCUMENT_TYPES[0],
-  documentDescription: '',
+  documentDescription: {
+    dirty: false,
+    value: '',
+  },
   errorMessage: null,
   files: [],
 };
@@ -48,7 +51,10 @@ const reducer = (state, action) => {
         ...state,
         files: [...state.files, action.file],
         documentType: DOCUMENT_TYPES[0],
-        documentDescription: '',
+        documentDescription: {
+          dirty: false,
+          value: '',
+        },
         errorMessage: null,
       };
     case FILE_UPLOAD_PENDING:
@@ -68,15 +74,24 @@ export const CoeDocumentUpload = () => {
 
   const { documentType, documentDescription, errorMessage, files } = state;
 
+  const errorMsgClass = errorMessage ? 'vads-u-padding-left--1p5' : null;
+  const disabledOnEmptyDescClass =
+    documentType === 'Other' && !isNotBlank(documentDescription.value)
+      ? 'file-input-disabled'
+      : null;
+
   const onSelectChange = e => {
     dispatch({ type: DOC_TYPE, documentType: e?.value });
   };
 
   const onTextInputValueChange = e => {
-    dispatch({ type: DOC_DESC, documentDescription: e?.value });
+    dispatch({
+      type: DOC_DESC,
+      documentDescription: { dirty: true, value: e?.value },
+    });
   };
 
-  const onUploadFile = uploadedFiles => {
+  const onUploadFile = async uploadedFiles => {
     dispatch({ type: FILE_UPLOAD_PENDING });
     if (!isValidFileType(uploadedFiles[0])) {
       dispatch({
@@ -88,8 +103,8 @@ export const CoeDocumentUpload = () => {
     }
     const file = uploadedFiles[0];
     file.documentType = documentType;
-    if (documentDescription) {
-      file.documentDescription = documentDescription;
+    if (documentDescription.value !== '') {
+      file.documentDescription = documentDescription.value;
     }
     dispatch({ type: FILE_UPLOAD_SUCCESS, file });
   };
@@ -153,14 +168,19 @@ export const CoeDocumentUpload = () => {
           <TextInput
             label="Document description"
             name="document_description"
-            field={{ dirty: false, value: documentDescription }}
+            field={documentDescription}
             required={documentType === 'Other'}
+            errorMessage={
+              validateIfDirty(documentDescription, isNotBlank)
+                ? null
+                : 'Please provide a description'
+            }
             onValueChange={onTextInputValueChange}
           />
         )}
       </div>
       <FileInput
-        additionalClass={errorMessage ? 'vads-u-padding-left--1p5' : null}
+        additionalClass={`${errorMsgClass} ${disabledOnEmptyDescClass}`}
         additionalErrorClass="vads-u-margin-bottom--1"
         buttonText="Upload this document"
         onChange={onUploadFile}
