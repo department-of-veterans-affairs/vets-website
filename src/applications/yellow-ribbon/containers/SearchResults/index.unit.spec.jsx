@@ -98,17 +98,8 @@ describe('Yellow Ribbon container <SearchResults>', () => {
     }));
 
     const tree = mount(<SearchResults results={results} />);
-
-    expect(tree.text()).to.include('Helpful links');
     expect(tree.find('[data-e2e-id="search-results"]')).to.have.lengthOf(1);
     expect(tree.find('Pagination')).to.have.lengthOf(1);
-    expect(
-      tree.find('[data-e2e-id="yellow-ribbon--helpful-links"]'),
-    ).to.have.lengthOf(1);
-    expect(
-      tree.find('[data-e2e-id="yellow-ribbon--helpful-links"] a'),
-    ).to.have.lengthOf(3);
-
     tree.unmount();
   });
 });
