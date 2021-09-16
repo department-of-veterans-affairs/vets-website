@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import { isLoggedIn } from 'platform/user/selectors';
 import { notLoggedInContent } from './introduction-content/notLoggedInContent.jsx';
-import COEIntroPageBox from '../components/COEIntroPageBox';
+import COEIntroPageBox from './introduction-content/COEIntroPageBox';
 import LoggedInContent from './introduction-content/loggedInContent.jsx';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { CALLSTATUS } from '../constants';
@@ -26,8 +26,8 @@ function IntroductionPage(props) {
   if (props.loggedIn && coeCallEnded.includes(props.status)) {
     content = (
       <div>
-        <COEIntroPageBox coe={props.coe} />
-        <LoggedInContent />
+        <COEIntroPageBox coe={props.coe} status={props.status} />
+        {props.coe.status !== 'denied' && <LoggedInContent />}
       </div>
     );
   }

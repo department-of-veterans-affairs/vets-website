@@ -44,10 +44,10 @@ export const CoeNotApplicable = () => (
         system. Ask your lender about this option.
       </p>
       <p>
-        o apply by mail, fill out a Request for a Certificate of Eligibility (VA
-        Form 26-1880) and mail it to the address listed on the form. Please keep
-        in mind that this may take longer than applying online or through our
-        Web LGY system.
+        To apply by mail, fill out a Request for a Certificate of Eligibility
+        (VA Form 26-1880) and mail it to the address listed on the form. Please
+        keep in mind that this may take longer than applying online or through
+        our Web LGY system.
       </p>
       <a href="/find-forms/about-form-26-1880/">Download VA form 26-1880</a>
       <h2>What if I have more questions?</h2>
