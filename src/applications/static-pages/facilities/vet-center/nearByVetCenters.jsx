@@ -65,17 +65,10 @@ const NearByVetCenters = props => {
     () => {
       if (!props.togglesLoading) {
         if (props.automateNearbyVetCenters) {
-          // eslint-disable-next-line no-console
-          console.log('fetching nearby vet centers');
           fetchNearbyVetCenters();
         } else {
-          // eslint-disable-next-line no-console
-          console.log('fetching unpublished vet centers');
           fetchUnpublishedVetCenters();
         }
-      } else {
-        // eslint-disable-next-line no-console
-        console.log('toggles are loading...');
       }
     },
     [props.togglesLoading],
@@ -163,8 +156,6 @@ const NearByVetCenters = props => {
         normalizeFetchedVetCenters(filteredVetCenters),
       );
     } else {
-      // eslint-disable-next-line no-console
-      console.log('No filtered vet centers found');
       return null;
     }
   }
