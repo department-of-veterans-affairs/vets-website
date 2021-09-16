@@ -1,15 +1,22 @@
 import { createFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
 
-import mockCheckIn from '../../../../api/local-mock-api/mocks/check.in.response';
-import mockValidate from '../../../../api/local-mock-api/mocks/validate.responses';
+import mockSession from '../../../../api/local-mock-api/mocks/sessions.responses';
+import mockPatientCheckIns from '../../../../api/local-mock-api/mocks/patient.check.in.response';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
-    cy.intercept('GET', '/check_in/v0/patient_check_ins//*', req => {
-      req.reply(mockValidate.createMockSuccessResponse({}));
+    cy.intercept('GET', '/check_in/v1/sessions/*', req => {
+      req.reply(
+        mockSession.createMockSuccessResponse('some-token', 'read.basic'),
+      );
     });
-    cy.intercept('POST', '/check_in/v0/patient_check_ins/', req => {
-      req.reply(mockCheckIn.createMockSuccessResponse({}));
+    cy.intercept('POST', '/check_in/v1/sessions', req => {
+      req.reply(
+        mockSession.createMockSuccessResponse('some-token', 'read.full'),
+      );
+    });
+    cy.intercept('GET', '/check_in/v1/patient_check_ins/*', req => {
+      req.reply(mockPatientCheckIns.createMockSuccessResponse({}, false));
     });
     cy.intercept(
       'GET',
@@ -30,6 +37,14 @@ describe('Check In Experience -- ', () => {
     cy.get('h1').contains('Check in at VA');
     cy.injectAxe();
     cy.axeCheck();
+    cy.get('[label="Your last name"]')
+      .shadow()
+      .find('input')
+      .type('Smith');
+    cy.get('[label="Last 4 digits of your Social Security number"]')
+      .shadow()
+      .find('input')
+      .type('4837');
     cy.get('[data-testid=check-in-button]').click();
     // update information page
     cy.get('legend > h2').contains('information');

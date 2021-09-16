@@ -20,7 +20,7 @@ import {
   validateMilitaryCity,
   validateMilitaryState,
   validateZIP,
-} from './validations';
+} from '../validations';
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
@@ -51,7 +51,7 @@ import {
   FORM_STATUS_BDD,
   PDF_SIZE_FEATURE,
   CHAR_LIMITS,
-} from './constants';
+} from '../constants';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 /**

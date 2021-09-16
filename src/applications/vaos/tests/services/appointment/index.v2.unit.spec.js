@@ -122,6 +122,7 @@ describe('VAOS Appointment service', () => {
             value: 'CANCELLED BY PATIENT',
           },
           { op: 'remove', path: ['practitioners'] },
+          { op: 'replace', path: ['cancellationReason'], value: 'pat' },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );

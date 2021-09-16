@@ -315,3 +315,11 @@ dl.review .review-row:last-child {
 	padding-top: 2em;
 }
 // END - Confirmation Page
+
+
+// Contact Information UI
+
+label.schemaform-label[for=root_mobilePhoneNumber_isInternational],
+label.schemaform-label[for=root_phoneNumber_isInternational],{
+	margin-top: 2rem;
+}

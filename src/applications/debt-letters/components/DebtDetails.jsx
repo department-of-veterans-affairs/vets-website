@@ -9,10 +9,11 @@ import first from 'lodash/first';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { setPageFocus } from '../utils/page';
+import { setPageFocus, getCurrentDebt, currency } from '../utils/page';
 import { OnThisPageLinks } from './OnThisPageLinks';
 import { renderAdditionalInfo } from '../const/diary-codes';
 import HistoryTable from './HistoryTable';
@@ -22,42 +23,9 @@ import {
 } from '../const/deduction-codes';
 
 const DebtDetails = ({ selectedDebt, debts }) => {
-  const location = useLocation();
-  /* 
-    TODO TECH DEBT: https://github.com/department-of-veterans-affairs/va.gov-team/issues/27790
-    Once debt.id is available via backend
-    and endpoint to fetch single debtById is created
-    remove getCurrentDebt and replace with backend single item call
-  */
-  const getCurrentDebt = () => {
-    // get debtId out of the URL
-    const currentDebt = location.pathname.replace(/[^0-9]/g, '');
-
-    // Add debtIds derived from the debt fileNumber and deductionCode to debts
-    const debtsWithId = debts.reduce((acc, debt) => {
-      if (!debt.debtId) {
-        acc.push({
-          ...debt,
-          debtId: `${debt.fileNumber + debt.deductionCode}`,
-        });
-      }
-
-      return acc;
-    }, []);
-
-    // return debt that has the same debtId as the currentDebt
-    return debtsWithId.filter(debt => debt.debtId === currentDebt)[0];
-  };
-
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2,
-  });
-
   const approvedLetterCodes = ['100', '101', '102', '109', '117', '123', '130'];
-  const hasSelectedDebt = !Object.keys(selectedDebt).length === 0;
-  const currentDebt = (hasSelectedDebt && selectedDebt) || getCurrentDebt();
+  const location = useLocation();
+  const currentDebt = getCurrentDebt(selectedDebt, debts, location);
   const mostRecentHistory = head(currentDebt?.debtHistory);
   const whyContent = renderWhyMightIHaveThisDebt(currentDebt.deductionCode);
   const dateUpdated = last(currentDebt.debtHistory)?.date;
@@ -78,7 +46,15 @@ const DebtDetails = ({ selectedDebt, debts }) => {
   }, []);
 
   if (Object.keys(currentDebt).length === 0) {
-    return window.location.replace('/manage-va-debt/your-debt');
+    window.location.replace('/manage-va-debt/your-debt');
+    return (
+      <div className="vads-u-font-family--sans vads-u-margin--0 vads-u-padding--1">
+        <LoadingIndicator
+          setFocus
+          message="Please wait while we load the application for you."
+        />
+      </div>
+    );
   }
 
   return (
@@ -124,7 +100,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
                   <strong>Original debt amount: </strong>
                 </dt>
                 <dd className="vads-u-margin-left--1">
-                  {formatter.format(parseFloat(currentDebt.originalAr))}
+                  {currency.format(parseFloat(currentDebt.originalAr))}
                 </dd>
               </div>
               <div className="vads-u-margin-y--1 vads-u-display--flex">
@@ -132,7 +108,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
                   <strong>Current balance: </strong>
                 </dt>
                 <dd className="vads-u-margin-left--1">
-                  {formatter.format(parseFloat(currentDebt.currentAr))}
+                  {currency.format(parseFloat(currentDebt.currentAr))}
                 </dd>
               </div>
             </dl>

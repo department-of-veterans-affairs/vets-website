@@ -1,21 +1,12 @@
 import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import Scroll from 'react-scroll';
 
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import FormFooter from '../components/FormFooter';
-
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
 
 const approvedPage = (
   <div className="meb-confirmation-page meb-confirmation-page_approved">
@@ -242,7 +233,7 @@ const loadingPage = (
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
     focusElement('.schemaform-title > h1');
-    scrollToTop();
+    scrollToTop('topScrollElement');
   }
 
   render() {
