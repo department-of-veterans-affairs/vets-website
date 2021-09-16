@@ -1,33 +1,19 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Scroll from 'react-scroll';
 import { withRouter } from 'react-router';
 
 import DowntimeNotification, {
   externalServiceStatus,
 } from 'platform/monitoring/DowntimeNotification';
 import DowntimeMessage from 'platform/monitoring/DowntimeNotification/components/Down';
-
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from '../utilities/ui';
 import ReviewChapters from '../review/ReviewChapters';
 import SubmitController from '../review/SubmitController';
 
-const scroller = Scroll.scroller;
-
-const scrollToTop = () => {
-  scroller.scrollTo(
-    'topScrollElement',
-    window.Forms?.scroll || {
-      duration: 500,
-      delay: 0,
-      smooth: true,
-    },
-  );
-};
-
 class ReviewPage extends React.Component {
   componentDidMount() {
-    scrollToTop();
+    scrollToTop('topScrollElement', window.Forms?.scroll || '');
     focusElement('h2');
   }
 

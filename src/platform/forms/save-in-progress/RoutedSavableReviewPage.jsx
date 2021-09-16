@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import Scroll from 'react-scroll';
 import debounce from '../../utilities/data/debounce';
 
 import ReviewChapters from 'platform/forms-system/src/js/review/ReviewChapters';
 import SubmitController from 'platform/forms-system/src/js/review/SubmitController';
 
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import DowntimeNotification, {
   externalServiceStatus,
 } from '../../monitoring/DowntimeNotification';
@@ -19,18 +19,6 @@ import { autoSaveForm } from './actions';
 import { getFormContext } from './selectors';
 import DowntimeMessage from './DowntimeMessage';
 
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo(
-    'topScrollElement',
-    window.VetsGov?.scroll || {
-      duration: 500,
-      delay: 0,
-      smooth: true,
-    },
-  );
-};
-
 class RoutedSavableReviewPage extends React.Component {
   constructor(props) {
     super(props);
@@ -38,7 +26,7 @@ class RoutedSavableReviewPage extends React.Component {
   }
 
   componentDidMount() {
-    scrollToTop();
+    scrollToTop('topScrollElement', window.VetsGov?.scroll || '');
     focusElement('h2');
   }
 
