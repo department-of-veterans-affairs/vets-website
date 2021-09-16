@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux';
 import { deductionCodes } from '../const/deduction-codes';
 import { setActiveDebt as setDebt } from '../actions';
 import { renderAdditionalInfo } from '../const/diary-codes';
-import { formatter } from '../utils/page';
+import { currency } from '../utils/page';
 
 const DebtLetterCard = ({ debt, setActiveDebt }) => {
   // TODO: currently we do not have a debtID so we need to make one by combining fileNumber and diaryCode
@@ -40,7 +40,7 @@ const DebtLetterCard = ({ debt, setActiveDebt }) => {
 
       <p className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
         <strong>Amount owed: </strong>
-        {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
+        {debt.currentAr && currency.format(parseFloat(debt.currentAr))}
       </p>
 
       {additionalInfo.status && (

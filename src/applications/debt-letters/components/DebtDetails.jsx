@@ -13,7 +13,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { setPageFocus, getCurrentDebt, formatter } from '../utils/page';
+import { setPageFocus, getCurrentDebt, currency } from '../utils/page';
 import { OnThisPageLinks } from './OnThisPageLinks';
 import { renderAdditionalInfo } from '../const/diary-codes';
 import HistoryTable from './HistoryTable';
@@ -100,7 +100,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
                   <strong>Original debt amount: </strong>
                 </dt>
                 <dd className="vads-u-margin-left--1">
-                  {formatter.format(parseFloat(currentDebt.originalAr))}
+                  {currency.format(parseFloat(currentDebt.originalAr))}
                 </dd>
               </div>
               <div className="vads-u-margin-y--1 vads-u-display--flex">
@@ -108,7 +108,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
                   <strong>Current balance: </strong>
                 </dt>
                 <dd className="vads-u-margin-left--1">
-                  {formatter.format(parseFloat(currentDebt.currentAr))}
+                  {currency.format(parseFloat(currentDebt.currentAr))}
                 </dd>
               </div>
             </dl>
