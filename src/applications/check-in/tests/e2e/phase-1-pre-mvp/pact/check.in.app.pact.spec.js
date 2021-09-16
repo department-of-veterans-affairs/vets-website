@@ -1,7 +1,7 @@
 import contractTest from 'platform/testing/contract';
 
 // import { v0 } from '../../../../api';
-import checkInResponses from '../../../../api/local-mock-api/mocks/check.in.response';
+import checkInResponses from '../../../../api/local-mock-api/mocks/v0/check.in.responses';
 
 import validateResponses from '../../../../api/local-mock-api/mocks/validate.responses';
 

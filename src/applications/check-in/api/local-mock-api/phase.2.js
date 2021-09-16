@@ -1,12 +1,12 @@
 /* eslint-disable camelcase */
 
 const commonResponses = require('../../../../platform/testing/local-dev-mock-api/common');
-const mockCheckIns = require('./mocks/check.in.response');
+const mockCheckIns = require('./mocks/v0/check.in.responses');
 const mockValidates = require('./mocks/validate.responses');
-const mockPatientCheckIns = require('./mocks/patient.check.in.response');
-const mockSessions = require('./mocks/sessions.responses');
+const mockPatientCheckIns = require('./mocks/v1/patient.check.in.responses');
+const mockSessions = require('./mocks/v1/sessions.responses');
 const featureToggles = require('./mocks/feature.toggles');
-const sessions = require('./mocks/sessions.responses');
+const sessions = require('./mocks/v1/sessions.responses');
 const delay = require('mocker-api/lib/delay');
 
 let hasBeenValidated = false;
