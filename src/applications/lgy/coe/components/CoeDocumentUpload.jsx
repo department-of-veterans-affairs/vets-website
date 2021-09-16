@@ -1,13 +1,11 @@
 import React, { useReducer } from 'react';
-import Scroll from 'react-scroll';
 import FileInput from '@department-of-veterans-affairs/component-library/FileInput';
 import Select from '@department-of-veterans-affairs/component-library/Select';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 
-import { getScrollOptions } from 'platform/utilities/ui';
+import { scrollToFirstError } from 'platform/utilities/ui';
 
 import { ACTIONS, DOCUMENT_TYPES, FILE_TYPES } from '../constants';
-import { getTopPosition } from '../utils';
 import { isValidFileType, isNotBlank, validateIfDirty } from '../validations';
 
 const initialState = {
@@ -29,16 +27,6 @@ const {
   FORM_SUBMIT_FAIL,
   DELETE_FILE,
 } = ACTIONS;
-
-const scrollToError = () => {
-  const errors = document.querySelectorAll('.usa-input-error');
-  if (errors.length) {
-    const errorPosition = getTopPosition(errors[0]);
-    const options = getScrollOptions({ offset: -25 });
-    Scroll.animateScroll.scrollTo(errorPosition, options);
-    errors[0].querySelectorAll('label')[1].focus();
-  }
-};
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -120,7 +108,7 @@ export const CoeDocumentUpload = () => {
         type: FORM_SUBMIT_FAIL,
         errorMessage: 'Please choose a file to upload',
       });
-      setTimeout(scrollToError);
+      setTimeout(scrollToFirstError);
     }
   };
 
