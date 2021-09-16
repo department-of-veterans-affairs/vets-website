@@ -9,6 +9,7 @@ import first from 'lodash/first';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
@@ -45,7 +46,15 @@ const DebtDetails = ({ selectedDebt, debts }) => {
   }, []);
 
   if (Object.keys(currentDebt).length === 0) {
-    return window.location.replace('/manage-va-debt/your-debt');
+    window.location.replace('/manage-va-debt/your-debt');
+    return (
+      <div className="vads-u-font-family--sans vads-u-margin--0 vads-u-padding--1">
+        <LoadingIndicator
+          setFocus
+          message="Please wait while we load the application for you."
+        />
+      </div>
+    );
   }
 
   return (
