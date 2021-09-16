@@ -763,7 +763,6 @@ const formConfig = {
             },
             [formFields.toursOfDutyCorrect]: {
               'ui:title': 'This information is incorrect and/or incomplete',
-              'ui:reviewField': YesNoReviewField,
             },
             [formFields.incorrectServiceHistoryExplanation]: {
               'ui:title':
