@@ -314,7 +314,10 @@ const formConfig = {
                     Any updates you make here to your personal information will
                     only apply to your education benefits. To update your
                     personal information for all of the benefits across VA,{' '}
-                    <a href="#">please go to your profile page</a>.
+                    <a href="https://www.va.gov/profile">
+                      please go to your profile page
+                    </a>
+                    .
                   </p>
                 </>
               ),
