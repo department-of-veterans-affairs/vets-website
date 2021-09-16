@@ -96,12 +96,14 @@ const NearByVetCenters = props => {
           />
         </section>
 
-        <section
-          className="region-grid usa-width-one-half vads-u-order--first small-screen:vads-u-order--initial
+        {vetCenter.fieldMedia && (
+          <section
+            className="region-grid usa-width-one-half vads-u-order--first small-screen:vads-u-order--initial
         vads-u-margin-bottom--2"
-        >
-          <VetCenterImageSection vetCenter={vetCenter} />
-        </section>
+          >
+            <VetCenterImageSection vetCenter={vetCenter} />
+          </section>
+        )}
       </div>
     );
   };
