@@ -48,7 +48,9 @@ describe('Form 526EZ Entry Page', () => {
         loadedStatus: 'success',
         savedStatus: '',
         loadedData: {
-          metadata: {},
+          metadata: {
+            inProgressFormId: '234',
+          },
         },
       },
       user: {
@@ -61,6 +63,7 @@ describe('Form 526EZ Entry Page', () => {
           loading: false,
           status: '',
           dob,
+          accountUuid: 'uuid',
         },
       },
       currentLocation: {
