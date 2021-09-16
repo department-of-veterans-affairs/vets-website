@@ -272,7 +272,7 @@
     "history": "3",
     "history-v4": "npm:history@4.9.0",
     "ics-js": "^0.10.2",
-    "inquirer": "^8.1.2",
+    "inquirer": "^8.1.5",
     "js-cookie": "^2.2.1",
     "jsonschema": "^1.1.1",
     "leaflet": "^1.6.0",
