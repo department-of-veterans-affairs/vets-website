@@ -258,6 +258,11 @@ dl.review .review-row:last-child {
 .meb-confirmation-page .help-footer-box{
 	padding-top: 2em;
 }
+@media print {
+	.meb-print {
+		display: none;
+	}
+}
 // END - Confirmation Page
 
 
