@@ -30,7 +30,6 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import toursOfDutyUI from '../definitions/toursOfDuty';
-import ReviewBoxField from '../components/ReviewBoxField';
 import FullNameViewField from '../components/FullNameViewField';
 import FullNameReviewField from '../components/FullNameReviewField';
 import DateViewField from '../components/DateViewField';
@@ -152,8 +151,6 @@ function titleCase(str) {
 
 function phoneUISchema(category) {
   return {
-    'ui:title': `Your ${category} phone number`,
-    'ui:field': ReviewBoxField,
     'ui:options': {
       hideLabelText: true,
       showFieldLabel: false,
@@ -177,12 +174,12 @@ function phoneSchema() {
     type: 'object',
     required: ['phone'],
     properties: {
-      isInternational: {
-        type: 'boolean',
-      },
       phone: {
         ...usaPhone,
         pattern: '^\\d[-]?\\d(?:[0-9-]*\\d)?$',
+      },
+      isInternational: {
+        type: 'boolean',
       },
     },
   };
@@ -269,13 +266,15 @@ const formConfig = {
   trackingPrefix: 'my-education-benefits-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '22-1990',
+  formId: '22-1990-MEB',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your my education benefits application (22-1990) is in progress.',
-    //   expired: 'Your saved my education benefits application (22-1990) has expired. If you want to apply for my education benefits, please start a new application.',
-    //   saved: 'Your my education benefits application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your my education benefits application (22-1990) is in progress.',
+      expired:
+        'Your saved my education benefits application (22-1990) has expired. If you want to apply for my education benefits, please start a new application.',
+      saved: 'Your my education benefits application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
@@ -312,7 +311,10 @@ const formConfig = {
                 <>
                   <h3>Review your personal information</h3>
                   <p>
-                    This is the personal information we have on file for you.
+                    Any updates you make here to your personal information will
+                    only apply to your education benefits. To update your
+                    personal information for all of the benefits across VA,{' '}
+                    <a href="#">please go to your profile page</a>.
                   </p>
                 </>
               ),
@@ -345,8 +347,6 @@ const formConfig = {
                 ...fullNameUI.middle,
                 'ui:title': 'Your middle name',
               },
-              'ui:title': 'Your full name',
-              'ui:field': ReviewBoxField,
               'ui:objectViewField': FullNameReviewField,
               'ui:options': {
                 hideLabelText: true,
@@ -355,8 +355,6 @@ const formConfig = {
               },
             },
             'view:dateOfBirth': {
-              'ui:title': 'Your date of birth',
-              'ui:field': ReviewBoxField,
               'ui:options': {
                 hideLabelText: true,
                 showFieldLabel: false,
@@ -380,16 +378,6 @@ const formConfig = {
                 ...currentOrPastDateUI('Date of birth'),
                 'ui:reviewField': CustomReviewDOBField,
               },
-            },
-            'view:note': {
-              'ui:description': (
-                <p>
-                  <strong>Note</strong>: Any updates you make here will change
-                  your personal information for VA education benefits only. To
-                  change your personal information for all benefits across VA,{' '}
-                  <a href="#">visit your VA profile</a>.
-                </p>
-              ),
             },
           },
           schema: {
@@ -416,10 +404,6 @@ const formConfig = {
                 properties: {
                   [formFields.dateOfBirth]: date,
                 },
-              },
-              'view:note': {
-                type: 'object',
-                properties: {},
               },
             },
           },
@@ -461,19 +445,27 @@ const formConfig = {
             'view:subHeadings': {
               'ui:description': (
                 <>
-                  <h3>Review your email and phone numbers</h3>
+                  <h3>Review your phone numbers and email address</h3>
+                  <p>We’ll use this information to:</p>
+                  <ul>
+                    <li>
+                      Get in touch with you if we have questions about your
+                      application
+                    </li>
+                    <li>
+                      Communicate important information about your benefits
+                    </li>
+                  </ul>
                   <p>
-                    This is the contact information we have on file for you.
-                    We’ll use this to get in touch with you if we have questions
-                    about your application and to communicate important
-                    information about your education benefits.
+                    Any updates you make here to your contact information will
+                    only apply to your education benefits. To update your
+                    contact information for all of the benefits across VA,{' '}
+                    <a href="#">please go to your profile page</a>.
                   </p>
                 </>
               ),
             },
             [formFields.email]: {
-              'ui:title': 'Your email address',
-              'ui:field': ReviewBoxField,
               'ui:options': {
                 hideLabelText: true,
                 showFieldLabel: false,
@@ -502,16 +494,6 @@ const formConfig = {
             },
             [formFields.mobilePhoneNumber]: phoneUISchema('mobile'),
             [formFields.phoneNumber]: phoneUISchema('home'),
-            'view:note': {
-              'ui:description': (
-                <p>
-                  <strong>Note</strong>: Any updates you make here will change
-                  your email and phone numbers for VA education benefits only.
-                  To change your email and phone numbers for all benefits across
-                  VA, <a href="#">visit your VA profile</a>.
-                </p>
-              ),
-            },
           },
           schema: {
             type: 'object',
@@ -520,6 +502,8 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
+              [formFields.mobilePhoneNumber]: phoneSchema(),
+              [formFields.phoneNumber]: phoneSchema(),
               [formFields.email]: {
                 type: 'object',
                 required: [formFields.email, 'confirmEmail'],
@@ -527,12 +511,6 @@ const formConfig = {
                   email,
                   confirmEmail: email,
                 },
-              },
-              [formFields.mobilePhoneNumber]: phoneSchema(),
-              [formFields.phoneNumber]: phoneSchema(),
-              'view:note': {
-                type: 'object',
-                properties: {},
               },
             },
           },
@@ -558,15 +536,19 @@ const formConfig = {
                 <>
                   <h3>Review your mailing address</h3>
                   <p>
-                    This is the mailing address we have on file for you. We’ll
-                    send any important information about your application to
-                    this address.
+                    We’ll send any important information about your application
+                    to this address.
+                  </p>
+                  <p>
+                    Any updates you make here to your mailing address will only
+                    apply to your education benefits. To update your mailing
+                    address for all of the benefits across VA, .
+                    <a href="#">please go to your profile page</a>
                   </p>
                 </>
               ),
             },
             'view:mailingAddress': {
-              'ui:title': 'Your mailing address',
               livesOnMilitaryBase: {
                 'ui:title': (
                   <span id="LiveOnMilitaryBaseTooltip">
@@ -630,17 +612,6 @@ const formConfig = {
                 showFieldLabel: false,
                 viewComponent: MailingAddressViewField,
               },
-              'ui:field': ReviewBoxField,
-            },
-            'view:note': {
-              'ui:description': (
-                <p>
-                  <strong>Note</strong>: Any updates you make here will change
-                  your mailing address for VA education benefits only. To change
-                  your mailing address for all benefits VA,{' '}
-                  <a href="#">visit your VA profile</a>.
-                </p>
-              ),
             },
           },
           schema: {
@@ -664,10 +635,6 @@ const formConfig = {
                     ...address.schema(fullSchema, true),
                   },
                 },
-              },
-              'view:note': {
-                type: 'object',
-                properties: {},
               },
             },
           },
