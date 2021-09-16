@@ -163,7 +163,6 @@ function phoneUISchema(category) {
     },
     isInternational: {
       'ui:title': 'This phone number is international',
-      'ui:reviewField': YesNoReviewField,
     },
     'ui:objectViewField': PhoneReviewField,
   };
