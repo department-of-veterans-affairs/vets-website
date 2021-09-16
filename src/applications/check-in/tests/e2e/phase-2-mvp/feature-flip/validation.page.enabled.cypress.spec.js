@@ -37,6 +37,14 @@ describe('Check In Experience -- ', () => {
     cy.get('h1').contains('Check in at VA');
     cy.injectAxe();
     cy.axeCheck();
+    cy.get('[label="Your last name"]')
+      .shadow()
+      .find('input')
+      .type('Smith');
+    cy.get('[label="Last 4 digits of your Social Security number"]')
+      .shadow()
+      .find('input')
+      .type('4837');
     cy.get('[data-testid=check-in-button]').click();
     // update information page
     cy.get('legend > h2').contains('information');
