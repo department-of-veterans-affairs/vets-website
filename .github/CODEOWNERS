@@ -85,15 +85,9 @@ src/applications/hca @department-of-veterans-affairs/vsa-caregiver-frontend @dep
 
 # Healthcare Experience
 src/applications/health-care-questionnaire @department-of-veterans-affairs/vsa-healthcare-experience
-src/applications/check-in @department-of-veterans-affairs/vsa-healthcare-experience 
+src/applications/check-in @department-of-veterans-affairs/vsa-healthcare-experience @department-of-veterans-affairs/patient-check-in
 
 # /--- VSA
-
-# Booz Allen Team
-src/applications/static-pages/school-resources @department-of-veterans-affairs/bah-code-reviewers
-src/applications/gi @department-of-veterans-affairs/bah-code-reviewers
-src/applications/gi-sandbox @department-of-veterans-affairs/bah-code-reviewers
-src/applications/edu-benefits @department-of-veterans-affairs/bah-code-reviewers
 
 # CTO Health Products
 src/applications/coronavirus-research @department-of-veterans-affairs/va-cto-health-products

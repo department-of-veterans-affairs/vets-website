@@ -1,42 +1,39 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, { useState } from 'react';
 import format from 'date-fns/format';
 
 import recordEvent from 'platform/monitoring/record-event';
-import { focusElement } from 'platform/utilities/ui';
 
-import { goToNextPage, URLS } from '../utils/navigation';
-import { checkInUser } from '../api';
+import BackToHome from '../../components/BackToHome';
+import Footer from '../../components/Footer';
+import BackButton from '../../components/BackButton';
+import AppointmentLocation from '../../components/AppointmentLocation';
 
-import BackToHome from '../components/BackToHome';
-import Footer from '../components/Footer';
-import BackButton from '../components/BackButton';
-import AppointmentLocation from '../components/AppointmentLocation';
+import { api } from '../../api';
 
-const CheckIn = props => {
-  const [isLoading, setIsLoading] = useState(false);
-  const { router, appointments, context, isUpdatePageEnabled } = props;
-  const appointment = appointments[0];
+import { goToNextPage, URLS } from '../../utils/navigation';
 
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
-
-  if (!appointment) {
-    goToNextPage(router, URLS.SEE_STAFF);
-    return <></>;
-  }
+export default function Display(props) {
+  const {
+    isUpdatePageEnabled,
+    isLowAuthEnabled,
+    router,
+    token,
+    appointment,
+  } = props;
+  const [isCheckingIn, setIsCheckingIn] = useState(false);
 
   const onClick = async () => {
     recordEvent({
       event: 'cta-button-click',
       'button-click-label': 'check in now',
     });
-    const { token } = context;
-    setIsLoading(true);
-
+    setIsCheckingIn(true);
     try {
-      const json = await checkInUser({
+      const checkIn = isLowAuthEnabled
+        ? api.v1.postCheckInData
+        : api.v0.checkInUser;
+
+      const json = await checkIn({
         token,
       });
       const { status } = json;
@@ -49,9 +46,11 @@ const CheckIn = props => {
       goToNextPage(router, URLS.ERROR);
     }
   };
+
   const appointmentDateTime = new Date(appointment.startTime);
   const appointmentDate = format(appointmentDateTime, 'cccc, LLLL d, yyyy');
   const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
+
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 appointment-check-in">
       {isUpdatePageEnabled && <BackButton router={router} />}
@@ -83,28 +82,13 @@ const CheckIn = props => {
         className="usa-button usa-button-big"
         onClick={onClick}
         data-testid="check-in-button"
-        disabled={isLoading}
+        disabled={isCheckingIn}
         aria-label="Check in now for your appointment"
       >
-        {isLoading ? <>Loading...</> : <>Check in now</>}
+        {isCheckingIn ? <>Loading...</> : <>Check in now</>}
       </button>
       <Footer />
       <BackToHome />
     </div>
   );
-};
-
-const mapStateToProps = state => {
-  return {
-    appointments: state.checkInData.appointments,
-    context: state.checkInData.context,
-  };
-};
-const mapDispatchToProps = () => {
-  return {};
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CheckIn);
+}

@@ -375,3 +375,8 @@ export const ELIGIBILITY_REASONS = {
   noMatchingClinics: 'noMatchingClinics',
   error: 'error',
 };
+
+export const CANCELLATION_REASONS = {
+  patient: 'pat',
+  provider: 'prov',
+};
