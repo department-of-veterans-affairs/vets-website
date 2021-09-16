@@ -14,8 +14,17 @@ const NEARBY_VET_CENTER_RADIUS_MILES = 80;
 
 const NearByVetCenters = props => {
   const [fetchedVetCenters, setFetchedVetCenters] = useState([]);
-  const [fetchedNearbyVetCenters, setFetchedNearbyVetCenters] = useState([]);
   const dispatch = useDispatch();
+
+  const fetchVetCenters = query => {
+    dispatch(fetchFacilityStarted());
+    apiRequest(query, {
+      apiVersion: 'v1',
+    }).then(res => {
+      dispatch(fetchFacilitySuccess());
+      setFetchedVetCenters(res.data);
+    });
+  };
 
   const fetchUnpublishedVetCenters = () => {
     const notPublishedFacilities = props.vetCenters
@@ -23,13 +32,7 @@ const NearByVetCenters = props => {
         v => !v.entity?.entityPublished && v.entity?.fieldFacilityLocatorApiId,
       )
       .join(',');
-    dispatch(fetchFacilityStarted());
-    apiRequest(`/facilities/va?ids=${notPublishedFacilities}`, {
-      apiVersion: 'v1',
-    }).then(res => {
-      dispatch(fetchFacilitySuccess());
-      setFetchedVetCenters(res.data);
-    });
+    fetchVetCenters(`/facilities/va?ids=${notPublishedFacilities}`);
   };
 
   const fetchNearbyVetCenters = () => {
@@ -54,13 +57,7 @@ const NearByVetCenters = props => {
         `longitude=${coordinates[0]}`,
         ...boundingBox.map(c => `bbox[]=${c}`),
       ].join('&');
-      dispatch(fetchFacilityStarted());
-      apiRequest(`/facilities/va/?${params}`, {
-        apiVersion: 'v1',
-      }).then(res => {
-        dispatch(fetchFacilitySuccess());
-        setFetchedNearbyVetCenters(res.data);
-      });
+      fetchVetCenters(`/facilities/va/?${params}`);
     });
   };
 
@@ -156,7 +153,7 @@ const NearByVetCenters = props => {
   );
 
   if (props.automateNearbyVetCenters) {
-    const filteredVetCenters = fetchedNearbyVetCenters.filter(
+    const filteredVetCenters = fetchedVetCenters.filter(
       vc =>
         vc.id !== props.mainVetCenterId &&
         !props.satteliteVetCenters.includes(vc.id),
