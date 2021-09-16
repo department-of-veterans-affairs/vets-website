@@ -40,22 +40,34 @@ const Landing = props => {
 
       if (token) {
         if (isLowAuthEnabled) {
-          api.v1.getSession(token).then(session => {
-            // if session with read.full exists, go to check in page
-            setCurrentToken(window, token);
-            setLoadMessage('Loading your appointment');
-            if (session.permission === 'read.full') {
-              goToNextPage(router, URLS.DETAILS);
-            } else {
-              // else get the data then go to validate page
-              api.v1.getCheckInData(token).then(json => {
-                // going to be read.basic data, which is facility name and number
-                const { data } = json;
-                setAppointment(data, token);
-                goToNextPage(router, URLS.VALIDATION_NEEDED);
-              });
-            }
-          });
+          api.v1
+            .getSession(token)
+            .then(session => {
+              // if session with read.full exists, go to check in page
+              setCurrentToken(window, token);
+              setLoadMessage('Loading your appointment');
+              if (session.permission === 'read.full') {
+                goToNextPage(router, URLS.DETAILS);
+              } else {
+                // else get the data then go to validate page
+                api.v1
+                  .getCheckInData(token)
+                  .then(json => {
+                    // going to be read.basic data, which is facility name and number
+                    const { data } = json;
+                    setAppointment(data, token);
+                    goToNextPage(router, URLS.VALIDATION_NEEDED);
+                  })
+                  .catch(() => {
+                    clearCurrentSession(window);
+                    goToNextPage(router, URLS.ERROR);
+                  });
+              }
+            })
+            .catch(() => {
+              clearCurrentSession(window);
+              goToNextPage(router, URLS.ERROR);
+            });
         } else {
           api.v0
             .validateToken(token)
