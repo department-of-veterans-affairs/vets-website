@@ -7,7 +7,7 @@ on:
         description: Minutes to wait before creating release
         required: false
         default: 5
-      commit_ref:
+      commit_sha:
         description: Deploy specific commit
         required: false
         default: ''
