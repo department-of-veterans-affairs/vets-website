@@ -208,6 +208,19 @@ export default class AutosuggestField extends React.Component {
     const { idSchema, formContext, formData, uiSchema, schema } = this.props;
     const id = idSchema.$id;
 
+    // wrap matching text in a <mark> element
+    const highlightText = uiSchema['ui:options']?.highlightText;
+    const value = this.state.input;
+    const regexp = new RegExp(`(${value})`);
+    const highLightMatchingText = query => {
+      if (value.length > 2) {
+        return query
+          .split(regexp)
+          .map(str => (str === value ? <mark>{value}</mark> : str));
+      }
+      return query;
+    };
+
     if (formContext.reviewMode) {
       const readOnlyData = <span>{getInput(formData, uiSchema, schema)}</span>;
 
@@ -273,7 +286,9 @@ export default class AutosuggestField extends React.Component {
                     })}
                     key={item.id}
                   >
-                    {item.label}
+                    {highlightText
+                      ? highLightMatchingText(item.label)
+                      : item.label}
                   </div>
                 ))}
               </div>
