@@ -4,6 +4,7 @@ const commonResponses = require('../../../../platform/testing/local-dev-mock-api
 const mockCheckIns = require('./mocks/check.in.response');
 const mockValidates = require('./mocks/validate.responses');
 const mockPatientCheckIns = require('./mocks/patient.check.in.response');
+const mockSessions = require('./mocks/sessions.responses');
 const featureToggles = require('./mocks/feature.toggles');
 const sessions = require('./mocks/sessions.responses');
 const delay = require('mocker-api/lib/delay');
@@ -33,16 +34,7 @@ const responses = {
   'POST /check_in/v1/sessions': (req, res) => {
     const { last4, lastName } = req.body?.session || {};
     if (!last4 || !lastName) {
-      return res.status(400).json({
-        errors: [
-          {
-            title: 'Operation failed',
-            detail: 'Operation failed',
-            code: 'VA900',
-            status: '400',
-          },
-        ],
-      });
+      return res.status(400).json(mockSessions.createMockFailedResponse());
     }
     hasBeenValidated = true;
     return res.json(sessions.v1Api.post(req.body));

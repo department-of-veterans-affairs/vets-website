@@ -14,20 +14,7 @@ describe('Check In Experience -- ', () => {
         );
       });
       cy.intercept('POST', '/check_in/v1/sessions', req => {
-        req.reply({
-          statusCode: 400,
-          body: {
-            errors: [
-              {
-                title: 'Operation failed',
-                detail: 'Operation failed',
-                code: 'VA900',
-                status: '400',
-              },
-            ],
-          },
-          delay: 10, // milliseconds
-        });
+        req.reply(400, mockSession.createMockFailedResponse());
       });
       cy.intercept('GET', '/check_in/v1/patient_check_ins/*', req => {
         req.reply(mockPatientCheckIns.createMockSuccessResponse({}, false));
