@@ -32,8 +32,11 @@ jobs:
       - name: Test Current SHA
         run: echo ${{ github.sha }}
 
-      - name: Test HEAD SHA
-        run: echo ${{ github.head_ref }}
+      - name: Test Current SHA with REVPARSE
+        run: git rev-parse HEAD
+
+      - name: Test Origin SHA
+        run: git rev-parse origin/master
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -857,9 +860,12 @@ jobs:
 
       - name: Test Current SHA
         run: echo ${{ github.sha }}
+        
+      - name: Test Current SHA with REVPARSE
+        run: git rev-parse HEAD
 
-      - name: Test HEAD SHA
-        run: echo ${{ github.event.pull_request.head.sha }}
+      - name: Test Origin SHA
+        run: git rev-parse origin/master
 
   deploy:
     name: Deploy
