@@ -3,26 +3,26 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 
 export const notLoggedInContent = props => (
   <div>
-    <va-alert status="info">
-      <h2 slot="headline">You may be able to get an automatic COE online</h2>
-      <div>
-        <p>
-          If we have all the information we need, you won’t need to fill out the
-          application. We’ll create an automatic COE for you right away
-        </p>
-        <p>
-          If we need moire information, we’ll ask you to fill out an
-          application. Sign in to find out if you can get an automatic COE.
-        </p>
-      </div>
-    </va-alert>
-    <h2>Apply, get your COE, or check your status</h2>
+    <h2>Sign in to apply, get your COE, or check your status</h2>
     <p>Sign into VA.gov if you want to:</p>
     <ul className="vads-u-padding-bottom--4">
       <li>Apply for a COE</li>
       <li>Find out if you already have a COE and download it</li>
       <li>Find out the status of your application</li>
     </ul>
+    <h2>You may be able to get an automatic COE online</h2>
+    <p>
+      If we have all the information we need when you sign in, you may get a COE
+      automatically. If we don’t have enough information to create your COE
+      automatically, we’ll ask you to apply for a COE by completing a Request
+      for a Certificate of Eligibility.
+    </p>
+    <h2>Have you applied for a COE before?</h2>
+    <p>
+      If you think you received a VA home loan COE in the past, or if you
+      applied for a COE and you haven’t heard back, we’ll check when you sign in
+      and show your current status.
+    </p>
     <SaveInProgressIntro
       prefillEnabled={props?.route?.formConfig?.prefillEnabled}
       messages={props?.route?.formConfig?.savedFormMessages}
