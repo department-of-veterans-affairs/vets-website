@@ -172,9 +172,8 @@ const pendingPage = (
 
     <h2>When will I hear back about my application?</h2>
     <div className="feature meb-feature--secondary">
-      <h2>
-        <em>In 1</em> month
-      </h2>
+      <h2>In 1 month</h2>
+      <hr className="meb-hr" />
       <p>
         If more than a month has passed since you gave us your application and
         you haven’t heard back, please don’t apply again. Call our toll-free
