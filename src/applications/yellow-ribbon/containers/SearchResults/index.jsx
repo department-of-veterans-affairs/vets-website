@@ -234,7 +234,7 @@ export class SearchResults extends Component {
 
         {/* Table of Results */}
         <ul
-          className="search-results vads-u-margin-top--2 vads-u-padding--0"
+          className="vads-u-margin-top--2 vads-u-padding--0"
           data-e2e-id="search-results"
         >
           {results?.map((school, index) => (
