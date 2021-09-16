@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import * as Sentry from '@sentry/browser';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
@@ -9,6 +10,7 @@ import {
   WIZARD_STATUS_COMPLETE,
   WIZARD_STATUS_RESTARTING,
 } from 'platform/site-wide/wizard';
+import { isLoggedIn } from 'platform/user/selectors';
 
 import formConfig from './config/form';
 import AddPerson from './containers/AddPerson';
@@ -52,30 +54,32 @@ export const idRequired = [
   backendServices.ORIGINAL_CLAIMS,
 ];
 
-export const hasRequiredServices = user =>
-  serviceRequired.some(service => user.profile.services.includes(service));
+export const hasRequiredServices = profile =>
+  serviceRequired.some(service => profile.services.includes(service));
 
-export const hasRequiredId = user =>
-  idRequired.some(service => user.profile.services.includes(service));
+export const hasRequiredId = profile =>
+  idRequired.some(service => profile.services.includes(service));
 
-export const hasRequiredDob = user => !!user.profile.dob;
+export const hasRequiredDob = profile => !!profile.dob;
 
 const isIntroPage = () => window.location.pathname.endsWith('/introduction');
 
 export const Form526Entry = ({
-  location,
-  user,
   children,
-  mvi,
-  showWizard,
+  inProgressFormId,
   isBDDForm,
+  location,
+  loggedIn,
+  mvi,
   pdfLimit,
   router,
-  showSubforms,
   savedForms,
+  showSubforms,
+  showWizard,
+  user,
 }) => {
+  const { profile = {} } = user;
   const wizardStatus = sessionStorage.getItem(WIZARD_STATUS);
-  const loggedIn = user.login?.currentlyLoggedIn || false;
 
   const hasSavedForm = savedForms.some(
     form =>
@@ -93,13 +97,22 @@ export const Form526Entry = ({
     scrollToTop();
   };
 
-  useEffect(() => {
-    if (wizardStatus === WIZARD_STATUS_COMPLETE && isIntroPage()) {
-      setPageFocus('h1');
-      // save feature flag for 8940/4192
-      sessionStorage.setItem(SHOW_8940_4192, showSubforms);
-    }
-  });
+  useEffect(
+    () => {
+      if (wizardStatus === WIZARD_STATUS_COMPLETE && isIntroPage()) {
+        setPageFocus('h1');
+        // save feature flag for 8940/4192
+        sessionStorage.setItem(SHOW_8940_4192, showSubforms);
+      }
+      // Set user account & application id in Sentry so we can access their form
+      // data for any thrown errors
+      if (inProgressFormId) {
+        Sentry.setTag('account_uuid', profile.accountUuid);
+        Sentry.setTag('in_progress_form_id', inProgressFormId);
+      }
+    },
+    [showSubforms, wizardStatus, inProgressFormId, profile],
+  );
 
   // showWizard feature flag loads _after_ page has rendered causing the full
   // page content to render, then the wizard to render if this flag is true, so
@@ -145,7 +158,7 @@ export const Form526Entry = ({
   // "add-person" service means the user has a edipi and SSN in the system, but
   // is missing either a BIRLS or participant ID
   if (
-    user.profile.services.includes('add-person') &&
+    profile.services.includes('add-person') &&
     mvi?.addPersonState !== MVI_ADD_SUCCEEDED
   ) {
     return wrapWithBreadcrumb(title, <AddPerson title={title} />);
@@ -153,17 +166,17 @@ export const Form526Entry = ({
 
   // RequiredLoginView will handle unverified users by showing the
   // appropriate link
-  if (user.profile.verified) {
+  if (profile.verified) {
     // EVSS requires user DOB for submission - see #27374
-    if (!hasRequiredDob(user)) {
+    if (!hasRequiredDob(profile)) {
       return wrapWithBreadcrumb(title, <MissingDob title={title} />);
     }
     // User is missing either their SSN, EDIPI, or BIRLS ID
-    if (!hasRequiredId(user)) {
+    if (!hasRequiredId(profile)) {
       return wrapWithBreadcrumb(title, <MissingId title={title} />);
     }
     // User doesn't have the required services. Show an alert
-    if (!hasRequiredServices(user)) {
+    if (!hasRequiredServices(profile)) {
       return wrapWithBreadcrumb(title, <MissingServices title={title} />);
     }
   }
@@ -186,14 +199,17 @@ export const Form526Entry = ({
 };
 
 const mapStateToProps = state => ({
-  user: state.user,
-  mvi: state.mvi,
-  showWizard: show526Wizard(state),
-  showSubforms: showSubform8940And4192(state),
+  accountUuid: state?.user?.profile?.accountUuid,
+  inProgressFormId: state?.form?.loadedData?.metadata?.inProgressFormId,
   isBDDForm: isBDD(state?.form?.data),
-  pdfLimit: uploadPdfLimitFeature(state),
   isStartingOver: state.form?.isStartingOver,
+  loggedIn: isLoggedIn(state),
+  mvi: state.mvi,
+  pdfLimit: uploadPdfLimitFeature(state),
   savedForms: state?.user?.profile?.savedForms || [],
+  showSubforms: showSubform8940And4192(state),
+  showWizard: show526Wizard(state),
+  user: state.user,
 });
 
 export default connect(mapStateToProps)(Form526Entry);

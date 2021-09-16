@@ -46,9 +46,14 @@ jobs:
             ~/.cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline
+          max_attempts: 3
+          timeout_minutes: 7
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
@@ -106,9 +111,14 @@ jobs:
             ~/.cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline
+          max_attempts: 3
+          timeout_minutes: 7
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
@@ -166,9 +176,14 @@ jobs:
             ~/.cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline
+          max_attempts: 3
+          timeout_minutes: 7
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
@@ -213,9 +228,14 @@ jobs:
             ~/.cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline
+          max_attempts: 3
+          timeout_minutes: 7
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 

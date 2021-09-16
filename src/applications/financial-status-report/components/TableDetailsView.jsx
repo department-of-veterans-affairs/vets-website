@@ -1,10 +1,5 @@
 import React from 'react';
-
-const formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  minimumFractionDigits: 2,
-});
+import { currency } from '../utils/helpers';
 
 const TableDetailsView = ({ formData, onEdit, index }) => {
   const values = formData && Object.values(formData);
@@ -13,7 +8,7 @@ const TableDetailsView = ({ formData, onEdit, index }) => {
   const format = value => {
     const isNumber = !isNaN(value);
     if (isNumber) {
-      return formatter.format(value);
+      return currency.format(parseFloat(value));
     }
     return value;
   };
