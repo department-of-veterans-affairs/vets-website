@@ -31,6 +31,19 @@ const responses = {
     return res.json(sessions.v1Api.get(req.params));
   },
   'POST /check_in/v1/sessions': (req, res) => {
+    const { last4, lastName } = req.body?.session || {};
+    if (!last4 || !lastName) {
+      return res.status(400).json({
+        errors: [
+          {
+            title: 'Operation failed',
+            detail: 'Operation failed',
+            code: 'VA900',
+            status: '400',
+          },
+        ],
+      });
+    }
     hasBeenValidated = true;
     return res.json(sessions.v1Api.post(req.body));
   },

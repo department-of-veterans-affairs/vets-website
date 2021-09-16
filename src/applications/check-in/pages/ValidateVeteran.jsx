@@ -19,26 +19,42 @@ const ValidateVeteran = props => {
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
 
+  const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
+  const [last4ErrorMessage, setLast4ErrorMessage] = useState();
+
   const { token } = context;
 
   const onClick = async () => {
-    // API call
-    setIsLoading(true);
-    api.v1
-      .postSession({ lastName, last4: last4Ssn, token })
-      .then(data => {
-        // update sessions with new permissions
-        setPermissions(data);
+    setLastNameErrorMessage();
+    setLast4ErrorMessage();
+    if (!lastName || !last4Ssn) {
+      if (!lastName) {
+        setLastNameErrorMessage('Please enter your last name.');
+      }
+      if (!last4Ssn) {
+        setLast4ErrorMessage(
+          'Please enter the last 4 digits of your Social Security number',
+        );
+      }
+    } else {
+      // API call
+      setIsLoading(true);
+      api.v1
+        .postSession({ lastName, last4: last4Ssn, token })
+        .then(data => {
+          // update sessions with new permissions
+          setPermissions(data);
 
-        if (isUpdatePageEnabled) {
-          goToNextPage(router, URLS.UPDATE_INSURANCE);
-        } else {
-          goToNextPage(router, URLS.DETAILS);
-        }
-      })
-      .catch(() => {
-        goToNextPage(router, URLS.ERROR);
-      });
+          if (isUpdatePageEnabled) {
+            goToNextPage(router, URLS.UPDATE_INSURANCE);
+          } else {
+            goToNextPage(router, URLS.DETAILS);
+          }
+        })
+        .catch(() => {
+          goToNextPage(router, URLS.ERROR);
+        });
+    }
   };
   useEffect(() => {
     focusElement('h1');
@@ -54,12 +70,16 @@ const ValidateVeteran = props => {
           name="last-name"
           value={lastName}
           onVaChange={event => setLastName(event.detail.value)}
+          required
+          error={lastNameErrorMessage}
         />
         <VaTextInput
           label="Last 4 digits of your Social Security number"
           name="last-4-ssn"
           value={last4Ssn}
           onVaChange={event => setLast4Ssn(event.detail.value)}
+          required
+          error={last4ErrorMessage}
         />
       </form>
       <button
