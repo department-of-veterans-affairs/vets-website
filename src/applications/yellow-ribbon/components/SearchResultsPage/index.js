@@ -57,26 +57,6 @@ export const SearchResultsPage = ({
 
         {/* Search Form Fields */}
         <SearchForm />
-
-        {/* Helpful Links */}
-        <div className="vads-u-display--none medium-screen:vads-u-display--flex vads-u-flex-direction--column">
-          <h3 className="vads-u-margin-top--2">Helpful links</h3>
-          <p className="vads-u-margin-bottom--1">
-            <a href="/education/eligibility/">
-              Find out if you’re eligible for the Post-9/11 GI Bill
-            </a>
-          </p>
-          <p className="vads-u-margin-bottom--1 vads-u-margin-top--1">
-            <a href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/">
-              Find out if you qualify for the Yellow Ribbon Program
-            </a>
-          </p>
-          <p className="vads-u-margin-top--1">
-            <a href="/education/how-to-apply/">
-              Apply for Post-9/11 GI Bill benefits
-            </a>
-          </p>
-        </div>
       </div>
 
       {/* Search Results */}
