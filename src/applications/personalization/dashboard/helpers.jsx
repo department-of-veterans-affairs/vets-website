@@ -26,6 +26,7 @@ import disability526Manifest from 'applications/disability-benefits/all-claims/m
 import hlrManifest from 'applications/disability-benefits/996/manifest.json';
 import mdotManifest from 'applications/disability-benefits/2346/manifest.json';
 import fsrManifest from 'applications/financial-status-report/manifest.json';
+import mebManifest from 'applications/my-education-benefits/manifest.json';
 
 export const formBenefits = {
   [VA_FORM_IDS.FORM_21_526EZ]: 'disability compensation',
@@ -48,6 +49,7 @@ export const formBenefits = {
   [VA_FORM_IDS.FORM_20_0996]: 'Higher-level review',
   [VA_FORM_IDS.FORM_VA_2346A]: 'hearing aid batteries and accessories',
   [VA_FORM_IDS.FORM_5655]: 'financial status report',
+  [VA_FORM_IDS.FORM_22_1990_MEB]: 'education benefits',
 };
 
 export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
@@ -105,6 +107,7 @@ export const formLinks = {
   [VA_FORM_IDS.FORM_20_0996]: `${hlrManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_VA_2346A]: `${mdotManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_5655]: `${fsrManifest.rootUrl}/`,
+  [VA_FORM_IDS.FORM_22_1990_MEB]: `${mebManifest.rootUrl}/`,
 };
 
 export const trackingPrefixes = {
@@ -149,6 +152,7 @@ export const sipEnabledForms = new Set([
   VA_FORM_IDS.FORM_20_0996,
   VA_FORM_IDS.FORM_VA_2346A,
   VA_FORM_IDS.FORM_5655,
+  VA_FORM_IDS.FORM_22_1990_MEB,
 ]);
 
 // A dict of presentable form IDs. Generally this is just the form ID itself

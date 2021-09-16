@@ -30,6 +30,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_COVID_VACCINATION_EXPANSION: 'COVID-VACCINATION-EXPANSION',
   FORM_26_1880: '26-1880',
   FORM_21_22A: '21-22a',
+  FORM_22_1990_MEB: '22-1990-MEB', // there will be a new formal form name that will be provided for my educations benefit. Setting to 22-1990-MEB this while the procedures team provides it.
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
