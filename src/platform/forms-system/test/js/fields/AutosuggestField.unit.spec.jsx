@@ -501,4 +501,48 @@ describe('<AutosuggestField>', () => {
     expect(onChange.called).to.be.true;
     tree.unmount();
   });
+
+  it('should highlight results if highlightText is true in ui:options', done => {
+    const onChange = sinon.spy();
+    const props = {
+      uiSchema: {
+        'ui:options': {
+          freeInput: true,
+          highlightText: true,
+          labels: {
+            AL: 'Label 1',
+            BC: 'Label 2',
+          },
+        },
+      },
+      schema: {
+        type: 'string',
+        enum: ['AL', 'BC'],
+      },
+      formContext: { reviewMode: false },
+      idSchema: { $id: 'id' },
+      onChange,
+      onBlur: () => {},
+    };
+    const wrapper = mount(<AutosuggestField {...props} />);
+
+    // Input something not in options
+    const input = wrapper.find('input');
+    input.simulate('focus');
+    input.simulate('change', {
+      target: {
+        value: 'bel',
+      },
+    });
+
+    setTimeout(() => {
+      expect(wrapper.find('.autosuggest-list')).to.exist;
+      const firstItem = wrapper.find('.autosuggest-item').first();
+      const highlight = firstItem.find('mark').text();
+      expect(firstItem.text()).to.equal('Label 1');
+      expect(highlight).to.equal('bel');
+      wrapper.unmount();
+      done();
+    });
+  });
 });
