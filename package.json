@@ -214,7 +214,7 @@
     "start-server-and-test": "^1.14.0",
     "stylelint": "^13.13.1",
     "stylelint-order": "^4.1.0",
-    "stylelint-scss": "^3.19.0",
+    "stylelint-scss": "^3.21.0",
     "stylelint-webpack-plugin": "^3.0.1",
     "svg-url-loader": "^2.3.2",
     "table": "^6.7.1",
