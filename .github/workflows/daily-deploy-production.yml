@@ -51,11 +51,11 @@ jobs:
         run: echo 'RELEASE_WAIT=${{ github.event.inputs.release_wait }}' >> $GITHUB_ENV
 
       - name: Get commit sha (latest commit)
-        if: ${{ github.event.schedule != '' || github.event.inputs.commit_sha == '' }}
+        if: ${{ github.event.schedule != '' || (github.event_name == 'workflow_dispatch' && github.event.inputs.commit_sha == '') }}
         run: echo 'COMMIT_SHA=${{ github.sha }}' >> $GITHUB_ENV
 
-      - name: Get commit sha (workflow_dispatch commit)
-        if: ${{ github.event.inputs.commit_sha != '' }}
+      - name: Get commit sha (workflow_dispatch)
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.commit_sha != '' }}
         run: echo 'COMMIT_SHA=${{ github.event.inputs.commit_sha }}' >> $GITHUB_ENV
 
   validate-build-status:
