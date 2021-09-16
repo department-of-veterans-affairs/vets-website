@@ -29,7 +29,7 @@ const approvedPage = (
         Eligibility is now available. A physical copy will also be mailed to
         your mailing address.
       </p>
-      <button type="button" className="usa-button">
+      <button type="button" className="usa-button-primary va-button-primary">
         Download your Certificate of Eligibility
       </button>
       <a href="#">View a statement of your benefits</a>
@@ -109,7 +109,7 @@ const deniedPage = (
       <button type="button" className="usa-button">
         Download your letter
       </button>
-      <a href="#">View an explanation of your benefits</a>
+      <a href="#">View a statement of your benefits</a>
     </va-alert>
 
     <div className="feature">
@@ -131,16 +131,12 @@ const deniedPage = (
       <li>
         We will review your eligibility for other VA education benefit programs.
       </li>
-      <li>You will be notified if you have potential eligibility.</li>
+      <li>
+        You will be notified if you are eligible for other VA education
+        benefits.
+      </li>
       <li>There is no further action required by you at this time.</li>
     </ul>
-    <h2>What if I disagree with this decision?</h2>
-    <p>
-      If you disagree with our decision, you have until one year from the date
-      of your letter to request an additional review. For more information,
-      please see <a href="#">VA Form 20-0998</a>,{' '}
-      <em>Your Rights to Seek Further Review of Our Decision</em>.{' '}
-    </p>
 
     <a className="vads-c-action-link--green" href="#">
       Go to your My VA dashboard
@@ -193,8 +189,7 @@ const pendingPage = (
       <li>We will review your eligibility for the Post-9/11 GI Bill.</li>
       <li>We may reach out with questions about your application.</li>
       <li>
-        You will be notified of the results of our review for potential
-        eligibility.
+        You will be notified if you are eligible for VA education benefits.
       </li>
       <li>There is no further action required by you at this time.</li>
     </ul>
@@ -250,7 +245,7 @@ export class ConfirmationPage extends React.Component {
     const { response } = submission;
     const name = data.veteranFullName;
 
-    const confirmationResult = 'loading';
+    const confirmationResult = 'approved';
 
     switch (confirmationResult) {
       case 'approved': {
