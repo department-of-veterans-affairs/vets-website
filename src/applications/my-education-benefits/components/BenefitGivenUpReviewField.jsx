@@ -1,6 +1,10 @@
 import React from 'react';
 
 export default function BenefitGivenUpReviewField({ children, uiSchema }) {
+  if (!children || !uiSchema) {
+    return <></>;
+  }
+
   return (
     <>
       <div className="review-row">
