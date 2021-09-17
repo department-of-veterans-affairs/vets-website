@@ -10,7 +10,7 @@ export default async function createNearByVetCenters(store) {
   );
 
   if (nearByVetCentersWidget) {
-    const { default: NearByVetCenters } = await import('./nearByVetCenters');
+    const { default: NearByVetCenters } = await import('./NearByVetCenters');
     ReactDOM.render(
       <Provider store={store}>
         <NearByVetCenters
