@@ -270,7 +270,7 @@
     "ics-js": "^0.10.2",
     "js-cookie": "^2.2.1",
     "jsonschema": "^1.1.1",
-    "leaflet": "^1.6.0",
+    "leaflet": "^1.7.1",
     "libxmljs2": "^0.28.0",
     "local-storage-fallback": "^4.1.2",
     "lodash": "^4.17.21",
