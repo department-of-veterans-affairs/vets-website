@@ -1,5 +1,5 @@
-import Scroll from 'react-scroll';
 import { focusElement, getScrollOptions } from 'platform/utilities/ui';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 export const $ = (selector, root) => (root || document).querySelector(selector);
 export const $$ = (selector, root) => [
@@ -15,7 +15,7 @@ const scrollAndFocusFunctions = (selector, offset) => {
       document.body.scrollTop ||
       0;
     const position = el.getBoundingClientRect().top + currentPosition;
-    Scroll.animateScroll.scrollTo(position - offset, getScrollOptions());
+    scrollTo(position - offset, getScrollOptions());
     focusElement(el);
   }
 };
