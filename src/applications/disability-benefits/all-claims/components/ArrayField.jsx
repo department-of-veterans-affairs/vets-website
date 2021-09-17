@@ -10,12 +10,13 @@ import {
   deepEquals,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import scrollTo from 'platform/utilities/ui/scrollTo';
-import { getScrollOptions, isReactComponent } from 'platform/utilities/ui';
-
 import {
+  getScrollOptions,
+  isReactComponent,
   scrollToFirstError,
-  focusElement,
-} from 'platform/forms-system/src/js/utilities/ui';
+} from 'platform/utilities/ui';
+
+import { focusElement } from 'platform/forms-system/src/js/utilities/ui';
 import { setArrayRecordTouched } from 'platform/forms-system/src/js/helpers';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 

@@ -10,10 +10,9 @@ import {
   deepEquals,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
-import { scrollToFirstError } from '../utilities/ui';
+import { scrollToFirstError, isReactComponent } from 'platform/utilities/ui';
 import { setArrayRecordTouched } from '../helpers';
 import { errorSchemaIsValid } from '../validation';
-import { isReactComponent } from '../../../../utilities/ui';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;

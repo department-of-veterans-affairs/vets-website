@@ -17,7 +17,7 @@ import ReadOnlyArrayField from '../review/ReadOnlyArrayField';
 import BasicArrayField from '../fields/BasicArrayField';
 import TitleField from '../fields/TitleField';
 import ReviewObjectField from '../review/ObjectField';
-import { scrollToFirstError } from '../utilities/ui';
+import { scrollToFirstError } from 'platform/utilities/ui';
 
 /*
  * Each page uses this component and passes in config. This is where most of the page level
