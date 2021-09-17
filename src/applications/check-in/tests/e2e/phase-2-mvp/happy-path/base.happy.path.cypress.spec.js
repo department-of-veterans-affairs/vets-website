@@ -7,18 +7,22 @@ import mockPatientCheckIns from '../../../../api/local-mock-api/mocks/v1/patient
 describe('Check In Experience -- ', () => {
   describe('phase 2 -- ', () => {
     beforeEach(function() {
+      let hasValidated = false;
       cy.intercept('GET', '/check_in/v1/sessions/*', req => {
         req.reply(
           mockSession.createMockSuccessResponse('some-token', 'read.basic'),
         );
       });
       cy.intercept('POST', '/check_in/v1/sessions', req => {
+        hasValidated = true;
         req.reply(
           mockSession.createMockSuccessResponse('some-token', 'read.full'),
         );
       });
       cy.intercept('GET', '/check_in/v1/patient_check_ins/*', req => {
-        req.reply(mockPatientCheckIns.createMockSuccessResponse({}, false));
+        req.reply(
+          mockPatientCheckIns.createMockSuccessResponse({}, hasValidated),
+        );
       });
       cy.intercept('POST', '/check_in/v1/patient_check_ins/', req => {
         req.reply(mockCheckIn.createMockSuccessResponse({}));

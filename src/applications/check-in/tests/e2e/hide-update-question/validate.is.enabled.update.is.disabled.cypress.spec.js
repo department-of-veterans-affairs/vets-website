@@ -8,20 +8,23 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
+    let hasValidated = false;
+
     cy.intercept('GET', '/check_in/v1/sessions/*', req => {
       req.reply(
         mockSession.createMockSuccessResponse('some-token', 'read.basic'),
       );
     });
     cy.intercept('POST', '/check_in/v1/sessions', req => {
-      req.reply({
-        statusCode: 200,
-        body: mockSession.createMockSuccessResponse('some-token', 'read.full'),
-        delay: 10, // milliseconds
-      });
+      hasValidated = true;
+      req.reply(
+        mockSession.createMockSuccessResponse('some-token', 'read.full'),
+      );
     });
     cy.intercept('GET', '/check_in/v1/patient_check_ins/*', req => {
-      req.reply(mockPatientCheckIns.createMockSuccessResponse({}, false));
+      req.reply(
+        mockPatientCheckIns.createMockSuccessResponse({}, hasValidated),
+      );
     });
     cy.intercept('POST', '/check_in/v1/patient_check_ins/', req => {
       req.reply(mockCheckIn.createMockSuccessResponse({}));
