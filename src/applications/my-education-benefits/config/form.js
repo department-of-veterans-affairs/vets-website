@@ -162,7 +162,7 @@ function phoneUISchema(category) {
       'ui:validations': [validatePhone],
     },
     isInternational: {
-      'ui:title': 'This phone number is international',
+      'ui:title': `This ${category} phone number is international`,
       'ui:reviewField': YesNoReviewField,
     },
     'ui:objectViewField': PhoneReviewField,
