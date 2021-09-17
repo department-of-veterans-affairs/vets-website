@@ -80,14 +80,12 @@ const NearByVetCenters = props => {
 
   // TODO: consider moving to a separate component
   const renderVetCenter = (vetCenter, mainVetCenterPhone) => {
-    // TODO - fix unique key warning
-    // Tried adding this to the div but it causes rendering to fail for some reason:
-    // key={vetCenter.id}
     return (
       <div
         className="region-list usa-width-one-whole vads-u-display--flex vads-u-flex-direction--column
         small-screen:vads-u-flex-direction--row facility
       vads-u-margin-bottom--4 medium-screen:vads-u-margin-bottom--5"
+        key={vetCenter.id || vetCenter.fieldFacilityLocatorApiId}
       >
         <section className="region-grid vads-u-margin-right--2">
           <VetCenterInfoSection
