@@ -164,10 +164,10 @@ const NearByVetCenters = props => {
 
   const publishedVetCenters = getPublishedVetCenters();
   const unPublishedVetCenters = normalizeFetchedVetCenters(fetchedVetCenters);
-  return renderNearbyVetCenterContainer([
-    ...publishedVetCenters,
-    ...unPublishedVetCenters,
-  ]);
+  const sortedVetCenters = [...publishedVetCenters, ...unPublishedVetCenters];
+  return sortedVetCenters.length > 0
+    ? renderNearbyVetCenterContainer(sortedVetCenters)
+    : null;
 };
 
 NearByVetCenters.propTypes = {
