@@ -6,7 +6,7 @@ import { notLoggedInContent } from './introduction-content/notLoggedInContent.js
 import COEIntroPageBox from './introduction-content/COEIntroPageBox';
 import LoggedInContent from './introduction-content/loggedInContent.jsx';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import { CALLSTATUS } from '../constants';
+import { CALLSTATUS, COE_ELIGIBILITY_STATUS } from '../constants';
 
 function IntroductionPage(props) {
   let content;
@@ -27,7 +27,9 @@ function IntroductionPage(props) {
     content = (
       <div>
         <COEIntroPageBox coe={props.coe} status={props.status} />
-        {props.coe.status !== 'denied' && <LoggedInContent />}
+        {props.coe.status !== COE_ELIGIBILITY_STATUS.denied && (
+          <LoggedInContent />
+        )}
       </div>
     );
   }

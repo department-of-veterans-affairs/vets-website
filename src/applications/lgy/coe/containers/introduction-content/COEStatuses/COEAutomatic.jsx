@@ -3,7 +3,7 @@ import React from 'react';
 const COEAutomatic = () => (
   <>
     <va-alert status="success">
-      <h3 slot="headline">Congratulations on your automatic COE</h3>
+      <h2 slot="headline">Congratulations on your automatic COE</h2>
       <div>
         <p>
           We have all the information we need, so you don’t need to fill out an
@@ -17,7 +17,9 @@ const COEAutomatic = () => (
         You can download your COE right now. If you need help, go to our
         instructions for how to download and open a VA.gov PDF form.
       </p>
-      <a href="#">Get instructions for downloading a VA.gov PDF</a>
+      <a href="/resources/how-to-download-and-open-a-vagov-pdf-form/">
+        Get instructions for downloading a VA.gov PDF
+      </a>
     </div>
     <div className="vads-u-padding-top--4">
       <a href="#">
@@ -30,7 +32,10 @@ const COEAutomatic = () => (
     </div>
     <div>
       <h2>What if my COE has errors?</h2>
-      <p>What if I need to make changes to my COE?</p>
+      <p>
+        Complete and submit a Request for a Certificate of Eligibility (VA Form
+        26-1880) if you need to:
+      </p>
       <ul>
         <li>
           Make changes to your COE (correct an error or update your

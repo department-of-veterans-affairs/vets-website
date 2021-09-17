@@ -3,7 +3,7 @@ import React from 'react';
 const COEAvailable = () => (
   <>
     <va-alert status="info">
-      <h3 slot="headline">You already have a COE</h3>
+      <h2 slot="headline">You already have a COE</h2>
       <div>
         <p>You applied on:  June 30, 2020</p>
         <p>
@@ -22,7 +22,9 @@ const COEAvailable = () => (
         You can download your COE right now. If you need help, go to our
         instructions for how to download and open a VA.gov PDF form.
       </p>
-      <a href="#">Get instructions for downloading a VA.gov PDF</a>
+      <a href="/resources/how-to-download-and-open-a-vagov-pdf-form/">
+        Get instructions for downloading a VA.gov PDF
+      </a>
     </div>
     <div className="vads-u-padding-top--4">
       <a href="#">
@@ -35,7 +37,10 @@ const COEAvailable = () => (
     </div>
     <div>
       <h2>What if I need to make changes to my COE?</h2>
-      <p>What if I need to make changes to my COE?</p>
+      <p>
+        Complete and submit a Request for a Certificate of Eligibility (VA Form
+        26-1880) if you need to:
+      </p>
       <ul>
         <li>
           Make changes to your COE (correct an error or update your
