@@ -501,4 +501,59 @@ describe('<AutosuggestField>', () => {
     expect(onChange.called).to.be.true;
     tree.unmount();
   });
+
+  it('should use the custom matcher added in ui:options', done => {
+    const onChange = sinon.spy();
+    const props = {
+      uiSchema: {
+        'ui:options': {
+          freeInput: true,
+          customMatcher: (value = '', list) => {
+            const val = value.toLowerCase();
+            return list
+              .filter(item => item.label?.toLowerCase().includes(val))
+              .sort((a, b) => {
+                if (a.label === b.label) return 0;
+                return a.label > b.label ? 1 : -1;
+              });
+          },
+          labels: {
+            AL: 'Label 1',
+            BC: 'Labul 2',
+            SK: 'LABEL 3',
+          },
+        },
+      },
+      schema: {
+        type: 'string',
+        enum: ['AL', 'BC', 'SK'],
+      },
+      formContext: { reviewMode: false },
+      idSchema: { $id: 'id' },
+      onChange,
+      onBlur: () => {},
+    };
+    const wrapper = mount(<AutosuggestField {...props} />);
+
+    // Input something not in options
+    const input = wrapper.find('input');
+    input.simulate('focus');
+    input.simulate('change', {
+      target: {
+        value: 'bel',
+      },
+    });
+
+    setTimeout(() => {
+      expect(wrapper.find('.autosuggest-list')).to.exist;
+
+      const items = wrapper.find('.autosuggest-item');
+      expect(items.length).to.eq(2);
+      expect(items.first().text()).to.equal('LABEL 3');
+      expect(items.last().text()).to.equal('Label 1');
+
+      wrapper.unmount();
+      done();
+    });
+  });
 });
