@@ -210,13 +210,13 @@ export default class AutosuggestField extends React.Component {
 
     // wrap matching text in a <mark> element
     const highlightText = uiSchema['ui:options']?.highlightText ?? true;
-    const value = this.state.input;
-    const regexp = new RegExp(`(${value})`);
+    const value = this.state.input?.toLowerCase() || '';
+    const regexp = new RegExp(`(${value})`, 'i');
     const highLightMatchingText = query => {
       if (value.length > 2) {
         return query
           .split(regexp)
-          .map(str => (str === value ? <mark>{value}</mark> : str));
+          .map(str => (str.toLowerCase() === value ? <mark>{str}</mark> : str));
       }
       return query;
     };
