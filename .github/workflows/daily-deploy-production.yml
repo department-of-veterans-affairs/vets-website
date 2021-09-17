@@ -245,6 +245,7 @@ jobs:
         env_variable_name: SLACK_BOT_TOKEN
         
     - name: Get va-vsp-bot token
+      if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
       uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
       with:
         ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
