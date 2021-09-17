@@ -26,7 +26,14 @@ const DebtLettersWrapper = ({
   );
 
   if (isPending || isPendingVBMS || isProfileUpdating) {
-    return <LoadingIndicator />;
+    return (
+      <div className="vads-u-margin--5">
+        <LoadingIndicator
+          setFocus
+          message="Please wait while we load the application for you."
+        />
+      </div>
+    );
   }
 
   if (showDebtLetters === false) {

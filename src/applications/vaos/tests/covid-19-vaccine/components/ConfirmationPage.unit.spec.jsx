@@ -1,4 +1,3 @@
-import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
 import moment from 'moment';
@@ -85,9 +84,10 @@ describe('VAOS vaccine flow <ConfirmationPage>', () => {
     expect(screen.baseElement).to.contain.text('Main phone: 307-778-7580');
     expect(screen.getByText(/add to calendar/i)).to.have.tagName('a');
 
-    userEvent.click(screen.getByText(/View your appointments/i));
-    expect(screen.history.push.called).to.be.true;
-    expect(screen.history.push.getCall(0).args[0]).to.equal('/');
+    expect(screen.getByText(/View your appointments/i)).to.have.attribute(
+      'href',
+      '/',
+    );
   });
 
   it('should redirect to home page if no form data', async () => {

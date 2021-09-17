@@ -55,19 +55,16 @@ export const getRep = formData => {
   });
 };
 
+// schema v1
 export const getConferenceTimes = (formData = {}) => {
   const { informalConferenceTimes = [] } = formData;
-  const times = apiVersion1(formData)
-    ? CONFERENCE_TIMES_V1
-    : CONFERENCE_TIMES_V2;
-  const xRef = Object.keys(times).reduce(
+  const xRef = Object.keys(CONFERENCE_TIMES_V1).reduce(
     (timesAndApi, time) => ({
       ...timesAndApi,
-      [time]: times[time].submit,
+      [time]: CONFERENCE_TIMES_V1[time].submit,
     }),
     {},
   );
-
   return ['time1', 'time2'].reduce((setTimes, key) => {
     const value = informalConferenceTimes[key] || '';
     if (value) {
@@ -75,6 +72,12 @@ export const getConferenceTimes = (formData = {}) => {
     }
     return setTimes;
   }, []);
+};
+
+// schema v2
+export const getConferenceTime = (formData = {}) => {
+  const { informalConferenceTime = '' } = formData;
+  return CONFERENCE_TIMES_V2[informalConferenceTime]?.submit || '';
 };
 
 export const getTimeZone = () =>

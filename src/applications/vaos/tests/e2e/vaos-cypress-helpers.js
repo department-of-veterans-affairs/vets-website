@@ -197,7 +197,6 @@ export function createPastVAAppointments() {
 }
 
 export function mockFeatureToggles({
-  homepageRefresh = false,
   v2Requests = false,
   v2Facilities = false,
 } = {}) {
@@ -235,10 +234,6 @@ export function mockFeatureToggles({
           {
             name: `cerner_override_668`,
             value: false,
-          },
-          {
-            name: 'vaOnlineSchedulingHomepageRefresh',
-            value: homepageRefresh,
           },
           {
             name: 'vaOnlineSchedulingVAOSServiceRequests',
@@ -718,6 +713,13 @@ export function initVARequestMock({ cernerFacility = false } = {}) {
     url: '/vaos/v0/appointment_requests/testing/messages',
     response: [],
   }).as('requestMessages');
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/appointment_requests/testing',
+    response: {
+      data: requests.data[0],
+    },
+  });
 }
 
 export function initCommunityCareMock({ withoutAddress = false } = {}) {
@@ -785,4 +787,12 @@ export function initCommunityCareMock({ withoutAddress = false } = {}) {
     url: '/vaos/v0/appointment_requests/testing/messages',
     response: [],
   }).as('requestMessages');
+
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/appointment_requests/testing',
+    response: {
+      data: requests.data.find(r => r.attributes.ccAppointmentRequest),
+    },
+  });
 }

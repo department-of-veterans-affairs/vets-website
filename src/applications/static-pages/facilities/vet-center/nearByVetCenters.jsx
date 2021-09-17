@@ -12,7 +12,8 @@ const NearByVetCenters = props => {
     () => {
       const notPublishedFacilities = props.vetCenters
         .map(
-          v => !v.entity.entityPublished && v.entity.fieldFacilityLocatorApiId,
+          v =>
+            !v.entity?.entityPublished && v.entity?.fieldFacilityLocatorApiId,
         )
         .join(',');
       apiRequest(`/facilities/va?ids=${notPublishedFacilities}`, {
@@ -59,7 +60,7 @@ const NearByVetCenters = props => {
     mainVetCenterPhone,
   ) => {
     const publishedVetCenters = vetCenters
-      .filter(v => v.entity.entityPublished)
+      .filter(v => v.entity?.entityPublished)
       .map(v => v.entity);
     const unPublishedVetCenters = facilitiesVetCenters.map(vc => ({
       entityBundle: vc.attributes.facilityType,

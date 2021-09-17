@@ -10,15 +10,9 @@ describe('check-in', () => {
       it('should create basic structure', () => {
         const action = receivedAppointmentDetails();
         const state = reducer.checkInData(undefined, action);
-        expect(state).haveOwnProperty('appointment');
-        expect(state).haveOwnProperty('context');
-        expect(state.context).haveOwnProperty('token');
+        expect(state).haveOwnProperty('appointments');
       });
-      it('should set token', () => {
-        const action = receivedAppointmentDetails({}, 'token');
-        const state = reducer.checkInData(undefined, action);
-        expect(state.context.token).to.equal('token');
-      });
+
       it('should set appointment', () => {
         const data = {
           startTime: '2021-08-19T13:56:31',
@@ -29,12 +23,14 @@ describe('check-in', () => {
         };
         const action = receivedAppointmentDetails(data);
         const state = reducer.checkInData(undefined, action);
-        expect(state).haveOwnProperty('appointment');
-        expect(state.appointment).haveOwnProperty('startTime');
-        expect(state.appointment).haveOwnProperty('facility');
-        expect(state.appointment).haveOwnProperty('clinicPhoneNumber');
-        expect(state.appointment).haveOwnProperty('clinicFriendlyName');
-        expect(state.appointment).haveOwnProperty('clinicName');
+        expect(state).haveOwnProperty('appointments');
+        expect(state.appointments).to.be.an('array');
+
+        expect(state.appointments[0]).haveOwnProperty('startTime');
+        expect(state.appointments[0]).haveOwnProperty('facility');
+        expect(state.appointments[0]).haveOwnProperty('clinicPhoneNumber');
+        expect(state.appointments[0]).haveOwnProperty('clinicFriendlyName');
+        expect(state.appointments[0]).haveOwnProperty('clinicName');
       });
     });
     describe('tokenWasValidated', () => {

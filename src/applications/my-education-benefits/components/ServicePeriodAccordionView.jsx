@@ -11,15 +11,15 @@ export default function ServicePeriodAccordionView({ formData }) {
     exclusionPeriods,
   } = formData;
 
-  let servicePeriodFrom = '';
-  let servicePeriodTo = '';
+  let servicePeriodFrom;
+  let servicePeriodTo;
   if (formData && formData.dateRange) {
-    servicePeriodFrom = moment(formData.dateRange.from).format(
-      FORMAT_DATE_READABLE,
-    );
-    servicePeriodTo = moment(formData.dateRange.to).format(
-      FORMAT_DATE_READABLE,
-    );
+    servicePeriodFrom = formData.dateRange.from
+      ? moment(formData.dateRange.from).format(FORMAT_DATE_READABLE)
+      : '';
+    servicePeriodTo = formData.dateRange.to
+      ? moment(formData.dateRange.to).format(FORMAT_DATE_READABLE)
+      : '';
   }
 
   function formatDateList(periods) {
