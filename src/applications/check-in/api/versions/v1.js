@@ -20,8 +20,8 @@ const v1 = {
     const data = {
       session: {
         uuid: token,
-        last4,
-        lastName,
+        last4: last4.trim(),
+        lastName: lastName.trim(),
       },
     };
     const body = JSON.stringify(data);
