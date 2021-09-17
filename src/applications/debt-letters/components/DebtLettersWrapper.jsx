@@ -36,19 +36,7 @@ const DebtLettersWrapper = ({
     );
   }
 
-  if (showDebtLetters === false) {
-    window.location.replace('/');
-    return (
-      <div className="vads-u-margin--5">
-        <LoadingIndicator
-          setFocus
-          message="Please wait while we load the application for you."
-        />
-      </div>
-    );
-  }
-
-  if (isLoggedIn === false) {
+  if (showDebtLetters === false || isLoggedIn === false) {
     window.location.replace('/manage-va-debt');
     return (
       <div className="vads-u-margin--5">
