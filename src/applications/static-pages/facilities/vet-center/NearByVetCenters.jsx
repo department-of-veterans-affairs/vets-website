@@ -27,6 +27,9 @@ const NearByVetCenters = props => {
   };
 
   const fetchUnpublishedVetCenters = () => {
+    if (!props.vetCenters) {
+      return;
+    }
     const notPublishedFacilities = props.vetCenters
       .map(
         v => !v.entity?.entityPublished && v.entity?.fieldFacilityLocatorApiId,
@@ -107,6 +110,9 @@ const NearByVetCenters = props => {
   };
 
   const getPublishedVetCenters = () => {
+    if (!props.vetCenters) {
+      return [];
+    }
     return props.vetCenters
       .filter(v => v.entity?.entityPublished)
       .map(v => v.entity);
