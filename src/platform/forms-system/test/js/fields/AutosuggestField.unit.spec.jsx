@@ -511,7 +511,7 @@ describe('<AutosuggestField>', () => {
           highlightText: true,
           labels: {
             AL: 'Label 1',
-            BC: 'Label 2',
+            BC: 'LABEL 2',
           },
         },
       },
@@ -531,7 +531,7 @@ describe('<AutosuggestField>', () => {
     input.simulate('focus');
     input.simulate('change', {
       target: {
-        value: 'bel',
+        value: 'Bel',
       },
     });
 
@@ -541,6 +541,11 @@ describe('<AutosuggestField>', () => {
       const highlight = firstItem.find('mark').text();
       expect(firstItem.text()).to.equal('Label 1');
       expect(highlight).to.equal('bel');
+
+      const lastItem = wrapper.find('.autosuggest-item').last();
+      const highlight2 = lastItem.find('mark').text();
+      expect(lastItem.text()).to.equal('LABEL 2');
+      expect(highlight2).to.equal('BEL');
       wrapper.unmount();
       done();
     });
