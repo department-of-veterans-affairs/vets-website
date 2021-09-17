@@ -70,7 +70,7 @@ export default Object.freeze({
   showFinancialStatusReportWizard: 'show_financial_status_report_wizard',
   showMedicalCopays: 'show_medical_copays',
   showHealthcareExperienceQuestionnaire:
-    'showHealthcareExperienceQuestionnaire',
+    'show_healthcare_experience_questionnaire',
   showNewGetMedicalRecordsPage: 'show_new_get_medical_records_page',
   showNewRefillTrackPrescriptionsPage:
     'show_new_refill_track_prescriptions_page',
