@@ -9,7 +9,7 @@ on:
 
 env:
   CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
-  NEXUS_REGISTRY: https://devops.va.gov/dots-nexus/repository/npm-public/
+  NEXUS_REGISTRY: https://devops.va.gov/dots-nexus/repository/platform-npm-group-nocache/
 
 concurrency:
   group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha }}
