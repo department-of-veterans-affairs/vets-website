@@ -947,7 +947,7 @@ jobs:
   notify-failure:
     name: Notify Failure
     runs-on: ubuntu-latest
-    if: ${{ failure() || cancelled() }}
+    if: ${{ github.ref == 'refs/heads/master' && (failure() || cancelled()) }}
     needs: deploy
 
     steps:
