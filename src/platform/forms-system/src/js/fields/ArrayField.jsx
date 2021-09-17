@@ -17,7 +17,6 @@ import { errorSchemaIsValid } from '../validation';
 import { getScrollOptions, isReactComponent } from '../../../../utilities/ui';
 
 const Element = Scroll.Element;
-const scroller = Scroll.scroller;
 
 /* Non-review growable table (array) field */
 export default class ArrayField extends React.Component {
@@ -94,14 +93,9 @@ export default class ArrayField extends React.Component {
 
   scrollToTop() {
     setTimeout(() => {
-      scroller.scrollTo(
+      scrollTo(
         `topOfTable_${this.props.idSchema.$id}`,
-        window.Forms?.scroll || {
-          duration: 500,
-          delay: 0,
-          smooth: true,
-          offset: -60,
-        },
+        window.Forms?.scroll || getScrollOptions({ offset: -60 }),
       );
     }, 100);
   }
