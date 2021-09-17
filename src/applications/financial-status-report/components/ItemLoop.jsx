@@ -2,13 +2,14 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
-import { scrollToFirstError, isReactComponent } from 'platform/utilities/ui';
+import { scrollToFirstError } from 'platform/forms-system/src/js/utilities/ui';
 import { setArrayRecordTouched } from 'platform/forms-system/src/js/helpers';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import {
   toIdSchema,
   getDefaultFormState,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+import { isReactComponent } from 'platform/utilities/ui';
 
 const ScrollElement = Scroll.Element;
 const scroller = Scroll.scroller;
