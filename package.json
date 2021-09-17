@@ -269,7 +269,7 @@
     "history-v4": "npm:history@4.9.0",
     "ics-js": "^0.10.2",
     "js-cookie": "^2.2.1",
-    "jsonschema": "^1.1.1",
+    "jsonschema": "^1.4.0",
     "leaflet": "^1.7.1",
     "libxmljs2": "^0.28.0",
     "local-storage-fallback": "^4.1.2",
