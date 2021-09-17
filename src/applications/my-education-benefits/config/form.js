@@ -60,6 +60,7 @@ import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilit
 
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import { validatePhone, validateEmail } from '../utils/validation';
+import ReviewBoxField from '../components/ReviewBoxField';
 
 const {
   fullName,
