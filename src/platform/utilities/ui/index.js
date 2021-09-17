@@ -1,5 +1,5 @@
-import Scroll from 'react-scroll';
 import * as ReactIs from 'react-is';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 export function displayFileSize(size) {
   if (size < 1024) {
@@ -53,7 +53,12 @@ export function scrollToFirstError() {
       document.body.scrollTop ||
       0;
     const position = errorEl.getBoundingClientRect().top + currentPosition;
-    Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
+    // Don't animate the scrolling if there is an open modal on the page. This
+    // prevents the page behind the modal from scrolling if there is an error in
+    // modal's form.
+    if (!document.body.classList.contains('modal-open')) {
+      scrollTo(position - 10, getScrollOptions());
+    }
     focusElement(errorEl);
   }
 }
@@ -66,7 +71,7 @@ export function scrollAndFocus(errorEl) {
       document.body.scrollTop ||
       0;
     const position = errorEl.getBoundingClientRect().top + currentPosition;
-    Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
+    scrollTo(position - 10, getScrollOptions());
     focusElement(errorEl);
   }
 }

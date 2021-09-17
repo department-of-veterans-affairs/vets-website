@@ -1,4 +1,4 @@
-import Scroll from 'react-scroll';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 export const $ = selectorOrElement =>
   typeof selectorOrElement === 'string'
@@ -76,7 +76,7 @@ export const scrollToElement = name => {
     const el =
       typeof name === 'string' && name.includes('name=') ? $(name) : name;
 
-    Scroll.scroller.scrollTo(
+    scrollTo(
       el, // pass a string key + 'ScrollElement' or DOM element
       window.Forms.scroll || {
         duration: 500,
@@ -106,24 +106,4 @@ export function getScrollOptions(additionalOptions) {
     smooth: true,
   };
   return Object.assign({}, defaults, globals.scroll, additionalOptions);
-}
-
-export function scrollToFirstError() {
-  const errorEl = $('.usa-input-error, .input-error-date');
-  if (errorEl) {
-    // document.body.scrollTop doesn’t work with all browsers, so we’ll cover them all like so:
-    const currentPosition =
-      window.pageYOffset ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop ||
-      0;
-    const position = errorEl.getBoundingClientRect().top + currentPosition;
-    // Don't animate the scrolling if there is an open modal on the page. This
-    // prevents the page behind the modal from scrolling if there is an error in
-    // modal's form.
-    if (!document.body.classList.contains('modal-open')) {
-      Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
-    }
-    focusElement(errorEl);
-  }
 }
