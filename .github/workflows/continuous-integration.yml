@@ -8,7 +8,7 @@ on:
       - '**'
 
 env:
-  CHANNEL_ID: C37M86Y8G #devops-deploys
+  DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
   CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
   NEXUS_REGISTRY: https://devops.va.gov/dots-nexus/repository/platform-npm-group-nocache/
 
@@ -991,4 +991,4 @@ jobs:
           slack_app_token: ${{ env.SLACK_APP_TOKEN }}
           slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
           attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "vets-website master branch CI failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}]'
-          channel_id: ${{ env.CHANNEL_ID }}
+          channel_id: ${{ env.DEVOPS_CHANNEL_ID }}
