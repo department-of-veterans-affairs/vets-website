@@ -1,6 +1,6 @@
-const createMockSuccessResponse = (_data, hasBeenValidated) => {
+const createMockSuccessResponse = (data, hasBeenValidated) => {
   const rv = {
-    id: '46bebc0a-b99c-464f-a5c5-560bc9eae287',
+    id: data.id || '46bebc0a-b99c-464f-a5c5-560bc9eae287',
     payload: {
       facility: 'LOMA LINDA VA CLINIC',
       clinicPhoneNumber: '5551234567',
