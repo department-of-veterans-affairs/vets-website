@@ -1,6 +1,6 @@
 import { createFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
 import mockCheckIn from '../../../../api/local-mock-api/mocks/v0/check.in.responses';
-import mockValidate from '../../../../api/local-mock-api/mocks/validate.responses';
+import mockValidate from '../../../../api/local-mock-api/mocks/v0/validate.responses';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
