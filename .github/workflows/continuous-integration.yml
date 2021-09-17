@@ -8,6 +8,7 @@ on:
       - '**'
 
 env:
+  CHANNEL_ID: C37M86Y8G #devops-deploys
   CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
   NEXUS_REGISTRY: https://devops.va.gov/dots-nexus/repository/platform-npm-group-nocache/
 
