@@ -168,7 +168,7 @@ jobs:
 
       # TODO: Uncomment when ready for prod
       # - name: Tag release
-      #   run: git tag ${{ steps.bump-tag-version.outputs.v_patch }} ${{ github.sha }} && git push origin ${{ steps.bump-tag-version.outputs.v_patch }} 
+      #   run: git tag ${{ steps.bump-tag-version.outputs.v_patch }} ${{ needs.set-env.outputs.COMMIT_SHA }} && git push origin ${{ steps.bump-tag-version.outputs.v_patch }} 
 
   deploy:
     name: Deploy

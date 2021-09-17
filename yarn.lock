@@ -2206,7 +2206,7 @@
     is-plain-obj "^1.1.0"
     xtend "^4.0.1"
 
-"@mapbox/node-pre-gyp@^1.0.1":
+"@mapbox/node-pre-gyp@^1.0.5":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@mapbox/node-pre-gyp/-/node-pre-gyp-1.0.5.tgz#2a0b32fcb416fb3f2250fd24cb2a81421a4f5950"
   integrity sha512-4srsKPXWlIxp5Vbqz5uLfBN+du2fJChBoYn/f2h991WLdk7jUvcSk/McVLSv/X+xQIPI8eGD5GjrnygdyHnhPA==
@@ -11581,14 +11581,14 @@ libnpmconfig@^1.2.1:
     find-up "^3.0.0"
     ini "^1.3.5"
 
-libxmljs2@^0.27.0:
-  version "0.27.0"
-  resolved "https://registry.yarnpkg.com/libxmljs2/-/libxmljs2-0.27.0.tgz#28d8d2d174f2cb39131694e7050e0cf2d4da6e44"
-  integrity sha512-YZGSL9FihGls/oozT0JI8PQEjFeCs/5tAqd4B63krzh4PTd4pxqwCm430/QLxGaHuOeJa+yGBM7fgk1DrtWplA==
+libxmljs2@^0.28.0:
+  version "0.28.0"
+  resolved "https://registry.yarnpkg.com/libxmljs2/-/libxmljs2-0.28.0.tgz#ba217cf7d8dadd80449fdd81b147575fa969c942"
+  integrity sha512-Se1vTSn1rjquUlm9V4FHbfwJh4n5lLgP9I109f98kzWpm8YN5JD3myP96JAHiIxSmFIzYXnRfyImBvj9R3Ei5Q==
   dependencies:
-    "@mapbox/node-pre-gyp" "^1.0.1"
+    "@mapbox/node-pre-gyp" "^1.0.5"
     bindings "~1.5.0"
-    nan "~2.14.0"
+    nan "~2.15.0"
 
 lines-and-columns@^1.1.6:
   version "1.1.6"
@@ -11692,9 +11692,10 @@ local-ip-url@1.0.3:
   resolved "https://registry.npmjs.org/local-ip-url/-/local-ip-url-1.0.3.tgz"
   integrity sha512-OyHVtNHgSmxr8B+6iA8sxlGrdNQJdr6M8db5/v83BdZA/cYe7+0i1XsyBQ0AoRj2nK32O3znEuPU9/b8TS6iww==
 
-local-storage-fallback@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.npmjs.org/local-storage-fallback/-/local-storage-fallback-4.1.1.tgz"
+local-storage-fallback@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/local-storage-fallback/-/local-storage-fallback-4.1.2.tgz#bd882e6dc12d78e8bf66190043624572b3811308"
+  integrity sha512-oMTj4q8vnZ5FUB/tclzrTgMppSJgGs3ng4fm7qXEK/NjdzNKkVVncMRlsML+l6FwV0WBoOk8rVD5GqNQIhcz8Q==
   dependencies:
     cookie "^0.3.1"
 
@@ -12995,10 +12996,10 @@ nan@^2.12.1, nan@^2.13.2:
   resolved "https://registry.npmjs.org/nan/-/nan-2.14.0.tgz"
   integrity sha512-INOFj37C7k3AfaNTtX8RhsTw7qRy7eLET14cROi9+5HAVbbHuIWUHEauBv5qT4Av2tWasiTY1Jw6puUNqRJXQg==
 
-nan@~2.14.0:
-  version "2.14.2"
-  resolved "https://registry.npmjs.org/nan/-/nan-2.14.2.tgz"
-  integrity sha512-M2ufzIiINKCuDfBSAUr1vWQ+vuVcA9kqx8JJUsbQi6yf1uGRyb7HfpdfUr5qLXf3B/t8dPvcjhKMmlfnP47EzQ==
+nan@~2.15.0:
+  version "2.15.0"
+  resolved "https://registry.yarnpkg.com/nan/-/nan-2.15.0.tgz#3f34a473ff18e15c1b5626b62903b5ad6e665fee"
+  integrity sha512-8ZtvEnA2c5aYCZYd1cvgdnU6cqwixRoYg70xPLWUws5ORTa/lnw+u4amixRS/Ac5U5mQVgp9pnlSUnbNWFaWZQ==
 
 nanoid@3.1.12:
   version "3.1.12"
@@ -19109,10 +19110,10 @@ webpack-log@^2.0.0:
     ansi-colors "^3.0.0"
     uuid "^3.3.2"
 
-webpack-manifest-plugin@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/webpack-manifest-plugin/-/webpack-manifest-plugin-4.0.1.tgz#425e37caf7580fc02a4650d8405387e91299b233"
-  integrity sha512-b4SLlTkvXEZQh0M/HUH1z9jiwdapjsMbOqlHJH/0/Ic9dpGHmf+X36GeOpFqn8Oz64RucaOKwVSmsNhfw3Cr2w==
+webpack-manifest-plugin@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/webpack-manifest-plugin/-/webpack-manifest-plugin-4.0.2.tgz#a7ee46219a6c820a5cdae0f7ddb7cb04837448fb"
+  integrity sha512-Ld6j05pRblXAVoX8xdXFDsc/s97cFnR1FOmQawhTSlp6F6aeU1Jia5aqTmDpkueaAz8g9sXpgSOqmEgVAR61Xw==
   dependencies:
     tapable "^2.0.0"
     webpack-sources "^2.2.0"

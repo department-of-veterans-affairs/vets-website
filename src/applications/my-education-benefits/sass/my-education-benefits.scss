@@ -283,10 +283,6 @@ dl.review .review-row:last-child {
 .meb-feature--secondary {
 	background-color: $color-gray-lightest;
 }
-.meb-feature--secondary h2 em {
-	border-bottom: 1px solid $color-gray-dark;
-	font-style: normal;
-}
 .meb-confirmation-page .feature {
 	padding-bottom: 2em;
 	padding-top: 2em;
@@ -299,6 +295,12 @@ dl.review .review-row:last-child {
 }
 .meb-confirmation-page .feature h3 {
 	margin-bottom: 14/20 + 0em;
+}
+.meb-hr {
+	border: 0;
+	border-top: 1px solid $color-gray;
+	margin: 8px 0;
+	width: 62/16 + 0em;
 }
 .meb-confirmation-page .feature dt {
 	font-weight: bold;
@@ -313,6 +315,11 @@ dl.review .review-row:last-child {
 }
 .meb-confirmation-page .help-footer-box{
 	padding-top: 2em;
+}
+@media print {
+	.meb-print {
+		display: none;
+	}
 }
 // END - Confirmation Page
 
