@@ -6,10 +6,8 @@ const Modals = ({ children, title }) => {
   const [visible, setVisible] = useState(false);
 
   return (
-    <div>
-      <p>
-        <a onClick={() => setVisible(true)}>{title}</a>
-      </p>
+    <div className="vads-u-margin--2">
+      <a onClick={() => setVisible(true)}>{title}</a>
       <Modal
         onClose={() => setVisible(false)}
         visible={visible}
