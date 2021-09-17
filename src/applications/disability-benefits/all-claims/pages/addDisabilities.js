@@ -59,7 +59,6 @@ export const uiSchema = {
           'ui:options': {
             debounceRate: 200,
             freeInput: true,
-            highlightText: true,
             inputTransformers: [
               // Replace a bunch of things that aren't valid with valid equivalents
               input => input.replace(/["”’]/g, `'`),
