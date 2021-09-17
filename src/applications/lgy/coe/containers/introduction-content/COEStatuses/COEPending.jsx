@@ -5,15 +5,15 @@ const COEPending = props => {
   return (
     <>
       <va-alert status="warning">
-        <h3 slot="headline">
-          {props.pending
+        <h2 slot="headline">
+          {props.status === 'pending-upload'
             ? 'We need more information from you'
             : 'We’re reviewing your application'}
-        </h3>
+        </h2>
         <p>You applied on:  June 30, 2020</p>
         <div>
           <p>
-            {props.pending
+            {props.status === 'pending-upload'
               ? "You'll need to upload documents before we can make a decision on your COE application."
               : "If you qualify for a Certificate of Eligibility, we'll notify you by email or mail to let you know how to get your COE."}
           </p>
@@ -37,25 +37,20 @@ const COEPending = props => {
           We only recommend applying again if you’ve already worked with our VA
           home loans case management team, and they’ve advised you to reapply.
         </p>
-        <a href="#">Get instructions for downloading a VA.gov PDF</a>
+        <a href="/resources/how-to-download-and-open-a-vagov-pdf-form/">
+          Get instructions for downloading a VA.gov PDF
+        </a>
       </div>
       <div className="vads-u-padding-top--4">
         <a href="#">
-          <i className="fas fa-download vads-u-padding-right--1" /> Download
-          your COE (PDF) 0.20MB
+          <i
+            className="fas fa-download vads-u-padding-right--1"
+            aria-hidden="true"
+          />{' '}
+          Download your COE (PDF) 0.20MB
         </a>
       </div>
-      <div>
-        <h2>What if my COE has errors?</h2>
-        <p>What if I need to make changes to my COE?</p>
-        <ul>
-          <li>
-            Make changes to your COE (correct an error or update your
-            information), <strong>or</strong>
-          </li>
-          <li>Apply for a restoration of entitlement</li>
-        </ul>
-      </div>
+      <h2>Follow these steps to reapply for a VA home loan COE</h2>
     </>
   );
 };

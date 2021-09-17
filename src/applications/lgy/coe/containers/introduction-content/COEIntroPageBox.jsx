@@ -14,13 +14,15 @@ const COEIntroPageBox = props => {
       case 'eligible':
         content = <COEAutomatic />;
         break;
-      case 'pending' || 'pending-upload':
+      case 'pending':
+      case 'pending-upload':
         content = <COEPending status={props.coe.status} />;
         break;
       case 'denied':
         content = <COEDenied />;
         break;
       default:
+        content = <></>;
     }
   }
   return <>{content}</>;

@@ -26,8 +26,11 @@ const COEAvailable = () => (
     </div>
     <div className="vads-u-padding-top--4">
       <a href="#">
-        <i className="fas fa-download vads-u-padding-right--1" /> Download your
-        COE (PDF) 0.20MB
+        <i
+          className="fas fa-download vads-u-padding-right--1"
+          aria-hidden="true"
+        />{' '}
+        Download your COE (PDF) 0.20MB
       </a>
     </div>
     <div>

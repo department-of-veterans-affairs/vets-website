@@ -3,9 +3,11 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 
 export const notLoggedInContent = props => (
   <div>
-    <h2>Sign in to apply, get your COE, or check your status</h2>
+    <h2 className="vads-u-margin-top--0">
+      Sign in to apply, get your COE, or check your status
+    </h2>
     <p>Sign into VA.gov if you want to:</p>
-    <ul className="vads-u-padding-bottom--4">
+    <ul>
       <li>Apply for a COE</li>
       <li>Find out if you already have a COE and download it</li>
       <li>Find out the status of your application</li>
@@ -18,7 +20,7 @@ export const notLoggedInContent = props => (
       for a Certificate of Eligibility.
     </p>
     <h2>Have you applied for a COE before?</h2>
-    <p>
+    <p className="vads-u-padding-bottom--4">
       If you think you received a VA home loan COE in the past, or if you
       applied for a COE and you haven’t heard back, we’ll check when you sign in
       and show your current status.
