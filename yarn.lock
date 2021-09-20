@@ -5177,6 +5177,11 @@ classnames@^2.2.6:
   resolved "https://registry.npmjs.org/classnames/-/classnames-2.2.6.tgz"
   integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
 
+classnames@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.1.tgz#dfcfa3891e306ec1dad105d0e88f4417b8535e8e"
+  integrity sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==
+
 cldr-core@38:
   version "38.1.0"
   resolved "https://registry.npmjs.org/cldr-core/-/cldr-core-38.1.0.tgz"
@@ -5750,7 +5755,7 @@ cookie@^0.3.1:
 
 cookie@^0.4.1:
   version "0.4.1"
-  resolved "https://registry.npmjs.org/cookie/-/cookie-0.4.1.tgz"
+  resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.4.1.tgz#afd713fe26ebd21ba95ceb61f9a8116e50a537d1"
   integrity sha512-ZwrFkGJxUR3EIoXtO+yVE69Eb7KlixbaeAWfBQB9vVsNn/o+Yw69gBWSSDK825hQNdN+wF8zELf3dFNl/kxkUA==
 
 copy-concurrently@^1.0.0:
@@ -5812,10 +5817,10 @@ core-js@^3.1.4:
   resolved "https://registry.npmjs.org/core-js/-/core-js-3.1.4.tgz"
   integrity sha512-YNZN8lt82XIMLnLirj9MhKDFZHalwzzrL9YLt6eb0T5D0EDl4IQ90IGkua8mHbnxNrkj1d8hbdizMc0Qmg1WnQ==
 
-core-js@^3.8.1:
-  version "3.8.1"
-  resolved "https://registry.npmjs.org/core-js/-/core-js-3.8.1.tgz"
-  integrity sha512-9Id2xHY1W7m8hCl8NkhQn5CufmF/WuR30BTRewvCXc1aZd3kMECwNZ69ndLbekKfakw9Rf2Xyc+QR6E7Gg+obg==
+core-js@^3.18.0:
+  version "3.18.0"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.18.0.tgz#9af3f4a6df9ba3428a3fb1b171f1503b3f40cc49"
+  integrity sha512-WJeQqq6jOYgVgg4NrXKL0KLQhi0CT4ZOCvFL+3CQ5o7I6J8HkT5wd53EadMfqTDp1so/MT1J+w2ujhWcCJtN7w==
 
 core-js@^3.9.0:
   version "3.9.1"
