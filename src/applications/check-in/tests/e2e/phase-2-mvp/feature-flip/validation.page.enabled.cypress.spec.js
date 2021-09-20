@@ -1,7 +1,7 @@
 import { createFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
 
-import mockSession from '../../../../api/local-mock-api/mocks/sessions.responses';
-import mockPatientCheckIns from '../../../../api/local-mock-api/mocks/patient.check.in.response';
+import mockSession from '../../../../api/local-mock-api/mocks/v1/sessions.responses';
+import mockPatientCheckIns from '../../../../api/local-mock-api/mocks/v1/patient.check.in.responses';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
