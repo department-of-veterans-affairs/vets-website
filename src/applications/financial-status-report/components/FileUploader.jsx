@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Scroll from 'react-scroll';
 import FileInput from '@department-of-veterans-affairs/component-library/FileInput';
 
 import { checkForEncryptedPdf } from 'platform/forms-system/src/js/utilities/file';
@@ -12,6 +11,7 @@ import {
   setFocus,
   FILE_TYPES,
 } from '../utils/fileValidation';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 const FileUploader = ({ files, requestLockedPdfPassword, onAddFile }) => {
   const acceptedFileTypes = FILE_TYPES.map(type => `${type}`).join(', ');
@@ -19,7 +19,7 @@ const FileUploader = ({ files, requestLockedPdfPassword, onAddFile }) => {
 
   const scrollToFile = position => {
     const options = getScrollOptions({ offset: -25 });
-    Scroll.scroller.scrollTo(`documentScroll${position}`, options);
+    scrollTo(`documentScroll${position}`, options);
   };
 
   const isFileEncrypted = async file =>

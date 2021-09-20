@@ -10,9 +10,9 @@ import {
   getDefaultFormState,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import { isReactComponent } from 'platform/utilities/ui';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 const ScrollElement = Scroll.Element;
-const scroller = Scroll.scroller;
 
 const Header = ({
   title,
@@ -223,7 +223,7 @@ const ItemLoop = ({
   const handleScroll = (id, offset) => {
     if (uiSchema['ui:options'].doNotScroll) return;
     setTimeout(() => {
-      scroller.scrollTo(
+      scrollTo(
         id,
         window.Forms?.scroll || {
           duration: 500,
