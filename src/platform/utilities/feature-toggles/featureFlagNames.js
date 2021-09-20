@@ -32,6 +32,7 @@ export default Object.freeze({
   facilitiesPpmsSuppressAll: 'facilities_ppms_suppress_all',
   facilitiesPpmsSuppressCommunityCare: 'facilities_ppms_suppress_community_care',
   facilitiesPpmsSuppressPharmacies: 'facilities_ppms_suppress_pharmacies',
+  facilitiesVetCenterAutomateNearby: 'facilities_vet_center_automate_nearby',
   facilityLocatorCovidVaccineWalkInAvailabilityTextFrontend:
     'facility_locator_covid_vaccine_walk_in_availability_text_frontend',
   facilityLocatorLighthouseCovidVaccineQuery:
