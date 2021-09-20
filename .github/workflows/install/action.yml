@@ -1,13 +1,13 @@
 name: Install core dependencies
 description: Install core dependencies
 
-runs:
-  using: composite
-
-  inputs:
+inputs:
   registry_username:
     description: “Username for image registry”
     required: false
+
+runs:
+  using: composite
 
   steps:
     - name: Get Node version
