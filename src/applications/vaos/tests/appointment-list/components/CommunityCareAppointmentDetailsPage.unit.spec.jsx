@@ -461,7 +461,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     expect(tokens.get('END')).includes('VCALENDAR');
   });
 
-  it('should verify community care calendar ics file format when there is no provider information', async () => {
+  it.skip('should verify community care calendar ics file format when there is no provider information', async () => {
     const url = '/cc/20abc6741c00ac67b6cbf6b972d084c1';
 
     const appointment = getCCAppointmentMock();

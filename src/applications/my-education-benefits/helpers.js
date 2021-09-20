@@ -26,14 +26,17 @@ export const activeDutyLabel = (
   <>
     Montgomery GI Bill Active Duty (Chapter 30)
     <AdditionalInfo triggerText="Learn more">
-      Our records indicate you may be eligible for this benefit because you
-      served at least two years on active duty and were honorably discharged.
+      <p>
+        Our records indicate you may be eligible for this benefit because you
+        served at least two years on active duty and were honorably discharged.
+        If you give up this benefit, VA will pay you for any eligible kickers
+        associated with it.
+      </p>
       <a
         href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-active-duty/"
         target="_blank"
         rel="noopener noreferrer"
       >
-        {' '}
         Learn more about the Montgomery GI Bill Active Duty
       </a>
     </AdditionalInfo>
@@ -44,14 +47,16 @@ export const selectedReserveLabel = (
   <>
     Montgomery GI Bill Selected Reserve (Chapter 1606)
     <AdditionalInfo triggerText="Learn more">
-      Our records indicate you may be eligible for this benefit because you
-      agreed to serve six years in the Selected Reserve.
+      <p>
+        Our records indicate you may be eligible for this benefit because you
+        agreed to serve six years in the Selected Reserve. If you give up this
+        benefit, VA will pay you for any eligible kickers associated with it.
+      </p>
       <a
         href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-selected-reserve/"
         target="_blank"
         rel="noopener noreferrer"
       >
-        {' '}
         Learn more about the Montgomery GI Bill Selected Reserve
       </a>
     </AdditionalInfo>
@@ -63,6 +68,17 @@ export const unsureDescription = (
     <strong>Note:</strong> After you submit this applicaton, a VA representative
     will reach out to help via your preferred contact method.
   </>
+);
+
+export const post911GiBillNote = (
+  <div className="usa-alert background-color-only">
+    <h3>You’re applying for the Post-9/11 GI BIll®</h3>
+    <p>
+      Currently, you can only apply for Post-9/11 GI Bill (Chapter 33) benefits
+      through this application. If you would like to apply for other benefits,
+      please visit our <a href="#">How To Apply</a> page.
+    </p>
+  </div>
 );
 
 /**

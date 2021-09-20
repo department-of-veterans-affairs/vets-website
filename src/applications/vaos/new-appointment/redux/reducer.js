@@ -842,7 +842,6 @@ export default function formReducer(state = initialState, action) {
         `Request a ${typeOfCare.name} provider. (Optional)`,
         action.schema,
       );
-
       if (state.ccEnabledSystems?.length === 1) {
         formData = {
           ...formData,

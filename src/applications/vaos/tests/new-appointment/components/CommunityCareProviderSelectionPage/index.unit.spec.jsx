@@ -681,6 +681,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
   it('should not display closest city question when using iterations toggle', async () => {
     // Given a user with two supported sites
     // And the CC iterations toggle is on
+    // And type of care is selected
     const store = await setCommunityCareFlow({
       toggles: {
         vaOnlineSchedulingCCIterations: true,
@@ -702,9 +703,19 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
         store,
       },
     );
-    await screen.findByText(/We’ll call you to confirm your provider choice/);
 
-    // Then the closest city/state question is not shown
+    // Then the heading will display type of provider requested
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: /Request a Primary care provider/i,
+      }),
+    ).to.be.ok;
+    expect(
+      await screen.findByText(/We’ll call you to confirm your provider choice/),
+    ).to.be.ok;
+
+    // And the closest city/state question is not shown
     expect(screen.queryByLabelText('Bozeman, MT')).not.to.exist;
     expect(screen.queryByLabelText('Belgrade, MT')).not.to.exist;
     expect(screen.queryByText(/closest city and state/i)).not.to.exist;
