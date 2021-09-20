@@ -35,15 +35,16 @@ runs:
       with:
         node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
+    # TODO: should we make path input as well? To handle cypress?
     - name: Cache dependencies
       id: cache-dependencies
       uses: actions/cache@v2
       with:
         path: |
-          ${{ inputs.yarn_cache_folder }}
+          .cache/yarn
           node_modules
-        key: ${{ inputs.keys }}
-        restore-keys: ${{ inputs.restore-keys }}
+        key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.keys }}
+        restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.restore-keys }}
 
     # - name: Get NEXUS username
     #   if: ${{ inputs.nexus_registry == true }}

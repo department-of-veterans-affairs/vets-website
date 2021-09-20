@@ -70,12 +70,11 @@ jobs:
       - name: POC
         uses: ./.github/workflows/install
         with:
-          keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
+          keys: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
 
       - name: Build
-        run: yarn build --verbose --buildtype=${{ matrix.buildtype }} --verbose
+        run: yarn build --verbose --buildtype=${{ matrix.buildtype }}
         timeout-minutes: 30
 
       # ----------------------------
@@ -166,8 +165,7 @@ jobs:
       - name: POC
         uses: ./.github/workflows/install
         with:
-          keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
+          keys: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
 
       - name: Create test results folder
@@ -253,8 +251,7 @@ jobs:
       - name: POC
         uses: ./.github/workflows/install
         with:
-          keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
+          keys: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
 
       - name: Create test results folder
@@ -336,8 +333,7 @@ jobs:
       - name: POC
         uses: ./.github/workflows/install
         with:
-          keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
+          keys: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
 
       - name: Annotate ESLint results
@@ -368,8 +364,7 @@ jobs:
       - name: POC
         uses: ./.github/workflows/install
         with:
-          keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
+          keys: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
 
       - name: Set IS_MASTER_BUILD
