@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatCurrency, formatNumber } from '../../utils/helpers';
+import { createId, formatCurrency, formatNumber } from '../../utils/helpers';
 import LearnMoreLabel from '../LearnMoreLabel';
 import { ariaLabels } from '../../constants';
 
@@ -60,7 +60,12 @@ export default function VeteranProgramsAndSupport({
       (showLink && (
         <span>
           &nbsp;
-          <a href={program.link.href} target="_blank" rel="noopener noreferrer">
+          <a
+            href={program.link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            id={createId(program.link.text)}
+          >
             {program.link.text}
           </a>
         </span>
@@ -76,6 +81,7 @@ export default function VeteranProgramsAndSupport({
             text={program.text}
             onClick={() => showModal(program.modal)}
             ariaLabel={program.ariaLabel}
+            buttonId={createId(program.text)}
           />
           {showLink && ':'}
         </strong>

@@ -1,7 +1,7 @@
 import { createFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
 
-import mockCheckIn from '../../../../api/local-mock-api/mocks/check.in.response';
-import mockValidate from '../../../../api/local-mock-api/mocks/validate.responses';
+import mockCheckIn from '../../../../api/local-mock-api/mocks/v0/check.in.responses';
+import mockValidate from '../../../../api/local-mock-api/mocks/v0/validate.responses';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
@@ -40,8 +40,7 @@ describe('Check In Experience -- ', () => {
     const featureRoute =
       '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
     cy.visit(featureRoute);
-    cy.get('legend > h2').contains('information');
-
+    cy.get('h1').contains('Your appointment');
     cy.window().then(window => {
       const data = window.sessionStorage.getItem(
         'health.care.check-in.current.uuid',

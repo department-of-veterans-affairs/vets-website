@@ -5,27 +5,21 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-
 import { deductionCodes } from '../const/deduction-codes';
 import { setActiveDebt as setDebt } from '../actions';
 import { renderAdditionalInfo } from '../const/diary-codes';
+import { currency } from '../utils/page';
 
 const DebtLetterCard = ({ debt, setActiveDebt }) => {
   // TODO: currently we do not have a debtID so we need to make one by combining fileNumber and diaryCode
-  const mostRecentHistory = head(debt.debtHistory);
+  const mostRecentHistory = head(debt?.debtHistory);
 
   const debtCardHeading =
     deductionCodes[debt.deductionCode] || debt.benefitType;
 
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2,
-  });
-
   const additionalInfo = renderAdditionalInfo(
     debt.diaryCode,
-    mostRecentHistory.date,
+    mostRecentHistory?.date,
     debt.benefitType,
   );
 
@@ -46,7 +40,7 @@ const DebtLetterCard = ({ debt, setActiveDebt }) => {
 
       <p className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
         <strong>Amount owed: </strong>
-        {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
+        {debt.currentAr && currency.format(parseFloat(debt.currentAr))}
       </p>
 
       {additionalInfo.status && (

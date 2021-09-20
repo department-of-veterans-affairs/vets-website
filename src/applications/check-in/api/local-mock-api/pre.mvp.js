@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 
 const commonResponses = require('../../../../platform/testing/local-dev-mock-api/common');
-const mockCheckIns = require('./mocks/check.in.response');
-const mockValidates = require('./mocks/validate.responses');
+const mockCheckIns = require('./mocks/v0/check.in.responses');
+const mockValidates = require('./mocks/v0/validate.responses');
 const featureToggles = require('./mocks/feature.toggles');
 
 const delay = require('mocker-api/lib/delay');
@@ -69,6 +69,7 @@ const responses = {
     true,
     false,
     false,
+    true,
   ),
   'GET /check_in/v0/patient_check_ins/:id': (req, res) => {
     const { id } = req.params;

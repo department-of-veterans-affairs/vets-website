@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Scroll from 'react-scroll';
 
 import InfoPair from './InfoPair';
 
 import { formatDateParsedZoneShort } from 'platform/utilities/date';
 import { getScrollOptions } from 'platform/utilities/ui';
-
-const scroller = Scroll.scroller;
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 class EnrollmentPeriod extends React.Component {
   constructor() {
@@ -23,7 +21,7 @@ class EnrollmentPeriod extends React.Component {
       delay: 2,
       smooth: true,
     });
-    scroller.scrollTo(this.props.id, options);
+    scrollTo(this.props.id, options);
   }
 
   toggleHistory() {

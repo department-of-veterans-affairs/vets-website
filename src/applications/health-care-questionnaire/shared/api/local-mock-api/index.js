@@ -73,7 +73,7 @@ const responses = {
       data: {
         type: 'feature_toggles',
         features: [
-          { name: 'showHealthcareExperienceQuestionnaire', value: true },
+          { name: 'show_healthcare_experience_questionnaire', value: true },
         ],
       },
     });

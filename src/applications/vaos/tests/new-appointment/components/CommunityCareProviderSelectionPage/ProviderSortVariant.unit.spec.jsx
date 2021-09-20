@@ -286,6 +286,9 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
         selector: 'button',
       }),
     );
+    await waitFor(() =>
+      expect(screen.getAllByRole('radio').length).to.equal(5),
+    );
     fireEvent.change(await screen.getByLabelText('Show providers closest to'), {
       target: {
         value: FACILITY_SORT_METHODS.distanceFromCurrentLocation,
