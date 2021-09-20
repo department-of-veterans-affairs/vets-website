@@ -1,0 +1,28 @@
+name: Install core dependencies
+description: Install core dependencies
+
+runs:
+  using: composite
+
+  steps:
+    - name: Checkout
+        uses: actions/checkout@v2
+
+    - name: Get Node version
+      id: get-node-version
+      run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+    - name: Setup Node
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+    - name: Cache dependencies
+      id: cache-dependencies
+      uses: actions/cache@v2
+      with:
+        path: |
+          .cache/yarn
+          node_modules
+        key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+        restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
