@@ -59,6 +59,10 @@ fieldset.schemaform-field-template {
 		margin-left: -2rem;
 		width: calc(117.1875% + 2rem);
 	}
+	.form-review-panel-page .usa-alert {
+		margin: 0;
+		width: auto;
+	}
 	.usa-alert,
 	.usa-alert.background-color-only {
 		padding-left: 30/16 + 0em;
@@ -305,28 +309,32 @@ dl.review .review-row:last-child {
 .meb-confirmation-page .feature dt {
 	font-weight: bold;
 }
-.meb-confirmation-page button {
+.meb-confirmation-page .usa-button,
+.meb-confirmation-page .usa-button-primary {
 	display: block;
 	margin: 24px 0;
-	width: auto;
+	width: fit-content;
 }
-.meb-confirmation-page button:last-child {
+.meb-confirmation-page .usa-button:last-child,
+.meb-confirmation-page .usa-button-primary:last-child {
 	margin-bottom: 0;
+}
+.meb-confirmation-page .form-expanding-group {
+	margin-bottom: 1em;
 }
 .meb-confirmation-page .help-footer-box{
 	padding-top: 2em;
 }
 @media print {
 	.meb-print {
-		display: none;
+		display: none !important;
 	}
 }
 // END - Confirmation Page
 
 
 // Contact Information UI
-
 label.schemaform-label[for=root_mobilePhoneNumber_isInternational],
-label.schemaform-label[for=root_phoneNumber_isInternational],{
+label.schemaform-label[for=root_phoneNumber_isInternational] {
 	margin-top: 2rem;
 }
