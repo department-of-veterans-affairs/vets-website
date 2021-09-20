@@ -505,7 +505,37 @@ describe('data utils', () => {
       };
       expect(removeDeeplyEmptyObjects(data)).to.eql({});
     });
+    it('should not remove empty objects in an array', () => {
+      const data = {
+        int: 1,
+        obj: {
+          foo: 'bar',
+          nestedObj: {
+            nestedArray: [0, 2, 4],
+          },
+          empty: {},
+        },
+        string: 'string!',
+        array1: [{ item: '0' }, {}, { item: '2' }, { empty: {} }],
+        array2: ['0', 1, null, { s: 'thing', o: { k: 'nested', empty: {} } }],
+        // eslint-disable-next-line func-names, object-shorthand
+        func: function() {
+          return this.int;
+        },
+        arrowFunction: () => this.int,
+      };
+      expect(removeDeeplyEmptyObjects(data)).to.eql({
+        ...data,
+        obj: {
+          foo: 'bar',
+          nestedObj: data.obj.nestedObj,
+        },
+        array1: [{ item: '0' }, {}, { item: '2' }, {}],
+        array2: ['0', 1, null, { s: 'thing', o: { k: 'nested' } }],
+      });
+    });
   });
+
   describe('deduplicate', () => {
     it('should return a list of unique items', () => {
       const uniques = deduplicate([1, 1, 2, 2, 3, 3, 4, 4, 5, 5]);
