@@ -8,7 +8,7 @@ import VAPlusVetsModal from '../components/VAPlusVetsModal';
 const config = {
   announcements: [
     {
-      name: 'afghanistan-banner',
+      name: 'afghanistan-banner-v2',
       // Only the homepage (e.g. `/`).
       paths: /^(\/)$/,
       component: AfghanistanPromoBanner,

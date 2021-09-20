@@ -8,6 +8,7 @@ import Telephone from '@department-of-veterans-affairs/component-library/Telepho
 import FinancialHelp from '../components/FinancialHelp';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { Link } from 'react-router-dom';
+import Modals from '../components/Modals';
 
 const DetailPage = () => {
   useEffect(() => {
@@ -64,6 +65,9 @@ const DetailPage = () => {
       </va-alert>
       <va-on-this-page />
       <DownloadStatements />
+      <Modals title="Notice of rights and responsibilities">
+        <Modals.Rights />
+      </Modals>
       <HowToPay />
       <FinancialHelp />
       <DisputeCharges />
@@ -79,9 +83,6 @@ const DetailPage = () => {
           </span>
         }
       />
-      <p>
-        <a href="#">Notice of rights and responsibilities</a>
-      </p>
       <Link className="vads-u-font-size--sm" to="/">
         <i
           className="fa fa-chevron-left vads-u-margin-right--1"

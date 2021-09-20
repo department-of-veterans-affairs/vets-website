@@ -20,10 +20,12 @@ const approvedPage = (
         Eligibility is now available. A physical copy will also be mailed to
         your mailing address.
       </p>
-      <button type="button" className="usa-button">
+      <button type="button" className="usa-button-primary va-button-primary">
         Download your Certificate of Eligibility
       </button>
-      <a href="#">View a statement of your benefits</a>
+      <a href="https://www.va.gov/education/gi-bill/post-9-11/ch-33-benefit/ ">
+        View a statement of your benefits
+      </a>
     </va-alert>
 
     <div className="feature">
@@ -35,9 +37,13 @@ const approvedPage = (
         <dt>Date received</dt>
         <dd>September 8, 2021</dd>
       </dl>
-      <button type="button" className="usa-button">
+      <a
+        className="usa-button meb-print"
+        href="#"
+        onClick={() => window.print()}
+      >
         Print this page
-      </button>
+      </a>
     </div>
 
     <h2>What happens next?</h2>
@@ -46,8 +52,11 @@ const approvedPage = (
         Download a copy of your <a href="#">Certificate of Eligibility</a>.
       </li>
       <li>
-        Use our <a href="#">GI Bill Comparison Tool</a> to help you decide which
-        education program and school is best for you.
+        Use our{' '}
+        <a href="https://www.va.gov/gi-bill-comparison-tool/ ">
+          GI Bill Comparison Tool
+        </a>{' '}
+        to help you decide which education program and school is best for you.
       </li>
       <li>
         Once you’ve selected a school or program, you may bring your Certificate
@@ -56,11 +65,18 @@ const approvedPage = (
       </li>
       <li>
         Review and/or update your direct deposit information on your{' '}
-        <a href="#">VA.gov profile</a>.
+        <a href="https://www.va.gov/change-direct-deposit/">VA.gov profile</a>.
       </li>
       <li>
         Learn more about VA benefits and programs through the{' '}
-        <a href="#">Building Your Future with the GI Bill Series</a>.
+        <a
+          href="https://blogs.va.gov/VAntage/78073/new-guide-series-provides-gi-bill-benefits-information/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Building Your Future with the GI Bill Series
+        </a>
+        .
       </li>
     </ul>
 
@@ -71,12 +87,16 @@ const approvedPage = (
         You may provide this official document to your educational institution
         to prove your eligibility status.
       </p>
-      <a href="#" target="_blank" rel="noopener noreferrer">
+      <a
+        href="https://benefits.va.gov/gibill/understandingyourcoe.asp"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         Understanding your Certificate of Eligibility
       </a>
     </AdditionalInfo>
 
-    <a className="vads-c-action-link--green" href="#">
+    <a className="vads-c-action-link--green" href="https://www.va.gov/my-va/">
       Go to your My VA dashboard
     </a>
 
@@ -97,10 +117,15 @@ const deniedPage = (
         Your denial letter, which explains why you are ineligible, is now
         available. A physical copy will also be mailed to your mailing address.{' '}
       </p>
-      <button type="button" className="usa-button">
+      <a
+        className="usa-button"
+        href="https://www.va.gov/records/download-va-letters/"
+      >
         Download your letter
-      </button>
-      <a href="#">View an explanation of your benefits</a>
+      </a>
+      <a href="https://www.va.gov/education/gi-bill/post-9-11/ch-33-benefit/ ">
+        View a statement of your benefits
+      </a>
     </va-alert>
 
     <div className="feature">
@@ -112,7 +137,11 @@ const deniedPage = (
         <dt>Date received</dt>
         <dd>September 8, 2021</dd>
       </dl>
-      <button type="button" className="usa-button">
+      <button
+        className="usa-button meb-print"
+        onClick={() => window.print()}
+        type="button"
+      >
         Print this page
       </button>
     </div>
@@ -122,18 +151,14 @@ const deniedPage = (
       <li>
         We will review your eligibility for other VA education benefit programs.
       </li>
-      <li>You will be notified if you have potential eligibility.</li>
+      <li>
+        You will be notified if you are eligible for other VA education
+        benefits.
+      </li>
       <li>There is no further action required by you at this time.</li>
     </ul>
-    <h2>What if I disagree with this decision?</h2>
-    <p>
-      If you disagree with our decision, you have until one year from the date
-      of your letter to request an additional review. For more information,
-      please see <a href="#">VA Form 20-0998</a>,{' '}
-      <em>Your Rights to Seek Further Review of Our Decision</em>.{' '}
-    </p>
 
-    <a className="vads-c-action-link--green" href="#">
+    <a className="vads-c-action-link--green" href="https://www.va.gov/my-va/">
       Go to your My VA dashboard
     </a>
 
@@ -160,16 +185,19 @@ const pendingPage = (
         <dt>Date received</dt>
         <dd>September 8, 2021</dd>
       </dl>
-      <button type="button" className="usa-button">
+      <button
+        className="usa-button meb-print"
+        onClick={() => window.print()}
+        type="button"
+      >
         Print this page
       </button>
     </div>
 
     <h2>When will I hear back about my application?</h2>
     <div className="feature meb-feature--secondary">
-      <h2>
-        <em>In 1</em> month
-      </h2>
+      <h2>In 1 month</h2>
+      <hr className="meb-hr" />
       <p>
         If more than a month has passed since you gave us your application and
         you haven’t heard back, please don’t apply again. Call our toll-free
@@ -184,8 +212,7 @@ const pendingPage = (
       <li>We will review your eligibility for the Post-9/11 GI Bill.</li>
       <li>We may reach out with questions about your application.</li>
       <li>
-        You will be notified of the results of our review for potential
-        eligibility.
+        You will be notified if you are eligible for VA education benefits.
       </li>
       <li>There is no further action required by you at this time.</li>
     </ul>
@@ -194,27 +221,38 @@ const pendingPage = (
     <ul>
       <li>
         If you need to submit documentation to VA, such as service records,
-        please send this through our <a href="#">Ask VA feature</a>.
+        please send this through our{' '}
+        <a href="https://gibill.custhelp.va.gov/app/ask ">Ask VA feature</a>.
       </li>
       <li>
         Review and/or update your direct deposit information on{' '}
-        <a href="#">your VA.gov profile</a>.
+        <a href="https://www.va.gov/change-direct-deposit/">VA.gov profile</a>.
       </li>
       <li>
-        Use our <a href="#">GI Bill Comparison Tool</a> to help you decide which
-        education program and school is best for you.
+        Use our{' '}
+        <a href="https://www.va.gov/gi-bill-comparison-tool/ ">
+          GI Bill Comparison Tool
+        </a>{' '}
+        to help you decide which education program and school is best for you.
       </li>
       <li>
         Learn more about VA benefits and programs through the{' '}
-        <a href="#">Building Your Future with the GI Bill Series</a>.
+        <a href="https://blogs.va.gov/VAntage/78073/new-guide-series-provides-gi-bill-benefits-information/">
+          Building Your Future with the GI Bill Series
+        </a>
+        .
       </li>
       <li>
         Measure your interests and skill levels and help figure out your career
-        path with <a href="#">CareerScope®</a>.
+        path with{' '}
+        <a href="https://www.benefits.va.gov/gibill/careerscope.asp">
+          CareerScope®
+        </a>
+        .
       </li>
     </ul>
 
-    <a className="vads-c-action-link--green" href="#">
+    <a className="vads-c-action-link--green" href="https://www.va.gov/my-va/">
       Go to your My VA dashboard
     </a>
 
@@ -241,7 +279,7 @@ export class ConfirmationPage extends React.Component {
     const { response } = submission;
     const name = data.veteranFullName;
 
-    const confirmationResult = 'loading';
+    const confirmationResult = 'approved';
 
     switch (confirmationResult) {
       case 'approved': {
