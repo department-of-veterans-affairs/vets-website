@@ -59,8 +59,8 @@ export const AuthContent = ({
               </p>
               <h3>If you receive care at any other VA medical center</h3>
               <p>
-                You&apos;ll use{' '}
-                <strong>My HealtheVet&apos;s Labs and Tests</strong> tool to:
+                You’ll use <strong>My HealtheVet’s Labs and Tests</strong> tool
+                to:
               </p>
               <ul>
                 <li>
@@ -92,7 +92,7 @@ export const AuthContent = ({
                 requirements listed below.
               </p>
               <p>
-                <strong>Both of these must be true. You&apos;re:</strong>
+                <strong>Both of these must be true. You’re:</strong>
               </p>
               <ul>
                 <li>
@@ -131,15 +131,15 @@ export const AuthContent = ({
                 </li>
               </ul>
               <p>
-                <strong>Note:</strong> If you sign in with a Basic or Advanced
-                account, you’ll find only the results you’ve entered yourself.
+                <strong>Note:</strong> If you sign in with a Basic account,
+                you’ll find only the results you’ve entered yourself.
                 <br />
                 <a
                   href="https://www.myhealth.va.gov/mhv-portal-web/my-healthevet-offers-three-account-types"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Learn about the 3 different My HealtheVet account types
+                  Learn about the 2 different My HealtheVet account types
                 </a>
               </p>
             </div>
@@ -158,8 +158,8 @@ export const AuthContent = ({
           <div itemProp="text">
             <div className="processed-content">
               <p>
-                No. Labs results from community providers aren&apos;t listed in
-                the tools. But you can add this information yourself into My
+                No. Labs results from community providers aren’t listed in the
+                tools. But you can add this information yourself into My
                 HealtheVet.
               </p>
             </div>
@@ -177,7 +177,7 @@ export const AuthContent = ({
         >
           <div itemProp="text">
             <div className="processed-content">
-              <h3>If you&apos;re viewing results on My HealtheVet</h3>
+              <h3>If you’re viewing results on My HealtheVet</h3>
               <p>
                 On your Welcome page dashboard, find a module for{' '}
                 <strong>Health Records.</strong> Within that module, click on{' '}
@@ -187,10 +187,7 @@ export const AuthContent = ({
                 This will take you to a new page with links to your test
                 results.
               </p>
-              <p>
-                If you&apos;re signed in with a Premium account, you&apos;ll
-                find:
-              </p>
+              <p>If you’re signed in with a Premium account, you’ll find:</p>
               <ul>
                 <li>
                   <strong>VA chemistry/hematology results:</strong> Your tests
@@ -200,9 +197,8 @@ export const AuthContent = ({
                   review details.
                 </li>
                 <li>
-                  <strong>Test results you&apos;ve entered yourself:</strong>{' '}
-                  You can add and review results from community providers and
-                  labs.
+                  <strong>Test results you’ve entered yourself:</strong> You can
+                  add and review results from community providers and labs.
                 </li>
               </ul>
               <p>
@@ -215,11 +211,11 @@ export const AuthContent = ({
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Learn about the 3 different My HealtheVet account types
+                  Learn about the 2 different My HealtheVet account types
                 </a>
               </p>
 
-              <h3>If you&apos;re viewing results on My VA Health</h3>
+              <h3>If you’re viewing results on My VA Health</h3>
               <p>
                 In the navigation panel, click <strong>Health Record.</strong>
               </p>
@@ -229,11 +225,11 @@ export const AuthContent = ({
                 links to specific test results.
               </p>
               <p>
-                If you&apos;re signed in with a <strong>Premium</strong>{' '}
-                account, you&apos;ll find VA test results listed by date and
-                specimen. A specimen is the sample studied by the test (like
-                blood, urine, a tissue biopsy, or a throat swab). You can click
-                on each result to review details.
+                If you’re signed in with a <strong>Premium</strong> account,
+                you’ll find VA test results listed by date and specimen. A
+                specimen is the sample studied by the test (like blood, urine, a
+                tissue biopsy, or a throat swab). You can click on each result
+                to review details.
               </p>
             </div>
           </div>

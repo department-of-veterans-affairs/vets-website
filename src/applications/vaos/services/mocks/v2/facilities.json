@@ -11,9 +11,9 @@
         "name": "Cheyenne VA Medical Center",
         "classification": "VA Medical Center (VAMC)",
         "timezone": null,
-        "lat": 39.744507,
-        "long": -104.830956,
-        "website": "https://www.denver.va.gov/locations/directions.asp",
+        "lat": 41.148179,
+        "long": -104.786159,
+        "website": "https://www.cheyenne.va.gov/locations/directions.asp",
         "phone": {
           "main": "307-778-7550",
           "fax": "307-778-7381",

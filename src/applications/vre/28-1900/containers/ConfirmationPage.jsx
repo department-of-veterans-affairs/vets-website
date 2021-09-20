@@ -1,25 +1,17 @@
 import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import Scroll from 'react-scroll';
+
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 import { focusElement } from 'platform/utilities/ui';
 
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
-
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
     focusElement('#thank-you-message');
-    scrollToTop();
+    scrollToTop('topScrollElement');
   }
 
   render() {

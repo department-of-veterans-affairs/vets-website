@@ -10,7 +10,6 @@ import {
 import { recordItemsRetrieved } from '../../utils/events';
 import {
   selectSystemIds,
-  selectFeatureHomepageRefresh,
   selectFeatureVAOSServiceRequests,
   selectFeatureVAOSServiceCCAppointments,
   selectFeatureVAOSServiceVAAppointments,
@@ -153,7 +152,6 @@ async function getAdditionalFacilityInfo(futureAppointments, useV2 = false) {
 
 export function fetchFutureAppointments({ includeRequests = true } = {}) {
   return async (dispatch, getState) => {
-    const featureHomepageRefresh = selectFeatureHomepageRefresh(getState());
     const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
       getState(),
     );
@@ -188,11 +186,9 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
        */
       const promises = [
         fetchAppointments({
-          startDate: featureHomepageRefresh
-            ? moment()
-                .subtract(30, 'days')
-                .format('YYYY-MM-DD')
-            : moment().format('YYYY-MM-DD'),
+          startDate: moment()
+            .subtract(30, 'days')
+            .format('YYYY-MM-DD'),
           endDate: moment()
             .add(395, 'days')
             .format('YYYY-MM-DD'),
@@ -205,7 +201,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
         promises.push(
           getAppointmentRequests({
             startDate: moment()
-              .subtract(featureHomepageRefresh ? 120 : 30, 'days')
+              .subtract(120, 'days')
               .format('YYYY-MM-DD'),
             endDate: moment().format('YYYY-MM-DD'),
             useV2: featureVAOSServiceRequests,
@@ -317,7 +313,6 @@ export function fetchPendingAppointments() {
       });
 
       const state = getState();
-      const featureHomepageRefresh = selectFeatureHomepageRefresh(state);
       const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
         state,
       );
@@ -327,7 +322,7 @@ export function fetchPendingAppointments() {
 
       const pendingAppointments = await getAppointmentRequests({
         startDate: moment()
-          .subtract(featureHomepageRefresh ? 120 : 30, 'days')
+          .subtract(120, 'days')
           .format('YYYY-MM-DD'),
         endDate: moment()
           .add(featureVAOSServiceRequests ? 1 : 0, 'days')

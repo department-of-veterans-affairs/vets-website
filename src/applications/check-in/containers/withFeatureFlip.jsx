@@ -8,6 +8,7 @@ import {
   checkInExperienceEnabled,
   checkInExperienceLowRiskAuthenicationEnabled,
   checkInExperienceMultipleAppointmentEnabled,
+  checkInExperienceUpdateInformationPageEnabled,
   loadingFeatureFlags,
 } from '../selectors';
 
@@ -38,6 +39,7 @@ const mapStateToProps = state => ({
   isMultipleAppointmentsEnabled: checkInExperienceMultipleAppointmentEnabled(
     state,
   ),
+  isUpdatePageEnabled: checkInExperienceUpdateInformationPageEnabled(state),
 });
 
 const composedWrapper = compose(

@@ -40,6 +40,7 @@ const formConfig = {
       externalServices.vaProfile,
       externalServices.vbms,
       externalServices.vre,
+      externalServices.global,
     ],
   },
   version: 0,

@@ -46,6 +46,7 @@ describe('HLR wizard', () => {
     window.dataLayer = [];
     cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
     cy.intercept('GET', `/v0${CONTESTABLE_ISSUES_API}*`, []);
+    cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}*`, []);
     sessionStorage.removeItem(WIZARD_STATUS);
     cy.visit(BASE_URL);
     cy.injectAxe();

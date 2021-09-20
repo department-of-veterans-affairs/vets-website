@@ -14,7 +14,6 @@ import {
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    vaOnlineSchedulingHomepageRefresh: true,
     // eslint-disable-next-line camelcase
     show_new_schedule_view_appointments_page: true,
   },
@@ -122,9 +121,10 @@ describe('VAOS <ConfirmationDirectScheduleInfoV2>', () => {
 
   it('should render appointment list page when "View your appointments" link is clicked', () => {
     const screen = renderWithStoreAndRouter(<ConfirmationPage />, { store });
-    userEvent.click(screen.getByText(/View your appointments/i));
-    expect(screen.history.push.called).to.be.true;
-    expect(screen.history.push.getCall(0).args[0]).to.equal('/');
+    expect(screen.getByText(/View your appointments/i)).to.have.attribute(
+      'href',
+      '/',
+    );
   });
 
   it('should render new appointment page when "New appointment" link is clicked', () => {

@@ -1,5 +1,14 @@
 // Mock data used until API data is available
 
+export const mockDownloadStatements = [
+  { date: 'June 13, 2021' },
+  { date: 'May 13, 2021' },
+  { date: 'April 13, 2021' },
+  { date: 'March 13, 2021' },
+  { date: 'February 13, 2021' },
+  { date: 'June 13, 2021' },
+];
+
 export const mockCopayBalanceData = [
   {
     id: '3fa85f64-5717-4562-b3fc-2c973f66afa6',

@@ -6,6 +6,7 @@ import sinon from 'sinon';
 import SkinDeep from 'skin-deep';
 
 import AcceptTermsPrompt from '../../../authorization/components/AcceptTermsPrompt';
+import { axeCheck } from '../../helpers';
 
 const defaultProps = {
   terms: {
@@ -65,5 +66,19 @@ describe('<AcceptTermsPrompt>', () => {
     expect(submitButton).to.be.ok;
     expect(submitButton.disabled).to.be.false;
     expect(submitButton.className).to.eq('usa-button submit-button');
+  });
+
+  it('passes aXe check when Submit button is disabled', () => {
+    axeCheck(<AcceptTermsPrompt {...defaultProps} />);
+  });
+
+  it('passes aXe check when Submit button is enabled', () => {
+    const acceptTermsPrompt = <AcceptTermsPrompt {...defaultProps} />;
+    const acceptTermsPromptState = {
+      yesSelected: true,
+      scrolledToBottom: true,
+    };
+
+    axeCheck(acceptTermsPrompt, acceptTermsPromptState);
   });
 });
