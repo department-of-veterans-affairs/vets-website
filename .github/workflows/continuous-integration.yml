@@ -31,7 +31,7 @@ jobs:
 
     steps:
       - name: POC
-        uses: ./.github/workflows/actions/install.yml
+        uses: ./.github/workflows/install
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
