@@ -4,6 +4,11 @@ description: Install core dependencies
 runs:
   using: composite
 
+  inputs:
+  registry_username:
+    description: “Username for image registry”
+    required: false
+
   steps:
     - name: Get Node version
       id: get-node-version
