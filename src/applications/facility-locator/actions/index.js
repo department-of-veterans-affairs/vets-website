@@ -483,18 +483,6 @@ export const genSearchAreaFromCenter = query => {
   };
 };
 
-export const getFeaturesFromAddress = (query, callback) => {
-  mbxClient
-    .forwardGeocode({
-      countries: CountriesList,
-      types: MAPBOX_QUERY_TYPES,
-      autocomplete: false,
-      query,
-    })
-    .send()
-    .then(callback);
-};
-
 /**
  * Preloads all specialties available from CC Providers
  * for the type-ahead component.

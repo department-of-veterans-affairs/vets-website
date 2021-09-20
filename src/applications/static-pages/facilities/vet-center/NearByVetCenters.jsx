@@ -8,7 +8,7 @@ import { connect, useDispatch } from 'react-redux';
 import { facilitiesVetCenterAutomateNearby } from '../../../facility-locator/utils/featureFlagSelectors';
 import { fetchFacilityStarted, fetchFacilitySuccess } from '../actions';
 import { calculateBoundingBox } from '../../../facility-locator/utils/facilityDistance';
-import { getFeaturesFromAddress } from '../../../facility-locator/actions';
+import { getFeaturesFromAddress } from '../../../facility-locator/utils/mapbox';
 
 const NEARBY_VET_CENTER_RADIUS_MILES = 80;
 
@@ -38,13 +38,17 @@ const NearByVetCenters = props => {
     fetchVetCenters(`/facilities/va?ids=${notPublishedFacilities}`);
   };
 
-  const fetchNearbyVetCenters = () => {
+  const fetchNearbyVetCenters = async () => {
     const mainAddress = props.mainVetCenterAddress;
+    if (!mainAddress) {
+      return;
+    }
     const query = `${mainAddress.addressLine1}, ${mainAddress.locality} ${
       mainAddress.administrativeArea
     } ${mainAddress.postalCode}`;
-    getFeaturesFromAddress(query, ({ body: { features } }) => {
-      const coordinates = features[0].center; // [longitude,latitude]
+    const mapboxResponse = await getFeaturesFromAddress(query);
+    const coordinates = mapboxResponse?.body.features[0].center; // [longitude,latitude]
+    if (coordinates) {
       const boundingBox = calculateBoundingBox(
         coordinates[1],
         coordinates[0],
@@ -61,7 +65,7 @@ const NearByVetCenters = props => {
         ...boundingBox.map(c => `bbox[]=${c}`),
       ].join('&');
       fetchVetCenters(`/facilities/va/?${params}`);
-    });
+    }
   };
 
   useEffect(
@@ -155,7 +159,7 @@ const NearByVetCenters = props => {
     const filteredVetCenters = fetchedVetCenters.filter(
       vc =>
         vc.id !== props.mainVetCenterId &&
-        !props.satteliteVetCenters.includes(vc.id),
+        !(props.satteliteVetCenters || []).includes(vc.id),
     );
     if (filteredVetCenters.length > 0) {
       return renderNearbyVetCenterContainer(
