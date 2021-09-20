@@ -1,17 +1,12 @@
 name: Install core dependencies
 description: Install core dependencies
 
-inputs:
-  registry_username:
-    description: “Username for image registry”
-    required: false
-
 runs:
   using: composite
-  runs-on: ubuntu-latest
   steps:
     - name: Get Node version
       id: get-node-version
+      shell: bash
       run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
 
     - name: Setup Node
