@@ -826,15 +826,12 @@ export default function formReducer(state = initialState, action) {
         ? FACILITY_SORT_METHODS.distanceFromResidential
         : FACILITY_SORT_METHODS.distanceFromFacility;
 
-      // TODO: This fails in ProviderSortVariant:51 if this find return undefined.
-      // Is it safe to assume that there are always CC enabled systems associated with
-      // a user? If not, what's the default?
       const selectedCCFacility =
-        !hasResidentialCoordinates &&
-        state.ccEnabledSystems.find(
-          system => system.id === state.data?.communityCareSystemId,
-        );
-      // !hasResidentialCoordinates && state.ccEnabledSystems[0];
+        !hasResidentialCoordinates && state.ccEnabledSystems.length > 1
+          ? state.ccEnabledSystems.find(
+              system => system.id === state.data?.communityCareSystemId,
+            )
+          : state.ccEnabledSystems[0];
 
       const typeOfCare = getTypeOfCare(formData);
       let initialSchema = set(

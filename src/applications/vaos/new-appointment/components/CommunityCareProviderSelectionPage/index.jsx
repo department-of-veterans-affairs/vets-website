@@ -14,7 +14,6 @@ import { getFormPageInfo, getTypeOfCare } from '../../redux/selectors';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import ProviderSelectionField from './ProviderSelectionField';
 import recordEvent from 'platform/monitoring/record-event';
-import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import { lowerCase } from '../../../utils/formatters';
 
 const initialSchema = {
@@ -32,7 +31,6 @@ const initialSchema = {
 };
 
 const pageKey = 'ccPreferences';
-let pageTitle = 'Tell us your community care preferences';
 
 export default function CommunityCareProviderSelectionPage() {
   const dispatch = useDispatch();
@@ -40,50 +38,30 @@ export default function CommunityCareProviderSelectionPage() {
     state => getFormPageInfo(state, pageKey),
     shallowEqual,
   );
-  const residentialAddress = useSelector(
-    state => selectVAPResidentialAddress(state),
-    shallowEqual,
-  );
   const history = useHistory();
+  const typeOfCare = getTypeOfCare(data);
+  const pageTitle = showCCIterations
+    ? `Request a ${lowerCase(typeOfCare.name)} provider`
+    : 'Tell us your community care preferences';
 
-  if (showCCIterations && residentialAddress) {
-    pageTitle = `Request a ${lowerCase(getTypeOfCare(data).name)} provider`;
-  }
-  const descriptionText = showCCIterations
-    ? 'We’ll call you to confirm your provider choice or to help you choose a provider if you skip this step.'
-    : 'You can request a provider for this care. If they aren’t available, we’ll schedule your appointment with a provider close to your home.';
+  const descriptionText =
+    'You can request a provider for this care. If they aren’t available, we’ll schedule your appointment with a provider close to your home.';
 
-  let uiSchema;
-  if (showCCIterations) {
-    uiSchema = {
-      communityCareProvider: {
-        'ui:title': ' ',
-        'ui:options': {
-          showFieldLabel: true,
-        },
-        'ui:description': (
-          <p id="providerSelectionDescription">{descriptionText}</p>
-        ),
-        'ui:field': ProviderSelectionField,
+  const uiSchema = {
+    communityCareSystemId: {
+      'ui:title': 'What’s the closest city and state to you?',
+      'ui:widget': 'radio',
+    },
+    communityCareProvider: {
+      'ui:options': {
+        showFieldLabel: !showCCIterations,
       },
-    };
-  } else {
-    uiSchema = {
-      communityCareSystemId: {
-        'ui:title': 'What’s the closest city and state to you?',
-        'ui:widget': 'radio',
-      },
-      communityCareProvider: {
-        'ui:options': {
-          showFieldLabel: true,
-        },
-        'ui:description': (
-          <p id="providerSelectionDescription">{descriptionText}</p>
-        ),
-        'ui:field': ProviderSelectionField,
-      },
-    };
-  }
+      'ui:description': (
+        <p id="providerSelectionDescription">{descriptionText}</p>
+      ),
+      'ui:field': ProviderSelectionField,
+    },
+  };
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
