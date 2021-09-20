@@ -167,6 +167,18 @@
       margin-bottom: 0.625em;
     }
   }
+
+  .caution-flag-toggle {
+    display: block;
+    color: $color-gray-dark;
+    background-color: transparent;
+    padding: 0px;
+    margin: 0px;
+
+    i {
+      font-size: 16px;
+    }
+  }
 }
 
 .section-item,
@@ -206,14 +218,31 @@
   text-transform: capitalize;
 }
 
+.main-title {
+  padding-right: 9em;
+  @media (max-width: 1004px) {
+    padding-right: 0;
+    text-align: left;
+  }
+  @media (max-width: $small-screen) {
+    text-align: center;
+  }
+}
+
 .tool-description {
   text-align: center;
-  padding-bottom: 3em;
+  padding-bottom: 2em;
+  padding-right: 9em;
+
+  @media (max-width: 1004px) {
+    padding-right: 0;
+    text-align: left;
+  }
 
   @media (max-width: $small-screen) {
-    text-align: left;
     padding-left: 20px;
     padding-bottom: 1em;
+    padding-right: 0;
   }
 }
 

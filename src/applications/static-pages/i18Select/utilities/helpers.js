@@ -9,17 +9,13 @@ export function stripTrailingSlash(str) {
   return str.endsWith('/') ? str.slice(0, -1) : str;
 }
 
-export const getConfigFromLanguageCode = languageCode => {
-  return (
-    ALL_LANGUAGES.find(language => language.code === languageCode) ||
-    DEFAULT_LANGUAGE
-  );
-};
+export const getConfigFromLanguageCode = languageCode =>
+  ALL_LANGUAGES.find(language => language.code === languageCode) ||
+  DEFAULT_LANGUAGE;
 
 // used on page load to find translation links relating to document.location.pathname
-export const getPageTypeFromPathname = pathname => {
-  return PATHNAME_DICT?.[stripTrailingSlash(pathname)]?.pageType ?? null;
-};
+export const getPageTypeFromPathname = pathname =>
+  PATHNAME_DICT?.[stripTrailingSlash(pathname)]?.pageType ?? null;
 
 const getLinksInSelector = selector => {
   const container = document?.querySelector(selector);
@@ -52,18 +48,20 @@ const setMedalliaSurveyLangOnWindow = languageCode => {
 // links may have included words that indicate language (e.g., espanol.cdc.gov)
 // this can be used for the href of a link or the current document url
 // TODO: add better pattern matching, lang attr set directly in cms content for anchors if possible
-export const getConfigFromUrl = (url, languages) => {
-  return languages.reduce((accumulator, languageConfig) => {
+export const getConfigFromUrl = (url, languages) =>
+  languages.reduce((accumulator, languageConfig) => {
     const {
       urlPatterns: { included = [], suffixed = [] },
     } = languageConfig;
 
     const parsedUrlPatternResults = [
       ...included.map(
-        includedTerm => includedTerm && url?.includes(includedTerm),
+        includedTerm =>
+          includedTerm && url?.toLowerCase()?.includes(includedTerm),
       ),
       ...suffixed.map(
-        suffixedTerm => suffixedTerm && url?.endsWith(suffixedTerm),
+        suffixedTerm =>
+          suffixedTerm && url?.toLowerCase()?.endsWith(suffixedTerm),
       ),
     ];
 
@@ -71,17 +69,18 @@ export const getConfigFromUrl = (url, languages) => {
       ? languageConfig
       : accumulator;
   }, DEFAULT_LANGUAGE);
-};
 
-const adaptContentWithLangCode = langCode => {
-  // the article.content-usa element is the main translated content,
-  // so it should have it's lang attribute set
-  // TODO: improve selector for this if possible
-  const [container, links] = getLinksInSelector('article.usa-content');
+const adaptWithLangCode = (
+  langCode,
+  selector,
+  attributesToSet = ['hreflang', 'lang'],
+  setContainerAttribute = false,
+) => {
+  const [container, links] = getLinksInSelector(selector);
 
   if (!container) return;
 
-  container.setAttribute('lang', langCode);
+  if (setContainerAttribute) container.setAttribute('lang', langCode);
 
   if (!links || links.length === 0) return;
 
@@ -91,50 +90,22 @@ const adaptContentWithLangCode = langCode => {
     if (link && !link.href.includes('#') && !link.href.includes('tel')) {
       const { code } = getConfigFromUrl(link.href, TRANSLATED_LANGUAGES);
 
-      link.setAttribute('hreflang', code);
-    }
-  }
-};
-
-const adaptSidebarWithLangCode = () => {
-  const [container, links] = getLinksInSelector('#va-detailpage-sidebar');
-
-  if (!container || !links) return;
-
-  for (const link of links) {
-    // we only want to set the hreflang to valid links
-    // this excludes jumplinks and telephone links
-    if (link && !link.href.includes('#') && !link.href.includes('tel')) {
-      const { code } = getConfigFromUrl(link.href, TRANSLATED_LANGUAGES);
-
-      // sidebar links are considered to be translated to their target language,
-      // and therefore would have their hreflang and lang set to their parsed language
-      if (code !== 'en') {
-        link.setAttribute('hreflang', code);
-        link.setAttribute('lang', code);
+      for (const attribute of attributesToSet) {
+        link.setAttribute(attribute, code);
       }
     }
   }
 };
 
-const adaptBreadcrumbWithLangCode = langCode => {
-  const [container, links] = getLinksInSelector('#va-breadcrumbs-list');
-
-  if (!container || !links) return;
-
-  for (const link of links) {
-    // we only want to set the lang on breadcrumb for aria-current="page"
-    const ariaCurrent = link?.getAttribute('aria-current');
-
-    if (link && ariaCurrent && ariaCurrent === 'page') {
-      link.setAttribute('lang', langCode);
-    }
-  }
-};
-
 export const setLangAttributes = lang => {
-  adaptContentWithLangCode(lang);
-  adaptBreadcrumbWithLangCode(lang);
-  adaptSidebarWithLangCode();
+  // adapt content section
+  adaptWithLangCode(lang, 'article.usa-content', ['hreflang'], true);
+
+  // adapt breadcrumb links
+  adaptWithLangCode(lang, '#va-breadcrumbs-list', ['lang']);
+
+  // adapt sidebar links
+  adaptWithLangCode(lang, '#va-detailpage-sidebar');
+
   setMedalliaSurveyLangOnWindow(lang);
 };

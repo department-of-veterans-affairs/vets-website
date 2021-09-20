@@ -16,4 +16,9 @@ export default {
     tl:
       '/health-care/covid-19-vaccine-tag/booster-shots-and-additional-doses-tag/',
   },
+  vaccineRecord: {
+    en: '/health-care/covid-19-vaccine/vaccine-record',
+    es: '/health-care/covid-19-vaccine-esp/vaccine-record-esp',
+    tl: '/health-care/covid-19-vaccine-tag/vaccine-record-tag',
+  },
 };

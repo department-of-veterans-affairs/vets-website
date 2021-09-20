@@ -41,7 +41,7 @@ export default class AccordionField extends React.Component {
       !isReactComponent(get('ui:options.viewComponent', this.props.uiSchema))
     ) {
       throw new Error(
-        `No viewComponent found in uiSchema for ReviewBoxField ${
+        `No viewComponent found in uiSchema for AccordionField${
           this.props.idSchema.$id
         }.`,
       );
@@ -170,6 +170,7 @@ export default class AccordionField extends React.Component {
 
     const uiOptions = this.props.uiSchema['ui:options'] || {};
     const ViewField = uiOptions.viewField;
+    let vaAccordionItemKeyId = 0;
 
     return (
       <>
@@ -185,14 +186,16 @@ export default class AccordionField extends React.Component {
 
         <va-accordion bordered id={this.id}>
           {items.map(item => {
-            const subheader = `${moment(item.dateRange.from).format(
-              FORMAT_DATE_READABLE,
-            )} – ${moment(item.dateRange.to).format(FORMAT_DATE_READABLE)}`;
+            const subheader = !item.dateRange
+              ? ''
+              : `${moment(item.dateRange.from).format(
+                  FORMAT_DATE_READABLE,
+                )} – ${moment(item.dateRange.to).format(FORMAT_DATE_READABLE)}`;
 
             return (
               <va-accordion-item
                 header={item.serviceBranch}
-                key={item.path}
+                key={`${this.id}-${vaAccordionItemKeyId++}`}
                 open="false"
                 subheader={subheader}
               >
@@ -224,7 +227,11 @@ AccordionField.propTypes = {
       PropTypes.elementType,
       PropTypes.string,
     ]),
-    'ui:title': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+    'ui:title': PropTypes.oneOfType([
+      PropTypes.element,
+      PropTypes.func,
+      PropTypes.string,
+    ]),
     'ui:subtitle': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     saveClickTrackEvent: PropTypes.object,
   }).isRequired,
@@ -237,7 +244,7 @@ AccordionField.propTypes = {
     }),
     definitions: PropTypes.object.isRequired,
   }).isRequired,
-  formData: PropTypes.object.isRequired,
+  formData: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   onBlur: PropTypes.func.isRequired,
   formContext: PropTypes.shape({
     onError: PropTypes.func.isRequired,

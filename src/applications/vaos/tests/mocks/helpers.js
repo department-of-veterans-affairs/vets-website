@@ -26,8 +26,6 @@ import sinon from 'sinon';
  * @param {boolean} [params.partialError=false] Set to true if mock should return a MAS partial error
  * @param {Array<VARCommunityCareAppointment>} [params.cc=[]] CC appointments to return from mock
  * @param {Array<VARRequest>} [params.requests=[]] Requests to return from mock
- * @param {boolean} [params.isHomepageRefresh=false] Set to true if mock for upcoming page on homepage refresh, which
- *   has different date ranges
  */
 export function mockAppointmentInfo({
   va = [],
@@ -35,15 +33,12 @@ export function mockAppointmentInfo({
   cc = [],
   requests = [],
   partialError = null,
-  isHomepageRefresh = false,
 }) {
   if (!global.fetch.isSinonProxy) {
     mockFetch();
   }
 
-  const startDate = isHomepageRefresh
-    ? moment().subtract(30, 'days')
-    : moment();
+  const startDate = moment().subtract(30, 'days');
 
   const baseUrl = `${
     environment.API_URL
@@ -73,7 +68,7 @@ export function mockAppointmentInfo({
   setFetchJSONResponse(
     global.fetch.withArgs(
       `${environment.API_URL}/vaos/v0/appointment_requests?start_date=${moment()
-        .add(isHomepageRefresh ? -120 : -30, 'days')
+        .add(-120, 'days')
         .format('YYYY-MM-DD')}&end_date=${moment().format('YYYY-MM-DD')}`,
     ),
     { data: requests },

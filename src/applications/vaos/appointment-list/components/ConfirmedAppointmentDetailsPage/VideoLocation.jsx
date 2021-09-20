@@ -28,7 +28,6 @@ export default function VideoLocation({ appointment, facility }) {
             facility={facility}
             facilityId={appointment.location.stationId}
             clinicFriendlyName={appointment.location.clinicName}
-            isHomepageRefresh
           />
         </div>
       </>

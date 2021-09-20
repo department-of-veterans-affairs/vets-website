@@ -202,12 +202,12 @@ describe('Add new disabilities', () => {
       vaTreatmentFacilities: [
         {
           treatedDisabilityNames: {
-            'something with-hyphens and allcaps': true,
+            somethingwithhyphensandallcaps: true,
           },
         },
       ],
       'view:isPow': {
-        powDisabilities: { 'something with-hyphens and allcaps': true },
+        powDisabilities: { somethingwithhyphensandallcaps: true },
       },
     });
 
@@ -243,12 +243,9 @@ describe('Add new disabilities', () => {
       );
       const result = updateFormData(oldData(), newData);
       expect(
-        result.vaTreatmentFacilities[0].treatedDisabilityNames[
-          'foo-with extraz'
-        ],
+        result.vaTreatmentFacilities[0].treatedDisabilityNames.foowithextraz,
       ).to.be.true;
-      expect(result['view:isPow'].powDisabilities['foo-with extraz']).to.be
-        .true;
+      expect(result['view:isPow'].powDisabilities.foowithextraz).to.be.true;
     });
 
     it('should remove a deleted disability from treatedDisabilityNames and powDisabilities', () => {

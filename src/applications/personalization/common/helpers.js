@@ -1,3 +1,5 @@
+import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
+
 export function makeUserObject(options = {}) {
   const services = [];
   if (options.rx) {
@@ -39,7 +41,8 @@ export function makeUserObject(options = {}) {
           gender: 'M',
           givenNames: ['Wesley', 'Watson'],
           isCernerPatient: options.isCerner ?? false,
-          facilities: options.facilities || [],
+          facilities:
+            options.isPatient && options.facilities ? options.facilities : null,
           vaPatient: options.isPatient ?? false,
           mhvAccountState: 'NONE',
         },
@@ -50,7 +53,7 @@ export function makeUserObject(options = {}) {
         },
         inProgressForms: options.inProgressForms || [],
         prefillsAvailable: [],
-        vet360ContactInformation: {},
+        vet360ContactInformation: makeMockContactInfo(),
       },
     },
     meta: { errors: null },

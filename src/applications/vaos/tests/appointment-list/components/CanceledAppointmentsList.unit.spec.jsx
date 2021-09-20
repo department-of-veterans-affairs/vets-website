@@ -16,7 +16,6 @@ import CanceledAppointmentsList from '../../../appointment-list/components/Cance
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    vaOnlineSchedulingHomepageRefresh: true,
   },
 };
 
@@ -43,7 +42,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
       'CANCELLED BY CLINIC';
     appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
 
-    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    mockAppointmentInfo({ va: [appointment] });
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
@@ -76,7 +75,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
     };
     appointment.attributes.vdsAppointments[0].currentStatus =
       'CANCELLED BY CLINIC';
-    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    mockAppointmentInfo({ va: [appointment] });
 
     const facility = {
       id: 'vha_442GC',
@@ -133,7 +132,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
     appointment.attributes.startDate = moment().format();
     appointment.attributes.vdsAppointments[0].currentStatus = 'NO-SHOW';
 
-    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    mockAppointmentInfo({ va: [appointment] });
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
@@ -152,7 +151,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
     appointment.attributes.vdsAppointments[0].currentStatus =
       'CANCELLED BY CLINIC';
 
-    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    mockAppointmentInfo({ va: [appointment] });
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
@@ -205,7 +204,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
       status: { description: 'F', code: 'CANCELLED BY CLINIC' },
     };
 
-    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    mockAppointmentInfo({ va: [appointment] });
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
@@ -258,7 +257,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
       },
     };
 
-    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    mockAppointmentInfo({ va: [appointment] });
     mockFacilitiesFetch('vha_442', []);
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
@@ -299,7 +298,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
       status: { description: 'F', code: 'CANCELLED BY CLINIC' },
     };
 
-    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    mockAppointmentInfo({ va: [appointment] });
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
@@ -339,7 +338,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
       status: { description: 'F', code: 'CANCELLED BY CLINIC' },
     };
 
-    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    mockAppointmentInfo({ va: [appointment] });
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
@@ -375,7 +374,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
     appointment.attributes.vdsAppointments[0].currentStatus =
       'CANCELLED BY CLINIC';
 
-    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    mockAppointmentInfo({ va: [appointment] });
     mockFacilitiesFetch('vha_442GC', []);
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
@@ -407,7 +406,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
       'CANCELLED BY CLINIC';
     appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
 
-    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    mockAppointmentInfo({ va: [appointment] });
     mockFacilitiesFetch('vha_442GC', []);
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
@@ -446,7 +445,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
       'CANCELLED BY CLINIC';
     appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
 
-    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    mockAppointmentInfo({ va: [appointment] });
     mockFacilitiesFetch('vha_442GC', []);
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
@@ -485,7 +484,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
       'CANCELLED BY CLINIC';
     appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
 
-    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    mockAppointmentInfo({ va: [appointment] });
     mockFacilitiesFetch('vha_442GC', []);
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
@@ -513,7 +512,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
       'CANCELLED BY CLINIC';
     appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
 
-    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    mockAppointmentInfo({ va: [appointment] });
     mockFacilitiesFetch('vha_442GC', []);
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,

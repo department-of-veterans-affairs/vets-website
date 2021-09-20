@@ -114,11 +114,7 @@ class AcceptTermsPrompt extends React.Component {
             <div className="terms-head">
               Scroll to read the full terms and conditions to continue
             </div>
-            <div
-              className="terms-scroller"
-              onScroll={this.handleScroll}
-              tabIndex="0"
-            >
+            <div className="terms-scroller" onScroll={this.handleScroll}>
               <div dangerouslySetInnerHTML={{ __html: terms.termsContent }} />
             </div>
             <div className={actionButtonClass}>{yesButton}</div>

@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import { isLoggedIn } from 'platform/user/selectors';
-import { notLoggedInContent } from './introductionContent/notLoggedInContent.jsx';
-import { loggedInContent } from './introductionContent/loggedInContent.jsx';
+import { notLoggedInContent } from './introduction-content/notLoggedInContent.jsx';
+import { loggedInContent } from './introduction-content/loggedInContent.jsx';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { CALLSTATUS } from '../constants';
 

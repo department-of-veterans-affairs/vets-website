@@ -7,7 +7,7 @@ import CancelAppointmentModal from '../cancel/CancelAppointmentModal';
 import moment from '../../../lib/moment-tz';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import PageLayout from '../AppointmentsPage/PageLayout';
+import PageLayout from '../PageLayout';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
 import {
@@ -91,23 +91,6 @@ export default function ConfirmedAppointmentDetailsPage() {
       <FullWidthLayout>
         <LoadingIndicator setFocus message="Loading your appointment..." />
       </FullWidthLayout>
-    );
-  }
-
-  if (
-    appointment.vaos.isCOVIDVaccine ||
-    appointment.vaos.isPhoneAppointment ||
-    !appointment.vaos.isVideo
-  ) {
-    return (
-      <>
-        <DetailsVA appointment={appointment} facilityData={facilityData} />
-        <CancelAppointmentModal
-          {...cancelInfo}
-          onConfirm={() => dispatch(confirmCancelAppointment())}
-          onClose={() => dispatch(closeCancelAppointment())}
-        />
-      </>
     );
   }
 

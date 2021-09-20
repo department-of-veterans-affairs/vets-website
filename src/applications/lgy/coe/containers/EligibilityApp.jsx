@@ -5,8 +5,14 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { isLoggedIn } from 'platform/user/selectors';
 
 import { generateCoe } from '../actions';
-import { CertificateDownload } from '../components/CertificateDownload';
-import { CALLSTATUS, COE_FORM_NUMBER } from '../constants';
+import { CoeEligible } from '../components/CoeEligible';
+import { CoeIneligible } from '../components/CoeIneligible';
+import { CoePending } from '../components/CoePending';
+import {
+  CALLSTATUS,
+  COE_FORM_NUMBER,
+  COE_ELIGIBILITY_STATUS,
+} from '../constants';
 
 const EligibilityApp = props => {
   const {
@@ -22,7 +28,7 @@ const EligibilityApp = props => {
 
   useEffect(
     () => {
-      if (!loggedIn) {
+      if (!profileIsUpdating && !loggedIn) {
         router.push('/');
       } else if (!profileIsUpdating && loggedIn && !hasSavedForm && !coe) {
         props.generateCoe();
@@ -43,14 +49,26 @@ const EligibilityApp = props => {
     generateAutoCoeStatus === CALLSTATUS.success ||
     (generateAutoCoeStatus === CALLSTATUS.skip && coe)
   ) {
-    content = <CertificateDownload clickHandler={clickHandler} />;
+    switch (coe.status) {
+      case COE_ELIGIBILITY_STATUS.eligible:
+        content = <CoeEligible clickHandler={clickHandler} />;
+        break;
+      case COE_ELIGIBILITY_STATUS.ineligible:
+        content = <CoeIneligible />;
+        break;
+      case COE_ELIGIBILITY_STATUS.pending:
+        content = <CoePending />;
+        break;
+      default:
+        content = <LoadingIndicator message="Loading..." />;
+    }
   } else {
     router.push('/introduction');
   }
 
   return (
     <>
-      <header className="row">
+      <header className="row vads-u-padding-x--1">
         <FormTitle title="Apply for a VA home loan Certificate of Eligibility" />
         <p>Request for a Certificate of Eligibility (VA Form 26-1880)</p>
       </header>

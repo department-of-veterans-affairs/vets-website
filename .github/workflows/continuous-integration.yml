@@ -8,8 +8,9 @@ on:
       - '**'
 
 env:
+  DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
   CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
-  NEXUS_REGISTRY: https://devops.va.gov/dots-nexus/repository/npm-public/
+  NEXUS_REGISTRY: https://devops.va.gov/dots-nexus/repository/platform-npm-group-nocache/
 
 concurrency:
   group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha }}
@@ -56,6 +57,7 @@ jobs:
             .cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Get NEXUS username
         uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
@@ -88,7 +90,7 @@ jobs:
         with:
           command: yarn install --frozen-lockfile --prefer-offline --production=false --network-concurrency 1
           max_attempts: 3
-          timeout_minutes: 5
+          timeout_minutes: 7
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -134,6 +136,7 @@ jobs:
       - name: Notify Slack about build failures
         if: ${{ failure() }}
         uses: ./.github/actions/vsp-github-actions/slack-socket
+        continue-on-error: true
         env:
           SSL_CERT_DIR: /etc/ssl/certs
         with:
@@ -154,8 +157,11 @@ jobs:
         run: |
           cat > build/${{ matrix.buildtype }}/BUILD.txt << EOF
           BUILDTYPE=${{ matrix.buildtype }}
+          NODE_ENV=production
           BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
+          CHANGE_TARGET=null
           RUN_ID=${{ github.run_id }}
+          RUN_NUMBER=${{ github.run_number }}
           REF=${{ github.sha }}
           BUILDTIME=$(date +%s)
           EOF
@@ -194,13 +200,14 @@ jobs:
             .cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
         with:
           command: yarn install --frozen-lockfile --prefer-offline --production=false
           max_attempts: 3
-          timeout_minutes: 5
+          timeout_minutes: 7
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -301,13 +308,14 @@ jobs:
             .cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
         with:
           command: yarn install --frozen-lockfile --prefer-offline --production=false
           max_attempts: 3
-          timeout_minutes: 5
+          timeout_minutes: 7
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -404,13 +412,14 @@ jobs:
             .cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
         with:
           command: yarn install --frozen-lockfile --prefer-offline --production=false
           max_attempts: 3
-          timeout_minutes: 5
+          timeout_minutes: 7
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -423,69 +432,9 @@ jobs:
       - name: Annotate Stylelint results
         if: ${{ always() }}
         run: node ./script/github-actions/stylelint-annotation-format.js
-  
-  check-app-dependency-graph:
-    name: Check App Dependency Graph
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        if: ${{ github.ref != 'refs/heads/master' }}
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Get Node version
-        if: ${{ github.ref != 'refs/heads/master' }}
-        id: get-node-version
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-
-      - name: Setup Node
-        if: ${{ github.ref != 'refs/heads/master' }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-
-      - name: Cache dependencies
-        if: ${{ github.ref != 'refs/heads/master' }}
-        id: cache-dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            .cache/yarn
-            node_modules
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-
-      - name: Install dependencies
-        if: ${{ github.ref != 'refs/heads/master' }}
-        uses: nick-invision/retry@v2
-        with:
-          command: yarn install --frozen-lockfile --prefer-offline --production=false
-          max_attempts: 3
-          timeout_minutes: 5
-        env:
-          YARN_CACHE_FOLDER: .cache/yarn
-
-      - name: Run git diff and set DIFF_RESULTS
-        if: ${{ github.ref != 'refs/heads/master' }}
-        id: git-diff
-        run: echo ::set-output name=DIFF_RESULTS::$(git diff ${{ github.event.before }} ${{ github.event.after }} --line-prefix=new_line --unified=0)
-
-      - name: Set IS_GRAPH_UPDATED and update the cross-app import graph if necessary
-        if: ${{ github.ref != 'refs/heads/master' }}
-        run: node script/github-actions/create-cross-app-import-graph.js
-        env:
-          DIFF_RESULTS: ${{ steps.git-diff.outputs.DIFF_RESULTS }}
-
-      - name: Push the updated cross-app import graph
-        if: ${{ github.ref != 'refs/heads/master' && env.IS_GRAPH_UPDATED == 'true' }}
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: update graph
 
   cypress-tests-prep:
     name: Prep for Cypress Tests
-    needs: check-app-dependency-graph
     runs-on: ubuntu-latest
     outputs:
       num_containers: ${{ steps.containers.outputs.num }}
@@ -516,13 +465,14 @@ jobs:
             .cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
         with:
           command: yarn install --frozen-lockfile --prefer-offline --production=false
           max_attempts: 3
-          timeout_minutes: 5
+          timeout_minutes: 7
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -555,14 +505,14 @@ jobs:
       - name: Set output of TESTS
         id: tests
         run: echo ::set-output name=selected::$TESTS
-  
+
   cypress-tests:
     name: Cypress E2E Tests
     runs-on: self-hosted
     needs: [build, cypress-tests-prep]
     if: ${{ needs.cypress-tests-prep.outputs.num_containers > 0 }}
     container:
-      image: public.ecr.aws/cypress-io/cypress/browsers:node14.16.0-chrome89-ff77
+      image: public.ecr.aws/cypress-io/cypress/browsers:node14.16.0-chrome90-ff88
       options: -u 1001:1001 -v /usr/local/share:/share
 
     strategy:
@@ -605,6 +555,7 @@ jobs:
             /github/home/.cache/Cypress
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}-cypress
+          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Get NEXUS username
         uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
@@ -637,7 +588,7 @@ jobs:
         with:
           command: yarn install --frozen-lockfile --prefer-offline --production=false --network-concurrency 1
           max_attempts: 3
-          timeout_minutes: 5
+          timeout_minutes: 7
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -729,6 +680,7 @@ jobs:
       - name: Notify Slack about Cypress test failures
         if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: ./.github/actions/vsp-github-actions/slack-socket
+        continue-on-error: true
         env:
           SSL_CERT_DIR: /etc/ssl/certs
         with:
@@ -992,3 +944,52 @@ jobs:
 
       - name: Trigger Jenkins pipeline
         run: node script/github-actions/trigger-jenkins.js
+
+  notify-failure:
+    name: Notify Failure
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/master' && (failure() || cancelled()) }}
+    needs: deploy
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get Slack app token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/github_actions_slack_socket_token
+          env_variable_name: SLACK_APP_TOKEN
+
+      - name: Get Slack bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/github_actions_slack_bot_user_token
+          env_variable_name: SLACK_BOT_TOKEN
+          
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Checkout VSP actions
+        uses: actions/checkout@v2
+        with:
+          repository: department-of-veterans-affairs/vsp-github-actions
+          ref: refs/heads/main
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          persist-credentials: false
+          path: ./.github/actions/vsp-github-actions
+
+      - name: Notify Slack
+        uses: ./.github/actions/vsp-github-actions/slack-socket
+        continue-on-error: true
+        with:
+          slack_app_token: ${{ env.SLACK_APP_TOKEN }}
+          slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
+          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "vets-website master branch CI failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}]'
+          channel_id: ${{ env.DEVOPS_CHANNEL_ID }}
