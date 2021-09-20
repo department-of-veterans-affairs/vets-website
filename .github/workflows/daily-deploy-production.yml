@@ -140,6 +140,7 @@ jobs:
 
       - name: Notify Slack
         uses: ./.github/actions/vsp-github-actions/slack-socket
+        continue-on-error: true
         with:
           slack_app_token: ${{ env.SLACK_APP_TOKEN }}
           slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
@@ -245,6 +246,7 @@ jobs:
         env_variable_name: SLACK_BOT_TOKEN
         
     - name: Get va-vsp-bot token
+      if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
       uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
       with:
         ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
@@ -263,6 +265,7 @@ jobs:
     - name: Notify Slack
       if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
       uses: ./.github/actions/vsp-github-actions/slack-socket
+      continue-on-error: true
       with:
         slack_app_token: ${{ env.SLACK_APP_TOKEN }}
         slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
