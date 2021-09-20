@@ -186,9 +186,11 @@ export default class AccordionField extends React.Component {
 
         <va-accordion bordered id={this.id}>
           {items.map(item => {
-            const subheader = `${moment(item.dateRange.from).format(
-              FORMAT_DATE_READABLE,
-            )} – ${moment(item.dateRange.to).format(FORMAT_DATE_READABLE)}`;
+            const subheader = !item.dateRange
+              ? ''
+              : `${moment(item.dateRange.from).format(
+                  FORMAT_DATE_READABLE,
+                )} – ${moment(item.dateRange.to).format(FORMAT_DATE_READABLE)}`;
 
             return (
               <va-accordion-item
