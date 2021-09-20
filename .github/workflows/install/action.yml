@@ -40,7 +40,7 @@ runs:
       uses: actions/cache@v2
       with:
         path: |
-          .cache/yarn
+          ${{ inputs.yarn_cache_folder }}
           node_modules
         key: ${{ inputs.keys }}
         restore-keys: ${{ inputs.restore-keys }}
