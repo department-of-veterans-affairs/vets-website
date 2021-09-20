@@ -1,5 +1,23 @@
-name: Install core dependencies
-description: Install core dependencies
+name: Install Dependencies
+description: Install Dependencies
+
+inputs:
+  nexus_registry:
+    description: Enable NEXUS registry
+    required: false
+    default: false
+  keys:
+    description: keys for actions/cache@v2
+    required: false
+    default: ''
+  restore-keys:
+    description: restore-keys for actions/cache@v2
+    required: false
+    default: ''
+  yarn_cache_folder:
+    description: path for yarn cache
+    required: false
+    default: ''
 
 runs:
   using: composite
@@ -21,5 +39,44 @@ runs:
         path: |
           .cache/yarn
           node_modules
-        key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-        restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
+        key: ${{ inputs.keys }}
+        restore-keys: ${{ inputs.restore-keys }}
+
+    - name: Get NEXUS username
+      if: ${{ inputs.nexus_registry == true }}
+      uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+      with:
+        ssm_parameter: /devops/VA_VSP_BOT_1_NEXUS_USERNAME
+        env_variable_name: VA_VSP_BOT_1_NEXUS_USERNAME
+
+    - name: Get NEXUS token
+      if: ${{ inputs.nexus_registry == true }}
+      uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+      with:
+        ssm_parameter: /devops/VA_VSP_BOT_1_NEXUS_PASSWORD
+        env_variable_name: VA_VSP_BOT_1_NEXUS_PASSWORD
+
+    # Required to change registry in yarn.lock file
+    - name: Change registry in yarn.lock
+      if: ${{ inputs.nexus_registry == true }}
+      run: |
+        sed -i -e "s#https://registry.yarnpkg.com/#${{ env.NEXUS_REGISTRY }}#g" yarn.lock
+        sed -i -e "s#https://registry.npmjs.org/#${{ env.NEXUS_REGISTRY }}#g" yarn.lock
+
+    - name: Authenticate NEXUS
+      if: ${{ inputs.nexus_registry == true }}
+      run: |
+        npm config set _auth $(echo -n '${{ env.VA_VSP_BOT_1_NEXUS_USERNAME }}:${{ env.VA_VSP_BOT_1_NEXUS_PASSWORD }}' | openssl base64)
+        npm config set cafile ${{ env.NODE_EXTRA_CA_CERTS }}
+        npm config set registry ${{ env.NEXUS_REGISTRY }}
+        npm config set email va-vsp-bot-1@va.gov
+        npm config set always-auth true
+
+    - name: Install dependencies
+      uses: nick-invision/retry@v2
+      with:
+        command: yarn install --frozen-lockfile --prefer-offline --production=false --network-concurrency 1
+        max_attempts: 3
+        timeout_minutes: 7
+      env:
+        YARN_CACHE_FOLDER: ${{ inputs.yarn_cache_folder }}
