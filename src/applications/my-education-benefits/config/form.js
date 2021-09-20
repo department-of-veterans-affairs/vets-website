@@ -172,7 +172,6 @@ function phoneUISchema(category) {
 function phoneSchema() {
   return {
     type: 'object',
-    required: ['phone'],
     properties: {
       phone: {
         ...usaPhone,
