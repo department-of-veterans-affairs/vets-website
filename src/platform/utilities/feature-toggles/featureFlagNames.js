@@ -32,6 +32,7 @@ export default Object.freeze({
   facilitiesPpmsSuppressAll: 'facilities_ppms_suppress_all',
   facilitiesPpmsSuppressCommunityCare: 'facilities_ppms_suppress_community_care',
   facilitiesPpmsSuppressPharmacies: 'facilities_ppms_suppress_pharmacies',
+  facilitiesVetCenterAutomateNearby: 'facilities_vet_center_automate_nearby',
   facilityLocatorCovidVaccineWalkInAvailabilityTextFrontend:
     'facility_locator_covid_vaccine_walk_in_availability_text_frontend',
   facilityLocatorLighthouseCovidVaccineQuery:
@@ -70,7 +71,7 @@ export default Object.freeze({
   showFinancialStatusReportWizard: 'show_financial_status_report_wizard',
   showMedicalCopays: 'show_medical_copays',
   showHealthcareExperienceQuestionnaire:
-    'showHealthcareExperienceQuestionnaire',
+    'show_healthcare_experience_questionnaire',
   showNewGetMedicalRecordsPage: 'show_new_get_medical_records_page',
   showNewRefillTrackPrescriptionsPage:
     'show_new_refill_track_prescriptions_page',
@@ -86,26 +87,26 @@ export default Object.freeze({
   subform89404192: 'subform_8940_4192',
   useLighthouseFormsSearchLogic: 'new_va_forms_search',
   vaGlobalDowntimeNotification: 'va_global_downtime_notification',
-  vaOnlineFacilitySelectionV22: 'vaOnlineFacilitySelectionV22',
-  vaOnlineScheduling: 'vaOnlineScheduling',
-  vaOnlineSchedulingCancel: 'vaOnlineSchedulingCancel',
-  vaOnlineSchedulingCheetah: 'vaOnlineSchedulingCheetah',
-  vaOnlineSchedulingCommunityCare: 'vaOnlineSchedulingCommunityCare',
-  vaOnlineSchedulingDirect: 'vaOnlineSchedulingDirect',
-  vaOnlineSchedulingHomepageRefresh: 'vaOnlineSchedulingHomepageRefresh',
-  vaOnlineSchedulingProviderSelection: 'vaOnlineSchedulingProviderSelection',
-  vaOnlineSchedulingRequests: 'vaOnlineSchedulingRequests',
-  vaOnlineSchedulingUnenrolledVaccine: 'vaOnlineSchedulingUnenrolledVaccine',
+  vaOnlineFacilitySelectionV22: 'va_online_scheduling_facility_selection_v2_2',
+  vaOnlineScheduling: 'va_online_scheduling',
+  vaOnlineSchedulingCancel: 'va_online_scheduling_cancel',
+  vaOnlineSchedulingCheetah: 'va_online_scheduling_cheetah',
+  vaOnlineSchedulingCommunityCare: 'va_online_scheduling_community_care',
+  vaOnlineSchedulingDirect: 'va_online_scheduling_direct',
+  vaOnlineSchedulingHomepageRefresh: 'va_online_scheduling_homepage_refresh',
+  vaOnlineSchedulingProviderSelection: 'va_online_scheduling_provider_selection',
+  vaOnlineSchedulingRequests: 'va_online_scheduling_requests',
+  vaOnlineSchedulingUnenrolledVaccine: 'va_online_scheduling_unenrolled_vaccine',
   vaOnlineSchedulingVAOSServiceCCAppointments:
-    'vaOnlineSchedulingVAOSServiceCCAppointments',
+    'va_online_scheduling_vaos_service_cc_appointments',
   vaOnlineSchedulingVAOSServiceRequests:
-    'vaOnlineSchedulingVAOSServiceRequests',
+    'va_online_scheduling_vaos_service_requests',
   vaOnlineSchedulingVAOSServiceVAAppointments:
-    'vaOnlineSchedulingVAOSServiceVAAppointments',
+    'va_online_scheduling_vaos_service_va_appointments',
   vaOnlineSchedulingFacilitiesServiceV2:
-    'vaOnlineSchedulingFacilitiesServiceV2',
-  vaOnlineSchedulingVariantTesting: 'vaOnlineSchedulingVariantTesting',
-  vaOnlineSchedulingCCIterations: 'vaOnlineSchedulingCCIterations',
+    'va_online_scheduling_facilities_service_v2',
+  vaOnlineSchedulingVariantTesting: 'va_online_scheduling_variant_testing',
+  vaOnlineSchedulingCCIterations: 'va_online_scheduling_cc_iterations',
   vaViewDependentsAccess: 'va_view_dependents_access',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
 });

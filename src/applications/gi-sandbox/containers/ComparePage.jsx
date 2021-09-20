@@ -30,13 +30,10 @@ import {
 import ServiceError from '../components/ServiceError';
 import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal';
 import { MINIMUM_RATING_COUNT } from '../constants';
-import Scroll from 'react-scroll';
-import { getScrollOptions } from 'platform/utilities/ui';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import CompareHeader from '../components/CompareHeader';
 import CompareLayout from './CompareLayout';
 import { isSmallScreen } from '../utils/helpers';
-
-const scroll = Scroll.animateScroll;
 
 export function ComparePage({
   allLoaded,
@@ -179,7 +176,7 @@ export function ComparePage({
   };
 
   useEffect(() => {
-    scroll.scrollToTop(getScrollOptions());
+    scrollToTop();
   }, []);
 
   useLayoutEffect(

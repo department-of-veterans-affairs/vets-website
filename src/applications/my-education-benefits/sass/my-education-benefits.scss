@@ -171,6 +171,41 @@ va-accordion-item .service-history-details {
 }
 // Additional Considerations page - END
 
+// Benefit Selection
+.meb-alert {
+	background-color: $color-gray-lightest;
+	border-left-style: solid;
+	border-left-width: 10px;
+	box-sizing: border-box;
+	display: table;
+	padding: 1.6rem;
+	vertical-align: middle;
+	width: 100%;
+}
+.meb-alert--warning {
+	border-left-color: $color-gold;
+}
+.meb-alert > i {
+	font-family: "Font Awesome 5 Free";
+	font-style: normal;
+	font-weight: 900;
+}
+.meb-alert--warning > i::before {
+	content: "";
+}
+.meb-alert--warning > i::before {
+	display: flex;
+	margin-right: 1.6rem;
+}
+.meb-alert_body {
+	display: table-cell;
+	margin: 0;
+	padding-left: 0px;
+	padding-right: 0px;
+	vertical-align: middle;
+	width: 100%;
+}
+
 // Review Page
 .review {
 	margin-bottom: 0;
@@ -217,17 +252,36 @@ dl.review .review-row:last-child {
 .form-review-panel fieldset fieldset {
 	margin-bottom: 0;
 }
-.review-row .form-expanding-group {
+
+.form-review-panel-page .additional-info-button,
+.form-review-panel-page .additional-info-content,
+.meb-review-page-only {
 	display: none;
 }
+.form-review-panel-page .additional-info-button.vads-u-display--block {
+	display: none !important;
+}
+.form-review-panel-page .meb-review-page-only {
+	display: block;
+}
+
+// This is a huge hack to not have a blue border next to text for the
+// Benefit Selection section in edit mode. Couldn't figure out a better
+// solution.
+.form-review-panel-page .form-expanding-group-open .schemaform-block-header {
+	background: $color-white;
+	left: -1em;
+	margin-bottom: 0;
+	margin-right: -1em;
+	padding-bottom: 1em;
+	padding-left: 1em;
+	position: relative;
+}
+// End Benefit Selection section hack
 
 // Confirmation Page
 .meb-feature--secondary {
 	background-color: $color-gray-lightest;
-}
-.meb-feature--secondary h2 em {
-	border-bottom: 1px solid $color-gray-dark;
-	font-style: normal;
 }
 .meb-confirmation-page .feature {
 	padding-bottom: 2em;
@@ -242,6 +296,12 @@ dl.review .review-row:last-child {
 .meb-confirmation-page .feature h3 {
 	margin-bottom: 14/20 + 0em;
 }
+.meb-hr {
+	border: 0;
+	border-top: 1px solid $color-gray;
+	margin: 8px 0;
+	width: 62/16 + 0em;
+}
 .meb-confirmation-page .feature dt {
 	font-weight: bold;
 }
@@ -255,6 +315,11 @@ dl.review .review-row:last-child {
 }
 .meb-confirmation-page .help-footer-box{
 	padding-top: 2em;
+}
+@media print {
+	.meb-print {
+		display: none;
+	}
 }
 // END - Confirmation Page
 
