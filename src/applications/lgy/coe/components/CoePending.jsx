@@ -36,9 +36,8 @@ export const CoePending = () => (
       <h2>What if I have more questions?</h2>
       <p className="vads-u-margin-bottom--0">
         If you have any questions that your lender can’t answer, please call
-        your VA regional loan center at
-        <Telephone contact={877 - 827 - 3702} />. We’re here Monday through
-        Friday, 8:00 a.m. to 6:00 p.m. ET.
+        your VA regional loan center at <Telephone contact={'877-827-3702'} />.
+        We’re here Monday through Friday, 8:00 a.m. to 6:00 p.m. ET.
       </p>
       <a
         target="_blank"
