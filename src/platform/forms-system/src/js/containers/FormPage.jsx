@@ -21,7 +21,7 @@ function focusForm() {
 class FormPage extends React.Component {
   componentDidMount() {
     if (!this.props.blockScrollOnMount) {
-      scrollToTop('topScrollElement', window.Forms?.scroll || '');
+      scrollToTop('topScrollElement', window.Forms?.scroll || undefined);
       focusForm();
     }
   }
@@ -32,7 +32,7 @@ class FormPage extends React.Component {
         this.props.route.pageConfig.pageKey ||
       get('params.index', prevProps) !== get('params.index', this.props)
     ) {
-      scrollToTop('topScrollElement', window.Forms?.scroll || '');
+      scrollToTop('topScrollElement', window.Forms?.scroll || undefined);
       focusForm();
     }
   }

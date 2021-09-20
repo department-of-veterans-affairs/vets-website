@@ -13,7 +13,7 @@ import SubmitController from '../review/SubmitController';
 
 class ReviewPage extends React.Component {
   componentDidMount() {
-    scrollToTop('topScrollElement', window.Forms?.scroll || '');
+    scrollToTop('topScrollElement', window.Forms?.scroll || undefined);
     focusElement('h2');
   }
 
