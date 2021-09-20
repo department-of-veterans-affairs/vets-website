@@ -70,7 +70,7 @@ jobs:
       - name: POC
         uses: ./.github/workflows/install
         with:
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
           restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
           yarn_cache_folder: .cache/yarn
 
@@ -166,7 +166,7 @@ jobs:
       - name: POC
         uses: ./.github/workflows/install
         with:
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
           restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
           yarn_cache_folder: .cache/yarn
 
@@ -253,7 +253,7 @@ jobs:
       - name: POC
         uses: ./.github/workflows/install
         with:
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
           restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
           yarn_cache_folder: .cache/yarn
 
@@ -336,7 +336,7 @@ jobs:
       - name: POC
         uses: ./.github/workflows/install
         with:
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
           restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
           yarn_cache_folder: .cache/yarn
 
@@ -368,7 +368,7 @@ jobs:
       - name: POC
         uses: ./.github/workflows/install
         with:
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
           restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
           yarn_cache_folder: .cache/yarn
 
