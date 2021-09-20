@@ -1,9 +1,9 @@
 import contractTest from 'platform/testing/contract';
 
 // import { v0 } from '../../../../api';
-import checkInResponses from '../../../../api/local-mock-api/mocks/check.in.response';
+import checkInResponses from '../../../../api/local-mock-api/mocks/v0/check.in.responses';
 
-import validateResponses from '../../../../api/local-mock-api/mocks/validate.responses';
+import validateResponses from '../../../../api/local-mock-api/mocks/v0/validate.responses';
 
 // const { checkInUser, validateToken } = v0;
 contractTest('Check In', 'VA.gov API', mockApi => {

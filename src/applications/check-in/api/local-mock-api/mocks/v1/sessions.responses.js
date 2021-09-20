@@ -8,8 +8,17 @@ const createMockSuccessResponse = (uuid, permissions) => {
   };
 };
 
-const createMockFailedResponse = data => {
-  return { data: { ...data, error: true } };
+const createMockFailedResponse = () => {
+  return {
+    errors: [
+      {
+        title: 'Operation failed',
+        detail: 'Operation failed',
+        code: 'VA900',
+        status: '400',
+      },
+    ],
+  };
 };
 
 const v1Api = {
