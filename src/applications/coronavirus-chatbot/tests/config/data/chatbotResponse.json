@@ -172,7 +172,7 @@
       { "name": "show_financial_status_report", "value": true },
       { "name": "showFinancialStatusReportWizard", "value": true },
       { "name": "show_financial_status_report_wizard", "value": true },
-      { "name": "showHealthcareExperienceQuestionnaire", "value": true },
+      { "name": "show_healthcare_experience_questionnaire", "value": true },
       { "name": "show_healthcare_experience_questionnaire", "value": true },
       { "name": "showNewGetMedicalRecordsPage", "value": true },
       { "name": "show_new_get_medical_records_page", "value": true },
