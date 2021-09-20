@@ -136,6 +136,7 @@ jobs:
       - name: Notify Slack about build failures
         if: ${{ failure() }}
         uses: ./.github/actions/vsp-github-actions/slack-socket
+        continue-on-error: true
         env:
           SSL_CERT_DIR: /etc/ssl/certs
         with:
@@ -679,6 +680,7 @@ jobs:
       - name: Notify Slack about Cypress test failures
         if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: ./.github/actions/vsp-github-actions/slack-socket
+        continue-on-error: true
         env:
           SSL_CERT_DIR: /etc/ssl/certs
         with:
@@ -987,6 +989,7 @@ jobs:
 
       - name: Notify Slack
         uses: ./.github/actions/vsp-github-actions/slack-socket
+        continue-on-error: true
         with:
           slack_app_token: ${{ env.SLACK_APP_TOKEN }}
           slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}

@@ -25,7 +25,7 @@ import LocatorApi from '../api';
 import {
   LocationType,
   BOUNDING_RADIUS,
-  TypeList,
+  MAPBOX_QUERY_TYPES,
   CountriesList,
 } from '../constants';
 
@@ -334,7 +334,7 @@ export const genBBoxFromAddress = query => {
     dispatch({ type: GEOCODE_STARTED });
 
     // commas can be stripped from query if Mapbox is returning unexpected results
-    let types = TypeList;
+    let types = MAPBOX_QUERY_TYPES;
     // check for postcode search
     const isPostcode = query.searchString.match(/^\s*\d{5}\s*$/);
 
@@ -432,7 +432,7 @@ export const genSearchAreaFromCenter = query => {
       dispatch({ type: GEOCODE_FAILED });
       dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
     } else {
-      const types = TypeList;
+      const types = MAPBOX_QUERY_TYPES;
       mbxClient
         .reverseGeocode({
           countries: CountriesList,
