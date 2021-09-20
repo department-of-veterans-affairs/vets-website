@@ -97,6 +97,7 @@ export const formLinks = {
   [VA_FORM_IDS.FORM_22_1990]: `${edu1990Manifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_22_1990E]: `${edu1990eManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_22_1990N]: `${edu1990nManifest.rootUrl}/`,
+  [VA_FORM_IDS.FORM_22_1990_MEB]: `${mebManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_22_1995]: `${edu1995Manifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_22_5490]: `${edu5490Manifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_22_5495]: `${edu5495Manifest.rootUrl}/`,
@@ -107,7 +108,6 @@ export const formLinks = {
   [VA_FORM_IDS.FORM_20_0996]: `${hlrManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_VA_2346A]: `${mdotManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_5655]: `${fsrManifest.rootUrl}/`,
-  [VA_FORM_IDS.FORM_22_1990_MEB]: `${mebManifest.rootUrl}/`,
 };
 
 export const trackingPrefixes = {
