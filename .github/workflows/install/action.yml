@@ -5,9 +5,6 @@ runs:
   using: composite
 
   steps:
-    - name: Checkout
-        uses: actions/checkout@v2
-
     - name: Get Node version
       id: get-node-version
       run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
