@@ -115,9 +115,10 @@ export class ContactInformationEditView extends Component {
     }
     // if a transaction was created that was immediately successful (for example
     // when the transaction's status is `COMPLETED_NO_CHANGES_DETECTED`),
-    // immediately exit edit view
+    // immediately exit edit view and clear the transaction request so it can be triggered again
     if (isSuccessfulTransaction(this.props.transaction)) {
       this.props.openModal(null);
+      this.props.clearTransactionRequest(this.props.fieldName);
     }
   }
 
@@ -307,6 +308,7 @@ export class ContactInformationEditView extends Component {
                     isLoading={isLoading}
                     loadingText="Saving changes"
                     className="vads-u-margin-top--0"
+                    name={`update-${fieldName}`}
                   >
                     Update
                   </LoadingButton>

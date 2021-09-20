@@ -1,6 +1,7 @@
 import { PROFILE_PATHS } from '@@profile/constants';
 
 import { mockUser } from '@@profile/tests/fixtures/users/user.js';
+import transactionCompletedWithNoChanges from '@@profile/tests/fixtures/transaction-completed-with-no-changes.json';
 
 const setup = (mobile = false) => {
   if (mobile) {
@@ -142,5 +143,38 @@ describe('Modals on the personal information and content page', () => {
       editLineId: 'root_emailAddress',
       sectionName: 'contact email address',
     });
+  });
+
+  it('should clear transactions when successful transaction occurs', () => {
+    setup();
+
+    const sectionName = 'contact email address';
+
+    cy.intercept(
+      '/v0/profile/email_addresses',
+      transactionCompletedWithNoChanges,
+    );
+
+    // Open edit view
+    cy.findByRole('button', {
+      name: new RegExp(`edit ${sectionName}`, 'i'),
+    }).click({
+      force: true,
+    });
+
+    // Click on Update in the current section
+    cy.findByTestId('save-edit-button').click({
+      force: true,
+    });
+
+    // find edit button and click it
+    cy.findByRole('button', {
+      name: new RegExp(`edit ${sectionName}`, 'i'),
+    }).click({
+      force: true,
+    });
+
+    // verify input exists
+    cy.findByLabelText(/email address/i);
   });
 });
