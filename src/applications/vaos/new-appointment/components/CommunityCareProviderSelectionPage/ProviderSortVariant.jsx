@@ -47,7 +47,7 @@ export default function ProviderSortVariant({
       } else if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
         dispatch(requestProvidersList(address));
       } else {
-        dispatch(requestProvidersList(selectedCCFacility.position));
+        dispatch(requestProvidersList(selectedCCFacility?.position));
       }
 
       if (communityCareProviderList) {
@@ -104,12 +104,7 @@ export default function ProviderSortVariant({
             Displaying 1 to {currentlyShownProvidersList.length} of{' '}
             {communityCareProviderList.length} providers
           </p>
-          <h3 className="vads-u-font-size--h5">
-            {hasUserAddress
-              ? 'Home address on file'
-              : 'No home address on file'}
-          </h3>
-          {hasUserAddress && <ResidentialAddress address={address} />}
+          {hasUserAddress && <ResidentialAddress address={address} marginTop />}
         </>
       )}
       <Select

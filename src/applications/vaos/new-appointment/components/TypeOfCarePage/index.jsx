@@ -86,19 +86,18 @@ export default function TypeOfCarePage() {
   return (
     <div>
       <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-      {showUpdateAddressAlert &&
-        !featureCCIteration && (
-          <UpdateAddressAlert
-            onClickUpdateAddress={heading => {
-              dispatch(clickUpdateAddressButton());
-              recordEvent({
-                event: 'nav-warning-alert-box-content-link-click',
-                alertBoxHeading: heading,
-              });
-              resetDataLayer();
-            }}
-          />
-        )}
+      {showUpdateAddressAlert && (
+        <UpdateAddressAlert
+          onClickUpdateAddress={heading => {
+            dispatch(clickUpdateAddressButton());
+            recordEvent({
+              event: 'nav-warning-alert-box-content-link-click',
+              alertBoxHeading: heading,
+            });
+            resetDataLayer();
+          }}
+        />
+      )}
       {!!schema && (
         <SchemaForm
           name="Type of care"

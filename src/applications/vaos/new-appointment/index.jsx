@@ -113,23 +113,16 @@ export function NewAppointment() {
           path={`${match.url}/how-to-schedule`}
           component={ScheduleCernerPage}
         />
-        {featureCCIteration &&
-          !hasResidentialAddress && (
-            <Route
-              path={`${match.url}/community-care-preferences`}
-              component={CommunityCareProviderSelectionPage}
-            />
-          )}
+        {(featureCCIteration || hasResidentialAddress) && (
+          <Route
+            path={`${match.url}/community-care-preferences`}
+            component={CommunityCareProviderSelectionPage}
+          />
+        )}
         {!hasResidentialAddress && (
           <Route
             path={`${match.url}/community-care-preferences`}
             component={CommunityCarePreferencesPage}
-          />
-        )}
-        {hasResidentialAddress && (
-          <Route
-            path={`${match.url}/community-care-preferences`}
-            component={CommunityCareProviderSelectionPage}
           />
         )}
         {hasResidentialAddress && (

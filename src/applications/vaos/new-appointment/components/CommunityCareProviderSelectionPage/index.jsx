@@ -15,6 +15,7 @@ import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import ProviderSelectionField from './ProviderSelectionField';
 import recordEvent from 'platform/monitoring/record-event';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import { lowerCase } from '../../../utils/formatters';
 
 const initialSchema = {
   type: 'object',
@@ -46,8 +47,7 @@ export default function CommunityCareProviderSelectionPage() {
   const history = useHistory();
 
   if (showCCIterations && residentialAddress) {
-    // TODO: Should the type of care name be lower case???
-    pageTitle = `Request a ${getTypeOfCare(data).name} provider`;
+    pageTitle = `Request a ${lowerCase(getTypeOfCare(data).name)} provider`;
   }
   const descriptionText = showCCIterations
     ? 'We’ll call you to confirm your provider choice or to help you choose a provider if you skip this step.'
