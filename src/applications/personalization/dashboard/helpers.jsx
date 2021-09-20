@@ -38,6 +38,7 @@ export const formBenefits = {
   [VA_FORM_IDS.FORM_22_1990]: 'education benefits',
   [VA_FORM_IDS.FORM_22_1990E]: 'education benefits',
   [VA_FORM_IDS.FORM_22_1990N]: 'education benefits',
+  [VA_FORM_IDS.FORM_22_1990_MEB]: 'education benefits',
   [VA_FORM_IDS.FORM_22_1995]: 'education benefits',
   [VA_FORM_IDS.FORM_22_5490]: 'education benefits',
   [VA_FORM_IDS.FORM_22_5495]: 'education benefits',
@@ -49,7 +50,6 @@ export const formBenefits = {
   [VA_FORM_IDS.FORM_20_0996]: 'Higher-level review',
   [VA_FORM_IDS.FORM_VA_2346A]: 'hearing aid batteries and accessories',
   [VA_FORM_IDS.FORM_5655]: 'financial status report',
-  [VA_FORM_IDS.FORM_22_1990_MEB]: 'education benefits',
 };
 
 export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
