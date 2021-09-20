@@ -50,6 +50,10 @@ This is a multi-team project and questions are highly encouraged. There are seve
 /health-care/appointment-check-in/error
 ```
 
+### What version of the api are we using?
+
+Currently, we are using the `v1` of the API, with `v0` behind a feature flip. The mocks in [api/mocks](/api/mocks) show the the current structure and routes used.
+
 ### How to run locally
 
 Follow the standard directions to run the app. The API needs to be running in order to run the app locally. Currently I would use the mock api in `src/applications/check-in/api/local-mock-api` using the directions in the [README](https://github.com/department-of-veterans-affairs/vets-website/blob/master/README.md#running-a-mock-api-for-local-development). This will make developer easier since creating a valid token is tedious.

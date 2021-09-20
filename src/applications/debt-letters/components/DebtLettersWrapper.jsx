@@ -36,24 +36,22 @@ const DebtLettersWrapper = ({
     );
   }
 
-  if (showDebtLetters === false) {
-    return window.location.replace('/');
-  }
-
-  if (isLoggedIn === false) {
-    return window.location.replace('/manage-va-debt');
+  if (showDebtLetters === false || isLoggedIn === false) {
+    window.location.replace('/manage-va-debt');
+    return (
+      <div className="vads-u-margin--5">
+        <LoadingIndicator
+          setFocus
+          message="Please wait while we load the application for you."
+        />
+      </div>
+    );
   }
 
   return (
-    <>
-      {showDebtLetters ? (
-        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0 vads-u-margin-bottom--4 vads-u-margin-top--2 vads-u-font-family--serif">
-          {children}
-        </div>
-      ) : (
-        <div />
-      )}
-    </>
+    <div className="vads-l-grid-container large-screen:vads-u-padding-x--0 vads-u-margin-bottom--4 vads-u-margin-top--2 vads-u-font-family--serif">
+      {children}
+    </div>
   );
 };
 
