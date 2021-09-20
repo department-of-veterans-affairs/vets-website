@@ -13,7 +13,7 @@ export default function ClientError(props) {
   const { buttonText, formConfig, onBack, onSubmit, testId } = props;
   const Element = Scroll.Element;
   const scrollToError = () => {
-    scrollTo('errorScrollElement', window.VetsGov?.scroll || '');
+    scrollTo('errorScrollElement', window.VetsGov?.scroll || undefined);
   };
 
   useEffect(() => {
