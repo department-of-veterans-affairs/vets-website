@@ -805,7 +805,7 @@ jobs:
   notify-failure:
     name: Notify Failure
     runs-on: ubuntu-latest
-    if: ${{ (failure() || cancelled()) }}
+    if: ${{ github.ref == 'refs/heads/master' && (failure() || cancelled()) }}
     needs: deploy
 
     steps:
@@ -819,8 +819,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
 
-      - name: POC 2
+      - name: Slack POC
         uses: ./.github/workflows/slack-notify
         with:
-          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "At least one build step in `vets-website` has failed, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
-          channel_id: C02AG8UF95M # gha-build-status
+          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "vets-website master branch CI failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}]'
+          channel_id: ${{ env.DEVOPS_CHANNEL_ID }}
