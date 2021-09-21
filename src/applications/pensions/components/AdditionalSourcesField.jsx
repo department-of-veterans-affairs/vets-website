@@ -88,7 +88,7 @@ export default class AdditionalSourcesField extends React.Component {
   scrollToRow(index) {
     scrollTo(
       `additional_${index}`,
-      window.VetsGov?.scroll || {
+      window.Forms?.scroll || {
         duration: 500,
         delay: 0,
         smooth: true,

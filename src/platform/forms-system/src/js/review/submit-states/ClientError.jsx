@@ -15,7 +15,7 @@ export default function ClientError(props) {
   const scrollToError = () => {
     scroller.scrollTo(
       'errorScrollElement',
-      window.VetsGov?.scroll || {
+      window.Forms?.scroll || {
         duration: 500,
         delay: 0,
         smooth: true,

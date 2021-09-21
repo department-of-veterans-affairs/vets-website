@@ -29,7 +29,7 @@ const FormQuestions = ({ formValues, updateFormField }) => {
       const el = formValues.questions.slice(-1)[0];
       scrollTo(
         el,
-        window.VetsGov?.scroll || {
+        window.Forms?.scroll || {
           duration: 1000,
           smooth: true,
         },
@@ -74,7 +74,7 @@ const FormQuestions = ({ formValues, updateFormField }) => {
 
     scrollTo(
       e.target.name,
-      window.VetsGov?.scroll || {
+      window.Forms?.scroll || {
         duration: 1000,
         smooth: true,
         offset: -150,
