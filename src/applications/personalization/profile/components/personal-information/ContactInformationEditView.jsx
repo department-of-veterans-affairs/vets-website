@@ -308,7 +308,6 @@ export class ContactInformationEditView extends Component {
                     isLoading={isLoading}
                     loadingText="Saving changes"
                     className="vads-u-margin-top--0"
-                    name={`update-${fieldName}`}
                   >
                     Update
                   </LoadingButton>
