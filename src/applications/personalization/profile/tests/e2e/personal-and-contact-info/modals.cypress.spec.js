@@ -1,7 +1,7 @@
 import { PROFILE_PATHS } from '@@profile/constants';
 
 import { mockUser } from '@@profile/tests/fixtures/users/user.js';
-import transactionCompletedWithNoChanges from '@@profile/tests/fixtures/transaction-completed-with-no-changes.json';
+import transactionCompletedWithNoChanges from '@@profile/tests/fixtures/transactions/no-changes-transaction.json';
 
 const setup = (mobile = false) => {
   if (mobile) {
