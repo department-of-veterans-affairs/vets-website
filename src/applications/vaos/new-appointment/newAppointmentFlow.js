@@ -220,11 +220,7 @@ export default {
   },
   ccClosestCity: {
     url: '/new-appointment/choose-closest-city',
-    next(_state) {
-      // const featureCCIteration = selectFeatureCCIterations(state);
-
-      return 'ccPreferences';
-    },
+    next: 'ccPreferences',
   },
   vaFacility: {
     url: '/new-appointment/va-facility',

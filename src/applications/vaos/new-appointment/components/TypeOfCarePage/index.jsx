@@ -20,7 +20,6 @@ import { resetDataLayer } from '../../../utils/events';
 
 import { PODIATRY_ID, TYPES_OF_CARE } from '../../../utils/constants';
 import useFormState from '../../../hooks/useFormState';
-import { selectFeatureCCIterations } from '../../../redux/selectors';
 
 const pageKey = 'typeOfCare';
 const pageTitle = 'Choose the type of care you need';
@@ -36,7 +35,6 @@ export default function TypeOfCarePage() {
     showDirectScheduling,
     showPodiatryApptUnavailableModal,
   } = useSelector(selectTypeOfCarePage, shallowEqual);
-  const featureCCIteration = useSelector(selectFeatureCCIterations);
 
   const history = useHistory();
   const showUpdateAddressAlert =
@@ -46,7 +44,7 @@ export default function TypeOfCarePage() {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
 
-    if (showUpdateAddressAlert && !featureCCIteration) {
+    if (showUpdateAddressAlert) {
       recordEvent({
         event: 'vaos-update-address-alert-displayed',
       });

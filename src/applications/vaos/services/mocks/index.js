@@ -334,6 +334,10 @@ const responses = {
               facility_id: '983',
               is_cerner: false,
             },
+            {
+              facility_id: '984',
+              is_cerner: false,
+            },
           ],
         },
       },
