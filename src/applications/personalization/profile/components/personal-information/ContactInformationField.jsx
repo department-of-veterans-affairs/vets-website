@@ -269,7 +269,7 @@ class ContactInformationField extends React.Component {
       fieldName,
       isEmpty,
       showEditView,
-      showRemoveView,
+      showRemoveModal,
       showValidationView,
       title,
       transaction,
@@ -288,7 +288,7 @@ class ContactInformationField extends React.Component {
     const wrapInTransaction = children => {
       return (
         <VAPServiceTransaction
-          isModalOpen={showEditView || showValidationView || showRemoveView}
+          isModalOpen={showEditView || showValidationView || showRemoveModal}
           id={`${fieldName}-transaction-status`}
           title={title}
           transaction={transaction}
@@ -405,8 +405,8 @@ class ContactInformationField extends React.Component {
           title={title}
           fieldName={fieldName}
           isEnrolledInVAHealthCare={isEnrolledInVAHealthCare}
-          isVisible={showRemoveView}
-          onHide={() => this.closeModal()}
+          isVisible={showRemoveModal}
+          onHide={this.closeModal}
           error={error}
         />
 
@@ -425,9 +425,7 @@ export const mapStateToProps = (state, ownProps) => {
   const data = selectVAPContactInfoField(state, fieldName);
   const isEmpty = !data;
   const addressValidationType = selectAddressValidationType(state);
-  const activeView = selectCurrentlyOpenEditModal(state);
-  const activeEditView = activeView?.includes('remove') ? '' : activeView;
-  const activeRemoveView = activeView?.includes('remove') ? activeView : '';
+  const activeEditView = selectCurrentlyOpenEditModal(state);
   const showValidationView =
     addressValidationType === fieldName &&
     activeEditView === ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION;
@@ -462,7 +460,7 @@ export const mapStateToProps = (state, ownProps) => {
     data,
     fieldName,
     showEditView: activeEditView === fieldName,
-    showRemoveView: activeRemoveView === `remove-${fieldName}`,
+    showRemoveModal: activeEditView === `remove-${fieldName}`,
     showValidationView: !!showValidationView,
     isEmpty,
     transaction,
