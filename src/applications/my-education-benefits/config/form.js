@@ -886,7 +886,7 @@ const formConfig = {
     benefitSelection: {
       title: 'Benefit selection',
       pages: {
-        [formPages.benefitSelect]: {
+        [formPages.benefitSelection]: {
           path: 'benefit-selection',
           title: 'Benefit selection',
           subTitle: "You're applying for the Post-9/11 GI Bill®",
@@ -1052,54 +1052,6 @@ const formConfig = {
             benefitSelection: '',
           },
         },
-        // [formPages.directDeposit]: {
-        //   path: 'direct-deposit',
-        //   title: 'Direct Deposit',
-        //   uiSchema: {
-        //     'ui:title': 'Direct deposit',
-        //     [formFields.viewNoDirectDeposit]: {
-        //       'ui:title': 'I don’t want to use direct deposit',
-        //     },
-        //     [formFields.bankAccount]: _.merge(bankAccountUI, {
-        //       'ui:order': [
-        //         formFields.accountType,
-        //         formFields.accountNumber,
-        //         formFields.routingNumber,
-        //       ],
-        //       'ui:options': {
-        //         hideIf: formData => !hasDirectDeposit(formData),
-        //       },
-        //       [formFields.accountType]: {
-        //         'ui:required': hasDirectDeposit,
-        //       },
-        //       [formFields.accountNumber]: {
-        //         'ui:required': hasDirectDeposit,
-        //       },
-        //       [formFields.routingNumber]: {
-        //         'ui:required': hasDirectDeposit,
-        //       },
-        //     }),
-        //     [formFields.viewStopWarning]: {
-        //       'ui:description': directDepositWarning,
-        //       'ui:options': {
-        //         hideIf: hasDirectDeposit,
-        //       },
-        //     },
-        //   },
-        //   schema: {
-        //     type: 'object',
-        //     properties: {
-        //       [formFields.viewNoDirectDeposit]: {
-        //         type: 'boolean',
-        //       },
-        //       [formFields.bankAccount]: bankAccount,
-        //       [formFields.viewStopWarning]: {
-        //         type: 'object',
-        //         properties: {},
-        //       },
-        //     },
-        //   },
-        // },
       },
     },
     additionalConsiderationsChapter: {
