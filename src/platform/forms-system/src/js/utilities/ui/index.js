@@ -100,12 +100,12 @@ export function setGlobalScroll() {
 // Allows smooth scrolling to be overridden by our E2E tests
 export function getScrollOptions(additionalOptions) {
   const globals = window.Forms || {};
-  const reduced = window?.matchMedia('(prefers-reduced-motion: reduce)')
+  const reducedMotion = window?.matchMedia('(prefers-reduced-motion: reduce)')
     ?.matches;
   const defaults = {
-    duration: reduced ? 0 : 500,
+    duration: reducedMotion ? 0 : 500,
     delay: 0,
-    smooth: !reduced,
+    smooth: !reducedMotion,
   };
   return Object.assign({}, defaults, globals.scroll, additionalOptions);
 }
