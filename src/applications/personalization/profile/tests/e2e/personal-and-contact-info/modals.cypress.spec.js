@@ -144,8 +144,10 @@ describe('Modals on the personal information and content page', () => {
       sectionName: 'contact email address',
     });
   });
+});
 
-  it('should clear transactions when successful transaction occurs', () => {
+describe('Modals on the personal information and content page after editing', () => {
+  it('should allow the ability to reopen the edit modal when the transaction completes', () => {
     setup();
 
     const sectionName = 'contact email address';
