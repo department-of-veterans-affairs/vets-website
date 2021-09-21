@@ -18,7 +18,7 @@ const Failed = props => {
       <p className="vads-u-margin-bottom--0">
         They can help you update your information before your appointment.
       </p>
-      <Footer header={'Not sure who to check in with?'} message="Call us at" />
+      <Footer />
       <BackToHome />
     </div>
   );
