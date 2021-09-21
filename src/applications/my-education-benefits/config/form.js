@@ -188,15 +188,34 @@ function phoneSchema() {
     },
   };
 }
-function additionalConsiderationsQuestionTitle(benefitSelection, order) {
-  const isUnsure = benefitSelection === 'UNSURE';
+
+function additionalConsiderationsQuestionTitleText(benefitSelection, order) {
+  const isUnsure = !benefitSelection || benefitSelection === 'UNSURE';
   const pageNumber = isUnsure ? order - 1 : order;
   const totalPages = isUnsure ? 3 : 4;
 
+  return `Question ${pageNumber} of ${totalPages}`;
+}
+
+function additionalConsiderationsQuestionTitle(benefitSelection, order) {
+  const titleText = additionalConsiderationsQuestionTitleText(
+    benefitSelection,
+    order,
+  );
+
   return (
-    <h3 className="meb-additional-considerations-title">
-      {`Question ${pageNumber} of ${totalPages}`}
-    </h3>
+    <>
+      <h3 className="meb-additional-considerations-title meb-form-page-only">
+        {titleText}
+      </h3>
+      <h4 className="form-review-panel-page-header vads-u-font-size--h5 meb-review-page-only">
+        {titleText}
+      </h4>
+      <p className="meb-review-page-only">
+        If you’d like to update your answer to {titleText}, edit your answer to
+        to the question below.
+      </p>
+    </>
   );
 }
 
@@ -222,8 +241,14 @@ function AdditionalConsiderationTemplate(
 
   return {
     path: page.name,
+    title: data => {
+      return additionalConsiderationsQuestionTitleText(
+        data[formFields.viewBenefitSelection][formFields.benefitSelection],
+        page.order,
+      );
+    },
     uiSchema: {
-      'ui:title': data => {
+      'ui:description': data => {
         return additionalConsiderationsQuestionTitle(
           data.formData[formFields.viewBenefitSelection][
             formFields.benefitSelection
