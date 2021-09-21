@@ -1,0 +1,56 @@
+name: Slack Notification
+description: Send Slack Notification
+
+inputs:
+  channel_id:
+    description: channel_id
+    required: true
+  attachments:
+    description: attached message
+    required: false
+    default: ''
+  ssl_cert_dir:
+    description: path to certs
+    required: false
+    default: ''
+  
+runs:
+  using: composite
+  steps:
+    - name: Get va-vsp-bot token
+      uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+      with:
+        ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+        env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+    - name: Checkout VSP actions
+      uses: actions/checkout@v2
+      with:
+        repository: department-of-veterans-affairs/vsp-github-actions
+        ref: refs/heads/main
+        token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+        persist-credentials: false
+        path: ./.github/actions/vsp-github-actions
+
+    - name: Get Slack app token
+      uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+      with:
+        ssm_parameter: /devops/github_actions_slack_socket_token
+        env_variable_name: SLACK_APP_TOKEN
+
+    - name: Get Slack bot token
+      uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+      with:
+        ssm_parameter: /devops/github_actions_slack_bot_user_token
+        env_variable_name: SLACK_BOT_TOKEN
+
+    - name: Notify Slack
+      uses: department-of-veterans-affairs/vsp-github-actions/slack-socket@v1.1.0
+      env:
+        SSL_CERT_DIR: ${{ inputs.ssl_cert_dir }}
+      continue-on-error: true
+      with:
+        slack_app_token: ${{ env.SLACK_APP_TOKEN }}
+        slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
+        attachments: ${{ inputs.attachments }}
+        channel_id: ${{ inputs.channel_id }}
