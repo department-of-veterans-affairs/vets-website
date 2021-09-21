@@ -31,13 +31,13 @@ describe('check in', () => {
       store = mockStore(initState);
     });
     it('has a header', () => {
-      // const component = render(
-      //   <Provider store={store}>
-      //     <ValidateVeteran />
-      //   </Provider>,
-      // );
-      // expect(component.getByText('Do you need to update any information?')).to
-      //   .exist;
+      const component = render(
+        <Provider store={store}>
+          <ValidateVeteran />
+        </Provider>,
+      );
+      expect(component.getByText('Do you need to update any information?')).to
+        .exist;
     });
   });
 });
