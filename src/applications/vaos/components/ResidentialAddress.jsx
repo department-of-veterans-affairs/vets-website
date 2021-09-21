@@ -1,18 +1,10 @@
 import React from 'react';
 import State from './State';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
-export default function ResidentialAddress({ address, marginTop }) {
-  const classes = classNames({
-    'vads-u-display--block': true,
-    'vads-u-margin-top--3': marginTop,
-    'vads-u-margin-bottom--3': true,
-  });
-
+export default function ResidentialAddress({ address }) {
   return (
     <>
-      <span className={classes}>
+      <span className="vads-u-display--block vads-u-margin-bottom--3">
         {address.addressLine1}
         <br />
         {!!address.addressLine2 && (
@@ -32,8 +24,3 @@ export default function ResidentialAddress({ address, marginTop }) {
     </>
   );
 }
-
-ResidentialAddress.propTypes = {
-  address: PropTypes.object.isRequired,
-  'margin-top': PropTypes.bool,
-};

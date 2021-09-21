@@ -10,7 +10,6 @@ import {
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 import InfoAlert from '../../../components/InfoAlert';
-import ResidentialAddress from '../../../components/ResidentialAddress';
 
 export default function ProviderSortVariant({
   currentlyShownProvidersList,
@@ -93,19 +92,16 @@ export default function ProviderSortVariant({
   return (
     <div className="vads-u-margin-bottom--3">
       {notLoading && (
-        <>
-          <p
-            className="vads-u-margin--0"
-            id="provider-list-status"
-            role="status"
-            aria-live="polite"
-            aria-atomic="true"
-          >
-            Displaying 1 to {currentlyShownProvidersList.length} of{' '}
-            {communityCareProviderList.length} providers
-          </p>
-          {hasUserAddress && <ResidentialAddress address={address} marginTop />}
-        </>
+        <p
+          className="vads-u-margin--0"
+          id="provider-list-status"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          Displaying 1 to {currentlyShownProvidersList.length} of{' '}
+          {communityCareProviderList.length} providers
+        </p>
       )}
       <Select
         label="Show providers closest to"
