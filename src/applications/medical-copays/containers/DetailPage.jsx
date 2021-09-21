@@ -65,9 +65,6 @@ const DetailPage = () => {
       </va-alert>
       <va-on-this-page />
       <DownloadStatements />
-      <Modals title="Notice of rights and responsibilities">
-        <Modals.Rights />
-      </Modals>
       <HowToPay />
       <FinancialHelp />
       <DisputeCharges />
@@ -83,6 +80,9 @@ const DetailPage = () => {
           </span>
         }
       />
+      <Modals title="Notice of rights and responsibilities">
+        <Modals.Rights />
+      </Modals>
       <Link className="vads-u-font-size--sm" to="/">
         <i
           className="fa fa-chevron-left vads-u-margin-right--1"

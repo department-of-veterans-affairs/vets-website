@@ -1,4 +1,5 @@
 import React from 'react';
+// import { useSelector } from 'react-redux';
 import BalanceCard from './BalanceCard';
 import { mockCopayBalanceData } from '../utils/mockData';
 

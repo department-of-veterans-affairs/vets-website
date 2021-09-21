@@ -22,7 +22,12 @@ const MedicalCopaysApp = ({ children }) => {
   );
 
   if (showMCP === false || (!profileLoading && !userLoggedIn)) {
-    return window.location.replace('/health-care/pay-copay-bill');
+    window.location.replace('/health-care/pay-copay-bill');
+    return (
+      <div className="vads-u-margin--5">
+        <LoadingIndicator message="Please wait while we load the application for you." />
+      </div>
+    );
   }
 
   if (profileLoading || fetchPending) {

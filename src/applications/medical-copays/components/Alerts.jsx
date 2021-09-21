@@ -85,11 +85,11 @@ Alert.NoHealthcare = () => (
 Alert.NoHistory = () => (
   <va-alert class="row vads-u-margin-bottom--5" status="info">
     <h3 slot="headline">
-      You haven’t received a copay bill in the past [x] months
+      You haven’t received a copay bill in the past 6 months
     </h3>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
       You can’t view copay balances at this time because our records show that
-      you haven’t received a copay bill in the past [x] months.
+      you haven’t received a copay bill in the past 6 months.
     </p>
     <p>
       If you think this is incorrect, contact the VA Health Resource Center at
