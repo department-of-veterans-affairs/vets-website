@@ -4,6 +4,10 @@ export const buildOperatingStatusProps = attrs => {
   let status;
   let iconType;
 
+  if (opStatus === 'normal') {
+    return;
+  }
+
   switch (opStatus) {
     case 'limited':
       status = 'Limited services and hours';
@@ -22,6 +26,7 @@ export const buildOperatingStatusProps = attrs => {
       iconType = 'exclamation-triangle';
   }
 
+  // eslint-disable-next-line consistent-return
   return {
     operatingStatusFacility: opStatus,
     statusLabel: status,

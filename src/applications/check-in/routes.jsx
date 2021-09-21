@@ -12,7 +12,7 @@ import ValidateVeteran from './pages/ValidateVeteran';
 import withFeatureFlip from './containers/withFeatureFlip';
 import withAppointmentData from './containers/withAppointmentData';
 import withLowAuthorization from './containers/withLowAuthorization';
-
+import withToken from './containers/withToken';
 import { URLS } from './utils/navigation';
 
 const createRoutesWithStore = () => {
@@ -21,7 +21,7 @@ const createRoutesWithStore = () => {
       <Route path="/" component={withFeatureFlip(Landing)} />
       <Route
         path={`/${URLS.VALIDATION_NEEDED}`}
-        component={withFeatureFlip(ValidateVeteran)}
+        component={withFeatureFlip(withToken(ValidateVeteran))}
       />
       <Route
         path={`/${URLS.UPDATE_INSURANCE}`}

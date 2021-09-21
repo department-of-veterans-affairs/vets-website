@@ -13,7 +13,10 @@ import {
   selectProfile,
 } from '~/platform/user/selectors';
 
-import { filterOutExpiredForms } from '~/applications/personalization/dashboard/helpers';
+import {
+  filterOutExpiredForms,
+  formBenefits,
+} from '~/applications/personalization/dashboard/helpers';
 
 import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/applications/hca/actions';
 import { HCA_ENROLLMENT_STATUSES } from '~/applications/hca/constants';
@@ -102,6 +105,7 @@ const ApplyForBenefits = ({
   isPatient,
   shouldGetDD4EDUStatus,
   shouldGetESRStatus,
+  hasEDUInProgress,
 }) => {
   useEffect(
     () => {
@@ -122,7 +126,7 @@ const ApplyForBenefits = ({
   );
 
   const hideHealthCareBenefitInfo = hasHCAInProgress || isPatient || isInESR;
-  const hideEducationBenefitInfo = hasDD4EDU;
+  const hideEducationBenefitInfo = hasDD4EDU || hasEDUInProgress;
 
   return (
     <div data-testid="dashboard-section-apply-for-benefits">
@@ -204,11 +208,19 @@ const mapStateToProps = state => {
       .savedForms?.filter(filterOutExpiredForms)
       .some(savedForm => savedForm.form === VA_FORM_IDS.FORM_10_10EZ) ?? false;
 
+  const hasEDUInProgress =
+    selectProfile(state)
+      .savedForms?.filter(filterOutExpiredForms)
+      .some(
+        savedForm => formBenefits[savedForm.form] === 'education benefits',
+      ) ?? false;
+
   const isPatient = isVAPatient(state);
   const esrEnrollmentStatus = selectESRStatus(state).enrollmentStatus;
 
   const shouldGetESRStatus = !hasHCAInProgress && !isPatient && isLOA3(state);
-  const shouldGetDD4EDUStatus = isLOA3(state) && isMultifactorEnabled(state);
+  const shouldGetDD4EDUStatus =
+    isLOA3(state) && isMultifactorEnabled(state) && !hasEDUInProgress;
   const hasLoadedESRData =
     !shouldGetESRStatus ||
     hasESRServerError(state) ||
@@ -221,6 +233,7 @@ const mapStateToProps = state => {
   return {
     hasDD4EDU: eduDirectDepositIsSetUp(state),
     hasHCAInProgress,
+    hasEDUInProgress,
     hasLoadedAllData,
     isInESR:
       !!esrEnrollmentStatus &&

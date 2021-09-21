@@ -16,6 +16,8 @@ function VetCenterInfoSection(props) {
     opStatusExtra: props.vetCenter.fieldOperatingStatusMoreInfo,
   };
 
+  const opStatusConfig = buildOperatingStatusProps(attrs);
+
   const renderPhone = phoneNumber => {
     if (!phoneNumber) return null;
     return (
@@ -38,9 +40,11 @@ function VetCenterInfoSection(props) {
           {props.vetCenter.title}
         </h3>
       )}
-      <div className="vads-u-margin-bottom--1">
-        <ExpandableOperatingStatus {...buildOperatingStatusProps(attrs)} />
-      </div>
+      {opStatusConfig && (
+        <div className="vads-u-margin-bottom--1">
+          <ExpandableOperatingStatus {...opStatusConfig} />
+        </div>
+      )}
       <h4 className="force-small-header vads-u-margin-top--0 vads-u-line-height--1 vads-u-margin-bottom--1">
         {props.vetCenter.entityBundle === 'vet_center_cap'
           ? 'Located at'

@@ -28,17 +28,22 @@ const CheckIn = props => {
     () => {
       if (isLowAuthEnabled) {
         // load data from checks route
-        api.v1.getCheckInData(token).then(json => {
-          const { payload } = json;
-          setAppointment(payload, token);
-          setIsLoadingData(false);
-          focusElement('h1');
-        });
+        api.v1
+          .getCheckInData(token)
+          .then(json => {
+            const { payload } = json;
+            setAppointment(payload, token);
+            setIsLoadingData(false);
+            focusElement('h1');
+          })
+          .catch(() => {
+            goToNextPage(router, URLS.ERROR);
+          });
       } else {
         focusElement('h1');
       }
     },
-    [token, isLowAuthEnabled, setAppointment],
+    [token, isLowAuthEnabled, setAppointment, router],
   );
 
   if (isLoadingData) {
