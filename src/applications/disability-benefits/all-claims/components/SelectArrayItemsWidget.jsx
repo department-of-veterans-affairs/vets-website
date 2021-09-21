@@ -227,7 +227,7 @@ SelectArrayItemsWidget.propTypes = {
   value: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
-      ratingPercentage: PropTypes.number.isRequired,
+      ratingPercentage: PropTypes.number,
       decisionCode: PropTypes.string.isRequired,
       decisionText: PropTypes.string.isRequired,
     }),
@@ -235,7 +235,7 @@ SelectArrayItemsWidget.propTypes = {
   updatedRatedDisabilities: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
-      ratingPercentage: PropTypes.number.isRequired,
+      ratingPercentage: PropTypes.number,
       decisionCode: PropTypes.string.isRequired,
       decisionText: PropTypes.string.isRequired,
     }),
