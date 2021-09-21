@@ -18,15 +18,6 @@ runs:
         ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
         env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-    - name: Checkout VSP actions
-      uses: actions/checkout@v2
-      with:
-        repository: department-of-veterans-affairs/vsp-github-actions
-        ref: refs/heads/main
-        token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-        persist-credentials: false
-        path: ./.github/actions/vsp-github-actions
-
     - name: Get Slack app token
       uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
       with:
