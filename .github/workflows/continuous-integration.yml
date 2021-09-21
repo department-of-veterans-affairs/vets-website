@@ -72,6 +72,9 @@ jobs:
         with:
           keys: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
 
       - name: Build
         run: yarn build --verbose --buildtype=${{ matrix.buildtype }}
@@ -134,6 +137,9 @@ jobs:
         with:
           keys: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
 
       - name: Create test results folder
         run: mkdir -p test-results
@@ -220,6 +226,9 @@ jobs:
         with:
           keys: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
 
       - name: Create test results folder
         run: mkdir -p test-results
@@ -302,6 +311,9 @@ jobs:
         with:
           keys: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
 
       - name: Annotate ESLint results
         run: yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js .
@@ -333,6 +345,9 @@ jobs:
         with:
           keys: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
 
       - name: Set IS_MASTER_BUILD
         run: |
@@ -404,17 +419,6 @@ jobs:
           mkdir -p build/vagovprod
           tar -C build/vagovprod -xjf vagovprod.tar.bz2
 
-      - name: Cache dependencies
-        id: cache-dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            .cache/yarn
-            /github/home/.cache/Cypress
-            node_modules
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}-cypress
-          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
-
       - name: Get NEXUS username
         uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
         with:
@@ -441,14 +445,15 @@ jobs:
           npm config set email va-vsp-bot-1@va.gov
           npm config set always-auth true
 
-      - name: Install dependencies
-        uses: nick-invision/retry@v2
+      - name: POC
+        uses: ./.github/workflows/install
         with:
-          command: yarn install --frozen-lockfile --prefer-offline --production=false --network-concurrency 1
-          max_attempts: 3
-          timeout_minutes: 7
-        env:
-          YARN_CACHE_FOLDER: .cache/yarn
+          keys: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            /github/home/.cache/Cypress
+            node_modules
 
       - name: Start server
         run: node src/platform/testing/e2e/test-server.js --buildtype vagovprod --port=3001 &

@@ -21,6 +21,10 @@ inputs:
     description: path for yarn cache
     required: false
     default: ''
+  path:
+    description: path for cache folders
+    required: false
+    default: ''
 
 runs:
   using: composite
@@ -40,9 +44,7 @@ runs:
       id: cache-dependencies
       uses: actions/cache@v2
       with:
-        path: |
-          .cache/yarn
-          node_modules
+        path: ${{ input.path }}
         key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.keys }}
         restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.restore-keys }}
 
