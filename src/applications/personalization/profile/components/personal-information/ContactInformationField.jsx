@@ -73,7 +73,6 @@ const classes = {
 class ContactInformationField extends React.Component {
   static propTypes = {
     activeEditView: PropTypes.string,
-    activeRemoveView: PropTypes.string,
     analyticsSectionName: PropTypes.oneOf(
       Object.values(VAP_SERVICE.ANALYTICS_FIELD_MAP),
     ).isRequired,
@@ -157,7 +156,6 @@ class ContactInformationField extends React.Component {
   };
 
   cancelDeleteAction = () => {
-    this.setState({ showConfirmRemoveModal: false });
     recordEvent({
       event: 'profile-navigation',
       'profile-action': 'cancel-delete-button',
@@ -219,10 +217,6 @@ class ContactInformationField extends React.Component {
 
   closeModal = () => {
     this.props.openModal(null);
-  };
-
-  closeRemoveModal = () => {
-    this.setState({ showConfirmRemoveModal: false });
   };
 
   openEditModal = () => {
