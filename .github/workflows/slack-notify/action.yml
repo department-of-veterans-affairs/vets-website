@@ -12,12 +12,6 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Get va-vsp-bot token
-      uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
-      with:
-        ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-        env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
     - name: Get Slack app token
       uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
       with:
