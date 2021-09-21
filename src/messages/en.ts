@@ -5,4 +5,7 @@ export const messages: Messages = {
   required: {
     default: 'Please provide a response',
   },
+  date: {
+    incomplete: 'Please provide a valid date',
+  },
 };

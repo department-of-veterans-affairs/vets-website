@@ -2,13 +2,16 @@ import React from 'react';
 import { useField, FieldHookConfig } from 'formik';
 
 import { FieldProps } from './types';
-import { validator } from '../utils/validation';
+import { chainValidations, required } from '../utils/validation';
 import { VaCheckbox } from 'web-components/react-bindings';
 
 type CheckboxProps = FieldProps<string> & { checked: boolean };
 
 const CheckboxField = (props: CheckboxProps): JSX.Element => {
-  const withValidation = { ...props, validate: validator(props) };
+  const withValidation = {
+    ...props,
+    validate: chainValidations(props, [required]),
+  };
   const [field, meta, helpers] = useField(
     withValidation as FieldHookConfig<boolean>
   );

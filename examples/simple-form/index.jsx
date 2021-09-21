@@ -5,6 +5,7 @@ import { Formik, Form } from 'formik';
 import {
   TextField,
   CheckboxField,
+  DateField,
   DebuggerView,
 } from '@department-of-veterans-affairs/formulate';
 
@@ -18,10 +19,11 @@ const App = () => (
     style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}
   >
     <h1>Example form</h1>
-    <Formik initialValues={{ foo: '', bar: true }}>
+    <Formik initialValues={{ foo: '', bar: true, baz: '' }}>
       <Form>
         <TextField name="foo" label="Example" required />
         <CheckboxField name="bar" label="Do you have pets?" required />
+        <DateField name="baz" required />
         <DebuggerView />
       </Form>
     </Formik>
