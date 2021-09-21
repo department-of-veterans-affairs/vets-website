@@ -328,39 +328,47 @@ const formConfig = {
                 </>
               ),
             },
-            [formFields.fullName]: {
-              ...fullNameUI,
-              first: {
-                ...fullNameUI.first,
-                'ui:title': 'Your first name',
-                'ui:validations': [
-                  (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter a first name');
-                    }
-                  },
-                ],
-              },
-              last: {
-                ...fullNameUI.last,
-                'ui:title': 'Your last name',
-                'ui:validations': [
-                  (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter a last name');
-                    }
-                  },
-                ],
-              },
-              middle: {
-                ...fullNameUI.middle,
-                'ui:title': 'Your middle name',
-              },
-              'ui:objectViewField': FullNameReviewField,
-              'ui:options': {
-                hideLabelText: true,
-                showFieldLabel: false,
-                viewComponent: FullNameViewField,
+            'view:fullName': {
+              'ui:description': (
+                <p className="meb-review-page-only">
+                  If you’d like to update your personal information, please edit
+                  the form fields below.
+                </p>
+              ),
+              [formFields.fullName]: {
+                ...fullNameUI,
+                first: {
+                  ...fullNameUI.first,
+                  'ui:title': 'Your first name',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (isOnlyWhitespace(field)) {
+                        errors.addError('Please enter a first name');
+                      }
+                    },
+                  ],
+                },
+                last: {
+                  ...fullNameUI.last,
+                  'ui:title': 'Your last name',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (isOnlyWhitespace(field)) {
+                        errors.addError('Please enter a last name');
+                      }
+                    },
+                  ],
+                },
+                middle: {
+                  ...fullNameUI.middle,
+                  'ui:title': 'Your middle name',
+                },
+                'ui:objectViewField': FullNameReviewField,
+                'ui:options': {
+                  hideLabelText: true,
+                  showFieldLabel: false,
+                  viewComponent: FullNameViewField,
+                },
               },
             },
             'view:dateOfBirth': {
@@ -391,19 +399,24 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [formFields.fullName],
             properties: {
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
               },
-              [formFields.fullName]: {
-                ...fullName,
+              'view:fullName': {
+                required: [formFields.fullName],
+                type: 'object',
                 properties: {
-                  ...fullName.properties,
-                  middle: {
-                    ...fullName.properties.middle,
-                    maxLength: 30,
+                  [formFields.fullName]: {
+                    ...fullName,
+                    properties: {
+                      ...fullName.properties,
+                      middle: {
+                        ...fullName.properties.middle,
+                        maxLength: 30,
+                      },
+                    },
                   },
                 },
               },
@@ -417,11 +430,13 @@ const formConfig = {
             },
           },
           initialData: {
-            fullName: {
-              first: 'Hector',
-              middle: 'Oliver',
-              last: 'Stanley',
-              suffix: 'Jr.',
+            'view:fullName': {
+              fullName: {
+                first: 'Hector',
+                middle: 'Oliver',
+                last: 'Stanley',
+                suffix: 'Jr.',
+              },
             },
             'view:dateOfBirth': {
               dateOfBirth: '1992-07-23',
@@ -437,9 +452,11 @@ const formConfig = {
           title: 'Email and phone numbers',
           path: 'contact/information',
           initialData: {
-            email: {
-              email: 'hector.stanley@gmail.com',
-              confirmEmail: 'hector.stanley@gmail.com',
+            'view:email': {
+              [formFields.email]: {
+                email: 'hector.stanley@gmail.com',
+                confirmEmail: 'hector.stanley@gmail.com',
+              },
             },
             mobilePhoneNumber: {
               phone: '123-456-7890',
@@ -477,32 +494,45 @@ const formConfig = {
                 </>
               ),
             },
-            [formFields.email]: {
-              'ui:options': {
-                hideLabelText: true,
-                showFieldLabel: false,
-                viewComponent: EmailViewField,
-              },
-              email: {
-                ...emailUI('Email address'),
-                'ui:validations': [validateEmail],
-              },
-              confirmEmail: {
-                ...emailUI('Confirm email address'),
+            'view:email': {
+              'ui:description': (
+                <>
+                  <h4 className="form-review-panel-page-header vads-u-font-size--h5 meb-review-page-only">
+                    Email and phone numbers
+                  </h4>
+                  <p className="meb-review-page-only">
+                    If you’d like to update your phone numbers and email
+                    address, please edit the form fields below.
+                  </p>
+                </>
+              ),
+              [formFields.email]: {
                 'ui:options': {
-                  ...emailUI()['ui:options'],
-                  hideOnReview: true,
+                  hideLabelText: true,
+                  showFieldLabel: false,
+                  viewComponent: EmailViewField,
                 },
+                email: {
+                  ...emailUI('Email address'),
+                  'ui:validations': [validateEmail],
+                },
+                confirmEmail: {
+                  ...emailUI('Confirm email address'),
+                  'ui:options': {
+                    ...emailUI()['ui:options'],
+                    hideOnReview: true,
+                  },
+                },
+                'ui:validations': [
+                  (errors, field) => {
+                    if (field.email !== field.confirmEmail) {
+                      errors.confirmEmail.addError(
+                        'Sorry, your emails must match',
+                      );
+                    }
+                  },
+                ],
               },
-              'ui:validations': [
-                (errors, field) => {
-                  if (field.email !== field.confirmEmail) {
-                    errors.confirmEmail.addError(
-                      'Sorry, your emails must match',
-                    );
-                  }
-                },
-              ],
             },
             [formFields.mobilePhoneNumber]: phoneUISchema('mobile'),
             [formFields.phoneNumber]: phoneUISchema('home'),
@@ -514,16 +544,21 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [formFields.mobilePhoneNumber]: phoneSchema(),
-              [formFields.phoneNumber]: phoneSchema(),
-              [formFields.email]: {
+              'view:email': {
                 type: 'object',
-                required: [formFields.email, 'confirmEmail'],
                 properties: {
-                  email,
-                  confirmEmail: email,
+                  [formFields.email]: {
+                    type: 'object',
+                    required: [formFields.email, 'confirmEmail'],
+                    properties: {
+                      email,
+                      confirmEmail: email,
+                    },
+                  },
                 },
               },
+              [formFields.mobilePhoneNumber]: phoneSchema(),
+              [formFields.phoneNumber]: phoneSchema(),
             },
           },
         },
@@ -563,6 +598,17 @@ const formConfig = {
               ),
             },
             'view:mailingAddress': {
+              'ui:description': (
+                <>
+                  <h4 className="form-review-panel-page-header vads-u-font-size--h5 meb-review-page-only">
+                    Mailing address
+                  </h4>
+                  <p className="meb-review-page-only">
+                    If you’d like to update your mailing address, please edit
+                    the form fields below.
+                  </p>
+                </>
+              ),
               livesOnMilitaryBase: {
                 'ui:title': (
                   <span id="LiveOnMilitaryBaseTooltip">
@@ -655,28 +701,44 @@ const formConfig = {
           path: 'contact/preferences',
           title: 'Contact preferences',
           uiSchema: {
-            'ui:description': <h3>Select your preferred contact method</h3>,
-            [formFields.contactMethodRdoBtnList]: {
-              'ui:title':
-                'How should we contact you if we have questions about your application?',
-              'ui:widget': 'radio',
-              'ui:options': {
-                widgetProps: {
-                  Email: { 'data-info': 'email' },
-                  'Mobile phone': { 'data-info': 'mobile phone' },
-                  'Home phone': { 'data-info': 'home phone' },
-                  Mail: { 'data-info': 'mail' },
+            'view:contactPreferencesSubHeading': {
+              'ui:description': <h3>Select your preferred contact method</h3>,
+            },
+            'view:contactMethod': {
+              'ui:description': (
+                <>
+                  <h4 className="form-review-panel-page-header vads-u-font-size--h5 meb-review-page-only">
+                    Contact preferences
+                  </h4>
+                  <p className="meb-review-page-only">
+                    If you’d like to update your mailing address, please edit
+                    the form fields below.
+                  </p>
+                </>
+              ),
+              [formFields.contactMethodRdoBtnList]: {
+                'ui:title':
+                  'How should we contact you if we have questions about your application?',
+                'ui:widget': 'radio',
+                'ui:options': {
+                  widgetProps: {
+                    Email: { 'data-info': 'email' },
+                    'Mobile phone': { 'data-info': 'mobile phone' },
+                    'Home phone': { 'data-info': 'home phone' },
+                    Mail: { 'data-info': 'mail' },
+                  },
+                  selectedProps: {
+                    Email: { 'aria-describedby': 'email' },
+                    'Mobile phone': { 'aria-describedby': 'mobilePhone' },
+                    'Home phone': { 'aria-describedby': 'homePhone' },
+                    Mail: { 'aria-describedby': 'mail' },
+                  },
                 },
-                selectedProps: {
-                  Email: { 'aria-describedby': 'email' },
-                  'Mobile phone': { 'aria-describedby': 'mobilePhone' },
-                  'Home phone': { 'aria-describedby': 'homePhone' },
-                  Mail: { 'aria-describedby': 'mail' },
+                // 'ui:validations': [validateBooleanGroup],
+                'ui:errorMessages': {
+                  required:
+                    'Please select at least one way we can contact you.',
                 },
-              },
-              // 'ui:validations': [validateBooleanGroup],
-              'ui:errorMessages': {
-                required: 'Please select at least one way we can contact you.',
               },
             },
             [formFields.notificationTypes]: {
@@ -712,14 +774,21 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [
-              formFields.contactMethodRdoBtnList,
-              formFields.notificationTypes,
-            ],
+            required: [formFields.notificationTypes],
             properties: {
-              [formFields.contactMethodRdoBtnList]: {
-                type: 'string',
-                enum: ['Email', 'Mobile phone', 'Home phone', 'Mail'],
+              'view:contactPreferencesSubHeading': {
+                type: 'object',
+                properties: {},
+              },
+              'view:contactMethod': {
+                type: 'object',
+                required: [formFields.contactMethodRdoBtnList],
+                properties: {
+                  [formFields.contactMethodRdoBtnList]: {
+                    type: 'string',
+                    enum: ['Email', 'Mobile phone', 'Home phone', 'Mail'],
+                  },
+                },
               },
               [formFields.notificationTypes]: {
                 type: 'object',
@@ -774,16 +843,27 @@ const formConfig = {
                 'ui:objectViewField': ServicePeriodAccordionView,
               },
             },
-            [formFields.toursOfDutyCorrect]: {
-              'ui:title': 'This information is incorrect and/or incomplete',
-              'ui:reviewField': YesNoReviewField,
+            'view:toursOfDutyCorrect': {
+              'ui:description': (
+                <p className="meb-review-page-only">
+                  If you’d like to update information related to your service
+                  history, edit the form fields below.
+                </p>
+              ),
+              [formFields.toursOfDutyCorrect]: {
+                'ui:title': 'This information is incorrect and/or incomplete',
+                'ui:reviewField': YesNoReviewField,
+              },
             },
             [formFields.incorrectServiceHistoryExplanation]: {
               'ui:title':
                 'Please explain what is incorrect and/or incomplete about your service history.',
               'ui:options': {
-                expandUnder: [formFields.toursOfDutyCorrect],
-                hideIf: formData => !formData[formFields.toursOfDutyCorrect],
+                expandUnder: 'view:toursOfDutyCorrect',
+                hideIf: formData =>
+                  !formData['view:toursOfDutyCorrect'][
+                    formFields.toursOfDutyCorrect
+                  ],
               },
               'ui:widget': 'textarea',
             },
@@ -799,8 +879,13 @@ const formConfig = {
                 ...toursOfDuty,
                 title: '', // Hack to prevent console warning
               },
-              [formFields.toursOfDutyCorrect]: {
-                type: 'boolean',
+              'view:toursOfDutyCorrect': {
+                type: 'object',
+                properties: {
+                  [formFields.toursOfDutyCorrect]: {
+                    type: 'boolean',
+                  },
+                },
               },
               [formFields.incorrectServiceHistoryExplanation]: {
                 type: 'string',

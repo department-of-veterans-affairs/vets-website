@@ -268,6 +268,14 @@ dl.review .review-row:last-child {
 .form-review-panel-page .meb-review-page-only {
 	display: block;
 }
+.form-review-panel-page p.meb-review-page-only {
+	margin-top: .5em !important; // overriding .schemaform-block-header > p
+}
+.form-review-panel-page .usa-button-primary,
+.form-review-panel-page .schemaform-field-container .form-checkbox,
+.form-review-panel-page .schemaform-field-container .schemaform-field-template {
+	margin-left: 1rem;
+}
 
 // This is a huge hack to not have a blue border next to text for the
 // Benefit Selection section in edit mode. Couldn't figure out a better
