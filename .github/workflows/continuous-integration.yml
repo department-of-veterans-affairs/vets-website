@@ -78,12 +78,12 @@ jobs:
         timeout-minutes: 30
 
       - name: POC 2
-        if: ${{ failure() }}
         uses: ./.github/workflows/slack-notify
+        env:
+          ssl_cert_dir: /etc/ssl/certs
         with:
           attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "At least one build step in `vets-website` has failed, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
           channel_id: C02AG8UF95M # gha-build-status
-          ssl_cert_dir: /etc/ssl/certs
 
       # ----------------------------
       # | Notify Slack of failures |

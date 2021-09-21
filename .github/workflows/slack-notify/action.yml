@@ -7,8 +7,7 @@ inputs:
     required: true
   attachments:
     description: attached message
-    required: false
-    default: ''
+    required: true
 
 runs:
   using: composite
