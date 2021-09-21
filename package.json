@@ -243,7 +243,7 @@
     "@formatjs/intl-datetimeformat": "^3.2.7",
     "@formatjs/intl-getcanonicallocales": "^1.5.3",
     "@formatjs/intl-locale": "^2.4.14",
-    "@fortawesome/fontawesome-free": "^5.6.3",
+    "@fortawesome/fontawesome-free": "^5.15.4",
     "@mapbox/mapbox-sdk": "^0.10.0",
     "blob-polyfill": "^4.0.20200601",
     "camelcase-keys-recursive": "^0.8.3",
