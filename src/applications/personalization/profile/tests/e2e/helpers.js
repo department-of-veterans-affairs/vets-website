@@ -63,10 +63,6 @@ export const mockFeatureToggles = () => {
       data: {
         features: [
           {
-            name: 'dashboard_show_dashboard_2',
-            value: true,
-          },
-          {
             name: 'profile_notification_settings',
             value: true,
           },

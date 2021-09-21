@@ -1,5 +1,4 @@
 import ERROR_400 from '~/applications/personalization/dashboard/utils/mocks/ERROR_400';
-import { mockFeatureToggles } from './helpers';
 
 import {
   makeUserObject,
@@ -21,7 +20,6 @@ describe('MyVA Dashboard - Messaging', () => {
         statusCode: 400,
         body: ERROR_400,
       });
-      mockFeatureToggles();
     });
     it('should show the messaging link with the generic copy', () => {
       cy.visit('my-va/');
