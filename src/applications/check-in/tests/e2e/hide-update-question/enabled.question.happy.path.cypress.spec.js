@@ -54,7 +54,7 @@ describe('Check In Experience -- ', () => {
       .find('input')
       .type('4837');
     cy.get('[data-testid=check-in-button]').click();
-    cy.get('legend > h2').contains('information');
+    cy.get('legend > h1').contains('information');
     cy.injectAxe();
     cy.axeCheck();
     cy.get('[data-testid="no-button"]').click();
