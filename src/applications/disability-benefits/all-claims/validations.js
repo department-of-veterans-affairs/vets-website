@@ -476,7 +476,7 @@ export const validateTitle10StartDate = (
     });
   if (!startTimes[0] || dateString < startTimes[0]) {
     errors.addError(
-      'Your activation date must be after your earliest service start date for Reserves or National Guard',
+      'Your activation date must be after your earliest service start date for the Reserves or the National Guard',
     );
   }
 };
