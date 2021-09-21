@@ -9,10 +9,6 @@ inputs:
     description: attached message
     required: false
     default: ''
-  ssl_cert_dir:
-    description: path to certs
-    required: false
-    default: ''
 
 runs:
   using: composite
@@ -46,8 +42,6 @@ runs:
 
     - name: Notify Slack
       uses: department-of-veterans-affairs/vsp-github-actions/slack-socket@v1.1.0
-      env:
-        SSL_CERT_DIR: ${{ inputs.ssl_cert_dir }}
       with:
         slack_app_token: ${{ env.SLACK_APP_TOKEN }}
         slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
