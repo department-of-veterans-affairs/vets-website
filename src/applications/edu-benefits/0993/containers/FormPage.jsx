@@ -2,11 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import Scroll from 'react-scroll';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import classNames from 'classnames';
 
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { setData, uploadFile } from 'platform/forms-system/src/js/actions';
@@ -17,22 +17,10 @@ function focusForm() {
   focusElement('.nav-header');
 }
 
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo(
-    'topScrollElement',
-    window.Forms?.scroll || {
-      duration: 500,
-      delay: 0,
-      smooth: true,
-    },
-  );
-};
-
 class FormPage extends React.Component {
   componentDidMount() {
     if (!this.props.blockScrollOnMount) {
-      scrollToTop();
+      scrollToTop('topScrollElement', window.Forms?.scroll || '');
       focusForm();
     }
   }

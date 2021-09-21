@@ -1,5 +1,9 @@
 import _ from 'platform/utilities/data';
-import { SERVICE_CONNECTION_TYPES, disabilityActionTypes } from './constants';
+import {
+  SERVICE_CONNECTION_TYPES,
+  disabilityActionTypes,
+  MILITARY_CITIES,
+} from './constants';
 import { viewifyFields } from './utils';
 
 // ****************************************
@@ -45,6 +49,39 @@ export default function prefillTransformer(pages, formData, metadata) {
     return transformedDisabilities.length
       ? _.set('ratedDisabilities', transformedDisabilities, newData)
       : setClaimTypeNewOnly(newData);
+  };
+
+  const prefillContactInformation = data => {
+    const newData = _.omit(['veteran'], data);
+    const { veteran } = data;
+
+    if (veteran) {
+      const { emailAddress, primaryPhone, mailingAddress } = veteran;
+      newData.phoneAndEmail = {};
+      if (emailAddress) {
+        newData.phoneAndEmail.emailAddress = emailAddress;
+      }
+      if (primaryPhone) {
+        newData.phoneAndEmail.primaryPhone = primaryPhone;
+      }
+      if (mailingAddress) {
+        const onMilitaryBase = MILITARY_CITIES.includes(mailingAddress.city);
+        newData.mailingAddress = {
+          // strip out any extra data. Maybe left over from v1?
+          // see https://github.com/department-of-veterans-affairs/va.gov-team/issues/19423
+          'view:livesOnMilitaryBase': onMilitaryBase,
+          country: mailingAddress.country || '',
+          addressLine1: mailingAddress.addressLine1 || '',
+          addressLine2: mailingAddress.addressLine2,
+          addressLine3: mailingAddress.addressLine3,
+          city: mailingAddress.city || '',
+          state: mailingAddress.state || '',
+          zipCode: mailingAddress.zipCode || '',
+        };
+      }
+    }
+
+    return newData;
   };
 
   const prefillServiceInformation = data => {
@@ -96,6 +133,7 @@ export default function prefillTransformer(pages, formData, metadata) {
 
   const transformations = [
     prefillRatedDisabilities,
+    prefillContactInformation,
     prefillServiceInformation,
     prefillBankInformation,
   ];

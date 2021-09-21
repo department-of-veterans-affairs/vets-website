@@ -1,12 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import {
-  makeRxTrackingItemFilter,
-  selectGroupById,
-} from '@@profile/ducks/communicationPreferences';
+import { selectGroupById } from '@@profile/ducks/communicationPreferences';
 import { selectCommunicationPreferences } from '@@profile/reducers';
-import { selectPatientFacilities } from '~/platform/user/selectors';
 
 import NotificationItem from './NotificationItem';
 
@@ -26,13 +22,12 @@ const NotificationGroup = ({ children, groupName, itemIds }) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const facilities = selectPatientFacilities(state);
   const communicationPreferencesState = selectCommunicationPreferences(state);
   const group = selectGroupById(
     communicationPreferencesState,
     ownProps.groupId,
   );
-  const itemIds = group.items.filter(makeRxTrackingItemFilter(facilities));
+  const itemIds = group.items;
   return {
     groupName: group.name,
     itemIds,

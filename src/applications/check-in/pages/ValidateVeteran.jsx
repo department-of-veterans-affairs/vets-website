@@ -1,22 +1,59 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 
 import { VaTextInput } from 'web-components/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 
+import { api } from '../api';
+
+import { permissionsUpdated } from '../actions';
 import { goToNextPage, URLS } from '../utils/navigation';
+import { SCOPES } from '../utils/token-format-validator';
+
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 
 const ValidateVeteran = props => {
-  const { router, isUpdatePageEnabled } = props;
-  const [isLoading] = useState(false);
+  const { router, isUpdatePageEnabled, setPermissions, context } = props;
+  const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
+
+  const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
+  const [last4ErrorMessage, setLast4ErrorMessage] = useState();
+
+  const { token } = context;
+
   const onClick = async () => {
-    if (isUpdatePageEnabled) {
-      goToNextPage(router, URLS.UPDATE_INSURANCE);
+    setLastNameErrorMessage();
+    setLast4ErrorMessage();
+    if (!lastName || !last4Ssn) {
+      if (!lastName) {
+        setLastNameErrorMessage('Please enter your last name.');
+      }
+      if (!last4Ssn) {
+        setLast4ErrorMessage(
+          'Please enter the last 4 digits of your Social Security number',
+        );
+      }
     } else {
-      goToNextPage(router, URLS.DETAILS);
+      // API call
+      setIsLoading(true);
+      api.v1
+        .postSession({ lastName, last4: last4Ssn, token })
+        .then(data => {
+          // update sessions with new permissions
+          setPermissions(data);
+
+          if (isUpdatePageEnabled) {
+            goToNextPage(router, URLS.UPDATE_INSURANCE);
+          } else {
+            goToNextPage(router, URLS.DETAILS);
+          }
+        })
+        .catch(() => {
+          goToNextPage(router, URLS.ERROR);
+        });
     }
   };
   useEffect(() => {
@@ -33,12 +70,16 @@ const ValidateVeteran = props => {
           name="last-name"
           value={lastName}
           onVaChange={event => setLastName(event.detail.value)}
+          required
+          error={lastNameErrorMessage}
         />
         <VaTextInput
           label="Last 4 digits of your Social Security number"
           name="last-4-ssn"
           value={last4Ssn}
           onVaChange={event => setLast4Ssn(event.detail.value)}
+          required
+          error={last4ErrorMessage}
         />
       </form>
       <button
@@ -56,5 +97,20 @@ const ValidateVeteran = props => {
     </div>
   );
 };
+const mapStateToProps = state => {
+  return {
+    appointments: state.checkInData.appointments,
+    context: state.checkInData.context,
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    setPermissions: data =>
+      dispatch(permissionsUpdated(data, SCOPES.READ_FULL)),
+  };
+};
 
-export default ValidateVeteran;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ValidateVeteran);

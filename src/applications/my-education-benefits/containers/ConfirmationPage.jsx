@@ -1,39 +1,49 @@
 import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import Scroll from 'react-scroll';
 
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import FormFooter from '../components/FormFooter';
 
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
-
 const approvedPage = (
-  <div className="meb-confirmation-page meb-confirmation-page_denied">
-    <h1>You have been approved</h1>
-    <div className="feature">
-      <h3>
-        Congratulations! We reviewed your application and have determined that
-        you are entitled to educational benefits under the{' '}
-        <strong>Post-9/11 GI Bill</strong>.
+  <div className="meb-confirmation-page meb-confirmation-page_approved">
+    <va-alert onClose={function noRefCheck() {}} status="success">
+      <h3 slot="headline">
+        Congratulations! You have been approved for the Post-9/11 GI Bill
       </h3>
       <p>
-        Your Certificate of Eligibility is now available. A physical copy will
-        also be mailed to your mailing address.
+        We reviewed your application and have determined that you are entitled
+        to educational benefits under the Post-9/11 GI Bill. Your Certificate of
+        Eligibility is now available. A physical copy will also be mailed to
+        your mailing address.
       </p>
-      <button type="button" className="usa-button">
+      <button type="button" className="usa-button-primary va-button-primary">
         Download your Certificate of Eligibility
       </button>
-      <a href="#">View an explanation of your benefits</a>
+      <a href="https://www.va.gov/education/gi-bill/post-9-11/ch-33-benefit/ ">
+        View a statement of your benefits
+      </a>
+    </va-alert>
+
+    <div className="feature">
+      <h3>Application for VA education benefits (Form 22-1990)</h3>
+      <p>For Hector Oliver Stanley Jr.</p>
+      <dl>
+        <dt>Confirmation number</dt>
+        <dd>V-EBC-8827</dd>
+        <dt>Date received</dt>
+        <dd>September 8, 2021</dd>
+      </dl>
+      <a
+        className="usa-button meb-print"
+        href="#"
+        onClick={() => window.print()}
+      >
+        Print this page
+      </a>
     </div>
 
     <h2>What happens next?</h2>
@@ -42,8 +52,11 @@ const approvedPage = (
         Download a copy of your <a href="#">Certificate of Eligibility</a>.
       </li>
       <li>
-        Use our <a href="#">GI Bill Comparison Tool</a> to help you decide which
-        education program and school is best for you.
+        Use our{' '}
+        <a href="https://www.va.gov/gi-bill-comparison-tool/ ">
+          GI Bill Comparison Tool
+        </a>{' '}
+        to help you decide which education program and school is best for you.
       </li>
       <li>
         Once you’ve selected a school or program, you may bring your Certificate
@@ -52,11 +65,18 @@ const approvedPage = (
       </li>
       <li>
         Review and/or update your direct deposit information on your{' '}
-        <a href="#">VA.gov profile</a>.
+        <a href="https://www.va.gov/change-direct-deposit/">VA.gov profile</a>.
       </li>
       <li>
         Learn more about VA benefits and programs through the{' '}
-        <a href="#">Building Your Future with the GI Bill Series</a>.
+        <a
+          href="https://blogs.va.gov/VAntage/78073/new-guide-series-provides-gi-bill-benefits-information/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Building Your Future with the GI Bill Series
+        </a>
+        .
       </li>
     </ul>
 
@@ -67,14 +87,18 @@ const approvedPage = (
         You may provide this official document to your educational institution
         to prove your eligibility status.
       </p>
-      <a href="#" target="_blank" rel="noopener noreferrer">
+      <a
+        href="https://benefits.va.gov/gibill/understandingyourcoe.asp"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         Understanding your Certificate of Eligibility
       </a>
     </AdditionalInfo>
 
-    <button className="usa-button-secondary">Download your application</button>
-
-    <a href="#">Go to your My VA dashboard</a>
+    <a className="vads-c-action-link--green" href="https://www.va.gov/my-va/">
+      Go to your My VA dashboard
+    </a>
 
     <FormFooter />
   </div>
@@ -82,21 +106,44 @@ const approvedPage = (
 
 const deniedPage = (
   <div className="meb-confirmation-page meb-confirmation-page_denied">
-    <h1>You are not eligible</h1>
-    <div className="feature">
-      <h3>
+    <va-alert onClose={function noRefCheck() {}} status="info">
+      <h3 slot="headline">You’re not eligible for this benefit</h3>
+      <p>
         Unfortunately, based on the information you provided and Department of
         Defense records, we have determined you are not eligible for the
         Post-9/11 GI Bill program at this time.
-      </h3>
+      </p>
       <p>
         Your denial letter, which explains why you are ineligible, is now
-        available. A physical copy will also be mailed to your mailing address.
+        available. A physical copy will also be mailed to your mailing address.{' '}
       </p>
-      <button type="button" className="usa-button">
+      <a
+        className="usa-button"
+        href="https://www.va.gov/records/download-va-letters/"
+      >
         Download your letter
+      </a>
+      <a href="https://www.va.gov/education/gi-bill/post-9-11/ch-33-benefit/ ">
+        View a statement of your benefits
+      </a>
+    </va-alert>
+
+    <div className="feature">
+      <h3>Application for VA education benefits (Form 22-1990)</h3>
+      <p>For Hector Oliver Stanley Jr.</p>
+      <dl>
+        <dt>Confirmation number</dt>
+        <dd>V-EBC-8827</dd>
+        <dt>Date received</dt>
+        <dd>September 8, 2021</dd>
+      </dl>
+      <button
+        className="usa-button meb-print"
+        onClick={() => window.print()}
+        type="button"
+      >
+        Print this page
       </button>
-      <a href="#">View an explanation of your benefits</a>
     </div>
 
     <h2>What happens next?</h2>
@@ -104,20 +151,16 @@ const deniedPage = (
       <li>
         We will review your eligibility for other VA education benefit programs.
       </li>
-      <li>You will be notified if you have potential eligibility.</li>
+      <li>
+        You will be notified if you are eligible for other VA education
+        benefits.
+      </li>
       <li>There is no further action required by you at this time.</li>
     </ul>
-    <h2>What if I disagree with this decision?</h2>
-    <p>
-      If you disagree with our decision, you have until one year from the date
-      of your letter to request an additional review. For more information,
-      please see <a href="#">VA Form 20-0998</a>,
-      <em>Your Rights to Seek Further Review of Our Decision</em>.{' '}
-    </p>
 
-    <button className="usa-button-secondary">Download your application</button>
-
-    <a href="#">Go to your My VA dashboard</a>
+    <a className="vads-c-action-link--green" href="https://www.va.gov/my-va/">
+      Go to your My VA dashboard
+    </a>
 
     <FormFooter />
   </div>
@@ -125,25 +168,36 @@ const deniedPage = (
 
 const pendingPage = (
   <div className="meb-confirmation-page meb-confirmation-page_denied">
-    <h1>Your application is under review</h1>
-    <div className="feature">
-      <h3>
+    <va-alert onClose={function noRefCheck() {}} status="success">
+      <h3 slot="headline">We’ve received your application</h3>
+      <p>
         Your application requires additional review. Once we have reviewed your
         application, we will reach out to notify you about next steps.
-      </h3>
-      <p>
-        For now, you can download a copy of your application for your records.
       </p>
-      <button type="button" className="usa-button">
-        Download your application
+    </va-alert>
+
+    <div className="feature">
+      <h3>Application for VA education benefits (Form 22-1990)</h3>
+      <p>For Hector Oliver Stanley Jr.</p>
+      <dl>
+        <dt>Confirmation number</dt>
+        <dd>V-EBC-8827</dd>
+        <dt>Date received</dt>
+        <dd>September 8, 2021</dd>
+      </dl>
+      <button
+        className="usa-button meb-print"
+        onClick={() => window.print()}
+        type="button"
+      >
+        Print this page
       </button>
     </div>
 
     <h2>When will I hear back about my application?</h2>
     <div className="feature meb-feature--secondary">
-      <h2>
-        <em>In 1</em> Month
-      </h2>
+      <h2>In 1 month</h2>
+      <hr className="meb-hr" />
       <p>
         If more than a month has passed since you gave us your application and
         you haven’t heard back, please don’t apply again. Call our toll-free
@@ -157,28 +211,50 @@ const pendingPage = (
     <ul>
       <li>We will review your eligibility for the Post-9/11 GI Bill.</li>
       <li>We may reach out with questions about your application.</li>
-      <li>You will be notified about your eligibility.</li>
+      <li>
+        You will be notified if you are eligible for VA education benefits.
+      </li>
       <li>There is no further action required by you at this time.</li>
     </ul>
 
     <h2>What can I do while I wait?</h2>
     <ul>
       <li>
-        Use our <a href="#">GI Bill Comparison Tool</a> to help you decide which
-        education program and school is best for you.
+        If you need to submit documentation to VA, such as service records,
+        please send this through our{' '}
+        <a href="https://gibill.custhelp.va.gov/app/ask ">Ask VA feature</a>.
       </li>
-      <li>Upload any supporting documents.</li>
       <li>
-        Review and/or update your direct deposit information on your{' '}
-        <a href="#">VA.gov profile</a>.
+        Review and/or update your direct deposit information on{' '}
+        <a href="https://www.va.gov/change-direct-deposit/">VA.gov profile</a>.
+      </li>
+      <li>
+        Use our{' '}
+        <a href="https://www.va.gov/gi-bill-comparison-tool/ ">
+          GI Bill Comparison Tool
+        </a>{' '}
+        to help you decide which education program and school is best for you.
       </li>
       <li>
         Learn more about VA benefits and programs through the{' '}
-        <a href="#">Building Your Future with the GI Bill Series</a>.
+        <a href="https://blogs.va.gov/VAntage/78073/new-guide-series-provides-gi-bill-benefits-information/">
+          Building Your Future with the GI Bill Series
+        </a>
+        .
+      </li>
+      <li>
+        Measure your interests and skill levels and help figure out your career
+        path with{' '}
+        <a href="https://www.benefits.va.gov/gibill/careerscope.asp">
+          CareerScope®
+        </a>
+        .
       </li>
     </ul>
 
-    <a href="#">Go to your My VA dashboard</a>
+    <a className="vads-c-action-link--green" href="https://www.va.gov/my-va/">
+      Go to your My VA dashboard
+    </a>
 
     <FormFooter />
   </div>
@@ -198,7 +274,7 @@ const loadingPage = (
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
     focusElement('.schemaform-title > h1');
-    scrollToTop();
+    scrollToTop('topScrollElement');
   }
 
   render() {
