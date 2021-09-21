@@ -39,15 +39,18 @@ import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities
 import EmailViewField from '../components/EmailViewField';
 import PhoneViewField from '../components/PhoneViewField';
 import AccordionField from '../components/AccordionField';
-import MailingAddressReviewField from '../components/MailingAddressReviewField';
+// import MailingAddressReviewField from '../components/MailingAddressReviewField';
+import BenefitGivenUpReviewField from '../components/BenefitGivenUpReviewField';
 import YesNoReviewField from '../components/YesNoReviewField';
 import SelectedCheckboxesReviewField from '../components/SelectedCheckboxesReviewField';
 import PhoneReviewField from '../components/PhoneReviewField';
+import DateReviewField from '../components/DateReviewField';
 
 import {
   activeDutyLabel,
   selectedReserveLabel,
   unsureDescription,
+  post911GiBillNote,
 } from '../helpers';
 
 // import { directDepositWarning } from '../helpers';
@@ -86,6 +89,7 @@ const formFields = {
   email: 'email',
   phoneNumber: 'phoneNumber',
   mobilePhoneNumber: 'mobilePhoneNumber',
+  viewBenefitSelection: 'view:benefitSelection',
   benefitSelection: 'benefitSelection',
   benefitEffectiveDate: 'benefitEffectiveDate',
   incorrectServiceHistoryExplanation: 'incorrectServiceHistoryExplanation',
@@ -157,6 +161,7 @@ function phoneUISchema(category) {
       startInEdit: formData => startPhoneEditValidation(formData),
       viewComponent: PhoneViewField,
     },
+    'ui:objectViewField': PhoneReviewField,
     phone: {
       ...phoneUI(`${titleCase(category)} phone number`),
       'ui:validations': [validatePhone],
@@ -165,7 +170,6 @@ function phoneUISchema(category) {
       'ui:title': `This ${category} phone number is international`,
       'ui:reviewField': YesNoReviewField,
     },
-    'ui:objectViewField': PhoneReviewField,
   };
 }
 
@@ -220,7 +224,9 @@ function AdditionalConsiderationTemplate(
     uiSchema: {
       'ui:title': data => {
         return additionalConsiderationsQuestionTitle(
-          data.formData[formFields.benefitSelection],
+          data.formData[formFields.viewBenefitSelection][
+            formFields.benefitSelection
+          ],
           page.order,
         );
       },
@@ -249,7 +255,7 @@ function AdditionalConsiderationTemplate(
 
 function givingUpBenefitSelected(formData) {
   return ['ACTIVE_DUTY', 'SELECTED_RESERVE'].includes(
-    formData[formFields.benefitSelection],
+    formData[formFields.viewBenefitSelection][formFields.benefitSelection],
   );
 }
 
@@ -427,7 +433,7 @@ const formConfig = {
       title: 'Contact information',
       pages: {
         [formPages.contactInformation.contactInformation]: {
-          title: 'Email & phone',
+          title: 'Email and phone numbers',
           path: 'contact/information',
           initialData: {
             email: {
@@ -563,9 +569,7 @@ const formConfig = {
                     country
                   </span>
                 ),
-                // TODO: Uncomment this once this PR is merged:
-                // https://github.com/department-of-veterans-affairs/vets-website/pull/18437
-                // 'ui:reviewField': YesNoReviewField,
+                'ui:reviewField': YesNoReviewField,
               },
               livesOnMilitaryBaseInfo: {
                 'ui:description': LearnMoreAboutMilitaryBaseTooltip(),
@@ -613,7 +617,7 @@ const formConfig = {
                   },
                 },
               },
-              'ui:objectViewField': MailingAddressReviewField,
+              // 'ui:objectViewField': MailingAddressReviewField,
               'ui:options': {
                 hideLabelText: true,
                 showFieldLabel: false,
@@ -648,7 +652,7 @@ const formConfig = {
         },
         [formPages.contactInformation.preferredContactMethod]: {
           path: 'contact/preferences',
-          title: 'Preferred contact method',
+          title: 'Contact preferences',
           uiSchema: {
             'ui:description': <h3>Select your preferred contact method</h3>,
             [formFields.contactMethodRdoBtnList]: {
@@ -862,18 +866,10 @@ const formConfig = {
           instructions:
             'Currently, you can only apply for Post-9/11 Gi Bill (Chapter 33) benefits through this application/ If you would like to apply for other benefits, please visit out How to Apply page.',
           uiSchema: {
-            'view:subHeadings': {
+            'view:post911Notice': {
               'ui:description': (
                 <>
-                  <div className="usa-alert background-color-only">
-                    <h3>You’re applying for the Post-9/11 GI BIll®</h3>
-                    <p>
-                      Currently, you can only apply for Post-9/11 GI Bill
-                      (Chapter 33) benefits through this application. If you
-                      would like to apply for other benefits, please visit our{' '}
-                      <a href="#">How To Apply</a> page.
-                    </p>
-                  </div>
+                  {post911GiBillNote}
                   <h3>Give up one other benefit</h3>
                   <p>
                     Because you are applying for the Post-9/11 GI Bill, you have
@@ -893,37 +889,72 @@ const formConfig = {
                 </>
               ),
             },
-            [formFields.benefitSelection]: {
-              'ui:title': 'Which benefit will you give up?',
-              'ui:widget': 'radio',
-              'ui:options': {
-                labels: {
-                  ACTIVE_DUTY: activeDutyLabel,
-                  SELECTED_RESERVE: selectedReserveLabel,
-                  UNSURE: "I'm not sure and I need assistance",
+            [formFields.viewBenefitSelection]: {
+              'ui:description': (
+                <div className="meb-review-page-only">
+                  <p>
+                    If you’d like to update which benefit you’ll give up, please
+                    edit your answers to the questions below.
+                  </p>
+                  {post911GiBillNote}
+                </div>
+              ),
+              [formFields.benefitSelection]: {
+                'ui:title': 'Which benefit will you give up?',
+                'ui:reviewField': BenefitGivenUpReviewField,
+                'ui:widget': 'radio',
+                'ui:options': {
+                  labels: {
+                    ACTIVE_DUTY: activeDutyLabel,
+                    SELECTED_RESERVE: selectedReserveLabel,
+                    UNSURE: "I'm not sure and I need assistance",
+                  },
+                  widgetProps: {
+                    ACTIVE_DUTY: { 'data-info': 'ACTIVE_DUTY' },
+                    SELECTED_RESERVE: { 'data-info': 'SELECTED_RESERVE' },
+                    UNSURE: { 'data-info': 'UNSURE' },
+                  },
+                  selectedProps: {
+                    ACTIVE_DUTY: { 'aria-describedby': 'ACTIVE_DUTY' },
+                    SELECTED_RESERVE: {
+                      'aria-describedby': 'SELECTED_RESERVE',
+                    },
+                    UNSURE: { 'aria-describedby': 'UNSURE' },
+                  },
                 },
-                widgetProps: {
-                  ACTIVE_DUTY: { 'data-info': 'ACTIVE_DUTY' },
-                  SELECTED_RESERVE: { 'data-info': 'SELECTED_RESERVE' },
-                  UNSURE: { 'data-info': 'UNSURE' },
-                },
-                selectedProps: {
-                  ACTIVE_DUTY: { 'aria-describedby': 'ACTIVE_DUTY' },
-                  SELECTED_RESERVE: { 'aria-describedby': 'SELECTED_RESERVE' },
-                  UNSURE: { 'aria-describedby': 'UNSURE' },
+                'ui:errorMessages': {
+                  required: 'Please select an answer.',
                 },
               },
-              'ui:errorMessages': {
-                required: 'Please select an answer.',
+            },
+            'view:activeDutyNotice': {
+              'ui:description': (
+                <div className="meb-alert meb-alert--mini meb-alert--warning">
+                  <i aria-hidden="true" role="img" />
+                  <p className="meb-alert_body">
+                    <span className="sr-only">Alert:</span> If you give up the
+                    Montgomery GI Bill Active Duty, you’ll get Post-9/11 GI Bill
+                    benefits only for the number of months you had left under
+                    the Montgomery GI Bill Active Duty.
+                  </p>
+                </div>
+              ),
+              'ui:options': {
+                expandUnder: [formFields.viewBenefitSelection],
+                hideIf: formData =>
+                  formData[formFields.viewBenefitSelection][
+                    formFields.benefitSelection
+                  ] !== 'ACTIVE_DUTY',
               },
             },
             [formFields.benefitEffectiveDate]: {
               ...dateUI('Effective date'),
               'ui:options': {
                 hideIf: notGivingUpBenefitSelected,
-                expandUnder: [formFields.benefitSelection],
+                expandUnder: [formFields.viewBenefitSelection],
               },
               'ui:required': givingUpBenefitSelected,
+              'ui:reviewField': DateReviewField,
             },
             'view:effectiveDateNotes': {
               'ui:description': (
@@ -944,29 +975,40 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: notGivingUpBenefitSelected,
-                expandUnder: [formFields.benefitSelection],
+                expandUnder: [formFields.viewBenefitSelection],
               },
             },
             'view:unsureNote': {
               'ui:description': unsureDescription,
               'ui:options': {
                 hideIf: formData =>
-                  formData[formFields.benefitSelection] !== 'UNSURE',
-                expandUnder: [formFields.benefitSelection],
+                  formData[formFields.viewBenefitSelection][
+                    formFields.benefitSelection
+                  ] !== 'UNSURE',
+                expandUnder: [formFields.viewBenefitSelection],
               },
             },
           },
           schema: {
             type: 'object',
-            required: [formFields.benefitSelection],
             properties: {
-              'view:subHeadings': {
+              'view:post911Notice': {
                 type: 'object',
                 properties: {},
               },
-              [formFields.benefitSelection]: {
-                type: 'string',
-                enum: ['ACTIVE_DUTY', 'SELECTED_RESERVE', 'UNSURE'],
+              [formFields.viewBenefitSelection]: {
+                type: 'object',
+                required: [formFields.benefitSelection],
+                properties: {
+                  [formFields.benefitSelection]: {
+                    type: 'string',
+                    enum: ['ACTIVE_DUTY', 'SELECTED_RESERVE', 'UNSURE'],
+                  },
+                },
+              },
+              'view:activeDutyNotice': {
+                type: 'object',
+                properties: {},
               },
               [formFields.benefitEffectiveDate]: date,
               'view:effectiveDateNotes': {
@@ -1045,7 +1087,9 @@ const formConfig = {
             'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
           ),
           depends: formData =>
-            formData[formFields.benefitSelection] === 'ACTIVE_DUTY',
+            formData[formFields.viewBenefitSelection][
+              formFields.benefitSelection
+            ] === 'ACTIVE_DUTY',
         },
         [formPages.additionalConsiderations.reserveKicker.name]: {
           ...AdditionalConsiderationTemplate(
@@ -1056,13 +1100,15 @@ const formConfig = {
             'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
           ),
           depends: formData =>
-            formData[formFields.benefitSelection] === 'SELECTED_RESERVE',
+            formData[formFields.viewBenefitSelection][
+              formFields.benefitSelection
+            ] === 'SELECTED_RESERVE',
         },
         [formPages.additionalConsiderations.militaryAcademy.name]: {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.militaryAcademy,
             formFields.federallySponsoredAcademy,
-            'Did you receive a commission from a federally-sponsored U.S. military service academy?',
+            'Did you graduate and receive a commission from the United States Military Academy, Naval Academy, Air Force Academy, or Coast Guard Academy?',
           ),
         },
         [formPages.additionalConsiderations.seniorRotc.name]: {
