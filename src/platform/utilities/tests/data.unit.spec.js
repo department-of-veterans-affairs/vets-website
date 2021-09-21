@@ -517,7 +517,19 @@ describe('data utils', () => {
         },
         string: 'string!',
         array1: [{ item: '0' }, {}, { item: '2' }, { empty: {} }],
-        array2: ['0', 1, null, { s: 'thing', o: { k: 'nested', empty: {} } }],
+        array2: [
+          '0',
+          1,
+          null,
+          {
+            s: 'thing',
+            o: {
+              k: 'nested',
+              empty: {},
+              array3: [{ a: '3', b: '4', empty: {}, empty2: [] }],
+            },
+          },
+        ],
         // eslint-disable-next-line func-names, object-shorthand
         func: function() {
           return this.int;
@@ -531,7 +543,12 @@ describe('data utils', () => {
           nestedObj: data.obj.nestedObj,
         },
         array1: [{ item: '0' }, {}, { item: '2' }, {}],
-        array2: ['0', 1, null, { s: 'thing', o: { k: 'nested' } }],
+        array2: [
+          '0',
+          1,
+          null,
+          { s: 'thing', o: { k: 'nested', array3: [{ a: '3', b: '4' }] } },
+        ],
       });
     });
   });
