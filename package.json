@@ -116,7 +116,7 @@
     "@testing-library/dom": "^7.26.6",
     "@testing-library/react": "^11.1.2",
     "@testing-library/user-event": "^12.2.2",
-    "append-query": "2.0.1",
+    "append-query": "^2.1.1",
     "autoprefixer": "^9.5.1",
     "axe-core": "^4.3.3",
     "babel-core": "^7.0.0-bridge.0",
