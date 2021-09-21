@@ -39,7 +39,6 @@ runs:
       with:
         node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
-    # TODO: should we make path input as well? To handle cypress?
     - name: Cache dependencies
       id: cache-dependencies
       uses: actions/cache@v2
