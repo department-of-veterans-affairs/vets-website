@@ -3,8 +3,8 @@ import classNames from 'classnames';
 import NameSearchForm from '../../containers/search/NameSearchForm';
 import LocationSearchForm from '../../containers/search/LocationSearchForm';
 import { TABS } from '../../constants';
-import { scroller } from 'react-scroll';
 import { getScrollOptions } from 'platform/utilities/ui';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 export default function SearchTabs({ onChange, search }) {
   const { tab } = search;
@@ -12,7 +12,7 @@ export default function SearchTabs({ onChange, search }) {
   useEffect(
     () => {
       if (search.inProgress) {
-        scroller.scrollTo('search-form', getScrollOptions());
+        scrollTo('search-form', getScrollOptions());
       }
     },
     [search.inProgress],

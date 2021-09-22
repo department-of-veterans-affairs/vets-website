@@ -2,7 +2,6 @@
 import React from 'react';
 
 import ProfilePageHeader from '../../containers/ProfilePageHeader';
-import { scroller } from 'react-scroll';
 import { getScrollOptions } from 'platform/utilities/ui';
 import SchoolLocations from './SchoolLocations';
 import CautionaryInformation from './CautionaryInformation';
@@ -17,6 +16,7 @@ import GettingStartedWithBenefits from '../profile/GettingStartedWithBenefits';
 import Academics from './Academics';
 import VeteranProgramsAndSupport from './VeteranProgramsAndSupport';
 import BackToTop from '../BackToTop';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 export default function InstitutionProfile({
   institution,
@@ -37,7 +37,7 @@ export default function InstitutionProfile({
       facilityMap.main.branches.length > 0);
 
   const scrollToLocations = () => {
-    scroller.scrollTo('school-locations', getScrollOptions());
+    scrollTo('school-locations', getScrollOptions());
   };
 
   const stars = convertRatingToStars(institution.ratingAverage);

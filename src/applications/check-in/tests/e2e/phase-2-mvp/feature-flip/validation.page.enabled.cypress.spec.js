@@ -47,6 +47,6 @@ describe('Check In Experience -- ', () => {
       .type('4837');
     cy.get('[data-testid=check-in-button]').click();
     // update information page
-    cy.get('legend > h2').contains('information');
+    cy.get('legend > h1').contains('information');
   });
 });
