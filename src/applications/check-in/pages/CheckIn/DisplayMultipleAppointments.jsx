@@ -26,7 +26,7 @@ export default function DisplayMultipleAppointments(props) {
       </p>
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ol
-        className="appointment-list vads-u-padding--0 vads-u-margin--0 vads-u-margin-bottom--5"
+        className="appointment-list vads-u-padding--0 vads-u-margin--0 vads-u-margin-bottom--2"
         role="list"
       >
         {appointments.map((appointment, index) => {

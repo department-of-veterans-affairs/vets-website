@@ -11,7 +11,7 @@ export default function AppointmentListItem(props) {
   const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
   return (
     <li className="appointment-item vads-u-padding--2">
-      <dl className="appointment-summary">
+      <dl className="appointment-summary vads-u-margin--0 vads-u-padding--0">
         <dd
           className="appointment-time vads-u-font-family--serif vads-u-font-weight--bold"
           data-testid="appointment-time"
@@ -23,7 +23,7 @@ export default function AppointmentListItem(props) {
         </dt>
         <dd
           data-testid="clinic-name"
-          className="clinic-name vads-u-font-size--lg vads-u-font-weight--bold"
+          className="clinic-name vads-u-font-size--lg vads-u-font-weight--bold vads-u-font-family--serif"
         >
           <AppointmentLocation appointment={appointment} />
         </dd>

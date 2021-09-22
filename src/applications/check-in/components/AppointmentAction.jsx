@@ -38,7 +38,7 @@ export default function AppointmentAction(props) {
   return (
     <button
       type="button"
-      className="usa-button usa-button-big"
+      className="usa-button usa-button-big vads-u-font-size--md"
       onClick={onClick}
       data-testid="check-in-button"
       disabled={isCheckingIn}
