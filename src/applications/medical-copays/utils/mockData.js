@@ -242,7 +242,7 @@ export const mockUserData = [
     pHZipCde: '432191834',
     pHZipCdeOutput: '43219-1834',
     pHCtryNme: 'US',
-    pHAmtDue: 65.2399999999999948840923025272786617279052734375,
+    pHAmtDue: 0,
     pHAmtDueOutput: '65.24  ',
     pHPrevBal: 0,
     pHPrevBalOutput: '.00  ',
