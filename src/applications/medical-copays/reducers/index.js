@@ -4,10 +4,13 @@ import {
   MCP_STATEMENTS_FETCH_FAILURE,
 } from '../actions';
 
+// using mock data until api available
+import { mockUserData } from '../utils/mockData';
+
 const initialState = {
   pending: false,
   errors: null,
-  statements: [],
+  statements: [...mockUserData],
 };
 
 const medicalCopaysReducer = (state = initialState, action) => {
