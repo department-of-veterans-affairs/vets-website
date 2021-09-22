@@ -3,7 +3,7 @@ import Scroll from 'react-scroll';
 import PropTypes from 'prop-types';
 
 import { SAVE_STATUSES, saveErrors } from './actions';
-import { focusElement } from '../../utilities/ui';
+import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
 import SipsDevModal from './SaveInProgressDevModal';
 
@@ -12,7 +12,7 @@ const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo(
     'saveFormLinkTop',
-    window.Forms?.scroll || {
+    getScrollOptions() || {
       duration: 500,
       delay: 0,
       smooth: true,

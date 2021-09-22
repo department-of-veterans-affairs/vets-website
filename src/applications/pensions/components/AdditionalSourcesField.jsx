@@ -3,7 +3,11 @@ import React from 'react';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import Scroll from 'react-scroll';
-import { scrollToFirstError, focusElement } from 'platform/utilities/ui';
+import {
+  scrollToFirstError,
+  focusElement,
+  getScrollOptions,
+} from 'platform/utilities/ui';
 import { setArrayRecordTouched } from 'platform/forms-system/src/js/helpers';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import scrollTo from 'platform/utilities/ui/scrollTo';
@@ -88,7 +92,7 @@ export default class AdditionalSourcesField extends React.Component {
   scrollToRow(index) {
     scrollTo(
       `additional_${index}`,
-      window.Forms?.scroll || {
+      getScrollOptions() || {
         duration: 500,
         delay: 0,
         smooth: true,

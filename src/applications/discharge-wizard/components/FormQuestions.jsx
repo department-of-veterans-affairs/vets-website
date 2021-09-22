@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // Relative Imports
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 import AnswerReview from './AnswerReview';
 import Questions from './questions';
@@ -29,7 +29,7 @@ const FormQuestions = ({ formValues, updateFormField }) => {
       const el = formValues.questions.slice(-1)[0];
       scrollTo(
         el,
-        window.Forms?.scroll || {
+        getScrollOptions() || {
           duration: 1000,
           smooth: true,
         },

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import Scroll from 'react-scroll';
 import Back from './Back';
 import ProgressButton from '../../components/ProgressButton';
@@ -15,7 +15,7 @@ export default function ClientError(props) {
   const scrollToError = () => {
     scroller.scrollTo(
       'errorScrollElement',
-      window.Forms?.scroll || {
+      getScrollOptions() || {
         duration: 500,
         delay: 0,
         smooth: true,
