@@ -7,8 +7,6 @@ import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
 
 import manifest from 'applications/personalization/dashboard/manifest.json';
 
-import { mockFeatureToggles } from './helpers';
-
 /**
  *
  * @param {boolean} mobile - test on a mobile viewport or not
@@ -27,7 +25,6 @@ describe('The My VA Dashboard', () => {
       '/v0/disability_compensation_form/rating_info',
       disabilityRating,
     );
-    mockFeatureToggles();
   });
   it('should show a dismissible modal if a dependent service has downtime approaching in the next hour', () => {
     // start time is one minute from now
