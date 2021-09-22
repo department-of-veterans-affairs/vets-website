@@ -9,8 +9,8 @@ export const Balances = () => {
 
   return (
     <>
-      <h2>What you owe to your {mockCopayBalanceData.length} facilities</h2>
-      {mockCopayBalanceData.map(balance => (
+      <h2>What you owe to your {mockCopayBalanceData?.length} facilities</h2>
+      {mockCopayBalanceData?.map(balance => (
         <BalanceCard
           key={balance.id}
           amount={balance.amount}

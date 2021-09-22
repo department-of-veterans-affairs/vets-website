@@ -6,7 +6,7 @@ import Telephone, {
 
 const Alert = ({ children }) => children;
 
-Alert.OverviewError = () => (
+Alert.Error = () => (
   <va-alert class="row vads-u-margin-bottom--5" status="error">
     <h3 slot="headline">
       We can’t access your current copay balances right now
@@ -22,38 +22,6 @@ Alert.OverviewError = () => (
       </strong>
       contact us at
       <Telephone contact={'8664001238'} className="vads-u-margin-x--0p5" />
-      (TTY:
-      <Telephone
-        contact={CONTACTS[711]}
-        pattern={PATTERNS['3_DIGIT']}
-        className="vads-u-margin-left--0p5"
-      />
-      ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-    </p>
-    <p>
-      <strong className="vads-u-margin-right--0p5">
-        For questions about your treatment or your charges,
-      </strong>
-      contact the VA health care facility where you received care.
-    </p>
-    <a href="#">Find the contact information for your facility</a>
-  </va-alert>
-);
-
-Alert.DetailsError = () => (
-  <va-alert class="row vads-u-margin-bottom--5" status="error">
-    <h3 slot="headline">Information about your copay bill is unavailable</h3>
-    <p>
-      You can't view information about your copay bill because something went
-      wrong on our end.
-    </p>
-    <h4>What you can do</h4>
-    <p>
-      <strong className="vads-u-margin-right--0p5">
-        For questions about your payment or relief options,
-      </strong>
-      contact the VA Health Resource Center at
-      <Telephone contact={'866-400-1238'} className="vads-u-margin-x--0p5" />
       (TTY:
       <Telephone
         contact={CONTACTS[711]}
@@ -140,17 +108,15 @@ Alert.Deceased = () => (
 const RenderAlert = ({ type }) => {
   switch (type) {
     case 1:
-      return <Alert.OverviewError />;
+      return <Alert.Error />;
     case 2:
-      return <Alert.DetailsError />;
-    case 3:
       return <Alert.NoHealthcare />;
-    case 4:
+    case 3:
       return <Alert.NoHistory />;
-    case 5:
+    case 4:
       return <Alert.Deceased />;
     default:
-      return <Alert.OverviewError />;
+      return <Alert.Error />;
   }
 };
 
