@@ -1,3 +1,7 @@
+import { createFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
+
+import mockCheckIn from '../../../../api/local-mock-api/mocks/v1/check.in.responses';
+import mockPatientCheckIns from '../../../../api/local-mock-api/mocks/v1/patient.check.in.responses';
 import mockSession from '../../../../api/local-mock-api/mocks/v1/sessions.responses';
 
 describe('Check In Experience -- ', () => {
@@ -8,6 +12,17 @@ describe('Check In Experience -- ', () => {
           mockSession.createMockSuccessResponse('some-token', 'read.basic'),
         );
       });
+      cy.intercept('GET', '/check_in/v1/patient_check_ins/*', req => {
+        req.reply(mockPatientCheckIns.createMockSuccessResponse({}, false));
+      });
+      cy.intercept('POST', '/check_in/v1/patient_check_ins/', req => {
+        req.reply(mockCheckIn.createMockSuccessResponse({}));
+      });
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        createFeatureToggles(true, true, false, true),
+      );
     });
     afterEach(() => {
       cy.window().then(window => {
