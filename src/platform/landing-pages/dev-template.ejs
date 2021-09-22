@@ -35,6 +35,17 @@
     <%= modifyScriptTags(htmlWebpackPlugin.tags.bodyTags) %>
 
     <script nonce="**CSP_NONCE**" type="text/javascript">
+      function scrollToContent(e) {
+        e.preventDefault();
+        e.target.hidden = true;
+        const contentRoot = document.querySelector('#content');
+        const contentH1 = document.querySelector('#content h1');
+        if (contentH1) {
+        window.scrollTo(0, contentH1.offsetTop);
+        } else {
+          window.scrollTo(0, contentRoot.offsetTop);
+        }
+      }
       window.VetsGov = window.VetsGov || {};
       window.VetsGov.headerFooter = <%= JSON.stringify(headerFooterData) %>;
     </script>
@@ -42,7 +53,7 @@
   </head>
 
   <body class="merger">
-    <a class="show-on-focus" href="#content">Skip to Content</a>
+    <a class="show-on-focus" href="#" onclick="scrollToContent(event)">Skip to Content</a>
 
     <header class="header">
       <div class="incompatible-browser-warning">
@@ -149,7 +160,7 @@
     <% } %>
 
     <!-- React root -->
-    <div id="react-root">
+    <div id="content">
       <main id="main" class="main">
         <% if (widgetType) { %>
           <div class="usa-grid usa-grid-full vads-u-padding-top--3">
