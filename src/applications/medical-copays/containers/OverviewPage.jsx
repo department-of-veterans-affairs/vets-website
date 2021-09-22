@@ -4,22 +4,7 @@ import FacilityContacts from '../components/FacilityContacts';
 import Balances from '../components/Balances';
 import BalanceQuestions from '../components/BalanceQuestions';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import Alerts from '../components/Alerts';
-
-const AlertView = ({ type }) => {
-  switch (type) {
-    case 1:
-      return <Alerts.Error />;
-    case 2:
-      return <Alerts.NoHealthcare />;
-    case 3:
-      return <Alerts.NoHistory />;
-    case 4:
-      return <Alerts.Deceased />;
-    default:
-      return <Alerts.Error />;
-  }
-};
+import Alert from '../components/Alerts';
 
 const OverviewPage = () => {
   const [alertType, setAlertType] = useState(0);
@@ -41,7 +26,7 @@ const OverviewPage = () => {
       </Breadcrumbs>
       <h1>Your current copay balances</h1>
       {alertType ? (
-        <AlertView type={alertType} />
+        <Alert type={alertType} />
       ) : (
         <>
           <p className="vads-u-font-size--lg">
