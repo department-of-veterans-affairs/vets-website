@@ -58,7 +58,11 @@ import {
 import MailingAddressViewField from '../components/MailingAddressViewField';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
 
-import { validatePhone, validateEmail } from '../utils/validation';
+import {
+  isValidPhone,
+  validatePhone,
+  validateEmail,
+} from '../utils/validation';
 
 const {
   fullName,
@@ -92,8 +96,8 @@ const formFields = {
   benefitSelection: 'benefitSelection',
   benefitEffectiveDate: 'benefitEffectiveDate',
   incorrectServiceHistoryExplanation: 'incorrectServiceHistoryExplanation',
-  contactMethodRdoBtnList: 'contactMethodRdoBtnList',
-  notificationTypes: 'notificationTypes',
+  contactMethod: 'contactMethod',
+  receiveTextMessages: 'receiveTextMessages',
   hasDoDLoanPaymentPeriod: 'hasDoDLoanPaymentPeriod',
   activeDutyKicker: 'activeDutyKicker',
   selectedReserveKicker: 'selectedReserveKicker',
@@ -262,32 +266,32 @@ function notGivingUpBenefitSelected(formData) {
   return !givingUpBenefitSelected(formData);
 }
 
-const contactPref = {};
+// const contactPref = {};
 
-function ContactPreferenceAlertUI() {
-  let status = 'info';
-  let copy =
-    'For text messages, messaging and data rates may apply. At this time, VA is only able to send text messages about education benefits to US-based mobile phone numbers.';
+// function ContactPreferenceAlertUI() {
+//   let status = 'info';
+//   let copy =
+//     'For text messages, messaging and data rates may apply. At this time, VA is only able to send text messages about education benefits to US-based mobile phone numbers.';
 
-  if (contactPref.phone) {
-    status = 'warning';
-    copy =
-      'You can’t choose to receive text messages because you don’t have a mobile phone number on file.';
-  }
-  if (contactPref.isInternational) {
-    status = 'warning';
-    copy =
-      'You can’t choose to receive text messages because your mobile phone number is international. At this time, VA is only able to send text messages about your education benefits to US-based mobile phone numbers.';
-  }
+//   if (contactPref.phone) {
+//     status = 'warning';
+//     copy =
+//       'You can’t choose to receive text messages because you don’t have a mobile phone number on file.';
+//   }
+//   if (contactPref.isInternational) {
+//     status = 'warning';
+//     copy =
+//       'You can’t choose to receive text messages because your mobile phone number is international. At this time, VA is only able to send text messages about your education benefits to US-based mobile phone numbers.';
+//   }
 
-  return {
-    'ui:description': (
-      <va-alert onClose={function noRefCheck() {}} status={status}>
-        <div style={{ marginTop: 0 }}>{copy}</div>
-      </va-alert>
-    ),
-  };
-}
+//   return {
+//     'ui:description': (
+//       <va-alert onClose={function noRefCheck() {}} status={status}>
+//         <div style={{ marginTop: 0 }}>{copy}</div>
+//       </va-alert>
+//     ),
+//   };
+// }
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -679,7 +683,7 @@ const formConfig = {
         [formPages.contactInformation.preferredContactMethod]: {
           path: 'contact/preferences',
           uiSchema: {
-            [formFields.contactMethodRdoBtnList]: {
+            [formFields.contactMethod]: {
               'ui:title': (
                 <div>
                   <h3>Choose your contact method for follow-up questions</h3>
@@ -706,7 +710,7 @@ const formConfig = {
                 required: 'Please select at least one way we can contact you.',
               },
             },
-            [formFields.notificationTypes]: {
+            [formFields.receiveTextMessages]: {
               'ui:title': (
                 <>
                   <h3>Choose your notification method</h3>
@@ -730,38 +734,93 @@ const formConfig = {
                 </>
               ),
               'ui:widget': 'radio',
-              'ui:options': {
-                widgetProps: {
-                  Yes: { 'data-info': 'yes' },
-                  No: { 'data-info': 'no' },
-                },
-                selectedProps: {
-                  Yes: { 'aria-describedby': 'yes' },
-                  No: { 'aria-describedby': 'no' },
-                },
+              'ui:options': data => {
+                window.console.log(data);
+                return {
+                  widgetProps: {
+                    Yes: { 'data-info': 'yes', disabled: true },
+                    No: { 'data-info': 'no' },
+                  },
+                  selectedProps: {
+                    Yes: { 'aria-describedby': 'yes' },
+                    No: { 'aria-describedby': 'no' },
+                  },
+                };
               },
               'ui:objectViewField': SelectedCheckboxesReviewField,
             },
-            'view:note': {
-              ...ContactPreferenceAlertUI(),
+            'view:textMessagesAlert': {
+              'ui:description': (
+                <va-alert onClose={function noRefCheck() {}} status="info">
+                  <p style={{ margin: 0 }}>
+                    For text messages, messaging and data rates may apply. At
+                    this time, VA is only able to send text messages about
+                    education benefits to US-based mobile phone numbers.
+                  </p>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData =>
+                  !isValidPhone(formData[formFields.mobilePhoneNumber].phone) ||
+                  formData[formFields.mobilePhoneNumber].isInternational,
+              },
+            },
+            'view:noMobilePhoneAlert': {
+              'ui:description': (
+                <va-alert onClose={function noRefCheck() {}} status="warning">
+                  <p style={{ margin: 0 }}>
+                    You can’t choose to receive text messages because you don’t
+                    have a mobile phone number on file.
+                  </p>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData =>
+                  isValidPhone(formData[formFields.mobilePhoneNumber].phone) ||
+                  formData[formFields.mobilePhoneNumber].isInternational,
+              },
+            },
+            'view:internationalTextMessageAlert': {
+              'ui:description': (
+                <va-alert onClose={function noRefCheck() {}} status="warning">
+                  <p style={{ margin: 0 }}>
+                    You can’t choose to receive text messages because your
+                    mobile phone number is international. At this time, VA is
+                    only able to send text messages about your education
+                    benefits to US-based mobile phone numbers.
+                  </p>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData =>
+                  !formData[formFields.mobilePhoneNumber].isInternational,
+              },
             },
           },
           schema: {
             type: 'object',
             required: [
-              formFields.contactMethodRdoBtnList,
-              formFields.notificationTypes,
+              formFields.contactMethod,
+              formFields.receiveTextMessages,
             ],
             properties: {
-              [formFields.contactMethodRdoBtnList]: {
+              [formFields.contactMethod]: {
                 type: 'string',
                 enum: ['Email', 'Mobile phone', 'Home phone', 'Mail'],
               },
-              [formFields.notificationTypes]: {
+              [formFields.receiveTextMessages]: {
                 type: 'string',
                 enum: ['Yes', 'No, just send me email notifications'],
               },
-              'view:note': {
+              'view:textMessagesAlert': {
+                type: 'object',
+                properties: {},
+              },
+              'view:noMobilePhoneAlert': {
+                type: 'object',
+                properties: {},
+              },
+              'view:internationalTextMessageAlert': {
                 type: 'object',
                 properties: {},
               },
