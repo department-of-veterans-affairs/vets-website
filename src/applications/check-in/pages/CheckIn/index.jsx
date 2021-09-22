@@ -9,7 +9,8 @@ import { receivedAppointmentDetails } from '../../actions';
 import { goToNextPage, URLS } from '../../utils/navigation';
 import { api } from '../../api';
 
-import Display from './Display';
+import DisplaySingleAppointment from './DisplaySingleAppointment';
+import DisplayMultipleAppointments from './DisplayMultipleAppointments';
 
 const CheckIn = props => {
   const {
@@ -19,6 +20,7 @@ const CheckIn = props => {
     isUpdatePageEnabled,
     isLowAuthEnabled,
     setAppointment,
+    isMultipleAppointmentsEnabled,
   } = props;
   const appointment = appointments[0];
 
@@ -52,8 +54,19 @@ const CheckIn = props => {
     goToNextPage(router, URLS.ERROR);
     return <></>;
   } else {
+    if (isMultipleAppointmentsEnabled) {
+      return (
+        <DisplayMultipleAppointments
+          isUpdatePageEnabled={isUpdatePageEnabled}
+          isLowAuthEnabled={isLowAuthEnabled}
+          router={router}
+          token={token}
+          appointments={appointments}
+        />
+      );
+    }
     return (
-      <Display
+      <DisplaySingleAppointment
         isUpdatePageEnabled={isUpdatePageEnabled}
         isLowAuthEnabled={isLowAuthEnabled}
         router={router}

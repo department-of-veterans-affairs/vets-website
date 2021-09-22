@@ -12,7 +12,7 @@ import { api } from '../../api';
 
 import { goToNextPage, URLS } from '../../utils/navigation';
 
-export default function Display(props) {
+export default function DisplaySingleAppointment(props) {
   const {
     isUpdatePageEnabled,
     isLowAuthEnabled,
