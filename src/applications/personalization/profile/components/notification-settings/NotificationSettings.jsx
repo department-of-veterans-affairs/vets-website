@@ -5,7 +5,6 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 
 import {
   hasVAPServiceConnectionError,
-  isVAPatient,
   // TODO: uncomment when email is a supported communication channel
   // selectVAPEmailAddress,
   selectPatientFacilities,
@@ -17,7 +16,7 @@ import { PROFILE_PATH_NAMES } from '@@profile/constants';
 import {
   fetchCommunicationPreferenceGroups,
   selectChannelsWithoutSelection,
-  selectAvailableGroups,
+  selectGroups,
 } from '@@profile/ducks/communicationPreferences';
 import { selectCommunicationPreferences } from '@@profile/reducers';
 
@@ -29,37 +28,13 @@ import Headline from '../ProfileSectionHeadline';
 import HealthCareGroupSupportingText from './HealthCareGroupSupportingText';
 import MissingContactInfoAlert from './MissingContactInfoAlert';
 import NotificationGroup from './NotificationGroup';
-
-const SelectNotificationOptionsAlert = ({ firstChannelId }) => {
-  return (
-    <div data-testid="select-options-alert">
-      <va-alert status="warning">
-        <h2 slot="headline">Select your notification options</h2>
-        <p>
-          We’ve added notification options to your profile. Tell us how you’d
-          like us to contact you.
-        </p>
-        <p>
-          <a
-            href={`#${firstChannelId}`}
-            className="vads-u-text-decoration--none vads-u-padding--1 vads-u-margin-left--neg1 vads-u-margin-top--neg1 vads-u-margin-bottom--neg1"
-          >
-            <i
-              aria-hidden="true"
-              className="fas fa-arrow-down vads-u-margin-right--1"
-            />{' '}
-            Select your notification options
-          </a>
-        </p>
-      </va-alert>
-    </div>
-  );
-};
+import SelectNotificationOptionsAlert from './SelectNotificationOptionsAlert';
 
 const NotificationSettings = ({
   allContactInfoOnFile,
   emailAddress,
-  fetchCurrentSettings,
+  facilities,
+  fetchNotificationSettings,
   mobilePhoneNumber,
   noContactInfoOnFile,
   notificationGroups,
@@ -76,10 +51,10 @@ const NotificationSettings = ({
   React.useEffect(
     () => {
       if (shouldFetchNotificationSettings) {
-        fetchCurrentSettings();
+        fetchNotificationSettings({ facilities });
       }
     },
-    [fetchCurrentSettings, shouldFetchNotificationSettings],
+    [fetchNotificationSettings, shouldFetchNotificationSettings],
   );
 
   // if either phone number or email address is not set
@@ -93,7 +68,7 @@ const NotificationSettings = ({
 
   // shown as long as we aren't loading data and they have at least one
   // communication channel on file
-  const showContactInfoOnFile = React.useMemo(
+  const showNotificationOptions = React.useMemo(
     () => {
       return (
         !shouldShowLoadingIndicator &&
@@ -129,14 +104,13 @@ const NotificationSettings = ({
           missingEmailAddress={!emailAddress}
         />
       ) : null}
-      {showContactInfoOnFile ? (
-        <ContactInfoOnFile
-          emailAddress={emailAddress}
-          mobilePhoneNumber={mobilePhoneNumber}
-        />
-      ) : null}
-      {showContactInfoOnFile
-        ? notificationGroups.ids.map(groupId => {
+      {showNotificationOptions ? (
+        <>
+          <ContactInfoOnFile
+            emailAddress={emailAddress}
+            mobilePhoneNumber={mobilePhoneNumber}
+          />
+          {notificationGroups.ids.map(groupId => {
             // we handle the health care group a little differently
             // TODO: I don't like this check. what does `group3` even mean?
             if (groupId === 'group3') {
@@ -148,13 +122,12 @@ const NotificationSettings = ({
             } else {
               return <NotificationGroup groupId={groupId} key={groupId} />;
             }
-          })
-        : null}
-      {showContactInfoOnFile ? (
-        <p className="vads-u-margin-bottom--0">
-          <strong>Note:</strong> We have limited notification options at this
-          time. Check back for more options in the future.
-        </p>
+          })}
+          <p className="vads-u-margin-bottom--0">
+            <strong>Note:</strong> We have limited notification options at this
+            time. Check back for more options in the future.
+          </p>
+        </>
       ) : null}
     </>
   );
@@ -178,22 +151,19 @@ const mapStateToProps = state => {
   const shouldFetchNotificationSettings =
     !noContactInfoOnFile && !hasVAPServiceError;
   const shouldShowAPIError = hasVAPServiceError || hasLoadingError;
-  const isPatient = isVAPatient(state);
+  const facilities = selectPatientFacilities(state);
   return {
     allContactInfoOnFile,
     emailAddress,
+    facilities,
     mobilePhoneNumber,
     noContactInfoOnFile,
-    notificationGroups: selectAvailableGroups(communicationPreferencesState, {
-      isPatient,
-    }),
+    notificationGroups: selectGroups(communicationPreferencesState),
     unselectedChannels: selectChannelsWithoutSelection(
       communicationPreferencesState,
       {
-        isPatient,
         hasEmailAddress: !!emailAddress,
         hasMobilePhone: !!mobilePhoneNumber,
-        facilities: selectPatientFacilities(state),
       },
     ),
     shouldFetchNotificationSettings,
@@ -204,7 +174,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  fetchCurrentSettings: fetchCommunicationPreferenceGroups,
+  fetchNotificationSettings: fetchCommunicationPreferenceGroups,
 };
 
 export default connect(

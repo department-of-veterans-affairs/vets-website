@@ -26,6 +26,7 @@ import disability526Manifest from 'applications/disability-benefits/all-claims/m
 import hlrManifest from 'applications/disability-benefits/996/manifest.json';
 import mdotManifest from 'applications/disability-benefits/2346/manifest.json';
 import fsrManifest from 'applications/financial-status-report/manifest.json';
+import mebManifest from 'applications/my-education-benefits/manifest.json';
 
 export const formBenefits = {
   [VA_FORM_IDS.FORM_21_526EZ]: 'disability compensation',
@@ -37,6 +38,7 @@ export const formBenefits = {
   [VA_FORM_IDS.FORM_22_1990]: 'education benefits',
   [VA_FORM_IDS.FORM_22_1990E]: 'education benefits',
   [VA_FORM_IDS.FORM_22_1990N]: 'education benefits',
+  [VA_FORM_IDS.FORM_22_1990_MEB]: 'education benefits',
   [VA_FORM_IDS.FORM_22_1995]: 'education benefits',
   [VA_FORM_IDS.FORM_22_5490]: 'education benefits',
   [VA_FORM_IDS.FORM_22_5495]: 'education benefits',
@@ -95,6 +97,7 @@ export const formLinks = {
   [VA_FORM_IDS.FORM_22_1990]: `${edu1990Manifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_22_1990E]: `${edu1990eManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_22_1990N]: `${edu1990nManifest.rootUrl}/`,
+  [VA_FORM_IDS.FORM_22_1990_MEB]: `${mebManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_22_1995]: `${edu1995Manifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_22_5490]: `${edu5490Manifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_22_5495]: `${edu5495Manifest.rootUrl}/`,
@@ -149,6 +152,7 @@ export const sipEnabledForms = new Set([
   VA_FORM_IDS.FORM_20_0996,
   VA_FORM_IDS.FORM_VA_2346A,
   VA_FORM_IDS.FORM_5655,
+  VA_FORM_IDS.FORM_22_1990_MEB,
 ]);
 
 // A dict of presentable form IDs. Generally this is just the form ID itself
