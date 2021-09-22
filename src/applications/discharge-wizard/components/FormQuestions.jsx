@@ -74,7 +74,7 @@ const FormQuestions = ({ formValues, updateFormField }) => {
 
     scrollTo(
       e.target.name,
-      window.Forms?.scroll || {
+      getScrollOptions() || {
         duration: 1000,
         smooth: true,
         offset: -150,
