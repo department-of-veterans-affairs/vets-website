@@ -62,7 +62,8 @@ export const hasRequiredId = profile =>
 
 export const hasRequiredDob = profile => !!profile.dob;
 
-const isIntroPage = ({ pathname }) => pathname.endsWith('/introduction');
+export const isIntroPage = ({ pathname = '' } = {}) =>
+  pathname.endsWith('/introduction');
 
 export const Form526Entry = ({
   children,
