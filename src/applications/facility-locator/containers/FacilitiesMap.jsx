@@ -601,7 +601,7 @@ const FacilitiesMap = props => {
 
   return (
     <>
-      <div>
+      <div id="content">
         <div className="title-section">
           <h1>Find VA locations</h1>
         </div>
