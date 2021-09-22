@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
 
-import { SelectArrayItemsWidget } from '../../components/SelectArrayItemsWidget';
-
 import get from 'platform/utilities/data/get';
+
+import { SelectArrayItemsWidget } from '../../components/SelectArrayItemsWidget';
 
 describe('<SelectArrayItemsWidget>', () => {
   let defaultProps = {};
@@ -150,7 +150,7 @@ describe('<SelectArrayItemsWidget>', () => {
         },
       ],
       formData: {
-        updatedRatedDisabilities: [],
+        updatedRatedDisabilities: [{}],
       },
       formId: '526',
       id: 'id',
@@ -175,7 +175,9 @@ describe('<SelectArrayItemsWidget>', () => {
     const wrapper = shallow(<SelectArrayItemsWidget {...initialProps} />);
     expect(autoSaveFormSpy.firstCall.args[0]).to.eql('526');
     expect(autoSaveFormSpy.firstCall.args[1]).to.deep.equal({
-      ratedDisabilities: [],
+      ratedDisabilities: [
+        { disabilityActionType: 'NONE', 'view:selected': false },
+      ],
     });
     expect(autoSaveFormSpy.firstCall.args[2]).to.eql(99);
     expect(autoSaveFormSpy.firstCall.args[3]).to.eql('/test');
