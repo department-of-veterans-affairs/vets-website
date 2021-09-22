@@ -2453,10 +2453,10 @@
   resolved "https://registry.yarnpkg.com/@open-draft/until/-/until-1.0.3.tgz#db9cc719191a62e7d9200f6e7bab21c5b848adca"
   integrity sha512-Aq58f5HiWdyDlFffbbSjAlv596h/cOnt2DO1w3DOC7OJ5EHs0hd/nycJfiu9RJbT6Yk6F1knnRRXNSpxoIVZ9Q==
 
-"@pact-foundation/pact-node@^10.12.2":
-  version "10.13.3"
-  resolved "https://registry.yarnpkg.com/@pact-foundation/pact-node/-/pact-node-10.13.3.tgz#06562bc096fbc91bf03ac932a82759f3fca536c6"
-  integrity sha512-zDPT46GY/H80mj3jc7evCM+M+m17AriHLNCIi/C3Jn2YufU0DHOY8PYLtyLSbRdBzy1+T6JMpMmTDqFHJBn7Bg==
+"@pact-foundation/pact-node@^10.13.7":
+  version "10.13.7"
+  resolved "https://registry.yarnpkg.com/@pact-foundation/pact-node/-/pact-node-10.13.7.tgz#5087a23bee8db3297e5c988bf5084cc836783109"
+  integrity sha512-EhSo5t0QCW5CXdqXPtLo/tkAmAn0Phm7qNgPibh5p5+38Mdrjee77Muk1LVd/MjlW6NV5dH+zLAlD40z4CRelw==
   dependencies:
     "@types/needle" "^2.5.1"
     "@types/pino" "^6.3.5"
@@ -2473,18 +2473,18 @@
     q "1.5.1"
     rimraf "2.6.2"
     sumchecker "^2.0.2"
-    tar "^6.1.7"
+    tar "^6.1.11"
     underscore "1.12.1"
     unixify "1.0.0"
     unzipper "^0.10.10"
     url-join "^4.0.0"
 
-"@pact-foundation/pact@^9.16.0":
-  version "9.16.0"
-  resolved "https://registry.yarnpkg.com/@pact-foundation/pact/-/pact-9.16.0.tgz#3a70fb90c234dd8c4936df0a1d0d953fad605aaf"
-  integrity sha512-UC6xBATLHvfzdMa14IkzvQgmBPxGiLfrWicljpotD9KrIguKQnxnRmpB1vkflcN3kpOLQM4f8HLiSD1HKYeCkw==
+"@pact-foundation/pact@^9.16.1":
+  version "9.16.1"
+  resolved "https://registry.yarnpkg.com/@pact-foundation/pact/-/pact-9.16.1.tgz#ca19dd1e7266b994e60bbf696521274d13092580"
+  integrity sha512-hknXmKy3uvZsJ2rJlazyUk1hJWnxRuxAFbMHZ/edWjxF2gmQO3xyA7SKFjgEhbghORcgLnK3308q/5rJFOfbQg==
   dependencies:
-    "@pact-foundation/pact-node" "^10.12.2"
+    "@pact-foundation/pact-node" "^10.13.7"
     "@types/bluebird" "^3.5.20"
     "@types/express" "^4.17.11"
     bluebird "~3.5.1"
@@ -17997,7 +17997,7 @@ tar-stream@^2.0.0:
     inherits "^2.0.3"
     readable-stream "^3.1.1"
 
-tar@^2.0.0, tar@^4, tar@^4.4.18, tar@^6.0.2, tar@^6.1.0, tar@^6.1.7:
+tar@^2.0.0, tar@^4, tar@^4.4.18, tar@^6.0.2, tar@^6.1.0, tar@^6.1.11:
   version "4.4.19"
   resolved "https://registry.yarnpkg.com/tar/-/tar-4.4.19.tgz#2e4d7263df26f2b914dee10c825ab132123742f3"
   integrity sha512-a20gEsvHnWe0ygBY8JbxoM4w3SJdhc7ZAuxkLqh+nvNQN2IOt0B5lLgM490X5Hl8FF0dl0tOf2ewFYAlIFgzVA==
