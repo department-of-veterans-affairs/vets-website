@@ -14,7 +14,7 @@ export const Balances = () => {
           amount={balance.pHAmtDue}
           facility={balance.station.facilitYDesc}
           city={balance.station.city}
-          dueDate={balance.pSStatementDateOutput}
+          dueDate={balance.pSStatementDate}
         />
       ))}
     </>
