@@ -261,7 +261,10 @@ const pendingPage = (
 );
 
 const loadingPage = (
-  <div className="meb-confirmation-page meb-confirmation-page_loading">
+  <div
+    className="meb-confirmation-page meb-confirmation-page_loading"
+    style={{ marginBottom: '3rem' }}
+  >
     <h1>Wait right there</h1>
     <p>We are currently processing your application.</p>
     <LoadingIndicator message="Loading your results" />
@@ -279,7 +282,7 @@ export class ConfirmationPage extends React.Component {
     const { response } = submission;
     const name = data.veteranFullName;
 
-    const confirmationResult = 'approved';
+    const confirmationResult = 'loading';
 
     switch (confirmationResult) {
       case 'approved': {

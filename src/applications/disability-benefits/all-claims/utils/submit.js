@@ -254,7 +254,7 @@ export const stringifyRelatedDisabilities = formData => {
   return clonedData;
 };
 
-export const cleanUpPersonsInvolved = incident => {
+export const cleanUpPersonsInvolved = (incident = {}) => {
   // We don't want to require any PTSD entries, but EVSS is rejecting any
   // personsInvolved that don't have a "injuryDeath" type set. So we're
   // setting blank entries to "other" and adding a generic other description
@@ -276,10 +276,7 @@ export const cleanUpPersonsInvolved = incident => {
           injuryDeathOther: person.injuryDeathOther || 'Entry left blank',
         };
   });
-  return {
-    ...incident,
-    personsInvolved,
-  };
+  return personsInvolved?.length ? { ...incident, personsInvolved } : incident;
 };
 
 // Remove extra data that may be included

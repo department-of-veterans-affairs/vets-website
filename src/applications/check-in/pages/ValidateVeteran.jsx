@@ -33,7 +33,7 @@ const ValidateVeteran = props => {
       }
       if (!last4Ssn) {
         setLast4ErrorMessage(
-          'Please enter the last 4 digits of your Social Security number',
+          'Please enter the last 4 digits of your Social Security number.',
         );
       }
     } else {
