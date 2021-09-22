@@ -1,3 +1,7 @@
+<!--
+  IMPORTANT: This template is only used when running vets-website in standalone mode for development.
+  Changes to this file must also be made to src/site/layouts/page-react.html in the content-build repository.
+-->
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -35,16 +39,13 @@
     <%= modifyScriptTags(htmlWebpackPlugin.tags.bodyTags) %>
 
     <script nonce="**CSP_NONCE**" type="text/javascript">
-      function scrollToContent(e) {
+      function focusContent(e) {
         e.preventDefault();
         e.target.hidden = true;
-        const contentRoot = document.querySelector('#content');
-        const contentH1 = document.querySelector('#content h1');
-        if (contentH1) {
-          window.scrollTo(0, contentH1.offsetTop);
-        } else {
-          window.scrollTo(0, contentRoot.offsetTop);
-        }
+        const contentElement = document.querySelector('#content h1') || document.querySelector('#content');
+        contentElement.setAttribute('tabindex', '-1');
+        window.scrollTo(0, contentElement.offsetTop);
+        contentElement.focus();
       }
       window.VetsGov = window.VetsGov || {};
       window.VetsGov.headerFooter = <%= JSON.stringify(headerFooterData) %>;
@@ -53,7 +54,7 @@
   </head>
 
   <body class="merger">
-    <a class="show-on-focus" href="#content" onclick="scrollToContent(event)">Skip to Content</a>
+    <a class="show-on-focus" href="#content" onclick="focusContent(event)">Skip to Content</a>
 
     <header class="header">
       <div class="incompatible-browser-warning">
