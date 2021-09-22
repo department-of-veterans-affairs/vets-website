@@ -119,12 +119,13 @@ export function NewAppointment() {
             component={CommunityCareProviderSelectionPage}
           />
         )}
-        {!hasResidentialAddress && (
-          <Route
-            path={`${match.url}/community-care-preferences`}
-            component={CommunityCarePreferencesPage}
-          />
-        )}
+        {!featureCCIteration &&
+          !hasResidentialAddress && (
+            <Route
+              path={`${match.url}/community-care-preferences`}
+              component={CommunityCarePreferencesPage}
+            />
+          )}
         {hasResidentialAddress && (
           <Route
             path={`${match.url}/community-care-language`}
