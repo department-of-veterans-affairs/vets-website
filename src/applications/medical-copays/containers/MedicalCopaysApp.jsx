@@ -1,25 +1,27 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { mcpFeatureToggle } from '../utils/helpers';
-import { getStatements } from '../actions';
 import { isProfileLoading, isLoggedIn } from 'platform/user/selectors';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+// import { getStatements } from '../actions';
 
 const MedicalCopaysApp = ({ children }) => {
   const showMCP = useSelector(state => mcpFeatureToggle(state));
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const profileLoading = useSelector(state => isProfileLoading(state));
   const fetchPending = useSelector(({ mcp }) => mcp.pending);
-  const dispatch = useDispatch();
 
-  useEffect(
-    () => {
-      if (userLoggedIn) {
-        dispatch(getStatements());
-      }
-    },
-    [userLoggedIn], // eslint-disable-line react-hooks/exhaustive-deps
-  );
+  // disabled api call until data is available
+  // const dispatch = useDispatch();
+
+  // useEffect(
+  //   () => {
+  //     if (userLoggedIn) {
+  //       dispatch(getStatements());
+  //     }
+  //   },
+  //   [userLoggedIn], // eslint-disable-line react-hooks/exhaustive-deps
+  // );
 
   if (showMCP === false || (!profileLoading && !userLoggedIn)) {
     window.location.replace('/health-care/pay-copay-bill');

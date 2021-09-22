@@ -5,7 +5,7 @@ import { currency } from '../utils/helpers';
 const BalanceCard = ({ amount, facility, city, dueDate }) => (
   <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2">
     <h3 className="card-balance vads-u-margin-top--0">
-      <a href="#">{currency(amount)}</a>
+      <Link to="/balance-details">{currency(amount)}</Link>
     </h3>
     <p className="card-heading vads-u-margin-top--0">
       Copay balance for {facility} - {city}

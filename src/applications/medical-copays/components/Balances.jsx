@@ -1,22 +1,20 @@
 import React from 'react';
-// import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import BalanceCard from './BalanceCard';
-import { mockCopayBalanceData } from '../utils/mockData';
 
 export const Balances = () => {
-  // const statementData = useSelector(({ mcp }) => mcp.statements.data);
-  // console.log('statementData: ', statementData);
+  const statementData = useSelector(({ mcp }) => mcp.statements);
 
   return (
     <>
-      <h2>What you owe to your {mockCopayBalanceData?.length} facilities</h2>
-      {mockCopayBalanceData?.map(balance => (
+      <h2>What you owe to your {statementData?.length} facilities</h2>
+      {statementData?.map(balance => (
         <BalanceCard
           key={balance.id}
-          amount={balance.amount}
-          facility={balance.facility}
-          city={balance.city}
-          dueDate={balance.dueDate}
+          amount={balance.pHAmtDue}
+          facility={balance.station.facilitYDesc}
+          city={balance.station.city}
+          dueDate={balance.pSStatementDateOutput}
         />
       ))}
     </>
