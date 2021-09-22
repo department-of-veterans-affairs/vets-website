@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import FacilityContacts from '../components/FacilityContacts';
 import Balances from '../components/Balances';
@@ -7,12 +8,22 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import Alert from '../components/Alerts';
 
 const OverviewPage = () => {
+  const statementData = useSelector(({ mcp }) => mcp.statements);
+  const errors = useSelector(({ mcp }) => mcp.errors);
   const [alertType, setAlertType] = useState(0);
 
-  useEffect(() => {
-    scrollToTop();
-    setAlertType(0);
-  }, []);
+  useEffect(
+    () => {
+      scrollToTop();
+      if (!statementData?.length) {
+        setAlertType(3);
+      }
+      if (errors) {
+        setAlertType(1);
+      }
+    },
+    [errors, statementData],
+  );
 
   return (
     <>
@@ -33,7 +44,7 @@ const OverviewPage = () => {
             Check your VA health care and prescription charges from each of your
             facilities. Find out how to make payments or request financial help.
           </p>
-          <Balances />
+          <Balances statementData={statementData} />
           <BalanceQuestions
             contact={
               <span>
@@ -41,7 +52,7 @@ const OverviewPage = () => {
               </span>
             }
           />
-          <FacilityContacts />
+          <FacilityContacts statementData={statementData} />
         </>
       )}
     </>
