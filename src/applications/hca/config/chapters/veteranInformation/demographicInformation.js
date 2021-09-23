@@ -18,15 +18,15 @@ const {
 export default {
   uiSchema: {
     'ui:description': PrefillMessage,
-    gender: {
-      'ui:title': 'Gender',
-      'ui:options': {
-        labels: genderLabels,
-      },
-    },
-    maritalStatus: {
-      'ui:title': 'Marital status',
-    },
+    // gender: {
+    //   'ui:title': 'Gender',
+    //   'ui:options': {
+    //     labels: genderLabels,
+    //   },
+    // },
+    // maritalStatus: {
+    //   'ui:title': 'Marital status',
+    // },
     'view:demographicCategories': {
       'ui:field': DemographicField,
       'ui:title': 'Which categories best describe you?',
@@ -55,11 +55,11 @@ export default {
     type: 'object',
     required: ['gender', 'maritalStatus'],
     properties: {
-      gender,
-      maritalStatus: {
-        type: 'string',
-        enum: maritalStatuses,
-      },
+      // gender,
+      // maritalStatus: {
+      //   type: 'string',
+      //   enum: maritalStatuses,
+      // },
       'view:demographicCategories': {
         type: 'object',
         properties: {
