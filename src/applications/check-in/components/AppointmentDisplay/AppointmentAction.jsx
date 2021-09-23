@@ -93,16 +93,10 @@ export default function AppointmentAction(props) {
     }
   } else {
     return (
-      <button
-        type="button"
-        className="usa-button usa-button-big vads-u-font-size--md"
-        onClick={onClick}
-        data-testid="check-in-button"
-        disabled={isCheckingIn}
-        aria-label="Check in now for your appointment"
-      >
-        {isCheckingIn ? <>Loading...</> : <>Check in now</>}
-      </button>
+      <p data-testid="no-status-given-message">
+        This appointment isn’t eligible for online check-in. Check-in with a
+        staff member.
+      </p>
     );
   }
 }

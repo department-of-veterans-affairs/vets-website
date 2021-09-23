@@ -10,12 +10,13 @@ import { STATUSES } from '../../../utils/appointment/status';
 
 describe('check-in', () => {
   describe('AppointmentAction', () => {
-    it('should render the check in button if there no status (for phase 1 and before)', () => {
+    it('should render the bad status message for appointments with INELIGIBLE_BAD_STATUS status', () => {
       const action = render(<AppointmentAction appointment={{}} />);
 
-      expect(action.getByTestId('check-in-button')).to.exist;
-      expect(action.getByTestId('check-in-button')).to.have.text(
-        'Check in now',
+      expect(action.queryByTestId('check-in-button')).to.not.exist;
+      expect(action.getByTestId('no-status-given-message')).to.exist;
+      expect(action.getByTestId('no-status-given-message')).to.have.text(
+        'This appointment isn’t eligible for online check-in. Check-in with a staff member.',
       );
     });
     it('should render the check in button for ELIGIBLE appointments status', () => {
@@ -77,7 +78,6 @@ describe('check-in', () => {
         'This appointment isn’t eligible for online check-in. Check-in with a staff member.',
       );
     });
-
     it('should render the bad status message for appointments with INELIGIBLE_TOO_LATE status', () => {
       const action = render(
         <AppointmentAction
