@@ -644,10 +644,11 @@ const formConfig = {
                   <p>
                     Any updates you make here to your mailing address will only
                     apply to your education benefits. To update your mailing
-                    address for all of the benefits across VA,
+                    address for all of the benefits across VA,{' '}
                     <a href="https://www.va.gov/profile/personal-information">
                       please go to your profile page
                     </a>
+                    .
                   </p>
                 </>
               ),

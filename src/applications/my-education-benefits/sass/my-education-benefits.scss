@@ -358,6 +358,14 @@ input#root_view\:mailingAddress_address_postalCode {
 	width: 50%;
 }
 
+legend#root_view\:dateOfBirth_dateOfBirth-label {
+	margin-bottom: 1rem;
+}
+
+input#root_view\:mailingAddress_address_postalCode {
+	width: 50%;
+}
+
 label.schemaform-label[for=root_mobilePhoneNumber_isInternational],
 label.schemaform-label[for=root_phoneNumber_isInternational] {
 	margin-top: 2rem;
