@@ -10,6 +10,14 @@ import { STATUSES } from '../../../utils/appointment/status';
 
 describe('check-in', () => {
   describe('AppointmentAction', () => {
+    it('should render the check in button if there no status (for phase 1 and before)', () => {
+      const action = render(<AppointmentAction appointment={{}} />);
+
+      expect(action.getByTestId('check-in-button')).to.exist;
+      expect(action.getByTestId('check-in-button')).to.have.text(
+        'Check in now',
+      );
+    });
     it('should render the check in button for ELIGIBLE appointments status', () => {
       const action = render(
         <AppointmentAction
