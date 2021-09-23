@@ -21,7 +21,7 @@ Alert.Error = () => (
         For questions about your payment or relief options,
       </strong>
       contact us at
-      <Telephone contact={'8664001238'} className="vads-u-margin-x--0p5" />
+      <Telephone contact={'866-400-1238'} className="vads-u-margin-x--0p5" />
       (TTY:
       <Telephone
         contact={CONTACTS[711]}
@@ -107,13 +107,11 @@ Alert.Deceased = () => (
 
 const RenderAlert = ({ type }) => {
   switch (type) {
-    case 1:
-      return <Alert.Error />;
-    case 2:
+    case 'no-health-care':
       return <Alert.NoHealthcare />;
-    case 3:
+    case 'no-history':
       return <Alert.NoHistory />;
-    case 4:
+    case 'deceased':
       return <Alert.Deceased />;
     default:
       return <Alert.Error />;

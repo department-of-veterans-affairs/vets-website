@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import DownloadStatements from '../components/DownloadStatements';
 import BalanceQuestions from '../components/BalanceQuestions';
@@ -12,12 +13,18 @@ import Modals from '../components/Modals';
 import Alert from '../components/Alerts';
 
 const DetailPage = () => {
-  const [alertType, setAlertType] = useState(0);
+  const errors = useSelector(({ mcp }) => mcp.errors);
+  const [alertType, setAlertType] = useState(null);
 
-  useEffect(() => {
-    scrollToTop();
-    setAlertType(0);
-  }, []);
+  useEffect(
+    () => {
+      scrollToTop();
+      if (errors) {
+        setAlertType('error');
+      }
+    },
+    [errors],
+  );
 
   return (
     <>

@@ -10,16 +10,16 @@ import Alert from '../components/Alerts';
 const OverviewPage = () => {
   const statementData = useSelector(({ mcp }) => mcp.statements);
   const errors = useSelector(({ mcp }) => mcp.errors);
-  const [alertType, setAlertType] = useState(0);
+  const [alertType, setAlertType] = useState(null);
 
   useEffect(
     () => {
       scrollToTop();
       if (!statementData?.length) {
-        setAlertType(3);
+        setAlertType('no-history');
       }
       if (errors) {
-        setAlertType(1);
+        setAlertType('error');
       }
     },
     [errors, statementData],
