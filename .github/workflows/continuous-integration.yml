@@ -37,7 +37,7 @@ jobs:
         run: git rev-parse HEAD
 
       - name: Test Origin SHA with REVPARSE
-        run: git rev-parse master
+        run: git rev-parse origin/master
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -868,7 +868,7 @@ jobs:
         run: git rev-parse HEAD
 
       - name: Test Origin SHA with REVPARSE
-        run: git rev-parse master
+        run: git rev-parse origin/master
 
   deploy:
     name: Deploy
