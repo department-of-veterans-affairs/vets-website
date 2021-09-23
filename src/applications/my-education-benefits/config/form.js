@@ -583,7 +583,7 @@ const formConfig = {
                   <p>
                     Any updates you make here to your mailing address will only
                     apply to your education benefits. To update your mailing
-                    address for all of the benefits across VA, .
+                    address for all of the benefits across VA,
                     <a href="https://www.va.gov/profile/personal-information">
                       please go to your profile page
                     </a>
@@ -607,7 +607,7 @@ const formConfig = {
               [formFields.address]: {
                 ...address.uiSchema(''),
                 street: {
-                  'ui:title': 'Street Address',
+                  'ui:title': 'Street address',
                   'ui:errorMessages': {
                     required: 'Please enter your full street address',
                   },
