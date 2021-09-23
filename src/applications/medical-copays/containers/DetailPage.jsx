@@ -16,9 +16,9 @@ import moment from 'moment';
 
 const DetailPage = ({ match }) => {
   const selectedId = match.params.id;
+  const errors = useSelector(({ mcp }) => mcp.errors);
   const statementData = useSelector(({ mcp }) => mcp.statements);
   const [selectedDebt] = statementData.filter(({ id }) => selectedId === id);
-  const errors = useSelector(({ mcp }) => mcp.errors);
   const [alertType, setAlertType] = useState(null);
 
   useEffect(
@@ -45,7 +45,7 @@ const DetailPage = ({ match }) => {
         </a>
       </Breadcrumbs>
       <h1 className="vads-u-margin-bottom--1">
-        Your copay bill for {selectedDebt.station.facilitYDesc}
+        Your copay bill for {selectedDebt?.station.facilitYDesc}
       </h1>
       {alertType ? (
         <Alert type={alertType} />
@@ -53,14 +53,16 @@ const DetailPage = ({ match }) => {
         <>
           <p className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--5">
             Updated on
-            {moment(statementData.pSProcessDate, 'MM-DD-YYYY').format(
-              'MMMM D, YYYY',
-            )}
+            <span className="vads-u-margin-x--0p5">
+              {moment(selectedDebt?.pSProcessDate, 'MM-DD-YYYY').format(
+                'MMMM D, YYYY',
+              )}
+            </span>
           </p>
           <va-alert background-only status="info">
             <h3 className="vads-u-margin-y--0">
-              Pay your {currency(selectedDebt.pHAmtDue)} balance or request help
-              before July 2, 2021
+              Pay your {currency(selectedDebt?.pHAmtDue)} balance or request
+              help before July 2, 2021
             </h3>
             <p>
               To avoid late fees or collection action on your bill, you must pay
@@ -89,7 +91,7 @@ const DetailPage = ({ match }) => {
           </va-alert>
           <va-on-this-page />
           <DownloadStatements />
-          <HowToPay />
+          <HowToPay acctNum={selectedDebt.pHCernerAccountNumber} />
           <FinancialHelp />
           <DisputeCharges />
           <BalanceQuestions
