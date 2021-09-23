@@ -6,7 +6,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import BackToHome from '../../components/BackToHome';
 import Footer from '../../components/Footer';
 import BackButton from '../../components/BackButton';
-import AppointmentLocation from '../../components/AppointmentLocation';
+import AppointmentLocation from '../../components/AppointmentDisplay/AppointmentLocation';
 
 import { api } from '../../api';
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { api } from '../api';
+import { api } from '../../api';
 
-import { goToNextPage, URLS } from '../utils/navigation';
+import { goToNextPage, URLS } from '../../utils/navigation';
 
 import recordEvent from 'platform/monitoring/record-event';
 

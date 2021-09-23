@@ -4,7 +4,7 @@ import format from 'date-fns/format';
 import BackToHome from '../../components/BackToHome';
 import Footer from '../../components/Footer';
 import BackButton from '../../components/BackButton';
-import AppointmentListItem from '../../components/AppointmentListItem';
+import AppointmentListItem from '../../components/AppointmentDisplay/AppointmentListItem';
 
 export default function DisplayMultipleAppointments(props) {
   const {
