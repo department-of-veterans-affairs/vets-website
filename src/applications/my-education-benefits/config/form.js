@@ -58,8 +58,11 @@ import {
 import MailingAddressViewField from '../components/MailingAddressViewField';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
 
-import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
-import { validatePhone, validateEmail } from '../utils/validation';
+import {
+  isValidPhone,
+  validatePhone,
+  validateEmail,
+} from '../utils/validation';
 
 const {
   fullName,
@@ -93,8 +96,8 @@ const formFields = {
   benefitSelection: 'benefitSelection',
   benefitEffectiveDate: 'benefitEffectiveDate',
   incorrectServiceHistoryExplanation: 'incorrectServiceHistoryExplanation',
-  contactMethodRdoBtnList: 'contactMethodRdoBtnList',
-  notificationTypes: 'notificationTypes',
+  contactMethod: 'contactMethod',
+  receiveTextMessages: 'receiveTextMessages',
   hasDoDLoanPaymentPeriod: 'hasDoDLoanPaymentPeriod',
   activeDutyKicker: 'activeDutyKicker',
   selectedReserveKicker: 'selectedReserveKicker',
@@ -176,7 +179,6 @@ function phoneUISchema(category) {
 function phoneSchema() {
   return {
     type: 'object',
-    required: ['phone'],
     properties: {
       phone: {
         ...usaPhone,
@@ -208,6 +210,7 @@ function AdditionalConsiderationTemplate(
   info,
 ) {
   let additionalInfo;
+
   if (trigger) {
     additionalInfo = {
       'view:note': {
@@ -263,6 +266,33 @@ function givingUpBenefitSelected(formData) {
 function notGivingUpBenefitSelected(formData) {
   return !givingUpBenefitSelected(formData);
 }
+
+// const contactPref = {};
+
+// function ContactPreferenceAlertUI() {
+//   let status = 'info';
+//   let copy =
+//     'For text messages, messaging and data rates may apply. At this time, VA is only able to send text messages about education benefits to US-based mobile phone numbers.';
+
+//   if (contactPref.phone) {
+//     status = 'warning';
+//     copy =
+//       'You can’t choose to receive text messages because you don’t have a mobile phone number on file.';
+//   }
+//   if (contactPref.isInternational) {
+//     status = 'warning';
+//     copy =
+//       'You can’t choose to receive text messages because your mobile phone number is international. At this time, VA is only able to send text messages about your education benefits to US-based mobile phone numbers.';
+//   }
+
+//   return {
+//     'ui:description': (
+//       <va-alert onClose={function noRefCheck() {}} status={status}>
+//         <div style={{ marginTop: 0 }}>{copy}</div>
+//       </va-alert>
+//     ),
+//   };
+// }
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -554,7 +584,7 @@ const formConfig = {
                   <p>
                     Any updates you make here to your mailing address will only
                     apply to your education benefits. To update your mailing
-                    address for all of the benefits across VA, .
+                    address for all of the benefits across VA,
                     <a href="https://www.va.gov/profile/personal-information">
                       please go to your profile page
                     </a>
@@ -578,7 +608,7 @@ const formConfig = {
               [formFields.address]: {
                 ...address.uiSchema(''),
                 street: {
-                  'ui:title': 'Street Address',
+                  'ui:title': 'Street address',
                   'ui:errorMessages': {
                     required: 'Please enter your full street address',
                   },
@@ -653,11 +683,14 @@ const formConfig = {
         },
         [formPages.contactInformation.preferredContactMethod]: {
           path: 'contact/preferences',
-          title: 'Contact preferences',
           uiSchema: {
-            'ui:description': <h3>Select your preferred contact method</h3>,
-            [formFields.contactMethodRdoBtnList]: {
-              'ui:title':
+            [formFields.contactMethod]: {
+              'ui:title': (
+                <div>
+                  <h3>Choose your contact method for follow-up questions</h3>
+                </div>
+              ),
+              'ui:description':
                 'How should we contact you if we have questions about your application?',
               'ui:widget': 'radio',
               'ui:options': {
@@ -674,73 +707,126 @@ const formConfig = {
                   Mail: { 'aria-describedby': 'mail' },
                 },
               },
-              // 'ui:validations': [validateBooleanGroup],
               'ui:errorMessages': {
                 required: 'Please select at least one way we can contact you.',
               },
             },
-            [formFields.notificationTypes]: {
-              'ui:title':
-                'How would you like to receive notifications about your education benefits?',
-              canEmailNotify: {
-                'ui:title': 'Email',
-              },
-              canTextNotify: {
-                'ui:title': 'Text message',
-              },
-              'ui:validations': [validateBooleanGroup],
-              'ui:errorMessages': {
-                atLeastOne:
-                  'Please select at least one way we can send you notifications.',
-              },
-              'ui:options': {
-                showFieldLabel: true,
+            [formFields.receiveTextMessages]: {
+              'ui:title': (
+                <>
+                  <h3>Choose your notification method</h3>
+                </>
+              ),
+              'ui:description': (
+                <>
+                  <p>
+                    We’ll send you important notifications about your benefits,
+                    including alerts to verify your monthly enrollment. You’ll
+                    need to verify your monthly enrollment to receive payment.
+                  </p>
+                  <p>
+                    We recommend opting-in for text message notifications to
+                    make verifying your monthly enrollment simpler.
+                  </p>
+                  <p>
+                    Would you like to receive text message notifications on your
+                    education benefits?
+                  </p>
+                </>
+              ),
+              'ui:widget': 'radio',
+              'ui:options': data => {
+                window.console.log(data);
+                return {
+                  widgetProps: {
+                    Yes: { 'data-info': 'yes', disabled: true },
+                    No: { 'data-info': 'no' },
+                  },
+                  selectedProps: {
+                    Yes: { 'aria-describedby': 'yes' },
+                    No: { 'aria-describedby': 'no' },
+                  },
+                };
               },
               'ui:objectViewField': SelectedCheckboxesReviewField,
             },
-            'view:note': {
+            'view:textMessagesAlert': {
               'ui:description': (
-                <p>
-                  <strong>Note</strong>: Notifications may include monthly
-                  enrollment verification required to receive payment. For text
-                  messages, messaging and data rates may apply. At this time, VA
-                  is only able to send text messages about your education
-                  benefits to US-based mobile phone numbers.
-                </p>
+                <va-alert onClose={function noRefCheck() {}} status="info">
+                  <p style={{ margin: 0 }}>
+                    For text messages, messaging and data rates may apply. At
+                    this time, VA is only able to send text messages about
+                    education benefits to US-based mobile phone numbers.
+                  </p>
+                </va-alert>
               ),
+              'ui:options': {
+                hideIf: formData =>
+                  !isValidPhone(formData[formFields.mobilePhoneNumber].phone) ||
+                  formData[formFields.mobilePhoneNumber].isInternational,
+              },
+            },
+            'view:noMobilePhoneAlert': {
+              'ui:description': (
+                <va-alert onClose={function noRefCheck() {}} status="warning">
+                  <p style={{ margin: 0 }}>
+                    You can’t choose to receive text messages because you don’t
+                    have a mobile phone number on file.
+                  </p>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData =>
+                  isValidPhone(formData[formFields.mobilePhoneNumber].phone) ||
+                  formData[formFields.mobilePhoneNumber].isInternational,
+              },
+            },
+            'view:internationalTextMessageAlert': {
+              'ui:description': (
+                <va-alert onClose={function noRefCheck() {}} status="warning">
+                  <p style={{ margin: 0 }}>
+                    You can’t choose to receive text messages because your
+                    mobile phone number is international. At this time, VA is
+                    only able to send text messages about your education
+                    benefits to US-based mobile phone numbers.
+                  </p>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData =>
+                  !formData[formFields.mobilePhoneNumber].isInternational,
+              },
             },
           },
           schema: {
             type: 'object',
             required: [
-              formFields.contactMethodRdoBtnList,
-              formFields.notificationTypes,
+              formFields.contactMethod,
+              formFields.receiveTextMessages,
             ],
             properties: {
-              [formFields.contactMethodRdoBtnList]: {
+              [formFields.contactMethod]: {
                 type: 'string',
                 enum: ['Email', 'Mobile phone', 'Home phone', 'Mail'],
               },
-              [formFields.notificationTypes]: {
-                type: 'object',
-                properties: {
-                  canEmailNotify: { type: 'boolean' },
-                  canTextNotify: { type: 'boolean' },
-                },
+              [formFields.receiveTextMessages]: {
+                type: 'string',
+                enum: ['Yes', 'No, just send me email notifications'],
               },
-              'view:note': {
+              'view:textMessagesAlert': {
+                type: 'object',
+                properties: {},
+              },
+              'view:noMobilePhoneAlert': {
+                type: 'object',
+                properties: {},
+              },
+              'view:internationalTextMessageAlert': {
                 type: 'object',
                 properties: {},
               },
             },
           },
-          // initialData: {
-          //   [formFields.contactMethodRdoBtnList]: 'Email',
-          //   [formFields.notificationTypes]: {
-          //     canEmailNotify: true,
-          //     canTextNotify: true,
-          //   },
-          // },
         },
       },
     },
@@ -860,7 +946,7 @@ const formConfig = {
     benefitSelection: {
       title: 'Benefit selection',
       pages: {
-        [formPages.benefitSelect]: {
+        [formPages.benefitSelection]: {
           path: 'benefit-selection',
           title: 'Benefit selection',
           subTitle: "You're applying for the Post-9/11 GI Bill®",
@@ -1026,54 +1112,6 @@ const formConfig = {
             benefitSelection: '',
           },
         },
-        // [formPages.directDeposit]: {
-        //   path: 'direct-deposit',
-        //   title: 'Direct Deposit',
-        //   uiSchema: {
-        //     'ui:title': 'Direct deposit',
-        //     [formFields.viewNoDirectDeposit]: {
-        //       'ui:title': 'I don’t want to use direct deposit',
-        //     },
-        //     [formFields.bankAccount]: _.merge(bankAccountUI, {
-        //       'ui:order': [
-        //         formFields.accountType,
-        //         formFields.accountNumber,
-        //         formFields.routingNumber,
-        //       ],
-        //       'ui:options': {
-        //         hideIf: formData => !hasDirectDeposit(formData),
-        //       },
-        //       [formFields.accountType]: {
-        //         'ui:required': hasDirectDeposit,
-        //       },
-        //       [formFields.accountNumber]: {
-        //         'ui:required': hasDirectDeposit,
-        //       },
-        //       [formFields.routingNumber]: {
-        //         'ui:required': hasDirectDeposit,
-        //       },
-        //     }),
-        //     [formFields.viewStopWarning]: {
-        //       'ui:description': directDepositWarning,
-        //       'ui:options': {
-        //         hideIf: hasDirectDeposit,
-        //       },
-        //     },
-        //   },
-        //   schema: {
-        //     type: 'object',
-        //     properties: {
-        //       [formFields.viewNoDirectDeposit]: {
-        //         type: 'boolean',
-        //       },
-        //       [formFields.bankAccount]: bankAccount,
-        //       [formFields.viewStopWarning]: {
-        //         type: 'object',
-        //         properties: {},
-        //       },
-        //     },
-        //   },
-        // },
       },
     },
     additionalConsiderationsChapter: {
