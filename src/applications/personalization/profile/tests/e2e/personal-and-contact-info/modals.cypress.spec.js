@@ -2,6 +2,7 @@ import { PROFILE_PATHS } from '@@profile/constants';
 
 import { mockUser } from '@@profile/tests/fixtures/users/user.js';
 import transactionCompletedWithNoChanges from '@@profile/tests/fixtures/transactions/no-changes-transaction.json';
+import transactionCompletedWithError from '@@profile/tests/fixtures/transactions/error-transaction.json';
 
 const setup = (mobile = false) => {
   if (mobile) {
@@ -178,5 +179,39 @@ describe('Modals on the personal information and content page after editing', ()
 
     // verify input exists
     cy.findByLabelText(/email address/i);
+  });
+});
+
+describe('Modals on the personal information and content page when they error', () => {
+  it('should allow the ability to reopen the edit modal when the transaction completes', () => {
+    setup();
+
+    const sectionName = 'contact email address';
+
+    cy.intercept('/v0/profile/email_addresses', transactionCompletedWithError);
+
+    // Open edit view
+    cy.findByRole('button', {
+      name: new RegExp(`edit ${sectionName}`, 'i'),
+    }).click({
+      force: true,
+    });
+
+    // Click on Update in the current section
+    cy.findByTestId('save-edit-button').click({
+      force: true,
+    });
+
+    // expect an error to be shown
+    cy.findByTestId('edit-error-alert').should('exist');
+
+    // check for error modal and check that the close is focused then click it
+    cy.findByRole('button', { name: /close notification/i }).should(
+      'be.focused',
+    );
+    cy.findByRole('button', { name: /close notification/i }).click();
+
+    // check if update button is focused
+    cy.findByTestId('save-edit-button').should('be.focused');
   });
 });

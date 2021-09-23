@@ -80,6 +80,29 @@ export class ContactInformationEditView extends Component {
     }
   }
 
+  focusOnUpdateButton() {
+    const focusableElement = this.editForm?.querySelector(
+      '[data-testid="save-edit-button"]',
+    );
+    if (focusableElement) {
+      focusableElement.focus();
+    }
+  }
+
+  focusOnError() {
+    const focusableElement = this.errorAlert?.querySelector(
+      'button[aria-label="Close notification"]',
+    );
+    if (focusableElement) {
+      focusableElement.focus();
+    }
+  }
+
+  clearErrorsAndShiftFocus(fieldName) {
+    this.props.clearTransactionRequest(fieldName);
+    this.focusOnUpdateButton();
+  }
+
   componentDidMount() {
     const { getInitialFormValues } = this.props;
     this.onChangeFormDataAndSchemas(
@@ -93,6 +116,13 @@ export class ContactInformationEditView extends Component {
   componentDidUpdate(prevProps) {
     if (!prevProps.field && !!this.props.field) {
       this.focusOnFirstFormElement();
+    }
+
+    if (
+      this.props.transactionRequest?.error ||
+      isFailedTransaction(this.props.transaction)
+    ) {
+      this.focusOnError();
     }
 
     // if the transaction just became pending, start calling
@@ -260,11 +290,14 @@ export class ContactInformationEditView extends Component {
             role="alert"
             className="vads-u-margin-bottom--2"
             data-testid="edit-error-alert"
+            ref={el => {
+              this.errorAlert = el;
+            }}
           >
             <VAPServiceEditModalErrorMessage
               title={title}
               error={error}
-              clearErrors={() => this.props.clearTransactionRequest(fieldName)}
+              clearErrors={() => this.clearErrorsAndShiftFocus(fieldName)}
             />
           </div>
         )}
