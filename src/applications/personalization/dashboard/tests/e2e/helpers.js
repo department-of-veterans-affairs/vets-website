@@ -1,22 +1,3 @@
-export const mockFeatureToggles = () => {
-  cy.server();
-  cy.route({
-    method: 'GET',
-    status: 200,
-    url: '/v0/feature_toggles*',
-    response: {
-      data: {
-        features: [
-          {
-            name: 'dashboard_show_dashboard_2',
-            value: true,
-          },
-        ],
-      },
-    },
-  });
-};
-
 // Helper to make sure that the "health care" info does or doesn't exist
 export function healthCareInfoExists(exists) {
   const assertion = exists ? 'exist' : 'not.exist';
