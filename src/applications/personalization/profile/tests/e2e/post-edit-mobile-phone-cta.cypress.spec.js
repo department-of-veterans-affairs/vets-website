@@ -36,8 +36,7 @@ describe('Return to Notification Settings CTA', () => {
       body: userWithMobilePhone,
     });
   });
-  // TODO: unskip after the functionality works
-  it.skip('should be shown after adding mobile phone number', () => {
+  it('should be shown after adding mobile phone number', () => {
     cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
     cy.findByRole('link', { name: /add.*mobile phone/i }).click();
     cy.findByRole('button', { name: /edit mobile phone/i })

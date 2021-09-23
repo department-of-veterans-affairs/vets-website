@@ -154,6 +154,7 @@ export default function vapService(state = initialState, action) {
         transactionsAwaitingUpdate: state.transactionsAwaitingUpdate.filter(
           tid => tid !== transactionId,
         ),
+        mostRecentlySavedField: null,
       };
     }
 
@@ -162,6 +163,8 @@ export default function vapService(state = initialState, action) {
         action.transaction.data.attributes.transactionId;
       const fieldTransactionMap = { ...state.fieldTransactionMap };
 
+      let mostRecentlySavedField;
+
       Object.keys(fieldTransactionMap).forEach(field => {
         const transactionRequest = fieldTransactionMap[field];
         if (
@@ -169,6 +172,7 @@ export default function vapService(state = initialState, action) {
           transactionRequest.transactionId === finishedTransactionId
         ) {
           delete fieldTransactionMap[field];
+          mostRecentlySavedField = field;
         }
       });
 
@@ -185,6 +189,7 @@ export default function vapService(state = initialState, action) {
         ),
         modal: null,
         fieldTransactionMap,
+        mostRecentlySavedField,
       };
     }
 
