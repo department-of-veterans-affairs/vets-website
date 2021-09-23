@@ -7,6 +7,7 @@ const STATUSES = Object.freeze({
   INELIGIBLE_UNKNOWN_REASON: 'INELIGIBLE_UNKNOWN_REASON',
 });
 
-const areEqual = (a, b) => a.toLowerCase() === b.toLowerCase();
+const areEqual = (a, b) =>
+  a && b ? a.toLowerCase() === b.toLowerCase() : false;
 
 export { STATUSES, areEqual };
