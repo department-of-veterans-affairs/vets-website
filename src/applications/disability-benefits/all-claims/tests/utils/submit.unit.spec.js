@@ -11,6 +11,7 @@ import {
   setActionTypes,
   filterServicePeriods,
   cleanUpPersonsInvolved,
+  addForm0781,
 } from '../../utils/submit';
 import {
   PTSD_INCIDENT_ITERATION,
@@ -310,6 +311,155 @@ describe('cleanUpPersonsInvolved', () => {
           description: 'should not change',
         },
       ],
+    });
+  });
+});
+
+describe('addForm0781', () => {
+  it('should return an empty object', () => {
+    expect(addForm0781({})).to.deep.equal({});
+  });
+  it('should skip empty entries', () => {
+    const data = {
+      incident0: {
+        incidentLocation: {
+          country: 'USA',
+          state: 'AL',
+          city: 'asdf',
+          additionalDetails: 'Additional details here.',
+        },
+        incidentDescription: 'A thing happened.',
+        personsInvolved: [
+          {
+            'view:serviceMember': true,
+            name: { first: 'First', middle: 'Middle', last: 'Last' },
+            injuryDeath: 'injuredNonBattle',
+            injuryDeathDate: '2010-05-01',
+            description: 'description 0',
+          },
+          {
+            name: {},
+          },
+          {
+            'view:serviceMember': false,
+            name: {},
+            injuryDeath: 'other',
+            injuryDeathOther: 'Some other',
+            description: 'description 2',
+          },
+        ],
+        unitAssigned: 'Unit name here',
+        unitAssignedDates: {
+          from: '2010-01-01',
+          to: '2011-01-01',
+        },
+        incidentDate: '2010-05-01',
+        medalsCitations: 'None',
+      },
+      incident1: {
+        incidentLocation: {
+          country: 'USA',
+        },
+      },
+      incident2: {
+        incidentLocation: {
+          country: 'USA',
+        },
+      },
+      secondaryIncident0: {
+        incidentLocation: {
+          country: 'USA',
+        },
+      },
+      secondaryIncident1: {
+        incidentLocation: {
+          country: 'USA',
+        },
+      },
+      secondaryIncident2: {
+        incidentLocation: {
+          country: 'USA',
+        },
+      },
+      additionalRemarks781: 'additionalRemarks781',
+      additionalIncidentText: 'additionalIncidentText',
+      additionalSecondaryIncidentText: 'additionalSecondaryIncidentText',
+      physicalChanges: { lethargy: true },
+      mentalChanges: { fear: true },
+      workBehaviorChanges: { increasedLeave: true },
+      socialBehaviorChanges: { unexplained: true },
+      additionalChanges: {},
+    };
+
+    expect(addForm0781(data)).to.deep.equal({
+      form0781: {
+        incidents: [
+          {
+            incidentDescription: 'A thing happened.',
+            personsInvolved: [
+              {
+                'view:serviceMember': true,
+                name: { first: 'First', middle: 'Middle', last: 'Last' },
+                injuryDeath: 'injuredNonBattle',
+                injuryDeathDate: '2010-05-01',
+                description: 'description 0',
+              },
+              {
+                name: { first: '', middle: '', last: '' },
+                injuryDeath: 'other',
+                injuryDeathOther: 'Entry left blank',
+              },
+              {
+                'view:serviceMember': false,
+                name: { first: '', middle: '', last: '' },
+                injuryDeath: 'other',
+                injuryDeathOther: 'Some other',
+                description: 'description 2',
+              },
+            ],
+            incidentLocation: {
+              additionalDetails: 'Additional details here.',
+              city: 'asdf',
+              country: 'USA',
+              state: 'AL',
+            },
+            unitAssigned: 'Unit name here',
+            unitAssignedDates: { from: '2010-01-01', to: '2011-01-01' },
+            incidentDate: '2010-05-01',
+            medalsCitations: 'None',
+            personalAssault: false,
+          },
+          {
+            incidentLocation: { country: 'USA' },
+            personalAssault: false,
+          },
+          {
+            incidentLocation: { country: 'USA' },
+            personalAssault: false,
+          },
+          {
+            incidentLocation: { country: 'USA' },
+            personalAssault: true,
+          },
+          {
+            incidentLocation: { country: 'USA' },
+            personalAssault: true,
+          },
+          {
+            incidentLocation: { country: 'USA' },
+            personalAssault: true,
+          },
+        ],
+        additionalIncidentText: 'additionalIncidentText',
+        additionalSecondaryIncidentText: 'additionalSecondaryIncidentText',
+        otherInformation: [
+          'Lethargy',
+          'Unexplained social behavior changes',
+          'Increased fear of surroundings, inability to go to certain areas',
+          'Increased use of leave',
+        ],
+        remarks: 'additionalRemarks781',
+      },
     });
   });
 });

@@ -1,17 +1,16 @@
 import React from 'react';
 import BalanceCard from './BalanceCard';
-import { mockCopayBalanceData } from '../utils/mockData';
 
-export const Balances = () => (
+export const Balances = ({ statementData }) => (
   <>
-    <h2>What you owe to your {mockCopayBalanceData.length} facilities</h2>
-    {mockCopayBalanceData.map(balance => (
+    <h2>What you owe to your {statementData?.length} facilities</h2>
+    {statementData?.map(balance => (
       <BalanceCard
         key={balance.id}
-        amount={balance.amount}
-        facility={balance.facility}
-        city={balance.city}
-        dueDate={balance.dueDate}
+        amount={balance.pHAmtDue}
+        facility={balance.station.facilitYDesc}
+        city={balance.station.city}
+        dueDate={balance.pSStatementDate}
       />
     ))}
   </>

@@ -1,6 +1,12 @@
 // Relative imports.
 import { mockUser } from '@@profile/tests/fixtures/users/user.js';
 
+Cypress.Commands.add('checkMenuItem', (selector, expectedPath) => {
+  cy.get(selector).click();
+  cy.location('pathname').should('eq', expectedPath);
+  cy.go('back');
+});
+
 const testFirstMenuSection = isMobile => {
   cy.get('[data-e2e-id="vetnav-level2--disability"').should('not.exist');
   cy.get(`#mega-menu-${isMobile ? 'desktop' : 'mobile'} #vetnav`).should(
@@ -11,9 +17,8 @@ const testFirstMenuSection = isMobile => {
   cy.get('[data-e2e-id="view-all-in-disability"]');
   cy.get('[data-e2e-id="vetnav-column-one-header"]');
   cy.get('[data-e2e-id="eligibility-0"]');
-  // cy.get('[data-e2e-id="coronavirus-fa-qs"]');
   cy.get('[data-e2e-id="about-va-1"]');
-  cy.get('[data-e2e-id="find-a-va-location-2"]');
+  cy.checkMenuItem('[data-e2e-id="find-a-va-location-2"]', '/find-locations/');
 };
 
 const testSecondMenuSection = isMobile => {

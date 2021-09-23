@@ -108,7 +108,6 @@ class ContactInformationField extends React.Component {
   state = {
     showCannotEditModal: false,
     showConfirmCancelModal: false,
-    showConfirmRemoveModal: false,
   };
 
   closeModalTimeoutID = null;
@@ -157,7 +156,6 @@ class ContactInformationField extends React.Component {
   };
 
   cancelDeleteAction = () => {
-    this.setState({ showConfirmRemoveModal: false });
     recordEvent({
       event: 'profile-navigation',
       'profile-action': 'cancel-delete-button',
@@ -219,7 +217,6 @@ class ContactInformationField extends React.Component {
 
   closeModal = () => {
     this.props.openModal(null);
-    this.setState({ showConfirmRemoveModal: false });
   };
 
   openEditModal = () => {
@@ -228,6 +225,10 @@ class ContactInformationField extends React.Component {
     } else {
       this.props.openModal(this.props.fieldName);
     }
+  };
+
+  openRemoveModal = () => {
+    this.props.openModal(`remove-${this.props.fieldName}`);
   };
 
   refreshTransactionNotProps = () => {
@@ -253,7 +254,7 @@ class ContactInformationField extends React.Component {
       'profile-action': 'delete-button',
       'profile-section': this.props.analyticsSectionName,
     });
-    this.setState({ showConfirmRemoveModal: true });
+    this.openRemoveModal();
   };
 
   render() {
@@ -262,6 +263,7 @@ class ContactInformationField extends React.Component {
       fieldName,
       isEmpty,
       showEditView,
+      showRemoveModal,
       showValidationView,
       title,
       transaction,
@@ -280,7 +282,7 @@ class ContactInformationField extends React.Component {
     const wrapInTransaction = children => {
       return (
         <VAPServiceTransaction
-          isModalOpen={showEditView || showValidationView}
+          isModalOpen={showEditView || showValidationView || showRemoveModal}
           id={`${fieldName}-transaction-status`}
           title={title}
           transaction={transaction}
@@ -397,8 +399,8 @@ class ContactInformationField extends React.Component {
           title={title}
           fieldName={fieldName}
           isEnrolledInVAHealthCare={isEnrolledInVAHealthCare}
-          isVisible={this.state.showConfirmRemoveModal}
-          onHide={() => this.setState({ showConfirmRemoveModal: false })}
+          isVisible={showRemoveModal}
+          onHide={this.closeModal}
           error={error}
         />
 
@@ -452,6 +454,7 @@ export const mapStateToProps = (state, ownProps) => {
     data,
     fieldName,
     showEditView: activeEditView === fieldName,
+    showRemoveModal: activeEditView === `remove-${fieldName}`,
     showValidationView: !!showValidationView,
     isEmpty,
     transaction,
