@@ -36,7 +36,7 @@ jobs:
       - name: Test Current SHA with REVPARSE
         run: git rev-parse HEAD
 
-      - name: Test Origin SHA
+      - name: Test Origin SHA with REVPARSE
         run: git rev-parse origin/master
 
       - name: Configure AWS credentials
@@ -867,13 +867,13 @@ jobs:
       - name: Test Current SHA with REVPARSE
         run: git rev-parse HEAD
 
-      - name: Test Origin SHA
+      - name: Test Origin SHA with REVPARSE
         run: git rev-parse origin/master
 
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    if: ${{ always() && github.ref == 'refs/heads/master' && needs.archive.result == 'success' && github.sha == github.event.pull_request.head.sha }}
+    if: ${{ always() && github.ref == 'refs/heads/master' && needs.archive.result == 'success' }}
     needs: archive
 
     strategy:
