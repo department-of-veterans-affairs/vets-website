@@ -1,0 +1,6 @@
+{
+  "appName": "A New Form",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "new-form",
+  "rootUrl": "/new-form"
+}
