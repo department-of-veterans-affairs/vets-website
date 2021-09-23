@@ -5,12 +5,16 @@ export default function DemographicField(props) {
   const ObjectField = props.registry.fields.ObjectField;
 
   if (!formContext.reviewMode) {
+    // eslint-disable-next-line no-console
+    console.log("erfgefgdf");
     return <ObjectField {...props} />;
   }
 
   const categories = Object.keys(schema.properties).filter(
     prop => formData[prop],
   );
+  // eslint-disable-next-line no-console
+  console.log(categories);
   return (
     <>
       <div className="review-row">
