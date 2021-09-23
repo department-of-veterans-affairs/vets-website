@@ -62,6 +62,9 @@ ol.appointment-list{
   .appointment-item{
     background-color: $color-gray-lightest;
     width: 100%;
+    @include media($medium-screen) {
+      width: 60%;
+    }
     dl.appointment-summary{
       display: grid;
       grid-template-columns: min-content auto;
