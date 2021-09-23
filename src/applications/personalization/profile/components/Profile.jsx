@@ -168,7 +168,7 @@ class Profile extends Component {
             routes={routes}
             isInMVI={this.props.isInMVI}
             isLOA3={this.props.isLOA3}
-            showUpdatedNameTag={this.props.shouldFetchTotalDisabilityRating}
+            showDisabilityRating={this.props.shouldFetchTotalDisabilityRating}
           >
             <Switch>
               {/* Redirect users to Account Security to upgrade their account if they need to */}

@@ -71,7 +71,7 @@ const NameTag = ({
   userFullName: { first, middle, last, suffix },
   latestBranchOfService,
   showBadgeImage,
-  showUpdatedNameTag,
+  showDisabilityRating,
   totalDisabilityRating,
   totalDisabilityRatingServerError,
 }) => {
@@ -153,7 +153,7 @@ const NameTag = ({
     'medium',
   );
 
-  const wrapperClassDerived = showUpdatedNameTag
+  const wrapperClassDerived = showDisabilityRating
     ? updatedWrapperClasses
     : wrapperClasses;
 
@@ -175,9 +175,7 @@ const NameTag = ({
     ),
   };
 
-  const ariaLabel = showUpdatedNameTag
-    ? 'My status and disability rating'
-    : 'My status';
+  const ariaLabel = 'My information';
 
   return (
     <section
@@ -206,7 +204,7 @@ const NameTag = ({
                 {getServiceBranchDisplayName(latestBranchOfService)}
               </dd>
             )}
-            {showUpdatedNameTag ? (
+            {showDisabilityRating ? (
               <DisabilityRating
                 rating={totalDisabilityRating}
                 showFallbackLink={totalDisabilityRatingServerError}
@@ -252,7 +250,7 @@ NameTag.propTypes = {
     suffix: PropTypes.string,
   }).isRequired,
   latestBranchOfService: PropTypes.string.isRequired,
-  showUpdatedNameTag: PropTypes.bool,
+  showDisabilityRating: PropTypes.bool,
   totalDisabilityRating: PropTypes.number,
   totalDisabilityRatingServerError: PropTypes.bool,
 };

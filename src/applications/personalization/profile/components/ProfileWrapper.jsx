@@ -46,7 +46,7 @@ const ProfileWrapper = ({
   showNotAllDataAvailableError,
   totalDisabilityRating,
   totalDisabilityRatingServerError,
-  showUpdatedNameTag,
+  showDisabilityRating,
   showNameTag,
 }) => {
   const location = useLocation();
@@ -62,9 +62,9 @@ const ProfileWrapper = ({
   return (
     <>
       {showNameTag &&
-        showUpdatedNameTag && (
+        showDisabilityRating && (
           <NameTag
-            showUpdatedNameTag
+            showDisabilityRating
             totalDisabilityRating={totalDisabilityRating}
             totalDisabilityRatingServerError={totalDisabilityRatingServerError}
           />
@@ -81,7 +81,7 @@ const ProfileWrapper = ({
         </Breadcrumbs>
       </div>
 
-      {showNameTag && !showUpdatedNameTag && <NameTag />}
+      {showNameTag && !showDisabilityRating && <NameTag />}
 
       <div className="medium-screen:vads-u-display--none">
         <ProfileMobileSubNav
