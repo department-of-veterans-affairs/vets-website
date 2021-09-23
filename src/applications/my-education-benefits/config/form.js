@@ -210,6 +210,7 @@ function AdditionalConsiderationTemplate(
   info,
 ) {
   let additionalInfo;
+
   if (trigger) {
     additionalInfo = {
       'view:note': {
