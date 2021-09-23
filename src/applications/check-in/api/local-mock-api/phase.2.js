@@ -15,7 +15,7 @@ const responses = {
   'GET /v0/feature_toggles': featureToggles.createFeatureToggles(
     true,
     true,
-    true,
+    false,
     false,
   ),
   // v1
