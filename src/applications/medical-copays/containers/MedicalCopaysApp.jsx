@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { mcpFeatureToggle } from '../utils/helpers';
 import { isProfileLoading, isLoggedIn } from 'platform/user/selectors';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import LoadingSpinner from '../components/LoadingSpinner';
 // import { getStatements } from '../actions';
 
 const MedicalCopaysApp = ({ children }) => {
@@ -25,19 +25,11 @@ const MedicalCopaysApp = ({ children }) => {
 
   if (showMCP === false || (!profileLoading && !userLoggedIn)) {
     window.location.replace('/health-care/pay-copay-bill');
-    return (
-      <div className="vads-u-margin--5">
-        <LoadingIndicator message="Please wait while we load the application for you." />
-      </div>
-    );
+    return <LoadingSpinner margin={5} />;
   }
 
   if (profileLoading || fetchPending) {
-    return (
-      <div className="vads-u-margin--5">
-        <LoadingIndicator message="Please wait while we load the application for you." />
-      </div>
-    );
+    return <LoadingSpinner margin={5} />;
   }
 
   return (

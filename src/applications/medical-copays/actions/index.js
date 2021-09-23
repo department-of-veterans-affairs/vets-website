@@ -7,7 +7,7 @@ export const MCP_STATEMENTS_FETCH_FAILURE = 'MCP_STATEMENTS_FETCH_FAILURE';
 export const getStatements = () => {
   return dispatch => {
     dispatch({ type: MCP_STATEMENTS_FETCH_INIT });
-    return apiRequest(`/medical_copays`)
+    return apiRequest('/medical_copays')
       .then(response =>
         dispatch({
           type: MCP_STATEMENTS_FETCH_SUCCESS,
