@@ -117,7 +117,7 @@
     "@testing-library/react": "^11.1.2",
     "@testing-library/user-event": "^12.2.2",
     "append-query": "^2.1.1",
-    "autoprefixer": "^9.5.1",
+    "autoprefixer": "^9.8.6",
     "axe-core": "^4.3.3",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
