@@ -1,8 +1,8 @@
 import React from 'react';
 import format from 'date-fns/format';
-import AppointmentLocation from '../../components/AppointmentLocation';
+import AppointmentLocation from './AppointmentLocation';
 
-import AppointmentAction from '../../components/AppointmentAction';
+import AppointmentAction from './AppointmentAction';
 
 export default function AppointmentListItem(props) {
   const { appointment, isLowAuthEnabled, token, router } = props;
