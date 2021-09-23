@@ -35,7 +35,7 @@ export default function TextWidget(props) {
       props.onChange(event.target.value ? event.target.value : undefined),
     onFocus: props.onFocus,
     'aria-describedby': props.options?.ariaDescribedby
-      ? addIndex(props.options?.ariaDescribedby || null)
+      ? addIndex(props.options.ariaDescribedby)
       : `${props.id}-error-message`,
   };
 
