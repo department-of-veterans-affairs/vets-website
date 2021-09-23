@@ -20,7 +20,7 @@ export default function DisplayMultipleAppointments(props) {
       <h1 tabIndex="-1" className="vads-u-margin-top--2">
         Your appointments
       </h1>
-      <p>
+      <p data-testid="date-text">
         Here are your appointments for today:{' '}
         {format(new Date(), 'MMMM dd, yyyy')}.
       </p>
