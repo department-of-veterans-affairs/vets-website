@@ -30,6 +30,15 @@ jobs:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
     steps:
+      - name: Test Current SHA
+        run: echo ${{ github.sha }}
+
+      - name: Test Current SHA with REVPARSE
+        run: git rev-parse HEAD
+
+      - name: Test Origin SHA with REVPARSE
+        run: git rev-parse master
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -39,15 +48,6 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Test Current SHA
-        run: echo ${{ github.sha }}
-
-      - name: Test Current SHA with REVPARSE
-        run: git rev-parse HEAD
-
-      - name: Test Origin SHA with REVPARSE
-        run: git rev-parse master
 
       - name: Get Node version
         id: get-node-version
@@ -861,6 +861,15 @@ jobs:
       - name: Upload build
         run: aws s3 cp ${{ matrix.buildtype }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/application-build/$GITHUB_SHA/${{ matrix.buildtype }}.tar.bz2 --acl public-read --region us-gov-west-1
 
+      - name: Test Current SHA
+        run: echo ${{ github.sha }}
+
+      - name: Test Current SHA with REVPARSE
+        run: git rev-parse HEAD
+
+      - name: Test Origin SHA with REVPARSE
+        run: git rev-parse master
+
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
@@ -878,15 +887,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Test Current SHA
-        run: echo ${{ github.sha }}
-
-      - name: Test Current SHA with REVPARSE
-        run: git rev-parse HEAD
-
-      - name: Test Origin SHA with REVPARSE
-        run: git rev-parse master
 
       - name: Configure AWS credentials (1)
         uses: aws-actions/configure-aws-credentials@v1
