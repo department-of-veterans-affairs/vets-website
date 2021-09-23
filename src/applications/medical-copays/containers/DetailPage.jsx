@@ -11,8 +11,13 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { Link } from 'react-router-dom';
 import Modals from '../components/Modals';
 import Alert from '../components/Alerts';
+import { currency } from '../utils/helpers';
+import moment from 'moment';
 
-const DetailPage = () => {
+const DetailPage = ({ match }) => {
+  const selectedId = match.params.id;
+  const statementData = useSelector(({ mcp }) => mcp.statements);
+  const [selectedDebt] = statementData.filter(({ id }) => selectedId === id);
   const errors = useSelector(({ mcp }) => mcp.errors);
   const [alertType, setAlertType] = useState(null);
 
@@ -40,18 +45,22 @@ const DetailPage = () => {
         </a>
       </Breadcrumbs>
       <h1 className="vads-u-margin-bottom--1">
-        Your copay bill for James A. Haley Veterans' Hospital
+        Your copay bill for {selectedDebt.station.facilitYDesc}
       </h1>
       {alertType ? (
         <Alert type={alertType} />
       ) : (
         <>
           <p className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--5">
-            Updated on June 3, 2021
+            Updated on
+            {moment(statementData.pSProcessDate, 'MM-DD-YYYY').format(
+              'MMMM D, YYYY',
+            )}
           </p>
           <va-alert background-only status="info">
             <h3 className="vads-u-margin-y--0">
-              Pay your $300.00 balance or request help before July 2, 2021
+              Pay your {currency(selectedDebt.pHAmtDue)} balance or request help
+              before July 2, 2021
             </h3>
             <p>
               To avoid late fees or collection action on your bill, you must pay

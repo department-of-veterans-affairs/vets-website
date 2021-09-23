@@ -7,7 +7,7 @@ import DetailPage from './containers/DetailPage';
 const Routes = () => (
   <MedicalCopaysApp>
     <Route exact path="/" component={OverviewPage} />
-    <Route path="/balance-details" component={DetailPage} />
+    <Route path="/balance-details/:id" component={DetailPage} />
   </MedicalCopaysApp>
 );
 

@@ -6,6 +6,7 @@ export const Balances = ({ statementData }) => (
     <h2>What you owe to your {statementData?.length} facilities</h2>
     {statementData?.map(balance => (
       <BalanceCard
+        id={balance.id}
         key={balance.id}
         amount={balance.pHAmtDue}
         facility={balance.station.facilitYDesc}
