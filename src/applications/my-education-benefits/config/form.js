@@ -599,6 +599,8 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
+              [formFields.mobilePhoneNumber]: phoneSchema(),
+              [formFields.phoneNumber]: phoneSchema(),
               'view:email': {
                 type: 'object',
                 properties: {
@@ -612,8 +614,6 @@ const formConfig = {
                   },
                 },
               },
-              [formFields.mobilePhoneNumber]: phoneSchema(),
-              [formFields.phoneNumber]: phoneSchema(),
             },
           },
         },
