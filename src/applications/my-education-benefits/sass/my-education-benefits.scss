@@ -59,6 +59,10 @@ fieldset.schemaform-field-template {
 		margin-left: -2rem;
 		width: calc(117.1875% + 2rem);
 	}
+	.form-review-panel-page .usa-alert {
+		margin: 0;
+		width: auto;
+	}
 	.usa-alert,
 	.usa-alert.background-color-only {
 		padding-left: 30/16 + 0em;
@@ -264,6 +268,17 @@ dl.review .review-row:last-child {
 .form-review-panel-page .meb-review-page-only {
 	display: block;
 }
+.form-review-panel-page .meb-form-page-only {
+	display: none;
+}
+.form-review-panel-page p.meb-review-page-only {
+	margin-top: .5em !important; // overriding .schemaform-block-header > p
+}
+.form-review-panel-page .usa-button-primary,
+.form-review-panel-page .schemaform-field-container .form-checkbox,
+.form-review-panel-page .schemaform-field-container .schemaform-field-template {
+	margin-left: 1rem;
+}
 
 // This is a huge hack to not have a blue border next to text for the
 // Benefit Selection section in edit mode. Couldn't figure out a better
@@ -305,13 +320,18 @@ dl.review .review-row:last-child {
 .meb-confirmation-page .feature dt {
 	font-weight: bold;
 }
-.meb-confirmation-page button {
+.meb-confirmation-page .usa-button,
+.meb-confirmation-page .usa-button-primary {
 	display: block;
 	margin: 24px 0;
-	width: auto;
+	width: fit-content;
 }
-.meb-confirmation-page button:last-child {
+.meb-confirmation-page .usa-button:last-child,
+.meb-confirmation-page .usa-button-primary:last-child {
 	margin-bottom: 0;
+}
+.meb-confirmation-page .form-expanding-group {
+	margin-bottom: 1em;
 }
 .meb-confirmation-page .help-footer-box{
 	padding-top: 2em;
@@ -323,14 +343,13 @@ dl.review .review-row:last-child {
 
 @media print {
 	.meb-print {
-		display: none;
+		display: none !important;
 	}
 }
 // END - Confirmation Page
 
 
 // Contact Information UI
-
 legend#root_view\:dateOfBirth_dateOfBirth-label {
 	margin-bottom: 1rem;
 }
@@ -340,6 +359,6 @@ input#root_view\:mailingAddress_address_postalCode {
 }
 
 label.schemaform-label[for=root_mobilePhoneNumber_isInternational],
-label.schemaform-label[for=root_phoneNumber_isInternational],{
+label.schemaform-label[for=root_phoneNumber_isInternational] {
 	margin-top: 2rem;
 }
