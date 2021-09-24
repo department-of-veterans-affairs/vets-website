@@ -38,8 +38,6 @@ import AddressValidationView from '@@vap-svc/containers/AddressValidationView';
 import ContactInformationEditView from '@@profile/components/personal-information/ContactInformationEditView';
 import ContactInformationView from '@@profile/components/personal-information/ContactInformationView';
 
-import { showNotificationSettings } from '@@profile/selectors';
-
 import { getInitialFormValues } from '@@profile/util/contact-information/formValues';
 
 import getContactInfoFieldAttributes from '~/applications/personalization/profile/util/contact-information/getContactInfoFieldAttributes';
@@ -92,7 +90,6 @@ class ContactInformationField extends React.Component {
     openModal: PropTypes.func.isRequired,
     refreshTransactionRequest: PropTypes.func,
     showEditView: PropTypes.bool.isRequired,
-    showSMSCheckBox: PropTypes.bool,
     showValidationView: PropTypes.bool.isRequired,
     title: PropTypes.string,
     transaction: PropTypes.object,
@@ -342,7 +339,6 @@ class ContactInformationField extends React.Component {
             getInitialFormValues({
               fieldName,
               data: this.props.data,
-              showSMSCheckbox: this.props.showSMSCheckbox,
               modalData: this.props.editViewData,
             })
           }
@@ -424,10 +420,6 @@ export const mapStateToProps = (state, ownProps) => {
     addressValidationType === fieldName &&
     activeEditView === ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION;
   const isEnrolledInVAHealthCare = isVAPatient(state);
-  const showSMSCheckbox =
-    ownProps.fieldName === FIELD_NAMES.MOBILE_PHONE &&
-    isEnrolledInVAHealthCare &&
-    !showNotificationSettings(state);
 
   const {
     apiRoute,
@@ -460,7 +452,6 @@ export const mapStateToProps = (state, ownProps) => {
     transaction,
     transactionRequest,
     editViewData: selectEditViewData(state),
-    showSMSCheckbox,
     title,
     apiRoute,
     convertCleanDataToPayload,
