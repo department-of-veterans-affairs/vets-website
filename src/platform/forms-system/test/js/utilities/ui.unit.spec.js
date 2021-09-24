@@ -40,7 +40,7 @@ describe('focus on element', () => {
 });
 
 describe('focus on change', () => {
-  it('should focus on edit button after updating a review form', done => {
+  it.skip('should focus on edit button after updating a review form', done => {
     const pages = [
       {
         title: '',
