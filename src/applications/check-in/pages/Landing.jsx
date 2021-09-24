@@ -18,6 +18,7 @@ const Landing = props => {
     location,
     isLowAuthEnabled,
     isUpdatePageEnabled,
+    isMultipleAppointmentsEnabled,
   } = props;
 
   const [loadMessage, setLoadMessage] = useState('Finding your appointment');
@@ -40,34 +41,65 @@ const Landing = props => {
 
       if (token) {
         if (isLowAuthEnabled) {
-          api.v1
-            .getSession(token)
-            .then(session => {
-              // if session with read.full exists, go to check in page
-              setCurrentToken(window, token);
-              setLoadMessage('Loading your appointment');
-              if (session.permission === 'read.full') {
-                goToNextPage(router, URLS.DETAILS);
-              } else {
-                // else get the data then go to validate page
-                api.v1
-                  .getCheckInData(token)
-                  .then(json => {
-                    // going to be read.basic data, which is facility name and number
-                    const { data } = json;
-                    setAppointment(data, token);
-                    goToNextPage(router, URLS.VALIDATION_NEEDED);
-                  })
-                  .catch(() => {
-                    clearCurrentSession(window);
-                    goToNextPage(router, URLS.ERROR);
-                  });
-              }
-            })
-            .catch(() => {
-              clearCurrentSession(window);
-              goToNextPage(router, URLS.ERROR);
-            });
+          if (isMultipleAppointmentsEnabled) {
+            api.v2
+              .getSession(token)
+              .then(session => {
+                // if session with read.full exists, go to check in page
+                setCurrentToken(window, token);
+                setLoadMessage('Loading your appointment');
+                if (session.permission === 'read.full') {
+                  goToNextPage(router, URLS.DETAILS);
+                } else {
+                  // else get the data then go to validate page
+                  api.v2
+                    .getCheckInData(token)
+                    .then(json => {
+                      // going to be read.basic data, which is facility name and number
+                      const { data } = json;
+                      setAppointment(data, token);
+                      goToNextPage(router, URLS.VALIDATION_NEEDED);
+                    })
+                    .catch(() => {
+                      clearCurrentSession(window);
+                      goToNextPage(router, URLS.ERROR);
+                    });
+                }
+              })
+              .catch(() => {
+                clearCurrentSession(window);
+                goToNextPage(router, URLS.ERROR);
+              });
+          } else {
+            api.v1
+              .getSession(token)
+              .then(session => {
+                // if session with read.full exists, go to check in page
+                setCurrentToken(window, token);
+                setLoadMessage('Loading your appointment');
+                if (session.permission === 'read.full') {
+                  goToNextPage(router, URLS.DETAILS);
+                } else {
+                  // else get the data then go to validate page
+                  api.v1
+                    .getCheckInData(token)
+                    .then(json => {
+                      // going to be read.basic data, which is facility name and number
+                      const { data } = json;
+                      setAppointment(data, token);
+                      goToNextPage(router, URLS.VALIDATION_NEEDED);
+                    })
+                    .catch(() => {
+                      clearCurrentSession(window);
+                      goToNextPage(router, URLS.ERROR);
+                    });
+                }
+              })
+              .catch(() => {
+                clearCurrentSession(window);
+                goToNextPage(router, URLS.ERROR);
+              });
+          }
         } else {
           api.v0
             .validateToken(token)
@@ -95,7 +127,14 @@ const Landing = props => {
         }
       }
     },
-    [router, setAppointment, location, isLowAuthEnabled, isUpdatePageEnabled],
+    [
+      router,
+      setAppointment,
+      location,
+      isLowAuthEnabled,
+      isUpdatePageEnabled,
+      isMultipleAppointmentsEnabled,
+    ],
   );
   return (
     <>
