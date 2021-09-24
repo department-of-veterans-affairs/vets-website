@@ -1,8 +1,8 @@
 import { createFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
 
-import mockCheckIn from '../../../../api/local-mock-api/mocks/check.in.response';
-import mockSession from '../../../../api/local-mock-api/mocks/sessions.responses';
-import mockPatientCheckIns from '../../../../api/local-mock-api/mocks/patient.check.in.response';
+import mockCheckIn from '../../../../api/local-mock-api/mocks/v1/check.in.responses';
+import mockSession from '../../../../api/local-mock-api/mocks/v1/sessions.responses';
+import mockPatientCheckIns from '../../../../api/local-mock-api/mocks/v1/patient.check.in.responses';
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 describe('Check In Experience -- ', () => {
@@ -14,20 +14,7 @@ describe('Check In Experience -- ', () => {
         );
       });
       cy.intercept('POST', '/check_in/v1/sessions', req => {
-        req.reply({
-          statusCode: 400,
-          body: {
-            errors: [
-              {
-                title: 'Operation failed',
-                detail: 'Operation failed',
-                code: 'VA900',
-                status: '400',
-              },
-            ],
-          },
-          delay: 10, // milliseconds
-        });
+        req.reply(400, mockSession.createMockFailedResponse());
       });
       cy.intercept('GET', '/check_in/v1/patient_check_ins/*', req => {
         req.reply(mockPatientCheckIns.createMockSuccessResponse({}, false));
@@ -46,7 +33,7 @@ describe('Check In Experience -- ', () => {
         window.sessionStorage.clear();
       });
     });
-    it('validation failed', () => {
+    it('validation failed with failed response from server', () => {
       const featureRoute =
         '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
       cy.visit(featureRoute);

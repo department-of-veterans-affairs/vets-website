@@ -825,20 +825,34 @@ export default function formReducer(state = initialState, action) {
       const ccProviderPageSortMethod = hasResidentialCoordinates
         ? FACILITY_SORT_METHODS.distanceFromResidential
         : FACILITY_SORT_METHODS.distanceFromFacility;
+
       const selectedCCFacility =
-        !hasResidentialCoordinates && state.ccEnabledSystems[0];
+        !hasResidentialCoordinates && state.ccEnabledSystems.length > 1
+          ? state.ccEnabledSystems.find(
+              system => system.id === state.data?.communityCareSystemId,
+            )
+          : state.ccEnabledSystems[0];
+
       const typeOfCare = getTypeOfCare(formData);
       let initialSchema = set(
         'properties.communityCareProvider.title',
         `Request a ${typeOfCare.name} provider. (Optional)`,
         action.schema,
       );
-
       if (state.ccEnabledSystems?.length === 1) {
         formData = {
           ...formData,
           communityCareSystemId: state.ccEnabledSystems[0].id,
         };
+        initialSchema = unset(
+          'properties.communityCareSystemId',
+          initialSchema,
+        );
+      } else if (action.featureCCIteration) {
+        initialSchema = unset(
+          'properties.communityCareProvider.title',
+          initialSchema,
+        );
         initialSchema = unset(
           'properties.communityCareSystemId',
           initialSchema,

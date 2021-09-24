@@ -88,6 +88,7 @@ export const FIELD_IDS = {
   [FIELD_NAMES.EMAIL]: 'contact-email-address',
   [FIELD_NAMES.MAILING_ADDRESS]: 'mailing-address',
   [FIELD_NAMES.RESIDENTIAL_ADDRESS]: 'home-address',
+  phoneNumbers: 'phone-numbers',
 };
 
 export const PHONE_TYPE = {

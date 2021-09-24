@@ -12,8 +12,9 @@ import VetTecInstitutionProfile from '../components/vet-tec/InstitutionProfile';
 import InstitutionProfile from '../components/profile/InstitutionProfile';
 import ServiceError from '../components/ServiceError';
 import { isSmallScreen, useQueryParams } from '../utils/helpers';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
-const { Element: ScrollElement, scroller } = Scroll;
+const { Element: ScrollElement } = Scroll;
 
 export function ProfilePage({
   constants,
@@ -58,7 +59,7 @@ export function ProfilePage({
 
   useEffect(
     () => {
-      scroller.scrollTo('profilePage', getScrollOptions());
+      scrollTo('profilePage', getScrollOptions());
       focusElement('.profile-page h1');
     },
     [profile.inProgress],

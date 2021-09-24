@@ -8,8 +8,9 @@ on:
       - '**'
 
 env:
+  DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
   CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
-  NEXUS_REGISTRY: https://devops.va.gov/dots-nexus/repository/npm-public/
+  NEXUS_REGISTRY: https://devops.va.gov/dots-nexus/repository/platform-npm-group-nocache/
 
 concurrency:
   group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha }}
@@ -29,6 +30,17 @@ jobs:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
     steps:
+      - name: Test Current SHA
+        run: echo ${{ github.sha }}
+
+      - name: Test Current SHA with REVPARSE
+        run: git rev-parse HEAD
+        continue-on-error: true
+
+      - name: Test Origin SHA with REVPARSE
+        run: git rev-parse origin/master
+        continue-on-error: true
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -135,6 +147,7 @@ jobs:
       - name: Notify Slack about build failures
         if: ${{ failure() }}
         uses: ./.github/actions/vsp-github-actions/slack-socket
+        continue-on-error: true
         env:
           SSL_CERT_DIR: /etc/ssl/certs
         with:
@@ -676,14 +689,15 @@ jobs:
           env_variable_name: SLACK_BOT_TOKEN
 
       - name: Notify Slack about Cypress test failures
-        if: ${{ needs.cypress-tests.result == 'failure' }}
+        if: ${{ github.ref == 'refs/heads/master' && needs.cypress-tests.result == 'failure' }}
         uses: ./.github/actions/vsp-github-actions/slack-socket
+        continue-on-error: true
         env:
           SSL_CERT_DIR: /etc/ssl/certs
         with:
           slack_app_token: ${{ env.SLACK_APP_TOKEN }}
           slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
-          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "E2E tests in `vets-website` have failed, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
+          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "<!here> E2E tests in `vets-website` have failed on the `master` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
           channel_id: C026PD47Z19 #gha-test-status
 
       # ------------------------
@@ -796,6 +810,8 @@ jobs:
   archive:
     name: Archive
     runs-on: ubuntu-latest
+    outputs:
+      origin_master_sha: ${{ steps.origin_master_sha.outputs.origin_master_sha }}
 
     strategy:
       matrix:
@@ -849,6 +865,22 @@ jobs:
       - name: Upload build
         run: aws s3 cp ${{ matrix.buildtype }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/application-build/$GITHUB_SHA/${{ matrix.buildtype }}.tar.bz2 --acl public-read --region us-gov-west-1
 
+      - name: Test Current SHA
+        run: echo ${{ github.sha }}
+
+      - name: Test Current SHA with REVPARSE
+        run: git rev-parse HEAD
+        continue-on-error: true
+
+      - name: Test Origin SHA with REVPARSE
+        run: git rev-parse origin/master
+        continue-on-error: true
+
+      - name: Set output of origin_master_sha
+        id: origin_master_sha
+        run: echo ::set-output name=origin_master_sha::$(git rev-parse origin/master)
+        continue-on-error: true
+
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
@@ -864,6 +896,10 @@ jobs:
           #   bucket: staging-va-gov-assets
 
     steps:
+      - name: Test origin_master_sha output
+        run: echo ${{ needs.archive.outputs.origin_master_sha }}
+        continue-on-error: true
+
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -942,3 +978,53 @@ jobs:
 
 #     - name: Trigger Jenkins pipeline
 #       run: node script/github-actions/trigger-jenkins.js
+
+  notify-failure:
+    name: Notify Failure
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/master' && (failure() || cancelled()) }}
+    needs: deploy
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get Slack app token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/github_actions_slack_socket_token
+          env_variable_name: SLACK_APP_TOKEN
+
+      - name: Get Slack bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/github_actions_slack_bot_user_token
+          env_variable_name: SLACK_BOT_TOKEN
+          
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Checkout VSP actions
+        uses: actions/checkout@v2
+        with:
+          repository: department-of-veterans-affairs/vsp-github-actions
+          ref: refs/heads/main
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          persist-credentials: false
+          path: ./.github/actions/vsp-github-actions
+
+      - name: Notify Slack
+        uses: ./.github/actions/vsp-github-actions/slack-socket
+        continue-on-error: true
+        with:
+          slack_app_token: ${{ env.SLACK_APP_TOKEN }}
+          slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
+          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "vets-website master branch CI failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}]'
+          channel_id: ${{ env.DEVOPS_CHANNEL_ID }}
