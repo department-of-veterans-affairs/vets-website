@@ -2110,6 +2110,13 @@
     cldr-core "38"
     tslib "^2.0.1"
 
+"@formatjs/intl-getcanonicallocales@^1.7.3":
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/@formatjs/intl-getcanonicallocales/-/intl-getcanonicallocales-1.7.3.tgz#f5c33904ac0de7c50a5471b5ef531184bd019240"
+  integrity sha512-rbKNv16dhTiejSZnCV6VyoOkxUs6xYnYT/RbM8ILuD4CgL8KGJQjTSuYxYdfOHsjxdqbJU2+E2kF3jHKv+6ArA==
+  dependencies:
+    tslib "^2.1.0"
+
 "@formatjs/intl-locale@^2.4.37":
   version "2.4.37"
   resolved "https://registry.yarnpkg.com/@formatjs/intl-locale/-/intl-locale-2.4.37.tgz#d8750bff6d93c7ac748d01390a05fa899ec99b56"
