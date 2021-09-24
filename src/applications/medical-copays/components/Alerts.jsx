@@ -49,20 +49,6 @@ Alert.Maintenance = () => (
   </va-alert>
 );
 
-Alert.Deceased = () => (
-  <va-alert class="row vads-u-margin-bottom--5" status="warning">
-    <h3 slot="headline">Our records show that this Veteran is deceased</h3>
-    <p className="vads-u-font-size--base vads-u-font-family--sans">
-      We can’t show copay statements for this Veteran.
-    </p>
-    <p>
-      If this information is incorrect, please call Veterans Benefits Assistance
-      at <Telephone contact={'800-827-1000'} />, Monday through Friday, 8:00
-      a.m. to 9:00 p.m. ET.
-    </p>
-  </va-alert>
-);
-
 Alert.NoHealthcare = () => (
   <va-alert class="row vads-u-margin-bottom--5" status="warning">
     <h3 slot="headline">You’re not enrolled in VA health care</h3>
@@ -85,11 +71,11 @@ Alert.NoHealthcare = () => (
 Alert.NoHistory = () => (
   <va-alert class="row vads-u-margin-bottom--5" status="info">
     <h3 slot="headline">
-      You haven’t received a copay bill in the past [x] months
+      You haven’t received a copay bill in the past 6 months
     </h3>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
       You can’t view copay balances at this time because our records show that
-      you haven’t received a copay bill in the past [x] months.
+      you haven’t received a copay bill in the past 6 months.
     </p>
     <p>
       If you think this is incorrect, contact the VA Health Resource Center at
@@ -105,4 +91,31 @@ Alert.NoHistory = () => (
   </va-alert>
 );
 
-export default Alert;
+Alert.Deceased = () => (
+  <va-alert class="row vads-u-margin-bottom--5" status="warning">
+    <h3 slot="headline">Our records show that this Veteran is deceased</h3>
+    <p className="vads-u-font-size--base vads-u-font-family--sans">
+      We can’t show copay statements for this Veteran.
+    </p>
+    <p>
+      If this information is incorrect, please call Veterans Benefits Assistance
+      at <Telephone contact={'800-827-1000'} />, Monday through Friday, 8:00
+      a.m. to 9:00 p.m. ET.
+    </p>
+  </va-alert>
+);
+
+const RenderAlert = ({ type }) => {
+  switch (type) {
+    case 'no-health-care':
+      return <Alert.NoHealthcare />;
+    case 'no-history':
+      return <Alert.NoHistory />;
+    case 'deceased':
+      return <Alert.Deceased />;
+    default:
+      return <Alert.Error />;
+  }
+};
+
+export default RenderAlert;

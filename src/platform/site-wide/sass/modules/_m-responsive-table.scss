@@ -13,6 +13,15 @@
     td {
       display: block;
     }
+
+    thead button.sort {
+      display: flex;
+      align-items: center;
+    }
+
+    thead svg.usa-icon.sort {
+      width: 24px;
+    }
   }
   .va-table--responsive {
     tr {

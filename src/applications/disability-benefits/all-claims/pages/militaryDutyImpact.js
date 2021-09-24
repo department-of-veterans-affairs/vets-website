@@ -9,13 +9,13 @@ export const uiSchema = {
     'ui:title': unemployabilityPageTitle('Impact on military duty'),
     disabilityPreventMilitaryDuties: {
       'ui:title':
-        'If you’re currently serving in the Reserves or the National Guard, does your service-connected disability prevent you from performing your military duties?',
+        'If you’re currently serving in the Reserve or the National Guard, does your service-connected disability prevent you from performing your military duties?',
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
           yes: 'Yes',
           no: 'No',
-          reservesNo: 'I’m not serving in the Reserves or the National Guard.',
+          reservesNo: 'I’m not serving in the Reserve or the National Guard.',
         },
       },
       'ui:errorMessages': {

@@ -1,6 +1,6 @@
 import { isValidEmail } from 'platform/forms/validations';
 
-function isValidPhone(value) {
+export const isValidPhone = value => {
   let stripped;
   try {
     stripped = value.replace(/[^\d]/g, '');
@@ -8,7 +8,7 @@ function isValidPhone(value) {
     stripped = value;
   }
   return /^\d{10}$/.test(stripped);
-}
+};
 
 export const validatePhone = (errors, phone) => {
   if (phone && !isValidPhone(phone)) {

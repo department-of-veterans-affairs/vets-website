@@ -25,7 +25,7 @@ import { serviceStatus, serviceHistory } from './chapters/service';
 
 import { loanScreener, loanIntent, loanHistory } from './chapters/loans';
 
-import { docScreener, fileUpload } from './chapters/documents';
+import { fileUpload } from './chapters/documents';
 
 // TODO: WHen schema is migrated to vets-json-schema, remove common definitions from form schema and get them
 // from common definitions instead
@@ -129,18 +129,11 @@ const formConfig = {
     documentsChapter: {
       title: 'Your supporting documents',
       pages: {
-        screener: {
-          path: 'document-upload-summary',
-          title: 'Adding supporting documents to your application',
-          uiSchema: docScreener.uiSchema,
-          schema: docScreener.schema,
-        },
         upload: {
           path: 'upload-supporting-documents',
           title: 'Upload documents to support your application',
           uiSchema: fileUpload.uiSchema,
           schema: fileUpload.schema,
-          depends: formData => formData?.willUploadDocs,
         },
       },
     },

@@ -15,7 +15,7 @@ const missingEmailAddressContent = (
       your profile.
     </p>
     <p>
-      <AddContactInfoLink strong missingInfo={MISSING_CONTACT_INFO.EMAIL} />
+      <AddContactInfoLink missingInfo={MISSING_CONTACT_INFO.EMAIL} />
     </p>
   </>
 );
@@ -26,7 +26,7 @@ const missingMobilePhoneContent = (
       phone number to your profile.
     </p>
     <p>
-      <AddContactInfoLink strong missingInfo={MISSING_CONTACT_INFO.MOBILE} />
+      <AddContactInfoLink missingInfo={MISSING_CONTACT_INFO.MOBILE} />
     </p>
   </>
 );
@@ -38,7 +38,7 @@ const missingMobilePhoneContent = (
 //       your notification settings, first update your contact information.{' '}
 //     </p>
 //     <p>
-//       <AddContactInfoLink strong missingInfo={MISSING_CONTACT_INFO.ALL} />
+//       <AddContactInfoLink missingInfo={MISSING_CONTACT_INFO.ALL} />
 //     </p>
 //   </>
 // );
