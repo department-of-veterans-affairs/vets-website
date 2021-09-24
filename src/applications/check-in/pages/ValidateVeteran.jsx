@@ -66,12 +66,14 @@ const ValidateVeteran = props => {
       <p>We need some information to verify your identity to check you in.</p>
       <form onSubmit={() => false}>
         <VaTextInput
+          autoCorrect="false"
+          error={lastNameErrorMessage}
           label="Your last name"
           name="last-name"
-          value={lastName}
           onVaChange={event => setLastName(event.detail.value)}
           required
-          error={lastNameErrorMessage}
+          spellCheck="false"
+          value={lastName}
         />
         <VaTextInput
           label="Last 4 digits of your Social Security number"

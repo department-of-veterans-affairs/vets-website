@@ -18,7 +18,7 @@ const testFirstMenuSection = isMobile => {
   cy.get('[data-e2e-id="vetnav-column-one-header"]');
   cy.get('[data-e2e-id="eligibility-0"]');
   cy.get('[data-e2e-id="about-va-1"]');
-  cy.checkMenuItem('[data-e2e-id="find-a-va-location-2"]', '/find-locations/');
+  cy.checkMenuItem('[data-e2e-id="find-a-va-location-2"]', '/find-locations');
 };
 
 const testSecondMenuSection = isMobile => {
