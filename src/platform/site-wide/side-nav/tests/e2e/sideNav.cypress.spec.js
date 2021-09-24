@@ -16,14 +16,6 @@ describe('Facilities VAMC SideNav', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    // Accept initial modal and start atop
-    if (Cypress.$('body').find('#modal-announcement')) {
-      cy.get('#modal-announcement')
-        .get('.va-modal-close')
-        .first()
-        .click();
-    }
-
     // Start tab access
     cy.get('.va-sidenav-item-label')
       .first()

@@ -3,7 +3,7 @@ import Telephone, {
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
-export const HowToPay = () => (
+export const HowToPay = ({ acctNum }) => (
   <article className="vads-u-padding--0">
     <h2 id="how-to-pay">How do I pay my VA copay bill?</h2>
     <h3 className="vads-u-font-size--h5">
@@ -21,7 +21,7 @@ export const HowToPay = () => (
           </p>
           <p>
             <strong>Account Number: </strong>
-            [##########]
+            {acctNum}
           </p>
           <a className="vads-c-action-link--blue" href="https://www.pay.gov/">
             Pay your copay bill online at pay.gov
@@ -51,7 +51,7 @@ export const HowToPay = () => (
           </p>
           <p>
             <strong>Account Number: </strong>
-            [##########]
+            {acctNum}
           </p>
         </va-accordion-item>
         <va-accordion-item header="Option 3: Pay by mail">
@@ -76,7 +76,7 @@ export const HowToPay = () => (
           </p>
           <ul>
             <li>Your full name</li>
-            <li>Your account number [##########]</li>
+            <li>Your account number {acctNum}</li>
             <li>The facility you’d like to pay [Facility name]</li>
           </ul>
           <p>
@@ -106,7 +106,7 @@ export const HowToPay = () => (
           </p>
           <p>
             <strong>Account Number: </strong>
-            [##########]
+            {acctNum}
           </p>
           <a className="vads-c-action-link--blue" href="#">
             Find your nearest VA medical center

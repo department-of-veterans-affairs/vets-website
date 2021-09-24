@@ -12,8 +12,6 @@ import {
   phoneNumbers,
 } from '@@profile/util/contact-information/getContactInfoFieldAttributes';
 
-import ReceiveAppointmentReminders from './ReceiveAppointmentReminders';
-
 const ContactInformationView = props => {
   const { data, fieldName, title } = props;
   if (!data) {
@@ -48,12 +46,6 @@ const ContactInformationView = props => {
           extension={data.extension}
           notClickable
         />
-
-        {fieldName === FIELD_NAMES.MOBILE_PHONE && (
-          <ReceiveAppointmentReminders
-            isReceivingReminders={data.isTextPermitted}
-          />
-        )}
       </div>
     );
   }

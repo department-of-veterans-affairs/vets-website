@@ -12,7 +12,7 @@ export default function BenefitGivenUpReviewField({ children, uiSchema }) {
         <dd>Post-9/11 GI Bill (Chapter 33)</dd>
       </div>
       <div className="review-row">
-        <dt>{uiSchema['ui:title']}</dt>
+        <dt>Benefit given up</dt>
         <dd>{uiSchema['ui:options'].labels[children.props.formData]}</dd>
       </div>
     </>
