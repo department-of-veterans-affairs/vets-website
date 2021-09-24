@@ -25,52 +25,52 @@ const filteredStates = states.USA.filter(
 );
 
 /**
- Available at https://github.com/department-of-veterans-affairs/vets-json-schema/blob/8337b2878b524867ef2b6d8600b134c682c7ac8a/src/common/definitions.js#L161
- addressSchema = {
-   type: 'object',
-   properties: {
-     isMilitary: {
-       type: 'boolean',
-     },
-     'view:militaryBaseDescription': {
-       type: 'object',
-       properties: {},
-     },
-     country: {
-       type: 'string',
-       enum: countries.map(country => country.value),
-       enumNames: countries.map(country => country.label),
-     },
-     street: {
-       type: 'string',
-       minLength: 1,
-       maxLength: 100,
-       pattern: STREET_PATTERN,
-     },
-     street2: {
-       type: 'string',
-       minLength: 1,
-       maxLength: 100,
-       pattern: STREET_PATTERN,
-     },
-     street3: {
-       type: 'string',
-       minLength: 1,
-       maxLength: 100,
-       pattern: STREET_PATTERN,
-     },
-     city: {
-       type: 'string',
-     },
-     state: {
-       type: 'string',
-     },
-     postalCode: {
-       type: 'string',
-     },
-   },
- };
- */
+  Available at https://github.com/department-of-veterans-affairs/vets-json-schema/blob/8337b2878b524867ef2b6d8600b134c682c7ac8a/src/common/definitions.js#L161
+  addressSchema = {
+    type: 'object',
+    properties: {
+      isMilitary: {
+        type: 'boolean',
+      },
+      'view:militaryBaseDescription': {
+        type: 'object',
+        properties: {},
+      },
+      country: {
+        type: 'string',
+        enum: countries.map(country => country.value),
+        enumNames: countries.map(country => country.label),
+      },
+      street: {
+        type: 'string',
+        minLength: 1,
+        maxLength: 100,
+        pattern: STREET_PATTERN,
+      },
+      street2: {
+        type: 'string',
+        minLength: 1,
+        maxLength: 100,
+        pattern: STREET_PATTERN,
+      },
+      street3: {
+        type: 'string',
+        minLength: 1,
+        maxLength: 100,
+        pattern: STREET_PATTERN,
+      },
+      city: {
+        type: 'string',
+      },
+      state: {
+        type: 'string',
+      },
+      postalCode: {
+        type: 'string',
+      },
+    },
+  };
+  */
 
 /**
  * CONSTANTS:
