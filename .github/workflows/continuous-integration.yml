@@ -689,7 +689,7 @@ jobs:
           env_variable_name: SLACK_BOT_TOKEN
 
       - name: Notify Slack about Cypress test failures
-        if: ${{ needs.cypress-tests.result == 'failure' }}
+        if: ${{ github.ref == 'refs/heads/master' && needs.cypress-tests.result == 'failure' }}
         uses: ./.github/actions/vsp-github-actions/slack-socket
         continue-on-error: true
         env:
@@ -697,7 +697,7 @@ jobs:
         with:
           slack_app_token: ${{ env.SLACK_APP_TOKEN }}
           slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
-          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "E2E tests in `vets-website` have failed, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
+          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "<!here> E2E tests in `vets-website` have failed on the `master` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
           channel_id: C026PD47Z19 #gha-test-status
 
       # ------------------------
