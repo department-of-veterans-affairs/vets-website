@@ -1,5 +1,5 @@
 import React from 'react';
-// import _ from 'lodash/fp';
+// import _ from 'lodash';
 
 // Example of an imported schema:
 // import fullSchema from '../22-1990-schema.json';
@@ -104,6 +104,7 @@ const formFields = {
   federallySponsoredAcademy: 'federallySponsoredAcademy',
   seniorRotcCommission: 'seniorRotcCommission',
   loanPayment: 'loanPayment',
+  additionalConsiderationsNote: 'additionalConsiderationsNote',
 };
 
 // Define all the form pages to help ensure uniqueness across all form chapters
@@ -121,22 +122,51 @@ const formPages = {
     activeDutyKicker: {
       name: 'activeDutyKicker',
       order: 1,
+      title:
+        'Do you qualify for an active duty kicker, sometimes called a College Fund?',
+      additionalInfo: {
+        triggerText: 'What is an active duty kicker?',
+        info:
+          'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
+      },
     },
     reserveKicker: {
       name: 'reserveKicker',
       order: 1,
+      title:
+        'Do you qualify for a reserve kicker, sometimes called a College Fund?',
+      additionalInfo: {
+        triggerText: 'What is a reserve kicker?',
+        info:
+          'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
+      },
     },
     militaryAcademy: {
       name: 'militaryAcademy',
       order: 2,
+      title:
+        'Did you graduate and receive a commission from the United States Military Academy, Naval Academy, Air Force Academy, or Coast Guard Academy?',
     },
     seniorRotc: {
       name: 'seniorRotc',
       order: 3,
+      title: 'Were you commissioned as a result of Senior ROTC?',
+      additionalInfo: {
+        triggerText: 'What is Senior ROTC?',
+        info:
+          'The Senior Reserve Officer Training Corps (SROTC)—more commonly referred to as the Reserve Officer Training Corps (ROTC)—is an officer training and scholarship program for postsecondary students authorized under Chapter 103 of Title 10 of the United States Code.',
+      },
     },
     loanPayment: {
       name: 'loanPayment',
       order: 4,
+      title:
+        'Do you have a period of service that the Department of Defense counts towards an education loan payment?',
+      additionalInfo: {
+        triggerText: 'What does this mean?',
+        info:
+          "This is a Loan Repayment Program, which is a special incentive that certain military branches offer to qualified applicants. Under a Loan Repayment Program, the branch of service will repay part of an applicant's qualifying student loans.",
+      },
     },
   },
 };
@@ -221,26 +251,208 @@ function additionalConsiderationsQuestionTitle(benefitSelection, order) {
   );
 }
 
+// function AdditionalConsiderationTemplate(
+//   page,
+//   formField,
+//   title,
+//   trigger,
+//   info,
+// ) {
+//   let additionalInfo;
+//   // <AdditionalInfo triggerText={trigger}>
+//   //   <p>{info}</p>
+//   // </AdditionalInfo>
+
+//   if (trigger) {
+//     additionalInfo = {
+//       'view:note': {
+//         'ui:description': (
+//           // <AdditionalInfo triggerText={trigger}>
+//           //   <p>{info}</p>
+//           // </AdditionalInfo>
+//           <>
+//             {React.createElement(
+//               AdditionalInfo,
+//               {
+//                 key: `additional-info-${page}`,
+//                 triggerText: trigger,
+//               },
+//               <p>{info}</p>,
+//             )}
+//           </>
+//         ),
+//       },
+//     };
+//   }
+
+//   return {
+//     path: page.name,
+//     title: data => {
+//       return additionalConsiderationsQuestionTitleText(
+//         data[formFields.viewBenefitSelection][formFields.benefitSelection],
+//         page.order,
+//       );
+//     },
+//     uiSchema: {
+//       'ui:description': data => {
+//         return additionalConsiderationsQuestionTitle(
+//           data.formData[formFields.viewBenefitSelection][
+//             formFields.benefitSelection
+//           ],
+//           page.order,
+//         );
+//       },
+//       [formFields[formField]]: {
+//         'ui:title': title,
+//         'ui:widget': 'radio',
+//       },
+//       ...additionalInfo,
+//     },
+//     schema: {
+//       type: 'object',
+//       required: [formField],
+//       properties: {
+//         [formFields[formField]]: {
+//           type: 'string',
+//           enum: ['Yes', 'No'],
+//         },
+//         'view:note': {
+//           type: 'object',
+//           properties: {},
+//         },
+//       },
+//     },
+//   };
+// }
+
+// const AdditionalConsiderationAdditionalInfo = (trigger, info) => (
+//   <AdditionalInfo triggerText={trigger}>
+//     <p>{info}</p>
+//   </AdditionalInfo>
+//   // <>
+//   //   {React.cloneElement(
+//   //     AdditionalInfo,
+//   //     {
+//   //       triggerText: trigger,
+//   //     },
+//   //     <p>{info}</p>,
+//   //   )}
+//   // </>
+// );
+
+// function AdditionalConsiderationsTitle(page) {
+//   return {
+//     title: data => {
+//       return additionalConsiderationsQuestionTitleText(
+//         data[formFields.viewBenefitSelection][formFields.benefitSelection],
+//         page.order,
+//       );
+//     },
+//   };
+// }
+// function AdditionalConsiderationsUiSchemaDescription(page) {
+//   return {
+//     'ui:description': data => {
+//       return additionalConsiderationsQuestionTitle(
+//         data.formData[formFields.viewBenefitSelection][
+//           formFields.benefitSelection
+//         ],
+//         page.order,
+//       );
+//     },
+//   };
+// }
+// function AdditionalConsiderationsUiSchemaTitle(formField, title) {
+//   return {
+//     [formFields[formField]]: {
+//       'ui:title': title,
+//       'ui:widget': 'radio',
+//     },
+//   };
+// }
+
+// function AdditionalConsiderationsSchema(
+//   formField,
+//   viewName = formFields.additionalConsiderationsNote,
+// ) {
+//   return {
+//     schema: {
+//       type: 'object',
+//       required: [formField],
+//       properties: {
+//         [formFields[formField]]: {
+//           type: 'string',
+//           enum: ['Yes', 'No'],
+//         },
+//         [viewName]: {
+//           type: 'object',
+//           properties: {},
+//         },
+//       },
+//     },
+//   };
+// }
+
 function AdditionalConsiderationTemplate(
   page,
   formField,
-  title,
-  trigger,
-  info,
+  // viewName = formFields.additionalConsiderationsNote,
 ) {
-  let additionalInfo;
+  const { title, additionalInfo } = page;
+  const additionalInfoViewName = `view:${page.name}AdditionalInfo`;
+  let additionalInfoView;
+  // formFields.additionalConsiderationsNote,
 
-  if (trigger) {
-    additionalInfo = {
-      'view:note': {
+  // <AdditionalInfo triggerText={trigger}>
+  //   <p>{info}</p>
+  // </AdditionalInfo>
+
+  // 'ui:description': (
+  //   <>
+  //     {React.createElement(
+  //       AdditionalInfo,
+  //       {
+  //         key: `additional-info-${page}`,
+  //         triggerText: trigger,
+  //       },
+  //       <p>{info}</p>,
+  //     )}
+  //   </>
+  // ),
+  // const viewName = `view:${page}Note`;
+
+  if (additionalInfo) {
+    additionalInfoView = {
+      [additionalInfoViewName]: {
         'ui:description': (
-          <AdditionalInfo triggerText={trigger}>
-            <p>{info}</p>
+          <AdditionalInfo triggerText={additionalInfo.triggerText}>
+            <p>{additionalInfo.info}</p>
           </AdditionalInfo>
         ),
       },
     };
   }
+  // let additionalInfo;
+  // <AdditionalInfo triggerText={trigger}>
+  //   <p>{info}</p>
+  // </AdditionalInfo>
+
+  // if (trigger) {
+  //   additionalInfo = {
+  //         <>
+  //           {React.createElement(
+  //             AdditionalInfo,
+  //             {
+  //               key: `additional-info-${page}`,
+  //               triggerText: trigger,
+  //             },
+  //             <p>{info}</p>,
+  //           )}
+  //         </>
+  //       ),
+  //     },
+  //   };
+  // }
 
   return {
     path: page.name,
@@ -263,7 +475,11 @@ function AdditionalConsiderationTemplate(
         'ui:title': title,
         'ui:widget': 'radio',
       },
-      ...additionalInfo,
+      [formFields[formField]]: {
+        'ui:title': title,
+        'ui:widget': 'radio',
+      },
+      ...additionalInfoView,
     },
     schema: {
       type: 'object',
@@ -273,7 +489,7 @@ function AdditionalConsiderationTemplate(
           type: 'string',
           enum: ['Yes', 'No'],
         },
-        'view:note': {
+        [additionalInfoViewName]: {
           type: 'object',
           properties: {},
         },
@@ -1225,9 +1441,9 @@ const formConfig = {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.activeDutyKicker,
             formFields.activeDutyKicker,
-            'Do you qualify for an active duty kicker, sometimes called a College Fund?',
-            'What is an active duty kicker?',
-            'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
+            // 'Do you qualify for an active duty kicker, sometimes called a College Fund?',
+            // 'What is an active duty kicker?',
+            // 'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
           ),
           depends: formData =>
             formData[formFields.viewBenefitSelection][
@@ -1238,9 +1454,9 @@ const formConfig = {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.reserveKicker,
             formFields.selectedReserveKicker,
-            'Do you qualify for a reserve kicker, sometimes called a College Fund?',
-            'What is a reserve kicker?',
-            'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
+            // 'Do you qualify for a reserve kicker, sometimes called a College Fund?',
+            // 'What is a reserve kicker?',
+            // 'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
           ),
           depends: formData =>
             formData[formFields.viewBenefitSelection][
@@ -1251,26 +1467,75 @@ const formConfig = {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.militaryAcademy,
             formFields.federallySponsoredAcademy,
-            'Did you graduate and receive a commission from the United States Military Academy, Naval Academy, Air Force Academy, or Coast Guard Academy?',
+            // 'Did you graduate and receive a commission from the United States Military Academy, Naval Academy, Air Force Academy, or Coast Guard Academy?',
           ),
         },
         [formPages.additionalConsiderations.seniorRotc.name]: {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.seniorRotc,
             formFields.seniorRotcCommission,
-            'Were you commissioned as a result of Senior ROTC?',
-            'What is Senior ROTC?',
-            'The Senior Reserve Officer Training Corps (SROTC)—more commonly referred to as the Reserve Officer Training Corps (ROTC)—is an officer training and scholarship program for postsecondary students authorized under Chapter 103 of Title 10 of the United States Code.',
+            // 'Were you commissioned as a result of Senior ROTC?',
+            // 'What is Senior ROTC?',
+            // 'The Senior Reserve Officer Training Corps (SROTC)—more commonly referred to as the Reserve Officer Training Corps (ROTC)—is an officer training and scholarship program for postsecondary students authorized under Chapter 103 of Title 10 of the United States Code.',
           ),
         },
         [formPages.additionalConsiderations.loanPayment.name]: {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.loanPayment,
             formFields.loanPayment,
-            'Do you have a period of service that the Department of Defense counts towards an education loan payment?',
-            'What does this mean?',
-            "This is a Loan Repayment Program, which is a special incentive that certain military branches offer to qualified applicants. Under a Loan Repayment Program, the branch of service will repay part of an applicant's qualifying student loans.",
+            // 'Do you have a period of service that the Department of Defense counts towards an education loan payment?',
+            // 'What does this mean?',
+            // "This is a Loan Repayment Program, which is a special incentive that certain military branches offer to qualified applicants. Under a Loan Repayment Program, the branch of service will repay part of an applicant's qualifying student loans.",
+            // 'view:loanPaymentNote',
           ),
+          // path: formPages.additionalConsiderations.loanPayment.name,
+          // ...AdditionalConsiderationsTitle(
+          //   formPages.additionalConsiderations.loanPayment,
+          // ),
+          // uiSchema: {
+          //   ...AdditionalConsiderationsUiSchemaDescription(
+          //     formPages.additionalConsiderations.loanPayment,
+          //   ),
+          //   ...AdditionalConsiderationsUiSchemaTitle(
+          //     'loanPayment',
+          //     formPages.additionalConsiderations.loanPayment.title,
+          //   ),
+          //   [formFields.loanPayment]: {
+          //     'ui:title': formPages.additionalConsiderations.loanPayment.title,
+          //     'ui:widget': 'radio',
+          //   },
+          //   'view:loanPaymentNote': {
+          //     'ui:description': (
+          //       <AdditionalInfo triggerText="What does this mean?">
+          //         <p>
+          //           This is a Loan Repayment Program, which is a special
+          //           incentive that certain military branches offer to qualified
+          //           applicants. Under a Loan Repayment Program, the branch of
+          //           service will repay part of an applicant’s qualifying student
+          //           loans.
+          //         </p>
+          //       </AdditionalInfo>
+          //     ),
+          //   },
+          // },
+          // schema: {
+          //   type: 'object',
+          //   required: [formFields.loanPayment],
+          //   properties: {
+          //     [formFields.loanPayment]: {
+          //       type: 'string',
+          //       enum: ['Yes', 'No'],
+          //     },
+          //     'view:loanPaymentNote': {
+          //       type: 'object',
+          //       properties: {},
+          //     },
+          //   },
+          // },
+          // ...AdditionalConsiderationsSchema(
+          //   formFields.loanPayment,
+          //   'view:loanPaymentNote',
+          // ),
         },
       },
     },
