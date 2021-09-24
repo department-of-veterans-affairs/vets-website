@@ -23,7 +23,7 @@ const DOCUMENT_REQUIREMENTS = {
 };
 
 const UploadRequirements = ({ formData }) => {
-  const { identity } = formData;
+  const { identity, existingLoan } = formData;
 
   return (
     <div>
@@ -36,6 +36,7 @@ const UploadRequirements = ({ formData }) => {
           DOCUMENT_REQUIREMENTS[identity].map((req, index) => (
             <li key={index}>{req}</li>
           ))}
+        {existingLoan && <li>Evidence a VA loan was paid in full</li>}
       </ul>
     </div>
   );

@@ -57,8 +57,16 @@ export const uiSchema = {
     },
   },
   fileType: {
-    'ui:title': 'What kind of document are you uploading?',
+    'ui:title': 'Select a document to upload?',
     'ui:required': () => true,
+  },
+  fileDescription: {
+    'ui:title': 'Document description',
+    'ui:required': formData => formData.fileType === 'Other',
+    'ui:options': {
+      expandUnder: 'fileType',
+      expandUnderCondition: 'Other',
+    },
   },
   files: {
     'ui:required': () => true,
