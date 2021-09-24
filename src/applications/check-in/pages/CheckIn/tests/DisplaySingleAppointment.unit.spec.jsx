@@ -1,35 +1,23 @@
 import React from 'react';
+import { expect } from 'chai';
 
 import { Provider } from 'react-redux';
-import { expect } from 'chai';
+import configureStore from 'redux-mock-store';
+
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
 
 import { render } from '@testing-library/react';
 
-import configureStore from 'redux-mock-store';
-
-import CheckIn from './index';
+import DisplaySingleAppointment from '../DisplaySingleAppointment';
 
 describe('check-in', () => {
-  describe('CheckIn component', () => {
+  describe('DisplaySingleAppointment component', () => {
     let store;
     beforeEach(() => {
       const middleware = [];
       const mockStore = configureStore(middleware);
       const initState = {
-        checkInData: {
-          context: {
-            token: 'some-token',
-          },
-          appointments: [
-            {
-              clinicPhone: '555-867-5309',
-              startTime: '2021-07-19T13:56:31',
-              facilityName: 'Acme VA',
-              clinicName: 'Green Team Clinic1',
-            },
-          ],
-        },
+        checkInData: {},
       };
       store = mockStore(initState);
     });
@@ -39,11 +27,25 @@ describe('check-in', () => {
           token: 'token-123',
         },
       };
+
+      const token = 'token-123';
+      const appointment = {
+        clinicPhone: '555-867-5309',
+        startTime: '2021-07-19T13:56:31',
+        facilityName: 'Acme VA',
+        clinicName: 'Green Team Clinic1',
+      };
+
       const checkIn = render(
         <Provider store={store}>
-          <CheckIn router={mockRouter} />
+          <DisplaySingleAppointment
+            router={mockRouter}
+            token={token}
+            appointment={appointment}
+          />
         </Provider>,
       );
+
       expect(checkIn.getByTestId('appointment-date')).to.exist;
       expect(checkIn.getByTestId('appointment-date')).to.have.text(
         'Monday, July 19, 2021',
@@ -63,9 +65,19 @@ describe('check-in', () => {
           token: 'token-123',
         },
       };
+      const appointment = {
+        clinicPhone: '555-867-5309',
+        startTime: '2021-07-19T13:56:31',
+        facilityName: 'Acme VA',
+        clinicName: 'Green Team Clinic1',
+      };
+
       axeCheck(
         <Provider store={store}>
-          <CheckIn router={mockRouter} />
+          <DisplaySingleAppointment
+            router={mockRouter}
+            appointment={appointment}
+          />
         </Provider>,
       );
     });
@@ -76,12 +88,25 @@ describe('check-in', () => {
             token: 'token-123',
           },
         };
+
+        const token = 'token-123';
+        const appointment = {
+          clinicPhone: '555-867-5309',
+          startTime: '2021-07-19T13:56:31',
+          facilityName: 'Acme VA',
+          clinicName: 'Green Team Clinic1',
+        };
+
         const checkIn = render(
           <Provider store={store}>
-            <CheckIn router={mockRouter} isUpdatePageEnabled />
+            <DisplaySingleAppointment
+              router={mockRouter}
+              token={token}
+              appointment={appointment}
+              isUpdatePageEnabled
+            />
           </Provider>,
         );
-
         expect(checkIn.getByTestId('back-button')).to.exist;
       });
       it('hides the back button if update page is enabled', () => {
@@ -90,9 +115,23 @@ describe('check-in', () => {
             token: 'token-123',
           },
         };
+
+        const token = 'token-123';
+        const appointment = {
+          clinicPhone: '555-867-5309',
+          startTime: '2021-07-19T13:56:31',
+          facilityName: 'Acme VA',
+          clinicName: 'Green Team Clinic1',
+        };
+
         const checkIn = render(
           <Provider store={store}>
-            <CheckIn router={mockRouter} isUpdatePageEnabled={false} />
+            <DisplaySingleAppointment
+              router={mockRouter}
+              token={token}
+              appointment={appointment}
+              isUpdatePageEnabled={false}
+            />
           </Provider>,
         );
         expect(checkIn.queryByTestId('back-button')).to.not.exist;

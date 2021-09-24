@@ -375,10 +375,7 @@ const formConfig = {
                     Any updates you make here to your personal information will
                     only apply to your education benefits. To update your
                     personal information for all of the benefits across VA,{' '}
-                    <a href="https://www.va.gov/profile">
-                      please go to your profile page
-                    </a>
-                    .
+                    <a href="/profile">please go to your profile page</a>.
                   </p>
                 </>
               ),
@@ -541,7 +538,7 @@ const formConfig = {
                     Any updates you make here to your contact information will
                     only apply to your education benefits. To update your
                     contact information for all of the benefits across VA,{' '}
-                    <a href="https://www.va.gov/profile/personal-information">
+                    <a href="/profile/personal-information">
                       please go to your profile page
                     </a>
                     .
@@ -645,7 +642,7 @@ const formConfig = {
                     Any updates you make here to your mailing address will only
                     apply to your education benefits. To update your mailing
                     address for all of the benefits across VA,{' '}
-                    <a href="https://www.va.gov/profile/personal-information">
+                    <a href="/profile/personal-information">
                       please go to your profile page
                     </a>
                     .
