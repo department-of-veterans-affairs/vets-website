@@ -25,21 +25,21 @@ const testFirstMenuSection = isMobile => {
   cy.get('[data-e2e-id="eligibility-0"]');
   cy.get('[data-e2e-id="about-va-1"]');
   cy.checkMenuItem('[data-e2e-id="find-a-va-location-2"]', 'find-locations');
-  cy.checkMenuItem(
-    '[data-e2e-id="how-to-apply-1"]',
-    'health-care/how-to-apply',
-    '[data-e2e-id="va-benefits-and-health-care-0"]',
-  );
-  cy.checkMenuItem(
-    '[data-e2e-id="family-and-caregiver-health-benefits-2"]',
-    'health-care/family-caregiver-benefits',
-    '[data-e2e-id="va-benefits-and-health-care-0"]',
-  );
-  cy.checkMenuItem(
-    '[data-e2e-id="view-your-lab-and-test-results-3"]',
-    'health-care/view-test-and-lab-results',
-    '[data-e2e-id="va-benefits-and-health-care-0"]',
-  );
+  // cy.checkMenuItem(
+  //   '[data-e2e-id="how-to-apply-1"]',
+  //   'health-care/how-to-apply',
+  //   '[data-e2e-id="va-benefits-and-health-care-0"]',
+  // );
+  // cy.checkMenuItem(
+  //   '[data-e2e-id="family-and-caregiver-health-benefits-2"]',
+  //   'health-care/family-caregiver-benefits',
+  //   '[data-e2e-id="va-benefits-and-health-care-0"]',
+  // );
+  // cy.checkMenuItem(
+  //   '[data-e2e-id="view-your-lab-and-test-results-3"]',
+  //   'health-care/view-test-and-lab-results',
+  //   '[data-e2e-id="va-benefits-and-health-care-0"]',
+  // );
 };
 
 const testSecondMenuSection = isMobile => {
