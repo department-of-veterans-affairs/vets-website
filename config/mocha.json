@@ -1,6 +1,7 @@
 {
   "require": [
     "@babel/register",
+    "@babel/preset-env",
     "core-js/stable",
     "regenerator-runtime/runtime",
     "blob-polyfill",
