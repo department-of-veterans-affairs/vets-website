@@ -8,7 +8,7 @@ import HowToPay from '../components/HowToPay';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import FinancialHelp from '../components/FinancialHelp';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Modals from '../components/Modals';
 import Alert from '../components/Alerts';
 import { currency } from '../utils/helpers';
@@ -18,7 +18,7 @@ const DetailPage = ({ match }) => {
   const selectedId = match.params.id;
   const errors = useSelector(({ mcp }) => mcp.errors);
   const statementData = useSelector(({ mcp }) => mcp.statements);
-  const [selectedDebt] = statementData.filter(({ id }) => selectedId === id);
+  const [selectedCopay] = statementData.filter(({ id }) => selectedId === id);
   const [alertType, setAlertType] = useState(null);
 
   useEffect(
@@ -30,6 +30,10 @@ const DetailPage = ({ match }) => {
     },
     [errors],
   );
+
+  if (!errors && !selectedCopay) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <>
@@ -45,7 +49,7 @@ const DetailPage = ({ match }) => {
         </a>
       </Breadcrumbs>
       <h1 className="vads-u-margin-bottom--1">
-        Your copay bill for {selectedDebt?.station.facilitYDesc}
+        Your copay bill for {selectedCopay?.station.facilitYDesc}
       </h1>
       {alertType ? (
         <Alert type={alertType} />
@@ -54,14 +58,14 @@ const DetailPage = ({ match }) => {
           <p className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--5">
             Updated on
             <span className="vads-u-margin-x--0p5">
-              {moment(selectedDebt?.pSProcessDate, 'MM-DD-YYYY').format(
+              {moment(selectedCopay?.pSProcessDate, 'MM-DD-YYYY').format(
                 'MMMM D, YYYY',
               )}
             </span>
           </p>
           <va-alert background-only status="info">
             <h3 className="vads-u-margin-y--0">
-              Pay your {currency(selectedDebt?.pHAmtDue)} balance or request
+              Pay your {currency(selectedCopay?.pHAmtDue)} balance or request
               help before July 2, 2021
             </h3>
             <p>
@@ -91,7 +95,7 @@ const DetailPage = ({ match }) => {
           </va-alert>
           <va-on-this-page />
           <DownloadStatements />
-          <HowToPay acctNum={selectedDebt.pHCernerAccountNumber} />
+          <HowToPay acctNum={selectedCopay.pHCernerAccountNumber} />
           <FinancialHelp />
           <DisputeCharges />
           <BalanceQuestions
