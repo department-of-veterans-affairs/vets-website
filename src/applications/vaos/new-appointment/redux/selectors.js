@@ -317,23 +317,22 @@ export function getClinicsForChosenFacility(state) {
   return clinics[`${data.vaFacility}_${typeOfCareId}`] || null;
 }
 
-export function getClinicPageInfo(state, pageKey) {
-  const formPageInfo = getFormPageInfo(state, pageKey);
-  const newAppointment = getNewAppointment(state);
-  const eligibility = selectEligibility(state);
-  const typeOfCare = getTypeOfCare(formPageInfo.data);
+export function selectPastAppointments(state) {
+  return getNewAppointment(state).pastAppointments;
+}
 
-  return {
-    ...formPageInfo,
-    facility: newAppointment.facilities[typeOfCare.id].find(
-      facility => facility.id === formPageInfo.data.vaFacility,
-    ),
-    typeOfCare,
-    clinics: getClinicsForChosenFacility(state),
-    eligibility,
-    pastAppointments: newAppointment.pastAppointments,
-    canMakeRequests: eligibility?.request,
-  };
+export function selectTypeOfCare(state) {
+  return getTypeOfCare(getFormData(state));
+}
+
+export function selectChosenFacilityInfo(state) {
+  const formData = getFormData(state);
+  const typeOfCare = getTypeOfCare(formData);
+  const newAppointment = getNewAppointment(state);
+
+  return newAppointment.facilities[typeOfCare.id].find(
+    facility => facility.id === formData.vaFacility,
+  );
 }
 
 export function getChosenVACityState(state) {
