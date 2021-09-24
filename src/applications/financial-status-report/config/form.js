@@ -200,6 +200,8 @@ const formConfig = {
           showPagePerItem: true,
           uiSchema: pages.spouseIncome.uiSchema,
           schema: pages.spouseIncome.schema,
+          depends: formData =>
+            formData.questions.isMarried && formData.questions.spouseIsEmployed,
           editModeOnReviewPage: true,
         },
         spouseBenefits: {
