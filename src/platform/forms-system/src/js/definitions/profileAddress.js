@@ -103,7 +103,11 @@ const MilitaryBaseInfo = () => (
  * 1. Path to Address nested in array - childrenToAdd[INDEX].childAddressInfo.address
  */
 
-export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
+export default function addressUiSchema(
+  path,
+  checkBoxTitle,
+  uiRequiredCallback,
+) {
   /**
    * insertArrayIndex - Used when addresses are nested in an array and need to be accessible.
    * There's no good way to handle pathing to a schema when it lives in an array with multiple entries.
@@ -294,4 +298,4 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
       },
     },
   };
-};
+}
