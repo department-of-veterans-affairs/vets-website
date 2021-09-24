@@ -814,18 +814,15 @@ const formConfig = {
                 </>
               ),
               'ui:widget': 'radio',
-              'ui:options': data => {
-                window.console.log(data);
-                return {
-                  widgetProps: {
-                    Yes: { 'data-info': 'yes', disabled: true },
-                    No: { 'data-info': 'no' },
-                  },
-                  selectedProps: {
-                    Yes: { 'aria-describedby': 'yes' },
-                    No: { 'aria-describedby': 'no' },
-                  },
-                };
+              'ui:options': {
+                widgetProps: {
+                  Yes: { 'data-info': 'yes' },
+                  No: { 'data-info': 'no' },
+                },
+                selectedProps: {
+                  Yes: { 'aria-describedby': 'yes' },
+                  No: { 'aria-describedby': 'no' },
+                },
               },
               'ui:objectViewField': SelectedCheckboxesReviewField,
             },
