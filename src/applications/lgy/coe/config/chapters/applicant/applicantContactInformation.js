@@ -1,7 +1,7 @@
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 
 import { applicantContactInformation } from '../../schemaImports';
-import { addressUiSchema } from 'applications/vre/definitions/profileAddress';
+import addressUiSchema from 'platform/forms-system/src/js/definitions/profileAddress';
 
 const checkboxTitle =
   'I live on a United States military base outside of the U.S.';
