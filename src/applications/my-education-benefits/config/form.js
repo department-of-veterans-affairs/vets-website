@@ -24,8 +24,6 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import toursOfDutyUI from '../definitions/toursOfDuty';
-import FullNameViewField from '../components/FullNameViewField';
-import FullNameReviewField from '../components/FullNameReviewField';
 import DateViewField from '../components/DateViewField';
 import CustomReviewDOBField from '../components/CustomReviewDOBField';
 import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView';
@@ -35,9 +33,9 @@ import PhoneViewField from '../components/PhoneViewField';
 import AccordionField from '../components/AccordionField';
 import BenefitGivenUpReviewField from '../components/BenefitGivenUpReviewField';
 import YesNoReviewField from '../components/YesNoReviewField';
-import SelectedCheckboxesReviewField from '../components/SelectedCheckboxesReviewField';
 import PhoneReviewField from '../components/PhoneReviewField';
 import DateReviewField from '../components/DateReviewField';
+import EmailReviewField from '../components/EmailReviewField';
 
 import {
   activeDutyLabel,
@@ -81,6 +79,7 @@ const formFields = {
   routingNumber: 'routingNumber',
   address: 'address',
   email: 'email',
+  viewPhoneNumbers: 'view:phoneNumbers',
   phoneNumber: 'phoneNumber',
   mobilePhoneNumber: 'mobilePhoneNumber',
   viewBenefitSelection: 'view:benefitSelection',
@@ -409,12 +408,6 @@ const formConfig = {
                   ...fullNameUI.middle,
                   'ui:title': 'Your middle name',
                 },
-                'ui:objectViewField': FullNameReviewField,
-                'ui:options': {
-                  hideLabelText: true,
-                  showFieldLabel: false,
-                  viewComponent: FullNameViewField,
-                },
               },
             },
             'view:dateOfBirth': {
@@ -495,22 +488,22 @@ const formConfig = {
       title: 'Contact information',
       pages: {
         [formPages.contactInformation.contactInformation]: {
-          title: 'Email and phone numbers',
+          title: 'Phone numbers and email address',
           path: 'contact/information',
           initialData: {
-            'view:email': {
-              [formFields.email]: {
-                email: 'hector.stanley@gmail.com',
-                confirmEmail: 'hector.stanley@gmail.com',
+            [formFields.viewPhoneNumbers]: {
+              mobilePhoneNumber: {
+                phone: '123-456-7890',
+                isInternational: true,
+              },
+              phoneNumber: {
+                phone: '098-765-4321',
+                isInternational: false,
               },
             },
-            mobilePhoneNumber: {
-              phone: '123-456-7890',
-              isInternational: true,
-            },
-            phoneNumber: {
-              phone: '098-765-4321',
-              isInternational: false,
+            [formFields.email]: {
+              email: 'hector.stanley@gmail.com',
+              confirmEmail: 'hector.stanley@gmail.com',
             },
           },
           uiSchema: {
@@ -540,11 +533,11 @@ const formConfig = {
                 </>
               ),
             },
-            'view:email': {
+            [formFields.viewPhoneNumbers]: {
               'ui:description': (
                 <>
                   <h4 className="form-review-panel-page-header vads-u-font-size--h5 meb-review-page-only">
-                    Email and phone numbers
+                    Phone numbers and email addresss
                   </h4>
                   <p className="meb-review-page-only">
                     If you’d like to update your phone numbers and email
@@ -552,36 +545,37 @@ const formConfig = {
                   </p>
                 </>
               ),
-              [formFields.email]: {
-                'ui:options': {
-                  hideLabelText: true,
-                  showFieldLabel: false,
-                  viewComponent: EmailViewField,
-                },
-                email: {
-                  ...emailUI('Email address'),
-                  'ui:validations': [validateEmail],
-                },
-                confirmEmail: {
-                  ...emailUI('Confirm email address'),
-                  'ui:options': {
-                    ...emailUI()['ui:options'],
-                    hideOnReview: true,
-                  },
-                },
-                'ui:validations': [
-                  (errors, field) => {
-                    if (field.email !== field.confirmEmail) {
-                      errors.confirmEmail.addError(
-                        'Sorry, your emails must match',
-                      );
-                    }
-                  },
-                ],
-              },
+              [formFields.mobilePhoneNumber]: phoneUISchema('mobile'),
+              [formFields.phoneNumber]: phoneUISchema('home'),
             },
-            [formFields.mobilePhoneNumber]: phoneUISchema('mobile'),
-            [formFields.phoneNumber]: phoneUISchema('home'),
+            [formFields.email]: {
+              'ui:options': {
+                hideLabelText: true,
+                showFieldLabel: false,
+                viewComponent: EmailViewField,
+              },
+              email: {
+                ...emailUI('Email address'),
+                'ui:validations': [validateEmail],
+                'ui:reviewField': EmailReviewField,
+              },
+              confirmEmail: {
+                ...emailUI('Confirm email address'),
+                'ui:options': {
+                  ...emailUI()['ui:options'],
+                  hideOnReview: true,
+                },
+              },
+              'ui:validations': [
+                (errors, field) => {
+                  if (field.email !== field.confirmEmail) {
+                    errors.confirmEmail.addError(
+                      'Sorry, your emails must match',
+                    );
+                  }
+                },
+              ],
+            },
           },
           schema: {
             type: 'object',
@@ -590,19 +584,19 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [formFields.mobilePhoneNumber]: phoneSchema(),
-              [formFields.phoneNumber]: phoneSchema(),
-              'view:email': {
+              [formFields.viewPhoneNumbers]: {
                 type: 'object',
                 properties: {
-                  [formFields.email]: {
-                    type: 'object',
-                    required: [formFields.email, 'confirmEmail'],
-                    properties: {
-                      email,
-                      confirmEmail: email,
-                    },
-                  },
+                  [formFields.mobilePhoneNumber]: phoneSchema(),
+                  [formFields.phoneNumber]: phoneSchema(),
+                },
+              },
+              [formFields.email]: {
+                type: 'object',
+                required: [formFields.email, 'confirmEmail'],
+                properties: {
+                  email,
+                  confirmEmail: email,
                 },
               },
             },
@@ -711,7 +705,6 @@ const formConfig = {
                   },
                 },
               },
-              // 'ui:objectViewField': MailingAddressReviewField,
               'ui:options': {
                 hideLabelText: true,
                 showFieldLabel: false,
@@ -745,14 +738,15 @@ const formConfig = {
           },
         },
         [formPages.contactInformation.preferredContactMethod]: {
+          title: 'Contact preferences',
           path: 'contact/preferences',
           uiSchema: {
-            'view:contactPreferencesSubHeading': {
-              'ui:description': <h3>Select your preferred contact method</h3>,
-            },
             'view:contactMethod': {
               'ui:description': (
                 <>
+                  <h3 className="meb-form-page-only">
+                    Choose your contact method for follow-up questions
+                  </h3>
                   <h4 className="form-review-panel-page-header vads-u-font-size--h5 meb-review-page-only">
                     Contact preferences
                   </h4>
@@ -763,12 +757,7 @@ const formConfig = {
                 </>
               ),
               [formFields.contactMethod]: {
-                'ui:title': (
-                  <div>
-                    <h3>Choose your contact method for follow-up questions</h3>
-                  </div>
-                ),
-                'ui:description':
+                'ui:title':
                   'How should we contact you if we have questions about your application?',
                 'ui:widget': 'radio',
                 'ui:options': {
@@ -779,48 +768,45 @@ const formConfig = {
                     Mail: { 'data-info': 'mail' },
                   },
                 },
-                // 'ui:validations': [validateBooleanGroup],
                 'ui:errorMessages': {
                   required:
                     'Please select at least one way we can contact you.',
                 },
               },
             },
-            [formFields.receiveTextMessages]: {
-              'ui:title': (
-                <>
-                  <h3>Choose your notification method</h3>
-                </>
-              ),
+            'view:receiveTextMessages': {
               'ui:description': (
                 <>
-                  <p>
-                    We’ll send you important notifications about your benefits,
-                    including alerts to verify your monthly enrollment. You’ll
-                    need to verify your monthly enrollment to receive payment.
-                  </p>
-                  <p>
-                    We recommend opting-in for text message notifications to
-                    make verifying your monthly enrollment simpler.
-                  </p>
-                  <p>
-                    Would you like to receive text message notifications on your
-                    education benefits?
-                  </p>
+                  <div className="meb-form-page-only">
+                    <h3>Choose your notification method</h3>
+                    <p>
+                      We’ll send you important notifications about your
+                      benefits, including alerts to verify your monthly
+                      enrollment. You’ll need to verify your monthly enrollment
+                      to receive payment.
+                    </p>
+                    <p>
+                      We recommend opting-in for text message notifications to
+                      make verifying your monthly enrollment simpler.
+                    </p>
+                  </div>
                 </>
               ),
-              'ui:widget': 'radio',
-              'ui:options': {
-                widgetProps: {
-                  Yes: { 'data-info': 'yes' },
-                  No: { 'data-info': 'no' },
-                },
-                selectedProps: {
-                  Yes: { 'aria-describedby': 'yes' },
-                  No: { 'aria-describedby': 'no' },
+              [formFields.receiveTextMessages]: {
+                'ui:title':
+                  'Would you like to receive text message notifications on your education benefits?',
+                'ui:widget': 'radio',
+                'ui:options': {
+                  widgetProps: {
+                    Yes: { 'data-info': 'yes' },
+                    No: { 'data-info': 'no' },
+                  },
+                  selectedProps: {
+                    Yes: { 'aria-describedby': 'yes' },
+                    No: { 'aria-describedby': 'no' },
+                  },
                 },
               },
-              'ui:objectViewField': SelectedCheckboxesReviewField,
             },
             'view:textMessagesAlert': {
               'ui:description': (
@@ -834,8 +820,14 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData =>
-                  !isValidPhone(formData[formFields.mobilePhoneNumber].phone) ||
-                  formData[formFields.mobilePhoneNumber].isInternational,
+                  !isValidPhone(
+                    formData[formFields.viewPhoneNumbers][
+                      formFields.mobilePhoneNumber
+                    ].phone,
+                  ) ||
+                  formData[formFields.viewPhoneNumbers][
+                    formFields.mobilePhoneNumber
+                  ].isInternational,
               },
             },
             'view:noMobilePhoneAlert': {
@@ -849,8 +841,11 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData =>
-                  isValidPhone(formData[formFields.mobilePhoneNumber].phone) ||
-                  formData[formFields.mobilePhoneNumber].isInternational,
+                  isValidPhone(
+                    formData[formFields.viewPhoneNumbers][
+                      formFields.mobilePhoneNumber
+                    ].phone,
+                  ) || formData[formFields.mobilePhoneNumber].isInternational,
               },
             },
             'view:internationalTextMessageAlert': {
@@ -866,18 +861,15 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData =>
-                  !formData[formFields.mobilePhoneNumber].isInternational,
+                  !formData[formFields.viewPhoneNumbers][
+                    formFields.mobilePhoneNumber
+                  ].isInternational,
               },
             },
           },
           schema: {
             type: 'object',
-            required: [formFields.receiveTextMessages],
             properties: {
-              'view:contactPreferencesSubHeading': {
-                type: 'object',
-                properties: {},
-              },
               'view:contactMethod': {
                 type: 'object',
                 required: [formFields.contactMethod],
@@ -888,9 +880,18 @@ const formConfig = {
                   },
                 },
               },
-              [formFields.receiveTextMessages]: {
-                type: 'string',
-                enum: ['Yes', 'No, just send me email notifications'],
+              'view:receiveTextMessages': {
+                type: 'object',
+                required: [formFields.receiveTextMessages],
+                properties: {
+                  [formFields.receiveTextMessages]: {
+                    type: 'string',
+                    enum: [
+                      'Yes, send me text message notifications',
+                      'No, just send me email notifications',
+                    ],
+                  },
+                },
               },
               'view:textMessagesAlert': {
                 type: 'object',
