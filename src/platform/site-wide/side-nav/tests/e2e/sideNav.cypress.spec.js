@@ -10,7 +10,7 @@ Cypress.Commands.add('tabFocus', el => {
   );
 });
 
-describe('Facilities VAMC SideNav', () => {
+describe.skip('Facilities VAMC SideNav', () => {
   it('should tab access the links on the left nav and verify focus', () => {
     cy.visit('/pittsburgh-health-care');
     cy.injectAxe();
