@@ -66,11 +66,11 @@ const testSecondMenuSection = isMobile => {
   //   'data',
   //   '[data-e2e-id="about-va-1"]',
   // );
-  // cy.checkMenuItem(
-  //   '[data-e2e-id="veterans-health-administration-0"]',
-  //   'health',
-  //   '[data-e2e-id="about-va-1"]',
-  // );
+  cy.checkMenuItem(
+    '[data-e2e-id="veterans-health-administration-0"]',
+    'health',
+    '[data-e2e-id="about-va-1"]',
+  );
   cy.checkMenuItem(
     '[data-e2e-id="va-plans-budget-and-performance-2"]',
     'performance',
