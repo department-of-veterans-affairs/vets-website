@@ -1,12 +1,9 @@
 import React from 'react';
-// import _ from 'lodash';
 
 // Example of an imported schema:
 // import fullSchema from '../22-1990-schema.json';
 // eslint-disable-next-line no-unused-vars
 import fullSchema from '../22-1990-schema.json';
-// In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/22-1990-schema.json';
 
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
@@ -17,13 +14,10 @@ import FormFooter from 'platform/forms/components/FormFooter';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-// import bankAccountUI from 'platform/forms-system/src/js/definitions/bankAccount';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import * as address from 'platform/forms-system/src/js/definitions/address';
-
-// import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 
 import manifest from '../manifest.json';
 
@@ -39,7 +33,6 @@ import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities
 import EmailViewField from '../components/EmailViewField';
 import PhoneViewField from '../components/PhoneViewField';
 import AccordionField from '../components/AccordionField';
-// import MailingAddressReviewField from '../components/MailingAddressReviewField';
 import BenefitGivenUpReviewField from '../components/BenefitGivenUpReviewField';
 import YesNoReviewField from '../components/YesNoReviewField';
 import SelectedCheckboxesReviewField from '../components/SelectedCheckboxesReviewField';
@@ -52,8 +45,6 @@ import {
   unsureDescription,
   post911GiBillNote,
 } from '../helpers';
-
-// import { directDepositWarning } from '../helpers';
 
 import MailingAddressViewField from '../components/MailingAddressViewField';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
@@ -251,148 +242,6 @@ function additionalConsiderationsQuestionTitle(benefitSelection, order) {
   );
 }
 
-// function AdditionalConsiderationTemplate(
-//   page,
-//   formField,
-//   title,
-//   trigger,
-//   info,
-// ) {
-//   let additionalInfo;
-//   // <AdditionalInfo triggerText={trigger}>
-//   //   <p>{info}</p>
-//   // </AdditionalInfo>
-
-//   if (trigger) {
-//     additionalInfo = {
-//       'view:note': {
-//         'ui:description': (
-//           // <AdditionalInfo triggerText={trigger}>
-//           //   <p>{info}</p>
-//           // </AdditionalInfo>
-//           <>
-//             {React.createElement(
-//               AdditionalInfo,
-//               {
-//                 key: `additional-info-${page}`,
-//                 triggerText: trigger,
-//               },
-//               <p>{info}</p>,
-//             )}
-//           </>
-//         ),
-//       },
-//     };
-//   }
-
-//   return {
-//     path: page.name,
-//     title: data => {
-//       return additionalConsiderationsQuestionTitleText(
-//         data[formFields.viewBenefitSelection][formFields.benefitSelection],
-//         page.order,
-//       );
-//     },
-//     uiSchema: {
-//       'ui:description': data => {
-//         return additionalConsiderationsQuestionTitle(
-//           data.formData[formFields.viewBenefitSelection][
-//             formFields.benefitSelection
-//           ],
-//           page.order,
-//         );
-//       },
-//       [formFields[formField]]: {
-//         'ui:title': title,
-//         'ui:widget': 'radio',
-//       },
-//       ...additionalInfo,
-//     },
-//     schema: {
-//       type: 'object',
-//       required: [formField],
-//       properties: {
-//         [formFields[formField]]: {
-//           type: 'string',
-//           enum: ['Yes', 'No'],
-//         },
-//         'view:note': {
-//           type: 'object',
-//           properties: {},
-//         },
-//       },
-//     },
-//   };
-// }
-
-// const AdditionalConsiderationAdditionalInfo = (trigger, info) => (
-//   <AdditionalInfo triggerText={trigger}>
-//     <p>{info}</p>
-//   </AdditionalInfo>
-//   // <>
-//   //   {React.cloneElement(
-//   //     AdditionalInfo,
-//   //     {
-//   //       triggerText: trigger,
-//   //     },
-//   //     <p>{info}</p>,
-//   //   )}
-//   // </>
-// );
-
-// function AdditionalConsiderationsTitle(page) {
-//   return {
-//     title: data => {
-//       return additionalConsiderationsQuestionTitleText(
-//         data[formFields.viewBenefitSelection][formFields.benefitSelection],
-//         page.order,
-//       );
-//     },
-//   };
-// }
-// function AdditionalConsiderationsUiSchemaDescription(page) {
-//   return {
-//     'ui:description': data => {
-//       return additionalConsiderationsQuestionTitle(
-//         data.formData[formFields.viewBenefitSelection][
-//           formFields.benefitSelection
-//         ],
-//         page.order,
-//       );
-//     },
-//   };
-// }
-// function AdditionalConsiderationsUiSchemaTitle(formField, title) {
-//   return {
-//     [formFields[formField]]: {
-//       'ui:title': title,
-//       'ui:widget': 'radio',
-//     },
-//   };
-// }
-
-// function AdditionalConsiderationsSchema(
-//   formField,
-//   viewName = formFields.additionalConsiderationsNote,
-// ) {
-//   return {
-//     schema: {
-//       type: 'object',
-//       required: [formField],
-//       properties: {
-//         [formFields[formField]]: {
-//           type: 'string',
-//           enum: ['Yes', 'No'],
-//         },
-//         [viewName]: {
-//           type: 'object',
-//           properties: {},
-//         },
-//       },
-//     },
-//   };
-// }
-
 function AdditionalConsiderationTemplate(
   page,
   formField,
@@ -401,25 +250,6 @@ function AdditionalConsiderationTemplate(
   const { title, additionalInfo } = page;
   const additionalInfoViewName = `view:${page.name}AdditionalInfo`;
   let additionalInfoView;
-  // formFields.additionalConsiderationsNote,
-
-  // <AdditionalInfo triggerText={trigger}>
-  //   <p>{info}</p>
-  // </AdditionalInfo>
-
-  // 'ui:description': (
-  //   <>
-  //     {React.createElement(
-  //       AdditionalInfo,
-  //       {
-  //         key: `additional-info-${page}`,
-  //         triggerText: trigger,
-  //       },
-  //       <p>{info}</p>,
-  //     )}
-  //   </>
-  // ),
-  // const viewName = `view:${page}Note`;
 
   if (additionalInfo) {
     additionalInfoView = {
@@ -432,27 +262,6 @@ function AdditionalConsiderationTemplate(
       },
     };
   }
-  // let additionalInfo;
-  // <AdditionalInfo triggerText={trigger}>
-  //   <p>{info}</p>
-  // </AdditionalInfo>
-
-  // if (trigger) {
-  //   additionalInfo = {
-  //         <>
-  //           {React.createElement(
-  //             AdditionalInfo,
-  //             {
-  //               key: `additional-info-${page}`,
-  //               triggerText: trigger,
-  //             },
-  //             <p>{info}</p>,
-  //           )}
-  //         </>
-  //       ),
-  //     },
-  //   };
-  // }
 
   return {
     path: page.name,
@@ -507,33 +316,6 @@ function givingUpBenefitSelected(formData) {
 function notGivingUpBenefitSelected(formData) {
   return !givingUpBenefitSelected(formData);
 }
-
-// const contactPref = {};
-
-// function ContactPreferenceAlertUI() {
-//   let status = 'info';
-//   let copy =
-//     'For text messages, messaging and data rates may apply. At this time, VA is only able to send text messages about education benefits to US-based mobile phone numbers.';
-
-//   if (contactPref.phone) {
-//     status = 'warning';
-//     copy =
-//       'You can’t choose to receive text messages because you don’t have a mobile phone number on file.';
-//   }
-//   if (contactPref.isInternational) {
-//     status = 'warning';
-//     copy =
-//       'You can’t choose to receive text messages because your mobile phone number is international. At this time, VA is only able to send text messages about your education benefits to US-based mobile phone numbers.';
-//   }
-
-//   return {
-//     'ui:description': (
-//       <va-alert onClose={function noRefCheck() {}} status={status}>
-//         <div style={{ marginTop: 0 }}>{copy}</div>
-//       </va-alert>
-//     ),
-//   };
-// }
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -1441,9 +1223,6 @@ const formConfig = {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.activeDutyKicker,
             formFields.activeDutyKicker,
-            // 'Do you qualify for an active duty kicker, sometimes called a College Fund?',
-            // 'What is an active duty kicker?',
-            // 'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
           ),
           depends: formData =>
             formData[formFields.viewBenefitSelection][
@@ -1454,9 +1233,6 @@ const formConfig = {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.reserveKicker,
             formFields.selectedReserveKicker,
-            // 'Do you qualify for a reserve kicker, sometimes called a College Fund?',
-            // 'What is a reserve kicker?',
-            // 'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
           ),
           depends: formData =>
             formData[formFields.viewBenefitSelection][
@@ -1467,75 +1243,19 @@ const formConfig = {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.militaryAcademy,
             formFields.federallySponsoredAcademy,
-            // 'Did you graduate and receive a commission from the United States Military Academy, Naval Academy, Air Force Academy, or Coast Guard Academy?',
           ),
         },
         [formPages.additionalConsiderations.seniorRotc.name]: {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.seniorRotc,
             formFields.seniorRotcCommission,
-            // 'Were you commissioned as a result of Senior ROTC?',
-            // 'What is Senior ROTC?',
-            // 'The Senior Reserve Officer Training Corps (SROTC)—more commonly referred to as the Reserve Officer Training Corps (ROTC)—is an officer training and scholarship program for postsecondary students authorized under Chapter 103 of Title 10 of the United States Code.',
           ),
         },
         [formPages.additionalConsiderations.loanPayment.name]: {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.loanPayment,
             formFields.loanPayment,
-            // 'Do you have a period of service that the Department of Defense counts towards an education loan payment?',
-            // 'What does this mean?',
-            // "This is a Loan Repayment Program, which is a special incentive that certain military branches offer to qualified applicants. Under a Loan Repayment Program, the branch of service will repay part of an applicant's qualifying student loans.",
-            // 'view:loanPaymentNote',
           ),
-          // path: formPages.additionalConsiderations.loanPayment.name,
-          // ...AdditionalConsiderationsTitle(
-          //   formPages.additionalConsiderations.loanPayment,
-          // ),
-          // uiSchema: {
-          //   ...AdditionalConsiderationsUiSchemaDescription(
-          //     formPages.additionalConsiderations.loanPayment,
-          //   ),
-          //   ...AdditionalConsiderationsUiSchemaTitle(
-          //     'loanPayment',
-          //     formPages.additionalConsiderations.loanPayment.title,
-          //   ),
-          //   [formFields.loanPayment]: {
-          //     'ui:title': formPages.additionalConsiderations.loanPayment.title,
-          //     'ui:widget': 'radio',
-          //   },
-          //   'view:loanPaymentNote': {
-          //     'ui:description': (
-          //       <AdditionalInfo triggerText="What does this mean?">
-          //         <p>
-          //           This is a Loan Repayment Program, which is a special
-          //           incentive that certain military branches offer to qualified
-          //           applicants. Under a Loan Repayment Program, the branch of
-          //           service will repay part of an applicant’s qualifying student
-          //           loans.
-          //         </p>
-          //       </AdditionalInfo>
-          //     ),
-          //   },
-          // },
-          // schema: {
-          //   type: 'object',
-          //   required: [formFields.loanPayment],
-          //   properties: {
-          //     [formFields.loanPayment]: {
-          //       type: 'string',
-          //       enum: ['Yes', 'No'],
-          //     },
-          //     'view:loanPaymentNote': {
-          //       type: 'object',
-          //       properties: {},
-          //     },
-          //   },
-          // },
-          // ...AdditionalConsiderationsSchema(
-          //   formFields.loanPayment,
-          //   'view:loanPaymentNote',
-          // ),
         },
       },
     },
