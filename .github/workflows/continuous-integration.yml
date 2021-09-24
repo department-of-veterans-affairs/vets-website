@@ -452,7 +452,6 @@ jobs:
       ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
       tests: ${{ steps.tests.outputs.selected }}
       is_master_build: ${{ env.IS_MASTER_BUILD }}
-      origin_master_sha: ${{ steps.origin_master_sha.outputs.origin_master_sha }}
 
     steps:
       - name: Checkout
@@ -518,11 +517,6 @@ jobs:
         id: tests
         run: echo ::set-output name=selected::$TESTS
 
-      - name: Set output of origin_master_sha
-        id: origin_master_sha
-        run: echo ::set-output name=origin_master_sha::$(git rev-parse origin/master)
-        continue-on-error: true
-
   cypress-tests:
     name: Cypress E2E Tests
     runs-on: self-hosted
@@ -543,10 +537,6 @@ jobs:
       NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
 
     steps:
-      - name: Test origin_master_sha output
-        run: echo ${{ needs.cypress-tests-prep.outputs.origin_master_sha }}
-        continue-on-error: true
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
