@@ -14,8 +14,9 @@ import { isUUID, SCOPES } from '../utils/token-format-validator';
 const Landing = props => {
   const {
     router,
-    setAppointment,
     location,
+    setAppointment,
+    setToken,
     isLowAuthEnabled,
     isUpdatePageEnabled,
     isMultipleAppointmentsEnabled,
@@ -51,19 +52,8 @@ const Landing = props => {
                 if (session.permission === 'read.full') {
                   goToNextPage(router, URLS.DETAILS);
                 } else {
-                  // else get the data then go to validate page
-                  api.v2
-                    .getCheckInData(token)
-                    .then(json => {
-                      // going to be read.basic data, which is facility name and number
-                      const { data } = json;
-                      setAppointment(data, token);
-                      goToNextPage(router, URLS.VALIDATION_NEEDED);
-                    })
-                    .catch(() => {
-                      clearCurrentSession(window);
-                      goToNextPage(router, URLS.ERROR);
-                    });
+                  setToken(token);
+                  goToNextPage(router, URLS.VALIDATION_NEEDED);
                 }
               })
               .catch(() => {
@@ -129,8 +119,9 @@ const Landing = props => {
     },
     [
       router,
-      setAppointment,
       location,
+      setAppointment,
+      setToken,
       isLowAuthEnabled,
       isUpdatePageEnabled,
       isMultipleAppointmentsEnabled,
@@ -147,6 +138,8 @@ const mapDispatchToProps = dispatch => {
   return {
     setAppointment: (data, token) =>
       dispatch(tokenWasValidated(data, token, SCOPES.READ_BASIC)),
+    setToken: token =>
+      dispatch(tokenWasValidated(undefined, token, SCOPES.READ_BASIC)),
   };
 };
 
