@@ -1,7 +1,7 @@
 import { createFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
 
-import mockSession from '../../../../api/local-mock-api/mocks/sessions.responses';
-import mockPatientCheckIns from '../../../../api/local-mock-api/mocks/patient.check.in.response';
+import mockSession from '../../../../api/local-mock-api/mocks/v1/sessions.responses';
+import mockPatientCheckIns from '../../../../api/local-mock-api/mocks/v1/patient.check.in.responses';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
@@ -37,8 +37,16 @@ describe('Check In Experience -- ', () => {
     cy.get('h1').contains('Check in at VA');
     cy.injectAxe();
     cy.axeCheck();
+    cy.get('[label="Your last name"]')
+      .shadow()
+      .find('input')
+      .type('Smith');
+    cy.get('[label="Last 4 digits of your Social Security number"]')
+      .shadow()
+      .find('input')
+      .type('4837');
     cy.get('[data-testid=check-in-button]').click();
     // update information page
-    cy.get('legend > h2').contains('information');
+    cy.get('legend > h1').contains('information');
   });
 });

@@ -31,7 +31,7 @@ const Confirmation = ({ appointments }) => {
           to start.
         </p>
       </VaAlert>
-      <Footer header={'Not sure where to wait?'} />
+      <Footer />
       <BackToHome />
     </div>
   );

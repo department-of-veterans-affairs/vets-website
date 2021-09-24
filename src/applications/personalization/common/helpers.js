@@ -1,7 +1,7 @@
 import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
 
 export function makeUserObject(options = {}) {
-  const services = [];
+  const services = options.services || ['vet360'];
   if (options.rx) {
     services.push('rx');
   }
@@ -53,7 +53,8 @@ export function makeUserObject(options = {}) {
         },
         inProgressForms: options.inProgressForms || [],
         prefillsAvailable: [],
-        vet360ContactInformation: makeMockContactInfo(),
+        vet360ContactInformation:
+          options.contactInformation || makeMockContactInfo(),
       },
     },
     meta: { errors: null },

@@ -31,12 +31,9 @@ const UpdateInformationQuestion = props => {
 
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5 update-information">
-      <h1 tabIndex="-1" className="question">
-        Check in at VA
-      </h1>
       <fieldset>
         <legend>
-          <h2>Do you need to update any information?</h2>
+          <h1>Do you need to update any information?</h1>
           <p>
             This includes information like your phone number, address, insurance
             plan, or next-of-kin.

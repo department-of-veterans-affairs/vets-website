@@ -9,8 +9,6 @@ import error500 from '@@profile/tests/fixtures/500.json';
 
 import manifest from '~/applications/personalization/dashboard/manifest.json';
 
-import { mockFeatureToggles } from './helpers';
-
 describe('The My VA Dashboard Claims and Appeals section', () => {
   beforeEach(() => {
     cy.login(mockUser);
@@ -29,7 +27,6 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
         cy.intercept('/v0/appeals', appealsSuccess(10));
       });
       it('should show details about the updated claim because it was updated more recently than the appeal', () => {
-        mockFeatureToggles();
         cy.visit(manifest.rootUrl);
 
         // make sure that the Claims and Appeals section is shown
@@ -59,7 +56,6 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
         cy.intercept('/v0/appeals', appealsSuccess(31));
       });
       it('should show a CTA but not details about the most recently updated claim or appeal ', () => {
-        mockFeatureToggles();
         cy.visit(manifest.rootUrl);
 
         // make sure that the Claims and Appeals section and CTA is shown
@@ -102,7 +98,6 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
         });
       });
       it('should show an error in the Claims and Appeals section', () => {
-        mockFeatureToggles();
         cy.visit(manifest.rootUrl);
 
         // should show a loading indicator
@@ -136,7 +131,6 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
         });
       });
       it('should hide the entire Claims and Appeals section', () => {
-        mockFeatureToggles();
         cy.visit(manifest.rootUrl);
 
         // should show a loading indicator

@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import _ from 'lodash';
-import { scroller } from 'react-scroll';
 import classNames from 'classnames';
 
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
@@ -25,6 +24,7 @@ import { ariaLabels } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
 import LearnMoreLabel from '../LearnMoreLabel';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 function CalculateYourBenefitsForm({
   calculatorInputChange,
@@ -160,7 +160,7 @@ function CalculateYourBenefitsForm({
     ) {
       toggleExpanded('learningFormatAndSchedule', true);
       setTimeout(() => {
-        scroller.scrollTo('beneficiary-zip-question', getScrollOptions());
+        scrollTo('beneficiary-zip-question', getScrollOptions());
         focusElement('input[name=beneficiaryZIPCode]');
       }, 50);
     } else {

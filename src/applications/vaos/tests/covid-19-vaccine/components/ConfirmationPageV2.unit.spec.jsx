@@ -102,10 +102,10 @@ describe('VAOS vaccine flow <ConfirmationPageV2>', () => {
       ),
     ).to.be.ok;
     userEvent.click(screen.getByText(/View your appointments/i));
-    expect(screen.history.push.called).to.be.true;
-    expect(screen.history.push.getCall(0).args[0]).to.equal('/');
+    expect(screen.history.replace.called).to.be.true;
+    expect(screen.history.replace.firstCall.args[0]).to.equal('/');
     userEvent.click(screen.getByText(/New appointment/i));
-    expect(screen.history.push.getCall(1).args[0]).to.equal('/new-appointment');
+    expect(screen.history.push.firstCall.args[0]).to.equal('/new-appointment');
   });
 
   it('should redirect to home page if no form data', async () => {

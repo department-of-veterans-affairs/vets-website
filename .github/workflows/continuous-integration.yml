@@ -8,8 +8,9 @@ on:
       - '**'
 
 env:
+  DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
   CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
-  NEXUS_REGISTRY: https://devops.va.gov/dots-nexus/repository/npm-public/
+  NEXUS_REGISTRY: https://devops.va.gov/dots-nexus/repository/platform-npm-group-nocache/
 
 concurrency:
   group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha }}
@@ -135,6 +136,7 @@ jobs:
       - name: Notify Slack about build failures
         if: ${{ failure() }}
         uses: ./.github/actions/vsp-github-actions/slack-socket
+        continue-on-error: true
         env:
           SSL_CERT_DIR: /etc/ssl/certs
         with:
@@ -678,6 +680,7 @@ jobs:
       - name: Notify Slack about Cypress test failures
         if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: ./.github/actions/vsp-github-actions/slack-socket
+        continue-on-error: true
         env:
           SSL_CERT_DIR: /etc/ssl/certs
         with:
@@ -942,3 +945,53 @@ jobs:
 
 #     - name: Trigger Jenkins pipeline
 #       run: node script/github-actions/trigger-jenkins.js
+
+  notify-failure:
+    name: Notify Failure
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/master' && (failure() || cancelled()) }}
+    needs: deploy
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get Slack app token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/github_actions_slack_socket_token
+          env_variable_name: SLACK_APP_TOKEN
+
+      - name: Get Slack bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/github_actions_slack_bot_user_token
+          env_variable_name: SLACK_BOT_TOKEN
+          
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Checkout VSP actions
+        uses: actions/checkout@v2
+        with:
+          repository: department-of-veterans-affairs/vsp-github-actions
+          ref: refs/heads/main
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          persist-credentials: false
+          path: ./.github/actions/vsp-github-actions
+
+      - name: Notify Slack
+        uses: ./.github/actions/vsp-github-actions/slack-socket
+        continue-on-error: true
+        with:
+          slack_app_token: ${{ env.SLACK_APP_TOKEN }}
+          slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
+          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "vets-website master branch CI failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}]'
+          channel_id: ${{ env.DEVOPS_CHANNEL_ID }}

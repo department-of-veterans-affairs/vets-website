@@ -30,8 +30,9 @@ import ServiceError from '../components/ServiceError';
 import { renderSearchResultsHeader } from '../utils/render';
 import { isMobileView, useQueryParams } from '../utils/helpers';
 import { searchWithFilters } from '../utils/search';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
-const { Element: ScrollElement, scroller } = Scroll;
+const { Element: ScrollElement } = Scroll;
 
 export function SearchPage({
   autocomplete,
@@ -125,7 +126,7 @@ export function SearchPage({
   useEffect(
     () => {
       if (!isMobileView()) {
-        scroller.scrollTo('searchPage', getScrollOptions());
+        scrollTo('searchPage', getScrollOptions());
       }
     },
     [search.inProgress],

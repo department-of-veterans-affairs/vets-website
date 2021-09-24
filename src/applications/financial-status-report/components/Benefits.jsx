@@ -5,12 +5,7 @@ import Telephone, {
   CONTACTS,
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
-
-const formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  minimumFractionDigits: 2,
-});
+import { currency } from '../utils/helpers';
 
 const BenefitCard = ({ received, title }) => {
   return (
@@ -21,7 +16,7 @@ const BenefitCard = ({ received, title }) => {
 
       <div className="vads-u-margin-bottom--1">
         <span>Amount received last month: </span>
-        {formatter.format(parseFloat(received))}
+        {currency.format(parseFloat(received))}
       </div>
     </section>
   );
@@ -32,7 +27,7 @@ const NoBenefits = () => {
     <section className="usa-alert background-color-only">
       <div className="vads-u-margin-bottom--1">
         <h4 className="vads-u-margin--0">
-          Our records show you don't get any monthly benefit payments
+          Our records show you don’t get any monthly benefit payments
         </h4>
       </div>
 
