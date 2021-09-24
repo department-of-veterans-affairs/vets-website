@@ -5,7 +5,10 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 
 import { focusElement } from 'platform/utilities/ui';
 
-import { receivedAppointmentDetails } from '../../actions';
+import {
+  receivedAppointmentDetails,
+  receivedMultipleAppointmentDetails,
+} from '../../actions';
 import { goToNextPage, URLS } from '../../utils/navigation';
 import { api } from '../../api';
 
@@ -20,6 +23,7 @@ const CheckIn = props => {
     isUpdatePageEnabled,
     isLowAuthEnabled,
     setAppointment,
+    setMultipleAppointments,
     isMultipleAppointmentsEnabled,
   } = props;
   const appointment = appointments[0];
@@ -29,23 +33,44 @@ const CheckIn = props => {
   useEffect(
     () => {
       if (isLowAuthEnabled) {
-        // load data from checks route
-        api.v1
-          .getCheckInData(token)
-          .then(json => {
-            const { payload } = json;
-            setAppointment(payload, token);
-            setIsLoadingData(false);
-            focusElement('h1');
-          })
-          .catch(() => {
-            goToNextPage(router, URLS.ERROR);
-          });
+        if (isMultipleAppointmentsEnabled) {
+          api.v2
+            .getCheckInData(token)
+            .then(json => {
+              const { payload } = json;
+              setMultipleAppointments(payload, token);
+              setIsLoadingData(false);
+              focusElement('h1');
+            })
+            .catch(() => {
+              goToNextPage(router, URLS.ERROR);
+            });
+        } else {
+          // load data from checks route
+          api.v1
+            .getCheckInData(token)
+            .then(json => {
+              const { payload } = json;
+              setAppointment(payload, token);
+              setIsLoadingData(false);
+              focusElement('h1');
+            })
+            .catch(() => {
+              goToNextPage(router, URLS.ERROR);
+            });
+        }
       } else {
         focusElement('h1');
       }
     },
-    [token, isLowAuthEnabled, setAppointment, router],
+    [
+      token,
+      isLowAuthEnabled,
+      setAppointment,
+      setMultipleAppointments,
+      router,
+      isMultipleAppointmentsEnabled,
+    ],
   );
 
   if (isLoadingData) {
@@ -76,7 +101,6 @@ const CheckIn = props => {
     );
   }
 };
-
 const mapStateToProps = state => {
   return {
     appointments: state.checkInData.appointments,
@@ -87,6 +111,8 @@ const mapDispatchToProps = dispatch => {
   return {
     setAppointment: (data, token) =>
       dispatch(receivedAppointmentDetails(data, token)),
+    setMultipleAppointments: (data, token) =>
+      dispatch(receivedMultipleAppointmentDetails(data, token)),
   };
 };
 
