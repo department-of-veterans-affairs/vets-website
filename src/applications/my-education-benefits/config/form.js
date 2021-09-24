@@ -845,7 +845,10 @@ const formConfig = {
                     formData[formFields.viewPhoneNumbers][
                       formFields.mobilePhoneNumber
                     ].phone,
-                  ) || formData[formFields.mobilePhoneNumber].isInternational,
+                  ) ||
+                  formData[formFields.viewPhoneNumbers][
+                    formFields.mobilePhoneNumber
+                  ].isInternational,
               },
             },
             'view:internationalTextMessageAlert': {
