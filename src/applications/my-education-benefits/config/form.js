@@ -242,11 +242,7 @@ function additionalConsiderationsQuestionTitle(benefitSelection, order) {
   );
 }
 
-function AdditionalConsiderationTemplate(
-  page,
-  formField,
-  // viewName = formFields.additionalConsiderationsNote,
-) {
+function AdditionalConsiderationTemplate(page, formField) {
   const { title, additionalInfo } = page;
   const additionalInfoViewName = `view:${page.name}AdditionalInfo`;
   let additionalInfoView;
