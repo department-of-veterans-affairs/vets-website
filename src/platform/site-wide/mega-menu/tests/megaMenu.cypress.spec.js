@@ -61,11 +61,6 @@ const testSecondMenuSection = isMobile => {
   cy.get('[data-e2e-id="agency-financial-report"]');
   cy.get('[data-e2e-id="about-va-1"]').click();
 
-  // cy.checkMenuItem(
-  //   '[data-e2e-id="va-open-data-2"]',
-  //   'data',
-  //   '[data-e2e-id="about-va-1"]',
-  // );
   cy.checkMenuItem(
     '[data-e2e-id="veterans-health-administration-0"]',
     'health',
