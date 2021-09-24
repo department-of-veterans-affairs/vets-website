@@ -18,7 +18,7 @@ const responses = {
     true,
     false,
   ),
-  // v1
+  // v2
   'GET /check_in/v2/sessions/:uuid': (req, res) => {
     return res.json(mockSessions.mocks.get(req.params));
   },
