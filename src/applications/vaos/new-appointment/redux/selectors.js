@@ -331,6 +331,7 @@ export function getClinicPageInfo(state, pageKey) {
     typeOfCare,
     clinics: getClinicsForChosenFacility(state),
     eligibility,
+    pastAppointments: newAppointment.pastAppointments,
     canMakeRequests: eligibility?.request,
   };
 }
