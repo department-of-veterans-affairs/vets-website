@@ -29,7 +29,7 @@ describe('Check In Experience -- ', () => {
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
-        createFeatureToggles(true, true, false, true),
+        createFeatureToggles(true, true, true, true),
       );
     });
     afterEach(() => {
