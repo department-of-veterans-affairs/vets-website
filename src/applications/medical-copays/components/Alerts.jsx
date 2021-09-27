@@ -1,4 +1,5 @@
 import React from 'react';
+import { currency } from '../utils/helpers';
 import Telephone, {
   CONTACTS,
   PATTERNS,
@@ -105,7 +106,37 @@ Alert.Deceased = () => (
   </va-alert>
 );
 
-const RenderAlert = ({ type }) => {
+Alert.Status = ({ copay }) => (
+  <va-alert background-only status="info">
+    <h3 className="vads-u-margin-y--0">
+      Pay your {currency(copay?.pHAmtDue)} balance or request help before July
+      2, 2021
+    </h3>
+    <p>
+      To avoid late fees or collection action on your bill, you must pay your
+      full balance or request financial help before July 2, 2021.
+    </p>
+    <p>
+      <a className="vads-c-action-link--blue" href="#">
+        Learn how to pay your copay bill
+      </a>
+    </p>
+    <p>
+      <a className="vads-c-action-link--blue" href="#">
+        Request help with your bill
+      </a>
+    </p>
+    <h4>What if I’ve already requested financial help with my bill?</h4>
+    <p>
+      You may need to continue making payments while we review your request.
+      Call us at
+      <Telephone contact={'866-400-1238'} className="vads-u-margin-x--0p5" />,
+      Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+    </p>
+  </va-alert>
+);
+
+const RenderAlert = ({ type, copay }) => {
   switch (type) {
     case 'no-health-care':
       return <Alert.NoHealthcare />;
@@ -113,6 +144,8 @@ const RenderAlert = ({ type }) => {
       return <Alert.NoHistory />;
     case 'deceased':
       return <Alert.Deceased />;
+    case 'status':
+      return <Alert.Status copay={copay} />;
     default:
       return <Alert.Error />;
   }
