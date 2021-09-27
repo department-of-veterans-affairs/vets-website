@@ -1,6 +1,5 @@
 const createMockSuccessResponse = (uuid, permissions) => {
   return {
-    jwt: `${permissions}-123-123`,
     permissions,
     status: 'success',
     error: undefined,
@@ -24,7 +23,7 @@ const createMockFailedResponse = () => {
 const mocks = {
   get: params => {
     const { uuid } = params;
-    return createMockSuccessResponse(uuid, 'read.basic');
+    return createMockSuccessResponse(uuid, 'read.none');
   },
   post: body => {
     const { id } = body;
