@@ -7,8 +7,6 @@ import LanguageSupport from './LanguageSupport';
 import { createLinkGroups } from '../helpers';
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 import { connect } from 'react-redux';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { langSelectedAction } from 'applications/static-pages/i18Select/actions';
 
 class Footer extends React.Component {
@@ -45,14 +43,12 @@ class Footer extends React.Component {
             visible={this.state.isMobile}
             links={this.linkObj}
             langConfig={{
-              showLangSupport: this.props.showLangSupport,
               dispatchLanguageSelection: this.props.dispatchLanguageSelection,
               languageCode: this.props.languageCode,
             }}
           />
           {!this.state.isMobile && (
             <LanguageSupport
-              showLangSupport={this.props.showLangSupport}
               isDesktop
               dispatchLanguageSelection={this.props.dispatchLanguageSelection}
               languageCode={this.props.languageCode}
@@ -79,13 +75,10 @@ class Footer extends React.Component {
   }
 }
 const mapDispatchToProps = dispatch => ({
-  dispatchLanguageSelection: lang => {
-    return dispatch(langSelectedAction(lang));
-  },
+  dispatchLanguageSelection: lang => dispatch(langSelectedAction(lang)),
 });
 
 const mapStateToProps = state => ({
-  showLangSupport: toggleValues(state)[FEATURE_FLAG_NAMES.languageSupport],
   languageCode: state.i18State.lang,
 });
 
