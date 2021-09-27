@@ -27,6 +27,7 @@ import {
   selectVAPContactInfoField,
   selectVAPServiceTransaction,
   selectEditViewData,
+  selectMostRecentlySavedField,
 } from '@@vap-svc/selectors';
 
 import { isVAPatient } from '~/platform/user/selectors';
@@ -45,6 +46,8 @@ import getContactInfoFieldAttributes from '~/applications/personalization/profil
 import CannotEditModal from './CannotEditModal';
 import ConfirmCancelModal from './ConfirmCancelModal';
 import ConfirmRemoveModal from './ConfirmRemoveModal';
+
+import SaveSuccessAlert from '../alerts/ContactInformationSaveSuccessAlert';
 
 // Helper function that generates a string that can be used for a contact info
 // field's edit button.
@@ -117,7 +120,7 @@ class ContactInformationField extends React.Component {
     // the Profile
     if (!prevProps.transaction && this.props.transaction) {
       this.closeModalTimeoutID = setTimeout(
-        () => this.closeModal(),
+        this.closeModal,
         // Using 50ms as the unit test timeout before exiting edit view while
         // waiting for an update to happen. Being too aggressive, like 5ms,
         // results in exiting the edit view before Redux has had time to do
@@ -300,6 +303,10 @@ class ContactInformationField extends React.Component {
           title={title}
         />
 
+        {this.props.showSaveSuccessAlert ? (
+          <SaveSuccessAlert fieldName={fieldName} />
+        ) : null}
+
         <div className="vads-u-width--full">
           <div>
             {this.isEditLinkVisible() && (
@@ -458,6 +465,7 @@ export const mapStateToProps = (state, ownProps) => {
     uiSchema,
     formSchema,
     isEnrolledInVAHealthCare,
+    showSaveSuccessAlert: selectMostRecentlySavedField(state) === fieldName,
   };
 };
 

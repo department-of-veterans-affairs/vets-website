@@ -7,7 +7,13 @@ import recordEvent from 'platform/monitoring/record-event';
 import format from 'date-fns/format';
 
 export default function AppointmentAction(props) {
-  const { appointment, isLowAuthEnabled, token, router } = props;
+  const {
+    appointment,
+    isLowAuthEnabled,
+    isMultipleAppointmentsEnabled,
+    token,
+    router,
+  } = props;
 
   const [isCheckingIn, setIsCheckingIn] = useState(false);
 
@@ -18,9 +24,12 @@ export default function AppointmentAction(props) {
     });
     setIsCheckingIn(true);
     try {
-      const checkIn = isLowAuthEnabled
-        ? api.v1.postCheckInData
-        : api.v0.checkInUser;
+      let checkIn = api.v0.checkInUser;
+      if (isLowAuthEnabled && !isMultipleAppointmentsEnabled) {
+        checkIn = api.v1.postCheckInData;
+      } else if (isMultipleAppointmentsEnabled) {
+        checkIn = api.v2.postCheckInData;
+      }
 
       const json = await checkIn({
         token,
