@@ -1,12 +1,9 @@
 import React from 'react';
-// import _ from 'lodash/fp';
 
 // Example of an imported schema:
 // import fullSchema from '../22-1990-schema.json';
 // eslint-disable-next-line no-unused-vars
 import fullSchema from '../22-1990-schema.json';
-// In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/22-1990-schema.json';
 
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
@@ -17,21 +14,16 @@ import FormFooter from 'platform/forms/components/FormFooter';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-// import bankAccountUI from 'platform/forms-system/src/js/definitions/bankAccount';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import * as address from 'platform/forms-system/src/js/definitions/address';
-
-// import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import toursOfDutyUI from '../definitions/toursOfDuty';
-import FullNameViewField from '../components/FullNameViewField';
-import FullNameReviewField from '../components/FullNameReviewField';
 import DateViewField from '../components/DateViewField';
 import CustomReviewDOBField from '../components/CustomReviewDOBField';
 import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView';
@@ -39,12 +31,11 @@ import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities
 import EmailViewField from '../components/EmailViewField';
 import PhoneViewField from '../components/PhoneViewField';
 import AccordionField from '../components/AccordionField';
-// import MailingAddressReviewField from '../components/MailingAddressReviewField';
 import BenefitGivenUpReviewField from '../components/BenefitGivenUpReviewField';
 import YesNoReviewField from '../components/YesNoReviewField';
-import SelectedCheckboxesReviewField from '../components/SelectedCheckboxesReviewField';
 import PhoneReviewField from '../components/PhoneReviewField';
 import DateReviewField from '../components/DateReviewField';
+import EmailReviewField from '../components/EmailReviewField';
 
 import {
   activeDutyLabel,
@@ -52,8 +43,6 @@ import {
   unsureDescription,
   post911GiBillNote,
 } from '../helpers';
-
-// import { directDepositWarning } from '../helpers';
 
 import MailingAddressViewField from '../components/MailingAddressViewField';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
@@ -90,6 +79,7 @@ const formFields = {
   routingNumber: 'routingNumber',
   address: 'address',
   email: 'email',
+  viewPhoneNumbers: 'view:phoneNumbers',
   phoneNumber: 'phoneNumber',
   mobilePhoneNumber: 'mobilePhoneNumber',
   viewBenefitSelection: 'view:benefitSelection',
@@ -104,6 +94,7 @@ const formFields = {
   federallySponsoredAcademy: 'federallySponsoredAcademy',
   seniorRotcCommission: 'seniorRotcCommission',
   loanPayment: 'loanPayment',
+  additionalConsiderationsNote: 'additionalConsiderationsNote',
 };
 
 // Define all the form pages to help ensure uniqueness across all form chapters
@@ -121,22 +112,51 @@ const formPages = {
     activeDutyKicker: {
       name: 'activeDutyKicker',
       order: 1,
+      title:
+        'Do you qualify for an active duty kicker, sometimes called a College Fund?',
+      additionalInfo: {
+        triggerText: 'What is an active duty kicker?',
+        info:
+          'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
+      },
     },
     reserveKicker: {
       name: 'reserveKicker',
       order: 1,
+      title:
+        'Do you qualify for a reserve kicker, sometimes called a College Fund?',
+      additionalInfo: {
+        triggerText: 'What is a reserve kicker?',
+        info:
+          'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
+      },
     },
     militaryAcademy: {
       name: 'militaryAcademy',
       order: 2,
+      title:
+        'Did you graduate and receive a commission from the United States Military Academy, Naval Academy, Air Force Academy, or Coast Guard Academy?',
     },
     seniorRotc: {
       name: 'seniorRotc',
       order: 3,
+      title: 'Were you commissioned as a result of Senior ROTC?',
+      additionalInfo: {
+        triggerText: 'What is Senior ROTC?',
+        info:
+          'The Senior Reserve Officer Training Corps (SROTC)—more commonly referred to as the Reserve Officer Training Corps (ROTC)—is an officer training and scholarship program for postsecondary students authorized under Chapter 103 of Title 10 of the United States Code.',
+      },
     },
     loanPayment: {
       name: 'loanPayment',
       order: 4,
+      title:
+        'Do you have a period of service that the Department of Defense counts towards an education loan payment?',
+      additionalInfo: {
+        triggerText: 'What does this mean?',
+        info:
+          "This is a Loan Repayment Program, which is a special incentive that certain military branches offer to qualified applicants. Under a Loan Repayment Program, the branch of service will repay part of an applicant's qualifying student loans.",
+      },
     },
   },
 };
@@ -221,21 +241,17 @@ function additionalConsiderationsQuestionTitle(benefitSelection, order) {
   );
 }
 
-function AdditionalConsiderationTemplate(
-  page,
-  formField,
-  title,
-  trigger,
-  info,
-) {
-  let additionalInfo;
+function AdditionalConsiderationTemplate(page, formField) {
+  const { title, additionalInfo } = page;
+  const additionalInfoViewName = `view:${page.name}AdditionalInfo`;
+  let additionalInfoView;
 
-  if (trigger) {
-    additionalInfo = {
-      'view:note': {
+  if (additionalInfo) {
+    additionalInfoView = {
+      [additionalInfoViewName]: {
         'ui:description': (
-          <AdditionalInfo triggerText={trigger}>
-            <p>{info}</p>
+          <AdditionalInfo triggerText={additionalInfo.triggerText}>
+            <p>{additionalInfo.info}</p>
           </AdditionalInfo>
         ),
       },
@@ -263,7 +279,11 @@ function AdditionalConsiderationTemplate(
         'ui:title': title,
         'ui:widget': 'radio',
       },
-      ...additionalInfo,
+      [formFields[formField]]: {
+        'ui:title': title,
+        'ui:widget': 'radio',
+      },
+      ...additionalInfoView,
     },
     schema: {
       type: 'object',
@@ -273,7 +293,7 @@ function AdditionalConsiderationTemplate(
           type: 'string',
           enum: ['Yes', 'No'],
         },
-        'view:note': {
+        [additionalInfoViewName]: {
           type: 'object',
           properties: {},
         },
@@ -291,33 +311,6 @@ function givingUpBenefitSelected(formData) {
 function notGivingUpBenefitSelected(formData) {
   return !givingUpBenefitSelected(formData);
 }
-
-// const contactPref = {};
-
-// function ContactPreferenceAlertUI() {
-//   let status = 'info';
-//   let copy =
-//     'For text messages, messaging and data rates may apply. At this time, VA is only able to send text messages about education benefits to US-based mobile phone numbers.';
-
-//   if (contactPref.phone) {
-//     status = 'warning';
-//     copy =
-//       'You can’t choose to receive text messages because you don’t have a mobile phone number on file.';
-//   }
-//   if (contactPref.isInternational) {
-//     status = 'warning';
-//     copy =
-//       'You can’t choose to receive text messages because your mobile phone number is international. At this time, VA is only able to send text messages about your education benefits to US-based mobile phone numbers.';
-//   }
-
-//   return {
-//     'ui:description': (
-//       <va-alert onClose={function noRefCheck() {}} status={status}>
-//         <div style={{ marginTop: 0 }}>{copy}</div>
-//       </va-alert>
-//     ),
-//   };
-// }
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -375,10 +368,7 @@ const formConfig = {
                     Any updates you make here to your personal information will
                     only apply to your education benefits. To update your
                     personal information for all of the benefits across VA,{' '}
-                    <a href="https://www.va.gov/profile">
-                      please go to your profile page
-                    </a>
-                    .
+                    <a href="/profile">please go to your profile page</a>.
                   </p>
                 </>
               ),
@@ -417,12 +407,6 @@ const formConfig = {
                 middle: {
                   ...fullNameUI.middle,
                   'ui:title': 'Your middle name',
-                },
-                'ui:objectViewField': FullNameReviewField,
-                'ui:options': {
-                  hideLabelText: true,
-                  showFieldLabel: false,
-                  viewComponent: FullNameViewField,
                 },
               },
             },
@@ -504,22 +488,22 @@ const formConfig = {
       title: 'Contact information',
       pages: {
         [formPages.contactInformation.contactInformation]: {
-          title: 'Email and phone numbers',
+          title: 'Phone numbers and email address',
           path: 'contact/information',
           initialData: {
-            'view:email': {
-              [formFields.email]: {
-                email: 'hector.stanley@gmail.com',
-                confirmEmail: 'hector.stanley@gmail.com',
+            [formFields.viewPhoneNumbers]: {
+              mobilePhoneNumber: {
+                phone: '123-456-7890',
+                isInternational: true,
+              },
+              phoneNumber: {
+                phone: '098-765-4321',
+                isInternational: false,
               },
             },
-            mobilePhoneNumber: {
-              phone: '123-456-7890',
-              isInternational: true,
-            },
-            phoneNumber: {
-              phone: '098-765-4321',
-              isInternational: false,
+            [formFields.email]: {
+              email: 'hector.stanley@gmail.com',
+              confirmEmail: 'hector.stanley@gmail.com',
             },
           },
           uiSchema: {
@@ -541,7 +525,7 @@ const formConfig = {
                     Any updates you make here to your contact information will
                     only apply to your education benefits. To update your
                     contact information for all of the benefits across VA,{' '}
-                    <a href="https://www.va.gov/profile/personal-information">
+                    <a href="/profile/personal-information">
                       please go to your profile page
                     </a>
                     .
@@ -549,11 +533,11 @@ const formConfig = {
                 </>
               ),
             },
-            'view:email': {
+            [formFields.viewPhoneNumbers]: {
               'ui:description': (
                 <>
                   <h4 className="form-review-panel-page-header vads-u-font-size--h5 meb-review-page-only">
-                    Email and phone numbers
+                    Phone numbers and email addresss
                   </h4>
                   <p className="meb-review-page-only">
                     If you’d like to update your phone numbers and email
@@ -561,36 +545,37 @@ const formConfig = {
                   </p>
                 </>
               ),
-              [formFields.email]: {
-                'ui:options': {
-                  hideLabelText: true,
-                  showFieldLabel: false,
-                  viewComponent: EmailViewField,
-                },
-                email: {
-                  ...emailUI('Email address'),
-                  'ui:validations': [validateEmail],
-                },
-                confirmEmail: {
-                  ...emailUI('Confirm email address'),
-                  'ui:options': {
-                    ...emailUI()['ui:options'],
-                    hideOnReview: true,
-                  },
-                },
-                'ui:validations': [
-                  (errors, field) => {
-                    if (field.email !== field.confirmEmail) {
-                      errors.confirmEmail.addError(
-                        'Sorry, your emails must match',
-                      );
-                    }
-                  },
-                ],
-              },
+              [formFields.mobilePhoneNumber]: phoneUISchema('mobile'),
+              [formFields.phoneNumber]: phoneUISchema('home'),
             },
-            [formFields.mobilePhoneNumber]: phoneUISchema('mobile'),
-            [formFields.phoneNumber]: phoneUISchema('home'),
+            [formFields.email]: {
+              'ui:options': {
+                hideLabelText: true,
+                showFieldLabel: false,
+                viewComponent: EmailViewField,
+              },
+              email: {
+                ...emailUI('Email address'),
+                'ui:validations': [validateEmail],
+                'ui:reviewField': EmailReviewField,
+              },
+              confirmEmail: {
+                ...emailUI('Confirm email address'),
+                'ui:options': {
+                  ...emailUI()['ui:options'],
+                  hideOnReview: true,
+                },
+              },
+              'ui:validations': [
+                (errors, field) => {
+                  if (field.email !== field.confirmEmail) {
+                    errors.confirmEmail.addError(
+                      'Sorry, your emails must match',
+                    );
+                  }
+                },
+              ],
+            },
           },
           schema: {
             type: 'object',
@@ -599,19 +584,19 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [formFields.mobilePhoneNumber]: phoneSchema(),
-              [formFields.phoneNumber]: phoneSchema(),
-              'view:email': {
+              [formFields.viewPhoneNumbers]: {
                 type: 'object',
                 properties: {
-                  [formFields.email]: {
-                    type: 'object',
-                    required: [formFields.email, 'confirmEmail'],
-                    properties: {
-                      email,
-                      confirmEmail: email,
-                    },
-                  },
+                  [formFields.mobilePhoneNumber]: phoneSchema(),
+                  [formFields.phoneNumber]: phoneSchema(),
+                },
+              },
+              [formFields.email]: {
+                type: 'object',
+                required: [formFields.email, 'confirmEmail'],
+                properties: {
+                  email,
+                  confirmEmail: email,
                 },
               },
             },
@@ -645,7 +630,7 @@ const formConfig = {
                     Any updates you make here to your mailing address will only
                     apply to your education benefits. To update your mailing
                     address for all of the benefits across VA,{' '}
-                    <a href="https://www.va.gov/profile/personal-information">
+                    <a href="/profile/personal-information">
                       please go to your profile page
                     </a>
                     .
@@ -720,7 +705,6 @@ const formConfig = {
                   },
                 },
               },
-              // 'ui:objectViewField': MailingAddressReviewField,
               'ui:options': {
                 hideLabelText: true,
                 showFieldLabel: false,
@@ -754,14 +738,15 @@ const formConfig = {
           },
         },
         [formPages.contactInformation.preferredContactMethod]: {
+          title: 'Contact preferences',
           path: 'contact/preferences',
           uiSchema: {
-            'view:contactPreferencesSubHeading': {
-              'ui:description': <h3>Select your preferred contact method</h3>,
-            },
             'view:contactMethod': {
               'ui:description': (
                 <>
+                  <h3 className="meb-form-page-only">
+                    Choose your contact method for follow-up questions
+                  </h3>
                   <h4 className="form-review-panel-page-header vads-u-font-size--h5 meb-review-page-only">
                     Contact preferences
                   </h4>
@@ -772,12 +757,7 @@ const formConfig = {
                 </>
               ),
               [formFields.contactMethod]: {
-                'ui:title': (
-                  <div>
-                    <h3>Choose your contact method for follow-up questions</h3>
-                  </div>
-                ),
-                'ui:description':
+                'ui:title':
                   'How should we contact you if we have questions about your application?',
                 'ui:widget': 'radio',
                 'ui:options': {
@@ -788,51 +768,45 @@ const formConfig = {
                     Mail: { 'data-info': 'mail' },
                   },
                 },
-                // 'ui:validations': [validateBooleanGroup],
                 'ui:errorMessages': {
                   required:
                     'Please select at least one way we can contact you.',
                 },
               },
             },
-            [formFields.receiveTextMessages]: {
-              'ui:title': (
-                <>
-                  <h3>Choose your notification method</h3>
-                </>
-              ),
+            'view:receiveTextMessages': {
               'ui:description': (
                 <>
-                  <p>
-                    We’ll send you important notifications about your benefits,
-                    including alerts to verify your monthly enrollment. You’ll
-                    need to verify your monthly enrollment to receive payment.
-                  </p>
-                  <p>
-                    We recommend opting-in for text message notifications to
-                    make verifying your monthly enrollment simpler.
-                  </p>
-                  <p>
-                    Would you like to receive text message notifications on your
-                    education benefits?
-                  </p>
+                  <div className="meb-form-page-only">
+                    <h3>Choose your notification method</h3>
+                    <p>
+                      We’ll send you important notifications about your
+                      benefits, including alerts to verify your monthly
+                      enrollment. You’ll need to verify your monthly enrollment
+                      to receive payment.
+                    </p>
+                    <p>
+                      We recommend opting-in for text message notifications to
+                      make verifying your monthly enrollment simpler.
+                    </p>
+                  </div>
                 </>
               ),
-              'ui:widget': 'radio',
-              'ui:options': data => {
-                window.console.log(data);
-                return {
+              [formFields.receiveTextMessages]: {
+                'ui:title':
+                  'Would you like to receive text message notifications on your education benefits?',
+                'ui:widget': 'radio',
+                'ui:options': {
                   widgetProps: {
-                    Yes: { 'data-info': 'yes', disabled: true },
+                    Yes: { 'data-info': 'yes' },
                     No: { 'data-info': 'no' },
                   },
                   selectedProps: {
                     Yes: { 'aria-describedby': 'yes' },
                     No: { 'aria-describedby': 'no' },
                   },
-                };
+                },
               },
-              'ui:objectViewField': SelectedCheckboxesReviewField,
             },
             'view:textMessagesAlert': {
               'ui:description': (
@@ -846,8 +820,14 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData =>
-                  !isValidPhone(formData[formFields.mobilePhoneNumber].phone) ||
-                  formData[formFields.mobilePhoneNumber].isInternational,
+                  !isValidPhone(
+                    formData[formFields.viewPhoneNumbers][
+                      formFields.mobilePhoneNumber
+                    ].phone,
+                  ) ||
+                  formData[formFields.viewPhoneNumbers][
+                    formFields.mobilePhoneNumber
+                  ].isInternational,
               },
             },
             'view:noMobilePhoneAlert': {
@@ -861,8 +841,14 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData =>
-                  isValidPhone(formData[formFields.mobilePhoneNumber].phone) ||
-                  formData[formFields.mobilePhoneNumber].isInternational,
+                  isValidPhone(
+                    formData[formFields.viewPhoneNumbers][
+                      formFields.mobilePhoneNumber
+                    ].phone,
+                  ) ||
+                  formData[formFields.viewPhoneNumbers][
+                    formFields.mobilePhoneNumber
+                  ].isInternational,
               },
             },
             'view:internationalTextMessageAlert': {
@@ -878,18 +864,15 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData =>
-                  !formData[formFields.mobilePhoneNumber].isInternational,
+                  !formData[formFields.viewPhoneNumbers][
+                    formFields.mobilePhoneNumber
+                  ].isInternational,
               },
             },
           },
           schema: {
             type: 'object',
-            required: [formFields.receiveTextMessages],
             properties: {
-              'view:contactPreferencesSubHeading': {
-                type: 'object',
-                properties: {},
-              },
               'view:contactMethod': {
                 type: 'object',
                 required: [formFields.contactMethod],
@@ -900,9 +883,18 @@ const formConfig = {
                   },
                 },
               },
-              [formFields.receiveTextMessages]: {
-                type: 'string',
-                enum: ['Yes', 'No, just send me email notifications'],
+              'view:receiveTextMessages': {
+                type: 'object',
+                required: [formFields.receiveTextMessages],
+                properties: {
+                  [formFields.receiveTextMessages]: {
+                    type: 'string',
+                    enum: [
+                      'Yes, send me text message notifications',
+                      'No, just send me email notifications',
+                    ],
+                  },
+                },
               },
               'view:textMessagesAlert': {
                 type: 'object',
@@ -1228,9 +1220,6 @@ const formConfig = {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.activeDutyKicker,
             formFields.activeDutyKicker,
-            'Do you qualify for an active duty kicker, sometimes called a College Fund?',
-            'What is an active duty kicker?',
-            'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
           ),
           depends: formData =>
             formData[formFields.viewBenefitSelection][
@@ -1241,9 +1230,6 @@ const formConfig = {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.reserveKicker,
             formFields.selectedReserveKicker,
-            'Do you qualify for a reserve kicker, sometimes called a College Fund?',
-            'What is a reserve kicker?',
-            'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
           ),
           depends: formData =>
             formData[formFields.viewBenefitSelection][
@@ -1254,25 +1240,18 @@ const formConfig = {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.militaryAcademy,
             formFields.federallySponsoredAcademy,
-            'Did you graduate and receive a commission from the United States Military Academy, Naval Academy, Air Force Academy, or Coast Guard Academy?',
           ),
         },
         [formPages.additionalConsiderations.seniorRotc.name]: {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.seniorRotc,
             formFields.seniorRotcCommission,
-            'Were you commissioned as a result of Senior ROTC?',
-            'What is Senior ROTC?',
-            'The Senior Reserve Officer Training Corps (SROTC)—more commonly referred to as the Reserve Officer Training Corps (ROTC)—is an officer training and scholarship program for postsecondary students authorized under Chapter 103 of Title 10 of the United States Code.',
           ),
         },
         [formPages.additionalConsiderations.loanPayment.name]: {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.loanPayment,
             formFields.loanPayment,
-            'Do you have a period of service that the Department of Defense counts towards an education loan payment?',
-            'What does this mean?',
-            "This is a Loan Repayment Program, which is a special incentive that certain military branches offer to qualified applicants. Under a Loan Repayment Program, the branch of service will repay part of an applicant's qualifying student loans.",
           ),
         },
       },

@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
-import { PROFILE_PATHS } from '@@profile/constants';
-import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
+import { getContactInfoDeepLinkURL } from '@@profile/helpers';
+import { FIELD_NAMES } from '@@vap-svc/constants';
 
 const ContactInfoOnFile = ({ emailAddress, mobilePhoneNumber }) => {
   return (
@@ -17,11 +17,7 @@ const ContactInfoOnFile = ({ emailAddress, mobilePhoneNumber }) => {
         {emailAddress ? (
           <li className="vads-u-margin-y--0p5">
             {emailAddress}{' '}
-            <Link
-              to={`${PROFILE_PATHS.PERSONAL_INFORMATION}#edit-${
-                FIELD_IDS[FIELD_NAMES.EMAIL]
-              }`}
-            >
+            <Link to={getContactInfoDeepLinkURL(FIELD_NAMES.EMAIL, true)}>
               Update email
             </Link>
           </li>
@@ -35,9 +31,7 @@ const ContactInfoOnFile = ({ emailAddress, mobilePhoneNumber }) => {
               notClickable
             />{' '}
             <Link
-              to={`${PROFILE_PATHS.PERSONAL_INFORMATION}#edit-${
-                FIELD_IDS[FIELD_NAMES.MOBILE_PHONE]
-              }`}
+              to={getContactInfoDeepLinkURL(FIELD_NAMES.MOBILE_PHONE, true)}
             >
               Update mobile phone
             </Link>
