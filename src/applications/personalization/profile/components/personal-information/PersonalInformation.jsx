@@ -12,6 +12,7 @@ import { focusElement } from '~/platform/utilities/ui';
 
 import PaymentInformationBlocked from '@@profile/components/direct-deposit/PaymentInformationBlocked';
 import { cnpDirectDepositIsBlocked } from '@@profile/selectors';
+import { clearMostRecentlySavedField } from '@@vap-svc/actions/transactions';
 
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import Headline from '../ProfileSectionHeadline';
@@ -27,13 +28,18 @@ const getScrollTarget = hash => {
 };
 
 const PersonalInformation = ({
-  showDirectDepositBlockedError,
+  clearSuccessAlert,
   hasUnsavedEdits,
   hasVAPServiceError,
+  showDirectDepositBlockedError,
 }) => {
   const lastLocation = useLastLocation();
   useEffect(() => {
     document.title = `Personal And Contact Information | Veterans Affairs`;
+
+    return () => {
+      clearSuccessAlert();
+    };
   }, []);
 
   useEffect(
@@ -114,7 +120,11 @@ const mapStateToProps = state => ({
   hasVAPServiceError: hasVAPServiceConnectionError(state),
 });
 
+const mapDispatchToProps = {
+  clearSuccessAlert: clearMostRecentlySavedField,
+};
+
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(PersonalInformation);
