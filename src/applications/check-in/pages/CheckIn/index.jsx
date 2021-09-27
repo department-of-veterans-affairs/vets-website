@@ -9,6 +9,10 @@ import { receivedAppointmentDetails } from '../../actions';
 import { goToNextPage, URLS } from '../../utils/navigation';
 import { api } from '../../api';
 
+import FeatureToggle, {
+  FeatureOn,
+  FeatureOff,
+} from '../../components/FeatureToggle';
 import DisplaySingleAppointment from './DisplaySingleAppointment';
 import DisplayMultipleAppointments from './DisplayMultipleAppointments';
 
@@ -54,25 +58,27 @@ const CheckIn = props => {
     goToNextPage(router, URLS.ERROR);
     return <></>;
   } else {
-    if (isMultipleAppointmentsEnabled) {
-      return (
-        <DisplayMultipleAppointments
-          isUpdatePageEnabled={isUpdatePageEnabled}
-          isLowAuthEnabled={isLowAuthEnabled}
-          router={router}
-          token={token}
-          appointments={appointments}
-        />
-      );
-    }
     return (
-      <DisplaySingleAppointment
-        isUpdatePageEnabled={isUpdatePageEnabled}
-        isLowAuthEnabled={isLowAuthEnabled}
-        router={router}
-        token={token}
-        appointment={appointment}
-      />
+      <FeatureToggle on={isMultipleAppointmentsEnabled}>
+        <FeatureOn>
+          <DisplayMultipleAppointments
+            isUpdatePageEnabled={isUpdatePageEnabled}
+            isLowAuthEnabled={isLowAuthEnabled}
+            router={router}
+            token={token}
+            appointments={appointments}
+          />
+        </FeatureOn>
+        <FeatureOff>
+          <DisplaySingleAppointment
+            isUpdatePageEnabled={isUpdatePageEnabled}
+            isLowAuthEnabled={isLowAuthEnabled}
+            router={router}
+            token={token}
+            appointment={appointment}
+          />
+        </FeatureOff>
+      </FeatureToggle>
     );
   }
 };
