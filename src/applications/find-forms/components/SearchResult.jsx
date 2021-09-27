@@ -121,7 +121,12 @@ const deriveRelatedTo = ({
   return null;
 };
 
-const SearchResult = ({ form, formMetaInfo, showPDFInfoVersionThree }) => {
+const SearchResult = ({
+  form,
+  formMetaInfo,
+  showPDFInfoVersionOne,
+  toggleModalState,
+}) => {
   // Escape early if we don't have the necessary form attributes.
   if (!form?.attributes) {
     return null;
@@ -175,11 +180,7 @@ const SearchResult = ({ form, formMetaInfo, showPDFInfoVersionThree }) => {
 
       {relatedTo}
       {formToolUrl ? (
-        <div
-          className={
-            showPDFInfoVersionThree ? null : 'vads-u-margin-bottom--2p5'
-          }
-        >
+        <div className="vads-u-margin-bottom--2p5">
           <a
             className="find-forms-max-content vads-u-display--flex vads-u-align-items--center vads-u-text-decoration--none"
             href={formToolUrl}
@@ -204,11 +205,12 @@ const SearchResult = ({ form, formMetaInfo, showPDFInfoVersionThree }) => {
       <div className="vads-u-margin-bottom--5">
         <a
           className="find-forms-max-content vads-u-text-decoration--none"
-          href={url}
           rel="noreferrer noopener"
-          onClick={() =>
-            recordGAEvent(`Download VA form ${id} ${pdfLabel}`, url, 'pdf')
-          }
+          href={!showPDFInfoVersionOne ? url : null}
+          onClick={() => {
+            recordGAEvent(`Download VA form ${id} ${pdfLabel}`, url, 'pdf');
+            if (showPDFInfoVersionOne) toggleModalState(id, url);
+          }}
           {...linkProps}
         >
           <i
@@ -230,6 +232,7 @@ SearchResult.propTypes = {
   form: customPropTypes.Form.isRequired,
   formMetaInfo: customPropTypes.FormMetaInfo,
   showPDFInfoVersionOne: PropTypes.bool,
+  toggleModalState: PropTypes.func,
 };
 
 export default SearchResult;

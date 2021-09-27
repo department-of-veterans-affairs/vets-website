@@ -1,7 +1,8 @@
 // Dependencies.
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import { connect } from 'react-redux';
 import Select from '@department-of-veterans-affairs/component-library/Select';
@@ -14,12 +15,7 @@ import {
   updateSortByPropertyNameThunk,
   updatePaginationAction,
 } from '../actions';
-import {
-  applyPDFInfoBoxOne,
-  applyPDFInfoBoxTwo,
-  applyPDFInfoHelpText,
-  getFindFormsAppState,
-} from '../helpers/selectors';
+import { applyPDFInfoBoxOne, getFindFormsAppState } from '../helpers/selectors';
 import { FAF_SORT_OPTIONS } from '../constants';
 import SearchResult from '../components/SearchResult';
 
@@ -55,15 +51,17 @@ export const SearchResults = ({
   hasOnlyRetiredForms,
   startIndex,
   showPDFInfoVersionOne,
-  showPDFInfoVersionTwo,
-  showPDFInfoVersionThree,
   updatePagination,
   updateSortByPropertyName,
 }) => {
   const prevProps = usePreviousProps({
     fetching,
   });
-
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+    pdfSelected: '',
+    pdfUrl: '',
+  });
   useEffect(() => {
     const justRefreshed = prevProps?.fetching && !fetching;
     if (justRefreshed) {
@@ -103,6 +101,9 @@ export const SearchResults = ({
       });
     }
   };
+
+  const toggleModalState = (pdfSelected, pdfUrl) =>
+    setModalState({ isOpen: !modalState.isOpen, pdfSelected, pdfUrl });
 
   // Show loading indicator if we are fetching.
   if (fetching) {
@@ -186,10 +187,12 @@ export const SearchResults = ({
         form={form}
         formMetaInfo={{ ...formMetaInfo, currentPositionOnPage: index + 1 }}
         showPDFInfoVersionOne={showPDFInfoVersionOne}
-        showPDFInfoVersionTwo={showPDFInfoVersionTwo}
-        showPDFInfoVersionThree={showPDFInfoVersionThree}
+        toggleModalState={toggleModalState}
       />
     ));
+
+  // modal state variables
+  const { isOpen, pdfSelected, pdfUrl } = modalState;
 
   return (
     <>
@@ -224,6 +227,56 @@ export const SearchResults = ({
         {searchResults}
       </ul>
 
+      {/*  */}
+      <div
+        style={{
+          height: '500px',
+        }}
+      >
+        <Modal
+          onClose={() => toggleModalState()}
+          secondaryButton={{
+            action: () => {
+              toggleModalState();
+            },
+            text: 'Close',
+          }}
+          title="Adobe Reader DC Required"
+          visible={isOpen}
+        >
+          <>
+            <p className="vads-u-display--block vads-u-margin-bottom--3">
+              <span>
+                All PDF forms do not function fully in a web browser or other
+                PDF viewer. Please download the form and use Adobe Acrobat
+                Reader DC to fill out. For specific instructions about working
+                with PDF’s
+              </span>{' '}
+              <a href="https://www.va.gov/resources/how-to-download-and-open-a-vagov-pdf-form">
+                please read out Resources and Support Article
+              </a>
+            </p>
+            <a
+              href="https://get.adobe.com/reader/"
+              className="vads-u-display--block vads-u-margin-bottom--1p5"
+            >
+              <span>Get Acrobat Reader DC</span>
+            </a>
+            <a
+              href={pdfUrl}
+              className="vads-u-display--block vads-u-margin-bottom--3"
+            >
+              <i
+                aria-hidden="true"
+                className="fas fa-download fa-lg vads-u-margin-right--1"
+                role="presentation"
+              />
+              <span>Download VA Form {pdfSelected}</span>
+            </a>
+          </>
+        </Modal>
+      </div>
+
       {/* Pagination Row */}
       {results.length > MAX_PAGE_LIST_LENGTH && (
         <Pagination
@@ -250,8 +303,6 @@ SearchResults.propTypes = {
   sortByPropertyName: PropTypes.string,
   startIndex: PropTypes.number.isRequired,
   showPDFInfoVersionOne: PropTypes.bool,
-  showPDFInfoVersionTwo: PropTypes.bool,
-  showPDFInfoVersionThree: PropTypes.bool,
   // From mapDispatchToProps.
   updateSortByPropertyName: PropTypes.func,
   updatePagination: PropTypes.func.isRequired,
@@ -267,8 +318,6 @@ const mapStateToProps = state => ({
   results: getFindFormsAppState(state).results,
   startIndex: getFindFormsAppState(state).startIndex,
   showPDFInfoVersionOne: applyPDFInfoBoxOne(state),
-  showPDFInfoVersionTwo: applyPDFInfoBoxTwo(state),
-  showPDFInfoVersionThree: applyPDFInfoHelpText(state),
 });
 
 const mapDispatchToProps = dispatch => ({
