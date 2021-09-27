@@ -45,13 +45,7 @@ const OverviewPage = () => {
             facilities. Find out how to make payments or request financial help.
           </p>
           <Balances statementData={statementData} />
-          <BalanceQuestions
-            contact={
-              <span>
-                contact the VA health care facility listed on your bill.
-              </span>
-            }
-          />
+          <BalanceQuestions />
           <FacilityContacts statementData={statementData} />
         </>
       )}
