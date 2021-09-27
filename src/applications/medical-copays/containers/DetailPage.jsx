@@ -11,7 +11,6 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { Link, Redirect } from 'react-router-dom';
 import Modals from '../components/Modals';
 import Alert from '../components/Alerts';
-import { currency } from '../utils/helpers';
 import moment from 'moment';
 
 const DetailPage = ({ match }) => {
@@ -63,36 +62,7 @@ const DetailPage = ({ match }) => {
               )}
             </span>
           </p>
-          <va-alert background-only status="info">
-            <h3 className="vads-u-margin-y--0">
-              Pay your {currency(selectedCopay?.pHAmtDue)} balance or request
-              help before July 2, 2021
-            </h3>
-            <p>
-              To avoid late fees or collection action on your bill, you must pay
-              your full balance or request financial help before July 2, 2021.
-            </p>
-            <p>
-              <a className="vads-c-action-link--blue" href="#">
-                Learn how to pay your copay bill
-              </a>
-            </p>
-            <p>
-              <a className="vads-c-action-link--blue" href="#">
-                Request help with your bill
-              </a>
-            </p>
-            <h4>What if I’ve already requested financial help with my bill?</h4>
-            <p>
-              You may need to continue making payments while we review your
-              request. Call us at
-              <Telephone
-                contact={'866-400-1238'}
-                className="vads-u-margin-x--0p5"
-              />
-              , Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-            </p>
-          </va-alert>
+          <Alert type={'status'} copay={selectedCopay} />
           <va-on-this-page />
           <DownloadStatements />
           <HowToPay acctNum={selectedCopay.pHCernerAccountNumber} />
