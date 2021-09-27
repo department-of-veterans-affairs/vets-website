@@ -207,7 +207,7 @@ const resultsData = {
   meta: {
     pagination: {
       currentPage: 1,
-      perPage: 20,
+      perPage: 10,
       totalPages: 1,
       totalEntries: 3,
     },
