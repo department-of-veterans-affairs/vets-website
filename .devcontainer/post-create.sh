@@ -19,12 +19,12 @@ yarn install-repos
 
 # Setup vets-website
 printf "\n\n#####" Setting up vets-website #####\n""
-yarn install && yarn build
+yarn install --production=false && yarn build
 
 printf "\n\n#####" Setting up vets-api #####\n""
 cd ../vets-api
 
 printf "\n\n#####" Setting up content-build #####\n""
-cd ../content-build && yarn install && yarn build && yarn watch
+cd ../content-build && yarn install --production=false && yarn build && yarn watch
 
 printf "\n\n##### Codespace setup complete! #####\n"
