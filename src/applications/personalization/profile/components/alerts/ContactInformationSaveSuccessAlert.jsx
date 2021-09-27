@@ -27,7 +27,7 @@ const ContactInformationSaveSuccessAlert = ({ fieldName }) => {
           </>
         );
       }
-      return 'Update saved';
+      return 'Update saved.';
     },
     [fieldName, referrer],
   );
