@@ -13,15 +13,18 @@ node --version
 printf "Yarn version: "
 yarn --version
 
-# install dependencies
-printf "\n\n#####" Installing dependencies #####\n""
-yarn install
-
 # download content repo
-# printf "\n\n##### Downloading content repo #####\n"
-# yarn install-repos
+printf "\n\n##### Downloading content repo #####\n"
+yarn install-repos
 
-# build content
-# yarn build
+# Setup vets-website
+printf "\n\n#####" Setting up vets-website #####\n""
+yarn install && yarn build
+
+printf "\n\n#####" Setting up vets-api #####\n""
+cd ../vets-api
+
+printf "\n\n#####" Setting up content-build #####\n""
+cd ../content-build && yarn install && yarn build && yarn watch
 
 printf "\n\n##### Codespace setup complete! #####\n"
