@@ -25,6 +25,6 @@ printf "\n\n#####" Setting up vets-api #####\n""
 cd ../vets-api
 
 printf "\n\n#####" Setting up content-build #####\n""
-cd ../content-build && yarn install --production=false &&  yarn build -- --buildtype=localhost --api=https://staging-api.va.gov --host=department-of-veterans-affairs-vets-website-7vrv7553xrg9-3002.githubpreview.dev/ --port=3002 --apps-directory-name=vets-website && yarn watch
+cd ../content-build && yarn install --production=false && yarn fetch-drupal-cache && yarn build -- --buildtype=localhost --api=https://staging-api.va.gov --host=department-of-veterans-affairs-vets-website-7vrv7553xrg9-3002.githubpreview.dev/ --port=3002 --apps-directory-name=vets-website && yarn watch
 
 printf "\n\n##### Codespace setup complete! #####\n"
