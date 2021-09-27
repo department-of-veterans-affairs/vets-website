@@ -5,7 +5,6 @@ import DownloadStatements from '../components/DownloadStatements';
 import BalanceQuestions from '../components/BalanceQuestions';
 import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import FinancialHelp from '../components/FinancialHelp';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { Link, Redirect } from 'react-router-dom';
@@ -69,16 +68,8 @@ const DetailPage = ({ match }) => {
           <FinancialHelp />
           <DisputeCharges />
           <BalanceQuestions
-            contact={
-              <span>
-                contact the James A. Haley Veterans’ Hospital at
-                <Telephone
-                  contact={'813-972-2000'}
-                  className="vads-u-margin-x--0p5"
-                />
-                .
-              </span>
-            }
+            facilityLocation={selectedCopay?.station.facilitYDesc}
+            facilityPhone={selectedCopay?.station.teLNum}
           />
           <Modals title="Notice of rights and responsibilities">
             <Modals.Rights />
