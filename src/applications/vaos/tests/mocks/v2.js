@@ -20,7 +20,7 @@ export function getVAOSRequestMock() {
     id: null,
     type: 'appointments',
     attributes: {
-      cancellationReason: null,
+      cancelationReason: null,
       clinic: null,
       comment: null,
       contact: {
@@ -57,7 +57,7 @@ export function getVAOSAppointmentMock() {
     id: null,
     type: 'appointments',
     attributes: {
-      cancellationReason: null,
+      cancelationReason: null,
       clinic: null,
       comment: null,
       contact: {

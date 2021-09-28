@@ -599,7 +599,7 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
       status: 'proposed',
       locationId: '983',
       serviceType: 'primaryCare',
-      reason: 'I need an appt',
+      comment: 'I need an appt',
       contact: {
         telecom: [
           {
@@ -625,8 +625,13 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
       preferredTimesForPhoneCall: ['Morning', 'Afternoon', 'Evening'],
       preferredLanguage: 'English',
       preferredLocation: { city: 'Cincinnati', state: 'OH' },
-      practitionerIds: [
-        { system: 'http://hl7.org/fhir/sid/us-npi', value: 'ppmsid' },
+      practitioners: [
+        {
+          identifier: {
+            system: 'http://hl7.org/fhir/sid/us-npi',
+            value: 'ppmsid',
+          },
+        },
       ],
     });
   });

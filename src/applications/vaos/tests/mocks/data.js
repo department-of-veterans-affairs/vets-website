@@ -64,7 +64,7 @@ export function createMockAppointmentByVersion({
         typeOfCareId: fields.typeOfCareId || fields.serviceType,
         uniqueId: id,
         visitType: fields.visitType,
-        cancellationReason: null,
+        cancelationReason: null,
       },
     };
   }
@@ -209,7 +209,7 @@ export function createMockAppointmentByVersion({
       type: 'appointments',
       attributes: {
         id,
-        cancellationReason: null,
+        cancelationReason: null,
         clinic: null,
         comment: null,
         contact: {
