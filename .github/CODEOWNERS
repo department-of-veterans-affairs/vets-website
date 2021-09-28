@@ -52,7 +52,7 @@ src/applications/vre @department-of-veterans-affairs/vsa-ebenefits-frontend @dep
 src/applications/lgy @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
 
 # Public Websites
-src/applications/proxy-rewrite/redirects/crossDomainRedirects.json @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/frontend-review-group
+src/applications/proxy-rewrite @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/frontend-review-group
 src/platform/site-wide @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/frontend-review-group
 src/applications/static-pages @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/frontend-review-group
 src/applications/find-forms @department-of-veterans-affairs/vsa-public-websites-frontend
