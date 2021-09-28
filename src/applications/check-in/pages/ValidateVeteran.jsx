@@ -14,7 +14,13 @@ import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 
 const ValidateVeteran = props => {
-  const { router, isUpdatePageEnabled, setPermissions, context } = props;
+  const {
+    router,
+    isUpdatePageEnabled,
+    setPermissions,
+    context,
+    isMultipleAppointmentsEnabled,
+  } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
@@ -39,21 +45,39 @@ const ValidateVeteran = props => {
     } else {
       // API call
       setIsLoading(true);
-      api.v1
-        .postSession({ lastName, last4: last4Ssn, token })
-        .then(data => {
-          // update sessions with new permissions
-          setPermissions(data);
+      if (isMultipleAppointmentsEnabled) {
+        api.v2
+          .postSession({ lastName, last4: last4Ssn, token })
+          .then(data => {
+            // update sessions with new permissions
+            setPermissions(data);
 
-          if (isUpdatePageEnabled) {
-            goToNextPage(router, URLS.UPDATE_INSURANCE);
-          } else {
-            goToNextPage(router, URLS.DETAILS);
-          }
-        })
-        .catch(() => {
-          goToNextPage(router, URLS.ERROR);
-        });
+            if (isUpdatePageEnabled) {
+              goToNextPage(router, URLS.UPDATE_INSURANCE);
+            } else {
+              goToNextPage(router, URLS.DETAILS);
+            }
+          })
+          .catch(() => {
+            goToNextPage(router, URLS.ERROR);
+          });
+      } else {
+        api.v1
+          .postSession({ lastName, last4: last4Ssn, token })
+          .then(data => {
+            // update sessions with new permissions
+            setPermissions(data);
+
+            if (isUpdatePageEnabled) {
+              goToNextPage(router, URLS.UPDATE_INSURANCE);
+            } else {
+              goToNextPage(router, URLS.DETAILS);
+            }
+          })
+          .catch(() => {
+            goToNextPage(router, URLS.ERROR);
+          });
+      }
     }
   };
   useEffect(() => {
