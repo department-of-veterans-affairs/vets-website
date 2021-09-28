@@ -101,12 +101,12 @@ const formFields = {
 const formPages = {
   applicantInformation: 'applicantInformation',
   contactInformation: {
-    contactInformation: 'contactInformation', // 'contact-information/email-phone',
-    mailingAddress: 'mailingAddress', // 'contact-information/mailing-address',
-    preferredContactMethod: 'preferredContactMethod', // 'contact-information/contact-preferences',
+    contactInformation: 'contactInformation',
+    mailingAddress: 'mailingAddress',
+    preferredContactMethod: 'preferredContactMethod',
   },
-  serviceHistory: 'serviceHistory', // service-history',
-  benefitSelection: 'benefitSelection', // 'benefit-selection',
+  serviceHistory: 'serviceHistory',
+  benefitSelection: 'benefitSelection',
   // directDeposit: 'directDeposit',
   additionalConsiderations: {
     activeDutyKicker: {
