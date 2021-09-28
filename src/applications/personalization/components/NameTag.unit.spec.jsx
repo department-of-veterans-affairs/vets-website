@@ -56,33 +56,28 @@ describe('<NameTag>', () => {
       });
     },
   );
-  context(
-    'when `showDisabilityRating` flag is `true` and `totalDisabilityRating` is set',
-    () => {
-      it('should render the disability rating', () => {
-        const initialState = getInitialState();
-        const view = render(
-          <NameTag showDisabilityRating totalDisabilityRating={70} />,
-          { initialState },
-        );
-        view.getByText(/your disability rating:/i);
-        view.getByRole('link', {
-          name: /view your disability rating/i,
-          text: /70% service connected/i,
-          href: /disability\/view-disability-rating\/rating/i,
-        });
+  context('when `totalDisabilityRating` is set', () => {
+    it('should render the disability rating', () => {
+      const initialState = getInitialState();
+      const view = render(<NameTag totalDisabilityRating={70} />, {
+        initialState,
       });
-    },
-  );
+      view.getByText(/your disability rating:/i);
+      view.getByRole('link', {
+        name: /view your disability rating/i,
+        text: /70% service connected/i,
+        href: /disability\/view-disability-rating\/rating/i,
+      });
+    });
+  });
   context(
-    "when `showDisabilityRating` flag is `true`, `totalDisabilityRating` is not set and there isn't a server error",
+    "when `totalDisabilityRating` is not set and there isn't a server error",
     () => {
       it('should not render the disability rating or a fallback link', () => {
         const initialState = getInitialState();
-        const view = render(
-          <NameTag showDisabilityRating totalDisabilityRating={null} />,
-          { initialState },
-        );
+        const view = render(<NameTag totalDisabilityRating={null} />, {
+          initialState,
+        });
         expect(view.queryByText(/your disability rating:/i)).to.not.exist;
         expect(
           view.queryByRole('link', {
@@ -94,13 +89,12 @@ describe('<NameTag>', () => {
     },
   );
   context(
-    'when `showDisabilityRating` flag is `true`, `totalDisabilityRating` is not set and there is a server error',
+    'when `totalDisabilityRating` is not set and there is a server error',
     () => {
       it('should render a fallback link', () => {
         const initialState = getInitialState();
         const view = render(
           <NameTag
-            showDisabilityRating
             totalDisabilityRating={null}
             totalDisabilityRatingServerError
           />,

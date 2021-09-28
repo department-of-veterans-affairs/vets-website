@@ -170,7 +170,6 @@ const Dashboard = ({
             {showNameTag && (
               <div id="name-tag">
                 <NameTag
-                  showDisabilityRating
                   totalDisabilityRating={props.totalDisabilityRating}
                   totalDisabilityRatingServerError={
                     props.totalDisabilityRatingServerError

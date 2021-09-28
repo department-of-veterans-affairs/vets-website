@@ -71,20 +71,12 @@ const NameTag = ({
   userFullName: { first, middle, last, suffix },
   latestBranchOfService,
   showBadgeImage,
-  showDisabilityRating,
   totalDisabilityRating,
   totalDisabilityRatingServerError,
 }) => {
   const fullName = [first, middle, last, suffix]
     .filter(name => !!name)
     .join(' ');
-
-  // the outer full-width background of the header banner
-  const wrapperClasses = prefixUtilityClasses([
-    'background-color--gray-dark',
-    'margin-bottom--0',
-    'padding-y--2',
-  ]);
 
   const updatedWrapperClasses = prefixUtilityClasses([
     'background-color--primary',
@@ -153,12 +145,8 @@ const NameTag = ({
     'medium',
   );
 
-  const wrapperClassDerived = showDisabilityRating
-    ? updatedWrapperClasses
-    : wrapperClasses;
-
   const classes = {
-    wrapper: [...wrapperClassDerived, ...wrapperClassesMedium].join(' '),
+    wrapper: [...updatedWrapperClasses, ...wrapperClassesMedium].join(' '),
     innerWrapper: [
       ...innerWrapperClasses,
       ...innerWrapperClassesMedium,
@@ -204,12 +192,10 @@ const NameTag = ({
                 {getServiceBranchDisplayName(latestBranchOfService)}
               </dd>
             )}
-            {showDisabilityRating ? (
-              <DisabilityRating
-                rating={totalDisabilityRating}
-                showFallbackLink={totalDisabilityRatingServerError}
-              />
-            ) : null}
+            <DisabilityRating
+              rating={totalDisabilityRating}
+              showFallbackLink={totalDisabilityRatingServerError}
+            />
           </dl>
         </div>
       </div>
@@ -250,7 +236,6 @@ NameTag.propTypes = {
     suffix: PropTypes.string,
   }).isRequired,
   latestBranchOfService: PropTypes.string.isRequired,
-  showDisabilityRating: PropTypes.bool,
   totalDisabilityRating: PropTypes.number,
   totalDisabilityRatingServerError: PropTypes.bool,
 };
