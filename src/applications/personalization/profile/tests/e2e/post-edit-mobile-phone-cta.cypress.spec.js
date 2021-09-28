@@ -36,9 +36,7 @@ describe('Return to Notification Settings CTA', () => {
       body: userWithMobilePhone,
     });
   });
-  // TODO remove the skip once we can confirm this works well on staging and we
-  // confirm the non-CTA message to show in the
-  // ContactInformationSaveSuccessAlert component
+  // TODO remove the skip once we can confirm this works well on staging
   it.skip('should be shown after adding mobile phone number', () => {
     cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
     cy.findByRole('link', { name: /add.*mobile phone/i }).click();
