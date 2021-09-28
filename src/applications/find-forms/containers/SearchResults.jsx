@@ -251,15 +251,16 @@ export const SearchResults = ({
                 All PDF forms do not function fully in a web browser or other
                 PDF viewer. Please download the form and use Adobe Acrobat
                 Reader DC to fill out. For specific instructions about working
-                with PDF’s
+                with PDFs
               </span>{' '}
               <a href="https://www.va.gov/resources/how-to-download-and-open-a-vagov-pdf-form">
                 please read out Resources and Support Article
               </a>
             </p>
             <a
-              href="https://get.adobe.com/reader/"
               className="vads-u-display--block vads-u-margin-bottom--1p5"
+              href="https://get.adobe.com/reader/"
+              rel="noopener noreferrer"
             >
               <span>Get Acrobat Reader DC</span>
             </a>
