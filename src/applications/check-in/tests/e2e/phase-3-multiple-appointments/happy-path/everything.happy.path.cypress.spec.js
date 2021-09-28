@@ -59,7 +59,7 @@ describe('Check In Experience -- ', () => {
       cy.get('[data-testid=check-in-button]').click();
       cy.get('legend > h1', { timeout: Timeouts.slow })
         .should('be.visible')
-        .and('have.text', 'information');
+        .and('have.text', 'Do you need to update any information?');
       cy.injectAxe();
       cy.axeCheck();
       cy.get('[data-testid="no-button"]').click();
