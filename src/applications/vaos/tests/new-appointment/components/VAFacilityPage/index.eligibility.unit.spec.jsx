@@ -563,7 +563,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
       );
     });
 
-    it('should show past visits message when not eligible for direct, requests are supported, no past visit', async () => {
+    it.skip('should show past visits message when not eligible for direct, requests are supported, no past visit', async () => {
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
       mockDirectBookingEligibilityCriteria(
         parentSiteIds,
