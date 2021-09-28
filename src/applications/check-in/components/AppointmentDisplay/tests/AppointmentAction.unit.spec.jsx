@@ -106,7 +106,7 @@ describe('check-in', () => {
       expect(action.queryByTestId('check-in-button')).to.not.exist;
       expect(action.getByTestId('too-early-message')).to.exist;
       expect(action.getByTestId('too-early-message')).to.have.text(
-        'You can check in starting at this time: 1:30 p.m.',
+        'You can check in starting at this time: 2:00 p.m.',
       );
     });
 
