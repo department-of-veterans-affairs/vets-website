@@ -183,7 +183,7 @@ describe('Modals on the personal information and content page after editing', ()
 });
 
 describe('Modals on the personal information and content page when they error', () => {
-  it('should allow the ability to reopen the edit modal when the transaction completes', () => {
+  it('should focus on the close notification and the save button when the error is closed', () => {
     setup();
 
     const sectionName = 'contact email address';
@@ -206,10 +206,9 @@ describe('Modals on the personal information and content page when they error', 
     cy.findByTestId('edit-error-alert').should('exist');
 
     // check for error modal and check that the close is focused then click it
-    cy.findByRole('button', { name: /close notification/i }).should(
-      'be.focused',
-    );
-    cy.findByRole('button', { name: /close notification/i }).click();
+    cy.findByRole('button', { name: /close notification/i })
+      .should('be.focused')
+      .click();
 
     // check if update button is focused
     cy.findByTestId('save-edit-button').should('be.focused');

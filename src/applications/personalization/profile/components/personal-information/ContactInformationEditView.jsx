@@ -80,27 +80,9 @@ export class ContactInformationEditView extends Component {
     }
   }
 
-  focusOnUpdateButton() {
-    const focusableElement = this.editForm?.querySelector(
-      '[data-testid="save-edit-button"]',
-    );
-    if (focusableElement) {
-      focusableElement.focus();
-    }
-  }
-
-  focusOnError() {
-    const focusableElement = this.errorAlert?.querySelector(
-      'button[aria-label="Close notification"]',
-    );
-    if (focusableElement) {
-      focusableElement.focus();
-    }
-  }
-
   clearErrorsAndShiftFocus(fieldName) {
     this.props.clearTransactionRequest(fieldName);
-    this.focusOnUpdateButton();
+    focusElement('[data-testid="save-edit-button"]');
   }
 
   componentDidMount() {
@@ -122,7 +104,7 @@ export class ContactInformationEditView extends Component {
       this.props.transactionRequest?.error ||
       isFailedTransaction(this.props.transaction)
     ) {
-      this.focusOnError();
+      focusElement('button[aria-label="Close notification"]');
     }
 
     // if the transaction just became pending, start calling
