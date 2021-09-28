@@ -25,18 +25,12 @@ describe('Check In Experience -- ', () => {
         );
       });
       cy.intercept('POST', '/check_in/v2/patient_check_ins/', req => {
-        const { uuid, appointmentIEN, facilityId } =
-          req.body?.patientCheckIns || {};
-        expect(uuid).to.equal('46bebc0a-b99c-464f-a5c5-560bc9eae287');
-        expect(appointmentIEN).to.equal('some-ien');
-        expect(facilityId).to.equal('ABC_123');
-
-        req.reply(mockCheckIn.createMockSuccessResponse({}));
+        req.reply(500, mockCheckIn.createMockFailedResponse({}));
       });
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
-        createFeatureToggles(true, true, true, true),
+        createFeatureToggles(true, true, true, false),
       );
     });
     afterEach(() => {
@@ -44,7 +38,7 @@ describe('Check In Experience -- ', () => {
         window.sessionStorage.clear();
       });
     });
-    it('Everything Happy path', () => {
+    it('Current Happy path', () => {
       const featureRoute =
         '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
       cy.visit(featureRoute);
@@ -60,18 +54,13 @@ describe('Check In Experience -- ', () => {
         .find('input')
         .type('4837');
       cy.get('[data-testid=check-in-button]').click();
-      cy.get('legend > h1').contains('information');
-      cy.injectAxe();
-      cy.axeCheck();
-      cy.get('[data-testid="no-button"]').click();
       cy.get('h1').contains('Your appointments');
       cy.get('.appointment-list').should('have.length', 1);
       cy.injectAxe();
       cy.axeCheck();
       cy.get('.usa-button').click();
-      cy.get('va-alert > h1').contains('checked in');
-      cy.injectAxe();
-      cy.axeCheck();
+      cy.url().should('match', /error/);
+      cy.get('h1').contains('We couldn’t check you in');
     });
   });
 });
