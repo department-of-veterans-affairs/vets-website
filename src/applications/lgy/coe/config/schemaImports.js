@@ -9,7 +9,6 @@ const {
   hasExistingLoan,
   loanIntent,
   loanHistory,
-  documentScreener,
   documentUpload,
 } = fullSchema.properties;
 
@@ -22,6 +21,5 @@ export {
   hasExistingLoan,
   loanIntent,
   loanHistory,
-  documentScreener,
   documentUpload,
 };

@@ -80,6 +80,7 @@ export const getValidationMessageKey = (
 // - AND that single suggestion is either CONFIRMED or an international address
 // - AND that one suggestion has a confidence score > 90
 // - AND the state of the entered address matches the state of the suggestion
+// - AND the user did not use the address line 2 and line 3 fields
 //
 // FWIW: This sounds like a high bar to pass, but in fact most of the time this
 // function will return `false` unless the user made an error entering their
@@ -95,6 +96,8 @@ export const showAddressValidationModal = (
   } = firstSuggestedAddress;
 
   if (
+    !userInputAddress.addressLine2 &&
+    !userInputAddress.addressLine3 &&
     suggestedAddresses.length === 1 &&
     firstSuggestedAddress.stateCode === userInputAddress.stateCode &&
     firstSuggestedAddressMetadata.confidenceScore > 90 &&
