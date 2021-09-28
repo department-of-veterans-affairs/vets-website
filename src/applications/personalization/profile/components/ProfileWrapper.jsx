@@ -78,8 +78,6 @@ const ProfileWrapper = ({
         </Breadcrumbs>
       </div>
 
-      {showNameTag && <NameTag />}
-
       <div className="medium-screen:vads-u-display--none">
         <ProfileMobileSubNav
           routes={routes}
