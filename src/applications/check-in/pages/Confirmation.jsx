@@ -6,7 +6,7 @@ import { focusElement } from 'platform/utilities/ui';
 
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
-import AppointmentLocation from '../components/AppointmentLocation';
+import AppointmentLocation from '../components/AppointmentDisplay/AppointmentLocation';
 
 const Confirmation = ({ appointments }) => {
   const appointment = appointments[0];

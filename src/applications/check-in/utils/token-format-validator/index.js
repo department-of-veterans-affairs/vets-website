@@ -4,6 +4,7 @@ const isUUID = token => {
 };
 
 const SCOPES = Object.freeze({
+  READ_NONE: 'read:none',
   READ_BASIC: 'read.basic',
   READ_FULL: 'read.full',
 });

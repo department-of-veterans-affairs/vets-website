@@ -18,6 +18,7 @@ import {
   isFailedTransaction,
 } from '../util/transactions';
 
+export const VAP_SERVICE_CLEAR_LAST_SAVED = 'VAP_SERVICE_CLEAR_LAST_SAVED';
 export const VAP_SERVICE_TRANSACTIONS_FETCH_SUCCESS =
   'VAP_SERVICE_TRANSACTIONS_FETCH_SUCCESS';
 export const VAP_SERVICE_TRANSACTION_REQUESTED =
@@ -60,6 +61,12 @@ export function fetchTransactions() {
     } catch (err) {
       // If we sync transactions in the background and fail, is it worth telling the user?
     }
+  };
+}
+
+export function clearMostRecentlySavedField() {
+  return {
+    type: VAP_SERVICE_CLEAR_LAST_SAVED,
   };
 }
 
