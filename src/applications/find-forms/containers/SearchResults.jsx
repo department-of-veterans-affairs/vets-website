@@ -229,6 +229,7 @@ export const SearchResults = ({
 
       {/*  */}
       <div
+        className="pdf-alert-modal"
         style={{
           height: '500px',
         }}

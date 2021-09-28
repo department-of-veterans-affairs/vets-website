@@ -206,7 +206,7 @@ const SearchResult = ({
         <a
           className="find-forms-max-content vads-u-text-decoration--none"
           rel="noreferrer noopener"
-          href={!showPDFInfoVersionOne ? url : null}
+          href={showPDFInfoVersionOne ? null : url}
           onClick={() => {
             recordGAEvent(`Download VA form ${id} ${pdfLabel}`, url, 'pdf');
             if (showPDFInfoVersionOne) toggleModalState(id, url);
