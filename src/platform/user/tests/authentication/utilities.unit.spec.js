@@ -112,11 +112,4 @@ describe('standaloneRedirect', () => {
       `${externalRedirects.myvahealth}some/sub/route`,
     );
   });
-
-  it('should map `to` query to deeplinking for MHV SSO', () => {
-    global.window.location.search = '?application=mhv&to=secure_messaging';
-    expect(standaloneRedirect()).to.equal(
-      `${externalRedirects.mhv}?deeplinking=secure_messaging`,
-    );
-  });
 });
