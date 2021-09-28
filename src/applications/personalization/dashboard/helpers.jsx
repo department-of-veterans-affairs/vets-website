@@ -37,8 +37,8 @@ export const formBenefits = {
   [VA_FORM_IDS.FORM_22_0994]: 'VET TEC',
   [VA_FORM_IDS.FORM_22_1990]: 'education benefits',
   [VA_FORM_IDS.FORM_22_1990E]: 'education benefits',
+  [VA_FORM_IDS.FORM_22_1990EZ]: 'education benefits',
   [VA_FORM_IDS.FORM_22_1990N]: 'education benefits',
-  [VA_FORM_IDS.FORM_22_1990_MEB]: 'education benefits',
   [VA_FORM_IDS.FORM_22_1995]: 'education benefits',
   [VA_FORM_IDS.FORM_22_5490]: 'education benefits',
   [VA_FORM_IDS.FORM_22_5495]: 'education benefits',
@@ -96,8 +96,8 @@ export const formLinks = {
   [VA_FORM_IDS.FORM_22_0994]: `${edu0994Manifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_22_1990]: `${edu1990Manifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_22_1990E]: `${edu1990eManifest.rootUrl}/`,
+  [VA_FORM_IDS.FORM_22_1990EZ]: `${mebManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_22_1990N]: `${edu1990nManifest.rootUrl}/`,
-  [VA_FORM_IDS.FORM_22_1990_MEB]: `${mebManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_22_1995]: `${edu1995Manifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_22_5490]: `${edu5490Manifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_22_5495]: `${edu5495Manifest.rootUrl}/`,
@@ -119,6 +119,7 @@ export const trackingPrefixes = {
   [VA_FORM_IDS.FORM_22_0994]: 'edu-0994-',
   [VA_FORM_IDS.FORM_22_1990]: 'edu-',
   [VA_FORM_IDS.FORM_22_1990E]: 'edu-1990e-',
+  [VA_FORM_IDS.FORM_22_1990EZ]: 'edu-1990ez-',
   [VA_FORM_IDS.FORM_22_1990N]: 'edu-1990n-',
   [VA_FORM_IDS.FORM_22_1995]: 'edu-1995-',
   [VA_FORM_IDS.FORM_22_5490]: 'edu-5490-',
@@ -142,6 +143,7 @@ export const sipEnabledForms = new Set([
   VA_FORM_IDS.FORM_22_0994,
   VA_FORM_IDS.FORM_22_1990,
   VA_FORM_IDS.FORM_22_1990E,
+  VA_FORM_IDS.FORM_22_1990EZ,
   VA_FORM_IDS.FORM_22_1990N,
   VA_FORM_IDS.FORM_22_1995,
   VA_FORM_IDS.FORM_22_5490,
@@ -152,7 +154,6 @@ export const sipEnabledForms = new Set([
   VA_FORM_IDS.FORM_20_0996,
   VA_FORM_IDS.FORM_VA_2346A,
   VA_FORM_IDS.FORM_5655,
-  VA_FORM_IDS.FORM_22_1990_MEB,
 ]);
 
 // A dict of presentable form IDs. Generally this is just the form ID itself

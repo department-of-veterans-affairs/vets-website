@@ -1,22 +1,22 @@
 import { createFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
 
-import mockSession from '../../../../api/local-mock-api/mocks/v1/sessions.responses';
-import mockPatientCheckIns from '../../../../api/local-mock-api/mocks/v1/patient.check.in.responses';
+import mockSession from '../../../../api/local-mock-api/mocks/v2/sessions.responses';
+import mockPatientCheckIns from '../../../../api/local-mock-api/mocks/v2/patient.check.in.responses';
 
 describe('Check In Experience -- ', () => {
   describe('phase 3 -- ', () => {
     beforeEach(function() {
-      cy.intercept('GET', '/check_in/v1/sessions/*', req => {
+      cy.intercept('GET', '/check_in/v2/sessions/*', req => {
         req.reply(
           mockSession.createMockSuccessResponse('some-token', 'read.basic'),
         );
       });
-      cy.intercept('POST', '/check_in/v1/sessions', req => {
+      cy.intercept('POST', '/check_in/v2/sessions', req => {
         req.reply(
           mockSession.createMockSuccessResponse('some-token', 'read.full'),
         );
       });
-      cy.intercept('GET', '/check_in/v1/patient_check_ins/*', req => {
+      cy.intercept('GET', '/check_in/v2/patient_check_ins/*', req => {
         req.reply(mockPatientCheckIns.createMockSuccessResponse({}, true));
       });
       cy.intercept(
