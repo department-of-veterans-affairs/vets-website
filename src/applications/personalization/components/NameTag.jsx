@@ -35,7 +35,7 @@ const DisabilityRatingContent = ({ rating }) => {
           href="/disability/view-disability-rating/rating"
           aria-label={
             rating
-              ? `Your disability rating is ${rating}% service connected `
+              ? `View your ${rating}% service connected disability rating`
               : 'view your disability rating'
           }
           className="vads-u-color--white"
