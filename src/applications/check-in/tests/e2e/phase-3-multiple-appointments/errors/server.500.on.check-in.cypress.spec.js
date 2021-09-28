@@ -4,6 +4,8 @@ import mockCheckIn from '../../../../api/local-mock-api/mocks/v2/check.in.respon
 import mockSession from '../../../../api/local-mock-api/mocks/v2/sessions.responses';
 import mockPatientCheckIns from '../../../../api/local-mock-api/mocks/v2/patient.check.in.responses';
 
+import Timeouts from 'platform/testing/e2e/timeouts';
+
 describe('Check In Experience -- ', () => {
   describe('phase 3 -- ', () => {
     beforeEach(function() {
@@ -54,7 +56,9 @@ describe('Check In Experience -- ', () => {
         .find('input')
         .type('4837');
       cy.get('[data-testid=check-in-button]').click();
-      cy.get('h1').contains('Your appointments');
+      cy.get('h1', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .and('contain', 'Your appointments');
       cy.get('.appointment-list').should('have.length', 1);
       cy.injectAxe();
       cy.axeCheck();
