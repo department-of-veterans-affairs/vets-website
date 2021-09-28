@@ -64,7 +64,9 @@ describe('Check In Experience -- ', () => {
       cy.injectAxe();
       cy.axeCheck();
       cy.get('.usa-button').click();
-      cy.get('va-alert > h1').contains('checked in');
+      cy.get('va-alert > h1', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .and('have.text', 'checked in');
       cy.injectAxe();
       cy.axeCheck();
     });
