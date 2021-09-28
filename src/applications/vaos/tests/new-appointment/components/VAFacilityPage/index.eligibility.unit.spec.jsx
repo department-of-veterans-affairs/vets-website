@@ -563,7 +563,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
       );
     });
 
-    it.skip('should show past visits message when not eligible for direct, requests are supported, no past visit', async () => {
+    it('should show past visits message when not eligible for direct, requests are supported, no past visit', async () => {
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
       mockDirectBookingEligibilityCriteria(
         parentSiteIds,
@@ -603,7 +603,9 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
       await screen.findByText(/We can’t find a recent appointment for you/i);
       expect(screen.getByRole('alertdialog')).to.be.ok;
       expect(screen.baseElement).to.contain.text('last 36 months');
-      fireEvent.click(screen.getByRole('button', { name: 'Close this modal' }));
+      fireEvent.click(
+        screen.getByRole('button', { name: 'Close the warning modal' }),
+      );
 
       await waitFor(
         () =>
