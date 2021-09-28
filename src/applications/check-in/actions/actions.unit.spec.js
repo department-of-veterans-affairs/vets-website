@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import {
+  receivedMultipleAppointmentDetails,
   receivedAppointmentDetails,
   RECEIVED_APPOINTMENT_DETAILS,
   tokenWasValidated,
@@ -11,6 +12,17 @@ import {
 
 describe('check inactions', () => {
   describe('actions', () => {
+    describe('receivedMultipleAppointmentDetails', () => {
+      it('should return correct action', () => {
+        const action = receivedMultipleAppointmentDetails([]);
+        expect(action.type).to.equal(RECEIVED_APPOINTMENT_DETAILS);
+      });
+      it('should return correct structure', () => {
+        const action = receivedMultipleAppointmentDetails([{ id: 'some-id' }]);
+        expect(action.data.appointments[0]).to.haveOwnProperty('id');
+        expect(action.data.appointments[0].id).to.equal('some-id');
+      });
+    });
     describe('receivedAppointmentDetails', () => {
       it('should return correct action', () => {
         const action = receivedAppointmentDetails({ id: 'some-id' });

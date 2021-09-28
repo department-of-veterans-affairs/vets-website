@@ -1,6 +1,7 @@
 import {
   UPDATE_PROFILE_FORM_FIELD,
   OPEN_MODAL,
+  VAP_SERVICE_CLEAR_LAST_SAVED,
   VAP_SERVICE_TRANSACTIONS_FETCH_SUCCESS,
   VAP_SERVICE_TRANSACTION_REQUESTED,
   VAP_SERVICE_TRANSACTION_REQUEST_SUCCEEDED,
@@ -157,10 +158,19 @@ export default function vapService(state = initialState, action) {
       };
     }
 
+    case VAP_SERVICE_CLEAR_LAST_SAVED: {
+      return {
+        ...state,
+        mostRecentlySavedField: null,
+      };
+    }
+
     case VAP_SERVICE_TRANSACTION_CLEARED: {
       const finishedTransactionId =
         action.transaction.data.attributes.transactionId;
       const fieldTransactionMap = { ...state.fieldTransactionMap };
+
+      let mostRecentlySavedField;
 
       Object.keys(fieldTransactionMap).forEach(field => {
         const transactionRequest = fieldTransactionMap[field];
@@ -169,6 +179,7 @@ export default function vapService(state = initialState, action) {
           transactionRequest.transactionId === finishedTransactionId
         ) {
           delete fieldTransactionMap[field];
+          mostRecentlySavedField = field;
         }
       });
 
@@ -185,6 +196,7 @@ export default function vapService(state = initialState, action) {
         ),
         modal: null,
         fieldTransactionMap,
+        mostRecentlySavedField,
       };
     }
 
@@ -245,6 +257,7 @@ export default function vapService(state = initialState, action) {
         modalData: action.modalData,
         hasUnsavedEdits: false,
         initialFormFields: {},
+        mostRecentlySavedField: null,
       };
 
     case ADDRESS_VALIDATION_INITIALIZE:
