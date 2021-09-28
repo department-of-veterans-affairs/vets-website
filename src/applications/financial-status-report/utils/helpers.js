@@ -146,7 +146,7 @@ export const getTotalAssets = ({ assets, realEstateRecords }) => {
   const totVehicles = sumValues(assets.automobiles, 'resaleValue');
   const realEstate = sumValues(realEstateRecords, 'realEstateAmount');
   const totAssets = Object.values(assets)
-    .filter(item => !Array.isArray(item))
+    .filter(item => item && !Array.isArray(item))
     .reduce((acc, amount) => acc + Number(amount), 0);
 
   return totVehicles + totRecVehicles + totOtherAssets + realEstate + totAssets;

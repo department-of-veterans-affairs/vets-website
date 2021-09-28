@@ -1,0 +1,47 @@
+/* eslint-disable camelcase */
+
+const commonResponses = require('../../../../platform/testing/local-dev-mock-api/common');
+const mockCheckIns = require('./mocks/v2/check.in.responses');
+const mockPatientCheckIns = require('./mocks/v2/patient.check.in.responses');
+const mockSessions = require('./mocks/v2/sessions.responses');
+
+const featureToggles = require('./mocks/feature.toggles');
+const delay = require('mocker-api/lib/delay');
+
+let hasBeenValidated = false;
+
+const responses = {
+  ...commonResponses,
+  'GET /v0/feature_toggles': featureToggles.createFeatureToggles(
+    true,
+    true,
+    true,
+    false,
+  ),
+  // v2
+  'GET /check_in/v2/sessions/:uuid': (req, res) => {
+    return res.json(mockSessions.mocks.get(req.params));
+  },
+  'POST /check_in/v2/sessions': (req, res) => {
+    const { last4, lastName } = req.body?.session || {};
+    if (!last4 || !lastName) {
+      return res.status(400).json(mockSessions.createMockFailedResponse());
+    }
+    hasBeenValidated = true;
+    return res.json(mockSessions.mocks.post(req.body));
+  },
+  'GET /check_in/v2/patient_check_ins/:uuid': (req, res) => {
+    if (hasBeenValidated) {
+      hasBeenValidated = false;
+      return res.json(mockPatientCheckIns.createMockSuccessResponse({}, true));
+    } else {
+      return res.json(mockPatientCheckIns.createMockSuccessResponse({}, false));
+    }
+  },
+  'POST /check_in/v2/patient_check_ins/': (_req, res) => {
+    // same as v0
+    return res.json(mockCheckIns.createMockSuccessResponse({}));
+  },
+};
+
+module.exports = delay(responses, 2000);

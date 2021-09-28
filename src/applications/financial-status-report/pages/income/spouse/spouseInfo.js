@@ -4,7 +4,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/component-library/Ad
 const MaritalStatusInfo = (
   <AdditionalInfo triggerText="Why does my marital status matter?">
     <p>
-      We want to make sure we understand your household's financial situation.
+      We want to make sure we understand your household’s financial situation.
     </p>
     <p>
       If you’re married, we also need to understand your spouse’s financial
