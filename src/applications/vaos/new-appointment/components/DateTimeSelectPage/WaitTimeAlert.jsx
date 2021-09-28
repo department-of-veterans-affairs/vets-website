@@ -21,16 +21,24 @@ export const WaitTimeAlert = ({
 }) => {
   const today = moment();
   const momentPreferredDate = moment(preferredDate);
+
+  // Make sure there is a 'nextAvailableAppDate' before trying to convert to
+  // a moment date since calling 'moment.parseZone(undefined) will use the current
+  // date. In this case, 'nextAvalidableApptDate' is undefined when there are no open slots.
+  //
+  // NOTE: Calling 'moment.parseZone(null)' generates the expected invalid date.
   let momentNextAvailableDate;
-  if (nextAvailableApptDate?.includes('Z')) {
-    momentNextAvailableDate = moment(nextAvailableApptDate).tz(
-      getTimezoneByFacilityId(facilityId),
-    );
-  } else {
-    momentNextAvailableDate = moment.parseZone(nextAvailableApptDate);
+  if (nextAvailableApptDate) {
+    if (nextAvailableApptDate.includes('Z')) {
+      momentNextAvailableDate = moment(nextAvailableApptDate).tz(
+        getTimezoneByFacilityId(facilityId),
+      );
+    } else {
+      momentNextAvailableDate = moment.parseZone(nextAvailableApptDate);
+    }
   }
 
-  if (momentPreferredDate.isValid() && momentNextAvailableDate.isValid()) {
+  if (momentPreferredDate.isValid() && momentNextAvailableDate?.isValid()) {
     const showUrgentCareMessage = today.isSame(momentPreferredDate, 'day');
 
     if (showUrgentCareMessage) {
