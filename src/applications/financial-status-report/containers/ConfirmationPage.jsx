@@ -39,13 +39,9 @@ const RequestDetailsCard = ({ data, response }) => {
         <ul>
           {data.selectedDebts?.map((debt, index) => (
             <li key={index}>
-              <span className="vads-u-margin-left--0p5">
-                {debt.resolution?.resolutionType}
-              </span>
-              for
-              <span className="vads-u-margin-left--0p5">
-                {deductionCodes[debt.deductionCode]}
-              </span>
+              {debt.resolution?.resolutionType}
+              <span className="vads-u-margin--0p5">for</span>
+              {deductionCodes[debt.deductionCode]}
             </li>
           ))}
         </ul>
@@ -129,7 +125,7 @@ const ConfirmationPage = ({ form, download }) => {
             <h4>Go to your debt management portal</h4>
             <p>
               Once you’re signed in, you can go to
-              <a href="/manage-va-debt" className="vads-u-margin-left--0p5">
+              <a href="/manage-va-debt" className="vads-u-margin--0p5">
                 Manage my VA debt
               </a>
               to check the status of your current debts.

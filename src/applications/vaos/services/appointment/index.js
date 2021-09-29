@@ -97,7 +97,7 @@ const PAST_APPOINTMENTS_HIDDEN_SET = new Set([
 // We want to throw an error for any partial results errors from MAS,
 // but some sites in staging always errors. So, keep those in a list to
 // ignore errors from
-const BAD_STAGING_SITES = new Set(['556']);
+const BAD_STAGING_SITES = new Set(['556', '612']);
 function hasPartialResults(response) {
   return (
     response.errors?.length > 0 &&

@@ -10,13 +10,13 @@
 
 /* Form Styling Overrides
 ---------------------------------------------------------------------*/
+.schemaform-block-header {
+	margin-bottom: 1em;
+}
 .schemaform-block-header > p {
 	// Overriding generated !importants.
 	margin-bottom: 24/16 + 0em !important;
 	margin-top: 1em !important;
-}
-.schemaform-block-header {
-	margin-bottom: 1em;
 }
 .meb-additional-considerations-title {
 	margin-top: 0;
@@ -25,13 +25,28 @@
 fieldset.schemaform-field-template {
 	margin-top: 24/16 + 0rem; // 24px
 }
-.form-checkbox label:not([name="privacyAgreementAccepted-label"]),
+.form-review-panel-page .schemaform-field-template,
+.form-review-panel-page fieldset.schemaform-field-template {
+	margin-top: 3rem;
+}
+.form-review-panel-page .form-expanding-group-open .schemaform-field-template.schemaform-first-field,
+.form-review-panel-page .form-expanding-group-open fieldset.schemaform-field-template.schemaform-first-field {
+	margin-top: 0;
+}
+
+.form-checkbox label:not([name="privacyAgreementAccepted-label"]):not([for^="root_view:phoneNumbers"]),
 .schemaform-block {
 	margin-top: 0;
 }
 [type=checkbox] + label,
 [type=radio] + label {
 	margin-bottom: 1em;
+}
+.schemaform-label[for^="root_view:phoneNumbers"] {
+	margin-top: 1.5rem;
+}
+.schemaform-label[id="root_view:phoneNumbers_phoneNumber_phone-label"] {
+	margin-top: 3rem;
 }
 /* END Form Styling Overrides ---------------------------------------*/
 
@@ -58,6 +73,10 @@ fieldset.schemaform-field-template {
 	.usa-alert {
 		margin-left: -2rem;
 		width: calc(117.1875% + 2rem);
+	}
+	.form-review-panel-page .usa-alert {
+		margin: 0;
+		width: auto;
 	}
 	.usa-alert,
 	.usa-alert.background-color-only {
@@ -122,6 +141,10 @@ va-accordion-item .service-history-details {
 }
 .service-history-details_period {
 	display: block;
+}
+
+.form-review-panel-page .schemaform-block-header {
+	margin-bottom: 0;
 }
 .form-review-panel-page .service-history-details {
 	margin: 0;
@@ -264,6 +287,17 @@ dl.review .review-row:last-child {
 .form-review-panel-page .meb-review-page-only {
 	display: block;
 }
+.form-review-panel-page .meb-form-page-only {
+	display: none;
+}
+.form-review-panel-page p.meb-review-page-only {
+	margin-top: .5em !important; // overriding .schemaform-block-header > p
+}
+.form-review-panel-page .usa-button-primary,
+.form-review-panel-page .schemaform-field-container .form-checkbox,
+.form-review-panel-page .schemaform-field-container .schemaform-field-template {
+	margin-left: 1rem;
+}
 
 // This is a huge hack to not have a blue border next to text for the
 // Benefit Selection section in edit mode. Couldn't figure out a better
@@ -273,7 +307,7 @@ dl.review .review-row:last-child {
 	left: -1em;
 	margin-bottom: 0;
 	margin-right: -1em;
-	padding-bottom: 1em;
+	padding-bottom: 3rem;
 	padding-left: 1em;
 	position: relative;
 }
@@ -305,13 +339,18 @@ dl.review .review-row:last-child {
 .meb-confirmation-page .feature dt {
 	font-weight: bold;
 }
-.meb-confirmation-page button {
+.meb-confirmation-page .usa-button,
+.meb-confirmation-page .usa-button-primary {
 	display: block;
 	margin: 24px 0;
-	width: auto;
+	width: fit-content;
 }
-.meb-confirmation-page button:last-child {
+.meb-confirmation-page .usa-button:last-child,
+.meb-confirmation-page .usa-button-primary:last-child {
 	margin-bottom: 0;
+}
+.meb-confirmation-page .form-expanding-group {
+	margin-bottom: 1em;
 }
 .meb-confirmation-page .help-footer-box{
 	padding-top: 2em;
@@ -323,15 +362,23 @@ dl.review .review-row:last-child {
 
 @media print {
 	.meb-print {
-		display: none;
+		display: none !important;
 	}
 }
 // END - Confirmation Page
 
 
 // Contact Information UI
+#root_view\:dateOfBirth_dateOfBirth-label {
+	margin-bottom: 1rem;
+	padding-top: 1.5rem;
+}
+
+#root_view\:mailingAddress_address_postalCode {
+	width: 50%;
+}
 
 label.schemaform-label[for=root_mobilePhoneNumber_isInternational],
-label.schemaform-label[for=root_phoneNumber_isInternational],{
+label.schemaform-label[for=root_phoneNumber_isInternational] {
 	margin-top: 2rem;
 }
