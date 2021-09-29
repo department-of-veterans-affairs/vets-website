@@ -32,7 +32,9 @@ export default function AppointmentAction(props) {
       }
 
       const json = await checkIn({
-        token,
+        uuid: token,
+        appointmentIEN: appointment.appointmentIEN,
+        facilityId: appointment.facilityId,
       });
       const { status } = json;
       if (status === 200) {
