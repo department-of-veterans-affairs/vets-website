@@ -796,6 +796,17 @@ const formConfig = {
                 'ui:title':
                   'Would you like to receive text message notifications on your education benefits?',
                 'ui:widget': 'radio',
+                'ui:validations': [
+                  (errors, field, formData) => {
+                    if (
+                      !formData['view:phoneNumbers'].mobilePhoneNumber.phone
+                    ) {
+                      errors.addError(
+                        "You can't choose to get text message notifications because we don't have a mobile phone number on file for you",
+                      );
+                    }
+                  },
+                ],
                 'ui:options': {
                   widgetProps: {
                     Yes: { 'data-info': 'yes' },
