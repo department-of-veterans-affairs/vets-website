@@ -8,8 +8,8 @@ import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 import AppointmentLocation from '../components/AppointmentDisplay/AppointmentLocation';
 
-const Confirmation = ({ appointments }) => {
-  const appointment = appointments[0];
+const Confirmation = ({ _appointments, selectedAppointment }) => {
+  const appointment = selectedAppointment;
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5">
       <VaAlert
@@ -26,9 +26,9 @@ const Confirmation = ({ appointments }) => {
           You’re checked in
         </h1>
         <p>
-          Please wait in the <AppointmentLocation appointment={appointment} />{' '}
-          waiting room. We’ll come get you when it’s time for your appointment
-          to start.
+          Please wait in the{' '}
+          <AppointmentLocation appointment={appointment} bold /> waiting room.
+          We’ll come get you when it’s time for your appointment to start.
         </p>
       </VaAlert>
       <Footer />
@@ -40,6 +40,7 @@ const Confirmation = ({ appointments }) => {
 const mapStateToProps = state => {
   return {
     appointments: state.checkInData.appointments,
+    selectedAppointment: state.checkInData.context.appointment,
   };
 };
 const mapDispatchToProps = () => {
