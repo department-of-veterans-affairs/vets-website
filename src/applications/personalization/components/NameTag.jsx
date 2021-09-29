@@ -28,12 +28,16 @@ const DisabilityRatingContent = ({ rating }) => {
 
   return (
     <>
-      <dt className="sr-only">your disability rating</dt>
+      <dt className="sr-only" />
       <dd className={classes}>
         {rating ? <>Your disability rating: </> : null}
         <a
           href="/disability/view-disability-rating/rating"
-          aria-label="view your disability rating"
+          aria-label={
+            rating
+              ? `View your ${rating}% service connected disability rating`
+              : 'view your disability rating'
+          }
           className="vads-u-color--white"
           style={{ whiteSpace: 'nowrap' }}
         >

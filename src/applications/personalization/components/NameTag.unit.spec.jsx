@@ -64,7 +64,7 @@ describe('<NameTag>', () => {
       });
       view.getByText(/your disability rating:/i);
       view.getByRole('link', {
-        name: /view your disability rating/i,
+        name: /View your 70% service connected disability rating/i,
         text: /70% service connected/i,
         href: /disability\/view-disability-rating\/rating/i,
       });
