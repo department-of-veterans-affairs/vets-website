@@ -513,10 +513,6 @@ jobs:
       CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
       NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
 
-    concurrency:
-      group: cypress
-      cancel-in-progress: false
-
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -842,6 +838,10 @@ jobs:
     if: ${{ always() && github.ref == 'refs/heads/master' && needs.archive.result == 'success' }}
     needs: archive
 
+    concurrency:
+      group: deploy-${{ matrix.environment }}
+      cancel-in-progress: true
+
     strategy:
       matrix:
         include:
@@ -937,7 +937,7 @@ jobs:
   notify-failure:
     name: Notify Failure
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/master' && (failure() || cancelled()) }}
+    if: ${{ github.ref == 'refs/heads/master' && failure() }}
     needs: deploy
 
     steps:
