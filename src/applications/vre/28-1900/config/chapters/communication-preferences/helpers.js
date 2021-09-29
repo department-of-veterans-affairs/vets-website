@@ -21,7 +21,7 @@ export const VreCommunicationInformation = (
       </li>
     </ul>
     <p>
-      Please let us know which options work best for you and we'll call or email
+      Please let us know which options work best for you and we’ll call or email
       you with more details.
     </p>
   </section>

@@ -4,6 +4,7 @@ import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 export const missingIssueErrorMessage = 'Please add the name of an issue';
 export const noneSelected = 'Please add and select at least one issue';
+export const uniqueIssueErrorMessage = 'Please enter a unique condition name';
 
 export const maxSelected =
   'You’ve reached the maximum number of allowed selected issues';
@@ -35,7 +36,10 @@ export const AdditionalIssuesLabel = (
     <span className="vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans">
       Add an issue and our decision date on this issue. You can find the
       decision date on your decision notice (the letter you got in the mail from
-      us).
+      us). If you are opting-in from a Statement of the Case (SOC) or
+      Supplemental Statement of the Case (SSOC), the decision date is the date
+      of the SOC/SSOC notice letter. You can request a Board Appeal up to 1 year
+      from the date on your decision notice.
     </span>
     <p className="vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans">
       <strong>Note:</strong> You can only add an issue that you’ve already

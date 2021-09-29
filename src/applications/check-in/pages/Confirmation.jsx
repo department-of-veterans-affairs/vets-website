@@ -6,9 +6,10 @@ import { focusElement } from 'platform/utilities/ui';
 
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
-import AppointmentLocation from '../components/AppointmentLocation';
+import AppointmentLocation from '../components/AppointmentDisplay/AppointmentLocation';
 
-const Confirmation = () => {
+const Confirmation = ({ appointments }) => {
+  const appointment = appointments[0];
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5">
       <VaAlert
@@ -25,11 +26,12 @@ const Confirmation = () => {
           You’re checked in
         </h1>
         <p>
-          Please wait in the <AppointmentLocation /> waiting room. We’ll come
-          get you when it’s time for your appointment to start.
+          Please wait in the <AppointmentLocation appointment={appointment} />{' '}
+          waiting room. We’ll come get you when it’s time for your appointment
+          to start.
         </p>
       </VaAlert>
-      <Footer header={'Not sure where to wait?'} />
+      <Footer />
       <BackToHome />
     </div>
   );
@@ -37,7 +39,7 @@ const Confirmation = () => {
 
 const mapStateToProps = state => {
   return {
-    appointment: state.checkInData.appointment,
+    appointments: state.checkInData.appointments,
   };
 };
 const mapDispatchToProps = () => {

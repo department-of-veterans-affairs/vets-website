@@ -12,8 +12,9 @@ import VetTecInstitutionProfile from '../components/vet-tec/InstitutionProfile';
 import InstitutionProfile from '../components/profile/InstitutionProfile';
 import ServiceError from '../components/ServiceError';
 import { isSmallScreen, useQueryParams } from '../utils/helpers';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
-const { Element: ScrollElement, scroller } = Scroll;
+const { Element: ScrollElement } = Scroll;
 
 export function ProfilePage({
   constants,
@@ -29,7 +30,7 @@ export function ProfilePage({
   match,
   compare,
 }) {
-  const { facilityCode, preSelectedProgram } = match.params;
+  const { facilityCode } = match.params;
   const queryParams = useQueryParams();
   const version = queryParams.get('version');
   const institutionName = _.get(profile, 'attributes.name');
@@ -58,7 +59,7 @@ export function ProfilePage({
 
   useEffect(
     () => {
-      scroller.scrollTo('profilePage', getScrollOptions());
+      scrollTo('profilePage', getScrollOptions());
       focusElement('.profile-page h1');
     },
     [profile.inProgress],
@@ -84,7 +85,6 @@ export function ProfilePage({
         <VetTecInstitutionProfile
           institution={profile.attributes}
           showModal={dispatchShowModal}
-          preSelectedProgram={preSelectedProgram}
           selectedProgram={calculator.selectedProgram}
           compare={compare}
           smallScreen={smallScreen}
@@ -93,7 +93,7 @@ export function ProfilePage({
     } else {
       content = (
         <InstitutionProfile
-          profile={profile}
+          institution={profile.attributes}
           isOJT={isOJT}
           constants={constants}
           showModal={dispatchShowModal}

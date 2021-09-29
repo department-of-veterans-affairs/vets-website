@@ -7,8 +7,6 @@ import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
 
 import manifest from 'applications/personalization/dashboard/manifest.json';
 
-import { mockFeatureToggles } from './helpers';
-
 /**
  *
  * @param {boolean} mobile - test on a mobile viewport or not
@@ -27,7 +25,6 @@ describe('The My VA Dashboard', () => {
       '/v0/disability_compensation_form/rating_info',
       disabilityRating,
     );
-    mockFeatureToggles();
   });
   it('should show a dismissible modal if a dependent service has downtime approaching in the next hour', () => {
     // start time is one minute from now
@@ -54,8 +51,10 @@ describe('The My VA Dashboard', () => {
     cy.findByRole('button', { name: /continue/i }).should('not.exist');
 
     cy.visit(manifest.rootUrl);
-    cy.findByRole('button', { name: /close this modal/i }).click();
-    cy.findByRole('button', { name: /close this modal/i }).should('not.exist');
+    cy.findByRole('button', { name: /close the info modal/i }).click();
+    cy.findByRole('button', { name: /close the info modal/i }).should(
+      'not.exist',
+    );
   });
   it('should not show a modal if there is no upcoming downtime', () => {
     const oneDayInMS = 60 * 60 * 24 * 1000;

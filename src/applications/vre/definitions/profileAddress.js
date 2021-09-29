@@ -167,7 +167,7 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
     },
     street: {
       'ui:required': uiRequiredCallback,
-      'ui:title': 'Street',
+      'ui:title': 'Street address',
       'ui:errorMessages': {
         required: 'Street address is required',
         pattern: 'Please fill in a valid street address',

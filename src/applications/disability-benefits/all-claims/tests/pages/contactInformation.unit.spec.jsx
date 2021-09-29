@@ -34,7 +34,7 @@ describe('Disability benefits 526EZ contact information', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.additionalInformation.pages.contactInformation;
+  } = formConfig.chapters.veteranDetails.pages.contactInformation;
 
   it('renders contact information form', () => {
     const form = mount(

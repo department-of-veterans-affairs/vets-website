@@ -9,20 +9,21 @@ import { handleScrollOnInputFocus } from '../../utils/helpers';
 
 export function KeywordSearch({
   className,
-  inputLabelledBy,
+  error,
   inputValue,
+  label,
+  labelAdditional,
   onFetchAutocompleteSuggestions,
   onSelection,
   onUpdateAutocompleteSearchTerm,
   onPressEnter,
-  placeholder,
+  required,
   suggestions,
+  validateSearchTerm,
   version,
 }) {
   const fetchSuggestion = () => {
-    if (inputValue !== '') {
-      onFetchAutocompleteSuggestions(inputValue, version);
-    }
+    onFetchAutocompleteSuggestions(inputValue, version);
   };
 
   const debouncedFetchSuggestion = useCallback(
@@ -47,7 +48,10 @@ export function KeywordSearch({
     });
 
     onUpdateAutocompleteSearchTerm(selected.label);
-    onSelection(selected);
+
+    if (onSelection) {
+      onSelection(selected);
+    }
   };
 
   const handleEnterPress = e => {
@@ -78,11 +82,42 @@ export function KeywordSearch({
       if (value !== '') {
         debouncedFetchSuggestion(value);
       }
+      if (validateSearchTerm) {
+        validateSearchTerm(value);
+      }
     }
   };
 
   return (
-    <div className={'keyword-search'} id="keyword-search">
+    <div
+      className={classNames('keyword-search', { 'usa-input-error': error })}
+      id="keyword-search"
+    >
+      {label && (
+        <div>
+          {labelAdditional}
+          <label
+            id="institution-search-label"
+            className="institution-search-label"
+            htmlFor="institution-search"
+          >
+            {label}
+          </label>
+          {required && <span className="form-required-span">(*Required)</span>}
+        </div>
+      )}
+      {error && (
+        <div>
+          <span
+            className="usa-input-error-message"
+            role="alert"
+            id="search-error-message"
+          >
+            <span className="sr-only">Error</span>
+            {error}
+          </span>
+        </div>
+      )}
       <Downshift
         inputValue={inputValue}
         onSelect={item => handleSuggestionSelected(item)}
@@ -102,18 +137,23 @@ export function KeywordSearch({
         }) => (
           <div>
             <input
+              aria-controls="ctKeywordSearch"
               className={classNames('input-box-margin', className)}
               {...getInputProps({
                 type: 'text',
-                placeholder,
+                required,
                 onChange: handleChange,
                 onKeyUp: handleEnterPress,
                 onFocus: handleFocus,
-                'aria-labelledby': inputLabelledBy,
+                'aria-labelledby': 'institution-search-label',
               })}
             />
             {isOpen && (
-              <div className="suggestions-list" role="listbox">
+              <div
+                className="suggestions-list"
+                role="listbox"
+                id="ctKeywordSearch"
+              >
                 {suggestions.map((item, index) => (
                   <div
                     key={index}
@@ -138,19 +178,14 @@ export function KeywordSearch({
   );
 }
 
-KeywordSearch.defaultProps = {
-  placeholder: '',
-  onSelection: () => {},
-};
-
 KeywordSearch.propTypes = {
-  placeholder: PropTypes.string,
-  version: PropTypes.string,
-  inputLabelledBy: PropTypes.string,
+  error: PropTypes.string,
+  label: PropTypes.string,
   onFetchAutocompleteSuggestions: PropTypes.func,
   onSelection: PropTypes.func,
   onUpdateAutocompleteSearchTerm: PropTypes.func,
-  validateSearchQuery: PropTypes.func,
+  validateSearchTerm: PropTypes.func,
+  version: PropTypes.string,
 };
 
 export default KeywordSearch;

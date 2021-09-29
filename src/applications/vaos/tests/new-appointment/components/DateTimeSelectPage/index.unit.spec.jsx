@@ -273,6 +273,10 @@ describe('VAOS <DateTimeSelectPage>', () => {
       );
     }
 
+    await waitFor(() => {
+      expect(button.disabled).to.not.be.ok;
+    });
+
     userEvent.click(button);
     expect(
       await screen.findByRole('radio', { name: '1:00 PM option selected' }),
@@ -419,18 +423,17 @@ describe('VAOS <DateTimeSelectPage>', () => {
     await setClinic(store, /yes/i);
     await setPreferredDate(store, preferredDate);
 
-    const screen = renderWithStoreAndRouter(
-      <Route component={DateTimeSelectPage} />,
-      {
-        store,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<DateTimeSelectPage />, {
+      store,
+    });
 
     await screen.findByText(
       /Please select an available date and time from the calendar below./i,
     );
 
-    userEvent.click(screen.getByText(/continue/i));
+    const continueButton = screen.getByText(/continue/i);
+    await waitFor(() => expect(continueButton.disabled).to.not.be.ok);
+    userEvent.click(continueButton);
     expect(
       await screen.findByText(
         'Please choose your preferred date and time for your appointment',

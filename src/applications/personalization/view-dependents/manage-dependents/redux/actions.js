@@ -49,14 +49,14 @@ export function submitFormData(stateKey, payload) {
           },
         },
       );
-      dispatch({
+      return dispatch({
         type: FORM_DATA_SUBMIT_SUCCESS,
         status: LOADING_STATUS.success,
         response,
         stateKey,
       });
     } catch (error) {
-      dispatch({
+      return dispatch({
         type: FORM_DATA_SUBMIT_FAILED,
         status: LOADING_STATUS.failed,
         error,

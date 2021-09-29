@@ -4,17 +4,17 @@ import Scroll from 'react-scroll';
 import { toIdSchema } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import { isEmptyObject, getItemSchema } from '../utils/helpers';
-
 import { SELECTED } from '../constants';
 import { IssueCard } from './IssueCard';
 import {
   missingIssuesErrorMessage,
   noneSelected,
+  MaxSelectionsAlert,
 } from '../content/additionalIssues';
 
 const Element = Scroll.Element;
 
-export const getContent = ({
+export const GetContent = ({
   handlers,
   registry,
   items,
@@ -125,19 +125,20 @@ export const getContent = ({
   });
 };
 
-export const renderPage = ({
+export const RenderPage = ({
   id,
   isReviewMode,
   isEditing,
   hasSelected,
-  showError,
+  showNoneSelectedError,
   showContent,
   showCheckbox,
-  atMax,
+  maxItemsLength,
   content,
   handlers,
+  showErrorModal,
 }) => {
-  const addButton = !atMax &&
+  const addButton = !maxItemsLength &&
     showCheckbox && (
       <button
         type="button"
@@ -150,21 +151,23 @@ export const renderPage = ({
 
   return isReviewMode ? (
     <>
-      {!showError && !hasSelected && noneSelected}
-      {showError && missingIssuesErrorMessage}
+      {!showNoneSelectedError && !hasSelected && noneSelected}
+      {showNoneSelectedError && missingIssuesErrorMessage}
       {content}
     </>
   ) : (
     <div
       className={`schemaform-field-container additional-issues-wrap ${
-        showError ? 'usa-input-error vads-u-margin-top--0' : ''
+        showNoneSelectedError ? 'usa-input-error vads-u-margin-top--0' : ''
       }`}
     >
       <Element name={`topOfTable_${id}`} />
-      {showError && missingIssuesErrorMessage}
+      {showNoneSelectedError && missingIssuesErrorMessage}
       {showContent && <dl className="va-growable review">{content}</dl>}
       {isEditing ? null : addButton}
-      {atMax && <p>You’ve entered the maximum number of items allowed.</p>}
+      {showErrorModal && (
+        <MaxSelectionsAlert showModal closeModal={handlers.closeModal} />
+      )}
     </div>
   );
 };

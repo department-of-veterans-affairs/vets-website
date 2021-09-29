@@ -16,7 +16,7 @@ import CalculateYourBenefitsForm from '../components/profile/CalculateYourBenefi
 import EstimatedBenefits from '../components/profile/EstimatedBenefits';
 import EstimateYourBenefitsSummarySheet from '../components/profile/EstimateYourBenefitsSummarySheet';
 import recordEvent from 'platform/monitoring/record-event';
-import SectionFooterField from '../components/profile/SectionFooterField';
+import LearnMoreLabel from '../components/LearnMoreLabel';
 
 export function CalculateYourBenefits({
   calculated,
@@ -174,6 +174,7 @@ export function CalculateYourBenefits({
                   href={profile.attributes.vetWebsiteLink}
                   target="_blank"
                   rel="noopener noreferrer"
+                  id="view-policy-link"
                 >
                   View policy
                 </a>
@@ -182,39 +183,65 @@ export function CalculateYourBenefits({
             )}
           </div>
 
-          <SectionFooterField
-            label="Protection against late VA payments"
-            value={
-              profile.attributes.section103Message
-                ? profile.attributes.section103Message
-                : 'No'
-            }
-            learnMoreOnClick={() => {
-              recordEvent({
-                event: 'gibct-modal-displayed',
-                'gibct-modal-displayed': 'protection-against-late-va-payments',
-              });
-              dispatchShowModal('section103');
-            }}
-          />
+          <div className="vads-u-padding-bottom--1 small-screen-font">
+            <LearnMoreLabel
+              text={'Protection against late VA payments'}
+              onClick={() => {
+                recordEvent({
+                  event: 'gibct-modal-displayed',
+                  'gibct-modal-displayed':
+                    'protection-against-late-va-payments',
+                });
+                dispatchShowModal('section103');
+              }}
+              buttonClassName="small-screen-font"
+              bold
+              buttonId="protection-against-late-payments-learn-more"
+            />
+            <strong>:</strong>
+            &nbsp;
+            {profile.attributes.section103Message
+              ? profile.attributes.section103Message
+              : 'No'}
+          </div>
 
-          <SectionFooterField
-            label="Yellow Ribbon Program"
-            value={profile.attributes.yr ? 'Yes' : 'No'}
-            learnMoreOnClick={() => {
-              recordEvent({
-                event: 'gibct-modal-displayed',
-                'gibct-modal-displayed': 'yribbon',
-              });
-              dispatchShowModal('yribbon');
-            }}
-          />
+          <div className="vads-u-padding-bottom--1 small-screen-font">
+            <LearnMoreLabel
+              text={'Yellow Ribbon Program'}
+              onClick={() => {
+                recordEvent({
+                  event: 'gibct-modal-displayed',
+                  'gibct-modal-displayed': 'yribbon',
+                });
+                dispatchShowModal('yribbon');
+              }}
+              buttonClassName="small-screen-font"
+              bold
+              buttonId="yellow-ribbon-additional-info-learn-more"
+            />
+            <strong>:</strong>
+            &nbsp;
+            {profile.attributes.yr ? 'Yes' : 'No'}
+          </div>
 
-          <SectionFooterField
-            label="Veteran Rapid Retraining Assistance Program (VRRAP)"
-            value={profile.attributes.vrrap ? 'Yes' : 'No'}
-            learnMoreOnClick={() => dispatchShowModal('vrrap')}
-          />
+          <div className="vads-u-padding-bottom--1 small-screen-font">
+            <LearnMoreLabel
+              text={'Veteran Rapid Retraining Assistance Program (VRRAP)'}
+              onClick={() => {
+                recordEvent({
+                  event: 'gibct-modal-displayed',
+                  'gibct-modal-displayed': 'vrrap',
+                });
+                dispatchShowModal('vrrap');
+              }}
+              buttonClassName="small-screen-font"
+              bold
+              buttonId="vrrap-learn-more"
+            />
+            <strong>:</strong>
+            &nbsp;
+            {profile.attributes.vrrap ? 'Yes' : 'No'}
+          </div>
         </>
       )}
     </div>

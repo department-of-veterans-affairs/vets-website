@@ -29,20 +29,28 @@ const testConfig = createTestConfig(
 
     pageHooks: {
       start: () => {
-        // wizard
-        cy.get('[type="radio"][value="compensation"]').click();
-        cy.get('[type="radio"][value="legacy-no"]').click();
-        cy.axeCheck();
-        cy.findByText(/review online/i, { selector: 'a' }).click();
+        cy.get('@testData').then(testData => {
+          // wizard
+          cy.get('[type="radio"][value="compensation"]').click();
+          if (!testData.hlrV2) {
+            cy.get('[type="radio"][value="legacy-no"]').click();
+          }
+          cy.axeCheck();
+          cy.findByText(/review online/i, { selector: 'a' }).click();
+        });
       },
 
       introduction: ({ afterHook }) => {
         afterHook(() => {
           if (Cypress.env('CI')) {
-            cy.get('[type="radio"][value="compensation"]').click();
-            cy.get('[type="radio"][value="legacy-no"]').click();
-            cy.axeCheck();
-            cy.findByText(/review online/i, { selector: 'a' }).click();
+            cy.get('@testData').then(testData => {
+              cy.get('[type="radio"][value="compensation"]').click();
+              if (!testData.hlrV2) {
+                cy.get('[type="radio"][value="legacy-no"]').click();
+              }
+              cy.axeCheck();
+              cy.findByText(/review online/i, { selector: 'a' }).click();
+            });
           }
           // Hit the start button
           cy.findAllByText(/start/i, { selector: 'button' })
@@ -99,6 +107,11 @@ const testConfig = createTestConfig(
       cy.intercept(
         'GET',
         `/v0${CONTESTABLE_ISSUES_API}compensation`,
+        mockContestableIssues,
+      );
+      cy.intercept(
+        'GET',
+        `/v1${CONTESTABLE_ISSUES_API}compensation`,
         mockContestableIssues,
       );
 

@@ -8,7 +8,7 @@ import Telephone, {
 import recordEvent from 'platform/monitoring/record-event';
 
 const titleLowerCase = (title = '') =>
-  `${title[0].toLowerCase()}${title.slice(1)}`;
+  `${title[0].toLowerCase() || ''}${title.slice(1)}`;
 
 const Alert = ({ title, content }) => (
   <div className="vads-l-grid-container vads-u-padding-left--0 vads-u-padding-bottom--5">

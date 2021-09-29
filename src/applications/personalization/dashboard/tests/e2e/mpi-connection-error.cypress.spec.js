@@ -5,7 +5,6 @@ import {
   disabilityCompensationExists,
   educationBenefitExists,
   healthCareInfoExists,
-  mockFeatureToggles,
 } from './helpers';
 
 describe('MyVA Dashboard', () => {
@@ -14,7 +13,6 @@ describe('MyVA Dashboard', () => {
       mockLocalStorage();
 
       cy.login(mockMPIErrorUser);
-      mockFeatureToggles();
     });
     it('should show an MPI error in place of the claims/appeals and health care sections', () => {
       cy.visit('my-va/');

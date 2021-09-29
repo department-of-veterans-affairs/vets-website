@@ -42,12 +42,17 @@ This is a multi-team project and questions are highly encouraged. There are seve
 
 ``` markdown
 /health-care/appointment-check-in/?id=xxxxxx
+/health-care/appointment-check-in/verify
 /health-care/appointment-check-in/update-information
 /health-care/appointment-check-in/details
 /health-care/appointment-check-in/see-staff
 /health-care/appointment-check-in/complete
 /health-care/appointment-check-in/error
 ```
+
+### What version of the api are we using?
+
+Currently, we are using the `v1` of the API, with `v0` behind a feature flip. The mocks in [api/mocks](/api/mocks) show the the current structure and routes used.
 
 ### How to run locally
 

@@ -38,34 +38,25 @@ function getEditButton(numberName) {
 }
 
 function deletePhoneNumber(numberName) {
-  getEditButton(numberName).click();
-
-  const phoneNumberInput = view.getByLabelText(
-    `${numberName} (U.S. numbers only)`,
-    { exact: false },
-  );
-
-  expect(phoneNumberInput).to.exist;
-
   // delete
   view
-    .getByText(new RegExp(`remove ${numberName}`, 'i'), {
+    .getByLabelText(new RegExp(`remove ${numberName}`, 'i'), {
       selector: 'button',
     })
     .click();
-  const confirmDeleteButton = view.getByText('Confirm', { selector: 'button' });
+  const confirmDeleteButton = view.getByText('Yes, remove my information', {
+    selector: 'button',
+  });
   confirmDeleteButton.click();
 
-  return { phoneNumberInput, confirmDeleteButton };
+  return { confirmDeleteButton };
 }
 
-// When the update happens while the Edit View is still active
+// When the update happens while the Delete Modal is still active
 async function testQuickSuccess(numberName) {
   server.use(...mocks.transactionPending);
 
-  const { confirmDeleteButton, phoneNumberInput } = deletePhoneNumber(
-    numberName,
-  );
+  const { confirmDeleteButton } = deletePhoneNumber(numberName);
 
   // Button should be disabled while the delete transaction is pending...
   // Waiting 10ms to make this check so that it happens _after_ the initial
@@ -83,8 +74,8 @@ async function testQuickSuccess(numberName) {
 
   server.use(...mocks.transactionSucceeded);
 
-  // wait for the edit mode to exit
-  await waitForElementToBeRemoved(phoneNumberInput);
+  // wait for the Delete Modal to exit
+  await waitForElementToBeRemoved(confirmDeleteButton);
 
   // the edit phone number button should still exist
   view.getByRole('button', { name: new RegExp(`edit.*${numberName}`, 'i') });
@@ -92,15 +83,15 @@ async function testQuickSuccess(numberName) {
   view.getByText(new RegExp(`add.*${numberName}`, 'i'));
 }
 
-// When the update happens but not until after the Edit View has exited and the
+// When the update happens but not until after the Delete Modal has exited and the
 // user returned to the read-only view
 async function testSlowSuccess(numberName) {
   server.use(...mocks.transactionPending);
 
-  const { phoneNumberInput } = deletePhoneNumber(numberName);
+  const { confirmDeleteButton } = deletePhoneNumber(numberName);
 
-  // wait for the edit mode to exit
-  await waitForElementToBeRemoved(phoneNumberInput);
+  // wait for the Delete Modal to exit
+  await waitForElementToBeRemoved(confirmDeleteButton);
 
   // check that the "we're deleting your..." message appears
   const deletingMessage = await view.findByText(
@@ -128,48 +119,62 @@ async function testTransactionCreationFails(numberName) {
   deletePhoneNumber(numberName);
 
   // expect an error to be shown
-  const alert = await view.findByTestId('edit-error-alert');
+  const alert = await view.findByTestId('delete-error-alert');
   expect(alert).to.have.descendant('div.usa-alert-error');
   expect(alert).to.contain.text(
-    `We’re sorry. We couldn’t update your ${numberName.toLowerCase()}. Please try again.`,
+    `We’re sorry. We can’t save your ${numberName.toLowerCase()} at this time. We’re working to fix this problem. Please try again or check back soon.`,
   );
 
-  // make sure that edit mode is not automatically exited
+  // make sure that Delete Modal is not automatically exited
   await wait(75);
-  expect(view.getByTestId('edit-error-alert')).to.exist;
+  expect(view.getByTestId('delete-error-alert')).to.exist;
   const editButton = getEditButton();
   expect(editButton).to.not.exist;
 }
 
-// When the update fails while the Edit View is still active
+// When the update fails while the Delete Modal is still active
 async function testQuickFailure(numberName) {
+  server.use(...mocks.transactionPending);
+
+  const { confirmDeleteButton } = deletePhoneNumber(numberName);
+
+  // Wait for the transaction to be created before checking the state of the
+  // buttons. In the past the buttons worked correctly while making the
+  // initial transaction but were re-enabled while the transaction was still
+  // pending.
+  await wait(10);
+  expect(view.queryByText('Cancel', { selector: 'button' })).to.not.exist;
+  expect(!!confirmDeleteButton.attributes.disabled).to.be.true;
+  expect(confirmDeleteButton)
+    .to.have.descendant('i')
+    .and.have.class('fa-spinner');
+
   server.use(...mocks.transactionFailed);
 
-  deletePhoneNumber(numberName);
-
   // expect an error to be shown
-  const alert = await view.findByTestId('edit-error-alert');
+  const alert = await view.findByTestId('delete-error-alert');
   expect(alert).to.have.descendant('div.usa-alert-error');
   expect(alert).to.contain.text(
-    `We’re sorry. We couldn’t update your ${numberName.toLowerCase()}. Please try again.`,
+    `We’re sorry. We can’t save your ${numberName.toLowerCase()} at this time. We’re working to fix this problem. Please try again or check back soon.`,
   );
 
-  // make sure that edit mode is not automatically exited
+  // waiting to make sure it doesn't auto exit
   await wait(75);
-  expect(view.getByTestId('edit-error-alert')).to.exist;
-  const editButton = getEditButton();
-  expect(editButton).to.not.exist;
+
+  // the buttons should be enabled again
+  expect(!!confirmDeleteButton.attributes.disabled).to.be.false;
+  expect(confirmDeleteButton).to.contain.text('Yes, remove my information');
 }
 
-// When the update fails but not until after the Edit View has exited and the
+// When the update fails but not until after the Delete Modal has exited and the
 // user returned to the read-only view
 async function testSlowFailure(numberName) {
   server.use(...mocks.transactionPending);
 
-  const { phoneNumberInput } = deletePhoneNumber(numberName);
+  const { confirmDeleteButton } = deletePhoneNumber(numberName);
 
-  // wait for the edit mode to exit
-  await waitForElementToBeRemoved(phoneNumberInput);
+  // wait for the Delete Modal to exit
+  await waitForElementToBeRemoved(confirmDeleteButton);
 
   // check that the "we're deleting your..." message appears
   const deletingMessage = await view.findByText(
@@ -187,7 +192,7 @@ async function testSlowFailure(numberName) {
   // make sure the error message appears
   expect(
     view.getByText(
-      /We couldn’t save your recent .* number update. Please try again later/i,
+      /We couldn’t save your recent .* update. Please try again later/i,
     ),
   ).to.exist;
 
@@ -228,16 +233,16 @@ describe('Deleting', () => {
       it('should handle a transaction that succeeds quickly', async () => {
         await testQuickSuccess(numberName);
       });
-      it('should handle a transaction that does not succeed until after the edit view exits', async () => {
+      it('should handle a transaction that does not succeed until after the Delete Modal exits', async () => {
         await testSlowSuccess(numberName);
       });
-      it('should show an error and not auto-exit edit mode if the transaction cannot be created', async () => {
+      it('should show an error and not auto-exit Delete Modal if the transaction cannot be created', async () => {
         await testTransactionCreationFails(numberName);
       });
-      it('should show an error and not auto-exit edit mode if the transaction fails quickly', async () => {
+      it('should show an error and not auto-exit Delete Modal if the transaction fails quickly', async () => {
         await testQuickFailure(numberName);
       });
-      it('should show an error if the transaction fails after the edit view exits', async () => {
+      it('should show an error if the transaction fails after the Delete Modal exits', async () => {
         await testSlowFailure(numberName);
       });
     });

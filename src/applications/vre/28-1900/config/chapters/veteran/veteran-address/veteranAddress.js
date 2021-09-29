@@ -2,6 +2,8 @@ import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { addressUiSchema } from 'applications/vre/definitions/profileAddress';
 
+import { VeteranAddressDescription } from '../../../../components/VeteranAddressDescription';
+
 const { veteranAddress, mainPhone, cellPhone, email } = fullSchema.properties;
 
 const checkboxTitle =
@@ -10,6 +12,10 @@ const checkboxTitle =
 export const schema = {
   type: 'object',
   properties: {
+    'view:addressDescription': {
+      type: 'object',
+      properties: {},
+    },
     veteranAddress,
     mainPhone,
     cellPhone,
@@ -22,6 +28,9 @@ export const schema = {
 };
 
 export const uiSchema = {
+  'view:addressDescription': {
+    'ui:description': VeteranAddressDescription,
+  },
   veteranAddress: addressUiSchema('veteranAddress', checkboxTitle, () => true),
   mainPhone: {
     'ui:required': () => true,

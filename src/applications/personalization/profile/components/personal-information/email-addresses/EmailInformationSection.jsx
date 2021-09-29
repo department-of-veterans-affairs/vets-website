@@ -31,32 +31,38 @@ const EmailInformationSection = ({ className, signInServiceName }) => {
   return (
     <div className={className}>
       <ProfileInfoTable
-        title="Contact email address"
+        title="Email addresses"
         fieldName="emailAddress"
         namedAnchor="email-address"
         level={2}
         data={[
           {
-            value: (
+            title: (
               <>
-                <p className="vads-u-margin-top--0">
-                  This is the email we’ll use to contact you.
-                </p>
-                <p>
-                  Your contact email may be different than the email you use to
-                  sign in. To view or update your sign-in email, go to the
-                  website where you manage your account information.
-                </p>
-                <a href={link} target="_blank" rel="noopener noreferrer">
-                  Update sign-in email address on {buttonText}
-                </a>
+                Contact email
+                <span className="vads-u-color--gray-medium vads-u-display--block vads-u-font-weight--normal">
+                  We use this email to send you information.
+                </span>
               </>
             ),
-          },
-          {
-            title: 'Contact email address',
             id: FIELD_IDS[FIELD_NAMES.EMAIL],
             value: <ContactInformationField fieldName={FIELD_NAMES.EMAIL} />,
+          },
+          {
+            title: 'Sign-in email',
+            value: (
+              <>
+                <span>
+                  The email you use to sign in to VA.gov may be different from
+                  your contact email.
+                </span>
+                <p>
+                  <a href={link} target="_blank" rel="noopener noreferrer">
+                    View or edit your sign-in email at {buttonText}
+                  </a>
+                </p>
+              </>
+            ),
           },
         ]}
         className="vads-u-margin-y--4"

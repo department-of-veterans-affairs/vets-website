@@ -1,22 +1,14 @@
 import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
-import Scroll from 'react-scroll';
 import appendQuery from 'append-query';
 
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import { ConfirmationPageContent } from '../../components/ConfirmationPageContent';
 
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
 const nextQuery = { next: window.location.pathname };
 const url1990 = appendQuery(
   '/education/apply-for-education-benefits/application/1990',
@@ -26,7 +18,7 @@ const url1990 = appendQuery(
 class ConfirmationPage extends React.Component {
   componentDidMount() {
     focusElement('.confirmation-page-title');
-    scrollToTop();
+    scrollToTop('topScrollElement');
   }
 
   render() {

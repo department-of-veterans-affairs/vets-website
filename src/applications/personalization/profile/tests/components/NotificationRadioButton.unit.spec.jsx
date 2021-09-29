@@ -71,7 +71,7 @@ describe('<NotificationRadioButtons>', () => {
     wrapper.unmount();
   });
 
-  it('renders a legend tag with the label attribute', () => {
+  it('renders an h3 tag with the label attribute', () => {
     const labelValue = 'test';
     const wrapper = shallow(
       <NotificationRadioButtons
@@ -83,7 +83,7 @@ describe('<NotificationRadioButtons>', () => {
     );
 
     // assert that legend element was rendered with label value as its text
-    const legendText = wrapper.find('span').text();
+    const legendText = wrapper.find('h3').text();
     expect(legendText).to.eql(labelValue);
     wrapper.unmount();
   });

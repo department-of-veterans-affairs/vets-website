@@ -136,7 +136,7 @@ export const transform = (formConfig, form) => {
         countryName: country,
       },
       telephoneNumber,
-      dateOfBirth: moment(dateOfBirth).format('MM/DD/YYYY'),
+      dateOfBirth: moment(dateOfBirth, 'YYYY-MM-DD').format('MM/DD/YYYY'),
       married: questions.isMarried,
       spouseFullName: {
         first: spouseFirst,

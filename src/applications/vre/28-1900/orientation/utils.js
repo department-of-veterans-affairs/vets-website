@@ -11,7 +11,7 @@ export const orientationSteps = [
     list: [
       'Transition back to civilian life',
       'Find employment, return to your former job, or start your own business',
-      'Receive education or training for a professional or vocational field that’s a good fit for you',
+      'Get education or training for a professional or vocational field that’s a good fit for you',
       'Receive independent living services if you can’t return to work right away',
     ],
     postText: () => (
@@ -25,7 +25,7 @@ export const orientationSteps = [
     number: 1,
     isVideoStep: false,
     isSubwayContent: false,
-    title: 'VR&E basic eligibility information',
+    title: 'VR&E basic benefit information',
     desc:
       'You can get up to 48 months of combined VA benefits. These benefits may include:',
     list: [
@@ -38,16 +38,17 @@ export const orientationSteps = [
         <p>
           If you are eligible for VR&E and another VA education benefit, speak
           with your Vocational Rehabilitation Counselor (VRC) to determine the
-          best fit for you. Generally, if you are entitled to both VR&E services
-          and eligible for Education benefits, using VR&E benefits might be more
-          beneficial. You should speak to a VRC before deciding.
+          best fit for you.{' '}
         </p>
         <p>
-          As a Veteran released from active duty before 1/1/2013, you're
-          eligible for VR&E benefits and services within a 12 year period. In
-          addition, if you are a Veteran or Service member with a Release from
-          Active Duty date on, or after, January 1, 2013 there is no eligibility
-          termination date.
+          If you’re a Veteran released from active duty before January 1, 2013,
+          you’re eligible for VR&E benefits and services within a 12 year
+          period. If you are a Veteran or Service member with a release date
+          date on, or after, January 1, 2013 there’s no eligibility end date.
+        </p>
+        <p>
+          <strong>Note:</strong> we may make this basic peirod of eligibility
+          longer in certain cases.
         </p>
       </>
     ),
@@ -81,9 +82,8 @@ export const orientationSteps = [
         items: [
           'Work with your VRC to assess your skills, aptitudes, abilities, and interests',
           'Work with your VRC to identify entitlement criteria (an employment handicap or a serious employment handicap)',
-          'If you are determined to be entitled to benefits, you VRC will tell you about next steps.',
+          'Your VRC will give you an entitlement determination and tell you about next steps',
           'Complete any tasks required for your next steps',
-          'If it is determined you are not entitled to VR&E benefits, your VRC will provide you with additional resources that may assist you',
         ],
       },
       {
@@ -99,8 +99,8 @@ export const orientationSteps = [
         step: 'five',
         title: 'Completion',
         items: [
-          'You found and kept a suitable job',
-          'You are able to live more independently',
+          'Gain the skills you’ll need to find employment and stay employed, or improve your ability to live independently',
+          'Tell your VRC when you find a job',
         ],
       },
     ],
@@ -121,8 +121,8 @@ export const orientationSteps = [
     ],
     postText: () => (
       <p>
-        Learn more about our support-and-services tracks by reading through a
-        series of short slides.
+        Learn more about our support-and-services tracks by watching a series of
+        short videos.
       </p>
     ),
   },
@@ -130,7 +130,7 @@ export const orientationSteps = [
     number: 4,
     isVideoStep: true,
     isSubwayContent: false,
-    title: 'Reemployment Track',
+    title: 'Reemployment track',
     subTitle: () => (
       <>
         <p>
@@ -144,7 +144,7 @@ export const orientationSteps = [
     ),
     path: 'SkRD2CDHB_E',
     desc:
-      'The Reemployment track provides support to you and your employer so you can return to your former job. This track is for claimants who served on active duty or in the National Guard and are now returning to their former job. If you’re in the Reemployment track, we’ll:',
+      'The Reemployment track provides support to you and your employer so you can return to your former job. This track is for active duty service members and members of the National Guard or Reserves.If you’re in the Reemployment track, we’ll:',
     list: [
       'Work with your employer to figure out how they can best support you',
       'Recommend changes to your physical workplace that can help you succeed',
@@ -157,7 +157,7 @@ export const orientationSteps = [
     number: 5,
     isVideoStep: true,
     isSubwayContent: false,
-    title: 'Rapid Access to Employment Track',
+    title: 'Rapid Access to Employment track',
     subTitle: () => (
       <>
         <p>
@@ -171,7 +171,7 @@ export const orientationSteps = [
     ),
     path: 'VkmTgQftRlk',
     desc:
-      'The Rapid Access to Employment track provides services that help Veterans start working right away. This track is right for you if you already have most of the skills you’ll need to be competitive in the labor market in a suitable occupation. If you’re in the Rapid Access to Employment track, we’ll help you:',
+      'The Rapid Access to Employment track provides services that help Veterans start working right away. This track is right for you if you already have most of the skills you’ll need for the type of job you want. If you’re in the Rapid Access to Employment track, we’ll help you:',
     list: [
       'Find a job that works for your individual skillset and abilities',
       'Prepare for your job by learning about time management, good communication, and other skills',
@@ -179,14 +179,14 @@ export const orientationSteps = [
       'Prepare for job interviews',
       'Search for a job',
       'Get support from the Department of Labor (DOL) to search for a job',
-      'Participate in monthly post-employment follow-up discussions with someone from VR&E after you’ve started working so we can assess how you’re adjusting and if you need any further support',
+      'Connect with someone from VR&E after you’ve started working to find out how you’re adjusting and if you need any further support',
     ],
   },
   {
     number: 6,
     isVideoStep: true,
     isSubwayContent: false,
-    title: 'Self-Employment Track',
+    title: 'Self-Employment track',
     subTitle: () => (
       <>
         <p>
@@ -212,7 +212,7 @@ export const orientationSteps = [
     number: 7,
     isVideoStep: true,
     isSubwayContent: false,
-    title: 'Employment Through Long-Term Services Track',
+    title: 'Employment Through Long-Term Services track',
     subTitle: () => (
       <>
         <p>
@@ -244,7 +244,7 @@ export const orientationSteps = [
     number: 8,
     isVideoStep: true,
     isSubwayContent: false,
-    title: 'Independent Living Track',
+    title: 'Independent Living track',
     subTitle: () => (
       <>
         <p>

@@ -17,9 +17,6 @@ export const phoneFormSchema = {
       type: 'string',
       pattern: '^\\s*[a-zA-Z0-9]{0,10}\\s*$',
     },
-    isTextPermitted: {
-      type: 'boolean',
-    },
   },
   required: ['inputPhoneNumber'],
 };
@@ -39,26 +36,11 @@ export const phoneUiSchema = fieldName => {
         pattern: 'Please enter a valid extension.',
       },
     },
-    isTextPermitted: {
-      'ui:title':
-        'Send me text message (SMS) reminders for my VA health care appointments',
-      'ui:options': {
-        hideIf: formData => !formData['view:showSMSCheckbox'],
-      },
-    },
   };
 };
 
 export const phoneConvertNextValueToCleanData = value => {
-  const {
-    id,
-    countryCode,
-    extension,
-    phoneType,
-    inputPhoneNumber,
-    isTextable,
-    isTextPermitted,
-  } = value;
+  const { id, countryCode, extension, phoneType, inputPhoneNumber } = value;
 
   const strippedPhone = (inputPhoneNumber || '').replace(/[^\d]/g, '');
   const strippedExtension = (extension || '').replace(/[^a-zA-Z0-9]/g, '');
@@ -70,8 +52,6 @@ export const phoneConvertNextValueToCleanData = value => {
     extension: strippedExtension,
     inputPhoneNumber,
     isInternational: countryCode !== USA.COUNTRY_CODE,
-    isTextable,
-    isTextPermitted,
     phoneNumber: strippedPhone.substring(3),
     phoneType,
   };
@@ -89,8 +69,6 @@ export const phoneConvertCleanDataToPayload = (data, fieldName) => {
       countryCode: USA.COUNTRY_CODE, // currently no international phone number support
       extension: cleanData.extension,
       isInternational: false, // currently no international phone number support
-      isTextable: cleanData.isTextable,
-      isTextPermitted: cleanData.isTextPermitted,
       phoneNumber: cleanData.phoneNumber,
       phoneType: PHONE_TYPE[fieldName],
     },

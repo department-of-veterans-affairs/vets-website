@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import set from '../../../../utilities/data/set';
 import Downshift from 'downshift';
 import classNames from 'classnames';
 
@@ -126,7 +126,7 @@ export default class AutosuggestField extends React.Component {
       return suggestion.label;
     }
 
-    return _.set('widget', 'autosuggest', suggestion);
+    return set('widget', 'autosuggest', suggestion);
   };
 
   getItemFromInput = (inputValue, suggestions, uiOptions) => {

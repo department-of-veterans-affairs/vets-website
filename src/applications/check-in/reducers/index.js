@@ -1,15 +1,25 @@
-const initialState = {};
+const initialState = {
+  appointments: [],
+  context: {},
+};
 
-import { RECEIVED_APPOINTMENT_DETAILS, WAS_CHECKED_IN } from '../actions';
+import {
+  RECEIVED_APPOINTMENT_DETAILS,
+  TOKEN_WAS_VALIDATED,
+  PERMISSIONS_UPDATED,
+} from '../actions';
 
 const checkInReducer = (state = initialState, action) => {
-  // console.log({ state, action });
   switch (action.type) {
     case RECEIVED_APPOINTMENT_DETAILS:
-      return { ...state, ...action.value };
-    case WAS_CHECKED_IN:
-      return { ...state, data: action.data };
-
+      return { ...state, ...action.data };
+    case PERMISSIONS_UPDATED:
+      return {
+        ...state,
+        context: { ...state.context, scope: action.value.scope },
+      };
+    case TOKEN_WAS_VALIDATED:
+      return { ...state, ...action.data };
     default:
       return { ...state };
   }

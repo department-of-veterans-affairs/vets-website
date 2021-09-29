@@ -81,6 +81,11 @@ describe('Federal orders info', () => {
         uiSchema={uiSchema}
         data={{}}
         formData={{}}
+        appStateData={{
+          servicePeriods: [
+            { serviceBranch: 'Reserve', dateRange: { from: '2008-03-12' } },
+          ],
+        }}
         onSubmit={onSubmit}
       />,
     );
@@ -117,6 +122,11 @@ describe('Federal orders info', () => {
         uiSchema={uiSchema}
         data={{}}
         formData={{}}
+        appStateData={{
+          servicePeriods: [
+            { serviceBranch: 'Reserve', dateRange: { from: '2008-03-12' } },
+          ],
+        }}
         onSubmit={onSubmit}
       />,
     );
@@ -155,6 +165,11 @@ describe('Federal orders info', () => {
         uiSchema={uiSchema}
         data={{}}
         formData={{}}
+        appStateData={{
+          servicePeriods: [
+            { serviceBranch: 'Reserve', dateRange: { from: '2008-03-12' } },
+          ],
+        }}
         onSubmit={onSubmit}
       />,
     );

@@ -14,10 +14,12 @@ import {
   TYPES_OF_EYE_CARE,
   FETCH_STATUS,
   AUDIOLOGY_TYPES_OF_CARE,
+  FACILITY_SORT_METHODS,
 } from '../../utils/constants';
 import { getSiteIdFromFacilityId } from '../../services/location';
 import {
   selectHasVAPResidentialAddress,
+  selectFeatureCCIterations,
   selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
   selectFeatureVariantTesting,
@@ -45,10 +47,12 @@ export function getAppointmentLength(state) {
 }
 
 export function getFormPageInfo(state, pageKey) {
+  const showCCIterations = selectFeatureCCIterations(state);
   return {
     schema: getNewAppointment(state).pages[pageKey],
     data: getFormData(state),
     pageChangeInProgress: getNewAppointment(state).pageChangeInProgress,
+    showCCIterations,
   };
 }
 
@@ -196,6 +200,7 @@ export function selectCernerOrgIds(state) {
 }
 
 export function selectProviderSelectionInfo(state) {
+  const showCCIterations = selectFeatureCCIterations(state);
   const {
     communityCareProviders,
     data,
@@ -203,19 +208,30 @@ export function selectProviderSelectionInfo(state) {
     requestLocationStatus,
     currentLocation,
     ccProviderPageSortMethod: sortMethod,
+    ccEnabledSystems,
+    selectedCCFacility,
   } = getNewAppointment(state);
 
   const typeOfCare = getTypeOfCare(data);
-
+  const ccProviderCacheKey =
+    sortMethod === FACILITY_SORT_METHODS.distanceFromFacility
+      ? `${sortMethod}_${selectedCCFacility.id}_${typeOfCare.ccId}`
+      : `${sortMethod}_${typeOfCare.ccId}`;
+  const updatedSortMethod =
+    sortMethod === FACILITY_SORT_METHODS.distanceFromFacility
+      ? selectedCCFacility.id
+      : sortMethod;
   return {
     address: selectVAPResidentialAddress(state),
-    typeOfCareName: typeOfCare.name,
-    communityCareProviderList:
-      communityCareProviders[`${sortMethod}_${typeOfCare.ccId}`],
-    requestStatus,
-    requestLocationStatus,
+    ccEnabledSystems,
+    communityCareProviderList: communityCareProviders[ccProviderCacheKey],
     currentLocation,
-    sortMethod,
+    requestLocationStatus,
+    requestStatus,
+    selectedCCFacility,
+    showCCIterations,
+    sortMethod: updatedSortMethod,
+    typeOfCareName: typeOfCare.name,
   };
 }
 
@@ -301,22 +317,22 @@ export function getClinicsForChosenFacility(state) {
   return clinics[`${data.vaFacility}_${typeOfCareId}`] || null;
 }
 
-export function getClinicPageInfo(state, pageKey) {
-  const formPageInfo = getFormPageInfo(state, pageKey);
-  const newAppointment = getNewAppointment(state);
-  const eligibility = selectEligibility(state);
-  const typeOfCare = getTypeOfCare(formPageInfo.data);
+export function selectPastAppointments(state) {
+  return getNewAppointment(state).pastAppointments;
+}
 
-  return {
-    ...formPageInfo,
-    facility: newAppointment.facilities[typeOfCare.id].find(
-      facility => facility.id === formPageInfo.data.vaFacility,
-    ),
-    typeOfCare,
-    clinics: getClinicsForChosenFacility(state),
-    eligibility,
-    canMakeRequests: eligibility?.request,
-  };
+export function selectTypeOfCare(state) {
+  return getTypeOfCare(getFormData(state));
+}
+
+export function selectChosenFacilityInfo(state) {
+  const formData = getFormData(state);
+  const typeOfCare = getTypeOfCare(formData);
+  const newAppointment = getNewAppointment(state);
+
+  return newAppointment.facilities[typeOfCare.id].find(
+    facility => facility.id === formData.vaFacility,
+  );
 }
 
 export function getChosenVACityState(state) {

@@ -1,11 +1,11 @@
-import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
+import { mockLocalStorage } from './dashboard-e2e-helpers';
 import mockNotInMPIUser from '~/applications/personalization/profile/tests/fixtures/users/user-not-in-mpi.json';
+import { mockGETEndpoints } from '~/applications/personalization/profile/tests/e2e/helpers';
 
 import {
   disabilityCompensationExists,
   educationBenefitExists,
   healthCareInfoExists,
-  mockFeatureToggles,
 } from './helpers';
 
 describe('MyVA Dashboard', () => {
@@ -14,7 +14,15 @@ describe('MyVA Dashboard', () => {
       mockLocalStorage();
 
       cy.login(mockNotInMPIUser);
-      mockFeatureToggles();
+      mockGETEndpoints([
+        'v0/profile/ch33_bank_accounts',
+        'v0/profile/full_name',
+        'v0/profile/personal_information',
+        'v0/profile/service_history',
+        'v0/disability_compensation_form/rating_info',
+        'v0/feature_toggles*',
+        'v0/health_care_applications/enrollment_status',
+      ]);
     });
     it('should show a "not in MPI" error in place of the claims/appeals and health care sections', () => {
       cy.visit('my-va/');

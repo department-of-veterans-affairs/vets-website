@@ -5,8 +5,6 @@ import disabilityRating from '@@profile/tests/fixtures/disability-rating-success
 
 import manifest from 'applications/personalization/dashboard/manifest.json';
 
-import { mockFeatureToggles } from './helpers';
-
 describe('The My VA Dashboard', () => {
   const oneDayInSeconds = 24 * 60 * 60;
   const oneWeekInSeconds = 24 * 60 * 60 * 7;
@@ -102,7 +100,6 @@ describe('The My VA Dashboard', () => {
       ];
       mockUser.data.attributes.inProgressForms = savedForms;
       cy.login(mockUser);
-      mockFeatureToggles();
       cy.visit(manifest.rootUrl);
     });
     it('should show benefit applications that were saved in progress and have not expired', () => {
@@ -148,7 +145,6 @@ describe('The My VA Dashboard', () => {
       ];
       mockUser.data.attributes.inProgressForms = savedForms;
       cy.login(mockUser);
-      mockFeatureToggles();
       cy.visit(manifest.rootUrl);
     });
     it('should show fallback content when there are no benefit applications saved in progress', () => {

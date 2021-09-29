@@ -1,5 +1,7 @@
 import { PROFILE_PATHS } from '@@profile/constants';
 
+import { mockNotificationSettingsAPIs } from '../helpers';
+
 import mockUser from '../../fixtures/users/user-36.json';
 
 const deepLinks = [
@@ -16,7 +18,7 @@ const deepLinks = [
     url: `${PROFILE_PATHS.PERSONAL_INFORMATION}#email-address`,
     expectedTarget: {
       role: 'heading',
-      name: 'Contact email address',
+      name: 'Email addresses',
     },
   },
   {
@@ -71,6 +73,9 @@ function checkAllDeepLinks(mobile = false) {
 describe('Profile', () => {
   beforeEach(() => {
     cy.login(mockUser);
+    // These APIs are not needed for the tests. but mocking them makes
+    // everything run faster
+    mockNotificationSettingsAPIs();
   });
   it('should manage focus for all supported deep links on desktop size', () => {
     checkAllDeepLinks(false);

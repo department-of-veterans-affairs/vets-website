@@ -82,8 +82,8 @@ class VAPServiceEditModalActionButtons extends React.Component {
     const alertContent = (
       <div>
         <p>
-          This will delete your {toLower(this.props.title)} across many VA
-          records. You can always come back to your profile later if you'd like
+          This will remove your {toLower(this.props.title)} across many VA
+          records. You can always come back to your profile later if you’d like
           to add this information back in.
         </p>
         <div>

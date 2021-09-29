@@ -15,12 +15,15 @@ import * as Sentry from '@sentry/browser';
 import chaiAxe from './axe-plugin';
 
 import { sentryTransport } from './sentry';
+import { configure } from '@testing-library/dom';
 
 Sentry.init({
   autoSessionTracking: false,
   dsn: 'http://one@fake/dsn/0',
   transport: sentryTransport,
 });
+
+configure({ defaultHidden: true });
 
 global.__BUILDTYPE__ = process.env.BUILDTYPE || ENVIRONMENTS.VAGOVDEV;
 global.__API__ = null;
