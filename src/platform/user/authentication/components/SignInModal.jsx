@@ -164,7 +164,7 @@ export class SignInModal extends React.Component {
   };
 
   renderModalContent = ({ globalDowntime }) => (
-    <main className="login">
+    <section className="login">
       <div className="row">
         <div className="columns">
           <div className="logo">
@@ -206,7 +206,6 @@ export class SignInModal extends React.Component {
                       <span className="sr-only">Login.gov</span>
                       <img
                         aria-hidden="true"
-                        role="presentation"
                         alt="ID.me"
                         src={`${vaGovFullDomain}/img/signin/login-gov-logo-rev.svg`}
                       />
@@ -221,7 +220,6 @@ export class SignInModal extends React.Component {
                     <span className="sr-only">ID.me</span>
                     <img
                       aria-hidden="true"
-                      role="presentation"
                       alt="ID.me"
                       src={`${vaGovFullDomain}/img/signin/idme-icon-white.svg`}
                     />
@@ -234,7 +232,6 @@ export class SignInModal extends React.Component {
                     Sign in with
                     <img
                       aria-hidden="true"
-                      role="presentation"
                       alt="DS Logon"
                       src={`${vaGovFullDomain}/img/signin/dslogon-icon.svg`}
                     />
@@ -248,7 +245,6 @@ export class SignInModal extends React.Component {
                     Sign in with
                     <img
                       aria-hidden="true"
-                      role="presentation"
                       alt="My HealtheVet"
                       src={`${vaGovFullDomain}/img/signin/mhv-icon.svg`}
                     />
@@ -269,7 +265,6 @@ export class SignInModal extends React.Component {
                         <span className="sr-only">Login.gov</span>
                         <img
                           aria-hidden="true"
-                          role="presentation"
                           alt="ID.me"
                           src={`${vaGovFullDomain}/img/signin/login-gov-logo.svg`}
                         />
@@ -284,7 +279,6 @@ export class SignInModal extends React.Component {
                       <span className="sr-only">ID.me</span>
                       <img
                         aria-hidden="true"
-                        role="presentation"
                         alt="ID.me"
                         src={`${vaGovFullDomain}/img/signin/idme-icon-dark.svg`}
                       />
@@ -378,7 +372,7 @@ export class SignInModal extends React.Component {
           </div>
         </div>
       </div>
-    </main>
+    </section>
   );
 
   render() {

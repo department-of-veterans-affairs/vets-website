@@ -28,8 +28,7 @@ export default function SignInButtons({ isDisabled, useLoginGov }) {
           <span className="sr-only">Login.gov</span>
           <img
             aria-hidden="true"
-            role="presentation"
-            alt="ID.me"
+            alt="Login.gov"
             src={`${vaGovFullDomain}/img/signin/login-gov-logo-rev.svg`}
           />
         </button>
@@ -43,7 +42,6 @@ export default function SignInButtons({ isDisabled, useLoginGov }) {
         <span className="sr-only">ID.me</span>
         <img
           aria-hidden="true"
-          role="presentation"
           alt="ID.me"
           src={`${vaGovFullDomain}/img/signin/idme-icon-white.svg`}
         />
@@ -56,7 +54,6 @@ export default function SignInButtons({ isDisabled, useLoginGov }) {
         Sign in with
         <img
           aria-hidden="true"
-          role="presentation"
           alt="DS Logon"
           src={`${vaGovFullDomain}/img/signin/dslogon-icon.svg`}
         />
@@ -71,7 +68,6 @@ export default function SignInButtons({ isDisabled, useLoginGov }) {
         <span className="sr-only">My HealtheVet</span>
         <img
           aria-hidden="true"
-          role="presentation"
           alt="My HealtheVet"
           className="mhv-icon"
           src={`${vaGovFullDomain}/img/signin/mhv-logo-white.svg`}
@@ -92,8 +88,7 @@ export default function SignInButtons({ isDisabled, useLoginGov }) {
             <span className="sr-only">Login.gov</span>
             <img
               aria-hidden="true"
-              role="presentation"
-              alt="ID.me"
+              alt="Login.gov"
               src={`${vaGovFullDomain}/img/signin/login-gov-logo.svg`}
             />
           </button>
@@ -107,7 +102,6 @@ export default function SignInButtons({ isDisabled, useLoginGov }) {
           <span className="sr-only">ID.me</span>
           <img
             aria-hidden="true"
-            role="presentation"
             alt="ID.me"
             src={`${vaGovFullDomain}/img/signin/idme-icon-dark.svg`}
           />
