@@ -1055,8 +1055,6 @@ const formConfig = {
           path: 'benefit-selection',
           title: 'Benefit selection',
           subTitle: "You're applying for the Post-9/11 GI Bill®",
-          instructions:
-            'Currently, you can only apply for Post-9/11 Gi Bill (Chapter 33) benefits through this application/ If you would like to apply for other benefits, please visit out How to Apply page.',
           uiSchema: {
             'view:post911Notice': {
               'ui:description': (
@@ -1068,14 +1066,20 @@ const formConfig = {
                     to give up one other benefit you may be eligible for.
                   </p>
                   <p>
-                    <strong>This decision is final</strong>, which means you
-                    can’t change your mind after you submit this application.
+                    Because you are applying for the Post-9/11 GI Bill, you have
+                    to give up one other benefit you may be eligible for.
+                  </p>
+                  <p>
+                    You cannot change your decision after you submit this
+                    application.
                   </p>
                   <AdditionalInfo triggerText="Why do I have to give up a benefit?">
                     <p>
-                      Per 38 USC 3327, If you are eligible for both the
-                      Post-9/11 GI Bill and other education benefits, you must
-                      give up one benefit you may be eligible for.
+                      The law says if you are eligible for both the Post-9/11 GI
+                      Bill and another education benefit based on the same
+                      period of active duty, you must give one up. One
+                      qualifying period of active duty can only be used for one
+                      VA education benefit.
                     </p>
                   </AdditionalInfo>
                 </>
@@ -1152,16 +1156,17 @@ const formConfig = {
               'ui:description': (
                 <ul>
                   <li>
-                    We’ve set the date to one year ago to begin paying you
-                    immediately
+                    You can select a date up to one year in the past. We may be
+                    able to pay you benefits for education or training taken
+                    during this time.
                   </li>
                   <li>
-                    Select a future date if you don’t need to use your benefits
-                    until then
+                    We can’t pay for education or training taken more than one
+                    year before the date of your application for benefits.
                   </li>
                   <li>
-                    If your classes started less than 2 years ago, enter the
-                    date they began
+                    If you are currently using another benefit, select the date
+                    you would like to start using the Post-9/11 GI Bill.
                   </li>
                 </ul>
               ),
