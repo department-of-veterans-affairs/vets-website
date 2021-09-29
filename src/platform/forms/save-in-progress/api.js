@@ -99,7 +99,9 @@ export function saveFormApi(
         });
       } else {
         Sentry.captureException(resOrError);
-        Sentry.captureMessage('vets_sip_error_save');
+        Sentry.withScope(() => {
+          Sentry.captureMessage('vets_sip_error_save');
+        });
         recordEvent({
           event: `${trackingPrefix}sip-form-save-failed-client`,
         });
