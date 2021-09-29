@@ -495,7 +495,7 @@ jobs:
         run: echo ::set-output name=selected::$TESTS
 
   cypress-tests:
-    name: Cypress E2E Tests  
+    name: Cypress E2E Tests   
     runs-on: self-hosted
     needs: [build, cypress-tests-prep]
     if: ${{ needs.cypress-tests-prep.outputs.num_containers > 0 }}
