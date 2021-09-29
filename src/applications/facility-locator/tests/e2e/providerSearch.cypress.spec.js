@@ -7,7 +7,7 @@ describe('Provider search', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles?*', []);
     cy.intercept('GET', '/v0/maintenance_windows', []);
-    cy.intercept('GET', '/v1/facilities/va?*', mockFacilityDataV1).as(
+    cy.intercept('GET', '/facilities_api/**', mockFacilityDataV1).as(
       'searchFacilities',
     );
     cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
