@@ -271,6 +271,44 @@ const responses = {
       },
     });
   },
+  'GET /vaos/v2/eligibility': (req, res) => {
+    const isDirect = req.query.type === 'direct';
+    const ineligibilityReasons = [];
+
+    if (
+      isDirect &&
+      (!req.query.facility_id.startsWith('984') ||
+        req.query.clinical_service_id === 'primaryCare')
+    ) {
+      ineligibilityReasons.push({
+        coding: [
+          {
+            code: 'ineligible-history',
+          },
+        ],
+      });
+    }
+    if (!isDirect && req.query.facility_id.startsWith('983')) {
+      ineligibilityReasons.push({
+        coding: [
+          {
+            code: 'ineligible-limit',
+          },
+        ],
+      });
+    }
+
+    return res.json({
+      data: {
+        attributes: {
+          type: req.query.type,
+          clinicalServiceId: req.query.clinical_service_id,
+          eligible: ineligibilityReasons.length === 0,
+          ineligibilityReasons,
+        },
+      },
+    });
+  },
   'GET /vaos/v2/locations/:id/clinics': (req, res) => {
     if (req.query.clinic_ids) {
       return res.json({

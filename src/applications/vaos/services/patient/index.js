@@ -184,14 +184,27 @@ export async function fetchPatientEligibility({
 
     if (results.direct instanceof Error) {
       output.direct = new Error('Direct scheduling eligibility check error');
-    } else {
-      output.direct = results.direct || null;
+    } else if (results.direct) {
+      output.direct = {
+        eligible: results.direct.eligible,
+        hasRequiredAppointmentHistory: !results.direct.ineligibilityReasons.some(
+          reason => reason.coding[0].code === 'ineligible-history',
+        ),
+      };
     }
 
     if (results.request instanceof Error) {
       output.request = new Error('Request eligibility check error');
-    } else {
-      output.request = results.request || null;
+    } else if (results.request) {
+      output.request = {
+        eligible: results.request.eligible,
+        hasRequiredAppointmentHistory: !results.request.ineligibilityReasons.some(
+          reason => reason.coding[0].code === 'ineligible-history',
+        ),
+        isEligibleForNewAppointmentRequest: !results.request.ineligibilityReasons.some(
+          reason => reason.coding[0].code === 'ineligible-limit',
+        ),
+      };
     }
 
     return output;
