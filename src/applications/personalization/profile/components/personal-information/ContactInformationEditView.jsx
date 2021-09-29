@@ -80,6 +80,11 @@ export class ContactInformationEditView extends Component {
     }
   }
 
+  clearErrorsAndShiftFocus(fieldName) {
+    this.props.clearTransactionRequest(fieldName);
+    focusElement('[data-testid="save-edit-button"]');
+  }
+
   componentDidMount() {
     const { getInitialFormValues } = this.props;
     this.onChangeFormDataAndSchemas(
@@ -93,6 +98,13 @@ export class ContactInformationEditView extends Component {
   componentDidUpdate(prevProps) {
     if (!prevProps.field && !!this.props.field) {
       this.focusOnFirstFormElement();
+    }
+
+    if (
+      this.props.transactionRequest?.error ||
+      isFailedTransaction(this.props.transaction)
+    ) {
+      focusElement('button[aria-label="Close notification"]');
     }
 
     // if the transaction just became pending, start calling
@@ -264,7 +276,7 @@ export class ContactInformationEditView extends Component {
             <VAPServiceEditModalErrorMessage
               title={title}
               error={error}
-              clearErrors={() => this.props.clearTransactionRequest(fieldName)}
+              clearErrors={() => this.clearErrorsAndShiftFocus(fieldName)}
             />
           </div>
         )}

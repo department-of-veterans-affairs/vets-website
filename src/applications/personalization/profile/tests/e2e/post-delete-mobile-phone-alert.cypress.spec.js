@@ -8,7 +8,7 @@ import transactionSucceeded from '@@profile/tests/fixtures/transactions/finished
 import { mockFeatureToggles, mockNotificationSettingsAPIs } from './helpers';
 import { PROFILE_PATHS } from '../../constants';
 
-describe('Return to Notification Settings CTA', () => {
+describe('Contact info update success alert', () => {
   beforeEach(() => {
     mockFeatureToggles();
     mockNotificationSettingsAPIs();
@@ -18,12 +18,12 @@ describe('Return to Notification Settings CTA', () => {
       contactInformation: contactInfoWithoutMobilePhone,
     });
     const userWithMobilePhone = makeUserObject();
-    cy.login(userWithoutMobilePhone);
+    cy.login(userWithMobilePhone);
     cy.intercept('GET', '/v0/profile/communication_preferences', {
       statusCode: 200,
       body: mockCommunicationPreferences,
     });
-    cy.intercept('POST', '/v0/profile/telephones', {
+    cy.intercept('DELETE', '/v0/profile/telephones', {
       statusCode: 200,
       body: transactionReceived,
     });
@@ -33,34 +33,28 @@ describe('Return to Notification Settings CTA', () => {
     });
     cy.intercept('GET', '/v0/user?*', {
       statusCode: 200,
-      body: userWithMobilePhone,
+      body: userWithoutMobilePhone,
     });
   });
-  // TODO remove the skip once we can confirm this works well on staging and we
-  // confirm the non-CTA message to show in the
-  // ContactInformationSaveSuccessAlert component
-  it.skip('should be shown after adding mobile phone number', () => {
+  // TODO remove the skip once we can confirm this works well on staging
+  it.skip('should be shown after deleting mobile phone number', () => {
     cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
-    cy.findByRole('link', { name: /add.*mobile phone/i }).click();
-    cy.findByRole('button', { name: /edit mobile phone/i })
-      .should('be.focused')
-      // I'd like to simulate hitting `enter` instead of clicking, but doing
-      // .type('{enter}') does not work because a button cannot receive a
-      // .type() call
-      .click();
+    cy.findByRole('link', { name: /update mobile phone/i }).click();
+    cy.findByRole('button', { name: /remove mobile phone/i }).click();
 
     cy.injectAxeThenAxeCheck();
-    // this serves as a test that the text field has focus when you enter edit
-    // mode for a piece of contact info
-    cy.focused()
-      .clear()
-      .type('4155551234{enter}');
+
+    // confirm the deletion action. This button is _not_ the same as the one
+    // that was just clicked in the previous step
+    cy.findByRole('button', { name: /remove mobile phone/i }).click();
+
     cy.injectAxeThenAxeCheck();
 
     cy.findByText(/update saved/i).should('exist');
-    cy.injectAxeThenAxeCheck();
-    cy.findByRole('link', { name: /manage text notifications/i }).click();
+    cy.findByRole('link', { name: /manage text notifications/i }).should(
+      'not.exist',
+    );
 
-    cy.url().should('contain', PROFILE_PATHS.NOTIFICATION_SETTINGS);
+    cy.injectAxeThenAxeCheck();
   });
 });

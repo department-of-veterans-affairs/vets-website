@@ -11,9 +11,9 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_22_0994: '22-0994',
   FORM_22_1990: '22-1990',
   FORM_22_1990E: '22-1990E',
+  FORM_22_1990EZ: '22-1990EZ',
   FORM_22_1990N: '22-1990N',
   FORM_22_1990S: '22-1990S',
-  FORM_22_1990_MEB: '22-1990-MEB', // there will be a new formal form name that will be provided for my educations benefit. Setting to 22-1990-MEB this while the procedures team provides it.
   FORM_22_1995: '22-1995',
   FORM_22_1995S: '22-1995S',
   FORM_22_5490: '22-5490',

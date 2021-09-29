@@ -1980,10 +1980,10 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@^3.1.1":
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.1.1.tgz#f8f1773f06c5b02dadc1b54554b091ebc9e06276"
-  integrity sha512-OM0dH8K4lg7t/97ldwytjMaNvFcm8BcF376SM71Aw4/c5yvMAAgQ+T9g4Rdh+Am9h4xrxMvqTeevXL7E3Ev+cQ==
+"@department-of-veterans-affairs/component-library@3.1.2":
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.1.2.tgz#6c3c11ec8eac91762b9d192d8cbd1117bb81ed9e"
+  integrity sha512-9y8HBE/nAjU3hu8NrSqYJMdaUYncd8uHZKR6tswZ7HIv9w/3hil85rbaR6cIAGrBV60dOiiyy5IpYdD28tFXbQ==
   dependencies:
     classnames "^2.2.6"
     core-js "^3.9.0"
@@ -1998,10 +1998,10 @@
     react-transition-group "1"
     recast "^0.14.4"
 
-"@department-of-veterans-affairs/formation@6.17.2":
-  version "6.17.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.17.2.tgz#4daef23cbf01edfc3aff0b5b1750556bc641cf99"
-  integrity sha512-nhOecnMZfFQTgECSvTKe5DxQk7GXZ8Qaqh67aLyb0AkWTTA6/nffbEgehjIeoWlgkhJCV4WstqtrMRSIEvNhCA==
+"@department-of-veterans-affairs/formation@6.17.3":
+  version "6.17.3"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.17.3.tgz#204a1e86d041eec30c6ed8a16c8f74f94498dc21"
+  integrity sha512-JS103tNPG4oHYAL3PZoeEWpUdkZVNqAqkegM82Sv5L4hkf5hpPZdrmulIi7xFXE3tmfWc1rHLXL2uMf8auOKYg==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
@@ -19026,9 +19026,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#ee4f523edbd30cb54016e66a3cafda044834633f":
-  version "20.13.1"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#ee4f523edbd30cb54016e66a3cafda044834633f"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#3a0946727d9013ff2771af37bfca0c4c0ff0a1d5":
+  version "20.14.0"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#3a0946727d9013ff2771af37bfca0c4c0ff0a1d5"
 
 vfile-message@^2.0.0:
   version "2.0.4"
@@ -19181,9 +19181,9 @@ wcwidth@^1.0.1:
   dependencies:
     defaults "^1.0.3"
 
-"web-components@https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.9.4":
-  version "0.9.4"
-  resolved "https://github.com/department-of-veterans-affairs/component-library.git#05ef4c289b259dabf02d6eae091c00e0ba8d6e6d"
+"web-components@https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.11.0":
+  version "0.10.0"
+  resolved "https://github.com/department-of-veterans-affairs/component-library.git#cb0e7c7dbd27e3aa7aaf541eb2bd756412af9d1d"
   dependencies:
     "@stencil/core" "^2.0.1"
     "@stencil/postcss" "^2.0.0"

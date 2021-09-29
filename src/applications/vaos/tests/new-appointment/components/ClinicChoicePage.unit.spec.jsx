@@ -489,6 +489,7 @@ describe('VAOS <ClinicChoicePage>', () => {
     await waitFor(
       () => expect(screen.getByLabelText(/red team/i).checked).to.be.true,
     );
+    userEvent.click(screen.getByRole('button', { name: /Continue/i }));
 
     await cleanup();
 
