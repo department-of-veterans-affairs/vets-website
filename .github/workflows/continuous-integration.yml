@@ -514,7 +514,7 @@ jobs:
       NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
 
     concurrency:
-      group: ${{ github.ref != 'refs/heads/poc/github-actions/deploy-queue' && github.ref || github.sha }}
+      group: cypress
       cancel-in-progress: false
 
     steps:
