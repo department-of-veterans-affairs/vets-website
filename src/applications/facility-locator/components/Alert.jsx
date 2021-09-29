@@ -34,7 +34,7 @@ const Alert = ({ title, description, displayType }) => {
 
 Alert.propTypes = {
   title: PropTypes.string.isRequired,
-  description: PropTypes.element,
+  description: PropTypes.string,
   displayType: PropTypes.string.isRequired,
 };
 

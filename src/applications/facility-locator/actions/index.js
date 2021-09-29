@@ -242,7 +242,7 @@ export const fetchLocations = async (
       dispatch({ type: FETCH_LOCATIONS, payload: data });
     }
   } catch (error) {
-    dispatch({ type: SEARCH_FAILED, error });
+    dispatch({ type: SEARCH_FAILED, error: error.message });
   }
 };
 

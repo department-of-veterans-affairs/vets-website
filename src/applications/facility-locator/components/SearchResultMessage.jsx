@@ -9,29 +9,41 @@ const SearchResultMessage = ({
   resultRef,
   facilityType,
 }) => {
-  if (facilityType && error) {
+  if (error) {
     return (
-      <div className="search-result-title" ref={resultRef}>
-        <p>{message}</p>
-        <p>
-          If you need care right away for a minor illness or injury, select
-          Urgent care under facility type, then select either VA or community
-          providers as the service type.
-        </p>
-        <p>
-          If you have a medical emergency, please go to your nearest emergency
-          room or call 911.
-        </p>
-      </div>
+      <Alert
+        displayType="error"
+        title="Find VA locations isn’t working right now"
+        description={message}
+      />
     );
   } else if (facilityType && !resultsFound) {
     return (
       <div className="search-result-title" ref={resultRef}>
-        <Alert
-          displayType="error"
-          title="System Error!"
-          description="Sorry, something went wrong on our end  - please try searching again later."
-        />
+        <strong>For better results:</strong>
+        <ul className="vads-u-margin-y--1p5">
+          <li>
+            <strong>Zoom out</strong> to view a larger area of the map,&nbsp;
+            <strong>or</strong>
+          </li>
+          <li>
+            <strong>Move the map</strong> to a different area
+          </li>
+        </ul>
+        Then click the <strong>“Search this area of map”</strong> button.
+        <p />
+        If we still haven’t found any facilities near you,{' '}
+        <strong>please enter a different:</strong>
+        <ul className="vads-u-margin-y--1p5">
+          <li>
+            <strong>Search term</strong> (street, city, state, or postal code),{' '}
+            <strong>or</strong>
+          </li>
+          <li>
+            <strong>Service type</strong> (like “chiropractor or optometrist”),
+            and select the option that best meets your needs
+          </li>
+        </ul>
       </div>
     );
   }
