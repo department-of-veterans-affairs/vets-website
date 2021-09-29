@@ -449,9 +449,7 @@ const formConfig = {
                 suffix: 'Jr.',
               },
             },
-            'view:dateOfBirth': {
-              dateOfBirth: '1992-07-23',
-            },
+            dateOfBirth: '1992-07-23',
           },
         },
       },
@@ -466,7 +464,7 @@ const formConfig = {
             [formFields.viewPhoneNumbers]: {
               mobilePhoneNumber: {
                 phone: '123-456-7890',
-                isInternational: true,
+                isInternational: false,
               },
               phoneNumber: {
                 phone: '098-765-4321',
