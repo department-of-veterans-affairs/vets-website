@@ -390,9 +390,7 @@ const mapStateToProps = state => {
 
     isCompleteOrderSubmitted = failedSubmissions.length === 0;
   } else {
-    isEmptyOrder =
-      errors?.every(error => error.code === 'MDOT_supplies_not_selected') &&
-      selectedProductArray?.length === 0;
+    isEmptyOrder = selectedProductArray?.length === 0;
   }
 
   if (isPartiallySubmittedOrder || hasCompleteOrderFailed || isEmptyOrder) {
