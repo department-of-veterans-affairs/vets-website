@@ -10,6 +10,9 @@ export const ssoeInbound = state =>
 export const ssoeEbenefitsLinks = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.ssoeEbenefitsLinks];
 
+export const loginGov = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.loginGov];
+
 export const hasCheckedKeepAlive = state =>
   state.user.login.hasCheckedKeepAlive;
 
