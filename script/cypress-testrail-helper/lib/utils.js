@@ -2,6 +2,7 @@
 const chalk = require('chalk');
 const fs = require('fs');
 const { exec } = require('child_process');
+const { Spinner } = require('cli-spinner');
 
 const cyConfig = require('../../../config/cypress-testrail.json');
 const inquirer = require('./app-inquirer');
@@ -83,16 +84,25 @@ module.exports = {
 
   runCySpec(specPath) {
     const scriptCall = `yarn cy:my-testrail-run --spec ${specPath}`;
+    const spinner = new Spinner('%s processing...');
 
+    spinner.setSpinnerString(18);
+    spinner.start();
     exec(scriptCall, (error, stdout, stderr) => {
       if (error) {
+        spinner.stop(false);
+        console.log('\n');
         console.log(chalk.red(`error: ${error.message}`));
         return;
       }
       if (stderr) {
+        spinner.stop(false);
+        console.log('\n');
         console.log(chalk.red(`stderr: ${stderr}`));
         return;
       }
+      spinner.stop(false);
+      console.log('\n');
       console.log(chalk.green(`stdout: ${stdout}`));
     });
   },
