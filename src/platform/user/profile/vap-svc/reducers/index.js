@@ -1,6 +1,7 @@
 import {
   UPDATE_PROFILE_FORM_FIELD,
   OPEN_MODAL,
+  VAP_SERVICE_CLEAR_LAST_SAVED,
   VAP_SERVICE_TRANSACTIONS_FETCH_SUCCESS,
   VAP_SERVICE_TRANSACTION_REQUESTED,
   VAP_SERVICE_TRANSACTION_REQUEST_SUCCEEDED,
@@ -10,7 +11,6 @@ import {
   VAP_SERVICE_TRANSACTION_REQUEST_CLEARED,
   VAP_SERVICE_TRANSACTION_UPDATE_REQUESTED,
   VAP_SERVICE_TRANSACTION_UPDATE_FAILED,
-  VAP_SERVICE_CLEAR_TRANSACTION_STATUS,
   ADDRESS_VALIDATION_CONFIRM,
   ADDRESS_VALIDATION_ERROR,
   ADDRESS_VALIDATION_RESET,
@@ -57,18 +57,10 @@ const initialState = {
   addressValidation: {
     ...initialAddressValidationState,
   },
-  transactionStatus: '',
 };
 
 export default function vapService(state = initialState, action) {
   switch (action.type) {
-    case VAP_SERVICE_CLEAR_TRANSACTION_STATUS: {
-      return {
-        ...state,
-        transactionStatus: '',
-      };
-    }
-
     case VAP_SERVICE_TRANSACTIONS_FETCH_SUCCESS: {
       const transactions = action.data.map(transactionData =>
         // Wrap in a "data" property to imitate the API response for a single transaction
@@ -166,10 +158,19 @@ export default function vapService(state = initialState, action) {
       };
     }
 
+    case VAP_SERVICE_CLEAR_LAST_SAVED: {
+      return {
+        ...state,
+        mostRecentlySavedField: null,
+      };
+    }
+
     case VAP_SERVICE_TRANSACTION_CLEARED: {
       const finishedTransactionId =
         action.transaction.data.attributes.transactionId;
       const fieldTransactionMap = { ...state.fieldTransactionMap };
+
+      let mostRecentlySavedField;
 
       Object.keys(fieldTransactionMap).forEach(field => {
         const transactionRequest = fieldTransactionMap[field];
@@ -178,6 +179,7 @@ export default function vapService(state = initialState, action) {
           transactionRequest.transactionId === finishedTransactionId
         ) {
           delete fieldTransactionMap[field];
+          mostRecentlySavedField = field;
         }
       });
 
@@ -194,7 +196,7 @@ export default function vapService(state = initialState, action) {
         ),
         modal: null,
         fieldTransactionMap,
-        transactionStatus: action.transaction.data.attributes.transactionStatus,
+        mostRecentlySavedField,
       };
     }
 
@@ -255,6 +257,7 @@ export default function vapService(state = initialState, action) {
         modalData: action.modalData,
         hasUnsavedEdits: false,
         initialFormFields: {},
+        mostRecentlySavedField: null,
       };
 
     case ADDRESS_VALIDATION_INITIALIZE:

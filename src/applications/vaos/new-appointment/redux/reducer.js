@@ -36,7 +36,6 @@ import {
   FORM_HIDE_ELIGIBILITY_MODAL,
   START_DIRECT_SCHEDULE_FLOW,
   START_REQUEST_APPOINTMENT_FLOW,
-  FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
   FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
   FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
   FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
@@ -67,11 +66,7 @@ import {
 
 import { getTypeOfCare } from './selectors';
 import { distanceBetween } from '../../utils/address';
-import {
-  getSiteIdFromFacilityId,
-  isTypeOfCareSupported,
-} from '../../services/location';
-import { getClinicId } from '../../services/healthcare-service';
+import { isTypeOfCareSupported } from '../../services/location';
 
 export const REASON_ADDITIONAL_INFO_TITLES = {
   request:
@@ -689,88 +684,6 @@ export default function formReducer(state = initialState, action) {
         },
       };
     }
-    case FORM_CLINIC_PAGE_OPENED_SUCCEEDED: {
-      let newSchema = action.schema;
-      let clinics =
-        state.clinics[
-          `${state.data.vaFacility}_${getTypeOfCare(state.data).id}`
-        ];
-
-      if (state.pastAppointments) {
-        const pastAppointmentDateMap = new Map();
-        const siteId = getSiteIdFromFacilityId(state.data.vaFacility);
-
-        state.pastAppointments.forEach(appt => {
-          const apptTime = appt.startDate;
-          const latestApptTime = pastAppointmentDateMap.get(appt.clinicId);
-          if (
-            // Remove parse function when converting the past appointment call to FHIR service
-            appt.facilityId === siteId &&
-            (!latestApptTime || latestApptTime > apptTime)
-          ) {
-            pastAppointmentDateMap.set(appt.clinicId, apptTime);
-          }
-        });
-
-        clinics = clinics.filter(clinic =>
-          // Get clinic portion of id
-          pastAppointmentDateMap.has(getClinicId(clinic)),
-        );
-      }
-
-      if (clinics.length === 1) {
-        const clinic = clinics[0];
-        newSchema = {
-          ...newSchema,
-          properties: {
-            clinicId: {
-              type: 'string',
-              title: `Would you like to make an appointment at ${
-                clinic.serviceName
-              }?`,
-              enum: [clinic.id, 'NONE'],
-              enumNames: [
-                'Yes, make my appointment here',
-                'No, I need a different clinic',
-              ],
-            },
-          },
-        };
-      } else {
-        newSchema = {
-          ...newSchema,
-          properties: {
-            clinicId: {
-              type: 'string',
-              title:
-                'Choose a clinic below or request a different clinic for this appointment.',
-              enum: clinics.map(clinic => clinic.id).concat('NONE'),
-              enumNames: clinics
-                .map(clinic => clinic.serviceName)
-                .concat('I need a different clinic'),
-            },
-          },
-        };
-      }
-
-      const { data, schema } = setupFormData(
-        state.data,
-        newSchema,
-        action.uiSchema,
-      );
-
-      return {
-        ...state,
-        data: {
-          ...data,
-          selectedDates: [],
-        },
-        pages: {
-          ...state.pages,
-          [action.page]: schema,
-        },
-      };
-    }
     case FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED: {
       let formData = state.data;
       const typeOfCare = getTypeOfCare(formData);
@@ -825,8 +738,14 @@ export default function formReducer(state = initialState, action) {
       const ccProviderPageSortMethod = hasResidentialCoordinates
         ? FACILITY_SORT_METHODS.distanceFromResidential
         : FACILITY_SORT_METHODS.distanceFromFacility;
+
       const selectedCCFacility =
-        !hasResidentialCoordinates && state.ccEnabledSystems[0];
+        !hasResidentialCoordinates && state.ccEnabledSystems.length > 1
+          ? state.ccEnabledSystems.find(
+              system => system.id === state.data?.communityCareSystemId,
+            )
+          : state.ccEnabledSystems[0];
+
       const typeOfCare = getTypeOfCare(formData);
       let initialSchema = set(
         'properties.communityCareProvider.title',
@@ -838,6 +757,15 @@ export default function formReducer(state = initialState, action) {
           ...formData,
           communityCareSystemId: state.ccEnabledSystems[0].id,
         };
+        initialSchema = unset(
+          'properties.communityCareSystemId',
+          initialSchema,
+        );
+      } else if (action.featureCCIteration) {
+        initialSchema = unset(
+          'properties.communityCareProvider.title',
+          initialSchema,
+        );
         initialSchema = unset(
           'properties.communityCareSystemId',
           initialSchema,

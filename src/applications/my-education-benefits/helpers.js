@@ -76,7 +76,7 @@ export const post911GiBillNote = (
     <p>
       Currently, you can only apply for Post-9/11 GI Bill (Chapter 33) benefits
       through this application. If you would like to apply for other benefits,
-      please visit our <a href="#">How To Apply</a> page.
+      please visit our <a href="/education/how-to-apply/">How To Apply</a> page.
     </p>
   </div>
 );

@@ -1,5 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
+
 import recordEvent from 'platform/monitoring/record-event';
 
 import { SAVED_CLAIM_TYPE } from '../../constants';
@@ -21,7 +23,7 @@ const options = [
 
 const name = 'higher-level-review-option';
 
-const ClaimType = ({ setPageState, state = {} }) => {
+const ClaimType = ({ setPageState, state = {}, hlrV2 }) => {
   const setState = ({ value }) => {
     recordEvent({
       event: 'howToWizard-formChange',
@@ -31,9 +33,9 @@ const ClaimType = ({ setPageState, state = {} }) => {
       'form-field-value': value,
     });
 
-    // Show 'other' or 'legacyChoice' page
-    const page =
-      pageNames[value !== pageNames.other ? 'legacyChoice' : 'other'];
+    // Show 'other', or 'legacyChoice'(v1)/'legacyNo'(v2) page
+    const hlrV2Page = hlrV2 ? 'legacyNo' : 'legacyChoice';
+    const page = pageNames[value !== pageNames.other ? hlrV2Page : 'other'];
     setPageState({ selected: value }, page);
 
     if (value === pageNames.other) {
@@ -57,7 +59,11 @@ const ClaimType = ({ setPageState, state = {} }) => {
   );
 };
 
+const mapStateToProps = state => ({
+  hlrV2: state.featureToggles.hlrV2,
+});
+
 export default {
   name: pageNames.claimType,
-  component: ClaimType,
+  component: connect(mapStateToProps)(ClaimType),
 };

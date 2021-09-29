@@ -19,7 +19,7 @@ export const externalRedirects = {
     : 'https://staging-patientportal.myhealth.va.gov/',
   mhv: `https://${
     eauthEnvironmentPrefixes[environment.BUILDTYPE]
-  }eauth.va.gov/mhv-portal-web/web/myhealthevet/`,
+  }eauth.va.gov/mhv-portal-web/eauth`,
 };
 
 export const ssoKeepAliveEndpoint = () => {
@@ -74,6 +74,13 @@ function redirectWithGAClientId(redirectUrl) {
   }
 }
 
+const generatePath = (app, to) => {
+  if (app === 'mhv') {
+    return `?deeplinking=${to}`;
+  }
+  return to.startsWith('/') ? to : `/${to}`;
+};
+
 export function standaloneRedirect() {
   const searchParams = new URLSearchParams(window.location.search);
   const application = searchParams.get('application');
@@ -81,7 +88,7 @@ export function standaloneRedirect() {
   let url = externalRedirects[application] || null;
 
   if (url && to) {
-    const pathname = to.startsWith('/') ? to : `/${to}`;
+    const pathname = generatePath(application, to);
     url = url.endsWith('/') ? url.slice(0, -1) : url;
     url = `${url}${pathname}`.replace('\r\n', ''); // Prevent CRLF injection.
   }
