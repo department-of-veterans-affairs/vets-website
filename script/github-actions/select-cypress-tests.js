@@ -126,11 +126,17 @@ function selectedTests(graph, pathsOfChangedFiles) {
   const applications = [];
   const applicationNames = pathsOfChangedFiles
     .filter(filePath => !filePath.endsWith('.md'))
-    .map(filePath => filePath.split('/')[2]);
+    .map(filePath => filePath.split('/')[2])
+    .filter(name => name !== 'user');
+
+  /* eslint-disable no-console */
+  console.log('applicationNames:', applicationNames);
+  console.log('graph:', graph);
 
   [...new Set(applicationNames)].forEach(app => {
     // Lookup app in cross-app imports graph to reference which app's tests
     // should run
+    console.log('Graph for ', app, ' is ', graph[app]);
     applications.push(...graph[app].appsToTest);
   });
 
