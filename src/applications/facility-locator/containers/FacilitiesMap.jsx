@@ -353,7 +353,13 @@ const FacilitiesMap = props => {
   const renderView = () => {
     // This block renders the desktop and mobile view. It ensures that the desktop map
     // gets re-loaded when resizing from mobile to desktop.
-    const { currentQuery, selectedResult, results, pagination } = props;
+    const {
+      currentQuery,
+      selectedResult,
+      results,
+      pagination,
+      searchError,
+    } = props;
 
     const currentPage = pagination ? pagination.currentPage : 1;
     const totalPages = pagination ? pagination.totalPages : 1;
@@ -412,14 +418,17 @@ const FacilitiesMap = props => {
           clearSearchText={props.clearSearchText}
         />
         <div id="search-results-title" ref={searchResultTitleRef}>
-          <SearchResultsHeader
-            results={results}
-            facilityType={facilityType}
-            serviceType={serviceType}
-            context={queryContext}
-            specialtyMap={props.specialties}
-            inProgress={currentQuery.inProgress}
-          />
+          {!searchError && (
+            <SearchResultsHeader
+              results={results}
+              facilityType={facilityType}
+              serviceType={serviceType}
+              context={queryContext}
+              specialtyMap={props.specialties}
+              inProgress={currentQuery.inProgress}
+            />
+          )}
+          {searchError && <p />}
         </div>
 
         {isMobile ? (
@@ -455,7 +464,7 @@ const FacilitiesMap = props => {
         ) : (
           <>
             <div
-              className="columns search-results-container medium-4 small-12"
+              className="columns search-results-container vads-u-padding-left--0 medium-4 small-12"
               id="searchResultsContainer"
             >
               <div className="facility-search-results">{resultsList()}</div>
@@ -630,6 +639,7 @@ const mapStateToProps = state => ({
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
   searchCovid19Vaccine: facilityLocatorLighthouseCovidVaccineQuery(state),
   results: state.searchResult.results,
+  searchError: state.searchResult.error,
   resultTime: state.searchResult.resultTime,
   pagination: state.searchResult.pagination,
   selectedResult: state.searchResult.selectedResult,

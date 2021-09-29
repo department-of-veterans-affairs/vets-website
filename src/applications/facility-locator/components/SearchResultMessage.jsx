@@ -12,7 +12,7 @@ const SearchResultMessage = ({
   if (error) {
     return (
       <Alert
-        displayType="error"
+        displayType="warning"
         title="Find VA locations isn’t working right now"
         description={message}
       />
