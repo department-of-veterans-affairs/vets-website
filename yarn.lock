@@ -1980,10 +1980,10 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@3.2.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.2.0.tgz#690ce52632e2a03e0ace5e8725255cf572ccbfa1"
-  integrity sha512-hReCj/1VNSpEj+0h81wxmxclRyu2pAtsjlLIdzFfAVsd6dDxWmsXdjcBURWMmMJKbubD8MJfqEzr9R6BrssLbg==
+"@department-of-veterans-affairs/component-library@3.1.2":
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.1.2.tgz#6c3c11ec8eac91762b9d192d8cbd1117bb81ed9e"
+  integrity sha512-9y8HBE/nAjU3hu8NrSqYJMdaUYncd8uHZKR6tswZ7HIv9w/3hil85rbaR6cIAGrBV60dOiiyy5IpYdD28tFXbQ==
   dependencies:
     classnames "^2.2.6"
     core-js "^3.9.0"
