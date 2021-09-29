@@ -34,6 +34,10 @@ export default function TextWidget(props) {
     onChange: event =>
       props.onChange(event.target.value ? event.target.value : undefined),
     onFocus: props.onFocus,
+    // The aria-describedby will be set to the default error message class
+    // unless one is passed in as a prop. If the error dynamically exists
+    // based on user input. If it exist, this will point to it, if it does
+    // not exist, it will point to nothing.
     'aria-describedby': props.options?.ariaDescribedby
       ? addIndex(props.options.ariaDescribedby)
       : `${props.id}-error-message`,
