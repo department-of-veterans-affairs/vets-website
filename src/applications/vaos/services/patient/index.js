@@ -13,7 +13,7 @@ import { captureError } from '../../utils/error';
 import { ELIGIBILITY_REASONS } from '../../utils/constants';
 import { promiseAllFromObject } from '../../utils/data';
 import { getAvailableHealthcareServices } from '../healthcare-service';
-import { getPatientMetadata } from '../vaos';
+import { getPatientEligibility } from '../vaos';
 
 /**
  * @typedef PatientEligibilityForType
@@ -164,7 +164,7 @@ export async function fetchPatientEligibility({
   if (useV2) {
     const checks = {};
     if (type !== 'request') {
-      checks.direct = getPatientMetadata(
+      checks.direct = getPatientEligibility(
         location.id,
         typeOfCare.idV2,
         'direct',
@@ -172,7 +172,7 @@ export async function fetchPatientEligibility({
     }
 
     if (type !== 'direct') {
-      checks.request = getPatientMetadata(
+      checks.request = getPatientEligibility(
         location.id,
         typeOfCare.idV2,
         'request',
