@@ -134,7 +134,7 @@ export const uiSchema = {
         'ui:description': childStatusDescription,
       },
       notSelfSufficient: {
-        'ui:title': 'Is this child capable of self-support?',
+        'ui:title': 'Is this child not capable of self-support?',
         'ui:widget': 'yesNo',
         'ui:required': formData =>
           isChapterFieldRequired(formData, TASK_KEYS.addChild),
