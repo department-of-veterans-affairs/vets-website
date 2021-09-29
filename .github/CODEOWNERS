@@ -80,6 +80,13 @@ src/applications/check-in @department-of-veterans-affairs/vsa-healthcare-experie
 
 # /--- VSA
 
+# AFS Team
+src/applications/static-pages/school-resources @department-of-veterans-affairs/afs-code-reviewers
+src/applications/gi @department-of-veterans-affairs/afs-code-reviewers
+src/applications/gi-sandbox @department-of-veterans-affairs/afs-code-reviewers
+src/applications/edu-benefits @department-of-veterans-affairs/afs-code-reviewers
+
+
 # CTO Health Products
 src/applications/coronavirus-research @department-of-veterans-affairs/va-cto-health-products
 src/applications/coronavirus-screener @department-of-veterans-affairs/va-cto-health-products
