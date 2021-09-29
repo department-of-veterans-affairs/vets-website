@@ -37,7 +37,7 @@ export const sumValues = (arr, key) => {
 export const filterDeductions = (deductions, filters) => {
   if (!deductions.length) return 0;
   return deductions
-    .filter(({ name }) => filters.includes(name))
+    .filter(({ name }) => name && filters.includes(name))
     .reduce((acc, curr) => acc + Number(curr.amount), 0);
 };
 
