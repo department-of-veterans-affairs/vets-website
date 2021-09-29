@@ -13,6 +13,7 @@ import LoadProvidersErrorAlert from './LoadProvidersErrorAlert';
 import NoProvidersAlert from './NoProvidersAlert';
 import ProviderSort from './ProviderSort';
 import ProviderSortVariant from './ProviderSortVariant';
+import { removeDuplicateId } from '../../../utils/data';
 
 export default function ProviderList({
   checkedProvider,
@@ -34,8 +35,12 @@ export default function ProviderList({
     sortMethod,
     typeOfCareName,
   } = useSelector(selectProviderSelectionInfo, shallowEqual);
+
+  const uniqueProviderList = communityCareProviderList
+    ? removeDuplicateId(communityCareProviderList)
+    : communityCareProviderList;
   const requestLocationFailed = requestStatus === FETCH_STATUS.failed;
-  const loadingProviders = !communityCareProviderList && !requestLocationFailed;
+  const loadingProviders = !uniqueProviderList && !requestLocationFailed;
 
   const loadingLocations = requestLocationStatus === FETCH_STATUS.loading;
 
@@ -72,7 +77,7 @@ export default function ProviderList({
     [loadingProviders, loadingLocations],
   );
 
-  const currentlyShownProvidersList = communityCareProviderList?.slice(
+  const currentlyShownProvidersList = uniqueProviderList?.slice(
     0,
     providersListLength,
   );
@@ -147,7 +152,7 @@ export default function ProviderList({
                   aria-atomic="true"
                 >
                   Displaying 1 to {currentlyShownProvidersList.length} of{' '}
-                  {communityCareProviderList.length} providers
+                  {uniqueProviderList.length} providers
                 </p>
               )}
               {currentlyShownProvidersList.map((provider, providerIndex) => {
@@ -208,7 +213,7 @@ export default function ProviderList({
             </>
           )}
           <div className="vads-u-display--flex">
-            {providersListLength < communityCareProviderList?.length && (
+            {providersListLength < uniqueProviderList?.length && (
               <>
                 <button
                   type="button"
@@ -226,7 +231,7 @@ export default function ProviderList({
                   <span className="va-button-link">
                     +{' '}
                     {Math.min(
-                      communityCareProviderList.length - providersListLength,
+                      uniqueProviderList.length - providersListLength,
                       initialProviderDisplayCount,
                     )}{' '}
                     more providers
@@ -234,7 +239,7 @@ export default function ProviderList({
                 </button>
               </>
             )}
-            {communityCareProviderList?.length > 0 && (
+            {uniqueProviderList?.length > 0 && (
               <button
                 type="button"
                 className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
