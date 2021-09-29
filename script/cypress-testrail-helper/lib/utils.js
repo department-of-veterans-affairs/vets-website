@@ -57,7 +57,6 @@ module.exports = {
         filter: '',
       },
     });
-    console.log('Your Run-specific Cypress config:', newCyConfig);
 
     // Write run-specific Cypress config-file.
     return new Promise((myResolve, myReject) => {
@@ -65,6 +64,15 @@ module.exports = {
         fs.writeFileSync(
           './config/my-cypress-testrail.json',
           JSON.stringify(newCyConfig),
+        );
+        console.log(
+          'Your Run-specific Cypress config:',
+          Object.assign(newCyConfig, {
+            reporterOptions: {
+              ...newCyConfig.reporterOptions,
+              password: '[---obfuscated---]',
+            },
+          }),
         );
         myResolve(answers.specPath);
       } catch (err) {
