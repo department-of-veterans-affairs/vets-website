@@ -117,13 +117,18 @@ class SignInPage extends React.Component {
               </h2>
               <p>
                 Get answers to common questions about{' '}
-                <a href="/resources/signing-in-to-vagov/" target="_blank">
+                <a
+                  href="/resources/signing-in-to-vagov/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   signing in
                 </a>{' '}
                 and{' '}
                 <a
                   href="/resources/verifying-your-identity-on-vagov/"
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   verifying your identity
                 </a>

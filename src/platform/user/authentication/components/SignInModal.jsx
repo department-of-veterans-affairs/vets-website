@@ -13,14 +13,14 @@ import Modal from '@department-of-veterans-affairs/component-library/Modal';
     c. [x] Add it to auth/selectors.js
   
   2. Update SignInModal & /sign-in page
-    a. Responsiveness
-    b. Updated designs from prototype
-    c. Use bigger buttons
-    d. Add Login.gov button and update utilities to add CSP
+    a. [x] Responsiveness
+    b. [x] Updated designs from prototype
+    c. [x] Use bigger buttons
+    d. [x] Add Login.gov button and update utilities to add CSP
 
   3. Accessibility testing
-    a. 508C testing
-    b. aXe accessibility testing
+    a. [x] 508C testing
+    b. [x] aXe accessibility testing
     c. Magnification testing
     d. Voice-over testing
     e. Send to VSA Public sites for confirmation
@@ -199,39 +199,38 @@ export class SignInModal extends React.Component {
                   {this.props.useLoginGov && (
                     <button
                       disabled={globalDowntime}
+                      type="button"
                       className="usa-button-primary default"
                       onClick={this.loginHandler('logingov')}
                     >
                       Sign in with
-                      <span className="sr-only">Login.gov</span>
                       <img
-                        aria-hidden="true"
-                        alt="ID.me"
+                        alt="Login.gov"
                         src={`${vaGovFullDomain}/img/signin/login-gov-logo-rev.svg`}
                       />
                     </button>
                   )}
                   <button
                     disabled={globalDowntime}
+                    type="button"
                     className="usa-button-primary default"
                     onClick={this.loginHandler('idme')}
                   >
                     Sign in with
                     <span className="sr-only">ID.me</span>
                     <img
-                      aria-hidden="true"
                       alt="ID.me"
                       src={`${vaGovFullDomain}/img/signin/idme-icon-white.svg`}
                     />
                   </button>
                   <button
                     disabled={globalDowntime}
+                    type="button"
                     className="usa-button-primary default"
                     onClick={this.loginHandler('dslogon')}
                   >
                     Sign in with
                     <img
-                      aria-hidden="true"
                       alt="DS Logon"
                       src={`${vaGovFullDomain}/img/signin/dslogon-icon.svg`}
                     />
@@ -239,16 +238,15 @@ export class SignInModal extends React.Component {
                   </button>
                   <button
                     disabled={globalDowntime}
+                    type="button"
                     className="usa-button-primary default"
                     onClick={this.loginHandler('mhv')}
                   >
                     Sign in with
                     <img
-                      aria-hidden="true"
                       alt="My HealtheVet"
-                      src={`${vaGovFullDomain}/img/signin/mhv-icon.svg`}
+                      src={`${vaGovFullDomain}/img/signin/mhv-logo-white.svg`}
                     />
-                    My HealtheVet
                   </button>
                   <span className="sidelines">OR</span>
                   <div className="alternate-signin">
@@ -258,27 +256,27 @@ export class SignInModal extends React.Component {
                     {this.props.useLoginGov && (
                       <button
                         disabled={globalDowntime}
+                        type="button"
                         className="usa-button usa-button-secondary create-account"
                         onClick={this.signupHandler('logingov')}
                       >
                         Create an account with
                         <span className="sr-only">Login.gov</span>
                         <img
-                          aria-hidden="true"
-                          alt="ID.me"
+                          alt="Login.gov"
                           src={`${vaGovFullDomain}/img/signin/login-gov-logo.svg`}
                         />
                       </button>
                     )}
                     <button
                       disabled={globalDowntime}
+                      type="button"
                       className="usa-button usa-button-secondary create-account"
                       onClick={this.signupHandler('idme')}
                     >
                       Create an account with
                       <span className="sr-only">ID.me</span>
                       <img
-                        aria-hidden="true"
                         alt="ID.me"
                         src={`${vaGovFullDomain}/img/signin/idme-icon-dark.svg`}
                       />
@@ -323,13 +321,18 @@ export class SignInModal extends React.Component {
               </h2>
               <p>
                 Get answers to common questions about{' '}
-                <a href="/resources/signing-in-to-vagov/" target="_blank">
+                <a
+                  href="/resources/signing-in-to-vagov/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   signing in
                 </a>{' '}
                 and{' '}
                 <a
                   href="/resources/verifying-your-identity-on-vagov/"
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   verifying your identity
                 </a>
