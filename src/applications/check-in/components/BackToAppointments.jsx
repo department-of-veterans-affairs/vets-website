@@ -3,34 +3,34 @@ import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { createAnalyticsSlug } from '../utils/analytics';
+import { goToNextPage, URLS } from '../utils/navigation';
+import { withRouter } from 'react-router';
 
-export default function BackToAppointments({ router, _appointments }) {
+const BackToAppointments = ({ router }) => {
   const handleClick = e => {
     e.preventDefault();
-    const { goBack } = router;
-    const path = router.location.pathname;
-
     recordEvent({
       event: createAnalyticsSlug('back-button-clicked'),
-      fromPage: path,
     });
-    goBack();
+    goToNextPage(router, URLS.DETAILS);
   };
   return (
     <>
       <nav
         aria-label="Breadcrumb"
         aria-live="polite"
-        className="va-nav-breadcrumbs va-nav-breadcrumbs--mobile"
+        className="va-nav-breadcrumbs va-nav-breadcrumbs--mobile vads-u-margin-top--3"
       >
-        <ul className="row va-nav-breadcrumbs-list columns">
-          <li>
-            <a onClick={e => handleClick(e)} href="#" data-testid="back-button">
-              Back to last screen
-            </a>
-          </li>
-        </ul>
+        <a
+          onClick={e => handleClick(e)}
+          href="#"
+          data-testid="go-to-appointments-button"
+        >
+          Go to another appointment
+        </a>
       </nav>
     </>
   );
-}
+};
+
+export default withRouter(BackToAppointments);

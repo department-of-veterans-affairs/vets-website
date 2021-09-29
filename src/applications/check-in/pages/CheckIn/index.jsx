@@ -38,6 +38,7 @@ const CheckIn = props => {
     () => {
       if (isLowAuthEnabled) {
         if (isMultipleAppointmentsEnabled) {
+          setIsLoadingData(true);
           api.v2
             .getCheckInData(token)
             .then(json => {

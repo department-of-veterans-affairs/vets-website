@@ -9,6 +9,8 @@ import BackToAppointments from '../../components/BackToAppointments';
 import Footer from '../../components/Footer';
 import AppointmentLocation from '../../components/AppointmentDisplay/AppointmentLocation';
 
+import { STATUSES } from '../../utils/appointment/status';
+
 export default function MultipleAppointments({
   appointments,
   selectedAppointment,
@@ -16,6 +18,11 @@ export default function MultipleAppointments({
   const appointment = selectedAppointment;
   const appointmentDateTime = new Date(appointment.startTime);
   const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
+  const shouldShowBackButton =
+    appointments
+      .filter(f => f.appointmentIEN !== selectedAppointment.appointmentIEN)
+      .filter(f => f.status === STATUSES.ELIGIBLE).length > 0;
+
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5">
       <VaAlert
@@ -37,7 +44,9 @@ export default function MultipleAppointments({
           when it’s time for your appointment to start.
         </p>
       </VaAlert>
-      <BackToAppointments appointments={appointments} />
+      {shouldShowBackButton && (
+        <BackToAppointments appointments={appointments} />
+      )}
       <Footer />
       <BackToHome />
     </div>
