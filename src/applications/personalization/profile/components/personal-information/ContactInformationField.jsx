@@ -161,6 +161,7 @@ class ContactInformationField extends React.Component {
       'profile-action': 'cancel-delete-button',
       'profile-section': this.props.analyticsSectionName,
     });
+    this.closeModal();
   };
 
   onDelete = () => {
