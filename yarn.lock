@@ -1980,10 +1980,10 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@^3.1.1":
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.1.1.tgz#f8f1773f06c5b02dadc1b54554b091ebc9e06276"
-  integrity sha512-OM0dH8K4lg7t/97ldwytjMaNvFcm8BcF376SM71Aw4/c5yvMAAgQ+T9g4Rdh+Am9h4xrxMvqTeevXL7E3Ev+cQ==
+"@department-of-veterans-affairs/component-library@^3.1.2":
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.1.2.tgz#6c3c11ec8eac91762b9d192d8cbd1117bb81ed9e"
+  integrity sha512-9y8HBE/nAjU3hu8NrSqYJMdaUYncd8uHZKR6tswZ7HIv9w/3hil85rbaR6cIAGrBV60dOiiyy5IpYdD28tFXbQ==
   dependencies:
     classnames "^2.2.6"
     core-js "^3.9.0"
@@ -19181,9 +19181,9 @@ wcwidth@^1.0.1:
   dependencies:
     defaults "^1.0.3"
 
-"web-components@https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.9.4":
-  version "0.9.4"
-  resolved "https://github.com/department-of-veterans-affairs/component-library.git#05ef4c289b259dabf02d6eae091c00e0ba8d6e6d"
+"web-components@https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.11.0":
+  version "0.10.0"
+  resolved "https://github.com/department-of-veterans-affairs/component-library.git#cb0e7c7dbd27e3aa7aaf541eb2bd756412af9d1d"
   dependencies:
     "@stencil/core" "^2.0.1"
     "@stencil/postcss" "^2.0.0"
