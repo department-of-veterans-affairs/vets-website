@@ -240,6 +240,10 @@ jobs:
         id: code-coverage
         run: echo ::set-output name=MARKDOWN::$(node ./script/github-actions/code-coverage-format-report.js)
 
+      - name: test output
+        continue-on-error: true
+        run: echo ${GITHUB_REF#refs/heads/}
+
       - name: Publish test results
         if: ${{ always() }}
         uses: mikepenz/action-junit-report@v2.4.3
