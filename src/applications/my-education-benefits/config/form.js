@@ -110,7 +110,7 @@ const formPages = {
   // directDeposit: 'directDeposit',
   additionalConsiderations: {
     activeDutyKicker: {
-      name: 'activeDutyKicker',
+      name: 'active-duty-kicker',
       order: 1,
       title:
         'Do you qualify for an active duty kicker, sometimes called a College Fund?',
@@ -121,7 +121,7 @@ const formPages = {
       },
     },
     reserveKicker: {
-      name: 'reserveKicker',
+      name: 'reserve-kicker',
       order: 1,
       title:
         'Do you qualify for a reserve kicker, sometimes called a College Fund?',
@@ -132,13 +132,13 @@ const formPages = {
       },
     },
     militaryAcademy: {
-      name: 'militaryAcademy',
+      name: 'academy-commission',
       order: 2,
       title:
         'Did you graduate and receive a commission from the United States Military Academy, Naval Academy, Air Force Academy, or Coast Guard Academy?',
     },
     seniorRotc: {
-      name: 'seniorRotc',
+      name: 'rotc-commission',
       order: 3,
       title: 'Were you commissioned as a result of Senior ROTC?',
       additionalInfo: {
@@ -148,7 +148,7 @@ const formPages = {
       },
     },
     loanPayment: {
-      name: 'loanPayment',
+      name: 'loan-payment',
       order: 4,
       title:
         'Do you have a period of service that the Department of Defense counts towards an education loan payment?',
@@ -320,7 +320,7 @@ const formConfig = {
   trackingPrefix: 'my-education-benefits-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '22-1990-MEB',
+  formId: '22-1990EZ',
   saveInProgress: {
     messages: {
       inProgress:
@@ -355,7 +355,7 @@ const formConfig = {
       pages: {
         [formPages.applicantInformation]: {
           title: 'Applicant information',
-          path: 'applicant/information',
+          path: 'applicant-information/personal-information',
           subTitle: 'Review your personal information',
           instructions:
             'This is the personal information we have on file for you.',
@@ -489,7 +489,7 @@ const formConfig = {
       pages: {
         [formPages.contactInformation.contactInformation]: {
           title: 'Phone numbers and email address',
-          path: 'contact/information',
+          path: 'contact-information/email-phone',
           initialData: {
             [formFields.viewPhoneNumbers]: {
               mobilePhoneNumber: {
@@ -604,7 +604,7 @@ const formConfig = {
         },
         [formPages.contactInformation.mailingAddress]: {
           title: 'Mailing address',
-          path: 'contact/information/mailing/address',
+          path: 'contact-information/mailing-address',
           initialData: {
             'view:mailingAddress': {
               livesOnMilitaryBase: false,
@@ -739,7 +739,7 @@ const formConfig = {
         },
         [formPages.contactInformation.preferredContactMethod]: {
           title: 'Contact preferences',
-          path: 'contact/preferences',
+          path: 'contact-information/contact-preferences',
           uiSchema: {
             'view:contactMethod': {
               'ui:description': (
