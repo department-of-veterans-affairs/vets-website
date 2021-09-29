@@ -511,22 +511,28 @@ const formConfig = {
               'ui:description': (
                 <>
                   <h3>Review your phone numbers and email address</h3>
-                  <p>We’ll use this information to:</p>
+                  <p>
+                    <b>We’ll use this information to:</b>
+                  </p>
                   <ul>
                     <li>
-                      Get in touch with you if we have questions about your
-                      application
+                      Contact you if we have questions about your application
                     </li>
-                    <li>
-                      Communicate important information about your benefits
-                    </li>
+                    <li>Tell you important information about your benefits</li>
                   </ul>
                   <p>
-                    Any updates you make here to your contact information will
-                    only apply to your education benefits. To update your
-                    contact information for all of the benefits across VA,{' '}
+                    This is the contact information we have on file for you. If
+                    you notice any errors, please correct them now. Any updates
+                    you make will change the information for your education
+                    benefits only.
+                  </p>
+                  <p>
+                    <b>Note:</b> If you want to update your contact information
+                    for other VA benefits, you can do that from your profile.
+                  </p>
+                  <p>
                     <a href="/profile/personal-information">
-                      please go to your profile page
+                      go to your profile page
                     </a>
                     .
                   </p>
