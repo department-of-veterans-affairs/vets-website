@@ -14,6 +14,8 @@ export class DownloadLetterLink extends React.Component {
   // vets.gov-supported platforms, particularly iOS/Safari
   downloadLetter = e => {
     e.preventDefault();
+
+    // Adding a comment to trigger tests to run
     recordEvent({
       event: 'letter-download',
       'letter-type': this.props.letterType,
