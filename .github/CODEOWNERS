@@ -30,8 +30,7 @@ config/cypress.json @department-of-veterans-affairs/vsp-testing
 
 # Authenticated Experience
 src/applications/personalization @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend
-src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/frontend-review-group
-src/platform/utilities/medical-centers @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/frontend-review-group
+src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-frontend
 
 # Benefits and Memorials
 src/applications/letters @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
@@ -65,13 +64,9 @@ src/applications/resources-and-support @department-of-veterans-affairs/vsa-publi
 src/applications/facility-locator @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
 src/applications/static-pages/facilities @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
 src/applications/static-pages/tests/facilities @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
-src/platform/site-wide/sass/modules/_m-side-nav.scss @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
-src/platform/site-wide/side-nav @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
 src/applications/static-pages/sass/modules/_m-facilities.scss @department-of-veterans-affairs/vsa-facilities-frontend
 src/applications/static-pages/sass/modules/_m-facility-detail.scss @department-of-veterans-affairs/vsa-facilities-frontend
 src/applications/static-pages/sass/modules/_m-facility-events.scss @department-of-veterans-affairs/vsa-facilities-frontend
-src/applications/static-pages/sass/modules/_m-operating-status.scss @department-of-veterans-affairs/vsa-facilities-frontend
-src/applications/static-pages/shared/ @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
 
 # Caregiver
 src/applications/caregivers @department-of-veterans-affairs/vsa-caregiver-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
@@ -84,6 +79,13 @@ src/applications/health-care-questionnaire @department-of-veterans-affairs/vsa-h
 src/applications/check-in @department-of-veterans-affairs/vsa-healthcare-experience @department-of-veterans-affairs/patient-check-in
 
 # /--- VSA
+
+# AFS Team
+src/applications/static-pages/school-resources @department-of-veterans-affairs/afs-code-reviewers
+src/applications/gi @department-of-veterans-affairs/afs-code-reviewers
+src/applications/gi-sandbox @department-of-veterans-affairs/afs-code-reviewers
+src/applications/edu-benefits @department-of-veterans-affairs/afs-code-reviewers
+
 
 # CTO Health Products
 src/applications/coronavirus-research @department-of-veterans-affairs/va-cto-health-products
