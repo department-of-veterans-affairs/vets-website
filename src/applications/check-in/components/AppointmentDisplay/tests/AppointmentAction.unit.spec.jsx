@@ -98,7 +98,7 @@ describe('check-in', () => {
         <AppointmentAction
           appointment={{
             status: STATUSES.INELIGIBLE_TOO_EARLY,
-            startTime: '2021-07-19T13:56:31',
+            startTime: '2021-07-19T14:00:00',
           }}
         />,
       );
@@ -106,7 +106,7 @@ describe('check-in', () => {
       expect(action.queryByTestId('check-in-button')).to.not.exist;
       expect(action.getByTestId('too-early-message')).to.exist;
       expect(action.getByTestId('too-early-message')).to.have.text(
-        'You can check in starting at this time: 1:56 p.m.',
+        'You can check in starting at this time: 2:00 p.m.',
       );
     });
 

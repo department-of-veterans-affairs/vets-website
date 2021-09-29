@@ -19,6 +19,7 @@ const ConfirmRemoveModal = ({
   return (
     <Modal
       title={`Are you sure?`}
+      cssClass="va-modal"
       status="warning"
       visible={isVisible}
       onClose={onHide}

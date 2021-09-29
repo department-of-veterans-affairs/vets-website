@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useLastLocation } from 'react-router-last-location';
 
@@ -6,14 +7,19 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 
 import { PROFILE_PATHS } from '@@profile/constants';
 import { FIELD_NAMES } from '@@vap-svc/constants';
+import { selectVAPContactInfoField } from '@@vap-svc/selectors';
 
-import environment from 'platform/utilities/environment';
+import environment from '~/platform/utilities/environment';
 
-const ContactInformationSaveSuccessAlert = ({ fieldName }) => {
+const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
+  const fieldData = useSelector(state => {
+    return selectVAPContactInfoField(state, fieldName);
+  });
   const referrer = useLastLocation();
   const message = React.useMemo(
     () => {
       if (
+        !!fieldData &&
         referrer?.pathname === PROFILE_PATHS.NOTIFICATION_SETTINGS &&
         fieldName === FIELD_NAMES.MOBILE_PHONE
       ) {
@@ -51,4 +57,4 @@ const ContactInformationSaveSuccessAlert = ({ fieldName }) => {
   );
 };
 
-export default ContactInformationSaveSuccessAlert;
+export default ContactInformationUpdateSuccessAlert;
