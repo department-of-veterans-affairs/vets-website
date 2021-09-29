@@ -8,7 +8,7 @@ import { axeCheck } from 'platform/forms-system/test/config/helpers';
 
 import configureStore from 'redux-mock-store';
 
-import Confirmation from '../Confirmation';
+import Confirmation from '../index';
 
 // Skipping until the component library is fixed
 describe('check-in', () => {
