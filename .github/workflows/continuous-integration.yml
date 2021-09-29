@@ -12,8 +12,8 @@ env:
   CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
 
 concurrency:
-  group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
+  group: ${{ github.ref != 'refs/heads/poc/github-actions/deploy-queue' && github.ref || github.sha }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/poc/github-actions/deploy-queue' }}
 
 jobs:
   build:
@@ -508,6 +508,10 @@ jobs:
     env:
       CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
       NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
+
+    concurrency:
+      group: ${{ github.ref != 'refs/heads/poc/github-actions/deploy-queue' && github.ref || github.sha }}
+      cancel-in-progress: false
 
     steps:
       - name: Configure AWS credentials
