@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
-import { mount } from 'enzyme';
 import sinon from 'sinon';
 
 import CheckboxWidget from '../../../src/js/widgets/CheckboxWidget';
@@ -42,24 +41,22 @@ describe('Schemaform <CheckboxWidget>', () => {
     });
     expect(onChange.calledWith(false)).to.be.true;
   });
-  it('should render ariaDescribedBy attribute', () => {
+  it('should add custom props', () => {
     const onChange = sinon.spy();
-    const tree = mount(
+    const tree = SkinDeep.shallowRender(
       <CheckboxWidget
         id="1"
-        value
+        value={false}
         required
         disabled={false}
         onChange={onChange}
-        options={{ title: 'Title', ariaDescribedBy: 'test-id' }}
+        options={{
+          widgetProps: {
+            false: { 'data-test': 'unchecked' },
+          },
+        }}
       />,
     );
-    expect(
-      tree
-        .find('input')
-        .getDOMNode()
-        .getAttribute('aria-describedby'),
-    ).to.equal('test-id');
-    tree.unmount();
+    expect(tree.subTree('input').props['data-test']).to.equal('unchecked');
   });
 });

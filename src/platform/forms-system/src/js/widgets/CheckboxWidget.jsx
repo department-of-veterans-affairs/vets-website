@@ -15,6 +15,13 @@ export default function CheckboxWidget({
     <span className="form-required-span">(*Required)</span>
   ) : null;
   const widgetClasses = classNames('form-checkbox', options.widgetClassNames);
+
+  const { widgetProps } = options;
+
+  const getProps = () => ({
+    ...(widgetProps?.[value] || {}),
+  });
+
   return (
     <div className={widgetClasses}>
       <input
@@ -25,9 +32,7 @@ export default function CheckboxWidget({
         required={required}
         disabled={disabled}
         onChange={event => onChange(event.target.checked)}
-        aria-describedby={
-          options.ariaDescribedBy ? options.ariaDescribedBy : null
-        }
+        {...getProps()}
       />
       <label className="schemaform-label" htmlFor={id}>
         {options.title || label}
