@@ -482,7 +482,7 @@ const formConfig = {
                 <>
                   <h3>Review your phone numbers and email address</h3>
                   <p>
-                    <b>We’ll use this information to:</b>
+                    <strong>We’ll use this information to:</strong>
                   </p>
                   <ul>
                     <li>
@@ -497,8 +497,9 @@ const formConfig = {
                     benefits only.
                   </p>
                   <p>
-                    <b>Note:</b> If you want to update your contact information
-                    for other VA benefits, you can do that from your profile.
+                    <strong>Note:</strong> If you want to update your contact
+                    information for other VA benefits, you can do that from your
+                    profile.
                   </p>
                   <p>
                     <a href="/profile/personal-information">
