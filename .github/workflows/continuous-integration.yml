@@ -29,17 +29,6 @@ jobs:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
     steps:
-      - name: Test Current SHA
-        run: echo ${{ github.sha }}
-
-      - name: Test Current SHA with REVPARSE
-        run: git rev-parse HEAD
-        continue-on-error: true
-
-      - name: Test Origin SHA with REVPARSE
-        run: git rev-parse origin/master
-        continue-on-error: true
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -757,8 +746,6 @@ jobs:
   archive:
     name: Archive
     runs-on: ubuntu-latest
-    outputs:
-      origin_master_sha: ${{ steps.origin_master_sha.outputs.origin_master_sha }}
 
     strategy:
       matrix:
@@ -811,28 +798,27 @@ jobs:
 
       - name: Upload build
         run: aws s3 cp ${{ matrix.buildtype }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/application-build/$GITHUB_SHA/${{ matrix.buildtype }}.tar.bz2 --acl public-read --region us-gov-west-1
+      
+  get-latest-run-number:
+    name: Get Latest Workflow Run Number
+    runs-on: ubuntu-latest
+    if: ${{ always() && github.ref == 'refs/heads/master' && needs.archive.result == 'success' }}
+    needs: archive
+    outputs:
+      latest_run_number: ${{ steps.latest-run-number.outputs.latest_run_number }}
 
-      - name: Test Current SHA
-        run: echo ${{ github.sha }}
-
-      - name: Test Current SHA with REVPARSE
-        run: git rev-parse HEAD
-        continue-on-error: true
-
-      - name: Test Origin SHA with REVPARSE
-        run: git rev-parse origin/master
-        continue-on-error: true
-
-      - name: Set output of origin_master_sha
-        id: origin_master_sha
-        run: echo ::set-output name=origin_master_sha::$(git rev-parse origin/master)
-        continue-on-error: true
+    steps:
+      - name: Set output of latest_run_number
+        id: latest-run-number
+        run: node ./script/github-actions/get-latest-run-number.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    if: ${{ always() && github.ref == 'refs/heads/master' && needs.archive.result == 'success' }}
-    needs: archive
+    if: ${{ always() && github.ref == 'refs/heads/master' && needs.get-latest-run-number.result == 'success' && needs.get-latest-run-number.outputs.latest_run_number == github.run_number}}
+    needs: get-latest-run-number
 
     strategy:
       matrix:
