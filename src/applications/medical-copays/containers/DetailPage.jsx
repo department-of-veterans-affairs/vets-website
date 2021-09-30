@@ -7,7 +7,7 @@ import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import FinancialHelp from '../components/FinancialHelp';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Modals from '../components/Modals';
 import Alert from '../components/Alerts';
 import moment from 'moment';
@@ -15,8 +15,8 @@ import moment from 'moment';
 const DetailPage = ({ match }) => {
   const selectedId = match.params.id;
   const errors = useSelector(({ mcp }) => mcp.errors);
-  const statementData = useSelector(({ mcp }) => mcp.statements);
-  const [selectedCopay] = statementData.filter(({ id }) => selectedId === id);
+  const statementData = useSelector(({ mcp }) => mcp.statements.data) ?? [];
+  const [selectedCopay] = statementData?.filter(({ id }) => id === selectedId);
   const [alertType, setAlertType] = useState(null);
 
   useEffect(
@@ -28,10 +28,6 @@ const DetailPage = ({ match }) => {
     },
     [errors],
   );
-
-  if (!errors && !selectedCopay) {
-    return <Redirect to="/" />;
-  }
 
   return (
     <>
@@ -64,7 +60,7 @@ const DetailPage = ({ match }) => {
           <Alert type={'status'} copay={selectedCopay} />
           <va-on-this-page />
           <DownloadStatements />
-          <HowToPay acctNum={selectedCopay.pHCernerAccountNumber} />
+          <HowToPay acctNum={selectedCopay?.pHCernerAccountNumber} />
           <FinancialHelp />
           <DisputeCharges />
           <BalanceQuestions
