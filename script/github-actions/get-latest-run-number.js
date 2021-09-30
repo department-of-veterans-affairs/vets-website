@@ -30,9 +30,5 @@ return octokit.rest.actions
       throw new Error('No workflows found. Aborting.');
     }
 
-    console.log(
-      `::set-output name=latest_run_number::${workflow_runs[0].run_number}`,
-    );
-
     return workflow_runs[0].run_number;
   });

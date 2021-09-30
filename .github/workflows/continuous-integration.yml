@@ -25,7 +25,7 @@ jobs:
     steps:
       - name: Set output of latest_run_number
         id: latest-run-number
-        run: node ./script/github-actions/get-latest-run-number.js
+        run: echo ::set-output name=latest_run_number::$(node ./script/github-actions/get-latest-run-number.js)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -830,7 +830,7 @@ jobs:
     steps:
       - name: Set output of latest_run_number
         id: latest-run-number
-        run: node ./script/github-actions/get-latest-run-number.js
+        run: echo ::set-output name=latest_run_number::$(node ./script/github-actions/get-latest-run-number.js)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
