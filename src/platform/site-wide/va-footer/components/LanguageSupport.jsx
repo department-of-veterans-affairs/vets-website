@@ -56,7 +56,6 @@ function LanguagesListTemplate({ dispatchLanguageSelection }) {
 }
 export default function LanguageSupport({
   isDesktop,
-  showLangSupport,
   dispatchLanguageSelection,
   languageCode,
 }) {
@@ -75,8 +74,6 @@ export default function LanguageSupport({
     },
     [dispatchLanguageSelection, languageCode],
   );
-
-  if (showLangSupport !== true) return null;
 
   if (isDesktop) {
     return (
