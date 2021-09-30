@@ -1,14 +1,13 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { VaAlert } from 'web-components/react-bindings';
 
+import { VaAlert } from 'web-components/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 
-import BackToHome from '../components/BackToHome';
-import Footer from '../components/Footer';
-import AppointmentLocation from '../components/AppointmentDisplay/AppointmentLocation';
+import BackToHome from '../../components/BackToHome';
+import Footer from '../../components/Footer';
+import AppointmentLocation from '../../components/AppointmentDisplay/AppointmentLocation';
 
-const Confirmation = ({ appointments }) => {
+export default function SingleAppointment({ appointments }) {
   const appointment = appointments[0];
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5">
@@ -35,18 +34,4 @@ const Confirmation = ({ appointments }) => {
       <BackToHome />
     </div>
   );
-};
-
-const mapStateToProps = state => {
-  return {
-    appointments: state.checkInData.appointments,
-  };
-};
-const mapDispatchToProps = () => {
-  return {};
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Confirmation);
+}

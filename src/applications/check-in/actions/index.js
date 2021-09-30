@@ -22,6 +22,15 @@ export const receivedMultipleAppointmentDetails = payload => {
   };
 };
 
+export const APPOINTMENT_WAS_CHECKED_INTO = 'APPOINTMENT_WAS_CHECKED_INTO';
+
+export const appointmentWAsCheckedInto = appointment => {
+  return {
+    type: APPOINTMENT_WAS_CHECKED_INTO,
+    value: { appointment },
+  };
+};
+
 export const PERMISSIONS_UPDATED = 'PERMISSIONS_UPDATED';
 
 export const permissionsUpdated = (data, scope) => {

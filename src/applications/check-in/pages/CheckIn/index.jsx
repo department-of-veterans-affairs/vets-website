@@ -38,6 +38,7 @@ const CheckIn = props => {
     () => {
       if (isLowAuthEnabled) {
         if (isMultipleAppointmentsEnabled) {
+          setIsLoadingData(true);
           api.v2
             .getCheckInData(token)
             .then(json => {
@@ -78,7 +79,7 @@ const CheckIn = props => {
   );
 
   if (isLoadingData) {
-    return <LoadingIndicator message={'Loading appointment details'} />;
+    return <LoadingIndicator message={'Loading your appointments for today'} />;
   } else if (!appointment) {
     goToNextPage(router, URLS.ERROR);
     return <></>;
