@@ -67,7 +67,7 @@ jobs:
             .cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
+          # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
@@ -184,7 +184,7 @@ jobs:
             .cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
+          # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
@@ -292,7 +292,7 @@ jobs:
             .cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
+          # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
@@ -396,7 +396,7 @@ jobs:
             .cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
+          # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
@@ -449,46 +449,46 @@ jobs:
             .cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
+          # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
-      - name: Install dependencies
-        uses: nick-invision/retry@v2
-        with:
-          command: yarn install --frozen-lockfile --prefer-offline --production=false
-          max_attempts: 3
-          timeout_minutes: 7
-        env:
-          YARN_CACHE_FOLDER: .cache/yarn
+      # - name: Install dependencies
+      #   uses: nick-invision/retry@v2
+      #   with:
+      #     command: yarn install --frozen-lockfile --prefer-offline --production=false
+      #     max_attempts: 3
+      #     timeout_minutes: 7
+      #   env:
+      #     YARN_CACHE_FOLDER: .cache/yarn
 
-      - name: Set IS_MASTER_BUILD
-        run: |
-          if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
-              echo "IS_MASTER_BUILD=true" >> $GITHUB_ENV
-          else
-              echo "IS_MASTER_BUILD=false" >> $GITHUB_ENV
-          fi
+      # - name: Set IS_MASTER_BUILD
+      #   run: |
+      #     if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
+      #         echo "IS_MASTER_BUILD=true" >> $GITHUB_ENV
+      #     else
+      #         echo "IS_MASTER_BUILD=false" >> $GITHUB_ENV
+      #     fi
 
-      - name: List changed files
-        id: changed-files
-        run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+      # - name: List changed files
+      #   id: changed-files
+      #   run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
 
-      - name: Set NUM_CONTAINERS, CI_NODE_INDEX, TESTS variables
-        run: node script/github-actions/select-cypress-tests.js
-        env:
-          IS_MASTER_BUILD: ${{ env.IS_MASTER_BUILD }}
-          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+      # - name: Set NUM_CONTAINERS, CI_NODE_INDEX, TESTS variables
+      #   run: node script/github-actions/select-cypress-tests.js
+      #   env:
+      #     IS_MASTER_BUILD: ${{ env.IS_MASTER_BUILD }}
+      #     CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
-      - name: Set output of NUM_CONTAINERS
-        id: containers
-        run: echo ::set-output name=num::$NUM_CONTAINERS
+      # - name: Set output of NUM_CONTAINERS
+      #   id: containers
+      #   run: echo ::set-output name=num::$NUM_CONTAINERS
 
-      - name: Set output of CI_NODE_INDEX
-        id: matrix
-        run: echo ::set-output name=ci_node_index::$CI_NODE_INDEX
+      # - name: Set output of CI_NODE_INDEX
+      #   id: matrix
+      #   run: echo ::set-output name=ci_node_index::$CI_NODE_INDEX
 
-      - name: Set output of TESTS
-        id: tests
-        run: echo ::set-output name=selected::$TESTS
+      # - name: Set output of TESTS
+      #   id: tests
+      #   run: echo ::set-output name=selected::$TESTS
 
   cypress-tests:
     name: Cypress E2E Tests
@@ -539,7 +539,7 @@ jobs:
             /github/home/.cache/Cypress
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}-cypress
-          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
+          # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
