@@ -703,8 +703,8 @@ jobs:
         env:
           IS_MASTER_BUILD: ${{ needs.cypress-tests-prep.outputs.is_master_build }}
           NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
-          TEST_EXECUTIONS_TABLE_NAME: content_build_cypress_test_suite_executions
-          TEST_RESULTS_TABLE_NAME: content_build_cypress_test_results
+          TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
+          TEST_RESULTS_TABLE_NAME: cypress_test_results
           TEST_REPORTS_FOLDER_NAME: vets-website-cypress-reports
 
       # env.MOCHAWESOME_REPORT_RESULTS is set and exported during the above step when the mochawesome report is generated.  It contains the output string for the publish step at the end of the job with the numbers from the Mochawesome report.
