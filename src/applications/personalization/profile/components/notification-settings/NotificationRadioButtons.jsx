@@ -167,7 +167,7 @@ const NotificationRadioButtons = ({
     const buttonAriaDescribedby =
       (checked && ariaDescribedby?.[optionIndex]) || null;
     return (
-      <div key={optionAdditional ? undefined : optionIndex}>
+      <React.Fragment key={optionAdditional ? undefined : optionIndex}>
         <input
           checked={checked}
           id={`${id}-${optionIndex}`}
@@ -189,7 +189,7 @@ const NotificationRadioButtons = ({
           {optionLabel}
         </label>
         {option.content}
-      </div>
+      </React.Fragment>
     );
   });
 
@@ -215,12 +215,10 @@ const NotificationRadioButtons = ({
 
   return (
     <fieldset className={fieldsetClasses} disabled={disabled} id={id}>
-      <div className="clearfix">
-        <h3 className={legendClasses}>
-          {label}
-          {requiredSpan}
-        </h3>
-      </div>
+      <h3 className={legendClasses}>
+        {label}
+        {requiredSpan}
+      </h3>
       {description ? (
         <p className="vads-u-margin-y--0p5 vads-u-color--gray-medium">
           {description}
