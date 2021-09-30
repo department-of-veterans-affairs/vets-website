@@ -25,6 +25,9 @@ export default function CheckboxWidget({
         required={required}
         disabled={disabled}
         onChange={event => onChange(event.target.checked)}
+        aria-describedby={
+          options.ariaDescribedBy ? options.ariaDescribedBy : null
+        }
       />
       <label className="schemaform-label" htmlFor={id}>
         {options.title || label}

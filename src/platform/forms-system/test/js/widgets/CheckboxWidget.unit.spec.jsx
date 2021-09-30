@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
+import { mount } from 'enzyme';
 import sinon from 'sinon';
 
 import CheckboxWidget from '../../../src/js/widgets/CheckboxWidget';
@@ -40,5 +41,25 @@ describe('Schemaform <CheckboxWidget>', () => {
       },
     });
     expect(onChange.calledWith(false)).to.be.true;
+  });
+  it('should render ariaDescribedBy attribute', () => {
+    const onChange = sinon.spy();
+    const tree = mount(
+      <CheckboxWidget
+        id="1"
+        value
+        required
+        disabled={false}
+        onChange={onChange}
+        options={{ title: 'Title', ariaDescribedBy: 'test-id' }}
+      />,
+    );
+    expect(
+      tree
+        .find('input')
+        .getDOMNode()
+        .getAttribute('aria-describedby'),
+    ).to.equal('test-id');
+    tree.unmount();
   });
 });
