@@ -9,7 +9,7 @@ import BackToAppointments from '../../components/BackToAppointments';
 import Footer from '../../components/Footer';
 import AppointmentLocation from '../../components/AppointmentDisplay/AppointmentLocation';
 
-import { STATUSES } from '../../utils/appointment/status';
+import { hasMoreAppointmentsToCheckInto } from '../../utils/appointment';
 
 export default function MultipleAppointments({
   appointments,
@@ -18,10 +18,10 @@ export default function MultipleAppointments({
   const appointment = selectedAppointment;
   const appointmentDateTime = new Date(appointment.startTime);
   const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
-  const shouldShowBackButton =
-    appointments
-      .filter(f => f.appointmentIEN !== selectedAppointment.appointmentIEN)
-      .filter(f => f.status === STATUSES.ELIGIBLE).length > 0;
+  const shouldShowBackButton = hasMoreAppointmentsToCheckInto(
+    appointments,
+    selectedAppointment,
+  );
 
   return (
     <div

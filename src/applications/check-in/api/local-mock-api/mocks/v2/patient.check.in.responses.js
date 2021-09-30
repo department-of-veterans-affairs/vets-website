@@ -92,4 +92,5 @@ module.exports = {
   createMockSuccessResponse,
   createMockFailedResponse,
   createMultipleAppointments,
+  createAppointment,
 };
