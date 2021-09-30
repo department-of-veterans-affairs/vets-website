@@ -1,4 +1,5 @@
 import React from 'react';
+import { debounce } from 'lodash';
 import { isWideScreen } from '../../../utilities/accessibility/index';
 import CrisisPanel from './CrisisPanel';
 import DesktopLinks from './DesktopLinks';
@@ -18,16 +19,15 @@ class Footer extends React.Component {
     };
   }
   componentDidMount() {
-    // TODO: debounce
     window.addEventListener(
       'resize',
-      () => {
+      debounce(() => {
         if (this.state.isMobile !== !isWideScreen()) {
           this.setState({
             isMobile: !isWideScreen(),
           });
         }
-      },
+      }, 250),
       false,
     );
     if (this.props.handleFooterDidMount) {
