@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 // Example of an imported schema:
 // import fullSchema from '../22-1990-schema.json';
@@ -18,6 +19,8 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import * as address from 'platform/forms-system/src/js/definitions/address';
+import { parseISODate } from 'platform/forms-system/src/js/helpers';
+import { isValidPartialDate } from 'platform/forms-system/src/js/utilities/validations';
 
 import manifest from '../manifest.json';
 
@@ -37,6 +40,7 @@ import EmailReviewField from '../components/EmailReviewField';
 
 import {
   activeDutyLabel,
+  formatReadableDate,
   selectedReserveLabel,
   unsureDescription,
   post911GiBillNote,
@@ -1118,6 +1122,28 @@ const formConfig = {
               },
               'ui:required': givingUpBenefitSelected,
               'ui:reviewField': DateReviewField,
+              'ui:validations': [
+                (errors, dateString) => {
+                  const { day, month, year } = parseISODate(dateString);
+                  const effectiveDate = moment(dateString);
+                  const minDate = moment().subtract(1, 'year');
+                  const maxDate = moment().add(6, 'month');
+
+                  if (
+                    !isValidPartialDate(day, month, year) ||
+                    effectiveDate.isBefore(minDate, 'day') ||
+                    effectiveDate.isAfter(maxDate, 'day')
+                  ) {
+                    errors.addError(
+                      `Please enter a date between ${formatReadableDate(
+                        minDate.format('YYYY-MM-DD'),
+                      )} and ${formatReadableDate(
+                        maxDate.format('YYYY-MM-DD'),
+                      )}.`,
+                    );
+                  }
+                },
+              ],
             },
             'view:effectiveDateNotes': {
               'ui:description': (
