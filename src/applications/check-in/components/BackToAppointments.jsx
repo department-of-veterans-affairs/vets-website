@@ -17,7 +17,6 @@ const BackToAppointments = ({ router }) => {
   return (
     <>
       <nav
-        aria-label="Breadcrumb"
         aria-live="polite"
         className="va-nav-breadcrumbs va-nav-breadcrumbs--mobile vads-u-margin-top--3"
       >
