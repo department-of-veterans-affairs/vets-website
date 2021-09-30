@@ -73,7 +73,7 @@ const NotificationChannel = ({
         id={channelId}
         value={{ value: currentValue }}
         label={itemName}
-        name={itemName}
+        name={`${itemName}-${channelType}`}
         description={radioButtonDescription}
         options={[
           {
