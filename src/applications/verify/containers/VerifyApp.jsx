@@ -13,6 +13,7 @@ import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors'
 import { verify } from 'platform/user/authentication/utilities';
 import { hasSession } from 'platform/user/profile/utilities';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
+import { focusElement } from '~/platform/utilities/ui';
 
 export class VerifyApp extends React.Component {
   constructor(props) {
@@ -41,6 +42,9 @@ export class VerifyApp extends React.Component {
     if (shouldCheckAccount) {
       this.checkAccountAccess();
     }
+    if (!this.props.profile.loading && prevProps.profile.loading) {
+      focusElement('h1');
+    }
   }
 
   checkAccountAccess() {
@@ -65,7 +69,7 @@ export class VerifyApp extends React.Component {
           <div className="row">
             <div className="columns small-12">
               <div>
-                <h1 tabIndex="-1">Verify your identity</h1>
+                <h1>Verify your identity</h1>
                 <AlertBox
                   content={`You signed in with ${this.signInMethod}`}
                   isVisible
