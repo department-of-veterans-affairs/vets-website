@@ -532,9 +532,8 @@ const formConfig = {
                   </p>
                   <p>
                     <a href="/profile/personal-information">
-                      go to your profile page
+                      Go to your profile
                     </a>
-                    .
                   </p>
                 </>
               ),
