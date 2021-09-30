@@ -1037,10 +1037,6 @@ const formConfig = {
                     to give up one other benefit you may be eligible for.
                   </p>
                   <p>
-                    Because you are applying for the Post-9/11 GI Bill, you have
-                    to give up one other benefit you may be eligible for.
-                  </p>
-                  <p>
                     You cannot change your decision after you submit this
                     application.
                   </p>
