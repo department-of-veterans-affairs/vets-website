@@ -30,5 +30,7 @@ return octokit.rest.actions
       throw new Error('No workflows found. Aborting.');
     }
 
+    console.log(workflow_runs[0]);
+    console.log(workflow_runs[0].run_number);
     return workflow_runs[0].run_number;
   });
