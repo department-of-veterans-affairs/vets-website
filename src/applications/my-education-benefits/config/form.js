@@ -799,7 +799,9 @@ const formConfig = {
                 'ui:validations': [
                   (errors, field, formData) => {
                     if (
-                      !formData['view:phoneNumbers'].mobilePhoneNumber.phone
+                      !formData['view:phoneNumbers'].mobilePhoneNumber.phone ||
+                      formData['view:phoneNumbers'].mobilePhoneNumber
+                        .isInternational
                     ) {
                       errors.addError(
                         "You can't choose to get text message notifications because we don't have a mobile phone number on file for you",
