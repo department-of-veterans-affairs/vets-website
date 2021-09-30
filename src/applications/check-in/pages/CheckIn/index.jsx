@@ -43,7 +43,8 @@ const CheckIn = props => {
             .getCheckInData(token)
             .then(json => {
               const { payload } = json;
-              setMultipleAppointments(payload, token);
+
+              setMultipleAppointments(payload.appointments, token);
               setIsLoadingData(false);
               focusElement('h1');
             })
