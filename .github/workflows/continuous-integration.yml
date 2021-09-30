@@ -23,6 +23,9 @@ jobs:
       latest_run_number: ${{ steps.latest-run-number.outputs.latest_run_number }}
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Get Node version
         id: get-node-version
         run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
@@ -31,7 +34,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-          
+
       - name: Set output of latest_run_number
         id: latest-run-number
         run: echo ::set-output name=latest_run_number::$(node ./script/github-actions/get-latest-run-number.js)
