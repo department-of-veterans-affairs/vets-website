@@ -65,7 +65,7 @@ export class VerifyApp extends React.Component {
           <div className="row">
             <div className="columns small-12">
               <div>
-                <h1>Verify your identity</h1>
+                <h1 tabIndex="-1">Verify your identity</h1>
                 <AlertBox
                   content={`You signed in with ${this.signInMethod}`}
                   isVisible
