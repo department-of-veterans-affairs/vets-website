@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { api } from '../../api';
 
 import { goToNextPage, URLS } from '../../utils/navigation';
@@ -6,13 +7,16 @@ import { STATUSES, areEqual } from '../../utils/appointment/status';
 import recordEvent from 'platform/monitoring/record-event';
 import format from 'date-fns/format';
 
-export default function AppointmentAction(props) {
+import { appointmentWAsCheckedInto } from '../../actions';
+
+const AppointmentAction = props => {
   const {
     appointment,
     isLowAuthEnabled,
     isMultipleAppointmentsEnabled,
     token,
     router,
+    setSelectedAppointment,
   } = props;
 
   const [isCheckingIn, setIsCheckingIn] = useState(false);
@@ -38,6 +42,7 @@ export default function AppointmentAction(props) {
       });
       const { status } = json;
       if (status === 200) {
+        setSelectedAppointment(appointment);
         goToNextPage(router, URLS.COMPLETE);
       } else {
         goToNextPage(router, URLS.ERROR);
@@ -79,7 +84,7 @@ export default function AppointmentAction(props) {
     } else if (areEqual(appointment.status, STATUSES.INELIGIBLE_TOO_LATE)) {
       return (
         <p data-testid="too-late-message">
-          Your appointment started more than 10 minutes ago. We can't check you
+          Your appointment started more than 10 minutes ago. We can’t check you
           in online. Ask a staff member for help.
         </p>
       );
@@ -102,12 +107,24 @@ export default function AppointmentAction(props) {
         </p>
       );
     }
-  } else {
-    return (
-      <p data-testid="no-status-given-message">
-        This appointment isn’t eligible for online check-in. Check-in with a
-        staff member.
-      </p>
-    );
   }
-}
+  return (
+    <p data-testid="no-status-given-message">
+      This appointment isn’t eligible for online check-in. Check-in with a staff
+      member.
+    </p>
+  );
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setSelectedAppointment: appointment => {
+      dispatch(appointmentWAsCheckedInto(appointment));
+    },
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(AppointmentAction);
