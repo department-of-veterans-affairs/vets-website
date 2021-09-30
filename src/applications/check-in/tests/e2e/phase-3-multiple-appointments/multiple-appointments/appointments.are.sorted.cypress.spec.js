@@ -28,7 +28,7 @@ describe('Check In Experience -- ', () => {
         const latest = mockPatientCheckIns.createAppointment();
         latest.startTime = '2021-08-19T18:00:00';
 
-        rv.payload = [latest, earliest, midday];
+        rv.payload.appointments = [latest, earliest, midday];
         req.reply(rv);
       });
       cy.intercept('POST', '/check_in/v2/patient_check_ins/', req => {
