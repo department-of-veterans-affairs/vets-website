@@ -488,8 +488,15 @@ export default class EducationWizard extends React.Component {
               </div>
             )}
             {newBenefit === 'yes' &&
+              serviceBenefitBasedOn === 'own' &&
               nationalCallToService === 'no' &&
               vetTecBenefit === 'no' &&
+              post911GIBill === 'yes' &&
+              this.getButton('22-1990')}
+            {newBenefit === 'yes' &&
+              nationalCallToService === 'no' &&
+              vetTecBenefit === 'no' &&
+              post911GIBill === 'no' &&
               this.getButton('1990')}
             {newBenefit === 'yes' &&
               nationalCallToService === 'no' &&
