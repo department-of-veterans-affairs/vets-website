@@ -200,7 +200,7 @@ const ConfirmationPage = ({
                   <a
                     href={`${
                       environment.BASE_URL
-                    }/hearing-aid-batteries-and-accessories/introduction`}
+                    }/health-care/order-hearing-aid-batteries-and-accessories/order-form-2346/`}
                   >
                     place an order online
                   </a>
