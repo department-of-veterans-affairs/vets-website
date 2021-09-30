@@ -46,7 +46,6 @@ describe('Schemaform <CheckboxWidget>', () => {
     const tree = SkinDeep.shallowRender(
       <CheckboxWidget
         id="1"
-        value={false}
         required
         disabled={false}
         onChange={onChange}

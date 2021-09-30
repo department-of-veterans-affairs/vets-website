@@ -18,8 +18,8 @@ export default function CheckboxWidget({
 
   const { widgetProps } = options;
 
-  const getProps = () => ({
-    ...(widgetProps?.[value] || {}),
+  const getProps = val => ({
+    ...(widgetProps?.[val] || {}),
   });
 
   return (
@@ -32,7 +32,7 @@ export default function CheckboxWidget({
         required={required}
         disabled={disabled}
         onChange={event => onChange(event.target.checked)}
-        {...getProps()}
+        {...getProps(typeof value === 'undefined' ? false : value)}
       />
       <label className="schemaform-label" htmlFor={id}>
         {options.title || label}
