@@ -24,7 +24,10 @@ export default function MultipleAppointments({
       .filter(f => f.status === STATUSES.ELIGIBLE).length > 0;
 
   return (
-    <div className="vads-l-grid-container vads-u-padding-y--5">
+    <div
+      className="vads-l-grid-container vads-u-padding-y--5"
+      data-testid="multiple-appointments-confirm"
+    >
       <VaAlert
         status="success"
         onVa-component-did-load={() => {
