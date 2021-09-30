@@ -143,7 +143,7 @@ export const ContactRules = () => {
         be sure the call, email, or text is really from VA.
         <ul>
           <li>
-            Text messages will always come from <strong>53079</strong>.
+            Text messages will always come from <strong>80728</strong>.
           </li>
           <li>
             Emails will always come from a <strong>va.gov</strong> email
