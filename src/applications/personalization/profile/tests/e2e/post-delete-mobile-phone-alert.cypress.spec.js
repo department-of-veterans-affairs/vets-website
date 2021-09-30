@@ -36,8 +36,7 @@ describe('Contact info update success alert', () => {
       body: userWithoutMobilePhone,
     });
   });
-  // TODO remove the skip once we can confirm this works well on staging
-  it.skip('should be shown after deleting mobile phone number', () => {
+  it('should be shown after deleting mobile phone number', () => {
     cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
     cy.findByRole('link', { name: /update mobile phone/i }).click();
     cy.findByRole('button', { name: /remove mobile phone/i }).click();
