@@ -869,10 +869,6 @@ jobs:
           #   bucket: staging-va-gov-assets
 
     steps:
-      - name: Test origin_master_sha output
-        run: echo ${{ needs.archive.outputs.origin_master_sha }}
-        continue-on-error: true
-
       - name: Checkout
         uses: actions/checkout@v2
 
