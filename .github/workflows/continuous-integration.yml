@@ -186,6 +186,9 @@ jobs:
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
           restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
+      - name: temp ssl remove
+        run: npm config set strict-ssl false
+
       - name: Install dependencies
         uses: nick-invision/retry@v2
         with:
