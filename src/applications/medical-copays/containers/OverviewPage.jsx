@@ -8,7 +8,7 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import Alert from '../components/Alerts';
 
 const OverviewPage = () => {
-  const statementData = useSelector(({ mcp }) => mcp.statements.data);
+  const statementData = useSelector(({ mcp }) => mcp.statements);
   const errors = useSelector(({ mcp }) => mcp.errors);
   const [alertType, setAlertType] = useState(null);
 

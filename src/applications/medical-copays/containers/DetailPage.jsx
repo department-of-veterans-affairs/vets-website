@@ -15,7 +15,7 @@ import moment from 'moment';
 const DetailPage = ({ match }) => {
   const selectedId = match.params.id;
   const errors = useSelector(({ mcp }) => mcp.errors);
-  const statementData = useSelector(({ mcp }) => mcp.statements.data) ?? [];
+  const statementData = useSelector(({ mcp }) => mcp.statements);
   const [selectedCopay] = statementData?.filter(({ id }) => id === selectedId);
   const [alertType, setAlertType] = useState(null);
 
