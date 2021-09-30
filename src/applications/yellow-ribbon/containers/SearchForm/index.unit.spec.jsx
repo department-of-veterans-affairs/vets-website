@@ -16,7 +16,7 @@ describe('Yellow Ribbon container <SearchForm>', () => {
       'button .additional-info-title',
     );
     // open additional info tip
-    tree.find('button .additional-info-title').simulate('click');
+    tree.find('a .additional-info-title').simulate('click');
     const AdditionalInfoToolTipContent = tree.find('.additional-info-content');
 
     expect(select.length).to.be.equal(1);
