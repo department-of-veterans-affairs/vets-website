@@ -6,6 +6,7 @@ import {
 import { FOOTER_EVENTS } from '../helpers';
 import recordEvent from '../../../monitoring/record-event';
 import { TRANSLATED_LANGUAGES } from 'applications/static-pages/i18Select/utilities/constants';
+import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 
 const langAssistanceLabel = 'Language assistance';
 
@@ -20,22 +21,23 @@ function LanguagesListTemplate({ dispatchLanguageSelection }) {
         {
           label: 'Español',
           lang: 'es',
-          href: '/asistencia-y-recursos-en-espanol',
+          href: 'https://www.va.gov/asistencia-y-recursos-en-espanol',
         },
         {
           label: 'Tagalog',
           lang: 'tl',
-          href: '/tagalog-wika-mapagkukunan-at-tulong',
+          href: 'https://www.va.gov/tagalog-wika-mapagkukunan-at-tulong',
         },
         {
           label: 'Other languages',
           lang: 'en',
-          href: '/resources/how-to-get-free-language-assistance-from-va/',
+          href:
+            'https://www.va.gov/resources/how-to-get-free-language-assistance-from-va/',
         },
       ].map((link, i) => (
         <li key={i}>
           <a
-            href={link.href}
+            href={replaceWithStagingDomain(link.href)}
             lang={link.lang}
             hrefLang={link.lang}
             onClick={() => {
