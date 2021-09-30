@@ -7,7 +7,7 @@
   "supportFile": "src/platform/testing/e2e/cypress/support/index.js",
   "testFiles": "**/tests/**/*.cypress.spec.js?(x)",
   "waitForAnimations": false,
-  "reporter": "cypress-testrail-reporter",
+  "reporter": "cy-tr-reporter",
   "reporterOptions": {
     "host": "https://dsvavsp.testrail.io/",
     "username": "TR_USER",
