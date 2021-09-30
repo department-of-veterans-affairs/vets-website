@@ -126,17 +126,11 @@ function selectedTests(graph, pathsOfChangedFiles) {
   const applications = [];
   const applicationNames = pathsOfChangedFiles
     .filter(filePath => !filePath.endsWith('.md'))
-    .map(filePath => filePath.split('/')[2])
-    .filter(name => name !== 'user');
-
-  /* eslint-disable no-console */
-  console.log('applicationNames:', applicationNames);
-  console.log('graph:', graph);
+    .map(filePath => filePath.split('/')[2]);
 
   [...new Set(applicationNames)].forEach(app => {
     // Lookup app in cross-app imports graph to reference which app's tests
     // should run
-    console.log('Graph for ', app, ' is ', graph[app]);
     applications.push(...graph[app].appsToTest);
   });
 
@@ -192,16 +186,13 @@ function selectTests(graph, pathsOfChangedFiles) {
       }
     }
 
-    // if (allMdFiles) {
-    //   return [];
-    // } else if (allMdAndOrSrcApplicationsFiles) {
-    //   return selectedTests(graph, pathsOfChangedFiles);
-    // } else {
-    //   return allTests();
-    // }
-
-    // Always use test selection for testing
-    return selectedTests(graph, pathsOfChangedFiles);
+    if (allMdFiles) {
+      return [];
+    } else if (allMdAndOrSrcApplicationsFiles) {
+      return selectedTests(graph, pathsOfChangedFiles);
+    } else {
+      return allTests();
+    }
   }
 }
 
@@ -241,15 +232,7 @@ function exportVariables(tests) {
 }
 
 function run() {
-  const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ').filter(
-    filepath => {
-      // Ignore files for testing
-      return (
-        !filepath.endsWith('.yml') &&
-        filepath !== 'script/github-actions/select-cypress-tests.js'
-      );
-    },
-  );
+  const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
   const graph = dedupeGraph(buildGraph());
   const tests = selectTests(graph, pathsOfChangedFiles);
   exportVariables(tests);
