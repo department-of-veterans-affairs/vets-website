@@ -74,7 +74,7 @@ const AppointmentAction = props => {
         </p>
       );
     } else if (areEqual(appointment.status, STATUSES.INELIGIBLE_TOO_EARLY)) {
-      const appointmentDateTime = new Date(appointment.startTime);
+      const appointmentDateTime = new Date(appointment.appointmentCheckInStart);
       const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
       return (
         <p data-testid="too-early-message">
