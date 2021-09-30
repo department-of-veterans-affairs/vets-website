@@ -69,96 +69,96 @@ jobs:
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
           # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
-      - name: Install dependencies
-        uses: nick-invision/retry@v2
-        with:
-          command: yarn install --frozen-lockfile --prefer-offline --production=false
-          max_attempts: 3
-          timeout_minutes: 7
-        env:
-          YARN_CACHE_FOLDER: .cache/yarn
+      # - name: Install dependencies
+      #   uses: nick-invision/retry@v2
+      #   with:
+      #     command: yarn install --frozen-lockfile --prefer-offline --production=false
+      #     max_attempts: 3
+      #     timeout_minutes: 7
+      #   env:
+      #     YARN_CACHE_FOLDER: .cache/yarn
 
-      - name: Build
-        run: yarn build --verbose --buildtype=${{ matrix.buildtype }}
-        timeout-minutes: 30
+      # - name: Build
+      #   run: yarn build --verbose --buildtype=${{ matrix.buildtype }}
+      #   timeout-minutes: 30
 
-      # ----------------------------
-      # | Notify Slack of failures |
-      # ---------------------------
+      # # ----------------------------
+      # # | Notify Slack of failures |
+      # # ---------------------------
 
-      - name: Get va-vsp-bot token
-        if: ${{ failure() }}
-        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+      # - name: Get va-vsp-bot token
+      #   if: ${{ failure() }}
+      #   uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+      #   with:
+      #     ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+      #     env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      - name: Checkout VSP actions
-        if: ${{ failure() }}
-        uses: actions/checkout@v2
-        with:
-          repository: department-of-veterans-affairs/vsp-github-actions
-          ref: refs/heads/main
-          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-          persist-credentials: false
-          path: ./.github/actions/vsp-github-actions
+      # - name: Checkout VSP actions
+      #   if: ${{ failure() }}
+      #   uses: actions/checkout@v2
+      #   with:
+      #     repository: department-of-veterans-affairs/vsp-github-actions
+      #     ref: refs/heads/main
+      #     token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+      #     persist-credentials: false
+      #     path: ./.github/actions/vsp-github-actions
 
-      - name: Get Slack app token
-        if: ${{ failure() }}
-        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
-        with:
-          ssm_parameter: /devops/github_actions_slack_socket_token
-          env_variable_name: SLACK_APP_TOKEN
+      # - name: Get Slack app token
+      #   if: ${{ failure() }}
+      #   uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+      #   with:
+      #     ssm_parameter: /devops/github_actions_slack_socket_token
+      #     env_variable_name: SLACK_APP_TOKEN
 
-      - name: Get Slack bot token
-        if: ${{ failure() }}
-        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
-        with:
-          ssm_parameter: /devops/github_actions_slack_bot_user_token
-          env_variable_name: SLACK_BOT_TOKEN
+      # - name: Get Slack bot token
+      #   if: ${{ failure() }}
+      #   uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+      #   with:
+      #     ssm_parameter: /devops/github_actions_slack_bot_user_token
+      #     env_variable_name: SLACK_BOT_TOKEN
 
-      - name: Notify Slack about build failures
-        if: ${{ failure() }}
-        uses: ./.github/actions/vsp-github-actions/slack-socket
-        continue-on-error: true
-        env:
-          SSL_CERT_DIR: /etc/ssl/certs
-        with:
-          slack_app_token: ${{ env.SLACK_APP_TOKEN }}
-          slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
-          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "At least one build step in `vets-website` has failed, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
-          channel_id: C02AG8UF95M # gha-build-status
+      # - name: Notify Slack about build failures
+      #   if: ${{ failure() }}
+      #   uses: ./.github/actions/vsp-github-actions/slack-socket
+      #   continue-on-error: true
+      #   env:
+      #     SSL_CERT_DIR: /etc/ssl/certs
+      #   with:
+      #     slack_app_token: ${{ env.SLACK_APP_TOKEN }}
+      #     slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
+      #     attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "At least one build step in `vets-website` has failed, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
+      #     channel_id: C02AG8UF95M # gha-build-status
 
-      - name: Cancel other parallel steps
-        if: ${{ failure() }}
-        uses: andymckay/cancel-action@0.2
+      # - name: Cancel other parallel steps
+      #   if: ${{ failure() }}
+      #   uses: andymckay/cancel-action@0.2
 
-      # ----------------
-      # | End Notify Slack |
-      # ----------------
+      # # ----------------
+      # # | End Notify Slack |
+      # # ----------------
 
-      - name: Generate build details
-        run: |
-          cat > build/${{ matrix.buildtype }}/BUILD.txt << EOF
-          BUILDTYPE=${{ matrix.buildtype }}
-          NODE_ENV=production
-          BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
-          CHANGE_TARGET=null
-          RUN_ID=${{ github.run_id }}
-          RUN_NUMBER=${{ github.run_number }}
-          REF=${{ github.sha }}
-          BUILDTIME=$(date +%s)
-          EOF
+      # - name: Generate build details
+      #   run: |
+      #     cat > build/${{ matrix.buildtype }}/BUILD.txt << EOF
+      #     BUILDTYPE=${{ matrix.buildtype }}
+      #     NODE_ENV=production
+      #     BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
+      #     CHANGE_TARGET=null
+      #     RUN_ID=${{ github.run_id }}
+      #     RUN_NUMBER=${{ github.run_number }}
+      #     REF=${{ github.sha }}
+      #     BUILDTIME=$(date +%s)
+      #     EOF
 
-      - name: Compress and archive build
-        run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
+      # - name: Compress and archive build
+      #   run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
 
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ matrix.buildtype }}.tar.bz2
-          path: ${{ matrix.buildtype }}.tar.bz2
-          retention-days: 1
+      # - name: Upload build artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: ${{ matrix.buildtype }}.tar.bz2
+      #     path: ${{ matrix.buildtype }}.tar.bz2
+      #     retention-days: 1
 
   unit-tests:
     name: Unit Tests
@@ -451,44 +451,44 @@ jobs:
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
           # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
-      # - name: Install dependencies
-      #   uses: nick-invision/retry@v2
-      #   with:
-      #     command: yarn install --frozen-lockfile --prefer-offline --production=false
-      #     max_attempts: 3
-      #     timeout_minutes: 7
-      #   env:
-      #     YARN_CACHE_FOLDER: .cache/yarn
+      - name: Install dependencies
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          max_attempts: 3
+          timeout_minutes: 7
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
 
-      # - name: Set IS_MASTER_BUILD
-      #   run: |
-      #     if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
-      #         echo "IS_MASTER_BUILD=true" >> $GITHUB_ENV
-      #     else
-      #         echo "IS_MASTER_BUILD=false" >> $GITHUB_ENV
-      #     fi
+      - name: Set IS_MASTER_BUILD
+        run: |
+          if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
+              echo "IS_MASTER_BUILD=true" >> $GITHUB_ENV
+          else
+              echo "IS_MASTER_BUILD=false" >> $GITHUB_ENV
+          fi
 
-      # - name: List changed files
-      #   id: changed-files
-      #   run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+      - name: List changed files
+        id: changed-files
+        run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
 
-      # - name: Set NUM_CONTAINERS, CI_NODE_INDEX, TESTS variables
-      #   run: node script/github-actions/select-cypress-tests.js
-      #   env:
-      #     IS_MASTER_BUILD: ${{ env.IS_MASTER_BUILD }}
-      #     CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+      - name: Set NUM_CONTAINERS, CI_NODE_INDEX, TESTS variables
+        run: node script/github-actions/select-cypress-tests.js
+        env:
+          IS_MASTER_BUILD: ${{ env.IS_MASTER_BUILD }}
+          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
-      # - name: Set output of NUM_CONTAINERS
-      #   id: containers
-      #   run: echo ::set-output name=num::$NUM_CONTAINERS
+      - name: Set output of NUM_CONTAINERS
+        id: containers
+        run: echo ::set-output name=num::$NUM_CONTAINERS
 
-      # - name: Set output of CI_NODE_INDEX
-      #   id: matrix
-      #   run: echo ::set-output name=ci_node_index::$CI_NODE_INDEX
+      - name: Set output of CI_NODE_INDEX
+        id: matrix
+        run: echo ::set-output name=ci_node_index::$CI_NODE_INDEX
 
-      # - name: Set output of TESTS
-      #   id: tests
-      #   run: echo ::set-output name=selected::$TESTS
+      - name: Set output of TESTS
+        id: tests
+        run: echo ::set-output name=selected::$TESTS
 
   cypress-tests:
     name: Cypress E2E Tests
