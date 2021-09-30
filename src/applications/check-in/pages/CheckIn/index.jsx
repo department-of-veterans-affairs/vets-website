@@ -79,7 +79,7 @@ const CheckIn = props => {
   );
 
   if (isLoadingData) {
-    return <LoadingIndicator message={'Loading you appointments for today'} />;
+    return <LoadingIndicator message={'Loading your appointments for today'} />;
   } else if (!appointment) {
     goToNextPage(router, URLS.ERROR);
     return <></>;
