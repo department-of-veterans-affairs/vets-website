@@ -1980,10 +1980,10 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@3.1.2":
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.1.2.tgz#6c3c11ec8eac91762b9d192d8cbd1117bb81ed9e"
-  integrity sha512-9y8HBE/nAjU3hu8NrSqYJMdaUYncd8uHZKR6tswZ7HIv9w/3hil85rbaR6cIAGrBV60dOiiyy5IpYdD28tFXbQ==
+"@department-of-veterans-affairs/component-library@^3.2.1":
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.2.1.tgz#f2ad105ae4ef3bf2612d4dd0061047cc39125443"
+  integrity sha512-wllEc0fuds08akZrLP+jEdkU7vkNEoEPSnlQtYDHqlbpVHe4wwlt6ffgin9CHV4KXffXbs8cFM9WobZ19tObVQ==
   dependencies:
     classnames "^2.2.6"
     core-js "^3.9.0"
@@ -19131,9 +19131,9 @@ wcwidth@^1.0.1:
   dependencies:
     defaults "^1.0.3"
 
-"web-components@https://github.com/department-of-veterans-affairs/component-library/releases/download/wc-v0.11.1/web-components-v0.11.1.tgz":
-  version "0.11.1"
-  resolved "https://github.com/department-of-veterans-affairs/component-library/releases/download/wc-v0.11.1/web-components-v0.11.1.tgz#8ffbb75d64610eb401ce0ab4f5e628d29981ae3c"
+"web-components@https://github.com/department-of-veterans-affairs/component-library/releases/download/wc-v0.11.2/web-components-v0.11.2.tgz":
+  version "0.11.2"
+  resolved "https://github.com/department-of-veterans-affairs/component-library/releases/download/wc-v0.11.2/web-components-v0.11.2.tgz#b6aeddef4409c96486bc666791e13efe342d2b3c"
   dependencies:
     "@stencil/core" "^2.0.1"
     "@stencil/postcss" "^2.0.0"

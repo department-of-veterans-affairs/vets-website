@@ -236,7 +236,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/component-library": "3.1.2",
+    "@department-of-veterans-affairs/component-library": "^3.2.1",
     "@department-of-veterans-affairs/formation": "6.17.3",
     "@department-of-veterans-affairs/formulate": "0.0.1",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
@@ -305,7 +305,7 @@
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#3a0946727d9013ff2771af37bfca0c4c0ff0a1d5",
-    "web-components": "https://github.com/department-of-veterans-affairs/component-library/releases/download/wc-v0.11.1/web-components-v0.11.1.tgz",
+    "web-components": "https://github.com/department-of-veterans-affairs/component-library/releases/download/wc-v0.11.2/web-components-v0.11.2.tgz",
     "whatwg-fetch": "^3.6.2"
   },
   "resolutions": {
