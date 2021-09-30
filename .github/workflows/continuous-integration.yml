@@ -20,8 +20,8 @@ jobs:
     name: Build
     runs-on: self-hosted
 
-    env:
-      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+    # env:
+    #   NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
 
     strategy:
       fail-fast: false
@@ -69,8 +69,8 @@ jobs:
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
           restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
-      - name: ca
-        run: yarn config set cafile ${{ env.NODE_EXTRA_CA_CERTS }}
+      # - name: ca
+      #   run: yarn config set cafile ${{ env.NODE_EXTRA_CA_CERTS }}
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
