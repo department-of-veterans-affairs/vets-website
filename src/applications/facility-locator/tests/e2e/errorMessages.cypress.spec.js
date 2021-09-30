@@ -1,8 +1,19 @@
+import mockServices from '../../constants/mock-provider-services.json';
+import mockFacilityDataV1 from '../../constants/mock-facility-data-v1.json';
+
 describe('Facility search error messages', () => {
   beforeEach(() => {
     cy.server();
-    cy.route('GET', '/v0/feature_toggles?*', []);
+    cy.route('GET', '/v0/feature_toggles?*', { data: { features: [] } });
     cy.route('GET', '/v0/maintenance_windows', []);
+    cy.intercept('GET', '/facilities_api/v1/ccp/specialties', mockServices).as(
+      'mockServices',
+    );
+    cy.intercept(
+      'GET',
+      '/facilities_api/v1/ccp/provider?**',
+      mockFacilityDataV1,
+    ).as('searchFacilities');
     cy.visit('/find-locations');
   });
 
@@ -40,11 +51,12 @@ describe('Facility search error messages', () => {
     cy.get('.usa-input-error-message').should('not.exist');
   });
 
-  it('shows error message when leaving service type field epmty', () => {
+  it('shows error message when leaving service type field empty', () => {
     cy.get('#facility-type-dropdown').select(
       'Community providers (in VA’s network)',
     );
     // Wait for services to be saved to state and input field to not be disabled
+    cy.wait('@mockServices');
     cy.get('#service-type-ahead-input')
       .should('not.be.disabled')
       .focus();
@@ -92,7 +104,7 @@ describe('Facility search error messages', () => {
 
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').contains(
-      'Results for "Community providers (in VA’s network)", "Dentist - Orofacial Pain " near "Austin, Texas"',
+      'Results for "Community providers (in VA’s network)", "Dentist - Orofacial Pain" near "Austin, Texas"',
     );
 
     cy.get('#service-type-ahead-input').clear();
