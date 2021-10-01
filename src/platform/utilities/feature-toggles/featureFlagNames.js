@@ -52,7 +52,7 @@ export default Object.freeze({
   gibctSchoolRatings: 'gibct_school_ratings',
   hlrv2: 'hlr_v2',
   languageSupport: 'language_support',
-  loginGov: 'logingov',
+  loginGov: 'login_gov',
   manageDependents: 'dependents_management',
   megaMenuMobileV2: 'mega_menu_mobile_v2',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
