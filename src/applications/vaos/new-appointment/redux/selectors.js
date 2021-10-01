@@ -22,7 +22,6 @@ import {
   selectFeatureCCIterations,
   selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
-  selectFeatureVariantTesting,
   selectRegisteredCernerFacilityIds,
 } from '../../redux/selectors';
 
@@ -273,7 +272,6 @@ export function getFacilityPageV2Info(state) {
   const address = selectVAPResidentialAddress(state);
   const facilities = newAppointment.facilities[(typeOfCare?.id)];
   const eligibility = selectEligibility(state);
-  const showVariant = selectFeatureVariantTesting(state);
 
   return {
     ...formInfo,
@@ -294,7 +292,6 @@ export function getFacilityPageV2Info(state) {
     sortMethod: selectFacilityPageSortMethod(state),
     typeOfCare,
     cernerSiteIds: selectRegisteredCernerFacilityIds(state),
-    showVariant,
   };
 }
 
@@ -401,7 +398,6 @@ export function selectFacilitiesRadioWidget(state) {
     facilityPageSortMethod,
     requestLocationStatus,
   } = newAppointment;
-  const showVariant = selectFeatureVariantTesting(state);
   const cernerSiteIds = selectRegisteredCernerFacilityIds(state);
   const sortMethod = facilityPageSortMethod;
 
@@ -409,7 +405,6 @@ export function selectFacilitiesRadioWidget(state) {
     cernerSiteIds,
     loadingEligibility: eligibilityStatus === FETCH_STATUS.loading,
     requestLocationStatus,
-    showVariant,
     sortMethod,
   };
 }
