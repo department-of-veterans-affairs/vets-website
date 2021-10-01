@@ -186,13 +186,16 @@ function selectTests(graph, pathsOfChangedFiles) {
       }
     }
 
-    if (allMdFiles) {
-      return [];
-    } else if (allMdAndOrSrcApplicationsFiles) {
-      return selectedTests(graph, pathsOfChangedFiles);
-    } else {
-      return allTests();
-    }
+    // if (allMdFiles) {
+    //   return [];
+    // } else if (allMdAndOrSrcApplicationsFiles) {
+    //   return selectedTests(graph, pathsOfChangedFiles);
+    // } else {
+    //   return allTests();
+    // }
+
+    // Always use test selection for testing
+    return selectedTests(graph, pathsOfChangedFiles);
   }
 }
 
@@ -232,7 +235,15 @@ function exportVariables(tests) {
 }
 
 function run() {
-  const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
+  const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ').filter(
+    filepath => {
+      // Ignore files for testing
+      return (
+        !filepath.endsWith('.yml') &&
+        filepath !== 'script/github-actions/select-cypress-tests.js'
+      );
+    },
+  );
   const graph = dedupeGraph(buildGraph());
   const tests = selectTests(graph, pathsOfChangedFiles);
   exportVariables(tests);

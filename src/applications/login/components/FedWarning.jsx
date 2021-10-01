@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Test single app builds
 export default function FedWarning() {
   return (
     <div className="fed-warning">
