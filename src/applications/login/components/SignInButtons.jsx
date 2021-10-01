@@ -11,8 +11,8 @@ function loginHandler(loginType) {
   login(loginType, 'v1');
 }
 
-function signupHandler(csp) {
-  signup({ version: 'v1', queryParams: { csp } });
+function signupHandler(loginType) {
+  signup({ version: 'v1', queryParams: { csp: loginType } });
 }
 
 export default function SignInButtons({ isDisabled, useLoginGov }) {
