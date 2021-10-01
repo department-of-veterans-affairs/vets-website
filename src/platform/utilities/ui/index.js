@@ -35,10 +35,12 @@ export function focusElement(selectorOrElement, options) {
 // Allows smooth scrolling to be overridden by our E2E tests
 export function getScrollOptions(additionalOptions) {
   const globals = window.Forms || {};
+  const reducedMotion = window?.matchMedia('(prefers-reduced-motion: reduce)')
+    ?.matches;
   const defaults = {
-    duration: 500,
+    duration: reducedMotion ? 0 : 500,
     delay: 0,
-    smooth: true,
+    smooth: !reducedMotion,
   };
   return Object.assign({}, defaults, globals.scroll, additionalOptions);
 }

@@ -2,24 +2,14 @@
 import AfghanistanPromoBanner from '../components/AfghanistanPromoBanner';
 import ExploreVAModal from '../components/ExploreVAModal';
 import SingleSignOnInfoModal from '../components/SingleSignOnInfoModal';
-import VAMCWelcomeModal, { VAMC_PATHS } from '../components/VAMCWelcomeModal';
-import VAPlusVetsModal from '../components/VAPlusVetsModal';
 
 const config = {
   announcements: [
     {
       name: 'afghanistan-banner-v2',
-      // Only the homepage (e.g. `/`).
-      paths: /^(\/)$/,
-      component: AfghanistanPromoBanner,
-    },
-    {
-      name: 'brand-consolidation-va-plus-vets',
       // All pages.
       paths: /(.)/,
-      component: VAPlusVetsModal,
-      disabled: !VAPlusVetsModal.isEnabled(),
-      showEverytime: true,
+      component: AfghanistanPromoBanner,
     },
     {
       name: 'explore-va',
@@ -28,12 +18,6 @@ const config = {
       component: ExploreVAModal,
       disabled: !ExploreVAModal.isEnabled(),
       showEverytime: true,
-    },
-    {
-      name: 'pittsburgh-vamc',
-      paths: VAMC_PATHS.PITTSBURGH,
-      component: VAMCWelcomeModal,
-      region: 'Pittsburgh',
     },
     {
       name: 'single-sign-on-intro',

@@ -52,10 +52,7 @@ const approvedPage = (
         Download a copy of your <a href="#">Certificate of Eligibility</a>.
       </li>
       <li>
-        Use our{' '}
-        <a href="https://www.va.gov/gi-bill-comparison-tool/ ">
-          GI Bill Comparison Tool
-        </a>{' '}
+        Use our <a href="/gi-bill-comparison-tool/ ">GI Bill Comparison Tool</a>{' '}
         to help you decide which education program and school is best for you.
       </li>
       <li>
@@ -65,7 +62,7 @@ const approvedPage = (
       </li>
       <li>
         Review and/or update your direct deposit information on your{' '}
-        <a href="https://www.va.gov/change-direct-deposit/">VA.gov profile</a>.
+        <a href="/change-direct-deposit/">VA.gov profile</a>.
       </li>
       <li>
         Learn more about VA benefits and programs through the{' '}
@@ -96,7 +93,7 @@ const approvedPage = (
       </a>
     </AdditionalInfo>
 
-    <a className="vads-c-action-link--green" href="https://www.va.gov/my-va/">
+    <a className="vads-c-action-link--green" href="/my-va/">
       Go to your My VA dashboard
     </a>
 
@@ -117,10 +114,7 @@ const deniedPage = (
         Your denial letter, which explains why you are ineligible, is now
         available. A physical copy will also be mailed to your mailing address.{' '}
       </p>
-      <a
-        className="usa-button"
-        href="https://www.va.gov/records/download-va-letters/"
-      >
+      <a className="usa-button" href="/records/download-va-letters/">
         Download your letter
       </a>
       <a href="https://www.va.gov/education/gi-bill/post-9-11/ch-33-benefit/ ">
@@ -158,7 +152,7 @@ const deniedPage = (
       <li>There is no further action required by you at this time.</li>
     </ul>
 
-    <a className="vads-c-action-link--green" href="https://www.va.gov/my-va/">
+    <a className="vads-c-action-link--green" href="/my-va/">
       Go to your My VA dashboard
     </a>
 
@@ -226,13 +220,10 @@ const pendingPage = (
       </li>
       <li>
         Review and/or update your direct deposit information on{' '}
-        <a href="https://www.va.gov/change-direct-deposit/">VA.gov profile</a>.
+        <a href="/change-direct-deposit/">VA.gov profile</a>.
       </li>
       <li>
-        Use our{' '}
-        <a href="https://www.va.gov/gi-bill-comparison-tool/ ">
-          GI Bill Comparison Tool
-        </a>{' '}
+        Use our <a href="/gi-bill-comparison-tool/ ">GI Bill Comparison Tool</a>{' '}
         to help you decide which education program and school is best for you.
       </li>
       <li>
@@ -252,7 +243,7 @@ const pendingPage = (
       </li>
     </ul>
 
-    <a className="vads-c-action-link--green" href="https://www.va.gov/my-va/">
+    <a className="vads-c-action-link--green" href="/my-va/">
       Go to your My VA dashboard
     </a>
 
@@ -261,7 +252,10 @@ const pendingPage = (
 );
 
 const loadingPage = (
-  <div className="meb-confirmation-page meb-confirmation-page_loading">
+  <div
+    className="meb-confirmation-page meb-confirmation-page_loading"
+    style={{ marginBottom: '3rem' }}
+  >
     <h1>Wait right there</h1>
     <p>We are currently processing your application.</p>
     <LoadingIndicator message="Loading your results" />
@@ -279,7 +273,7 @@ export class ConfirmationPage extends React.Component {
     const { response } = submission;
     const name = data.veteranFullName;
 
-    const confirmationResult = 'approved';
+    const confirmationResult = 'loading';
 
     switch (confirmationResult) {
       case 'approved': {

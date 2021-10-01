@@ -9,6 +9,7 @@ import { mockFetch } from 'platform/testing/unit/helpers';
 import {
   createTestStore,
   renderWithStoreAndRouter,
+  setClosestCity,
   setCommunityCareFlow,
   setTypeOfCare,
   setTypeOfFacility,
@@ -690,6 +691,10 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
         { id: '984', address: { city: 'Belgrade', state: 'MT' } },
       ],
     });
+
+    // Belgrade is the 2nd of three options so the expectation is
+    // that it should be selected when we get to the CommunityCareProviderSelectionPage.
+    await setClosestCity(store, /Belgrade/i);
 
     // When the page is displayed
     const screen = renderWithStoreAndRouter(

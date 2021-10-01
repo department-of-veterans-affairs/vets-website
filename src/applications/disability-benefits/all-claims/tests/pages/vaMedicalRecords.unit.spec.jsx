@@ -134,8 +134,8 @@ describe('VA Medical Records', () => {
           ],
           serviceInformation: {
             servicePeriods: [
-              { dateRange: { from: '2012-01-12' } },
-              { dateRange: { from: '2001-05-30' } },
+              { dateRange: { from: '2012-01-12' }, serviceBranch: 'Army' },
+              { dateRange: { from: '2001-05-30' }, serviceBranch: 'Army' },
             ],
           },
         }}

@@ -30,16 +30,6 @@ class VAPServiceTransactionPending extends React.Component {
       </span>
     );
 
-    if (this.props.title.toLowerCase() === 'mobile phone number') {
-      content = (
-        <span>
-          We’re working on saving your new {this.props.title.toLowerCase()} and
-          text alert preference. They will show on your profile once they’ve
-          been updated.
-        </span>
-      );
-    }
-
     if (this.props.method === 'DELETE') {
       content = (
         <span>

@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import { waitFor, screen, fireEvent, act } from '@testing-library/react';
 import sinon from 'sinon';
@@ -7,11 +9,11 @@ import * as Sentry from '@sentry/browser';
 
 import Chatbox from '../components/chatbox/Chatbox';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { commonReducer } from 'platform/startup/store';
 import {
   mockApiRequest,
   mockMultipleApiRequests,
 } from 'platform/testing/unit/helpers';
-import { createTestStore } from '../../vaos/tests/mocks/setup';
 import { FETCH_TOGGLE_VALUES_SUCCEEDED } from 'platform/site-wide/feature-toggles/actionTypes';
 import Main from 'platform/site-wide/user-nav/containers/Main';
 import GreetUser from '../components/webchat/makeBotGreetUser';
@@ -36,6 +38,16 @@ describe('App', () => {
         },
       },
     });
+  }
+
+  function createTestStore(initialState) {
+    return createStore(
+      combineReducers({
+        ...commonReducer,
+      }),
+      initialState,
+      applyMiddleware(thunk),
+    );
   }
 
   beforeEach(() => {
@@ -426,14 +438,14 @@ describe('App', () => {
       );
       const button = wrapper.getByText('Sign in to VA.gov');
 
-      expect(wrapper.queryByRole('alertdialog')).to.not.exist;
+      expect(wrapper.queryByRole('dialog')).to.not.exist;
 
       await act(async () => {
         fireEvent.click(button);
       });
 
       expect(store.getState().navigation.showLoginModal).to.be.true;
-      expect(wrapper.getByRole('alertdialog')).to.exist;
+      expect(wrapper.getByRole('dialog')).to.exist;
     });
 
     it('does not display chatbot', async () => {
