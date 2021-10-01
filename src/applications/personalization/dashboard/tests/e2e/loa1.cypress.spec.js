@@ -111,3 +111,14 @@ describe('The My VA Dashboard', () => {
     loa1DashboardTest(true, stubs);
   });
 });
+
+describe('When clicking on the verify your identity link', () => {
+  it('should focus on the h1 element', () => {
+    cy.login(loa1User);
+    cy.visit(manifest.rootUrl);
+    cy.findByRole('link', { name: /verify your identity/i })
+      .should('exist')
+      .click();
+    cy.get('h1').should('be.focused');
+  });
+});
