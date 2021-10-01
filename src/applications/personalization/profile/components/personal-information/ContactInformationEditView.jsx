@@ -82,7 +82,7 @@ export class ContactInformationEditView extends Component {
 
   clearErrorsAndShiftFocus(fieldName) {
     this.props.clearTransactionRequest(fieldName);
-    focusElement('[data-testid="save-edit-button"]');
+    this.focusOnFirstFormElement();
   }
 
   componentDidMount() {
