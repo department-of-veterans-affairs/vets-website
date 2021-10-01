@@ -26,6 +26,7 @@ const createAppointment = (
   clinicFriendlyName = 'TEST CLINIC',
 ) => {
   const startTime = new Date();
+  const appointmentCheckInStart = new Date();
   if (status === 'INELIGIBLE_TOO_LATE') {
     startTime.setHours(startTime.getHours() - 1);
   } else if (status === 'INELIGIBLE_TOO_EARLY') {
@@ -33,6 +34,7 @@ const createAppointment = (
   } else {
     startTime.setMinutes(startTime.getMinutes() + 15);
   }
+  appointmentCheckInStart.setHours(startTime.getHours() - 1);
   return {
     facility: 'LOMA LINDA VA CLINIC',
     clinicPhoneNumber: '5551234567',
@@ -42,6 +44,7 @@ const createAppointment = (
     startTime,
     status,
     facilityId,
+    appointmentCheckInStart,
   };
 };
 
