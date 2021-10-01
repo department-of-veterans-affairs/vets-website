@@ -79,7 +79,7 @@ jobs:
           YARN_CACHE_FOLDER: .cache/yarn
 
       - name: Build
-        run: yarn build --verbose --buildtype=${{ matrix.buildtype }} --entry login-page
+        run: yarn build --verbose --buildtype=${{ matrix.buildtype }}
         timeout-minutes: 30
 
       # ----------------------------
