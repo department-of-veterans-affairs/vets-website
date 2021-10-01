@@ -110,7 +110,8 @@ describe('check-in', () => {
         <AppointmentAction
           appointment={{
             status: STATUSES.INELIGIBLE_TOO_EARLY,
-            startTime: '2021-07-19T14:00:00',
+            appointmentCheckInStart: '2021-07-19T14:00:00',
+            startTime: '2021-07-19T14:30:00',
           }}
           store={fakeStore}
         />,

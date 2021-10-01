@@ -19,7 +19,7 @@ const ConfirmRemoveModal = ({
   return (
     <Modal
       title={`Are you sure?`}
-      cssClass="va-modal"
+      cssClass="overflow-auto"
       status="warning"
       visible={isVisible}
       onClose={onHide}
