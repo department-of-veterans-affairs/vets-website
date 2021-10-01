@@ -149,9 +149,6 @@ export function logout(
 }
 
 export function signup({ version = 'v1', queryParams = {} }) {
-  // eslint-disable-next-line no-console
-  console.log(queryParams);
-
   return redirect(
     sessionTypeUrl({ type: 'signup', version, queryParams }),
     'register-link-clicked',
