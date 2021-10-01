@@ -29,5 +29,22 @@ describe('Feedback Tool Keyboard Test', () => {
       ],
       'ArrowDown',
     );
+    cy.allyEvaluateRadioButtons(
+      [
+        'input#root_onBehalfOf_0',
+        'input#root_onBehalfOf_1',
+        'input#root_onBehalfOf_2',
+      ],
+      'ArrowUp',
+      true,
+    );
+
+    cy.get('input#root_onBehalfOf_0').should('be.focused');
+
+    cy.repeatKey('Tab', 3);
+
+    cy.get('input[name="root_fullName_first"]').should('be.visible');
+    cy.realPress('Tab');
+    cy.allyEvaluateSelectMenu('#root_fullName_prefix', 'dr', 'Dr.');
   });
 });
