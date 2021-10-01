@@ -60,7 +60,7 @@ class AcceptTermsPrompt extends React.Component {
       return <div />;
     }
 
-    const H = `h${this.props.level || 1}`;
+    const titleHLevel = `h${this.props.level || 1}`;
 
     const submitDisabled = !(
       this.state.scrolledToBottom && this.state.yesSelected
@@ -112,7 +112,7 @@ class AcceptTermsPrompt extends React.Component {
           tabIndex="0"
         >
           <div dangerouslySetInnerHTML={{ __html: terms.headerContent }} />
-          <H>{terms.title}</H>
+          <titleHLevel>{terms.title}</titleHLevel>
           <div className="terms-box">
             <div className="terms-head">
               Scroll to read the full terms and conditions to continue
