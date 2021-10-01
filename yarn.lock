@@ -1980,7 +1980,7 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@^3.2.0":
+"@department-of-veterans-affairs/component-library@^3.2.1":
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.2.1.tgz#f2ad105ae4ef3bf2612d4dd0061047cc39125443"
   integrity sha512-wllEc0fuds08akZrLP+jEdkU7vkNEoEPSnlQtYDHqlbpVHe4wwlt6ffgin9CHV4KXffXbs8cFM9WobZ19tObVQ==
@@ -19131,9 +19131,9 @@ wcwidth@^1.0.1:
   dependencies:
     defaults "^1.0.3"
 
-"web-components@https://github.com/department-of-veterans-affairs/component-library.git#4cd1d0ddeb681700a1f8196d272ea44efef81e18":
-  version "0.11.1"
-  resolved "https://github.com/department-of-veterans-affairs/component-library.git#4cd1d0ddeb681700a1f8196d272ea44efef81e18"
+"web-components@https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.11.2":
+  version "0.11.2"
+  resolved "https://github.com/department-of-veterans-affairs/component-library.git#6f34f06d5bbba2a216dcfbca535169ccaec5d4d4"
   dependencies:
     "@stencil/core" "^2.0.1"
     "@stencil/postcss" "^2.0.0"
