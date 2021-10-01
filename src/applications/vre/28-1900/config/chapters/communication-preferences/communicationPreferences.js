@@ -89,18 +89,12 @@ export const uiSchema = {
       'ui:title': 'Midday 10:00 a.m. to 2:00 p.m.',
       'ui:options': {
         hideEmptyValueInReview: true,
-        widgetProps: {
-          false: { 'aria-describedby': 'appointment-time-desc' },
-        },
       },
     },
     afternoon: {
       'ui:title': 'Afternoons 2:00 to 6:00 p.m.',
       'ui:options': {
         hideEmptyValueInReview: true,
-        widgetProps: {
-          false: { 'aria-describedby': 'appointment-time-desc' },
-        },
       },
     },
   },
