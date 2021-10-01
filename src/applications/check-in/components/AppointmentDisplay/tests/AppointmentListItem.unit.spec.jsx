@@ -2,20 +2,36 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
 
 import AppointmentListItem from '../AppointmentListItem';
 
 describe('check-in', () => {
   describe('AppointmentListItem', () => {
+    let store;
+    beforeEach(() => {
+      const middleware = [];
+      const mockStore = configureStore(middleware);
+      const initState = {
+        checkInData: {
+          context: {},
+        },
+      };
+      store = mockStore(initState);
+    });
     it('should render the appointment time', () => {
       const listItem = render(
-        <AppointmentListItem
-          appointment={{
-            startTime: '2021-07-19T13:56:31',
-            clinicFriendlyName: 'Green Team Clinic1',
-          }}
-        />,
+        <Provider store={store}>
+          <AppointmentListItem
+            appointment={{
+              startTime: '2021-07-19T13:56:31',
+              clinicFriendlyName: 'Green Team Clinic1',
+            }}
+          />
+        </Provider>,
       );
 
       expect(listItem.getByTestId('appointment-time')).to.exist;
@@ -29,12 +45,14 @@ describe('check-in', () => {
     });
     it('passes axeCheck', () => {
       axeCheck(
-        <AppointmentListItem
-          appointment={{
-            startTime: '2021-07-19T13:56:31',
-            clinicFriendlyName: 'Green Team Clinic1',
-          }}
-        />,
+        <Provider store={store}>
+          <AppointmentListItem
+            appointment={{
+              startTime: '2021-07-19T13:56:31',
+              clinicFriendlyName: 'Green Team Clinic1',
+            }}
+          />
+        </Provider>,
       );
     });
   });

@@ -1,11 +1,10 @@
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import { ADDRESS_TYPES, MILITARY_STATES } from '../../utils/constants';
+import { ADDRESS_TYPES_ALTERNATE } from '@@vap-svc/constants';
 
 import {
   getBenefitOptionText,
-  inferAddressType,
   resetDisallowedAddressFields,
   isAddressEmpty,
 } from '../../utils/helpers';
@@ -15,7 +14,7 @@ const address = {
   addressOne: '123 Main St N',
   stateCode: 'MA',
   zipCode: '12345',
-  type: ADDRESS_TYPES.domestic,
+  type: ADDRESS_TYPES_ALTERNATE.domestic,
   city: 'Bygtowne',
 };
 
@@ -125,40 +124,10 @@ describe('Letters helpers: ', () => {
     });
   });
 
-  describe('inferAddressType', () => {
-    it("should set the type to international if USA isn't selected", () => {
-      const newAddress = Object.assign({}, address, { countryName: 'Uganda' });
-      expect(inferAddressType(newAddress).type).to.equal(
-        ADDRESS_TYPES.international,
-      );
-    });
-
-    it('should set the type to military if a military stateCode is chosen', () => {
-      const newAddress = Object.assign({}, address);
-      Array.from(MILITARY_STATES).forEach(code => {
-        newAddress.stateCode = code;
-        expect(inferAddressType(newAddress).type).to.equal(
-          ADDRESS_TYPES.military,
-        );
-      });
-    });
-
-    it('should set the type to domestic if the countryName is "United States"', () => {
-      const newAddress = { ...address, countryName: 'United States' };
-      expect(inferAddressType(newAddress).type).to.equal(
-        ADDRESS_TYPES.domestic,
-      );
-    });
-
-    it('should set the type to domestic if none of the above are true', () => {
-      expect(inferAddressType(address).type).to.equal(ADDRESS_TYPES.domestic);
-    });
-  });
-
   describe('resetDisallowedAddressFields', () => {
     it('should clear state and zipCode for international addresses', () => {
       const internationalAddress = Object.assign({}, address, {
-        type: ADDRESS_TYPES.international,
+        type: ADDRESS_TYPES_ALTERNATE.international,
       });
       const resetAddress = resetDisallowedAddressFields(internationalAddress);
 
