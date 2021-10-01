@@ -1,20 +1,22 @@
 const createMockSuccessResponse = (data, hasBeenValidated) => {
   const rv = {
     id: data.id || '46bebc0a-b99c-464f-a5c5-560bc9eae287',
-    payload: [
-      {
-        facility: 'LOMA LINDA VA CLINIC',
-        clinicPhoneNumber: '5551234567',
-        clinicFriendlyName: 'TEST CLINIC',
-        clinicName: 'LOM ACC CLINIC TEST',
-        appointmentIEN: 'some-ien',
-      },
-    ],
+    payload: {
+      appointments: [
+        {
+          facility: 'LOMA LINDA VA CLINIC',
+          clinicPhoneNumber: '5551234567',
+          clinicFriendlyName: 'TEST CLINIC',
+          clinicName: 'LOM ACC CLINIC TEST',
+          appointmentIEN: 'some-ien',
+        },
+      ],
+    },
   };
   if (hasBeenValidated) {
-    rv.payload[0].startTime = '2021-08-19T13:56:31';
-    rv.payload[0].status = 'ELIGIBLE';
-    rv.payload[0].facilityId = 'ABC_123';
+    rv.payload.appointments[0].startTime = '2021-08-19T13:56:31';
+    rv.payload.appointments[0].status = 'ELIGIBLE';
+    rv.payload.appointments[0].facilityId = 'ABC_123';
   }
   return rv;
 };
@@ -23,8 +25,10 @@ const createAppointment = (
   status = 'ELIGIBLE',
   facilityId = 'some-facility',
   appointmentIEN = 'some-ien',
+  clinicFriendlyName = 'TEST CLINIC',
 ) => {
   const startTime = new Date();
+  const appointmentCheckInStart = new Date();
   if (status === 'INELIGIBLE_TOO_LATE') {
     startTime.setHours(startTime.getHours() - 1);
   } else if (status === 'INELIGIBLE_TOO_EARLY') {
@@ -32,15 +36,17 @@ const createAppointment = (
   } else {
     startTime.setMinutes(startTime.getMinutes() + 15);
   }
+  appointmentCheckInStart.setHours(startTime.getHours() - 1);
   return {
     facility: 'LOMA LINDA VA CLINIC',
     clinicPhoneNumber: '5551234567',
-    clinicFriendlyName: 'TEST CLINIC',
+    clinicFriendlyName,
     clinicName: 'LOM ACC CLINIC TEST',
     appointmentIEN,
     startTime,
     status,
     facilityId,
+    appointmentCheckInStart,
   };
 };
 
@@ -50,12 +56,35 @@ const createMultipleAppointments = (
 ) => {
   const rv = {
     id: token || '46bebc0a-b99c-464f-a5c5-560bc9eae287',
-    payload: [createAppointment('INELIGIBLE_TOO_LATE')],
+    payload: {
+      appointments: [
+        createAppointment(
+          'INELIGIBLE_TOO_LATE',
+          'ABC_123',
+          `some-ien-L`,
+          `TEST CLINIC-L`,
+        ),
+      ],
+    },
   };
   for (let i = 0; i < numberOfCheckInAbledAppointments; i++) {
-    rv.payload.push(createAppointment('ELIGIBLE', 'ABC_123', `some-ien${i}`));
+    rv.payload.appointments.push(
+      createAppointment(
+        'ELIGIBLE',
+        'ABC_123',
+        `some-ien-${i}`,
+        `TEST CLINIC-${i}`,
+      ),
+    );
   }
-  rv.payload.push(createAppointment('INELIGIBLE_TOO_EARLY'));
+  rv.payload.appointments.push(
+    createAppointment(
+      'INELIGIBLE_TOO_EARLY',
+      'ABC_123',
+      `some-ien-E`,
+      `TEST CLINIC-E`,
+    ),
+  );
 
   return rv;
 };
@@ -70,4 +99,5 @@ module.exports = {
   createMockSuccessResponse,
   createMockFailedResponse,
   createMultipleAppointments,
+  createAppointment,
 };

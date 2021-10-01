@@ -5,6 +5,7 @@ import BackToHome from '../../components/BackToHome';
 import Footer from '../../components/Footer';
 import BackButton from '../../components/BackButton';
 import AppointmentListItem from '../../components/AppointmentDisplay/AppointmentListItem';
+import { sortAppointmentsByStartTime } from '../../utils/appointment';
 
 export default function DisplayMultipleAppointments(props) {
   const {
@@ -14,6 +15,8 @@ export default function DisplayMultipleAppointments(props) {
     appointments,
     router,
   } = props;
+
+  const sortedAppointments = sortAppointmentsByStartTime(appointments);
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 appointment-check-in">
       {isUpdatePageEnabled && <BackButton router={router} />}
@@ -29,7 +32,7 @@ export default function DisplayMultipleAppointments(props) {
         className="appointment-list vads-u-padding--0 vads-u-margin--0 vads-u-margin-bottom--2"
         role="list"
       >
-        {appointments.map((appointment, index) => {
+        {sortedAppointments.map((appointment, index) => {
           return (
             <AppointmentListItem
               appointment={appointment}
