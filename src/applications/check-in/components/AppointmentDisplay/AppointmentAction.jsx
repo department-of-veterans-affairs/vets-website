@@ -21,6 +21,9 @@ const AppointmentAction = props => {
 
   const [isCheckingIn, setIsCheckingIn] = useState(false);
 
+  const defaultMessage =
+    'This appointment isn’t eligible for online check-in. Check-in with a staff member.';
+
   const onClick = async () => {
     recordEvent({
       event: 'cta-button-click',
@@ -68,19 +71,27 @@ const AppointmentAction = props => {
       );
     } else if (areEqual(appointment.status, STATUSES.INELIGIBLE_BAD_STATUS)) {
       return (
-        <p data-testid="ineligible-bad-status-message">
-          This appointment isn’t eligible for online check-in. Check-in with a
-          staff member.
-        </p>
+        <p data-testid="ineligible-bad-status-message">{defaultMessage}</p>
       );
     } else if (areEqual(appointment.status, STATUSES.INELIGIBLE_TOO_EARLY)) {
-      const appointmentDateTime = new Date(appointment.startTime);
-      const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
-      return (
-        <p data-testid="too-early-message">
-          You can check in starting at this time: {appointmentTime}
-        </p>
-      );
+      if (appointment.appointmentCheckInStart) {
+        const appointmentDateTime = new Date(
+          appointment.appointmentCheckInStart,
+        );
+        const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
+        return (
+          <p data-testid="too-early-message">
+            You can check in starting at this time: {appointmentTime}
+          </p>
+        );
+      } else {
+        return (
+          <p data-testid="no-time-too-early-reason-message">
+            This appointment isn’t eligible for online check-in. Check-in with a
+            staff member.
+          </p>
+        );
+      }
     } else if (areEqual(appointment.status, STATUSES.INELIGIBLE_TOO_LATE)) {
       return (
         <p data-testid="too-late-message">
@@ -91,29 +102,14 @@ const AppointmentAction = props => {
     } else if (
       areEqual(appointment.status, STATUSES.INELIGIBLE_UNSUPPORTED_LOCATION)
     ) {
-      return (
-        <p data-testid="unsupported-location-message">
-          This appointment isn’t eligible for online check-in. Check-in with a
-          staff member.
-        </p>
-      );
+      return <p data-testid="unsupported-location-message">{defaultMessage}</p>;
     } else if (
       areEqual(appointment.status, STATUSES.INELIGIBLE_UNKNOWN_REASON)
     ) {
-      return (
-        <p data-testid="unknown-reason-message">
-          This appointment isn’t eligible for online check-in. Check-in with a
-          staff member.
-        </p>
-      );
+      return <p data-testid="unknown-reason-message">{defaultMessage}</p>;
     }
   }
-  return (
-    <p data-testid="no-status-given-message">
-      This appointment isn’t eligible for online check-in. Check-in with a staff
-      member.
-    </p>
-  );
+  return <p data-testid="no-status-given-message">{defaultMessage}</p>;
 };
 
 const mapDispatchToProps = dispatch => {
