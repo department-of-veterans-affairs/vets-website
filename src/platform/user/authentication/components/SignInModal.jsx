@@ -5,32 +5,6 @@ import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
-/*
-  Task list
-  1. Update feature flags for Login.gov
-    a. [x] Ensure it is added to backend flipper features.yml
-    b. [x] Add it to the featureFlagNames.js
-    c. [x] Add it to auth/selectors.js
-  
-  2. Update SignInModal & /sign-in page
-    a. [x] Responsiveness
-    b. [x] Updated designs from prototype
-    c. [x] Use bigger buttons
-    d. [x] Add Login.gov button and update utilities to add CSP
-
-  3. Accessibility testing
-    a. [x] 508C testing
-    b. [x] aXe accessibility testing
-    c. Magnification testing
-    d. Voice-over testing
-    e. Send to VSA Public sites for confirmation
-
-  4. Update unit & integration testing
-    a. Update unit tests
-    b. Verify flipper feature works as intended
-
-*/
-
 import Telephone, {
   CONTACTS,
   PATTERNS,
@@ -180,13 +154,6 @@ export class SignInModal extends React.Component {
             <h1>Sign in</h1>
           </div>
         </div>
-        {/* <div className="row medium-screen:vads-u-display--none mobile-explanation">
-          <div className="columns small-12">
-            <h2 className="usa-font-lead medium-screen:vads-u-margin-top--0">
-              One site. A lifetime of benefits and services at your fingertips.
-            </h2>
-          </div>
-        </div> */}
         {this.renderDowntimeBanners()}
         <div>
           <div className="usa-width-one-half">

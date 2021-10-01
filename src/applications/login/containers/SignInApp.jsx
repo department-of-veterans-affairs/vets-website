@@ -82,14 +82,6 @@ class SignInPage extends React.Component {
             </h1>
           </div>
         </div>
-        {/* <div className="row medium-screen:vads-u-display--none mobile-explanation">
-          <div className="columns small-12">
-            <h2 className="vads-u-margin-top--0">
-              One sign in. A lifetime of benefits and services at your
-              fingertips.
-            </h2>
-          </div>
-        </div> */}
         {downtimeBanners.map((props, index) =>
           this.downtimeBanner(props, globalDowntime, index),
         )}
