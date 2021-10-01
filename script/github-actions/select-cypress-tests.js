@@ -126,7 +126,9 @@ function selectedTests(graph, pathsOfChangedFiles) {
   const applications = [];
   const applicationNames = pathsOfChangedFiles
     .filter(filePath => !filePath.endsWith('.md'))
-    .map(filePath => filePath.split('/')[2]);
+    .map(filePath => filePath.split('/')[2])
+    .filter(name => name !== 'user')
+    .filter(name => name !== 'utilities');
 
   [...new Set(applicationNames)].forEach(app => {
     // Lookup app in cross-app imports graph to reference which app's tests
