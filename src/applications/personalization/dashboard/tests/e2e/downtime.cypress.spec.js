@@ -51,8 +51,10 @@ describe('The My VA Dashboard', () => {
     cy.findByRole('button', { name: /continue/i }).should('not.exist');
 
     cy.visit(manifest.rootUrl);
-    cy.findByRole('button', { name: /close this modal/i }).click();
-    cy.findByRole('button', { name: /close this modal/i }).should('not.exist');
+    cy.findByRole('button', { name: /close the info modal/i }).click();
+    cy.findByRole('button', { name: /close the info modal/i }).should(
+      'not.exist',
+    );
   });
   it('should not show a modal if there is no upcoming downtime', () => {
     const oneDayInMS = 60 * 60 * 24 * 1000;

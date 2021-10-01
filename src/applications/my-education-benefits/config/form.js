@@ -24,10 +24,8 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import toursOfDutyUI from '../definitions/toursOfDuty';
-import DateViewField from '../components/DateViewField';
 import CustomReviewDOBField from '../components/CustomReviewDOBField';
 import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView';
-import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
 import EmailViewField from '../components/EmailViewField';
 import PhoneViewField from '../components/PhoneViewField';
 import AccordionField from '../components/AccordionField';
@@ -110,7 +108,7 @@ const formPages = {
   // directDeposit: 'directDeposit',
   additionalConsiderations: {
     activeDutyKicker: {
-      name: 'activeDutyKicker',
+      name: 'active-duty-kicker',
       order: 1,
       title:
         'Do you qualify for an active duty kicker, sometimes called a College Fund?',
@@ -121,7 +119,7 @@ const formPages = {
       },
     },
     reserveKicker: {
-      name: 'reserveKicker',
+      name: 'reserve-kicker',
       order: 1,
       title:
         'Do you qualify for a reserve kicker, sometimes called a College Fund?',
@@ -132,13 +130,13 @@ const formPages = {
       },
     },
     militaryAcademy: {
-      name: 'militaryAcademy',
+      name: 'academy-commission',
       order: 2,
       title:
         'Did you graduate and receive a commission from the United States Military Academy, Naval Academy, Air Force Academy, or Coast Guard Academy?',
     },
     seniorRotc: {
-      name: 'seniorRotc',
+      name: 'rotc-commission',
       order: 3,
       title: 'Were you commissioned as a result of Senior ROTC?',
       additionalInfo: {
@@ -148,7 +146,7 @@ const formPages = {
       },
     },
     loanPayment: {
-      name: 'loanPayment',
+      name: 'loan-payment',
       order: 4,
       title:
         'Do you have a period of service that the Department of Defense counts towards an education loan payment?',
@@ -320,7 +318,7 @@ const formConfig = {
   trackingPrefix: 'my-education-benefits-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '22-1990-MEB',
+  formId: '22-1990EZ',
   saveInProgress: {
     messages: {
       inProgress:
@@ -355,7 +353,7 @@ const formConfig = {
       pages: {
         [formPages.applicantInformation]: {
           title: 'Applicant information',
-          path: 'applicant/information',
+          path: 'applicant-information/personal-information',
           subTitle: 'Review your personal information',
           instructions:
             'This is the personal information we have on file for you.',
@@ -410,34 +408,14 @@ const formConfig = {
                 },
               },
             },
-            'view:dateOfBirth': {
-              'ui:options': {
-                hideLabelText: true,
-                showFieldLabel: false,
-                startInEdit: formData => {
-                  const { dateOfBirth } = formData;
-
-                  if (!dateOfBirth) {
-                    return true;
-                  }
-
-                  const dateParts = dateOfBirth.split('-');
-                  return !isValidCurrentOrPastDate(
-                    dateParts[2],
-                    dateParts[1],
-                    dateParts[0],
-                  );
-                },
-                viewComponent: DateViewField,
-              },
-              [formFields.dateOfBirth]: {
-                ...currentOrPastDateUI('Date of birth'),
-                'ui:reviewField': CustomReviewDOBField,
-              },
+            [formFields.dateOfBirth]: {
+              ...currentOrPastDateUI('Date of birth'),
+              'ui:reviewField': CustomReviewDOBField,
             },
           },
           schema: {
             type: 'object',
+            required: [formFields.dateOfBirth],
             properties: {
               'view:subHeadings': {
                 type: 'object',
@@ -459,13 +437,7 @@ const formConfig = {
                   },
                 },
               },
-              'view:dateOfBirth': {
-                type: 'object',
-                required: [formFields.dateOfBirth],
-                properties: {
-                  [formFields.dateOfBirth]: date,
-                },
-              },
+              [formFields.dateOfBirth]: date,
             },
           },
           initialData: {
@@ -477,9 +449,7 @@ const formConfig = {
                 suffix: 'Jr.',
               },
             },
-            'view:dateOfBirth': {
-              dateOfBirth: '1992-07-23',
-            },
+            dateOfBirth: '1992-07-23',
           },
         },
       },
@@ -489,12 +459,12 @@ const formConfig = {
       pages: {
         [formPages.contactInformation.contactInformation]: {
           title: 'Phone numbers and email address',
-          path: 'contact/information',
+          path: 'contact-information/email-phone',
           initialData: {
             [formFields.viewPhoneNumbers]: {
               mobilePhoneNumber: {
                 phone: '123-456-7890',
-                isInternational: true,
+                isInternational: false,
               },
               phoneNumber: {
                 phone: '098-765-4321',
@@ -511,22 +481,28 @@ const formConfig = {
               'ui:description': (
                 <>
                   <h3>Review your phone numbers and email address</h3>
-                  <p>We’ll use this information to:</p>
+                  <p>
+                    <b>We’ll use this information to:</b>
+                  </p>
                   <ul>
                     <li>
-                      Get in touch with you if we have questions about your
-                      application
+                      Contact you if we have questions about your application
                     </li>
-                    <li>
-                      Communicate important information about your benefits
-                    </li>
+                    <li>Tell you important information about your benefits</li>
                   </ul>
                   <p>
-                    Any updates you make here to your contact information will
-                    only apply to your education benefits. To update your
-                    contact information for all of the benefits across VA,{' '}
+                    This is the contact information we have on file for you. If
+                    you notice any errors, please correct them now. Any updates
+                    you make will change the information for your education
+                    benefits only.
+                  </p>
+                  <p>
+                    <b>Note:</b> If you want to update your contact information
+                    for other VA benefits, you can do that from your profile.
+                  </p>
+                  <p>
                     <a href="/profile/personal-information">
-                      please go to your profile page
+                      go to your profile page
                     </a>
                     .
                   </p>
@@ -604,7 +580,7 @@ const formConfig = {
         },
         [formPages.contactInformation.mailingAddress]: {
           title: 'Mailing address',
-          path: 'contact/information/mailing/address',
+          path: 'contact-information/mailing-address',
           initialData: {
             'view:mailingAddress': {
               livesOnMilitaryBase: false,
@@ -739,7 +715,7 @@ const formConfig = {
         },
         [formPages.contactInformation.preferredContactMethod]: {
           title: 'Contact preferences',
-          path: 'contact/preferences',
+          path: 'contact-information/contact-preferences',
           uiSchema: {
             'view:contactMethod': {
               'ui:description': (

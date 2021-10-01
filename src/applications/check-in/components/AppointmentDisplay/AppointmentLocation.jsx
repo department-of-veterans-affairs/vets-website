@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AppointmentLocation = ({ appointment }) => {
+const AppointmentLocation = ({ appointment, bold }) => {
   let display;
 
   if (appointment.clinicFriendlyName) {
@@ -10,7 +10,9 @@ const AppointmentLocation = ({ appointment }) => {
   } else {
     display = appointment.facility;
   }
-
+  if (bold) {
+    return <span className="vads-u-font-weight--bold">{display}</span>;
+  }
   return <>{display}</>;
 };
 

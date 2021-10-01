@@ -27,7 +27,7 @@ import {
   selectVAPContactInfoField,
   selectVAPServiceTransaction,
   selectEditViewData,
-  selectMostRecentlySavedField,
+  selectMostRecentlyUpdatedField,
 } from '@@vap-svc/selectors';
 
 import { isVAPatient } from '~/platform/user/selectors';
@@ -47,7 +47,7 @@ import CannotEditModal from './CannotEditModal';
 import ConfirmCancelModal from './ConfirmCancelModal';
 import ConfirmRemoveModal from './ConfirmRemoveModal';
 
-import SaveSuccessAlert from '../alerts/ContactInformationSaveSuccessAlert';
+import UpdateSuccessAlert from '../alerts/ContactInformationUpdateSuccessAlert';
 
 // Helper function that generates a string that can be used for a contact info
 // field's edit button.
@@ -161,6 +161,7 @@ class ContactInformationField extends React.Component {
       'profile-action': 'cancel-delete-button',
       'profile-section': this.props.analyticsSectionName,
     });
+    this.closeModal();
   };
 
   onDelete = () => {
@@ -202,6 +203,7 @@ class ContactInformationField extends React.Component {
   justClosedModal(prevProps, props) {
     return (
       (prevProps.showEditView && !props.showEditView) ||
+      (prevProps.showRemoveModal && !props.showRemoveModal) ||
       (prevProps.showValidationView && !props.showValidationView)
     );
   }
@@ -303,8 +305,8 @@ class ContactInformationField extends React.Component {
           title={title}
         />
 
-        {this.props.showSaveSuccessAlert ? (
-          <SaveSuccessAlert fieldName={fieldName} />
+        {this.props.showUpdateSuccessAlert ? (
+          <UpdateSuccessAlert fieldName={fieldName} />
         ) : null}
 
         <div className="vads-u-width--full">
@@ -465,7 +467,7 @@ export const mapStateToProps = (state, ownProps) => {
     uiSchema,
     formSchema,
     isEnrolledInVAHealthCare,
-    showSaveSuccessAlert: selectMostRecentlySavedField(state) === fieldName,
+    showUpdateSuccessAlert: selectMostRecentlyUpdatedField(state) === fieldName,
   };
 };
 
