@@ -101,7 +101,7 @@ export function setGlobalScroll() {
 export function getScrollOptions(additionalOptions) {
   const globals = window.Forms || {};
   const reducedMotion = window?.matchMedia('(prefers-reduced-motion: reduce)')
-    ?.matches;
+    ?.matches; // Check OS setting
   const defaults = {
     duration: reducedMotion ? 0 : 500,
     delay: 0,
