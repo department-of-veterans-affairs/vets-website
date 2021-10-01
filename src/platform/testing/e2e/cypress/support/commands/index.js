@@ -1,3 +1,4 @@
+import './a11yCheckElements';
 import './axeCheck';
 import './expandAccordions';
 import './formHelpers';
