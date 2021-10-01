@@ -69,6 +69,7 @@ export default Object.freeze({
   showEduBenefits5495Wizard: 'show_edu_benefits_5495_wizard',
   showFinancialStatusReport: 'show_financial_status_report',
   showFinancialStatusReportWizard: 'show_financial_status_report_wizard',
+  showMebMockEndpoints: 'show_meb_mock_endpoints',
   showMedicalCopays: 'show_medical_copays',
   showHealthcareExperienceQuestionnaire:
     'show_healthcare_experience_questionnaire',

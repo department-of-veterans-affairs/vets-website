@@ -78,7 +78,7 @@
       },
       "servicePeriods": [
         {
-          "serviceBranch": "Air Force Reserve",
+          "serviceBranch": "Air Force",
           "dateRange": { "from": "2001-03-21", "to": "2014-07-21" }
         },
         {
