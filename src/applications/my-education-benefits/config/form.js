@@ -481,9 +481,9 @@ const formConfig = {
               'ui:description': (
                 <>
                   <h3>Review your phone numbers and email address</h3>
-                  <p>
+                  <div className="meb-list-label">
                     <b>We’ll use this information to:</b>
-                  </p>
+                  </div>
                   <ul>
                     <li>
                       Contact you if we have questions about your application
@@ -497,7 +497,7 @@ const formConfig = {
                     benefits only.
                   </p>
                   <p>
-                    <b>Note:</b> If you want to update your contact information
+                    <strong>Note:</strong> If you want to update your contact
                     for other VA benefits, you can do that from your profile.
                   </p>
                   <p>
