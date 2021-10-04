@@ -10,7 +10,6 @@ import {
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 import InfoAlert from '../../../components/InfoAlert';
-import { removeDuplicateId } from '../../../utils/data';
 
 export default function ProviderSortVariant({
   currentlyShownProvidersList,
@@ -26,10 +25,6 @@ export default function ProviderSortVariant({
     selectedCCFacility,
     sortMethod,
   } = useSelector(selectProviderSelectionInfo, shallowEqual);
-
-  const uniqueProviderList = communityCareProviderList
-    ? removeDuplicateId(communityCareProviderList)
-    : communityCareProviderList;
 
   const [selectedSortMethod, setSelectedSortMethod] = useState(sortMethod);
   const sortOptions = [
@@ -55,7 +50,7 @@ export default function ProviderSortVariant({
         dispatch(requestProvidersList(selectedCCFacility?.position));
       }
 
-      if (uniqueProviderList) {
+      if (communityCareProviderList) {
         scrollAndFocus('#providerSelectionHeader');
       }
     },
@@ -106,7 +101,7 @@ export default function ProviderSortVariant({
           aria-atomic="true"
         >
           Displaying 1 to {currentlyShownProvidersList.length} of{' '}
-          {uniqueProviderList.length} providers
+          {communityCareProviderList.length} providers
         </p>
       )}
       <Select
