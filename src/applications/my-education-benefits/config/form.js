@@ -793,6 +793,28 @@ const formConfig = {
                 'ui:title':
                   'Would you like to receive text message notifications on your education benefits?',
                 'ui:widget': 'radio',
+                'ui:validations': [
+                  (errors, field, formData) => {
+                    const isYes = field.slice(0, 4).includes('Yes');
+                    const phoneExist = !!formData['view:phoneNumbers']
+                      .mobilePhoneNumber.phone;
+                    const isInternational =
+                      formData['view:phoneNumbers'].mobilePhoneNumber
+                        .isInternational;
+
+                    if (isYes) {
+                      if (!phoneExist) {
+                        errors.addError(
+                          "You can't select that response because we don't have a mobile phone number on file for you.",
+                        );
+                      } else if (isInternational) {
+                        errors.addError(
+                          "You can't select that response because you have an international mobile phone number",
+                        );
+                      }
+                    }
+                  },
+                ],
                 'ui:options': {
                   widgetProps: {
                     Yes: { 'data-info': 'yes' },
@@ -831,8 +853,8 @@ const formConfig = {
               'ui:description': (
                 <va-alert onClose={function noRefCheck() {}} status="warning">
                   <p style={{ margin: 0 }}>
-                    You can’t choose to receive text messages because you don’t
-                    have a mobile phone number on file.
+                    You can’t choose to get text message notifications because
+                    we don’t have a mobile phone number on file for you
                   </p>
                 </va-alert>
               ),
@@ -852,10 +874,10 @@ const formConfig = {
               'ui:description': (
                 <va-alert onClose={function noRefCheck() {}} status="warning">
                   <p style={{ margin: 0 }}>
-                    You can’t choose to receive text messages because your
-                    mobile phone number is international. At this time, VA is
-                    only able to send text messages about your education
-                    benefits to US-based mobile phone numbers.
+                    You can’t choose to get text notifications because you have
+                    an international mobile phone number. At this time, we can
+                    send text messages about your education benefits to U.S.
+                    mobile phone numbers
                   </p>
                 </va-alert>
               ),
