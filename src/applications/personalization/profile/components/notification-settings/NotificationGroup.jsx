@@ -16,7 +16,7 @@ const NotificationGroup = ({ children, groupName, itemIds }) => {
         })}
         {children}
       </div>
-      <hr className="vads-u-margin-y--2" />
+      <hr aria-hidden="true" className="vads-u-margin-y--2" />
     </div>
   );
 };
