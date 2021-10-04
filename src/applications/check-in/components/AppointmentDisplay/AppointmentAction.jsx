@@ -22,7 +22,7 @@ const AppointmentAction = props => {
   const [isCheckingIn, setIsCheckingIn] = useState(false);
 
   const defaultMessage =
-    'This appointment isn’t eligible for online check-in. Check-in with a staff member.';
+    'Online check-in isn’t available for this appointment. Check in with a staff member.';
 
   const onClick = async () => {
     recordEvent({
