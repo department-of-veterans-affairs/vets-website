@@ -1054,9 +1054,11 @@ const formConfig = {
                   </p>
                   <AdditionalInfo triggerText="Why do I have to give up a benefit?">
                     <p>
-                      Per 38 USC 3327, If you are eligible for both the
-                      Post-9/11 GI Bill and other education benefits, you must
-                      give up one benefit you may be eligible for.
+                      The law says if you are eligible for both the Post-9/11 GI
+                      Bill and another education benefit based on the same
+                      period of active duty, you must give one up. One
+                      qualifying period of active duty can only be used for one
+                      VA education benefit.
                     </p>
                   </AdditionalInfo>
                 </>
