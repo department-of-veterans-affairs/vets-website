@@ -1,9 +1,8 @@
-import MockApi from './MockLocatorApi';
 import LiveApi from './LocatorApi';
 
+// Leaving this function in place for potential future needs.
 const getAPI = () => {
-  const isUnitTest = window.Mocha;
-  return isUnitTest ? MockApi : LiveApi;
+  return LiveApi;
 };
 
 export default getAPI();
