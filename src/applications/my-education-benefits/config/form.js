@@ -482,9 +482,9 @@ const formConfig = {
               'ui:description': (
                 <>
                   <h3>Review your phone numbers and email address</h3>
-                  <p>
+                  <div className="meb-list-label">
                     <strong>We’ll use this information to:</strong>
-                  </p>
+                  </div>
                   <ul>
                     <li>
                       Contact you if we have questions about your application
@@ -504,9 +504,8 @@ const formConfig = {
                   </p>
                   <p>
                     <a href="/profile/personal-information">
-                      go to your profile page
+                      Go to your profile
                     </a>
-                    .
                   </p>
                 </>
               ),
@@ -599,19 +598,30 @@ const formConfig = {
             'view:subHeadings': {
               'ui:description': (
                 <>
-                  <h3>Review your mailing address</h3>
+                  <h3>Review your phone numbers and email address</h3>
+                  <div className="meb-list-label">
+                    <b>We’ll use this information to:</b>
+                  </div>
+                  <ul>
+                    <li>
+                      Contact you if we have questions about your application
+                    </li>
+                    <li>Tell you important information about your benefits</li>
+                  </ul>
                   <p>
-                    We’ll send any important information about your application
-                    to this address.
+                    This is the contact information we have on file for you. If
+                    you notice any errors, please correct them now. Any updates
+                    you make will change the information for your education
+                    benefits only.
                   </p>
                   <p>
-                    Any updates you make here to your mailing address will only
-                    apply to your education benefits. To update your mailing
-                    address for all of the benefits across VA,{' '}
+                    <strong>Note:</strong> If you want to update your contact
+                    for other VA benefits, you can do that from your profile.
+                  </p>
+                  <p>
                     <a href="/profile/personal-information">
-                      please go to your profile page
+                      Go to your profile
                     </a>
-                    .
                   </p>
                 </>
               ),

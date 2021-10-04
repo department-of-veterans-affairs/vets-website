@@ -17,12 +17,15 @@ const Landing = props => {
     location,
     setAppointment,
     setToken,
+    setAuthenticatedSession,
     isLowAuthEnabled,
     isUpdatePageEnabled,
     isMultipleAppointmentsEnabled,
   } = props;
 
-  const [loadMessage, setLoadMessage] = useState('Finding your appointment');
+  const [loadMessage, setLoadMessage] = useState(
+    'Finding your appointment information',
+  );
   useEffect(
     () => {
       const token = getTokenFromLocation(location);
@@ -48,8 +51,8 @@ const Landing = props => {
               .then(session => {
                 // if session with read.full exists, go to check in page
                 setCurrentToken(window, token);
-                setLoadMessage('Loading your appointment');
-                if (session.permission === 'read.full') {
+                if (session.permissions === SCOPES.READ_FULL) {
+                  setAuthenticatedSession(token);
                   goToNextPage(router, URLS.DETAILS);
                 } else {
                   setToken(token);
@@ -67,7 +70,7 @@ const Landing = props => {
                 // if session with read.full exists, go to check in page
                 setCurrentToken(window, token);
                 setLoadMessage('Loading your appointment');
-                if (session.permission === 'read.full') {
+                if (session.permissions === SCOPES.READ_FULL) {
                   goToNextPage(router, URLS.DETAILS);
                 } else {
                   // else get the data then go to validate page
@@ -140,6 +143,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(tokenWasValidated(data, token, SCOPES.READ_BASIC)),
     setToken: token =>
       dispatch(tokenWasValidated(undefined, token, SCOPES.READ_BASIC)),
+    setAuthenticatedSession: token =>
+      dispatch(tokenWasValidated(undefined, token, SCOPES.READ_FULL)),
   };
 };
 
