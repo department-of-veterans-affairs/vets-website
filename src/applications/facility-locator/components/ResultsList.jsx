@@ -151,7 +151,7 @@ class ResultsList extends Component {
       inProgress,
       searchString,
       results,
-      error,
+      searchError,
       pagination,
       currentQuery,
       query,
@@ -178,22 +178,22 @@ class ResultsList extends Component {
       );
     }
 
-    if (error) {
+    if (searchError) {
+      if (searchError.type === 'mapBox') {
+        return (
+          <SearchResultMessage
+            facilityType={facilityTypeName}
+            resultRef={this.searchResultTitle}
+            message={Error.LOCATION}
+          />
+        );
+      }
       return (
         <SearchResultMessage
           facilityType={facilityTypeName}
           resultRef={this.searchResultTitle}
           message={Error.DEFAULT}
-          error={error}
-        />
-      );
-    } else if (currentQuery.error && currentQuery.error.type === 'mapBox') {
-      return (
-        <SearchResultMessage
-          facilityType={facilityTypeName}
-          resultRef={this.searchResultTitle}
-          message={Error.LOCATION}
-          error={error}
+          error={searchError}
         />
       );
     }
@@ -266,7 +266,7 @@ function mapStateToProps(state) {
     facilityTypeName,
     inProgress,
     results: state.searchResult.results,
-    error: state.searchResult.error,
+    searchError: state.searchResult.error,
     pagination: state.searchResult.pagination,
     position,
     searchString,
