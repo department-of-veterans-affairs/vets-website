@@ -65,6 +65,7 @@ const {
 // Define all the fields in the form to aid reuse
 const formFields = {
   fullName: 'fullName',
+  userFullName: 'userFullName',
   dateOfBirth: 'dateOfBirth',
   ssn: 'ssn',
   toursOfDuty: 'toursOfDuty',
@@ -371,14 +372,14 @@ const formConfig = {
                 </>
               ),
             },
-            'view:fullName': {
+            'view:userFullName': {
               'ui:description': (
                 <p className="meb-review-page-only">
                   If you’d like to update your personal information, please edit
                   the form fields below.
                 </p>
               ),
-              [formFields.fullName]: {
+              [formFields.userFullName]: {
                 ...fullNameUI,
                 first: {
                   ...fullNameUI.first,
@@ -421,11 +422,11 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              'view:fullName': {
-                required: [formFields.fullName],
+              'view:userFullName': {
+                required: [formFields.userFullName],
                 type: 'object',
                 properties: {
-                  [formFields.fullName]: {
+                  [formFields.userFullName]: {
                     ...fullName,
                     properties: {
                       ...fullName.properties,
