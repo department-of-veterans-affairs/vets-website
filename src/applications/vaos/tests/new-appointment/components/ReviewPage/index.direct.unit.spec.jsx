@@ -275,6 +275,7 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
           vaParent: '983',
           vaFacility: '983',
           clinicId: '983_455',
+          preferredDate: '2021-05-06',
         },
         facilityDetails: {
           '983': {
@@ -406,6 +407,9 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
       clinic: '455',
       serviceType: 'primaryCare',
       comment: 'Follow-up/Routine: I need an appt',
+      extension: {
+        desiredDate: '2021-05-06',
+      },
       contact: {
         telecom: [
           {
