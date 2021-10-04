@@ -71,6 +71,8 @@ class SaveInProgressIntro extends React.Component {
       verifiedPrefillAlert,
       unverifiedPrefillAlert,
       formConfig,
+      ariaLabel = null,
+      ariaDescribedby = null,
     } = this.props;
     const { profile, login } = this.props.user;
     const prefillAvailable = !!(
@@ -181,8 +183,8 @@ class SaveInProgressIntro extends React.Component {
         <button
           className="usa-button-primary"
           onClick={this.openLoginModal}
-          ariaLabel={this.props.ariaLabel || null}
-          ariaDescribedby={this.props.ariaDescribedby || null}
+          aria-label={ariaLabel}
+          aria-describedby={ariaDescribedby}
         >
           {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
         </button>
@@ -195,8 +197,8 @@ class SaveInProgressIntro extends React.Component {
               <button
                 className="va-button-link schemaform-start-button"
                 onClick={this.goToBeginning}
-                ariaLabel={this.props.ariaLabel || null}
-                ariaDescribedby={this.props.ariaDescribedby || null}
+                aria-label={ariaLabel}
+                aria-describedby={ariaDescribedby}
               >
                 Start your {appType} without signing in
               </button>
@@ -236,8 +238,8 @@ class SaveInProgressIntro extends React.Component {
                   <button
                     className="va-button-link schemaform-start-button"
                     onClick={this.goToBeginning}
-                    ariaLabel={this.props.ariaLabel || null}
-                    ariaDescribedby={this.props.ariaDescribedby || null}
+                    aria-label={ariaLabel}
+                    aria-describedby={ariaDescribedby}
                   >
                     Start your {appType} without signing in
                   </button>
@@ -260,8 +262,8 @@ class SaveInProgressIntro extends React.Component {
               <button
                 className="va-button-link"
                 onClick={this.openLoginModal}
-                ariaLabel={this.props.ariaLabel || null}
-                ariaDescribedby={this.props.ariaDescribedby || null}
+                aria-label={ariaLabel}
+                aria-describedby={ariaDescribedby}
               >
                 Sign in to your account.
               </button>

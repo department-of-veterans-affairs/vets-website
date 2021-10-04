@@ -88,6 +88,7 @@ class FormStartControls extends React.Component {
       continueAppButtonText = CONTINUE_APP_DEFAULT_MESSAGE,
       startNewAppButtonText = START_NEW_APP_DEFAULT_MESSAGE,
     } = formConfig?.customText || {};
+    const { ariaLabel = null, ariaDescribedby = null } = this.props;
 
     if (this.props.formSaved) {
       return (
@@ -97,8 +98,8 @@ class FormStartControls extends React.Component {
               onButtonClick={this.handleLoadForm}
               buttonText={continueAppButtonText}
               buttonClass="usa-button-primary no-text-transform"
-              ariaLabel={this.props.ariaLabel}
-              ariaDescribedby={this.props.ariaDescribedby}
+              ariaLabel={ariaLabel}
+              ariaDescribedby={ariaDescribedby}
             />
           )}
           {!this.props.resumeOnly && (
@@ -110,8 +111,8 @@ class FormStartControls extends React.Component {
                   ? 'usa-button-primary'
                   : 'usa-button-secondary'
               }
-              ariaLabel={this.props.ariaLabel}
-              ariaDescribedby={this.props.ariaDescribedby}
+              ariaLabel={ariaLabel}
+              ariaDescribedby={ariaDescribedby}
             />
           )}
           <Modal
@@ -146,8 +147,8 @@ class FormStartControls extends React.Component {
           event.preventDefault();
           this.handleLoadPrefill();
         }}
-        ariaLabel={this.props.ariaLabel}
-        ariaDescribedby={this.props.ariaDescribedby}
+        aria-label={ariaLabel}
+        aria-describedby={ariaDescribedby}
       >
         {startText}
       </a>
@@ -158,8 +159,8 @@ class FormStartControls extends React.Component {
           buttonText={startText}
           buttonClass="usa-button-primary va-button-primary schemaform-start-button"
           afterText="»"
-          ariaLabel={this.props.ariaLabel}
-          ariaDescribedby={this.props.ariaDescribedby}
+          ariaLabel={ariaLabel}
+          ariaDescribedby={ariaDescribedby}
         />
       </div>
     );
