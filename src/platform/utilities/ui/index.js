@@ -34,7 +34,7 @@ export function focusElement(selectorOrElement, options) {
 
 // Allows smooth scrolling to be overridden by our E2E tests
 export function getScrollOptions(additionalOptions) {
-  const globals = window.VetsGov || {};
+  const globals = window.Forms || {};
   const reducedMotion = window?.matchMedia('(prefers-reduced-motion: reduce)')
     ?.matches;
   const defaults = {

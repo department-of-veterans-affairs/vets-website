@@ -28,9 +28,8 @@ const DisabilityRatingContent = ({ rating }) => {
 
   return (
     <>
-      <dt className="sr-only" />
+      <dt>{rating ? <>Your disability rating: </> : null}</dt>
       <dd className={classes}>
-        {rating ? <>Your disability rating: </> : null}
         <a
           href="/disability/view-disability-rating/rating"
           aria-label={
@@ -191,10 +190,12 @@ const NameTag = ({
             <dt className="sr-only">Name: </dt>
             <dd className={classes.fullName}>{fullName}</dd>
             {latestBranchOfService && (
-              <dd className={classes.latestBranch}>
-                <dfn className="sr-only">Branch of service: </dfn>
-                {getServiceBranchDisplayName(latestBranchOfService)}
-              </dd>
+              <>
+                <dt className="sr-only">Branch of service: </dt>
+                <dd className={classes.latestBranch}>
+                  {getServiceBranchDisplayName(latestBranchOfService)}
+                </dd>
+              </>
             )}
             <DisabilityRating
               rating={totalDisabilityRating}
