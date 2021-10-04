@@ -14,12 +14,18 @@ class ProgressButton extends React.Component {
 
   render() {
     const beforeText = this.props.beforeText ? (
-      <span className="button-icon">{this.props.beforeText} </span>
+      <span className="button-icon" aria-hidden="true">
+        {this.props.beforeText}
+        &nbsp;
+      </span>
     ) : (
       ''
     );
     const afterText = this.props.afterText ? (
-      <span className="button-icon"> {this.props.afterText}</span>
+      <span className="button-icon" aria-hidden="true">
+        &nbsp;
+        {this.props.afterText}
+      </span>
     ) : (
       ''
     );
@@ -28,8 +34,8 @@ class ProgressButton extends React.Component {
       <button
         type={this.props.submitButton ? 'submit' : 'button'}
         disabled={this.props.disabled}
-        className={`${this.props.buttonClass} ${
-          this.props.disabled ? 'usa-button-disabled' : null
+        className={`${this.props.buttonClass}${
+          this.props.disabled ? ' usa-button-disabled' : ''
         }`}
         id={`${this.id}-continueButton`}
         onClick={this.props.onButtonClick}
