@@ -1,6 +1,6 @@
 import { countries, states } from 'vets-json-schema/dist/constants.json';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import { addressUiSchema } from 'applications/vre/definitions/profileAddress';
+import addressUiSchema from 'platform/forms-system/src/js/definitions/profileAddress';
 
 const validateAtLeastOneSelected = (errors, fieldData, formData) => {
   if (

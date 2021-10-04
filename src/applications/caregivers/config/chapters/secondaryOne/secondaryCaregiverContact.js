@@ -1,4 +1,5 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
+import confirmationEmailUI from 'platform/forms-system/src/js/definitions/confirmationEmail';
 import { SecondaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo';
 import { secondaryOneFields } from 'applications/caregivers/definitions/constants';
 import {
@@ -11,7 +12,6 @@ import {
   alternativePhoneNumberUI,
   primaryPhoneNumberUI,
   addressWithoutCountryUI,
-  confirmationEmailUI,
 } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 
 const { secondaryCaregiverOne } = fullSchema.properties;
