@@ -2,10 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
-import debounce from 'platform/utilities/data/debounce';
-import * as Sentry from '@sentry/browser';
-import { apiRequest } from 'platform/utilities/api';
-import e from 'express';
 
 const ID = 'SearchDropDownComponent';
 const Keycodes = {
@@ -34,42 +30,56 @@ const regularSuggestion =
 class SearchDropDownComponent extends React.Component {
   constructor(props) {
     super(props);
-    this.debouncedGetSuggestions = debounce(
-      this.props.debounceRate,
-      this.getSuggestions,
-    );
     this.state = {
       activeIndex: undefined,
       isOpen: false,
       suggestions: [],
       savedSuggestions: [],
       inputValue: this.props.startingValue,
-      selectedValue: '',
       ignoreBlur: false,
     };
   }
 
+  // when the component loads, fetch suggestions for our starting input value
   componentDidMount() {
     if (this.props.startingValue) {
-      this.getSuggestions();
+      const suggestions = this.getSuggestions(this.props.startingValue);
+      this.setState({ suggestions });
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { inputValue } = this.state;
-
-    const inputChanged = prevState.inputValue !== inputValue;
-    if (inputChanged) {
-      this.debouncedGetSuggestions();
-    }
+  // when the component unmounts, clear the timeout if we have one.
+  componentWillUnmount() {
+    clearTimeout(this.getSuggestionsTimeout);
   }
 
   handleInputChange = event => {
+    // update the input value to the new value
+    const inputValue = event.target.value;
     this.setState({
-      inputValue: event.target.value,
+      inputValue,
     });
+
+    // clear suggestions if the input is too short
+    if (inputValue?.length <= 2) {
+      this.clearSuggestions();
+      return;
+    }
+
+    // reset the timeout so we only fetch for suggestions after the debounce timer has elapsed
+    clearTimeout(this.getSuggestionsTimeout);
+    this.getSuggestionsTimeout = setTimeout(() => {
+      this.getSuggestions(inputValue);
+    }, this.props.debounceRate);
   };
 
+  // call the getSuggestions prop and save the returned value into state
+  getSuggestions = async inputValue => {
+    const suggestions = await this.props.getSuggestions(inputValue);
+    this.setState({ suggestions });
+  };
+
+  // handle blur logic
   onInputBlur() {
     const { ignoreBlur, isOpen, activeIndex } = this.state;
 
@@ -86,23 +96,32 @@ class SearchDropDownComponent extends React.Component {
     }
   }
 
+  // this is the handler for all of the keypress logic
   onKeyDown = event => {
     const { suggestions, isOpen, activeIndex } = this.state;
     const max = suggestions.length - 1;
 
+    // if the menu is not open and the DOWN arrow key is pressed, open the menu
     if (!isOpen && (event.which || event.keycode) === Keycodes.Down) {
       this.updateMenuState(true, false);
       return;
     }
 
-    if (!isOpen && (event.which || event.keycode) === Keycodes.Enter) {
+    // if the menu is not open and the ENTER key is pressed, search for the term currently in the input field
+    if (
+      !isOpen &&
+      (event.which || event.keycode) === Keycodes.Enter &&
+      this.props.canSubmit
+    ) {
       event.preventDefault();
-      this.props.onInputSubmit(event, this.state);
+      this.props.onInputSubmit(this.state);
       return;
     }
 
     // handle keys when open
     // next
+    // when the DOWN key is pressed, select the next option in the drop down.
+    // if the last option is selected, cycle to the first option instead
     if ((event.which || event.keycode) === Keycodes.Down) {
       event.preventDefault();
       if (activeIndex === undefined || activeIndex + 1 > max) {
@@ -114,6 +133,8 @@ class SearchDropDownComponent extends React.Component {
     }
 
     // previous
+    // when the UP key is pressed, select the previous option in the drop down.
+    // if the first option is selected, cycle to the last option instead
     if (
       (event.which || event.keycode) === Keycodes.Up ||
       (event.which || event.keycode) === Keycodes.Left
@@ -128,6 +149,7 @@ class SearchDropDownComponent extends React.Component {
     }
 
     // first
+    // when the HOME key is pressed, select the first option in the drop down menu
     if ((event.which || event.keycode) === Keycodes.Home) {
       event.preventDefault();
       this.setState({ activeIndex: 0 });
@@ -135,6 +157,7 @@ class SearchDropDownComponent extends React.Component {
     }
 
     // last
+    // when the END key is pressed, select the last option in the drop down menu
     if ((event.which || event.keycode) === Keycodes.End) {
       event.preventDefault();
       this.setState({ activeIndex: max });
@@ -142,6 +165,7 @@ class SearchDropDownComponent extends React.Component {
     }
 
     // close
+    // when the ESCAPE key is pressed, close the drop down menu WITHOUT selecting any of the options
     if ((event.which || event.keycode) === Keycodes.Escape) {
       event.preventDefault();
       this.setState({ activeIndex: undefined });
@@ -150,54 +174,60 @@ class SearchDropDownComponent extends React.Component {
     }
 
     // close and select
+    // when the enter key is pressed, fire off a search of the Input Value if no menu items are selected
+    // if a menu item is selected, close the drown down menu and select the currently highlighted option
+    // if submitOnEnter is true, fire off the onInputSubmit function as well
     if ((event.which || event.keycode) === Keycodes.Enter) {
       event.preventDefault();
 
-      if (activeIndex === undefined) {
+      if (activeIndex === undefined && this.props.canSubmit) {
         event.preventDefault();
-        this.props.onInputSubmit(event, this.state);
+        this.props.onInputSubmit(this.state);
         return;
       }
       if (!this.props.submitOnEnter) {
-        this.setState({ savedSuggestions: this.suggestions });
         this.selectOption(activeIndex);
         this.updateMenuState(false);
         return;
       }
-      this.setState({ savedSuggestions: this.suggestions });
-      this.selectOption(activeIndex);
-      this.updateMenuState(false);
-      this.submitOption(activeIndex);
+      if (this.props.canSubmit) {
+        this.props.onOptionSubmit(activeIndex, this.state);
+        this.selectOption(activeIndex);
+        this.updateMenuState(false);
+      }
     }
   };
 
+  // when an option is clicked
+  // if submitOnClick is true, then initiate the onOptionSubmit function
+  // otherwise, select the option and close the drop down menu
   onOptionClick(index) {
     if (!this.props.submitOnClick) {
-      this.setState({ activeIndex: index, savedSuggestions: this.suggestions });
+      this.setState({ activeIndex: index });
       this.selectOption(index);
       this.updateMenuState(false);
       return;
     }
-    this.submitOption(index);
+    this.props.onOptionSubmit(index, this.state);
     this.selectOption(index);
     this.updateMenuState(false);
   }
 
-  onOptionMouseDown() {
-    this.setState({ ignoreBlur: true });
-  }
-
+  // select an option from the dropdown menu, updating the inputValue state and then fetch new suggestions
   selectOption(index) {
     const { suggestions } = this.state;
-    const selected = suggestions[index];
+    const inputValue = suggestions[index];
 
     this.setState({
-      selectedValue: selected,
-      inputValue: selected,
+      inputValue,
       activeIndex: undefined,
+      savedSuggestions: suggestions,
     });
+
+    this.getSuggestions(inputValue);
   }
 
+  // update whether the menu is open or closed, and refocus the menu if called for
   updateMenuState(open, callFocus = true) {
     this.setState({ isOpen: open });
 
@@ -206,87 +236,15 @@ class SearchDropDownComponent extends React.Component {
     }
   }
 
+  // clear all suggestions and saved suggestions
   clearSuggestions = () => {
     this.setState({ suggestions: [], savedSuggestions: [] });
   };
 
+  // save the current suggestions list into saved suggestions
   saveSuggestions = () => {
     const { suggestions } = this.state;
     this.setState({ savedSuggestions: suggestions });
-  };
-
-  getSuggestions = async () => {
-    const { inputValue } = this.state;
-
-    // end early / clear suggestions if user input is too short
-    if (inputValue?.length <= 2) {
-      this.clearSuggestions();
-      return;
-    }
-
-    // encode user input for query to suggestions url
-    const encodedInput = encodeURIComponent(inputValue);
-
-    // fetch suggestions
-    try {
-      const apiRequestOptions = {
-        method: 'GET',
-      };
-      const fetchedSuggestions = await apiRequest(
-        `/search_typeahead?query=${encodedInput}`,
-        apiRequestOptions,
-      );
-
-      if (fetchedSuggestions.length !== 0) {
-        const sortedSuggestions = fetchedSuggestions.sort(function(a, b) {
-          return a.length - b.length;
-        });
-        this.setState({ suggestions: sortedSuggestions });
-        return;
-      }
-      this.setState({ suggestions: [], savedSuggestions: [] });
-      // if we fail to fetch suggestions
-    } catch (error) {
-      if (error?.error?.code === 'OVER_RATE_LIMIT') {
-        Sentry.captureException(
-          new Error(`"OVER_RATE_LIMIT" - Search Typeahead`),
-        );
-        return;
-      }
-      Sentry.captureException(error);
-    }
-  };
-
-  submitOption = index => {
-    const { inputValue, suggestions, savedSuggestions } = this.state;
-
-    const validSuggestions =
-      savedSuggestions.length > 0 ? savedSuggestions : suggestions;
-
-    this.props.fetchResults(validSuggestions[index], 1, {
-      trackEvent: true,
-      eventName: 'view_search_results',
-      path: document.location.pathname,
-      inputValue,
-      typeaheadEnabled: true,
-      keywordSelected: validSuggestions[index],
-      keywordPosition: index + 1,
-      suggestionsList: validSuggestions,
-      sitewideSearch: false,
-      searchLocation: this.props.searchLocation,
-    });
-
-    this.props.updateQueryInfo({
-      query: suggestions[index],
-      page: 1,
-      typeaheadUsed: true,
-    });
-
-    this.props.updateURL({
-      query: suggestions[index],
-      page: 1,
-      typeaheadUsed: true,
-    });
   };
 
   render() {
@@ -315,47 +273,52 @@ class SearchDropDownComponent extends React.Component {
             onChange={this.handleInputChange}
             onKeyDown={this.onKeyDown}
           />
-          <button
-            type="submit"
-            className="search-submit-button"
-            onClick={() => this.props.onInputSubmit(e, this.state)}
-            onFocus={this.saveSuggestions}
-          >
-            <IconSearch color="#fff" />
-            <span className="button-text">Search</span>
-          </button>
+          {this.props.canSubmit && (
+            <button
+              type="submit"
+              className="search-submit-button"
+              onClick={() => this.props.onInputSubmit(this.state)}
+              onFocus={this.saveSuggestions}
+            >
+              <IconSearch color="#fff" />
+              <span className="button-text">Search</span>
+            </button>
+          )}
         </div>
         <div className="vads-u-flex-direction--column vads-u-width--full">
-          {isOpen && (
-            <div
-              className="vads-u-padding--x-1"
-              role="listbox"
-              id={`${ID}-listbox`}
-            >
-              {suggestions.map((option, i) => {
-                return (
-                  <div
-                    className={
-                      i === activeIndex
-                        ? highlightedSuggestion
-                        : regularSuggestion
-                    }
-                    key={`${ID}-${i}`}
-                    id={`${ID}-${i}`}
-                    aria-selected={activeIndex === i ? 'true' : false}
-                    role="option"
-                    tabIndex="-1"
-                    onClick={() => {
-                      this.onOptionClick(i);
-                    }}
-                    onMouseDown={this.onOptionMouseDown.bind(this)}
-                  >
-                    {option}
-                  </div>
-                );
-              })}
-            </div>
-          )}
+          {isOpen &&
+            suggestions.length > 0 && (
+              <div
+                className="vads-u-padding--x-1"
+                role="listbox"
+                id={`${ID}-listbox`}
+              >
+                {suggestions.map((option, i) => {
+                  return (
+                    <div
+                      className={
+                        i === activeIndex
+                          ? highlightedSuggestion
+                          : regularSuggestion
+                      }
+                      key={`${ID}-${i}`}
+                      id={`${ID}-${i}`}
+                      aria-selected={activeIndex === i ? 'true' : false}
+                      role="option"
+                      tabIndex="-1"
+                      onClick={() => {
+                        this.onOptionClick(i);
+                      }}
+                      onMouseDown={() => {
+                        this.setState({ ignoreBlur: true });
+                      }}
+                    >
+                      {option}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
         </div>
       </div>
     );
@@ -372,6 +335,6 @@ SearchDropDownComponent.defaultProps = {
   startingValue: '',
   submitOnEnter: false,
   submitOnClick: false,
-  canSubmit: true,
+  canSubmit: false,
   debounceRate: 200,
 };
