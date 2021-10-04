@@ -25,7 +25,7 @@ const DownloadPDFGuidance = ({
 
   if (formPdfIsValid && formPdfUrlIsValid && !netWorkRequestError) {
     // feature flag
-    if (showPDFModal(store.getState())) {
+    if (store?.getState && showPDFModal(store.getState())) {
       ReactDOM.render(
         <Provider store={store}>
           <DownloadPDFModal formNumber={formNumber} url={downloadUrl} />
