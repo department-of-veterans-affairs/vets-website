@@ -12,6 +12,7 @@ const v2 = {
     );
     return {
       data: json.data,
+      ...json,
     };
   },
   postSession: async ({ lastName, last4, token }) => {
