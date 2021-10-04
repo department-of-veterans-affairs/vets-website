@@ -9,6 +9,8 @@ const featureToggles = require('./mocks/feature.toggles');
 const delay = require('mocker-api/lib/delay');
 
 let hasBeenValidated = false;
+const retries = { current: 0, max: 3 };
+const mockUser = { last4: '5555', lastName: 'lastName' };
 
 const responses = {
   ...commonResponses,
@@ -24,6 +26,12 @@ const responses = {
     const { last4, lastName } = req.body?.session || {};
     if (!last4 || !lastName) {
       return res.status(400).json(mockSessions.createMockFailedResponse());
+    }
+    if (last4 !== mockUser.last4 || lastName !== mockUser.lastName) {
+      retries.current++;
+      return res
+        .status(400)
+        .json(mockSessions.createMockFailedLoginResponse(retries.current));
     }
     hasBeenValidated = true;
     return res.json(mockSessions.mocks.post(req.body));

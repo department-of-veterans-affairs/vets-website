@@ -20,6 +20,23 @@ const createMockFailedResponse = () => {
   };
 };
 
+const createMockFailedLoginResponse = (current = 0, max = 3) => {
+  const messageDetail =
+    current < max
+      ? `Login attempts: ${current}, The max number of login attempts is: ${max}`
+      : 'Max number of login attempts reached';
+  return {
+    retries: { current, max },
+    errors: [
+      {
+        title: 'Login failed',
+        detail: messageDetail,
+        status: '400',
+      },
+    ],
+  };
+};
+
 const mocks = {
   get: params => {
     const { uuid } = params;
@@ -31,4 +48,9 @@ const mocks = {
   },
 };
 
-module.exports = { createMockSuccessResponse, createMockFailedResponse, mocks };
+module.exports = {
+  createMockSuccessResponse,
+  createMockFailedResponse,
+  createMockFailedLoginResponse,
+  mocks,
+};
