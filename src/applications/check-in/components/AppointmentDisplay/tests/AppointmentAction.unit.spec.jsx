@@ -10,8 +10,15 @@ import { STATUSES } from '../../../utils/appointment/status';
 
 describe('check-in', () => {
   describe('AppointmentAction', () => {
+    const fakeStore = {
+      getState: () => {},
+      subscribe: () => {},
+      dispatch: () => ({}),
+    };
     it('should render the bad status message for appointments with INELIGIBLE_BAD_STATUS status', () => {
-      const action = render(<AppointmentAction appointment={{}} />);
+      const action = render(
+        <AppointmentAction appointment={{}} store={fakeStore} />,
+      );
 
       expect(action.queryByTestId('check-in-button')).to.not.exist;
       expect(action.getByTestId('no-status-given-message')).to.exist;
@@ -25,6 +32,7 @@ describe('check-in', () => {
           appointment={{
             status: STATUSES.ELIGIBLE,
           }}
+          store={fakeStore}
         />,
       );
 
@@ -39,6 +47,7 @@ describe('check-in', () => {
           appointment={{
             status: STATUSES.INELIGIBLE_BAD_STATUS,
           }}
+          store={fakeStore}
         />,
       );
 
@@ -54,6 +63,7 @@ describe('check-in', () => {
           appointment={{
             status: STATUSES.INELIGIBLE_UNSUPPORTED_LOCATION,
           }}
+          store={fakeStore}
         />,
       );
 
@@ -69,6 +79,7 @@ describe('check-in', () => {
           appointment={{
             status: STATUSES.INELIGIBLE_UNKNOWN_REASON,
           }}
+          store={fakeStore}
         />,
       );
 
@@ -84,13 +95,14 @@ describe('check-in', () => {
           appointment={{
             status: STATUSES.INELIGIBLE_TOO_LATE,
           }}
+          store={fakeStore}
         />,
       );
 
       expect(action.queryByTestId('check-in-button')).to.not.exist;
       expect(action.getByTestId('too-late-message')).to.exist;
       expect(action.getByTestId('too-late-message')).to.have.text(
-        "Your appointment started more than 10 minutes ago. We can't check you in online. Ask a staff member for help.",
+        'Your appointment started more than 10 minutes ago. We can’t check you in online. Ask a staff member for help.',
       );
     });
     it('should render the bad status message for appointments with INELIGIBLE_TOO_EARLY status', () => {
@@ -98,15 +110,17 @@ describe('check-in', () => {
         <AppointmentAction
           appointment={{
             status: STATUSES.INELIGIBLE_TOO_EARLY,
-            startTime: '2021-07-19T13:56:31',
+            appointmentCheckInStart: '2021-07-19T14:00:00',
+            startTime: '2021-07-19T14:30:00',
           }}
+          store={fakeStore}
         />,
       );
 
       expect(action.queryByTestId('check-in-button')).to.not.exist;
       expect(action.getByTestId('too-early-message')).to.exist;
       expect(action.getByTestId('too-early-message')).to.have.text(
-        'You can check in starting at this time: 1:56 p.m.',
+        'You can check in starting at this time: 2:00 p.m.',
       );
     });
 
@@ -116,6 +130,7 @@ describe('check-in', () => {
           appointment={{
             status: STATUSES.ELIGIBLE,
           }}
+          store={fakeStore}
         />,
       );
     });

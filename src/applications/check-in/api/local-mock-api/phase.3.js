@@ -30,17 +30,22 @@ const responses = {
     hasBeenValidated = true;
     return res.json(mockSessions.mocks.post(req.body));
   },
-  'GET /check_in/v2/patient_check_ins/:uuid': (req, res) => {
+  'GET /check_in/v2/patient_check_ins/:uuid': (_req, res) => {
     if (hasBeenValidated) {
       hasBeenValidated = false;
-      return res.json(mockPatientCheckIns.createMockSuccessResponse({}, true));
+      return res.json(mockPatientCheckIns.createMultipleAppointments({}));
     } else {
-      return res.json(mockPatientCheckIns.createMockSuccessResponse({}, false));
+      return res.json(mockPatientCheckIns.createMultipleAppointments({}));
     }
   },
-  'POST /check_in/v2/patient_check_ins/': (_req, res) => {
-    // same as v0
-    return res.json(mockCheckIns.createMockSuccessResponse({}));
+  'POST /check_in/v2/patient_check_ins/': (req, res) => {
+    const { uuid, appointmentIEN, facilityId } =
+      req.body?.patientCheckIns || {};
+    if (!uuid || !appointmentIEN || !facilityId) {
+      return res.status(500).json(mockCheckIns.createMockFailedResponse());
+    } else {
+      return res.json(mockCheckIns.createMockSuccessResponse({}));
+    }
   },
 };
 

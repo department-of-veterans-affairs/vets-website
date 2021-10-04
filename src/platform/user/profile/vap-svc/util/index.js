@@ -5,6 +5,8 @@ import {
   CONFIRMED,
 } from '../constants/addressValidationMessages';
 
+import { MILITARY_STATES, ADDRESS_TYPES_ALTERNATE } from '../constants';
+
 export const getValidationMessageKey = (
   suggestedAddresses,
   validationKey,
@@ -109,4 +111,20 @@ export const showAddressValidationModal = (
   }
 
   return true;
+};
+
+// Infers the address type from the address supplied and returns the address
+// with the "new" type.
+export const inferAddressType = address => {
+  let type = ADDRESS_TYPES_ALTERNATE.domestic;
+  if (
+    address.countryName !== 'USA' &&
+    address.countryName !== 'United States'
+  ) {
+    type = ADDRESS_TYPES_ALTERNATE.international;
+  } else if (MILITARY_STATES.has(address.stateCode)) {
+    type = ADDRESS_TYPES_ALTERNATE.military;
+  }
+
+  return Object.assign({}, address, { type });
 };

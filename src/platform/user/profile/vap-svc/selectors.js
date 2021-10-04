@@ -48,7 +48,7 @@ export function selectVAPServiceFailedTransactions(state) {
   return state.vapService.transactions.filter(isFailedTransaction);
 }
 
-export function selectMostRecentlySavedField(state) {
+export function selectMostRecentlyUpdatedField(state) {
   return state.vapService.mostRecentlySavedField;
 }
 

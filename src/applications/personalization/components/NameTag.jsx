@@ -28,12 +28,16 @@ const DisabilityRatingContent = ({ rating }) => {
 
   return (
     <>
-      <dt className="sr-only">your disability rating</dt>
+      <dt className="sr-only" />
       <dd className={classes}>
         {rating ? <>Your disability rating: </> : null}
         <a
           href="/disability/view-disability-rating/rating"
-          aria-label="view your disability rating"
+          aria-label={
+            rating
+              ? `View your ${rating}% service connected disability rating`
+              : 'view your disability rating'
+          }
           className="vads-u-color--white"
           style={{ whiteSpace: 'nowrap' }}
         >
@@ -71,20 +75,12 @@ const NameTag = ({
   userFullName: { first, middle, last, suffix },
   latestBranchOfService,
   showBadgeImage,
-  showUpdatedNameTag,
   totalDisabilityRating,
   totalDisabilityRatingServerError,
 }) => {
   const fullName = [first, middle, last, suffix]
     .filter(name => !!name)
     .join(' ');
-
-  // the outer full-width background of the header banner
-  const wrapperClasses = prefixUtilityClasses([
-    'background-color--gray-dark',
-    'margin-bottom--0',
-    'padding-y--2',
-  ]);
 
   const updatedWrapperClasses = prefixUtilityClasses([
     'background-color--primary',
@@ -153,12 +149,8 @@ const NameTag = ({
     'medium',
   );
 
-  const wrapperClassDerived = showUpdatedNameTag
-    ? updatedWrapperClasses
-    : wrapperClasses;
-
   const classes = {
-    wrapper: [...wrapperClassDerived, ...wrapperClassesMedium].join(' '),
+    wrapper: [...updatedWrapperClasses, ...wrapperClassesMedium].join(' '),
     innerWrapper: [
       ...innerWrapperClasses,
       ...innerWrapperClassesMedium,
@@ -175,9 +167,7 @@ const NameTag = ({
     ),
   };
 
-  const ariaLabel = showUpdatedNameTag
-    ? 'My status and disability rating'
-    : 'My status';
+  const ariaLabel = 'My information';
 
   return (
     <section
@@ -206,12 +196,10 @@ const NameTag = ({
                 {getServiceBranchDisplayName(latestBranchOfService)}
               </dd>
             )}
-            {showUpdatedNameTag ? (
-              <DisabilityRating
-                rating={totalDisabilityRating}
-                showFallbackLink={totalDisabilityRatingServerError}
-              />
-            ) : null}
+            <DisabilityRating
+              rating={totalDisabilityRating}
+              showFallbackLink={totalDisabilityRatingServerError}
+            />
           </dl>
         </div>
       </div>
@@ -252,7 +240,6 @@ NameTag.propTypes = {
     suffix: PropTypes.string,
   }).isRequired,
   latestBranchOfService: PropTypes.string.isRequired,
-  showUpdatedNameTag: PropTypes.bool,
   totalDisabilityRating: PropTypes.number,
   totalDisabilityRatingServerError: PropTypes.bool,
 };

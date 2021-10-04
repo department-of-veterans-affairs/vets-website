@@ -68,11 +68,12 @@ const NotificationChannel = ({
     );
   }
   return (
-    <div>
+    <>
       <NotificationRadioButtons
         id={channelId}
         value={{ value: currentValue }}
         label={itemName}
+        name={`${itemName}-${channelType}`}
         description={radioButtonDescription}
         options={[
           {
@@ -125,7 +126,7 @@ const NotificationChannel = ({
         }
         disabled={apiStatus === LOADING_STATES.pending}
       />
-    </div>
+    </>
   );
 };
 
