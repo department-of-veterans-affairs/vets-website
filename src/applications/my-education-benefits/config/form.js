@@ -795,11 +795,14 @@ const formConfig = {
                 'ui:widget': 'radio',
                 'ui:validations': [
                   (errors, field, formData) => {
-                    if (
-                      !formData['view:phoneNumbers'].mobilePhoneNumber.phone ||
+                    const isYes = field.slice(0, 4).includes('Yes');
+                    const phoneExist = !!formData['view:phoneNumbers']
+                      .mobilePhoneNumber.phone;
+                    const isInternational =
                       formData['view:phoneNumbers'].mobilePhoneNumber
-                        .isInternational
-                    ) {
+                        .isInternational;
+
+                    if (isYes && (!phoneExist || isInternational)) {
                       errors.addError(
                         "You can't choose to get text message notifications because we don't have a mobile phone number on file for you",
                       );
