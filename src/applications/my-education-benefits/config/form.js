@@ -802,10 +802,16 @@ const formConfig = {
                       formData['view:phoneNumbers'].mobilePhoneNumber
                         .isInternational;
 
-                    if (isYes && (!phoneExist || isInternational)) {
-                      errors.addError(
-                        "You can't choose to get text message notifications because we don't have a mobile phone number on file for you",
-                      );
+                    if (isYes) {
+                      if (!phoneExist) {
+                        errors.addError(
+                          "You can't select that response because we don't have a mobile phone number on file for you.",
+                        );
+                      } else if (isInternational) {
+                        errors.addError(
+                          "You can't select that response because you have an international mobile phone number",
+                        );
+                      }
                     }
                   },
                 ],
@@ -847,8 +853,8 @@ const formConfig = {
               'ui:description': (
                 <va-alert onClose={function noRefCheck() {}} status="warning">
                   <p style={{ margin: 0 }}>
-                    You can’t choose to receive text messages because you don’t
-                    have a mobile phone number on file.
+                    You can’t choose to get text message notifications because
+                    we don’t have a mobile phone number on file for you
                   </p>
                 </va-alert>
               ),
@@ -868,10 +874,10 @@ const formConfig = {
               'ui:description': (
                 <va-alert onClose={function noRefCheck() {}} status="warning">
                   <p style={{ margin: 0 }}>
-                    You can’t choose to receive text messages because your
-                    mobile phone number is international. At this time, VA is
-                    only able to send text messages about your education
-                    benefits to US-based mobile phone numbers.
+                    You can’t choose to get text notifications because you have
+                    an international mobile phone number. At this time, we can
+                    send text messages about your education benefits to U.S.
+                    mobile phone numbers
                   </p>
                 </va-alert>
               ),
