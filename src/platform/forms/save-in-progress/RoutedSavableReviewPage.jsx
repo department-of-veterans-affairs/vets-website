@@ -12,7 +12,7 @@ import DowntimeNotification, {
   externalServiceStatus,
 } from '../../monitoring/DowntimeNotification';
 import get from '../../utilities/data/get';
-import { focusElement } from '../../utilities/ui';
+import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import { toggleLoginModal } from '../../site-wide/user-nav/actions';
 import SaveStatus from './SaveStatus';
 import { autoSaveForm } from './actions';
@@ -23,7 +23,7 @@ const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo(
     'topScrollElement',
-    window.VetsGov?.scroll || {
+    getScrollOptions() || {
       duration: 500,
       delay: 0,
       smooth: true,

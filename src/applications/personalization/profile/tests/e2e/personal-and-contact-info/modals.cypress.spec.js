@@ -210,7 +210,7 @@ describe('Modals on the personal information and content page when they error', 
       .should('be.focused')
       .click();
 
-    // check if update button is focused
-    cy.findByTestId('save-edit-button').should('be.focused');
+    // check if first form element is focused
+    cy.findByLabelText(/email address/i).should('be.focused');
   });
 });
