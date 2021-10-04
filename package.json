@@ -198,7 +198,8 @@
     "node-sass": "^4.14.1",
     "null-loader": "^0.1.1",
     "nyc": "^15.1.0",
-    "postcss-loader": "^3.0.0",
+    "postcss": "^8.3.7",
+    "postcss-loader": "^4.2.0",
     "prettier": "^1.14.3",
     "puppeteer": "^3.3.0",
     "request": "^2.88.2",
@@ -236,7 +237,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/component-library": "^3.2.0",
+    "@department-of-veterans-affairs/component-library": "^3.2.1",
     "@department-of-veterans-affairs/formation": "6.17.3",
     "@department-of-veterans-affairs/formulate": "0.0.1",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
@@ -305,7 +306,7 @@
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#3a0946727d9013ff2771af37bfca0c4c0ff0a1d5",
-    "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#4cd1d0ddeb681700a1f8196d272ea44efef81e18",
+    "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.11.2",
     "whatwg-fetch": "^3.6.2"
   },
   "resolutions": {
@@ -341,6 +342,8 @@
     "web-components/**/postcss": "^8.2.10",
     "**/tar": "^4.4.18",
     "**/kind-of": "^6.0.3",
-    "**/glob-parent": "^5.1.2"
+    "**/glob-parent": "^5.1.2",
+    "**/ansi-regex": "^5.0.1",
+    "**/yargs-parser": "13.1.2"
   }
 }
