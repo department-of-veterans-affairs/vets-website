@@ -1,4 +1,4 @@
-import { createFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
+import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
 import mockCheckIn from '../../../../api/local-mock-api/mocks/v0/check.in.responses';
 import mockValidate from '../../../../api/local-mock-api/mocks/v0/validate.responses';
 
@@ -10,7 +10,15 @@ describe('Check In Experience -- ', () => {
     cy.intercept('POST', '/check_in/v0/patient_check_ins/', req => {
       req.reply(mockCheckIn.createMockFailedResponse({}));
     });
-    cy.intercept('GET', '/v0/feature_toggles*', createFeatureToggles());
+    cy.intercept(
+      'GET',
+      '/v0/feature_toggles*',
+      generateFeatureToggles({
+        checkInExperienceLowAuthenticationEnabled: false,
+        checkInExperienceMultipleAppointmentSupport: false,
+        checkInExperienceUpdateInformationPageEnabled: false,
+      }),
+    );
     cy.window().then(window => {
       window.sessionStorage.clear();
     });
