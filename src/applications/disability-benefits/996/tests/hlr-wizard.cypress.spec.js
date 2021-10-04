@@ -138,4 +138,49 @@ describe('HLR wizard', () => {
     cy.injectAxe();
     cy.axeCheck();
   });
+
+  // v2 skip legacy appeals question
+  it('should show skip legacy appeals question & show form start for HLR v2', () => {
+    cy.intercept('GET', '/v0/feature_toggles?*', {
+      data: {
+        type: 'feature_toggles',
+        features: [{ name: 'hlrV2', value: true }],
+      },
+    });
+    // reload the page, so the intercept override takes effect
+    // cy.visit(BASE_URL);
+    cy.reload();
+    cy.injectAxe();
+
+    const h1Text = 'Request a Higher-Level Review';
+    // starts with focus on breadcrumb
+    cy.focused().should('have.attr', 'id', 'va-breadcrumbs-list');
+    cy.get('h1', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and('have.text', h1Text);
+
+    cy.get('[type="radio"][value="compensation"]').check(checkOpt);
+    cy.checkStorage(SAVED_CLAIM_TYPE, 'compensation');
+    cy.checkFormChange({
+      label: 'For what type of claim are you requesting a Higher-Level Review?',
+      value: 'compensation',
+    });
+
+    // start form
+    const h1Addition = ' with VA Form 20-0996';
+    cy.findAllByText(/higher-level review online/i, { selector: 'a' })
+      .first()
+      .click();
+
+    cy.location('pathname').should('eq', `${BASE_URL}/introduction`);
+    // title changes & gets focus
+    cy.get('h1', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and('have.text', h1Text + h1Addition);
+    cy.focused().should('have.text', h1Text + h1Addition);
+    cy.checkStorage(WIZARD_STATUS, 'complete');
+    cy.injectAxe();
+    cy.axeCheck();
+    Cypress.config('features', '');
+  });
 });

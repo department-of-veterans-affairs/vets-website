@@ -14,13 +14,18 @@ import { isUUID, SCOPES } from '../utils/token-format-validator';
 const Landing = props => {
   const {
     router,
-    setAppointment,
     location,
+    setAppointment,
+    setToken,
+    setAuthenticatedSession,
     isLowAuthEnabled,
     isUpdatePageEnabled,
+    isMultipleAppointmentsEnabled,
   } = props;
 
-  const [loadMessage, setLoadMessage] = useState('Finding your appointment');
+  const [loadMessage, setLoadMessage] = useState(
+    'Finding your appointment information',
+  );
   useEffect(
     () => {
       const token = getTokenFromLocation(location);
@@ -40,34 +45,54 @@ const Landing = props => {
 
       if (token) {
         if (isLowAuthEnabled) {
-          api.v1
-            .getSession(token)
-            .then(session => {
-              // if session with read.full exists, go to check in page
-              setCurrentToken(window, token);
-              setLoadMessage('Loading your appointment');
-              if (session.permission === 'read.full') {
-                goToNextPage(router, URLS.DETAILS);
-              } else {
-                // else get the data then go to validate page
-                api.v1
-                  .getCheckInData(token)
-                  .then(json => {
-                    // going to be read.basic data, which is facility name and number
-                    const { data } = json;
-                    setAppointment(data, token);
-                    goToNextPage(router, URLS.VALIDATION_NEEDED);
-                  })
-                  .catch(() => {
-                    clearCurrentSession(window);
-                    goToNextPage(router, URLS.ERROR);
-                  });
-              }
-            })
-            .catch(() => {
-              clearCurrentSession(window);
-              goToNextPage(router, URLS.ERROR);
-            });
+          if (isMultipleAppointmentsEnabled) {
+            api.v2
+              .getSession(token)
+              .then(session => {
+                // if session with read.full exists, go to check in page
+                setCurrentToken(window, token);
+                if (session.permissions === SCOPES.READ_FULL) {
+                  setAuthenticatedSession(token);
+                  goToNextPage(router, URLS.DETAILS);
+                } else {
+                  setToken(token);
+                  goToNextPage(router, URLS.VALIDATION_NEEDED);
+                }
+              })
+              .catch(() => {
+                clearCurrentSession(window);
+                goToNextPage(router, URLS.ERROR);
+              });
+          } else {
+            api.v1
+              .getSession(token)
+              .then(session => {
+                // if session with read.full exists, go to check in page
+                setCurrentToken(window, token);
+                setLoadMessage('Loading your appointment');
+                if (session.permissions === SCOPES.READ_FULL) {
+                  goToNextPage(router, URLS.DETAILS);
+                } else {
+                  // else get the data then go to validate page
+                  api.v1
+                    .getCheckInData(token)
+                    .then(json => {
+                      // going to be read.basic data, which is facility name and number
+                      const { data } = json;
+                      setAppointment(data, token);
+                      goToNextPage(router, URLS.VALIDATION_NEEDED);
+                    })
+                    .catch(() => {
+                      clearCurrentSession(window);
+                      goToNextPage(router, URLS.ERROR);
+                    });
+                }
+              })
+              .catch(() => {
+                clearCurrentSession(window);
+                goToNextPage(router, URLS.ERROR);
+              });
+          }
         } else {
           api.v0
             .validateToken(token)
@@ -95,7 +120,15 @@ const Landing = props => {
         }
       }
     },
-    [router, setAppointment, location, isLowAuthEnabled, isUpdatePageEnabled],
+    [
+      router,
+      location,
+      setAppointment,
+      setToken,
+      isLowAuthEnabled,
+      isUpdatePageEnabled,
+      isMultipleAppointmentsEnabled,
+    ],
   );
   return (
     <>
@@ -108,6 +141,10 @@ const mapDispatchToProps = dispatch => {
   return {
     setAppointment: (data, token) =>
       dispatch(tokenWasValidated(data, token, SCOPES.READ_BASIC)),
+    setToken: token =>
+      dispatch(tokenWasValidated(undefined, token, SCOPES.READ_BASIC)),
+    setAuthenticatedSession: token =>
+      dispatch(tokenWasValidated(undefined, token, SCOPES.READ_FULL)),
   };
 };
 

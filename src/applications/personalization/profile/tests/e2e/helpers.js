@@ -54,12 +54,9 @@ export const mockGETEndpoints = (
 };
 
 export const mockFeatureToggles = () => {
-  cy.server();
-  cy.route({
-    method: 'GET',
-    status: 200,
-    url: '/v0/feature_toggles*',
-    response: {
+  cy.intercept('GET', '/v0/feature_toggles*', {
+    statusCode: 200,
+    body: {
       data: {
         features: [
           {

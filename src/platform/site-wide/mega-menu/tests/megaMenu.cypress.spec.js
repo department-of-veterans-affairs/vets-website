@@ -1,11 +1,17 @@
 // Relative imports.
 import { mockUser } from '@@profile/tests/fixtures/users/user.js';
 
-Cypress.Commands.add('checkMenuItem', (selector, expectedPath) => {
-  cy.get(selector).click();
-  cy.location('pathname').should('eq', expectedPath);
-  cy.go('back');
-});
+Cypress.Commands.add(
+  'checkMenuItem',
+  (selector, expectedPath, parentMenuSelector = false) => {
+    if (parentMenuSelector) {
+      cy.get(parentMenuSelector).click();
+    }
+    cy.get(selector).click();
+    cy.location('pathname').should('match', new RegExp(`^/${expectedPath}/?$`));
+    cy.go('back');
+  },
+);
 
 const testFirstMenuSection = isMobile => {
   cy.get('[data-e2e-id="vetnav-level2--disability"').should('not.exist');
@@ -18,7 +24,22 @@ const testFirstMenuSection = isMobile => {
   cy.get('[data-e2e-id="vetnav-column-one-header"]');
   cy.get('[data-e2e-id="eligibility-0"]');
   cy.get('[data-e2e-id="about-va-1"]');
-  cy.checkMenuItem('[data-e2e-id="find-a-va-location-2"]', '/find-locations/');
+  cy.checkMenuItem('[data-e2e-id="find-a-va-location-2"]', 'find-locations');
+  cy.checkMenuItem(
+    '[data-e2e-id="how-to-apply-1"]',
+    'health-care/how-to-apply',
+    '[data-e2e-id="va-benefits-and-health-care-0"]',
+  );
+  cy.checkMenuItem(
+    '[data-e2e-id="family-and-caregiver-health-benefits-2"]',
+    'health-care/family-caregiver-benefits',
+    '[data-e2e-id="va-benefits-and-health-care-0"]',
+  );
+  cy.checkMenuItem(
+    '[data-e2e-id="view-your-lab-and-test-results-3"]',
+    'health-care/view-test-and-lab-results',
+    '[data-e2e-id="va-benefits-and-health-care-0"]',
+  );
 };
 
 const testSecondMenuSection = isMobile => {
@@ -38,6 +59,18 @@ const testSecondMenuSection = isMobile => {
   cy.get('[data-e2e-id="vetnav-column-two-header"]').contains('Learn about VA');
   cy.get('[data-e2e-id="veterans-legacy-program-4"]');
   cy.get('[data-e2e-id="agency-financial-report"]');
+  cy.get('[data-e2e-id="about-va-1"]').click();
+
+  cy.checkMenuItem(
+    '[data-e2e-id="veterans-health-administration-0"]',
+    'health',
+    '[data-e2e-id="about-va-1"]',
+  );
+  cy.checkMenuItem(
+    '[data-e2e-id="va-plans-budget-and-performance-2"]',
+    'performance',
+    '[data-e2e-id="about-va-1"]',
+  );
 };
 
 const testFindLocationsLink = () => {

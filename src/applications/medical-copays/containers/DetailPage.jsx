@@ -5,15 +5,18 @@ import DownloadStatements from '../components/DownloadStatements';
 import BalanceQuestions from '../components/BalanceQuestions';
 import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import FinancialHelp from '../components/FinancialHelp';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Modals from '../components/Modals';
 import Alert from '../components/Alerts';
+import moment from 'moment';
 
-const DetailPage = () => {
+const DetailPage = ({ match }) => {
+  const selectedId = match.params.id;
   const errors = useSelector(({ mcp }) => mcp.errors);
+  const statementData = useSelector(({ mcp }) => mcp.statements);
+  const [selectedCopay] = statementData.filter(({ id }) => selectedId === id);
   const [alertType, setAlertType] = useState(null);
 
   useEffect(
@@ -25,6 +28,10 @@ const DetailPage = () => {
     },
     [errors],
   );
+
+  if (!errors && !selectedCopay) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <>
@@ -40,60 +47,29 @@ const DetailPage = () => {
         </a>
       </Breadcrumbs>
       <h1 className="vads-u-margin-bottom--1">
-        Your copay bill for James A. Haley Veterans' Hospital
+        Your copay bill for {selectedCopay?.station.facilitYDesc}
       </h1>
       {alertType ? (
         <Alert type={alertType} />
       ) : (
         <>
           <p className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--5">
-            Updated on June 3, 2021
+            Updated on
+            <span className="vads-u-margin-x--0p5">
+              {moment(selectedCopay?.pSProcessDate, 'MM-DD-YYYY').format(
+                'MMMM D, YYYY',
+              )}
+            </span>
           </p>
-          <va-alert background-only status="info">
-            <h3 className="vads-u-margin-y--0">
-              Pay your $300.00 balance or request help before July 2, 2021
-            </h3>
-            <p>
-              To avoid late fees or collection action on your bill, you must pay
-              your full balance or request financial help before July 2, 2021.
-            </p>
-            <p>
-              <a className="vads-c-action-link--blue" href="#">
-                Learn how to pay your copay bill
-              </a>
-            </p>
-            <p>
-              <a className="vads-c-action-link--blue" href="#">
-                Request help with your bill
-              </a>
-            </p>
-            <h4>What if I’ve already requested financial help with my bill?</h4>
-            <p>
-              You may need to continue making payments while we review your
-              request. Call us at
-              <Telephone
-                contact={'866-400-1238'}
-                className="vads-u-margin-x--0p5"
-              />
-              , Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-            </p>
-          </va-alert>
+          <Alert type={'status'} copay={selectedCopay} />
           <va-on-this-page />
           <DownloadStatements />
-          <HowToPay />
+          <HowToPay acctNum={selectedCopay.pHCernerAccountNumber} />
           <FinancialHelp />
           <DisputeCharges />
           <BalanceQuestions
-            contact={
-              <span>
-                contact the James A. Haley Veterans’ Hospital at
-                <Telephone
-                  contact={'813-972-2000'}
-                  className="vads-u-margin-x--0p5"
-                />
-                .
-              </span>
-            }
+            facilityLocation={selectedCopay?.station.facilitYDesc}
+            facilityPhone={selectedCopay?.station.teLNum}
           />
           <Modals title="Notice of rights and responsibilities">
             <Modals.Rights />
