@@ -9,8 +9,6 @@ import { PROFILE_PATHS } from '@@profile/constants';
 import { FIELD_NAMES } from '@@vap-svc/constants';
 import { selectVAPContactInfoField } from '@@vap-svc/selectors';
 
-import environment from '~/platform/utilities/environment';
-
 const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
   const fieldData = useSelector(state => {
     return selectVAPContactInfoField(state, fieldName);
@@ -37,10 +35,6 @@ const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
     },
     [fieldName, referrer],
   );
-
-  if (environment.isProduction()) {
-    return null;
-  }
 
   return (
     <AlertBox backgroundOnly status="success" className="vads-u-margin-y--1">

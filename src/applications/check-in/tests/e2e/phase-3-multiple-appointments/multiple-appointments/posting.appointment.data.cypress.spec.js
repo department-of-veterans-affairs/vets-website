@@ -26,7 +26,7 @@ describe('Check In Experience -- ', () => {
         const { uuid, appointmentIEN, facilityId } =
           req.body?.patientCheckIns || {};
         expect(uuid).to.equal('46bebc0a-b99c-464f-a5c5-560bc9eae287');
-        expect(appointmentIEN).to.equal('some-ien1');
+        expect(appointmentIEN).to.equal('some-ien-1');
         expect(facilityId).to.equal('ABC_123');
         req.reply(mockCheckIn.createMockSuccessResponse({}));
       });
