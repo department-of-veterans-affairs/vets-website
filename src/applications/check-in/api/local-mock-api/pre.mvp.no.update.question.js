@@ -66,7 +66,6 @@ const responses = {
     meta: { errors: null },
   },
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
-    checkInExperienceEnabled: true,
     checkInExperienceLowAuthenticationEnabled: false,
     checkInExperienceMultipleAppointmentSupport: false,
     checkInExperienceUpdateInformationPageEnabled: false,
