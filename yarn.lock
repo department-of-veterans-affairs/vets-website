@@ -6299,9 +6299,9 @@ cy-mobile-commands@^0.2.1:
   resolved "https://registry.npmjs.org/cy-mobile-commands/-/cy-mobile-commands-0.2.1.tgz"
   integrity sha512-qIY1Wvmr4G9RjSiLdcuGZkhcDYKk8GU94ghVvxcKDD8c9HEPH8rztDRupgQNfdT5sGttgo9frq/4OKuSl/L5pw==
 
-"cy-tr-reporter@https://github.com/tlei123/cy-tr-reporter":
-  version "1.2.4"
-  resolved "https://github.com/tlei123/cy-tr-reporter#68209e35acfbca15a5e7c260c7d2d0e99cd836e3"
+"cy-tr-reporter@https://github.com/tlei123/cy-tr-reporter/archive/v1.2.5.tar.gz":
+  version "1.2.5"
+  resolved "https://github.com/tlei123/cy-tr-reporter/archive/v1.2.5.tar.gz#f479c5739f3a1afb462ad47951814b14e095de99"
   dependencies:
     axios "^0.21.4"
     btoa "^1.1.2"
@@ -13082,7 +13082,7 @@ nanoid@3.1.12:
   resolved "https://registry.npmjs.org/nanoid/-/nanoid-3.1.12.tgz"
   integrity sha512-1qstj9z5+x491jfiC4Nelk+f8XBad7LN20PmyWINJEMRSf3wcAjAWysw1qaA8z6NSKe2sjq1hRSDpBH5paCb6A==
 
-nanoid@3.1.25:
+nanoid@3.1.25, nanoid@^3.1.25:
   version "3.1.25"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.25.tgz#09ca32747c0e543f0e1814b7d3793477f9c8e152"
   integrity sha512-rdwtIXaXCLFAQbnfqDRnI6jaRHp9fTcYBjtFKE8eezcZ7LuLjhUaQGNeMXf1HmRoCH32CLz6XwX0TtxEOS/A3Q==
@@ -13091,11 +13091,6 @@ nanoid@^3.1.22:
   version "3.1.22"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.22.tgz#b35f8fb7d151990a8aebd5aa5015c03cf726f844"
   integrity sha512-/2ZUaJX2ANuLtTvqTlgqBQNJoQO398KyJgZloL0PZkC0dpysjncRUPsFe3DUPzz/y3h+u7C46np8RMuvF3jsSQ==
-
-nanoid@^3.1.25:
-  version "3.1.25"
-  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.25.tgz#09ca32747c0e543f0e1814b7d3793477f9c8e152"
-  integrity sha512-rdwtIXaXCLFAQbnfqDRnI6jaRHp9fTcYBjtFKE8eezcZ7LuLjhUaQGNeMXf1HmRoCH32CLz6XwX0TtxEOS/A3Q==
 
 nanomatch@^1.2.9:
   version "1.2.9"
