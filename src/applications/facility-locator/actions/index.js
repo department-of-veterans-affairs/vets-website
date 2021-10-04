@@ -219,22 +219,24 @@ export const fetchLocations = async (
         radius,
       );
       data = { ...dataList };
-      data.data = dataList.data
-        .map(location => {
-          const distance =
-            center &&
-            distBetween(
-              center[0],
-              center[1],
-              location.attributes.lat,
-              location.attributes.long,
-            );
-          return {
-            ...location,
-            distance,
-          };
-        })
-        .sort((resultA, resultB) => resultA.distance - resultB.distance);
+      if (dataList.data) {
+        data.data = dataList.data
+          .map(location => {
+            const distance =
+              center &&
+              distBetween(
+                center[0],
+                center[1],
+                location.attributes.lat,
+                location.attributes.long,
+              );
+            return {
+              ...location,
+              distance,
+            };
+          })
+          .sort((resultA, resultB) => resultA.distance - resultB.distance);
+      }
     }
     if (data.errors) {
       dispatch({ type: SEARCH_FAILED, error: data.errors });

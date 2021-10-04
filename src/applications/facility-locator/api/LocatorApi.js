@@ -50,7 +50,11 @@ class LocatorApi {
         })
         .then(res => {
           const endTime = new Date().getTime();
-          res.meta.resultTime = endTime - startTime;
+          const resultTime = endTime - startTime;
+          res.meta = {
+            ...res.meta,
+            resultTime,
+          };
           return res;
         })
         .then(data => resolve(data), error => reject(error));

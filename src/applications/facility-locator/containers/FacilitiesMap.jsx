@@ -33,6 +33,8 @@ import vaDebounce from 'platform/utilities/data/debounce';
 import { setFocus, buildMarker, resetMapElements } from '../utils/helpers';
 import {
   Covid19Vaccine,
+  EMERGENCY_CARE_SERVICES,
+  LocationType,
   MapboxInit,
   MARKER_LETTERS,
   MAX_SEARCH_AREA,
@@ -333,6 +335,7 @@ const FacilitiesMap = props => {
       <p className="sr-only" id="map-instructions" aria-live="assertive" />
       <map
         id={mapboxGlContainer}
+        role="application"
         aria-label="Find VA locations on an interactive map"
         aria-describedby="map-instructions"
         onFocus={() => speakMapInstructions()}
@@ -367,6 +370,10 @@ const FacilitiesMap = props => {
     const facilityType = currentQuery.facilityType;
     const serviceType = currentQuery.serviceType;
     const queryContext = currentQuery.context;
+    const isEmergencyCareType = facilityType === LocationType.EMERGENCY_CARE;
+    const isCppEmergencyCareTypes = EMERGENCY_CARE_SERVICES.includes(
+      serviceType,
+    );
 
     const paginationWrapper = () => {
       return (
@@ -417,6 +424,18 @@ const FacilitiesMap = props => {
           searchCovid19Vaccine={props.searchCovid19Vaccine}
           clearSearchText={props.clearSearchText}
         />
+        {(isEmergencyCareType || isCppEmergencyCareTypes) && (
+          <div id="search-result-emergency-care-info">
+            <p className="search-result-emergency-care-subheader">
+              <strong>Note:</strong> If you think your life or health is in
+              danger, call{' '}
+              <a aria-label="9 1 1" href="tel:911">
+                911
+              </a>{' '}
+              or go to the nearest emergency department right away.
+            </p>
+          </div>
+        )}
         <div id="search-results-title" ref={searchResultTitleRef}>
           {!searchError && (
             <SearchResultsHeader
@@ -562,6 +581,7 @@ const FacilitiesMap = props => {
         setMapEventHandlers();
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [map, props.currentQuery.searchCoords],
   );
 
