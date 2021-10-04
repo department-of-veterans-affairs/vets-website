@@ -22,7 +22,9 @@ const Landing = props => {
     isMultipleAppointmentsEnabled,
   } = props;
 
-  const [loadMessage, setLoadMessage] = useState('Finding your appointment');
+  const [loadMessage, setLoadMessage] = useState(
+    'Finding your appointment information',
+  );
   useEffect(
     () => {
       const token = getTokenFromLocation(location);
@@ -48,7 +50,6 @@ const Landing = props => {
               .then(session => {
                 // if session with read.full exists, go to check in page
                 setCurrentToken(window, token);
-                setLoadMessage('Loading your appointment');
                 if (session.permission === 'read.full') {
                   goToNextPage(router, URLS.DETAILS);
                 } else {

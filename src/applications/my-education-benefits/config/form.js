@@ -24,10 +24,8 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import toursOfDutyUI from '../definitions/toursOfDuty';
-import DateViewField from '../components/DateViewField';
 import CustomReviewDOBField from '../components/CustomReviewDOBField';
 import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView';
-import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
 import EmailViewField from '../components/EmailViewField';
 import PhoneViewField from '../components/PhoneViewField';
 import AccordionField from '../components/AccordionField';
@@ -410,34 +408,14 @@ const formConfig = {
                 },
               },
             },
-            'view:dateOfBirth': {
-              'ui:options': {
-                hideLabelText: true,
-                showFieldLabel: false,
-                startInEdit: formData => {
-                  const { dateOfBirth } = formData;
-
-                  if (!dateOfBirth) {
-                    return true;
-                  }
-
-                  const dateParts = dateOfBirth.split('-');
-                  return !isValidCurrentOrPastDate(
-                    dateParts[2],
-                    dateParts[1],
-                    dateParts[0],
-                  );
-                },
-                viewComponent: DateViewField,
-              },
-              [formFields.dateOfBirth]: {
-                ...currentOrPastDateUI('Date of birth'),
-                'ui:reviewField': CustomReviewDOBField,
-              },
+            [formFields.dateOfBirth]: {
+              ...currentOrPastDateUI('Date of birth'),
+              'ui:reviewField': CustomReviewDOBField,
             },
           },
           schema: {
             type: 'object',
+            required: [formFields.dateOfBirth],
             properties: {
               'view:subHeadings': {
                 type: 'object',
@@ -459,13 +437,7 @@ const formConfig = {
                   },
                 },
               },
-              'view:dateOfBirth': {
-                type: 'object',
-                required: [formFields.dateOfBirth],
-                properties: {
-                  [formFields.dateOfBirth]: date,
-                },
-              },
+              [formFields.dateOfBirth]: date,
             },
           },
           initialData: {
@@ -477,9 +449,7 @@ const formConfig = {
                 suffix: 'Jr.',
               },
             },
-            'view:dateOfBirth': {
-              dateOfBirth: '1992-07-23',
-            },
+            dateOfBirth: '1992-07-23',
           },
         },
       },
@@ -494,7 +464,7 @@ const formConfig = {
             [formFields.viewPhoneNumbers]: {
               mobilePhoneNumber: {
                 phone: '123-456-7890',
-                isInternational: true,
+                isInternational: false,
               },
               phoneNumber: {
                 phone: '098-765-4321',
@@ -511,9 +481,9 @@ const formConfig = {
               'ui:description': (
                 <>
                   <h3>Review your phone numbers and email address</h3>
-                  <p>
+                  <div className="meb-list-label">
                     <b>We’ll use this information to:</b>
-                  </p>
+                  </div>
                   <ul>
                     <li>
                       Contact you if we have questions about your application
@@ -527,14 +497,14 @@ const formConfig = {
                     benefits only.
                   </p>
                   <p>
-                    <b>Note:</b> If you want to update your contact information
-                    for other VA benefits, you can do that from your profile.
+                    <strong>Note:</strong> If you want to update your contact
+                    information for other VA benefits, you can do that from your
+                    profile.
                   </p>
                   <p>
                     <a href="/profile/personal-information">
-                      go to your profile page
+                      Go to your profile
                     </a>
-                    .
                   </p>
                 </>
               ),
@@ -627,19 +597,30 @@ const formConfig = {
             'view:subHeadings': {
               'ui:description': (
                 <>
-                  <h3>Review your mailing address</h3>
+                  <h3>Review your phone numbers and email address</h3>
+                  <div className="meb-list-label">
+                    <b>We’ll use this information to:</b>
+                  </div>
+                  <ul>
+                    <li>
+                      Contact you if we have questions about your application
+                    </li>
+                    <li>Tell you important information about your benefits</li>
+                  </ul>
                   <p>
-                    We’ll send any important information about your application
-                    to this address.
+                    This is the contact information we have on file for you. If
+                    you notice any errors, please correct them now. Any updates
+                    you make will change the information for your education
+                    benefits only.
                   </p>
                   <p>
-                    Any updates you make here to your mailing address will only
-                    apply to your education benefits. To update your mailing
-                    address for all of the benefits across VA,{' '}
+                    <strong>Note:</strong> If you want to update your contact
+                    for other VA benefits, you can do that from your profile.
+                  </p>
+                  <p>
                     <a href="/profile/personal-information">
-                      please go to your profile page
+                      Go to your profile
                     </a>
-                    .
                   </p>
                 </>
               ),
