@@ -25,52 +25,52 @@ const filteredStates = states.USA.filter(
 );
 
 /**
- Available at https://github.com/department-of-veterans-affairs/vets-json-schema/blob/8337b2878b524867ef2b6d8600b134c682c7ac8a/src/common/definitions.js#L161
- addressSchema = {
-   type: 'object',
-   properties: {
-     isMilitary: {
-       type: 'boolean',
-     },
-     'view:militaryBaseDescription': {
-       type: 'object',
-       properties: {},
-     },
-     country: {
-       type: 'string',
-       enum: countries.map(country => country.value),
-       enumNames: countries.map(country => country.label),
-     },
-     street: {
-       type: 'string',
-       minLength: 1,
-       maxLength: 100,
-       pattern: STREET_PATTERN,
-     },
-     street2: {
-       type: 'string',
-       minLength: 1,
-       maxLength: 100,
-       pattern: STREET_PATTERN,
-     },
-     street3: {
-       type: 'string',
-       minLength: 1,
-       maxLength: 100,
-       pattern: STREET_PATTERN,
-     },
-     city: {
-       type: 'string',
-     },
-     state: {
-       type: 'string',
-     },
-     postalCode: {
-       type: 'string',
-     },
-   },
- };
- */
+  Available at https://github.com/department-of-veterans-affairs/vets-json-schema/blob/8337b2878b524867ef2b6d8600b134c682c7ac8a/src/common/definitions.js#L161
+  addressSchema = {
+    type: 'object',
+    properties: {
+      isMilitary: {
+        type: 'boolean',
+      },
+      'view:militaryBaseDescription': {
+        type: 'object',
+        properties: {},
+      },
+      country: {
+        type: 'string',
+        enum: countries.map(country => country.value),
+        enumNames: countries.map(country => country.label),
+      },
+      street: {
+        type: 'string',
+        minLength: 1,
+        maxLength: 100,
+        pattern: STREET_PATTERN,
+      },
+      street2: {
+        type: 'string',
+        minLength: 1,
+        maxLength: 100,
+        pattern: STREET_PATTERN,
+      },
+      street3: {
+        type: 'string',
+        minLength: 1,
+        maxLength: 100,
+        pattern: STREET_PATTERN,
+      },
+      city: {
+        type: 'string',
+      },
+      state: {
+        type: 'string',
+      },
+      postalCode: {
+        type: 'string',
+      },
+    },
+  };
+  */
 
 /**
  * CONSTANTS:
@@ -103,7 +103,11 @@ const MilitaryBaseInfo = () => (
  * 1. Path to Address nested in array - childrenToAdd[INDEX].childAddressInfo.address
  */
 
-export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
+export default function addressUiSchema(
+  path,
+  checkBoxTitle,
+  uiRequiredCallback,
+) {
   /**
    * insertArrayIndex - Used when addresses are nested in an array and need to be accessible.
    * There's no good way to handle pathing to a schema when it lives in an array with multiple entries.
@@ -294,4 +298,4 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
       },
     },
   };
-};
+}
