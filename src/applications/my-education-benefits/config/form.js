@@ -349,12 +349,12 @@ const formConfig = {
   preSubmitInfo,
   chapters: {
     applicantInformationChapter: {
-      title: 'Applicant information',
+      title: 'Your information',
       pages: {
         [formPages.applicantInformation]: {
-          title: 'Applicant information',
+          title: 'Your information',
           path: 'applicant-information/personal-information',
-          subTitle: 'Review your personal information',
+          subTitle: 'Your information',
           instructions:
             'This is the personal information we have on file for you.',
           uiSchema: {
@@ -363,10 +363,20 @@ const formConfig = {
                 <>
                   <h3>Review your personal information</h3>
                   <p>
-                    Any updates you make here to your personal information will
-                    only apply to your education benefits. To update your
-                    personal information for all of the benefits across VA,{' '}
-                    <a href="/profile">please go to your profile page</a>.
+                    This is the personal information we have on file for you. If
+                    you notice any errors, please correct them now. Any updates
+                    you make will change the information for your education
+                    benefits only.
+                  </p>
+                  <p>
+                    <strong>Note:</strong> If you want to update your personal
+                    information for other VA benefits, you can do that from your
+                    profile.
+                  </p>
+                  <p>
+                    <a href="/profile/personal-information">
+                      Go to your profile
+                    </a>
                   </p>
                 </>
               ),
