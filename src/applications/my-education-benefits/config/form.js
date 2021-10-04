@@ -349,12 +349,12 @@ const formConfig = {
   preSubmitInfo,
   chapters: {
     applicantInformationChapter: {
-      title: 'Applicant information',
+      title: 'Your information',
       pages: {
         [formPages.applicantInformation]: {
-          title: 'Applicant information',
+          title: 'Your information',
           path: 'applicant-information/personal-information',
-          subTitle: 'Review your personal information',
+          subTitle: 'Your information',
           instructions:
             'This is the personal information we have on file for you.',
           uiSchema: {
@@ -363,10 +363,20 @@ const formConfig = {
                 <>
                   <h3>Review your personal information</h3>
                   <p>
-                    Any updates you make here to your personal information will
-                    only apply to your education benefits. To update your
-                    personal information for all of the benefits across VA,{' '}
-                    <a href="/profile">please go to your profile page</a>.
+                    This is the personal information we have on file for you. If
+                    you notice any errors, please correct them now. Any updates
+                    you make will change the information for your education
+                    benefits only.
+                  </p>
+                  <p>
+                    <strong>Note:</strong> If you want to update your personal
+                    information for other VA benefits, you can do that from your
+                    profile.
+                  </p>
+                  <p>
+                    <a href="/profile/personal-information">
+                      Go to your profile
+                    </a>
                   </p>
                 </>
               ),
@@ -481,9 +491,9 @@ const formConfig = {
               'ui:description': (
                 <>
                   <h3>Review your phone numbers and email address</h3>
-                  <p>
+                  <div className="meb-list-label">
                     <b>We’ll use this information to:</b>
-                  </p>
+                  </div>
                   <ul>
                     <li>
                       Contact you if we have questions about your application
@@ -497,14 +507,14 @@ const formConfig = {
                     benefits only.
                   </p>
                   <p>
-                    <b>Note:</b> If you want to update your contact information
-                    for other VA benefits, you can do that from your profile.
+                    <strong>Note:</strong> If you want to update your contact
+                    information for other VA benefits, you can do that from your
+                    profile.
                   </p>
                   <p>
                     <a href="/profile/personal-information">
-                      go to your profile page
+                      Go to your profile
                     </a>
-                    .
                   </p>
                 </>
               ),
@@ -597,19 +607,30 @@ const formConfig = {
             'view:subHeadings': {
               'ui:description': (
                 <>
-                  <h3>Review your mailing address</h3>
+                  <h3>Review your phone numbers and email address</h3>
+                  <div className="meb-list-label">
+                    <b>We’ll use this information to:</b>
+                  </div>
+                  <ul>
+                    <li>
+                      Contact you if we have questions about your application
+                    </li>
+                    <li>Tell you important information about your benefits</li>
+                  </ul>
                   <p>
-                    We’ll send any important information about your application
-                    to this address.
+                    This is the contact information we have on file for you. If
+                    you notice any errors, please correct them now. Any updates
+                    you make will change the information for your education
+                    benefits only.
                   </p>
                   <p>
-                    Any updates you make here to your mailing address will only
-                    apply to your education benefits. To update your mailing
-                    address for all of the benefits across VA,{' '}
+                    <strong>Note:</strong> If you want to update your contact
+                    for other VA benefits, you can do that from your profile.
+                  </p>
+                  <p>
                     <a href="/profile/personal-information">
-                      please go to your profile page
+                      Go to your profile
                     </a>
-                    .
                   </p>
                 </>
               ),
@@ -772,6 +793,28 @@ const formConfig = {
                 'ui:title':
                   'Would you like to receive text message notifications on your education benefits?',
                 'ui:widget': 'radio',
+                'ui:validations': [
+                  (errors, field, formData) => {
+                    const isYes = field.slice(0, 4).includes('Yes');
+                    const phoneExist = !!formData['view:phoneNumbers']
+                      .mobilePhoneNumber.phone;
+                    const isInternational =
+                      formData['view:phoneNumbers'].mobilePhoneNumber
+                        .isInternational;
+
+                    if (isYes) {
+                      if (!phoneExist) {
+                        errors.addError(
+                          "You can't select that response because we don't have a mobile phone number on file for you.",
+                        );
+                      } else if (isInternational) {
+                        errors.addError(
+                          "You can't select that response because you have an international mobile phone number",
+                        );
+                      }
+                    }
+                  },
+                ],
                 'ui:options': {
                   widgetProps: {
                     Yes: { 'data-info': 'yes' },
@@ -810,8 +853,8 @@ const formConfig = {
               'ui:description': (
                 <va-alert onClose={function noRefCheck() {}} status="warning">
                   <p style={{ margin: 0 }}>
-                    You can’t choose to receive text messages because you don’t
-                    have a mobile phone number on file.
+                    You can’t choose to get text message notifications because
+                    we don’t have a mobile phone number on file for you
                   </p>
                 </va-alert>
               ),
@@ -831,10 +874,10 @@ const formConfig = {
               'ui:description': (
                 <va-alert onClose={function noRefCheck() {}} status="warning">
                   <p style={{ margin: 0 }}>
-                    You can’t choose to receive text messages because your
-                    mobile phone number is international. At this time, VA is
-                    only able to send text messages about your education
-                    benefits to US-based mobile phone numbers.
+                    You can’t choose to get text notifications because you have
+                    an international mobile phone number. At this time, we can
+                    send text messages about your education benefits to U.S.
+                    mobile phone numbers
                   </p>
                 </va-alert>
               ),
@@ -1043,9 +1086,11 @@ const formConfig = {
                   </p>
                   <AdditionalInfo triggerText="Why do I have to give up a benefit?">
                     <p>
-                      Per 38 USC 3327, If you are eligible for both the
-                      Post-9/11 GI Bill and other education benefits, you must
-                      give up one benefit you may be eligible for.
+                      The law says if you are eligible for both the Post-9/11 GI
+                      Bill and another education benefit based on the same
+                      period of active duty, you must give one up. One
+                      qualifying period of active duty can only be used for one
+                      VA education benefit.
                     </p>
                   </AdditionalInfo>
                 </>

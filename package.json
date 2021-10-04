@@ -117,7 +117,7 @@
     "@testing-library/react": "^11.1.2",
     "@testing-library/user-event": "^12.2.2",
     "append-query": "^2.1.1",
-    "autoprefixer": "^9.5.1",
+    "autoprefixer": "^10.3.5",
     "axe-core": "^4.3.3",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
@@ -198,7 +198,8 @@
     "node-sass": "^4.14.1",
     "null-loader": "^0.1.1",
     "nyc": "^15.1.0",
-    "postcss-loader": "^3.0.0",
+    "postcss": "^8.3.7",
+    "postcss-loader": "^4.2.0",
     "prettier": "^1.14.3",
     "puppeteer": "^3.3.0",
     "request": "^2.88.2",
@@ -227,7 +228,7 @@
     "webpackbar": "^4.0.0",
     "winston": "^3.3.3",
     "yeoman-generator": "^4.2.0",
-    "yo": "^3.1.1"
+    "yo": "^4.3.0"
   },
   "optionalDependencies": {},
   "engines": {
@@ -341,6 +342,8 @@
     "web-components/**/postcss": "^8.2.10",
     "**/tar": "^4.4.18",
     "**/kind-of": "^6.0.3",
-    "**/glob-parent": "^5.1.2"
+    "**/glob-parent": "^5.1.2",
+    "**/ansi-regex": "^5.0.1",
+    "**/yargs-parser": "13.1.2"
   }
 }
