@@ -54,6 +54,8 @@ class SaveInProgressIntro extends React.Component {
         prefillAvailable={prefillAvailable}
         formSaved={!!savedForm}
         gaStartEventName={this.props.gaStartEventName}
+        ariaLabel={this.props.ariaLabel}
+        ariaDescribedby={this.props.ariaDescribedby}
       />
     );
   };
@@ -176,7 +178,12 @@ class SaveInProgressIntro extends React.Component {
       const H = `h${this.props.headingLevel}`;
       const { buttonOnly, retentionPeriod, unauthStartText } = this.props;
       const unauthStartButton = (
-        <button className="usa-button-primary" onClick={this.openLoginModal}>
+        <button
+          className="usa-button-primary"
+          onClick={this.openLoginModal}
+          ariaLabel={this.props.ariaLabel || null}
+          ariaDescribedby={this.props.ariaDescribedby || null}
+        >
           {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
         </button>
       );
@@ -188,6 +195,8 @@ class SaveInProgressIntro extends React.Component {
               <button
                 className="va-button-link schemaform-start-button"
                 onClick={this.goToBeginning}
+                ariaLabel={this.props.ariaLabel || null}
+                ariaDescribedby={this.props.ariaDescribedby || null}
               >
                 Start your {appType} without signing in
               </button>
@@ -227,6 +236,8 @@ class SaveInProgressIntro extends React.Component {
                   <button
                     className="va-button-link schemaform-start-button"
                     onClick={this.goToBeginning}
+                    ariaLabel={this.props.ariaLabel || null}
+                    ariaDescribedby={this.props.ariaDescribedby || null}
                   >
                     Start your {appType} without signing in
                   </button>
@@ -246,7 +257,12 @@ class SaveInProgressIntro extends React.Component {
               You can save this {appType} in progress, and come back later to
               finish filling it out.
               <br />
-              <button className="va-button-link" onClick={this.openLoginModal}>
+              <button
+                className="va-button-link"
+                onClick={this.openLoginModal}
+                ariaLabel={this.props.ariaLabel || null}
+                ariaDescribedby={this.props.ariaDescribedby || null}
+              >
                 Sign in to your account.
               </button>
             </div>
@@ -388,6 +404,8 @@ SaveInProgressIntro.propTypes = {
     }),
   }),
   headingLevel: PropTypes.number,
+  ariaLabel: PropTypes.string,
+  ariaDescribedby: PropTypes.string,
 };
 
 SaveInProgressIntro.defaultProps = {
