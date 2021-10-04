@@ -32,7 +32,6 @@ const createFeatureToggles = (
 const generateFeatureToggles = toggles => {
   const {
     checkInExperienceEnabled = true,
-    checkInExperienceLowAuthenticationEnabled = true,
     checkInExperienceMultipleAppointmentSupport = true,
     checkInExperienceUpdateInformationPageEnabled = true,
   } = toggles;
@@ -48,10 +47,6 @@ const generateFeatureToggles = toggles => {
         {
           name: 'check_in_experience_update_information_page_enabled',
           value: checkInExperienceUpdateInformationPageEnabled,
-        },
-        {
-          name: 'check_in_experience_low_authentication_enabled',
-          value: checkInExperienceLowAuthenticationEnabled,
         },
         {
           name: 'check_in_experience_multiple_appointment_support',
