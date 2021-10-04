@@ -227,7 +227,7 @@
     "webpack-manifest-plugin": "^4.0.2",
     "webpackbar": "^4.0.0",
     "winston": "^3.3.3",
-    "yeoman-generator": "^4.2.0",
+    "yeoman-generator": "^5.4.2",
     "yo": "^4.3.0"
   },
   "optionalDependencies": {},
