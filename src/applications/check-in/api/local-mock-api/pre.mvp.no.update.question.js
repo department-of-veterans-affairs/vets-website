@@ -65,12 +65,12 @@ const responses = {
     },
     meta: { errors: null },
   },
-  'GET /v0/feature_toggles': featureToggles.createFeatureToggles(
-    true,
-    false,
-    false,
-    false,
-  ),
+  'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
+    checkInExperienceEnabled: true,
+    checkInExperienceLowAuthenticationEnabled: false,
+    checkInExperienceMultipleAppointmentSupport: false,
+    checkInExperienceUpdateInformationPageEnabled: false,
+  }),
   'GET /check_in/v0/patient_check_ins/:id': (req, res) => {
     const { id } = req.params;
     return res.json(mockValidates.createMockSuccessResponse({ id }));
