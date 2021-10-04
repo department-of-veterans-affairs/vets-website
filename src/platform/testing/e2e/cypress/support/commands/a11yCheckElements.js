@@ -53,3 +53,39 @@ Cypress.Commands.add('allyEvaluateCheckboxes', selectorArray => {
     }
   });
 });
+
+Cypress.Commands.add(
+  'allyEvaluateModalWindow',
+  (modalTrigger, modalElement, modalCloseElement, triggerKey = 'Enter') => {
+    cy.get(modalTrigger).should('exist');
+    cy.realPress(triggerKey);
+    cy.get(modalElement).should('be.visible');
+    cy.get(modalCloseElement).should('be.focused');
+    cy.realPress(triggerKey);
+    cy.get(modalTrigger).should('be.focused');
+  },
+);
+
+Cypress.Commands.add('hasFocusableCount', (selector, count) => {
+  cy.get(selector).then(elem => {
+    const allItems = elem[0].querySelectorAll(
+      'a[href], button, details, input[type="text"], input[type="email"], input[type="password"], input[type="search"], input[type="tel"], input[type="url"], input[type="radio"], input[type="checkbox"], select, textarea, [tabindex="0"], [tabindex="-1"]',
+    );
+    const selectorArray = Array.from(allItems).filter(
+      el => !el.hasAttribute('disabled'),
+    );
+    expect(selectorArray).to.have.lengthOf(count);
+  });
+});
+
+Cypress.Commands.add('hasTabbableCount', (selector, count) => {
+  cy.get(selector).then(elem => {
+    const allItems = elem[0].querySelectorAll(
+      'a[href], button, details, input[type="text"], input[type="email"], input[type="password"], input[type="search"], input[type="tel"], input[type="url"], input[type="radio"]:checked, input[type="checkbox"], select, textarea, [tabindex]:not([tabindex="-1"]',
+    );
+    const selectorArray = Array.from(allItems).filter(
+      el => !el.hasAttribute('disabled'),
+    );
+    expect(selectorArray).to.have.lengthOf(count);
+  });
+});
