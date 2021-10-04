@@ -11,7 +11,6 @@ const v2 = {
       token,
     );
     return {
-      data: json.data,
       ...json,
     };
   },
