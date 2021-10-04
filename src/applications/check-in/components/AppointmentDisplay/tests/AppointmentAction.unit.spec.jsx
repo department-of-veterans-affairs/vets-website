@@ -23,7 +23,7 @@ describe('check-in', () => {
       expect(action.queryByTestId('check-in-button')).to.not.exist;
       expect(action.getByTestId('no-status-given-message')).to.exist;
       expect(action.getByTestId('no-status-given-message')).to.have.text(
-        'This appointment isn’t eligible for online check-in. Check-in with a staff member.',
+        'Online check-in isn’t available for this appointment. Check in with a staff member.',
       );
     });
     it('should render the check in button for ELIGIBLE appointments status', () => {
@@ -54,7 +54,7 @@ describe('check-in', () => {
       expect(action.queryByTestId('check-in-button')).to.not.exist;
       expect(action.getByTestId('ineligible-bad-status-message')).to.exist;
       expect(action.getByTestId('ineligible-bad-status-message')).to.have.text(
-        'This appointment isn’t eligible for online check-in. Check-in with a staff member.',
+        'Online check-in isn’t available for this appointment. Check in with a staff member.',
       );
     });
     it('should render the bad status message for appointments with INELIGIBLE_UNSUPPORTED_LOCATION status', () => {
@@ -70,7 +70,7 @@ describe('check-in', () => {
       expect(action.queryByTestId('check-in-button')).to.not.exist;
       expect(action.getByTestId('unsupported-location-message')).to.exist;
       expect(action.getByTestId('unsupported-location-message')).to.have.text(
-        'This appointment isn’t eligible for online check-in. Check-in with a staff member.',
+        'Online check-in isn’t available for this appointment. Check in with a staff member.',
       );
     });
     it('should render the bad status message for appointments with INELIGIBLE_UNKNOWN_REASON status', () => {
@@ -86,7 +86,7 @@ describe('check-in', () => {
       expect(action.queryByTestId('check-in-button')).to.not.exist;
       expect(action.getByTestId('unknown-reason-message')).to.exist;
       expect(action.getByTestId('unknown-reason-message')).to.have.text(
-        'This appointment isn’t eligible for online check-in. Check-in with a staff member.',
+        'Online check-in isn’t available for this appointment. Check in with a staff member.',
       );
     });
     it('should render the bad status message for appointments with INELIGIBLE_TOO_LATE status', () => {
