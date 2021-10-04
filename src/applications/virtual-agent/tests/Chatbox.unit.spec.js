@@ -438,14 +438,14 @@ describe('App', () => {
       );
       const button = wrapper.getByText('Sign in to VA.gov');
 
-      expect(wrapper.queryByRole('alertdialog')).to.not.exist;
+      expect(wrapper.queryByRole('dialog')).to.not.exist;
 
       await act(async () => {
         fireEvent.click(button);
       });
 
       expect(store.getState().navigation.showLoginModal).to.be.true;
-      expect(wrapper.getByRole('alertdialog')).to.exist;
+      expect(wrapper.getByRole('dialog')).to.exist;
     });
 
     it('does not display chatbot', async () => {

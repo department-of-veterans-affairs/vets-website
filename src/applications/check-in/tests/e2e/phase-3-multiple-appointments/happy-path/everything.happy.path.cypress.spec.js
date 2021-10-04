@@ -26,6 +26,12 @@ describe('Check In Experience -- ', () => {
         );
       });
       cy.intercept('POST', '/check_in/v2/patient_check_ins/', req => {
+        const { uuid, appointmentIEN, facilityId } =
+          req.body?.patientCheckIns || {};
+        expect(uuid).to.equal('46bebc0a-b99c-464f-a5c5-560bc9eae287');
+        expect(appointmentIEN).to.equal('some-ien');
+        expect(facilityId).to.equal('ABC_123');
+
         req.reply(mockCheckIn.createMockSuccessResponse({}));
       });
       cy.intercept(

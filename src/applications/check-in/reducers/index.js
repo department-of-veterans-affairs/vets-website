@@ -4,6 +4,7 @@ const initialState = {
 };
 
 import {
+  APPOINTMENT_WAS_CHECKED_INTO,
   RECEIVED_APPOINTMENT_DETAILS,
   TOKEN_WAS_VALIDATED,
   PERMISSIONS_UPDATED,
@@ -17,6 +18,11 @@ const checkInReducer = (state = initialState, action) => {
       return {
         ...state,
         context: { ...state.context, scope: action.value.scope },
+      };
+    case APPOINTMENT_WAS_CHECKED_INTO:
+      return {
+        ...state,
+        context: { ...state.context, appointment: action.value.appointment },
       };
     case TOKEN_WAS_VALIDATED:
       return { ...state, ...action.data };

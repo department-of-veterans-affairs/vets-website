@@ -11,7 +11,7 @@ const v2 = {
       token,
     );
     return {
-      data: json.data,
+      ...json,
     };
   },
   postSession: async ({ lastName, last4, token }) => {
@@ -52,12 +52,14 @@ const v2 = {
       ...json,
     };
   },
-  postCheckInData: async ({ token }) => {
+  postCheckInData: async ({ uuid, appointmentIEN, facilityId }) => {
     const url = '/check_in/v2/patient_check_ins/';
     const headers = { 'Content-Type': 'application/json' };
     const data = {
       patientCheckIns: {
-        uuid: token,
+        uuid,
+        appointmentIEN,
+        facilityId,
       },
     };
     const body = JSON.stringify(data);
@@ -71,7 +73,7 @@ const v2 = {
     const json = await makeApiCall(
       apiRequest(`${environment.API_URL}${url}`, settings),
       'check-in-user',
-      token,
+      uuid,
     );
     return {
       ...json,
