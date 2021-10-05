@@ -1,4 +1,4 @@
-const STATUSES = Object.freeze({
+const ELIGIBILITY = Object.freeze({
   ELIGIBLE: 'ELIGIBLE',
   INELIGIBLE_BAD_STATUS: 'INELIGIBLE_BAD_STATUS',
   INELIGIBLE_TOO_EARLY: 'INELIGIBLE_TOO_EARLY',
@@ -10,4 +10,4 @@ const STATUSES = Object.freeze({
 const areEqual = (a, b) =>
   a && b ? a.toLowerCase() === b.toLowerCase() : false;
 
-export { STATUSES, areEqual };
+export { ELIGIBILITY, areEqual };
