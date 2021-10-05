@@ -111,8 +111,6 @@ export const FORM_ELIGIBILITY_CHECKS_SUCCEEDED =
   'newAppointment/FORM_ELIGIBILITY_CHECKS_SUCCEEDED';
 export const FORM_ELIGIBILITY_CHECKS_FAILED =
   'newAppointment/FORM_ELIGIBILITY_CHECKS_FAILED';
-export const FORM_CLINIC_PAGE_OPENED_SUCCEEDED =
-  'newAppointment/FORM_CLINIC_PAGE_OPENED_SUCCEEDED';
 export const START_DIRECT_SCHEDULE_FLOW =
   'newAppointment/START_DIRECT_SCHEDULE_FLOW';
 export const START_REQUEST_APPOINTMENT_FLOW =
@@ -535,15 +533,6 @@ export function updateReasonForAppointmentData(page, uiSchema, data) {
     page,
     uiSchema,
     data,
-  };
-}
-
-export function openClinicPage(page, uiSchema, schema) {
-  return {
-    type: FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
-    page,
-    uiSchema,
-    schema,
   };
 }
 

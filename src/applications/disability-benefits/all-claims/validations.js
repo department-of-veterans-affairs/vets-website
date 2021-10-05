@@ -19,6 +19,7 @@ import {
   MILITARY_STATE_VALUES,
   LOWERED_DISABILITY_DESCRIPTIONS,
   NULL_CONDITION_STRING,
+  RESERVE_GUARD_TYPES,
 } from './constants';
 
 export const hasMilitaryRetiredPay = data =>
@@ -223,24 +224,31 @@ export function startedAfterServicePeriod(err, fieldData, formData) {
   if (!_.get('servicePeriods.length', formData.serviceInformation, false)) {
     return;
   }
+  const { nationalGuard, reserve } = RESERVE_GUARD_TYPES;
 
+  // only check active duty periods
   const earliestServiceStartDate = formData.serviceInformation.servicePeriods
-    .map(period => new Date(period.dateRange.from))
-    .reduce((earliestDate, current) => {
-      if (current < earliestDate) {
-        return current;
-      }
-
-      return earliestDate;
-    });
+    .filter(
+      ({ serviceBranch = '' } = {}) =>
+        serviceBranch &&
+        !(
+          serviceBranch.includes(nationalGuard) ||
+          serviceBranch.includes(reserve)
+        ),
+    )
+    .map(period => moment(period.dateRange.from, 'YYYY-MM-DD'))
+    .reduce(
+      (earliestDate, current) =>
+        current.isBefore(earliestDate) ? current : earliestDate,
+      moment(),
+    );
 
   const treatmentStartDate = moment(fieldData, 'YYYY-MM');
-  const firstServiceStartDate = moment(earliestServiceStartDate);
   // If the moment is earlier than the moment passed to moment.diff(),
   // the return value will be negative.
-  if (treatmentStartDate.diff(firstServiceStartDate, 'month') < 0) {
+  if (treatmentStartDate.diff(earliestServiceStartDate, 'month') < 0) {
     err.addError(
-      'Your first treatment date needs to be after the start of your earliest service period.',
+      'Your first treatment date needs to be after the start of your earliest active duty service period.',
     );
   }
 }
@@ -476,7 +484,7 @@ export const validateTitle10StartDate = (
     });
   if (!startTimes[0] || dateString < startTimes[0]) {
     errors.addError(
-      'Your activation date must be after your earliest service start date for Reserves or National Guard',
+      'Your activation date must be after your earliest service start date for the Reserve or the National Guard',
     );
   }
 };

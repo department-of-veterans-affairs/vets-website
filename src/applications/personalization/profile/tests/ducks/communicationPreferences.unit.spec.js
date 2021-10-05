@@ -13,14 +13,12 @@ import reducer, {
   saveCommunicationPreferenceChannel,
   selectChannelById,
   selectGroups,
-  selectAvailableChannels,
-  selectAvailableGroups,
-  selectAvailableItems,
   selectChannelsWithoutSelection,
+  selectItemById,
+  selectGroupById,
 } from '../../ducks/communicationPreferences';
 import error401 from '../fixtures/401.json';
 import error500 from '../fixtures/500.json';
-import getMinimalCommunicationGroupsSuccess from '../fixtures/communication-preferences/get-200-minimal.json';
 import getMaximalCommunicationGroupsSuccess from '../fixtures/communication-preferences/get-200-maximal.json';
 import allSelectionsMade from '../fixtures/communication-preferences/get-200-maximal-all-selections.json';
 import noSelectionsMade from '../fixtures/communication-preferences/get-200-maximal-no-selections.json';
@@ -41,7 +39,10 @@ describe('fetching communication preferences', () => {
   before(() => {
     server = setupServer(
       rest.get(apiURL, (req, res, ctx) => {
-        return res(ctx.json(getMinimalCommunicationGroupsSuccess));
+        return res(
+          ctx.status(200),
+          ctx.json(getMaximalCommunicationGroupsSuccess),
+        );
       }),
     );
     server.listen();
@@ -55,113 +56,106 @@ describe('fetching communication preferences', () => {
   after(() => {
     server.close();
   });
-  context('successfully loads a minimal set of preferences', () => {
-    it('sets the state properly', () => {
-      const promise = store.dispatch(fetchCommunicationPreferenceGroups());
+  context(
+    "when a user's only facility is one that supports Rx tracking",
+    () => {
+      it('sets the state properly', () => {
+        const promise = store.dispatch(
+          fetchCommunicationPreferenceGroups({
+            facilities: [{ facilityId: '983', isCerner: false }],
+          }),
+        );
 
-      // check the state before the API call has resolved...
-      expect(store.getState().loadingStatus).to.equal(LOADING_STATES.pending);
-
-      // ...and check the state after the API call has resolved
-      return promise.then(() => {
-        const state = store.getState();
-        expect(state.loadingStatus).to.equal(LOADING_STATES.loaded);
-        expect(state.loadingErrors).to.be.null;
-        // expect the state.groups to be correct
-        expect(selectGroups(state)).to.deep.equal({
-          ids: ['group1'],
-          entities: {
-            group1: {
-              name: 'Health Care',
-              description: 'Healthcare Appointment Reminders',
-              items: ['item1', 'item2', 'item3'],
-            },
-          },
-        });
-        expect(state.items).to.deep.equal({
-          ids: ['item1', 'item2', 'item3'],
-          entities: {
-            item1: {
-              name: 'Health Appointment Reminder',
-              channels: ['channel1-1', 'channel1-2'],
-            },
-            item2: {
-              name: 'RX Prescription Refill Reminder',
-              channels: ['channel2-1'],
-            },
-            item3: {
-              name: 'Scheduled Appointment Confirmation',
-              channels: ['channel3-1'],
-            },
-          },
-        });
-        expect(state.channels).to.deep.equal({
-          ids: ['channel1-1', 'channel1-2', 'channel2-1', 'channel3-1'],
-          entities: {
-            'channel1-1': {
-              channelType: 1,
-              parentItem: 'item1',
-              isAllowed: true,
-              permissionId: 1728,
-              ui: {
-                errors: null,
-                updateStatus: LOADING_STATES.idle,
-              },
-            },
-            'channel1-2': {
-              channelType: 2,
-              parentItem: 'item1',
-              isAllowed: null,
-              permissionId: null,
-              ui: {
-                errors: null,
-                updateStatus: LOADING_STATES.idle,
-              },
-            },
-            'channel2-1': {
-              channelType: 1,
-              parentItem: 'item2',
-              isAllowed: true,
-              permissionId: 341,
-              ui: {
-                errors: null,
-                updateStatus: LOADING_STATES.idle,
-              },
-            },
-            'channel3-1': {
-              channelType: 1,
-              parentItem: 'item3',
-              isAllowed: false,
-              permissionId: 342,
-              ui: {
-                errors: null,
-                updateStatus: LOADING_STATES.idle,
-              },
-            },
-          },
+        return promise.then(() => {
+          const state = store.getState();
+          expect(state.loadingStatus).to.equal(LOADING_STATES.loaded);
+          expect(state.loadingErrors).to.be.null;
+          const communicationGroups = selectGroups(state);
+          expect(communicationGroups.ids.length).to.equal(3);
+          // The first group is the Health Care group
+          expect(communicationGroups.ids[0]).to.equal('group3');
+          const rxTrackingItem = selectItemById(state, 'item4');
+          // The Rx-tracking item exists
+          expect(rxTrackingItem).to.exist;
         });
       });
-    });
-  });
-  context('when the "Your Health Care" group is in the response', () => {
-    it('places it first in the list of groups', () => {
-      server.use(
-        rest.get(apiURL, (req, res, ctx) => {
-          return res(
-            ctx.status(200),
-            ctx.json(getMaximalCommunicationGroupsSuccess),
-          );
+    },
+  );
+  context(
+    'when user has a facility that supports Rx tracking and another that does not',
+    () => {
+      it('sets the state properly', () => {
+        const promise = store.dispatch(
+          fetchCommunicationPreferenceGroups({
+            facilities: [
+              { facilityId: '983', isCerner: true },
+              { facilityId: '111', isCerner: false },
+            ],
+          }),
+        );
+
+        return promise.then(() => {
+          const state = store.getState();
+          expect(state.loadingStatus).to.equal(LOADING_STATES.loaded);
+          expect(state.loadingErrors).to.be.null;
+          const communicationGroups = selectGroups(state);
+          expect(communicationGroups.ids.length).to.equal(3);
+          // The first group is the Health Care group
+          expect(communicationGroups.ids[0]).to.equal('group3');
+          // The Rx-tracking item exists
+          expect(selectItemById(state, 'item4')).to.exist;
+        });
+      });
+    },
+  );
+  context(
+    'when user does not have a facility that supports Rx tracking',
+    () => {
+      it('sets the state properly', () => {
+        const promise = store.dispatch(
+          fetchCommunicationPreferenceGroups({
+            facilities: [{ facilityId: '111', isCerner: false }],
+          }),
+        );
+
+        return promise.then(() => {
+          const state = store.getState();
+          expect(state.loadingStatus).to.equal(LOADING_STATES.loaded);
+          expect(state.loadingErrors).to.be.null;
+          const communicationGroups = selectGroups(state);
+          expect(communicationGroups.ids.length).to.equal(3);
+          // The first group is the Health Care group
+          expect(communicationGroups.ids[0]).to.equal('group3');
+          // The Rx-tracking item does not exist
+          expect(selectItemById(state, 'item4')).not.to.exist;
+          // The Rx-tracking item channel does not exist
+          expect(selectChannelById(state, 'channel4-1')).not.to.exist;
+        });
+      });
+    },
+  );
+  context('when user does not have any facilities', () => {
+    it('sets the state properly', () => {
+      const promise = store.dispatch(
+        fetchCommunicationPreferenceGroups({
+          facilities: null,
         }),
       );
-      const promise = store.dispatch(fetchCommunicationPreferenceGroups());
 
       return promise.then(() => {
         const state = store.getState();
         expect(state.loadingStatus).to.equal(LOADING_STATES.loaded);
         expect(state.loadingErrors).to.be.null;
         const communicationGroups = selectGroups(state);
-        expect(communicationGroups.ids.length).to.equal(3);
-        expect(communicationGroups.ids[0]).to.equal('group3');
+        // The Health Care group is not in the state
+        expect(communicationGroups.ids.length).to.equal(2);
+        expect(selectGroupById(state, 'group3')).to.not.exist;
+        // The first group is the Applications, claims, etc group
+        expect(communicationGroups.ids[0]).to.equal('group1');
+        // The Appointment reminder item does not exist
+        expect(selectItemById(state, 'item3')).not.to.exist;
+        // The Rx-tracking item does not exist
+        expect(selectItemById(state, 'item4')).not.to.exist;
       });
     });
   });
@@ -516,143 +510,6 @@ describe('selectors', () => {
   after(() => {
     server.close();
   });
-  describe('selectAvailableGroups', () => {
-    context('when user is a patient', () => {
-      it('keeps the health care group in the full list', () => {
-        const availableGroups = selectAvailableGroups(state, {
-          isPatient: true,
-        });
-        expect(availableGroups.ids.length).to.equal(3);
-        expect(availableGroups.ids[0]).to.equal('group3');
-        expect(availableGroups.entities.group3).to.not.be.undefined;
-      });
-    });
-    context('when user is not a patient', () => {
-      it('filters the health care group out of the full list', () => {
-        const availableGroups = selectAvailableGroups(state, {
-          isPatient: false,
-        });
-        expect(availableGroups.ids.length).to.equal(2);
-        expect(availableGroups.ids[0]).to.equal('group1');
-        expect(availableGroups.entities.group3).to.be.undefined;
-      });
-    });
-  });
-  describe('selectAvailableItems', () => {
-    context('when user is a patient at 554', () => {
-      it('keeps the Rx tracking item (item 4) in the available items', () => {
-        const availableItems = selectAvailableItems(state, {
-          isPatient: true,
-          facilities: [
-            { facilityId: '123', isCerner: false },
-            { facilityId: '456', isCerner: true },
-            { facilityId: '554', isCerner: false },
-          ],
-        });
-        expect(availableItems.ids.length).to.equal(4);
-        expect(availableItems.entities.item1).to.not.be.undefined;
-        expect(availableItems.entities.item3).to.not.be.undefined;
-        expect(availableItems.entities.item4).to.not.be.undefined;
-      });
-    });
-    context('when user is a patient at 637', () => {
-      it('keeps the Rx tracking item (item 4) in the available items', () => {
-        const availableItems = selectAvailableItems(state, {
-          isPatient: true,
-          facilities: [
-            { facilityId: '123', isCerner: false },
-            { facilityId: '637', isCerner: false },
-            { facilityId: '333', isCerner: false },
-          ],
-        });
-        expect(availableItems.ids.length).to.equal(4);
-        expect(availableItems.entities.item1).to.not.be.undefined;
-        expect(availableItems.entities.item3).to.not.be.undefined;
-        expect(availableItems.entities.item4).to.not.be.undefined;
-      });
-    });
-    context(
-      'when user is a patient at a facility that does not offer prescription tracking',
-      () => {
-        it('removes the Rx tracking item (item 4) from the available items', () => {
-          const availableItems = selectAvailableItems(state, {
-            isPatient: true,
-            facilities: [{ facilityId: '558', isCerner: false }],
-          });
-          expect(availableItems.ids.length).to.equal(3);
-          expect(availableItems.entities.item1).to.not.be.undefined;
-          expect(availableItems.entities.item3).to.not.be.undefined;
-          expect(availableItems.entities.item4).to.be.undefined;
-        });
-      },
-    );
-    context('when user is not a patient', () => {
-      it('filters out the health care items', () => {
-        const availableItems = selectAvailableItems(state, {
-          isPatient: false,
-        });
-        expect(availableItems.ids.length).to.equal(2);
-        expect(availableItems.entities.item2).to.not.be.undefined;
-        expect(availableItems.entities.item1).to.not.be.undefined;
-        expect(availableItems.entities.item3).to.be.undefined;
-        expect(availableItems.entities.item4).to.be.undefined;
-      });
-    });
-  });
-  describe('selectAvailableChannels', () => {
-    context('when user is patient and has all contact info on file', () => {
-      it('returns the correct channels', () => {
-        const availableChannels = selectAvailableChannels(state, {
-          facilities: [{ facilityId: '983' }],
-          isPatient: true,
-          hasMobilePhone: true,
-          hasEmailAddress: true,
-        });
-        expect(availableChannels.ids.length).to.equal(5);
-      });
-    });
-    context('when user is patient but lacks a mobile phone', () => {
-      it('returns the correct channels', () => {
-        const availableChannels = selectAvailableChannels(state, {
-          facilities: [{ facilityId: '983' }],
-          isPatient: true,
-          hasMobilePhone: false,
-          hasEmailAddress: true,
-        });
-        expect(availableChannels.ids.length).to.equal(2);
-        expect(availableChannels.entities['channel1-2']).to.not.be.undefined;
-        expect(availableChannels.entities['channel2-2']).to.not.be.undefined;
-      });
-    });
-    context('when user is not patient and has all contact info on file', () => {
-      it('returns the correct channels', () => {
-        const availableChannels = selectAvailableChannels(state, {
-          facilities: [],
-          isPatient: false,
-          hasMobilePhone: true,
-          hasEmailAddress: true,
-        });
-        expect(availableChannels.ids.length).to.equal(3);
-        expect(availableChannels.entities['channel2-2']).to.not.be.undefined;
-        expect(availableChannels.entities['channel3-1']).to.be.undefined;
-        expect(availableChannels.entities['channel4-1']).to.be.undefined;
-      });
-    });
-    context('when user is a patient and has all contact info on file', () => {
-      it('returns the correct channels', () => {
-        const availableChannels = selectAvailableChannels(state, {
-          facilities: [{ facilityId: '123' }, { facilityId: '456' }],
-          isPatient: true,
-          hasMobilePhone: true,
-          hasEmailAddress: true,
-        });
-        expect(availableChannels.ids.length).to.equal(4);
-        expect(availableChannels.entities['channel1-1']).to.not.be.undefined;
-        expect(availableChannels.entities['channel1-2']).to.not.be.undefined;
-        expect(availableChannels.entities['channel2-2']).to.not.be.undefined;
-      });
-    });
-  });
   describe('selectChannelsWithoutSelection', () => {
     context('when user has not made any selections', () => {
       beforeEach(() => {
@@ -663,15 +520,17 @@ describe('selectors', () => {
         );
 
         const store = mockStore(createState({}));
-        const promise = store.dispatch(fetchCommunicationPreferenceGroups());
+        const promise = store.dispatch(
+          fetchCommunicationPreferenceGroups({
+            facilities: [{ facilityId: '983' }],
+          }),
+        );
         return promise.then(() => {
           state = store.getState();
         });
       });
       it('returns the first channel', () => {
         const channelsWithoutSelection = selectChannelsWithoutSelection(state, {
-          facilities: [{ facilityId: '983' }],
-          isPatient: true,
           hasMobilePhone: true,
           hasEmailAddress: true,
         });
@@ -691,15 +550,17 @@ describe('selectors', () => {
         );
 
         const store = mockStore(createState({}));
-        const promise = store.dispatch(fetchCommunicationPreferenceGroups());
+        const promise = store.dispatch(
+          fetchCommunicationPreferenceGroups({
+            facilities: [{ facilityId: '983' }],
+          }),
+        );
         return promise.then(() => {
           state = store.getState();
         });
       });
       it('returns no channels', () => {
         const channelsWithoutSelection = selectChannelsWithoutSelection(state, {
-          facilities: [{ facilityId: '983' }],
-          isPatient: true,
           hasMobilePhone: true,
           hasEmailAddress: true,
         });

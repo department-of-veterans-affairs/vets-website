@@ -28,10 +28,6 @@ export default function ProviderSortVariant({
   const [selectedSortMethod, setSelectedSortMethod] = useState(sortMethod);
   const sortOptions = [
     {
-      value: FACILITY_SORT_METHODS.distanceFromResidential,
-      label: 'Your home address',
-    },
-    {
       value: FACILITY_SORT_METHODS.distanceFromCurrentLocation,
       label: 'Your current location',
     },
@@ -50,7 +46,7 @@ export default function ProviderSortVariant({
       } else if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
         dispatch(requestProvidersList(address));
       } else {
-        dispatch(requestProvidersList(selectedCCFacility.position));
+        dispatch(requestProvidersList(selectedCCFacility?.position));
       }
 
       if (communityCareProviderList) {
@@ -80,6 +76,19 @@ export default function ProviderSortVariant({
   const hasUserAddress = address && !!Object.keys(address).length;
   const requestLocationStatusFailed =
     requestLocationStatus === FETCH_STATUS.failed;
+
+  if (hasUserAddress) {
+    sortOptions.unshift({
+      value: FACILITY_SORT_METHODS.distanceFromResidential,
+      label: 'Your home address',
+    });
+  } else {
+    sortOptions.push({
+      value: FACILITY_SORT_METHODS.distanceFromCurrentLocation,
+      label: 'Your current location',
+    });
+  }
+
   return (
     <div className="vads-u-margin-bottom--3">
       {notLoading && (

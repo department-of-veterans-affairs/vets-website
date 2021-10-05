@@ -8,7 +8,7 @@ const {
 } = fullSchema.properties.serviceInformation.properties.reservesNationalGuardService;
 
 export const uiSchema = {
-  'ui:title': 'Reserves and National Guard Information',
+  'ui:title': 'Reserve and National Guard Information',
   'ui:description': ReservesGuardDescription,
   serviceInformation: {
     reservesNationalGuardService: {

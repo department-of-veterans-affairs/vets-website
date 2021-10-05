@@ -56,3 +56,36 @@ dl.appointment-summary{
   display: inline-block;
   padding: 0 0.15em;
 }
+
+ol.appointment-list{
+  list-style: none;
+  .appointment-item{
+    background-color: $color-gray-lightest;
+    width: 100%;
+    @include media($medium-screen) {
+      width: 60%;
+    }
+    dl.appointment-summary{
+      display: grid;
+      grid-template-columns: min-content auto;
+      grid-template-rows: auto auto auto;
+      dd.appointment-time{
+        font-size: 2.4rem;
+        grid-row: 1;
+        grid-column-start: 1;
+        grid-column-end: 3;
+      }
+      dt.clinic-label{
+        grid-row: 2;
+       }
+      dd.clinic-name{
+        grid-row: 2;
+      }
+    }
+  }
+}
+
+
+
+
+

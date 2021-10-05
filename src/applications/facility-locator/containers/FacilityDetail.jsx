@@ -15,13 +15,14 @@ import AppointmentInfo from '../components/AppointmentInfo';
 import { OperatingStatus, FacilityType } from '../constants';
 import VABenefitsCall from '../components/VABenefitsCall';
 import { facilityLocatorShowOperationalHoursSpecialInstructions } from '../utils/featureFlagSelectors';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 class FacilityDetail extends Component {
   headerRef = React.createRef();
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
     this.props.fetchVAFacility(this.props.params.id, null);
-    window.scrollTo(0, 0);
+    scrollTo(0);
   }
 
   componentDidUpdate(prevProps) {

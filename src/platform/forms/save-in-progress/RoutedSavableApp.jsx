@@ -20,7 +20,7 @@ import { isInProgressPath } from '../helpers';
 import { getSaveInProgressState } from './selectors';
 import environment from 'platform/utilities/environment';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
-
+import { getScrollOptions } from 'platform/utilities/ui';
 import { restartShouldRedirect } from 'platform/site-wide/wizard';
 
 const Element = Scroll.Element;
@@ -140,7 +140,7 @@ class RoutedSavableApp extends React.Component {
       (oldProps.savedStatus !== this.props.savedStatus &&
         this.props.savedStatus === SAVE_STATUSES.pending)
     ) {
-      scrollToTop('topScrollElement', window.VetsGov?.scroll || '');
+      scrollToTop('topScrollElement', getScrollOptions());
     }
 
     if (

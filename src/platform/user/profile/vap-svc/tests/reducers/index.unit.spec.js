@@ -208,14 +208,6 @@ describe('vapService reducer', () => {
     expect(state.transactionsAwaitingUpdate.length).to.eql(0);
   });
 
-  it('should set transaction status cleared', () => {
-    const state = vapService(
-      {},
-      { type: 'VAP_SERVICE_CLEAR_TRANSACTION_STATUS' },
-    );
-    expect(state.transactionStatus.length).to.eql(0);
-  });
-
   it('should set transaction cleared', () => {
     const state = vapService(
       {

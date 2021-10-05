@@ -12,7 +12,7 @@ import DowntimeNotification, {
   externalServiceStatus,
 } from '../../monitoring/DowntimeNotification';
 import get from '../../utilities/data/get';
-import { focusElement } from '../../utilities/ui';
+import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import { toggleLoginModal } from '../../site-wide/user-nav/actions';
 import SaveStatus from './SaveStatus';
 import { autoSaveForm } from './actions';
@@ -26,7 +26,7 @@ class RoutedSavableReviewPage extends React.Component {
   }
 
   componentDidMount() {
-    scrollToTop('topScrollElement', window.VetsGov?.scroll || '');
+    scrollToTop('topScrollElement', getScrollOptions());
     focusElement('h2');
   }
 

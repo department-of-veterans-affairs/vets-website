@@ -212,11 +212,11 @@ describe('hasDuplicates', () => {
 });
 
 describe('showAddIssuesPage', () => {
-  it('should show add issue page when no contestable issues selected', () => {
+  it('should return true when no contestable issues selected', () => {
     expect(showAddIssuesPage({})).to.be.true;
     expect(showAddIssuesPage({ contestableIssues: [{}] })).to.be.true;
   });
-  it('should show add issue page when question is set to "yes"', () => {
+  it('should return true when question is set to "yes", or no contestable issues selected', () => {
     expect(showAddIssuesPage({ 'view:hasIssuesToAdd': true })).to.be.true;
     expect(
       showAddIssuesPage({
@@ -230,22 +230,14 @@ describe('showAddIssuesPage', () => {
         contestableIssues: [{}],
       }),
     ).to.be.true;
-  });
-  it('should not show issue page when "no" is chosen', () => {
-    expect(
-      showAddIssuesPage({
-        'view:hasIssuesToAdd': false,
-        contestableIssues: [{ [SELECTED]: true }],
-      }),
-    ).to.be.false;
     expect(
       showAddIssuesPage({
         'view:hasIssuesToAdd': false,
         contestableIssues: [{}],
       }),
-    ).to.be.false;
+    ).to.be.true;
   });
-  it('should show the issue page when nothing is selected, and past the issues pages', () => {
+  it('should return true when nothing is selected, and past the issues pages', () => {
     // probably unselected stuff on the review & submit page
     expect(
       showAddIssuesPage({
@@ -262,6 +254,14 @@ describe('showAddIssuesPage', () => {
         additionalIssues: [{}],
       }),
     ).to.be.true;
+  });
+  it('should return false when "no" is chosen and there is a selected contestable issue', () => {
+    expect(
+      showAddIssuesPage({
+        'view:hasIssuesToAdd': false,
+        contestableIssues: [{ [SELECTED]: true }],
+      }),
+    ).to.be.false;
   });
 });
 
