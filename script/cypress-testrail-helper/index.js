@@ -44,6 +44,13 @@ switch (fs.existsSync(myConfigPath)) {
     // eslint-disable-next-line import/no-unresolved
     myConfig = require('./my-config.json');
     console.log(
+      chalk.yellow(
+        `Current ProjectID: ${myConfig.trProjectId}; Current Suite ID: ${
+          myConfig.trSuiteId
+        }`,
+      ),
+    );
+    console.log(
       chalk.yellow('CREATING CYPRESS RUN-SPECIFIC CONFIG-FILE NOW...'),
     );
     utils.getSetCypressConfig(myConfig, projectSwitching).then(
