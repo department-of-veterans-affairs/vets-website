@@ -8,7 +8,7 @@ describe('Accessibility', () => {
     cy.viewport(1200, 700);
     cy.intercept('GET', '/v0/feature_toggles?*', []);
     cy.intercept('GET', '/v0/maintenance_windows', []);
-    cy.intercept('GET', '/v0/facilities/va?*', mockFacilityData);
+    cy.intercept('GET', '/facilities_api/**', mockFacilityData);
     cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
   });
 
