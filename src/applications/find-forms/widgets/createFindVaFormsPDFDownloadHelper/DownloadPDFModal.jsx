@@ -11,7 +11,8 @@ const DownloadPDFModal = ({ formNumber, url }) => {
     pdfUrl: url,
   });
 
-  const toggleModalState = () => setModalState({ isOpen: !modalState.isOpen });
+  const toggleModalState = () =>
+    setModalState({ ...modalState, isOpen: !modalState.isOpen });
 
   // modal state variables
   const { isOpen, pdfSelected, pdfUrl } = modalState;
@@ -41,7 +42,7 @@ const DownloadPDFModal = ({ formNumber, url }) => {
               to fill out. For specific instructions about working with PDFs
             </span>{' '}
             <a href="https://www.va.gov/resources/how-to-download-and-open-a-vagov-pdf-form">
-              please read out Resources and Support Article
+              please read our Resources and Support Article
             </a>
           </p>
           <a
