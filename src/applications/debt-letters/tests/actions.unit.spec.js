@@ -1,16 +1,12 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
-import {
-  fetchDebtLetters,
-  DEBTS_FETCH_INITIATED,
-  DEBTS_FETCH_SUCCESS,
-} from '../actions';
+import { fetchDebts, DEBTS_FETCH_INIT, DEBTS_FETCH_SUCCESS } from '../actions';
 
-describe('fetchDebtLetters', () => {
+describe('fetchDebts', () => {
   it('should render filteredResponse data', () => {
     const dispatch = sinon.spy();
-    return fetchDebtLetters()(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(DEBTS_FETCH_INITIATED);
+    return fetchDebts()(dispatch).then(() => {
+      expect(dispatch.firstCall.args[0].type).to.equal(DEBTS_FETCH_INIT);
       expect(dispatch.thirdCall.args[0].type).to.equal(DEBTS_FETCH_SUCCESS);
       expect(dispatch.thirdCall.args[0].debts).to.deep.equal([
         {

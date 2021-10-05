@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import { fetchDebtLetters } from '../actions';
+import { fetchDebts } from '../actions';
 
 const DebtLettersWrapper = ({
   isPending,
@@ -66,7 +66,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators({ getDebtLetters: fetchDebtLetters }, dispatch),
+  ...bindActionCreators({ getDebtLetters: fetchDebts }, dispatch),
 });
 
 DebtLettersWrapper.propTypes = {

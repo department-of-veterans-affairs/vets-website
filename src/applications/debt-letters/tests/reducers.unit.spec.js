@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { debtsReducer as reducer } from '../reducers';
 import {
-  DEBTS_FETCH_INITIATED,
+  DEBTS_FETCH_INIT,
   DEBTS_FETCH_SUCCESS,
   DEBTS_FETCH_FAILURE,
   DEBT_LETTERS_FETCH_SUCCESS,
@@ -18,10 +18,10 @@ describe('Debt Letters Reducer', () => {
     state = undefined;
   });
 
-  describe('DEBTS_FETCH_INITIATED', () => {
+  describe('DEBTS_FETCH_INIT', () => {
     it('sets the correct state for initialized state', () => {
       action = {
-        type: DEBTS_FETCH_INITIATED,
+        type: DEBTS_FETCH_INIT,
       };
       reducedState = reducer(state, action);
       expect(reducedState.isPending).to.be.true;

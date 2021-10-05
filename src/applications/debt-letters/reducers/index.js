@@ -1,11 +1,11 @@
 import {
-  DEBTS_FETCH_INITIATED,
+  DEBTS_FETCH_INIT,
   DEBTS_FETCH_SUCCESS,
   DEBTS_FETCH_FAILURE,
-  DEBTS_SET_ACTIVE_DEBT,
   DEBT_LETTERS_FETCH_SUCCESS,
   DEBT_LETTERS_FETCH_FAILURE,
-  DEBT_LETTERS_FETCH_INITIATED,
+  DEBT_LETTERS_FETCH_INIT,
+  DEBTS_SET_ACTIVE_DEBT,
 } from '../actions';
 
 import { FETCH_TOGGLE_VALUES_STARTED } from 'platform/site-wide/feature-toggles/actionTypes';
@@ -26,7 +26,7 @@ const initialState = {
 
 export const debtsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case DEBTS_FETCH_INITIATED:
+    case DEBTS_FETCH_INIT:
       return {
         ...state,
         isPending: true,
@@ -52,7 +52,7 @@ export const debtsReducer = (state = initialState, action) => {
         ...state,
         selectedDebt: action.debt,
       };
-    case DEBT_LETTERS_FETCH_INITIATED:
+    case DEBT_LETTERS_FETCH_INIT:
       return {
         ...state,
         isPendingVBMS: true,
