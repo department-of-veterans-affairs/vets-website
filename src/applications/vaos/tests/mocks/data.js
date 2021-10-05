@@ -339,7 +339,7 @@ export function createMockClinicByVersion({
  */
 export function createMockFacilityByVersion({
   id,
-  name,
+  name = 'Fake',
   address,
   phone,
   lat,
