@@ -31,7 +31,7 @@ describe('COE applicant service status', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(4);
+    expect(formDOM.querySelectorAll('input').length).to.equal(5);
   });
 
   it('Should not submit without required fields', () => {

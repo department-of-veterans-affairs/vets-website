@@ -62,7 +62,8 @@ export const hasRequiredId = profile =>
 
 export const hasRequiredDob = profile => !!profile.dob;
 
-const isIntroPage = () => window.location.pathname.endsWith('/introduction');
+export const isIntroPage = ({ pathname = '' } = {}) =>
+  pathname.endsWith('/introduction');
 
 export const Form526Entry = ({
   children,
@@ -87,9 +88,20 @@ export const Form526Entry = ({
   );
 
   const title = `${getPageTitle(isBDDForm)}${
-    isIntroPage() ? ` ${PAGE_TITLE_SUFFIX}` : ''
+    isIntroPage(location) ? ` ${PAGE_TITLE_SUFFIX}` : ''
   }`;
   document.title = `${title}${DOCUMENT_TITLE_SUFFIX}`;
+
+  const showLoading = ({ restarting } = {}) => {
+    const message = restarting
+      ? 'Please wait while we restart the application for you.'
+      : 'Please wait while we load the application for you.';
+    return (
+      <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
+        <LoadingIndicator message={message} />
+      </h1>
+    );
+  };
 
   // start focus on breadcrumb nav when wizard is visible
   const setPageFocus = focusTarget => {
@@ -99,7 +111,7 @@ export const Form526Entry = ({
 
   useEffect(
     () => {
-      if (wizardStatus === WIZARD_STATUS_COMPLETE && isIntroPage()) {
+      if (wizardStatus === WIZARD_STATUS_COMPLETE && isIntroPage(location)) {
         setPageFocus('h1');
         // save feature flag for 8940/4192
         sessionStorage.setItem(SHOW_8940_4192, showSubforms);
@@ -111,20 +123,22 @@ export const Form526Entry = ({
         Sentry.setTag('in_progress_form_id', inProgressFormId);
       }
     },
-    [showSubforms, wizardStatus, inProgressFormId, profile],
+    [showSubforms, wizardStatus, inProgressFormId, profile, location],
   );
+
+  // The router should be doing this, but we're getting lots of Sentry errors
+  // See github.com/department-of-veterans-affairs/va.gov-team/issues/29893
+  if (!loggedIn && !isIntroPage(location)) {
+    router.push('/introduction');
+    return wrapWithBreadcrumb(title, showLoading());
+  }
 
   // showWizard feature flag loads _after_ page has rendered causing the full
   // page content to render, then the wizard to render if this flag is true, so
   // we show a loading indicator until the feature flags are available. This
   // can be removed once the feature flag is removed
   if (typeof showWizard === 'undefined') {
-    return wrapWithBreadcrumb(
-      title,
-      <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
-        <LoadingIndicator message="Please wait while we load the application for you." />
-      </h1>,
-    );
+    return wrapWithBreadcrumb(title, showLoading());
   }
 
   // showWizard feature flag is initially undefined
@@ -135,12 +149,7 @@ export const Form526Entry = ({
       (hasSavedForm && wizardStatus === WIZARD_STATUS_RESTARTING))
   ) {
     router.push('/start');
-    return wrapWithBreadcrumb(
-      title,
-      <h1>
-        <LoadingIndicator message="Please wait while we restart the application for you." />
-      </h1>,
-    );
+    return wrapWithBreadcrumb(title, showLoading({ restarting: true }));
   }
 
   // wraps the app and redirects user if they are not enrolled

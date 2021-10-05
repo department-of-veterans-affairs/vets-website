@@ -49,6 +49,7 @@ import {
 } from './helpers.v2';
 import { getV2FacilityMock } from './v2';
 import { TYPES_OF_CARE } from '../../utils/constants';
+import ClosestCityStatePage from '../../new-appointment/components/ClosestCityStatePage';
 
 /**
  * Creates a Redux store when the VAOS reducers loaded and the thunk middleware applied
@@ -564,4 +565,28 @@ export async function setCommunityCareFlow({
   await setTypeOfFacility(store, /Community Care/i);
 
   return store;
+}
+
+/**
+ * Renders the closest city page and selects the city.
+ *
+ * @export
+ * @async
+ * @param {ReduxStore} store The Redux store to use to render the page
+ * @param {MomentDate} label The name of the city to select
+ * @returns {string} The url path that was routed to after clicking Continue
+ */
+export async function setClosestCity(store, label) {
+  const { findByLabelText, getByText, history } = renderWithStoreAndRouter(
+    <ClosestCityStatePage />,
+    { store },
+  );
+
+  const radioButton = await findByLabelText(label);
+  fireEvent.click(radioButton);
+  fireEvent.click(getByText(/Continue/));
+  await waitFor(() => expect(history.push.called).to.be.true);
+  await cleanup();
+
+  return history.push.firstCall.args[0];
 }

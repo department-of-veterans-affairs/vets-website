@@ -27,6 +27,7 @@ import {
   selectVAPContactInfoField,
   selectVAPServiceTransaction,
   selectEditViewData,
+  selectMostRecentlyUpdatedField,
 } from '@@vap-svc/selectors';
 
 import { isVAPatient } from '~/platform/user/selectors';
@@ -38,8 +39,6 @@ import AddressValidationView from '@@vap-svc/containers/AddressValidationView';
 import ContactInformationEditView from '@@profile/components/personal-information/ContactInformationEditView';
 import ContactInformationView from '@@profile/components/personal-information/ContactInformationView';
 
-import { showNotificationSettings } from '@@profile/selectors';
-
 import { getInitialFormValues } from '@@profile/util/contact-information/formValues';
 
 import getContactInfoFieldAttributes from '~/applications/personalization/profile/util/contact-information/getContactInfoFieldAttributes';
@@ -47,6 +46,8 @@ import getContactInfoFieldAttributes from '~/applications/personalization/profil
 import CannotEditModal from './CannotEditModal';
 import ConfirmCancelModal from './ConfirmCancelModal';
 import ConfirmRemoveModal from './ConfirmRemoveModal';
+
+import UpdateSuccessAlert from '../alerts/ContactInformationUpdateSuccessAlert';
 
 // Helper function that generates a string that can be used for a contact info
 // field's edit button.
@@ -92,7 +93,6 @@ class ContactInformationField extends React.Component {
     openModal: PropTypes.func.isRequired,
     refreshTransactionRequest: PropTypes.func,
     showEditView: PropTypes.bool.isRequired,
-    showSMSCheckBox: PropTypes.bool,
     showValidationView: PropTypes.bool.isRequired,
     title: PropTypes.string,
     transaction: PropTypes.object,
@@ -108,7 +108,6 @@ class ContactInformationField extends React.Component {
   state = {
     showCannotEditModal: false,
     showConfirmCancelModal: false,
-    showConfirmRemoveModal: false,
   };
 
   closeModalTimeoutID = null;
@@ -121,7 +120,7 @@ class ContactInformationField extends React.Component {
     // the Profile
     if (!prevProps.transaction && this.props.transaction) {
       this.closeModalTimeoutID = setTimeout(
-        () => this.closeModal(),
+        this.closeModal,
         // Using 50ms as the unit test timeout before exiting edit view while
         // waiting for an update to happen. Being too aggressive, like 5ms,
         // results in exiting the edit view before Redux has had time to do
@@ -157,12 +156,12 @@ class ContactInformationField extends React.Component {
   };
 
   cancelDeleteAction = () => {
-    this.setState({ showConfirmRemoveModal: false });
     recordEvent({
       event: 'profile-navigation',
       'profile-action': 'cancel-delete-button',
       'profile-section': this.props.analyticsSectionName,
     });
+    this.closeModal();
   };
 
   onDelete = () => {
@@ -204,6 +203,7 @@ class ContactInformationField extends React.Component {
   justClosedModal(prevProps, props) {
     return (
       (prevProps.showEditView && !props.showEditView) ||
+      (prevProps.showRemoveModal && !props.showRemoveModal) ||
       (prevProps.showValidationView && !props.showValidationView)
     );
   }
@@ -219,7 +219,6 @@ class ContactInformationField extends React.Component {
 
   closeModal = () => {
     this.props.openModal(null);
-    this.setState({ showConfirmRemoveModal: false });
   };
 
   openEditModal = () => {
@@ -228,6 +227,10 @@ class ContactInformationField extends React.Component {
     } else {
       this.props.openModal(this.props.fieldName);
     }
+  };
+
+  openRemoveModal = () => {
+    this.props.openModal(`remove-${this.props.fieldName}`);
   };
 
   refreshTransactionNotProps = () => {
@@ -253,7 +256,7 @@ class ContactInformationField extends React.Component {
       'profile-action': 'delete-button',
       'profile-section': this.props.analyticsSectionName,
     });
-    this.setState({ showConfirmRemoveModal: true });
+    this.openRemoveModal();
   };
 
   render() {
@@ -262,6 +265,7 @@ class ContactInformationField extends React.Component {
       fieldName,
       isEmpty,
       showEditView,
+      showRemoveModal,
       showValidationView,
       title,
       transaction,
@@ -280,7 +284,7 @@ class ContactInformationField extends React.Component {
     const wrapInTransaction = children => {
       return (
         <VAPServiceTransaction
-          isModalOpen={showEditView || showValidationView}
+          isModalOpen={showEditView || showValidationView || showRemoveModal}
           id={`${fieldName}-transaction-status`}
           title={title}
           transaction={transaction}
@@ -300,6 +304,10 @@ class ContactInformationField extends React.Component {
           fieldName={fieldName}
           title={title}
         />
+
+        {this.props.showUpdateSuccessAlert ? (
+          <UpdateSuccessAlert fieldName={fieldName} />
+        ) : null}
 
         <div className="vads-u-width--full">
           <div>
@@ -340,7 +348,6 @@ class ContactInformationField extends React.Component {
             getInitialFormValues({
               fieldName,
               data: this.props.data,
-              showSMSCheckbox: this.props.showSMSCheckbox,
               modalData: this.props.editViewData,
             })
           }
@@ -397,8 +404,8 @@ class ContactInformationField extends React.Component {
           title={title}
           fieldName={fieldName}
           isEnrolledInVAHealthCare={isEnrolledInVAHealthCare}
-          isVisible={this.state.showConfirmRemoveModal}
-          onHide={() => this.setState({ showConfirmRemoveModal: false })}
+          isVisible={showRemoveModal}
+          onHide={this.closeModal}
           error={error}
         />
 
@@ -422,10 +429,6 @@ export const mapStateToProps = (state, ownProps) => {
     addressValidationType === fieldName &&
     activeEditView === ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION;
   const isEnrolledInVAHealthCare = isVAPatient(state);
-  const showSMSCheckbox =
-    ownProps.fieldName === FIELD_NAMES.MOBILE_PHONE &&
-    isEnrolledInVAHealthCare &&
-    !showNotificationSettings(state);
 
   const {
     apiRoute,
@@ -452,18 +455,19 @@ export const mapStateToProps = (state, ownProps) => {
     data,
     fieldName,
     showEditView: activeEditView === fieldName,
+    showRemoveModal: activeEditView === `remove-${fieldName}`,
     showValidationView: !!showValidationView,
     isEmpty,
     transaction,
     transactionRequest,
     editViewData: selectEditViewData(state),
-    showSMSCheckbox,
     title,
     apiRoute,
     convertCleanDataToPayload,
     uiSchema,
     formSchema,
     isEnrolledInVAHealthCare,
+    showUpdateSuccessAlert: selectMostRecentlyUpdatedField(state) === fieldName,
   };
 };
 

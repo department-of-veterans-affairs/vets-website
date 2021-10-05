@@ -1,15 +1,13 @@
 // Dependencies.
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Scroll from 'react-scroll';
 
 // Relative Imports
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 import AnswerReview from './AnswerReview';
 import Questions from './questions';
-
-const scroller = Scroll.scroller;
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 const FormQuestions = ({ formValues, updateFormField }) => {
   useEffect(
@@ -29,9 +27,9 @@ const FormQuestions = ({ formValues, updateFormField }) => {
   const scrollToLast = action => {
     setTimeout(() => {
       const el = formValues.questions.slice(-1)[0];
-      scroller.scrollTo(
+      scrollTo(
         el,
-        window.VetsGov?.scroll || {
+        getScrollOptions() || {
           duration: 1000,
           smooth: true,
         },
@@ -74,9 +72,9 @@ const FormQuestions = ({ formValues, updateFormField }) => {
 
     recordEvent({ event: 'discharge-upgrade-review-edit' });
 
-    scroller.scrollTo(
+    scrollTo(
       e.target.name,
-      window.VetsGov?.scroll || {
+      getScrollOptions() || {
         duration: 1000,
         smooth: true,
         offset: -150,

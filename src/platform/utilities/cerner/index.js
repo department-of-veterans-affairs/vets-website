@@ -33,7 +33,9 @@ export const getCernerURL = path => {
     ? 'https://patientportal.myhealth.va.gov'
     : 'https://staging-patientportal.myhealth.va.gov';
 
-  return `${host}/clear-session?to=${encodeURIComponent(`${host}${path}`)}`;
+  return `${host}/clear-session?to=${encodeURIComponent(
+    `${host}${path}?authenticated=true`,
+  )}`;
 };
 
 export const appointmentsToolLink =

@@ -68,9 +68,9 @@ export const SearchResultsPage = ({
           className="vads-u-display--none medium-screen:vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2 vads-u-padding-y--2 vads-u-background-color--gray-light-alt vads-u-margin-top--2p5"
           data-e2e-id="yellow-ribbon--helpful-links"
         >
-          <h3 className="vads-u-margin--0 vads-u-padding-bottom--1p5 vads-u-border-bottom--1px vads-u-border-color--gray-light">
+          <h2 className="vads-u-margin--0 vads-u-padding-bottom--1p5 vads-u-border-bottom--1px vads-u-border-color--gray-light">
             Helpful links
-          </h3>
+          </h2>
           <p className="vads-u-margin-bottom--1 vads-u-font-weight--bold">
             <a href="/education/eligibility/">
               Find out if you’re eligible for the Post-9/11 GI Bill
