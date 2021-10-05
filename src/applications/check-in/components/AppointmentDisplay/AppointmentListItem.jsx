@@ -26,6 +26,15 @@ export default function AppointmentListItem(props) {
         >
           <AppointmentLocation appointment={appointment} />
         </dd>
+        <dt className="facility-label vads-u-font-size--lg vads-u-margin--0 vads-u-margin-right--1 vads-u-font-family--serif vads-u-font-weight--bold">
+          Facility:{' '}
+        </dt>
+        <dd
+          data-testid="facility-name"
+          className="facility-name vads-u-font-size--lg vads-u-font-weight--bold vads-u-font-family--serif"
+        >
+          {appointment.facility}
+        </dd>
       </dl>
       <AppointmentAction
         appointment={appointment}
