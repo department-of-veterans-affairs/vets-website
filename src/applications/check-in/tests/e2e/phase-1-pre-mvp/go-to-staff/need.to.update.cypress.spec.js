@@ -1,10 +1,14 @@
 import { createFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
-import mockCheckIn from '../../../../api/local-mock-api/mocks/check.in.response';
-import mockValidate from '../../../../api/local-mock-api/mocks/validate.responses';
+import mockCheckIn from '../../../../api/local-mock-api/mocks/v0/check.in.responses';
+import mockValidate from '../../../../api/local-mock-api/mocks/v0/validate.responses';
 
-describe('Check In Experience -- happy path', () => {
+describe('Check In Experience', () => {
   beforeEach(function() {
-    cy.intercept('GET', '/v0/feature_toggles*', createFeatureToggles());
+    cy.intercept(
+      'GET',
+      '/v0/feature_toggles*',
+      createFeatureToggles(true, false, false, true),
+    );
     cy.intercept('GET', '/check_in/v0/patient_check_ins//*', req => {
       req.reply(mockValidate.createMockSuccessResponse({}));
     });
@@ -21,7 +25,7 @@ describe('Check In Experience -- happy path', () => {
     const featureRoute =
       '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
     cy.visit(featureRoute);
-    cy.get('legend > h2').contains('information');
+    cy.get('legend > h1').contains('information');
     cy.injectAxe();
     cy.axeCheck();
     cy.get('[data-testid="yes-button"]').click();

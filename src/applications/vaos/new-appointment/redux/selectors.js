@@ -25,6 +25,7 @@ import {
   selectFeatureVariantTesting,
   selectRegisteredCernerFacilityIds,
 } from '../../redux/selectors';
+import { removeDuplicateId } from '../../utils/data';
 
 export function getNewAppointment(state) {
   return state.newAppointment;
@@ -221,10 +222,13 @@ export function selectProviderSelectionInfo(state) {
     sortMethod === FACILITY_SORT_METHODS.distanceFromFacility
       ? selectedCCFacility.id
       : sortMethod;
+
   return {
     address: selectVAPResidentialAddress(state),
     ccEnabledSystems,
-    communityCareProviderList: communityCareProviders[ccProviderCacheKey],
+    communityCareProviderList: !communityCareProviders[ccProviderCacheKey]
+      ? communityCareProviders[ccProviderCacheKey]
+      : removeDuplicateId(communityCareProviders[ccProviderCacheKey]),
     currentLocation,
     requestLocationStatus,
     requestStatus,
@@ -317,22 +321,22 @@ export function getClinicsForChosenFacility(state) {
   return clinics[`${data.vaFacility}_${typeOfCareId}`] || null;
 }
 
-export function getClinicPageInfo(state, pageKey) {
-  const formPageInfo = getFormPageInfo(state, pageKey);
-  const newAppointment = getNewAppointment(state);
-  const eligibility = selectEligibility(state);
-  const typeOfCare = getTypeOfCare(formPageInfo.data);
+export function selectPastAppointments(state) {
+  return getNewAppointment(state).pastAppointments;
+}
 
-  return {
-    ...formPageInfo,
-    facility: newAppointment.facilities[typeOfCare.id].find(
-      facility => facility.id === formPageInfo.data.vaFacility,
-    ),
-    typeOfCare,
-    clinics: getClinicsForChosenFacility(state),
-    eligibility,
-    canMakeRequests: eligibility?.request,
-  };
+export function selectTypeOfCare(state) {
+  return getTypeOfCare(getFormData(state));
+}
+
+export function selectChosenFacilityInfo(state) {
+  const formData = getFormData(state);
+  const typeOfCare = getTypeOfCare(formData);
+  const newAppointment = getNewAppointment(state);
+
+  return newAppointment.facilities[typeOfCare.id].find(
+    facility => facility.id === formData.vaFacility,
+  );
 }
 
 export function getChosenVACityState(state) {

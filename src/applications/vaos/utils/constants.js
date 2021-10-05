@@ -162,6 +162,7 @@ export const TYPES_OF_CARE = [
   },
   {
     id: COVID_VACCINE_ID,
+    idV2: COVID_VACCINE_ID,
     name: 'COVID-19 vaccine',
   },
 ];
@@ -373,4 +374,9 @@ export const ELIGIBILITY_REASONS = {
   noClinics: 'noClinics',
   noMatchingClinics: 'noMatchingClinics',
   error: 'error',
+};
+
+export const CANCELLATION_REASONS = {
+  patient: 'pat',
+  provider: 'prov',
 };

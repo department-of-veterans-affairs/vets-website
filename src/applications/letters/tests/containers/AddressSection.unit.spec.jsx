@@ -4,11 +4,11 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { AddressSection } from '../../containers/AddressSection';
-import { ADDRESS_TYPES } from '../../utils/constants';
+import { ADDRESS_TYPES_ALTERNATE } from '@@vap-svc/constants';
 
 const defaultProps = {
   savedAddress: {
-    type: ADDRESS_TYPES.domestic,
+    type: ADDRESS_TYPES_ALTERNATE.domestic,
     addressOne: '2476 Main Street',
     addressTwo: '',
     addressThree: '',
@@ -32,7 +32,7 @@ const emptyAddress = {
   city: '',
   countryName: '',
   stateCode: '',
-  type: ADDRESS_TYPES.domestic,
+  type: ADDRESS_TYPES_ALTERNATE.domestic,
 };
 
 describe('<AddressSection>', () => {

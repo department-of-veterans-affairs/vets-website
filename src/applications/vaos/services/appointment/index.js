@@ -97,7 +97,7 @@ const PAST_APPOINTMENTS_HIDDEN_SET = new Set([
 // We want to throw an error for any partial results errors from MAS,
 // but some sites in staging always errors. So, keep those in a list to
 // ignore errors from
-const BAD_STAGING_SITES = new Set(['556']);
+const BAD_STAGING_SITES = new Set(['556', '612']);
 function hasPartialResults(response) {
   return (
     response.errors?.length > 0 &&
@@ -631,6 +631,22 @@ export function isVideoHome(appointment) {
   return (
     !isAtlas && (kind === VIDEO_TYPES.mobile || kind === VIDEO_TYPES.adhoc)
   );
+}
+
+/**
+ * Method to get patient video instruction
+ * @param {Appointment} appointment A FHIR appointment resource
+ * @return {string} Returns patient video instruction title and exclude remaining data
+ */
+
+export function getPatientInstruction(appointment) {
+  if (appointment?.patientInstruction.includes('Medication Review')) {
+    return 'Medication Review';
+  }
+  if (appointment?.patientInstruction.includes('Video Visit Preparation')) {
+    return 'Video Visit Preparation';
+  }
+  return null;
 }
 
 /**

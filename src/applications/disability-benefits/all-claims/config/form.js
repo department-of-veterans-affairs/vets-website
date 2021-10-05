@@ -221,7 +221,7 @@ const formConfig = {
           }),
         },
         reservesNationalGuardService: {
-          title: 'Reserves and National Guard service',
+          title: 'Reserve and National Guard service',
           path:
             'review-veteran-details/military-service-history/reserves-national-guard',
           depends: formData =>
@@ -236,6 +236,10 @@ const formConfig = {
           depends: form => hasGuardOrReservePeriod(form.serviceInformation),
           uiSchema: federalOrders.uiSchema,
           schema: federalOrders.schema,
+          appStateSelector: state => ({
+            servicePeriods:
+              state.form.data?.serviceInformation?.servicePeriods || [],
+          }),
         },
         separationLocation: {
           title: 'Separation location',

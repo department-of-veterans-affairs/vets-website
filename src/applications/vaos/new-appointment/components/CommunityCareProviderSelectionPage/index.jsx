@@ -10,10 +10,11 @@ import {
   routeToPreviousAppointmentPage,
   updateFormData,
 } from '../../redux/actions';
-import { getFormPageInfo } from '../../redux/selectors';
+import { getFormPageInfo, getTypeOfCare } from '../../redux/selectors';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import ProviderSelectionField from './ProviderSelectionField';
 import recordEvent from 'platform/monitoring/record-event';
+import { lowerCase } from '../../../utils/formatters';
 
 const initialSchema = {
   type: 'object',
@@ -30,7 +31,6 @@ const initialSchema = {
 };
 
 const pageKey = 'ccPreferences';
-const pageTitle = 'Tell us your community care preferences';
 
 export default function CommunityCareProviderSelectionPage() {
   const dispatch = useDispatch();
@@ -39,10 +39,13 @@ export default function CommunityCareProviderSelectionPage() {
     shallowEqual,
   );
   const history = useHistory();
+  const typeOfCare = getTypeOfCare(data);
+  const pageTitle = showCCIterations
+    ? `Request a ${lowerCase(typeOfCare.name)} provider`
+    : 'Tell us your community care preferences';
 
-  const descriptionText = showCCIterations
-    ? 'We’ll call you to confirm your provider choice or to help you choose a provider if you skip this step.'
-    : 'You can request a provider for this care. If they aren’t available, we’ll schedule your appointment with a provider close to your home.';
+  const descriptionText =
+    'You can request a provider for this care. If they aren’t available, we’ll schedule your appointment with a provider close to your home.';
 
   const uiSchema = {
     communityCareSystemId: {
@@ -51,7 +54,7 @@ export default function CommunityCareProviderSelectionPage() {
     },
     communityCareProvider: {
       'ui:options': {
-        showFieldLabel: true,
+        showFieldLabel: !showCCIterations,
       },
       'ui:description': (
         <p id="providerSelectionDescription">{descriptionText}</p>

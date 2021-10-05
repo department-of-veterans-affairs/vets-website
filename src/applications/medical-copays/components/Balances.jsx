@@ -1,41 +1,23 @@
 import React from 'react';
 import BalanceCard from './BalanceCard';
 
-const mockCopayBalanceData = [
-  {
-    id: '3fa85f64-5717-4562-b3fc-2c973f66afa6',
-    amount: 300,
-    facility: 'James A. Haley Veterans’ Hospital',
-    city: 'Tampa',
-    dueDate: 'July 9, 2021',
-  },
-  {
-    id: '3fa85f64-5717-4562-b3fc-2c963f66afa1',
-    amount: 230,
-    facility: 'San Diego VA Medical Center',
-    city: 'San Diego',
-    dueDate: 'July 2, 2021',
-  },
-  {
-    id: '3fa85f64-5717-4562-b3fc-2c963f66acw3',
-    amount: 0,
-    facility: 'Philadelphia VA Medical Center',
-    city: 'Philadelphia',
-    dueDate: null,
-  },
-];
+export const Balances = ({ statementData }) => {
+  const single = <h2>What you owe to your facility</h2>;
+  const multiple = (
+    <h2>What you owe to your {statementData?.length} facilities</h2>
+  );
 
-export const Balances = () => {
   return (
     <>
-      <h2>What you owe to your {mockCopayBalanceData.length} facilities</h2>
-      {mockCopayBalanceData.map(balance => (
+      {statementData?.length === 1 ? single : multiple}
+      {statementData?.map(balance => (
         <BalanceCard
+          id={balance.id}
           key={balance.id}
-          amount={balance.amount}
-          facility={balance.facility}
-          city={balance.city}
-          dueDate={balance.dueDate}
+          amount={balance.pHAmtDue}
+          facility={balance.station.facilitYDesc}
+          city={balance.station.city}
+          dueDate={balance.pSStatementDate}
         />
       ))}
     </>

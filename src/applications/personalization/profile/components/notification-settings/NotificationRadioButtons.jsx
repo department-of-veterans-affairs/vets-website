@@ -4,7 +4,7 @@ import { isArray, isString, uniqueId } from 'lodash';
 import classNames from 'classnames';
 import { makeField } from '~/platform/forms/fields';
 
-const MessageWrapper = ({ children, classes, id }) => {
+const MessageWrapper = ({ children, classes, id, alert }) => {
   return (
     <span
       id={id}
@@ -14,6 +14,8 @@ const MessageWrapper = ({ children, classes, id }) => {
         'vads-u-font-weight--bold',
         classes,
       )}
+      role={alert ? 'alert' : undefined}
+      aria-live={alert ? 'polite' : undefined}
     >
       {children}
     </span>
@@ -46,6 +48,7 @@ const NotificationRadioButtons = ({
   id = uniqueId('notification-radio-buttons-'),
   additionalFieldsetClass,
   additionalLegendClass,
+  description,
   errorMessage,
   warningMessage,
   loadingMessage,
@@ -72,7 +75,7 @@ const NotificationRadioButtons = ({
   if (errorMessage) {
     errorSpanId = `${id}-error-message`;
     errorSpan = (
-      <MessageWrapper id={errorSpanId} classes={'rb-input-message-error'}>
+      <MessageWrapper id={errorSpanId} classes={'rb-input-message-error'} alert>
         <i
           className="fas fa-exclamation-circle vads-u-margin-right--1"
           aria-hidden="true"
@@ -102,7 +105,11 @@ const NotificationRadioButtons = ({
   if (loadingMessage) {
     loadingSpanId = `${id}-loading-message`;
     loadingSpan = (
-      <MessageWrapper id={loadingSpanId}>
+      <MessageWrapper
+        id={loadingSpanId}
+        classes="vads-u-font-weight--normal"
+        alert
+      >
         <i
           className="fas fa-spinner fa-spin vads-u-margin-right--1"
           aria-hidden="true"
@@ -117,7 +124,11 @@ const NotificationRadioButtons = ({
   if (successMessage) {
     successSpanId = `${id}-success-message`;
     successSpan = (
-      <MessageWrapper id={successSpanId} classes={'rb-input-message-success'}>
+      <MessageWrapper
+        id={successSpanId}
+        classes={'rb-input-message-success'}
+        alert
+      >
         <i
           className="fas fa-check-circle vads-u-margin-right--1"
           aria-hidden="true"
@@ -137,7 +148,6 @@ const NotificationRadioButtons = ({
   const buttonOptions = isArray(options) ? options : [];
   const storedValue = value?.value;
   const optionElements = buttonOptions.map((option, optionIndex) => {
-    const isLastRadioButtonInGroup = optionIndex >= buttonOptions.length - 1;
     let optionLabel;
     let optionValue;
     let optionAriaLabel;
@@ -157,7 +167,7 @@ const NotificationRadioButtons = ({
     const buttonAriaDescribedby =
       (checked && ariaDescribedby?.[optionIndex]) || null;
     return (
-      <div key={optionAdditional ? undefined : optionIndex}>
+      <React.Fragment key={optionAdditional ? undefined : optionIndex}>
         <input
           checked={checked}
           id={`${id}-${optionIndex}`}
@@ -174,45 +184,46 @@ const NotificationRadioButtons = ({
           name={`${name}-${optionIndex}-label`}
           htmlFor={`${id}-${optionIndex}`}
           aria-label={optionAriaLabel}
-          className={classNames('vads-u-margin--0', 'vads-u-margin-top--1', {
-            'vads-u-margin-bottom--1': isLastRadioButtonInGroup,
-            'vads-u-margin-bottom--2p5': !isLastRadioButtonInGroup,
-          })}
+          className="vads-u-margin--0 vads-u-padding-y--1p5"
         >
           {optionLabel}
         </label>
         {option.content}
-      </div>
+      </React.Fragment>
     );
   });
 
-  const fieldsetClass = classNames(
+  const fieldsetClasses = classNames(
     'rb-fieldset-input',
     'rb-input',
-    additionalFieldsetClass,
     {
       'rb-input-error': errorMessage,
       'rb-input-warning': warningMessage,
       'rb-input-success': successMessage,
     },
+    additionalFieldsetClass,
   );
 
-  const legendClass = classNames(
-    'rb-legend',
+  const legendClasses = classNames(
+    'vads-u-font-family--sans',
     'vads-u-font-weight--bold',
     'vads-u-font-size--base',
     'vads-u-padding--0',
+    'vads-u-margin--0',
     additionalLegendClass,
   );
 
   return (
-    <fieldset className={fieldsetClass} disabled={disabled}>
-      <div className="clearfix">
-        <legend className={legendClass}>
-          {label}
-          {requiredSpan}
-        </legend>
-      </div>
+    <fieldset className={fieldsetClasses} disabled={disabled} id={id}>
+      <h3 className={legendClasses}>
+        {label}
+        {requiredSpan}
+      </h3>
+      {description ? (
+        <p className="vads-u-margin-y--0p5 vads-u-color--gray-medium">
+          {description}
+        </p>
+      ) : null}
       {!loadingMessage && !successMessage && !warningMessage && errorSpan}
       {!loadingMessage && !errorMessage && !successMessage && warningSpan}
       {!loadingMessage && !errorMessage && !warningMessage && successSpan}

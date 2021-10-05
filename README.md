@@ -4,7 +4,7 @@
 
 This is the front end repository for VA.gov. It contains application code used across the site.
 
-There are several repositories that contain the code and content used to build VA.gov. If you're looking to get started running VA.gov locally, you should read the [Getting Started](https://department-of-veterans-affairs.github.io/veteran-facing-services-tools/getting-started) documentation.
+There are several repositories that contain the code and content used to build VA.gov. If you're looking to get started running VA.gov locally, you should read the [Getting Started](https://depo-platform-documentation.scrollhelp.site/developer-docs/Setting-up-your-local-frontend-environment.1844215878.html) documentation.
 
 ## Common commands
 
@@ -27,6 +27,12 @@ To **build all applications**, run the following:
 
 ```sh
 yarn build
+```
+
+To **build one or more applications**, you can use the `--entry` option:
+
+```sh
+yarn build --entry static-pages,auth
 ```
 
 To **recompile your application when you make changes**, run:

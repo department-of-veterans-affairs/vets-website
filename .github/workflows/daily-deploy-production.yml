@@ -4,11 +4,15 @@ on:
   workflow_dispatch:
     inputs:
       release_wait:
-        description: "Minutes to wait before creating release"
+        description: Minutes to wait before creating release
         required: false
         default: 5
+      commit_sha:
+        description: Deploy specific commit
+        required: false
+        default: ''
   schedule:
-    - cron: "0 18 * * 1-5"
+    - cron: 0 18 * * 1-5
 
 # TODO: Change to correct channel_id when ready
 env:
@@ -22,6 +26,7 @@ jobs:
     outputs:
       LATEST_TAG_VERSION: ${{ steps.get-latest-tag.outputs.LATEST_TAG_VERSION }}
       RELEASE_WAIT: ${{ env.RELEASE_WAIT }}
+      COMMIT_SHA: ${{ env.COMMIT_SHA }}
 
     steps:
       - name: Cancel workflow due to DSVA schedule
@@ -39,16 +44,24 @@ jobs:
 
       - name: Get release wait time (scheduled release)
         if: ${{ github.event.schedule != '' }}
-        run: echo "RELEASE_WAIT=60" >> $GITHUB_ENV
+        run: echo 'RELEASE_WAIT=60' >> $GITHUB_ENV
 
       - name: Get release wait time (workflow_dispatch)
         if: ${{ github.event_name == 'workflow_dispatch' }}
-        run: echo "RELEASE_WAIT=${{ github.event.inputs.release_wait }}" >> $GITHUB_ENV
+        run: echo 'RELEASE_WAIT=${{ github.event.inputs.release_wait }}' >> $GITHUB_ENV
+
+      - name: Get commit sha (latest commit)
+        if: ${{ github.event.schedule != '' || (github.event_name == 'workflow_dispatch' && github.event.inputs.commit_sha == '') }}
+        run: echo 'COMMIT_SHA=${{ github.sha }}' >> $GITHUB_ENV
+
+      - name: Get commit sha (workflow_dispatch)
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.commit_sha != '' }}
+        run: echo 'COMMIT_SHA=${{ github.event.inputs.commit_sha }}' >> $GITHUB_ENV
 
   validate-build-status:
     name: Validate Build Status
     runs-on: ubuntu-latest
-
+    needs: set-env
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -70,6 +83,7 @@ jobs:
             ~/.cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
@@ -81,14 +95,14 @@ jobs:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Validate build status
-        run: node ./script/github-actions/validate-build-status.js ${{ github.sha }}
+        run: node ./script/github-actions/validate-build-status.js ${{ needs.set-env.outputs.COMMIT_SHA }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   notify-start:
     name: Notify Start
     runs-on: ubuntu-latest
-
+    needs: set-env
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -126,21 +140,21 @@ jobs:
 
       - name: Notify Slack
         uses: ./.github/actions/vsp-github-actions/slack-socket
+        continue-on-error: true
         with:
           slack_app_token: ${{ env.SLACK_APP_TOKEN }}
           slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
-          attachments: '[{"mrkdwn_in": ["text"], "color": "good", "text": "Stand by, production deploy for vets-website coming up in ${{ needs.set-env.outputs.RELEASE_WAIT }} minutes. View what coming here: <https://github.com/${{github.repository}}/compare/vets-website/${{needs.set-env.outputs.LATEST_TAG_VERSION}}...${{github.sha}}>"}]'
+          attachments: '[{"mrkdwn_in": ["text"], "color": "good", "text": "Stand by, production deploy for vets-website coming up in ${{ needs.set-env.outputs.RELEASE_WAIT }} minutes. View what coming here: <https://github.com/${{ github.repository }}/compare/vets-website/${{ needs.set-env.outputs.LATEST_TAG_VERSION }}...${{ needs.set-env.outputs.COMMIT_SHA }}>"}]'
           channel_id: ${{ env.CHANNEL_ID }}
 
   create-release:
     name: Create Release
     runs-on: ubuntu-latest
     needs: [set-env, notify-start, validate-build-status]
-
     steps:
       - name: Waiting to release 
         run: |
-          echo "Waiting to release: https://github.com/${{github.repository}}/compare/${{needs.set-env.outputs.LATEST_TAG_VERSION}}...${{github.sha}}"
+          echo 'Waiting to release: https://github.com/${{ github.repository }}/compare/${{ needs.set-env.outputs.LATEST_TAG_VERSION }}...${{ needs.set-env.outputs.COMMIT_SHA }}'
 
       - name: Sleep for ${{ needs.set-env.outputs.RELEASE_WAIT }} minutes
         uses: whatnick/wait-action@master
@@ -155,12 +169,12 @@ jobs:
 
       # TODO: Uncomment when ready for prod
       # - name: Tag release
-      #   run: git tag ${{ steps.bump-tag-version.outputs.v_patch }} ${{ github.sha }} && git push origin ${{ steps.bump-tag-version.outputs.v_patch }} 
+      #   run: git tag ${{ steps.bump-tag-version.outputs.v_patch }} ${{ needs.set-env.outputs.COMMIT_SHA }} && git push origin ${{ steps.bump-tag-version.outputs.v_patch }} 
 
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    needs: create-release
+    needs: [set-env, create-release]
 
     # TODO: Uncomment when ready for prod
     env:
@@ -199,7 +213,7 @@ jobs:
       - name: Deploy
         run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
         env:
-          SRC: s3://vetsgov-website-builds-s3-upload/application-build/${{ github.sha }}/${{ env.ENVIRONMENT }}.tar.bz2
+          SRC: s3://vetsgov-website-builds-s3-upload/application-build/${{ needs.set-env.outputs.COMMIT_SHA }}/${{ env.ENVIRONMENT }}.tar.bz2
           DEST: s3://${{ env.BUCKET }}
 
   notify-failure:
@@ -232,6 +246,7 @@ jobs:
         env_variable_name: SLACK_BOT_TOKEN
         
     - name: Get va-vsp-bot token
+      if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
       uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
       with:
         ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
@@ -250,6 +265,7 @@ jobs:
     - name: Notify Slack
       if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
       uses: ./.github/actions/vsp-github-actions/slack-socket
+      continue-on-error: true
       with:
         slack_app_token: ${{ env.SLACK_APP_TOKEN }}
         slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}

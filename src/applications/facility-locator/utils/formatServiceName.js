@@ -11,6 +11,7 @@ export const formatServiceName = service => {
     .replace(/\s+/g, ' ')
     .toLowerCase()
     .replace(/veteran/g, 'Veteran')
+    .replace(/covid19 vaccine/g, 'COVID-19 vaccines')
     .trim();
   return lowerCaseService.charAt(0).toUpperCase() + lowerCaseService.slice(1);
 };

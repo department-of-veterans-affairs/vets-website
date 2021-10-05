@@ -14,9 +14,7 @@ import VAFacilityPage from './components/VAFacilityPage';
 import ClinicChoicePage from './components/ClinicChoicePage';
 import SelectDate1Page from './components/SelectDate1Page';
 import ReviewPage from './components/ReviewPage';
-import ConfirmationPage from './components/ConfirmationPage';
 import ConfirmationPageV2 from './components/ConfirmationPageV2';
-import { selectFeatureHomepageRefresh } from '../redux/selectors';
 import SecondDosePage from './components/SecondDosePage';
 import ContactInfoPage from './components/ContactInfoPage';
 import ReceivedDoseScreenerPage from './components/ReceivedDoseScreenerPage';
@@ -40,7 +38,6 @@ export function NewBookingSection() {
   const dispatch = useDispatch();
   const canUseVaccineFlow = useSelector(selectCanUseVaccineFlow);
   const facilitySettingsStatus = useSelector(selectFacilitySettingsStatus);
-  const featureHomepageRefresh = useSelector(selectFeatureHomepageRefresh);
 
   useEffect(() => {
     if (facilitySettingsStatus === FETCH_STATUS.notStarted) {
@@ -130,9 +127,7 @@ export function NewBookingSection() {
         <Route path={`${match.url}/review`} component={ReviewPage} />
         <Route
           path={`${match.url}/confirmation`}
-          component={
-            featureHomepageRefresh ? ConfirmationPageV2 : ConfirmationPage
-          }
+          component={ConfirmationPageV2}
         />
         <Route path="/" component={PlanAheadPage} />
       </Switch>

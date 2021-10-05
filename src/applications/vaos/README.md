@@ -34,7 +34,7 @@ npx nodemon --exec "yarn jsdoc -c src/applications/vaos/jsdoc.json" --watch src/
 
 ## Organization
 
-The application has four major sections
+The application has three major sections
 
 - /appointment-list
   - The code for the appointment list and detail pages
@@ -70,3 +70,11 @@ Those services are:
   - VA facility data
 - Community care provider search (PPMS)
   - Community care provider listing
+
+### Mock API
+
+Local development of the application requires use of the [mock API](https://github.com/department-of-veterans-affairs/vets-website#running-a-mock-api-for-local-development). Run the following command to provide the mock API VAOS specific mock data:
+
+```
+yarn mock-api --responses src/applications/vaos/services/mocks/index.js
+```

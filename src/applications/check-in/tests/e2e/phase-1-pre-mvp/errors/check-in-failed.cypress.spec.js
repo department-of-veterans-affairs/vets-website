@@ -1,6 +1,6 @@
 import { createFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
-import mockCheckIn from '../../../../api/local-mock-api/mocks/check.in.response';
-import mockValidate from '../../../../api/local-mock-api/mocks/validate.responses';
+import mockCheckIn from '../../../../api/local-mock-api/mocks/v0/check.in.responses';
+import mockValidate from '../../../../api/local-mock-api/mocks/v0/validate.responses';
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 describe('Check In Experience -- ', () => {
@@ -22,8 +22,6 @@ describe('Check In Experience -- ', () => {
     const featureRoute =
       '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
     cy.visit(featureRoute);
-    cy.get('legend > h2').contains('information');
-    cy.get('[data-testid="no-button"]').click();
     cy.get('h1').contains('Your appointment');
     cy.get('.usa-button').click();
     cy.get('h1', { timeout: Timeouts.slow })

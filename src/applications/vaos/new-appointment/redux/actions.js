@@ -9,7 +9,6 @@ import {
   selectFeatureDirectScheduling,
   selectFeatureCommunityCare,
   selectSystemIds,
-  selectFeatureHomepageRefresh,
   selectFeatureVAOSServiceRequests,
   selectFeatureVariantTesting,
   selectRegisteredCernerFacilityIds,
@@ -112,8 +111,6 @@ export const FORM_ELIGIBILITY_CHECKS_SUCCEEDED =
   'newAppointment/FORM_ELIGIBILITY_CHECKS_SUCCEEDED';
 export const FORM_ELIGIBILITY_CHECKS_FAILED =
   'newAppointment/FORM_ELIGIBILITY_CHECKS_FAILED';
-export const FORM_CLINIC_PAGE_OPENED_SUCCEEDED =
-  'newAppointment/FORM_CLINIC_PAGE_OPENED_SUCCEEDED';
 export const START_DIRECT_SCHEDULE_FLOW =
   'newAppointment/START_DIRECT_SCHEDULE_FLOW';
 export const START_REQUEST_APPOINTMENT_FLOW =
@@ -539,15 +536,6 @@ export function updateReasonForAppointmentData(page, uiSchema, data) {
   };
 }
 
-export function openClinicPage(page, uiSchema, schema) {
-  return {
-    type: FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
-    page,
-    uiSchema,
-    schema,
-  };
-}
-
 export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
   return async (dispatch, getState) => {
     const state = getState();
@@ -733,7 +721,6 @@ async function buildPreferencesDataAndUpdate(email) {
 export function submitAppointmentOrRequest(history) {
   return async (dispatch, getState) => {
     const state = getState();
-    const isFeatureHomepageRefresh = selectFeatureHomepageRefresh(state);
     const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(state);
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
       state,
@@ -896,11 +883,7 @@ export function submitAppointmentOrRequest(history) {
           ...additionalEventData,
         });
         resetDataLayer();
-        if (isFeatureHomepageRefresh) {
-          history.push(`/requests/${requestData.id}?confirmMsg=true`);
-        } else {
-          history.push('/new-appointment/confirmation');
-        }
+        history.push(`/requests/${requestData.id}?confirmMsg=true`);
       } catch (error) {
         let extraData = null;
         if (requestBody) {

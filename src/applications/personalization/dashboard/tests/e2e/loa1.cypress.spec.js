@@ -2,8 +2,6 @@ import loa1User from '@@profile/tests/fixtures/users/user-loa1.json';
 
 import manifest from '~/applications/personalization/dashboard/manifest.json';
 
-import { mockFeatureToggles } from './helpers';
-
 /**
  *
  * @param {boolean} mobile - test on a mobile viewport or not
@@ -14,7 +12,6 @@ import { mockFeatureToggles } from './helpers';
  * - checks that focus is managed correctly, and performs an aXe scan
  */
 function loa1DashboardTest(mobile, stubs) {
-  mockFeatureToggles();
   cy.visit(manifest.rootUrl);
 
   if (mobile) {
@@ -112,5 +109,16 @@ describe('The My VA Dashboard', () => {
 
   it('should handle LOA1 users at mobile phone size', () => {
     loa1DashboardTest(true, stubs);
+  });
+});
+
+describe('When clicking on the verify your identity link', () => {
+  it('should focus on the h1 element', () => {
+    cy.login(loa1User);
+    cy.visit(manifest.rootUrl);
+    cy.findByRole('link', { name: /verify your identity/i })
+      .should('exist')
+      .click();
+    cy.get('h1').should('be.focused');
   });
 });

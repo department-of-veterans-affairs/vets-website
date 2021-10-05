@@ -16,7 +16,7 @@ const NotificationGroup = ({ children, groupName, itemIds }) => {
         })}
         {children}
       </div>
-      <hr className="vads-u-margin-y--2" />
+      <hr aria-hidden="true" className="vads-u-margin-y--2" />
     </div>
   );
 };
@@ -27,9 +27,10 @@ const mapStateToProps = (state, ownProps) => {
     communicationPreferencesState,
     ownProps.groupId,
   );
+  const itemIds = group.items;
   return {
     groupName: group.name,
-    itemIds: group.items,
+    itemIds,
   };
 };
 

@@ -20,11 +20,10 @@ const ContactDMC = ({ className }) => (
 );
 
 export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
-  const endDate = (date, days) => {
-    return moment(date, 'MM-DD-YYYY')
+  const endDate = (date, days) =>
+    moment(date, 'MM-DD-YYYY')
       .add(days, 'days')
       .format('MMMM Do, YYYY,');
-  };
 
   switch (diaryCode) {
     case '71':

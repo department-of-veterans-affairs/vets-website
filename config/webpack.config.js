@@ -15,6 +15,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const WebpackBar = require('webpackbar');
+const StylelintPlugin = require('stylelint-webpack-plugin');
 
 const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
 const BUCKETS = require('../src/site/constants/buckets');
@@ -309,12 +310,6 @@ module.exports = async (env = {}) => {
             },
             {
               loader: 'postcss-loader',
-              options: {
-                // use cssnano to minimize css only on optimized builds
-                plugins: isOptimizedBuild
-                  ? () => [require('autoprefixer'), require('cssnano')]
-                  : () => [require('autoprefixer')],
-              },
             },
             {
               loader: 'sass-loader',
@@ -403,6 +398,12 @@ module.exports = async (env = {}) => {
       new webpack.DefinePlugin({
         __BUILDTYPE__: JSON.stringify(buildtype),
         __API__: JSON.stringify(buildOptions.api),
+      }),
+
+      new StylelintPlugin({
+        configFile: '.stylelintrc.json',
+        exclude: ['node_modules', 'build', 'coverage', '.cache'],
+        fix: true,
       }),
 
       new MiniCssExtractPlugin({

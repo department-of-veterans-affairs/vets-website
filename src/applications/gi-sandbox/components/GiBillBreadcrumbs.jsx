@@ -4,7 +4,7 @@ import { useRouteMatch, Link, useHistory } from 'react-router-dom';
 import { useQueryParams } from '../utils/helpers';
 
 const GiBillBreadcrumbs = () => {
-  const profileMatch = useRouteMatch('/profile/:facilityCode');
+  const profileMatch = useRouteMatch('/institution/:facilityCode');
   const compareMatch = useRouteMatch('/compare');
   const queryParams = useQueryParams();
   const version = queryParams.get('version');
@@ -37,10 +37,10 @@ const GiBillBreadcrumbs = () => {
   if (profileMatch) {
     crumbs.push(
       <Link
-        to={`/profile/${profileMatch.params.facilityCode}`}
+        to={`/institution/${profileMatch.params.facilityCode}`}
         key="result-detail"
       >
-        School details
+        Institution details
       </Link>,
     );
   }

@@ -93,13 +93,3 @@ export const REQUEST_OPTIONS = Object.freeze({
 import ADDRESS_DATA from 'platform/forms/address/data';
 
 export const STATE_CODE_TO_NAME = ADDRESS_DATA.states;
-
-export const ADDRESS_TYPES = Object.freeze({
-  domestic: 'DOMESTIC',
-  international: 'INTERNATIONAL',
-  military: 'MILITARY',
-});
-
-// These probably aren't the best names, but they work...
-export const MILITARY_CITIES = new Set(ADDRESS_DATA.militaryCities);
-export const MILITARY_STATES = new Set(ADDRESS_DATA.militaryStates);

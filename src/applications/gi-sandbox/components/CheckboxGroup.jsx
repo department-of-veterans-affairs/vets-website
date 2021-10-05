@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
-import { handleScrollOnInputFocus } from '../utils/helpers';
+import { handleScrollOnInputFocus, createId } from '../utils/helpers';
 
 const CheckboxGroup = ({ errorMessage, label, onChange, onFocus, options }) => {
   const inputId = _.uniqueId('checkbox-group-');
@@ -19,11 +19,13 @@ const CheckboxGroup = ({ errorMessage, label, onChange, onFocus, options }) => {
             type="checkbox"
             onFocus={() => onFocus(`${inputId}-${index}`)}
             onChange={onChange}
-            aria-labelledby={`${inputId}-legend ${name}-${index}-label`}
+            aria-labelledby={`${inputId}-legend ${createId(
+              name,
+            )}-${index}-label`}
           />
           <label
             className="gi-checkbox-label"
-            id={`${name}-${index}-label`}
+            id={`${createId(name)}-${index}-label`}
             name={`${name}-label`}
             htmlFor={`${inputId}-${index}`}
           >

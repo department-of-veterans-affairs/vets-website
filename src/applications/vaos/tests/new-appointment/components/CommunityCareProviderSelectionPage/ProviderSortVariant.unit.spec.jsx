@@ -9,6 +9,7 @@ import { mockFetch } from 'platform/testing/unit/helpers';
 import {
   createTestStore,
   renderWithStoreAndRouter,
+  setClosestCity,
   setTypeOfCare,
   setTypeOfFacility,
 } from '../../../mocks/setup';
@@ -286,6 +287,9 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
         selector: 'button',
       }),
     );
+    await waitFor(() =>
+      expect(screen.getAllByRole('radio').length).to.equal(5),
+    );
     fireEvent.change(await screen.getByLabelText('Show providers closest to'), {
       target: {
         value: FACILITY_SORT_METHODS.distanceFromCurrentLocation,
@@ -414,8 +418,8 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
       },
     });
     const facilityPosition = {
-      latitude: 38.5615,
-      longitude: 122.9988,
+      latitude: 39.1362562,
+      longitude: -83.1804804,
       fail: false,
     };
 
@@ -431,8 +435,24 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
       ),
       CC_PROVIDERS_DATA,
     );
+
+    mockFacilityFetch('vha_442GJ', {
+      id: '983',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '983',
+        name: 'Facility that is enabled',
+        lat: 39.1362562,
+        long: -83.1804804,
+      },
+    });
+
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, /Community Care/i);
+
+    // Belgrade is the 2nd of three options so the expectation is
+    // that it should be selected when we get to the CommunityCareProviderSelectionPage.
+    await setClosestCity(store, /Belgrade/i);
     const screen = renderWithStoreAndRouter(
       <CommunityCareProviderSelectionPage />,
       {
@@ -450,13 +470,92 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
 
     // Then the select options should default to sort by distance from the first CC enabled facility
     expect(screen.baseElement).not.to.contain.text('Your home address');
+    expect(screen.baseElement).to.contain.text('Your current location');
     const selectOptions = await screen.getByLabelText(
       'Show providers closest to',
     );
     expect(selectOptions).to.be.ok;
-    // current location should not be selected
-    expect(selectOptions[0].selected).to.not.be.ok;
-    // first facility should be selected
+    // first facility should not be selected
+    expect(selectOptions[0].selected).not.to.be.ok;
+    // current location should be selected
     expect(selectOptions[1].selected).to.be.ok;
+  });
+
+  it('should defalut to home address when user has a residential address', async () => {
+    // Given the CC iteration flag is on
+    // And the user has a residential address
+    const store = createTestStore({
+      ...initialState,
+      user: {
+        profile: {
+          facilities: [{ facilityId: '983', isCerner: false }],
+          vapContactInfo: {
+            residentialAddress: {
+              addressLine1: 'PSC 808 Box 37',
+              city: 'FPO',
+              stateCode: 'AE',
+              zipCode: '09618',
+            },
+          },
+        },
+      },
+    });
+    const facilityPosition = {
+      latitude: 39.1362562,
+      longitude: -83.1804804,
+      fail: false,
+    };
+
+    mockGetCurrentPosition(facilityPosition);
+
+    mockCCProviderFetch(
+      facilityPosition,
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
+      calculateBoundingBox(
+        facilityPosition.latitude,
+        facilityPosition.longitude,
+        60,
+      ),
+      CC_PROVIDERS_DATA,
+    );
+
+    mockFacilityFetch('vha_442GJ', {
+      id: '983',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '983',
+        name: 'Facility that is enabled',
+        lat: 39.1362562,
+        long: -83.1804804,
+      },
+    });
+
+    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfFacility(store, /Community Care/i);
+
+    // Belgrade is the 2nd of three options so the expectation is
+    // that it should be selected when we get to the CommunityCareProviderSelectionPage.
+    await setClosestCity(store, /Belgrade/i);
+
+    const screen = renderWithStoreAndRouter(
+      <CommunityCareProviderSelectionPage />,
+      {
+        store,
+      },
+    );
+
+    // When the user tries to choose a provider
+    // Trigger provider list loading
+    userEvent.click(
+      await screen.findByText(/Choose a provider/i, {
+        selector: 'button',
+      }),
+    );
+
+    expect(await screen.findByText(/Show providers closest to/i)).to.exist;
+
+    // Then the select options should default to sort by distance from home address
+    expect(screen.baseElement).to.contain.text('Your home address');
+    expect(screen.baseElement).to.contain.text('Your current location');
   });
 });

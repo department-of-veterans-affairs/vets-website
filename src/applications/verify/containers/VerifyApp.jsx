@@ -13,6 +13,7 @@ import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors'
 import { verify } from 'platform/user/authentication/utilities';
 import { hasSession } from 'platform/user/profile/utilities';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
+import { focusElement } from '~/platform/utilities/ui';
 
 export class VerifyApp extends React.Component {
   constructor(props) {
@@ -40,6 +41,9 @@ export class VerifyApp extends React.Component {
     const shouldCheckAccount = prevProps.profile.verified !== verified;
     if (shouldCheckAccount) {
       this.checkAccountAccess();
+    }
+    if (!this.props.profile.loading && prevProps.profile.loading) {
+      focusElement('h1');
     }
   }
 
@@ -90,7 +94,7 @@ export class VerifyApp extends React.Component {
                   className="usa-button-primary va-button-primary"
                   onClick={() => verify(authVersion)}
                 >
-                  <img alt="ID.me" src="/img/signin/idme-icon-white.svg" />
+                  <img alt="" src="/img/signin/idme-icon-white.svg" />
                   <strong> Verify with ID.me</strong>
                 </button>
               </div>

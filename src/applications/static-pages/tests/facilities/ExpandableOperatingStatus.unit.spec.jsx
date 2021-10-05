@@ -8,7 +8,7 @@ describe('<ExpandableOperatingStatus>', () => {
     const wrapper = shallow(
       <ExpandableOperatingStatus
         operatingStatusFacility={'limited'}
-        iconType={'triangle'}
+        iconType={'exclamation-triangle'}
         statusLabel={'Limited services and hours'}
         extraInfo={
           'Lorem ipsum dolor sit amet, pro soluta utroque gubergren in. Ea cum delenit dissentiet. Sint tamquam dolorum ' +
