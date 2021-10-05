@@ -49,6 +49,7 @@ import {
   isValidPhone,
   validatePhone,
   validateEmail,
+  validateEffectiveDate,
 } from '../utils/validation';
 
 const {
@@ -492,7 +493,7 @@ const formConfig = {
                 <>
                   <h3>Review your phone numbers and email address</h3>
                   <div className="meb-list-label">
-                    <b>We’ll use this information to:</b>
+                    <strong>We’ll use this information to:</strong>
                   </div>
                   <ul>
                     <li>
@@ -1068,8 +1069,6 @@ const formConfig = {
           path: 'benefit-selection',
           title: 'Benefit selection',
           subTitle: "You're applying for the Post-9/11 GI Bill®",
-          instructions:
-            'Currently, you can only apply for Post-9/11 Gi Bill (Chapter 33) benefits through this application/ If you would like to apply for other benefits, please visit out How to Apply page.',
           uiSchema: {
             'view:post911Notice': {
               'ui:description': (
@@ -1081,8 +1080,8 @@ const formConfig = {
                     to give up one other benefit you may be eligible for.
                   </p>
                   <p>
-                    <strong>This decision is final</strong>, which means you
-                    can’t change your mind after you submit this application.
+                    You cannot change your decision after you submit this
+                    application.
                   </p>
                   <AdditionalInfo triggerText="Why do I have to give up a benefit?">
                     <p>
@@ -1162,21 +1161,23 @@ const formConfig = {
               },
               'ui:required': givingUpBenefitSelected,
               'ui:reviewField': DateReviewField,
+              'ui:validations': [validateEffectiveDate],
             },
             'view:effectiveDateNotes': {
               'ui:description': (
                 <ul>
                   <li>
-                    We’ve set the date to one year ago to begin paying you
-                    immediately
+                    You can select a date up to one year in the past. We may be
+                    able to pay you benefits for education or training taken
+                    during this time.
                   </li>
                   <li>
-                    Select a future date if you don’t need to use your benefits
-                    until then
+                    We can’t pay for education or training taken more than one
+                    year before the date of your application for benefits.
                   </li>
                   <li>
-                    If your classes started less than 2 years ago, enter the
-                    date they began
+                    If you are currently using another benefit, select the date
+                    you would like to start using the Post-9/11 GI Bill.
                   </li>
                 </ul>
               ),
