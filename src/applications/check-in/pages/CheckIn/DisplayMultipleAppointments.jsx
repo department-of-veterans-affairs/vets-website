@@ -14,7 +14,13 @@ export default function DisplayMultipleAppointments(props) {
     token,
     appointments,
     router,
+    getMultipleAppointments,
   } = props;
+
+  const handleClick = e => {
+    e.preventDefault();
+    getMultipleAppointments();
+  };
 
   const sortedAppointments = sortAppointmentsByStartTime(appointments);
   return (
@@ -44,6 +50,15 @@ export default function DisplayMultipleAppointments(props) {
           );
         })}
       </ol>
+      <p data-testid="update-text">
+        <strong>Latest update:</strong>{' '}
+        {format(new Date(), 'MMMM dd, yyyy HH:mm')}
+      </p>
+      <p data-testid="refresh-link">
+        <a onClick={e => handleClick(e)} href="#">
+          Refresh
+        </a>
+      </p>
       <Footer />
       <BackToHome />
     </div>

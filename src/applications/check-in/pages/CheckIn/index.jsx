@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
@@ -34,22 +34,30 @@ const CheckIn = props => {
 
   const [isLoadingData, setIsLoadingData] = useState(!appointment.startTime);
   const { token } = context;
+
+  const getMultipleAppointments = useCallback(
+    () => {
+      setIsLoadingData(true);
+      api.v2
+        .getCheckInData(token)
+        .then(json => {
+          const { payload } = json;
+          setMultipleAppointments(payload.appointments, token);
+          setIsLoadingData(false);
+          focusElement('h1');
+        })
+        .catch(() => {
+          goToNextPage(router, URLS.ERROR);
+        });
+    },
+    [token, setMultipleAppointments, setIsLoadingData, router],
+  );
+
   useEffect(
     () => {
       if (isLowAuthEnabled) {
         if (isMultipleAppointmentsEnabled) {
-          setIsLoadingData(true);
-          api.v2
-            .getCheckInData(token)
-            .then(json => {
-              const { payload } = json;
-              setMultipleAppointments(payload.appointments, token);
-              setIsLoadingData(false);
-              focusElement('h1');
-            })
-            .catch(() => {
-              goToNextPage(router, URLS.ERROR);
-            });
+          getMultipleAppointments();
         } else {
           // load data from checks route
           api.v1
@@ -75,6 +83,7 @@ const CheckIn = props => {
       setMultipleAppointments,
       router,
       isMultipleAppointmentsEnabled,
+      getMultipleAppointments,
     ],
   );
 
@@ -93,6 +102,7 @@ const CheckIn = props => {
             router={router}
             token={token}
             appointments={appointments}
+            getMultipleAppointments={getMultipleAppointments}
           />
         </FeatureOn>
         <FeatureOff>
