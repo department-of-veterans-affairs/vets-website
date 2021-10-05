@@ -25,7 +25,6 @@ const CheckIn = props => {
     appointments,
     context,
     isUpdatePageEnabled,
-    isLowAuthEnabled,
     setAppointment,
     setMultipleAppointments,
     isMultipleAppointmentsEnabled,
@@ -36,45 +35,40 @@ const CheckIn = props => {
   const { token } = context;
   useEffect(
     () => {
-      if (isLowAuthEnabled) {
-        if (isMultipleAppointmentsEnabled) {
-          setIsLoadingData(true);
-          api.v2
-            .getCheckInData(token)
-            .then(json => {
-              const { payload } = json;
-              setMultipleAppointments(payload.appointments, token);
-              setIsLoadingData(false);
-              focusElement('h1');
-            })
-            .catch(() => {
-              goToNextPage(router, URLS.ERROR);
-            });
-        } else {
-          // load data from checks route
-          api.v1
-            .getCheckInData(token)
-            .then(json => {
-              const { payload } = json;
-              setAppointment(payload, token);
-              setIsLoadingData(false);
-              focusElement('h1');
-            })
-            .catch(() => {
-              goToNextPage(router, URLS.ERROR);
-            });
-        }
+      if (isMultipleAppointmentsEnabled) {
+        setIsLoadingData(true);
+        api.v2
+          .getCheckInData(token)
+          .then(json => {
+            const { payload } = json;
+            setMultipleAppointments(payload.appointments, token);
+            setIsLoadingData(false);
+            focusElement('h1');
+          })
+          .catch(() => {
+            goToNextPage(router, URLS.ERROR);
+          });
       } else {
-        focusElement('h1');
+        // load data from checks route
+        api.v1
+          .getCheckInData(token)
+          .then(json => {
+            const { payload } = json;
+            setAppointment(payload, token);
+            setIsLoadingData(false);
+            focusElement('h1');
+          })
+          .catch(() => {
+            goToNextPage(router, URLS.ERROR);
+          });
       }
     },
     [
-      token,
-      isLowAuthEnabled,
+      isMultipleAppointmentsEnabled,
+      router,
       setAppointment,
       setMultipleAppointments,
-      router,
-      isMultipleAppointmentsEnabled,
+      token,
     ],
   );
 
@@ -89,7 +83,6 @@ const CheckIn = props => {
         <FeatureOn>
           <DisplayMultipleAppointments
             isUpdatePageEnabled={isUpdatePageEnabled}
-            isLowAuthEnabled={isLowAuthEnabled}
             router={router}
             token={token}
             appointments={appointments}
@@ -98,7 +91,6 @@ const CheckIn = props => {
         <FeatureOff>
           <DisplaySingleAppointment
             isUpdatePageEnabled={isUpdatePageEnabled}
-            isLowAuthEnabled={isLowAuthEnabled}
             router={router}
             token={token}
             appointment={appointment}
