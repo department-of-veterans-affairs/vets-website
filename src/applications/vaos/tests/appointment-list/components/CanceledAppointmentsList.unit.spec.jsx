@@ -6,7 +6,7 @@ import environment from 'platform/utilities/environment';
 import { mockFetch, setFetchJSONFailure } from 'platform/testing/unit/helpers';
 import reducers from '../../../redux/reducer';
 import { getVAAppointmentMock } from '../../mocks/v0';
-import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
+import { mockAppointmentInfo } from '../../mocks/helpers';
 import {
   renderWithStoreAndRouter,
   getTimezoneTestDate,
@@ -25,7 +25,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTimezoneTestDate());
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion({ version: 0 });
   });
   afterEach(() => {
     MockDate.reset();
@@ -257,7 +257,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
     };
 
     mockAppointmentInfo({ va: [appointment] });
-    mockFacilitiesFetch('vha_442', []);
+    mockFacilitiesFetchByVersion({ ids: ['442'], version: 0 });
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
@@ -374,7 +374,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
       'CANCELLED BY CLINIC';
 
     mockAppointmentInfo({ va: [appointment] });
-    mockFacilitiesFetch('vha_442GC', []);
+    mockFacilitiesFetchByVersion({ ids: ['442GC'], version: 0 });
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
@@ -406,7 +406,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
     appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
 
     mockAppointmentInfo({ va: [appointment] });
-    mockFacilitiesFetch('vha_442GC', []);
+    mockFacilitiesFetchByVersion({ ids: ['442GC'], version: 0 });
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
@@ -445,7 +445,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
     appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
 
     mockAppointmentInfo({ va: [appointment] });
-    mockFacilitiesFetch('vha_442GC', []);
+    mockFacilitiesFetchByVersion({ ids: ['442GC'], version: 0 });
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
@@ -484,7 +484,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
     appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
 
     mockAppointmentInfo({ va: [appointment] });
-    mockFacilitiesFetch('vha_442GC', []);
+    mockFacilitiesFetchByVersion({ ids: ['442GC'], version: 0 });
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
@@ -512,7 +512,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
     appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
 
     mockAppointmentInfo({ va: [appointment] });
-    mockFacilitiesFetch('vha_442GC', []);
+    mockFacilitiesFetchByVersion({ ids: ['442GC'], version: 0 });
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,

@@ -181,28 +181,27 @@ export function mockSingleClinicFetchByVersion({
  * @param {Object} params
  * @param {?Array<string>} params.ids An array of facility ids to use in the query params. Not necessary
  *   unless you are using the children param to return the child facilities of parents
- * @param {Array<MFSFacility|VAFacility>} params.facilities An array of facility objects to return from the fetch
+ * @param {Array<MFSFacility|VAFacility>} [params.facilities=[]] An array of facility objects to return from the fetch
  * @param {Boolean} [params.children=false] Sets the children query param, which is meant to include child
  *   facilities. Only relevant for version 2
  * @param {0|2} [params.version=2] The api version to use, defaulted to version 2,
  */
 export function mockFacilitiesFetchByVersion({
   ids = null,
-  facilities,
+  facilities = [],
   children = false,
   version = 2,
-}) {
+} = {}) {
+  const idList = ids || facilities.map(f => f.id);
+
   if (version !== 2) {
     setFetchJSONResponse(
       global.fetch.withArgs(
-        sinon.match(
-          `/v1/facilities/va?ids=${facilities.map(f => f.id).join(',')}`,
-        ),
+        sinon.match(`/v1/facilities/va?ids=${idList.join(',')}`),
       ),
       { data: facilities },
     );
   } else {
-    const idList = ids || facilities.map(f => f.id);
     setFetchJSONResponse(
       global.fetch.withArgs(
         `${
@@ -225,7 +224,7 @@ export function mockFacilitiesFetchByVersion({
  * @param {MFSFacility|VAFacility} params.facility The facility object to return from the fetch
  * @param {0|2} [params.version=2] The api version to use, defaulted to version 2,
  */
-export function mockFacilityFetchByVersion({ facility, version = 2 }) {
+export function mockFacilityFetchByVersion({ facility, version = 2 } = {}) {
   if (version !== 2) {
     setFetchJSONResponse(
       global.fetch.withArgs(sinon.match(`/v1/facilities/va/${facility.id}`)),

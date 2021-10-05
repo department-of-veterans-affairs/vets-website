@@ -5,7 +5,7 @@ import moment from 'moment';
 import { mockFetch } from 'platform/testing/unit/helpers';
 import reducers from '../../../redux/reducer';
 import { getCCAppointmentMock, getVAAppointmentMock } from '../../mocks/v0';
-import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
+import { mockAppointmentInfo } from '../../mocks/helpers';
 import {
   getTimezoneTestDate,
   renderWithStoreAndRouter,
@@ -134,7 +134,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     appointment.attributes.vdsAppointments[0].currentStatus =
       'CANCELLED BY CLINIC';
     mockAppointmentInfo({ va: [appointment] });
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion({ version: 0 });
 
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState,
@@ -230,7 +230,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     };
 
     mockAppointmentInfo({ va: [appointment] });
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState,
       reducers,
@@ -283,7 +283,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     };
 
     mockAppointmentInfo({ va: [appointment] });
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState,
       reducers,
@@ -323,7 +323,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     };
 
     mockAppointmentInfo({ va: [appointment] });
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState,
       reducers,
@@ -534,7 +534,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
 
     mockAppointmentInfo({ va: [appointment] });
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState,
       reducers,
@@ -605,7 +605,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState: myInitialState,
       reducers,
@@ -644,7 +644,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState: myInitialState,
       reducers,
@@ -683,7 +683,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState: myInitialState,
       reducers,
@@ -722,7 +722,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState: myInitialState,
       reducers,
@@ -761,7 +761,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState: myInitialState,
       reducers,
