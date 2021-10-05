@@ -6,7 +6,7 @@ const createMockSuccessResponse = (data, hasBeenValidated) => {
       clinicPhoneNumber: '5551234567',
       clinicFriendlyName: 'TEST CLINIC',
       clinicName: 'LOM ACC CLINIC TEST',
-      appointmentIEN: 'some-ien',
+      appointmentIen: 'some-ien',
     },
   };
   if (hasBeenValidated) {
