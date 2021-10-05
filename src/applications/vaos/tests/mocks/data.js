@@ -320,3 +320,61 @@ export function createMockClinicByVersion({
 
   throw new Error('Missing version specified');
 }
+
+export function createMockFacilityByVersion({
+  id,
+  name,
+  address,
+  phone,
+  lat,
+  long,
+  isParent = null,
+  version = 2,
+}) {
+  if (version === 2) {
+    return {
+      id,
+      type: 'facility',
+      attributes: {
+        id,
+        vistaSite: id.substring(0, 3),
+        vastParent: isParent ? id : id.substring(0, 3),
+        name,
+        lat,
+        long,
+        phone: { main: phone },
+        physicalAddress: address || {
+          line: [],
+          city: 'fake',
+          state: 'fake',
+          postalCode: 'fake',
+        },
+      },
+    };
+  }
+
+  return {
+    id: `vha_${id}`,
+    type: 'va_facilities',
+    attributes: {
+      uniqueId: id,
+      name,
+      address: {
+        physical: {
+          zip: address?.postalCode || 'fake zip',
+          city: address?.city || 'Fake city',
+          state: address?.state || 'FA',
+          address1: address?.line[0] || 'Fake street',
+          address2: null,
+          address3: null,
+        },
+      },
+      lat,
+      long,
+      phone: {
+        main: phone,
+      },
+      hours: {},
+    },
+  };
+}
