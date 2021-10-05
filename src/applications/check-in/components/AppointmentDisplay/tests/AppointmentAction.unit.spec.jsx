@@ -30,7 +30,7 @@ describe('check-in', () => {
       const action = render(
         <AppointmentAction
           appointment={{
-            status: ELIGIBILITY.ELIGIBLE,
+            eligibility: ELIGIBILITY.ELIGIBLE,
           }}
           store={fakeStore}
         />,
@@ -45,7 +45,7 @@ describe('check-in', () => {
       const action = render(
         <AppointmentAction
           appointment={{
-            status: ELIGIBILITY.INELIGIBLE_BAD_STATUS,
+            eligibility: ELIGIBILITY.INELIGIBLE_BAD_STATUS,
           }}
           store={fakeStore}
         />,
@@ -61,7 +61,7 @@ describe('check-in', () => {
       const action = render(
         <AppointmentAction
           appointment={{
-            status: ELIGIBILITY.INELIGIBLE_UNSUPPORTED_LOCATION,
+            eligibility: ELIGIBILITY.INELIGIBLE_UNSUPPORTED_LOCATION,
           }}
           store={fakeStore}
         />,
@@ -77,7 +77,7 @@ describe('check-in', () => {
       const action = render(
         <AppointmentAction
           appointment={{
-            status: ELIGIBILITY.INELIGIBLE_UNKNOWN_REASON,
+            eligibility: ELIGIBILITY.INELIGIBLE_UNKNOWN_REASON,
           }}
           store={fakeStore}
         />,
@@ -93,7 +93,7 @@ describe('check-in', () => {
       const action = render(
         <AppointmentAction
           appointment={{
-            status: ELIGIBILITY.INELIGIBLE_TOO_LATE,
+            eligibility: ELIGIBILITY.INELIGIBLE_TOO_LATE,
           }}
           store={fakeStore}
         />,
@@ -109,7 +109,7 @@ describe('check-in', () => {
       const action = render(
         <AppointmentAction
           appointment={{
-            status: ELIGIBILITY.INELIGIBLE_TOO_EARLY,
+            eligibility: ELIGIBILITY.INELIGIBLE_TOO_EARLY,
             appointmentCheckInStart: '2021-07-19T14:00:00',
             startTime: '2021-07-19T14:30:00',
           }}
@@ -128,7 +128,7 @@ describe('check-in', () => {
       axeCheck(
         <AppointmentAction
           appointment={{
-            status: ELIGIBILITY.ELIGIBLE,
+            eligibility: ELIGIBILITY.ELIGIBLE,
           }}
           store={fakeStore}
         />,
