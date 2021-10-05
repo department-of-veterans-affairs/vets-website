@@ -202,6 +202,8 @@ FormStartControls.defaultProps = {
       continueAppButtonText: '',
     },
   },
+  ariaLabel: null,
+  ariaDescribedby: null,
 };
 
 export default withRouter(FormStartControls);

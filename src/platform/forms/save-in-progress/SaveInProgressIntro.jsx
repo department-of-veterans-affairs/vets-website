@@ -420,6 +420,8 @@ SaveInProgressIntro.defaultProps = {
     },
   },
   headingLevel: 3,
+  ariaLabel: null,
+  ariaDescribedby: null,
 };
 
 function mapStateToProps(state) {
