@@ -608,25 +608,17 @@ const formConfig = {
             'view:subHeadings': {
               'ui:description': (
                 <>
-                  <h3>Review your phone numbers and email address</h3>
-                  <div className="meb-list-label">
-                    <b>We’ll use this information to:</b>
-                  </div>
-                  <ul>
-                    <li>
-                      Contact you if we have questions about your application
-                    </li>
-                    <li>Tell you important information about your benefits</li>
-                  </ul>
+                  <h3>Review your mailing address</h3>
                   <p>
-                    This is the contact information we have on file for you. If
-                    you notice any errors, please correct them now. Any updates
-                    you make will change the information for your education
-                    benefits only.
+                    This is the mailing address we have on file for you. If you
+                    notice any errors, please correct them now. Any updates you
+                    make will change the information for your education benefits
+                    only.
                   </p>
                   <p>
-                    <strong>Note:</strong> If you want to update your contact
-                    for other VA benefits, you can do that from your profile.
+                    <strong>Note:</strong> If you want to update your personal
+                    information for other VA benefits, you can do that from your
+                    profile.
                   </p>
                   <p>
                     <a href="/profile/personal-information">

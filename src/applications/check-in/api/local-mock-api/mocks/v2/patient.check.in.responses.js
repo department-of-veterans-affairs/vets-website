@@ -8,7 +8,7 @@ const createMockSuccessResponse = (data, hasBeenValidated) => {
           clinicPhoneNumber: '5551234567',
           clinicFriendlyName: 'TEST CLINIC',
           clinicName: 'LOM ACC CLINIC TEST',
-          appointmentIEN: 'some-ien',
+          appointmentIen: 'some-ien',
         },
       ],
     },
@@ -24,7 +24,7 @@ const createMockSuccessResponse = (data, hasBeenValidated) => {
 const createAppointment = (
   status = 'ELIGIBLE',
   facilityId = 'some-facility',
-  appointmentIEN = 'some-ien',
+  appointmentIen = 'some-ien',
   clinicFriendlyName = 'TEST CLINIC',
 ) => {
   const startTime = new Date();
@@ -42,7 +42,7 @@ const createAppointment = (
     clinicPhoneNumber: '5551234567',
     clinicFriendlyName,
     clinicName: 'LOM ACC CLINIC TEST',
-    appointmentIEN,
+    appointmentIen,
     startTime,
     status,
     facilityId,
