@@ -3,9 +3,14 @@ import React from 'react';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import Scroll from 'react-scroll';
-import { scrollToFirstError, focusElement } from 'platform/utilities/ui';
+import {
+  scrollToFirstError,
+  focusElement,
+  getScrollOptions,
+} from 'platform/utilities/ui';
 import { setArrayRecordTouched } from 'platform/forms-system/src/js/helpers';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 import {
   toIdSchema,
@@ -15,7 +20,6 @@ import {
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 
 const Element = Scroll.Element;
-const scroller = Scroll.scroller;
 
 function ReviewSources({ sources }) {
   return (
@@ -86,9 +90,9 @@ export default class AdditionalSourcesField extends React.Component {
   }
 
   scrollToRow(index) {
-    scroller.scrollTo(
+    scrollTo(
       `additional_${index}`,
-      window.VetsGov?.scroll || {
+      getScrollOptions() || {
         duration: 500,
         delay: 0,
         smooth: true,

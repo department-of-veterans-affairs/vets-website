@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { PROFILE_PATHS } from '../../constants';
+import { getContactInfoDeepLinkURL } from '@@profile/helpers';
+
+import { FIELD_NAMES } from '@@vap-svc/constants';
 
 export const MISSING_CONTACT_INFO = {
   ALL: 'ALL',
@@ -12,19 +14,15 @@ export const MISSING_CONTACT_INFO = {
 const linkMap = {
   [MISSING_CONTACT_INFO.ALL]: {
     linkText: 'Update your contact information',
-    linkTarget: `${PROFILE_PATHS.PERSONAL_INFORMATION}#phone-numbers`,
+    linkTarget: getContactInfoDeepLinkURL('phoneNumbers', false),
   },
   [MISSING_CONTACT_INFO.EMAIL]: {
     linkText: 'Add an email address to your profile',
-    linkTarget: `${
-      PROFILE_PATHS.PERSONAL_INFORMATION
-    }#edit-contact-email-address`,
+    linkTarget: getContactInfoDeepLinkURL(FIELD_NAMES.EMAIL, true),
   },
   [MISSING_CONTACT_INFO.MOBILE]: {
     linkText: 'Add a mobile phone number to your profile',
-    linkTarget: `${
-      PROFILE_PATHS.PERSONAL_INFORMATION
-    }#edit-mobile-phone-number`,
+    linkTarget: getContactInfoDeepLinkURL(FIELD_NAMES.MOBILE_PHONE, true),
   },
 };
 

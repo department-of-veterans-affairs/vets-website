@@ -96,14 +96,3 @@ export function setGlobalScroll() {
     },
   };
 }
-
-// Allows smooth scrolling to be overridden by our E2E tests
-export function getScrollOptions(additionalOptions) {
-  const globals = window.Forms || {};
-  const defaults = {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  };
-  return Object.assign({}, defaults, globals.scroll, additionalOptions);
-}

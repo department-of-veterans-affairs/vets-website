@@ -464,13 +464,15 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
   it('should verify community care calendar ics file format when there is no provider information', async () => {
     const url = '/cc/20abc6741c00ac67b6cbf6b972d084c1';
 
+    const appointmentTime = moment().add(1, 'days');
+
     const appointment = getCCAppointmentMock();
     appointment.id = '20abc6741c00ac67b6cbf6b972d084c1';
     appointment.attributes = {
       ...appointment.attributes,
       address: undefined,
       appointmentRequestId: '20abc6741c00ac67b6cbf6b972d084c1',
-      appointmentTime: '09/19/2021 16:00:00',
+      appointmentTime: appointmentTime.format('MM/DD/YYYY HH:mm:ss'),
       name: undefined,
       providerPhone: undefined,
       providerPractice: undefined,
@@ -490,14 +492,19 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: /^Sunday, September 19, 2021/,
+        name: new RegExp(
+          appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
       }),
     ).to.be.ok;
 
     const ics = decodeURIComponent(
       screen
         .getByRole('link', {
-          name: 'Add September 19, 2021 appointment to your calendar',
+          name: `Add ${appointmentTime.format(
+            'MMMM D, YYYY',
+          )} appointment to your calendar`,
         })
         .getAttribute('href')
         .replace('data:text/calendar;charset=utf-8,', ''),

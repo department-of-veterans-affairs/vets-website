@@ -23,7 +23,7 @@ describe('Updating Notification Settings', () => {
       body: mockCommunicationPreferences,
     });
     cy.intercept('POST', '/v0/profile/communication_preferences', {
-      statusCode: 401,
+      statusCode: 200,
       body: error401,
       delay: 100,
     });
