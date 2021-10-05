@@ -18,7 +18,7 @@ describe('CCProviderPhoneLink', () => {
     const wrapper = shallow(
       <CCProviderPhoneLink location={ccpLocation} query={ccpQuery} />,
     );
-    expect(wrapper.find('#referral-message').text()).to.equal(
+    expect(wrapper.find('p.referral-message').text()).to.equal(
       'If you don’t have a referral, contact your local VA medical center.',
     );
 

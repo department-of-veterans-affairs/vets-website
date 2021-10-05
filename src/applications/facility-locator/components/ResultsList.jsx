@@ -34,8 +34,6 @@ import {
   facilityLocatorCovidVaccineWalkInAvailabilityTextFrontend,
 } from '../utils/featureFlagSelectors';
 
-const TIMEOUTS = new Set(['408', '504', '503']);
-
 class ResultsList extends Component {
   constructor(props) {
     super(props);
@@ -153,7 +151,7 @@ class ResultsList extends Component {
       inProgress,
       searchString,
       results,
-      error,
+      searchError,
       pagination,
       currentQuery,
       query,
@@ -180,25 +178,22 @@ class ResultsList extends Component {
       );
     }
 
-    if (error && Array.isArray(error)) {
-      const timedOut = error.find(err => TIMEOUTS.has(err.code));
-      if (timedOut) {
+    if (searchError) {
+      if (searchError.type === 'mapBox') {
         return (
           <SearchResultMessage
             facilityType={facilityTypeName}
             resultRef={this.searchResultTitle}
-            message={Error.DEFAULT}
-            error={error}
+            message={Error.LOCATION}
           />
         );
       }
-    } else if (currentQuery.error && currentQuery.error.type === 'mapBox') {
       return (
         <SearchResultMessage
           facilityType={facilityTypeName}
           resultRef={this.searchResultTitle}
-          message={Error.LOCATION}
-          error={error}
+          message={Error.DEFAULT}
+          error={searchError}
         />
       );
     }
@@ -271,7 +266,7 @@ function mapStateToProps(state) {
     facilityTypeName,
     inProgress,
     results: state.searchResult.results,
-    error: state.searchResult.error,
+    searchError: state.searchResult.error,
     pagination: state.searchResult.pagination,
     position,
     searchString,
