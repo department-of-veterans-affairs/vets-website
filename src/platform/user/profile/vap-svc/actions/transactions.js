@@ -3,11 +3,10 @@ import * as Sentry from '@sentry/browser';
 import { apiRequest } from '~/platform/utilities/api';
 import { refreshProfile } from '~/platform/user/profile/actions';
 import recordEvent from '~/platform/monitoring/record-event';
-import { inferAddressType } from '~/applications/letters/utils/helpers';
 
 import { ADDRESS_POU, FIELD_NAMES } from '@@vap-svc/constants';
 
-import { showAddressValidationModal } from '@@vap-svc/util';
+import { showAddressValidationModal, inferAddressType } from '@@vap-svc/util';
 
 import localVAProfileService, {
   isVAProfileServiceConfigured,
@@ -18,6 +17,7 @@ import {
   isFailedTransaction,
 } from '../util/transactions';
 
+export const VAP_SERVICE_CLEAR_LAST_SAVED = 'VAP_SERVICE_CLEAR_LAST_SAVED';
 export const VAP_SERVICE_TRANSACTIONS_FETCH_SUCCESS =
   'VAP_SERVICE_TRANSACTIONS_FETCH_SUCCESS';
 export const VAP_SERVICE_TRANSACTION_REQUESTED =
@@ -60,6 +60,12 @@ export function fetchTransactions() {
     } catch (err) {
       // If we sync transactions in the background and fail, is it worth telling the user?
     }
+  };
+}
+
+export function clearMostRecentlySavedField() {
+  return {
+    type: VAP_SERVICE_CLEAR_LAST_SAVED,
   };
 }
 

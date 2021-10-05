@@ -18,16 +18,6 @@ const responses = {
     false,
     false,
   ),
-  // v0
-  'GET /check_in/v0/patient_check_ins/:id': (req, res) => {
-    const { id } = req.params;
-    return res.json(
-      mockPatientCheckIns.createMockSuccessResponse({ id }, true),
-    );
-  },
-  'POST /check_in/v0/patient_check_ins/': (_req, res) => {
-    return res.json(mockCheckIns.createMockSuccessResponse({}));
-  },
   // v1
   'GET /check_in/v1/sessions/:uuid': (req, res) => {
     return res.json(mockSessions.v1Api.get(req.params));

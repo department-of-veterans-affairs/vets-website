@@ -117,7 +117,7 @@
     "@testing-library/react": "^11.1.2",
     "@testing-library/user-event": "^12.2.2",
     "append-query": "^2.1.1",
-    "autoprefixer": "^9.5.1",
+    "autoprefixer": "^10.3.5",
     "axe-core": "^4.3.3",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
@@ -144,11 +144,11 @@
     "cors": "^2.8.5",
     "css-loader": "^1.0.0",
     "cssnano": "^4.1.10",
+    "cy-tr-reporter": "^1.2.5",
     "cypress": "^7.6.0",
     "cypress-axe": "^0.13.0",
     "cypress-multi-reporters": "^1.4.0",
     "cypress-plugin-tab": "^1.0.5",
-    "cypress-testrail-reporter": "1.2.3",
     "cypress-wait-until": "^1.7.1",
     "docdash": "^1.2.0",
     "enzyme": "^3.11.0",
@@ -198,7 +198,8 @@
     "node-sass": "^4.14.1",
     "null-loader": "^0.1.1",
     "nyc": "^15.1.0",
-    "postcss-loader": "^3.0.0",
+    "postcss": "^8.3.7",
+    "postcss-loader": "^4.2.0",
     "prettier": "^1.14.3",
     "puppeteer": "^3.3.0",
     "request": "^2.88.2",
@@ -224,10 +225,10 @@
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0",
     "webpack-manifest-plugin": "^4.0.2",
-    "webpackbar": "^4.0.0",
+    "webpackbar": "^5.0.0-3",
     "winston": "^3.3.3",
-    "yeoman-generator": "^4.2.0",
-    "yo": "^3.1.1"
+    "yeoman-generator": "^5.4.2",
+    "yo": "^4.3.0"
   },
   "optionalDependencies": {},
   "engines": {
@@ -236,13 +237,13 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/component-library": "^3.1.1",
-    "@department-of-veterans-affairs/formation": "6.17.2",
+    "@department-of-veterans-affairs/component-library": "^3.2.1",
+    "@department-of-veterans-affairs/formation": "6.17.3",
     "@department-of-veterans-affairs/formulate": "0.0.1",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
-    "@formatjs/intl-datetimeformat": "^3.2.7",
-    "@formatjs/intl-getcanonicallocales": "^1.5.3",
-    "@formatjs/intl-locale": "^2.4.14",
+    "@formatjs/intl-datetimeformat": "^4.2.3",
+    "@formatjs/intl-getcanonicallocales": "^1.7.3",
+    "@formatjs/intl-locale": "^2.4.37",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@mapbox/mapbox-sdk": "^0.13.2",
     "blob-polyfill": "^4.0.20200601",
@@ -304,8 +305,8 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#3ee78fbe44079c16e10649395d5076fbbf90e535",
-    "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.9.4",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#3a0946727d9013ff2771af37bfca0c4c0ff0a1d5",
+    "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.11.2",
     "whatwg-fetch": "^3.6.2"
   },
   "resolutions": {
@@ -341,6 +342,8 @@
     "web-components/**/postcss": "^8.2.10",
     "**/tar": "^4.4.18",
     "**/kind-of": "^6.0.3",
-    "**/glob-parent": "^5.1.2"
+    "**/glob-parent": "^5.1.2",
+    "**/ansi-regex": "^5.0.1",
+    "**/yargs-parser": "13.1.2"
   }
 }

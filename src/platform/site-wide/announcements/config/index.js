@@ -2,23 +2,14 @@
 import AfghanistanPromoBanner from '../components/AfghanistanPromoBanner';
 import ExploreVAModal from '../components/ExploreVAModal';
 import SingleSignOnInfoModal from '../components/SingleSignOnInfoModal';
-import VAPlusVetsModal from '../components/VAPlusVetsModal';
 
 const config = {
   announcements: [
     {
       name: 'afghanistan-banner-v2',
-      // Only the homepage (e.g. `/`).
-      paths: /^(\/)$/,
-      component: AfghanistanPromoBanner,
-    },
-    {
-      name: 'brand-consolidation-va-plus-vets',
       // All pages.
       paths: /(.)/,
-      component: VAPlusVetsModal,
-      disabled: !VAPlusVetsModal.isEnabled(),
-      showEverytime: true,
+      component: AfghanistanPromoBanner,
     },
     {
       name: 'explore-va',

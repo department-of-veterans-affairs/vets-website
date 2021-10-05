@@ -27,6 +27,7 @@ import {
   selectVAPContactInfoField,
   selectVAPServiceTransaction,
   selectEditViewData,
+  selectMostRecentlyUpdatedField,
 } from '@@vap-svc/selectors';
 
 import { isVAPatient } from '~/platform/user/selectors';
@@ -45,6 +46,8 @@ import getContactInfoFieldAttributes from '~/applications/personalization/profil
 import CannotEditModal from './CannotEditModal';
 import ConfirmCancelModal from './ConfirmCancelModal';
 import ConfirmRemoveModal from './ConfirmRemoveModal';
+
+import UpdateSuccessAlert from '../alerts/ContactInformationUpdateSuccessAlert';
 
 // Helper function that generates a string that can be used for a contact info
 // field's edit button.
@@ -117,7 +120,7 @@ class ContactInformationField extends React.Component {
     // the Profile
     if (!prevProps.transaction && this.props.transaction) {
       this.closeModalTimeoutID = setTimeout(
-        () => this.closeModal(),
+        this.closeModal,
         // Using 50ms as the unit test timeout before exiting edit view while
         // waiting for an update to happen. Being too aggressive, like 5ms,
         // results in exiting the edit view before Redux has had time to do
@@ -158,6 +161,7 @@ class ContactInformationField extends React.Component {
       'profile-action': 'cancel-delete-button',
       'profile-section': this.props.analyticsSectionName,
     });
+    this.closeModal();
   };
 
   onDelete = () => {
@@ -199,6 +203,7 @@ class ContactInformationField extends React.Component {
   justClosedModal(prevProps, props) {
     return (
       (prevProps.showEditView && !props.showEditView) ||
+      (prevProps.showRemoveModal && !props.showRemoveModal) ||
       (prevProps.showValidationView && !props.showValidationView)
     );
   }
@@ -299,6 +304,10 @@ class ContactInformationField extends React.Component {
           fieldName={fieldName}
           title={title}
         />
+
+        {this.props.showUpdateSuccessAlert ? (
+          <UpdateSuccessAlert fieldName={fieldName} />
+        ) : null}
 
         <div className="vads-u-width--full">
           <div>
@@ -458,6 +467,7 @@ export const mapStateToProps = (state, ownProps) => {
     uiSchema,
     formSchema,
     isEnrolledInVAHealthCare,
+    showUpdateSuccessAlert: selectMostRecentlyUpdatedField(state) === fieldName,
   };
 };
 

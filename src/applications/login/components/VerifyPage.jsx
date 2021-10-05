@@ -17,7 +17,7 @@ function handleClick(version = 'v1') {
 
   if (returnUrl && returnUrl.includes(externalRedirects.myvahealth)) {
     recordEvent({ event: 'verify-link-clicked' });
-    window.location = sessionTypeUrl('verify', version);
+    window.location = sessionTypeUrl({ type: 'verify', version });
   } else {
     verify(version);
   }

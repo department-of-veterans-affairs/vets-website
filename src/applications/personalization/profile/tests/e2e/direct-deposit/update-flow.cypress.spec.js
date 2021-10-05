@@ -27,7 +27,7 @@ function fillInBankInfoForm(id) {
 function dismissUnsavedChangesModal() {
   cy.axeCheck();
   cy.findByText(/are you sure\?/i);
-  cy.findByRole('button', { name: /close this modal/i }).click();
+  cy.findByRole('button', { name: /close the warning modal/i }).click();
 }
 
 function exitBankInfoForm() {

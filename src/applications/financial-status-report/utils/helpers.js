@@ -52,7 +52,7 @@ export const otherDeductionsName = (deductions, filters) => {
 export const otherDeductionsAmt = (deductions, filters) => {
   if (!deductions.length) return 0;
   return deductions
-    .filter(({ name }) => !filters.includes(name))
+    .filter(({ name }) => name && !filters.includes(name))
     .reduce((acc, curr) => acc + Number(curr.amount), 0);
 };
 
@@ -131,13 +131,13 @@ export const getMonthlyExpenses = ({
   utilityRecords,
   installmentContracts,
 }) => {
-  const expVals = Object.values(expenses);
-  const totalExp = expVals.reduce((acc, expense) => acc + Number(expense), 0);
   const utilities = sumValues(utilityRecords, 'monthlyUtilityAmount');
   const installments = sumValues(installmentContracts, 'amountDueMonthly');
   const otherExp = sumValues(otherExpenses, 'amount');
+  const expVals = Object.values(expenses).filter(Boolean);
+  const totalExp = expVals.reduce((acc, expense) => acc + Number(expense), 0);
 
-  return totalExp + utilities + installments + otherExp;
+  return utilities + installments + otherExp + totalExp;
 };
 
 export const getTotalAssets = ({ assets, realEstateRecords }) => {
@@ -146,7 +146,7 @@ export const getTotalAssets = ({ assets, realEstateRecords }) => {
   const totVehicles = sumValues(assets.automobiles, 'resaleValue');
   const realEstate = sumValues(realEstateRecords, 'realEstateAmount');
   const totAssets = Object.values(assets)
-    .filter(item => !Array.isArray(item))
+    .filter(item => item && !Array.isArray(item))
     .reduce((acc, amount) => acc + Number(amount), 0);
 
   return totVehicles + totRecVehicles + totOtherAssets + realEstate + totAssets;
