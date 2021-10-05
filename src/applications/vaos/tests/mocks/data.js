@@ -321,6 +321,22 @@ export function createMockClinicByVersion({
   throw new Error('Missing version specified');
 }
 
+/**
+ * Creates a mock VA facility object, for the specified version
+ *
+ * @export
+ * @param {Object} params
+ * @param {string} params.id The facility id
+ * @param {string} params.name The facility name
+ * @param {Address} params.address The facility address, in the FHIR format
+ * @param {string} params.phone The facility phone
+ * @param {number} params.lat The latitude of the facility
+ * @param {number} params.long The longitude of the facility
+ * @param {?boolean} params.isParent Is the facility is parent facility or not. Only relevent for version 2
+ * @param {number} [params.version = 2] The version of the facility object to create
+ *
+ * @returns {VAFacility|MFSFacility} The facility mock with specified data
+ */
 export function createMockFacilityByVersion({
   id,
   name,
