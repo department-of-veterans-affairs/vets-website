@@ -7,7 +7,7 @@ import {
   DefinitionTester,
   fillData,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import { changeDropdown } from '../helpers/index.js';
+import { changeDropdown } from 'platform/testing/unit/helpers';
 import formConfig from '../../config/form';
 
 describe('686 report a child has stopped attending school', () => {
