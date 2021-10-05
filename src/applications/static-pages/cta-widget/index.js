@@ -62,6 +62,8 @@ export class CallToActionWidget extends Component {
     fetchMHVAccount: PropTypes.func.isRequired,
     toggleLoginModal: PropTypes.func.isRequired,
     upgradeMHVAccount: PropTypes.func.isRequired,
+    ariaLabel: PropTypes.string,
+    ariaDescribedby: PropTypes.string,
   };
 
   static defaultProps = {
@@ -140,6 +142,8 @@ export class CallToActionWidget extends Component {
           serviceDescription={this._serviceDescription}
           primaryButtonHandler={this.openLoginModal}
           headerLevel={this.props.headerLevel}
+          ariaLabel={this.props.ariaLabel}
+          ariaDescribedby={this.props.ariaDescribedby}
         />
       );
     }
