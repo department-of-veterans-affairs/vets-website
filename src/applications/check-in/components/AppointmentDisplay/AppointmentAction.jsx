@@ -40,7 +40,7 @@ const AppointmentAction = props => {
 
       const json = await checkIn({
         uuid: token,
-        appointmentIEN: appointment.appointmentIEN,
+        appointmentIen: appointment.appointmentIen,
         facilityId: appointment.facilityId,
       });
       const { status } = json;

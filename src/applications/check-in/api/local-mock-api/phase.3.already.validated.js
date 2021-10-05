@@ -41,9 +41,9 @@ const responses = {
     }
   },
   'POST /check_in/v2/patient_check_ins/': (req, res) => {
-    const { uuid, appointmentIEN, facilityId } =
+    const { uuid, appointmentIen, facilityId } =
       req.body?.patientCheckIns || {};
-    if (!uuid || !appointmentIEN || !facilityId) {
+    if (!uuid || !appointmentIen || !facilityId) {
       return res.status(500).json(mockCheckIns.createMockFailedResponse());
     } else {
       return res.json(mockCheckIns.createMockSuccessResponse({}));
