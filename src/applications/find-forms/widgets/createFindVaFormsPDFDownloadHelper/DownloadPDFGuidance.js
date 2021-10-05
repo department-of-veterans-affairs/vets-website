@@ -9,6 +9,11 @@ import InvalidFormDownload from './InvalidFormAlert';
 import { onDownloadLinkClick, sentryLogger } from './index';
 import { showPDFModal } from '../../helpers/selectors';
 
+const removeReactRoot = () => {
+  const pdf = document.querySelector('.faf-pdf-alert-modal-root');
+  pdf.remove();
+};
+
 // DownloadPDFGuidance sole purpose is to render the react widget depending on params (PDF is valid or not)
 const DownloadPDFGuidance = ({
   downloadUrl,
@@ -21,14 +26,20 @@ const DownloadPDFGuidance = ({
   store,
 }) => {
   const div = document.createElement('div');
+  div.className = 'faf-pdf-alert-modal-root';
   const parentEl = link.parentNode;
 
-  if (formPdfIsValid && formPdfUrlIsValid && !netWorkRequestError) {
+  // if (formPdfIsValid && formPdfUrlIsValid && !netWorkRequestError) {
+  if (link) {
     // feature flag
     if (store?.getState && showPDFModal(store.getState())) {
       ReactDOM.render(
         <Provider store={store}>
-          <DownloadPDFModal formNumber={formNumber} url={downloadUrl} />
+          <DownloadPDFModal
+            formNumber={formNumber}
+            removeNode={removeReactRoot}
+            url={downloadUrl}
+          />
         </Provider>,
         div,
       );

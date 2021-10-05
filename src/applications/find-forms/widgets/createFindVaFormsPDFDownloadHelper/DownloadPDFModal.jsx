@@ -4,30 +4,30 @@ import PropTypes from 'prop-types';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 // DownloadPDFModal is state wrapper + modal for PDF guidance upon PDf being valid
-const DownloadPDFModal = ({ formNumber, url }) => {
+const DownloadPDFModal = ({ formNumber, removeNode, url }) => {
   const [modalState, setModalState] = useState({
     isOpen: true,
     pdfSelected: formNumber,
     pdfUrl: url,
   });
 
-  const toggleModalState = () =>
-    setModalState({ ...modalState, isOpen: !modalState.isOpen });
+  const toggleModalState = cb =>
+    setModalState({ ...modalState, isOpen: !modalState.isOpen }, cb ?? cb());
 
   // modal state variables
   const { isOpen, pdfSelected, pdfUrl } = modalState;
   return (
     <div
-      className="pdf-alert-modal"
+      className="faf-pdf-alert-modal"
       style={{
         pointerEvents: 'all',
       }}
     >
       <Modal
-        onClose={() => toggleModalState()}
+        onClose={() => toggleModalState(removeNode)}
         secondaryButton={{
           action: () => {
-            toggleModalState();
+            toggleModalState(removeNode);
           },
           text: 'Close',
         }}
@@ -71,6 +71,7 @@ const DownloadPDFModal = ({ formNumber, url }) => {
 
 DownloadPDFModal.propTypes = {
   formNumber: PropTypes.string,
+  removeNode: PropTypes.func,
   url: PropTypes.string,
 };
 
