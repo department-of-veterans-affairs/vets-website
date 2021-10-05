@@ -298,7 +298,7 @@ jobs:
       - name: Run contract tests
         run: yarn test:contract
         env:
-          MOCHA_FILE: ./test-results/test-results.json
+          MOCHA_FILE: ./test-results/test-results.xml
 
       - name: Print Pact failures
         run: cat test-results/test-results.xml
@@ -324,7 +324,7 @@ jobs:
         # if: ${{ failure() }}
         with:
           name: contract-test-report
-          path: test-results/test-results.json
+          path: test-results/
 
       - name: Archive contract test log
         uses: actions/upload-artifact@v2
