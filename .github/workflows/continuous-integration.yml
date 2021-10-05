@@ -29,17 +29,6 @@ jobs:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
     steps:
-      - name: Test Current SHA
-        run: echo ${{ github.sha }}
-
-      - name: Test Current SHA with REVPARSE
-        run: git rev-parse HEAD
-        continue-on-error: true
-
-      - name: Test Origin SHA with REVPARSE
-        run: git rev-parse origin/master
-        continue-on-error: true
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -67,7 +56,7 @@ jobs:
             .cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
+          # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
@@ -184,7 +173,7 @@ jobs:
             .cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
+          # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
@@ -292,7 +281,7 @@ jobs:
             .cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
+          # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
@@ -396,7 +385,7 @@ jobs:
             .cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
+          # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
@@ -449,7 +438,7 @@ jobs:
             .cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
+          # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
@@ -539,7 +528,7 @@ jobs:
             /github/home/.cache/Cypress
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}-cypress
-          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
+          # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
@@ -760,8 +749,6 @@ jobs:
   archive:
     name: Archive
     runs-on: ubuntu-latest
-    outputs:
-      origin_master_sha: ${{ steps.origin_master_sha.outputs.origin_master_sha }}
 
     strategy:
       matrix:
@@ -814,28 +801,58 @@ jobs:
 
       - name: Upload build
         run: aws s3 cp ${{ matrix.buildtype }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/application-build/$GITHUB_SHA/${{ matrix.buildtype }}.tar.bz2 --acl public-read --region us-gov-west-1
+      
+  get-latest-run-number:
+    name: Get Latest Workflow Run Number
+    runs-on: ubuntu-latest
+    if: ${{ always() && github.ref == 'refs/heads/master' && needs.archive.result == 'success' }}
+    needs: archive
+    outputs:
+      latest_run_number: ${{ steps.latest-run-number.outputs.latest_run_number }}
 
-      - name: Test Current SHA
-        run: echo ${{ github.sha }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
-      - name: Test Current SHA with REVPARSE
-        run: git rev-parse HEAD
-        continue-on-error: true
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
 
-      - name: Test Origin SHA with REVPARSE
-        run: git rev-parse origin/master
-        continue-on-error: true
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
-      - name: Set output of origin_master_sha
-        id: origin_master_sha
-        run: echo ::set-output name=origin_master_sha::$(git rev-parse origin/master)
-        continue-on-error: true
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            .cache/yarn
+            node_modules
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
+
+      - name: Install dependencies
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline --production=false
+          max_attempts: 3
+          timeout_minutes: 7
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
+
+      - name: Set output of latest_run_number
+        id: latest-run-number
+        run: echo ::set-output name=latest_run_number::$(node ./script/github-actions/get-latest-run-number.js)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    if: ${{ always() && github.ref == 'refs/heads/master' && needs.archive.result == 'success' }}
-    needs: archive
+    if: ${{ always() && github.ref == 'refs/heads/master' && needs.get-latest-run-number.result == 'success' && needs.get-latest-run-number.outputs.latest_run_number == github.run_number}}
+    needs: get-latest-run-number
 
     strategy:
       matrix:
@@ -846,10 +863,6 @@ jobs:
           #   bucket: staging-va-gov-assets
 
     steps:
-      - name: Test origin_master_sha output
-        run: echo ${{ needs.archive.outputs.origin_master_sha }}
-        continue-on-error: true
-
       - name: Checkout
         uses: actions/checkout@v2
 
