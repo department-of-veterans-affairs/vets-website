@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import Scroll from 'react-scroll';
 import Back from './Back';
 import ProgressButton from '../../components/ProgressButton';
@@ -13,7 +13,7 @@ export default function ClientError(props) {
   const { buttonText, formConfig, onBack, onSubmit, testId } = props;
   const Element = Scroll.Element;
   const scrollToError = () => {
-    scrollTo('errorScrollElement', window.VetsGov?.scroll || undefined);
+    scrollTo('errorScrollElement', getScrollOptions());
   };
 
   useEffect(() => {
