@@ -29,8 +29,7 @@ const DownloadPDFGuidance = ({
   div.className = 'faf-pdf-alert-modal-root';
   const parentEl = link.parentNode;
 
-  // if (formPdfIsValid && formPdfUrlIsValid && !netWorkRequestError) {
-  if (link) {
+  if (formPdfIsValid && formPdfUrlIsValid && !netWorkRequestError) {
     // feature flag
     if (store?.getState && showPDFModal(store.getState())) {
       ReactDOM.render(
