@@ -225,7 +225,7 @@
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0",
     "webpack-manifest-plugin": "^4.0.2",
-    "webpackbar": "^4.0.0",
+    "webpackbar": "^5.0.0-3",
     "winston": "^3.3.3",
     "yeoman-generator": "^5.4.2",
     "yo": "^4.3.0"
