@@ -12,7 +12,7 @@ import SchemaForm from '../components/SchemaForm';
 import { setData, uploadFile } from '../actions';
 import { getNextPagePath, getPreviousPagePath } from '../routing';
 import { focusElement } from '../utilities/ui';
-import { isReactComponent } from '~/platform/utilities/ui';
+import { isReactComponent, getScrollOptions } from '~/platform/utilities/ui';
 
 function focusForm() {
   focusElement('.nav-header > h2');
@@ -21,7 +21,7 @@ function focusForm() {
 class FormPage extends React.Component {
   componentDidMount() {
     if (!this.props.blockScrollOnMount) {
-      scrollToTop('topScrollElement', window.Forms?.scroll || undefined);
+      scrollToTop('topScrollElement', getScrollOptions());
       focusForm();
     }
   }
@@ -32,7 +32,7 @@ class FormPage extends React.Component {
         this.props.route.pageConfig.pageKey ||
       get('params.index', prevProps) !== get('params.index', this.props)
     ) {
-      scrollToTop('topScrollElement', window.Forms?.scroll || undefined);
+      scrollToTop('topScrollElement', getScrollOptions());
       focusForm();
     }
   }

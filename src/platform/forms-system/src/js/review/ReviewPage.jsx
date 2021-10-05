@@ -10,10 +10,11 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from '../utilities/ui';
 import ReviewChapters from '../review/ReviewChapters';
 import SubmitController from '../review/SubmitController';
+import { getScrollOptions } from 'platform/utilities/ui';
 
 class ReviewPage extends React.Component {
   componentDidMount() {
-    scrollToTop('topScrollElement', window.Forms?.scroll || undefined);
+    scrollToTop('topScrollElement', getScrollOptions());
     focusElement('h2');
   }
 

@@ -5,7 +5,7 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from '../../utilities/ui';
+import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import FormStartControls from './FormStartControls';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
@@ -14,9 +14,9 @@ import { savedMessage } from 'platform/forms-system/src/js/utilities/save-in-pro
 class FormSaved extends React.Component {
   constructor(props) {
     super(props);
-    const scrollProps = props.scrollParams || window.VetsGov.scroll;
+    const scrollProps = props.scrollParams || getScrollOptions();
     this.scrollToTop = () => {
-      scrollToTop('topScrollElement', scrollProps || '');
+      scrollToTop('topScrollElement', scrollProps);
     };
     this.location = props.location || window.location;
   }
