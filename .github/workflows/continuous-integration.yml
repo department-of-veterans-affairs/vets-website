@@ -328,7 +328,7 @@ jobs:
 
       - name: Archive contract test log
         uses: actions/upload-artifact@v2
-        if: ${{ failure() }}
+        # if: ${{ failure() }}
         with:
           name: contract-test-log
           path: logs/pact.log
