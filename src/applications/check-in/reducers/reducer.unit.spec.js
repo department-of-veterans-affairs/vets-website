@@ -59,7 +59,7 @@ describe('check-in', () => {
     describe('appointmentWAsCheckedInto', () => {
       it('should create basic structure', () => {
         const action = appointmentWAsCheckedInto({
-          appointmentIEN: 'some-ien',
+          appointmentIen: 'some-ien',
         });
         const state = reducer.checkInData(undefined, action);
         expect(state).haveOwnProperty('context');
@@ -67,13 +67,13 @@ describe('check-in', () => {
       });
       it('should set context', () => {
         const action = appointmentWAsCheckedInto({
-          appointmentIEN: 'some-ien',
+          appointmentIen: 'some-ien',
         });
         const state = reducer.checkInData(undefined, action);
         expect(state).haveOwnProperty('context');
         expect(state.context).haveOwnProperty('appointment');
-        expect(state.context.appointment).haveOwnProperty('appointmentIEN');
-        expect(state.context.appointment.appointmentIEN).to.equal('some-ien');
+        expect(state.context.appointment).haveOwnProperty('appointmentIen');
+        expect(state.context.appointment.appointmentIen).to.equal('some-ien');
       });
     });
   });
