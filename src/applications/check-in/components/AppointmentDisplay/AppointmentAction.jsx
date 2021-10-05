@@ -12,11 +12,10 @@ import { appointmentWAsCheckedInto } from '../../actions';
 const AppointmentAction = props => {
   const {
     appointment,
-    isLowAuthEnabled,
     isMultipleAppointmentsEnabled,
-    token,
     router,
     setSelectedAppointment,
+    token,
   } = props;
 
   const [isCheckingIn, setIsCheckingIn] = useState(false);
@@ -31,10 +30,8 @@ const AppointmentAction = props => {
     });
     setIsCheckingIn(true);
     try {
-      let checkIn = api.v0.checkInUser;
-      if (isLowAuthEnabled && !isMultipleAppointmentsEnabled) {
-        checkIn = api.v1.postCheckInData;
-      } else if (isMultipleAppointmentsEnabled) {
+      let checkIn = api.v1.postCheckInData;
+      if (isMultipleAppointmentsEnabled) {
         checkIn = api.v2.postCheckInData;
       }
 
