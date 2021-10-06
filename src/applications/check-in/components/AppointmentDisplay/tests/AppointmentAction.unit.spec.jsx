@@ -110,7 +110,7 @@ describe('check-in', () => {
         <AppointmentAction
           appointment={{
             eligibility: ELIGIBILITY.INELIGIBLE_TOO_EARLY,
-            appointmentCheckInStart: '2021-07-19T14:00:00',
+            checkInWindowStart: '2021-07-19T14:00:00',
             startTime: '2021-07-19T14:30:00',
           }}
           store={fakeStore}
