@@ -61,6 +61,7 @@ describe('Check In Experience -- ', () => {
       });
     });
     it('Veterans may refresh their appointments', () => {
+      cy.viewport(550, 750);
       const featureRoute =
         '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
       cy.visit(featureRoute);
@@ -95,9 +96,16 @@ describe('Check In Experience -- ', () => {
           'contain',
           `Latest update: ${format(new Date(), 'MMMM dd, yyyy HH:mm')}`,
         );
+      cy.scrollTo('bottom')
+        .window()
+        .its('scrollY')
+        .should('not.equal', 0);
       cy.get('[data-testid=refresh-appointments-button]')
         .should('be.visible')
         .click();
+      cy.window()
+        .its('scrollY')
+        .should('equal', 0);
       cy.injectAxe();
       cy.axeCheck();
       cy.get(
