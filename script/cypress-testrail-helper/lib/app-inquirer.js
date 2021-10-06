@@ -73,7 +73,8 @@ module.exports = {
       {
         name: 'runName',
         type: 'input',
-        message: 'Enter your TestRail Run Name [no spaces]:',
+        message:
+          "Enter your Cypress spec's corresponding TestRail Run Name [no spaces]:",
         validate(val) {
           if (val.length && !val.includes(' ')) {
             return true;
@@ -87,7 +88,7 @@ module.exports = {
       {
         name: 'specPath',
         type: 'input',
-        message: 'Enter path of your Cypress spec-file:',
+        message: "Enter your Cypress spec's project-root-relative path:",
         validate(val) {
           if (val.length && val.includes('.cypress.spec.js')) {
             return true;

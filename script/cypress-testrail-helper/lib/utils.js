@@ -26,26 +26,14 @@ module.exports = {
       }
     });
   },
-  async getSetCypressConfig(myConfig, projectSwitching) {
-    let projectAnswers = undefined;
+  async getSetCypressConfig(myConfig) {
     let answers = undefined;
     let newCyConfig = undefined;
 
-    if (projectSwitching) {
-      projectAnswers = await inquirer.askTestRailProjectOptions();
-      // eslint-disable-next-line no-param-reassign
-      myConfig = Object.assign(myConfig, projectAnswers);
-      fs.writeFileSync(
-        './script/cypress-testrail-helper/my-config.json',
-        JSON.stringify({ ...myConfig, trIncludeAllInTestRun: false }),
-      );
-      // console.log('Updated myConfig:', myConfig);
-      console.log(chalk.green('APP CONFIG-FILE UPDATED!'));
-    }
-
     answers = await inquirer.askTestRailRunOptions();
 
-    newCyConfig = Object.assign(cyConfig, {
+    /* eslint-disable no-unused-vars, no-param-reassign, no-multi-assign */
+    myConfig = newCyConfig = Object.assign(cyConfig, {
       reporterOptions: {
         ...cyConfig.reporterOptions,
         username: myConfig.trUsername,
@@ -58,6 +46,7 @@ module.exports = {
         filter: '',
       },
     });
+    /* eslint-enable no-unused-vars, no-param-reassign, no-multi-assign */
 
     // Write run-specific Cypress config-file.
     return new Promise((myResolve, myReject) => {
@@ -90,20 +79,41 @@ module.exports = {
     spinner.start();
     exec(scriptCall, (error, stdout, stderr) => {
       if (error) {
-        spinner.stop(false);
+        spinner.stop(true);
         console.log('\n');
         console.log(chalk.red(`error: ${error.message}`));
         return;
       }
       if (stderr) {
-        spinner.stop(false);
+        spinner.stop(true);
         console.log('\n');
         console.log(chalk.red(`stderr: ${stderr}`));
         return;
       }
-      spinner.stop(false);
+      spinner.stop(true);
       console.log('\n');
       console.log(chalk.green(`stdout: ${stdout}`));
+    });
+  },
+
+  async getSetAppProjectConfig(myConfig) {
+    let projectAnswers = undefined;
+    let myNewConfig = undefined;
+
+    projectAnswers = await inquirer.askTestRailProjectOptions();
+    // eslint-disable-next-line no-unused-vars, no-param-reassign, no-multi-assign
+    myConfig = myNewConfig = Object.assign(myConfig, projectAnswers);
+
+    return new Promise((myResolve, myReject) => {
+      try {
+        fs.writeFileSync(
+          './script/cypress-testrail-helper/my-config.json',
+          JSON.stringify({ ...myNewConfig, trIncludeAllInTestRun: false }),
+        );
+        myResolve('succeeded');
+      } catch (err) {
+        myReject('failed');
+      }
     });
   },
 };
