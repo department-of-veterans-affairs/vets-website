@@ -11,7 +11,7 @@ import Notification from '../components/Notification';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import { setPageFocus, setUpPage } from '../utils/page';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import {
   addFile,
   removeFile,
@@ -27,7 +27,7 @@ import {
 
 const scrollToError = () => {
   const options = _.merge({}, window.VetsGov.scroll, { offset: -25 });
-  Scroll.scroller.scrollTo('uploadError', options);
+  scrollTo('uploadError', options);
 };
 const Element = Scroll.Element;
 
