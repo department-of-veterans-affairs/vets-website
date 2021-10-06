@@ -2,18 +2,28 @@ import React, { useMemo } from 'react';
 import MarkdownRenderer from './markdownRenderer';
 import GreetUser from './makeBotGreetUser';
 import environment from 'platform/utilities/environment';
+import { useSelector } from 'react-redux';
+import _ from 'lodash';
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
 const WebChat = ({ token, WebChatFramework, apiSession }) => {
   const { ReactWebChat, createDirectLine, createStore } = WebChatFramework;
   const csrfToken = localStorage.getItem('csrfToken');
+  const userFirstName = useSelector(state =>
+    _.upperFirst(_.toLower(state.user.profile.userFullName.first)),
+  );
 
   const store = useMemo(
     () =>
       createStore(
         {},
-        GreetUser.makeBotGreetUser(csrfToken, apiSession, environment.API_URL),
+        GreetUser.makeBotGreetUser(
+          csrfToken,
+          apiSession,
+          environment.API_URL,
+          userFirstName,
+        ),
       ),
     [createStore],
   );
