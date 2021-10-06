@@ -50,7 +50,7 @@ export const fetchDebtLetters = () => async dispatch => {
 export const fetchDebts = () => async dispatch => {
   dispatch({ type: DEBTS_FETCH_INIT });
   try {
-    const response = await apiRequest(`${environment.API_URL}/v0/debtz`);
+    const response = await apiRequest(`${environment.API_URL}/v0/debts`);
 
     const { hasDependentDebts } = response;
     const approvedDeductionCodes = Object.keys(deductionCodes);
@@ -86,7 +86,6 @@ export const fetchDebts = () => async dispatch => {
     recordEvent({ event: 'bam-get-veteran-dmc-info-failed' });
     return dispatch({
       type: DEBTS_FETCH_FAILURE,
-      errors: error.errors,
     });
   }
 };

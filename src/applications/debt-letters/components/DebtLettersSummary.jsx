@@ -53,14 +53,27 @@ const EmptyItemsAlert = () => (
   </section>
 );
 
-const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
+const RenderDebtCards = ({ isError, debts }) => {
+  const allDebtsEmpty = !isError && debts.length === 0;
+
+  if (isError) {
+    return <ErrorAlert />;
+  }
+  if (allDebtsEmpty) {
+    return <EmptyItemsAlert />;
+  }
+  return (
+    <>
+      <OnThisPageLinks />
+      <DebtCardsList />
+    </>
+  );
+};
+
+const DebtLettersSummary = ({ isError, debts }) => {
   useEffect(() => {
     scrollToTop();
   }, []);
-
-  const allDebtsFetchFailure = isVBMSError && isError;
-  const allDebtsEmpty =
-    !allDebtsFetchFailure && debts.length === 0 && debtLinks.length === 0;
 
   return (
     <>
@@ -69,12 +82,10 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
         <a href="/manage-va-debt">Manage your VA debt</a>
         <a href="/manage-va-debt/your-debt">Your VA debt</a>
       </Breadcrumbs>
-
       <section className="vads-l-row vads-u-margin-x--neg2p5">
         <h1 className="vads-u-padding-x--2p5 vads-u-margin-bottom--2">
           Current VA debt
         </h1>
-
         <div className="vads-u-display--block">
           <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
             <p className="va-introtext vads-u-margin-top--0 vads-u-margin-bottom--2">
@@ -83,21 +94,8 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
               how to pay your debt and what to do if you need financial
               assistance.
             </p>
-
-            {allDebtsFetchFailure && <ErrorAlert />}
-
-            {allDebtsEmpty && <EmptyItemsAlert />}
-
-            {!allDebtsFetchFailure && (
-              <>
-                <OnThisPageLinks />
-
-                <DebtCardsList />
-              </>
-            )}
-
+            <RenderDebtCards isError={isError} debts={debts} />
             <HowDoIPay />
-
             <NeedHelp />
           </div>
         </div>
@@ -106,23 +104,13 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  isVBMSError: state.debtLetters.isVBMSError,
-  isError: state.debtLetters.isError,
-  debtLinks: state.debtLetters.debtLinks,
-  debts: state.debtLetters.debts,
+const mapStateToProps = ({ debtLetters }) => ({
+  isError: debtLetters.isError,
+  debts: debtLetters.debts,
 });
 
 DebtLettersSummary.propTypes = {
-  isVBMSError: PropTypes.bool.isRequired,
   isError: PropTypes.bool.isRequired,
-  debtLinks: PropTypes.arrayOf(
-    PropTypes.shape({
-      documentId: PropTypes.string,
-      receivedAt: PropTypes.string,
-      typeDescription: PropTypes.string,
-    }),
-  ),
   debts: PropTypes.arrayOf(
     PropTypes.shape({
       fileNumber: PropTypes.string,
@@ -131,9 +119,7 @@ DebtLettersSummary.propTypes = {
 };
 
 DebtLettersSummary.defaultProps = {
-  isVBMSError: false,
   isError: false,
-  debtLinks: [],
   debts: [],
 };
 
