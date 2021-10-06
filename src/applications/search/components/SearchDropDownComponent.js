@@ -272,7 +272,7 @@ class SearchDropDownComponent extends React.Component {
 
     const activeId = isOpen ? `${ID}-${activeIndex}` : undefined;
 
-    const mobileResponsiveClass = this.props.shrinkToColumn
+    const mobileResponsiveClass = this.props.mobileResponsive
       ? ' search-dropdown-component shrink-to-column'
       : 'search-dropdown-component';
 
@@ -290,6 +290,7 @@ class SearchDropDownComponent extends React.Component {
             aria-label={'Search'}
             className="vads-u-width--full"
             id="search-dropdown-input-field"
+            data-e2e-id="search-form"
             role="combobox"
             type="text"
             value={inputValue}
@@ -378,7 +379,7 @@ SearchDropDownComponent.propTypes = {
   onSuggestionSubmit: PropTypes.func,
   // getSuggestions is passed the current input field's value and MUST return a set of suggestions
   getSuggestions: PropTypes.func,
-  shrinkToColumn: PropTypes.bool,
+  mobileResponsive: PropTypes.bool,
   startingValue: PropTypes.string,
   submitOnClick: PropTypes.bool,
   submitOnEnter: PropTypes.bool,
@@ -390,7 +391,7 @@ SearchDropDownComponent.defaultProps = {
   debounceRate: 200,
   formatSuggestions: false,
   getInputValue: undefined,
-  shrinkToColumn: false,
+  mobileResponsive: false,
   startingValue: '',
   submitOnClick: false,
   submitOnEnter: false,

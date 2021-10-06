@@ -334,13 +334,13 @@ class SearchApp extends React.Component {
             buttonText="Search"
             canSubmit
             formatSuggestions
-            getSuggestions={this.getSuggestions}
-            onInputSubmit={this.onInputSubmit}
-            onSuggestionSubmit={this.onSuggestionSubmit}
-            shrinkToColumn
+            mobileResponsive
             startingValue={userInput}
             submitOnClick
             submitOnEnter
+            getSuggestions={this.getSuggestions}
+            onInputSubmit={this.onInputSubmit}
+            onSuggestionSubmit={this.onSuggestionSubmit}
           />
         </div>
       </div>
