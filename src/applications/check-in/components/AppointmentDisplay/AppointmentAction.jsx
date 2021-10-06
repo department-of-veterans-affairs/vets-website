@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { api } from '../../api';
 
 import { goToNextPage, URLS } from '../../utils/navigation';
-import { STATUSES, areEqual } from '../../utils/appointment/status';
+import { ELIGIBILITY, areEqual } from '../../utils/appointment/eligibility';
 import recordEvent from 'platform/monitoring/record-event';
 import format from 'date-fns/format';
 
@@ -40,7 +40,7 @@ const AppointmentAction = props => {
 
       const json = await checkIn({
         uuid: token,
-        appointmentIEN: appointment.appointmentIEN,
+        appointmentIen: appointment.appointmentIen,
         facilityId: appointment.facilityId,
       });
       const { status } = json;
@@ -55,8 +55,8 @@ const AppointmentAction = props => {
     }
   };
 
-  if (appointment.status) {
-    if (areEqual(appointment.status, STATUSES.ELIGIBLE)) {
+  if (appointment.eligibility) {
+    if (areEqual(appointment.eligibility, ELIGIBILITY.ELIGIBLE)) {
       return (
         <button
           type="button"
@@ -69,15 +69,17 @@ const AppointmentAction = props => {
           {isCheckingIn ? <>Loading...</> : <>Check in now</>}
         </button>
       );
-    } else if (areEqual(appointment.status, STATUSES.INELIGIBLE_BAD_STATUS)) {
+    } else if (
+      areEqual(appointment.eligibility, ELIGIBILITY.INELIGIBLE_BAD_STATUS)
+    ) {
       return (
         <p data-testid="ineligible-bad-status-message">{defaultMessage}</p>
       );
-    } else if (areEqual(appointment.status, STATUSES.INELIGIBLE_TOO_EARLY)) {
-      if (appointment.appointmentCheckInStart) {
-        const appointmentDateTime = new Date(
-          appointment.appointmentCheckInStart,
-        );
+    } else if (
+      areEqual(appointment.eligibility, ELIGIBILITY.INELIGIBLE_TOO_EARLY)
+    ) {
+      if (appointment.checkInWindowStart) {
+        const appointmentDateTime = new Date(appointment.checkInWindowStart);
         const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
         return (
           <p data-testid="too-early-message">
@@ -92,7 +94,9 @@ const AppointmentAction = props => {
           </p>
         );
       }
-    } else if (areEqual(appointment.status, STATUSES.INELIGIBLE_TOO_LATE)) {
+    } else if (
+      areEqual(appointment.eligibility, ELIGIBILITY.INELIGIBLE_TOO_LATE)
+    ) {
       return (
         <p data-testid="too-late-message">
           Your appointment started more than 10 minutes ago. We can’t check you
@@ -100,13 +104,38 @@ const AppointmentAction = props => {
         </p>
       );
     } else if (
-      areEqual(appointment.status, STATUSES.INELIGIBLE_UNSUPPORTED_LOCATION)
+      areEqual(
+        appointment.eligibility,
+        ELIGIBILITY.INELIGIBLE_UNSUPPORTED_LOCATION,
+      )
     ) {
       return <p data-testid="unsupported-location-message">{defaultMessage}</p>;
     } else if (
-      areEqual(appointment.status, STATUSES.INELIGIBLE_UNKNOWN_REASON)
+      areEqual(appointment.eligibility, ELIGIBILITY.INELIGIBLE_UNKNOWN_REASON)
     ) {
       return <p data-testid="unknown-reason-message">{defaultMessage}</p>;
+    } else if (
+      areEqual(
+        appointment.eligibility,
+        ELIGIBILITY.INELIGIBLE_ALREADY_CHECKED_IN,
+      )
+    ) {
+      if (appointment.checkedInTime) {
+        const appointmentDateTime = new Date(appointment.checkedInTime);
+        const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
+        return (
+          <p data-testid="already-checked-in-message">
+            You checked in at {appointmentTime}
+          </p>
+        );
+      } else {
+        return (
+          <p data-testid="already-checked-in-no-time-message">
+            Online check-in isn’t available for this appointment. Check in with
+            a staff member.
+          </p>
+        );
+      }
     }
   }
   return <p data-testid="no-status-given-message">{defaultMessage}</p>;

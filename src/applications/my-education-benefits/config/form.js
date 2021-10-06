@@ -49,6 +49,7 @@ import {
   isValidPhone,
   validatePhone,
   validateEmail,
+  validateEffectiveDate,
 } from '../utils/validation';
 
 const {
@@ -492,7 +493,7 @@ const formConfig = {
                 <>
                   <h3>Review your phone numbers and email address</h3>
                   <div className="meb-list-label">
-                    <b>We’ll use this information to:</b>
+                    <strong>We’ll use this information to:</strong>
                   </div>
                   <ul>
                     <li>
@@ -607,25 +608,17 @@ const formConfig = {
             'view:subHeadings': {
               'ui:description': (
                 <>
-                  <h3>Review your phone numbers and email address</h3>
-                  <div className="meb-list-label">
-                    <b>We’ll use this information to:</b>
-                  </div>
-                  <ul>
-                    <li>
-                      Contact you if we have questions about your application
-                    </li>
-                    <li>Tell you important information about your benefits</li>
-                  </ul>
+                  <h3>Review your mailing address</h3>
                   <p>
-                    This is the contact information we have on file for you. If
-                    you notice any errors, please correct them now. Any updates
-                    you make will change the information for your education
-                    benefits only.
+                    This is the mailing address we have on file for you. If you
+                    notice any errors, please correct them now. Any updates you
+                    make will change the information for your education benefits
+                    only.
                   </p>
                   <p>
-                    <strong>Note:</strong> If you want to update your contact
-                    for other VA benefits, you can do that from your profile.
+                    <strong>Note:</strong> If you want to update your personal
+                    information for other VA benefits, you can do that from your
+                    profile.
                   </p>
                   <p>
                     <a href="/profile/personal-information">
@@ -793,6 +786,28 @@ const formConfig = {
                 'ui:title':
                   'Would you like to receive text message notifications on your education benefits?',
                 'ui:widget': 'radio',
+                'ui:validations': [
+                  (errors, field, formData) => {
+                    const isYes = field.slice(0, 4).includes('Yes');
+                    const phoneExist = !!formData['view:phoneNumbers']
+                      .mobilePhoneNumber.phone;
+                    const isInternational =
+                      formData['view:phoneNumbers'].mobilePhoneNumber
+                        .isInternational;
+
+                    if (isYes) {
+                      if (!phoneExist) {
+                        errors.addError(
+                          "You can't select that response because we don't have a mobile phone number on file for you.",
+                        );
+                      } else if (isInternational) {
+                        errors.addError(
+                          "You can't select that response because you have an international mobile phone number",
+                        );
+                      }
+                    }
+                  },
+                ],
                 'ui:options': {
                   widgetProps: {
                     Yes: { 'data-info': 'yes' },
@@ -831,8 +846,8 @@ const formConfig = {
               'ui:description': (
                 <va-alert onClose={function noRefCheck() {}} status="warning">
                   <p style={{ margin: 0 }}>
-                    You can’t choose to receive text messages because you don’t
-                    have a mobile phone number on file.
+                    You can’t choose to get text message notifications because
+                    we don’t have a mobile phone number on file for you
                   </p>
                 </va-alert>
               ),
@@ -852,10 +867,10 @@ const formConfig = {
               'ui:description': (
                 <va-alert onClose={function noRefCheck() {}} status="warning">
                   <p style={{ margin: 0 }}>
-                    You can’t choose to receive text messages because your
-                    mobile phone number is international. At this time, VA is
-                    only able to send text messages about your education
-                    benefits to US-based mobile phone numbers.
+                    You can’t choose to get text notifications because you have
+                    an international mobile phone number. At this time, we can
+                    send text messages about your education benefits to U.S.
+                    mobile phone numbers
                   </p>
                 </va-alert>
               ),
@@ -1046,8 +1061,6 @@ const formConfig = {
           path: 'benefit-selection',
           title: 'Benefit selection',
           subTitle: "You're applying for the Post-9/11 GI Bill®",
-          instructions:
-            'Currently, you can only apply for Post-9/11 Gi Bill (Chapter 33) benefits through this application/ If you would like to apply for other benefits, please visit out How to Apply page.',
           uiSchema: {
             'view:post911Notice': {
               'ui:description': (
@@ -1059,8 +1072,8 @@ const formConfig = {
                     to give up one other benefit you may be eligible for.
                   </p>
                   <p>
-                    <strong>This decision is final</strong>, which means you
-                    can’t change your mind after you submit this application.
+                    You cannot change your decision after you submit this
+                    application.
                   </p>
                   <AdditionalInfo triggerText="Why do I have to give up a benefit?">
                     <p>
@@ -1140,21 +1153,23 @@ const formConfig = {
               },
               'ui:required': givingUpBenefitSelected,
               'ui:reviewField': DateReviewField,
+              'ui:validations': [validateEffectiveDate],
             },
             'view:effectiveDateNotes': {
               'ui:description': (
                 <ul>
                   <li>
-                    We’ve set the date to one year ago to begin paying you
-                    immediately
+                    You can select a date up to one year in the past. We may be
+                    able to pay you benefits for education or training taken
+                    during this time.
                   </li>
                   <li>
-                    Select a future date if you don’t need to use your benefits
-                    until then
+                    We can’t pay for education or training taken more than one
+                    year before the date of your application for benefits.
                   </li>
                   <li>
-                    If your classes started less than 2 years ago, enter the
-                    date they began
+                    If you are currently using another benefit, select the date
+                    you would like to start using the Post-9/11 GI Bill.
                   </li>
                 </ul>
               ),

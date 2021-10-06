@@ -1,4 +1,4 @@
-import { createFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
+import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
 
 import mockCheckIn from '../../../../api/local-mock-api/mocks/v2/check.in.responses';
 import mockSession from '../../../../api/local-mock-api/mocks/v2/sessions.responses';
@@ -26,10 +26,10 @@ describe('Check In Experience -- ', () => {
         );
       });
       cy.intercept('POST', '/check_in/v2/patient_check_ins/', req => {
-        const { uuid, appointmentIEN, facilityId } =
+        const { uuid, appointmentIen, facilityId } =
           req.body?.patientCheckIns || {};
         expect(uuid).to.equal('46bebc0a-b99c-464f-a5c5-560bc9eae287');
-        expect(appointmentIEN).to.equal('some-ien');
+        expect(appointmentIen).to.equal('some-ien');
         expect(facilityId).to.equal('ABC_123');
 
         req.reply(mockCheckIn.createMockSuccessResponse({}));
@@ -37,7 +37,11 @@ describe('Check In Experience -- ', () => {
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
-        createFeatureToggles(true, true, true, true),
+        generateFeatureToggles({
+          checkInExperienceLowAuthenticationEnabled: true,
+          checkInExperienceMultipleAppointmentSupport: true,
+          checkInExperienceUpdateInformationPageEnabled: true,
+        }),
       );
     });
     afterEach(() => {
