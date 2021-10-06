@@ -1,4 +1,4 @@
-import { createFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
+import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
 
 import mockSession from '../../../../api/local-mock-api/mocks/v1/sessions.responses';
 import mockPatientCheckIns from '../../../../api/local-mock-api/mocks/v1/patient.check.in.responses';
@@ -21,7 +21,11 @@ describe('Check In Experience -- ', () => {
     cy.intercept(
       'GET',
       '/v0/feature_toggles*',
-      createFeatureToggles(true, true, false, true),
+      generateFeatureToggles({
+        checkInExperienceLowAuthenticationEnabled: true,
+        checkInExperienceMultipleAppointmentSupport: false,
+        checkInExperienceUpdateInformationPageEnabled: true,
+      }),
     );
   });
   afterEach(() => {

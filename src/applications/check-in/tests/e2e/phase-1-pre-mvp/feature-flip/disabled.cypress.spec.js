@@ -1,8 +1,17 @@
-import { createFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
+import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
-    cy.intercept('GET', '/v0/feature_toggles*', createFeatureToggles(false));
+    cy.intercept(
+      'GET',
+      '/v0/feature_toggles*',
+      generateFeatureToggles({
+        checkInExperienceEnabled: false,
+        checkInExperienceLowAuthenticationEnabled: false,
+        checkInExperienceMultipleAppointmentSupport: false,
+        checkInExperienceUpdateInformationPageEnabled: false,
+      }),
+    );
   });
   afterEach(() => {
     cy.window().then(window => {

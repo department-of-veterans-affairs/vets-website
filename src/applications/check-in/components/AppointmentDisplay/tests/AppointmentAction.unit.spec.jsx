@@ -6,7 +6,7 @@ import { axeCheck } from 'platform/forms-system/test/config/helpers';
 
 import AppointmentAction from '../AppointmentAction';
 
-import { STATUSES } from '../../../utils/appointment/status';
+import { ELIGIBILITY } from '../../../utils/appointment/eligibility';
 
 describe('check-in', () => {
   describe('AppointmentAction', () => {
@@ -30,7 +30,7 @@ describe('check-in', () => {
       const action = render(
         <AppointmentAction
           appointment={{
-            status: STATUSES.ELIGIBLE,
+            eligibility: ELIGIBILITY.ELIGIBLE,
           }}
           store={fakeStore}
         />,
@@ -45,7 +45,7 @@ describe('check-in', () => {
       const action = render(
         <AppointmentAction
           appointment={{
-            status: STATUSES.INELIGIBLE_BAD_STATUS,
+            eligibility: ELIGIBILITY.INELIGIBLE_BAD_STATUS,
           }}
           store={fakeStore}
         />,
@@ -61,7 +61,7 @@ describe('check-in', () => {
       const action = render(
         <AppointmentAction
           appointment={{
-            status: STATUSES.INELIGIBLE_UNSUPPORTED_LOCATION,
+            eligibility: ELIGIBILITY.INELIGIBLE_UNSUPPORTED_LOCATION,
           }}
           store={fakeStore}
         />,
@@ -77,7 +77,7 @@ describe('check-in', () => {
       const action = render(
         <AppointmentAction
           appointment={{
-            status: STATUSES.INELIGIBLE_UNKNOWN_REASON,
+            eligibility: ELIGIBILITY.INELIGIBLE_UNKNOWN_REASON,
           }}
           store={fakeStore}
         />,
@@ -93,7 +93,7 @@ describe('check-in', () => {
       const action = render(
         <AppointmentAction
           appointment={{
-            status: STATUSES.INELIGIBLE_TOO_LATE,
+            eligibility: ELIGIBILITY.INELIGIBLE_TOO_LATE,
           }}
           store={fakeStore}
         />,
@@ -109,7 +109,7 @@ describe('check-in', () => {
       const action = render(
         <AppointmentAction
           appointment={{
-            status: STATUSES.INELIGIBLE_TOO_EARLY,
+            eligibility: ELIGIBILITY.INELIGIBLE_TOO_EARLY,
             appointmentCheckInStart: '2021-07-19T14:00:00',
             startTime: '2021-07-19T14:30:00',
           }}
@@ -128,7 +128,7 @@ describe('check-in', () => {
       axeCheck(
         <AppointmentAction
           appointment={{
-            status: STATUSES.ELIGIBLE,
+            eligibility: ELIGIBILITY.ELIGIBLE,
           }}
           store={fakeStore}
         />,

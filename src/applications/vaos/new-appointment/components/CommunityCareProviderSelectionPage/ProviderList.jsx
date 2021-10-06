@@ -34,6 +34,7 @@ export default function ProviderList({
     sortMethod,
     typeOfCareName,
   } = useSelector(selectProviderSelectionInfo, shallowEqual);
+
   const requestLocationFailed = requestStatus === FETCH_STATUS.failed;
   const loadingProviders = !communityCareProviderList && !requestLocationFailed;
 
@@ -71,7 +72,6 @@ export default function ProviderList({
     },
     [loadingProviders, loadingLocations],
   );
-
   const currentlyShownProvidersList = communityCareProviderList?.slice(
     0,
     providersListLength,

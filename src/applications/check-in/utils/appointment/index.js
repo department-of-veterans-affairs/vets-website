@@ -1,10 +1,10 @@
-import { STATUSES } from './status';
+import { ELIGIBILITY } from './eligibility';
 
 const hasMoreAppointmentsToCheckInto = (appointments, currentAppointment) => {
   return (
     appointments
       .filter(f => f.appointmentIen !== currentAppointment?.appointmentIen)
-      .filter(f => f.status === STATUSES.ELIGIBLE).length > 0
+      .filter(f => f.eligibility === ELIGIBILITY.ELIGIBLE).length > 0
   );
 };
 
