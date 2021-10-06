@@ -10,10 +10,6 @@ export const facilitiesPpmsSuppressPharmacies = state =>
 export const facilitiesPpmsSuppressCommunityCare = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.facilitiesPpmsSuppressCommunityCare];
 
-export const facilityLocatorCovidVaccineWalkInAvailabilityTextFrontend = state =>
-  toggleValues(state)[
-    FEATURE_FLAG_NAMES.facilityLocatorCovidVaccineWalkInAvailabilityTextFrontend
-  ];
 export const facilityLocatorPredictiveLocationSearch = state =>
   toggleValues(state)[
     FEATURE_FLAG_NAMES.facilityLocatorPredictiveLocationSearch
