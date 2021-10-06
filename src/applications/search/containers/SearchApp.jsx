@@ -241,7 +241,7 @@ class SearchApp extends React.Component {
     });
   };
 
-  onOptionSubmit = (index, componentState) => {
+  onSuggestionSubmit = (index, componentState) => {
     const savedSuggestions = componentState?.savedSuggestions || [];
     const suggestions = componentState?.suggestions || [];
     const inputValue = componentState?.inputValue;
@@ -331,14 +331,16 @@ class SearchApp extends React.Component {
           data-e2e-id="search-form"
         >
           <SearchDropDownComponent
-            startingValue={userInput}
+            buttonText="Search"
             canSubmit
+            formatSuggestions
+            getSuggestions={this.getSuggestions}
+            onInputSubmit={this.onInputSubmit}
+            onSuggestionSubmit={this.onSuggestionSubmit}
+            shrinkToColumn
+            startingValue={userInput}
             submitOnClick
             submitOnEnter
-            shrinkToColumn
-            onInputSubmit={this.onInputSubmit}
-            onOptionSubmit={this.onOptionSubmit}
-            getSuggestions={this.getSuggestions}
           />
         </div>
       </div>
