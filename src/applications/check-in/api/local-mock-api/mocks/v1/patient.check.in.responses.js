@@ -11,7 +11,7 @@ const createMockSuccessResponse = (data, hasBeenValidated) => {
   };
   if (hasBeenValidated) {
     rv.payload.startTime = '2021-08-19T13:56:31';
-    rv.payload.status = 'ELIGIBLE';
+    rv.payload.eligibility = 'ELIGIBLE';
   }
   return rv;
 };
