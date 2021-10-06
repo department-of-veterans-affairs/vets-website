@@ -703,7 +703,7 @@ jobs:
       - name: Download Contract Test Mochawesome test results
         uses: actions/download-artifact@v2
         with:
-          name: contract-test-results
+          name: contract-test-report
           path: testing-tools-team-dashboard-data/src/mochawesome/data
 
       - name: Create Contract Test report and post results to BigQuery
