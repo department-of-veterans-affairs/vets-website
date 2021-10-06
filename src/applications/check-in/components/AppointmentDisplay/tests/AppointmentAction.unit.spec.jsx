@@ -123,6 +123,44 @@ describe('check-in', () => {
         'You can check in starting at this time: 2:00 p.m.',
       );
     });
+    it('should render the bad status message for appointments with INELIGIBLE_ALREADY_CHECKED_IN status', () => {
+      const action = render(
+        <AppointmentAction
+          appointment={{
+            eligibility: ELIGIBILITY.INELIGIBLE_ALREADY_CHECKED_IN,
+            checkedInTime: '2021-07-19T14:14:00',
+            startTime: '2021-07-19T14:30:00',
+          }}
+          store={fakeStore}
+        />,
+      );
+
+      expect(action.queryByTestId('check-in-button')).to.not.exist;
+      expect(action.getByTestId('already-checked-in-message')).to.exist;
+      expect(action.getByTestId('already-checked-in-message')).to.have.text(
+        'You checked in at 2:14 p.m.',
+      );
+    });
+    it('should render the bad status message for appointments with INELIGIBLE_ALREADY_CHECKED_IN status and no checked in time', () => {
+      const action = render(
+        <AppointmentAction
+          appointment={{
+            eligibility: ELIGIBILITY.INELIGIBLE_ALREADY_CHECKED_IN,
+
+            startTime: '2021-07-19T14:30:00',
+          }}
+          store={fakeStore}
+        />,
+      );
+
+      expect(action.queryByTestId('check-in-button')).to.not.exist;
+      expect(action.getByTestId('already-checked-in-no-time-message')).to.exist;
+      expect(
+        action.getByTestId('already-checked-in-no-time-message'),
+      ).to.have.text(
+        'Online check-in isn’t available for this appointment. Check in with a staff member.',
+      );
+    });
 
     it('check in button passes axeCheck', () => {
       axeCheck(
