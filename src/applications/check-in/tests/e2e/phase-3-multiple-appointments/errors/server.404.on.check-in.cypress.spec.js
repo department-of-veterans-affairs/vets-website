@@ -71,6 +71,8 @@ describe('Check In Experience -- ', () => {
     cy.axeCheck();
     cy.get('.usa-button').click();
     cy.url().should('match', /error/);
-    cy.get('h1').contains('We couldn’t check you in');
+    cy.get('h1', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and('have.text', 'We couldn’t check you in');
   });
 });
