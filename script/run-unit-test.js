@@ -55,7 +55,7 @@ if (options.help) {
 const mochaPath = `BABEL_ENV=test NODE_ENV=test mocha ${reporterOption}`;
 const coveragePath = `NODE_ENV=test nyc --all ${coverageInclude} --reporter=lcov --reporter=text --reporter=json-summary mocha --reporter mocha-junit-reporter --no-color --retries 5`;
 const testRunner = options.coverage ? coveragePath : mochaPath;
-const configFile = 'config/mocha.json';
+const configFile = options.config ? options.config : 'config/mocha.json';
 
 runCommand(
   `LOG_LEVEL=${options[
