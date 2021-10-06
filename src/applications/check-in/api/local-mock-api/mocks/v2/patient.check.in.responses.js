@@ -28,7 +28,9 @@ const createAppointment = (
   clinicFriendlyName = 'TEST CLINIC',
 ) => {
   const startTime = new Date();
-  const appointmentCheckInStart = new Date();
+  const checkInWindowStart = new Date();
+  const checkInWindowEnd = new Date();
+
   if (eligibility === 'INELIGIBLE_TOO_LATE') {
     startTime.setHours(startTime.getHours() - 1);
   } else if (eligibility === 'INELIGIBLE_TOO_EARLY') {
@@ -36,7 +38,8 @@ const createAppointment = (
   } else {
     startTime.setMinutes(startTime.getMinutes() + 15);
   }
-  appointmentCheckInStart.setHours(startTime.getHours() - 1);
+  checkInWindowStart.setHours(startTime.getHours() - 1);
+  checkInWindowEnd.getMinutes(startTime.getMinutes() + 10);
   return {
     facility: 'LOMA LINDA VA CLINIC',
     clinicPhoneNumber: '5551234567',
@@ -46,7 +49,9 @@ const createAppointment = (
     startTime,
     eligibility,
     facilityId,
-    appointmentCheckInStart,
+    checkInWindowStart,
+    checkInWindowEnd,
+    checkedInTime: '',
   };
 };
 

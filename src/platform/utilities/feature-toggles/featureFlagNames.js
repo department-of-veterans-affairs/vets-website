@@ -51,7 +51,6 @@ export default Object.freeze({
   gibctEybBottomSheet: 'gibct_eyb_bottom_sheet',
   gibctSchoolRatings: 'gibct_school_ratings',
   hlrv2: 'hlr_v2',
-  languageSupport: 'language_support',
   manageDependents: 'dependents_management',
   megaMenuMobileV2: 'mega_menu_mobile_v2',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
