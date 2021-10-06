@@ -6575,7 +6575,7 @@ cuint@^0.2.2:
 
 cy-mobile-commands@^0.2.1:
   version "0.2.1"
-  resolved "https://registry.npmjs.org/cy-mobile-commands/-/cy-mobile-commands-0.2.1.tgz"
+  resolved "https://registry.yarnpkg.com/cy-mobile-commands/-/cy-mobile-commands-0.2.1.tgz#6fde8eaa0c067e806f0348adce5c1baaa5b947a9"
   integrity sha512-qIY1Wvmr4G9RjSiLdcuGZkhcDYKk8GU94ghVvxcKDD8c9HEPH8rztDRupgQNfdT5sGttgo9frq/4OKuSl/L5pw==
 
 cy-tr-reporter@^1.2.5:
