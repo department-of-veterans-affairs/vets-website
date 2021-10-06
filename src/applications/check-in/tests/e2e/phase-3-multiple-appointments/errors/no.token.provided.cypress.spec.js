@@ -1,5 +1,4 @@
 import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
-import mockCheckIn from '../../../../api/local-mock-api/mocks/v2/check.in.responses';
 import mockValidate from '../../../../api/local-mock-api/mocks/v2/sessions.responses';
 
 describe('Check In Experience -- ', () => {
@@ -11,19 +10,8 @@ describe('Check In Experience -- ', () => {
         delay: 10, // milliseconds
       });
     });
-    cy.intercept('POST', '/check_in/v0/patient_check_ins/', req => {
-      req.reply(mockCheckIn.createMockSuccessResponse({}));
-    });
 
-    cy.intercept(
-      'GET',
-      '/v0/feature_toggles*',
-      generateFeatureToggles({
-        checkInExperienceLowAuthenticationEnabled: false,
-        checkInExperienceMultipleAppointmentSupport: false,
-        checkInExperienceUpdateInformationPageEnabled: false,
-      }),
-    );
+    cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles());
   });
   afterEach(() => {
     cy.window().then(window => {

@@ -1,21 +1,18 @@
 import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
-import mockCheckIn from '../../../../api/local-mock-api/mocks/v2/check.in.responses';
-import mockValidate from '../../../../api/local-mock-api/mocks/v2/sessions.responses';
+import mockSession from '../../../../api/local-mock-api/mocks/v2/sessions.responses';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
-    cy.intercept('GET', '/check_in/v0/patient_check_ins//*', req => {
-      req.reply(500, mockValidate.createMockFailedResponse({}));
+    cy.intercept('GET', '/check_in/v2/sessions/*', req => {
+      req.reply(500, mockSession.createMockFailedResponse({}));
     });
-    cy.intercept('POST', '/check_in/v0/patient_check_ins/', req => {
-      req.reply(mockCheckIn.createMockFailedResponse({}));
-    });
+
     cy.intercept(
       'GET',
       '/v0/feature_toggles*',
       generateFeatureToggles({
-        checkInExperienceLowAuthenticationEnabled: false,
-        checkInExperienceMultipleAppointmentSupport: false,
+        checkInExperienceLowAuthenticationEnabled: true,
+        checkInExperienceMultipleAppointmentSupport: true,
         checkInExperienceUpdateInformationPageEnabled: false,
       }),
     );

@@ -11,15 +11,7 @@ describe('Check In Experience -- ', () => {
       });
     });
 
-    cy.intercept(
-      'GET',
-      '/v0/feature_toggles*',
-      generateFeatureToggles({
-        checkInExperienceLowAuthenticationEnabled: false,
-        checkInExperienceMultipleAppointmentSupport: false,
-        checkInExperienceUpdateInformationPageEnabled: false,
-      }),
-    );
+    cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles());
   });
   afterEach(() => {
     cy.window().then(window => {

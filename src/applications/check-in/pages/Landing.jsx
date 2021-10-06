@@ -47,14 +47,19 @@ const Landing = props => {
           api.v2
             .getSession(token)
             .then(session => {
-              // if session with read.full exists, go to check in page
-              setCurrentToken(window, token);
-              if (session.permissions === SCOPES.READ_FULL) {
-                setAuthenticatedSession(token);
-                goToNextPage(router, URLS.DETAILS);
+              if (session.errors || session.error) {
+                clearCurrentSession(window);
+                goToNextPage(router, URLS.ERROR);
               } else {
-                setToken(token);
-                goToNextPage(router, URLS.VALIDATION_NEEDED);
+                // if session with read.full exists, go to check in page
+                setCurrentToken(window, token);
+                if (session.permissions === SCOPES.READ_FULL) {
+                  setAuthenticatedSession(token);
+                  goToNextPage(router, URLS.DETAILS);
+                } else {
+                  setToken(token);
+                  goToNextPage(router, URLS.VALIDATION_NEEDED);
+                }
               }
             })
             .catch(() => {
