@@ -14,6 +14,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'coverage', type: Boolean, defaultValue: false },
   { name: 'reporter', type: String, defaultValue: null },
   { name: 'help', alias: 'h', type: Boolean, defaultValue: false },
+  { name: 'config', type: String, defaultValue: null },
   {
     name: 'path',
     type: String,
