@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import { WIZARD_STATUS } from '../../constants';
-import WizardContainer from '../../wizard/WizardContainer';
+import { WizardContainer } from '../../wizard/WizardContainer';
 import { setHlrWizardStatus } from '../../wizard/utils';
 
 describe('<WizardContainer>', () => {
