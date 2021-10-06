@@ -516,6 +516,96 @@
         "status": "cancelled",
         "telehealth": null
       }
+    },
+    {
+      "id": "50096",
+      "type": "appointments",
+      "attributes": {
+        "id": "50096",
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn/vaos/vista/983/appointment/id",
+            "value": "308;20210907.140000"
+          }
+        ],
+        "kind": "clinic",
+        "serviceType": "primaryCare",
+        "patientIcn": "1012845331V153043",
+        "locationId": "983",
+        "clinic": "308",
+        "start": "2021-11-07T20:00:00Z",
+        "end": "2021-11-07T20:20:00Z",
+        "minutesDuration": 20,
+        "slot": {
+          "id": "3230323130393037323030303A323032313039303732303230",
+          "start": "2021-09-07T20:00:00Z",
+          "end": "2021-09-07T20:20:00Z"
+        },
+        "cancellationReason": {
+          "code": "other"
+        },
+        "cancellable": true,
+        "serviceName": "CHY PC KILPATRICK",
+        "location": {
+          "id": "983",
+          "type": "appointments",
+          "attributes": {
+            "id": "983",
+            "vistaSite": "983",
+            "vastParent": "983",
+            "type": "va_facilities",
+            "name": "Cheyenne VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/Denver"
+            },
+            "lat": 39.744507,
+            "long": -104.830956,
+            "website": "https://www.denver.va.gov/locations/directions.asp",
+            "phone": {
+              "main": "307-778-7550",
+              "fax": "307-778-7381",
+              "pharmacy": "866-420-6337",
+              "afterHours": "307-778-7550",
+              "patientAdvocate": "307-778-7550 x7517",
+              "mentalHealthClinic": "307-778-7349",
+              "enrollmentCoordinator": "307-778-7550 x7579"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": [
+                "2360 East Pershing Boulevard"
+              ],
+              "city": "Cheyenne",
+              "state": "WY",
+              "postalCode": "82001-5356"
+            },
+            "mobile": false,
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "DentalServices",
+              "EmergencyCare",
+              "Gastroenterology",
+              "Gynecology",
+              "MentalHealthCare",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "SpecialtyCare",
+              "UrgentCare",
+              "Urology",
+              "WomensHealth"
+            ],
+            "operatingStatus": {
+              "code": "NORMAL"
+            }
+          }
+        }
+      }
     }
   ]
 }

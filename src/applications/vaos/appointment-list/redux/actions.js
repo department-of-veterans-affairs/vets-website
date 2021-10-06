@@ -42,6 +42,7 @@ import {
 } from '../../redux/sitewide';
 import { selectAppointmentById } from './selectors';
 import { fetchHealthcareServiceById } from '../../services/healthcare-service';
+import { transformFacilitiesV2 } from '../../services/location/transformers.v2';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
 export const FETCH_PENDING_APPOINTMENTS = 'vaos/FETCH_PENDING_APPOINTMENTS';
@@ -148,6 +149,51 @@ async function getAdditionalFacilityInfo(futureAppointments, useV2 = false) {
   }
 
   return facilityData;
+}
+
+/**
+ * Wrapper function to retrieve facility information from the appointment
+ * record when using the v2 api or make api call to retrieve facility
+ * information.
+ *
+ * @param {*} appointments
+ * @param {*} dispatch
+ * @param {*} featureFacilitiesServiceV2
+ */
+async function getAdditionalFacilityInfoV2(
+  appointments,
+  dispatch,
+  featureFacilitiesServiceV2,
+) {
+  let facilityData;
+  if (featureFacilitiesServiceV2) {
+    // Facility information included with v2 appointment api call.
+    const facilities = appointments
+      .map(
+        appt =>
+          appt.vaos.apiData.location
+            ? { ...appt.vaos.apiData.location.attributes }
+            : null,
+      )
+      .filter(n => n);
+    facilityData = transformFacilitiesV2(facilities);
+  } else {
+    try {
+      facilityData = await getAdditionalFacilityInfo(
+        [].concat(...appointments),
+      );
+    } catch (error) {
+      captureError(error);
+    }
+  }
+
+  // Length prevents the cache from being wiped out.
+  if (facilityData && facilityData.length > 0) {
+    dispatch({
+      type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+      facilityData,
+    });
+  }
 }
 
 export function fetchFutureAppointments({ includeRequests = true } = {}) {
@@ -269,21 +315,11 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
         data: data[0],
       });
 
-      try {
-        const facilityData = await getAdditionalFacilityInfo(
-          [].concat(...data),
-          featureFacilitiesServiceV2,
-        );
-
-        if (facilityData) {
-          dispatch({
-            type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
-            facilityData,
-          });
-        }
-      } catch (error) {
-        captureError(error);
-      }
+      getAdditionalFacilityInfoV2(
+        data[0],
+        dispatch,
+        featureFacilitiesServiceV2,
+      );
 
       if (
         data[0]
@@ -339,21 +375,11 @@ export function fetchPendingAppointments() {
         event: `${GA_PREFIX}-get-pending-appointments-retrieved`,
       });
 
-      try {
-        const facilityData = await getAdditionalFacilityInfo(
-          pendingAppointments,
-          featureFacilitiesServiceV2,
-        );
-
-        if (facilityData) {
-          dispatch({
-            type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
-            facilityData,
-          });
-        }
-      } catch (error) {
-        captureError(error);
-      }
+      getAdditionalFacilityInfoV2(
+        pendingAppointments,
+        dispatch,
+        featureFacilitiesServiceV2,
+      );
 
       return pendingAppointments;
     } catch (error) {
@@ -413,21 +439,11 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         event: `${GA_PREFIX}-get-past-appointments-retrieved`,
       });
 
-      try {
-        const facilityData = await getAdditionalFacilityInfo(
-          getState().appointments.past,
-          featureFacilitiesServiceV2,
-        );
-
-        if (facilityData) {
-          dispatch({
-            type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
-            facilityData,
-          });
-        }
-      } catch (error) {
-        captureError(error);
-      }
+      getAdditionalFacilityInfoV2(
+        getState().appointments.past,
+        dispatch,
+        featureFacilitiesServiceV2,
+      );
     } catch (error) {
       captureError(error);
       dispatch({
