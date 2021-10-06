@@ -32,7 +32,6 @@ describe('Check In Experience -- ', () => {
         'GET',
         '/v0/feature_toggles*',
         generateFeatureToggles({
-          checkInExperienceLowAuthenticationEnabled: true,
           checkInExperienceMultipleAppointmentSupport: true,
           checkInExperienceUpdateInformationPageEnabled: false,
         }),
