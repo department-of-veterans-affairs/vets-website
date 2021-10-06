@@ -40,6 +40,7 @@ import {
   selectedReserveLabel,
   unsureDescription,
   post911GiBillNote,
+  prefillTransformer,
 } from '../helpers';
 
 import MailingAddressViewField from '../components/MailingAddressViewField';
@@ -331,6 +332,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for my education benefits.',
     noAuth:
