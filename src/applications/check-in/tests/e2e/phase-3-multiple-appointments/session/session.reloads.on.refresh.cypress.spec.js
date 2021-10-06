@@ -1,7 +1,7 @@
 import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
 
-import mockCheckIn from '../../../../api/local-mock-api/mocks/v0/check.in.responses';
-import mockValidate from '../../../../api/local-mock-api/mocks/v0/validate.responses';
+import mockCheckIn from '../../../../api/local-mock-api/mocks/v2/check.in.responses';
+import mockValidate from '../../../../api/local-mock-api/mocks/v2/sessions.responses';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
@@ -20,31 +20,13 @@ describe('Check In Experience -- ', () => {
         checkInExperienceUpdateInformationPageEnabled: false,
       }),
     );
-    cy.window().then(window => {
-      const sample = JSON.stringify({
-        token: 'the-old-id',
-      });
-      window.sessionStorage.setItem(
-        'health.care.check-in.current.uuid',
-        sample,
-      );
-    });
   });
   afterEach(() => {
     cy.window().then(window => {
       window.sessionStorage.clear();
     });
   });
-  it('C5757 - Url is prioritized over session data', () => {
-    cy.window().then(window => {
-      const data = window.sessionStorage.getItem(
-        'health.care.check-in.current.uuid',
-      );
-      const sample = JSON.stringify({
-        token: 'the-old-id',
-      });
-      expect(data).to.equal(sample);
-    });
+  it('C5755 - On page reload, the data should be pull from session storage and redirected to landing screen with data loaded', () => {
     const featureRoute =
       '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
     cy.visit(featureRoute);
@@ -57,6 +39,11 @@ describe('Check In Experience -- ', () => {
         token: '46bebc0a-b99c-464f-a5c5-560bc9eae287',
       });
       expect(data).to.equal(sample);
+      cy.reload();
+      // redirected back to landing page to reload the data
+      cy.url().should('match', /id=46bebc0a-b99c-464f-a5c5-560bc9eae287/);
+
+      cy.get('h1').contains('Your appointment');
     });
   });
 });

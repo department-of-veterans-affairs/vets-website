@@ -1,6 +1,6 @@
 import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
-import mockCheckIn from '../../../../api/local-mock-api/mocks/v0/check.in.responses';
-import mockValidate from '../../../../api/local-mock-api/mocks/v0/validate.responses';
+import mockCheckIn from '../../../../api/local-mock-api/mocks/v2/check.in.responses';
+import mockValidate from '../../../../api/local-mock-api/mocks/v2/sessions.responses';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
@@ -30,8 +30,9 @@ describe('Check In Experience -- ', () => {
       window.sessionStorage.clear();
     });
   });
-  it('C5726 - No token provided', () => {
-    const featureRoute = '/health-care/appointment-check-in/';
+  it('C5724 - Token is not valid', () => {
+    const featureRoute =
+      '/health-care/appointment-check-in/?id=MALFORMED_TOKEN';
     cy.visit(featureRoute);
     cy.get('h1').contains('We couldn’t check you in');
   });

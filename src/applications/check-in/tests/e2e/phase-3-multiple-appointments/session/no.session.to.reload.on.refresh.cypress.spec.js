@@ -1,7 +1,7 @@
 import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
 
-import mockCheckIn from '../../../../api/local-mock-api/mocks/v0/check.in.responses';
-import mockValidate from '../../../../api/local-mock-api/mocks/v0/validate.responses';
+import mockCheckIn from '../../../../api/local-mock-api/mocks/v2/check.in.responses';
+import mockValidate from '../../../../api/local-mock-api/mocks/v2/sessions.responses';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
@@ -20,26 +20,19 @@ describe('Check In Experience -- ', () => {
         checkInExperienceUpdateInformationPageEnabled: false,
       }),
     );
-    cy.window().then(window => {
-      const sample = JSON.stringify({
-        token: '46bebc0a-b99c-464f-a5c5-560bc9eae287',
-      });
-      window.sessionStorage.setItem(
-        'health.care.check-in.current.uuid',
-        sample,
-      );
-    });
   });
   afterEach(() => {
     cy.window().then(window => {
       window.sessionStorage.clear();
     });
   });
-  it('C5749 - On page reload, the data should be pull from session storage and redirected to landing screen with data loaded', () => {
-    const featureRoute = '/health-care/appointment-check-in/details';
+
+  it('C5751 - Should show error page since there is no data to load locally', () => {
+    const featureRoute = '/health-care/appointment-check-in/update-information';
+    cy.window().then(window => {
+      window.sessionStorage.clear();
+    });
     cy.visit(featureRoute);
-    // redirected back to landing page to reload the data
-    cy.url().should('match', /id=46bebc0a-b99c-464f-a5c5-560bc9eae287/);
-    cy.get('h1').contains('Your appointment');
+    cy.get('h1').contains('We couldn’t check you in');
   });
 });

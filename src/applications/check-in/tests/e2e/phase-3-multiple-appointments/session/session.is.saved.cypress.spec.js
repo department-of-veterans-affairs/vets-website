@@ -1,7 +1,7 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
+import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
 
-import mockCheckIn from '../../../api/local-mock-api/mocks/v0/check.in.responses';
-import mockValidate from '../../../api/local-mock-api/mocks/v0/validate.responses';
+import mockCheckIn from '../../../../api/local-mock-api/mocks/v2/check.in.responses';
+import mockValidate from '../../../../api/local-mock-api/mocks/v2/sessions.responses';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
@@ -26,10 +26,19 @@ describe('Check In Experience -- ', () => {
       window.sessionStorage.clear();
     });
   });
-  it('Update question disabled', () => {
+  it('C5753 - Data is saved to session storage', () => {
     const featureRoute =
       '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
     cy.visit(featureRoute);
     cy.get('h1').contains('Your appointment');
+    cy.window().then(window => {
+      const data = window.sessionStorage.getItem(
+        'health.care.check-in.current.uuid',
+      );
+      const sample = JSON.stringify({
+        token: '46bebc0a-b99c-464f-a5c5-560bc9eae287',
+      });
+      expect(data).to.equal(sample);
+    });
   });
 });
