@@ -46,6 +46,19 @@ export function dedupeArray(items) {
 }
 
 /**
+ * Returns an array with any duplicate id objects removed
+ *
+ * @export
+ * @param {Array} items
+ * @returns {Array} array with objects of unique ids
+ */
+export function removeDuplicateId(items) {
+  return items.filter(
+    (ele, index) => index === items.findIndex(element => element.id === ele.id),
+  );
+}
+
+/**
  * Takes an object with string keys and promise values,
  * waits for them all to complete, then returns an object
  * with the same string keys and the resolved promise values

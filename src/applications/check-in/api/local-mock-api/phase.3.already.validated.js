@@ -12,12 +12,7 @@ let hasBeenValidated = false;
 
 const responses = {
   ...commonResponses,
-  'GET /v0/feature_toggles': featureToggles.createFeatureToggles(
-    true,
-    true,
-    true,
-    false,
-  ),
+  'GET /v0/feature_toggles': featureToggles.generateFeatureToggles(),
   // v2
   'GET /check_in/v2/sessions/:uuid': (req, res) => {
     return res

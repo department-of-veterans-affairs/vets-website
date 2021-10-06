@@ -7,20 +7,13 @@ import PropTypes from 'prop-types';
 import { Column, Row } from 'platform/forms/components/common/grid';
 import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
 import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 export default function ClientError(props) {
   const { buttonText, formConfig, onBack, onSubmit, testId } = props;
   const Element = Scroll.Element;
-  const scroller = Scroll.scroller;
   const scrollToError = () => {
-    scroller.scrollTo(
-      'errorScrollElement',
-      getScrollOptions() || {
-        duration: 500,
-        delay: 0,
-        smooth: true,
-      },
-    );
+    scrollTo('errorScrollElement', getScrollOptions());
   };
 
   useEffect(() => {
