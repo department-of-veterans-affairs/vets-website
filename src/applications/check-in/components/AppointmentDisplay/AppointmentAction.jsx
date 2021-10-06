@@ -114,6 +114,28 @@ const AppointmentAction = props => {
       areEqual(appointment.eligibility, ELIGIBILITY.INELIGIBLE_UNKNOWN_REASON)
     ) {
       return <p data-testid="unknown-reason-message">{defaultMessage}</p>;
+    } else if (
+      areEqual(
+        appointment.eligibility,
+        ELIGIBILITY.INELIGIBLE_ALREADY_CHECKED_IN,
+      )
+    ) {
+      if (appointment.checkedInTime) {
+        const appointmentDateTime = new Date(appointment.checkedInTime);
+        const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
+        return (
+          <p data-testid="already-checked-in-message">
+            You checked in at {appointmentTime}
+          </p>
+        );
+      } else {
+        return (
+          <p data-testid="already-checked-in-no-time-message">
+            Online check-in isn’t available for this appointment. Check in with
+            a staff member.
+          </p>
+        );
+      }
     }
   }
   return <p data-testid="no-status-given-message">{defaultMessage}</p>;
