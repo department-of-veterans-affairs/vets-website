@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
+import './SearchDropDownStyles.scss';
 
 const ID = 'SearchDropDownComponent';
 const Keycodes = {
@@ -20,12 +21,6 @@ const Keycodes = {
   Tab: 9,
   Up: 38,
 };
-
-const highlightedSuggestion =
-  'suggestion-highlighted vads-u-background-color--primary-alt-light vads-u-color--gray-dark vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0  vads-u-padding-x--1p5 vads-u-padding-y--0p5 vads-u-width--full';
-
-const regularSuggestion =
-  'suggestion vads-u-color--gray-dark vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-padding-x--1p5 vads-u-padding-y--0p5 vads-u-width--full ';
 
 class SearchDropDownComponent extends React.Component {
   constructor(props) {
@@ -52,6 +47,23 @@ class SearchDropDownComponent extends React.Component {
   componentWillUnmount() {
     clearTimeout(this.getSuggestionsTimeout);
   }
+
+  formatSuggestion = suggestion => {
+    if (!suggestion || !this.state.inputValue) {
+      return suggestion;
+    }
+    const lowerSuggestion = suggestion?.toLowerCase();
+    const lowerQuery = this.state.inputValue?.toLowerCase();
+    if (lowerSuggestion.includes(lowerQuery)) {
+      return (
+        <>
+          {this.state.inputValue}
+          <strong>{lowerSuggestion.replace(lowerQuery, '')}</strong>
+        </>
+      );
+    }
+    return <strong>{lowerSuggestion}</strong>;
+  };
 
   handleInputChange = event => {
     // update the input value to the new value
@@ -81,7 +93,7 @@ class SearchDropDownComponent extends React.Component {
 
   // handle blur logic
   onInputBlur() {
-    const { ignoreBlur, isOpen, activeIndex } = this.state;
+    const { ignoreBlur, isOpen } = this.state;
 
     if (ignoreBlur) {
       this.setState({ ignoreBlur: false });
@@ -89,9 +101,6 @@ class SearchDropDownComponent extends React.Component {
     }
 
     if (isOpen) {
-      if (activeIndex) {
-        this.selectOption(activeIndex);
-      }
       this.updateMenuState(false, false);
     }
   }
@@ -252,11 +261,17 @@ class SearchDropDownComponent extends React.Component {
 
     const activeId = isOpen ? `${ID}-${activeIndex}` : '';
 
+    const overallClass = this.props.shrinkToColumn
+      ? ' search-dropdown-component shrink-to-column'
+      : 'search-dropdown-component';
+
     return (
-      <div className="vads-u-flex-direction--column vads-u-width--full">
-        <div className="vads-u-display--flex vads-u-width--full vads-u-flex-direction--row">
+      <div
+        className={`vads-u-display--flex vads-u-width--full ${overallClass}`}
+      >
+        <div className="search-dropdown vads-u-width--full vads-u-flex-direction--column">
           <input
-            aria-activedescendant={activeId}
+            aria-activedescendant={activeId || 'none'}
             aria-autocomplete={'none'}
             aria-controls={`${ID}-listbox`}
             aria-expanded={isOpen}
@@ -273,33 +288,21 @@ class SearchDropDownComponent extends React.Component {
             onChange={this.handleInputChange}
             onKeyDown={this.onKeyDown}
           />
-          {this.props.canSubmit && (
-            <button
-              type="submit"
-              className="search-submit-button"
-              onClick={() => this.props.onInputSubmit(this.state)}
-              onFocus={this.saveSuggestions}
-            >
-              <IconSearch color="#fff" />
-              <span className="button-text">Search</span>
-            </button>
-          )}
-        </div>
-        <div className="vads-u-flex-direction--column vads-u-width--full">
           {isOpen &&
             suggestions.length > 0 && (
               <div
-                className="vads-u-padding--x-1"
+                className="search-dropdown-options vads-u-padding--x-1"
                 role="listbox"
                 id={`${ID}-listbox`}
               >
                 {suggestions.map((option, i) => {
+                  const formattedSuggestion = this.formatSuggestion(option);
                   return (
                     <div
                       className={
                         i === activeIndex
-                          ? highlightedSuggestion
-                          : regularSuggestion
+                          ? 'suggestion highlighted'
+                          : 'suggestion regular'
                       }
                       key={`${ID}-${i}`}
                       id={`${ID}-${i}`}
@@ -312,14 +315,33 @@ class SearchDropDownComponent extends React.Component {
                       onMouseDown={() => {
                         this.setState({ ignoreBlur: true });
                       }}
+                      onMouseOver={() => {
+                        this.setState({ activeIndex: i });
+                      }}
+                      onFocus={() => {
+                        this.setState({ activeIndex: i });
+                      }}
                     >
-                      {option}
+                      {formattedSuggestion}
                     </div>
                   );
                 })}
               </div>
             )}
         </div>
+        {this.props.canSubmit && (
+          <button
+            type="submit"
+            className="search-submit-button"
+            onClick={() => this.props.onInputSubmit(this.state)}
+            onFocus={this.saveSuggestions}
+          >
+            <IconSearch color="#fff" />
+            {this.props.buttonText && (
+              <span className="button-text">{this.props.buttonText}</span>
+            )}
+          </button>
+        )}
       </div>
     );
   }
@@ -337,4 +359,6 @@ SearchDropDownComponent.defaultProps = {
   submitOnClick: false,
   canSubmit: false,
   debounceRate: 200,
+  buttonText: 'Search',
+  shrinkToColumn: false,
 };

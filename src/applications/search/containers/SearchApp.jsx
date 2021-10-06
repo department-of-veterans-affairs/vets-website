@@ -335,6 +335,7 @@ class SearchApp extends React.Component {
             canSubmit
             submitOnClick
             submitOnEnter
+            shrinkToColumn
             onInputSubmit={this.onInputSubmit}
             onOptionSubmit={this.onOptionSubmit}
             getSuggestions={this.getSuggestions}
