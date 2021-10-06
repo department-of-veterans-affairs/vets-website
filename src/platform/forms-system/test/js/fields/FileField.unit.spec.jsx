@@ -248,7 +248,7 @@ describe('Schemaform <FileField>', () => {
     expect(tree.find('ProgressBar').exists()).to.be.true;
     const button = tree.find('button');
     expect(button.text()).to.equal('Cancel');
-    expect(button.prop('aria-describedby')).to.eq('file-name-0');
+    expect(button.prop('aria-describedby')).to.eq('field_file_name_0');
     tree.unmount();
   });
 
@@ -734,14 +734,16 @@ describe('Schemaform <FileField>', () => {
     );
 
     expect(tree.find('li').text()).to.contain('Test file name');
-    expect(tree.find('button').prop('aria-describedby')).to.eq('file-name-0');
+    expect(tree.find('button').prop('aria-describedby')).to.eq(
+      'field_file_name_0',
+    );
 
     // check ids & index passed into SchemaField
     const schemaProps = tree.find('SchemaField').props();
     const widgetProps = schemaProps.uiSchema['ui:options'].widgetProps;
     expect(schemaProps.schema).to.equal(schema.items[0].properties.name);
     expect(schemaProps.registry.formContext.pagePerItemIndex).to.eq(0);
-    expect(widgetProps['aria-describedby']).to.eq('file-name-0');
+    expect(widgetProps['aria-describedby']).to.eq('field_file_name_0');
     expect(widgetProps['data-index']).to.eq(0);
 
     tree.unmount();
@@ -806,7 +808,9 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect(tree.find('button').prop('aria-describedby')).to.eq('file-name-0');
+    expect(tree.find('button').prop('aria-describedby')).to.eq(
+      'field_file_name_0',
+    );
 
     // check ids & index passed into SchemaField
     const schemaProps = tree.find('SchemaField').props();
@@ -815,7 +819,7 @@ describe('Schemaform <FileField>', () => {
       schema.items[0].properties.attachmentId,
     );
     expect(schemaProps.registry.formContext.pagePerItemIndex).to.eq(0);
-    expect(widgetProps['aria-describedby']).to.eq('file-name-0');
+    expect(widgetProps['aria-describedby']).to.eq('field_file_name_0');
     expect(widgetProps['data-index']).to.eq(0);
 
     tree.unmount();

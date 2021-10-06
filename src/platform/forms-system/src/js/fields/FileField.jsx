@@ -334,7 +334,7 @@ class FileField extends React.Component {
               const deleteButtonText =
                 enableShortWorkflow && hasErrors ? 'Cancel' : 'Delete file';
 
-              const fileId = `file-name-${index}`;
+              const fileId = `${idSchema.$id}_file_name_${index}`;
 
               const getUiSchema = innerUiSchema =>
                 typeof innerUiSchema === 'function'
