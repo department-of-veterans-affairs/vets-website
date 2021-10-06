@@ -14,6 +14,7 @@ const DisabilityRatingContent = ({ rating }) => {
     'color--white',
     'text-align--center',
     'line-height--3',
+    'display--flex',
   ]);
 
   const disabilityRatingClassesMedium = prefixUtilityClasses(
@@ -21,15 +22,19 @@ const DisabilityRatingContent = ({ rating }) => {
     'medium',
   );
 
+  const dtRatingClasses = prefixUtilityClasses(['margin-right--0.5']);
+
   const classes = [
     ...disabilityRatingClasses,
     ...disabilityRatingClassesMedium,
   ].join(' ');
 
   return (
-    <>
-      <dt>{rating ? <>Your disability rating: </> : null}</dt>
-      <dd className={classes}>
+    <div className={classes}>
+      <dt className={dtRatingClasses}>
+        {rating ? `Your disability rating: ` : null}
+      </dt>
+      <dd>
         <a
           href="/disability/view-disability-rating/rating"
           aria-label={
@@ -54,7 +59,7 @@ const DisabilityRatingContent = ({ rating }) => {
           />
         </a>
       </dd>
-    </>
+    </div>
   );
 };
 
