@@ -18,14 +18,12 @@ export default function DisplayMultipleAppointments(props) {
     router,
     getMultipleAppointments,
   } = props;
-  const path = router.location.pathname;
 
   const handleClick = e => {
     e.preventDefault();
 
     recordEvent({
       event: createAnalyticsSlug('refresh-appointments-button-clicked'),
-      fromPage: path,
     });
 
     getMultipleAppointments();
