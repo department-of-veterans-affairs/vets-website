@@ -1,10 +1,12 @@
 import React from 'react';
 import format from 'date-fns/format';
 
+import AppointmentListItem from '../../components/AppointmentDisplay/AppointmentListItem';
+import BackButton from '../../components/BackButton';
 import BackToHome from '../../components/BackToHome';
 import Footer from '../../components/Footer';
-import BackButton from '../../components/BackButton';
-import AppointmentListItem from '../../components/AppointmentDisplay/AppointmentListItem';
+import recordEvent from 'platform/monitoring/record-event';
+import { createAnalyticsSlug } from '../../utils/analytics';
 import { sortAppointmentsByStartTime } from '../../utils/appointment';
 
 export default function DisplayMultipleAppointments(props) {
@@ -16,9 +18,16 @@ export default function DisplayMultipleAppointments(props) {
     router,
     getMultipleAppointments,
   } = props;
+  const path = router.location.pathname;
 
   const handleClick = e => {
     e.preventDefault();
+
+    recordEvent({
+      event: createAnalyticsSlug('refresh-appointments-button-clicked'),
+      fromPage: path,
+    });
+
     getMultipleAppointments();
   };
 
@@ -55,7 +64,11 @@ export default function DisplayMultipleAppointments(props) {
         {format(new Date(), 'MMMM dd, yyyy HH:mm')}
       </p>
       <p data-testid="refresh-link">
-        <a onClick={e => handleClick(e)} href="#">
+        <a
+          onClick={e => handleClick(e)}
+          href="#"
+          data-testid="refresh-appointments-button"
+        >
           Refresh
         </a>
       </p>
