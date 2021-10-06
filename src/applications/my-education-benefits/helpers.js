@@ -164,3 +164,12 @@ export const getSelectedCheckboxes = (uiSchema, formData) =>
     .map(checkboxOption => checkboxOption[0]) // object key
     .map(selectedCheckboxKey => uiSchema[selectedCheckboxKey]['ui:title'])
     .join(', ');
+
+export function prefillTransformer(pages, formData, metadata, state) {
+  return {
+    metadata,
+    formData,
+    pages,
+    state,
+  };
+}
