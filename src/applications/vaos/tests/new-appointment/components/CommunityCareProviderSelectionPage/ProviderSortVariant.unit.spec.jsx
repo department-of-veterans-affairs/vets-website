@@ -558,4 +558,42 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
     expect(screen.baseElement).to.contain.text('Your home address');
     expect(screen.baseElement).to.contain.text('Your current location');
   });
+
+  it('should display an error message when lookup fails', async () => {
+    // Given the CC iteration flag is on
+    const store = createTestStore(initialState);
+    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfFacility(store, /Community Care/i);
+    const screen = renderWithStoreAndRouter(
+      <CommunityCareProviderSelectionPage />,
+      {
+        store,
+      },
+    );
+    // And the provider service is not working
+    mockCCProviderFetch(
+      initialState.user.profile.vapContactInfo.residentialAddress,
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
+      calculateBoundingBox(
+        initialState.user.profile.vapContactInfo.residentialAddress.latitude,
+        initialState.user.profile.vapContactInfo.residentialAddress.longitude,
+        60,
+      ),
+      CC_PROVIDERS_DATA,
+      true,
+    );
+
+    // When the user clicks the choose a provider button
+    userEvent.click(
+      await screen.findByText(/Choose a provider/i, {
+        selector: 'button',
+      }),
+    );
+    // Then they should see an error message
+    expect(await screen.findByText(/We can’t load provider information/i)).to
+      .exist;
+
+    // And still be able to continue
+    expect(screen.getByRole('button', { name: /Continue/i })).to.exist;
+  });
 });
