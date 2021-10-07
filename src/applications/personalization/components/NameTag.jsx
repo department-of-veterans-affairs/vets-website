@@ -22,7 +22,7 @@ const DisabilityRatingContent = ({ rating }) => {
     'medium',
   );
 
-  const dtRatingClasses = prefixUtilityClasses(['margin-right--0.5']);
+  const dtRatingClasses = prefixUtilityClasses(['margin-right--0p5']);
 
   const classes = [
     ...disabilityRatingClasses,
@@ -31,8 +31,8 @@ const DisabilityRatingContent = ({ rating }) => {
 
   return (
     <div className={classes}>
-      <dt className={dtRatingClasses}>
-        {rating ? `Your disability rating: ` : null}
+      <dt className={rating ? dtRatingClasses : null}>
+        {rating ? `Your disability rating:` : null}
       </dt>
       <dd>
         <a
