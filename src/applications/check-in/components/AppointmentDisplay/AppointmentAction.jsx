@@ -122,6 +122,13 @@ const AppointmentAction = props => {
     ) {
       if (appointment.checkedInTime) {
         const appointmentDateTime = new Date(appointment.checkedInTime);
+        if (isNaN(appointmentDateTime.getTime())) {
+          return (
+            <p data-testid="already-checked-in-no-time-message">
+              You are already checked in.
+            </p>
+          );
+        }
         const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
         return (
           <p data-testid="already-checked-in-message">
@@ -131,8 +138,7 @@ const AppointmentAction = props => {
       } else {
         return (
           <p data-testid="already-checked-in-no-time-message">
-            Online check-in isn’t available for this appointment. Check in with
-            a staff member.
+            You are already checked in.
           </p>
         );
       }
