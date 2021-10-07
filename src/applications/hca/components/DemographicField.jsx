@@ -1,12 +1,13 @@
+/* eslint-disable no-console */
 import React from 'react';
 
 export default function DemographicField(props) {
+  console.log(props, '--> props');
   const { formContext, uiSchema, schema, formData } = props;
   const ObjectField = props.registry.fields.ObjectField;
 
   if (!formContext.reviewMode) {
-    // eslint-disable-next-line no-console
-    console.log("erfgefgdf");
+    console.log('if block');
     return <ObjectField {...props} />;
   }
 

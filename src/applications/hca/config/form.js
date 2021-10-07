@@ -161,9 +161,21 @@ const formConfig = {
           uiSchema: genderInformation.uiSchema,
           schema: genderInformation.schema,
         },
+        genderIdentificationInformation: {
+          path: 'veteran-information/gender-identification-information',
+          title: 'Veteran information',
+          initialData: {
+            'view:demographicCategories': {
+              isSpanishHispanicLatino: false,
+            },
+          },
+          uiSchema: genderInformation.uiSchema,
+          schema: genderInformation.schema,
+        },
         maritalInformation: {
           path: 'veteran-information/marital-information',
           title: 'Veteran information',
+          // title: 'Marital information',
           initialData: {
             'view:demographicCategories': {
               isSpanishHispanicLatino: false,
