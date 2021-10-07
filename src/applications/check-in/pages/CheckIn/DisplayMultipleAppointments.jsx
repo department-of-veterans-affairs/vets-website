@@ -57,7 +57,7 @@ export default function DisplayMultipleAppointments(props) {
       </ol>
       <p data-testid="update-text">
         <strong>Latest update:</strong>{' '}
-        {format(new Date(), 'MMMM dd, yyyy HH:mm')}
+        {format(new Date(), "MMMM d, yyyy 'at' hh:mm aaaa")}
       </p>
       <p data-testid="refresh-link">
         <a

@@ -94,7 +94,10 @@ describe('Check In Experience -- ', () => {
         .should('be.visible')
         .and(
           'contain',
-          `Latest update: ${format(new Date(), 'MMMM dd, yyyy HH:mm')}`,
+          `Latest update: ${format(
+            new Date(),
+            "MMMM d, yyyy 'at' hh:mm aaaa",
+          )}`,
         );
       cy.scrollTo('bottom')
         .window()
