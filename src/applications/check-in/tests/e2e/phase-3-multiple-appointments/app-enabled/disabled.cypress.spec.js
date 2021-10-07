@@ -7,9 +7,6 @@ describe('Check In Experience -- ', () => {
       '/v0/feature_toggles*',
       generateFeatureToggles({
         checkInExperienceEnabled: false,
-        checkInExperienceLowAuthenticationEnabled: false,
-        checkInExperienceMultipleAppointmentSupport: false,
-        checkInExperienceUpdateInformationPageEnabled: false,
       }),
     );
   });
