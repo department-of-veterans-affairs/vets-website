@@ -454,17 +454,17 @@ const formConfig = {
               [formFields.dateOfBirth]: date,
             },
           },
-          initialData: {
-            'view:fullName': {
-              fullName: {
-                first: 'Hector',
-                middle: 'Oliver',
-                last: 'Stanley',
-                suffix: 'Jr.',
-              },
-            },
-            dateOfBirth: '1992-07-23',
-          },
+          // initialData: {
+          //   'view:fullName': {
+          //     userFullName: {
+          //       first: 'Hector',
+          //       middle: 'Oliver',
+          //       last: 'Stanley',
+          //       suffix: 'Jr.',
+          //     },
+          //   },
+          //   dateOfBirth: '1992-07-23',
+          // },
         },
       },
     },
