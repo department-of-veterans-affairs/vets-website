@@ -4,6 +4,7 @@ import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import WizardContainer from 'applications/edu-benefits/wizard/containers/WizardContainer';
+import environment from 'platform/utilities/environment';
 import { connect } from 'react-redux';
 import { showEduBenefits1995Wizard } from 'applications/edu-benefits/selectors/educationWizard';
 import {
@@ -162,7 +163,7 @@ export class IntroductionPage extends React.Component {
               </ol>
             </div>
             {this.renderSaveInProgressIntro(true)}
-            {this.environment.isProduction() ? (
+            {environment.isProduction() ? (
               <div
                 className="omb-info--container"
                 style={{ paddingLeft: '0px' }}
