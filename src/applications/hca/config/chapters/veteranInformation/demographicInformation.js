@@ -1,12 +1,10 @@
-import { genderLabels } from 'platform/static-data/labels';
+import React from 'react';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import { maritalStatuses } from 'platform/static-data/options-for-select';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
-
+// import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import DemographicField from '../../../components/DemographicField';
 
 const {
-  gender,
   isAmericanIndianOrAlaskanNative,
   isAsian,
   isBlackOrAfricanAmerican,
@@ -15,22 +13,24 @@ const {
   isWhite,
 } = fullSchemaHca.properties;
 
+const StatisticsInfo = (
+  <div>
+    <p>
+      What is your race, ethnicity, or origin? (Please check all that apply)
+    </p>
+    <p style={{ color: 'gray' }}>
+      Information is gathered for statistical purposes only
+    </p>
+  </div>
+);
+
 export default {
   uiSchema: {
     'ui:description': PrefillMessage,
-    // gender: {
-    //   'ui:title': 'Gender',
-    //   'ui:options': {
-    //     labels: genderLabels,
-    //   },
-    // },
-    // maritalStatus: {
-    //   'ui:title': 'Marital status',
-    // },
     'view:demographicCategories': {
       'ui:field': DemographicField,
-      'ui:title': 'Which categories best describe you?',
-      'ui:description': 'You may check more than one.',
+      // 'ui:description': 'What is your race, ethnicity, or origin? (Please check all that apply)',
+      'ui:description': StatisticsInfo,
       isSpanishHispanicLatino: {
         'ui:title': 'Spanish, Hispanic, or Latino',
       },
@@ -49,17 +49,14 @@ export default {
       isWhite: {
         'ui:title': 'White',
       },
+      noAnswer: {
+        'ui:title': 'Prefer not to answer',
+      },
     },
   },
   schema: {
     type: 'object',
-    required: ['gender', 'maritalStatus'],
     properties: {
-      // gender,
-      // maritalStatus: {
-      //   type: 'string',
-      //   enum: maritalStatuses,
-      // },
       'view:demographicCategories': {
         type: 'object',
         properties: {
@@ -69,6 +66,7 @@ export default {
           isNativeHawaiianOrOtherPacificIslander,
           isAsian,
           isWhite,
+          // noAnswer,
         },
       },
     },
