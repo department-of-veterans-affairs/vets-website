@@ -164,11 +164,6 @@ export class IntroductionPage extends React.Component {
             </div>
             {this.renderSaveInProgressIntro(true)}
             <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-              <OMBInfo
-                resBurden={20}
-                ombNumber="2900-0074"
-                expDate="10/30/2021"
-              />
               {environment.isProduction() ? (
                 <OMBInfo
                   resBurden={20}
