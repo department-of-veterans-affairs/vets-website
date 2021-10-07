@@ -5,7 +5,7 @@ import AppointmentLocation from './AppointmentLocation';
 import AppointmentAction from './AppointmentAction';
 
 export default function AppointmentListItem(props) {
-  const { appointment, isLowAuthEnabled, token, router } = props;
+  const { appointment, token, router } = props;
   const appointmentDateTime = new Date(appointment.startTime);
   const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
   return (
@@ -29,7 +29,6 @@ export default function AppointmentListItem(props) {
       </dl>
       <AppointmentAction
         appointment={appointment}
-        isLowAuthEnabled={isLowAuthEnabled}
         isMultipleAppointmentsEnabled
         router={router}
         token={token}
