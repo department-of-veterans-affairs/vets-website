@@ -162,13 +162,29 @@ export class IntroductionPage extends React.Component {
               </ol>
             </div>
             {this.renderSaveInProgressIntro(true)}
-            <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-              <OMBInfo
-                resBurden={20}
-                ombNumber="2900-0074"
-                expDate="8/31/2024"
-              />
-            </div>
+            {this.environment.isProduction() ? (
+              <div
+                className="omb-info--container"
+                style={{ paddingLeft: '0px' }}
+              >
+                <OMBInfo
+                  resBurden={20}
+                  ombNumber="2900-0074"
+                  expDate="10/30/2021"
+                />
+              </div>
+            ) : (
+              <div
+                className="omb-info--container"
+                style={{ paddingLeft: '0px' }}
+              >
+                <OMBInfo
+                  resBurden={20}
+                  ombNumber="2900-0074"
+                  expDate="8/31/2024"
+                />
+              </div>
+            )}
           </div>
         )}
       </div>
