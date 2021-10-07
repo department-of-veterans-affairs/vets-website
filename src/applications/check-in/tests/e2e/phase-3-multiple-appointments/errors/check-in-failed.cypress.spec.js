@@ -1,40 +1,36 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-
-import mockCheckIn from '../../../api/local-mock-api/mocks/v0/check.in.responses';
-import mockSession from '../../../api/local-mock-api/mocks/v1/sessions.responses';
-import mockPatientCheckIns from '../../../api/local-mock-api/mocks/v1/patient.check.in.responses';
-
+import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
+import mockCheckIn from '../../../../api/local-mock-api/mocks/v2/check.in.responses';
+import mockSession from '../../../../api/local-mock-api/mocks/v2/sessions.responses';
+import mockPatientCheckIns from '../../../../api/local-mock-api/mocks/v2/patient.check.in.responses';
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
     let hasValidated = false;
-
-    cy.intercept('GET', '/check_in/v1/sessions/*', req => {
+    cy.intercept('GET', '/check_in/v2/sessions/*', req => {
       req.reply(
         mockSession.createMockSuccessResponse('some-token', 'read.basic'),
       );
     });
-    cy.intercept('POST', '/check_in/v1/sessions', req => {
+    cy.intercept('POST', '/check_in/v2/sessions', req => {
       hasValidated = true;
       req.reply(
         mockSession.createMockSuccessResponse('some-token', 'read.full'),
       );
     });
-    cy.intercept('GET', '/check_in/v1/patient_check_ins/*', req => {
+    cy.intercept('GET', '/check_in/v2/patient_check_ins/*', req => {
       req.reply(
         mockPatientCheckIns.createMockSuccessResponse({}, hasValidated),
       );
     });
-    cy.intercept('POST', '/check_in/v1/patient_check_ins/', req => {
-      req.reply(mockCheckIn.createMockSuccessResponse({}));
+    cy.intercept('POST', '/check_in/v2/patient_check_ins/', req => {
+      req.reply(mockCheckIn.createMockFailedResponse({}));
     });
     cy.intercept(
       'GET',
       '/v0/feature_toggles*',
       generateFeatureToggles({
-        checkInExperienceLowAuthenticationEnabled: true,
-        checkInExperienceMultipleAppointmentSupport: false,
+        checkInExperienceMultipleAppointmentSupport: true,
         checkInExperienceUpdateInformationPageEnabled: false,
       }),
     );
@@ -44,11 +40,13 @@ describe('Check In Experience -- ', () => {
       window.sessionStorage.clear();
     });
   });
-  it('validate page is enabled; update question is disabled', () => {
+  it('C5722 - Check in failed with a 200 and error message in the body', () => {
     const featureRoute =
       '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
     cy.visit(featureRoute);
-    cy.get('h1').contains('Check in at VA');
+    cy.get('h1', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and('have.text', 'Check in at VA');
     cy.injectAxe();
     cy.axeCheck();
     cy.get('[label="Your last name"]')
@@ -59,25 +57,16 @@ describe('Check In Experience -- ', () => {
       .shadow()
       .find('input')
       .type('4837');
-    cy.get('[data-testid=check-in-button]')
-      .should('be.visible')
-      .click({
-        waitForAnimations: true,
-      });
-
-    cy.url().should('match', /details/);
-
+    cy.get('[data-testid=check-in-button]').click();
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .contains('Your appointment');
+      .and('have.text', 'Your appointments');
+    cy.get('.appointment-list').should('have.length', 1);
     cy.injectAxe();
     cy.axeCheck();
-    cy.get('.usa-button').click({
-      waitForAnimations: true,
-    });
-
-    cy.get('va-alert > h1').contains('checked in');
-    cy.injectAxe();
-    cy.axeCheck();
+    cy.get('.usa-button').click();
+    cy.get('h1', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and('contain', 'We couldn’t check you in');
   });
 });

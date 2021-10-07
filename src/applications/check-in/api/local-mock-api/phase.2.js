@@ -13,7 +13,6 @@ let hasBeenValidated = false;
 const responses = {
   ...commonResponses,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
-    checkInExperienceLowAuthenticationEnabled: true,
     checkInExperienceMultipleAppointmentSupport: false,
     checkInExperienceUpdateInformationPageEnabled: false,
   }),

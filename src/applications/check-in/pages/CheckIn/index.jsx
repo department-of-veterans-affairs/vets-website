@@ -25,7 +25,6 @@ const CheckIn = props => {
     appointments,
     context,
     isUpdatePageEnabled,
-    isLowAuthEnabled,
     setAppointment,
     setMultipleAppointments,
     isMultipleAppointmentsEnabled,
@@ -55,35 +54,30 @@ const CheckIn = props => {
 
   useEffect(
     () => {
-      if (isLowAuthEnabled) {
-        if (isMultipleAppointmentsEnabled) {
-          getMultipleAppointments();
-        } else {
-          // load data from checks route
-          api.v1
-            .getCheckInData(token)
-            .then(json => {
-              const { payload } = json;
-              setAppointment(payload, token);
-              setIsLoadingData(false);
-              focusElement('h1');
-            })
-            .catch(() => {
-              goToNextPage(router, URLS.ERROR);
-            });
-        }
+      if (isMultipleAppointmentsEnabled) {
+        getMultipleAppointments();
       } else {
-        focusElement('h1');
+        // load data from checks route
+        api.v1
+          .getCheckInData(token)
+          .then(json => {
+            const { payload } = json;
+            setAppointment(payload, token);
+            setIsLoadingData(false);
+            focusElement('h1');
+          })
+          .catch(() => {
+            goToNextPage(router, URLS.ERROR);
+          });
       }
     },
     [
-      token,
-      isLowAuthEnabled,
-      setAppointment,
-      setMultipleAppointments,
-      router,
       isMultipleAppointmentsEnabled,
       getMultipleAppointments,
+      router,
+      setAppointment,
+      setMultipleAppointments,
+      token,
     ],
   );
 
@@ -98,7 +92,6 @@ const CheckIn = props => {
         <FeatureOn>
           <DisplayMultipleAppointments
             isUpdatePageEnabled={isUpdatePageEnabled}
-            isLowAuthEnabled={isLowAuthEnabled}
             router={router}
             token={token}
             appointments={appointments}
@@ -108,7 +101,6 @@ const CheckIn = props => {
         <FeatureOff>
           <DisplaySingleAppointment
             isUpdatePageEnabled={isUpdatePageEnabled}
-            isLowAuthEnabled={isLowAuthEnabled}
             router={router}
             token={token}
             appointment={appointment}

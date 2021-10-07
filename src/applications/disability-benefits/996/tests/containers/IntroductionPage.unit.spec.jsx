@@ -212,7 +212,7 @@ describe('IntroductionPage', () => {
     };
 
     const tree = shallow(<IntroductionPage {...props} />);
-    expect(tree.find('WizardContainer')).to.have.lengthOf(1);
+    expect(tree.find('Connect(WizardContainer)')).to.have.lengthOf(1);
     expect(tree.find('Connect(CallToActionWidget)')).to.have.lengthOf(0);
     tree.unmount();
   });

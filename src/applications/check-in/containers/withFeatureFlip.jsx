@@ -6,7 +6,6 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 
 import {
   checkInExperienceEnabled,
-  checkInExperienceLowRiskAuthenicationEnabled,
   checkInExperienceMultipleAppointmentEnabled,
   checkInExperienceUpdateInformationPageEnabled,
   loadingFeatureFlags,
@@ -35,7 +34,6 @@ const withFeatureFlip = WrappedComponent => props => {
 const mapStateToProps = state => ({
   isCheckInEnabled: checkInExperienceEnabled(state),
   isLoadingFeatureFlags: loadingFeatureFlags(state),
-  isLowAuthEnabled: checkInExperienceLowRiskAuthenicationEnabled(state),
   isMultipleAppointmentsEnabled: checkInExperienceMultipleAppointmentEnabled(
     state,
   ),

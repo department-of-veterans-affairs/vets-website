@@ -55,6 +55,12 @@ describe('Return to Notification Settings CTA', () => {
     cy.injectAxeThenAxeCheck();
 
     cy.findByText(/update saved/i).should('exist');
+
+    cy.focused()
+      .invoke('text')
+      .should('match', /manage text notifications/i)
+      .should('match', /update saved/i);
+
     cy.injectAxeThenAxeCheck();
     cy.findByRole('link', { name: /manage text notifications/i }).click();
 

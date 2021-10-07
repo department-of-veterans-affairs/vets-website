@@ -3,6 +3,7 @@ import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/fea
 import mockCheckIn from '../../../../api/local-mock-api/mocks/v2/check.in.responses';
 import mockSession from '../../../../api/local-mock-api/mocks/v2/sessions.responses';
 import mockPatientCheckIns from '../../../../api/local-mock-api/mocks/v2/patient.check.in.responses';
+
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 describe('Check In Experience -- ', () => {
@@ -19,7 +20,15 @@ describe('Check In Experience -- ', () => {
         );
       });
       cy.intercept('GET', '/check_in/v2/patient_check_ins/*', req => {
-        req.reply(mockPatientCheckIns.createMultipleAppointments({}));
+        const rv = mockPatientCheckIns.createMultipleAppointments();
+        const already = mockPatientCheckIns.createAppointment();
+        already.startTime = '2021-08-19T03:00:00';
+        already.eligibility = 'INELIGIBLE_ALREADY_CHECKED_IN';
+        const next = mockPatientCheckIns.createAppointment();
+        next.startTime = '2021-08-19T13:00:00';
+
+        rv.payload.appointments = [already, next];
+        req.reply(rv);
       });
       cy.intercept('POST', '/check_in/v2/patient_check_ins/', req => {
         req.reply(mockCheckIn.createMockSuccessResponse({}));
@@ -28,6 +37,7 @@ describe('Check In Experience -- ', () => {
         'GET',
         '/v0/feature_toggles*',
         generateFeatureToggles({
+          checkInExperienceLowAuthenticationEnabled: true,
           checkInExperienceMultipleAppointmentSupport: true,
           checkInExperienceUpdateInformationPageEnabled: false,
         }),
@@ -38,13 +48,11 @@ describe('Check In Experience -- ', () => {
         window.sessionStorage.clear();
       });
     });
-    it('confirm page toggles -- on', () => {
+    it('Appointments are displayed in a sorted manner', () => {
       const featureRoute =
         '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
       cy.visit(featureRoute);
-      cy.get('h1', { timeout: Timeouts.slow })
-        .should('be.visible')
-        .and('have.text', 'Check in at VA');
+      cy.get('h1').contains('Check in at VA');
       cy.injectAxe();
       cy.axeCheck();
       cy.get('[label="Your last name"]')
@@ -58,27 +66,19 @@ describe('Check In Experience -- ', () => {
       cy.get('[data-testid=check-in-button]').click();
       cy.get('h1', { timeout: Timeouts.slow })
         .should('be.visible')
-        .and('have.text', 'Your appointments');
-      cy.get('.appointment-list').should('have.length', 1);
+        .and('contain', 'Your appointments');
+      cy.get('.appointment-list > li').should('have.length', 2);
       cy.injectAxe();
       cy.axeCheck();
-      cy.get(':nth-child(2) > [data-testid=check-in-button]').click();
-
-      cy.get('[data-testid=multiple-appointments-confirm]', {
+      cy.get(
+        ':nth-child(1) > .appointment-summary > [data-testid=appointment-time]',
+        { timeout: Timeouts.slow },
+      )
+        .should('be.visible')
+        .and('contain', '3:00 a.m.');
+      cy.get('[data-testid=already-checked-in-no-time-message]', {
         timeout: Timeouts.slow,
       }).should('be.visible');
-
-      cy.get('va-alert > h1', { timeout: Timeouts.slow })
-        .should('be.visible')
-        .and('include.text', 'checked in');
-      cy.injectAxe();
-      cy.axeCheck();
-
-      cy.get('[data-testid=go-to-appointments-button]', {
-        timeout: Timeouts.slow,
-      })
-        .should('be.visible')
-        .and('include.text', 'Go to another appointment');
     });
   });
 });
