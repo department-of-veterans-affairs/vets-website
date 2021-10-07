@@ -6,21 +6,19 @@ import AdditionalInfo from '@department-of-veterans-affairs/component-library/Ad
 
 const { gender } = fullSchemaHca.properties;
 
-const GenderStatusInfo = (
+const GenderIdentificationInfo = (
   <>
-    <br />
+    <p style={{ color: 'gray' }}>
+      Choose the option that best fits how you describe yourself
+    </p>
     <AdditionalInfo triggerText="Why we ask for this information">
       <p>
-        Population data shows that a person’s sex can affect things like their
-        health risks and the way their body responds to medications. Knowing
-        your sex assigned at birth, along with other factors, helps your health
-        care care team use data to:
+        This information helps your health care team know how you wish to be
+        addressed as a person. It also helps your team better assess your health
+        needs and risks. Gender identity is one of the factors that can affect a
+        person’s health, well-being, and quality of life. We call these factors
+        “social determinants of health.”
       </p>
-      <ul>
-        <li>Interpret your lab results</li>
-        <li>Prescribe the right dose of medications</li>
-        <li>Recommend health prevention screenings</li>
-      </ul>
       <p>
         We also collect this information to better understand our Veteran
         community. This helps us make sure that we’re serving the needs of all
@@ -34,12 +32,12 @@ export default {
   uiSchema: {
     'ui:description': PrefillMessage,
     gender: {
-      'ui:title': 'What sex were you assigned at birth?',
+      'ui:title': 'What is your gender?',
       'ui:widget': 'radio',
       'ui:options': {
         labels: genderLabels,
       },
-      'ui:description': GenderStatusInfo,
+      'ui:description': GenderIdentificationInfo,
     },
   },
   schema: {

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -57,6 +58,7 @@ class FormPage extends React.Component {
 
   // Navigate to the next page
   onSubmit = ({ formData }) => {
+    console.log(formData, `--> formData`);
     const { form, params, route, location } = this.props;
 
     // This makes sure defaulted data on a page with no changes is saved
@@ -64,6 +66,7 @@ class FormPage extends React.Component {
     // necessary. Additionally, it should NOT setData for a CustomPage. The
     // CustomPage should take care of that itself.
     if (route.pageConfig.showPagePerItem && !route.pageConfig.CustomPage) {
+      console.log('Am I getting here or no???');
       const newData = set(
         [route.pageConfig.arrayPath, params.index],
         formData,
@@ -133,6 +136,7 @@ class FormPage extends React.Component {
       route.pageList[0].path === this.props.location.pathname;
 
     function callOnContinue() {
+      console.log(route.pageConfig, `--> route.pageConfig`);
       if (typeof route.pageConfig.onContinue === 'function') {
         route.pageConfig.onContinue(data);
       }
