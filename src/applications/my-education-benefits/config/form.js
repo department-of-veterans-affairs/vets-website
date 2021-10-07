@@ -67,6 +67,7 @@ const {
 // Define all the fields in the form to aid reuse
 const formFields = {
   fullName: 'fullName',
+  userFullName: 'userFullName',
   dateOfBirth: 'dateOfBirth',
   ssn: 'ssn',
   toursOfDuty: 'toursOfDuty',
@@ -391,7 +392,7 @@ const formConfig = {
                   the form fields below.
                 </p>
               ),
-              [formFields.fullName]: {
+              [formFields.userFullName]: {
                 ...fullNameUI,
                 first: {
                   ...fullNameUI.first,
@@ -435,10 +436,10 @@ const formConfig = {
                 properties: {},
               },
               'view:fullName': {
-                required: [formFields.fullName],
+                required: [formFields.userFullName],
                 type: 'object',
                 properties: {
-                  [formFields.fullName]: {
+                  [formFields.userFullName]: {
                     ...fullName,
                     properties: {
                       ...fullName.properties,
