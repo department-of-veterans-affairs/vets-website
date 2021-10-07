@@ -12,11 +12,13 @@ export default Object.freeze({
   cernerOverride692: 'cerner_override_692',
   cernerOverride757: 'cerner_override_757',
   checkInExperienceEnabled: 'check_in_experience_enabled',
+  checkInExperienceDemographicsPageEnabled: 'check_in_experience_demographics_page_enabled',
   checkInExperienceUpdateInformationPageEnabled: 'check_in_experience_update_information_page_enabled',
   checkInExperienceLowRiskAuthenicationEnabled:
     'check_in_experience_low_authentication_enabled',
   checkInExperienceMultipleAppointmentEnabled:
     'check_in_experience_multiple_appointment_support',
+  
   coeAccess: 'coe_access',
   covidVaccineSchedulingFrontend: 'covid_vaccine_scheduling_frontend',
   covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
