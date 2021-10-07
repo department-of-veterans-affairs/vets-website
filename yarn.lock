@@ -5154,10 +5154,10 @@ camel-case@^4.1.1:
     pascal-case "^3.1.1"
     tslib "^1.10.0"
 
-camelcase-keys-recursive@^0.8.3:
-  version "0.8.3"
-  resolved "https://registry.npmjs.org/camelcase-keys-recursive/-/camelcase-keys-recursive-0.8.3.tgz"
-  integrity sha512-mUDaRXeXX6jLxRU6LP9zQ2aux0y3UIpNJizzCzcXRDtnxu+O6i1msIYp3bUBicQU0nzIggHCGkjOKcub1Wxciw==
+camelcase-keys-recursive@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/camelcase-keys-recursive/-/camelcase-keys-recursive-1.0.0.tgz#b4e415cf7fb5e244188d5def072a489367202ed1"
+  integrity sha512-QpcEaeqlwsDh5zoZiKW4qm3ldlECK6NpCPbefFSQYsr1CBuHHdF4waogmy5m6L3RiSEebDa4L2h9CMIgPGLhGg==
   dependencies:
     map-obj "^1.0.0"
 
