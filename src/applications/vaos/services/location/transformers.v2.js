@@ -14,21 +14,20 @@ import {
  * @param {VAFacility} facility A facility from the MFS v2 facilities endpoint
  * @returns {Location} A Location resource
  */
-export function transformFacility(facility) {
-  const id = facility.id.toUpperCase();
+export function transformFacilityV2(facility) {
   return {
     resourceType: 'Location',
-    id,
+    id: facility.id,
     vistaId: facility.vistaSite,
     name: facility.name,
     identifier: [
       {
         system: 'http://med.va.gov/fhir/urn',
-        value: `urn:va:division:${facility.vistaSite}:${id}`,
+        value: `urn:va:division:${facility.vistaSite}:${facility.id}`,
       },
       {
         system: VHA_FHIR_ID,
-        value: id,
+        value: facility.id,
       },
     ],
     telecom: [
@@ -62,7 +61,7 @@ export function transformParentFacilitiesV2(facilities) {
     .filter(facility => {
       return facility.id === facility.vastParent;
     })
-    .map(transformFacility);
+    .map(transformFacilityV2);
 }
 
 /**
@@ -73,7 +72,7 @@ export function transformParentFacilitiesV2(facilities) {
  * @returns {Array<Location>} A list of Location resources
  */
 export function transformFacilitiesV2(facilities) {
-  return facilities.map(transformFacility);
+  return facilities.map(transformFacilityV2);
 }
 
 function getTypeOfCareIdFromV2(id) {

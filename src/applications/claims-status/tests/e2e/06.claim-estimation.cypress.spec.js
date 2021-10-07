@@ -35,10 +35,10 @@ describe('Claim Estimation Breadcrumb Test', () => {
     // const selector = '.claim-estimate-link';
 
     // cy.pause(500);
-    // cy.get(selector, { timeout: Timeouts.normal })
+    // cy.get(selector)
     //   .click()
     //   .then(() => {
-    //     cy.get('.claims-paragraph-header', { timeout: Timeouts.normal });
+    //     cy.get('.claims-paragraph-header');
     //     cy.injectAxeThenAxeCheck();
     //   });
     // cy.get('.claims-status-content h1')

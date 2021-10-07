@@ -33,9 +33,7 @@ describe('Claim Additional Evidence Test', () => {
     cy.get('.va-tabs li:nth-child(2) > a')
       .click()
       .then(() => {
-        cy.get('.file-request-list-item', { timeout: Timeouts.normal }).should(
-          'be.visible',
-        );
+        cy.get('.file-request-list-item').should('be.visible');
       });
 
     // go to document request page
@@ -43,7 +41,7 @@ describe('Claim Additional Evidence Test', () => {
       .first()
       .click()
       .then(() => {
-        cy.get('.file-requirements', { timeout: Timeouts.normal });
+        cy.get('.file-requirements');
         cy.injectAxeThenAxeCheck();
       });
 
@@ -52,9 +50,7 @@ describe('Claim Additional Evidence Test', () => {
     cy.get('button.usa-button')
       .click()
       .then(() => {
-        cy.get('.usa-input-error', { timeout: Timeouts.normal }).should(
-          'be.visible',
-        );
+        cy.get('.usa-input-error').should('be.visible');
       });
 
     cy.get('.usa-input-error-message').should(

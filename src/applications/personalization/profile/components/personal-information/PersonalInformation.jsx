@@ -12,6 +12,7 @@ import { focusElement } from '~/platform/utilities/ui';
 
 import PaymentInformationBlocked from '@@profile/components/direct-deposit/PaymentInformationBlocked';
 import { cnpDirectDepositIsBlocked } from '@@profile/selectors';
+import { clearMostRecentlySavedField } from '@@vap-svc/actions/transactions';
 
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import Headline from '../ProfileSectionHeadline';
@@ -21,20 +22,24 @@ import PersonalInformationContent from './PersonalInformationContent';
 import { PROFILE_PATHS } from '../../constants';
 
 // drops the leading `edit` from the hash and looks for that element
-const getScrollTarget = _hash => {
-  const hash = _hash.replace('#', '');
-  const hashWithoutLeadingEdit = hash.replace(/^edit-/, '');
-  return document.querySelector(`#${hashWithoutLeadingEdit}`);
+const getScrollTarget = hash => {
+  const hashWithoutLeadingEdit = hash.replace(/^#edit-/, '#');
+  return document.querySelector(hashWithoutLeadingEdit);
 };
 
 const PersonalInformation = ({
-  showDirectDepositBlockedError,
+  clearSuccessAlert,
   hasUnsavedEdits,
   hasVAPServiceError,
+  showDirectDepositBlockedError,
 }) => {
   const lastLocation = useLastLocation();
   useEffect(() => {
     document.title = `Personal And Contact Information | Veterans Affairs`;
+
+    return () => {
+      clearSuccessAlert();
+    };
   }, []);
 
   useEffect(
@@ -45,7 +50,8 @@ const PersonalInformation = ({
       //   the hash
       // - the user just came to this route via the root profile route. If a
       //   user got to the Profile via a link to /profile or /profile/ we want
-      //   to focus on the "Profile" sub-nav H1, not the H2 on this page
+      //   to focus on the "Profile" sub-nav H1, not the H2 on this page, for
+      //   a11y reasons
       const pathRegExp = new RegExp(`${PROFILE_PATHS.PROFILE_ROOT}/?$`);
       if (lastLocation?.pathname.match(new RegExp(pathRegExp))) {
         return;
@@ -54,8 +60,8 @@ const PersonalInformation = ({
         // We will always attempt to focus on the element that matches the
         // location.hash
         const focusTarget = document.querySelector(window.location.hash);
-        // But if the hash starts with `edit` will will scroll a different
-        // element into view
+        // But if the hash starts with `edit` we will scroll a different
+        // element to the top of the viewport
         const scrollTarget = getScrollTarget(window.location.hash);
         if (scrollTarget) {
           scrollTarget.scrollIntoView();
@@ -114,7 +120,11 @@ const mapStateToProps = state => ({
   hasVAPServiceError: hasVAPServiceConnectionError(state),
 });
 
+const mapDispatchToProps = {
+  clearSuccessAlert: clearMostRecentlySavedField,
+};
+
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(PersonalInformation);

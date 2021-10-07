@@ -8,7 +8,10 @@ import PreviewBanner from '../../components/PreviewBanner';
 
 describe('<PreviewBanner>', () => {
   it('should render', async () => {
-    const screen = renderWithStoreAndRouter(<PreviewBanner />, {});
+    const screen = renderWithStoreAndRouter(
+      <PreviewBanner version={'TEST_ID'} />,
+      {},
+    );
 
     await waitFor(() => {
       expect(screen.getByText('View live version')).to.be.ok;
@@ -16,9 +19,12 @@ describe('<PreviewBanner>', () => {
   });
 
   it('should redirect to live version', async () => {
-    const screen = renderWithStoreAndRouter(<PreviewBanner />, {
-      path: '/?version=TEST_ID&other=test',
-    });
+    const screen = renderWithStoreAndRouter(
+      <PreviewBanner version={'TEST_ID'} />,
+      {
+        path: '/?version=TEST_ID&other=test',
+      },
+    );
 
     await waitFor(() => {
       expect(screen.getByText('View live version')).to.be.ok;

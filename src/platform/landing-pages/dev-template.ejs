@@ -1,3 +1,7 @@
+<!--
+  IMPORTANT: This template is only used when running vets-website in standalone mode for development.
+  Changes to this file must also be made to src/site/layouts/page-react.html in the content-build repository.
+-->
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -35,6 +39,17 @@
     <%= modifyScriptTags(htmlWebpackPlugin.tags.bodyTags) %>
 
     <script nonce="**CSP_NONCE**" type="text/javascript">
+      function focusContent(e) {
+        e.preventDefault();
+        e.target.hidden = true;
+        const contentElement = document.querySelector('#content h1') || document.querySelector('#content');
+        contentElement.setAttribute('tabindex', '-1');
+        contentElement.addEventListener('blur', (event) => {
+          event.target.removeAttribute('tabindex');
+        }, true);
+        window.scrollTo(0, contentElement.offsetTop);
+        contentElement.focus();
+      }
       window.VetsGov = window.VetsGov || {};
       window.VetsGov.headerFooter = <%= JSON.stringify(headerFooterData) %>;
     </script>
@@ -42,7 +57,7 @@
   </head>
 
   <body class="merger">
-    <a class="show-on-focus" href="#content">Skip to Content</a>
+    <a class="show-on-focus" href="#content" onclick="focusContent(event)">Skip to Content</a>
 
     <header class="header">
       <div class="incompatible-browser-warning">
@@ -109,12 +124,15 @@
           </a>
         </div>
         <div id="va-nav-controls"></div>
+        <div class="medium-screen:vads-u-display--none usa-grid usa-grid-full">
+          <div class="menu-rule usa-one-whole"></div>
+          <div class="mega-menu" id="mega-menu-mobile"></div>
+        </div>
         <div id="login-root" class="vet-toolbar"></div>
       </div>
       <div class="usa-grid usa-grid-full">
-        <div id="menu-rule" class="usa-one-whole"></div>
+        <div class="menu-rule usa-one-whole"></div>
         <div id="mega-menu"></div>
-        <!-- for the mega-menu, but if you add the ID the css breaks rn -->
       </div>
     </header>
 
@@ -132,7 +150,7 @@
       <ul id="va-breadcrumbs-list" class="row va-nav-breadcrumbs-list columns" tabindex="-1">
       <% breadcrumbs_override.forEach(({ name, path }, index) => { %>
         <li>
-          <a 
+          <a
             <% if (index === breadcrumbs_override.length - 1) { %>
             aria-current="page"
             <% } %>
@@ -156,7 +174,7 @@
               </script>
               <nav data-template="navigation/facility_sidebar_nav" aria-label="secondary" data-widget-type="side-nav"></nav>
             <% } %>
-            
+
             <div class="usa-width-three-fourths">
               <article class="usa-content">
                 <div data-template="paragraphs/react_widget" data-widget-type="<%= widgetType %>" data-widget-timeout="20">

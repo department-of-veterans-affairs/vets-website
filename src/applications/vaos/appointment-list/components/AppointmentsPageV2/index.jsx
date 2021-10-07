@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
-import {
-  selectFeatureRequests,
-  selectIsWelcomeModalDismissed,
-} from '../../../redux/selectors';
-import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import { selectFeatureRequests } from '../../../redux/selectors';
 import RequestedAppointmentsList from '../RequestedAppointmentsList';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
 import PastAppointmentsListV2 from '../PastAppointmentsListV2';
@@ -16,6 +12,7 @@ import DowntimeNotification, {
 import WarningNotification from '../../../components/WarningNotification';
 import Select from '../../../components/Select';
 import ScheduleNewAppointment from '../ScheduleNewAppointment';
+import PageLayout from '../PageLayout';
 
 const pageTitle = 'VA online scheduling';
 
@@ -37,7 +34,7 @@ function getDropdownValueFromLocation(pathname) {
   if (pathname.endsWith(DROPDOWN_VALUES.requested)) {
     return {
       dropdownValue: DROPDOWN_VALUES.requested,
-      subPageTitle: 'Open requests',
+      subPageTitle: 'Requested',
       subHeading: 'Requested',
     };
   } else if (pathname.endsWith(DROPDOWN_VALUES.past)) {
@@ -65,9 +62,6 @@ export default function AppointmentsPageV2() {
   const location = useLocation();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
   const showScheduleButton = useSelector(state => selectFeatureRequests(state));
-  const isWelcomeModalDismissed = useSelector(state =>
-    selectIsWelcomeModalDismissed(state),
-  );
   const {
     dropdownValue,
     subPageTitle,
@@ -81,14 +75,6 @@ export default function AppointmentsPageV2() {
     [subPageTitle],
   );
 
-  useEffect(
-    () => {
-      if (isWelcomeModalDismissed) {
-        scrollAndFocus();
-      }
-    },
-    [isWelcomeModalDismissed],
-  );
   const history = useHistory();
 
   function onDropdownChange(e) {
@@ -106,7 +92,7 @@ export default function AppointmentsPageV2() {
   }
 
   return (
-    <>
+    <PageLayout showBreadcrumbs showNeedHelp>
       <h1 className="vads-u-flex--1 vads-u-margin-bottom--1p5">{pageTitle}</h1>
       <DowntimeNotification
         appTitle="VA online scheduling tool"
@@ -122,7 +108,7 @@ export default function AppointmentsPageV2() {
         htmlFor="type-dropdown"
         className="vads-u-display--inline-block vads-u-margin-top--0 vads-u-margin-right--2"
       >
-        Show by type
+        Show by status
       </label>
       <Select
         options={options}
@@ -144,6 +130,6 @@ export default function AppointmentsPageV2() {
           <CanceledAppointmentsList hasTypeChanged={hasTypeChanged} />
         </Route>
       </Switch>
-    </>
+    </PageLayout>
   );
 }

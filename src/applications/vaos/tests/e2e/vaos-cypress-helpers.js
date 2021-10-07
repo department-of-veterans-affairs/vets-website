@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+import unset from 'platform/utilities/data/unset';
 import { mockContactInformation } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
 
 import moment from '../../lib/moment-tz';
@@ -196,9 +197,8 @@ export function createPastVAAppointments() {
 }
 
 export function mockFeatureToggles({
-  providerSelectionEnabled = false,
-  homepageRefresh = false,
   v2Requests = false,
+  v2Facilities = false,
 } = {}) {
   cy.route({
     method: 'GET',
@@ -236,16 +236,12 @@ export function mockFeatureToggles({
             value: false,
           },
           {
-            name: 'vaOnlineSchedulingProviderSelection',
-            value: providerSelectionEnabled,
-          },
-          {
-            name: 'vaOnlineSchedulingHomepageRefresh',
-            value: homepageRefresh,
-          },
-          {
             name: 'vaOnlineSchedulingVAOSServiceRequests',
             value: v2Requests,
+          },
+          {
+            name: 'vaOnlineSchedulingFacilitiesServiceV2',
+            value: v2Facilities,
           },
         ],
       },
@@ -371,7 +367,10 @@ export function vaosSetup() {
   cy.server();
 }
 
-function setupSchedulingMocks({ cernerFacility = false } = {}) {
+function setupSchedulingMocks({
+  cernerFacility = false,
+  withoutAddress = false,
+} = {}) {
   vaosSetup();
   mockFeatureToggles();
 
@@ -386,16 +385,19 @@ function setupSchedulingMocks({ cernerFacility = false } = {}) {
             ...mockUser.data.attributes.vaProfile,
             facilities: [
               ...mockUser.data.attributes.vaProfile.facilities,
-              {
-                facilityId: cernerFacility,
-                isCerner: true,
-              },
+              { facilityId: cernerFacility, isCerner: true },
             ],
           },
         },
       },
     };
     cy.login(mockCernerUser);
+  } else if (withoutAddress) {
+    const mockUserWithoutAddress = unset(
+      'data.attributes.vet360ContactInformation.residentialAddress.addressLine1',
+      mockUser,
+    );
+    cy.login(mockUserWithoutAddress);
   } else {
     cy.login(mockUser);
   }
@@ -711,10 +713,17 @@ export function initVARequestMock({ cernerFacility = false } = {}) {
     url: '/vaos/v0/appointment_requests/testing/messages',
     response: [],
   }).as('requestMessages');
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/appointment_requests/testing',
+    response: {
+      data: requests.data[0],
+    },
+  });
 }
 
-export function initCommunityCareMock() {
-  setupSchedulingMocks();
+export function initCommunityCareMock({ withoutAddress = false } = {}) {
+  setupSchedulingMocks({ withoutAddress });
 
   cy.route({
     method: 'GET',
@@ -778,4 +787,12 @@ export function initCommunityCareMock() {
     url: '/vaos/v0/appointment_requests/testing/messages',
     response: [],
   }).as('requestMessages');
+
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/appointment_requests/testing',
+    response: {
+      data: requests.data.find(r => r.attributes.ccAppointmentRequest),
+    },
+  });
 }

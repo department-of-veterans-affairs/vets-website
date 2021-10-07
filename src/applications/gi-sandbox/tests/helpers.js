@@ -5,7 +5,7 @@ import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import sinon from 'sinon';
 
-import { commonReducer } from 'platform/startup/store';
+import createCommonStore, { commonReducer } from 'platform/startup/store';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 
 import reducers from '../reducers';
@@ -53,3 +53,18 @@ export function renderWithStoreAndRouter(
 
   return { ...screen, history: historyObject };
 }
+
+export const getDefaultState = () => {
+  const defaultState = createCommonStore(reducers).getState();
+
+  defaultState.constants = {
+    constants: {},
+    version: calculatorConstants.meta.version,
+    inProgress: false,
+  };
+
+  calculatorConstants.data.forEach(c => {
+    defaultState.constants.constants[c.attributes.name] = c.attributes.value;
+  });
+  return defaultState;
+};

@@ -1,12 +1,13 @@
 import { vaMedicalFacilities } from 'vets-json-schema/dist/constants.json';
-import _ from 'lodash/fp';
+import sortBy from 'lodash/sortBy';
 
 function getAllMedicalCenters() {
   const medicalCenters = [];
   Object.values(vaMedicalFacilities).forEach(state =>
     state.map(facility => medicalCenters.push(facility)),
   );
-  return _.sortBy(['label'], medicalCenters);
+
+  return sortBy(medicalCenters, ['label']);
 }
 
 const vaMedicalCentersList = getAllMedicalCenters();

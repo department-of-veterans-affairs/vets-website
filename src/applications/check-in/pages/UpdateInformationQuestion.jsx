@@ -6,7 +6,6 @@ import { focusElement } from 'platform/utilities/ui';
 import { URLS, goToNextPage } from '../utils/navigation';
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
-import { createAnalyticsSlug } from '../utils/analytics';
 
 const UpdateInformationQuestion = props => {
   useEffect(() => {
@@ -16,26 +15,25 @@ const UpdateInformationQuestion = props => {
 
   const noButtonClicked = () => {
     recordEvent({
-      event: createAnalyticsSlug('no-button-clicked'),
+      event: 'cta-button-click',
+      'button-click-label': 'no-to-update-information',
     });
     goToNextPage(router, URLS.DETAILS);
   };
 
   const yesButtonClicked = () => {
     recordEvent({
-      event: createAnalyticsSlug('yes-button-clicked'),
+      event: 'cta-button-click',
+      'button-click-label': 'yes-to-update-information',
     });
     goToNextPage(router, URLS.SEE_STAFF);
   };
 
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5 update-information">
-      <h1 tabIndex="-1" className="question">
-        Check in at VA
-      </h1>
       <fieldset>
         <legend>
-          <h2>Do you need to update any information?</h2>
+          <h1>Do you need to update any information?</h1>
           <p>
             This includes information like your phone number, address, insurance
             plan, or next-of-kin.

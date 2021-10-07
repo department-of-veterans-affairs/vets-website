@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import merge from 'lodash/merge';
 import fullSchema5495 from 'vets-json-schema/dist/22-5495-schema.json';
 
 import applicantInformation from 'platform/forms/pages/applicantInformation';
@@ -127,7 +127,7 @@ const formConfig = {
           title: 'Sponsor information',
           uiSchema: {
             veteranFullName: sponsorFullNameUI,
-            'view:veteranId': _.merge(personId.uiSchema(), {
+            'view:veteranId': merge({}, personId.uiSchema(), {
               'view:noSSN': {
                 'ui:title': 'I don’t know my sponsor’s Social Security number',
               },

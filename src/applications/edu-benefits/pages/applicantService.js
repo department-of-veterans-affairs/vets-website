@@ -1,4 +1,5 @@
-import _ from 'lodash/fp';
+import merge from 'lodash/merge';
+import get from 'platform/utilities/data/get';
 
 import * as toursOfDuty from '../definitions/toursOfDuty.jsx';
 
@@ -20,11 +21,11 @@ export default function applicantServicePage(currentSchema) {
           'Have you ever served on active duty in the armed services?',
         'ui:widget': 'yesNo',
       },
-      toursOfDuty: _.merge(toursOfDuty.uiSchema, {
+      toursOfDuty: merge({}, toursOfDuty.uiSchema, {
         'ui:options': {
           expandUnder: 'view:applicantServed',
         },
-        'ui:required': form => _.get('view:applicantServed', form),
+        'ui:required': form => get('view:applicantServed', form),
         items: {
           serviceStatus: { 'ui:title': 'Type of separation or discharge' },
         },

@@ -1,4 +1,6 @@
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import get from 'platform/utilities/data/get';
+import set from 'platform/utilities/data/set';
+import unset from 'platform/utilities/data/unset';
 import { createSelector } from 'reselect';
 
 import {
@@ -148,7 +150,8 @@ export function schema(
   return {
     type: 'object',
     required: isRequired ? requiredFields : ['country'],
-    properties: _.assign(addressSchema.properties, {
+    properties: {
+      ...addressSchema.properties,
       country: {
         default: 'USA',
         type: 'string',
@@ -165,7 +168,7 @@ export function schema(
         type: 'string',
         maxLength: 10,
       },
-    }),
+    },
   };
 }
 
@@ -203,9 +206,9 @@ export function uiSchema(
   }
 
   const addressChangeSelector = createSelector(
-    ({ formData, path }) => _.get(path.concat('country'), formData),
-    ({ formData, path }) => _.get(path.concat('city'), formData),
-    _.get('addressSchema'),
+    ({ formData, path }) => get(path.concat('country'), formData),
+    ({ formData, path }) => get(path.concat('city'), formData),
+    ({ addressSchema }) => addressSchema,
     (currentCountry, city, addressSchema) => {
       const schemaUpdate = {
         properties: addressSchema.properties,
@@ -231,16 +234,12 @@ export function uiSchema(
       if (stateList) {
         // We have a list and it’s different, so we need to make schema updates
         if (addressSchema.properties.state.enum !== stateList) {
-          const withEnum = _.set(
+          const withEnum = set(
             'state.enum',
             stateList,
             schemaUpdate.properties,
           );
-          schemaUpdate.properties = _.set(
-            'state.enumNames',
-            labelList,
-            withEnum,
-          );
+          schemaUpdate.properties = set('state.enumNames', labelList, withEnum);
 
           // all the countries with state lists require the state field, so add that if necessary
           if (
@@ -255,8 +254,8 @@ export function uiSchema(
         // We don’t have a state list for the current country, but there’s an enum in the schema
         // so we need to update it
       } else if (addressSchema.properties.state.enum) {
-        const withoutEnum = _.unset('state.enum', schemaUpdate.properties);
-        schemaUpdate.properties = _.unset('state.enumNames', withoutEnum);
+        const withoutEnum = unset('state.enum', schemaUpdate.properties);
+        schemaUpdate.properties = unset('state.enumNames', withoutEnum);
         if (!ignoreRequired && required) {
           schemaUpdate.required = addressSchema.required.filter(
             field => field !== 'state',
@@ -269,7 +268,7 @@ export function uiSchema(
         country === 'CAN' &&
         addressSchema.properties.state.title !== canadaStateTitle
       ) {
-        schemaUpdate.properties = _.set(
+        schemaUpdate.properties = set(
           'state.title',
           canadaStateTitle,
           schemaUpdate.properties,
@@ -278,7 +277,7 @@ export function uiSchema(
         country !== 'CAN' &&
         addressSchema.properties.state.title !== stateTitle
       ) {
-        schemaUpdate.properties = _.set(
+        schemaUpdate.properties = set(
           'state.title',
           stateTitle,
           schemaUpdate.properties,
@@ -289,7 +288,7 @@ export function uiSchema(
         country === 'USA' &&
         addressSchema.properties.postalCode.title !== zipCodeTitle
       ) {
-        schemaUpdate.properties = _.set(
+        schemaUpdate.properties = set(
           'postalCode.title',
           zipCodeTitle,
           schemaUpdate.properties,
@@ -298,7 +297,7 @@ export function uiSchema(
         country !== 'USA' &&
         addressSchema.properties.postalCode.title !== postalCodeTitle
       ) {
-        schemaUpdate.properties = _.set(
+        schemaUpdate.properties = set(
           'postalCode.title',
           postalCodeTitle,
           schemaUpdate.properties,
@@ -311,12 +310,12 @@ export function uiSchema(
         isMilitaryCity(city) &&
         schemaUpdate.properties.state.enum !== militaryStates
       ) {
-        const withEnum = _.set(
+        const withEnum = set(
           'state.enum',
           militaryStates,
           schemaUpdate.properties,
         );
-        schemaUpdate.properties = _.set(
+        schemaUpdate.properties = set(
           'state.enumNames',
           militaryLabels,
           withEnum,
@@ -350,7 +349,7 @@ export function uiSchema(
     } else if (!required) {
       addressFields.push('country');
     }
-    return _.set('required', addressFields, currentSchema);
+    return set('required', addressFields, currentSchema);
   }
 
   return {

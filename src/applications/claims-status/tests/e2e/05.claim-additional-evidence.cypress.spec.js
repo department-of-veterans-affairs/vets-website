@@ -33,15 +33,13 @@ describe('Claim Additional Evidence Test', () => {
     cy.get('.va-tabs li:nth-child(2) > a')
       .click()
       .then(() => {
-        cy.get('.file-request-list-item', { timeout: Timeouts.normal }).should(
-          'be.visible',
-        );
+        cy.get('.file-request-list-item').should('be.visible');
       });
 
     cy.get('button.usa-button')
       .click()
       .then(() => {
-        cy.get('.usa-input-error', { timeout: Timeouts.normal });
+        cy.get('.usa-input-error');
         cy.injectAxeThenAxeCheck;
       });
 

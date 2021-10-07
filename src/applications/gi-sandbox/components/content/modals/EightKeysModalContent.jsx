@@ -25,9 +25,9 @@ export default function EightKeysModalContent() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          8 Keys to Veterans’ Success
+          8 Keys to Veterans’ Success page
         </a>{' '}
-        page.
+        .
       </p>
     </>
   );

@@ -19,9 +19,9 @@ const CCProviderPhoneLink = ({ location, query }) => {
 
   return (
     <div>
-      {renderPhoneNumber('Main number', null, phone, true)}
+      {renderPhoneNumber('Main number', null, phone, true, location)}
       {isCCProvider && (
-        <p id={'referral-message'}>
+        <p className="referral-message">
           If you don’t have a referral, contact your local VA medical center.
         </p>
       )}

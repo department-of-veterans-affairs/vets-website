@@ -2,7 +2,6 @@
 import React from 'react';
 
 import ProfilePageHeader from '../../containers/ProfilePageHeader';
-import { scroller } from 'react-scroll';
 import { getScrollOptions } from 'platform/utilities/ui';
 import SchoolLocations from './SchoolLocations';
 import CautionaryInformation from './CautionaryInformation';
@@ -17,9 +16,10 @@ import GettingStartedWithBenefits from '../profile/GettingStartedWithBenefits';
 import Academics from './Academics';
 import VeteranProgramsAndSupport from './VeteranProgramsAndSupport';
 import BackToTop from '../BackToTop';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 export default function InstitutionProfile({
-  profile,
+  institution,
   isOJT,
   constants,
   showModal,
@@ -29,6 +29,7 @@ export default function InstitutionProfile({
   gibctSchoolRatings,
   gibctEybBottomSheet,
   compare,
+  smallScreen,
 }) {
   const shouldShowSchoolLocations = facilityMap =>
     facilityMap &&
@@ -36,10 +37,8 @@ export default function InstitutionProfile({
       facilityMap.main.branches.length > 0);
 
   const scrollToLocations = () => {
-    scroller.scrollTo('school-locations', getScrollOptions());
+    scrollTo('school-locations', getScrollOptions());
   };
-
-  const institution = profile.attributes;
 
   const stars = convertRatingToStars(institution.ratingAverage);
   const displayStars =
@@ -61,7 +60,9 @@ export default function InstitutionProfile({
         </div>
 
         <div className="usa-width-one-fourth">
-          <h2 className="vads-u-padding-top--2">On this page</h2>
+          <h2 className="vads-u-padding-top--2 small-screen-header">
+            On this page
+          </h2>
           <JumpLink
             label="Calculate your benefits"
             jumpToId="calculate-your-benefits"
@@ -81,10 +82,12 @@ export default function InstitutionProfile({
             <JumpLink label="School locations" jumpToId="school-locations" />
           )}
           {!isOJT && <JumpLink label="Academics" jumpToId="academics" />}
-          <JumpLink
-            label="Veteran programs and support"
-            jumpToId="veteran-programs-and-support"
-          />
+          {!isOJT && (
+            <JumpLink
+              label="Veteran programs and support"
+              jumpToId="veteran-programs-and-support"
+            />
+          )}
           <JumpLink
             label="Contact information"
             jumpToId="contact-information"
@@ -96,7 +99,10 @@ export default function InstitutionProfile({
         label="Calculate your benefits"
         id="calculate-your-benefits"
       >
-        <CalculateYourBenefits gibctEybBottomSheet={gibctEybBottomSheet} />
+        <CalculateYourBenefits
+          gibctEybBottomSheet={gibctEybBottomSheet}
+          isOJT={isOJT}
+        />
       </ProfileSection>
       <ProfileSection
         label="Getting started with benefits"
@@ -144,16 +150,18 @@ export default function InstitutionProfile({
           <Academics institution={institution} onShowModal={showModal} />
         </ProfileSection>
       )}
-      <ProfileSection
-        label="Veteran programs and support"
-        id="veteran-programs-and-support"
-      >
-        <VeteranProgramsAndSupport
-          institution={institution}
-          constants={constants}
-          showModal={showModal}
-        />
-      </ProfileSection>
+      {!isOJT && (
+        <ProfileSection
+          label="Veteran programs and support"
+          id="veteran-programs-and-support"
+        >
+          <VeteranProgramsAndSupport
+            institution={institution}
+            constants={constants}
+            showModal={showModal}
+          />
+        </ProfileSection>
+      )}
       <ProfileSection label="Contact information" id="contact-information">
         <ContactInformation institution={institution} showModal={showModal} />
       </ProfileSection>
@@ -161,6 +169,7 @@ export default function InstitutionProfile({
         parentId={institutionProfileId}
         profilePageHeaderId={profilePageHeaderId}
         compare={compare}
+        smallScreen={smallScreen}
       />
     </div>
   );

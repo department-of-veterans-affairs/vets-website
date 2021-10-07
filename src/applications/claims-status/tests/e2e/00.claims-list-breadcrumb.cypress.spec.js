@@ -11,15 +11,9 @@ describe('Breadcrumb Test', () => {
     cy.get('.claim-list-item-container', { timeout: Timeouts.slow }).should(
       'be.visible',
     );
-    cy.get('.va-nav-breadcrumbs', { timeout: Timeouts.normal }).should(
-      'be.visible',
-    );
-    cy.get('.va-nav-breadcrumbs-list', { timeout: Timeouts.normal }).should(
-      'be.visible',
-    );
-    cy.get('a[aria-current="page"', { timeout: Timeouts.normal }).should(
-      'be.visible',
-    );
+    cy.get('.va-nav-breadcrumbs').should('be.visible');
+    cy.get('.va-nav-breadcrumbs-list').should('be.visible');
+    cy.get('a[aria-current="page"').should('be.visible');
     cy.injectAxeThenAxeCheck();
 
     cy.get(
@@ -34,9 +28,7 @@ describe('Breadcrumb Test', () => {
 
     cy.viewportPreset('va-top-mobile-1');
 
-    cy.get('.va-nav-breadcrumbs-list', { timeout: Timeouts.normal }).should(
-      'be.visible',
-    );
+    cy.get('.va-nav-breadcrumbs-list').should('be.visible');
 
     cy.get('.va-nav-breadcrumbs-list li:not(:nth-last-child(2))').should(
       'have.css',

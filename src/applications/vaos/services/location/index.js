@@ -32,11 +32,16 @@ import {
 } from './transformers';
 import { VHA_FHIR_ID } from '../../utils/constants';
 import { calculateBoundingBox } from '../../utils/address';
-import { getSchedulingConfigurations, getFacilities } from '../vaos';
+import {
+  getSchedulingConfigurations,
+  getFacilities,
+  getFacilityById,
+} from '../vaos';
 import {
   transformParentFacilitiesV2,
   transformFacilitiesV2,
   transformSettingsV2,
+  transformFacilityV2,
 } from './transformers.v2';
 
 /**
@@ -118,10 +123,17 @@ export async function getLocations({
  * @async
  * @param {Object} locationParams Parameters needed for fetching locations
  * @param {Array<string>} locationParams.facilityId An id for the facility to fetch info for
+ * @param {boolean} locationParams.useV2 Use the VAOS v2 endpoints to get locations
  * @returns {Location} A FHIR Location resource
  */
-export async function getLocation({ facilityId }) {
+export async function getLocation({ facilityId, useV2 = false }) {
   try {
+    if (useV2) {
+      const facility = await getFacilityById(facilityId);
+
+      return transformFacilityV2(facility);
+    }
+
     const facility = await getFacilityInfo(facilityId);
 
     return transformFacility(facility);

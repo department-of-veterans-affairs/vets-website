@@ -29,8 +29,14 @@ export const ContactRepresentativeTitle =
   'Provide your representative’s contact information.';
 
 export const RepresentativeNameTitle = 'Representative’s name';
+export const RepresentativeFirstNameTitle = 'Representative’s first name';
+export const RepresentativeLastNameTitle = 'Representative’s last name';
 
 export const RepresentativePhoneTitle = 'Representative’s phone number';
+export const RepresentativePhoneExtensionTitle =
+  'Representative’s phone extension';
+
+export const RepresentativeEmailTitle = 'Representative’s email address';
 
 // Using CSS to use article[data-contact-choice] attribute to set visibility
 const contacts = (
@@ -68,14 +74,24 @@ export const InformalConferenceTimesDescription = (
   </>
 );
 
+export const InformalConferenceTimesDescriptionV2 = (
+  <>
+    <p>
+      First we’ll call {contacts} to schedule the informal conference. Please
+      indicate <span className="contact-choice selected-me">your</span>
+      <span className="contact-choice selected-rep">their</span> availability by
+      providing a preferred time for a call.
+    </p>
+    <p>
+      <strong>We’ll make two attempts to call {contacts}.</strong> If no one
+      answers, we’ll leave a voice mail and a number for {contacts} to return
+      the call. If we aren’t able to get in touch with {contacts} after 2
+      attempts, we’ll proceed with the Higher-Level Review.
+    </p>
+  </>
+);
+
 export const informalConferenceTimeSelectTitles = {
   first: <>Choose the best time for us to call {contacts}</>,
   second: 'Choose another time for us to call',
-};
-
-export const informalConferenceTimeAllLabels = {
-  time0800to1000: '8:00 a.m. to 10:00 a.m. ET',
-  time1000to1230: '10:00 a.m. to 12:30 p.m. ET',
-  time1230to1400: '12:30 p.m. to 2:00 p.m. ET',
-  time1400to1630: '2:00 p.m. to 4:30 p.m. ET',
 };

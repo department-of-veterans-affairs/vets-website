@@ -227,7 +227,7 @@ export default function appointmentsReducer(state = initialState, action) {
       });
 
       const pending = state.pending?.map(appt => {
-        if (appt !== appointmentToCancel) {
+        if (appt.id !== appointmentToCancel.id) {
           return appt;
         }
 

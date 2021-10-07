@@ -7,7 +7,7 @@ export const uiSchema = {
       'ui:options': {
         classNames: 'max-width-400',
       },
-      benefitAmount: {
+      compensationAndPension: {
         'ui:title':
           'How much does your spouse get each month for disability compensation and pension benefits?',
         'ui:options': {
@@ -20,7 +20,7 @@ export const uiSchema = {
         },
         'ui:validations': [validateCurrency],
       },
-      educationAmount: {
+      education: {
         'ui:title':
           'How much does your spouse get each month for education benefits?',
         'ui:options': {
@@ -44,12 +44,12 @@ export const schema = {
       properties: {
         spouseBenefits: {
           type: 'object',
-          required: ['benefitAmount', 'educationAmount'],
+          required: ['compensationAndPension', 'education'],
           properties: {
-            benefitAmount: {
+            compensationAndPension: {
               type: 'string',
             },
-            educationAmount: {
+            education: {
               type: 'string',
             },
           },

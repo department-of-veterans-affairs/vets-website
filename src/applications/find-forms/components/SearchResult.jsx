@@ -45,6 +45,21 @@ export const deriveLatestIssue = (d1, d2) => {
   return moment(date2Formatted).format(FORM_MOMENT_PRESENTATION_DATE_FORMAT);
 };
 
+const deriveLanguageTranslation = (lang = 'en', whichNode, id) => {
+  const languages = {
+    es: {
+      goToOnlineTool: `Llene el formulario VA ${id} en línea.`,
+      downloadVaForm: `Descargar el formulario VA ${id}`,
+    },
+    en: {
+      goToOnlineTool: `Fill out VA Form ${id} online`,
+      downloadVaForm: `Download VA Form ${id}`,
+    },
+  };
+
+  return languages[lang][whichNode];
+};
+
 const recordGAEventHelper = ({
   query,
   eventUrl,
@@ -60,8 +75,8 @@ const recordGAEventHelper = ({
     'search-page-path': '/find-forms', // consistent for all search result clicks from this page
     'search-query': query, // dynamically populate with the search query
     'search-result-chosen-page-url': eventUrl, // populate with the full href of the form detail page or tool page
-    'search-result-chosen-title': eventTitle, // or 'Download VA form 10-10EZ (PDF)' or 'Go to online tool'
-    'search-result-type': eventType, // populate with 'pdf' if pdf, or 'cta' if "Go to online tool"
+    'search-result-chosen-title': eventTitle, // or 'Download VA form 10-10EZ (PDF)' or 'Go to online tool' (NOW => "Fill out VA Form {id} online")
+    'search-result-type': eventType, // populate with 'pdf' if pdf, or 'cta' if "Go to online tool" (NOW => "Fill out VA Form {id} online")
     'search-results-pagination-current-page': currentPage, // populate with the current pagination number at time of result click
     'search-results-position': currentPositionOnPage, // populate with position on page of result click, beginning with 1 as the first result, number in relation to total results on the page (10 being last with 10 results are shown)
     'search-results-total-count': totalResultsCount, // populate with the total number of search results at time of click
@@ -96,9 +111,10 @@ const deriveRelatedTo = ({
 
   if (relatedTo) {
     return (
-      <dd className="vads-u-margin-top--1 vads-u-margin-bottom--2">
-        <dfn className="vads-u-font-weight--bold">Related to:</dfn> {relatedTo}
-      </dd>
+      <div className="vads-u-margin-top--1 vads-u-margin-bottom--2">
+        <span className="vads-u-font-weight--bold">Related to:</span>{' '}
+        {relatedTo}
+      </div>
     );
   }
 
@@ -106,11 +122,10 @@ const deriveRelatedTo = ({
 };
 
 const SearchResult = ({
-  currentPosition,
   form,
   formMetaInfo,
   showPDFInfoVersionOne,
-  showPDFInfoVersionTwo,
+  toggleModalState,
 }) => {
   // Escape early if we don't have the necessary form attributes.
   if (!form?.attributes) {
@@ -150,24 +165,22 @@ const SearchResult = ({
     recordGAEventHelper({ ...formMetaInfo, eventTitle, eventUrl, eventType });
 
   return (
-    <>
+    <li>
       <FormTitle
-        currentPosition={currentPosition}
         id={id}
         formUrl={formDetailsUrl}
         lang={language}
         title={title}
         recordGAEvent={recordGAEvent}
-        showPDFInfoVersionTwo={showPDFInfoVersionTwo}
       />
-      <dd className="vads-u-margin-y--1 vsa-from-last-updated">
-        <dfn className="vads-u-font-weight--bold">Form last updated:</dfn>{' '}
+      <div className="vads-u-margin-y--1 vsa-from-last-updated">
+        <span className="vads-u-font-weight--bold">Form last updated:</span>{' '}
         {lastRevision}
-      </dd>
+      </div>
 
       {relatedTo}
       {formToolUrl ? (
-        <dd className="vads-u-margin-bottom--2p5">
+        <div className="vads-u-margin-bottom--2p5">
           <a
             className="find-forms-max-content vads-u-display--flex vads-u-align-items--center vads-u-text-decoration--none"
             href={formToolUrl}
@@ -180,38 +193,24 @@ const SearchResult = ({
               className="fas fa-chevron-circle-right fa-2x vads-u-margin-right--1"
               role="presentation"
             />
-            <span className="vads-u-text-decoration--underline vads-u-font-weight--bold">
-              Go to online tool
-            </span>
-            <span className="vads-u-visibility--screen-reader">
-              for {id} {title}
+            <span
+              lang={language}
+              className="vads-u-text-decoration--underline vads-u-font-weight--bold"
+            >
+              {deriveLanguageTranslation(language, 'goToOnlineTool', id)}
             </span>
           </a>
-        </dd>
+        </div>
       ) : null}
-      {showPDFInfoVersionOne ? (
-        <dd className="find-forms-alert-message vads-u-margin-bottom--2 vads-u-background-color--primary-alt-lightest vads-u-display--flex vads-u-padding-y--4 vads-u-padding-right--7 vads-u-padding-left--3 vads-u-width--full">
-          <i aria-hidden="true" role="img" />
-          <span className="sr-only">Alert: </span>
-          <div>
-            <p className="vads-u-margin-top--0">
-              We recommend that you download PDF forms and open them in Adobe
-              Acrobat Reader
-            </p>
-            <a href="https://www.va.gov/resources/how-to-download-and-open-a-vagov-pdf-form/">
-              Get instructions for opening the form in Acrobat Reader
-            </a>
-          </div>
-        </dd>
-      ) : null}
-      <dd className="vads-u-margin-bottom--5">
+      <div className="vads-u-margin-bottom--5">
         <a
           className="find-forms-max-content vads-u-text-decoration--none"
-          href={url}
           rel="noreferrer noopener"
-          onClick={() =>
-            recordGAEvent(`Download VA form ${id} ${pdfLabel}`, url, 'pdf')
-          }
+          href={showPDFInfoVersionOne ? null : url}
+          onClick={() => {
+            recordGAEvent(`Download VA form ${id} ${pdfLabel}`, url, 'pdf');
+            if (showPDFInfoVersionOne) toggleModalState(id, url);
+          }}
           {...linkProps}
         >
           <i
@@ -219,21 +218,21 @@ const SearchResult = ({
             className="fas fa-download fa-lg vads-u-margin-right--1"
             role="presentation"
           />
-          <span className="vads-u-text-decoration--underline">
-            Download VA form {id} {pdfLabel}
+
+          <span lang={language} className="vads-u-text-decoration--underline">
+            {deriveLanguageTranslation(language, 'downloadVaForm', id)}
           </span>
         </a>
-      </dd>
-    </>
+      </div>
+    </li>
   );
 };
 
 SearchResult.propTypes = {
-  currentPosition: PropTypes.number,
   form: customPropTypes.Form.isRequired,
   formMetaInfo: customPropTypes.FormMetaInfo,
   showPDFInfoVersionOne: PropTypes.bool,
-  showPDFInfoVersionTwo: PropTypes.bool,
+  toggleModalState: PropTypes.func,
 };
 
 export default SearchResult;

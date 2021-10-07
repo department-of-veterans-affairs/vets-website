@@ -1,20 +1,52 @@
 // Relative imports.
 import { mockUser } from '@@profile/tests/fixtures/users/user.js';
 
-const testFirstMenuSection = () => {
+Cypress.Commands.add(
+  'checkMenuItem',
+  (selector, expectedPath, parentMenuSelector = false) => {
+    if (parentMenuSelector) {
+      cy.get(parentMenuSelector).click();
+    }
+    cy.get(selector).click();
+    cy.location('pathname').should('match', new RegExp(`^/${expectedPath}/?$`));
+    cy.go('back');
+  },
+);
+
+const testFirstMenuSection = isMobile => {
   cy.get('[data-e2e-id="vetnav-level2--disability"').should('not.exist');
+  cy.get(`#mega-menu-${isMobile ? 'desktop' : 'mobile'} #vetnav`).should(
+    'not.exist',
+  );
   cy.get('[data-e2e-id="va-benefits-and-health-care-0"]').click();
   cy.get('[data-e2e-id="vetnav-level2--disability"]').click();
   cy.get('[data-e2e-id="view-all-in-disability"]');
   cy.get('[data-e2e-id="vetnav-column-one-header"]');
   cy.get('[data-e2e-id="eligibility-0"]');
-  // cy.get('[data-e2e-id="coronavirus-fa-qs"]');
   cy.get('[data-e2e-id="about-va-1"]');
-  cy.get('[data-e2e-id="find-a-va-location-2"]');
+  cy.checkMenuItem('[data-e2e-id="find-a-va-location-2"]', 'find-locations');
+  cy.checkMenuItem(
+    '[data-e2e-id="how-to-apply-1"]',
+    'health-care/how-to-apply',
+    '[data-e2e-id="va-benefits-and-health-care-0"]',
+  );
+  cy.checkMenuItem(
+    '[data-e2e-id="family-and-caregiver-health-benefits-2"]',
+    'health-care/family-caregiver-benefits',
+    '[data-e2e-id="va-benefits-and-health-care-0"]',
+  );
+  cy.checkMenuItem(
+    '[data-e2e-id="view-your-lab-and-test-results-3"]',
+    'health-care/view-test-and-lab-results',
+    '[data-e2e-id="va-benefits-and-health-care-0"]',
+  );
 };
 
-const testSecondMenuSection = () => {
+const testSecondMenuSection = isMobile => {
   cy.get('[data-e2e-id="vetnav-main-column-header"]').should('not.exist');
+  cy.get(`#mega-menu-${isMobile ? 'desktop' : 'mobile'} #vetnav`).should(
+    'not.exist',
+  );
   cy.get('[data-e2e-id="about-va-1"]').click();
   cy.get('[data-e2e-id="vetnav-main-column-header"]').contains(
     'VA organizations',
@@ -27,6 +59,18 @@ const testSecondMenuSection = () => {
   cy.get('[data-e2e-id="vetnav-column-two-header"]').contains('Learn about VA');
   cy.get('[data-e2e-id="veterans-legacy-program-4"]');
   cy.get('[data-e2e-id="agency-financial-report"]');
+  cy.get('[data-e2e-id="about-va-1"]').click();
+
+  cy.checkMenuItem(
+    '[data-e2e-id="veterans-health-administration-0"]',
+    'health',
+    '[data-e2e-id="about-va-1"]',
+  );
+  cy.checkMenuItem(
+    '[data-e2e-id="va-plans-budget-and-performance-2"]',
+    'performance',
+    '[data-e2e-id="about-va-1"]',
+  );
 };
 
 const testFindLocationsLink = () => {
@@ -37,6 +81,7 @@ const testFindLocationsLink = () => {
 
 const testMobileMenuSections = () => {
   cy.get('[data-e2e-id="about-va-1"]').should('not.be.visible');
+  cy.get('#mega-menu-desktop #vetnav').should('not.exist');
 
   // Open the menu.
   cy.get('.vetnav-controller-open').contains('Menu');
@@ -44,7 +89,7 @@ const testMobileMenuSections = () => {
   cy.get('.vetnav-controller-close').contains('Close');
 
   // Check the links to make sure they all look right.
-  cy.get('[data-e2e-id="mobile-home-nav-link"]');
+  cy.findByTestId('mobile-home-nav-link');
   cy.get('[data-e2e-id="about-va-1"]').click();
   cy.get('[data-e2e-id="vetnav-level2--va-organizations"]').click();
   cy.get('[data-e2e-id="all-va-offices-and-organizations-6"]');
@@ -57,9 +102,60 @@ const testMobileMenuSections = () => {
   cy.get('.vetnav-controller-open').contains('Menu');
 };
 
+const testMobileTabFocus = () => {
+  cy.get('[data-e2e-id="about-va-1"]').should('not.be.visible');
+  cy.get('#mega-menu-desktop #vetnav').should('not.exist');
+
+  cy.get('.vetnav-controller-open').contains('Menu');
+  cy.get('.vetnav-controller-open').click();
+  cy.get('.vetnav-controller-close').contains('Close');
+
+  // tabbing through first level menu wraps around to open/close button
+  cy.findByTestId('mobile-home-nav-link').focus();
+
+  for (let i = 0; i < 5; i++) {
+    cy.focused().tab();
+  }
+
+  cy.focused().should('have.attr', 'aria-controls', 'vetnav');
+
+  // shift tabbing through first level menu wraps around to open/close button
+
+  for (let i = 0; i < 6; i++) {
+    cy.focused().tab({ shift: true });
+  }
+
+  cy.focused().should('have.attr', 'aria-controls', 'vetnav');
+
+  // tabbing through second level menu wraps around to open/close button
+  cy.findByTestId('mobile-home-nav-link')
+    .tab()
+    .click();
+
+  for (let i = 0; i < 15; i++) {
+    cy.focused().tab();
+  }
+
+  cy.focused().should('have.attr', 'aria-controls', 'vetnav');
+
+  // tabbing through third level menu wraps around to open/close button
+  cy.findByTestId('mobile-home-nav-link')
+    .tab()
+    .tab()
+    .click();
+
+  cy.get('#vetnav-health-care-ms button').focus();
+
+  for (let i = 0; i < 11; i++) {
+    cy.focused().tab();
+  }
+
+  cy.focused().should('have.attr', 'aria-controls', 'vetnav');
+};
+
 const testDesktopMenuSections = () => {
-  testFirstMenuSection();
-  testSecondMenuSection();
+  testFirstMenuSection(false);
+  testSecondMenuSection(false);
   testFindLocationsLink();
 };
 
@@ -74,13 +170,13 @@ describe('Mega Menu', () => {
       cy.visit('/');
 
       // Back to home button should not appear on desktop.
-      cy.get('[data-e2e-id="mobile-home-nav-link"]').should('not.be.visible');
+      cy.findByTestId('mobile-home-nav-link').should('not.be.visible');
 
       // Test the menu sections.
       testDesktopMenuSections();
 
+      cy.get('[data-e2e-id="my-va-3"]');
       // Authenticated links should not appear.
-      cy.get('[data-e2e-id="my-va-3"]').should('not.exist');
       cy.get('[data-e2e-id="my-health-4"]').should('not.exist');
     });
 
@@ -92,7 +188,7 @@ describe('Mega Menu', () => {
       cy.visit('/');
 
       // Back to home button should not appear on desktop.
-      cy.get('[data-e2e-id="mobile-home-nav-link"]').should('not.be.visible');
+      cy.findByTestId('mobile-home-nav-link').should('not.be.visible');
 
       // Test the menu sections.
       testDesktopMenuSections();
@@ -115,8 +211,8 @@ describe('Mega Menu', () => {
       // Test the menu sections.
       testMobileMenuSections();
 
+      cy.get('[data-e2e-id="my-va-3"]');
       // Authenticated links should not appear.
-      cy.get('[data-e2e-id="my-va-3"]').should('not.exist');
       cy.get('[data-e2e-id="my-health-4"]').should('not.exist');
     });
 
@@ -133,6 +229,12 @@ describe('Mega Menu', () => {
       // Authenticated links should appear.
       cy.get('[data-e2e-id="my-va-3"]');
       cy.get('[data-e2e-id="my-health-4"]');
+    });
+
+    it('traps focus inside mega menu when opened', () => {
+      cy.visit('/');
+
+      testMobileTabFocus();
     });
   });
 });

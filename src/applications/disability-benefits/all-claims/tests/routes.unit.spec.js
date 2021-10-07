@@ -12,12 +12,6 @@ describe('Form 526 routes', () => {
     sessionStorage.removeItem(WIZARD_STATUS);
   });
 
-  it('should redirect from root to /start', () => {
-    const replace = sinon.spy();
-    sessionStorage.removeItem(WIZARD_STATUS);
-    onEnter(null, replace);
-    expect(replace.calledWith('/start')).to.be.true;
-  });
   it('should redirect from the root to /introduction', () => {
     const replace = sinon.spy();
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);

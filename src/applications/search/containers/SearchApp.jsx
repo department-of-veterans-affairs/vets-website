@@ -140,7 +140,9 @@ class SearchApp extends React.Component {
     });
   };
 
-  onSearchResultClick = ({ bestBet, title, index, url }) => () => {
+  onSearchResultClick = ({ bestBet, title, index, url }) => async e => {
+    e.preventDefault();
+
     // clear the &t query param which is used to track typeahead searches
     // removing this will better reflect how many typeahead searches result in at least one click
     window.history.replaceState(
@@ -148,13 +150,6 @@ class SearchApp extends React.Component {
       document.title,
       `${window.location.href.replace('&t=true', '')}`,
     );
-
-    if (bestBet) {
-      recordEvent({
-        event: 'nav-searchresults',
-        'nav-path': `Recommended Results -> ${title}`,
-      });
-    }
 
     const bestBetPosition = index + 1;
     const normalResultPosition =
@@ -164,6 +159,26 @@ class SearchApp extends React.Component {
       : normalResultPosition;
 
     const query = this.props.router?.location?.query?.query || '';
+
+    const encodedUrl = encodeURIComponent(url);
+    const userAgent = encodeURIComponent(navigator.userAgent);
+    const encodedQuery = encodeURIComponent(query);
+    const apiRequestOptions = {
+      method: 'POST',
+    };
+    const moduleCode = bestBet ? 'BOOS' : 'I14Y';
+
+    await apiRequest(
+      `/search_click_tracking?position=${searchResultPosition}&query=${encodedQuery}&url=${encodedUrl}&user_agent=${userAgent}&module_code=${moduleCode}`,
+      apiRequestOptions,
+    );
+
+    if (bestBet) {
+      recordEvent({
+        event: 'nav-searchresults',
+        'nav-path': `Recommended Results -> ${title}`,
+      });
+    }
 
     recordEvent({
       event: 'onsite-search-results-click',
@@ -184,18 +199,8 @@ class SearchApp extends React.Component {
       'search-typeahead-used': this.state.typeaheadUsed,
     });
 
-    const encodedUrl = encodeURIComponent(url);
-    const userAgent = encodeURIComponent(navigator.userAgent);
-    const encodedQuery = encodeURIComponent(query);
-    const apiRequestOptions = {
-      method: 'POST',
-    };
-    const moduleCode = bestBet ? 'BOOS' : 'I14Y';
-
-    apiRequest(
-      `/search_click_tracking?position=${searchResultPosition}&query=${encodedQuery}&url=${encodedUrl}&user_agent=${userAgent}&module_code=${moduleCode}`,
-      apiRequestOptions,
-    );
+    // relocate to clicked link page
+    window.location.href = url;
   };
 
   renderResults() {

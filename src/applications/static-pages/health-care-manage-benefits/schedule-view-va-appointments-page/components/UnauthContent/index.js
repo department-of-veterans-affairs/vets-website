@@ -1,17 +1,15 @@
 // Node modules.
 import React from 'react';
 // Relative imports.
-import CallToActionWidget from 'platform/site-wide/cta-widget';
+import CallToActionWidget from 'applications/static-pages/cta-widget';
 import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
 
 export const UnauthContent = () => (
   <>
     <CallToActionWidget appId="view-appointments" setFocus={false} />
     <p data-testid="non-cerner-content">
-      <strong>Please note:</strong> The fastest way to make all your VA
-      appointments is usually to call the VA or community care health facility
-      where you want to receive care. If you can’t keep an existing appointment,
-      please contact the facility as soon as possible to reschedule or cancel.
+      <strong>Note:</strong> If you can’t keep an existing appointment, please
+      contact the facility as soon as you can to reschedule or cancel.
       <br />
       <a href="/find-locations/">Find your health facility’s phone number</a>
     </p>

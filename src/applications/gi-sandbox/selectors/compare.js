@@ -1,3 +1,5 @@
+import appendQuery from 'append-query';
+
 export const getCompareCalculatorState = (
   calculator,
   institution,
@@ -9,6 +11,9 @@ export const getCompareCalculatorState = (
     books,
     calendar,
     type,
+    country,
+    dodBah,
+    bah,
   } = institution;
   let { yellowRibbonPrograms } = institution;
   let yellowRibbonDegreeLevelOptions = [];
@@ -45,17 +50,15 @@ export const getCompareCalculatorState = (
     yellowRibbonMaxNumberOfStudents = yellowRibbonPrograms[0].numberOfStudents;
     yellowRibbonProgramIndex = yellowRibbonPrograms[0].index;
   }
-  let giBillBenefit = calculator.giBillBenefit;
+  let giBillBenefit =
+    constants.AVGDODBAH && constants.AVGDODBAH < constants.AVGVABAH
+      ? 'no'
+      : 'yes';
   // Set default GI BILL benefit status to the lowest rate (DOD or BAH)
-  if (institution.country === 'USA') {
-    giBillBenefit =
-      institution.dodBah && institution.dodBah < institution.bah ? 'no' : 'yes';
-  } else {
-    giBillBenefit =
-      constants.AVGDODBAH && constants.AVGDODBAH < constants.AVGVABAH
-        ? 'no'
-        : 'yes';
+  if (country === 'USA') {
+    giBillBenefit = dodBah && dodBah < bah ? 'no' : 'yes';
   }
+
   return {
     ...calculator,
     giBillBenefit,
@@ -78,4 +81,23 @@ export const getCompareCalculatorState = (
     yellowRibbonPrograms,
     yellowRibbonProgramIndex,
   };
+};
+
+export const updateUrlParams = (facilityCodes, version) => {
+  return version
+    ? appendQuery(
+        `/compare/`,
+        {
+          facilities: facilityCodes.join(','),
+          version,
+        },
+        { encodeComponents: false },
+      )
+    : appendQuery(
+        `/compare/`,
+        {
+          facilities: facilityCodes.join(','),
+        },
+        { encodeComponents: false },
+      );
 };

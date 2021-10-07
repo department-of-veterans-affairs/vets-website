@@ -1,100 +1,107 @@
 import React from 'react';
 import CalculatorSheetResultRow from './CalculatorSheetResultRow';
 
-export const EstimateYourBenefitsSummarySheet = props => (
+export const EstimateYourBenefitsSummarySheet = ({
+  expandEybSheet,
+  outputs,
+  showEybSheet,
+  toggleEybExpansion,
+  type,
+  yellowRibbon,
+}) => (
   <div className="vads-u-padding-bottom--1p5 vads-u-border-top--1px vads-u-border-color--gray-light">
     <button
-      aria-expanded={props.expandEybSheet ? 'true' : 'false'}
-      aria-controls={props.showEybSheet && 'eyb-summary-sheet'}
+      aria-expanded={expandEybSheet ? 'true' : 'false'}
+      aria-controls={showEybSheet && 'eyb-summary-sheet'}
       className="eyb-button usa-accordion-button vads-u-padding-bottom--0"
-      onClick={() => props.toggleEybExpansion()}
+      onClick={() => toggleEybExpansion()}
     >
-      {props.expandEybSheet ? (
+      {expandEybSheet ? (
         <h4>Your estimated benefits</h4>
       ) : (
         <h5>Your estimated benefits</h5>
       )}
     </button>
     <div className="vads-u-margin-x--2p5">
-      {props.expandEybSheet ? (
+      {expandEybSheet ? (
         <div>
           <div className="out-of-pocket-tuition">
             <div className="vads-u-margin-y--1p5">
               <CalculatorSheetResultRow
                 label="GI Bill pays to school"
-                value={props.outputs.giBillPaysToSchool.value}
+                value={outputs.giBillPaysToSchool.value}
                 header
-                visible={props.outputs.giBillPaysToSchool.visible}
+                visible={outputs.giBillPaysToSchool.visible}
               />
             </div>
             <div className="vads-u-margin-y--0p5">
               <CalculatorSheetResultRow
                 label="Tuition and fees charged"
-                value={props.outputs.tuitionAndFeesCharged.value}
-                visible={props.outputs.tuitionAndFeesCharged.visible}
+                value={outputs.tuitionAndFeesCharged.value}
+                visible={outputs.tuitionAndFeesCharged.visible}
               />
             </div>
             <div className="vads-u-margin-top--1 vads-u-margin-bottom--0">
               <CalculatorSheetResultRow
                 label="Your scholarships"
-                value={props.outputs.yourScholarships.value}
-                visible={props.outputs.yourScholarships.visible}
+                value={outputs.yourScholarships.value}
+                visible={outputs.yourScholarships.visible}
               />
             </div>
             <div className="vads-u-margin-top--1 vads-u-margin-bottom--1p5">
               <CalculatorSheetResultRow
                 label="Out of pocket tuition"
-                value={props.outputs.outOfPocketTuition.value}
+                value={outputs.outOfPocketTuition.value}
                 bold
-                visible={props.outputs.totalPaidToYou.visible}
+                visible={outputs.totalPaidToYou.visible}
               />
             </div>
           </div>
           <div className="vads-u-margin-top--1 vads-u-margin-bottom--2">
             <CalculatorSheetResultRow
               label="Housing allowance"
-              value={props.outputs.housingAllowance.value}
+              value={outputs.housingAllowance.value}
               bold
-              visible={props.outputs.housingAllowance.visible}
+              visible={outputs.housingAllowance.visible}
             />
           </div>
           <div className="vads-u-margin-top--1p5 vads-u-margin-bottom--1p5">
             <CalculatorSheetResultRow
               label="Book stipend"
-              value={props.outputs.bookStipend.value}
+              value={outputs.bookStipend.value}
               header
-              visible={props.outputs.bookStipend.visible}
+              visible={outputs.bookStipend.visible}
             />
           </div>
           <div className="vads-u-margin-y--1p5">
             <CalculatorSheetResultRow
               label="Yellow Ribbon"
               value={
-                props.outputs.perTerm.yellowRibbon.terms.find(
+                outputs.perTerm.yellowRibbon.terms.find(
                   item => item.label === 'Total per year',
                 ).value
               }
               bold
-              visible={props.yellowRibbon}
+              visible={yellowRibbon}
             />
           </div>
           <div className="vads-u-margin-y--1">
             <CalculatorSheetResultRow
               label="Total paid to you"
-              value={props.outputs.totalPaidToYou.value}
+              value={outputs.totalPaidToYou.value}
               bold
-              visible={props.outputs.totalPaidToYou.visible}
+              visible={outputs.totalPaidToYou.visible}
             />
           </div>
-          {props.type === 'OJT' && (
+          {type === 'OJT' && (
             <div>
               <hr className="vads-u-margin-y--2" />
               <h4 className="vads-u-margin-y--0">
                 Estimated benefits per month
               </h4>
               <h5 className="vads-u-margin-y--1p5">Housing allowance</h5>
-              {props.outputs.perTerm.housingAllowance.visible &&
-                props.outputs.perTerm.housingAllowance.terms.map(term => (
+              {outputs.perTerm.housingAllowance.visible &&
+                outputs.perTerm.housingAllowance.terms.map(term => (
                   <CalculatorSheetResultRow
                     key={`${term.label}`}
                     label={term.label}
@@ -109,22 +116,22 @@ export const EstimateYourBenefitsSummarySheet = props => (
         <div>
           <CalculatorSheetResultRow
             label="GI Bill pays to school"
-            value={props.outputs.giBillPaysToSchool.value}
+            value={outputs.giBillPaysToSchool.value}
             boldLabel
-            visible={props.outputs.giBillPaysToSchool.visible}
+            visible={outputs.giBillPaysToSchool.visible}
             className="vads-u-margin-y--4"
           />
           <CalculatorSheetResultRow
             label="Housing allowance"
-            value={props.outputs.housingAllowance.value}
+            value={outputs.housingAllowance.value}
             boldLabel
-            visible={props.outputs.housingAllowance.visible}
+            visible={outputs.housingAllowance.visible}
           />
           <CalculatorSheetResultRow
             label="Book stipend"
-            value={props.outputs.bookStipend.value}
+            value={outputs.bookStipend.value}
             boldLabel
-            visible={props.outputs.bookStipend.visible}
+            visible={outputs.bookStipend.visible}
           />
         </div>
       )}

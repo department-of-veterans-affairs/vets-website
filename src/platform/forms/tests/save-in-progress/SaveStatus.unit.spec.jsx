@@ -63,11 +63,7 @@ describe('<SaveStatus>', () => {
         formId: VA_FORM_IDS.FORM_10_10EZ,
         lastSavedDate: 1505770055,
         autoSavedStatus: 'success',
-        loadedData: {
-          metadata: {
-            inProgressFormId: 98765,
-          },
-        },
+        inProgressFormId: 98765,
       },
       formConfig: {
         customText: {

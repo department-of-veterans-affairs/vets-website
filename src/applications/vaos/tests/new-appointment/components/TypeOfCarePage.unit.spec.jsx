@@ -9,7 +9,6 @@ import set from 'platform/utilities/data/set';
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 import { getParentSiteMock } from '../../mocks/v0';
-import { getV2FacilityMock } from '../../mocks/v2';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import {
   mockCommunityCareEligibility,
@@ -24,6 +23,7 @@ import TypeOfCarePage from '../../../new-appointment/components/TypeOfCarePage';
 import { NewAppointment } from '../../../new-appointment';
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
+import { createMockFacilityByVersion } from '../../mocks/data';
 
 const initialState = {
   featureToggles: {
@@ -384,7 +384,6 @@ describe('VAOS <TypeOfCarePage>', () => {
 
     expect((await screen.findAllByRole('radio')).length).to.equal(12);
     fireEvent.click(await screen.findByLabelText(/COVID-19 vaccine/i));
-    expect(screen.queryAllByText(/NEW/i).length).to.equal(2);
 
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
@@ -399,8 +398,8 @@ describe('VAOS <TypeOfCarePage>', () => {
       mockVAOSParentSites(
         ['983'],
         [
-          getV2FacilityMock({ id: '983', isParent: true }),
-          getV2FacilityMock({ id: '983GC', isParent: true }),
+          createMockFacilityByVersion({ id: '983', isParent: true }),
+          createMockFacilityByVersion({ id: '983GC', isParent: true }),
         ],
         true,
       );
@@ -413,7 +412,7 @@ describe('VAOS <TypeOfCarePage>', () => {
         ...initialState,
         featureToggles: {
           vaOnlineSchedulingCommunityCare: true,
-          vaOnlineSchedulingVAOSServiceRequests: true,
+          vaOnlineSchedulingFacilitiesServiceV2: true,
         },
       });
       const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
@@ -431,8 +430,8 @@ describe('VAOS <TypeOfCarePage>', () => {
       mockVAOSParentSites(
         ['983'],
         [
-          getV2FacilityMock({ id: '983', isParent: true }),
-          getV2FacilityMock({ id: '983GC', isParent: true }),
+          createMockFacilityByVersion({ id: '983', isParent: true }),
+          createMockFacilityByVersion({ id: '983GC', isParent: true }),
         ],
         true,
       );

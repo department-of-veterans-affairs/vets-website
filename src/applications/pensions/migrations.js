@@ -1,4 +1,5 @@
-import _ from 'lodash/fp';
+import get from 'platform/utilities/data/get';
+import set from 'platform/utilities/data/set';
 import { isValidDateRange } from 'platform/forms/validations';
 import { convertToDateField } from 'platform/forms-system/src/js/validation';
 import { isValidCentralMailPostalCode } from 'platform/forms/address/validations';
@@ -12,7 +13,7 @@ export default [
       const fromDate = convertToDateField(formData.veteranDateOfBirth);
       const dateError = formData.servicePeriods.some(period => {
         const toDate = convertToDateField(
-          _.get('activeServiceDateRange.from', period),
+          get('activeServiceDateRange.from', period),
         );
 
         return !isValidDateRange(fromDate, toDate);
@@ -21,7 +22,7 @@ export default [
       if (dateError) {
         return {
           formData,
-          metadata: _.set('returnUrl', '/military/history', metadata),
+          metadata: set('returnUrl', '/military/history', metadata),
         };
       }
     }
@@ -30,7 +31,7 @@ export default [
       const index = formData.marriages.findIndex(marriage => {
         const fromDate = convertToDateField(marriage.dateOfMarriage);
         const toDate = convertToDateField(
-          _.get('view:pastMarriage.dateOfSeparation', marriage),
+          get('view:pastMarriage.dateOfSeparation', marriage),
         );
 
         return !isValidDateRange(fromDate, toDate);
@@ -39,11 +40,7 @@ export default [
       if (index >= 0) {
         return {
           formData,
-          metadata: _.set(
-            'returnUrl',
-            `/household/marriages/${index}`,
-            metadata,
-          ),
+          metadata: set('returnUrl', `/household/marriages/${index}`, metadata),
         };
       }
     }
@@ -59,7 +56,7 @@ export default [
       if (index >= 0) {
         return {
           formData,
-          metadata: _.set(
+          metadata: set(
             'returnUrl',
             `/household/spouse-marriages/${index}`,
             metadata,

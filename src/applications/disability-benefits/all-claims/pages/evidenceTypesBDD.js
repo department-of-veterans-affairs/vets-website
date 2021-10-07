@@ -3,14 +3,17 @@ import { validateIfHasEvidence } from '../validations';
 import get from 'platform/utilities/data/get';
 
 import {
+  hasEvidenceLabel,
   evidenceTypeTitle,
+  privateMedicalRecords,
+  evidenceLayStatements,
+  evidenceTypeError,
   evidenceTypeHelp,
 } from '../content/evidenceTypesBDD';
 
 export const uiSchema = {
   'view:hasEvidence': {
-    'ui:title':
-      'Is there any other evidence you’d like us to review as part of your claim?',
+    'ui:title': hasEvidenceLabel,
     'ui:widget': 'yesNo',
   },
   'view:hasEvidenceFollowUp': {
@@ -27,14 +30,14 @@ export const uiSchema = {
         },
       ],
       'ui:errorMessages': {
-        atLeastOne: 'Please select at least one type of supporting evidence',
+        atLeastOne: evidenceTypeError,
       },
       'ui:required': formData => get('view:hasEvidence', formData, false),
       'view:hasPrivateMedicalRecords': {
-        'ui:title': 'Private medical records',
+        'ui:title': privateMedicalRecords,
       },
       'view:hasOtherEvidence': {
-        'ui:title': 'Supporting (lay) statements or other evidence',
+        'ui:title': evidenceLayStatements,
       },
     },
     'view:evidenceTypeHelp': {

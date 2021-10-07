@@ -1,8 +1,6 @@
 import moment from 'moment';
-import { getTimezoneBySystemId } from '../../../utils/timezone';
 import {
   getChosenClinicInfo,
-  getSiteIdForChosenFacility,
   getChosenSlot,
   selectCovid19VaccineFormData,
 } from '../selectors';
@@ -10,9 +8,7 @@ import { getClinicId, getSiteCode } from '../../../services/healthcare-service';
 
 export function transformFormToAppointment(state) {
   const clinic = getChosenClinicInfo(state);
-  const siteId = getSiteIdForChosenFacility(state);
   const data = selectCovid19VaccineFormData(state);
-  const { timezone = null } = siteId ? getTimezoneBySystemId(siteId) : {};
 
   const slot = getChosenSlot(state);
   const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
@@ -34,7 +30,6 @@ export function transformFormToAppointment(state) {
     duration: appointmentLength,
     bookingNotes: '',
     preferredEmail: data.email,
-    timeZone: timezone,
     // defaulted values
     apptType: 'P',
     purpose: '9',

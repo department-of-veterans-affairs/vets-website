@@ -1,9 +1,13 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useQueryParams } from '../utils/helpers';
+import moment from 'moment';
 
-function PreviewBanner({ toolUrl = '/gids' }) {
+export default function PreviewBanner({ version, toolUrl = '/gids' }) {
+  const when = moment(version.createdAt).format(
+    'MMM D, YYYY [at] h:mm a [EST]',
+  );
+
   const history = useHistory();
   const queryParams = useQueryParams();
 
@@ -18,6 +22,8 @@ function PreviewBanner({ toolUrl = '/gids' }) {
         <div className="inner">
           <h5>Preview draft</h5>
           <p>
+            This is what the version of this data from {when} will look
+            like.&nbsp;
             <span className="actions">
               <button
                 type="button"
@@ -35,9 +41,3 @@ function PreviewBanner({ toolUrl = '/gids' }) {
     </div>
   );
 }
-
-PreviewBanner.propTypes = {
-  toolUrl: PropTypes.string,
-};
-
-export default PreviewBanner;

@@ -34,6 +34,7 @@ export const uiSchema = {
           'ui:title': 'Child’s middle name',
           'ui:options': {
             useDlWrap: true,
+            hideEmptyValueInReview: true,
           },
         },
         last: {
@@ -49,6 +50,7 @@ export const uiSchema = {
           'ui:options': {
             widgetClassNames: 'usa-input-medium',
             useDlWrap: true,
+            hideEmptyValueInReview: true,
           },
         },
       },

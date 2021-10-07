@@ -12,7 +12,7 @@ import {
 } from '../../utils/constants';
 import { lowerCase } from '../../utils/formatters';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import ListBestTimeToCall from './cards/pending/ListBestTimeToCall';
+import ListBestTimeToCall from './ListBestTimeToCall';
 import VAFacilityLocation from '../../components/VAFacilityLocation';
 import CancelAppointmentModal from './cancel/CancelAppointmentModal';
 import Breadcrumbs from '../../components/Breadcrumbs';
@@ -22,7 +22,7 @@ import {
 } from '../../services/appointment';
 import { selectRequestedAppointmentDetails } from '../redux/selectors';
 import ErrorMessage from '../../components/ErrorMessage';
-import PageLayout from './AppointmentsPage/PageLayout';
+import PageLayout from './PageLayout';
 import FullWidthLayout from '../../components/FullWidthLayout';
 import InfoAlert from '../../components/InfoAlert';
 import {
@@ -129,7 +129,7 @@ export default function RequestedAppointmentDetailsPage() {
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isCC = appointment.vaos.isCommunityCare;
-  const typeOfVisit = appointment.vaos.requestVisitType;
+  const typeOfVisit = appointment.requestVisitType;
   const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
   const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
@@ -206,7 +206,6 @@ export default function RequestedAppointmentDetailsPage() {
             facility={facility}
             facilityName={facility?.name}
             facilityId={facilityId}
-            isHomepageRefresh
           />
         )}
 
@@ -235,7 +234,8 @@ export default function RequestedAppointmentDetailsPage() {
       <h2 className="vaos-appts__block-label vads-u-margin-bottom--0 vads-u-margin-top--2">
         Preferred date and time
       </h2>
-      <ul className="usa-unstyled-list">
+      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+      <ul className="usa-unstyled-list" role="list">
         {appointment.requestedPeriod.map((option, optionIndex) => (
           <li key={`${appointment.id}-option-${optionIndex}`}>
             {moment(option.start).format('ddd, MMMM D, YYYY')}{' '}

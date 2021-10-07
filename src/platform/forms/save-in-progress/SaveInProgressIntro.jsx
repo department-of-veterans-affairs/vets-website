@@ -28,8 +28,41 @@ import {
 } from '../../forms-system/src/js/constants';
 
 class SaveInProgressIntro extends React.Component {
+  getFormControls = savedForm => {
+    const { profile } = this.props.user;
+    const startPage = this.getStartPage();
+    const prefillAvailable = !!(
+      profile && profile.prefillsAvailable.includes(this.props.formId)
+    );
+    const isExpired = savedForm
+      ? moment.unix(savedForm.metadata.expiresAt).isBefore()
+      : false;
+    return (
+      <FormStartControls
+        resumeOnly={this.props.resumeOnly}
+        isExpired={isExpired}
+        messages={this.props.messages}
+        startText={this.props.startText}
+        testActionLink={this.props.testActionLink}
+        startPage={startPage}
+        formId={this.props.formId}
+        returnUrl={this.props.returnUrl}
+        migrations={this.props.migrations}
+        prefillTransformer={this.props.prefillTransformer}
+        fetchInProgressForm={this.props.fetchInProgressForm}
+        removeInProgressForm={this.props.removeInProgressForm}
+        prefillAvailable={prefillAvailable}
+        formSaved={!!savedForm}
+        gaStartEventName={this.props.gaStartEventName}
+        ariaLabel={this.props.ariaLabel}
+        ariaDescribedby={this.props.ariaDescribedby}
+      />
+    );
+  };
+
   getAlert = savedForm => {
     let alert;
+    let includesFormControls = false;
     const {
       formId,
       renderSignInMessage,
@@ -38,13 +71,21 @@ class SaveInProgressIntro extends React.Component {
       verifiedPrefillAlert,
       unverifiedPrefillAlert,
       formConfig,
+      ariaLabel = null,
+      ariaDescribedby = null,
     } = this.props;
     const { profile, login } = this.props.user;
     const prefillAvailable = !!(
       profile && profile.prefillsAvailable.includes(formId)
     );
+
+    // e.g. appType = 'application'
     const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
+    // e.g. appAction = 'applying'
     const appAction = formConfig?.customText?.appAction || APP_ACTION_DEFAULT;
+    // e.g. appContinuing = 'for planning and career guidance' =>
+    // You can continue applying now for planning and career guidance, or...
+    const appContinuing = formConfig?.customText?.appContinuing || '';
 
     if (login.currentlyLoggedIn) {
       if (savedForm) {
@@ -54,45 +95,36 @@ class SaveInProgressIntro extends React.Component {
           ? moment(this.props.lastSavedDate)
           : moment.unix(lastUpdated);
         const expiresAt = moment.unix(savedForm.metadata.expiresAt);
-        const expirationDate = expiresAt.format('MMM D, YYYY');
+        const expirationDate = expiresAt.format('MMMM D, YYYY');
         const isExpired = expiresAt.isBefore();
         const inProgressMessage = getInProgressMessage(formConfig);
 
         if (!isExpired) {
-          const lastSavedDateTime = savedAt.format('M/D/YYYY [at] h:mm a');
+          const lastSavedDateTime = savedAt.format('MMMM D, YYYY [at] h:mm a');
           const H = `h${this.props.headingLevel}`;
-          const message = `Your ${appType} is in progress`;
+          includesFormControls = true;
           alert = (
-            <div>
-              <div className="usa-alert usa-alert-info background-color-only schemaform-sip-alert">
-                <div className="schemaform-sip-alert-title">
-                  <H className="usa-alert-heading vads-u-font-size--base">
-                    {message}
-                  </H>
-                </div>
-                <div className="saved-form-metadata-container">
-                  {inProgressMessage && (
-                    <>
-                      <span className="saved-form-item-metadata">
-                        {inProgressMessage}
-                      </span>
-                      <br />
-                    </>
-                  )}
-                  <span className="saved-form-item-metadata">
-                    Your {appType} was last saved on {lastSavedDateTime}
-                  </span>
-                  <div className="expires-container">
-                    You can continue {appAction} now, or come back later to
-                    finish your {appType}. Your {appType}{' '}
+            <div className="usa-alert usa-alert-info background-color-only schemaform-sip-alert">
+              <div className="schemaform-sip-alert-title">
+                <H className="usa-alert-heading vads-u-font-size--h3">
+                  {inProgressMessage} and was last saved on {lastSavedDateTime}
+                </H>
+              </div>
+              <div className="saved-form-metadata-container">
+                <div className="expires-container">
+                  You can continue {appAction} now
+                  {appContinuing && ` ${appContinuing}`}, or come back later to
+                  finish your {appType}.
+                  <p>
+                    Your {appType}{' '}
                     <span className="expires">
                       will expire on {expirationDate}.
                     </span>
-                  </div>
+                  </p>
                 </div>
-                <div>{this.props.children}</div>
               </div>
-              <br />
+              <div>{this.props.children}</div>
+              {this.getFormControls(savedForm)}
             </div>
           );
         } else {
@@ -148,7 +180,12 @@ class SaveInProgressIntro extends React.Component {
       const H = `h${this.props.headingLevel}`;
       const { buttonOnly, retentionPeriod, unauthStartText } = this.props;
       const unauthStartButton = (
-        <button className="usa-button-primary" onClick={this.openLoginModal}>
+        <button
+          className="usa-button-primary"
+          onClick={this.openLoginModal}
+          aria-label={ariaLabel}
+          aria-describedby={ariaDescribedby}
+        >
           {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
         </button>
       );
@@ -160,6 +197,8 @@ class SaveInProgressIntro extends React.Component {
               <button
                 className="va-button-link schemaform-start-button"
                 onClick={this.goToBeginning}
+                aria-label={ariaLabel}
+                aria-describedby={ariaDescribedby}
               >
                 Start your {appType} without signing in
               </button>
@@ -199,6 +238,8 @@ class SaveInProgressIntro extends React.Component {
                   <button
                     className="va-button-link schemaform-start-button"
                     onClick={this.goToBeginning}
+                    aria-label={ariaLabel}
+                    aria-describedby={ariaDescribedby}
                   >
                     Start your {appType} without signing in
                   </button>
@@ -218,7 +259,12 @@ class SaveInProgressIntro extends React.Component {
               You can save this {appType} in progress, and come back later to
               finish filling it out.
               <br />
-              <button className="va-button-link" onClick={this.openLoginModal}>
+              <button
+                className="va-button-link"
+                onClick={this.openLoginModal}
+                aria-label={ariaLabel}
+                aria-describedby={ariaDescribedby}
+              >
                 Sign in to your account.
               </button>
             </div>
@@ -227,7 +273,7 @@ class SaveInProgressIntro extends React.Component {
         </div>
       );
     }
-    return alert;
+    return { alert, includesFormControls };
   };
 
   getStartPage = () => {
@@ -260,21 +306,11 @@ class SaveInProgressIntro extends React.Component {
   };
 
   render() {
-    const { formConfig } = this.props;
+    const { formConfig, buttonOnly } = this.props;
     const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
-    const { profile } = this.props.user;
-    const startPage = this.getStartPage();
+    const { profile, login } = this.props.user;
     const savedForm =
       profile && profile.savedForms.find(f => f.form === this.props.formId);
-    const prefillAvailable = !!(
-      profile && profile.prefillsAvailable.includes(this.props.formId)
-    );
-    let expiresAt;
-    let isExpired;
-    if (savedForm) {
-      expiresAt = moment.unix(savedForm.metadata.expiresAt);
-      isExpired = expiresAt.isBefore();
-    }
 
     if (profile.loading && !this.props.resumeOnly) {
       return (
@@ -292,35 +328,19 @@ class SaveInProgressIntro extends React.Component {
     }
 
     if (this.props.startMessageOnly && !savedForm) {
-      return <div>{this.getAlert(savedForm)}</div>;
+      return <div>{this.getAlert(savedForm).alert}</div>;
     }
+
+    const { alert, includesFormControls } = this.getAlert(savedForm);
 
     const content = (
       <div>
-        {!this.props.buttonOnly && this.getAlert(savedForm)}
-        {this.props.buttonOnly &&
-          !this.props.user.login.currentlyLoggedIn &&
-          this.getAlert(savedForm)}
-        {this.props.user.login.currentlyLoggedIn && (
-          <FormStartControls
-            resumeOnly={this.props.resumeOnly}
-            isExpired={isExpired}
-            messages={this.props.messages}
-            startText={this.props.startText}
-            testActionLink={this.props.testActionLink}
-            startPage={startPage}
-            formId={this.props.formId}
-            returnUrl={this.props.returnUrl}
-            migrations={this.props.migrations}
-            prefillTransformer={this.props.prefillTransformer}
-            fetchInProgressForm={this.props.fetchInProgressForm}
-            removeInProgressForm={this.props.removeInProgressForm}
-            prefillAvailable={prefillAvailable}
-            formSaved={!!savedForm}
-            gaStartEventName={this.props.gaStartEventName}
-          />
-        )}
-        {!this.props.buttonOnly && this.props.afterButtonContent}
+        {!buttonOnly && alert}
+        {buttonOnly && !login.currentlyLoggedIn && alert}
+        {!includesFormControls &&
+          login.currentlyLoggedIn &&
+          this.getFormControls(savedForm)}
+        {!buttonOnly && this.props.afterButtonContent}
         <br />
       </div>
     );
@@ -386,6 +406,8 @@ SaveInProgressIntro.propTypes = {
     }),
   }),
   headingLevel: PropTypes.number,
+  ariaLabel: PropTypes.string,
+  ariaDescribedby: PropTypes.string,
 };
 
 SaveInProgressIntro.defaultProps = {
@@ -398,6 +420,8 @@ SaveInProgressIntro.defaultProps = {
     },
   },
   headingLevel: 3,
+  ariaLabel: null,
+  ariaDescribedby: null,
 };
 
 function mapStateToProps(state) {

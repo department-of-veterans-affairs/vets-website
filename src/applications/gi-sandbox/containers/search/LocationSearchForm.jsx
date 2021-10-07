@@ -8,12 +8,15 @@ import {
   updateAutocompleteLocation,
   geolocateUser,
   clearGeocodeError,
+  mapChanged,
 } from '../../actions';
 import KeywordSearch from '../../components/search/KeywordSearch';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { useHistory } from 'react-router-dom';
-import { updateUrlParams } from '../../utils/helpers';
+import { updateUrlParams } from '../../selectors/search';
+import { TABS } from '../../constants';
+import { INITIAL_STATE } from '../../reducers/search';
 
 export function LocationSearchForm({
   autocomplete,
@@ -26,12 +29,21 @@ export function LocationSearchForm({
   search,
   dispatchGeolocateUser,
   dispatchClearGeocodeError,
+  dispatchMapChanged,
 }) {
   const [distance, setDistance] = useState(search.query.distance);
   const [location, setLocation] = useState(search.query.location);
+  const [error, setError] = useState(null);
   const [autocompleteSelection, setAutocompleteSelection] = useState(null);
   const { version } = preview;
   const history = useHistory();
+  const distanceDropdownOptions = [
+    { optionValue: '5', optionLabel: 'within 5 miles' },
+    { optionValue: '15', optionLabel: 'within 15 miles' },
+    { optionValue: '25', optionLabel: 'within 25 miles' },
+    { optionValue: '50', optionLabel: 'within 50 miles' },
+    { optionValue: '75', optionLabel: 'within 75 miles' },
+  ];
 
   useEffect(
     () => {
@@ -51,9 +63,21 @@ export function LocationSearchForm({
     [search.loadFromUrl],
   );
 
+  const validateSearchTerm = searchTerm => {
+    if (searchTerm.trim() === '') {
+      setError('Please fill in a city, state, or postal code.');
+    } else if (error !== null) {
+      setError(null);
+    }
+  };
+
   const doSearch = event => {
-    event.preventDefault();
+    if (event) {
+      event.preventDefault();
+    }
     let paramLocation = location;
+    dispatchMapChanged({ changed: false, distance: null });
+
     if (autocompleteSelection?.coords) {
       paramLocation = autocompleteSelection.label;
       dispatchFetchSearchByLocationCoords(
@@ -64,12 +88,18 @@ export function LocationSearchForm({
         version,
       );
     } else {
-      dispatchFetchSearchByLocationResults(
-        location,
-        distance,
-        filters,
-        version,
-      );
+      if (location.trim() !== '') {
+        dispatchFetchSearchByLocationResults(
+          location,
+          distance,
+          filters,
+          version,
+        );
+      }
+
+      if (event) {
+        validateSearchTerm(location);
+      }
     }
 
     updateUrlParams(
@@ -80,6 +110,24 @@ export function LocationSearchForm({
       version,
     );
   };
+
+  /**
+   * Triggers a search for search form when the "Update results" button in "Filter your results"
+   * is clicked
+   */
+  useEffect(
+    () => {
+      if (
+        !search.loadFromUrl &&
+        filters.search &&
+        search.tab === TABS.location &&
+        !search.query.mapState.changed
+      ) {
+        doSearch(null);
+      }
+    },
+    [filters.search],
+  );
 
   const doAutocompleteSuggestionsSearch = value => {
     dispatchFetchLocationAutocompleteSuggestions(value);
@@ -101,32 +149,18 @@ export function LocationSearchForm({
     [search.query.streetAddress.searchString],
   );
 
+  useEffect(
+    () => {
+      const distanceOption = distanceDropdownOptions.find(
+        option => option.optionValue === search.query.distance,
+      );
+      setDistance(distanceOption?.optionValue || INITIAL_STATE.query.distance);
+    },
+    [search.query.distance],
+  );
+
   return (
-    <div>
-      <div className="use-my-location-container">
-        {search.geolocationInProgress ? (
-          <div className="use-my-location-link">
-            <i
-              className="fa fa-spinner fa-spin"
-              aria-hidden="true"
-              role="presentation"
-            />
-            <span aria-live="assertive">Finding your location...</span>
-          </div>
-        ) : (
-          <button
-            onClick={dispatchGeolocateUser}
-            className="use-my-location-link"
-          >
-            <i
-              className="use-my-location-button"
-              aria-hidden="true"
-              role="presentation"
-            />
-            Use my location
-          </button>
-        )}
-      </div>
+    <div className="location-search-form">
       <Modal
         title={
           search.geocodeError === 1
@@ -148,41 +182,72 @@ export function LocationSearchForm({
       />
       <form onSubmit={doSearch} className="vads-u-margin-y--0">
         <div className="vads-l-row">
-          <div className="medium-screen:vads-l-col--10">
+          <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--7 medium-screen:vads-l-col--7 input-row">
             <KeywordSearch
-              version={version}
-              name="locationSearch"
               className="location-search"
+              error={error}
               inputValue={location}
+              label="City, state, or postal code"
+              labelAdditional={
+                <span className="use-my-location-container">
+                  {search.geolocationInProgress ? (
+                    <div className="use-my-location-link">
+                      <i
+                        className="fa fa-spinner fa-spin"
+                        aria-hidden="true"
+                        role="presentation"
+                      />
+                      <span aria-live="assertive">
+                        Finding your location...
+                      </span>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={dispatchGeolocateUser}
+                      className="use-my-location-link"
+                    >
+                      <i
+                        className="use-my-location-button"
+                        aria-hidden="true"
+                        role="presentation"
+                      />
+                      Use my location
+                    </button>
+                  )}
+                </span>
+              }
+              name="locationSearch"
               onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
               onPressEnter={e => doSearch(e)}
               onSelection={selected => setAutocompleteSelection(selected)}
               onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
-              placeholder="city, state, or postal code"
               suggestions={[...autocomplete.locationSuggestions]}
-            />
-            <Dropdown
-              className="vads-u-font-style--italic vads-u-display--inline-block vads-u-margin-left--4"
-              selectClassName="vads-u-font-style--italic vads-u-color--gray"
-              name="distance"
-              options={[
-                { optionValue: '5', optionLabel: 'within 5 miles' },
-                { optionValue: '15', optionLabel: 'within 15 miles' },
-                { optionValue: '25', optionLabel: 'within 25 miles' },
-                { optionValue: '50', optionLabel: 'within 50 miles' },
-                { optionValue: '75', optionLabel: 'within 75 miles' },
-              ]}
-              value={distance}
-              alt="distance"
-              visible
-              onChange={e => setDistance(e.target.value)}
+              validateSearchTerm={validateSearchTerm}
+              version={version}
             />
           </div>
-          <div className="medium-screen:vads-l-col--2 vads-u-text-align--right">
-            <button type="submit" className="usa-button">
-              Search
-              <i aria-hidden="true" className="fa fa-search" />
-            </button>
+
+          <div className="location-search-inputs vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--5 medium-screen:vads-l-col--5 input-row">
+            <div className="bottom-positioner">
+              <Dropdown
+                ariaLabel="Distance"
+                className="vads-u-font-style--italic vads-u-display--inline-block "
+                selectClassName="vads-u-font-style--italic vads-u-color--gray"
+                name="distance"
+                options={distanceDropdownOptions}
+                value={distance}
+                alt="distance"
+                visible
+                onChange={e => setDistance(e.target.value)}
+              />
+              <button
+                type="submit"
+                className="usa-button location-search-button"
+              >
+                Search
+                <i aria-hidden="true" className="fa fa-search" />
+              </button>
+            </div>
           </div>
         </div>
       </form>
@@ -204,6 +269,7 @@ const mapDispatchToProps = {
   dispatchUpdateAutocompleteLocation: updateAutocompleteLocation,
   dispatchGeolocateUser: geolocateUser,
   dispatchClearGeocodeError: clearGeocodeError,
+  dispatchMapChanged: mapChanged,
 };
 
 export default connect(

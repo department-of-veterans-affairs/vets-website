@@ -70,8 +70,8 @@ function fillOutAndSubmitBankInfoForm(view) {
   const accountTypeSelect = view.getByLabelText(/account type/i);
   const submitButton = view.getByText('Update', { selector: 'button' });
 
-  userEvent.type(accountNumberField, '123123123');
   userEvent.type(routingNumberField, '456456456');
+  userEvent.type(accountNumberField, '123123123');
   userEvent.selectOptions(accountTypeSelect, ['Savings']);
   userEvent.click(submitButton);
 }

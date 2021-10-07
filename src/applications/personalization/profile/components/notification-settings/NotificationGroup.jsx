@@ -10,11 +10,13 @@ const NotificationGroup = ({ children, groupName, itemIds }) => {
   return (
     <div data-testid="notification-group">
       <h2 className="vads-u-font-size--h3">{groupName}</h2>
-      {itemIds.map(itemId => {
-        return <NotificationItem key={itemId} itemId={itemId} />;
-      })}
-      {children}
-      <hr />
+      <div className="vads-u-margin-left--1p5">
+        {itemIds.map(itemId => {
+          return <NotificationItem key={itemId} itemId={itemId} />;
+        })}
+        {children}
+      </div>
+      <hr aria-hidden="true" className="vads-u-margin-y--2" />
     </div>
   );
 };
@@ -25,9 +27,10 @@ const mapStateToProps = (state, ownProps) => {
     communicationPreferencesState,
     ownProps.groupId,
   );
+  const itemIds = group.items;
   return {
     groupName: group.name,
-    itemIds: group.items,
+    itemIds,
   };
 };
 

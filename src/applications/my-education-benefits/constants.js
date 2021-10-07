@@ -1,0 +1,1 @@
+export const FORMAT_DATE_READABLE = 'MMMM DD, YYYY';

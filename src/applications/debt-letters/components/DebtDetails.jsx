@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import head from 'lodash/head';
@@ -9,85 +9,53 @@ import first from 'lodash/first';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
-
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { setPageFocus } from '../utils/page';
+import { setPageFocus, getCurrentDebt, currency } from '../utils/page';
 import { OnThisPageLinks } from './OnThisPageLinks';
+import { renderAdditionalInfo } from '../const/diary-codes';
+import HistoryTable from './HistoryTable';
 import {
   deductionCodes,
   renderWhyMightIHaveThisDebt,
 } from '../const/deduction-codes';
-import {
-  renderAdditionalInfo,
-  renderLetterHistory,
-} from '../const/diary-codes';
 
-const DebtDetails = ({ selectedDebt }) => {
+const DebtDetails = ({ selectedDebt, debts }) => {
+  const approvedLetterCodes = ['100', '101', '102', '109', '117', '123', '130'];
+  const location = useLocation();
+  const currentDebt = getCurrentDebt(selectedDebt, debts, location);
+  const mostRecentHistory = head(currentDebt?.debtHistory);
+  const whyContent = renderWhyMightIHaveThisDebt(currentDebt.deductionCode);
+  const dateUpdated = last(currentDebt.debtHistory)?.date;
+  const dateFirstNotice = first(currentDebt.debtHistory)?.date;
+  const filteredHistory = currentDebt.debtHistory
+    ?.filter(history => approvedLetterCodes.includes(history.letterCode))
+    .reverse();
+  const hasFilteredHistory = filteredHistory && filteredHistory.length > 0;
+  const additionalInfo = renderAdditionalInfo(
+    currentDebt.diaryCode,
+    mostRecentHistory?.date,
+    currentDebt.benefitType,
+  );
+
   useEffect(() => {
     scrollToTop();
     setPageFocus('h1');
   }, []);
 
-  const mostRecentHistory = head(selectedDebt.debtHistory);
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2,
-  });
-
-  const letterCodes = ['100', '101', '102', '109', '117', '123', '130'];
-
-  const filteredHistory = selectedDebt.debtHistory
-    .filter(history => letterCodes.includes(history.letterCode))
-    .reverse();
-
-  const hasFilteredHistory = filteredHistory.length > 0;
-
-  if (Object.keys(selectedDebt).length === 0) {
-    return window.location.replace('/manage-va-debt/your-debt');
-  }
-
-  const additionalInfo = renderAdditionalInfo(
-    selectedDebt.diaryCode,
-    mostRecentHistory.date,
-    selectedDebt.benefitType,
-  );
-
-  const whyMightIHaveThisDebtContent = renderWhyMightIHaveThisDebt(
-    selectedDebt.deductionCode,
-  );
-
-  const renderHistoryTable = history => {
-    if (!hasFilteredHistory) return null;
+  if (Object.keys(currentDebt).length === 0) {
+    window.location.replace('/manage-va-debt/your-debt');
     return (
-      <table className="vads-u-margin-y--4">
-        <thead>
-          <tr>
-            <th className="vads-u-font-weight--bold" scope="col">
-              Date
-            </th>
-            <th className="vads-u-font-weight--bold" scope="col">
-              Letter
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {history.map((debtEntry, index) => (
-            <tr key={`${debtEntry.date}-${index}`}>
-              <td>{moment(debtEntry.date).format('MMMM D, YYYY')}</td>
-              <td>
-                <div className="vads-u-margin-top--0">
-                  {renderLetterHistory(debtEntry.letterCode)}
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="vads-u-font-family--sans vads-u-margin--0 vads-u-padding--1">
+        <LoadingIndicator
+          setFocus
+          message="Please wait while we load the application for you."
+        />
+      </div>
     );
-  };
+  }
 
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column">
@@ -97,43 +65,42 @@ const DebtDetails = ({ selectedDebt }) => {
         <a href="/manage-va-debt/your-debt">Your VA debt</a>
         <a href="/manage-va-debt/your-debt/debt-detail">Details</a>
       </Breadcrumbs>
-
       <h1
         className="vads-u-font-family--serif vads-u-margin-bottom--2"
         tabIndex="-1"
       >
-        Your {deductionCodes[selectedDebt.deductionCode]}
+        Your {deductionCodes[currentDebt.deductionCode]}
       </h1>
-
       <section className="vads-l-row">
         <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-right--2p5 vads-l-col--12 medium-screen:vads-l-col--8 vads-u-font-family--sans">
-          <p className="va-introtext vads-u-margin-top--0">
-            Updated on
-            <span className="vads-u-margin-left--0p5">
-              {moment(last(selectedDebt.debtHistory).date).format(
-                'MMMM D, YYYY',
-              )}
-            </span>
-          </p>
-
+          {dateUpdated && (
+            <p className="va-introtext vads-u-margin-top--0">
+              Updated on
+              <span className="vads-u-margin-left--0p5">
+                {moment(dateUpdated, 'MM-DD-YYYY').format('MMMM D, YYYY')}
+              </span>
+            </p>
+          )}
           <div className="vads-u-display--flex vads-u-flex-direction--row">
             <dl className="vads-u-display--flex vads-u-flex-direction--column">
-              <div className="vads-u-margin-y--1 vads-u-display--flex">
-                <dt>
-                  <strong>Date of first notice: </strong>
-                </dt>
-                <dd className="vads-u-margin-left--1">
-                  {moment(first(selectedDebt.debtHistory).date).format(
-                    'MMMM D, YYYY',
-                  )}
-                </dd>
-              </div>
+              {dateFirstNotice && (
+                <div className="vads-u-margin-y--1 vads-u-display--flex">
+                  <dt>
+                    <strong>Date of first notice: </strong>
+                  </dt>
+                  <dd className="vads-u-margin-left--1">
+                    {moment(dateFirstNotice, 'MM-DD-YYYY').format(
+                      'MMMM D, YYYY',
+                    )}
+                  </dd>
+                </div>
+              )}
               <div className="vads-u-display--flex ">
                 <dt>
                   <strong>Original debt amount: </strong>
                 </dt>
                 <dd className="vads-u-margin-left--1">
-                  {formatter.format(parseFloat(selectedDebt.originalAr))}
+                  {currency.format(parseFloat(currentDebt.originalAr))}
                 </dd>
               </div>
               <div className="vads-u-margin-y--1 vads-u-display--flex">
@@ -141,12 +108,11 @@ const DebtDetails = ({ selectedDebt }) => {
                   <strong>Current balance: </strong>
                 </dt>
                 <dd className="vads-u-margin-left--1">
-                  {formatter.format(parseFloat(selectedDebt.currentAr))}
+                  {currency.format(parseFloat(currentDebt.currentAr))}
                 </dd>
               </div>
             </dl>
           </div>
-
           <va-alert
             status="info"
             class="vads-u-margin-bottom--4 vads-u-font-size--base"
@@ -154,53 +120,49 @@ const DebtDetails = ({ selectedDebt }) => {
           >
             {additionalInfo.nextStep}
           </va-alert>
-
-          {whyMightIHaveThisDebtContent && (
+          {whyContent && (
             <AdditionalInfo triggerText="Why might I have this debt?">
-              {whyMightIHaveThisDebtContent}
+              {whyContent}
             </AdditionalInfo>
           )}
-          <OnThisPageLinks isDetailsPage />
-
-          <h2
-            id="debtLetterHistory"
-            className="vads-u-margin-top--5 vads-u-margin-bottom--0"
-          >
-            Debt letter history
-          </h2>
-
-          <p className="vads-u-margin-y--2">
-            You can view the status or download the letters for this debt.
-          </p>
-          <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-            <strong>Note:</strong> The content of the debt letters below may not
-            include recent updates to your debt reflected above. If you have any
-            questions about your debt history, please contact the Debt
-            Management Center at
-            <Telephone
-              className="vads-u-margin-left--0p5"
-              contact="8008270648"
-            />
-            .
-          </p>
-
-          {renderHistoryTable(filteredHistory)}
-
-          <h3 id="downloadDebtLetters" className="vads-u-margin-top--0">
-            Download debt letters
-          </h3>
-
-          <p className="vads-u-margin-bottom--0">
-            You can download some of your letters for education, compensation
-            and pension debt.
-          </p>
-          <Link to="debt-letters" className="vads-u-margin-top--1">
-            Download letters related to your VA debt
-          </Link>
-
+          <OnThisPageLinks isDetailsPage hasHistory={hasFilteredHistory} />
+          {hasFilteredHistory && (
+            <>
+              <h2
+                id="debtLetterHistory"
+                className="vads-u-margin-top--5 vads-u-margin-bottom--0"
+              >
+                Debt letter history
+              </h2>
+              <p className="vads-u-margin-y--2">
+                You can view the status or download the letters for this debt.
+              </p>
+              <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+                <strong>Note:</strong> The content of the debt letters below may
+                not include recent updates to your debt reflected above. If you
+                have any questions about your debt history, please contact the
+                Debt Management Center at
+                <Telephone
+                  className="vads-u-margin-left--0p5"
+                  contact="8008270648"
+                />
+                .
+              </p>
+              <HistoryTable history={filteredHistory} />
+              <h3 id="downloadDebtLetters" className="vads-u-margin-top--0">
+                Download debt letters
+              </h3>
+              <p className="vads-u-margin-bottom--0">
+                You can download some of your letters for education,
+                compensation and pension debt.
+              </p>
+              <Link to="/debt-letters" className="vads-u-margin-top--1">
+                Download letters related to your VA debt
+              </Link>
+            </>
+          )}
           <HowDoIPay />
           <NeedHelp />
-
           <Link className="vads-u-margin-top--4" to="/">
             <i aria-hidden="true" className="fa fa-chevron-left" /> Return to
             your list of debts.
@@ -211,8 +173,9 @@ const DebtDetails = ({ selectedDebt }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  selectedDebt: state.debtLetters?.selectedDebt,
+const mapStateToProps = ({ debtLetters }) => ({
+  selectedDebt: debtLetters?.selectedDebt,
+  debts: debtLetters.debts,
 });
 
 DebtDetails.defaultProps = {

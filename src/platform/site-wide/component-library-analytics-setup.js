@@ -4,7 +4,7 @@
  */
 import _recordEvent from 'platform/monitoring/record-event';
 import { kebabCase } from 'lodash';
-import { getSectionLabel } from 'applications/static-pages/subscribeAccordionEvents';
+import { getSectionLabel } from 'applications/static-pages/subscription-creators/subscribeAccordionEvents';
 
 const analyticsEvents = {
   Modal: [{ action: 'show', event: 'int-modal-show' }],

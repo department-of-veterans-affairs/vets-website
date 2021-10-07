@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import {
   submissionStatuses,
@@ -15,15 +15,6 @@ import {
   successfulSubmitContent,
   submitErrorContent,
 } from '../content/confirmation-page';
-
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
 
 export default class ConfirmationPage extends React.Component {
   constructor(props) {

@@ -8,11 +8,17 @@ import {
   mockAppointmentInfo,
   mockSingleCommunityCareAppointmentFetch,
   mockSingleVistaCommunityCareAppointmentFetch,
+  mockCCSingleProviderFetch,
 } from '../../mocks/helpers';
+import {
+  mockSingleVAOSAppointmentFetch,
+  mockVAOSAppointmentsFetch,
+} from '../../mocks/helpers.v2';
 import {
   renderWithStoreAndRouter,
   getTimezoneTestDate,
 } from '../../mocks/setup';
+import { createMockAppointmentByVersion } from '../../mocks/data';
 
 import userEvent from '@testing-library/user-event';
 import { AppointmentList } from '../../../appointment-list';
@@ -27,7 +33,6 @@ const initialState = {
     vaOnlineSchedulingPast: true,
     // eslint-disable-next-line camelcase
     show_new_schedule_view_appointments_page: true,
-    vaOnlineSchedulingHomepageRefresh: true,
   },
 };
 
@@ -69,15 +74,11 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
       va: [],
       cc: [appointment],
       requests: [],
-      isHomepageRefresh: true,
     });
 
-    const screen = renderWithStoreAndRouter(
-      <AppointmentList featureHomepageRefresh />,
-      {
-        initialState,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+    });
 
     let detailLinks = await screen.findAllByRole('link', {
       name: /Detail/i,
@@ -174,13 +175,10 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
       appointment,
     });
 
-    const screen = renderWithStoreAndRouter(
-      <AppointmentList featureHomepageRefresh />,
-      {
-        initialState,
-        path: url,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: url,
+    });
 
     // Verify page content...
     expect(
@@ -223,15 +221,11 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
       va: [],
       cc: [appointment],
       requests: [],
-      isHomepageRefresh: true,
     });
 
-    const screen = renderWithStoreAndRouter(
-      <AppointmentList featureHomepageRefresh />,
-      {
-        initialState,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+    });
 
     const oldPrint = global.window.print;
     const printSpy = sinon.spy();
@@ -269,13 +263,10 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
       error: true,
     });
 
-    const screen = renderWithStoreAndRouter(
-      <AppointmentList featureHomepageRefresh />,
-      {
-        initialState,
-        path: '/cc/8a4885896a22f88f016a2cb7f5de0062',
-      },
-    );
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: '/cc/8a4885896a22f88f016a2cb7f5de0062',
+    });
 
     expect(
       await screen.findByRole('heading', {
@@ -297,13 +288,10 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
       appointment,
     });
 
-    const screen = renderWithStoreAndRouter(
-      <AppointmentList featureHomepageRefresh />,
-      {
-        initialState,
-        path: '/cc/8a4885896a22f88f016a2cb7f5de0062',
-      },
-    );
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: '/cc/8a4885896a22f88f016a2cb7f5de0062',
+    });
 
     expect(
       await screen.findByRole('heading', {
@@ -393,13 +381,10 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     });
     const startDateTime = moment(appointment.attributes.appointmentTime);
 
-    const screen = renderWithStoreAndRouter(
-      <AppointmentList featureHomepageRefresh />,
-      {
-        initialState,
-        path: url,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: url,
+    });
 
     // Verify page content...
     expect(
@@ -479,13 +464,15 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
   it('should verify community care calendar ics file format when there is no provider information', async () => {
     const url = '/cc/20abc6741c00ac67b6cbf6b972d084c1';
 
+    const appointmentTime = moment().add(1, 'days');
+
     const appointment = getCCAppointmentMock();
     appointment.id = '20abc6741c00ac67b6cbf6b972d084c1';
     appointment.attributes = {
       ...appointment.attributes,
       address: undefined,
       appointmentRequestId: '20abc6741c00ac67b6cbf6b972d084c1',
-      appointmentTime: '09/19/2021 16:00:00',
+      appointmentTime: appointmentTime.format('MM/DD/YYYY HH:mm:ss'),
       name: undefined,
       providerPhone: undefined,
       providerPractice: undefined,
@@ -496,26 +483,28 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     });
     const startDateTime = moment(appointment.attributes.appointmentTime);
 
-    const screen = renderWithStoreAndRouter(
-      <AppointmentList featureHomepageRefresh />,
-      {
-        initialState,
-        path: url,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: url,
+    });
 
     // Verify page content...
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: /^Sunday, September 19, 2021/,
+        name: new RegExp(
+          appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
       }),
     ).to.be.ok;
 
     const ics = decodeURIComponent(
       screen
         .getByRole('link', {
-          name: 'Add September 19, 2021 appointment to your calendar',
+          name: `Add ${appointmentTime.format(
+            'MMMM D, YYYY',
+          )} appointment to your calendar`,
         })
         .getAttribute('href')
         .replace('data:text/calendar;charset=utf-8,', ''),
@@ -561,5 +550,215 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     );
     expect(tokens.get('END')).includes('VEVENT');
     expect(tokens.get('END')).includes('VCALENDAR');
+  });
+});
+
+describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
+  beforeEach(() => {
+    mockFetch();
+    MockDate.set(getTimezoneTestDate());
+  });
+  afterEach(() => {
+    MockDate.reset();
+  });
+
+  it('should navigate to community care appointments detail page', async () => {
+    const url = '/cc/01aa456cc';
+    const appointmentTime = moment().add(1, 'days');
+    const start = moment()
+      .subtract(30, 'days')
+      .format('YYYY-MM-DD');
+    const end = moment()
+      .add(395, 'days')
+      .format('YYYY-MM-DD');
+
+    const data = {
+      id: '01aa456cc',
+      kind: 'cc',
+      practitioners: [
+        {
+          identifier: { system: null, value: '123' },
+          firstName: 'Dr',
+          lastName: 'Hyde',
+          practiceName: 'Atlantic Medical Care',
+        },
+      ],
+      description: 'community care appointment',
+      comment: 'test comment',
+      start: appointmentTime,
+    };
+
+    const appointment = createMockAppointmentByVersion({
+      version: 2,
+      ...data,
+    });
+
+    mockVAOSAppointmentsFetch({
+      start,
+      end,
+      requests: [appointment],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+    });
+
+    mockSingleVAOSAppointmentFetch({ appointment });
+
+    const ccProvider = {
+      id: '123',
+      type: 'provider',
+      attributes: {
+        address: {},
+        caresitePhone: '202-555-1264',
+        name: 'Atlantic Medical Care',
+        lat: null,
+        long: null,
+        uniqueId: '123',
+      },
+    };
+    mockCCSingleProviderFetch(ccProvider);
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState: {
+        featureToggles: {
+          ...initialState.featureToggles,
+          vaOnlineSchedulingVAOSServiceVAAppointments: true,
+          vaOnlineSchedulingVAOSServiceCCAppointments: true,
+        },
+      },
+    });
+
+    let detailLinks = await screen.findAllByRole('link', { name: /Detail/i });
+
+    // Select an appointment details link...
+    let detailLink = detailLinks.find(l => l.getAttribute('href') === url);
+    userEvent.click(detailLink);
+
+    // Verify page content...
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    expect(screen.getByText(/Community care/)).to.be.ok;
+    expect(await screen.findByText(/Atlantic Medical Care/)).to.be.ok;
+    expect(
+      screen.getByRole('link', {
+        name: /2 0 2. 5 5 5. 1 2 6 4./,
+      }),
+    ).to.be.ok;
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: /Special instructions/,
+      }),
+    ).to.be.ok;
+    expect(screen.getByText(/test comment/)).to.be.ok;
+    expect(
+      screen.getByRole('link', {
+        name: `Add ${appointmentTime.format(
+          'MMMM D, YYYY',
+        )} appointment to your calendar`,
+      }),
+    ).to.be.ok;
+    expect(screen.getByText(/Print/)).to.be.ok;
+
+    // Verify back button works...
+    userEvent.click(screen.getByText(/VA online scheduling/i));
+    detailLinks = await screen.findAllByRole('link', { name: /Detail/i });
+    detailLink = detailLinks.find(a => a.getAttribute('href') === url);
+
+    // Go back to Appointment detail...
+    userEvent.click(detailLink);
+
+    // Verify page content...
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    // Verify breadcrumb links works...
+    const VAOSHomepageLink = await screen.findByRole('link', {
+      name: /VA online scheduling/,
+    });
+    userEvent.click(VAOSHomepageLink);
+    expect(await screen.findAllByText(/Detail/)).to.be.ok;
+  });
+
+  it('should show cc info when directly opening page', async () => {
+    const url = '/cc/01aa456cc';
+    const appointmentTime = moment().add(1, 'days');
+
+    const data = {
+      id: '01aa456cc',
+      kind: 'cc',
+      practitioners: [
+        {
+          identifier: { system: null, value: '123' },
+          firstName: 'Dr',
+          lastName: 'Hyde',
+          practiceName: 'Jeckle and Hyde',
+        },
+      ],
+      description: 'community care appointment',
+      comment: 'test comment',
+      start: appointmentTime,
+    };
+
+    const appointment = createMockAppointmentByVersion({
+      version: 2,
+      ...data,
+    });
+
+    mockSingleVAOSAppointmentFetch({
+      appointment,
+    });
+
+    const ccProvider = {
+      id: '123',
+      type: 'provider',
+      attributes: {
+        address: {},
+        caresitePhone: '202-555-1264',
+        name: 'Atlantic Medical Care',
+        lat: null,
+        long: null,
+        uniqueId: '123',
+      },
+    };
+    mockCCSingleProviderFetch(ccProvider);
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState: {
+        featureToggles: {
+          ...initialState.featureToggles,
+          vaOnlineSchedulingVAOSServiceVAAppointments: true,
+          vaOnlineSchedulingVAOSServiceCCAppointments: true,
+        },
+      },
+      path: url,
+    });
+
+    // Verify page content...
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    expect(screen.getByText(/Community care/)).to.be.ok;
+    expect(screen.getByText(/Atlantic Medical Care/)).to.be.ok;
   });
 });

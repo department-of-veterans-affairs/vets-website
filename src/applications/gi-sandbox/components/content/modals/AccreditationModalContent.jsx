@@ -21,18 +21,19 @@ export default function AccreditationModalContent() {
         <a href="http://nces.ed.gov/pubs2014/2014163.pdf" id="anch_386">
           Read the ED report on credit transferability
         </a>
+        .
       </p>
       <p>
         To learn more about the accreditation process and types of
-        accreditation, visit the "
+        accreditation, visit the{' '}
         <a
           href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#accreditation_type"
           target="_blank"
           rel="noopener noreferrer"
         >
           About this Tool
-        </a>
-        " page.
+        </a>{' '}
+        page.
       </p>
     </>
   );

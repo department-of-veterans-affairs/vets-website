@@ -31,8 +31,8 @@ function VideoAppointmentDescription({ appointment }) {
 function CommunityCareProvider({ appointment }) {
   return (
     <>
-      {appointment.communityCareProvider.providerName ||
-        appointment.communityCareProvider.practiceName ||
+      {appointment.communityCareProvider?.providerName ||
+        appointment.communityCareProvider?.practiceName ||
         'Community care'}
     </>
   );

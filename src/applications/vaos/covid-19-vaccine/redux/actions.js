@@ -4,14 +4,21 @@ import {
   selectVAPHomePhoneString,
   selectVAPMobilePhoneString,
 } from 'platform/user/selectors';
-import { selectSystemIds } from '../../redux/selectors';
+import {
+  selectFeatureFacilitiesServiceV2,
+  selectSystemIds,
+} from '../../redux/selectors';
 import { getAvailableHealthcareServices } from '../../services/healthcare-service';
 import {
   getLocationsByTypeOfCareAndSiteIds,
   getSiteIdFromFacilityId,
 } from '../../services/location';
 import { getPreciseLocation } from '../../utils/address';
-import { FACILITY_SORT_METHODS, GA_PREFIX } from '../../utils/constants';
+import {
+  FACILITY_SORT_METHODS,
+  GA_PREFIX,
+  TYPES_OF_CARE,
+} from '../../utils/constants';
 import { captureError, has400LevelError } from '../../utils/error';
 import {
   recordEligibilityFailure,
@@ -109,7 +116,9 @@ export function getClinics({ facilityId, showModal = false }) {
       dispatch({ type: FORM_FETCH_CLINICS });
       clinics = await getAvailableHealthcareServices({
         facilityId,
-        typeOfCareId: TYPE_OF_CARE_ID,
+        typeOfCare: TYPES_OF_CARE.find(
+          typeOfCare => typeOfCare.id === TYPE_OF_CARE_ID,
+        ),
         systemId: getSiteIdFromFacilityId(facilityId),
       });
       dispatch({
@@ -134,6 +143,9 @@ export function openFacilityPage() {
     try {
       const initialState = getState();
       const newBooking = selectCovid19VaccineNewBooking(initialState);
+      const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
+        initialState,
+      );
       const siteIds = selectSystemIds(initialState);
       let facilities = newBooking.facilities;
       let facilityId = newBooking.data.vaFacility;
@@ -146,6 +158,7 @@ export function openFacilityPage() {
       if (!facilities) {
         facilities = await getLocationsByTypeOfCareAndSiteIds({
           siteIds,
+          useV2: featureFacilitiesServiceV2,
         });
       }
 
@@ -469,6 +482,9 @@ export function openContactFacilitiesPage() {
     try {
       const initialState = getState();
       const newBooking = selectCovid19VaccineNewBooking(initialState);
+      const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
+        initialState,
+      );
       const siteIds = selectSystemIds(initialState);
       let facilities = newBooking.facilities;
 
@@ -480,6 +496,7 @@ export function openContactFacilitiesPage() {
       if (!facilities) {
         facilities = await getLocationsByTypeOfCareAndSiteIds({
           siteIds,
+          useV2: featureFacilitiesServiceV2,
         });
       }
 

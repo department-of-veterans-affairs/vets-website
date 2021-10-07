@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 import formConfig from '../config/form';
 import { getSelected } from '../utils/helpers';
@@ -17,12 +18,15 @@ export const SummaryTitle = ({ formData }) => {
       {ShowIssuesList({ issues })}
       <p>
         If an issue is missing, please{' '}
-        <a
+        <Link
           aria-label="go back and add any missing issues for review"
-          href={`${pathname}?redirect`}
+          to={{
+            pathname,
+            search: '?redirect',
+          }}
         >
           go back and add it
-        </a>
+        </Link>
         .
       </p>
     </>

@@ -1,4 +1,6 @@
 import { pciuStates as PCIU_STATES } from 'vets-json-schema/dist/constants.json';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+
 import {
   VA_FORM_IDS,
   VA_FORM_IDS_IN_PROGRESS_FORMS_API,
@@ -307,3 +309,24 @@ export const BDD_INFO_URL =
 
 // PDF upload limit feature
 export const PDF_SIZE_FEATURE = 'pdfSizeFeature';
+
+// maxLength from schema
+export const CHAR_LIMITS = [
+  'primaryDescription',
+  'causedByDisabilityDescription',
+  'worsenedDescription',
+  'worsenedEffects',
+  'vaMistreatmentDescription',
+  'vaMistreatmentLocation',
+  'vaMistreatmentDate',
+].reduce(
+  (list, key) => ({
+    ...list,
+    [key]:
+      fullSchema.definitions.newDisabilities.items.properties[key].maxLength,
+  }),
+  {},
+);
+
+// migration max string length
+export const MAX_HOUSING_STRING_LENGTH = 500;

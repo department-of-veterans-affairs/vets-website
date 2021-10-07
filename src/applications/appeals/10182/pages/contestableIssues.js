@@ -37,14 +37,7 @@ export default {
         maxItems: 100,
         items: {
           type: 'object',
-          properties: {
-            ratingIssueSubjectText: {
-              type: 'string',
-            },
-            approxDecisionDate: {
-              type: 'string',
-            },
-          },
+          properties: {},
           [SELECTED]: 'boolean',
         },
       },

@@ -13,19 +13,25 @@ import configurations from '../../services/mocks/v2/scheduling_configurations_cc
 
 describe('VAOS community care flow', () => {
   it('should fill out community care form and submit request', () => {
-    initCommunityCareMock();
+    initCommunityCareMock({ withoutAddress: true });
     cy.visit(
       'health-care/schedule-view-va-appointments/appointments/new-appointment/',
     );
     cy.injectAxe();
     // Select primary care
     cy.get('input[value="323"]')
-      .focus()
-      .check();
+      .should('exist')
+      .then(checkbox => {
+        cy.wrap(checkbox)
+          .focus()
+          .check();
+      });
     // Verify primary care checked
     cy.get('input[value="323"]').should('be.checked');
     // Click continue button
-    cy.get('.usa-button').click();
+    cy.get('.usa-button')
+      .contains('Continue')
+      .click();
 
     // Choose where you want to receive your care step
     cy.url().should(
@@ -243,25 +249,27 @@ describe('VAOS community care flow', () => {
     });
 
     // Your appointment request has been submitted step
-    cy.url().should(
-      'contain',
-      '/health-care/schedule-view-va-appointments/appointments/new-appointment/confirmation',
-    );
+    cy.url().should('include', '/requests/testing');
+    cy.findByText('Preferred community care provider');
+    cy.findByText(/your appointment request has been submitted/i);
     cy.axeCheckBestPractice();
-    cy.get('va-alert').contains('We’re reviewing your request');
   });
 
   it('should submit form with provider chosen from list and submit request', () => {
     initCommunityCareMock();
-    mockFeatureToggles({ providerSelectionEnabled: true });
+    mockFeatureToggles();
     cy.visit(
       'health-care/schedule-view-va-appointments/appointments/new-appointment/',
     );
     cy.injectAxe();
     // Select primary care
     cy.get('input[value="323"]')
-      .focus()
-      .check();
+      .should('exist')
+      .then(checkbox => {
+        cy.wrap(checkbox)
+          .focus()
+          .check();
+      });
     // Verify primary care checked
     cy.get('input[value="323"]').should('be.checked');
     // Click continue button
@@ -444,12 +452,10 @@ describe('VAOS community care flow', () => {
     });
 
     // Your appointment request has been submitted step
-    cy.url().should(
-      'contain',
-      '/health-care/schedule-view-va-appointments/appointments/new-appointment/confirmation',
-    );
+    cy.url().should('include', '/requests/testing');
+    cy.findByText('Preferred community care provider');
+    cy.findByText(/your appointment request has been submitted/i);
     cy.axeCheckBestPractice();
-    cy.get('va-alert').contains('We’re reviewing your request');
   });
 });
 
@@ -458,8 +464,7 @@ describe('VAOS community care flow using VAOS service', () => {
     vaosSetup();
     mockFeatureToggles({
       v2Requests: true,
-      homepageRefresh: true,
-      providerSelectionEnabled: true,
+      v2Facilities: true,
     });
     cy.login(mockUser);
     cy.route({
@@ -469,7 +474,6 @@ describe('VAOS community care flow using VAOS service', () => {
     });
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
-    cy.get('.va-modal-body button').click();
 
     // Start flow
     cy.findByText('Start scheduling').click();
@@ -553,8 +557,12 @@ describe('VAOS community care flow using VAOS service', () => {
     });
     // Select primary care
     cy.get('input[value="323"]')
-      .focus()
-      .check();
+      .should('exist')
+      .then(checkbox => {
+        cy.wrap(checkbox)
+          .focus()
+          .check();
+      });
     // Verify primary care checked
     cy.get('input[value="323"]').should('be.checked');
     // Click continue button
@@ -691,7 +699,7 @@ describe('VAOS community care flow using VAOS service', () => {
       expect(request.requestedPeriods[0].start).to.equal(date);
       expect(request.practitionerIds).to.deep.eq([
         {
-          system: 'HSRM',
+          system: 'http://hl7.org/fhir/sid/us-npi',
           value: '1497723753',
         },
       ]);

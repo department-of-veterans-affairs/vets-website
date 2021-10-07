@@ -119,6 +119,7 @@ import {
 } from '../constants';
 
 import migrations from '../migrations';
+import reviewErrors from '../reviewErrors';
 
 import manifest from '../manifest.json';
 
@@ -144,6 +145,10 @@ const formConfig = {
   },
   formId: VA_FORM_IDS.FORM_21_526EZ,
   wizardStorageKey: WIZARD_STATUS,
+  customText: {
+    appAction: 'filing',
+    appContinuing: 'for disability compensation',
+  },
   saveInProgress: {
     messages: {
       inProgress:
@@ -170,6 +175,9 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
+  // Don't show error links on the review page in production
+  showReviewErrors: !environment.isProduction(),
+  reviewErrors,
   defaultDefinitions: {
     ...fullSchema.definitions,
   },
@@ -185,6 +193,12 @@ const formConfig = {
           path: 'veteran-information',
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
+        },
+        contactInformation: {
+          title: 'Veteran contact information',
+          path: 'contact-information',
+          uiSchema: contactInformation.uiSchema,
+          schema: contactInformation.schema,
         },
         alternateNames: {
           title: 'Service under another name',
@@ -207,7 +221,7 @@ const formConfig = {
           }),
         },
         reservesNationalGuardService: {
-          title: 'Reserves and National Guard service',
+          title: 'Reserve and National Guard service',
           path:
             'review-veteran-details/military-service-history/reserves-national-guard',
           depends: formData =>
@@ -222,6 +236,10 @@ const formConfig = {
           depends: form => hasGuardOrReservePeriod(form.serviceInformation),
           uiSchema: federalOrders.uiSchema,
           schema: federalOrders.schema,
+          appStateSelector: state => ({
+            servicePeriods:
+              state.form.data?.serviceInformation?.servicePeriods || [],
+          }),
         },
         separationLocation: {
           title: 'Separation location',
@@ -649,12 +667,6 @@ const formConfig = {
     additionalInformation: {
       title: 'Additional information',
       pages: {
-        contactInformation: {
-          title: 'Veteran contact information',
-          path: 'contact-information',
-          uiSchema: contactInformation.uiSchema,
-          schema: contactInformation.schema,
-        },
         paymentInformation: {
           title: 'Payment information',
           path: 'payment-information',

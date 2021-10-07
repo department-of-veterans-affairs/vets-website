@@ -1,4 +1,4 @@
-import { get, assign } from 'lodash/fp';
+import get from 'platform/utilities/data/get';
 import { states } from 'platform/forms/address';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
@@ -83,9 +83,10 @@ export default {
               state => !!medicalCentersByState[state],
             ),
           },
-          vaMedicalFacility: assign(vaMedicalFacility, {
+          vaMedicalFacility: {
+            ...vaMedicalFacility,
             enum: emptyFacilityList,
-          }),
+          },
         },
       },
       'view:locator': emptyObjectSchema,

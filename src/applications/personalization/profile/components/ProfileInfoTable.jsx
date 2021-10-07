@@ -60,6 +60,7 @@ const ProfileInfoTable = ({
     'line-height--4',
     'margin--0',
     'margin-bottom--1',
+    'width--auto',
   ]);
 
   const tableRowValueClasses = prefixUtilityClasses([

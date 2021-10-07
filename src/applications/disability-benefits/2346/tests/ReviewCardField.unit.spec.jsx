@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
-import _ from 'lodash/fp';
+import flow from 'lodash/flow';
 import set from 'platform/utilities/data/set';
 import React from 'react';
 import { spy } from 'sinon';
@@ -207,9 +207,9 @@ describe("the ReviewCardField's", () => {
     });
 
     it('should handle a subtitle', () => {
-      const props = _.flow(
-        _.set('uiSchema.ui:subtitle', 'Subtitle text'),
-        _.set('uiSchema.ui:options.startInEdit', true),
+      const props = flow(
+        data => set('uiSchema.ui:subtitle', 'Subtitle text', data),
+        data => set('uiSchema.ui:options.startInEdit', true, data),
       )(mockData);
 
       const tree = shallow(

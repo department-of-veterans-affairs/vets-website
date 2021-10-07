@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatCurrency, formatNumber } from '../../utils/helpers';
+import { createId, formatCurrency, formatNumber } from '../../utils/helpers';
 import LearnMoreLabel from '../LearnMoreLabel';
 import { ariaLabels } from '../../constants';
 
@@ -19,7 +19,7 @@ export default function VeteranProgramsAndSupport({
       modal: 'ta',
       text: 'Military Tuition Assistance (TA)',
       link: false,
-      ariaLabel: ariaLabels.learnMore.militaryTuitionAssistanceProgram,
+      ariaLabel: ariaLabels.learnMore.militaryTuitionAssistance,
     },
     poe: {
       modal: 'poe',
@@ -60,7 +60,12 @@ export default function VeteranProgramsAndSupport({
       (showLink && (
         <span>
           &nbsp;
-          <a href={program.link.href} target="_blank" rel="noopener noreferrer">
+          <a
+            href={program.link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            id={createId(program.link.text)}
+          >
             {program.link.text}
           </a>
         </span>
@@ -76,6 +81,7 @@ export default function VeteranProgramsAndSupport({
             text={program.text}
             onClick={() => showModal(program.modal)}
             ariaLabel={program.ariaLabel}
+            buttonId={createId(program.text)}
           />
           {showLink && ':'}
         </strong>
@@ -86,7 +92,7 @@ export default function VeteranProgramsAndSupport({
 
   const veteranPrograms = (
     <div className="usa-width-one-half medium-6 columns">
-      <h3>Veteran Programs</h3>
+      <h3 className="small-screen-font">Veteran Programs</h3>
       {available.length > 0 ? (
         <div>{available.map(program => programLabel(program))}</div>
       ) : (

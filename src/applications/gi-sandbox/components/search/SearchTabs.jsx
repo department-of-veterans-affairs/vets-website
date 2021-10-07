@@ -3,8 +3,8 @@ import classNames from 'classnames';
 import NameSearchForm from '../../containers/search/NameSearchForm';
 import LocationSearchForm from '../../containers/search/LocationSearchForm';
 import { TABS } from '../../constants';
-import { scroller } from 'react-scroll';
 import { getScrollOptions } from 'platform/utilities/ui';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 export default function SearchTabs({ onChange, search }) {
   const { tab } = search;
@@ -12,7 +12,7 @@ export default function SearchTabs({ onChange, search }) {
   useEffect(
     () => {
       if (search.inProgress) {
-        scroller.scrollTo('search-form', getScrollOptions());
+        scrollTo('search-form', getScrollOptions());
       }
     },
     [search.inProgress],
@@ -45,15 +45,20 @@ export default function SearchTabs({ onChange, search }) {
     );
 
     return (
-      <div className={tabClasses} onClick={() => onChange(tabName)}>
+      <button
+        className={tabClasses}
+        aria-selected={activeTab}
+        role="tab"
+        onClick={() => onChange(tabName)}
+      >
         {label}
-      </div>
+      </button>
     );
   };
 
   return (
     <div className="search-form">
-      <div className="vads-u-display--flex">
+      <div role="tablist" className="vads-u-display--flex">
         {getTab(TABS.name, 'Search by name')}
         {getTab(TABS.location, 'Search by location')}
       </div>

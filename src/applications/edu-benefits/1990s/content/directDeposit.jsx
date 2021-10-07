@@ -9,7 +9,7 @@ export const directDepositAlert = () => (
   <div className="vads-u-padding-top--1p5" tabIndex="0">
     <p>
       <b>Note:</b> Any updates you make here to your bank account information
-      won't change your existing accounts for VA education or health benefits.
+      won’t change your existing accounts for VA education or health benefits.
     </p>
   </div>
 );
@@ -47,4 +47,13 @@ export const bankInfoHelpText = (
       have.
     </p>
   </AdditionalInfo>
+);
+
+export const paymentText = (
+  // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+  <div tabIndex="0">
+    We make payments only through direct deposit, also called electronic funds
+    transfer (EFT). Please provide your direct deposit information below. We’ll
+    send your housing payment to this account.
+  </div>
 );

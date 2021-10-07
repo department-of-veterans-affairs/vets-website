@@ -22,10 +22,6 @@
     font-size: 1.35em;
   }
 
-  h2.accordion-button-wrapper {
-    margin: 0;
-  }
-
   .getting-started-with-benefits {
     margin-top: -0.1em;
     padding-top: 0.5em;
@@ -44,7 +40,7 @@
     }
 
     h4 {
-      margin-top: .5em;
+      margin-top: 0.5em;
     }
   }
 
@@ -68,6 +64,10 @@
 
   .main-rating {
     width: 160px;
+
+    @include media-maxwidth($small-screen) {
+      width: 100%;
+    }
   }
 
   @include media-maxwidth($medium-screen - 1) {
@@ -88,9 +88,6 @@
     .category-main {
       padding-left: 10px;
       padding-right: 10px;
-      //@include media-maxwidth($small-screen - 1) {
-      //  width: 100px;
-      //}
     }
 
     .bar-outer {
@@ -323,7 +320,8 @@
 
   .cautionary-information {
     .table {
-      td, th {
+      td,
+      th {
         padding: 20px;
       }
       table {
@@ -637,9 +635,11 @@
   }
 
   .eyb-skip-link {
-    position: absolute;
-    top: -100rem;
-
+    &:not(:focus) {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
     &:focus {
       top: auto;
       line-height: 50px;
@@ -664,16 +664,19 @@
       padding: 20px;
     }
 
-
     .subsection {
       border-bottom: 1px solid $color-black;
       width: 100%;
       font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times",
-      serif;
+        serif;
       font-size: 20px;
       font-weight: 700;
       margin-bottom: 20px;
       margin-top: 10px;
+    }
+
+    @include media-maxwidth($small-screen) {
+      border: none;
     }
   }
 
@@ -709,5 +712,12 @@
     .historical-information.table {
       display: none;
     }
+  }
+}
+
+.institution-profile {
+  @include media-maxwidth($small-screen) {
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }

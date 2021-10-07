@@ -17,7 +17,14 @@ const runCommandSync = cmd => {
   return child.status;
 };
 
+/**
+ * Returns a promise that resolves after specified time, for use with await()
+ * @param {number} ms time to wait before resolving promise
+ */
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 module.exports = {
   runCommand,
   runCommandSync,
+  sleep,
 };

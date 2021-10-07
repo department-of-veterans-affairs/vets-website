@@ -1,5 +1,5 @@
 export const formatOptions = options => {
-  return options.map(item => ({
+  return options.sort((a, b) => (a > b ? 1 : -1)).map(item => ({
     label: item,
   }));
 };
@@ -57,7 +57,7 @@ export const incomeTypes = [
   'Substitute teaching',
   'Postmates service',
   'DoorDash service',
-  'Waitr service',
+  'Waiter service',
   'InstaCart service',
   'AirBnB service',
   'GetAround service',
@@ -81,14 +81,6 @@ export const realEstateTypes = [
   'Farm',
   'Hobby farm',
   'Acreage or land',
-];
-
-export const vehicleTypes = [
-  'Car',
-  'Sports utility vehicle (SUV)',
-  'Van',
-  'Truck',
-  'Motorcycle',
 ];
 
 export const recreationalVehicleTypes = [

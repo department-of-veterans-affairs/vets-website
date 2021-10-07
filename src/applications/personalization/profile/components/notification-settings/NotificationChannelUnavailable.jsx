@@ -1,39 +1,34 @@
 import React from 'react';
 
-import AddContactInfoLink from './AddContactInfoLink';
+import AddContactInfoLink, { MISSING_CONTACT_INFO } from './AddContactInfoLink';
 
 const NotificationChannelUnavailable = ({ channelType }) => {
   const missingInfo = React.useMemo(
     () => {
       const map = {
-        1: AddContactInfoLink.MOBILE,
-        2: AddContactInfoLink.EMAIL,
+        1: MISSING_CONTACT_INFO.MOBILE,
+        2: MISSING_CONTACT_INFO.EMAIL,
       };
       return map[channelType];
     },
     [channelType],
   );
+
   const notificationType = React.useMemo(
     () => {
-      let result;
-      switch (channelType) {
-        case 1:
-          result = `SMS text notifications`;
-          break;
-        case 2:
-          result = `email notifications`;
-          break;
-        default:
-          break;
-      }
-      return result;
+      const map = {
+        1: 'text message',
+        2: 'email',
+      };
+      return map[channelType];
     },
     [channelType],
   );
+
   return (
     <div>
-      To get {notificationType}, first{' '}
-      {<AddContactInfoLink missingInfo={missingInfo} />}.
+      Want to get these notifications by {notificationType}?{' '}
+      {<AddContactInfoLink missingInfo={missingInfo} />}
     </div>
   );
 };

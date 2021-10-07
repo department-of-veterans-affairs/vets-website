@@ -7,13 +7,18 @@ import {
 } from 'platform/forms-system/src/js/utilities/validations';
 
 import { $, areaOfDisagreementWorkAround } from './utils/ui';
-import { hasSomeSelected } from './utils/helpers';
+import { getSelected, hasSomeSelected, hasDuplicates } from './utils/helpers';
 import { optInErrorMessage } from './content/OptIn';
-import { missingIssuesErrorMessageText } from './content/additionalIssues';
+import {
+  missingIssuesErrorMessageText,
+  uniqueIssueErrorMessage,
+  maxSelected,
+} from './content/additionalIssues';
 import {
   missingAreaOfDisagreementErrorMessage,
   missingAreaOfDisagreementOtherErrorMessage,
 } from './content/areaOfDisagreement';
+import { MAX_SELECTIONS } from './constants';
 
 export const requireIssue = (
   errors,
@@ -79,14 +84,14 @@ export const isValidDate = dateString => {
 };
 
 export const contactInfoValidation = (errors, _fieldData, formData) => {
-  const { veteran = {} } = formData;
+  const { veteran = {}, homeless } = formData;
   if (!veteran.email) {
     errors.addError('Please add an email address to your profile');
   }
   if (!veteran.phone?.phoneNumber) {
     errors.addError('Please add a phone number to your profile');
   }
-  if (!veteran.address?.addressLine1) {
+  if (!homeless && !veteran.address?.addressLine1) {
     errors.addError('Please add an address to your profile');
   }
 };
@@ -105,6 +110,27 @@ export const validAdditionalIssue = (
         errors.addError(missingIssuesErrorMessageText);
       }
     });
+  }
+};
+
+// Alert Veteran to duplicates based on name & decision date
+export const uniqueIssue = (
+  errors,
+  _fieldData,
+  _formData,
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData,
+) => {
+  if (errors?.addError && hasDuplicates(appStateData)) {
+    errors.addError(uniqueIssueErrorMessage);
+  }
+};
+
+export const maxIssues = (error, data) => {
+  if (getSelected(data).length > MAX_SELECTIONS) {
+    error.addError(maxSelected);
   }
 };
 

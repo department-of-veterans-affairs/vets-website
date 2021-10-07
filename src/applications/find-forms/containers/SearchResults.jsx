@@ -1,7 +1,8 @@
 // Dependencies.
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import { connect } from 'react-redux';
 import Select from '@department-of-veterans-affairs/component-library/Select';
@@ -14,11 +15,7 @@ import {
   updateSortByPropertyNameThunk,
   updatePaginationAction,
 } from '../actions';
-import {
-  applyPDFInfoBoxOne,
-  applyPDFInfoBoxTwo,
-  getFindFormsAppState,
-} from '../helpers/selectors';
+import { showPDFModal, getFindFormsAppState } from '../helpers/selectors';
 import { FAF_SORT_OPTIONS } from '../constants';
 import SearchResult from '../components/SearchResult';
 
@@ -54,14 +51,17 @@ export const SearchResults = ({
   hasOnlyRetiredForms,
   startIndex,
   showPDFInfoVersionOne,
-  showPDFInfoVersionTwo,
   updatePagination,
   updateSortByPropertyName,
 }) => {
   const prevProps = usePreviousProps({
     fetching,
   });
-
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+    pdfSelected: '',
+    pdfUrl: '',
+  });
   useEffect(() => {
     const justRefreshed = prevProps?.fetching && !fetching;
     if (justRefreshed) {
@@ -102,6 +102,9 @@ export const SearchResults = ({
     }
   };
 
+  const toggleModalState = (pdfSelected, pdfUrl) =>
+    setModalState({ isOpen: !modalState.isOpen, pdfSelected, pdfUrl });
+
   // Show loading indicator if we are fetching.
   if (fetching) {
     return <LoadingIndicator setFocus message="Loading search results..." />;
@@ -130,7 +133,7 @@ export const SearchResults = ({
     vads-u-margin-top--1p5 vads-u-font-weight--normal va-u-outline--none"
         data-forms-focus
       >
-        The form you're looking for has been retired or is no longer valid, and
+        The form you’re looking for has been retired or is no longer valid, and
         has been removed from the VA forms database.
       </p>
     );
@@ -144,8 +147,8 @@ export const SearchResults = ({
         data-forms-focus
       >
         No results were found for "<strong>{query}</strong>
-        ." Try using fewer words or broadening your search. If you&apos;re
-        looking for non-VA forms, go to the{' '}
+        ." Try using fewer words or broadening your search. If you’re looking
+        for non-VA forms, go to the{' '}
         <a
           href="https://www.gsa.gov/reference/forms"
           rel="noopener noreferrer"
@@ -184,9 +187,12 @@ export const SearchResults = ({
         form={form}
         formMetaInfo={{ ...formMetaInfo, currentPositionOnPage: index + 1 }}
         showPDFInfoVersionOne={showPDFInfoVersionOne}
-        showPDFInfoVersionTwo={showPDFInfoVersionTwo}
+        toggleModalState={toggleModalState}
       />
     ));
+
+  // modal state variables
+  const { isOpen, pdfSelected, pdfUrl } = modalState;
 
   return (
     <>
@@ -217,7 +223,61 @@ export const SearchResults = ({
         />
       </div>
 
-      <dl className="vads-l-grid-container--full">{searchResults}</dl>
+      <ul className="vads-l-grid-container--full usa-unstyled-list vads-u-margin-top--2">
+        {searchResults}
+      </ul>
+
+      {/*  */}
+      <div
+        className="pdf-alert-modal"
+        style={{
+          height: '500px',
+        }}
+      >
+        <Modal
+          onClose={() => toggleModalState()}
+          secondaryButton={{
+            action: () => {
+              toggleModalState();
+            },
+            text: 'Close',
+          }}
+          title="Adobe Reader DC Required"
+          visible={isOpen}
+        >
+          <>
+            <p className="vads-u-display--block vads-u-margin-bottom--3">
+              <span>
+                All PDF forms do not function fully in a web browser or other
+                PDF viewer. Please download the form and use Adobe Acrobat
+                Reader DC to fill out. For specific instructions about working
+                with PDFs
+              </span>{' '}
+              <a href="https://www.va.gov/resources/how-to-download-and-open-a-vagov-pdf-form">
+                please read out Resources and Support Article
+              </a>
+            </p>
+            <a
+              className="vads-u-display--block vads-u-margin-bottom--1p5"
+              href="https://get.adobe.com/reader/"
+              rel="noopener noreferrer"
+            >
+              <span>Get Acrobat Reader DC</span>
+            </a>
+            <a
+              href={pdfUrl}
+              className="vads-u-display--block vads-u-margin-bottom--3"
+            >
+              <i
+                aria-hidden="true"
+                className="fas fa-download fa-lg vads-u-margin-right--1"
+                role="presentation"
+              />
+              <span>Download VA Form {pdfSelected}</span>
+            </a>
+          </>
+        </Modal>
+      </div>
 
       {/* Pagination Row */}
       {results.length > MAX_PAGE_LIST_LENGTH && (
@@ -245,7 +305,6 @@ SearchResults.propTypes = {
   sortByPropertyName: PropTypes.string,
   startIndex: PropTypes.number.isRequired,
   showPDFInfoVersionOne: PropTypes.bool,
-  showPDFInfoVersionTwo: PropTypes.bool,
   // From mapDispatchToProps.
   updateSortByPropertyName: PropTypes.func,
   updatePagination: PropTypes.func.isRequired,
@@ -260,8 +319,7 @@ const mapStateToProps = state => ({
   query: getFindFormsAppState(state).query,
   results: getFindFormsAppState(state).results,
   startIndex: getFindFormsAppState(state).startIndex,
-  showPDFInfoVersionOne: applyPDFInfoBoxOne(state),
-  showPDFInfoVersionTwo: applyPDFInfoBoxTwo(state),
+  showPDFInfoVersionOne: showPDFModal(state),
 });
 
 const mapDispatchToProps = dispatch => ({

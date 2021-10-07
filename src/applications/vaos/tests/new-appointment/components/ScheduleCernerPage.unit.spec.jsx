@@ -48,7 +48,7 @@ describe('VAOS <ScheduleCernerPage>', () => {
     const store = createTestStore(initialState);
 
     await setTypeOfCare(store, /primary care/i);
-    await setVAFacility(store, '983', facilityData);
+    await setVAFacility(store, '983', { facilityData });
 
     const screen = renderWithStoreAndRouter(<ScheduleCernerPage />, {
       store,

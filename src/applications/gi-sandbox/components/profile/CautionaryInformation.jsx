@@ -4,6 +4,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import CautionFlagDetails from './CautionFlagDetails';
 import SchoolClosingDetails from './SchoolClosingDetails';
 import LearnMoreLabel from '../LearnMoreLabel';
+import { ariaLabels } from '../../constants';
 
 export function CautionaryInformation({ institution, showModal }) {
   const {
@@ -38,12 +39,16 @@ export function CautionaryInformation({ institution, showModal }) {
     if (value < 1) return null;
     const bold = description === 'Total Complaints';
     return (
-      <div className="row" key={key}>
+      <div className="row " key={key}>
         <div className="small-11 columns">
-          <p>{bold ? <strong>{description}:</strong> : `${description}:`}</p>
+          <p className="vads-u-margin--0">
+            {bold ? <strong>{description}:</strong> : `${description}:`}
+          </p>
         </div>
         <div className="small-1 columns">
-          <p className="number">{bold ? <strong>{value}</strong> : value}</p>
+          <p className="number vads-u-margin--0">
+            {bold ? <strong>{value}</strong> : value}
+          </p>
         </div>
       </div>
     );
@@ -96,20 +101,23 @@ export function CautionaryInformation({ institution, showModal }) {
   };
 
   const allCampusesLink = (
-    <button
-      id="typeAccredited-button"
-      type="button"
-      className="va-button-link learn-more-button"
-      onClick={() => {
-        recordEvent({
-          event: 'education-navigation',
-          'edu-action': 'all-campuses',
-        });
-        showModal('allCampuses');
-      }}
-    >
-      All campuses
-    </button>
+    <div className="small-screen-font">
+      <LearnMoreLabel
+        id="typeAccredited-button"
+        bold
+        text={'All campuses'}
+        onClick={() => {
+          recordEvent({
+            event: 'education-navigation',
+            'edu-action': 'all-campuses',
+          });
+          showModal('allCampuses');
+        }}
+        ariaLabel={ariaLabels.learnMore.allCampusComplaints}
+        buttonClassName="small-screen-font"
+        buttonId="all-campuses-learn-more"
+      />
+    </div>
   );
 
   const complaintData = [
@@ -159,14 +167,14 @@ export function CautionaryInformation({ institution, showModal }) {
   const allComplaints = complaintRows.pop();
 
   return (
-    <div className="cautionary-information">
+    <div className="cautionary-information small-screen-font">
       {renderCautionFlags()}
 
       <div className="student-complaints">
-        <h3>Student feedback</h3>
+        <h3 className="small-screen-font">Student feedback</h3>
 
         <div className="link-header">
-          <h4>
+          <h4 className="small-screen-font">
             {`${+complaints.mainCampusRollUp} student complaints in the last 24 months`}
           </h4>
           <span>
@@ -175,6 +183,8 @@ export function CautionaryInformation({ institution, showModal }) {
               onClick={() => {
                 showModal('studentComplaints');
               }}
+              buttonId="student-complaints"
+              buttonClassName="small-screen-font"
             />
           </span>
         </div>
@@ -227,7 +237,21 @@ export function CautionaryInformation({ institution, showModal }) {
         </div>
 
         <div className="list">
-          <h4>This campus</h4>
+          <h4 className="vads-u-margin-bottom--0 small-screen-font">
+            This campus
+          </h4>
+          {complaintRows.every(
+            complaintType => complaintType.thisCampus === null,
+          ) && (
+            <div className="row">
+              <div className="small-11 columns">
+                <p className="vads-u-margin--0">All student complaints:</p>
+              </div>
+              <div className="small-1 columns">
+                <p className="number vads-u-margin--0">0</p>
+              </div>
+            </div>
+          )}
           {complaintRows.map(c => {
             return renderListRow({
               key: c.description,
@@ -235,7 +259,19 @@ export function CautionaryInformation({ institution, showModal }) {
               value: c.thisCampus,
             });
           })}
-          <h4>{allCampusesLink}</h4>
+          <h4 className="vads-u-margin-bottom--0">{allCampusesLink}</h4>
+          {complaintRows.every(
+            complaintType => complaintType.allCampuses === null,
+          ) && (
+            <div className="row">
+              <div className="small-11 columns">
+                <p className="vads-u-margin--0">All student complaints:</p>
+              </div>
+              <div className="small-1 columns">
+                <p className="number vads-u-margin--0">0</p>
+              </div>
+            </div>
+          )}
           {complaintRows.map(c => {
             return renderListRow({
               key: c.description,
@@ -245,11 +281,12 @@ export function CautionaryInformation({ institution, showModal }) {
           })}
         </div>
       </div>
-      <div className="vads-u-text-align--right">
+      <div className="small-screen:vads-u-text-align--right">
         <a
           href="/education/submit-school-feedback/introduction"
           target="_blank"
           rel="noopener noreferrer"
+          id="submit-a-complaint"
         >
           Submit a complaint through our Feedback System
         </a>

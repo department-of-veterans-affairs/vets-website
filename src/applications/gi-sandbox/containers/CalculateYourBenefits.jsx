@@ -16,7 +16,7 @@ import CalculateYourBenefitsForm from '../components/profile/CalculateYourBenefi
 import EstimatedBenefits from '../components/profile/EstimatedBenefits';
 import EstimateYourBenefitsSummarySheet from '../components/profile/EstimateYourBenefitsSummarySheet';
 import recordEvent from 'platform/monitoring/record-event';
-import SectionFooterField from '../components/profile/SectionFooterField';
+import LearnMoreLabel from '../components/LearnMoreLabel';
 
 export function CalculateYourBenefits({
   calculated,
@@ -30,6 +30,7 @@ export function CalculateYourBenefits({
   estimatedBenefits,
   gibctEybBottomSheet,
   profile,
+  isOJT,
 }) {
   const [showEybSheet, setShowEybSheet] = useState(false);
   const [expandEybSheet, setExpandEybSheet] = useState(false);
@@ -132,6 +133,8 @@ export function CalculateYourBenefits({
           outputs={outputs}
           profile={profile}
           calculator={inputs}
+          isOJT={isOJT}
+          dispatchShowModal={dispatchShowModal}
         />
         {gibctEybBottomSheet && (
           <div>
@@ -153,61 +156,94 @@ export function CalculateYourBenefits({
           </div>
         )}
       </div>
-      <div className="subsection">
-        <h3>Additional information regarding your benefits</h3>
-      </div>
+      {!isOJT && (
+        <>
+          <div className="subsection">
+            <h3 className="small-screen-header">
+              Additional information regarding your benefits
+            </h3>
+          </div>
 
-      <div className="vads-u-padding-bottom--1">
-        <strong>Veterans tuition policy:</strong>{' '}
-        {profile.attributes.vetWebsiteLink ? 'Yes' : 'No'}
-        {profile.attributes.vetWebsiteLink && (
-          <span>
-            &nbsp;(
-            <a
-              href={profile.attributes.vetWebsiteLink}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              View policy
-            </a>
-            )
-          </span>
-        )}
-      </div>
+          <div className="vads-u-padding-bottom--1 small-screen-font">
+            <strong>Veterans tuition policy:</strong>{' '}
+            {profile.attributes.vetWebsiteLink ? 'Yes' : 'No'}
+            {profile.attributes.vetWebsiteLink && (
+              <span>
+                &nbsp;(
+                <a
+                  href={profile.attributes.vetWebsiteLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  id="view-policy-link"
+                >
+                  View policy
+                </a>
+                )
+              </span>
+            )}
+          </div>
 
-      <SectionFooterField
-        label="Protection against late VA payments"
-        value={
-          profile.attributes.section103Message
-            ? profile.attributes.section103Message
-            : 'No'
-        }
-        learnMoreOnClick={() => {
-          recordEvent({
-            event: 'gibct-modal-displayed',
-            'gibct-modal-displayed': 'protection-against-late-va-payments',
-          });
-          dispatchShowModal('section103');
-        }}
-      />
+          <div className="vads-u-padding-bottom--1 small-screen-font">
+            <LearnMoreLabel
+              text={'Protection against late VA payments'}
+              onClick={() => {
+                recordEvent({
+                  event: 'gibct-modal-displayed',
+                  'gibct-modal-displayed':
+                    'protection-against-late-va-payments',
+                });
+                dispatchShowModal('section103');
+              }}
+              buttonClassName="small-screen-font"
+              bold
+              buttonId="protection-against-late-payments-learn-more"
+            />
+            <strong>:</strong>
+            &nbsp;
+            {profile.attributes.section103Message
+              ? profile.attributes.section103Message
+              : 'No'}
+          </div>
 
-      <SectionFooterField
-        label="Yellow Ribbon Program"
-        value={profile.attributes.yr ? 'Yes' : 'No'}
-        learnMoreOnClick={() => {
-          recordEvent({
-            event: 'gibct-modal-displayed',
-            'gibct-modal-displayed': 'yribbon',
-          });
-          dispatchShowModal('yribbon');
-        }}
-      />
+          <div className="vads-u-padding-bottom--1 small-screen-font">
+            <LearnMoreLabel
+              text={'Yellow Ribbon Program'}
+              onClick={() => {
+                recordEvent({
+                  event: 'gibct-modal-displayed',
+                  'gibct-modal-displayed': 'yribbon',
+                });
+                dispatchShowModal('yribbon');
+              }}
+              buttonClassName="small-screen-font"
+              bold
+              buttonId="yellow-ribbon-additional-info-learn-more"
+            />
+            <strong>:</strong>
+            &nbsp;
+            {profile.attributes.yr ? 'Yes' : 'No'}
+          </div>
 
-      <SectionFooterField
-        label="Veteran Rapid Retraining Assistance Program (VRRAP)"
-        value={profile.attributes.vrrap ? 'Yes' : 'No'}
-        learnMoreOnClick={() => dispatchShowModal('vrrap')}
-      />
+          <div className="vads-u-padding-bottom--1 small-screen-font">
+            <LearnMoreLabel
+              text={'Veteran Rapid Retraining Assistance Program (VRRAP)'}
+              onClick={() => {
+                recordEvent({
+                  event: 'gibct-modal-displayed',
+                  'gibct-modal-displayed': 'vrrap',
+                });
+                dispatchShowModal('vrrap');
+              }}
+              buttonClassName="small-screen-font"
+              bold
+              buttonId="vrrap-learn-more"
+            />
+            <strong>:</strong>
+            &nbsp;
+            {profile.attributes.vrrap ? 'Yes' : 'No'}
+          </div>
+        </>
+      )}
     </div>
   );
 }

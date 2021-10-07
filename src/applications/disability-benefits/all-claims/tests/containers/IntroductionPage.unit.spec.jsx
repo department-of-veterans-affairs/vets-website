@@ -30,12 +30,23 @@ describe('<IntroductionPage/>', () => {
         services: ['form526'],
       },
     },
+    loggedIn: true,
   };
 
   it('should render', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
     expect(wrapper.length).to.equal(1);
     expect(wrapper.type()).to.equal('div');
+    expect(wrapper.find('#restart-wizard').length).to.equal(1);
+    wrapper.unmount();
+  });
+
+  it('should not render wizard restart when logged out', () => {
+    const wrapper = shallow(
+      <IntroductionPage {...defaultProps} loggedIn={false} />,
+    );
+    expect(wrapper.find('.schemaform-process').length).to.equal(1);
+    expect(wrapper.find('#restart-wizard').length).to.equal(0);
     wrapper.unmount();
   });
 

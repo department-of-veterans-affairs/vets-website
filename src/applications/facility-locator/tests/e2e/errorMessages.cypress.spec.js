@@ -1,8 +1,19 @@
+import mockServices from '../../constants/mock-provider-services.json';
+import mockFacilityDataV1 from '../../constants/mock-facility-data-v1.json';
+
 describe('Facility search error messages', () => {
   beforeEach(() => {
     cy.server();
-    cy.route('GET', '/v0/feature_toggles?*', []);
-    cy.route('GET', '/v0/maintenance_windows', []);
+    cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
+    cy.intercept('GET', '/v0/maintenance_windows', []);
+    cy.intercept('GET', '/facilities_api/v1/ccp/specialties', mockServices).as(
+      'mockServices',
+    );
+    cy.intercept(
+      'GET',
+      '/facilities_api/v1/ccp/provider?**',
+      mockFacilityDataV1,
+    ).as('searchFacilities');
     cy.visit('/find-locations');
   });
 
@@ -30,8 +41,9 @@ describe('Facility search error messages', () => {
   });
 
   it('shows error message when leaving facility type field empty', () => {
+    cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown').focus();
-    cy.get('#street-city-state-zip').focus();
+    cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('.usa-input-error-message').contains(
       'Please choose a facility type.',
     );
@@ -39,17 +51,67 @@ describe('Facility search error messages', () => {
     cy.get('.usa-input-error-message').should('not.exist');
   });
 
-  it('shows error message when leaving service type field epmty', () => {
+  it('shows error message when leaving service type field empty', () => {
     cy.get('#facility-type-dropdown').select(
       'Community providers (in VA’s network)',
     );
-    cy.get('#service-type-ahead-input').focus();
-    cy.get('#facility-search').focus();
+    // Wait for services to be saved to state and input field to not be disabled
+    cy.wait('@mockServices');
+    cy.get('#service-type-ahead-input')
+      .should('not.be.disabled')
+      .focus();
+    cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('.usa-input-error-message').contains(
-      'Please choose a service type.',
+      'Please search for an available service.',
     );
     cy.get('#service-type-ahead-input').type('Clinic/Center - Urgent Care');
     cy.get('#downshift-1-item-0').click();
     cy.get('.usa-input-error-message').should('not.exist');
+  });
+
+  it('shows error message when typing in `back pain`, NOT selecting a service type, and attempting to search', () => {
+    cy.get('#facility-type-dropdown').select(
+      'Community providers (in VA’s network)',
+    );
+    cy.get('#service-type-ahead-input').type('back pain');
+    cy.get('#facility-search').click({ waitForAnimations: true });
+    cy.get('.usa-input-error-message').contains(
+      'Please search for an available service.',
+    );
+  });
+
+  it('does not show error message when selecting a service type, then tab-ing/focusing back to the facility type field, then tab-ing forward to service type field', () => {
+    cy.get('#facility-type-dropdown').select(
+      'Community providers (in VA’s network)',
+    );
+
+    cy.get('#service-type-ahead-input').type('Clinic/Center - Urgent Care');
+    cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
+
+    cy.get('#facility-type-dropdown').focus();
+    cy.get('#service-type-ahead-input');
+
+    cy.get('.usa-input-error-message').should('not.exist');
+  });
+
+  it('shows error message when deleting service after search', () => {
+    cy.get('#street-city-state-zip').type('Austin, TX');
+    cy.get('#facility-type-dropdown').select(
+      'Community providers (in VA’s network)',
+    );
+    cy.get('#service-type-ahead-input').type('Dentist');
+    cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
+
+    cy.get('#facility-search').click({ waitForAnimations: true });
+    cy.get('#search-results-subheader').contains(
+      'Results for "Community providers (in VA’s network)", "Dentist - Orofacial Pain" near "Austin, Texas"',
+    );
+
+    cy.get('#service-type-ahead-input').clear();
+    cy.get('#facility-search').click({ waitForAnimations: true });
+    cy.get('.usa-input-error-message').contains(
+      'Please search for an available service.',
+    );
+    cy.get('#service-type-ahead-input').should('be.empty');
   });
 });

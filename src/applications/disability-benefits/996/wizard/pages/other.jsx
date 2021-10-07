@@ -11,7 +11,10 @@ const DecisionReviewPage = () => {
     'reason-for-alert': 'veteran wants to submit an unsupported claim type',
   });
   return (
-    <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
+    <div
+      id={pageNames.other}
+      className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2"
+    >
       You’ll need to fill out and submit VA Form 20-0996 by mail or in person.{' '}
       <a
         href={BENEFIT_OFFICES_URL}

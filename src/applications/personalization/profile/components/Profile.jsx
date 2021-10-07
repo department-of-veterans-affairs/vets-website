@@ -27,6 +27,7 @@ import {
   isInMPI as isInMVISelector,
   isLoggedIn,
 } from '~/platform/user/selectors';
+import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
 import { fetchMHVAccount as fetchMHVAccountAction } from '~/platform/user/profile/actions';
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
@@ -47,7 +48,6 @@ import {
   fetchEDUPaymentInformation as fetchEDUPaymentInformationAction,
 } from '@@profile/actions/paymentInformation';
 
-import { selectShowDashboard2 } from '~/applications/personalization/dashboard-2/selectors';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
 
 import getRoutes from '../routes';
@@ -168,7 +168,6 @@ class Profile extends Component {
             routes={routes}
             isInMVI={this.props.isInMVI}
             isLOA3={this.props.isLOA3}
-            showUpdatedNameTag={this.props.shouldFetchTotalDisabilityRating}
           >
             <Switch>
               {/* Redirect users to Account Security to upgrade their account if they need to */}
@@ -276,21 +275,17 @@ const mapStateToProps = state => {
   const isCNPDirectDepositBlocked = cnpDirectDepositIsBlocked(state);
   const isEligibleToSetUpCNP = cnpDirectDepositAddressIsSetUp(state);
   const is2faEnabled = isMultifactorEnabled(state);
-
-  const LSDashboardVersion = localStorage.getItem('DASHBOARD_VERSION');
-  const LSDashboard1 = LSDashboardVersion === '1';
-  const LSDashboard2 = LSDashboardVersion === '2';
-  const FFDashboard2 = selectShowDashboard2(state);
+  const signInService = signInServiceNameSelector(state);
 
   const shouldFetchCNPDirectDepositInformation =
-    isEvssAvailable && is2faEnabled;
-  const shouldFetchEDUDirectDepositInformation = is2faEnabled;
+    isEvssAvailable && signInService === 'idme' && is2faEnabled;
+  const shouldFetchEDUDirectDepositInformation =
+    signInService === 'idme' && is2faEnabled;
   const currentlyLoggedIn = isLoggedIn(state);
   const isLOA1 = isLOA1Selector(state);
   const isLOA3 = isLOA3Selector(state);
 
-  const shouldFetchTotalDisabilityRating =
-    isLOA3 && (LSDashboard2 || (FFDashboard2 && !LSDashboard1));
+  const shouldFetchTotalDisabilityRating = isLOA3;
 
   // this piece of state will be set if the call to load military info succeeds
   // or fails:
@@ -344,6 +339,7 @@ const mapStateToProps = state => {
     if (isCNPDirectDepositBlocked) return false;
     return (
       (isLOA3 && !is2faEnabled) || // we _want_ to show the DD section to non-2FA users
+      (isLOA3 && signInService !== 'idme') || // we _want_ to show the DD section to users who did not sign in with ID.me
       isCNPDirectDepositSetUp ||
       isEligibleToSetUpCNP ||
       isEDUDirectDepositSetUp

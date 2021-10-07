@@ -1,21 +1,24 @@
 import React, { useEffect } from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../../../components/FormButtons';
 import RequestEligibilityMessage from './RequestEligibilityMessage';
 import FacilityAddress from '../../../components/FacilityAddress';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import { FETCH_STATUS } from '../../../utils/constants';
 import {
-  openClinicPage,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-  updateFormData,
 } from '../../redux/actions';
 
-import { getClinicPageInfo } from '../../redux/selectors';
-import { useHistory } from 'react-router-dom';
+import {
+  selectTypeOfCare,
+  selectPageChangeInProgress,
+  selectChosenFacilityInfo,
+  selectEligibility,
+} from '../../redux/selectors';
+import useClinicFormState from './useClinicFormState';
+import { MENTAL_HEALTH, PRIMARY_CARE } from '../../../utils/constants';
 
 function formatTypeOfCare(careLabel) {
   if (careLabel.startsWith('MOVE') || careLabel.startsWith('CPAP')) {
@@ -29,68 +32,49 @@ function vowelCheck(givenString) {
   return /^[aeiou]$/i.test(givenString.charAt(0));
 }
 
-function getPageTitle(schema, typeOfCare) {
+function getPageTitle(schema, typeOfCare, usingPastClinics) {
   const typeOfCareLabel = formatTypeOfCare(typeOfCare.name);
-  let pageTitle = 'Clinic choice';
-  if (schema?.properties.clinicId.enum.length === 2) {
+  let pageTitle = 'Choose a VA clinic';
+  if (schema?.properties.clinicId.enum.length === 2 && usingPastClinics) {
     pageTitle = `Make ${
       vowelCheck(typeOfCareLabel) ? 'an' : 'a'
     } ${typeOfCareLabel} appointment at your last clinic`;
-  } else if (schema?.properties.clinicId.enum.length > 2) {
-    pageTitle = 'Choose a VA clinic';
   }
   return pageTitle;
 }
-const initialSchema = {
-  type: 'object',
-  required: ['clinicId'],
-  properties: {
-    clinicId: {
-      type: 'string',
-      enum: [],
-    },
-  },
-};
-const uiSchema = {
-  clinicId: {
-    'ui:widget': 'radio',
-  },
-};
+
 const pageKey = 'clinicChoice';
 export default function ClinicChoicePage() {
-  const {
-    data,
-    canMakeRequests,
-    clinics,
-    eligibility,
-    facilityDetails,
-    facilityDetailsStatus,
-    pageChangeInProgress,
-    schema,
-    typeOfCare,
-  } = useSelector(state => getClinicPageInfo(state, pageKey), shallowEqual);
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const facility = useSelector(selectChosenFacilityInfo);
+  const typeOfCare = useSelector(selectTypeOfCare);
+  const pageChangeInProgress = useSelector(selectPageChangeInProgress);
+  const eligibility = useSelector(selectEligibility);
+
+  const {
+    data,
+    schema,
+    uiSchema,
+    setData,
+    firstMatchingClinic,
+  } = useClinicFormState();
+
   const typeOfCareLabel = formatTypeOfCare(typeOfCare.name);
   const usingUnsupportedRequestFlow =
-    data.clinicId === 'NONE' && !canMakeRequests;
-  const schemaAndFacilityReady =
-    schema && facilityDetailsStatus !== FETCH_STATUS.loading;
+    data.clinicId === 'NONE' && !eligibility?.request;
+  const usingPastClinics =
+    typeOfCare.id !== PRIMARY_CARE && typeOfCare.id !== MENTAL_HEALTH;
+
   useEffect(() => {
-    dispatch(openClinicPage(pageKey, uiSchema, initialSchema));
+    scrollAndFocus();
+    document.title = `${getPageTitle(
+      schema,
+      typeOfCare,
+      usingPastClinics,
+    )} | Veterans Affairs`;
   }, []);
-
-  useEffect(
-    () => {
-      scrollAndFocus();
-      document.title = `${getPageTitle(schema, typeOfCare)} | Veterans Affairs`;
-    },
-    [schemaAndFacilityReady],
-  );
-
-  if (!schemaAndFacilityReady) {
-    return <LoadingIndicator message="Loading your facility and clinic info" />;
-  }
 
   return (
     <div>
@@ -99,17 +83,20 @@ export default function ClinicChoicePage() {
           <h1 className="vads-u-font-size--h2">
             {getPageTitle(schema, typeOfCare)}
           </h1>
-          Your last {typeOfCareLabel} appointment was at{' '}
-          {clinics[0].serviceName}:
-          {facilityDetails && (
-            <p>
-              <FacilityAddress
-                name={facilityDetails.name}
-                facility={facilityDetails}
-                level={2}
-              />
-            </p>
+          {usingPastClinics && (
+            <>Your last {typeOfCareLabel} appointment was at </>
           )}
+          {!usingPastClinics && (
+            <>{typeOfCare.name} appointments are available at </>
+          )}
+          {firstMatchingClinic.serviceName}:
+          <p>
+            <FacilityAddress
+              name={facility.name}
+              facility={facility}
+              level={2}
+            />
+          </p>
         </>
       )}
       {schema.properties.clinicId.enum.length > 2 && (
@@ -117,11 +104,19 @@ export default function ClinicChoicePage() {
           <h1 className="vads-u-font-size--h2">
             {getPageTitle(schema, typeOfCare)}
           </h1>
-          <p>
-            In the last 24 months you’ve had{' '}
-            {vowelCheck(typeOfCareLabel) ? 'an' : 'a'} {typeOfCareLabel}{' '}
-            appointment at the following {facilityDetails?.name} clinics:
-          </p>
+          {usingPastClinics && (
+            <p>
+              In the last 24 months you’ve had{' '}
+              {vowelCheck(typeOfCareLabel) ? 'an' : 'a'} {typeOfCareLabel}{' '}
+              appointment at the following {facility.name} clinics:
+            </p>
+          )}
+          {!usingPastClinics && (
+            <p>
+              {typeOfCare.name} appointments are available at the following{' '}
+              {facility.name} clinics:
+            </p>
+          )}
         </>
       )}
       <SchemaForm
@@ -129,10 +124,10 @@ export default function ClinicChoicePage() {
         title="Clinic choice"
         schema={schema}
         uiSchema={uiSchema}
-        onSubmit={() => dispatch(routeToNextAppointmentPage(history, pageKey))}
-        onChange={newData =>
-          dispatch(updateFormData(pageKey, uiSchema, newData))
+        onSubmit={() =>
+          dispatch(routeToNextAppointmentPage(history, pageKey, data))
         }
+        onChange={newData => setData(newData)}
         data={data}
       >
         {usingUnsupportedRequestFlow && (
@@ -140,13 +135,14 @@ export default function ClinicChoicePage() {
             <RequestEligibilityMessage
               eligibility={eligibility}
               typeOfCare={typeOfCare}
+              facilityDetails={facility}
               typeOfCareName={typeOfCareLabel}
             />
           </div>
         )}
         <FormButtons
           onBack={() =>
-            dispatch(routeToPreviousAppointmentPage(history, pageKey))
+            dispatch(routeToPreviousAppointmentPage(history, pageKey, data))
           }
           disabled={usingUnsupportedRequestFlow}
           pageChangeInProgress={pageChangeInProgress}

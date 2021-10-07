@@ -1,23 +1,16 @@
 import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import Scroll from 'react-scroll';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import { focusElement } from 'platform/utilities/ui';
 
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
+import { rootUrl } from '../manifest.json';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
-    focusElement('.schemaform-title > h1');
-    scrollToTop();
+    focusElement('#thank-you-message');
+    scrollToTop('topScrollElement');
   }
 
   handlePrintClick = () => {
@@ -37,9 +30,12 @@ export class ConfirmationPage extends React.Component {
             Print this page for your records
           </button>
           <div className="inset">
-            <p className="vads-u-font-size--lg vads-u-font-family--serif vads-u-font-weight--bold">
+            <h2
+              id="thank-you-message"
+              className="vads-u-font-size--h3 vads-u-font-family--serif"
+            >
               Thank you for submitting your application
-            </p>
+            </h2>
             <p className="vads-u-font-size--base vads-u-font-family--serif vads-u-font-weight--bold vads-u-margin--0">
               Application for Declaration of Status of Dependents (Form 21-686c)
             </p>
@@ -68,9 +64,9 @@ export class ConfirmationPage extends React.Component {
           </div>
         </div>
         <div>
-          <p className="vads-u-font-size--base vads-u-font-family--serif vads-u-font-weight--bold">
+          <h2 className="vads-u-font-size--h3 vads-u-font-family--serif">
             How long will it take VA to make a decision on my application?
-          </p>
+          </h2>
 
           <p>
             We usually decide on applications within <strong>1 week</strong>. If
@@ -85,12 +81,12 @@ export class ConfirmationPage extends React.Component {
             here Monday through Friday, 8:00 am to 8:00 pm ET
           </p>
 
-          <p className="vads-u-font-size--base vads-u-font-family--serif vads-u-font-weight--bold">
+          <h2 className="vads-u-font-size--h3 vads-u-font-family--serif">
             How can I check the status of my application?
-          </p>
+          </h2>
           <ol className="process">
             <li className="process-step list-one">
-              <strong>Sign in to VA.gov</strong>
+              <h3 className="vads-u-font-size--h4">Sign in to VA.gov</h3>
               <p>
                 You can sign in with your DS Logon, My HealtheVet, or ID.me
                 account. If you completed this form without signing in, and you
@@ -98,10 +94,10 @@ export class ConfirmationPage extends React.Component {
               </p>
             </li>
             <li className="process-step list-two">
-              <strong>
+              <h3 className="vads-u-font-size--h4">
                 If you haven’t yet verified your identity, complete this process
                 when prompted
-              </strong>
+              </h3>
               <p>
                 This helps keep you information safe, and prevents fraud and
                 identity theft. If you’ve already verified your identity with
@@ -109,7 +105,9 @@ export class ConfirmationPage extends React.Component {
               </p>
             </li>
             <li className="process-step list-three">
-              <b>Go to your personalized My VA homepage</b>
+              <h3 className="vads-u-font-size--h4">
+                Go to your personalized My VA homepage
+              </h3>
               <p>
                 Once you’re signed in, you can go to your homepage by clicking
                 on the <strong>My VA link</strong> near the top right of any
@@ -123,31 +121,30 @@ export class ConfirmationPage extends React.Component {
               </p>
             </li>
           </ol>
-          <p className="vads-u-font-size--base vads-u-font-family--serif vads-u-font-weight--bold">
+          <h2 className="vads-u-font-size--h3 vads-u-font-family--serif">
             How will I know if my application to add or remove dependents is
             approved?
-          </p>
+          </h2>
           <p className="vads-u-margin-bottom--6">
             We’ll send you a packet by U.S. mail that includes details of the
             decision on your claim. If you check your status online and see a
             decision, please allow 7 to 10 business days for your packet to
             arrive before contacting a VA call center.
           </p>
-          <p className="vads-u-font-size--base vads-u-font-family--serif vads-u-font-weight--bold">
+          <h2 className="vads-u-font-size--h3 vads-u-font-family--serif">
             What if I need to add or remove another dependent now or at a later
             time?
-          </p>
+          </h2>
           <p className="vads-u-margin-bottom--6">
             If something changes in your family status let VA know. Return to
-            the{' '}
-            <a href="/view-change-dependents/add-remove-form-686c">21-686c</a>{' '}
-            form, select the option that describes your family status change and
-            complete the form. This will update our records and your benefits
-            pay will be adjusted accordingly.
+            the <a href={rootUrl}>21-686c</a> form, select the option that
+            describes your family status change and complete the form. This will
+            update our records and your benefits pay will be adjusted
+            accordingly.
           </p>
-          <p className="vads-u-font-size--base vads-u-font-family--serif vads-u-font-weight--bold">
+          <h2 className="vads-u-font-size--h3 vads-u-font-family--serif">
             What if I have more questions?
-          </p>
+          </h2>
           <p className="vads-u-margin-bottom--6">
             Please call <a href="tel:877-222-8387">877-222-VETS</a>{' '}
             (877-222-8387) and select 2. We’re here Monday through Friday, 8:00

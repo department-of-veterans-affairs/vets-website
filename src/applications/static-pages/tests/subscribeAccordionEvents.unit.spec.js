@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getSectionLabel } from '../subscribeAccordionEvents';
+import { getSectionLabel } from '../subscription-creators/subscribeAccordionEvents';
 
 describe('subscribeAccordionEvents', () => {
   describe('getSectionLabel', () => {

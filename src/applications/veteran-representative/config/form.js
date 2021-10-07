@@ -1,5 +1,5 @@
 import fullSchema from '../2122-schema.json';
-import _ from 'lodash/fp';
+import _ from 'lodash';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
@@ -85,7 +85,7 @@ const formConfig = {
           path: 'veteran-information',
           title: 'Veteran information',
           uiSchema: {
-            veteranFullName: _.merge(fullNameUI, {
+            veteranFullName: _.merge({}, fullNameUI, {
               first: {
                 'ui:title': 'Veteran’s first name',
               },
@@ -99,7 +99,7 @@ const formConfig = {
                 'ui:title': 'Veteran’s suffix',
               },
             }),
-            veteranSSN: _.merge(ssnUI, {
+            veteranSSN: _.merge({}, ssnUI, {
               'ui:title': 'Veteran’s Social Security number',
             }),
             vaFileNumber: {
@@ -130,7 +130,7 @@ const formConfig = {
           path: 'claimant-information',
           title: 'Claimant information',
           uiSchema: {
-            claimantFullName: _.merge(fullNameUI, {
+            claimantFullName: _.merge({}, fullNameUI, {
               first: {
                 'ui:title': 'Claimant’s first name',
               },

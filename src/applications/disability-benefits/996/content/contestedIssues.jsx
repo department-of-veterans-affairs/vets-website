@@ -1,10 +1,12 @@
 import React from 'react';
 import moment from 'moment';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
+
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import {
   BOARD_APPEALS_URL,
@@ -13,24 +15,42 @@ import {
   NULL_CONDITION_STRING,
 } from '../constants';
 import DownloadLink from './DownloadLink';
-import { scrollTo } from '../helpers';
+
+import { apiVersion2 } from '../utils/helpers';
 
 // We shouldn't ever see the couldn't find contestable issues message since we
 // prevent the user from navigating past the intro page; but it's here just in
 // case we end up filtering out deferred and expired issues
-export const ContestedIssuesTitle = props =>
-  props?.formData?.contestedIssues?.length === 0 ? (
-    <h2 className="vads-u-font-size--h4" name="eligibleScrollElement">
-      Sorry, we couldn’t find any eligible issues
-    </h2>
+export const ContestedIssuesTitle = props => {
+  if (props?.formData?.contestedIssues?.length === 0) {
+    return (
+      <h2 className="vads-u-font-size--h4" name="eligibleScrollElement">
+        Sorry, we couldn’t find any eligible issues
+      </h2>
+    );
+  }
+  return apiVersion2(props.formData) ? (
+    <>
+      <div className="vads-u-margin-bottom--2">
+        These issues are in your VA record. If an issue is missing from this
+        list, you can add it on the next step
+      </div>
+      <legend
+        name="eligibleScrollElement"
+        className="vads-u-font-weight--normal vads-u-font-size--base"
+      >
+        Select the issue(s) you’d like us to review:
+      </legend>
+    </>
   ) : (
     <legend name="eligibleScrollElement" className="vads-u-font-size--lg">
-      Select the issue(s) you would like reviewed
+      Select the issue(s) you’d like us to review:
       <span className="schemaform-required-span vads-u-font-weight--normal vads-u-font-size--base">
         (*Required)
       </span>
     </legend>
   );
+};
 
 /**
  * @typedef {Object} Disability
@@ -150,7 +170,7 @@ export const disabilitiesExplanation = (
  * Shows the alert box only if the form has been submitted
  */
 export const ContestedIssuesAlert = ({ className = '' }) => {
-  setTimeout(() => scrollTo('eligibleScrollElement'), 300);
+  setTimeout(() => scrollToTop(), 300);
   return (
     <va-alert status="error">
       <h3

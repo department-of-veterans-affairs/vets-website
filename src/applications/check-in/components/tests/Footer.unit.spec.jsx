@@ -8,22 +8,24 @@ describe('check-in', () => {
     it('Renders the footer with default props', () => {
       const fakeStore = {
         getState: () => ({
-          checkInData: { appointment: { clinicPhoneNumber: '555-867-5309' } },
+          checkInData: {
+            appointments: [{ clinicPhoneNumber: '555-867-5309' }],
+          },
         }),
         subscribe: () => {},
         dispatch: () => ({}),
       };
       const screen = render(<Footer store={fakeStore} />);
 
-      expect(screen.getByTestId('heading')).to.have.text('Need Help?');
-      expect(screen.getByTestId('message')).to.have.text(
-        'Ask a staff member or call us at 555-867-5309.',
-      );
+      expect(screen.getByTestId('heading')).to.have.text('Need help?');
+      expect(screen.getByTestId('message')).to.have.text('Ask a staff member.');
     });
     it('Renders the footer with custom header props', () => {
       const fakeStore = {
         getState: () => ({
-          checkInData: { appointment: { clinicPhoneNumber: '555-867-5309' } },
+          checkInData: {
+            appointments: [{ clinicPhoneNumber: '555-867-5309' }],
+          },
         }),
         subscribe: () => {},
         dispatch: () => ({}),
@@ -38,7 +40,9 @@ describe('check-in', () => {
     it('Renders the footer with custom message props', () => {
       const fakeStore = {
         getState: () => ({
-          checkInData: { appointment: { clinicPhoneNumber: '555-867-5309' } },
+          checkInData: {
+            appointments: [{ clinicPhoneNumber: '555-867-5309' }],
+          },
         }),
         subscribe: () => {},
         dispatch: () => ({}),
@@ -47,20 +51,20 @@ describe('check-in', () => {
         <Footer store={fakeStore} message="this is a cool thing" />,
       );
       expect(screen.getByTestId('message')).to.have.text(
-        'this is a cool thing 555-867-5309.',
+        'this is a cool thing',
       );
     });
     it('Renders the footer when no phone number is presented', () => {
       const fakeStore = {
         getState: () => ({
-          checkInData: { appointment: { clinicPhoneNumber: '' } },
+          checkInData: { appointments: [{ clinicPhoneNumber: '' }] },
         }),
         subscribe: () => {},
         dispatch: () => ({}),
       };
       const screen = render(<Footer store={fakeStore} />);
 
-      expect(screen.getByTestId('heading')).to.have.text('Need Help?');
+      expect(screen.getByTestId('heading')).to.have.text('Need help?');
       expect(screen.getByTestId('message')).to.have.text('Ask a staff member.');
     });
   });

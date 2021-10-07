@@ -6,7 +6,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-action-link";
 
 .schemaform-intro {
   padding: 0 0 2rem 0;
@@ -135,7 +134,7 @@ legend.schemaform-block-title {
   margin: 0;
 }
 
-.additional-issues {
+.additional-issue {
   .schemaform-label,
   .usa-input-error {
     margin-top: 0;

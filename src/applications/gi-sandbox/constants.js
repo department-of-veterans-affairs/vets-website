@@ -47,63 +47,70 @@ export const TABS = Object.freeze({
   location: 'location',
 });
 
-// default state is checked so these will only be present if their corresponding boxes are unchecked
-export const FILTERS_EXCLUDED_FLIP = ['schools', 'employers', 'vettec'];
-export const FILTERS_IGNORE_ALL = ['country', 'state', 'type'];
+export const INSTITUTION_TYPES = [
+  'Public',
+  'For profit',
+  'Private',
+  'Foreign',
+  'Flight',
+  'Correspondence',
+];
 
 export const ariaLabels = Object.freeze({
   learnMore: {
+    accreditation:
+      'Learn more about the different accreditation types and why it matters',
+    allCampusComplaints: 'Learn more about student complaints',
+    bookStipend: 'Learn more about the book stipend',
+    calcEnrolled:
+      'Learn more about enrollment status and how it may affect your education benefits',
+    calcWorking:
+      'Learn more about how the number of hours you work affects your housing allowance',
+    calcScholarships: 'Learn more about what to include for scholarships',
+    calcSchoolCalendar: 'Learn more about school calendar options',
+    cautionFlags:
+      'Learn more about why caution flags might appear on an institution profile',
+    cautionaryWarning: 'Learn more about cautionary Warnings',
+    eightKeys: 'Learn more about 8 Keys to Veteran Success',
+    facilityCode: 'Learn more about the VA facility code',
     giBillBenefits: 'Learn more about VA education and training programs',
+    housingAllowance: 'Learn more about how housing allowance is determined',
+    independentStudy: 'Learn more about Independent study',
+    inState: 'Learn more about qualifying for in-state tuition.',
+    inStateTuitionFeesPerYear:
+      'Learn more about why we ask for in-state tuition and fees',
+    ipedsCode: 'Learn more about the ED IPEDS code',
+    kickerEligible: 'Learn more about the kicker bonus',
+    majorityOfClasses: 'Learn more about the location-based housing allowance',
+    militaryTrainingCredit: 'Learn more about credit for military training',
+    militaryTuitionAssistance: 'Learn more about Military Tuition Assistance',
+    numberOfStudents:
+      'Learn more about how we calculate the number of GI Bill students',
+    onlineOnlyDistanceLearning:
+      'Learn more about how we calculate your housing allowance based on where you take classes',
+    opeCode: 'Learn more about the ED OPE code',
+    paysToProvider: 'Learn more about how we pay providers',
     post911Chapter33: 'Learn more about Cumulative Post-9/11 service',
     preferredProvider: 'Learn more about Preferred providers',
+    principlesOfExcellence: 'Learn more about Principles of Excellence',
+    priorityEnrollment: 'Learn more about priority enrollment',
     montgomeryGIBill:
       'Learn more about how the length of Montgomery GI Bill active-duty service affects your benefits',
     reapActiveDuty:
       'Learn more about how the length of your REAP active-duty service affects your benefits',
-    vetTecProgram: 'Learn more about the VET TEC program',
-    tuitionAndFees: 'Learn more about the tuition and fees covered by VET TEC',
     scholarships: 'Learn more about what types of scholarships to include',
-    paysToProvider: 'Learn more about how we pay providers',
-    numberOfStudents:
-      'Learn more about how we calculate the number of GI Bill students',
+    singlePoint: 'Learn more about single point of contact for Veterans',
+    sizeOfInstitution: 'Learn more about institution size',
+    specializedMission: 'Learn more about specialized mission',
+    studentVeteranGroup: 'Learn more about Student Veteran Groups',
+    tuitionAndFees: 'Learn more about the tuition and fees covered by VET TEC',
+    tuitionFees: 'Learn more about tuition and fees',
     tuitionFeesPerYear:
       'Learn more about what costs to include for your tuition and fees',
-    inStateTuitionFeesPerYear:
-      'Learn more about why we ask for in-state tuition and fees',
-    yellowRibbonProgram: 'Learn more about the Yellow Ribbon Program',
-    calcScholarships: 'Learn more about what to include for scholarships',
-    calcEnrolled:
-      'Learn more about enrollment status and how it may affect your education benefits',
-    calcSchoolCalendar: 'Learn more about school calendar options',
-    onlineOnlyDistanceLearning:
-      'Learn more about how we calculate your housing allowance based on where you take classes',
-    kickerEligible: 'Learn more about the kicker bonus',
-    whenUsedGiBill: 'Learn more about your monthly housing allowance rate',
-    calcWorking:
-      'Learn more about how the number of hours you work affects your housing allowance',
-    tuitionFees: 'Learn more about tuition and fee payments, and payment caps',
-    housingAllowance:
-      'Learn more about how we calculate your housing allowance',
-    bookStipend: 'Learn more about how we calculate your annual book stipend',
-    cautionaryWarning: 'Learn more about cautionary Warnings',
-    majorityOfClasses: 'Learn more about the location-based housing allowance',
-    militaryTuitionAssistance:
-      'Learn more about how military tuition assistance affects your benefits',
-    inState: 'Learn more about qualifying for in-state tuition.',
-    accreditation:
-      'Learn more about the different accreditation types and why it matters',
-    militaryTrainingCredit: 'Learn more about credit for military training',
-    independentStudy: 'Learn more about Independent study',
-    priorityEnrollment: 'Learn more about priority enrollment',
-    singlePoint: 'Learn more about single point of contact for Veterans',
-    facilityCode: 'Learn more about the VA facility code',
-    ipedsCode: 'Learn more about the ED IPEDS code',
-    opeCode: 'Learn more about the ED OPE code',
-    eightKeys: 'Learn more about 8 Keys to Veteran Success',
-    militaryTuitionAssistanceProgram:
-      'Learn more about Military Tuition Assistance',
-    principlesOfExcellence: 'Learn more about Principles of Excellence',
-    studentVeteranGroup: 'Learn more about Student Veteran Groups',
     vetSuccess: 'Learn more about VetSuccess on Campus',
+    vetTecProgram: 'Learn more about the VET TEC program',
+    whenUsedGiBill: 'Learn more about your monthly housing allowance rate',
+    yellowRibbonProgram:
+      'Learn more about what is covered by the Yellow Ribbon program and who can use it',
   },
 });

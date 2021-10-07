@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import {
-  setLangAttribute,
-  adaptLinksWithLangCode,
-  onThisPageHook,
-  parseLangCode,
-} from 'applications/static-pages/i18Select/hooks';
+  setLangAttributes,
+  getConfigFromUrl,
+} from 'applications/static-pages/i18Select/utilities/helpers';
 import { FOOTER_EVENTS } from '../helpers';
 import recordEvent from '../../../monitoring/record-event';
+import { TRANSLATED_LANGUAGES } from 'applications/static-pages/i18Select/utilities/constants';
+import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 
 const langAssistanceLabel = 'Language assistance';
 
@@ -21,27 +21,27 @@ function LanguagesListTemplate({ dispatchLanguageSelection }) {
         {
           label: 'Español',
           lang: 'es',
-          href: '/asistencia-y-recursos-en-espanol',
+          href: 'https://www.va.gov/asistencia-y-recursos-en-espanol',
         },
         {
           label: 'Tagalog',
           lang: 'tl',
-          href: '/tagalog-wika-mapagkukunan-at-tulong',
+          href: 'https://www.va.gov/tagalog-wika-mapagkukunan-at-tulong',
         },
         {
           label: 'Other languages',
           lang: 'en',
-          href: '/resources/how-to-get-free-language-assistance-from-va/',
+          href:
+            'https://www.va.gov/resources/how-to-get-free-language-assistance-from-va/',
         },
       ].map((link, i) => (
         <li key={i}>
           <a
-            href={link.href}
+            href={replaceWithStagingDomain(link.href)}
             lang={link.lang}
             hrefLang={link.lang}
             onClick={() => {
               dispatchLanguageSelection(link.lang);
-              setLangAttribute(link.lang);
               recordEvent({
                 event: FOOTER_EVENTS.LANGUAGE_SUPPORT,
                 lang: link.lang,
@@ -58,21 +58,24 @@ function LanguagesListTemplate({ dispatchLanguageSelection }) {
 }
 export default function LanguageSupport({
   isDesktop,
-  showLangSupport,
   dispatchLanguageSelection,
+  languageCode,
 }) {
   useEffect(
     () => {
-      const langCode = parseLangCode(document?.location?.pathname);
-      onThisPageHook(langCode);
-      setLangAttribute(langCode);
-      dispatchLanguageSelection(langCode);
-      adaptLinksWithLangCode(dispatchLanguageSelection, langCode);
-    },
-    [dispatchLanguageSelection, showLangSupport],
-  );
+      const { code: parsedLanguageCode } = getConfigFromUrl(
+        document?.location?.href,
+        TRANSLATED_LANGUAGES,
+      );
 
-  if (showLangSupport !== true) return null;
+      setLangAttributes(parsedLanguageCode);
+
+      if (languageCode === parsedLanguageCode) return;
+
+      dispatchLanguageSelection(parsedLanguageCode);
+    },
+    [dispatchLanguageSelection, languageCode],
+  );
 
   if (isDesktop) {
     return (

@@ -1,27 +1,17 @@
-import _ from 'lodash/fp';
+import get from 'platform/utilities/data/get';
 import React from 'react';
 import { connect } from 'react-redux';
-import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
-
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { getListOfBenefits } from '../../utils/helpers';
 import { benefitsRelinquishmentLabels } from '../helpers';
 import { ConfirmationPageContent } from '../../components/ConfirmationPageContent';
 
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
-
 class ConfirmationPage extends React.Component {
   componentDidMount() {
     focusElement('.confirmation-page-title');
-    scrollToTop();
+    scrollToTop('topScrollElement');
   }
 
   makeList(arr) {
@@ -41,7 +31,7 @@ class ConfirmationPage extends React.Component {
     const form = this.props.form;
     const { submission, formId } = form;
     const benefits = form.data['view:selectedBenefits'];
-    const benefitsRelinquished = _.get(
+    const benefitsRelinquished = get(
       'data.view:benefitsRelinquishedContainer.benefitsRelinquished',
       form,
     );

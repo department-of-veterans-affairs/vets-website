@@ -9,6 +9,7 @@ const getData = ({
   mobile = true,
   address = true,
   submitted = false,
+  homeless = false,
 } = {}) => {
   const data = {};
   if (email) {
@@ -38,6 +39,7 @@ const getData = ({
   return {
     formContext: { submitted },
     profile: { vapContactInfo: data },
+    homeless,
   };
 };
 
@@ -76,6 +78,23 @@ describe('Veteran information review content', () => {
     expect(text).to.contain('Your email, phone and address are missing');
     tree.unmount();
   });
+  it('should render note about missing address if not homeless', () => {
+    const data = getData({ email: false, address: false, homeless: false });
+    const tree = shallow(<ContactInfoDescription {...data} />);
+    const text = tree.find('va-alert').text();
+
+    expect(text).to.contain('Your email and address are missing');
+    tree.unmount();
+  });
+  it('should should not include missing address if homeless', () => {
+    const data = getData({ email: false, address: false, homeless: true });
+    const tree = shallow(<ContactInfoDescription {...data} />);
+    const text = tree.find('va-alert').text();
+
+    expect(text).to.contain('Your email is missing');
+    tree.unmount();
+  });
+
   it('should render an error if info is not actually updated', () => {
     const data = getData({
       submitted: false,

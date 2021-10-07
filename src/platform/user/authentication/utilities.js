@@ -7,7 +7,10 @@ import environment from '../../utilities/environment';
 import { eauthEnvironmentPrefixes } from '../../utilities/sso/constants';
 import { setLoginAttempted } from 'platform/utilities/sso/loginAttempted';
 
-import { loginAppUrlRE } from 'applications/login/utilities/paths';
+// NOTE: the login app typically has URLs that being with 'sign-in',
+// however there is at least one CMS page, 'sign-in-faq', that we don't
+// want to resolve with the login app
+export const loginAppUrlRE = new RegExp('^/sign-in(/.*)?$');
 
 export const authnSettings = {
   RETURN_URL: 'authReturnUrl',
@@ -17,6 +20,9 @@ export const externalRedirects = {
   myvahealth: environment.isProduction()
     ? 'https://patientportal.myhealth.va.gov/'
     : 'https://staging-patientportal.myhealth.va.gov/',
+  mhv: `https://${
+    eauthEnvironmentPrefixes[environment.BUILDTYPE]
+  }eauth.va.gov/mhv-portal-web/eauth`,
 };
 
 export const ssoKeepAliveEndpoint = () => {
@@ -24,12 +30,13 @@ export const ssoKeepAliveEndpoint = () => {
   return `https://${envPrefix}eauth.va.gov/keepalive`;
 };
 
-export function sessionTypeUrl(type = '', version = 'v0', queryParams = {}) {
-  const base =
-    version === 'v1'
-      ? `${environment.API_URL}/v1/sessions`
-      : `${environment.API_URL}/sessions`;
-
+export function sessionTypeUrl({
+  type = '',
+  version = 'v1',
+  queryParams = {},
+}) {
+  // force v1 regardless of version
+  const base = `${environment.API_URL}/${version}/sessions`.replace(/v0/, 'v1');
   const searchParams = new URLSearchParams(queryParams);
 
   const queryString =
@@ -70,6 +77,13 @@ function redirectWithGAClientId(redirectUrl) {
   }
 }
 
+const generatePath = (app, to) => {
+  if (app === 'mhv') {
+    return `?deeplinking=${to}`;
+  }
+  return to.startsWith('/') ? to : `/${to}`;
+};
+
 export function standaloneRedirect() {
   const searchParams = new URLSearchParams(window.location.search);
   const application = searchParams.get('application');
@@ -77,7 +91,7 @@ export function standaloneRedirect() {
   let url = externalRedirects[application] || null;
 
   if (url && to) {
-    const pathname = to.startsWith('/') ? to : `/${to}`;
+    const pathname = generatePath(application, to);
     url = url.endsWith('/') ? url.slice(0, -1) : url;
     url = `${url}${pathname}`.replace('\r\n', ''); // Prevent CRLF injection.
   }
@@ -102,32 +116,44 @@ function redirect(redirectUrl, clickedEvent) {
 
 export function login(
   policy,
-  version = 'v0',
+  version = 'v1',
   queryParams = {},
   clickedEvent = 'login-link-clicked-modal',
 ) {
-  const url = sessionTypeUrl(policy, version, queryParams);
+  const url = sessionTypeUrl({ type: policy, version, queryParams });
   setLoginAttempted();
   return redirect(url, clickedEvent);
 }
 
-export function mfa(version = 'v0') {
-  return redirect(sessionTypeUrl('mfa', version), 'multifactor-link-clicked');
+export function mfa(version = 'v1') {
+  return redirect(
+    sessionTypeUrl({ type: 'mfa', version }),
+    'multifactor-link-clicked',
+  );
 }
 
-export function verify(version = 'v0') {
-  return redirect(sessionTypeUrl('verify', version), 'verify-link-clicked');
+export function verify(version = 'v1') {
+  return redirect(
+    sessionTypeUrl({ type: 'verify', version }),
+    'verify-link-clicked',
+  );
 }
 
 export function logout(
-  version = 'v0',
+  version = 'v1',
   clickedEvent = 'logout-link-clicked',
   queryParams = {},
 ) {
   clearSentryLoginType();
-  return redirect(sessionTypeUrl('slo', version, queryParams), clickedEvent);
+  return redirect(
+    sessionTypeUrl({ type: 'slo', version, queryParams }),
+    clickedEvent,
+  );
 }
 
-export function signup(version = 'v0') {
-  return redirect(sessionTypeUrl('signup', version), 'register-link-clicked');
+export function signup(version = 'v1') {
+  return redirect(
+    sessionTypeUrl({ type: 'signup', version }),
+    'register-link-clicked',
+  );
 }

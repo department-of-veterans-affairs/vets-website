@@ -46,6 +46,18 @@
   }
 }
 
+/* contact info page */
+article[data-location="contact-information"] {
+  div[data-field-name="mobilePhone"] h3 {
+    margin-top: 0;
+  }
+  /* address modal is very tall and won't scroll without this fix */
+  .va-modal-body {
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+  }
+}
+
 /* Step 2 */
 /*** Contested issues block ***/
 
@@ -117,6 +129,26 @@ dl.review {
     margin: 3rem 3.5rem 0 5rem;
   }
 
+  dd.widget-content.widget-edit {
+    margin-top: 0;
+    margin-right: 0;
+    display: flex;
+
+    .widget-content-wrap {
+      margin-top: 3rem;
+      margin-right: 0.5rem;
+      width: 100%;
+    }
+
+    .edit {
+      margin-top: 2rem;
+      /* position the edit button above the overlapping label */
+      position: relative;
+      z-index: 1;
+      align-self: center;
+    }
+  }
+
   .checkbox-hidden {
     dt.widget-checkbox-wrap {
       width: 0;
@@ -133,6 +165,33 @@ dl.review {
       margin: 2rem 0 0 2rem;
     }
   }
+}
+
+/* new issues cards tweak */
+dl.review .additional-issue.review-row {
+  flex-direction: column;
+
+  dd {
+    padding-left: 0;
+  }
+}
+.usa-input-error #root_additionalIssues_0_decisionDate-label {
+  font-weight: bold;
+}
+
+.review-row > dd {
+  word-break: break-word;
+}
+
+/* IE11 hack to fix edit button placement, see
+ * https://github.com/department-of-veterans-affairs/va.gov-team/issues/25108
+ */
+ _:-ms-fullscreen, :root dl.review dd.widget-content.widget-edit .widget-content-wrap {
+  width: calc(100% - 175px); /* 175px ~= width of the edit button x2.5 */
+}
+/* IE11 fix legend not wrapping on small screens */
+legend.schemaform-block-title {
+  width: 100%;
 }
 
 .eligible-issues-error h3 {
@@ -155,6 +214,12 @@ article[data-location="contested-issues"] {
 
   dl.review {
     border-bottom-width: 0;
+  }
+}
+
+article[data-location="additional-issues"] {
+  dl.review .review-row.editing {
+    justify-content: start;
   }
 }
 
@@ -185,6 +250,7 @@ article[data-contact-choice="me"] .contact-choice.selected-me {
   display: inline-block;
 }
 
+article[data-location="informal-conference/representative-info"],
 article[data-location="informal-conference/representative-information"] {
   .schemaform-field-container {
     margin-top: 0;

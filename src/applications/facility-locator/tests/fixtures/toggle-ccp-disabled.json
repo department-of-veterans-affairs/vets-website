@@ -1,6 +1,6 @@
 {
   "data": {
     "type": "feature_toggles",
-    "features": [{ "name": "facilitiesPpmsSuppressCommunityCare", "value": true }]
+    "features": [{ "name": "facilities_ppms_suppress_community_care", "value": true }]
   }
 }

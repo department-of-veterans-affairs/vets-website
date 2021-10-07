@@ -27,7 +27,7 @@ export const renderAdditionalInfo = deductionCode => {
 
           <ul>
             <li>
-              A change in your spouse's or dependent's status wasn't submitted
+              A change in your spouse’s or dependent’s status wasn’t submitted
               or processed before we made a payment to you, <strong>or</strong>
             </li>
             <li>
@@ -100,7 +100,7 @@ export const renderAdditionalInfo = deductionCode => {
               className="vads-u-margin-left--0p5"
               contact="8884424551"
             />
-            . We're here Monday through Friday, 8:00 a.m. to 7:00 p.m. ET.
+            . We’re here Monday through Friday, 8:00 a.m. to 7:00 p.m. ET.
           </p>
 
           <p>
@@ -139,7 +139,7 @@ export const renderAdditionalInfo = deductionCode => {
             <strong>Note:</strong>
             For Post-9/11 GI Bill debts, please make separate payments for
             tuition, housing, and books and supplies. When there is a change in
-            this benefit's use, we'll collect the three debts separately.
+            this benefit’s use, we’ll collect the three debts separately.
           </p>
           <p>
             If you want more information about the reason for this debt or the
@@ -148,7 +148,7 @@ export const renderAdditionalInfo = deductionCode => {
               className="vads-u-margin-left--0p5"
               contact="8884424551"
             />
-            . We're here Monday through Friday, 8:00 a.m. to 7:00 p.m. ET.
+            . We’re here Monday through Friday, 8:00 a.m. to 7:00 p.m. ET.
           </p>
           <p>
             If you want more information about debt overpayment and available
@@ -182,7 +182,7 @@ export const renderWhyMightIHaveThisDebt = deductionCode => {
               pay at the same time.
             </li>
             <li>
-              You didn't let us know of a change in your marital or dependent
+              You didn’t let us know of a change in your marital or dependent
               status.
             </li>
             <li>

@@ -16,7 +16,7 @@ export default function createHigherLevelReviewApplicationStatus(
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   if (root) {
     import(/* webpackChunkName: "higher-level-review-application-status" */
-    '../utils').then(module => {
+    '../utils/wizard').then(module => {
       const { ApplicationStatus, WizardLink } = module.default;
       connectFeatureToggle(store.dispatch);
 

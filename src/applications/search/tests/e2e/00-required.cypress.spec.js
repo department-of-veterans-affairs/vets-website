@@ -41,9 +41,8 @@ describe('Sitewide Search smoke test', () => {
       // Check url.
       .should('contain', 'https://benefits.va.gov/benefits/');
   });
-
   it('successfully searches and renders results from the results page', () => {
-    cy.intercept('GET', '/v0/search?query=benefits&page=1', {
+    cy.intercept('GET', '/v0/search?query=*', {
       body: stub,
       statusCode: 200,
     }).as('getSearchResultsPage');
@@ -71,7 +70,7 @@ describe('Sitewide Search smoke test', () => {
       .should('exist')
       .and('not.be.disabled')
       .then(inputElem => {
-        cy.wrap(inputElem).type('benefits');
+        cy.wrap(inputElem).type('benefits', { force: true });
       });
     cy.get(`${SELECTORS.SEARCH_FORM} button[type="submit"]`)
       .should('exist')

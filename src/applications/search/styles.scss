@@ -132,16 +132,19 @@
       margin: 1rem 0 0;
 
       @include media($small-screen) {
-        margin: unset;
+        margin: 1rem 0 2rem;
       }
       @include media($medium-screen) {
-        margin: 1rem 0 3rem;
+        margin: 2rem 0 1rem;
       }
-
     }
 
     .va-pagination {
       border-top: none;
+
+      .va-pagination-prev:empty {
+        padding: 0;
+      }
 
       @include media($large-screen) {
         .va-pagination-inner {

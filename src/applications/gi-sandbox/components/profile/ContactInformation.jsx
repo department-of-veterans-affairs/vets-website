@@ -7,6 +7,8 @@ import { ariaLabels } from '../../constants';
 import classNames from 'classnames';
 
 export default function ContactInformation({ institution, showModal }) {
+  const isOJT = institution.type && institution.type.toLowerCase() === 'ojt';
+
   const versionedSchoolCertifyingOfficials = _.get(
     institution,
     'versionedSchoolCertifyingOfficials',
@@ -21,11 +23,11 @@ export default function ContactInformation({ institution, showModal }) {
     institution.physicalAddress1 && (
       <div className="vads-l-row vads-u-margin-top--2p5 vads-u-margin-bottom--4">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-          <h3 className="vads-u-font-size--h4 contact-heading vads-u-font-family--sans vads-u-margin--0">
+          <h3 className="small-screen:vads-u-font-size--h4 contact-heading vads-u-font-family--sans vads-u-margin--0 small-screen-font">
             Physical address
           </h3>
         </div>
-        <div className="vads-l-col--9">
+        <div className="vads-l-col--9 small-screen-font">
           <div>
             {institution.physicalAddress1 && (
               <div>{institution.physicalAddress1}</div>
@@ -49,7 +51,7 @@ export default function ContactInformation({ institution, showModal }) {
     institution.address1 && (
       <div className="vads-l-row vads-u-margin-top--0 vads-u-margin-bottom--4">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-          <h3 className="vads-u-font-size--h4 contact-heading vads-u-font-family--sans vads-u-margin--0">
+          <h3 className="small-screen:vads-u-font-size--h4 contact-heading vads-u-font-family--sans vads-u-margin--0 small-screen-font">
             Mailing address
           </h3>
         </div>
@@ -67,8 +69,8 @@ export default function ContactInformation({ institution, showModal }) {
     );
 
   const singlePointContact = () => (
-    <div>
-      <h3 className="vads-u-margin-top--5 vads-u-margin-bottom--neg2p5">
+    <div className="small-screen-font">
+      <h3 className="vads-u-margin-top--5 vads-u-margin-bottom--neg2p5 small-screen-font">
         Single point of contact
       </h3>
       <hr />
@@ -79,6 +81,7 @@ export default function ContactInformation({ institution, showModal }) {
             onClick={() => showModal('singleContact')}
             ariaLabel={ariaLabels.learnMore.singlePoint}
             buttonId={'singleContact-button'}
+            buttonClassName="small-screen-font"
           />
           :
         </strong>
@@ -116,9 +119,9 @@ export default function ContactInformation({ institution, showModal }) {
 
   const schoolCertifyingOfficials = () =>
     showSco && (
-      <div>
+      <div className="small-screen-font">
         <div>
-          <h3 className="vads-u-margin-top--5 vads-u-margin-bottom--neg2p5">
+          <h3 className="vads-u-margin-top--5 vads-u-margin-bottom--neg2p5 small-screen-font">
             School certifying officials
           </h3>
           <hr />
@@ -128,12 +131,12 @@ export default function ContactInformation({ institution, showModal }) {
     );
 
   const institutionCodesClassNames = classNames(
-    'vads-u-margin-bottom--neg2p5',
+    'vads-u-margin-bottom--neg2p5 small-screen-font',
     { 'vads-u-margin-top--5': !showSco },
   );
 
   const institutionCodes = () => (
-    <div>
+    <div className="small-screen-font">
       <h3 className={institutionCodesClassNames}>Institution codes</h3>
       <hr />
       <div>
@@ -143,38 +146,45 @@ export default function ContactInformation({ institution, showModal }) {
             onClick={() => showModal('facilityCode')}
             ariaLabel={ariaLabels.learnMore.facilityCode}
             buttonId={'facilityCode-button'}
+            buttonClassName="small-screen-font"
           />
           :
         </strong>
         &nbsp;
         {institution.facilityCode || 'N/A'}
       </div>
-      <div>
-        <strong>
-          <LearnMoreLabel
-            text={'ED IPEDS code'}
-            onClick={() => showModal('ipedsCode')}
-            ariaLabel={ariaLabels.learnMore.ipedsCode}
-            buttonId={'ipedsCode-button'}
-          />
-          :
-        </strong>
-        &nbsp;
-        {institution.cross || 'N/A'}
-      </div>
-      <div>
-        <strong>
-          <LearnMoreLabel
-            text={'ED OPE code'}
-            onClick={() => showModal('opeCode')}
-            ariaLabel={ariaLabels.learnMore.opeCode}
-            buttonId={'opeCode-button'}
-          />
-          :
-        </strong>
-        &nbsp;
-        {institution.ope || 'N/A'}
-      </div>
+      {!isOJT && (
+        <div>
+          <strong>
+            <LearnMoreLabel
+              text={'ED IPEDS code'}
+              onClick={() => showModal('ipedsCode')}
+              ariaLabel={ariaLabels.learnMore.ipedsCode}
+              buttonId={'ipedsCode-button'}
+              buttonClassName="small-screen-font"
+            />
+            :
+          </strong>
+          &nbsp;
+          {institution.cross || 'N/A'}
+        </div>
+      )}
+      {!isOJT && (
+        <div>
+          <strong>
+            <LearnMoreLabel
+              text={'ED OPE code'}
+              onClick={() => showModal('opeCode')}
+              ariaLabel={ariaLabels.learnMore.opeCode}
+              buttonId={'opeCode-button'}
+              buttonClassName="small-screen-font"
+            />
+            :
+          </strong>
+          &nbsp;
+          {institution.ope || 'N/A'}
+        </div>
+      )}
     </div>
   );
 
@@ -182,7 +192,7 @@ export default function ContactInformation({ institution, showModal }) {
     <div>
       {physicalAddress()}
       {mailingAddress()}
-      {!institution.vetTecProvider && singlePointContact()}
+      {!institution.vetTecProvider && !isOJT && singlePointContact()}
       {schoolCertifyingOfficials()}
       {institutionCodes()}
     </div>

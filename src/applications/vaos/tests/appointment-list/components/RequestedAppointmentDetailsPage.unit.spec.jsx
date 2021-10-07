@@ -35,14 +35,12 @@ const testDate = getTimezoneTestDate();
 
 const initialState = {
   featureToggles: {
-    vaOnlineSchedulingHomepageRefresh: true,
     vaOnlineSchedulingVAOSServiceRequests: false,
   },
 };
 
 const initialStateVAOSService = {
   featureToggles: {
-    vaOnlineSchedulingHomepageRefresh: true,
     vaOnlineSchedulingVAOSServiceRequests: true,
   },
 };
@@ -66,7 +64,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       ...appointment.attributes,
       typeOfCareId: '323',
       status: 'Submitted',
-      appointmentType: 'Primary care',
       optionDate1: moment(testDate)
         .add(3, 'days')
         .format('MM/DD/YYYY'),
@@ -198,14 +195,14 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     appointment.attributes = {
       ...appointment.attributes,
-      appointmentType: 'Primary care',
+      typeOfCareId: '323',
       optionDate1: moment(testDate)
         .add(3, 'days')
         .format('MM/DD/YYYY'),
       optionTime1: 'AM',
     };
 
-    mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
+    mockAppointmentInfo({ requests: [appointment] });
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
       path: '/requested',
@@ -249,7 +246,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     mockAppointmentInfo({
       requests: [ccAppointmentRequest],
-      isHomepageRefresh: true,
     });
 
     const message = getMessageMock();
@@ -278,7 +274,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(
       screen.getByRole('heading', {
         level: 1,
-        name: 'Pending audiology (hearing aid support) appointment',
+        name: 'Pending hearing aid support appointment',
       }),
     ).to.be.ok;
 
@@ -336,14 +332,14 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     appointment.id = '1234';
     appointment.attributes = {
       ...appointment.attributes,
-      appointmentType: 'Primary care',
+      typeOfCareId: '323',
       optionDate1: moment(testDate)
         .add(3, 'days')
         .format('MM/DD/YYYY'),
       optionTime1: 'AM',
     };
 
-    mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
+    mockAppointmentInfo({ requests: [appointment] });
     mockRequestCancelFetch(appointment);
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
@@ -424,7 +420,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     appointment.id = '1234';
     appointment.attributes = {
       ...appointment.attributes,
-      appointmentType: 'Primary care',
+      typeOfCareId: '323',
       optionDate1: moment(testDate)
         .add(3, 'days')
         .format('MM/DD/YYYY'),
@@ -470,7 +466,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        `Pending Community care audiology (hearing aid support) appointment`,
+        `Pending Community care hearing aid support appointment`,
       );
     });
   });
@@ -480,7 +476,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     appointment.attributes = {
       ...appointment.attributes,
-      appointmentType: 'Primary care',
+      typeOfCareId: '323',
       optionDate1: moment(testDate)
         .add(3, 'days')
         .format('MM/DD/YYYY'),
@@ -515,7 +511,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     appointment.id = '1234';
     appointment.attributes = {
       ...appointment.attributes,
-      appointmentType: 'Primary care',
+      typeOfCareId: '323',
       optionDate1: moment(testDate)
         .add(3, 'days')
         .format('MM/DD/YYYY'),
@@ -567,7 +563,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        `Pending Community care audiology (hearing aid support) appointment`,
+        `Pending Community care hearing aid support appointment`,
       );
     });
     expect(screen.baseElement).to.contain('.usa-alert-success');
@@ -584,14 +580,14 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     appointment.id = '1234';
     appointment.attributes = {
       ...appointment.attributes,
-      appointmentType: 'Primary care',
+      typeOfCareId: '323',
       optionDate1: moment(testDate)
         .add(3, 'days')
         .format('MM/DD/YYYY'),
       optionTime1: 'AM',
     };
 
-    mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
+    mockAppointmentInfo({ requests: [appointment] });
     // missing cancel request mock
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
@@ -754,7 +750,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       kind: 'cc',
       locationId: '983GC',
       id: '1234',
-      practitioners: [{ id: { value: '123' } }],
+      practitioners: [{ identifier: { value: '123' } }],
       preferredTimesForPhoneCall: ['Morning'],
       reason: 'New Issue',
       requestedPeriods: [

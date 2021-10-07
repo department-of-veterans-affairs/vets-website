@@ -11,6 +11,7 @@ import {
 
 import {
   convertRatingToStars,
+  createId,
   formatNumber,
   locationInfo,
   schoolSize,
@@ -21,10 +22,11 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import recordEvent from 'platform/monitoring/record-event';
 import { ariaLabels, MINIMUM_RATING_COUNT } from '../constants';
 import RatingsStars from '../components/RatingsStars';
-import Checkbox from '../components/Checkbox';
 import { CautionFlagAdditionalInfo } from '../components/CautionFlagAdditionalInfo';
 import IconWithInfo from '../components/IconWithInfo';
 import SchoolClassification from '../components/SchoolClassification';
+import LearnMoreLabel from '../components/LearnMoreLabel';
+import CompareCheckbox from '../components/CompareCheckbox';
 
 const ProfilePageHeader = ({
   compare,
@@ -66,7 +68,11 @@ const ProfilePageHeader = ({
   const compareChecked = !!compare.search.institutions[facilityCode];
   const handleCompareUpdate = e => {
     if (e.target.checked && !compareChecked) {
-      dispatchAddCompareInstitution(institution);
+      if (compare.search.loaded.length === 3) {
+        dispatchShowModal('comparisonLimit');
+      } else {
+        dispatchAddCompareInstitution(institution);
+      }
     } else {
       dispatchRemoveCompareInstitution(facilityCode);
     }
@@ -78,9 +84,13 @@ const ProfilePageHeader = ({
   const displayStars =
     gibctSchoolRatings && stars && ratingCount >= MINIMUM_RATING_COUNT;
 
-  const titleClasses = classNames({
-    'vads-u-margin-bottom--0': displayStars,
-  });
+  const titleClasses = classNames(
+    'small-screen-header',
+    'vads-u-margin-right--2',
+    {
+      'vads-u-margin-bottom--0': displayStars,
+    },
+  );
 
   const starClasses = classNames(
     'vads-u-margin-bottom--1',
@@ -133,17 +143,12 @@ const ProfilePageHeader = ({
             </IconWithInfo>
             <IconWithInfo icon="award" present={accreditationType}>
               {'   '}
-              {_.capitalize(accreditationType)} Accreditation (
-              <button
-                type="button"
-                id="typeAccredited-button"
-                className="va-button-link learn-more-button"
+              <LearnMoreLabel
+                text={<>{_.capitalize(accreditationType)} Accreditation</>}
                 onClick={() => dispatchShowModal('typeAccredited')}
-                aria-label={ariaLabels.learnMore.numberOfStudents}
-              >
-                Learn more
-              </button>
-              )
+                ariaLabel={ariaLabels.learnMore.numberOfStudents}
+                buttonId={'typeAccredited-button'}
+              />
             </IconWithInfo>
           </div>
         )}
@@ -164,7 +169,12 @@ const ProfilePageHeader = ({
               {_.capitalize(localeType)} locale
             </IconWithInfo>
             <IconWithInfo icon="globe" present={website}>
-              <a href={website} target="_blank" rel="noopener noreferrer">
+              <a
+                href={website}
+                target="_blank"
+                rel="noopener noreferrer"
+                id={createId('website')}
+              >
                 {'  '}
                 {website}
               </a>
@@ -204,13 +214,17 @@ const ProfilePageHeader = ({
               {`${programs[0].phoneAreaCode}-${programs[0].phoneNumber}`}
             </a>
           </IconWithInfo>
-          <IconWithInfo
-            icon="map"
-            present={localeType && lowerType && lowerType !== 'ojt'}
-          >
-            {'   '}
-            {_.capitalize(localeType)} locale
-          </IconWithInfo>
+          {programs[0].schoolLocale && (
+            <IconWithInfo
+              icon="map"
+              present={
+                programs[0].schoolLocale && lowerType && lowerType !== 'ojt'
+              }
+            >
+              {'   '}
+              {_.capitalize(programs[0].schoolLocale)} locale
+            </IconWithInfo>
+          )}
           <IconWithInfo icon="globe" present={programs.length > 0}>
             <a
               href={programs[0].providerWebsite}
@@ -242,18 +256,17 @@ const ProfilePageHeader = ({
         <div className="vads-u-padding-bottom--1p5">
           {preferredProvider && (
             <span className="preferred-provider-text">
-              <i className="fa fa-star vads-u-color--gold" />
-              <strong> Preferred Provider</strong> (
-              <button
-                type="button"
-                id="preferredProviders-button"
-                className="va-button-link learn-more-button"
+              <LearnMoreLabel
+                text={
+                  <>
+                    <i className="fa fa-star vads-u-color--gold" />
+                    <strong> Preferred Provider</strong>
+                  </>
+                }
                 onClick={() => dispatchShowModal('preferredProviders')}
-                aria-label={ariaLabels.learnMore.numberOfStudents}
-              >
-                Learn more
-              </button>
-              )
+                ariaLabel={ariaLabels.learnMore.numberOfStudents}
+                buttonId={'preferredProviders-button'}
+              />
             </span>
           )}
         </div>
@@ -280,16 +293,16 @@ const ProfilePageHeader = ({
         )}
         {studentCount > 0 && (
           <p>
-            <strong>{formatNumber(studentCount)}</strong> GI Bill students (
-            <button
-              type="button"
-              className="va-button-link learn-more-button"
+            <LearnMoreLabel
+              text={
+                <>
+                  <strong>{formatNumber(studentCount)}</strong> GI Bill students
+                </>
+              }
+              buttonId={createId('GI Bill students profile')}
               onClick={() => dispatchShowModal('gibillstudents')}
-              aria-label={ariaLabels.learnMore.numberOfStudents}
-            >
-              Learn more
-            </button>
-            )
+              ariaLabel={ariaLabels.learnMore.numberOfStudents}
+            />
           </p>
         )}
       </div>
@@ -299,6 +312,7 @@ const ProfilePageHeader = ({
             cautionFlags={cautionFlags}
             expanded={expanded}
             toggleExpansion={toggleExpansion}
+            viewDetailsLink
           />
         </div>
       )}
@@ -306,14 +320,12 @@ const ProfilePageHeader = ({
       {!expanded && !vetTecProvider && renderIconSection()}
       {!expanded && vetTecProvider && renderVetTecIconSection()}
 
-      <div className="card-bottom-cell vads-u-flex--1 vads-u-margin--0 vads-u-border-top--4px vads-u-border-color--white ">
-        <div className="vads-u-padding--0 vads-u-margin-top--neg2 vads-u-margin-bottom--0p5">
-          <Checkbox
-            label="Compare"
-            checked={compareChecked}
-            onChange={handleCompareUpdate}
-          />
-        </div>
+      <div className="card-bottom-cell vads-u-flex--1 vads-u-margin--0 vads-u-border-top--4px vads-u-border-color--white">
+        <CompareCheckbox
+          institution={name}
+          compareChecked={compareChecked}
+          handleCompareUpdate={handleCompareUpdate}
+        />
       </div>
     </div>
   );

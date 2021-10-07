@@ -11,7 +11,7 @@ import {
  * @export
  * @param {VAOSAppointment} data The appointment data to return from the mock
  */
-export function mockAppointmentSubmit(data) {
+export function mockAppointmentSubmitV2(data) {
   setFetchJSONResponse(
     global.fetch.withArgs(`${environment.API_URL}/vaos/v2/appointments`),
     { data },
@@ -208,19 +208,54 @@ export function mockSchedulingConfigurations(configs) {
 }
 
 /**
- * Mocks the api call to get facilities from the VAOS service.
+ * Mocks the api call that fetches a list of appointment slots for direct scheduling
  *
  * @export
- * @param {Array<string>} ids A list of VistA site ids to mock the request for
- * @param {Array<VARParentSite>} data The list of parent site data returned from the mock call
+ * @param {Object} params
+ * @param {string} siteId The VistA site id where slots are from
+ * @param {string} typeOfCareId The type of care id of the slots being requested
+ * @param {string} preferredDate The preferred date chosen by the user, which determines the date range fetched,
+ *    if startDate and endDate are not provided
+ * @param {MomentDate} startDate The start date for the apppointment slots
+ * @param {MomentDate} endDate The end date for the apppointment slots
+ * @param {string} [length=20] The length of the appointment slots
+ * @param {string} clinicId The VistA clinic id the slots are in
+ * @param {Array<VARSlot>} slots The list of slots to return from the mock
  */
-export function mockV2FacilitiesFetch(ids, data, children = false) {
+export function mockAppointmentSlotFetch({
+  facilityId,
+  preferredDate,
+  startDate,
+  endDate,
+  clinicId,
+}) {
+  const start = startDate || preferredDate.clone().startOf('month');
+  const end =
+    endDate ||
+    preferredDate
+      .clone()
+      .add(1, 'month')
+      .endOf('month');
+
   setFetchJSONResponse(
     global.fetch.withArgs(
-      `${environment.API_URL}/vaos/v2/facilities?children=${children}&${ids
-        .map(id => `ids[]=${id}`)
-        .join('&')}`,
+      `${
+        environment.API_URL
+      }/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?` +
+        `&start_date=${start.format()}` +
+        `&end_date=${end.format()}`,
     ),
-    { data },
+    {
+      data: [
+        {
+          id: clinicId,
+          type: 'slots',
+          attributes: {
+            startDate,
+            endDate,
+          },
+        },
+      ],
+    },
   );
 }

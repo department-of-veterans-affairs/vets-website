@@ -1,4 +1,7 @@
-import { unset, get, set, omit } from 'lodash/fp';
+import get from 'platform/utilities/data/get';
+import omit from 'platform/utilities/data/omit';
+import set from 'platform/utilities/data/set';
+import unset from 'platform/utilities/data/unset';
 
 export default [
   // 0 -> 1, we had a bug where isSpanishHispanicLatino was defaulted in the wrong place
@@ -158,7 +161,7 @@ export default [
   // required strings can not pass validation with only spaces
   ({ formData, metadata }) => {
     let newFormData = formData;
-    let newMetaData = metadata;
+    let newMetaData = metadata || {};
     const notBlankStringPattern = /^.*\S.*/;
 
     [
@@ -193,7 +196,7 @@ export default [
   // 5 > 6, move user back to fields with only spaces
   ({ formData, metadata }) => {
     let newFormData = formData;
-    let newMetaData = metadata;
+    let newMetaData = metadata || {};
     const notBlankStringPattern = /^.*\S.*/;
 
     if (newFormData.providers) {

@@ -29,6 +29,9 @@ const formConfig = {
   transformForSubmit: transform,
   formId: VA_FORM_IDS.FORM_28_8832,
   wizardStorageKey: WIZARD_STATUS,
+  customText: {
+    appContinuing: 'for planning and career guidance',
+  },
   saveInProgress: {
     messages: {
       inProgress:
@@ -43,7 +46,13 @@ const formConfig = {
   preSubmitInfo: PreSubmitInfo,
   prefillEnabled: true,
   downtime: {
-    dependencies: [externalServices.icmhs],
+    dependencies: [
+      externalServices.icmhs,
+      externalServices.global,
+      externalServices.mvi,
+      externalServices.vaProfile,
+      externalServices.vbms,
+    ],
   },
   savedFormMessages: {
     notFound: 'Please start over to apply for Planning and career guidance.',

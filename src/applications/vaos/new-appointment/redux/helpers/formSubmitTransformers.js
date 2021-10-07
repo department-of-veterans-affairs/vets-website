@@ -1,21 +1,21 @@
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import titleCase from 'platform/utilities/data/titleCase';
-import { getTimezoneBySystemId } from '../../../utils/timezone';
+import { getTimezoneByFacilityId } from '../../../utils/timezone';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import {
   PURPOSE_TEXT,
   TYPE_OF_VISIT,
   LANGUAGES,
 } from '../../../utils/constants';
-import { selectUseProviderSelection } from '../../../redux/selectors';
+import { selectHasVAPResidentialAddress } from '../../../redux/selectors';
 import {
   getTypeOfCare,
   getFormData,
   getChosenClinicInfo,
   getChosenFacilityInfo,
   getSiteIdForChosenFacility,
-  getChosenCCSystemId,
+  getChosenCCSystemById,
   getChosenSlot,
 } from '../selectors';
 import { getClinicId, getSiteCode } from '../../../services/healthcare-service';
@@ -116,12 +116,12 @@ export function transformFormToVARequest(state) {
 
 export function transformFormToCCRequest(state) {
   const data = getFormData(state);
-  const useProviderSelection = selectUseProviderSelection(state);
+  const hasResidentialAddress = selectHasVAPResidentialAddress(state);
   const provider = data.communityCareProvider;
   let preferredProviders = [];
 
   if (
-    useProviderSelection &&
+    hasResidentialAddress &&
     !!data.communityCareProvider &&
     Object.keys(data.communityCareProvider).length
   ) {
@@ -158,7 +158,7 @@ export function transformFormToCCRequest(state) {
   }
 
   const residentialAddress = selectVAPResidentialAddress(state);
-  const organization = getChosenCCSystemId(state);
+  const organization = getChosenCCSystemById(state);
   let cityState;
 
   if (
@@ -221,8 +221,7 @@ export function transformFormToCCRequest(state) {
 export function transformFormToAppointment(state) {
   const data = getFormData(state);
   const clinic = getChosenClinicInfo(state);
-  const siteId = getSiteIdForChosenFacility(state);
-  const { timezone = null } = siteId ? getTimezoneBySystemId(siteId) : {};
+  const timezone = getTimezoneByFacilityId(data.vaFacility);
 
   const slot = getChosenSlot(state);
   const purpose = getUserMessage(data);

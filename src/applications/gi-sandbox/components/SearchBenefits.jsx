@@ -20,6 +20,7 @@ const SearchBenefits = ({
   setMilitaryStatus,
   setSpouseActiveDuty,
 }) => {
+  const chapter33Check = giBillChapter === '33a' || giBillChapter === '33b';
   return (
     <div>
       <Dropdown
@@ -42,7 +43,7 @@ const SearchBenefits = ({
       />
 
       <Dropdown
-        label="Is your spouse on active duty?"
+        label="Is your spouse currently on active duty?"
         name="spouseActiveDuty"
         options={[
           { optionValue: 'yes', optionLabel: 'Yes' },
@@ -64,7 +65,8 @@ const SearchBenefits = ({
         }
         name="giBillChapter"
         options={[
-          { optionValue: '33', optionLabel: 'Post-9/11 GI Bill (Ch 33)' },
+          { optionValue: '33a', optionLabel: 'Post-9/11 GI Bill (Ch 33)' },
+          { optionValue: '33b', optionLabel: 'Fry Scholarship (Ch 33)' },
           {
             optionValue: '30',
             optionLabel: 'Montgomery GI Bill (Ch 30)',
@@ -75,11 +77,12 @@ const SearchBenefits = ({
           },
           {
             optionValue: '31',
-            optionLabel: 'Veteran Readiness and Employment',
+            optionLabel: 'Veteran Readiness and Employment (VR&E) (Ch 31)',
           },
           {
             optionValue: '35',
-            optionLabel: 'Dependents Educational Assistance (DEA)',
+            optionLabel:
+              "Survivors' and Dependents' Educational Assistance (DEA) (Ch 35)",
           },
         ]}
         value={giBillChapter}
@@ -89,7 +92,7 @@ const SearchBenefits = ({
       />
 
       {militaryStatus === 'active duty' &&
-        giBillChapter === '33' && (
+        chapter33Check && (
           <div className="military-status-info warning form-group">
             <i className="fa fa-warning" />
             <a
@@ -149,7 +152,7 @@ const SearchBenefits = ({
         ]}
         value={cumulativeService}
         alt="Cumulative Post-9/11 active-duty service"
-        visible={giBillChapter === '33'}
+        visible={chapter33Check}
         onChange={e => setCumulativeService(e.target.value)}
       />
       <Dropdown

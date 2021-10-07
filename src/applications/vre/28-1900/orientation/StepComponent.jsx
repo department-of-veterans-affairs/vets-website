@@ -48,7 +48,11 @@ const StepComponent = props => {
                   <h5 className="vads-u-font-size--h4">{entry.title}</h5>
                   <ul>
                     {entry.items.map((item, idx) => {
-                      return <li key={idx}>{item}</li>;
+                      return (
+                        <li className="vads-u-padding-bottom--2" key={idx}>
+                          {item}
+                        </li>
+                      );
                     })}
                   </ul>
                 </li>

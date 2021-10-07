@@ -36,9 +36,9 @@ const testConfig = createTestConfig(
     dataSets: [
       'full-781-781a-8940-test.json',
       'maximal-test',
-      'maximal-bdd-test',
+      // 'maximal-bdd-test',
       'minimal-test',
-      'minimal-bdd-test',
+      // 'minimal-bdd-test',
       'newOnly-test',
       'secondary-new-test.json',
       'upload-781-781a-8940-test.json',
@@ -85,6 +85,26 @@ const testConfig = createTestConfig(
             );
             cy.get('select[name$="_dateRange_toDay"]').select(todayPlus120[2]);
             cy.get('input[name$="_dateRange_toYear"]')
+              .clear()
+              .type(todayPlus120[0]);
+          }
+        });
+      },
+
+      'review-veteran-details/military-service-history/federal-orders': () => {
+        cy.get('@testData').then(data => {
+          cy.fillPage();
+          if (
+            data.serviceInformation.reservesNationalGuardService[
+              'view:isTitle10Activated'
+            ]
+          ) {
+            // active title 10 activation puts this into BDD flow
+            cy.get('select[name$="SeparationDateMonth"]').select(
+              todayPlus120[1],
+            );
+            cy.get('select[name$="SeparationDateDay"]').select(todayPlus120[2]);
+            cy.get('input[name$="SeparationDateYear"]')
               .clear()
               .type(todayPlus120[0]);
           }

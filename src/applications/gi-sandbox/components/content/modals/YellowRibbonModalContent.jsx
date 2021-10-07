@@ -12,32 +12,22 @@ export const YellowRibbonModalContent = () => (
       tuition and fees.
     </p>
     <p>
-      Veterans and Fry Scholarship and Purple Heart recipients, or their
-      dependents using transferred benefits, are eligible for the maximum
-      benefit rate. Active-duty service members and their spouses aren’t
-      eligible for this program. (An active-duty service member’s dependent
-      child using transferred benefits may be eligible if the service member is
-      qualified at the 100% rate.)
-    </p>
-    <p>
-      Learn more about{' '}
       <a
-        href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
+        href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
         target="_blank"
         rel="noopener noreferrer"
       >
-        the Yellow Ribbon Program
+        Learn more about the Yellow Ribbon Program
       </a>
       .
     </p>
     <p>
-      Visit the{' '}
       <a
-        href="https://www.va.gov/education/yellow-ribbon-participating-schools/"
+        href="/education/yellow-ribbon-participating-schools/"
         target="_blank"
         rel="noopener noreferrer"
       >
-        Yellow Ribbon tool
+        Visit the Yellow Ribbon tool
       </a>{' '}
       to find schools that participate in this program.
     </p>

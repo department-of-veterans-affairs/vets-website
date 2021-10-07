@@ -13,13 +13,14 @@ import {
   GEOLOCATE_USER,
   GEOCODE_COMPLETE,
   GEOCODE_CLEAR_ERROR,
+  MAP_CHANGED,
   UPDATE_CURRENT_SEARCH_TAB,
   UPDATE_QUERY_PARAMS,
 } from '../actions';
 import { normalizedInstitutionAttributes } from '../../gi/reducers/utility';
 import { TABS } from '../constants';
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
   error: null,
   geocode: null,
   geolocationInProgress: false,
@@ -28,7 +29,6 @@ const INITIAL_STATE = {
     count: null,
     facets: {
       category: {},
-      type: {},
       state: {},
       country: [],
       cautionFlag: {},
@@ -45,7 +45,6 @@ const INITIAL_STATE = {
     count: null,
     facets: {
       category: {},
-      type: {},
       state: {},
       country: [],
       cautionFlag: {},
@@ -72,6 +71,7 @@ const INITIAL_STATE = {
       searchString: '',
       position: {},
     },
+    mapState: { changed: false, distance: null },
   },
   compare: {
     results: [],
@@ -93,7 +93,6 @@ function uppercaseKeys(obj) {
 
 function normalizedInstitutionFacets(facets) {
   const state = uppercaseKeys(facets.state);
-  const type = uppercaseKeys(facets.type);
   const provider = Array.isArray(facets.provider)
     ? facets.provider.map(providerCount => ({
         ...providerCount,
@@ -101,7 +100,7 @@ function normalizedInstitutionFacets(facets) {
       }))
     : [];
 
-  return { ...facets, state, type, provider };
+  return { ...facets, state, provider };
 }
 
 function derivePaging(links) {
@@ -184,16 +183,17 @@ export default function(state = INITIAL_STATE, action) {
       };
     case GEOCODE_FAILED:
       return {
-        ...state,
+        ...newState,
         error: true,
         geocodeError: action.code,
         geolocationInProgress: false,
       };
     case GEOCODE_COMPLETE:
       return {
-        ...state,
+        ...newState,
         geolocationInProgress: false,
         query: {
+          ...newState.query,
           streetAddress: {
             searchString: action.payload.searchString,
             position: { ...action.payload.position },
@@ -203,7 +203,7 @@ export default function(state = INITIAL_STATE, action) {
       };
     case GEOCODE_CLEAR_ERROR:
       return {
-        ...state,
+        ...newState,
         error: false,
         geocodeError: 0,
         geolocationInProgress: false,
@@ -221,9 +221,10 @@ export default function(state = INITIAL_STATE, action) {
       };
     case GEOLOCATE_USER:
       return {
-        ...state,
+        ...newState,
         geolocationInProgress: true,
         query: {
+          ...newState.query,
           streetAddress: {
             searchString: '',
             position: {},
@@ -258,6 +259,15 @@ export default function(state = INITIAL_STATE, action) {
           },
         },
         loadFromUrl: true,
+      };
+
+    case MAP_CHANGED:
+      return {
+        ...newState,
+        query: {
+          ...newState.query,
+          mapState: { ...newState.query.mapState, ...action.payload },
+        },
       };
 
     default:

@@ -1,15 +1,19 @@
 import React from 'react';
-import { Route, IndexRedirect } from 'react-router';
-import MedicalCopaysApp from './components/MedicalCopaysApp.jsx';
-import OverviewPage from './components/OverviewPage';
-import DetailPage from './components/DetailPage';
+import { Route, Redirect, Switch } from 'react-router-dom';
+import MedicalCopaysApp from './containers/MedicalCopaysApp.jsx';
+import OverviewPage from './containers/OverviewPage';
+import DetailPage from './containers/DetailPage';
 
-const routes = (
-  <Route path="/" component={MedicalCopaysApp}>
-    <IndexRedirect to="copays" />
-    <Route component={OverviewPage} path="copays" />
-    <Route component={DetailPage} path="copay-detail" />
-  </Route>
+const Routes = () => (
+  <MedicalCopaysApp>
+    <Switch>
+      <Route exact path="/" component={OverviewPage} />
+      <Route path="/balance-details/:id" component={DetailPage} />
+      <Route>
+        <Redirect to="/" />
+      </Route>
+    </Switch>
+  </MedicalCopaysApp>
 );
 
-export default routes;
+export default Routes;
