@@ -1,5 +1,6 @@
 import React from 'react';
 import { focusElement } from 'platform/utilities/ui';
+import environment from 'platform/utilities/environment';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
@@ -168,6 +169,19 @@ export class IntroductionPage extends React.Component {
                 ombNumber="2900-0074"
                 expDate="10/30/2021"
               />
+              {environment.isProduction() ? (
+                <OMBInfo
+                  resBurden={20}
+                  ombNumber="2900-0074"
+                  expDate="10/30/2021"
+                />
+              ) : (
+                <OMBInfo
+                  resBurden={20}
+                  ombNumber="2900-0074"
+                  expDate="8/31/2024"
+                />
+              )}
             </div>
           </div>
         )}
