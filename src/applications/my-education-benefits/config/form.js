@@ -766,6 +766,46 @@ const formConfig = {
                     'Please select at least one way we can contact you.',
                 },
               },
+              'view:noHomePhoneForContactAlert': {
+                'ui:description': (
+                  <va-alert onClose={function noRefCheck() {}} status="warning">
+                    <p style={{ margin: 0 }}>
+                      You can’t select that response because we don’t have a
+                      home phone number on file for you
+                    </p>
+                  </va-alert>
+                ),
+                'ui:options': {
+                  hideIf: formData =>
+                    !(
+                      formData['view:contactMethod'].contactMethod ===
+                        'Home phone' &&
+                      (!formData['view:phoneNumbers'].phoneNumber.phone ||
+                        formData['view:phoneNumbers'].phoneNumber
+                          .isInternational)
+                    ),
+                },
+              },
+              'view:noMobilePhoneForContactAlert': {
+                'ui:description': (
+                  <va-alert onClose={function noRefCheck() {}} status="warning">
+                    <p style={{ margin: 0 }}>
+                      You can’t select that response because we don’t have a
+                      mobile phone number on file for you
+                    </p>
+                  </va-alert>
+                ),
+                'ui:options': {
+                  hideIf: formData =>
+                    !(
+                      formData['view:contactMethod'].contactMethod ===
+                        'Mobile phone' &&
+                      (!formData['view:phoneNumbers'].mobilePhoneNumber.phone ||
+                        formData['view:phoneNumbers'].mobilePhoneNumber
+                          .isInternational)
+                    ),
+                },
+              },
             },
             'view:receiveTextMessages': {
               'ui:description': (
@@ -895,6 +935,14 @@ const formConfig = {
                   [formFields.contactMethod]: {
                     type: 'string',
                     enum: ['Email', 'Mobile phone', 'Home phone', 'Mail'],
+                  },
+                  'view:noHomePhoneForContactAlert': {
+                    type: 'object',
+                    properties: {},
+                  },
+                  'view:noMobilePhoneForContactAlert': {
+                    type: 'object',
+                    properties: {},
                   },
                 },
               },
