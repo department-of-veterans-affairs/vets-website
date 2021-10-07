@@ -60,6 +60,10 @@ export class ResultsList extends Component {
   renderResultItems(query, results) {
     return results.map((result, index) => {
       let item;
+      const services = result?.attributes?.detailedServices;
+      const walkInsAccepted = Array.isArray(services)
+        ? services[0]?.walkInsAccepted
+        : 'false';
       switch (query.facilityType) {
         case 'health':
         case 'cemetery':
@@ -75,10 +79,7 @@ export class ResultsList extends Component {
                   this.props.showCovidVaccineSchedulingLinks
                 }
                 showCovidVaccineWalkInAvailabilityText={
-                  (
-                    result?.attributes?.detailedServices[0]?.walkInsAccepted ||
-                    ''
-                  ).toLowerCase() === 'true'
+                  (walkInsAccepted || '').toLowerCase() === 'true'
                 }
               />
             ) : (
