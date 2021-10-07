@@ -8,12 +8,20 @@ import AppointmentListItem from '../../components/AppointmentDisplay/Appointment
 import { sortAppointmentsByStartTime } from '../../utils/appointment';
 
 export default function DisplayMultipleAppointments(props) {
-  const { isUpdatePageEnabled, token, appointments, router } = props;
+  const {
+    isDemographicsPageEnabled,
+    isUpdatePageEnabled,
+    token,
+    appointments,
+    router,
+  } = props;
 
   const sortedAppointments = sortAppointmentsByStartTime(appointments);
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 appointment-check-in">
-      {isUpdatePageEnabled && <BackButton router={router} />}
+      {(isUpdatePageEnabled || isDemographicsPageEnabled) && (
+        <BackButton router={router} />
+      )}
       <h1 tabIndex="-1" className="vads-u-margin-top--2">
         Your appointments
       </h1>
