@@ -157,9 +157,26 @@ describe('check-in', () => {
       expect(action.getByTestId('already-checked-in-no-time-message')).to.exist;
       expect(
         action.getByTestId('already-checked-in-no-time-message'),
-      ).to.have.text(
-        'Online check-in isn’t available for this appointment. Check in with a staff member.',
+      ).to.have.text('You are already checked in.');
+    });
+
+    it('should render the bad status message for appointments with INELIGIBLE_ALREADY_CHECKED_IN status and an invalid date time', () => {
+      const action = render(
+        <AppointmentAction
+          appointment={{
+            eligibility: ELIGIBILITY.INELIGIBLE_ALREADY_CHECKED_IN,
+            checkedInTime: 'Invalid DateTime',
+            startTime: '2021-07-19T14:30:00',
+          }}
+          store={fakeStore}
+        />,
       );
+
+      expect(action.queryByTestId('check-in-button')).to.not.exist;
+      expect(action.getByTestId('already-checked-in-no-time-message')).to.exist;
+      expect(
+        action.getByTestId('already-checked-in-no-time-message'),
+      ).to.have.text('You are already checked in.');
     });
 
     it('check in button passes axeCheck', () => {
