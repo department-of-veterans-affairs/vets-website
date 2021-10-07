@@ -18,6 +18,7 @@ export default Object.freeze({
     'check_in_experience_low_authentication_enabled',
   checkInExperienceMultipleAppointmentEnabled:
     'check_in_experience_multiple_appointment_support',
+  
   coeAccess: 'coe_access',
   covidVaccineSchedulingFrontend: 'covid_vaccine_scheduling_frontend',
   covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
