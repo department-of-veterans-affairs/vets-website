@@ -326,13 +326,11 @@ class SearchApp extends React.Component {
         aria-labelledby="h1-search-title"
       >
         <div>Enter a keyword</div>
-        <div
-          className="va-flex search-box vads-u-margin-top--1 vads-u-margin-bottom--0"
-          data-e2e-id="search-form"
-        >
+        <div className="va-flex search-box vads-u-margin-top--1 vads-u-margin-bottom--0">
           <SearchDropDownComponent
             buttonText="Search"
             canSubmit
+            dataLabelE2E="search-dropdown"
             formatSuggestions
             mobileResponsive
             startingValue={userInput}

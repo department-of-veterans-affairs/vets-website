@@ -290,7 +290,7 @@ class SearchDropDownComponent extends React.Component {
             aria-label={'Search'}
             className="vads-u-width--full"
             id="search-dropdown-input-field"
-            data-e2e-id="search-form"
+            data-e2e-id={`${this.props.dataLabelE2E}-input-field`}
             role="combobox"
             type="text"
             value={inputValue}
@@ -349,6 +349,7 @@ class SearchDropDownComponent extends React.Component {
           <button
             type="submit"
             className="search-submit-button"
+            data-e2e-id={`${this.props.dataLabelE2E}-submit-button`}
             onClick={() => this.props.onInputSubmit(this.state)}
             onFocus={this.saveSuggestions}
           >
@@ -395,4 +396,5 @@ SearchDropDownComponent.defaultProps = {
   startingValue: '',
   submitOnClick: false,
   submitOnEnter: false,
+  dataLabelE2E: '',
 };

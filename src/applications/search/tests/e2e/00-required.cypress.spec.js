@@ -1,9 +1,9 @@
-import Timeouts from 'platform/testing/e2e/timeouts';
 import stub from '../../constants/stub.json';
 
 const SELECTORS = {
   APP: '[data-e2e-id="search-app"]',
-  SEARCH_FORM: '[data-e2e-id="search-form"]',
+  SEARCH_INPUT: '[data-e2e-id="search-dropdown-input-field"]',
+  SEARCH_BUTTON: '[data-e2e-id="search-dropdown-submit-button"]',
   SEARCH_RESULTS: '[data-e2e-id="search-results"]',
   SEARCH_RESULTS_EMPTY: '[data-e2e-id="search-results-empty"]',
   SEARCH_RESULTS_TITLE: '[data-e2e-id="result-title"]',
@@ -23,8 +23,8 @@ describe('Sitewide Search smoke test', () => {
     // Ensure App is present
     cy.get(SELECTORS.APP).should('exist');
 
-    // Ensure form is present
-    cy.get(SELECTORS.SEARCH_FORM).should('exist');
+    cy.get(`${SELECTORS.SEARCH_INPUT}`).should('exist');
+    cy.get(`${SELECTORS.SEARCH_BUTTON}`).should('exist');
 
     // Await search results
     cy.wait('@getSearchResultsGlobal');
@@ -48,35 +48,20 @@ describe('Sitewide Search smoke test', () => {
     }).as('getSearchResultsPage');
 
     // navigate to page
-    cy.visit('/search/?query=X');
+    cy.visit('/search/?query=');
     cy.injectAxeThenAxeCheck();
 
     // Ensure App is present
     cy.get(SELECTORS.APP).should('exist');
 
-    // Ensure form is present
-    cy.get(SELECTORS.SEARCH_FORM).should('exist');
+    cy.get(`${SELECTORS.SEARCH_INPUT}`).should('exist');
+    cy.get(`${SELECTORS.SEARCH_INPUT}`).focus();
+    cy.get(`${SELECTORS.SEARCH_INPUT}`).clear();
+    cy.get(`${SELECTORS.SEARCH_INPUT}`).type('benefits');
+    cy.get(`${SELECTORS.SEARCH_BUTTON}`).should('exist');
+    cy.get(`${SELECTORS.SEARCH_BUTTON}`).click();
 
     // Await search results
-
-    cy.get(`${SELECTORS.SEARCH_FORM} input[name="query"]`)
-      .should('exist')
-      .then(inputElem => {
-        cy.wrap(inputElem).clear();
-      });
-    cy.get(`${SELECTORS.SEARCH_FORM} input[name="query"]`, {
-      timeout: Timeouts.slow,
-    })
-      .should('exist')
-      .and('not.be.disabled')
-      .then(inputElem => {
-        cy.wrap(inputElem).type('benefits', { force: true });
-      });
-    cy.get(`${SELECTORS.SEARCH_FORM} button[type="submit"]`)
-      .should('exist')
-      .then(button => {
-        cy.wrap(button).click();
-      });
     cy.wait('@getSearchResultsPage');
 
     // A11y check the search results.
@@ -104,11 +89,10 @@ describe('Sitewide Search smoke test', () => {
     // Ensure App is present
     cy.get(SELECTORS.APP).should('exist');
 
-    // Ensure form is present
-    cy.get(SELECTORS.SEARCH_FORM).should('exist');
+    cy.get(`${SELECTORS.SEARCH_INPUT}`).should('exist');
+    cy.get(`${SELECTORS.SEARCH_BUTTON}`).should('exist');
 
     // Fill out and submit the form.
-    // cy.get(`${SELECTORS.SEARCH_FORM} button[type="submit"]`).click();
     cy.wait('@getSearchResultsFailed');
 
     // Ensure ERROR Alert Box exists
