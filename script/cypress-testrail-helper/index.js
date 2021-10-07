@@ -32,6 +32,7 @@ const configRunCySpec = appConfig => {
     })
     .catch(err => {
       console.error(chalk.red(`ERROR: ${err}`));
+      process.exitCode = 1;
     });
 };
 
