@@ -60,9 +60,9 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
 
         // make sure that the Claims and Appeals section and CTA is shown
         cy.findByTestId('dashboard-section-claims-and-appeals').should('exist');
-        cy.findByRole('link', { name: /your claim or appeal/i }).should(
-          'exist',
-        );
+        cy.findByRole('link', {
+          name: /yr claim or appeal/i,
+        }).should('exist');
         cy.findByText(
           /You have no claims or appeals updates in the last 30 days/i,
         ).should('exist');
