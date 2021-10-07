@@ -10,8 +10,6 @@ describe('Debt Letters', () => {
     cy.visit('/manage-va-debt/your-debt/');
     cy.injectAxe();
     cy.axeCheck();
-
-    cy.findByText('Continue to VA.gov', { selector: 'button' }).click();
   });
 
   it('C1033 displays the current debts section and navigates to debt details', () => {

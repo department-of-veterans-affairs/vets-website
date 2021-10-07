@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 
 const commonResponses = require('../../../../platform/testing/local-dev-mock-api/common');
-const mockCheckIns = require('./mocks/check.in.response');
-const mockValidates = require('./mocks/validate.responses');
+const mockCheckIns = require('./mocks/v0/check.in.responses');
+const mockValidates = require('./mocks/v0/validate.responses');
 const featureToggles = require('./mocks/feature.toggles');
 
 const delay = require('mocker-api/lib/delay');
@@ -65,12 +65,11 @@ const responses = {
     },
     meta: { errors: null },
   },
-  'GET /v0/feature_toggles': featureToggles.createFeatureToggles(
-    true,
-    false,
-    false,
-    false,
-  ),
+  'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
+    checkInExperienceLowAuthenticationEnabled: false,
+    checkInExperienceMultipleAppointmentSupport: false,
+    checkInExperienceUpdateInformationPageEnabled: false,
+  }),
   'GET /check_in/v0/patient_check_ins/:id': (req, res) => {
     const { id } = req.params;
     return res.json(mockValidates.createMockSuccessResponse({ id }));

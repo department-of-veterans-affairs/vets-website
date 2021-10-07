@@ -1,11 +1,11 @@
 import React from 'react';
-import { scroller } from 'react-scroll';
 import { getScrollOptions } from 'platform/utilities/ui';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 export default function JumpLink({ label, jumpToId }) {
   const jumpLinkClicked = e => {
     e.preventDefault();
-    scroller.scrollTo(jumpToId, getScrollOptions());
+    scrollTo(jumpToId, getScrollOptions());
   };
 
   return (

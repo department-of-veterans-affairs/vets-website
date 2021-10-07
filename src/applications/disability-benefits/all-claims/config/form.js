@@ -221,7 +221,7 @@ const formConfig = {
           }),
         },
         reservesNationalGuardService: {
-          title: 'Reserves and National Guard service',
+          title: 'Reserve and National Guard service',
           path:
             'review-veteran-details/military-service-history/reserves-national-guard',
           depends: formData =>

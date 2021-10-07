@@ -61,7 +61,7 @@ export function transform(formConfig, form) {
     );
 
   const addBackRatedDisabilities = formData =>
-    savedRatedDisabilities
+    savedRatedDisabilities?.length
       ? _.set('ratedDisabilities', savedRatedDisabilities, formData)
       : formData;
 

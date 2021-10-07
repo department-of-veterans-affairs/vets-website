@@ -1,7 +1,7 @@
-import { createFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
+import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
 
-import mockSession from '../../../../api/local-mock-api/mocks/sessions.responses';
-import mockPatientCheckIns from '../../../../api/local-mock-api/mocks/patient.check.in.response';
+import mockSession from '../../../../api/local-mock-api/mocks/v1/sessions.responses';
+import mockPatientCheckIns from '../../../../api/local-mock-api/mocks/v1/patient.check.in.responses';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
@@ -21,7 +21,11 @@ describe('Check In Experience -- ', () => {
     cy.intercept(
       'GET',
       '/v0/feature_toggles*',
-      createFeatureToggles(true, true, false, true),
+      generateFeatureToggles({
+        checkInExperienceLowAuthenticationEnabled: true,
+        checkInExperienceMultipleAppointmentSupport: false,
+        checkInExperienceUpdateInformationPageEnabled: true,
+      }),
     );
   });
   afterEach(() => {
@@ -47,6 +51,6 @@ describe('Check In Experience -- ', () => {
       .type('4837');
     cy.get('[data-testid=check-in-button]').click();
     // update information page
-    cy.get('legend > h2').contains('information');
+    cy.get('legend > h1').contains('information');
   });
 });

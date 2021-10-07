@@ -2,7 +2,11 @@ import { expect } from 'chai';
 
 import reducer from './index';
 
-import { receivedAppointmentDetails, tokenWasValidated } from '../actions';
+import {
+  receivedAppointmentDetails,
+  tokenWasValidated,
+  appointmentWAsCheckedInto,
+} from '../actions';
 
 describe('check-in', () => {
   describe('reducer', () => {
@@ -50,6 +54,26 @@ describe('check-in', () => {
         expect(state.context.token).to.equal('some-token');
         expect(state.context).haveOwnProperty('scope');
         expect(state.context.scope).to.equal('some-scope');
+      });
+    });
+    describe('appointmentWAsCheckedInto', () => {
+      it('should create basic structure', () => {
+        const action = appointmentWAsCheckedInto({
+          appointmentIen: 'some-ien',
+        });
+        const state = reducer.checkInData(undefined, action);
+        expect(state).haveOwnProperty('context');
+        expect(state.context).haveOwnProperty('appointment');
+      });
+      it('should set context', () => {
+        const action = appointmentWAsCheckedInto({
+          appointmentIen: 'some-ien',
+        });
+        const state = reducer.checkInData(undefined, action);
+        expect(state).haveOwnProperty('context');
+        expect(state.context).haveOwnProperty('appointment');
+        expect(state.context.appointment).haveOwnProperty('appointmentIen');
+        expect(state.context.appointment.appointmentIen).to.equal('some-ien');
       });
     });
   });

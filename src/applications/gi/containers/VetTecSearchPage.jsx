@@ -25,8 +25,9 @@ import { isMobileView, useQueryParams } from '../utils/helpers';
 import { renderVetTecLogo, renderSearchResultsHeader } from '../utils/render';
 import { searchWithFilters } from '../utils/search';
 import { useHistory, useLocation } from 'react-router-dom';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
-const { Element: ScrollElement, scroller } = Scroll;
+const { Element: ScrollElement } = Scroll;
 
 function VetTecSearchPage({
   autocomplete,
@@ -155,7 +156,7 @@ function VetTecSearchPage({
   useEffect(
     () => {
       if (!isMobileView()) {
-        scroller.scrollTo('searchPage', getScrollOptions());
+        scrollTo('searchPage', getScrollOptions());
       }
     },
     [search.inProgress],

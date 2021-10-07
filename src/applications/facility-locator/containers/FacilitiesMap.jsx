@@ -33,6 +33,8 @@ import vaDebounce from 'platform/utilities/data/debounce';
 import { setFocus, buildMarker, resetMapElements } from '../utils/helpers';
 import {
   Covid19Vaccine,
+  EMERGENCY_CARE_SERVICES,
+  LocationType,
   MapboxInit,
   MARKER_LETTERS,
   MAX_SEARCH_AREA,
@@ -333,6 +335,7 @@ const FacilitiesMap = props => {
       <p className="sr-only" id="map-instructions" aria-live="assertive" />
       <map
         id={mapboxGlContainer}
+        role="application"
         aria-label="Find VA locations on an interactive map"
         aria-describedby="map-instructions"
         onFocus={() => speakMapInstructions()}
@@ -353,7 +356,13 @@ const FacilitiesMap = props => {
   const renderView = () => {
     // This block renders the desktop and mobile view. It ensures that the desktop map
     // gets re-loaded when resizing from mobile to desktop.
-    const { currentQuery, selectedResult, results, pagination } = props;
+    const {
+      currentQuery,
+      selectedResult,
+      results,
+      pagination,
+      searchError,
+    } = props;
 
     const currentPage = pagination ? pagination.currentPage : 1;
     const totalPages = pagination ? pagination.totalPages : 1;
@@ -361,6 +370,10 @@ const FacilitiesMap = props => {
     const facilityType = currentQuery.facilityType;
     const serviceType = currentQuery.serviceType;
     const queryContext = currentQuery.context;
+    const isEmergencyCareType = facilityType === LocationType.EMERGENCY_CARE;
+    const isCppEmergencyCareTypes = EMERGENCY_CARE_SERVICES.includes(
+      serviceType,
+    );
 
     const paginationWrapper = () => {
       return (
@@ -411,15 +424,30 @@ const FacilitiesMap = props => {
           searchCovid19Vaccine={props.searchCovid19Vaccine}
           clearSearchText={props.clearSearchText}
         />
+        {(isEmergencyCareType || isCppEmergencyCareTypes) && (
+          <div id="search-result-emergency-care-info">
+            <p className="search-result-emergency-care-subheader">
+              <strong>Note:</strong> If you think your life or health is in
+              danger, call{' '}
+              <a aria-label="9 1 1" href="tel:911">
+                911
+              </a>{' '}
+              or go to the nearest emergency department right away.
+            </p>
+          </div>
+        )}
         <div id="search-results-title" ref={searchResultTitleRef}>
-          <SearchResultsHeader
-            results={results}
-            facilityType={facilityType}
-            serviceType={serviceType}
-            context={queryContext}
-            specialtyMap={props.specialties}
-            inProgress={currentQuery.inProgress}
-          />
+          {!searchError && (
+            <SearchResultsHeader
+              results={results}
+              facilityType={facilityType}
+              serviceType={serviceType}
+              context={queryContext}
+              specialtyMap={props.specialties}
+              inProgress={currentQuery.inProgress}
+            />
+          )}
+          {searchError && <p />}
         </div>
 
         {isMobile ? (
@@ -455,7 +483,7 @@ const FacilitiesMap = props => {
         ) : (
           <>
             <div
-              className="columns search-results-container medium-4 small-12"
+              className="columns search-results-container vads-u-padding-left--0 medium-4 small-12"
               id="searchResultsContainer"
             >
               <div className="facility-search-results">{resultsList()}</div>
@@ -553,6 +581,7 @@ const FacilitiesMap = props => {
         setMapEventHandlers();
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [map, props.currentQuery.searchCoords],
   );
 
@@ -630,6 +659,7 @@ const mapStateToProps = state => ({
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
   searchCovid19Vaccine: facilityLocatorLighthouseCovidVaccineQuery(state),
   results: state.searchResult.results,
+  searchError: state.searchResult.error,
   resultTime: state.searchResult.resultTime,
   pagination: state.searchResult.pagination,
   selectedResult: state.searchResult.selectedResult,
