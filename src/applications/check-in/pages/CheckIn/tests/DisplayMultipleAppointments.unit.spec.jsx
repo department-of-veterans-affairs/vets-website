@@ -179,10 +179,7 @@ describe('check-in', () => {
           </Provider>,
         );
         expect(checkIn.getByTestId('update-text')).to.have.text(
-          `Latest update: ${format(
-            new Date(),
-            "MMMM d, yyyy 'at' hh:mm aaaa",
-          )}`,
+          `Latest update: ${format(new Date(), "MMMM d, yyyy 'at' h:mm aaaa")}`,
         );
         expect(checkIn.queryByTestId('refresh-appointments-button')).to.exist;
       });
