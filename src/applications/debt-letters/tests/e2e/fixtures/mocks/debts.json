@@ -195,7 +195,7 @@
       "amountOverpaid": 26000,
       "amountWithheld": 0,
       "originalAr": 100,
-      "currentAr": 0,
+      "currentAr": 100,
       "debtHistory": [
         {
           "date": "12/19/2014",

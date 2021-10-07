@@ -51,19 +51,19 @@ export const fetchDebts = () => async dispatch => {
   dispatch({ type: DEBTS_FETCH_INIT });
   try {
     const response = await apiRequest(`${environment.API_URL}/v0/debts`);
-
     const { hasDependentDebts } = response;
-    const approvedDeductionCodes = Object.keys(deductionCodes);
-    // remove any debts that do not have approved deductionCodes or
-    // that have a current amount owed of 0
-    const filteredResponse = response.debts
-      .filter(res => approvedDeductionCodes.includes(res.deductionCode))
-      .filter(debt => debt.currentAr > 0);
 
     recordEvent({
       event: 'bam-get-veteran-dmc-info-successful',
       'veteran-has-dependent-debt': hasDependentDebts,
     });
+
+    // remove any debts that do not have approved deductionCodes
+    // or that have a currentAr (current amount owed) of 0
+    const approvedDeductionCodes = Object.keys(deductionCodes);
+    const filteredResponse = response.debts
+      .filter(res => approvedDeductionCodes.includes(res.deductionCode))
+      .filter(debt => debt.currentAr > 0);
 
     if (filteredResponse.length > 0) {
       recordEvent({
