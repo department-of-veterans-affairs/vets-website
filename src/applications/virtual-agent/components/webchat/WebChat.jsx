@@ -22,7 +22,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
           csrfToken,
           apiSession,
           environment.API_URL,
-          userFirstName,
+          userFirstName === '' ? 'noFirstNameFound' : userFirstName,
         ),
       ),
     [createStore],

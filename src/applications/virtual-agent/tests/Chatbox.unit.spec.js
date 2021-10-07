@@ -166,8 +166,8 @@ describe('App', () => {
           GreetUser.makeBotGreetUser,
           'FAKECSRF',
           'FAKEAPISESSION',
-          'http://41aa-67-176-162-163.ngrok.io',
-          '',
+          'https://dev-api.va.gov',
+          'noFirstNameFound',
         );
       });
     });
