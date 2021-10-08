@@ -1,8 +1,4 @@
 class StayInformedPage {
-  constructor() {
-    // this.header = new Header();
-  }
-
   loadPage() {
     cy.visit('health-care/covid-19-vaccine/stay-informed/');
     cy.wait('@feature');
@@ -11,13 +7,15 @@ class StayInformedPage {
     cy.axeCheck();
   }
 
-  checkAccordions(accordionBody) {
-    cy.get('va-accordion-item')
-      .next()
-      .get('button')
-      .first()
-      .type('{shift}');
-    cy.get('div').contains(accordionBody);
+  checkAccordions(accordionBodies) {
+    accordionBodies.forEach(accordionBody => {
+      cy.get('va-accordion-item')
+        .next()
+        .get('button')
+        .first()
+        .type('{shift}');
+      cy.get('div').contains(accordionBody);
+    });
   }
 
   continueWithoutSigningIn(auth = false) {
@@ -59,7 +57,6 @@ class StayInformedPage {
 
   fillForm(fields) {
     fields.forEach(field => {
-      cy.findByLabelText(field.field);
       // eslint-disable-next-line no-unused-expressions
       field.clear
         ? cy

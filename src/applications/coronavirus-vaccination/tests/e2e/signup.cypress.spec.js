@@ -16,24 +16,13 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       stayInformedPage.loadPage();
 
       // Expand all accordions with keyboard and test for A11y
-      stayInformedPage.checkAccordions(
+      stayInformedPage.checkAccordions([
         'Contacting Veterans who we know plan to get a vaccine helps us do the most good with our limited supply.',
-      );
-      stayInformedPage.checkAccordions(
         'If you want to learn more before you decide your plans:',
-      );
-      stayInformedPage.checkAccordions(
         'you don’t have to provide your Social Security number. ',
-      );
-      stayInformedPage.checkAccordions(
         'Your local VA health facility may contact you by phone, email, or text message. If you’re eligible and want to get a vaccine, we encourage you to respond.',
-      );
-      cy.get('.help-talk').contains(
         'If you have questions or need help filling out this form, call our MyVA411 main information line at 800-698-2411 (TTY: 711).',
-      );
-
-      // aXe check expanded accordions
-      cy.axeCheck();
+      ]);
 
       stayInformedPage.continueWithoutSigningIn(true);
 
@@ -51,11 +40,9 @@ describe('COVID-19 Vaccination Preparation Form', () => {
         { field: /Phone/i, value: '8005551234', clear: true },
         { field: /Zip code/i, value: '10001', clear: true },
       ]);
-      cy.axeCheck();
 
       stayInformedPage.submitForm();
       stayInformedPage.validateSubmission();
-      cy.axeCheck();
     });
   });
 });
