@@ -3,12 +3,7 @@ description: Install Dependencies
 
 # TODO: Is this the right name/desc?
 
-# TODO: Would be nice to add `if` for NEXUS
 inputs:
-  # nexus_registry:
-  #   description: Enable NEXUS registry
-  #   required: false
-  #   default: false
   keys:
     description: keys for actions/cache@v2
     required: false
@@ -45,39 +40,7 @@ runs:
       with:
         path: ${{ inputs.path }}
         key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.keys }}
-        restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.restore-keys }}
-
-    # - name: Get NEXUS username
-    #   if: ${{ inputs.nexus_registry == true }}
-    #   uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
-    #   with:
-    #     ssm_parameter: /devops/VA_VSP_BOT_1_NEXUS_USERNAME
-    #     env_variable_name: VA_VSP_BOT_1_NEXUS_USERNAME
-
-    # - name: Get NEXUS token
-    #   if: ${{ inputs.nexus_registry == true }}
-    #   uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
-    #   with:
-    #     ssm_parameter: /devops/VA_VSP_BOT_1_NEXUS_PASSWORD
-    #     env_variable_name: VA_VSP_BOT_1_NEXUS_PASSWORD
-
-    # # Required to change registry in yarn.lock file
-    # - name: Change registry in yarn.lock
-    #   if: ${{ inputs.nexus_registry == true }}
-    #   shell: bash
-    #   run: |
-    #     sed -i -e "s#https://registry.yarnpkg.com/#${{ env.NEXUS_REGISTRY }}#g" yarn.lock
-    #     sed -i -e "s#https://registry.npmjs.org/#${{ env.NEXUS_REGISTRY }}#g" yarn.lock
-
-    # - name: Authenticate NEXUS
-    #   if: ${{ inputs.nexus_registry == true }}
-    #   shell: bash
-    #   run: |
-    #     npm config set _auth $(echo -n '${{ env.VA_VSP_BOT_1_NEXUS_USERNAME }}:${{ env.VA_VSP_BOT_1_NEXUS_PASSWORD }}' | openssl base64)
-    #     npm config set cafile ${{ env.NODE_EXTRA_CA_CERTS }}
-    #     npm config set registry ${{ env.NEXUS_REGISTRY }}
-    #     npm config set email va-vsp-bot-1@va.gov
-    #     npm config set always-auth true
+        # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.restore-keys }}
 
     - name: Install dependencies
       uses: nick-invision/retry@v2
