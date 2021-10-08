@@ -115,7 +115,7 @@ describe('App', () => {
         expect(createStoreSpy.callCount).to.equal(1);
       });
 
-      it('passes CSRF Token and Api Session to greet user', async () => {
+      it('passes CSRF Token, Api Session, Api Url, and Base Url to greet user', async () => {
         loadWebChat();
         mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
 
@@ -131,6 +131,7 @@ describe('App', () => {
           'FAKECSRF',
           'FAKEAPISESSION',
           'https://dev-api.va.gov',
+          'https://dev.va.gov',
           'Mark',
         );
       });
@@ -167,6 +168,7 @@ describe('App', () => {
           'FAKECSRF',
           'FAKEAPISESSION',
           'https://dev-api.va.gov',
+          'https://dev.va.gov',
           'noFirstNameFound',
         );
       });

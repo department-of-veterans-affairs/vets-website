@@ -22,6 +22,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
           csrfToken,
           apiSession,
           environment.API_URL,
+          environment.BASE_URL,
           userFirstName === '' ? 'noFirstNameFound' : userFirstName,
         ),
       ),
