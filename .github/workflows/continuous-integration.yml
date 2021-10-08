@@ -1,6 +1,12 @@
 name: Continuous Integration
 
 on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: Deploy specific commit
+        required: false
+        default: ''
   push:
     branches:
       - '**'
@@ -38,6 +44,8 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.commit_sha || github.sha }}
 
       - name: Get Node version
         id: get-node-version
@@ -135,7 +143,7 @@ jobs:
           CHANGE_TARGET=null
           RUN_ID=${{ github.run_id }}
           RUN_NUMBER=${{ github.run_number }}
-          REF=${{ github.sha }}
+          REF=${{ github.event.inputs.commit_sha || github.sha }}
           BUILDTIME=$(date +%s)
           EOF
 
@@ -155,6 +163,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.commit_sha || github.sha }}
 
       - name: Get Node version
         id: get-node-version
@@ -244,6 +254,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.commit_sha || github.sha }}
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -347,6 +359,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.commit_sha || github.sha }}
 
       - name: Get Node version
         id: get-node-version
@@ -367,6 +381,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.commit_sha || github.sha }}
 
       - name: Get Node version
         id: get-node-version
@@ -420,6 +436,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+          ref: ${{ github.event.inputs.commit_sha || github.sha }} # unsure about this
 
       - name: Get Node version
         id: get-node-version
@@ -508,6 +525,8 @@ jobs:
 
       - name: Checkout vets-website
         uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.commit_sha || github.sha }}
 
       - name: Download production build artifact
         uses: actions/download-artifact@v2
@@ -800,7 +819,7 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Upload build
-        run: aws s3 cp ${{ matrix.buildtype }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/application-build/$GITHUB_SHA/${{ matrix.buildtype }}.tar.bz2 --acl public-read --region us-gov-west-1
+        run: aws s3 cp ${{ matrix.buildtype }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/application-build/${{ github.event.inputs.commit_sha || github.sha }}/${{ matrix.buildtype }}.tar.bz2 --acl public-read --region us-gov-west-1
 
   get-latest-run-number:
     name: Get Latest Workflow Run Number
@@ -813,6 +832,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.commit_sha || github.sha }}
 
       - name: Get Node version
         id: get-node-version
@@ -865,6 +886,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.commit_sha || github.sha }}
 
       - name: Configure AWS credentials (1)
         uses: aws-actions/configure-aws-credentials@v1
@@ -892,7 +915,7 @@ jobs:
       - name: Deploy
         run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
         env:
-          SRC: s3://vetsgov-website-builds-s3-upload/application-build/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
+          SRC: s3://vetsgov-website-builds-s3-upload/application-build/${{ github.event.inputs.commit_sha || github.sha }}/${{ matrix.environment }}.tar.bz2
           DEST: s3://${{ matrix.bucket }}
 
   # jenkins:
