@@ -1,8 +1,6 @@
 name: Install dependencies
 description: Install dependencies
 
-# TODO: Is this the right name/desc?
-
 inputs:
   keys:
     description: keys for actions/cache@v2
