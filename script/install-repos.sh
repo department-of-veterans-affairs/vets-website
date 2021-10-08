@@ -14,7 +14,7 @@ fi
 if [ ! -d ../vets-api ]; then
   git clone --single-branch --depth 1 https://github.com/department-of-veterans-affairs/vets-api.git ../vets-api
 else
-  echo "Repo content-build already cloned."
+  echo "Repo vets-api already cloned."
 fi
 
 # @TODO: if these are not needed anymore, remove.
