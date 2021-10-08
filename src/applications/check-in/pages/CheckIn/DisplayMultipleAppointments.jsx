@@ -8,13 +8,7 @@ import AppointmentListItem from '../../components/AppointmentDisplay/Appointment
 import { sortAppointmentsByStartTime } from '../../utils/appointment';
 
 export default function DisplayMultipleAppointments(props) {
-  const {
-    isUpdatePageEnabled,
-    isLowAuthEnabled,
-    token,
-    appointments,
-    router,
-  } = props;
+  const { isUpdatePageEnabled, token, appointments, router } = props;
 
   const sortedAppointments = sortAppointmentsByStartTime(appointments);
   return (
@@ -37,7 +31,6 @@ export default function DisplayMultipleAppointments(props) {
             <AppointmentListItem
               appointment={appointment}
               key={index}
-              isLowAuthEnabled={isLowAuthEnabled}
               router={router}
               token={token}
             />
