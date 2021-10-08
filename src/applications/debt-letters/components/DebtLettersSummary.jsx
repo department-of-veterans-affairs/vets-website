@@ -54,7 +54,7 @@ const EmptyItemsAlert = () => (
 );
 
 const RenderDebtCards = ({ isError, debts }) => {
-  const allDebtsEmpty = !isError && debts.length === 0;
+  const allDebtsEmpty = !isError && debts?.length === 0;
 
   if (isError) {
     return <ErrorAlert />;

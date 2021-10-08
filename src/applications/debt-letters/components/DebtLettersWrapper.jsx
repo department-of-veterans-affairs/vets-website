@@ -1,31 +1,28 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { useSelector, useDispatch } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { showDebtLettersSelector } from '../selectors';
+import { isProfileLoading, isLoggedIn } from 'platform/user/selectors';
 import { fetchDebts } from '../actions';
 
-const DebtLettersWrapper = ({
-  isPending,
-  isPendingVBMS,
-  children,
-  showDebtLetters,
-  isProfileUpdating,
-  isLoggedIn,
-  getDebtLetters,
-}) => {
+const DebtLettersWrapper = ({ children }) => {
+  const showDebtLetters = useSelector(state => showDebtLettersSelector(state));
+  const profileLoading = useSelector(state => isProfileLoading(state));
+  const userLoggedIn = useSelector(state => isLoggedIn(state));
+  const pending = useSelector(({ debtLetters }) => debtLetters.pending);
+  const pendingVBMS = useSelector(({ debtLetters }) => debtLetters.pendingVBMS);
+  const dispatch = useDispatch();
+
   useEffect(
     () => {
       if (showDebtLetters) {
-        getDebtLetters();
+        dispatch(fetchDebts());
       }
     },
-    [getDebtLetters, showDebtLetters],
+    [showDebtLetters], // eslint-disable-line react-hooks/exhaustive-deps
   );
 
-  if (isPending || isPendingVBMS || isProfileUpdating) {
+  if (pending || pendingVBMS || profileLoading) {
     return (
       <div className="vads-u-margin--5">
         <LoadingIndicator
@@ -36,7 +33,7 @@ const DebtLettersWrapper = ({
     );
   }
 
-  if (showDebtLetters === false || isLoggedIn === false) {
+  if (showDebtLetters === false || userLoggedIn === false) {
     window.location.replace('/manage-va-debt');
     return (
       <div className="vads-u-margin--5">
@@ -55,32 +52,4 @@ const DebtLettersWrapper = ({
   );
 };
 
-const mapStateToProps = state => ({
-  isLoggedIn: state.user.login.currentlyLoggedIn,
-  isPending: state.debtLetters.isPending,
-  isProfileUpdating: state.debtLetters.isProfileUpdating,
-  isPendingVBMS: state.debtLetters.isPendingVBMS,
-  showDebtLetters: toggleValues(state)[
-    FEATURE_FLAG_NAMES.debtLettersShowLetters
-  ],
-});
-
-const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators({ getDebtLetters: fetchDebts }, dispatch),
-});
-
-DebtLettersWrapper.propTypes = {
-  isPending: PropTypes.bool.isRequired,
-  isPendingVBMS: PropTypes.bool.isRequired,
-  showDebtLetters: PropTypes.bool,
-};
-
-DebtLettersWrapper.defaultProps = {
-  isPending: false,
-  isPendingVBMS: false,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(DebtLettersWrapper);
+export default DebtLettersWrapper;

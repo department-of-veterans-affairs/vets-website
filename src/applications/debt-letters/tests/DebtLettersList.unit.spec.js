@@ -90,8 +90,8 @@ describe('DebtLettersList', () => {
           },
         },
         debtLetters: {
-          isPendingVBMS: false,
-          isPending: false,
+          pendingVBMS: false,
+          pending: false,
           debts: [],
           debtLinks: [],
         },

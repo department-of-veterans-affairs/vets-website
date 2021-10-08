@@ -24,7 +24,7 @@ describe('Debt Letters Reducer', () => {
         type: DEBTS_FETCH_INIT,
       };
       reducedState = reducer(state, action);
-      expect(reducedState.isPending).to.be.true;
+      expect(reducedState.pending).to.be.true;
       expect(reducedState.isError).to.be.false;
     });
   });
@@ -36,7 +36,7 @@ describe('Debt Letters Reducer', () => {
         debts: [{ foo: 'bar' }],
       };
       reducedState = reducer(state, action);
-      expect(reducedState.isPending).to.be.false;
+      expect(reducedState.pending).to.be.false;
       expect(reducedState.debts).to.deep.equal([{ foo: 'bar' }]);
       expect(reducedState.isError).to.be.false;
     });
@@ -48,7 +48,7 @@ describe('Debt Letters Reducer', () => {
         type: DEBTS_FETCH_FAILURE,
       };
       reducedState = reducer(state, action);
-      expect(reducedState.isPending).to.be.false;
+      expect(reducedState.pending).to.be.false;
       expect(reducedState.isError).to.be.true;
     });
   });
@@ -61,7 +61,7 @@ describe('Debt Letters Reducer', () => {
       };
       reducedState = reducer(state, action);
       expect(reducedState.debtLinks).to.deep.equal([{ foo: 'bar' }]);
-      expect(reducedState.isPending).to.be.false;
+      expect(reducedState.pending).to.be.false;
       expect(reducedState.isVBMSError).to.be.false;
     });
   });
@@ -73,7 +73,7 @@ describe('Debt Letters Reducer', () => {
         debtLinks: [{ foo: 'bar' }],
       };
       reducedState = reducer(state, action);
-      expect(reducedState.isPending).to.be.false;
+      expect(reducedState.pending).to.be.false;
       expect(reducedState.isVBMSError).to.be.true;
     });
   });
@@ -85,7 +85,7 @@ describe('Debt Letters Reducer', () => {
         debt: 1234,
       };
       reducedState = reducer(state, action);
-      expect(reducedState.isPending).to.be.false;
+      expect(reducedState.pending).to.be.false;
       expect(reducedState.selectedDebt).to.equal(1234);
     });
   });

@@ -50,8 +50,8 @@ describe('DebtCardsList', () => {
           },
         },
         debtLetters: {
-          isPending: false,
-          isPendingVBMS: false,
+          pending: false,
+          pendingVBMS: false,
           isVBMSError: false,
           isError: false,
           debts: [],

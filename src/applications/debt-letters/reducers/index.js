@@ -8,19 +8,15 @@ import {
   DEBTS_SET_ACTIVE_DEBT,
 } from '../actions';
 
-import { FETCH_TOGGLE_VALUES_STARTED } from 'platform/site-wide/feature-toggles/actionTypes';
-import { UPDATE_LOGGEDIN_STATUS } from 'platform/user/authentication/actions';
-
 const initialState = {
-  isProfileUpdating: true,
-  isPending: false,
-  isPendingVBMS: false,
+  pending: false,
+  pendingVBMS: false,
   isError: false,
   isVBMSError: false,
-  debts: [],
   selectedDebt: {},
-  debtLinks: [],
   hasDependentDebts: false,
+  debts: null,
+  debtLinks: null,
 };
 
 export const debtsReducer = (state = initialState, action) => {
@@ -28,13 +24,13 @@ export const debtsReducer = (state = initialState, action) => {
     case DEBTS_FETCH_INIT:
       return {
         ...state,
-        isPending: true,
+        pending: true,
         isError: false,
       };
     case DEBTS_FETCH_SUCCESS:
       return {
         ...state,
-        isPending: false,
+        pending: false,
         isError: false,
         debts: action.debts,
         hasDependentDebts: action.hasDependentDebts,
@@ -42,7 +38,7 @@ export const debtsReducer = (state = initialState, action) => {
     case DEBTS_FETCH_FAILURE:
       return {
         ...state,
-        isPending: false,
+        pending: false,
         isError: true,
       };
     case DEBTS_SET_ACTIVE_DEBT:
@@ -53,7 +49,7 @@ export const debtsReducer = (state = initialState, action) => {
     case DEBT_LETTERS_FETCH_INIT:
       return {
         ...state,
-        isPendingVBMS: true,
+        pendingVBMS: true,
         isError: false,
       };
     case DEBT_LETTERS_FETCH_SUCCESS:
@@ -61,24 +57,14 @@ export const debtsReducer = (state = initialState, action) => {
         ...state,
         debtLinks: action.debtLinks,
         isVBMSError: false,
-        isPendingVBMS: false,
+        pendingVBMS: false,
       };
     case DEBT_LETTERS_FETCH_FAILURE:
       return {
         ...state,
-        isPending: false,
-        isPendingVBMS: false,
+        pending: false,
+        pendingVBMS: false,
         isVBMSError: true,
-      };
-    case FETCH_TOGGLE_VALUES_STARTED:
-      return {
-        ...state,
-        isProfileUpdating: true,
-      };
-    case UPDATE_LOGGEDIN_STATUS:
-      return {
-        ...state,
-        isProfileUpdating: false,
       };
     default:
       return state;
