@@ -29,6 +29,7 @@ describe('check-in', () => {
             appointment={{
               startTime: '2021-07-19T13:56:31',
               clinicFriendlyName: 'Green Team Clinic1',
+              facility: 'Green Team facility',
             }}
           />
         </Provider>,
@@ -42,6 +43,10 @@ describe('check-in', () => {
       expect(listItem.getByTestId('clinic-name')).to.have.text(
         'Green Team Clinic1',
       );
+      expect(listItem.getByTestId('facility-name')).to.exist;
+      expect(listItem.getByTestId('facility-name')).to.have.text(
+        'Green Team facility',
+      );
     });
     it('passes axeCheck', () => {
       axeCheck(
@@ -50,6 +55,7 @@ describe('check-in', () => {
             appointment={{
               startTime: '2021-07-19T13:56:31',
               clinicFriendlyName: 'Green Team Clinic1',
+              facility: 'Green Team facility',
             }}
           />
         </Provider>,
