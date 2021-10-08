@@ -14,4 +14,9 @@ export const checkInExperienceUpdateInformationPageEnabled = state =>
     FEATURE_FLAG_NAMES.checkInExperienceUpdateInformationPageEnabled
   ];
 
+export const checkInExperienceDemographicsPageEnabled = state =>
+  toggleValues(state)[
+    FEATURE_FLAG_NAMES.checkInExperienceDemographicsPageEnabled
+  ];
+
 export const loadingFeatureFlags = state => state?.featureToggles?.loading;
