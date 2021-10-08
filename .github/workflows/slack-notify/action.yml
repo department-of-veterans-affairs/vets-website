@@ -1,5 +1,5 @@
-name: Slack Notification
-description: Send Slack Notification
+name: Slack notification
+description: Slack notification
 
 inputs:
   channel_id:
