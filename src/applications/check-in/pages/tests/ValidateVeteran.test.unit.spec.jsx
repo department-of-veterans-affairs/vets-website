@@ -5,7 +5,7 @@ import configureStore from 'redux-mock-store';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
-// import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import { axeCheck } from 'platform/forms-system/test/config/helpers';
 
 import ValidateVeteran from '../ValidateVeteran';
 
@@ -36,8 +36,18 @@ describe('check in', () => {
           <ValidateVeteran />
         </Provider>,
       );
-      expect(component.getByText('Do you need to update any information?')).to
-        .exist;
+      expect(
+        component.getByText(
+          'We need some information to verify your identity to check you in.',
+        ),
+      ).to.exist;
+    });
+    it('passes axeCheck', () => {
+      axeCheck(
+        <Provider store={store}>
+          <ValidateVeteran />
+        </Provider>,
+      );
     });
   });
 });
