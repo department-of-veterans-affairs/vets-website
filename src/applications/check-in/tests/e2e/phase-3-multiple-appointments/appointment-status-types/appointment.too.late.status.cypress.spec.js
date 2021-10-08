@@ -1,8 +1,6 @@
-import { createFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
-
+import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
 import mockSession from '../../../../api/local-mock-api/mocks/v2/sessions.responses';
 import mockPatientCheckIns from '../../../../api/local-mock-api/mocks/v2/patient.check.in.responses';
-
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 describe('Check In Experience -- ', () => {
@@ -31,7 +29,7 @@ describe('Check In Experience -- ', () => {
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
-        createFeatureToggles(true, true, true, false),
+        generateFeatureToggles(true, true, true, false),
       );
     });
     afterEach(() => {
