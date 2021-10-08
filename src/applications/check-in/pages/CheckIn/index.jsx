@@ -21,13 +21,14 @@ import DisplayMultipleAppointments from './DisplayMultipleAppointments';
 
 const CheckIn = props => {
   const {
-    router,
     appointments,
     context,
+    isDemographicsPageEnabled,
     isUpdatePageEnabled,
+    isMultipleAppointmentsEnabled,
+    router,
     setAppointment,
     setMultipleAppointments,
-    isMultipleAppointmentsEnabled,
   } = props;
   const appointment = appointments[0];
 
@@ -83,6 +84,7 @@ const CheckIn = props => {
         <FeatureOn>
           <DisplayMultipleAppointments
             isUpdatePageEnabled={isUpdatePageEnabled}
+            isDemographicsPageEnabled={isDemographicsPageEnabled}
             router={router}
             token={token}
             appointments={appointments}
