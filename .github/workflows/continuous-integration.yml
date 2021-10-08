@@ -49,7 +49,7 @@ jobs:
       # | Notify Slack of failures |
       # ---------------------------
 
-      - name: Slack notification
+      - name: Notify Slack about build failures
         if: ${{ failure() }}
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
@@ -445,7 +445,7 @@ jobs:
       # | Notify Slack |
       # ----------------
 
-      - name: Slack notification
+      - name: Notify Slack about Cypress test failures
         if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
@@ -775,7 +775,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Slack notificaion
+      - name: Notify Slack
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
         with:
