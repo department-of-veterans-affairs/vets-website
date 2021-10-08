@@ -24,9 +24,9 @@ runs:
         ssm_parameter: /devops/github_actions_slack_bot_user_token
         env_variable_name: SLACK_BOT_TOKEN
 
+    #TODO: Do we need to add continue-on-error
     - name: Notify Slack
       uses: department-of-veterans-affairs/vsp-github-actions/slack-socket@v1.1.0
-      continue-on-error: true
       with:
         slack_app_token: ${{ env.SLACK_APP_TOKEN }}
         slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
