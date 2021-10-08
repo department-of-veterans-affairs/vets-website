@@ -91,8 +91,10 @@ const ValidateVeteran = props => {
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 ">
       <h1>Check in at VA</h1>
-      <p>We need some information to verify your identity to check you in.</p>
-      <form onSubmit={() => false}>
+      <p>
+        We need some information to verify your identity so we can check you in.
+      </p>
+      <form className="vads-u-margin-bottom--2p5" onSubmit={() => false}>
         <VaTextInput
           autoCorrect="false"
           error={lastNameErrorMessage}
