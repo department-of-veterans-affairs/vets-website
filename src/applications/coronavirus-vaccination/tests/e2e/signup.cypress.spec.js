@@ -1,4 +1,5 @@
 import featureTogglesEnabled from './fixtures/toggle-covid-feature.json';
+import StayInformedPage from './page-objects/StayInformedPage';
 
 describe('COVID-19 Vaccination Preparation Form', () => {
   describe('when entering valid contact information without signing in', () => {
@@ -6,135 +7,55 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       cy.intercept('GET', '/v0/feature_toggles*', featureTogglesEnabled).as(
         'feature',
       );
-      cy.visit('health-care/covid-19-vaccine/stay-informed/');
-      cy.wait('@feature');
-      cy.injectAxe();
     });
 
     it('should successfully submit the vaccine preparation form', () => {
-      // Intro page
-      cy.axeCheck();
-      cy.get('.vads-l-row').contains('What you should know about signing up');
-      // Expand all Accordions with keyboard and test for A11y
+      const stayInformedPage = new StayInformedPage();
 
-      cy.get('va-accordion-item')
-        .first()
-        .get('button')
-        .first()
-        .type('{shift}');
-      cy.get('div').contains(
+      // Intro page
+      stayInformedPage.loadPage();
+
+      // Expand all accordions with keyboard and test for A11y
+      stayInformedPage.checkAccordions(
         'Contacting Veterans who we know plan to get a vaccine helps us do the most good with our limited supply.',
       );
-
-      cy.get('va-accordion-item')
-        .next()
-        .get('button')
-        .first()
-        .type('{shift}');
-      cy.get('div').contains(
+      stayInformedPage.checkAccordions(
         'If you want to learn more before you decide your plans:',
       );
-
-      cy.get('va-accordion-item')
-        .next()
-        .get('button')
-        .first()
-        .type('{shift}');
-      cy.get('div').contains(
+      stayInformedPage.checkAccordions(
         'you don’t have to provide your Social Security number. ',
       );
-
-      cy.get('va-accordion-item')
-        .next()
-        .get('button')
-        .first()
-        .type('{shift}');
-      cy.get('div').contains(
+      stayInformedPage.checkAccordions(
         'Your local VA health facility may contact you by phone, email, or text message. If you’re eligible and want to get a vaccine, we encourage you to respond.',
       );
       cy.get('.help-talk').contains(
         'If you have questions or need help filling out this form, call our MyVA411 main information line at 800-698-2411 (TTY: 711).',
       );
+
+      // aXe check expanded accordions
       cy.axeCheck();
 
-      cy.get('.usa-button').contains('Sign in');
+      stayInformedPage.continueWithoutSigningIn(true);
 
-      cy.findByText('Continue without signing in', { selector: 'a' }).click();
-
-      // Form page
-      cy.url().should(
-        'include',
-        '/health-care/covid-19-vaccine/stay-informed/form',
-      );
+      // Fill out form
+      stayInformedPage.sameZipCode(true);
+      stayInformedPage.vaccineInterest(true);
+      stayInformedPage.checkForHelpInfo();
+      stayInformedPage.fillForm([
+        { field: /First Name/i, value: 'Testing', clear: true },
+        { field: /Last name/i, value: 'Veteran', clear: true },
+        { field: /Month/i, value: 'June', clear: false },
+        { field: /Day/i, value: '30', clear: false },
+        { field: /Year/i, value: '1950', clear: true },
+        { field: /Email address/i, value: 'test@example.com', clear: true },
+        { field: /Phone/i, value: '8005551234', clear: true },
+        { field: /Zip code/i, value: '10001', clear: true },
+      ]);
       cy.axeCheck();
-      cy.get('#covid-vaccination-heading-form').contains(
-        'Sign up for vaccine updates',
-      );
 
-      cy.findByLabelText(/First name/i)
-        .clear()
-        .type('Testing');
-
-      cy.findByLabelText(/Last name/i)
-        .clear()
-        .type('Veteran');
-
-      cy.findByLabelText(/^Month/).select('June');
-
-      cy.findByLabelText(/^Day/).select('30');
-
-      cy.findByLabelText(/Year/i)
-        .clear()
-        .type('1950');
-
-      cy.findByLabelText(/Email address/i)
-        .clear()
-        .type('test@example.com');
-
-      cy.findByLabelText(/Phone/i)
-        .clear()
-        .type('8005551234');
-
-      cy.findByLabelText(/Zip code/i)
-        .clear()
-        .type('10001');
-
-      cy.get('#root_locationDetails-label').contains(
-        'Will you be in this zip code for the next 6 to 12 months?',
-      );
-      cy.get('#root_locationDetails_0').check();
-
-      cy.get('#root_vaccineInterest-label').contains(
-        'Do you plan to get a COVID-19 vaccine when one is available to you?',
-      );
-      cy.get('#root_vaccineInterest_0').check();
-
-      cy.get('.help-talk').contains(
-        'If you have questions or need help filling out this form, call our MyVA411 main information line at 800-698-2411 (TTY: 711).',
-      );
-
+      stayInformedPage.submitForm();
+      stayInformedPage.validateSubmission();
       cy.axeCheck();
-      cy.intercept('POST', '**/covid_vaccine/v0/registration', {
-        status: 200,
-      }).as('response');
-
-      cy.get('.usa-button').contains('Submit form');
-      cy.get('.usa-button').click();
-      cy.wait('@response');
-
-      // Confirmation page
-      cy.url().should(
-        'include',
-        '/health-care/covid-19-vaccine/stay-informed/confirmation',
-      );
-      cy.axeCheck();
-      cy.get('#covid-vaccination-heading-confirmation').contains(
-        "We've received your information",
-      );
-
-      cy.get('.vads-l-row').contains(
-        'Thank you for signing up to stay informed about COVID-19 vaccines at VA',
-      );
     });
   });
 });
