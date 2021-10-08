@@ -47,7 +47,7 @@ import createFacilityPage from './facilities/createFacilityPage';
 import createFindVaForms, {
   findVaFormsWidgetReducer,
 } from '../find-forms/createFindVaForms';
-import createFindVaFormsInvalidPdfAlert from '../find-forms/widgets/createInvalidPdfAlert';
+import createFindVaFormsPDFDownloadHelper from '../find-forms/widgets/createFindVaFormsPDFDownloadHelper';
 import createHigherLevelReviewApplicationStatus from 'applications/disability-benefits/996/components/createHLRApplicationStatus';
 import createManageVADebtCTA from './manage-va-debt/createManageVADebtCTA';
 import createMyVALoginWidget from './widget-creators/createMyVALoginWidget';
@@ -146,7 +146,7 @@ createScoEventsWidget();
 createScoAnnouncementsWidget();
 createThirdPartyApps(store, widgetTypes.THIRD_PARTY_APP_DIRECTORY);
 createFindVaForms(store, widgetTypes.FIND_VA_FORMS);
-createFindVaFormsInvalidPdfAlert(
+createFindVaFormsPDFDownloadHelper(
   store,
   widgetTypes.FIND_VA_FORMS_INVALID_PDF_ALERT,
 );

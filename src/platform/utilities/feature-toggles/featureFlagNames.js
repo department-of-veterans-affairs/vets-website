@@ -12,6 +12,7 @@ export default Object.freeze({
   cernerOverride692: 'cerner_override_692',
   cernerOverride757: 'cerner_override_757',
   checkInExperienceEnabled: 'check_in_experience_enabled',
+  checkInExperienceDemographicsPageEnabled: 'check_in_experience_demographics_page_enabled',
   checkInExperienceUpdateInformationPageEnabled: 'check_in_experience_update_information_page_enabled',
   checkInExperienceLowRiskAuthenicationEnabled:
     'check_in_experience_low_authentication_enabled',
@@ -33,8 +34,6 @@ export default Object.freeze({
   facilitiesPpmsSuppressCommunityCare: 'facilities_ppms_suppress_community_care',
   facilitiesPpmsSuppressPharmacies: 'facilities_ppms_suppress_pharmacies',
   facilitiesVetCenterAutomateNearby: 'facilities_vet_center_automate_nearby',
-  facilityLocatorCovidVaccineWalkInAvailabilityTextFrontend:
-    'facility_locator_covid_vaccine_walk_in_availability_text_frontend',
   facilityLocatorLighthouseCovidVaccineQuery:
     'facility_locator_lighthouse_covid_vaccine_query',
   facilityLocatorPredictiveLocationSearch:
@@ -51,7 +50,6 @@ export default Object.freeze({
   gibctEybBottomSheet: 'gibct_eyb_bottom_sheet',
   gibctSchoolRatings: 'gibct_school_ratings',
   hlrv2: 'hlr_v2',
-  languageSupport: 'language_support',
   manageDependents: 'dependents_management',
   megaMenuMobileV2: 'mega_menu_mobile_v2',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',

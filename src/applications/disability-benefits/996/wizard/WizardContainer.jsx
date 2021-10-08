@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -18,7 +19,7 @@ import {
   setHlrWizardStatus,
 } from '../wizard/utils';
 
-const WizardContainer = ({ setWizardStatus }) => {
+export const WizardContainer = ({ setWizardStatus, hlrV2 }) => {
   const { title, subTitle } = formConfig;
 
   useEffect(() => {
@@ -32,6 +33,10 @@ const WizardContainer = ({ setWizardStatus }) => {
     removeHlrWizardStatus();
   }
 
+  const getStarted = `Answer a ${
+    hlrV2 ? 'question' : 'few questions'
+  }  to get started.`;
+
   const wizard = (
     <>
       <FormTitle title={title} subTitle={subTitle} />
@@ -43,7 +48,7 @@ const WizardContainer = ({ setWizardStatus }) => {
           and the evidence you provided. You can’t submit any new evidence with
           a Higher-Level Review.
         </p>
-        <p>Answer a few questions to get started.</p>
+        <p>{getStarted}</p>
         <Wizard
           pages={pages}
           expander={false}
@@ -73,4 +78,8 @@ WizardContainer.propTypes = {
   setWizardStatus: PropTypes.func.isRequired,
 };
 
-export default WizardContainer;
+const mapStateToProps = state => ({
+  hlrV2: state.featureToggles.hlrV2,
+});
+
+export default connect(mapStateToProps)(WizardContainer);
