@@ -40,9 +40,9 @@ describe('Personal and contact information', () => {
         .should('contain', '575 20th St')
         .and('contain', 'San Francisco, CA 94107');
 
-      cy.findByRole('button', { name: /edit mailing address/i }).should(
-        'be.focused',
-      );
+      cy.focused()
+        .invoke('text')
+        .should('match', /update saved/i);
     });
   });
 });

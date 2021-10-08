@@ -1,6 +1,8 @@
+/* eslint-disable no-console */
 const printUnitTestHelp = require('./run-unit-test-help.js');
 const commandLineArgs = require('command-line-args');
 const { runCommand } = require('./utils');
+const glob = require('glob');
 
 // For usage instructions see https://github.com/department-of-veterans-affairs/vets-website#unit-tests
 
@@ -33,6 +35,13 @@ if (
     '/src/',
     `/src/applications/${options['app-folder']}/`,
   );
+
+  const unitTestList = glob.sync(options.path[0]);
+  if (!unitTestList.length) {
+    console.log('There are no unit tests in the app folder.');
+    process.exit(0);
+  }
+
   coverageInclude = `--include 'src/applications/${options['app-folder']}/**'`;
 }
 

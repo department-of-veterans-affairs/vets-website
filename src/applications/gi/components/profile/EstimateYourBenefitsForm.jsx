@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
-import { scroller } from 'react-scroll';
 import classNames from 'classnames';
 
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
@@ -25,6 +24,7 @@ import Checkbox from '../Checkbox';
 import { ariaLabels } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 class EstimateYourBenefitsForm extends React.Component {
   constructor(props) {
@@ -111,7 +111,7 @@ class EstimateYourBenefitsForm extends React.Component {
     ) {
       this.toggleLearningFormatAndSchedule(true);
       setTimeout(() => {
-        scroller.scrollTo('beneficiary-zip-question', getScrollOptions());
+        scrollTo('beneficiary-zip-question', getScrollOptions());
         focusElement('input[name=beneficiaryZIPCode]');
       }, 50);
     } else {

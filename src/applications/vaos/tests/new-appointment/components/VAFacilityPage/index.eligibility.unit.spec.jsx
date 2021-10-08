@@ -26,13 +26,13 @@ import {
 import {
   getSchedulingConfigurationMock,
   getV2ClinicMock,
-  getV2FacilityMock,
 } from '../../../mocks/v2';
+import { mockSchedulingConfigurations } from '../../../mocks/helpers.v2';
 import {
-  mockSchedulingConfigurations,
-  mockV2FacilitiesFetch,
-} from '../../../mocks/helpers.v2';
-import { mockEligibilityFetchesByVersion } from '../../../mocks/fetch';
+  mockEligibilityFetchesByVersion,
+  mockFacilitiesFetchByVersion,
+} from '../../../mocks/fetch';
+import { createMockFacilityByVersion } from '../../../mocks/data';
 
 const parentSite983 = {
   id: '983',
@@ -603,7 +603,9 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
       await screen.findByText(/We can’t find a recent appointment for you/i);
       expect(screen.getByRole('alertdialog')).to.be.ok;
       expect(screen.baseElement).to.contain.text('last 36 months');
-      fireEvent.click(screen.getByRole('button', { name: 'Close this modal' }));
+      fireEvent.click(
+        screen.getByRole('button', { name: 'Close the warning modal' }),
+      );
 
       await waitFor(
         () =>
@@ -697,7 +699,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
 
       const facilityIds = ['983', '983GC', '983GB', '983HK', '983QA', '984'];
       const facilities = facilityIds.map((id, index) =>
-        getV2FacilityMock({
+        createMockFacilityByVersion({
           id,
           name: `Fake facility name ${index + 1}`,
           lat: Math.random() * 90,
@@ -729,11 +731,10 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
             patientHistoryDuration: 365,
           }),
         ]);
-        mockV2FacilitiesFetch(
-          ['983', '984'],
-          facilities.filter(f => f.id === '983' || f.id === '984'),
-          true,
-        );
+        mockFacilitiesFetchByVersion({
+          facilities: facilities.filter(f => f.id === '983' || f.id === '984'),
+          children: true,
+        });
         mockEligibilityFetchesByVersion({
           facilityId: '983',
           typeOfCareId: 'socialWork',

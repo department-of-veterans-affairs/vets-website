@@ -69,9 +69,9 @@ describe('Personal and contact information', () => {
         .should('contain', '225 irving st, Unit A')
         .and('contain', 'San Francisco, CA 94122');
 
-      cy.findByRole('button', { name: /edit mailing address/i }).should(
-        'be.focused',
-      );
+      cy.focused()
+        .invoke('text')
+        .should('match', /update saved/i);
     });
   });
 });

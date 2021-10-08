@@ -10,7 +10,6 @@ describe('Diary Codes - Next Steps', () => {
     cy.visit('/manage-va-debt/your-debt/');
     cy.injectAxe();
     cy.axeCheck();
-    cy.findByText('Continue to VA.gov', { selector: 'button' }).click();
   });
 
   it('renders a debt card with next step', () => {

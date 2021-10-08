@@ -9,7 +9,6 @@ import MOCK_VA_APPOINTMENTS from '../../utils/mocks/appointments/MOCK_VA_APPOINT
 import MOCK_CC_APPOINTMENTS from '../../utils/mocks/appointments/MOCK_CC_APPOINTMENTS';
 
 import moment from 'moment';
-import { mockFeatureToggles } from './helpers';
 import MOCK_FACILITIES from '../../utils/mocks/appointments/MOCK_FACILITIES.json';
 
 const startOfToday = () =>
@@ -39,7 +38,6 @@ describe('The My VA Dashboard - Appointments', () => {
   beforeEach(() => {
     mockLocalStorage();
     cy.login(mockUser);
-    mockFeatureToggles();
     cy.visit('my-va/');
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);

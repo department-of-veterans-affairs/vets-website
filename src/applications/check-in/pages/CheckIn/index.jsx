@@ -5,20 +5,30 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 
 import { focusElement } from 'platform/utilities/ui';
 
-import { receivedAppointmentDetails } from '../../actions';
+import {
+  receivedAppointmentDetails,
+  receivedMultipleAppointmentDetails,
+} from '../../actions';
 import { goToNextPage, URLS } from '../../utils/navigation';
 import { api } from '../../api';
 
-import Display from './Display';
+import FeatureToggle, {
+  FeatureOn,
+  FeatureOff,
+} from '../../components/FeatureToggle';
+import DisplaySingleAppointment from './DisplaySingleAppointment';
+import DisplayMultipleAppointments from './DisplayMultipleAppointments';
 
 const CheckIn = props => {
   const {
-    router,
     appointments,
     context,
+    isDemographicsPageEnabled,
     isUpdatePageEnabled,
-    isLowAuthEnabled,
+    isMultipleAppointmentsEnabled,
+    router,
     setAppointment,
+    setMultipleAppointments,
   } = props;
   const appointment = appointments[0];
 
@@ -26,7 +36,20 @@ const CheckIn = props => {
   const { token } = context;
   useEffect(
     () => {
-      if (isLowAuthEnabled) {
+      if (isMultipleAppointmentsEnabled) {
+        setIsLoadingData(true);
+        api.v2
+          .getCheckInData(token)
+          .then(json => {
+            const { payload } = json;
+            setMultipleAppointments(payload.appointments, token);
+            setIsLoadingData(false);
+            focusElement('h1');
+          })
+          .catch(() => {
+            goToNextPage(router, URLS.ERROR);
+          });
+      } else {
         // load data from checks route
         api.v1
           .getCheckInData(token)
@@ -39,31 +62,46 @@ const CheckIn = props => {
           .catch(() => {
             goToNextPage(router, URLS.ERROR);
           });
-      } else {
-        focusElement('h1');
       }
     },
-    [token, isLowAuthEnabled, setAppointment, router],
+    [
+      isMultipleAppointmentsEnabled,
+      router,
+      setAppointment,
+      setMultipleAppointments,
+      token,
+    ],
   );
 
   if (isLoadingData) {
-    return <LoadingIndicator message={'Loading appointment details'} />;
+    return <LoadingIndicator message={'Loading your appointments for today'} />;
   } else if (!appointment) {
     goToNextPage(router, URLS.ERROR);
     return <></>;
   } else {
     return (
-      <Display
-        isUpdatePageEnabled={isUpdatePageEnabled}
-        isLowAuthEnabled={isLowAuthEnabled}
-        router={router}
-        token={token}
-        appointment={appointment}
-      />
+      <FeatureToggle on={isMultipleAppointmentsEnabled}>
+        <FeatureOn>
+          <DisplayMultipleAppointments
+            isUpdatePageEnabled={isUpdatePageEnabled}
+            isDemographicsPageEnabled={isDemographicsPageEnabled}
+            router={router}
+            token={token}
+            appointments={appointments}
+          />
+        </FeatureOn>
+        <FeatureOff>
+          <DisplaySingleAppointment
+            isUpdatePageEnabled={isUpdatePageEnabled}
+            router={router}
+            token={token}
+            appointment={appointment}
+          />
+        </FeatureOff>
+      </FeatureToggle>
     );
   }
 };
-
 const mapStateToProps = state => {
   return {
     appointments: state.checkInData.appointments,
@@ -74,6 +112,8 @@ const mapDispatchToProps = dispatch => {
   return {
     setAppointment: (data, token) =>
       dispatch(receivedAppointmentDetails(data, token)),
+    setMultipleAppointments: (data, token) =>
+      dispatch(receivedMultipleAppointmentDetails(data, token)),
   };
 };
 

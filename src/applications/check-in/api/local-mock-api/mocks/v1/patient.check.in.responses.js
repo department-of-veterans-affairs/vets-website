@@ -6,10 +6,12 @@ const createMockSuccessResponse = (data, hasBeenValidated) => {
       clinicPhoneNumber: '5551234567',
       clinicFriendlyName: 'TEST CLINIC',
       clinicName: 'LOM ACC CLINIC TEST',
+      appointmentIen: 'some-ien',
     },
   };
   if (hasBeenValidated) {
     rv.payload.startTime = '2021-08-19T13:56:31';
+    rv.payload.eligibility = 'ELIGIBLE';
   }
   return rv;
 };

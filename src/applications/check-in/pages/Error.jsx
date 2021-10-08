@@ -33,7 +33,7 @@ const Error = props => {
           .
         </p>
       </va-alert>
-      <Footer header={'Not sure where to wait?'} />
+      <Footer />
       <BackToHome />
     </div>
   );

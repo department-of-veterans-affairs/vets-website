@@ -1,4 +1,4 @@
-import { createFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
+import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
 
 import mockCheckIn from '../../../../api/local-mock-api/mocks/v1/check.in.responses';
 import mockSession from '../../../../api/local-mock-api/mocks/v1/sessions.responses';
@@ -25,7 +25,10 @@ describe('Check In Experience -- ', () => {
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
-        createFeatureToggles(true, true, false, true),
+        generateFeatureToggles({
+          checkInExperienceMultipleAppointmentSupport: false,
+          checkInExperienceUpdateInformationPageEnabled: true,
+        }),
       );
     });
     afterEach(() => {
@@ -33,7 +36,7 @@ describe('Check In Experience -- ', () => {
         window.sessionStorage.clear();
       });
     });
-    it('validation failed', () => {
+    it('validation failed with failed response from server', () => {
       const featureRoute =
         '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
       cy.visit(featureRoute);
