@@ -866,11 +866,11 @@ const formConfig = {
             'view:textMessagesAlert': {
               'ui:description': (
                 <va-alert onClose={function noRefCheck() {}} status="info">
-                  <p style={{ margin: 0 }}>
+                  <>
                     For text messages, messaging and data rates may apply. At
                     this time, VA is only able to send text messages about
                     education benefits to US-based mobile phone numbers.
-                  </p>
+                  </>
                 </va-alert>
               ),
               'ui:options': {
@@ -888,10 +888,10 @@ const formConfig = {
             'view:noMobilePhoneAlert': {
               'ui:description': (
                 <va-alert onClose={function noRefCheck() {}} status="warning">
-                  <p style={{ margin: 0 }}>
+                  <>
                     You can’t choose to get text message notifications because
-                    we don’t have a mobile phone number on file for you
-                  </p>
+                    we don’t have a mobile phone number on file for you.
+                  </>
                 </va-alert>
               ),
               'ui:options': {
@@ -909,12 +909,12 @@ const formConfig = {
             'view:internationalTextMessageAlert': {
               'ui:description': (
                 <va-alert onClose={function noRefCheck() {}} status="warning">
-                  <p style={{ margin: 0 }}>
+                  <>
                     You can’t choose to get text notifications because you have
                     an international mobile phone number. At this time, we can
                     send text messages about your education benefits to U.S.
-                    mobile phone numbers
-                  </p>
+                    mobile phone numbers.
+                  </>
                 </va-alert>
               ),
               'ui:options': {
