@@ -6,10 +6,10 @@ import { deductionCodes } from '../const/deduction-codes';
 export const DEBTS_FETCH_INIT = 'DEBTS_FETCH_INIT';
 export const DEBTS_FETCH_SUCCESS = 'DEBTS_FETCH_SUCCESS';
 export const DEBTS_FETCH_FAILURE = 'DEBTS_FETCH_FAILURE';
+export const DEBTS_SET_ACTIVE_DEBT = 'DEBTS_SET_ACTIVE_DEBT';
 export const DEBT_LETTERS_FETCH_INIT = 'DEBT_LETTERS_FETCH_INIT';
 export const DEBT_LETTERS_FETCH_SUCCESS = 'DEBT_LETTERS_FETCH_SUCCESS';
 export const DEBT_LETTERS_FETCH_FAILURE = 'DEBT_LETTERS_FETCH_FAILURE';
-export const DEBTS_SET_ACTIVE_DEBT = 'DEBTS_SET_ACTIVE_DEBT';
 
 export const setActiveDebt = debt => ({
   type: DEBTS_SET_ACTIVE_DEBT,
@@ -58,12 +58,12 @@ export const fetchDebts = () => async dispatch => {
       'veteran-has-dependent-debt': hasDependentDebts,
     });
 
-    // remove any debts that do not have approved deductionCodes
+    // remove any debts that do not have approved deduction codes
     // or that have a currentAr (current amount owed) of 0
-    const approvedDeductionCodes = Object.keys(deductionCodes);
+    const approvedCodes = Object.keys(deductionCodes);
     const filteredResponse = response.debts
-      .filter(res => approvedDeductionCodes.includes(res.deductionCode))
-      .filter(debt => debt.currentAr > 0);
+      .filter(({ deductionCode }) => approvedCodes.includes(deductionCode))
+      .filter(({ currentAr }) => currentAr > 0);
 
     if (filteredResponse.length > 0) {
       recordEvent({
