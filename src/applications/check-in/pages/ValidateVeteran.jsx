@@ -100,12 +100,14 @@ const ValidateVeteran = props => {
           value={lastName}
         />
         <VaTextInput
-          label="Last 4 digits of your Social Security number"
-          name="last-4-ssn"
-          value={last4Ssn}
-          onVaChange={event => setLast4Ssn(event.detail.value)}
-          required
           error={last4ErrorMessage}
+          inputmode="numeric"
+          label="Last 4 digits of your Social Security number"
+          maxlength="4"
+          onVaChange={event => setLast4Ssn(event.detail.value)}
+          name="last-4-ssn"
+          required
+          value={last4Ssn}
         />
       </form>
       <button
