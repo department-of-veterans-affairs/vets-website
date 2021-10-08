@@ -20,11 +20,11 @@ describe('Check In Experience -- ', () => {
         const earlyStatusWithStart = mockPatientCheckIns.createAppointment();
         earlyStatusWithStart.eligibility = 'INELIGIBLE_TOO_EARLY';
         earlyStatusWithStart.startTime = '2021-08-19T12:00:00';
-        earlyStatusWithStart.appointmentCheckInStart = '2021-08-19T11:00:00';
+        earlyStatusWithStart.checkInWindowStart = '2021-08-19T11:00:00';
         const earlyStatusWithoutStart = mockPatientCheckIns.createAppointment();
         earlyStatusWithoutStart.eligibility = 'INELIGIBLE_TOO_EARLY';
         earlyStatusWithoutStart.startTime = '2021-08-19T14:00:00';
-        earlyStatusWithoutStart.appointmentCheckInStart = undefined;
+        earlyStatusWithoutStart.checkInWindowStart = undefined;
         const response = {
           payload: {
             appointments: [earlyStatusWithStart, earlyStatusWithoutStart],
