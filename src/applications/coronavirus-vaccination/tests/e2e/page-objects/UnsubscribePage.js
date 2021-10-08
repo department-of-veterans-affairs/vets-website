@@ -19,13 +19,13 @@ class UnsubscribePage {
 
   confirmUnsubscription(status) {
     if (status === 'failed') {
-        cy.get('.va-introtext').contains(
-            "We're sorry. We couldn't unsubscribe you from COVID-19 vaccine updates at this time. Please try again later.",
-          );
+      cy.get('.va-introtext').contains(
+        "We're sorry. We couldn't unsubscribe you from COVID-19 vaccine updates at this time. Please try again later.",
+      );
     } else {
-        cy.get('.va-introtext').contains(
-            "You've unsubscribed from COVID-19 vaccine updates. We won't send you any more emails.",
-          );
+      cy.get('.va-introtext').contains(
+        "You've unsubscribed from COVID-19 vaccine updates. We won't send you any more emails.",
+      );
     }
   }
 }

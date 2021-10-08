@@ -1,4 +1,3 @@
-import featureTogglesEnabled from './fixtures/toggle-covid-feature.json';
 import UnsubscribePage from './page-objects/UnsubscribePage';
 
 describe('COVID-19 Vaccination Preparation Form', () => {
