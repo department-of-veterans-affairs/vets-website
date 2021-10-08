@@ -1,5 +1,5 @@
 const GreetUser = {
-  makeBotGreetUser: (csrfToken, apiSession, apiURL) => ({
+  makeBotGreetUser: (csrfToken, apiSession, apiURL, userFirstName) => ({
     dispatch,
   }) => next => action => {
     if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
@@ -19,6 +19,7 @@ const GreetUser = {
               csrfToken,
               apiSession,
               apiURL,
+              userFirstName,
             },
           },
         },
