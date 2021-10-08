@@ -36,9 +36,9 @@ describe('Personal and contact information', () => {
         .should('contain', '400 NW 65th St')
         .and('contain', 'Seattle, WA 98117');
 
-      cy.findByRole('button', { name: /edit mailing address/i }).should(
-        'be.focused',
-      );
+      cy.focused()
+        .invoke('text')
+        .should('match', /update saved/i);
     });
   });
 });

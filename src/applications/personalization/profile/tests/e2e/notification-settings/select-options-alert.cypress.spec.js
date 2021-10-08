@@ -26,7 +26,7 @@ describe('Notification Settings', () => {
     context(
       'and is a VA patient, has an email address, and a mobile phone number',
       () => {
-        it('should show the "select options" alert and the jump link should work', () => {
+        it('should show the "select options" alert and the jump link should work - C9530', () => {
           const patientWithAllContactInfoOnFile = makeMockUser();
           cy.login(patientWithAllContactInfoOnFile);
           cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
@@ -46,7 +46,7 @@ describe('Notification Settings', () => {
     context(
       'and is a VA patient, has an email address, and a mobile phone number',
       () => {
-        it('should not show the "select options" alert', () => {
+        it('should not show the "select options" alert - C9531', () => {
           cy.intercept('GET', '/v0/profile/communication_preferences', {
             statusCode: 200,
             body: mockCommPrefsAllSelectionsMade,

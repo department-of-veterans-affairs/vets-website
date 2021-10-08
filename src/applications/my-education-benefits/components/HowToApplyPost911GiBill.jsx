@@ -6,14 +6,14 @@ export default function HowToApplyPost911GiBill() {
       <div className="usa-alert usa-alert-warning">
         <div className="usa-alert-body">
           <h3 className="usa-alert-heading">
-            This application is only for the Post-9/11 GI Bill
+            This application is only for the Post-9/11 GI Bill®
           </h3>
           <div className="usa-alert-text">
             <p>
               Currently, we are only providing Post-9/11 GI Bill (Chapter 33)
               benefits through this application. If you would like to apply for
-              other benefits, please go to our <a href="#">How To Apply</a>{' '}
-              page.
+              other benefits, please go to our{' '}
+              <a href="/education/how-to-apply/">How To Apply</a> page.
             </p>
           </div>
         </div>
