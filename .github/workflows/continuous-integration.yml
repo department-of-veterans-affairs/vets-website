@@ -49,14 +49,6 @@ jobs:
       # | Notify Slack of failures |
       # ---------------------------
 
-      - name: Configure AWS credentials
-        if: ${{ failure() }}
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-
       - name: Slack notification
         if: ${{ failure() }}
         uses: ./.github/workflows/slack-notify
@@ -453,13 +445,6 @@ jobs:
       # | Notify Slack |
       # ----------------
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-
       - name: Slack notification
         if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: ./.github/workflows/slack-notify
@@ -473,6 +458,19 @@ jobs:
       # ------------------------
       # | Upload BigQuery Data |
       # ------------------------
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Checkout Testing Tools Team Dashboard Data repo
         uses: actions/checkout@v2
@@ -776,13 +774,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
 
       - name: Slack notificaion
         uses: ./.github/workflows/slack-notify
