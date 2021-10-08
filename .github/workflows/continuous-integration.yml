@@ -32,14 +32,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-
-      - name: Install
+      - name: Install dependencies
         uses: ./.github/workflows/install
         with:
           keys: ${{ hashFiles('yarn.lock') }}
@@ -55,6 +48,14 @@ jobs:
       # ----------------------------
       # | Notify Slack of failures |
       # ---------------------------
+
+      - name: Configure AWS credentials
+        if: ${{ failure() }}
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
 
       - name: Slack notification
         if: ${{ failure() }}
@@ -445,25 +446,19 @@ jobs:
     if: ${{ needs.cypress-tests-prep.outputs.num_containers > 0 && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
     continue-on-error: true
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # ----------------
+      # | Notify Slack |
+      # ----------------
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
-
-      - name: Get va-vsp-bot token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
-      # ----------------
-      # | Notify Slack |
-      # ----------------
-
-      - name: Checkout
-        uses: actions/checkout@v2
 
       - name: Slack notification
         if: ${{ needs.cypress-tests.result == 'failure' }}
@@ -497,6 +492,7 @@ jobs:
         with:
           node-version: 14 # ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
+      # TODO: Potentially use install composite
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline --production=false
         env:
@@ -653,24 +649,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Get Node version
-        id: get-node-version
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-
-      - name: Setup Node
-        uses: actions/setup-node@v2
+      - name: Install dependencies
+        uses: ./.github/workflows/install
         with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-
-      - name: Cache dependencies
-        id: cache-dependencies
-        uses: actions/cache@v2
-        with:
+          keys: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
           path: |
             .cache/yarn
             node_modules
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-          # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
