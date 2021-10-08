@@ -26,6 +26,7 @@ runs:
 
     - name: Notify Slack
       uses: department-of-veterans-affairs/vsp-github-actions/slack-socket@v1.1.0
+      continue-on-error: true
       with:
         slack_app_token: ${{ env.SLACK_APP_TOKEN }}
         slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
