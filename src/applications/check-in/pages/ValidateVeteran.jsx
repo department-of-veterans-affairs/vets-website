@@ -103,7 +103,6 @@ const ValidateVeteran = props => {
           spellCheck="false"
           value={lastName}
         />
-
         <VaTextInput
           label="Last 4 digits of your Social Security number"
           name="last-4-ssn"
