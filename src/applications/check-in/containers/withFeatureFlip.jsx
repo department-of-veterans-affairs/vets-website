@@ -39,6 +39,7 @@ const mapStateToProps = state => ({
   isMultipleAppointmentsEnabled: checkInExperienceMultipleAppointmentEnabled(
     state,
   ),
+
   isUpdatePageEnabled: checkInExperienceUpdateInformationPageEnabled(state),
 });
 
