@@ -42,10 +42,18 @@ export default function Demographics(props) {
   return (
     <>
       <h1>Is your contact information correct?</h1>
-      <button onClick={() => yesClick()} className={'usa-button-secondary'}>
+      <button
+        onClick={() => yesClick()}
+        className={'usa-button-secondary'}
+        data-testid="yes-button"
+      >
         Yes
       </button>
-      <button onClick={() => noClick()} className={'usa-button-secondary'}>
+      <button
+        onClick={() => noClick()}
+        className={'usa-button-secondary'}
+        data-testid="no-button"
+      >
         No
       </button>
       <Footer />
