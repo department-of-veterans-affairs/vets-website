@@ -15,8 +15,8 @@ const initialState = {
   isVBMSError: false,
   selectedDebt: {},
   hasDependentDebts: false,
-  debts: null,
-  debtLinks: null,
+  debts: [],
+  debtLinks: [],
 };
 
 export const debtsReducer = (state = initialState, action) => {
