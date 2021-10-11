@@ -168,6 +168,9 @@ jobs:
     needs: deploy
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Notify Slack
         if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
         uses: ./.github/workflows/slack-notify
