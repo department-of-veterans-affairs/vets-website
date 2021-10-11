@@ -83,7 +83,9 @@ describe('<AcceptTermsPrompt>', () => {
   });
 
   it('should render the correct default h level', () => {
-    const acceptTermsPrompt = <AcceptTermsPrompt {...defaultProps} />;
-    expect(acceptTermsPrompt.find('h1')).to.exist;
+    const tree = SkinDeep.shallowRender(
+      <AcceptTermsPrompt {...defaultProps} />,
+    );
+    expect(tree.find('h1')).to.exist;
   });
 });
