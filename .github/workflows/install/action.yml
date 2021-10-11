@@ -2,7 +2,7 @@ name: Install dependencies
 description: Install dependencies
 
 inputs:
-  keys:
+  key:
     description: keys for actions/cache@v2
     required: false
     default: ''
@@ -37,7 +37,7 @@ runs:
       uses: actions/cache@v2
       with:
         path: ${{ inputs.path }}
-        key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.keys }}
+        key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.key }}
         # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.restore-keys }}
 
     - name: Install dependencies
