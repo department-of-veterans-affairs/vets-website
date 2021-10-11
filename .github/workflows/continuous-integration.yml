@@ -719,7 +719,7 @@ jobs:
 
           # env.MOCHAWESOME_REPORT_RESULTS is set and exported during the above step when the mochawesome report is generated.  It contains the output string for the publish step at the end of the job with the numbers from the Mochawesome report.
 
-      - name: Upload Cypress E2E test report to s3
+      - name: Upload Contract Test report to s3
         run: aws s3 cp testing-tools-team-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-contract-test-reports --acl public-read --region us-gov-west-1 --recursive
 
       # -------------------------
