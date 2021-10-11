@@ -740,7 +740,11 @@ jobs:
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
 
       - name: Remove Contract Test data
-        run: rm -rf testing-tools-team-dashboard-data/src/mochawesome/data
+        run: rm testing-tools-team-dashboard-data/src/mochawesome/data/*
+
+      - name: Log directory
+        run: ls testing-tools-team-dashboard-data/src/mochawesome/data
+
       # --------------------------------------
       # | Publish Cypress E2E Testing Report |
       # -------------------------------------
@@ -750,6 +754,16 @@ jobs:
         with:
           name: cypress-mochawesome-test-results
           path: testing-tools-team-dashboard-data/src/mochawesome/data
+
+      - name: Download Cypress E2E video artifacts
+        if: ${{ needs.cypress-tests.result == 'failure' }}
+        uses: actions/download-artifact@v2
+        with:
+          name: cypress-video-artifacts
+          path: testing-tools-team-dashboard-data/cypress-reports/videos/${{ env.UUID }}
+
+      - name: Log directory
+        run: ls testing-tools-team-dashboard-data/src/mochawesome/data
 
       - name: Create Cypress E2E report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
@@ -763,13 +777,6 @@ jobs:
           TEST_SET: 'CYPRESS_E2E'
 
           # env.MOCHAWESOME_REPORT_RESULTS is set and exported during the above step when the mochawesome report is generated.  It contains the output string for the publish step at the end of the job with the numbers from the Mochawesome report.
-
-      - name: Download Cypress E2E video artifacts
-        if: ${{ needs.cypress-tests.result == 'failure' }}
-        uses: actions/download-artifact@v2
-        with:
-          name: cypress-video-artifacts
-          path: testing-tools-team-dashboard-data/cypress-reports/videos/${{ env.UUID }}
 
       - name: Upload Cypress E2E test videos to s3
         if: ${{ needs.cypress-tests.result == 'failure' }}
