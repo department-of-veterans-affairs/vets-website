@@ -707,6 +707,12 @@ jobs:
           name: contract-test-report
           path: testing-tools-team-dashboard-data/src/mochawesome/data
 
+      - name: Log directory
+        run: ls testing-tools-team-dashboard-data/src/mochawesome/data
+
+      - name: Upload Contract Test report to s3
+        run: aws s3 cp testing-tools-team-dashboard-data/src/mochawesome/data/mochawesome.html s3://testing-tools-testing-reports/vets-website-contract-test-reports/{{env.UUID}}.html --acl public-read --region us-gov-west-1
+
       - name: Create Contract Test report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
         working-directory: testing-tools-team-dashboard-data
@@ -718,9 +724,6 @@ jobs:
           TEST_REPORTS_FOLDER_NAME: vets-website-contract-test-reports
 
           # env.MOCHAWESOME_REPORT_RESULTS is set and exported during the above step when the mochawesome report is generated.  It contains the output string for the publish step at the end of the job with the numbers from the Mochawesome report.
-
-      - name: Upload Contract Test report to s3
-        run: aws s3 cp testing-tools-team-dashboard-data/src/mochawesome/data/mochawesome.html s3://testing-tools-testing-reports/vets-website-contract-test-reports/${{env.UUID}}.html --acl public-read --region us-gov-west-1 --recursive
 
       # -------------------------
       # | Contract Tests Summary |
