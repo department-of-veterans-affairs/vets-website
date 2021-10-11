@@ -1,7 +1,7 @@
 import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
 import mockSession from '../../../../api/local-mock-api/mocks/v2/sessions.responses';
 import mockPatientCheckIns from '../../../../api/local-mock-api/mocks/v2/patient.check.in.responses';
-import Timeouts from 'platform/testing/e2e/timeouts';
+// import Timeouts from 'platform/testing/e2e/timeouts';
 
 describe('Check In Experience -- ', () => {
   describe('phase 3 -- ', () => {
@@ -53,10 +53,10 @@ describe('Check In Experience -- ', () => {
         .find('input')
         .type('4837');
       cy.get('[data-testid=check-in-button]').click();
-      cy.get('.appointment-list > li p', { timeout: Timeouts.slow }).should(
-        'contain',
-        'This appointment isn’t eligible for online check-in. Check-in with a staff member.',
-      );
+      // cy.get('.appointment-list > li p', { timeout: Timeouts.slow }).should(
+      //   'contain',
+      //   'This appointment isn’t eligible for online check-in. Check-in with a staff member.',
+      // );
       cy.injectAxe();
       cy.axeCheck();
     });
