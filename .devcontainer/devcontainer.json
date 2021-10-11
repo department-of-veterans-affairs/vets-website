@@ -1,28 +1,39 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
-// https://github.com/microsoft/vscode-dev-containers/tree/v0.192.0/containers/javascript-node
 {
 	"name": "Node.js",
 	"build": {
 		"dockerfile": "Dockerfile",
-		// Update 'VARIANT' to pick a Node version: 12, 14, 16
 		"args": {
 			"VARIANT": "14"
 		}
 	},
-	// Set *default* container specific settings.json values on container create.
-	"settings": {},
-	// Add the IDs of extensions you want installed when the container is created.
+	"settings": {
+		"editor.formatOnSave": true,
+		"[json]": {
+			"editor.defaultFormatter": "esbenp.prettier-vscode"
+		},
+		"terminal.integrated.shell.linux": "/bin/bash",
+		"workbench.startupEditor": "readme"
+	},
 	"extensions": [
-		"dbaeumer.vscode-eslint"
+		"davidanson.vscode-markdownlint",
+		"dbaeumer.vscode-eslint",
+		"eamodio.gitlens",
+		"esbenp.prettier-vscode",
+		"github.vscode-pull-request-github",
+		"stylelint.vscode-stylelint",
+		"humao.rest-client",
+		"ms-vsliveshare.vsliveshare",
+		"ms-vsliveshare.vsliveshare-pack",
+		"redhat.vscode-yaml",
+		"tyriar.sort-lines",
+		"visualstudioexptteam.vscodeintellicode",
+		"wayou.vscode-todo-highlight"
 	],
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [
 		3000,
 		3001,
 		3002
 	],
-	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "./.devcontainer/post-create.sh",
-	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	"postCreateCommand": "./.devcontainer/codespaces-create.sh",
 	"remoteUser": "node"
 }

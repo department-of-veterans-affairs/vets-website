@@ -53,4 +53,3 @@ USER vets-website
 ENV NODE_EXTRA_CA_CERTS /etc/ssl/certs/ca-certificates.crt
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
-
