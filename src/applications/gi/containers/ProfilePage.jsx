@@ -43,7 +43,9 @@ export function ProfilePage({
   useEffect(
     () => {
       if (institutionName) {
-        dispatchSetPageTitle(`${institutionName} - GI Bill® Comparison Tool`);
+        dispatchSetPageTitle(
+          `${institutionName} - GI Bill® Comparison Tool | Veterans Affairs`,
+        );
       }
     },
     [institutionName],

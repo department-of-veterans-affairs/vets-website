@@ -37,7 +37,7 @@ export function LandingPage({
   filters,
 }) {
   useEffect(() => {
-    dispatchSetPageTitle(`GI Bill® Comparison Tool: VA.gov`);
+    dispatchSetPageTitle(`GI Bill® Comparison Tool | Veterans Affairs`);
   }, []);
 
   const location = useLocation();

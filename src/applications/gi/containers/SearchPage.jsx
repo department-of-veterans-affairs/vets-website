@@ -55,8 +55,10 @@ export function SearchPage({
   const history = useHistory();
   const queryParams = useQueryParams();
 
-  const searchTerm = autocomplete.term;
-  const title = searchTerm ? `SearchResults - ${searchTerm}` : 'Search Results';
+  const searchTerm = autocomplete.searchTerm;
+  const title = searchTerm
+    ? `${searchTerm} Search results: GI Bill(R) Comparison Tool | Veterans Affairs`
+    : 'Search Results';
 
   useEffect(
     () => {
