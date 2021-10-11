@@ -32,7 +32,6 @@ describe('Check In Experience -- ', () => {
         'GET',
         '/v0/feature_toggles*',
         generateFeatureToggles({
-          checkInExperienceLowAuthenticationEnabled: true,
           checkInExperienceMultipleAppointmentSupport: true,
           checkInExperienceUpdateInformationPageEnabled: false,
         }),
@@ -43,7 +42,7 @@ describe('Check In Experience -- ', () => {
         window.sessionStorage.clear();
       });
     });
-    it('Current Happy path', () => {
+    it('phase 3 - happy path', () => {
       const featureRoute =
         '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
       cy.visit(featureRoute);

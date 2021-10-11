@@ -52,7 +52,7 @@ This is a multi-team project and questions are highly encouraged. There are seve
 
 ### What version of the api are we using?
 
-Currently, we are using the `v1` of the API, with `v0` behind a feature flip. The mocks in [api/mocks](/api/mocks) show the the current structure and routes used.
+Currently, we are using the `v2` of the API, with `v1` behind a feature flip. The mocks in [api/mocks](/api/mocks) show the the current structure and routes used.
 
 ### How to run locally
 
@@ -73,6 +73,19 @@ We are currently using the endpoints that are mocked in `src/applications/check-
 ### Feature toggles
 
 We are currently using an HOC located at `src/applications/check-in/containers/withFeatureFlip.jsx` to control the feature flips. The whole app is wrapped around one, and each new feature should have its own toggle.
+
+#### Current toggles
+
+- `check_in_experience_enabled` : Enables or disabled the whole app on va.gov
+  - when to sunset: never;
+- `check_in_experience_demographics_page_enabled`: Enables or disabled the demographics page
+  - when to sunset: when the demographics page is deployed in production;
+- `check_in_experience_low_authentication_enabled` : Enables or disabled the low authentication flow
+  - when to sunset: Sprint 59
+- `check_in_experience_update_information_page_enabled` : Enables or disabled the update information page
+  - when to sunset: when we expand to multiple facilities and address the edge cases around it
+- `check_in_experience_multiple_appointment_support` : Enables or disabled the multiple appointment support
+  - when to sunset: When phase-4 is complete
 
 ### How to test this?
 
