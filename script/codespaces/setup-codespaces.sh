@@ -14,7 +14,7 @@ fi
 # Build vets-website
 set -e
 yarn install --production=false --prefer-offline
-yarn build -- --buildtype=localhost --api=https://api.va.gov --host=department-of-veterans-affairs-vets-website-7vrv7553xrg9-3002.githubpreview.dev/ --port=3002
+yarn build -- --buildtype=localhost --api=https://api.va.gov --host="${CODESPACE_NAME}-3002.githubpreview.dev/" --port=3002
 
 # Build content-build and serve site
 cd ../content-build
