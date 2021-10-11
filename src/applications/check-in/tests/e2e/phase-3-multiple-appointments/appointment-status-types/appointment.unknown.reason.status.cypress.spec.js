@@ -55,7 +55,7 @@ describe('Check In Experience -- ', () => {
       cy.get('[data-testid=check-in-button]').click();
       cy.get('.appointment-list > li p', { timeout: Timeouts.slow }).should(
         'contain',
-        'This appointment isn’t eligible for online check-in. Check-in with a staff member.',
+        'Online check-in isn’t available for this appointment. Check in with a staff member.',
       );
       cy.injectAxe();
       cy.axeCheck();
