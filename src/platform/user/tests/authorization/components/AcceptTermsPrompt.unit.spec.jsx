@@ -90,4 +90,17 @@ describe('<AcceptTermsPrompt>', () => {
     const title = tree.subTree('h1');
     expect(title).to.exist;
   });
+
+  it('should render the correct h level', () => {
+    const defaultPropsWithLevel = {
+      level: 3,
+      ...defaultProps,
+    };
+    const tree = SkinDeep.shallowRender(
+      <AcceptTermsPrompt {...defaultPropsWithLevel} />,
+    );
+
+    const title = tree.subTree('h3');
+    expect(title).to.exist;
+  });
 });
