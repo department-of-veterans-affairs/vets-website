@@ -81,4 +81,9 @@ describe('<AcceptTermsPrompt>', () => {
 
     axeCheck(acceptTermsPrompt, acceptTermsPromptState);
   });
+
+  it('should render the correct default h level', () => {
+    const acceptTermsPrompt = <AcceptTermsPrompt {...defaultProps} />;
+    expect(acceptTermsPrompt.querySelector('h1')).to.exist;
+  });
 });
