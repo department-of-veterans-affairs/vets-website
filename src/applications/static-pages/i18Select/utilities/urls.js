@@ -1,3 +1,6 @@
+// glossary of 'pages' that are translated
+// each page has english, spanish, and tagalog urls
+// when adding a page, make sure that all the translation urls for the new page are live before updating this file
 export default {
   faq: {
     en: '/coronavirus-veteran-frequently-asked-questions',
