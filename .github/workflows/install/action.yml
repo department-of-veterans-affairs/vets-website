@@ -15,7 +15,7 @@ inputs:
     required: false
     default: ''
   path:
-    description: path for cache folders
+    description: path for actions/cache@v2
     required: false
     default: ''
 
