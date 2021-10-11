@@ -5,8 +5,10 @@ import {
   PATHNAME_DICT,
 } from './constants';
 
+import URLS from './urls';
+
 export function stripTrailingSlash(str) {
-  return str.endsWith('/') ? str.slice(0, -1) : str;
+  return str?.endsWith('/') ? str?.slice(0, -1) : str;
 }
 
 export const getConfigFromLanguageCode = languageCode =>
@@ -108,4 +110,32 @@ export const setLangAttributes = lang => {
   adaptWithLangCode(lang, '#va-detailpage-sidebar');
 
   setMedalliaSurveyLangOnWindow(lang);
+};
+
+export const getNonActiveLinkUrls = languageCode => {
+  return Object.values(URLS).reduce((acc1, item) => {
+    const links = Object.entries(item).reduce((acc2, [key, value]) => {
+      if (key !== languageCode) return [...acc2, value];
+      return acc2;
+    }, []);
+
+    if (links?.length > 0) return [...acc1, ...links];
+    return acc1;
+  }, []);
+};
+
+export const adjustSidebarNav = lang => {
+  const sideNav = document?.querySelector('#va-detailpage-sidebar');
+
+  const links = Array.from(sideNav?.getElementsByTagName('a'));
+
+  const nonActiveLinkUrls = getNonActiveLinkUrls(lang);
+
+  nonActiveLinkUrls?.forEach(url => {
+    links?.forEach(link => {
+      if (stripTrailingSlash(link?.href)?.endsWith(stripTrailingSlash(url))) {
+        link?.parentNode.remove();
+      }
+    });
+  });
 };
