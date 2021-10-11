@@ -253,7 +253,6 @@ const loadingPage = (
     className="meb-confirmation-page meb-confirmation-page_loading"
     style={{ marginBottom: '3rem' }}
   >
-    <p>We are currently processing your application.</p>
     <LoadingIndicator message="Loading your results" />
   </div>
 );
