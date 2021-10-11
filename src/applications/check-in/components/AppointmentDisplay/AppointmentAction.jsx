@@ -12,17 +12,16 @@ import { appointmentWAsCheckedInto } from '../../actions';
 const AppointmentAction = props => {
   const {
     appointment,
-    isLowAuthEnabled,
     isMultipleAppointmentsEnabled,
-    token,
     router,
     setSelectedAppointment,
+    token,
   } = props;
 
   const [isCheckingIn, setIsCheckingIn] = useState(false);
 
   const defaultMessage =
-    'This appointment isn’t eligible for online check-in. Check-in with a staff member.';
+    'Online check-in isn’t available for this appointment. Check in with a staff member.';
 
   const onClick = async () => {
     recordEvent({
@@ -31,10 +30,8 @@ const AppointmentAction = props => {
     });
     setIsCheckingIn(true);
     try {
-      let checkIn = api.v0.checkInUser;
-      if (isLowAuthEnabled && !isMultipleAppointmentsEnabled) {
-        checkIn = api.v1.postCheckInData;
-      } else if (isMultipleAppointmentsEnabled) {
+      let checkIn = api.v1.postCheckInData;
+      if (isMultipleAppointmentsEnabled) {
         checkIn = api.v2.postCheckInData;
       }
 
@@ -122,6 +119,13 @@ const AppointmentAction = props => {
     ) {
       if (appointment.checkedInTime) {
         const appointmentDateTime = new Date(appointment.checkedInTime);
+        if (isNaN(appointmentDateTime.getTime())) {
+          return (
+            <p data-testid="already-checked-in-no-time-message">
+              You are already checked in.
+            </p>
+          );
+        }
         const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
         return (
           <p data-testid="already-checked-in-message">
@@ -131,8 +135,7 @@ const AppointmentAction = props => {
       } else {
         return (
           <p data-testid="already-checked-in-no-time-message">
-            Online check-in isn’t available for this appointment. Check in with
-            a staff member.
+            You are already checked in.
           </p>
         );
       }
