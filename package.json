@@ -141,7 +141,7 @@
     "clear": "^0.1.0",
     "cli-spinner": "^0.2.10",
     "cli-table": "^0.3.6",
-    "command-line-args": "^3.0.1",
+    "command-line-args": "^5.2.0",
     "command-line-usage": "^6.1.1",
     "copy-webpack-plugin": "^6.0.2",
     "cors": "^2.8.5",
