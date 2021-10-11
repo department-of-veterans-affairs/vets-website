@@ -19,7 +19,7 @@ yarn install-repos
 
 # Setup vets-website
 printf "\n\n#####" Setting up vets-website #####\n""
-yarn install --production=false --prefer-offline && yarn build -- --buildtype=localhost --api=https://staging-api.va.gov --host=department-of-veterans-affairs-vets-website-7vrv7553xrg9-3002.githubpreview.dev/ --port=3002
+yarn install --production=false --prefer-offline && yarn build -- --buildtype=localhost --api=https://staging-api.va.gov --host="${CODESPACE_NAME}-3002.githubpreview.dev/" --port=3002
 
 printf "\n\n#####" Setting up vets-api #####\n""
 cd ../vets-api
