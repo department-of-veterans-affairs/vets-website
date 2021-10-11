@@ -13,13 +13,7 @@ import { api } from '../../api';
 import { goToNextPage, URLS } from '../../utils/navigation';
 
 export default function DisplaySingleAppointment(props) {
-  const {
-    isUpdatePageEnabled,
-    isLowAuthEnabled,
-    router,
-    token,
-    appointment,
-  } = props;
+  const { isUpdatePageEnabled, router, token, appointment } = props;
   const [isCheckingIn, setIsCheckingIn] = useState(false);
 
   const onClick = async () => {
@@ -29,11 +23,7 @@ export default function DisplaySingleAppointment(props) {
     });
     setIsCheckingIn(true);
     try {
-      const checkIn = isLowAuthEnabled
-        ? api.v1.postCheckInData
-        : api.v0.checkInUser;
-
-      const json = await checkIn({
+      const json = await api.v1.postCheckInData({
         token,
       });
       const { status } = json;

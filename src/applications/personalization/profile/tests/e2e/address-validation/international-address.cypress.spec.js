@@ -29,9 +29,9 @@ describe('Personal and contact information', () => {
         .and('contain', 'Amsterdam, Noord-Holland, 1012 JS')
         .and('contain', 'Netherlands');
 
-      cy.findByRole('button', { name: /edit mailing address/i }).should(
-        'be.focused',
-      );
+      cy.focused()
+        .invoke('text')
+        .should('match', /update saved/i);
     });
   });
 });

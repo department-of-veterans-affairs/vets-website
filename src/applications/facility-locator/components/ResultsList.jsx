@@ -29,12 +29,9 @@ import UrgentCareResult from './search-results-items/UrgentCareResult';
 import EmergencyCareResult from './search-results-items/EmergencyCareResult';
 import Covid19Result from './search-results-items/Covid19Result';
 import SearchResultMessage from './SearchResultMessage';
-import {
-  covidVaccineSchedulingFrontend,
-  facilityLocatorCovidVaccineWalkInAvailabilityTextFrontend,
-} from '../utils/featureFlagSelectors';
+import { covidVaccineSchedulingFrontend } from '../utils/featureFlagSelectors';
 
-class ResultsList extends Component {
+export class ResultsList extends Component {
   constructor(props) {
     super(props);
     this.searchResultTitle = React.createRef();
@@ -61,8 +58,12 @@ class ResultsList extends Component {
    * @returns [] list of results
    */
   renderResultItems(query, results) {
-    return results.map((r, index) => {
+    return results.map((result, index) => {
       let item;
+      const services = result?.attributes?.detailedServices;
+      const walkInsAccepted = Array.isArray(services)
+        ? services[0]?.walkInsAccepted
+        : 'false';
       switch (query.facilityType) {
         case 'health':
         case 'cemetery':
@@ -71,21 +72,21 @@ class ResultsList extends Component {
           item =
             query.serviceType === Covid19Vaccine ? (
               <Covid19Result
-                location={r}
-                key={r.id}
+                location={result}
+                key={result.id}
                 index={index}
                 showCovidVaccineSchedulingLinks={
                   this.props.showCovidVaccineSchedulingLinks
                 }
                 showCovidVaccineWalkInAvailabilityText={
-                  this.props.showCovidVaccineWalkInAvailabilityText
+                  (walkInsAccepted || '').toLowerCase() === 'true'
                 }
               />
             ) : (
               <VaFacilityResult
-                location={r}
+                location={result}
                 query={query}
-                key={r.id}
+                key={result.id}
                 index={index}
               />
             );
@@ -93,45 +94,75 @@ class ResultsList extends Component {
         case 'provider':
           // Support non va urgent care search through ccp option
           if (query.serviceType === CLINIC_URGENTCARE_SERVICE) {
-            item = <UrgentCareResult provider={r} query={query} key={r.id} />;
+            item = (
+              <UrgentCareResult
+                provider={result}
+                query={query}
+                key={result.id}
+              />
+            );
           } else if (query.serviceType === PHARMACY_RETAIL_SERVICE) {
-            item = <PharmacyResult provider={r} query={query} key={r.id} />;
+            item = (
+              <PharmacyResult provider={result} query={query} key={result.id} />
+            );
           } else if (EMERGENCY_CARE_SERVICES.includes(query.serviceType)) {
             item = (
-              <EmergencyCareResult provider={r} query={query} key={r.id} />
+              <EmergencyCareResult
+                provider={result}
+                query={query}
+                key={result.id}
+              />
             );
           } else {
-            item = <CCProviderResult provider={r} query={query} key={r.id} />;
+            item = (
+              <CCProviderResult
+                provider={result}
+                query={query}
+                key={result.id}
+              />
+            );
           }
           break;
         case 'pharmacy':
-          item = <PharmacyResult provider={r} query={query} key={r.id} />;
+          item = (
+            <PharmacyResult provider={result} query={query} key={result.id} />
+          );
           break;
         case 'emergency_care':
-          if (r.type === LocationType.CC_PROVIDER) {
+          if (result.type === LocationType.CC_PROVIDER) {
             item = (
-              <EmergencyCareResult provider={r} query={query} key={r.id} />
+              <EmergencyCareResult
+                provider={result}
+                query={query}
+                key={result.id}
+              />
             );
           } else {
             item = (
               <VaFacilityResult
-                location={r}
+                location={result}
                 query={query}
-                key={r.id}
+                key={result.id}
                 index={index}
               />
             );
           }
           break;
         case 'urgent_care':
-          if (r.type === LocationType.CC_PROVIDER) {
-            item = <UrgentCareResult provider={r} query={query} key={r.id} />;
+          if (result.type === LocationType.CC_PROVIDER) {
+            item = (
+              <UrgentCareResult
+                provider={result}
+                query={query}
+                key={result.id}
+              />
+            );
           } else {
             item = (
               <VaFacilityResult
-                location={r}
+                location={result}
                 query={query}
-                key={r.id}
+                key={result.id}
                 index={index}
               />
             );
@@ -273,9 +304,6 @@ function mapStateToProps(state) {
     selectedResult: state.searchResult.selectedResult,
     resultTime: state.searchResult.resultTime,
     showCovidVaccineSchedulingLinks: covidVaccineSchedulingFrontend(state),
-    showCovidVaccineWalkInAvailabilityText: facilityLocatorCovidVaccineWalkInAvailabilityTextFrontend(
-      state,
-    ),
   };
 }
 

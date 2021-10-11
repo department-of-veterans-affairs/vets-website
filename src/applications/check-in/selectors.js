@@ -4,11 +4,6 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 export const checkInExperienceEnabled = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.checkInExperienceEnabled];
 
-export const checkInExperienceLowRiskAuthenicationEnabled = state =>
-  toggleValues(state)[
-    FEATURE_FLAG_NAMES.checkInExperienceLowRiskAuthenicationEnabled
-  ];
-
 export const checkInExperienceMultipleAppointmentEnabled = state =>
   toggleValues(state)[
     FEATURE_FLAG_NAMES.checkInExperienceMultipleAppointmentEnabled
@@ -17,6 +12,11 @@ export const checkInExperienceMultipleAppointmentEnabled = state =>
 export const checkInExperienceUpdateInformationPageEnabled = state =>
   toggleValues(state)[
     FEATURE_FLAG_NAMES.checkInExperienceUpdateInformationPageEnabled
+  ];
+
+export const checkInExperienceDemographicsPageEnabled = state =>
+  toggleValues(state)[
+    FEATURE_FLAG_NAMES.checkInExperienceDemographicsPageEnabled
   ];
 
 export const loadingFeatureFlags = state => state?.featureToggles?.loading;
