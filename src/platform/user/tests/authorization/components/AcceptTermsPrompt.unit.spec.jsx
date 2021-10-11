@@ -86,6 +86,8 @@ describe('<AcceptTermsPrompt>', () => {
     const tree = SkinDeep.shallowRender(
       <AcceptTermsPrompt {...defaultProps} />,
     );
-    expect(tree.find('h1')).to.exist;
+
+    const title = tree.subTree('h1');
+    expect(title).to.exist;
   });
 });
