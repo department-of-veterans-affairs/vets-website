@@ -93,8 +93,8 @@ describe('<AcceptTermsPrompt>', () => {
 
   it('should render the correct h level', () => {
     const defaultPropsWithLevel = {
-      level: 3,
       ...defaultProps,
+      level: 3,
     };
     const tree = SkinDeep.shallowRender(
       <AcceptTermsPrompt {...defaultPropsWithLevel} />,
