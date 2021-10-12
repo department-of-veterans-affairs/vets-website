@@ -40,9 +40,43 @@ const Demographics = props => {
   if (isLoading) {
     return <LoadingIndicator message={'Loading your appointments for today'} />;
   }
+  // Temp data
+  const demoData = {
+    mailingAddress: '1221 Douglas Way, Douglas, MA, 00000',
+    homeAddress: '15431 Boston Road Apt 1C, Boston, MA, 00000',
+    homePhone: '5555555555',
+    mobilePhone: '5555555555',
+    workPhone: '5555555555',
+    emailAddress: 'email@email.com',
+  };
+  const demographics = [
+    { title: 'Mailing Address', key: 'mailingAddress' },
+    { title: 'Home Address', key: 'homeAddress' },
+    { title: 'Home Phone', key: 'homePhone' },
+    { title: 'Mobile Phone', key: 'mobilePhone' },
+    { title: 'Work Phone', key: 'workPhone' },
+    { title: 'Email Address', key: 'emailAddress' },
+  ];
+
   return (
-    <>
-      <h1>Is your contact information correct?</h1>
+    <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 check-in-demographics">
+      <h1 className="vads-u-font-size--h1">
+        Is this your current contact information?
+      </h1>
+      <div className="vads-u-border-color--primary vads-u-border-left--5px vads-u-margin-left--0p5 vads-u-padding-left--2">
+        <dl>
+          {demographics
+            .filter(demo => demo.key in demoData)
+            .map(demographic => (
+              <React.Fragment key={demographic.key}>
+                <dt className="vads-u-font-size--h3 vads-u-font-family--serif">
+                  {demographic.title}
+                </dt>
+                <dd>{formatDemographic(demoData[demographic.key])}</dd>
+              </React.Fragment>
+            ))}
+        </dl>
+      </div>
       <button
         onClick={() => yesClick()}
         className={'usa-button-secondary'}
@@ -52,14 +86,14 @@ const Demographics = props => {
       </button>
       <button
         onClick={() => noClick()}
-        className={'usa-button-secondary'}
+        className="usa-button-secondary vads-u-margin-top--2"
         data-testid="no-button"
       >
         No
       </button>
       <Footer />
       <BackToHome />
-    </>
+    </div>
   );
 };
 
