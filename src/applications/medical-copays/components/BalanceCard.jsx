@@ -5,9 +5,7 @@ import moment from 'moment';
 
 const BalanceCard = ({ id, amount, facility, city, dueDate }) => (
   <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2">
-    <h3 className="card-balance vads-u-margin-top--0">
-      <Link to={`/balance-details/${id}`}>{currency(amount)}</Link>
-    </h3>
+    <h3 className="card-balance vads-u-margin-top--0">{currency(amount)}</h3>
     <p className="card-heading vads-u-margin-top--0">
       Copay balance for {facility} - {city}
     </p>
@@ -29,9 +27,7 @@ const BalanceCard = ({ id, amount, facility, city, dueDate }) => (
     )}
     <Link className="vads-u-font-size--sm" to={`/balance-details/${id}`}>
       <strong>
-        {amount
-          ? 'Check details and resolve this bill'
-          : 'Check your balance details'}
+        {amount ? 'Check details and resolve this bill' : 'Check details'}
       </strong>
       <i
         className="fa fa-chevron-right vads-u-margin-left--1"
