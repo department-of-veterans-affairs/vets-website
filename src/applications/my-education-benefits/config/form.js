@@ -340,7 +340,7 @@ const formConfig = {
       'Please sign in again to continue your application for my education benefits.',
   },
   title: 'Apply for VA education benefits',
-  subTitle: 'Form 22-1990',
+  subTitle: 'Equal to VA Form 22-1990 (Application for VA Education Benefits)',
   defaultDefinitions: {
     fullName,
     // ssn,
