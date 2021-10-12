@@ -10,12 +10,6 @@ export function focusElement(selectorOrElement, options) {
   const el = $(selectorOrElement);
 
   if (el) {
-    if (el.tabIndex === 0) {
-      el.setAttribute('tabindex', '0');
-    }
-    if (el.tabIndex < 0) {
-      el.setAttribute('tabindex', '-1');
-    }
     el.focus(options);
   }
 }
