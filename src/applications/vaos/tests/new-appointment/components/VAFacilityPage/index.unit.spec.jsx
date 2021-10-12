@@ -28,15 +28,13 @@ import {
 } from '../../../mocks/helpers';
 import {
   mockSchedulingConfigurations,
-  mockV2FacilitiesFetch,
   mockVAOSParentSites,
 } from '../../../mocks/helpers.v2';
-import {
-  getSchedulingConfigurationMock,
-  getV2FacilityMock,
-} from '../../../mocks/v2';
+import { getSchedulingConfigurationMock } from '../../../mocks/v2';
 import { NewAppointment } from '../../../../new-appointment';
 import { FETCH_STATUS } from '../../../../utils/constants';
+import { createMockFacilityByVersion } from '../../../mocks/data';
+import { mockFacilitiesFetchByVersion } from '../../../mocks/fetch';
 
 describe('VAOS <VAFacilityPage>', () => {
   describe('when there are multiple facilities to choose from', () => {
@@ -1427,15 +1425,21 @@ describe('VAOS <VAFacilityPage>', () => {
           typeOfCareId: 'primaryCare',
         }),
       ]);
-      mockV2FacilitiesFetch(
-        ['983', '984'],
-        [
-          getV2FacilityMock({ id: '983', name: 'A facility name' }),
-          getV2FacilityMock({ id: '984', name: 'Another facility name' }),
-          getV2FacilityMock({ id: '984GC', name: 'Disabled facility name' }),
+      mockFacilitiesFetchByVersion({
+        ids: ['983', '984'],
+        facilities: [
+          createMockFacilityByVersion({ id: '983', name: 'A facility name' }),
+          createMockFacilityByVersion({
+            id: '984',
+            name: 'Another facility name',
+          }),
+          createMockFacilityByVersion({
+            id: '984GC',
+            name: 'Disabled facility name',
+          }),
         ],
-        true,
-      );
+        children: true,
+      });
       mockEligibilityFetches({
         siteId: '983',
         facilityId: '983',

@@ -24,6 +24,7 @@ import {
   selectFeatureDirectScheduling,
   selectRegisteredCernerFacilityIds,
 } from '../../redux/selectors';
+import { removeDuplicateId } from '../../utils/data';
 
 export function getNewAppointment(state) {
   return state.newAppointment;
@@ -220,10 +221,13 @@ export function selectProviderSelectionInfo(state) {
     sortMethod === FACILITY_SORT_METHODS.distanceFromFacility
       ? selectedCCFacility.id
       : sortMethod;
+
   return {
     address: selectVAPResidentialAddress(state),
     ccEnabledSystems,
-    communityCareProviderList: communityCareProviders[ccProviderCacheKey],
+    communityCareProviderList: !communityCareProviders[ccProviderCacheKey]
+      ? communityCareProviders[ccProviderCacheKey]
+      : removeDuplicateId(communityCareProviders[ccProviderCacheKey]),
     currentLocation,
     requestLocationStatus,
     requestStatus,

@@ -38,7 +38,7 @@ const ContactInfoOnFile = ({ emailAddress, mobilePhoneNumber }) => {
           </li>
         ) : null}
       </ul>
-      <hr />
+      <hr aria-hidden="true" />
     </>
   );
 };

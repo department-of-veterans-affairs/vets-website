@@ -73,16 +73,16 @@ describe('check inactions', () => {
     describe('appointmentWAsCheckedInto', () => {
       it('should return correct action', () => {
         const action = appointmentWAsCheckedInto({
-          appointmentIEN: 'some-ien',
+          appointmentIen: 'some-ien',
         });
         expect(action.type).to.equal(APPOINTMENT_WAS_CHECKED_INTO);
       });
       it('should return correct structure', () => {
         const action = appointmentWAsCheckedInto({
-          appointmentIEN: 'some-ien',
+          appointmentIen: 'some-ien',
         });
         expect(action.value).to.haveOwnProperty('appointment');
-        expect(action.value.appointment.appointmentIEN).to.equal('some-ien');
+        expect(action.value.appointment.appointmentIen).to.equal('some-ien');
       });
     });
   });

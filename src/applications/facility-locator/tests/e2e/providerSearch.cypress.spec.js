@@ -1,15 +1,40 @@
-import mockFacilityDataV1 from '../../constants/mock-facility-data-v1.json';
-import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 import { facilityTypes, urgentCareServices } from '../../config.js';
 import { LocationType } from '../../constants';
+import mockGeocodingData from '../../constants/mock-geocoding-data.json';
+import mockFacilitiesSearchResultsV1 from '../../constants/mock-facility-data-v1.json';
+import mockUrgentCareSearchResults from '../../constants/mock-urgent-care-mashup-data.json';
+import mockEmergencyCareSearchResults from '../../constants/mock-emergency-care-mashup-data.json';
+import mockServices from '../../constants/mock-provider-services.json';
 
 describe('Provider search', () => {
   beforeEach(() => {
+    cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
+    cy.intercept('GET', '/v0/maintenance_windows', []);
     cy.intercept('GET', '/v0/feature_toggles?*', []);
     cy.intercept('GET', '/v0/maintenance_windows', []);
-    cy.intercept('GET', '/v1/facilities/va?*', mockFacilityDataV1).as(
-      'searchFacilities',
+    cy.intercept('GET', '/facilities_api/v1/ccp/specialties', mockServices).as(
+      'mockServices',
     );
+    cy.intercept(
+      'GET',
+      '/facilities_api/v1/ccp/*specialties[]=1223X2210X*',
+      mockFacilitiesSearchResultsV1,
+    ).as('searchDentistsProvider');
+    cy.intercept(
+      'GET',
+      '/facilities_api/v1/ccp/provider?*specialties[]=261QE0002X*',
+      mockEmergencyCareSearchResults,
+    ).as('searchFacilitiesProvider');
+    cy.intercept(
+      'GET',
+      '/facilities_api/v1/ccp/urgent_care?*',
+      mockUrgentCareSearchResults,
+    ).as('searchUrgentCare');
+    cy.intercept(
+      'GET',
+      '/facilities_api/v1/ccp/provider?*specialties[]=261QU0200X*',
+      mockUrgentCareSearchResults,
+    ).as('searchUrgentCare');
     cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
   });
 
@@ -61,7 +86,7 @@ describe('Provider search', () => {
     cy.get('#search-results-subheader').contains(
       `Results for "${
         facilityTypes[LocationType.CC_PROVIDER]
-      }", "Dentist - Orofacial Pain " near "Austin, Texas"`,
+      }", "Dentist - Orofacial Pain" near "Austin, Texas"`,
     );
     cy.get('#other-tools').should('exist');
 
@@ -93,7 +118,7 @@ describe('Provider search', () => {
 
     cy.axeCheck();
 
-    cy.get('.facility-result h3').contains('Concentra Urgent Care');
+    cy.get('.facility-result h3').contains('MinuteClinic');
     cy.get('.va-pagination').should('not.exist');
   });
 

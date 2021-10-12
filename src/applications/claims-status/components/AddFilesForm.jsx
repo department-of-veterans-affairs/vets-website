@@ -34,19 +34,20 @@ import {
 } from '../utils/validations';
 import { setFocus } from '../utils/page';
 import { uploadPdfLimitFeature } from '../utils/appeals-v2-helpers';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 const displayTypes = FILE_TYPES.join(', ');
 
 const scrollToFile = position => {
   const options = getScrollOptions({ offset: -25 });
-  Scroll.scroller.scrollTo(`documentScroll${position}`, options);
+  scrollTo(`documentScroll${position}`, options);
 };
 const scrollToError = () => {
   const errors = document.querySelectorAll('.usa-input-error');
   if (errors.length) {
     const errorPosition = getTopPosition(errors[0]);
     const options = getScrollOptions({ offset: -25 });
-    Scroll.animateScroll.scrollTo(errorPosition, options);
+    scrollTo(errorPosition, options);
     errors[0].querySelector('label').focus();
   }
 };
