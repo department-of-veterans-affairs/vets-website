@@ -6,7 +6,8 @@ import { Provider } from 'react-redux';
 // relative imports
 import DownloadPDFModal from './DownloadPDFModal';
 import InvalidFormDownload from './InvalidFormAlert';
-import { onDownloadLinkClick, sentryLogger } from './index';
+// import { onDownloadLinkClick, sentryLogger } from './index';
+import { sentryLogger } from './index';
 import { showPDFModal } from '../../helpers/selectors';
 
 const removeReactRoot = () => {
@@ -22,8 +23,9 @@ const DownloadPDFGuidance = ({
   formPdfIsValid,
   formPdfUrlIsValid,
   link,
+  listenerFunction,
   netWorkRequestError,
-  store,
+  reduxStore,
 }) => {
   const div = document.createElement('div');
   div.className = 'faf-pdf-alert-modal-root';
@@ -31,9 +33,9 @@ const DownloadPDFGuidance = ({
 
   if (formPdfIsValid && formPdfUrlIsValid && !netWorkRequestError) {
     // feature flag
-    if (store?.getState && showPDFModal(store.getState())) {
+    if (reduxStore?.getState && showPDFModal(reduxStore.getState())) {
       ReactDOM.render(
-        <Provider store={store}>
+        <Provider store={reduxStore}>
           <DownloadPDFModal
             formNumber={formNumber}
             removeNode={removeReactRoot}
@@ -45,7 +47,7 @@ const DownloadPDFGuidance = ({
       parentEl.insertBefore(div, link);
     } else {
       // if the Feature Flag for the Modal is turned off
-      link.removeEventListener('click', onDownloadLinkClick);
+      link.removeEventListener('click', listenerFunction);
       link.click();
     }
   } else {
