@@ -58,7 +58,7 @@ describe('createInvalidPdfAlert', () => {
       preventDefault: sinon.stub(),
     };
 
-    await onDownloadLinkClick(reduxStore)(event);
+    await onDownloadLinkClick(event, reduxStore, sinon.stub());
 
     expect(link.click.called).to.be.false;
     expect(link.parentNode.insertBefore.called).to.be.true;
@@ -88,7 +88,7 @@ describe('createInvalidPdfAlert', () => {
       preventDefault: sinon.stub(),
     };
 
-    await onDownloadLinkClick(reduxStore)(event);
+    await onDownloadLinkClick(event, reduxStore, sinon.stub());
 
     expect(link.parentNode.removeChild.called).to.be.false;
     expect(link.removeEventListener.called).to.be.true;
