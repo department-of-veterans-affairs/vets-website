@@ -321,25 +321,16 @@ jobs:
 
       - name: Archive contract test results
         uses: actions/upload-artifact@v2
-        # if: ${{ failure() }}
         with:
           name: contract-test-report
           path: mochawesome-report
 
       - name: Archive contract test log
         uses: actions/upload-artifact@v2
-        # if: ${{ failure() }}
+        if: ${{ failure() }}
         with:
           name: contract-test-log
           path: logs/pact.log
-
-      # - name: Publish test results
-      #   if: ${{ always() }}
-      #   uses: mikepenz/action-junit-report@v2.4.3
-      #   with:
-      #     check_name: 'Pact Tests Summary'
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     report_paths: 'test-results/test-results.xml'
 
   security-audit:
     name: Security Audit
@@ -633,7 +624,7 @@ jobs:
         with:
           slack_app_token: ${{ env.SLACK_APP_TOKEN }}
           slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
-          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "<!here> E2E tests in `vets-website` have failed on the `master` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
+          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "<!here> Contract tests in `vets-website` have failed on the `master` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
           channel_id: C026PD47Z19 #gha-test-status
 
         # ------------------------
@@ -871,9 +862,6 @@ jobs:
         with:
           name: cypress-video-artifacts
           path: testing-tools-team-dashboard-data/cypress-reports/videos/${{ env.UUID }}
-
-      - name: Log directory
-        run: ls testing-tools-team-dashboard-data/src/mochawesome/data
 
       - name: Create Cypress E2E report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
