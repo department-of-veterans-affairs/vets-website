@@ -868,27 +868,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Get Node version
-        id: get-node-version
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-
-      - name: Setup Node
-        uses: actions/setup-node@v2
+      - name: Install dependencies
+        uses: ./.github/workflows/install
         with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-      - name: Cache dependencies
-        id: cache-dependencies
-        uses: actions/cache@v2
-        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
           path: |
             .cache/yarn
             node_modules
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
-        env:
-          YARN_CACHE_FOLDER: .cache/yarn
 
       - name: Trigger Jenkins pipeline
         run: node script/github-actions/trigger-jenkins.js
