@@ -29,8 +29,8 @@ const responses = {
     hasBeenValidated = true;
     return res.json(mockSessions.mocks.post(req.body));
   },
-  'GET /check_in/v2/patient_check_ins/:uuid': (_req, res) => {
-    const { uuid } = _req.params;
+  'GET /check_in/v2/patient_check_ins/:uuid': (req, res) => {
+    const { uuid } = req.params;
     if (hasBeenValidated) {
       hasBeenValidated = false;
       return res.json(mockPatientCheckIns.createMultipleAppointments(uuid, 3));

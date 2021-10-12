@@ -5,18 +5,19 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
+
 import { receivedMultipleAppointmentDetails } from '../actions';
+import { api } from '../api';
+import { goToNextPage, URLS } from '../utils/navigation';
+
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 
-import { goToNextPage, URLS } from '../utils/navigation';
-import { api } from '../api';
-
 const Demographics = props => {
   const {
+    context,
     isUpdatePageEnabled,
     router,
-    context,
     setMultipleAppointments,
   } = props;
   const [isLoadingData, setIsLoadingData] = useState(true);
