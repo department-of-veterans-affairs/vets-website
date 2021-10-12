@@ -15,6 +15,8 @@ Once you have the site set up locally, these are some common commands you might 
 | fetch all dependencies     | `yarn install`; run this any time `package.json` changes |
 | build applications         | `yarn build`                                             |
 | run the webpack dev server | `yarn watch`                                             |
+| build in codespaces        | `yarn build:codespaces`. Build with codespace options    |
+| watch in codespaces        | `yarn watch:codespaces`. Watch with codespace options    |
 
 ## Building `vets-website`
 
@@ -72,6 +74,22 @@ Static pages are created from the [content-build](https://github.com/department-
 ### Building both together
 
 After [building the applications](#building-applications), running `yarn build` in the `../content-build` directory will build content using the generated app bundles from `vets-website/build/localhost/generated`. The full build can be seen in `../content-build/build/localhost`.
+
+## Working in GitHub CodeSpaces
+
+This repository is enabled to work with [GitHub CodeSpaces](https://github.com/features/codespaces). Please follow
+the [quickstart instructions](https://docs.github.com/en/codespaces/getting-started/quickstart) to get up and running.
+The system will execute some basic commands to build vets-website and content-build. It takes a little while,
+but you can follow the progress by viewing the creation log (`Codespaces: view creation log`) while the container
+starts up.
+
+After the environment is set up you can run `npx http-server build/localhost -s -c-1 -p 3002` to view the built site.
+It will run on port `3002`, which can be made public by [sharing the port](https://docs.github.com/en/codespaces/developing-in-codespaces/forwarding-ports-in-your-codespace#sharing-a-port) for design reviews or whatever you need.
+
+By default, CORS on `vets-api` will be blocked, but you can allow the request by adding the [Allow CORS: Access-Control-Allow-Origin](https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf?hl=en) browser extension (or something similar if you're not using Chrome). Be sure to select "Access-Control-Allow-Credentials" in the settings or requests will continue to be blocked.
+
+You have full access to the command line in codespaces, so you don't have to build content-build alongside vets-website.
+However, if you want to manually build or watch we have: `yarn build:codespaces`and `yarn watch:codespaces` available to help.
 
 ## Running tests
 
