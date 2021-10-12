@@ -30,9 +30,12 @@ const responses = {
     return res.json(mockSessions.mocks.post(req.body));
   },
   'GET /check_in/v2/patient_check_ins/:uuid': (_req, res) => {
+    const { uuid } = _req.params;
     if (hasBeenValidated) {
       hasBeenValidated = false;
-      return res.json(mockPatientCheckIns.createMultipleAppointments({}));
+      return res.json(
+        mockPatientCheckIns.createMultipleAppointments(uuid, true),
+      );
     } else {
       return res.json(mockPatientCheckIns.createMultipleAppointments({}));
     }
