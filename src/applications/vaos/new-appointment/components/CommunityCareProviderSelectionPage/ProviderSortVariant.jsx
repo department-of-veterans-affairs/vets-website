@@ -22,6 +22,7 @@ export default function ProviderSortVariant({
     communityCareProviderList,
     currentLocation,
     requestLocationStatus,
+    requestStatus,
     selectedCCFacility,
     sortMethod,
   } = useSelector(selectProviderSelectionInfo, shallowEqual);
@@ -77,6 +78,7 @@ export default function ProviderSortVariant({
   const hasUserAddress = address && !!Object.keys(address).length;
   const requestLocationStatusFailed =
     requestLocationStatus === FETCH_STATUS.failed;
+  const requestProvidersFailed = requestStatus === FETCH_STATUS.failed;
 
   if (hasUserAddress) {
     sortOptions.unshift({
@@ -92,18 +94,20 @@ export default function ProviderSortVariant({
 
   return (
     <div className="vads-u-margin-bottom--3">
-      {notLoading && (
-        <p
-          className="vads-u-margin--0"
-          id="provider-list-status"
-          role="status"
-          aria-live="polite"
-          aria-atomic="true"
-        >
-          Displaying 1 to {currentlyShownProvidersList.length} of{' '}
-          {communityCareProviderList.length} providers
-        </p>
-      )}
+      {notLoading &&
+        !requestProvidersFailed &&
+        currentlyShownProvidersList.length > 0 && (
+          <p
+            className="vads-u-margin--0"
+            id="provider-list-status"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            Displaying 1 to {currentlyShownProvidersList.length} of{' '}
+            {communityCareProviderList.length} providers
+          </p>
+        )}
       <Select
         label="Show providers closest to"
         name="sort"
