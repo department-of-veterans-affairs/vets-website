@@ -43,7 +43,7 @@ const DetailPage = ({ match }) => {
         </a>
       </Breadcrumbs>
       <h1 className="vads-u-margin-bottom--1">
-        Your copay bill for {selectedCopay?.station.facilitYDesc}
+        Your copay bill for {selectedCopay?.station.facilityName}
       </h1>
       {alertType ? (
         <Alert type={alertType} />
@@ -64,7 +64,7 @@ const DetailPage = ({ match }) => {
           <FinancialHelp />
           <DisputeCharges />
           <BalanceQuestions
-            facilityLocation={selectedCopay?.station.facilitYDesc}
+            facilityLocation={selectedCopay?.station.facilityName}
             facilityPhone={selectedCopay?.station.teLNum}
           />
           <Modals title="Notice of rights and responsibilities">

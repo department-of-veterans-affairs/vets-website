@@ -21,7 +21,7 @@ const medicalCopaysReducer = (state = initialState, action) => {
       return {
         ...state,
         pending: false,
-        statements: action.response.data,
+        statements: action.response,
       };
     case MCP_STATEMENTS_FETCH_FAILURE:
       return {

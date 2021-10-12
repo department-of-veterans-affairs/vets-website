@@ -8,7 +8,7 @@ const FacilityContacts = ({ statementData }) => (
       {statementData?.map(statement => (
         <div key={statement.id}>
           <dt>
-            <h4>{statement.station.facilitYDesc}</h4>
+            <h4>{statement.station.facilityName}</h4>
           </dt>
           <dd>
             <strong>Main number:</strong>
