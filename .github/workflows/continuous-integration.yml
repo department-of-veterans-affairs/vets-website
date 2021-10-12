@@ -714,8 +714,7 @@ jobs:
 
     strategy:
       matrix:
-        # buildtype: [vagovdev, vagovstaging, vagovprod] # TODO: Enable when ready
-        buildtype: [vagovdev, vagovstaging]
+        buildtype: [vagovdev, vagovstaging, vagovprod]
 
     needs: [cypress-tests, unit-tests, contract-tests, security-audit, linting]
 
