@@ -14,5 +14,11 @@ yarn install-repos
 set -e
 cd ../vets-website && yarn install --production=false --prefer-offline && yarn build -- --buildtype=localhost --api=https://staging-api.va.gov --host="${CODESPACE_NAME}-3001.githubpreview.dev/" --port=3001
 
-# Build content-build and serve site
-cd ../content-build && yarn install --production=false --prefer-offline && yarn fetch-drupal-cache && yarn build -- --buildtype=localhost --api=https://staging-api.va.gov --host="${CODESPACE_NAME}-3002.githubpreview.dev/" --port=3002 --apps-directory-name=vets-website
+if [[ $VETS_WEBSITE_BUILD_CONTENT == 'NO' ]]
+then
+  # Build content-build and serve site
+  cd ../content-build && yarn install --production=false --prefer-offline && yarn fetch-drupal-cache && yarn build -- --buildtype=localhost --api=https://staging-api.va.gov --host="${CODESPACE_NAME}-3002.githubpreview.dev/" --port=3002 --apps-directory-name=vets-website
+else
+  # Skip content build
+  cd ../vets-website && yarn watch
+fi
