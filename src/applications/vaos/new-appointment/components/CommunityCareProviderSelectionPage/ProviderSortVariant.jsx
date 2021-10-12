@@ -95,7 +95,8 @@ export default function ProviderSortVariant({
   return (
     <div className="vads-u-margin-bottom--3">
       {notLoading &&
-        !requestProvidersFailed && (
+        !requestProvidersFailed &&
+        currentlyShownProvidersList.length > 0 && (
           <p
             className="vads-u-margin--0"
             id="provider-list-status"
