@@ -2,6 +2,7 @@ import { join } from 'path';
 import '@testing-library/cypress/add-commands';
 import 'cypress-axe';
 import 'cypress-plugin-tab';
+import 'cypress-real-events/support';
 import addContext from 'mochawesome/addContext';
 import './commands';
 

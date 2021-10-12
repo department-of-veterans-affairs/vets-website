@@ -122,6 +122,35 @@ describe('check-in', () => {
         );
         expect(checkIn.getByTestId('back-button')).to.exist;
       });
+      it('shows the back button if demographics page is enabled', () => {
+        const mockRouter = {
+          params: {
+            token: 'token-123',
+          },
+        };
+
+        const token = 'token-123';
+        const appointments = [
+          {
+            clinicPhone: '555-867-5309',
+            startTime: '2021-07-19T13:56:31',
+            facilityName: 'Acme VA',
+            clinicName: 'Green Team Clinic1',
+          },
+        ];
+
+        const checkIn = render(
+          <Provider store={store}>
+            <DisplayMultipleAppointments
+              router={mockRouter}
+              token={token}
+              appointments={appointments}
+              isDemographicsPageEnabled
+            />
+          </Provider>,
+        );
+        expect(checkIn.getByTestId('back-button')).to.exist;
+      });
       it('hides the back button if update page is enabled', () => {
         const mockRouter = {
           params: {

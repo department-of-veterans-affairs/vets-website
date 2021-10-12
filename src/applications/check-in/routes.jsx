@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import CheckIn from './pages/CheckIn';
 import Confirmation from './pages/Confirmation';
+import Demographics from './pages/Demographics';
 import Error from './pages/Error';
 import Failed from './pages/Failed';
 import Landing from './pages/Landing';
@@ -22,6 +23,10 @@ const createRoutesWithStore = () => {
       <Route
         path={`/${URLS.VALIDATION_NEEDED}`}
         component={withFeatureFlip(withToken(ValidateVeteran))}
+      />
+      <Route
+        path={`/${URLS.DEMOGRAPHICS}`}
+        component={withFeatureFlip(withAppointmentData(Demographics))}
       />
       <Route
         path={`/${URLS.UPDATE_INSURANCE}`}
