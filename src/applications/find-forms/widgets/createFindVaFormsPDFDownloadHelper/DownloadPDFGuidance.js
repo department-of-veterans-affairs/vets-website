@@ -6,7 +6,6 @@ import { Provider } from 'react-redux';
 // relative imports
 import DownloadPDFModal from './DownloadPDFModal';
 import InvalidFormDownload from './InvalidFormAlert';
-// import { onDownloadLinkClick, sentryLogger } from './index';
 import { sentryLogger } from './index';
 import { showPDFModal } from '../../helpers/selectors';
 
