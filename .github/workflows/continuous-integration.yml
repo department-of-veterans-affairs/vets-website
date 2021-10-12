@@ -646,7 +646,6 @@ jobs:
           repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           path: testing-tools-team-dashboard-data
-          ref: Cbonade/contract-reporting
 
       # TODO: Set .nvmrc in testing-tools-team-dashboard-data.
       # - name: Get Node version
@@ -706,9 +705,6 @@ jobs:
         with:
           name: contract-test-report
           path: testing-tools-team-dashboard-data/src/mochawesome/data
-
-      - name: Log directory
-        run: ls testing-tools-team-dashboard-data/src/mochawesome/data
 
       - name: Upload Contract Test report to s3
         run: aws s3 cp testing-tools-team-dashboard-data/src/mochawesome/data/mochawesome.html s3://testing-tools-testing-reports/vets-website-contract-test-reports/${{env.UUID}}.html --acl public-read --region us-gov-west-1
@@ -809,7 +805,6 @@ jobs:
           repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           path: testing-tools-team-dashboard-data
-          ref: Cbonade/contract-reporting
 
       # TODO: Set .nvmrc in testing-tools-team-dashboard-data.
       # - name: Get Node version
