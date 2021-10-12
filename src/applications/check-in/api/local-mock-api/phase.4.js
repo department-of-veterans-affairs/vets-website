@@ -33,9 +33,7 @@ const responses = {
     const { uuid } = _req.params;
     if (hasBeenValidated) {
       hasBeenValidated = false;
-      return res.json(
-        mockPatientCheckIns.createMultipleAppointments(uuid, true),
-      );
+      return res.json(mockPatientCheckIns.createMultipleAppointments(uuid, 3));
     } else {
       return res.json(mockPatientCheckIns.createMultipleAppointments({}));
     }
