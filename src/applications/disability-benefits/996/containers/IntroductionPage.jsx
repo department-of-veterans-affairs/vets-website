@@ -120,6 +120,7 @@ export class IntroductionPage extends React.Component {
           pageList={route.pageList}
           startText="Start the Request for a Higher-Level Review"
           gaStartEventName="decision-reviews-va20-0996-start-form"
+          ariaDescribedby="main-content"
         />
       );
     }
@@ -181,10 +182,16 @@ export class IntroductionPage extends React.Component {
       <article className="schemaform-intro">
         <FormTitle title={pageTitle} />
         <p>Equal to VA Form 20-0996 (Higher-Level Review).</p>
-        <CallToActionWidget appId="higher-level-review" headerLevel={2}>
+        <CallToActionWidget
+          appId="higher-level-review"
+          headerLevel={2}
+          ariaDescribedby="main-content"
+        >
           {callToActionContent}
         </CallToActionWidget>
-        <h2 className="vads-u-font-size--h3">What’s a Higher-Level Review?</h2>
+        <h2 id="main-content" className="vads-u-font-size--h3">
+          What’s a Higher-Level Review?
+        </h2>
         <p>
           If you or your representative disagree with VA’s decision on your
           claim, you can request a Higher-Level Review. With a Higher-Level
@@ -283,7 +290,11 @@ export class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        <CallToActionWidget appId="higher-level-review" headerLevel={2}>
+        <CallToActionWidget
+          appId="higher-level-review"
+          headerLevel={2}
+          ariaDescribedby="main-content"
+        >
           {callToActionContent}
         </CallToActionWidget>
         <div className="omb-info--container vads-u-padding-left--0">
