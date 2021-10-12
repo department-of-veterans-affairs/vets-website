@@ -12,17 +12,16 @@ import { appointmentWAsCheckedInto } from '../../actions';
 const AppointmentAction = props => {
   const {
     appointment,
-    isLowAuthEnabled,
     isMultipleAppointmentsEnabled,
-    token,
     router,
     setSelectedAppointment,
+    token,
   } = props;
 
   const [isCheckingIn, setIsCheckingIn] = useState(false);
 
   const defaultMessage =
-    'This appointment isn’t eligible for online check-in. Check-in with a staff member.';
+    'Online check-in isn’t available for this appointment. Check in with a staff member.';
 
   const onClick = async () => {
     recordEvent({
@@ -31,10 +30,8 @@ const AppointmentAction = props => {
     });
     setIsCheckingIn(true);
     try {
-      let checkIn = api.v0.checkInUser;
-      if (isLowAuthEnabled && !isMultipleAppointmentsEnabled) {
-        checkIn = api.v1.postCheckInData;
-      } else if (isMultipleAppointmentsEnabled) {
+      let checkIn = api.v1.postCheckInData;
+      if (isMultipleAppointmentsEnabled) {
         checkIn = api.v2.postCheckInData;
       }
 
@@ -78,10 +75,8 @@ const AppointmentAction = props => {
     } else if (
       areEqual(appointment.eligibility, ELIGIBILITY.INELIGIBLE_TOO_EARLY)
     ) {
-      if (appointment.appointmentCheckInStart) {
-        const appointmentDateTime = new Date(
-          appointment.appointmentCheckInStart,
-        );
+      if (appointment.checkInWindowStart) {
+        const appointmentDateTime = new Date(appointment.checkInWindowStart);
         const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
         return (
           <p data-testid="too-early-message">
@@ -116,6 +111,34 @@ const AppointmentAction = props => {
       areEqual(appointment.eligibility, ELIGIBILITY.INELIGIBLE_UNKNOWN_REASON)
     ) {
       return <p data-testid="unknown-reason-message">{defaultMessage}</p>;
+    } else if (
+      areEqual(
+        appointment.eligibility,
+        ELIGIBILITY.INELIGIBLE_ALREADY_CHECKED_IN,
+      )
+    ) {
+      if (appointment.checkedInTime) {
+        const appointmentDateTime = new Date(appointment.checkedInTime);
+        if (isNaN(appointmentDateTime.getTime())) {
+          return (
+            <p data-testid="already-checked-in-no-time-message">
+              You are already checked in.
+            </p>
+          );
+        }
+        const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
+        return (
+          <p data-testid="already-checked-in-message">
+            You checked in at {appointmentTime}
+          </p>
+        );
+      } else {
+        return (
+          <p data-testid="already-checked-in-no-time-message">
+            You are already checked in.
+          </p>
+        );
+      }
     }
   }
   return <p data-testid="no-status-given-message">{defaultMessage}</p>;

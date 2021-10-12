@@ -770,11 +770,16 @@ export const ancillaryFormUploadUi = (
         attachmentId,
       };
     },
-    attachmentSchema: {
+    attachmentSchema: ({ fileId }) => ({
       'ui:title': 'Document type',
       'ui:disabled': isDisabled,
       'ui:widget': widgetType,
-    },
+      'ui:options': {
+        widgetProps: {
+          'aria-describedby': fileId,
+        },
+      },
+    }),
     classNames: customClasses,
     attachmentName: false,
   });

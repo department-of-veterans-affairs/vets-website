@@ -201,15 +201,17 @@ const responses = {
   },
   'PUT /vaos/v2/appointments/:id': (req, res) => {
     // TODO: also check through confirmed mocks, when those exist
-    const requestAttributes = requestsV2.data.find(
-      item => item.id === req.params.id,
-    ).attributes;
+    const appointments = requestsV2.data
+      .concat(confirmedV2.data)
+      .concat(mockAppts);
+
+    const appt = appointments.find(item => item.id === req.params.id);
 
     return res.json({
       data: {
         id: req.params.id,
         attributes: {
-          ...requestAttributes,
+          ...appt.attributes,
           ...req.body,
         },
       },
@@ -226,7 +228,7 @@ const responses = {
   },
   'GET /vaos/v2/appointments/:id': (req, res) => {
     const appointments = {
-      data: requestsV2.data.concat(confirmedV2).concat(mockAppts),
+      data: requestsV2.data.concat(confirmedV2.data).concat(mockAppts),
     };
     return res.json({
       data: appointments.data.find(appt => appt.id === req.params.id),

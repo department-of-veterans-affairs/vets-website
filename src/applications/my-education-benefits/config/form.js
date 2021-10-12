@@ -337,7 +337,7 @@ const formConfig = {
       'Please sign in again to continue your application for my education benefits.',
   },
   title: 'Apply for VA education benefits',
-  subTitle: 'Form 22-1990',
+  subTitle: 'Equal to VA Form 22-1990 (Application for VA Education Benefits)',
   defaultDefinitions: {
     fullName,
     // ssn,
@@ -763,6 +763,46 @@ const formConfig = {
                     'Please select at least one way we can contact you.',
                 },
               },
+              'view:noHomePhoneForContactAlert': {
+                'ui:description': (
+                  <va-alert onClose={function noRefCheck() {}} status="warning">
+                    <p style={{ margin: 0 }}>
+                      You can’t select that response because we don’t have a
+                      home phone number on file for you
+                    </p>
+                  </va-alert>
+                ),
+                'ui:options': {
+                  hideIf: formData =>
+                    !(
+                      formData['view:contactMethod'].contactMethod ===
+                        'Home phone' &&
+                      (!formData['view:phoneNumbers'].phoneNumber.phone ||
+                        formData['view:phoneNumbers'].phoneNumber
+                          .isInternational)
+                    ),
+                },
+              },
+              'view:noMobilePhoneForContactAlert': {
+                'ui:description': (
+                  <va-alert onClose={function noRefCheck() {}} status="warning">
+                    <p style={{ margin: 0 }}>
+                      You can’t select that response because we don’t have a
+                      mobile phone number on file for you
+                    </p>
+                  </va-alert>
+                ),
+                'ui:options': {
+                  hideIf: formData =>
+                    !(
+                      formData['view:contactMethod'].contactMethod ===
+                        'Mobile phone' &&
+                      (!formData['view:phoneNumbers'].mobilePhoneNumber.phone ||
+                        formData['view:phoneNumbers'].mobilePhoneNumber
+                          .isInternational)
+                    ),
+                },
+              },
             },
             'view:receiveTextMessages': {
               'ui:description': (
@@ -823,11 +863,11 @@ const formConfig = {
             'view:textMessagesAlert': {
               'ui:description': (
                 <va-alert onClose={function noRefCheck() {}} status="info">
-                  <p style={{ margin: 0 }}>
+                  <>
                     For text messages, messaging and data rates may apply. At
                     this time, VA is only able to send text messages about
                     education benefits to US-based mobile phone numbers.
-                  </p>
+                  </>
                 </va-alert>
               ),
               'ui:options': {
@@ -845,10 +885,10 @@ const formConfig = {
             'view:noMobilePhoneAlert': {
               'ui:description': (
                 <va-alert onClose={function noRefCheck() {}} status="warning">
-                  <p style={{ margin: 0 }}>
+                  <>
                     You can’t choose to get text message notifications because
-                    we don’t have a mobile phone number on file for you
-                  </p>
+                    we don’t have a mobile phone number on file for you.
+                  </>
                 </va-alert>
               ),
               'ui:options': {
@@ -866,12 +906,12 @@ const formConfig = {
             'view:internationalTextMessageAlert': {
               'ui:description': (
                 <va-alert onClose={function noRefCheck() {}} status="warning">
-                  <p style={{ margin: 0 }}>
+                  <>
                     You can’t choose to get text notifications because you have
                     an international mobile phone number. At this time, we can
                     send text messages about your education benefits to U.S.
-                    mobile phone numbers
-                  </p>
+                    mobile phone numbers.
+                  </>
                 </va-alert>
               ),
               'ui:options': {
@@ -892,6 +932,14 @@ const formConfig = {
                   [formFields.contactMethod]: {
                     type: 'string',
                     enum: ['Email', 'Mobile phone', 'Home phone', 'Mail'],
+                  },
+                  'view:noHomePhoneForContactAlert': {
+                    type: 'object',
+                    properties: {},
+                  },
+                  'view:noMobilePhoneForContactAlert': {
+                    type: 'object',
+                    properties: {},
                   },
                 },
               },
