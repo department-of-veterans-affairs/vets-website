@@ -19,12 +19,6 @@ describe('check-in', () => {
 
       expect(display.getByText('foo')).to.exist;
     });
-    it('Renders the name - facility name ', () => {
-      const appointment = { facility: 'foo' };
-      const display = render(<AppointmentLocation appointment={appointment} />);
-
-      expect(display.getByText('foo')).to.exist;
-    });
     it('Renders the name - prioritizes clinic friendly name ', () => {
       const appointment = {
         facility: 'not this one either',
@@ -46,10 +40,10 @@ describe('check-in', () => {
       expect(display.getByText('should be this')).to.exist;
     });
 
-    it('Renders the name - falls to facility name ', () => {
+    it('Renders the name - falls to clinicName ', () => {
       const appointment = {
-        facility: 'should be this',
-        clinicName: undefined,
+        facility: undefined,
+        clinicName: 'should be this',
         clinicFriendlyName: undefined,
       };
       const display = render(<AppointmentLocation appointment={appointment} />);

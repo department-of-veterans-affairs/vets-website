@@ -5,10 +5,8 @@ const AppointmentLocation = ({ appointment, bold }) => {
 
   if (appointment.clinicFriendlyName) {
     display = appointment.clinicFriendlyName;
-  } else if (appointment.clinicName) {
-    display = appointment.clinicName;
   } else {
-    display = appointment.facility;
+    display = appointment.clinicName;
   }
   if (bold) {
     return <span className="vads-u-font-weight--bold">{display}</span>;
