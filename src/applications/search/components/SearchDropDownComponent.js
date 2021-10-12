@@ -31,6 +31,7 @@ class SearchDropDownComponent extends React.Component {
       isOpen: false,
       savedSuggestions: [],
       suggestions: [],
+      hasBeenFocused: false,
     };
   }
 
@@ -93,6 +94,12 @@ class SearchDropDownComponent extends React.Component {
     this.getSuggestionsTimeout = setTimeout(() => {
       this.getSuggestions(inputValue);
     }, this.props.debounceRate);
+  };
+
+  focusInputField = () => {
+    if (!this.state.hasBeenFocused) {
+      this.setState({ hasBeenFocused: true });
+    }
   };
 
   // call the getSuggestions prop and save the returned value into state
@@ -268,13 +275,23 @@ class SearchDropDownComponent extends React.Component {
 
   // render
   render() {
-    const { activeIndex, isOpen, inputValue, suggestions } = this.state;
+    const {
+      activeIndex,
+      isOpen,
+      inputValue,
+      suggestions,
+      hasBeenFocused,
+    } = this.state;
 
     const activeId = isOpen ? `${ID}-${activeIndex}` : undefined;
 
     const mobileResponsiveClass = this.props.mobileResponsive
       ? ' search-dropdown-component shrink-to-column'
       : 'search-dropdown-component';
+
+    const oneTimeAccessibilityLabel = hasBeenFocused
+      ? undefined
+      : 'When autocomplete results are available use up and down arrows to review and enter to search. Touch device users, explore by touch or with swipe gestures.';
 
     return (
       <div
@@ -285,6 +302,7 @@ class SearchDropDownComponent extends React.Component {
             aria-activedescendant={activeId}
             aria-autocomplete={'none'}
             aria-controls={`${ID}-listbox`}
+            aria-describedby={oneTimeAccessibilityLabel}
             aria-expanded={isOpen}
             aria-haspopup="listbox"
             aria-label={'Search'}
@@ -297,7 +315,10 @@ class SearchDropDownComponent extends React.Component {
             onBlur={() => this.onInputBlur()}
             onChange={this.handleInputChange}
             onClick={() => this.updateMenuState(true)}
-            onFocus={() => this.updateMenuState(true)}
+            onFocus={() => {
+              this.focusInputField();
+              this.updateMenuState(true);
+            }}
             onKeyDown={this.onKeyDown}
           />
           {isOpen &&
