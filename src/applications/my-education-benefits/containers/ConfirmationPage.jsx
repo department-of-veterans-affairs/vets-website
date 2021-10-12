@@ -117,9 +117,6 @@ const deniedPage = (
       <a className="usa-button" href="/records/download-va-letters/">
         Download your letter
       </a>
-      <a href="https://www.va.gov/education/gi-bill/post-9-11/ch-33-benefit/ ">
-        View a statement of your benefits
-      </a>
     </va-alert>
 
     <div className="feature">
@@ -256,8 +253,6 @@ const loadingPage = (
     className="meb-confirmation-page meb-confirmation-page_loading"
     style={{ marginBottom: '3rem' }}
   >
-    <h1>Wait right there</h1>
-    <p>We are currently processing your application.</p>
     <LoadingIndicator message="Loading your results" />
   </div>
 );
@@ -273,7 +268,7 @@ export class ConfirmationPage extends React.Component {
     const { response } = submission;
     const name = data.veteranFullName;
 
-    const confirmationResult = 'loading';
+    const confirmationResult = 'denied';
 
     switch (confirmationResult) {
       case 'approved': {

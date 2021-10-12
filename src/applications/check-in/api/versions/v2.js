@@ -11,7 +11,7 @@ const v2 = {
       token,
     );
     return {
-      data: json.data,
+      ...json,
     };
   },
   postSession: async ({ lastName, last4, token }) => {
@@ -52,13 +52,13 @@ const v2 = {
       ...json,
     };
   },
-  postCheckInData: async ({ uuid, appointmentIEN, facilityId }) => {
+  postCheckInData: async ({ uuid, appointmentIen, facilityId }) => {
     const url = '/check_in/v2/patient_check_ins/';
     const headers = { 'Content-Type': 'application/json' };
     const data = {
       patientCheckIns: {
         uuid,
-        appointmentIEN,
+        appointmentIen,
         facilityId,
       },
     };

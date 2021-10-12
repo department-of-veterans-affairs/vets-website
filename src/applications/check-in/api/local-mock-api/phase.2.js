@@ -12,12 +12,10 @@ let hasBeenValidated = false;
 
 const responses = {
   ...commonResponses,
-  'GET /v0/feature_toggles': featureToggles.createFeatureToggles(
-    true,
-    true,
-    false,
-    false,
-  ),
+  'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
+    checkInExperienceMultipleAppointmentSupport: false,
+    checkInExperienceUpdateInformationPageEnabled: false,
+  }),
   // v1
   'GET /check_in/v1/sessions/:uuid': (req, res) => {
     return res.json(mockSessions.v1Api.get(req.params));

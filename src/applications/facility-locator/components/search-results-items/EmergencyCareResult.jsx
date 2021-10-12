@@ -43,7 +43,7 @@ const EmergencyCareResult = ({ provider, query }) => {
             aria-hidden="true"
             className={`fa fa-info-circle vads-u-margin-top--1 icon-base`}
           />
-          <div className="usa-alert-body" id="emergency-care-link">
+          <div className="usa-alert-body">
             <a
               href={
                 'https://www.va.gov/COMMUNITYCARE/programs/veterans/Emergency_Care.asp'
@@ -53,6 +53,7 @@ const EmergencyCareResult = ({ provider, query }) => {
                 // Record event
                 recordEvent({ event: 'cta-emergency-benefit-button-click' });
               }}
+              className="emergency-care-link"
             >
               Learn about your in-network emergency care benefits{' '}
             </a>
