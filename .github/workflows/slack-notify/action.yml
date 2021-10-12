@@ -8,6 +8,12 @@ inputs:
   attachments:
     description: attached message
     required: true
+  aws-access-key-id:
+    description: aws-access-key-id
+    required: true
+  aws-secret-access-key:
+    description: aws-secret-access-key
+    required: true
 
 runs:
   using: composite
@@ -15,8 +21,8 @@ runs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-access-key-id: ${{ inputs.aws-access-key-id }}
+        aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
         aws-region: us-gov-west-1
 
     - name: Get Slack app token

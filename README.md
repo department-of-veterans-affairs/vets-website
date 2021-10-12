@@ -15,6 +15,7 @@ Once you have the site set up locally, these are some common commands you might 
 | fetch all dependencies     | `yarn install`; run this any time `package.json` changes |
 | build applications         | `yarn build`                                             |
 | run the webpack dev server | `yarn watch`                                             |
+| build in codespaces        | `yarn build:codespaces`. Build with codespace options    |
 
 ## Building `vets-website`
 
@@ -72,6 +73,10 @@ Static pages are created from the [content-build](https://github.com/department-
 ### Building both together
 
 After [building the applications](#building-applications), running `yarn build` in the `../content-build` directory will build content using the generated app bundles from `vets-website/build/localhost/generated`. The full build can be seen in `../content-build/build/localhost`.
+
+## Working in GitHub Codespaces
+
+[Read the Codespaces documentation for this repository](https://depo-platform-documentation.scrollhelp.site/developer-docs/Using-GitHub-Codespaces.1909063762.html#UsingGitHubCodespaces-Codespacesinvets-websiteandcontent-buildrepositories).
 
 ## Running tests
 
