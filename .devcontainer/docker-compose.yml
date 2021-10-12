@@ -5,7 +5,6 @@ services:
       context: .
       args:
         userid: ${UID}
-    command: ../script/review-entrypoint.sh
     environment:
       API_URL: ${API_URL:-http://localhost:3000}
       WEB_HOST: ${WEB_HOST:-localhost}
