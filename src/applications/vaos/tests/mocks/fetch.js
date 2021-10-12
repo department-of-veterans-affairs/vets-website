@@ -45,7 +45,7 @@ export function mockEligibilityFetchesByVersion({
       directReasons.push({
         coding: [
           {
-            code: 'ineligible-history',
+            code: 'patient-history-insufficient',
           },
         ],
       });
@@ -55,7 +55,7 @@ export function mockEligibilityFetchesByVersion({
       requestReasons.push({
         coding: [
           {
-            code: 'ineligible-history',
+            code: 'patient-history-insufficient',
           },
         ],
       });
@@ -65,7 +65,7 @@ export function mockEligibilityFetchesByVersion({
       requestReasons.push({
         coding: [
           {
-            code: 'ineligible-limit',
+            code: 'facility-request-limit-exceeded',
           },
         ],
       });

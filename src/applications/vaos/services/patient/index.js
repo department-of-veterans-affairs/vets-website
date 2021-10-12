@@ -142,6 +142,9 @@ async function fetchPatientEligibilityFromVAR({
   return output;
 }
 
+const VAOS_SERVICE_PATIENT_HISTORY = 'patient-history-insufficient';
+const VAOS_SERVICE_REQUEST_LIMIT = 'facility-request-limit-exceeded';
+
 /**
  * Returns patient based eligibility checks for specified request or direct types
  *
@@ -188,7 +191,7 @@ export async function fetchPatientEligibility({
       output.direct = {
         eligible: results.direct.eligible,
         hasRequiredAppointmentHistory: !results.direct.ineligibilityReasons.some(
-          reason => reason.coding[0].code === 'ineligible-history',
+          reason => reason.coding[0].code === VAOS_SERVICE_PATIENT_HISTORY,
         ),
       };
     }
@@ -199,10 +202,10 @@ export async function fetchPatientEligibility({
       output.request = {
         eligible: results.request.eligible,
         hasRequiredAppointmentHistory: !results.request.ineligibilityReasons.some(
-          reason => reason.coding[0].code === 'ineligible-history',
+          reason => reason.coding[0].code === VAOS_SERVICE_PATIENT_HISTORY,
         ),
         isEligibleForNewAppointmentRequest: !results.request.ineligibilityReasons.some(
-          reason => reason.coding[0].code === 'ineligible-limit',
+          reason => reason.coding[0].code === VAOS_SERVICE_REQUEST_LIMIT,
         ),
       };
     }

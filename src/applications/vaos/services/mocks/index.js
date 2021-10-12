@@ -285,7 +285,7 @@ const responses = {
       ineligibilityReasons.push({
         coding: [
           {
-            code: 'ineligible-history',
+            code: 'patient-history-insufficient',
           },
         ],
       });
@@ -294,7 +294,7 @@ const responses = {
       ineligibilityReasons.push({
         coding: [
           {
-            code: 'ineligible-limit',
+            code: 'facility-request-limit-exceeded',
           },
         ],
       });
