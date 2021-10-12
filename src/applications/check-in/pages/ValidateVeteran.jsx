@@ -5,6 +5,7 @@ import { VaTextInput } from 'web-components/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 
 import { api } from '../api';
+import { setMaxValidateLimit } from '../utils/session';
 
 import { permissionsUpdated } from '../actions';
 import { goToNextPage, URLS } from '../utils/navigation';
@@ -25,6 +26,7 @@ const ValidateVeteran = props => {
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
+  const [numRetries, setNumRetries] = useState(0);
 
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
@@ -62,8 +64,18 @@ const ValidateVeteran = props => {
               goToNextPage(router, URLS.DETAILS);
             }
           })
-          .catch(() => {
-            goToNextPage(router, URLS.ERROR);
+          .catch(e => {
+            if (e?.error?.status === '401') {
+              if (e?.maxValidateLimit === true) {
+                setMaxValidateLimit(window, true);
+                goToNextPage(router, URLS.ERROR);
+              } else {
+                setNumRetries(numRetries + 1);
+                setIsLoading(false);
+              }
+            } else {
+              goToNextPage(router, URLS.ERROR);
+            }
           });
       } else {
         api.v1
@@ -91,9 +103,20 @@ const ValidateVeteran = props => {
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 ">
       <h1>Check in at VA</h1>
-      <p>
-        We need some information to verify your identity so we can check you in.
-      </p>
+      {numRetries > 0 ? (
+        <va-alert status="error">
+          <h3 tabIndex="-1" slot="headline">
+            We couldn’t check you in
+          </h3>
+          <p data-testid="error-message">
+            We’re sorry. We couldn’t verify your identity with the information
+            you provided. Check your information and try again.
+          </p>
+        </va-alert>
+      ) : (
+        <p>We need some information to verify your identity to check you in.</p>
+      )}
+
       <form className="vads-u-margin-bottom--2p5" onSubmit={() => false}>
         <VaTextInput
           autoCorrect="false"

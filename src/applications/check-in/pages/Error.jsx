@@ -5,11 +5,14 @@ import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 import { focusElement } from 'platform/utilities/ui';
 
+import { getMaxValidateLimit } from '../utils/session';
+
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 const Error = props => {
   const { appointment } = props;
   const { clinicPhoneNumber } = appointment || {};
+  const { maxValidateLimit } = getMaxValidateLimit(window) || false;
   useEffect(() => {
     focusElement('h1');
   }, []);
@@ -19,19 +22,26 @@ const Error = props => {
         <h1 tabIndex="-1" slot="headline">
           We couldn’t check you in
         </h1>
-        <p data-testid="error-message">
-          We’re sorry. Something went wrong on our end. Check in with a staff
-          member
-          {clinicPhoneNumber ? (
-            <>
-              {' '}
-              or call us at <Telephone contact={clinicPhoneNumber} />
-            </>
-          ) : (
-            ''
-          )}
-          .
-        </p>
+        {maxValidateLimit ? (
+          <p data-testid="error-message">
+            We’re sorry. We couldn’t verify your identity with the information
+            you provided. Ask a staff member for help.
+          </p>
+        ) : (
+          <p data-testid="error-message">
+            We’re sorry. Something went wrong on our end. Check in with a staff
+            member
+            {clinicPhoneNumber ? (
+              <>
+                {' '}
+                or call us at <Telephone contact={clinicPhoneNumber} />
+              </>
+            ) : (
+              ''
+            )}
+            .
+          </p>
+        )}
       </va-alert>
       <Footer />
       <BackToHome />

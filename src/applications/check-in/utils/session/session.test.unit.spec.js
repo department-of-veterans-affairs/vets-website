@@ -1,6 +1,12 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { setCurrentToken, clearCurrentSession, getCurrentToken } from './index';
+import {
+  setCurrentToken,
+  setMaxValidateLimit,
+  clearCurrentSession,
+  getCurrentToken,
+  getMaxValidateLimit,
+} from './index';
 
 describe('check in', () => {
   describe('session utils', () => {
@@ -23,6 +29,21 @@ describe('check in', () => {
         ).to.be.true;
       });
     });
+    describe('save max validate limit to session storage', () => {
+      it('saves data to name spaced key', () => {
+        const setItem = sinon.spy();
+        const window = { sessionStorage: { setItem } };
+        const testMaxValidateLimit = true;
+        setMaxValidateLimit(window, testMaxValidateLimit);
+        expect(setItem.called).to.be.true;
+        expect(
+          setItem.calledWith(
+            'health.care.check-in.max.validate.limit',
+            JSON.stringify({ maxValidateLimit: testMaxValidateLimit }),
+          ),
+        ).to.be.true;
+      });
+    });
     describe('clears current session', () => {
       it('name-spaced session should be empty', () => {
         const removeItem = sinon.spy();
@@ -35,6 +56,8 @@ describe('check in', () => {
         expect(removeItem.called).to.be.true;
         expect(removeItem.calledWith('health.care.check-in.current.uuid')).to.be
           .true;
+        expect(removeItem.calledWith('health.care.check-in.max.validate.limit'))
+          .to.be.true;
       });
     });
     describe('get token from session storage', () => {
@@ -74,6 +97,37 @@ describe('check in', () => {
         };
         const result = getCurrentToken(window);
         expect(result).to.have.property('token', 'some-token');
+      });
+    });
+    describe('get max validate limit from session storage', () => {
+      it('window is null', () => {
+        const window = null;
+        const result = getMaxValidateLimit(window);
+        expect(result).to.be.null;
+      });
+      it('calls getItem', () => {
+        const getItem = sinon.spy();
+
+        const window = { sessionStorage: { getItem } };
+        const result = getMaxValidateLimit(window);
+        expect(getItem.called).to.be.true;
+        expect(getItem.calledWith('health.care.check-in.max.validate.limit')).to
+          .be.true;
+        expect(result).to.be.null;
+      });
+      it('key is not', () => {
+        const window = { sessionStorage: { getItem: () => null } };
+        const result = getMaxValidateLimit(window);
+        expect(result).to.be.null;
+      });
+      it('key is found', () => {
+        const window = {
+          sessionStorage: {
+            getItem: () => JSON.stringify({ maxValidateLimit: true }),
+          },
+        };
+        const result = getMaxValidateLimit(window);
+        expect(result).to.have.property('maxValidateLimit', true);
       });
     });
   });

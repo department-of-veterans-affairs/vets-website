@@ -26,14 +26,13 @@ const createMockFailedLoginResponse = (current = 0, max = 3) => {
       ? `Login attempts: ${current}, The max number of login attempts is: ${max}`
       : 'Max number of login attempts reached';
   return {
-    retries: { current, max },
-    errors: [
-      {
-        title: 'Login failed',
-        detail: messageDetail,
-        status: '400',
-      },
-    ],
+    status: 'error',
+    error: {
+      title: 'Login failed',
+      detail: messageDetail,
+      status: '401',
+    },
+    maxValidateLimit: current >= max,
   };
 };
 

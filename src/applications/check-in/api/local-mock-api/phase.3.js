@@ -10,7 +10,7 @@ const delay = require('mocker-api/lib/delay');
 
 let hasBeenValidated = false;
 const retries = { current: 0, max: 3 };
-const mockUser = { last4: '5555', lastName: 'lastName' };
+const mockUser = { last4: '4837', lastName: 'Smith' };
 
 const responses = {
   ...commonResponses,
@@ -30,7 +30,7 @@ const responses = {
     if (last4 !== mockUser.last4 || lastName !== mockUser.lastName) {
       retries.current++;
       return res
-        .status(400)
+        .status(401)
         .json(mockSessions.createMockFailedLoginResponse(retries.current));
     }
     hasBeenValidated = true;
