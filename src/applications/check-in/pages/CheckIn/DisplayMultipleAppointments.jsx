@@ -1,20 +1,33 @@
 import React from 'react';
 import format from 'date-fns/format';
 
+import AppointmentListItem from '../../components/AppointmentDisplay/AppointmentListItem';
+import BackButton from '../../components/BackButton';
 import BackToHome from '../../components/BackToHome';
 import Footer from '../../components/Footer';
-import BackButton from '../../components/BackButton';
-import AppointmentListItem from '../../components/AppointmentDisplay/AppointmentListItem';
+import recordEvent from 'platform/monitoring/record-event';
+import { createAnalyticsSlug } from '../../utils/analytics';
 import { sortAppointmentsByStartTime } from '../../utils/appointment';
 
 export default function DisplayMultipleAppointments(props) {
   const {
+    appointments,
+    getMultipleAppointments,
     isDemographicsPageEnabled,
     isUpdatePageEnabled,
-    token,
-    appointments,
     router,
+    token,
   } = props;
+
+  const handleClick = e => {
+    e.preventDefault();
+
+    recordEvent({
+      event: createAnalyticsSlug('refresh-appointments-button-clicked'),
+    });
+
+    getMultipleAppointments();
+  };
 
   const sortedAppointments = sortAppointmentsByStartTime(appointments);
   return (
@@ -45,6 +58,19 @@ export default function DisplayMultipleAppointments(props) {
           );
         })}
       </ol>
+      <p data-testid="update-text">
+        <strong>Latest update:</strong>{' '}
+        {format(new Date(), "MMMM d, yyyy 'at' h:mm aaaa")}
+      </p>
+      <p data-testid="refresh-link">
+        <a
+          onClick={e => handleClick(e)}
+          href="#"
+          data-testid="refresh-appointments-button"
+        >
+          Refresh
+        </a>
+      </p>
       <Footer />
       <BackToHome />
     </div>
