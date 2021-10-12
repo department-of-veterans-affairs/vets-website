@@ -7,6 +7,7 @@
     "analyze": "webpack-bundle-analyzer build/vagovprod/generated/stats.json",
     "build": "./script/build.sh --scaffold",
     "build-analyze": "yarn build:production --analyzer; npm run analyze",
+    "build:codespaces": "./.devcontainer/codespaces-create.sh",
     "build:production": "NODE_ENV=production yarn build --buildtype=vagovprod",
     "build:webpack": "NODE_OPTIONS=--max-old-space-size=4096 webpack --config config/webpack.config.js",
     "build:webpack:prod": "NODE_ENV=production yarn build:webpack --env.buildtype vagovprod",
