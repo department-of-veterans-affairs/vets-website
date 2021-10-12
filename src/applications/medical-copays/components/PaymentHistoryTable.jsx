@@ -2,8 +2,31 @@ import React, { useState, useCallback } from 'react';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import Table from '@department-of-veterans-affairs/component-library/Table';
 import { formatTableData } from '../utils/helpers';
-import { mockTableData as data } from '../utils/mockData';
-import { MAX_ROWS_PER_PAGE } from '../constants';
+
+const MAX_ROWS_PER_PAGE = 3;
+
+const mockData = [
+  {
+    date: `June 3, 2021`,
+    desc: `Prescription copay (service connected)`,
+    amount: 10,
+  },
+  {
+    date: `June 3, 2021`,
+    desc: `Inpatient Community Care Network copay`,
+    amount: 290,
+  },
+  {
+    date: `May 3, 2021`,
+    desc: `Payments made from April 3, 2021 to May 3, 2021`,
+    amount: -102,
+  },
+  {
+    date: `April 3, 2021`,
+    desc: `Inpatient Community Care Network copay`,
+    amount: 60,
+  },
+];
 
 const fields = [
   { label: 'Statement date', value: 'date' },
@@ -13,10 +36,10 @@ const fields = [
 
 const PaymentHistoryTable = () => {
   const [page, setPage] = useState(1);
-  const pages = Math.ceil(data.length / MAX_ROWS_PER_PAGE);
+  const pages = Math.ceil(mockData.length / MAX_ROWS_PER_PAGE);
   const start = (page - 1) * MAX_ROWS_PER_PAGE;
-  const end = Math.min(page * MAX_ROWS_PER_PAGE, data.length);
-  const currentPage = data.slice(start, end);
+  const end = Math.min(page * MAX_ROWS_PER_PAGE, mockData.length);
+  const currentPage = mockData.slice(start, end);
   const formattedData = formatTableData(currentPage);
 
   const onPageSelect = useCallback(

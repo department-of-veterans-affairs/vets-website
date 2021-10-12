@@ -9,10 +9,13 @@ export const CALLSTATUS = {
 };
 
 export const COE_ELIGIBILITY_STATUS = {
+  available: 'available',
+  denied: 'denied',
   eligible: 'eligible',
   ineligible: 'ineligible',
   unableToDetermine: 'unable-to-determine-eligibility',
   pending: 'pending',
+  pendingUpload: 'pending-upload',
 };
 
 export const DOCUMENT_TYPES = [

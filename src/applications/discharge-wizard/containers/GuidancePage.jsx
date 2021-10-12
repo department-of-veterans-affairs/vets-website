@@ -17,6 +17,7 @@ import StepThree from '../components/gpSteps/StepThree';
 import Warnings from '../components/gpMinorComponents/Warnings';
 import { deriveIsAirForceAFRBAPortal } from '../helpers';
 import { applyAirForcePortalLink } from '../helpers/selectors';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 export const GuidancePage = ({ formValues, showNewAirForcePortal }) => {
   const airForceAFRBAPortal = deriveIsAirForceAFRBAPortal(formValues);
@@ -30,7 +31,7 @@ export const GuidancePage = ({ formValues, showNewAirForcePortal }) => {
       // This effect hook only runs on mount OR if formValues dependency changes (Which is a new render/ or props to the component)
       localStorage.setItem('dw-viewed-guidance', true);
       localStorage.setItem('dw-formValues', JSON.stringify(formValues));
-      window.scrollTo(0, 0);
+      scrollTo(0);
     },
     [formValues],
   );

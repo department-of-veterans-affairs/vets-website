@@ -14,6 +14,7 @@ import { getFormPageInfo, getTypeOfCare } from '../../redux/selectors';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import ProviderSelectionField from './ProviderSelectionField';
 import recordEvent from 'platform/monitoring/record-event';
+import { lowerCase } from '../../../utils/formatters';
 
 const initialSchema = {
   type: 'object',
@@ -40,8 +41,9 @@ export default function CommunityCareProviderSelectionPage() {
   const history = useHistory();
   const typeOfCare = getTypeOfCare(data);
   const pageTitle = showCCIterations
-    ? `Request a ${typeOfCare.name} provider`
+    ? `Request a ${lowerCase(typeOfCare.name)} provider`
     : 'Tell us your community care preferences';
+
   const descriptionText =
     'You can request a provider for this care. If they aren’t available, we’ll schedule your appointment with a provider close to your home.';
 

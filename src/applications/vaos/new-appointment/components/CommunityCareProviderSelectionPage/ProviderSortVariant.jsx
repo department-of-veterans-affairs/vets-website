@@ -22,15 +22,13 @@ export default function ProviderSortVariant({
     communityCareProviderList,
     currentLocation,
     requestLocationStatus,
+    requestStatus,
     selectedCCFacility,
     sortMethod,
   } = useSelector(selectProviderSelectionInfo, shallowEqual);
+
   const [selectedSortMethod, setSelectedSortMethod] = useState(sortMethod);
   const sortOptions = [
-    {
-      value: FACILITY_SORT_METHODS.distanceFromResidential,
-      label: 'Your home address',
-    },
     {
       value: FACILITY_SORT_METHODS.distanceFromCurrentLocation,
       label: 'Your current location',
@@ -50,7 +48,7 @@ export default function ProviderSortVariant({
       } else if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
         dispatch(requestProvidersList(address));
       } else {
-        dispatch(requestProvidersList(selectedCCFacility.position));
+        dispatch(requestProvidersList(selectedCCFacility?.position));
       }
 
       if (communityCareProviderList) {
@@ -80,20 +78,36 @@ export default function ProviderSortVariant({
   const hasUserAddress = address && !!Object.keys(address).length;
   const requestLocationStatusFailed =
     requestLocationStatus === FETCH_STATUS.failed;
+  const requestProvidersFailed = requestStatus === FETCH_STATUS.failed;
+
+  if (hasUserAddress) {
+    sortOptions.unshift({
+      value: FACILITY_SORT_METHODS.distanceFromResidential,
+      label: 'Your home address',
+    });
+  } else {
+    sortOptions.push({
+      value: FACILITY_SORT_METHODS.distanceFromCurrentLocation,
+      label: 'Your current location',
+    });
+  }
+
   return (
     <div className="vads-u-margin-bottom--3">
-      {notLoading && (
-        <p
-          className="vads-u-margin--0"
-          id="provider-list-status"
-          role="status"
-          aria-live="polite"
-          aria-atomic="true"
-        >
-          Displaying 1 to {currentlyShownProvidersList.length} of{' '}
-          {communityCareProviderList.length} providers
-        </p>
-      )}
+      {notLoading &&
+        !requestProvidersFailed &&
+        currentlyShownProvidersList.length > 0 && (
+          <p
+            className="vads-u-margin--0"
+            id="provider-list-status"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            Displaying 1 to {currentlyShownProvidersList.length} of{' '}
+            {communityCareProviderList.length} providers
+          </p>
+        )}
       <Select
         label="Show providers closest to"
         name="sort"

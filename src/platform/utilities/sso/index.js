@@ -2,11 +2,11 @@ import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import localStorage from '../storage/localStorage';
 import { hasSessionSSO } from '../../user/profile/utilities';
-import { loginAppUrlRE } from 'applications/login/utilities/paths';
 
 import {
   standaloneRedirect,
   login,
+  loginAppUrlRE,
   logout,
 } from 'platform/user/authentication/utilities';
 import mockKeepAlive from './mockKeepAliveSSO';

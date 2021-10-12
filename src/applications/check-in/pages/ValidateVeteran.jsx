@@ -14,7 +14,14 @@ import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 
 const ValidateVeteran = props => {
-  const { router, isUpdatePageEnabled, setPermissions, context } = props;
+  const {
+    context,
+    isUpdatePageEnabled,
+    isMultipleAppointmentsEnabled,
+    isDemographicsPageEnabled,
+    router,
+    setPermissions,
+  } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
@@ -33,27 +40,48 @@ const ValidateVeteran = props => {
       }
       if (!last4Ssn) {
         setLast4ErrorMessage(
-          'Please enter the last 4 digits of your Social Security number',
+          'Please enter the last 4 digits of your Social Security number.',
         );
       }
     } else {
       // API call
       setIsLoading(true);
-      api.v1
-        .postSession({ lastName, last4: last4Ssn, token })
-        .then(data => {
-          // update sessions with new permissions
-          setPermissions(data);
+      if (isMultipleAppointmentsEnabled) {
+        api.v2
+          .postSession({ lastName, last4: last4Ssn, token })
+          .then(data => {
+            // update sessions with new permissions
+            setPermissions(data);
 
-          if (isUpdatePageEnabled) {
-            goToNextPage(router, URLS.UPDATE_INSURANCE);
-          } else {
-            goToNextPage(router, URLS.DETAILS);
-          }
-        })
-        .catch(() => {
-          goToNextPage(router, URLS.ERROR);
-        });
+            // routing
+            if (isDemographicsPageEnabled) {
+              goToNextPage(router, URLS.DEMOGRAPHICS);
+            } else if (isUpdatePageEnabled) {
+              goToNextPage(router, URLS.UPDATE_INSURANCE);
+            } else {
+              goToNextPage(router, URLS.DETAILS);
+            }
+          })
+          .catch(() => {
+            goToNextPage(router, URLS.ERROR);
+          });
+      } else {
+        api.v1
+          .postSession({ lastName, last4: last4Ssn, token })
+          .then(data => {
+            // update sessions with new permissions
+            setPermissions(data);
+
+            if (isUpdatePageEnabled) {
+              goToNextPage(router, URLS.UPDATE_INSURANCE);
+            } else {
+              goToNextPage(router, URLS.DETAILS);
+            }
+          })
+          .catch(() => {
+            goToNextPage(router, URLS.ERROR);
+          });
+      }
     }
   };
   useEffect(() => {
@@ -63,15 +91,19 @@ const ValidateVeteran = props => {
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 ">
       <h1>Check in at VA</h1>
-      <p>We need some information to verify your identity to check you in.</p>
-      <form onSubmit={() => false}>
+      <p>
+        We need some information to verify your identity so we can check you in.
+      </p>
+      <form className="vads-u-margin-bottom--2p5" onSubmit={() => false}>
         <VaTextInput
+          autoCorrect="false"
+          error={lastNameErrorMessage}
           label="Your last name"
           name="last-name"
-          value={lastName}
           onVaChange={event => setLastName(event.detail.value)}
           required
-          error={lastNameErrorMessage}
+          spellCheck="false"
+          value={lastName}
         />
         <VaTextInput
           label="Last 4 digits of your Social Security number"

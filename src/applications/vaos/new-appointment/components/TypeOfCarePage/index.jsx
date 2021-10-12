@@ -35,6 +35,7 @@ export default function TypeOfCarePage() {
     showDirectScheduling,
     showPodiatryApptUnavailableModal,
   } = useSelector(selectTypeOfCarePage, shallowEqual);
+
   const history = useHistory();
   const showUpdateAddressAlert =
     !hideUpdateAddressAlert && (!addressLine1 || addressLine1.match(/^PO Box/));

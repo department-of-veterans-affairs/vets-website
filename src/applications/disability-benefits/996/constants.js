@@ -22,7 +22,7 @@ export const LEGACY_APPEALS_URL = '/decision-reviews/legacy-appeals/';
 
 // 8622 is the ID of the <li> wrapping the "Find addresses for other benefit
 // types" accordion
-export const BENEFIT_OFFICES_URL = `${HLR_INFO_URL}#find-addresses-for-other-benef-8622`;
+export const BENEFIT_OFFICES_URL = `${HLR_INFO_URL}#find-addresses`;
 
 export const CONTESTABLE_ISSUES_API =
   '/higher_level_reviews/contestable_issues/';
@@ -67,7 +67,7 @@ export const FORMAT_READABLE = 'LL';
 export const SAVED_CLAIM_TYPE = 'hlrClaimType';
 export const WIZARD_STATUS = 'wizardStatus996';
 
-export const MAX_NEW_CONDITIONS = 99;
+export const MAX_SELECTIONS = 100;
 
 // Values from benefitTypes in vets-json-schema constants
 const supportedBenefitTypes = [

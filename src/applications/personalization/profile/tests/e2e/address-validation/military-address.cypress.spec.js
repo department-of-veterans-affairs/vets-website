@@ -30,9 +30,9 @@ describe('Personal and contact information', () => {
         .should('contain', 'PSC 808 Box 37')
         .and('contain', 'FPO, Armed Forces Europe');
 
-      cy.findByRole('button', { name: /edit mailing address/i }).should(
-        'be.focused',
-      );
+      cy.focused()
+        .invoke('text')
+        .should('match', /update saved/i);
     });
   });
 });
