@@ -79,6 +79,11 @@ describe('App', () => {
           login: {
             currentlyLoggedIn: true,
           },
+          profile: {
+            userFullName: {
+              first: 'MARK',
+            },
+          },
         },
       },
     };
@@ -110,7 +115,7 @@ describe('App', () => {
         expect(createStoreSpy.callCount).to.equal(1);
       });
 
-      it('passes CSRF Token and Api Session to greet user', async () => {
+      it('passes CSRF Token, Api Session, Api Url, and Base Url to greet user', async () => {
         loadWebChat();
         mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
 
@@ -126,6 +131,45 @@ describe('App', () => {
           'FAKECSRF',
           'FAKEAPISESSION',
           'https://dev-api.va.gov',
+          'https://dev.va.gov',
+          'Mark',
+        );
+      });
+
+      it('passes blank string when user is signed in but doesnt have a name', async () => {
+        loadWebChat();
+        mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+
+        const { getByTestId } = renderInReduxProvider(
+          <Chatbox {...defaultProps} />,
+          {
+            initialState: {
+              featureToggles: {
+                loading: false,
+              },
+              user: {
+                login: {
+                  currentlyLoggedIn: true,
+                },
+                profile: {
+                  userFullName: {
+                    first: null,
+                  },
+                },
+              },
+            },
+          },
+        );
+
+        await waitFor(() => expect(getByTestId('webchat')).to.exist);
+
+        sinon.assert.calledWithExactly(
+          GreetUser.makeBotGreetUser,
+          'FAKECSRF',
+          'FAKEAPISESSION',
+          'https://dev-api.va.gov',
+          'https://dev.va.gov',
+          'noFirstNameFound',
         );
       });
     });
@@ -188,6 +232,11 @@ describe('App', () => {
           login: {
             currentlyLoggedIn: true,
           },
+          profile: {
+            userFullName: {
+              first: 'MARK',
+            },
+          },
         },
       };
 
@@ -249,6 +298,11 @@ describe('App', () => {
           user: {
             login: {
               currentlyLoggedIn: true,
+            },
+            profile: {
+              userFullName: {
+                first: 'MARK',
+              },
             },
           },
         });

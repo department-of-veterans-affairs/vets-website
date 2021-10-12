@@ -15,6 +15,7 @@ Once you have the site set up locally, these are some common commands you might 
 | fetch all dependencies     | `yarn install`; run this any time `package.json` changes |
 | build applications         | `yarn build`                                             |
 | run the webpack dev server | `yarn watch`                                             |
+| build in codespaces        | `yarn build:codespaces`. Build with codespace options    |
 
 ## Building `vets-website`
 
@@ -72,6 +73,10 @@ Static pages are created from the [content-build](https://github.com/department-
 ### Building both together
 
 After [building the applications](#building-applications), running `yarn build` in the `../content-build` directory will build content using the generated app bundles from `vets-website/build/localhost/generated`. The full build can be seen in `../content-build/build/localhost`.
+
+## Working in GitHub Codespaces
+
+[Read the Codespaces documentation for this repository](https://depo-platform-documentation.scrollhelp.site/developer-docs/Using-GitHub-Codespaces.1909063762.html#UsingGitHubCodespaces-Codespacesinvets-websiteandcontent-buildrepositories).
 
 ## Running tests
 
@@ -232,8 +237,8 @@ for doing very specific things.
 | run the site so that devices on your local network can access it                                            | `yarn watch --host 0.0.0.0 --public 192.168.x.x:3001` Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems                                                |
 | watch file changes without starting the server                                                              | `yarn watch:no-server`                                                                                                                                                                                                                    |
 | run all unit tests and watch                                                                                | `yarn test:watch`                                                                                                                                                                                                                         |
-| run only e2e tests                                                                                          | Make sure the site is running locally (`yarn watch`) and run the tests with `yarn test:e2e`                                                                                                                                               |
-| run e2e tests in headless mode                                                                              | `yarn test:e2e:headless`                                                                                                                                                                                                                  |
+| run only E2E tests (headless)                                                                               | Make sure the site is running locally (`yarn watch`) and run the tests with `yarn cy:run`                                                                                                                                               |
+| run E2E tests in the browser                                                                                | `yarn cy:open`                                                                                                                                                                                                                            |
 | run all linters                                                                                             | `yarn lint`                                                                                                                                                                                                                               |
 | run only javascript linter                                                                                  | `yarn lint:js`                                                                                                                                                                                                                            |
 | run only sass linter                                                                                        | `yarn lint:sass`                                                                                                                                                                                                                          |
