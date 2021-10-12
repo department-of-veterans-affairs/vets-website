@@ -50,7 +50,6 @@ jobs:
       # ---------------------------
 
       - name: Notify Slack about build failures
-        if: ${{ failure() }}
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
         env:
