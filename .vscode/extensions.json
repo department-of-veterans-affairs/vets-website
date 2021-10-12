@@ -1,16 +1,7 @@
 {
   "recommendations": [
-    "Gruntfuggly.todo-tree",
-    "davidanson.vscode-markdownlint",
     "dbaeumer.vscode-eslint",
-    "eamodio.gitlens",
-    "esbenp.prettier-vscode",
-    "github.vscode-pull-request-github",
-    "ms-vsliveshare.vsliveshare",
-    "ms-vsliveshare.vsliveshare-pack",
-    "redhat.vscode-yaml",
     "stylelint.vscode-stylelint",
-    "tyriar.sort-lines",
-    "visualstudioexptteam.vscodeintellicode"
+    "msjsdiag.debugger-for-chrome"
   ]
 }
