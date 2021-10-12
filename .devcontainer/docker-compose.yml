@@ -20,3 +20,4 @@ services:
       - .:/application
       - ../vagov-content:/vagov-content
       - ../content-build:/content-build
+      
