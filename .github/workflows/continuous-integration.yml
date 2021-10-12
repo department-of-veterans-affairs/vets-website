@@ -589,13 +589,6 @@ jobs:
         # | Upload BigQuery Data |
         # ------------------------
 
-      - name: Checkout Testing Tools Team Dashboard Data repo
-        uses: actions/checkout@v2
-        with:
-          repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
-          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-          path: testing-tools-team-dashboard-data
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -608,6 +601,13 @@ jobs:
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Checkout Testing Tools Team Dashboard Data repo
+        uses: actions/checkout@v2
+        with:
+          repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          path: testing-tools-team-dashboard-data
 
         # TODO: Set .nvmrc in testing-tools-team-dashboard-data.
         # - name: Get Node version
