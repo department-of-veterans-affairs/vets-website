@@ -1,5 +1,3 @@
-import React from 'react';
-
 const formatPhone = phoneString => {
   let returnString = phoneString;
   const match = phoneString.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/);
@@ -10,31 +8,14 @@ const formatPhone = phoneString => {
   return returnString;
 };
 
-const formatAddress = addressString => {
-  const splitAddress = addressString.match(/([^,]*),(.*)/);
-
-  return (
-    <>
-      {splitAddress[1]}
-      <br />
-      {splitAddress[2]}
-    </>
-  );
-};
-
-const formatDemographic = demographicString => {
+const formatDemographicString = demographicString => {
   const phoneMatch = demographicString.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/);
-  const emailMatch = demographicString.match(
-    /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi,
-  );
+
   if (phoneMatch) {
     return formatPhone(demographicString);
   }
-  if (emailMatch) {
-    return demographicString;
-  }
 
-  return formatAddress(demographicString);
+  return demographicString;
 };
 
-export { formatPhone, formatAddress, formatDemographic };
+export { formatPhone, formatDemographicString };

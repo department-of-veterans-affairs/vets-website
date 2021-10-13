@@ -1,13 +1,10 @@
 import React, { useCallback } from 'react';
-
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-
 import recordEvent from 'platform/monitoring/record-event';
-
 import { goToNextPage, URLS } from '../utils/navigation';
-
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
+import DemographicItem from '../components/DemographicItem';
 
 const Demographics = props => {
   const { isUpdatePageEnabled, router, isLoading } = props;
@@ -40,15 +37,7 @@ const Demographics = props => {
   if (isLoading) {
     return <LoadingIndicator message={'Loading your appointments for today'} />;
   }
-  // Temp data
-  const demoData = {
-    mailingAddress: '1221 Douglas Way, Douglas, MA, 00000',
-    homeAddress: '15431 Boston Road Apt 1C, Boston, MA, 00000',
-    homePhone: '5555555555',
-    mobilePhone: '5555555555',
-    workPhone: '5555555555',
-    emailAddress: 'email@email.com',
-  };
+
   const demographics = [
     { title: 'Mailing Address', key: 'mailingAddress' },
     { title: 'Home Address', key: 'homeAddress' },
@@ -65,16 +54,20 @@ const Demographics = props => {
       </h1>
       <div className="vads-u-border-color--primary vads-u-border-left--5px vads-u-margin-left--0p5 vads-u-padding-left--2">
         <dl>
-          {demographics
-            .filter(demo => demo.key in demoData)
-            .map(demographic => (
-              <React.Fragment key={demographic.key}>
-                <dt className="vads-u-font-size--h3 vads-u-font-family--serif">
-                  {demographic.title}
-                </dt>
-                <dd>{formatDemographic(demoData[demographic.key])}</dd>
-              </React.Fragment>
-            ))}
+          {demographics.map(demographic => (
+            <React.Fragment key={demographic.key}>
+              <dt className="vads-u-font-size--h3 vads-u-font-family--serif">
+                {demographic.title}
+              </dt>
+              <dd>
+                {demographic.key in demoData ? (
+                  <DemographicItem demographic={demoData[demographic.key]} />
+                ) : (
+                  'Not Available'
+                )}
+              </dd>
+            </React.Fragment>
+          ))}
         </dl>
       </div>
       <button
