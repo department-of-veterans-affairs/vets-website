@@ -9,7 +9,7 @@ describe('getNonActiveLinkUrls util', () => {
       expect(/(esp|tag)/i.test(url)).to.equal(true);
     });
 
-    expect(result.length).to.equal(8);
+    expect(result.length).to.equal(10);
   });
 
   it('should return correct urls for "es" language code', () => {
@@ -19,7 +19,7 @@ describe('getNonActiveLinkUrls util', () => {
       expect(/(esp)/i.test(url)).to.equal(false);
     });
 
-    expect(result.length).to.equal(8);
+    expect(result.length).to.equal(10);
   });
 
   it('should return correct urls for "tl" language code', () => {
@@ -29,6 +29,6 @@ describe('getNonActiveLinkUrls util', () => {
       expect(/(tag)/i.test(url)).to.equal(false);
     });
 
-    expect(result.length).to.equal(8);
+    expect(result.length).to.equal(10);
   });
 });
