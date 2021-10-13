@@ -279,8 +279,8 @@ const responses = {
 
     if (
       isDirect &&
-      (!req.query.facility_id.startsWith('984') ||
-        req.query.clinical_service_id === 'primaryCare')
+      (req.query.facility_id.startsWith('984') &&
+        req.query.clinical_service_id !== 'primaryCare')
     ) {
       ineligibilityReasons.push({
         coding: [
@@ -290,7 +290,7 @@ const responses = {
         ],
       });
     }
-    if (!isDirect && req.query.facility_id.startsWith('983')) {
+    if (!isDirect && !req.query.facility_id.startsWith('983')) {
       ineligibilityReasons.push({
         coding: [
           {
