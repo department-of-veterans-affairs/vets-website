@@ -1,0 +1,22 @@
+name: Create Codespace
+
+on: [push, pull_request]
+
+env:
+  BOT_NAME: va-vfs-bot
+  PR_NUMBER: ${{ github.event.number }}
+
+jobs:
+  build:
+    name: Build
+    runs-on: self-hosted
+
+    env:
+      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Create
+        run: gh codespaces create
