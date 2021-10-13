@@ -17,13 +17,7 @@ import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 
 const Demographics = props => {
-  const {
-    context,
-    isUpdatePageEnabled,
-    router,
-    setDemographics,
-    setMultipleAppointments,
-  } = props;
+  const { context, isUpdatePageEnabled, router, setSessionData } = props;
   const [isLoadingData, setIsLoadingData] = useState(true);
   const { token } = context;
 
@@ -35,8 +29,8 @@ const Demographics = props => {
         .getCheckInData(token)
         .then(json => {
           const { payload } = json;
-          setDemographics(payload.demographics);
-          setMultipleAppointments(payload.appointments, token);
+          setSessionData(payload);
+
           setIsLoadingData(false);
           focusElement('h1');
         })
@@ -44,7 +38,7 @@ const Demographics = props => {
           goToNextPage(router, URLS.ERROR);
         });
     },
-    [router, setDemographics, setMultipleAppointments, token],
+    [router, setSessionData, token],
   );
 
   const yesClick = useCallback(
@@ -105,9 +99,11 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    setMultipleAppointments: (data, token) =>
-      dispatch(receivedMultipleAppointmentDetails(data, token)),
-    setDemographics: data => dispatch(receivedDemographicsData(data)),
+    setSessionData: (payload, token) => {
+      const { appointments, demographics } = payload;
+      dispatch(receivedMultipleAppointmentDetails(appointments, token));
+      dispatch(receivedDemographicsData(demographics));
+    },
   };
 };
 
