@@ -610,6 +610,10 @@ const formConfig = {
                 <>
                   <h3>Review your mailing address</h3>
                   <p>
+                    We’ll send any important information about your application
+                    to this address.
+                  </p>
+                  <p>
                     This is the mailing address we have on file for you. If you
                     notice any errors, please correct them now. Any updates you
                     make will change the information for your education benefits
@@ -808,16 +812,13 @@ const formConfig = {
               'ui:description': (
                 <>
                   <div className="meb-form-page-only">
-                    <h3>Choose your notification method</h3>
+                    <h3>Choose how you want to get notifications</h3>
                     <p>
-                      We’ll send you important notifications about your
-                      benefits, including alerts to verify your monthly
-                      enrollment. You’ll need to verify your monthly enrollment
-                      to receive payment.
-                    </p>
-                    <p>
-                      We recommend opting-in for text message notifications to
-                      make verifying your monthly enrollment simpler.
+                      We recommend that you opt in to text message notifications
+                      about your benefits. These include notifications that
+                      prompt you to verify your enrollment so you’ll receive
+                      your education payments. This is an easy way to verify
+                      your monthly enrollment.
                     </p>
                   </div>
                 </>
@@ -864,9 +865,10 @@ const formConfig = {
               'ui:description': (
                 <va-alert onClose={function noRefCheck() {}} status="info">
                   <>
-                    For text messages, messaging and data rates may apply. At
-                    this time, VA is only able to send text messages about
-                    education benefits to US-based mobile phone numbers.
+                    If you choose to get text message notifications, messaging
+                    and data rates may apply. At this time, we can send text
+                    messages about your education benefits only to U.S. mobile
+                    phone numbers.
                   </>
                 </va-alert>
               ),
