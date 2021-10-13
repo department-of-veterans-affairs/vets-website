@@ -1,7 +1,26 @@
 import React from 'react';
 
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
+
+import { MAX_SELECTIONS } from '../constants';
+
 export const missingIssueErrorMessage = 'Please add the name of an issue';
 export const noneSelected = 'Please add and select at least one issue';
+export const uniqueIssueErrorMessage = 'Please enter a unique condition name';
+
+export const maxSelected =
+  'You’ve reached the maximum number of allowed selected issues';
+
+// Not setting "visible" as a variable since we're controlling rendering at a
+// higher level
+export const MaxSelectionsAlert = ({ closeModal }) => (
+  <Modal title={maxSelected} status="warning" onClose={closeModal} visible>
+    You are limited to {MAX_SELECTIONS} selected issues for each Higher-Level
+    Review request. If you would like to select more than {MAX_SELECTIONS},
+    please submit this request and create a new request for the remaining
+    issues.
+  </Modal>
+);
 
 export const missingIssuesErrorMessageText =
   'Please add and select an issue, or select an eligible issue on the previous page';

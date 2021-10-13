@@ -117,33 +117,6 @@ export default {
         },
       ],
     },
-    confirmationEmailUI: {
-      'ui:title': 'Re-enter email address',
-      'ui:widget': 'email',
-      'ui:errorMessages': {
-        pattern: 'Please enter an email address using this format: X@X.com',
-        required: 'Please enter an email address',
-      },
-      'ui:options': {
-        widgetClassNames: 'va-input-large',
-        inputType: 'email',
-        hideOnReview: true,
-        useDlWrap: true,
-      },
-      'ui:validations': [
-        {
-          validator: (errors, fieldData, formData) => {
-            const emailMatcher = () => formData.vetEmail === fieldData;
-            const doesEmailMatch = emailMatcher();
-            if (!doesEmailMatch) {
-              errors.addError(
-                'This email does not match your previously entered email',
-              );
-            }
-          },
-        },
-      ],
-    },
     suppliesUI: {
       'ui:title': 'Select the hearing aid batteries and accessories you need.',
       'ui:description':

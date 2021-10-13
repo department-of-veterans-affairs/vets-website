@@ -7,12 +7,6 @@ import environment from 'platform/utilities/environment';
 import { App } from '.';
 
 describe('Ask VA <App>', () => {
-  it('does not render when explicitly hidden', () => {
-    const wrapper = shallow(<App hidden />);
-    expect(wrapper.text()).to.equal('');
-    wrapper.unmount();
-  });
-
   it('renders ask va link when not authenticated', () => {
     const expectedHref = environment.isProduction()
       ? 'https://ava.va.gov/'
@@ -20,7 +14,7 @@ describe('Ask VA <App>', () => {
     const wrapper = shallow(<App loa={undefined} />);
     expect(wrapper.find(`a[href="${expectedHref}"]`)).be.have.lengthOf(1);
     expect(wrapper.find(`a[href="${expectedHref}"]`).text()).to.equal(
-      'Ask us a question online',
+      'Contact us online through Ask VA',
     );
     wrapper.unmount();
   });
@@ -32,7 +26,7 @@ describe('Ask VA <App>', () => {
     const wrapper = shallow(<App loa={1} />);
     expect(wrapper.find(`a[href="${expectedHref}"]`)).be.have.lengthOf(1);
     expect(wrapper.find(`a[href="${expectedHref}"]`).text()).to.equal(
-      'Ask us a question online',
+      'Contact us online through Ask VA',
     );
     wrapper.unmount();
   });
@@ -44,7 +38,7 @@ describe('Ask VA <App>', () => {
     const wrapper = shallow(<App loa={2} />);
     expect(wrapper.find(`a[href="${expectedHref}"]`)).be.have.lengthOf(1);
     expect(wrapper.find(`a[href="${expectedHref}"]`).text()).to.equal(
-      'Ask us a question online',
+      'Contact us online through Ask VA',
     );
     wrapper.unmount();
   });
@@ -56,7 +50,7 @@ describe('Ask VA <App>', () => {
     const wrapper = shallow(<App loa={3} />);
     expect(wrapper.find(`a[href="${expectedHref}"]`)).be.have.lengthOf(1);
     expect(wrapper.find(`a[href="${expectedHref}"]`).text()).to.equal(
-      'Ask us a question online',
+      'Contact us online through Ask VA',
     );
     wrapper.unmount();
   });

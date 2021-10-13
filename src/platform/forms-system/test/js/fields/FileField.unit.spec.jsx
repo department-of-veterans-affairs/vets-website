@@ -246,7 +246,9 @@ describe('Schemaform <FileField>', () => {
     );
 
     expect(tree.find('ProgressBar').exists()).to.be.true;
-    expect(tree.find('button').text()).to.equal('Cancel');
+    const button = tree.find('button');
+    expect(button.text()).to.equal('Cancel');
+    expect(button.prop('aria-describedby')).to.eq('field_file_name_0');
     tree.unmount();
   });
 
@@ -671,7 +673,8 @@ describe('Schemaform <FileField>', () => {
     );
     tree.unmount();
   });
-  it('should render file with attachment name', () => {
+
+  it('should render file with attachmentName', () => {
     const idSchema = {
       $id: 'field',
     };
@@ -696,9 +699,15 @@ describe('Schemaform <FileField>', () => {
       ],
     };
     const uiSchema = fileUploadUI('Files', {
-      attachmentName: {
+      attachmentName: ({ fileId, index }) => ({
         'ui:title': 'Document name',
-      },
+        'ui:options': {
+          widgetProps: {
+            'aria-describedby': fileId,
+            'data-index': index,
+          },
+        },
+      }),
     });
     const formData = [
       {
@@ -725,9 +734,94 @@ describe('Schemaform <FileField>', () => {
     );
 
     expect(tree.find('li').text()).to.contain('Test file name');
-    expect(tree.find('SchemaField').prop('schema')).to.equal(
-      schema.items[0].properties.name,
+    expect(tree.find('button').prop('aria-describedby')).to.eq(
+      'field_file_name_0',
     );
+
+    // check ids & index passed into SchemaField
+    const schemaProps = tree.find('SchemaField').props();
+    const widgetProps = schemaProps.uiSchema['ui:options'].widgetProps;
+    expect(schemaProps.schema).to.equal(schema.items[0].properties.name);
+    expect(schemaProps.registry.formContext.pagePerItemIndex).to.eq(0);
+    expect(widgetProps['aria-describedby']).to.eq('field_file_name_0');
+    expect(widgetProps['data-index']).to.eq(0);
+
+    tree.unmount();
+  });
+  it('should render file with attachmentSchema', () => {
+    const idSchema = {
+      $id: 'field',
+    };
+    const schema = {
+      type: 'array',
+      additionalItems: {
+        type: 'object',
+        properties: {
+          attachmentId: {
+            type: 'string',
+          },
+        },
+      },
+      items: [
+        {
+          type: 'object',
+          properties: {
+            attachmentId: {
+              type: 'string',
+            },
+          },
+        },
+      ],
+    };
+    const uiSchema = fileUploadUI('Files', {
+      attachmentName: false,
+      attachmentSchema: ({ fileId, index }) => ({
+        'ui:title': 'Document type',
+        'ui:options': {
+          widgetProps: {
+            'aria-describedby': fileId,
+            'data-index': index,
+          },
+        },
+      }),
+    });
+    const formData = [
+      {
+        attachmentId: '1234',
+      },
+    ];
+    const registry = {
+      fields: {
+        SchemaField: f => f,
+      },
+    };
+    const tree = shallow(
+      <FileField
+        registry={registry}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        formData={formData}
+        formContext={formContext}
+        onChange={f => f}
+        requiredSchema={requiredSchema}
+      />,
+    );
+
+    expect(tree.find('button').prop('aria-describedby')).to.eq(
+      'field_file_name_0',
+    );
+
+    // check ids & index passed into SchemaField
+    const schemaProps = tree.find('SchemaField').props();
+    const widgetProps = schemaProps.uiSchema['ui:options'].widgetProps;
+    expect(schemaProps.schema).to.equal(
+      schema.items[0].properties.attachmentId,
+    );
+    expect(schemaProps.registry.formContext.pagePerItemIndex).to.eq(0);
+    expect(widgetProps['aria-describedby']).to.eq('field_file_name_0');
+    expect(widgetProps['data-index']).to.eq(0);
+
     tree.unmount();
   });
 
@@ -757,6 +851,9 @@ describe('Schemaform <FileField>', () => {
       ],
     };
     const uiSchema = fileUploadUI('Files', {
+      attachmentSchema: {
+        'ui:title': 'Document ID',
+      },
       attachmentName: {
         'ui:title': 'Document name',
       },

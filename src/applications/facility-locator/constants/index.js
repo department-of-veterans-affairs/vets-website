@@ -105,7 +105,8 @@ export const EMERGENCY_CARE_SERVICES = [
  * Error Messages
  */
 export const Error = {
-  DEFAULT: 'We’re sorry. Something went wrong on our end. Please try again.',
+  DEFAULT:
+    'We’re sorry. Something went wrong on our end. Please refresh this page or try again later.',
   LOCATION:
     'Something’s not quite right. Please enter a valid or different location and try your search again.',
 };
@@ -131,7 +132,7 @@ export const CountriesList = ['us', 'pr', 'ph', 'gu', 'as', 'mp'];
  * Mapbox api request types
  */
 
-export const TypeList = ['place', 'region', 'postcode', 'locality'];
+export const MAPBOX_QUERY_TYPES = ['place', 'region', 'postcode', 'locality'];
 
 /**
  * Max search area in miles

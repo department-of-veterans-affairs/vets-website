@@ -54,18 +54,11 @@ export const mockGETEndpoints = (
 };
 
 export const mockFeatureToggles = () => {
-  cy.server();
-  cy.route({
-    method: 'GET',
-    status: 200,
-    url: '/v0/feature_toggles*',
-    response: {
+  cy.intercept('GET', '/v0/feature_toggles*', {
+    statusCode: 200,
+    body: {
       data: {
         features: [
-          {
-            name: 'dashboard_show_dashboard_2',
-            value: true,
-          },
           {
             name: 'profile_notification_settings',
             value: true,

@@ -1,21 +1,24 @@
 import React, { useEffect } from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../../../components/FormButtons';
 import RequestEligibilityMessage from './RequestEligibilityMessage';
 import FacilityAddress from '../../../components/FacilityAddress';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import { MENTAL_HEALTH, PRIMARY_CARE } from '../../../utils/constants';
 import {
-  openClinicPage,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-  updateFormData,
 } from '../../redux/actions';
 
-import { getClinicPageInfo } from '../../redux/selectors';
-import { useHistory } from 'react-router-dom';
+import {
+  selectTypeOfCare,
+  selectPageChangeInProgress,
+  selectChosenFacilityInfo,
+  selectEligibility,
+} from '../../redux/selectors';
+import useClinicFormState from './useClinicFormState';
+import { MENTAL_HEALTH, PRIMARY_CARE } from '../../../utils/constants';
 
 function formatTypeOfCare(careLabel) {
   if (careLabel.startsWith('MOVE') || careLabel.startsWith('CPAP')) {
@@ -39,63 +42,39 @@ function getPageTitle(schema, typeOfCare, usingPastClinics) {
   }
   return pageTitle;
 }
-const initialSchema = {
-  type: 'object',
-  required: ['clinicId'],
-  properties: {
-    clinicId: {
-      type: 'string',
-      enum: [],
-    },
-  },
-};
-const uiSchema = {
-  clinicId: {
-    'ui:widget': 'radio',
-  },
-};
+
 const pageKey = 'clinicChoice';
 export default function ClinicChoicePage() {
-  const {
-    data,
-    canMakeRequests,
-    clinics,
-    eligibility,
-    facility,
-    pageChangeInProgress,
-    schema,
-    typeOfCare,
-  } = useSelector(state => getClinicPageInfo(state, pageKey), shallowEqual);
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const facility = useSelector(selectChosenFacilityInfo);
+  const typeOfCare = useSelector(selectTypeOfCare);
+  const pageChangeInProgress = useSelector(selectPageChangeInProgress);
+  const eligibility = useSelector(selectEligibility);
+
+  const {
+    data,
+    schema,
+    uiSchema,
+    setData,
+    firstMatchingClinic,
+  } = useClinicFormState();
+
   const typeOfCareLabel = formatTypeOfCare(typeOfCare.name);
   const usingUnsupportedRequestFlow =
-    data.clinicId === 'NONE' && !canMakeRequests;
+    data.clinicId === 'NONE' && !eligibility?.request;
   const usingPastClinics =
     typeOfCare.id !== PRIMARY_CARE && typeOfCare.id !== MENTAL_HEALTH;
-  const schemaAndFacilityReady = !!schema;
+
   useEffect(() => {
-    dispatch(openClinicPage(pageKey, uiSchema, initialSchema));
+    scrollAndFocus();
+    document.title = `${getPageTitle(
+      schema,
+      typeOfCare,
+      usingPastClinics,
+    )} | Veterans Affairs`;
   }, []);
-  useEffect(
-    () => {
-      scrollAndFocus();
-      document.title = `${getPageTitle(
-        schema,
-        typeOfCare,
-        usingPastClinics,
-      )} | Veterans Affairs`;
-    },
-    [schemaAndFacilityReady, usingPastClinics],
-  );
-
-  if (!schemaAndFacilityReady) {
-    return <LoadingIndicator message="Loading your facility and clinic info" />;
-  }
-
-  const firstMatchingClinic = clinics?.find(
-    clinic => clinic.id === schema?.properties.clinicId.enum[0],
-  );
 
   return (
     <div>
@@ -145,10 +124,10 @@ export default function ClinicChoicePage() {
         title="Clinic choice"
         schema={schema}
         uiSchema={uiSchema}
-        onSubmit={() => dispatch(routeToNextAppointmentPage(history, pageKey))}
-        onChange={newData =>
-          dispatch(updateFormData(pageKey, uiSchema, newData))
+        onSubmit={() =>
+          dispatch(routeToNextAppointmentPage(history, pageKey, data))
         }
+        onChange={newData => setData(newData)}
         data={data}
       >
         {usingUnsupportedRequestFlow && (
@@ -163,7 +142,7 @@ export default function ClinicChoicePage() {
         )}
         <FormButtons
           onBack={() =>
-            dispatch(routeToPreviousAppointmentPage(history, pageKey))
+            dispatch(routeToPreviousAppointmentPage(history, pageKey, data))
           }
           disabled={usingUnsupportedRequestFlow}
           pageChangeInProgress={pageChangeInProgress}

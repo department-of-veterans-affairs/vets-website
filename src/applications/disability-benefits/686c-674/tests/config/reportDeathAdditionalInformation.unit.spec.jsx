@@ -8,7 +8,7 @@ import {
   fillData,
   selectCheckbox,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import { changeDropdown } from '../helpers/index';
+import { changeDropdown } from 'platform/testing/unit/helpers';
 import formConfig from '../../config/form';
 
 describe('686 report dependent death additional information', () => {

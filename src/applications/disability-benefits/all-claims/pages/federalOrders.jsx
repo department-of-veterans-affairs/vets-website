@@ -24,7 +24,7 @@ export const uiSchema = {
     reservesNationalGuardService: {
       'view:isTitle10Activated': {
         'ui:title':
-          'Are you currently activated on federal orders in the Reserves or the National Guard?',
+          'Are you currently activated on federal orders in the Reserve or the National Guard?',
         'ui:widget': 'yesNo',
       },
       title10Activation: {

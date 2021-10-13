@@ -1,51 +1,32 @@
 /* eslint-disable camelcase */
 
 const commonResponses = require('../../../../platform/testing/local-dev-mock-api/common');
-const mockCheckIns = require('./mocks/check.in.response');
-const mockValidates = require('./mocks/validate.responses');
-const mockPatientCheckIns = require('./mocks/patient.check.in.response');
+const mockCheckIns = require('./mocks/v1/check.in.responses');
+const mockPatientCheckIns = require('./mocks/v1/patient.check.in.responses');
+const mockSessions = require('./mocks/v1/sessions.responses');
+
 const featureToggles = require('./mocks/feature.toggles');
-const sessions = require('./mocks/sessions.responses');
 const delay = require('mocker-api/lib/delay');
 
 let hasBeenValidated = false;
 
 const responses = {
   ...commonResponses,
-  'GET /v0/feature_toggles': featureToggles.createFeatureToggles(
-    true,
-    true,
-    false,
-    false,
-  ),
-  // v0
-  'GET /check_in/v0/patient_check_ins/:id': (req, res) => {
-    const { id } = req.params;
-    return res.json(mockValidates.createMockSuccessResponse({ id }));
-  },
-  'POST /check_in/v0/patient_check_ins/': (_req, res) => {
-    return res.json(mockCheckIns.createMockSuccessResponse({}));
-  },
+  'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
+    checkInExperienceMultipleAppointmentSupport: false,
+    checkInExperienceUpdateInformationPageEnabled: false,
+  }),
   // v1
   'GET /check_in/v1/sessions/:uuid': (req, res) => {
-    return res.json(sessions.v1Api.get(req.params));
+    return res.json(mockSessions.v1Api.get(req.params));
   },
   'POST /check_in/v1/sessions': (req, res) => {
     const { last4, lastName } = req.body?.session || {};
     if (!last4 || !lastName) {
-      return res.status(400).json({
-        errors: [
-          {
-            title: 'Operation failed',
-            detail: 'Operation failed',
-            code: 'VA900',
-            status: '400',
-          },
-        ],
-      });
+      return res.status(400).json(mockSessions.createMockFailedResponse());
     }
     hasBeenValidated = true;
-    return res.json(sessions.v1Api.post(req.body));
+    return res.json(mockSessions.v1Api.post(req.body));
   },
   'GET /check_in/v1/patient_check_ins/:uuid': (req, res) => {
     if (hasBeenValidated) {

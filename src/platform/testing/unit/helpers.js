@@ -84,6 +84,20 @@ function fillDate(formDOM, partialId, dateString) {
 }
 
 /**
+ * Allows the user to change a dropdown input to the value provided
+ *
+ * @param {object} form
+ * @param {string} selector
+ * @param {string} value
+ */
+export function changeDropdown(form, selector, value) {
+  const field = form.find(selector);
+  field.simulate('change', {
+    target: { value },
+  });
+}
+
+/**
  * A function to mock the global fetch function and return
  * the value provided in returnVal.
  *

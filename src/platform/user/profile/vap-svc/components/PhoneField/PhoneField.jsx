@@ -32,9 +32,6 @@ const formSchema = {
       type: 'string',
       pattern: '^\\s*[a-zA-Z0-9]{0,10}\\s*$',
     },
-    isTextPermitted: {
-      type: 'boolean',
-    },
   },
   required: ['inputPhoneNumber'],
 };
@@ -55,13 +52,6 @@ const uiSchema = fieldName => {
         pattern: 'Please enter a valid extension.',
       },
     },
-    isTextPermitted: {
-      'ui:title':
-        'Send me text message (SMS) reminders for my VA health care appointments',
-      'ui:options': {
-        hideIf: formData => !formData['view:showSMSCheckbox'],
-      },
-    },
   };
 };
 
@@ -78,15 +68,7 @@ export default class PhoneField extends React.Component {
   };
 
   convertNextValueToCleanData(value) {
-    const {
-      id,
-      countryCode,
-      extension,
-      phoneType,
-      inputPhoneNumber,
-      isTextable,
-      isTextPermitted,
-    } = value;
+    const { id, countryCode, extension, phoneType, inputPhoneNumber } = value;
 
     const strippedPhone = (inputPhoneNumber || '').replace(/[^\d]/g, '');
     const strippedExtension = (extension || '').replace(/[^a-zA-Z0-9]/g, '');
@@ -100,8 +82,6 @@ export default class PhoneField extends React.Component {
       phoneNumber: strippedPhone.substring(3),
       isInternational: countryCode !== USA.COUNTRY_CODE,
       inputPhoneNumber,
-      isTextable,
-      isTextPermitted,
     };
   }
 
@@ -118,8 +98,6 @@ export default class PhoneField extends React.Component {
         extension: cleanData.extension,
         phoneNumber: cleanData.phoneNumber,
         isInternational: false, // currently no international phone number support
-        isTextable: cleanData.isTextable,
-        isTextPermitted: cleanData.isTextPermitted,
         phoneType: PHONE_TYPE[fieldName],
       },
       e => !!e,

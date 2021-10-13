@@ -20,8 +20,6 @@ import MOCK_CC_APPOINTMENTS from '../../utils/mocks/appointments/MOCK_CC_APPOINT
 import { mockFolderResponse } from '../../utils/mocks/messaging/folder';
 import { mockMessagesResponse } from '../../utils/mocks/messaging/messages';
 
-import { mockFeatureToggles } from './helpers';
-
 /**
  *
  * @param {boolean} mobile - test on a mobile viewport or not
@@ -31,7 +29,6 @@ import { mockFeatureToggles } from './helpers';
  *   checks that focus is managed correctly, and performs an aXe scan
  */
 function loa3DashboardTest(mobile) {
-  mockFeatureToggles();
   cy.visit(manifest.rootUrl);
 
   if (mobile) {
@@ -100,7 +97,6 @@ describe('The My VA Dashboard', () => {
       });
     });
     it('should totally hide the disability rating in the header', () => {
-      mockFeatureToggles();
       cy.visit(manifest.rootUrl);
       nameTagRendersWithoutDisabilityRating();
       nameTagIsFocused();
@@ -114,7 +110,6 @@ describe('The My VA Dashboard', () => {
       });
     });
     it('should show the fallback link in the header', () => {
-      mockFeatureToggles();
       cy.visit(manifest.rootUrl);
       nameTagRendersWithFallbackLink();
       nameTagIsFocused();

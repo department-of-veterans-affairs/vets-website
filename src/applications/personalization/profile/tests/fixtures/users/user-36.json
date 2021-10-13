@@ -82,7 +82,7 @@
         },
         "mailingAddress": {
           "addressLine1": "123 Test Street",
-          "addressLine2": "123 Test Street",
+          "addressLine2": null,
           "addressLine3": null,
           "addressPou": "CORRESPONDENCE",
           "addressType": "DOMESTIC",
