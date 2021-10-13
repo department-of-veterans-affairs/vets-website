@@ -96,8 +96,8 @@ describe('check inactions', () => {
         const action = receivedDemographicsData({
           homePhone: '555-867-5309',
         });
-        expect(action.value).to.haveOwnProperty('demographics');
-        expect(action.value.demographics.homePhone).to.equal('555-867-5309');
+        expect(action.payload).to.haveOwnProperty('demographics');
+        expect(action.payload.demographics.homePhone).to.equal('555-867-5309');
       });
     });
   });
