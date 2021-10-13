@@ -411,7 +411,11 @@ export async function fetchFlowEligibilityAndClinics({
     if (!results.clinics.length) {
       eligibility.direct = false;
       eligibility.directReasons.push(ELIGIBILITY_REASONS.noClinics);
-      recordEligibilityFailure('direct-available-clinics');
+      recordEligibilityFailure(
+        'direct-available-clinics',
+        typeOfCare?.id,
+        location?.id,
+      );
     }
 
     if (

@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import CheckIn from './pages/CheckIn';
 import Confirmation from './pages/Confirmation';
+import Demographics from './pages/Demographics';
 import Error from './pages/Error';
 import Failed from './pages/Failed';
 import Landing from './pages/Landing';
@@ -12,7 +13,7 @@ import ValidateVeteran from './pages/ValidateVeteran';
 import withFeatureFlip from './containers/withFeatureFlip';
 import withAppointmentData from './containers/withAppointmentData';
 import withLowAuthorization from './containers/withLowAuthorization';
-
+import withToken from './containers/withToken';
 import { URLS } from './utils/navigation';
 
 const createRoutesWithStore = () => {
@@ -21,7 +22,11 @@ const createRoutesWithStore = () => {
       <Route path="/" component={withFeatureFlip(Landing)} />
       <Route
         path={`/${URLS.VALIDATION_NEEDED}`}
-        component={withFeatureFlip(ValidateVeteran)}
+        component={withFeatureFlip(withToken(ValidateVeteran))}
+      />
+      <Route
+        path={`/${URLS.DEMOGRAPHICS}`}
+        component={withFeatureFlip(withAppointmentData(Demographics))}
       />
       <Route
         path={`/${URLS.UPDATE_INSURANCE}`}

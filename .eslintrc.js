@@ -60,7 +60,7 @@ module.exports = {
       2,
       { args: 'after-used', argsIgnorePattern: '^_', vars: 'local' },
     ],
-    'no-restricted-imports': ['error', 'raven'],
+    'no-restricted-imports': ['error', 'raven', 'lodash/fp'],
     'prefer-rest-params': 2,
 
     /* || va custom plugin || */

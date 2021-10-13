@@ -11,6 +11,7 @@ import {
   hasRatedDisabilities,
   claimingRated,
   showSeparationLocation,
+  sippableId,
 } from './utils';
 
 import {
@@ -18,6 +19,7 @@ import {
   MILITARY_STATE_VALUES,
   LOWERED_DISABILITY_DESCRIPTIONS,
   NULL_CONDITION_STRING,
+  RESERVE_GUARD_TYPES,
 } from './constants';
 
 export const hasMilitaryRetiredPay = data =>
@@ -222,24 +224,31 @@ export function startedAfterServicePeriod(err, fieldData, formData) {
   if (!_.get('servicePeriods.length', formData.serviceInformation, false)) {
     return;
   }
+  const { nationalGuard, reserve } = RESERVE_GUARD_TYPES;
 
+  // only check active duty periods
   const earliestServiceStartDate = formData.serviceInformation.servicePeriods
-    .map(period => new Date(period.dateRange.from))
-    .reduce((earliestDate, current) => {
-      if (current < earliestDate) {
-        return current;
-      }
-
-      return earliestDate;
-    });
+    .filter(
+      ({ serviceBranch = '' } = {}) =>
+        serviceBranch &&
+        !(
+          serviceBranch.includes(nationalGuard) ||
+          serviceBranch.includes(reserve)
+        ),
+    )
+    .map(period => moment(period.dateRange.from, 'YYYY-MM-DD'))
+    .reduce(
+      (earliestDate, current) =>
+        current.isBefore(earliestDate) ? current : earliestDate,
+      moment(),
+    );
 
   const treatmentStartDate = moment(fieldData, 'YYYY-MM');
-  const firstServiceStartDate = moment(earliestServiceStartDate);
   // If the moment is earlier than the moment passed to moment.diff(),
   // the return value will be negative.
-  if (treatmentStartDate.diff(firstServiceStartDate, 'month') < 0) {
+  if (treatmentStartDate.diff(earliestServiceStartDate, 'month') < 0) {
     err.addError(
-      'Your first treatment date needs to be after the start of your earliest service period.',
+      'Your first treatment date needs to be after the start of your earliest active duty service period.',
     );
   }
 }
@@ -290,8 +299,8 @@ export const missingConditionMessage =
 
 export const validateDisabilityName = (
   err,
-  fieldData,
-  formData,
+  fieldData = '',
+  _formData,
   _schema,
   _uiSchema,
   _index,
@@ -322,8 +331,13 @@ export const validateDisabilityName = (
     appStateData?.newDisabilities?.map(disability =>
       disability.condition?.toLowerCase(),
     ) || [];
+  // look for full text duplicates
   const itemLowerCased = fieldData?.toLowerCase() || '';
-  const itemCount = currentList.filter(item => item === itemLowerCased);
+  // look for duplicates that may occur from stripping out
+  const itemSippableId = sippableId(fieldData || '');
+  const itemCount = currentList.filter(
+    item => item === itemLowerCased || sippableId(item) === itemSippableId,
+  );
   if (itemCount.length > 1) {
     err.addError('Please enter a unique condition name');
   }
@@ -443,5 +457,34 @@ export const validateSeparationDate = (
     moment(dateString).isAfter(moment().add(180, 'days'))
   ) {
     errors.addError('Your separation date must be before 180 days from today');
+  }
+};
+
+export const validateTitle10StartDate = (
+  errors,
+  dateString,
+  _formData,
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData = {},
+) => {
+  const startTimes = (appStateData.servicePeriods || [])
+    // include only reserve/guard service periods
+    .filter(period =>
+      reservesList.some(match => period.serviceBranch.includes(match)),
+    )
+    .map(period => period.dateRange.from)
+    .sort((a, b) => {
+      // string comparison of dates in the 'YYYY-MM-DD' format work as expected
+      if (a === b) {
+        return 0;
+      }
+      return b > a ? -1 : 1;
+    });
+  if (!startTimes[0] || dateString < startTimes[0]) {
+    errors.addError(
+      'Your activation date must be after your earliest service start date for the Reserve or the National Guard',
+    );
   }
 };

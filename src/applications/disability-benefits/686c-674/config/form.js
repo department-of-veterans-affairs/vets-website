@@ -87,7 +87,13 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   downtime: {
-    dependencies: [externalServices.bgs],
+    dependencies: [
+      externalServices.bgs,
+      externalServices.global,
+      externalServices.mvi,
+      externalServices.vaProfile,
+      externalServices.vbms,
+    ],
   },
   savedFormMessages: {
     notFound: 'Please start over to apply for declare or remove a dependent.',

@@ -16,12 +16,14 @@ describe('check-in', () => {
       const mockStore = configureStore(middleware);
       const initState = {
         checkInData: {
-          appointment: {
-            clinicPhone: '555-867-5309',
-            appointmentTime: '2021-07-06 12:58:39 UTC',
-            facilityName: 'Acme VA',
-            clinicName: 'Green Team Clinic1',
-          },
+          appointments: [
+            {
+              clinicPhone: '555-867-5309',
+              appointmentTime: '2021-07-06 12:58:39 UTC',
+              facilityName: 'Acme VA',
+              clinicName: 'Green Team Clinic1',
+            },
+          ],
         },
       };
       const store = mockStore(initState);
@@ -42,6 +44,33 @@ describe('check-in', () => {
       const mockStore = configureStore(middleware);
       const initState = {
         checkInData: {},
+      };
+      const store = mockStore(initState);
+      const push = sinon.spy();
+      const mockRouter = {
+        push,
+        params: {
+          token: 'token-123',
+        },
+      };
+      const Test = withAppointmentData(() => (
+        <span data-testid="data">magic</span>
+      ));
+      const withRequired = render(
+        <Provider store={store}>
+          <Test router={mockRouter} />
+        </Provider>,
+      );
+      expect(withRequired.queryAllByTestId('data')).to.be.empty;
+    });
+
+    it('shows the returns nothing if appointments is an empty array', () => {
+      const middleware = [];
+      const mockStore = configureStore(middleware);
+      const initState = {
+        checkInData: {
+          appointments: [],
+        },
       };
       const store = mockStore(initState);
       const push = sinon.spy();

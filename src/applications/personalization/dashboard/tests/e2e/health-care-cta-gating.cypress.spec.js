@@ -1,7 +1,5 @@
 import enrollmentStatusEnrolled from '@@profile/tests/fixtures/enrollment-system/enrolled.json';
 
-import { mockFeatureToggles } from './helpers';
-
 import { mockFolderResponse } from '../../utils/mocks/messaging/folder';
 
 import {
@@ -30,8 +28,6 @@ describe('MyVA Dashboard - CTA Links', () => {
         enrollmentStatusEnrolled,
       );
       cy.intercept('GET', '/v0/messaging/health/folders/0', mockFolderResponse);
-
-      mockFeatureToggles();
     });
     it('should show the rx and messaging CTAs', () => {
       cy.visit('my-va/');
@@ -61,7 +57,6 @@ describe('MyVA Dashboard - CTA Links', () => {
         '/v0/health_care_applications/enrollment_status',
         enrollmentStatusEnrolled,
       );
-      mockFeatureToggles();
     });
     it('should not show the rx and messaging CTAs', () => {
       cy.visit('my-va/');

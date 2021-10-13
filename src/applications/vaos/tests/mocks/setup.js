@@ -47,8 +47,9 @@ import {
   mockV2CommunityCareEligibility,
   mockVAOSParentSites,
 } from './helpers.v2';
-import { getV2FacilityMock } from './v2';
 import { TYPES_OF_CARE } from '../../utils/constants';
+import ClosestCityStatePage from '../../new-appointment/components/ClosestCityStatePage';
+import { createMockFacilityByVersion } from './data';
 
 /**
  * Creates a Redux store when the VAOS reducers loaded and the thunk middleware applied
@@ -490,7 +491,7 @@ export async function setPreferredDate(store, preferredDate) {
  * @param {Object} params
  * @param {Object} toggles Any feature toggles to set. CC toggle is set by default
  * @param {Array<Object>} parentSites List of parent sites and data, in the format used
- *  by the getV2FacilityMock params, so you can pass name, id, and address
+ *  by the createMockFacilityByVersion params, so you can pass name, id, and address
  * @param {?Array<string>} supportedSites List of site ids that support community care.
  *  Defaults to the parent site ids if not provided
  * @param {?Array<string>} registeredSites List of registered site ids. Will use ids
@@ -535,7 +536,9 @@ export async function setCommunityCareFlow({
   if (useV2) {
     mockVAOSParentSites(
       registered,
-      parentSites.map(data => getV2FacilityMock({ ...data, isParent: true })),
+      parentSites.map(data =>
+        createMockFacilityByVersion({ ...data, isParent: true }),
+      ),
       true,
     );
     mockV2CommunityCareEligibility({
@@ -564,4 +567,28 @@ export async function setCommunityCareFlow({
   await setTypeOfFacility(store, /Community Care/i);
 
   return store;
+}
+
+/**
+ * Renders the closest city page and selects the city.
+ *
+ * @export
+ * @async
+ * @param {ReduxStore} store The Redux store to use to render the page
+ * @param {MomentDate} label The name of the city to select
+ * @returns {string} The url path that was routed to after clicking Continue
+ */
+export async function setClosestCity(store, label) {
+  const { findByLabelText, getByText, history } = renderWithStoreAndRouter(
+    <ClosestCityStatePage />,
+    { store },
+  );
+
+  const radioButton = await findByLabelText(label);
+  fireEvent.click(radioButton);
+  fireEvent.click(getByText(/Continue/));
+  await waitFor(() => expect(history.push.called).to.be.true);
+  await cleanup();
+
+  return history.push.firstCall.args[0];
 }

@@ -10,7 +10,7 @@ import Telephone, {
 import recordEvent from 'platform/monitoring/record-event';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import CallToActionWidget from 'platform/site-wide/cta-widget';
+import CallToActionWidget from 'applications/static-pages/cta-widget';
 import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
@@ -56,12 +56,12 @@ export class IntroductionPage extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { contestableIssues = {}, getContestableIssues } = this.props;
+    const { contestableIssues = {}, getContestableIssues, hlrV2 } = this.props;
     const wizardComplete = this.state.status === WIZARD_STATUS_COMPLETE;
     if (wizardComplete) {
       const benefitType = sessionStorage.getItem(SAVED_CLAIM_TYPE);
       if (!contestableIssues?.status) {
-        getContestableIssues({ benefitType });
+        getContestableIssues({ benefitType, hlrV2 });
       }
 
       // set focus on h1 only after wizard completes
@@ -120,6 +120,7 @@ export class IntroductionPage extends React.Component {
           pageList={route.pageList}
           startText="Start the Request for a Higher-Level Review"
           gaStartEventName="decision-reviews-va20-0996-start-form"
+          ariaDescribedby="main-content"
         />
       );
     }
@@ -181,10 +182,16 @@ export class IntroductionPage extends React.Component {
       <article className="schemaform-intro">
         <FormTitle title={pageTitle} />
         <p>Equal to VA Form 20-0996 (Higher-Level Review).</p>
-        <CallToActionWidget appId="higher-level-review" headerLevel={2}>
+        <CallToActionWidget
+          appId="higher-level-review"
+          headerLevel={2}
+          ariaDescribedby="main-content"
+        >
           {callToActionContent}
         </CallToActionWidget>
-        <h2 className="vads-u-font-size--h3">What’s a Higher-Level Review?</h2>
+        <h2 id="main-content" className="vads-u-font-size--h3">
+          What’s a Higher-Level Review?
+        </h2>
         <p>
           If you or your representative disagree with VA’s decision on your
           claim, you can request a Higher-Level Review. With a Higher-Level
@@ -283,7 +290,11 @@ export class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        <CallToActionWidget appId="higher-level-review" headerLevel={2}>
+        <CallToActionWidget
+          appId="higher-level-review"
+          headerLevel={2}
+          ariaDescribedby="main-content"
+        >
           {callToActionContent}
         </CallToActionWidget>
         <div className="omb-info--container vads-u-padding-left--0">
@@ -303,6 +314,7 @@ function mapStateToProps(state) {
     hasEmptyAddress: isEmptyAddress(
       selectVAPContactInfoField(state, FIELD_NAMES.MAILING_ADDRESS),
     ),
+    hlrV2: state.featureToggles.hlrV2,
   };
 }
 

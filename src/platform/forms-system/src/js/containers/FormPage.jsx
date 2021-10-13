@@ -2,37 +2,26 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import Scroll from 'react-scroll';
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import get from '../../../../utilities/data/get';
+import set from '../../../../utilities/data/set';
 import classNames from 'classnames';
 
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import FormNavButtons from '../components/FormNavButtons';
 import SchemaForm from '../components/SchemaForm';
 import { setData, uploadFile } from '../actions';
 import { getNextPagePath, getPreviousPagePath } from '../routing';
 import { focusElement } from '../utilities/ui';
-import { isReactComponent } from '~/platform/utilities/ui';
+import { isReactComponent, getScrollOptions } from '~/platform/utilities/ui';
 
 function focusForm() {
   focusElement('.nav-header > h2');
 }
 
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo(
-    'topScrollElement',
-    window.Forms?.scroll || {
-      duration: 500,
-      delay: 0,
-      smooth: true,
-    },
-  );
-};
-
 class FormPage extends React.Component {
   componentDidMount() {
     if (!this.props.blockScrollOnMount) {
-      scrollToTop();
+      scrollToTop('topScrollElement', getScrollOptions());
       focusForm();
     }
   }
@@ -41,9 +30,9 @@ class FormPage extends React.Component {
     if (
       prevProps.route.pageConfig.pageKey !==
         this.props.route.pageConfig.pageKey ||
-      _.get('params.index', prevProps) !== _.get('params.index', this.props)
+      get('params.index', prevProps) !== get('params.index', this.props)
     ) {
-      scrollToTop();
+      scrollToTop('topScrollElement', getScrollOptions());
       focusForm();
     }
   }
@@ -54,7 +43,7 @@ class FormPage extends React.Component {
     if (pageConfig.showPagePerItem) {
       // If this is a per item page, the formData object will have data for a particular
       // row in an array, so we need to update the full form data object and then call setData
-      newData = _.set(
+      newData = set(
         [this.props.route.pageConfig.arrayPath, this.props.params.index],
         formData,
         this.props.form.data,
@@ -75,7 +64,7 @@ class FormPage extends React.Component {
     // necessary. Additionally, it should NOT setData for a CustomPage. The
     // CustomPage should take care of that itself.
     if (route.pageConfig.showPagePerItem && !route.pageConfig.CustomPage) {
-      const newData = _.set(
+      const newData = set(
         [route.pageConfig.arrayPath, params.index],
         formData,
         form.data,
@@ -96,7 +85,7 @@ class FormPage extends React.Component {
     // If it's an array page, return only the data for that array item
     // Otherwise, return the data for the entire form
     return this.props.route.pageConfig.showPagePerItem
-      ? _.get(
+      ? get(
           [pageConfig.arrayPath, this.props.params.index],
           this.props.form.data,
         )

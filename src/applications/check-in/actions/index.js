@@ -1,14 +1,64 @@
-export const WAS_CHECKED_IN = 'WAS_CHECKED_IN';
-
-export const wasCheckedIn = data => {
-  return { type: WAS_CHECKED_IN, value: data };
-};
-
 export const RECEIVED_APPOINTMENT_DETAILS = 'RECEIVED_APPOINTMENT_DETAILS';
 
-export const receivedAppointmentDetails = (data, token) => {
+export const receivedAppointmentDetails = payload => {
+  const data = { appointments: [{ ...payload }] };
+
   return {
     type: RECEIVED_APPOINTMENT_DETAILS,
-    value: { appointment: data, context: { token } },
+    data: {
+      ...data,
+    },
+  };
+};
+
+export const receivedMultipleAppointmentDetails = payload => {
+  const data = { appointments: [...payload] };
+
+  return {
+    type: RECEIVED_APPOINTMENT_DETAILS,
+    data: {
+      ...data,
+    },
+  };
+};
+
+export const APPOINTMENT_WAS_CHECKED_INTO = 'APPOINTMENT_WAS_CHECKED_INTO';
+
+export const appointmentWAsCheckedInto = appointment => {
+  return {
+    type: APPOINTMENT_WAS_CHECKED_INTO,
+    value: { appointment },
+  };
+};
+
+export const RECEIVED_DEMOGRAPHICS_DATA = 'RECEIVED_DEMOGRAPHICS_DATA';
+
+export const receivedDemographicsData = demographics => {
+  return {
+    type: RECEIVED_DEMOGRAPHICS_DATA,
+    payload: { demographics },
+  };
+};
+
+export const PERMISSIONS_UPDATED = 'PERMISSIONS_UPDATED';
+
+export const permissionsUpdated = (data, scope) => {
+  const { permissions } = data;
+  return {
+    type: PERMISSIONS_UPDATED,
+    value: { permissions, scope },
+  };
+};
+
+export const TOKEN_WAS_VALIDATED = 'TOKEN_WAS_VALIDATED';
+
+export const tokenWasValidated = (payload, token, scope) => {
+  const data = { appointments: [{ ...payload }] };
+  return {
+    type: TOKEN_WAS_VALIDATED,
+    data: {
+      context: { token, scope },
+      ...data,
+    },
   };
 };

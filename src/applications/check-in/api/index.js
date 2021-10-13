@@ -1,33 +1,9 @@
-import { apiRequest } from 'platform/utilities/api';
-import environment from 'platform/utilities/environment';
+import { v2 } from './versions/v2';
+import { v1 } from './versions/v1';
 
-const validateToken = async token => {
-  const url = '/check_in/v0/patient_check_ins/';
-  const json = await apiRequest(`${environment.API_URL}${url}${token}`);
-  return {
-    data: json.data,
-  };
+const api = {
+  v1,
+  v2,
 };
 
-const checkInUser = async ({ token }) => {
-  const url = '/check_in/v0/patient_check_ins/';
-  const headers = { 'Content-Type': 'application/json' };
-  const data = {
-    patientCheckIns: {
-      id: token,
-    },
-  };
-  const body = JSON.stringify(data);
-  const settings = {
-    headers,
-    body,
-    method: 'POST',
-    mode: 'cors',
-  };
-
-  const json = await apiRequest(`${environment.API_URL}${url}`, settings);
-  return {
-    ...json,
-  };
-};
-export { validateToken, checkInUser };
+export { api };

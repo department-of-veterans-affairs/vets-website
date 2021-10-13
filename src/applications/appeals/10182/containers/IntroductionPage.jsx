@@ -42,13 +42,14 @@ class IntroductionPage extends React.Component {
         // don't need to pass the entire formConfig
         customText,
       },
+      ariaDescribedby: 'main-content',
     };
 
     return (
       <div className="schemaform-intro">
         <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
         <SaveInProgressIntro {...sipOptions} />
-        <h2 className="vads-u-font-size--h3">
+        <h2 id="main-content" className="vads-u-font-size--h3">
           Follow these steps to request a Board Appeal
         </h2>
         <AdditionalInfo triggerText="Find out about opting in if you have an older claim">
@@ -94,7 +95,7 @@ class IntroductionPage extends React.Component {
               <ul>
                 <li>Your mailing address</li>
                 <li>
-                  The VA decision date for each issue you’d like use to review
+                  The VA decision date for each issue you’d like us to review
                   (this is the date on the decision notice you got in the mail)
                 </li>
               </ul>

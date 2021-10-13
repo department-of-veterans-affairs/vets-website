@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { browserHistory } from 'react-router';
 import recordEvent from '../../../monitoring/record-event';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 class AcceptTermsPrompt extends React.Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class AcceptTermsPrompt extends React.Component {
 
   componentDidMount() {
     recordEvent({ event: 'terms-shown' });
-    window.scrollTo(0, 0);
+    scrollTo(0);
   }
 
   onCancel = e => {
@@ -114,11 +115,7 @@ class AcceptTermsPrompt extends React.Component {
             <div className="terms-head">
               Scroll to read the full terms and conditions to continue
             </div>
-            <div
-              className="terms-scroller"
-              onScroll={this.handleScroll}
-              tabIndex="0"
-            >
+            <div className="terms-scroller" onScroll={this.handleScroll}>
               <div dangerouslySetInnerHTML={{ __html: terms.termsContent }} />
             </div>
             <div className={actionButtonClass}>{yesButton}</div>

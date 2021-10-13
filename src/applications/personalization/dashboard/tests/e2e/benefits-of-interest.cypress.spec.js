@@ -10,8 +10,8 @@ import {
   disabilityCompensationExists,
   educationBenefitExists,
   healthCareInfoExists,
-  mockFeatureToggles,
 } from './helpers';
+import { VA_FORM_IDS } from '~/platform/forms/constants';
 
 function sectionHeadingsExist() {
   cy.findByRole('heading', { name: /apply for VA benefits/i }).should('exist');
@@ -29,7 +29,6 @@ describe('The My VA Dashboard', () => {
       cy.intercept('/v0/health_care_applications/enrollment_status', notInESR);
       cy.intercept('/v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
       cy.login(user);
-      mockFeatureToggles();
       cy.visit(manifest.rootUrl);
     });
     it('should show info about disability benefits, health care, and education benefits', () => {
@@ -56,7 +55,6 @@ describe('The My VA Dashboard', () => {
       );
       cy.intercept('/v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
       cy.login(user);
-      mockFeatureToggles();
       cy.visit(manifest.rootUrl);
     });
     it('should show info about disability benefits and education benefits, but not health care', () => {
@@ -76,7 +74,6 @@ describe('The My VA Dashboard', () => {
     beforeEach(() => {
       cy.intercept('/v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
       cy.login(makeMockUser());
-      mockFeatureToggles();
       cy.visit(manifest.rootUrl);
     });
     it('should show info about disability benefits and education benefits, but not health care', () => {
@@ -96,7 +93,6 @@ describe('The My VA Dashboard', () => {
     beforeEach(() => {
       cy.intercept('/v0/profile/ch33_bank_accounts', dd4eduEnrolled);
       cy.login(makeMockUser());
-      mockFeatureToggles();
       cy.visit(manifest.rootUrl);
     });
     it('should show info about disability benefits benefits, but not health care or education benefits', () => {
@@ -107,6 +103,58 @@ describe('The My VA Dashboard', () => {
       healthCareInfoExists(false);
       disabilityCompensationExists(true);
       educationBenefitExists(false);
+
+      cy.injectAxe();
+      cy.axeCheck();
+    });
+  });
+  describe('when user is not a patient, has not applied for health care, and applied to education benefits', () => {
+    let getBankInfoStub;
+    beforeEach(() => {
+      getBankInfoStub = cy.stub();
+      const user = makeMockUser();
+      const now = Date.now() / 1000;
+      const oneDayInSeconds = 24 * 60 * 60;
+      const savedForms = [
+        {
+          form: VA_FORM_IDS.FORM_22_1990E,
+          metadata: {
+            version: 0,
+            returnUrl: '/education-benefits',
+            savedAt: 1611946775267,
+            submission: {
+              status: false,
+              errorMessage: false,
+              id: false,
+              timestamp: false,
+              hasAttemptedSubmit: false,
+            },
+            expiresAt: now + oneDayInSeconds,
+            lastUpdated: 1611946775,
+            inProgressFormId: 9332,
+          },
+          lastUpdated: 1611946775,
+        },
+      ];
+      user.data.attributes.vaProfile.vaPatient = false;
+      user.data.attributes.vaProfile.facilities = [];
+      user.data.attributes.inProgressForms = savedForms;
+      cy.intercept('/v0/health_care_applications/enrollment_status', notInESR);
+      cy.intercept('/v0/profile/ch33_bank_accounts', getBankInfoStub);
+      cy.login(user);
+      cy.visit(manifest.rootUrl);
+    });
+    it('should show info about disability benefits, health care, and not education benefits', () => {
+      sectionHeadingsExist();
+
+      cy.findAllByTestId('benefit-of-interest').should('have.length', 2);
+
+      healthCareInfoExists(true);
+      disabilityCompensationExists(true);
+      educationBenefitExists(false);
+      cy.should(() => {
+        expect(getBankInfoStub).not.to.be.called;
+      });
 
       cy.injectAxe();
       cy.axeCheck();

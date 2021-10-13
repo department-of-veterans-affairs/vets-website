@@ -8,9 +8,12 @@ import {
   selectChannelById,
   selectChannelUiById,
 } from '@@profile/ducks/communicationPreferences';
+import { RX_TRACKING_SUPPORTING_FACILITIES } from '@@profile/constants';
 import { selectCommunicationPreferences } from '@@profile/reducers';
 
 import { getContactInfoSelectorByChannelType } from '@@profile/util/notification-settings';
+
+import { selectPatientFacilities } from '~/platform/user/selectors';
 
 import { LOADING_STATES } from '../../../common/constants';
 
@@ -31,9 +34,10 @@ const NotificationChannel = ({
   itemName,
   itemId,
   permissionId,
+  radioButtonDescription,
   saveSetting,
 }) => {
-  // when parentItem = "item2", parentItemId will be 2
+  // when itemId = "item2", itemIdNumber will be 2
   const itemIdNumber = React.useMemo(
     () => {
       if (itemId) {
@@ -54,13 +58,23 @@ const NotificationChannel = ({
   );
 
   if (isMissingContactInfo) {
-    return <NotificationChannelUnavailable channelType={channelType} />;
+    return (
+      <div className="vads-u-margin-bottom--3">
+        <p className="vads-u-font-weight--bold vads-u-font-size--base vads-u-margin-y--1">
+          {itemName}
+        </p>
+        <NotificationChannelUnavailable channelType={channelType} />
+      </div>
+    );
   }
   return (
-    <div>
+    <>
       <NotificationRadioButtons
+        id={channelId}
         value={{ value: currentValue }}
         label={itemName}
+        name={`${itemName}-${channelType}`}
+        description={radioButtonDescription}
         options={[
           {
             label: `Notify me by ${channelTypes[channelType]}`,
@@ -112,7 +126,7 @@ const NotificationChannel = ({
         }
         disabled={apiStatus === LOADING_STATES.pending}
       />
-    </div>
+    </>
   );
 };
 
@@ -132,6 +146,14 @@ const mapStateToProps = (state, ownProps) => {
     channel.channelType,
   );
   const isMissingContactInfo = !contactInfoSelector(state);
+  const facilities = selectPatientFacilities(state);
+  const allFacilitiesSupportRxTracking = facilities?.every(facility => {
+    return RX_TRACKING_SUPPORTING_FACILITIES.has(facility.facilityId);
+  });
+  const radioButtonDescription =
+    ownProps.channelId === 'channel4-1' && !allFacilitiesSupportRxTracking
+      ? 'Only available at some Asheville and Denver VA health facilities. Check with your facility first.'
+      : null;
   return {
     apiStatus: uiState.updateStatus,
     channelType: channel.channelType,
@@ -140,6 +162,7 @@ const mapStateToProps = (state, ownProps) => {
     isOptedIn: channel.isAllowed,
     isMissingContactInfo,
     permissionId: channel.permissionId,
+    radioButtonDescription,
   };
 };
 

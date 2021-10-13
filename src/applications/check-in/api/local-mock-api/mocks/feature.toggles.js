@@ -1,8 +1,11 @@
-const createFeatureToggles = (
-  checkInExperienceEnabled = true,
-  checkInExperienceLowAuthenticationEnabled = false,
-  checkInExperienceMultipleAppointmentSupport = false,
-) => {
+const generateFeatureToggles = (toggles = {}) => {
+  const {
+    checkInExperienceEnabled = true,
+    checkInExperienceMultipleAppointmentSupport = true,
+    checkInExperienceUpdateInformationPageEnabled = false,
+    checkInExperienceDemographicsPageEnabled = false,
+  } = toggles;
+
   return {
     data: {
       type: 'feature_toggles',
@@ -12,16 +15,20 @@ const createFeatureToggles = (
           value: checkInExperienceEnabled,
         },
         {
-          name: 'check_in_experience_low_authentication_enabled',
-          value: checkInExperienceLowAuthenticationEnabled,
+          name: 'check_in_experience_update_information_page_enabled',
+          value: checkInExperienceUpdateInformationPageEnabled,
         },
         {
           name: 'check_in_experience_multiple_appointment_support',
           value: checkInExperienceMultipleAppointmentSupport,
+        },
+        {
+          name: 'check_in_experience_demographics_page_enabled',
+          value: checkInExperienceDemographicsPageEnabled,
         },
       ],
     },
   };
 };
 
-module.exports = { createFeatureToggles };
+module.exports = { generateFeatureToggles };

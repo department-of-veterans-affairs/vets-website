@@ -4,7 +4,7 @@ import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
-import HowToApplyPost911GiBill from '../HowToApplyPost911GiBill';
+import HowToApplyPost911GiBill from '../components/HowToApplyPost911GiBill';
 import { connect } from 'react-redux';
 import { fetchUser } from '../selectors/userDispatch';
 
@@ -25,6 +25,7 @@ class IntroductionPage extends React.Component {
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
+          hideUnauthedStartLink
           startText="Start the education application"
         >
           Please complete the 22-1990 form to apply for my education benefits.
@@ -99,6 +100,7 @@ class IntroductionPage extends React.Component {
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
+          hideUnauthedStartLink
           startText="Start the education application"
         />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>

@@ -334,6 +334,22 @@ class FileField extends React.Component {
               const deleteButtonText =
                 enableShortWorkflow && hasErrors ? 'Cancel' : 'Delete file';
 
+              const fileId = `${idSchema.$id}_file_name_${index}`;
+
+              const getUiSchema = innerUiSchema =>
+                typeof innerUiSchema === 'function'
+                  ? innerUiSchema({ fileId, index })
+                  : innerUiSchema;
+
+              // make index available to widgets in attachment ui schema
+              const indexedRegistry = {
+                ...registry,
+                formContext: {
+                  ...registry.formContext,
+                  pagePerItemIndex: index,
+                },
+              };
+
               return (
                 <li
                   key={index}
@@ -342,7 +358,7 @@ class FileField extends React.Component {
                 >
                   {file.uploading && (
                     <div className="schemaform-file-uploading">
-                      <span>{file.name}</span>
+                      <strong id={fileId}>{file.name}</strong>
                       <br />
                       <ProgressBar percent={this.state.progress} />
                       <button
@@ -352,13 +368,14 @@ class FileField extends React.Component {
                           this.cancelUpload(index);
                         }}
                         aria-label="Cancel Upload"
+                        aria-describedby={fileId}
                       >
                         Cancel
                       </button>
                     </div>
                   )}
                   {description && <p>{description}</p>}
-                  {!file.uploading && <strong>{file.name}</strong>}
+                  {!file.uploading && <strong id={fileId}>{file.name}</strong>}
                   {(showPasswordInput || showPasswordSuccess) && (
                     <PasswordLabel />
                   )}
@@ -371,7 +388,7 @@ class FileField extends React.Component {
                           name="attachmentId"
                           required={attachmentIdRequired}
                           schema={itemSchema.properties.attachmentId}
-                          uiSchema={uiOptions.attachmentSchema}
+                          uiSchema={getUiSchema(uiOptions.attachmentSchema)}
                           errorSchema={attachmentIdErrors}
                           idSchema={attachmentIdSchema}
                           formData={formData[index].attachmentId}
@@ -379,7 +396,7 @@ class FileField extends React.Component {
                             this.onAttachmentIdChange(index, value)
                           }
                           onBlur={onBlur}
-                          registry={this.props.registry}
+                          registry={indexedRegistry}
                           disabled={this.props.disabled}
                           readonly={this.props.readonly}
                         />
@@ -393,7 +410,7 @@ class FileField extends React.Component {
                           name="attachmentName"
                           required
                           schema={itemSchema.properties.name}
-                          uiSchema={uiOptions.attachmentName}
+                          uiSchema={getUiSchema(uiOptions.attachmentName)}
                           errorSchema={attachmentNameErrors}
                           idSchema={attachmentNameSchema}
                           formData={formData[index].name}
@@ -401,7 +418,7 @@ class FileField extends React.Component {
                             this.onAttachmentNameChange(index, value)
                           }
                           onBlur={onBlur}
-                          registry={this.props.registry}
+                          registry={indexedRegistry}
                           disabled={this.props.disabled}
                           readonly={this.props.readonly}
                         />
@@ -418,6 +435,7 @@ class FileField extends React.Component {
                       file={file.file}
                       index={index}
                       onSubmitPassword={this.onSubmitPassword}
+                      ariaDescribedby={fileId}
                     />
                   )}
                   {showButtons && (
@@ -433,6 +451,7 @@ class FileField extends React.Component {
                               index,
                               file.file,
                             )}
+                            aria-describedby={fileId}
                           >
                             {retryButtonText}
                           </button>
@@ -443,6 +462,7 @@ class FileField extends React.Component {
                         onClick={() => {
                           this.removeFile(index);
                         }}
+                        aria-describedby={fileId}
                       >
                         {deleteButtonText}
                       </button>

@@ -16,7 +16,37 @@
     border-bottom: 2px solid $color-gray-light;
     border-left: 2px solid $color-gray-light;
     border-right: 2px solid $color-gray-light;
-    padding: 48px 48px 24px 48px;
+    padding: 0px 48px 24px 48px;
+
+    .usa-input-error {
+      padding-bottom: 0px;
+    }
+
+    .bottom-positioner {
+      position: absolute;
+      width: 100%;
+      bottom: 0px;
+    }
+
+    .name-search-inputs {
+      position: relative;
+
+      button {
+        right: 0px;
+      }
+    }
+
+    .location-search-inputs {
+      position: relative;
+
+      #distance-dropdown {
+        float: left;
+      }
+
+      button {
+        float: right;
+      }
+    }
   }
 
   .active-search-tab {

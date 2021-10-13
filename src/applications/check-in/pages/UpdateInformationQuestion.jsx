@@ -16,7 +16,7 @@ const UpdateInformationQuestion = props => {
   const noButtonClicked = () => {
     recordEvent({
       event: 'cta-button-click',
-      'button-click-label': 'no',
+      'button-click-label': 'no-to-update-information',
     });
     goToNextPage(router, URLS.DETAILS);
   };
@@ -24,19 +24,16 @@ const UpdateInformationQuestion = props => {
   const yesButtonClicked = () => {
     recordEvent({
       event: 'cta-button-click',
-      'button-click-label': 'yes',
+      'button-click-label': 'yes-to-update-information',
     });
     goToNextPage(router, URLS.SEE_STAFF);
   };
 
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5 update-information">
-      <h1 tabIndex="-1" className="question">
-        Check in at VA
-      </h1>
       <fieldset>
         <legend>
-          <h2>Do you need to update any information?</h2>
+          <h1>Do you need to update any information?</h1>
           <p>
             This includes information like your phone number, address, insurance
             plan, or next-of-kin.

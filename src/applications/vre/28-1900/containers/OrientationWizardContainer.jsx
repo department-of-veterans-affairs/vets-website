@@ -1,21 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router';
-import Scroll from 'react-scroll';
+
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import Wizard from 'applications/static-pages/wizard';
 import pages from 'applications/vre/28-1900/wizard/pages';
 import recordEvent from 'platform/monitoring/record-event';
 import OrientationApp from 'applications/vre/28-1900/orientation/OrientationApp';
-
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
 
 const OrientationWizardContainer = props => {
   const [showOrientation, setShowOrientation] = useState(false);
@@ -29,7 +21,7 @@ const OrientationWizardContainer = props => {
   // Focus on the header on first load
   useEffect(() => {
     focusElement('h1');
-    scrollToTop();
+    scrollToTop('topScrollElement');
     document.title =
       'Veteran Readiness and Employment Orientation | Veteran Affairs';
   }, []);

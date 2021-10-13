@@ -1,9 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Scroll from 'react-scroll';
-import { getScrollOptions } from 'platform/utilities/ui';
-import classNames from 'classnames';
 
-const scroll = Scroll.animateScroll;
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import classNames from 'classnames';
 
 /**
  * This thing has a hack in it to make sure the when the element is floating at bottom of page it is on the right side
@@ -118,7 +116,7 @@ export default function BackToTop({
             <button
               type="button"
               className="usa-button va-top-button-transition-in"
-              onClick={() => scroll.scrollToTop(getScrollOptions())}
+              onClick={() => scrollToTop()}
             >
               <span>
                 <i aria-hidden="true" className="fas fa-arrow-up" role="img" />

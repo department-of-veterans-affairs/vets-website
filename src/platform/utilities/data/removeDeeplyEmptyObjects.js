@@ -21,6 +21,10 @@ export default function removeDeeplyEmptyObjects(root, checkEmpty = isEmpty) {
   if (typeof root !== 'object' || root === null) {
     return root;
   }
+  if (Array.isArray(root)) {
+    // see va.gov-team/issues/30211
+    return root.map(arrayItem => removeDeeplyEmptyObjects(arrayItem));
+  }
 
   let newRoot = root;
   const emptyKeys = Object.keys(newRoot).filter(key => {

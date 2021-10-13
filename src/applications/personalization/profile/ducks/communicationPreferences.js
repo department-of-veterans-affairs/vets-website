@@ -1,6 +1,9 @@
+import flatten from 'lodash/flatten';
+
 import { apiRequest } from '~/platform/utilities/api';
 
 import { LOADING_STATES } from '../../common/constants';
+import { RX_TRACKING_SUPPORTING_FACILITIES } from '../constants';
 
 // HELPERS
 
@@ -24,6 +27,33 @@ function communicationGroupsSorter(groupA, groupB) {
   );
 }
 
+// Makes a filter callback to operate on the raw communication groups API data
+// 1. Removes the health care group if there are no facilities available
+const makeHealthCareGroupFilter = facilities => group => {
+  if (group.id === 3 && !facilities?.length) {
+    return false;
+  }
+  return true;
+};
+
+// Makes a reducer callback to operate on the raw communication groups API data
+// 1. Removes the RX tracking item if there are no facilities that support that
+// feature
+const makeRxTrackingItemFilterReducer = facilities => (groups, group) => {
+  const newGroup = { ...group };
+  const filteredItems = newGroup.communicationItems.filter(item => {
+    if (item.id === 4) {
+      return facilities.some(facility =>
+        RX_TRACKING_SUPPORTING_FACILITIES.has(facility.facilityId),
+      );
+    }
+    return true;
+  });
+  newGroup.communicationItems = filteredItems;
+  groups.push(newGroup);
+  return groups;
+};
+
 // ACTION TYPES
 const FETCH_STARTED = '@@profile/communicationPreferences/fetchStarted';
 const FETCH_FAILED = '@@profile/communicationPreferences/fetchFailed';
@@ -42,8 +72,11 @@ const startFetch = () => {
   return { type: FETCH_STARTED };
 };
 
-const fetchSucceeded = communicationGroups => {
-  return { type: FETCH_SUCCEEDED, payload: communicationGroups };
+const fetchSucceeded = (communicationGroups, { facilities } = {}) => {
+  return {
+    type: FETCH_SUCCEEDED,
+    payload: { communicationGroups, facilities },
+  };
 };
 
 const fetchFailed = errors => {
@@ -65,7 +98,9 @@ const saveChannelSucceeded = (channelId, data) => {
   return { type: SAVE_CHANNEL_SUCCEEDED, payload: { channelId, data } };
 };
 
-export const fetchCommunicationPreferenceGroups = () => {
+export const fetchCommunicationPreferenceGroups = ({
+  facilities = [],
+} = {}) => {
   return async dispatch => {
     dispatch(startFetch());
 
@@ -75,7 +110,7 @@ export const fetchCommunicationPreferenceGroups = () => {
       if (!communicationGroups) {
         throw new TypeError('communicationGroups is undefined');
       }
-      dispatch(fetchSucceeded(communicationGroups));
+      dispatch(fetchSucceeded(communicationGroups, { facilities }));
     } catch (error) {
       const errors = error.errors || [error];
       dispatch(fetchFailed(errors));
@@ -133,6 +168,63 @@ export const selectChannelById = (state, channelId) => {
 };
 export const selectChannelUiById = (state, channelId) => {
   return selectChannelById(state, channelId).ui;
+};
+
+// The selectors below are specific to the business requirements for the
+// Notification Settings section of the Profile
+
+// Filter out the channels the user doesn't have contact info for
+const selectAvailableChannels = (
+  state,
+  { hasMobilePhone = false, hasEmailAddress = false } = {},
+) => {
+  const availableItems = selectItems(state);
+  const availableItemsChannels = flatten(
+    availableItems.ids.map(itemId => {
+      return availableItems.entities[itemId].channels;
+    }),
+  );
+  return availableItemsChannels.reduce(
+    (acc, channelId) => {
+      const channel = selectChannelById(state, channelId);
+      const { channelType } = channel;
+      if (
+        (channelType === 1 && hasMobilePhone) ||
+        (channelType === 2 && hasEmailAddress)
+      ) {
+        acc.ids.push(channelId);
+        acc.entities[channelId] = channel;
+      }
+      return acc;
+    },
+    {
+      ids: [],
+      entities: {},
+    },
+  );
+};
+
+export const selectChannelsWithoutSelection = (
+  state,
+  { hasMobilePhone = false, hasEmailAddress = false } = {},
+) => {
+  const availableChannels = selectAvailableChannels(state, {
+    hasMobilePhone,
+    hasEmailAddress,
+  });
+  return availableChannels.ids.reduce(
+    (acc, channelId) => {
+      if (availableChannels.entities[channelId].permissionId === null) {
+        acc.ids.push(channelId);
+        acc.entities[channelId] = selectChannelById(state, channelId);
+      }
+      return acc;
+    },
+    {
+      ids: [],
+      entities: {},
+    },
+  );
 };
 
 // REDUCERS
@@ -213,28 +305,42 @@ export default function reducer(state = initialState, action = {}) {
       };
     }
     case FETCH_SUCCEEDED: {
-      const communicationGroups = action.payload;
-      // Array.sort sorts the array in place
-      communicationGroups.sort(communicationGroupsSorter);
-      // flat array of all communication items that exist across all groups
-      const fetchedItems = communicationGroups.reduce((acc, group) => {
-        return [...acc, ...group.communicationItems];
-      }, []);
+      const { communicationGroups, facilities } = action.payload;
+      // sort the raw API data and filter out any groups the user should not see
+      const availableCommunicationGroups = communicationGroups
+        .filter(makeHealthCareGroupFilter(facilities))
+        .reduce(makeRxTrackingItemFilterReducer(facilities), [])
+        .sort(communicationGroupsSorter);
+      const availableCommunicationItems = availableCommunicationGroups.reduce(
+        (acc, group) => {
+          return [...acc, ...group.communicationItems];
+        },
+        [],
+      );
       // massaged communication group data to store in Redux
-      const groups = communicationGroups.reduce(communicationGroupsReducer, {
-        ids: [],
-        entities: {},
-      });
-      // massaged communication items data to store in Redux
-      const items = fetchedItems.reduce(communicationItemsReducer, {
-        ids: [],
-        entities: {},
-      });
+      const groups = availableCommunicationGroups.reduce(
+        communicationGroupsReducer,
+        {
+          ids: [],
+          entities: {},
+        },
+      );
+      // massaged and filtered communication items data to store in Redux
+      const items = availableCommunicationItems.reduce(
+        communicationItemsReducer,
+        {
+          ids: [],
+          entities: {},
+        },
+      );
       // massaged communication channels data to store in Redux
-      const channels = fetchedItems.reduce(communicationChannelsReducer, {
-        ids: [],
-        entities: {},
-      });
+      const channels = availableCommunicationItems.reduce(
+        communicationChannelsReducer,
+        {
+          ids: [],
+          entities: {},
+        },
+      );
       return {
         ...state,
         loadingStatus: LOADING_STATES.loaded,

@@ -6,7 +6,6 @@ import React, {
   useLayoutEffect,
 } from 'react';
 import { useHistory } from 'react-router-dom';
-import appendQuery from 'append-query';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import _ from 'lodash';
@@ -24,17 +23,17 @@ import {
 } from '../actions';
 import { estimatedBenefits } from '../selectors/estimator';
 import { getCalculatedBenefits } from '../selectors/calculator';
-import { getCompareCalculatorState } from '../selectors/compare';
+import {
+  getCompareCalculatorState,
+  updateUrlParams,
+} from '../selectors/compare';
 import ServiceError from '../components/ServiceError';
 import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal';
 import { MINIMUM_RATING_COUNT } from '../constants';
-import Scroll from 'react-scroll';
-import { getScrollOptions } from 'platform/utilities/ui';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import CompareHeader from '../components/CompareHeader';
 import CompareLayout from './CompareLayout';
 import { isSmallScreen } from '../utils/helpers';
-
-const scroll = Scroll.animateScroll;
 
 export function ComparePage({
   allLoaded,
@@ -60,9 +59,9 @@ export function ComparePage({
   const { selected, error } = compare;
   const { loaded, institutions } = compare.details;
   const { version } = preview;
-  const institutionCount = loaded.length;
   const history = useHistory();
   const hasScrollTo = scrollTo !== null;
+  const placeholderRef = useRef(null);
 
   useEffect(
     () => {
@@ -105,35 +104,43 @@ export function ComparePage({
 
   const handleScroll = useCallback(
     () => {
-      if (!initialTop && headerRef.current && headerRef.current.offsetTop) {
+      if (
+        !initialTop &&
+        headerRef.current &&
+        headerRef.current.offsetTop &&
+        placeholderRef.current
+      ) {
         setInitialTop(headerRef.current.offsetTop);
       }
 
       if (initialTop) {
         const offset = window.pageYOffset;
-        const placeholder = document.querySelector('.placeholder.open');
         const footer = document.getElementById('footerNav');
 
         const visibleFooterHeight = footer
           ? window.innerHeight - footer.getBoundingClientRect().top
           : 0;
-        if (placeholder) {
-          placeholder.style.height = headerRef.current.getBoundingClientRect().height;
-        }
-        if (offset > initialTop && !headerFixed) {
+        const tooTall =
+          headerRef.current.offsetHeight >= window.innerHeight / 2;
+
+        if (offset > initialTop && !headerFixed && !tooTall) {
           setHeaderFixed(true);
           scrollHeaderRef.current.scroll({
             left: scrollPageRef.current.scrollLeft,
           });
+          placeholderRef.current.style.height = `${
+            headerRef.current.getBoundingClientRect().height
+          }px`;
         } else if (offset < initialTop && headerFixed) {
           setHeaderFixed(false);
+          placeholderRef.current.style.height = '0px';
         } else if (headerFixed) {
           headerRef.current.style.top =
             visibleFooterHeight > 0 ? `${-visibleFooterHeight}px` : '0px';
         }
       }
     },
-    [scrollHeaderRef, scrollPageRef, headerFixed, initialTop],
+    [scrollHeaderRef, scrollPageRef, headerFixed, initialTop, placeholderRef],
   );
 
   const handleBodyScrollReact = () => {
@@ -169,7 +176,7 @@ export function ComparePage({
   };
 
   useEffect(() => {
-    scroll.scrollToTop(getScrollOptions());
+    scrollToTop();
   }, []);
 
   useLayoutEffect(
@@ -217,29 +224,20 @@ export function ComparePage({
             const newSelected = selected.filter(
               facilityCode => facilityCode !== promptingFacilityCode,
             );
-            const compareLink = version
-              ? appendQuery(`/compare/?facilities=${newSelected.join(',')}`, {
-                  version,
-                })
-              : appendQuery(`/compare/?facilities=${newSelected.join(',')}`);
-            history.replace(compareLink);
+            history.replace(updateUrlParams(newSelected, version));
             dispatchRemoveCompareInstitution(promptingFacilityCode);
           }}
           onCancel={() => setPromptingFacilityCode(null)}
         />
       )}
       <div className="content-wrapper">
-        <div
-          className={classNames('placeholder', {
-            open: headerFixed,
-          })}
-        />
+        <div ref={placeholderRef} className="placeholder">
+          &nbsp;
+        </div>
         <div
           id="compareHeader"
-          className={classNames({
-            fixed: headerFixed,
-          })}
           ref={headerRef}
+          className={classNames({ fixed: headerFixed })}
         >
           <div
             className={classNames('header-content-row', {
@@ -257,7 +255,6 @@ export function ComparePage({
               <CompareHeader
                 currentScroll={currentXScroll}
                 institutions={loadedInstitutions}
-                institutionCount={institutionCount}
                 scrollClickHandler={scrollClickHandler}
                 setShowDifferences={setShowDifferences}
                 showDifferences={showDifferences}

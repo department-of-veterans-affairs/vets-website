@@ -54,6 +54,8 @@ class SaveInProgressIntro extends React.Component {
         prefillAvailable={prefillAvailable}
         formSaved={!!savedForm}
         gaStartEventName={this.props.gaStartEventName}
+        ariaLabel={this.props.ariaLabel}
+        ariaDescribedby={this.props.ariaDescribedby}
       />
     );
   };
@@ -69,6 +71,8 @@ class SaveInProgressIntro extends React.Component {
       verifiedPrefillAlert,
       unverifiedPrefillAlert,
       formConfig,
+      ariaLabel = null,
+      ariaDescribedby = null,
     } = this.props;
     const { profile, login } = this.props.user;
     const prefillAvailable = !!(
@@ -176,7 +180,12 @@ class SaveInProgressIntro extends React.Component {
       const H = `h${this.props.headingLevel}`;
       const { buttonOnly, retentionPeriod, unauthStartText } = this.props;
       const unauthStartButton = (
-        <button className="usa-button-primary" onClick={this.openLoginModal}>
+        <button
+          className="usa-button-primary"
+          onClick={this.openLoginModal}
+          aria-label={ariaLabel}
+          aria-describedby={ariaDescribedby}
+        >
           {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
         </button>
       );
@@ -188,6 +197,8 @@ class SaveInProgressIntro extends React.Component {
               <button
                 className="va-button-link schemaform-start-button"
                 onClick={this.goToBeginning}
+                aria-label={ariaLabel}
+                aria-describedby={ariaDescribedby}
               >
                 Start your {appType} without signing in
               </button>
@@ -227,6 +238,8 @@ class SaveInProgressIntro extends React.Component {
                   <button
                     className="va-button-link schemaform-start-button"
                     onClick={this.goToBeginning}
+                    aria-label={ariaLabel}
+                    aria-describedby={ariaDescribedby}
                   >
                     Start your {appType} without signing in
                   </button>
@@ -246,7 +259,12 @@ class SaveInProgressIntro extends React.Component {
               You can save this {appType} in progress, and come back later to
               finish filling it out.
               <br />
-              <button className="va-button-link" onClick={this.openLoginModal}>
+              <button
+                className="va-button-link"
+                onClick={this.openLoginModal}
+                aria-label={ariaLabel}
+                aria-describedby={ariaDescribedby}
+              >
                 Sign in to your account.
               </button>
             </div>
@@ -388,6 +406,8 @@ SaveInProgressIntro.propTypes = {
     }),
   }),
   headingLevel: PropTypes.number,
+  ariaLabel: PropTypes.string,
+  ariaDescribedby: PropTypes.string,
 };
 
 SaveInProgressIntro.defaultProps = {
@@ -400,6 +420,8 @@ SaveInProgressIntro.defaultProps = {
     },
   },
   headingLevel: 3,
+  ariaLabel: null,
+  ariaDescribedby: null,
 };
 
 function mapStateToProps(state) {

@@ -201,15 +201,17 @@ const responses = {
   },
   'PUT /vaos/v2/appointments/:id': (req, res) => {
     // TODO: also check through confirmed mocks, when those exist
-    const requestAttributes = requestsV2.data.find(
-      item => item.id === req.params.id,
-    ).attributes;
+    const appointments = requestsV2.data
+      .concat(confirmedV2.data)
+      .concat(mockAppts);
+
+    const appt = appointments.find(item => item.id === req.params.id);
 
     return res.json({
       data: {
         id: req.params.id,
         attributes: {
-          ...requestAttributes,
+          ...appt.attributes,
           ...req.body,
         },
       },
@@ -226,7 +228,7 @@ const responses = {
   },
   'GET /vaos/v2/appointments/:id': (req, res) => {
     const appointments = {
-      data: requestsV2.data.concat(confirmedV2).concat(mockAppts),
+      data: requestsV2.data.concat(confirmedV2.data).concat(mockAppts),
     };
     return res.json({
       data: appointments.data.find(appt => appt.id === req.params.id),
@@ -362,7 +364,6 @@ const responses = {
         { name: 'vaOnlineSchedulingPast', value: true },
         { name: 'vaOnlineSchedulingExpressCare', value: true },
         { name: 'vaOnlineSchedulingFlatFacilityPage', value: true },
-        { name: 'vaOnlineSchedulingHomepageRefresh', value: true },
         { name: 'vaOnlineSchedulingUnenrolledVaccine', value: true },
         { name: 'vaGlobalDowntimeNotification', value: false },
         { name: 'vaOnlineSchedulingVAOSServiceRequests', value: true },
@@ -370,7 +371,7 @@ const responses = {
         { name: 'vaOnlineSchedulingFacilitiesServiceV2', value: true },
         { name: 'vaOnlineSchedulingVAOSServiceCCAppointments', value: true },
         { name: 'vaOnlineSchedulingVariantTesting', value: false },
-        { name: 'vaOnlineSchedulingCCIterations', value: false },
+        { name: 'vaOnlineSchedulingCCIterations', value: true },
         { name: 'ssoe', value: true },
         { name: 'ssoeInbound', value: false },
         { name: 'ssoeEbenefitsLinks', value: false },

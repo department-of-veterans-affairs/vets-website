@@ -22,7 +22,6 @@ import { VIDEO_TYPES } from '../../utils/constants';
  * @param {Number} [params.version=2] The version of the output data. Currently 0 and 2 are supported
  * @param {?string} params.clinicFriendlyName The clinic name of the appointment (version 0 only)
  * @param {?string} params.clinicName The regular clinic name of the appointment (version 0 only)
- * @param {?string} params.instructionsTitle The video instructions title string
  * @param {PPMSProvider} params.communityCareProvider The community care provider to use. Info aside from
  *   uniqueId is discarded in version 2
  * @param {?string} params.timezone The timezone to use
@@ -38,7 +37,6 @@ export function createMockAppointmentByVersion({
   version = 2,
   clinicFriendlyName = null,
   clinicName = null,
-  instructionsTitle = null,
   communityCareProvider = null,
   timezone = null,
   ...fields
@@ -66,6 +64,7 @@ export function createMockAppointmentByVersion({
         typeOfCareId: fields.typeOfCareId || fields.serviceType,
         uniqueId: id,
         visitType: fields.visitType,
+        cancellationReason: null,
       },
     };
   }
@@ -123,7 +122,7 @@ export function createMockAppointmentByVersion({
         type: null,
         bookingNotes: fields.comment,
         instructionsOther: null,
-        instructionsTitle,
+        instructionsTitle: 'Video Visit Preparation',
         patients: [
           {
             name: { firstName: 'JUDY', lastName: 'MORRISON' },
@@ -224,8 +223,16 @@ export function createMockAppointmentByVersion({
         kind: null,
         locationId: null,
         minutesDuration: null,
+        patientInstruction: 'Video Visit Preparation plus extra data',
         practitioners: communityCareProvider
-          ? [{ id: { system: 'HSRM', value: communityCareProvider.uniqueId } }]
+          ? [
+              {
+                identifier: {
+                  system: 'http://hl7.org/fhir/sid/us-npi',
+                  value: communityCareProvider.uniqueId,
+                },
+              },
+            ]
           : null,
         preferredTimesForPhoneCall: null,
         priority: null,
@@ -312,4 +319,78 @@ export function createMockClinicByVersion({
   }
 
   throw new Error('Missing version specified');
+}
+
+/**
+ * Creates a mock VA facility object, for the specified version
+ *
+ * @export
+ * @param {Object} params
+ * @param {string} params.id The facility id
+ * @param {string} params.name The facility name
+ * @param {Address} params.address The facility address, in the FHIR format
+ * @param {string} params.phone The facility phone
+ * @param {number} params.lat The latitude of the facility
+ * @param {number} params.long The longitude of the facility
+ * @param {?boolean} params.isParent Is the facility is parent facility or not. Only relevent for version 2
+ * @param {number} [params.version = 2] The version of the facility object to create
+ *
+ * @returns {VAFacility|MFSFacility} The facility mock with specified data
+ */
+export function createMockFacilityByVersion({
+  id,
+  name = 'Fake',
+  address,
+  phone,
+  lat,
+  long,
+  isParent = null,
+  version = 2,
+}) {
+  if (version === 2) {
+    return {
+      id,
+      type: 'facility',
+      attributes: {
+        id,
+        vistaSite: id.substring(0, 3),
+        vastParent: isParent ? id : id.substring(0, 3),
+        name,
+        lat,
+        long,
+        phone: { main: phone },
+        physicalAddress: address || {
+          line: [],
+          city: 'fake',
+          state: 'fake',
+          postalCode: 'fake',
+        },
+      },
+    };
+  }
+
+  return {
+    id: `vha_${id}`,
+    type: 'va_facilities',
+    attributes: {
+      uniqueId: id,
+      name,
+      address: {
+        physical: {
+          zip: address?.postalCode || 'fake zip',
+          city: address?.city || 'Fake city',
+          state: address?.state || 'FA',
+          address1: address?.line[0] || 'Fake street',
+          address2: null,
+          address3: null,
+        },
+      },
+      lat,
+      long,
+      phone: {
+        main: phone,
+      },
+      hours: {},
+    },
+  };
 }

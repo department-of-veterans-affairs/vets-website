@@ -45,7 +45,7 @@ const ExpandableOperatingStatus = props => {
         <i
           aria-hidden="true"
           role="img"
-          className={`fa fa-exclamation-${props.iconType} alert-icon-base`}
+          className={`fa fa-${props.iconType} alert-icon-base`}
         />
         <span className={`${props.extraInfo ? 'status-label' : null}`}>
           {props.statusLabel}

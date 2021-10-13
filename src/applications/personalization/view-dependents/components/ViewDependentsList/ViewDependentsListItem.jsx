@@ -1,20 +1,12 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import Scroll from 'react-scroll';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import classNames from 'classnames';
+
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import ManageDependents from '../../manage-dependents/containers/ManageDependentsApp';
-
-const scroller = Scroll.scroller;
-const scrollToTop = el => {
-  scroller.scrollTo(el, {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
 
 function ViewDependentsListItem(props) {
   const [open, setOpen] = useState(false);

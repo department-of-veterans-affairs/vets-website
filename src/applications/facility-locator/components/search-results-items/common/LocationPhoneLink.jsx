@@ -5,7 +5,13 @@ import { LocationType } from '../../../constants';
 import { parsePhoneNumber } from '../../../utils/phoneNumbers';
 import CCProviderPhoneLink from './CCProviderPhoneLink';
 
-export const renderPhoneNumber = (title, subTitle = null, phone, from) => {
+export const renderPhoneNumber = (
+  title,
+  subTitle = null,
+  phone,
+  from,
+  location,
+) => {
   if (!phone) {
     return null;
   }
@@ -18,12 +24,14 @@ export const renderPhoneNumber = (title, subTitle = null, phone, from) => {
     return null;
   }
 
+  const phoneNumberId = `${location.id}-${title.replaceAll(/\s+/g, '')}`;
+
   return (
     <div>
       {from === 'FacilityDetail' && (
         <i aria-hidden="true" role="presentation" className="fa fa-phone" />
       )}
-      {title && <strong>{title}: </strong>}
+      {title && <strong id={phoneNumberId}>{title}: </strong>}
       {subTitle}
       <Telephone
         className={
@@ -31,6 +39,7 @@ export const renderPhoneNumber = (title, subTitle = null, phone, from) => {
         }
         contact={contact}
         extension={extension}
+        ariaDescribedById={phoneNumberId}
       >
         {formattedPhoneNumber}
       </Telephone>
@@ -57,9 +66,15 @@ const LocationPhoneLink = ({ location, from, query }) => {
 
   return (
     <div className="facility-phone-group vads-u-margin-top--2">
-      {renderPhoneNumber('Main number', null, phone.main, from)}
+      {renderPhoneNumber('Main number', null, phone.main, from, location)}
       {phone.mentalHealthClinic && <div style={{ minHeight: '20px' }} />}
-      {renderPhoneNumber('Mental health', null, phone.mentalHealthClinic, from)}
+      {renderPhoneNumber(
+        'Mental health',
+        null,
+        phone.mentalHealthClinic,
+        from,
+        location,
+      )}
     </div>
   );
 };
