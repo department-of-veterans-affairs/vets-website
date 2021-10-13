@@ -11,6 +11,7 @@ import {
   COVID_VACCINE_ID,
 } from '../../utils/constants';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
+import { transformFacilityV2 } from '../location/transformers.v2';
 
 function getAppointmentType(appt) {
   if (appt.kind === 'cc' && appt.start) {
@@ -160,6 +161,10 @@ export function transformVAOSAppointment(appt) {
     };
   }
 
+  let facilityData;
+  if (appt.location)
+    facilityData = transformFacilityV2(appt.location?.attributes);
+
   return {
     resourceType: 'Appointment',
     id: appt.id,
@@ -197,6 +202,7 @@ export function transformVAOSAppointment(appt) {
       isCOVIDVaccine: appt.serviceType === COVID_VACCINE_ID,
       apiData: appt,
       timeZone: null,
+      facilityData,
     },
   };
 }

@@ -42,7 +42,6 @@ import {
 } from '../../redux/sitewide';
 import { selectAppointmentById } from './selectors';
 import { fetchHealthcareServiceById } from '../../services/healthcare-service';
-import { transformFacilitiesV2 } from '../../services/location/transformers.v2';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
 export const FETCH_PENDING_APPOINTMENTS = 'vaos/FETCH_PENDING_APPOINTMENTS';
@@ -168,15 +167,9 @@ async function getAdditionalFacilityInfoV2(
   let facilityData;
   if (featureFacilitiesServiceV2) {
     // Facility information included with v2 appointment api call.
-    const facilities = appointments
-      .map(
-        appt =>
-          appt.vaos.apiData.location
-            ? { ...appt.vaos.apiData.location.attributes }
-            : null,
-      )
+    facilityData = appointments
+      .map(appt => appt.vaos.facilityData)
       .filter(n => n);
-    facilityData = transformFacilitiesV2(facilities);
   } else {
     try {
       facilityData = await getAdditionalFacilityInfo(
