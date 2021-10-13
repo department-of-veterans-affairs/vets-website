@@ -23,15 +23,14 @@ describe('check in', () => {
       };
       store = mockStore(initState);
     });
-    // Skipping until we get the flow nailed down.
-    it.skip('has a header', () => {
+    it('renders', () => {
       const component = render(
         <Provider store={store}>
           <Demographics />
         </Provider>,
       );
 
-      expect(component.getByText('Is your contact information correct?')).to
+      expect(component.getByText('Loading your appointments for today')).to
         .exist;
     });
 
