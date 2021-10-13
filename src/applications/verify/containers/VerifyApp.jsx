@@ -94,7 +94,7 @@ export class VerifyApp extends React.Component {
                   className="usa-button-primary va-button-primary"
                   onClick={() => verify(authVersion)}
                 >
-                  <img alt="ID.me" src="/img/signin/idme-icon-white.svg" />
+                  <img alt="" src="/img/signin/idme-icon-white.svg" />
                   <strong> Verify with ID.me</strong>
                 </button>
               </div>

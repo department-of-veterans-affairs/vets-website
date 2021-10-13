@@ -2,13 +2,13 @@ import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { PrimaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo';
 import { primaryCaregiverFields } from 'applications/caregivers/definitions/constants';
 import { primaryInputLabel } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
+import confirmationEmailUI from 'platform/forms-system/src/js/definitions/confirmationEmail';
 import {
   emailUI,
   vetRelationshipUI,
   alternativePhoneNumberUI,
   primaryPhoneNumberUI,
   addressWithoutCountryUI,
-  confirmationEmailUI,
 } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 
 const { primaryCaregiver } = fullSchema.properties;

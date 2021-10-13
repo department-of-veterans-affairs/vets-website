@@ -6,7 +6,7 @@ import {
   DefinitionTester,
   fillData,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import { changeDropdown } from '../../helpers';
+import { changeDropdown } from 'platform/testing/unit/helpers';
 import formConfig from '../../../config/form';
 
 describe('Chapter 36 Claimant Address', () => {

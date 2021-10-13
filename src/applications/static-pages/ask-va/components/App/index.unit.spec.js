@@ -7,12 +7,6 @@ import environment from 'platform/utilities/environment';
 import { App } from '.';
 
 describe('Ask VA <App>', () => {
-  it('does not render when explicitly hidden', () => {
-    const wrapper = shallow(<App hidden />);
-    expect(wrapper.text()).to.equal('');
-    wrapper.unmount();
-  });
-
   it('renders ask va link when not authenticated', () => {
     const expectedHref = environment.isProduction()
       ? 'https://ava.va.gov/'

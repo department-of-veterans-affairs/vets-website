@@ -8,45 +8,50 @@ const createMockSuccessResponse = (data, hasBeenValidated) => {
           clinicPhoneNumber: '5551234567',
           clinicFriendlyName: 'TEST CLINIC',
           clinicName: 'LOM ACC CLINIC TEST',
-          appointmentIEN: 'some-ien',
+          appointmentIen: 'some-ien',
         },
       ],
     },
   };
   if (hasBeenValidated) {
     rv.payload.appointments[0].startTime = '2021-08-19T13:56:31';
-    rv.payload.appointments[0].status = 'ELIGIBLE';
+    rv.payload.appointments[0].eligibility = 'ELIGIBLE';
     rv.payload.appointments[0].facilityId = 'ABC_123';
   }
   return rv;
 };
 
 const createAppointment = (
-  status = 'ELIGIBLE',
+  eligibility = 'ELIGIBLE',
   facilityId = 'some-facility',
-  appointmentIEN = 'some-ien',
+  appointmentIen = 'some-ien',
   clinicFriendlyName = 'TEST CLINIC',
 ) => {
   const startTime = new Date();
-  const appointmentCheckInStart = new Date();
-  if (status === 'INELIGIBLE_TOO_LATE') {
+  const checkInWindowStart = new Date();
+  const checkInWindowEnd = new Date();
+
+  if (eligibility === 'INELIGIBLE_TOO_LATE') {
     startTime.setHours(startTime.getHours() - 1);
-  } else if (status === 'INELIGIBLE_TOO_EARLY') {
+  } else if (eligibility === 'INELIGIBLE_TOO_EARLY') {
     startTime.setHours(startTime.getHours() + 1);
   } else {
     startTime.setMinutes(startTime.getMinutes() + 15);
   }
-  appointmentCheckInStart.setHours(startTime.getHours() - 1);
+  checkInWindowStart.setHours(startTime.getHours() - 1);
+  checkInWindowEnd.getMinutes(startTime.getMinutes() + 10);
   return {
     facility: 'LOMA LINDA VA CLINIC',
     clinicPhoneNumber: '5551234567',
     clinicFriendlyName,
     clinicName: 'LOM ACC CLINIC TEST',
-    appointmentIEN,
+    appointmentIen,
     startTime,
-    status,
+    eligibility,
     facilityId,
-    appointmentCheckInStart,
+    checkInWindowStart,
+    checkInWindowEnd,
+    checkedInTime: '',
   };
 };
 
