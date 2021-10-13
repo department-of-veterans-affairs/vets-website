@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
@@ -24,69 +24,37 @@ const CheckIn = props => {
     appointments,
     context,
     isDemographicsPageEnabled,
+    isLoading,
     isUpdatePageEnabled,
     isMultipleAppointmentsEnabled,
     router,
-    setAppointment,
     setMultipleAppointments,
   } = props;
-  const appointment = appointments[0];
+  // console.log('check0in', { props });
+  const appointment = appointments ? appointments[0] : {};
 
-  const [isLoadingData, setIsLoadingData] = useState(!appointment.startTime);
   const { token } = context;
 
   const getMultipleAppointments = useCallback(
     () => {
-      setIsLoadingData(true);
+      // setIsLoadingData(true);
       api.v2
         .getCheckInData(token)
         .then(json => {
           const { payload } = json;
           setMultipleAppointments(payload.appointments, token);
-          setIsLoadingData(false);
+          // setIsLoadingData(false);
           focusElement('h1');
         })
         .catch(() => {
           goToNextPage(router, URLS.ERROR);
         });
     },
-    [token, setMultipleAppointments, setIsLoadingData, router],
+    [token, setMultipleAppointments, router],
   );
 
-  useEffect(
-    () => {
-      if (isMultipleAppointmentsEnabled) {
-        getMultipleAppointments();
-      } else {
-        // load data from checks route
-        api.v1
-          .getCheckInData(token)
-          .then(json => {
-            const { payload } = json;
-            setAppointment(payload, token);
-            setIsLoadingData(false);
-            focusElement('h1');
-          })
-          .catch(() => {
-            goToNextPage(router, URLS.ERROR);
-          });
-      }
-    },
-    [
-      isMultipleAppointmentsEnabled,
-      getMultipleAppointments,
-      router,
-      setAppointment,
-      setMultipleAppointments,
-      token,
-    ],
-  );
-
-  if (isLoadingData) {
+  if (isLoading) {
     return <LoadingIndicator message={'Loading your appointments for today'} />;
-  } else if (!appointment) {
-    goToNextPage(router, URLS.ERROR);
-    return <></>;
   } else {
     return (
       <FeatureToggle on={isMultipleAppointmentsEnabled}>
@@ -114,7 +82,6 @@ const CheckIn = props => {
 };
 const mapStateToProps = state => {
   return {
-    appointments: state.checkInData.appointments,
     context: state.checkInData.context,
   };
 };

@@ -12,6 +12,7 @@ import ValidateVeteran from './pages/ValidateVeteran';
 
 import withFeatureFlip from './containers/withFeatureFlip';
 import withAppointmentData from './containers/withAppointmentData';
+import withLoadedData from './containers/withLoadedData';
 import withLowAuthorization from './containers/withLowAuthorization';
 import withToken from './containers/withToken';
 import { URLS } from './utils/navigation';
@@ -26,7 +27,7 @@ const createRoutesWithStore = () => {
       />
       <Route
         path={`/${URLS.DEMOGRAPHICS}`}
-        component={withFeatureFlip(withAppointmentData(Demographics))}
+        component={withFeatureFlip(withLoadedData(Demographics))}
       />
       <Route
         path={`/${URLS.UPDATE_INSURANCE}`}
@@ -36,7 +37,7 @@ const createRoutesWithStore = () => {
       />
       <Route
         path={`/${URLS.DETAILS}`}
-        component={withFeatureFlip(withAppointmentData(CheckIn))}
+        component={withFeatureFlip(withLoadedData(CheckIn))}
       />
       <Route
         path={`/${URLS.COMPLETE}`}
