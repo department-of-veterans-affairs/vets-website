@@ -1,3 +1,4 @@
+import TrackClaimsPage from './page-objects/TrackClaimsPage';
 import claimsList from './fixtures/mocks/claims-list.json';
 
 const Timeouts = require('platform/testing/e2e/timeouts.js');
@@ -12,16 +13,8 @@ beforeEach(() => {
 
 describe('Claims status test', () => {
   it('Shows the correct status for the claim', () => {
-    cy.intercept('GET', `/v0/evss_claims_async/11`, mockDetails).as(
-      'detailRequest',
-    );
-    cy.intercept('GET', `/v0/evss_claims_async`, claimsList).as('claim');
-    cy.login();
-
-    cy.visit('/track-claims');
-    cy.get('.claim-list-item-container', { timeout: Timeouts.slow }).should(
-      'be.visible',
-    );
+    const trackClaimsPage = new TrackClaimsPage();
+    trackClaimsPage.loadPage(claimsList, mockDetails);
 
     cy.get('.claim-list-item-container:first-child a.vads-c-action-link--blue')
       .click()

@@ -1,7 +1,10 @@
 const Timeouts = require('platform/testing/e2e/timeouts.js');
 
 class TrackClaimsPage {
-  loadPage(claimsList) {
+  loadPage(claimsList, mock = null) {
+    if (mock) {
+      cy.intercept('GET', `/v0/evss_claims_async/11`, mock).as('detailRequest');
+    }
     cy.intercept('GET', '/v0/evss_claims_async', claimsList);
     cy.login();
     cy.visit('/track-claims');
@@ -90,6 +93,44 @@ class TrackClaimsPage {
       .then(() => {
         cy.url().should('contain', '/your-claims/11/status');
       });
+  }
+
+  verifyReadyClaim() {
+    cy.get('.claim-list-item-container:first-child a.vads-c-action-link--blue')
+      .click()
+      .then(() => {
+        cy.get('body').should('be.visible');
+        // Currently does not load data after button click, React prop error, rest of test fails
+
+        cy.get('.claim-title', { timeout: Timeouts.slow }).should('be.visible');
+        cy.injectAxeThenAxeCheck();
+      });
+
+    cy.get('.main .usa-alert')
+      .should('be.visible')
+      .then(alertElem => {
+        cy.wrap(alertElem).should('contain', 'Your claim decision is ready');
+      });
+
+    cy.get('.disability-benefits-timeline').should('not.exist');
+  }
+
+  verifyInProgressClaim() {
+    cy.get('.claim-list-item-container:first-child a.vads-c-action-link--blue')
+      .click()
+      .then(() => {
+        cy.get('body').should('be.visible');
+        // Currently does not load data after button click, React prop error, rest of test fails
+
+        cy.get('.claim-title', { timeout: Timeouts.slow }).should('be.visible');
+        cy.injectAxeThenAxeCheck();
+      });
+
+    cy.url().should('contain', '/your-claims/11/status');
+
+    // Disabled until COVID-19 message removed
+    // cy.get('.claim-completion-desc').should('contain', 'We estimated your claim would be completed by now');
+    cy.get('va-alert').should('contain', 'COVID-19 has had on');
   }
 }
 
