@@ -5,25 +5,29 @@ const initialState = {
 
 import {
   APPOINTMENT_WAS_CHECKED_INTO,
-  RECEIVED_APPOINTMENT_DETAILS,
-  TOKEN_WAS_VALIDATED,
   PERMISSIONS_UPDATED,
+  RECEIVED_APPOINTMENT_DETAILS,
+  RECEIVED_DEMOGRAPHICS_DATA,
+  TOKEN_WAS_VALIDATED,
 } from '../actions';
 
 const checkInReducer = (state = initialState, action) => {
   switch (action.type) {
-    case RECEIVED_APPOINTMENT_DETAILS:
-      return { ...state, ...action.data };
-    case PERMISSIONS_UPDATED:
-      return {
-        ...state,
-        context: { ...state.context, scope: action.value.scope },
-      };
     case APPOINTMENT_WAS_CHECKED_INTO:
       return {
         ...state,
         context: { ...state.context, appointment: action.value.appointment },
       };
+    case PERMISSIONS_UPDATED:
+      return {
+        ...state,
+        context: { ...state.context, scope: action.value.scope },
+      };
+    case RECEIVED_APPOINTMENT_DETAILS:
+      return { ...state, ...action.data };
+    case RECEIVED_DEMOGRAPHICS_DATA:
+      return { ...state, ...action.payload };
+
     case TOKEN_WAS_VALIDATED:
       return { ...state, ...action.data };
     default:
