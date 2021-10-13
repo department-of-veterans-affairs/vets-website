@@ -14,7 +14,7 @@ describe('Ask VA <App>', () => {
     const wrapper = shallow(<App loa={undefined} />);
     expect(wrapper.find(`a[href="${expectedHref}"]`)).be.have.lengthOf(1);
     expect(wrapper.find(`a[href="${expectedHref}"]`).text()).to.equal(
-      'Ask us a question online',
+      'Ask us a question through Ask VA',
     );
     wrapper.unmount();
   });
@@ -26,7 +26,7 @@ describe('Ask VA <App>', () => {
     const wrapper = shallow(<App loa={1} />);
     expect(wrapper.find(`a[href="${expectedHref}"]`)).be.have.lengthOf(1);
     expect(wrapper.find(`a[href="${expectedHref}"]`).text()).to.equal(
-      'Ask us a question online',
+      'Ask us a question through Ask VA',
     );
     wrapper.unmount();
   });
@@ -38,7 +38,7 @@ describe('Ask VA <App>', () => {
     const wrapper = shallow(<App loa={2} />);
     expect(wrapper.find(`a[href="${expectedHref}"]`)).be.have.lengthOf(1);
     expect(wrapper.find(`a[href="${expectedHref}"]`).text()).to.equal(
-      'Ask us a question online',
+      'Ask us a question through Ask VA',
     );
     wrapper.unmount();
   });
@@ -50,7 +50,7 @@ describe('Ask VA <App>', () => {
     const wrapper = shallow(<App loa={3} />);
     expect(wrapper.find(`a[href="${expectedHref}"]`)).be.have.lengthOf(1);
     expect(wrapper.find(`a[href="${expectedHref}"]`).text()).to.equal(
-      'Ask us a question online',
+      'Ask us a question through Ask VA',
     );
     wrapper.unmount();
   });
