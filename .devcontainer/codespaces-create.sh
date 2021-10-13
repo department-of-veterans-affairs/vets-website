@@ -15,7 +15,7 @@ printf "\n\n##### Installing vets-website #####\n"
 set -e
 cd ../vets-website && yarn install --production=false --prefer-offline && yarn build -- --buildtype=localhost --api=https://staging-api.va.gov --host="${CODESPACE_NAME}-3001.githubpreview.dev/" --port=3001
 
-if [[ "${VETS_WEBSITE_BUILD_CONTENT}" !== "NO" ]]
+if [[ "${VETS_WEBSITE_BUILD_CONTENT}" != "NO" ]]
 then
   # Build content-build and serve site
   printf "\n\n##### Installing content-build #####\n"
