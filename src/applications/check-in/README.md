@@ -8,6 +8,7 @@
   - [Good to knows](#good-to-knows)
     - [Project URLS](#project-urls)
     - [How to run locally](#how-to-run-locally)
+    - [How to run with Codespaces](#how-to-run-with-codespaces)
     - [Where is the data coming from?](#where-is-the-data-coming-from)
     - [Why is this not a VA forms app (formation)](#why-is-this-not-a-va-forms-app-formation)
     - [What API(s) does this use?](#what-apis-does-this-use)
