@@ -327,19 +327,30 @@ class SearchApp extends React.Component {
       >
         <div>Enter a keyword</div>
         <div className="va-flex search-box vads-u-margin-top--1 vads-u-margin-bottom--0">
-          <SearchDropDownComponent
-            buttonText="Search"
-            canSubmit
-            dataLabelE2E="search-dropdown"
-            formatSuggestions
-            mobileResponsive
-            startingValue={userInput}
-            submitOnClick
-            submitOnEnter
-            getSuggestions={this.getSuggestions}
-            onInputSubmit={this.onInputSubmit}
-            onSuggestionSubmit={this.onSuggestionSubmit}
-          />
+          {!this.props.searchDropdownComponentEnabled && (
+            <input
+              type="text"
+              name="query"
+              aria-label="Enter a keyword"
+              value={this.state.userInput}
+              onChange={this.handleInputChange}
+            />
+          )}
+          {this.props.searchDropdownComponentEnabled && (
+            <SearchDropDownComponent
+              buttonText="Search"
+              canSubmit
+              dataLabelE2E="search-dropdown"
+              formatSuggestions
+              mobileResponsive
+              startingValue={userInput}
+              submitOnClick
+              submitOnEnter
+              getSuggestions={this.getSuggestions}
+              onInputSubmit={this.onInputSubmit}
+              onSuggestionSubmit={this.onSuggestionSubmit}
+            />
+          )}
         </div>
       </div>
     );
@@ -685,6 +696,9 @@ const mapStateToProps = state => ({
   search: state.search,
   searchTypeaheadEnabled: toggleValues(state)[
     FEATURE_FLAG_NAMES.searchTypeaheadEnabled
+  ],
+  searchDropdownComponentEnabled: toggleValues(state)[
+    FEATURE_FLAG_NAMES.searchDropdownComponentEnabled
   ],
 });
 
