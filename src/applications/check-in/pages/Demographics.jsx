@@ -6,7 +6,10 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 
-import { receivedMultipleAppointmentDetails } from '../actions';
+import {
+  receivedMultipleAppointmentDetails,
+  receivedDemographicsData,
+} from '../actions';
 import { api } from '../api';
 import { goToNextPage, URLS } from '../utils/navigation';
 
@@ -18,6 +21,7 @@ const Demographics = props => {
     context,
     isUpdatePageEnabled,
     router,
+    setDemographics,
     setMultipleAppointments,
   } = props;
   const [isLoadingData, setIsLoadingData] = useState(true);
@@ -31,7 +35,7 @@ const Demographics = props => {
         .getCheckInData(token)
         .then(json => {
           const { payload } = json;
-          // TODO: update to store demographics in redux. This is a different ticket
+          setDemographics(payload.demographics);
           setMultipleAppointments(payload.appointments, token);
           setIsLoadingData(false);
           focusElement('h1');
@@ -40,7 +44,7 @@ const Demographics = props => {
           goToNextPage(router, URLS.ERROR);
         });
     },
-    [router, setMultipleAppointments, token],
+    [router, setDemographics, setMultipleAppointments, token],
   );
 
   const yesClick = useCallback(
@@ -103,6 +107,7 @@ const mapDispatchToProps = dispatch => {
   return {
     setMultipleAppointments: (data, token) =>
       dispatch(receivedMultipleAppointmentDetails(data, token)),
+    setDemographics: data => dispatch(receivedDemographicsData(data)),
   };
 };
 
