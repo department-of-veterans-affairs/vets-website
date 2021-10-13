@@ -135,8 +135,6 @@ export function transformVAOSAppointment(appt) {
   if (isRequest) {
     requestFields = {
       requestedPeriod: appt.requestedPeriods,
-      // TODO: ask about created and other action dates like cancelled
-      cancelationReason: null,
       created: null,
       reason: PURPOSE_TEXT.find(
         purpose => purpose.serviceName === appt.reasonCode?.coding[0].code,
@@ -164,7 +162,7 @@ export function transformVAOSAppointment(appt) {
     resourceType: 'Appointment',
     id: appt.id,
     status: appt.status,
-    cancelationReason: appt.cancelationReason,
+    cancelationReason: appt.cancelationReason?.coding[0].code || null,
     start: !isRequest ? start.format() : null,
     // This contains the vista status for v0 appointments, but
     // we don't have that for v2, so this is a made up status
