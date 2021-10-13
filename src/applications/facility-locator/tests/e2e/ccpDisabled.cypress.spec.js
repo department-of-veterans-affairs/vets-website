@@ -8,7 +8,7 @@ describe('Facility Search - CCP (community care providers) disabled', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles*', mockFeatureTogglesDisabled);
     cy.intercept('GET', '/v0/maintenance_windows', []);
-    cy.intercept('GET', '/v1/facilities/va?*', mockFacilityData);
+    cy.intercept('GET', '/facilities_api/**', mockFacilityData);
     cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
   });
 

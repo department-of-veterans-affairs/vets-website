@@ -19,11 +19,10 @@ import { mockFetch } from 'platform/testing/unit/helpers';
 import { AppointmentList } from '../../../../appointment-list';
 import sinon from 'sinon';
 import { getICSTokens } from '../../../../utils/calendar';
-import { getV2FacilityMock, getVAOSAppointmentMock } from '../../../mocks/v2';
-import {
-  mockSingleVAOSAppointmentFetch,
-  mockV2FacilityFetch,
-} from '../../../mocks/helpers.v2';
+import { getVAOSAppointmentMock } from '../../../mocks/v2';
+import { mockSingleVAOSAppointmentFetch } from '../../../mocks/helpers.v2';
+import { mockFacilityFetchByVersion } from '../../../mocks/fetch';
+import { createMockFacilityByVersion } from '../../../mocks/data';
 
 const initialState = {
   featureToggles: {
@@ -1459,20 +1458,19 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
       mockSingleVAOSAppointmentFetch({ appointment });
 
-      // And the appointment has associated facility information
-      const facility = getV2FacilityMock({
-        id: '983',
-        name: 'Cheyenne VA Medical Center',
-        address: {
-          postalCode: '82001-5356',
-          city: 'Cheyenne',
-          state: 'WY',
-          line: ['2360 East Pershing Boulevard'],
-        },
-        phone: '970-224-1550',
+      mockFacilityFetchByVersion({
+        facility: createMockFacilityByVersion({
+          id: '983',
+          name: 'Cheyenne VA Medical Center',
+          address: {
+            postalCode: '82001-5356',
+            city: 'Cheyenne',
+            state: 'WY',
+            line: ['2360 East Pershing Boulevard'],
+          },
+          phone: '970-224-1550',
+        }),
       });
-
-      mockV2FacilityFetch(facility);
 
       // When the page is displayed
       const screen = renderWithStoreAndRouter(<AppointmentList />, {

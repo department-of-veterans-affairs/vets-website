@@ -7,20 +7,14 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { usePrevious } from 'platform/utilities/react-hooks';
 
 import { getFacilityPageV2Info } from '../../redux/selectors';
-import {
-  FETCH_STATUS,
-  FACILITY_SORT_METHODS,
-  GA_PREFIX,
-} from '../../../utils/constants';
+import { FETCH_STATUS, GA_PREFIX } from '../../../utils/constants';
 import EligibilityModal from './EligibilityModal';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FacilitiesRadioWidget from './FacilitiesRadioWidget';
 import FormButtons from '../../../components/FormButtons';
 import NoValidVAFacilities from './NoValidVAFacilitiesV2';
 import SingleFacilityEligibilityCheckMessage from './SingleFacilityEligibilityCheckMessage';
-import ResidentialAddress from './ResidentialAddress';
 import LoadingOverlay from '../../../components/LoadingOverlay';
-import InfoAlert from '../../../components/InfoAlert';
 import FacilitiesNotShown from './FacilitiesNotShown';
 import SingleFacilityAvailable from './SingleFacilityAvailable';
 import { lowerCase } from '../../../utils/formatters';
@@ -72,7 +66,6 @@ export default function VAFacilityPageV2() {
     schema,
     selectedFacility,
     showEligibilityModal,
-    showVariant,
     singleValidVALocation,
     sortMethod,
     typeOfCare,
@@ -80,11 +73,9 @@ export default function VAFacilityPageV2() {
 
   const uiSchema = {
     vaFacility: {
-      'ui:title': showVariant
-        ? `Select a VA facility where you’re registered that offers ${lowerCase(
-            typeOfCare?.name,
-          )} appointments.`
-        : 'Please select where you’d like to have your appointment.',
+      'ui:title': `Select a VA facility where you’re registered that offers ${lowerCase(
+        typeOfCare?.name,
+      )} appointments.`,
       'ui:widget': FacilitiesRadioWidget,
     },
   };
@@ -97,16 +88,12 @@ export default function VAFacilityPageV2() {
   let pageTitle;
   if (singleValidVALocation) {
     pageTitle = 'Your appointment location';
-  } else if (showVariant) {
-    pageTitle = 'Choose a VA location';
   } else {
-    pageTitle = `Choose a VA location for your ${lowerCase(
-      typeOfCare?.name,
-    )} appointment`;
+    pageTitle = 'Choose a VA location';
   }
   const isLoading =
     loadingFacilities || (singleValidVALocation && loadingEligibility);
-  const sortFocusEl = showVariant ? 'select' : '.sort-facility-button';
+  const sortFocusEl = 'select';
   const hasUserAddress = address && !!Object.keys(address).length;
 
   useEffect(() => {
@@ -141,7 +128,7 @@ export default function VAFacilityPageV2() {
         scrollAndFocus(sortFocusEl);
       }
     },
-    [requestingLocation, requestLocationStatus, showVariant, sortFocusEl],
+    [requestingLocation, requestLocationStatus, sortFocusEl],
   );
 
   const pageHeader = <h1 className="vads-u-font-size--h2">{pageTitle}</h1>;
@@ -238,89 +225,9 @@ export default function VAFacilityPageV2() {
     );
   }
 
-  const sortByDistanceFromResidential =
-    sortMethod === FACILITY_SORT_METHODS.distanceFromResidential;
-
-  const sortByDistanceFromCurrentLocation =
-    sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation;
-
   return (
     <div>
       {pageHeader}
-      {!showVariant && (
-        <p>
-          Below is a list of VA locations where you’re registered that offer{' '}
-          {lowerCase(typeOfCare?.name)} appointments.
-          {(sortByDistanceFromResidential ||
-            sortByDistanceFromCurrentLocation) &&
-            ' Locations closest to you are at the top of the list.'}
-        </p>
-      )}
-      {sortByDistanceFromResidential &&
-        (!requestingLocation && !showVariant) && (
-          <>
-            <ResidentialAddress address={address} />
-            {requestLocationStatus !== FETCH_STATUS.failed && (
-              <p>
-                Or,{' '}
-                <button
-                  className="va-button-link sort-facility-button"
-                  onClick={() => {
-                    dispatch(
-                      updateFacilitySortMethod(
-                        FACILITY_SORT_METHODS.distanceFromCurrentLocation,
-                        uiSchema,
-                      ),
-                    );
-                  }}
-                >
-                  use your current location
-                </button>
-              </p>
-            )}
-          </>
-        )}
-      {sortByDistanceFromCurrentLocation &&
-        (!requestingLocation && !showVariant) && (
-          <>
-            <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
-              Facilities based on your location
-            </h2>
-            <p>
-              Or,{' '}
-              <button
-                className="va-button-link sort-facility-button"
-                onClick={() => {
-                  dispatch(
-                    updateFacilitySortMethod(
-                      FACILITY_SORT_METHODS.distanceFromResidential,
-                      uiSchema,
-                    ),
-                  );
-                }}
-              >
-                use your home address on file
-              </button>
-            </p>
-          </>
-        )}
-      {!showVariant &&
-        requestLocationStatus === FETCH_STATUS.failed && (
-          <div className="vads-u-padding-bottom--3">
-            <InfoAlert
-              status="warning"
-              headline="Your browser is blocked from finding your current location."
-              className="vads-u-background-color--gold-lightest vads-u-font-size--base"
-              level="3"
-            >
-              <p>
-                Make sure your browser’s location feature is turned on. If it
-                isn’t enabled, we’ll sort your VA facilities using your home
-                address that’s on file.
-              </p>
-            </InfoAlert>
-          </div>
-        )}
       {requestingLocation && (
         <div className="vads-u-padding-bottom--2">
           <LoadingIndicator message="Finding your location. Be sure to allow your browser to find your current location." />
@@ -337,11 +244,9 @@ export default function VAFacilityPageV2() {
               dispatch(updateFormData(pageKey, uiSchema, newData))
             }
             onSubmit={() => {
-              if (showVariant) {
-                recordEvent({
-                  event: `${GA_PREFIX}-variant-final-${sortMethod}`,
-                });
-              }
+              recordEvent({
+                event: `${GA_PREFIX}-variant-final-${sortMethod}`,
+              });
               dispatch(routeToNextAppointmentPage(history, pageKey));
             }}
             formContext={{

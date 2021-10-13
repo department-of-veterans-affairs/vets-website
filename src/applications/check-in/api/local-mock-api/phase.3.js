@@ -12,12 +12,10 @@ let hasBeenValidated = false;
 
 const responses = {
   ...commonResponses,
-  'GET /v0/feature_toggles': featureToggles.createFeatureToggles(
-    true,
-    true,
-    true,
-    false,
-  ),
+  'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
+    checkInExperienceMultipleAppointmentSupport: true,
+    checkInExperienceUpdateInformationPageEnabled: false,
+  }),
   // v2
   'GET /check_in/v2/sessions/:uuid': (req, res) => {
     return res.json(mockSessions.mocks.get(req.params));
@@ -39,9 +37,9 @@ const responses = {
     }
   },
   'POST /check_in/v2/patient_check_ins/': (req, res) => {
-    const { uuid, appointmentIEN, facilityId } =
+    const { uuid, appointmentIen, facilityId } =
       req.body?.patientCheckIns || {};
-    if (!uuid || !appointmentIEN || !facilityId) {
+    if (!uuid || !appointmentIen || !facilityId) {
       return res.status(500).json(mockCheckIns.createMockFailedResponse());
     } else {
       return res.json(mockCheckIns.createMockSuccessResponse({}));
