@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, batch } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
@@ -100,9 +100,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     setSessionData: (payload, token) => {
-      const { appointments, demographics } = payload;
-      dispatch(receivedMultipleAppointmentDetails(appointments, token));
-      dispatch(receivedDemographicsData(demographics));
+      batch(() => {
+        const { appointments, demographics } = payload;
+        dispatch(receivedMultipleAppointmentDetails(appointments, token));
+        dispatch(receivedDemographicsData(demographics));
+      });
     },
   };
 };
