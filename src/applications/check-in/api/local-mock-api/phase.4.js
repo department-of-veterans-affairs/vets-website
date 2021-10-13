@@ -35,7 +35,7 @@ const responses = {
       hasBeenValidated = false;
       return res.json(mockPatientCheckIns.createMultipleAppointments(uuid, 3));
     } else {
-      return res.json(mockPatientCheckIns.createMultipleAppointments({}));
+      return res.json(mockPatientCheckIns.createMultipleAppointments(uuid));
     }
   },
   'POST /check_in/v2/patient_check_ins/': (req, res) => {
