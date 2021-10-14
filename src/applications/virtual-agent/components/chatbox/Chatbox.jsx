@@ -33,7 +33,7 @@ function useWebChat(props) {
 export default function Chatbox(props) {
   const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
 
-  const ONE_MINUTE = 1 * 60 * 1000;
+  const ONE_MINUTE = 60 * 1000;
   return (
     <div className="vads-u-padding--1p5 vads-u-background-color--gray-lightest">
       <div className="vads-u-background-color--primary-darkest vads-u-padding--1p5">
@@ -56,7 +56,6 @@ function SignInAlert({ showLoginModal }) {
       <h2 slot="headline" className="vads-u-margin-y--0 vads-u-font-size--h3">
         Please sign in to access the chatbot
       </h2>
-      {/* <p>Please sign in to access the chatbot.</p> */}
       <button
         className="usa-button-primary"
         onClick={() => showLoginModal(true)}
