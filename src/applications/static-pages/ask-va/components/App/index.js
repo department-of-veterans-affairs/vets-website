@@ -25,7 +25,7 @@ export const App = ({ loa }) => {
 
   return (
     <a href={deriveURL()} rel="noreferrer noopener">
-      Ask us a question online
+      Contact us online through Ask VA
     </a>
   );
 };

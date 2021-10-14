@@ -10,6 +10,8 @@ import {
   TOKEN_WAS_VALIDATED,
   permissionsUpdated,
   PERMISSIONS_UPDATED,
+  receivedDemographicsData,
+  RECEIVED_DEMOGRAPHICS_DATA,
 } from './index';
 
 describe('check inactions', () => {
@@ -83,6 +85,19 @@ describe('check inactions', () => {
         });
         expect(action.value).to.haveOwnProperty('appointment');
         expect(action.value.appointment.appointmentIen).to.equal('some-ien');
+      });
+    });
+    describe('receivedDemographicsData', () => {
+      it('should return correct action', () => {
+        const action = receivedDemographicsData({});
+        expect(action.type).to.equal(RECEIVED_DEMOGRAPHICS_DATA);
+      });
+      it('should return correct structure', () => {
+        const action = receivedDemographicsData({
+          homePhone: '555-867-5309',
+        });
+        expect(action.payload).to.haveOwnProperty('demographics');
+        expect(action.payload.demographics.homePhone).to.equal('555-867-5309');
       });
     });
   });

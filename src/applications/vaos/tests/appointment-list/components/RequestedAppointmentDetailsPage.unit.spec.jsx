@@ -642,7 +642,9 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       locationId: '983GC',
       id: '1234',
       preferredTimesForPhoneCall: ['Morning'],
-      reason: 'New Issue',
+      reasonCode: {
+        coding: [{ code: 'New Issue' }],
+      },
       requestedPeriods: [
         {
           start: moment(testDate)
