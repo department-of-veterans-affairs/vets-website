@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
 
 import { fetchSearchResults } from '../actions';
 import {
@@ -328,13 +329,19 @@ class SearchApp extends React.Component {
         <div>Enter a keyword</div>
         <div className="va-flex search-box vads-u-margin-top--1 vads-u-margin-bottom--0">
           {!this.props.searchDropdownComponentEnabled && (
-            <input
-              type="text"
-              name="query"
-              aria-label="Enter a keyword"
-              value={this.state.userInput}
-              onChange={this.handleInputChange}
-            />
+            <>
+              <input
+                type="text"
+                name="query"
+                aria-label="Enter a keyword"
+                value={this.state.userInput}
+                onChange={this.handleInputChange}
+              />
+              <button type="submit">
+                <IconSearch color="#fff" />
+                <span className="button-text">Search</span>
+              </button>
+            </>
           )}
           {this.props.searchDropdownComponentEnabled && (
             <SearchDropDownComponent
@@ -714,3 +721,7 @@ const SearchAppContainer = withRouter(
 );
 
 export default SearchAppContainer;
+
+SearchAppContainer.defaultProps = {
+  searchDropdownComponentEnabled: false,
+};
