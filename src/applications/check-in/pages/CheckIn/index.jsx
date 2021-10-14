@@ -3,14 +3,11 @@ import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-import { focusElement } from 'platform/utilities/ui';
-
 import {
   receivedAppointmentDetails,
   receivedMultipleAppointmentDetails,
+  triggerRefresh,
 } from '../../actions';
-import { goToNextPage, URLS } from '../../utils/navigation';
-import { api } from '../../api';
 
 import FeatureToggle, {
   FeatureOn,
@@ -28,7 +25,7 @@ const CheckIn = props => {
     isUpdatePageEnabled,
     isMultipleAppointmentsEnabled,
     router,
-    setMultipleAppointments,
+    refreshAppointments,
   } = props;
   // console.log('check0in', { props });
   const appointment = appointments ? appointments[0] : {};
@@ -37,20 +34,9 @@ const CheckIn = props => {
 
   const getMultipleAppointments = useCallback(
     () => {
-      // setIsLoadingData(true);
-      api.v2
-        .getCheckInData(token)
-        .then(json => {
-          const { payload } = json;
-          setMultipleAppointments(payload.appointments, token);
-          // setIsLoadingData(false);
-          focusElement('h1');
-        })
-        .catch(() => {
-          goToNextPage(router, URLS.ERROR);
-        });
+      refreshAppointments();
     },
-    [token, setMultipleAppointments, router],
+    [refreshAppointments],
   );
 
   if (isLoading) {
@@ -91,6 +77,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(receivedAppointmentDetails(data, token)),
     setMultipleAppointments: (data, token) =>
       dispatch(receivedMultipleAppointmentDetails(data, token)),
+    refreshAppointments: () => dispatch(triggerRefresh()),
   };
 };
 

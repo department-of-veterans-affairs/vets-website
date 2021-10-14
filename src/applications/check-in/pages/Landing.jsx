@@ -6,7 +6,7 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import { getTokenFromLocation, URLS, goToNextPage } from '../utils/navigation';
 import { api } from '../api';
-import { tokenWasValidated } from '../actions';
+import { tokenWasValidated, triggerRefresh } from '../actions';
 import { setCurrentToken, clearCurrentSession } from '../utils/session';
 import { createAnalyticsSlug } from '../utils/analytics';
 import { isUUID, SCOPES } from '../utils/token-format-validator';
@@ -119,8 +119,10 @@ const mapDispatchToProps = dispatch => {
   return {
     setAppointment: (data, token) =>
       dispatch(tokenWasValidated(data, token, SCOPES.READ_BASIC)),
-    setToken: token =>
-      dispatch(tokenWasValidated(undefined, token, SCOPES.READ_BASIC)),
+    setToken: token => {
+      dispatch(tokenWasValidated(undefined, token, SCOPES.READ_BASIC));
+      dispatch(triggerRefresh());
+    },
     setAuthenticatedSession: token =>
       dispatch(tokenWasValidated(undefined, token, SCOPES.READ_FULL)),
   };

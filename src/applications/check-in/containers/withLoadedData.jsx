@@ -7,39 +7,56 @@ import { api } from '../api';
 import {
   receivedDemographicsData,
   receivedMultipleAppointmentDetails,
+  triggerRefresh,
 } from '../actions';
 
 const withLoadedData = WrappedComponent => props => {
-  const { checkInData, router } = props;
-  const [isLoading, setIsLoading] = useState(true);
-  const [jsonData, setJsonData] = useState({});
-  const { appointments, context } = checkInData;
+  const { checkInData, router, setSessionData, isSessionLoading } = props;
+  const [isLoading, setIsLoading] = useState();
+  const { context, appointments, demographics } = checkInData;
+
   useEffect(
     () => {
-      // check if appointments is empty or if a refresh is staged
+      let isCancelled = false;
       const session = getCurrentToken(window);
+      if (!context || !session) {
+        goToNextPage(router, URLS.ERROR);
+      }
+      // check if appointments is empty or if a refresh is staged
       const { token } = session;
+      // console.log('HOC', { context });
+      if (Object.keys(context).length === 0 || context.shouldRefresh) {
+        // check for 'read.full permissions?
+        setIsLoading(true);
+        api.v2
+          .getCheckInData(token)
+          .then(json => {
+            if (!isCancelled) {
+              // console.log('loaded api data HOC', json);
+              setSessionData(json.payload, token);
+              setIsLoading(false);
+            }
+          })
+          .catch(() => {
+            goToNextPage(router, URLS.ERROR);
+          });
+      }
 
-      setIsLoading(true);
-      api.v2
-        .getCheckInData(token)
-        .then(json => {
-          // console.log('loaded api data HOC', json);
-          setJsonData(json.payload);
-          setIsLoading(false);
-        })
-        .catch(() => {
-          goToNextPage(router, URLS.ERROR);
-        });
-
-      // if its empty, get the current session token
-      // load data from the API
+      return () => {
+        isCancelled = true;
+      };
     },
-    [appointments, router, context.shouldRefresh],
+    [appointments, router, context, setSessionData, isSessionLoading],
   );
   return (
     <>
-      <WrappedComponent {...props} isLoading={isLoading} {...jsonData} />
+      <WrappedComponent
+        {...props}
+        isLoading={isLoading}
+        demographics={demographics || {}}
+        appointments={appointments || []}
+        context={context || {}}
+      />
     </>
   );
 };
@@ -52,6 +69,7 @@ const mapDispatchToProps = dispatch => {
     setSessionData: (payload, token) => {
       batch(() => {
         const { appointments, demographics } = payload;
+        dispatch(triggerRefresh(false));
         dispatch(receivedMultipleAppointmentDetails(appointments, token));
         dispatch(receivedDemographicsData(demographics));
       });
