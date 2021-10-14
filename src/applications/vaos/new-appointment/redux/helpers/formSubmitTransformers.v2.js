@@ -21,10 +21,12 @@ export function transformFormToVAOSCCRequest(state) {
   if (provider?.identifier) {
     practitioners = [
       {
-        system: 'http://hl7.org/fhir/sid/us-npi',
-        value: data.communityCareProvider.identifier.find(
-          item => item.system === 'PPMS',
-        )?.value,
+        identifier: {
+          system: 'http://hl7.org/fhir/sid/us-npi',
+          value: data.communityCareProvider.identifier.find(
+            item => item.system === 'PPMS',
+          )?.value,
+        },
       },
     ];
   }
@@ -53,7 +55,7 @@ export function transformFormToVAOSCCRequest(state) {
     status: 'proposed',
     locationId: data.communityCareSystemId,
     serviceType: typeOfCare.idV2 || typeOfCare.ccId,
-    reason: data.reasonAdditionalInfo,
+    comment: data.reasonAdditionalInfo,
     contact: {
       telecom: [
         {
@@ -82,7 +84,7 @@ export function transformFormToVAOSCCRequest(state) {
       lang => lang.id === data.preferredLanguage,
     )?.value,
     preferredLocation,
-    practitionerIds: practitioners,
+    practitioners,
   };
 }
 
@@ -96,9 +98,15 @@ export function transformFormToVAOSVARequest(state) {
     locationId: data.vaFacility,
     // This may need to change when we get the new service type ids
     serviceType: typeOfCare.idV2,
-    reason: PURPOSE_TEXT.find(
-      purpose => purpose.id === data.reasonForAppointment,
-    )?.serviceName,
+    reasonCode: {
+      coding: [
+        {
+          code: PURPOSE_TEXT.find(
+            purpose => purpose.id === data.reasonForAppointment,
+          )?.serviceName,
+        },
+      ],
+    },
     comment: data.reasonAdditionalInfo,
     contact: {
       telecom: [
@@ -146,7 +154,9 @@ export function transformFormToVAOSAppointment(state) {
     status: 'booked',
     clinic: getClinicId(clinic),
     slot,
-    desiredDate: data.preferredDate,
+    extension: {
+      desiredDate: data.preferredDate,
+    },
     locationId: data.vaFacility,
     serviceType: typeOfCare.idV2,
     comment: getUserMessage(data),
