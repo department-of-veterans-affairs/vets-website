@@ -7,7 +7,7 @@ import Footer from '../components/Footer';
 import DemographicItem from '../components/DemographicItem';
 
 const Demographics = props => {
-  const { isUpdatePageEnabled, router, isLoading } = props;
+  const { isUpdatePageEnabled, router, isLoading, demographics } = props;
 
   const yesClick = useCallback(
     () => {
@@ -38,7 +38,7 @@ const Demographics = props => {
     return <LoadingIndicator message={'Loading your appointments for today'} />;
   }
 
-  const demographics = [
+  const demographicFields = [
     { title: 'Mailing Address', key: 'mailingAddress' },
     { title: 'Home Address', key: 'homeAddress' },
     { title: 'Home Phone', key: 'homePhone' },
@@ -46,50 +46,58 @@ const Demographics = props => {
     { title: 'Work Phone', key: 'workPhone' },
     { title: 'Email Address', key: 'emailAddress' },
   ];
-
-  return (
-    <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 check-in-demographics">
-      <h1>Is this your current contact information?</h1>
-      <p className="vads-u-font-family--serif">
-        We can better follow up with you after your appointment when we have
-        your current information.
-      </p>
-      <div className="vads-u-border-color--primary vads-u-border-left--5px vads-u-margin-left--0p5 vads-u-padding-left--2">
-        <dl>
-          {demographics.map(demographic => (
-            <React.Fragment key={demographic.key}>
-              <dt className="vads-u-font-size--h3 vads-u-font-family--serif">
-                {demographic.title}
-              </dt>
-              <dd>
-                {demographic.key in demoData ? (
-                  <DemographicItem demographic={demoData[demographic.key]} />
-                ) : (
-                  'Not Available'
-                )}
-              </dd>
-            </React.Fragment>
-          ))}
-        </dl>
+  if (isLoadingData) {
+    return <LoadingIndicator message={'Loading your appointments for today'} />;
+  } else if (!demographics) {
+    goToNextPage(router, URLS.ERROR);
+    return <></>;
+  } else {
+    return (
+      <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 check-in-demographics">
+        <h1>Is this your current contact information?</h1>
+        <p className="vads-u-font-family--serif">
+          We can better follow up with you after your appointment when we have
+          your current information.
+        </p>
+        <div className="vads-u-border-color--primary vads-u-border-left--5px vads-u-margin-left--0p5 vads-u-padding-left--2">
+          <dl>
+            {demographicFields.map(demographicField => (
+              <React.Fragment key={demographicField.key}>
+                <dt className="vads-u-font-size--h3 vads-u-font-family--serif">
+                  {demographicField.title}
+                </dt>
+                <dd>
+                  {demographicField.key in demographics ? (
+                    <DemographicItem
+                      demographic={demographics[demographicField.key]}
+                    />
+                  ) : (
+                    'Not Available'
+                  )}
+                </dd>
+              </React.Fragment>
+            ))}
+          </dl>
+        </div>
+        <button
+          onClick={() => yesClick()}
+          className={'usa-button-secondary'}
+          data-testid="yes-button"
+        >
+          Yes
+        </button>
+        <button
+          onClick={() => noClick()}
+          className="usa-button-secondary vads-u-margin-top--2"
+          data-testid="no-button"
+        >
+          No
+        </button>
+        <Footer />
+        <BackToHome />
       </div>
-      <button
-        onClick={() => yesClick()}
-        className={'usa-button-secondary'}
-        data-testid="yes-button"
-      >
-        Yes
-      </button>
-      <button
-        onClick={() => noClick()}
-        className="usa-button-secondary vads-u-margin-top--2"
-        data-testid="no-button"
-      >
-        No
-      </button>
-      <Footer />
-      <BackToHome />
-    </div>
-  );
+    );
+  }
 };
 
 export default Demographics;
