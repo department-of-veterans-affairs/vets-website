@@ -5,7 +5,7 @@ import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 const { gender } = fullSchemaHca.properties;
-
+const { ryllTest } = props
 const GenderIdentificationInfo = (
   <>
     <p style={{ color: 'gray' }}>
@@ -42,7 +42,7 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['gender'],
+    // required: ['gender'],
     properties: {
       gender,
     },
