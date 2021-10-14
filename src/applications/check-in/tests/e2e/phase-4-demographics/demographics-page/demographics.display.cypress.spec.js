@@ -8,22 +8,19 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 describe('Check In Experience -- ', () => {
   describe('phase 4 -- ', () => {
     beforeEach(function() {
-      let hasValidated = false;
       cy.intercept('GET', '/check_in/v2/sessions/*', req => {
         req.reply(
           mockSession.createMockSuccessResponse('some-token', 'read.basic'),
         );
       });
       cy.intercept('POST', '/check_in/v2/sessions', req => {
-        hasValidated = true;
         req.reply(
           mockSession.createMockSuccessResponse('some-token', 'read.full'),
         );
       });
       cy.intercept('GET', '/check_in/v2/patient_check_ins/*', req => {
-        req.reply(
-          mockPatientCheckIns.createMockSuccessResponse({}, hasValidated),
-        );
+        const rv = mockPatientCheckIns.createMultipleAppointments();
+        req.reply(rv);
       });
       cy.intercept('POST', '/check_in/v2/patient_check_ins/', req => {
         req.reply(mockCheckIn.createMockSuccessResponse({}));
@@ -79,7 +76,7 @@ describe('Check In Experience -- ', () => {
         .next()
         .should(
           'have.text',
-          '445 Fine Finch FairwayApt 201test line threeFairfence, Florida 445545',
+          '445 Fine Finch Fairway, Apt 201Fairfence, Florida 445545',
         )
         .next()
         .should('have.text', 'Home Phone')
