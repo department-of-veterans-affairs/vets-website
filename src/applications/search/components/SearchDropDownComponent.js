@@ -291,7 +291,7 @@ class SearchDropDownComponent extends React.Component {
 
     const oneTimeAccessibilityLabel = hasBeenFocused
       ? undefined
-      : 'When autocomplete results are available use up and down arrows to review and enter to search. Touch device users, explore by touch or with swipe gestures.';
+      : 'Use up and down arrows to review autocomplete results and enter to search. Touch device users, explore by touch or with swipe gestures.';
 
     return (
       <div
