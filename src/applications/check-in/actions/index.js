@@ -31,6 +31,15 @@ export const appointmentWAsCheckedInto = appointment => {
   };
 };
 
+export const RECEIVED_DEMOGRAPHICS_DATA = 'RECEIVED_DEMOGRAPHICS_DATA';
+
+export const receivedDemographicsData = demographics => {
+  return {
+    type: RECEIVED_DEMOGRAPHICS_DATA,
+    payload: { demographics },
+  };
+};
+
 export const PERMISSIONS_UPDATED = 'PERMISSIONS_UPDATED';
 
 export const permissionsUpdated = (data, scope) => {
