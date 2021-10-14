@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { currency, dateFormatter } from '../utils/helpers';
+import { currency, calcDueDate } from '../utils/helpers';
 
-const BalanceCard = ({ id, amount, facility, city, dueDate }) => (
+const BalanceCard = ({ id, amount, facility, city, date }) => (
   <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2">
     <h3 className="card-balance vads-u-margin-top--0">{currency(amount)}</h3>
     <p className="card-heading vads-u-margin-top--0">
@@ -18,7 +18,7 @@ const BalanceCard = ({ id, amount, facility, city, dueDate }) => (
         <p>
           Pay your full balance or request financial help before
           <strong className="vads-u-margin-x--0p5">
-            {dateFormatter(dueDate)}
+            {calcDueDate(date, 30)}
           </strong>
           to avoid late charges, interest, or collection actions.
         </p>

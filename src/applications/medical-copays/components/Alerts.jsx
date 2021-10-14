@@ -1,5 +1,5 @@
 import React from 'react';
-import { currency, dateFormatter } from '../utils/helpers';
+import { currency, calcDueDate } from '../utils/helpers';
 import Telephone, {
   CONTACTS,
   PATTERNS,
@@ -111,14 +111,14 @@ Alert.Status = ({ copay }) => (
     <h3 className="vads-u-margin-y--0">
       Pay your {currency(copay?.pHAmtDue)} balance or request help before
       <span className="vads-u-margin-left--0p5">
-        {dateFormatter(copay?.pSStatementDate)}
+        {calcDueDate(copay?.pSStatementDate, 30)}
       </span>
     </h3>
     <p>
       To avoid late fees or collection action on your bill, you must pay your
       full balance or request financial help before
       <span className="vads-u-margin-left--0p5">
-        {dateFormatter(copay?.pSStatementDate)}
+        {calcDueDate(copay?.pSStatementDate, 30)}
       </span>
       .
     </p>

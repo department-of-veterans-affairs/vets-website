@@ -23,8 +23,14 @@ export const formatTableData = tableData =>
     amount: currency(row.amount),
   }));
 
-export const dateFormatter = date => {
+export const formatDate = date => {
   return moment(date, 'MM-DD-YYYY').format('MMMM D, YYYY');
+};
+
+export const calcDueDate = (date, days) => {
+  return moment(date, 'MM-DD-YYYY')
+    .add(days, 'days')
+    .format('MMMM D, YYYY');
 };
 
 export const titleCase = str => {
