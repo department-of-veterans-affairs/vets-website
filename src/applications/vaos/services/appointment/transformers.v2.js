@@ -162,8 +162,9 @@ export function transformVAOSAppointment(appt) {
   }
 
   let facilityData;
-  if (appt.location)
-    facilityData = transformFacilityV2(appt.location?.attributes);
+  if (appt.location && appt.location.attributes) {
+    facilityData = transformFacilityV2(appt.location.attributes);
+  }
 
   return {
     resourceType: 'Appointment',
