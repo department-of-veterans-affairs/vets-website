@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
@@ -15,6 +15,9 @@ import FeatureToggle, {
 } from '../../components/FeatureToggle';
 import DisplaySingleAppointment from './DisplaySingleAppointment';
 import DisplayMultipleAppointments from './DisplayMultipleAppointments';
+import { api } from '../../api';
+import { goToNextPage, URLS } from '../../utils/navigation';
+import { focusElement } from 'platform/utilities/ui';
 
 const CheckIn = props => {
   const {
@@ -26,10 +29,11 @@ const CheckIn = props => {
     isMultipleAppointmentsEnabled,
     router,
     refreshAppointments,
+    setAppointment,
   } = props;
   // console.log('check0in', { props });
   const appointment = appointments ? appointments[0] : {};
-
+  const [isLoadingData, setIsLoadingData] = useState(isLoading);
   const { token } = context;
 
   const getMultipleAppointments = useCallback(
@@ -38,8 +42,33 @@ const CheckIn = props => {
     },
     [refreshAppointments],
   );
+  useEffect(
+    () => {
+      if (!isMultipleAppointmentsEnabled) {
+        // load data from checks route
+        api.v1
+          .getCheckInData(token)
+          .then(json => {
+            const { payload } = json;
+            setAppointment(payload, token);
+            setIsLoadingData(false);
+            focusElement('h1');
+          })
+          .catch(() => {
+            goToNextPage(router, URLS.ERROR);
+          });
+      }
+    },
+    [
+      isMultipleAppointmentsEnabled,
+      getMultipleAppointments,
+      router,
+      setAppointment,
+      token,
+    ],
+  );
 
-  if (isLoading) {
+  if (isLoadingData || isLoading) {
     return <LoadingIndicator message={'Loading your appointments for today'} />;
   } else {
     return (
