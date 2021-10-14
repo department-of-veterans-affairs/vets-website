@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
@@ -21,6 +22,10 @@ export const formatTableData = tableData =>
     desc: <strong>{row.desc}</strong>,
     amount: currency(row.amount),
   }));
+
+export const dateFormatter = date => {
+  return moment(date, 'MM-DD-YYYY').format('MMMM D, YYYY');
+};
 
 export const titleCase = str => {
   return str

@@ -1,5 +1,5 @@
 import React from 'react';
-import { currency } from '../utils/helpers';
+import { currency, dateFormatter } from '../utils/helpers';
 import Telephone, {
   CONTACTS,
   PATTERNS,
@@ -109,12 +109,18 @@ Alert.Deceased = () => (
 Alert.Status = ({ copay }) => (
   <va-alert background-only status="info">
     <h3 className="vads-u-margin-y--0">
-      Pay your {currency(copay?.pHAmtDue)} balance or request help before July
-      2, 2021
+      Pay your {currency(copay?.pHAmtDue)} balance or request help before
+      <span className="vads-u-margin-left--0p5">
+        {dateFormatter(copay?.pSStatementDate)}
+      </span>
     </h3>
     <p>
       To avoid late fees or collection action on your bill, you must pay your
-      full balance or request financial help before July 2, 2021.
+      full balance or request financial help before
+      <span className="vads-u-margin-left--0p5">
+        {dateFormatter(copay?.pSStatementDate)}
+      </span>
+      .
     </p>
     <p>
       <a className="vads-c-action-link--blue" href="#">
