@@ -158,7 +158,9 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
     expect(contactHeading).to.contain.text('Your contact details');
     expect(screen.baseElement).to.contain.text('joeblow@gmail.com');
     expect(screen.baseElement).to.contain.text('223-456-7890');
-    expect(screen.baseElement).to.contain.text('Call anytime during the day');
+    expect(screen.baseElement).to.not.contain.text(
+      'Call anytime during the day',
+    );
 
     const editLinks = screen.getAllByText(/^Edit/, { selector: 'a' });
     const uniqueLinks = new Set();
@@ -275,6 +277,7 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
           vaParent: '983',
           vaFacility: '983',
           clinicId: '983_455',
+          preferredDate: '2021-05-06',
         },
         facilityDetails: {
           '983': {
@@ -368,7 +371,9 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
     expect(contactHeading).to.contain.text('Your contact details');
     expect(screen.baseElement).to.contain.text('joeblow@gmail.com');
     expect(screen.baseElement).to.contain.text('223-456-7890');
-    expect(screen.baseElement).to.contain.text('Call anytime during the day');
+    expect(screen.baseElement).to.not.contain.text(
+      'Call anytime during the day',
+    );
 
     const editLinks = screen.getAllByText(/^Edit/, { selector: 'a' });
     const uniqueLinks = new Set();
@@ -406,6 +411,9 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
       clinic: '455',
       serviceType: 'primaryCare',
       comment: 'Follow-up/Routine: I need an appt',
+      extension: {
+        desiredDate: '2021-05-06',
+      },
       contact: {
         telecom: [
           {
