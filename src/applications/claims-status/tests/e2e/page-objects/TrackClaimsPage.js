@@ -54,7 +54,6 @@ class TrackClaimsPage {
       'display',
       'inline-block',
     );
-    cy.viewport(1280, 960);
   }
 
   verifyNoClaims() {
