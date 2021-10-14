@@ -48,7 +48,7 @@
     "reset:env": "./script/reset-environment.sh",
     "security-check": "node ./script/security-check.js",
     "test": "npm run test:unit",
-    "test:contract": "BUILDTYPE=localhost npm run test:unit -- --reporter mocha-junit-reporter 'src/**/tests/**/*.pact.spec.js'",
+    "test:contract": "BUILDTYPE=localhost npm run test:unit -- --reporter mochawesome --config config/mocha-pact.json 'src/**/tests/**/*.pact.spec.js'",
     "test:coverage": "npm run test:unit -- --coverage --log-level debug",
     "test:coverage-apps": "npm run test:coverage && node script/app-coverage-report.js",
     "test:coverage-only": "NODE_ENV=test nyc report --all --reporter=json-summary",
@@ -311,8 +311,8 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#3a0946727d9013ff2771af37bfca0c4c0ff0a1d5",
-    "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.11.2",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#8f22da4a728ec2a33e59d3ad3e19bd1e1516d9b2",
+    "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.13.0",
     "whatwg-fetch": "^3.6.2"
   },
   "resolutions": {
