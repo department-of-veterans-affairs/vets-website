@@ -53,6 +53,9 @@ export default function Chatbox(props) {
 function SignInAlert({ showLoginModal }) {
   return (
     <va-alert status="continue">
+      <h2 slot="headline" className="vads-u-margin-y--0 vads-u-font-size--h3">
+        Please sign in to access the chatbot
+      </h2>
       <p>Please sign in to access the chatbot.</p>
       <button
         className="usa-button-primary"
