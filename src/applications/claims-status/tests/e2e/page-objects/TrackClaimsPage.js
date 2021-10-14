@@ -115,7 +115,7 @@ class TrackClaimsPage {
     cy.get('.disability-benefits-timeline').should('not.exist');
   }
 
-  verifyInProgressClaim() {
+  verifyInProgressClaim(inProgress = true) {
     cy.get('.claim-list-item-container:first-child a.vads-c-action-link--blue')
       .click()
       .then(() => {
@@ -130,7 +130,67 @@ class TrackClaimsPage {
 
     // Disabled until COVID-19 message removed
     // cy.get('.claim-completion-desc').should('contain', 'We estimated your claim would be completed by now');
-    cy.get('va-alert').should('contain', 'COVID-19 has had on');
+    if (inProgress) {
+      cy.get('va-alert').should('contain', 'COVID-19 has had on');
+    }
+  }
+
+  verifyClaimedConditions(conditions) {
+    cy.get('.claim-contentions > span').should(
+      'contain',
+      conditions.join(', '),
+    );
+  }
+
+  verifyCompletedSteps(step) {
+    cy.get(`.list-one.section-${step > 1 ? 'complete' : 'current'}`).should(
+      'exist',
+    );
+    cy.get(`.list-two.section-${step > 2 ? 'complete' : 'current'}`).should(
+      'exist',
+    );
+    cy.get(`.list-three.section-${step > 3 ? 'complete' : 'current'}`).should(
+      'exist',
+    );
+    cy.get(`.list-four.section-${step > 4 ? 'complete' : 'current'}`).should(
+      'exist',
+    );
+    cy.get(`.list-five.section-${step > 5 ? 'complete' : 'current'}`).should(
+      'exist',
+    );
+  }
+
+  verifyClosedClaim() {
+    cy.get('li.list-one')
+      .click()
+      .then(() => {
+        cy.get('li.list-one .claims-evidence', {
+          timeout: Timeouts.slow,
+        }).should('be.visible');
+        cy.get('.claims-evidence:nth-child(3) .claims-evidence-item').should(
+          'contain',
+          'Your claim is closed',
+        );
+        cy.get('.claim-older-updates').should('exist');
+      });
+    cy.get('li.list-one .claims-evidence', {
+      timeout: Timeouts.slow,
+    }).should('be.visible');
+  }
+
+  axeCheckClaimDetails() {
+    cy.get('main button[aria-expanded="false"]')
+      .each(el => {
+        el.click();
+      })
+      .axeCheck();
+  }
+
+  verifyItemsNeedAttention(count) {
+    cy.get('.usa-alert-body h2').should(
+      'contain',
+      `${count} ${count > 1 ? 'items' : 'item'} need your attention`,
+    );
   }
 }
 
