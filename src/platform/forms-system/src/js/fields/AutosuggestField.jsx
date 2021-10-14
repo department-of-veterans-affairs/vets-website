@@ -208,7 +208,7 @@ export default class AutosuggestField extends React.Component {
     const { idSchema, formContext, formData, uiSchema, schema } = this.props;
     const id = idSchema.$id;
 
-    // wrap matching text in a <mark> element
+    // wrap matching text in a <span> element
     const highlightText = uiSchema['ui:options']?.highlightText ?? true;
     const value = this.state.input?.toLowerCase() || '';
     const regexp = new RegExp(`(${value})`, 'i');
@@ -216,7 +216,14 @@ export default class AutosuggestField extends React.Component {
       if (value.length > 2) {
         return query
           .split(regexp)
-          .map(str => (str.toLowerCase() === value ? <mark>{str}</mark> : str));
+          .map(
+            str =>
+              str.toLowerCase() === value ? (
+                <span className="vads-u-background-color--gold">{str}</span>
+              ) : (
+                str
+              ),
+          );
       }
       return query;
     };
