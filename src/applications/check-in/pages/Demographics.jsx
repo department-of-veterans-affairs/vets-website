@@ -48,10 +48,12 @@ const Demographics = props => {
   ];
 
   return (
-    <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 check-in-demographics">
-      <h1 className="vads-u-font-size--h1">
-        Is this your current contact information?
-      </h1>
+    <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 check-in-demographics">
+      <h1>Is this your current contact information?</h1>
+      <p className="vads-u-font-family--serif">
+        We can better follow up with you after your appointment when we have
+        your current information.
+      </p>
       <div className="vads-u-border-color--primary vads-u-border-left--5px vads-u-margin-left--0p5 vads-u-padding-left--2">
         <dl>
           {demographics.map(demographic => (
