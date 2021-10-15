@@ -56,6 +56,7 @@ function SignInAlert({ showLoginModal }) {
       <h2 slot="headline" className="vads-u-margin-y--0 vads-u-font-size--h3">
         Please sign in to access the chatbot
       </h2>
+      <br />
       <button
         className="usa-button-primary"
         onClick={() => showLoginModal(true)}
