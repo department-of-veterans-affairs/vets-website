@@ -13,7 +13,7 @@ const myConfigPath = './script/cypress-testrail-helper/my-config.json'; // Proje
 let myConfig = undefined; // Config's generated & saved on first launch.
 let projectSwitching = false; // Flag for changing config's saved Project & Suite IDs.
 
-// Cypress run-specific config get/set function
+// Cypress run-specific config and run function
 const configRunCySpec = appConfig => {
   console.log(chalk.yellow('CREATING CYPRESS RUN-SPECIFIC CONFIG-FILE NOW...'));
   utils
@@ -29,6 +29,7 @@ const configRunCySpec = appConfig => {
 
       // Run Cypress spec
       utils.runCySpec(specPath);
+      utils.parseSpecTrInfo(specPath);
     })
     .catch(err => {
       console.error(chalk.red(`ERROR: ${err}`));
@@ -75,7 +76,7 @@ switch (fs.existsSync(myConfigPath)) {
       utils
         .getSetAppProjectConfig(myConfig)
         .then(() => {
-          console.error(chalk.green('APP CONFIG-FILE UPDATED!'));
+          console.log(chalk.green('APP CONFIG-FILE UPDATED!'));
           configRunCySpec(myConfig);
         })
         .catch(err => {

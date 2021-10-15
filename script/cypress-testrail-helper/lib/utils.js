@@ -3,6 +3,7 @@ const chalk = require('chalk');
 const fs = require('fs');
 const { exec } = require('child_process');
 const { Spinner } = require('cli-spinner');
+const { parse } = require('comment-parser');
 
 const cyConfig = require('../../../config/cypress-testrail.json');
 const inquirer = require('./app-inquirer');
@@ -115,6 +116,51 @@ module.exports = {
         myReject('failed');
       }
     });
+  },
+
+  parseSpecTrInfo(specPath) {
+    // Parses TestRail-integrated spec's JSDOC comment-tags,
+    // extracts TestRail-relevant comment-tags, and
+    // returns TestRail info (projectId, suiteId, groupId, runName).
+    const parseComments = async data => {
+      try {
+        const parsedComments = await parse(data);
+        return parsedComments;
+      } catch (e) {
+        console.error(chalk.red(`ERROR: ${e}`));
+      }
+    };
+
+    fs.readFile(specPath, 'utf8', async (err, data) => {
+      const trInfo = {};
+      let specComments, trCommentBlock, trCommentTags;
+
+      if (err) throw err;
+
+      specComments = await parseComments(data);
+      // console.log('specComments:', specComments);
+
+      trCommentBlock = specComments.filter(b =>
+        b.description.toLowerCase().includes('testrail-integrated'),
+      )[0];
+      // console.log('trCommentBlock:', trCommentBlock);
+
+      trCommentTags = trCommentBlock.tags.filter(
+        t => t.tag.toLowerCase() === 'testrailinfo',
+      );
+      // console.log('trCommentTags:', trCommentTags);
+
+      trCommentTags.forEach(t => {
+        const tagName = t.name;
+        const tagDescription = t.description;
+
+        trInfo[tagName] =
+          tagName === 'runName' ? tagDescription : parseInt(tagDescription, 10);
+      });
+      console.log('trInfo:', trInfo);
+    });
+
+    console.log('\nreadFile called...');
   },
 };
 
