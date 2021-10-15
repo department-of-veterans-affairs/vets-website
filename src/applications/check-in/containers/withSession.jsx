@@ -22,42 +22,36 @@ const withSession = WrappedComponent => props => {
       const session = getCurrentToken(window);
       if (!context || !session) {
         goToNextPage(router, URLS.ERROR);
-      }
-      // check if appointments is empty or if a refresh is staged
-      const { token } = session;
-      // console.log('HOC - checking session', { context });
-      if (Object.keys(context).length === 0 || !context.scope) {
-        // console.log('HOC - loading session', { context });
-        // check for 'read.full permissions?
-        setIsLoading(true);
-        api.v2
-          .getSession(token)
-          .then(json => {
-            if (json.errors || json.error) {
+      } else {
+        // check if appointments is empty or if a refresh is staged
+        const { token } = session;
+        if (Object.keys(context).length === 0 || !context.scope) {
+          // check for 'read.full permissions?
+          setIsLoading(true);
+          api.v2
+            .getSession(token)
+            .then(json => {
+              if (json.errors || json.error) {
+                clearCurrentSession(window);
+                goToNextPage(router, URLS.ERROR);
+              } else {
+                // if session with read.full exists, go to check in page
+                setCurrentToken(window, token);
+                if (session.permissions === SCOPES.READ_FULL) {
+                  setAuthenticatedSession(token);
+                  goToNextPage(router, URLS.DETAILS);
+                } else {
+                  setToken(token);
+                  goToNextPage(router, URLS.VALIDATION_NEEDED);
+                }
+              }
+            })
+            .catch(() => {
               clearCurrentSession(window);
               goToNextPage(router, URLS.ERROR);
-            } else {
-              // if session with read.full exists, go to check in page
-              setCurrentToken(window, token);
-              if (session.permissions === SCOPES.READ_FULL) {
-                setAuthenticatedSession(token);
-                goToNextPage(router, URLS.DETAILS);
-              } else {
-                setToken(token);
-                goToNextPage(router, URLS.VALIDATION_NEEDED);
-              }
-            }
-          })
-          .catch(() => {
-            clearCurrentSession(window);
-            goToNextPage(router, URLS.ERROR);
-          });
-      } else {
-        // console.log('HOC - not loading session', { context });
+            });
+        }
       }
-
-      // if its empty, get the current session token
-      // load data from the API
     },
     [router, context, setAuthenticatedSession, setToken],
   );

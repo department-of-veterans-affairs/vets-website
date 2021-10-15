@@ -7,11 +7,20 @@ import { api } from '../api';
 import {
   receivedDemographicsData,
   receivedMultipleAppointmentDetails,
+  receivedAppointmentDetails,
   triggerRefresh,
 } from '../actions';
+import { focusElement } from 'platform/utilities/ui';
 
 const withLoadedData = WrappedComponent => props => {
-  const { checkInData, router, setSessionData, isSessionLoading } = props;
+  const {
+    checkInData,
+    router,
+    setSessionData,
+    setSessionDataV1,
+    isSessionLoading,
+    isMultipleAppointmentsEnabled,
+  } = props;
   const [isLoading, setIsLoading] = useState();
   const { context, appointments, demographics } = checkInData;
 
@@ -24,18 +33,32 @@ const withLoadedData = WrappedComponent => props => {
       }
       // check if appointments is empty or if a refresh is staged
       const { token } = session;
-      // console.log('HOC', { context });
+
       if (Object.keys(context).length === 0 || context.shouldRefresh) {
-        // check for 'read.full permissions?
         setIsLoading(true);
+
         api.v2
           .getCheckInData(token)
           .then(json => {
             if (!isCancelled) {
-              // console.log('loaded api data HOC', json);
               setSessionData(json.payload, token);
               setIsLoading(false);
             }
+          })
+          .catch(() => {
+            goToNextPage(router, URLS.ERROR);
+          });
+      }
+
+      if (!isMultipleAppointmentsEnabled && appointments.length === 0) {
+        // load data from checks route
+        api.v1
+          .getCheckInData(token)
+          .then(json => {
+            const { payload } = json;
+            setSessionDataV1(payload, token);
+            setIsLoading(false);
+            focusElement('h1');
           })
           .catch(() => {
             goToNextPage(router, URLS.ERROR);
@@ -46,7 +69,15 @@ const withLoadedData = WrappedComponent => props => {
         isCancelled = true;
       };
     },
-    [appointments, router, context, setSessionData, isSessionLoading],
+    [
+      appointments,
+      router,
+      context,
+      setSessionData,
+      setSessionDataV1,
+      isSessionLoading,
+      isMultipleAppointmentsEnabled,
+    ],
   );
   return (
     <>
@@ -72,6 +103,12 @@ const mapDispatchToProps = dispatch => {
         dispatch(triggerRefresh(false));
         dispatch(receivedMultipleAppointmentDetails(appointments, token));
         dispatch(receivedDemographicsData(demographics));
+      });
+    },
+    setSessionDataV1: (payload, token) => {
+      batch(() => {
+        dispatch(triggerRefresh(false));
+        dispatch(receivedAppointmentDetails(payload, token));
       });
     },
   };
