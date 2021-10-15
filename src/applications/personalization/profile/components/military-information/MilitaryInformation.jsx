@@ -68,28 +68,19 @@ const NotInDEERSAlert = () => {
         <div>
           <p>
             We’re sorry. We can’t find your Department of Defense (DoD) ID. We
-            need this to access your military service records. Please call us at{' '}
-            <a
-              href="tel:1-800-827-1000"
-              aria-label="800. 8 2 7. 1000."
-              title="Dial the telephone number 800-827-1000"
-              className="no-wrap"
-            >
-              800-827-1000
-            </a>
-            , or visit your nearest VA regional office and request to be added
-            to the Defense Enrollment Eligibility Reporting System (DEERS).
+            need this to access your military service records. If you need help
+            updating your information in DEERS, please call the Defense Manpower
+            Data Center (DMDC).
           </p>
+          <p>
+            To reach the DMDC, call <Telephone contact={CONTACTS.DS_LOGON} />.
+            This office is open Monday through Friday (except federal holidays),
+            8:00 a.m. to 8:00 p.m. ET. If you have hearing loss, call TTY:{' '}
+            <Telephone contact={CONTACTS.DS_LOGON_TTY} />.
+          </p>
+          <p>Or you can visit your nearest VA regional office for help.</p>
           <a href={facilityLocator.rootUrl}>
             Find your nearest VA regional office
-          </a>
-          .
-          <p>
-            You can also request to be added to DEERS through our online
-            customer help center.
-          </p>
-          <a href="https://iris.custhelp.va.gov/app/answers/detail/a_id/3036/~/not-registered-in-deers%2C-or-received-and-error-message-while-trying-to">
-            Get instructions from our help center
           </a>
           .
         </div>
