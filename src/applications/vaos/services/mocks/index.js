@@ -205,7 +205,16 @@ const responses = {
       .concat(confirmedV2.data)
       .concat(mockAppts);
 
-    const appt = appointments.find(item => item.id === req.params.id);
+    let appt = appointments.find(item => item.id === req.params.id);
+    if (req.body.status === 'cancelled') {
+      appt = {
+        ...appt,
+        attributes: {
+          ...appt.attributes,
+          cancelationReason: { coding: [{ code: 'pat' }] },
+        },
+      };
+    }
 
     return res.json({
       data: {
@@ -269,6 +278,44 @@ const responses = {
           isEligibleForNewAppointmentRequest: req.query.facility_id.startsWith(
             '983',
           ),
+        },
+      },
+    });
+  },
+  'GET /vaos/v2/eligibility': (req, res) => {
+    const isDirect = req.query.type === 'direct';
+    const ineligibilityReasons = [];
+
+    if (
+      isDirect &&
+      (req.query.facility_id.startsWith('984') &&
+        req.query.clinical_service_id !== 'primaryCare')
+    ) {
+      ineligibilityReasons.push({
+        coding: [
+          {
+            code: 'patient-history-insufficient',
+          },
+        ],
+      });
+    }
+    if (!isDirect && !req.query.facility_id.startsWith('983')) {
+      ineligibilityReasons.push({
+        coding: [
+          {
+            code: 'facility-request-limit-exceeded',
+          },
+        ],
+      });
+    }
+
+    return res.json({
+      data: {
+        attributes: {
+          type: req.query.type,
+          clinicalServiceId: req.query.clinical_service_id,
+          eligible: ineligibilityReasons.length === 0,
+          ineligibilityReasons,
         },
       },
     });
@@ -371,10 +418,10 @@ const responses = {
         { name: 'vaOnlineSchedulingFacilitiesServiceV2', value: true },
         { name: 'vaOnlineSchedulingVAOSServiceCCAppointments', value: true },
         { name: 'vaOnlineSchedulingVariantTesting', value: false },
-        { name: 'vaOnlineSchedulingCCIterations', value: false },
+        { name: 'vaOnlineSchedulingCCIterations', value: true },
         { name: 'ssoe', value: true },
-        { name: 'ssoeInbound', value: false },
-        { name: 'ssoeEbenefitsLinks', value: false },
+        { name: 'ssoe_inbound', value: false },
+        { name: 'ssoe_ebenefits_links', value: false },
         { name: 'edu_section_103', value: true },
         { name: 'vaViewDependentsAccess', value: false },
         { name: 'gibctEybBottomSheet', value: true },

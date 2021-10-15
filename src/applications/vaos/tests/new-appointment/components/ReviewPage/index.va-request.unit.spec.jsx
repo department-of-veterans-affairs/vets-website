@@ -312,7 +312,9 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
       locationId: '983',
       serviceType: 'primaryCare',
       comment: 'I need an appt',
-      reason: 'Routine Follow-up',
+      reasonCode: {
+        coding: [{ code: 'Routine Follow-up' }],
+      },
       contact: {
         telecom: [
           {

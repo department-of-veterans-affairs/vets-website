@@ -12,6 +12,7 @@ export default Object.freeze({
   cernerOverride692: 'cerner_override_692',
   cernerOverride757: 'cerner_override_757',
   checkInExperienceEnabled: 'check_in_experience_enabled',
+  checkInExperienceDemographicsPageEnabled: 'check_in_experience_demographics_page_enabled',
   checkInExperienceUpdateInformationPageEnabled: 'check_in_experience_update_information_page_enabled',
   checkInExperienceLowRiskAuthenicationEnabled:
     'check_in_experience_low_authentication_enabled',
@@ -78,8 +79,8 @@ export default Object.freeze({
   showNewSecureMessagingPage: 'show_new_secure_messaging_page',
   showNewViewTestLabResultsPage: 'show_new_view_test_lab_results_page',
   ssoe: 'ssoe',
-  ssoeEbenefitsLinks: 'ssoeEbenefitsLinks',
-  ssoeInbound: 'ssoeInbound',
+  ssoeEbenefitsLinks: 'ssoe_ebenefits_links',
+  ssoeInbound: 'ssoe_inbound',
   stemAutomatedDecision: 'stem_automated_decision',
   stemSCOEmail: 'stem_sco_email',
   subform89404192: 'subform_8940_4192',

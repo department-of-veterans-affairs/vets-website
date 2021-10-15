@@ -66,6 +66,12 @@ export default function ProviderList({
         requestLocationStatus === FETCH_STATUS.failed
       ) {
         scrollAndFocus('#providerSelectionBlockedLocation');
+      } else if (
+        showProvidersList &&
+        !loadingProviders &&
+        requestStatus === FETCH_STATUS.failed
+      ) {
+        scrollAndFocus('#providerSelectionFailed');
       } else if (showProvidersList && !loadingProviders && !loadingLocations) {
         scrollAndFocus('#providerSelectionHeader');
       }

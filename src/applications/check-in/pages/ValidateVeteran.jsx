@@ -15,11 +15,12 @@ import Footer from '../components/Footer';
 
 const ValidateVeteran = props => {
   const {
-    router,
-    isUpdatePageEnabled,
-    setPermissions,
     context,
+    isUpdatePageEnabled,
     isMultipleAppointmentsEnabled,
+    isDemographicsPageEnabled,
+    router,
+    setPermissions,
   } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
@@ -52,7 +53,10 @@ const ValidateVeteran = props => {
             // update sessions with new permissions
             setPermissions(data);
 
-            if (isUpdatePageEnabled) {
+            // routing
+            if (isDemographicsPageEnabled) {
+              goToNextPage(router, URLS.DEMOGRAPHICS);
+            } else if (isUpdatePageEnabled) {
               goToNextPage(router, URLS.UPDATE_INSURANCE);
             } else {
               goToNextPage(router, URLS.DETAILS);
@@ -87,8 +91,10 @@ const ValidateVeteran = props => {
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 ">
       <h1>Check in at VA</h1>
-      <p>We need some information to verify your identity to check you in.</p>
-      <form onSubmit={() => false}>
+      <p>
+        We need some information to verify your identity so we can check you in.
+      </p>
+      <form className="vads-u-margin-bottom--2p5" onSubmit={() => false}>
         <VaTextInput
           autoCorrect="false"
           error={lastNameErrorMessage}
@@ -100,12 +106,14 @@ const ValidateVeteran = props => {
           value={lastName}
         />
         <VaTextInput
-          label="Last 4 digits of your Social Security number"
-          name="last-4-ssn"
-          value={last4Ssn}
-          onVaChange={event => setLast4Ssn(event.detail.value)}
-          required
           error={last4ErrorMessage}
+          inputmode="numeric"
+          label="Last 4 digits of your Social Security number"
+          maxlength="4"
+          onVaChange={event => setLast4Ssn(event.detail.value)}
+          name="last-4-ssn"
+          required
+          value={last4Ssn}
         />
       </form>
       <button

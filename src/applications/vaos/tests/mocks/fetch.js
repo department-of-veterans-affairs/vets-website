@@ -38,18 +38,50 @@ export function mockEligibilityFetchesByVersion({
   version = 2,
 }) {
   if (version === 2) {
+    const directReasons = [];
+    const requestReasons = [];
+
+    if (!directPastVisits && typeOfCareId !== 'primaryCare') {
+      directReasons.push({
+        coding: [
+          {
+            code: 'patient-history-insufficient',
+          },
+        ],
+      });
+    }
+
+    if (!requestPastVisits && typeOfCareId !== 'primaryCare') {
+      requestReasons.push({
+        coding: [
+          {
+            code: 'patient-history-insufficient',
+          },
+        ],
+      });
+    }
+
+    if (!limit) {
+      requestReasons.push({
+        coding: [
+          {
+            code: 'facility-request-limit-exceeded',
+          },
+        ],
+      });
+    }
+
     setFetchJSONResponse(
       global.fetch.withArgs(
         `${
           environment.API_URL
-        }/vaos/v2/patients?facility_id=${facilityId}&clinical_service_id=${typeOfCareId}&type=direct`,
+        }/vaos/v2/eligibility?facility_id=${facilityId}&clinical_service_id=${typeOfCareId}&type=direct`,
       ),
       {
         data: {
           attributes: {
-            hasRequiredAppointmentHistory:
-              directPastVisits || typeOfCareId === 'primaryCare',
-            isEligibleForNewAppointmentRequest: limit,
+            eligible: directReasons.length === 0,
+            ineligibilityReasons: directReasons,
           },
         },
       },
@@ -58,14 +90,13 @@ export function mockEligibilityFetchesByVersion({
       global.fetch.withArgs(
         `${
           environment.API_URL
-        }/vaos/v2/patients?facility_id=${facilityId}&clinical_service_id=${typeOfCareId}&type=request`,
+        }/vaos/v2/eligibility?facility_id=${facilityId}&clinical_service_id=${typeOfCareId}&type=request`,
       ),
       {
         data: {
           attributes: {
-            hasRequiredAppointmentHistory:
-              requestPastVisits || typeOfCareId === 'primaryCare',
-            isEligibleForNewAppointmentRequest: limit,
+            eligible: requestReasons.length === 0,
+            ineligibilityReasons: requestReasons,
           },
         },
       },
