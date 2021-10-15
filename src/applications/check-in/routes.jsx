@@ -14,7 +14,6 @@ import withFeatureFlip from './containers/withFeatureFlip';
 import withAppointmentData from './containers/withAppointmentData';
 import withLoadedData from './containers/withLoadedData';
 import withSession from './containers/withSession';
-import withLowAuthorization from './containers/withLowAuthorization';
 import withToken from './containers/withToken';
 import { URLS } from './utils/navigation';
 
@@ -33,7 +32,7 @@ const createRoutesWithStore = () => {
       <Route
         path={`/${URLS.UPDATE_INSURANCE}`}
         component={withFeatureFlip(
-          withLowAuthorization(UpdateInformationQuestion),
+          withLoadedData(withSession(UpdateInformationQuestion)),
         )}
       />
       <Route
