@@ -1,4 +1,5 @@
 import { apiRequest } from 'platform/utilities/api';
+import { transform } from '../utils/helpers';
 
 export const MCP_STATEMENTS_FETCH_INIT = 'MCP_STATEMENTS_FETCH_INIT';
 export const MCP_STATEMENTS_FETCH_SUCCESS = 'MCP_STATEMENTS_FETCH_SUCCESS';
@@ -8,17 +9,17 @@ export const getStatements = () => {
   return dispatch => {
     dispatch({ type: MCP_STATEMENTS_FETCH_INIT });
     return apiRequest('/medical_copays')
-      .then(response =>
-        dispatch({
+      .then(({ data }) => {
+        return dispatch({
           type: MCP_STATEMENTS_FETCH_SUCCESS,
-          response,
-        }),
-      )
-      .catch(errors =>
-        dispatch({
+          response: transform(data),
+        });
+      })
+      .catch(errors => {
+        return dispatch({
           type: MCP_STATEMENTS_FETCH_FAILURE,
           errors,
-        }),
-      );
+        });
+      });
   };
 };
