@@ -261,6 +261,77 @@ export class SearchMenu extends React.Component {
     return [];
   };
 
+  onInputSubmit = componentState => {
+    const savedSuggestions = componentState?.savedSuggestions || [];
+    const suggestions = componentState?.suggestions || [];
+    const inputValue = componentState?.inputValue;
+    const validSuggestions =
+      savedSuggestions.length > 0 ? savedSuggestions : suggestions;
+
+    // event logging, note suggestion will be undefined during a userInput search
+    recordEvent({
+      event: 'view_search_results',
+      'search-page-path': document.location.pathname,
+      'search-query': inputValue,
+      'search-results-total-count': undefined,
+      'search-results-total-pages': undefined,
+      'search-selection': 'All VA.gov',
+      'search-typeahead-enabled': true,
+      'sitewide-search-app-used': true,
+      'type-ahead-option-keyword-selected': undefined,
+      'type-ahead-option-position': undefined,
+      'type-ahead-options-list': validSuggestions,
+      'type-ahead-options-count': validSuggestions.length,
+      'search-location': 'Search-Header',
+    });
+
+    // create a search url
+    const searchUrl = replaceWithStagingDomain(
+      `https://www.va.gov/search/?query=${encodeURIComponent(
+        inputValue,
+      )}&t=${false}`,
+    );
+
+    // relocate to search results, preserving history
+    window.location.assign(searchUrl);
+  };
+
+  onSuggestionSubmit = (index, componentState) => {
+    const savedSuggestions = componentState?.savedSuggestions || [];
+    const suggestions = componentState?.suggestions || [];
+    const inputValue = componentState?.inputValue;
+
+    const validSuggestions =
+      savedSuggestions?.length > 0 ? savedSuggestions : suggestions;
+
+    // event logging, note suggestion will be undefined during a userInput search
+    recordEvent({
+      event: 'view_search_results',
+      'search-page-path': document.location.pathname,
+      'search-query': inputValue,
+      'search-results-total-count': undefined,
+      'search-results-total-pages': undefined,
+      'search-selection': 'All VA.gov',
+      'search-typeahead-enabled': true,
+      'sitewide-search-app-used': true,
+      'type-ahead-option-keyword-selected': validSuggestions[index],
+      'type-ahead-option-position': index + 1,
+      'type-ahead-options-list': validSuggestions,
+      'type-ahead-options-count': validSuggestions.length,
+      'search-location': 'Search-Header',
+    });
+
+    // create a search url
+    const searchUrl = replaceWithStagingDomain(
+      `https://www.va.gov/search/?query=${encodeURIComponent(
+        validSuggestions[index],
+      )}&t=${true}`,
+    );
+
+    // relocate to search results, preserving history
+    window.location.assign(searchUrl);
+  };
+
   makeForm = () => {
     const { suggestions, userInput } = this.state;
     const {
@@ -335,8 +406,8 @@ export class SearchMenu extends React.Component {
           submitOnClick
           submitOnEnter
           getSuggestions={this.getDropDownSuggestions}
-          onInputSubmit={undefined}
-          onSuggestionSubmit={undefined}
+          onInputSubmit={this.onInputSubmit}
+          onSuggestionSubmit={this.onSuggestionSubmit}
         />
       );
     }
