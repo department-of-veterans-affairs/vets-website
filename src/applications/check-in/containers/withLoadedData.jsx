@@ -30,41 +30,44 @@ const withLoadedData = WrappedComponent => props => {
       const session = getCurrentToken(window);
       if (!context || !session) {
         goToNextPage(router, URLS.ERROR);
-      }
-      // check if appointments is empty or if a refresh is staged
-      const { token } = session;
+      } else {
+        // check if appointments is empty or if a refresh is staged
+        const { token } = session;
+        if (
+          Object.keys(context).length === 0 ||
+          context.shouldRefresh ||
+          appointments.length === 0
+        ) {
+          setIsLoading(true);
 
-      if (Object.keys(context).length === 0 || context.shouldRefresh) {
-        setIsLoading(true);
+          api.v2
+            .getCheckInData(token)
+            .then(json => {
+              if (!isCancelled) {
+                setSessionData(json.payload, token);
+                setIsLoading(false);
+              }
+            })
+            .catch(() => {
+              goToNextPage(router, URLS.ERROR);
+            });
+        }
 
-        api.v2
-          .getCheckInData(token)
-          .then(json => {
-            if (!isCancelled) {
-              setSessionData(json.payload, token);
+        if (!isMultipleAppointmentsEnabled && appointments.length === 0) {
+          // load data from checks route
+          api.v1
+            .getCheckInData(token)
+            .then(json => {
+              const { payload } = json;
+              setSessionDataV1(payload, token);
               setIsLoading(false);
-            }
-          })
-          .catch(() => {
-            goToNextPage(router, URLS.ERROR);
-          });
+              focusElement('h1');
+            })
+            .catch(() => {
+              goToNextPage(router, URLS.ERROR);
+            });
+        }
       }
-
-      if (!isMultipleAppointmentsEnabled && appointments.length === 0) {
-        // load data from checks route
-        api.v1
-          .getCheckInData(token)
-          .then(json => {
-            const { payload } = json;
-            setSessionDataV1(payload, token);
-            setIsLoading(false);
-            focusElement('h1');
-          })
-          .catch(() => {
-            goToNextPage(router, URLS.ERROR);
-          });
-      }
-
       return () => {
         isCancelled = true;
       };

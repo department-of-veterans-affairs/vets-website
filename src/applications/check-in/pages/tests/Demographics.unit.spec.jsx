@@ -30,7 +30,7 @@ describe('check in', () => {
         </Provider>,
       );
 
-      expect(component.getByText('Loading your appointments for today')).to
+      expect(component.getByText('Is your contact information correct?')).to
         .exist;
     });
 
