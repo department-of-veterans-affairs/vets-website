@@ -11,7 +11,7 @@
   }
 }
 
-.search-dropdown {
+.search-dropdown-container {
   position: relative;
 }
 
@@ -42,6 +42,10 @@
   }
 }
 
-.search-submit-button {
+.search-dropdown-input-field {
    height: 42px;
+}
+
+.search-dropdown-submit-button {
+  height: 42px;
 }

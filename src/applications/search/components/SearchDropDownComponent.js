@@ -295,9 +295,11 @@ class SearchDropDownComponent extends React.Component {
 
     return (
       <div
-        className={`vads-u-display--flex vads-u-width--full ${mobileResponsiveClass}`}
+        className={`vads-u-display--flex vads-u-width--full ${mobileResponsiveClass} ${
+          this.props.classNameBase
+        }-component`}
       >
-        <div className="search-dropdown vads-u-width--full vads-u-flex-direction--column">
+        <div className="search-dropdown-container vads-u-width--full vads-u-flex-direction--column">
           <input
             aria-activedescendant={activeId}
             aria-autocomplete={'none'}
@@ -306,9 +308,9 @@ class SearchDropDownComponent extends React.Component {
             aria-expanded={isOpen}
             aria-haspopup="listbox"
             aria-label={'Search'}
-            className="vads-u-width--full"
-            id="search-dropdown-input-field"
-            data-e2e-id={`${this.props.dataLabelE2E}-input-field`}
+            className="vads-u-width--full search-dropdown-input-field"
+            id={`${this.props.classNameBase}-input-field`}
+            data-e2e-id={`${this.props.classNameBase}-input-field`}
             role="combobox"
             type="text"
             value={inputValue}
@@ -369,8 +371,8 @@ class SearchDropDownComponent extends React.Component {
         {this.props.canSubmit && (
           <button
             type="submit"
-            className="search-submit-button"
-            data-e2e-id={`${this.props.dataLabelE2E}-submit-button`}
+            className="search-dropdown-submit-button"
+            data-e2e-id={`${this.props.classNameBase}-submit-button`}
             onClick={() => this.props.onInputSubmit(this.state)}
             onFocus={this.saveSuggestions}
           >
@@ -417,5 +419,5 @@ SearchDropDownComponent.defaultProps = {
   startingValue: '',
   submitOnClick: false,
   submitOnEnter: false,
-  dataLabelE2E: '',
+  classNameBase: '',
 };

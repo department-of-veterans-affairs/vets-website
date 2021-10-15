@@ -13,6 +13,7 @@ import { replaceWithStagingDomain } from '../../../utilities/environment/staging
 import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
 import DropDownPanel from '@department-of-veterans-affairs/component-library/DropDownPanel';
 import { apiRequest } from 'platform/utilities/api';
+import SearchDropDownComponent from 'applications/search/components/SearchDropDownComponent';
 
 const ENTER_KEY = 13;
 const SPACE_KEY = 32;
@@ -230,7 +231,10 @@ export class SearchMenu extends React.Component {
 
   makeForm = () => {
     const { suggestions, userInput } = this.state;
-    const { searchTypeaheadEnabled } = this.props;
+    const {
+      searchTypeaheadEnabled,
+      searchDropdownComponentEnabled,
+    } = this.props;
     const {
       debouncedGetSuggestions,
       handelDownshiftStateChange,
@@ -248,7 +252,7 @@ export class SearchMenu extends React.Component {
       'suggestion vads-u-color--gray-dark vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-padding--1 vads-u-width--full vads-u-padding-left--2';
 
     // default search experience
-    if (!searchTypeaheadEnabled) {
+    if (!searchTypeaheadEnabled && !searchDropdownComponentEnabled) {
       return (
         <form
           className="vads-u-margin-bottom--0"
@@ -282,6 +286,25 @@ export class SearchMenu extends React.Component {
             </button>
           </div>
         </form>
+      );
+    }
+
+    // typeahead 2.0 experience
+    // searchDropdownComponentEnabled
+    if (searchDropdownComponentEnabled) {
+      return (
+        <SearchDropDownComponent
+          buttonText=""
+          canSubmit
+          classNameBase="search-header-dropdown"
+          formatSuggestions
+          startingValue={''}
+          submitOnClick
+          submitOnEnter
+          getSuggestions={undefined}
+          onInputSubmit={undefined}
+          onSuggestionSubmit={undefined}
+        />
       );
     }
 
@@ -421,6 +444,9 @@ SearchMenu.defaultProps = {
 const mapStateToProps = store => ({
   searchTypeaheadEnabled: toggleValues(store)[
     FEATURE_FLAG_NAMES.searchTypeaheadEnabled
+  ],
+  searchDropdownComponentEnabled: toggleValues(store)[
+    FEATURE_FLAG_NAMES.searchDropdownComponentEnabled
   ],
 });
 

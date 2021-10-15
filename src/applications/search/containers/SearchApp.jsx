@@ -347,7 +347,7 @@ class SearchApp extends React.Component {
             <SearchDropDownComponent
               buttonText="Search"
               canSubmit
-              dataLabelE2E="search-dropdown"
+              classNameBase="search-results-page-dropdown"
               formatSuggestions
               mobileResponsive
               startingValue={userInput}
