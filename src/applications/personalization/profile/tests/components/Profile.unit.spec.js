@@ -39,6 +39,7 @@ describe('Profile', () => {
       shouldFetchTotalDisabilityRating: true,
       showLoader: false,
       isLOA3: true,
+      isInMVI: true,
       user: {},
       location: {
         pathname: '/profile/personal-information',
@@ -66,6 +67,11 @@ describe('Profile', () => {
 
   describe('when the component mounts', () => {
     context('when user is LOA3', () => {
+      beforeEach(() => {
+        defaultProps.user.profile = {
+          status: 'OK',
+        };
+      });
       it('should fetch the military information data', () => {
         const wrapper = shallow(<Profile {...defaultProps} />);
         expect(fetchMilitaryInfoSpy.called).to.be.true;
@@ -167,6 +173,7 @@ describe('Profile', () => {
 describe('mapStateToProps', () => {
   const makeDefaultProfileState = () => ({
     multifactor: true,
+    status: 'OK',
     services: ['evss-claims'],
     mhvAccount: {
       accountState: 'needs_terms_acceptance',

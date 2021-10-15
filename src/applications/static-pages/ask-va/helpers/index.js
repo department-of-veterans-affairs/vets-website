@@ -4,21 +4,21 @@ import environment from 'platform/utilities/environment';
 export const deriveDefaultURL = () => {
   // Production environments.
   if (environment.isProduction()) {
-    return 'https://ava.va.gov/';
+    return 'https://ask.va.gov';
   }
 
   // Non-production environments.
-  return 'https://ask-staging.va.gov';
+  return 'https://dvagov-veft-qa.dynamics365portals.us/';
 };
 
 export const deriveLOA1URL = () => {
   // Production environments.
   if (environment.isProduction()) {
-    return 'https://ava.va.gov/Unauthenticated';
+    return 'https://ask.va.gov/unauthenticated';
   }
 
   // Non-production environments.
-  return 'https://ask-staging.va.gov/Unauthenticated';
+  return 'https://dvagov-veft-qa.dynamics365portals.us/unauthenticated';
 };
 
 export const deriveLOA2PlusURL = () => {
@@ -28,5 +28,5 @@ export const deriveLOA2PlusURL = () => {
   }
 
   // Non-production environments.
-  return 'https://preprod.eauth.va.gov/isam/sps/saml20idp/saml20/logininitial?PartnerId=https://preprod-va-gov-sso.portals.va.gov/ava/SSO/Metadata/';
+  return 'https://sqa.eauth.va.gov/isam/sps/saml20idp/saml20/logininitial?PartnerId=https://iam-ssoe-sqa1-veis.devtest.vaec.va.gov/ava/SSO/Metadata/';
 };
