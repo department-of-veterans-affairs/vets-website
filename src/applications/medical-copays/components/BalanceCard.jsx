@@ -4,8 +4,13 @@ import { currency, calcDueDate } from '../utils/helpers';
 
 const BalanceCard = ({ id, amount, facility, city, date }) => (
   <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2">
-    <h3 className="card-balance vads-u-margin-top--0">{currency(amount)}</h3>
-    <p className="card-heading vads-u-margin-top--0">
+    <h3
+      aria-describedby="copay-balance"
+      className="card-balance vads-u-margin-top--0"
+    >
+      {currency(amount)}
+    </h3>
+    <p id="copay-balance" className="card-heading vads-u-margin-top--0">
       Copay balance for {facility} - {city}
     </p>
     {!!amount && (
