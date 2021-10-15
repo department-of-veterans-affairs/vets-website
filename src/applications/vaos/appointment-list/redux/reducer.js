@@ -144,17 +144,10 @@ export default function appointmentsReducer(state = initialState, action) {
         }),
         {},
       );
-      const object = {
+      return {
         ...state,
         facilityData,
       };
-
-      // Maybe overkill by trying to remove the duplicate facility data.
-      object.confirmed.forEach(appt => {
-        // eslint-disable-next-line no-param-reassign
-        delete appt.vaos.facilityData;
-      });
-      return object;
     }
     case FETCH_CONFIRMED_DETAILS:
     case FETCH_REQUEST_DETAILS: {
