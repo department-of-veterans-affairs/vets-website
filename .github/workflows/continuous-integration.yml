@@ -549,7 +549,6 @@ jobs:
         run: yarn cypress-mochawesome-to-bigquery
         working-directory: testing-tools-team-dashboard-data
         env:
-          IS_MASTER_BUILD: ${{ env.IS_MASTER_BUILD }}
           NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
           TEST_EXECUTIONS_TABLE_NAME: vets_website_contract_test_suite_executions
           TEST_RESULTS_TABLE_NAME: vets_website_contract_test_results
