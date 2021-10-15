@@ -286,8 +286,8 @@ class SearchDropDownComponent extends React.Component {
     const activeId = isOpen ? `${ID}-${activeIndex}` : undefined;
 
     const mobileResponsiveClass = this.props.mobileResponsive
-      ? ' search-dropdown-component shrink-to-column'
-      : 'search-dropdown-component';
+      ? 'shrink-to-column'
+      : '';
 
     const oneTimeAccessibilityLabel = hasBeenFocused
       ? undefined
@@ -295,7 +295,7 @@ class SearchDropDownComponent extends React.Component {
 
     return (
       <div
-        className={`vads-u-display--flex vads-u-width--full ${mobileResponsiveClass} ${
+        className={`search-dropdown-component vads-u-display--flex vads-u-width--full ${mobileResponsiveClass} ${
           this.props.classNameBase
         }-component`}
       >
@@ -324,7 +324,8 @@ class SearchDropDownComponent extends React.Component {
             onKeyDown={this.onKeyDown}
           />
           {isOpen &&
-            suggestions.length > 0 && (
+            suggestions.length > 0 &&
+            !this.props.fullWidthSuggestions && (
               <div
                 className="search-dropdown-options vads-u-padding--x-1"
                 role="listbox"
@@ -366,7 +367,6 @@ class SearchDropDownComponent extends React.Component {
               </div>
             )}
         </div>
-
         {/* only show the submit button if the component has submit capabilities */}
         {this.props.canSubmit && (
           <button
@@ -382,6 +382,49 @@ class SearchDropDownComponent extends React.Component {
             )}
           </button>
         )}
+        {isOpen &&
+          suggestions.length > 0 &&
+          this.props.fullWidthSuggestions && (
+            <div
+              className="search-dropdown-options vads-u-padding--x-1"
+              role="listbox"
+              id={`${ID}-listbox`}
+            >
+              {suggestions.map((suggestionString, i) => {
+                const suggestion = this.props.formatSuggestions
+                  ? this.formatSuggestion(suggestionString)
+                  : suggestionString;
+                return (
+                  <div
+                    aria-selected={activeIndex === i ? 'true' : false}
+                    className={
+                      i === activeIndex
+                        ? 'suggestion highlighted'
+                        : 'suggestion regular'
+                    }
+                    id={`${ID}-${i}`}
+                    key={`${ID}-${i}`}
+                    role="option"
+                    tabIndex="-1"
+                    onClick={() => {
+                      this.onOptionClick(i);
+                    }}
+                    onMouseDown={() => {
+                      this.setState({ ignoreBlur: true });
+                    }}
+                    onMouseOver={() => {
+                      this.setState({ activeIndex: i });
+                    }}
+                    onFocus={() => {
+                      this.setState({ activeIndex: i });
+                    }}
+                  >
+                    {suggestion}
+                  </div>
+                );
+              })}
+            </div>
+          )}
       </div>
     );
   }
@@ -407,6 +450,7 @@ SearchDropDownComponent.propTypes = {
   startingValue: PropTypes.string,
   submitOnClick: PropTypes.bool,
   submitOnEnter: PropTypes.bool,
+  fullWidthSuggestions: PropTypes.bool,
 };
 
 SearchDropDownComponent.defaultProps = {
@@ -420,4 +464,5 @@ SearchDropDownComponent.defaultProps = {
   submitOnClick: false,
   submitOnEnter: false,
   classNameBase: '',
+  fullWidthSuggestions: false,
 };

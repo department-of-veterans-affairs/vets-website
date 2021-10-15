@@ -349,6 +349,7 @@ class SearchApp extends React.Component {
               canSubmit
               classNameBase="search-results-page-dropdown"
               formatSuggestions
+              fullWidthSuggestions={false}
               mobileResponsive
               startingValue={userInput}
               submitOnClick
