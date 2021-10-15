@@ -4,14 +4,14 @@ const createMockSuccessResponse = (data, hasBeenValidated) => {
     payload: {
       demographics: {
         mailingAddress: {
-          address1: '123 Turtle Trail',
+          street1: '123 Turtle Trail',
           city: 'Treetopper',
           state: 'Tennessee',
           zip: '101010',
         },
         homeAddress: {
-          address1: '445 Fine Finch Fairway',
-          address2: 'Apt 201',
+          street1: '445 Fine Finch Fairway',
+          street2: 'Apt 201',
           city: 'Fairfence',
           state: 'Florida',
           zip: '445545',
@@ -83,14 +83,16 @@ const createMultipleAppointments = (
     payload: {
       demographics: {
         mailingAddress: {
-          address1: '123 Turtle Trail',
+          street1: '123 Turtle Trail',
+          street2: '',
+          street3: '',
           city: 'Treetopper',
           state: 'Tennessee',
           zip: '101010',
         },
         homeAddress: {
-          address1: '445 Fine Finch Fairway',
-          address2: 'Apt 201',
+          street1: '445 Fine Finch Fairway',
+          street2: 'Apt 201',
           city: 'Fairfence',
           state: 'Florida',
           zip: '445545',

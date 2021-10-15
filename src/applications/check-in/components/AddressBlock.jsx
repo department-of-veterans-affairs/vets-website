@@ -2,17 +2,17 @@ import React from 'react';
 
 const AddressBlock = ({ address }) => {
   const lineTwo =
-    'address2' in address ? (
+    'street2' in address && address.street2 ? (
       <>
-        <span data-testid="address-line-2">, {address.address2}</span>
+        <span data-testid="address-line-2">, {address.street2}</span>
       </>
     ) : (
       ''
     );
   const lineThree =
-    'address3' in address ? (
+    'street3' in address && address.street2 ? (
       <>
-        <span data-testid="address-line-3">, {address.address3}</span>
+        <span data-testid="address-line-3">, {address.street3}</span>
       </>
     ) : (
       ''
@@ -20,7 +20,7 @@ const AddressBlock = ({ address }) => {
 
   return (
     <>
-      <span data-testid="address-line-1">{address.address1}</span>
+      <span data-testid="address-line-1">{address.street1}</span>
       {lineTwo}
       {lineThree}
       <br />

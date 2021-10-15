@@ -67,7 +67,8 @@ const Demographics = props => {
                   {demographicField.title}
                 </dt>
                 <dd>
-                  {demographicField.key in demographics ? (
+                  {demographicField.key in demographics &&
+                  demographics[demographicField.key] ? (
                     <DemographicItem
                       demographic={demographics[demographicField.key]}
                     />

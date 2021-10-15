@@ -7,9 +7,9 @@ import DemographicItem from '../DemographicItem';
 describe('check-in', () => {
   describe('DemographicItem', () => {
     const address = {
-      address1: 'line 1',
-      address2: 'line 2',
-      address3: 'line 3',
+      street1: 'line 1',
+      street2: 'line 2',
+      street3: 'line 3',
       city: 'city',
       state: 'state',
       zip: '00000',
