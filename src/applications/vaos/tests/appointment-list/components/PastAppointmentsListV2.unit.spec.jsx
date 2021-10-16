@@ -305,6 +305,147 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
   });
 
+  it('should show information with facility name when vaOnlineSchedulingFacilitiesServiceV2', async () => {
+    // Given the 'vaOnlineSchedulingFacilitiesServiceV2' is true
+    const myInitialState = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingVAOSServiceVAAppointments: true,
+        vaOnlineSchedulingVAOSServiceCCAppointments: true,
+        vaOnlineSchedulingFacilitiesServiceV2: true,
+      },
+    };
+
+    const now = moment().startOf('day');
+    const start = moment(now).subtract(3, 'months');
+    const yesterday = moment.utc().subtract(1, 'day');
+
+    // and the appointment contains location information
+    const appointment = getVAOSAppointmentMock();
+    appointment.id = '123';
+    appointment.attributes = {
+      ...appointment.attributes,
+      minutesDuration: 30,
+      status: 'booked',
+      start: yesterday.format(),
+      locationId: '983',
+      location: {
+        id: '983',
+        type: 'appointments',
+        attributes: {
+          id: '983',
+          vistaSite: '983',
+          name: 'Cheyenne VA Medical Center',
+          lat: 39.744507,
+          long: -104.830956,
+          phone: { main: '307-778-7550' },
+          physicalAddress: {
+            line: ['2360 East Pershing Boulevard'],
+            city: 'Cheyenne',
+            state: 'WY',
+            postalCode: '82001-5356',
+          },
+        },
+      },
+    };
+
+    mockVAOSAppointmentsFetch({
+      start: start.format('YYYY-MM-DDTHH:mm:ssZ'),
+      end: moment()
+        .minutes(0)
+        .add(30, 'minutes')
+        .format('YYYY-MM-DDTHH:mm:ssZ'),
+      requests: [appointment],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+    });
+
+    // And the page has loaded
+    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
+      initialState: myInitialState,
+    });
+
+    await screen.findAllByText(
+      new RegExp(yesterday.tz('America/Denver').format('dddd, MMMM D'), 'i'),
+    );
+
+    const firstCard = screen.getAllByRole('listitem')[0];
+
+    // Then appointment list should display with clinic name
+    expect(
+      within(firstCard).getByText(
+        new RegExp(yesterday.tz('America/Denver').format('h:mm'), 'i'),
+      ),
+    ).to.exist;
+    await waitFor(() => {
+      expect(within(firstCard).getByText(/Cheyenne VA Medical Center/i)).to
+        .exist;
+    });
+    expect(screen.baseElement).not.to.contain.text('VA appointment');
+  });
+
+  it('should not show information with facility name when vaOnlineSchedulingFacilitiesServiceV2', async () => {
+    // Given the 'vaOnlineSchedulingFacilitiesServiceV2' is true
+    const myInitialState = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingVAOSServiceVAAppointments: true,
+        vaOnlineSchedulingVAOSServiceCCAppointments: true,
+        vaOnlineSchedulingFacilitiesServiceV2: true,
+      },
+    };
+
+    const now = moment().startOf('day');
+    const start = moment(now).subtract(3, 'months');
+    const yesterday = moment.utc().subtract(1, 'day');
+
+    // and the appointment doesn't contains location information
+    const appointment = getVAOSAppointmentMock();
+    appointment.id = '123';
+    appointment.attributes = {
+      ...appointment.attributes,
+      minutesDuration: 30,
+      status: 'booked',
+      start: yesterday.format(),
+      locationId: '983',
+    };
+
+    mockVAOSAppointmentsFetch({
+      start: start.format('YYYY-MM-DDTHH:mm:ssZ'),
+      end: moment()
+        .minutes(0)
+        .add(30, 'minutes')
+        .format('YYYY-MM-DDTHH:mm:ssZ'),
+      requests: [appointment],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+    });
+
+    // And the page has loaded
+    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
+      initialState: myInitialState,
+    });
+
+    await screen.findAllByText(
+      new RegExp(yesterday.tz('America/Denver').format('dddd, MMMM D'), 'i'),
+    );
+
+    const firstCard = screen.getAllByRole('listitem')[0];
+
+    // Then appointment list should display without clinic name
+    expect(
+      within(firstCard).getByText(
+        new RegExp(yesterday.tz('America/Denver').format('h:mm'), 'i'),
+      ),
+    ).to.exist;
+    await waitFor(() => {
+      expect(within(firstCard).getByText(/VA appointment/i)).to.exist;
+    });
+    expect(screen.baseElement).not.to.contain.text(
+      'Cheyenne VA Medical Center',
+    );
+  });
+
   describe('getPastAppointmentDateRangeOptions', () => {
     const ranges = getPastAppointmentDateRangeOptions(moment('2020-02-02'));
     it('should return 6 correct date ranges for dropdown', () => {
