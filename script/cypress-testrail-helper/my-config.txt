@@ -1,7 +1,4 @@
 {
   "trUsername": <your-TestRail-Username-string>,
-  "trPassword": <your-TestRail-API-Key-string>,
-  "trProjectId": <your-TestRail-Project-ID-integer>,
-  "trSuiteId": <your-TestRail-Suite-ID-integer>,
-  "trIncludeAllInTestRun": false
+  "trPassword": <your-TestRail-API-Key-string>
 }
