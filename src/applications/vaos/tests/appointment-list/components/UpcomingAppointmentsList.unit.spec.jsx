@@ -573,8 +573,11 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
 describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
   beforeEach(() => {
     mockFetch();
+    MockDate.set(getTimezoneTestDate());
   });
-  afterEach(() => {});
+  afterEach(() => {
+    MockDate.reset();
+  });
 
   it('should show VA appointment text', async () => {
     const myInitialState = {
@@ -830,7 +833,9 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       reducers,
     });
 
-    await screen.findByText(new RegExp(now.format('dddd, MMMM D'), 'i'));
+    await screen.findByText(
+      new RegExp(now.tz('America/Denver').format('dddd, MMMM D'), 'i'),
+    );
 
     // Then appointment list should display with clinic name
     expect(await screen.findByText(/Cheyenne VA Medical Center/i)).to.exist;
@@ -877,7 +882,9 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       reducers,
     });
 
-    await screen.findByText(new RegExp(now.format('dddd, MMMM D'), 'i'));
+    await screen.findByText(
+      new RegExp(now.tz('America/Denver').format('dddd, MMMM D'), 'i'),
+    );
 
     // Then appointment list should display with clinic name
     expect(await screen.findByText(/VA appointment/i)).to.exist;
