@@ -157,15 +157,17 @@ async function getAdditionalFacilityInfo(futureAppointments, useV2 = false) {
  *
  * @param {*} appointments
  * @param {*} dispatch
- * @param {*} featureFacilitiesServiceV2
+ * @param {*} featureVAOSServiceVAAppointments,
+ * @param {*} featureVAOSServiceCCAppointments,
  */
 async function getAdditionalFacilityInfoV2(
   appointments,
   dispatch,
-  featureFacilitiesServiceV2,
+  featureVAOSServiceVAAppointments,
+  featureVAOSServiceCCAppointments,
 ) {
   let facilityData;
-  if (featureFacilitiesServiceV2) {
+  if (featureVAOSServiceVAAppointments || featureVAOSServiceCCAppointments) {
     // Facility information included with v2 appointment api call.
     facilityData = appointments
       .map(appt => appt.vaos.facilityData)
@@ -195,9 +197,6 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
       getState(),
     );
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-      getState(),
-    );
-    const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
       getState(),
     );
     const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
@@ -311,7 +310,8 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
       getAdditionalFacilityInfoV2(
         data[0],
         dispatch,
-        featureFacilitiesServiceV2,
+        featureVAOSServiceVAAppointments,
+        featureVAOSServiceCCAppointments,
       );
 
       if (
@@ -345,8 +345,11 @@ export function fetchPendingAppointments() {
       const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
         state,
       );
-      const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
-        state,
+      const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+        getState(),
+      );
+      const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
+        getState(),
       );
 
       const pendingAppointments = await getAppointmentRequests({
@@ -371,7 +374,8 @@ export function fetchPendingAppointments() {
       getAdditionalFacilityInfoV2(
         pendingAppointments,
         dispatch,
-        featureFacilitiesServiceV2,
+        featureVAOSServiceVAAppointments,
+        featureVAOSServiceCCAppointments,
       );
 
       return pendingAppointments;
@@ -390,9 +394,6 @@ export function fetchPendingAppointments() {
 export function fetchPastAppointments(startDate, endDate, selectedIndex) {
   return async (dispatch, getState) => {
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-      getState(),
-    );
-    const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
       getState(),
     );
     const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
@@ -435,7 +436,8 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
       getAdditionalFacilityInfoV2(
         getState().appointments.past,
         dispatch,
-        featureFacilitiesServiceV2,
+        featureVAOSServiceVAAppointments,
+        featureVAOSServiceCCAppointments,
       );
     } catch (error) {
       captureError(error);
