@@ -26,7 +26,7 @@ class ConfirmationPage extends React.Component {
             </p>
             <p>
               <a href="/contact-us/">
-                You can update your documents online through Ask VA.
+                You can update your documents online through Ask VA
               </a>
             </p>
           </>
