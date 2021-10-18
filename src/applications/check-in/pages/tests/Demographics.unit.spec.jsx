@@ -46,18 +46,18 @@ describe('check in', () => {
     it('renders', () => {
       const component = render(
         <Provider store={store}>
-          <Demographics checkInData={{ demographics }} />
+          <Demographics demographics={{ demographics }} />
         </Provider>,
       );
 
-      expect(component.getByText('Is your contact information correct?')).to
-        .exist;
+      expect(component.getByText('Is this your current contact information?'))
+        .to.exist;
     });
 
     it('passes axeCheck', () => {
       axeCheck(
         <Provider store={store}>
-          <Demographics checkInData={{ demographics }} />
+          <Demographics demographics={{ demographics }} />
         </Provider>,
       );
     });

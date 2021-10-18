@@ -46,7 +46,7 @@ const Demographics = props => {
     { title: 'Work Phone', key: 'workPhone' },
     { title: 'Email Address', key: 'emailAddress' },
   ];
-  if (isLoadingData) {
+  if (isLoading) {
     return <LoadingIndicator message={'Loading your appointments for today'} />;
   } else if (!demographics) {
     goToNextPage(router, URLS.ERROR);
