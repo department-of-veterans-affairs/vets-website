@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import format from 'date-fns/format';
 
 import AppointmentListItem from '../../components/AppointmentDisplay/AppointmentListItem';
@@ -9,7 +10,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { createAnalyticsSlug } from '../../utils/analytics';
 import { sortAppointmentsByStartTime } from '../../utils/appointment';
 
-export default function DisplayMultipleAppointments(props) {
+const DisplayMultipleAppointments = props => {
   const {
     appointments,
     getMultipleAppointments,
@@ -75,4 +76,15 @@ export default function DisplayMultipleAppointments(props) {
       <BackToHome />
     </div>
   );
-}
+};
+
+DisplayMultipleAppointments.propTypes = {
+  appointments: PropTypes.array,
+  getMultipleAppointments: PropTypes.func,
+  isDemographicsPageEnabled: PropTypes.bool,
+  isUpdatePageEnabled: PropTypes.bool,
+  router: PropTypes.object,
+  token: PropTypes.string,
+};
+
+export default DisplayMultipleAppointments;
