@@ -40,6 +40,27 @@ export const receivedDemographicsData = demographics => {
   };
 };
 
+export const SET_TOKEN_CONTEXT = 'SET_TOKEN_CONTEXT';
+
+export const setTokenContext = (token, scope) => {
+  return {
+    type: SET_TOKEN_CONTEXT,
+    payload: {
+      context: { token, scope },
+    },
+  };
+};
+export const TRIGGER_REFRESH = 'TRIGGER_REFRESH';
+
+export const triggerRefresh = (shouldRefresh = true) => {
+  return {
+    type: TRIGGER_REFRESH,
+    payload: {
+      context: { shouldRefresh },
+    },
+  };
+};
+
 export const PERMISSIONS_UPDATED = 'PERMISSIONS_UPDATED';
 
 export const permissionsUpdated = (data, scope) => {
@@ -53,7 +74,7 @@ export const permissionsUpdated = (data, scope) => {
 export const TOKEN_WAS_VALIDATED = 'TOKEN_WAS_VALIDATED';
 
 export const tokenWasValidated = (payload, token, scope) => {
-  const data = { appointments: [{ ...payload }] };
+  const data = payload ? { appointments: [{ ...payload }] } : {};
   return {
     type: TOKEN_WAS_VALIDATED,
     payload: {

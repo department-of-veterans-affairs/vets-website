@@ -9,6 +9,7 @@ import Footer from '../../components/Footer';
 import recordEvent from 'platform/monitoring/record-event';
 import { createAnalyticsSlug } from '../../utils/analytics';
 import { sortAppointmentsByStartTime } from '../../utils/appointment';
+import { focusElement } from 'platform/utilities/ui';
 
 const DisplayMultipleAppointments = props => {
   const {
@@ -28,6 +29,7 @@ const DisplayMultipleAppointments = props => {
     });
 
     getMultipleAppointments();
+    focusElement('h1');
   };
 
   const sortedAppointments = sortAppointmentsByStartTime(appointments);

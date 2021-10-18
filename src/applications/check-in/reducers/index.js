@@ -8,7 +8,9 @@ import {
   PERMISSIONS_UPDATED,
   RECEIVED_APPOINTMENT_DETAILS,
   RECEIVED_DEMOGRAPHICS_DATA,
+  SET_TOKEN_CONTEXT,
   TOKEN_WAS_VALIDATED,
+  TRIGGER_REFRESH,
 } from '../actions';
 
 const checkInReducer = (state = initialState, action) => {
@@ -22,6 +24,12 @@ const checkInReducer = (state = initialState, action) => {
       return {
         ...state,
         context: { ...state.context, scope: action.payload.scope },
+      };
+    case SET_TOKEN_CONTEXT:
+    case TRIGGER_REFRESH:
+      return {
+        ...state,
+        context: { ...state.context, ...action.payload.context },
       };
     case RECEIVED_APPOINTMENT_DETAILS:
       return { ...state, ...action.payload };
