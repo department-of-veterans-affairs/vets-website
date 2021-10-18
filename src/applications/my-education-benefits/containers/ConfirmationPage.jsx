@@ -212,8 +212,7 @@ const pendingPage = (
     <ul>
       <li>
         If you need to submit documentation to VA, such as service records,
-        please send this through our{' '}
-        <a href="https://gibill.custhelp.va.gov/app/ask ">Ask VA feature</a>.
+        please send this through <a href="/contact-us">Ask VA</a>.
       </li>
       <li>
         Review and/or update your direct deposit information on{' '}
