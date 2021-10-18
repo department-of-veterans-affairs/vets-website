@@ -1,45 +1,16 @@
-import React, { useEffect, useCallback, useState } from 'react';
-import { connect, batch } from 'react-redux';
+import React, { useCallback } from 'react';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import recordEvent from 'platform/monitoring/record-event';
-import { focusElement } from 'platform/utilities/ui';
 
-import {
-  receivedMultipleAppointmentDetails,
-  receivedDemographicsData,
-} from '../actions';
-import { api } from '../api';
 import { goToNextPage, URLS } from '../utils/navigation';
 
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 
 const Demographics = props => {
-  const { context, isUpdatePageEnabled, router, setSessionData } = props;
-  const [isLoadingData, setIsLoadingData] = useState(true);
-  const { token } = context;
-
-  useEffect(
-    () => {
-      focusElement('h1');
-      setIsLoadingData(true);
-      api.v2
-        .getCheckInData(token)
-        .then(json => {
-          const { payload } = json;
-          setSessionData(payload);
-
-          setIsLoadingData(false);
-          focusElement('h1');
-        })
-        .catch(() => {
-          goToNextPage(router, URLS.ERROR);
-        });
-    },
-    [router, setSessionData, token],
-  );
+  const { isUpdatePageEnabled, router, isLoading } = props;
 
   const yesClick = useCallback(
     () => {
@@ -66,7 +37,7 @@ const Demographics = props => {
     },
     [router],
   );
-  if (isLoadingData) {
+  if (isLoading) {
     return <LoadingIndicator message={'Loading your appointments for today'} />;
   }
   return (
@@ -92,24 +63,4 @@ const Demographics = props => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    context: state.checkInData.context,
-  };
-};
-const mapDispatchToProps = dispatch => {
-  return {
-    setSessionData: (payload, token) => {
-      batch(() => {
-        const { appointments, demographics } = payload;
-        dispatch(receivedMultipleAppointmentDetails(appointments, token));
-        dispatch(receivedDemographicsData(demographics));
-      });
-    },
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Demographics);
+export default Demographics;

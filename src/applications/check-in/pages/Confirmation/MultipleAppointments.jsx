@@ -14,6 +14,7 @@ import { hasMoreAppointmentsToCheckInto } from '../../utils/appointment';
 export default function MultipleAppointments({
   appointments,
   selectedAppointment,
+  triggerRefresh,
 }) {
   const appointment = selectedAppointment;
   const appointmentDateTime = new Date(appointment.startTime);
@@ -48,7 +49,10 @@ export default function MultipleAppointments({
         </p>
       </VaAlert>
       {shouldShowBackButton && (
-        <BackToAppointments appointments={appointments} />
+        <BackToAppointments
+          appointments={appointments}
+          triggerRefresh={triggerRefresh}
+        />
       )}
       <Footer />
       <BackToHome />

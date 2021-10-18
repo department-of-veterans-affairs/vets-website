@@ -52,7 +52,6 @@ const ValidateVeteran = props => {
           .then(data => {
             // update sessions with new permissions
             setPermissions(data);
-
             // routing
             if (isDemographicsPageEnabled) {
               goToNextPage(router, URLS.DEMOGRAPHICS);
@@ -71,7 +70,6 @@ const ValidateVeteran = props => {
           .then(data => {
             // update sessions with new permissions
             setPermissions(data);
-
             if (isUpdatePageEnabled) {
               goToNextPage(router, URLS.UPDATE_INSURANCE);
             } else {
