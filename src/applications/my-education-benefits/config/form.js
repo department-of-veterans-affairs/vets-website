@@ -317,8 +317,7 @@ function renderContactMethodFollowUp(formData, cond) {
   if (cond === 1 && mobilePhoneNumber.phone && phoneNumber.phone) return true;
   if (cond === 2 && mobilePhoneNumber.phone && !phoneNumber.phone) return true;
   if (cond === 3 && !mobilePhoneNumber.phone && phoneNumber.phone) return true;
-  if (cond === 4 && !mobilePhoneNumber.phone && !phoneNumber.phone) return true;
-  return false;
+  return cond === 4 && !mobilePhoneNumber.phone && !phoneNumber.phone;
 }
 
 const formConfig = {
