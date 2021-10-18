@@ -158,7 +158,7 @@ export default function AddToCalendar({
       aria-label={`Add ${formattedDate} appointment to your calendar`}
       className="va-button-link vads-u-margin-right--4 vads-u-flex--0"
     >
-      Add to calendar
+      Add to calendar, Just testing changed app builds
     </a>
   );
 }

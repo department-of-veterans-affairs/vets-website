@@ -44,7 +44,7 @@ jobs:
       - name: List changed files
         id: changed-files
         # run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
-        run: echo ::set-output name=all_changed_files::src/applications/ask-a-question/components/NeedHelpFooter.jsx
+        run: echo ::set-output name=all_changed_files::src/applications/ask-a-question/components/NeedHelpFooter.jsx src/applications/vaos/components/AddToCalendar.jsx
 
       - name: List apps for changed files
         run: node script/github-actions/get-single-app-build-entry-names.js
