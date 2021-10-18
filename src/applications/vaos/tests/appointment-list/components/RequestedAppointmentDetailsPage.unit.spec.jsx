@@ -325,6 +325,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
   });
 
   it('should allow cancellation', async () => {
+    // Given a veteran have VA request
     const appointment = getVARequestMock();
     const alertText =
       'The time and date of this appointment are still to be determined.';
@@ -339,7 +340,9 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       optionTime1: 'AM',
     };
 
-    mockAppointmentInfo({ requests: [appointment] });
+    mockAppointmentInfo({
+      requests: [appointment],
+    });
     mockRequestCancelFetch(appointment);
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
@@ -359,12 +362,18 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     expect(screen.baseElement).not.to.contain.text('Canceled');
 
+    // When user clicks on the cancel request link
     fireEvent.click(screen.getByText(/cancel request/i));
 
     await screen.findByRole('alertdialog');
+    expect(window.dataLayer[1]).to.deep.include({
+      event: 'vaos-cancel-request-clicked',
+    });
 
+    // And clicks on 'yes, cancel this request' to confirm
     fireEvent.click(screen.getByText(/yes, cancel this request/i));
 
+    // Then it should display request is canceled
     await screen.findByText(/your request has been canceled/i);
 
     const cancelData = JSON.parse(
@@ -861,6 +870,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
   });
 
   it('should allow cancellation', async () => {
+    // Given a veteran has a VA request
     const appointment = getVAOSRequestMock();
     appointment.id = '1234';
     appointment.attributes = {
@@ -901,11 +911,17 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     expect(screen.baseElement).not.to.contain.text('Canceled');
     mockAppointmentCancelFetch({ appointment });
 
+    // When user clicks on cancel request link
     fireEvent.click(screen.getByText(/cancel request/i));
     await screen.findByRole('alertdialog');
+    expect(window.dataLayer[0]).to.deep.equal({
+      event: 'vaos-cancel-request-clicked',
+    });
 
+    // And clicks on 'yes, cancel this request' to confirm
     fireEvent.click(screen.getByText(/yes, cancel this request/i));
 
+    // Then is should display request is canceled
     await screen.findByText(/your request has been canceled/i);
     const cancelData = JSON.parse(
       global.fetch
