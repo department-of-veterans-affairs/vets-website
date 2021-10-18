@@ -341,7 +341,7 @@ export function createMockFacilityByVersion({
   id = 'fake',
   name = 'Fake',
   address,
-  phone,
+  phone = 'fake',
   lat,
   long,
   isParent = null,
