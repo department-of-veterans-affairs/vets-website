@@ -313,11 +313,25 @@ function notGivingUpBenefitSelected(formData) {
 
 function renderContactMethodFollowUp(formData, cond) {
   const { mobilePhoneNumber, phoneNumber } = formData['view:phoneNumbers'];
+  let res = false;
 
-  if (cond === 1 && mobilePhoneNumber.phone && phoneNumber.phone) return true;
-  if (cond === 2 && mobilePhoneNumber.phone && !phoneNumber.phone) return true;
-  if (cond === 3 && !mobilePhoneNumber.phone && phoneNumber.phone) return true;
-  return cond === 4 && !mobilePhoneNumber.phone && !phoneNumber.phone;
+  switch (cond) {
+    case 1:
+      if (mobilePhoneNumber.phone && phoneNumber.phone) res = true;
+      break;
+    case 2:
+      if (mobilePhoneNumber.phone && !phoneNumber.phone) res = true;
+      break;
+    case 3:
+      if (!mobilePhoneNumber.phone && phoneNumber.phone) res = true;
+      break;
+    case 4:
+      if (!mobilePhoneNumber.phone && !phoneNumber.phone) res = true;
+      break;
+    default:
+  }
+
+  return res;
 }
 
 const formConfig = {
