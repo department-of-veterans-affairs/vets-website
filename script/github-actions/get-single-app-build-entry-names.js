@@ -13,38 +13,28 @@ const core = require('@actions/core');
 const getEntryName = filePath => {
   const root = path.join(__dirname, '../..');
   const appDirectory = filePath.split('/')[2];
-
-  console.log(filePath);
-
   const manifestFile = find
     .fileSync(
       /manifest\.(json|js)$/,
       path.join(root, `./src/applications/${appDirectory}`),
     )
-    .map(file => {
-      // eslint-disable-next-line import/no-dynamic-require
-      return require(file);
-    })[0];
+    // eslint-disable-next-line import/no-dynamic-require
+    .map(file => require(file))[0];
 
-  console.log(manifestFile);
   return manifestFile.entryName;
 };
 
 const changedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
-const isSingleAppBuild = true;
-let appEntryNames = '';
+let isSingleAppBuild = true;
+const appEntryNames = [];
 
 changedFiles.forEach(file => {
-  if (!file.startsWith('src/applications')) {
-    console.log('Running full build');
-    // core.ExitCode(0);
+  if (file.startsWith('src/applications')) {
+    appEntryNames.push(getEntryName(file));
   } else {
-    const entryName = getEntryName(file);
-
-    appEntryNames += `${entryName},`;
-    console.log(appEntryNames);
+    isSingleAppBuild = false; // all non-app changes require a full build
   }
 });
 
 core.exportVariable('IS_SINGLE_APP_BUILD', isSingleAppBuild);
-core.exportVariable('APP_ENTRY_NAMES', appEntryNames);
+core.exportVariable('APP_ENTRY_NAMES', appEntryNames.join(','));
