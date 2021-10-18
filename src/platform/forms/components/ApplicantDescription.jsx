@@ -6,7 +6,8 @@ export default function ApplicantDescription({ formContext }) {
     <div>
       <p>
         You aren’t required to fill in all fields, but we can review your
-        application faster if you provide more information.
+        application faster if you provide more information. Changing platform
+        code
       </p>
       <PrefillMessage formContext={formContext} />
     </div>
