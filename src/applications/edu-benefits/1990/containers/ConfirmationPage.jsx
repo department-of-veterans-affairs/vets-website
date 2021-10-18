@@ -67,11 +67,9 @@ class ConfirmationPage extends React.Component {
               </li>
             </ul>
             <p>
-              Documents can be uploaded using the{' '}
-              <a href="https://gibill.custhelp.com/app/utils/login_form/redirect/account%252">
-                GI Bill site
+              <a href="/contact-us/">
+                You can update your documents online through Ask VA
               </a>
-              .
             </p>
           </>
         }
