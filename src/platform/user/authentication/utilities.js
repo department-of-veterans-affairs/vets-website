@@ -107,11 +107,8 @@ export function standaloneRedirect() {
 }
 
 function generateLookup(returnUrl) {
-  /*
-    1. Grab the search params with the `to` query
-    2. map thru the `to` to get the proper buildType
-    3. generate a name from the object
-  */
+  // Grabs the `app` & `to` queries, generates the path and does
+  // a reverse lookup to create mapping
   const { application: app, to } = getQueryParams();
   const link = generatePath(app, to);
 
@@ -151,12 +148,7 @@ function redirect(redirectUrl, clickedEvent) {
   sessionStorage.setItem(authnSettings.RETURN_URL, returnUrl);
   recordEvent({ event: clickedEvent });
 
-  /*
-    TODO:
-    1. Create a reverse lookup of MHV SSO Urls
-    2. Create updated link to only check the rUrl
-    3. RecordEvent for each app
-  */
+  // Generates the redirect for /sign-in page and tracks event
   if (loginAppUrlRE.test(window.location.pathname)) {
     const { redirectsTo, app } = generateLookup(returnUrl);
     rUrl = `${redirectUrl}?redirect=${redirectsTo}`;
@@ -176,11 +168,7 @@ export function login(
   queryParams = {},
   clickedEvent = 'login-link-clicked-modal',
 ) {
-  const url = sessionTypeUrl({
-    type: policy,
-    version,
-    queryParams,
-  });
+  const url = sessionTypeUrl({ type: policy, version, queryParams });
   setLoginAttempted();
   return redirect(url, clickedEvent);
 }
