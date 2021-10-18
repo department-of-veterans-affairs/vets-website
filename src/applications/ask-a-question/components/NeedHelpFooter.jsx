@@ -7,6 +7,7 @@ const NeedHelpFooter = () => {
   return (
     <footer>
       <p>Having trouble with the form? Call our toll-free number:</p>
+      <p>Making a change in this app to trigger single app build</p>
       <p>
         <Telephone contact={CONTACTS['222_VETS']} />
         <br />
