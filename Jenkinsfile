@@ -15,7 +15,7 @@ node('vetsgov-general-purpose') {
   def commonStages = load "vets-website/jenkins/common.groovy"
 
   // setupStage
-  dockerContainer = commonStages.setup()
+  // dockerContainer = commonStages.setup()
 
   stage('Main') {
     return
@@ -163,7 +163,7 @@ node('vetsgov-general-purpose') {
     }
   }
 
-  commonStages.archiveAll(dockerContainer, ref);
+  // commonStages.archiveAll(dockerContainer, ref);
 
   stage('Deploy dev or staging') {
     return
