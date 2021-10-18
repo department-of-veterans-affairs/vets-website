@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { logout } from 'platform/user/authentication/utilities';
+import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import recordEvent from 'platform/monitoring/record-event';
 
 const recordNavUserEvent = section => () => {
@@ -32,7 +33,7 @@ export class PersonalizationDropdown extends React.Component {
         </li>
         <li>
           <a
-            href="/health-care/my-health-account-validation/"
+            href={mhvUrl(this.props.authenticatedWithSSOe, 'home')}
             onClick={recordMyHealthEvent}
           >
             My Health

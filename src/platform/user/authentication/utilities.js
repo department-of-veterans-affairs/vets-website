@@ -14,6 +14,15 @@ export const loginAppUrlRE = new RegExp('^/sign-in(/.*)?$');
 
 export const authnSettings = {
   RETURN_URL: 'authReturnUrl',
+  REDIRECT_EVENT: 'auth-redirect',
+};
+
+const getQueryParams = () => {
+  const searchParams = new URLSearchParams(window.location.search);
+  const application = searchParams.get('application');
+  const to = searchParams.get('to');
+
+  return { application, to };
 };
 
 export const externalRedirects = {
@@ -85,9 +94,7 @@ const generatePath = (app, to) => {
 };
 
 export function standaloneRedirect() {
-  const searchParams = new URLSearchParams(window.location.search);
-  const application = searchParams.get('application');
-  const to = searchParams.get('to');
+  const { application, to } = getQueryParams();
   let url = externalRedirects[application] || null;
 
   if (url && to) {
@@ -95,10 +102,47 @@ export function standaloneRedirect() {
     url = url.endsWith('/') ? url.slice(0, -1) : url;
     url = `${url}${pathname}`.replace('\r\n', ''); // Prevent CRLF injection.
   }
+
   return url;
 }
 
+function generateLookup(returnUrl) {
+  /*
+    1. Grab the search params with the `to` query
+    2. map thru the `to` to get the proper buildType
+    3. generate a name from the object
+  */
+  const { application: app, to } = getQueryParams();
+  const link = generatePath(app, to);
+
+  const toRedirect = {
+    // My VA Health (Cerner)
+    '/pages/medications/current': 'prescriptions',
+    '/pages/scheduling/upcoming': 'appointments',
+    '/pages/messaging/inbox': 'secure_messaging',
+    '/pages/health_record/results/labs': 'tests_and_labs',
+    // My HealtheVet
+    '?deeplinking=download_my_data': 'download_my_data',
+    '?deeplinking=prescription_refill': 'prescription_refill',
+    '?deeplinking=secure_messaging': 'secure_messaging',
+    '?deeplinking=appointments': 'appointments',
+    '?deeplinking=home': 'home',
+    '?deeplinking=labs_and_tests': 'home',
+  }[link];
+
+  const externalRedirectLookup = {
+    [`${externalRedirects.myvahealth}${link}`]: `myvahealth_${toRedirect}`,
+    [`${externalRedirects.mhv}${link}`]: `mhv_${toRedirect}`,
+  };
+
+  return {
+    redirectsTo: externalRedirectLookup[returnUrl],
+    app,
+  };
+}
+
 function redirect(redirectUrl, clickedEvent) {
+  let rUrl = redirectUrl;
   // Keep track of the URL to return to after auth operation.
   // If the user is coming via the standalone sign-in, redirect to the home page.
   const returnUrl = loginAppUrlRE.test(window.location.pathname)
@@ -107,10 +151,22 @@ function redirect(redirectUrl, clickedEvent) {
   sessionStorage.setItem(authnSettings.RETURN_URL, returnUrl);
   recordEvent({ event: clickedEvent });
 
+  /*
+    TODO:
+    1. Create a reverse lookup of MHV SSO Urls
+    2. Create updated link to only check the rUrl
+    3. RecordEvent for each app
+  */
+  if (loginAppUrlRE.test(window.location.pathname)) {
+    const { redirectsTo, app } = generateLookup(returnUrl);
+    rUrl = `${redirectUrl}?redirect=${redirectsTo}`;
+    recordEvent({ event: `${authnSettings.REDIRECT_EVENT}-${app}-inbound` });
+  }
+
   if (redirectUrl.includes('idme')) {
-    redirectWithGAClientId(redirectUrl);
+    redirectWithGAClientId(rUrl);
   } else {
-    window.location = redirectUrl;
+    window.location = rUrl;
   }
 }
 
@@ -120,7 +176,11 @@ export function login(
   queryParams = {},
   clickedEvent = 'login-link-clicked-modal',
 ) {
-  const url = sessionTypeUrl({ type: policy, version, queryParams });
+  const url = sessionTypeUrl({
+    type: policy,
+    version,
+    queryParams,
+  });
   setLoginAttempted();
   return redirect(url, clickedEvent);
 }

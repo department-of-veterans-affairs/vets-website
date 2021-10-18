@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 
 import * as Sentry from '@sentry/browser';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Telephone, {
   CONTACTS,
@@ -153,6 +152,8 @@ export class AuthApp extends React.Component {
     const postAuthUrl = returnUrl
       ? appendQuery(returnUrl, 'postLogin=true')
       : returnUrl;
+
+    recordEvent({ event: `login-success-${this.serviceName}` });
 
     const redirectUrl =
       (!returnUrl.match(REDIRECT_IGNORE_PATTERN) && postAuthUrl) || '/';
@@ -306,67 +307,6 @@ export class AuthApp extends React.Component {
         );
         break;
 
-      // Multiple MHV ID error
-      case '101':
-        header = 'We can’t sign you in';
-        alertContent = (
-          <p>
-            We’re having trouble signing you in to VA.gov right now because we
-            found more than one My HealtheVet account for you.
-          </p>
-        );
-        troubleshootingContent = (
-          <>
-            <h3>How can I fix this issue?</h3>
-            <ul>
-              <li>
-                <strong>Call the My HealtheVet help desk</strong>
-                <p>
-                  Call us at <Telephone contact={CONTACTS.MY_HEALTHEVET} />.
-                  We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-                  If you have hearing loss, call TTY:{' '}
-                  <Telephone contact={CONTACTS.FEDERAL_RELAY_SERVICE} />.
-                </p>
-                <p>
-                  Tell the representative that you tried to sign in to VA.gov,
-                  but got an error message that you have more than one My
-                  HealtheVet account.
-                </p>
-              </li>
-              <li>
-                <strong>Submit a request for online help</strong>
-                <p>
-                  Fill out a{' '}
-                  <a
-                    href="https://www.myhealth.va.gov/mhv-portal-web/contact-us"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    My HealtheVet online help form
-                  </a>{' '}
-                  to get help signing in. Enter the following information in the
-                  form fields.
-                </p>
-                <p>
-                  <strong>Fill in the form fields as below:</strong>
-                </p>
-                <ul>
-                  <li>Topic: Select "Account Login"</li>
-                  <li>Category: Select "Request for Assistance"</li>
-                  <li>
-                    Comments: Type, or copy and paste, the below message:
-                    <br />
-                    “When I tried to sign in to VA.gov, I got an error message
-                    saying that I have more than one My HealtheVet account.”
-                  </li>
-                </ul>
-                <p>Complete the rest of the form and then click Submit.</p>
-              </li>
-            </ul>
-          </>
-        );
-        break;
-
       // Multiple EDIPI error
       case '102':
         header = 'We can’t sign you in';
@@ -477,7 +417,9 @@ export class AuthApp extends React.Component {
     return (
       <div className="usa-content columns small-12">
         <h1>{header}</h1>
-        <AlertBox content={alertContent} isVisible status="error" />
+        <va-alert visible status="error">
+          {alertContent}
+        </va-alert>
         {troubleshootingContent}
       </div>
     );
