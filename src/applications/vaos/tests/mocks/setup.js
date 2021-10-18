@@ -27,7 +27,6 @@ import {
   getDirectBookingEligibilityCriteriaMock,
   getParentSiteMock,
   getRequestEligibilityCriteriaMock,
-  getVAFacilityMock,
 } from './v0';
 import {
   mockCommunityCareEligibility,
@@ -323,13 +322,11 @@ export async function setVAFacility(
   const realFacilityID = facilityId.replace('983', '442').replace('984', '552');
 
   const facilities = [
-    facilityData || {
-      id: `vha_${realFacilityID}`,
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: realFacilityID,
-      },
-    },
+    facilityData ||
+      createMockFacilityByVersion({
+        id: realFacilityID,
+        version: 0,
+      }),
   ];
 
   mockParentSites([siteCode], [parentSite]);
@@ -372,14 +369,11 @@ export async function setVaccineFacility(store, facilityId, facilityData = {}) {
   const realFacilityID = facilityId.replace('983', '442').replace('984', '552');
 
   const facilities = [
-    {
-      id: `vha_${realFacilityID}`,
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: realFacilityID,
-        ...facilityData,
-      },
-    },
+    createMockFacilityByVersion({
+      id: realFacilityID,
+      version: 0,
+      ...facilityData,
+    }),
   ];
 
   mockDirectBookingEligibilityCriteria([siteCode], directFacilities);
