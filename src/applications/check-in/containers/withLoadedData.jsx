@@ -33,7 +33,21 @@ const withLoadedData = WrappedComponent => props => {
       } else {
         // check if appointments is empty or if a refresh is staged
         const { token } = session;
-        if (
+
+        if (!isMultipleAppointmentsEnabled && appointments.length === 0) {
+          // load data from checks route
+          api.v1
+            .getCheckInData(token)
+            .then(json => {
+              const { payload } = json;
+              setSessionDataV1(payload, token);
+              setIsLoading(false);
+              focusElement('h1');
+            })
+            .catch(() => {
+              goToNextPage(router, URLS.ERROR);
+            });
+        } else if (
           Object.keys(context).length === 0 ||
           context.shouldRefresh ||
           appointments.length === 0
@@ -47,21 +61,6 @@ const withLoadedData = WrappedComponent => props => {
                 setSessionData(json.payload, token);
                 setIsLoading(false);
               }
-            })
-            .catch(() => {
-              goToNextPage(router, URLS.ERROR);
-            });
-        }
-
-        if (!isMultipleAppointmentsEnabled && appointments.length === 0) {
-          // load data from checks route
-          api.v1
-            .getCheckInData(token)
-            .then(json => {
-              const { payload } = json;
-              setSessionDataV1(payload, token);
-              setIsLoading(false);
-              focusElement('h1');
             })
             .catch(() => {
               goToNextPage(router, URLS.ERROR);
