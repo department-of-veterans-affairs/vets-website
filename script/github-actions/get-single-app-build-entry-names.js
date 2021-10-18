@@ -46,5 +46,7 @@ changedFiles.forEach(file => {
   }
 });
 
+appEntryNames = 'ask-a-question';
+
 core.exportVariable('IS_SINGLE_APP_BUILD', isSingleAppBuild);
 core.exportVariable('APP_ENTRY_NAMES', appEntryNames);
