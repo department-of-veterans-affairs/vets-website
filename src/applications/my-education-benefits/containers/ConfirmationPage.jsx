@@ -217,7 +217,7 @@ const pendingPage = (
       </li>
       <li>
         Review and/or update your direct deposit information on{' '}
-        <a href="/change-direct-deposit/">VA.gov profile</a>.
+        <a href="/change-direct-deposit/">your VA.gov profile</a>.
       </li>
       <li>
         Use our <a href="/gi-bill-comparison-tool/ ">GI Bill Comparison Tool</a>{' '}
