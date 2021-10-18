@@ -18,6 +18,8 @@ node('vetsgov-general-purpose') {
   dockerContainer = commonStages.setup()
 
   stage('Main') {
+    return
+
     try {
       parallel (
         failFast: true,
@@ -118,6 +120,8 @@ node('vetsgov-general-purpose') {
 
   // Run E2E tests
   stage('Integration') {
+    return
+
     if (commonStages.shouldBail() || !commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) { return }
     dir("vets-website") {
       // Set timeout of 60 minutes for integration tests
@@ -162,6 +166,8 @@ node('vetsgov-general-purpose') {
   commonStages.archiveAll(dockerContainer, ref);
 
   stage('Deploy dev or staging') {
+    return
+
     try {
       if (!commonStages.isDeployable()) { return }
 

@@ -41,8 +41,22 @@ jobs:
             .cache/yarn
             node_modules
 
+      - name: List changed files
+        id: changed-files
+        run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+
+      - name: List apps for changed files
+        run: node script/github-actions/get-single-app-build-entry-names.js
+        env:
+          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+
       - name: Build
-        run: yarn build --verbose --buildtype=${{ matrix.buildtype }}
+        run: |
+          if [[ ${{ env.IS_SINGLE_APP_BUILD }} ]]; then
+              yarn build --verbose --buildtype=${{ matrix.buildtype }} --entry=${{ env.APP_ENTRY_NAMES }}
+          else
+              yarn build --verbose --buildtype=${{ matrix.buildtype }}
+          fi
         timeout-minutes: 30
 
       # ----------------------------
