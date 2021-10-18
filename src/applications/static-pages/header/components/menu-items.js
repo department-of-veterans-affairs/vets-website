@@ -2,6 +2,9 @@ import React from 'react';
 
 const MenuItems = props => {
   const { menuItems, childMenu } = props;
+
+  if (!menuItems) return null;
+
   return (
     <ul className={`navigation-menu${childMenu ? ' menu-is-child' : ''}`}>
       {menuItems.map(item => (
