@@ -311,6 +311,16 @@ function notGivingUpBenefitSelected(formData) {
   return !givingUpBenefitSelected(formData);
 }
 
+function renderContactMethodFollowUp(formData, cond) {
+  const { mobilePhoneNumber, phoneNumber } = formData['view:phoneNumbers'];
+
+  if (cond === 1 && mobilePhoneNumber.phone && phoneNumber.phone) return true;
+  if (cond === 2 && mobilePhoneNumber.phone && !phoneNumber.phone) return true;
+  if (cond === 3 && !mobilePhoneNumber.phone && phoneNumber.phone) return true;
+  if (cond === 4 && !mobilePhoneNumber.phone && !phoneNumber.phone) return true;
+  return false;
+}
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -763,12 +773,7 @@ const formConfig = {
                 },
               },
               'ui:options': {
-                // both exist so we return false to hide
-                hideIf: formData =>
-                  !(
-                    formData['view:phoneNumbers'].mobilePhoneNumber.phone &&
-                    formData['view:phoneNumbers'].phoneNumber.phone
-                  ),
+                hideIf: formData => !renderContactMethodFollowUp(formData, 1),
               },
             },
             'view:noHomePhoneForContact': {
@@ -789,9 +794,7 @@ const formConfig = {
                 },
               },
               'ui:options': {
-                // If home phone is empty
-                hideIf: formData =>
-                  !!formData['view:phoneNumbers'].phoneNumber.phone,
+                hideIf: formData => !renderContactMethodFollowUp(formData, 2),
               },
             },
             'view:noMobilePhoneForContact': {
@@ -812,8 +815,27 @@ const formConfig = {
                 },
               },
               'ui:options': {
-                hideIf: formData =>
-                  !!formData['view:phoneNumbers'].mobilePhoneNumber.phone,
+                hideIf: formData => !renderContactMethodFollowUp(formData, 3),
+              },
+            },
+            'view:noMobileOrHomeForContact': {
+              [formFields.contactMethod]: {
+                'ui:title':
+                  'How should we contact you if we have questions about your application?',
+                'ui:widget': 'radio',
+                'ui:options': {
+                  widgetProps: {
+                    Email: { 'data-info': 'email' },
+                    Mail: { 'data-info': 'mail' },
+                  },
+                },
+                'ui:errorMessages': {
+                  required:
+                    'Please select at least one way we can contact you.',
+                },
+              },
+              'ui:options': {
+                hideIf: formData => !renderContactMethodFollowUp(formData, 4),
               },
             },
             'view:receiveTextMessages': {
@@ -963,6 +985,15 @@ const formConfig = {
                   [formFields.contactMethod]: {
                     type: 'string',
                     enum: ['Email', 'Home phone', 'Mail'],
+                  },
+                },
+              },
+              'view:noMobileOrHomeForContact': {
+                type: 'object',
+                properties: {
+                  [formFields.contactMethod]: {
+                    type: 'string',
+                    enum: ['Email', 'Mail'],
                   },
                 },
               },
