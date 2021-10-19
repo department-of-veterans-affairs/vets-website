@@ -300,9 +300,7 @@ describe('Site-wide Search functionality with search dropdown component enabled'
     enableDropdownComponent();
     mockFetchSuggestions();
     prepareDropdownSearch('benefits');
-    cy.get('[data-e2e-id="search-header-dropdown-submit-button"]').type(
-      '{enter}',
-    );
+    cy.get('[data-e2e-id="search-header-dropdown-submit-button"]').click();
     cy.url().should('contain', '/search/?query=benefits');
   });
 
@@ -310,7 +308,7 @@ describe('Site-wide Search functionality with search dropdown component enabled'
     enableDropdownComponent();
     mockFetchSuggestions();
     prepareDropdownSearch('health');
-    cy.get('[data-e2e-id="search-header-dropdown-submit-button"]').type(' ');
+    cy.get('[data-e2e-id="search-header-dropdown-submit-button"]').click();
     cy.url().should('contain', '/search/?query=health');
   });
 
