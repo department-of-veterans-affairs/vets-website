@@ -334,7 +334,6 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   prefillTransformer,
-  returnUrl: '/applicant-information/personal-information',
   savedFormMessages: {
     notFound: 'Please start over to apply for my education benefits.',
     noAuth:
