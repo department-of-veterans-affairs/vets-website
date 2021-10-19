@@ -6,16 +6,26 @@ import { connect } from 'react-redux';
 import Header from '../Header';
 import LegacyHeader from '../LegacyHeader';
 
-export const App = ({ showHeaderV2 }) => {
+export const App = ({ show, showHeaderV2, showMegaMenu, showNavLogin }) => {
+  // Do not render if prop show is falsey.
+  if (!show) {
+    return null;
+  }
+
   // Render the legacy header if the feature toggle is not enabled.
   if (!showHeaderV2) {
-    return <LegacyHeader />;
+    return (
+      <LegacyHeader showMegaMenu={showMegaMenu} showNavLogin={showNavLogin} />
+    );
   }
 
   return <Header />;
 };
 
 App.propTypes = {
+  show: PropTypes.bool.isRequired,
+  showMegaMenu: PropTypes.bool.isRequired,
+  showNavLogin: PropTypes.bool.isRequired,
   // From mapStateToProps.
   showHeaderV2: PropTypes.bool.isRequired,
 };
