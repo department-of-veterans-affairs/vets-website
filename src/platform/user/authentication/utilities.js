@@ -17,7 +17,7 @@ export const authnSettings = {
   REDIRECT_EVENT: 'auth-redirect',
 };
 
-const getQueryParams = () => {
+export const getQueryParams = () => {
   const searchParams = new URLSearchParams(window.location.search);
   const application = searchParams.get('application');
   const to = searchParams.get('to');
@@ -25,13 +25,37 @@ const getQueryParams = () => {
   return { application, to };
 };
 
+const fixUrl = (url, path) => {
+  const updatedUrl = url.endsWith('/') ? url.slice(0, -1) : url;
+  return `${updatedUrl}${path}`.replace('\r\n', ''); // Prevent CRLF injection.
+};
+
 export const externalRedirects = {
   myvahealth: environment.isProduction()
-    ? 'https://patientportal.myhealth.va.gov/'
-    : 'https://staging-patientportal.myhealth.va.gov/',
+    ? 'https://patientportal.myhealth.va.go'
+    : 'https://staging-patientportal.myhealth.va.gov',
   mhv: `https://${
     eauthEnvironmentPrefixes[environment.BUILDTYPE]
   }eauth.va.gov/mhv-portal-web/eauth`,
+};
+
+const mhvRedirects = {
+  '?deeplinking=download_my_data': 'download_my_data',
+  '?deeplinking=prescription_refill': 'prescription_refill',
+  '?deeplinking=secure_messaging': 'secure_messaging',
+  '?deeplinking=appointments': 'appointments',
+  '?deeplinking=home': 'home',
+  '?deeplinking=labs_and_tests': 'home',
+  '?deeplinking=null': 'home',
+  home: 'home',
+};
+
+const cernerRedirects = {
+  '/pages/medications/current': 'prescriptions',
+  '/pages/scheduling/upcoming': 'appointments',
+  '/pages/messaging/inbox': 'secure_messaging',
+  '/pages/health_record/results/labs': 'home',
+  home: 'home',
 };
 
 export const ssoKeepAliveEndpoint = () => {
@@ -86,7 +110,7 @@ function redirectWithGAClientId(redirectUrl) {
   }
 }
 
-const generatePath = (app, to) => {
+export const generatePath = (app, to) => {
   if (app === 'mhv') {
     return `?deeplinking=${to}`;
   }
@@ -99,46 +123,39 @@ export function standaloneRedirect() {
 
   if (url && to) {
     const pathname = generatePath(application, to);
-    url = url.endsWith('/') ? url.slice(0, -1) : url;
-    url = `${url}${pathname}`.replace('\r\n', ''); // Prevent CRLF injection.
+    url = fixUrl(url, pathname);
   }
 
   return url;
 }
 
-function generateLookup(returnUrl) {
+export function generateLookup(returnUrl) {
   // Grabs the `app` & `to` queries, generates the path and does
   // a reverse lookup to create mapping
   const { application: app, to } = getQueryParams();
-  const link = generatePath(app, to);
+  const link = !to ? '' : generatePath(app, to);
 
   const toRedirect = {
-    // My VA Health (Cerner)
-    '/pages/medications/current': 'prescriptions',
-    '/pages/scheduling/upcoming': 'appointments',
-    '/pages/messaging/inbox': 'secure_messaging',
-    '/pages/health_record/results/labs': 'tests_and_labs',
-    // My HealtheVet
-    '?deeplinking=download_my_data': 'download_my_data',
-    '?deeplinking=prescription_refill': 'prescription_refill',
-    '?deeplinking=secure_messaging': 'secure_messaging',
-    '?deeplinking=appointments': 'appointments',
-    '?deeplinking=home': 'home',
-    '?deeplinking=labs_and_tests': 'home',
-  }[link];
+    ...(app === 'mhv' && { ...mhvRedirects }),
+    ...(app === 'myvahealth' && { ...cernerRedirects }),
+  }[link || 'home'];
 
   const externalRedirectLookup = {
-    [`${externalRedirects.myvahealth}${link}`]: `myvahealth_${toRedirect}`,
-    [`${externalRedirects.mhv}${link}`]: `mhv_${toRedirect}`,
+    ...(app === 'myvahealth' && {
+      [`${externalRedirects.myvahealth}${link}`]: `myvahealth_${toRedirect}`,
+    }),
+    ...(app === 'mhv' && {
+      [`${externalRedirects.mhv}${link}`]: `mhv_${toRedirect}`,
+    }),
   };
 
   return {
-    redirectsTo: externalRedirectLookup[returnUrl],
+    redirectsTo: externalRedirectLookup[`${returnUrl}${link}`],
     app,
   };
 }
 
-function redirect(redirectUrl, clickedEvent) {
+export function redirect(redirectUrl, clickedEvent) {
   let rUrl = redirectUrl;
   // Keep track of the URL to return to after auth operation.
   // If the user is coming via the standalone sign-in, redirect to the home page.
@@ -151,7 +168,10 @@ function redirect(redirectUrl, clickedEvent) {
   // Generates the redirect for /sign-in page and tracks event
   if (loginAppUrlRE.test(window.location.pathname)) {
     const { redirectsTo, app } = generateLookup(returnUrl);
-    rUrl = `${redirectUrl}?redirect=${redirectsTo}`;
+    rUrl = {
+      mhv: `${redirectUrl}?redirect=${redirectsTo}`,
+      myvahealth: `${redirectUrl}`,
+    }[app];
     recordEvent({ event: `${authnSettings.REDIRECT_EVENT}-${app}-inbound` });
   }
 
