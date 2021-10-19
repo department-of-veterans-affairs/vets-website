@@ -12,6 +12,14 @@ const OverviewPage = () => {
   const errors = useSelector(({ mcp }) => mcp.errors);
   const [alertType, setAlertType] = useState(null);
 
+  // remove duplicate facilities with matching facility numbers
+  const facilities = statementData
+    .map(({ station }) => station)
+    .filter(
+      (val, index, arr) =>
+        arr.findIndex(temp => temp.facilitYNum === val.facilitYNum) === index,
+    );
+
   useEffect(
     () => {
       scrollToTop();
@@ -46,7 +54,7 @@ const OverviewPage = () => {
           </p>
           <Balances statementData={statementData} />
           <BalanceQuestions />
-          <FacilityContacts statementData={statementData} />
+          <FacilityContacts facilities={facilities} />
         </>
       )}
     </>

@@ -4,6 +4,8 @@ import mockCheckIn from '../../../../api/local-mock-api/mocks/v2/check.in.respon
 import mockSession from '../../../../api/local-mock-api/mocks/v2/sessions.responses';
 import mockPatientCheckIns from '../../../../api/local-mock-api/mocks/v2/patient.check.in.responses';
 
+import Timeouts from 'platform/testing/e2e/timeouts';
+
 describe('Check In Experience -- ', () => {
   describe('phase 3 -- ', () => {
     beforeEach(function() {
@@ -21,7 +23,7 @@ describe('Check In Experience -- ', () => {
         );
       });
       cy.intercept('GET', '/check_in/v2/patient_check_ins/*', req => {
-        req.reply(mockPatientCheckIns.createMockSuccessResponse({}, false));
+        req.reply(mockPatientCheckIns.createMultipleAppointments());
       });
       cy.intercept('POST', '/check_in/v2/patient_check_ins/', req => {
         req.reply(mockCheckIn.createMockSuccessResponse({}));
@@ -31,7 +33,7 @@ describe('Check In Experience -- ', () => {
         '/v0/feature_toggles*',
         generateFeatureToggles({
           checkInExperienceMultipleAppointmentSupport: true,
-          checkInExperienceUpdateInformationPageEnabled: true,
+          checkInExperienceUpdateInformationPageEnabled: false,
         }),
       );
     });
@@ -54,7 +56,9 @@ describe('Check In Experience -- ', () => {
         .find('input')
         .type('4837          ');
       cy.get('[data-testid=check-in-button]').click();
-      cy.get('legend > h1').contains('information');
+      cy.get('h1', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .and('contain', 'Your appointments');
     });
   });
 });
