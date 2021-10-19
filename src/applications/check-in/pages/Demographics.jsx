@@ -104,7 +104,7 @@ const Demographics = props => {
 };
 
 Demographics.propTypes = {
-  demographics: PropTypes.array,
+  demographics: PropTypes.object,
   isLoading: PropTypes.bool,
   isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
