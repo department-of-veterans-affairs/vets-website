@@ -29,12 +29,13 @@ const responses = {
     hasBeenValidated = true;
     return res.json(mockSessions.mocks.post(req.body));
   },
-  'GET /check_in/v2/patient_check_ins/:uuid': (_req, res) => {
+  'GET /check_in/v2/patient_check_ins/:uuid': (req, res) => {
+    const { uuid } = req.params;
     if (hasBeenValidated) {
       hasBeenValidated = false;
-      return res.json(mockPatientCheckIns.createMultipleAppointments({}));
+      return res.json(mockPatientCheckIns.createMultipleAppointments(uuid, 3));
     } else {
-      return res.json(mockPatientCheckIns.createMultipleAppointments({}));
+      return res.json(mockPatientCheckIns.createMultipleAppointments(uuid));
     }
   },
   'POST /check_in/v2/patient_check_ins/': (req, res) => {

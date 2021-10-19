@@ -7,7 +7,6 @@ import VAFacilityPage from '../../../../new-appointment/components/VAFacilityPag
 import {
   getParentSiteMock,
   getClinicMock,
-  getVAFacilityMock,
   getRequestEligibilityCriteriaMock,
   getDirectBookingEligibilityCriteriaMock,
 } from '../../../mocks/v0';
@@ -88,25 +87,18 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
         }),
       ]);
       mockFacilitiesFetch('vha_442', [
-        {
-          id: 'vha_442',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '442',
-            name: 'San Diego VA Medical Center',
-            address: {
-              physical: {
-                address1: '2360 East Pershing Boulevard',
-                city: 'San Diego',
-                state: 'CA',
-                zip: '92128',
-              },
-            },
-            phone: {
-              main: '858-779-0338',
-            },
+        createMockFacilityByVersion({
+          id: '442',
+          name: 'San Diego VA Medical Center',
+          address: {
+            line: ['2360 East Pershing Boulevard'],
+            city: 'San Diego',
+            state: 'CA',
+            postalCode: '92128',
           },
-        },
+          phone: '858-779-0338',
+          version: 0,
+        }),
       ]);
     });
 
@@ -241,22 +233,18 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
     const vhaIds = facilityIds.map(
       id => `vha_${id.replace('983', '442').replace('984', '552')}`,
     );
-    const facilities = vhaIds.map((id, index) => ({
-      id,
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: id.replace('vha_', ''),
+    const facilities = vhaIds.map((id, index) =>
+      createMockFacilityByVersion({
+        id: id.replace('vha_', ''),
         name: `Fake facility name ${index + 1}`,
         lat: Math.random() * 90,
         long: Math.random() * 180,
         address: {
-          physical: {
-            ...getVAFacilityMock().attributes.address.physical,
-            city: `Fake city ${index + 1}`,
-          },
+          city: `Fake city ${index + 1}`,
         },
-      },
-    }));
+        version: 0,
+      }),
+    );
 
     const requestFacilities = facilityIds.map(id =>
       getRequestEligibilityCriteriaMock({
@@ -307,7 +295,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
         store,
       });
 
-      await screen.findByText(/below is a list of VA locations/i);
+      await screen.findByText(/Select a VA facility/i);
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -358,7 +346,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
         store,
       });
 
-      await screen.findByText(/below is a list of VA locations/i);
+      await screen.findByText(/Select a VA facility/i);
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -411,7 +399,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
         store,
       });
 
-      await screen.findByText(/below is a list of VA locations/i);
+      await screen.findByText(/Select a VA facility/i);
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -469,7 +457,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
         store,
       });
 
-      await screen.findByText(/below is a list of VA locations/i);
+      await screen.findByText(/Select a VA facility/i);
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -503,7 +491,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
         store,
       });
 
-      await screen.findByText(/below is a list of VA locations/i);
+      await screen.findByText(/Select a VA facility/i);
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -755,7 +743,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
           store,
         });
 
-        await screen.findByText(/below is a list of VA locations/i);
+        await screen.findByText(/Select a VA facility/i);
 
         fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
         fireEvent.click(screen.getByText(/Continue/));

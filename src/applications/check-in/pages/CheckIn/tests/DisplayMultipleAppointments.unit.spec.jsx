@@ -180,6 +180,38 @@ describe('check-in', () => {
         );
         expect(checkIn.queryByTestId('back-button')).to.not.exist;
       });
+      it('shows the date & time the appointments were loaded & a refresh link', () => {
+        const mockRouter = {
+          params: {
+            token: 'token-123',
+          },
+        };
+
+        const token = 'token-123';
+        const appointments = [
+          {
+            clinicPhone: '555-867-5309',
+            startTime: '2021-07-19T13:56:31',
+            facilityName: 'Acme VA',
+            clinicName: 'Green Team Clinic1',
+          },
+        ];
+
+        const checkIn = render(
+          <Provider store={store}>
+            <DisplayMultipleAppointments
+              router={mockRouter}
+              token={token}
+              appointments={appointments}
+              isUpdatePageEnabled
+            />
+          </Provider>,
+        );
+        expect(checkIn.getByTestId('update-text')).to.have.text(
+          `Latest update: ${format(new Date(), "MMMM d, yyyy 'at' h:mm aaaa")}`,
+        );
+        expect(checkIn.queryByTestId('refresh-appointments-button')).to.exist;
+      });
     });
   });
 });
