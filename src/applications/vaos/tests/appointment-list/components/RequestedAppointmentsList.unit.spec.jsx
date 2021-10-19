@@ -7,7 +7,7 @@ import { mockFetch, setFetchJSONFailure } from 'platform/testing/unit/helpers';
 import reducers from '../../../redux/reducer';
 import { getVARequestMock } from '../../mocks/v0';
 import { getVAOSRequestMock } from '../../mocks/v2';
-import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
+import { mockAppointmentInfo } from '../../mocks/helpers';
 import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
 import {
   renderWithStoreAndRouter,
@@ -15,6 +15,7 @@ import {
 } from '../../mocks/setup';
 import { createMockFacilityByVersion } from '../../mocks/data';
 import RequestedAppointmentsList from '../../../appointment-list/components/RequestedAppointmentsList';
+import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
 
 const initialState = {
   featureToggles: {
@@ -33,7 +34,7 @@ describe('VAOS <RequestedAppointmentsList>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTimezoneTestDate());
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion({ version: 0 });
   });
   afterEach(() => {
     MockDate.reset();
@@ -75,7 +76,7 @@ describe('VAOS <RequestedAppointmentsList>', () => {
       phone: '307-778-7550',
       version: 0,
     });
-    mockFacilitiesFetch('vha_442GC', [facility]);
+    mockFacilitiesFetchByVersion({ facilities: [facility], version: 0 });
 
     // When the veteran selects the Requested dropdown selection
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
@@ -304,7 +305,7 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
       phone: '307-778-7550',
       version: 0,
     });
-    mockFacilitiesFetch('vha_442GC', [facility]);
+    mockFacilitiesFetchByVersion({ facilities: [facility], version: 0 });
     // When veteran selects the Requested dropdown selection
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
       initialState: initialStateVAOSService,

@@ -6,7 +6,6 @@ import { mockFetch } from 'platform/testing/unit/helpers';
 import { getVAAppointmentMock, getCancelReasonMock } from '../../../mocks/v0';
 import {
   mockAppointmentInfo,
-  mockFacilitiesFetch,
   mockSingleAppointmentFetch,
   mockVACancelFetches,
 } from '../../../mocks/helpers';
@@ -23,6 +22,7 @@ import { getICSTokens } from '../../../../utils/calendar';
 import { mockSingleVAOSAppointmentFetch } from '../../../mocks/helpers.v2';
 import { getVAOSAppointmentMock } from '../../../mocks/v2';
 import {
+  mockFacilitiesFetchByVersion,
   mockFacilityFetchByVersion,
   mockSingleClinicFetchByVersion,
 } from '../../../mocks/fetch';
@@ -42,7 +42,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTimezoneTestDate());
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion({ version: 0 });
   });
   afterEach(() => {
     MockDate.reset();
@@ -1033,7 +1033,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTimezoneTestDate());
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion();
   });
   afterEach(() => {
     MockDate.reset();
