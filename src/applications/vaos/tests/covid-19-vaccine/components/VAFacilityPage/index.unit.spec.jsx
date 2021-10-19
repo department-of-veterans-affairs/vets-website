@@ -7,7 +7,6 @@ import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import VAFacilityPage from '../../../../covid-19-vaccine/components/VAFacilityPage';
 import {
-  getVAFacilityMock,
   getDirectBookingEligibilityCriteriaMock,
   getClinicMock,
 } from '../../../mocks/v0';
@@ -23,6 +22,7 @@ import {
   mockGetCurrentPosition,
 } from '../../../mocks/helpers';
 import { TYPE_OF_CARE_ID } from '../../../../covid-19-vaccine/utils';
+import { createMockFacilityByVersion } from '../../../mocks/data';
 
 const initialState = {
   user: {
@@ -50,22 +50,18 @@ const vhaIds = facilityIds.map(
   id => `vha_${id.replace('983', '442').replace('984', '552')}`,
 );
 
-const facilities = vhaIds.map((id, index) => ({
-  id,
-  attributes: {
-    ...getVAFacilityMock().attributes,
-    uniqueId: id.replace('vha_', ''),
+const facilities = vhaIds.map((id, index) =>
+  createMockFacilityByVersion({
+    id: id.replace('vha_', ''),
     name: `Fake facility name ${index + 1}`,
     lat: Math.random() * 90,
     long: Math.random() * 180,
     address: {
-      physical: {
-        ...getVAFacilityMock().attributes.address.physical,
-        city: `Fake city ${index + 1}`,
-      },
+      city: `Fake city ${index + 1}`,
     },
-  },
-}));
+    version: 0,
+  }),
+);
 
 const closestFacility = facilities[2];
 closestFacility.attributes.name = 'Closest facility';
@@ -434,11 +430,12 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
       typeOfCareId: TYPE_OF_CARE_ID,
       patientHistoryRequired: null,
     });
-    const facilityDetails = getVAFacilityMock({
+    const facilityDetails = createMockFacilityByVersion({
       id: '123',
       name: 'Bozeman VA medical center',
       lat: 39.1362562,
       long: -85.6804804,
+      version: 0,
     });
     facilityDetails.attributes.address = {
       physical: {
@@ -464,11 +461,12 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     mockRequestEligibilityCriteria(parentSiteIds, []);
     mockFacilitiesFetch('vha_123,vha_124', [
       facilityDetails,
-      getVAFacilityMock({
+      createMockFacilityByVersion({
         id: '124',
         name: 'Facility 124',
         lat: 39.1362562,
         long: -85.6804804,
+        version: 0,
       }),
     ]);
 

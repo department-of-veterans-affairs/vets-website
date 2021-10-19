@@ -1,3 +1,4 @@
+import environment from 'platform/utilities/environment';
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import SearchAccordion from '../components/SearchAccordion';
@@ -322,14 +323,25 @@ export function FilterYourResults({
             inputAriaLabelledBy={legendId}
           />
           <div className="expanding-group-children">
-            <Checkbox
-              checked={preferredProvider}
-              name="preferredProvider"
-              label="Preferred providers"
-              onChange={handlePreferredProviderChange}
-              labelAriaLabel="VET TEC Preferred providers"
-              inputAriaLabelledBy={legendId}
-            />
+            {environment.isProduction() ? (
+              <Checkbox
+                checked={preferredProvider}
+                name="preferredProvider"
+                label="Preferred providers"
+                onChange={handlePreferredProviderChange}
+                labelAriaLabel="VET TEC Preferred providers"
+                inputAriaLabelledBy={legendId}
+              />
+            ) : (
+              <Checkbox
+                checked={preferredProvider}
+                name="preferredProvider"
+                label="Preferred providers only"
+                onChange={handlePreferredProviderChange}
+                labelAriaLabel="VET TEC Preferred providers"
+                inputAriaLabelledBy={legendId}
+              />
+            )}
           </div>
         </ExpandingGroup>
       </>

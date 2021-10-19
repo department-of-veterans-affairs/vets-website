@@ -338,15 +338,15 @@ export function createMockClinicByVersion({
  * @returns {VAFacility|MFSFacility} The facility mock with specified data
  */
 export function createMockFacilityByVersion({
-  id,
-  name = 'Fake',
+  id = 'fake',
+  name = 'Fake name',
   address,
-  phone,
+  phone = 'fake',
   lat,
   long,
   isParent = null,
   version = 2,
-}) {
+} = {}) {
   if (version === 2) {
     return {
       id,
@@ -380,7 +380,7 @@ export function createMockFacilityByVersion({
           zip: address?.postalCode || 'fake zip',
           city: address?.city || 'Fake city',
           state: address?.state || 'FA',
-          address1: address?.line[0] || 'Fake street',
+          address1: address?.line?.[0] || 'Fake street',
           address2: null,
           address3: null,
         },
@@ -393,4 +393,19 @@ export function createMockFacilityByVersion({
       hours: {},
     },
   };
+}
+
+export function createMockCheyenneFacilityByVersion({ version = 2 } = {}) {
+  return createMockFacilityByVersion({
+    id: '442',
+    name: 'Cheyenne VA Medical Center',
+    address: {
+      postalCode: '82001-5356',
+      city: 'Cheyenne',
+      state: 'WY',
+      line: ['2360 East Pershing Boulevard'],
+    },
+    phone: '307-778-7550',
+    version,
+  });
 }

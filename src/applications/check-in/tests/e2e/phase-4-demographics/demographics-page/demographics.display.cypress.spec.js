@@ -8,22 +8,19 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 describe('Check In Experience -- ', () => {
   describe('phase 4 -- ', () => {
     beforeEach(function() {
-      let hasValidated = false;
       cy.intercept('GET', '/check_in/v2/sessions/*', req => {
         req.reply(
           mockSession.createMockSuccessResponse('some-token', 'read.basic'),
         );
       });
       cy.intercept('POST', '/check_in/v2/sessions', req => {
-        hasValidated = true;
         req.reply(
           mockSession.createMockSuccessResponse('some-token', 'read.full'),
         );
       });
       cy.intercept('GET', '/check_in/v2/patient_check_ins/*', req => {
-        req.reply(
-          mockPatientCheckIns.createMockSuccessResponse({}, hasValidated),
-        );
+        const rv = mockPatientCheckIns.createMultipleAppointments();
+        req.reply(rv);
       });
       cy.intercept('POST', '/check_in/v2/patient_check_ins/', req => {
         req.reply(mockCheckIn.createMockSuccessResponse({}));
@@ -43,7 +40,7 @@ describe('Check In Experience -- ', () => {
         window.sessionStorage.clear();
       });
     });
-    it('demographics enabled', () => {
+    it('demographics display', () => {
       const featureRoute =
         '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
       cy.visit(featureRoute);
@@ -60,10 +57,43 @@ describe('Check In Experience -- ', () => {
         .find('input')
         .type('4837');
       cy.get('[data-testid=check-in-button]').click();
-
       cy.get('h1', { timeout: Timeouts.slow })
         .should('be.visible')
         .and('have.text', 'Is this your current contact information?');
+      cy.get('.check-in-demographics > p', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .and(
+          'have.text',
+          'We can better follow up with you after your appointment when we have your current information.',
+        );
+      cy.get('.check-in-demographics dl')
+        .find('dt:nth-child(1)')
+        .should('have.text', 'Mailing Address')
+        .next()
+        .should('have.text', '123 Turtle TrailTreetopper, Tennessee 101010')
+        .next()
+        .should('have.text', 'Home Address')
+        .next()
+        .should(
+          'have.text',
+          '445 Fine Finch Fairway, Apt 201Fairfence, Florida 445545',
+        )
+        .next()
+        .should('have.text', 'Home Phone')
+        .next()
+        .should('have.text', '555-222-3333')
+        .next()
+        .should('have.text', 'Mobile Phone')
+        .next()
+        .should('have.text', '555-333-4444')
+        .next()
+        .should('have.text', 'Work Phone')
+        .next()
+        .should('have.text', '555-444-5555')
+        .next()
+        .should('have.text', 'Email Address')
+        .next()
+        .should('have.text', 'kermit.frog@sesameenterprises.us');
     });
   });
 });
