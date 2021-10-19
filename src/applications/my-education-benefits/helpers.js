@@ -166,9 +166,19 @@ export const getSelectedCheckboxes = (uiSchema, formData) =>
     .join(', ');
 
 export function prefillTransformer(pages, formData, metadata, state) {
+  let newData = formData;
+
+  newData = {
+    ...newData,
+    'view:userFullName': {
+      userFullName: state.user.profile?.userFullName,
+    },
+    dateOfBirth: state.user.profile?.dob,
+  };
+
   return {
     metadata,
-    formData,
+    formData: newData,
     pages,
     state,
   };

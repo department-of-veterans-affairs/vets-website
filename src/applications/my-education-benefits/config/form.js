@@ -334,6 +334,7 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   prefillTransformer,
+  returnUrl: '/applicant-information/personal-information',
   savedFormMessages: {
     notFound: 'Please start over to apply for my education benefits.',
     noAuth:
@@ -385,7 +386,7 @@ const formConfig = {
                 </>
               ),
             },
-            'view:fullName': {
+            'view:userFullName': {
               'ui:description': (
                 <p className="meb-review-page-only">
                   If you’d like to update your personal information, please edit
@@ -435,7 +436,7 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              'view:fullName': {
+              'view:userFullName': {
                 required: [formFields.userFullName],
                 type: 'object',
                 properties: {
@@ -455,7 +456,7 @@ const formConfig = {
             },
           },
           // initialData: {
-          //   'view:fullName': {
+          //   'view:userFullName': {
           //     userFullName: {
           //       first: 'Hector',
           //       middle: 'Oliver',
