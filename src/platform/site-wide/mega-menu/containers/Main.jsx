@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 // Relative imports.
 import MY_VA_LINK from '../constants/MY_VA_LINK';
 import MegaMenu from '../components/MegaMenu';
-import authenticatedUserLinkData from '../mega-menu-link-data-for-authenticated-users';
+import authenticatedUserLinkData from '../mega-menu-link-data-for-authenticated-users.json';
 import recordEvent from '../../../monitoring/record-event';
 import { isLoggedIn } from '../../../user/selectors';
 import { replaceDomainsInData } from '../../../utilities/environment/stagingDomains';
