@@ -159,12 +159,7 @@ async function getAdditionalFacilityInfo(futureAppointments, useV2 = false) {
 function getAdditionalFacilityInfoV2(appointments) {
   // Facility information included with v2 appointment api call.
   return appointments
-    ?.map(
-      appt =>
-        appt.vaos.apiData.location
-          ? { ...appt.vaos.apiData.location.attributes }
-          : null,
-    )
+    ?.map(appt => (appt.vaos.facilityData ? appt.vaos.facilityData : null))
     .filter(n => n);
 }
 
