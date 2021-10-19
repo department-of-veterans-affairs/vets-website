@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
@@ -59,6 +60,10 @@ const UpdateInformationQuestion = props => {
       <BackToHome />
     </div>
   );
+};
+
+UpdateInformationQuestion.propTypes = {
+  router: PropTypes.object,
 };
 
 export default UpdateInformationQuestion;

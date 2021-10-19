@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 import { focusElement } from 'platform/utilities/ui';
@@ -22,6 +23,10 @@ const Failed = props => {
       <BackToHome />
     </div>
   );
+};
+
+Failed.propTypes = {
+  router: PropTypes.object,
 };
 
 export default Failed;

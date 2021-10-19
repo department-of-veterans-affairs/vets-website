@@ -1,10 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
 
 import { createAnalyticsSlug } from '../utils/analytics';
 
-export default function BackButton({ router }) {
+const BackButton = props => {
+  const { router } = props;
+
   const handleClick = e => {
     e.preventDefault();
     const { goBack } = router;
@@ -33,4 +36,10 @@ export default function BackButton({ router }) {
       </nav>
     </>
   );
-}
+};
+
+BackButton.propTypes = {
+  router: PropTypes.object,
+};
+
+export default BackButton;
