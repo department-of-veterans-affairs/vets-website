@@ -8,7 +8,6 @@ import { cleanup } from '@testing-library/react';
 import VAFacilityPage from '../../../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
 import {
   getParentSiteMock,
-  getVAFacilityMock,
   getRequestEligibilityCriteriaMock,
   getDirectBookingEligibilityCriteriaMock,
 } from '../../../mocks/v0';
@@ -101,22 +100,18 @@ describe('VAOS <VAFacilityPage>', () => {
       id => `vha_${id.replace('983', '442').replace('984', '552')}`,
     );
 
-    const facilities = vhaIds.map((id, index) => ({
-      id,
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: id.replace('vha_', ''),
+    const facilities = vhaIds.map((id, index) =>
+      createMockFacilityByVersion({
+        id: id.replace('vha_', ''),
         name: `Fake facility name ${index + 1}`,
         lat: Math.random() * 90,
         long: Math.random() * 180,
         address: {
-          physical: {
-            ...getVAFacilityMock().attributes.address.physical,
-            city: `Fake city ${index + 1}`,
-          },
+          city: `Fake city ${index + 1}`,
         },
-      },
-    }));
+        version: 0,
+      }),
+    );
 
     const closestFacility = facilities[2];
     closestFacility.attributes.name = 'Closest facility';
@@ -261,11 +256,12 @@ describe('VAOS <VAFacilityPage>', () => {
         typeOfCareId: '323',
         patientHistoryRequired: null,
       });
-      const facilityDetails = getVAFacilityMock({
+      const facilityDetails = createMockFacilityByVersion({
         id: '123',
         name: 'Bozeman VA medical center',
         lat: 39.1362562,
         long: -85.6804804,
+        version: 0,
       });
       facilityDetails.attributes.address = {
         physical: {
@@ -296,17 +292,19 @@ describe('VAOS <VAFacilityPage>', () => {
       mockRequestEligibilityCriteria(parentSiteIds, []);
       mockFacilitiesFetch('vha_123,vha_124,vha_125', [
         facilityDetails,
-        getVAFacilityMock({
+        createMockFacilityByVersion({
           id: '124',
           name: 'Facility 124',
           lat: 39.1362562,
           long: -85.6804804,
+          version: 0,
         }),
-        getVAFacilityMock({
+        createMockFacilityByVersion({
           id: '125',
           name: 'Facility 125',
           lat: 39.1362562,
           long: -86.6804804,
+          version: 0,
         }),
       ]);
 
@@ -355,9 +353,10 @@ describe('VAOS <VAFacilityPage>', () => {
         typeOfCareId: '323',
         patientHistoryRequired: null,
       });
-      const facilityDetails = getVAFacilityMock({
+      const facilityDetails = createMockFacilityByVersion({
         id: '123',
         name: 'Bozeman VA medical center',
+        version: 0,
       });
       facilityDetails.attributes.address = {
         physical: {
@@ -403,25 +402,30 @@ describe('VAOS <VAFacilityPage>', () => {
       mockRequestEligibilityCriteria(parentSiteIds, []);
       mockFacilitiesFetch('vha_123,vha_124,vha_125,vha_126,vha_127,vha_128', [
         facilityDetails,
-        getVAFacilityMock({
+        createMockFacilityByVersion({
           id: '124',
           name: 'Facility 124',
+          version: 0,
         }),
-        getVAFacilityMock({
+        createMockFacilityByVersion({
           id: '125',
           name: 'Facility 125',
+          version: 0,
         }),
-        getVAFacilityMock({
+        createMockFacilityByVersion({
           id: '126',
           name: 'Facility 126',
+          version: 0,
         }),
-        getVAFacilityMock({
+        createMockFacilityByVersion({
           id: '127',
           name: 'Facility 127',
+          version: 0,
         }),
-        getVAFacilityMock({
+        createMockFacilityByVersion({
           id: '128',
           name: 'Facility 128',
+          version: 0,
         }),
       ]);
 
@@ -503,53 +507,37 @@ describe('VAOS <VAFacilityPage>', () => {
         }),
       ]);
       mockFacilitiesFetch('vha_442,vha_442GC,vha_552,vha_552GC', [
-        {
+        createMockFacilityByVersion({
           id: '983',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '983',
-            name: 'Facility that is enabled',
-          },
-        },
-        {
+          name: 'Facility that is enabled',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
           id: '983GC',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '983GC',
-            name: 'Facility that is also enabled',
-          },
-        },
-        {
+          name: 'Facility that is also enabled',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
           id: '984',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '984',
-            name: 'Facility that is disabled',
-            lat: 39.1362562,
-            // tweaked longitude to be around 80 miles away
-            long: -83.1804804,
-            address: {
-              physical: {
-                city: 'Bozeman',
-                state: 'MT',
-              },
-            },
-            phone: {
-              main: '5555555555x1234',
-            },
+          name: 'Facility that is disabled',
+          lat: 39.1362562,
+          // tweaked longitude to be around 80 miles away
+          long: -83.1804804,
+          address: {
+            city: 'Bozeman',
+            state: 'MT',
           },
-        },
-        {
+          phone: '5555555555x1234',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
           id: '984GC',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '984GC',
-            name: 'Facility that is over 100 miles away and disabled',
-            lat: 39.1362562,
-            // tweaked longitude to be over 100 miles away
-            long: -82.1804804,
-          },
-        },
+          name: 'Facility that is over 100 miles away and disabled',
+          lat: 39.1362562,
+          // tweaked longitude to be over 100 miles away
+          long: -82.1804804,
+          version: 0,
+        }),
       ]);
       const store = createTestStore({
         ...initialState,
@@ -634,42 +622,30 @@ describe('VAOS <VAFacilityPage>', () => {
         }),
       ]);
       mockFacilitiesFetch('vha_442,vha_442GC,vha_552,vha_552GC', [
-        {
+        createMockFacilityByVersion({
           id: '983',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '983',
-            name: 'Facility that is enabled',
-          },
-        },
-        {
+          name: 'Facility that is enabled',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
           id: '983GC',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '983GC',
-            name: 'Facility that is also enabled',
-          },
-        },
-        {
+          name: 'Facility that is also enabled',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
           id: '984',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '984',
-            name: 'Disabled facility near residential address',
-            lat: 39.1362562,
-            long: -83.1804804,
-          },
-        },
-        {
+          name: 'Disabled facility near residential address',
+          lat: 39.1362562,
+          long: -83.1804804,
+          version: 0,
+        }),
+        createMockFacilityByVersion({
           id: '984GC',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '984GC',
-            name: 'Disabled facility near current location',
-            lat: 53.2734,
-            long: -7.77832031,
-          },
-        },
+          name: 'Disabled facility near current location',
+          lat: 53.2734,
+          long: -7.77832031,
+          version: 0,
+        }),
       ]);
       mockGetCurrentPosition();
       const store = createTestStore({
@@ -825,36 +801,27 @@ describe('VAOS <VAFacilityPage>', () => {
         }),
       ]);
       mockFacilitiesFetch('vha_442,vha_442GC,vha_552', [
-        {
+        createMockFacilityByVersion({
           id: '983',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '983',
-            name: 'First cerner facility',
-            lat: 39.1362562,
-            long: -83.1804804,
-          },
-        },
-        {
+          name: 'First cerner facility',
+          lat: 39.1362562,
+          long: -83.1804804,
+          version: 0,
+        }),
+        createMockFacilityByVersion({
           id: '983GC',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '983GC',
-            name: 'Second cerner facility',
-            lat: 39.1362562,
-            long: -83.1804804,
-          },
-        },
-        {
+          name: 'Second cerner facility',
+          lat: 39.1362562,
+          long: -83.1804804,
+          version: 0,
+        }),
+        createMockFacilityByVersion({
           id: '984',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '984',
-            name: 'Vista facility',
-            lat: 39.1362562,
-            long: -83.1804804,
-          },
-        },
+          name: 'Vista facility',
+          lat: 39.1362562,
+          long: -83.1804804,
+          version: 0,
+        }),
       ]);
       const store = createTestStore({
         ...initialState,
@@ -1285,25 +1252,18 @@ describe('VAOS <VAFacilityPage>', () => {
         }),
       ]);
       mockFacilitiesFetch('vha_442', [
-        {
-          id: 'vha_442',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '442',
-            name: 'San Diego VA Medical Center',
-            address: {
-              physical: {
-                address1: '2360 East Pershing Boulevard',
-                city: 'San Diego',
-                state: 'CA',
-                zip: '92128',
-              },
-            },
-            phone: {
-              main: '858-779-0338',
-            },
+        createMockFacilityByVersion({
+          id: '442',
+          name: 'San Diego VA Medical Center',
+          address: {
+            line: ['2360 East Pershing Boulevard'],
+            city: 'San Diego',
+            state: 'CA',
+            postalCode: '92128',
           },
-        },
+          phone: '858-779-0338',
+          version: 0,
+        }),
       ]);
     });
     it('should show facility information without form', async () => {
@@ -1349,9 +1309,21 @@ describe('VAOS <VAFacilityPage>', () => {
         getRequestEligibilityCriteriaMock({ id: '983GD', typeOfCareId: '407' }),
       ]);
       mockFacilitiesFetch('vha_442,vha_442GC,vha_442GD', [
-        getVAFacilityMock({ id: '442', name: 'Facility 1' }),
-        getVAFacilityMock({ id: '442GC', name: 'Facility 2' }),
-        getVAFacilityMock({ id: '442GD', name: 'Facility 3' }),
+        createMockFacilityByVersion({
+          id: '442',
+          name: 'Facility 1',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
+          id: '442GC',
+          name: 'Facility 2',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
+          id: '442GD',
+          name: 'Facility 3',
+          version: 0,
+        }),
       ]);
       mockEligibilityFetches({
         siteId: '983',
