@@ -258,7 +258,9 @@ class SearchDropDownComponent extends React.Component {
     this.setState({ isOpen: open });
 
     if (callFocus) {
-      document.getElementById('search-dropdown-input-field').focus();
+      document
+        .getElementById(`${this.props.classNameBase}-input-field`)
+        .focus();
     }
   }
 
@@ -283,7 +285,7 @@ class SearchDropDownComponent extends React.Component {
       hasBeenFocused,
     } = this.state;
 
-    const activeId = isOpen ? `${ID}-${activeIndex}` : undefined;
+    const activeId = isOpen ? `${ID}-option-${activeIndex}` : undefined;
 
     const mobileResponsiveClass = this.props.mobileResponsive
       ? 'shrink-to-column'
@@ -343,7 +345,7 @@ class SearchDropDownComponent extends React.Component {
                           ? 'suggestion highlighted'
                           : 'suggestion regular'
                       }
-                      id={`${ID}-${i}`}
+                      id={`${ID}-option-${i}`}
                       key={`${ID}-${i}`}
                       role="option"
                       tabIndex="-1"
@@ -402,7 +404,7 @@ class SearchDropDownComponent extends React.Component {
                         ? 'suggestion highlighted'
                         : 'suggestion regular'
                     }
-                    id={`${ID}-${i}`}
+                    id={`${ID}-option-${i}`}
                     key={`${ID}-${i}`}
                     role="option"
                     tabIndex="-1"
