@@ -1,6 +1,10 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "./partials/expandable-alert";
 
+.no-wrap {
+  white-space: nowrap;
+}
+
 .right-heading {
   font-family: "Bitter";
   border-bottom: 3px solid $color-blue;

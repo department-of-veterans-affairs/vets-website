@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
 import { transform } from '../utils/helpers';
 
@@ -15,7 +16,9 @@ export const getStatements = () => {
           response: transform(data),
         });
       })
-      .catch(errors => {
+      .catch(({ errors }) => {
+        Sentry.captureException(errors);
+        Sentry.captureMessage('medical_copays getStatements failed');
         return dispatch({
           type: MCP_STATEMENTS_FETCH_FAILURE,
           errors,

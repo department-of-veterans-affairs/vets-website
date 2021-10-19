@@ -17,16 +17,9 @@ export default function StudentVeteranGroupModalContent() {
         . We update this information in the Comparison Tool quarterly.
       </p>
       <p>
-        Please note this email address is only for Comparison Tool-related
-        issues. For questions about your GI Bill benefits,{' '}
-        <a
-          href="https://gibill.custhelp.com/app/utils/login_form/redirect/ask"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          please check this "Ask a Question" page
-        </a>
-        .
+        Please note this email address is only for tool-related issues. For
+        questions about your GI Bill benefits,{' '}
+        <a href="/contact-us/">contact us online through Ask VA</a>.
       </p>
     </>
   );

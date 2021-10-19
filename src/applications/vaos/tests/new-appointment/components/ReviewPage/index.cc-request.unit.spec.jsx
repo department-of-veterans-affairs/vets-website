@@ -28,7 +28,7 @@ import {
 } from '../../../mocks/helpers';
 
 import { mockAppointmentSubmitV2 } from '../../../mocks/helpers.v2';
-import { getVAFacilityMock } from '../../../mocks/v0';
+import { createMockCheyenneFacilityByVersion } from '../../../mocks/data';
 
 const initialState = {
   featureToggles: {
@@ -186,25 +186,10 @@ describe('VAOS <ReviewPage> CC request', () => {
   });
 
   it('should show error message on failure', async () => {
-    mockFacilityFetch('vha_442', {
-      id: 'vha_442',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '442',
-        name: 'Cheyenne VA Medical Center',
-        address: {
-          physical: {
-            zip: '82001-5356',
-            city: 'Cheyenne',
-            state: 'WY',
-            address1: '2360 East Pershing Boulevard',
-          },
-        },
-        phone: {
-          main: '307-778-7550',
-        },
-      },
-    });
+    mockFacilityFetch(
+      'vha_442',
+      createMockCheyenneFacilityByVersion({ version: 0 }),
+    );
     setFetchJSONFailure(
       global.fetch.withArgs(
         `${environment.API_URL}/vaos/v0/appointment_requests?type=cc`,
@@ -436,25 +421,10 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
   });
 
   it('should show error message on failure', async () => {
-    mockFacilityFetch('vha_442', {
-      id: 'vha_442',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '442',
-        name: 'Cheyenne VA Medical Center',
-        address: {
-          physical: {
-            zip: '82001-5356',
-            city: 'Cheyenne',
-            state: 'WY',
-            address1: '2360 East Pershing Boulevard',
-          },
-        },
-        phone: {
-          main: '307-778-7550',
-        },
-      },
-    });
+    mockFacilityFetch(
+      'vha_442',
+      createMockCheyenneFacilityByVersion({ version: 0 }),
+    );
     setFetchJSONFailure(
       global.fetch.withArgs(
         `${environment.API_URL}/vaos/v0/appointment_requests?type=cc`,
@@ -637,25 +607,10 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
   });
 
   it('should show error message on failure', async () => {
-    mockFacilityFetch('vha_442', {
-      id: 'vha_442',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '442',
-        name: 'Cheyenne VA Medical Center',
-        address: {
-          physical: {
-            zip: '82001-5356',
-            city: 'Cheyenne',
-            state: 'WY',
-            address1: '2360 East Pershing Boulevard',
-          },
-        },
-        phone: {
-          main: '307-778-7550',
-        },
-      },
-    });
+    mockFacilityFetch(
+      'vha_442',
+      createMockCheyenneFacilityByVersion({ version: 0 }),
+    );
     setFetchJSONFailure(
       global.fetch.withArgs(`${environment.API_URL}/vaos/v2/appointments`),
       {
