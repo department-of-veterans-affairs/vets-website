@@ -73,13 +73,6 @@ const formConfig = {
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  // prevent finish applying/sign in and start over modal from opening when
-  // logged out on the wizard page & clicking the header sign in button
-  additionalRoutes: [
-    {
-      path: 'start', // component: null, pageKey: 'start', depends: () => false,
-    },
-  ],
 
   version: migrations.length,
   migrations,
