@@ -13,7 +13,7 @@ import {
   setTypeOfCare,
   setTypeOfFacility,
 } from '../../../mocks/setup';
-import { getParentSiteMock, getVAFacilityMock } from '../../../mocks/v0';
+import { getParentSiteMock } from '../../../mocks/v0';
 import {
   mockCCProviderFetch,
   mockCommunityCareEligibility,
@@ -26,6 +26,7 @@ import CommunityCareProviderSelectionPage from '../../../../new-appointment/comp
 import { calculateBoundingBox } from '../../../../utils/address';
 import { CC_PROVIDERS_DATA } from './cc_providers_data';
 import { FACILITY_SORT_METHODS } from '../../../../utils/constants';
+import { createMockFacilityByVersion } from '../../../mocks/data';
 
 const initialState = {
   featureToggles: {
@@ -105,7 +106,12 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
     );
     mockFacilityFetch(
       'vha_442',
-      getVAFacilityMock({ id: '442', lat: 38.5615, long: 122.9988 }),
+      createMockFacilityByVersion({
+        id: '442',
+        lat: 38.5615,
+        long: 122.9988,
+        version: 0,
+      }),
     );
   });
 
@@ -436,16 +442,16 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
       CC_PROVIDERS_DATA,
     );
 
-    mockFacilityFetch('vha_442GJ', {
-      id: '983',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '983',
+    mockFacilityFetch(
+      'vha_442GJ',
+      createMockFacilityByVersion({
+        id: '442GJ',
         name: 'Facility that is enabled',
         lat: 39.1362562,
         long: -83.1804804,
-      },
-    });
+        version: 0,
+      }),
+    );
 
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, /Community Care/i);
@@ -519,16 +525,16 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
       CC_PROVIDERS_DATA,
     );
 
-    mockFacilityFetch('vha_442GJ', {
-      id: '983',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '983',
+    mockFacilityFetch(
+      'vha_442GJ',
+      createMockFacilityByVersion({
+        id: '442GJ',
         name: 'Facility that is enabled',
         lat: 39.1362562,
         long: -83.1804804,
-      },
-    });
+        version: 0,
+      }),
+    );
 
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, /Community Care/i);

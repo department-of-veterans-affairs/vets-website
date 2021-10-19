@@ -23,8 +23,8 @@ describe('check inactions', () => {
       });
       it('should return correct structure', () => {
         const action = receivedMultipleAppointmentDetails([{ id: 'some-id' }]);
-        expect(action.data.appointments[0]).to.haveOwnProperty('id');
-        expect(action.data.appointments[0].id).to.equal('some-id');
+        expect(action.payload.appointments[0]).to.haveOwnProperty('id');
+        expect(action.payload.appointments[0].id).to.equal('some-id');
       });
     });
     describe('receivedAppointmentDetails', () => {
@@ -34,8 +34,8 @@ describe('check inactions', () => {
       });
       it('should return correct structure', () => {
         const action = receivedAppointmentDetails({ id: 'some-id' });
-        expect(action.data.appointments[0]).to.haveOwnProperty('id');
-        expect(action.data.appointments[0].id).to.equal('some-id');
+        expect(action.payload.appointments[0]).to.haveOwnProperty('id');
+        expect(action.payload.appointments[0].id).to.equal('some-id');
       });
     });
     describe('tokenWasValidated', () => {
@@ -48,12 +48,12 @@ describe('check inactions', () => {
         const token = 'some-token';
         const scope = 'some-scope';
         const action = tokenWasValidated(data, token, scope);
-        expect(action.data).to.haveOwnProperty('context');
-        expect(action.data.context).to.haveOwnProperty('token');
-        expect(action.data.context.token).to.equal('some-token');
-        expect(action.data.context).to.haveOwnProperty('scope');
-        expect(action.data.context.scope).to.equal('some-scope');
-        expect(action.data).to.haveOwnProperty('appointments');
+        expect(action.payload).to.haveOwnProperty('context');
+        expect(action.payload.context).to.haveOwnProperty('token');
+        expect(action.payload.context.token).to.equal('some-token');
+        expect(action.payload.context).to.haveOwnProperty('scope');
+        expect(action.payload.context.scope).to.equal('some-scope');
+        expect(action.payload).to.haveOwnProperty('appointments');
       });
     });
     describe('permissionsUpdated', () => {
@@ -66,10 +66,10 @@ describe('check inactions', () => {
           { permissions: 'some-permissions' },
           'some-scope',
         );
-        expect(action.value).to.haveOwnProperty('permissions');
-        expect(action.value.permissions).to.equal('some-permissions');
-        expect(action.value).to.haveOwnProperty('scope');
-        expect(action.value.scope).to.equal('some-scope');
+        expect(action.payload).to.haveOwnProperty('permissions');
+        expect(action.payload.permissions).to.equal('some-permissions');
+        expect(action.payload).to.haveOwnProperty('scope');
+        expect(action.payload.scope).to.equal('some-scope');
       });
     });
     describe('appointmentWAsCheckedInto', () => {
@@ -83,8 +83,8 @@ describe('check inactions', () => {
         const action = appointmentWAsCheckedInto({
           appointmentIen: 'some-ien',
         });
-        expect(action.value).to.haveOwnProperty('appointment');
-        expect(action.value.appointment.appointmentIen).to.equal('some-ien');
+        expect(action.payload).to.haveOwnProperty('appointment');
+        expect(action.payload.appointment.appointmentIen).to.equal('some-ien');
       });
     });
     describe('receivedDemographicsData', () => {

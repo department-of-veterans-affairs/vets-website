@@ -12,9 +12,9 @@ import {
   getExpressCareRequestCriteriaMock,
   getRequestEligibilityCriteriaMock,
   getDirectBookingEligibilityCriteriaMock,
-  getVAFacilityMock,
 } from '../mocks/v0';
 import sinon from 'sinon';
+import { createMockFacilityByVersion } from './data';
 
 /**
  * Mocks appointment-related api calls for the upcoming appointments page
@@ -811,20 +811,18 @@ export function mockFacilitiesPageFetches(
     id => `vha_${id.replace('983', '442').replace('984', '552')}`,
   );
 
-  const facilities = vhaIds.map((id, index) => ({
-    id,
-    attributes: {
-      ...getVAFacilityMock().attributes,
-      uniqueId: id.replace('vha_', ''),
+  const facilities = vhaIds.map((id, index) =>
+    createMockFacilityByVersion({
+      id: id.replace('vha_', ''),
       name: `Fake facility name ${index + 1}`,
+      lat: Math.random() * 90,
+      long: Math.random() * 180,
       address: {
-        physical: {
-          ...getVAFacilityMock().attributes.address.physical,
-          city: `Fake city ${index + 1}`,
-        },
+        city: `Fake city ${index + 1}`,
       },
-    },
-  }));
+      version: 0,
+    }),
+  );
 
   mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
   mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);

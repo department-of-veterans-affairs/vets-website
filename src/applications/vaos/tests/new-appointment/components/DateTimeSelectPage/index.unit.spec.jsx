@@ -23,8 +23,9 @@ import {
   mockAppointmentSlotFetch,
   mockFacilityFetch,
 } from '../../../mocks/helpers';
-import { getAppointmentSlotMock, getVAFacilityMock } from '../../../mocks/v0';
+import { getAppointmentSlotMock } from '../../../mocks/v0';
 import { setDateTimeSelectMockFetches } from './helpers';
+import { createMockCheyenneFacilityByVersion } from '../../../mocks/data';
 
 const initialState = {
   featureToggles: {
@@ -40,7 +41,10 @@ const initialState = {
 describe('VAOS <DateTimeSelectPage>', () => {
   beforeEach(() => {
     mockFetch();
-    mockFacilityFetch('vha_442', getVAFacilityMock());
+    mockFacilityFetch(
+      'vha_442',
+      createMockCheyenneFacilityByVersion({ version: 0 }),
+    );
     MockDate.set(moment('2020-01-26T14:00:00'));
   });
   afterEach(() => {

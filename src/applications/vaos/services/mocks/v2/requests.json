@@ -34,7 +34,7 @@
         },
         "preferredTimesForPhoneCall": ["Morning"],
         "priority": null,
-        "cancellationReason": null,
+        "cancelationReason": null,
         "description": null,
         "comment": "I have a headache"
       }
@@ -68,7 +68,7 @@
         },
         "preferredTimesForPhoneCall": ["Afternoon", "Evening"],
         "priority": null,
-        "cancellationReason": null,
+        "cancelationReason": null,
         "description": null,
         "comment": "I have a cold"
       }
@@ -102,7 +102,7 @@
         },
         "preferredTimesForPhoneCall": ["Afternoon", "Evening"],
         "priority": null,
-        "cancellationReason": null,
+        "cancelationReason": null,
         "description": null,
         "comment": "Pink eye"
       }
@@ -136,7 +136,7 @@
         },
         "preferredTimesForPhoneCall": ["Afternoon", "Evening"],
         "priority": null,
-        "cancellationReason": null,
+        "cancelationReason": null,
         "description": null,
         "comment": "Renew medication"
       }
@@ -172,7 +172,7 @@
         },
         "preferredTimesForPhoneCall": null,
         "priority": null,
-        "cancellationReason": null,
+        "cancelationReason": null,
         "description": null,
         "comment": null
       }

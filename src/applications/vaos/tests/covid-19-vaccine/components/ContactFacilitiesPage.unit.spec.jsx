@@ -4,7 +4,6 @@ import { expect } from 'chai';
 import { mockFetch } from 'platform/testing/unit/helpers';
 import ContactFacilitiesPage from '../../../covid-19-vaccine/components/ContactFacilitiesPage';
 import {
-  getVAFacilityMock,
   getRequestEligibilityCriteriaMock,
   getDirectBookingEligibilityCriteriaMock,
 } from '../../mocks/v0';
@@ -14,6 +13,10 @@ import {
   mockDirectBookingEligibilityCriteria,
   mockFacilitiesFetch,
 } from '../../mocks/helpers';
+import {
+  createMockAppointmentByVersion,
+  createMockFacilityByVersion,
+} from '../../mocks/data';
 
 const initialState = {
   featureToggles: {
@@ -85,63 +88,42 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
       }),
     ]);
     mockFacilitiesFetch('vha_442,vha_442GC,vha_552', [
-      {
+      createMockFacilityByVersion({
         id: '983',
-        attributes: {
-          ...getVAFacilityMock().attributes,
-          uniqueId: '983',
-          name: 'Facility that is enabled',
-          lat: 39.1362562,
-          long: -83.1804804,
-          address: {
-            physical: {
-              city: 'Bozeman',
-              state: 'MT',
-            },
-          },
-          phone: {
-            main: '5555555555x1234',
-          },
+        name: 'Facility that is enabled',
+        lat: 39.1362562,
+        long: -83.1804804,
+        address: {
+          city: 'Bozeman',
+          state: 'MT',
         },
-      },
-      {
+        phone: '5555555555x1234',
+        version: 0,
+      }),
+      createMockFacilityByVersion({
         id: '983GC',
-        attributes: {
-          ...getVAFacilityMock().attributes,
-          uniqueId: '983GC',
-          name: 'Facility that is also enabled',
-          lat: 39.1362562,
-          long: -83.0804804,
-          address: {
-            physical: {
-              city: 'Belgrade',
-              state: 'MT',
-            },
-          },
-          phone: {
-            main: '5555555556x1234',
-          },
+        name: 'Facility that is also enabled',
+        lat: 39.1362562,
+        long: -83.0804804,
+        address: {
+          city: 'Belgrade',
+          state: 'MT',
         },
-      },
-      {
+        phone: '5555555556x1234',
+        version: 0,
+      }),
+      createMockAppointmentByVersion({
         id: '984',
-        attributes: {
-          ...getVAFacilityMock().attributes,
-          uniqueId: '984',
-          name: 'Facility that is furthest away',
-          lat: 39.1362562,
-          long: -82.1804804,
-          address: {
-            physical: {
-              city: 'Bozeman',
-              state: 'MT',
-            },
-          },
-          phone: {
-            main: '5555555555x1234',
-          },
+        name: 'Facility that is furthest away',
+        lat: 39.1362562,
+        long: -82.1804804,
+        address: {
+          city: 'Bozeman',
+          state: 'MT',
         },
-      },
+        phone: '5555555555x1234',
+        version: 0,
+      }),
     ]);
     const store = createTestStore({
       ...initialState,
@@ -264,54 +246,36 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
     mockFacilitiesFetch(
       'vha_442,vha_442GC,vha_552,vha_552GC,vha_552GD,vha_552GA',
       [
-        {
+        createMockFacilityByVersion({
           id: '983',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '983',
-            name: 'F facility',
-          },
-        },
-        {
+          name: 'F facility',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
           id: '983GC',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '983GC',
-            name: 'A facility',
-          },
-        },
-        {
+          name: 'A facility',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
           id: '984',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '984',
-            name: 'B facility',
-          },
-        },
-        {
+          name: 'B facility',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
           id: '984GC',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '984GC',
-            name: 'C facility',
-          },
-        },
-        {
+          name: 'C facility',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
           id: '984GD',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '984GD',
-            name: 'D facility',
-          },
-        },
-        {
+          name: 'D facility',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
           id: '984GA',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '984GA',
-            name: 'E facility',
-          },
-        },
+          name: 'E facility',
+          version: 0,
+        }),
       ],
     );
     const store = createTestStore(initialState);
@@ -363,16 +327,13 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
       }),
     ]);
     mockFacilitiesFetch('vha_442', [
-      {
+      createMockFacilityByVersion({
         id: '983',
-        attributes: {
-          ...getVAFacilityMock().attributes,
-          uniqueId: '983',
-          name: 'Facility that is enabled',
-          lat: 39.1362562,
-          long: -83.1804804,
-        },
-      },
+        name: 'Facility that is enabled',
+        lat: 39.1362562,
+        long: -83.1804804,
+        version: 0,
+      }),
     ]);
     const store = createTestStore({
       ...initialState,
