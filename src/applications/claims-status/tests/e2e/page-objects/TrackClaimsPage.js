@@ -1,7 +1,12 @@
 const Timeouts = require('platform/testing/e2e/timeouts.js');
 
 class TrackClaimsPage {
-  loadPage(claimsList, mock = null) {
+  loadPage(claimsList, mock = null, submitForm = false) {
+    if (submitForm) {
+      cy.intercept('POST', `/v0/evss_claims/11/request_decision`, {
+        body: {},
+      }).as('askVA');
+    }
     if (mock) {
       cy.intercept('GET', `/v0/evss_claims_async/11`, mock).as('detailRequest');
     }
@@ -241,6 +246,56 @@ class TrackClaimsPage {
         `${details[id - 1]}`,
       );
     }
+  }
+
+  askForClaimDecision() {
+    cy.get('.claims-alert-status')
+      .should('be.visible')
+      .then(status => {
+        cy.wrap(status).should('contain', 'Ask for your Claim Decision');
+      });
+    cy.get('.claims-alert-status a')
+      .click()
+      .then(() => {
+        cy.get('.usa-button-secondary');
+        cy.axeCheck();
+      });
+    cy.get('.main .usa-button-primary').click({ force: true });
+    cy.url().should('contain', 'ask-va-to-decide');
+    cy.get('input[type=checkbox]')
+      .click()
+      .then(() => {
+        cy.get('.main .usa-button-primary').click();
+        cy.wait('@askVA');
+      });
+    cy.url().should('contain', 'status');
+    cy.get('.usa-alert-success').should('be.visible');
+    cy.axeCheck();
+  }
+
+  submitFilesForReview() {
+    cy.get('.file-request-list-item .usa-button')
+      .first()
+      .click()
+      .then(() => {
+        cy.get('.file-requirements');
+        cy.injectAxeThenAxeCheck();
+      });
+    cy.get('button.usa-button').should('contain', 'Submit Files for Review');
+    cy.get('button.usa-button')
+      .click()
+      .then(() => {
+        cy.get('.usa-input-error');
+        cy.injectAxeThenAxeCheck();
+      });
+
+    cy.get('.usa-input-error-message').should(
+      'contain',
+      'Please select a file first',
+    );
+    // File uploads don't appear to work in Nightwatch/PhantomJS
+    // TODO: switch to something that does support uploads or figure out the problem
+    // The above comment lifted from the old Nightwatch test.  Cypress can test file uploads, however this would need to be written in a future effort after our conversion effort is complete.
   }
 }
 
