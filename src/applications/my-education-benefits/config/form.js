@@ -19,6 +19,7 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -321,7 +322,7 @@ const formConfig = {
   trackingPrefix: 'my-education-benefits-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '22-1990EZ',
+  formId: VA_FORM_IDS.FORM_22_1990EZ,
   saveInProgress: {
     messages: {
       inProgress:
