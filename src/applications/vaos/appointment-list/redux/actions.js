@@ -365,9 +365,7 @@ export function fetchPendingAppointments() {
       try {
         let facilityData;
         if (featureVAOSServiceRequests) {
-          facilityData = getAdditionalFacilityInfoV2(
-            getState().appointments.past,
-          );
+          facilityData = getAdditionalFacilityInfoV2(pendingAppointments);
         } else {
           facilityData = await getAdditionalFacilityInfo(
             pendingAppointments,
