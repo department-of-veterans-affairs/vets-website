@@ -24,12 +24,12 @@ import {
   renderWithStoreAndRouter,
 } from '../../mocks/setup';
 import {
-  getVAFacilityMock,
   getVARequestMock,
   getCCRequestMock,
   getMessageMock,
 } from '../../mocks/v0';
 import { getVAOSRequestMock } from '../../mocks/v2';
+import { createMockFacilityByVersion } from '../../mocks/data';
 
 const testDate = getTimezoneTestDate();
 
@@ -49,7 +49,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(testDate);
-    mockFacilityFetch('vha_fake', getVAFacilityMock());
+    mockFacilityFetch('vha_fake', createMockFacilityByVersion({ version: 0 }));
     mockMessagesFetch();
   });
 
@@ -89,24 +89,18 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     mockSingleRequestFetch({ request: appointment });
 
-    const facility = getVAFacilityMock();
-    facility.attributes = {
-      ...facility.attributes,
-      id: 'vha_442GC',
-      uniqueId: '442GC',
+    const facility = createMockFacilityByVersion({
+      id: '442GC',
       name: 'Cheyenne VA Medical Center',
       address: {
-        physical: {
-          zip: '82001-5356',
-          city: 'Cheyenne',
-          state: 'WY',
-          address1: '2360 East Pershing Boulevard',
-        },
+        postalCode: '82001-5356',
+        city: 'Cheyenne',
+        state: 'WY',
+        line: ['2360 East Pershing Boulevard'],
       },
-      phone: {
-        main: '307-778-7550',
-      },
-    };
+      phone: '307-778-7550',
+      version: 0,
+    });
 
     mockFacilityFetch('vha_442GC', facility);
     const message = getMessageMock();
@@ -673,22 +667,18 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
 
     mockSingleVAOSRequestFetch({ request: appointment });
 
-    const facility = getVAFacilityMock();
-    facility.attributes = {
-      ...facility.attributes,
-      id: 'vha_442GC',
-      uniqueId: '442GC',
+    const facility = createMockFacilityByVersion({
+      id: '442GC',
       name: 'Cheyenne VA Medical Center',
       address: {
-        physical: {
-          zip: '82001-5356',
-          city: 'Cheyenne',
-          state: 'WY',
-          address1: '2360 East Pershing Boulevard',
-        },
+        postalCode: '82001-5356',
+        city: 'Cheyenne',
+        state: 'WY',
+        line: ['2360 East Pershing Boulevard'],
       },
-      phone: { main: '307-778-7550' },
-    };
+      phone: '307-778-7550',
+      version: 0,
+    });
 
     mockFacilityFetch('vha_442GC', facility);
 
@@ -898,7 +888,10 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     };
 
     mockSingleVAOSRequestFetch({ request: appointment });
-    mockFacilityFetch('vha_442GC', getVAFacilityMock({ id: '442GC' }));
+    mockFacilityFetch(
+      'vha_442GC',
+      createMockFacilityByVersion({ id: '442GC', version: 0 }),
+    );
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState: initialStateVAOSService,
@@ -968,7 +961,10 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     };
 
     mockSingleVAOSRequestFetch({ request: appointment });
-    mockFacilityFetch('vha_442GC', getVAFacilityMock({ id: '442GC' }));
+    mockFacilityFetch(
+      'vha_442GC',
+      createMockFacilityByVersion({ id: '442GC', version: 0 }),
+    );
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState: initialStateVAOSService,
