@@ -1,9 +1,9 @@
 const generateFeatureToggles = (toggles = {}) => {
   const {
     checkInExperienceEnabled = true,
-    checkInExperienceLowAuthenticationEnabled = true,
     checkInExperienceMultipleAppointmentSupport = true,
     checkInExperienceUpdateInformationPageEnabled = false,
+    checkInExperienceDemographicsPageEnabled = false,
   } = toggles;
 
   return {
@@ -19,12 +19,12 @@ const generateFeatureToggles = (toggles = {}) => {
           value: checkInExperienceUpdateInformationPageEnabled,
         },
         {
-          name: 'check_in_experience_low_authentication_enabled',
-          value: checkInExperienceLowAuthenticationEnabled,
-        },
-        {
           name: 'check_in_experience_multiple_appointment_support',
           value: checkInExperienceMultipleAppointmentSupport,
+        },
+        {
+          name: 'check_in_experience_demographics_page_enabled',
+          value: checkInExperienceDemographicsPageEnabled,
         },
       ],
     },

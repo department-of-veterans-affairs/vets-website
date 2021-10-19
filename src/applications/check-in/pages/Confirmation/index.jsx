@@ -8,10 +8,13 @@ import FeatureToggle, {
 import SingleAppointment from './SingleAppointment';
 import MultipleAppointment from './MultipleAppointments';
 
+import { triggerRefresh } from '../../actions';
+
 const Confirmation = ({
   appointments,
   selectedAppointment,
   isMultipleAppointmentsEnabled,
+  refreshAppointments,
 }) => {
   return (
     <FeatureToggle on={isMultipleAppointmentsEnabled}>
@@ -19,6 +22,7 @@ const Confirmation = ({
         <MultipleAppointment
           selectedAppointment={selectedAppointment}
           appointments={appointments}
+          triggerRefresh={refreshAppointments}
         />
       </FeatureOn>
       <FeatureOff>
@@ -34,8 +38,12 @@ const mapStateToProps = state => {
     selectedAppointment: state.checkInData.context.appointment,
   };
 };
-const mapDispatchToProps = () => {
-  return {};
+const mapDispatchToProps = dispatch => {
+  return {
+    refreshAppointments: () => {
+      dispatch(triggerRefresh());
+    },
+  };
 };
 
 export default connect(

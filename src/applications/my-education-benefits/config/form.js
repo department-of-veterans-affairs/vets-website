@@ -337,7 +337,7 @@ const formConfig = {
       'Please sign in again to continue your application for my education benefits.',
   },
   title: 'Apply for VA education benefits',
-  subTitle: 'Form 22-1990',
+  subTitle: 'Equal to VA Form 22-1990 (Application for VA Education Benefits)',
   defaultDefinitions: {
     fullName,
     // ssn,
@@ -610,6 +610,10 @@ const formConfig = {
                 <>
                   <h3>Review your mailing address</h3>
                   <p>
+                    We’ll send any important information about your application
+                    to this address.
+                  </p>
+                  <p>
                     This is the mailing address we have on file for you. If you
                     notice any errors, please correct them now. Any updates you
                     make will change the information for your education benefits
@@ -763,21 +767,58 @@ const formConfig = {
                     'Please select at least one way we can contact you.',
                 },
               },
+              'view:noHomePhoneForContactAlert': {
+                'ui:description': (
+                  <va-alert onClose={function noRefCheck() {}} status="warning">
+                    <p style={{ margin: 0 }}>
+                      You can’t select that response because we don’t have a
+                      home phone number on file for you
+                    </p>
+                  </va-alert>
+                ),
+                'ui:options': {
+                  hideIf: formData =>
+                    !(
+                      formData['view:contactMethod'].contactMethod ===
+                        'Home phone' &&
+                      (!formData['view:phoneNumbers'].phoneNumber.phone ||
+                        formData['view:phoneNumbers'].phoneNumber
+                          .isInternational)
+                    ),
+                },
+              },
+              'view:noMobilePhoneForContactAlert': {
+                'ui:description': (
+                  <va-alert onClose={function noRefCheck() {}} status="warning">
+                    <p style={{ margin: 0 }}>
+                      You can’t select that response because we don’t have a
+                      mobile phone number on file for you
+                    </p>
+                  </va-alert>
+                ),
+                'ui:options': {
+                  hideIf: formData =>
+                    !(
+                      formData['view:contactMethod'].contactMethod ===
+                        'Mobile phone' &&
+                      (!formData['view:phoneNumbers'].mobilePhoneNumber.phone ||
+                        formData['view:phoneNumbers'].mobilePhoneNumber
+                          .isInternational)
+                    ),
+                },
+              },
             },
             'view:receiveTextMessages': {
               'ui:description': (
                 <>
                   <div className="meb-form-page-only">
-                    <h3>Choose your notification method</h3>
+                    <h3>Choose how you want to get notifications</h3>
                     <p>
-                      We’ll send you important notifications about your
-                      benefits, including alerts to verify your monthly
-                      enrollment. You’ll need to verify your monthly enrollment
-                      to receive payment.
-                    </p>
-                    <p>
-                      We recommend opting-in for text message notifications to
-                      make verifying your monthly enrollment simpler.
+                      We recommend that you opt in to text message notifications
+                      about your benefits. These include notifications that
+                      prompt you to verify your enrollment so you’ll receive
+                      your education payments. This is an easy way to verify
+                      your monthly enrollment.
                     </p>
                   </div>
                 </>
@@ -823,11 +864,12 @@ const formConfig = {
             'view:textMessagesAlert': {
               'ui:description': (
                 <va-alert onClose={function noRefCheck() {}} status="info">
-                  <p style={{ margin: 0 }}>
-                    For text messages, messaging and data rates may apply. At
-                    this time, VA is only able to send text messages about
-                    education benefits to US-based mobile phone numbers.
-                  </p>
+                  <>
+                    If you choose to get text message notifications, messaging
+                    and data rates may apply. At this time, we can send text
+                    messages about your education benefits only to U.S. mobile
+                    phone numbers.
+                  </>
                 </va-alert>
               ),
               'ui:options': {
@@ -845,10 +887,10 @@ const formConfig = {
             'view:noMobilePhoneAlert': {
               'ui:description': (
                 <va-alert onClose={function noRefCheck() {}} status="warning">
-                  <p style={{ margin: 0 }}>
+                  <>
                     You can’t choose to get text message notifications because
-                    we don’t have a mobile phone number on file for you
-                  </p>
+                    we don’t have a mobile phone number on file for you.
+                  </>
                 </va-alert>
               ),
               'ui:options': {
@@ -866,12 +908,12 @@ const formConfig = {
             'view:internationalTextMessageAlert': {
               'ui:description': (
                 <va-alert onClose={function noRefCheck() {}} status="warning">
-                  <p style={{ margin: 0 }}>
+                  <>
                     You can’t choose to get text notifications because you have
                     an international mobile phone number. At this time, we can
                     send text messages about your education benefits to U.S.
-                    mobile phone numbers
-                  </p>
+                    mobile phone numbers.
+                  </>
                 </va-alert>
               ),
               'ui:options': {
@@ -892,6 +934,14 @@ const formConfig = {
                   [formFields.contactMethod]: {
                     type: 'string',
                     enum: ['Email', 'Mobile phone', 'Home phone', 'Mail'],
+                  },
+                  'view:noHomePhoneForContactAlert': {
+                    type: 'object',
+                    properties: {},
+                  },
+                  'view:noMobilePhoneForContactAlert': {
+                    type: 'object',
+                    properties: {},
                   },
                 },
               },

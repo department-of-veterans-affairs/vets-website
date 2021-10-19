@@ -38,6 +38,7 @@ import { setUpPage, setPageFocus } from '../utils/page';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import StemClaimListItem from '../components/StemClaimListItem';
+import MobileAppMessage from '../components/MobileAppMessage';
 
 class YourClaimsPageV2 extends React.Component {
   constructor(props) {
@@ -207,6 +208,7 @@ class YourClaimsPageV2 extends React.Component {
               <h1 className="claims-container-title">
                 Check your claim or appeal status
               </h1>
+              <MobileAppMessage />
               <div>{this.renderErrorMessages()}</div>
               <p>
                 <button

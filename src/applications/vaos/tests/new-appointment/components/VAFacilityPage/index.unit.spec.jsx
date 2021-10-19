@@ -8,7 +8,6 @@ import { cleanup } from '@testing-library/react';
 import VAFacilityPage from '../../../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
 import {
   getParentSiteMock,
-  getVAFacilityMock,
   getRequestEligibilityCriteriaMock,
   getDirectBookingEligibilityCriteriaMock,
 } from '../../../mocks/v0';
@@ -101,22 +100,18 @@ describe('VAOS <VAFacilityPage>', () => {
       id => `vha_${id.replace('983', '442').replace('984', '552')}`,
     );
 
-    const facilities = vhaIds.map((id, index) => ({
-      id,
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: id.replace('vha_', ''),
+    const facilities = vhaIds.map((id, index) =>
+      createMockFacilityByVersion({
+        id: id.replace('vha_', ''),
         name: `Fake facility name ${index + 1}`,
         lat: Math.random() * 90,
         long: Math.random() * 180,
         address: {
-          physical: {
-            ...getVAFacilityMock().attributes.address.physical,
-            city: `Fake city ${index + 1}`,
-          },
+          city: `Fake city ${index + 1}`,
         },
-      },
-    }));
+        version: 0,
+      }),
+    );
 
     const closestFacility = facilities[2];
     closestFacility.attributes.name = 'Closest facility';
@@ -127,218 +122,6 @@ describe('VAOS <VAFacilityPage>', () => {
     firstAlphaFacility.attributes.name = 'ABC facility';
 
     beforeEach(() => mockFetch());
-
-    it('should display list of facilities with show more button', async () => {
-      mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
-      mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
-      mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
-      mockFacilitiesFetch(vhaIds.join(','), facilities);
-      mockEligibilityFetches({
-        siteId: '983',
-        facilityId: '983',
-        typeOfCareId: '323',
-      });
-      const store = createTestStore(initialState);
-      await setTypeOfCare(store, /primary care/i);
-
-      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
-        store,
-      });
-
-      const buttons = await screen.findAllByRole('radio');
-
-      await waitFor(() => {
-        expect(global.document.title).to.equal(
-          'Choose a VA location for your primary care appointment | Veterans Affairs',
-        );
-      });
-
-      expect(
-        screen.getByText(
-          /Choose a VA location for your primary care appointment/i,
-        ),
-      ).to.exist;
-
-      expect(screen.baseElement).to.contain.text(
-        'Below is a list of VA locations where you’re registered that offer primary care appointments',
-      );
-
-      // Should contain radio buttons
-      facilities.slice(0, 5).forEach(f => {
-        expect(screen.baseElement).to.contain.text(f.attributes.name);
-      });
-
-      // Should not show address
-      expect(screen.baseElement).not.to.contain.text(
-        'Facilities based on your home address',
-      );
-
-      // Should not show 6th facility
-      expect(screen.baseElement).not.to.contain.text('Fake facility name 6');
-
-      // Find show more button and fire click event
-      const moreLocationsBtn = screen.getByText('+ 1 more location');
-      expect(moreLocationsBtn).to.have.tagName('span');
-      fireEvent.click(moreLocationsBtn);
-
-      await waitFor(() => {
-        // Should show 6th facility
-        expect(screen.baseElement).to.contain.text('Fake facility name 6');
-        expect(document.activeElement.id).to.equal('root_vaFacility_6');
-      });
-
-      // Should verify that all radio buttons have the same name (508 accessibility)
-      buttons.forEach(button => {
-        expect(button.name).to.equal('root_vaFacility');
-      });
-
-      // Should validation message if no facility selected
-      fireEvent.click(screen.getByText(/Continue/));
-      expect(await screen.findByRole('alert')).to.contain.text(
-        'Please provide a response',
-      );
-    });
-
-    it('should show residential address and sort by distance if we have coordinates', async () => {
-      mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
-      mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
-      mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
-      mockFacilitiesFetch(vhaIds.join(','), facilities);
-      mockEligibilityFetches({
-        siteId: '983',
-        facilityId: '983',
-        typeOfCareId: '323',
-      });
-      const store = createTestStore({
-        ...initialState,
-        user: {
-          ...initialState.user,
-          profile: {
-            ...initialState.user.profile,
-            vapContactInfo: {
-              residentialAddress: {
-                addressLine1: '290 Ludlow Ave',
-                city: 'Cincinatti',
-                stateCode: 'OH',
-                zipCode: '45220',
-                latitude: 39.1362562, // Cincinatti, OH
-                longitude: -84.6804804,
-              },
-            },
-          },
-        },
-      });
-      await setTypeOfCare(store, /primary care/i);
-
-      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
-        store,
-      });
-
-      // Radio buttons only show up after all the data is loaded, which
-      // should mean all page rendering is finished
-      await screen.findAllByRole('radio');
-
-      expect(
-        screen.getByText(
-          /Choose a VA location for your Primary care appointment/i,
-        ),
-      ).to.exist;
-      expect(screen.baseElement).to.contain.text(
-        'Locations closest to you are at the top of the list',
-      );
-      expect(screen.baseElement).to.contain.text(
-        'Facilities based on your home address',
-      );
-      expect(screen.baseElement).to.contain.text('290 Ludlow Ave');
-      expect(screen.baseElement).to.contain.text('Cincinatti, OhioOH 45220');
-      expect(screen.baseElement).to.contain.text(' miles');
-
-      // It should sort by distance, making Closest facility the first facility
-      const firstRadio = screen.container.querySelector('.form-radio-buttons');
-      expect(firstRadio).to.contain.text('Closest facility');
-
-      // Providers should be sorted.
-      const miles = screen.queryAllByText(/miles$/);
-
-      expect(miles.length).to.equal(5);
-      expect(() => {
-        for (let i = 0; i < miles.length - 1; i++) {
-          if (
-            Number.parseFloat(miles[i].textContent) >
-            Number.parseFloat(miles[i + 1].textContent)
-          )
-            throw new Error();
-        }
-      }).to.not.throw();
-    });
-
-    it('should sort by distance from current location if user clicks "use current location"', async () => {
-      mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
-      mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
-      mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
-      mockFacilitiesFetch(vhaIds.join(','), facilities);
-      mockEligibilityFetches({
-        siteId: '983',
-        facilityId: '983',
-        typeOfCareId: '323',
-      });
-      mockGetCurrentPosition();
-      const store = createTestStore({
-        ...initialState,
-        user: {
-          ...initialState.user,
-          profile: {
-            ...initialState.user.profile,
-            vapContactInfo: {
-              residentialAddress: {
-                addressLine1: '290 Ludlow Ave',
-                city: 'Cincinatti',
-                stateCode: 'OH',
-                zipCode: '45220',
-                latitude: 39.1362562, // Cincinatti, OH
-                longitude: -84.6804804,
-              },
-            },
-          },
-        },
-      });
-      await setTypeOfCare(store, /primary care/i);
-
-      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
-        store,
-      });
-
-      await screen.findAllByRole('radio');
-      fireEvent.click(screen.getByText('use your current location'));
-      await screen.findAllByRole('radio');
-      expect(screen.baseElement).to.contain.text(
-        'Facilities based on your location',
-      );
-      expect(screen.baseElement).not.to.contain.text(
-        'use your current location',
-      );
-
-      // Providers should be sorted.
-      const miles = screen.queryAllByText(/miles$/);
-
-      expect(miles.length).to.equal(5);
-
-      expect(() => {
-        for (let i = 0; i < miles.length - 1; i++) {
-          if (
-            Number.parseFloat(miles[i].textContent) >
-            Number.parseFloat(miles[i + 1].textContent)
-          )
-            throw new Error();
-        }
-      }).to.not.throw();
-
-      // Clicking use home address should revert sort back to distance from hoem address
-      fireEvent.click(screen.getByText('use your home address on file'));
-      expect(screen.baseElement).to.contain.text(
-        'Facilities based on your home address',
-      );
-    });
 
     it('should display error messaging if user denied location permissions', async () => {
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
@@ -377,11 +160,16 @@ describe('VAOS <VAFacilityPage>', () => {
       });
 
       await screen.findAllByRole('radio');
-      fireEvent.click(screen.getByText('use your current location'));
-      await screen.findAllByRole('radio');
-      expect(screen.baseElement).to.contain.text(
-        'Your browser is blocked from finding your current location',
-      );
+      fireEvent.change(screen.getByLabelText('Sort facilities'), {
+        target: {
+          value: 'distanceFromCurrentLocation',
+        },
+      });
+      await waitFor(() => {
+        expect(screen.baseElement).to.contain.text(
+          'Your browser is blocked from finding your current location',
+        );
+      });
     });
 
     it('should not display show more button if < 6 locations', async () => {
@@ -411,11 +199,7 @@ describe('VAOS <VAFacilityPage>', () => {
       // should mean all page rendering is finished
       await screen.findAllByRole('radio');
 
-      expect(
-        screen.getByText(
-          /Choose a VA location for your Primary care appointment/i,
-        ),
-      ).to.exist;
+      expect(screen.getByText(/Choose a VA location/i)).to.exist;
 
       // Should contain radio buttons
       facilities.slice(0, 5).forEach(f => {
@@ -472,11 +256,12 @@ describe('VAOS <VAFacilityPage>', () => {
         typeOfCareId: '323',
         patientHistoryRequired: null,
       });
-      const facilityDetails = getVAFacilityMock({
+      const facilityDetails = createMockFacilityByVersion({
         id: '123',
         name: 'Bozeman VA medical center',
         lat: 39.1362562,
         long: -85.6804804,
+        version: 0,
       });
       facilityDetails.attributes.address = {
         physical: {
@@ -507,17 +292,19 @@ describe('VAOS <VAFacilityPage>', () => {
       mockRequestEligibilityCriteria(parentSiteIds, []);
       mockFacilitiesFetch('vha_123,vha_124,vha_125', [
         facilityDetails,
-        getVAFacilityMock({
+        createMockFacilityByVersion({
           id: '124',
           name: 'Facility 124',
           lat: 39.1362562,
           long: -85.6804804,
+          version: 0,
         }),
-        getVAFacilityMock({
+        createMockFacilityByVersion({
           id: '125',
           name: 'Facility 125',
           lat: 39.1362562,
           long: -86.6804804,
+          version: 0,
         }),
       ]);
 
@@ -566,9 +353,10 @@ describe('VAOS <VAFacilityPage>', () => {
         typeOfCareId: '323',
         patientHistoryRequired: null,
       });
-      const facilityDetails = getVAFacilityMock({
+      const facilityDetails = createMockFacilityByVersion({
         id: '123',
         name: 'Bozeman VA medical center',
+        version: 0,
       });
       facilityDetails.attributes.address = {
         physical: {
@@ -614,25 +402,30 @@ describe('VAOS <VAFacilityPage>', () => {
       mockRequestEligibilityCriteria(parentSiteIds, []);
       mockFacilitiesFetch('vha_123,vha_124,vha_125,vha_126,vha_127,vha_128', [
         facilityDetails,
-        getVAFacilityMock({
+        createMockFacilityByVersion({
           id: '124',
           name: 'Facility 124',
+          version: 0,
         }),
-        getVAFacilityMock({
+        createMockFacilityByVersion({
           id: '125',
           name: 'Facility 125',
+          version: 0,
         }),
-        getVAFacilityMock({
+        createMockFacilityByVersion({
           id: '126',
           name: 'Facility 126',
+          version: 0,
         }),
-        getVAFacilityMock({
+        createMockFacilityByVersion({
           id: '127',
           name: 'Facility 127',
+          version: 0,
         }),
-        getVAFacilityMock({
+        createMockFacilityByVersion({
           id: '128',
           name: 'Facility 128',
+          version: 0,
         }),
       ]);
 
@@ -714,53 +507,37 @@ describe('VAOS <VAFacilityPage>', () => {
         }),
       ]);
       mockFacilitiesFetch('vha_442,vha_442GC,vha_552,vha_552GC', [
-        {
+        createMockFacilityByVersion({
           id: '983',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '983',
-            name: 'Facility that is enabled',
-          },
-        },
-        {
+          name: 'Facility that is enabled',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
           id: '983GC',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '983GC',
-            name: 'Facility that is also enabled',
-          },
-        },
-        {
+          name: 'Facility that is also enabled',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
           id: '984',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '984',
-            name: 'Facility that is disabled',
-            lat: 39.1362562,
-            // tweaked longitude to be around 80 miles away
-            long: -83.1804804,
-            address: {
-              physical: {
-                city: 'Bozeman',
-                state: 'MT',
-              },
-            },
-            phone: {
-              main: '5555555555x1234',
-            },
+          name: 'Facility that is disabled',
+          lat: 39.1362562,
+          // tweaked longitude to be around 80 miles away
+          long: -83.1804804,
+          address: {
+            city: 'Bozeman',
+            state: 'MT',
           },
-        },
-        {
+          phone: '5555555555x1234',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
           id: '984GC',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '984GC',
-            name: 'Facility that is over 100 miles away and disabled',
-            lat: 39.1362562,
-            // tweaked longitude to be over 100 miles away
-            long: -82.1804804,
-          },
-        },
+          name: 'Facility that is over 100 miles away and disabled',
+          lat: 39.1362562,
+          // tweaked longitude to be over 100 miles away
+          long: -82.1804804,
+          version: 0,
+        }),
       ]);
       const store = createTestStore({
         ...initialState,
@@ -845,42 +622,30 @@ describe('VAOS <VAFacilityPage>', () => {
         }),
       ]);
       mockFacilitiesFetch('vha_442,vha_442GC,vha_552,vha_552GC', [
-        {
+        createMockFacilityByVersion({
           id: '983',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '983',
-            name: 'Facility that is enabled',
-          },
-        },
-        {
+          name: 'Facility that is enabled',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
           id: '983GC',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '983GC',
-            name: 'Facility that is also enabled',
-          },
-        },
-        {
+          name: 'Facility that is also enabled',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
           id: '984',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '984',
-            name: 'Disabled facility near residential address',
-            lat: 39.1362562,
-            long: -83.1804804,
-          },
-        },
-        {
+          name: 'Disabled facility near residential address',
+          lat: 39.1362562,
+          long: -83.1804804,
+          version: 0,
+        }),
+        createMockFacilityByVersion({
           id: '984GC',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '984GC',
-            name: 'Disabled facility near current location',
-            lat: 53.2734,
-            long: -7.77832031,
-          },
-        },
+          name: 'Disabled facility near current location',
+          lat: 53.2734,
+          long: -7.77832031,
+          version: 0,
+        }),
       ]);
       mockGetCurrentPosition();
       const store = createTestStore({
@@ -914,7 +679,11 @@ describe('VAOS <VAFacilityPage>', () => {
       expect(screen.queryByText(/Disabled facility near current location/i)).not
         .to.be.ok;
 
-      userEvent.click(screen.getByText(/use your current location/i));
+      fireEvent.change(screen.getByLabelText('Sort facilities'), {
+        target: {
+          value: 'distanceFromCurrentLocation',
+        },
+      });
       expect(await screen.findByLabelText(/Facility that is enabled/i)).to.be
         .ok;
 
@@ -1032,36 +801,27 @@ describe('VAOS <VAFacilityPage>', () => {
         }),
       ]);
       mockFacilitiesFetch('vha_442,vha_442GC,vha_552', [
-        {
+        createMockFacilityByVersion({
           id: '983',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '983',
-            name: 'First cerner facility',
-            lat: 39.1362562,
-            long: -83.1804804,
-          },
-        },
-        {
+          name: 'First cerner facility',
+          lat: 39.1362562,
+          long: -83.1804804,
+          version: 0,
+        }),
+        createMockFacilityByVersion({
           id: '983GC',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '983GC',
-            name: 'Second cerner facility',
-            lat: 39.1362562,
-            long: -83.1804804,
-          },
-        },
-        {
+          name: 'Second cerner facility',
+          lat: 39.1362562,
+          long: -83.1804804,
+          version: 0,
+        }),
+        createMockFacilityByVersion({
           id: '984',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '984',
-            name: 'Vista facility',
-            lat: 39.1362562,
-            long: -83.1804804,
-          },
-        },
+          name: 'Vista facility',
+          lat: 39.1362562,
+          long: -83.1804804,
+          version: 0,
+        }),
       ]);
       const store = createTestStore({
         ...initialState,
@@ -1116,355 +876,346 @@ describe('VAOS <VAFacilityPage>', () => {
       );
     });
 
-    describe('when using variant view', () => {
-      it('should display a list of facilities with a show more button', async () => {
-        mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
-        mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
-        mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
-        mockFacilitiesFetch(vhaIds.join(','), facilities);
-        mockEligibilityFetches({
-          siteId: '983',
-          facilityId: '983',
-          typeOfCareId: '323',
-        });
-        const store = createTestStore({
-          ...initialState,
-          featureToggles: {
-            vaOnlineSchedulingVariantTesting: true,
-          },
-        });
-        await setTypeOfCare(store, /primary care/i);
+    it('should display a list of facilities with a show more button', async () => {
+      mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
+      mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
+      mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
+      mockFacilitiesFetch(vhaIds.join(','), facilities);
+      mockEligibilityFetches({
+        siteId: '983',
+        facilityId: '983',
+        typeOfCareId: '323',
+      });
+      const store = createTestStore({
+        ...initialState,
+        featureToggles: {
+          vaOnlineSchedulingVariantTesting: true,
+        },
+      });
+      await setTypeOfCare(store, /primary care/i);
 
-        const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
-          store,
-        });
+      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+        store,
+      });
 
-        const buttons = await screen.findAllByRole('radio');
+      const buttons = await screen.findAllByRole('radio');
 
-        await waitFor(() => {
-          expect(global.document.title).to.equal(
-            'Choose a VA location | Veterans Affairs',
-          );
-        });
-
-        expect(screen.getByText(/Choose a VA location/i)).to.exist;
-
-        expect(screen.baseElement).to.contain.text(
-          'Select a VA facility where you’re registered that offers primary care appointments.',
-        );
-
-        expect(screen.baseElement).to.contain.text('Sort facilities');
-        // Should contain radio buttons
-        facilities.slice(0, 5).forEach(f => {
-          expect(screen.baseElement).to.contain.text(f.attributes.name);
-        });
-
-        // Should not show address
-        expect(screen.baseElement).not.to.contain.text(
-          'Facilities based on your home address',
-        );
-
-        // Should not show 6th facility
-        expect(screen.baseElement).not.to.contain.text('Fake facility name 6');
-
-        // Find show more button and fire click event
-        const moreLocationsBtn = screen.getByText('+ 1 more location');
-        expect(moreLocationsBtn).to.have.tagName('span');
-        fireEvent.click(moreLocationsBtn);
-
-        // Should show 6th facility
-        expect(screen.baseElement).to.contain.text('Fake facility name 6');
-        await waitFor(() =>
-          expect(document.activeElement.id).to.equal('root_vaFacility_6'),
-        );
-
-        // Should verify that all radio buttons have the same name (508 accessibility)
-        buttons.forEach(button => {
-          expect(button.name).to.equal('root_vaFacility');
-        });
-
-        // Should validation message if no facility selected
-        fireEvent.click(screen.getByText(/Continue/));
-        expect(await screen.findByRole('alert')).to.contain.text(
-          'Please provide a response',
+      await waitFor(() => {
+        expect(global.document.title).to.equal(
+          'Choose a VA location | Veterans Affairs',
         );
       });
 
-      it('should sort by distance from home address if we have coordinates', async () => {
-        mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
-        mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
-        mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
-        mockFacilitiesFetch(vhaIds.join(','), facilities);
-        mockEligibilityFetches({
-          siteId: '983',
-          facilityId: '983',
-          typeOfCareId: '323',
-        });
-        const store = createTestStore({
-          ...initialState,
-          featureToggles: {
-            vaOnlineSchedulingVariantTesting: true,
-          },
-          user: {
-            ...initialState.user,
-            profile: {
-              ...initialState.user.profile,
-              vapContactInfo: {
-                residentialAddress: {
-                  addressLine1: '290 Ludlow Ave',
-                  city: 'Cincinatti',
-                  stateCode: 'OH',
-                  zipCode: '45220',
-                  latitude: 39.1362562, // Cincinatti, OH
-                  longitude: -84.6804804,
-                },
-              },
-            },
-          },
-        });
-        await setTypeOfCare(store, /primary care/i);
+      expect(screen.getByText(/Choose a VA location/i)).to.exist;
 
-        const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
-          store,
-        });
+      expect(screen.baseElement).to.contain.text(
+        'Select a VA facility where you’re registered that offers primary care appointments.',
+      );
 
-        // Radio buttons only show up after all the data is loaded, which
-        // should mean all page rendering is finished
-        await screen.findAllByRole('radio');
-
-        expect(screen.getByText(/Choose a VA location/i)).to.exist;
-        expect(screen.baseElement).to.contain.text('By your home address');
-
-        // It should sort by distance, making Closest facility the first facility
-        const firstRadio = screen.container.querySelector(
-          '.form-radio-buttons',
-        );
-        expect(firstRadio).to.contain.text('Closest facility');
-
-        // Providers should be sorted.
-        const miles = screen.queryAllByText(/miles$/);
-
-        expect(miles.length).to.equal(5);
-        expect(() => {
-          for (let i = 0; i < miles.length - 1; i++) {
-            if (
-              Number.parseFloat(miles[i].textContent) >
-              Number.parseFloat(miles[i + 1].textContent)
-            )
-              throw new Error();
-          }
-        }).to.not.throw();
+      expect(screen.baseElement).to.contain.text('Sort facilities');
+      // Should contain radio buttons
+      facilities.slice(0, 5).forEach(f => {
+        expect(screen.baseElement).to.contain.text(f.attributes.name);
       });
 
-      it('should sort by distance from current location when user selects dropdown option for current location', async () => {
-        mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
-        mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
-        mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
-        mockFacilitiesFetch(vhaIds.join(','), facilities);
-        mockEligibilityFetches({
-          siteId: '983',
-          facilityId: '983',
-          typeOfCareId: '323',
-        });
-        mockGetCurrentPosition();
-        const store = createTestStore({
-          ...initialState,
-          featureToggles: {
-            vaOnlineSchedulingVariantTesting: true,
-          },
-          user: {
-            ...initialState.user,
-            profile: {
-              ...initialState.user.profile,
-              vapContactInfo: {
-                residentialAddress: {
-                  addressLine1: '290 Ludlow Ave',
-                  city: 'Cincinatti',
-                  stateCode: 'OH',
-                  zipCode: '45220',
-                  latitude: 39.1362562, // Cincinatti, OH
-                  longitude: -84.6804804,
-                },
-              },
-            },
-          },
-        });
-        await setTypeOfCare(store, /primary care/i);
+      // Should not show address
+      expect(screen.baseElement).not.to.contain.text(
+        'Facilities based on your home address',
+      );
 
-        const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
-          store,
-        });
-        await screen.findAllByRole('radio');
+      // Should not show 6th facility
+      expect(screen.baseElement).not.to.contain.text('Fake facility name 6');
 
-        fireEvent.change(screen.getByLabelText('Sort facilities'), {
-          target: {
-            value: 'distanceFromCurrentLocation',
-          },
-        });
-        await screen.findAllByRole('radio');
-        expect(screen.baseElement).to.contain.text('By your current location');
+      // Find show more button and fire click event
+      const moreLocationsBtn = screen.getByText('+ 1 more location');
+      expect(moreLocationsBtn).to.have.tagName('span');
+      fireEvent.click(moreLocationsBtn);
 
-        // Providers should be sorted.
-        const miles = screen.queryAllByText(/miles$/);
+      // Should show 6th facility
+      expect(screen.baseElement).to.contain.text('Fake facility name 6');
+      await waitFor(() =>
+        expect(document.activeElement.id).to.equal('root_vaFacility_6'),
+      );
 
-        expect(miles.length).to.equal(5);
-
-        expect(() => {
-          for (let i = 0; i < miles.length - 1; i++) {
-            if (
-              Number.parseFloat(miles[i].textContent) >
-              Number.parseFloat(miles[i + 1].textContent)
-            )
-              throw new Error();
-          }
-        }).to.not.throw();
-
-        userEvent.click(screen.getAllByRole('radio')[0]);
-        fireEvent.click(screen.getByText(/Continue/));
-        await waitFor(() => {
-          expect(
-            global.window.dataLayer.find(
-              ev =>
-                ev.event === 'vaos-variant-final-distanceFromCurrentLocation',
-            ),
-          ).to.exist;
-        });
+      // Should verify that all radio buttons have the same name (508 accessibility)
+      buttons.forEach(button => {
+        expect(button.name).to.equal('root_vaFacility');
       });
 
-      it('should sort alphabetically when user selects dropdown option for alphabetical', async () => {
-        mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
-        mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
-        mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
-        mockFacilitiesFetch(vhaIds.join(','), facilities);
-        mockEligibilityFetches({
-          siteId: '983',
-          facilityId: '983',
-          typeOfCareId: '323',
-        });
-        mockGetCurrentPosition();
-        const store = createTestStore({
-          ...initialState,
-          featureToggles: {
-            vaOnlineSchedulingVariantTesting: true,
-          },
-          user: {
-            ...initialState.user,
-            profile: {
-              ...initialState.user.profile,
-              vapContactInfo: {
-                residentialAddress: {
-                  addressLine1: '290 Ludlow Ave',
-                  city: 'Cincinatti',
-                  stateCode: 'OH',
-                  zipCode: '45220',
-                  latitude: 39.1362562, // Cincinatti, OH
-                  longitude: -84.6804804,
-                },
+      // Should validation message if no facility selected
+      fireEvent.click(screen.getByText(/Continue/));
+      expect(await screen.findByRole('alert')).to.contain.text(
+        'Please provide a response',
+      );
+    });
+
+    it('should sort by distance from home address if we have coordinates', async () => {
+      mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
+      mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
+      mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
+      mockFacilitiesFetch(vhaIds.join(','), facilities);
+      mockEligibilityFetches({
+        siteId: '983',
+        facilityId: '983',
+        typeOfCareId: '323',
+      });
+      const store = createTestStore({
+        ...initialState,
+        featureToggles: {
+          vaOnlineSchedulingVariantTesting: true,
+        },
+        user: {
+          ...initialState.user,
+          profile: {
+            ...initialState.user.profile,
+            vapContactInfo: {
+              residentialAddress: {
+                addressLine1: '290 Ludlow Ave',
+                city: 'Cincinatti',
+                stateCode: 'OH',
+                zipCode: '45220',
+                latitude: 39.1362562, // Cincinatti, OH
+                longitude: -84.6804804,
               },
             },
           },
-        });
-        await setTypeOfCare(store, /primary care/i);
+        },
+      });
+      await setTypeOfCare(store, /primary care/i);
 
-        const screen = renderWithStoreAndRouter(<VAFacilityPage />, { store });
-        await screen.findAllByRole('radio');
-        // default sorted by home address
-        let firstRadio = screen.container.querySelector('.form-radio-buttons');
-        expect(firstRadio).to.contain.text('Closest facility');
+      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+        store,
+      });
 
-        fireEvent.change(screen.getByLabelText('Sort facilities'), {
-          target: {
-            value: 'alphabetical',
+      // Radio buttons only show up after all the data is loaded, which
+      // should mean all page rendering is finished
+      await screen.findAllByRole('radio');
+
+      expect(screen.getByText(/Choose a VA location/i)).to.exist;
+      expect(screen.baseElement).to.contain.text('By your home address');
+
+      // It should sort by distance, making Closest facility the first facility
+      const firstRadio = screen.container.querySelector('.form-radio-buttons');
+      expect(firstRadio).to.contain.text('Closest facility');
+
+      // Providers should be sorted.
+      const miles = screen.queryAllByText(/miles$/);
+
+      expect(miles.length).to.equal(5);
+      expect(() => {
+        for (let i = 0; i < miles.length - 1; i++) {
+          if (
+            Number.parseFloat(miles[i].textContent) >
+            Number.parseFloat(miles[i + 1].textContent)
+          )
+            throw new Error();
+        }
+      }).to.not.throw();
+    });
+
+    it('should sort by distance from current location when user selects dropdown option for current location', async () => {
+      mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
+      mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
+      mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
+      mockFacilitiesFetch(vhaIds.join(','), facilities);
+      mockEligibilityFetches({
+        siteId: '983',
+        facilityId: '983',
+        typeOfCareId: '323',
+      });
+      mockGetCurrentPosition();
+      const store = createTestStore({
+        ...initialState,
+        featureToggles: {
+          vaOnlineSchedulingVariantTesting: true,
+        },
+        user: {
+          ...initialState.user,
+          profile: {
+            ...initialState.user.profile,
+            vapContactInfo: {
+              residentialAddress: {
+                addressLine1: '290 Ludlow Ave',
+                city: 'Cincinatti',
+                stateCode: 'OH',
+                zipCode: '45220',
+                latitude: 39.1362562, // Cincinatti, OH
+                longitude: -84.6804804,
+              },
+            },
           },
-        });
-        await screen.findAllByRole('radio');
-        expect(screen.baseElement).to.contain.text('Alphabetically');
+        },
+      });
+      await setTypeOfCare(store, /primary care/i);
 
-        firstRadio = screen.container.querySelector('.form-radio-buttons');
-        expect(firstRadio).to.contain.text('ABC facility');
+      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+        store,
+      });
+      await screen.findAllByRole('radio');
+
+      fireEvent.change(screen.getByLabelText('Sort facilities'), {
+        target: {
+          value: 'distanceFromCurrentLocation',
+        },
+      });
+      await screen.findAllByRole('radio');
+      expect(screen.baseElement).to.contain.text('By your current location');
+
+      // Providers should be sorted.
+      const miles = screen.queryAllByText(/miles$/);
+
+      expect(miles.length).to.equal(5);
+
+      expect(() => {
+        for (let i = 0; i < miles.length - 1; i++) {
+          if (
+            Number.parseFloat(miles[i].textContent) >
+            Number.parseFloat(miles[i + 1].textContent)
+          )
+            throw new Error();
+        }
+      }).to.not.throw();
+
+      userEvent.click(screen.getAllByRole('radio')[0]);
+      fireEvent.click(screen.getByText(/Continue/));
+      await waitFor(() => {
         expect(
           global.window.dataLayer.find(
-            ev => ev.event === 'vaos-variant-method-alphabetical',
+            ev => ev.event === 'vaos-variant-final-distanceFromCurrentLocation',
           ),
         ).to.exist;
       });
+    });
 
-      it('should sort alphabetically when user does not have an address', async () => {
-        mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
-        mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
-        mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
-        mockFacilitiesFetch(vhaIds.join(','), facilities);
-        mockEligibilityFetches({
-          siteId: '983',
-          facilityId: '983',
-          typeOfCareId: '323',
-        });
-        mockGetCurrentPosition();
-        const store = createTestStore({
-          ...initialState,
-          featureToggles: {
-            vaOnlineSchedulingVariantTesting: true,
-          },
-          user: {
-            ...initialState.user,
-            profile: {
-              ...initialState.user.profile,
-              vapContactInfo: {},
-            },
-          },
-        });
-        await setTypeOfCare(store, /primary care/i);
-
-        const screen = renderWithStoreAndRouter(<VAFacilityPage />, { store });
-        await screen.findAllByRole('radio');
-        // default sorted by home address
-        const firstRadio = screen.container.querySelector(
-          '.form-radio-buttons',
-        );
-        expect(firstRadio).to.contain.text('ABC facility');
+    it('should sort alphabetically when user selects dropdown option for alphabetical', async () => {
+      mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
+      mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
+      mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
+      mockFacilitiesFetch(vhaIds.join(','), facilities);
+      mockEligibilityFetches({
+        siteId: '983',
+        facilityId: '983',
+        typeOfCareId: '323',
       });
-
-      it('should fire variant shown and default sort method events when variant shown', async () => {
-        const store = createTestStore({
-          ...initialState,
-          featureToggles: {
-            vaOnlineSchedulingVariantTesting: true,
-          },
-          newAppointment: {
-            ...initialState.newAppointment,
-            facilityPageSortMethod: 'alphabetical',
-            childFacilitiesStatus: FETCH_STATUS.succeeded,
-            data: {
-              vaFacility: '983',
+      mockGetCurrentPosition();
+      const store = createTestStore({
+        ...initialState,
+        featureToggles: {
+          vaOnlineSchedulingVariantTesting: true,
+        },
+        user: {
+          ...initialState.user,
+          profile: {
+            ...initialState.user.profile,
+            vapContactInfo: {
+              residentialAddress: {
+                addressLine1: '290 Ludlow Ave',
+                city: 'Cincinatti',
+                stateCode: 'OH',
+                zipCode: '45220',
+                latitude: 39.1362562, // Cincinatti, OH
+                longitude: -84.6804804,
+              },
             },
-            pages: {
-              vaFacilityV2: {
-                properties: {
-                  vaFacility: {
-                    enum: [{}, {}],
-                  },
+          },
+        },
+      });
+      await setTypeOfCare(store, /primary care/i);
+
+      const screen = renderWithStoreAndRouter(<VAFacilityPage />, { store });
+      await screen.findAllByRole('radio');
+      // default sorted by home address
+      let firstRadio = screen.container.querySelector('.form-radio-buttons');
+      expect(firstRadio).to.contain.text('Closest facility');
+
+      fireEvent.change(screen.getByLabelText('Sort facilities'), {
+        target: {
+          value: 'alphabetical',
+        },
+      });
+      await screen.findAllByRole('radio');
+      expect(screen.baseElement).to.contain.text('Alphabetically');
+
+      firstRadio = screen.container.querySelector('.form-radio-buttons');
+      expect(firstRadio).to.contain.text('ABC facility');
+      expect(
+        global.window.dataLayer.find(
+          ev => ev.event === 'vaos-variant-method-alphabetical',
+        ),
+      ).to.exist;
+    });
+
+    it('should sort alphabetically when user does not have an address', async () => {
+      mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
+      mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
+      mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
+      mockFacilitiesFetch(vhaIds.join(','), facilities);
+      mockEligibilityFetches({
+        siteId: '983',
+        facilityId: '983',
+        typeOfCareId: '323',
+      });
+      mockGetCurrentPosition();
+      const store = createTestStore({
+        ...initialState,
+        featureToggles: {
+          vaOnlineSchedulingVariantTesting: true,
+        },
+        user: {
+          ...initialState.user,
+          profile: {
+            ...initialState.user.profile,
+            vapContactInfo: {},
+          },
+        },
+      });
+      await setTypeOfCare(store, /primary care/i);
+
+      const screen = renderWithStoreAndRouter(<VAFacilityPage />, { store });
+      await screen.findAllByRole('radio');
+      // default sorted by home address
+      const firstRadio = screen.container.querySelector('.form-radio-buttons');
+      expect(firstRadio).to.contain.text('ABC facility');
+    });
+
+    it('should fire variant shown and default sort method events when variant shown', async () => {
+      const store = createTestStore({
+        ...initialState,
+        featureToggles: {
+          vaOnlineSchedulingVariantTesting: true,
+        },
+        newAppointment: {
+          ...initialState.newAppointment,
+          facilityPageSortMethod: 'alphabetical',
+          childFacilitiesStatus: FETCH_STATUS.succeeded,
+          data: {
+            vaFacility: '983',
+          },
+          pages: {
+            vaFacilityV2: {
+              properties: {
+                vaFacility: {
+                  enum: [{}, {}],
                 },
               },
             },
           },
-        });
+        },
+      });
 
-        renderWithStoreAndRouter(<NewAppointment />, {
-          store,
-        });
+      renderWithStoreAndRouter(<NewAppointment />, {
+        store,
+      });
 
-        await waitFor(() => {
-          expect(
-            global.window.dataLayer.find(
-              ev => ev.event === 'vaos-variant-shown',
-            ),
-          ).to.exist;
-          expect(
-            global.window.dataLayer.find(
-              ev => ev.event === 'vaos-variant-default-alphabetical',
-            ),
-          ).to.exist;
-        });
+      await waitFor(() => {
+        expect(
+          global.window.dataLayer.find(ev => ev.event === 'vaos-variant-shown'),
+        ).to.exist;
+        expect(
+          global.window.dataLayer.find(
+            ev => ev.event === 'vaos-variant-default-alphabetical',
+          ),
+        ).to.exist;
       });
     });
   });
@@ -1501,25 +1252,18 @@ describe('VAOS <VAFacilityPage>', () => {
         }),
       ]);
       mockFacilitiesFetch('vha_442', [
-        {
-          id: 'vha_442',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '442',
-            name: 'San Diego VA Medical Center',
-            address: {
-              physical: {
-                address1: '2360 East Pershing Boulevard',
-                city: 'San Diego',
-                state: 'CA',
-                zip: '92128',
-              },
-            },
-            phone: {
-              main: '858-779-0338',
-            },
+        createMockFacilityByVersion({
+          id: '442',
+          name: 'San Diego VA Medical Center',
+          address: {
+            line: ['2360 East Pershing Boulevard'],
+            city: 'San Diego',
+            state: 'CA',
+            postalCode: '92128',
           },
-        },
+          phone: '858-779-0338',
+          version: 0,
+        }),
       ]);
     });
     it('should show facility information without form', async () => {
@@ -1565,9 +1309,21 @@ describe('VAOS <VAFacilityPage>', () => {
         getRequestEligibilityCriteriaMock({ id: '983GD', typeOfCareId: '407' }),
       ]);
       mockFacilitiesFetch('vha_442,vha_442GC,vha_442GD', [
-        getVAFacilityMock({ id: '442', name: 'Facility 1' }),
-        getVAFacilityMock({ id: '442GC', name: 'Facility 2' }),
-        getVAFacilityMock({ id: '442GD', name: 'Facility 3' }),
+        createMockFacilityByVersion({
+          id: '442',
+          name: 'Facility 1',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
+          id: '442GC',
+          name: 'Facility 2',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
+          id: '442GD',
+          name: 'Facility 3',
+          version: 0,
+        }),
       ]);
       mockEligibilityFetches({
         siteId: '983',
@@ -1677,18 +1433,14 @@ describe('VAOS <VAFacilityPage>', () => {
 
       await waitFor(() => {
         expect(global.document.title).to.equal(
-          'Choose a VA location for your primary care appointment | Veterans Affairs',
+          'Choose a VA location | Veterans Affairs',
         );
       });
 
-      expect(
-        screen.getByText(
-          /Choose a VA location for your Primary care appointment/i,
-        ),
-      ).to.exist;
+      expect(screen.getByText(/Choose a VA location/i)).to.exist;
 
       expect(screen.baseElement).to.contain.text(
-        'Below is a list of VA locations where you’re registered that offer primary care appointments',
+        'Select a VA facility where you’re registered that offers primary care appointments',
       );
 
       expect(screen.baseElement).to.contain.text('A facility name');
