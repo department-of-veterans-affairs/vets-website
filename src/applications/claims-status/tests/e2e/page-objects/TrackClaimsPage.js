@@ -191,6 +191,57 @@ class TrackClaimsPage {
       `${count} ${count > 1 ? 'items' : 'item'} need your attention`,
     );
   }
+
+  verifyNumberOfFiles(number) {
+    cy.get('.va-tabs li:nth-child(2) > a')
+      .click()
+      .then(() => {
+        cy.get('.file-request-list-item').should('be.visible');
+        cy.injectAxeThenAxeCheck();
+      });
+    cy.get('a.va-tab-trigger.va-tab-trigger--current').should(
+      'contain',
+      'Files',
+    );
+    cy.get('.file-request-list-item').should('have.length', number);
+    cy.get('.submitted-file-list-item').should('have.length', number);
+  }
+
+  verifyClaimEvidence(claimId, claimStatus) {
+    cy.get('.submit-additional-evidence .usa-alert').should('be.visible');
+    cy.get(
+      `.submitted-file-list-item:nth-child(${claimId}) .submission-status`,
+    ).should('contain', `${claimStatus}`);
+  }
+
+  claimDetailsTab() {
+    cy.get('.va-tabs li:nth-child(3) > a')
+      .click()
+      .then(() => {
+        cy.get('.claim-details').should('be.visible');
+        cy.injectAxeThenAxeCheck();
+      });
+    cy.url().should('contain', '/your-claims/11/details');
+  }
+
+  verifyClaimDetails() {
+    cy.get('a.va-tab-trigger.va-tab-trigger--current').should(
+      'contain',
+      'Details',
+    );
+    const details = [
+      'Claim type',
+      'What you’ve claimed',
+      'Date received',
+      'Your representative for VA claims',
+    ];
+    for (const id of [1, 2, 3, 4]) {
+      cy.get(`.claim-detail-label:nth-of-type(${id})`).should(
+        'contain',
+        `${details[id - 1]}`,
+      );
+    }
+  }
 }
 
 export default TrackClaimsPage;

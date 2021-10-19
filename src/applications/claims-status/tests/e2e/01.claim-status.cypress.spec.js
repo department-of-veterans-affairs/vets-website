@@ -14,11 +14,7 @@ describe('Claims status test', () => {
     const trackClaimsPage = new TrackClaimsPage();
     trackClaimsPage.loadPage(claimsList, mockDetails);
     trackClaimsPage.verifyInProgressClaim(false);
-    trackClaimsPage.verifyClaimedConditions([
-      'Hearing Loss (New)',
-      'skin condition (New)',
-      'jungle rot (New)',
-    ]);
+    trackClaimsPage.verifyClaimedConditions(['Hearing Loss (New)']);
     trackClaimsPage.verifyCompletedSteps(5);
     trackClaimsPage.verifyClosedClaim();
     trackClaimsPage.axeCheckClaimDetails();
