@@ -229,7 +229,7 @@ export class SearchMenu extends React.Component {
     return <strong>{lowerSuggestion}</strong>;
   };
 
-  getDropDownSuggestions = async inputValue => {
+  fetchDropDownSuggestions = async inputValue => {
     // encode user input for query to suggestions url
     const encodedInput = encodeURIComponent(inputValue);
 
@@ -399,13 +399,13 @@ export class SearchMenu extends React.Component {
         <SearchDropDownComponent
           buttonText=""
           canSubmit
-          classNameBase="search-header-dropdown"
+          className="search-header-dropdown"
           fullWidthSuggestions
           formatSuggestions
           startingValue={''}
           submitOnClick
           submitOnEnter
-          getSuggestions={this.getDropDownSuggestions}
+          fetchSuggestions={this.fetchDropDownSuggestions}
           onInputSubmit={this.onInputSubmit}
           onSuggestionSubmit={this.onSuggestionSubmit}
         />

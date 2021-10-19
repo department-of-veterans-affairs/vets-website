@@ -22,6 +22,101 @@ const Keycodes = {
 };
 
 class SearchDropDownComponent extends React.Component {
+  static propTypes = {
+    /**
+     * A boolean value for whether the submit button should be rendered or not.
+     * Default value is true
+     * */
+    showButton: PropTypes.bool,
+    /**
+     * A string value that should be displayed on the submit button
+     * Default value is ''
+     * */
+    buttonText: PropTypes.string,
+    /**
+     * A boolean value for whether or not the component has "submit" functionality
+     * Default value is false
+     * */
+    canSubmit: PropTypes.bool,
+    /**
+     * the debounce rate at which to fetch suggestions
+     * Default value is 200ms
+     * */
+    debounceRate: PropTypes.number,
+    /**
+     * A boolean value for whether or not suggestions are formatted to have the suggested values highlighted
+     * Default value is false
+     * */
+    formatSuggestions: PropTypes.bool,
+    /**
+     * A function that is called every time the input value changes, which is passed the current Input Value
+     * Default value is undefined
+     * */
+    onInputChange: PropTypes.func,
+    /**
+     * A function that is passed the current state as a param,
+     * and is called whenever the input field's current value is submitted
+     * Default value is undefined
+     * */
+    onInputSubmit: PropTypes.func,
+    /**
+     * A function that is passed the current state as a param,
+     * and is called whenever a suggested value is submitted
+     * Default value is undefined
+     * */
+    onSuggestionSubmit: PropTypes.func,
+    /**
+     * A function that is passed the input value as a param,
+     * and is called (with a debounce) whenever the value of the input field changes
+     * this function MUST return an array of strings (suggestions)
+     * Default value is undefined
+     * */
+    fetchSuggestions: PropTypes.func.isRequired,
+    /**
+     * A boolean value for whether or not the search button shall move underneath the input field when viewed on a small screen
+     * Default value is false
+     * */
+    mobileResponsive: PropTypes.bool,
+    /**
+     * A string value for the default value of the input field.
+     * Default value is ''
+     * */
+    startingValue: PropTypes.string,
+    /**
+     * A boolean value for whether clicking on a suggestion will "submit" it
+     * Default value is false
+     * */
+    submitOnClick: PropTypes.bool,
+    /**
+     * A boolean value for whether pressing enter with a suggestion will "submit" it
+     * Default value is false
+     * */
+    submitOnEnter: PropTypes.bool,
+    /**
+     * A boolean value for whether suggestions should take up the width of the input field and the button, or just the input field.
+     * Default value is false
+     * */
+    fullWidthSuggestions: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    buttonText: '',
+    canSubmit: false,
+    className: '',
+    debounceRate: 200,
+    fetchSuggestions: undefined,
+    formatSuggestions: false,
+    fullWidthSuggestions: false,
+    mobileResponsive: false,
+    onInputChange: undefined,
+    onInputSubmit: undefined,
+    onSuggestionSubmit: undefined,
+    showButton: true,
+    startingValue: '',
+    submitOnClick: false,
+    submitOnEnter: false,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -37,8 +132,10 @@ class SearchDropDownComponent extends React.Component {
 
   // when the component loads, fetch suggestions for our starting input value
   componentDidMount() {
-    if (this.props.startingValue) {
-      const suggestions = this.getSuggestions(this.props.startingValue);
+    const { startingValue } = this.props;
+
+    if (startingValue) {
+      const suggestions = this.fetchSuggestions(startingValue);
       this.setState({ suggestions });
     }
   }
@@ -46,29 +143,33 @@ class SearchDropDownComponent extends React.Component {
   // whenever the Input Value changes, call the prop function to export its value to the parent component
   componentDidUpdate(prevProps, prevState) {
     const { inputValue } = this.state;
+    const { onInputChange } = this.props;
+
     const inputChanged = prevState.inputValue !== inputValue;
 
-    if (this.props.getInputValue && inputChanged) {
-      this.props.getInputValue(inputValue);
+    if (onInputChange && inputChanged) {
+      onInputChange(inputValue);
     }
   }
 
   // when the component unmounts, clear the timeout if we have one.
   componentWillUnmount() {
-    clearTimeout(this.getSuggestionsTimeout);
+    clearTimeout(this.fetchSuggestionsTimeout);
   }
 
   // format suggestions so that the suggested text is BOLD
   formatSuggestion = suggestion => {
-    if (!suggestion || !this.state.inputValue) {
+    const { inputValue } = this.state;
+
+    if (!suggestion || !inputValue) {
       return suggestion;
     }
     const lowerSuggestion = suggestion?.toLowerCase();
-    const lowerQuery = this.state.inputValue?.toLowerCase();
+    const lowerQuery = inputValue?.toLowerCase();
     if (lowerSuggestion.includes(lowerQuery)) {
       return (
         <>
-          {this.state.inputValue}
+          {inputValue}
           <strong>{lowerSuggestion.replace(lowerQuery, '')}</strong>
         </>
       );
@@ -90,21 +191,24 @@ class SearchDropDownComponent extends React.Component {
     }
 
     // reset the timeout so we only fetch for suggestions after the debounce timer has elapsed
-    clearTimeout(this.getSuggestionsTimeout);
-    this.getSuggestionsTimeout = setTimeout(() => {
-      this.getSuggestions(inputValue);
+    clearTimeout(this.fetchSuggestionsTimeout);
+    this.fetchSuggestionsTimeout = setTimeout(() => {
+      this.fetchSuggestions(inputValue);
     }, this.props.debounceRate);
   };
 
   focusInputField = () => {
-    if (!this.state.hasBeenFocused) {
+    const { hasBeenFocused } = this.state;
+    if (!hasBeenFocused) {
       this.setState({ hasBeenFocused: true });
     }
   };
 
-  // call the getSuggestions prop and save the returned value into state
-  getSuggestions = async inputValue => {
-    const suggestions = await this.props.getSuggestions(inputValue);
+  // call the fetchSuggestions prop and save the returned value into state
+  fetchSuggestions = async inputValue => {
+    const { fetchSuggestions } = this.props;
+
+    const suggestions = await fetchSuggestions(inputValue);
     this.setState({ suggestions });
   };
 
@@ -125,22 +229,26 @@ class SearchDropDownComponent extends React.Component {
   // this is the handler for all of the keypress logic
   onKeyDown = event => {
     const { suggestions, isOpen, activeIndex } = this.state;
+    const {
+      canSubmit,
+      onInputSubmit,
+      submitOnEnter,
+      onSuggestionSubmit,
+    } = this.props;
     const max = suggestions.length - 1;
 
+    const currentKeyPress = event.which || event.keycode;
+
     // if the menu is not open and the DOWN arrow key is pressed, open the menu
-    if (!isOpen && (event.which || event.keycode) === Keycodes.Down) {
+    if (!isOpen && currentKeyPress === Keycodes.Down) {
       this.updateMenuState(true, false);
       return;
     }
 
     // if the menu is not open and the ENTER key is pressed, search for the term currently in the input field
-    if (
-      !isOpen &&
-      (event.which || event.keycode) === Keycodes.Enter &&
-      this.props.canSubmit
-    ) {
+    if (!isOpen && currentKeyPress === Keycodes.Enter && canSubmit) {
       event.preventDefault();
-      this.props.onInputSubmit(this.state);
+      onInputSubmit(this.state);
       return;
     }
 
@@ -148,7 +256,7 @@ class SearchDropDownComponent extends React.Component {
     // next
     // when the DOWN key is pressed, select the next option in the drop down.
     // if the last option is selected, cycle to the first option instead
-    if ((event.which || event.keycode) === Keycodes.Down) {
+    if (currentKeyPress === Keycodes.Down) {
       event.preventDefault();
       if (activeIndex === undefined || activeIndex + 1 > max) {
         this.setState({ activeIndex: 0 });
@@ -161,10 +269,7 @@ class SearchDropDownComponent extends React.Component {
     // previous
     // when the UP key is pressed, select the previous option in the drop down.
     // if the first option is selected, cycle to the last option instead
-    if (
-      (event.which || event.keycode) === Keycodes.Up ||
-      (event.which || event.keycode) === Keycodes.Left
-    ) {
+    if (currentKeyPress === Keycodes.Up || currentKeyPress === Keycodes.Left) {
       event.preventDefault();
       if (activeIndex - 1 < 0) {
         this.setState({ activeIndex: max });
@@ -176,7 +281,7 @@ class SearchDropDownComponent extends React.Component {
 
     // first
     // when the HOME key is pressed, select the first option in the drop down menu
-    if ((event.which || event.keycode) === Keycodes.Home) {
+    if (currentKeyPress === Keycodes.Home) {
       event.preventDefault();
       this.setState({ activeIndex: 0 });
       return;
@@ -184,7 +289,7 @@ class SearchDropDownComponent extends React.Component {
 
     // last
     // when the END key is pressed, select the last option in the drop down menu
-    if ((event.which || event.keycode) === Keycodes.End) {
+    if (currentKeyPress === Keycodes.End) {
       event.preventDefault();
       this.setState({ activeIndex: max });
       return;
@@ -192,7 +297,7 @@ class SearchDropDownComponent extends React.Component {
 
     // close
     // when the ESCAPE key is pressed, close the drop down menu WITHOUT selecting any of the options
-    if ((event.which || event.keycode) === Keycodes.Escape) {
+    if (currentKeyPress === Keycodes.Escape) {
       event.preventDefault();
       this.setState({ activeIndex: undefined });
       this.updateMenuState(false);
@@ -203,21 +308,21 @@ class SearchDropDownComponent extends React.Component {
     // when the enter key is pressed, fire off a search of the Input Value if no menu items are selected
     // if a menu item is selected, close the drown down menu and select the currently highlighted option
     // if submitOnEnter is true, fire off the onInputSubmit function as well
-    if ((event.which || event.keycode) === Keycodes.Enter) {
+    if (currentKeyPress === Keycodes.Enter) {
       event.preventDefault();
 
-      if (activeIndex === undefined && this.props.canSubmit) {
+      if (activeIndex === undefined && canSubmit) {
         event.preventDefault();
-        this.props.onInputSubmit(this.state);
+        onInputSubmit(this.state);
         return;
       }
-      if (!this.props.submitOnEnter) {
+      if (!submitOnEnter) {
         this.selectOption(activeIndex);
         this.updateMenuState(false);
         return;
       }
-      if (this.props.canSubmit) {
-        this.props.onSuggestionSubmit(activeIndex, this.state);
+      if (canSubmit) {
+        onSuggestionSubmit(activeIndex, this.state);
         this.selectOption(activeIndex);
         this.updateMenuState(false);
       }
@@ -228,15 +333,19 @@ class SearchDropDownComponent extends React.Component {
   // if submitOnClick is true, then initiate the onSuggestionSubmit function
   // otherwise, select the option and close the drop down menu
   onOptionClick(index) {
-    if (!this.props.submitOnClick) {
+    const { submitOnClick, onSuggestionSubmit, canSubmit } = this.props;
+
+    if (!submitOnClick) {
       this.setState({ activeIndex: index });
       this.selectOption(index);
       this.updateMenuState(false);
       return;
     }
-    this.props.onSuggestionSubmit(index, this.state);
-    this.selectOption(index);
-    this.updateMenuState(false);
+    if (canSubmit) {
+      onSuggestionSubmit(index, this.state);
+      this.selectOption(index);
+      this.updateMenuState(false);
+    }
   }
 
   // select an option from the dropdown menu, updating the inputValue state and then fetch new suggestions
@@ -250,7 +359,7 @@ class SearchDropDownComponent extends React.Component {
       savedSuggestions: suggestions,
     });
 
-    this.getSuggestions(inputValue);
+    this.fetchSuggestions(inputValue);
   }
 
   // update whether the menu is open or closed, and refocus the menu if called for
@@ -258,9 +367,7 @@ class SearchDropDownComponent extends React.Component {
     this.setState({ isOpen: open });
 
     if (callFocus) {
-      document
-        .getElementById(`${this.props.classNameBase}-input-field`)
-        .focus();
+      document.getElementById(`${this.props.className}-input-field`).focus();
     }
   }
 
@@ -285,21 +392,30 @@ class SearchDropDownComponent extends React.Component {
       hasBeenFocused,
     } = this.state;
 
+    const {
+      className,
+      fullWidthSuggestions,
+      formatSuggestions,
+      showButton,
+      canSubmit,
+      onInputSubmit,
+      buttonText,
+      mobileResponsive,
+    } = this.props;
+
     const activeId = isOpen ? `${ID}-option-${activeIndex}` : undefined;
 
-    const mobileResponsiveClass = this.props.mobileResponsive
-      ? 'shrink-to-column'
-      : '';
+    const mobileResponsiveClass = mobileResponsive ? 'shrink-to-column' : '';
 
     const oneTimeAccessibilityLabel = hasBeenFocused
       ? undefined
       : 'Use up and down arrows to review autocomplete results and enter to search. Touch device users, explore by touch or with swipe gestures.';
 
+    const validOpen = isOpen && suggestions.length > 0;
+
     return (
       <div
-        className={`search-dropdown-component vads-u-display--flex vads-u-width--full ${mobileResponsiveClass} ${
-          this.props.classNameBase
-        }-component`}
+        className={`search-dropdown-component vads-u-display--flex vads-u-width--full ${mobileResponsiveClass} ${className}-component`}
       >
         <div className="search-dropdown-container vads-u-width--full vads-u-flex-direction--column">
           <input
@@ -311,8 +427,8 @@ class SearchDropDownComponent extends React.Component {
             aria-haspopup="listbox"
             aria-label={'Search'}
             className="vads-u-width--full search-dropdown-input-field"
-            id={`${this.props.classNameBase}-input-field`}
-            data-e2e-id={`${this.props.classNameBase}-input-field`}
+            id={`${className}-input-field`}
+            data-e2e-id={`${className}-input-field`}
             role="combobox"
             type="text"
             value={inputValue}
@@ -325,16 +441,15 @@ class SearchDropDownComponent extends React.Component {
             }}
             onKeyDown={this.onKeyDown}
           />
-          {isOpen &&
-            suggestions.length > 0 &&
-            !this.props.fullWidthSuggestions && (
+          {validOpen &&
+            !fullWidthSuggestions && (
               <div
                 className="search-dropdown-options vads-u-padding--x-1"
                 role="listbox"
                 id={`${ID}-listbox`}
               >
                 {suggestions.map((suggestionString, i) => {
-                  const suggestion = this.props.formatSuggestions
+                  const suggestion = formatSuggestions
                     ? this.formatSuggestion(suggestionString)
                     : suggestionString;
                   return (
@@ -370,30 +485,28 @@ class SearchDropDownComponent extends React.Component {
             )}
         </div>
         {/* only show the submit button if the component has submit capabilities */}
-        {this.props.canSubmit && (
-          <button
-            type="submit"
-            className="search-dropdown-submit-button"
-            data-e2e-id={`${this.props.classNameBase}-submit-button`}
-            onClick={() => this.props.onInputSubmit(this.state)}
-            onFocus={this.saveSuggestions}
-          >
-            <IconSearch color="#fff" />
-            {this.props.buttonText && (
-              <span className="button-text">{this.props.buttonText}</span>
-            )}
-          </button>
-        )}
-        {isOpen &&
-          suggestions.length > 0 &&
-          this.props.fullWidthSuggestions && (
+        {showButton &&
+          canSubmit && (
+            <button
+              type="submit"
+              className="search-dropdown-submit-button"
+              data-e2e-id={`${className}-submit-button`}
+              onClick={() => onInputSubmit(this.state)}
+              onFocus={this.saveSuggestions}
+            >
+              <IconSearch color="#fff" />
+              {buttonText && <span className="button-text">{buttonText}</span>}
+            </button>
+          )}
+        {validOpen &&
+          fullWidthSuggestions && (
             <div
               className="search-dropdown-options vads-u-padding--x-1"
               role="listbox"
               id={`${ID}-listbox`}
             >
               {suggestions.map((suggestionString, i) => {
-                const suggestion = this.props.formatSuggestions
+                const suggestion = formatSuggestions
                   ? this.formatSuggestion(suggestionString)
                   : suggestionString;
                 return (
@@ -433,38 +546,3 @@ class SearchDropDownComponent extends React.Component {
 }
 
 export default SearchDropDownComponent;
-
-SearchDropDownComponent.propTypes = {
-  clickHandler: PropTypes.func,
-  buttonText: PropTypes.string,
-  canSubmit: PropTypes.bool,
-  debounceRate: PropTypes.number,
-  formatSuggestions: PropTypes.bool,
-  // getInputValue is passed the current Input Value as a param
-  getInputValue: PropTypes.func,
-  // onInputSubmit is passed the current state as a param, and is called when the input field's value is submitted
-  onInputSubmit: PropTypes.func,
-  // onSuggestionSubmit is passed the current state as a param, and is called when a suggestions's value is submitted
-  onSuggestionSubmit: PropTypes.func,
-  // getSuggestions is passed the current input field's value and MUST return a set of suggestions
-  getSuggestions: PropTypes.func,
-  mobileResponsive: PropTypes.bool,
-  startingValue: PropTypes.string,
-  submitOnClick: PropTypes.bool,
-  submitOnEnter: PropTypes.bool,
-  fullWidthSuggestions: PropTypes.bool,
-};
-
-SearchDropDownComponent.defaultProps = {
-  buttonText: '',
-  canSubmit: false,
-  debounceRate: 200,
-  formatSuggestions: false,
-  getInputValue: undefined,
-  mobileResponsive: false,
-  startingValue: '',
-  submitOnClick: false,
-  submitOnEnter: false,
-  classNameBase: '',
-  fullWidthSuggestions: false,
-};

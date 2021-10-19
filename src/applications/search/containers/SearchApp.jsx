@@ -276,7 +276,7 @@ class SearchApp extends React.Component {
     });
   };
 
-  getSuggestions = async inputValue => {
+  fetchSuggestions = async inputValue => {
     // encode user input for query to suggestions url
     const encodedInput = encodeURIComponent(inputValue);
 
@@ -347,14 +347,14 @@ class SearchApp extends React.Component {
             <SearchDropDownComponent
               buttonText="Search"
               canSubmit
-              classNameBase="search-results-page-dropdown"
+              className="search-results-page-dropdown"
               formatSuggestions
               fullWidthSuggestions={false}
               mobileResponsive
               startingValue={userInput}
               submitOnClick
               submitOnEnter
-              getSuggestions={this.getSuggestions}
+              fetchSuggestions={this.fetchSuggestions}
               onInputSubmit={this.onInputSubmit}
               onSuggestionSubmit={this.onSuggestionSubmit}
             />
