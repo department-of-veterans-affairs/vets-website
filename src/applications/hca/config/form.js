@@ -38,7 +38,8 @@ import additionalInformation from './chapters/militaryService/additionalInformat
 import documentUpload from './chapters/militaryService/documentUpload';
 
 // chapter 3 VA Benefits
-import basicInformation from './chapters/vaBenefits/basicInformation';
+import disabilityCompensation from './chapters/vaBenefits/disabilityCompensation';
+import disabilityPension from './chapters/vaBenefits/disabilityPension';
 
 // chapter 4 Household Information
 import financialDisclosure from './chapters/householdInformation/financialDisclosure';
@@ -175,7 +176,6 @@ const formConfig = {
         maritalInformation: {
           path: 'veteran-information/marital-information',
           title: 'Veteran information',
-          // title: 'Marital information',
           initialData: {
             'view:demographicCategories': {
               isSpanishHispanicLatino: false,
@@ -226,7 +226,10 @@ const formConfig = {
         documentUpload: {
           title: 'Upload your discharge papers',
           path: 'military-service/documents',
-          depends: formData => !formData['view:isUserInMvi'],
+          depends: formData => {
+            console.log(formData, `--> formData`);
+            return formData['view:isUserInMvi'];
+          },
           editModeOnReviewPage: true,
           uiSchema: documentUpload.uiSchema,
           schema: documentUpload.schema,
@@ -236,11 +239,18 @@ const formConfig = {
     vaBenefits: {
       title: 'VA Benefits',
       pages: {
-        vaBenefits: {
-          path: 'va-benefits/basic-information',
+        disabilityCompensation: {
+          path: 'va-benefits/disability-compensation',
           title: 'VA benefits',
-          uiSchema: basicInformation.uiSchema,
-          schema: basicInformation.schema,
+          uiSchema: disabilityCompensation.uiSchema,
+          schema: disabilityCompensation.schema,
+        },
+        disabilityPension: {
+          path: 'va-benefits/disability-pension',
+          title: 'VA benefits',
+          depends: formData => formData.vaCompensationType === 'none',
+          uiSchema: disabilityPension.uiSchema,
+          schema: disabilityPension.schema,
         },
       },
     },
