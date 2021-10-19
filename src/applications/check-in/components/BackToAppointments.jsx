@@ -6,12 +6,13 @@ import { createAnalyticsSlug } from '../utils/analytics';
 import { goToNextPage, URLS } from '../utils/navigation';
 import { withRouter } from 'react-router';
 
-const BackToAppointments = ({ router }) => {
+const BackToAppointments = ({ router, triggerRefresh }) => {
   const handleClick = e => {
     e.preventDefault();
     recordEvent({
       event: createAnalyticsSlug('back-button-clicked'),
     });
+    triggerRefresh();
     goToNextPage(router, URLS.DETAILS);
   };
   return (

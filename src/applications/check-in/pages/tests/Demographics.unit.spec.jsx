@@ -23,21 +23,41 @@ describe('check in', () => {
       };
       store = mockStore(initState);
     });
+    const demographics = {
+      mailingAddress: {
+        address1: '123 Turtle Trail',
+        city: 'Treetopper',
+        state: 'Tennessee',
+        zip: '101010',
+      },
+      homeAddress: {
+        address1: '445 Fine Finch Fairway',
+        address2: 'Apt 201',
+        city: 'Fairfence',
+        state: 'Florida',
+        zip: '445545',
+      },
+      homePhone: '5552223333',
+      mobilePhone: '5553334444',
+      workPhone: '5554445555',
+      emailAddress: 'kermit.frog@sesameenterprises.us',
+    };
+
     it('renders', () => {
       const component = render(
         <Provider store={store}>
-          <Demographics />
+          <Demographics demographics={{ demographics }} />
         </Provider>,
       );
 
-      expect(component.getByText('Loading your appointments for today')).to
-        .exist;
+      expect(component.getByText('Is this your current contact information?'))
+        .to.exist;
     });
 
     it('passes axeCheck', () => {
       axeCheck(
         <Provider store={store}>
-          <Demographics />
+          <Demographics demographics={{ demographics }} />
         </Provider>,
       );
     });

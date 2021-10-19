@@ -710,18 +710,6 @@ export function Modals({ hideModal, modals, profile }) {
               pro-rated monthly housing allowance. Students attending school
               exactly ½ time or less won’t get a monthly housing allowance.
             </p>
-            <p>
-              Learn more about{' '}
-              <a
-                title="For more information about MHA increases or decreases click here"
-                href="https://gibill.custhelp.va.gov/app/answers/detail/a_id/1480/kw/pro-rated%20monthly%20housing%20allowance"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                pro-rated housing allowance calculations
-              </a>
-              .
-            </p>
           </div>
         </Modal>
 
@@ -747,17 +735,6 @@ export function Modals({ hideModal, modals, profile }) {
               highly-skilled military personnel, or for other reasons the branch
               of service determines. The money is on top of any GI Bill payments
               paid directly to the Veteran.
-            </p>
-            <p>
-              Learn more about{' '}
-              <a
-                href="https://gibill.custhelp.com/app/answers/detail/a_id/97"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                the GI Bill kicker bonus
-              </a>
-              .
             </p>
           </div>
         </Modal>

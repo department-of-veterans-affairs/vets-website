@@ -25,7 +25,7 @@ const goToNextPage = (router, target, params) => {
 
 const URLS = Object.freeze({
   COMPLETE: 'complete',
-  DEMOGRAPHICS: 'demographics',
+  DEMOGRAPHICS: 'contact-information',
   DETAILS: 'details',
   ERROR: 'error',
   LANDING: '',

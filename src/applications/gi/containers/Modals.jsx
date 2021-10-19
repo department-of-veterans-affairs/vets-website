@@ -227,15 +227,8 @@ export class Modals extends React.Component {
         </p>
         <p>
           Please note this email address is only for tool-related issues. For
-          questions about your GI Bill benefits, please check this{' '}
-          <a
-            href="https://gibill.custhelp.com/app/utils/login_form/redirect/ask"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            "Ask a Question" page
-          </a>
-          .
+          questions about your GI Bill benefits,{' '}
+          <a href="/contact-us/">contact us online through Ask VA</a>.
         </p>
       </Modal>
 
@@ -941,18 +934,6 @@ export class Modals extends React.Component {
               pro-rated monthly housing allowance. Students attending school
               exactly ½ time or less won’t get a monthly housing allowance.
             </p>
-            <p>
-              Learn more about{' '}
-              <a
-                title="For more information about MHA increases or decreases click here"
-                href="https://gibill.custhelp.va.gov/app/answers/detail/a_id/1480/kw/pro-rated%20monthly%20housing%20allowance"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                pro-rated housing allowance calculations
-              </a>
-              .
-            </p>
           </div>
         </Modal>
 
@@ -981,17 +962,6 @@ export class Modals extends React.Component {
               highly-skilled military personnel, or for other reasons the branch
               of service determines. The money is on top of any GI Bill payments
               paid directly to the Veteran.
-            </p>
-            <p>
-              Learn more about{' '}
-              <a
-                href="https://gibill.custhelp.com/app/answers/detail/a_id/97"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                the GI Bill kicker bonus
-              </a>
-              .
             </p>
           </div>
         </Modal>

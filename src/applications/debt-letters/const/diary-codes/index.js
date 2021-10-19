@@ -40,9 +40,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             Please
             <a
               className="vads-u-margin-x--0p5"
-              href="https://iris.custhelp.va.gov/app/ask"
+              href="https://www.va.gov/contact-us/"
             >
-              contact us through IRIS
+              contact us online through Ask VA
             </a>
             or call us at <ContactDMC className="vads-u-margin-x--0p5" /> to
             verify your military status. We’re here Monday through Friday, 7:30
@@ -59,16 +59,27 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         nextStep: (
-          <p>
-            <strong>Next step: </strong>
-            Please pay or contact us about payment options now to avoid more
-            late charges, interest, or collection actions. We’re here at
-            <ContactDMC className="vads-u-margin-left--0p5" />, Monday through
-            Friday, 7:30 a.m. to 7:00 p.m. ET.
-            <a className="vads-u-margin-left--0p5" href="#howDoIPay">
-              .
-            </a>
-          </p>
+          <>
+            <p>
+              <strong>Next step: </strong>
+              Please pay now or contact us to start making payments again to
+              avoid collection actions.
+            </p>
+            <p>
+              You can
+              <a
+                className="vads-u-margin-x--0p5"
+                href="https://www.va.gov/contact-us/"
+              >
+                contact us online through Ask VA
+              </a>
+              or call us at <ContactDMC className="vads-u-margin-left--0p5" />,
+              We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+              <a className="vads-u-margin-left--0p5" href="#howDoIPay">
+                Review payment options
+              </a>
+            </p>
+          </>
         ),
       };
     case '117':
@@ -95,9 +106,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
               You can
               <a
                 className="vads-u-margin-x--0p5"
-                href="https://iris.custhelp.va.gov/app/ask"
+                href="https://www.va.gov/contact-us/"
               >
-                contact us through IRIS
+                contact us online through Ask VA
               </a>
               or call us at <ContactDMC className="vads-u-margin-left--0p5" />.
               We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
@@ -107,7 +118,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
               >
                 Review payment options
               </a>
-              .
             </p>
           </span>
         ),
@@ -136,9 +146,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
               You can
               <a
                 className="vads-u-margin-x--0p5"
-                href="https://iris.custhelp.va.gov/app/ask"
+                href="https://www.va.gov/contact-us/"
               >
-                contact us through IRIS
+                contact us online through Ask VA
               </a>
               or call us at <ContactDMC className="vads-u-margin-left--0p5" />.
               We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
@@ -148,7 +158,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
               >
                 Review payment options
               </a>
-              .
             </p>
           </span>
         ),
@@ -167,9 +176,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             Please
             <a
               className="vads-u-margin-x--0p5"
-              href="https://iris.custhelp.va.gov/app/ask"
+              href="https://www.va.gov/contact-us/"
             >
-              contact us through IRIS
+              contact us online through Ask VA
             </a>
             or call us at <ContactDMC className="vads-u-margin-x--0p5" /> to
             update your address. We’re here Monday through Friday, 7:30 a.m. to
@@ -197,7 +206,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             >
               Review payment options
             </a>
-            .
           </p>
         ),
       };
@@ -241,7 +249,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             >
               Review payment options
             </a>
-            .
           </p>
         ),
       };
@@ -398,9 +405,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
               avoid collection actions. You can
               <a
                 className="vads-u-margin-x--0p5"
-                href="https://iris.custhelp.va.gov/app/ask"
+                href="https://www.va.gov/contact-us/"
               >
-                contact us through IRIS
+                contact us online through Ask VA
               </a>
               or call us at <ContactDMC className="vads-u-margin-left--0p5" />.
               We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
@@ -410,7 +417,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
               >
                 Review payment options
               </a>
-              .
             </p>
           </span>
         ),
@@ -464,9 +470,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             Please
             <a
               className="vads-u-margin-x--0p5"
-              href="https://iris.custhelp.va.gov/app/ask"
+              href="https://www.va.gov/contact-us/"
             >
-              contact us through IRIS
+              contact us online through Ask VA
             </a>
             or call us at <ContactDMC className="vads-u-margin-x--0p5" /> to
             start making payments again to avoid collection actions. We’re here
@@ -510,9 +516,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             discuss about other payment options,
             <a
               className="vads-u-margin-x--0p5"
-              href="https://iris.custhelp.va.gov/app/ask"
+              href="https://www.va.gov/contact-us/"
             >
-              contact us through IRIS
+              contact us online through Ask VA
             </a>
             or call us at <ContactDMC className="vads-u-margin-left--0p5" />.
             We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
@@ -522,7 +528,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             >
               Review payment options
             </a>
-            .
           </p>
         ),
       };
@@ -581,16 +586,21 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             <strong className="vads-u-margin-left--0p5">
               {dateOfLetter && endDate(dateOfLetter, 30)}
             </strong>
-            to avoid late charges, interest, or collection actions. We’re here
-            at <ContactDMC className="vads-u-margin-left--0p5" />, Monday
-            through Friday, 7:30 a.m. to 7:00 p.m. ET.
+            to avoid collection actions. You can
+            <a
+              className="vads-u-margin-x--0p5"
+              href="https://www.va.gov/contact-us/"
+            >
+              contact us online through Ask VA
+            </a>
+            or call us at <ContactDMC className="vads-u-margin-left--0p5" />,
+            We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             <a
               href="#howDoIPay"
               className="vads-u-margin-y--2 vads-u-margin-left--0p5"
             >
               Review payment options
             </a>
-            .
           </p>
         ),
       };
@@ -617,7 +627,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             >
               Review payment options
             </a>
-            .
           </p>
         ),
       };
@@ -639,7 +648,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             >
               Review payment options
             </a>
-            .
           </p>
         ),
       };
@@ -662,7 +670,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             >
               Review payment options
             </a>
-            .
           </p>
         ),
       };
@@ -685,7 +692,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             >
               Review payment options
             </a>
-            .
           </p>
         ),
       };
