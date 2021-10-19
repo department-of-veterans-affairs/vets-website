@@ -2,9 +2,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // Relative imports.
+import MegaMenu from '../../../mega-menu/containers/Main';
+import MobileMenuButton from '../../../mobile-menu-button/containers/Main';
+import UserNav from '../../../user-nav/containers/Main';
 import recordEvent from 'platform/monitoring/record-event';
 
-export const LegacyHeader = ({ showMegaMenu, showNavLogin }) => {
+export const LegacyHeader = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
   return (
     <header className="header">
       {/* Browser Out of Date Warning */}
@@ -103,7 +106,7 @@ export const LegacyHeader = ({ showMegaMenu, showNavLogin }) => {
               <span className="va-crisis-line-icon" aria-hidden="true" />
               <span
                 className="va-crisis-line-text"
-                onClick="recordEvent({ event: 'nav-jumplink-click' });"
+                onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
               >
                 Talk to the <strong>Veterans Crisis Line</strong> now
               </span>
@@ -133,7 +136,9 @@ export const LegacyHeader = ({ showMegaMenu, showNavLogin }) => {
         {showNavLogin && (
           <>
             {/* Nav controls */}
-            <div id="va-nav-controls" />
+            <div id="va-nav-controls">
+              <MobileMenuButton />
+            </div>
 
             {/* Mobile mega menu */}
             {showMegaMenu && (
@@ -144,7 +149,9 @@ export const LegacyHeader = ({ showMegaMenu, showNavLogin }) => {
             )}
 
             {/* Login */}
-            <div id="login-root" className="vet-toolbar" />
+            <div id="login-root" className="vet-toolbar">
+              <UserNav />
+            </div>
           </>
         )}
       </div>
@@ -153,7 +160,9 @@ export const LegacyHeader = ({ showMegaMenu, showNavLogin }) => {
       {showMegaMenu && (
         <div className="usa-grid usa-grid-full">
           <div className="menu-rule usa-one-whole" />
-          <div className="mega-menu" id="mega-menu" />
+          <div className="mega-menu">
+            <MegaMenu megaMenuData={megaMenuData} />
+          </div>
         </div>
       )}
     </header>
@@ -161,6 +170,7 @@ export const LegacyHeader = ({ showMegaMenu, showNavLogin }) => {
 };
 
 LegacyHeader.propTypes = {
+  megaMenuData: PropTypes.arrayOf(PropTypes.object).isRequired,
   showMegaMenu: PropTypes.bool.isRequired,
   showNavLogin: PropTypes.bool.isRequired,
 };

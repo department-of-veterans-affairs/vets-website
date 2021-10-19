@@ -9,14 +9,12 @@ import './moment-setup';
 import './popups';
 import './wysiwyg-analytics-setup';
 import './component-library-analytics-setup';
-import startUserNavWidget from './user-nav';
-import startMegaMenuWidget from './mega-menu';
-import startSideNav from './side-nav';
-import startBanners from './banners';
-import startMobileMenuButton from './mobile-menu-button';
-import startAnnouncementWidget from './announcements';
-import startVAFooter from './va-footer';
 import addFocusBehaviorToCrisisLineModal from './accessible-VCL-modal';
+import startAnnouncementWidget from './announcements';
+import startBanners from './banners';
+import startHeaderWidget from './header';
+import startSideNav from './side-nav';
+import startVAFooter from './va-footer';
 
 import '@department-of-veterans-affairs/formation/dist/formation';
 
@@ -45,12 +43,11 @@ export default function startSitewideComponents(commonStore) {
     }
   });
 
-  startUserNavWidget(commonStore);
+  // Start site-wide widgets.
+  startHeaderWidget(commonStore, window.VetsGov.headerFooter.megaMenuData);
   startAnnouncementWidget(commonStore);
-  startMegaMenuWidget(window.VetsGov.headerFooter.megaMenuData, commonStore);
   startSideNav(window.sideNav, commonStore);
   startBanners();
-  startMobileMenuButton(commonStore);
   startVAFooter(
     window.VetsGov.headerFooter.footerData,
     addFocusBehaviorToCrisisLineModal,

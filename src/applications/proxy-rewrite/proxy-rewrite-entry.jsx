@@ -1,25 +1,18 @@
+// Node modules.
 import 'platform/polyfills';
 import cookie from 'cookie';
-
+// Relative imports.
+import addFocusBehaviorToCrisisLineModal from 'platform/site-wide/accessible-VCL-modal';
 import buckets from 'site/constants/buckets';
 import bucketsContent from 'site/constants/buckets-content';
-import environments from 'site/constants/environments';
-
 import createCommonStore from 'platform/startup/store';
 import environment from 'platform/utilities/environment';
-
-import headerPartial from './partials/header';
+import environments from 'site/constants/environments';
 import footerPartial from './partials/footer';
-
-import startUserNavWidget from 'platform/site-wide/user-nav';
-import startMegaMenuWidget from 'platform/site-wide/mega-menu';
-import startMobileMenuButton from 'platform/site-wide/mobile-menu-button';
-
-// import startLRNHealthCarWidget from 'platform/site-wide/left-rail-navs/health-care';
-// import startAnnouncementWidget from 'platform/site-wide/announcements';
-import startVAFooter, { footerElemementId } from 'platform/site-wide/va-footer';
+import headerPartial from './partials/header';
 import redirectIfNecessary from './redirects';
-import addFocusBehaviorToCrisisLineModal from 'platform/site-wide/accessible-VCL-modal';
+import startHeaderWidget from 'platform/site-wide/header';
+import startVAFooter, { footerElemementId } from 'platform/site-wide/va-footer';
 import { addOverlayTriggers } from 'platform/site-wide/legacy/menu';
 import { proxyRewriteWhitelist } from './proxy-rewrite-whitelist.json';
 
@@ -120,11 +113,10 @@ function mountReactComponents(headerFooterData, commonStore) {
   document.documentElement.style.fontSize = '10px';
   document.getElementsByTagName('body')[0].style.fontSize = '12px';
 
-  startUserNavWidget(commonStore);
-  startMegaMenuWidget(headerFooterData.megaMenuData, commonStore);
-  startMobileMenuButton(commonStore);
-  // startLRNHealthCarWidget(commonStore);
-  // startAnnouncementWidget(commonStore);
+  // Render the header.
+  startHeaderWidget(commonStore, headerFooterData.megaMenuData);
+
+  // Render the footer.
   renderFooter(headerFooterData.footerData, commonStore);
 }
 

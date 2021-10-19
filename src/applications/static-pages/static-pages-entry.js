@@ -48,7 +48,6 @@ import createFindVaForms, {
   findVaFormsWidgetReducer,
 } from '../find-forms/createFindVaForms';
 import createFindVaFormsPDFDownloadHelper from '../find-forms/widgets/createFindVaFormsPDFDownloadHelper';
-import createHeaderWidget from './header';
 import createHigherLevelReviewApplicationStatus from 'applications/disability-benefits/996/components/createHLRApplicationStatus';
 import createManageVADebtCTA from './manage-va-debt/createManageVADebtCTA';
 import createMyVALoginWidget from './widget-creators/createMyVALoginWidget';
@@ -159,7 +158,6 @@ createCoronavirusChatbot(store, widgetTypes.CORONAVIRUS_CHATBOT);
 createCovidVaccineUpdatesWidget(store, widgetTypes.COVID_VACCINE_UPDATES_CTA);
 createViewDependentsCTA(store, widgetTypes.VIEW_DEPENDENTS_CTA);
 form686CTA(store, widgetTypes.FORM_686_CTA);
-createHeaderWidget(store, widgetTypes.HEADER);
 createAskVAWidget(store, widgetTypes.ASK_VA);
 createGetMedicalRecordsPage(store, widgetTypes.GET_MEDICAL_RECORDS_PAGE);
 createRefillTrackPrescriptionsPage(

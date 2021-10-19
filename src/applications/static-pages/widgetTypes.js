@@ -24,7 +24,6 @@ export default {
   FIND_VA_FORMS_INVALID_PDF_ALERT: 'find-va-forms-pdf-download-helper',
   FORM_686_CTA: 'form-686-CTA',
   GET_MEDICAL_RECORDS_PAGE: 'get-medical-records-page',
-  HEADER: 'header',
   HEALTH_CARE_APP_STATUS: 'health-care-app-status',
   HIGHER_LEVEL_REVIEW_APP_STATUS: 'higher-level-review-status',
   HOMEPAGE_BANNER: 'homepage-banner',
