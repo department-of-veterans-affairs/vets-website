@@ -9,7 +9,7 @@ import recordEvent from 'platform/monitoring/record-event';
 
 export const LegacyHeader = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
   return (
-    <header className="header">
+    <>
       {/* Browser Out of Date Warning */}
       <div className="incompatible-browser-warning">
         <div className="row full">
@@ -160,12 +160,12 @@ export const LegacyHeader = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
       {showMegaMenu && (
         <div className="usa-grid usa-grid-full">
           <div className="menu-rule usa-one-whole" />
-          <div className="mega-menu">
+          <div className="mega-menu" id="mega-menu">
             <MegaMenu megaMenuData={megaMenuData} />
           </div>
         </div>
       )}
-    </header>
+    </>
   );
 };
 
