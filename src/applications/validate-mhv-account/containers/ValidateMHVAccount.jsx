@@ -36,13 +36,7 @@ class ValidateMHVAccount extends React.Component {
   }
 
   redirectSSOe = () => {
-    const {
-      profile,
-      router,
-      isVaPatient,
-      mhvAccountIdState,
-      mviStatus,
-    } = this.props;
+    const { profile, router, mhvAccountIdState, mviStatus } = this.props;
     const gaPrefix = 'register-mhv';
 
     if (!profile.verified) {
@@ -70,10 +64,6 @@ class ValidateMHVAccount extends React.Component {
     if (mhvAccountIdState === 'DEACTIVATED') {
       recordEvent({ event: `${gaPrefix}-error-has-deactivated-mhv-ids` });
       router.replace(`error/has-deactivated-mhv-ids`);
-      return;
-    } else if (!isVaPatient) {
-      recordEvent({ event: `${gaPrefix}-error-needs-va-patient` });
-      router.replace(`error/needs-va-patient`);
       return;
     }
     window.location = mhvUrl(true, 'home');
@@ -134,7 +124,6 @@ class ValidateMHVAccount extends React.Component {
       case ACCOUNT_STATES.NEEDS_SSN_RESOLUTION:
       case ACCOUNT_STATES.REGISTER_FAILED:
       case ACCOUNT_STATES.UPGRADE_FAILED:
-      case ACCOUNT_STATES.NEEDS_VA_PATIENT:
         router.replace(`error/${hyphenatedAccountState}`);
         return;
       default:
@@ -182,12 +171,11 @@ class ValidateMHVAccount extends React.Component {
 
 const mapStateToProps = state => {
   const profile = selectProfile(state);
-  const { mhvAccount, status, vaPatient, mhvAccountState } = profile;
+  const { mhvAccount, status, mhvAccountState } = profile;
   return {
     mhvAccount,
     mviStatus: status,
     profile,
-    isVaPatient: vaPatient,
     mhvAccountIdState: mhvAccountState,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
   };
