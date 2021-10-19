@@ -32,7 +32,7 @@ const testConfig = createTestConfig(
         cy.get('@testData').then(testData => {
           // wizard
           cy.get('[type="radio"][value="compensation"]').click();
-          if (!testData.hlrV2) {
+          if (typeof testData.hlrV2 === 'undefined') {
             cy.get('[type="radio"][value="legacy-no"]').click();
           }
           cy.axeCheck();
