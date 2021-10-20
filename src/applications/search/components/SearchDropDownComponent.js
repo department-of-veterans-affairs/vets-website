@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
-import './SearchDropDownStyles.scss';
 
 const ID = 'search-dropdown-component';
 const Keycodes = {
@@ -21,7 +20,7 @@ const Keycodes = {
   Up: 38,
 };
 
-class SearchDropDownComponent extends React.Component {
+class SearchDropdownComponent extends React.Component {
   static propTypes = {
     /**
      * A boolean value for whether the submit button should be rendered or not.
@@ -531,4 +530,4 @@ class SearchDropDownComponent extends React.Component {
   }
 }
 
-export default SearchDropDownComponent;
+export default SearchDropdownComponent;

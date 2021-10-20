@@ -26,7 +26,7 @@ import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
 
 import SearchBreadcrumbs from '../components/SearchBreadcrumbs';
-import SearchDropDownComponent from '../components/SearchDropDownComponent';
+import SearchDropdownComponent from '../components/SearchDropdownComponent';
 
 const SCREENREADER_FOCUS_CLASSNAME = 'sr-focus';
 const MAX_DESCRIPTION_LENGTH = 186;
@@ -344,7 +344,7 @@ class SearchApp extends React.Component {
             </>
           )}
           {this.props.searchDropdownComponentEnabled && (
-            <SearchDropDownComponent
+            <SearchDropdownComponent
               buttonText="Search"
               canSubmit
               className="search-results-page-dropdown"
