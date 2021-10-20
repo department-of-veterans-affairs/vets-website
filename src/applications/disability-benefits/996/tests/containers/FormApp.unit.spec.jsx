@@ -56,7 +56,7 @@ const getData = ({
     location: { pathname: '/introduction', search: '' },
     children: <h1>Intro</h1>,
     profile: mockProfile,
-    formData: {},
+    formData: { benefitType: 'compensation' },
     setFormData: () => {},
     getContestableIssues: () => {},
     router: { push: () => {} },
@@ -138,6 +138,7 @@ describe('Form0996App', () => {
       </Provider>,
     );
 
+    tree.setProps();
     expect(tree.find('h1').text()).to.contain('Loading your previous decision');
     expect(getIssues.called).to.be.true;
     tree.unmount();
