@@ -50,14 +50,6 @@ const mhvRedirects = {
   home: 'home',
 };
 
-// const cernerRedirects = {
-//   '/pages/medications/current': 'prescriptions',
-//   '/pages/scheduling/upcoming': 'appointments',
-//   '/pages/messaging/inbox': 'secure_messaging',
-//   '/pages/health_record/results/labs': 'home',
-//   home: 'home',
-// };
-
 export const ssoKeepAliveEndpoint = () => {
   const envPrefix = eauthEnvironmentPrefixes[environment.BUILDTYPE];
   return `https://${envPrefix}eauth.va.gov/keepalive`;

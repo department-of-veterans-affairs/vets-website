@@ -147,13 +147,26 @@ export class AuthApp extends React.Component {
       return;
     }
 
+    if (
+      returnUrl.includes(externalRedirects.mhv) ||
+      returnUrl.includes(externalRedirects.myvahealth)
+    ) {
+      const { app } = {
+        ...(returnUrl.includes(externalRedirects.myvahealth) && {
+          app: 'myvahealth',
+        }),
+        ...(returnUrl.includes(externalRedirects.mhv) && {
+          app: 'mhv',
+        }),
+      };
+      recordEvent({ event: `inbound-redirect-to-${app}` });
+    }
+
     sessionStorage.removeItem(authnSettings.RETURN_URL);
 
     const postAuthUrl = returnUrl
       ? appendQuery(returnUrl, 'postLogin=true')
       : returnUrl;
-
-    recordEvent({ event: `login-success-${this.serviceName}` });
 
     const redirectUrl =
       (!returnUrl.match(REDIRECT_IGNORE_PATTERN) && postAuthUrl) || '/';
