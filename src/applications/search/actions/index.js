@@ -40,6 +40,7 @@ export function fetchSearchResults(query, page, options) {
             'type-ahead-option-position': options?.keywordPosition,
             'type-ahead-options-list': options?.suggestionsList,
             'type-ahead-options-count': options?.suggestionsList?.length,
+            'search-location': options?.searchLocation,
           });
         }
         dispatch({

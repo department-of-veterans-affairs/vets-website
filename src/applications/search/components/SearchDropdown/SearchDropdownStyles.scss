@@ -1,0 +1,51 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+.search-dropdown-component {
+  display: flex;
+  flex-direction: row;
+
+  &.shrink-to-column {
+    @media (max-width: $medium-screen) {
+      flex-direction: column;
+    }
+  }
+}
+
+.search-dropdown-container {
+  position: relative;
+}
+
+.search-dropdown-options {
+  position: absolute;
+  background-color: $color-white;
+  width: 100%;
+  box-shadow: 0px 1px 5px 1px rgba(155, 155, 155, 0.5);
+}
+
+.suggestion {
+  width: 100%;
+  margin: 0;
+  padding: 8px 12px;
+  line-height: 24px;
+
+  strong {
+    font-weight: 700;
+  }
+
+  &.highlighted {
+    background-color: $color-primary;
+    color: $color-white;
+  }
+
+  &.regular {
+    color: $color-gray-dark;
+  }
+}
+
+.search-dropdown-input-field {
+   height: 42px;
+}
+
+.search-dropdown-submit-button {
+  height: 42px;
+}

@@ -6,7 +6,7 @@ import {
 
 const initialState = {
   pending: false,
-  errors: null,
+  error: null,
   statements: [],
 };
 
@@ -27,7 +27,7 @@ const medicalCopaysReducer = (state = initialState, action) => {
       return {
         ...state,
         pending: false,
-        errors: action.errors,
+        error: action.error,
       };
     default:
       return state;
