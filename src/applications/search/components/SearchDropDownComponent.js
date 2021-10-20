@@ -25,76 +25,62 @@ class SearchDropDownComponent extends React.Component {
   static propTypes = {
     /**
      * A boolean value for whether the submit button should be rendered or not.
-     * Default value is true
      * */
     showButton: PropTypes.bool,
     /**
      * A string value that should be displayed on the submit button
-     * Default value is ''
      * */
     buttonText: PropTypes.string,
     /**
      * A boolean value for whether or not the component has "submit" functionality
-     * Default value is false
      * */
     canSubmit: PropTypes.bool,
     /**
      * the debounce rate at which to fetch suggestions
-     * Default value is 200ms
      * */
     debounceRate: PropTypes.number,
     /**
      * A boolean value for whether or not suggestions are formatted to have the suggested values highlighted
-     * Default value is false
      * */
     formatSuggestions: PropTypes.bool,
     /**
      * A function that is called every time the input value changes, which is passed the current Input Value
-     * Default value is undefined
      * */
     onInputChange: PropTypes.func,
     /**
      * A function that is passed the current state as a param,
      * and is called whenever the input field's current value is submitted
-     * Default value is undefined
      * */
     onInputSubmit: PropTypes.func,
     /**
      * A function that is passed the current state as a param,
      * and is called whenever a suggested value is submitted
-     * Default value is undefined
      * */
     onSuggestionSubmit: PropTypes.func,
     /**
      * A function that is passed the input value as a param,
      * and is called (with a debounce) whenever the value of the input field changes
      * this function MUST return an array of strings (suggestions)
-     * Default value is undefined
      * */
     fetchSuggestions: PropTypes.func.isRequired,
     /**
      * A boolean value for whether or not the search button shall move underneath the input field when viewed on a small screen
-     * Default value is false
      * */
     mobileResponsive: PropTypes.bool,
     /**
      * A string value for the default value of the input field.
-     * Default value is ''
      * */
     startingValue: PropTypes.string,
     /**
      * A boolean value for whether clicking on a suggestion will "submit" it
-     * Default value is false
      * */
     submitOnClick: PropTypes.bool,
     /**
      * A boolean value for whether pressing enter with a suggestion will "submit" it
-     * Default value is false
      * */
     submitOnEnter: PropTypes.bool,
     /**
      * A boolean value for whether suggestions should take up the width of the input field and the button, or just the input field.
-     * Default value is false
      * */
     fullWidthSuggestions: PropTypes.bool,
   };
