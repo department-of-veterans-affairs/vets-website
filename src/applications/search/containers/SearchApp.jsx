@@ -26,7 +26,7 @@ import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
 
 import SearchBreadcrumbs from '../components/SearchBreadcrumbs';
-import SearchDropdownComponent from '../components/SearchDropdownComponent';
+import SearchDropdownComponent from '../components/SearchDropdown/SearchDropdownComponent';
 
 const SCREENREADER_FOCUS_CLASSNAME = 'sr-focus';
 const MAX_DESCRIPTION_LENGTH = 186;

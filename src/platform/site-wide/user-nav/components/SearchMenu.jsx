@@ -13,7 +13,7 @@ import { replaceWithStagingDomain } from '../../../utilities/environment/staging
 import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
 import DropDownPanel from '@department-of-veterans-affairs/component-library/DropDownPanel';
 import { apiRequest } from 'platform/utilities/api';
-import SearchDropdownComponent from 'applications/search/components/SearchDropdownComponent';
+import SearchDropdownComponent from 'applications/search/components/SearchDropdown/SearchDropdownComponent';
 
 const ENTER_KEY = 13;
 const SPACE_KEY = 32;
