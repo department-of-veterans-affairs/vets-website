@@ -52,6 +52,7 @@ import medicaid from './chapters/insuranceInformation/medicaid';
 import medicare from './chapters/insuranceInformation/medicare';
 import medicarePartAEffectiveDate from './chapters/insuranceInformation/medicarePartAEffectiveDate';
 import general from './chapters/insuranceInformation/general';
+import providerAndPolicy from './chapters/insuranceInformation/providerAndPolicy';
 import vaFacility from './chapters/insuranceInformation/vaFacility';
 
 const dependentSchema = createDependentSchema(fullSchemaHca);
@@ -319,6 +320,12 @@ const formConfig = {
           title: 'Other coverage',
           uiSchema: general.uiSchema,
           schema: general.schema,
+        },
+        providerAndPolicy: {
+          path: 'insurance-information/providerAndPolicy',
+          title: 'Other coverage',
+          uiSchema: providerAndPolicy.uiSchema,
+          schema: providerAndPolicy.schema,
         },
         vaFacility: {
           path: 'insurance-information/va-facility',
