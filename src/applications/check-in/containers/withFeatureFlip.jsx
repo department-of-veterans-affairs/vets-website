@@ -9,6 +9,7 @@ import {
   checkInExperienceEnabled,
   checkInExperienceDemographicsPageEnabled,
   checkInExperienceMultipleAppointmentEnabled,
+  checkInExperienceNextOfKinEnabled,
   checkInExperienceUpdateInformationPageEnabled,
   loadingFeatureFlags,
 } from '../selectors';
@@ -49,6 +50,7 @@ const mapStateToProps = state => ({
   isMultipleAppointmentsEnabled: checkInExperienceMultipleAppointmentEnabled(
     state,
   ),
+  isNextOfKinEnabled: checkInExperienceNextOfKinEnabled(state),
   isUpdatePageEnabled: checkInExperienceUpdateInformationPageEnabled(state),
 });
 
