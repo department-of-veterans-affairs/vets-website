@@ -324,6 +324,7 @@ const formConfig = {
         providerAndPolicy: {
           path: 'insurance-information/providerAndPolicy',
           title: 'Other coverage',
+          depends: formData => formData.isCoveredByHealthInsurance,
           uiSchema: providerAndPolicy.uiSchema,
           schema: providerAndPolicy.schema,
         },
