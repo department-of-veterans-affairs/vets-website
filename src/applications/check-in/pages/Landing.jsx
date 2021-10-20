@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
@@ -126,6 +127,16 @@ const mapDispatchToProps = dispatch => {
     setAuthenticatedSession: token =>
       dispatch(tokenWasValidated(undefined, token, SCOPES.READ_FULL)),
   };
+};
+
+Landing.propTypes = {
+  isUpdatePageEnabled: PropTypes.bool,
+  isMultipleAppointmentsEnabled: PropTypes.bool,
+  location: PropTypes.object,
+  router: PropTypes.object,
+  setAppointment: PropTypes.func,
+  setAuthenticatedSession: PropTypes.func,
+  setToken: PropTypes.func,
 };
 
 export default connect(

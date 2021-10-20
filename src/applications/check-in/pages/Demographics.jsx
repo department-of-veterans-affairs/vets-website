@@ -1,4 +1,6 @@
 import React, { useCallback } from 'react';
+import PropTypes from 'prop-types';
+
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 import { goToNextPage, URLS } from '../utils/navigation';
@@ -7,7 +9,7 @@ import Footer from '../components/Footer';
 import DemographicItem from '../components/DemographicItem';
 
 const Demographics = props => {
-  const { isUpdatePageEnabled, router, isLoading, demographics } = props;
+  const { demographics, isLoading, isUpdatePageEnabled, router } = props;
 
   const yesClick = useCallback(
     () => {
@@ -99,6 +101,13 @@ const Demographics = props => {
       </div>
     );
   }
+};
+
+Demographics.propTypes = {
+  demographics: PropTypes.object,
+  isLoading: PropTypes.bool,
+  isUpdatePageEnabled: PropTypes.bool,
+  router: PropTypes.object,
 };
 
 export default Demographics;
