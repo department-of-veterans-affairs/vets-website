@@ -12,7 +12,7 @@ const MainHeaderContent = props => {
   return (
     <div>
       <div className="mobile-header-logo">
-        <img src="#" alt="" />
+        <img src="/img/header-logo.png" alt="Go to VA.gov" />
       </div>
       <div className="mobile-header-menu-button">
         <button
