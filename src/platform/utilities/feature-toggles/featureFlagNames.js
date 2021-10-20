@@ -14,6 +14,7 @@ export default Object.freeze({
   checkInExperienceEnabled: 'check_in_experience_enabled',
   checkInExperienceDemographicsPageEnabled: 'check_in_experience_demographics_page_enabled',
   checkInExperienceUpdateInformationPageEnabled: 'check_in_experience_update_information_page_enabled',
+  checkInExperienceNextOfKinEnabled: 'check_in_experience_next_of_kin_enabled',
   checkInExperienceLowRiskAuthenicationEnabled:
     'check_in_experience_low_authentication_enabled',
   checkInExperienceMultipleAppointmentEnabled:
