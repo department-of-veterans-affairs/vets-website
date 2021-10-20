@@ -76,7 +76,7 @@ describe('checkAutoSession', () => {
     );
   });
 
-  it('should do nothing if on "/sign-in/?application=myvahealth" and not verified', async () => {
+  it.skip('should do nothing if on "/sign-in/?application=myvahealth" and not verified', async () => {
     sandbox.stub(keepAliveMod, 'keepAlive').returns({
       sessionAlive: true,
       ttl: 900,
