@@ -21,7 +21,7 @@ export const getQueryParams = () => {
   const searchParams = new URLSearchParams(window.location.search);
   const application = searchParams.get('application');
   const to = searchParams.get('to');
-
+  // console.log('inside qp', { application, to });
   return { application, to };
 };
 
@@ -50,13 +50,13 @@ const mhvRedirects = {
   home: 'home',
 };
 
-const cernerRedirects = {
-  '/pages/medications/current': 'prescriptions',
-  '/pages/scheduling/upcoming': 'appointments',
-  '/pages/messaging/inbox': 'secure_messaging',
-  '/pages/health_record/results/labs': 'home',
-  home: 'home',
-};
+// const cernerRedirects = {
+//   '/pages/medications/current': 'prescriptions',
+//   '/pages/scheduling/upcoming': 'appointments',
+//   '/pages/messaging/inbox': 'secure_messaging',
+//   '/pages/health_record/results/labs': 'home',
+//   home: 'home',
+// };
 
 export const ssoKeepAliveEndpoint = () => {
   const envPrefix = eauthEnvironmentPrefixes[environment.BUILDTYPE];
@@ -110,7 +110,7 @@ function redirectWithGAClientId(redirectUrl) {
   }
 }
 
-export const generatePath = (app, to) => {
+const generatePath = (app, to) => {
   if (app === 'mhv') {
     return `?deeplinking=${to}`;
   }
@@ -122,8 +122,7 @@ export function standaloneRedirect() {
   let url = externalRedirects[application] || null;
 
   if (url && to) {
-    const pathname = generatePath(application, to);
-    url = fixUrl(url, pathname);
+    url = fixUrl(url, generatePath(application, to));
   }
 
   return url;
@@ -137,20 +136,16 @@ export function generateLookup(returnUrl) {
 
   const toRedirect = {
     ...(app === 'mhv' && { ...mhvRedirects }),
-    ...(app === 'myvahealth' && { ...cernerRedirects }),
   }[link || 'home'];
 
   const externalRedirectLookup = {
-    ...(app === 'myvahealth' && {
-      [`${externalRedirects.myvahealth}${link}`]: `myvahealth_${toRedirect}`,
-    }),
     ...(app === 'mhv' && {
       [`${externalRedirects.mhv}${link}`]: `mhv_${toRedirect}`,
     }),
   };
 
   return {
-    redirectsTo: externalRedirectLookup[`${returnUrl}${link}`],
+    redirectsTo: externalRedirectLookup[`${returnUrl}`],
     app,
   };
 }

@@ -72,7 +72,7 @@ describe('checkAutoSession', () => {
     await checkAutoSession(true, 'X', profile);
 
     expect(global.window.location).to.eq(
-      'https://staging-patientportal.myhealth.va.gov/',
+      'https://staging-patientportal.myhealth.va.gov',
     );
   });
 

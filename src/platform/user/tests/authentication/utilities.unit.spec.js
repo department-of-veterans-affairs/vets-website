@@ -90,7 +90,7 @@ describe('authentication URL helpers', () => {
   it('should redirect to the proper unified sign-in page redirect for mhv', () => {
     global.window.location.pathname = '/sign-in/';
     global.window.location.search = '?application=mhv';
-    login('idme', 'v1', {});
+    login('idme', 'v1');
     expect(global.window.location).to.include(
       '/v1/sessions/idme/new?redirect=mhv_home',
     );
@@ -99,6 +99,7 @@ describe('authentication URL helpers', () => {
   it('should redirect to the proper unified sign-in page redirect for mhv with `to`', () => {
     global.window.location.pathname = '/sign-in/';
     global.window.location.search = '?application=mhv&to=secure_messaging';
+
     login('idme', 'v1');
     expect(global.window.location).to.include(
       '/v1/sessions/idme/new?redirect=mhv_secure_messaging',
@@ -108,16 +109,8 @@ describe('authentication URL helpers', () => {
   it('should redirect to the proper unified sign-in page redirect for cerner', () => {
     global.window.location.pathname = '/sign-in/';
     global.window.location.search = '?application=myvahealth';
-    login('idme', 'v1', {});
+    login('idme', 'v1');
     expect(global.window.location).to.include('/v1/sessions/idme/new');
-  });
-
-  it('should redirect to the proper unified sign-in page redirect for cerner with `to`', () => {
-    global.window.location.pathname = '/sign-in/';
-    global.window.location.search =
-      '?application=myvahealth&to=/pages/medications/current';
-    login('mhv', 'v1', {});
-    expect(global.window.location).to.include('/v1/sessions/mhv/new');
   });
 });
 
