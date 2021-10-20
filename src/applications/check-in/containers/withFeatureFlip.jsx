@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
@@ -12,26 +13,35 @@ import {
   loadingFeatureFlags,
 } from '../selectors';
 
-const withFeatureFlip = WrappedComponent => props => {
-  const { isCheckInEnabled, isLoadingFeatureFlags } = props;
-  if (isLoadingFeatureFlags) {
-    return (
-      <>
-        <LoadingIndicator message="Loading your check in experience" />
-      </>
-    );
-  } else if (!isCheckInEnabled) {
-    window.location.replace('/');
-    return <></>;
-  } else {
-    return (
-      <>
-        <meta name="robots" content="noindex" />
-        <WrappedComponent {...props} />
-      </>
-    );
-  }
+const withFeatureFlip = Component => {
+  const Wrapped = ({ isCheckInEnabled, isLoadingFeatureFlags, ...props }) => {
+    if (isLoadingFeatureFlags) {
+      return (
+        <>
+          <LoadingIndicator message="Loading your check in experience" />
+        </>
+      );
+    } else if (!isCheckInEnabled) {
+      window.location.replace('/');
+      return <></>;
+    } else {
+      return (
+        <>
+          <meta name="robots" content="noindex" />
+          <Component {...props} />
+        </>
+      );
+    }
+  };
+
+  Wrapped.propTypes = {
+    isCheckInEnabled: PropTypes.bool,
+    isLoadingFeatureFlags: PropTypes.bool,
+  };
+
+  return Wrapped;
 };
+
 const mapStateToProps = state => ({
   isCheckInEnabled: checkInExperienceEnabled(state),
   isDemographicsPageEnabled: checkInExperienceDemographicsPageEnabled(state),
@@ -39,7 +49,6 @@ const mapStateToProps = state => ({
   isMultipleAppointmentsEnabled: checkInExperienceMultipleAppointmentEnabled(
     state,
   ),
-
   isUpdatePageEnabled: checkInExperienceUpdateInformationPageEnabled(state),
 });
 
