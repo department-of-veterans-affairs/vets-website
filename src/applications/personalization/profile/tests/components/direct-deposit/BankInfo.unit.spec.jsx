@@ -8,7 +8,7 @@ import { setupServer } from 'msw/node';
 import * as mocks from '@@profile/msw-mocks';
 import { renderWithProfileReducers } from '@@profile/tests/unit-test-helpers';
 
-import BankInfoCNP from '@@profile/components/direct-deposit/BankInfoCNP';
+import BankInfo from '@@profile/components/direct-deposit/BankInfo';
 
 const paymentAccount = {
   accountType: 'Checking',
@@ -111,7 +111,7 @@ describe('DirectDepositCNP', () => {
 
   const ui = (
     <MemoryRouter>
-      <BankInfoCNP />
+      <BankInfo type={'CNP'} />
     </MemoryRouter>
   );
 
