@@ -65,6 +65,15 @@ export class SearchMenu extends React.Component {
     if (isOpen && !prevProps.isOpen && inputField) {
       inputField.focus();
     }
+
+    // focus the search dropdown input field when the search menu is opened
+    const dropdownInputField = document.getElementById(
+      'search-header-dropdown-input-field',
+    );
+    if (isOpen && !prevProps.isOpen && dropdownInputField) {
+      dropdownInputField.focus();
+    }
+
     if (userInput.length <= 2 && prevState.userInput.length > 2) {
       this.clearSuggestions();
     }
