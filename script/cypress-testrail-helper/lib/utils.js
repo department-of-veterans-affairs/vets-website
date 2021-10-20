@@ -20,12 +20,12 @@ module.exports = {
           JSON.stringify({ ...answers }),
         );
         myResolve('setMyConfig succeeded');
-      } catch (err) {
-        myReject('setMyConfig failed');
+      } catch (e) {
+        myReject(`fs.writeFileSync() failed! ${e}`);
       }
     });
   },
-  async globSpecFiles() {
+  async findSpecFiles() {
     let input, filename, specGlob;
     const answers = await inquirer.askSpecFilename();
 
@@ -44,28 +44,24 @@ module.exports = {
     return new Promise((myResolve, myReject) => {
       try {
         specGlob = 'src/applications/**/' + filename + '.cypress.spec.js?(x)';
-        console.log('specGlob: ', specGlob);
         glob(specGlob, {}, (err, files) => {
           if (err) {
             throw new Error(err);
           }
           myResolve(files);
         });
-      } catch (err) {
-        myReject(`globSpecFiles failed: ${err}`);
+      } catch (e) {
+        myReject(`globSpecFiles() failed: ${e}`);
       }
     });
   },
   async chooseSpecFile(files) {
     const answers = await inquirer.askSpecFileChoice(files);
-
-    console.log('answers.specFile: ', answers.specFile);
-
     return new Promise((myResolve, myReject) => {
       try {
         myResolve(answers.specFile);
-      } catch (err) {
-        myReject(`chooseSpecFile failed: ${err}`);
+      } catch (e) {
+        myReject(`chooseSpecFile() failed: ${e}`);
       }
     });
   },
@@ -75,7 +71,7 @@ module.exports = {
         const parsedComments = await parse(data);
         return parsedComments;
       } catch (e) {
-        console.error(chalk.red(`ERROR: ${e}`));
+        console.log(chalk.red(`parsComments() failed! ${e}`));
       }
     };
 
@@ -83,55 +79,64 @@ module.exports = {
       try {
         fs.readFile(specFile, 'utf8', async (err, data) => {
           const parsedTrInfo = {};
-          let specComments, trCommentBlock, trCommentTags;
+          let specComments, trCommentBlocks, trCommentBlock, trCommentTags;
 
-          if (err) throw new Error(err);
-
-          specComments = await parseComments(data);
-          trCommentBlock = specComments.filter(b =>
-            b.description.toLowerCase().includes('testrail-integrated'),
-          )[0];
-          trCommentTags = trCommentBlock.tags.filter(
-            t => t.tag.toLowerCase() === 'testrailinfo',
-          );
-          trCommentTags.forEach(t => {
-            const tagName = t.name;
-            const tagDescription = t.description;
-
-            parsedTrInfo[tagName] =
-              tagName === 'runName'
-                ? tagDescription
-                : parseInt(tagDescription, 10);
+          specComments = await parseComments(data).catch(e => {
+            console.log(chalk.red(`parseComments failed! ${e}`));
           });
 
-          myResolve(parsedTrInfo);
+          try {
+            trCommentBlocks = specComments.filter(b =>
+              b.description.toLowerCase().includes('testrail-integrated'),
+            );
+            trCommentBlock = trCommentBlocks[0];
+            trCommentTags = trCommentBlock.tags.filter(
+              t => t.tag.toLowerCase() === 'testrailinfo',
+            );
+            trCommentTags.forEach(t => {
+              const tagName = t.name;
+              const tagDescription = t.description;
+
+              parsedTrInfo[tagName] =
+                tagName === 'runName'
+                  ? tagDescription
+                  : parseInt(tagDescription, 10);
+            });
+
+            myResolve(parsedTrInfo);
+          } catch (e) {
+            if (
+              e.message.includes("Cannot read property 'tags' of undefined")
+            ) {
+              console.log(
+                chalk.red(`NO TESTRAIL COMMENTS FOUND IN SPEC-FILE! ${e}`),
+              );
+            } else {
+              console.log(chalk.red(`PARSED-COMMENTS FILTERING FAILED! ${e}`));
+            }
+          }
         });
-      } catch (err) {
-        myReject(`readFile failed! ${err}`);
+      } catch (e) {
+        myReject(`fs.readFile() failed! ${e}`);
       }
     });
   },
-  async getSetCypressConfig(myConfig) {
-    let answers = undefined;
-    let newCyConfig = undefined;
+  async getSetCyRunConfig(myConfig, trInfo) {
+    let newCyConfig;
 
-    answers = await inquirer.askTestRailRunOptions();
-
-    /* eslint-disable no-unused-vars, no-param-reassign, no-multi-assign */
-    myConfig = newCyConfig = Object.assign(cyConfig, {
+    newCyConfig = Object.assign(cyConfig, {
       reporterOptions: {
         ...cyConfig.reporterOptions,
         username: myConfig.trUsername,
         password: myConfig.trPassword,
-        projectId: parseInt(myConfig.trProjectId, 10),
-        suiteId: parseInt(myConfig.trSuiteId, 10),
+        projectId: parseInt(trInfo.projectId),
+        suiteId: parseInt(trInfo.suiteId),
         includeAllInTestRun: false,
-        groupId: parseInt(answers.groupId, 10),
-        runName: answers.runName,
+        groupId: parseInt(trInfo.groupId),
+        runName: trInfo.runName,
         filter: '',
       },
     });
-    /* eslint-enable no-unused-vars, no-param-reassign, no-multi-assign */
 
     // Write run-specific Cypress config-file.
     return new Promise((myResolve, myReject) => {
@@ -149,13 +154,12 @@ module.exports = {
             },
           }),
         );
-        myResolve(answers.specPath);
-      } catch (err) {
-        myReject('failed');
+        myResolve('succeeded');
+      } catch (e) {
+        myReject(`failed`);
       }
     });
   },
-
   runCySpec(specPath) {
     const scriptCall = `yarn cy:my-testrail-run --spec ${specPath}`;
     const spinner = new Spinner('%s processing...');
@@ -177,91 +181,8 @@ module.exports = {
       }
       spinner.stop(true);
       console.log('\n');
-      console.log(chalk.green(`stdout: ${stdout}`));
+      console.log(chalk.green(`RUN COMPLETED!  stdout:\n${stdout}`));
     });
-  },
-
-  async getSetAppProjectConfig(myConfig) {
-    let projectAnswers;
-    let myNewConfig;
-
-    projectAnswers = await inquirer.askTestRailProjectOptions();
-    // eslint-disable-next-line no-unused-vars, no-param-reassign, no-multi-assign
-    myConfig = myNewConfig = Object.assign(myConfig, projectAnswers);
-
-    return new Promise((myResolve, myReject) => {
-      try {
-        fs.writeFileSync(
-          './script/cypress-testrail-helper/my-config.json',
-          JSON.stringify({ ...myNewConfig, trIncludeAllInTestRun: false }),
-        );
-        myResolve('succeeded');
-      } catch (err) {
-        myReject('failed');
-      }
-    });
-  },
-
-  parseSpecTrInfo(specPath) {
-    // Parses TestRail-integrated spec's JSDOC comment-tags,
-    // extracts TestRail-relevant comment-tags, and
-    // returns TestRail info (projectId, suiteId, groupId, runName).
-    const parseComments = async data => {
-      try {
-        const parsedComments = await parse(data);
-        return parsedComments;
-      } catch (e) {
-        console.error(chalk.red(`ERROR: ${e}`));
-      }
-    };
-
-    // delete any leading slash
-    specPath = specPath.replace(/^\//, '');
-    // prepend 'src/applications/**/' if missing
-    if (!specPath.includes('src/applications/')) {
-      if (specPath.indexOf('**/') === 0) {
-        specPath = 'src/applications/' + specPath;
-      } else {
-        specPath = 'src/applications/**/' + specPath;
-      }
-      // console.log('specPath (prepended):', specPath);
-    }
-    // append file-extension pattern if missing
-    if (!specPath.includes('.cypress.spec.js')) {
-      specPath += '.cypress.spec.js?(x)';
-    }
-    console.log('specPath (modified):', specPath);
-
-    // fs.readFile(specPath, 'utf8', async (err, data) => {
-    //   const trInfo = {};
-    //   let specComments, trCommentBlock, trCommentTags;
-
-    //   if (err) throw err;
-
-    //   specComments = await parseComments(data);
-    //   // console.log('specComments:', specComments);
-
-    //   trCommentBlock = specComments.filter(b =>
-    //     b.description.toLowerCase().includes('testrail-integrated'),
-    //   )[0];
-    //   // console.log('trCommentBlock:', trCommentBlock);
-
-    //   trCommentTags = trCommentBlock.tags.filter(
-    //     t => t.tag.toLowerCase() === 'testrailinfo',
-    //   );
-    //   // console.log('trCommentTags:', trCommentTags);
-
-    //   trCommentTags.forEach(t => {
-    //     const tagName = t.name;
-    //     const tagDescription = t.description;
-
-    //     trInfo[tagName] =
-    //       tagName === 'runName' ? tagDescription : parseInt(tagDescription, 10);
-    //   });
-    //   console.log('trInfo:', trInfo);
-    // });
-
-    console.log('\nreadFile called...');
   },
 };
 

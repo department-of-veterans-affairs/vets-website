@@ -37,8 +37,7 @@ module.exports = {
       {
         name: 'specFilename',
         type: 'input',
-        message:
-          "Enter your Cypress spec's filename [in front of `.cypress.spec.js(x)`]:",
+        message: 'Enter your Cypress spec filename:',
         validate(val) {
           if (val.length) {
             return true;

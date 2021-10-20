@@ -6,55 +6,64 @@ const fs = require('fs');
 
 const utils = require('./lib/utils');
 
-const appArgs = process.argv.slice(2);
 const myConfigPath = './script/cypress-testrail-helper/my-config.json'; // Project-root-relative path [for fs-call].
 
 // Runtime variables.
-let myConfig, specFile;
+let myConfig, specFile, trInfo;
 
 // Cypress run-specific config and run function
 const configRunCySpec = appConfig => {
   console.log(chalk.yellow('CREATING CYPRESS RUN-SPECIFIC CONFIG-FILE NOW...'));
   utils
-    .globSpecFiles()
-    .then(files => {
-      console.log(
-        chalk.green('[configRunCySpec] spec file(s) returned:', files),
-      );
-
+    .findSpecFiles()
+    .then(async files => {
       filesLength = files.length;
-      console.log(
-        chalk.green('[configRunCySpec] files array-length:', filesLength),
-      );
-
       if (filesLength === 0) {
-        console.log(chalk.red('NO FILES FOUND!  Please try again.'));
+        console.log(chalk.yellow('NO SPEC-FILES FOUND!  Please try again.'));
         configRunCySpec(myConfig);
       } else if (filesLength === 1) {
-        specFile = files[0];
+        specFile = await files[0];
       } else {
-        console.log('Multiple files found!');
-        utils
+        console.log(chalk.yellow('MULTIPLE SPEC-FILES FOUND!'));
+        await utils
           .chooseSpecFile(files)
           .then(file => {
             specFile = file;
           })
-          .catch(err => {
-            throw new Error(err);
+          .catch(e => {
+            console.log(chalk.red(`chooseSpecFile() failed! ${e}`));
           });
       }
 
-      utils
-        .getSpecTrInfo(specFile)
-        .then(parsedTrInfo => {
-          console.log('trInfo returned:', parsedTrInfo);
-        })
-        .catch(err => {
-          console.log(chalk.red(`getSpecTrInfo failed! ${err}`));
-        });
+      if (specFile) {
+        utils
+          .getSpecTrInfo(specFile)
+          .then(parsedTrInfo => {
+            trInfo = parsedTrInfo;
+            utils
+              .getSetCyRunConfig(myConfig, trInfo)
+              .then(() => {
+                console.log(
+                  chalk.green(
+                    'RUN-SPECIFIC CYPRESS CONFIG-FILE SUCCESSFULLY CREATED!',
+                  ),
+                );
+                console.log(
+                  chalk.yellow(`RUNNING CYPRESS SPEC [${specFile}] NOW...`),
+                );
+                utils.runCySpec(specFile);
+              })
+              .catch(e => {
+                console.log(chalk.red(`chooseSpecFile() failed! ${e}`));
+              });
+          })
+          .catch(e => {
+            console.log(chalk.red(`getSpecTrInfo() failed! ${e}`));
+          });
+      }
     })
-    .catch(err => {
-      console.log(chalk.red(`configRunCySpec failed! ${err}`));
+    .catch(e => {
+      console.log(chalk.red(`configRunCySpec() failed! ${e}`));
       process.exitCode = 1;
     });
 };
@@ -70,21 +79,16 @@ console.log(
   ),
 );
 
-// console.log('process.argv:', process.argv);
-// console.log('appArgs:', appArgs);
-
 // CHECK FOR CONFIG-FILE, GET/SET CONFIG(S), THEN RUN CYPRESS SPEC.
-// IF no config-file exists, create one.
-// IF config-file does exist, create run-specific Cypress config-file.
+// IF no app config-file exists, create one.
+// IF app config-file does exist, create run-specific Cypress config-file.
 switch (fs.existsSync(myConfigPath)) {
   case true:
     // eslint-disable-next-line import/no-unresolved
     myConfig = require('./my-config.json');
     console.log(
-      chalk.yellow(
-        `APP CONFIG-FILE FOUND!  Current ProjectID: ${
-          myConfig.trProjectId
-        }; Current Suite ID: ${myConfig.trSuiteId}`,
+      chalk.green(
+        `APP CONFIG-FILE FOUND!  Current TestRail User: ${myConfig.trUsername}`,
       ),
     );
 
@@ -97,6 +101,7 @@ switch (fs.existsSync(myConfigPath)) {
       .then(() => {
         myConfig = require('./my-config.json');
         console.log(chalk.green('APP CONFIG-FILE SUCCESSFULLY CREATED!'));
+        console.log(chalk.yellow(`RUNNING CYPRESS SPEC NOW: ${specFile}`));
         configRunCySpec(myConfig);
       })
       .catch(err => {
