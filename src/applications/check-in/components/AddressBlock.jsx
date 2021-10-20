@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const AddressBlock = ({ address }) => {
   const lineTwo =
@@ -29,6 +30,10 @@ const AddressBlock = ({ address }) => {
       } ${address.zip}`}</span>
     </>
   );
+};
+
+AddressBlock.propTypes = {
+  address: PropTypes.object,
 };
 
 export default AddressBlock;

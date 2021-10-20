@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import FeatureToggle, {
@@ -12,9 +13,9 @@ import { triggerRefresh } from '../../actions';
 
 const Confirmation = ({
   appointments,
-  selectedAppointment,
   isMultipleAppointmentsEnabled,
   refreshAppointments,
+  selectedAppointment,
 }) => {
   return (
     <FeatureToggle on={isMultipleAppointmentsEnabled}>
@@ -44,6 +45,13 @@ const mapDispatchToProps = dispatch => {
       dispatch(triggerRefresh());
     },
   };
+};
+
+Confirmation.propTypes = {
+  appointments: PropTypes.array,
+  isMultipleAppointmentsEnabled: PropTypes.bool,
+  refreshAppointments: PropTypes.func,
+  selectedAppointment: PropTypes.object,
 };
 
 export default connect(
