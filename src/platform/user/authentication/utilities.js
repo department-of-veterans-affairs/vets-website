@@ -32,7 +32,7 @@ const fixUrl = (url, path) => {
 
 export const externalRedirects = {
   myvahealth: environment.isProduction()
-    ? 'https://patientportal.myhealth.va.go'
+    ? 'https://patientportal.myhealth.va.gov'
     : 'https://staging-patientportal.myhealth.va.gov',
   mhv: `https://${
     eauthEnvironmentPrefixes[environment.BUILDTYPE]
