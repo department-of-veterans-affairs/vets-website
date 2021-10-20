@@ -85,6 +85,7 @@ export class IntroductionPage extends React.Component {
       return (
         <SaveInProgressIntro
           formId={formId}
+          headingLevel={2}
           prefillEnabled={prefillEnabled}
           messages={savedFormMessages}
           pageList={route.pageList}
