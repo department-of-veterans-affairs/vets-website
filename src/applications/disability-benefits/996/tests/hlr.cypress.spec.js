@@ -128,6 +128,10 @@ const testConfig = createTestConfig(
         cy.intercept('GET', '/v0/feature_toggles?*', { data: { features } });
       });
     },
+    // Skip tests in CI until the wizard has been moved to the /start page.
+    // We're using an env production flag to adjust the route since I haven't
+    // found a way to check/get a feature flag in the router
+    skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,
