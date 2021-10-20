@@ -8,11 +8,9 @@ import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { IntroductionPage } from '../../containers/IntroductionPage';
 import formConfig from '../../config/form';
 
-import { FETCH_CONTESTABLE_ISSUES_INIT } from '../../actions';
 import { setHlrWizardStatus, removeHlrWizardStatus } from '../../wizard/utils';
 
 const defaultProps = {
-  getContestableIssues: () => {},
   allowHlr: true,
   user: {
     profile: {
@@ -174,26 +172,6 @@ describe('IntroductionPage', () => {
     const Intro = tree.find('Connect(CallToActionWidget)').first();
     expect(Intro.props().children.props.gaStartEventName).to.equal(
       `${formConfig.trackingPrefix}start-form`,
-    );
-    tree.unmount();
-  });
-
-  it('should show contestable issue loading indicator', () => {
-    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
-    const props = {
-      ...defaultProps,
-      contestableIssues: {
-        issues: [{}],
-        status: FETCH_CONTESTABLE_ISSUES_INIT,
-        error: '',
-      },
-    };
-
-    const tree = shallow(<IntroductionPage {...props} />);
-
-    const Intro = tree.find('Connect(CallToActionWidget)').first();
-    expect(Intro.props().children.props.message).to.contain(
-      'Loading your previous decisions',
     );
     tree.unmount();
   });

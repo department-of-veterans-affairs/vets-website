@@ -16,10 +16,10 @@ export const getStatements = () => {
           response: transform(data),
         });
       })
-      .catch(({ errors }) => {
+      .catch(errors => {
         Sentry.withScope(scope => {
-          Sentry.captureMessage('medical_copays getStatements failed');
           scope.setExtra('errors', errors);
+          Sentry.captureMessage('medical_copays getStatements failed');
         });
         return dispatch({
           type: MCP_STATEMENTS_FETCH_FAILURE,
