@@ -9,7 +9,7 @@ import Alert from '../components/Alerts';
 
 const OverviewPage = () => {
   const statementData = useSelector(({ mcp }) => mcp.statements);
-  const errors = useSelector(({ mcp }) => mcp.errors);
+  const error = useSelector(({ mcp }) => mcp.error);
   const [alertType, setAlertType] = useState(null);
 
   // remove duplicate facilities with matching facility numbers
@@ -26,11 +26,11 @@ const OverviewPage = () => {
       if (!statementData?.length) {
         setAlertType('no-history');
       }
-      if (errors) {
+      if (error) {
         setAlertType('error');
       }
     },
-    [errors, statementData],
+    [error, statementData],
   );
 
   return (
