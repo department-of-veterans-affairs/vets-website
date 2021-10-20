@@ -10,8 +10,11 @@ const MainHeaderContent = props => {
   };
 
   return (
-    <div>
-      <div className="mobile-header-logo">
+    <div
+      className="row va-flex usa-grid usa-grid-full"
+      id="va-header-logo-menu"
+    >
+      <div className="va-header-logo-wrapper">
         <img src="/img/header-logo.png" alt="Go to VA.gov" />
       </div>
       <div className="mobile-header-menu-button">
