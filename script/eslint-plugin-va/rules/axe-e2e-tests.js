@@ -1,5 +1,5 @@
 const MESSAGE =
-  'e2e tests must include at least one axeCheck call. Documentation for adding checks and understanding errors can be found here: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/engineering/frontend/eslint/axe-check-required.md';
+  'E2E tests must include at least one axeCheck call. Documentation for adding checks and understanding errors can be found here: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/engineering/frontend/eslint/axe-check-required.md';
 
 const rule = {
   meta: {
