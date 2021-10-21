@@ -13,6 +13,7 @@ import InstitutionProfile from '../components/profile/InstitutionProfile';
 import ServiceError from '../components/ServiceError';
 import { useQueryParams } from '../utils/helpers';
 import scrollTo from 'platform/utilities/ui/scrollTo';
+import environment from 'platform/utilities/environment';
 
 const { Element: ScrollElement } = Scroll;
 
@@ -44,7 +45,9 @@ export function ProfilePage({
     () => {
       if (institutionName) {
         dispatchSetPageTitle(
-          `${institutionName}: GI Bill® Comparison Tool | Veterans Affairs`,
+          environment.isProduction()
+            ? `${institutionName} - GI Bill® Comparison Tool`
+            : `${institutionName} - GI Bill® Comparison Tool | Veterans Affairs`,
         );
       }
     },

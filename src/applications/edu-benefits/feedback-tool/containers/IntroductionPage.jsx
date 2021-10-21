@@ -10,6 +10,8 @@ import environment from 'platform/utilities/environment';
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
+    if (!environment.isProduction())
+      document.title = 'GI Bill® Comparison Tool | Veterans Affairs';
   }
 
   render() {

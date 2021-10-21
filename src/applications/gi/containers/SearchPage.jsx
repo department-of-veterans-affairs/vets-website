@@ -31,6 +31,7 @@ import { renderSearchResultsHeader } from '../utils/render';
 import { isMobileView, useQueryParams } from '../utils/helpers';
 import { searchWithFilters } from '../utils/search';
 import scrollTo from 'platform/utilities/ui/scrollTo';
+import environment from 'platform/utilities/environment';
 
 const { Element: ScrollElement } = Scroll;
 
@@ -56,9 +57,13 @@ export function SearchPage({
   const queryParams = useQueryParams();
 
   const searchTerm = autocomplete.searchTerm;
-  const title = searchTerm
+  const legacyTitle = searchTerm
+    ? `Search Resultsm - ${searchTerm}`
+    : `Search Results`;
+  const newTitle = searchTerm
     ? `${searchTerm} Search results: GI Bill(R) Comparison Tool | Veterans Affairs`
     : 'Search Results';
+  const title = environment.isProduction() ? legacyTitle : newTitle;
 
   useEffect(
     () => {
