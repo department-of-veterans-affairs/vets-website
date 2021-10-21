@@ -109,8 +109,10 @@ Alert.Deceased = () => (
 Alert.Status = ({ copay }) => (
   <va-alert background-only status="info">
     <h3 className="vads-u-margin-y--0">
-      Pay your {currency(copay?.pHAmtDue)} balance or request help before
-      <span className="vads-u-margin-left--0p5 no-wrap">
+      {/* using vads-u-margin-left here causes the word "before" 
+      to wrap to the next line so we need a {' '} space here */}
+      Pay your {currency(copay?.pHAmtDue)} balance or request help before{' '}
+      <span className="vads-u-line-height--4 no-wrap">
         {calcDueDate(copay?.pSStatementDate, 30)}
       </span>
     </h3>
