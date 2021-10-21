@@ -46,17 +46,17 @@ import { benefitTypes } from './DirectDeposit';
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 
 export const BankInfo = ({
-                           isLOA3,
-                           isDirectDepositSetUp,
-                           isEligibleToSetUpCNPDirectDeposit,
-                           directDepositAccountInfo,
-                           directDepositServerError,
-                           directDepositUiState,
-                           saveBankInformation,
-                           toggleEditState,
-                           type,
-                           typeIsCNP,
-                         }) => {
+  isLOA3,
+  isDirectDepositSetUp,
+  isEligibleToSetUpCNPDirectDeposit,
+  directDepositAccountInfo,
+  directDepositServerError,
+  directDepositUiState,
+  saveBankInformation,
+  toggleEditState,
+  type,
+  typeIsCNP,
+}) => {
   const formPrefix = type;
   const editBankInfoButton = useRef();
   const editBankInfoForm = useRef();
