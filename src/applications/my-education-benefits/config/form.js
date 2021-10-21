@@ -19,6 +19,7 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -40,6 +41,7 @@ import {
   selectedReserveLabel,
   unsureDescription,
   post911GiBillNote,
+  prefillTransformer,
 } from '../helpers';
 
 import MailingAddressViewField from '../components/MailingAddressViewField';
@@ -66,6 +68,7 @@ const {
 // Define all the fields in the form to aid reuse
 const formFields = {
   fullName: 'fullName',
+  userFullName: 'userFullName',
   dateOfBirth: 'dateOfBirth',
   ssn: 'ssn',
   toursOfDuty: 'toursOfDuty',
@@ -319,7 +322,7 @@ const formConfig = {
   trackingPrefix: 'my-education-benefits-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '22-1990EZ',
+  formId: VA_FORM_IDS.FORM_22_1990EZ,
   saveInProgress: {
     messages: {
       inProgress:
@@ -331,6 +334,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for my education benefits.',
     noAuth:
@@ -382,14 +386,14 @@ const formConfig = {
                 </>
               ),
             },
-            'view:fullName': {
+            'view:userFullName': {
               'ui:description': (
                 <p className="meb-review-page-only">
                   If you’d like to update your personal information, please edit
                   the form fields below.
                 </p>
               ),
-              [formFields.fullName]: {
+              [formFields.userFullName]: {
                 ...fullNameUI,
                 first: {
                   ...fullNameUI.first,
@@ -432,11 +436,11 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              'view:fullName': {
-                required: [formFields.fullName],
+              'view:userFullName': {
+                required: [formFields.userFullName],
                 type: 'object',
                 properties: {
-                  [formFields.fullName]: {
+                  [formFields.userFullName]: {
                     ...fullName,
                     properties: {
                       ...fullName.properties,
@@ -451,17 +455,17 @@ const formConfig = {
               [formFields.dateOfBirth]: date,
             },
           },
-          initialData: {
-            'view:fullName': {
-              fullName: {
-                first: 'Hector',
-                middle: 'Oliver',
-                last: 'Stanley',
-                suffix: 'Jr.',
-              },
-            },
-            dateOfBirth: '1992-07-23',
-          },
+          // initialData: {
+          //   'view:userFullName': {
+          //     userFullName: {
+          //       first: 'Hector',
+          //       middle: 'Oliver',
+          //       last: 'Stanley',
+          //       suffix: 'Jr.',
+          //     },
+          //   },
+          //   dateOfBirth: '1992-07-23',
+          // },
         },
       },
     },
