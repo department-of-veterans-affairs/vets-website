@@ -255,11 +255,5 @@ module.exports = {
         'react/no-find-dom-node': 0,
       },
     },
-    {
-      files: ['**/*.e2e.spec.js'],
-      rules: {
-        'va/axe-check-required': 1,
-      },
-    },
   ],
 };
