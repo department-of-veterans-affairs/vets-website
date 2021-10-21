@@ -5,7 +5,7 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import { focusElement } from 'platform/utilities/ui';
 
-import { rootUrl } from '../manifest.json';
+import manifest from '../manifest.json';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -137,9 +137,9 @@ export class ConfirmationPage extends React.Component {
           </h2>
           <p className="vads-u-margin-bottom--6">
             If something changes in your family status let VA know. Return to
-            the <a href={rootUrl}>21-686c</a> form, select the option that
-            describes your family status change and complete the form. This will
-            update our records and your benefits pay will be adjusted
+            the <a href={manifest.rootUrl}>21-686c</a> form, select the option
+            that describes your family status change and complete the form. This
+            will update our records and your benefits pay will be adjusted
             accordingly.
           </p>
           <h2 className="vads-u-font-size--h3 vads-u-font-family--serif">
