@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { getNonActiveLinkUrls } from '../utilities/helpers';
 
 describe('getNonActiveLinkUrls util', () => {
-  it('should return non-english urls for "en" language code', () => {
+  it('should return non-english urls (-tag, ) for "en" language code', () => {
     const result = getNonActiveLinkUrls('en');
 
     result.forEach(url => {
@@ -12,7 +12,7 @@ describe('getNonActiveLinkUrls util', () => {
     expect(result.length).to.equal(10);
   });
 
-  it('should return correct urls for "es" language code', () => {
+  it('should not return any "-esp" suffixed links when "es" is the active language code', () => {
     const result = getNonActiveLinkUrls('es');
 
     result.forEach(url => {
@@ -22,7 +22,7 @@ describe('getNonActiveLinkUrls util', () => {
     expect(result.length).to.equal(10);
   });
 
-  it('should return correct urls for "tl" language code', () => {
+  it('should not return any "-tag" suffixed links when "tl" is the active language code', () => {
     const result = getNonActiveLinkUrls('tl');
 
     result.forEach(url => {
