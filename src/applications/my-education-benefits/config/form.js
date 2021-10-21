@@ -1013,13 +1013,13 @@ const formConfig = {
                 </p>
               ),
               [formFields.toursOfDutyCorrect]: {
-                'ui:title': 'This information is incorrect and/or incomplete',
+                'ui:title': 'This information is inaccurate or incomplete',
                 'ui:reviewField': YesNoReviewField,
               },
             },
             [formFields.incorrectServiceHistoryExplanation]: {
               'ui:title':
-                'Please explain what is incorrect and/or incomplete about your service history.',
+                'What is inaccurate and/or incomplete from your service history? (up to 250 characters)',
               'ui:options': {
                 expandUnder: 'view:toursOfDutyCorrect',
                 hideIf: formData =>
