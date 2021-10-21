@@ -40,6 +40,7 @@ import {
   selectedReserveLabel,
   unsureDescription,
   post911GiBillNote,
+  prefillTransformer,
 } from '../helpers';
 
 import MailingAddressViewField from '../components/MailingAddressViewField';
@@ -51,6 +52,8 @@ import {
   validateEmail,
   validateEffectiveDate,
 } from '../utils/validation';
+
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 const {
   fullName,
@@ -319,7 +322,7 @@ const formConfig = {
   trackingPrefix: 'my-education-benefits-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '22-1990EZ',
+  formId: VA_FORM_IDS.FORM_22_1990EZ,
   saveInProgress: {
     messages: {
       inProgress:
@@ -331,6 +334,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for my education benefits.',
     noAuth:
