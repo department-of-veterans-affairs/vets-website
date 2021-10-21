@@ -163,7 +163,7 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
           )}
           dependencies={[externalServices.evss]}
         >
-          <BankInfo type='CNP' />
+          <BankInfo type="CNP" />
         </DowntimeNotification>
       ) : (
         <SetUpVerifiedIDMeAlert />
@@ -171,7 +171,7 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
       <FraudVictimAlert status={ALERT_TYPE.INFO} />
       {showBankInformation ? (
         <>
-          <BankInfo type='EDU' />
+          <BankInfo type="EDU" />
           <PaymentHistory />
         </>
       ) : null}

@@ -111,7 +111,7 @@ describe('DirectDepositCNP', () => {
 
   const ui = (
     <MemoryRouter>
-      <BankInfo type='CNP' />
+      <BankInfo type="CNP" />
     </MemoryRouter>
   );
 
