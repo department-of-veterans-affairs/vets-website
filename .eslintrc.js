@@ -255,5 +255,11 @@ module.exports = {
         'react/no-find-dom-node': 0,
       },
     },
+    {
+      files: ['**/*.cypress.spec.js'],
+      rules: {
+        'va/axe-check-required': 1,
+      },
+    },
   ],
 };
