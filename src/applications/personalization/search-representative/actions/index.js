@@ -8,15 +8,27 @@ function mockSearchResults() {
     data: [
       {
         id: 12345,
-        name: 'My place',
-        city: 'Someplace',
-        state: 'California',
+        name: 'Veterans of Foreign Wars (033)',
+        type: 'Veteran Service Organization (VSO)',
+        address: 'PO Box 1509',
+        city: 'Montgomery, AL 36102-1509',
+        phone: '205-932-6262',
+      },
+      {
+        id: 992,
+        name: 'Disabled American Veteras (999)',
+        type: 'Attourney',
+        address: 'PO Box 1509',
+        city: 'Montgomery, AL 36102-1509',
+        phone: '205-932-6262',
       },
       {
         id: 4325,
-        name: 'Another place',
-        city: 'Another place',
-        state: 'Arizona',
+        name: 'Charles K. Polk (123)',
+        type: 'Attorney',
+        address: 'PO Box 1509',
+        city: 'Montgomery, AL 36102-1509',
+        phone: '205-932-6262',
       },
     ],
   };
