@@ -12,7 +12,7 @@ describe('check-in', () => {
       street3: 'line 3',
       city: 'city',
       state: 'state',
-      zip: '00000',
+      zip: '000001234',
     };
     const oneLineAddress = {
       street1: 'line 1',
@@ -20,6 +20,37 @@ describe('check-in', () => {
       city: 'city',
       state: 'state',
       zip: '00000',
+    };
+    const addressMissingStreet = {
+      street1: '',
+      street2: 'line 2',
+      street3: 'line 3',
+      city: 'city',
+      state: 'state',
+      zip: '00000',
+    };
+    const addressMissingCity = {
+      street1: 'Line1',
+      street2: 'line 2',
+      street3: 'line 3',
+      city: '',
+      state: 'state',
+      zip: '00000',
+    };
+    const addressMissingState = {
+      street1: 'Line1',
+      street2: 'line 2',
+      street3: 'line 3',
+      city: 'city',
+      state: '',
+      zip: '00000',
+    };
+    const addressMissingZip = {
+      street1: 'Line1',
+      street2: 'line 2',
+      street3: 'line 3',
+      city: 'city',
+      state: 'state',
     };
     it('Renders with all address lines', () => {
       const component = render(<AddressBlock address={fullAddress} />);
@@ -45,6 +76,22 @@ describe('check-in', () => {
       expect(component.getByTestId('address-city-state-and-zip')).to.have.text(
         'city, state 00000',
       );
+    });
+    it('Returns "Not Available" if missing street1', () => {
+      const component = render(<AddressBlock address={addressMissingStreet} />);
+      expect(component.getByText('Not Available')).to.exist;
+    });
+    it('Returns "Not Available" if missing city', () => {
+      const component = render(<AddressBlock address={addressMissingCity} />);
+      expect(component.getByText('Not Available')).to.exist;
+    });
+    it('Returns "Not Available" if missing state', () => {
+      const component = render(<AddressBlock address={addressMissingState} />);
+      expect(component.getByText('Not Available')).to.exist;
+    });
+    it('Returns "Not Available" if missing zip', () => {
+      const component = render(<AddressBlock address={addressMissingZip} />);
+      expect(component.getByText('Not Available')).to.exist;
     });
   });
 });
