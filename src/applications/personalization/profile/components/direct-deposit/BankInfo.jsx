@@ -41,9 +41,9 @@ import BankInfoForm, { makeFormProperties } from './BankInfoForm';
 
 import PaymentInformationEditError from './PaymentInformationEditError';
 import ProfileInfoTable from '../ProfileInfoTable';
-import { benefitTypes } from './DirectDeposit';
 
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
+import { benefitTypes } from '~/applications/personalization/common/constants';
 
 export const BankInfo = ({
   isLOA3,
@@ -369,7 +369,7 @@ export const BankInfo = ({
   }
 
   if (directDepositServerError) {
-    return <DirectDepositConnectionError benefitType={benefitTypes.CNP} />;
+    return <DirectDepositConnectionError benefitType={type} />;
   }
 
   return (
@@ -464,7 +464,7 @@ export const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  const typeIsCNP = ownProps.type === 'CNP';
+  const typeIsCNP = ownProps.type === benefitTypes.CNP;
   return {
     ...bindActionCreators(
       {
