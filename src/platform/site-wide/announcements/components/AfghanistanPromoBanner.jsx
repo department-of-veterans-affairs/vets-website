@@ -6,6 +6,7 @@ import PromoBanner, {
 
 export default ({ dismiss }) => (
   <PromoBanner
+    role="alert"
     type={PROMO_BANNER_TYPES.announcement}
     onClose={dismiss}
     href="https://blogs.va.gov/VAntage/help-for-afghanistan-veterans-families/"
