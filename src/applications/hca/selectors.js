@@ -16,6 +16,9 @@ const nonActiveInESRStatuses = new Set([
 ]);
 
 // top-level selectors
+
+export const bear = state => state.featureToggles?.caregiverSigiEnabled;
+
 export const selectEnrollmentStatus = state => state.hcaEnrollmentStatus;
 export const isEnrollmentStatusLoading = state =>
   selectEnrollmentStatus(state).isLoadingApplicationStatus;

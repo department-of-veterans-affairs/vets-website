@@ -27,6 +27,7 @@ import birthInformation from './chapters/veteranInformation/birthInformation';
 import veteranInformation from './chapters/veteranInformation/personalnformation';
 import demographicInformation from './chapters/veteranInformation/demographicInformation';
 import genderInformation from './chapters/veteranInformation/genderInformation';
+// import genderIdentificationInformation from './chapters/veteranInformation/genderIdentificationInformation';
 import maritalInformation from './chapters/veteranInformation/maritalInformation';
 import veteranAddress from './chapters/veteranInformation/veteranAddress';
 import veteranHomeAddress from './chapters/veteranInformation/veteranHomeAddress';
@@ -128,14 +129,12 @@ const formConfig = {
         veteranInformation: {
           path: 'veteran-information/personal-information',
           title: 'Veteran information',
-          initialData: {},
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },
         birthInformation: {
           path: 'veteran-information/birth-information',
           title: 'Veteran information',
-          initialData: {},
           uiSchema: birthInformation.uiSchema,
           schema: birthInformation.schema,
         },
@@ -153,34 +152,22 @@ const formConfig = {
         genderInformation: {
           path: 'veteran-information/gender-information',
           title: 'Veteran information',
-          initialData: {
-            'view:demographicCategories': {
-              isSpanishHispanicLatino: false,
-            },
-          },
           uiSchema: genderInformation.uiSchema,
           schema: genderInformation.schema,
         },
-        genderIdentificationInformation: {
-          path: 'veteran-information/gender-identification-information',
-          title: 'Veteran information',
-          initialData: {
-            'view:demographicCategories': {
-              isSpanishHispanicLatino: false,
-            },
-          },
-          uiSchema: genderInformation.uiSchema,
-          schema: genderInformation.schema,
-        },
+        // genderIdentificationInformation: {
+        //   path: 'veteran-information/gender-identification-information',
+        //   title: 'Veteran information',
+        //   depends: (...args) => {
+        //     console.log(args, `--> argssss`);
+        //     return true; // state.caregiverSigiEnabled;
+        //   },
+        //   uiSchema: genderIdentificationInformation.uiSchema,
+        //   schema: genderIdentificationInformation.schema,
+        // },
         maritalInformation: {
           path: 'veteran-information/marital-information',
           title: 'Veteran information',
-          // title: 'Marital information',
-          initialData: {
-            'view:demographicCategories': {
-              isSpanishHispanicLatino: false,
-            },
-          },
           uiSchema: maritalInformation.uiSchema,
           schema: maritalInformation.schema,
         },

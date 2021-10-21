@@ -33,14 +33,14 @@ export default function FormNav(props) {
   const pageList = createPageList(formConfig, formPages);
 
   const eligiblePageList = getActiveExpandedPages(pageList, formData);
-  console.log(eligiblePageList, `--> eligiblePageList`);
+  // console.log(eligiblePageList, `--> eligiblePageList`);
 
   const test = eligiblePageList.map(p => p.chapterKey);
-  console.log(test, `--> test`);
+  // console.log(test, `--> test`);
   const chapters = uniq(
     test.filter(key => !!key),
   );
-  console.log(chapters, `--> chapters`);
+  // console.log(chapters, `--> chapters`);
   let page = eligiblePageList.filter(p => p.path === currentPath)[0];
   // If the page isn’t active, it won’t be in the eligiblePageList
   // This is a fallback to still find the chapter name if you open the page directly

@@ -11,6 +11,7 @@ const {
   isNativeHawaiianOrOtherPacificIslander,
   isSpanishHispanicLatino,
   isWhite,
+  noAnswer,
 } = fullSchemaHca.properties;
 
 const StatisticsInfo = (
@@ -29,7 +30,6 @@ export default {
     'ui:description': PrefillMessage,
     'view:demographicCategories': {
       'ui:field': DemographicField,
-      // 'ui:description': 'What is your race, ethnicity, or origin? (Please check all that apply)',
       'ui:description': StatisticsInfo,
       isSpanishHispanicLatino: {
         'ui:title': 'Spanish, Hispanic, or Latino',
@@ -66,7 +66,7 @@ export default {
           isNativeHawaiianOrOtherPacificIslander,
           isAsian,
           isWhite,
-          // noAnswer,
+          noAnswer,
         },
       },
     },

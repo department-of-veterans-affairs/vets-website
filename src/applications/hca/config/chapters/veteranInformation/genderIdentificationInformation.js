@@ -4,8 +4,8 @@ import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
-const { gender } = fullSchemaHca.properties;
-const { ryllTest } = props
+const { genderIdentification } = fullSchemaHca.properties;
+
 const GenderIdentificationInfo = (
   <>
     <p style={{ color: 'gray' }}>
@@ -31,7 +31,7 @@ const GenderIdentificationInfo = (
 export default {
   uiSchema: {
     'ui:description': PrefillMessage,
-    gender: {
+    genderIdentification: {
       'ui:title': 'What is your gender?',
       'ui:widget': 'radio',
       'ui:options': {
@@ -44,7 +44,7 @@ export default {
     type: 'object',
     // required: ['gender'],
     properties: {
-      gender,
+      genderIdentification,
     },
   },
 };

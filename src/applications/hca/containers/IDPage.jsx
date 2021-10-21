@@ -15,7 +15,7 @@ import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { isLoggedIn, isProfileLoading } from 'platform/user/selectors';
-
+import { bear } from '../selectors';
 import { getEnrollmentStatus } from '../actions';
 import {
   didEnrollmentStatusChange,
@@ -160,9 +160,11 @@ class IDPage extends React.Component {
       showContinueButton,
       showLoadingIndicator,
       showServerError,
+      caregiverSigiEnabled,
     } = this.props;
     return (
       <div className="schemaform-intro">
+        {!caregiverSigiEnabled ? <div>Sup</div> : null}
         <FormTitle title="We need some information before you can start your application" />
         {showLoadingIndicator && <LoadingIndicator />}
         {!showLoadingIndicator && (
@@ -231,6 +233,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => {
+  // console.log(state, `-_________ STATE`)
   const {
     enrollmentStatus,
     hasServerError,
@@ -250,6 +253,7 @@ const mapStateToProps = state => {
     showContinueButton: !loginRequired,
     showLoadingIndicator: isProfileLoading(state),
     showServerError: hasServerError,
+    caregiverSigiEnabled: bear(state),
   };
 };
 

@@ -3,6 +3,7 @@
 export default Object.freeze({
   ryllTest: 'ryll_test',
   canUpload1010cgPOA: 'can_upload_10_10cg_poa',
+  caregiverSigiEnabled: 'caregiver_sigi_enabled',
   cernerOverride463: 'cerner_override_463',
   cernerOverride531: 'cerner_override_531',
   cernerOverride648: 'cerner_override_648',

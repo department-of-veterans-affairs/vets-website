@@ -58,7 +58,7 @@ class FormPage extends React.Component {
 
   // Navigate to the next page
   onSubmit = ({ formData }) => {
-    console.log(formData, `--> formData`);
+    // console.log(formData, `--> formData`);
     const { form, params, route, location } = this.props;
 
     // This makes sure defaulted data on a page with no changes is saved
@@ -66,7 +66,7 @@ class FormPage extends React.Component {
     // necessary. Additionally, it should NOT setData for a CustomPage. The
     // CustomPage should take care of that itself.
     if (route.pageConfig.showPagePerItem && !route.pageConfig.CustomPage) {
-      console.log('Am I getting here or no???');
+      // console.log('Am I getting here or no???');
       const newData = set(
         [route.pageConfig.arrayPath, params.index],
         formData,

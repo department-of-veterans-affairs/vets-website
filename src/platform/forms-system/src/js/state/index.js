@@ -10,15 +10,15 @@ export default function createSchemaFormReducer(
 ) {
   return (state = initialState, action) => {
     const reducer = formReducers[action.type];
-    console.log(reducer, `--> reducer`);
+    // console.log(reducer, `--> reducer`);
     if (reducer) {
-      console.group/* Collapsed */('if(reducer)');
-        console.log(state, `--> state`);
-        console.log(action, `--> action`);
-      console.groupEnd();
+      // console.group/* Collapsed */('if(reducer)');
+      //   console.log(state, `--> state`);
+      //   console.log(action, `--> action`);
+      // console.groupEnd();
       return reducer(state, action);
     }
-    console.log(state, `--> state`);
+    // console.log(state, `--> state`);
     return state;
   };
 }
