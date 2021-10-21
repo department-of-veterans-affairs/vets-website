@@ -126,8 +126,10 @@ export const BankInfo = ({
     if (typeIsCNP) {
       // NOTE: You can trigger a save error by sending undefined values in the payload
       payload.financialInstitutionName = 'Hidden form field';
+      saveBankInformation(payload, isDirectDepositSetUp);
+    } else {
+      saveBankInformation(payload);
     }
-    saveBankInformation(payload, isDirectDepositSetUp);
   };
 
   const editButtonClasses = [
@@ -166,7 +168,7 @@ export const BankInfo = ({
       </dl>
       <button
         className={classes.editButton}
-        aria-label={`Edit your direct deposit for ${benefitTypeLong} information`}
+        aria-label={`Edit your direct deposit for ${benefitTypeLong} bank information`}
         ref={editBankInfoButton}
         onClick={() => {
           recordEvent({
@@ -431,7 +433,7 @@ BankInfo.propTypes = {
   directDepositUiState: PropTypes.shape({
     isEditing: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
-    responseError: PropTypes.string,
+    responseError: PropTypes.object,
   }),
   saveBankInformation: PropTypes.func.isRequired,
   toggleEditState: PropTypes.func.isRequired,
@@ -439,8 +441,9 @@ BankInfo.propTypes = {
 };
 
 export const mapStateToProps = (state, ownProps) => {
-  const typeIsCNP = ownProps.type === 'CNP';
+  const typeIsCNP = ownProps.type === benefitTypes.CNP;
   return {
+    typeIsCNP,
     isLOA3: isLOA3Selector(state),
     directDepositAccountInfo: typeIsCNP
       ? cnpDirectDepositAccountInformation(state)
