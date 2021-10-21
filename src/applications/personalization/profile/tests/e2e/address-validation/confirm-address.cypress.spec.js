@@ -16,18 +16,8 @@ describe('Personal and contact information', () => {
         force: true,
       });
       addressPage.saveForm();
-      addressPage.confirmAddressMessage(formFields);
-      cy.findByTestId('confirm-address-button').click({
-        force: true,
-      });
-
-      cy.findByTestId('mailingAddress')
-        .should('contain', '36310 Coronado Dr')
-        .and('contain', 'Fremont, CA 94536');
-
-      cy.focused()
-        .invoke('text')
-        .should('match', /update saved/i);
+      addressPage.confirmAddress(formFields);
+      addressPage.validateSavedForm(formFields);
     });
   });
 });

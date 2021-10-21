@@ -6,19 +6,38 @@ class AddressPage {
   }
 
   fillAddressForm(fields) {
-    cy.findByLabelText(/^street address \(/i)
-      .clear()
-      .type(fields.address);
-    cy.findByLabelText(/^street address line 2/i).clear();
-    cy.findByLabelText(/^street address line 3/i).clear();
-
-    cy.findByLabelText(/City/i)
-      .clear()
-      .type(fields.city);
-    cy.findByLabelText(/^State/).select(fields.state);
-    cy.findByLabelText(/Zip code/i)
-      .clear()
-      .type(fields.zipCode);
+    // eslint-disable-next-line no-unused-expressions
+    fields.address &&
+      cy
+        .findByLabelText(/^street address \(/i)
+        .clear()
+        .type(fields.address);
+    // eslint-disable-next-line no-unused-expressions
+    fields.address2 &&
+      cy
+        .findByLabelText(/^street address line 2/i)
+        .clear()
+        .type(fields.address2);
+    // eslint-disable-next-line no-unused-expressions
+    fields.address3 &&
+      cy
+        .findByLabelText(/^street address line 3/i)
+        .clear()
+        .type(fields.address3);
+    // eslint-disable-next-line no-unused-expressions
+    fields.city &&
+      cy
+        .findByLabelText(/City/i)
+        .clear()
+        .type(fields.city);
+    // eslint-disable-next-line no-unused-expressions
+    fields.state && cy.findByLabelText(/^State/).select(fields.state);
+    // eslint-disable-next-line no-unused-expressions
+    fields.zipCode &&
+      cy
+        .findByLabelText(/Zip code/i)
+        .clear()
+        .type(fields.zipCode);
   }
 
   saveForm() {
@@ -36,10 +55,13 @@ class AddressPage {
       .should('match', /update saved/i);
   }
 
-  confirmAddressMessage(fields) {
+  confirmAddress(fields) {
     cy.findByTestId('mailingAddress')
       .should('contain', `${fields.address}`)
       .and('contain', 'Please confirm your address');
+    cy.findByTestId('confirm-address-button').click({
+      force: true,
+    });
   }
 }
 
