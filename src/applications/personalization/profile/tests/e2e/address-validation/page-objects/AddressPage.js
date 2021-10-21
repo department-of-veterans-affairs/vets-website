@@ -81,6 +81,11 @@ class AddressPage {
       force: true,
     });
   }
+
+  editAddress(fields) {
+    cy.findByRole('button', { name: /edit your address/i }).click();
+    this.fillAddressForm(fields);
+  }
 }
 
 export default AddressPage;
