@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import {
   hasMoreAppointmentsToCheckInto,
   sortAppointmentsByStartTime,
+  removeTimeZone,
 } from './index';
 import { createAppointment } from '../../api/local-mock-api/mocks/v2/patient.check.in.responses';
 
@@ -133,6 +134,33 @@ describe('check in', () => {
         const sortedAppointments = [earliest, midday, latest];
         expect(sortAppointmentsByStartTime(appointments)).to.deep.equal(
           sortedAppointments,
+        );
+      });
+    });
+    describe('removeTimeZone', () => {
+      it('removes timezone from date strings', () => {
+        const payload = {
+          appointments: [
+            {
+              checkInWindowEnd: '2018-01-01T00:00:00.070Z',
+              checkInWindowStart: '2018-01-01T00:00:00.070Z',
+              checkedInTime: '2018-01-01T00:00:00.070Z',
+              startTime: '2018-01-01T00:00:00.070Z',
+            },
+          ],
+        };
+        const updatedPayload = removeTimeZone(payload);
+        expect(updatedPayload.appointments[0].checkInWindowEnd).to.equal(
+          '2018-01-01T00:00:00',
+        );
+        expect(updatedPayload.appointments[0].checkInWindowStart).to.equal(
+          '2018-01-01T00:00:00',
+        );
+        expect(updatedPayload.appointments[0].checkedInTime).to.equal(
+          '2018-01-01T00:00:00',
+        );
+        expect(updatedPayload.appointments[0].startTime).to.equal(
+          '2018-01-01T00:00:00',
         );
       });
     });
