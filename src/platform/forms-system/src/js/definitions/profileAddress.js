@@ -5,12 +5,7 @@
 
 import React from 'react';
 import get from 'platform/utilities/data/get';
-import {
-  countries,
-  states,
-  militaryCities,
-  militaryStates,
-} from 'vets-json-schema/dist/constants.json';
+import constants from 'vets-json-schema/dist/constants.json';
 
 /**
  * PATTERNS
@@ -20,7 +15,7 @@ import {
 const STREET_PATTERN = '^.*\\S.*';
 const US_POSTAL_CODE_PATTERN = '^\\d{5}$';
 // filtered States that include US territories
-const filteredStates = states.USA.filter(
+const filteredStates = constants.states.USA.filter(
   state => !['AA', 'AE', 'AP'].includes(state.value),
 );
 
@@ -38,8 +33,8 @@ const filteredStates = states.USA.filter(
       },
       country: {
         type: 'string',
-        enum: countries.map(country => country.value),
-        enumNames: countries.map(country => country.label),
+        enum: constants.countries.map(country => country.value),
+        enumNames: constants.countries.map(country => country.label),
       },
       street: {
         type: 'string',
@@ -163,8 +158,8 @@ export default function addressUiSchema(
           countryUI['ui:disabled'] = false;
           return {
             type: 'string',
-            enum: countries.map(country => country.value),
-            enumNames: countries.map(country => country.label),
+            enum: constants.countries.map(country => country.value),
+            enumNames: constants.countries.map(country => country.label),
           };
         },
       },
@@ -209,8 +204,8 @@ export default function addressUiSchema(
             return {
               type: 'string',
               title: 'APO/FPO/DPO',
-              enum: militaryCities.map(city => city.value),
-              enumNames: militaryCities.map(city => city.label),
+              enum: constants.militaryCities.map(city => city.value),
+              enumNames: constants.militaryCities.map(city => city.label),
             };
           }
           return {
@@ -253,8 +248,8 @@ export default function addressUiSchema(
             return {
               type: 'string',
               title: 'State',
-              enum: militaryStates.map(state => state.value),
-              enumNames: militaryStates.map(state => state.label),
+              enum: constants.militaryStates.map(state => state.value),
+              enumNames: constants.militaryStates.map(state => state.label),
             };
           } else if (!isMilitary && country === 'USA') {
             return {

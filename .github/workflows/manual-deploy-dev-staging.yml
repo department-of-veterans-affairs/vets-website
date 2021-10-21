@@ -1,0 +1,77 @@
+name: Manual dev/staging Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: Deploy a specific commit
+        required: false
+        default: ''
+
+env:
+  DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          - environment: vagovdev
+            bucket: dev-va-gov-assets
+          # - environment: vagovstaging
+          #   bucket: staging-va-gov-assets
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials (1)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get AWS IAM role
+        uses: marvinpinto/action-inject-ssm-secrets@latest
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+      - name: Configure AWS Credentials (2)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role-duration-seconds: 900
+          role-session-name: vsp-frontendteam-githubaction
+
+      - name: Deploy
+        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
+        env:
+          SRC: s3://vetsgov-website-builds-s3-upload/application-build/${{ github.event.inputs.commit_sha || github.sha }}/${{ matrix.environment }}.tar.bz2
+          DEST: s3://${{ matrix.bucket }}
+
+  # notify-failure:
+  #   name: Notify Failure
+  #   runs-on: ubuntu-latest
+  #   if: ${{ failure() || cancelled() }}
+  #   needs: deploy
+
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+
+  #     - name: Notify Slack
+  #       uses: ./.github/workflows/slack-notify
+  #       continue-on-error: true
+  #       with:
+  #         attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "vets-website manual dev/staging deploy failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}]'
+  #         channel_id: ${{ env.DEVOPS_CHANNEL_ID }}
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

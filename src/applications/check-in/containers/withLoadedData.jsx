@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect, batch } from 'react-redux';
 import { compose } from 'redux';
 import { goToNextPage, URLS } from '../utils/navigation';
@@ -12,86 +13,99 @@ import {
 } from '../actions';
 import { focusElement } from 'platform/utilities/ui';
 
-const withLoadedData = WrappedComponent => props => {
-  const {
-    checkInData,
-    router,
-    setSessionData,
-    setSessionDataV1,
-    isSessionLoading,
-    isMultipleAppointmentsEnabled,
-  } = props;
-  const [isLoading, setIsLoading] = useState();
-  const { context, appointments, demographics } = checkInData;
-
-  useEffect(
-    () => {
-      let isCancelled = false;
-      const session = getCurrentToken(window);
-      if (!context || !session) {
-        goToNextPage(router, URLS.ERROR);
-      } else {
-        // check if appointments is empty or if a refresh is staged
-        const { token } = session;
-
-        if (!isMultipleAppointmentsEnabled && appointments.length === 0) {
-          // load data from checks route
-          api.v1
-            .getCheckInData(token)
-            .then(json => {
-              const { payload } = json;
-              setSessionDataV1(payload, token);
-              setIsLoading(false);
-              focusElement('h1');
-            })
-            .catch(() => {
-              goToNextPage(router, URLS.ERROR);
-            });
-        } else if (
-          Object.keys(context).length === 0 ||
-          context.shouldRefresh ||
-          appointments.length === 0
-        ) {
-          setIsLoading(true);
-
-          api.v2
-            .getCheckInData(token)
-            .then(json => {
-              if (!isCancelled) {
-                setSessionData(json.payload, token);
-                setIsLoading(false);
-              }
-            })
-            .catch(() => {
-              goToNextPage(router, URLS.ERROR);
-            });
-        }
-      }
-      return () => {
-        isCancelled = true;
-      };
-    },
-    [
-      appointments,
+const withLoadedData = Component => {
+  const Wrapped = ({ ...props }) => {
+    const [isLoading, setIsLoading] = useState();
+    const {
+      checkInData,
+      isMultipleAppointmentsEnabled,
+      isSessionLoading,
       router,
-      context,
       setSessionData,
       setSessionDataV1,
-      isSessionLoading,
-      isMultipleAppointmentsEnabled,
-    ],
-  );
-  return (
-    <>
-      <WrappedComponent
-        {...props}
-        isLoading={isLoading}
-        demographics={demographics || {}}
-        appointments={appointments || []}
-        context={context || {}}
-      />
-    </>
-  );
+    } = props;
+    const { context, appointments, demographics } = checkInData;
+
+    useEffect(
+      () => {
+        let isCancelled = false;
+        const session = getCurrentToken(window);
+        if (!context || !session) {
+          goToNextPage(router, URLS.ERROR);
+        } else {
+          // check if appointments is empty or if a refresh is staged
+          const { token } = session;
+
+          if (!isMultipleAppointmentsEnabled && appointments.length === 0) {
+            // load data from checks route
+            api.v1
+              .getCheckInData(token)
+              .then(json => {
+                const { payload } = json;
+                setSessionDataV1(payload, token);
+                setIsLoading(false);
+                focusElement('h1');
+              })
+              .catch(() => {
+                goToNextPage(router, URLS.ERROR);
+              });
+          } else if (
+            Object.keys(context).length === 0 ||
+            context.shouldRefresh ||
+            appointments.length === 0
+          ) {
+            setIsLoading(true);
+
+            api.v2
+              .getCheckInData(token)
+              .then(json => {
+                if (!isCancelled) {
+                  setSessionData(json.payload, token);
+                  setIsLoading(false);
+                }
+              })
+              .catch(() => {
+                goToNextPage(router, URLS.ERROR);
+              });
+          }
+        }
+        return () => {
+          isCancelled = true;
+        };
+      },
+      [
+        appointments,
+        router,
+        context,
+        setSessionData,
+        setSessionDataV1,
+        isSessionLoading,
+        isMultipleAppointmentsEnabled,
+      ],
+    );
+    return (
+      <>
+        <Component
+          {...props}
+          isLoading={isLoading}
+          demographics={demographics || {}}
+          appointments={appointments || []}
+          context={context || {}}
+        />
+      </>
+    );
+  };
+
+  Wrapped.propTypes = {
+    checkInData: PropTypes.object,
+    isMultipleAppointmentsEnabled: PropTypes.bool,
+    isSessionLoading: PropTypes.bool,
+    router: PropTypes.object,
+    setSessionData: PropTypes.func,
+    setSessionDataV1: PropTypes.func,
+  };
+
+  return Wrapped;
 };
 
 const mapStateToProps = state => ({

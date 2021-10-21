@@ -263,11 +263,28 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     appointment.id = '123';
     appointment.attributes = {
       ...appointment.attributes,
-      kind: 'phone',
       minutesDuration: 30,
       status: 'booked',
       start: yesterday.format(),
       locationId: '983',
+      location: {
+        id: '983',
+        type: 'appointments',
+        attributes: {
+          id: '983',
+          vistaSite: '983',
+          name: 'Cheyenne VA Medical Center',
+          lat: 39.744507,
+          long: -104.830956,
+          phone: { main: '307-778-7550' },
+          physicalAddress: {
+            line: ['2360 East Pershing Boulevard'],
+            city: 'Cheyenne',
+            state: 'WY',
+            postalCode: '82001-5356',
+          },
+        },
+      },
     };
     mockVAOSAppointmentsFetch({
       start: start.format('YYYY-MM-DDTHH:mm:ssZ'),
@@ -293,6 +310,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
+    expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
   });
 
   describe('getPastAppointmentDateRangeOptions', () => {

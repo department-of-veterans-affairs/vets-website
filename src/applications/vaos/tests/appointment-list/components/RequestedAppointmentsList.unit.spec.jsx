@@ -260,7 +260,26 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
         ],
       },
       kind: 'clinic',
-      locationId: '983GC',
+      locationId: '983',
+      location: {
+        id: '983',
+        type: 'appointments',
+        attributes: {
+          id: '983',
+          vistaSite: '983',
+          name: 'Cheyenne VA Medical Center',
+          lat: 39.744507,
+          long: -104.830956,
+          phone: { main: '307-778-7550' },
+          physicalAddress: {
+            line: ['2360 East Pershing Boulevard'],
+            city: 'Cheyenne',
+            state: 'WY',
+            postalCode: '82001-5356',
+          },
+        },
+      },
+
       id: '1234',
       preferredTimesForPhoneCall: ['Morning'],
       reason: 'Routine Follow-up',
@@ -292,19 +311,6 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
       requests: [appointment],
     });
 
-    const facility = createMockFacilityByVersion({
-      id: '442GC',
-      name: 'Cheyenne VA Medical Center',
-      address: {
-        postalCode: '82001-5356',
-        city: 'Cheyenne',
-        state: 'WY',
-        line: ['2360 East Pershing Boulevard'],
-      },
-      phone: '307-778-7550',
-      version: 0,
-    });
-    mockFacilitiesFetch('vha_442GC', [facility]);
     // When veteran selects the Requested dropdown selection
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
       initialState: initialStateVAOSService,
@@ -312,7 +318,7 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
     });
     // Then it should display the requested appointments
     expect(await screen.findByText('Primary care')).to.be.ok;
-    expect(await screen.findByText(facility.attributes.name)).to.be.ok;
+    expect(await screen.findByText('Cheyenne VA Medical Center')).to.be.ok;
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
     expect(screen.baseElement).to.contain.text(
       'Below is your list of appointment requests that haven’t been scheduled yet.',
