@@ -1,35 +1,22 @@
-import { setUp } from '@@profile/tests/e2e/address-validation/setup';
+import AddressPage from './page-objects/AddressPage';
 
 describe('Personal and contact information', () => {
   describe('when entering a valid address that needs confirmation', () => {
     it('should successfully update on Desktop', () => {
-      setUp('confirm-address');
-
-      cy.findByLabelText(/^street address \(/i)
-        .clear()
-        .type('36310 Coronado Dr');
-
-      cy.findByLabelText(/^street address line 2/i).clear();
-      cy.findByLabelText(/^street address line 3/i).clear();
-
-      cy.findByLabelText(/City/i)
-        .clear()
-        .type('Fremont');
-
-      cy.findByLabelText(/^State/).select('CA');
-
-      cy.findByLabelText(/Zip code/i)
-        .clear()
-        .type('94536');
-
+      const formFields = {
+        address: '36310 Coronado Dr',
+        city: 'Fremont',
+        state: 'CA',
+        zipCode: '94536',
+      };
+      const addressPage = new AddressPage();
+      addressPage.loadPage('confirm-address');
+      addressPage.fillAddressForm(formFields);
       cy.findByTestId('save-edit-button').click({
         force: true,
       });
-
-      cy.findByTestId('mailingAddress')
-        .should('contain', '36310 Coronado Dr')
-        .and('contain', 'Please confirm your address');
-
+      addressPage.saveForm();
+      addressPage.confirmAddressMessage(formFields);
       cy.findByTestId('confirm-address-button').click({
         force: true,
       });
