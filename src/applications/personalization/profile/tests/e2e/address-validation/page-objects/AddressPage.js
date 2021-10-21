@@ -42,27 +42,38 @@ class AddressPage {
         .type(fields.zipCode);
   }
 
-  saveForm() {
-    cy.findByTestId('save-edit-button').click({
-      force: true,
-    });
+  saveForm(confirm = false) {
+    if (confirm) {
+      cy.findByTestId('confirm-address-button').click({
+        force: true,
+      });
+    } else {
+      cy.findByTestId('save-edit-button').click({
+        force: true,
+      });
+    }
   }
 
-  validateSavedForm(fields) {
+  validateSavedForm(fields, saved = true, altText = null) {
     cy.findByTestId('mailingAddress')
       .should('contain', `${fields.address}`)
       .and('contain', `${fields.city}, ${fields.state} ${fields.zipCode}`);
     fields.military &&
       cy.findByTestId('mailingAddress').should('contain', 'FPO');
-    cy.focused()
-      .invoke('text')
-      .should('match', /update saved/i);
+    saved &&
+      cy
+        .focused()
+        .invoke('text')
+        .should('match', /update saved/i);
+    altText && cy.findByText(altText).should('exist');
   }
 
-  confirmAddress(fields, alternateSuggestions = []) {
-    cy.findByTestId('mailingAddress')
-      .should('contain', `${fields.address}`)
-      .and('contain', 'Please confirm your address');
+  confirmAddress(fields, alternateSuggestions = [], secondSave = false) {
+    cy.findByTestId('mailingAddress').should('contain', `${fields.address}`);
+    !secondSave &&
+      cy
+        .findByTestId('mailingAddress')
+        .should('contain', 'Please confirm your address');
     alternateSuggestions.forEach(field =>
       cy.findByTestId('mailingAddress').should('contain', field),
     );

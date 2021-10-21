@@ -12,9 +12,6 @@ describe('Personal and contact information', () => {
       const addressPage = new AddressPage();
       addressPage.loadPage('confirm-address');
       addressPage.fillAddressForm(formFields);
-      cy.findByTestId('save-edit-button').click({
-        force: true,
-      });
       addressPage.saveForm();
       addressPage.confirmAddress(formFields);
       addressPage.validateSavedForm(formFields);
