@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
@@ -20,8 +21,8 @@ const CheckIn = props => {
     isLoading,
     isUpdatePageEnabled,
     isMultipleAppointmentsEnabled,
-    router,
     refreshAppointments,
+    router,
   } = props;
   const appointment = appointments ? appointments[0] : {};
   const { token } = context;
@@ -69,6 +70,17 @@ const mapDispatchToProps = dispatch => {
   return {
     refreshAppointments: () => dispatch(triggerRefresh()),
   };
+};
+
+CheckIn.propTypes = {
+  appointments: PropTypes.array,
+  context: PropTypes.object,
+  isDemographicsPageEnabled: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  isUpdatePageEnabled: PropTypes.bool,
+  isMultipleAppointmentsEnabled: PropTypes.bool,
+  refreshAppointments: PropTypes.func,
+  router: PropTypes.object,
 };
 
 export default connect(

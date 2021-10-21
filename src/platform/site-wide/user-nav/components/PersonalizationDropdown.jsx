@@ -18,7 +18,7 @@ export class PersonalizationDropdown extends React.Component {
     // Prevent double clicking of "Sign Out"
     if (!this.signOutDisabled) {
       this.signOutDisabled = true;
-      logout(this.props.authenticatedWithSSOe ? 'v1' : 'v0');
+      logout('v1');
     }
   };
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { VaTextInput } from 'web-components/react-bindings';
@@ -140,6 +141,15 @@ const mapDispatchToProps = dispatch => {
     setPermissions: data =>
       dispatch(permissionsUpdated(data, SCOPES.READ_FULL)),
   };
+};
+
+ValidateVeteran.propTypes = {
+  context: PropTypes.object,
+  isUpdatePageEnabled: PropTypes.bool,
+  isMultipleAppointmentsEnabled: PropTypes.bool,
+  isDemographicsPageEnabled: PropTypes.bool,
+  router: PropTypes.object,
+  setPermissions: PropTypes.func,
 };
 
 export default connect(

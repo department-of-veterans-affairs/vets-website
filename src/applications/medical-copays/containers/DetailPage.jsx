@@ -14,7 +14,7 @@ import { formatDate } from '../utils/helpers';
 
 const DetailPage = ({ match }) => {
   const selectedId = match.params.id;
-  const errors = useSelector(({ mcp }) => mcp.errors);
+  const error = useSelector(({ mcp }) => mcp.error);
   const statementData = useSelector(({ mcp }) => mcp.statements);
   const [selectedCopay] = statementData?.filter(({ id }) => id === selectedId);
   const [alertType, setAlertType] = useState(null);
@@ -22,11 +22,11 @@ const DetailPage = ({ match }) => {
   useEffect(
     () => {
       scrollToTop();
-      if (errors) {
+      if (error) {
         setAlertType('error');
       }
     },
-    [errors],
+    [error],
   );
 
   return (

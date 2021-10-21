@@ -75,6 +75,21 @@ const NoDebtLinks = () => (
   </div>
 );
 
+const DownloadLettersAlert = () => (
+  <va-alert
+    class="vads-u-margin-top--4 vads-u-margin-bottom--4"
+    status="warning"
+  >
+    <h3 slot="headline">Downloadable letters may have incorrect information</h3>
+    <p className="vads-u-font-size--base vads-u-font-family--sans">
+      We’re sorry. The letters available here for download may have incorrect
+      information about your repayment terms. Use the letters you get in the
+      mail for the correct information. We’ll post an update here when we’ve
+      fixed this problem.
+    </p>
+  </va-alert>
+);
+
 const DebtLettersDownload = ({
   debtLinks,
   isError,
@@ -124,6 +139,9 @@ const DebtLettersDownload = ({
           Download your debt letters, learn your payment options, or find out
           how to get help with your VA debts.
         </p>
+
+        <DownloadLettersAlert />
+
         <h2>Your debt letters</h2>
         <DebtLetters />
         <div className="vads-u-margin-bottom--6 vads-u-margin-top--5">
