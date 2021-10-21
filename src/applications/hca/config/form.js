@@ -159,7 +159,6 @@ const formConfig = {
         //   path: 'veteran-information/gender-identification-information',
         //   title: 'Veteran information',
         //   depends: (...args) => {
-        //     console.log(args, `--> argssss`);
         //     return true; // state.caregiverSigiEnabled;
         //   },
         //   uiSchema: genderIdentificationInformation.uiSchema,
