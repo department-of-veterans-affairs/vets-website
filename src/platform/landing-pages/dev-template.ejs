@@ -44,7 +44,7 @@
         e.target.hidden = true;
         const contentElement = document.querySelector('#content h1') || document.querySelector('#content');
         contentElement.setAttribute('tabindex', '-1');
-        contentElement.addEventListener('blur', (event) => {
+        contentElement.addEventListener('blur', function(event) {
           event.target.removeAttribute('tabindex');
         }, true);
         window.scrollTo(0, contentElement.offsetTop);
