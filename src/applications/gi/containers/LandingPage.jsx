@@ -37,15 +37,18 @@ export function LandingPage({
   eligibility,
   filters,
 }) {
-  useEffect(() => {
-    dispatchSetPageTitle(
-      `${
-        environment.isProduction()
-          ? 'GI Bill® Comparison Tool: VA.gov'
-          : 'GI Bill(R) Comparison Tool | Veterans Affairs'
-      }`,
-    );
-  }, []);
+  useEffect(
+    () => {
+      dispatchSetPageTitle(
+        `${
+          environment.isProduction()
+            ? 'GI Bill® Comparison Tool: VA.gov'
+            : 'GI Bill(R) Comparison Tool | Veterans Affairs'
+        }`,
+      );
+    },
+    [dispatchSetPageTitle],
+  );
 
   const location = useLocation();
   const history = useHistory();

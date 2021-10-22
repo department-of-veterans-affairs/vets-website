@@ -52,7 +52,7 @@ export function ProfilePage({
           );
       }
     },
-    [institutionName],
+    [dispatchSetPageTitle, institutionName],
   );
 
   useEffect(

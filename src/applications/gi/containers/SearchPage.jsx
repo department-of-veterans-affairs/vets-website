@@ -64,7 +64,7 @@ export function SearchPage({
     () => {
       dispatchSetPageTitle(environment.isProduction() ? title : newTitle);
     },
-    [title],
+    [dispatchSetPageTitle, newTitle, title],
   );
 
   useEffect(

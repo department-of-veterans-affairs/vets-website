@@ -74,12 +74,15 @@ export function ComparePage({
     [allLoaded, dispatchFetchCompareDetails, filters, selected, version],
   );
 
-  useEffect(() => {
-    if (environment.isProduction())
-      dispatchSetPageTitle(
-        'Compare institutions: GI Bill(R) Comparison Tool | Veterans Affairs',
-      );
-  }, []);
+  useEffect(
+    () => {
+      if (environment.isProduction())
+        dispatchSetPageTitle(
+          'Compare institutions: GI Bill(R) Comparison Tool | Veterans Affairs',
+        );
+    },
+    [dispatchSetPageTitle],
+  );
 
   useEffect(
     () => {
