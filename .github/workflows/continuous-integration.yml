@@ -719,9 +719,10 @@ jobs:
     name: Archive
     runs-on: ubuntu-latest
 
+    # TODO: Add vagovprod when ready
     strategy:
       matrix:
-        buildtype: [vagovdev, vagovstaging, vagovprod]
+        buildtype: [vagovdev, vagovstaging]
 
     needs: [cypress-tests, unit-tests, contract-tests, security-audit, linting]
 
