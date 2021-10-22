@@ -15,6 +15,7 @@ import {
 } from '../mocks/v0';
 import sinon from 'sinon';
 import { createMockFacilityByVersion } from './data';
+import { mockFacilitiesFetchByVersion } from './fetch';
 
 /**
  * Mocks appointment-related api calls for the upcoming appointments page
@@ -183,32 +184,6 @@ export function mockPastAppointmentInfoOption1({ va = [], cc = [] }) {
     ),
     { data: cc },
   );
-}
-
-/**
- * Mocks batch request for facility data from the VA facilities api
- *
- * @export
- * @param {Object} params
- * @param {?Array<string>} ids List of facility ids to use in query param
- * @param {?Array<VAFacility>} facilities Array of facilities to return from mock
- */
-export function mockFacilitiesFetch(ids, facilities) {
-  if (!ids) {
-    setFetchJSONResponse(
-      global.fetch.withArgs(sinon.match('/v1/facilities/va?ids=')),
-      { data: [] },
-    );
-  } else {
-    setFetchJSONResponse(
-      global.fetch.withArgs(
-        `${environment.API_URL}/v1/facilities/va?ids=${ids}&per_page=${
-          ids.split(',').length
-        }`,
-      ),
-      { data: facilities },
-    );
-  }
 }
 
 /**
@@ -826,7 +801,7 @@ export function mockFacilitiesPageFetches(
 
   mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
   mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
-  mockFacilitiesFetch(vhaIds.join(','), facilities);
+  mockFacilitiesFetchByVersion({ facilities, version: 0 });
 
   return { requestFacilities, directFacilities, facilities };
 }

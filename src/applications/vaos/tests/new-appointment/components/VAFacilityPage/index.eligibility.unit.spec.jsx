@@ -20,7 +20,6 @@ import {
   mockParentSites,
   mockRequestEligibilityCriteria,
   mockDirectBookingEligibilityCriteria,
-  mockFacilitiesFetch,
 } from '../../../mocks/helpers';
 import {
   getSchedulingConfigurationMock,
@@ -86,20 +85,23 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
           typeOfCareId: '323',
         }),
       ]);
-      mockFacilitiesFetch('vha_442', [
-        createMockFacilityByVersion({
-          id: '442',
-          name: 'San Diego VA Medical Center',
-          address: {
-            line: ['2360 East Pershing Boulevard'],
-            city: 'San Diego',
-            state: 'CA',
-            postalCode: '92128',
-          },
-          phone: '858-779-0338',
-          version: 0,
-        }),
-      ]);
+      mockFacilitiesFetchByVersion({
+        facilities: [
+          createMockFacilityByVersion({
+            id: '442',
+            name: 'San Diego VA Medical Center',
+            address: {
+              line: ['2360 East Pershing Boulevard'],
+              city: 'San Diego',
+              state: 'CA',
+              postalCode: '92128',
+            },
+            phone: '858-779-0338',
+            version: 0,
+          }),
+        ],
+        version: 0,
+      });
     });
 
     it('should show no clinics message when direct is supported, no clinics available, requests not supported', async () => {
@@ -279,10 +281,14 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
         }),
       ]);
       mockRequestEligibilityCriteria(parentSiteIds, []);
-      mockFacilitiesFetch(
-        'vha_442,vha_552',
-        facilities.filter(f => f.id === 'vha_442' || f.id === 'vha_552'),
-      );
+      mockFacilitiesFetchByVersion({
+        facilities: facilities.filter(
+          // Will have to remove the vha_ part of these ids when moving to
+          // version 2
+          f => f.id === 'vha_442' || f.id === 'vha_552',
+        ),
+        version: 0,
+      });
       mockEligibilityFetches({
         siteId: '983',
         facilityId: '983',
@@ -332,7 +338,10 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
           }),
         ),
       );
-      mockFacilitiesFetch(vhaIds.slice(0, 5).join(','), facilities.slice(0, 5));
+      mockFacilitiesFetchByVersion({
+        facilities: facilities.slice(0, 5),
+        version: 0,
+      });
       mockEligibilityFetches({
         siteId: '983',
         facilityId: '983QA',
@@ -372,7 +381,10 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
         parentSiteIds,
         requestFacilities.slice(0, 4),
       );
-      mockFacilitiesFetch(vhaIds.slice(0, 5).join(','), facilities.slice(0, 5));
+      mockFacilitiesFetchByVersion({
+        facilities: facilities.slice(0, 5),
+        version: 0,
+      });
       mockEligibilityFetches({
         siteId: '983',
         facilityId: '983QA',
@@ -430,7 +442,10 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
           }),
         ),
       );
-      mockFacilitiesFetch(vhaIds.slice(0, 5).join(','), facilities.slice(0, 5));
+      mockFacilitiesFetchByVersion({
+        facilities: facilities.slice(0, 5),
+        version: 0,
+      });
       mockEligibilityFetches({
         siteId: '983',
         facilityId: '983QA',
@@ -478,7 +493,10 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
         parentSiteIds,
         requestFacilities.slice(0, 4),
       );
-      mockFacilitiesFetch(vhaIds.slice(0, 5).join(','), facilities.slice(0, 5));
+      mockFacilitiesFetchByVersion({
+        facilities: facilities.slice(0, 5),
+        version: 0,
+      });
       mockEligibilityFetches({
         siteId: '983',
         facilityId: '983QA',
@@ -513,7 +531,10 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
       mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
       mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
-      mockFacilitiesFetch(vhaIds.join(','), facilities);
+      mockFacilitiesFetchByVersion({
+        facilities,
+        version: 0,
+      });
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /primary care/i);
 
@@ -531,7 +552,10 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
       mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
       mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
-      mockFacilitiesFetch(vhaIds.join(','), facilities);
+      mockFacilitiesFetchByVersion({
+        facilities,
+        version: 0,
+      });
       mockEligibilityFetches({
         siteId: '983',
         facilityId: '983',
@@ -572,7 +596,10 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
           }),
         ),
       );
-      mockFacilitiesFetch(vhaIds.join(','), facilities);
+      mockFacilitiesFetchByVersion({
+        facilities,
+        version: 0,
+      });
       mockEligibilityFetches({
         siteId: '983',
         facilityId: '983',
@@ -637,7 +664,10 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
           },
         })),
       );
-      mockFacilitiesFetch(vhaIds.join(','), facilities);
+      mockFacilitiesFetchByVersion({
+        facilities,
+        version: 0,
+      });
       mockEligibilityFetches({
         siteId: '983',
         facilityId: '983',
