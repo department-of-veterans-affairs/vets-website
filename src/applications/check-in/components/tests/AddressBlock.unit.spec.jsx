@@ -55,12 +55,18 @@ describe('check-in', () => {
     it('Renders with all address lines', () => {
       const component = render(<AddressBlock address={fullAddress} />);
 
-      expect(component.getByTestId('address-line-1')).to.exist;
-      expect(component.getByTestId('address-line-1')).to.have.text('line 1');
-      expect(component.getByTestId('address-line-2')).to.exist;
-      expect(component.getByTestId('address-line-2')).to.have.text(', line 2');
-      expect(component.getByTestId('address-line-3')).to.exist;
-      expect(component.getByTestId('address-line-3')).to.have.text(', line 3');
+      expect(component.getByTestId('address-line-street1')).to.exist;
+      expect(component.getByTestId('address-line-street1')).to.have.text(
+        'line 1',
+      );
+      expect(component.getByTestId('address-line-street2')).to.exist;
+      expect(component.getByTestId('address-line-street2')).to.have.text(
+        ', line 2',
+      );
+      expect(component.getByTestId('address-line-street3')).to.exist;
+      expect(component.getByTestId('address-line-street3')).to.have.text(
+        ', line 3',
+      );
       expect(component.getByTestId('address-city-state-and-zip')).to.exist;
       expect(component.getByTestId('address-city-state-and-zip')).to.have.text(
         'city, state 00000',
@@ -68,10 +74,12 @@ describe('check-in', () => {
     });
     it('Renders with only address line 1', () => {
       const component = render(<AddressBlock address={oneLineAddress} />);
-      expect(component.getByTestId('address-line-1')).to.exist;
-      expect(component.getByTestId('address-line-1')).to.have.text('line 1');
-      expect(component.queryByTestId('address-line-2')).to.not.exist;
-      expect(component.queryByTestId('address-line-3')).to.not.exist;
+      expect(component.getByTestId('address-line-street1')).to.exist;
+      expect(component.getByTestId('address-line-street1')).to.have.text(
+        'line 1',
+      );
+      expect(component.queryByTestId('address-line-street2')).to.not.exist;
+      expect(component.queryByTestId('address-line-street3')).to.not.exist;
       expect(component.getByTestId('address-city-state-and-zip')).to.exist;
       expect(component.getByTestId('address-city-state-and-zip')).to.have.text(
         'city, state 00000',

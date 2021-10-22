@@ -8,38 +8,32 @@ const AddressBlock = ({ address }) => {
       Object.prototype.hasOwnProperty.call(address, item) && address[item],
   );
 
-  if (isValidAddress) {
-    const lineTwo =
-      'street2' in address && address.street2 ? (
-        <>
-          <span data-testid="address-line-2">, {address.street2}</span>
-        </>
-      ) : (
-        ''
-      );
-    const lineThree =
-      'street3' in address && address.street2 ? (
-        <>
-          <span data-testid="address-line-3">, {address.street3}</span>
-        </>
-      ) : (
-        ''
-      );
-
-    return (
-      <>
-        <span data-testid="address-line-1">{address.street1}</span>
-        {lineTwo}
-        {lineThree}
-        <br />
-        <span data-testid="address-city-state-and-zip">{`${address.city}, ${
-          address.state
-        } ${address.zip.substring(0, 5)}`}</span>
-      </>
-    );
-  } else {
+  if (!isValidAddress) {
     return 'Not Available';
   }
+
+  const formatAddressLine = line =>
+    line in address && address[line] ? (
+      <>
+        <span data-testid={`address-line-${line}`}>, {address[line]}</span>
+      </>
+    ) : (
+      ''
+    );
+  const lineTwo = formatAddressLine('street2');
+  const lineThree = formatAddressLine('street3');
+
+  return (
+    <>
+      <span data-testid="address-line-street1">{address.street1}</span>
+      {lineTwo}
+      {lineThree}
+      <br />
+      <span data-testid="address-city-state-and-zip">{`${address.city}, ${
+        address.state
+      } ${address.zip.substring(0, 5)}`}</span>
+    </>
+  );
 };
 AddressBlock.propTypes = {
   address: PropTypes.object,
