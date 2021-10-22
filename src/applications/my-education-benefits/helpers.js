@@ -239,7 +239,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
         street2: address?.addressLine2,
         state: address?.stateCode,
         postalCode: address?.zipCode,
-        country: address?.countryCodeIso2,
+        country: address?.countyName,
       },
       livesOnMilitaryBase: address?.addressType === 'OVERSEAS MILITARY',
     },
