@@ -242,6 +242,12 @@ class SearchApp extends React.Component {
     });
   };
 
+  handleInputChange = event => {
+    this.setState({
+      userInput: event.target.value,
+    });
+  };
+
   onSuggestionSubmit = (index, componentState) => {
     const savedSuggestions = componentState?.savedSuggestions || [];
     const suggestions = componentState?.suggestions || [];
