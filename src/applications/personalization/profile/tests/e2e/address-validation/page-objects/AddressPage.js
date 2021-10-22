@@ -89,7 +89,12 @@ class AddressPage {
     altText && cy.findByText(altText).should('exist');
   }
 
-  confirmAddress(fields, alternateSuggestions = [], secondSave = false) {
+  confirmAddress(
+    fields,
+    alternateSuggestions = [],
+    secondSave = false,
+    missingUnit = false,
+  ) {
     cy.findByTestId('mailingAddress').should('contain', `${fields.address}`);
     !secondSave &&
       cy
@@ -98,6 +103,10 @@ class AddressPage {
     alternateSuggestions.forEach(field =>
       cy.findByTestId('mailingAddress').should('contain', field),
     );
+    missingUnit &&
+      cy
+        .findByTestId('mailingAddress')
+        .should('contain', 'Please add a unit number');
     cy.findByTestId('confirm-address-button').click({
       force: true,
     });
@@ -117,6 +126,23 @@ class AddressPage {
     cy.findByRole('button', { name: /^use this address$/i }).click({
       force: true,
     });
+  }
+
+  updateWithoutChanges() {
+    cy.findByRole('button', { name: /^update$/i }).should(
+      'not.have.attr',
+      'disabled',
+    );
+    cy.findByRole('button', { name: /^update$/i }).click({
+      force: true,
+    });
+    cy.findByRole('button', { name: /^update$/i, timeout: 10 }).should(
+      'not.exist',
+    );
+  }
+
+  validateFocusedElement(element) {
+    cy.findByRole(element.tag, { name: element.name }).should('be.focused');
   }
 }
 
