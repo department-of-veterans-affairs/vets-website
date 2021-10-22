@@ -263,6 +263,7 @@
     "cookie-parser": "^1.4.5",
     "core-js": "^3.18.0",
     "date-fns": "^2.24.0",
+    "date-fns-tz": "^1.1.1",
     "dotenv": "^10.0.0",
     "downloadjs": "^1.4.7",
     "downshift": "^1.22.5",
