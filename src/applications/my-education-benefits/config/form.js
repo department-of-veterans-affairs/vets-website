@@ -475,22 +475,22 @@ const formConfig = {
         [formPages.contactInformation.contactInformation]: {
           title: 'Phone numbers and email address',
           path: 'contact-information/email-phone',
-          initialData: {
-            [formFields.viewPhoneNumbers]: {
-              mobilePhoneNumber: {
-                phone: '123-456-7890',
-                isInternational: false,
-              },
-              phoneNumber: {
-                phone: '098-765-4321',
-                isInternational: false,
-              },
-            },
-            [formFields.email]: {
-              email: 'hector.stanley@gmail.com',
-              confirmEmail: 'hector.stanley@gmail.com',
-            },
-          },
+          // initialData: {
+          //   [formFields.viewPhoneNumbers]: {
+          //     mobilePhoneNumber: {
+          //       phone: '123-456-7890',
+          //       isInternational: false,
+          //     },
+          //     phoneNumber: {
+          //       phone: '098-765-4321',
+          //       isInternational: false,
+          //     },
+          //   },
+          //   [formFields.email]: {
+          //     email: 'hector.stanley@gmail.com',
+          //     confirmEmail: 'hector.stanley@gmail.com',
+          //   },
+          // },
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -596,18 +596,18 @@ const formConfig = {
         [formPages.contactInformation.mailingAddress]: {
           title: 'Mailing address',
           path: 'contact-information/mailing-address',
-          initialData: {
-            'view:mailingAddress': {
-              livesOnMilitaryBase: false,
-              [formFields.address]: {
-                street: '2222 Avon Street',
-                street2: 'Apt 6',
-                city: 'Arlington',
-                state: 'VA',
-                postalCode: '22205',
-              },
-            },
-          },
+          // initialData: {
+          //   'view:mailingAddress': {
+          //     livesOnMilitaryBase: false,
+          //     [formFields.address]: {
+          //       street: '2222 Avon Street',
+          //       street2: 'Apt 6',
+          //       city: 'Arlington',
+          //       state: 'VA',
+          //       postalCode: '22205',
+          //     },
+          //   },
+          // },
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -1275,9 +1275,9 @@ const formConfig = {
               },
             },
           },
-          initialData: {
-            benefitSelection: '',
-          },
+          // initialData: {
+          //   benefitSelection: '',
+          // },
         },
       },
     },
