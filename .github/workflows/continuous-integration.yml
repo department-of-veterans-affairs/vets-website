@@ -16,7 +16,7 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
 
 jobs:
-  build:
+  build: 
     name: Build
     runs-on: self-hosted
 
