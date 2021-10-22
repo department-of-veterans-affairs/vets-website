@@ -343,7 +343,7 @@ class SearchApp extends React.Component {
                 value={this.state.userInput}
                 onChange={this.handleInputChange}
               />
-              <button type="submit">
+              <button type="button" onClick={this.handleSearch}>
                 <IconSearch color="#fff" />
                 <span className="button-text">Search</span>
               </button>
