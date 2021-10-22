@@ -109,6 +109,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -122,8 +124,22 @@ jobs:
       - name: Create test results folder
         run: mkdir -p test-results
 
+      - name: List changed files
+        id: changed-files
+        run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+
+      - name: Get app folders for changed files
+        run: node script/github-actions/get-changed-apps.js --app-folders
+        env:
+          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+
       - name: Run unit tests
-        run: yarn test:unit --coverage
+        run: |
+          if [[ ${{ github.ref }} != 'refs/heads/master' && -n '${{ env.APP_FOLDERS }}' ]]; then
+              yarn test:unit '{src/platform,${{ env.CHANGED_APPS }}}/**/*.unit.spec.js?(x)'
+          else
+              yarn test:unit --coverage
+          fi
         env:
           MOCHA_FILE: test-results/unit-tests.xml
 
