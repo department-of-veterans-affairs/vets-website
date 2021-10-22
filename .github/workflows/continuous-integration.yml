@@ -135,7 +135,7 @@ jobs:
 
       - name: Run unit tests
         run: |
-          if [[ ${{ github.ref }} != 'refs/heads/master' && -n '${{ env.APP_FOLDERS }}' ]]; then
+          if [[ ${{ github.ref }} != 'refs/heads/master' && -n '${{ env.CHANGED_APPS }}' ]]; then
               yarn test:unit '{src/platform,${{ env.CHANGED_APPS }}}/**/*.unit.spec.js?(x)'
           else
               yarn test:unit --coverage
