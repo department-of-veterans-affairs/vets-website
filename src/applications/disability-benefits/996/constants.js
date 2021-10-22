@@ -114,7 +114,7 @@ export const CONFERENCE_TIMES_V2 = {
     submit: '800-1200 ET',
   },
   time1200to1630: {
-    label: 'noon to 4:30 p.m. ET',
+    label: 'Noon to 4:30 p.m. ET',
     submit: '1200-1630 ET',
   },
 };
