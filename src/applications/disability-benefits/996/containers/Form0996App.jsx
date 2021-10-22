@@ -77,7 +77,7 @@ export const Form0996App = ({
             ),
           });
         } else if (
-          hlrV2 &&
+          formData.hlrV2 && // easier to test formData.hlrV2 with SiP menu
           (areaOfDisagreement?.length !== formData.areaOfDisagreement?.length ||
             !areaOfDisagreement.every(
               (entry, index) =>
