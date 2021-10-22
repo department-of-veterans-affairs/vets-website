@@ -85,21 +85,21 @@ describe('check-in', () => {
         'city, state 00000',
       );
     });
-    it('Returns "Not Available" if missing street1', () => {
+    it('Returns "Not available" if missing street1', () => {
       const component = render(<AddressBlock address={addressMissingStreet} />);
-      expect(component.getByText('Not Available')).to.exist;
+      expect(component.getByText('Not available')).to.exist;
     });
-    it('Returns "Not Available" if missing city', () => {
+    it('Returns "Not available" if missing city', () => {
       const component = render(<AddressBlock address={addressMissingCity} />);
-      expect(component.getByText('Not Available')).to.exist;
+      expect(component.getByText('Not available')).to.exist;
     });
-    it('Returns "Not Available" if missing state', () => {
+    it('Returns "Not available" if missing state', () => {
       const component = render(<AddressBlock address={addressMissingState} />);
-      expect(component.getByText('Not Available')).to.exist;
+      expect(component.getByText('Not available')).to.exist;
     });
-    it('Returns "Not Available" if missing zip', () => {
+    it('Returns "Not available" if missing zip', () => {
       const component = render(<AddressBlock address={addressMissingZip} />);
-      expect(component.getByText('Not Available')).to.exist;
+      expect(component.getByText('Not available')).to.exist;
     });
   });
 });
