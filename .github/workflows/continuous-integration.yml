@@ -346,10 +346,16 @@ jobs:
         id: changed-files
         run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
 
+      - name: Get changed apps for changed files
+        run: node script/github-actions/get-changed-apps.js
+        env:
+          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+
       - name: Set NUM_CONTAINERS, CI_NODE_INDEX, TESTS variables
         run: node script/github-actions/select-cypress-tests.js
         env:
           IS_MASTER_BUILD: ${{ env.IS_MASTER_BUILD }}
+          CHANGED_APPS: ${{ env.CHANGED_APPS }}
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
       - name: Set output of NUM_CONTAINERS
