@@ -70,13 +70,13 @@ describe('Check In Experience -- ', () => {
         .find('dt:nth-child(1)')
         .should('have.text', 'Mailing Address')
         .next()
-        .should('have.text', '123 Turtle TrailTreetopper, Tennessee 101010')
+        .should('have.text', '123 Turtle TrailTreetopper, Tennessee 10101')
         .next()
         .should('have.text', 'Home Address')
         .next()
         .should(
           'have.text',
-          '445 Fine Finch Fairway, Apt 201Fairfence, Florida 445545',
+          '445 Fine Finch Fairway, Apt 201Fairfence, Florida 44554',
         )
         .next()
         .should('have.text', 'Home Phone')
