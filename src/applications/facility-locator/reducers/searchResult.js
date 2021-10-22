@@ -16,6 +16,7 @@ export const SearchResultReducer = (state = INITIAL_STATE, action) => {
     case FETCH_LOCATIONS:
       return {
         ...state,
+        error: null,
         results: action.payload.data,
         pagination: action.payload.meta.pagination,
         resultTime: action.payload.meta.resultTime,

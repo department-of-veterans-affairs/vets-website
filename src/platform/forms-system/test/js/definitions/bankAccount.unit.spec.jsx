@@ -6,12 +6,12 @@ import Form from '@department-of-veterans-affairs/react-jsonschema-form';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import uiSchema from '../../../src/js/definitions/bankAccount';
-import { bankAccount } from 'vets-json-schema/dist/definitions.json';
+import definitions from 'vets-json-schema/dist/definitions.json';
 
 describe('Schemaform definition bankAccount', () => {
   it('should render bankAccount', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester schema={bankAccount} uiSchema={uiSchema} />,
+      <DefinitionTester schema={definitions.bankAccount} uiSchema={uiSchema} />,
     );
 
     const formDOM = findDOMNode(form);
@@ -27,7 +27,7 @@ describe('Schemaform definition bankAccount', () => {
   });
   it('should render bankAccount with routing number error', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester schema={bankAccount} uiSchema={uiSchema} />,
+      <DefinitionTester schema={definitions.bankAccount} uiSchema={uiSchema} />,
     );
 
     const formDOM = findDOMNode(form);

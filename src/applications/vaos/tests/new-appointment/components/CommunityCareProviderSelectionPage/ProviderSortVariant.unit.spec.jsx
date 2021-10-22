@@ -13,7 +13,7 @@ import {
   setTypeOfCare,
   setTypeOfFacility,
 } from '../../../mocks/setup';
-import { getParentSiteMock, getVAFacilityMock } from '../../../mocks/v0';
+import { getParentSiteMock } from '../../../mocks/v0';
 import {
   mockCCProviderFetch,
   mockCommunityCareEligibility,
@@ -26,6 +26,7 @@ import CommunityCareProviderSelectionPage from '../../../../new-appointment/comp
 import { calculateBoundingBox } from '../../../../utils/address';
 import { CC_PROVIDERS_DATA } from './cc_providers_data';
 import { FACILITY_SORT_METHODS } from '../../../../utils/constants';
+import { createMockFacilityByVersion } from '../../../mocks/data';
 
 const initialState = {
   featureToggles: {
@@ -105,7 +106,12 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
     );
     mockFacilityFetch(
       'vha_442',
-      getVAFacilityMock({ id: '442', lat: 38.5615, long: 122.9988 }),
+      createMockFacilityByVersion({
+        id: '442',
+        lat: 38.5615,
+        long: 122.9988,
+        version: 0,
+      }),
     );
   });
 
@@ -436,16 +442,16 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
       CC_PROVIDERS_DATA,
     );
 
-    mockFacilityFetch('vha_442GJ', {
-      id: '983',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '983',
+    mockFacilityFetch(
+      'vha_442GJ',
+      createMockFacilityByVersion({
+        id: '442GJ',
         name: 'Facility that is enabled',
         lat: 39.1362562,
         long: -83.1804804,
-      },
-    });
+        version: 0,
+      }),
+    );
 
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, /Community Care/i);
@@ -519,16 +525,16 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
       CC_PROVIDERS_DATA,
     );
 
-    mockFacilityFetch('vha_442GJ', {
-      id: '983',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '983',
+    mockFacilityFetch(
+      'vha_442GJ',
+      createMockFacilityByVersion({
+        id: '442GJ',
         name: 'Facility that is enabled',
         lat: 39.1362562,
         long: -83.1804804,
-      },
-    });
+        version: 0,
+      }),
+    );
 
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, /Community Care/i);
@@ -557,5 +563,43 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
     // Then the select options should default to sort by distance from home address
     expect(screen.baseElement).to.contain.text('Your home address');
     expect(screen.baseElement).to.contain.text('Your current location');
+  });
+
+  it('should display an error message when lookup fails', async () => {
+    // Given the CC iteration flag is on
+    const store = createTestStore(initialState);
+    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfFacility(store, /Community Care/i);
+    const screen = renderWithStoreAndRouter(
+      <CommunityCareProviderSelectionPage />,
+      {
+        store,
+      },
+    );
+    // And the provider service is not working
+    mockCCProviderFetch(
+      initialState.user.profile.vapContactInfo.residentialAddress,
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
+      calculateBoundingBox(
+        initialState.user.profile.vapContactInfo.residentialAddress.latitude,
+        initialState.user.profile.vapContactInfo.residentialAddress.longitude,
+        60,
+      ),
+      CC_PROVIDERS_DATA,
+      true,
+    );
+
+    // When the user clicks the choose a provider button
+    userEvent.click(
+      await screen.findByText(/Choose a provider/i, {
+        selector: 'button',
+      }),
+    );
+    // Then they should see an error message
+    expect(await screen.findByText(/We can’t load provider information/i)).to
+      .exist;
+
+    // And still be able to continue
+    expect(screen.getByRole('button', { name: /Continue/i })).to.exist;
   });
 });

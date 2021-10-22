@@ -86,7 +86,8 @@ va-alert {
 .usa-alert h3 {
 	margin-top: 0;
 }
-.usa-alert p {
+.usa-alert p,
+.form-review-panel .usa-alert p {
 	margin-bottom: 0;
 }
 
@@ -240,6 +241,9 @@ va-accordion-item .service-history-details {
 .meb-alert--warning > i::before {
 	display: flex;
 	margin-right: 1.6rem;
+}
+.meb-list-label {
+	margin-top: 1.8rem;
 }
 .meb-alert_body {
 	display: table-cell;

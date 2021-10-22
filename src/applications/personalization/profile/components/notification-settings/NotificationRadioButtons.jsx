@@ -215,10 +215,14 @@ const NotificationRadioButtons = ({
 
   return (
     <fieldset className={fieldsetClasses} disabled={disabled} id={id}>
-      <h3 className={legendClasses}>
-        {label}
-        {requiredSpan}
-      </h3>
+      <div className="clearfix">
+        <legend className="rb-legend vads-u-padding--0">
+          <h3 className={legendClasses}>
+            {label}
+            {requiredSpan}
+          </h3>
+        </legend>
+      </div>
       {description ? (
         <p className="vads-u-margin-y--0p5 vads-u-color--gray-medium">
           {description}

@@ -1,4 +1,4 @@
-import { benefitTypes } from 'vets-json-schema/dist/constants.json';
+import constants from 'vets-json-schema/dist/constants.json';
 import environment from 'platform/utilities/environment';
 
 // *** URLS ***
@@ -22,7 +22,7 @@ export const LEGACY_APPEALS_URL = '/decision-reviews/legacy-appeals/';
 
 // 8622 is the ID of the <li> wrapping the "Find addresses for other benefit
 // types" accordion
-export const BENEFIT_OFFICES_URL = `${HLR_INFO_URL}#find-addresses-for-other-benef-8622`;
+export const BENEFIT_OFFICES_URL = `${HLR_INFO_URL}#find-addresses`;
 
 export const CONTESTABLE_ISSUES_API =
   '/higher_level_reviews/contestable_issues/';
@@ -82,7 +82,7 @@ const supportedBenefitTypes = [
   // 'nca',
 ];
 
-export const SUPPORTED_BENEFIT_TYPES = benefitTypes.map(type => ({
+export const SUPPORTED_BENEFIT_TYPES = constants.benefitTypes.map(type => ({
   ...type,
   isSupported: supportedBenefitTypes.includes(type.value),
 }));

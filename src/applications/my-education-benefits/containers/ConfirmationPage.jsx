@@ -117,9 +117,6 @@ const deniedPage = (
       <a className="usa-button" href="/records/download-va-letters/">
         Download your letter
       </a>
-      <a href="https://www.va.gov/education/gi-bill/post-9-11/ch-33-benefit/ ">
-        View a statement of your benefits
-      </a>
     </va-alert>
 
     <div className="feature">
@@ -215,12 +212,11 @@ const pendingPage = (
     <ul>
       <li>
         If you need to submit documentation to VA, such as service records,
-        please send this through our{' '}
-        <a href="https://gibill.custhelp.va.gov/app/ask ">Ask VA feature</a>.
+        please send this through <a href="/contact-us">Ask VA</a>.
       </li>
       <li>
         Review and/or update your direct deposit information on{' '}
-        <a href="/change-direct-deposit/">VA.gov profile</a>.
+        <a href="/change-direct-deposit/">your VA.gov profile</a>.
       </li>
       <li>
         Use our <a href="/gi-bill-comparison-tool/ ">GI Bill Comparison Tool</a>{' '}
@@ -256,8 +252,6 @@ const loadingPage = (
     className="meb-confirmation-page meb-confirmation-page_loading"
     style={{ marginBottom: '3rem' }}
   >
-    <h1>Wait right there</h1>
-    <p>We are currently processing your application.</p>
     <LoadingIndicator message="Loading your results" />
   </div>
 );
@@ -273,7 +267,7 @@ export class ConfirmationPage extends React.Component {
     const { response } = submission;
     const name = data.veteranFullName;
 
-    const confirmationResult = 'loading';
+    const confirmationResult = 'denied';
 
     switch (confirmationResult) {
       case 'approved': {

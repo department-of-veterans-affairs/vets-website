@@ -208,39 +208,6 @@ export function mockSchedulingConfigurations(configs) {
 }
 
 /**
- * Mocks the api call to get facilities from the VAOS service.
- *
- * @export
- * @param {Array<string>} ids A list of VistA site ids to mock the request for
- * @param {Array<VARParentSite>} data The list of parent site data returned from the mock call
- */
-export function mockV2FacilitiesFetch(ids, data, children = false) {
-  setFetchJSONResponse(
-    global.fetch.withArgs(
-      `${environment.API_URL}/vaos/v2/facilities?children=${children}&${ids
-        .map(id => `ids[]=${id}`)
-        .join('&')}`,
-    ),
-    { data },
-  );
-}
-
-/**
- * Mocks the api call to get a facility from the VAOS service.
- *
- * @export
- * @param {Array<VAOSFacility>} data The facility to return
- */
-export function mockV2FacilityFetch(data) {
-  setFetchJSONResponse(
-    global.fetch.withArgs(
-      `${environment.API_URL}/vaos/v2/facilities/${data.id}`,
-    ),
-    { data },
-  );
-}
-
-/**
  * Mocks the api call that fetches a list of appointment slots for direct scheduling
  *
  * @export

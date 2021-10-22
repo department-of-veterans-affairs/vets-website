@@ -21,7 +21,7 @@ export default {
   FACILITY_MAP: 'facility-map',
   FACILITY_PATIENT_SATISFACTION_SCORES: 'facility-patient-satisfaction-scores',
   FIND_VA_FORMS: 'find-va-forms',
-  FIND_VA_FORMS_INVALID_PDF_ALERT: 'find-va-forms-invalid-pdf-alert',
+  FIND_VA_FORMS_INVALID_PDF_ALERT: 'find-va-forms-pdf-download-helper',
   FORM_686_CTA: 'form-686-CTA',
   GET_MEDICAL_RECORDS_PAGE: 'get-medical-records-page',
   HEALTH_CARE_APP_STATUS: 'health-care-app-status',

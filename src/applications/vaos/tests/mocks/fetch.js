@@ -1,5 +1,6 @@
 /** @module testing/mocks/fetch */
 import moment from 'moment';
+import sinon from 'sinon';
 import environment from 'platform/utilities/environment';
 import { setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import { getVAAppointmentMock } from './v0';
@@ -37,18 +38,50 @@ export function mockEligibilityFetchesByVersion({
   version = 2,
 }) {
   if (version === 2) {
+    const directReasons = [];
+    const requestReasons = [];
+
+    if (!directPastVisits && typeOfCareId !== 'primaryCare') {
+      directReasons.push({
+        coding: [
+          {
+            code: 'patient-history-insufficient',
+          },
+        ],
+      });
+    }
+
+    if (!requestPastVisits && typeOfCareId !== 'primaryCare') {
+      requestReasons.push({
+        coding: [
+          {
+            code: 'patient-history-insufficient',
+          },
+        ],
+      });
+    }
+
+    if (!limit) {
+      requestReasons.push({
+        coding: [
+          {
+            code: 'facility-request-limit-exceeded',
+          },
+        ],
+      });
+    }
+
     setFetchJSONResponse(
       global.fetch.withArgs(
         `${
           environment.API_URL
-        }/vaos/v2/patients?facility_id=${facilityId}&clinical_service_id=${typeOfCareId}&type=direct`,
+        }/vaos/v2/eligibility?facility_id=${facilityId}&clinical_service_id=${typeOfCareId}&type=direct`,
       ),
       {
         data: {
           attributes: {
-            hasRequiredAppointmentHistory:
-              directPastVisits || typeOfCareId === 'primaryCare',
-            isEligibleForNewAppointmentRequest: limit,
+            eligible: directReasons.length === 0,
+            ineligibilityReasons: directReasons,
           },
         },
       },
@@ -57,14 +90,13 @@ export function mockEligibilityFetchesByVersion({
       global.fetch.withArgs(
         `${
           environment.API_URL
-        }/vaos/v2/patients?facility_id=${facilityId}&clinical_service_id=${typeOfCareId}&type=request`,
+        }/vaos/v2/eligibility?facility_id=${facilityId}&clinical_service_id=${typeOfCareId}&type=request`,
       ),
       {
         data: {
           attributes: {
-            hasRequiredAppointmentHistory:
-              requestPastVisits || typeOfCareId === 'primaryCare',
-            isEligibleForNewAppointmentRequest: limit,
+            eligible: requestReasons.length === 0,
+            ineligibilityReasons: requestReasons,
           },
         },
       },
@@ -169,5 +201,72 @@ export function mockSingleClinicFetchByVersion({
     );
   } else {
     throw new Error('This should only be used with v2 endpoints');
+  }
+}
+
+/**
+ * Mocks the facilities fetch call using the api for the specified
+ * vaos version
+ *
+ * @export
+ * @param {Object} params
+ * @param {?Array<string>} params.ids An array of facility ids to use in the query params. Not necessary
+ *   unless you are using the children param to return the child facilities of parents
+ * @param {Array<MFSFacility|VAFacility>} [params.facilities=[]] An array of facility objects to return from the fetch
+ * @param {Boolean} [params.children=false] Sets the children query param, which is meant to include child
+ *   facilities. Only relevant for version 2
+ * @param {0|2} [params.version=2] The api version to use, defaulted to version 2,
+ */
+export function mockFacilitiesFetchByVersion({
+  ids = null,
+  facilities = [],
+  children = false,
+  version = 2,
+} = {}) {
+  const idList = ids || facilities.map(f => f.id);
+
+  if (version !== 2) {
+    setFetchJSONResponse(
+      global.fetch.withArgs(
+        sinon.match(`/v1/facilities/va?ids=${idList.join(',')}`),
+      ),
+      { data: facilities },
+    );
+  } else {
+    setFetchJSONResponse(
+      global.fetch.withArgs(
+        `${
+          environment.API_URL
+        }/vaos/v2/facilities?children=${children}&${idList
+          .map(id => `ids[]=${id}`)
+          .join('&')}`,
+      ),
+      { data: facilities },
+    );
+  }
+}
+
+/**
+ * Mocks the single facility fetch call using the api for the specified
+ * vaos version
+ *
+ * @export
+ * @param {Object} params
+ * @param {MFSFacility|VAFacility} params.facility The facility object to return from the fetch
+ * @param {0|2} [params.version=2] The api version to use, defaulted to version 2,
+ */
+export function mockFacilityFetchByVersion({ facility, version = 2 } = {}) {
+  if (version !== 2) {
+    setFetchJSONResponse(
+      global.fetch.withArgs(sinon.match(`/v1/facilities/va/${facility.id}`)),
+      { data: facility },
+    );
+  } else {
+    setFetchJSONResponse(
+      global.fetch.withArgs(
+        `${environment.API_URL}/vaos/v2/facilities/${facility.id}`,
+      ),
+      { data: facility },
+    );
   }
 }

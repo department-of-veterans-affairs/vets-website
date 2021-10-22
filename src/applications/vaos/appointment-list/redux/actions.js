@@ -150,6 +150,19 @@ async function getAdditionalFacilityInfo(futureAppointments, useV2 = false) {
   return facilityData;
 }
 
+/**
+ * Function to retrieve facility information from the appointment
+ * record when using the v2 api.
+ *
+ * @param {*} appointments
+ */
+function getAdditionalFacilityInfoV2(appointments) {
+  // Facility information included with v2 appointment api call.
+  return appointments
+    ?.map(appt => (appt.vaos.facilityData ? appt.vaos.facilityData : null))
+    .filter(n => n);
+}
+
 export function fetchFutureAppointments({ includeRequests = true } = {}) {
   return async (dispatch, getState) => {
     const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
@@ -270,12 +283,17 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
       });
 
       try {
-        const facilityData = await getAdditionalFacilityInfo(
-          [].concat(...data),
-          featureFacilitiesServiceV2,
-        );
+        let facilityData;
+        if (featureVAOSServiceVAAppointments) {
+          facilityData = getAdditionalFacilityInfoV2(data[0]);
+        } else {
+          facilityData = await getAdditionalFacilityInfo(
+            [].concat(...data),
+            featureFacilitiesServiceV2,
+          );
+        }
 
-        if (facilityData) {
+        if (facilityData && facilityData.length > 0) {
           dispatch({
             type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
             facilityData,
@@ -340,11 +358,15 @@ export function fetchPendingAppointments() {
       });
 
       try {
-        const facilityData = await getAdditionalFacilityInfo(
-          pendingAppointments,
-          featureFacilitiesServiceV2,
-        );
-
+        let facilityData;
+        if (featureVAOSServiceRequests) {
+          facilityData = getAdditionalFacilityInfoV2(pendingAppointments);
+        } else {
+          facilityData = await getAdditionalFacilityInfo(
+            pendingAppointments,
+            featureFacilitiesServiceV2,
+          );
+        }
         if (facilityData) {
           dispatch({
             type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
@@ -414,12 +436,19 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
       });
 
       try {
-        const facilityData = await getAdditionalFacilityInfo(
-          getState().appointments.past,
-          featureFacilitiesServiceV2,
-        );
+        let facilityData;
+        if (featureVAOSServiceVAAppointments) {
+          facilityData = getAdditionalFacilityInfoV2(
+            getState().appointments.past,
+          );
+        } else {
+          facilityData = await getAdditionalFacilityInfo(
+            getState().appointments.past,
+            featureFacilitiesServiceV2,
+          );
+        }
 
-        if (facilityData) {
+        if (facilityData && facilityData.length > 0) {
           dispatch({
             type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
             facilityData,

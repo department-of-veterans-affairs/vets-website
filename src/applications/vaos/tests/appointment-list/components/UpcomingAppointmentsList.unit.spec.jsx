@@ -4,12 +4,8 @@ import { expect } from 'chai';
 import moment from 'moment';
 import { mockFetch } from 'platform/testing/unit/helpers';
 import reducers from '../../../redux/reducer';
-import {
-  getCCAppointmentMock,
-  getVAAppointmentMock,
-  getVAFacilityMock,
-} from '../../mocks/v0';
-import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
+import { getCCAppointmentMock, getVAAppointmentMock } from '../../mocks/v0';
+import { mockAppointmentInfo } from '../../mocks/helpers';
 import {
   getTimezoneTestDate,
   renderWithStoreAndRouter,
@@ -17,6 +13,8 @@ import {
 import UpcomingAppointmentsList from '../../../appointment-list/components/UpcomingAppointmentsList';
 import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
 import { getVAOSAppointmentMock } from '../../mocks/v2';
+import { createMockFacilityByVersion } from '../../mocks/data';
+import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
 
 const initialState = {
   featureToggles: {
@@ -79,26 +77,23 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
     mockAppointmentInfo({ va: [appointment] });
 
-    const facility = {
-      id: 'vha_442GC',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '442GC',
-        name: 'Cheyenne VA Medical Center',
-        address: {
-          physical: {
-            zip: '82001-5356',
+    mockFacilitiesFetchByVersion({
+      facilities: [
+        createMockFacilityByVersion({
+          id: '442GC',
+          name: 'Cheyenne VA Medical Center',
+          address: {
+            postalCode: '82001-5356',
             city: 'Cheyenne',
             state: 'WY',
-            address1: '2360 East Pershing Boulevard',
+            line: ['2360 East Pershing Boulevard'],
           },
-        },
-        phone: {
-          main: '307-778-7550',
-        },
-      },
-    };
-    mockFacilitiesFetch('vha_442GC', [facility]);
+          phone: '307-778-7550',
+          version: 0,
+        }),
+      ],
+      version: 0,
+    });
 
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState,
@@ -139,7 +134,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     appointment.attributes.vdsAppointments[0].currentStatus =
       'CANCELLED BY CLINIC';
     mockAppointmentInfo({ va: [appointment] });
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion({ version: 0 });
 
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState,
@@ -235,7 +230,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     };
 
     mockAppointmentInfo({ va: [appointment] });
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState,
       reducers,
@@ -288,7 +283,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     };
 
     mockAppointmentInfo({ va: [appointment] });
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState,
       reducers,
@@ -328,7 +323,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     };
 
     mockAppointmentInfo({ va: [appointment] });
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState,
       reducers,
@@ -539,7 +534,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
 
     mockAppointmentInfo({ va: [appointment] });
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState,
       reducers,
@@ -578,8 +573,11 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
 describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
   beforeEach(() => {
     mockFetch();
+    MockDate.set(getTimezoneTestDate());
   });
-  afterEach(() => {});
+  afterEach(() => {
+    MockDate.reset();
+  });
 
   it('should show VA appointment text', async () => {
     const myInitialState = {
@@ -599,6 +597,25 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       ...appointment.attributes,
       kind: 'clinic',
       status: 'booked',
+      locationId: '983',
+      location: {
+        id: '983',
+        type: 'appointments',
+        attributes: {
+          id: '983',
+          vistaSite: '983',
+          name: 'Cheyenne VA Medical Center',
+          lat: 39.744507,
+          long: -104.830956,
+          phone: { main: '307-778-7550' },
+          physicalAddress: {
+            line: ['2360 East Pershing Boulevard'],
+            city: 'Cheyenne',
+            state: 'WY',
+            postalCode: '82001-5356',
+          },
+        },
+      },
       start: now.format('YYYY-MM-DDTHH:mm:ss'),
       end: now.format('YYYY-MM-DDTHH:mm:ss'),
     };
@@ -610,14 +627,16 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState: myInitialState,
       reducers,
     });
 
-    await screen.findByText(new RegExp(now.format('dddd, MMMM D'), 'i'));
-    expect(screen.baseElement).to.contain.text('VA appointment');
+    await screen.findByText(
+      new RegExp(now.tz('America/Denver').format('dddd, MMMM D'), 'i'),
+    );
+    expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
   });
 
   it('should show CC appointment text', async () => {
@@ -649,7 +668,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState: myInitialState,
       reducers,
@@ -688,7 +707,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState: myInitialState,
       reducers,
@@ -727,7 +746,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState: myInitialState,
       reducers,
@@ -766,7 +785,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState: myInitialState,
       reducers,

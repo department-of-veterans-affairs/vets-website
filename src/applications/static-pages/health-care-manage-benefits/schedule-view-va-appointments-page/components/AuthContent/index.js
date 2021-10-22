@@ -16,10 +16,8 @@ export const AuthContent = ({ cernerFacilities, otherFacilities }) => (
       myVAHealthLink={getCernerURL('/pages/scheduling/upcoming')}
     />
     <p data-testid="cerner-content">
-      <strong>Please note:</strong> The fastest way to make all your VA
-      appointments is usually to call the VA or community care health facility
-      where you want to receive care. If you can’t keep an existing appointment,
-      please contact the facility as soon as possible to reschedule or cancel.
+      <strong>Note:</strong> If you can’t keep an existing appointment, please
+      contact the facility as soon as you can to reschedule or cancel.
       <br />
       <a href="/find-locations/">Find your health facility’s phone number</a>
     </p>

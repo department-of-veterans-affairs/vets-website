@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { areEqual } from './status';
+import { areEqual } from './eligibility';
 
 describe('check in', () => {
   describe('status utils', () => {

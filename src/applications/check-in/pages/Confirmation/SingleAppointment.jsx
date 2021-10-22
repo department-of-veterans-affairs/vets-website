@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { VaAlert } from 'web-components/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
@@ -7,8 +8,10 @@ import BackToHome from '../../components/BackToHome';
 import Footer from '../../components/Footer';
 import AppointmentLocation from '../../components/AppointmentDisplay/AppointmentLocation';
 
-export default function SingleAppointment({ appointments }) {
+const SingleAppointment = props => {
+  const { appointments } = props;
   const appointment = appointments[0];
+
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5">
       <VaAlert
@@ -34,4 +37,10 @@ export default function SingleAppointment({ appointments }) {
       <BackToHome />
     </div>
   );
-}
+};
+
+SingleAppointment.propTypes = {
+  appointments: PropTypes.array,
+};
+
+export default SingleAppointment;

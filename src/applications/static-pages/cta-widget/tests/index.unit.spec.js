@@ -65,11 +65,16 @@ describe('<CallToActionWidget>', () => {
         featureToggles={{
           loading: false,
         }}
+        ariaLabel="test aria-label"
+        ariaDescribedby="test-id"
       />,
     );
 
+    const signIn = tree.find('SignIn');
     expect(tree.find('LoadingIndicator').exists()).to.be.false;
-    expect(tree.find('SignIn').exists()).to.be.true;
+    expect(signIn.exists()).to.be.true;
+    expect(signIn.prop('ariaLabel')).to.eq('test aria-label');
+    expect(signIn.prop('ariaDescribedby')).to.eq('test-id');
     tree.unmount();
   });
   it('should show verify link', () => {
@@ -564,7 +569,7 @@ describe('<CallToActionWidget>', () => {
           />,
         );
 
-        expect(tree.find('NeedsVAPatient').exists()).to.be.true;
+        expect(tree.find('NeedsVAPatient').exists()).to.be.false;
         tree.unmount();
       });
 
@@ -620,7 +625,7 @@ describe('<CallToActionWidget>', () => {
             />,
           );
 
-          expect(tree.find('NeedsVAPatient').exists()).to.be.true;
+          expect(tree.find('NeedsVAPatient').exists()).to.be.false;
           tree.unmount();
         });
       });
