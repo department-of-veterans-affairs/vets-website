@@ -9,7 +9,7 @@ const AddressBlock = ({ address }) => {
   );
 
   if (!isValidAddress) {
-    return 'Not Available';
+    return 'Not available';
   }
 
   const formatAddressLine = line =>
