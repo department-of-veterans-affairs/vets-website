@@ -59,7 +59,8 @@
         "alias": {
           "~": "./src",
           "@@vap-svc": "./src/platform/user/profile/vap-svc",
-          "@@profile": "./src/applications/personalization/profile"
+          "@@profile": "./src/applications/personalization/profile",
+          "web-components/react-bindings": "@department-of-veterans-affairs/component-library/dist/react-bindings"
         }
       }
     ]
