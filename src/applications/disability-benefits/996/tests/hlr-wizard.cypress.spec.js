@@ -1,3 +1,11 @@
+/**
+ * [TestRail-integrated] Spec for Higher Level Review - Wizard
+ * @testrailinfo projectId 5
+ * @testrailinfo suiteId 6
+ * @testrailinfo groupId 2896
+ * @testrailinfo runName HLR-e2e-Wizard
+ */
+
 import {
   BASE_URL,
   WIZARD_STATUS,
@@ -52,7 +60,7 @@ describe('HLR wizard', () => {
     cy.injectAxe();
   });
 
-  it('should show the form wizard', () => {
+  it('should show the form wizard - C12065', () => {
     cy.url().should('include', BASE_URL);
     cy.axeCheck();
     cy.get('h1', { timeout: Timeouts.slow })
@@ -61,7 +69,7 @@ describe('HLR wizard', () => {
     cy.axeCheck();
   });
   // other claims flow
-  it('should show other claims', () => {
+  it('should show other claims - C12066', () => {
     cy.get('[type="radio"][value="other"]').check(checkOpt);
     cy.checkStorage(SAVED_CLAIM_TYPE, undefined);
     // #8622 set by public websites accordion anchor ID
@@ -75,7 +83,7 @@ describe('HLR wizard', () => {
   });
 
   // legacy appeals flow
-  it('should show legacy appeals question & alert', () => {
+  it('should show legacy appeals question & alert - C12067', () => {
     cy.get('[type="radio"][value="compensation"]').check(checkOpt);
     cy.get(`a[href*="${LEGACY_APPEALS_URL}"]`).should('exist');
     cy.checkFormChange({
@@ -97,7 +105,7 @@ describe('HLR wizard', () => {
   });
 
   // start form flow
-  it('should show legacy appeals question & alert', () => {
+  it('should show legacy appeals question & alert - C12068', () => {
     const h1Text = 'Request a Higher-Level Review';
     // starts with focus on breadcrumb
     cy.focused().should('have.attr', 'id', 'va-breadcrumbs-list');
@@ -140,7 +148,7 @@ describe('HLR wizard', () => {
   });
 
   // v2 skip legacy appeals question
-  it('should show skip legacy appeals question & show form start for HLR v2', () => {
+  it('should show skip legacy appeals question & show form start for HLR v2 - C12069', () => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
