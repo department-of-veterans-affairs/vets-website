@@ -6,7 +6,6 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import { connect } from 'react-redux';
 import OMBInfo from '../content/OMBInfo';
 import CallToActionWidget from 'applications/static-pages/cta-widget';
-import environment from 'platform/utilities/environment';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -180,11 +179,7 @@ class IntroductionPage extends React.Component {
           <OMBInfo
             resBurden={10}
             ombNumber="2900-0885"
-            expDate={
-              environment.isProduction()
-                ? 'October 31, 2021'
-                : 'October 31, 2024'
-            }
+            expDate="October 31, 2024"
           />
         </div>
       </div>

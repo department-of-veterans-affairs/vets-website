@@ -1,5 +1,6 @@
 import 'platform/polyfills';
 import './styles.scss';
+import './components/SearchDropdown/SearchDropdownStyles.scss';
 
 import startApp from 'platform/startup';
 

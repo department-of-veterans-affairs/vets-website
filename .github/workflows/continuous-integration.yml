@@ -721,8 +721,7 @@ jobs:
 
     strategy:
       matrix:
-        # buildtype: [vagovdev, vagovstaging, vagovprod] # TODO: Enable when ready
-        buildtype: [vagovdev]
+        buildtype: [vagovdev, vagovstaging, vagovprod]
 
     needs: [cypress-tests, unit-tests, contract-tests, security-audit, linting]
 
@@ -818,8 +817,8 @@ jobs:
         include:
           - environment: vagovdev
             bucket: dev-va-gov-assets
-          # - environment: vagovstaging
-          #   bucket: staging-va-gov-assets
+          - environment: vagovstaging
+            bucket: staging-va-gov-assets
 
     steps:
       - name: Checkout
