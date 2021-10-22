@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 
-import { rootUrl } from '../manifest.json';
+import manifest from '../manifest.json';
 import formConfig from '../config/form';
 
 function App({ location, children, isLoggedIn, isLoading, vaFileNumber }) {
@@ -30,7 +30,7 @@ function App({ location, children, isLoggedIn, isLoading, vaFileNumber }) {
     !isLoggedIn ||
     (isLoggedIn && !vaFileNumber?.hasVaFileNumber?.VALIDVAFILENUMBER)
   ) {
-    document.location.replace(`${rootUrl}`);
+    document.location.replace(`${manifest.rootUrl}`);
     return <LoadingIndicator message="Redirecting to introduction page..." />;
   }
 

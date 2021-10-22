@@ -158,26 +158,4 @@ node('vetsgov-general-purpose') {
       }
     }
   }
-
-  commonStages.archiveAll(dockerContainer, ref);
-
-  stage('Deploy dev or staging') {
-    try {
-      if (!commonStages.isDeployable()) { return }
-
-      // if (commonStages.IS_DEV_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovdev')) {
-      //   commonStages.runDeploy('deploys/application-build-vagovdev', ref, false)
-      //   commonStages.runDeploy('deploys/vets-website-vagovdev', ref, false)
-      // }
-
-      if (commonStages.IS_STAGING_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovstaging')) {
-        commonStages.runDeploy('deploys/application-build-vagovstaging', ref, false)
-        commonStages.runDeploy('deploys/vets-website-vagovstaging', ref, false)
-      }
-
-    } catch (error) {
-      commonStages.slackNotify()
-      throw error
-    }
-  }
 }

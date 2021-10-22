@@ -1,4 +1,4 @@
-import { benefitTypes } from 'vets-json-schema/dist/constants.json';
+import constants from 'vets-json-schema/dist/constants.json';
 import environment from 'platform/utilities/environment';
 
 // *** URLS ***
@@ -82,7 +82,7 @@ const supportedBenefitTypes = [
   // 'nca',
 ];
 
-export const SUPPORTED_BENEFIT_TYPES = benefitTypes.map(type => ({
+export const SUPPORTED_BENEFIT_TYPES = constants.benefitTypes.map(type => ({
   ...type,
   isSupported: supportedBenefitTypes.includes(type.value),
 }));
