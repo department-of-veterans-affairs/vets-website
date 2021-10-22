@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -31,6 +32,11 @@ const BackToAppointments = ({ router, triggerRefresh }) => {
       </nav>
     </>
   );
+};
+
+BackToAppointments.propTypes = {
+  router: PropTypes.object,
+  triggerRefresh: PropTypes.func,
 };
 
 export default withRouter(BackToAppointments);

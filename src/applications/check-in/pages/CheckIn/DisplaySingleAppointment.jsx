@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import format from 'date-fns/format';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -12,8 +13,8 @@ import { api } from '../../api';
 
 import { goToNextPage, URLS } from '../../utils/navigation';
 
-export default function DisplaySingleAppointment(props) {
-  const { isUpdatePageEnabled, router, token, appointment } = props;
+const DisplaySingleAppointment = props => {
+  const { appointment, isUpdatePageEnabled, router, token } = props;
   const [isCheckingIn, setIsCheckingIn] = useState(false);
 
   const onClick = async () => {
@@ -81,4 +82,13 @@ export default function DisplaySingleAppointment(props) {
       <BackToHome />
     </div>
   );
-}
+};
+
+DisplaySingleAppointment.propTypes = {
+  appointment: PropTypes.object,
+  isUpdatePageEnabled: PropTypes.bool,
+  router: PropTypes.object,
+  token: PropTypes.string,
+};
+
+export default DisplaySingleAppointment;

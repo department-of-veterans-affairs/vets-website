@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import format from 'date-fns/format';
 
 import { VaAlert } from 'web-components/react-bindings';
@@ -11,11 +12,9 @@ import AppointmentLocation from '../../components/AppointmentDisplay/Appointment
 
 import { hasMoreAppointmentsToCheckInto } from '../../utils/appointment';
 
-export default function MultipleAppointments({
-  appointments,
-  selectedAppointment,
-  triggerRefresh,
-}) {
+const MultipleAppointments = props => {
+  const { appointments, selectedAppointment, triggerRefresh } = props;
+
   const appointment = selectedAppointment;
   const appointmentDateTime = new Date(appointment.startTime);
   const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
@@ -58,4 +57,12 @@ export default function MultipleAppointments({
       <BackToHome />
     </div>
   );
-}
+};
+
+MultipleAppointments.propTypes = {
+  appointments: PropTypes.array,
+  selectedAppointment: PropTypes.object,
+  triggerRefresh: PropTypes.func,
+};
+
+export default MultipleAppointments;

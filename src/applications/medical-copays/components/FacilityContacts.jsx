@@ -3,23 +3,18 @@ import Telephone from '@department-of-veterans-affairs/component-library/Telepho
 
 const FacilityContacts = ({ facilities }) => (
   <>
-    <h3>Contact information for your VA health care facilities</h3>
-    <dl>
+    <h5>Contact information for your VA health care facilities:</h5>
+    <ul>
       {facilities.map(facility => (
-        <div key={facility.facilitYNum}>
-          <dt>
-            <h4>{facility.facilityName}</h4>
-          </dt>
-          <dd>
-            <strong>Main number:</strong>
-            <Telephone
-              className="vads-u-margin-x--0p5"
-              contact={facility.teLNum}
-            />
-          </dd>
-        </div>
+        <li key={facility.facilitYNum}>
+          {facility.facilityName}:
+          <Telephone
+            className="vads-u-margin-x--0p5"
+            contact={facility.teLNum}
+          />
+        </li>
       ))}
-    </dl>
+    </ul>
   </>
 );
 
