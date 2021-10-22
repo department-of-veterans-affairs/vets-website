@@ -1,3 +1,3 @@
 {
-  "allow": ["ask-a-question"]
+  "allow": ["ask-a-question", "vaos"]
 }
