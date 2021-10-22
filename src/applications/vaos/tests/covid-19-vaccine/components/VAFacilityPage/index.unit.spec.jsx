@@ -18,11 +18,11 @@ import {
   mockEligibilityFetches,
   mockRequestEligibilityCriteria,
   mockDirectBookingEligibilityCriteria,
-  mockFacilitiesFetch,
   mockGetCurrentPosition,
 } from '../../../mocks/helpers';
 import { TYPE_OF_CARE_ID } from '../../../../covid-19-vaccine/utils';
 import { createMockFacilityByVersion } from '../../../mocks/data';
+import { mockFacilitiesFetchByVersion } from '../../../mocks/fetch';
 
 const initialState = {
   user: {
@@ -77,7 +77,10 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
       directFacilities.slice(0, 5),
     );
     mockRequestEligibilityCriteria(parentSiteIds, []);
-    mockFacilitiesFetch(vhaIds.slice(0, 5).join(','), facilities.slice(0, 5));
+    mockFacilitiesFetchByVersion({
+      facilities: facilities.slice(0, 5),
+      version: 0,
+    });
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -108,7 +111,10 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
   it('should display list of facilities with show more button', async () => {
     mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
     mockRequestEligibilityCriteria(parentSiteIds, []);
-    mockFacilitiesFetch(vhaIds.join(','), facilities);
+    mockFacilitiesFetchByVersion({
+      facilities,
+      version: 0,
+    });
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -174,7 +180,10 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
   it('should show residential address and sort by distance if we have coordinates', async () => {
     mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
     mockRequestEligibilityCriteria(parentSiteIds, []);
-    mockFacilitiesFetch(vhaIds.join(','), facilities);
+    mockFacilitiesFetchByVersion({
+      facilities,
+      version: 0,
+    });
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -243,7 +252,10 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
   it('should sort by distance from current location if user clicks "use current location"', async () => {
     mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
     mockRequestEligibilityCriteria(parentSiteIds, []);
-    mockFacilitiesFetch(vhaIds.join(','), facilities);
+    mockFacilitiesFetchByVersion({
+      facilities,
+      version: 0,
+    });
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -307,7 +319,10 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
   it('should display error messaging if user denied location permissions', async () => {
     mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
     mockRequestEligibilityCriteria(parentSiteIds, []);
-    mockFacilitiesFetch(vhaIds.join(','), facilities);
+    mockFacilitiesFetchByVersion({
+      facilities,
+      version: 0,
+    });
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -355,7 +370,10 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
       directFacilities.slice(0, 5),
     );
     mockRequestEligibilityCriteria(parentSiteIds, []);
-    mockFacilitiesFetch(vhaIds.slice(0, 5).join(','), facilities.slice(0, 5));
+    mockFacilitiesFetchByVersion({
+      facilities: facilities.slice(0, 5),
+      version: 0,
+    });
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -388,7 +406,10 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
   it('should display previous user choices when returning to page', async () => {
     mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
     mockRequestEligibilityCriteria(parentSiteIds, []);
-    mockFacilitiesFetch(vhaIds.join(','), facilities);
+    mockFacilitiesFetchByVersion({
+      facilities,
+      version: 0,
+    });
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -459,16 +480,19 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
       }),
     ]);
     mockRequestEligibilityCriteria(parentSiteIds, []);
-    mockFacilitiesFetch('vha_123,vha_124', [
-      facilityDetails,
-      createMockFacilityByVersion({
-        id: '124',
-        name: 'Facility 124',
-        lat: 39.1362562,
-        long: -85.6804804,
-        version: 0,
-      }),
-    ]);
+    mockFacilitiesFetchByVersion({
+      facilities: [
+        facilityDetails,
+        createMockFacilityByVersion({
+          id: '124',
+          name: 'Facility 124',
+          lat: 39.1362562,
+          long: -85.6804804,
+          version: 0,
+        }),
+      ],
+      version: 0,
+    });
 
     const state = {
       ...initialState,
@@ -507,7 +531,10 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
       directFacilities.slice(0, 5),
     );
     mockRequestEligibilityCriteria(parentSiteIds, []);
-    mockFacilitiesFetch(vhaIds.slice(0, 5).join(','), facilities.slice(0, 5));
+    mockFacilitiesFetchByVersion({
+      facilities: facilities.slice(0, 5),
+      version: 0,
+    });
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983QA',
@@ -540,7 +567,10 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
   it('should display an error message when eligibility calls fail', async () => {
     mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
     mockRequestEligibilityCriteria(parentSiteIds, []);
-    mockFacilitiesFetch(vhaIds.join(','), facilities);
+    mockFacilitiesFetchByVersion({
+      facilities,
+      version: 0,
+    });
     const store = createTestStore(initialState);
 
     const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
@@ -570,7 +600,10 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
       directFacilities.slice(0, 1),
     );
     mockRequestEligibilityCriteria(parentSiteIds, []);
-    mockFacilitiesFetch(vhaIds.slice(0, 1).join(','), facilities.slice(0, 1));
+    mockFacilitiesFetchByVersion({
+      facilities: facilities.slice(0, 1),
+      version: 0,
+    });
     const clinic = getClinicMock();
     clinic.attributes.siteCode = '983';
     mockEligibilityFetches({
@@ -609,7 +642,10 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
       directFacilities.slice(0, 1),
     );
     mockRequestEligibilityCriteria(parentSiteIds, []);
-    mockFacilitiesFetch(vhaIds.slice(0, 1).join(','), facilities.slice(0, 1));
+    mockFacilitiesFetchByVersion({
+      facilities: facilities.slice(0, 1),
+      version: 0,
+    });
     const clinic = getClinicMock();
     clinic.attributes.siteCode = '983';
     mockEligibilityFetches({
@@ -648,7 +684,10 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
       directFacilities.slice(0, 1),
     );
     mockRequestEligibilityCriteria(parentSiteIds, []);
-    mockFacilitiesFetch(vhaIds.slice(0, 1).join(','), facilities.slice(0, 1));
+    mockFacilitiesFetchByVersion({
+      facilities: facilities.slice(0, 1),
+      version: 0,
+    });
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -683,7 +722,10 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
       directFacilities.slice(0, 1),
     );
     mockRequestEligibilityCriteria(parentSiteIds, []);
-    mockFacilitiesFetch(vhaIds.slice(0, 1).join(','), facilities.slice(0, 1));
+    mockFacilitiesFetchByVersion({
+      facilities: facilities.slice(0, 1),
+      version: 0,
+    });
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -715,7 +757,10 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
       directFacilities.slice(0, 5),
     );
     mockRequestEligibilityCriteria(parentSiteIds, []);
-    mockFacilitiesFetch(vhaIds.slice(0, 5).join(','), facilities.slice(0, 5));
+    mockFacilitiesFetchByVersion({
+      facilities: facilities.slice(0, 5),
+      version: 0,
+    });
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983QA',
