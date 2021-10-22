@@ -1,30 +1,22 @@
-import { setUp } from '@@profile/tests/e2e/address-validation/setup';
+import AddressPage from './page-objects/AddressPage';
 
 describe('Personal and contact information', () => {
   describe('when getting a single suggestion with a confidence score <90', () => {
     it('should show the validation view and successfully update', () => {
-      setUp('low-confidence');
-
-      cy.findByLabelText(/^street address \(/i)
-        .clear()
-        .type('36320 Coronado Dr');
-
-      cy.findByLabelText(/^street address line 2/i).clear();
-      cy.findByLabelText(/^street address line 3/i).clear();
-
-      cy.findByLabelText(/City/i)
-        .clear()
-        .type('Fremont');
-
-      cy.findByLabelText(/^State/).select('CA');
-
-      cy.findByLabelText(/Zip code/i)
-        .clear()
-        .type('94530');
-
-      cy.findByTestId('save-edit-button').click({
-        force: true,
-      });
+      const formFields = {
+        address: '36320 Coronado Dr',
+        city: 'Fremont',
+        state: 'CA',
+        zipCode: '94530',
+      };
+      const addressPage = new AddressPage();
+      addressPage.loadPage('low-confidence');
+      addressPage.fillAddressForm(formFields);
+      addressPage.saveForm();
+      addressPage.validateSavedForm(formFields, true, null, [
+        'Fremont, CA 94536',
+      ]);
+      // addressPage.confirmAddress(formFields);
 
       cy.findByTestId('mailingAddress')
         .should('contain', '36320 Coronado Dr')

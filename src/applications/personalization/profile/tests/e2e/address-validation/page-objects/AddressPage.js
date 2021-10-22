@@ -7,6 +7,7 @@ class AddressPage {
   }
 
   fillAddressForm(fields) {
+    fields.country && cy.findByLabelText(/Country/i).select(fields.country);
     fields.military &&
       cy
         .findByRole('checkbox', {
@@ -40,6 +41,11 @@ class AddressPage {
         .findByLabelText(/Zip code/i)
         .clear()
         .type(fields.zipCode);
+    fields.zipCodeInt &&
+      cy
+        .findByLabelText(/International postal code/i)
+        .clear()
+        .type(fields.zipCodeInt);
   }
 
   saveForm(confirm = false) {
@@ -54,10 +60,25 @@ class AddressPage {
     }
   }
 
-  validateSavedForm(fields, saved = true, altText = null) {
-    cy.findByTestId('mailingAddress')
-      .should('contain', `${fields.address}`)
-      .and('contain', `${fields.city}, ${fields.state} ${fields.zipCode}`);
+  validateSavedForm(
+    fields,
+    saved = true,
+    altText = null,
+    additionalFields = [],
+  ) {
+    !fields.country &&
+      cy
+        .findByTestId('mailingAddress')
+        .should('contain', `${fields.address}`)
+        .and('contain', `${fields.city}, ${fields.state} ${fields.zipCode}`);
+    fields.country &&
+      cy
+        .findByTestId('mailingAddress')
+        .should('contain', `${fields.address}`)
+        .and('contain', `${fields.zipCodeInt}`);
+    additionalFields.forEach(field => {
+      cy.findByTestId('mailingAddress').should('contain', field);
+    });
     fields.military &&
       cy.findByTestId('mailingAddress').should('contain', 'FPO');
     saved &&
@@ -82,9 +103,20 @@ class AddressPage {
     });
   }
 
-  editAddress(fields) {
+  confirmAddressFields(labels, fields) {
+    labels.forEach((label, i) => {
+      cy.findByLabelText(label).should('have.value', fields[i]);
+      cy.findAllByLabelText(label).should('have.value', fields[i]);
+    });
+  }
+
+  editAddress(labels, fields) {
     cy.findByRole('button', { name: /edit your address/i }).click();
-    this.fillAddressForm(fields);
+    this.confirmAddressFields(labels, fields);
+    cy.findByRole('button', { name: /^Update$/i }).click({ force: true });
+    cy.findByRole('button', { name: /^use this address$/i }).click({
+      force: true,
+    });
   }
 }
 
