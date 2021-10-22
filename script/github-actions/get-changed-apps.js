@@ -7,6 +7,7 @@ const commandLineArgs = require('command-line-args');
 const changedAppsConfig = require('../../config/single-app-build.json');
 
 const options = commandLineArgs([
+  // Use the --app-folders option to get app directories. Entry names are the default.
   { name: 'app-folders', type: Boolean, defaultValue: false },
 ]);
 
@@ -15,7 +16,7 @@ const changedFiles = process.env.CHANGED_FILE_PATHS.split(' ').filter(
 );
 
 /**
- * Gets the `entryName` of the app that a file belongs to.
+ * Gets the entry name of the app that a file belongs to.
  *
  * @param {string} filePath - Relative file path.
  * @returns {string} The entry name of an app.
@@ -34,17 +35,18 @@ const getEntryName = filePath => {
 };
 
 /**
- * If the provided file is part of an app, and that app is in the allow list,
- * returns the app entry name. Otherwise returns null
+ * Gets either the entry name or relative path of the app
+ * that a file belongs to. The app must be in the given allow list,
+ * otherwise returns null.
  *
  * @param {string} file - Relative file path.
- * @param {string[]} appList - A list of application `entryNames`.
- * @returns {string|null} Either the `entryName` or relative path app of an app. Otherwise null.
+ * @param {string[]} allowList - A list of application entry names.
+ * @returns {string|null} Either the entry name or relative path app of an app. Otherwise null.
  */
-const getAllowedApp = (file, appList) => {
+const getAllowedApp = (file, allowList) => {
   const entryName = getEntryName(file);
 
-  if (file.startsWith('src/applications') && appList.includes(entryName)) {
+  if (file.startsWith('src/applications') && allowList.includes(entryName)) {
     // Return app path when 'app-folders' option is used
     if (options['app-folders']) {
       const appFolderName = file.split('/')[2];
@@ -57,19 +59,19 @@ const getAllowedApp = (file, appList) => {
 };
 
 /**
- * Given a list of files and an app allow list, checks if a single app build
- * is possible. If so, returns a comma-separated list of app entry names.
- * If not, returns an empty string
+ * Checks if an only changed apps build is possible by confirming that all
+ * files are from apps on an allow list. If so, returns a comma-delimited
+ * list of app entry names or relative paths. If not, returns an empty string.
  *
  * @param {string[]} files - An array of relative file paths.
- * @param {string[]} allowList - A list of application `entryNames`.
- * @returns {string} A comma-delimited string containing either app `entryNames` or relative paths.
+ * @param {Object} config - The changed apps build config.
+ * @returns {string} A comma-delimited string of either app entry names or relative paths.
  */
-const getChangedAppsString = (files, allowList) => {
+const getChangedAppsString = (files, config) => {
   const allowedApps = [];
 
   for (const file of files) {
-    const allowedApp = getAllowedApp(file, allowList);
+    const allowedApp = getAllowedApp(file, config.allow);
     if (allowedApp) {
       allowedApps.push(allowedApp);
     } else {
