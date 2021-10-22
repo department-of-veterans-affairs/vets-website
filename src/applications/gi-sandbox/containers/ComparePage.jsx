@@ -34,14 +34,12 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import CompareHeader from '../components/CompareHeader';
 import CompareLayout from './CompareLayout';
 import { isSmallScreen } from '../utils/helpers';
-import environment from 'yeoman-environment';
 
 export function ComparePage({
   allLoaded,
   compare,
   dispatchFetchCompareDetails,
   dispatchRemoveCompareInstitution,
-  dispatchSetPageTitle,
   estimated,
   filters,
   gibctSchoolRatings,
@@ -72,16 +70,6 @@ export function ComparePage({
       }
     },
     [allLoaded, dispatchFetchCompareDetails, filters, selected, version],
-  );
-
-  useEffect(
-    () => {
-      if (environment.isProduction())
-        dispatchSetPageTitle(
-          'Compare institutions: GI Bill(R) Comparison Tool | Veterans Affairs',
-        );
-    },
-    [dispatchSetPageTitle],
   );
 
   useEffect(
@@ -335,7 +323,7 @@ const mapDispatchToProps = {
   dispatchFetchCompareDetails: fetchCompareDetails,
   dispatchFetchProfile: fetchProfile,
   dispatchRemoveCompareInstitution: removeCompareInstitution,
-  dispatchSetPageTitle: setPageTitle,
+  setPageTitle,
   dispatchShowModal: showModal,
   dispatchHideModal: hideModal,
 };

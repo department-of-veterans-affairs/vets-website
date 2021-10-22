@@ -14,6 +14,7 @@ import AccordionItem from '../components/AccordionItem';
 import { getSearchQueryChanged, updateUrlParams } from '../selectors/search';
 import classNames from 'classnames';
 import GIBillHeaderInfo from '../components/GIBillHeaderInfo';
+import environment from 'platform/utilities/environment';
 
 export function SearchPage({
   dispatchChangeSearchTab,
@@ -34,7 +35,11 @@ export function SearchPage({
 
   useEffect(
     () => {
-      dispatchSetPageTitle(`${PAGE_TITLE}: VA.gov`);
+      document.title = `${
+        environment.isProduction()
+          ? `${PAGE_TITLE}: VA.gov`
+          : 'Compare institutions: GI Bill(R) Comparison Tool | Veterans Affairs'
+      }`;
     },
     [dispatchSetPageTitle],
   );

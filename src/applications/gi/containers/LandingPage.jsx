@@ -43,7 +43,7 @@ export function LandingPage({
         `${
           environment.isProduction()
             ? 'GI Bill® Comparison Tool: VA.gov'
-            : 'GI Bill(R) Comparison Tool | Veterans Affairs'
+            : 'GI Bill® Comparison Tool | Veterans Affairs'
         }`,
       );
     },

@@ -56,15 +56,33 @@ export function SearchPage({
   const history = useHistory();
   const queryParams = useQueryParams();
 
-  const searchTerm = autocomplete.term;
-  const title = searchTerm ? `SearchResults - ${searchTerm}` : 'Search Results';
-  const newTitle = `Search results: GI Bill(R) Comparison Tool | Veterans Affairs`;
+  // const searchTerm = autocomplete.term;
+  // const title = searchTerm ? `SearchResults - ${searchTerm}` : 'Search Results';
+  // const newTitle = `Search results: GI Bill(R) Comparison Tool | Veterans Affairs`;
+
+  // useEffect(
+  //   () => {
+  //     if (searchTerm)
+  //       // document.title = environment.isProduction() ? title : newTitle;
+  //       dispatchSetPageTitle(environment.isProduction() ? title : newTitle);
+  //   },
+  //   [dispatchSetPageTitle, newTitle, searchTerm, title],
+  // );
+
+  const searchTerm = environment.isProduction()
+    ? autocomplete.term
+    : autocomplete.searchTerm;
+
+  const title = searchTerm
+    ? `${searchTerm} Search results: GI Bill(R) Comparison Tool | Veterans Affairs`
+    : 'Search Results';
 
   useEffect(
     () => {
-      dispatchSetPageTitle(environment.isProduction() ? title : newTitle);
+      dispatchSetPageTitle(title);
     },
-    [dispatchSetPageTitle, newTitle, title],
+
+    [title],
   );
 
   useEffect(
