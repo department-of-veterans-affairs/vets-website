@@ -6,7 +6,7 @@ const { integrationFolder, testFiles } = require('../../config/cypress.json');
 const findImports = require('find-imports');
 
 const IS_MASTER_BUILD = process.env.IS_MASTER_BUILD === 'true';
-const isChangedAppsBuild = Boolean(process.env.CHANGED_APPS);
+const IS_CHANGED_APPS_BUILD = Boolean(process.env.CHANGED_APPS);
 
 function getImports(filePath) {
   return findImports(filePath, {
@@ -147,7 +147,7 @@ function selectedTests(graph, pathsOfChangedFiles) {
   });
 
   // Don't run tests in 'src/platform' if we're only building changed apps
-  if (!isChangedAppsBuild) {
+  if (!IS_CHANGED_APPS_BUILD) {
     const defaultTestsPattern = path.join(
       __dirname,
       '../..',
