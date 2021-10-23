@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
 import HCAEnrollmentStatusWarning from '../../components/HCAEnrollmentStatusWarning';
@@ -84,12 +85,11 @@ describe('<HCAEnrollmentStatusWarning />', () => {
     enrollmentStatus: 'enrolled',
     preferredFacility: '463 - CHEY6',
   };
-  it('renders a `warning` AlertBox', () => {
-    const wrapper = shallow(<HCAEnrollmentStatusWarning {...defaultProps} />);
-    const alertBox = wrapper.filter('AlertBox');
-    expect(alertBox.exists()).to.be.true;
-    expect(alertBox.prop('status')).to.equal('warning');
-    wrapper.unmount;
+  it('renders a `warning` AlertBox', async () => {
+    const { container } = render(
+      <HCAEnrollmentStatusWarning {...defaultProps} />,
+    );
+    expect(container.querySelector('.usa-alert-warning')).to.exist;
   });
   describe('renders the correct output for all of the handled enrollment statuses', () => {
     Object.keys(expectedOutputs).forEach(enrollmentStatus => {
