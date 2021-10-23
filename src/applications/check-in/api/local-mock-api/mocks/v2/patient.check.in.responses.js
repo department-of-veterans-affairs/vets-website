@@ -102,6 +102,20 @@ const createMultipleAppointments = (
         workPhone: '5554445555',
         emailAddress: 'kermit.frog@sesameenterprises.us',
       },
+      nextOfKin: {
+        name: 'Next Of Kin',
+        relationship: 'spouse',
+        homeAddress: {
+          street1: '445 Fine Finch Fairway',
+          street2: 'Apt 201',
+          city: 'Fairfence',
+          state: 'Florida',
+          zip: '445545',
+        },
+        homePhone: '5552223333',
+        workPhone: '5554445555',
+        emailAddress: 'kermit.frog@sesameenterprises.us',
+      },
       appointments: [
         createAppointment(
           'INELIGIBLE_TOO_LATE',

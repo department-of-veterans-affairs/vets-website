@@ -6,6 +6,7 @@ import {
   appointmentWAsCheckedInto,
   receivedMultipleAppointmentDetails,
   receivedDemographicsData,
+  receivedNextOfKinData,
   tokenWasValidated,
   permissionsUpdated,
   triggerRefresh,
@@ -53,7 +54,25 @@ describe('check-in', () => {
         expect(state.demographics).haveOwnProperty('emailAddress');
       });
     });
+    describe('receivedNextOfKinData', () => {
+      it('should create basic structure', () => {
+        const action = receivedNextOfKinData({});
+        const state = reducer.checkInData(undefined, action);
+        expect(state).haveOwnProperty('nextOfKin');
+      });
 
+      it('should have the correct fields', () => {
+        const data = {
+          relationship: 'spouse',
+        };
+        const action = receivedNextOfKinData(data);
+        const state = reducer.checkInData(undefined, action);
+        expect(state).haveOwnProperty('nextOfKin');
+        expect(state.nextOfKin).to.be.an('object');
+
+        expect(state.nextOfKin).haveOwnProperty('relationship');
+      });
+    });
     it('should trigger refresh', () => {
       const data = [
         {

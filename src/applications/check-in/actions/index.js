@@ -29,6 +29,15 @@ export const receivedDemographicsData = demographics => {
   };
 };
 
+export const RECEIVED_NEXT_OF_KIN_DATA = 'RECEIVED_NEXT_OF_KIN_DATA';
+
+export const receivedNextOfKinData = nextOfKin => {
+  return {
+    type: RECEIVED_NEXT_OF_KIN_DATA,
+    payload: { nextOfKin },
+  };
+};
+
 export const SET_TOKEN_CONTEXT = 'SET_TOKEN_CONTEXT';
 
 export const setTokenContext = (token, scope) => {
