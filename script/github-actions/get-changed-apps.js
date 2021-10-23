@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 const find = require('find');
 const path = require('path');
-const core = require('@actions/core');
 const commandLineArgs = require('command-line-args');
 
 const changedAppsConfig = require('../../config/single-app-build.json');
@@ -82,7 +81,6 @@ const getChangedAppsString = (files, config) => {
   return [...new Set(allowedApps)].join(',');
 };
 
-core.exportVariable(
-  'CHANGED_APPS',
-  getChangedAppsString(changedFiles, changedAppsConfig),
-);
+const changedAppsString = getChangedAppsString(changedFiles, changedAppsConfig);
+
+console.log(changedAppsString);
