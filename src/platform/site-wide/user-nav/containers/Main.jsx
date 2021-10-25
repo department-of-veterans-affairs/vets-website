@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 // Relative imports.
-import '../sass/user-nav.scss';
 import AutoSSO from './AutoSSO';
 import FormSignInModal from 'platform/forms/save-in-progress/FormSignInModal';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';

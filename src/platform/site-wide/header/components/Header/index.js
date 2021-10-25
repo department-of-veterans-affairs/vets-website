@@ -5,7 +5,6 @@ import BrowserDeprecationMessage from './browser-deprecation-message';
 import HeaderBanners from './header-banners';
 import MainHeaderContent from './main-header-content';
 import DropdownMenu from './dropdown-menu';
-
 // Relative imports.
 // import recordEvent from 'platform/monitoring/record-event';
 
@@ -13,7 +12,7 @@ export const Header = ({ /* showMegaMenu, */ showNavLogin }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="header">
+    <>
       {/* Browser Out of Date Warning */}
       <BrowserDeprecationMessage />
 
@@ -29,7 +28,7 @@ export const Header = ({ /* showMegaMenu, */ showNavLogin }) => {
 
       {/* Mega menu */}
       <DropdownMenu menuOpen={menuOpen} />
-    </header>
+    </>
   );
 };
 

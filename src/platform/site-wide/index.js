@@ -17,6 +17,7 @@ import startSideNav from './side-nav';
 import startVAFooter from './va-footer';
 
 import '@department-of-veterans-affairs/formation/dist/formation';
+import 'platform/site-wide/user-nav/sass/user-nav.scss';
 
 /**
  * Start up the site-wide components that live on every page, like
