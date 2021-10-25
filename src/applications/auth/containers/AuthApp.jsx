@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 
 import * as Sentry from '@sentry/browser';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Telephone, {
   CONTACTS,
@@ -146,6 +145,21 @@ export class AuthApp extends React.Component {
     ) {
       window.location.replace('/sign-in/verify');
       return;
+    }
+
+    if (
+      returnUrl.includes(externalRedirects.mhv) ||
+      returnUrl.includes(externalRedirects.myvahealth)
+    ) {
+      const { app } = {
+        ...(returnUrl.includes(externalRedirects.myvahealth) && {
+          app: 'myvahealth',
+        }),
+        ...(returnUrl.includes(externalRedirects.mhv) && {
+          app: 'mhv',
+        }),
+      };
+      recordEvent({ event: `inbound-redirect-to-${app}` });
     }
 
     sessionStorage.removeItem(authnSettings.RETURN_URL);
@@ -477,7 +491,9 @@ export class AuthApp extends React.Component {
     return (
       <div className="usa-content columns small-12">
         <h1>{header}</h1>
-        <AlertBox content={alertContent} isVisible status="error" />
+        <va-alert visible status="error">
+          {alertContent}
+        </va-alert>
         {troubleshootingContent}
       </div>
     );

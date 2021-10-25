@@ -8,9 +8,9 @@ import { NewBookingSection } from '../../../covid-19-vaccine';
 import { getDirectBookingEligibilityCriteriaMock } from '../../../tests/mocks/v0';
 import {
   mockDirectBookingEligibilityCriteria,
-  mockFacilitiesFetch,
   mockRequestEligibilityCriteria,
-} from '../../../tests/mocks/helpers';
+} from '../../mocks/helpers';
+import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
 import { TYPE_OF_CARE_ID } from '../../../covid-19-vaccine/utils';
 import { createMockFacilityByVersion } from '../../mocks/data';
 
@@ -64,20 +64,23 @@ describe('VAOS vaccine flow', () => {
       ...initialState,
     });
 
-    mockFacilitiesFetch('vha_442', [
-      createMockFacilityByVersion({
-        id: '983',
-        name: 'Facility that is enabled',
-        lat: 39.1362562,
-        long: -83.1804804,
-        address: {
-          city: 'Bozeman',
-          state: 'MT',
-        },
-        phone: '5555555555x1234',
-        version: 0,
-      }),
-    ]);
+    mockFacilitiesFetchByVersion({
+      facilities: [
+        createMockFacilityByVersion({
+          id: '983',
+          name: 'Facility that is enabled',
+          lat: 39.1362562,
+          long: -83.1804804,
+          address: {
+            city: 'Bozeman',
+            state: 'MT',
+          },
+          phone: '5555555555x1234',
+          version: 0,
+        }),
+      ],
+      version: 0,
+    });
     mockRequestEligibilityCriteria(['983', '984'], []);
     mockDirectBookingEligibilityCriteria(
       ['983', '984'],

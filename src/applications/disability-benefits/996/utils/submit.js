@@ -2,6 +2,9 @@ import {
   SELECTED,
   CONFERENCE_TIMES_V1,
   CONFERENCE_TIMES_V2,
+  MAX_ISSUE_NAME_LENGTH,
+  MAX_DISAGREEMENT_REASON_LENGTH,
+  SUBMITTED_DISAGREEMENTS,
 } from '../constants';
 import { apiVersion1 } from './helpers';
 
@@ -103,7 +106,7 @@ export const createIssueName = ({ attributes } = {}) => {
   ]
     .filter(part => part)
     .join(' - ')
-    .substring(0, 140);
+    .substring(0, MAX_ISSUE_NAME_LENGTH);
 };
 
 /* submitted contested issue format
@@ -191,6 +194,36 @@ export const addIncludedIssues = formData => {
     );
   }
   return issues;
+};
+
+/**
+ * Add area of disagreement
+ * @param {ContestableIssue~Submittable} issues - selected & processed issues
+ * @param {FormData} formData
+ * @return {ContestableIssues~Submittable} issues with "disagreementArea" added
+ */
+export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
+  const keywords = {
+    serviceConnection: () => SUBMITTED_DISAGREEMENTS.serviceConnection,
+    effectiveDate: () => SUBMITTED_DISAGREEMENTS.effectiveDate,
+    evaluation: () => SUBMITTED_DISAGREEMENTS.evaluation,
+    other: disagreementOptions => disagreementOptions.otherEntry,
+  };
+  return issues.map((issue, index) => {
+    const entry = areaOfDisagreement[index];
+    const reasons = Object.entries(entry.disagreementOptions)
+      .map(([key, value]) => value && keywords[key](entry))
+      .filter(Boolean);
+    return {
+      ...issue,
+      attributes: {
+        ...issue.attributes,
+        disagreementArea: reasons
+          .join(',')
+          .substring(0, MAX_DISAGREEMENT_REASON_LENGTH), // max length in schema
+      },
+    };
+  });
 };
 
 export const getContact = ({ informalConference }) => {

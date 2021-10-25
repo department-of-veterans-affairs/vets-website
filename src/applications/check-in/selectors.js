@@ -19,4 +19,7 @@ export const checkInExperienceDemographicsPageEnabled = state =>
     FEATURE_FLAG_NAMES.checkInExperienceDemographicsPageEnabled
   ];
 
+export const checkInExperienceNextOfKinEnabled = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.checkInExperienceNextOfKinEnabled];
+
 export const loadingFeatureFlags = state => state?.featureToggles?.loading;

@@ -1,4 +1,4 @@
-import { benefitTypes } from 'vets-json-schema/dist/constants.json';
+import constants from 'vets-json-schema/dist/constants.json';
 import environment from 'platform/utilities/environment';
 
 // *** URLS ***
@@ -82,7 +82,7 @@ const supportedBenefitTypes = [
   // 'nca',
 ];
 
-export const SUPPORTED_BENEFIT_TYPES = benefitTypes.map(type => ({
+export const SUPPORTED_BENEFIT_TYPES = constants.benefitTypes.map(type => ({
   ...type,
   isSupported: supportedBenefitTypes.includes(type.value),
 }));
@@ -117,4 +117,18 @@ export const CONFERENCE_TIMES_V2 = {
     label: '12:00 p.m. to 4:30 p.m. ET',
     submit: '1200-1630 ET',
   },
+};
+
+// Values from Lighthouse maintained schema
+// see https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200996.json
+export const MAX_ISSUE_NAME_LENGTH = 140;
+export const MAX_DISAGREEMENT_REASON_LENGTH = 90;
+
+// Using MAX_DISAGREEMENT_REASON_LENGTH (90) and with all checkboxes selected,
+// this string is submitted - the numbers constitute the "other" typed in value
+// "service connection,effective date,disability evaluation,1234567890123456789012345678901234"
+export const SUBMITTED_DISAGREEMENTS = {
+  serviceConnection: 'service connection',
+  effectiveDate: 'effective date',
+  evaluation: 'disability evaluation',
 };

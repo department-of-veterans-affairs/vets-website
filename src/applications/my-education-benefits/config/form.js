@@ -19,6 +19,7 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -40,6 +41,7 @@ import {
   selectedReserveLabel,
   unsureDescription,
   post911GiBillNote,
+  prefillTransformer,
 } from '../helpers';
 
 import MailingAddressViewField from '../components/MailingAddressViewField';
@@ -66,6 +68,7 @@ const {
 // Define all the fields in the form to aid reuse
 const formFields = {
   fullName: 'fullName',
+  userFullName: 'userFullName',
   dateOfBirth: 'dateOfBirth',
   ssn: 'ssn',
   toursOfDuty: 'toursOfDuty',
@@ -311,6 +314,29 @@ function notGivingUpBenefitSelected(formData) {
   return !givingUpBenefitSelected(formData);
 }
 
+function renderContactMethodFollowUp(formData, cond) {
+  const { mobilePhoneNumber, phoneNumber } = formData['view:phoneNumbers'];
+  let res = false;
+
+  switch (cond) {
+    case 1:
+      if (mobilePhoneNumber.phone && phoneNumber.phone) res = true;
+      break;
+    case 2:
+      if (mobilePhoneNumber.phone && !phoneNumber.phone) res = true;
+      break;
+    case 3:
+      if (!mobilePhoneNumber.phone && phoneNumber.phone) res = true;
+      break;
+    case 4:
+      if (!mobilePhoneNumber.phone && !phoneNumber.phone) res = true;
+      break;
+    default:
+  }
+
+  return res;
+}
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -319,7 +345,7 @@ const formConfig = {
   trackingPrefix: 'my-education-benefits-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '22-1990EZ',
+  formId: VA_FORM_IDS.FORM_22_1990EZ,
   saveInProgress: {
     messages: {
       inProgress:
@@ -331,6 +357,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for my education benefits.',
     noAuth:
@@ -382,14 +409,14 @@ const formConfig = {
                 </>
               ),
             },
-            'view:fullName': {
+            'view:userFullName': {
               'ui:description': (
                 <p className="meb-review-page-only">
                   If you’d like to update your personal information, please edit
                   the form fields below.
                 </p>
               ),
-              [formFields.fullName]: {
+              [formFields.userFullName]: {
                 ...fullNameUI,
                 first: {
                   ...fullNameUI.first,
@@ -432,11 +459,11 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              'view:fullName': {
-                required: [formFields.fullName],
+              'view:userFullName': {
+                required: [formFields.userFullName],
                 type: 'object',
                 properties: {
-                  [formFields.fullName]: {
+                  [formFields.userFullName]: {
                     ...fullName,
                     properties: {
                       ...fullName.properties,
@@ -451,17 +478,17 @@ const formConfig = {
               [formFields.dateOfBirth]: date,
             },
           },
-          initialData: {
-            'view:fullName': {
-              fullName: {
-                first: 'Hector',
-                middle: 'Oliver',
-                last: 'Stanley',
-                suffix: 'Jr.',
-              },
-            },
-            dateOfBirth: '1992-07-23',
-          },
+          // initialData: {
+          //   'view:userFullName': {
+          //     userFullName: {
+          //       first: 'Hector',
+          //       middle: 'Oliver',
+          //       last: 'Stanley',
+          //       suffix: 'Jr.',
+          //     },
+          //   },
+          //   dateOfBirth: '1992-07-23',
+          // },
         },
       },
     },
@@ -471,22 +498,22 @@ const formConfig = {
         [formPages.contactInformation.contactInformation]: {
           title: 'Phone numbers and email address',
           path: 'contact-information/email-phone',
-          initialData: {
-            [formFields.viewPhoneNumbers]: {
-              mobilePhoneNumber: {
-                phone: '123-456-7890',
-                isInternational: false,
-              },
-              phoneNumber: {
-                phone: '098-765-4321',
-                isInternational: false,
-              },
-            },
-            [formFields.email]: {
-              email: 'hector.stanley@gmail.com',
-              confirmEmail: 'hector.stanley@gmail.com',
-            },
-          },
+          // initialData: {
+          //   [formFields.viewPhoneNumbers]: {
+          //     mobilePhoneNumber: {
+          //       phone: '123-456-7890',
+          //       isInternational: false,
+          //     },
+          //     phoneNumber: {
+          //       phone: '098-765-4321',
+          //       isInternational: false,
+          //     },
+          //   },
+          //   [formFields.email]: {
+          //     email: 'hector.stanley@gmail.com',
+          //     confirmEmail: 'hector.stanley@gmail.com',
+          //   },
+          // },
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -592,18 +619,18 @@ const formConfig = {
         [formPages.contactInformation.mailingAddress]: {
           title: 'Mailing address',
           path: 'contact-information/mailing-address',
-          initialData: {
-            'view:mailingAddress': {
-              livesOnMilitaryBase: false,
-              [formFields.address]: {
-                street: '2222 Avon Street',
-                street2: 'Apt 6',
-                city: 'Arlington',
-                state: 'VA',
-                postalCode: '22205',
-              },
-            },
-          },
+          // initialData: {
+          //   'view:mailingAddress': {
+          //     livesOnMilitaryBase: false,
+          //     [formFields.address]: {
+          //       street: '2222 Avon Street',
+          //       street2: 'Apt 6',
+          //       city: 'Arlington',
+          //       state: 'VA',
+          //       postalCode: '22205',
+          //     },
+          //   },
+          // },
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -735,21 +762,16 @@ const formConfig = {
           title: 'Contact preferences',
           path: 'contact-information/contact-preferences',
           uiSchema: {
-            'view:contactMethod': {
+            'view:contactMethodIntro': {
               'ui:description': (
                 <>
                   <h3 className="meb-form-page-only">
                     Choose your contact method for follow-up questions
                   </h3>
-                  <h4 className="form-review-panel-page-header vads-u-font-size--h5 meb-review-page-only">
-                    Contact preferences
-                  </h4>
-                  <p className="meb-review-page-only">
-                    If you’d like to update your mailing address, please edit
-                    the form fields below.
-                  </p>
                 </>
               ),
+            },
+            'view:contactMethod': {
               [formFields.contactMethod]: {
                 'ui:title':
                   'How should we contact you if we have questions about your application?',
@@ -767,45 +789,70 @@ const formConfig = {
                     'Please select at least one way we can contact you.',
                 },
               },
-              'view:noHomePhoneForContactAlert': {
-                'ui:description': (
-                  <va-alert onClose={function noRefCheck() {}} status="warning">
-                    <p style={{ margin: 0 }}>
-                      You can’t select that response because we don’t have a
-                      home phone number on file for you
-                    </p>
-                  </va-alert>
-                ),
+              'ui:options': {
+                hideIf: formData => !renderContactMethodFollowUp(formData, 1),
+              },
+            },
+            'view:noHomePhoneForContact': {
+              [formFields.contactMethod]: {
+                'ui:title':
+                  'How should we contact you if we have questions about your application?',
+                'ui:widget': 'radio',
                 'ui:options': {
-                  hideIf: formData =>
-                    !(
-                      formData['view:contactMethod'].contactMethod ===
-                        'Home phone' &&
-                      (!formData['view:phoneNumbers'].phoneNumber.phone ||
-                        formData['view:phoneNumbers'].phoneNumber
-                          .isInternational)
-                    ),
+                  widgetProps: {
+                    Email: { 'data-info': 'email' },
+                    'Mobile phone': { 'data-info': 'mobile phone' },
+                    Mail: { 'data-info': 'mail' },
+                  },
+                },
+                'ui:errorMessages': {
+                  required:
+                    'Please select at least one way we can contact you.',
                 },
               },
-              'view:noMobilePhoneForContactAlert': {
-                'ui:description': (
-                  <va-alert onClose={function noRefCheck() {}} status="warning">
-                    <p style={{ margin: 0 }}>
-                      You can’t select that response because we don’t have a
-                      mobile phone number on file for you
-                    </p>
-                  </va-alert>
-                ),
+              'ui:options': {
+                hideIf: formData => !renderContactMethodFollowUp(formData, 2),
+              },
+            },
+            'view:noMobilePhoneForContact': {
+              [formFields.contactMethod]: {
+                'ui:title':
+                  'How should we contact you if we have questions about your application?',
+                'ui:widget': 'radio',
                 'ui:options': {
-                  hideIf: formData =>
-                    !(
-                      formData['view:contactMethod'].contactMethod ===
-                        'Mobile phone' &&
-                      (!formData['view:phoneNumbers'].mobilePhoneNumber.phone ||
-                        formData['view:phoneNumbers'].mobilePhoneNumber
-                          .isInternational)
-                    ),
+                  widgetProps: {
+                    Email: { 'data-info': 'email' },
+                    'Home phone': { 'data-info': 'home phone' },
+                    Mail: { 'data-info': 'mail' },
+                  },
                 },
+                'ui:errorMessages': {
+                  required:
+                    'Please select at least one way we can contact you.',
+                },
+              },
+              'ui:options': {
+                hideIf: formData => !renderContactMethodFollowUp(formData, 3),
+              },
+            },
+            'view:noMobileOrHomeForContact': {
+              [formFields.contactMethod]: {
+                'ui:title':
+                  'How should we contact you if we have questions about your application?',
+                'ui:widget': 'radio',
+                'ui:options': {
+                  widgetProps: {
+                    Email: { 'data-info': 'email' },
+                    Mail: { 'data-info': 'mail' },
+                  },
+                },
+                'ui:errorMessages': {
+                  required:
+                    'Please select at least one way we can contact you.',
+                },
+              },
+              'ui:options': {
+                hideIf: formData => !renderContactMethodFollowUp(formData, 4),
               },
             },
             'view:receiveTextMessages': {
@@ -927,21 +974,43 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
+              'view:contactMethodIntro': {
+                type: 'object',
+                properties: {},
+              },
               'view:contactMethod': {
                 type: 'object',
-                required: [formFields.contactMethod],
                 properties: {
                   [formFields.contactMethod]: {
                     type: 'string',
                     enum: ['Email', 'Mobile phone', 'Home phone', 'Mail'],
                   },
-                  'view:noHomePhoneForContactAlert': {
-                    type: 'object',
-                    properties: {},
+                },
+              },
+              'view:noHomePhoneForContact': {
+                type: 'object',
+                properties: {
+                  [formFields.contactMethod]: {
+                    type: 'string',
+                    enum: ['Email', 'Mobile phone', 'Mail'],
                   },
-                  'view:noMobilePhoneForContactAlert': {
-                    type: 'object',
-                    properties: {},
+                },
+              },
+              'view:noMobilePhoneForContact': {
+                type: 'object',
+                properties: {
+                  [formFields.contactMethod]: {
+                    type: 'string',
+                    enum: ['Email', 'Home phone', 'Mail'],
+                  },
+                },
+              },
+              'view:noMobileOrHomeForContact': {
+                type: 'object',
+                properties: {
+                  [formFields.contactMethod]: {
+                    type: 'string',
+                    enum: ['Email', 'Mail'],
                   },
                 },
               },
@@ -1271,9 +1340,9 @@ const formConfig = {
               },
             },
           },
-          initialData: {
-            benefitSelection: '',
-          },
+          // initialData: {
+          //   benefitSelection: '',
+          // },
         },
       },
     },

@@ -104,6 +104,8 @@ We are currently using an HOC located at `src/applications/check-in/containers/w
   - when to sunset: when we expand to multiple facilities and address the edge cases around it
 - `check_in_experience_multiple_appointment_support` : Enables or disabled the multiple appointment support
   - when to sunset: When phase-4 is complete
+- `check_in_experience_next_of_kin_enabled` : Enables or disabled the next of kin page
+  - when to sunset: When phase-5 is complete
 
 ### How to test this?
 
