@@ -591,6 +591,7 @@ jobs:
           repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           path: testing-tools-team-dashboard-data
+          ref: test-naming-apps
 
         # TODO: Set .nvmrc in testing-tools-team-dashboard-data.
         # - name: Get Node version
