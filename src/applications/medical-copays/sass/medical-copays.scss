@@ -1,3 +1,7 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "./partials/balance-card";
 @import "./partials/charge-details";
+
+.no-wrap {
+  white-space: nowrap;
+}

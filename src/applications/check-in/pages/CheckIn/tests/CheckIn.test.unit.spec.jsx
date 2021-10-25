@@ -38,7 +38,17 @@ describe('check-in', () => {
       };
       axeCheck(
         <Provider store={store}>
-          <CheckIn router={mockRouter} />
+          <CheckIn
+            router={mockRouter}
+            appointments={[
+              {
+                clinicPhone: '555-867-5309',
+                startTime: '2021-07-19T13:56:31',
+                facilityName: 'Acme VA',
+                clinicName: 'Green Team Clinic1',
+              },
+            ]}
+          />
         </Provider>,
       );
     });

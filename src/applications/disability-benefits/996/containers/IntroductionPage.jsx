@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
@@ -10,7 +9,6 @@ import Telephone, {
 import recordEvent from 'platform/monitoring/record-event';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import CallToActionWidget from 'applications/static-pages/cta-widget';
 import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
@@ -20,15 +18,11 @@ import {
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
 } from 'platform/site-wide/wizard';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 
 import {
-  getContestableIssues as getContestableIssuesAction,
-  FETCH_CONTESTABLE_ISSUES_INIT,
-} from '../actions';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import {
   BASE_URL,
-  SAVED_CLAIM_TYPE,
   SUPPLEMENTAL_CLAIM_URL,
   FACILITY_LOCATOR_URL,
   GET_HELP_REVIEW_REQUEST_URL,
@@ -56,21 +50,14 @@ export class IntroductionPage extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { contestableIssues = {}, getContestableIssues, hlrV2 } = this.props;
-    const wizardComplete = this.state.status === WIZARD_STATUS_COMPLETE;
-    if (wizardComplete) {
-      const benefitType = sessionStorage.getItem(SAVED_CLAIM_TYPE);
-      if (!contestableIssues?.status) {
-        getContestableIssues({ benefitType, hlrV2 });
-      }
-
-      // set focus on h1 only after wizard completes
-      if (prevState.status !== WIZARD_STATUS_COMPLETE) {
-        setTimeout(() => {
-          scrollToTop();
-          focusElement('h1');
-        }, 100);
-      }
+    if (
+      this.state.status === WIZARD_STATUS_COMPLETE &&
+      prevState.status !== WIZARD_STATUS_COMPLETE
+    ) {
+      // set focus on h1 only after wizard completes (wizard on /introduction)
+      setTimeout(() => {
+        this.setPageFocus();
+      }, 100);
     }
   }
 
@@ -85,42 +72,29 @@ export class IntroductionPage extends React.Component {
     scrollToTop();
   };
 
-  authenticate = e => {
-    e.preventDefault();
-    this.props.toggleLoginModal(true);
-  };
-
-  getCallToActionContent = () => {
-    const { route, contestableIssues, delay = 250 } = this.props;
+  getCallToActionContent = ({ last } = {}) => {
+    const { loggedIn, route, contestableIssues, delay = 250 } = this.props;
 
     if (contestableIssues?.error) {
       return showContestableIssueError(contestableIssues, delay);
     }
 
-    if (
-      (contestableIssues?.status || '') === '' ||
-      contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_INIT
-    ) {
-      return (
-        <LoadingIndicator
-          setFocus
-          message="Loading your previous decisions..."
-        />
-      );
-    }
-
     const { formId, prefillEnabled, savedFormMessages } = route.formConfig;
 
-    if (contestableIssues?.issues?.length > 0) {
+    if (!loggedIn || contestableIssues?.issues?.length > 0) {
       return (
         <SaveInProgressIntro
           formId={formId}
+          headingLevel={2}
           prefillEnabled={prefillEnabled}
           messages={savedFormMessages}
           pageList={route.pageList}
           startText="Start the Request for a Higher-Level Review"
           gaStartEventName="decision-reviews-va20-0996-start-form"
           ariaDescribedby="main-content"
+          hideUnauthedStartLink
+          testActionLink
+          buttonOnly={last}
         />
       );
     }
@@ -146,29 +120,27 @@ export class IntroductionPage extends React.Component {
 
   render() {
     const {
-      user,
+      loggedIn,
+      savedForms,
       hasEmptyAddress,
       route,
       isProduction = IS_PRODUCTION, // for unit tests
     } = this.props;
-    const callToActionContent = this.getCallToActionContent();
-    const showWizard = shouldShowWizard(
-      route.formConfig.formId,
-      user.profile.savedForms,
-    );
+
+    const showWizard = shouldShowWizard(route.formConfig.formId, savedForms);
 
     // Change page title once wizard has closed to provide a Veteran using a
     // screenreader some indication that the content has changed
     const pageTitle = `Request a Higher-Level Review${
       showWizard ? '' : ' with VA Form 20-0996'
     }`;
+    const subTitle = 'Equal to VA Form 20-0996 (Higher-Level Review)';
 
     // check if user has address
-    if (user?.login?.currentlyLoggedIn && hasEmptyAddress) {
+    if (loggedIn && hasEmptyAddress) {
       return (
         <article className="schemaform-intro">
-          <FormTitle title={pageTitle} />
-          <p>Equal to VA Form 20-0996 (Higher-Level Review).</p>
+          <FormTitle title={pageTitle} subTitle={subTitle} />
           {showHasEmptyAddress}
         </article>
       );
@@ -180,15 +152,9 @@ export class IntroductionPage extends React.Component {
 
     return (
       <article className="schemaform-intro">
-        <FormTitle title={pageTitle} />
-        <p>Equal to VA Form 20-0996 (Higher-Level Review).</p>
-        <CallToActionWidget
-          appId="higher-level-review"
-          headerLevel={2}
-          ariaDescribedby="main-content"
-        >
-          {callToActionContent}
-        </CallToActionWidget>
+        <FormTitle title={pageTitle} subTitle={subTitle} />
+        {this.getCallToActionContent()}
+
         <h2 id="main-content" className="vads-u-font-size--h3">
           What’s a Higher-Level Review?
         </h2>
@@ -290,13 +256,9 @@ export class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        <CallToActionWidget
-          appId="higher-level-review"
-          headerLevel={2}
-          ariaDescribedby="main-content"
-        >
-          {callToActionContent}
-        </CallToActionWidget>
+
+        {this.getCallToActionContent({ last: true })}
+
         <div className="omb-info--container vads-u-padding-left--0">
           <OMBInfo resBurden={15} ombNumber="2900-0862" expDate="04/30/2024" />
         </div>
@@ -306,10 +268,11 @@ export class IntroductionPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { form, user, contestableIssues } = state;
+  const { form, contestableIssues } = state;
   return {
     form,
-    user,
+    loggedIn: isLoggedIn(state),
+    savedForms: selectProfile(state).savedForms,
     contestableIssues,
     hasEmptyAddress: isEmptyAddress(
       selectVAPContactInfoField(state, FIELD_NAMES.MAILING_ADDRESS),
@@ -320,7 +283,6 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   toggleLoginModal,
-  getContestableIssues: getContestableIssuesAction,
 };
 
 export default connect(

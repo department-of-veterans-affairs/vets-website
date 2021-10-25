@@ -12,9 +12,10 @@ import {
   getExpressCareRequestCriteriaMock,
   getRequestEligibilityCriteriaMock,
   getDirectBookingEligibilityCriteriaMock,
-  getVAFacilityMock,
 } from '../mocks/v0';
 import sinon from 'sinon';
+import { createMockFacilityByVersion } from './data';
+import { mockFacilitiesFetchByVersion } from './fetch';
 
 /**
  * Mocks appointment-related api calls for the upcoming appointments page
@@ -183,32 +184,6 @@ export function mockPastAppointmentInfoOption1({ va = [], cc = [] }) {
     ),
     { data: cc },
   );
-}
-
-/**
- * Mocks batch request for facility data from the VA facilities api
- *
- * @export
- * @param {Object} params
- * @param {?Array<string>} ids List of facility ids to use in query param
- * @param {?Array<VAFacility>} facilities Array of facilities to return from mock
- */
-export function mockFacilitiesFetch(ids, facilities) {
-  if (!ids) {
-    setFetchJSONResponse(
-      global.fetch.withArgs(sinon.match('/v1/facilities/va?ids=')),
-      { data: [] },
-    );
-  } else {
-    setFetchJSONResponse(
-      global.fetch.withArgs(
-        `${environment.API_URL}/v1/facilities/va?ids=${ids}&per_page=${
-          ids.split(',').length
-        }`,
-      ),
-      { data: facilities },
-    );
-  }
 }
 
 /**
@@ -811,24 +786,22 @@ export function mockFacilitiesPageFetches(
     id => `vha_${id.replace('983', '442').replace('984', '552')}`,
   );
 
-  const facilities = vhaIds.map((id, index) => ({
-    id,
-    attributes: {
-      ...getVAFacilityMock().attributes,
-      uniqueId: id.replace('vha_', ''),
+  const facilities = vhaIds.map((id, index) =>
+    createMockFacilityByVersion({
+      id: id.replace('vha_', ''),
       name: `Fake facility name ${index + 1}`,
+      lat: Math.random() * 90,
+      long: Math.random() * 180,
       address: {
-        physical: {
-          ...getVAFacilityMock().attributes.address.physical,
-          city: `Fake city ${index + 1}`,
-        },
+        city: `Fake city ${index + 1}`,
       },
-    },
-  }));
+      version: 0,
+    }),
+  );
 
   mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
   mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
-  mockFacilitiesFetch(vhaIds.join(','), facilities);
+  mockFacilitiesFetchByVersion({ facilities, version: 0 });
 
   return { requestFacilities, directFacilities, facilities };
 }

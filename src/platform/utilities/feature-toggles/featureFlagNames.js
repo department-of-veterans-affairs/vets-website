@@ -14,6 +14,7 @@ export default Object.freeze({
   checkInExperienceEnabled: 'check_in_experience_enabled',
   checkInExperienceDemographicsPageEnabled: 'check_in_experience_demographics_page_enabled',
   checkInExperienceUpdateInformationPageEnabled: 'check_in_experience_update_information_page_enabled',
+  checkInExperienceNextOfKinEnabled: 'check_in_experience_next_of_kin_enabled',
   checkInExperienceLowRiskAuthenicationEnabled:
     'check_in_experience_low_authentication_enabled',
   checkInExperienceMultipleAppointmentEnabled:
@@ -57,6 +58,7 @@ export default Object.freeze({
   requestLockedPdfPassword: 'request_locked_pdf_password',
   searchRepresentative: 'search_representative',
   searchTypeaheadEnabled: 'search_typeahead_enabled',
+  searchDropdownComponentEnabled: 'search_dropdown_component_enabled',
   show526Wizard: 'show526_wizard',
   showEduBenefits0994Wizard: 'show_edu_benefits_0994_wizard',
   showEduBenefits1990EWizard: 'show_edu_benefits_1990e_wizard',
@@ -79,8 +81,8 @@ export default Object.freeze({
   showNewSecureMessagingPage: 'show_new_secure_messaging_page',
   showNewViewTestLabResultsPage: 'show_new_view_test_lab_results_page',
   ssoe: 'ssoe',
-  ssoeEbenefitsLinks: 'ssoeEbenefitsLinks',
-  ssoeInbound: 'ssoeInbound',
+  ssoeEbenefitsLinks: 'ssoe_ebenefits_links',
+  ssoeInbound: 'ssoe_inbound',
   stemAutomatedDecision: 'stem_automated_decision',
   stemSCOEmail: 'stem_sco_email',
   subform89404192: 'subform_8940_4192',

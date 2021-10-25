@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { VaTextInput } from 'web-components/react-bindings';
@@ -52,7 +53,6 @@ const ValidateVeteran = props => {
           .then(data => {
             // update sessions with new permissions
             setPermissions(data);
-
             // routing
             if (isDemographicsPageEnabled) {
               goToNextPage(router, URLS.DEMOGRAPHICS);
@@ -71,7 +71,6 @@ const ValidateVeteran = props => {
           .then(data => {
             // update sessions with new permissions
             setPermissions(data);
-
             if (isUpdatePageEnabled) {
               goToNextPage(router, URLS.UPDATE_INSURANCE);
             } else {
@@ -106,12 +105,14 @@ const ValidateVeteran = props => {
           value={lastName}
         />
         <VaTextInput
-          label="Last 4 digits of your Social Security number"
-          name="last-4-ssn"
-          value={last4Ssn}
-          onVaChange={event => setLast4Ssn(event.detail.value)}
-          required
           error={last4ErrorMessage}
+          inputmode="numeric"
+          label="Last 4 digits of your Social Security number"
+          maxlength="4"
+          onVaChange={event => setLast4Ssn(event.detail.value)}
+          name="last-4-ssn"
+          required
+          value={last4Ssn}
         />
       </form>
       <button
@@ -140,6 +141,15 @@ const mapDispatchToProps = dispatch => {
     setPermissions: data =>
       dispatch(permissionsUpdated(data, SCOPES.READ_FULL)),
   };
+};
+
+ValidateVeteran.propTypes = {
+  context: PropTypes.object,
+  isUpdatePageEnabled: PropTypes.bool,
+  isMultipleAppointmentsEnabled: PropTypes.bool,
+  isDemographicsPageEnabled: PropTypes.bool,
+  router: PropTypes.object,
+  setPermissions: PropTypes.func,
 };
 
 export default connect(

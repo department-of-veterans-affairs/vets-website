@@ -473,7 +473,7 @@ describe('App', () => {
 
       await waitFor(
         () =>
-          expect(wrapper.getByText('Please sign in to access the chatbot.')).to
+          expect(wrapper.getByText('Please sign in to access the chatbot')).to
             .exist,
       );
     });

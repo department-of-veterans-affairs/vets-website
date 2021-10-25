@@ -4,7 +4,7 @@
       "id": "00aa456va",
       "type": "Appointment",
       "attributes": {
-        "cancellationReason": null,
+        "cancelationReason": null,
         "clinic": "437",
         "comment": "Follow-up/Routine: I have a headache",
         "contact": {
@@ -38,7 +38,7 @@
       "id": "01aa456cc",
       "type": "cc_appointments",
       "attributes": {
-        "cancellationReason": null,
+        "cancelationReason": null,
         "clinic": null,
         "comment": "test",
         "contact": {
@@ -82,7 +82,7 @@
       "id": "02aa456va",
       "type": "Appointment",
       "attributes": {
-        "cancellationReason": null,
+        "cancelationReason": null,
         "clinic": "848",
         "comment": "New issue: Video Visit Preparation",
         "contact": {
@@ -131,7 +131,7 @@
       "id": "03aa456va",
       "type": "Appointment",
       "attributes": {
-        "cancellationReason": null,
+        "cancelationReason": null,
         "clinic": "848",
         "comment": null,
         "contact": {
@@ -192,7 +192,7 @@
       "id": "04aa456va",
       "type": "Appointment",
       "attributes": {
-        "cancellationReason": null,
+        "cancelationReason": null,
         "clinic": "848",
         "comment": "ringing in the ear",
         "contact": {
@@ -250,7 +250,7 @@
       "id": "05aa456va",
       "type": "Appointment",
       "attributes": {
-        "cancellationReason": null,
+        "cancelationReason": null,
         "clinic": "848",
         "comment": null,
         "contact": {
@@ -288,7 +288,7 @@
       "id": "10aa456va",
       "type": "Appointment",
       "attributes": {
-        "cancellationReason": null,
+        "cancelationReason": null,
         "clinic": "848",
         "comment": null,
         "contact": {
@@ -336,7 +336,7 @@
       "id": "06aa456va",
       "type": "Appointment",
       "attributes": {
-        "cancellationReason": null,
+        "cancelationReason": null,
         "clinic": "308",
         "comment": "New issue: Phone appointment",
         "contact": {
@@ -370,7 +370,7 @@
       "id": "07aa456va",
       "type": "Appointment",
       "attributes": {
-        "cancellationReason": null,
+        "cancelationReason": null,
         "clinic": null,
         "comment": "Medication concern: I ran out of meds",
         "contact": {
@@ -404,7 +404,7 @@
       "id": "09aa456va",
       "type": "Appointment",
       "attributes": {
-        "cancellationReason": null,
+        "cancelationReason": null,
         "clinic": "848",
         "comment": null,
         "contact": {
@@ -453,7 +453,7 @@
       "id": "08aa456va",
       "type": "Appointment",
       "attributes": {
-        "cancellationReason": "prov",
+        "cancelationReason": { "coding": [{ "code": "prov" }] },
         "clinic": null,
         "comment": "Follow-up/Routine: comment test",
         "contact": {
@@ -487,7 +487,7 @@
       "id": "08aa457va",
       "type": "Appointment",
       "attributes": {
-        "cancellationReason": "pat",
+        "cancelationReason": { "coding": [{ "code": "pat" }] },
         "clinic": null,
         "comment": "Follow-up/Routine: comment test",
         "contact": {
@@ -516,6 +516,96 @@
         "status": "cancelled",
         "telehealth": null
       }
-    }
+    },
+    {
+      "id": "50096",
+      "type": "appointments",
+      "attributes": {
+        "id": "50096",
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn/vaos/vista/983/appointment/id",
+            "value": "308;20210907.140000"
+          }
+        ],
+        "kind": "clinic",
+        "serviceType": "primaryCare",
+        "patientIcn": "1012845331V153043",
+        "locationId": "983",
+        "clinic": "308",
+        "start": "2021-11-07T20:00:00Z",
+        "end": "2021-11-07T20:20:00Z",
+        "minutesDuration": 20,
+        "slot": {
+          "id": "3230323130393037323030303A323032313039303732303230",
+          "start": "2021-09-07T20:00:00Z",
+          "end": "2021-09-07T20:20:00Z"
+        },
+        "cancellationReason": {
+          "code": "other"
+        },
+        "cancellable": true,
+        "serviceName": "CHY PC KILPATRICK",
+        "location": {
+          "id": "983",
+          "type": "appointments",
+          "attributes": {
+            "id": "983",
+            "vistaSite": "983",
+            "vastParent": "983",
+            "type": "va_facilities",
+            "name": "Cheyenne VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/Denver"
+            },
+            "lat": 39.744507,
+            "long": -104.830956,
+            "website": "https://www.denver.va.gov/locations/directions.asp",
+            "phone": {
+              "main": "307-778-7550",
+              "fax": "307-778-7381",
+              "pharmacy": "866-420-6337",
+              "afterHours": "307-778-7550",
+              "patientAdvocate": "307-778-7550 x7517",
+              "mentalHealthClinic": "307-778-7349",
+              "enrollmentCoordinator": "307-778-7550 x7579"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": [
+                "2360 East Pershing Boulevard"
+              ],
+              "city": "Cheyenne",
+              "state": "WY",
+              "postalCode": "82001-5356"
+            },
+            "mobile": false,
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "DentalServices",
+              "EmergencyCare",
+              "Gastroenterology",
+              "Gynecology",
+              "MentalHealthCare",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "SpecialtyCare",
+              "UrgentCare",
+              "Urology",
+              "WomensHealth"
+            ],
+            "operatingStatus": {
+              "code": "NORMAL"
+            }
+          }
+        }
+      }
+    }    
   ]
 }

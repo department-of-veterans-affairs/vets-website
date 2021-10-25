@@ -2,6 +2,25 @@ const createMockSuccessResponse = (data, hasBeenValidated) => {
   const rv = {
     id: data.id || '46bebc0a-b99c-464f-a5c5-560bc9eae287',
     payload: {
+      demographics: {
+        mailingAddress: {
+          street1: '123 Turtle Trail',
+          city: 'Treetopper',
+          state: 'Tennessee',
+          zip: '101010',
+        },
+        homeAddress: {
+          street1: '445 Fine Finch Fairway',
+          street2: 'Apt 201',
+          city: 'Fairfence',
+          state: 'Florida',
+          zip: '445545',
+        },
+        homePhone: '5552223333',
+        mobilePhone: '5553334444',
+        workPhone: '5554445555',
+        emailAddress: 'kermit.frog@sesameenterprises.us',
+      },
       appointments: [
         {
           facility: 'LOMA LINDA VA CLINIC',
@@ -62,6 +81,27 @@ const createMultipleAppointments = (
   const rv = {
     id: token || '46bebc0a-b99c-464f-a5c5-560bc9eae287',
     payload: {
+      demographics: {
+        mailingAddress: {
+          street1: '123 Turtle Trail',
+          street2: '',
+          street3: '',
+          city: 'Treetopper',
+          state: 'Tennessee',
+          zip: '101010',
+        },
+        homeAddress: {
+          street1: '445 Fine Finch Fairway',
+          street2: 'Apt 201',
+          city: 'Fairfence',
+          state: 'Florida',
+          zip: '445545',
+        },
+        homePhone: '5552223333',
+        mobilePhone: '5553334444',
+        workPhone: '5554445555',
+        emailAddress: 'kermit.frog@sesameenterprises.us',
+      },
       appointments: [
         createAppointment(
           'INELIGIBLE_TOO_LATE',

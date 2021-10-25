@@ -1,8 +1,9 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
-const LoggedInContent = () => (
+const LoggedInContent = props => (
   <>
     <div className="process schemaform-process">
       <ol>
@@ -91,12 +92,19 @@ const LoggedInContent = () => (
           </AdditionalInfo>
         </li>
       </ol>
-      <a
-        className="vads-c-action-link--green vads-u-margin-bottom--3 vads-u-display--block"
-        href="/housing-assistance/home-loans/apply-for-coe-form-26-1880/applicant-information-summary"
-      >
-        Apply for a Certificate of Eligibility
-      </a>
+      <div className="vads-u-margin-bottom--4">
+        <SaveInProgressIntro
+          buttonOnly
+          testActionLink
+          prefillEnabled={props.parentProps.route.formConfig.prefillEnabled}
+          messages={props.parentProps.route.formConfig.savedFormMessages}
+          formConfig={props.parentProps.route.formConfig}
+          pageList={props.parentProps.route.pageList}
+          downtime={props.parentProps.route.formConfig.downtime}
+          startText="Apply for a Certificate of Eligibility"
+          headingLevel={2}
+        />
+      </div>
       <OMBInfo expDate="11/30/2022" ombNumber="2900-0086" resBurden={15} />
     </div>
   </>
