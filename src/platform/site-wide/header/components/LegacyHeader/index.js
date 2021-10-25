@@ -98,9 +98,9 @@ export const LegacyHeader = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
         {/* Veteran Crisis Line banner */}
         <div className="va-crisis-line-container">
           <button
-            onClick={() => recordEvent({ event: 'nav-crisis-header' })}
-            data-show="#modal-crisisline"
             className="va-crisis-line va-overlay-trigger"
+            data-show="#modal-crisisline"
+            onClick={() => recordEvent({ event: 'nav-crisis-header' })}
           >
             <div className="va-crisis-line-inner">
               <span className="va-crisis-line-icon" aria-hidden="true" />

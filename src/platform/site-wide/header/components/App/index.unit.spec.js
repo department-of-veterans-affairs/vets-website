@@ -13,7 +13,8 @@ describe('Header <App>', () => {
     wrapper.unmount();
   });
 
-  it('renders header v2 when showHeaderV2 is truthy', () => {
+  it('renders header v2 when showHeaderV2 is truthy and our width is less than 768px', () => {
+    global.innerWidth = 767;
     const wrapper = shallow(<App showHeaderV2 />);
     expect(wrapper.find(`LegacyHeader`)).be.have.lengthOf(0);
     expect(wrapper.find(`Header`)).be.have.lengthOf(1);
