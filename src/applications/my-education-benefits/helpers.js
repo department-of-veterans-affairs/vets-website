@@ -243,10 +243,10 @@ export function prefillTransformer(pages, formData, metadata, state) {
       },
       livesOnMilitaryBase: address?.addressType === 'OVERSEAS MILITARY',
     },
-    toursOfDuty: null,
-    'view:toursOfDutyCorrect': {
-      toursOfDutyCorrect: null,
-    },
+    // toursOfDuty: null,
+    // 'view:toursOfDutyCorrect': {
+    //   toursOfDutyCorrect: null,
+    // },
   };
 
   // useEffect(
