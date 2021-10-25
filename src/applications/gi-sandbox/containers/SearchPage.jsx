@@ -38,7 +38,7 @@ export function SearchPage({
       document.title = `${
         environment.isProduction()
           ? `${PAGE_TITLE}: VA.gov`
-          : 'Compare institutions: GI Bill(R) Comparison Tool | Veterans Affairs'
+          : 'Compare institutions: GI Bill® Comparison Tool | Veterans Affairs'
       }`;
     },
     [dispatchSetPageTitle],

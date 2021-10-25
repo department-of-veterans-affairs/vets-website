@@ -63,7 +63,7 @@ export function SearchPage({
   const legacyTitle = searchTerm
     ? `SearchResults - ${searchTerm}`
     : 'Search Results';
-  const newTitle = `Search results: GI Bill(R) Comparison Tool | Veterans Affairs`;
+  const newTitle = `Search results: GI Bill® Comparison Tool | Veterans Affairs`;
 
   useEffect(
     () => {

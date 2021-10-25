@@ -48,7 +48,7 @@ export function ProfilePage({
           dispatchSetPageTitle(`${institutionName} - GI Bill® Comparison Tool`);
         else
           dispatchSetPageTitle(
-            `${institutionName}: GI Bill(R) Comparison Tool | Veterans Affairs`,
+            `${institutionName}: GI Bill® Comparison Tool | Veterans Affairs`,
           );
       }
     },
