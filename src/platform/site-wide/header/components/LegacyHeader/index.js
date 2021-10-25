@@ -1,5 +1,5 @@
 // Node modules.
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 // Relative imports.
 import MegaMenu from '../../../mega-menu/containers/Main';
@@ -8,6 +8,8 @@ import UserNav from '../../../user-nav/containers/Main';
 import recordEvent from 'platform/monitoring/record-event';
 
 export const LegacyHeader = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
+  const [showGovtWebsiteSection, setShowGovtWebsiteSection] = useState(false);
+
   return (
     <>
       {/* Browser Out of Date Warning */}
@@ -33,15 +35,26 @@ export const LegacyHeader = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
           <div className="usa-banner">
             <div className="usa-accordion">
               {/* Official government website mini banner */}
-              <div className="usa-banner-header">
+              <div
+                className={`usa-banner-header${
+                  showGovtWebsiteSection ? ' usa-banner-header-expanded' : ''
+                }`}
+              >
                 <div className="usa-grid usa-banner-inner">
                   <img src="/img/tiny-usa-flag.png" alt="U.S. flag" />
                   <p>An official website of the United States government</p>
                   <button
-                    id="usa-banner-toggle"
-                    className="usa-accordion-button usa-banner-button"
-                    aria-expanded="false"
                     aria-controls="gov-banner"
+                    aria-expanded="false"
+                    className="usa-accordion-button usa-banner-button"
+                    id="usa-banner-toggle"
+                    onMouseUp={() =>
+                      setShowGovtWebsiteSection(!showGovtWebsiteSection)
+                    }
+                    onKeyDown={event =>
+                      event.keyCode === 13 &&
+                      setShowGovtWebsiteSection(!showGovtWebsiteSection)
+                    }
                   >
                     <span className="usa-banner-button-text">
                       Here’s how you know
@@ -54,7 +67,7 @@ export const LegacyHeader = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
               <div
                 className="usa-banner-content usa-grid usa-accordion-content"
                 id="gov-banner"
-                aria-hidden="true"
+                aria-hidden={showGovtWebsiteSection ? 'false' : 'true'}
               >
                 {/* Domain name notice */}
                 <div className="usa-banner-guidance-gov usa-width-one-half">
