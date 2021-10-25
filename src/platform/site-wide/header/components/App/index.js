@@ -16,7 +16,9 @@ export const App = ({
   showNavLogin,
 }) => {
   // Derive if we are on desktop.
-  const [isDesktop, setIsDesktop] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(
+    window.innerWidth >= MOBILE_BREAKPOINT_PX,
+  );
 
   // Derive if we are on desktop and set isDesktop state.
   const deriveIsDesktop = () =>
