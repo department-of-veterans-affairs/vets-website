@@ -127,7 +127,7 @@ export function redirect(redirectUrl, clickedEvent) {
   if (loginAppUrlRE.test(window.location.pathname)) {
     const { application: app } = getQueryParams();
     rUrl = {
-      mhv: `${redirectUrl}?redirect=${returnUrl}`,
+      mhv: `${redirectUrl}?redirect=${returnUrl}&skip_dupe=mhv`,
       myvahealth: `${redirectUrl}`,
     }[app];
     recordEvent({ event: `${authnSettings.REDIRECT_EVENT}-${app}-inbound` });
