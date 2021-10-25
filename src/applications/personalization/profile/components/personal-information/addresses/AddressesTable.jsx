@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
-
 import ContactInformationField from '@@vap-svc/components/ContactInformationField';
+
 import ProfileInfoTable from '../../ProfileInfoTable';
 
 const AddressesTable = ({ className }) => (
