@@ -9,8 +9,16 @@ import Alert from '../components/Alerts';
 
 const OverviewPage = () => {
   const statementData = useSelector(({ mcp }) => mcp.statements);
-  const errors = useSelector(({ mcp }) => mcp.errors);
+  const error = useSelector(({ mcp }) => mcp.error);
   const [alertType, setAlertType] = useState(null);
+
+  // remove duplicate facilities with matching facility numbers
+  const facilities = statementData
+    .map(({ station }) => station)
+    .filter(
+      (val, index, arr) =>
+        arr.findIndex(temp => temp.facilitYNum === val.facilitYNum) === index,
+    );
 
   useEffect(
     () => {
@@ -18,11 +26,11 @@ const OverviewPage = () => {
       if (!statementData?.length) {
         setAlertType('no-history');
       }
-      if (errors) {
+      if (error) {
         setAlertType('error');
       }
     },
-    [errors, statementData],
+    [error, statementData],
   );
 
   return (
@@ -46,7 +54,7 @@ const OverviewPage = () => {
           </p>
           <Balances statementData={statementData} />
           <BalanceQuestions />
-          <FacilityContacts statementData={statementData} />
+          <FacilityContacts facilities={facilities} />
         </>
       )}
     </>

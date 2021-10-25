@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { api } from '../../api';
 
@@ -150,6 +151,14 @@ const mapDispatchToProps = dispatch => {
       dispatch(appointmentWAsCheckedInto(appointment));
     },
   };
+};
+
+AppointmentAction.propTypes = {
+  appointment: PropTypes.object,
+  isMultipleAppointmentsEnabled: PropTypes.bool,
+  router: PropTypes.object,
+  setSelectedAppointment: PropTypes.func,
+  token: PropTypes.string,
 };
 
 export default connect(

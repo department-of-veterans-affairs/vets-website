@@ -64,7 +64,7 @@ describe('Check In Experience -- ', () => {
 
       cy.get('h1', { timeout: Timeouts.slow })
         .should('be.visible')
-        .and('have.text', 'Is your contact information correct?');
+        .and('have.text', 'Is this your current contact information?');
       cy.injectAxe();
       cy.axeCheck();
       cy.get('[data-testid=yes-button]').click();

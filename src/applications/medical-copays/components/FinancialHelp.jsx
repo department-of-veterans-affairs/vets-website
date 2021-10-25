@@ -10,46 +10,43 @@ export const FinancialHelp = () => (
       having a sudden decrease in income, or having an increase in out-of-pocket
       family health care expenses, we can help.
     </p>
-    <div className="vads-u-margin-top--4">
-      <va-accordion>
-        <va-accordion-item header="Request help for your current bills">
-          <p>You can request these debt relief options:</p>
-          <ul>
-            <li>
-              <strong>Repayment plan.</strong> This would allow you to repay the
-              debt in smaller monthly amounts over time.
-            </li>
-            <li>
-              <strong>Compromise offer.</strong> This means you offer a lesser
-              one-time lump sum amount as full payment of the debt. If we accept
-              your request, you’ll have to pay the one-time amount within 30
-              days.
-            </li>
-            <li>
-              <strong>Waiver.</strong> This means you ask us to forgive (or
-              “waive”) part or all of the debt. If we accept your request, you
-              won’t have to pay the amount waived.
-            </li>
-          </ul>
-          <p>
-            <a className="vads-c-action-link--blue" href="#">
-              Request help with your copay bills
-            </a>
-          </p>
-        </va-accordion-item>
-        <va-accordion-item header="Request help for your future health care">
-          <p>
-            You may be eligible for a hardship determination, which would
-            qualify you for a copay exemption. This means we’ll assign you to a
-            higher priority group, and you won’t have to pay any VA copays for
-            the rest of the calendar year.
-          </p>
-          <p>
-            <a href="#">Learn more about requesting a hardship determination</a>
-          </p>
-        </va-accordion-item>
-      </va-accordion>
-    </div>
+    <va-accordion>
+      <va-accordion-item header="Request help for your current bills">
+        <p>You can request these debt relief options:</p>
+        <ul>
+          <li>
+            <strong>Repayment plan.</strong> This would allow you to repay the
+            debt in smaller monthly amounts over time.
+          </li>
+          <li>
+            <strong>Compromise offer.</strong> This means you offer a lesser
+            one-time lump sum amount as full payment of the debt. If we accept
+            your request, you’ll have to pay the one-time amount within 30 days.
+          </li>
+          <li>
+            <strong>Waiver.</strong> This means you ask us to forgive (or
+            “waive”) part or all of the debt. If we accept your request, you
+            won’t have to pay the amount waived.
+          </li>
+        </ul>
+        <p>
+          <a className="vads-c-action-link--blue" href="#">
+            Request help with your copay bills
+          </a>
+        </p>
+      </va-accordion-item>
+      <va-accordion-item header="Request help for your future health care">
+        <p>
+          You may be eligible for a hardship determination, which would qualify
+          you for a copay exemption. This means we’ll assign you to a higher
+          priority group, and you won’t have to pay any VA copays for the rest
+          of the calendar year.
+        </p>
+        <p>
+          <a href="#">Learn more about requesting a hardship determination</a>
+        </p>
+      </va-accordion-item>
+    </va-accordion>
   </article>
 );
 

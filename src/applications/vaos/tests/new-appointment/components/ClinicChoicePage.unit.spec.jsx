@@ -12,7 +12,11 @@ import userEvent from '@testing-library/user-event';
 
 import ClinicChoicePage from '../../../new-appointment/components/ClinicChoicePage';
 import { mockEligibilityFetches, mockFacilityFetch } from '../../mocks/helpers';
-import { getClinicMock, getVAFacilityMock } from '../../mocks/v0';
+import { getClinicMock } from '../../mocks/v0';
+import {
+  createMockCheyenneFacilityByVersion,
+  createMockFacilityByVersion,
+} from '../../mocks/data';
 import { mockFetch } from 'platform/testing/unit/helpers';
 
 const initialState = {
@@ -51,25 +55,7 @@ describe('VAOS <ClinicChoicePage>', () => {
         },
       },
     ];
-    const facilityData = {
-      id: 'vha_442',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '442',
-        name: 'Cheyenne VA Medical Center',
-        address: {
-          physical: {
-            zip: '82001-5356',
-            city: 'Cheyenne',
-            state: 'WY',
-            address1: '2360 East Pershing Boulevard',
-          },
-        },
-        phone: {
-          main: '307-778-7550',
-        },
-      },
-    };
+    const facilityData = createMockCheyenneFacilityByVersion({ version: 0 });
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -148,7 +134,10 @@ describe('VAOS <ClinicChoicePage>', () => {
       clinics,
       pastClinics: true,
     });
-    mockFacilityFetch('vha_442', getVAFacilityMock());
+    mockFacilityFetch(
+      'vha_442',
+      createMockFacilityByVersion({ id: '442', version: 0 }),
+    );
 
     const store = createTestStore(initialState);
 
@@ -228,7 +217,10 @@ describe('VAOS <ClinicChoicePage>', () => {
       clinics,
       pastClinics: true,
     });
-    mockFacilityFetch('vha_442', getVAFacilityMock());
+    mockFacilityFetch(
+      'vha_442',
+      createMockCheyenneFacilityByVersion({ version: 0 }),
+    );
 
     // And the page has loaded
     const store = createTestStore(initialState);
@@ -274,25 +266,7 @@ describe('VAOS <ClinicChoicePage>', () => {
         },
       },
     ];
-    const facilityData = {
-      id: 'vha_442',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '442',
-        name: 'Cheyenne VA Medical Center',
-        address: {
-          physical: {
-            zip: '82001-5356',
-            city: 'Cheyenne',
-            state: 'WY',
-            address1: '2360 East Pershing Boulevard',
-          },
-        },
-        phone: {
-          main: '307-778-7550',
-        },
-      },
-    };
+    const facilityData = createMockCheyenneFacilityByVersion({ version: 0 });
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -384,25 +358,7 @@ describe('VAOS <ClinicChoicePage>', () => {
         },
       },
     ];
-    const facilityData = {
-      id: 'vha_442',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '442',
-        name: 'Cheyenne VA Medical Center',
-        address: {
-          physical: {
-            zip: '82001-5356',
-            city: 'Cheyenne',
-            state: 'WY',
-            address1: '2360 East Pershing Boulevard',
-          },
-        },
-        phone: {
-          main: '307-778-7550',
-        },
-      },
-    };
+    const facilityData = createMockCheyenneFacilityByVersion({ version: 0 });
 
     // And the second clinic matches a past appointment
     mockEligibilityFetches({
@@ -472,7 +428,10 @@ describe('VAOS <ClinicChoicePage>', () => {
       clinics,
       pastClinics: true,
     });
-    mockFacilityFetch('vha_442', getVAFacilityMock());
+    mockFacilityFetch(
+      'vha_442',
+      createMockCheyenneFacilityByVersion({ version: 0 }),
+    );
 
     const store = createTestStore(initialState);
 

@@ -14,12 +14,26 @@ export const loginAppUrlRE = new RegExp('^/sign-in(/.*)?$');
 
 export const authnSettings = {
   RETURN_URL: 'authReturnUrl',
+  REDIRECT_EVENT: 'auth-redirect',
+};
+
+export const getQueryParams = () => {
+  const searchParams = new URLSearchParams(window.location.search);
+  const application = searchParams.get('application');
+  const to = searchParams.get('to');
+  // console.log('inside qp', { application, to });
+  return { application, to };
+};
+
+const fixUrl = (url, path) => {
+  const updatedUrl = url.endsWith('/') ? url.slice(0, -1) : url;
+  return `${updatedUrl}${path}`.replace('\r\n', ''); // Prevent CRLF injection.
 };
 
 export const externalRedirects = {
   myvahealth: environment.isProduction()
-    ? 'https://patientportal.myhealth.va.gov/'
-    : 'https://staging-patientportal.myhealth.va.gov/',
+    ? 'https://patientportal.myhealth.va.gov'
+    : 'https://staging-patientportal.myhealth.va.gov',
   mhv: `https://${
     eauthEnvironmentPrefixes[environment.BUILDTYPE]
   }eauth.va.gov/mhv-portal-web/eauth`,
@@ -85,20 +99,18 @@ const generatePath = (app, to) => {
 };
 
 export function standaloneRedirect() {
-  const searchParams = new URLSearchParams(window.location.search);
-  const application = searchParams.get('application');
-  const to = searchParams.get('to');
+  const { application, to } = getQueryParams();
   let url = externalRedirects[application] || null;
 
   if (url && to) {
-    const pathname = generatePath(application, to);
-    url = url.endsWith('/') ? url.slice(0, -1) : url;
-    url = `${url}${pathname}`.replace('\r\n', ''); // Prevent CRLF injection.
+    url = fixUrl(url, generatePath(application, to));
   }
+
   return url;
 }
 
-function redirect(redirectUrl, clickedEvent) {
+export function redirect(redirectUrl, clickedEvent) {
+  let rUrl = redirectUrl;
   // Keep track of the URL to return to after auth operation.
   // If the user is coming via the standalone sign-in, redirect to the home page.
   const returnUrl = loginAppUrlRE.test(window.location.pathname)
@@ -107,10 +119,24 @@ function redirect(redirectUrl, clickedEvent) {
   sessionStorage.setItem(authnSettings.RETURN_URL, returnUrl);
   recordEvent({ event: clickedEvent });
 
+  if (!loginAppUrlRE.test(window.location.pathname)) {
+    setLoginAttempted();
+  }
+
+  // Generates the redirect for /sign-in page and tracks event
+  if (loginAppUrlRE.test(window.location.pathname)) {
+    const { application: app } = getQueryParams();
+    rUrl = {
+      mhv: `${redirectUrl}?redirect=${returnUrl}`,
+      myvahealth: `${redirectUrl}`,
+    }[app];
+    recordEvent({ event: `${authnSettings.REDIRECT_EVENT}-${app}-inbound` });
+  }
+
   if (redirectUrl.includes('idme')) {
-    redirectWithGAClientId(redirectUrl);
+    redirectWithGAClientId(rUrl);
   } else {
-    window.location = redirectUrl;
+    window.location = rUrl;
   }
 }
 
@@ -121,7 +147,6 @@ export function login(
   clickedEvent = 'login-link-clicked-modal',
 ) {
   const url = sessionTypeUrl({ type: policy, version, queryParams });
-  setLoginAttempted();
   return redirect(url, clickedEvent);
 }
 

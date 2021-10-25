@@ -697,10 +697,12 @@ describe('VAOS community care flow using VAOS service', () => {
       expect(xhr.url, 'post url').to.contain('/vaos/v2/appointments');
       const request = xhr.requestBody;
       expect(request.requestedPeriods[0].start).to.equal(date);
-      expect(request.practitionerIds).to.deep.eq([
+      expect(request.practitioners).to.deep.eq([
         {
-          system: 'http://hl7.org/fhir/sid/us-npi',
-          value: '1497723753',
+          identifier: {
+            system: 'http://hl7.org/fhir/sid/us-npi',
+            value: '1497723753',
+          },
         },
       ]);
 

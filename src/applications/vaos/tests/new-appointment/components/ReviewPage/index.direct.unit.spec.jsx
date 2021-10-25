@@ -24,7 +24,7 @@ import {
   mockPreferences,
 } from '../../../mocks/helpers';
 import { mockAppointmentSubmitV2 } from '../../../mocks/helpers.v2';
-import { getVAFacilityMock } from '../../../mocks/v0';
+import { createMockCheyenneFacilityByVersion } from '../../../mocks/data';
 
 const initialState = {
   featureToggles: {
@@ -158,7 +158,9 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
     expect(contactHeading).to.contain.text('Your contact details');
     expect(screen.baseElement).to.contain.text('joeblow@gmail.com');
     expect(screen.baseElement).to.contain.text('223-456-7890');
-    expect(screen.baseElement).to.contain.text('Call anytime during the day');
+    expect(screen.baseElement).to.not.contain.text(
+      'Call anytime during the day',
+    );
 
     const editLinks = screen.getAllByText(/^Edit/, { selector: 'a' });
     const uniqueLinks = new Set();
@@ -193,25 +195,10 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
   });
 
   it('should show appropriate message on bad request submit error', async () => {
-    mockFacilityFetch('vha_442', {
-      id: 'vha_442',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '442',
-        name: 'Cheyenne VA Medical Center',
-        address: {
-          physical: {
-            zip: '82001-5356',
-            city: 'Cheyenne',
-            state: 'WY',
-            address1: '2360 East Pershing Boulevard',
-          },
-        },
-        phone: {
-          main: '307-778-7550',
-        },
-      },
-    });
+    mockFacilityFetch(
+      'vha_442',
+      createMockCheyenneFacilityByVersion({ version: 0 }),
+    );
     setFetchJSONFailure(
       global.fetch.withArgs(`${environment.API_URL}/vaos/v0/appointments`),
       {
@@ -275,6 +262,7 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
           vaParent: '983',
           vaFacility: '983',
           clinicId: '983_455',
+          preferredDate: '2021-05-06',
         },
         facilityDetails: {
           '983': {
@@ -368,7 +356,9 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
     expect(contactHeading).to.contain.text('Your contact details');
     expect(screen.baseElement).to.contain.text('joeblow@gmail.com');
     expect(screen.baseElement).to.contain.text('223-456-7890');
-    expect(screen.baseElement).to.contain.text('Call anytime during the day');
+    expect(screen.baseElement).to.not.contain.text(
+      'Call anytime during the day',
+    );
 
     const editLinks = screen.getAllByText(/^Edit/, { selector: 'a' });
     const uniqueLinks = new Set();
@@ -406,6 +396,9 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
       clinic: '455',
       serviceType: 'primaryCare',
       comment: 'Follow-up/Routine: I need an appt',
+      extension: {
+        desiredDate: '2021-05-06',
+      },
       contact: {
         telecom: [
           {
@@ -423,25 +416,7 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
   });
 
   it('should show error message on failure', async () => {
-    mockFacilityFetch('vha_983', {
-      id: 'vha_983',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '983',
-        name: 'Cheyenne VA Medical Center',
-        address: {
-          physical: {
-            zip: '82001-5356',
-            city: 'Cheyenne',
-            state: 'WY',
-            address1: '2360 East Pershing Boulevard',
-          },
-        },
-        phone: {
-          main: '307-778-7550',
-        },
-      },
-    });
+    mockFacilityFetch('vha_442', createMockCheyenneFacilityByVersion());
 
     setFetchJSONFailure(
       global.fetch.withArgs(`${environment.API_URL}/vaos/v2/appointments`),

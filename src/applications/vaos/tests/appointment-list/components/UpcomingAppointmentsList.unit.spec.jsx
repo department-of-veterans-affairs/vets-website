@@ -573,8 +573,11 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
 describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
   beforeEach(() => {
     mockFetch();
+    MockDate.set(getTimezoneTestDate());
   });
-  afterEach(() => {});
+  afterEach(() => {
+    MockDate.reset();
+  });
 
   it('should show VA appointment text', async () => {
     const myInitialState = {
@@ -594,6 +597,25 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       ...appointment.attributes,
       kind: 'clinic',
       status: 'booked',
+      locationId: '983',
+      location: {
+        id: '983',
+        type: 'appointments',
+        attributes: {
+          id: '983',
+          vistaSite: '983',
+          name: 'Cheyenne VA Medical Center',
+          lat: 39.744507,
+          long: -104.830956,
+          phone: { main: '307-778-7550' },
+          physicalAddress: {
+            line: ['2360 East Pershing Boulevard'],
+            city: 'Cheyenne',
+            state: 'WY',
+            postalCode: '82001-5356',
+          },
+        },
+      },
       start: now.format('YYYY-MM-DDTHH:mm:ss'),
       end: now.format('YYYY-MM-DDTHH:mm:ss'),
     };
@@ -611,8 +633,10 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       reducers,
     });
 
-    await screen.findByText(new RegExp(now.format('dddd, MMMM D'), 'i'));
-    expect(screen.baseElement).to.contain.text('VA appointment');
+    await screen.findByText(
+      new RegExp(now.tz('America/Denver').format('dddd, MMMM D'), 'i'),
+    );
+    expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
   });
 
   it('should show CC appointment text', async () => {
