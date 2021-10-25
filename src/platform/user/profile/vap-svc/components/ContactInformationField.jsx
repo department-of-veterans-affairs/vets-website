@@ -43,11 +43,11 @@ import { getInitialFormValues } from '@@profile/util/contact-information/formVal
 
 import getContactInfoFieldAttributes from '~/applications/personalization/profile/util/contact-information/getContactInfoFieldAttributes';
 
-import CannotEditModal from './CannotEditModal';
-import ConfirmCancelModal from './ConfirmCancelModal';
-import ConfirmRemoveModal from './ConfirmRemoveModal';
+import CannotEditModal from './ContactInformationFieldInfo/CannotEditModal';
+import ConfirmCancelModal from './ContactInformationFieldInfo/ConfirmCancelModal';
+import ConfirmRemoveModal from './ContactInformationFieldInfo/ConfirmRemoveModal';
 
-import UpdateSuccessAlert from './ContactInformationUpdateSuccessAlert';
+import UpdateSuccessAlert from './ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
 
 // Helper function that generates a string that can be used for a contact info
 // field's edit button.
