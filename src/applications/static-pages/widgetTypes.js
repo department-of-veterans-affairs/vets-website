@@ -47,5 +47,4 @@ export default {
   VIEW_DEPENDENTS_CTA: 'view-dependents-CTA',
   VIEW_PAYMENT_HISTORY: 'view-payment-history',
   VIEW_TEST_AND_LAB_RESULTS_PAGE: 'view-test-and-lab-results-page',
-  HEADER: 'header',
 };

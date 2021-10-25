@@ -52,7 +52,13 @@ export const App = ({
     );
   }
 
-  return <Header />;
+  return (
+    <Header
+      megaMenuData={megaMenuData}
+      showMegaMenu={showMegaMenu}
+      showNavLogin={showNavLogin}
+    />
+  );
 };
 
 App.propTypes = {
