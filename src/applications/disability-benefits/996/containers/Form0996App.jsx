@@ -123,6 +123,7 @@ export const Form0996App = ({
       </h1>
     );
   } else if (
+    !IS_PRODUCTION &&
     loggedIn &&
     ((contestableIssues?.status || '') === '' ||
       contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_INIT)
