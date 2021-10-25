@@ -45,30 +45,6 @@ jobs:
         run: yarn build --verbose --buildtype=${{ matrix.buildtype }}
         timeout-minutes: 30
 
-      # ----------------------------
-      # | Notify Slack of failures |
-      # ---------------------------
-
-      - name: Notify Slack about build failures
-        if: ${{ failure() }}
-        uses: ./.github/workflows/slack-notify
-        continue-on-error: true
-        env:
-          SSL_CERT_DIR: /etc/ssl/certs
-        with:
-          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "At least one build step in `vets-website` has failed, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
-          channel_id: C02AG8UF95M # gha-build-status
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-      - name: Cancel other parallel steps
-        if: ${{ failure() }}
-        uses: andymckay/cancel-action@0.2
-
-      # ----------------
-      # | End Notify Slack |
-      # ----------------
-
       - name: Generate build details
         run: |
           cat > build/${{ matrix.buildtype }}/BUILD.txt << EOF
