@@ -84,7 +84,7 @@ describe('<ContactInformationField/>', () => {
 
   it('hides the remove button', () => {
     component = enzyme.shallow(
-      <ContactInformationField {...props} showRemoveButton={false} />,
+      <ContactInformationField {...props} isDeleteDisabled />,
     );
 
     expect(

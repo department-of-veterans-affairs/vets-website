@@ -93,7 +93,7 @@ class ContactInformationField extends React.Component {
     openModal: PropTypes.func.isRequired,
     refreshTransactionRequest: PropTypes.func,
     showEditView: PropTypes.bool.isRequired,
-    showRemoveButton: PropTypes.bool,
+    isDeleteDisabled: PropTypes.bool,
     showValidationView: PropTypes.bool.isRequired,
     title: PropTypes.string,
     transaction: PropTypes.object,
@@ -104,7 +104,7 @@ class ContactInformationField extends React.Component {
   static defaultProps = {
     fieldName: '',
     hasUnsavedEdits: false,
-    showRemoveButton: true,
+    isDeleteDisabled: false,
   };
 
   state = {
@@ -270,7 +270,7 @@ class ContactInformationField extends React.Component {
       fieldName,
       isEmpty,
       showEditView,
-      showRemoveButton,
+      isDeleteDisabled,
       showRemoveModal,
       showValidationView,
       title,
@@ -334,7 +334,7 @@ class ContactInformationField extends React.Component {
               </button>
             )}
             {data &&
-              showRemoveButton &&
+              !isDeleteDisabled &&
               fieldName !== FIELD_NAMES.MAILING_ADDRESS && (
                 <button
                   aria-label={`Remove ${title}`}
