@@ -3,7 +3,6 @@ import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { mockApiRequest } from 'platform/testing/unit/helpers.js';
 import NearbyVetCenters from '../../facilities/vet-center/NearByVetCenters';
 import * as mapboxUtils from 'applications/facility-locator/utils/mapbox';
@@ -15,28 +14,6 @@ const createFakeStore = state => {
     dispatch: () => {},
   };
 };
-
-const manualVetCenters = [
-  {
-    entity: {
-      fieldFacilityLocatorApiId: 'vc_0441V',
-      entityPublished: true,
-      title: 'Manual Vet Center',
-      entityBundle: 'vet_center',
-      fieldOperatingStatusFacility: 'limited',
-      fieldOperatingStatusMoreInfo: 'test',
-      fieldAddress: {
-        locality: 'Green Bay',
-        administrativeArea: 'WI',
-        postalCode: '54304',
-        addressLine1: '1600 South Ashland Avenue',
-        organization: null,
-      },
-      fieldPhoneNumber: '920-435-5650',
-      fieldMedia: null,
-    },
-  },
-];
 
 const fetchedVetCenters = {
   data: [
@@ -146,36 +123,11 @@ describe('NearbyVetCenters', () => {
     wrapper.unmount();
   });
 
-  describe('manual', () => {
-    const manualState = {
-      facility: { loading: false },
-      featureToggles: {
-        loading: false,
-        [FEATURE_FLAG_NAMES.facilitiesVetCenterAutomateNearby]: false,
-      },
-    };
-
-    it('should render manually-added vet center', () => {
-      const fakeStore = createFakeStore(manualState);
-      const wrapper = mount(
-        <Provider store={fakeStore}>
-          <NearbyVetCenters vetCenters={manualVetCenters} />
-        </Provider>,
-      );
-      expect(wrapper.find('h2').text()).to.equal('Other nearby Vet Centers');
-      expect(wrapper.find('h3').text()).to.equal('Manual Vet Center');
-      expect(wrapper.find('VetCenterInfoSection')).to.exist;
-      expect(wrapper.find('ExpandableOperatingStatus')).to.exist;
-      wrapper.unmount();
-    });
-  });
-
   describe('automated', () => {
     const automatedState = {
       facility: { loading: false },
       featureToggles: {
         loading: false,
-        [FEATURE_FLAG_NAMES.facilitiesVetCenterAutomateNearby]: true,
       },
     };
 
