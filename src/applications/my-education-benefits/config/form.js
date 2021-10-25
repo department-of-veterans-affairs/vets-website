@@ -980,6 +980,7 @@ const formConfig = {
               },
               'view:contactMethod': {
                 type: 'object',
+                required: [formFields.contactMethod],
                 properties: {
                   [formFields.contactMethod]: {
                     type: 'string',
