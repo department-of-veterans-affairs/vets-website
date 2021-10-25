@@ -11,7 +11,11 @@ import { fetchUser } from '../selectors/userDispatch';
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
+    // console.log(this.props);
   }
+
+  // componentDidUpdate(prevProps, prevState, snapshot) {
+  // }
 
   render() {
     return (
