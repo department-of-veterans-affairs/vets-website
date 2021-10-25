@@ -1,6 +1,5 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
-import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
@@ -12,16 +11,11 @@ import { AdditionalEvidencePage } from '../../containers/AdditionalEvidencePage'
 const params = { id: 1 };
 
 describe('<AdditionalEvidencePage>', () => {
-  it('should render loading div', async () => {
-    const { getByText } = render(
-      <AdditionalEvidencePage
-        params={params}
-        loading
-        resetUploads={() => {}}
-        clearAdditionalEvidenceNotification={() => {}}
-      />,
+  it('should render loading div', () => {
+    const tree = SkinDeep.shallowRender(
+      <AdditionalEvidencePage params={params} loading />,
     );
-    expect(getByText('Loading your claim information...')).to.exist;
+    expect(tree.everySubTree('LoadingIndicator')).not.to.be.empty;
   });
   it('should render upload error alert', () => {
     const claim = {

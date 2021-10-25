@@ -1,6 +1,5 @@
 import React from 'react';
 import enzyme from 'enzyme';
-import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import AddressValidationView from '../../containers/AddressValidationView';
 
@@ -75,9 +74,10 @@ describe('<AddressValidationView/>', () => {
   });
 
   it('renders alert box', () => {
-    const { getByText } = render(<AddressValidationView store={fakeStore} />);
+    const component = enzyme.mount(<AddressValidationView store={fakeStore} />);
 
-    expect(getByText('Please confirm your address')).to.exist;
+    expect(component.exists('AlertBox')).to.equal(true);
+    component.unmount();
   });
 
   it('renders correct buttons', () => {

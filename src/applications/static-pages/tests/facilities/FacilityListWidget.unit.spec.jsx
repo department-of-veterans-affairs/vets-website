@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { render } from '@testing-library/react';
 import { mockApiRequest } from 'platform/testing/unit/helpers';
 import {
   mockWidgetFacilitiesList,
@@ -11,15 +10,16 @@ import {
 import FacilityListWidget from '../../facilities/FacilityListWidget';
 
 describe('facilities <FacilityListWidget>', () => {
-  it('should render loading', async () => {
-    const { getByText } = render(
+  it('should render loading', () => {
+    const tree = shallow(
       <FacilityListWidget facilities={mockWidgetFacilitiesList} />,
       {
         disableLifecycleMethods: true,
       },
     );
 
-    expect(getByText('Loading facilities...')).to.exist;
+    expect(tree.find('LoadingIndicator').exists()).to.be.true;
+    tree.unmount();
   });
 
   it('should render facility data', done => {
