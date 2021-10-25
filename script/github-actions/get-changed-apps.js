@@ -5,15 +5,6 @@ const commandLineArgs = require('command-line-args');
 
 const changedAppsConfig = require('../../config/single-app-build.json');
 
-const options = commandLineArgs([
-  // Use the --app-folders option to get app directories. Entry names are the default.
-  { name: 'app-folders', type: Boolean, defaultValue: false },
-]);
-
-const changedFiles = process.env.CHANGED_FILE_PATHS.split(' ').filter(
-  filePath => filePath.startsWith('src/applications'),
-);
-
 /**
  * Gets the entry name of the app that a file belongs to.
  *
@@ -40,14 +31,17 @@ const getEntryName = filePath => {
  *
  * @param {string} file - Relative file path.
  * @param {string[]} allowList - A list of application entry names.
+ * @param {string} outputType - Determines whether the app's path or entry name should be returned.
  * @returns {string|null} Either the entry name or relative path app of an app. Otherwise null.
  */
-const getAllowedApp = (file, allowList) => {
+const getAllowedApp = (file, allowList, outputType = 'entry') => {
+  if (!file.startsWith('src/applications')) return null;
+
   const entryName = getEntryName(file);
 
   if (file.startsWith('src/applications') && allowList.includes(entryName)) {
     // Return app path when 'app-folders' option is used
-    if (options['app-folders']) {
+    if (outputType === 'folder') {
       const appFolderName = file.split('/')[2];
       return `src/applications/${appFolderName}`;
     }
@@ -64,13 +58,14 @@ const getAllowedApp = (file, allowList) => {
  *
  * @param {string[]} files - An array of relative file paths.
  * @param {Object} config - The changed apps build config.
+ * @param {string} outputType - Determines whether app paths or entries should be returned.
  * @returns {string} A comma-delimited string of either app entry names or relative paths.
  */
-const getChangedAppsString = (files, config) => {
+const getChangedAppsString = (files, config, outputType = 'entry') => {
   const allowedApps = [];
 
   for (const file of files) {
-    const allowedApp = getAllowedApp(file, config.allow);
+    const allowedApp = getAllowedApp(file, config.allow, outputType);
     if (allowedApp) {
       allowedApps.push(allowedApp);
     } else {
@@ -81,6 +76,26 @@ const getChangedAppsString = (files, config) => {
   return [...new Set(allowedApps)].join(',');
 };
 
-const changedAppsString = getChangedAppsString(changedFiles, changedAppsConfig);
+if (process.env.CHANGED_FILE_PATHS) {
+  const changedFiles = process.env.CHANGED_FILE_PATHS.split(' ').filter(
+    filePath => filePath.startsWith('src/applications'),
+  );
 
-console.log(changedAppsString);
+  const options = commandLineArgs([
+    // Use the --get-folders option to get app folder paths. Entry names are the default.
+    { name: 'get-folders', type: Boolean, defaultValue: false },
+  ]);
+  const outputType = options['get-folders'] ? 'folder' : 'entry';
+
+  const changedAppsString = getChangedAppsString(
+    changedFiles,
+    changedAppsConfig,
+    outputType,
+  );
+
+  console.log(changedAppsString);
+}
+
+module.exports = {
+  getChangedAppsString,
+};
