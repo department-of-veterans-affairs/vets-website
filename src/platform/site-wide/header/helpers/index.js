@@ -1,4 +1,4 @@
-export function addOverlayTriggers() {
+export const addOverlayTriggers = () => {
   const overlays = document.querySelectorAll(
     '.va-overlay-trigger, .va-overlay',
   );
@@ -32,13 +32,7 @@ export function addOverlayTriggers() {
       document.body.classList.add('va-pos-fixed');
     }
   };
-  Array.from(overlays).forEach(ol => {
-    ol.addEventListener('click', toggleOverlay);
+  Array.from(overlays).forEach(element => {
+    element.addEventListener('click', toggleOverlay);
   });
-}
-
-/*
- * Creates trigger function that opens/closes mobile menu,
- * mobile search menu, and the Veterans Crisis Line.
- */
-document.addEventListener('DOMContentLoaded', addOverlayTriggers);
+};

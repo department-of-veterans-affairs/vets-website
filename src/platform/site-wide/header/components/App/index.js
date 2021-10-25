@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 // Relative imports.
 import Header from '../Header';
 import LegacyHeader from '../LegacyHeader';
+import { addOverlayTriggers } from '../../helpers';
 
 const MOBILE_BREAKPOINT_PX = 768;
 
@@ -27,6 +28,9 @@ export const App = ({
   useEffect(() => {
     // Set screen size listener.
     window.addEventListener('resize', deriveIsDesktop);
+
+    // Creates trigger function that opens/closes mobile menu, mobile search menu, and the Veterans Crisis Line.
+    addOverlayTriggers();
 
     // Clear listener.
     return () => window.removeEventListener('resize', deriveIsDesktop);

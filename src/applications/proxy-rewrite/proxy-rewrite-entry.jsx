@@ -13,7 +13,6 @@ import headerPartial from './partials/header';
 import redirectIfNecessary from './redirects';
 import startHeaderWidget from 'platform/site-wide/header';
 import startVAFooter, { footerElemementId } from 'platform/site-wide/va-footer';
-import { addOverlayTriggers } from 'platform/site-wide/legacy/menu';
 import { proxyRewriteWhitelist } from './proxy-rewrite-whitelist.json';
 
 function createMutationObserverCallback() {
@@ -71,7 +70,6 @@ function renderFooter(data, commonStore) {
   startVAFooter(
     data,
     () => {
-      addOverlayTriggers();
       addFocusBehaviorToCrisisLineModal();
 
       if (lastUpdated) {

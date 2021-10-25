@@ -3,7 +3,6 @@
  * @module platform/site-wide
  */
 import '../monitoring/sentry.js';
-import './legacy/menu'; // Used in the footer.
 import './medallia-feedback-button';
 import './moment-setup';
 import './popups';
