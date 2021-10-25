@@ -2,7 +2,6 @@
 import 'platform/polyfills';
 import cookie from 'cookie';
 // Relative imports.
-import addFocusBehaviorToCrisisLineModal from 'platform/site-wide/accessible-VCL-modal';
 import buckets from 'site/constants/buckets';
 import bucketsContent from 'site/constants/buckets-content';
 import createCommonStore from 'platform/startup/store';
@@ -70,8 +69,6 @@ function renderFooter(data, commonStore) {
   startVAFooter(
     data,
     () => {
-      addFocusBehaviorToCrisisLineModal();
-
       if (lastUpdated) {
         const lastUpdatedPanel = document.createElement('div');
         const lastUpdatedDate = lastUpdated.replace('Last updated ', '');

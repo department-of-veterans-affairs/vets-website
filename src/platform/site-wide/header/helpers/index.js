@@ -1,3 +1,63 @@
+// Relative imports.
+import { focusElement } from 'platform/utilities/ui';
+import {
+  getTabbableElements,
+  isEscape,
+  isReverseTab,
+  isTab,
+} from '../../../utilities/accessibility';
+
+// Legacy code for accessibility.
+export const addFocusBehaviorToCrisisLineModal = () => {
+  const overlay = document.getElementById('modal-crisisline');
+  const modal = document.querySelector('.va-crisis-panel.va-modal-inner');
+  const tabbableElements = getTabbableElements(modal);
+  let openControl;
+  const closeControl = tabbableElements[0];
+  const lastTabbableElement = tabbableElements[tabbableElements.length - 1];
+  const triggers = Array.from(
+    document.querySelectorAll('[data-show="#modal-crisisline"]'),
+  );
+
+  const captureFocus = event => {
+    if (event.target === closeControl && isReverseTab(event)) {
+      event.preventDefault();
+      focusElement(lastTabbableElement);
+    }
+    if (event.target === lastTabbableElement && isTab(event)) {
+      event.preventDefault();
+      focusElement(closeControl);
+    }
+  };
+
+  const closeModal = event => {
+    if (isEscape(event)) {
+      overlay.classList.remove('va-overlay--open');
+      document.body.classList.remove('va-pos-fixed');
+      focusElement(openControl);
+    }
+  };
+
+  const resetFocus = () => {
+    focusElement(openControl);
+  };
+
+  // We're saving the element that triggered this modal
+  // in openControl, so that we can focus back on it later,
+  // when the modal is closed
+  triggers.forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      openControl = trigger;
+    });
+  });
+
+  modal.addEventListener('keydown', closeModal);
+  closeControl.addEventListener('click', resetFocus);
+  closeControl.addEventListener('keydown', captureFocus);
+  lastTabbableElement.addEventListener('keydown', captureFocus);
+};
+
+// Legacy code for Veteran Crisis Line, megamenu, and mobile menu buttons.
 export const addOverlayTriggers = () => {
   const overlays = document.querySelectorAll(
     '.va-overlay-trigger, .va-overlay',

@@ -8,7 +8,6 @@ import './moment-setup';
 import './popups';
 import './wysiwyg-analytics-setup';
 import './component-library-analytics-setup';
-import addFocusBehaviorToCrisisLineModal from './accessible-VCL-modal';
 import startAnnouncementWidget from './announcements';
 import startBanners from './banners';
 import startHeaderWidget from './header';
@@ -48,9 +47,5 @@ export default function startSitewideComponents(commonStore) {
   startAnnouncementWidget(commonStore);
   startSideNav(window.sideNav, commonStore);
   startBanners();
-  startVAFooter(
-    window.VetsGov.headerFooter.footerData,
-    addFocusBehaviorToCrisisLineModal,
-    commonStore,
-  );
+  startVAFooter(window.VetsGov.headerFooter.footerData, commonStore);
 }
