@@ -110,11 +110,11 @@ export const CONFERENCE_TIMES_V1 = {
 
 export const CONFERENCE_TIMES_V2 = {
   time0800to1200: {
-    label: '8:00 a.m. to 12:00 p.m. ET',
+    label: '8:00 a.m. to noon ET',
     submit: '800-1200 ET',
   },
   time1200to1630: {
-    label: '12:00 p.m. to 4:30 p.m. ET',
+    label: 'Noon to 4:30 p.m. ET',
     submit: '1200-1630 ET',
   },
 };
