@@ -1,3 +1,11 @@
+/**
+ * [TestRail-integrated] Spec for Notification Prefs > Missing contact info
+ * @testrailinfo projectId 4
+ * @testrailinfo suiteId 5
+ * @testrailinfo groupId 2415
+ * @testrailinfo runName NP-e2e-Missing-contact-info
+ */
+
 import mockCommunicationPreferences from '@@profile/tests/fixtures/communication-preferences/get-200-maximal.json';
 import { makeMockUser } from '@@profile/tests/fixtures/users/user';
 

@@ -1,3 +1,11 @@
+/**
+ * [TestRail-integrated] Spec for Notification Prefs > Feature gating
+ * @testrailinfo projectId 4
+ * @testrailinfo suiteId 5
+ * @testrailinfo groupId 2167
+ * @testrailinfo runName NP-e2e-Feature-gating
+ */
+
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../../constants';
 import { mockUser } from '../../fixtures/users/user';
 import { mockNotificationSettingsAPIs } from '../helpers';
