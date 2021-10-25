@@ -2653,10 +2653,10 @@
   resolved "https://registry.yarnpkg.com/@open-draft/until/-/until-1.0.3.tgz#db9cc719191a62e7d9200f6e7bab21c5b848adca"
   integrity sha512-Aq58f5HiWdyDlFffbbSjAlv596h/cOnt2DO1w3DOC7OJ5EHs0hd/nycJfiu9RJbT6Yk6F1knnRRXNSpxoIVZ9Q==
 
-"@pact-foundation/pact-node@^10.13.7":
-  version "10.13.7"
-  resolved "https://registry.yarnpkg.com/@pact-foundation/pact-node/-/pact-node-10.13.7.tgz#5087a23bee8db3297e5c988bf5084cc836783109"
-  integrity sha512-EhSo5t0QCW5CXdqXPtLo/tkAmAn0Phm7qNgPibh5p5+38Mdrjee77Muk1LVd/MjlW6NV5dH+zLAlD40z4CRelw==
+"@pact-foundation/pact-node@^10.13.8":
+  version "10.13.9"
+  resolved "https://registry.yarnpkg.com/@pact-foundation/pact-node/-/pact-node-10.13.9.tgz#7acbf0b719e943f04ccee13b787a7b7571415d95"
+  integrity sha512-Ph+V614OqiK9GanW0fTAkDB53hgdXqRhxhHDzOYvzsbVjq364aMUwajcldYhl/bT1FjQALS5brQ7Uq4x3fNr7g==
   dependencies:
     "@types/needle" "^2.5.1"
     "@types/pino" "^6.3.5"
@@ -2679,12 +2679,12 @@
     unzipper "^0.10.10"
     url-join "^4.0.0"
 
-"@pact-foundation/pact@^9.16.1":
-  version "9.16.1"
-  resolved "https://registry.yarnpkg.com/@pact-foundation/pact/-/pact-9.16.1.tgz#ca19dd1e7266b994e60bbf696521274d13092580"
-  integrity sha512-hknXmKy3uvZsJ2rJlazyUk1hJWnxRuxAFbMHZ/edWjxF2gmQO3xyA7SKFjgEhbghORcgLnK3308q/5rJFOfbQg==
+"@pact-foundation/pact@^9.16.4":
+  version "9.16.4"
+  resolved "https://registry.yarnpkg.com/@pact-foundation/pact/-/pact-9.16.4.tgz#08865a63f6d71d9ecc2dd7232fdbd042103a077c"
+  integrity sha512-pkbTu2cMzEs8H4ohMi7itAl2AdWGsIZP4QnO9e3Bj5+dYSifiHb/AIscDP61Lk3GfL/KUwCI5qGLiXzpTREZBQ==
   dependencies:
-    "@pact-foundation/pact-node" "^10.13.7"
+    "@pact-foundation/pact-node" "^10.13.8"
     "@types/bluebird" "^3.5.20"
     "@types/express" "^4.17.11"
     bluebird "~3.5.1"
@@ -2696,7 +2696,6 @@
     graphql "^14.0.0"
     graphql-tag "^2.9.1"
     http-proxy "^1.18.1"
-    http-proxy-middleware "^0.19.0"
     lodash "^4.17.21"
     lodash.isfunction "3.0.8"
     lodash.isnil "4.0.0"
@@ -5898,6 +5897,11 @@ commander@^7.2.0:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-7.2.0.tgz#a36cb57d0b501ce108e4d20559a150a391d97ab7"
   integrity sha512-QrWXB+ZQSVPmIWIhtEO9H+gwHaMGYiF5ChvoJ+K9ZGHG/sVsa6yiesAD1GC/x46sET00Xlwo1u49RVVVzvcSkw==
+
+comment-parser@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/comment-parser/-/comment-parser-1.2.4.tgz#489f3ee55dfd184a6e4bffb31baba284453cb760"
+  integrity sha512-pm0b+qv+CkWNriSTMsfnjChF9kH0kxz55y44Wo5le9qLxMj5xDQAaEd9ZN1ovSuk9CsrncWaFwgpOMg7ClJwkw==
 
 common-ancestor-path@^1.0.1:
   version "1.0.1"
@@ -10255,16 +10259,6 @@ http-proxy-middleware@0.19.1:
   integrity sha512-yHYTgWMQO8VvwNS22eLLloAkvungsKdKTLO8AJlftYIKNfJr3GK3zK0ZCfzDDGUBttdGc8xFy1mCitvNKQtC3Q==
   dependencies:
     http-proxy "^1.17.0"
-    is-glob "^4.0.0"
-    lodash "^4.17.11"
-    micromatch "^3.1.10"
-
-http-proxy-middleware@^0.19.0:
-  version "0.19.2"
-  resolved "https://registry.npmjs.org/http-proxy-middleware/-/http-proxy-middleware-0.19.2.tgz"
-  integrity sha512-aYk1rTKqLTus23X3L96LGNCGNgWpG4cG0XoZIT1GUPhhulEHX/QalnO6Vbo+WmKWi4AL2IidjuC0wZtbpg0yhQ==
-  dependencies:
-    http-proxy "^1.18.1"
     is-glob "^4.0.0"
     lodash "^4.17.11"
     micromatch "^3.1.10"

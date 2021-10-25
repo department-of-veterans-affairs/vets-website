@@ -569,7 +569,7 @@ describe('<CallToActionWidget>', () => {
           />,
         );
 
-        expect(tree.find('NeedsVAPatient').exists()).to.be.true;
+        expect(tree.find('NeedsVAPatient').exists()).to.be.false;
         tree.unmount();
       });
 
@@ -625,7 +625,7 @@ describe('<CallToActionWidget>', () => {
             />,
           );
 
-          expect(tree.find('NeedsVAPatient').exists()).to.be.true;
+          expect(tree.find('NeedsVAPatient').exists()).to.be.false;
           tree.unmount();
         });
       });

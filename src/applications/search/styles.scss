@@ -175,10 +175,14 @@
       flex-direction: row;
     }
 
-    input,
-    button {
-      margin: 5px 0;
+    input {
       max-width: none;
+      margin: 0;
+      font-family: "Source Sans Pro";
+
+    }
+    button {
+      margin: 10px 0 5px;
       font-family: "Source Sans Pro";
 
       @media (min-width: $medium-screen) {

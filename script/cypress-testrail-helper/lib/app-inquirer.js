@@ -1,7 +1,7 @@
 const inq = require('inquirer');
 
 module.exports = {
-  askTestRailConfigOptions() {
+  askMyConfigOptions() {
     const questions = [
       {
         name: 'trUsername',
@@ -12,7 +12,7 @@ module.exports = {
             return true;
           }
 
-          return 'Please enter your TestRail username.';
+          return 'Please enter username.';
         },
       },
       {
@@ -24,32 +24,40 @@ module.exports = {
             return true;
           }
 
-          return 'Please enter your TestRail API Key.';
+          return 'Please enter API Key.';
         },
       },
+    ];
+
+    return inq.prompt(questions);
+  },
+
+  askSpecFilename() {
+    const questions = [
       {
-        name: 'trProjectId',
+        name: 'specFilename',
         type: 'input',
-        message: 'Enter your TestRail Project ID:',
+        message: 'Enter your Cypress spec filename:',
         validate(val) {
           if (val.length) {
             return true;
           }
 
-          return 'Please enter your TestRail Project ID.';
+          return 'Please enter filename!';
         },
       },
-      {
-        name: 'trSuiteId',
-        type: 'input',
-        message: 'Enter your TestRail Suite ID:',
-        validate(val) {
-          if (val.length) {
-            return true;
-          }
+    ];
 
-          return 'Please enter your TestRail Suite ID.';
-        },
+    return inq.prompt(questions);
+  },
+
+  askSpecFileChoice(files) {
+    const questions = [
+      {
+        name: 'specFile',
+        type: 'list',
+        message: 'Choose spec from the following list:',
+        choices: files.map(f => Object.assign({}, { name: f, value: f })),
       },
     ];
 
@@ -89,15 +97,15 @@ module.exports = {
         name: 'specPath',
         type: 'input',
         message: "Enter your Cypress spec's project-root-relative path:",
-        validate(val) {
-          if (val.length && val.includes('.cypress.spec.js')) {
-            return true;
-          }
+        // validate(val) {
+        //   if (val.length && val.includes('.cypress.spec.js')) {
+        //     return true;
+        //   }
 
-          return val.length
-            ? 'File extension ".cypress.spec.js(x)" not found!'
-            : 'Please enter spec-file path!';
-        },
+        //   return val.length
+        //     ? 'File extension ".cypress.spec.js(x)" not found!'
+        //     : 'Please enter spec-file path!';
+        // },
       },
     ];
 

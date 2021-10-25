@@ -431,7 +431,7 @@ export function transformConfirmedAppointment(appt) {
       (!appt.communityCare && appt.vdsAppointments?.[0]?.bookingNote) ||
       appt.vvsAppointments?.[0]?.instructionsTitle ||
       null,
-    cancellationReason:
+    cancelationReason:
       CANCELLATION_REASON_MAP.get(getVistaStatus(appt)) || null,
     location: setLocation(appt),
     videoData,
@@ -505,7 +505,7 @@ export function transformPendingAppointment(appt) {
     id: appt.id,
     status: getRequestStatus(appt, isExpressCare),
     created,
-    cancellationReason: null,
+    cancelationReason: null,
     requestedPeriod,
     start: isExpressCare ? created : null,
     minutesDuration: 60,

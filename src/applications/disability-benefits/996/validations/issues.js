@@ -6,13 +6,17 @@ import {
   isValidPartialDate,
 } from 'platform/forms-system/src/js/utilities/validations';
 
-import { $ } from '../utils/ui';
+import { $, areaOfDisagreementWorkAround } from '../utils/ui';
 import { getSelected, hasSomeSelected, hasDuplicates } from '../utils/helpers';
 import {
   missingIssuesErrorMessageText,
   uniqueIssueErrorMessage,
   maxSelected,
 } from '../content/additionalIssues';
+import {
+  missingAreaOfDisagreementErrorMessage,
+  missingAreaOfDisagreementOtherErrorMessage,
+} from '../content/areaOfDisagreement';
 import { MAX_SELECTIONS } from '../constants';
 
 export const requireIssue = (
@@ -127,4 +131,26 @@ export const maxIssues = (error, data) => {
   if (getSelected(data).length > MAX_SELECTIONS) {
     error.addError(maxSelected);
   }
+};
+
+export const areaOfDisagreementRequired = (
+  errors,
+  // added index to get around arrayIndex being null
+  { disagreementOptions, otherEntry, index } = {},
+  formData,
+  _schema,
+  _uiSchema,
+  arrayIndex, // always null?!
+) => {
+  const keys = Object.keys(disagreementOptions || {});
+  const hasSelection = keys.some(key => disagreementOptions[key]);
+
+  if (!hasSelection) {
+    errors.addError(missingAreaOfDisagreementErrorMessage);
+  } else if (disagreementOptions.other && !otherEntry) {
+    errors.addError(missingAreaOfDisagreementOtherErrorMessage);
+  }
+
+  // work-around for error message not showing :(
+  areaOfDisagreementWorkAround(hasSelection, arrayIndex || index);
 };

@@ -6,7 +6,7 @@ import {
 
 const initialState = {
   pending: false,
-  errors: null,
+  error: null,
   statements: [],
 };
 
@@ -21,13 +21,13 @@ const medicalCopaysReducer = (state = initialState, action) => {
       return {
         ...state,
         pending: false,
-        statements: action.response.data,
+        statements: action.response,
       };
     case MCP_STATEMENTS_FETCH_FAILURE:
       return {
         ...state,
         pending: false,
-        errors: action.errors,
+        error: action.error,
       };
     default:
       return state;
