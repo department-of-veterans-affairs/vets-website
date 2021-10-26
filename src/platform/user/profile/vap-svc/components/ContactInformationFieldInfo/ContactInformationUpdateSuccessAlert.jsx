@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useLastLocation } from 'react-router-last-location';
 
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+
 import { PROFILE_PATHS } from '@@profile/constants';
 import { FIELD_NAMES } from '@@vap-svc/constants';
 import { selectVAPContactInfoField } from '@@vap-svc/selectors';
@@ -35,7 +37,7 @@ const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
   );
 
   return (
-    <va-alert backgroundOnly status="success" className="vads-u-margin-y--1">
+    <AlertBox backgroundOnly status="success" className="vads-u-margin-y--1">
       <div className="vads-u-display--flex">
         <i
           aria-hidden="true"
@@ -45,7 +47,7 @@ const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
           {message}
         </p>
       </div>
-    </va-alert>
+    </AlertBox>
   );
 };
 
