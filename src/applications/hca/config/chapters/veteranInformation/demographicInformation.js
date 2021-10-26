@@ -11,7 +11,7 @@ const {
   isNativeHawaiianOrOtherPacificIslander,
   isSpanishHispanicLatino,
   isWhite,
-  noAnswer,
+  // noAnswer,
 } = fullSchemaHca.properties;
 
 const StatisticsInfo = (
@@ -49,9 +49,9 @@ export default {
       isWhite: {
         'ui:title': 'White',
       },
-      noAnswer: {
-        'ui:title': 'Prefer not to answer',
-      },
+      // noAnswer: {
+      //   'ui:title': 'Prefer not to answer',
+      // },
     },
   },
   schema: {
@@ -66,7 +66,7 @@ export default {
           isNativeHawaiianOrOtherPacificIslander,
           isAsian,
           isWhite,
-          noAnswer,
+          // noAnswer,
         },
       },
     },

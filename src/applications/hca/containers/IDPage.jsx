@@ -164,7 +164,7 @@ class IDPage extends React.Component {
     } = this.props;
     return (
       <div className="schemaform-intro">
-        {!caregiverSigiEnabled ? <div>Sup</div> : null}
+        {caregiverSigiEnabled ? <div>Sup</div> : null}
         <FormTitle title="We need some information before you can start your application" />
         {showLoadingIndicator && <LoadingIndicator />}
         {!showLoadingIndicator && (
