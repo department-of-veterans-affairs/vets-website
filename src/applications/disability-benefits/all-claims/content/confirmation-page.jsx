@@ -4,6 +4,7 @@ import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
+import DownloadPDF from '../components/DownloadPDF';
 import { capitalizeEachWord, formatDate } from '../utils';
 import {
   successMessage,
@@ -141,6 +142,61 @@ const template = (props, title, content, submissionMessage, messageType) => {
         </p>
         <p>
           <a href="/track-claims">Check the status of your claim</a>
+        </p>
+
+        <h2 className="confirmation-guidance-heading vads-u-font-size--h4">
+          What should I do next?
+        </h2>
+        <p className="confirmation-guidance-message">
+          <strong>If you have a spouse or child</strong>, you may be entitled to
+          additional payments.{' '}
+          <a href="https://www.va.gov/view-change-dependents/">
+            Apply online to add a dependent
+          </a>
+        </p>
+        <p>
+          Or you can fill out and submit an Application Request to Add and/or
+          Remove Dependents (VA Form 21-686c)
+        </p>
+        <p>
+          <DownloadPDF
+            formNumber="21-686c"
+            fileName="VBA-21-686c-ARE"
+            size="2.7"
+          />
+        </p>
+        <p>
+          <strong>Note:</strong> If you’re claiming your child who became
+          permanently disabled before they turned 18, you’ll need to submit all
+          military and private medical records relating to the child’s
+          disabilities with your application.
+        </p>
+        <p>
+          <strong>
+            If you’re claiming a child who’s between 18 and 23 years old and
+            attending school full time
+          </strong>
+          , you’ll need to fill out and submit a Request for Approval of School
+          Attendance (VA Form 21-674) so we can verify their attendance.
+        </p>
+        <p>
+          <DownloadPDF
+            formNumber="21-674"
+            fileName="VBA-21-674-ARE"
+            size="1.3"
+          />
+        </p>
+        <p>
+          <strong>If you have dependent parents</strong>, you may be entitled to
+          additional payments. Fill out and submit a Statement of Dependency of
+          Parent(s) (VA Form 21P-509).
+        </p>
+        <p>
+          <DownloadPDF
+            formNumber="21P-509"
+            fileName="VBA-21P-509-ARE"
+            size="1"
+          />
         </p>
 
         <h2 className="confirmation-guidance-heading vads-u-font-size--h4">
