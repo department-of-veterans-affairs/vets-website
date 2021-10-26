@@ -1,4 +1,4 @@
-import { rootUrl } from '../../manifest.json';
+import manifest from '../../manifest.json';
 import mockDependents from './fixtures/mock-dependents.json';
 import mockNoAwardDependents from './fixtures/mock-no-dependents-on-award.json';
 
@@ -11,7 +11,7 @@ const testAxe = () => {
 
 const testHappyPath = () => {
   cy.intercept('GET', DEPENDENTS_ENDPOINT, mockDependents).as('mockDependents');
-  cy.visit(rootUrl);
+  cy.visit(manifest.rootUrl);
   testAxe();
   cy.findByRole('heading', { name: /Your VA Dependents/i }).should('exist');
   cy.findAllByRole('term', { name: /relationship/ }).should('have.length', 4);
@@ -22,7 +22,7 @@ const testNoDependentsOnAward = () => {
   cy.intercept('GET', DEPENDENTS_ENDPOINT, mockNoAwardDependents).as(
     'mockNoAwardDependents',
   );
-  cy.visit(rootUrl);
+  cy.visit(manifest.rootUrl);
   cy.findByText(
     'There are no dependents associated with your VA benefits',
   ).should('exist');
@@ -40,7 +40,7 @@ const testEmptyResponse = () => {
       },
     },
   }).as('emptyResponse');
-  cy.visit(rootUrl);
+  cy.visit(manifest.rootUrl);
   cy.findByRole('heading', {
     name: /We don’t have dependents information on file for you/i,
   }).should('exist');
@@ -60,7 +60,7 @@ const testServerError = () => {
     },
     statusCode: 500,
   }).as('serverError');
-  cy.visit(rootUrl);
+  cy.visit(manifest.rootUrl);
   cy.findByRole('heading', {
     name: /We’re sorry. Something went wrong on our end/i,
   }).should('exist');

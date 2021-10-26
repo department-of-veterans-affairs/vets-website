@@ -5,6 +5,7 @@ import { getDate } from '../../utils/dates';
 import {
   createIssueName,
   getContestedIssues,
+  addAreaOfDisagreement,
   getConferenceTimes,
   getConferenceTime,
   removeEmptyEntries,
@@ -101,6 +102,73 @@ describe('getContestedIssues', () => {
       ],
     };
     expect(getContestedIssues(formData)).to.deep.equal([issue2.result]);
+  });
+});
+
+describe('addAreaOfDisagreement', () => {
+  it('should process a single choice', () => {
+    const formData = {
+      areaOfDisagreement: [
+        {
+          disagreementOptions: {
+            serviceConnection: true,
+            effectiveDate: false,
+          },
+        },
+        {
+          disagreementOptions: {
+            effectiveDate: true,
+            other: false,
+          },
+          otherEntry: 'test',
+        },
+      ],
+    };
+    const result = addAreaOfDisagreement(
+      [issue1.result, issue2.result],
+      formData,
+    );
+    expect(result[0].attributes.disagreementArea).to.equal(
+      'service connection',
+    );
+    expect(result[1].attributes.disagreementArea).to.equal('effective date');
+  });
+  it('should process multiple choices', () => {
+    const formData = {
+      areaOfDisagreement: [
+        {
+          disagreementOptions: {
+            serviceConnection: true,
+            effectiveDate: true,
+            evaluation: true,
+          },
+          otherEntry: 'test',
+        },
+      ],
+    };
+    const result = addAreaOfDisagreement([issue1.result], formData);
+    expect(result[0].attributes.disagreementArea).to.equal(
+      'service connection,effective date,disability evaluation',
+    );
+  });
+  it('should process other choice', () => {
+    const formData = {
+      areaOfDisagreement: [
+        {
+          disagreementOptions: {
+            serviceConnection: true,
+            effectiveDate: true,
+            evaluation: true,
+            other: true,
+          },
+          otherEntry: 'this is an other entry',
+        },
+      ],
+    };
+    const result = addAreaOfDisagreement([issue1.result], formData);
+    expect(result[0].attributes.disagreementArea).to.equal(
+      'service connection,effective date,disability evaluation,this is an other entry',
+    );
   });
 });
 

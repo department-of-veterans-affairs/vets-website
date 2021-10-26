@@ -1,3 +1,11 @@
+/**
+ * [TestRail-integrated] Spec for Notification Prefs > Happy editing path
+ * @testrailinfo projectId 4
+ * @testrailinfo suiteId 5
+ * @testrailinfo groupId 2168
+ * @testrailinfo runName NP-e2e-Happy-editing-path
+ */
+
 import { PROFILE_PATHS } from '@@profile/constants';
 
 import mockPatient from '@@profile/tests/fixtures/users/user-36.json';

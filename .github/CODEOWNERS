@@ -32,11 +32,11 @@ config/cypress.json @department-of-veterans-affairs/vsp-testing
 src/applications/personalization @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend
 src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-frontend
 
-# Benefits and Memorials
+# Claims & appeals (Benefits and Memorials 1)
 src/applications/letters @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
-src/applications/disability-benefits @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend
+src/applications/disability-benefits @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
 src/applications/claims-status @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-debt-frontend
-src/applications/appeals @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend
+src/applications/appeals @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
 src/applications/pre-need @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend
 
 # VSA Debt
