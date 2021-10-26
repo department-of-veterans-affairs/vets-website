@@ -258,7 +258,15 @@ jobs:
       - name: Annotate Stylelint results
         if: ${{ always() }}
         run: node ./script/github-actions/stylelint-annotation-format.js
+  testing-reports-prep:
+    name: Testing Reports Prep
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate new application list
+        run: yarn generate-app-list
 
+      - name: Output application list
+        run: ${{ env.APPLICATION_LIST }}
   cypress-tests-prep:
     name: Prep for Cypress Tests
     runs-on: ubuntu-latest
