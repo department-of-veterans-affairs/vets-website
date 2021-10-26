@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-const find = require('find');
 const fs = require('fs');
+const find = require('find');
 const path = require('path');
 const commandLineArgs = require('command-line-args');
 
@@ -39,7 +39,7 @@ const getAllowedApp = (file, allowList, outputType = 'entry') => {
 
   const entryName = getEntryName(file);
 
-  if (file.startsWith('src/applications') && allowList.includes(entryName)) {
+  if (allowList.includes(entryName)) {
     // Return app path when 'app-folders' option is used
     if (outputType === 'folder') {
       const appFolderName = file.split('/')[2];
