@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const glob = require('glob');
 
 const codeOwners = fs.readFileSync(
   path.join(__dirname, '../.github/CODEOWNERS'),
@@ -22,23 +23,18 @@ const mappedLines = codeOwners
   .filter(line => !!line);
 
 const appOwnerMap = mappedLines
-  .map(app => {
-    try {
-      const files = fs.readdirSync(`${app.directory}`);
+  .reduce((acc, app) => {
+    const files = glob.sync(`${app.directory}/**/manifest.json`);
+    const apps = [];
 
-      if (files.includes('manifest.json')) {
-        const file = JSON.parse(
-          fs.readFileSync(`${app.directory}/manifest.json`),
-        );
+    files.forEach(file => {
+      const manifest = JSON.parse(fs.readFileSync(file));
 
-        return { owner: app.owner, appName: file.entryName };
-      }
+      apps.push({ owner: app.owner, appName: manifest.entryName });
+    });
 
-      return app;
-    } catch (err) {
-      return app;
-    }
-  })
+    return [...acc, ...apps];
+  }, [])
   .filter(app => !!app.appName);
 
 process.stdout.write(JSON.stringify(appOwnerMap));
