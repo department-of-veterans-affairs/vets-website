@@ -205,21 +205,6 @@ export function mockFacilitiesFetchError(ids) {
 }
 
 /**
- * Mocks single facility request for facility data from the VA facilities api
- *
- * @export
- * @param {Object} params
- * @param {string} id Facility id to use in query param
- * @param {VAFacility} facility Facility data to return from mock
- */
-export function mockFacilityFetch(id, facility) {
-  setFetchJSONResponse(
-    global.fetch.withArgs(`${environment.API_URL}/v1/facilities/va/${id}`),
-    { data: facility },
-  );
-}
-
-/**
  * Mocks request to VA community care providers api, used in community care request flow
  *
  * @export
