@@ -62,7 +62,7 @@ describe('check-in', () => {
 
       it('should set appointment', () => {
         const data = {
-          startTime: '2021-08-19T13:56:31',
+          startTime: '2021-08-19T13:56:31.000-07:00',
           facility: 'LOMA LINDA VA CLINIC',
           clinicPhoneNumber: '5551234567',
           clinicFriendlyName: 'TEST CLINIC',
@@ -74,6 +74,7 @@ describe('check-in', () => {
         expect(state.appointments).to.be.an('array');
 
         expect(state.appointments[0]).haveOwnProperty('startTime');
+        expect(state.appointments[0].startTime).to.equal('2021-08-19T13:56:31');
         expect(state.appointments[0]).haveOwnProperty('facility');
         expect(state.appointments[0]).haveOwnProperty('clinicPhoneNumber');
         expect(state.appointments[0]).haveOwnProperty('clinicFriendlyName');
