@@ -48,7 +48,7 @@ import { benefitTypes } from '~/applications/personalization/common/constants';
 export const BankInfo = ({
   isLOA3,
   isDirectDepositSetUp,
-  isEligibleToSetUpCNPDirectDeposit,
+  isEligibleToSetUpDirectDeposit,
   directDepositAccountInfo,
   directDepositServerError,
   directDepositUiState,
@@ -345,7 +345,7 @@ export const BankInfo = ({
     if (isDirectDepositSetUp) {
       return bankInfoContent;
     }
-    if (isEligibleToSetUpCNPDirectDeposit) {
+    if (isEligibleToSetUpDirectDeposit) {
       return notSetUpContent;
     }
     return notEligibleContent;
@@ -357,7 +357,7 @@ export const BankInfo = ({
       // getBankInfo() helper
       value: getBankInfo(),
     };
-    if (isEligibleToSetUpCNPDirectDeposit || isDirectDepositSetUp) {
+    if (isEligibleToSetUpDirectDeposit || isDirectDepositSetUp) {
       data.title = 'Account';
     }
     return [data];
@@ -429,7 +429,7 @@ BankInfo.propTypes = {
   }),
   isDirectDepositSetUp: PropTypes.bool.isRequired,
   directDepositServerError: PropTypes.bool.isRequired,
-  isEligibleToSetUpCNPDirectDeposit: PropTypes.bool.isRequired,
+  isEligibleToSetUpDirectDeposit: PropTypes.bool.isRequired,
   directDepositUiState: PropTypes.shape({
     isEditing: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
@@ -457,7 +457,7 @@ export const mapStateToProps = (state, ownProps) => {
     directDepositServerError: typeIsCNP
       ? !!cnpDirectDepositLoadError(state)
       : !!eduDirectDepositLoadError(state),
-    isEligibleToSetUpCNPDirectDeposit: typeIsCNP
+    isEligibleToSetUpDirectDeposit: typeIsCNP
       ? cnpDirectDepositAddressIsSetUp(state)
       : false,
     directDepositUiState: typeIsCNP
