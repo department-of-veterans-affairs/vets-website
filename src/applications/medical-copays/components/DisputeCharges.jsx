@@ -15,12 +15,17 @@ const DisputeCharges = () => (
       dispute by mail, please include "Billing Dispute" on the mailing envelope.
     </p>
     <p>
-      <a className="vads-c-action-link--blue" href="#">
+      <a
+        className="vads-c-action-link--blue"
+        href="https://www.va.gov/find-locations"
+      >
         Find your nearest VA medical center
       </a>
     </p>
     <p>
-      <a href="#">Learn more about disputing your copay charges</a>
+      <a href="https://www.va.gov/health-care/pay-copay-bill/dispute-charges/">
+        Learn more about disputing your copay charges
+      </a>
     </p>
   </article>
 );
