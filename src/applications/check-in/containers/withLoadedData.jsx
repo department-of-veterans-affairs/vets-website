@@ -93,11 +93,11 @@ const mapDispatchToProps = dispatch => {
   return {
     setSessionData: (payload, token) => {
       batch(() => {
-        const { appointments, demographics, nextOfKin } = payload;
+        const { appointments, demographics } = payload;
         dispatch(triggerRefresh(false));
         dispatch(receivedMultipleAppointmentDetails(appointments, token));
         dispatch(receivedDemographicsData(demographics));
-        dispatch(receivedNextOfKinData(nextOfKin));
+        dispatch(receivedNextOfKinData(demographics.nextOfKin1));
       });
     },
   };
