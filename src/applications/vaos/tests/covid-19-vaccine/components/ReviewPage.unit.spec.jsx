@@ -13,16 +13,16 @@ import ReviewPage from '../../../covid-19-vaccine/components/ReviewPage';
 import { onCalendarChange } from '../../../covid-19-vaccine/redux/actions';
 import { mockAppointmentSubmit, mockFacilityFetch } from '../../mocks/helpers';
 import { createMockCheyenneFacilityByVersion } from '../../mocks/data';
-
-const initialState = {
-  featureToggles: {
-    vaOnlineSchedulingCancel: true,
-  },
-};
+import { mockAppointmentSubmitV2 } from '../../mocks/helpers.v2';
 
 describe('VAOS vaccine flow <ReviewPage>', () => {
   let store;
   let start;
+  const initialState = {
+    featureToggles: {
+      vaOnlineSchedulingCancel: true,
+    },
+  };
 
   beforeEach(() => {
     mockFetch();
@@ -210,6 +210,116 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
     expect(screen.history.push.called).to.be.false;
     waitFor(() => {
       expect(document.activeElement).to.be(alert);
+    });
+  });
+});
+
+describe('VAOS vaccine flow with VAOS service <ReviewPage>', () => {
+  let store;
+  let start;
+  const initialState = {
+    featureToggles: {
+      vaOnlineSchedulingVAOSServiceVAAppointments: true,
+    },
+  };
+
+  beforeEach(() => {
+    mockFetch();
+    start = moment();
+    store = createTestStore({
+      ...initialState,
+      covid19Vaccine: {
+        newBooking: {
+          pages: {},
+          data: {
+            phoneNumber: '2234567890',
+            email: 'joeblow@gmail.com',
+            vaFacility: '983',
+            clinicId: '983_455',
+          },
+          facilityDetails: {
+            983: {},
+          },
+          facilities: [
+            {
+              id: '983',
+              name: 'Cheyenne VA Medical Center',
+              address: {
+                postalCode: '82001-5356',
+                city: 'Cheyenne',
+                state: 'WY',
+                line: ['2360 East Pershing Boulevard'],
+              },
+            },
+          ],
+          availableSlots: [
+            {
+              start: start.format(),
+              end: start
+                .clone()
+                .add(30, 'minutes')
+                .format(),
+            },
+          ],
+          clinics: {
+            983: [
+              {
+                id: '983_455',
+                serviceName: 'Some VA clinic',
+                stationId: '983',
+                stationName: 'Cheyenne VA Medical Center',
+              },
+            ],
+          },
+        },
+      },
+    });
+    store.dispatch(onCalendarChange([start.format()]));
+  });
+
+  it('should submit successfully', async () => {
+    mockAppointmentSubmitV2({
+      id: 'fake_id',
+    });
+
+    const screen = renderWithStoreAndRouter(<ReviewPage />, {
+      store,
+    });
+
+    await screen.findByText(/COVID-19 vaccine/i);
+
+    userEvent.click(screen.getByText(/Confirm appointment/i));
+    await waitFor(() => {
+      expect(screen.history.push.lastCall.args[0]).to.equal(
+        '/new-covid-19-vaccine-appointment/confirmation',
+      );
+    });
+    const submitData = JSON.parse(global.fetch.getCall(0).args[1].body);
+
+    expect(submitData).to.deep.equal({
+      kind: 'clinic',
+      status: 'booked',
+      locationId: '983',
+      clinic: '455',
+      serviceType: 'covid',
+      comment: '',
+      extension: {
+        desiredDate: store.getState().covid19Vaccine.newBooking
+          .availableSlots[0].start,
+      },
+      contact: {
+        telecom: [
+          {
+            type: 'phone',
+            value: '2234567890',
+          },
+          {
+            type: 'email',
+            value: 'joeblow@gmail.com',
+          },
+        ],
+      },
+      slot: store.getState().covid19Vaccine.newBooking.availableSlots[0],
     });
   });
 });
