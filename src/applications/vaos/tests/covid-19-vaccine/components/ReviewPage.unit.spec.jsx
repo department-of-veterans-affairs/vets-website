@@ -295,7 +295,7 @@ describe('VAOS vaccine flow with VAOS service <ReviewPage>', () => {
       );
     });
 
-    // Then the form data is submitted and matches the form
+    // Then the form data is submitted to the v2 endpoint and matches the form
     const submitData = JSON.parse(global.fetch.getCall(0).args[1].body);
 
     expect(submitData).to.deep.equal({
