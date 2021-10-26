@@ -46,7 +46,7 @@ const DependencyVerificationModal = props => {
 
     // Redirect the user to the appropriate form to update dependents, if needed
     if (!shouldUpdate) {
-      window.location = manifest.rootUrl;
+      window.location.assign(manifest.rootUrl);
     }
   };
 
