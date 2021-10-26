@@ -300,6 +300,17 @@ jobs:
           path: testing-tools-team-dashboard-data
           ref: test-naming-apps
 
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14 # ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline --production=false
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
+        working-directory: testing-tools-team-dashboard-data
+
       - name: Upload app list to BigQuery
         run: yarn generate-app-list
         working-directory: department-of-veterans-affairs/testing-tools-team-dashboard-data
