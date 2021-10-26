@@ -258,6 +258,7 @@ jobs:
       - name: Annotate Stylelint results
         if: ${{ always() }}
         run: node ./script/github-actions/stylelint-annotation-format.js
+
   testing-reports-prep:
     name: Testing Reports Prep
     runs-on: ubuntu-latest
@@ -276,9 +277,32 @@ jobs:
 
       - name: Generate new application list
         run: yarn generate-app-list
+      # exports app list and assigns to environmental variable at this step
 
-      - name: Output application list
-        run: ${{ env.APPLICATION_LIST }}
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Checkout Testing Tools Team Dashboard Data repo
+        uses: actions/checkout@v2
+        with:
+          repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          path: testing-tools-team-dashboard-data
+          ref: test-naming-apps
+
+      - name: Upload app list to BigQuery
+        run: yarn generate-app-list
+
   cypress-tests-prep:
     name: Prep for Cypress Tests
     runs-on: ubuntu-latest
