@@ -1,22 +1,43 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import format from 'date-fns/format';
 
+import AppointmentListItem from '../../components/AppointmentDisplay/AppointmentListItem';
+import BackButton from '../../components/BackButton';
 import BackToHome from '../../components/BackToHome';
 import Footer from '../../components/Footer';
-import BackButton from '../../components/BackButton';
-import AppointmentListItem from '../../components/AppointmentDisplay/AppointmentListItem';
+import recordEvent from 'platform/monitoring/record-event';
+import { createAnalyticsSlug } from '../../utils/analytics';
+import { sortAppointmentsByStartTime } from '../../utils/appointment';
+import { focusElement } from 'platform/utilities/ui';
 
-export default function DisplayMultipleAppointments(props) {
+const DisplayMultipleAppointments = props => {
   const {
-    isUpdatePageEnabled,
-    isLowAuthEnabled,
-    token,
     appointments,
+    getMultipleAppointments,
+    isDemographicsPageEnabled,
+    isUpdatePageEnabled,
     router,
+    token,
   } = props;
+
+  const handleClick = e => {
+    e.preventDefault();
+
+    recordEvent({
+      event: createAnalyticsSlug('refresh-appointments-button-clicked'),
+    });
+
+    getMultipleAppointments();
+    focusElement('h1');
+  };
+
+  const sortedAppointments = sortAppointmentsByStartTime(appointments);
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 appointment-check-in">
-      {isUpdatePageEnabled && <BackButton router={router} />}
+      {(isUpdatePageEnabled || isDemographicsPageEnabled) && (
+        <BackButton router={router} />
+      )}
       <h1 tabIndex="-1" className="vads-u-margin-top--2">
         Your appointments
       </h1>
@@ -29,20 +50,43 @@ export default function DisplayMultipleAppointments(props) {
         className="appointment-list vads-u-padding--0 vads-u-margin--0 vads-u-margin-bottom--2"
         role="list"
       >
-        {appointments.map((appointment, index) => {
+        {sortedAppointments.map((appointment, index) => {
           return (
             <AppointmentListItem
               appointment={appointment}
               key={index}
-              isLowAuthEnabled={isLowAuthEnabled}
               router={router}
               token={token}
             />
           );
         })}
       </ol>
+      <p data-testid="update-text">
+        <strong>Latest update:</strong>{' '}
+        {format(new Date(), "MMMM d, yyyy 'at' h:mm aaaa")}
+      </p>
+      <p data-testid="refresh-link">
+        <a
+          onClick={e => handleClick(e)}
+          href="#"
+          data-testid="refresh-appointments-button"
+        >
+          Refresh
+        </a>
+      </p>
       <Footer />
       <BackToHome />
     </div>
   );
-}
+};
+
+DisplayMultipleAppointments.propTypes = {
+  appointments: PropTypes.array,
+  getMultipleAppointments: PropTypes.func,
+  isDemographicsPageEnabled: PropTypes.bool,
+  isUpdatePageEnabled: PropTypes.bool,
+  router: PropTypes.object,
+  token: PropTypes.string,
+};
+
+export default DisplayMultipleAppointments;

@@ -109,15 +109,20 @@ describe('526 All Claims validations', () => {
   });
 
   describe('startedAfterServicePeriod', () => {
-    it('should add error if treatment start date is before earliest service start date', () => {
+    it('should add error if treatment start date is before earliest active service start date', () => {
       const err = { addError: sinon.spy() };
 
       const formData = {
         serviceInformation: {
           servicePeriods: [
-            { dateRange: { from: '2003-03-12' } },
-            { dateRange: { from: '2000-01-14' } },
-            { dateRange: { from: '2011-12-25' } },
+            { dateRange: { from: '2003-03-12' }, serviceBranch: 'Army' },
+            { dateRange: { from: '2000-01-14' }, serviceBranch: 'Army' },
+            { dateRange: { from: '2011-12-25' }, serviceBranch: 'Army' },
+            // ignored
+            {
+              dateRange: { from: '1990-10-11' },
+              serviceBranch: 'Army Reserve',
+            },
           ],
         },
       };
@@ -126,15 +131,20 @@ describe('526 All Claims validations', () => {
       expect(err.addError.calledOnce).to.be.true;
     });
 
-    it('should not add error if treatment start date monthYear is the same as earliest service start date', () => {
+    it('should not add error if treatment start date monthYear is the same as earliest active service start date', () => {
       const err = { addError: sinon.spy() };
 
       const formData = {
         serviceInformation: {
           servicePeriods: [
-            { dateRange: { from: '2003-03-12' } },
-            { dateRange: { from: '2000-01-14' } },
-            { dateRange: { from: '2011-12-25' } },
+            { dateRange: { from: '2003-03-12' }, serviceBranch: 'Army' },
+            { dateRange: { from: '2000-01-14' }, serviceBranch: 'Army' },
+            { dateRange: { from: '2011-12-25' }, serviceBranch: 'Coast Guard' },
+            // ignored
+            {
+              dateRange: { from: '1990-10-11' },
+              serviceBranch: 'Coast Guard Reserve',
+            },
           ],
         },
       };
@@ -143,15 +153,20 @@ describe('526 All Claims validations', () => {
       expect(err.addError.called).to.be.false;
     });
 
-    it('should not add error if treatment start date is after earliest service start date', () => {
+    it('should not add error if treatment start date is after earliest active service start date', () => {
       const err = { addError: sinon.spy() };
 
       const formData = {
         serviceInformation: {
           servicePeriods: [
-            { dateRange: { from: '2003-03-12' } },
-            { dateRange: { from: '2000-01-14' } },
-            { dateRange: { from: '2011-12-25' } },
+            { dateRange: { from: '2003-03-12' }, serviceBranch: 'Army' },
+            { dateRange: { from: '2000-01-14' }, serviceBranch: 'Army' },
+            { dateRange: { from: '2011-12-25' }, serviceBranch: 'Army' },
+            // ignored
+            {
+              dateRange: { from: '1990-10-11' },
+              serviceBranch: 'Army National Guard',
+            },
           ],
         },
       };

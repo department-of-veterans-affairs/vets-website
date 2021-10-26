@@ -3,6 +3,8 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import AppointmentLocation from '../AppointmentLocation';
 
+import { axeCheck } from 'platform/forms-system/test/config/helpers';
+
 describe('check-in', () => {
   describe('AppointmentLocation', () => {
     it('Renders the name - clinic friendly name ', () => {
@@ -13,12 +15,6 @@ describe('check-in', () => {
     });
     it('Renders the name - clinic name ', () => {
       const appointment = { clinicName: 'foo' };
-      const display = render(<AppointmentLocation appointment={appointment} />);
-
-      expect(display.getByText('foo')).to.exist;
-    });
-    it('Renders the name - facility name ', () => {
-      const appointment = { facility: 'foo' };
       const display = render(<AppointmentLocation appointment={appointment} />);
 
       expect(display.getByText('foo')).to.exist;
@@ -44,15 +40,40 @@ describe('check-in', () => {
       expect(display.getByText('should be this')).to.exist;
     });
 
-    it('Renders the name - falls to facility name ', () => {
+    it('Renders the name - falls to clinicName ', () => {
       const appointment = {
-        facility: 'should be this',
-        clinicName: undefined,
+        facility: undefined,
+        clinicName: 'should be this',
         clinicFriendlyName: undefined,
       };
       const display = render(<AppointmentLocation appointment={appointment} />);
 
       expect(display.getByText('should be this')).to.exist;
+    });
+
+    it('passes axeCheck', () => {
+      const appointment = { clinicFriendlyName: 'foo' };
+      axeCheck(<AppointmentLocation appointment={appointment} />);
+    });
+    it('Renders name boldly', () => {
+      const appointment = { clinicFriendlyName: 'foo' };
+      const display = render(
+        <AppointmentLocation appointment={appointment} bold />,
+      );
+
+      expect(display.getByText('foo')).to.exist;
+      expect(
+        display.getByText('foo').classList.contains('vads-u-font-weight--bold'),
+      ).to.be.true;
+    });
+    it('Renders name not  boldly', () => {
+      const appointment = { clinicFriendlyName: 'foo' };
+      const display = render(<AppointmentLocation appointment={appointment} />);
+
+      expect(display.getByText('foo')).to.exist;
+      expect(
+        display.getByText('foo').classList.contains('vads-u-font-weight--bold'),
+      ).to.be.false;
     });
   });
 });

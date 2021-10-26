@@ -14,7 +14,6 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import MFA from './components/messages/MFA';
 import MultipleIds from './components/messages/MultipleIds';
 import NeedsSSNResolution from './components/messages/NeedsSSNResolution';
-import NeedsVAPatient from './components/messages/NeedsVAPatient';
 import NoMHVAccount from './components/messages/NoMHVAccount';
 import NotAuthorized from './components/messages/mvi/NotAuthorized';
 import NotFound from './components/messages/mvi/NotFound';
@@ -62,6 +61,8 @@ export class CallToActionWidget extends Component {
     fetchMHVAccount: PropTypes.func.isRequired,
     toggleLoginModal: PropTypes.func.isRequired,
     upgradeMHVAccount: PropTypes.func.isRequired,
+    ariaLabel: PropTypes.string,
+    ariaDescribedby: PropTypes.string,
   };
 
   static defaultProps = {
@@ -140,6 +141,8 @@ export class CallToActionWidget extends Component {
           serviceDescription={this._serviceDescription}
           primaryButtonHandler={this.openLoginModal}
           headerLevel={this.props.headerLevel}
+          ariaLabel={this.props.ariaLabel}
+          ariaDescribedby={this.props.ariaDescribedby}
         />
       );
     }
@@ -260,7 +263,7 @@ export class CallToActionWidget extends Component {
   };
 
   getInaccessibleHealthToolContentSSOe = () => {
-    const { profile, isVaPatient, mhvAccountIdState } = this.props;
+    const { profile, mhvAccountIdState } = this.props;
 
     if (!profile.verified) {
       recordEvent({
@@ -275,9 +278,6 @@ export class CallToActionWidget extends Component {
     } else if (mhvAccountIdState === 'DEACTIVATED') {
       recordEvent({ event: `${this._gaPrefix}-error-has-deactivated-mhv-ids` });
       return <DeactivatedMHVIds />;
-    } else if (!isVaPatient) {
-      recordEvent({ event: `${this._gaPrefix}-error-needs-va-patient` });
-      return <NeedsVAPatient />;
     }
 
     return null;
@@ -349,9 +349,6 @@ export class CallToActionWidget extends Component {
         return (
           <UpgradeFailed upgradeMHVAccount={this.props.upgradeMHVAccount} />
         );
-
-      case ACCOUNT_STATES.NEEDS_VA_PATIENT:
-        return <NeedsVAPatient />;
 
       default: // Handle other content outside of block.
     }

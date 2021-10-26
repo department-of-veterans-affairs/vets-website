@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 import { focusElement } from 'platform/utilities/ui';
@@ -15,13 +16,19 @@ const Failed = props => {
       <h1 tabIndex="-1" className="vads-u-margin-top--2">
         Check in with a staff member
       </h1>
+      <p>Our staff can help you update your contact information.</p>
       <p className="vads-u-margin-bottom--0">
-        They can help you update your information before your appointment.
+        If you don’t live at a fixed address right now, we’ll help you find the
+        best way to stay connected with us.
       </p>
       <Footer />
       <BackToHome />
     </div>
   );
+};
+
+Failed.propTypes = {
+  router: PropTypes.object,
 };
 
 export default Failed;

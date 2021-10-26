@@ -1,3 +1,11 @@
+/**
+ * [TestRail-integrated] Spec for Notification Prefs > Happy loading path
+ * @testrailinfo projectId 4
+ * @testrailinfo suiteId 5
+ * @testrailinfo groupId 2404
+ * @testrailinfo runName NP-e2e-Happy-loading-path
+ */
+
 import { PROFILE_PATHS } from '@@profile/constants';
 
 import { makeUserObject } from '~/applications/personalization/common/helpers';
@@ -24,7 +32,7 @@ describe('Notification Settings', () => {
   context(
     'when user is a VA patient at at least one facility that supports Rx tracking',
     () => {
-      it('should show the Health Care group first and show the Rx tracking item along with the radio button hint text', () => {
+      it('should show the Health Care group first and show the Rx tracking item along with the radio button hint text - C9477', () => {
         cy.login(
           makeUserObject({
             isPatient: true,
@@ -65,7 +73,7 @@ describe('Notification Settings', () => {
   context(
     'when user is a VA patient and is only associated with facilities that supports Rx tracking',
     () => {
-      it('should show the Health Care group first and show the Rx tracking item but hide the radio button hint text', () => {
+      it('should show the Health Care group first and show the Rx tracking item but hide the radio button hint text - C9478', () => {
         cy.login(
           makeUserObject({
             isPatient: true,
@@ -103,7 +111,7 @@ describe('Notification Settings', () => {
   context(
     'when user is a VA patient at a facility that does not support Rx tracking',
     () => {
-      it('should show the Health Care group first but not show the Rx tracking item', () => {
+      it('should show the Health Care group first but not show the Rx tracking item - C9479', () => {
         cy.login(
           makeUserObject({
             isPatient: true,
@@ -138,7 +146,7 @@ describe('Notification Settings', () => {
     },
   );
   context('when user is not a VA patient', () => {
-    it('should not show the Health Care notification group', () => {
+    it('should not show the Health Care notification group - C9480', () => {
       cy.login(makeUserObject({ isPatient: false }));
       cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
       cy.findByRole('heading', {

@@ -1,3 +1,11 @@
+/**
+ * [TestRail-integrated] Spec for Notification Prefs > Happy editing path
+ * @testrailinfo projectId 4
+ * @testrailinfo suiteId 5
+ * @testrailinfo groupId 2168
+ * @testrailinfo runName NP-e2e-Happy-editing-path
+ */
+
 import { PROFILE_PATHS } from '@@profile/constants';
 
 import mockPatient from '@@profile/tests/fixtures/users/user-36.json';
@@ -34,7 +42,7 @@ describe('Updating Notification Settings', () => {
     });
   });
   context('when the API behaves', () => {
-    it('should allow opting into getting notifications for the first time', () => {
+    it('should allow opting into getting notifications for the first time - C8544', () => {
       cy.login(mockPatient);
       cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
 
@@ -72,7 +80,7 @@ describe('Updating Notification Settings', () => {
       cy.findByTestId('select-options-alert').should('not.exist');
     });
 
-    it('should allow opting out of getting notifications', () => {
+    it('should allow opting out of getting notifications - C8545', () => {
       cy.login(mockPatient);
       cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
 

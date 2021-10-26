@@ -1,10 +1,12 @@
-import { MILITARY_STATES } from 'applications/letters/utils/constants';
-
-import { states } from 'vets-json-schema/dist/constants.json';
+import constants from 'vets-json-schema/dist/constants.json';
 import countries from './countries.json';
 
+import ADDRESS_DATA from 'platform/forms/address/data';
+
+export const MILITARY_STATES = new Set(ADDRESS_DATA.militaryStates);
+
 export const ADDRESS_FORM_VALUES = {
-  STATES: states.USA.map(state => state.value),
+  STATES: constants.states.USA.map(state => state.value),
   COUNTRIES: countries.map(country => country.countryName),
   COUNTRY_ISO3_CODES: countries.map(country => country.countryCodeISO3),
   MILITARY_STATES,
@@ -15,6 +17,14 @@ export const ADDRESS_TYPES = {
   INTERNATIONAL: 'INTERNATIONAL',
   OVERSEAS_MILITARY: 'OVERSEAS MILITARY',
 };
+
+// TODO: Merge with ADDRESS_TYPES above, or replace them both with the
+// ADDRESS_TYPES constant in platform/forms/address/helpers.js
+export const ADDRESS_TYPES_ALTERNATE = Object.freeze({
+  domestic: 'DOMESTIC',
+  international: 'INTERNATIONAL',
+  military: 'MILITARY',
+});
 
 export const ADDRESS_POU = {
   CORRESPONDENCE: 'CORRESPONDENCE',

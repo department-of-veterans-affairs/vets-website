@@ -29,13 +29,14 @@ fieldset.schemaform-field-template {
 .form-review-panel-page fieldset.schemaform-field-template {
 	margin-top: 3rem;
 }
+.form-expanding-group-open .schemaform-block-header + div .schemaform-field-template {
+	margin-top: 0;
+}
 .form-review-panel-page .form-expanding-group-open .schemaform-field-template.schemaform-first-field,
 .form-review-panel-page .form-expanding-group-open fieldset.schemaform-field-template.schemaform-first-field {
 	margin-top: 0;
 }
-
-.form-checkbox label:not([name="privacyAgreementAccepted-label"]):not([for^="root_view:phoneNumbers"]),
-.schemaform-block {
+.form-expanding-group-open .form-checkbox label {
 	margin-top: 0;
 }
 [type=checkbox] + label,
@@ -45,8 +46,26 @@ fieldset.schemaform-field-template {
 .schemaform-label[for^="root_view:phoneNumbers"] {
 	margin-top: 1.5rem;
 }
-.schemaform-label[id="root_view:phoneNumbers_phoneNumber_phone-label"] {
+.usa-input-error .schemaform-label[for^="root_view:phoneNumbers"] {
+	margin-top: 0;
+}
+#root_view\:phoneNumbers_phoneNumber_phone-label,
+#root_view\:phoneNumbers_mobilePhoneNumber_phone-label,
+.schemaform-label[for="root_view\:toursOfDutyCorrect_toursOfDutyCorrect"] {
 	margin-top: 3rem;
+}
+
+// Date
+fieldset.usa-input-error,
+.form-review-panel-page fieldset.schemaform-field-template.usa-input-error {
+	margin-top: 0;
+}
+fieldset.usa-input-error legend {
+	margin: 0;
+	padding-top: 30px;
+}
+.usa-input-error legend {
+	font-weight: bold;
 }
 /* END Form Styling Overrides ---------------------------------------*/
 
@@ -56,6 +75,9 @@ fieldset.schemaform-field-template {
 
 
 // USA Alert
+va-alert {
+	margin-top: 1em;
+}
 .usa-alert,
 .usa-alert.background-color-only {
 	padding: 1em;
@@ -64,11 +86,11 @@ fieldset.schemaform-field-template {
 .usa-alert h3 {
 	margin-top: 0;
 }
-.usa-alert p {
+.usa-alert p,
+.form-review-panel .usa-alert p {
 	margin-bottom: 0;
 }
 
-// @media only screen and (min-width: 40.0625em) {
 @media only screen and (min-width: 64.0625em) {
 	.usa-alert {
 		margin-left: -2rem;
@@ -220,6 +242,9 @@ va-accordion-item .service-history-details {
 	display: flex;
 	margin-right: 1.6rem;
 }
+.meb-list-label {
+	margin-top: 1.8rem;
+}
 .meb-alert_body {
 	display: table-cell;
 	margin: 0;
@@ -291,6 +316,7 @@ dl.review .review-row:last-child {
 	display: none;
 }
 .form-review-panel-page p.meb-review-page-only {
+	margin-bottom: 0 !important; // overriding .schemaform-block-header > p
 	margin-top: .5em !important; // overriding .schemaform-block-header > p
 }
 .form-review-panel-page .usa-button-primary,
@@ -369,11 +395,6 @@ dl.review .review-row:last-child {
 
 
 // Contact Information UI
-#root_view\:dateOfBirth_dateOfBirth-label {
-	margin-bottom: 1rem;
-	padding-top: 1.5rem;
-}
-
 #root_view\:mailingAddress_address_postalCode {
 	width: 50%;
 }

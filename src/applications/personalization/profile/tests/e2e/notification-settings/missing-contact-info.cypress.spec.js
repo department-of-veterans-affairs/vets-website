@@ -1,3 +1,11 @@
+/**
+ * [TestRail-integrated] Spec for Notification Prefs > Missing contact info
+ * @testrailinfo projectId 4
+ * @testrailinfo suiteId 5
+ * @testrailinfo groupId 2415
+ * @testrailinfo runName NP-e2e-Missing-contact-info
+ */
+
 import mockCommunicationPreferences from '@@profile/tests/fixtures/communication-preferences/get-200-maximal.json';
 import { makeMockUser } from '@@profile/tests/fixtures/users/user';
 
@@ -33,7 +41,7 @@ describe('Notification Settings', () => {
     'when both mobile phone and email are supported communication channels',
     () => {
       context('when user is missing mobile phone', () => {
-        it('should show the correct messages', () => {
+        it('should show the correct messages - C9503', () => {
           const user = makeMockUser();
           user.data.attributes.vet360ContactInformation.mobilePhone = null;
           cy.login(user);
@@ -69,7 +77,7 @@ describe('Notification Settings', () => {
         });
       });
       context('when user is missing email address', () => {
-        it('should show the correct messages', () => {
+        it('should show the correct messages - C9504', () => {
           const user = makeMockUser();
           user.data.attributes.vet360ContactInformation.email = null;
           cy.login(user);
@@ -103,7 +111,7 @@ describe('Notification Settings', () => {
       context(
         'when user is missing both email address and mobile phone',
         () => {
-          it('should show the correct message, not attempt to fetch notification prefs, and hide all notification groups', () => {
+          it('should show the correct message, not attempt to fetch notification prefs, and hide all notification groups - C9505', () => {
             const user = makeMockUser();
             user.data.attributes.vet360ContactInformation.email = null;
             user.data.attributes.vet360ContactInformation.mobilePhone = null;
@@ -146,7 +154,7 @@ describe('Notification Settings', () => {
     'when only mobile phone is the only supported communication channel',
     () => {
       context('when user is missing mobile phone', () => {
-        it('should show the correct message, not attempt to fetch notification prefs, and hide all notification groups', () => {
+        it('should show the correct message, not attempt to fetch notification prefs, and hide all notification groups - C9506', () => {
           const user = makeMockUser();
           user.data.attributes.vet360ContactInformation.mobilePhone = null;
           cy.login(user);
@@ -177,7 +185,7 @@ describe('Notification Settings', () => {
         });
       });
       context('when user is missing email address', () => {
-        it('should not show an alert', () => {
+        it('should not show an alert - C9507', () => {
           const user = makeMockUser();
           user.data.attributes.vet360ContactInformation.email = null;
           cy.login(user);

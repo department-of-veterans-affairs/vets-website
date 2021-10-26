@@ -7,7 +7,6 @@ import VAFacilityPage from '../../../../new-appointment/components/VAFacilityPag
 import {
   getParentSiteMock,
   getClinicMock,
-  getVAFacilityMock,
   getRequestEligibilityCriteriaMock,
   getDirectBookingEligibilityCriteriaMock,
 } from '../../../mocks/v0';
@@ -21,18 +20,17 @@ import {
   mockParentSites,
   mockRequestEligibilityCriteria,
   mockDirectBookingEligibilityCriteria,
-  mockFacilitiesFetch,
 } from '../../../mocks/helpers';
 import {
   getSchedulingConfigurationMock,
   getV2ClinicMock,
-  getV2FacilityMock,
 } from '../../../mocks/v2';
+import { mockSchedulingConfigurations } from '../../../mocks/helpers.v2';
 import {
-  mockSchedulingConfigurations,
-  mockV2FacilitiesFetch,
-} from '../../../mocks/helpers.v2';
-import { mockEligibilityFetchesByVersion } from '../../../mocks/fetch';
+  mockEligibilityFetchesByVersion,
+  mockFacilitiesFetchByVersion,
+} from '../../../mocks/fetch';
+import { createMockFacilityByVersion } from '../../../mocks/data';
 
 const parentSite983 = {
   id: '983',
@@ -87,27 +85,23 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
           typeOfCareId: '323',
         }),
       ]);
-      mockFacilitiesFetch('vha_442', [
-        {
-          id: 'vha_442',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '442',
+      mockFacilitiesFetchByVersion({
+        facilities: [
+          createMockFacilityByVersion({
+            id: '442',
             name: 'San Diego VA Medical Center',
             address: {
-              physical: {
-                address1: '2360 East Pershing Boulevard',
-                city: 'San Diego',
-                state: 'CA',
-                zip: '92128',
-              },
+              line: ['2360 East Pershing Boulevard'],
+              city: 'San Diego',
+              state: 'CA',
+              postalCode: '92128',
             },
-            phone: {
-              main: '858-779-0338',
-            },
-          },
-        },
-      ]);
+            phone: '858-779-0338',
+            version: 0,
+          }),
+        ],
+        version: 0,
+      });
     });
 
     it('should show no clinics message when direct is supported, no clinics available, requests not supported', async () => {
@@ -241,22 +235,18 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
     const vhaIds = facilityIds.map(
       id => `vha_${id.replace('983', '442').replace('984', '552')}`,
     );
-    const facilities = vhaIds.map((id, index) => ({
-      id,
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: id.replace('vha_', ''),
+    const facilities = vhaIds.map((id, index) =>
+      createMockFacilityByVersion({
+        id: id.replace('vha_', ''),
         name: `Fake facility name ${index + 1}`,
         lat: Math.random() * 90,
         long: Math.random() * 180,
         address: {
-          physical: {
-            ...getVAFacilityMock().attributes.address.physical,
-            city: `Fake city ${index + 1}`,
-          },
+          city: `Fake city ${index + 1}`,
         },
-      },
-    }));
+        version: 0,
+      }),
+    );
 
     const requestFacilities = facilityIds.map(id =>
       getRequestEligibilityCriteriaMock({
@@ -291,10 +281,14 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
         }),
       ]);
       mockRequestEligibilityCriteria(parentSiteIds, []);
-      mockFacilitiesFetch(
-        'vha_442,vha_552',
-        facilities.filter(f => f.id === 'vha_442' || f.id === 'vha_552'),
-      );
+      mockFacilitiesFetchByVersion({
+        facilities: facilities.filter(
+          // Will have to remove the vha_ part of these ids when moving to
+          // version 2
+          f => f.id === 'vha_442' || f.id === 'vha_552',
+        ),
+        version: 0,
+      });
       mockEligibilityFetches({
         siteId: '983',
         facilityId: '983',
@@ -307,7 +301,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
         store,
       });
 
-      await screen.findByText(/below is a list of VA locations/i);
+      await screen.findByText(/Select a VA facility/i);
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -344,7 +338,10 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
           }),
         ),
       );
-      mockFacilitiesFetch(vhaIds.slice(0, 5).join(','), facilities.slice(0, 5));
+      mockFacilitiesFetchByVersion({
+        facilities: facilities.slice(0, 5),
+        version: 0,
+      });
       mockEligibilityFetches({
         siteId: '983',
         facilityId: '983QA',
@@ -358,7 +355,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
         store,
       });
 
-      await screen.findByText(/below is a list of VA locations/i);
+      await screen.findByText(/Select a VA facility/i);
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -384,7 +381,10 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
         parentSiteIds,
         requestFacilities.slice(0, 4),
       );
-      mockFacilitiesFetch(vhaIds.slice(0, 5).join(','), facilities.slice(0, 5));
+      mockFacilitiesFetchByVersion({
+        facilities: facilities.slice(0, 5),
+        version: 0,
+      });
       mockEligibilityFetches({
         siteId: '983',
         facilityId: '983QA',
@@ -411,7 +411,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
         store,
       });
 
-      await screen.findByText(/below is a list of VA locations/i);
+      await screen.findByText(/Select a VA facility/i);
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -442,7 +442,10 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
           }),
         ),
       );
-      mockFacilitiesFetch(vhaIds.slice(0, 5).join(','), facilities.slice(0, 5));
+      mockFacilitiesFetchByVersion({
+        facilities: facilities.slice(0, 5),
+        version: 0,
+      });
       mockEligibilityFetches({
         siteId: '983',
         facilityId: '983QA',
@@ -469,7 +472,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
         store,
       });
 
-      await screen.findByText(/below is a list of VA locations/i);
+      await screen.findByText(/Select a VA facility/i);
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -490,7 +493,10 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
         parentSiteIds,
         requestFacilities.slice(0, 4),
       );
-      mockFacilitiesFetch(vhaIds.slice(0, 5).join(','), facilities.slice(0, 5));
+      mockFacilitiesFetchByVersion({
+        facilities: facilities.slice(0, 5),
+        version: 0,
+      });
       mockEligibilityFetches({
         siteId: '983',
         facilityId: '983QA',
@@ -503,7 +509,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
         store,
       });
 
-      await screen.findByText(/below is a list of VA locations/i);
+      await screen.findByText(/Select a VA facility/i);
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -525,7 +531,10 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
       mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
       mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
-      mockFacilitiesFetch(vhaIds.join(','), facilities);
+      mockFacilitiesFetchByVersion({
+        facilities,
+        version: 0,
+      });
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /primary care/i);
 
@@ -543,7 +552,10 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
       mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
       mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
-      mockFacilitiesFetch(vhaIds.join(','), facilities);
+      mockFacilitiesFetchByVersion({
+        facilities,
+        version: 0,
+      });
       mockEligibilityFetches({
         siteId: '983',
         facilityId: '983',
@@ -584,7 +596,10 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
           }),
         ),
       );
-      mockFacilitiesFetch(vhaIds.join(','), facilities);
+      mockFacilitiesFetchByVersion({
+        facilities,
+        version: 0,
+      });
       mockEligibilityFetches({
         siteId: '983',
         facilityId: '983',
@@ -649,7 +664,10 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
           },
         })),
       );
-      mockFacilitiesFetch(vhaIds.join(','), facilities);
+      mockFacilitiesFetchByVersion({
+        facilities,
+        version: 0,
+      });
       mockEligibilityFetches({
         siteId: '983',
         facilityId: '983',
@@ -699,7 +717,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
 
       const facilityIds = ['983', '983GC', '983GB', '983HK', '983QA', '984'];
       const facilities = facilityIds.map((id, index) =>
-        getV2FacilityMock({
+        createMockFacilityByVersion({
           id,
           name: `Fake facility name ${index + 1}`,
           lat: Math.random() * 90,
@@ -731,11 +749,10 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
             patientHistoryDuration: 365,
           }),
         ]);
-        mockV2FacilitiesFetch(
-          ['983', '984'],
-          facilities.filter(f => f.id === '983' || f.id === '984'),
-          true,
-        );
+        mockFacilitiesFetchByVersion({
+          facilities: facilities.filter(f => f.id === '983' || f.id === '984'),
+          children: true,
+        });
         mockEligibilityFetchesByVersion({
           facilityId: '983',
           typeOfCareId: 'socialWork',
@@ -756,7 +773,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
           store,
         });
 
-        await screen.findByText(/below is a list of VA locations/i);
+        await screen.findByText(/Select a VA facility/i);
 
         fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
         fireEvent.click(screen.getByText(/Continue/));

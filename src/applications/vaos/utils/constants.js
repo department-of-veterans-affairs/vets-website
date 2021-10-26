@@ -136,7 +136,7 @@ export const TYPES_OF_CARE = [
   },
   {
     id: PODIATRY_ID,
-    idV2: '411',
+    idV2: 'podiatry',
     name: 'Podiatry',
     label: 'Podiatry (only available online for Community Care appointments)',
     ccId: 'CCPOD',
@@ -199,11 +199,13 @@ export const TYPES_OF_EYE_CARE = [
 export const AUDIOLOGY_TYPES_OF_CARE = [
   {
     ccId: 'CCAUDRTNE',
+    idV2: 'audiology-routine exam',
     name: 'Routine hearing exam',
     specialties: ['231H00000X', '237600000X', '261QH0700X'],
   },
   {
     ccId: 'CCAUDHEAR',
+    idV2: 'audiology-hearing aid support',
     name: 'Hearing aid support',
     specialties: ['231H00000X', '237600000X'],
   },

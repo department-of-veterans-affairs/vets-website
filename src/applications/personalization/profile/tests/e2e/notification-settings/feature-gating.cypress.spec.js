@@ -1,3 +1,11 @@
+/**
+ * [TestRail-integrated] Spec for Notification Prefs > Feature gating
+ * @testrailinfo projectId 4
+ * @testrailinfo suiteId 5
+ * @testrailinfo groupId 2167
+ * @testrailinfo runName NP-e2e-Feature-gating
+ */
+
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../../constants';
 import { mockUser } from '../../fixtures/users/user';
 import { mockNotificationSettingsAPIs } from '../helpers';
@@ -9,7 +17,7 @@ describe('Notification Settings', () => {
     mockNotificationSettingsAPIs();
   });
   context('when the feature flag is turned on', () => {
-    it('is available in the side nav and the section loads', () => {
+    it('is available in the side nav and the section loads - C8542', () => {
       cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
       // go to the root of the Profile
       cy.visit(PROFILE_PATHS.PROFILE_ROOT);
@@ -29,7 +37,7 @@ describe('Notification Settings', () => {
     });
   });
   context('when the feature flag is turned off', () => {
-    it('is not available in the side nav and the path redirects to the personal info section', () => {
+    it('is not available in the side nav and the path redirects to the personal info section - C8543', () => {
       // go to the root of the Profile
       cy.visit(PROFILE_PATHS.PROFILE_ROOT);
       // this assertion is only here to make sure the following "not.exist" does

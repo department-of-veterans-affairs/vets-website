@@ -66,33 +66,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Get Node version
-        id: get-node-version
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-
-      - name: Setup Node
-        uses: actions/setup-node@v2
+      - name: Install dependencies
+        uses: ./.github/workflows/install
         with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-
-      - name: Cache dependencies
-        id: cache-dependencies
-        uses: actions/cache@v2
-        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: ~/.cache/yarn
           path: |
             ~/.cache/yarn
             node_modules
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
-
-      - name: Install dependencies
-        uses: nick-invision/retry@v2
-        with:
-          command: yarn install --frozen-lockfile --prefer-offline
-          max_attempts: 3
-          timeout_minutes: 5
-        env:
-          YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Validate build status
         run: node ./script/github-actions/validate-build-status.js ${{ needs.set-env.outputs.COMMIT_SHA }}
@@ -104,48 +85,17 @@ jobs:
     runs-on: ubuntu-latest
     needs: set-env
     steps:
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-
-      - name: Get Slack app token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
-        with:
-          ssm_parameter: /devops/github_actions_slack_socket_token
-          env_variable_name: SLACK_APP_TOKEN
-
-      - name: Get Slack bot token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
-        with:
-          ssm_parameter: /devops/github_actions_slack_bot_user_token
-          env_variable_name: SLACK_BOT_TOKEN
-          
-      - name: Get va-vsp-bot token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
-      - name: Checkout VSP actions
+      - name: Checkout
         uses: actions/checkout@v2
-        with:
-          repository: department-of-veterans-affairs/vsp-github-actions
-          ref: refs/heads/main
-          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-          persist-credentials: false
-          path: ./.github/actions/vsp-github-actions
 
       - name: Notify Slack
-        uses: ./.github/actions/vsp-github-actions/slack-socket
+        uses: ./.github/workflows/slack-notify
         continue-on-error: true
         with:
-          slack_app_token: ${{ env.SLACK_APP_TOKEN }}
-          slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
           attachments: '[{"mrkdwn_in": ["text"], "color": "good", "text": "Stand by, production deploy for vets-website coming up in ${{ needs.set-env.outputs.RELEASE_WAIT }} minutes. View what coming here: <https://github.com/${{ github.repository }}/compare/vets-website/${{ needs.set-env.outputs.LATEST_TAG_VERSION }}...${{ needs.set-env.outputs.COMMIT_SHA }}>"}]'
           channel_id: ${{ env.CHANNEL_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
   create-release:
     name: Create Release
@@ -213,7 +163,7 @@ jobs:
       - name: Deploy
         run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
         env:
-          SRC: s3://vetsgov-website-builds-s3-upload/application-build/${{ needs.set-env.outputs.COMMIT_SHA }}/${{ env.ENVIRONMENT }}.tar.bz2
+          SRC: s3://vetsgov-website-builds-s3-upload/${{ needs.set-env.outputs.COMMIT_SHA }}/${{ env.ENVIRONMENT }}.tar.bz2
           DEST: s3://${{ env.BUCKET }}
 
   notify-failure:
@@ -223,51 +173,15 @@ jobs:
     needs: deploy
 
     steps:
-    - name: Configure AWS credentials
-      if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-gov-west-1
+      - name: Checkout
+        uses: actions/checkout@v2
 
-    - name: Get Slack app token
-      if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
-      uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
-      with:
-        ssm_parameter: /devops/github_actions_slack_socket_token
-        env_variable_name: SLACK_APP_TOKEN
-
-    - name: Get Slack bot token
-      if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
-      uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
-      with:
-        ssm_parameter: /devops/github_actions_slack_bot_user_token
-        env_variable_name: SLACK_BOT_TOKEN
-        
-    - name: Get va-vsp-bot token
-      if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
-      uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
-      with:
-        ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-        env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
-    - name: Checkout VSP actions
-      if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
-      uses: actions/checkout@v2
-      with:
-        repository: department-of-veterans-affairs/vsp-github-actions
-        ref: refs/heads/main
-        token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-        persist-credentials: false
-        path: ./.github/actions/vsp-github-actions
-
-    - name: Notify Slack
-      if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
-      uses: ./.github/actions/vsp-github-actions/slack-socket
-      continue-on-error: true
-      with:
-        slack_app_token: ${{ env.SLACK_APP_TOKEN }}
-        slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
-        attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "Production deploy for vets-website has failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}]'
-        channel_id: ${{ env.CHANNEL_ID }}
+      - name: Notify Slack
+        if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: true
+        with:
+          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "Production deploy for vets-website has failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}]'
+          channel_id: ${{ env.CHANNEL_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

@@ -59,7 +59,7 @@ export class ConfirmationPage extends React.Component {
         </p>
         <ul>
           <li>
-            Text messages will always come from <strong>53079</strong>.
+            Text messages will always come from <strong>80728</strong>.
           </li>
           <li>
             Emails will always come from a <strong>va.gov</strong> email

@@ -7,3 +7,4 @@ temp/*
 tmp/*
 .nyc_output/*
 script/mocha.js
+script/cypress-testrail-helper/*

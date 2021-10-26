@@ -2,28 +2,18 @@ import React from 'react';
 import Scroll from 'react-scroll';
 import PropTypes from 'prop-types';
 
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { SAVE_STATUSES, saveErrors } from './actions';
-import { focusElement } from '../../utilities/ui';
+import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
 import SipsDevModal from './SaveInProgressDevModal';
 
 const Element = Scroll.Element;
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo(
-    'saveFormLinkTop',
-    window.VetsGov?.scroll || {
-      duration: 500,
-      delay: 0,
-      smooth: true,
-    },
-  );
-};
 
 class SaveFormLink extends React.Component {
   componentDidMount() {
     if (saveErrors.has(this.props.savedStatus)) {
-      scrollToTop();
+      scrollToTop('saveFormLinkTop', getScrollOptions());
       focusElement('.schemaform-save-error');
     }
   }

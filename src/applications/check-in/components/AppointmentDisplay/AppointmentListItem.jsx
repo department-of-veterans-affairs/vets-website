@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import format from 'date-fns/format';
 import AppointmentLocation from './AppointmentLocation';
 
 import AppointmentAction from './AppointmentAction';
 
-export default function AppointmentListItem(props) {
-  const { appointment, isLowAuthEnabled, token, router } = props;
+const AppointmentListItem = props => {
+  const { appointment, token, router } = props;
   const appointmentDateTime = new Date(appointment.startTime);
   const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
   return (
@@ -17,23 +18,39 @@ export default function AppointmentListItem(props) {
         >
           {appointmentTime}
         </dd>
-        <dt className="clinic-label vads-u-font-size--lg vads-u-margin--0 vads-u-margin-right--1 vads-u-font-family--serif vads-u-font-weight--bold">
+        <dt className="clinic-label vads-u-font-size--h6 vads-u-margin--0 vads-u-margin-right--1 vads-u-font-family--serif vads-u-font-weight--bold">
           Clinic:{' '}
         </dt>
         <dd
           data-testid="clinic-name"
-          className="clinic-name vads-u-font-size--lg vads-u-font-weight--bold vads-u-font-family--serif"
+          className="clinic-name vads-u-font-size--h6 vads-u-font-weight--bold vads-u-font-family--serif"
         >
           <AppointmentLocation appointment={appointment} />
+        </dd>
+        <dt className="facility-label vads-u-margin--0 vads-u-margin-right--1 vads-u-font-family--serif vads-u-font-weight--bold vads-u-font-size--h6">
+          Facility:{' '}
+        </dt>
+        <dd
+          data-testid="facility-name"
+          className="facility-name vads-u-font-weight--bold vads-u-font-family--serif vads-u-font-size--h6"
+        >
+          {appointment.facility}
         </dd>
       </dl>
       <AppointmentAction
         appointment={appointment}
-        isLowAuthEnabled={isLowAuthEnabled}
         isMultipleAppointmentsEnabled
         router={router}
         token={token}
       />
     </li>
   );
-}
+};
+
+AppointmentListItem.propTypes = {
+  appointment: PropTypes.object,
+  router: PropTypes.object,
+  token: PropTypes.string,
+};
+
+export default AppointmentListItem;

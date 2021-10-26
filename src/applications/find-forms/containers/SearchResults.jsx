@@ -15,7 +15,7 @@ import {
   updateSortByPropertyNameThunk,
   updatePaginationAction,
 } from '../actions';
-import { applyPDFInfoBoxOne, getFindFormsAppState } from '../helpers/selectors';
+import { showPDFModal, getFindFormsAppState } from '../helpers/selectors';
 import { FAF_SORT_OPTIONS } from '../constants';
 import SearchResult from '../components/SearchResult';
 
@@ -319,7 +319,7 @@ const mapStateToProps = state => ({
   query: getFindFormsAppState(state).query,
   results: getFindFormsAppState(state).results,
   startIndex: getFindFormsAppState(state).startIndex,
-  showPDFInfoVersionOne: applyPDFInfoBoxOne(state),
+  showPDFInfoVersionOne: showPDFModal(state),
 });
 
 const mapDispatchToProps = dispatch => ({

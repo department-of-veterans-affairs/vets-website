@@ -6,7 +6,7 @@ const Modals = ({ children, title }) => {
   const [visible, setVisible] = useState(false);
 
   return (
-    <div className="vads-u-margin--2">
+    <div className="vads-u-margin-top--3 vads-u-margin-bottom--3">
       <button className="va-button-link" onClick={() => setVisible(true)}>
         {title}
       </button>

@@ -2,6 +2,7 @@ import { expect } from 'chai';
 
 import {
   login,
+  loginAppUrlRE,
   mfa,
   verify,
   logout,
@@ -85,6 +86,34 @@ describe('authentication URL helpers', () => {
     verify('v1');
     expect(global.window.location).to.include('/v1/sessions/verify/new');
   });
+
+  it('should redirect to the proper unified sign-in page redirect for mhv', () => {
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=mhv';
+    login('idme', 'v1');
+    expect(global.window.location).to.include(
+      `/v1/sessions/idme/new?skip_dupe=mhv&redirect=${externalRedirects.mhv}`,
+    );
+  });
+
+  it('should redirect to the proper unified sign-in page redirect for mhv with `to`', () => {
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=mhv&to=secure_messaging';
+
+    login('idme', 'v1');
+    expect(global.window.location).to.include(
+      `/v1/sessions/idme/new?skip_dupe=mhv&redirect=${
+        externalRedirects.mhv
+      }?deeplinking=secure_messaging`,
+    );
+  });
+
+  it('should redirect to the proper unified sign-in page redirect for cerner', () => {
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=myvahealth';
+    login('idme', 'v1');
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
+  });
 });
 
 describe('standaloneRedirect', () => {
@@ -100,7 +129,7 @@ describe('standaloneRedirect', () => {
     expect(standaloneRedirect()).to.be.null;
   });
 
-  it('should return an plain url when no "to" search query is provided', () => {
+  it('should return a plain url when no `to` search query is provided', () => {
     global.window.location.search = '?application=myvahealth';
     expect(standaloneRedirect()).to.equal(externalRedirects.myvahealth);
   });
@@ -109,7 +138,20 @@ describe('standaloneRedirect', () => {
     global.window.location.search =
       '?application=myvahealth&to=/some/sub/route\r\n';
     expect(standaloneRedirect()).to.equal(
-      `${externalRedirects.myvahealth}some/sub/route`,
+      `${externalRedirects.myvahealth}/some/sub/route`,
     );
+  });
+});
+
+describe('loginAppUrlRE', () => {
+  it('should resolve to a login app url', () => {
+    expect(loginAppUrlRE.test('/sign-in')).to.be.true;
+    expect(loginAppUrlRE.test('/sign-in/')).to.be.true;
+    expect(loginAppUrlRE.test('/sign-in/verify')).to.be.true;
+    expect(loginAppUrlRE.test('/sign-in/verify/')).to.be.true;
+  });
+  it('should not resolve to a login app url', () => {
+    expect(loginAppUrlRE.test('/sign-in-faq')).to.be.false;
+    expect(loginAppUrlRE.test('/sign-in-faq/')).to.be.false;
   });
 });

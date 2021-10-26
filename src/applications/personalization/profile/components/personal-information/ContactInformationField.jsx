@@ -139,8 +139,11 @@ class ContactInformationField extends React.Component {
       clearTimeout(this.closeModalTimeoutID);
       if (this.props.transaction) {
         focusElement(`div#${fieldName}-transaction-status`);
+      } else if (this.props.showUpdateSuccessAlert) {
+        focusElement('[data-testid=update-success-alert]');
+      } else {
+        focusElement(`#${getEditButtonId(fieldName)}`);
       }
-      focusElement(`#${getEditButtonId(fieldName)}`);
     }
   }
 
@@ -161,6 +164,7 @@ class ContactInformationField extends React.Component {
       'profile-action': 'cancel-delete-button',
       'profile-section': this.props.analyticsSectionName,
     });
+    this.closeModal();
   };
 
   onDelete = () => {
@@ -305,7 +309,9 @@ class ContactInformationField extends React.Component {
         />
 
         {this.props.showUpdateSuccessAlert ? (
-          <UpdateSuccessAlert fieldName={fieldName} />
+          <div data-testid="update-success-alert">
+            <UpdateSuccessAlert fieldName={fieldName} />
+          </div>
         ) : null}
 
         <div className="vads-u-width--full">

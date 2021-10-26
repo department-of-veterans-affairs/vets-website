@@ -34,6 +34,7 @@ export default function ProviderList({
     sortMethod,
     typeOfCareName,
   } = useSelector(selectProviderSelectionInfo, shallowEqual);
+
   const requestLocationFailed = requestStatus === FETCH_STATUS.failed;
   const loadingProviders = !communityCareProviderList && !requestLocationFailed;
 
@@ -65,13 +66,18 @@ export default function ProviderList({
         requestLocationStatus === FETCH_STATUS.failed
       ) {
         scrollAndFocus('#providerSelectionBlockedLocation');
+      } else if (
+        showProvidersList &&
+        !loadingProviders &&
+        requestStatus === FETCH_STATUS.failed
+      ) {
+        scrollAndFocus('#providerSelectionFailed');
       } else if (showProvidersList && !loadingProviders && !loadingLocations) {
         scrollAndFocus('#providerSelectionHeader');
       }
     },
     [loadingProviders, loadingLocations],
   );
-
   const currentlyShownProvidersList = communityCareProviderList?.slice(
     0,
     providersListLength,
