@@ -40,6 +40,16 @@ export const receivedDemographicsData = demographics => {
   };
 };
 
+export const SET_TOKEN_CONTEXT = 'SET_TOKEN_CONTEXT';
+
+export const setTokenContext = (token, scope) => {
+  return {
+    type: SET_TOKEN_CONTEXT,
+    payload: {
+      context: { token, scope },
+    },
+  };
+};
 export const TRIGGER_REFRESH = 'TRIGGER_REFRESH';
 
 export const triggerRefresh = (shouldRefresh = true) => {
