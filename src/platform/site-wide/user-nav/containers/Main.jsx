@@ -1,29 +1,27 @@
+// Node modules.
 import React from 'react';
 import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
-
-import { isInProgressPath } from 'platform/forms/helpers';
+// Relative imports.
+import AutoSSO from './AutoSSO';
 import FormSignInModal from 'platform/forms/save-in-progress/FormSignInModal';
-import { initializeProfile } from 'platform/user/profile/actions';
-import { hasSession } from 'platform/user/profile/utilities';
-import { isLoggedIn, isProfileLoading, isLOA3 } from 'platform/user/selectors';
-
-import { getBackendStatuses } from 'platform/monitoring/external-services/actions';
-import { updateLoggedInStatus } from 'platform/user/authentication/actions';
+import SearchHelpSignIn from '../components/SearchHelpSignIn';
+import SessionTimeoutModal from 'platform/user/authentication/components/SessionTimeoutModal';
+import SignInModal from 'platform/user/authentication/components/SignInModal';
 import { SAVE_STATUSES } from 'platform/forms/save-in-progress/actions';
+import { getBackendStatuses } from 'platform/monitoring/external-services/actions';
+import { hasSession } from 'platform/user/profile/utilities';
+import { initializeProfile } from 'platform/user/profile/actions';
+import { isInProgressPath } from 'platform/forms/helpers';
+import { isLoggedIn, isProfileLoading, isLOA3 } from 'platform/user/selectors';
+import { selectUserGreeting } from '../selectors';
 import {
   toggleFormSignInModal,
   toggleLoginModal,
   toggleSearchHelpUserMenu,
 } from 'platform/site-wide/user-nav/actions';
-
-import SearchHelpSignIn from '../components/SearchHelpSignIn';
-import { selectUserGreeting } from '../selectors';
-
-import AutoSSO from './AutoSSO';
-import SessionTimeoutModal from 'platform/user/authentication/components/SessionTimeoutModal';
-import SignInModal from 'platform/user/authentication/components/SignInModal';
+import { updateLoggedInStatus } from 'platform/user/authentication/actions';
 
 export class Main extends React.Component {
   componentDidMount() {
