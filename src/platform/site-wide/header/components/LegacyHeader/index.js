@@ -18,6 +18,7 @@ export const LegacyHeader = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
           <div className="small-12">
             Your browser is out of date. To use this website, please{' '}
             <a
+              aria-label="Update your browser (opens in new window)"
               href="https://browsehappy.com/"
               rel="noreferrer noopener"
               target="_blank"
