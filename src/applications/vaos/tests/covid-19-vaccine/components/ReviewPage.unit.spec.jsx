@@ -278,22 +278,24 @@ describe('VAOS vaccine flow with VAOS service <ReviewPage>', () => {
   });
 
   it('should submit successfully', async () => {
+    // Given a fully filled out form
+    const screen = renderWithStoreAndRouter(<ReviewPage />, {
+      store,
+    });
+    await screen.findByText(/COVID-19 vaccine/i);
     mockAppointmentSubmitV2({
       id: 'fake_id',
     });
 
-    const screen = renderWithStoreAndRouter(<ReviewPage />, {
-      store,
-    });
-
-    await screen.findByText(/COVID-19 vaccine/i);
-
+    // When the user confirms their appointment
     userEvent.click(screen.getByText(/Confirm appointment/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
         '/new-covid-19-vaccine-appointment/confirmation',
       );
     });
+
+    // Then the form data is submitted and matches the form
     const submitData = JSON.parse(global.fetch.getCall(0).args[1].body);
 
     expect(submitData).to.deep.equal({
