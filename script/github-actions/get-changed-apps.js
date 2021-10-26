@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 const find = require('find');
+const fs = require('fs');
 const path = require('path');
 const commandLineArgs = require('command-line-args');
 
@@ -18,10 +19,9 @@ const getEntryName = filePath => {
 
   const manifestFile = find
     .fileSync(/manifest\.(json|js)$/, fullPath)
-    // eslint-disable-next-line import/no-dynamic-require
-    .map(file => require(file))[0];
+    .map(file => JSON.parse(fs.readFileSync(file)))[0];
 
-  return manifestFile.entryName;
+  return manifestFile?.entryName;
 };
 
 /**
