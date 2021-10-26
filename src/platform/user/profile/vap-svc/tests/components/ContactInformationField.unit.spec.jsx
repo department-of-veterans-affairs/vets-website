@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import {
   ContactInformationField,
   mapStateToProps,
-} from '@@profile/components/personal-information/ContactInformationField';
+} from '@@vap-svc/components/ContactInformationField';
 import { FIELD_NAMES } from '@@vap-svc/constants';
 
 describe('<ContactInformationField/>', () => {
@@ -78,6 +78,19 @@ describe('<ContactInformationField/>', () => {
       component.find('ContactInformationView'),
       'the ContactInformationView was rendered',
     ).to.have.lengthOf(1);
+
+    component.unmount();
+  });
+
+  it('hides the remove button', () => {
+    component = enzyme.shallow(
+      <ContactInformationField {...props} isDeleteDisabled />,
+    );
+
+    expect(
+      component.find('.usa-button-secondary'),
+      'the remove button was not rendered',
+    ).to.have.lengthOf(0);
 
     component.unmount();
   });
