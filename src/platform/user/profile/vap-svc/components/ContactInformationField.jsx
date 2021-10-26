@@ -43,11 +43,11 @@ import { getInitialFormValues } from '@@profile/util/contact-information/formVal
 
 import getContactInfoFieldAttributes from '~/applications/personalization/profile/util/contact-information/getContactInfoFieldAttributes';
 
-import CannotEditModal from './CannotEditModal';
-import ConfirmCancelModal from './ConfirmCancelModal';
-import ConfirmRemoveModal from './ConfirmRemoveModal';
+import CannotEditModal from './ContactInformationFieldInfo/CannotEditModal';
+import ConfirmCancelModal from './ContactInformationFieldInfo/ConfirmCancelModal';
+import ConfirmRemoveModal from './ContactInformationFieldInfo/ConfirmRemoveModal';
 
-import UpdateSuccessAlert from '../alerts/ContactInformationUpdateSuccessAlert';
+import UpdateSuccessAlert from './ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
 
 // Helper function that generates a string that can be used for a contact info
 // field's edit button.
@@ -93,6 +93,7 @@ class ContactInformationField extends React.Component {
     openModal: PropTypes.func.isRequired,
     refreshTransactionRequest: PropTypes.func,
     showEditView: PropTypes.bool.isRequired,
+    isDeleteDisabled: PropTypes.bool,
     showValidationView: PropTypes.bool.isRequired,
     title: PropTypes.string,
     transaction: PropTypes.object,
@@ -103,6 +104,7 @@ class ContactInformationField extends React.Component {
   static defaultProps = {
     fieldName: '',
     hasUnsavedEdits: false,
+    isDeleteDisabled: false,
   };
 
   state = {
@@ -268,6 +270,7 @@ class ContactInformationField extends React.Component {
       fieldName,
       isEmpty,
       showEditView,
+      isDeleteDisabled,
       showRemoveModal,
       showValidationView,
       title,
@@ -331,6 +334,7 @@ class ContactInformationField extends React.Component {
               </button>
             )}
             {data &&
+              !isDeleteDisabled &&
               fieldName !== FIELD_NAMES.MAILING_ADDRESS && (
                 <button
                   aria-label={`Remove ${title}`}
