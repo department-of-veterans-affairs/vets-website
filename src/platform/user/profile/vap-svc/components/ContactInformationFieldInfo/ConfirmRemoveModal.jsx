@@ -38,7 +38,7 @@ const ConfirmRemoveModal = ({
         <li>Disability compensation</li>
         <li>Pension benefits</li>
         <li>Claims and appeals</li>
-        <li>Veteran Readiness and Employment (VR&amp;E)</li>
+        <li>Veteran Readiness and Employment (VR&E)</li>
         {fieldName === FIELD_NAMES.EMAIL ||
         fieldName === FIELD_NAMES.MOBILE_PHONE ? (
           <li>
