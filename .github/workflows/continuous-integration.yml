@@ -138,7 +138,7 @@ jobs:
       - name: Run unit tests
         run: |
           if [[ ${{ github.ref }} != 'refs/heads/master' && -n '${{ steps.get-changed-apps.outputs.app_paths }}' ]]; then
-              yarn test:unit '{src/platform,${{ steps.get-changed-apps.outputs.app_paths }}}/**/*.unit.spec.js?(x)'
+              yarn test:unit '{script,src/platform,${{ steps.get-changed-apps.outputs.app_paths }}}/**/*.unit.spec.js?(x)'
           else
               yarn test:unit --coverage
           fi
