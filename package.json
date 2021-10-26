@@ -144,6 +144,7 @@
     "cli-table": "^0.3.6",
     "command-line-args": "^5.2.0",
     "command-line-usage": "^6.1.1",
+    "comment-parser": "^1.2.4",
     "copy-webpack-plugin": "^6.0.2",
     "cors": "^2.8.5",
     "css-loader": "^1.0.0",
