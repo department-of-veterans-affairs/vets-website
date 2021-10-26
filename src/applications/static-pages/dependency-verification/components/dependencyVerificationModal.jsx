@@ -44,8 +44,10 @@ const DependencyVerificationModal = props => {
     sessionStorage.setItem(RETRIEVE_DIARIES, 'false');
     props.updateDiariesService(shouldUpdate);
 
-    // Redirect the user to the appropriate form to update dependents
-    window.location = manifest.rootUrl;
+    // Redirect the user to the appropriate form to update dependents, if needed
+    if (!shouldUpdate) {
+      window.location = manifest.rootUrl;
+    }
   };
 
   const checkForOtherModals = () => {
