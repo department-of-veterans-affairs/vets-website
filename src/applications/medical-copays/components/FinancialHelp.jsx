@@ -30,8 +30,8 @@ export const FinancialHelp = () => (
           </li>
         </ul>
         <p>
-          <a className="vads-c-action-link--blue" href="#">
-            Request help with your copay bills
+          <a href="https://www.va.gov/health-care/pay-copay-bill/financial-hardship/">
+            Learn more about requesting VA financial hardship assistance
           </a>
         </p>
       </va-accordion-item>
@@ -43,7 +43,9 @@ export const FinancialHelp = () => (
           of the calendar year.
         </p>
         <p>
-          <a href="#">Learn more about requesting a hardship determination</a>
+          <a href="https://www.va.gov/health-care/pay-copay-bill/financial-hardship/">
+            Learn more about requesting a hardship determination
+          </a>
         </p>
       </va-accordion-item>
     </va-accordion>

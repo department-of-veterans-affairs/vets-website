@@ -36,9 +36,6 @@ const Demographics = props => {
     },
     [router],
   );
-  if (isLoading) {
-    return <LoadingIndicator message={'Loading your appointments for today'} />;
-  }
 
   const demographicFields = [
     { title: 'Mailing address', key: 'mailingAddress' },

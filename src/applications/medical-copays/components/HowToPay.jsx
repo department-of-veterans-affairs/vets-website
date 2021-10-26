@@ -13,7 +13,14 @@ export const HowToPay = ({ acctNum, facility }) => (
       <va-accordion-item header="Option 1: Pay online">
         <p>
           Pay directly from your bank account or by debit or credit card on the
-          secure <a href="https://www.pay.gov/">Pay.gov website</a>.
+          secure
+          <a
+            className="vads-u-margin-left--0p25"
+            href="https://www.pay.gov/public/form/start/25987221"
+          >
+            Pay.gov website
+          </a>
+          .
         </p>
         <p>
           You will need to provide an account number to pay this debt online:
@@ -22,7 +29,10 @@ export const HowToPay = ({ acctNum, facility }) => (
           <strong>Account Number: </strong>
           {acctNum}
         </p>
-        <a className="vads-c-action-link--blue" href="https://www.pay.gov/">
+        <a
+          className="vads-c-action-link--blue"
+          href="https://www.pay.gov/public/form/start/25987221"
+        >
           Pay your copay bill online at pay.gov
         </a>
         <p>

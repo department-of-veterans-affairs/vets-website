@@ -28,13 +28,8 @@ import Headline from '../ProfileSectionHeadline';
 
 import FraudVictimAlert from './FraudVictimAlert';
 import PaymentHistory from './PaymentHistory';
-import BankInfoCNP from './BankInfoCNP';
-import BankInfoEDU from './BankInfoEDU';
-
-export const benefitTypes = {
-  CNP: 'compensation and pension benefits',
-  EDU: 'education benefits',
-};
+import BankInfo from './BankInfo';
+import { benefitTypes } from '~/applications/personalization/common/constants';
 
 const SuccessMessage = ({ benefit }) => {
   let content = null;
@@ -164,7 +159,7 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
           )}
           dependencies={[externalServices.evss]}
         >
-          <BankInfoCNP />
+          <BankInfo type={benefitTypes.CNP} />
         </DowntimeNotification>
       ) : (
         <SetUpVerifiedIDMeAlert />
@@ -172,7 +167,7 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
       <FraudVictimAlert status={ALERT_TYPE.INFO} />
       {showBankInformation ? (
         <>
-          <BankInfoEDU />
+          <BankInfo type={benefitTypes.EDU} />
           <PaymentHistory />
         </>
       ) : null}
