@@ -96,8 +96,8 @@ describe('HLR wizard', () => {
     cy.axeCheck();
   });
 
-  // start form flow
-  it('should show legacy appeals question & alert', () => {
+  // start form flow; skip until wizard is on /start in prod
+  it.skip('should show legacy appeals question & alert', () => {
     const h1Text = 'Request a Higher-Level Review';
     // starts with focus on breadcrumb
     cy.focused().should('have.attr', 'id', 'va-breadcrumbs-list');
@@ -139,8 +139,8 @@ describe('HLR wizard', () => {
     cy.axeCheck();
   });
 
-  // v2 skip legacy appeals question
-  it('should show skip legacy appeals question & show form start for HLR v2', () => {
+  // v2 skip legacy appeals question; skip until wizard is on /start in prod
+  it.skip('should show skip legacy appeals question & show form start for HLR v2', () => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',

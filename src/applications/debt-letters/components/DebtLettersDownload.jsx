@@ -2,13 +2,15 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
-
 import { setPageFocus } from '../utils/page';
 import { MobileTableView } from './MobileTableView';
 import { DebtLettersTable } from './DebtLettersTable';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import Telephone, {
+  CONTACTS,
+  PATTERNS,
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 const ErrorAlert = () => (
   <div
@@ -80,12 +82,32 @@ const DownloadLettersAlert = () => (
     class="vads-u-margin-top--4 vads-u-margin-bottom--4"
     status="warning"
   >
-    <h3 slot="headline">Downloadable letters may have incorrect information</h3>
+    <h3 slot="headline">
+      Downloadable letters have incorrect repayment plan terms
+    </h3>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
-      We’re sorry. The letters available here for download may have incorrect
-      information about your repayment terms. Use the letters you get in the
-      mail for the correct information. We’ll post an update here when we’ve
-      fixed this problem.
+      We’re sorry. The length of time listed for repayment plans in these
+      letters is too short. Use the letters you get in the mail to find the
+      correct repayment plan terms. If you have any questions, call us at
+      <Telephone contact={'800-827-0648'} className="vads-u-margin-x--0p5" />
+      (or
+      <Telephone
+        contact={'1-612-713-6415'}
+        pattern={PATTERNS.OUTSIDE_US}
+        className="vads-u-margin-x--0p5"
+      />
+      from overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m.
+      ET. If you have hearing loss, call TTY:
+      <Telephone
+        contact={CONTACTS[711]}
+        pattern={PATTERNS['3_DIGIT']}
+        className="vads-u-margin-left--0p5"
+      />
+      .
+    </p>
+    <p className="vads-u-font-size--base vads-u-font-family--sans">
+      We’re working to fix this problem as fast as we can. Check back soon for
+      updates.
     </p>
   </va-alert>
 );
