@@ -119,7 +119,10 @@ export function redirect(redirectUrl, clickedEvent) {
   sessionStorage.setItem(authnSettings.RETURN_URL, returnUrl);
   recordEvent({ event: clickedEvent });
 
-  if (!loginAppUrlRE.test(window.location.pathname)) {
+  if (
+    !loginAppUrlRE.test(window.location.pathname) &&
+    clickedEvent === 'login-link-clicked-modal'
+  ) {
     setLoginAttempted();
   }
 
