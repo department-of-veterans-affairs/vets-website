@@ -1980,13 +1980,14 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@3.3.2":
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.3.2.tgz#cc2fc2cf18f33d0ec76bbcc49aabb4dc5d75bf4b"
-  integrity sha512-IbrjBaqPT6WCz5qOyb2pIoLj2r5jZxINCtQc/b6NzfMvuHCecdY64Q2+W0UiImXvQgvUkVIPaxVEYxyNfLau1A==
+"@department-of-veterans-affairs/component-library@^3.3.4":
+  version "3.3.4"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.3.4.tgz#3d47258b203073aa59b89248fb0ec1b10db679a2"
+  integrity sha512-G56dVat0nSzuehtJt0IcFxRM0t7nGVq3rcPy4WSW0EsgO+xm0sCSMaxfSEoBGVJFOc79vpwUXTl0fvfx7Sz6AA==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "3.2.2"
+    "@department-of-veterans-affairs/react-components" "3.2.3"
     "@department-of-veterans-affairs/web-components" "0.13.0"
+    date-fns-tz "^1.1.1"
     react-focus-on "^3.5.1"
     react-scroll "^1.7.16"
     react-transition-group "^1.0.0"
@@ -2017,10 +2018,10 @@
     yeoman-generator "^4.11.0"
     yosay "^2.0.1"
 
-"@department-of-veterans-affairs/react-components@3.2.2":
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-3.2.2.tgz#2574cfdac1aeed6aa4db5ce2e593302f7660ec38"
-  integrity sha512-yNzi1qEv/TS7OrJhRzt/d+mT3C+2/WVU82uwwBX/D29gjn96+uohTIguscZv/IBwUnP8wYldv6+AKv7lvVB6LQ==
+"@department-of-veterans-affairs/react-components@3.2.3":
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-3.2.3.tgz#1a6486f3f7c7839c42995532434ea36b6b8068d0"
+  integrity sha512-xyqWNSG5QNYnIP5KzT/XwULU4HWSm1+x6p++7RMV71KNEwWCQGFtg6TfKnuWN81gYcRpKP28z7hzXIXuEcF5+w==
   dependencies:
     classnames "^2.2.6"
     core-js "^3.9.0"
