@@ -10,12 +10,21 @@ const codeOwners = fs.readFileSync(
 const mappedLines = codeOwners
   .split(/\n/)
   .map(line => {
-    const match = /(?<directory>\S*)\s@department-of-veterans-affairs\/(?<owner>.\S*).*$/g.exec(
+    const directory = /(?<directory>\S*)\s@department-of-veterans-affairs\/\S.*$/g.exec(
       line,
-    );
+    )?.groups?.directory;
 
-    if (match?.groups?.directory && match.groups.owner) {
-      return { directory: match.groups.directory, owner: match.groups.owner };
+    const regex = /\S*\s@department-of-veterans-affairs\/(\S*)/g;
+    const matches = [];
+    let match = regex.exec(line);
+
+    while (match != null) {
+      matches.push(match[1]);
+      match = regex.exec(line);
+    }
+
+    if (directory && matches.length) {
+      return { directory, owner: matches };
     }
 
     return undefined;
