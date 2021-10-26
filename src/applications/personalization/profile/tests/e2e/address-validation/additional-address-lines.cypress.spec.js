@@ -18,4 +18,3 @@ describe('Personal and contact information', () => {
     });
   });
 });
-
