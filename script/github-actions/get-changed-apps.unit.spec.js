@@ -18,6 +18,7 @@ describe('getChangedAppsString', () => {
       'src/applications/app1': {
         'manifest.json': createManifest('app1'),
         'some-file.js': '',
+        'other-file.js': '',
       },
       'src/applications/app2': {
         'manifest.json': createManifest('app2'),
@@ -89,6 +90,17 @@ describe('getChangedAppsString', () => {
 
     const appString = getChangedAppsString(changedFiles, config, 'folder');
     expect(appString).to.equal('src/applications/app1,src/applications/app2');
+  });
+
+  it('should not duplicate entry names when multiple files in an app are modified', () => {
+    const config = { allow: ['app1'] };
+    const changedFiles = [
+      'src/applications/app1/some-file.js',
+      'src/applications/app1/other-file.js',
+    ];
+
+    const appString = getChangedAppsString(changedFiles, config);
+    expect(appString).to.equal('app1');
   });
 
   after(() => mockFs.restore());
