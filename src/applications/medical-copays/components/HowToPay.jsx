@@ -3,7 +3,7 @@ import Telephone, {
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
-export const HowToPay = ({ acctNum }) => (
+export const HowToPay = ({ acctNum, facility }) => (
   <article className="vads-u-padding--0">
     <h2 id="how-to-pay">How do I pay my VA copay bill?</h2>
     <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--3">
@@ -96,18 +96,28 @@ export const HowToPay = ({ acctNum }) => (
           check or money order.
         </p>
         <p>
-          <strong>Note: </strong> You’ll find these stubs at the bottom of each
-          statement. If you don’t have your most recent statement, you can
-          download and print it below or include a note listing the facility
-          you’d like to pay.
+          <strong>Note: </strong>
+          You’ll find these stubs at the bottom of each statement. If you don’t
+          have your most recent statement, you can download and print it above.
         </p>
         <p>
           <strong>Account Number: </strong>
           {acctNum}
         </p>
-        <a className="vads-c-action-link--blue" href="#">
-          Find your nearest VA medical center
-        </a>
+        <p>
+          <strong>Your facility’s address:</strong>
+        </p>
+        <p className="va-address-block">
+          {facility?.facilityName}
+          <br />
+          {facility?.staTAddress1}
+          <br />
+          {facility?.city}, {facility?.state}
+          <span className="vads-u-margin-x--0p5">
+            {facility?.ziPCde.substring(0, 5)}-{facility?.ziPCde.substring(5)}
+          </span>
+          <br />
+        </p>
       </va-accordion-item>
     </va-accordion>
   </article>

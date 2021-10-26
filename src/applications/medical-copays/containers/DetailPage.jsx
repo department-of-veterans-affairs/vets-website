@@ -58,7 +58,10 @@ const DetailPage = ({ match }) => {
           <Alert type={'status'} copay={selectedCopay} />
           <va-on-this-page />
           <DownloadStatements />
-          <HowToPay acctNum={selectedCopay?.pHCernerAccountNumber} />
+          <HowToPay
+            acctNum={selectedCopay?.pHCernerAccountNumber}
+            facility={selectedCopay?.station}
+          />
           <FinancialHelp />
           <DisputeCharges />
           <BalanceQuestions
