@@ -50,7 +50,9 @@ export const getInitialFormValues = options => {
     if (data) {
       const { extension, areaCode, phoneNumber } = data;
       const inputPhoneNumber =
-        areaCode && phoneNumber ? `${areaCode}${phoneNumber}` : phoneNumber;
+        areaCode && phoneNumber
+          ? `${areaCode}${phoneNumber}`
+          : `${phoneNumber}`;
 
       initialFormValues = {
         ...data,
