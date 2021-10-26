@@ -139,7 +139,7 @@ describe('check in', () => {
     });
     describe('removeTimeZone', () => {
       it('removes timezone from date strings', () => {
-        const payload = {
+        const payloadWithTZ = {
           appointments: [
             {
               checkInWindowEnd: '2018-01-01T00:00:00.070Z',
@@ -149,17 +149,40 @@ describe('check in', () => {
             },
           ],
         };
-        const updatedPayload = removeTimeZone(payload);
-        expect(updatedPayload.appointments[0].checkInWindowEnd).to.equal(
+        const payloadWithoutTZ = {
+          appointments: [
+            {
+              checkInWindowEnd: '2018-01-01T00:00:00',
+              checkInWindowStart: '2018-01-01T00:00:00',
+              checkedInTime: '2018-01-01T00:00:00',
+              startTime: '2018-01-01T00:00:00',
+            },
+          ],
+        };
+        const updatedPayloadWithTZ = removeTimeZone(payloadWithTZ);
+        const updatedPayloadWithoutTZ = removeTimeZone(payloadWithoutTZ);
+        expect(updatedPayloadWithTZ.appointments[0].checkInWindowEnd).to.equal(
           '2018-01-01T00:00:00',
         );
-        expect(updatedPayload.appointments[0].checkInWindowStart).to.equal(
+        expect(
+          updatedPayloadWithTZ.appointments[0].checkInWindowStart,
+        ).to.equal('2018-01-01T00:00:00');
+        expect(updatedPayloadWithTZ.appointments[0].checkedInTime).to.equal(
           '2018-01-01T00:00:00',
         );
-        expect(updatedPayload.appointments[0].checkedInTime).to.equal(
+        expect(updatedPayloadWithTZ.appointments[0].startTime).to.equal(
           '2018-01-01T00:00:00',
         );
-        expect(updatedPayload.appointments[0].startTime).to.equal(
+        expect(
+          updatedPayloadWithoutTZ.appointments[0].checkInWindowEnd,
+        ).to.equal('2018-01-01T00:00:00');
+        expect(
+          updatedPayloadWithoutTZ.appointments[0].checkInWindowStart,
+        ).to.equal('2018-01-01T00:00:00');
+        expect(updatedPayloadWithoutTZ.appointments[0].checkedInTime).to.equal(
+          '2018-01-01T00:00:00',
+        );
+        expect(updatedPayloadWithoutTZ.appointments[0].startTime).to.equal(
           '2018-01-01T00:00:00',
         );
       });
