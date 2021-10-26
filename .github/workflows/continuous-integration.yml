@@ -262,6 +262,18 @@ jobs:
     name: Testing Reports Prep
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
       - name: Generate new application list
         run: yarn generate-app-list
 
