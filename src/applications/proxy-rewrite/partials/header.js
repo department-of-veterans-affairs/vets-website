@@ -1,3 +1,3 @@
 export default `
-<header class="header" data-widget-type="header" data-show data-show-nav-login data-show-mega-menu role="banner"></header>
+<header class="header" data-widget-type="header" data-show data-show-nav-login data-show-mega-menu></header>
 `;
