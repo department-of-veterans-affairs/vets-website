@@ -302,6 +302,7 @@ jobs:
 
       - name: Upload app list to BigQuery
         run: yarn generate-app-list
+        working-directory: department-of-veterans-affairs/testing-tools-team-dashboard-data
 
   cypress-tests-prep:
     name: Prep for Cypress Tests
