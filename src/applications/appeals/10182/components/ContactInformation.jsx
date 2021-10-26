@@ -96,7 +96,11 @@ export const ContactInfoDescription = ({ formContext, profile, homeless }) => {
       )}
       <div
         className="va-profile-wrapper blue-bar-block vads-u-margin-y--4"
-        onSubmit={event => event.stopPropagation()}
+        onSubmit={event => {
+          // This prevents this nested form submit event from passing to the
+          // outer form and causing a page advance
+          event.stopPropagation();
+        }}
       >
         <InitializeVAPServiceID>
           <h3>Mobile phone number</h3>
