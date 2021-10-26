@@ -3,19 +3,22 @@
  * @module platform/site-wide
  */
 import '../monitoring/sentry.js';
+import './legacy/menu'; // Used in the footer.
 import './medallia-feedback-button';
 import './moment-setup';
 import './popups';
 import './wysiwyg-analytics-setup';
 import './component-library-analytics-setup';
-import startAnnouncementWidget from './announcements';
-import startBanners from './banners';
-import startHeaderWidget from './header';
+import startUserNavWidget from './user-nav';
+import startMegaMenuWidget from './mega-menu';
 import startSideNav from './side-nav';
+import startBanners from './banners';
+import startMobileMenuButton from './mobile-menu-button';
+import startAnnouncementWidget from './announcements';
 import startVAFooter from './va-footer';
+import addFocusBehaviorToCrisisLineModal from './accessible-VCL-modal';
 
 import '@department-of-veterans-affairs/formation/dist/formation';
-import 'platform/site-wide/user-nav/sass/user-nav.scss';
 
 /**
  * Start up the site-wide components that live on every page, like
@@ -42,10 +45,15 @@ export default function startSitewideComponents(commonStore) {
     }
   });
 
-  // Start site-wide widgets.
-  startHeaderWidget(commonStore, window.VetsGov.headerFooter.megaMenuData);
+  startUserNavWidget(commonStore);
   startAnnouncementWidget(commonStore);
+  startMegaMenuWidget(window.VetsGov.headerFooter.megaMenuData, commonStore);
   startSideNav(window.sideNav, commonStore);
   startBanners();
-  startVAFooter(window.VetsGov.headerFooter.footerData, commonStore);
+  startMobileMenuButton(commonStore);
+  startVAFooter(
+    window.VetsGov.headerFooter.footerData,
+    addFocusBehaviorToCrisisLineModal,
+    commonStore,
+  );
 }
