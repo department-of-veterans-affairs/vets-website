@@ -586,10 +586,10 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: contract-test-report
-          path: testing-tools-team-dashboard-data/src/mochawesome/data
+          path: testing-tools-team-dashboard-data/src/contract/data
 
       - name: Upload Contract Test report to s3
-        run: aws s3 cp testing-tools-team-dashboard-data/src/mochawesome/data/mochawesome.html s3://testing-tools-testing-reports/vets-website-contract-test-reports/${{env.UUID}}.html --acl public-read --region us-gov-west-1
+        run: aws s3 cp testing-tools-team-dashboard-data/src/contract/data/mochawesome.html s3://testing-tools-testing-reports/vets-website-contract-test-reports/${{env.UUID}}.html --acl public-read --region us-gov-west-1
 
       - name: Create Contract Test report and post results to BigQuery
         run: yarn contract-mochawesome-to-bigquery
