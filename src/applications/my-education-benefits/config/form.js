@@ -36,6 +36,8 @@ import PhoneReviewField from '../components/PhoneReviewField';
 import DateReviewField from '../components/DateReviewField';
 import EmailReviewField from '../components/EmailReviewField';
 
+import environment from 'platform/utilities/environment';
+
 import {
   activeDutyLabel,
   selectedReserveLabel,
@@ -337,11 +339,21 @@ function renderContactMethodFollowUp(formData, cond) {
   return res;
 }
 
+function transform(a, b, c) {
+  // eslint-disable-next-line no-console
+  console.log(a);
+  // eslint-disable-next-line no-console
+  console.log(b);
+  // eslint-disable-next-line no-console
+  console.log(c);
+  return JSON.stringify({ request: 'something' });
+}
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/meb_api/v0/submit_application`,
+  transformForSubmit: transform,
   trackingPrefix: 'my-education-benefits-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
