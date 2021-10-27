@@ -25,6 +25,8 @@ describe('form submit transform', () => {
       expect(contactInfo.addressType).to.eql('DOMESTIC');
       expect(contactInfo.mobilePhoneNumber).to.eql('5035551234');
       expect(contactInfo.homePhoneNumber).to.eql('5032222222');
+      expect(contactInfo.countryCode).to.eql('US');
+      expect(contactInfo.stateCode).to.eql('NY');
     });
   });
 

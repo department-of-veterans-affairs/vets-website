@@ -281,5 +281,9 @@ export function createContactInfo(submissionForm) {
     mobilePhoneNumber:
       submissionForm['view:phoneNumbers'].mobilePhoneNumber.phone,
     homePhoneNumber: submissionForm['view:phoneNumbers'].phoneNumber.phone,
+    countryCode: getLTSCountryCode(
+      submissionForm['view:mailingAddress'].address.country,
+    ),
+    stateCode: submissionForm['view:mailingAddress'].address.state,
   };
 }
