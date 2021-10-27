@@ -779,7 +779,8 @@ jobs:
     # or else they will also be skipped when linting is skipped.
     if: |
       always() &&
-      needs.cypress-tests.result == 'success' &&
+      (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'skipped') &&
+      needs.build.result == 'success' &&
       needs.unit-tests.result == 'success' &&
       needs.contract-tests.result == 'success' &&
       needs.security-audit.result == 'success' &&
