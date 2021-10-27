@@ -55,5 +55,5 @@ export default function startSitewideComponents(commonStore) {
     addFocusBehaviorToCrisisLineModal,
     commonStore,
   );
-  startHeader(commonStore, window.VetsGov.headerFooter.headerData);
+  startHeader(commonStore, window.VetsGov.headerFooter.megaMenuData);
 }
