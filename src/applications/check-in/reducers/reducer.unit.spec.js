@@ -63,14 +63,31 @@ describe('check-in', () => {
 
       it('should have the correct fields', () => {
         const data = {
-          relationship: 'spouse',
+          name: 'VETERAN,JONAH',
+          relationship: 'BROTHER',
+          phone: '1112223333',
+          workPhone: '4445556666',
+          address: {
+            street1: '123 Main St',
+            street2: 'Ste 234',
+            street3: '',
+            city: 'Los Angeles',
+            county: 'Los Angeles',
+            state: 'CA',
+            zip: '90089',
+            zip4: '',
+            country: 'USA',
+          },
         };
         const action = receivedNextOfKinData(data);
         const state = reducer.checkInData(undefined, action);
         expect(state).haveOwnProperty('nextOfKin');
         expect(state.nextOfKin).to.be.an('object');
-
+        expect(state.nextOfKin).haveOwnProperty('name');
         expect(state.nextOfKin).haveOwnProperty('relationship');
+        expect(state.nextOfKin).haveOwnProperty('phone');
+        expect(state.nextOfKin).haveOwnProperty('workPhone');
+        expect(state.nextOfKin).haveOwnProperty('address');
       });
     });
     it('should trigger refresh', () => {
