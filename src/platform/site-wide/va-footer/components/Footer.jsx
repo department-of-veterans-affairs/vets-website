@@ -1,18 +1,16 @@
-// Node modules.
-import React, { Component } from 'react';
+import React from 'react';
 import { debounce } from 'lodash';
-// Relative imports.
+import { isWideScreen } from '../../../utilities/accessibility/index';
 import CrisisPanel from './CrisisPanel';
 import DesktopLinks from './DesktopLinks';
-import LanguageSupport from './LanguageSupport';
 import MobileLinks from './MobileLinks';
-import { connect } from 'react-redux';
+import LanguageSupport from './LanguageSupport';
 import { createLinkGroups } from '../helpers';
-import { isWideScreen } from '../../../utilities/accessibility/index';
-import { langSelectedAction } from 'applications/static-pages/i18Select/actions';
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
+import { connect } from 'react-redux';
+import { langSelectedAction } from 'applications/static-pages/i18Select/actions';
 
-class Footer extends Component {
+class Footer extends React.Component {
   constructor(props) {
     super(props);
     this.linkObj = createLinkGroups(props.footerData);
@@ -20,7 +18,6 @@ class Footer extends Component {
       isMobile: !isWideScreen(),
     };
   }
-
   componentDidMount() {
     window.addEventListener(
       'resize',
@@ -33,8 +30,10 @@ class Footer extends Component {
       }, 250),
       false,
     );
+    if (this.props.handleFooterDidMount) {
+      this.props.handleFooterDidMount();
+    }
   }
-
   render() {
     return (
       <div>
