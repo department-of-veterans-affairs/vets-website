@@ -127,6 +127,8 @@ export const getNonActiveLinkUrls = languageCode => {
 export const adjustSidebarNav = lang => {
   const sideNav = document?.querySelector('#va-detailpage-sidebar');
 
+  if (!sideNav) return;
+
   const links = Array.from(sideNav?.getElementsByTagName('a'));
 
   const nonActiveLinkUrls = getNonActiveLinkUrls(lang);
