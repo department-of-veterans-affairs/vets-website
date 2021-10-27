@@ -26,7 +26,7 @@ export default {
   },
   about: {
     en: '/health-care/covid-19-vaccine/about-covid-19-vaccine',
-    es: '/health-care/covid-19-vaccine/about-covid-19-vaccine-esp',
-    tl: '/health-care/covid-19-vaccine/about-covid-19-vaccine-tag',
+    es: '/health-care/covid-19-vaccine-esp/about-covid-19-vaccine-esp',
+    tl: '/health-care/covid-19-vaccine-tag/about-covid-19-vaccine-tag',
   },
 };

@@ -1,5 +1,7 @@
-import { pciuStates as PCIU_STATES } from 'vets-json-schema/dist/constants.json';
+import constants from 'vets-json-schema/dist/constants.json';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+
+const { pciuStates: PCIU_STATES } = constants;
 
 import {
   VA_FORM_IDS,

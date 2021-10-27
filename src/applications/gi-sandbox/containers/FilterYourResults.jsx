@@ -325,7 +325,7 @@ export function FilterYourResults({
             <Checkbox
               checked={preferredProvider}
               name="preferredProvider"
-              label="Preferred providers"
+              label="Preferred providers only"
               onChange={handlePreferredProviderChange}
               labelAriaLabel="VET TEC Preferred providers"
               inputAriaLabelledBy={legendId}

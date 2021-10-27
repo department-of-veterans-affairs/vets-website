@@ -11,8 +11,9 @@ import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 
 import ReviewPage from '../../../covid-19-vaccine/components/ReviewPage';
 import { onCalendarChange } from '../../../covid-19-vaccine/redux/actions';
-import { mockAppointmentSubmit, mockFacilityFetch } from '../../mocks/helpers';
-import { getVAFacilityMock } from '../../mocks/v0';
+import { mockAppointmentSubmit } from '../../mocks/helpers';
+import { createMockCheyenneFacilityByVersion } from '../../mocks/data';
+import { mockFacilityFetchByVersion } from '../../mocks/fetch';
 
 const initialState = {
   featureToggles: {
@@ -137,24 +138,11 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
   });
 
   it('should show appropriate message on bad request submit error', async () => {
-    mockFacilityFetch('vha_442', {
-      id: 'vha_442',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '442',
-        name: 'Cheyenne VA Medical Center',
-        address: {
-          physical: {
-            zip: '82001-5356',
-            city: 'Cheyenne',
-            state: 'WY',
-            address1: '2360 East Pershing Boulevard',
-          },
-        },
-        phone: {
-          main: '307-778-7550',
-        },
-      },
+    mockFacilityFetchByVersion({
+      facility: createMockCheyenneFacilityByVersion({
+        version: 0,
+      }),
+      version: 0,
     });
     setFetchJSONFailure(
       global.fetch.withArgs(`${environment.API_URL}/vaos/v0/appointments`),
@@ -190,24 +178,11 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
   });
 
   it('should show appropriate message on regular submit error', async () => {
-    mockFacilityFetch('vha_442', {
-      id: 'vha_442',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '442',
-        name: 'Cheyenne VA Medical Center',
-        address: {
-          physical: {
-            zip: '82001-5356',
-            city: 'Cheyenne',
-            state: 'WY',
-            address1: '2360 East Pershing Boulevard',
-          },
-        },
-        phone: {
-          main: '307-778-7550',
-        },
-      },
+    mockFacilityFetchByVersion({
+      facility: createMockCheyenneFacilityByVersion({
+        version: 0,
+      }),
+      version: 0,
     });
     setFetchJSONFailure(
       global.fetch.withArgs(`${environment.API_URL}/vaos/v0/appointments`),

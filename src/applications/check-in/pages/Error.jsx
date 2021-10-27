@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import BackToHome from '../components/BackToHome';
@@ -46,6 +47,10 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = () => {
   return {};
+};
+
+Error.propTypes = {
+  appointment: PropTypes.object,
 };
 
 export default connect(

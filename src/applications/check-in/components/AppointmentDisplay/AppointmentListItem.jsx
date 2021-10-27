@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import format from 'date-fns/format';
 import AppointmentLocation from './AppointmentLocation';
 
 import AppointmentAction from './AppointmentAction';
 
-export default function AppointmentListItem(props) {
+const AppointmentListItem = props => {
   const { appointment, token, router } = props;
   const appointmentDateTime = new Date(appointment.startTime);
   const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
@@ -44,4 +45,12 @@ export default function AppointmentListItem(props) {
       />
     </li>
   );
-}
+};
+
+AppointmentListItem.propTypes = {
+  appointment: PropTypes.object,
+  router: PropTypes.object,
+  token: PropTypes.string,
+};
+
+export default AppointmentListItem;

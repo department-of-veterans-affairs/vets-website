@@ -2,10 +2,19 @@
 # yarn lockfile v1
 
 
-"@actions/core@^1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@actions/core/-/core-1.5.0.tgz#885b864700001a1b9a6fba247833a036e75ad9d3"
-  integrity sha512-eDOLH1Nq9zh+PJlYLqEMkS/jLQxhksPNmUGNBHfa4G+tQmnIhzpctxmchETtVGyBOvXgOVVpYuE40+eS4cUnwQ==
+"@actions/core@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@actions/core/-/core-1.6.0.tgz#0568e47039bfb6a9170393a73f3b7eb3b22462cb"
+  integrity sha512-NB1UAZomZlCV/LmJqkLhNTqtKfFXJZAUPcfl/zqG7EfsQdeUJtaWO98SGbuQ3pydJ3fHl2CvI/51OKYlCYYcaw==
+  dependencies:
+    "@actions/http-client" "^1.0.11"
+
+"@actions/http-client@^1.0.11":
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/@actions/http-client/-/http-client-1.0.11.tgz#c58b12e9aa8b159ee39e7dd6cbd0e91d905633c0"
+  integrity sha512-VRYHGQV1rqnROJqdMvGUbY/Kn8vriQe/F9HR2AlYHzmKuM/p3kjNuXhmdBfcVgsvRWTz5C5XW5xvndZrVBuAYg==
+  dependencies:
+    tunnel "0.0.6"
 
 "@babel/code-frame@7.12.11":
   version "7.12.11"
@@ -1954,14 +1963,14 @@
     tunnel-agent "^0.6.0"
     uuid "^3.3.2"
 
-"@cypress/webpack-preprocessor@^5.4.1":
-  version "5.4.1"
-  resolved "https://registry.npmjs.org/@cypress/webpack-preprocessor/-/webpack-preprocessor-5.4.1.tgz"
-  integrity sha512-1E2BdVVXQ4wDQ7f3mXCvS9xmfTVwEoT3oqKhjAr1iNlTJpBq10Z0VNBZd3VZ3nmCTFwTuUvs735QGnRE1gQ1BA==
+"@cypress/webpack-preprocessor@^5.9.1":
+  version "5.9.1"
+  resolved "https://registry.yarnpkg.com/@cypress/webpack-preprocessor/-/webpack-preprocessor-5.9.1.tgz#2694aa832baf3984d90bcb899e1ecff377560904"
+  integrity sha512-cg1ikftIo7NdlRA8ocNSxWjHJlh1JlTkN9ZfXUuKWWcJgrEdYLjXk0UzY6gYbLLaFka4oIhN6SvL5Y/7iELvgg==
   dependencies:
-    bluebird "3.7.1"
-    debug "4.1.1"
-    lodash "4.17.15"
+    bluebird "^3.7.1"
+    debug "4.3.2"
+    lodash "^4.17.20"
 
 "@cypress/xvfb@^1.2.4":
   version "1.2.4"
@@ -1980,23 +1989,17 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@^3.2.1":
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.2.1.tgz#f2ad105ae4ef3bf2612d4dd0061047cc39125443"
-  integrity sha512-wllEc0fuds08akZrLP+jEdkU7vkNEoEPSnlQtYDHqlbpVHe4wwlt6ffgin9CHV4KXffXbs8cFM9WobZ19tObVQ==
+"@department-of-veterans-affairs/component-library@^3.3.4":
+  version "3.3.4"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.3.4.tgz#3d47258b203073aa59b89248fb0ec1b10db679a2"
+  integrity sha512-G56dVat0nSzuehtJt0IcFxRM0t7nGVq3rcPy4WSW0EsgO+xm0sCSMaxfSEoBGVJFOc79vpwUXTl0fvfx7Sz6AA==
   dependencies:
-    classnames "^2.2.6"
-    core-js "^3.9.0"
-    date-fns "^2.17.0"
+    "@department-of-veterans-affairs/react-components" "3.2.3"
+    "@department-of-veterans-affairs/web-components" "0.13.0"
     date-fns-tz "^1.1.1"
-    lodash "^4.17.15"
-    moment "^2.23.0"
-    prop-types "^15.6.2"
-    react-focus-lock "^2.5.1"
     react-focus-on "^3.5.1"
     react-scroll "^1.7.16"
-    react-transition-group "1"
-    recast "^0.14.4"
+    react-transition-group "^1.0.0"
 
 "@department-of-veterans-affairs/formation@6.17.3":
   version "6.17.3"
@@ -2024,6 +2027,25 @@
     yeoman-generator "^4.11.0"
     yosay "^2.0.1"
 
+"@department-of-veterans-affairs/react-components@3.2.3":
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-3.2.3.tgz#1a6486f3f7c7839c42995532434ea36b6b8068d0"
+  integrity sha512-xyqWNSG5QNYnIP5KzT/XwULU4HWSm1+x6p++7RMV71KNEwWCQGFtg6TfKnuWN81gYcRpKP28z7hzXIXuEcF5+w==
+  dependencies:
+    classnames "^2.2.6"
+    core-js "^3.9.0"
+    date-fns "^2.17.0"
+    date-fns-tz "^1.1.1"
+    lodash "^4.17.15"
+    moment "^2.23.0"
+    number-to-words "^1.2.4"
+    prop-types "^15.6.2"
+    react-focus-lock "^2.5.1"
+    react-focus-on "^3.5.1"
+    react-scroll "^1.7.16"
+    react-transition-group "1"
+    recast "^0.14.4"
+
 "@department-of-veterans-affairs/react-jsonschema-form@^1.0.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-jsonschema-form/-/react-jsonschema-form-1.2.0.tgz#9080236759e920e30f10727055a9dc04f4a711a8"
@@ -2034,6 +2056,17 @@
     prop-types "^15.6.1"
     react-is "^17.0.1"
     setimmediate "^1.0.5"
+
+"@department-of-veterans-affairs/web-components@0.13.0":
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-0.13.0.tgz#dad22867391b1c022960a82f012c32a8b78578f3"
+  integrity sha512-yDKFjKqUj1YC7Mt4cYTJ1tPPvnXPc+xNUbRbU1FxlJN/oUnNLKsb/OwyAjIi2uFv0NUBVSlVNpPmT9kD1Nv/Dg==
+  dependencies:
+    "@stencil/core" "^2.8.1"
+    "@stencil/postcss" "^2.0.0"
+    classnames "^2.3.1"
+    intersection-observer "^0.12.0"
+    postcss-url "^10.1.1"
 
 "@emotion/is-prop-valid@^0.8.8":
   version "0.8.8"
@@ -2653,10 +2686,10 @@
   resolved "https://registry.yarnpkg.com/@open-draft/until/-/until-1.0.3.tgz#db9cc719191a62e7d9200f6e7bab21c5b848adca"
   integrity sha512-Aq58f5HiWdyDlFffbbSjAlv596h/cOnt2DO1w3DOC7OJ5EHs0hd/nycJfiu9RJbT6Yk6F1knnRRXNSpxoIVZ9Q==
 
-"@pact-foundation/pact-node@^10.13.7":
-  version "10.13.7"
-  resolved "https://registry.yarnpkg.com/@pact-foundation/pact-node/-/pact-node-10.13.7.tgz#5087a23bee8db3297e5c988bf5084cc836783109"
-  integrity sha512-EhSo5t0QCW5CXdqXPtLo/tkAmAn0Phm7qNgPibh5p5+38Mdrjee77Muk1LVd/MjlW6NV5dH+zLAlD40z4CRelw==
+"@pact-foundation/pact-node@^10.13.8":
+  version "10.13.9"
+  resolved "https://registry.yarnpkg.com/@pact-foundation/pact-node/-/pact-node-10.13.9.tgz#7acbf0b719e943f04ccee13b787a7b7571415d95"
+  integrity sha512-Ph+V614OqiK9GanW0fTAkDB53hgdXqRhxhHDzOYvzsbVjq364aMUwajcldYhl/bT1FjQALS5brQ7Uq4x3fNr7g==
   dependencies:
     "@types/needle" "^2.5.1"
     "@types/pino" "^6.3.5"
@@ -2679,12 +2712,12 @@
     unzipper "^0.10.10"
     url-join "^4.0.0"
 
-"@pact-foundation/pact@^9.16.1":
-  version "9.16.1"
-  resolved "https://registry.yarnpkg.com/@pact-foundation/pact/-/pact-9.16.1.tgz#ca19dd1e7266b994e60bbf696521274d13092580"
-  integrity sha512-hknXmKy3uvZsJ2rJlazyUk1hJWnxRuxAFbMHZ/edWjxF2gmQO3xyA7SKFjgEhbghORcgLnK3308q/5rJFOfbQg==
+"@pact-foundation/pact@^9.16.4":
+  version "9.16.4"
+  resolved "https://registry.yarnpkg.com/@pact-foundation/pact/-/pact-9.16.4.tgz#08865a63f6d71d9ecc2dd7232fdbd042103a077c"
+  integrity sha512-pkbTu2cMzEs8H4ohMi7itAl2AdWGsIZP4QnO9e3Bj5+dYSifiHb/AIscDP61Lk3GfL/KUwCI5qGLiXzpTREZBQ==
   dependencies:
-    "@pact-foundation/pact-node" "^10.13.7"
+    "@pact-foundation/pact-node" "^10.13.8"
     "@types/bluebird" "^3.5.20"
     "@types/express" "^4.17.11"
     bluebird "~3.5.1"
@@ -2696,7 +2729,6 @@
     graphql "^14.0.0"
     graphql-tag "^2.9.1"
     http-proxy "^1.18.1"
-    http-proxy-middleware "^0.19.0"
     lodash "^4.17.21"
     lodash.isfunction "3.0.8"
     lodash.isnil "4.0.0"
@@ -4535,12 +4567,7 @@ blob-util@^2.0.2:
   resolved "https://registry.yarnpkg.com/blob-util/-/blob-util-2.0.2.tgz#3b4e3c281111bb7f11128518006cdc60b403a1eb"
   integrity sha512-T7JQa+zsXXEa6/8ZhHcQEW1UFfVM49Ts65uBkFL6fz2QmrElqmbajIDJvuA0tEhRe5eIjpV9ZF+0RfZR9voJFQ==
 
-bluebird@3.7.1:
-  version "3.7.1"
-  resolved "https://registry.npmjs.org/bluebird/-/bluebird-3.7.1.tgz"
-  integrity sha512-DdmyoGCleJnkbp3nkbxTLJ18rjDsE4yCggEwKNXkeV123sPNfOCYeDoeuOY+F2FrSjO1YXcTU+dsy96KMy+gcg==
-
-bluebird@3.7.2, bluebird@^3.5.5, bluebird@^3.7.2:
+bluebird@3.7.2, bluebird@^3.5.5, bluebird@^3.7.1, bluebird@^3.7.2:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
   integrity sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==
@@ -5899,6 +5926,11 @@ commander@^7.2.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-7.2.0.tgz#a36cb57d0b501ce108e4d20559a150a391d97ab7"
   integrity sha512-QrWXB+ZQSVPmIWIhtEO9H+gwHaMGYiF5ChvoJ+K9ZGHG/sVsa6yiesAD1GC/x46sET00Xlwo1u49RVVVzvcSkw==
 
+comment-parser@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/comment-parser/-/comment-parser-1.2.4.tgz#489f3ee55dfd184a6e4bffb31baba284453cb760"
+  integrity sha512-pm0b+qv+CkWNriSTMsfnjChF9kH0kxz55y44Wo5le9qLxMj5xDQAaEd9ZN1ovSuk9CsrncWaFwgpOMg7ClJwkw==
+
 common-ancestor-path@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/common-ancestor-path/-/common-ancestor-path-1.0.1.tgz#4f7d2d1394d91b7abdf51871c62f71eadb0182a7"
@@ -6707,13 +6739,6 @@ debug@4, debug@4.3.2, debug@^4.1.0, debug@^4.3.2:
   dependencies:
     ms "2.1.2"
 
-debug@4.1.1, debug@^4.0.1:
-  version "4.1.1"
-  resolved "https://registry.npmjs.org/debug/-/debug-4.1.1.tgz"
-  integrity sha512-pYAIzeRo8J6KPEaJ0VWOh5Pzkbw/RetuzehGM7QRRX5he4fPHx2rdKMB256ehJCkX+XRQm16eZLqLNS8RSZXZw==
-  dependencies:
-    ms "^2.1.1"
-
 debug@4.2.0:
   version "4.2.0"
   resolved "https://registry.npmjs.org/debug/-/debug-4.2.0.tgz"
@@ -6741,6 +6766,13 @@ debug@^4.0.0, debug@^4.1.1, debug@^4.3.1:
   integrity sha512-doEwdvm4PCeK4K3RQN2ZC2BYUBaxwLARCqZmMjtF8a51J2Rb0xpVloFRnCODwqjpwnAoao4pelN8l3RJdv3gRQ==
   dependencies:
     ms "2.1.2"
+
+debug@^4.0.1:
+  version "4.1.1"
+  resolved "https://registry.npmjs.org/debug/-/debug-4.1.1.tgz"
+  integrity sha512-pYAIzeRo8J6KPEaJ0VWOh5Pzkbw/RetuzehGM7QRRX5he4fPHx2rdKMB256ehJCkX+XRQm16eZLqLNS8RSZXZw==
+  dependencies:
+    ms "^2.1.1"
 
 debuglog@^1.0.1:
   version "1.0.1"
@@ -10259,16 +10291,6 @@ http-proxy-middleware@0.19.1:
     lodash "^4.17.11"
     micromatch "^3.1.10"
 
-http-proxy-middleware@^0.19.0:
-  version "0.19.2"
-  resolved "https://registry.npmjs.org/http-proxy-middleware/-/http-proxy-middleware-0.19.2.tgz"
-  integrity sha512-aYk1rTKqLTus23X3L96LGNCGNgWpG4cG0XoZIT1GUPhhulEHX/QalnO6Vbo+WmKWi4AL2IidjuC0wZtbpg0yhQ==
-  dependencies:
-    http-proxy "^1.18.1"
-    is-glob "^4.0.0"
-    lodash "^4.17.11"
-    micromatch "^3.1.10"
-
 http-proxy@1.18.1, http-proxy@^1.17.0, http-proxy@^1.18.0, http-proxy@^1.18.1:
   version "1.18.1"
   resolved "https://registry.npmjs.org/http-proxy/-/http-proxy-1.18.1.tgz"
@@ -12294,7 +12316,7 @@ lodash.zip@^4.2.0:
   resolved "https://registry.npmjs.org/lodash.zip/-/lodash.zip-4.2.0.tgz"
   integrity sha1-7GZi5IlkCO1KtsVCo5kLcswIACA=
 
-lodash@4.17.15, lodash@4.17.21, lodash@^4.0.0, lodash@^4.13.1, lodash@^4.15.0, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.17.4, lodash@^4.3.0, lodash@~4.16.4:
+lodash@4.17.21, lodash@^4.0.0, lodash@^4.13.1, lodash@^4.15.0, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.17.4, lodash@^4.3.0, lodash@~4.16.4:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -14035,6 +14057,11 @@ number-is-nan@^1.0.0:
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
   integrity sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
 
+number-to-words@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/number-to-words/-/number-to-words-1.2.4.tgz#e0f124de9628f8d86c4eeb89bac6c07699264501"
+  integrity sha512-/fYevVkXRcyBiZDg6yzZbm0RuaD6i0qRfn8yr+6D0KgBMOndFPxuW10qCHpzs50nN8qKuv78k8MuotZhcVX6Pw==
+
 nwsapi@^2.2.0:
   version "2.2.0"
   resolved "https://registry.npmjs.org/nwsapi/-/nwsapi-2.2.0.tgz"
@@ -15468,15 +15495,6 @@ postcss@^7.0.14, postcss@^7.0.17, postcss@^7.0.2, postcss@^7.0.21, postcss@^7.0.
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
-postcss@^8.2.10, postcss@~8.2.1:
-  version "8.2.14"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.2.14.tgz#dcf313eb8247b3ce8078d048c0e8262ca565ad2b"
-  integrity sha512-+jD0ZijcvyCqPQo/m/CW0UcARpdFylq04of+Q7RKX6f/Tu+dvpUI/9Sp81+i6/vJThnOBX09Quw0ZLOVwpzX3w==
-  dependencies:
-    colorette "^1.2.2"
-    nanoid "^3.1.22"
-    source-map "^0.6.1"
-
 postcss@^8.3.7:
   version "8.3.7"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.3.7.tgz#ec88563588c8da8e58e7226f7633b51ae221eeda"
@@ -15485,6 +15503,15 @@ postcss@^8.3.7:
     nanocolors "^0.1.5"
     nanoid "^3.1.25"
     source-map-js "^0.6.2"
+
+postcss@~8.2.1:
+  version "8.2.14"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.2.14.tgz#dcf313eb8247b3ce8078d048c0e8262ca565ad2b"
+  integrity sha512-+jD0ZijcvyCqPQo/m/CW0UcARpdFylq04of+Q7RKX6f/Tu+dvpUI/9Sp81+i6/vJThnOBX09Quw0ZLOVwpzX3w==
+  dependencies:
+    colorette "^1.2.2"
+    nanoid "^3.1.22"
+    source-map "^0.6.1"
 
 potpack@^1.0.1:
   version "1.0.1"
@@ -16108,7 +16135,7 @@ react-test-renderer@^16.0.0-0:
     react-is "^16.8.6"
     scheduler "^0.19.1"
 
-react-transition-group@1:
+react-transition-group@1, react-transition-group@^1.0.0:
   version "1.2.1"
   resolved "https://registry.npmjs.org/react-transition-group/-/react-transition-group-1.2.1.tgz"
   integrity sha512-CWaL3laCmgAFdxdKbhhps+c0HRGF4c+hdM4H23+FI1QBNUyx/AMeIJGWorehPNSaKnQNOAxL7PQmqMu78CDj3Q==
@@ -18888,7 +18915,7 @@ tunnel-agent@^0.6.0:
   dependencies:
     safe-buffer "^5.0.1"
 
-tunnel@^0.0.6:
+tunnel@0.0.6, tunnel@^0.0.6:
   version "0.0.6"
   resolved "https://registry.npmjs.org/tunnel/-/tunnel-0.0.6.tgz"
   integrity sha512-1h/Lnq9yajKY2PEbBadPXj3VxsDDu844OnaAo52UVmIzIvwwtBPIuNvkjuzBlTWpfJyUbG3ez0KSBibQkj4ojg==
@@ -19688,16 +19715,6 @@ wcwidth@^1.0.1:
   integrity sha1-8LDc+RW8X/FSivrbLA4XtTLaL+g=
   dependencies:
     defaults "^1.0.3"
-
-"web-components@https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.13.0":
-  version "0.13.0"
-  resolved "https://github.com/department-of-veterans-affairs/component-library.git#076765c81554032c35ef6af45a25e19771e883a1"
-  dependencies:
-    "@stencil/core" "^2.8.1"
-    "@stencil/postcss" "^2.0.0"
-    classnames "^2.3.1"
-    intersection-observer "^0.12.0"
-    postcss-url "^10.1.1"
 
 webidl-conversions@^4.0.2:
   version "4.0.2"
