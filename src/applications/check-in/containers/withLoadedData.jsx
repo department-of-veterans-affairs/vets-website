@@ -96,8 +96,12 @@ const mapDispatchToProps = dispatch => {
         const { appointments, demographics } = payload;
         dispatch(triggerRefresh(false));
         dispatch(receivedMultipleAppointmentDetails(appointments, token));
-        dispatch(receivedDemographicsData(demographics));
-        dispatch(receivedNextOfKinData(demographics.nextOfKin1));
+        if (typeof demographics !== 'undefined') {
+          dispatch(receivedDemographicsData(demographics));
+          if ('nextOfKin1' in demographics) {
+            dispatch(receivedNextOfKinData(demographics.nextOfKin1));
+          }
+        }
       });
     },
   };
