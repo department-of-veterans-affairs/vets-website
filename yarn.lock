@@ -1980,23 +1980,17 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@^3.2.1":
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.2.1.tgz#f2ad105ae4ef3bf2612d4dd0061047cc39125443"
-  integrity sha512-wllEc0fuds08akZrLP+jEdkU7vkNEoEPSnlQtYDHqlbpVHe4wwlt6ffgin9CHV4KXffXbs8cFM9WobZ19tObVQ==
+"@department-of-veterans-affairs/component-library@^3.3.4":
+  version "3.3.4"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.3.4.tgz#3d47258b203073aa59b89248fb0ec1b10db679a2"
+  integrity sha512-G56dVat0nSzuehtJt0IcFxRM0t7nGVq3rcPy4WSW0EsgO+xm0sCSMaxfSEoBGVJFOc79vpwUXTl0fvfx7Sz6AA==
   dependencies:
-    classnames "^2.2.6"
-    core-js "^3.9.0"
-    date-fns "^2.17.0"
+    "@department-of-veterans-affairs/react-components" "3.2.3"
+    "@department-of-veterans-affairs/web-components" "0.13.0"
     date-fns-tz "^1.1.1"
-    lodash "^4.17.15"
-    moment "^2.23.0"
-    prop-types "^15.6.2"
-    react-focus-lock "^2.5.1"
     react-focus-on "^3.5.1"
     react-scroll "^1.7.16"
-    react-transition-group "1"
-    recast "^0.14.4"
+    react-transition-group "^1.0.0"
 
 "@department-of-veterans-affairs/formation@6.17.3":
   version "6.17.3"
@@ -2024,6 +2018,25 @@
     yeoman-generator "^4.11.0"
     yosay "^2.0.1"
 
+"@department-of-veterans-affairs/react-components@3.2.3":
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-3.2.3.tgz#1a6486f3f7c7839c42995532434ea36b6b8068d0"
+  integrity sha512-xyqWNSG5QNYnIP5KzT/XwULU4HWSm1+x6p++7RMV71KNEwWCQGFtg6TfKnuWN81gYcRpKP28z7hzXIXuEcF5+w==
+  dependencies:
+    classnames "^2.2.6"
+    core-js "^3.9.0"
+    date-fns "^2.17.0"
+    date-fns-tz "^1.1.1"
+    lodash "^4.17.15"
+    moment "^2.23.0"
+    number-to-words "^1.2.4"
+    prop-types "^15.6.2"
+    react-focus-lock "^2.5.1"
+    react-focus-on "^3.5.1"
+    react-scroll "^1.7.16"
+    react-transition-group "1"
+    recast "^0.14.4"
+
 "@department-of-veterans-affairs/react-jsonschema-form@^1.0.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-jsonschema-form/-/react-jsonschema-form-1.2.0.tgz#9080236759e920e30f10727055a9dc04f4a711a8"
@@ -2034,6 +2047,17 @@
     prop-types "^15.6.1"
     react-is "^17.0.1"
     setimmediate "^1.0.5"
+
+"@department-of-veterans-affairs/web-components@0.13.0":
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-0.13.0.tgz#dad22867391b1c022960a82f012c32a8b78578f3"
+  integrity sha512-yDKFjKqUj1YC7Mt4cYTJ1tPPvnXPc+xNUbRbU1FxlJN/oUnNLKsb/OwyAjIi2uFv0NUBVSlVNpPmT9kD1Nv/Dg==
+  dependencies:
+    "@stencil/core" "^2.8.1"
+    "@stencil/postcss" "^2.0.0"
+    classnames "^2.3.1"
+    intersection-observer "^0.12.0"
+    postcss-url "^10.1.1"
 
 "@emotion/is-prop-valid@^0.8.8":
   version "0.8.8"
@@ -5897,6 +5921,11 @@ commander@^7.2.0:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-7.2.0.tgz#a36cb57d0b501ce108e4d20559a150a391d97ab7"
   integrity sha512-QrWXB+ZQSVPmIWIhtEO9H+gwHaMGYiF5ChvoJ+K9ZGHG/sVsa6yiesAD1GC/x46sET00Xlwo1u49RVVVzvcSkw==
+
+comment-parser@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/comment-parser/-/comment-parser-1.2.4.tgz#489f3ee55dfd184a6e4bffb31baba284453cb760"
+  integrity sha512-pm0b+qv+CkWNriSTMsfnjChF9kH0kxz55y44Wo5le9qLxMj5xDQAaEd9ZN1ovSuk9CsrncWaFwgpOMg7ClJwkw==
 
 common-ancestor-path@^1.0.1:
   version "1.0.1"
@@ -14029,6 +14058,11 @@ number-is-nan@^1.0.0:
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
   integrity sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
 
+number-to-words@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/number-to-words/-/number-to-words-1.2.4.tgz#e0f124de9628f8d86c4eeb89bac6c07699264501"
+  integrity sha512-/fYevVkXRcyBiZDg6yzZbm0RuaD6i0qRfn8yr+6D0KgBMOndFPxuW10qCHpzs50nN8qKuv78k8MuotZhcVX6Pw==
+
 nwsapi@^2.2.0:
   version "2.2.0"
   resolved "https://registry.npmjs.org/nwsapi/-/nwsapi-2.2.0.tgz"
@@ -15462,15 +15496,6 @@ postcss@^7.0.14, postcss@^7.0.17, postcss@^7.0.2, postcss@^7.0.21, postcss@^7.0.
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
-postcss@^8.2.10, postcss@~8.2.1:
-  version "8.2.14"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.2.14.tgz#dcf313eb8247b3ce8078d048c0e8262ca565ad2b"
-  integrity sha512-+jD0ZijcvyCqPQo/m/CW0UcARpdFylq04of+Q7RKX6f/Tu+dvpUI/9Sp81+i6/vJThnOBX09Quw0ZLOVwpzX3w==
-  dependencies:
-    colorette "^1.2.2"
-    nanoid "^3.1.22"
-    source-map "^0.6.1"
-
 postcss@^8.3.7:
   version "8.3.7"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.3.7.tgz#ec88563588c8da8e58e7226f7633b51ae221eeda"
@@ -15479,6 +15504,15 @@ postcss@^8.3.7:
     nanocolors "^0.1.5"
     nanoid "^3.1.25"
     source-map-js "^0.6.2"
+
+postcss@~8.2.1:
+  version "8.2.14"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.2.14.tgz#dcf313eb8247b3ce8078d048c0e8262ca565ad2b"
+  integrity sha512-+jD0ZijcvyCqPQo/m/CW0UcARpdFylq04of+Q7RKX6f/Tu+dvpUI/9Sp81+i6/vJThnOBX09Quw0ZLOVwpzX3w==
+  dependencies:
+    colorette "^1.2.2"
+    nanoid "^3.1.22"
+    source-map "^0.6.1"
 
 potpack@^1.0.1:
   version "1.0.1"
@@ -16102,7 +16136,7 @@ react-test-renderer@^16.0.0-0:
     react-is "^16.8.6"
     scheduler "^0.19.1"
 
-react-transition-group@1:
+react-transition-group@1, react-transition-group@^1.0.0:
   version "1.2.1"
   resolved "https://registry.npmjs.org/react-transition-group/-/react-transition-group-1.2.1.tgz"
   integrity sha512-CWaL3laCmgAFdxdKbhhps+c0HRGF4c+hdM4H23+FI1QBNUyx/AMeIJGWorehPNSaKnQNOAxL7PQmqMu78CDj3Q==
@@ -19682,16 +19716,6 @@ wcwidth@^1.0.1:
   integrity sha1-8LDc+RW8X/FSivrbLA4XtTLaL+g=
   dependencies:
     defaults "^1.0.3"
-
-"web-components@https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.13.0":
-  version "0.13.0"
-  resolved "https://github.com/department-of-veterans-affairs/component-library.git#076765c81554032c35ef6af45a25e19771e883a1"
-  dependencies:
-    "@stencil/core" "^2.8.1"
-    "@stencil/postcss" "^2.0.0"
-    classnames "^2.3.1"
-    intersection-observer "^0.12.0"
-    postcss-url "^10.1.1"
 
 webidl-conversions@^4.0.2:
   version "4.0.2"

@@ -144,6 +144,7 @@
     "cli-table": "^0.3.6",
     "command-line-args": "^5.2.0",
     "command-line-usage": "^6.1.1",
+    "comment-parser": "^1.2.4",
     "copy-webpack-plugin": "^6.0.2",
     "cors": "^2.8.5",
     "css-loader": "^1.0.0",
@@ -247,7 +248,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/component-library": "^3.2.1",
+    "@department-of-veterans-affairs/component-library": "^3.3.4",
     "@department-of-veterans-affairs/formation": "6.17.3",
     "@department-of-veterans-affairs/formulate": "0.0.1",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
@@ -313,7 +314,6 @@
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#8f22da4a728ec2a33e59d3ad3e19bd1e1516d9b2",
-    "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.13.0",
     "whatwg-fetch": "^3.6.2"
   },
   "resolutions": {
@@ -345,7 +345,6 @@
     "tar-fs/tar-stream/bl": "^4.0.3",
     "**/meow": "^9.0.0",
     "**/set-value": "^2.0.1",
-    "web-components/**/postcss": "^8.2.10",
     "**/tar": "^4.4.18",
     "**/kind-of": "^6.0.3",
     "**/glob-parent": "^5.1.2",

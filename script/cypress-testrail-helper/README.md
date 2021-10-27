@@ -1,6 +1,6 @@
 # Cypress-TestRail-Helper
 
-Cypress-TestRail-Helper (CTH) is a Node-CLI app that makes using [cy-tr-reporter][npm-cy-tr-reporter] (CTR) easier. Use this to help collect/save all your CTR reporter-options before running your Cypress spec.
+Cypress-TestRail-Helper (CTH) is a Node-CLI app that makes using [cy-tr-reporter][npm-cy-tr-reporter] (CTR) much easier. Once you've completed initial integration steps for your Cypress spec-file, you can use CTH to run the spec **just by inputting it's filename**!
 
 **Private app**: This is **not a public-facing app** -- it pushes Cypress test-results to our private TestRail test case management system. You must be a VA employee/contractor officially onboarded to a VA.gov product team, in order to obtain private-systems access.
 
@@ -8,16 +8,30 @@ For basic TestRail help/info, see VSP's [TestRail docs][vsp-testrail-docs].
 
 ## Before using this app
 
-1. Integrate your Cypress spec's tests with TestRail test-cases.
+You only need to follow these steps once:
 
-1. Gather your team-specific\* TestRail info before launching CTH for the first time:
+1. Integrate your Cypress spec-file with TestRail -- you should have a TestRail test-case group/section for your spec, and within it TestRail test-cases corresponding to your spec's tests.
+1. In TestRail, click the green info-button next to one of your test-case's Case ID. An alert should be displayed, providing the case's parent Group ID and ancestor Project & Suite IDs.
+1. Integrate your Cypress spec-file with CTH -- prepend the following JSDOC comment to your spec [replacing `<placeholders>` with your actual values]:
+
+   ```js
+   /**
+    * [TestRail-integrated] Spec for <spec description>
+    * @testrailinfo projectId <your team's TestRail Project ID>
+    * @testrailinfo suiteId <your team's TestRail Suite ID>
+    * @testrailinfo groupId <your spec's TestRail Group ID>
+    * @testrailinfo runName <unique Run Name you'd like to see in TestRail>
+    */
+   ```
+
+   [for runName, do NOT use spaces. Use dashes/underscores instead to separate words.]
+
+1. IF launching CTH for the first time, gather your team-specific\* TestRail credentials:
 
    - TestRail Username
    - TestRail API Key
-   - TestRail Project ID
-   - TestRail Suite ID
 
-[See VSP's [Cypress to TestRail Reporter Configuration doc][vsp-cypress-testrail-reporter-doc] for details. NOTE: No need to `export` these as environment-variables -- CTH will store them in a git-ignored configuration-file for easy reuse.]
+[See VSP's [Cypress to TestRail Reporter Configuration doc][vsp-cypress-testrail-reporter-doc] for details on Steps 1 & 4. NOTE: No need to `export` environment-variables; just copy the values somewhere so they're ready for input into CTH.]
 
 ## Usage
 
@@ -25,19 +39,14 @@ For basic TestRail help/info, see VSP's [TestRail docs][vsp-testrail-docs].
 1. **Stop** your local **vets-api** app if it's running.
 1. In a **separate Terminal/shell** window, **navigate** to your **vets-website** project-root [if your're not there already], then **Launch** the app:
    `yarn run cy:my-testrail-helper`
-   NOTES:
-   - If this is the **first launch**, **provide** your TestRail Username, TestRail API Key, TestRail Project ID, & TestRail Suite ID when prompted. CTH will save them in a git-ignored config-file for easy reuse.
-   - IF you ever need to change your saved TestRail Project & Suite IDs\*\*, launch with the option `--switch-project` (alias `--sp`).
-1. **Provide** your Cypress spec's corresponding **TestRail Group ID**, **TestRail Run Name**, & project-root-relative **file-path** when prompted.
-   IF you launched with `--switch-project` or `--sp` option, you'll first be prompted for **TestRail Project ID** & **TestRail Suite ID**.
-   CTH will generate an updated, run-specific, git-ignored Cypress config-file to store your inputs.
+   NOTE: If this is your first launch, provide your TestRail Username, TestRail API Key when prompted.
+1. **Provide** your Cypress spec's **filename** when prompted.
+   [No need to include path or cypress-extensions (`.cypress...`); just input the filename.]
 1. CTH will execute a child process to run your Cypress spec.
 
 **That's it!** Once the Cypress-run child process exits, you'll see its output, and your CLI-prompt will return.
 
 **Tip**: To quickly check your TestRail Test Run, **scroll** the child-process output up to the **(TestRail Reporter)** section, then next to **- Results are published to**, **Cmd-click** the generated run-path.
-
-Options that don't usually change across test-runs are saved in a git-ignored `my-config.json` file, so you won't have to re-input those values again. Typically, you'll only have to provide your Cypress spec path, TestRail Group ID, and TestRail Run Name each time you run a Cypress spec.
 
 ## Help & Support
 

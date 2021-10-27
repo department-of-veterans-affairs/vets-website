@@ -36,17 +36,14 @@ const Demographics = props => {
     },
     [router],
   );
-  if (isLoading) {
-    return <LoadingIndicator message={'Loading your appointments for today'} />;
-  }
 
   const demographicFields = [
-    { title: 'Mailing Address', key: 'mailingAddress' },
-    { title: 'Home Address', key: 'homeAddress' },
-    { title: 'Home Phone', key: 'homePhone' },
-    { title: 'Mobile Phone', key: 'mobilePhone' },
-    { title: 'Work Phone', key: 'workPhone' },
-    { title: 'Email Address', key: 'emailAddress' },
+    { title: 'Mailing address', key: 'mailingAddress' },
+    { title: 'Home address', key: 'homeAddress' },
+    { title: 'Home phone', key: 'homePhone' },
+    { title: 'Mobile phone', key: 'mobilePhone' },
+    { title: 'Work phone', key: 'workPhone' },
+    { title: 'Email address', key: 'emailAddress' },
   ];
   if (isLoading) {
     return <LoadingIndicator message={'Loading your appointments for today'} />;
@@ -75,7 +72,7 @@ const Demographics = props => {
                       demographic={demographics[demographicField.key]}
                     />
                   ) : (
-                    'Not Available'
+                    'Not available'
                   )}
                 </dd>
               </React.Fragment>

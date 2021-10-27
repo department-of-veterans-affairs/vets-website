@@ -5,8 +5,6 @@ import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
 import {
   mockAppointmentInfo,
-  mockFacilitiesFetch,
-  mockFacilityFetch,
   mockSingleAppointmentFetch,
 } from '../../../mocks/helpers';
 import { getVideoAppointmentMock } from '../../../mocks/v0';
@@ -21,7 +19,10 @@ import sinon from 'sinon';
 import { getICSTokens } from '../../../../utils/calendar';
 import { getVAOSAppointmentMock } from '../../../mocks/v2';
 import { mockSingleVAOSAppointmentFetch } from '../../../mocks/helpers.v2';
-import { mockFacilityFetchByVersion } from '../../../mocks/fetch';
+import {
+  mockFacilitiesFetchByVersion,
+  mockFacilityFetchByVersion,
+} from '../../../mocks/fetch';
 import {
   createMockFacilityByVersion,
   createMockCheyenneFacilityByVersion,
@@ -44,13 +45,13 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         .add(330, 'minutes')
         .format('YYYY-MM-DD[T]HH:mm:ss');
       MockDate.set(sameDayDate);
-      mockFacilitiesFetch();
-      mockFacilityFetch(
-        'vha_442',
-        createMockCheyenneFacilityByVersion({
+      mockFacilitiesFetchByVersion({ version: 0 });
+      mockFacilityFetchByVersion({
+        facility: createMockCheyenneFacilityByVersion({
           version: 0,
         }),
-      );
+        version: 0,
+      });
     });
     afterEach(() => {
       MockDate.reset();
@@ -98,8 +99,8 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         requests: [],
       });
       const facility = createMockCheyenneFacilityByVersion({ version: 0 });
-      mockFacilitiesFetch('vha_442', [facility]);
-      mockFacilityFetch('vha_442', facility);
+      mockFacilitiesFetchByVersion({ facilities: [facility] });
+      mockFacilityFetchByVersion({ facility, version: 0 });
 
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
         initialState,
@@ -454,12 +455,12 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         cc: [],
         requests: [],
       });
-      mockFacilityFetch(
-        'vha_442',
-        createMockCheyenneFacilityByVersion({
+      mockFacilityFetchByVersion({
+        facility: createMockCheyenneFacilityByVersion({
           version: 0,
         }),
-      );
+        version: 0,
+      });
 
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
         initialState,
@@ -562,14 +563,14 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         facilityId: '612',
         appointmentKind: 'ADHOC',
       });
-      mockFacilityFetch(
-        'vha_612A4',
-        createMockFacilityByVersion({
+      mockFacilityFetchByVersion({
+        facility: createMockFacilityByVersion({
           id: '612A4',
           name: 'Sacramento VA',
           version: 0,
         }),
-      );
+        version: 0,
+      });
       mockSingleAppointmentFetch({
         appointment,
       });
@@ -640,7 +641,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         phone: '307-778-7550',
         version: 0,
       });
-      mockFacilitiesFetch('vha_442GD', [facility]);
+      mockFacilitiesFetchByVersion({ facilities: [facility], version: 0 });
 
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
         initialState,
@@ -731,7 +732,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         phone: '307-778-7550',
         version: 0,
       });
-      mockFacilitiesFetch('vha_442GD', [facility]);
+      mockFacilitiesFetchByVersion({ facilities: [facility], version: 0 });
 
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
         initialState,
@@ -1063,8 +1064,8 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       });
 
       const facility = createMockCheyenneFacilityByVersion({ version: 0 });
-      mockFacilitiesFetch('vha_442', [facility]);
-      mockFacilityFetch('vha_442', facility);
+      mockFacilitiesFetchByVersion({ facilities: [facility], version: 0 });
+      mockFacilityFetchByVersion({ facility, version: 0 });
 
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
         initialState,
@@ -1488,15 +1489,13 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
   describe('VAOS video appointments (css transition check)', () => {
     beforeEach(() => {
       mockFetch();
-      mockFacilitiesFetch();
-      mockFacilityFetch(
-        'vha_442',
-        createMockFacilityByVersion({
-          id: '442',
-          name: 'Cheyenne VA medical center',
+      mockFacilitiesFetchByVersion({ version: 0 });
+      mockFacilityFetchByVersion({
+        facility: createMockCheyenneFacilityByVersion({
           version: 0,
         }),
-      );
+        version: 0,
+      });
     });
     it('should reveal video visit instructions', async () => {
       const startDate = moment.utc().add(30, 'minutes');

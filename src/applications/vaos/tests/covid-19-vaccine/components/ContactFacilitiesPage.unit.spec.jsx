@@ -11,12 +11,9 @@ import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import {
   mockRequestEligibilityCriteria,
   mockDirectBookingEligibilityCriteria,
-  mockFacilitiesFetch,
 } from '../../mocks/helpers';
-import {
-  createMockAppointmentByVersion,
-  createMockFacilityByVersion,
-} from '../../mocks/data';
+import { createMockFacilityByVersion } from '../../mocks/data';
+import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
 
 const initialState = {
   featureToggles: {
@@ -87,44 +84,47 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
         patientHistoryRequired: null,
       }),
     ]);
-    mockFacilitiesFetch('vha_442,vha_442GC,vha_552', [
-      createMockFacilityByVersion({
-        id: '983',
-        name: 'Facility that is enabled',
-        lat: 39.1362562,
-        long: -83.1804804,
-        address: {
-          city: 'Bozeman',
-          state: 'MT',
-        },
-        phone: '5555555555x1234',
-        version: 0,
-      }),
-      createMockFacilityByVersion({
-        id: '983GC',
-        name: 'Facility that is also enabled',
-        lat: 39.1362562,
-        long: -83.0804804,
-        address: {
-          city: 'Belgrade',
-          state: 'MT',
-        },
-        phone: '5555555556x1234',
-        version: 0,
-      }),
-      createMockAppointmentByVersion({
-        id: '984',
-        name: 'Facility that is furthest away',
-        lat: 39.1362562,
-        long: -82.1804804,
-        address: {
-          city: 'Bozeman',
-          state: 'MT',
-        },
-        phone: '5555555555x1234',
-        version: 0,
-      }),
-    ]);
+    mockFacilitiesFetchByVersion({
+      facilities: [
+        createMockFacilityByVersion({
+          id: '983',
+          name: 'Facility that is enabled',
+          lat: 39.1362562,
+          long: -83.1804804,
+          address: {
+            city: 'Bozeman',
+            state: 'MT',
+          },
+          phone: '5555555555x1234',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
+          id: '983GC',
+          name: 'Facility that is also enabled',
+          lat: 39.1362562,
+          long: -83.0804804,
+          address: {
+            city: 'Belgrade',
+            state: 'MT',
+          },
+          phone: '5555555556x1234',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
+          id: '984',
+          name: 'Facility that is furthest away',
+          lat: 39.1362562,
+          long: -82.1804804,
+          address: {
+            city: 'Bozeman',
+            state: 'MT',
+          },
+          phone: '5555555555x1234',
+          version: 0,
+        }),
+      ],
+      version: 0,
+    });
     const store = createTestStore({
       ...initialState,
       user: {
@@ -243,9 +243,8 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
         patientHistoryRequired: null,
       }),
     ]);
-    mockFacilitiesFetch(
-      'vha_442,vha_442GC,vha_552,vha_552GC,vha_552GD,vha_552GA',
-      [
+    mockFacilitiesFetchByVersion({
+      facilities: [
         createMockFacilityByVersion({
           id: '983',
           name: 'F facility',
@@ -277,7 +276,8 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
           version: 0,
         }),
       ],
-    );
+      version: 0,
+    });
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<ContactFacilitiesPage />, {
       store,
@@ -326,15 +326,18 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
         patientHistoryRequired: null,
       }),
     ]);
-    mockFacilitiesFetch('vha_442', [
-      createMockFacilityByVersion({
-        id: '983',
-        name: 'Facility that is enabled',
-        lat: 39.1362562,
-        long: -83.1804804,
-        version: 0,
-      }),
-    ]);
+    mockFacilitiesFetchByVersion({
+      facilities: [
+        createMockFacilityByVersion({
+          id: '983',
+          name: 'Facility that is enabled',
+          lat: 39.1362562,
+          long: -83.1804804,
+          version: 0,
+        }),
+      ],
+      version: 0,
+    });
     const store = createTestStore({
       ...initialState,
       appointments: {

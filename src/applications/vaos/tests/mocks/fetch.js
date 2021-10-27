@@ -228,7 +228,13 @@ export function mockFacilitiesFetchByVersion({
   if (version !== 2) {
     setFetchJSONResponse(
       global.fetch.withArgs(
-        sinon.match(`/v1/facilities/va?ids=${idList.join(',')}`),
+        sinon.match(
+          `/v1/facilities/va?ids=${idList
+            // We map test ids to real facility ids when using the VA.gov facility
+            // endpoint, but not for the MFSv2 ones, because MFSv2 has test data loaded
+            .map(id => id.replace('983', '442').replace('984', '552'))
+            .join(',')}`,
+        ),
       ),
       { data: facilities },
     );

@@ -21,7 +21,6 @@ import {
   startRequestAppointmentFlow,
 } from '../../../../new-appointment/redux/actions';
 import {
-  mockFacilityFetch,
   mockMessagesFetch,
   mockPreferences,
   mockRequestSubmit,
@@ -29,6 +28,7 @@ import {
 
 import { mockAppointmentSubmitV2 } from '../../../mocks/helpers.v2';
 import { createMockCheyenneFacilityByVersion } from '../../../mocks/data';
+import { mockFacilityFetchByVersion } from '../../../mocks/fetch';
 
 const initialState = {
   featureToggles: {
@@ -186,10 +186,12 @@ describe('VAOS <ReviewPage> CC request', () => {
   });
 
   it('should show error message on failure', async () => {
-    mockFacilityFetch(
-      'vha_442',
-      createMockCheyenneFacilityByVersion({ version: 0 }),
-    );
+    mockFacilityFetchByVersion({
+      facility: createMockCheyenneFacilityByVersion({
+        version: 0,
+      }),
+      version: 0,
+    });
     setFetchJSONFailure(
       global.fetch.withArgs(
         `${environment.API_URL}/vaos/v0/appointment_requests?type=cc`,
@@ -421,10 +423,12 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
   });
 
   it('should show error message on failure', async () => {
-    mockFacilityFetch(
-      'vha_442',
-      createMockCheyenneFacilityByVersion({ version: 0 }),
-    );
+    mockFacilityFetchByVersion({
+      facility: createMockCheyenneFacilityByVersion({
+        version: 0,
+      }),
+      version: 0,
+    });
     setFetchJSONFailure(
       global.fetch.withArgs(
         `${environment.API_URL}/vaos/v0/appointment_requests?type=cc`,
@@ -607,10 +611,12 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
   });
 
   it('should show error message on failure', async () => {
-    mockFacilityFetch(
-      'vha_442',
-      createMockCheyenneFacilityByVersion({ version: 0 }),
-    );
+    mockFacilityFetchByVersion({
+      facility: createMockCheyenneFacilityByVersion({
+        version: 0,
+      }),
+      version: 0,
+    });
     setFetchJSONFailure(
       global.fetch.withArgs(`${environment.API_URL}/vaos/v2/appointments`),
       {
