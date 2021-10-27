@@ -54,7 +54,7 @@ This is a multi-team project and questions are highly encouraged. There are seve
 
 ### What version of the api are we using?
 
-Currently, we are using the `v2` of the API, with `v1` behind a feature flip. The mocks in [api/mocks](/api/mocks) show the the current structure and routes used.
+Currently, we are using the `v2` of the API. The mocks in [api/mocks](/api/mocks) show the the current structure and routes used.
 
 ### How to run locally
 

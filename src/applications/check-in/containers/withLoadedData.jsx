@@ -8,7 +8,6 @@ import { api } from '../api';
 import {
   receivedDemographicsData,
   receivedMultipleAppointmentDetails,
-  receivedAppointmentDetails,
   triggerRefresh,
 } from '../actions';
 import { focusElement } from 'platform/utilities/ui';
@@ -22,7 +21,6 @@ const withLoadedData = Component => {
       isSessionLoading,
       router,
       setSessionData,
-      setSessionDataV1,
     } = props;
     const { context, appointments, demographics } = checkInData;
 
@@ -61,14 +59,7 @@ const withLoadedData = Component => {
           isCancelled = true;
         };
       },
-      [
-        appointments,
-        router,
-        context,
-        setSessionData,
-        setSessionDataV1,
-        isSessionLoading,
-      ],
+      [appointments, router, context, setSessionData, isSessionLoading],
     );
     return (
       <>
@@ -88,7 +79,6 @@ const withLoadedData = Component => {
     isSessionLoading: PropTypes.bool,
     router: PropTypes.object,
     setSessionData: PropTypes.func,
-    setSessionDataV1: PropTypes.func,
   };
 
   return Wrapped;
@@ -105,12 +95,6 @@ const mapDispatchToProps = dispatch => {
         dispatch(triggerRefresh(false));
         dispatch(receivedMultipleAppointmentDetails(appointments, token));
         dispatch(receivedDemographicsData(demographics));
-      });
-    },
-    setSessionDataV1: (payload, token) => {
-      batch(() => {
-        dispatch(triggerRefresh(false));
-        dispatch(receivedAppointmentDetails(payload, token));
       });
     },
   };

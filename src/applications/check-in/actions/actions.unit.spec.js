@@ -4,7 +4,6 @@ import {
   appointmentWAsCheckedInto,
   APPOINTMENT_WAS_CHECKED_INTO,
   receivedMultipleAppointmentDetails,
-  receivedAppointmentDetails,
   RECEIVED_APPOINTMENT_DETAILS,
   tokenWasValidated,
   TOKEN_WAS_VALIDATED,
@@ -25,17 +24,6 @@ describe('check inactions', () => {
       });
       it('should return correct structure', () => {
         const action = receivedMultipleAppointmentDetails([{ id: 'some-id' }]);
-        expect(action.payload.appointments[0]).to.haveOwnProperty('id');
-        expect(action.payload.appointments[0].id).to.equal('some-id');
-      });
-    });
-    describe('receivedAppointmentDetails', () => {
-      it('should return correct action', () => {
-        const action = receivedAppointmentDetails({ id: 'some-id' });
-        expect(action.type).to.equal(RECEIVED_APPOINTMENT_DETAILS);
-      });
-      it('should return correct structure', () => {
-        const action = receivedAppointmentDetails({ id: 'some-id' });
         expect(action.payload.appointments[0]).to.haveOwnProperty('id');
         expect(action.payload.appointments[0].id).to.equal('some-id');
       });
