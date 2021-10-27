@@ -39,7 +39,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.injectAxe();
           cy.findAllByRole('button', {
-            name: /Apply for Veteran Readiness and Employment »/i,
+            name: /Apply for Veteran Readiness and Employment/i,
           })
             .first()
             .click();

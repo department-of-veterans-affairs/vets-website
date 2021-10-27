@@ -12,6 +12,8 @@ import {
   PERMISSIONS_UPDATED,
   receivedDemographicsData,
   RECEIVED_DEMOGRAPHICS_DATA,
+  triggerRefresh,
+  TRIGGER_REFRESH,
 } from './index';
 
 describe('check inactions', () => {
@@ -98,6 +100,16 @@ describe('check inactions', () => {
         });
         expect(action.payload).to.haveOwnProperty('demographics');
         expect(action.payload.demographics.homePhone).to.equal('555-867-5309');
+      });
+    });
+    describe('triggerRefresh', () => {
+      it('should return correct action', () => {
+        const action = triggerRefresh();
+        expect(action.type).to.equal(TRIGGER_REFRESH);
+      });
+      it('should return correct structure', () => {
+        const action = triggerRefresh();
+        expect(action.payload.context.shouldRefresh).to.equal(true);
       });
     });
   });

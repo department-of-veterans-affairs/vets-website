@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
@@ -11,7 +10,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import formConfig from '../config/form';
 import UnverifiedPrefillAlert from '../components/UnverifiedPrefillAlert';
 import { WIZARD_STATUS } from '../wizard/constants';
-import { rootUrl } from '../manifest.json';
+import manifest from '../manifest.json';
 
 const IntroductionPage = props => {
   useEffect(() => {
@@ -44,7 +43,7 @@ const IntroductionPage = props => {
       <p>
         If you don’t think this is the right form for you,
         <a
-          href={rootUrl}
+          href={manifest.rootUrl}
           onClick={() => {
             sessionStorage.removeItem(WIZARD_STATUS);
             recordEvent({ event: 'howToWizard-start-over' });
@@ -60,13 +59,13 @@ const IntroductionPage = props => {
           <li className="process-step list-one">
             <h3 className="vads-u-font-size--h4">Prepare</h3>
             <p>
-              You'll need this information for you (and your spouse if you’re
+              You’ll need this information for you (and your spouse if you’re
               married):
             </p>
             <ul>
               <li>
                 <strong>Work history for the past 2 years. </strong>
-                You'll need the employer name, start and end dates, and monthly
+                You’ll need the employer name, start and end dates, and monthly
                 income for each job.
               </li>
               <li>
@@ -96,8 +95,8 @@ const IntroductionPage = props => {
                 care, or health care.
               </li>
               <li>
-                <strong>If you've ever declared bankruptcy, </strong>
-                you'll need any related documents.
+                <strong>If you’ve ever declared bankruptcy, </strong>
+                you’ll need any related documents.
               </li>
             </ul>
             <p>

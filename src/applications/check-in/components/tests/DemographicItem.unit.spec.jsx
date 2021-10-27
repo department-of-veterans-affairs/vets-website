@@ -20,12 +20,18 @@ describe('check-in', () => {
     it('Renders an address', () => {
       const component = render(<DemographicItem demographic={address} />);
 
-      expect(component.getByTestId('address-line-1')).to.exist;
-      expect(component.getByTestId('address-line-1')).to.have.text('line 1');
-      expect(component.getByTestId('address-line-2')).to.exist;
-      expect(component.getByTestId('address-line-2')).to.have.text(', line 2');
-      expect(component.getByTestId('address-line-3')).to.exist;
-      expect(component.getByTestId('address-line-3')).to.have.text(', line 3');
+      expect(component.getByTestId('address-line-street1')).to.exist;
+      expect(component.getByTestId('address-line-street1')).to.have.text(
+        'line 1',
+      );
+      expect(component.getByTestId('address-line-street2')).to.exist;
+      expect(component.getByTestId('address-line-street2')).to.have.text(
+        ', line 2',
+      );
+      expect(component.getByTestId('address-line-street3')).to.exist;
+      expect(component.getByTestId('address-line-street3')).to.have.text(
+        ', line 3',
+      );
       expect(component.getByTestId('address-city-state-and-zip')).to.exist;
       expect(component.getByTestId('address-city-state-and-zip')).to.have.text(
         'city, state 00000',

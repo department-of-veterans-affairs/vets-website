@@ -16,7 +16,13 @@ import {
 import formConfig from '../config/form';
 import { IS_PRODUCTION, SAVED_CLAIM_TYPE } from '../constants';
 import { getHlrWizardStatus, shouldShowWizard } from '../wizard/utils';
-import { issuesNeedUpdating, processContestableIssues } from '../utils/helpers';
+import {
+  issuesNeedUpdating,
+  getSelected,
+  getIssueNameAndDate,
+  processContestableIssues,
+} from '../utils/helpers';
+import { copyAreaOfDisagreementOptions } from '../utils/disagreement';
 
 export const Form0996App = ({
   loggedIn,
@@ -38,6 +44,7 @@ export const Form0996App = ({
     () => {
       if (loggedIn && getHlrWizardStatus() === WIZARD_STATUS_COMPLETE) {
         const { veteran = {} } = formData || {};
+        const areaOfDisagreement = getSelected(formData);
         if (!contestableIssues?.status) {
           const benefitType =
             sessionStorage.getItem(SAVED_CLAIM_TYPE) || formData.benefitType;
@@ -67,6 +74,23 @@ export const Form0996App = ({
             benefitType: contestableIssues?.benefitType || formData.benefitType,
             contestedIssues: processContestableIssues(
               contestableIssues?.issues,
+            ),
+          });
+        } else if (
+          formData.hlrV2 && // easier to test formData.hlrV2 with SiP menu
+          (areaOfDisagreement?.length !== formData.areaOfDisagreement?.length ||
+            !areaOfDisagreement.every(
+              (entry, index) =>
+                getIssueNameAndDate(entry) ===
+                getIssueNameAndDate(formData.areaOfDisagreement[index]),
+            ))
+        ) {
+          setFormData({
+            ...formData,
+            // save existing settings
+            areaOfDisagreement: copyAreaOfDisagreementOptions(
+              areaOfDisagreement,
+              formData.areaOfDisagreement,
             ),
           });
         }
@@ -99,6 +123,7 @@ export const Form0996App = ({
       </h1>
     );
   } else if (
+    !IS_PRODUCTION &&
     loggedIn &&
     ((contestableIssues?.status || '') === '' ||
       contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_INIT)

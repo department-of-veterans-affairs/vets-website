@@ -86,6 +86,40 @@
         "decisionDate": "2021-06-06",
         "view:selected": true
       }
+    ],
+    "areaOfDisagreement": [
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "Headaches"
+        },
+        "disagreementOptions": {
+          "serviceConnection": true,
+          "effectiveDate": true,
+          "evaluation": true,
+          "other": true
+        },
+        "otherEntry": "this is an other entry"
+      },
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "Being green"
+        },
+        "disagreementOptions": {
+          "serviceConnection": false,
+          "effectiveDate": true
+        },
+        "otherEntry": ""
+      },
+      {
+        "issue": "right shoulder",
+        "disagreementOptions": {
+          "evaluation": true,
+          "other": true
+        },
+        "otherEntry": "this is another other entry"
+      }
     ]
   }
 }

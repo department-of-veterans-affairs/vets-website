@@ -1,4 +1,4 @@
-import { countries, states } from 'vets-json-schema/dist/constants.json';
+import constants from 'vets-json-schema/dist/constants.json';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import addressUiSchema from 'platform/forms-system/src/js/definitions/profileAddress';
 
@@ -17,7 +17,7 @@ const PATTERNS = {
 };
 
 // filtered states that include US territories
-const filteredStates = states.USA.filter(
+const filteredStates = constants.states.USA.filter(
   state => !['AA', 'AE', 'AP'].includes(state.value),
 );
 
@@ -56,10 +56,10 @@ const locationUiSchema = uiRequiredCallback => {
             return {
               type: 'string',
               title: 'Country where this happened',
-              enum: countries
+              enum: constants.countries
                 .filter(country => country.value !== 'USA')
                 .map(country => country.value),
-              enumNames: countries
+              enumNames: constants.countries
                 .filter(country => country.label !== 'United States')
                 .map(country => country.label),
             };
@@ -217,8 +217,8 @@ export const SCHEMAS = {
             },
             country: {
               type: 'string',
-              enum: countries.map(country => country.value),
-              enumNames: countries.map(country => country.label),
+              enum: constants.countries.map(country => country.value),
+              enumNames: constants.countries.map(country => country.label),
             },
             'view:militaryBaseDescription': {
               type: 'object',

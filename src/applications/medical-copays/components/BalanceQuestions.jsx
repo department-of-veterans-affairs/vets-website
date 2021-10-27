@@ -7,8 +7,10 @@ import Telephone, {
 
 const BalanceQuestions = ({ facilityLocation, facilityPhone }) => (
   <article className="vads-u-padding--0">
-    <h2 id="balance-questions">What if I have questions about my balance?</h2>
-    <h3>For questions about your payment or relief options</h3>
+    <h2 id="balance-questions">
+      What to do if you have questions about your balance
+    </h2>
+    <h3>Questions about your payment or relief options</h3>
     <p>
       Contact the VA Health Resource Center at
       <Telephone contact={'866-400-1238'} className="vads-u-margin-x--0p5" />
@@ -20,7 +22,7 @@ const BalanceQuestions = ({ facilityLocation, facilityPhone }) => (
       />
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
-    <h3>For questions about your treatment or your charges</h3>
+    <h3>Questions about your treatment or your charges</h3>
     <p>
       {facilityLocation && facilityPhone ? (
         <span>
