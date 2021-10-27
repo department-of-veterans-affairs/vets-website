@@ -18,13 +18,10 @@ import {
   onCalendarChange,
   startDirectScheduleFlow,
 } from '../../../../new-appointment/redux/actions';
-import {
-  mockAppointmentSubmit,
-  mockFacilityFetch,
-  mockPreferences,
-} from '../../../mocks/helpers';
+import { mockAppointmentSubmit, mockPreferences } from '../../../mocks/helpers';
 import { mockAppointmentSubmitV2 } from '../../../mocks/helpers.v2';
 import { createMockCheyenneFacilityByVersion } from '../../../mocks/data';
+import { mockFacilityFetchByVersion } from '../../../mocks/fetch';
 
 const initialState = {
   featureToggles: {
@@ -195,10 +192,12 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
   });
 
   it('should show appropriate message on bad request submit error', async () => {
-    mockFacilityFetch(
-      'vha_442',
-      createMockCheyenneFacilityByVersion({ version: 0 }),
-    );
+    mockFacilityFetchByVersion({
+      facility: createMockCheyenneFacilityByVersion({
+        version: 0,
+      }),
+      version: 0,
+    });
     setFetchJSONFailure(
       global.fetch.withArgs(`${environment.API_URL}/vaos/v0/appointments`),
       {
@@ -416,7 +415,9 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
   });
 
   it('should show error message on failure', async () => {
-    mockFacilityFetch('vha_442', createMockCheyenneFacilityByVersion());
+    mockFacilityFetchByVersion({
+      facility: createMockCheyenneFacilityByVersion({}),
+    });
 
     setFetchJSONFailure(
       global.fetch.withArgs(`${environment.API_URL}/vaos/v2/appointments`),

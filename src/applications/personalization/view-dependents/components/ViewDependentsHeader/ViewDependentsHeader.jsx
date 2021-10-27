@@ -1,9 +1,10 @@
 import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-
-import { rootUrl as form686RootUrl } from 'applications/disability-benefits/686c-674/manifest.json';
+import manifest from 'applications/disability-benefits/686c-674/manifest.json';
 
 import { errorFragment } from '../../layouts/helpers';
+
+const { rootUrl: form686RootUrl } = manifest;
 
 const CALLSTATUS = {
   pending: 'pending',

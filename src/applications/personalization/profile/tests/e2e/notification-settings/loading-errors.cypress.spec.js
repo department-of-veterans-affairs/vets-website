@@ -1,3 +1,11 @@
+/**
+ * [TestRail-integrated] Spec for Notification Prefs > Loading errors
+ * @testrailinfo projectId 4
+ * @testrailinfo suiteId 5
+ * @testrailinfo groupId 2411
+ * @testrailinfo runName NP-e2e-Loading-errors
+ */
+
 import { PROFILE_PATHS } from '@@profile/constants';
 
 import mockUser from '@@profile/tests/fixtures/users/user-36.json';

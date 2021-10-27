@@ -6,7 +6,7 @@ const glob = require('glob');
 
 // For usage instructions see https://github.com/department-of-veterans-affairs/vets-website#unit-tests
 
-const defaultPath = './src/**/*.unit.spec.js?(x)';
+const defaultPath = './{src,script}/**/*.unit.spec.js?(x)';
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'log-level', type: String, defaultValue: 'debug' },

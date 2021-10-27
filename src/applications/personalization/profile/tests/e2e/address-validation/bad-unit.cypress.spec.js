@@ -1,54 +1,26 @@
-import { setUp } from '@@profile/tests/e2e/address-validation/setup';
+import AddressPage from './page-objects/AddressPage';
 
 describe('Personal and contact information', () => {
   describe('when entering an address with a bad unit', () => {
     it('should successfully update on Desktop', () => {
-      setUp('bad-unit');
-      cy.axeCheck();
-
-      cy.findByLabelText(/^street address \(/i)
-        .clear()
-        .type('225 irving st');
-      cy.findByLabelText(/^street address line 2/i)
-        .clear()
-        .type('Unit A');
-
-      cy.findByLabelText(/^street address line 3/i).clear();
-
-      cy.findByLabelText(/City/i)
-        .clear()
-        .type('San Francisco');
-      cy.findByLabelText(/^State/).select('CA');
-      cy.findByLabelText(/Zip code/i)
-        .clear()
-        .type('94122');
-
-      cy.findByTestId('save-edit-button').click({
-        force: true,
-      });
-
-      cy.axeCheck();
-
-      cy.findByText('Please update or confirm your unit number').should(
-        'exist',
+      const formFields = {
+        address: '225 irving st',
+        address2: 'Unit A',
+        city: 'San Francisco',
+        state: 'CA',
+        zipCode: '94122',
+      };
+      const addressPage = new AddressPage();
+      addressPage.loadPage('bad-unit');
+      addressPage.fillAddressForm(formFields);
+      addressPage.saveForm();
+      addressPage.validateSavedForm(
+        formFields,
+        false,
+        'Please update or confirm your unit number',
       );
-
-      cy.findByTestId('mailingAddress').should(
-        'contain',
-        '225 irving st, Unit A',
-      );
-
-      cy.findByTestId('confirm-address-button').click({
-        force: true,
-      });
-
-      cy.findByTestId('mailingAddress')
-        .should('contain', '225 irving st, Unit A')
-        .and('contain', 'San Francisco, CA 94122');
-
-      cy.focused()
-        .invoke('text')
-        .should('match', /update saved/i);
+      addressPage.saveForm(true);
+      addressPage.confirmAddress(formFields, [], true);
     });
   });
 });
