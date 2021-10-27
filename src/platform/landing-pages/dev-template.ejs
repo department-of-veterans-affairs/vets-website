@@ -59,7 +59,17 @@
   <body class="merger">
     <a class="show-on-focus" href="#content" onclick="focusContent(event)">Skip to Content</a>
 
-    <header class="header">
+    <!-- Header -->
+    <div
+      data-widget-type="header"
+      data-show="{{ !noHeader }}"
+      data-show-nav-login="{{ !noNavOrLogin }}"
+      data-show-mega-menu="{{ !noMegamenu }}"
+      id="header-v2"
+    ></div>
+
+    <!-- Legacy Header -->
+    <header class="header" id="legacy-header">
       <div class="incompatible-browser-warning">
         <div class="row full">
           <div class="small-12">
