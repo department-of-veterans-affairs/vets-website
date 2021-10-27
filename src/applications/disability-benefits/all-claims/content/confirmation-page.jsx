@@ -149,11 +149,14 @@ const template = (props, title, content, submissionMessage, messageType) => {
         </h2>
         <p className="confirmation-guidance-message">
           <strong>If you have a spouse or child</strong>, you may be entitled to
-          additional payments.{' '}
-          <a href="https://www.va.gov/view-change-dependents/">
-            Apply online to add a dependent
-          </a>
+          additional payments.
         </p>
+        <a
+          className="vads-c-action-link--blue"
+          href="https://www.va.gov/view-change-dependents/"
+        >
+          Apply online to add a dependent
+        </a>
         <p>
           Or you can fill out and submit an Application Request to Add and/or
           Remove Dependents (VA Form 21-686c)
