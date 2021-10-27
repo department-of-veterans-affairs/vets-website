@@ -1,15 +1,16 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 import { goToNextPage, URLS } from '../utils/navigation';
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 import DemographicItem from '../components/DemographicItem';
+// import { seeStaffMessageUpdated } from '../actions';
 
 const Demographics = props => {
   const { demographics, isLoading, isUpdatePageEnabled, router } = props;
+  // const seeStaffMessage = 'test';
 
   const yesClick = useCallback(
     () => {
@@ -32,6 +33,7 @@ const Demographics = props => {
         event: 'cta-button-click',
         'button-click-label': 'no-to-demographic-information',
       });
+
       goToNextPage(router, URLS.SEE_STAFF);
     },
     [router],
