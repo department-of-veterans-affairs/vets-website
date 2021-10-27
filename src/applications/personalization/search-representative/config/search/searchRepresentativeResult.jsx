@@ -5,7 +5,7 @@ const searchRepresentativeResult = props => {
     maxWidth: 250,
   };
   return (
-    <div className="vads-u-border-top--1px vads-u-border-bottom--1px vads-u-padding--1p5 vads-u-margin-bottom--1">
+    <div className="vads-u-border-bottom--1px vads-u-padding--1p5 vads-u-border-color--gray-light">
       <p className="vads-u-font-size--h3 vads-u-font-family--serif vads-u-font-weight--bold">
         {props.option.name}
       </p>

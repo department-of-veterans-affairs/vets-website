@@ -30,6 +30,30 @@ function mockSearchResults() {
         city: 'Montgomery, AL 36102-1509',
         phone: '205-932-6262',
       },
+      {
+        id: 12366,
+        name: 'My Happy Place (999)',
+        type: 'Veteran Service Organization (VSO)',
+        address: 'PO Box 1509',
+        city: 'Montgomery, AL 36102-1509',
+        phone: '205-932-6262',
+      },
+      {
+        id: 9929342,
+        name: 'Disabled American Veteras (999)',
+        type: 'Attourney',
+        address: 'PO Box 1509',
+        city: 'Montgomery, AL 36102-1509',
+        phone: '205-932-6262',
+      },
+      {
+        id: 4325241,
+        name: 'Bill Bob (123)',
+        type: 'Attorney',
+        address: 'PO Box 1509',
+        city: 'Montgomery, AL 36102-1509',
+        phone: '205-932-6262',
+      },
     ],
   };
 }
