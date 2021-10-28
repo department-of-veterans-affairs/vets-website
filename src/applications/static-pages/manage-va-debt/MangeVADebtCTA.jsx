@@ -1,6 +1,6 @@
 import React from 'react';
-import { rootUrl as yourDebt } from '../../debt-letters/manifest.json';
-import { rootUrl as requestHelp } from '../../financial-status-report/manifest.json';
+import debtLettersManifest from '../../debt-letters/manifest.json';
+import fsrManifest from '../../financial-status-report/manifest.json';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 
 const ManageVADebtCTA = () => {
@@ -14,13 +14,13 @@ const ManageVADebtCTA = () => {
       <p>
         Check the status of debt related to VA disability compensation,
         non-service-connected pension, or education benefits. And make payments
-        or request help now if you'd like.
+        or request help now if you’d like.
       </p>
       <h3>Check the status of your VA benefit debt</h3>
       <a
         className="usa-button-primary va-button-primary"
         target="_self"
-        href={yourDebt}
+        href={debtLettersManifest.rootUrl}
       >
         Manage your VA debt
       </a>
@@ -29,7 +29,7 @@ const ManageVADebtCTA = () => {
       <a
         className="usa-button-primary va-button-primary"
         target="_self"
-        href={requestHelp}
+        href={fsrManifest.rootUrl}
       >
         Request help with VA debt
       </a>
