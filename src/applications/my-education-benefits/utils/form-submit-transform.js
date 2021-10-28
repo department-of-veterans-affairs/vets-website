@@ -287,3 +287,52 @@ export function createContactInfo(submissionForm) {
     stateCode: submissionForm['view:mailingAddress'].address.state,
   };
 }
+
+export function getPreferredContact(notificationMethod) {
+  switch (notificationMethod) {
+    case 'Email':
+      return 'email';
+    case 'Mobile phone':
+      return 'mobileTextMessage';
+    case 'Home phone':
+      return 'homePhone';
+    case 'Mail':
+      return 'mail';
+    default:
+      return '';
+  }
+}
+
+export function getNotificationMethod(notificationMethod) {
+  switch (notificationMethod) {
+    case 'Yes, send me text message notifications':
+      return 'mobileTextMessage';
+    case 'No, just send me email notifications':
+      return 'email';
+    default:
+      return '';
+  }
+}
+
+export function createMilitaryClaimant(submissionForm) {
+  return {
+    claimant: {
+      claimantId: 0, // TODO Where will this come from
+      firstName: submissionForm['view:userFullName'].userFullName.first,
+      middleName: submissionForm['view:userFullName'].userFullName.middle,
+      lastName: submissionForm['view:userFullName'].userFullName.last,
+      suffix: submissionForm['view:userFullName'].userFullName.suffix,
+      dateOfBirth: submissionForm.dateOfBirth,
+      contactInfo: createContactInfo(submissionForm),
+      dobChanged: false, // TODO How to determine this?
+      firstAndLastNameChanged: false, // TODO How to determine this?
+      contactInfoChanged: false, // TODO How to determine this?
+      notificationMethod: getNotificationMethod(
+        submissionForm['view:receiveTextMessages'].receiveTextMessages,
+      ),
+      preferredContact: getPreferredContact(
+        submissionForm['view:contactMethod'].contactMethod,
+      ),
+    },
+  };
+}
