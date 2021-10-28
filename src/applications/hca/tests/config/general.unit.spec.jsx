@@ -10,7 +10,7 @@ import {
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
-describe('Hca general insurance', () => {
+describe.skip('Hca general insurance', () => {
   const {
     schema,
     uiSchema,
