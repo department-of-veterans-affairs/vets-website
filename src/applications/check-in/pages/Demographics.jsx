@@ -44,7 +44,7 @@ const Demographics = props => {
       updateSeeStaffMessage(seeStaffMessage);
       goToNextPage(router, URLS.SEE_STAFF);
     },
-    [router],
+    [router, updateSeeStaffMessage],
   );
 
   const demographicFields = [
