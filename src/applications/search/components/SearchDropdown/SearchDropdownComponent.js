@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
 
-const ID = 'search-dropdown-component';
 const Keycodes = {
   Backspace: 8,
   Down: 40,
@@ -380,10 +379,10 @@ class SearchDropdownComponent extends React.Component {
 
     let activeId = undefined;
     if (isOpen && activeIndex !== undefined) {
-      activeId = `${ID}-option-${activeIndex}`;
+      activeId = `${className}-option-${activeIndex}`;
     }
 
-    const assistiveHintID = `${ID}-assistive-hint`;
+    const assistiveHintID = `${className}-assistive-hint`;
 
     const mobileResponsiveClass = mobileResponsive ? 'shrink-to-column' : '';
 
@@ -403,7 +402,7 @@ class SearchDropdownComponent extends React.Component {
           <input
             aria-activedescendant={activeId}
             aria-autocomplete={'none'}
-            aria-controls={`${ID}-listbox`}
+            aria-controls={`${className}-listbox`}
             {...ariaDescribedProp}
             aria-expanded={isOpen}
             aria-haspopup="listbox"
@@ -434,7 +433,7 @@ class SearchDropdownComponent extends React.Component {
               <div
                 className="search-dropdown-options vads-u-padding--x-1"
                 role="listbox"
-                id={`${ID}-listbox`}
+                id={`${className}-listbox`}
               >
                 {suggestions.map((suggestionString, i) => {
                   const suggestion = formatSuggestions
@@ -448,8 +447,8 @@ class SearchDropdownComponent extends React.Component {
                           ? 'suggestion highlighted'
                           : 'suggestion regular'
                       }
-                      id={`${ID}-option-${i}`}
-                      key={`${ID}-${i}`}
+                      id={`${className}-option-${i}`}
+                      key={`${className}-${i}`}
                       role="option"
                       tabIndex="-1"
                       onClick={() => {
@@ -492,7 +491,7 @@ class SearchDropdownComponent extends React.Component {
             <div
               className="search-dropdown-options vads-u-padding--x-1"
               role="listbox"
-              id={`${ID}-listbox`}
+              id={`${className}-listbox`}
             >
               {suggestions.map((suggestionString, i) => {
                 const suggestion = formatSuggestions
@@ -506,8 +505,8 @@ class SearchDropdownComponent extends React.Component {
                         ? 'suggestion highlighted'
                         : 'suggestion regular'
                     }
-                    id={`${ID}-option-${i}`}
-                    key={`${ID}-${i}`}
+                    id={`${className}-option-${i}`}
+                    key={`${className}-${i}`}
                     role="option"
                     tabIndex="-1"
                     onClick={() => {
