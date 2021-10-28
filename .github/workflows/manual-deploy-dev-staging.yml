@@ -6,6 +6,7 @@ on:
       commit_sha:
         description: Deploy a specific commit
         required: true
+  push:
 
 env:
   DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
