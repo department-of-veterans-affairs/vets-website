@@ -14,6 +14,7 @@ import {
   SET_TOKEN_CONTEXT,
   TOKEN_WAS_VALIDATED,
   TRIGGER_REFRESH,
+  SEE_STAFF_MESSAGE_UPDATED,
 } from '../actions';
 
 const checkInReducer = (state = initialState, action) => {
@@ -46,6 +47,9 @@ const checkInReducer = (state = initialState, action) => {
     case RECEIVED_NEXT_OF_KIN_DATA:
       return { ...state, ...action.payload };
     case TOKEN_WAS_VALIDATED:
+      return { ...state, ...action.payload };
+
+    case SEE_STAFF_MESSAGE_UPDATED:
       return { ...state, ...action.payload };
     default:
       return { ...state };
