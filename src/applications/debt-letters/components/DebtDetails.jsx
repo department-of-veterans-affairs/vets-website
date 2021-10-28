@@ -81,38 +81,32 @@ const DebtDetails = ({ selectedDebt, debts }) => {
               </span>
             </p>
           )}
-          <div className="vads-u-display--flex vads-u-flex-direction--row">
-            <dl className="vads-u-display--flex vads-u-flex-direction--column">
-              {dateFirstNotice && (
-                <div className="vads-u-margin-y--1 vads-u-display--flex">
-                  <dt>
-                    <strong>Date of first notice: </strong>
-                  </dt>
-                  <dd className="vads-u-margin-left--1">
-                    {moment(dateFirstNotice, 'MM-DD-YYYY').format(
-                      'MMMM D, YYYY',
-                    )}
-                  </dd>
-                </div>
-              )}
-              <div className="vads-u-display--flex ">
-                <dt>
-                  <strong>Original debt amount: </strong>
-                </dt>
-                <dd className="vads-u-margin-left--1">
-                  {currency.format(parseFloat(currentDebt.originalAr))}
+          <dl className="details-table">
+            <div className="details-row">
+              <dt className="details-title">Amount owed:</dt>
+              <dd className="details-data">
+                {currency.format(parseFloat(currentDebt.currentAr))}
+              </dd>
+            </div>
+            <div className="details-row">
+              <dt className="details-title">Original amount:</dt>
+              <dd className="details-data">
+                {currency.format(parseFloat(currentDebt.originalAr))}
+              </dd>
+            </div>
+            {dateFirstNotice && (
+              <div className="details-row">
+                <dt className="details-title">Date of first notice:</dt>
+                <dd className="details-data">
+                  {moment(dateFirstNotice, 'MM-DD-YYYY').format('MMMM D, YYYY')}
                 </dd>
               </div>
-              <div className="vads-u-margin-y--1 vads-u-display--flex">
-                <dt>
-                  <strong>Current balance: </strong>
-                </dt>
-                <dd className="vads-u-margin-left--1">
-                  {currency.format(parseFloat(currentDebt.currentAr))}
-                </dd>
-              </div>
-            </dl>
-          </div>
+            )}
+            <div className="details-row">
+              <dt className="details-title">Collection status:</dt>
+              <dd className="details-data">{additionalInfo.status}</dd>
+            </div>
+          </dl>
           <va-alert
             status="info"
             class="vads-u-margin-bottom--4 vads-u-font-size--base"

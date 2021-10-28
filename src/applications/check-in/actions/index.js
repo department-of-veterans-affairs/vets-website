@@ -1,16 +1,5 @@
 export const RECEIVED_APPOINTMENT_DETAILS = 'RECEIVED_APPOINTMENT_DETAILS';
 
-export const receivedAppointmentDetails = payload => {
-  const data = { appointments: [{ ...payload }] };
-
-  return {
-    type: RECEIVED_APPOINTMENT_DETAILS,
-    payload: {
-      ...data,
-    },
-  };
-};
-
 export const receivedMultipleAppointmentDetails = payload => {
   const data = { appointments: [...payload] };
 

@@ -28,12 +28,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
   switch (diaryCode) {
     case '71':
       return {
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            We need to verify your military status to update your account.
-          </p>
-        ),
+        status:
+          'We need to verify your military status to update your account.',
         nextStep: (
           <p>
             <strong>Next step: </strong>
@@ -52,12 +48,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
       };
     case '109':
       return {
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            Your payment is past due, and we’re adding interest to the amount.
-          </p>
-        ),
+        status:
+          'Your payment is past due, and we’re adding interest to the amount.',
         nextStep: (
           <>
             <p>
@@ -84,12 +76,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
       };
     case '117':
       return {
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            Your payment is past due.
-          </p>
-        ),
+        status: 'Your payment is past due.',
         nextStep: (
           <span data-testid="diary-code-117-next-step">
             <p>
@@ -124,12 +111,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
       };
     case '123':
       return {
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            Your payment is past due.
-          </p>
-        ),
+        status: 'Your payment is past due.',
         nextStep: (
           <span data-testid="diary-code-123-next-step">
             <p>
@@ -164,12 +146,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
       };
     case '212':
       return {
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            We need your address to update your account.
-          </p>
-        ),
+        status: 'We need your address to update your account.',
         nextStep: (
           <p>
             <strong>Next step: </strong>
@@ -188,12 +165,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
       };
     case '815':
       return {
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            We’ve accepted your compromise payment.
-          </p>
-        ),
+        status: 'We’ve accepted your compromise payment.',
         nextStep: (
           <p>
             <strong>Next step: </strong>
@@ -217,12 +189,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
     case '448':
     case '453':
       return {
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            We’ve paused collection on this debt as you requested.
-          </p>
-        ),
+        status: 'We’ve paused collection on this debt as you requested.',
         nextStep: (
           <p>
             We’ll let you know when we start collecting on this debt again. You
@@ -232,12 +199,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
       };
     case '811':
       return {
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            We’re reviewing your compromise offer.
-          </p>
-        ),
+        status: 'We’re reviewing your compromise offer.',
         nextStep: (
           <p>
             <strong>Next step: </strong>
@@ -254,12 +216,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
       };
     case '816':
       return {
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            We’ve received your compromise payment.
-          </p>
-        ),
+        status: 'We’ve received your compromise payment.',
         nextStep: (
           <p>
             Please check your debt balance again soon. If it isn’t adjusted to
@@ -274,12 +231,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
     case '032':
     case '609':
       return {
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            We’re updating your account.
-          </p>
-        ),
+        status: 'We’re updating your account.',
         nextStep: (
           <p data-testid="diary-code-002-next-step">
             Please check back in 1 week for updates. If your account shows the
@@ -297,12 +249,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
     case '425':
     case '627':
       return {
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            We’re updating your account.
-          </p>
-        ),
+        status: 'We’re updating your account.',
         nextStep: (
           <p>
             Please check back in 30 days for updates. If your account shows the
@@ -317,12 +264,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
     case '483':
     case '484':
       return {
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            We’re reviewing your account.
-          </p>
-        ),
+        status: 'We’re reviewing your account.',
         nextStep: (
           <p>
             <strong>Next step: </strong>
@@ -336,12 +278,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
     case '860':
     case '855':
       return {
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            We referred this debt to the U.S. Department of the Treasury.
-          </p>
-        ),
+        status: 'We referred this debt to the U.S. Department of the Treasury.',
         nextStep: (
           <p data-testid="diary-code-080-next-step">
             <strong>Next step: </strong>
@@ -361,12 +298,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
     case '510':
     case '503':
       return {
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong> We’re referring this debt to the U.S.
-            Department of the Treasury today.
-          </p>
-        ),
+        status:
+          'We’re referring this debt to the U.S. Department of the Treasury today.',
         nextStep: (
           <span data-testid="diary-code-500-next-step">
             <p>
@@ -391,12 +324,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
     case '130':
     case '140':
       return {
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            Your payment is due now.
-          </p>
-        ),
+        status: 'Your payment is due now.',
         nextStep: (
           <span data-testid="diary-code-100-next-step">
             <p>
@@ -436,11 +364,11 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
       // we need to have debt type available within this switch
       return {
         status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong> We’re keeping part of your
+          <>
+            We’re keeping part of your
             <span className="vads-u-margin-x--0p5">{benefitType}</span>
             payments each month to pay your debt (called monthly offsets).
-          </p>
+          </>
         ),
         nextStep: (
           <p data-testid="diary-code-608-next-step">
@@ -458,12 +386,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
     case '449':
     case '459':
       return {
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            We’ve restarted collection on this debt.
-          </p>
-        ),
+        status: 'We’ve restarted collection on this debt.',
         nextStep: (
           <p>
             <strong>Next step: </strong>
@@ -483,12 +406,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
     case '600':
     case '601':
       return {
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            Your payment is due.
-          </p>
-        ),
+        status: 'Your payment is due.',
         nextStep: (
           <p data-testid="diary-code-600-next-step">
             <strong>Next step: </strong>
@@ -503,12 +421,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
     case '603':
     case '613':
       return {
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            Your payment is past due.
-          </p>
-        ),
+        status: 'Your payment is past due.',
         nextStep: (
           <p>
             <strong>Next step: </strong>
@@ -534,13 +447,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
     case '655':
     case '817':
       return {
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            We need your completed Financial Status Report to make a decision on
-            your request.
-          </p>
-        ),
+        status:
+          'We need your completed Financial Status Report to make a decision on your request.',
         nextStep: (
           <>
             <p>
@@ -573,12 +481,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
     case '681':
     case '682':
       return {
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            Your payment is due.
-          </p>
-        ),
+        status: 'Your payment is due.',
         nextStep: (
           <p>
             <strong>Next step: </strong>
@@ -611,11 +514,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
     case '809':
     case '820':
       return {
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong> We’re reviewing your waiver request.
-          </p>
-        ),
+        status: 'We’re reviewing your waiver request.',
         nextStep: (
           <p>
             <strong>Next step: </strong>
@@ -632,11 +531,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
       };
     case '822':
       return {
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong> We’re reviewing your debt dispute.
-          </p>
-        ),
+        status: 'We’re reviewing your debt dispute.',
         nextStep: (
           <p>
             <strong>Next step: </strong>
@@ -653,12 +548,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
       };
     case '825':
       return {
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong> We’re reviewing your request for a waiver
-            or hearing.
-          </p>
-        ),
+        status: 'We’re reviewing your request for a waiver or hearing.',
         nextStep: (
           <p>
             <strong>Next step: </strong>
@@ -675,12 +565,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
       };
     case '821':
       return {
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong> We’re reviewing your notice of
-            disagreement.
-          </p>
-        ),
+        status: 'We’re reviewing your notice of disagreement.',
         nextStep: (
           <p>
             <strong>Next step: </strong>
@@ -697,12 +582,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
       };
     default:
       return {
-        status: (
-          <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong>
-            We’re updating your account.
-          </p>
-        ),
+        status: 'We’re updating your account.',
         nextStep: (
           <p data-testid="diary-code-default-next-step">
             <strong>Next step: </strong>

@@ -7,7 +7,6 @@ import { within, waitFor } from '@testing-library/dom';
 import { mockFetch } from 'platform/testing/unit/helpers';
 import { getVAAppointmentMock, getVideoAppointmentMock } from '../../mocks/v0';
 import {
-  mockFacilitiesFetch,
   mockPastAppointmentInfo,
   mockPastAppointmentInfoOption1,
 } from '../../mocks/helpers';
@@ -21,6 +20,7 @@ import PastAppointmentsListV2, {
 import { getVAOSAppointmentMock } from '../../mocks/v2';
 import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
 import { createMockFacilityByVersion } from '../../mocks/data';
+import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
 
 const initialState = {
   featureToggles: {
@@ -33,7 +33,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTimezoneTestDate());
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion({ version: 0 });
   });
   afterEach(() => {
     MockDate.reset();
@@ -151,7 +151,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       phone: '307-778-7550',
       version: 0,
     });
-    mockFacilitiesFetch('vha_442GC', [facility]);
+    mockFacilitiesFetchByVersion({ facilities: [facility], version: 0 });
 
     const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
       initialState,

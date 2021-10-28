@@ -4,7 +4,6 @@ import {
   appointmentWAsCheckedInto,
   APPOINTMENT_WAS_CHECKED_INTO,
   receivedMultipleAppointmentDetails,
-  receivedAppointmentDetails,
   RECEIVED_APPOINTMENT_DETAILS,
   tokenWasValidated,
   TOKEN_WAS_VALIDATED,
@@ -12,6 +11,8 @@ import {
   PERMISSIONS_UPDATED,
   receivedDemographicsData,
   RECEIVED_DEMOGRAPHICS_DATA,
+  triggerRefresh,
+  TRIGGER_REFRESH,
 } from './index';
 
 describe('check inactions', () => {
@@ -23,17 +24,6 @@ describe('check inactions', () => {
       });
       it('should return correct structure', () => {
         const action = receivedMultipleAppointmentDetails([{ id: 'some-id' }]);
-        expect(action.payload.appointments[0]).to.haveOwnProperty('id');
-        expect(action.payload.appointments[0].id).to.equal('some-id');
-      });
-    });
-    describe('receivedAppointmentDetails', () => {
-      it('should return correct action', () => {
-        const action = receivedAppointmentDetails({ id: 'some-id' });
-        expect(action.type).to.equal(RECEIVED_APPOINTMENT_DETAILS);
-      });
-      it('should return correct structure', () => {
-        const action = receivedAppointmentDetails({ id: 'some-id' });
         expect(action.payload.appointments[0]).to.haveOwnProperty('id');
         expect(action.payload.appointments[0].id).to.equal('some-id');
       });
@@ -98,6 +88,16 @@ describe('check inactions', () => {
         });
         expect(action.payload).to.haveOwnProperty('demographics');
         expect(action.payload.demographics.homePhone).to.equal('555-867-5309');
+      });
+    });
+    describe('triggerRefresh', () => {
+      it('should return correct action', () => {
+        const action = triggerRefresh();
+        expect(action.type).to.equal(TRIGGER_REFRESH);
+      });
+      it('should return correct structure', () => {
+        const action = triggerRefresh();
+        expect(action.payload.context.shouldRefresh).to.equal(true);
       });
     });
   });

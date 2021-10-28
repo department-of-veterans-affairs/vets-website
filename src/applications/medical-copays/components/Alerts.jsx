@@ -9,9 +9,9 @@ const Alert = ({ children }) => children;
 
 Alert.Error = () => (
   <va-alert class="row vads-u-margin-bottom--5" status="error">
-    <h3 slot="headline">
+    <h2 slot="headline" className="vads-u-font-size--h3">
       We can’t access your current copay balances right now
-    </h3>
+    </h2>
     <p>
       We’re sorry. Something went wrong on our end. You won’t be able to access
       information about your copay balances at this time.
@@ -37,13 +37,17 @@ Alert.Error = () => (
       </strong>
       contact the VA health care facility where you received care.
     </p>
-    <a href="#">Find the contact information for your facility</a>
+    <a href="https://www.va.gov/find-locations">
+      Find the contact information for your facility
+    </a>
   </va-alert>
 );
 
 Alert.Maintenance = () => (
   <va-alert class="row vads-u-margin-bottom--5" status="info">
-    <h3 slot="headline">Down for maintenance</h3>
+    <h2 slot="headline" className="vads-u-font-size--h3">
+      Down for maintenance
+    </h2>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
       We’re sorry it’s not working right now.
     </p>
@@ -52,11 +56,16 @@ Alert.Maintenance = () => (
 
 Alert.NoHealthcare = () => (
   <va-alert class="row vads-u-margin-bottom--5" status="warning">
-    <h3 slot="headline">You’re not enrolled in VA health care</h3>
+    <h2 slot="headline" className="vads-u-font-size--h3">
+      You’re not enrolled in VA health care
+    </h2>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
       You can’t view copay balances at this time because our records show that
       you’re not enrolled in VA health care.
-      <a href="#" className="vads-u-margin-left--0p5">
+      <a
+        href="https://va.gov/health-care/how-to-apply/"
+        className="vads-u-margin-left--0p5"
+      >
         Find out how to apply for VA health care benefits
       </a>
       .
@@ -71,9 +80,9 @@ Alert.NoHealthcare = () => (
 
 Alert.NoHistory = () => (
   <va-alert class="row vads-u-margin-bottom--5" status="info">
-    <h3 slot="headline">
+    <h2 slot="headline" className="vads-u-font-size--h3">
       You haven’t received a copay bill in the past 6 months
-    </h3>
+    </h2>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
       You can’t view copay balances at this time because our records show that
       you haven’t received a copay bill in the past 6 months.
@@ -94,7 +103,9 @@ Alert.NoHistory = () => (
 
 Alert.Deceased = () => (
   <va-alert class="row vads-u-margin-bottom--5" status="warning">
-    <h3 slot="headline">Our records show that this Veteran is deceased</h3>
+    <h2 slot="headline" className="vads-u-font-size--h3">
+      Our records show that this Veteran is deceased
+    </h2>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
       We can’t show copay statements for this Veteran.
     </p>
@@ -108,14 +119,14 @@ Alert.Deceased = () => (
 
 Alert.Status = ({ copay }) => (
   <va-alert background-only status="info">
-    <h3 className="vads-u-margin-y--0">
+    <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
       {/* using vads-u-margin-left here causes the word "before" 
       to wrap to the next line so we need a {' '} space here */}
       Pay your {currency(copay?.pHAmtDue)} balance or request help before{' '}
       <span className="vads-u-line-height--4 no-wrap">
         {calcDueDate(copay?.pSStatementDate, 30)}
       </span>
-    </h3>
+    </h2>
     <p>
       To avoid late fees or collection action on your bill, you must pay your
       full balance or request financial help before
@@ -125,16 +136,18 @@ Alert.Status = ({ copay }) => (
       .
     </p>
     <p>
-      <a className="vads-c-action-link--blue" href="#">
+      <a className="vads-c-action-link--blue" href="#how-to-pay">
         Learn how to pay your copay bill
       </a>
     </p>
     <p>
-      <a className="vads-c-action-link--blue" href="#">
+      <a className="vads-c-action-link--blue" href="#how-to-get-financial-help">
         Request help with your bill
       </a>
     </p>
-    <h4>What if I’ve already requested financial help with my bill?</h4>
+    <h3 className="vads-u-font-size--h4">
+      What if I’ve already requested financial help with my bill?
+    </h3>
     <p>
       You may need to continue making payments while we review your request.
       Call us at

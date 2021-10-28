@@ -29,7 +29,6 @@ describe('Check In Experience -- ', () => {
         'GET',
         '/v0/feature_toggles*',
         generateFeatureToggles({
-          checkInExperienceMultipleAppointmentSupport: true,
           checkInExperienceUpdateInformationPageEnabled: false,
           checkInExperienceDemographicsPageEnabled: true,
         }),
@@ -68,30 +67,30 @@ describe('Check In Experience -- ', () => {
         );
       cy.get('.check-in-demographics dl')
         .find('dt:nth-child(1)')
-        .should('have.text', 'Mailing Address')
+        .should('have.text', 'Mailing address')
         .next()
-        .should('have.text', '123 Turtle TrailTreetopper, Tennessee 101010')
+        .should('have.text', '123 Turtle TrailTreetopper, Tennessee 10101')
         .next()
-        .should('have.text', 'Home Address')
+        .should('have.text', 'Home address')
         .next()
         .should(
           'have.text',
-          '445 Fine Finch Fairway, Apt 201Fairfence, Florida 445545',
+          '445 Fine Finch Fairway, Apt 201Fairfence, Florida 44554',
         )
         .next()
-        .should('have.text', 'Home Phone')
+        .should('have.text', 'Home phone')
         .next()
         .should('have.text', '555-222-3333')
         .next()
-        .should('have.text', 'Mobile Phone')
+        .should('have.text', 'Mobile phone')
         .next()
         .should('have.text', '555-333-4444')
         .next()
-        .should('have.text', 'Work Phone')
+        .should('have.text', 'Work phone')
         .next()
         .should('have.text', '555-444-5555')
         .next()
-        .should('have.text', 'Email Address')
+        .should('have.text', 'Email address')
         .next()
         .should('have.text', 'kermit.frog@sesameenterprises.us');
     });

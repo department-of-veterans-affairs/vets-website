@@ -10,6 +10,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import { Form0996App } from '../../containers/Form0996App';
 import { setHlrWizardStatus, removeHlrWizardStatus } from '../../wizard/utils';
+import { SELECTED } from '../../constants';
 
 const profile = {
   vapContactInfo: {
@@ -250,6 +251,58 @@ describe('Form0996App', () => {
     expect(formData.contestedIssues[0].attributes.approxDecisionDate).to.equal(
       '2021-01-01',
     );
+
+    tree.unmount();
+  });
+  it('should update areaOfDisagreement from selected issues', () => {
+    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
+    const setFormData = sinon.spy();
+    const { props, mockStore } = getData({ savedForms: savedHlr });
+    const contestableIssues = {
+      benefitType: 'compensation',
+      status: 'done', // any truthy value to skip get contestable issues action
+      issues: [
+        {
+          type: 'contestableIssue',
+          attributes: {
+            ratingIssueSubjectText: 'tinnitus',
+          },
+          [SELECTED]: true,
+        },
+      ],
+    };
+    const formData = {
+      hlrV2: true,
+      'view:hasIssuesToAdd': true,
+      benefitType: 'compensation',
+      contestedIssues: contestableIssues.issues,
+      additionalIssues: [{ issue: 'other issue', [SELECTED]: true }],
+      veteran: {
+        email: profile.vapContactInfo.email.emailAddress,
+        phone: profile.vapContactInfo.mobilePhone,
+        address: profile.vapContactInfo.mailingAddress,
+      },
+    };
+    const tree = mount(
+      <Provider store={mockStore}>
+        <Form0996App
+          {...props}
+          setFormData={setFormData}
+          formData={formData}
+          contestableIssues={contestableIssues}
+        />
+      </Provider>,
+    );
+
+    tree.setProps();
+    expect(setFormData.called).to.be.true;
+
+    const updatedFormData = setFormData.args[0][0];
+    expect(updatedFormData.areaOfDisagreement.length).to.eq(2);
+    expect(updatedFormData.areaOfDisagreement).to.deep.equal([
+      { ...formData.contestedIssues[0], index: 0 },
+      { ...formData.additionalIssues[0], index: 1 },
+    ]);
 
     tree.unmount();
   });

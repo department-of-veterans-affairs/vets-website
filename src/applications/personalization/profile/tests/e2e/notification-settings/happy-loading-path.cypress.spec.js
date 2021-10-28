@@ -1,3 +1,11 @@
+/**
+ * [TestRail-integrated] Spec for Notification Prefs > Happy loading path
+ * @testrailinfo projectId 4
+ * @testrailinfo suiteId 5
+ * @testrailinfo groupId 2404
+ * @testrailinfo runName NP-e2e-Happy-loading-path
+ */
+
 import { PROFILE_PATHS } from '@@profile/constants';
 
 import { makeUserObject } from '~/applications/personalization/common/helpers';
