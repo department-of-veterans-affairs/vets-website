@@ -5,8 +5,7 @@ on:
     inputs:
       commit_sha:
         description: Deploy a specific commit
-        required: false
-        default: ''
+        required: true
 
 env:
   DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
@@ -21,8 +20,8 @@ jobs:
         include:
           - environment: vagovdev
             bucket: dev-va-gov-assets
-          - environment: vagovstaging
-            bucket: staging-va-gov-assets
+          # - environment: vagovstaging
+          #   bucket: staging-va-gov-assets
 
     steps:
       - name: Checkout
@@ -54,7 +53,7 @@ jobs:
       - name: Deploy
         run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
         env:
-          SRC: s3://vetsgov-website-builds-s3-upload/application-build/${{ github.event.inputs.commit_sha || github.sha }}/${{ matrix.environment }}.tar.bz2
+          SRC: s3://vetsgov-website-builds-s3-upload/application-build/d1c5a1c3f180fbb09277bea27b93fcf239d1ff30/${{ matrix.environment }}.tar.bz2
           DEST: s3://${{ matrix.bucket }}
 
   notify-failure:
