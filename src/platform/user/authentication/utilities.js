@@ -121,7 +121,8 @@ export function redirect(redirectUrl, clickedEvent) {
 
   if (
     !loginAppUrlRE.test(window.location.pathname) &&
-    clickedEvent === 'login-link-clicked-modal'
+    (clickedEvent === 'login-link-clicked-modal' ||
+      clickedEvent === 'sso-automatic-login')
   ) {
     setLoginAttempted();
   }
