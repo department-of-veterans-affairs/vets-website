@@ -906,7 +906,7 @@ jobs:
           DEST: s3://${{ matrix.bucket }}
 
       # TODO: Revisit revproxy
-      - name: Deploy to apps.${{ matrix.app-bucket }}
+      - name: Deploy to ${{ matrix.apps-bucket }}
         run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
         env:
           SRC: s3://vetsgov-website-builds-s3-upload/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
