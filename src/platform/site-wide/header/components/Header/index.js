@@ -8,8 +8,7 @@ import OfficialGovtWebsite from '../OfficialGovtWebsite';
 import VeteranCrisisLine from '../VeteranCrisisLine';
 import { toggleFormSignInModal } from '../../../user-nav/actions';
 
-// This is the Header v2 component, it will be built out in a follow-up PR.
-export const Header = ({ showNavLogin, showMegaMenu }) => {
+export const Header = () => {
   return (
     <header className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0">
       {/* Official government website banner */}
