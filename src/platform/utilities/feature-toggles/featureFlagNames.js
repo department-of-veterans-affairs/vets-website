@@ -15,10 +15,6 @@ export default Object.freeze({
   checkInExperienceDemographicsPageEnabled: 'check_in_experience_demographics_page_enabled',
   checkInExperienceUpdateInformationPageEnabled: 'check_in_experience_update_information_page_enabled',
   checkInExperienceNextOfKinEnabled: 'check_in_experience_next_of_kin_enabled',
-  checkInExperienceLowRiskAuthenicationEnabled:
-    'check_in_experience_low_authentication_enabled',
-  checkInExperienceMultipleAppointmentEnabled:
-    'check_in_experience_multiple_appointment_support',
   coeAccess: 'coe_access',
   covidVaccineSchedulingFrontend: 'covid_vaccine_scheduling_frontend',
   covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
