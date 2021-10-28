@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
@@ -18,11 +19,17 @@ import {
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
 } from 'platform/site-wide/wizard';
+
+import {
+  getContestableIssues as getContestableIssuesAction,
+  FETCH_CONTESTABLE_ISSUES_INIT,
+} from '../actions';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 
 import {
   BASE_URL,
+  SAVED_CLAIM_TYPE,
   SUPPLEMENTAL_CLAIM_URL,
   FACILITY_LOCATOR_URL,
   GET_HELP_REVIEW_REQUEST_URL,
@@ -50,7 +57,27 @@ export class IntroductionPage extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (
+    if (IS_PRODUCTION || this.props.isProduction) {
+      const {
+        contestableIssues = {},
+        getContestableIssues,
+        hlrV2,
+      } = this.props;
+      const wizardComplete = this.state.status === WIZARD_STATUS_COMPLETE;
+      if (wizardComplete && this.props.loggedIn) {
+        const benefitType = sessionStorage.getItem(SAVED_CLAIM_TYPE);
+        if (!contestableIssues?.status) {
+          getContestableIssues({ benefitType, hlrV2 });
+        }
+        // set focus on h1 only after wizard completes
+        if (prevState.status !== WIZARD_STATUS_COMPLETE) {
+          setTimeout(() => {
+            scrollToTop();
+            focusElement('h1');
+          }, 100);
+        }
+      }
+    } else if (
       this.state.status === WIZARD_STATUS_COMPLETE &&
       prevState.status !== WIZARD_STATUS_COMPLETE
     ) {
@@ -77,6 +104,20 @@ export class IntroductionPage extends React.Component {
 
     if (contestableIssues?.error) {
       return showContestableIssueError(contestableIssues, delay);
+    }
+
+    if (
+      (IS_PRODUCTION || this.props.isProduction) &&
+      loggedIn &&
+      ((contestableIssues?.status || '') === '' ||
+        contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_INIT)
+    ) {
+      return (
+        <LoadingIndicator
+          setFocus
+          message="Loading your previous decisions..."
+        />
+      );
     }
 
     const { formId, prefillEnabled, savedFormMessages } = route.formConfig;
@@ -283,6 +324,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   toggleLoginModal,
+  getContestableIssues: getContestableIssuesAction,
 };
 
 export default connect(

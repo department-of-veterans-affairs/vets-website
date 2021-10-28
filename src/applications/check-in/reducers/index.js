@@ -1,3 +1,5 @@
+import { removeTimeZone } from '../utils/appointment';
+
 const initialState = {
   appointments: [],
   context: {},
@@ -31,8 +33,13 @@ const checkInReducer = (state = initialState, action) => {
         ...state,
         context: { ...state.context, ...action.payload.context },
       };
-    case RECEIVED_APPOINTMENT_DETAILS:
-      return { ...state, ...action.payload };
+    case RECEIVED_APPOINTMENT_DETAILS: {
+      let payload = JSON.parse(JSON.stringify(action.payload));
+      if ('appointments' in payload) {
+        payload = removeTimeZone(payload);
+      }
+      return { ...state, ...payload };
+    }
     case RECEIVED_DEMOGRAPHICS_DATA:
       return { ...state, ...action.payload };
 

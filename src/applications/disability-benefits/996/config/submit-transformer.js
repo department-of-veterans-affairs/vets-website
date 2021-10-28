@@ -5,6 +5,7 @@ import {
   getConferenceTimes,
   getConferenceTime, // v2
   addIncludedIssues,
+  addAreaOfDisagreement,
   getContact,
   getAddress,
   getPhone,
@@ -15,6 +16,7 @@ import { apiVersion1 } from '../utils/helpers';
 export function transform(formConfig, form) {
   // https://dev-developer.va.gov/explore/appeals/docs/decision_reviews?version=current
   const mainTransform = formData => {
+    let included;
     const version1 = apiVersion1(formData);
     const informalConference = formData.informalConference !== 'no';
     const attributes = {
@@ -32,12 +34,14 @@ export function transform(formConfig, form) {
 
     if (version1) {
       attributes.sameOffice = formData.sameOffice || false;
+      included = addIncludedIssues(formData);
     }
     if (!version1) {
       attributes.veteran.homeless = formData.homeless;
       attributes.veteran.phone = getPhone(formData);
       attributes.veteran.email = formData.veteran?.email || '';
       attributes.socOptIn = formData.socOptIn;
+      included = addAreaOfDisagreement(addIncludedIssues(formData), formData);
     }
 
     // Add informal conference data
@@ -60,7 +64,7 @@ export function transform(formConfig, form) {
         type: 'higherLevelReview',
         attributes,
       },
-      included: addIncludedIssues(formData),
+      included,
     };
   };
 

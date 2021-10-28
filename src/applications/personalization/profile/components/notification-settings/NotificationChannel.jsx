@@ -13,6 +13,7 @@ import { selectCommunicationPreferences } from '@@profile/reducers';
 
 import { getContactInfoSelectorByChannelType } from '@@profile/util/notification-settings';
 
+import recordEvent from '~/platform/monitoring/record-event';
 import { selectPatientFacilities } from '~/platform/user/selectors';
 
 import { LOADING_STATES } from '../../../common/constants';
@@ -106,6 +107,15 @@ const NotificationChannel = ({
             isAllowed: newValue === 'true',
             wasAllowed: currentValue,
           });
+          recordEvent({
+            event: 'int-radio-button-option-click',
+            'radio-button-label': itemName,
+            'radio-button-optionLabel': `${
+              channelTypes[channelType]
+            } - ${newValue}`,
+            'radio-button-required': false,
+          });
+
           saveSetting(channelId, model.getApiCallObject());
         }}
         warningMessage={

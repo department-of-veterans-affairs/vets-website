@@ -8,7 +8,6 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import {
   checkInExperienceEnabled,
   checkInExperienceDemographicsPageEnabled,
-  checkInExperienceMultipleAppointmentEnabled,
   checkInExperienceNextOfKinEnabled,
   checkInExperienceUpdateInformationPageEnabled,
   loadingFeatureFlags,
@@ -47,9 +46,6 @@ const mapStateToProps = state => ({
   isCheckInEnabled: checkInExperienceEnabled(state),
   isDemographicsPageEnabled: checkInExperienceDemographicsPageEnabled(state),
   isLoadingFeatureFlags: loadingFeatureFlags(state),
-  isMultipleAppointmentsEnabled: checkInExperienceMultipleAppointmentEnabled(
-    state,
-  ),
   isNextOfKinEnabled: checkInExperienceNextOfKinEnabled(state),
   isUpdatePageEnabled: checkInExperienceUpdateInformationPageEnabled(state),
 });

@@ -93,6 +93,9 @@ export const getEligibleContestableIssues = issues => {
 export const getIssueName = (entry = {}) =>
   entry.issue || entry.attributes?.ratingIssueSubjectText;
 
+export const getIssueDate = (entry = {}) =>
+  entry.decisionDate || entry.attributes?.approxDecisionDate || '';
+
 export const getIssueNameAndDate = (entry = {}) =>
   `${(getIssueName(entry) || '').toLowerCase()}${entry.decisionDate ||
     entry.attributes?.approxDecisionDate ||

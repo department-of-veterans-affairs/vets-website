@@ -3,11 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
-import VAPServicePendingTransactionCategory from '@@vap-svc/containers/VAPServicePendingTransactionCategory';
-import PhoneField from '@@vap-svc/components/PhoneField/PhoneField';
-import EmailField from '@@vap-svc/components/EmailField/EmailField';
-import AddressField from '@@vap-svc/components/AddressField/AddressField';
-import { TRANSACTION_CATEGORY_TYPES, FIELD_NAMES } from '@@vap-svc/constants';
+import ContactInformationField from '@@vap-svc/components/ContactInformationField';
+import { FIELD_NAMES } from '@@vap-svc/constants';
 
 import { selectProfile } from '~/platform/user/selectors';
 
@@ -97,42 +94,31 @@ export const ContactInfoDescription = ({ formContext, profile, homeless }) => {
           </div>
         </>
       )}
-      <div className="blue-bar-block vads-u-margin-top--4">
-        <div
-          className="va-profile-wrapper"
-          onSubmit={event => event.stopPropagation()}
-        >
-          <InitializeVAPServiceID>
-            <VAPServicePendingTransactionCategory
-              categoryType={TRANSACTION_CATEGORY_TYPES.PHONE}
-            >
-              <PhoneField
-                title="Mobile phone number"
-                fieldName={FIELD_NAMES.MOBILE_PHONE}
-                deleteDisabled
-                alertClosingDisabled
-              />
-            </VAPServicePendingTransactionCategory>
-            <VAPServicePendingTransactionCategory
-              categoryType={TRANSACTION_CATEGORY_TYPES.EMAIL}
-            >
-              <EmailField
-                title="Email address"
-                fieldName={FIELD_NAMES.EMAIL}
-                deleteDisabled
-              />
-            </VAPServicePendingTransactionCategory>
-            <VAPServicePendingTransactionCategory
-              categoryType={TRANSACTION_CATEGORY_TYPES.ADDRESS}
-            >
-              <AddressField
-                title="Mailing address"
-                fieldName={FIELD_NAMES.MAILING_ADDRESS}
-                deleteDisabled
-              />
-            </VAPServicePendingTransactionCategory>
-          </InitializeVAPServiceID>
-        </div>
+      <div
+        className="va-profile-wrapper blue-bar-block vads-u-margin-y--4"
+        onSubmit={event => {
+          // This prevents this nested form submit event from passing to the
+          // outer form and causing a page advance
+          event.stopPropagation();
+        }}
+      >
+        <InitializeVAPServiceID>
+          <h3>Mobile phone number</h3>
+          <ContactInformationField
+            fieldName={FIELD_NAMES.MOBILE_PHONE}
+            isDeleteDisabled
+          />
+          <h3>Email address</h3>
+          <ContactInformationField
+            fieldName={FIELD_NAMES.EMAIL}
+            isDeleteDisabled
+          />
+          <h3>Mailing address</h3>
+          <ContactInformationField
+            fieldName={FIELD_NAMES.MAILING_ADDRESS}
+            isDeleteDisabled
+          />
+        </InitializeVAPServiceID>
       </div>
     </>
   );

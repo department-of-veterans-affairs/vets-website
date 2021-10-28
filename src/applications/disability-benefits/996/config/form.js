@@ -21,14 +21,15 @@ import homeless from '../pages/homeless';
 import contestedIssuesPage from '../pages/contestedIssues';
 import additionalIssuesIntro from '../pages/additionalIssuesIntro';
 import additionalIssues from '../pages/additionalIssues';
+import areaOfDisagreementFollowUp from '../pages/areaOfDisagreement';
+import optIn from '../pages/optIn';
+import issueSummary from '../pages/issueSummary';
+import sameOffice from '../pages/sameOffice';
 import informalConference from '../pages/informalConference';
 import informalConferenceRep from '../pages/informalConferenceRep';
 import informalConferenceRepV2 from '../pages/informalConferenceRepV2';
 import informalConferenceTimes from '../pages/informalConferenceTimes';
 import informalConferenceTime from '../pages/informalConferenceTimeV2';
-import optIn from '../pages/optIn';
-import issueSummary from '../pages/issueSummary';
-import sameOffice from '../pages/sameOffice';
 
 import { errorMessages, WIZARD_STATUS } from '../constants';
 import {
@@ -37,6 +38,7 @@ import {
   appStateSelector,
   showAddIssueQuestion,
   showAddIssuesPage,
+  getIssueName,
 } from '../utils/helpers';
 // import initialData from '../tests/schema/initialData';
 
@@ -147,6 +149,16 @@ const formConfig = {
             showAddIssuesPage(formData) && apiVersion2(formData),
           uiSchema: additionalIssues.uiSchema,
           schema: additionalIssues.schema,
+          appStateSelector,
+        },
+        areaOfDisagreementFollowUp: {
+          title: getIssueName,
+          path: 'area-of-disagreement/:index',
+          depends: apiVersion2,
+          showPagePerItem: true,
+          arrayPath: 'areaOfDisagreement',
+          uiSchema: areaOfDisagreementFollowUp.uiSchema,
+          schema: areaOfDisagreementFollowUp.schema,
           appStateSelector,
         },
         optIn: {

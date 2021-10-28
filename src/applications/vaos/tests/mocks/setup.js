@@ -31,7 +31,6 @@ import {
 import {
   mockCommunityCareEligibility,
   mockDirectBookingEligibilityCriteria,
-  mockFacilitiesFetch,
   mockParentSites,
   mockRequestEligibilityCriteria,
 } from './helpers';
@@ -49,6 +48,7 @@ import {
 import { TYPES_OF_CARE } from '../../utils/constants';
 import ClosestCityStatePage from '../../new-appointment/components/ClosestCityStatePage';
 import { createMockFacilityByVersion } from './data';
+import { mockFacilitiesFetchByVersion } from './fetch';
 
 /**
  * Creates a Redux store when the VAOS reducers loaded and the thunk middleware applied
@@ -332,7 +332,7 @@ export async function setVAFacility(
   mockParentSites([siteCode], [parentSite]);
   mockDirectBookingEligibilityCriteria([siteCode], directFacilities);
   mockRequestEligibilityCriteria([siteCode], requestFacilities);
-  mockFacilitiesFetch(`vha_${realFacilityID}`, facilities);
+  mockFacilitiesFetchByVersion({ facilities, version: 0 });
 
   const { findByText, history } = renderWithStoreAndRouter(
     <VAFacilityPageV2 />,
@@ -378,7 +378,7 @@ export async function setVaccineFacility(store, facilityId, facilityData = {}) {
 
   mockDirectBookingEligibilityCriteria([siteCode], directFacilities);
   mockRequestEligibilityCriteria([siteCode], []);
-  mockFacilitiesFetch(`vha_${realFacilityID}`, facilities);
+  mockFacilitiesFetchByVersion({ facilities, version: 0 });
 
   const { findByText, history } = renderWithStoreAndRouter(
     <VaccineFacilityPage />,
