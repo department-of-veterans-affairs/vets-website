@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
@@ -6,11 +7,18 @@ import { goToNextPage, URLS } from '../utils/navigation';
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 import DemographicItem from '../components/DemographicItem';
-// import { seeStaffMessageUpdated } from '../actions';
+import { seeStaffMessageUpdated } from '../actions';
 
 const Demographics = props => {
-  const { demographics, isLoading, isUpdatePageEnabled, router } = props;
-  // const seeStaffMessage = 'test';
+  const {
+    demographics,
+    isLoading,
+    isUpdatePageEnabled,
+    router,
+    updateSeeStaffMessage,
+  } = props;
+  const seeStaffMessage =
+    'If you don’t live at a fixed address right now, we’ll help you find the best way to stay connected with us.';
 
   const yesClick = useCallback(
     () => {
@@ -33,7 +41,7 @@ const Demographics = props => {
         event: 'cta-button-click',
         'button-click-label': 'no-to-demographic-information',
       });
-
+      updateSeeStaffMessage(seeStaffMessage);
       goToNextPage(router, URLS.SEE_STAFF);
     },
     [router],
@@ -102,11 +110,23 @@ const Demographics = props => {
   }
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    updateSeeStaffMessage: seeStaffMessage => {
+      dispatch(seeStaffMessageUpdated(seeStaffMessage));
+    },
+  };
+};
+
 Demographics.propTypes = {
   demographics: PropTypes.object,
   isLoading: PropTypes.bool,
   isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
+  updateSeeStaffMessage: PropTypes.func,
 };
 
-export default Demographics;
+export default connect(
+  null,
+  mapDispatchToProps,
+)(Demographics);

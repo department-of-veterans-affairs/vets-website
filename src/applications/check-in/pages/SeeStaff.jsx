@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
@@ -17,11 +18,7 @@ const SeeStaff = props => {
         Check in with a staff member
       </h1>
       <p>Our staff can help you update your contact information.</p>
-      <p className="vads-u-margin-bottom--0">
-        {message}
-        If you don’t live at a fixed address right now, we’ll help you find the
-        best way to stay connected with us.
-      </p>
+      <p className="vads-u-margin-bottom--0">{message}</p>
       <Footer />
       <BackToHome />
     </div>
@@ -33,4 +30,10 @@ SeeStaff.propTypes = {
   message: PropTypes.string,
 };
 
-export default SeeStaff;
+const mapStateToProps = state => {
+  return {
+    message: state.checkInData.seeStaffMessage,
+  };
+};
+
+export default connect(mapStateToProps)(SeeStaff);

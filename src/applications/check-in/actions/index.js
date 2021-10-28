@@ -87,6 +87,6 @@ export const SEE_STAFF_MESSAGE_UPDATED = 'SEE_STAFF_MESSAGE_UPDATED';
 export const seeStaffMessageUpdated = message => {
   return {
     type: SEE_STAFF_MESSAGE_UPDATED,
-    payload: { message },
+    payload: { seeStaffMessage: message },
   };
 };
