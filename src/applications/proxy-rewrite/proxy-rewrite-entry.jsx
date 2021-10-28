@@ -17,7 +17,7 @@ import startMobileMenuButton from 'platform/site-wide/mobile-menu-button';
 import startUserNavWidget from 'platform/site-wide/user-nav';
 import startVAFooter, { footerElemementId } from 'platform/site-wide/va-footer';
 import { addOverlayTriggers } from 'platform/site-wide/legacy/menu';
-import { proxyRewriteWhitelist } from './proxy-rewrite-whitelist.json';
+import proxyWhitelist from './proxy-rewrite-whitelist.json';
 
 function createMutationObserverCallback() {
   // Find native header, footer, etc based on page path
@@ -179,7 +179,9 @@ function getProxyRewriteCookieValue(
   return parseCookie(cookies).proxyRewrite;
 }
 
-function getMatchedWhitelistItem(whitelist = proxyRewriteWhitelist) {
+function getMatchedWhitelistItem(
+  whitelist = proxyWhitelist.proxyRewriteWhitelist,
+) {
   const { hostname, pathname } = window.location;
 
   return whitelist.find(
