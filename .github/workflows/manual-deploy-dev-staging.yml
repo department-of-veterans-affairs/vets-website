@@ -46,14 +46,14 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Deploy Dev
-        if: ${{ github.event.inputs.commit_sha == 'dev' || github.event.inputs.commit_sha == 'both' }}
+        if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
         run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
         env:
           SRC: s3://vetsgov-website-builds-s3-upload/${{ github.event.inputs.commit_sha }}/vagovdev.tar.bz2
           DEST: s3://dev-va-gov-assets
 
       - name: Deploy Staging
-        if: ${{ github.event.inputs.commit_sha == 'staging' || github.event.inputs.commit_sha == 'both' }}
+        if: ${{ github.event.inputs.deploy_environment == 'staging' || github.event.inputs.deploy_environment == 'both' }}
         run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
         env:
           SRC: s3://vetsgov-website-builds-s3-upload/${{ github.event.inputs.commit_sha }}/vagovstaging.tar.bz2
