@@ -54,7 +54,7 @@ jobs:
       - name: Deploy
         run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
         env:
-          SRC: s3://vetsgov-website-builds-s3-upload/application-build/d1c5a1c3f180fbb09277bea27b93fcf239d1ff30/${{ matrix.environment }}.tar.bz2
+          SRC: s3://vetsgov-website-builds-s3-upload/d1c5a1c3f180fbb09277bea27b93fcf239d1ff30/${{ matrix.environment }}.tar.bz2
           DEST: s3://${{ matrix.bucket }}
 
   notify-failure:
