@@ -51,9 +51,18 @@ const selectAppointmentListData = createSelector(
 );
 
 const makeSelectAppointmentListData = () => selectAppointmentListData;
+
+const selectContext = createSelector(
+  state => state.checkInData?.context,
+  context => context || {},
+);
+
+const makeSelectContext = () => selectContext;
+
 export {
   makeSelectCheckInData,
   makeSelectFeatureToggles,
   makeSelectConfirmationData,
   makeSelectAppointmentListData,
+  makeSelectContext,
 };

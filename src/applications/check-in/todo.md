@@ -6,6 +6,7 @@ todo
     - session
     - appointment list
     - feature flips
+  - revisit HOCs
   - Unit tests
 
 - useDispatch
