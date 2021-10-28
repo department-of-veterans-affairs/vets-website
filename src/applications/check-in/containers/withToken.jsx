@@ -1,19 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { createSelector } from 'reselect';
 
 import { goToNextPage, URLS } from '../utils/navigation';
 import { getCurrentToken } from '../utils/session';
-
-const selectCheckInData = createSelector(
-  state => state.checkInData,
-  checkInData => checkInData || {},
-);
+import { makeSelectCheckInData } from '../hooks/selectors';
 
 const withToken = Component => {
   const Wrapped = ({ ...props }) => {
     const { router } = props;
+    const selectCheckInData = useMemo(makeSelectCheckInData, []);
     const checkInData = useSelector(selectCheckInData);
     const { context } = checkInData;
     const shouldRedirect = !context || !context.token;
