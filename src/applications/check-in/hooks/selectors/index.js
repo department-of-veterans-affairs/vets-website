@@ -28,9 +28,32 @@ const selectFeatureToggles = createSelector(
 
 const makeSelectFeatureToggles = () => selectFeatureToggles;
 
+const selectConfirmationData = createSelector(
+  state => {
+    return {
+      appointments: state.checkInData.appointments,
+      selectedAppointment: state.checkInData.context.appointment,
+    };
+  },
+  data => data || {},
+);
+
+const makeSelectConfirmationData = () => selectConfirmationData;
+
+const selectAppointmentListData = createSelector(
+  state => {
+    return {
+      context: state.checkInData.context,
+      appointments: state.checkInData.appointments,
+    };
+  },
+  data => data || {},
+);
+
+const makeSelectAppointmentListData = () => selectAppointmentListData;
 export {
-  selectCheckInData,
   makeSelectCheckInData,
-  selectFeatureToggles,
   makeSelectFeatureToggles,
+  makeSelectConfirmationData,
+  makeSelectAppointmentListData,
 };
