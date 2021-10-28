@@ -8,7 +8,7 @@ import {
 } from 'platform/testing/unit/schemaform-utils.jsx';
 
 import formConfig from '../../config/form';
-import { changeDropdown } from '../helpers';
+import { changeDropdown } from 'platform/testing/unit/helpers';
 
 describe('686 add child - child additional information', () => {
   const {

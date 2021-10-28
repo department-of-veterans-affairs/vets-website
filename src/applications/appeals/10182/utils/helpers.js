@@ -19,7 +19,7 @@ export const hasSomeSelected = ({ contestableIssues, additionalIssues } = {}) =>
   someSelected(contestableIssues) || someSelected(additionalIssues);
 
 export const showAddIssuesPage = formData => {
-  const hasSelectedIssues = formData.constestableIssues?.length
+  const hasSelectedIssues = formData.contestableIssues?.length
     ? someSelected(formData.contestableIssues)
     : false;
   const noneToAdd = formData['view:hasIssuesToAdd'] !== false;
@@ -28,7 +28,7 @@ export const showAddIssuesPage = formData => {
     // nothing is selected, we need to show the additional issues page!
     return true;
   }
-  return noneToAdd && !hasSelectedIssues;
+  return noneToAdd || !hasSelectedIssues;
 };
 
 export const showAddIssueQuestion = ({ contestableIssues }) =>

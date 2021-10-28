@@ -3,9 +3,17 @@ import {
   assertDataLayerLastItems,
   assertEventAndAttributes,
 } from './analyticsUtils';
+import mockFacilitiesSearchResultsV1 from '../../constants/mock-facility-data-v1.json';
 
 describe('Google Analytics FL Events', () => {
   it('should search, pan map, click marker, zoom in and out and verify ga events related', () => {
+    cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
+    cy.intercept('GET', '/v0/maintenance_windows', []);
+    cy.intercept(
+      'GET',
+      '/facilities_api/v1/va?bbox**',
+      mockFacilitiesSearchResultsV1,
+    ).as('searchFacilitiesVA');
     cy.visit('/find-locations');
 
     cy.window().then(win => {

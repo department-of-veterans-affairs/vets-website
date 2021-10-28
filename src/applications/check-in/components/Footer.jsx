@@ -1,16 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
-
-function Footer({
-  appointments,
-  header = 'Need help?',
-  message = 'Ask a staff member or call us at',
-}) {
-  const contactNumber = appointments
-    ? appointments[0]?.clinicPhoneNumber
-    : null;
+function Footer({ header = 'Need help?', message = 'Ask a staff member.' }) {
   return (
     <footer className="row">
       <h2
@@ -19,15 +11,7 @@ function Footer({
       >
         {header}
       </h2>
-      <p data-testid="message">
-        {contactNumber ? (
-          <>
-            {message} <Telephone contact={contactNumber} />.
-          </>
-        ) : (
-          'Ask a staff member.'
-        )}
-      </p>
+      <p data-testid="message">{message}</p>
     </footer>
   );
 }
@@ -36,6 +20,11 @@ const mapStateToProps = state => {
   return {
     appointments: state.checkInData.appointments,
   };
+};
+
+Footer.propTypes = {
+  header: PropTypes.string,
+  message: PropTypes.string,
 };
 
 export default connect(mapStateToProps)(Footer);

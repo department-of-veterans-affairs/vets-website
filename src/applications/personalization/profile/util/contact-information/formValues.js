@@ -34,7 +34,7 @@ export const transformInitialFormValues = initialFormValues => {
 };
 
 export const getInitialFormValues = options => {
-  const { fieldName, data, showSMSCheckbox, modalData } = options;
+  const { fieldName, data, modalData } = options;
 
   if (fieldName === FIELD_NAMES.EMAIL) {
     return data ? { ...data } : { emailAddress: '' };
@@ -45,20 +45,19 @@ export const getInitialFormValues = options => {
       countryCode: '1',
       extension: '',
       inputPhoneNumber: '',
-      isTextable: false,
-      isTextPermitted: false,
-      'view:showSMSCheckbox': showSMSCheckbox,
     };
 
     if (data) {
-      const { extension, areaCode, phoneNumber, isTextPermitted } = data;
+      const { extension, areaCode, phoneNumber } = data;
+      const inputPhoneNumber =
+        areaCode && phoneNumber
+          ? `${areaCode}${phoneNumber}`
+          : `${phoneNumber}`;
 
       initialFormValues = {
         ...data,
         extension: extension || '',
-        inputPhoneNumber: `${areaCode}${phoneNumber}`,
-        isTextPermitted: isTextPermitted || false,
-        'view:showSMSCheckbox': showSMSCheckbox,
+        inputPhoneNumber,
       };
     }
 

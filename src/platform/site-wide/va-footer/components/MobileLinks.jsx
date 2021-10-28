@@ -82,7 +82,6 @@ export default function MobileLinks({ links, visible, langConfig }) {
           </div>
         </li>
         <LanguageSupport
-          showLangSupport={langConfig.showLangSupport}
           dispatchLanguageSelection={langConfig.dispatchLanguageSelection}
           languageCode={langConfig.languageCode}
         />

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import manifest from '../../../disability-benefits/686c-674/manifest.json';
 import {
   getDependencyVerifications,
   updateDiariesService,
@@ -42,6 +43,11 @@ const DependencyVerificationModal = props => {
   const handleCloseAndUpdateDiaries = shouldUpdate => {
     sessionStorage.setItem(RETRIEVE_DIARIES, 'false');
     props.updateDiariesService(shouldUpdate);
+
+    // Redirect the user to the appropriate form to update dependents, if needed
+    if (!shouldUpdate) {
+      window.location.assign(manifest.rootUrl);
+    }
   };
 
   const checkForOtherModals = () => {
@@ -78,7 +84,6 @@ const DependencyVerificationModal = props => {
         }
         cssClass="va-modal-large vads-u-padding--1"
         id="dependency-verification"
-        title="Please make sure your dependents are correct"
         contents={
           <>
             <DependencyVerificationHeader />

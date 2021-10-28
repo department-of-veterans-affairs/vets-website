@@ -1,3 +1,11 @@
+/**
+ * [TestRail-integrated] Spec for Notification Prefs > Loading errors
+ * @testrailinfo projectId 4
+ * @testrailinfo suiteId 5
+ * @testrailinfo groupId 2411
+ * @testrailinfo runName NP-e2e-Loading-errors
+ */
+
 import { PROFILE_PATHS } from '@@profile/constants';
 
 import mockUser from '@@profile/tests/fixtures/users/user-36.json';
@@ -19,7 +27,7 @@ describe('Notification Settings - Load Errors', () => {
     cy.intercept('/v0/feature_toggles?*', mockFeatureToggles);
   });
   context('when VA Profile contact info is not available', () => {
-    it('should show an error message and not even try to fetch current notification preferences', () => {
+    it('should show an error message and not even try to fetch current notification preferences - C9491', () => {
       const getCommPrefsStub = cy.stub();
       cy.intercept('GET', 'v0/profile/communication_preferences', () => {
         getCommPrefsStub();
@@ -42,7 +50,7 @@ describe('Notification Settings - Load Errors', () => {
     });
   });
   context('when we cannot fetch current notification preferences', () => {
-    it('should show an error message', () => {
+    it('should show an error message - C9492', () => {
       cy.intercept('GET', 'v0/profile/communication_preferences', {
         statusCode: 500,
         data: error500,

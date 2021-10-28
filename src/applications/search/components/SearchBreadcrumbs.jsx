@@ -23,7 +23,7 @@ class SearchBreadcrumbs extends React.Component {
         Home
       </a>,
       <a key="2" href="/search">
-        Search results
+        Search VA.gov
       </a>,
     ];
   }

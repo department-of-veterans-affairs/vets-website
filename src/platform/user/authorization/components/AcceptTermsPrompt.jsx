@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { browserHistory } from 'react-router';
 import recordEvent from '../../../monitoring/record-event';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 class AcceptTermsPrompt extends React.Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class AcceptTermsPrompt extends React.Component {
 
   componentDidMount() {
     recordEvent({ event: 'terms-shown' });
-    window.scrollTo(0, 0);
+    scrollTo(0);
   }
 
   onCancel = e => {
@@ -58,6 +59,8 @@ class AcceptTermsPrompt extends React.Component {
     if (!terms.termsContent) {
       return <div />;
     }
+
+    const titleHLevel = `h${this.props.level || 1}`;
 
     const submitDisabled = !(
       this.state.scrolledToBottom && this.state.yesSelected
@@ -109,7 +112,7 @@ class AcceptTermsPrompt extends React.Component {
           tabIndex="0"
         >
           <div dangerouslySetInnerHTML={{ __html: terms.headerContent }} />
-          <h1>{terms.title}</h1>
+          <titleHLevel>{terms.title}</titleHLevel>
           <div className="terms-box">
             <div className="terms-head">
               Scroll to read the full terms and conditions to continue

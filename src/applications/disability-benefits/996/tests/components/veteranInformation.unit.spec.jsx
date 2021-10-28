@@ -21,27 +21,19 @@ describe('<VeteranInformation>', () => {
         },
         dob: '2000-01-05',
         gender: 'F',
-        vapContactInfo: {
-          mailingAddress: {
-            zipCode: '12345',
-          },
-        },
       },
       veteran: {
         vaFileLastFour: '8765',
         ssnLastFour: '5678',
       },
-      contestedIssues: [],
     };
     const wrapper = shallow(<VeteranInformation {...data} />);
-    const text = wrapper.find('.blue-bar-block').text();
 
-    expect(text).to.contain('uno dos tres');
-    expect(text).to.contain('Security number: ●●●–●●–5678ending with 5 6 7 8');
-    expect(text).to.contain('VA file number: ●●●–●●–8765ending with 8 7 6 5');
-
-    expect(text).to.contain('Date of birth: January 5, 2000');
-    expect(text).to.contain('Gender: Female');
+    expect(wrapper.find('.name').text()).to.equal('uno dos tres');
+    expect(wrapper.find('.ssn').text()).to.contain('5678');
+    expect(wrapper.find('.vafn').text()).to.contain('8765');
+    expect(wrapper.find('.dob').text()).to.contain('January 5, 2000');
+    expect(wrapper.find('.gender').text()).to.contain('Female');
 
     wrapper.unmount();
   });

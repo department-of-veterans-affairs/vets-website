@@ -4,7 +4,7 @@ import { isArray, isString, uniqueId } from 'lodash';
 import classNames from 'classnames';
 import { makeField } from '~/platform/forms/fields';
 
-const MessageWrapper = ({ children, classes, id }) => {
+const MessageWrapper = ({ children, classes, id, alert }) => {
   return (
     <span
       id={id}
@@ -14,6 +14,8 @@ const MessageWrapper = ({ children, classes, id }) => {
         'vads-u-font-weight--bold',
         classes,
       )}
+      role={alert ? 'alert' : undefined}
+      aria-live={alert ? 'polite' : undefined}
     >
       {children}
     </span>
@@ -73,7 +75,7 @@ const NotificationRadioButtons = ({
   if (errorMessage) {
     errorSpanId = `${id}-error-message`;
     errorSpan = (
-      <MessageWrapper id={errorSpanId} classes={'rb-input-message-error'}>
+      <MessageWrapper id={errorSpanId} classes={'rb-input-message-error'} alert>
         <i
           className="fas fa-exclamation-circle vads-u-margin-right--1"
           aria-hidden="true"
@@ -103,7 +105,11 @@ const NotificationRadioButtons = ({
   if (loadingMessage) {
     loadingSpanId = `${id}-loading-message`;
     loadingSpan = (
-      <MessageWrapper id={loadingSpanId} classes="vads-u-font-weight--normal">
+      <MessageWrapper
+        id={loadingSpanId}
+        classes="vads-u-font-weight--normal"
+        alert
+      >
         <i
           className="fas fa-spinner fa-spin vads-u-margin-right--1"
           aria-hidden="true"
@@ -118,7 +124,11 @@ const NotificationRadioButtons = ({
   if (successMessage) {
     successSpanId = `${id}-success-message`;
     successSpan = (
-      <MessageWrapper id={successSpanId} classes={'rb-input-message-success'}>
+      <MessageWrapper
+        id={successSpanId}
+        classes={'rb-input-message-success'}
+        alert
+      >
         <i
           className="fas fa-check-circle vads-u-margin-right--1"
           aria-hidden="true"
@@ -157,7 +167,7 @@ const NotificationRadioButtons = ({
     const buttonAriaDescribedby =
       (checked && ariaDescribedby?.[optionIndex]) || null;
     return (
-      <div key={optionAdditional ? undefined : optionIndex}>
+      <React.Fragment key={optionAdditional ? undefined : optionIndex}>
         <input
           checked={checked}
           id={`${id}-${optionIndex}`}
@@ -179,7 +189,7 @@ const NotificationRadioButtons = ({
           {optionLabel}
         </label>
         {option.content}
-      </div>
+      </React.Fragment>
     );
   });
 
@@ -195,19 +205,22 @@ const NotificationRadioButtons = ({
   );
 
   const legendClasses = classNames(
-    'rb-legend',
+    'vads-u-font-family--sans',
     'vads-u-font-weight--bold',
     'vads-u-font-size--base',
     'vads-u-padding--0',
+    'vads-u-margin--0',
     additionalLegendClass,
   );
 
   return (
     <fieldset className={fieldsetClasses} disabled={disabled} id={id}>
       <div className="clearfix">
-        <legend className={legendClasses}>
-          {label}
-          {requiredSpan}
+        <legend className="rb-legend vads-u-padding--0">
+          <h3 className={legendClasses}>
+            {label}
+            {requiredSpan}
+          </h3>
         </legend>
       </div>
       {description ? (

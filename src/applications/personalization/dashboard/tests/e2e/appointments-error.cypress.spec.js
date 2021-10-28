@@ -1,5 +1,4 @@
 import moment from 'moment';
-import { mockFeatureToggles } from './helpers';
 import { mockUser } from '@@profile/tests/fixtures/users/user';
 
 import ERROR_400 from '~/applications/personalization/dashboard/utils/mocks/ERROR_400';
@@ -47,7 +46,6 @@ describe('MyVA Dashboard - Appointments', () => {
   beforeEach(() => {
     mockLocalStorage();
     cy.login(mockUser);
-    mockFeatureToggles();
     getFacilitiesStub = cy.stub();
   });
   context('when there is a 500 error fetching VA appointments', () => {

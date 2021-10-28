@@ -7,7 +7,8 @@ const SELECTORS = {
   SEARCH_FORM: '[data-e2e-id="search-form"]',
   SEARCH_RESULTS: '[data-e2e-id="search-results"]',
   SEARCH_RESULT_TITLE: '[data-e2e-id="result-title"]',
-  ALERT_BOX: 'va-alert.hydrated',
+  ALERT_BOX_ERROR: 'va-alert[status="error"]',
+  ALERT_BOX_INFO: 'va-alert[status="info"]',
 };
 
 function axeTestPage() {
@@ -79,13 +80,13 @@ describe('functionality of Yellow Ribbons', () => {
     );
 
     // Ensure Alert Box exists
-    cy.get(`${SELECTORS.APP} ${SELECTORS.ALERT_BOX}`);
+    cy.get(`${SELECTORS.APP} ${SELECTORS.ALERT_BOX_INFO}`);
     // Ensure Alert Box Closes
-    cy.get(`${SELECTORS.APP} ${SELECTORS.ALERT_BOX}`)
+    cy.get(`${SELECTORS.APP} ${SELECTORS.ALERT_BOX_INFO}`)
       .shadow()
       .find('button')
       .click();
-    cy.get(`${SELECTORS.APP} ${SELECTORS.ALERT_BOX}`)
+    cy.get(`${SELECTORS.APP} ${SELECTORS.ALERT_BOX_INFO}`)
       .shadow()
       .should('not.exist');
   });
@@ -123,15 +124,15 @@ describe('functionality of Yellow Ribbons', () => {
     cy.wait('@getSchoolsInYR');
 
     // Ensure ERROR Alert Box exists
-    cy.get(`${SELECTORS.APP} ${SELECTORS.ALERT_BOX}`);
+    cy.get(`${SELECTORS.APP} ${SELECTORS.ALERT_BOX_ERROR}`);
 
     // Check Error Headline.
-    cy.get(`${SELECTORS.APP} ${SELECTORS.ALERT_BOX}`)
+    cy.get(`${SELECTORS.APP} ${SELECTORS.ALERT_BOX_ERROR}`)
       .find('h3')
       .should('contain', 'Something went wrong');
 
     // Check contain error message
-    cy.get(`${SELECTORS.APP} ${SELECTORS.ALERT_BOX}`)
+    cy.get(`${SELECTORS.APP} ${SELECTORS.ALERT_BOX_ERROR}`)
       .find('div')
       .should(
         'contain',

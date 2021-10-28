@@ -64,7 +64,7 @@ export function createMockAppointmentByVersion({
         typeOfCareId: fields.typeOfCareId || fields.serviceType,
         uniqueId: id,
         visitType: fields.visitType,
-        cancellationReason: null,
+        cancelationReason: null,
       },
     };
   }
@@ -209,7 +209,7 @@ export function createMockAppointmentByVersion({
       type: 'appointments',
       attributes: {
         id,
-        cancellationReason: null,
+        cancelationReason: null,
         clinic: null,
         comment: null,
         contact: {
@@ -319,4 +319,93 @@ export function createMockClinicByVersion({
   }
 
   throw new Error('Missing version specified');
+}
+
+/**
+ * Creates a mock VA facility object, for the specified version
+ *
+ * @export
+ * @param {Object} params
+ * @param {string} params.id The facility id
+ * @param {string} params.name The facility name
+ * @param {Address} params.address The facility address, in the FHIR format
+ * @param {string} params.phone The facility phone
+ * @param {number} params.lat The latitude of the facility
+ * @param {number} params.long The longitude of the facility
+ * @param {?boolean} params.isParent Is the facility is parent facility or not. Only relevent for version 2
+ * @param {number} [params.version = 2] The version of the facility object to create
+ *
+ * @returns {VAFacility|MFSFacility} The facility mock with specified data
+ */
+export function createMockFacilityByVersion({
+  id = 'fake',
+  name = 'Fake name',
+  address,
+  phone = 'fake',
+  lat,
+  long,
+  isParent = null,
+  version = 2,
+} = {}) {
+  if (version === 2) {
+    return {
+      id,
+      type: 'facility',
+      attributes: {
+        id,
+        vistaSite: id.substring(0, 3),
+        vastParent: isParent ? id : id.substring(0, 3),
+        name,
+        lat,
+        long,
+        phone: { main: phone },
+        physicalAddress: address || {
+          line: [],
+          city: 'fake',
+          state: 'fake',
+          postalCode: 'fake',
+        },
+      },
+    };
+  }
+
+  return {
+    id: `vha_${id}`,
+    type: 'va_facilities',
+    attributes: {
+      uniqueId: id,
+      name,
+      address: {
+        physical: {
+          zip: address?.postalCode || 'fake zip',
+          city: address?.city || 'Fake city',
+          state: address?.state || 'FA',
+          address1: address?.line?.[0] || 'Fake street',
+          address2: null,
+          address3: null,
+        },
+      },
+      lat,
+      long,
+      phone: {
+        main: phone,
+      },
+      hours: {},
+    },
+  };
+}
+
+export function createMockCheyenneFacilityByVersion({ version = 2 } = {}) {
+  return createMockFacilityByVersion({
+    id: '442',
+    name: 'Cheyenne VA Medical Center',
+    address: {
+      postalCode: '82001-5356',
+      city: 'Cheyenne',
+      state: 'WY',
+      line: ['2360 East Pershing Boulevard'],
+    },
+    phone: '307-778-7550',
+    version,
+  });
 }

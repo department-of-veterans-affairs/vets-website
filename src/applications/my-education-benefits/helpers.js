@@ -1,5 +1,8 @@
 import React from 'react';
+// import React, { useState, useEffect } from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+// import { fetchServiceHistory } from './selectors/serviceHistoryDispatch';
+// import { apiRequest } from 'platform/utilities/api';
 
 export const directDepositWarning = (
   <div className="pension-dd-warning">
@@ -26,14 +29,17 @@ export const activeDutyLabel = (
   <>
     Montgomery GI Bill Active Duty (Chapter 30)
     <AdditionalInfo triggerText="Learn more">
-      Our records indicate you may be eligible for this benefit because you
-      served at least two years on active duty and were honorably discharged.
+      <p>
+        Our records indicate you may be eligible for this benefit because you
+        served at least two years on active duty and were honorably discharged.
+        If you give up this benefit, VA will pay you for any eligible kickers
+        associated with it.
+      </p>
       <a
         href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-active-duty/"
         target="_blank"
         rel="noopener noreferrer"
       >
-        {' '}
         Learn more about the Montgomery GI Bill Active Duty
       </a>
     </AdditionalInfo>
@@ -44,14 +50,16 @@ export const selectedReserveLabel = (
   <>
     Montgomery GI Bill Selected Reserve (Chapter 1606)
     <AdditionalInfo triggerText="Learn more">
-      Our records indicate you may be eligible for this benefit because you
-      agreed to serve six years in the Selected Reserve.
+      <p>
+        Our records indicate you may be eligible for this benefit because you
+        agreed to serve six years in the Selected Reserve. If you give up this
+        benefit, VA will pay you for any eligible kickers associated with it.
+      </p>
       <a
         href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-selected-reserve/"
         target="_blank"
         rel="noopener noreferrer"
       >
-        {' '}
         Learn more about the Montgomery GI Bill Selected Reserve
       </a>
     </AdditionalInfo>
@@ -63,6 +71,17 @@ export const unsureDescription = (
     <strong>Note:</strong> After you submit this applicaton, a VA representative
     will reach out to help via your preferred contact method.
   </>
+);
+
+export const post911GiBillNote = (
+  <div className="usa-alert background-color-only">
+    <h3>You’re applying for the Post-9/11 GI BIll®</h3>
+    <p>
+      At this time, you can only apply for Post-9/11 GI Bill (Chapter 33)
+      benefits through this application. If you want to apply for other
+      education benefits, <a href="#">find out what you’re eligible for.</a>
+    </p>
+  </div>
 );
 
 /**
@@ -148,3 +167,106 @@ export const getSelectedCheckboxes = (uiSchema, formData) =>
     .map(checkboxOption => checkboxOption[0]) // object key
     .map(selectedCheckboxKey => uiSchema[selectedCheckboxKey]['ui:title'])
     .join(', ');
+
+function transformPhone(phone) {
+  const isInternational = phone?.isInternational;
+  let phoneNumber = phone?.areaCode + phone?.phoneNumber;
+  phoneNumber = isInternational
+    ? phone?.countryCode + phoneNumber
+    : phoneNumber;
+
+  return {
+    phone: phoneNumber,
+    isInternational,
+  };
+}
+
+// function transformServiceHistory(serviceHistory) {
+//   return {
+//     ...serviceHistory,
+//     dateRange: {
+//       from: serviceHistory.beginDate,
+//       to: serviceHistory.endDate,
+//     },
+//     exclusionPeriods: serviceHistory.exclusionPeriods.map(exclusionPeriod => {
+//       return {
+//         from: exclusionPeriod.beginDate,
+//         to: exclusionPeriod.endDate,
+//       };
+//     }),
+//     trainingPeriods: serviceHistory.trainingPeriods.map(exclusionPeriod => {
+//       return {
+//         from: exclusionPeriod.beginDate,
+//         to: exclusionPeriod.endDate,
+//       };
+//     }),
+//     serviceBranch: serviceHistory.branchOfService,
+//     serviceCharacter: serviceHistory.characterOfService,
+//     toursOfDutyIncorrect: serviceHistory.disagreeWithServicePeriod,
+//   };
+// }
+
+export function prefillTransformer(pages, formData, metadata, state) {
+  const userProfile = state.user.profile || {};
+  const vapContactInfo = userProfile?.vapContactInfo || {};
+  const email = vapContactInfo?.email?.emailAddress;
+  const otherPhone =
+    vapContactInfo?.homePhone || vapContactInfo?.temporaryPhone;
+  const address =
+    vapContactInfo?.mailingAddress || vapContactInfo?.residentialAddress;
+
+  // const [toursOfDuty, setToursOfDuty] = useState(null);
+  // const [toursOfDutyCorrect, setToursOfDutyCorrect] = useState(null);
+
+  const newData = {
+    ...formData,
+    'view:userFullName': {
+      userFullName: state.user.profile?.userFullName,
+    },
+    dateOfBirth: state.user.profile?.dob,
+    email: {
+      email,
+      confirmEmail: email,
+    },
+    'view:phoneNumbers': {
+      mobilePhoneNumber: transformPhone(vapContactInfo?.mobilePhone),
+      phoneNumber: transformPhone(otherPhone),
+    },
+    'view:mailingAddress': {
+      address: {
+        ...address,
+        street: address?.addressLine1,
+        street2: address?.addressLine2,
+        state: address?.stateCode,
+        postalCode: address?.zipCode,
+        country: address?.countyName,
+      },
+      livesOnMilitaryBase: address?.addressType === 'OVERSEAS MILITARY',
+    },
+    // toursOfDuty: null,
+    // 'view:toursOfDutyCorrect': {
+    //   toursOfDutyCorrect: null,
+    // },
+  };
+
+  // useEffect(
+  //   () => {
+  //     // const serviceHistory = await fetchServiceHistory(state);
+  //     async function getServiceHistory() {
+  //       const serviceHistoryEndpoint = `http://localhost:3000/meb_api/v0/service_history`;
+  //       const serviceHistory = await apiRequest(serviceHistoryEndpoint);
+  //       setToursOfDuty(transformServiceHistory(serviceHistory.data));
+  //       setToursOfDutyCorrect(serviceHistory.data.toursOfDutyIncorrect);
+  //     }
+  //     getServiceHistory();
+  //   },
+  //   [setToursOfDuty, setToursOfDutyCorrect],
+  // );
+
+  return {
+    metadata,
+    formData: newData,
+    pages,
+    state,
+  };
+}

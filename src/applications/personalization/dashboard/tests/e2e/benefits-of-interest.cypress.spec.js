@@ -10,7 +10,6 @@ import {
   disabilityCompensationExists,
   educationBenefitExists,
   healthCareInfoExists,
-  mockFeatureToggles,
 } from './helpers';
 import { VA_FORM_IDS } from '~/platform/forms/constants';
 
@@ -30,7 +29,6 @@ describe('The My VA Dashboard', () => {
       cy.intercept('/v0/health_care_applications/enrollment_status', notInESR);
       cy.intercept('/v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
       cy.login(user);
-      mockFeatureToggles();
       cy.visit(manifest.rootUrl);
     });
     it('should show info about disability benefits, health care, and education benefits', () => {
@@ -57,7 +55,6 @@ describe('The My VA Dashboard', () => {
       );
       cy.intercept('/v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
       cy.login(user);
-      mockFeatureToggles();
       cy.visit(manifest.rootUrl);
     });
     it('should show info about disability benefits and education benefits, but not health care', () => {
@@ -77,7 +74,6 @@ describe('The My VA Dashboard', () => {
     beforeEach(() => {
       cy.intercept('/v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
       cy.login(makeMockUser());
-      mockFeatureToggles();
       cy.visit(manifest.rootUrl);
     });
     it('should show info about disability benefits and education benefits, but not health care', () => {
@@ -97,7 +93,6 @@ describe('The My VA Dashboard', () => {
     beforeEach(() => {
       cy.intercept('/v0/profile/ch33_bank_accounts', dd4eduEnrolled);
       cy.login(makeMockUser());
-      mockFeatureToggles();
       cy.visit(manifest.rootUrl);
     });
     it('should show info about disability benefits benefits, but not health care or education benefits', () => {
@@ -147,7 +142,6 @@ describe('The My VA Dashboard', () => {
       cy.intercept('/v0/health_care_applications/enrollment_status', notInESR);
       cy.intercept('/v0/profile/ch33_bank_accounts', getBankInfoStub);
       cy.login(user);
-      mockFeatureToggles();
       cy.visit(manifest.rootUrl);
     });
     it('should show info about disability benefits, health care, and not education benefits', () => {

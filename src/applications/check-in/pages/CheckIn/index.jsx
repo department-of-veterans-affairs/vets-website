@@ -1,80 +1,68 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-import { focusElement } from 'platform/utilities/ui';
+import { triggerRefresh } from '../../actions';
 
-import { receivedAppointmentDetails } from '../../actions';
-import { goToNextPage, URLS } from '../../utils/navigation';
-import { api } from '../../api';
-
-import Display from './Display';
+import DisplayMultipleAppointments from './DisplayMultipleAppointments';
 
 const CheckIn = props => {
   const {
-    router,
     appointments,
     context,
+    isDemographicsPageEnabled,
+    isLoading,
     isUpdatePageEnabled,
-    isLowAuthEnabled,
-    setAppointment,
-  } = props;
-  const appointment = appointments[0];
 
-  const [isLoadingData, setIsLoadingData] = useState(!appointment.startTime);
+    refreshAppointments,
+    router,
+  } = props;
+  const appointment = appointments ? appointments[0] : {};
   const { token } = context;
-  useEffect(
+
+  const getMultipleAppointments = useCallback(
     () => {
-      if (isLowAuthEnabled) {
-        // load data from checks route
-        api.v1
-          .getCheckInData(token)
-          .then(json => {
-            const { payload } = json;
-            setAppointment(payload, token);
-            setIsLoadingData(false);
-            focusElement('h1');
-          })
-          .catch(() => {
-            goToNextPage(router, URLS.ERROR);
-          });
-      } else {
-        focusElement('h1');
-      }
+      refreshAppointments();
     },
-    [token, isLowAuthEnabled, setAppointment, router],
+    [refreshAppointments],
   );
 
-  if (isLoadingData) {
-    return <LoadingIndicator message={'Loading appointment details'} />;
-  } else if (!appointment) {
-    goToNextPage(router, URLS.ERROR);
-    return <></>;
+  if (isLoading || !appointment) {
+    return <LoadingIndicator message={'Loading your appointments for today'} />;
   } else {
     return (
-      <Display
+      <DisplayMultipleAppointments
         isUpdatePageEnabled={isUpdatePageEnabled}
-        isLowAuthEnabled={isLowAuthEnabled}
+        isDemographicsPageEnabled={isDemographicsPageEnabled}
         router={router}
         token={token}
-        appointment={appointment}
+        appointments={appointments}
+        getMultipleAppointments={getMultipleAppointments}
       />
     );
   }
 };
-
 const mapStateToProps = state => {
   return {
-    appointments: state.checkInData.appointments,
     context: state.checkInData.context,
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    setAppointment: (data, token) =>
-      dispatch(receivedAppointmentDetails(data, token)),
+    refreshAppointments: () => dispatch(triggerRefresh()),
   };
+};
+
+CheckIn.propTypes = {
+  appointments: PropTypes.array,
+  context: PropTypes.object,
+  isDemographicsPageEnabled: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  isUpdatePageEnabled: PropTypes.bool,
+  refreshAppointments: PropTypes.func,
+  router: PropTypes.object,
 };
 
 export default connect(
