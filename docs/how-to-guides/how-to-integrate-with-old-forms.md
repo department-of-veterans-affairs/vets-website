@@ -3,10 +3,10 @@ layout: page
 title: How to integrate with the old forms library
 parent: How-to guides
 ---
-
+# How to integrate with the old forms library
 For more information on how to create non-schema pages in the schema-based forms library, see [Bypassing the Schemaform](https://department-of-veterans-affairs.github.io/veteran-facing-services-tools/forms/bypassing-schemaform). This guide will focus on how Formulate fits into the mix.
 
-# Create a new page
+## Create a new page
 Let's start with an example. The following would be a page in your existing schema-based form application.
 
 ```jsx
