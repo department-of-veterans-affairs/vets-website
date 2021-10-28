@@ -18,7 +18,13 @@ const SeeStaff = props => {
         Check in with a staff member
       </h1>
       <p>Our staff can help you update your contact information.</p>
-      <p className="vads-u-margin-bottom--0">{message}</p>
+      {message ? (
+        <p className="vads-u-margin-bottom--0" data-testid="see-staff-message">
+          {message}
+        </p>
+      ) : (
+        ''
+      )}
       <Footer />
       <BackToHome />
     </div>

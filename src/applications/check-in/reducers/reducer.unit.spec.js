@@ -10,6 +10,7 @@ import {
   tokenWasValidated,
   permissionsUpdated,
   triggerRefresh,
+  seeStaffMessageUpdated,
 } from '../actions';
 
 describe('check-in', () => {
@@ -167,6 +168,14 @@ describe('check-in', () => {
       expect(state).haveOwnProperty('appointments');
       const newState = reducer.checkInData(state, { type: 'none' });
       expect(newState).to.eql(state);
+    });
+    describe('seeStaffMessageUpdated', () => {
+      it('the see staff message should get updates', () => {
+        const action = seeStaffMessageUpdated('This is a message');
+        const state = reducer.checkInData(undefined, action);
+        expect(state).haveOwnProperty('seeStaffMessage');
+        expect(state.seeStaffMessage).to.equal('This is a message');
+      });
     });
   });
 });
