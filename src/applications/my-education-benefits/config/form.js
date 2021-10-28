@@ -74,7 +74,7 @@ const formFields = {
   dateOfBirth: 'dateOfBirth',
   ssn: 'ssn',
   toursOfDuty: 'toursOfDuty',
-  toursOfDutyCorrect: 'toursOfDutyCorrect',
+  serviceHistoryIncorrect: 'serviceHistoryIncorrect',
   viewNoDirectDeposit: 'view:noDirectDeposit',
   viewStopWarning: 'view:stopWarning',
   bankAccount: 'bankAccount',
@@ -1086,14 +1086,14 @@ const formConfig = {
                 'ui:objectViewField': ServicePeriodAccordionView,
               },
             },
-            'view:toursOfDutyCorrect': {
+            'view:serviceHistory': {
               'ui:description': (
                 <p className="meb-review-page-only">
                   If you’d like to update information related to your service
                   history, edit the form fields below.
                 </p>
               ),
-              [formFields.toursOfDutyCorrect]: {
+              [formFields.serviceHistoryIncorrect]: {
                 'ui:title': 'This information is incorrect and/or incomplete',
                 'ui:reviewField': YesNoReviewField,
               },
@@ -1102,10 +1102,10 @@ const formConfig = {
               'ui:title':
                 'Please explain what is incorrect and/or incomplete about your service history.',
               'ui:options': {
-                expandUnder: 'view:toursOfDutyCorrect',
+                expandUnder: 'view:serviceHistory',
                 hideIf: formData =>
-                  !formData['view:toursOfDutyCorrect'][
-                    formFields.toursOfDutyCorrect
+                  !formData['view:serviceHistory'][
+                    formFields.serviceHistoryIncorrect
                   ],
               },
               'ui:widget': 'textarea',
@@ -1122,10 +1122,10 @@ const formConfig = {
                 ...toursOfDuty,
                 title: '', // Hack to prevent console warning
               },
-              'view:toursOfDutyCorrect': {
+              'view:serviceHistory': {
                 type: 'object',
                 properties: {
-                  [formFields.toursOfDutyCorrect]: {
+                  [formFields.serviceHistoryIncorrect]: {
                     type: 'boolean',
                   },
                 },

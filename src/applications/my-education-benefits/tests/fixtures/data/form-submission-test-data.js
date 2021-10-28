@@ -56,8 +56,8 @@ export const submissionForm = {
       serviceCharacter: 'Honorable',
     },
   ],
-  'view:toursOfDutyCorrect': {
-    toursOfDutyCorrect: true,
+  'view:serviceHistory': {
+    serviceHistoryIncorrect: true,
   },
   incorrectServiceHistoryExplanation: 'Service periods are missing.',
   'view:contactMethodIntro': {},

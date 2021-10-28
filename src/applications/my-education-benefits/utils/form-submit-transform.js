@@ -354,10 +354,40 @@ export function createAdditionalConsiderations(submissionForm) {
   };
 }
 
+function getTodayDate() {
+  const date = new Date();
+  return date.toISOString().slice(0, 10);
+}
+
+export function createComments(submissionForm) {
+  if (submissionForm['view:serviceHistory'].serviceHistoryIncorrect) {
+    if (submissionForm.incorrectServiceHistoryExplanation) {
+      return {
+        claimantComment: {
+          commentDate: getTodayDate(),
+          comments: submissionForm.incorrectServiceHistoryExplanation,
+        },
+        disagreeWithServicePeriod: true,
+      };
+    } else {
+      return {
+        claimantComment: {},
+        disagreeWithServicePeriod: true,
+      };
+    }
+  } else {
+    return {
+      claimantComment: {},
+      disagreeWithServicePeriod: false,
+    };
+  }
+}
+
 export function createSubmissionForm(submissionForm) {
   return {
     militaryClaimant: createMilitaryClaimant(submissionForm),
     relinquishedBenefit: createRelinquishedBenefit(submissionForm),
     additionalConsiderations: createAdditionalConsiderations(submissionForm),
+    comments: createComments(submissionForm),
   };
 }

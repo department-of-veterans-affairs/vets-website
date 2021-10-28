@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { submissionForm } from './fixtures/data/form-submission-test-data';
 import {
   createAdditionalConsiderations,
+  createComments,
   createContactInfo,
   createMilitaryClaimant,
   createSubmissionForm,
@@ -107,6 +108,19 @@ describe('form submit transform', () => {
       expect(
         createdSubmissionForm.additionalConsiderations.reserveKicker,
       ).to.eql('NO');
+
+      // check comments section
+      const todayDate = new Date();
+      const todayDateInYYYYmmddFormat = todayDate.toISOString().slice(0, 10);
+      expect(createdSubmissionForm.comments.disagreeWithServicePeriod).to.eql(
+        true,
+      );
+      expect(createdSubmissionForm.comments.claimantComment.commentDate).to.eql(
+        todayDateInYYYYmmddFormat,
+      );
+      expect(createdSubmissionForm.comments.claimantComment.comments).to.eql(
+        'Service periods are missing.',
+      );
     });
   });
 
@@ -260,5 +274,40 @@ describe('form submit transform', () => {
       );
       expect(additionalConsiderations.reserveKicker).to.eql('N/A');
     });
+  });
+  describe('has a createComments method', () => {
+    it('should return full comments section if veteran disagrees with period data', () => {
+      const comments = createComments(mockSubmissionForm);
+      const todayDate = new Date();
+      const todayDateInYYYYmmddFormat = todayDate.toISOString().slice(0, 10);
+      expect(comments.disagreeWithServicePeriod).to.eql(true);
+      expect(comments.claimantComment.commentDate).to.eql(
+        todayDateInYYYYmmddFormat,
+      );
+      expect(comments.claimantComment.comments).to.eql(
+        'Service periods are missing.',
+      );
+    });
+    it('should return empty comments section if veteran disagrees with period data but no comments found', () => {
+      mockSubmissionForm.incorrectServiceHistoryExplanation = undefined;
+      const comments = createComments(mockSubmissionForm);
+      const objectIsEmpty = Object.keys(comments.claimantComment).length === 0;
+      expect(objectIsEmpty).to.eql(true);
+      expect(comments.disagreeWithServicePeriod).to.eql(true);
+    });
+    it(
+      'should return an empty comment section and disagreeWithServicePeriod set to false' +
+        ' if veteran agrees with period data',
+      () => {
+        mockSubmissionForm[
+          'view:serviceHistory'
+        ].serviceHistoryIncorrect = undefined;
+        const comments = createComments(mockSubmissionForm);
+        const objectIsEmpty =
+          Object.keys(comments.claimantComment).length === 0;
+        expect(objectIsEmpty).to.eql(true);
+        expect(comments.disagreeWithServicePeriod).to.eql(false);
+      },
+    );
   });
 });
