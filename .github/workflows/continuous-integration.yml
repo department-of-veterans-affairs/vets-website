@@ -105,7 +105,7 @@ jobs:
 
       - name: Get AWS IAM role
         if: ${{ github.ref == 'refs/heads/master' }}
-        uses: marvinpinto/action-inject-ssm-secrets@latest
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
@@ -153,13 +153,13 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Get Pact Broker password
-        uses: marvinpinto/action-inject-ssm-secrets@latest
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /dsva-vagov/pact-broker/utility/PACT_BROKER_BASIC_AUTH_PASSWORD
           env_variable_name: PACT_BROKER_BASIC_AUTH_PASSWORD
 
       - name: Get GitHub token
-        uses: marvinpinto/action-inject-ssm-secrets@latest
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
@@ -289,7 +289,7 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Get va-vsp-bot token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
@@ -313,7 +313,7 @@ jobs:
         working-directory: testing-tools-team-dashboard-data
 
       - name: Get BigQuery service credentials
-        uses: marvinpinto/action-inject-ssm-secrets@latest
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /dsva-vagov/testing-team/bigquery_service_credentials
           env_variable_name: BIGQUERY_SERVICE_CREDENTIALS
@@ -515,7 +515,7 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Get va-vsp-bot token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
@@ -547,7 +547,7 @@ jobs:
         working-directory: testing-tools-team-dashboard-data
 
       - name: Get BigQuery service credentials
-        uses: marvinpinto/action-inject-ssm-secrets@latest
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /dsva-vagov/testing-team/bigquery_service_credentials
           env_variable_name: BIGQUERY_SERVICE_CREDENTIALS
@@ -560,7 +560,7 @@ jobs:
           export_default_credentials: true
 
       - name: Get AWS IAM role
-        uses: marvinpinto/action-inject-ssm-secrets@latest
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
@@ -652,7 +652,7 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Get va-vsp-bot token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
@@ -682,7 +682,7 @@ jobs:
         working-directory: testing-tools-team-dashboard-data
 
       - name: Get BigQuery service credentials
-        uses: marvinpinto/action-inject-ssm-secrets@latest
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /dsva-vagov/testing-team/bigquery_service_credentials
           env_variable_name: BIGQUERY_SERVICE_CREDENTIALS
@@ -695,7 +695,7 @@ jobs:
           export_default_credentials: true
 
       - name: Get AWS IAM role
-        uses: marvinpinto/action-inject-ssm-secrets@latest
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
@@ -802,7 +802,7 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Get AWS IAM role
-        uses: marvinpinto/action-inject-ssm-secrets@latest
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
@@ -882,7 +882,7 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Get AWS IAM role
-        uses: marvinpinto/action-inject-ssm-secrets@latest
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
@@ -917,7 +917,7 @@ jobs:
   #         aws-region: us-gov-west-1
 
   #     - name: Get Jenkins token
-  #       uses: marvinpinto/action-inject-ssm-secrets@latest
+  #       uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
   #       with:
   #         ssm_parameter: /frontend-team/github-actions/parameters/JENKINS_API_TOKEN
   #         env_variable_name: JENKINS_API_TOKEN
