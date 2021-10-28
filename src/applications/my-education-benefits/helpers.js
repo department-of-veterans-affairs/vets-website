@@ -207,6 +207,22 @@ function transformPhone(phone) {
 // }
 
 export function prefillTransformer(pages, formData, metadata, state) {
+  const eligibility = fetch(
+    'http://localhost:8070/vets/v1/claimant/1000000000000034/claimType/Chapter33/eligibility',
+  );
+  try {
+    if (eligibility) {
+      const results = eligibility.then(r => r.json());
+      if (results) {
+        window.location.replace(
+          'http://localhost:3001/education/apply-for-education-benefits/application/1990/introduction',
+        );
+      }
+    }
+  } catch (err) {
+    eligibility.then(r => r);
+  }
+
   const userProfile = state.user.profile || {};
   const vapContactInfo = userProfile?.vapContactInfo || {};
   const email = vapContactInfo?.email?.emailAddress;
