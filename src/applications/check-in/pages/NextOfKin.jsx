@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
@@ -6,6 +6,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { goToNextPage, URLS } from '../utils/navigation';
 import BackButton from '../components/BackButton';
 import BackToHome from '../components/BackToHome';
+import { focusElement } from 'platform/utilities/ui';
 import Footer from '../components/Footer';
 import DemographicItem from '../components/DemographicItem';
 
@@ -17,6 +18,10 @@ const NextOfKin = props => {
     isUpdatePageEnabled,
     router,
   } = props;
+
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
 
   const yesClick = useCallback(
     () => {
