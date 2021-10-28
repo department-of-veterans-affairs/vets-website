@@ -7,6 +7,7 @@ import { getCurrentToken } from '../utils/session';
 import { api } from '../api';
 import {
   receivedDemographicsData,
+  receivedNextOfKinData,
   receivedMultipleAppointmentDetails,
   triggerRefresh,
 } from '../actions';
@@ -22,7 +23,7 @@ const withLoadedData = Component => {
       router,
       setSessionData,
     } = props;
-    const { context, appointments, demographics } = checkInData;
+    const { context, appointments, demographics, nextOfKin } = checkInData;
 
     useEffect(
       () => {
@@ -67,6 +68,7 @@ const withLoadedData = Component => {
           {...props}
           isLoading={isLoading}
           demographics={demographics || {}}
+          nextOfKin={nextOfKin || {}}
           appointments={appointments || []}
           context={context || {}}
         />
@@ -94,7 +96,12 @@ const mapDispatchToProps = dispatch => {
         const { appointments, demographics } = payload;
         dispatch(triggerRefresh(false));
         dispatch(receivedMultipleAppointmentDetails(appointments, token));
-        dispatch(receivedDemographicsData(demographics));
+        if (typeof demographics !== 'undefined') {
+          dispatch(receivedDemographicsData(demographics));
+          if ('nextOfKin1' in demographics) {
+            dispatch(receivedNextOfKinData(demographics.nextOfKin1));
+          }
+        }
       });
     },
   };
