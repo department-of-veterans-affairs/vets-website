@@ -39,8 +39,8 @@ import EmailReviewField from '../components/EmailReviewField';
 import environment from 'platform/utilities/environment';
 
 import {
-  activeDutyLabel,
-  selectedReserveLabel,
+  chapter30Label,
+  chapter1606Label,
   unsureDescription,
   post911GiBillNote,
   prefillTransformer,
@@ -87,7 +87,7 @@ const formFields = {
   phoneNumber: 'phoneNumber',
   mobilePhoneNumber: 'mobilePhoneNumber',
   viewBenefitSelection: 'view:benefitSelection',
-  benefitSelection: 'benefitSelection',
+  benefitRelinquished: 'benefitRelinquished',
   benefitEffectiveDate: 'benefitEffectiveDate',
   incorrectServiceHistoryExplanation: 'incorrectServiceHistoryExplanation',
   contactMethod: 'contactMethod',
@@ -216,7 +216,7 @@ function phoneSchema() {
 }
 
 function additionalConsiderationsQuestionTitleText(benefitSelection, order) {
-  const isUnsure = !benefitSelection || benefitSelection === 'UNSURE';
+  const isUnsure = !benefitSelection || benefitSelection === 'CannotRelinquish';
   const pageNumber = isUnsure ? order - 1 : order;
   const totalPages = isUnsure ? 3 : 4;
 
@@ -266,7 +266,7 @@ function AdditionalConsiderationTemplate(page, formField) {
     path: page.name,
     title: data => {
       return additionalConsiderationsQuestionTitleText(
-        data[formFields.viewBenefitSelection][formFields.benefitSelection],
+        data[formFields.viewBenefitSelection][formFields.benefitRelinquished],
         page.order,
       );
     },
@@ -274,7 +274,7 @@ function AdditionalConsiderationTemplate(page, formField) {
       'ui:description': data => {
         return additionalConsiderationsQuestionTitle(
           data.formData[formFields.viewBenefitSelection][
-            formFields.benefitSelection
+            formFields.benefitRelinquished
           ],
           page.order,
         );
@@ -307,8 +307,8 @@ function AdditionalConsiderationTemplate(page, formField) {
 }
 
 function givingUpBenefitSelected(formData) {
-  return ['ACTIVE_DUTY', 'SELECTED_RESERVE'].includes(
-    formData[formFields.viewBenefitSelection][formFields.benefitSelection],
+  return ['Chapter30', 'Chapter1606'].includes(
+    formData[formFields.viewBenefitSelection][formFields.benefitRelinquished],
   );
 }
 
@@ -1228,27 +1228,29 @@ const formConfig = {
                   {post911GiBillNote}
                 </div>
               ),
-              [formFields.benefitSelection]: {
+              [formFields.benefitRelinquished]: {
                 'ui:title': 'Which benefit will you give up?',
                 'ui:reviewField': BenefitGivenUpReviewField,
                 'ui:widget': 'radio',
                 'ui:options': {
                   labels: {
-                    ACTIVE_DUTY: activeDutyLabel,
-                    SELECTED_RESERVE: selectedReserveLabel,
-                    UNSURE: "I'm not sure and I need assistance",
+                    Chapter30: chapter30Label,
+                    Chapter1606: chapter1606Label,
+                    CannotRelinquish: "I'm not sure and I need assistance",
                   },
                   widgetProps: {
-                    ACTIVE_DUTY: { 'data-info': 'ACTIVE_DUTY' },
-                    SELECTED_RESERVE: { 'data-info': 'SELECTED_RESERVE' },
-                    UNSURE: { 'data-info': 'UNSURE' },
+                    Chapter30: { 'data-info': 'Chapter30' },
+                    Chapter1606: { 'data-info': 'Chapter1606' },
+                    CannotRelinquish: { 'data-info': 'CannotRelinquish' },
                   },
                   selectedProps: {
-                    ACTIVE_DUTY: { 'aria-describedby': 'ACTIVE_DUTY' },
-                    SELECTED_RESERVE: {
-                      'aria-describedby': 'SELECTED_RESERVE',
+                    Chapter30: { 'aria-describedby': 'Chapter30' },
+                    Chapter1606: {
+                      'aria-describedby': 'Chapter1606',
                     },
-                    UNSURE: { 'aria-describedby': 'UNSURE' },
+                    CannotRelinquish: {
+                      'aria-describedby': 'CannotRelinquish',
+                    },
                   },
                 },
                 'ui:errorMessages': {
@@ -1272,8 +1274,8 @@ const formConfig = {
                 expandUnder: [formFields.viewBenefitSelection],
                 hideIf: formData =>
                   formData[formFields.viewBenefitSelection][
-                    formFields.benefitSelection
-                  ] !== 'ACTIVE_DUTY',
+                    formFields.benefitRelinquished
+                  ] !== 'Chapter30',
               },
             },
             [formFields.benefitEffectiveDate]: {
@@ -1314,8 +1316,8 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData =>
                   formData[formFields.viewBenefitSelection][
-                    formFields.benefitSelection
-                  ] !== 'UNSURE',
+                    formFields.benefitRelinquished
+                  ] !== 'CannotRelinquish',
                 expandUnder: [formFields.viewBenefitSelection],
               },
             },
@@ -1329,11 +1331,11 @@ const formConfig = {
               },
               [formFields.viewBenefitSelection]: {
                 type: 'object',
-                required: [formFields.benefitSelection],
+                required: [formFields.benefitRelinquished],
                 properties: {
-                  [formFields.benefitSelection]: {
+                  [formFields.benefitRelinquished]: {
                     type: 'string',
-                    enum: ['ACTIVE_DUTY', 'SELECTED_RESERVE', 'UNSURE'],
+                    enum: ['Chapter30', 'Chapter1606', 'CannotRelinquish'],
                   },
                 },
               },
@@ -1352,9 +1354,6 @@ const formConfig = {
               },
             },
           },
-          // initialData: {
-          //   benefitSelection: '',
-          // },
         },
       },
     },
@@ -1368,8 +1367,8 @@ const formConfig = {
           ),
           depends: formData =>
             formData[formFields.viewBenefitSelection][
-              formFields.benefitSelection
-            ] === 'ACTIVE_DUTY',
+              formFields.benefitRelinquished
+            ] === 'Chapter30',
         },
         [formPages.additionalConsiderations.reserveKicker.name]: {
           ...AdditionalConsiderationTemplate(
@@ -1378,8 +1377,8 @@ const formConfig = {
           ),
           depends: formData =>
             formData[formFields.viewBenefitSelection][
-              formFields.benefitSelection
-            ] === 'SELECTED_RESERVE',
+              formFields.benefitRelinquished
+            ] === 'Chapter1606',
         },
         [formPages.additionalConsiderations.militaryAcademy.name]: {
           ...AdditionalConsiderationTemplate(

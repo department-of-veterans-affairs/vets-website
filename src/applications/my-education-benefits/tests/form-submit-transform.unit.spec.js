@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { submissionForm } from './fixtures/data/form-submission-test-data';
 import {
   createContactInfo,
+  createRelinquishedBenefit,
   createMilitaryClaimant,
   getAddressType,
   getLTSCountryCode,
@@ -118,6 +119,30 @@ describe('form submit transform', () => {
     it('should return "NONE" for no value', () => {
       const notificationMethod = getNotificationMethod();
       expect(notificationMethod).to.eql('NONE');
+    });
+  });
+
+  describe('has a createRelinquishedBenefit method', () => {
+    it('should return a relinquished benefit object if relinquishment present', () => {
+      const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
+      expect(relinquishedBenefit.relinquishedBenefit).to.eql(
+        'CannotRelinquish',
+      );
+    });
+    it('should return empty object if no relinquishment', () => {
+      mockSubmissionForm['view:benefitSelection'] = undefined;
+      const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
+      const objectIsEmpty = !Object.keys(relinquishedBenefit);
+      expect(objectIsEmpty).to.eql(true);
+    });
+
+    it('should return empty object if no relinquishment', () => {
+      mockSubmissionForm[
+        'view:benefitSelection'
+      ].benefitRelinquished = undefined;
+      const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
+      const objectIsEmpty = !Object.keys(relinquishedBenefit);
+      expect(objectIsEmpty).to.eql(true);
     });
   });
 });

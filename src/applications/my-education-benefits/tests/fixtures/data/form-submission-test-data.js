@@ -9,7 +9,7 @@ export const submissionForm = {
   'view:activeDutyKickerAdditionalInfo': {},
   'view:post911Notice': {},
   'view:benefitSelection': {
-    benefitSelection: 'ACTIVE_DUTY',
+    benefitRelinquished: 'CannotRelinquish',
   },
   'view:activeDutyNotice': {},
   benefitEffectiveDate: '2021-02-02',
@@ -58,7 +58,7 @@ export const submissionForm = {
   'view:toursOfDutyCorrect': {
     toursOfDutyCorrect: true,
   },
-  incorrectServiceHistoryExplanation: "I've got nothing.",
+  incorrectServiceHistoryExplanation: 'Service periods are missing.',
   'view:contactMethodIntro': {},
   'view:contactMethod': {
     contactMethod: 'Email',

@@ -317,3 +317,15 @@ export function createMilitaryClaimant(submissionForm) {
     },
   };
 }
+
+export function createRelinquishedBenefit(submissionForm) {
+  if (submissionForm['view:benefitSelection']?.benefitRelinquished) {
+    return {
+      relinquishedBenefit:
+        submissionForm['view:benefitSelection']?.benefitRelinquished,
+      effRelinquishDate: submissionForm.benefitEffectiveDate,
+    };
+  } else {
+    return {};
+  }
+}
