@@ -820,11 +820,6 @@ jobs:
       - name: Upload build
         run: aws s3 cp ${{ matrix.buildtype }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/$GITHUB_SHA/${{ matrix.buildtype }}.tar.bz2 --acl public-read --region us-gov-west-1
 
-      # TODO: Revisit revproxy
-      - name: Upload build to application-build
-        if: ${{ matrix.buildtype != 'vagovprod' }}
-        run: aws s3 cp ${{ matrix.buildtype }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/application-build/$GITHUB_SHA/${{ matrix.buildtype }}.tar.bz2 --acl public-read --region us-gov-west-1
-
   get-latest-run-number:
     name: Get Latest Workflow Run Number
     runs-on: ubuntu-latest
@@ -872,8 +867,10 @@ jobs:
         include:
           - environment: vagovdev
             bucket: dev-va-gov-assets
+            apps-bucket: apps.dev.va.gov
           - environment: vagovstaging
             bucket: staging-va-gov-assets
+            apps-bucket: apps.staging.va.gov
 
     steps:
       - name: Checkout
@@ -909,11 +906,11 @@ jobs:
           DEST: s3://${{ matrix.bucket }}
 
       # TODO: Revisit revproxy
-      - name: Deploy to application-build
+      - name: Deploy to apps.${{ matrix.app-bucket }}
         run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
         env:
-          SRC: s3://vetsgov-website-builds-s3-upload/application-build/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
-          DEST: s3://${{ matrix.bucket }}
+          SRC: s3://vetsgov-website-builds-s3-upload/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
+          DEST: s3://${{ matrix.apps-bucket }}
 
   # jenkins:
   #   name: Run Jenkins CI
