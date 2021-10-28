@@ -36,7 +36,6 @@ export default Object.freeze({
   facilitiesPpmsSuppressAll: 'facilities_ppms_suppress_all',
   facilitiesPpmsSuppressCommunityCare: 'facilities_ppms_suppress_community_care',
   facilitiesPpmsSuppressPharmacies: 'facilities_ppms_suppress_pharmacies',
-  facilitiesVetCenterAutomateNearby: 'facilities_vet_center_automate_nearby',
   facilityLocatorLighthouseCovidVaccineQuery:
     'facility_locator_lighthouse_covid_vaccine_query',
   facilityLocatorPredictiveLocationSearch:
@@ -57,6 +56,7 @@ export default Object.freeze({
   megaMenuMobileV2: 'mega_menu_mobile_v2',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
   profileNotificationSettings: 'profile_notification_settings',
+  profileEnhancements: 'profile_enhancements',
   requestLockedPdfPassword: 'request_locked_pdf_password',
   searchRepresentative: 'search_representative',
   searchTypeaheadEnabled: 'search_typeahead_enabled',
@@ -71,6 +71,7 @@ export default Object.freeze({
   showEduBenefits5495Wizard: 'show_edu_benefits_5495_wizard',
   showFinancialStatusReport: 'show_financial_status_report',
   showFinancialStatusReportWizard: 'show_financial_status_report_wizard',
+  showHeaderV2: 'show_header_v2',
   showMebMockEndpoints: 'show_meb_mock_endpoints',
   showMedicalCopays: 'show_medical_copays',
   showHealthcareExperienceQuestionnaire:

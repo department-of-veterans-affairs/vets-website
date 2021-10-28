@@ -44,16 +44,8 @@ a i {
   margin: 15px 0;
 }
 
-dl {
-  width: 50%;
-}
-
 h1:focus {
   outline: none !important;
-}
-
-dt {
-  width: 50%;
 }
 
 .chapter33-alert {
@@ -69,5 +61,23 @@ dt {
 
   i.fas.fa-angle-down {
     display: none;
+  }
+}
+
+// debt details table
+.details-table {
+  display: table;
+  margin: 0 0 32px 0;
+  .details-row {
+    display: table-row;
+    .details-title,
+    .details-data {
+      display: table-cell;
+      padding: 5px;
+    }
+    .details-title {
+      font-weight: bold;
+      width: 150px;
+    }
   }
 }

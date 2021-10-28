@@ -92,7 +92,9 @@ describe('authentication URL helpers', () => {
     global.window.location.search = '?application=mhv';
     login('idme', 'v1');
     expect(global.window.location).to.include(
-      `/v1/sessions/idme/new?redirect=${externalRedirects.mhv}`,
+      `/v1/sessions/idme/new?skip_dupe=mhv&redirect=${
+        externalRedirects.mhv
+      }&postLogin=true`,
     );
   });
 
@@ -102,9 +104,9 @@ describe('authentication URL helpers', () => {
 
     login('idme', 'v1');
     expect(global.window.location).to.include(
-      `/v1/sessions/idme/new?redirect=${
+      `/v1/sessions/idme/new?skip_dupe=mhv&redirect=${
         externalRedirects.mhv
-      }?deeplinking=secure_messaging`,
+      }?deeplinking=secure_messaging&postLogin=true`,
     );
   });
 

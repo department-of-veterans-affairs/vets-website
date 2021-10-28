@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 import { focusElement } from 'platform/utilities/ui';
 import BackButton from '../components/BackButton';
 
-const Failed = props => {
-  const { router } = props;
+const SeeStaff = props => {
+  const { router, message } = props;
   useEffect(() => {
     focusElement('h1');
   }, []);
@@ -17,18 +18,28 @@ const Failed = props => {
         Check in with a staff member
       </h1>
       <p>Our staff can help you update your contact information.</p>
-      <p className="vads-u-margin-bottom--0">
-        If you don’t live at a fixed address right now, we’ll help you find the
-        best way to stay connected with us.
-      </p>
+      {message ? (
+        <p className="vads-u-margin-bottom--0" data-testid="see-staff-message">
+          {message}
+        </p>
+      ) : (
+        ''
+      )}
       <Footer />
       <BackToHome />
     </div>
   );
 };
 
-Failed.propTypes = {
+SeeStaff.propTypes = {
   router: PropTypes.object,
+  message: PropTypes.string,
 };
 
-export default Failed;
+const mapStateToProps = state => {
+  return {
+    message: state.checkInData.seeStaffMessage,
+  };
+};
+
+export default connect(mapStateToProps)(SeeStaff);

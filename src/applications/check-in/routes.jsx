@@ -5,7 +5,7 @@ import CheckIn from './pages/CheckIn';
 import Confirmation from './pages/Confirmation';
 import Demographics from './pages/Demographics';
 import Error from './pages/Error';
-import Failed from './pages/Failed';
+import SeeStaff from './pages/SeeStaff';
 import Landing from './pages/Landing';
 import UpdateInformationQuestion from './pages/UpdateInformationQuestion';
 import ValidateVeteran from './pages/ValidateVeteran';
@@ -45,7 +45,7 @@ const createRoutesWithStore = () => {
       />
       <Route
         path={`/${URLS.SEE_STAFF}`}
-        component={withFeatureFlip(withAppointmentData(Failed))}
+        component={withFeatureFlip(withAppointmentData(SeeStaff))}
       />
       <Route path={`/${URLS.ERROR}`} component={withFeatureFlip(Error)} />
     </Switch>

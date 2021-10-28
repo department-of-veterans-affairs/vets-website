@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Prompt } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
@@ -15,15 +16,23 @@ import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import { isLOA3 as isLOA3Selector } from '~/platform/user/selectors';
 import { usePrevious } from '~/platform/utilities/react-hooks';
 import {
+  editCNPPaymentInformationToggled,
+  saveCNPPaymentInformation as saveCNPPaymentInformationAction,
   editEDUPaymentInformationToggled,
-  saveEDUPaymentInformation as savePaymentInformationAction,
+  saveEDUPaymentInformation as saveEDUPaymentInformationAction,
 } from '@@profile/actions/paymentInformation';
 import {
+  cnpDirectDepositAccountInformation,
+  cnpDirectDepositAddressIsSetUp,
+  cnpDirectDepositInformation,
+  cnpDirectDepositIsSetUp,
+  cnpDirectDepositLoadError,
+  cnpDirectDepositUiState as cnpDirectDepositUiStateSelector,
   eduDirectDepositAccountInformation,
   eduDirectDepositInformation,
   eduDirectDepositIsSetUp,
   eduDirectDepositLoadError,
-  eduDirectDepositUiState as directDepositUiStateSelector,
+  eduDirectDepositUiState as eduDirectDepositUiStateSelector,
 } from '@@profile/selectors';
 
 import DirectDepositConnectionError from '../alerts/DirectDepositConnectionError';
@@ -32,20 +41,23 @@ import BankInfoForm, { makeFormProperties } from './BankInfoForm';
 
 import PaymentInformationEditError from './PaymentInformationEditError';
 import ProfileInfoTable from '../ProfileInfoTable';
-import { benefitTypes } from './DirectDeposit';
 
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
+import { benefitTypes } from '~/applications/personalization/common/constants';
 
-export const DirectDepositEDU = ({
+export const BankInfo = ({
   isLOA3,
   isDirectDepositSetUp,
+  isEligibleToSetUpDirectDeposit,
   directDepositAccountInfo,
   directDepositServerError,
   directDepositUiState,
   saveBankInformation,
   toggleEditState,
+  type,
+  typeIsCNP,
 }) => {
-  const formPrefix = 'EDU';
+  const formPrefix = type;
   const editBankInfoButton = useRef();
   const editBankInfoForm = useRef();
   const [formData, setFormData] = useState({});
@@ -59,6 +71,9 @@ export const DirectDepositEDU = ({
     formPrefix,
   );
 
+  // Using computed properties that I got from the `makeFormProperties` call to
+  // destructure the form data object. I learned that this was even possible
+  // here: https://stackoverflow.com/a/37040344/585275
   const {
     [accountNumber]: formAccountNumber,
     [accountType]: formAccountType,
@@ -108,7 +123,13 @@ export const DirectDepositEDU = ({
       accountNumber: formData[accountNumber],
       accountType: formData[accountType],
     };
-    saveBankInformation(payload);
+    if (typeIsCNP) {
+      // NOTE: You can trigger a save error by sending undefined values in the payload
+      payload.financialInstitutionName = 'Hidden form field';
+      saveBankInformation(payload, isDirectDepositSetUp);
+    } else {
+      saveBankInformation(payload);
+    }
   };
 
   const editButtonClasses = [
@@ -129,7 +150,16 @@ export const DirectDepositEDU = ({
     toggleEditState();
   };
 
-  // When direct deposit is set up we will show the current bank info
+  const benefitTypeShort = typeIsCNP ? 'disability' : 'education';
+  const benefitTypeLong = typeIsCNP
+    ? 'disability compensation and pension'
+    : 'education';
+
+  const sectionTitle = typeIsCNP
+    ? 'Disability compensation and pension benefits'
+    : 'Education benefits';
+
+  // When direct deposit is already set up we will show the current bank info
   const bankInfoContent = (
     <div>
       <dl className="vads-u-margin-y--0 vads-u-line-height--6">
@@ -142,15 +172,13 @@ export const DirectDepositEDU = ({
       </dl>
       <button
         className={classes.editButton}
-        aria-label={
-          'Edit your direct deposit for education benefits bank information'
-        }
+        aria-label={`Edit your direct deposit for ${benefitTypeLong} bank information`}
         ref={editBankInfoButton}
         onClick={() => {
           recordEvent({
             event: 'profile-navigation',
             'profile-action': 'edit-link',
-            'profile-section': 'edu-direct-deposit-information',
+            'profile-section': `${type.toLowerCase()}-direct-deposit-information`,
           });
           toggleEditState();
         }}
@@ -160,38 +188,79 @@ export const DirectDepositEDU = ({
     </div>
   );
 
-  // When not eligible for DD for EDU
+  // When direct deposit is not set up, we will show
+  const notSetUpContent = (
+    <div>
+      <p className="vads-u-margin--0">
+        Edit your profile to add your bank information.
+      </p>
+      <button
+        className={classes.editButton}
+        aria-label={
+          'Edit your direct deposit for disability compensation and pension benefits bank information'
+        }
+        ref={editBankInfoButton}
+        onClick={() => {
+          recordEvent({
+            event: 'profile-navigation',
+            'profile-action': 'add-link',
+            'profile-section': 'cnp-direct-deposit-information',
+          });
+          toggleEditState();
+        }}
+      >
+        Edit
+      </button>
+    </div>
+  );
+
+  // When not eligible for DD
   const notEligibleContent = (
     <>
       <p className="vads-u-margin-top--0">
-        Our records show that you’re not receiving education benefit payments.
+        Our records show that you’re not receiving {benefitTypeShort} payments.
         If you think this is an error, please call us at{' '}
         <Telephone contact={CONTACTS.VA_BENEFITS} />.
       </p>
-      <p className="vads-u-margin-bottom--0">
+      <p>
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://www.va.gov/education/eligibility/"
+          href={`https://www.va.gov/${benefitTypeShort}/eligibility/`}
           onClick={() => {
             recordEvent({
               event: 'profile-navigation',
               'profile-action': 'view-link',
-              'profile-section': 'education-benefits',
+              'profile-section': `${benefitTypeShort}-benefits`,
             });
           }}
         >
-          Find out if you’re eligible for VA education benefits
+          Find out if you’re eligible for VA {benefitTypeShort} benefits
         </a>
       </p>
+      {typeIsCNP && (
+        <p className="vads-u-margin-bottom--0">
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href={`https://www.va.gov/pension/eligibility/`}
+          >
+            Find out if you’re eligible for VA pension benefits
+          </a>
+        </p>
+      )}
     </>
   );
 
-  // When editing bank info, we'll show a form that accepts bank account
-  // information
+  // When editing/setting up direct deposit, we'll show a form that accepts bank
+  // account information
   const editingBankInfoContent = (
     <>
-      <div id="edu-bank-save-errors" role="alert" aria-atomic="true">
+      <div
+        id={`${type.toLowerCase()}-bank-save-errors`}
+        role="alert"
+        aria-atomic="true"
+      >
         {!!saveError && (
           <PaymentInformationEditError
             className="vads-u-margin-top--0 vads-u-margin-bottom--2"
@@ -249,7 +318,7 @@ export const DirectDepositEDU = ({
           formSubmit={saveBankInfo}
         >
           <LoadingButton
-            aria-label="update your bank information for education benefits"
+            aria-label={`update your bank information for ${benefitTypeLong} benefits`}
             type="submit"
             loadingText="saving bank information"
             className="usa-button-primary vads-u-margin-top--0 medium-screen:vads-u-width--auto"
@@ -258,7 +327,7 @@ export const DirectDepositEDU = ({
             Update
           </LoadingButton>
           <button
-            aria-label="cancel updating your bank information for education benefits"
+            aria-label={`cancel updating your bank information for ${benefitTypeLong} benefits`}
             type="button"
             disabled={directDepositUiState.isSaving}
             className="usa-button-secondary small-screen:vads-u-margin-top--0"
@@ -280,6 +349,9 @@ export const DirectDepositEDU = ({
     if (isDirectDepositSetUp) {
       return bankInfoContent;
     }
+    if (isEligibleToSetUpDirectDeposit) {
+      return notSetUpContent;
+    }
     return notEligibleContent;
   };
 
@@ -289,7 +361,7 @@ export const DirectDepositEDU = ({
       // getBankInfo() helper
       value: getBankInfo(),
     };
-    if (isDirectDepositSetUp) {
+    if (isEligibleToSetUpDirectDeposit || isDirectDepositSetUp) {
       data.title = 'Account';
     }
     return [data];
@@ -303,7 +375,7 @@ export const DirectDepositEDU = ({
   }
 
   if (directDepositServerError) {
-    return <DirectDepositConnectionError benefitType={benefitTypes.EDU} />;
+    return <DirectDepositConnectionError benefitType={type} />;
   }
 
   return (
@@ -343,7 +415,7 @@ export const DirectDepositEDU = ({
       />
       <ProfileInfoTable
         className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
-        title="Education benefits"
+        title={sectionTitle}
         data={directDepositData()}
         level={2}
       />
@@ -351,40 +423,71 @@ export const DirectDepositEDU = ({
   );
 };
 
-DirectDepositEDU.propTypes = {
+BankInfo.propTypes = {
   isLOA3: PropTypes.bool.isRequired,
   directDepositAccountInfo: PropTypes.shape({
     accountNumber: PropTypes.string.isRequired,
     accountType: PropTypes.string.isRequired,
-    financialInstitutionName: PropTypes.string.isRequired,
+    financialInstitutionName: PropTypes.string,
     financialInstitutionRoutingNumber: PropTypes.string.isRequired,
   }),
   isDirectDepositSetUp: PropTypes.bool.isRequired,
   directDepositServerError: PropTypes.bool.isRequired,
+  isEligibleToSetUpDirectDeposit: PropTypes.bool.isRequired,
   directDepositUiState: PropTypes.shape({
     isEditing: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
-    responseError: PropTypes.string,
+    responseError: PropTypes.object,
   }),
   saveBankInformation: PropTypes.func.isRequired,
   toggleEditState: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
 };
 
-export const mapStateToProps = state => ({
-  isLOA3: isLOA3Selector(state),
-  directDepositAccountInfo: eduDirectDepositAccountInformation(state),
-  directDepositInfo: eduDirectDepositInformation(state),
-  isDirectDepositSetUp: eduDirectDepositIsSetUp(state),
-  directDepositServerError: !!eduDirectDepositLoadError(state),
-  directDepositUiState: directDepositUiStateSelector(state),
-});
+export const mapStateToProps = (state, ownProps) => {
+  const typeIsCNP = ownProps.type === benefitTypes.CNP;
+  return {
+    typeIsCNP,
+    isLOA3: isLOA3Selector(state),
+    directDepositAccountInfo: typeIsCNP
+      ? cnpDirectDepositAccountInformation(state)
+      : eduDirectDepositAccountInformation(state),
+    directDepositInfo: typeIsCNP
+      ? cnpDirectDepositInformation(state)
+      : eduDirectDepositInformation(state),
+    isDirectDepositSetUp: typeIsCNP
+      ? cnpDirectDepositIsSetUp(state)
+      : eduDirectDepositIsSetUp(state),
+    directDepositServerError: typeIsCNP
+      ? !!cnpDirectDepositLoadError(state)
+      : !!eduDirectDepositLoadError(state),
+    isEligibleToSetUpDirectDeposit: typeIsCNP
+      ? cnpDirectDepositAddressIsSetUp(state)
+      : false,
+    directDepositUiState: typeIsCNP
+      ? cnpDirectDepositUiStateSelector(state)
+      : eduDirectDepositUiStateSelector(state),
+  };
+};
 
-const mapDispatchToProps = {
-  saveBankInformation: savePaymentInformationAction,
-  toggleEditState: editEDUPaymentInformationToggled,
+const mapDispatchToProps = (dispatch, ownProps) => {
+  const typeIsCNP = ownProps.type === benefitTypes.CNP;
+  return {
+    ...bindActionCreators(
+      {
+        saveBankInformation: typeIsCNP
+          ? saveCNPPaymentInformationAction
+          : saveEDUPaymentInformationAction,
+        toggleEditState: typeIsCNP
+          ? editCNPPaymentInformationToggled
+          : editEDUPaymentInformationToggled,
+      },
+      dispatch,
+    ),
+  };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(DirectDepositEDU);
+)(BankInfo);

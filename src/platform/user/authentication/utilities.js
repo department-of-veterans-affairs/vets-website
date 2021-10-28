@@ -119,7 +119,11 @@ export function redirect(redirectUrl, clickedEvent) {
   sessionStorage.setItem(authnSettings.RETURN_URL, returnUrl);
   recordEvent({ event: clickedEvent });
 
-  if (!loginAppUrlRE.test(window.location.pathname)) {
+  if (
+    !loginAppUrlRE.test(window.location.pathname) &&
+    (clickedEvent === 'login-link-clicked-modal' ||
+      clickedEvent === 'sso-automatic-login')
+  ) {
     setLoginAttempted();
   }
 
@@ -127,7 +131,7 @@ export function redirect(redirectUrl, clickedEvent) {
   if (loginAppUrlRE.test(window.location.pathname)) {
     const { application: app } = getQueryParams();
     rUrl = {
-      mhv: `${redirectUrl}?redirect=${returnUrl}`,
+      mhv: `${redirectUrl}?skip_dupe=mhv&redirect=${returnUrl}&postLogin=true`,
       myvahealth: `${redirectUrl}`,
     }[app];
     recordEvent({ event: `${authnSettings.REDIRECT_EVENT}-${app}-inbound` });
