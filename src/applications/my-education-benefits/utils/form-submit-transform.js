@@ -329,3 +329,10 @@ export function createRelinquishedBenefit(submissionForm) {
     return {};
   }
 }
+
+export function createSubmissionForm(submissionForm) {
+  return {
+    militaryClaimant: createMilitaryClaimant(submissionForm),
+    relinquishedBenefit: createRelinquishedBenefit(submissionForm),
+  };
+}

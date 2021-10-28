@@ -2,8 +2,9 @@ import { expect } from 'chai';
 import { submissionForm } from './fixtures/data/form-submission-test-data';
 import {
   createContactInfo,
-  createRelinquishedBenefit,
   createMilitaryClaimant,
+  createSubmissionForm,
+  createRelinquishedBenefit,
   getAddressType,
   getLTSCountryCode,
   getNotificationMethod,
@@ -15,7 +16,83 @@ describe('form submit transform', () => {
     mockSubmissionForm = JSON.parse(JSON.stringify(submissionForm));
   });
 
-  describe('has a military claimant information creation method', () => {
+  describe('has a createSubmissionForm  method', () => {
+    it('creates a submission form out of the entered form data', () => {
+      const createdSubmissionForm = createSubmissionForm(mockSubmissionForm);
+
+      // Check the military claimant section
+      expect(createdSubmissionForm.militaryClaimant.claimant.claimantId).to.eql(
+        0,
+      );
+      expect(createdSubmissionForm.militaryClaimant.claimant.suffix).to.eql(
+        'Sr.',
+      );
+      expect(
+        createdSubmissionForm.militaryClaimant.claimant.dateOfBirth,
+      ).to.eql('1989-11-11');
+      expect(createdSubmissionForm.militaryClaimant.claimant.firstName).to.eql(
+        'ANDREA',
+      );
+      expect(createdSubmissionForm.militaryClaimant.claimant.lastName).to.eql(
+        'MITCHELL',
+      );
+      expect(createdSubmissionForm.militaryClaimant.claimant.middleName).to.eql(
+        'L',
+      );
+      expect(
+        createdSubmissionForm.militaryClaimant.claimant.notificationMethod,
+      ).to.eql('TEXT');
+      expect(
+        createdSubmissionForm.militaryClaimant.claimant.preferredContact,
+      ).to.eql('Email');
+
+      expect(
+        createdSubmissionForm.militaryClaimant.claimant.contactInfo
+          .addressLine1,
+      ).to.eql('1493 Martin Luther King Rd');
+      expect(
+        createdSubmissionForm.militaryClaimant.claimant.contactInfo
+          .addressLine2,
+      ).to.eql('Apt 1');
+      expect(
+        createdSubmissionForm.militaryClaimant.claimant.contactInfo.city,
+      ).to.eql('Austin');
+      expect(
+        createdSubmissionForm.militaryClaimant.claimant.contactInfo.zipcode,
+      ).to.eql('00662');
+      expect(
+        createdSubmissionForm.militaryClaimant.claimant.contactInfo
+          .emailAddress,
+      ).to.eql('myemail@gmail.com');
+      expect(
+        createdSubmissionForm.militaryClaimant.claimant.contactInfo.addressType,
+      ).to.eql('DOMESTIC');
+      expect(
+        createdSubmissionForm.militaryClaimant.claimant.contactInfo
+          .mobilePhoneNumber,
+      ).to.eql('5035551234');
+      expect(
+        createdSubmissionForm.militaryClaimant.claimant.contactInfo
+          .homePhoneNumber,
+      ).to.eql('5032222222');
+      expect(
+        createdSubmissionForm.militaryClaimant.claimant.contactInfo.countryCode,
+      ).to.eql('US');
+      expect(
+        createdSubmissionForm.militaryClaimant.claimant.contactInfo.stateCode,
+      ).to.eql('NY');
+
+      // Check the relinquishments section
+      expect(
+        createdSubmissionForm.relinquishedBenefit.relinquishedBenefit,
+      ).to.eql('CannotRelinquish');
+      expect(
+        createdSubmissionForm.relinquishedBenefit.effRelinquishDate,
+      ).to.eql('2021-02-02');
+    });
+  });
+
+  describe('has a createMilitaryClaimant method', () => {
     it('should construct the contact Info object', () => {
       const militaryClaimant = createMilitaryClaimant(mockSubmissionForm);
 
@@ -128,11 +205,12 @@ describe('form submit transform', () => {
       expect(relinquishedBenefit.relinquishedBenefit).to.eql(
         'CannotRelinquish',
       );
+      expect(relinquishedBenefit.effRelinquishDate).to.eql('2021-02-02');
     });
     it('should return empty object if no relinquishment', () => {
       mockSubmissionForm['view:benefitSelection'] = undefined;
       const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
-      const objectIsEmpty = !Object.keys(relinquishedBenefit);
+      const objectIsEmpty = Object.keys(relinquishedBenefit).length === 0;
       expect(objectIsEmpty).to.eql(true);
     });
 
@@ -141,7 +219,7 @@ describe('form submit transform', () => {
         'view:benefitSelection'
       ].benefitRelinquished = undefined;
       const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
-      const objectIsEmpty = !Object.keys(relinquishedBenefit);
+      const objectIsEmpty = Object.keys(relinquishedBenefit).length === 0;
       expect(objectIsEmpty).to.eql(true);
     });
   });
