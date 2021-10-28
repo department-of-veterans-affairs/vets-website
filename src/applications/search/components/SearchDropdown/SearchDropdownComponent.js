@@ -45,7 +45,7 @@ class SearchDropdownComponent extends React.Component {
     /**
      * A function that is called every time the input value changes, which is passed the current Input Value
      * */
-    onInputChange: PropTypes.func,
+    getInputValue: PropTypes.func,
     /**
      * A function that is passed the current state as a param,
      * and is called whenever the input field's current value is submitted
@@ -93,7 +93,7 @@ class SearchDropdownComponent extends React.Component {
     formatSuggestions: false,
     fullWidthSuggestions: false,
     mobileResponsive: false,
-    onInputChange: undefined,
+    getInputValue: undefined,
     onInputSubmit: undefined,
     onSuggestionSubmit: undefined,
     showButton: true,
@@ -111,7 +111,7 @@ class SearchDropdownComponent extends React.Component {
       isOpen: false,
       savedSuggestions: [],
       suggestions: [],
-      hasBeenFocused: false,
+      hasBeenChanged: false,
     };
   }
 
@@ -128,12 +128,12 @@ class SearchDropdownComponent extends React.Component {
   // whenever the Input Value changes, call the prop function to export its value to the parent component
   componentDidUpdate(prevProps, prevState) {
     const { inputValue } = this.state;
-    const { onInputChange } = this.props;
+    const { getInputValue } = this.props;
 
     const inputChanged = prevState.inputValue !== inputValue;
 
-    if (onInputChange && inputChanged) {
-      onInputChange(inputValue);
+    if (getInputValue && inputChanged) {
+      getInputValue(inputValue);
     }
   }
 
@@ -167,6 +167,8 @@ class SearchDropdownComponent extends React.Component {
     const inputValue = event.target.value;
     this.setState({
       inputValue,
+      activeIndex: undefined,
+      hasBeenChanged: true,
     });
 
     // clear suggestions if the input is too short
@@ -180,13 +182,6 @@ class SearchDropdownComponent extends React.Component {
     this.fetchSuggestionsTimeout = setTimeout(() => {
       this.fetchSuggestions(inputValue);
     }, this.props.debounceRate);
-  };
-
-  focusInputField = () => {
-    const { hasBeenFocused } = this.state;
-    if (!hasBeenFocused) {
-      this.setState({ hasBeenFocused: true });
-    }
   };
 
   // call the fetchSuggestions prop and save the returned value into state
@@ -242,7 +237,6 @@ class SearchDropdownComponent extends React.Component {
     // when the DOWN key is pressed, select the next option in the drop down.
     // if the last option is selected, cycle to the first option instead
     if (currentKeyPress === Keycodes.Down) {
-      event.preventDefault();
       if (activeIndex === undefined || activeIndex + 1 > max) {
         this.setState({ activeIndex: 0 });
         return;
@@ -255,7 +249,6 @@ class SearchDropdownComponent extends React.Component {
     // when the UP key is pressed, select the previous option in the drop down.
     // if the first option is selected, cycle to the last option instead
     if (currentKeyPress === Keycodes.Up || currentKeyPress === Keycodes.Left) {
-      event.preventDefault();
       if (activeIndex - 1 < 0) {
         this.setState({ activeIndex: max });
         return;
@@ -267,7 +260,6 @@ class SearchDropdownComponent extends React.Component {
     // first
     // when the HOME key is pressed, select the first option in the drop down menu
     if (currentKeyPress === Keycodes.Home) {
-      event.preventDefault();
       this.setState({ activeIndex: 0 });
       return;
     }
@@ -275,7 +267,6 @@ class SearchDropdownComponent extends React.Component {
     // last
     // when the END key is pressed, select the last option in the drop down menu
     if (currentKeyPress === Keycodes.End) {
-      event.preventDefault();
       this.setState({ activeIndex: max });
       return;
     }
@@ -283,7 +274,6 @@ class SearchDropdownComponent extends React.Component {
     // close
     // when the ESCAPE key is pressed, close the drop down menu WITHOUT selecting any of the options
     if (currentKeyPress === Keycodes.Escape) {
-      event.preventDefault();
       this.setState({ activeIndex: undefined });
       this.updateMenuState(false);
       return;
@@ -297,7 +287,6 @@ class SearchDropdownComponent extends React.Component {
       event.preventDefault();
 
       if (activeIndex === undefined && canSubmit) {
-        event.preventDefault();
         onInputSubmit(this.state);
         return;
       }
@@ -342,6 +331,7 @@ class SearchDropdownComponent extends React.Component {
       inputValue,
       activeIndex: undefined,
       savedSuggestions: suggestions,
+      hasBeenChanged: true,
     });
 
     this.fetchSuggestions(inputValue);
@@ -374,7 +364,7 @@ class SearchDropdownComponent extends React.Component {
       isOpen,
       inputValue,
       suggestions,
-      hasBeenFocused,
+      hasBeenChanged,
     } = this.state;
 
     const {
@@ -388,13 +378,20 @@ class SearchDropdownComponent extends React.Component {
       mobileResponsive,
     } = this.props;
 
-    const activeId = isOpen ? `${ID}-option-${activeIndex}` : undefined;
+    let activeId = undefined;
+    if (isOpen && activeIndex !== undefined) {
+      activeId = `${ID}-option-${activeIndex}`;
+    }
+
+    const assistiveHintID = `${ID}-assistive-hint`;
 
     const mobileResponsiveClass = mobileResponsive ? 'shrink-to-column' : '';
 
-    const oneTimeAccessibilityLabel = hasBeenFocused
-      ? undefined
-      : 'Use up and down arrows to review autocomplete results and enter to search. Touch device users, explore by touch or with swipe gestures.';
+    const ariaDescribedProp = hasBeenChanged
+      ? null
+      : {
+          'aria-describedby': assistiveHintID,
+        };
 
     const validOpen = isOpen && suggestions.length > 0;
 
@@ -407,7 +404,7 @@ class SearchDropdownComponent extends React.Component {
             aria-activedescendant={activeId}
             aria-autocomplete={'none'}
             aria-controls={`${ID}-listbox`}
-            aria-describedby={oneTimeAccessibilityLabel}
+            {...ariaDescribedProp}
             aria-expanded={isOpen}
             aria-haspopup="listbox"
             aria-label={'Search'}
@@ -420,12 +417,18 @@ class SearchDropdownComponent extends React.Component {
             onBlur={() => this.onInputBlur()}
             onChange={this.handleInputChange}
             onClick={() => this.updateMenuState(true)}
-            onFocus={() => {
-              this.focusInputField();
-              this.updateMenuState(true);
-            }}
+            onFocus={() => this.updateMenuState(true)}
             onKeyDown={this.onKeyDown}
           />
+
+          <span
+            id={assistiveHintID}
+            className="vads-u-visibility--screen-reader"
+          >
+            Use up and down arrows to review autocomplete results and enter to
+            search. Touch device users, explore by touch or with swipe gestures.
+          </span>
+
           {validOpen &&
             !fullWidthSuggestions && (
               <div
@@ -480,6 +483,7 @@ class SearchDropdownComponent extends React.Component {
               onFocus={this.saveSuggestions}
             >
               <IconSearch color="#fff" />
+              <span className="usa-sr-only">Search</span>
               {buttonText && <span className="button-text">{buttonText}</span>}
             </button>
           )}
