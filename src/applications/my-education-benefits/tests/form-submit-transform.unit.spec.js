@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { submissionForm } from './fixtures/data/form-submission-test-data';
 import {
+  createAdditionalConsiderations,
   createContactInfo,
   createMilitaryClaimant,
   createSubmissionForm,
@@ -89,6 +90,23 @@ describe('form submit transform', () => {
       expect(
         createdSubmissionForm.relinquishedBenefit.effRelinquishDate,
       ).to.eql('2021-02-02');
+
+      // check Additional Considerations section
+      expect(
+        createdSubmissionForm.additionalConsiderations.activeDutyDodRepayLoan,
+      ).to.eql('NO');
+      expect(
+        createdSubmissionForm.additionalConsiderations.seniorRotcScholarship,
+      ).to.eql('YES');
+      expect(
+        createdSubmissionForm.additionalConsiderations.academyRotcScholarship,
+      ).to.eql('YES');
+      expect(
+        createdSubmissionForm.additionalConsiderations.activeDutyKicker,
+      ).to.eql('YES');
+      expect(
+        createdSubmissionForm.additionalConsiderations.reserveKicker,
+      ).to.eql('NO');
     });
   });
 
@@ -221,6 +239,26 @@ describe('form submit transform', () => {
       const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
       const objectIsEmpty = Object.keys(relinquishedBenefit).length === 0;
       expect(objectIsEmpty).to.eql(true);
+    });
+  });
+
+  describe('has a createAdditionalConsiderations method', () => {
+    it('should return capitalized "YES" and "NO" for present questions', () => {
+      const additionalConsiderations = createAdditionalConsiderations(
+        mockSubmissionForm,
+      );
+      expect(additionalConsiderations.activeDutyDodRepayLoan).to.eql('NO');
+      expect(additionalConsiderations.seniorRotcScholarship).to.eql('YES');
+      expect(additionalConsiderations.academyRotcScholarship).to.eql('YES');
+      expect(additionalConsiderations.activeDutyKicker).to.eql('YES');
+      expect(additionalConsiderations.reserveKicker).to.eql('NO');
+    });
+    it('should return "NA" for additional consideration flag not present', () => {
+      mockSubmissionForm.selectedReserveKicker = undefined;
+      const additionalConsiderations = createAdditionalConsiderations(
+        mockSubmissionForm,
+      );
+      expect(additionalConsiderations.reserveKicker).to.eql('N/A');
     });
   });
 });

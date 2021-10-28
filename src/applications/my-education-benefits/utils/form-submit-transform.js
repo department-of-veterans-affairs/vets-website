@@ -330,9 +330,34 @@ export function createRelinquishedBenefit(submissionForm) {
   }
 }
 
+function setAdditionalConsideration(consideration) {
+  return consideration ? consideration.toUpperCase() : 'N/A';
+}
+
+export function createAdditionalConsiderations(submissionForm) {
+  return {
+    activeDutyKicker: setAdditionalConsideration(
+      submissionForm.activeDutyKicker,
+    ),
+    academyRotcScholarship: setAdditionalConsideration(
+      submissionForm.federallySponsoredAcademy,
+    ),
+    reserveKicker: setAdditionalConsideration(
+      submissionForm.selectedReserveKicker,
+    ),
+    seniorRotcScholarship: setAdditionalConsideration(
+      submissionForm.seniorRotcCommission,
+    ),
+    activeDutyDodRepayLoan: setAdditionalConsideration(
+      submissionForm.loanPayment,
+    ),
+  };
+}
+
 export function createSubmissionForm(submissionForm) {
   return {
     militaryClaimant: createMilitaryClaimant(submissionForm),
     relinquishedBenefit: createRelinquishedBenefit(submissionForm),
+    additionalConsiderations: createAdditionalConsiderations(submissionForm),
   };
 }

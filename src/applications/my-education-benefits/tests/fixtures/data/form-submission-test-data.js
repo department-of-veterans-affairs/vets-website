@@ -7,6 +7,7 @@ export const submissionForm = {
   'view:academyCommissionAdditionalInfo': {},
   activeDutyKicker: 'Yes',
   'view:activeDutyKickerAdditionalInfo': {},
+  selectedReserveKicker: 'No',
   'view:post911Notice': {},
   'view:benefitSelection': {
     benefitRelinquished: 'CannotRelinquish',
