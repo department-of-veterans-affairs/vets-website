@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React from 'react';
 import merge from 'lodash/merge';
 // import get from 'platform/utilities/data/get';
@@ -12,41 +11,42 @@ import InsuranceProviderView from '../../../components/InsuranceProviderView';
 const { provider } = fullSchemaHca.definitions;
 
 const insuranceInfo = (
-    <AdditionalInfo triggerText="Why we ask for this information">
-      <p>
-        We ask this information for billing purposes only. Your health insurance
-        coverage doesn’t affect the VA health care benefits you can get.
-      </p>
-      <p>
-        Giving us your health insurance information helps you for these reasons:
-      </p>
-      <ul>
-        <li>
-          We must bill your private health insurance provider for any care,
-          supplies, or medicines we provide to treat your non-service-connected
-          conditions. If you have a VA copayment, we may be able to use the
-          payments from your provider to cover some or all of your copayment.
-        </li>
-        <li>
-          Your private insurance provider may apply your VA health care charges
-          toward your annual deductible. Your annual deductible is the amount of
-          money you pay toward your care each year before your insurance starts
-          to pay for care.
-        </li>
-      </ul>
-    </AdditionalInfo>
+  <AdditionalInfo triggerText="Why we ask for this information">
+    <p>
+      We ask this information for billing purposes only. Your health insurance
+      coverage doesn’t affect the VA health care benefits you can get.
+    </p>
+    <p>
+      Giving us your health insurance information helps you for these reasons:
+    </p>
+    <ul>
+      <li>
+        We must bill your private health insurance provider for any care,
+        supplies, or medicines we provide to treat your non-service-connected
+        conditions. If you have a VA copayment, we may be able to use the
+        payments from your provider to cover some or all of your copayment.
+      </li>
+      <li>
+        Your private insurance provider may apply your VA health care charges
+        toward your annual deductible. Your annual deductible is the amount of
+        money you pay toward your care each year before your insurance starts to
+        pay for care.
+      </li>
+    </ul>
+  </AdditionalInfo>
 );
 
 const triCareInfo = (
   <>
-  <span className="schemaform-required-span">(*Required)</span>
+    <span className="schemaform-required-span">(*Required)</span>
     <AdditionalInfo triggerText="I have TRICARE. What’s my policy number?">
       <p>
-      You can use your Department of Defense benefits number (DBN) or your Social
-      Security number as your policy number.
+        You can use your Department of Defense benefits number (DBN) or your
+        Social Security number as your policy number.
       </p>
       <p>
-      Your DBN is an 11-digit number. You’ll find this number on the back of your military ID card.
+        Your DBN is an 11-digit number. You’ll find this number on the back of
+        your military ID card.
       </p>
     </AdditionalInfo>
     <p>Policy number</p>
@@ -68,15 +68,16 @@ export default {
           'ui:title': 'Name of insurance provider',
         },
         insurancePolicyHolderName: {
-          'ui:title': 'Name of policyholder (the person whose name the policy is in)'
+          'ui:title':
+            'Name of policyholder (the person whose name the policy is in)',
         },
         // test: {
         //   'ui:title':
         //   'Provide either your insurance policy number or group code',
         // },
         // insurancePolicyNumber: {
-          // 'ui:title':
-          //   'Provide either your insurance policy number or group code',
+        // 'ui:title':
+        //   'Provide either your insurance policy number or group code',
         //   'ui:description': triCareInfo,
         //   'ui:required': (formData, index) =>
         //     !get(`providers[${index}].insuranceGroupCode`, formData),
@@ -87,7 +88,7 @@ export default {
         insurancePolicyNumber: {
           'ui:title':
             'Provide either your insurance policy number or group code',
-            'ui:description': triCareInfo,
+          'ui:description': triCareInfo,
           // 'ui:required': (formData, index) =>
           //   !get(`providers[${index}].insuranceGroupCode`, formData),
           'ui:errorMessages': {
@@ -101,7 +102,7 @@ export default {
           'ui:errorMessages': {
             pattern: 'Please provide a valid group code.',
           },
-        }
+        },
       },
     },
   },
