@@ -274,8 +274,6 @@ export function createContactInfo(submissionForm) {
     addressLine2: submissionForm['view:mailingAddress'].address.addressLine2,
     city: submissionForm['view:mailingAddress'].address.city,
     zipcode: submissionForm['view:mailingAddress'].address.postalCode,
-    effectiveDate: submissionForm.benefitEffectiveDate,
-    zipCodeExtension: '', // no field for this yet
     emailAddress: submissionForm.email.email,
     addressType: getAddressType(submissionForm['view:mailingAddress']),
     mobilePhoneNumber:
@@ -288,29 +286,14 @@ export function createContactInfo(submissionForm) {
   };
 }
 
-export function getPreferredContact(notificationMethod) {
-  switch (notificationMethod) {
-    case 'Email':
-      return 'email';
-    case 'Mobile phone':
-      return 'mobileTextMessage';
-    case 'Home phone':
-      return 'homePhone';
-    case 'Mail':
-      return 'mail';
-    default:
-      return '';
-  }
-}
-
 export function getNotificationMethod(notificationMethod) {
   switch (notificationMethod) {
     case 'Yes, send me text message notifications':
-      return 'mobileTextMessage';
+      return 'TEXT';
     case 'No, just send me email notifications':
-      return 'email';
+      return 'EMAIL';
     default:
-      return '';
+      return 'NONE';
   }
 }
 
@@ -330,9 +313,7 @@ export function createMilitaryClaimant(submissionForm) {
       notificationMethod: getNotificationMethod(
         submissionForm['view:receiveTextMessages'].receiveTextMessages,
       ),
-      preferredContact: getPreferredContact(
-        submissionForm['view:contactMethod'].contactMethod,
-      ),
+      preferredContact: submissionForm['view:contactMethod'].contactMethod,
     },
   };
 }

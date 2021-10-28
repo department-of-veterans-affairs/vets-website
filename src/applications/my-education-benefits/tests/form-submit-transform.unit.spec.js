@@ -6,7 +6,6 @@ import {
   getAddressType,
   getLTSCountryCode,
   getNotificationMethod,
-  getPreferredContact,
 } from '../utils/form-submit-transform';
 
 let mockSubmissionForm = {};
@@ -25,10 +24,8 @@ describe('form submit transform', () => {
       expect(militaryClaimant.claimant.firstName).to.eql('ANDREA');
       expect(militaryClaimant.claimant.lastName).to.eql('MITCHELL');
       expect(militaryClaimant.claimant.middleName).to.eql('L');
-      expect(militaryClaimant.claimant.notificationMethod).to.eql(
-        'mobileTextMessage',
-      );
-      expect(militaryClaimant.claimant.preferredContact).to.eql('email');
+      expect(militaryClaimant.claimant.notificationMethod).to.eql('TEXT');
+      expect(militaryClaimant.claimant.preferredContact).to.eql('Email');
 
       expect(militaryClaimant.claimant.contactInfo.addressLine1).to.eql(
         '1493 Martin Luther King Rd',
@@ -37,11 +34,7 @@ describe('form submit transform', () => {
         'Apt 1',
       );
       expect(militaryClaimant.claimant.contactInfo.city).to.eql('Austin');
-      expect(militaryClaimant.claimant.contactInfo.effectiveDate).to.eql(
-        '2021-02-02',
-      );
       expect(militaryClaimant.claimant.contactInfo.zipcode).to.eql('00662');
-      expect(militaryClaimant.claimant.contactInfo.zipCodeExtension).to.eql('');
       expect(militaryClaimant.claimant.contactInfo.emailAddress).to.eql(
         'myemail@gmail.com',
       );
@@ -65,9 +58,7 @@ describe('form submit transform', () => {
       expect(contactInfo.addressLine1).to.eql('1493 Martin Luther King Rd');
       expect(contactInfo.addressLine2).to.eql('Apt 1');
       expect(contactInfo.city).to.eql('Austin');
-      expect(contactInfo.effectiveDate).to.eql('2021-02-02');
       expect(contactInfo.zipcode).to.eql('00662');
-      expect(contactInfo.zipCodeExtension).to.eql('');
       expect(contactInfo.emailAddress).to.eql('myemail@gmail.com');
       expect(contactInfo.addressType).to.eql('DOMESTIC');
       expect(contactInfo.mobilePhoneNumber).to.eql('5035551234');
@@ -111,44 +102,22 @@ describe('form submit transform', () => {
     });
   });
 
-  describe('has a getPreferredContact method', () => {
-    it('should return "email" for "Email" value', () => {
-      const preferredContact = getPreferredContact('Email');
-      expect(preferredContact).to.eql('email');
-    });
-    it('should return "mail" for "Mail" value', () => {
-      const preferredContact = getPreferredContact('Mail');
-      expect(preferredContact).to.eql('mail');
-    });
-    it('should return "mobileTextMessage" for "Mobile phone" value', () => {
-      const preferredContact = getPreferredContact('Mobile phone');
-      expect(preferredContact).to.eql('mobileTextMessage');
-    });
-    it('should return "homePhone" for "Home phone" value', () => {
-      const preferredContact = getPreferredContact('Home phone');
-      expect(preferredContact).to.eql('homePhone');
-    });
-    it('should return "" for undefined value', () => {
-      const preferredContact = getPreferredContact();
-      expect(preferredContact).to.eql('');
-    });
-  });
   describe('has a getNotificationMethod method', () => {
-    it('should return "email" for "No, just send me email notifications" value', () => {
+    it('should return "EMAIL" for "No, just send me email notifications" value', () => {
       const notificationMethod = getNotificationMethod(
         'No, just send me email notifications',
       );
-      expect(notificationMethod).to.eql('email');
+      expect(notificationMethod).to.eql('EMAIL');
     });
-    it('should return "mobileTextMessage" for "Yes, send me text message notifications" value', () => {
+    it('should return "TEXT" for "Yes, send me text message notifications" value', () => {
       const notificationMethod = getNotificationMethod(
         'Yes, send me text message notifications',
       );
-      expect(notificationMethod).to.eql('mobileTextMessage');
+      expect(notificationMethod).to.eql('TEXT');
     });
-    it('should return "" for no value', () => {
+    it('should return "NONE" for no value', () => {
       const notificationMethod = getNotificationMethod();
-      expect(notificationMethod).to.eql('');
+      expect(notificationMethod).to.eql('NONE');
     });
   });
 });
