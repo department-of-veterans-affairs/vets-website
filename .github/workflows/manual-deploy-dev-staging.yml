@@ -6,6 +6,9 @@ on:
       commit_sha:
         description: Deploy a specific commit
         required: true
+      deploy_environment:
+        description: The environment to deploy to (dev, staging, both)
+        required: true
 
 env:
   DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
@@ -14,14 +17,6 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        include:
-          - environment: vagovdev
-            bucket: dev-va-gov-assets
-          # - environment: vagovstaging
-          #   bucket: staging-va-gov-assets
 
     steps:
       - name: Checkout
@@ -50,11 +45,19 @@ jobs:
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
 
-      - name: Deploy
+      - name: Deploy Dev
+        if: ${{ github.event.inputs.commit_sha == 'dev' || github.event.inputs.commit_sha == 'both' }}
         run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
         env:
-          SRC: s3://vetsgov-website-builds-s3-upload/d1c5a1c3f180fbb09277bea27b93fcf239d1ff30/${{ matrix.environment }}.tar.bz2
-          DEST: s3://${{ matrix.bucket }}
+          SRC: s3://vetsgov-website-builds-s3-upload/${{ github.event.inputs.commit_sha }}/vagovdev.tar.bz2
+          DEST: s3://dev-va-gov-assets
+
+      - name: Deploy Staging
+        if: ${{ github.event.inputs.commit_sha == 'staging' || github.event.inputs.commit_sha == 'both' }}
+        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
+        env:
+          SRC: s3://vetsgov-website-builds-s3-upload/dev-va-gov-assets/vagovstaging.tar.bz2
+          DEST: s3://staging-va-gov-assets
 
   notify-failure:
     name: Notify Failure
