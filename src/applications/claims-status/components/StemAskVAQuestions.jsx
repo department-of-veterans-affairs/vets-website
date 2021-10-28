@@ -22,10 +22,9 @@ function StemAskVAQuestions() {
         Ask a question
       </h3>
       <p className="vads-u-padding-top--1px">
-        <a href="https://gibill.custhelp.va.gov/app/" onClick={recordLinkClick}>
-          Ask a question online
-        </a>{' '}
-        (Include your full name and VA file number)
+        <a href="https://www.va.gov/contact-us/" onClick={recordLinkClick}>
+          Contact us online through Ask VA
+        </a>
       </p>
       <h3 className="vads-u-font-size--h4 vads-u-margin-bottom--0p5">
         Call us
