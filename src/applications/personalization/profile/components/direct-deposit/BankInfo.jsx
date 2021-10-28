@@ -155,6 +155,10 @@ export const BankInfo = ({
     ? 'disability compensation and pension'
     : 'education';
 
+  const sectionTitle = typeIsCNP
+    ? 'Disability compensation and pension benefits'
+    : 'Education benefits';
+
   // When direct deposit is already set up we will show the current bank info
   const bankInfoContent = (
     <div>
@@ -411,7 +415,7 @@ export const BankInfo = ({
       />
       <ProfileInfoTable
         className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
-        title={`${benefitTypeLong} benefits`}
+        title={sectionTitle}
         data={directDepositData()}
         level={2}
       />
