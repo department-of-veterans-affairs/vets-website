@@ -14,10 +14,10 @@ describe('<MobileAppMessage>', () => {
     const wrapper = shallow(<MobileAppMessage mockUserAgent={'blah'} />);
     expect(wrapper.length).to.equal(1);
     expect(wrapper.props().status).to.equal('info');
-    expect(wrapper.text()).to.include(
-      'Download it on the App Store or on Google Play.',
-    );
-    expect(wrapper.find('a[aria-label]').length).to.equal(2);
+    const links = wrapper.find('a[target="_blank"]');
+    expect(links.length).to.equal(2);
+    expect(links.first().text()).to.eq('Download the app from the App Store');
+    expect(links.last().text()).to.eq('Download the app from Google Play');
     wrapper.unmount();
   });
   it('should hide the alert initially', () => {
@@ -38,18 +38,16 @@ describe('<MobileAppMessage>', () => {
 
   it('should show app store link for iOS device', () => {
     const wrapper = shallow(<MobileAppMessage mockUserAgent={'iPhone'} />);
-    const link = wrapper.find('a[aria-label]');
-    expect(wrapper.text()).to.include('Download it on the App Store.');
+    const link = wrapper.find('a[target="_blank"]');
     expect(link.length).to.equal(1);
-    expect(link.props()['aria-label']).to.include('app store');
+    expect(link.text()).to.eq('Download the app from the App Store');
     wrapper.unmount();
   });
   it('should show Google play store link for android device', () => {
     const wrapper = shallow(<MobileAppMessage mockUserAgent={'android'} />);
-    const link = wrapper.find('a[aria-label]');
-    expect(wrapper.text()).to.include('Download it on Google Play.');
+    const link = wrapper.find('a[target="_blank"]');
     expect(link.length).to.equal(1);
-    expect(link.props()['aria-label']).to.include('Google Play');
+    expect(link.text()).to.eq('Download the app from Google Play');
     wrapper.unmount();
   });
 });
