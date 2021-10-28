@@ -38,7 +38,7 @@ const initialState = {
   },
 };
 
-describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
+describe.skip('VAOS <ConfirmedAppointmentDetailsPage>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTimezoneTestDate());
@@ -1029,7 +1029,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
   });
 });
 
-describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
+describe.skip('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTimezoneTestDate());
