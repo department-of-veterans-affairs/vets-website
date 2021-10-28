@@ -56,7 +56,7 @@ jobs:
         if: ${{ github.event.inputs.commit_sha == 'staging' || github.event.inputs.commit_sha == 'both' }}
         run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
         env:
-          SRC: s3://vetsgov-website-builds-s3-upload/dev-va-gov-assets/vagovstaging.tar.bz2
+          SRC: s3://vetsgov-website-builds-s3-upload/${{ github.event.inputs.commit_sha }}/vagovstaging.tar.bz2
           DEST: s3://staging-va-gov-assets
 
   notify-failure:
