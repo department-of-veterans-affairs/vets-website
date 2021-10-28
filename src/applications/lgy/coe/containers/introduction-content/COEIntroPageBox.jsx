@@ -2,8 +2,9 @@ import React from 'react';
 import { COE_ELIGIBILITY_STATUS } from './../../constants';
 import COEAvailable from './COEStatuses/COEAvailable';
 import COEAutomatic from './COEStatuses/COEAutomatic';
-import COEPending from './COEStatuses/COEPending';
 import COEDenied from './COEStatuses/COEDenied';
+import COEIndeterminable from './COEStatuses/COEIndeterminable';
+import COEPending from './COEStatuses/COEPending';
 
 const COEIntroPageBox = props => {
   let content;
@@ -12,6 +13,9 @@ const COEIntroPageBox = props => {
       case COE_ELIGIBILITY_STATUS.available:
         content = <COEAvailable />;
         break;
+      case COE_ELIGIBILITY_STATUS.denied:
+        content = <COEDenied />;
+        break;
       case COE_ELIGIBILITY_STATUS.eligible:
         content = <COEAutomatic />;
         break;
@@ -19,8 +23,8 @@ const COEIntroPageBox = props => {
       case COE_ELIGIBILITY_STATUS.pendingUpload:
         content = <COEPending status={props.coe.status} />;
         break;
-      case COE_ELIGIBILITY_STATUS.denied:
-        content = <COEDenied />;
+      case COE_ELIGIBILITY_STATUS.unableToDetermine:
+        content = <COEIndeterminable />;
         break;
       default:
         content = <></>;
