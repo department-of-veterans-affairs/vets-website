@@ -58,7 +58,7 @@ const NextOfKin = props => {
     return <></>;
   } else {
     return (
-      <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 check-in-demographics">
+      <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 check-in-next-of-kin">
         {(isUpdatePageEnabled || isDemographicsPageEnabled) && (
           <BackButton router={router} />
         )}
