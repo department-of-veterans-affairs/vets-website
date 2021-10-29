@@ -10,6 +10,7 @@ import {
   getDefaultFormState,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import { isReactComponent } from 'platform/utilities/ui';
+import { allEqual } from '../utils/helpers';
 
 const ScrollElement = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -62,8 +63,6 @@ const InputSection = ({
   item,
   onBlur,
   registry,
-  disabled,
-  readonly,
   idSchema,
   editing,
   handleChange,
@@ -121,8 +120,6 @@ const InputSection = ({
             formData={item}
             onBlur={onBlur}
             registry={registry}
-            disabled={disabled}
-            readonly={readonly}
             onChange={value => handleChange(index, value)}
             required={false}
           />
@@ -155,31 +152,23 @@ const InputSection = ({
   );
 };
 
-const AddAnotherButton = ({
-  items,
-  addAnotherDisabled,
-  uiOptions,
-  handleAdd,
-}) => (
-  <div>
+const AddAnotherButton = ({ uiOptions, handleAdd, editing }) => {
+  const isClosed = allEqual(editing) && editing.includes(false);
+  const linkClassNames = classNames('add-item-link-section', {
+    disabled: !isClosed,
+  });
+
+  return (
     <div className="add-item-container" name="table_root_">
-      <div className="add-item-link-section">
+      <div className={linkClassNames}>
         <i className="fas fa-plus plus-icon" />
-        <a
-          className="add-item-link"
-          disabled={!items || addAnotherDisabled}
-          onClick={handleAdd}
-        >
+        <a className="add-item-link" onClick={handleAdd}>
           {uiOptions.itemName ? `Add ${uiOptions.itemName}` : 'Add another'}
         </a>
       </div>
     </div>
-    <p>
-      {addAnotherDisabled &&
-        `You’ve entered the maximum number of items allowed.`}
-    </p>
-  </div>
-);
+  );
+};
 
 const ItemLoop = ({
   uiSchema,
@@ -190,8 +179,6 @@ const ItemLoop = ({
   formData,
   errorSchema,
   formContext,
-  disabled,
-  readonly,
   onBlur,
 }) => {
   const uiOptions = uiSchema['ui:options'] || {};
@@ -213,7 +200,6 @@ const ItemLoop = ({
   const items = formData?.length
     ? formData
     : [getDefaultFormState(schema, undefined, registry.definitions)];
-  const addAnotherDisabled = items.length >= (schema.maxItems || Infinity);
 
   // Throw an error if there’s no viewField (should be React component)
   if (!isReactComponent(uiSchema['ui:options'].viewField)) {
@@ -393,8 +379,6 @@ const ItemLoop = ({
                         idSchema={idSchema}
                         onBlur={onBlur}
                         registry={registry}
-                        disabled={disabled}
-                        readonly={readonly}
                         errorSchema={errorSchema}
                         editing={editing}
                         handleChange={handleChange}
@@ -432,8 +416,6 @@ const ItemLoop = ({
                 idSchema={idSchema}
                 onBlur={onBlur}
                 registry={registry}
-                disabled={disabled}
-                readonly={readonly}
                 errorSchema={errorSchema}
                 editing={editing}
                 handleChange={handleChange}
@@ -452,11 +434,9 @@ const ItemLoop = ({
             );
           })
         )}
-
         <AddAnotherButton
-          items={items}
-          addAnotherDisabled={addAnotherDisabled}
           uiOptions={uiOptions}
+          editing={editing}
           handleAdd={handleAdd}
         />
       </div>
@@ -475,8 +455,6 @@ ItemLoop.propTypes = {
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func,
   formData: PropTypes.array,
-  disabled: PropTypes.bool,
-  readonly: PropTypes.bool,
   registry: PropTypes.shape({
     widgets: PropTypes.objectOf(
       PropTypes.oneOfType([PropTypes.func, PropTypes.object]),

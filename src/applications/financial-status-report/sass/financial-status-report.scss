@@ -115,6 +115,9 @@
         margin-right: 5px;
       }
     }
+    .disabled {
+      pointer-events: none;
+    }
   }
   .card-details-view {
     padding: 10px 30px;
