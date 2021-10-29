@@ -1,12 +1,11 @@
 import React from 'react';
-import AlertBox, {
-  ALERT_TYPE,
-} from '@department-of-veterans-affairs/component-library/AlertBox';
+import * as AlertBoxComponent from '@department-of-veterans-affairs/component-library/AlertBox';
 
 export default function OffState() {
+  const AlertBox = AlertBoxComponent.default;
   return (
     <AlertBox
-      status={ALERT_TYPE.INFO}
+      status={AlertBoxComponent.ALERT_TYPE.INFO}
       headline="Check back soon for an easy way to stay informed and help us prepare"
       content={
         <>
