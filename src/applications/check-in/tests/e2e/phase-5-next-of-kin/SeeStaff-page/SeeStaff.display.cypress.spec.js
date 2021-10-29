@@ -61,11 +61,12 @@ describe('Check In Experience -- ', () => {
       cy.get('h1', { timeout: Timeouts.slow })
         .should('be.visible')
         .and('have.text', 'Check in with a staff member');
-      cy.get('[data-testid=see-staff-message]')
+      cy.get('h1')
+        .next()
         .should('be.visible')
         .and(
           'have.text',
-          'If you don’t live at a fixed address right now, we’ll help you find the best way to stay connected with us.',
+          'Our staff can help you update your contact information.',
         );
     });
   });
