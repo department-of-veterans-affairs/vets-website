@@ -4,12 +4,19 @@ import PropTypes from 'prop-types';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 import { goToNextPage, URLS } from '../utils/navigation';
+import BackButton from '../components/BackButton';
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 import DemographicItem from '../components/DemographicItem';
 
 const NextOfKin = props => {
-  const { nextOfKin, isLoading, isUpdatePageEnabled, router } = props;
+  const {
+    nextOfKin,
+    isLoading,
+    isDemographicsPageEnabled,
+    isUpdatePageEnabled,
+    router,
+  } = props;
 
   const yesClick = useCallback(
     () => {
@@ -52,6 +59,9 @@ const NextOfKin = props => {
   } else {
     return (
       <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 check-in-demographics">
+        {(isUpdatePageEnabled || isDemographicsPageEnabled) && (
+          <BackButton router={router} />
+        )}
         <h1>Is this your current next of kin information?</h1>
         <div className="vads-u-border-color--primary vads-u-border-left--5px vads-u-margin-left--0p5 vads-u-padding-left--2">
           <dl>
@@ -98,6 +108,7 @@ const NextOfKin = props => {
 NextOfKin.propTypes = {
   nextOfKin: PropTypes.object,
   isLoading: PropTypes.bool,
+  isDemographicsPageEnabled: PropTypes.bool,
   isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
 };
