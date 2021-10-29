@@ -8,7 +8,9 @@ import { Header } from '.';
 describe('Header <Header>', () => {
   it('renders content', () => {
     const wrapper = shallow(<Header showMegaMenu showNavLogin />);
-    expect(wrapper.text()).to.include('New header');
+    expect(wrapper.find(`OfficialGovtWebsite`)).to.have.lengthOf(1);
+    expect(wrapper.find(`VeteranCrisisLine`)).to.have.lengthOf(1);
+    expect(wrapper.find(`LogoRow`)).to.have.lengthOf(1);
     wrapper.unmount();
   });
 });
