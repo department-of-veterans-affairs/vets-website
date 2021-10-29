@@ -1,95 +1,92 @@
-import React, { useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 import { goToNextPage, URLS } from '../utils/navigation';
+import BackButton from '../components/BackButton';
 import BackToHome from '../components/BackToHome';
+import { focusElement } from 'platform/utilities/ui';
 import Footer from '../components/Footer';
 import DemographicItem from '../components/DemographicItem';
 import { seeStaffMessageUpdated } from '../actions';
 
-const Demographics = props => {
+const NextOfKin = props => {
   const {
-    demographics,
+    nextOfKin,
     isLoading,
+    isDemographicsPageEnabled,
     isUpdatePageEnabled,
-    isNextOfKinEnabled,
     router,
     updateSeeStaffMessage,
   } = props;
+
+  const seeStaffMessage =
+    'Our staff can help you update your next of kin information.';
+
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
 
   const yesClick = useCallback(
     () => {
       recordEvent({
         event: 'cta-button-click',
-        'button-click-label': 'yes-to-demographic-information',
+        'button-click-label': 'yes-to-next-of-kin-information',
       });
-      if (isNextOfKinEnabled) {
-        goToNextPage(router, URLS.NEXT_OF_KIN);
-      } else if (isUpdatePageEnabled) {
+      if (isUpdatePageEnabled) {
         goToNextPage(router, URLS.UPDATE_INSURANCE);
       } else {
         goToNextPage(router, URLS.DETAILS);
       }
     },
-    [isNextOfKinEnabled, isUpdatePageEnabled, router],
+    [isUpdatePageEnabled, router],
   );
 
   const noClick = useCallback(
     () => {
       recordEvent({
         event: 'cta-button-click',
-        'button-click-label': 'no-to-demographic-information',
+        'button-click-label': 'no-to-next-of-kin-information',
       });
-      const seeStaffMessage = (
-        <>
-          <p>Our staff can help you update your contact information.</p>
-          <p className="vads-u-margin-bottom--0">
-            If you don’t live at a fixed address right now, we’ll help you find
-            the best way to stay connected with us.
-          </p>
-        </>
-      );
       updateSeeStaffMessage(seeStaffMessage);
       goToNextPage(router, URLS.SEE_STAFF);
     },
     [router, updateSeeStaffMessage],
   );
 
-  const demographicFields = [
-    { title: 'Mailing address', key: 'mailingAddress' },
-    { title: 'Home address', key: 'homeAddress' },
-    { title: 'Home phone', key: 'homePhone' },
-    { title: 'Mobile phone', key: 'mobilePhone' },
+  const nextOfKinFields = [
+    { title: 'Name', key: 'name' },
+    { title: 'Relationship', key: 'relationship' },
+    { title: 'Address', key: 'address' },
+    { title: 'Phone', key: 'phone' },
     { title: 'Work phone', key: 'workPhone' },
-    { title: 'Email address', key: 'emailAddress' },
   ];
   if (isLoading) {
     return <LoadingIndicator message={'Loading your appointments for today'} />;
-  } else if (!demographics) {
+  } else if (!nextOfKin) {
     goToNextPage(router, URLS.ERROR);
     return <></>;
   } else {
     return (
-      <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 check-in-demographics">
-        <h1>Is this your current contact information?</h1>
-        <p className="vads-u-font-family--serif">
-          We can better follow up with you after your appointment when we have
-          your current information.
-        </p>
+      <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 check-in-next-of-kin">
+        {(isUpdatePageEnabled || isDemographicsPageEnabled) && (
+          <BackButton router={router} />
+        )}
+        <h1>Is this your current next of kin information?</h1>
         <div className="vads-u-border-color--primary vads-u-border-left--5px vads-u-margin-left--0p5 vads-u-padding-left--2">
           <dl>
-            {demographicFields.map(demographicField => (
-              <React.Fragment key={demographicField.key}>
+            {nextOfKinFields.map(nextOfKinField => (
+              <React.Fragment key={nextOfKinField.key}>
                 <dt className="vads-u-font-size--h3 vads-u-font-family--serif">
-                  {demographicField.title}
+                  {nextOfKinField.title}
                 </dt>
                 <dd>
-                  {demographicField.key in demographics &&
-                  demographics[demographicField.key] ? (
+                  {nextOfKinField.key in nextOfKin &&
+                  nextOfKin[nextOfKinField.key] ? (
                     <DemographicItem
-                      demographic={demographics[demographicField.key]}
+                      demographic={nextOfKin[nextOfKinField.key]}
                     />
                   ) : (
                     'Not available'
@@ -128,11 +125,11 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-Demographics.propTypes = {
-  demographics: PropTypes.object,
+NextOfKin.propTypes = {
+  nextOfKin: PropTypes.object,
   isLoading: PropTypes.bool,
+  isDemographicsPageEnabled: PropTypes.bool,
   isUpdatePageEnabled: PropTypes.bool,
-  isNextOfKinEnabled: PropTypes.bool,
   router: PropTypes.object,
   updateSeeStaffMessage: PropTypes.func,
 };
@@ -140,4 +137,4 @@ Demographics.propTypes = {
 export default connect(
   null,
   mapDispatchToProps,
-)(Demographics);
+)(NextOfKin);
