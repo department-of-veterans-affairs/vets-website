@@ -41,18 +41,22 @@ export const IntroductionPage = ({ user, route }) => {
   useEffect(
     () => {
       focusElement('.va-nav-breadcrumbs-list');
-      isEligible.then(res => {
-        if (user.login.currentlyLoggedIn && !res) {
-          setCourse(
-            <a
-              className="vads-c-action-link--green"
-              href="/education/apply-for-education-benefits/application/1990/introduction"
-            >
-              Start the education application
-            </a>,
-          );
-        }
-      });
+      try {
+        isEligible.then(res => {
+          if (user.login.currentlyLoggedIn && !res) {
+            setCourse(
+              <a
+                className="vads-c-action-link--green"
+                href="/education/apply-for-education-benefits/application/1990/introduction"
+              >
+                Start the education application
+              </a>,
+            );
+          }
+        });
+      } catch (err) {
+        isEligible.then(r => r);
+      }
     },
     [continueOrRedirect, isEligible, user.login.currentlyLoggedIn],
   );
