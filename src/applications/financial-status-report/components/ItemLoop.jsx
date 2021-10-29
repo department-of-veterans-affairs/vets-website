@@ -226,6 +226,7 @@ const ItemLoop = ({
   };
 
   const handleEdit = index => {
+    if (!isCollapsed) return;
     const editData = editing.map((item, i) => index === i);
     if (editing.length === 1) {
       setShowTable(false);
