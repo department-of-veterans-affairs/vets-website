@@ -5,7 +5,6 @@ import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import { mockFetch, setFetchJSONFailure } from 'platform/testing/unit/helpers';
 import reducers from '../../../redux/reducer';
-import { getVAAppointmentMock } from '../../mocks/v0';
 import { mockAppointmentInfo } from '../../mocks/helpers';
 import {
   renderWithStoreAndRouter,
@@ -13,7 +12,11 @@ import {
 } from '../../mocks/setup';
 import CanceledAppointmentsList from '../../../appointment-list/components/CanceledAppointmentsList';
 import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
-import { createMockFacilityByVersion } from '../../mocks/data';
+import {
+  createMockAppointmentByVersion,
+  createMockFacilityByVersion,
+} from '../../mocks/data';
+import { VIDEO_TYPES } from '../../../utils/constants';
 
 const initialState = {
   featureToggles: {
@@ -32,17 +35,18 @@ describe('VAOS <CanceledAppointmentsList>', () => {
   });
   it('should show information without facility name', async () => {
     const startDate = moment.utc();
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      startDate: startDate.format(),
-      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
-      facilityId: '983',
-      sta6aid: '983GC',
+    const data = {
+      id: '1234',
+      currentStatus: 'CANCELLED BY CLINIC',
+      kind: 'clinic',
+      clinic: '308',
+      start: startDate.format(),
+      locationId: '983GC',
     };
-    appointment.attributes.vdsAppointments[0].currentStatus =
-      'CANCELLED BY CLINIC';
-    appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({ va: [appointment] });
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
@@ -67,16 +71,19 @@ describe('VAOS <CanceledAppointmentsList>', () => {
   });
 
   it('should show information with facility name', async () => {
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      startDate: moment().format(),
-      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
-      facilityId: '983',
-      sta6aid: '983GC',
+    const data = {
+      id: '1234',
+      currentStatus: 'CANCELLED BY CLINIC',
+      kind: 'clinic',
+      clinic: '308',
+      start: moment().format(),
+      locationId: '983GC',
     };
-    appointment.attributes.vdsAppointments[0].currentStatus =
-      'CANCELLED BY CLINIC';
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
+
     mockAppointmentInfo({ va: [appointment] });
 
     mockFacilitiesFetchByVersion({
@@ -127,9 +134,17 @@ describe('VAOS <CanceledAppointmentsList>', () => {
   });
 
   it('should not display when they have hidden statuses', () => {
-    const appointment = getVAAppointmentMock();
-    appointment.attributes.startDate = moment().format();
-    appointment.attributes.vdsAppointments[0].currentStatus = 'NO-SHOW';
+    const data = {
+      id: '1234',
+      currentStatus: 'NO-SHOW',
+      kind: 'clinic',
+      start: moment().format(),
+      locationId: '983GC',
+    };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({ va: [appointment] });
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
@@ -143,12 +158,19 @@ describe('VAOS <CanceledAppointmentsList>', () => {
   });
 
   it('should not display when over 13 months away', () => {
-    const appointment = getVAAppointmentMock();
-    appointment.attributes.startDate = moment()
-      .add(14, 'months')
-      .format();
-    appointment.attributes.vdsAppointments[0].currentStatus =
-      'CANCELLED BY CLINIC';
+    const data = {
+      id: '1234',
+      currentStatus: 'CANCELLED BY CLINIC',
+      kind: 'clinic',
+      start: moment()
+        .add(14, 'months')
+        .format(),
+      locationId: '983GC',
+    };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({ va: [appointment] });
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
@@ -162,7 +184,6 @@ describe('VAOS <CanceledAppointmentsList>', () => {
   });
 
   it('should show error message when request fails', async () => {
-    mockAppointmentInfo({});
     setFetchJSONFailure(
       global.fetch.withArgs(
         `${
@@ -188,20 +209,18 @@ describe('VAOS <CanceledAppointmentsList>', () => {
 
   it('should show at home video appointment text', async () => {
     const startDate = moment.utc();
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      facilityId: '983',
-      clinicId: null,
-      startDate: startDate.format(),
+    const data = {
+      id: '1234',
+      currentStatus: 'CANCELLED BY CLINIC',
+      kind: 'telehealth',
+      start: startDate.format(),
+      locationId: '983GC',
+      telehealth: { vvsKind: VIDEO_TYPES.adhoc },
     };
-    appointment.attributes.vvsAppointments[0] = {
-      ...appointment.attributes.vvsAppointments[0],
-      dateTime: startDate.format(),
-      bookingNotes: 'Some random note',
-      appointmentKind: 'ADHOC',
-      status: { description: 'F', code: 'CANCELLED BY CLINIC' },
-    };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({ va: [appointment] });
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
@@ -226,35 +245,35 @@ describe('VAOS <CanceledAppointmentsList>', () => {
 
   it('should show ATLAS video appointment text', async () => {
     const startDate = moment.utc();
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      facilityId: '983',
-      clinicId: null,
-      startDate: startDate.format(),
-    };
-    appointment.attributes.vvsAppointments[0] = {
-      ...appointment.attributes.vvsAppointments[0],
-      dateTime: startDate.format(),
-      bookingNotes: 'Some random note',
-      appointmentKind: 'ADHOC',
-      status: { description: 'F', code: 'CANCELLED BY CLINIC' },
-      tasInfo: {
-        siteCode: '9931',
-        slotId: 'Slot8',
-        confirmationCode: '7VBBCA',
-        address: {
-          streetAddress: '114 Dewey Ave',
-          city: 'Eureka',
-          state: 'MT',
-          zipCode: '59917',
-          country: 'USA',
-          longitude: null,
-          latitude: null,
-          additionalDetails: '',
+    const data = {
+      id: '1234',
+      currentStatus: 'CANCELLED BY CLINIC',
+      kind: 'telehealth',
+      start: startDate.format(),
+      locationId: '983GC',
+      telehealth: {
+        vvsKind: VIDEO_TYPES.adhoc,
+        atlas: {
+          siteCode: '9931',
+          slotId: 'Slot8',
+          confirmationCode: '7VBBCA',
+          address: {
+            streetAddress: '114 Dewey Ave',
+            city: 'Eureka',
+            state: 'MT',
+            zipCode: '59917',
+            country: 'USA',
+            longitude: null,
+            latitude: null,
+            additionalDetails: '',
+          },
         },
       },
     };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({ va: [appointment] });
     mockFacilitiesFetchByVersion({ ids: ['442'], version: 0 });
@@ -282,20 +301,18 @@ describe('VAOS <CanceledAppointmentsList>', () => {
 
   it('should show video appointment on gfe text', async () => {
     const startDate = moment.utc();
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      facilityId: '983',
-      clinicId: null,
-      startDate: startDate.format(),
+    const data = {
+      id: '1234',
+      currentStatus: 'CANCELLED BY CLINIC',
+      kind: 'telehealth',
+      start: startDate.format(),
+      locationId: '983GC',
+      telehealth: { vvsKind: VIDEO_TYPES.gfe },
     };
-    appointment.attributes.vvsAppointments[0] = {
-      ...appointment.attributes.vvsAppointments[0],
-      dateTime: startDate.format(),
-      bookingNotes: 'Some random note',
-      appointmentKind: 'MOBILE_GFE',
-      status: { description: 'F', code: 'CANCELLED BY CLINIC' },
-    };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({ va: [appointment] });
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
@@ -322,20 +339,18 @@ describe('VAOS <CanceledAppointmentsList>', () => {
 
   it('should show video appointment at VA location text', async () => {
     const startDate = moment.utc();
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      facilityId: '983',
-      clinicId: null,
-      startDate: startDate.format(),
+    const data = {
+      id: '1234',
+      currentStatus: 'CANCELLED BY CLINIC',
+      kind: 'telehealth',
+      start: startDate.format(),
+      locationId: '983GC',
+      telehealth: { vvsKind: VIDEO_TYPES.clinic },
     };
-    appointment.attributes.vvsAppointments[0] = {
-      ...appointment.attributes.vvsAppointments[0],
-      dateTime: startDate.format(),
-      bookingNotes: 'Some random note',
-      appointmentKind: 'CLINIC_BASED',
-      status: { description: 'F', code: 'CANCELLED BY CLINIC' },
-    };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({ va: [appointment] });
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
@@ -362,16 +377,19 @@ describe('VAOS <CanceledAppointmentsList>', () => {
 
   it('should show phone call appointment text', async () => {
     const startDate = moment.utc();
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      startDate: startDate.format(),
-      facilityId: '983',
-      sta6aid: '983GC',
-      phoneOnly: true,
+    const data = {
+      id: '1234',
+      currentStatus: 'CANCELLED BY CLINIC',
+      kind: 'phone',
+      clinic: '308',
+      start: startDate.format(),
+      locationId: '983GC',
+      telehealth: { vvsKind: VIDEO_TYPES.clinic },
     };
-    appointment.attributes.vdsAppointments[0].currentStatus =
-      'CANCELLED BY CLINIC';
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({ va: [appointment] });
     mockFacilitiesFetchByVersion({ ids: ['442GC'], version: 0 });
@@ -393,17 +411,18 @@ describe('VAOS <CanceledAppointmentsList>', () => {
     const startDate = moment()
       .subtract(28, 'days')
       .utc();
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      startDate: startDate.format(),
-      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
-      facilityId: '983',
-      sta6aid: '983GC',
+    const data = {
+      id: '1234',
+      currentStatus: 'CANCELLED BY CLINIC',
+      kind: 'clinic',
+      clinic: '308',
+      start: startDate.format(),
+      locationId: '983GC',
     };
-    appointment.attributes.vdsAppointments[0].currentStatus =
-      'CANCELLED BY CLINIC';
-    appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({ va: [appointment] });
     mockFacilitiesFetchByVersion({ ids: ['442GC'], version: 0 });
@@ -432,17 +451,18 @@ describe('VAOS <CanceledAppointmentsList>', () => {
     const startDate = moment()
       .add(393, 'days')
       .utc();
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      startDate: startDate.format(),
-      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
-      facilityId: '983',
-      sta6aid: '983GC',
+    const data = {
+      id: '1234',
+      currentStatus: 'CANCELLED BY CLINIC',
+      kind: 'clinic',
+      clinic: '308',
+      start: startDate.format(),
+      locationId: '983GC',
     };
-    appointment.attributes.vdsAppointments[0].currentStatus =
-      'CANCELLED BY CLINIC';
-    appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({ va: [appointment] });
     mockFacilitiesFetchByVersion({ ids: ['442GC'], version: 0 });
@@ -471,17 +491,18 @@ describe('VAOS <CanceledAppointmentsList>', () => {
     const startDate = moment()
       .subtract(32, 'days')
       .utc();
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      startDate: startDate.format(),
-      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
-      facilityId: '983',
-      sta6aid: '983GC',
+    const data = {
+      id: '1234',
+      currentStatus: 'CANCELLED BY CLINIC',
+      kind: 'clinic',
+      clinic: '308',
+      start: startDate.format(),
+      locationId: '983GC',
     };
-    appointment.attributes.vdsAppointments[0].currentStatus =
-      'CANCELLED BY CLINIC';
-    appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({ va: [appointment] });
     mockFacilitiesFetchByVersion({ ids: ['442GC'], version: 0 });
@@ -499,17 +520,18 @@ describe('VAOS <CanceledAppointmentsList>', () => {
     const startDate = moment()
       .add(397, 'days')
       .utc();
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      startDate: startDate.format(),
-      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
-      facilityId: '983',
-      sta6aid: '983GC',
+    const data = {
+      id: '1234',
+      currentStatus: 'CANCELLED BY CLINIC',
+      kind: 'clinic',
+      clinic: '308',
+      start: startDate.format(),
+      locationId: '983GC',
     };
-    appointment.attributes.vdsAppointments[0].currentStatus =
-      'CANCELLED BY CLINIC';
-    appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({ va: [appointment] });
     mockFacilitiesFetchByVersion({ ids: ['442GC'], version: 0 });

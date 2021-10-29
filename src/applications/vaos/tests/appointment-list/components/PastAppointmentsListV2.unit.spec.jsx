@@ -5,7 +5,7 @@ import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
 import { within, waitFor } from '@testing-library/dom';
 import { mockFetch } from 'platform/testing/unit/helpers';
-import { getVAAppointmentMock, getVideoAppointmentMock } from '../../mocks/v0';
+import { getVideoAppointmentMock } from '../../mocks/v0';
 import {
   mockPastAppointmentInfo,
   mockPastAppointmentInfoOption1,
@@ -19,7 +19,10 @@ import PastAppointmentsListV2, {
 } from '../../../appointment-list/components/PastAppointmentsListV2';
 import { getVAOSAppointmentMock } from '../../mocks/v2';
 import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
-import { createMockFacilityByVersion } from '../../mocks/data';
+import {
+  createMockAppointmentByVersion,
+  createMockFacilityByVersion,
+} from '../../mocks/data';
 import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
 
 const initialState = {
@@ -53,18 +56,23 @@ describe('VAOS <PastAppointmentsListV2>', () => {
 
   it('should update range on dropdown change', async () => {
     const pastDate = moment().subtract(3, 'months');
+    const data = {
+      id: '1234',
+      kind: 'clinic',
+      clinic: 'fake',
+      start: pastDate.format(),
+      locationId: '983GC',
+      status: 'booked',
+    };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
+
     const rangeLabel = `${moment()
       .subtract(3, 'months')
       .startOf('month')
       .format('MMMM YYYY')}`;
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      startDate: pastDate.format(),
-      clinicFriendlyName: 'Some clinic',
-      facilityId: '983',
-      sta6aid: '983GC',
-    };
 
     mockPastAppointmentInfo({ va: [] });
 
@@ -91,16 +99,18 @@ describe('VAOS <PastAppointmentsListV2>', () => {
 
   it('should show information without facility name', async () => {
     const pastDate = moment().subtract(3, 'days');
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      startDate: pastDate.format(),
-      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
-      facilityId: '983',
-      sta6aid: '983GC',
+    const data = {
+      id: '1234',
+      kind: 'clinic',
+      clinic: 'fake',
+      start: pastDate.format(),
+      locationId: '983GC',
+      status: 'booked',
     };
-    appointment.attributes.vdsAppointments[0].currentStatus = 'CHECKED OUT';
-    appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockPastAppointmentInfo({ va: [appointment] });
 
@@ -128,15 +138,20 @@ describe('VAOS <PastAppointmentsListV2>', () => {
 
   it('should show information with facility name', async () => {
     const pastDate = moment().subtract(3, 'days');
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      startDate: pastDate.format(),
-      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
-      facilityId: '983',
-      sta6aid: '983GC',
+    const data = {
+      id: '1234',
+      currentStatus: 'CHECKED OUT',
+      kind: 'clinic',
+      clinic: 'fake',
+      start: pastDate.format(),
+      locationId: '983GC',
+      status: 'booked',
     };
-    appointment.attributes.vdsAppointments[0].currentStatus = 'CHECKED OUT';
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
+
     mockPastAppointmentInfo({ va: [appointment] });
 
     const facility = createMockFacilityByVersion({
@@ -176,9 +191,19 @@ describe('VAOS <PastAppointmentsListV2>', () => {
   });
 
   it('should not display when they have hidden statuses', () => {
-    const appointment = getVAAppointmentMock();
-    appointment.attributes.startDate = moment().format();
-    appointment.attributes.vdsAppointments[0].currentStatus = 'NO-SHOW';
+    const data = {
+      id: '1234',
+      currentStatus: 'NO-SHOW',
+      kind: 'clinic',
+      clinic: 'fake',
+      start: moment().format(),
+      locationId: '983GC',
+      status: 'booked',
+    };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockPastAppointmentInfo({ va: [appointment] });
 
@@ -192,9 +217,19 @@ describe('VAOS <PastAppointmentsListV2>', () => {
 
   it('should not display when over 13 months away', () => {
     const pastDate = moment().subtract(14, 'months');
-    const appointment = getVAAppointmentMock();
-    appointment.attributes.startDate = pastDate.format();
-    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+    const data = {
+      id: '1234',
+      currentStatus: 'FUTURE',
+      kind: 'clinic',
+      clinic: 'fake',
+      start: pastDate.format(),
+      locationId: '983GC',
+      status: 'booked',
+    };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockPastAppointmentInfo({ va: [appointment] });
 

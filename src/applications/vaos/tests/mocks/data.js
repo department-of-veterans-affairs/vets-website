@@ -117,7 +117,10 @@ export function createMockAppointmentByVersion({
         sourceSystem: 'VCM',
         dateTime: fields.start,
         duration: fields.minutesDuration || null,
-        status: { description: null, code: 'FUTURE' },
+        status: {
+          description: null,
+          code: currentStatus || 'FUTURE',
+        },
         schedulingRequestType: null,
         type: null,
         bookingNotes: fields.comment,
