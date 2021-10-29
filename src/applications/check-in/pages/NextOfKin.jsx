@@ -1,4 +1,5 @@
 import React, { useEffect, useCallback } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
@@ -9,6 +10,7 @@ import BackToHome from '../components/BackToHome';
 import { focusElement } from 'platform/utilities/ui';
 import Footer from '../components/Footer';
 import DemographicItem from '../components/DemographicItem';
+import { seeStaffMessageUpdated } from '../actions';
 
 const NextOfKin = props => {
   const {
@@ -17,7 +19,11 @@ const NextOfKin = props => {
     isDemographicsPageEnabled,
     isUpdatePageEnabled,
     router,
+    updateSeeStaffMessage,
   } = props;
+
+  const seeStaffMessage =
+    'Our staff can help you update your next of kin information.';
 
   useEffect(() => {
     focusElement('h1');
@@ -44,9 +50,10 @@ const NextOfKin = props => {
         event: 'cta-button-click',
         'button-click-label': 'no-to-next-of-kin-information',
       });
+      updateSeeStaffMessage(seeStaffMessage);
       goToNextPage(router, URLS.SEE_STAFF);
     },
-    [router],
+    [router, updateSeeStaffMessage],
   );
 
   const nextOfKinFields = [
@@ -110,12 +117,24 @@ const NextOfKin = props => {
   }
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    updateSeeStaffMessage: seeStaffMessage => {
+      dispatch(seeStaffMessageUpdated(seeStaffMessage));
+    },
+  };
+};
+
 NextOfKin.propTypes = {
   nextOfKin: PropTypes.object,
   isLoading: PropTypes.bool,
   isDemographicsPageEnabled: PropTypes.bool,
   isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
+  updateSeeStaffMessage: PropTypes.func,
 };
 
-export default NextOfKin;
+export default connect(
+  null,
+  mapDispatchToProps,
+)(NextOfKin);
