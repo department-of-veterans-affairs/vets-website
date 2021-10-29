@@ -1,0 +1,66 @@
+import React from 'react';
+
+// import ExpandingGroup from '../components/ExpandingGroup';
+// import { isReactComponent } from '../../../platform/utilities/ui';
+
+export default function DynamicRadioWidget({
+  options,
+  value,
+  disabled,
+  onChange,
+  id,
+}) {
+  const {
+    enumOptions,
+    labels = {},
+    // nestedContent = {},
+    widgetProps = {},
+    selectedProps = {},
+  } = options;
+
+  const getProps = (key, checked) => ({
+    ...(widgetProps[key] || {}),
+    ...((checked && selectedProps[key]) || {}),
+  });
+
+  // nested content could be a component or just jsx/text
+  // let content = nestedContent[value];
+  // if (isReactComponent(content)) {
+  //   const NestedContent = content;
+  //   content = <NestedContent />;
+  // }
+
+  return (
+    <div>
+      {enumOptions.map((option, i) => {
+        const checked = option.value === value;
+        // if (nestedContent[option.value]) {
+        //   return (
+        //     <ExpandingGroup open={checked} key={option.value}>
+        //       {radioButton}
+        //       <div className="schemaform-radio-indent">{content}</div>
+        //     </ExpandingGroup>
+        //   );
+        // }
+
+        return (
+          <div className="form-radio-buttons" key={option.value}>
+            <input
+              type="radio"
+              checked={checked}
+              id={`${id}_${i}`}
+              name={`${id}`}
+              value={option.value}
+              disabled={disabled}
+              onChange={_ => onChange(option.value)}
+              {...getProps(option.value, checked)}
+            />
+            <label htmlFor={`${id}_${i}`}>
+              {labels[option.value] || option.label}
+            </label>
+          </div>
+        );
+      })}
+    </div>
+  );
+}

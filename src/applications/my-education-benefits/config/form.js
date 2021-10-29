@@ -314,28 +314,28 @@ function notGivingUpBenefitSelected(formData) {
   return !givingUpBenefitSelected(formData);
 }
 
-function renderContactMethodFollowUp(formData, cond) {
-  const { mobilePhoneNumber, phoneNumber } = formData['view:phoneNumbers'];
-  let res = false;
-
-  switch (cond) {
-    case 1:
-      if (mobilePhoneNumber.phone && phoneNumber.phone) res = true;
-      break;
-    case 2:
-      if (mobilePhoneNumber.phone && !phoneNumber.phone) res = true;
-      break;
-    case 3:
-      if (!mobilePhoneNumber.phone && phoneNumber.phone) res = true;
-      break;
-    case 4:
-      if (!mobilePhoneNumber.phone && !phoneNumber.phone) res = true;
-      break;
-    default:
-  }
-
-  return res;
-}
+// function renderContactMethodFollowUp(formData, cond) {
+//   const { mobilePhoneNumber, phoneNumber } = formData['view:phoneNumbers'];
+//   let res = false;
+//
+//   switch (cond) {
+//     case 1:
+//       if (mobilePhoneNumber.phone && phoneNumber.phone) res = true;
+//       break;
+//     case 2:
+//       if (mobilePhoneNumber.phone && !phoneNumber.phone) res = true;
+//       break;
+//     case 3:
+//       if (!mobilePhoneNumber.phone && phoneNumber.phone) res = true;
+//       break;
+//     case 4:
+//       if (!mobilePhoneNumber.phone && !phoneNumber.phone) res = true;
+//       break;
+//     default:
+//   }
+//
+//   return res;
+// }
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -789,72 +789,69 @@ const formConfig = {
                     'Please select at least one way we can contact you.',
                 },
               },
-              'ui:options': {
-                hideIf: formData => !renderContactMethodFollowUp(formData, 1),
-              },
             },
-            'view:noHomePhoneForContact': {
-              [formFields.contactMethod]: {
-                'ui:title':
-                  'How should we contact you if we have questions about your application?',
-                'ui:widget': 'radio',
-                'ui:options': {
-                  widgetProps: {
-                    Email: { 'data-info': 'email' },
-                    'Mobile phone': { 'data-info': 'mobile phone' },
-                    Mail: { 'data-info': 'mail' },
-                  },
-                },
-                'ui:errorMessages': {
-                  required:
-                    'Please select at least one way we can contact you.',
-                },
-              },
-              'ui:options': {
-                hideIf: formData => !renderContactMethodFollowUp(formData, 2),
-              },
-            },
-            'view:noMobilePhoneForContact': {
-              [formFields.contactMethod]: {
-                'ui:title':
-                  'How should we contact you if we have questions about your application?',
-                'ui:widget': 'radio',
-                'ui:options': {
-                  widgetProps: {
-                    Email: { 'data-info': 'email' },
-                    'Home phone': { 'data-info': 'home phone' },
-                    Mail: { 'data-info': 'mail' },
-                  },
-                },
-                'ui:errorMessages': {
-                  required:
-                    'Please select at least one way we can contact you.',
-                },
-              },
-              'ui:options': {
-                hideIf: formData => !renderContactMethodFollowUp(formData, 3),
-              },
-            },
-            'view:noMobileOrHomeForContact': {
-              [formFields.contactMethod]: {
-                'ui:title':
-                  'How should we contact you if we have questions about your application?',
-                'ui:widget': 'radio',
-                'ui:options': {
-                  widgetProps: {
-                    Email: { 'data-info': 'email' },
-                    Mail: { 'data-info': 'mail' },
-                  },
-                },
-                'ui:errorMessages': {
-                  required:
-                    'Please select at least one way we can contact you.',
-                },
-              },
-              'ui:options': {
-                hideIf: formData => !renderContactMethodFollowUp(formData, 4),
-              },
-            },
+            // 'view:noHomePhoneForContact': {
+            //   [formFields.contactMethod]: {
+            //     'ui:title':
+            //       'How should we contact you if we have questions about your application?',
+            //     'ui:widget': 'radio',
+            //     'ui:options': {
+            //       widgetProps: {
+            //         Email: { 'data-info': 'email' },
+            //         'Mobile phone': { 'data-info': 'mobile phone' },
+            //         Mail: { 'data-info': 'mail' },
+            //       },
+            //     },
+            //     'ui:errorMessages': {
+            //       required:
+            //         'Please select at least one way we can contact you.',
+            //     },
+            //   },
+            //   'ui:options': {
+            //     hideIf: formData => !renderContactMethodFollowUp(formData, 2),
+            //   },
+            // },
+            // 'view:noMobilePhoneForContact': {
+            //   [formFields.contactMethod]: {
+            //     'ui:title':
+            //       'How should we contact you if we have questions about your application?',
+            //     'ui:widget': 'radio',
+            //     'ui:options': {
+            //       widgetProps: {
+            //         Email: { 'data-info': 'email' },
+            //         'Home phone': { 'data-info': 'home phone' },
+            //         Mail: { 'data-info': 'mail' },
+            //       },
+            //     },
+            //     'ui:errorMessages': {
+            //       required:
+            //         'Please select at least one way we can contact you.',
+            //     },
+            //   },
+            //   'ui:options': {
+            //     hideIf: formData => !renderContactMethodFollowUp(formData, 3),
+            //   },
+            // },
+            // 'view:noMobileOrHomeForContact': {
+            //   [formFields.contactMethod]: {
+            //     'ui:title':
+            //       'How should we contact you if we have questions about your application?',
+            //     'ui:widget': 'radio',
+            //     'ui:options': {
+            //       widgetProps: {
+            //         Email: { 'data-info': 'email' },
+            //         Mail: { 'data-info': 'mail' },
+            //       },
+            //     },
+            //     'ui:errorMessages': {
+            //       required:
+            //         'Please select at least one way we can contact you.',
+            //     },
+            //   },
+            //   'ui:options': {
+            //     hideIf: formData => !renderContactMethodFollowUp(formData, 4),
+            //   },
+            // },
             'view:receiveTextMessages': {
               'ui:description': (
                 <>
@@ -987,33 +984,33 @@ const formConfig = {
                   },
                 },
               },
-              'view:noHomePhoneForContact': {
-                type: 'object',
-                properties: {
-                  [formFields.contactMethod]: {
-                    type: 'string',
-                    enum: ['Email', 'Mobile phone', 'Mail'],
-                  },
-                },
-              },
-              'view:noMobilePhoneForContact': {
-                type: 'object',
-                properties: {
-                  [formFields.contactMethod]: {
-                    type: 'string',
-                    enum: ['Email', 'Home phone', 'Mail'],
-                  },
-                },
-              },
-              'view:noMobileOrHomeForContact': {
-                type: 'object',
-                properties: {
-                  [formFields.contactMethod]: {
-                    type: 'string',
-                    enum: ['Email', 'Mail'],
-                  },
-                },
-              },
+              // 'view:noHomePhoneForContact': {
+              //   type: 'object',
+              //   properties: {
+              //     [formFields.contactMethod]: {
+              //       type: 'string',
+              //       enum: ['Email', 'Mobile phone', 'Mail'],
+              //     },
+              //   },
+              // },
+              // 'view:noMobilePhoneForContact': {
+              //   type: 'object',
+              //   properties: {
+              //     [formFields.contactMethod]: {
+              //       type: 'string',
+              //       enum: ['Email', 'Home phone', 'Mail'],
+              //     },
+              //   },
+              // },
+              // 'view:noMobileOrHomeForContact': {
+              //   type: 'object',
+              //   properties: {
+              //     [formFields.contactMethod]: {
+              //       type: 'string',
+              //       enum: ['Email', 'Mail'],
+              //     },
+              //   },
+              // },
               'view:receiveTextMessages': {
                 type: 'object',
                 required: [formFields.receiveTextMessages],
