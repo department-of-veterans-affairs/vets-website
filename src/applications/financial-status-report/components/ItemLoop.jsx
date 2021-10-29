@@ -253,40 +253,29 @@ const ItemLoop = ({
 
   const handleAdd = () => {
     const lastIndex = items?.length - 1;
-    if (errorSchemaIsValid(errorSchema[lastIndex])) {
-      const defaultData = getDefaultFormState(
-        schema.additionalItems,
-        undefined,
-        registry.definitions,
-      );
-      const newFormData = [...items, defaultData];
-      setCache(items);
-      onChange(newFormData);
-      setEditing([...editing, 'add']);
-      handleScroll(`table_${idSchema.$id}_${lastIndex + 1}`, 0);
-    } else {
-      const touched = setArrayRecordTouched(idSchema.$id, lastIndex);
-      formContext.setTouched(touched, () => {
-        scrollToFirstError();
-      });
-    }
+    const defaultData = getDefaultFormState(
+      schema.additionalItems,
+      undefined,
+      registry.definitions,
+    );
+    const newFormData = [...items, defaultData];
+    setCache(items);
+    onChange(newFormData);
+    setEditing(prevState => [...prevState, 'add']);
+    handleScroll(`table_${idSchema.$id}_${lastIndex + 1}`, 0);
   };
 
   const handleCancel = index => {
     const lastIndex = items.length - 1;
     const isAdding = editing.includes('add');
-    if (isAdding && lastIndex === index) {
+    if (isAdding && index === lastIndex) {
       const editData = editing.filter(item => item !== 'add');
-      const filtered = items.filter(item => {
-        return Object.values(item).includes(undefined) ? null : item;
-      });
       setEditing(editData);
-      onChange(filtered);
     } else {
       const editData = editing.map(() => false);
       setEditing(editData);
-      onChange(cache);
     }
+    onChange(cache);
   };
 
   const handleRemove = index => {
