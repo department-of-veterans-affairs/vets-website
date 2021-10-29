@@ -57,7 +57,7 @@ export class VerifyApp extends React.Component {
 
   render() {
     const { profile } = this.props;
-    const authVersion = this.props.authenticatedWithSSOe ? 'v1' : 'v0';
+    const authVersion = this.props.authenticatedWithSSOe && 'v1';
 
     if (profile.loading) {
       return <LoadingIndicator message="Loading the application..." />;

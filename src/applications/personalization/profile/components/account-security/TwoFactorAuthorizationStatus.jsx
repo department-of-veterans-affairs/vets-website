@@ -20,7 +20,7 @@ const TwoFactorAuthorizationStatus = ({
 
   const mfaHandler = isAuthenticatedWithSSO => {
     recordEvent({ event: 'multifactor-link-clicked' });
-    mfa(isAuthenticatedWithSSO ? 'v1' : 'v0');
+    mfa(isAuthenticatedWithSSO && 'v1');
   };
 
   return (
