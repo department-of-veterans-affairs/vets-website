@@ -1,29 +1,20 @@
 import React from 'react';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
-const FacilityContacts = () => (
+const FacilityContacts = ({ facilities }) => (
   <>
-    <h3>Contact information for your VA health care facilities</h3>
-    <dl>
-      <dt>
-        <h4>James A. Haley Veterans’ Hospital</h4>
-      </dt>
-      <dd>
-        <strong>Main number:</strong> <Telephone contact={'813-972-2000'} />
-      </dd>
-      <dt>
-        <h4>San Diego VA Medical Center</h4>
-      </dt>
-      <dd>
-        <strong>Main number:</strong> <Telephone contact={'858-552-8585'} />
-      </dd>
-      <dt>
-        <h4>Philadelphia VA Medical Center</h4>
-      </dt>
-      <dd>
-        <strong>Main number:</strong> <Telephone contact={'215-823-5800'} />
-      </dd>
-    </dl>
+    <h5>Contact information for your VA health care facilities:</h5>
+    <ul>
+      {facilities.map(facility => (
+        <li key={facility.facilitYNum}>
+          {facility.facilityName}:
+          <Telephone
+            className="vads-u-margin-x--0p5"
+            contact={facility.teLNum}
+          />
+        </li>
+      ))}
+    </ul>
   </>
 );
 

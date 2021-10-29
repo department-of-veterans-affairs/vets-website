@@ -1,6 +1,6 @@
 import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-import { addressUiSchema } from 'applications/vre/definitions/profileAddress';
+import addressUiSchema from 'platform/forms-system/src/js/definitions/profileAddress';
 
 import { VeteranAddressDescription } from '../../../../components/VeteranAddressDescription';
 

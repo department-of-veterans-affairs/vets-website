@@ -5,16 +5,14 @@ import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import environment from 'platform/utilities/environment';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import { NewBookingSection } from '../../../covid-19-vaccine';
-import {
-  getDirectBookingEligibilityCriteriaMock,
-  getVAFacilityMock,
-} from '../../../tests/mocks/v0';
+import { getDirectBookingEligibilityCriteriaMock } from '../../../tests/mocks/v0';
 import {
   mockDirectBookingEligibilityCriteria,
-  mockFacilitiesFetch,
   mockRequestEligibilityCriteria,
-} from '../../../tests/mocks/helpers';
+} from '../../mocks/helpers';
+import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
 import { TYPE_OF_CARE_ID } from '../../../covid-19-vaccine/utils';
+import { createMockFacilityByVersion } from '../../mocks/data';
 
 const initialState = {
   featureToggles: {
@@ -66,27 +64,23 @@ describe('VAOS vaccine flow', () => {
       ...initialState,
     });
 
-    mockFacilitiesFetch('vha_442', [
-      {
-        id: '983',
-        attributes: {
-          ...getVAFacilityMock().attributes,
-          uniqueId: '983',
+    mockFacilitiesFetchByVersion({
+      facilities: [
+        createMockFacilityByVersion({
+          id: '983',
           name: 'Facility that is enabled',
           lat: 39.1362562,
           long: -83.1804804,
           address: {
-            physical: {
-              city: 'Bozeman',
-              state: 'MT',
-            },
+            city: 'Bozeman',
+            state: 'MT',
           },
-          phone: {
-            main: '5555555555x1234',
-          },
-        },
-      },
-    ]);
+          phone: '5555555555x1234',
+          version: 0,
+        }),
+      ],
+      version: 0,
+    });
     mockRequestEligibilityCriteria(['983', '984'], []);
     mockDirectBookingEligibilityCriteria(
       ['983', '984'],

@@ -25,7 +25,7 @@ describe('<SupportingDocumentsDescription>', () => {
     );
 
     tree
-      .find('button')
+      .find('a')
       .first()
       .simulate('click');
 
@@ -48,7 +48,7 @@ describe('<SupportingDocumentsDescription>', () => {
     );
 
     tree
-      .find('button')
+      .find('a')
       .first()
       .simulate('click');
 
@@ -71,7 +71,7 @@ describe('<SupportingDocumentsDescription>', () => {
     );
 
     tree
-      .find('button')
+      .find('a')
       .first()
       .simulate('click');
 

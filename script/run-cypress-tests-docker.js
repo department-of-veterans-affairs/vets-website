@@ -11,7 +11,7 @@ exec("find src -name '*.cypress.*.js' | tr '\n' ','", function(_err, stdout) {
   if (index > -1) {
     strings.splice(index, 1);
   }
-  const divider = Math.ceil(strings.length / 6);
+  const divider = Math.ceil(strings.length / 5);
 
   let tests;
   if (stepNumber === 5) {

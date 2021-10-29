@@ -1,12 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import {
-  makeRxTrackingItemFilter,
-  selectGroupById,
-} from '@@profile/ducks/communicationPreferences';
+import { selectGroupById } from '@@profile/ducks/communicationPreferences';
 import { selectCommunicationPreferences } from '@@profile/reducers';
-import { selectPatientFacilities } from '~/platform/user/selectors';
 
 import NotificationItem from './NotificationItem';
 
@@ -20,19 +16,18 @@ const NotificationGroup = ({ children, groupName, itemIds }) => {
         })}
         {children}
       </div>
-      <hr className="vads-u-margin-y--2" />
+      <hr aria-hidden="true" className="vads-u-margin-y--2" />
     </div>
   );
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const facilities = selectPatientFacilities(state);
   const communicationPreferencesState = selectCommunicationPreferences(state);
   const group = selectGroupById(
     communicationPreferencesState,
     ownProps.groupId,
   );
-  const itemIds = group.items.filter(makeRxTrackingItemFilter(facilities));
+  const itemIds = group.items;
   return {
     groupName: group.name,
     itemIds,

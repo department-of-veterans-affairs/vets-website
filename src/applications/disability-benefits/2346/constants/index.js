@@ -9,7 +9,6 @@ export const schemaFields = {
   permanentAddressField: 'permanentAddress',
   temporaryAddressField: 'temporaryAddress',
   vetEmailField: 'vetEmail',
-  viewConfirmationEmailField: 'view:confirmationEmail',
   suppliesField: 'supplies',
   viewCurrentAddressField: 'view:currentAddress',
   viewVeteranInfoField: 'view:veteranInfo',

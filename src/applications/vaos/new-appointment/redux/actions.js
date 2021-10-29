@@ -10,7 +10,6 @@ import {
   selectFeatureCommunityCare,
   selectSystemIds,
   selectFeatureVAOSServiceRequests,
-  selectFeatureVariantTesting,
   selectRegisteredCernerFacilityIds,
   selectFeatureFacilitiesServiceV2,
   selectFeatureVAOSServiceVAAppointments,
@@ -111,8 +110,6 @@ export const FORM_ELIGIBILITY_CHECKS_SUCCEEDED =
   'newAppointment/FORM_ELIGIBILITY_CHECKS_SUCCEEDED';
 export const FORM_ELIGIBILITY_CHECKS_FAILED =
   'newAppointment/FORM_ELIGIBILITY_CHECKS_FAILED';
-export const FORM_CLINIC_PAGE_OPENED_SUCCEEDED =
-  'newAppointment/FORM_CLINIC_PAGE_OPENED_SUCCEEDED';
 export const START_DIRECT_SCHEDULE_FLOW =
   'newAppointment/START_DIRECT_SCHEDULE_FLOW';
 export const START_REQUEST_APPOINTMENT_FLOW =
@@ -454,7 +451,6 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
     let location = null;
     const facilities = getTypeOfCareFacilities(getState());
     const cernerSiteIds = selectRegisteredCernerFacilityIds(getState());
-    const variantTestEnabled = selectFeatureVariantTesting(getState());
     const calculatedDistanceFromCurrentLocation = facilities.some(
       f => !!f.legacyVAR?.distanceFromCurrentLocation,
     );
@@ -490,14 +486,12 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
           event: `${GA_PREFIX}-request-current-location-blocked`,
         });
         captureError(e, true, 'facility page');
-        if (variantTestEnabled) {
-          dispatch({
-            type: FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
-            sortMethod,
-            uiSchema,
-            cernerSiteIds,
-          });
-        }
+        dispatch({
+          type: FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
+          sortMethod,
+          uiSchema,
+          cernerSiteIds,
+        });
         dispatch({
           type: FORM_REQUEST_CURRENT_LOCATION_FAILED,
         });
@@ -535,15 +529,6 @@ export function updateReasonForAppointmentData(page, uiSchema, data) {
     page,
     uiSchema,
     data,
-  };
-}
-
-export function openClinicPage(page, uiSchema, schema) {
-  return {
-    type: FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
-    page,
-    uiSchema,
-    schema,
   };
 }
 

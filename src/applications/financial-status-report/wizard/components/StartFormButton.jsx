@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
-import { rootUrl } from '../../manifest.json';
+import manifest from '../../manifest.json';
 
 const StartFormButton = ({ setWizardStatus, label, ariaId }) => {
   useEffect(() => {
@@ -12,7 +12,7 @@ const StartFormButton = ({ setWizardStatus, label, ariaId }) => {
 
   return (
     <a
-      href={`${rootUrl}/introduction`}
+      href={`${manifest.rootUrl}/introduction`}
       className="usa-button-primary va-button-primary"
       onClick={event => {
         event.preventDefault();

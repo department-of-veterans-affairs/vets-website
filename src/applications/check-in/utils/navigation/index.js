@@ -24,13 +24,15 @@ const goToNextPage = (router, target, params) => {
 };
 
 const URLS = Object.freeze({
-  VALIDATION_NEEDED: 'verify',
-  UPDATE_INSURANCE: 'update-information',
-  SEE_STAFF: 'see-staff',
-  DETAILS: 'details',
   COMPLETE: 'complete',
+  DEMOGRAPHICS: 'contact-information',
+  DETAILS: 'details',
   ERROR: 'error',
   LANDING: '',
+  NEXT_OF_KIN: 'next-of-kin',
+  SEE_STAFF: 'see-staff',
+  UPDATE_INSURANCE: 'update-information',
+  VALIDATION_NEEDED: 'verify',
 });
 
 export { getTokenFromLocation, goToNextPage, URLS };

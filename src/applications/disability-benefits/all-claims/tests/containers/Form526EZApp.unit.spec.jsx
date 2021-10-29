@@ -42,6 +42,8 @@ describe('Form 526EZ Entry Page', () => {
     mvi = '',
     show526Wizard = true,
     dob = '2000-01-01',
+    pathname = '/introduction',
+    router = [],
   } = {}) => {
     const initialState = {
       form: {
@@ -67,7 +69,7 @@ describe('Form 526EZ Entry Page', () => {
         },
       },
       currentLocation: {
-        pathname: '/introduction',
+        pathname,
         search: '',
       },
       mvi: {
@@ -92,7 +94,7 @@ describe('Form 526EZ Entry Page', () => {
           location={initialState.currentLocation}
           user={initialState.user}
           showWizard={initialState.showWizard}
-          router={[]}
+          router={router}
           savedForms={savedForms}
         >
           <main>
@@ -116,6 +118,16 @@ describe('Form 526EZ Entry Page', () => {
     expect(tree.find('h1').text()).to.contain('Log in');
     expect(tree.find('RoutedSavableApp')).to.have.lengthOf(1);
     expect(tree.find('main').text()).to.contain('Log in');
+    tree.unmount();
+  });
+  it('should redirect to the intro page when on a different page & not logged in', () => {
+    const router = [];
+    const tree = testPage({
+      currentlyLoggedIn: false,
+      pathname: '/something-else',
+      router,
+    });
+    expect(router[0]).to.equal('/introduction');
     tree.unmount();
   });
 
@@ -157,7 +169,7 @@ describe('Form 526EZ Entry Page', () => {
   });
 
   // Logged in & verified, but missing DOB
-  it('should render Missing DOB aler', () => {
+  it('should render Missing DOB alert', () => {
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
     const tree = testPage({
       currentlyLoggedIn: true,
@@ -276,10 +288,13 @@ describe('Form 526EZ Entry Page', () => {
   it('should redirect to the wizard when logged in', () => {
     localStorage.setItem('hasSession', true);
     sessionStorage.removeItem(WIZARD_STATUS);
+    const router = [];
     const tree = testPage({
       currentlyLoggedIn: true,
+      router,
     });
     expect(tree.find('h1').text()).to.contain('restart the app');
+    expect(router[0]).to.equal('/start');
     tree.unmount();
   });
   it('should not redirect to the wizard there is a saved form', () => {

@@ -1,7 +1,5 @@
 import enrollmentStatusEnrolled from '@@profile/tests/fixtures/enrollment-system/enrolled.json';
 
-import { mockFeatureToggles } from './helpers';
-
 import {
   makeUserObject,
   mockLocalStorage,
@@ -25,7 +23,6 @@ describe('MyVA Dashboard - Cerner Widget', () => {
         '/v0/health_care_applications/enrollment_status',
         enrollmentStatusEnrolled,
       );
-      mockFeatureToggles();
     });
     it('should not show the Cerner alert', () => {
       cy.visit('my-va/');
@@ -54,7 +51,6 @@ describe('MyVA Dashboard - Cerner Widget', () => {
         '/v0/health_care_applications/enrollment_status',
         enrollmentStatusEnrolled,
       );
-      mockFeatureToggles();
     });
     it('should show the Cerner alert', () => {
       cy.visit('my-va/');

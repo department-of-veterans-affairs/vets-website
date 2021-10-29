@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import BackToHome from '../components/BackToHome';
@@ -33,7 +34,7 @@ const Error = props => {
           .
         </p>
       </va-alert>
-      <Footer header={'Not sure where to wait?'} />
+      <Footer />
       <BackToHome />
     </div>
   );
@@ -46,6 +47,10 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = () => {
   return {};
+};
+
+Error.propTypes = {
+  appointment: PropTypes.object,
 };
 
 export default connect(

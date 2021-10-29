@@ -17,6 +17,7 @@ import {
 } from '@@vap-svc/actions';
 
 import * as VAP_SERVICE from '@@vap-svc/constants';
+import { ACTIVE_EDIT_VIEWS, FIELD_NAMES, USA } from '@@vap-svc/constants';
 
 import {
   isFailedTransaction,
@@ -25,6 +26,7 @@ import {
 } from '@@vap-svc/util/transactions';
 import VAPServiceEditModalErrorMessage from '@@vap-svc/components/base/VAPServiceEditModalErrorMessage';
 import CopyMailingAddress from '@@vap-svc/containers/CopyMailingAddress';
+import { getEditButtonId } from '@@vap-svc/components/ContactInformationField';
 
 import {
   selectCurrentlyOpenEditModal,
@@ -34,12 +36,9 @@ import {
   selectEditViewData,
 } from '@@vap-svc/selectors';
 
-import { ACTIVE_EDIT_VIEWS, FIELD_NAMES, USA } from '@@vap-svc/constants';
-
 import { transformInitialFormValues } from '@@profile/util/contact-information/formValues';
 
 import ContactInformationActionButtons from './ContactInformationActionButtons';
-import { getEditButtonId } from './ContactInformationField';
 
 export class ContactInformationEditView extends Component {
   static propTypes = {
@@ -80,6 +79,11 @@ export class ContactInformationEditView extends Component {
     }
   }
 
+  clearErrorsAndShiftFocus(fieldName) {
+    this.props.clearTransactionRequest(fieldName);
+    this.focusOnFirstFormElement();
+  }
+
   componentDidMount() {
     const { getInitialFormValues } = this.props;
     this.onChangeFormDataAndSchemas(
@@ -93,6 +97,13 @@ export class ContactInformationEditView extends Component {
   componentDidUpdate(prevProps) {
     if (!prevProps.field && !!this.props.field) {
       this.focusOnFirstFormElement();
+    }
+
+    if (
+      this.props.transactionRequest?.error ||
+      isFailedTransaction(this.props.transaction)
+    ) {
+      focusElement('button[aria-label="Close notification"]');
     }
 
     // if the transaction just became pending, start calling
@@ -115,9 +126,10 @@ export class ContactInformationEditView extends Component {
     }
     // if a transaction was created that was immediately successful (for example
     // when the transaction's status is `COMPLETED_NO_CHANGES_DETECTED`),
-    // immediately exit edit view
+    // immediately exit edit view and clear the transaction request so it can be triggered again
     if (isSuccessfulTransaction(this.props.transaction)) {
       this.props.openModal(null);
+      this.props.clearTransactionRequest(this.props.fieldName);
     }
   }
 
@@ -263,7 +275,7 @@ export class ContactInformationEditView extends Component {
             <VAPServiceEditModalErrorMessage
               title={title}
               error={error}
-              clearErrors={() => this.props.clearTransactionRequest(fieldName)}
+              clearErrors={() => this.clearErrorsAndShiftFocus(fieldName)}
             />
           </div>
         )}

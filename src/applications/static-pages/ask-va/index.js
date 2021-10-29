@@ -2,8 +2,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-// Relative imports.
-import environment from 'platform/utilities/environment';
 
 export default (store, widgetType) => {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
@@ -13,7 +11,7 @@ export default (store, widgetType) => {
       const App = module.default;
       ReactDOM.render(
         <Provider store={store}>
-          <App hidden={environment.isProduction()} />
+          <App />
         </Provider>,
         root,
       );

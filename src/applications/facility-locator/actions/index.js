@@ -25,7 +25,7 @@ import LocatorApi from '../api';
 import {
   LocationType,
   BOUNDING_RADIUS,
-  TypeList,
+  MAPBOX_QUERY_TYPES,
   CountriesList,
 } from '../constants';
 
@@ -219,22 +219,24 @@ export const fetchLocations = async (
         radius,
       );
       data = { ...dataList };
-      data.data = dataList.data
-        .map(location => {
-          const distance =
-            center &&
-            distBetween(
-              center[0],
-              center[1],
-              location.attributes.lat,
-              location.attributes.long,
-            );
-          return {
-            ...location,
-            distance,
-          };
-        })
-        .sort((resultA, resultB) => resultA.distance - resultB.distance);
+      if (dataList.data) {
+        data.data = dataList.data
+          .map(location => {
+            const distance =
+              center &&
+              distBetween(
+                center[0],
+                center[1],
+                location.attributes.lat,
+                location.attributes.long,
+              );
+            return {
+              ...location,
+              distance,
+            };
+          })
+          .sort((resultA, resultB) => resultA.distance - resultB.distance);
+      }
     }
     if (data.errors) {
       dispatch({ type: SEARCH_FAILED, error: data.errors });
@@ -242,7 +244,7 @@ export const fetchLocations = async (
       dispatch({ type: FETCH_LOCATIONS, payload: data });
     }
   } catch (error) {
-    dispatch({ type: SEARCH_FAILED, error });
+    dispatch({ type: SEARCH_FAILED, error: error.message });
   }
 };
 
@@ -334,7 +336,7 @@ export const genBBoxFromAddress = query => {
     dispatch({ type: GEOCODE_STARTED });
 
     // commas can be stripped from query if Mapbox is returning unexpected results
-    let types = TypeList;
+    let types = MAPBOX_QUERY_TYPES;
     // check for postcode search
     const isPostcode = query.searchString.match(/^\s*\d{5}\s*$/);
 
@@ -432,7 +434,7 @@ export const genSearchAreaFromCenter = query => {
       dispatch({ type: GEOCODE_FAILED });
       dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
     } else {
-      const types = TypeList;
+      const types = MAPBOX_QUERY_TYPES;
       mbxClient
         .reverseGeocode({
           countries: CountriesList,

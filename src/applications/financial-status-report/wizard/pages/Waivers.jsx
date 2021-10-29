@@ -34,21 +34,18 @@ const Waivers = () => {
           <li>
             <strong>Online: </strong>
             <a
-              href="https://iris.custhelp.va.gov/app/ask"
+              href="https://www.va.gov/contact-us/"
+              className="vads-u-margin-left--0p5"
               onClick={() => {
                 recordEvent({
                   event: 'howToWizard-alert-link-click',
                   'howToWizard-alert-link-click-label':
-                    'Go to our online question form (called IRIS)',
+                    'Contact us through Ask VA',
                 });
               }}
             >
-              Go to our online question form (called IRIS)
+              Contact us through Ask VA
             </a>
-            . On the IRIS page, select <strong>Debt Management Center</strong>,
-            your debt type, and <strong>Waiver</strong> within the Topic
-            dropdown. For Inquiry Type, select <strong>Question</strong>. Write
-            your request in the <strong>Question</strong> section.
           </li>
           <li>
             <strong>Phone: </strong>

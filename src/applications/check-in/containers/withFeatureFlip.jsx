@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
@@ -6,39 +7,46 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 
 import {
   checkInExperienceEnabled,
-  checkInExperienceLowRiskAuthenicationEnabled,
-  checkInExperienceMultipleAppointmentEnabled,
+  checkInExperienceDemographicsPageEnabled,
+  checkInExperienceNextOfKinEnabled,
   checkInExperienceUpdateInformationPageEnabled,
   loadingFeatureFlags,
 } from '../selectors';
 
-const withFeatureFlip = WrappedComponent => props => {
-  const { isCheckInEnabled, isLoadingFeatureFlags } = props;
-  if (isLoadingFeatureFlags) {
-    return (
-      <>
-        <LoadingIndicator message="Loading your check in experience" />
-      </>
-    );
-  } else if (!isCheckInEnabled) {
-    window.location.replace('/');
-    return <></>;
-  } else {
-    return (
-      <>
-        <meta name="robots" content="noindex" />
-        <WrappedComponent {...props} />
-      </>
-    );
-  }
+const withFeatureFlip = Component => {
+  const Wrapped = ({ isCheckInEnabled, isLoadingFeatureFlags, ...props }) => {
+    if (isLoadingFeatureFlags) {
+      return (
+        <>
+          <LoadingIndicator message="Loading your check in experience" />
+        </>
+      );
+    } else if (!isCheckInEnabled) {
+      window.location.replace('/');
+      return <></>;
+    } else {
+      return (
+        <>
+          <meta name="robots" content="noindex" />
+          <Component {...props} />
+        </>
+      );
+    }
+  };
+
+  Wrapped.propTypes = {
+    isCheckInEnabled: PropTypes.bool,
+    isLoadingFeatureFlags: PropTypes.bool,
+  };
+
+  return Wrapped;
 };
+
 const mapStateToProps = state => ({
   isCheckInEnabled: checkInExperienceEnabled(state),
+  isDemographicsPageEnabled: checkInExperienceDemographicsPageEnabled(state),
   isLoadingFeatureFlags: loadingFeatureFlags(state),
-  isLowAuthEnabled: checkInExperienceLowRiskAuthenicationEnabled(state),
-  isMultipleAppointmentsEnabled: checkInExperienceMultipleAppointmentEnabled(
-    state,
-  ),
+  isNextOfKinEnabled: checkInExperienceNextOfKinEnabled(state),
   isUpdatePageEnabled: checkInExperienceUpdateInformationPageEnabled(state),
 });
 

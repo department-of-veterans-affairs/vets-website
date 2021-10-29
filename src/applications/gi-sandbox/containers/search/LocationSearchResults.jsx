@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { scroller } from 'react-scroll';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
 import { focusElement, getScrollOptions } from 'platform/utilities/ui';
@@ -20,6 +19,7 @@ import { connect } from 'react-redux';
 import { getFiltersChanged } from '../../selectors/filters';
 import MobileFilterControls from '../../components/MobileFilterControls';
 import classNames from 'classnames';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 const MILE_METER_CONVERSION_RATE = 1609.34;
 const LIST_TAB = 'List';
@@ -167,7 +167,7 @@ function LocationSearchResults({
     const locationSearchResults = document.getElementById(
       'location-search-results-container',
     );
-    scroller.scrollTo(
+    scrollTo(
       `${createId(name)}-result-card-placeholder`,
       getScrollOptions({
         containerId: 'location-search-results-container',

@@ -14,13 +14,7 @@ describe('SearchResultMessage', () => {
         error={{ type: 'mapBox' }}
       />,
     );
-    expect(
-      wrapper
-        .find('p')
-        .first()
-        .text(),
-    ).to.equal(Error.LOCATION);
-    expect(wrapper).to.matchSnapshot();
+    expect(wrapper.find('Alert').prop('description')).to.equal(Error.LOCATION);
     wrapper.unmount();
   });
 
@@ -33,32 +27,7 @@ describe('SearchResultMessage', () => {
         error={[{ code: 503 }]}
       />,
     );
-    expect(
-      wrapper
-        .find('p')
-        .first()
-        .text(),
-    ).to.equal(Error.DEFAULT);
-    expect(wrapper).to.matchSnapshot();
-    wrapper.unmount();
-  });
-
-  it('Should render SearchResultMessage with no results message', () => {
-    const wrapper = shallow(
-      <SearchResultMessage
-        facilityType={'urgent_care'}
-        resultRef={React.createRef()}
-        resultsFound={false}
-        error={[{ code: 503 }]}
-      />,
-    );
-    expect(wrapper).to.matchSnapshot();
-    wrapper.unmount();
-  });
-
-  it('Should render SearchResultMessage init', () => {
-    const wrapper = shallow(<SearchResultMessage />);
-    expect(wrapper).to.matchSnapshot();
+    expect(wrapper.find('Alert').prop('description')).to.equal(Error.DEFAULT);
     wrapper.unmount();
   });
 });

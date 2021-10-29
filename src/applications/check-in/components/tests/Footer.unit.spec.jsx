@@ -18,9 +18,7 @@ describe('check-in', () => {
       const screen = render(<Footer store={fakeStore} />);
 
       expect(screen.getByTestId('heading')).to.have.text('Need help?');
-      expect(screen.getByTestId('message')).to.have.text(
-        'Ask a staff member or call us at 555-867-5309.',
-      );
+      expect(screen.getByTestId('message')).to.have.text('Ask a staff member.');
     });
     it('Renders the footer with custom header props', () => {
       const fakeStore = {
@@ -53,7 +51,7 @@ describe('check-in', () => {
         <Footer store={fakeStore} message="this is a cool thing" />,
       );
       expect(screen.getByTestId('message')).to.have.text(
-        'this is a cool thing 555-867-5309.',
+        'this is a cool thing',
       );
     });
     it('Renders the footer when no phone number is presented', () => {

@@ -149,11 +149,15 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
         formConfig={formConfig}
+        ariaLabel="test aria-label"
+        ariaDescribedby="test-id"
       />,
     );
 
-    expect(tree.find('withRouter(FormStartControls)').props().prefillAvailable)
-      .to.be.true;
+    const formControlProps = tree.find('withRouter(FormStartControls)').props();
+    expect(formControlProps.prefillAvailable).to.be.true;
+    expect(formControlProps.ariaLabel).to.eq('test aria-label');
+    expect(formControlProps.ariaDescribedby).to.eq('test-id');
     tree.unmount();
   });
   it('should render sign in message', () => {
@@ -185,12 +189,15 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
         formConfig={formConfig}
+        ariaLabel="test aria-label"
+        ariaDescribedby="test-id"
       />,
     );
 
-    expect(tree.find('.va-button-link').text()).to.contain(
-      'Sign in to your account.',
-    );
+    const link = tree.find('.va-button-link');
+    expect(link.text()).to.contain('Sign in to your account.');
+    expect(link.prop('aria-label')).to.eq('test aria-label');
+    expect(link.prop('aria-describedby')).to.eq('test-id');
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
     tree.unmount();
   });

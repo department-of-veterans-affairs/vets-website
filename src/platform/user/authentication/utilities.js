@@ -7,19 +7,36 @@ import environment from '../../utilities/environment';
 import { eauthEnvironmentPrefixes } from '../../utilities/sso/constants';
 import { setLoginAttempted } from 'platform/utilities/sso/loginAttempted';
 
-import { loginAppUrlRE } from 'applications/login/utilities/paths';
+// NOTE: the login app typically has URLs that being with 'sign-in',
+// however there is at least one CMS page, 'sign-in-faq', that we don't
+// want to resolve with the login app
+export const loginAppUrlRE = new RegExp('^/sign-in(/.*)?$');
 
 export const authnSettings = {
   RETURN_URL: 'authReturnUrl',
+  REDIRECT_EVENT: 'auth-redirect',
+};
+
+export const getQueryParams = () => {
+  const searchParams = new URLSearchParams(window.location.search);
+  const application = searchParams.get('application');
+  const to = searchParams.get('to');
+  // console.log('inside qp', { application, to });
+  return { application, to };
+};
+
+const fixUrl = (url, path) => {
+  const updatedUrl = url.endsWith('/') ? url.slice(0, -1) : url;
+  return `${updatedUrl}${path}`.replace('\r\n', ''); // Prevent CRLF injection.
 };
 
 export const externalRedirects = {
   myvahealth: environment.isProduction()
-    ? 'https://patientportal.myhealth.va.gov/'
-    : 'https://staging-patientportal.myhealth.va.gov/',
+    ? 'https://patientportal.myhealth.va.gov'
+    : 'https://staging-patientportal.myhealth.va.gov',
   mhv: `https://${
     eauthEnvironmentPrefixes[environment.BUILDTYPE]
-  }eauth.va.gov/mhv-portal-web/web/myhealthevet/`,
+  }eauth.va.gov/mhv-portal-web/eauth`,
 };
 
 export const ssoKeepAliveEndpoint = () => {
@@ -74,33 +91,60 @@ function redirectWithGAClientId(redirectUrl) {
   }
 }
 
+const generatePath = (app, to) => {
+  if (app === 'mhv') {
+    return `?deeplinking=${to}`;
+  }
+  return to.startsWith('/') ? to : `/${to}`;
+};
+
 export function standaloneRedirect() {
-  const searchParams = new URLSearchParams(window.location.search);
-  const application = searchParams.get('application');
-  const to = searchParams.get('to');
+  const { application, to } = getQueryParams();
   let url = externalRedirects[application] || null;
 
   if (url && to) {
-    const pathname = to.startsWith('/') ? to : `/${to}`;
-    url = url.endsWith('/') ? url.slice(0, -1) : url;
-    url = `${url}${pathname}`.replace('\r\n', ''); // Prevent CRLF injection.
+    url = fixUrl(url, generatePath(application, to));
   }
+
   return url;
 }
 
-function redirect(redirectUrl, clickedEvent) {
+export function redirect(redirectUrl, clickedEvent) {
+  const { application: app } = getQueryParams();
+  const isStandaloneAndValidExternal =
+    loginAppUrlRE.test(window.location.pathname) &&
+    Object.keys(externalRedirects).includes(app);
+
+  let rUrl = redirectUrl;
   // Keep track of the URL to return to after auth operation.
   // If the user is coming via the standalone sign-in, redirect to the home page.
-  const returnUrl = loginAppUrlRE.test(window.location.pathname)
-    ? standaloneRedirect() || window.location.origin
-    : window.location;
+  const returnUrl = isStandaloneAndValidExternal
+    ? standaloneRedirect()
+    : window.location.origin;
   sessionStorage.setItem(authnSettings.RETURN_URL, returnUrl);
   recordEvent({ event: clickedEvent });
 
+  if (
+    !isStandaloneAndValidExternal &&
+    (clickedEvent === 'login-link-clicked-modal' ||
+      clickedEvent === 'sso-automatic-login')
+  ) {
+    setLoginAttempted();
+  }
+
+  // Generates the redirect for /sign-in page and tracks event
+  if (isStandaloneAndValidExternal) {
+    rUrl = {
+      mhv: `${redirectUrl}?skip_dupe=mhv&redirect=${returnUrl}&postLogin=true`,
+      myvahealth: `${redirectUrl}`,
+    }[app];
+    recordEvent({ event: `${authnSettings.REDIRECT_EVENT}-${app}-inbound` });
+  }
+
   if (redirectUrl.includes('idme')) {
-    redirectWithGAClientId(redirectUrl);
+    redirectWithGAClientId(rUrl);
   } else {
-    window.location = redirectUrl;
+    window.location = rUrl;
   }
 }
 
@@ -111,7 +155,6 @@ export function login(
   clickedEvent = 'login-link-clicked-modal',
 ) {
   const url = sessionTypeUrl({ type: policy, version, queryParams });
-  setLoginAttempted();
   return redirect(url, clickedEvent);
 }
 
