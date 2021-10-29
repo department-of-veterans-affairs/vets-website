@@ -1,0 +1,25 @@
+// Node modules.
+import React from 'react';
+// Relative imports.
+import recordEvent from 'platform/monitoring/record-event';
+
+export const VeteranCrisisLine = () => (
+  <div className="vads-u-background-color--secondary-darkest vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center vads-u-text-align--center vads-u-padding--0p5">
+    <button
+      className="va-button-link vads-u-color--white vads-u-text-decoration--none"
+      data-show="#modal-crisisline"
+      onClick={() => {
+        recordEvent({ event: 'nav-crisis-header' });
+        recordEvent({ event: 'nav-jumplink-click' });
+      }}
+    >
+      Talk to the <strong>Veterans Crisis Line</strong> now
+      <i
+        aria-hidden="true"
+        className="fa fa-chevron-right vads-u-margin-left--1"
+      />
+    </button>
+  </div>
+);
+
+export default VeteranCrisisLine;
