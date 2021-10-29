@@ -125,8 +125,9 @@ const InputSection = ({
           <div className="row small-collapse">
             <div className="small-4 left columns button-group">
               <button
+                type="button"
                 className="float-left"
-                onClick={e => handleSave(e, index)}
+                onClick={() => handleSave(index)}
                 aria-label={`${buttonText} ${title}`}
               >
                 {buttonText}
@@ -152,15 +153,15 @@ const InputSection = ({
 };
 
 const AddAnotherButton = ({ uiOptions, handleAdd, collapsed }) => {
-  const linkClassNames = classNames('add-item-link-section', {
+  const linkClassNames = classNames('add-item-link', {
     disabled: !collapsed,
   });
 
   return (
     <div className="add-item-container" name="table_root_">
-      <div className={linkClassNames}>
-        <i className="fas fa-plus plus-icon" />
-        <a className="add-item-link" onClick={handleAdd}>
+      <div className="add-item-link-section">
+        <a className={linkClassNames} onClick={handleAdd}>
+          <i className="fas fa-plus plus-icon" />
           {uiOptions.itemName ? `Add ${uiOptions.itemName}` : 'Add another'}
         </a>
       </div>
@@ -236,7 +237,7 @@ const ItemLoop = ({
     handleScroll(`table_${idSchema.$id}_${index}`, 0);
   };
 
-  const handleSave = (e, index) => {
+  const handleSave = index => {
     if (errorSchemaIsValid(errorSchema[index])) {
       const editData = editing.map(() => false);
       setEditing(editData);
