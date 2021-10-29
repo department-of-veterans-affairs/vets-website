@@ -14,7 +14,7 @@ const Demographics = props => {
     demographics,
     isLoading,
     isUpdatePageEnabled,
-    isNextOfKinPageEnabled,
+    isNextOfKinEnabled,
     router,
     updateSeeStaffMessage,
   } = props;
@@ -27,7 +27,7 @@ const Demographics = props => {
         event: 'cta-button-click',
         'button-click-label': 'yes-to-demographic-information',
       });
-      if (isNextOfKinPageEnabled) {
+      if (isNextOfKinEnabled) {
         goToNextPage(router, URLS.NEXT_OF_KIN);
       } else if (isUpdatePageEnabled) {
         goToNextPage(router, URLS.UPDATE_INSURANCE);
@@ -35,7 +35,7 @@ const Demographics = props => {
         goToNextPage(router, URLS.DETAILS);
       }
     },
-    [isNextOfKinPageEnabled, isUpdatePageEnabled, router],
+    [isNextOfKinEnabled, isUpdatePageEnabled, router],
   );
 
   const noClick = useCallback(
@@ -125,7 +125,7 @@ Demographics.propTypes = {
   demographics: PropTypes.object,
   isLoading: PropTypes.bool,
   isUpdatePageEnabled: PropTypes.bool,
-  isNextOfKinPageEnabled: PropTypes.bool,
+  isNextOfKinEnabled: PropTypes.bool,
   router: PropTypes.object,
   updateSeeStaffMessage: PropTypes.func,
 };
