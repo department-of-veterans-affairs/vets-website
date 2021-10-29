@@ -56,6 +56,8 @@ import {
   validateEffectiveDate,
 } from '../utils/validation';
 
+import { createSubmissionForm } from '../utils/form-submit-transform';
+
 const {
   fullName,
   // ssn,
@@ -339,14 +341,9 @@ function renderContactMethodFollowUp(formData, cond) {
   return res;
 }
 
-function transform(a, b, c) {
-  // eslint-disable-next-line no-console
-  console.log(a);
-  // eslint-disable-next-line no-console
-  console.log(b);
-  // eslint-disable-next-line no-console
-  console.log(c);
-  return JSON.stringify({ request: 'something' });
+function transform(metaData, form) {
+  const submission = createSubmissionForm(form.data);
+  return JSON.stringify(submission);
 }
 
 const formConfig = {
