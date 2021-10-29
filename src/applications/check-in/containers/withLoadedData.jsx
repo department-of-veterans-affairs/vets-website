@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { connect, batch } from 'react-redux';
+import { connect, batch, useSelector } from 'react-redux';
 import { compose } from 'redux';
 import { goToNextPage, URLS } from '../utils/navigation';
 import { getCurrentToken } from '../utils/session';
@@ -13,16 +13,15 @@ import {
 } from '../actions';
 import { focusElement } from 'platform/utilities/ui';
 
+import { makeSelectCheckInData } from '../hooks/selectors';
+
 const withLoadedData = Component => {
   const Wrapped = ({ ...props }) => {
     const [isLoading, setIsLoading] = useState();
-    const {
-      checkInData,
 
-      isSessionLoading,
-      router,
-      setSessionData,
-    } = props;
+    const { isSessionLoading, router, setSessionData } = props;
+    const selectCheckInData = useMemo(makeSelectCheckInData, []);
+    const checkInData = useSelector(selectCheckInData);
     const { context, appointments, demographics, nextOfKin } = checkInData;
 
     useEffect(
@@ -86,9 +85,6 @@ const withLoadedData = Component => {
   return Wrapped;
 };
 
-const mapStateToProps = state => ({
-  checkInData: state.checkInData,
-});
 const mapDispatchToProps = dispatch => {
   return {
     setSessionData: (payload, token) => {
@@ -109,7 +105,7 @@ const mapDispatchToProps = dispatch => {
 
 const composedWrapper = compose(
   connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps,
   ),
   withLoadedData,
