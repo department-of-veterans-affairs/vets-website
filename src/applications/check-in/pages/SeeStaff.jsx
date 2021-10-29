@@ -17,7 +17,11 @@ const SeeStaff = props => {
       <h1 tabIndex="-1" className="vads-u-margin-top--2">
         Check in with a staff member
       </h1>
-      {message ? <>{message}</> : ''}
+      {message ? (
+        <>{message}</>
+      ) : (
+        <p>Our staff can help you update your contact information.</p>
+      )}
       <Footer />
       <BackToHome />
     </div>
