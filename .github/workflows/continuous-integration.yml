@@ -772,7 +772,7 @@ jobs:
       matrix:
         buildtype: [vagovdev, vagovstaging]
 
-    needs: [cypress-tests, unit-tests, contract-tests, security-audit, linting]
+    needs: [build, cypress-tests, unit-tests, contract-tests, security-audit, linting]
 
     # Archive should still run even when linting is skipped (as in PRs).
     # This if overrides the dependency on linting success to include skipped.
