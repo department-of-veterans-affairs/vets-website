@@ -17,8 +17,6 @@ const Demographics = props => {
     router,
     updateSeeStaffMessage,
   } = props;
-  const seeStaffMessage =
-    'If you don’t live at a fixed address right now, we’ll help you find the best way to stay connected with us.';
 
   const yesClick = useCallback(
     () => {
@@ -41,6 +39,15 @@ const Demographics = props => {
         event: 'cta-button-click',
         'button-click-label': 'no-to-demographic-information',
       });
+      const seeStaffMessage = (
+        <>
+          <p>Our staff can help you update your contact information.</p>
+          <p className="vads-u-margin-bottom--0">
+            If you don’t live at a fixed address right now, we’ll help you find
+            the best way to stay connected with us.
+          </p>
+        </>
+      );
       updateSeeStaffMessage(seeStaffMessage);
       goToNextPage(router, URLS.SEE_STAFF);
     },
