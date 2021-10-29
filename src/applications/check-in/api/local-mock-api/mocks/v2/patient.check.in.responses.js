@@ -82,6 +82,23 @@ const createMultipleAppointments = (
     id: token || '46bebc0a-b99c-464f-a5c5-560bc9eae287',
     payload: {
       demographics: {
+        nextOfKin1: {
+          name: 'VETERAN,JONAH',
+          relationship: 'BROTHER',
+          phone: '1112223333',
+          workPhone: '4445556666',
+          address: {
+            street1: '123 Main St',
+            street2: 'Ste 234',
+            street3: '',
+            city: 'Los Angeles',
+            county: 'Los Angeles',
+            state: 'CA',
+            zip: '90089',
+            zip4: '',
+            country: 'USA',
+          },
+        },
         mailingAddress: {
           street1: '123 Turtle Trail',
           street2: '',
