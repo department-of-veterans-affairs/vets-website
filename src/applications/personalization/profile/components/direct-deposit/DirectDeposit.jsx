@@ -65,6 +65,7 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
     recentlySavedBankInfo,
     setRecentlySavedBankInfoForBenefit,
   ] = React.useState('');
+  const [bankTypeBeingEdited, setBankTypeBeingEdited] = React.useState(null);
 
   const isSavingCNPBankInfo = cnpUiState.isSaving;
   const wasSavingCNPBankInfo = usePrevious(cnpUiState.isSaving);
@@ -159,7 +160,11 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
           )}
           dependencies={[externalServices.evss]}
         >
-          <BankInfo type={benefitTypes.CNP} />
+          <BankInfo
+            type={benefitTypes.CNP}
+            setBankTypeBeingEdited={setBankTypeBeingEdited}
+            bankTypeBeingEdited={bankTypeBeingEdited}
+          />
         </DowntimeNotification>
       ) : (
         <SetUpVerifiedIDMeAlert />
@@ -167,7 +172,11 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
       <FraudVictimAlert status={ALERT_TYPE.INFO} />
       {showBankInformation ? (
         <>
-          <BankInfo type={benefitTypes.EDU} />
+          <BankInfo
+            type={benefitTypes.EDU}
+            setBankTypeBeingEdited={setBankTypeBeingEdited}
+            bankTypeBeingEdited={bankTypeBeingEdited}
+          />
           <PaymentHistory />
         </>
       ) : null}

@@ -66,7 +66,7 @@ function vaProfile(state = initialState, action) {
     case CNP_PAYMENT_INFORMATION_EDIT_TOGGLED: {
       const newState = set(
         'cnpPaymentInformationUiState.isEditing',
-        !state.cnpPaymentInformationUiState.isEditing,
+        action.isEditing ?? !state.cnpPaymentInformationUiState.isEditing,
         state,
       );
 
@@ -113,7 +113,7 @@ function vaProfile(state = initialState, action) {
     case EDU_PAYMENT_INFORMATION_EDIT_TOGGLED: {
       const newState = set(
         'eduPaymentInformationUiState.isEditing',
-        !state.eduPaymentInformationUiState.isEditing,
+        action.isEditing ?? !state.eduPaymentInformationUiState.isEditing,
         state,
       );
 

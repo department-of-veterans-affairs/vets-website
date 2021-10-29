@@ -157,8 +157,8 @@ describe('Direct Deposit', () => {
       cy.axeCheck();
     });
   });
-  describe('when editing both at the same time and they both fail to update', () => {
-    it('should not have any aXe violations', () => {
+  describe('when trying to open both modals', () => {
+    it('should show a warning', () => {
       cy.findByRole('button', {
         name: /edit.*disability.*bank information/i,
       }).click({
@@ -166,6 +166,7 @@ describe('Direct Deposit', () => {
         // register and the bank info form does not open
         force: true,
       });
+      fillInBankInfoForm('CNP');
       cy.findByRole('button', {
         name: /edit.*education.*bank info/i,
       }).click({
@@ -173,20 +174,34 @@ describe('Direct Deposit', () => {
         // register and the bank info form does not open
         force: true,
       });
-      fillInBankInfoForm('CNP');
-      fillInBankInfoForm('EDU');
-      saveNewBankInfo('CNP');
-      saveNewBankInfo('EDU');
-      // This scan will be run while the bank info is saving and the
-      // LoadingButton is in its "loading" state. This would throw an aXe error
-      // if LoadingButton.loadingText was not set
-      cy.axeCheck();
-      // Now wait for the update API calls to resolve to failures...
-      cy.findAllByText(/we couldn’t update your bank info/i).should(
-        'have.length',
-        '2',
-      );
-      cy.axeCheck();
+      // test dismiss
+      dismissUnsavedChangesModal();
+      cy.findByTestId(`EDU-bank-info-form`).should('not.exist');
+      cy.findByTestId(`CNP-bank-info-form`).should('exist');
+      cy.findByRole('button', {
+        name: /edit.*education.*bank info/i,
+      }).click({
+        // using force: true since there are times when the click does not
+        // register and the bank info form does not open
+        force: true,
+      });
+      // test toggle from cnp to edu
+      cy.findByText(/are you sure\?/i);
+      cy.findByRole('button', { name: /cancel/i }).click();
+      cy.findByTestId(`EDU-bank-info-form`).should('exist');
+      cy.findByTestId(`CNP-bank-info-form`).should('not.exist');
+      // test toggle from edu to cnp
+      cy.findByRole('button', {
+        name: /edit.*disability.*bank information/i,
+      }).click({
+        // using force: true since there are times when the click does not
+        // register and the bank info form does not open
+        force: true,
+      });
+      cy.findByText(/are you sure\?/i);
+      cy.findByRole('button', { name: /cancel/i }).click();
+      cy.findByTestId(`EDU-bank-info-form`).should('not.exist');
+      cy.findByTestId(`CNP-bank-info-form`).should('exist');
     });
   });
 });

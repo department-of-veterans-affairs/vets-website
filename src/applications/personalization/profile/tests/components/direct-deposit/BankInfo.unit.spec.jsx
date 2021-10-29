@@ -110,9 +110,18 @@ describe('DirectDepositCNP', () => {
     server.close();
   });
 
+  let bankTypeBeingEdited = null;
+  const setBankTypeBeingEdited = bankType => {
+    bankTypeBeingEdited = bankType;
+  };
+
   const ui = (
     <MemoryRouter>
-      <BankInfo type={benefitTypes.CNP} />
+      <BankInfo
+        type={benefitTypes.CNP}
+        setBankTypeBeingEdited={setBankTypeBeingEdited}
+        bankTypeBeingEdited={bankTypeBeingEdited}
+      />
     </MemoryRouter>
   );
 

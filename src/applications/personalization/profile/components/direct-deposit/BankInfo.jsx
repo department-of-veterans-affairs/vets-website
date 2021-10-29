@@ -46,6 +46,7 @@ import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 import { benefitTypes } from '~/applications/personalization/common/constants';
 
 export const BankInfo = ({
+  bankTypeBeingEdited,
   isLOA3,
   isDirectDepositSetUp,
   isEligibleToSetUpDirectDeposit,
@@ -53,7 +54,9 @@ export const BankInfo = ({
   directDepositServerError,
   directDepositUiState,
   saveBankInformation,
-  toggleEditState,
+  setBankTypeBeingEdited,
+  toggleCNPEditState,
+  toggleEDUEditState,
   type,
   typeIsCNP,
 }) => {
@@ -71,6 +74,23 @@ export const BankInfo = ({
     formPrefix,
   );
 
+  const toggleEditState = benefitType => {
+    setBankTypeBeingEdited(benefitType);
+    switch (benefitType) {
+      case benefitTypes.CNP:
+        toggleCNPEditState(true);
+        toggleEDUEditState(false);
+        break;
+      case benefitTypes.EDU:
+        toggleCNPEditState(false);
+        toggleEDUEditState(true);
+        break;
+      default:
+        toggleCNPEditState(false);
+        toggleEDUEditState(false);
+    }
+  };
+
   // Using computed properties that I got from the `makeFormProperties` call to
   // destructure the form data object. I learned that this was even possible
   // here: https://stackoverflow.com/a/37040344/585275
@@ -81,6 +101,15 @@ export const BankInfo = ({
   } = formData;
   const isEmptyForm =
     !formAccountNumber && !formAccountType && !formRoutingNumber;
+
+  const benefitTypeShort = typeIsCNP ? 'disability' : 'education';
+  const benefitTypeLong = typeIsCNP
+    ? 'disability compensation and pension'
+    : 'education';
+
+  const sectionTitle = typeIsCNP
+    ? 'Disability compensation and pension benefits'
+    : 'Education benefits';
 
   // when we enter and exit edit mode...
   useEffect(
@@ -117,6 +146,14 @@ export const BankInfo = ({
     [isEmptyForm],
   );
 
+  const checkIfOpeningDifferentEdit = () => {
+    if (bankTypeBeingEdited !== null && bankTypeBeingEdited !== type) {
+      setShowConfirmCancelModal(true);
+      return true;
+    }
+    return false;
+  };
+
   const saveBankInfo = () => {
     const payload = {
       financialInstitutionRoutingNumber: formData[routingNumber],
@@ -147,17 +184,8 @@ export const BankInfo = ({
       return;
     }
 
-    toggleEditState();
+    toggleEditState(null);
   };
-
-  const benefitTypeShort = typeIsCNP ? 'disability' : 'education';
-  const benefitTypeLong = typeIsCNP
-    ? 'disability compensation and pension'
-    : 'education';
-
-  const sectionTitle = typeIsCNP
-    ? 'Disability compensation and pension benefits'
-    : 'Education benefits';
 
   // When direct deposit is already set up we will show the current bank info
   const bankInfoContent = (
@@ -175,12 +203,15 @@ export const BankInfo = ({
         aria-label={`Edit your direct deposit for ${benefitTypeLong} bank information`}
         ref={editBankInfoButton}
         onClick={() => {
-          recordEvent({
-            event: 'profile-navigation',
-            'profile-action': 'edit-link',
-            'profile-section': `${type.toLowerCase()}-direct-deposit-information`,
-          });
-          toggleEditState();
+          const openingIsDifferent = checkIfOpeningDifferentEdit();
+          if (!openingIsDifferent) {
+            recordEvent({
+              event: 'profile-navigation',
+              'profile-action': 'edit-link',
+              'profile-section': `${type.toLowerCase()}-direct-deposit-information`,
+            });
+            toggleEditState(type);
+          }
         }}
       >
         Edit
@@ -201,12 +232,15 @@ export const BankInfo = ({
         }
         ref={editBankInfoButton}
         onClick={() => {
-          recordEvent({
-            event: 'profile-navigation',
-            'profile-action': 'add-link',
-            'profile-section': 'cnp-direct-deposit-information',
-          });
-          toggleEditState();
+          const openingIsDifferent = checkIfOpeningDifferentEdit();
+          if (!openingIsDifferent) {
+            recordEvent({
+              event: 'profile-navigation',
+              'profile-action': 'add-link',
+              'profile-section': 'cnp-direct-deposit-information',
+            });
+            toggleEditState(type);
+          }
         }}
       >
         Edit
@@ -403,7 +437,7 @@ export const BankInfo = ({
         <button
           onClick={() => {
             setShowConfirmCancelModal(false);
-            toggleEditState();
+            toggleEditState(type);
           }}
         >
           Cancel
@@ -424,6 +458,7 @@ export const BankInfo = ({
 };
 
 BankInfo.propTypes = {
+  bankTypeBeingEdited: PropTypes.string,
   isLOA3: PropTypes.bool.isRequired,
   directDepositAccountInfo: PropTypes.shape({
     accountNumber: PropTypes.string.isRequired,
@@ -440,7 +475,9 @@ BankInfo.propTypes = {
     responseError: PropTypes.object,
   }),
   saveBankInformation: PropTypes.func.isRequired,
-  toggleEditState: PropTypes.func.isRequired,
+  setBankTypeBeingEdited: PropTypes.func.isRequired,
+  editCNPPaymentInformationToggled: PropTypes.func.isRequired,
+  editEDUPaymentInformationToggled: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
 };
 
@@ -478,9 +515,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         saveBankInformation: typeIsCNP
           ? saveCNPPaymentInformationAction
           : saveEDUPaymentInformationAction,
-        toggleEditState: typeIsCNP
-          ? editCNPPaymentInformationToggled
-          : editEDUPaymentInformationToggled,
+        toggleCNPEditState: editCNPPaymentInformationToggled,
+        toggleEDUEditState: editEDUPaymentInformationToggled,
       },
       dispatch,
     ),
