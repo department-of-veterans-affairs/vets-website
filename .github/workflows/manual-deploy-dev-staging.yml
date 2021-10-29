@@ -52,12 +52,29 @@ jobs:
           SRC: s3://vetsgov-website-builds-s3-upload/${{ github.event.inputs.commit_sha }}/vagovdev.tar.bz2
           DEST: s3://dev-va-gov-assets
 
+      # TODO: Revisit revproxy
+      - name: Deploy apps.dev.va.gov
+        if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
+        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
+        env:
+          SRC: s3://vetsgov-website-builds-s3-upload/${{ github.event.inputs.commit_sha }}/vagovdev.tar.bz2
+          DEST: s3://apps.dev.va.gov
+
       - name: Deploy Staging
         if: ${{ github.event.inputs.deploy_environment == 'staging' || github.event.inputs.deploy_environment == 'both' }}
         run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
         env:
           SRC: s3://vetsgov-website-builds-s3-upload/${{ github.event.inputs.commit_sha }}/vagovstaging.tar.bz2
           DEST: s3://staging-va-gov-assets
+
+      # TODO: Revisit revproxy
+      - name: Deploy Staging
+        if: ${{ github.event.inputs.deploy_environment == 'staging' || github.event.inputs.deploy_environment == 'both' }}
+        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
+        env:
+          SRC: s3://vetsgov-website-builds-s3-upload/${{ github.event.inputs.commit_sha }}/vagovstaging.tar.bz2
+          DEST: s3://apps.staging.va.gov
+
 
   notify-failure:
     name: Notify Failure
