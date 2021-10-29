@@ -16,6 +16,8 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const WebpackBar = require('webpackbar');
 const StylelintPlugin = require('stylelint-webpack-plugin');
+// const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
+// const smp = new SpeedMeasurePlugin();
 
 const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
 const BUCKETS = require('../src/site/constants/buckets');
@@ -273,156 +275,168 @@ module.exports = async (env = {}) => {
     buildOptions.destination,
   );
 
-  const baseConfig = {
-    mode: 'development',
-    entry: entryFiles,
-    output: {
-      path: path.resolve(buildPath, 'generated'),
-      publicPath: '/generated/',
-      filename: '[name].entry.js',
-      chunkFilename: '[name].entry.js',
-    },
-    module: {
-      strictExportPresence: true,
-      rules: [
-        {
-          test: /\.jsx?$/,
-          exclude: /node_modules/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              // Speed up compilation.
-              cacheDirectory: '.babelcache',
-              // Also see .babelrc
-            },
-          },
-        },
-        {
-          test: /\.(sa|sc|c)ss$/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            'cache-loader',
-            {
-              loader: 'css-loader',
+  console.log(entryFiles['10182-board-appeal']);
+
+  const baseConfig =
+    // smp.wrap
+    {
+      mode: 'development',
+      entry: entryFiles['10182-board-appeal'],
+      output: {
+        path: path.resolve(buildPath, 'generated'),
+        publicPath: '/generated/',
+        filename: '[name].entry.js',
+        chunkFilename: '[name].entry.js',
+      },
+      module: {
+        strictExportPresence: true,
+        rules: [
+          {
+            test: /\.jsx?$/,
+            exclude: /node_modules/,
+            use: {
+              loader: 'babel-loader',
               options: {
-                sourceMap: enableCSSSourcemaps,
+                // Speed up compilation.
+                cacheDirectory: '.babelcache',
+                // Also see .babelrc
               },
             },
-            {
-              loader: 'postcss-loader',
-            },
-            {
-              loader: 'sass-loader',
-              options: { sourceMap: true },
-            },
-          ],
-        },
-        {
-          // if we want to minify these images, we could add img-loader
-          // but it currently only would apply to three images from uswds
-          test: /\.(jpe?g|png|gif)$/i,
-          use: {
-            loader: 'url-loader',
-            options: {
-              limit: 10000,
-            },
           },
-        },
-        {
-          test: /\.svg/,
-          use: {
-            loader: 'svg-url-loader?limit=1024',
+          {
+            test: /\.(sa|sc|c)ss$/,
+            use: [
+              MiniCssExtractPlugin.loader,
+              // 'cache-loader',
+              {
+                loader: 'css-loader',
+                options: {
+                  sourceMap: enableCSSSourcemaps,
+                },
+              },
+              {
+                loader: 'postcss-loader',
+              },
+              {
+                loader: 'sass-loader',
+                options: { sourceMap: true },
+              },
+            ],
           },
-        },
-        {
-          test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-          use: {
-            loader: 'url-loader',
-            options: {
-              limit: 7000,
-              mimetype: 'application/font-woff',
-              name: '[name].[ext]',
+          {
+            // if we want to minify these images, we could add img-loader
+            // but it currently only would apply to three images from uswds
+            test: /\.(jpe?g|png|gif)$/i,
+            use: {
+              loader: 'url-loader',
+              options: {
+                limit: 10000,
+              },
             },
           },
-        },
-        {
-          test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-          use: {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[ext]',
+          {
+            test: /\.svg/,
+            use: {
+              loader: 'svg-url-loader',
+              options: {
+                limit: 1024,
+                publicPath: './',
+              },
             },
           },
-        },
-        {
-          test: /react-jsonschema-form\/lib\/components\/(widgets|fields\/ObjectField|fields\/ArrayField)/,
-          exclude: [/widgets\/index\.js/, /widgets\/TextareaWidget/],
-          use: {
-            loader: 'null-loader',
-          },
-        },
-      ],
-      noParse: [/mapbox\/vendor\/promise.js$/],
-    },
-    resolve: {
-      extensions: ['.js', '.jsx'],
-    },
-    optimization: {
-      minimizer: [
-        new TerserPlugin({
-          terserOptions: {
-            output: {
-              beautify: false,
-              comments: false,
+          {
+            test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+            use: {
+              loader: 'url-loader',
+              options: {
+                limit: 7000,
+                mimetype: 'application/font-woff',
+                name: '[name].[ext]',
+              },
             },
-            warnings: false,
           },
-          // cache: true,
-          parallel: 3,
-          sourceMap: true,
-        }),
-      ],
-      splitChunks: {
-        cacheGroups: {
-          // this needs to be "vendors" to overwrite a default group
-          vendors: {
-            chunks: 'all',
-            test: 'vendor',
-            name: 'vendor',
-            enforce: true,
+          {
+            test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+            use: {
+              loader: 'file-loader',
+              options: {
+                name: '[name].[ext]',
+              },
+            },
+          },
+          {
+            test: /react-jsonschema-form\/lib\/components\/(widgets|fields\/ObjectField|fields\/ArrayField)/,
+            exclude: [/widgets\/index\.js/, /widgets\/TextareaWidget/],
+            use: {
+              loader: 'null-loader',
+            },
+          },
+        ],
+        noParse: [/mapbox\/vendor\/promise.js$/],
+      },
+      resolve: {
+        extensions: ['.js', '.jsx'],
+        fallback: {
+          path: require.resolve('path-browserify'),
+        },
+      },
+      optimization: {
+        minimizer: [
+          new TerserPlugin({
+            terserOptions: {
+              output: {
+                beautify: false,
+                comments: false,
+              },
+              warnings: false,
+            },
+            parallel: 3,
+          }),
+        ],
+        splitChunks: {
+          cacheGroups: {
+            // this needs to be "vendors" to overwrite a default group
+            vendors: {
+              chunks: 'all',
+              test: 'vendor',
+              name: 'vendor',
+              enforce: true,
+            },
           },
         },
       },
-    },
-    plugins: [
-      new webpack.DefinePlugin({
-        __BUILDTYPE__: JSON.stringify(buildtype),
-        __API__: JSON.stringify(buildOptions.api),
-      }),
+      plugins: [
+        new webpack.DefinePlugin({
+          __BUILDTYPE__: JSON.stringify(buildtype),
+          __API__: JSON.stringify(buildOptions.api),
+        }),
 
-      new StylelintPlugin({
-        configFile: '.stylelintrc.json',
-        exclude: ['node_modules', 'build', 'coverage', '.cache'],
-        fix: true,
-      }),
+        new StylelintPlugin({
+          configFile: '.stylelintrc.json',
+          exclude: ['node_modules', 'build', 'coverage', '.cache'],
+          fix: true,
+        }),
 
-      new MiniCssExtractPlugin({
-        moduleFilename: chunk => {
-          const { name } = chunk;
+        new MiniCssExtractPlugin({
+          filename: chunk => {
+            const { name } = chunk;
 
-          const isMedalliaStyleFile = name === vaMedalliaStylesFilename;
-          if (isMedalliaStyleFile) return `[name].css`;
+            const isMedalliaStyleFile = name === vaMedalliaStylesFilename;
+            if (isMedalliaStyleFile) return `[name].css`;
 
-          return `[name].css`;
-        },
-      }),
+            return `[name].css`;
+          },
+        }),
 
-      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+        new webpack.IgnorePlugin({
+          resourceRegExp: /^\.\/locale$/,
+          contextRegExp: /moment$/,
+        }),
 
-      new WebpackBar(),
-    ],
-    devServer: generateWebpackDevConfig(buildOptions),
-  };
+        new WebpackBar(),
+      ],
+      devServer: generateWebpackDevConfig(buildOptions),
+    };
 
   if (!buildOptions.watch) {
     baseConfig.plugins.push(
@@ -470,10 +484,10 @@ module.exports = async (env = {}) => {
       }),
     );
 
-    baseConfig.plugins.push(new webpack.HashedModuleIdsPlugin());
+    baseConfig.plugins.optimization.moduleIds = 'deterministic';
     baseConfig.mode = 'production';
   } else {
-    baseConfig.devtool = '#eval-source-map';
+    baseConfig.devtool = 'eval-source-map';
 
     // The eval-source-map devtool doesn't seem to work for CSS, so we
     // add a separate plugin for CSS source maps.
