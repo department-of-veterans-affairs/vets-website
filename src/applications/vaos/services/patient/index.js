@@ -13,7 +13,7 @@ import { captureError } from '../../utils/error';
 import { ELIGIBILITY_REASONS } from '../../utils/constants';
 import { promiseAllFromObject } from '../../utils/data';
 import { getAvailableHealthcareServices } from '../healthcare-service';
-import { getPatientMetadata } from '../vaos';
+import { getPatientEligibility } from '../vaos';
 
 /**
  * @typedef PatientEligibilityForType
@@ -142,6 +142,9 @@ async function fetchPatientEligibilityFromVAR({
   return output;
 }
 
+const VAOS_SERVICE_PATIENT_HISTORY = 'patient-history-insufficient';
+const VAOS_SERVICE_REQUEST_LIMIT = 'facility-request-limit-exceeded';
+
 /**
  * Returns patient based eligibility checks for specified request or direct types
  *
@@ -164,7 +167,7 @@ export async function fetchPatientEligibility({
   if (useV2) {
     const checks = {};
     if (type !== 'request') {
-      checks.direct = getPatientMetadata(
+      checks.direct = getPatientEligibility(
         location.id,
         typeOfCare.idV2,
         'direct',
@@ -172,7 +175,7 @@ export async function fetchPatientEligibility({
     }
 
     if (type !== 'direct') {
-      checks.request = getPatientMetadata(
+      checks.request = getPatientEligibility(
         location.id,
         typeOfCare.idV2,
         'request',
@@ -184,14 +187,27 @@ export async function fetchPatientEligibility({
 
     if (results.direct instanceof Error) {
       output.direct = new Error('Direct scheduling eligibility check error');
-    } else {
-      output.direct = results.direct || null;
+    } else if (results.direct) {
+      output.direct = {
+        eligible: results.direct.eligible,
+        hasRequiredAppointmentHistory: !results.direct.ineligibilityReasons.some(
+          reason => reason.coding[0].code === VAOS_SERVICE_PATIENT_HISTORY,
+        ),
+      };
     }
 
     if (results.request instanceof Error) {
       output.request = new Error('Request eligibility check error');
-    } else {
-      output.request = results.request || null;
+    } else if (results.request) {
+      output.request = {
+        eligible: results.request.eligible,
+        hasRequiredAppointmentHistory: !results.request.ineligibilityReasons.some(
+          reason => reason.coding[0].code === VAOS_SERVICE_PATIENT_HISTORY,
+        ),
+        isEligibleForNewAppointmentRequest: !results.request.ineligibilityReasons.some(
+          reason => reason.coding[0].code === VAOS_SERVICE_REQUEST_LIMIT,
+        ),
+      };
     }
 
     return output;

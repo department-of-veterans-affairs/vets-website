@@ -5,13 +5,8 @@ import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
 import { within, waitFor } from '@testing-library/dom';
 import { mockFetch } from 'platform/testing/unit/helpers';
+import { getVAAppointmentMock, getVideoAppointmentMock } from '../../mocks/v0';
 import {
-  getVAAppointmentMock,
-  getVAFacilityMock,
-  getVideoAppointmentMock,
-} from '../../mocks/v0';
-import {
-  mockFacilitiesFetch,
   mockPastAppointmentInfo,
   mockPastAppointmentInfoOption1,
 } from '../../mocks/helpers';
@@ -24,6 +19,8 @@ import PastAppointmentsListV2, {
 } from '../../../appointment-list/components/PastAppointmentsListV2';
 import { getVAOSAppointmentMock } from '../../mocks/v2';
 import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
+import { createMockFacilityByVersion } from '../../mocks/data';
+import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
 
 const initialState = {
   featureToggles: {
@@ -36,7 +33,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTimezoneTestDate());
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion({ version: 0 });
   });
   afterEach(() => {
     MockDate.reset();
@@ -142,26 +139,19 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     appointment.attributes.vdsAppointments[0].currentStatus = 'CHECKED OUT';
     mockPastAppointmentInfo({ va: [appointment] });
 
-    const facility = {
-      id: 'vha_442GC',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '442GC',
-        name: 'Cheyenne VA Medical Center',
-        address: {
-          physical: {
-            zip: '82001-5356',
-            city: 'Cheyenne',
-            state: 'WY',
-            address1: '2360 East Pershing Boulevard',
-          },
-        },
-        phone: {
-          main: '307-778-7550',
-        },
+    const facility = createMockFacilityByVersion({
+      id: '442GC',
+      name: 'Cheyenne VA Medical Center',
+      address: {
+        postalCode: '82001-5356',
+        city: 'Cheyenne',
+        state: 'WY',
+        line: ['2360 East Pershing Boulevard'],
       },
-    };
-    mockFacilitiesFetch('vha_442GC', [facility]);
+      phone: '307-778-7550',
+      version: 0,
+    });
+    mockFacilitiesFetchByVersion({ facilities: [facility], version: 0 });
 
     const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
       initialState,
@@ -273,11 +263,28 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     appointment.id = '123';
     appointment.attributes = {
       ...appointment.attributes,
-      kind: 'phone',
       minutesDuration: 30,
       status: 'booked',
       start: yesterday.format(),
       locationId: '983',
+      location: {
+        id: '983',
+        type: 'appointments',
+        attributes: {
+          id: '983',
+          vistaSite: '983',
+          name: 'Cheyenne VA Medical Center',
+          lat: 39.744507,
+          long: -104.830956,
+          phone: { main: '307-778-7550' },
+          physicalAddress: {
+            line: ['2360 East Pershing Boulevard'],
+            city: 'Cheyenne',
+            state: 'WY',
+            postalCode: '82001-5356',
+          },
+        },
+      },
     };
     mockVAOSAppointmentsFetch({
       start: start.format('YYYY-MM-DDTHH:mm:ssZ'),
@@ -303,6 +310,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
+    expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
   });
 
   describe('getPastAppointmentDateRangeOptions', () => {

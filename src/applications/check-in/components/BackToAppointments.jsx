@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -6,12 +7,13 @@ import { createAnalyticsSlug } from '../utils/analytics';
 import { goToNextPage, URLS } from '../utils/navigation';
 import { withRouter } from 'react-router';
 
-const BackToAppointments = ({ router }) => {
+const BackToAppointments = ({ router, triggerRefresh }) => {
   const handleClick = e => {
     e.preventDefault();
     recordEvent({
       event: createAnalyticsSlug('back-button-clicked'),
     });
+    triggerRefresh();
     goToNextPage(router, URLS.DETAILS);
   };
   return (
@@ -30,6 +32,11 @@ const BackToAppointments = ({ router }) => {
       </nav>
     </>
   );
+};
+
+BackToAppointments.propTypes = {
+  router: PropTypes.object,
+  triggerRefresh: PropTypes.func,
 };
 
 export default withRouter(BackToAppointments);

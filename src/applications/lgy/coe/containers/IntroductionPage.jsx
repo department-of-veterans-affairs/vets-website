@@ -8,7 +8,7 @@ import LoggedInContent from './introduction-content/loggedInContent.jsx';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { CALLSTATUS, COE_ELIGIBILITY_STATUS } from '../constants';
 
-function IntroductionPage(props) {
+const IntroductionPage = props => {
   let content;
 
   useEffect(() => {
@@ -28,14 +28,14 @@ function IntroductionPage(props) {
       <div>
         <COEIntroPageBox coe={props.coe} status={props.status} />
         {props.coe.status !== COE_ELIGIBILITY_STATUS.denied && (
-          <LoggedInContent />
+          <LoggedInContent parentProps={props} />
         )}
       </div>
     );
   }
 
   return <div>{content}</div>;
-}
+};
 
 const mapStateToProps = state => ({
   status: state.certificateOfEligibility.generateAutoCoeStatus,

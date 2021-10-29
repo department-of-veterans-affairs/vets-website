@@ -5,7 +5,6 @@ import { apiRequest } from 'platform/utilities/api';
 import VetCenterInfoSection from './components/VetCenterInfoSection';
 import VetCenterImageSection from './components/VetCenterImageSection';
 import { connect, useDispatch } from 'react-redux';
-import { facilitiesVetCenterAutomateNearby } from '../../../facility-locator/utils/featureFlagSelectors';
 import { fetchFacilityStarted, fetchFacilitySuccess } from '../actions';
 import { calculateBoundingBox } from '../../../facility-locator/utils/facilityDistance';
 import { getFeaturesFromAddress } from '../../../facility-locator/utils/mapbox';
@@ -24,18 +23,6 @@ const NearByVetCenters = props => {
       dispatch(fetchFacilitySuccess());
       setFetchedVetCenters(res.data);
     });
-  };
-
-  const fetchUnpublishedVetCenters = () => {
-    if (!props.vetCenters) {
-      return;
-    }
-    const notPublishedFacilities = props.vetCenters
-      .map(
-        v => !v.entity?.entityPublished && v.entity?.fieldFacilityLocatorApiId,
-      )
-      .join(',');
-    fetchVetCenters(`/facilities/va?ids=${notPublishedFacilities}`);
   };
 
   const fetchNearbyVetCenters = async () => {
@@ -71,11 +58,7 @@ const NearByVetCenters = props => {
   useEffect(
     () => {
       if (!props.togglesLoading) {
-        if (props.automateNearbyVetCenters) {
-          fetchNearbyVetCenters();
-        } else {
-          fetchUnpublishedVetCenters();
-        }
+        fetchNearbyVetCenters();
       }
     },
     [props.togglesLoading],
@@ -113,15 +96,6 @@ const NearByVetCenters = props => {
     );
   };
 
-  const getPublishedVetCenters = () => {
-    if (!props.vetCenters) {
-      return [];
-    }
-    return props.vetCenters
-      .filter(v => v.entity?.entityPublished)
-      .map(v => v.entity);
-  };
-
   const normalizeFetchedVetCenters = vcs => {
     return vcs.map(vc => ({
       id: vc.id,
@@ -155,27 +129,18 @@ const NearByVetCenters = props => {
     </div>
   );
 
-  if (props.automateNearbyVetCenters) {
-    const filteredVetCenters = fetchedVetCenters.filter(
-      vc =>
-        vc.id !== props.mainVetCenterId &&
-        !(props.satteliteVetCenters || []).includes(vc.id),
+  const filteredVetCenters = fetchedVetCenters.filter(
+    vc =>
+      vc.id !== props.mainVetCenterId &&
+      !(props.satteliteVetCenters || []).includes(vc.id),
+  );
+  if (filteredVetCenters.length > 0) {
+    return renderNearbyVetCenterContainer(
+      normalizeFetchedVetCenters(filteredVetCenters),
     );
-    if (filteredVetCenters.length > 0) {
-      return renderNearbyVetCenterContainer(
-        normalizeFetchedVetCenters(filteredVetCenters),
-      );
-    } else {
-      return null;
-    }
+  } else {
+    return null;
   }
-
-  const publishedVetCenters = getPublishedVetCenters();
-  const unPublishedVetCenters = normalizeFetchedVetCenters(fetchedVetCenters);
-  const sortedVetCenters = [...publishedVetCenters, ...unPublishedVetCenters];
-  return sortedVetCenters.length > 0
-    ? renderNearbyVetCenterContainer(sortedVetCenters)
-    : null;
 };
 
 NearByVetCenters.propTypes = {
@@ -187,7 +152,6 @@ NearByVetCenters.propTypes = {
 };
 
 const mapStateToProps = store => ({
-  automateNearbyVetCenters: facilitiesVetCenterAutomateNearby(store),
   facilitiesLoading: store.facility?.loading,
   togglesLoading: store.featureToggles?.loading,
 });

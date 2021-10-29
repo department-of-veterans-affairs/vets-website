@@ -4,7 +4,11 @@ import sinon from 'sinon';
 import { getDate } from '../../utils/dates';
 import { SELECTED, MAX_SELECTIONS } from '../../constants';
 
-import { uniqueIssue, maxIssues } from '../../validations/issues';
+import {
+  uniqueIssue,
+  maxIssues,
+  areaOfDisagreementRequired,
+} from '../../validations/issues';
 
 describe('uniqueIssue', () => {
   const _ = null;
@@ -76,5 +80,33 @@ describe('maxIssues', () => {
       contestedIssues: new Array(MAX_SELECTIONS + 1).fill(template),
     });
     expect(errors.addError.called).to.be.true;
+  });
+});
+
+describe('areaOfDisagreementRequired', () => {
+  it('should show an error with no selections', () => {
+    const errors = { addError: sinon.spy() };
+    areaOfDisagreementRequired(errors);
+    expect(errors.addError.called).to.be.true;
+  });
+  it('should show an error with other selected, but no entry text', () => {
+    const errors = { addError: sinon.spy() };
+    areaOfDisagreementRequired(errors, {
+      disagreementOptions: { other: true },
+    });
+    expect(errors.addError.called).to.be.true;
+  });
+  it('should not show an error with a single selection', () => {
+    const errors = { addError: sinon.spy() };
+    areaOfDisagreementRequired(errors, { disagreementOptions: { foo: true } });
+    expect(errors.addError.called).to.be.false;
+  });
+  it('should not show an error with other selected with entry text', () => {
+    const errors = { addError: sinon.spy() };
+    areaOfDisagreementRequired(errors, {
+      disagreementOptions: { other: true },
+      otherEntry: 'foo',
+    });
+    expect(errors.addError.called).to.be.false;
   });
 });

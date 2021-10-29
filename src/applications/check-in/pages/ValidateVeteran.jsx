@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { VaTextInput } from 'web-components/react-bindings';
@@ -17,7 +18,6 @@ const ValidateVeteran = props => {
   const {
     context,
     isUpdatePageEnabled,
-    isMultipleAppointmentsEnabled,
     isDemographicsPageEnabled,
     router,
     setPermissions,
@@ -46,42 +46,24 @@ const ValidateVeteran = props => {
     } else {
       // API call
       setIsLoading(true);
-      if (isMultipleAppointmentsEnabled) {
-        api.v2
-          .postSession({ lastName, last4: last4Ssn, token })
-          .then(data => {
-            // update sessions with new permissions
-            setPermissions(data);
 
-            // routing
-            if (isDemographicsPageEnabled) {
-              goToNextPage(router, URLS.DEMOGRAPHICS);
-            } else if (isUpdatePageEnabled) {
-              goToNextPage(router, URLS.UPDATE_INSURANCE);
-            } else {
-              goToNextPage(router, URLS.DETAILS);
-            }
-          })
-          .catch(() => {
-            goToNextPage(router, URLS.ERROR);
-          });
-      } else {
-        api.v1
-          .postSession({ lastName, last4: last4Ssn, token })
-          .then(data => {
-            // update sessions with new permissions
-            setPermissions(data);
-
-            if (isUpdatePageEnabled) {
-              goToNextPage(router, URLS.UPDATE_INSURANCE);
-            } else {
-              goToNextPage(router, URLS.DETAILS);
-            }
-          })
-          .catch(() => {
-            goToNextPage(router, URLS.ERROR);
-          });
-      }
+      api.v2
+        .postSession({ lastName, last4: last4Ssn, token })
+        .then(data => {
+          // update sessions with new permissions
+          setPermissions(data);
+          // routing
+          if (isDemographicsPageEnabled) {
+            goToNextPage(router, URLS.DEMOGRAPHICS);
+          } else if (isUpdatePageEnabled) {
+            goToNextPage(router, URLS.UPDATE_INSURANCE);
+          } else {
+            goToNextPage(router, URLS.DETAILS);
+          }
+        })
+        .catch(() => {
+          goToNextPage(router, URLS.ERROR);
+        });
     }
   };
   useEffect(() => {
@@ -142,6 +124,14 @@ const mapDispatchToProps = dispatch => {
     setPermissions: data =>
       dispatch(permissionsUpdated(data, SCOPES.READ_FULL)),
   };
+};
+
+ValidateVeteran.propTypes = {
+  context: PropTypes.object,
+  isUpdatePageEnabled: PropTypes.bool,
+  isDemographicsPageEnabled: PropTypes.bool,
+  router: PropTypes.object,
+  setPermissions: PropTypes.func,
 };
 
 export default connect(

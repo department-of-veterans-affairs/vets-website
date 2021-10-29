@@ -64,6 +64,6 @@ const mapStateToProps = state => ({
 });
 
 export default {
-  name: pageNames.claimType,
+  name: pageNames.start,
   component: connect(mapStateToProps)(ClaimType),
 };

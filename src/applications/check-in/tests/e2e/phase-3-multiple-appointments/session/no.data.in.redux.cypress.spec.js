@@ -31,7 +31,6 @@ describe('Check In Experience -- ', () => {
       'GET',
       '/v0/feature_toggles*',
       generateFeatureToggles({
-        checkInExperienceMultipleAppointmentSupport: true,
         checkInExperienceUpdateInformationPageEnabled: false,
       }),
     );
@@ -54,7 +53,7 @@ describe('Check In Experience -- ', () => {
     const featureRoute = '/health-care/appointment-check-in/details';
     cy.visit(featureRoute);
     // redirected back to landing page to reload the data
-    cy.url().should('match', /id=46bebc0a-b99c-464f-a5c5-560bc9eae287/);
+    cy.url().should('match', /verify/);
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
       .and('have.text', 'Check in at VA');

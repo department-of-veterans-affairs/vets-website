@@ -64,15 +64,8 @@ describe('IntroductionPage', () => {
   });
 
   it('should show has empty address message', () => {
-    const user = {
-      ...defaultProps.user,
-      login: {
-        currentlyLoggedIn: true,
-      },
-    };
-
     const tree = shallow(
-      <IntroductionPage {...defaultProps} user={user} hasEmptyAddress />,
+      <IntroductionPage {...defaultProps} loggedIn hasEmptyAddress />,
     );
 
     const alert = tree.find('va-alert');
@@ -81,14 +74,16 @@ describe('IntroductionPage', () => {
     tree.unmount();
   });
 
-  it('should render CallToActionWidget', () => {
+  it('should render SaveInProgressIntro', () => {
     setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const tree = shallow(<IntroductionPage {...defaultProps} />);
 
-    const callToActionWidget = tree.find('Connect(CallToActionWidget)');
-    expect(callToActionWidget.length).to.equal(2);
-    expect(callToActionWidget.first().props().appId).to.equal(
-      'higher-level-review',
+    const saveInProgressIntro = tree.find(
+      'withRouter(Connect(SaveInProgressIntro))',
+    );
+    expect(saveInProgressIntro.length).to.equal(2);
+    expect(saveInProgressIntro.first().props().startText).to.contain(
+      'Higher-Level Review',
     );
     tree.unmount();
   });
@@ -128,6 +123,7 @@ describe('IntroductionPage', () => {
         error: '',
       },
       delay: 0,
+      loggedIn: true,
     };
 
     const tree = shallow(<IntroductionPage {...props} />);
@@ -152,8 +148,8 @@ describe('IntroductionPage', () => {
 
     const tree = shallow(<IntroductionPage {...props} />);
 
-    const Intro = tree.find('Connect(CallToActionWidget)').first();
-    expect(Intro.props().children.props.startText).to.include(
+    const Intro = tree.find('withRouter(Connect(SaveInProgressIntro))').first();
+    expect(Intro.props().startText).to.include(
       'Start the Request for a Higher-Level Review',
     );
     tree.unmount();
@@ -170,9 +166,8 @@ describe('IntroductionPage', () => {
     };
 
     const tree = shallow(<IntroductionPage {...props} />);
-
-    const Intro = tree.find('Connect(CallToActionWidget)').first();
-    expect(Intro.props().children.props.gaStartEventName).to.equal(
+    const Intro = tree.find('withRouter(Connect(SaveInProgressIntro))').first();
+    expect(Intro.props().gaStartEventName).to.equal(
       `${formConfig.trackingPrefix}start-form`,
     );
     tree.unmount();
@@ -182,6 +177,8 @@ describe('IntroductionPage', () => {
     setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const props = {
       ...defaultProps,
+      isProduction: true,
+      loggedIn: true,
       contestableIssues: {
         issues: [{}],
         status: FETCH_CONTESTABLE_ISSUES_INIT,
@@ -190,9 +187,8 @@ describe('IntroductionPage', () => {
     };
 
     const tree = shallow(<IntroductionPage {...props} />);
-
-    const Intro = tree.find('Connect(CallToActionWidget)').first();
-    expect(Intro.props().children.props.message).to.contain(
+    const loading = tree.find('LoadingIndicator').first();
+    expect(loading.props().message).to.contain(
       'Loading your previous decisions',
     );
     tree.unmount();
@@ -213,7 +209,9 @@ describe('IntroductionPage', () => {
 
     const tree = shallow(<IntroductionPage {...props} />);
     expect(tree.find('Connect(WizardContainer)')).to.have.lengthOf(1);
-    expect(tree.find('Connect(CallToActionWidget)')).to.have.lengthOf(0);
+    expect(
+      tree.find('withRouter(Connect(SaveInProgressIntro))'),
+    ).to.have.lengthOf(0);
     tree.unmount();
   });
 });

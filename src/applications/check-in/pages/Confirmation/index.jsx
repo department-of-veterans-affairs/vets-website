@@ -1,30 +1,22 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import FeatureToggle, {
-  FeatureOn,
-  FeatureOff,
-} from '../../components/FeatureToggle';
-import SingleAppointment from './SingleAppointment';
 import MultipleAppointment from './MultipleAppointments';
+
+import { triggerRefresh } from '../../actions';
 
 const Confirmation = ({
   appointments,
+  refreshAppointments,
   selectedAppointment,
-  isMultipleAppointmentsEnabled,
 }) => {
   return (
-    <FeatureToggle on={isMultipleAppointmentsEnabled}>
-      <FeatureOn>
-        <MultipleAppointment
-          selectedAppointment={selectedAppointment}
-          appointments={appointments}
-        />
-      </FeatureOn>
-      <FeatureOff>
-        <SingleAppointment appointments={appointments} />
-      </FeatureOff>
-    </FeatureToggle>
+    <MultipleAppointment
+      selectedAppointment={selectedAppointment}
+      appointments={appointments}
+      triggerRefresh={refreshAppointments}
+    />
   );
 };
 
@@ -34,8 +26,18 @@ const mapStateToProps = state => {
     selectedAppointment: state.checkInData.context.appointment,
   };
 };
-const mapDispatchToProps = () => {
-  return {};
+const mapDispatchToProps = dispatch => {
+  return {
+    refreshAppointments: () => {
+      dispatch(triggerRefresh());
+    },
+  };
+};
+
+Confirmation.propTypes = {
+  appointments: PropTypes.array,
+  refreshAppointments: PropTypes.func,
+  selectedAppointment: PropTypes.object,
 };
 
 export default connect(

@@ -86,6 +86,49 @@ describe('authentication URL helpers', () => {
     verify('v1');
     expect(global.window.location).to.include('/v1/sessions/verify/new');
   });
+
+  it('should redirect to the proper unified sign-in page redirect for mhv', () => {
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=mhv';
+    login('idme', 'v1');
+    expect(global.window.location).to.include(
+      `/v1/sessions/idme/new?skip_dupe=mhv&redirect=${
+        externalRedirects.mhv
+      }&postLogin=true`,
+    );
+  });
+
+  it('should redirect to the proper unified sign-in page redirect for mhv with `to`', () => {
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=mhv&to=secure_messaging';
+
+    login('idme', 'v1');
+    expect(global.window.location).to.include(
+      `/v1/sessions/idme/new?skip_dupe=mhv&redirect=${
+        externalRedirects.mhv
+      }?deeplinking=secure_messaging&postLogin=true`,
+    );
+  });
+
+  it('should redirect to the proper unified sign-in page redirect for cerner', () => {
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=myvahealth';
+    login('idme', 'v1');
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
+  });
+
+  it('should mimick modal behavior when sign-in page lacks appliction param', () => {
+    global.window.location.pathname = '/sign-in/';
+    login('idme', 'v1');
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
+  });
+
+  it('should mimick modal behavior when sign-in page has invalid application param', () => {
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=foobar';
+    login('idme', 'v1');
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
+  });
 });
 
 describe('standaloneRedirect', () => {
@@ -101,7 +144,7 @@ describe('standaloneRedirect', () => {
     expect(standaloneRedirect()).to.be.null;
   });
 
-  it('should return an plain url when no "to" search query is provided', () => {
+  it('should return a plain url when no `to` search query is provided', () => {
     global.window.location.search = '?application=myvahealth';
     expect(standaloneRedirect()).to.equal(externalRedirects.myvahealth);
   });
@@ -110,7 +153,7 @@ describe('standaloneRedirect', () => {
     global.window.location.search =
       '?application=myvahealth&to=/some/sub/route\r\n';
     expect(standaloneRedirect()).to.equal(
-      `${externalRedirects.myvahealth}some/sub/route`,
+      `${externalRedirects.myvahealth}/some/sub/route`,
     );
   });
 });

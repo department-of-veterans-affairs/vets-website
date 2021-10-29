@@ -5,11 +5,9 @@ import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
 import {
   mockAppointmentInfo,
-  mockFacilitiesFetch,
-  mockFacilityFetch,
   mockSingleAppointmentFetch,
 } from '../../../mocks/helpers';
-import { getVAFacilityMock, getVideoAppointmentMock } from '../../../mocks/v0';
+import { getVideoAppointmentMock } from '../../../mocks/v0';
 import {
   renderWithStoreAndRouter,
   getTimezoneTestDate,
@@ -21,8 +19,14 @@ import sinon from 'sinon';
 import { getICSTokens } from '../../../../utils/calendar';
 import { getVAOSAppointmentMock } from '../../../mocks/v2';
 import { mockSingleVAOSAppointmentFetch } from '../../../mocks/helpers.v2';
-import { mockFacilityFetchByVersion } from '../../../mocks/fetch';
-import { createMockFacilityByVersion } from '../../../mocks/data';
+import {
+  mockFacilitiesFetchByVersion,
+  mockFacilityFetchByVersion,
+} from '../../../mocks/fetch';
+import {
+  createMockFacilityByVersion,
+  createMockCheyenneFacilityByVersion,
+} from '../../../mocks/data';
 
 const initialState = {
   featureToggles: {
@@ -41,11 +45,13 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         .add(330, 'minutes')
         .format('YYYY-MM-DD[T]HH:mm:ss');
       MockDate.set(sameDayDate);
-      mockFacilitiesFetch();
-      mockFacilityFetch(
-        'vha_442',
-        getVAFacilityMock({ id: '442', name: 'Cheyenne VA medical center' }),
-      );
+      mockFacilitiesFetchByVersion({ version: 0 });
+      mockFacilityFetchByVersion({
+        facility: createMockCheyenneFacilityByVersion({
+          version: 0,
+        }),
+        version: 0,
+      });
     });
     afterEach(() => {
       MockDate.reset();
@@ -92,27 +98,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         cc: [],
         requests: [],
       });
-      const facility = {
-        id: 'vha_442',
-        attributes: {
-          ...getVAFacilityMock().attributes,
-          uniqueId: '442',
-          name: 'Cheyenne VA Medical Center',
-          address: {
-            physical: {
-              zip: '82001-5356',
-              city: 'Cheyenne',
-              state: 'WY',
-              address1: '2360 East Pershing Boulevard',
-            },
-          },
-          phone: {
-            main: '307-778-7550',
-          },
-        },
-      };
-      mockFacilitiesFetch('vha_442', [facility]);
-      mockFacilityFetch('vha_442', facility);
+      const facility = createMockCheyenneFacilityByVersion({ version: 0 });
+      mockFacilitiesFetchByVersion({ facilities: [facility] });
+      mockFacilityFetchByVersion({ facility, version: 0 });
 
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
         initialState,
@@ -467,10 +455,12 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         cc: [],
         requests: [],
       });
-      mockFacilityFetch(
-        'vha_442',
-        getVAFacilityMock({ id: '442', name: 'Cheyenne VA medical center' }),
-      );
+      mockFacilityFetchByVersion({
+        facility: createMockCheyenneFacilityByVersion({
+          version: 0,
+        }),
+        version: 0,
+      });
 
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
         initialState,
@@ -507,7 +497,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(screen.baseElement).to.contain.text(
         'Contact this facility if you need to reschedule or cancel your appointment',
       );
-      expect(screen.baseElement).to.contain.text('Cheyenne VA medical center');
+      expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
     });
 
     it('should direct user to VA facility if we are missing facility details', async () => {
@@ -573,10 +563,14 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         facilityId: '612',
         appointmentKind: 'ADHOC',
       });
-      mockFacilityFetch(
-        'vha_612A4',
-        getVAFacilityMock({ id: '612A4', name: 'Sacramento VA' }),
-      );
+      mockFacilityFetchByVersion({
+        facility: createMockFacilityByVersion({
+          id: '612A4',
+          name: 'Sacramento VA',
+          version: 0,
+        }),
+        version: 0,
+      });
       mockSingleAppointmentFetch({
         appointment,
       });
@@ -635,26 +629,19 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         requests: [],
       });
 
-      const facility = {
-        id: 'vha_442GD',
-        attributes: {
-          ...getVAFacilityMock().attributes,
-          uniqueId: '442GD',
-          name: 'Cheyenne VA Medical Center',
-          address: {
-            physical: {
-              zip: '82001-5356',
-              city: 'Cheyenne',
-              state: 'WY',
-              address1: '2360 East Pershing Boulevard',
-            },
-          },
-          phone: {
-            main: '307-778-7550',
-          },
+      const facility = createMockFacilityByVersion({
+        id: '442GD',
+        name: 'Cheyenne VA Medical Center',
+        address: {
+          postalCode: '82001-5356',
+          city: 'Cheyenne',
+          state: 'WY',
+          line: ['2360 East Pershing Boulevard'],
         },
-      };
-      mockFacilitiesFetch('vha_442GD', [facility]);
+        phone: '307-778-7550',
+        version: 0,
+      });
+      mockFacilitiesFetchByVersion({ facilities: [facility], version: 0 });
 
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
         initialState,
@@ -733,26 +720,19 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         requests: [],
       });
 
-      const facility = {
-        id: 'vha_442GD',
-        attributes: {
-          ...getVAFacilityMock().attributes,
-          uniqueId: '442GD',
-          name: 'Cheyenne VA Medical Center',
-          address: {
-            physical: {
-              zip: '82001-5356',
-              city: 'Cheyenne',
-              state: 'WY',
-              address1: '2360 East Pershing Boulevard',
-            },
-          },
-          phone: {
-            main: '307-778-7550',
-          },
+      const facility = createMockFacilityByVersion({
+        id: '442GD',
+        name: 'Cheyenne VA Medical Center',
+        address: {
+          postalCode: '82001-5356',
+          city: 'Cheyenne',
+          state: 'WY',
+          line: ['2360 East Pershing Boulevard'],
         },
-      };
-      mockFacilitiesFetch('vha_442GD', [facility]);
+        phone: '307-778-7550',
+        version: 0,
+      });
+      mockFacilitiesFetchByVersion({ facilities: [facility], version: 0 });
 
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
         initialState,
@@ -1083,27 +1063,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         requests: [],
       });
 
-      const facility = {
-        id: 'vha_442',
-        attributes: {
-          ...getVAFacilityMock().attributes,
-          uniqueId: '442',
-          name: 'Cheyenne VA Medical Center',
-          address: {
-            physical: {
-              zip: '82001-5356',
-              city: 'Cheyenne',
-              state: 'WY',
-              address1: '2360 East Pershing Boulevard',
-            },
-          },
-          phone: {
-            main: '307-778-7550',
-          },
-        },
-      };
-      mockFacilitiesFetch('vha_442', [facility]);
-      mockFacilityFetch('vha_442', facility);
+      const facility = createMockCheyenneFacilityByVersion({ version: 0 });
+      mockFacilitiesFetchByVersion({ facilities: [facility], version: 0 });
+      mockFacilityFetchByVersion({ facility, version: 0 });
 
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
         initialState,
@@ -1527,11 +1489,13 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
   describe('VAOS video appointments (css transition check)', () => {
     beforeEach(() => {
       mockFetch();
-      mockFacilitiesFetch();
-      mockFacilityFetch(
-        'vha_442',
-        getVAFacilityMock({ id: '442', name: 'Cheyenne VA medical center' }),
-      );
+      mockFacilitiesFetchByVersion({ version: 0 });
+      mockFacilityFetchByVersion({
+        facility: createMockCheyenneFacilityByVersion({
+          version: 0,
+        }),
+        version: 0,
+      });
     });
     it('should reveal video visit instructions', async () => {
       const startDate = moment.utc().add(30, 'minutes');

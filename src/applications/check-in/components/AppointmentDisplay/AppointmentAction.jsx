@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { api } from '../../api';
 
@@ -10,13 +11,7 @@ import format from 'date-fns/format';
 import { appointmentWAsCheckedInto } from '../../actions';
 
 const AppointmentAction = props => {
-  const {
-    appointment,
-    isMultipleAppointmentsEnabled,
-    router,
-    setSelectedAppointment,
-    token,
-  } = props;
+  const { appointment, router, setSelectedAppointment, token } = props;
 
   const [isCheckingIn, setIsCheckingIn] = useState(false);
 
@@ -30,12 +25,7 @@ const AppointmentAction = props => {
     });
     setIsCheckingIn(true);
     try {
-      let checkIn = api.v1.postCheckInData;
-      if (isMultipleAppointmentsEnabled) {
-        checkIn = api.v2.postCheckInData;
-      }
-
-      const json = await checkIn({
+      const json = await api.v2.postCheckInData({
         uuid: token,
         appointmentIen: appointment.appointmentIen,
         facilityId: appointment.facilityId,
@@ -150,6 +140,13 @@ const mapDispatchToProps = dispatch => {
       dispatch(appointmentWAsCheckedInto(appointment));
     },
   };
+};
+
+AppointmentAction.propTypes = {
+  appointment: PropTypes.object,
+  router: PropTypes.object,
+  setSelectedAppointment: PropTypes.func,
+  token: PropTypes.string,
 };
 
 export default connect(

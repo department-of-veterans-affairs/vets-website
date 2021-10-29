@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import { Provider } from 'react-redux';
 
 import { ContactInfoDescription } from '../../components/ContactInformation';
 
@@ -26,6 +27,7 @@ const getData = ({
   }
   if (address) {
     data.mailingAddress = {
+      addressType: 'DOMESTIC',
       countryName: 'United States',
       countryCodeIso3: 'USA',
       addressLine1: '123 Main Blvd',
@@ -46,11 +48,34 @@ const getData = ({
 describe('Veteran information review content', () => {
   it('should render contact information', () => {
     const data = getData();
-    const tree = shallow(<ContactInfoDescription {...data} />);
+    const mockStore = {
+      getState: () => ({
+        user: {
+          profile: data.profile,
+        },
+        vapService: {
+          fieldTransactionMap: {},
+          modal: '',
+          modalData: null,
+          addressValidation: {},
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+    const tree = shallow(
+      <Provider store={mockStore}>
+        <ContactInfoDescription {...data} />
+      </Provider>,
+    );
 
-    expect(tree.find('PhoneField')).to.exist;
-    expect(tree.find('EmailField')).to.exist;
-    expect(tree.find('MailingAddress')).to.exist;
+    const html = tree.html();
+    expect(html).to.contain('555-800-1212, ext. 1234');
+    expect(html).to.contain(
+      'someone<span class="email-address-symbol">@</span>famous<span class="email-address-symbol">.</span>com',
+    );
+    expect(html).to.contain('123 Main Blvd, Floor 33, Suite 55');
+    expect(html).to.contain('Hollywood, CA 90210');
     tree.unmount();
   });
 

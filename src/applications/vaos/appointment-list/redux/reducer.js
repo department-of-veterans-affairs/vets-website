@@ -222,6 +222,7 @@ export default function appointmentsReducer(state = initialState, action) {
           appt,
         );
         newAppt.description = 'CANCELLED BY PATIENT';
+        newAppt.cancelationReason = 'pat';
 
         return { ...newAppt, status: APPOINTMENT_STATUS.cancelled };
       });
@@ -240,6 +241,7 @@ export default function appointmentsReducer(state = initialState, action) {
         const updatedAppointment = action.updatedAppointment || {
           ...appointmentDetails[appointmentToCancel.id],
           description: 'CANCELLED BY PATIENT',
+          cancelationReason: 'pat',
           status: APPOINTMENT_STATUS.cancelled,
           vaos: {
             ...appointmentDetails[appointmentToCancel.id].vaos,

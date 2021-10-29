@@ -282,7 +282,12 @@ export default function RequestedAppointmentDetailsPage() {
               <button
                 aria-label="Cancel request"
                 className="vaos-appts__cancel-btn va-button-link vads-u-flex--0"
-                onClick={() => dispatch(startAppointmentCancel(appointment))}
+                onClick={() => {
+                  recordEvent({
+                    event: `${GA_PREFIX}-cancel-request-clicked`,
+                  });
+                  dispatch(startAppointmentCancel(appointment));
+                }}
               >
                 Cancel Request
               </button>
