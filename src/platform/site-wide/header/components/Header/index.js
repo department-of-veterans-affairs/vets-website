@@ -10,7 +10,10 @@ import { toggleFormSignInModal } from '../../../user-nav/actions';
 
 export const Header = () => {
   return (
-    <header className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0">
+    <header
+      className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0"
+      role="banner"
+    >
       {/* Official government website banner */}
       <OfficialGovtWebsite />
 
