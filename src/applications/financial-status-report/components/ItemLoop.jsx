@@ -5,12 +5,12 @@ import Scroll from 'react-scroll';
 import { scrollToFirstError } from 'platform/forms-system/src/js/utilities/ui';
 import { setArrayRecordTouched } from 'platform/forms-system/src/js/helpers';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
+import { isReactComponent } from 'platform/utilities/ui';
+import { allEqual } from '../utils/helpers';
 import {
   toIdSchema,
   getDefaultFormState,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
-import { isReactComponent } from 'platform/utilities/ui';
-import { allEqual } from '../utils/helpers';
 
 const ScrollElement = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -72,11 +72,10 @@ const InputSection = ({
 }) => {
   const showCancel = items.length > 1;
   const showRemove = items.length > 1 && editing && editing[index] !== 'add';
-  const showSave = uiSchema['ui:options'].showSave;
-  const updateText = showSave ? 'Save' : 'Update';
   const { SchemaField } = registry.fields;
   const itemIdPrefix = `${idSchema.$id}_${index}`;
   const titlePrefix = editing && editing[index] === true ? 'Edit' : 'Add';
+  const buttonText = 'Save';
 
   const getItemSchema = i => {
     return schema.items.length > i ? schema.items[i] : schema.additionalItems;
@@ -128,9 +127,9 @@ const InputSection = ({
               <button
                 className="float-left"
                 onClick={e => handleSave(e, index)}
-                aria-label={`${updateText} ${title}`}
+                aria-label={`${buttonText} ${title}`}
               >
-                {updateText}
+                {buttonText}
               </button>
               {showCancel && <a onClick={() => handleCancel(index)}>Cancel</a>}
             </div>
@@ -152,10 +151,9 @@ const InputSection = ({
   );
 };
 
-const AddAnotherButton = ({ uiOptions, handleAdd, editing }) => {
-  const isClosed = allEqual(editing) && editing.includes(false);
+const AddAnotherButton = ({ uiOptions, handleAdd, collapsed }) => {
   const linkClassNames = classNames('add-item-link-section', {
-    disabled: !isClosed,
+    disabled: !collapsed,
   });
 
   return (
@@ -191,15 +189,16 @@ const ItemLoop = ({
   const tableHeaders = Object.values(uiSchema?.items)
     .filter(item => item['ui:title'] !== undefined)
     .map(item => item['ui:title']);
+  // use formData otherwise use an array with a single default object
+  const items = formData?.length
+    ? formData
+    : [getDefaultFormState(schema, undefined, registry.definitions)];
 
   const [cache, setCache] = useState(formData);
   const [editing, setEditing] = useState([]);
   const [showTable, setShowTable] = useState(false);
 
-  // use formData otherwise use an array with a single default object
-  const items = formData?.length
-    ? formData
-    : [getDefaultFormState(schema, undefined, registry.definitions)];
+  const isCollapsed = allEqual(editing) && editing.includes(false);
 
   // Throw an error if there’s no viewField (should be React component)
   if (!isReactComponent(uiSchema['ui:options'].viewField)) {
@@ -436,7 +435,7 @@ const ItemLoop = ({
         )}
         <AddAnotherButton
           uiOptions={uiOptions}
-          editing={editing}
+          collapsed={isCollapsed}
           handleAdd={handleAdd}
         />
       </div>
