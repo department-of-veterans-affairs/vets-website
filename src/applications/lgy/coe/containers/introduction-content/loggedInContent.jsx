@@ -2,18 +2,9 @@ import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { COE_ELIGIBILITY_STATUS } from '../../constants';
-
-const pendingStatuses = [
-  COE_ELIGIBILITY_STATUS.pending,
-  COE_ELIGIBILITY_STATUS.pendingUpload,
-];
 
 const LoggedInContent = props => (
   <>
-    {pendingStatuses.includes(props.parentProps.coe.status) && (
-      <h2>Follow these steps to reapply for a VA home loan COE</h2>
-    )}
     <div className="process schemaform-process">
       <ol>
         <li className="process-step list-one">
