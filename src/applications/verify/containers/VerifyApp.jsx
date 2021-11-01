@@ -9,10 +9,7 @@ import Telephone, {
 } from '@department-of-veterans-affairs/component-library/Telephone';
 import recordEvent from 'platform/monitoring/record-event';
 
-import {
-  isAuthenticatedWithSSOe,
-  loginGov,
-} from 'platform/user/authentication/selectors';
+import { loginGov } from 'platform/user/authentication/selectors';
 import { verify } from 'platform/user/authentication/utilities';
 import { hasSession } from 'platform/user/profile/utilities';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
@@ -59,8 +56,7 @@ export class VerifyApp extends React.Component {
   }
 
   renderVerifyButton() {
-    const { loginGovEnabled, authenticatedWithSSOe } = this.props;
-    const authVersion = authenticatedWithSSOe ? 'v1' : 'v0';
+    const { loginGovEnabled } = this.props;
     const copy = loginGovEnabled ? 'Login.gov' : 'ID.me';
     const iconPath = loginGovEnabled
       ? '/img/signin/logingov-icon-white.svg'
@@ -68,10 +64,7 @@ export class VerifyApp extends React.Component {
     const alt = loginGovEnabled ? 'Login.gov' : 'ID.me';
 
     return (
-      <button
-        className="usa-button usa-button-darker"
-        onClick={() => verify(authVersion)}
-      >
+      <button className="usa-button usa-button-darker" onClick={verify}>
         <strong>
           Verify with <span className="sr-only">{copy}</span>
         </strong>
@@ -151,7 +144,6 @@ const mapStateToProps = state => {
     login: userState.login,
     profile: userState.profile,
     loginGovEnabled: loginGov(state),
-    authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
   };
 };
 
