@@ -37,7 +37,9 @@ Alert.Error = () => (
       </strong>
       contact the VA health care facility where you received care.
     </p>
-    <a href="#">Find the contact information for your facility</a>
+    <a href="https://www.va.gov/find-locations">
+      Find the contact information for your facility
+    </a>
   </va-alert>
 );
 
@@ -60,7 +62,10 @@ Alert.NoHealthcare = () => (
     <p className="vads-u-font-size--base vads-u-font-family--sans">
       You can’t view copay balances at this time because our records show that
       you’re not enrolled in VA health care.
-      <a href="#" className="vads-u-margin-left--0p5">
+      <a
+        href="https://va.gov/health-care/how-to-apply/"
+        className="vads-u-margin-left--0p5"
+      >
         Find out how to apply for VA health care benefits
       </a>
       .
@@ -131,12 +136,12 @@ Alert.Status = ({ copay }) => (
       .
     </p>
     <p>
-      <a className="vads-c-action-link--blue" href="#">
+      <a className="vads-c-action-link--blue" href="#how-to-pay">
         Learn how to pay your copay bill
       </a>
     </p>
     <p>
-      <a className="vads-c-action-link--blue" href="#">
+      <a className="vads-c-action-link--blue" href="#how-to-get-financial-help">
         Request help with your bill
       </a>
     </p>

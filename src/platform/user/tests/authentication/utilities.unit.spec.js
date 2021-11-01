@@ -92,7 +92,9 @@ describe('authentication URL helpers', () => {
     global.window.location.search = '?application=mhv';
     login('idme', 'v1');
     expect(global.window.location).to.include(
-      `/v1/sessions/idme/new?skip_dupe=mhv&redirect=${externalRedirects.mhv}`,
+      `/v1/sessions/idme/new?skip_dupe=mhv&redirect=${
+        externalRedirects.mhv
+      }&postLogin=true`,
     );
   });
 
@@ -104,13 +106,26 @@ describe('authentication URL helpers', () => {
     expect(global.window.location).to.include(
       `/v1/sessions/idme/new?skip_dupe=mhv&redirect=${
         externalRedirects.mhv
-      }?deeplinking=secure_messaging`,
+      }?deeplinking=secure_messaging&postLogin=true`,
     );
   });
 
   it('should redirect to the proper unified sign-in page redirect for cerner', () => {
     global.window.location.pathname = '/sign-in/';
     global.window.location.search = '?application=myvahealth';
+    login('idme', 'v1');
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
+  });
+
+  it('should mimick modal behavior when sign-in page lacks appliction param', () => {
+    global.window.location.pathname = '/sign-in/';
+    login('idme', 'v1');
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
+  });
+
+  it('should mimick modal behavior when sign-in page has invalid application param', () => {
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=foobar';
     login('idme', 'v1');
     expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
