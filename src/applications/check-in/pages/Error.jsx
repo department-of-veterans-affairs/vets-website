@@ -1,16 +1,10 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 import { focusElement } from 'platform/utilities/ui';
 
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
-
-const Error = props => {
-  const { appointment } = props;
-  const { clinicPhoneNumber } = appointment || {};
+const Error = () => {
   useEffect(() => {
     focusElement('h1');
   }, []);
@@ -22,16 +16,7 @@ const Error = props => {
         </h1>
         <p data-testid="error-message">
           We’re sorry. Something went wrong on our end. Check in with a staff
-          member
-          {clinicPhoneNumber ? (
-            <>
-              {' '}
-              or call us at <Telephone contact={clinicPhoneNumber} />
-            </>
-          ) : (
-            ''
-          )}
-          .
+          member.
         </p>
       </va-alert>
       <Footer />
@@ -40,20 +25,4 @@ const Error = props => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    appointment: state.checkInData?.appointment,
-  };
-};
-const mapDispatchToProps = () => {
-  return {};
-};
-
-Error.propTypes = {
-  appointment: PropTypes.object,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Error);
+export default Error;
