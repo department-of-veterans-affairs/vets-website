@@ -133,7 +133,7 @@ const SearchRepresentativeWidget = props => {
               you send a request. If you’re filling out one of the forms, you’ll
               need to mail it to your nearest VA regional office.
             </p>
-            <a href="">Find a VA regional office near you</a>
+            <a href="/find-locations/">Find a VA regional office near you</a>
           </li>
         </ul>
       </div>
