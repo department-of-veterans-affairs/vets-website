@@ -9,7 +9,10 @@ import Telephone, {
 } from '@department-of-veterans-affairs/component-library/Telephone';
 import recordEvent from 'platform/monitoring/record-event';
 
-import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
+import {
+  isAuthenticatedWithSSOe,
+  loginGov,
+} from 'platform/user/authentication/selectors';
 import { verify } from 'platform/user/authentication/utilities';
 import { hasSession } from 'platform/user/profile/utilities';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
@@ -55,9 +58,30 @@ export class VerifyApp extends React.Component {
     }
   }
 
+  renderVerifyButton() {
+    const { loginGovEnabled, authenticatedWithSSOe } = this.props;
+    const authVersion = authenticatedWithSSOe ? 'v1' : 'v0';
+    const copy = loginGovEnabled ? 'Login.gov' : 'ID.me';
+    const iconPath = loginGovEnabled
+      ? '/img/signin/logingov-icon-white.svg'
+      : '/img/signin/idme-icon-white.svg';
+    const alt = loginGovEnabled ? 'Login.gov' : 'ID.me';
+
+    return (
+      <button
+        className="usa-button usa-button-darker"
+        onClick={() => verify(authVersion)}
+      >
+        <strong>
+          Verify with <span className="sr-only">{copy}</span>
+        </strong>
+        <img alt={alt} role="presentation" aria-hidden="true" src={iconPath} />
+      </button>
+    );
+  }
+
   render() {
     const { profile } = this.props;
-    const authVersion = this.props.authenticatedWithSSOe ? 'v1' : 'v0';
 
     if (profile.loading) {
       return <LoadingIndicator message="Loading the application..." />;
@@ -90,13 +114,7 @@ export class VerifyApp extends React.Component {
                   This one-time process will take{' '}
                   <strong>5 - 10 minutes</strong> to complete.
                 </p>
-                <button
-                  className="usa-button-primary va-button-primary"
-                  onClick={() => verify(authVersion)}
-                >
-                  <img alt="" src="/img/signin/idme-icon-white.svg" />
-                  <strong> Verify with ID.me</strong>
-                </button>
+                {this.renderVerifyButton()}
               </div>
             </div>
           </div>
@@ -132,6 +150,7 @@ const mapStateToProps = state => {
   return {
     login: userState.login,
     profile: userState.profile,
+    loginGovEnabled: loginGov(state),
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
   };
 };
