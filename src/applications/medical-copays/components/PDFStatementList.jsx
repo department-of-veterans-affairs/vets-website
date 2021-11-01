@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import DownloadStatements from './DownloadStatements';
+import DownloadStatements from './DownloadStatement';
 
-const StatementList = ({ mcpStatements }) => {
+const PDFStatementList = ({ mcpStatements }) => {
   return (
     <section>
       <h2 id="download-statements">Download your statements</h2>
@@ -13,21 +13,23 @@ const StatementList = ({ mcpStatements }) => {
       </p>
 
       {mcpStatements.map(statement => (
-        <DownloadStatements key={statement.id} mcpStatement={statement} />
+        <DownloadStatements
+          key={statement.id}
+          statementId={statement.id}
+          statementDate={statement.pSStatementDate}
+        />
       ))}
     </section>
   );
 };
 
-StatementList.defaultProps = {
+PDFStatementList.defaultProps = {
   statements: [],
   errors: [],
 };
 
-const mapStateToProps = ({ mcp: { statements, pending, error } }) => ({
+const mapStateToProps = ({ mcp: { statements } }) => ({
   mcpStatements: statements,
-  error,
-  isLoading: pending,
 });
 
-export default connect(mapStateToProps)(StatementList);
+export default connect(mapStateToProps)(PDFStatementList);

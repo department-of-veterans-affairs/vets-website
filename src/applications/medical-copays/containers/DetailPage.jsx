@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
-import StatementList from '../components/StatementList';
+import PDFStatementList from '../components/PDFStatementList';
 import BalanceQuestions from '../components/BalanceQuestions';
 import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
@@ -62,7 +62,7 @@ const DetailPage = ({ match }) => {
 
           <va-on-this-page />
 
-          <StatementList />
+          <PDFStatementList />
 
           <HowToPay
             acctNum={selectedCopay?.pHCernerAccountNumber}
