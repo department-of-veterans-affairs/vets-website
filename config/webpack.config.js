@@ -276,12 +276,13 @@ module.exports = async (env = {}) => {
   );
 
   console.log(entryFiles['10182-board-appeal']);
+  console.log(entryFiles);
 
   const baseConfig =
     // smp.wrap
     {
       mode: 'development',
-      entry: entryFiles['10182-board-appeal'],
+      entry: entryFiles,
       output: {
         path: path.resolve(buildPath, 'generated'),
         publicPath: '/generated/',
