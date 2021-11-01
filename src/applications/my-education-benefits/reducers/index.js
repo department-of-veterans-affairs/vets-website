@@ -19,7 +19,7 @@ const initialState = {
 export default {
   form: createSaveInProgressFormReducer(formConfig),
   data: (state = initialState, action) => {
-    const claimant = action?.response?.data?.claimant || {};
+    const data = action?.response?.data || {};
 
     switch (action.type) {
       case FETCH_PERSONAL_INFORMATION_SUCCESS:
@@ -35,7 +35,7 @@ export default {
           //     },
           //   },
           // },
-          formData: claimant,
+          formData: data,
         };
       default:
         return state;

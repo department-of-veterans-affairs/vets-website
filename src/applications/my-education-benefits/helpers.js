@@ -336,6 +336,15 @@ export function fetchMilitaryInformationCopy() {
   };
 }
 
+function mapNotificaitonMethod(notificationMethod) {
+  if (notificationMethod === 'mail') {
+    return 'Mail';
+  } else if (notificationMethod === 'email') {
+    return 'Email';
+  }
+  return notificationMethod;
+}
+
 export function prefillTransformer(pages, formData, metadata, state) {
   // const userProfile = state.user.profile || {};
   // const vapContactInfo = userProfile?.vapContactInfo || {};
@@ -359,42 +368,56 @@ export function prefillTransformer(pages, formData, metadata, state) {
     fetchMilitaryInformationCopy();
   }
 
-  const contactInfo = data?.contactInfos[0] || {};
+  const claimant = data?.claimant || {};
+  const contactInfo = claimant?.contactInfo || {};
 
   const newData = {
     ...formData,
     'view:userFullName': {
       userFullName: {
-        first: data.firstName,
-        middle: data.middleName,
-        last: data.middleName,
+        first: claimant.firstName,
+        middle: claimant.middleName,
+        last: claimant.lastName,
       },
     },
-    dateOfBirth: data.dateOfBirth,
+    dateOfBirth: claimant.dateOfBirth,
     email: {
       email: contactInfo.emailAddress,
       confirmEmail: contactInfo.emailAddress,
     },
-    // 'view:phoneNumbers': {
-    //   mobilePhoneNumber: transformPhone(vapContactInfo?.mobilePhone),
-    //   phoneNumber: transformPhone(otherPhone),
-    // },
+    'view:phoneNumbers': {
+      mobilePhoneNumber: {
+        phone: contactInfo?.mobilePhoneNumber || undefined,
+      },
+      phoneNumber: {
+        phone: contactInfo?.homePhoneNumber || undefined,
+      },
+    },
+    'view:contactMethod': {
+      contactMethod: mapNotificaitonMethod(claimant?.notificationMethod),
+    },
     'view:mailingAddress': {
       address: {
         street: contactInfo?.addressLine1,
-        street2: contactInfo?.addressLine2,
+        street2: contactInfo?.addressLine2 || undefined,
         city: contactInfo?.city,
         state: contactInfo?.stateCode,
         postalCode: contactInfo?.zipcode,
-        country: contactInfo?.country,
+        // TODO Undo comment when mock data provides full country name.
+        // country: contactInfo?.countryCode,
+        country: 'USA',
       },
-      livesOnMilitaryBase: contactInfo?.addressType === 'OVERSEAS MILITARY',
+      livesOnMilitaryBase: contactInfo?.addressType === 'MILITARY_OVERSEAS',
     },
     // toursOfDuty: transformServiceHistory(serviceHistory?.data),
     // 'view:toursOfDutyCorrect': {
     //   toursOfDutyCorrect: serviceHistory?.data?.toursOfDutyIncorrect,
     // },
   };
+
+  if (claimant?.suffix) {
+    newData['view:userFullName'].userFullName.suffix = claimant?.suffix;
+  }
 
   // useEffect(
   //   () => {
