@@ -102,6 +102,7 @@ const SearchRepresentativeWidget = props => {
               <a
                 className="vads-u-color--link-default"
                 href="/find-forms/about-form-21-22/"
+                aria-hidden="true"
               >
                 Download VA form 21-22(PDF)
               </a>
@@ -118,6 +119,7 @@ const SearchRepresentativeWidget = props => {
               <a
                 className="vads-u-color--link-default"
                 href="/find-forms/about-form-21-22/"
+                aria-hidden="true"
               >
                 Download VA form 21-22a(PDF)
               </a>
