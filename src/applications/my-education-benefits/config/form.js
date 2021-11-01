@@ -349,7 +349,7 @@ function transform(metaData, form) {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/meb_api/v0/submit_application`,
+  submitUrl: `${environment.API_URL}/meb_api/v0/submit_claim`,
   transformForSubmit: transform,
   trackingPrefix: 'my-education-benefits-',
   introduction: IntroductionPage,
