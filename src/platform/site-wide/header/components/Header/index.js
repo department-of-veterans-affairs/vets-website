@@ -1,13 +1,16 @@
 // Node modules.
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 // Relative imports.
 import './styles.scss';
 import LogoRow from '../LogoRow';
+import Menu from '../Menu';
 import OfficialGovtWebsite from '../OfficialGovtWebsite';
 import VeteranCrisisLine from '../VeteranCrisisLine';
 
 export const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
     <header
       className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0"
@@ -20,7 +23,10 @@ export const Header = () => {
       <VeteranCrisisLine />
 
       {/* Logo row */}
-      <LogoRow />
+      <LogoRow isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+
+      {/* Menu */}
+      <Menu isMenuOpen={isMenuOpen} />
     </header>
   );
 };
