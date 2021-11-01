@@ -11,7 +11,7 @@
 - [Working in GitHub Codespaces](#working-in-github-codespaces)
 - [Running tests](#running-tests)
   - [Unit tests](#unit-tests)
-  - [End-to-end (E2E) / Browser tests](#end-to-end--e2e----browser-tests)
+  - [End-to-end (E2E) / Browser tests](#end-to-end-e2e--browser-tests)
   - [Contract tests](#contract-tests)
 - [Running a mock API for local development](#running-a-mock-api-for-local-development)
 - [More commands](#more-commands)
