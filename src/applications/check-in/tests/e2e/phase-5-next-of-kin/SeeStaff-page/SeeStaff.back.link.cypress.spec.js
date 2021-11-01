@@ -61,13 +61,13 @@ describe('Check In Experience -- ', () => {
       cy.get('h1', { timeout: Timeouts.slow })
         .should('be.visible')
         .and('have.text', 'Check in with a staff member');
-      cy.get('h1')
-        .next()
+      cy.get('[data-testid=back-button]')
         .should('be.visible')
-        .and(
-          'have.text',
-          'Our staff can help you update your contact information.',
-        );
+        .and('have.text', 'Back to last screen');
+      cy.get('[data-testid=back-button]').click();
+      cy.get('h1', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .and('have.text', 'Is this your current contact information?');
     });
   });
 });

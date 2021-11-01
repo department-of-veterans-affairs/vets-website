@@ -29,9 +29,9 @@ describe('Check In Experience -- ', () => {
         'GET',
         '/v0/feature_toggles*',
         generateFeatureToggles({
-          checkInExperienceMultipleAppointmentSupport: true,
           checkInExperienceUpdateInformationPageEnabled: false,
           checkInExperienceDemographicsPageEnabled: true,
+          checkInExperienceNextOfKinEnabled: true,
         }),
       );
     });
@@ -40,7 +40,7 @@ describe('Check In Experience -- ', () => {
         window.sessionStorage.clear();
       });
     });
-    it('see staff display with demographics message', () => {
+    it('next of kin display', () => {
       const featureRoute =
         '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
       cy.visit(featureRoute);
@@ -57,17 +57,37 @@ describe('Check In Experience -- ', () => {
         .find('input')
         .type('4837');
       cy.get('[data-testid=check-in-button]').click();
-      cy.get('[data-testid=no-button]', { timeout: Timeouts.slow }).click();
       cy.get('h1', { timeout: Timeouts.slow })
         .should('be.visible')
-        .and('have.text', 'Check in with a staff member');
-      cy.get('h1')
-        .next()
+        .and('have.text', 'Is this your current contact information?');
+
+      cy.get('[data-testid=yes-button]').click();
+
+      cy.get('h1', { timeout: Timeouts.slow })
         .should('be.visible')
-        .and(
-          'have.text',
-          'Our staff can help you update your contact information.',
-        );
+        .and('have.text', 'Is this your current next of kin information?');
+
+      cy.get('.check-in-next-of-kin dl')
+        .find('dt:nth-child(1)')
+        .should('have.text', 'Name')
+        .next()
+        .should('have.text', 'VETERAN,JONAH')
+        .next()
+        .should('have.text', 'Relationship')
+        .next()
+        .should('have.text', 'BROTHER')
+        .next()
+        .should('have.text', 'Address')
+        .next()
+        .should('have.text', '123 Main St, Ste 234Los Angeles, CA 90089')
+        .next()
+        .should('have.text', 'Phone')
+        .next()
+        .should('have.text', '111-222-3333')
+        .next()
+        .should('have.text', 'Work phone')
+        .next()
+        .should('have.text', '444-555-6666');
     });
   });
 });

@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import CheckIn from './pages/CheckIn';
 import Confirmation from './pages/Confirmation';
 import Demographics from './pages/Demographics';
+import NextOfKin from './pages/NextOfKin';
 import Error from './pages/Error';
 import SeeStaff from './pages/SeeStaff';
 import Landing from './pages/Landing';
@@ -30,6 +31,10 @@ const createRoutesWithStore = () => {
         component={withFeatureFlip(withLoadedData(withSession(Demographics)))}
       />
       <Route
+        path={`/${URLS.NEXT_OF_KIN}`}
+        component={withFeatureFlip(withLoadedData(withSession(NextOfKin)))}
+      />
+      <Route
         path={`/${URLS.UPDATE_INSURANCE}`}
         component={withFeatureFlip(
           withLoadedData(withSession(UpdateInformationQuestion)),
@@ -45,7 +50,7 @@ const createRoutesWithStore = () => {
       />
       <Route
         path={`/${URLS.SEE_STAFF}`}
-        component={withFeatureFlip(withAppointmentData(SeeStaff))}
+        component={withFeatureFlip(withLoadedData(withSession(SeeStaff)))}
       />
       <Route path={`/${URLS.ERROR}`} component={withFeatureFlip(Error)} />
     </Switch>

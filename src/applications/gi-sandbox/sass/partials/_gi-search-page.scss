@@ -1,5 +1,4 @@
 .gi-app .search-page {
-
   .no-name-results {
     min-height: 45vh;
   }
@@ -46,8 +45,16 @@
     max-width: none;
   }
 
+  .name-search-button-container {
+    margin-top: auto;
+    margin-bottom: 6px;
+  }
+
   button.name-search-button {
     width: 120px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    height: 42px;
   }
 
   @media (max-width: $small-screen) {
@@ -327,8 +334,7 @@
     color: $color-white;
     cursor: pointer;
     display: inline-block;
-    font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
-      "Arial", sans-serif;
+    font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
     font-size: 1.6rem;
     font-weight: 700;
     line-height: 1;
@@ -433,7 +439,7 @@
   margin-bottom: 0;
 }
 
-.name-search-cards-padding{
+.name-search-cards-padding {
   @media (min-width: $small-screen +1) {
     padding-right: 0%;
   }

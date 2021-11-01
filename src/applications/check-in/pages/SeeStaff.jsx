@@ -17,13 +17,10 @@ const SeeStaff = props => {
       <h1 tabIndex="-1" className="vads-u-margin-top--2">
         Check in with a staff member
       </h1>
-      <p>Our staff can help you update your contact information.</p>
       {message ? (
-        <p className="vads-u-margin-bottom--0" data-testid="see-staff-message">
-          {message}
-        </p>
+        <>{message}</>
       ) : (
-        ''
+        <p>Our staff can help you update your contact information.</p>
       )}
       <Footer />
       <BackToHome />
@@ -33,7 +30,7 @@ const SeeStaff = props => {
 
 SeeStaff.propTypes = {
   router: PropTypes.object,
-  message: PropTypes.string,
+  message: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
 };
 
 const mapStateToProps = state => {
