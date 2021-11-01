@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import DownloadStatements from './DownloadStatement';
@@ -23,9 +24,13 @@ const PDFStatementList = ({ mcpStatements }) => {
   );
 };
 
-PDFStatementList.defaultProps = {
-  statements: [],
-  errors: [],
+PDFStatementList.propTypes = {
+  mcpStatements: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      pSStatementDate: PropTypes.string.isRequired,
+    }).isRequired,
+  ).isRequired,
 };
 
 const mapStateToProps = ({ mcp: { statements } }) => ({
