@@ -1,8 +1,11 @@
 import React from 'react';
-// import React, { useState, useEffect } from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-// import { fetchServiceHistory } from './selectors/serviceHistoryDispatch';
-// import { apiRequest } from 'platform/utilities/api';
+import { apiRequest } from 'platform/utilities/api';
+import {
+  FETCH_PERSONAL_INFORMATION,
+  FETCH_PERSONAL_INFORMATION_SUCCESS,
+  FETCH_PERSONAL_INFORMATION_FAILED,
+} from './actions';
 
 export const directDepositWarning = (
   <div className="pension-dd-warning">
@@ -168,18 +171,18 @@ export const getSelectedCheckboxes = (uiSchema, formData) =>
     .map(selectedCheckboxKey => uiSchema[selectedCheckboxKey]['ui:title'])
     .join(', ');
 
-function transformPhone(phone) {
-  const isInternational = phone?.isInternational;
-  let phoneNumber = phone?.areaCode + phone?.phoneNumber;
-  phoneNumber = isInternational
-    ? phone?.countryCode + phoneNumber
-    : phoneNumber;
+// function transformPhone(phone) {
+//   const isInternational = phone?.isInternational;
+//   let phoneNumber = phone?.areaCode + phone?.phoneNumber;
+//   phoneNumber = isInternational
+//     ? phone?.countryCode + phoneNumber
+//     : phoneNumber;
 
-  return {
-    phone: phoneNumber,
-    isInternational,
-  };
-}
+//   return {
+//     phone: phoneNumber,
+//     isInternational,
+//   };
+// }
 
 // function transformServiceHistory(serviceHistory) {
 //   return {
@@ -206,46 +209,190 @@ function transformPhone(phone) {
 //   };
 // }
 
+export function fetchMilitaryInformation() {
+  // const serviceHistoryEndpoint = 'http://localhost:3000/meb_api/v0/service_history';
+  const claimantIntoEndpoint = 'http://localhost:3000/meb_api/v0/claimant_info';
+
+  return dispatch => {
+    dispatch({ type: 'FETCH_MILITARY_INFORMATION' });
+    // const serviceHistory = await apiRequest(serviceHistoryEndpoint);
+    return apiRequest(claimantIntoEndpoint)
+      .then(response =>
+        dispatch({
+          type: FETCH_PERSONAL_INFORMATION_SUCCESS,
+          response,
+        }),
+      )
+      .catch(errors =>
+        dispatch({
+          type: FETCH_PERSONAL_INFORMATION_FAILED,
+          errors,
+        }),
+      );
+
+    // if (response.errors || response.error) {
+    //   const error = response.error || response.errors;
+    //   dispatch({
+    //     type: FETCH_MILITARY_INFORMATION_FAILED,
+    //     militaryInformation: {
+    //       serviceHistory: {
+    //         error,
+    //       },
+    //     },
+    //   });
+    //   return;
+    // }
+    // const userProfile = claimantInfo.user.profile || {};
+    // const vapContactInfo = userProfile?.vapContactInfo || {};
+    // const email = vapContactInfo?.email?.emailAddress;
+    // const otherPhone =
+    //   vapContactInfo?.homePhone || vapContactInfo?.temporaryPhone;
+    // const address =
+    //   vapContactInfo?.mailingAddress || vapContactInfo?.residentialAddress;
+
+    // const formData = {
+    //   'view:userFullName': {
+    //     userFullName: claimantInfo.user.profile?.userFullName,
+    //   },
+    //   dateOfBirth: claimantInfo.user.profile?.dob,
+    //   email: {
+    //     email,
+    //     confirmEmail: email,
+    //   },
+    //   'view:phoneNumbers': {
+    //     mobilePhoneNumber: transformPhone(vapContactInfo?.mobilePhone),
+    //     phoneNumber: transformPhone(otherPhone),
+    //   },
+    //   'view:mailingAddress': {
+    //     address: {
+    //       ...address,
+    //       street: address?.addressLine1,
+    //       street2: address?.addressLine2,
+    //       state: address?.stateCode,
+    //       postalCode: address?.zipCode,
+    //       country: address?.countyName,
+    //     },
+    //     livesOnMilitaryBase: address?.addressType === 'OVERSEAS MILITARY',
+    //   },
+    //   toursOfDuty: transformServiceHistory(claimantInfo?.data?.toursOfDuty),
+    //   'view:toursOfDutyCorrect': {
+    //     toursOfDutyCorrect: claimantInfo?.data?.toursOfDutyIncorrect,
+    //   },
+    // };
+
+    // dispatch({
+    //   type: FETCH_PERSONAL_INFORMATION_SUCCESS,
+    //   formData,
+    //   // militaryInformation: {
+    //   //   serviceHistory: transformServiceHistory(
+    //   //     claimantInfo.data.serviceHistory,
+    //   //   ),
+    //   // },
+    // });
+  };
+}
+
+export function getPersonalInformation() {
+  return async dispatch => {
+    dispatch({ type: FETCH_PERSONAL_INFORMATION });
+    const claimantIntoEndpoint =
+      'http://localhost:3000/meb_api/v0/claimant_info';
+
+    return apiRequest(claimantIntoEndpoint)
+      .then(response =>
+        dispatch({
+          type: FETCH_PERSONAL_INFORMATION_SUCCESS,
+          response,
+        }),
+      )
+      .catch(errors =>
+        dispatch({
+          type: FETCH_PERSONAL_INFORMATION_FAILED,
+          errors,
+        }),
+      );
+  };
+}
+
+export function fetchMilitaryInformationCopy() {
+  return async dispatch => {
+    dispatch({ type: FETCH_PERSONAL_INFORMATION });
+    const claimantIntoEndpoint =
+      'http://localhost:3000/meb_api/v0/claimant_info';
+
+    return apiRequest(claimantIntoEndpoint)
+      .then(response =>
+        dispatch({
+          type: FETCH_PERSONAL_INFORMATION_SUCCESS,
+          response,
+        }),
+      )
+      .catch(errors =>
+        dispatch({
+          type: FETCH_PERSONAL_INFORMATION_FAILED,
+          errors,
+        }),
+      );
+  };
+}
+
 export function prefillTransformer(pages, formData, metadata, state) {
-  const userProfile = state.user.profile || {};
-  const vapContactInfo = userProfile?.vapContactInfo || {};
-  const email = vapContactInfo?.email?.emailAddress;
-  const otherPhone =
-    vapContactInfo?.homePhone || vapContactInfo?.temporaryPhone;
-  const address =
-    vapContactInfo?.mailingAddress || vapContactInfo?.residentialAddress;
+  // const userProfile = state.user.profile || {};
+  // const vapContactInfo = userProfile?.vapContactInfo || {};
+  // const email = vapContactInfo?.email?.emailAddress;
+  // const otherPhone =
+  //   vapContactInfo?.homePhone || vapContactInfo?.temporaryPhone;
+  // const address =
+  //   vapContactInfo?.mailingAddress || vapContactInfo?.residentialAddress;
+
+  // const [returnObject, setReturnObject] = useState(null);
 
   // const [toursOfDuty, setToursOfDuty] = useState(null);
   // const [toursOfDutyCorrect, setToursOfDutyCorrect] = useState(null);
+  // const serviceHistoryEndpoint = `http://localhost:3000/meb_api/v0/service_history`;
+  // const serviceHistory = await apiRequest(serviceHistoryEndpoint);
+  // setToursOfDuty(transformServiceHistory(serviceHistory.data));
+  // setToursOfDutyCorrect(serviceHistory.data.toursOfDutyIncorrect);
+
+  const data = state.data.formData;
+  if (!data) {
+    fetchMilitaryInformationCopy();
+  }
+
+  const contactInfo = data?.contactInfos[0] || {};
 
   const newData = {
     ...formData,
     'view:userFullName': {
-      userFullName: state.user.profile?.userFullName,
+      userFullName: {
+        first: data.firstName,
+        middle: data.middleName,
+        last: data.middleName,
+      },
     },
-    dateOfBirth: state.user.profile?.dob,
+    dateOfBirth: data.dateOfBirth,
     email: {
-      email,
-      confirmEmail: email,
+      email: contactInfo.emailAddress,
+      confirmEmail: contactInfo.emailAddress,
     },
-    'view:phoneNumbers': {
-      mobilePhoneNumber: transformPhone(vapContactInfo?.mobilePhone),
-      phoneNumber: transformPhone(otherPhone),
-    },
+    // 'view:phoneNumbers': {
+    //   mobilePhoneNumber: transformPhone(vapContactInfo?.mobilePhone),
+    //   phoneNumber: transformPhone(otherPhone),
+    // },
     'view:mailingAddress': {
       address: {
-        ...address,
-        street: address?.addressLine1,
-        street2: address?.addressLine2,
-        state: address?.stateCode,
-        postalCode: address?.zipCode,
-        country: address?.countyName,
+        street: contactInfo?.addressLine1,
+        street2: contactInfo?.addressLine2,
+        city: contactInfo?.city,
+        state: contactInfo?.stateCode,
+        postalCode: contactInfo?.zipcode,
+        country: contactInfo?.country,
       },
-      livesOnMilitaryBase: address?.addressType === 'OVERSEAS MILITARY',
+      livesOnMilitaryBase: contactInfo?.addressType === 'OVERSEAS MILITARY',
     },
-    // toursOfDuty: null,
+    // toursOfDuty: transformServiceHistory(serviceHistory?.data),
     // 'view:toursOfDutyCorrect': {
-    //   toursOfDutyCorrect: null,
+    //   toursOfDutyCorrect: serviceHistory?.data?.toursOfDutyIncorrect,
     // },
   };
 
@@ -262,6 +409,32 @@ export function prefillTransformer(pages, formData, metadata, state) {
   //   },
   //   [setToursOfDuty, setToursOfDutyCorrect],
   // );
+
+  // useEffect(
+  //   () => {
+  //     // const serviceHistory = await fetchServiceHistory(state);
+  //     async function getServiceHistory() {
+  //       const serviceHistoryEndpoint = `http://localhost:3000/meb_api/v0/service_history`;
+  //       const serviceHistory = await apiRequest(serviceHistoryEndpoint);
+  //       newData.toursOfDuty = transformServiceHistory(serviceHistory.data);
+  //       newData['view:toursOfDutyCorrect'] = {
+  //         toursOfDutyCorrect: serviceHistory?.data?.toursOfDutyIncorrect,
+  //       };
+
+  //       setReturnObject({
+  //         metadata,
+  //         formData: newData,
+  //         pages,
+  //         state,
+  //       });
+  //     }
+
+  //     getServiceHistory();
+  //   },
+  //   [returnObject, setReturnObject],
+  // );
+
+  // return returnObject;
 
   return {
     metadata,
