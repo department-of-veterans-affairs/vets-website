@@ -49,7 +49,7 @@ const SearchRepresentativeWidget = props => {
     return <div>Loading...</div>;
   } else if (representatives.length > 0) {
     return (
-      <div className="vads-u-border-top--1px vads-u-border-color--gray-light">
+      <div>
         {currentlyShowingData?.map(option => {
           return (
             <>
