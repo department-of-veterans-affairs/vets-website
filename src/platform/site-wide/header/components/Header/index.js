@@ -8,7 +8,7 @@ import Menu from '../Menu';
 import OfficialGovtWebsite from '../OfficialGovtWebsite';
 import VeteranCrisisLine from '../VeteranCrisisLine';
 
-export const Header = () => {
+export const Header = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -23,10 +23,18 @@ export const Header = () => {
       <VeteranCrisisLine />
 
       {/* Logo row */}
-      <LogoRow isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+      <LogoRow
+        isMenuOpen={isMenuOpen}
+        showNavLogin={showNavLogin}
+        setIsMenuOpen={setIsMenuOpen}
+      />
 
       {/* Menu */}
-      <Menu isMenuOpen={isMenuOpen} />
+      <Menu
+        isMenuOpen={isMenuOpen}
+        megaMenuData={megaMenuData}
+        showMegaMenu={showMegaMenu}
+      />
     </header>
   );
 };
