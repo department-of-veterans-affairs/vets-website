@@ -55,6 +55,18 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     bubbleNubSize: 10,
     bubbleFromUserNubSize: 10,
     timestampColor: '#000000',
+    toasterHeight: 50,
+    toasterMaxHeight: 100 * 5,
+    toasterSingularMaxHeight: 200,
+    suggestedActionLayout: 'flow',
+    suggestedActionBackground: '#0071BB',
+    suggestedActionActiveBackground: '#112e51',
+    suggestedActionHoverBackground: '#003e73',
+    suggestedActionBackgroundColorOnHover: '#003e73',
+    suggestedActionTextColorOnHover: 'Green',
+    suggestedActionTextColor: 'white',
+    suggestedActionBorderRadius: '5px',
+    suggestedActionBorderWidth: 0,
   };
 
   return (
