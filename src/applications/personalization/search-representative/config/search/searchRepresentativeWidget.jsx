@@ -50,6 +50,12 @@ const SearchRepresentativeWidget = props => {
   } else if (representatives.length > 0) {
     return (
       <div>
+        <p>
+          Please speak to the service organization or representative before you
+          send your request. You’ll need to mail to your nearest VA regional
+          office or to the service organization or representative that is going
+          to help you.
+        </p>
         {currentlyShowingData?.map(option => {
           return (
             <>
