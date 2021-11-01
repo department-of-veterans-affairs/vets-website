@@ -27,8 +27,8 @@ export const CoeNotApplicable = () => (
         Find out about eligibility requirements for VA home loan programs.
       </a>
       <p>
-        If you know you qualify for a VA home loan COE and you have all the
-        information we’ll need, you can apply online.
+        If you already know you qualify for a VA home loan COE and you have all
+        the information we’ll need, you can apply online.
       </p>
       <a
         className="vads-c-action-link--green"
@@ -37,7 +37,7 @@ export const CoeNotApplicable = () => (
         Apply for a Certificate of Eligibility
       </a>
       <h3>
-        You can also apply for a VA home loan COE through you lender or by mail
+        You can also apply for a VA home loan COE through your lender or by mail
       </h3>
       <p>
         In some cases, you can get your COE through your lender using our WebLGY
@@ -46,10 +46,17 @@ export const CoeNotApplicable = () => (
       <p>
         To apply by mail, fill out a Request for a Certificate of Eligibility
         (VA Form 26-1880) and mail it to the address listed on the form. Please
-        keep in mind that this may take longer than applying online or through
-        our LGY system.
+        keep in mind that this may take longer than requesting a COE online or
+        through our WebLGY system.
       </p>
-      <a href="/find-forms/about-form-26-1880/">Download VA form 26-1880</a>
+      <a href="/find-forms/about-form-26-1880/">
+        <i
+          aria-hidden="true"
+          role="img"
+          className="fas fa-download vads-u-padding-right--1"
+        />
+        Download VA form 26-1880 (PDF)
+      </a>
       <h2>What if I have more questions?</h2>
       <p>
         If you have any questions that your lender can’t answer, please call
