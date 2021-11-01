@@ -485,7 +485,8 @@ module.exports = async (env = {}) => {
       }),
     );
 
-    baseConfig.plugins.optimization.moduleIds = 'deterministic';
+    baseConfig.plugins.optimization.moduleIds = 'hashed';
+    // baseConfig.plugins.optimization.moduleIds = 'deterministic';
     baseConfig.mode = 'production';
   } else {
     baseConfig.devtool = 'eval-source-map';
