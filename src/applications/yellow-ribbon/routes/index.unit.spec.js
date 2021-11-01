@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 // Relative imports.
 import YellowRibbonApp from '../containers/YellowRibbonApp';
-import routes from './index';
+import routes from '.';
 
 describe('Yellow Ribbon routes', () => {
   it('should have the main route', () => {
