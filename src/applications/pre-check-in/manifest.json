@@ -1,0 +1,6 @@
+{
+  "appName": "pre-check-in",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "pre-check-in",
+  "rootUrl": "/pre-check-in"
+}
