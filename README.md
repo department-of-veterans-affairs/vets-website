@@ -2,7 +2,7 @@
 
 ## Table of Contents
 
-- [What is this?](#what-is-this-)
+- [What is this?](#what-is-this)
 - [Common commands](#common-commands)
 - [Building `vets-website`](#building--vets-website-)
   - [Building applications](#building-applications)
