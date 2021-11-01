@@ -5,7 +5,7 @@ import { shallow } from 'enzyme';
 // Relative imports.
 import FindYellowRibbonPage from '../../components/FindYellowRibbonPage';
 import SearchResultsPage from '../../components/SearchResultsPage';
-import { YellowRibbonApp } from './index';
+import { YellowRibbonApp } from '.';
 
 describe('Yellow Ribbon container <YellowRibbonApp>', () => {
   it('renders what we expect before having fetched', () => {

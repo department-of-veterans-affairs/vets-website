@@ -67,6 +67,7 @@ describe('ConfirmationPoll', () => {
     fullName: { first: 'asdf', last: 'fdsa' },
     disabilities: [],
     submittedAt: Date.now(),
+    isSubmittingBDD: false,
   };
 
   it('should make an api call after mounting', () => {
@@ -108,6 +109,7 @@ describe('ConfirmationPoll', () => {
         fullName: defaultProps.fullName,
         disabilities: defaultProps.disabilities,
         submittedAt: defaultProps.submittedAt,
+        isSubmittingBDD: defaultProps.isSubmittingBDD,
       });
       tree.unmount();
       done();

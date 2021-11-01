@@ -262,6 +262,7 @@ jobs:
   testing-reports-prep:
     name: Testing Reports Prep
     runs-on: ubuntu-latest
+    continue-on-error: true
     outputs:
       app_list: ${{ env.APPLICATION_LIST }}
     steps:
@@ -772,7 +773,7 @@ jobs:
       matrix:
         buildtype: [vagovdev, vagovstaging]
 
-    needs: [cypress-tests, unit-tests, contract-tests, security-audit, linting]
+    needs: [build, cypress-tests, unit-tests, contract-tests, security-audit, linting]
 
     # Archive should still run even when linting is skipped (as in PRs).
     # This if overrides the dependency on linting success to include skipped.
@@ -867,8 +868,10 @@ jobs:
         include:
           - environment: vagovdev
             bucket: dev-va-gov-assets
+            apps-bucket: apps.dev.va.gov
           - environment: vagovstaging
             bucket: staging-va-gov-assets
+            apps-bucket: apps.staging.va.gov
 
     steps:
       - name: Checkout
@@ -902,6 +905,13 @@ jobs:
         env:
           SRC: s3://vetsgov-website-builds-s3-upload/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
           DEST: s3://${{ matrix.bucket }}
+
+      # TODO: Revisit revproxy
+      - name: Deploy to ${{ matrix.apps-bucket }}
+        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
+        env:
+          SRC: s3://vetsgov-website-builds-s3-upload/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
+          DEST: s3://${{ matrix.apps-bucket }}
 
   # jenkins:
   #   name: Run Jenkins CI
