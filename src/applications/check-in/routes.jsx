@@ -50,7 +50,7 @@ const createRoutesWithStore = () => {
       />
       <Route
         path={`/${URLS.SEE_STAFF}`}
-        component={withFeatureFlip(withAppointmentData(SeeStaff))}
+        component={withFeatureFlip(withLoadedData(withSession(SeeStaff)))}
       />
       <Route path={`/${URLS.ERROR}`} component={withFeatureFlip(Error)} />
     </Switch>
