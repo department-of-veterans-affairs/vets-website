@@ -245,8 +245,8 @@ describe('Site-wide Search functionality with search dropdown component enabled'
     enableDropdownComponent();
     mockFetchSuggestions();
     prepareDropdownSearch('benefits');
-    cy.get('#search-dropdown-component-listbox').should('be.visible');
-    cy.get('#search-dropdown-component-listbox')
+    cy.get('#search-header-dropdown-listbox').should('be.visible');
+    cy.get('#search-header-dropdown-listbox')
       .children()
       .should('have.length', 5);
   });
@@ -255,27 +255,27 @@ describe('Site-wide Search functionality with search dropdown component enabled'
     enableDropdownComponent();
     mockFetchSuggestions();
     prepareDropdownSearch('benefits');
-    cy.get('#search-dropdown-component-listbox').should('be.visible');
-    cy.get('#search-dropdown-component-listbox')
+    cy.get('#search-header-dropdown-listbox').should('be.visible');
+    cy.get('#search-header-dropdown-listbox')
       .children()
       .should('have.length', 5);
     cy.get('[data-e2e-id="search-header-dropdown-submit-button"]').focus();
-    cy.get('#search-dropdown-component-listbox').should('not.exist');
+    cy.get('#search-header-dropdown-listbox').should('not.exist');
   });
 
   it('Focusing the input field repopulates suggestions - ####', () => {
     enableDropdownComponent();
     mockFetchSuggestions();
     prepareDropdownSearch('health');
-    cy.get('#search-dropdown-component-listbox').should('be.visible');
-    cy.get('#search-dropdown-component-listbox')
+    cy.get('#search-header-dropdown-listbox').should('be.visible');
+    cy.get('#search-header-dropdown-listbox')
       .children()
       .should('have.length', 5);
     cy.get('[data-e2e-id="search-header-dropdown-submit-button"]').focus();
-    cy.get('#search-dropdown-component-listbox').should('not.exist');
+    cy.get('#search-header-dropdown-listbox').should('not.exist');
     cy.get('#search-header-dropdown-input-field').focus();
-    cy.get('#search-dropdown-component-listbox').should('be.visible');
-    cy.get('#search-dropdown-component-listbox')
+    cy.get('#search-header-dropdown-listbox').should('be.visible');
+    cy.get('#search-header-dropdown-listbox')
       .children()
       .should('have.length', 5);
   });
@@ -316,11 +316,11 @@ describe('Site-wide Search functionality with search dropdown component enabled'
     enableDropdownComponent();
     mockFetchSuggestions();
     prepareDropdownSearch('health');
-    cy.get('#search-dropdown-component-listbox').should('be.visible');
-    cy.get('#search-dropdown-component-listbox')
+    cy.get('#search-header-dropdown-listbox').should('be.visible');
+    cy.get('#search-header-dropdown-listbox')
       .children()
       .should('have.length', 5);
-    cy.get('#search-dropdown-component-option-3').click();
+    cy.get('#search-header-dropdown-option-3').click();
     cy.url().should('contain', '/search/?query=health%20response%204');
   });
 
@@ -328,8 +328,8 @@ describe('Site-wide Search functionality with search dropdown component enabled'
     enableDropdownComponent();
     mockFetchSuggestions();
     prepareDropdownSearch('benefits');
-    cy.get('#search-dropdown-component-listbox').should('be.visible');
-    cy.get('#search-dropdown-component-listbox')
+    cy.get('#search-header-dropdown-listbox').should('be.visible');
+    cy.get('#search-header-dropdown-listbox')
       .children()
       .should('have.length', 5);
     cy.get('#search-header-dropdown-input-field')

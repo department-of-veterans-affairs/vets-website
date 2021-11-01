@@ -8,30 +8,39 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 describe('Check In Experience -- ', () => {
   describe('phase 5 -- ', () => {
     beforeEach(function() {
+      let hasValidated = false;
       cy.intercept('GET', '/check_in/v2/sessions/*', req => {
         req.reply(
           mockSession.createMockSuccessResponse('some-token', 'read.basic'),
         );
       });
       cy.intercept('POST', '/check_in/v2/sessions', req => {
+        hasValidated = true;
         req.reply(
           mockSession.createMockSuccessResponse('some-token', 'read.full'),
         );
       });
       cy.intercept('GET', '/check_in/v2/patient_check_ins/*', req => {
-        const rv = mockPatientCheckIns.createMultipleAppointments();
-        req.reply(rv);
+        req.reply(
+          mockPatientCheckIns.createMockSuccessResponse({}, hasValidated),
+        );
       });
       cy.intercept('POST', '/check_in/v2/patient_check_ins/', req => {
+        const { uuid, appointmentIen, facilityId } =
+          req.body?.patientCheckIns || {};
+        expect(uuid).to.equal('46bebc0a-b99c-464f-a5c5-560bc9eae287');
+        expect(appointmentIen).to.equal('some-ien');
+        expect(facilityId).to.equal('ABC_123');
+
         req.reply(mockCheckIn.createMockSuccessResponse({}));
       });
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
         generateFeatureToggles({
-          checkInExperienceMultipleAppointmentSupport: true,
-          checkInExperienceUpdateInformationPageEnabled: false,
+          checkInExperienceUpdateInformationPageEnabled: true,
           checkInExperienceDemographicsPageEnabled: true,
+          checkInExperienceNextOfKinEnabled: true,
         }),
       );
     });
@@ -40,7 +49,7 @@ describe('Check In Experience -- ', () => {
         window.sessionStorage.clear();
       });
     });
-    it('see staff display with demographics message', () => {
+    it('everything Happy path', () => {
       const featureRoute =
         '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
       cy.visit(featureRoute);
@@ -48,6 +57,8 @@ describe('Check In Experience -- ', () => {
       cy.get('h1', { timeout: Timeouts.slow })
         .should('be.visible')
         .and('have.text', 'Check in at VA');
+      cy.injectAxe();
+      cy.axeCheck();
       cy.get('[label="Your last name"]')
         .shadow()
         .find('input')
@@ -57,17 +68,41 @@ describe('Check In Experience -- ', () => {
         .find('input')
         .type('4837');
       cy.get('[data-testid=check-in-button]').click();
-      cy.get('[data-testid=no-button]', { timeout: Timeouts.slow }).click();
+
       cy.get('h1', { timeout: Timeouts.slow })
         .should('be.visible')
-        .and('have.text', 'Check in with a staff member');
-      cy.get('h1')
-        .next()
+        .and('have.text', 'Is this your current contact information?');
+      cy.injectAxe();
+      cy.axeCheck();
+      cy.get('[data-testid=yes-button]').click();
+
+      cy.get('h1', { timeout: Timeouts.slow })
         .should('be.visible')
-        .and(
-          'have.text',
-          'Our staff can help you update your contact information.',
-        );
+        .and('have.text', 'Is this your current next of kin information?');
+      cy.injectAxe();
+      cy.axeCheck();
+      cy.get('[data-testid=yes-button]').click();
+
+      cy.get('legend > h1', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .and('have.text', 'Do you need to update any information?');
+      cy.injectAxe();
+      cy.axeCheck();
+      cy.get('[data-testid="no-button"]').click();
+
+      cy.get('h1', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .and('have.text', 'Your appointments');
+      cy.get('.appointment-list').should('have.length', 1);
+      cy.injectAxe();
+      cy.axeCheck();
+      cy.get('.usa-button').click();
+      cy.get('va-alert > h1', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .and('include.text', 'checked in');
+      cy.get('.appointment-list').should('have.length', 0);
+      cy.injectAxe();
+      cy.axeCheck();
     });
   });
 });
