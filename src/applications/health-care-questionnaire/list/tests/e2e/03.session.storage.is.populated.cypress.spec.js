@@ -4,7 +4,7 @@ import featureToggles from './fixtures/mocks/feature-toggles.enabled.json';
 
 import selectedAppointment from '../../../shared/api/mock-data/fhir/upcoming.appointment.in.progress.primary.care.questionnaire.json';
 
-describe('health care questionnaire list -- ', () => {
+describe.skip('health care questionnaire list -- ', () => {
   beforeEach(() => {
     cy.login(basicUser);
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
