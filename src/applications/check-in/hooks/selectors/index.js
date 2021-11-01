@@ -59,10 +59,20 @@ const selectContext = createSelector(
 
 const makeSelectContext = () => selectContext;
 
+const selectSeeStaffMessage = () =>
+  createSelector(state => {
+    return {
+      message: state?.checkInData?.seeStaffMessage,
+    };
+  });
+
+const makeSelectSeeStaffMessage = () => selectSeeStaffMessage;
+
 export {
   makeSelectCheckInData,
   makeSelectFeatureToggles,
   makeSelectConfirmationData,
   makeSelectAppointmentListData,
   makeSelectContext,
+  makeSelectSeeStaffMessage,
 };
