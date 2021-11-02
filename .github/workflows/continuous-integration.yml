@@ -300,6 +300,7 @@ jobs:
           repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           path: testing-tools-team-dashboard-data
+          ref: Cbonade/refactor-classes
 
       - name: Setup Node
         uses: actions/setup-node@v2
@@ -526,6 +527,7 @@ jobs:
           repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           path: testing-tools-team-dashboard-data
+          ref: Cbonade/refactor-classes
 
       # TODO: Set .nvmrc in testing-tools-team-dashboard-data.
       # - name: Get Node version
@@ -662,6 +664,7 @@ jobs:
           repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           path: testing-tools-team-dashboard-data
+          ref: Cbonade/refactor-classes
 
         # TODO: Set .nvmrc in testing-tools-team-dashboard-data.
         # - name: Get Node version
