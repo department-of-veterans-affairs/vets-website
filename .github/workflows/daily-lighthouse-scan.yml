@@ -68,6 +68,10 @@ jobs:
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
 
+      - name: Where am i?
+      - run: |
+          echo "pwd && ls"
+
       - name: Get App URLs
         id: get-app-urls
         run: |
