@@ -110,10 +110,9 @@ const NotificationChannel = ({
           recordEvent({
             event: 'int-radio-button-option-click',
             'radio-button-label': itemName,
-            'radio-button-optionLabel': `${
-              channelTypes[channelType]
-            } - ${newValue}`,
-            'radio-button-required': false,
+            'radio-button-optionLabel': `${channelTypes[channelType]} - ${
+              newValue ? 'opted in' : 'opted out'
+            }`,
           });
 
           saveSetting(channelId, model.getApiCallObject());
