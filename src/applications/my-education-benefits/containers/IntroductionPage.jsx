@@ -8,6 +8,9 @@ import HowToApplyPost911GiBill from '../components/HowToApplyPost911GiBill';
 import { connect } from 'react-redux';
 import { fetchUser } from '../selectors/userDispatch';
 
+import formConfig from '../../edu-benefits/1990/config/form';
+import routes from '../../edu-benefits/1990/routes';
+
 export const IntroductionPage = ({ user, route }) => {
   const handleErrors = response => {
     if (!response.ok) {
@@ -32,9 +35,7 @@ export const IntroductionPage = ({ user, route }) => {
       pageList={route.pageList}
       hideUnauthedStartLink
       startText="Start the education application"
-    >
-      Please complete the 22-1990 form to apply for my education benefits.
-    </SaveInProgressIntro>,
+    />,
   );
 
   useEffect(
@@ -43,13 +44,27 @@ export const IntroductionPage = ({ user, route }) => {
       try {
         isEligible.then(res => {
           if (user.login.currentlyLoggedIn && !res) {
+            const { prefillEnabled, savedFormMessages } = formConfig;
+            const pageList = routes[0].childRoutes[0].pageList;
+            pageList[0].path =
+              '/education/apply-for-education-benefits/application/1990/introduction';
+
+            pageList.splice(1, 0, {
+              path:
+                '/education/apply-for-education-benefits/application/1990/applicant/information',
+            });
             setCourse(
-              <a
-                className="vads-c-action-link--green"
-                href="/education/apply-for-education-benefits/application/1990/introduction"
-              >
-                Start the education application
-              </a>,
+              <SaveInProgressIntro
+                formId="1990"
+                // pathname="loca/education/apply-for-education-benefits/application/1990/introduction"
+                prefillEnabled={prefillEnabled}
+                messages={savedFormMessages}
+                pageList={pageList}
+                testActionLink
+                user={user}
+                hideUnauthedStartLink
+                startText="Start the education application"
+              />,
             );
           }
         });
@@ -57,7 +72,7 @@ export const IntroductionPage = ({ user, route }) => {
         isEligible.then(r => r);
       }
     },
-    [continueOrRedirect, isEligible, user.login.currentlyLoggedIn],
+    [user?.login?.currentlyLoggedIn, isEligible],
   );
 
   return (
