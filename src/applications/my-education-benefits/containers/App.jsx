@@ -6,7 +6,7 @@ import Breadcrumbs from '@department-of-veterans-affairs/component-library/Bread
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
 
-import { fetchMilitaryInformationCopy } from '../helpers';
+import { fetchPersonalInformation } from '../actions';
 
 export const App = ({
   // loggedIn,
@@ -77,7 +77,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   setFormData: setData,
-  getPersonalInfo: fetchMilitaryInformationCopy,
+  getPersonalInfo: fetchPersonalInformation,
 };
 
 export default connect(
