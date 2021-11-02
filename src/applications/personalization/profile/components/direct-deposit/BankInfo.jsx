@@ -44,6 +44,7 @@ import ProfileInfoTable from '../ProfileInfoTable';
 
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 import { benefitTypes } from '~/applications/personalization/common/constants';
+import environment from 'platform/utilities/environment';
 
 export const BankInfo = ({
   isLOA3,
@@ -282,7 +283,11 @@ export const BankInfo = ({
           >
             {/* eslint-disable jsx-a11y/no-redundant-roles */}
             <img
-              src="/img/direct-deposit-check-guide.svg"
+              src={
+                environment.isProduction()
+                  ? '/img/direct-deposit-check-guide.png'
+                  : '/img/direct-deposit-check-guide-highres.png'
+              }
               role="img"
               alt="A personal check"
             />
