@@ -6,6 +6,7 @@ import {
   FETCH_PERSONAL_INFORMATION_SUCCESS,
   FETCH_PERSONAL_INFORMATION_FAILED,
 } from './actions';
+import { getSchemaCountryCode } from './utils/form-submit-transform';
 
 export const directDepositWarning = (
   <div className="pension-dd-warning">
@@ -405,11 +406,11 @@ export function prefillTransformer(pages, formData, metadata, state) {
         city: contactInfo?.city,
         state: contactInfo?.stateCode,
         postalCode: contactInfo?.zipcode,
-        // TODO Undo comment when mock data provides full country name.
-        // country: contactInfo?.countryCode,
-        country: 'USA',
+        country: getSchemaCountryCode(contactInfo?.countryCode),
       },
-      livesOnMilitaryBase: contactInfo?.addressType === 'MILITARY_OVERSEAS',
+      livesOnMilitaryBase:
+        contactInfo?.countryCode !== 'US' &&
+        contactInfo?.addressType === 'MILITARY_OVERSEAS',
     },
     toursOfDuty: transformServiceHistory(serviceData),
     // 'view:toursOfDutyCorrect': {
