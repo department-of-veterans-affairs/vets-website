@@ -777,7 +777,7 @@ describe('VAOS Appointment service', () => {
       setFetchJSONResponse(
         global.fetch.withArgs(
           sinon.match(
-            `/vaos/v2/appointments?start=${startDate}&end=${endDate}&statuses[]=proposed&statuses[]=cancelled`,
+            `/vaos/v2/appointments?_include=facilities,clinics&start=${startDate}&end=${endDate}&statuses[]=proposed&statuses[]=cancelled`,
           ),
         ),
         {
@@ -872,7 +872,7 @@ describe('VAOS Appointment service', () => {
       setFetchJSONResponse(
         global.fetch.withArgs(
           sinon.match(
-            `/vaos/v2/appointments?start=${startDate}&end=${endDate}&statuses[]=proposed&statuses[]=cancelled`,
+            `/vaos/v2/appointments?_include=facilities,clinics&start=${startDate}&end=${endDate}&statuses[]=proposed&statuses[]=cancelled`,
           ),
         ),
         {
@@ -981,7 +981,7 @@ describe('VAOS Appointment service', () => {
       setFetchJSONResponse(
         global.fetch.withArgs(
           sinon.match(
-            `/vaos/v2/appointments?start=${startDate}&end=${endDate}&statuses[]=proposed&statuses[]=cancelled`,
+            `/vaos/v2/appointments?_include=facilities,clinics&start=${startDate}&end=${endDate}&statuses[]=proposed&statuses[]=cancelled`,
           ),
         ),
         {
@@ -1066,7 +1066,7 @@ describe('VAOS Appointment service', () => {
       setFetchJSONFailure(
         global.fetch.withArgs(
           sinon.match(
-            `/vaos/v2/appointments?start=${startDate}&end=${endDate}&statuses[]=proposed&statuses[]=cancelled`,
+            `/vaos/v2/appointments?_include=facilities,clinics&start=${startDate}&end=${endDate}&statuses[]=proposed&statuses[]=cancelled`,
           ),
         ),
         {

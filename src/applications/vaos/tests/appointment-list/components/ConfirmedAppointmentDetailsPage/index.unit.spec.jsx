@@ -19,7 +19,10 @@ import { AppointmentList } from '../../../../appointment-list';
 import sinon from 'sinon';
 import { fireEvent, waitFor } from '@testing-library/react';
 import { getICSTokens } from '../../../../utils/calendar';
-import { mockSingleVAOSAppointmentFetch } from '../../../mocks/helpers.v2';
+import {
+  mockAppointmentCancelFetch,
+  mockSingleVAOSAppointmentFetch,
+} from '../../../mocks/helpers.v2';
 import { getVAOSAppointmentMock } from '../../../mocks/v2';
 import {
   mockFacilitiesFetchByVersion,
@@ -1319,6 +1322,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       version: 2,
     });
     mockSingleVAOSAppointmentFetch({ appointment });
+    mockAppointmentCancelFetch({ appointment });
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({

@@ -272,7 +272,7 @@ export function createMockAppointmentByVersion({
  * @param {?string} params.friendlyName Friendly clinic name,
  * @param {number} [params.version=2] Version of the mock data format to use
  *
- * @returns
+ * @returns {VAOSClinic|VARClinic} A mock clinic object, based on the version provided
  */
 export function createMockClinicByVersion({
   id = null,
