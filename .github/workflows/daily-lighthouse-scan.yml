@@ -97,7 +97,7 @@ jobs:
         uses: treosh/lighthouse-ci-action@v8
         with:
           urls: |
-            `http://va.gov${{ matrix.appName }}`
+            https://va.gov${{ matrix.appName }}
           uploadArtifacts: true # save results as an action artifacts
 
       - name: Upload lighthouse report (JSON)
