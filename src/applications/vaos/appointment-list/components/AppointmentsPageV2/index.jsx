@@ -14,7 +14,6 @@ import Select from '../../../components/Select';
 import ScheduleNewAppointment from '../ScheduleNewAppointment';
 import PageLayout from '../PageLayout';
 
-// Updating to test only changed apps build
 const pageTitle = 'VA online scheduling';
 
 const DROPDOWN_VALUES = {

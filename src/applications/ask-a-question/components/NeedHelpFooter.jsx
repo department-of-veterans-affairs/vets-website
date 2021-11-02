@@ -3,7 +3,6 @@ import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
-// Updating to test only changed apps build
 const NeedHelpFooter = () => {
   return (
     <footer>
