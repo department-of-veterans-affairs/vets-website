@@ -184,9 +184,9 @@ export function logout(
   );
 }
 
-export function signup(version = 'v1') {
+export function signup({ version = 'v1', queryParams = {} }) {
   return redirect(
-    sessionTypeUrl({ type: 'signup', version }),
+    sessionTypeUrl({ type: 'signup', version, queryParams }),
     'register-link-clicked',
   );
 }

@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 import Telephone, {
@@ -14,7 +13,7 @@ import Telephone, {
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
 import { EXTERNAL_SERVICES } from 'platform/monitoring/external-services/config';
 import recordEvent from 'platform/monitoring/record-event';
-import { ssoe } from 'platform/user/authentication/selectors';
+import { ssoe, loginGov } from 'platform/user/authentication/selectors';
 import { login, signup } from 'platform/user/authentication/utilities';
 import { formatDowntime } from 'platform/utilities/date';
 import environment from 'platform/utilities/environment';
@@ -41,17 +40,13 @@ export class SignInModal extends React.Component {
     }
   }
 
-  authVersion() {
-    return this.props.useSSOe ? 'v1' : 'v0';
-  }
-
   loginHandler = loginType => () => {
     recordEvent({ event: `login-attempted-${loginType}` });
-    login(loginType, this.authVersion());
+    login(loginType, 'v1');
   };
 
-  signupHandler = () => {
-    signup(this.authVersion());
+  signupHandler = provider => () => {
+    signup({ version: 'v1', queryParams: { csp: provider } });
   };
 
   downtimeBanner = (dependencies, headline, status, message, onRender) => (
@@ -59,9 +54,9 @@ export class SignInModal extends React.Component {
       <div className="downtime-notification row">
         <div className="columns small-12">
           <div className="form-warning-banner">
-            <AlertBox headline={headline} isVisible status={status}>
+            <va-alert headline={headline} visible status={status}>
               {message}
-            </AlertBox>
+            </va-alert>
             <br />
           </div>
         </div>
@@ -71,10 +66,10 @@ export class SignInModal extends React.Component {
 
   renderGlobalDowntime = () => (
     <div className="vads-u-margin-bottom--4">
-      <AlertBox
+      <va-alert
         headline="You may have trouble signing in or using some tools or services"
         status="warning"
-        isVisible
+        visible
       >
         <p>
           We’re doing some work on VA.gov right now. We hope to finish our work
@@ -82,7 +77,7 @@ export class SignInModal extends React.Component {
           trouble signing in or using any tool or services, check back after
           then.
         </p>
-      </AlertBox>
+      </va-alert>
     </div>
   );
 
@@ -138,7 +133,7 @@ export class SignInModal extends React.Component {
   };
 
   renderModalContent = ({ globalDowntime }) => (
-    <main className="login">
+    <section className="login">
       <div className="row">
         <div className="columns">
           <div className="logo">
@@ -151,100 +146,105 @@ export class SignInModal extends React.Component {
       <div className="container">
         <div className="row">
           <div className="columns small-12">
-            <h1>Sign in to VA.gov</h1>
-          </div>
-        </div>
-        <div className="row medium-screen:vads-u-display--none mobile-explanation">
-          <div className="columns small-12">
-            <h2>
-              One site. A lifetime of benefits and services at your fingertips.
-            </h2>
+            <h1>Sign in</h1>
           </div>
         </div>
         {this.renderDowntimeBanners()}
         <div>
           <div className="usa-width-one-half">
             <div className="signin-actions-container">
-              <div className="top-banner">
-                <div>
-                  <img
-                    aria-hidden="true"
-                    role="presentation"
-                    alt="ID.me"
-                    src={`${vaGovFullDomain}/img/signin/lock-icon.svg`}
-                  />{' '}
-                  Secured & powered by{' '}
-                  <img
-                    aria-hidden="true"
-                    role="presentation"
-                    alt="ID.me"
-                    src={`${vaGovFullDomain}/img/signin/idme-icon-dark.svg`}
-                  />
-                </div>
-              </div>
-              <div className="signin-actions">
+              <div className="signin-actions vads-u-padding-x--0 medium-screen:vads-u-padding-x--1">
                 <h2 className="vads-u-font-size--sm vads-u-margin-top--0">
                   Sign in with an existing account
                 </h2>
                 <div>
+                  {this.props.loginGovEnabled && (
+                    <button
+                      disabled={globalDowntime}
+                      type="button"
+                      className="usa-button default"
+                      onClick={this.loginHandler('logingov')}
+                    >
+                      <img
+                        alt="Sign in with Login.gov"
+                        src={`${vaGovFullDomain}/img/signin/logingov-icon-white.svg`}
+                      />
+                    </button>
+                  )}
                   <button
                     disabled={globalDowntime}
-                    className="dslogon"
-                    onClick={this.loginHandler('dslogon')}
-                  >
-                    <img
-                      aria-hidden="true"
-                      role="presentation"
-                      alt="DS Logon"
-                      src={`${vaGovFullDomain}/img/signin/dslogon-icon.svg`}
-                    />
-                    <strong> Sign in with DS Logon</strong>
-                  </button>
-                  <button
-                    disabled={globalDowntime}
-                    className="mhv"
-                    onClick={this.loginHandler('mhv')}
-                  >
-                    <img
-                      aria-hidden="true"
-                      role="presentation"
-                      alt="My HealtheVet"
-                      src={`${vaGovFullDomain}/img/signin/mhv-icon.svg`}
-                    />
-                    <strong> Sign in with My HealtheVet</strong>
-                  </button>
-                  <button
-                    disabled={globalDowntime}
-                    className="usa-button-primary va-button-primary"
+                    type="button"
+                    className="usa-button default"
                     onClick={this.loginHandler('idme')}
                   >
                     <img
                       aria-hidden="true"
                       role="presentation"
-                      alt="ID.me"
+                      alt="Sign in with ID.me"
                       src={`${vaGovFullDomain}/img/signin/idme-icon-white.svg`}
                     />
-                    <strong> Sign in with ID.me</strong>
+                  </button>
+                  <button
+                    disabled={globalDowntime}
+                    type="button"
+                    className="usa-button default default-dslogon-icon"
+                    onClick={this.loginHandler('dslogon')}
+                  >
+                    <img
+                      aria-hidden="true"
+                      role="presentation"
+                      alt="Sign in with DS Logon"
+                      className="dslogon-icon"
+                      src={`${vaGovFullDomain}/img/signin/dslogon-icon.svg`}
+                    />
+                  </button>
+                  <button
+                    disabled={globalDowntime}
+                    type="button"
+                    className="usa-button default default-mhv-icon"
+                    onClick={this.loginHandler('mhv')}
+                  >
+                    <img
+                      aria-hidden="true"
+                      role="presentation"
+                      alt="Sign in with My HealtheVet"
+                      className="mhv-icon"
+                      src={`${vaGovFullDomain}/img/signin/mhv-logo-white.svg`}
+                    />
                   </button>
                   <span className="sidelines">OR</span>
                   <div className="alternate-signin">
                     <h2 className="vads-u-font-size--sm vads-u-margin-top--0">
                       Don't have those accounts?
                     </h2>
+                    {this.props.loginGovEnabled && (
+                      <button
+                        disabled={globalDowntime}
+                        className="usa-button usa-button-secondary create-account"
+                        onClick={this.signupHandler('logingov')}
+                      >
+                        Create an account with
+                        <img
+                          aria-hidden="true"
+                          role="presentation"
+                          alt="ID.me"
+                          src={`${vaGovFullDomain}/img/signin/login-gov-logo.svg`}
+                        />
+                      </button>
+                    )}
                     <button
                       disabled={globalDowntime}
-                      className="idme-create usa-button usa-button-secondary"
-                      onClick={this.signupHandler}
+                      className="usa-button usa-button-secondary create-account"
+                      onClick={this.signupHandler('idme')}
                     >
+                      Create an account with
                       <img
                         aria-hidden="true"
                         role="presentation"
                         alt="ID.me"
                         src={`${vaGovFullDomain}/img/signin/idme-icon-dark.svg`}
                       />
-                      <strong> Create an ID.me account</strong>
                     </button>
-                    <p>Use your email, Google, or Facebook</p>
                   </div>
                 </div>
               </div>
@@ -252,8 +252,8 @@ export class SignInModal extends React.Component {
           </div>
           <div className="usa-width-one-half">
             <div className="explanation-content">
-              <div className="vads-u-display--none medium-screen:vads-u-display--block">
-                <h2 className="usa-font-lead vads-u-margin-top--0">
+              <div className="vads-u-display--block">
+                <h2 className="usa-font-lead medium-screen:vads-u-margin-top--0">
                   One site. A lifetime of benefits and services at your
                   fingertips.
                 </h2>
@@ -274,24 +274,6 @@ export class SignInModal extends React.Component {
                 </li>
                 <li>...and more</li>
               </ul>
-              <h3 className="vads-u-font-size--base vads-u-margin-top--2">
-                A secure account powered by ID.me
-              </h3>
-              <p className="vads-u-margin-top--0">
-                ID.me is our trusted technology partner in helping to keep your
-                personal information safe. They specialize in digital identity
-                protection and help us make sure you're you—and not someone
-                pretending to be you—before we give you access to your
-                information.
-              </p>
-              <p>
-                <a
-                  href="/resources/privacy-and-security-on-vagov/#whats-idme-and-why-should-i-tr"
-                  target="_blank"
-                >
-                  Learn more about ID.me
-                </a>
-              </p>
             </div>
           </div>
         </div>
@@ -352,7 +334,7 @@ export class SignInModal extends React.Component {
           </div>
         </div>
       </div>
-    </main>
+    </section>
   );
 
   render() {
@@ -378,6 +360,7 @@ SignInModal.propTypes = {
 function mapStateToProps(state) {
   return {
     useSSOe: ssoe(state),
+    loginGovEnabled: loginGov(state),
   };
 }
 
