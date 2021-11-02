@@ -26,13 +26,13 @@ runs:
         aws-region: us-gov-west-1
 
     - name: Get Slack app token
-      uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+      uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
       with:
         ssm_parameter: /devops/github_actions_slack_socket_token
         env_variable_name: SLACK_APP_TOKEN
 
     - name: Get Slack bot token
-      uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+      uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
       with:
         ssm_parameter: /devops/github_actions_slack_bot_user_token
         env_variable_name: SLACK_BOT_TOKEN
