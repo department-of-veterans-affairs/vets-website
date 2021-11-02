@@ -10,17 +10,19 @@ import { fetchUser } from '../selectors/userDispatch';
 
 import formConfig from '../../edu-benefits/1990/config/form';
 import routes from '../../edu-benefits/1990/routes';
+import environment from 'platform/utilities/environment';
 
 export const IntroductionPage = ({ user, route }) => {
   const handleErrors = response => {
-    if (!response.ok) {
-      return false;
+    if (!response.ok && response.status === 404) {
+      window.location.href =
+        '/education/apply-for-education-benefits/application/1990/';
     }
     return response;
   };
 
   const fetchEligibility = () =>
-    fetch('http://localhost:3000/meb_api/v0/claimant_info')
+    fetch(`${environment.API_URL}/meb_api/v0/claimant_info`)
       .then(response => handleErrors(response))
       .then(res => res)
       .catch(err => err);
