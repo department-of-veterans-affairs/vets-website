@@ -1,10 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import DownloadStatements from './DownloadStatement';
 
-const PDFStatementList = ({ mcpStatements }) => {
+const PDFStatementList = () => {
+  const statements = useSelector(({ mcp }) => mcp.statements);
+  const userFullName = useSelector(({ user }) => user.profile.userFullName);
+
+  const fullName = userFullName.middle
+    ? `${userFullName.first} ${userFullName.middle} ${userFullName.last}`
+    : `${userFullName.first} ${userFullName.last}`;
+
   return (
     <section>
       <h2 id="download-statements">Download your statements</h2>
@@ -13,28 +19,16 @@ const PDFStatementList = ({ mcpStatements }) => {
         months.
       </p>
 
-      {mcpStatements.map(statement => (
+      {statements.map(statement => (
         <DownloadStatements
           key={statement.id}
           statementId={statement.id}
           statementDate={statement.pSStatementDate}
+          fullName={fullName}
         />
       ))}
     </section>
   );
 };
 
-PDFStatementList.propTypes = {
-  mcpStatements: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      pSStatementDate: PropTypes.string.isRequired,
-    }).isRequired,
-  ).isRequired,
-};
-
-const mapStateToProps = ({ mcp: { statements } }) => ({
-  mcpStatements: statements,
-});
-
-export default connect(mapStateToProps)(PDFStatementList);
+export default PDFStatementList;

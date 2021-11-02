@@ -13,7 +13,7 @@ const handleDownloadClick = date => {
   });
 };
 
-const DownloadStatement = ({ statementId, statementDate }) => {
+const DownloadStatement = ({ statementId, statementDate, fullName }) => {
   const [downloadLink, setDownloadLink] = useState('');
 
   useEffect(
@@ -22,8 +22,8 @@ const DownloadStatement = ({ statementId, statementDate }) => {
         `${
           environment.API_URL
         }/v0/medical_copays/get_pdf_statements_by_id/${statementId}`,
-      ).then(data => {
-        const url = window.URL.createObjectURL(new Blob([data]));
+      ).then(payload => {
+        const url = window.URL.createObjectURL(new Blob([payload]));
         setDownloadLink(url);
       });
     },
@@ -34,7 +34,7 @@ const DownloadStatement = ({ statementId, statementDate }) => {
     'MMMM D, YYYY',
   );
 
-  const downloadFileName = `Medical copay statement dated ${formattedStatementDate}.pdf`;
+  const downloadFileName = `${fullName} Veterans Medical copay statement dated ${formattedStatementDate}.pdf`;
 
   return (
     <article className="vads-u-padding--0">
@@ -70,6 +70,7 @@ const DownloadStatement = ({ statementId, statementDate }) => {
 DownloadStatement.propTypes = {
   statementId: PropTypes.string.isRequired,
   statementDate: PropTypes.string.isRequired,
+  fullName: PropTypes.string.isRequired,
 };
 
 export default DownloadStatement;
