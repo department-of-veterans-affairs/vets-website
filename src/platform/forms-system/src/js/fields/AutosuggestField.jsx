@@ -211,11 +211,11 @@ export default class AutosuggestField extends React.Component {
     // wrap matching text in a <span> element
     const highlightText = uiSchema['ui:options']?.highlightText ?? true;
     const value = this.state.input?.toLowerCase() || '';
-    const regexp = new RegExp(`(${value})`, 'i');
+    const caseInsensitiveMatch = new RegExp(`(${value})`, 'i');
     const highLightMatchingText = query => {
       if (value.length > 2) {
         return query
-          .split(regexp)
+          .split(caseInsensitiveMatch)
           .map(
             str =>
               str.toLowerCase() === value ? (
