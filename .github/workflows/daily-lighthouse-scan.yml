@@ -14,15 +14,23 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-    - id: set-matrix
-      run: |
-        content=`cat ./content-build/src/applications/registry.json`
-        # the following lines are only required for multi line json
-        content="${content//'%'/'%25'}"
-        content="${content//$'\n'/'%0A'}"
-        content="${content//$'\r'/'%0D'}"
-        # end of optional handling for multi line json
-        echo "::set-output name=appRegistry::$content"
+      - uses: actions/checkout@master
+        with:
+          name: Check out content-build
+          repository: department-of-veterans-affairs/content-build
+          ref: refs/heads/master
+          path: ./content-build
+
+      - name: set matrix
+        id: set-matrix
+        run: |
+          content=`cat ./content-build/src/applications/registry.json`
+          # the following lines are only required for multi line json
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          # end of optional handling for multi line json
+          echo "::set-output name=appRegistry::$content"
 
   lighthouse:
     runs-on: ubuntu-latest
@@ -34,12 +42,12 @@ jobs:
         appName: ${{fromJson(needs.job1.outputs.matrix).rootUrl}}
 
     steps:
-      - uses: actions/checkout@master
-        with:
-          name: Check out content-build
-          repository: department-of-veterans-affairs/content-build
-          ref: refs/heads/master
-          path: ./content-build
+      # - uses: actions/checkout@master
+      #   with:
+      #     name: Check out content-build
+      #     repository: department-of-veterans-affairs/content-build
+      #     ref: refs/heads/master
+      #     path: ./content-build
 
       # - name: Get App URLs
       #   id: get-app-urls
