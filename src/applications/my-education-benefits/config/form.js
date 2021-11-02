@@ -1134,50 +1134,50 @@ const formConfig = {
             },
           },
           initialData: {
-            [formFields.toursOfDuty]: [
-              {
-                // applyPeriodToSelected: true,
-                dateRange: {
-                  from: '2011-08-01',
-                  to: '2014-07-30',
-                },
-                exclusionPeriods: [
-                  {
-                    from: '2011-08-01',
-                    to: '2011-09-14',
-                  },
-                  {
-                    from: '2011-11-01',
-                    to: '2011-12-14',
-                  },
-                ],
-                separationReason: 'Expiration term of service',
-                serviceBranch: 'Navy',
-                serviceCharacter: 'Honorable',
-                // serviceStatus: 'Active Duty',
-                trainingPeriods: [
-                  {
-                    from: '2011-08-01',
-                    to: '2011-09-14',
-                  },
-                  {
-                    from: '2011-11-01',
-                    to: '2011-12-14',
-                  },
-                ],
-              },
-              {
-                // applyPeriodToSelected: true,
-                dateRange: {
-                  from: '2015-04-04',
-                  to: '2017-10-12',
-                },
-                separationReason: 'Disability',
-                serviceBranch: 'Navy',
-                serviceCharacter: 'Honorable',
-                // serviceStatus: 'Active Duty',
-              },
-            ],
+            // [formFields.toursOfDuty]: [
+            //   {
+            //     // applyPeriodToSelected: true,
+            //     dateRange: {
+            //       from: '2011-08-01',
+            //       to: '2014-07-30',
+            //     },
+            //     exclusionPeriods: [
+            //       {
+            //         from: '2011-08-01',
+            //         to: '2011-09-14',
+            //       },
+            //       {
+            //         from: '2011-11-01',
+            //         to: '2011-12-14',
+            //       },
+            //     ],
+            //     separationReason: 'Expiration term of service',
+            //     serviceBranch: 'Navy',
+            //     serviceCharacter: 'Honorable',
+            //     // serviceStatus: 'Active Duty',
+            //     trainingPeriods: [
+            //       {
+            //         from: '2011-08-01',
+            //         to: '2011-09-14',
+            //       },
+            //       {
+            //         from: '2011-11-01',
+            //         to: '2011-12-14',
+            //       },
+            //     ],
+            //   },
+            //   {
+            //     // applyPeriodToSelected: true,
+            //     dateRange: {
+            //       from: '2015-04-04',
+            //       to: '2017-10-12',
+            //     },
+            //     separationReason: 'Disability',
+            //     serviceBranch: 'Navy',
+            //     serviceCharacter: 'Honorable',
+            //     // serviceStatus: 'Active Duty',
+            //   },
+            // ],
           },
         },
       },

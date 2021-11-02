@@ -1,8 +1,8 @@
 import React from 'react';
-// import React, { useState, useEffect } from 'react';
+import moment from 'moment';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-// import { fetchServiceHistory } from './selectors/serviceHistoryDispatch';
-// import { apiRequest } from 'platform/utilities/api';
+import { getSchemaCountryCode } from './utils/form-submit-transform';
+import { DATE_TIMESTAMP } from './constants';
 
 export const directDepositWarning = (
   <div className="pension-dd-warning">
@@ -168,79 +168,111 @@ export const getSelectedCheckboxes = (uiSchema, formData) =>
     .map(selectedCheckboxKey => uiSchema[selectedCheckboxKey]['ui:title'])
     .join(', ');
 
-function transformPhone(phone) {
-  const isInternational = phone?.isInternational;
-  let phoneNumber = phone?.areaCode + phone?.phoneNumber;
-  phoneNumber = isInternational
-    ? phone?.countryCode + phoneNumber
-    : phoneNumber;
+// function transformPhone(phone) {
+//   const isInternational = phone?.isInternational;
+//   let phoneNumber = phone?.areaCode + phone?.phoneNumber;
+//   phoneNumber = isInternational
+//     ? phone?.countryCode + phoneNumber
+//     : phoneNumber;
 
-  return {
-    phone: phoneNumber,
-    isInternational,
-  };
-}
-
-// function transformServiceHistory(serviceHistory) {
 //   return {
-//     ...serviceHistory,
-//     dateRange: {
-//       from: serviceHistory.beginDate,
-//       to: serviceHistory.endDate,
-//     },
-//     exclusionPeriods: serviceHistory.exclusionPeriods.map(exclusionPeriod => {
-//       return {
-//         from: exclusionPeriod.beginDate,
-//         to: exclusionPeriod.endDate,
-//       };
-//     }),
-//     trainingPeriods: serviceHistory.trainingPeriods.map(exclusionPeriod => {
-//       return {
-//         from: exclusionPeriod.beginDate,
-//         to: exclusionPeriod.endDate,
-//       };
-//     }),
-//     serviceBranch: serviceHistory.branchOfService,
-//     serviceCharacter: serviceHistory.characterOfService,
-//     toursOfDutyIncorrect: serviceHistory.disagreeWithServicePeriod,
+//     phone: phoneNumber,
+//     isInternational,
 //   };
 // }
 
+function transformServiceHistory(serviceHistory) {
+  return [
+    {
+      dateRange: {
+        from: moment(serviceHistory?.beginDate).format(DATE_TIMESTAMP),
+        to: moment(serviceHistory?.endDate).format(DATE_TIMESTAMP),
+      },
+      exclusionPeriods: serviceHistory.exclusionPeriods.map(exclusionPeriod => {
+        return {
+          from: moment(exclusionPeriod.beginDate).format(DATE_TIMESTAMP),
+          to: moment(exclusionPeriod.endDate).format(DATE_TIMESTAMP),
+        };
+      }),
+      trainingPeriods: serviceHistory.trainingPeriods.map(exclusionPeriod => {
+        return {
+          from: moment(exclusionPeriod.beginDate).format(DATE_TIMESTAMP),
+          to: moment(exclusionPeriod.endDate).format(DATE_TIMESTAMP),
+        };
+      }),
+      serviceBranch: serviceHistory.branchOfService,
+      serviceCharacter: serviceHistory.characterOfService,
+      separationReason: serviceHistory.reasonForSeparation,
+      // toursOfDutyIncorrect: serviceHistory.disagreeWithServicePeriod,
+    },
+  ];
+}
+
+function mapNotificaitonMethod(notificationMethod) {
+  if (notificationMethod === 'mail') {
+    return 'Mail';
+  } else if (notificationMethod === 'email') {
+    return 'Email';
+  }
+  return notificationMethod;
+}
+
 export function prefillTransformer(pages, formData, metadata, state) {
-  const userProfile = state.user.profile || {};
-  const vapContactInfo = userProfile?.vapContactInfo || {};
-  const email = vapContactInfo?.email?.emailAddress;
-  const otherPhone =
-    vapContactInfo?.homePhone || vapContactInfo?.temporaryPhone;
-  const address =
-    vapContactInfo?.mailingAddress || vapContactInfo?.residentialAddress;
+  // if (!state.data?.formData) {
+  //   fetchPersonalInformation();
+  // }
+
+  const claimant = state.data?.formData?.data?.claimant || {};
+  const serviceData = state.data?.formData?.serviceData || {};
+  const contactInfo = claimant?.contactInfo || {};
 
   const newData = {
     ...formData,
     'view:userFullName': {
-      userFullName: state.user.profile?.userFullName,
+      userFullName: {
+        first: claimant.firstName,
+        middle: claimant.middleName,
+        last: claimant.lastName,
+      },
     },
-    dateOfBirth: state.user.profile?.dob,
+    dateOfBirth: claimant.dateOfBirth,
     email: {
-      email,
-      confirmEmail: email,
+      email: contactInfo.emailAddress,
+      confirmEmail: contactInfo.emailAddress,
     },
     'view:phoneNumbers': {
-      mobilePhoneNumber: transformPhone(vapContactInfo?.mobilePhone),
-      phoneNumber: transformPhone(otherPhone),
+      mobilePhoneNumber: {
+        phone: contactInfo?.mobilePhoneNumber || undefined,
+      },
+      phoneNumber: {
+        phone: contactInfo?.homePhoneNumber || undefined,
+      },
+    },
+    'view:contactMethod': {
+      contactMethod: mapNotificaitonMethod(claimant?.notificationMethod),
     },
     'view:mailingAddress': {
       address: {
-        ...address,
-        street: address?.addressLine1,
-        street2: address?.addressLine2,
-        state: address?.stateCode,
-        postalCode: address?.zipCode,
-        country: address?.countyName,
+        street: contactInfo?.addressLine1,
+        street2: contactInfo?.addressLine2 || undefined,
+        city: contactInfo?.city,
+        state: contactInfo?.stateCode,
+        postalCode: contactInfo?.zipcode,
+        country: getSchemaCountryCode(contactInfo?.countryCode),
       },
-      livesOnMilitaryBase: address?.addressType === 'OVERSEAS MILITARY',
+      livesOnMilitaryBase:
+        contactInfo?.countryCode !== 'US' &&
+        contactInfo?.addressType === 'MILITARY_OVERSEAS',
     },
+    toursOfDuty: transformServiceHistory(serviceData),
+    // 'view:toursOfDutyCorrect': {
+    //   toursOfDutyCorrect: serviceHistory?.data?.toursOfDutyIncorrect,
+    // },
   };
+
+  if (claimant?.suffix) {
+    newData['view:userFullName'].userFullName.suffix = claimant?.suffix;
+  }
 
   return {
     metadata,
