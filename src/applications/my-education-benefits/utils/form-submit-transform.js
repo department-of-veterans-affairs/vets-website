@@ -256,7 +256,10 @@ export function getLTSCountryCode(schemaCountryValue) {
 
 export function getAddressType(mailingAddress) {
   if (mailingAddress) {
-    if (mailingAddress.livesOnMilitaryBase) {
+    if (
+      mailingAddress.address.country !== 'USA' &&
+      mailingAddress.livesOnMilitaryBase
+    ) {
       return 'MILITARY_OVERSEAS';
     } else if (mailingAddress.address.country === 'USA') {
       return 'DOMESTIC';
