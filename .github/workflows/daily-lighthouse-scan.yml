@@ -9,13 +9,29 @@ env:
   CHANNEL_ID: C02A8S3JPNZ
 
 jobs:
+  job1:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+    - id: set-matrix
+      run: |
+        content=`cat ./content-build/src/applications/registry.json`
+        # the following lines are only required for multi line json
+        content="${content//'%'/'%25'}"
+        content="${content//$'\n'/'%0A'}"
+        content="${content//$'\r'/'%0D'}"
+        # end of optional handling for multi line json
+        echo "::set-output name=appRegistry::$content"
+
   lighthouse:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       max-parallel: 8
       matrix:
-        appName: ['/covid19screen', '/verify', '/pension/application/527EZ']
+        # appName: ['/covid19screen', '/verify', '/pension/application/527EZ']
+        appName: ${{fromJson(needs.job1.outputs.matrix).rootUrl}}
 
     steps:
       - uses: actions/checkout@master
