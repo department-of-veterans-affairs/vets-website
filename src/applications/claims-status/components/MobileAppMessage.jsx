@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import environment from 'platform/utilities/environment';
 
 const appleStoreUrl =
   'https://apps.apple.com/app/apple-store/id1559609596?pt=545860&ct=gov.va.claimstatus&mt=8';
@@ -20,11 +19,6 @@ export default function MobileAppMessage({ mockUserAgent }) {
   const [isHidden, setIsHidden] = useState(
     (sessionStorage.getItem(STORAGE_KEY) || '') !== '',
   );
-
-  // Hide in production until content review is complete
-  if (environment.isProduction()) {
-    return null;
-  }
 
   const userAgent =
     mockUserAgent || navigator.userAgent || navigator.vendor || window.opera;

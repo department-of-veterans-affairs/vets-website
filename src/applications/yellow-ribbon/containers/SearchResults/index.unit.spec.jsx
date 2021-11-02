@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
 import times from 'lodash/times';
 // Relative imports.
-import { SearchResults } from './index';
+import { SearchResults } from '.';
 import { TOOL_TIP_CONTENT, TOOL_TIP_LABEL } from '../../constants';
 
 describe('Yellow Ribbon container <SearchResults>', () => {

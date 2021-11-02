@@ -110,10 +110,15 @@
     padding: 20px 30px 20px;
     margin-top: 20px;
     .add-item-link-section {
+      cursor: pointer;
+      width: fit-content;
       .plus-icon {
         color: $color-light-blue;
         margin-right: 5px;
       }
+    }
+    .disabled {
+      pointer-events: none;
     }
   }
   .card-details-view {
