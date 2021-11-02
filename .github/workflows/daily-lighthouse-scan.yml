@@ -69,7 +69,7 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Where am i?
-        run: pwd && ls && cd ../content-build/src/applications && ls && pwd
+        run: pwd && ls && cd ./content-build/src/applications && ls && pwd
 
       - name: Get App URLs
         id: get-app-urls
