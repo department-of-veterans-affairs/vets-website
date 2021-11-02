@@ -29,23 +29,16 @@ import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 
 import {
   BASE_URL,
-  SAVED_CLAIM_TYPE,
   SUPPLEMENTAL_CLAIM_URL,
   FACILITY_LOCATOR_URL,
   GET_HELP_REVIEW_REQUEST_URL,
-  IS_PRODUCTION,
 } from '../constants';
 import {
   noContestableIssuesFound,
   showContestableIssueError,
   showHasEmptyAddress,
 } from '../content/contestableIssueAlerts';
-import WizardContainer from '../wizard/WizardContainer';
-import {
-  getHlrWizardStatus,
-  setHlrWizardStatus,
-  shouldShowWizard,
-} from '../wizard/utils';
+import { getHlrWizardStatus, shouldShowWizard } from '../wizard/utils';
 
 export class IntroductionPage extends React.Component {
   state = {
@@ -57,27 +50,7 @@ export class IntroductionPage extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (IS_PRODUCTION || this.props.isProduction) {
-      const {
-        contestableIssues = {},
-        getContestableIssues,
-        hlrV2,
-      } = this.props;
-      const wizardComplete = this.state.status === WIZARD_STATUS_COMPLETE;
-      if (wizardComplete && this.props.loggedIn) {
-        const benefitType = sessionStorage.getItem(SAVED_CLAIM_TYPE);
-        if (!contestableIssues?.status) {
-          getContestableIssues({ benefitType, hlrV2 });
-        }
-        // set focus on h1 only after wizard completes
-        if (prevState.status !== WIZARD_STATUS_COMPLETE) {
-          setTimeout(() => {
-            scrollToTop();
-            focusElement('h1');
-          }, 100);
-        }
-      }
-    } else if (
+    if (
       this.state.status === WIZARD_STATUS_COMPLETE &&
       prevState.status !== WIZARD_STATUS_COMPLETE
     ) {
@@ -107,7 +80,6 @@ export class IntroductionPage extends React.Component {
     }
 
     if (
-      (IS_PRODUCTION || this.props.isProduction) &&
       loggedIn &&
       ((contestableIssues?.status || '') === '' ||
         contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_INIT)
@@ -153,20 +125,8 @@ export class IntroductionPage extends React.Component {
     return noContestableIssuesFound;
   };
 
-  // Used for production only
-  setWizardStatus = value => {
-    setHlrWizardStatus(value);
-    this.setState({ status: value });
-  };
-
   render() {
-    const {
-      loggedIn,
-      savedForms,
-      hasEmptyAddress,
-      route,
-      isProduction = IS_PRODUCTION, // for unit tests
-    } = this.props;
+    const { loggedIn, savedForms, hasEmptyAddress, route } = this.props;
 
     const showWizard = shouldShowWizard(route.formConfig.formId, savedForms);
 
@@ -185,10 +145,6 @@ export class IntroductionPage extends React.Component {
           {showHasEmptyAddress}
         </article>
       );
-    }
-
-    if (showWizard && isProduction) {
-      return <WizardContainer setWizardStatus={this.setWizardStatus} />;
     }
 
     return (
@@ -221,13 +177,9 @@ export class IntroductionPage extends React.Component {
           <p className="vads-u-margin-top--2">
             if you don’t think this is the right form for you,{' '}
             <a
-              href={`${BASE_URL}${isProduction ? '' : '/start'}`}
+              href={`${BASE_URL}/start`}
               className="va-button-link"
-              onClick={event => {
-                // prevent reload, but allow opening a new tab
-                if (isProduction) {
-                  event.preventDefault();
-                }
+              onClick={() => {
                 this.setWizardStatus(WIZARD_STATUS_NOT_STARTED);
                 this.setPageFocus();
                 recordEvent({ event: 'howToWizard-start-over' });
