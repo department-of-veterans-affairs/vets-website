@@ -69,7 +69,7 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Where am i?
-      - run: |
+        run: |
           echo "pwd && ls"
 
       - name: Get App URLs
