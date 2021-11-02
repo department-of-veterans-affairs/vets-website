@@ -15,10 +15,7 @@ import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
 import { selectVAPContactInfoField } from '@@vap-svc/selectors';
 import { FIELD_NAMES } from '@@vap-svc/constants';
-import {
-  WIZARD_STATUS_NOT_STARTED,
-  WIZARD_STATUS_COMPLETE,
-} from 'platform/site-wide/wizard';
+import { WIZARD_STATUS_NOT_STARTED } from 'platform/site-wide/wizard';
 
 import {
   getContestableIssues as getContestableIssuesAction,
@@ -38,39 +35,12 @@ import {
   showContestableIssueError,
   showHasEmptyAddress,
 } from '../content/contestableIssueAlerts';
-import { getHlrWizardStatus, shouldShowWizard } from '../wizard/utils';
 
 export class IntroductionPage extends React.Component {
-  state = {
-    status: getHlrWizardStatus() || WIZARD_STATUS_NOT_STARTED,
-  };
-
   componentDidMount() {
-    this.setPageFocus();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      this.state.status === WIZARD_STATUS_COMPLETE &&
-      prevState.status !== WIZARD_STATUS_COMPLETE
-    ) {
-      // set focus on h1 only after wizard completes (wizard on /introduction)
-      setTimeout(() => {
-        this.setPageFocus();
-      }, 100);
-    }
-  }
-
-  setPageFocus = () => {
-    // focus on h1 if wizard has completed
-    // focus on breadcrumb nav when wizard is visible
-    const focusTarget =
-      this.state.status === WIZARD_STATUS_COMPLETE
-        ? 'h1'
-        : '.va-nav-breadcrumbs-list';
-    focusElement(focusTarget);
+    focusElement('h1');
     scrollToTop();
-  };
+  }
 
   getCallToActionContent = ({ last } = {}) => {
     const { loggedIn, route, contestableIssues, delay = 250 } = this.props;
@@ -126,15 +96,8 @@ export class IntroductionPage extends React.Component {
   };
 
   render() {
-    const { loggedIn, savedForms, hasEmptyAddress, route } = this.props;
-
-    const showWizard = shouldShowWizard(route.formConfig.formId, savedForms);
-
-    // Change page title once wizard has closed to provide a Veteran using a
-    // screenreader some indication that the content has changed
-    const pageTitle = `Request a Higher-Level Review${
-      showWizard ? '' : ' with VA Form 20-0996'
-    }`;
+    const { loggedIn, hasEmptyAddress } = this.props;
+    const pageTitle = 'Request a Higher-Level Review with VA Form 20-0996';
     const subTitle = 'Equal to VA Form 20-0996 (Higher-Level Review)';
 
     // check if user has address
@@ -181,7 +144,6 @@ export class IntroductionPage extends React.Component {
               className="va-button-link"
               onClick={() => {
                 this.setWizardStatus(WIZARD_STATUS_NOT_STARTED);
-                this.setPageFocus();
                 recordEvent({ event: 'howToWizard-start-over' });
               }}
             >
