@@ -1,6 +1,6 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
@@ -8,18 +8,20 @@ import { triggerRefresh } from '../../actions';
 
 import DisplayMultipleAppointments from './DisplayMultipleAppointments';
 
+import { makeSelectAppointmentListData } from '../../hooks/selectors';
+
 const CheckIn = props => {
   const {
     appointments,
-    context,
     isDemographicsPageEnabled,
     isLoading,
     isUpdatePageEnabled,
-
     refreshAppointments,
     router,
   } = props;
   const appointment = appointments ? appointments[0] : {};
+  const selectAppointmentListData = useMemo(makeSelectAppointmentListData, []);
+  const { context } = useSelector(selectAppointmentListData);
   const { token } = context;
 
   const getMultipleAppointments = useCallback(
@@ -44,11 +46,7 @@ const CheckIn = props => {
     );
   }
 };
-const mapStateToProps = state => {
-  return {
-    context: state.checkInData.context,
-  };
-};
+
 const mapDispatchToProps = dispatch => {
   return {
     refreshAppointments: () => dispatch(triggerRefresh()),
@@ -57,7 +55,6 @@ const mapDispatchToProps = dispatch => {
 
 CheckIn.propTypes = {
   appointments: PropTypes.array,
-  context: PropTypes.object,
   isDemographicsPageEnabled: PropTypes.bool,
   isLoading: PropTypes.bool,
   isUpdatePageEnabled: PropTypes.bool,
@@ -66,6 +63,6 @@ CheckIn.propTypes = {
 };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(CheckIn);
