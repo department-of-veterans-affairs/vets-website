@@ -29,7 +29,7 @@ function ViewDependentsHeader(props) {
             <p className="vads-u-font-size--base">
               We’ll make a note that our records are correct and an updated VA
               Form 21-0538 will go into your e-folder. If we need you to give us
-              more information or documents, we’ll contact you be mail.
+              more information or documents, we’ll contact you by mail.
             </p>
           </>
         ),

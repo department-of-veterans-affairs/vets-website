@@ -25,7 +25,7 @@ export const directDepositWarning = (
   </div>
 );
 
-export const activeDutyLabel = (
+export const chapter30Label = (
   <>
     Montgomery GI Bill Active Duty (Chapter 30)
     <AdditionalInfo triggerText="Learn more">
@@ -46,7 +46,7 @@ export const activeDutyLabel = (
   </>
 );
 
-export const selectedReserveLabel = (
+export const chapter1606Label = (
   <>
     Montgomery GI Bill Selected Reserve (Chapter 1606)
     <AdditionalInfo triggerText="Learn more">
@@ -215,9 +215,6 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const address =
     vapContactInfo?.mailingAddress || vapContactInfo?.residentialAddress;
 
-  // const [toursOfDuty, setToursOfDuty] = useState(null);
-  // const [toursOfDutyCorrect, setToursOfDutyCorrect] = useState(null);
-
   const newData = {
     ...formData,
     'view:userFullName': {
@@ -243,25 +240,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
       },
       livesOnMilitaryBase: address?.addressType === 'OVERSEAS MILITARY',
     },
-    // toursOfDuty: null,
-    // 'view:toursOfDutyCorrect': {
-    //   toursOfDutyCorrect: null,
-    // },
   };
-
-  // useEffect(
-  //   () => {
-  //     // const serviceHistory = await fetchServiceHistory(state);
-  //     async function getServiceHistory() {
-  //       const serviceHistoryEndpoint = `http://localhost:3000/meb_api/v0/service_history`;
-  //       const serviceHistory = await apiRequest(serviceHistoryEndpoint);
-  //       setToursOfDuty(transformServiceHistory(serviceHistory.data));
-  //       setToursOfDutyCorrect(serviceHistory.data.toursOfDutyIncorrect);
-  //     }
-  //     getServiceHistory();
-  //   },
-  //   [setToursOfDuty, setToursOfDutyCorrect],
-  // );
 
   return {
     metadata,

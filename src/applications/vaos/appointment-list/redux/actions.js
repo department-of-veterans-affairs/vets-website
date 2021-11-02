@@ -701,6 +701,9 @@ export function startNewVaccineFlow() {
 
 export function fetchFacilitySettings() {
   return async (dispatch, getState) => {
+    const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
+      getState(),
+    );
     dispatch({
       type: FETCH_FACILITY_SETTINGS,
     });
@@ -709,7 +712,10 @@ export function fetchFacilitySettings() {
       const initialState = getState();
       const siteIds = selectSystemIds(initialState) || [];
 
-      const settings = await getLocationSettings({ siteIds });
+      const settings = await getLocationSettings({
+        siteIds,
+        useV2: featureFacilitiesServiceV2,
+      });
 
       dispatch({
         type: FETCH_FACILITY_SETTINGS_SUCCEEDED,
