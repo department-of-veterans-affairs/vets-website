@@ -69,13 +69,12 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Where am i?
-        run: |
-          echo "pwd && ls"
+        run: pwd && ls
 
       - name: Get App URLs
         id: get-app-urls
         run: |
-          content=`cat ./content-build/src/applications/manifest.json`
+          content=`cat ./content-build/src/applications/registry.json`
           # the following lines are only required for multi line json
           content="${content//'%'/'%25'}"
           content="${content//$'\n'/'%0A'}"
