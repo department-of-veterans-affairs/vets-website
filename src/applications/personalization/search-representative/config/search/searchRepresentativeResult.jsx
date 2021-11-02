@@ -4,10 +4,6 @@ const searchRepresentativeResult = props => {
   const customStyle = {
     maxWidth: 180,
   };
-  const linkStyles = {
-    borderRadius: 0,
-    textDecoration: 'underline',
-  };
   return (
     <div className="vads-u-margin-bottom--1p5 vads-u-background-color--gray-lightest vads-u-padding--1p5">
       <p className="vads-u-font-size--h3 vads-u-font-family--serif vads-u-font-weight--bold">
@@ -19,7 +15,6 @@ const searchRepresentativeResult = props => {
       <p>{props.option.phone}</p>
       <div style={customStyle}>
         <button
-          style={linkStyles}
           onClick={() => props.handleClick(props.option.name)}
           className="va-button-link"
         >
