@@ -14,7 +14,8 @@ jobs:
     steps:
       - uses: actions/checkout@master
         with:
-          name: department-of-veterans-affairs/content-build
+          name: Check out content-build
+          repository: department-of-veterans-affairs/content-build
           ref: refs/heads/master
           path: ./content-build
 
