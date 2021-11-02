@@ -11,6 +11,12 @@ env:
 jobs:
   lighthouse:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        appName: [/covid19screen, /verify, /pension/application/527EZ]
+
     steps:
       - uses: actions/checkout@master
         with:
@@ -18,6 +24,20 @@ jobs:
           repository: department-of-veterans-affairs/content-build
           ref: refs/heads/master
           path: ./content-build
+
+      # - name: Get App URLs
+      #   id: get-app-urls
+      #   run: |
+      #     content=`cat ./content-build/src/applications/registry.json`
+      #     # the following lines are only required for multi line json
+      #     content="${content//'%'/'%25'}"
+      #     content="${content//$'\n'/'%0A'}"
+      #     content="${content//$'\r'/'%0D'}"
+      #     # end of optional handling for multi line json
+      #     echo "::set-output name=appRegistry::$content"
+
+      # - run: |
+      #     echo "${{fromJson(steps.get-app-urls.outputs.appRegistry)}}"
 
       - name: Configure AWS credentials (1)
         uses: aws-actions/configure-aws-credentials@v1
@@ -72,27 +92,13 @@ jobs:
       - name: Where am i?
         run: pwd && ls && cd ./content-build/src/applications && ls && pwd
 
-      - name: Get App URLs
-        id: get-app-urls
-        run: |
-          content=`cat ./content-build/src/applications/registry.json`
-          # the following lines are only required for multi line json
-          content="${content//'%'/'%25'}"
-          content="${content//$'\n'/'%0A'}"
-          content="${content//$'\r'/'%0D'}"
-          # end of optional handling for multi line json
-          echo "::set-output name=packageJson::$content"
-
-      - run: |
-          echo "${{fromJson(steps.get-app-urls.outputs.packageJson)}}"
-
-      # - name: Audit URLs using Lighthouse
-      #   id: lighthouse-checks
-      #   uses: treosh/lighthouse-ci-action@v8
-      #   with:
-      #     urls: |
-      #       https://www.va.gov/
-      #     uploadArtifacts: true # save results as an action artifacts
+      - name: Audit URLs using Lighthouse
+        id: lighthouse-checks
+        uses: treosh/lighthouse-ci-action@v8
+        with:
+          urls: |
+            ${{ matrix.appName }}
+          uploadArtifacts: true # save results as an action artifacts
 
       # - name: Upload lighthouse report (JSON)
       #   run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/homepage.json --acl public-read --region us-gov-west-1
