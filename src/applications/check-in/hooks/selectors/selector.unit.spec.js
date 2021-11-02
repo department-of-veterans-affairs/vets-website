@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { expect } from 'chai';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 
@@ -15,11 +14,13 @@ describe('check-in', () => {
   describe('selector', () => {
     const state = {
       featureToggles: {
+        /* eslint-disable camelcase */
         check_in_experience_enabled: true,
         check_in_experience_demographics_page_enabled: true,
         check_in_experience_update_information_page_enabled: true,
         check_in_experience_next_of_kin_enabled: false,
         loading: false,
+        /* eslint-enable camelcase */
       },
       checkInData: {
         appointments: [
