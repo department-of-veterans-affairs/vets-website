@@ -9,18 +9,18 @@ import { connect } from 'react-redux';
 import { fetchUser } from '../selectors/userDispatch';
 
 export const IntroductionPage = ({ user, route }) => {
+  const handleErrors = response => {
+    if (!response.ok) {
+      return false;
+    }
+    return response;
+  };
+
   const fetchEligibility = () =>
-    fetch('http://localhost:3000/meb_api/v0/eligibility')
-      .then(response => response.json())
-      .then(results =>
-        results?.data?.map(chap => {
-          if (chap.chapter === 'chapter33') {
-            return chap.veteranIsEligible;
-          } else {
-            return false;
-          }
-        }),
-      );
+    fetch('http://localhost:3000/meb_api/v0/claimant_info')
+      .then(response => handleErrors(response))
+      .then(res => res)
+      .catch(err => err);
 
   const [isEligible] = useState(fetchEligibility);
   const [continueOrRedirect, setCourse] = useState(
@@ -42,7 +42,7 @@ export const IntroductionPage = ({ user, route }) => {
       focusElement('.va-nav-breadcrumbs-list');
       try {
         isEligible.then(res => {
-          if (user.login.currentlyLoggedIn && !res[0]) {
+          if (user.login.currentlyLoggedIn && !res) {
             setCourse(
               <a
                 className="vads-c-action-link--green"
@@ -129,17 +129,11 @@ export const IntroductionPage = ({ user, route }) => {
           </li>
         </ol>
       </div>
-
-      <SaveInProgressIntro
-        testActionLink
-        buttonOnly
-        prefillEnabled={route.formConfig.prefillEnabled}
-        messages={route.formConfig.savedFormMessages}
-        pageList={route.pageList}
-        hideUnauthedStartLink
-        startText="Start the education application"
-      />
-      <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
+      {continueOrRedirect}
+      <div
+        className="omb-info--container"
+        style={{ marginTop: '1rem', paddingLeft: '0px' }}
+      >
         <OMBInfo resBurden={15} ombNumber="2900-0154" expDate="02/28/2023" />
       </div>
     </div>
