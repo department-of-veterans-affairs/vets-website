@@ -21,6 +21,12 @@ export const App = ({
 }) => {
   useEffect(
     () => {
+      // Do something like this to redirect The Veteran if there is
+      // an error when retrieving data.
+      // if (errors && errors.status === '404') {
+      //   // redirect
+      //   return;
+      // }
       if (!userFullName || !userFullName?.first) {
         getPersonalInfo();
       }

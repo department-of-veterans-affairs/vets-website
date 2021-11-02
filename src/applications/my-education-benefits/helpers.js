@@ -184,30 +184,32 @@ export const getSelectedCheckboxes = (uiSchema, formData) =>
 //   };
 // }
 
-// function transformServiceHistory(serviceHistory) {
-//   return {
-//     ...serviceHistory,
-//     dateRange: {
-//       from: serviceHistory.beginDate,
-//       to: serviceHistory.endDate,
-//     },
-//     exclusionPeriods: serviceHistory.exclusionPeriods.map(exclusionPeriod => {
-//       return {
-//         from: exclusionPeriod.beginDate,
-//         to: exclusionPeriod.endDate,
-//       };
-//     }),
-//     trainingPeriods: serviceHistory.trainingPeriods.map(exclusionPeriod => {
-//       return {
-//         from: exclusionPeriod.beginDate,
-//         to: exclusionPeriod.endDate,
-//       };
-//     }),
-//     serviceBranch: serviceHistory.branchOfService,
-//     serviceCharacter: serviceHistory.characterOfService,
-//     toursOfDutyIncorrect: serviceHistory.disagreeWithServicePeriod,
-//   };
-// }
+function transformServiceHistory(serviceHistory) {
+  return [
+    {
+      dateRange: {
+        from: serviceHistory.beginDate,
+        to: serviceHistory.endDate,
+      },
+      exclusionPeriods: serviceHistory.exclusionPeriods.map(exclusionPeriod => {
+        return {
+          from: exclusionPeriod.beginDate,
+          to: exclusionPeriod.endDate,
+        };
+      }),
+      trainingPeriods: serviceHistory.trainingPeriods.map(exclusionPeriod => {
+        return {
+          from: exclusionPeriod.beginDate,
+          to: exclusionPeriod.endDate,
+        };
+      }),
+      serviceBranch: serviceHistory.branchOfService,
+      serviceCharacter: serviceHistory.characterOfService,
+      separationReason: serviceHistory.reasonForSeparation,
+      // toursOfDutyIncorrect: serviceHistory.disagreeWithServicePeriod,
+    },
+  ];
+}
 
 export function fetchMilitaryInformation() {
   // const serviceHistoryEndpoint = 'http://localhost:3000/meb_api/v0/service_history';
@@ -363,12 +365,12 @@ export function prefillTransformer(pages, formData, metadata, state) {
   // setToursOfDuty(transformServiceHistory(serviceHistory.data));
   // setToursOfDutyCorrect(serviceHistory.data.toursOfDutyIncorrect);
 
-  const data = state.data.formData;
-  if (!data) {
-    fetchMilitaryInformationCopy();
-  }
+  // if (!data) {
+  //   fetchMilitaryInformationCopy();
+  // }
 
-  const claimant = data?.claimant || {};
+  const claimant = state.data?.formData?.data?.claimant || {};
+  const serviceData = state.data?.formData?.serviceData || {};
   const contactInfo = claimant?.contactInfo || {};
 
   const newData = {
@@ -409,7 +411,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
       },
       livesOnMilitaryBase: contactInfo?.addressType === 'MILITARY_OVERSEAS',
     },
-    // toursOfDuty: transformServiceHistory(serviceHistory?.data),
+    toursOfDuty: transformServiceHistory(serviceData),
     // 'view:toursOfDutyCorrect': {
     //   toursOfDutyCorrect: serviceHistory?.data?.toursOfDutyIncorrect,
     // },

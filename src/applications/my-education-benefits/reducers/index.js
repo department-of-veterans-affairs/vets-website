@@ -19,8 +19,6 @@ const initialState = {
 export default {
   form: createSaveInProgressFormReducer(formConfig),
   data: (state = initialState, action) => {
-    const data = action?.response?.data || {};
-
     switch (action.type) {
       case FETCH_PERSONAL_INFORMATION_SUCCESS:
       case FETCH_PERSONAL_INFORMATION_FAILED:
@@ -35,7 +33,8 @@ export default {
           //     },
           //   },
           // },
-          formData: data,
+          formData: action?.response || {},
+          // errors: action?.response?.errors || {},
         };
       default:
         return state;
