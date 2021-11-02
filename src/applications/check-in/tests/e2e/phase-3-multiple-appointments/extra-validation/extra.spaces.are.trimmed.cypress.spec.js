@@ -1,19 +1,12 @@
 import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
-
-import mockCheckIn from '../../../../api/local-mock-api/mocks/v2/check.in.responses';
 import mockSession from '../../../../api/local-mock-api/mocks/v2/sessions.responses';
-import mockPatientCheckIns from '../../../../api/local-mock-api/mocks/v2/patient.check.in.responses';
-
+import '../../support/commands';
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 describe('Check In Experience -- ', () => {
   describe('phase 3 -- ', () => {
     beforeEach(function() {
-      cy.intercept('GET', '/check_in/v2/sessions/*', req => {
-        req.reply(
-          mockSession.createMockSuccessResponse('some-token', 'read.basic'),
-        );
-      });
+      cy.authenticate();
       cy.intercept('POST', '/check_in/v2/sessions', req => {
         expect(req.body.session.lastName).to.equal('Smith');
         expect(req.body.session.last4).to.equal('4837');
@@ -22,12 +15,8 @@ describe('Check In Experience -- ', () => {
           mockSession.createMockSuccessResponse('some-token', 'read.full'),
         );
       });
-      cy.intercept('GET', '/check_in/v2/patient_check_ins/*', req => {
-        req.reply(mockPatientCheckIns.createMultipleAppointments());
-      });
-      cy.intercept('POST', '/check_in/v2/patient_check_ins/', req => {
-        req.reply(mockCheckIn.createMockSuccessResponse({}));
-      });
+      cy.getAppointments();
+      cy.successfulCheckin();
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',

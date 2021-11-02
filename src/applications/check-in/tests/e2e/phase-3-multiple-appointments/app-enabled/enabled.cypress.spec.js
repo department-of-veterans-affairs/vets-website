@@ -1,5 +1,5 @@
 import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
-import mockSession from '../../../../api/local-mock-api/mocks/v2/sessions.responses';
+import '../../support/commands';
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 describe('Check In Experience -- ', () => {
@@ -11,11 +11,7 @@ describe('Check In Experience -- ', () => {
         checkInExperienceUpdateInformationPageEnabled: false,
       }),
     );
-    cy.intercept('GET', '/check_in/v2/sessions/*', req => {
-      req.reply(
-        mockSession.createMockSuccessResponse('some-token', 'read.basic'),
-      );
-    });
+    cy.authenticate();
   });
   afterEach(() => {
     cy.window().then(window => {

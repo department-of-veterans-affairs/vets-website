@@ -1,8 +1,5 @@
 import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
-
-import mockCheckIn from '../../../../api/local-mock-api/mocks/v2/check.in.responses';
 import mockSession from '../../../../api/local-mock-api/mocks/v2/sessions.responses';
-import mockPatientCheckIns from '../../../../api/local-mock-api/mocks/v2/patient.check.in.responses';
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 describe('Check In Experience -- ', () => {
@@ -15,12 +12,6 @@ describe('Check In Experience -- ', () => {
       });
       cy.intercept('POST', '/check_in/v2/sessions', req => {
         req.reply(400, mockSession.createMockFailedResponse());
-      });
-      cy.intercept('GET', '/check_in/v2/patient_check_ins/*', req => {
-        req.reply(mockPatientCheckIns.createMockSuccessResponse({}, false));
-      });
-      cy.intercept('POST', '/check_in/v2/patient_check_ins/', req => {
-        req.reply(mockCheckIn.createMockSuccessResponse({}));
       });
       cy.intercept(
         'GET',
