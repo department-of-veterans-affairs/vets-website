@@ -1,9 +1,9 @@
 name: Lighthouse CI
 
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: '0 12 * * 1-5'
+on: push
+  # workflow_dispatch:
+  # schedule:
+  #   - cron: '0 12 * * 1-5'
 
 env:
   CHANNEL_ID: C02A8S3JPNZ
@@ -12,6 +12,12 @@ jobs:
   lighthouse:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@master
+        with:
+          name: department-of-veterans-affairs/content-build
+          ref: refs/heads/master
+          path: ./content-build
+
       - name: Configure AWS credentials (1)
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -62,28 +68,41 @@ jobs:
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
 
-      - name: Audit URLs using Lighthouse
-        id: lighthouse-checks
-        uses: treosh/lighthouse-ci-action@v8
-        with:
-          urls: |
-            https://www.va.gov/
-          # budgetPath: ./budget.json # test performance budgets
-          uploadArtifacts: true # save results as an action artifacts
+      - name: Get App URLs
+        id: get-app-urls
+        run: |
+          content=`cat ./content-build/src/apps/manifest.json`
+          # the following lines are only required for multi line json
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          # end of optional handling for multi line json
+          echo "::set-output name=packageJson::$content"
 
-      - name: Upload lighthouse report (JSON)
-        run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/homepage.json --acl public-read --region us-gov-west-1
+      - run: |
+          echo "${{fromJson(steps.get-app-urls.outputs.packageJson)}}"
 
-      - name: Upload lighthouse report (HTML)
-        run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/homepage.html --acl public-read --region us-gov-west-1
+      # - name: Audit URLs using Lighthouse
+      #   id: lighthouse-checks
+      #   uses: treosh/lighthouse-ci-action@v8
+      #   with:
+      #     urls: |
+      #       https://www.va.gov/
+      #     uploadArtifacts: true # save results as an action artifacts
 
-      - name: Notify Slack
-        if: ${{ always() }}
-        uses: ./.github/actions/vsp-github-actions/slack-socket
-        env:
-          SSL_CERT_DIR: /etc/ssl/certs
-        with:
-          slack_app_token: ${{ env.SLACK_APP_TOKEN }}
-          slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
-          attachments: '[{"mrkdwn_in": ["text"], "color": "good", "text": "The Lighthouse scan for today just finished! <https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload/lighthouse/homepage.html|View the results>"}]'
-          channel_id: ${{ env.CHANNEL_ID }}
+      # - name: Upload lighthouse report (JSON)
+      #   run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/homepage.json --acl public-read --region us-gov-west-1
+
+      # - name: Upload lighthouse report (HTML)
+      #   run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/homepage.html --acl public-read --region us-gov-west-1
+
+      # - name: Notify Slack
+      #   if: ${{ always() }}
+      #   uses: ./.github/actions/vsp-github-actions/slack-socket
+      #   env:
+      #     SSL_CERT_DIR: /etc/ssl/certs
+      #   with:
+      #     slack_app_token: ${{ env.SLACK_APP_TOKEN }}
+      #     slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
+      #     attachments: '[{"mrkdwn_in": ["text"], "color": "good", "text": "The Lighthouse scan for today just finished! <https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload/lighthouse/homepage.html|View the results>"}]'
+      #     channel_id: ${{ env.CHANNEL_ID }}
