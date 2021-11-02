@@ -1,7 +1,6 @@
 const generateFeatureToggles = (toggles = {}) => {
   const {
     checkInExperienceEnabled = true,
-    checkInExperienceMultipleAppointmentSupport = true,
     checkInExperienceUpdateInformationPageEnabled = false,
     checkInExperienceDemographicsPageEnabled = false,
     checkInExperienceNextOfKinEnabled = false,
@@ -18,10 +17,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'check_in_experience_update_information_page_enabled',
           value: checkInExperienceUpdateInformationPageEnabled,
-        },
-        {
-          name: 'check_in_experience_multiple_appointment_support',
-          value: checkInExperienceMultipleAppointmentSupport,
         },
         {
           name: 'check_in_experience_demographics_page_enabled',

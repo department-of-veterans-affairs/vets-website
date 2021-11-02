@@ -29,6 +29,7 @@ const URLS = Object.freeze({
   DETAILS: 'details',
   ERROR: 'error',
   LANDING: '',
+  NEXT_OF_KIN: 'next-of-kin',
   SEE_STAFF: 'see-staff',
   UPDATE_INSURANCE: 'update-information',
   VALIDATION_NEEDED: 'verify',

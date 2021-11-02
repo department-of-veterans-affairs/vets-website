@@ -7,8 +7,8 @@ import { getCurrentToken } from '../utils/session';
 import { api } from '../api';
 import {
   receivedDemographicsData,
+  receivedNextOfKinData,
   receivedMultipleAppointmentDetails,
-  receivedAppointmentDetails,
   triggerRefresh,
 } from '../actions';
 import { focusElement } from 'platform/utilities/ui';
@@ -18,13 +18,12 @@ const withLoadedData = Component => {
     const [isLoading, setIsLoading] = useState();
     const {
       checkInData,
-      isMultipleAppointmentsEnabled,
+
       isSessionLoading,
       router,
       setSessionData,
-      setSessionDataV1,
     } = props;
-    const { context, appointments, demographics } = checkInData;
+    const { context, appointments, demographics, nextOfKin } = checkInData;
 
     useEffect(
       () => {
@@ -36,20 +35,7 @@ const withLoadedData = Component => {
           // check if appointments is empty or if a refresh is staged
           const { token } = session;
 
-          if (!isMultipleAppointmentsEnabled && appointments.length === 0) {
-            // load data from checks route
-            api.v1
-              .getCheckInData(token)
-              .then(json => {
-                const { payload } = json;
-                setSessionDataV1(payload, token);
-                setIsLoading(false);
-                focusElement('h1');
-              })
-              .catch(() => {
-                goToNextPage(router, URLS.ERROR);
-              });
-          } else if (
+          if (
             Object.keys(context).length === 0 ||
             context.shouldRefresh ||
             appointments.length === 0
@@ -62,6 +48,7 @@ const withLoadedData = Component => {
                 if (!isCancelled) {
                   setSessionData(json.payload, token);
                   setIsLoading(false);
+                  focusElement('h1');
                 }
               })
               .catch(() => {
@@ -73,15 +60,7 @@ const withLoadedData = Component => {
           isCancelled = true;
         };
       },
-      [
-        appointments,
-        router,
-        context,
-        setSessionData,
-        setSessionDataV1,
-        isSessionLoading,
-        isMultipleAppointmentsEnabled,
-      ],
+      [appointments, router, context, setSessionData, isSessionLoading],
     );
     return (
       <>
@@ -89,6 +68,7 @@ const withLoadedData = Component => {
           {...props}
           isLoading={isLoading}
           demographics={demographics || {}}
+          nextOfKin={nextOfKin || {}}
           appointments={appointments || []}
           context={context || {}}
         />
@@ -98,11 +78,9 @@ const withLoadedData = Component => {
 
   Wrapped.propTypes = {
     checkInData: PropTypes.object,
-    isMultipleAppointmentsEnabled: PropTypes.bool,
     isSessionLoading: PropTypes.bool,
     router: PropTypes.object,
     setSessionData: PropTypes.func,
-    setSessionDataV1: PropTypes.func,
   };
 
   return Wrapped;
@@ -118,13 +96,12 @@ const mapDispatchToProps = dispatch => {
         const { appointments, demographics } = payload;
         dispatch(triggerRefresh(false));
         dispatch(receivedMultipleAppointmentDetails(appointments, token));
-        dispatch(receivedDemographicsData(demographics));
-      });
-    },
-    setSessionDataV1: (payload, token) => {
-      batch(() => {
-        dispatch(triggerRefresh(false));
-        dispatch(receivedAppointmentDetails(payload, token));
+        if (typeof demographics !== 'undefined') {
+          dispatch(receivedDemographicsData(demographics));
+          if ('nextOfKin1' in demographics) {
+            dispatch(receivedNextOfKinData(demographics.nextOfKin1));
+          }
+        }
       });
     },
   };

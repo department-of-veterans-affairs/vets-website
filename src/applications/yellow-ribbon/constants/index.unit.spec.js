@@ -7,7 +7,7 @@ import {
   FETCH_RESULTS_SUCCESS,
   TOGGLE_SHOW_MOBILE_FORM,
   TOGGLE_TOOL_TIP,
-} from './index';
+} from '.';
 
 describe('Yellow Ribbon constants', () => {
   it('should have `yellow-ribbon` in them', () => {

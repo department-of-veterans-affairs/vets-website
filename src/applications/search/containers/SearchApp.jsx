@@ -226,7 +226,6 @@ class SearchApp extends React.Component {
       keywordPosition: undefined,
       suggestionsList: validSuggestions,
       sitewideSearch: false,
-      searchLocation: 'Search Results Page',
     });
 
     this.updateQueryInfo({
@@ -266,7 +265,6 @@ class SearchApp extends React.Component {
       keywordPosition: index + 1,
       suggestionsList: validSuggestions,
       sitewideSearch: false,
-      searchLocation: 'Search Results Page',
     });
 
     this.updateQueryInfo({
@@ -335,7 +333,10 @@ class SearchApp extends React.Component {
         <div>Enter a keyword</div>
         <div className="va-flex search-box vads-u-margin-top--1 vads-u-margin-bottom--0">
           {!this.props.searchDropdownComponentEnabled && (
-            <>
+            <form
+              onSubmit={this.handleSearch}
+              className="va-flex vads-u-width--full"
+            >
               <input
                 type="text"
                 name="query"
@@ -343,11 +344,11 @@ class SearchApp extends React.Component {
                 value={this.state.userInput}
                 onChange={this.handleInputChange}
               />
-              <button type="button" onClick={this.handleSearch}>
+              <button type="submit">
                 <IconSearch color="#fff" />
                 <span className="button-text">Search</span>
               </button>
-            </>
+            </form>
           )}
           {this.props.searchDropdownComponentEnabled && (
             <SearchDropdownComponent

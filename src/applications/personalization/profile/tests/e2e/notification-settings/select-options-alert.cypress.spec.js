@@ -1,3 +1,11 @@
+/**
+ * [TestRail-integrated] Spec for Notification Prefs > Select options alert
+ * @testrailinfo projectId 4
+ * @testrailinfo suiteId 5
+ * @testrailinfo groupId 2426
+ * @testrailinfo runName NP-e2e-Select-options-alert
+ */
+
 import { PROFILE_PATHS } from '@@profile/constants';
 
 import { makeMockUser } from '@@profile/tests/fixtures/users/user';

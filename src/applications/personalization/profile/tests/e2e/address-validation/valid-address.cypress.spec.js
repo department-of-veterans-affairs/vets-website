@@ -1,36 +1,20 @@
-import { setUp } from '@@profile/tests/e2e/address-validation/setup';
+import AddressPage from './page-objects/AddressPage';
 
 describe('Personal and contact information', () => {
   describe('should successfully update on Desktop', () => {
     describe('when entering a valid home address', () => {
       it('should update successfully without showing the validation screen', () => {
-        setUp('valid-address');
-
-        cy.findByLabelText(/^street address \(/i)
-          .clear()
-          .type('36320 Coronado Dr');
-        cy.findByLabelText(/^street address line 2/i).clear();
-        cy.findByLabelText(/^street address line 3/i).clear();
-
-        cy.findByLabelText(/City/i)
-          .clear()
-          .type('Fremont');
-        cy.findByLabelText(/^State/).select('MD');
-        cy.findByLabelText(/Zip code/i)
-          .clear()
-          .type('94536');
-
-        cy.findByTestId('save-edit-button').click({
-          force: true,
-        });
-
-        cy.findByTestId('mailingAddress')
-          .should('contain', '36320 Coronado Dr')
-          .and('contain', 'Fremont, CA 94536');
-
-        cy.focused()
-          .invoke('text')
-          .should('match', /update saved/i);
+        const formFields = {
+          address: '36320 Coronado Dr',
+          city: 'Fremont',
+          state: 'MD',
+          zipCode: '94536',
+        };
+        const addressPage = new AddressPage();
+        addressPage.loadPage('valid-address');
+        addressPage.fillAddressForm(formFields);
+        addressPage.saveForm();
+        addressPage.validateSavedForm({ ...formFields, state: 'CA' });
       });
     });
   });
