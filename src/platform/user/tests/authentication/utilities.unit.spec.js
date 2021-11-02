@@ -116,6 +116,19 @@ describe('authentication URL helpers', () => {
     login('idme', 'v1');
     expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
+
+  it('should mimick modal behavior when sign-in page lacks appliction param', () => {
+    global.window.location.pathname = '/sign-in/';
+    login('idme', 'v1');
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
+  });
+
+  it('should mimick modal behavior when sign-in page has invalid application param', () => {
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=foobar';
+    login('idme', 'v1');
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
+  });
 });
 
 describe('standaloneRedirect', () => {

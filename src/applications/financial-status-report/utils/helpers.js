@@ -12,6 +12,8 @@ export const fsrFeatureToggle = state => {
   return toggleValues(state)[FEATURE_FLAG_NAMES.showFinancialStatusReport];
 };
 
+export const allEqual = arr => arr.every(val => val === arr[0]);
+
 export const dateFormatter = date => {
   if (!date) return undefined;
   const formatDate = date?.slice(0, -3);

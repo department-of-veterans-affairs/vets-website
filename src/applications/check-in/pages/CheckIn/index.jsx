@@ -6,11 +6,6 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 
 import { triggerRefresh } from '../../actions';
 
-import FeatureToggle, {
-  FeatureOn,
-  FeatureOff,
-} from '../../components/FeatureToggle';
-import DisplaySingleAppointment from './DisplaySingleAppointment';
 import DisplayMultipleAppointments from './DisplayMultipleAppointments';
 
 const CheckIn = props => {
@@ -20,7 +15,7 @@ const CheckIn = props => {
     isDemographicsPageEnabled,
     isLoading,
     isUpdatePageEnabled,
-    isMultipleAppointmentsEnabled,
+
     refreshAppointments,
     router,
   } = props;
@@ -38,26 +33,14 @@ const CheckIn = props => {
     return <LoadingIndicator message={'Loading your appointments for today'} />;
   } else {
     return (
-      <FeatureToggle on={isMultipleAppointmentsEnabled}>
-        <FeatureOn>
-          <DisplayMultipleAppointments
-            isUpdatePageEnabled={isUpdatePageEnabled}
-            isDemographicsPageEnabled={isDemographicsPageEnabled}
-            router={router}
-            token={token}
-            appointments={appointments}
-            getMultipleAppointments={getMultipleAppointments}
-          />
-        </FeatureOn>
-        <FeatureOff>
-          <DisplaySingleAppointment
-            isUpdatePageEnabled={isUpdatePageEnabled}
-            router={router}
-            token={token}
-            appointment={appointment}
-          />
-        </FeatureOff>
-      </FeatureToggle>
+      <DisplayMultipleAppointments
+        isUpdatePageEnabled={isUpdatePageEnabled}
+        isDemographicsPageEnabled={isDemographicsPageEnabled}
+        router={router}
+        token={token}
+        appointments={appointments}
+        getMultipleAppointments={getMultipleAppointments}
+      />
     );
   }
 };
@@ -78,7 +61,6 @@ CheckIn.propTypes = {
   isDemographicsPageEnabled: PropTypes.bool,
   isLoading: PropTypes.bool,
   isUpdatePageEnabled: PropTypes.bool,
-  isMultipleAppointmentsEnabled: PropTypes.bool,
   refreshAppointments: PropTypes.func,
   router: PropTypes.object,
 };
