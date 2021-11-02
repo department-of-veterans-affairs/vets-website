@@ -9,7 +9,7 @@ const searchRepresentativeResult = props => {
     textDecoration: 'underline',
   };
   return (
-    <div className="vads-u-margin-bottom--1p5 vads-u-background-color--gray-lighter vads-u-padding--1p5">
+    <div className="vads-u-margin-bottom--1p5 vads-u-background-color--gray-lightest vads-u-padding--1p5">
       <p className="vads-u-font-size--h3 vads-u-font-family--serif vads-u-font-weight--bold">
         {props.option.name}
       </p>
@@ -21,9 +21,9 @@ const searchRepresentativeResult = props => {
         <button
           style={linkStyles}
           onClick={() => props.handleClick(props.option.name)}
-          className="vads-u-background-color--gray-lighter vads-u-color--link-default vads-u-font-weight--normal vads-u-padding--0"
+          className="va-button-link"
         >
-          Choose this representative
+          Select this representative
         </button>
       </div>
     </div>
