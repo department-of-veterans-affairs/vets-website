@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 function Footer({ header = 'Need help?', message = 'Ask a staff member.' }) {
   return (
@@ -16,15 +15,9 @@ function Footer({ header = 'Need help?', message = 'Ask a staff member.' }) {
   );
 }
 
-const mapStateToProps = state => {
-  return {
-    appointments: state.checkInData.appointments,
-  };
-};
-
 Footer.propTypes = {
   header: PropTypes.string,
   message: PropTypes.string,
 };
 
-export default connect(mapStateToProps)(Footer);
+export default Footer;

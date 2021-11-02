@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { compose } from 'redux';
 import { goToNextPage, URLS } from '../utils/navigation';
 import {
@@ -12,11 +12,15 @@ import { api } from '../api';
 import { triggerRefresh, tokenWasValidated } from '../actions';
 import { SCOPES } from '../utils/token-format-validator';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { makeSelectCheckInData } from '../hooks/selectors';
 
 const withSession = Component => {
   const Wrapped = ({ ...props }) => {
     const [isLoading, setIsLoading] = useState();
-    const { checkInData, router, setAuthenticatedSession, setToken } = props;
+    const { router, setAuthenticatedSession, setToken } = props;
+    const selectCheckInData = useMemo(makeSelectCheckInData, []);
+    const checkInData = useSelector(selectCheckInData);
+
     const { context } = checkInData;
 
     useEffect(
@@ -74,7 +78,6 @@ const withSession = Component => {
   };
 
   Wrapped.propTypes = {
-    checkInData: PropTypes.object,
     router: PropTypes.object,
     setAuthenticatedSession: PropTypes.func,
     setToken: PropTypes.func,
@@ -82,10 +85,6 @@ const withSession = Component => {
 
   return Wrapped;
 };
-
-const mapStateToProps = state => ({
-  checkInData: state.checkInData,
-});
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -100,7 +99,7 @@ const mapDispatchToProps = dispatch => {
 
 const composedWrapper = compose(
   connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps,
   ),
   withSession,
