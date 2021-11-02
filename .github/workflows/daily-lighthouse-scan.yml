@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       max-parallel: 8
       matrix:
-        appName: [http://va.gov/covid19screen, http://va.gov/verify, http://va.gov/pension/application/527EZ]
+        appName: ['http://va.gov/covid19screen', 'http://va.gov/verify', 'http://va.gov/pension/application/527EZ']
 
     steps:
       - uses: actions/checkout@master
