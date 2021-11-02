@@ -92,12 +92,12 @@ jobs:
       - name: Where am i?
         run: pwd && ls && cd ./content-build/src/applications && ls && pwd
 
-      - name: Audit URLs using Lighthouse
+      - name: Audit URLs using Lighthouse on ${{ matrix.appName }}
         id: lighthouse-checks
         uses: treosh/lighthouse-ci-action@v8
         with:
           urls: |
-            `https://va.gov${{ matrix.appName }}`
+            `http://va.gov${{ matrix.appName }}`
           uploadArtifacts: true # save results as an action artifacts
 
       - name: Upload lighthouse report (JSON)
