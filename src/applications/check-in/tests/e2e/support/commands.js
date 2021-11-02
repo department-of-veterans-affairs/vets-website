@@ -1,44 +1,69 @@
-import mockCheckIn from '../../../api/local-mock-api/mocks/v2/check.in.responses';
-import mockSession from '../../../api/local-mock-api/mocks/v2/sessions.responses';
-import mockPatientCheckIns from '../../../api/local-mock-api/mocks/v2/patient.check.in.responses';
+import mockCheckInV2 from '../../../api/local-mock-api/mocks/v2/check.in.responses';
+import mockSessionV2 from '../../../api/local-mock-api/mocks/v2/sessions.responses';
+import mockPatientCheckInsV2 from '../../../api/local-mock-api/mocks/v2/patient.check.in.responses';
 
-Cypress.Commands.add('authenticate', () => {
-  cy.intercept('GET', '/check_in/v2/sessions/*', req => {
+const mockCheckIn = {
+  v2: mockCheckInV2,
+};
+const mockSession = {
+  v2: mockSessionV2,
+};
+const mockPatientCheckIns = {
+  v2: mockPatientCheckInsV2,
+};
+const defaultAPIVersion = 'v2';
+
+Cypress.Commands.add('authenticate', (version = defaultAPIVersion) => {
+  cy.intercept('GET', `/check_in/${version}/sessions/*`, req => {
     req.reply(
-      mockSession.createMockSuccessResponse('some-token', 'read.basic'),
+      mockSession[version].createMockSuccessResponse(
+        'some-token',
+        'read.basic',
+      ),
     );
   });
-  cy.intercept('POST', '/check_in/v2/sessions', req => {
-    req.reply(mockSession.createMockSuccessResponse('some-token', 'read.full'));
+  cy.intercept('POST', `/check_in/${version}/sessions`, req => {
+    req.reply(
+      mockSession[version].createMockSuccessResponse('some-token', 'read.full'),
+    );
   });
 });
-Cypress.Commands.add('alreadyAuthenticated', () => {
-  cy.intercept('GET', '/check_in/v2/sessions/*', req => {
-    req.reply(mockSession.createMockSuccessResponse('some-token', 'read.full'));
+Cypress.Commands.add('alreadyAuthenticated', (version = defaultAPIVersion) => {
+  cy.intercept('GET', `/check_in/${version}/sessions/*`, req => {
+    req.reply(
+      mockSession[version].createMockSuccessResponse('some-token', 'read.full'),
+    );
   });
 });
-Cypress.Commands.add('successfulCheckin', () => {
-  cy.intercept('POST', '/check_in/v2/patient_check_ins/', req => {
-    req.reply(mockCheckIn.createMockSuccessResponse());
+Cypress.Commands.add('successfulCheckin', (version = defaultAPIVersion) => {
+  cy.intercept('POST', `/check_in/${version}/patient_check_ins/`, req => {
+    req.reply(mockCheckIn[version].createMockSuccessResponse());
   });
 });
-Cypress.Commands.add('failedCheckin', () => {
-  cy.intercept('POST', '/check_in/v2/patient_check_ins/', req => {
-    req.reply(mockCheckIn.createMockFailedResponse({}));
+Cypress.Commands.add('failedCheckin', (version = defaultAPIVersion) => {
+  cy.intercept('POST', `/check_in/${version}/patient_check_ins/`, req => {
+    req.reply(mockCheckIn[version].createMockFailedResponse({}));
   });
 });
 Cypress.Commands.add(
   'getAppointments',
-  (appointments = null, token = null, numberOfCheckInAbledAppointments = 2) => {
-    cy.intercept('GET', '/check_in/v2/patient_check_ins/*', req => {
-      const rv = mockPatientCheckIns.createMultipleAppointments(
+  (
+    appointments = null,
+    token = null,
+    numberOfCheckInAbledAppointments = 2,
+    version = defaultAPIVersion,
+  ) => {
+    cy.intercept('GET', `/check_in/${version}/patient_check_ins/*`, req => {
+      const rv = mockPatientCheckIns[version].createMultipleAppointments(
         token,
         numberOfCheckInAbledAppointments,
       );
       if (appointments && appointments.length) {
         const customAppointments = [];
         appointments.forEach(appointment => {
-          const createdAppointment = mockPatientCheckIns.createAppointment();
+          const createdAppointment = mockPatientCheckIns[
+            version
+          ].createAppointment();
           customAppointments.push(
             Object.assign(createdAppointment, appointment),
           );
@@ -47,18 +72,18 @@ Cypress.Commands.add(
       }
       req.reply(rv);
     });
-    cy.intercept('POST', '/check_in/v2/patient_check_ins/', req => {
-      req.reply(mockCheckIn.createMockSuccessResponse({}));
+    cy.intercept('POST', `/check_in/${version}/patient_check_ins/`, req => {
+      req.reply(mockCheckIn[version].createMockSuccessResponse({}));
     });
   },
 );
-Cypress.Commands.add('getSingleAppointment', () => {
-  cy.intercept('GET', '/check_in/v2/patient_check_ins/*', req => {
-    const rv = mockPatientCheckIns.createMultipleAppointments({}, 1);
+Cypress.Commands.add('getSingleAppointment', (version = defaultAPIVersion) => {
+  cy.intercept('GET', `/check_in/${version}/patient_check_ins/*`, req => {
+    const rv = mockPatientCheckIns[version].createMultipleAppointments({}, 1);
     req.reply(rv);
   });
-  cy.intercept('POST', '/check_in/v2/patient_check_ins/', req => {
-    req.reply(mockCheckIn.createMockSuccessResponse({}));
+  cy.intercept('POST', `/check_in/${version}/patient_check_ins/`, req => {
+    req.reply(mockCheckIn[version].createMockSuccessResponse({}));
   });
 });
 Cypress.Commands.add('signIn', () => {
