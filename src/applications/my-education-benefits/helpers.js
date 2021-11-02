@@ -28,7 +28,7 @@ export const directDepositWarning = (
   </div>
 );
 
-export const activeDutyLabel = (
+export const chapter30Label = (
   <>
     Montgomery GI Bill Active Duty (Chapter 30)
     <AdditionalInfo triggerText="Learn more">
@@ -49,7 +49,7 @@ export const activeDutyLabel = (
   </>
 );
 
-export const selectedReserveLabel = (
+export const chapter1606Label = (
   <>
     Montgomery GI Bill Selected Reserve (Chapter 1606)
     <AdditionalInfo triggerText="Learn more">

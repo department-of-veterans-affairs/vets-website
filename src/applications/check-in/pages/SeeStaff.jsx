@@ -1,13 +1,17 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 import { focusElement } from 'platform/utilities/ui';
 import BackButton from '../components/BackButton';
 
+import { makeSelectSeeStaffMessage } from '../hooks/selectors';
+
 const SeeStaff = props => {
-  const { router, message } = props;
+  const { router } = props;
+  const selectSeeStaffMessage = useMemo(makeSelectSeeStaffMessage, []);
+  const { message } = useSelector(selectSeeStaffMessage);
   useEffect(() => {
     focusElement('h1');
   }, []);
@@ -30,13 +34,6 @@ const SeeStaff = props => {
 
 SeeStaff.propTypes = {
   router: PropTypes.object,
-  message: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
 };
 
-const mapStateToProps = state => {
-  return {
-    message: state.checkInData.seeStaffMessage,
-  };
-};
-
-export default connect(mapStateToProps)(SeeStaff);
+export default SeeStaff;
