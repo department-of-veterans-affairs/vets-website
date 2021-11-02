@@ -10,8 +10,8 @@ function loadingIndicatorReplacement() {
     'va-loading-indicator',
     {
       className: removeClassName,
-      message: 'message',
       setFocus: 'set-focus',
+      enableAnalytics: 'enable-analytics',
     },
   ];
 }
