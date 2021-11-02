@@ -53,6 +53,7 @@ import {
   validateEmail,
   validateEffectiveDate,
 } from '../utils/validation';
+import DynamicRadioWidget from '../components/DynamicRadioWidget';
 
 const {
   fullName,
@@ -314,28 +315,14 @@ function notGivingUpBenefitSelected(formData) {
   return !givingUpBenefitSelected(formData);
 }
 
-// function renderContactMethodFollowUp(formData, cond) {
-//   const { mobilePhoneNumber, phoneNumber } = formData['view:phoneNumbers'];
-//   let res = false;
-//
-//   switch (cond) {
-//     case 1:
-//       if (mobilePhoneNumber.phone && phoneNumber.phone) res = true;
-//       break;
-//     case 2:
-//       if (mobilePhoneNumber.phone && !phoneNumber.phone) res = true;
-//       break;
-//     case 3:
-//       if (!mobilePhoneNumber.phone && phoneNumber.phone) res = true;
-//       break;
-//     case 4:
-//       if (!mobilePhoneNumber.phone && !phoneNumber.phone) res = true;
-//       break;
-//     default:
-//   }
-//
-//   return res;
-// }
+const renderEnums = () => {
+  return {
+    Email: { 'data-info': 'email' },
+    'Mobile phone': { 'data-info': 'mobile phone' },
+    'Home phone': { 'data-info': 'home phone' },
+    Mail: { 'data-info': 'mail' },
+  };
+};
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -775,14 +762,9 @@ const formConfig = {
               [formFields.contactMethod]: {
                 'ui:title':
                   'How should we contact you if we have questions about your application?',
-                'ui:widget': 'radio',
+                'ui:widget': DynamicRadioWidget,
                 'ui:options': {
-                  widgetProps: {
-                    Email: { 'data-info': 'email' },
-                    'Mobile phone': { 'data-info': 'mobile phone' },
-                    'Home phone': { 'data-info': 'home phone' },
-                    Mail: { 'data-info': 'mail' },
-                  },
+                  widgetProps: renderEnums,
                 },
                 'ui:errorMessages': {
                   required:
