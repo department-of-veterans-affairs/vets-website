@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import AlertBox, {
@@ -30,6 +30,7 @@ import FraudVictimAlert from './FraudVictimAlert';
 import PaymentHistory from './PaymentHistory';
 import BankInfo from './BankInfo';
 import { benefitTypes } from '~/applications/personalization/common/constants';
+import { Prompt } from 'react-router-dom';
 
 const SuccessMessage = ({ benefit }) => {
   let content = null;
@@ -65,6 +66,12 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
     recentlySavedBankInfo,
     setRecentlySavedBankInfoForBenefit,
   ] = React.useState('');
+
+  const [cnpFormIsEmpty, setCnpFormIsEmpty] = React.useState(false);
+
+  const [eduFormIsEmpty, setEduFormIsEmpty] = React.useState(false);
+
+  const allFormsAreEmpty = eduFormIsEmpty && cnpFormIsEmpty;
 
   const isSavingCNPBankInfo = cnpUiState.isSaving;
   const wasSavingCNPBankInfo = usePrevious(cnpUiState.isSaving);
@@ -125,6 +132,19 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
     ],
   );
 
+  useEffect(
+    () => {
+      // Show alert when navigating away
+      if (!allFormsAreEmpty) {
+        window.onbeforeunload = () => true;
+        return;
+      }
+
+      window.onbeforeunload = undefined;
+    },
+    [allFormsAreEmpty],
+  );
+
   return (
     <>
       <Headline>Direct deposit information</Headline>
@@ -150,7 +170,10 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
           )}
         </ReactCSSTransitionGroup>
       </div>
-
+      <Prompt
+        message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
+        when={!allFormsAreEmpty}
+      />
       {showBankInformation ? (
         <DowntimeNotification
           appTitle="direct deposit"
@@ -159,7 +182,10 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
           )}
           dependencies={[externalServices.evss]}
         >
-          <BankInfo type={benefitTypes.CNP} />
+          <BankInfo
+            type={benefitTypes.CNP}
+            setFormIsEmpty={setCnpFormIsEmpty}
+          />
         </DowntimeNotification>
       ) : (
         <SetUpVerifiedIDMeAlert />
@@ -167,7 +193,10 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
       <FraudVictimAlert status={ALERT_TYPE.INFO} />
       {showBankInformation ? (
         <>
-          <BankInfo type={benefitTypes.EDU} />
+          <BankInfo
+            type={benefitTypes.EDU}
+            setFormIsEmpty={setEduFormIsEmpty}
+          />
           <PaymentHistory />
         </>
       ) : null}
