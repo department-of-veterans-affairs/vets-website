@@ -101,10 +101,10 @@ jobs:
           uploadArtifacts: true # save results as an action artifacts
 
       - name: Upload lighthouse report (JSON)
-        run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/archive/${{ matrix.appName }}.json --acl public-read --region us-gov-west-1
+        run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/archive${{ matrix.appName }}.json --acl public-read --region us-gov-west-1
 
       - name: Upload lighthouse report (HTML)
-        run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/archive/${{ matrix.appName }}.html --acl public-read --region us-gov-west-1
+        run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/archive${{ matrix.appName }}.html --acl public-read --region us-gov-west-1
 
       # - name: Notify Slack
       #   if: ${{ always() }}
