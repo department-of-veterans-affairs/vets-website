@@ -184,14 +184,16 @@ export function createMockAppointmentByVersion({
         appointmentRequestId: id,
         distanceEligibleConfirmed: true,
         name: { firstName: null, lastName: null },
-        providerPractice: communityCareProvider.name,
+        providerPractice: communityCareProvider.practiceName,
         providerPhone: communityCareProvider.caresitePhone,
-        address: {
-          street: communityCareProvider.street,
-          city: communityCareProvider.city,
-          state: communityCareProvider.state,
-          zipCode: communityCareProvider.zip,
-        },
+        address: communityCareProvider.address
+          ? {
+              street: communityCareProvider.address.line[0],
+              city: communityCareProvider.address.city,
+              state: communityCareProvider.address.state,
+              zipCode: communityCareProvider.address.postalCode,
+            }
+          : null,
         instructionsToVeteran: fields.comment,
         appointmentTime: moment(fields.start)
           .utc()
@@ -248,6 +250,9 @@ export function createMockAppointmentByVersion({
             : null,
         status: null,
         telehealth: null,
+        extension: {
+          ccLocation: communityCareProvider,
+        },
         ...fieldsWithoutProps,
       },
     };

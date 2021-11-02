@@ -8,7 +8,6 @@ import {
   mockAppointmentInfo,
   mockSingleCommunityCareAppointmentFetch,
   mockSingleVistaCommunityCareAppointmentFetch,
-  mockCCSingleProviderFetch,
 } from '../../mocks/helpers';
 import {
   mockSingleVAOSAppointmentFetch,
@@ -578,14 +577,14 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       practitioners: [
         {
           identifier: { system: null, value: '123' },
-          firstName: 'Dr',
-          lastName: 'Hyde',
-          practiceName: 'Atlantic Medical Care',
         },
       ],
       description: 'community care appointment',
       comment: 'test comment',
       start: appointmentTime,
+      communityCareProvider: {
+        practiceName: 'Atlantic Medical Care',
+      },
     };
 
     const appointment = createMockAppointmentByVersion({
@@ -601,20 +600,6 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
     });
 
     mockSingleVAOSAppointmentFetch({ appointment });
-
-    const ccProvider = {
-      id: '123',
-      type: 'provider',
-      attributes: {
-        address: {},
-        caresitePhone: '202-555-1264',
-        name: 'Atlantic Medical Care',
-        lat: null,
-        long: null,
-        uniqueId: '123',
-      },
-    };
-    mockCCSingleProviderFetch(ccProvider);
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState: {
@@ -645,11 +630,6 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
 
     expect(screen.getByText(/Community care/)).to.be.ok;
     expect(await screen.findByText(/Atlantic Medical Care/)).to.be.ok;
-    expect(
-      screen.getByRole('link', {
-        name: /2 0 2. 5 5 5. 1 2 6 4./,
-      }),
-    ).to.be.ok;
     expect(
       screen.getByRole('heading', {
         level: 2,
@@ -703,14 +683,14 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       practitioners: [
         {
           identifier: { system: null, value: '123' },
-          firstName: 'Dr',
-          lastName: 'Hyde',
-          practiceName: 'Jeckle and Hyde',
         },
       ],
       description: 'community care appointment',
       comment: 'test comment',
       start: appointmentTime,
+      communityCareProvider: {
+        practiceName: 'Atlantic Medical Care',
+      },
     };
 
     const appointment = createMockAppointmentByVersion({
@@ -721,20 +701,6 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
     mockSingleVAOSAppointmentFetch({
       appointment,
     });
-
-    const ccProvider = {
-      id: '123',
-      type: 'provider',
-      attributes: {
-        address: {},
-        caresitePhone: '202-555-1264',
-        name: 'Atlantic Medical Care',
-        lat: null,
-        long: null,
-        uniqueId: '123',
-      },
-    };
-    mockCCSingleProviderFetch(ccProvider);
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState: {
