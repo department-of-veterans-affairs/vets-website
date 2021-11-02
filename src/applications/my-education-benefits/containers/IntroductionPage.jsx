@@ -12,16 +12,15 @@ export const IntroductionPage = ({ user, route }) => {
   const fetchEligibility = () =>
     fetch('http://localhost:3000/meb_api/v0/eligibility')
       .then(response => response.json())
-      .then(results => results?.data?.veteranIsEligible);
-
-  // Uncomment AFTER API has all chapters in ARRAY
-
-  // .then(results => results?.data?.map(chap => {
-  //     if (chap.chapter === 'chapter33') {
-  //       return chap.veteranIsEligible;
-  //     }
-  //   }),
-  // );
+      .then(results =>
+        results?.data?.map(chap => {
+          if (chap.chapter === 'chapter33') {
+            return chap.veteranIsEligible;
+          } else {
+            return false;
+          }
+        }),
+      );
 
   const [isEligible] = useState(fetchEligibility);
   const [continueOrRedirect, setCourse] = useState(
@@ -43,7 +42,7 @@ export const IntroductionPage = ({ user, route }) => {
       focusElement('.va-nav-breadcrumbs-list');
       try {
         isEligible.then(res => {
-          if (user.login.currentlyLoggedIn && !res) {
+          if (user.login.currentlyLoggedIn && !res[0]) {
             setCourse(
               <a
                 className="vads-c-action-link--green"
