@@ -1,38 +1,40 @@
 import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
 
-import mockCheckIn from '../../../../api/local-mock-api/mocks/v1/check.in.responses';
-import mockSession from '../../../../api/local-mock-api/mocks/v1/sessions.responses';
-import mockPatientCheckIns from '../../../../api/local-mock-api/mocks/v1/patient.check.in.responses';
+import mockCheckIn from '../../../../api/local-mock-api/mocks/v2/check.in.responses';
+import mockSession from '../../../../api/local-mock-api/mocks/v2/sessions.responses';
+import mockPatientCheckIns from '../../../../api/local-mock-api/mocks/v2/patient.check.in.responses';
+import Timeouts from 'platform/testing/e2e/timeouts';
 
 describe('Check In Experience -- ', () => {
-  describe('phase 2 -- ', () => {
+  describe('phase 5 -- ', () => {
     beforeEach(function() {
       let hasValidated = false;
-      cy.intercept('GET', '/check_in/v1/sessions/*', req => {
+      cy.intercept('GET', '/check_in/v2/sessions/*', req => {
         req.reply(
           mockSession.createMockSuccessResponse('some-token', 'read.basic'),
         );
       });
-      cy.intercept('POST', '/check_in/v1/sessions', req => {
+      cy.intercept('POST', '/check_in/v2/sessions', req => {
         hasValidated = true;
         req.reply(
           mockSession.createMockSuccessResponse('some-token', 'read.full'),
         );
       });
-      cy.intercept('GET', '/check_in/v1/patient_check_ins/*', req => {
+      cy.intercept('GET', '/check_in/v2/patient_check_ins/*', req => {
         req.reply(
           mockPatientCheckIns.createMockSuccessResponse({}, hasValidated),
         );
       });
-      cy.intercept('POST', '/check_in/v1/patient_check_ins/', req => {
+      cy.intercept('POST', '/check_in/v2/patient_check_ins/', req => {
         req.reply(mockCheckIn.createMockSuccessResponse({}));
       });
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
         generateFeatureToggles({
-          checkInExperienceMultipleAppointmentSupport: false,
-          checkInExperienceUpdateInformationPageEnabled: true,
+          checkInExperienceUpdateInformationPageEnabled: false,
+          checkInExperienceDemographicsPageEnabled: true,
+          checkInExperienceNextOfKinEnabled: true,
         }),
       );
     });
@@ -41,13 +43,14 @@ describe('Check In Experience -- ', () => {
         window.sessionStorage.clear();
       });
     });
-    it('Happy path', () => {
+    it('next of kin enabled', () => {
       const featureRoute =
         '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
       cy.visit(featureRoute);
-      cy.get('h1').contains('Check in at VA');
-      cy.injectAxe();
-      cy.axeCheck();
+
+      cy.get('h1', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .and('have.text', 'Check in at VA');
       cy.get('[label="Your last name"]')
         .shadow()
         .find('input')
@@ -57,17 +60,16 @@ describe('Check In Experience -- ', () => {
         .find('input')
         .type('4837');
       cy.get('[data-testid=check-in-button]').click();
-      cy.get('legend > h1').contains('information');
-      cy.injectAxe();
-      cy.axeCheck();
-      cy.get('[data-testid="no-button"]').click();
-      cy.get('h1').contains('Your appointment');
-      cy.injectAxe();
-      cy.axeCheck();
-      cy.get('.usa-button').click();
-      cy.get('va-alert > h1').contains('checked in');
-      cy.injectAxe();
-      cy.axeCheck();
+
+      cy.get('h1', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .and('have.text', 'Is this your current contact information?');
+
+      cy.get('[data-testid=yes-button]').click();
+
+      cy.get('h1', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .and('have.text', 'Is this your current next of kin information?');
     });
   });
 });

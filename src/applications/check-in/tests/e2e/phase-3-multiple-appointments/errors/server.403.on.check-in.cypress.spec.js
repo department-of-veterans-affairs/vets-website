@@ -7,13 +7,7 @@ describe('Check In Experience -- ', () => {
       req.reply(403, mockSession.createMockFailedResponse({}));
     });
 
-    cy.intercept(
-      'GET',
-      '/v0/feature_toggles*',
-      generateFeatureToggles({
-        checkInExperienceMultipleAppointmentSupport: true,
-      }),
-    );
+    cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
     cy.window().then(window => {
       window.sessionStorage.clear();
     });

@@ -15,7 +15,6 @@ import { isUUID, SCOPES } from '../utils/token-format-validator';
 const Landing = props => {
   const {
     isUpdatePageEnabled,
-    isMultipleAppointmentsEnabled,
     location,
     router,
     setAppointment,
@@ -23,9 +22,7 @@ const Landing = props => {
     setToken,
   } = props;
 
-  const [loadMessage, setLoadMessage] = useState(
-    'Finding your appointment information',
-  );
+  const [loadMessage] = useState('Finding your appointment information');
   useEffect(
     () => {
       const token = getTokenFromLocation(location);
@@ -44,59 +41,28 @@ const Landing = props => {
       }
 
       if (token) {
-        if (isMultipleAppointmentsEnabled) {
-          api.v2
-            .getSession(token)
-            .then(session => {
-              if (session.errors || session.error) {
-                clearCurrentSession(window);
-                goToNextPage(router, URLS.ERROR);
-              } else {
-                // if session with read.full exists, go to check in page
-                setCurrentToken(window, token);
-                if (session.permissions === SCOPES.READ_FULL) {
-                  setAuthenticatedSession(token);
-                  goToNextPage(router, URLS.DETAILS);
-                } else {
-                  setToken(token);
-                  goToNextPage(router, URLS.VALIDATION_NEEDED);
-                }
-              }
-            })
-            .catch(() => {
+        api.v2
+          .getSession(token)
+          .then(session => {
+            if (session.errors || session.error) {
               clearCurrentSession(window);
               goToNextPage(router, URLS.ERROR);
-            });
-        } else {
-          api.v1
-            .getSession(token)
-            .then(session => {
+            } else {
               // if session with read.full exists, go to check in page
               setCurrentToken(window, token);
-              setLoadMessage('Loading your appointment');
               if (session.permissions === SCOPES.READ_FULL) {
+                setAuthenticatedSession(token);
                 goToNextPage(router, URLS.DETAILS);
               } else {
-                // else get the data then go to validate page
-                api.v1
-                  .getCheckInData(token)
-                  .then(json => {
-                    // going to be read.basic data, which is facility name and number
-                    const { data } = json;
-                    setAppointment(data, token);
-                    goToNextPage(router, URLS.VALIDATION_NEEDED);
-                  })
-                  .catch(() => {
-                    clearCurrentSession(window);
-                    goToNextPage(router, URLS.ERROR);
-                  });
+                setToken(token);
+                goToNextPage(router, URLS.VALIDATION_NEEDED);
               }
-            })
-            .catch(() => {
-              clearCurrentSession(window);
-              goToNextPage(router, URLS.ERROR);
-            });
-        }
+            }
+          })
+          .catch(() => {
+            clearCurrentSession(window);
+            goToNextPage(router, URLS.ERROR);
+          });
       }
     },
     [
@@ -105,7 +71,6 @@ const Landing = props => {
       setAppointment,
       setToken,
       isUpdatePageEnabled,
-      isMultipleAppointmentsEnabled,
       setAuthenticatedSession,
     ],
   );
@@ -131,7 +96,6 @@ const mapDispatchToProps = dispatch => {
 
 Landing.propTypes = {
   isUpdatePageEnabled: PropTypes.bool,
-  isMultipleAppointmentsEnabled: PropTypes.bool,
   location: PropTypes.object,
   router: PropTypes.object,
   setAppointment: PropTypes.func,

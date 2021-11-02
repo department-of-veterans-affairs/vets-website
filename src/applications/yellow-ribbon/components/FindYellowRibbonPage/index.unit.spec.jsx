@@ -3,7 +3,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 // Relative imports.
-import { FindYellowRibbonPage } from './index';
+import { FindYellowRibbonPage } from '.';
 
 describe('Find Yellow Ribbon Page <FindYellowRibbonPage>', () => {
   it('renders what we expect', () => {

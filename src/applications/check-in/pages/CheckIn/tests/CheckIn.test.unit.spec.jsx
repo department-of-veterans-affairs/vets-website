@@ -42,7 +42,6 @@ describe('check-in', () => {
         <Provider store={store}>
           <CheckIn
             router={mockRouter}
-            isMultipleAppointmentsEnabled
             appointments={[
               {
                 clinicPhone: '555-867-5309',
@@ -88,7 +87,6 @@ describe('check-in', () => {
                 clinicName: 'Green Team Clinic1',
               },
             ]}
-            isMultipleAppointmentsEnabled
             router={mockRouter}
           />
         </Provider>,
