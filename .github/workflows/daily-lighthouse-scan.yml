@@ -75,7 +75,7 @@ jobs:
       - name: Get App URLs
         id: get-app-urls
         run: |
-          content=`cat ./content-build/src/apps/manifest.json`
+          content=`cat ./content-build/src/applications/manifest.json`
           # the following lines are only required for multi line json
           content="${content//'%'/'%25'}"
           content="${content//$'\n'/'%0A'}"
