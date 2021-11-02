@@ -226,7 +226,6 @@ class SearchApp extends React.Component {
       keywordPosition: undefined,
       suggestionsList: validSuggestions,
       sitewideSearch: false,
-      searchLocation: 'Search Results Page',
     });
 
     this.updateQueryInfo({
@@ -266,7 +265,6 @@ class SearchApp extends React.Component {
       keywordPosition: index + 1,
       suggestionsList: validSuggestions,
       sitewideSearch: false,
-      searchLocation: 'Search Results Page',
     });
 
     this.updateQueryInfo({

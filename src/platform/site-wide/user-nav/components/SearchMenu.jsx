@@ -291,7 +291,6 @@ export class SearchMenu extends React.Component {
       'type-ahead-option-position': undefined,
       'type-ahead-options-list': validSuggestions,
       'type-ahead-options-count': validSuggestions.length,
-      'search-location': 'Search-Header',
     });
 
     // create a search url
@@ -327,7 +326,6 @@ export class SearchMenu extends React.Component {
       'type-ahead-option-position': index + 1,
       'type-ahead-options-list': validSuggestions,
       'type-ahead-options-count': validSuggestions.length,
-      'search-location': 'Search-Header',
     });
 
     // create a search url

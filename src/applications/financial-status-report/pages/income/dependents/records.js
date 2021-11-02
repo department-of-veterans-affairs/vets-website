@@ -17,7 +17,6 @@ export const uiSchema = {
       'ui:options': {
         viewField: CardDetailsView,
         doNotScroll: true,
-        showSave: true,
         itemName: 'a dependent',
         keepInPageOnReview: true,
       },

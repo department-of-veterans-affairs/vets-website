@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import {
   hasMoreAppointmentsToCheckInto,
   sortAppointmentsByStartTime,
+  removeTimeZone,
 } from './index';
 import { createAppointment } from '../../api/local-mock-api/mocks/v2/patient.check.in.responses';
 
@@ -133,6 +134,56 @@ describe('check in', () => {
         const sortedAppointments = [earliest, midday, latest];
         expect(sortAppointmentsByStartTime(appointments)).to.deep.equal(
           sortedAppointments,
+        );
+      });
+    });
+    describe('removeTimeZone', () => {
+      it('removes timezone from date strings', () => {
+        const payloadWithTZ = {
+          appointments: [
+            {
+              checkInWindowEnd: '2018-01-01T00:00:00.070Z',
+              checkInWindowStart: '2018-01-01T00:00:00.070Z',
+              checkedInTime: '2018-01-01T00:00:00.070Z',
+              startTime: '2018-01-01T00:00:00.070Z',
+            },
+          ],
+        };
+        const payloadWithoutTZ = {
+          appointments: [
+            {
+              checkInWindowEnd: '2018-01-01T00:00:00',
+              checkInWindowStart: '2018-01-01T00:00:00',
+              checkedInTime: '2018-01-01T00:00:00',
+              startTime: '2018-01-01T00:00:00',
+            },
+          ],
+        };
+        const updatedPayloadWithTZ = removeTimeZone(payloadWithTZ);
+        const updatedPayloadWithoutTZ = removeTimeZone(payloadWithoutTZ);
+        expect(updatedPayloadWithTZ.appointments[0].checkInWindowEnd).to.equal(
+          '2018-01-01T00:00:00',
+        );
+        expect(
+          updatedPayloadWithTZ.appointments[0].checkInWindowStart,
+        ).to.equal('2018-01-01T00:00:00');
+        expect(updatedPayloadWithTZ.appointments[0].checkedInTime).to.equal(
+          '2018-01-01T00:00:00',
+        );
+        expect(updatedPayloadWithTZ.appointments[0].startTime).to.equal(
+          '2018-01-01T00:00:00',
+        );
+        expect(
+          updatedPayloadWithoutTZ.appointments[0].checkInWindowEnd,
+        ).to.equal('2018-01-01T00:00:00');
+        expect(
+          updatedPayloadWithoutTZ.appointments[0].checkInWindowStart,
+        ).to.equal('2018-01-01T00:00:00');
+        expect(updatedPayloadWithoutTZ.appointments[0].checkedInTime).to.equal(
+          '2018-01-01T00:00:00',
+        );
+        expect(updatedPayloadWithoutTZ.appointments[0].startTime).to.equal(
+          '2018-01-01T00:00:00',
         );
       });
     });

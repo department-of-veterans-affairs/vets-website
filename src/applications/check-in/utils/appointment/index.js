@@ -19,4 +19,39 @@ const sortAppointmentsByStartTime = appointments => {
       ]
     : [];
 };
-export { hasMoreAppointmentsToCheckInto, sortAppointmentsByStartTime };
+
+const removeTimeZone = payload => {
+  // Grabing the appointment payload and stripping out timezone here.
+  // Chip should be handling this but currently isn't, this code may be refactored out.
+  const updatedPayload = { ...payload };
+  // These fields have a potential to include a time stamp.
+  const timeFields = [
+    'checkInWindowEnd',
+    'checkInWindowStart',
+    'checkedInTime',
+    'startTime',
+  ];
+
+  const updatedAppointments = updatedPayload.appointments.map(appointment => {
+    const updatedAppointment = { ...appointment };
+    // If field exists in object we will replace the TZ part of the string.
+    timeFields.forEach(field => {
+      if (field in updatedAppointment) {
+        updatedAppointment[field] = updatedAppointment[field].replace(
+          /(?=\.).*/,
+          '',
+        );
+      }
+    });
+    return updatedAppointment;
+  });
+
+  updatedPayload.appointments = updatedAppointments;
+
+  return updatedPayload;
+};
+export {
+  hasMoreAppointmentsToCheckInto,
+  sortAppointmentsByStartTime,
+  removeTimeZone,
+};

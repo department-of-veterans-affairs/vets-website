@@ -10,6 +10,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { pendingMessage } from '../content/confirmation-poll';
 
 import { submissionStatuses, terminalStatuses } from '../constants';
+import { isBDD } from '../utils';
 
 export class ConfirmationPoll extends React.Component {
   // Using it as a prop for easy testing
@@ -103,7 +104,13 @@ export class ConfirmationPoll extends React.Component {
       return pendingMessage(this.state.longWait);
     }
 
-    const { fullName, disabilities, submittedAt, jobId } = this.props;
+    const {
+      fullName,
+      disabilities,
+      submittedAt,
+      jobId,
+      isSubmittingBDD,
+    } = this.props;
 
     setTimeout(() => focusElement('h2'));
     return (
@@ -114,6 +121,7 @@ export class ConfirmationPoll extends React.Component {
         fullName={fullName}
         disabilities={disabilities}
         submittedAt={submittedAt}
+        isSubmittingBDD={isSubmittingBDD}
       />
     );
   }
@@ -135,6 +143,7 @@ function mapStateToProps(state) {
     disabilities: selectAllDisabilityNames(state),
     submittedAt: state.form.submission.timestamp,
     jobId: state.form.submission.response?.attributes?.jobId,
+    isSubmittingBDD: isBDD(state.form.data) || true,
   };
 }
 

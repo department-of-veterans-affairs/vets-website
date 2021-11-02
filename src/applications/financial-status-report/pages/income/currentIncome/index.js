@@ -43,7 +43,6 @@ export const uiSchema = {
           viewType: 'table',
           viewField: TableDetailsView,
           doNotScroll: true,
-          showSave: true,
           itemName: 'payroll deduction',
           keepInPageOnReview: true,
         },

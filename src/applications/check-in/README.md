@@ -45,6 +45,7 @@ This is a multi-team project and questions are highly encouraged. There are seve
 /health-care/appointment-check-in/?id=xxxxxx
 /health-care/appointment-check-in/verify
 /health-care/appointment-check-in/update-information
+/health-care/appointment-check-in/contact-information
 /health-care/appointment-check-in/details
 /health-care/appointment-check-in/see-staff
 /health-care/appointment-check-in/complete
@@ -53,7 +54,7 @@ This is a multi-team project and questions are highly encouraged. There are seve
 
 ### What version of the api are we using?
 
-Currently, we are using the `v2` of the API, with `v1` behind a feature flip. The mocks in [api/mocks](/api/mocks) show the the current structure and routes used.
+Currently, we are using the `v2` of the API. The mocks in [api/mocks](/api/mocks) show the the current structure and routes used.
 
 ### How to run locally
 
@@ -102,8 +103,6 @@ We are currently using an HOC located at `src/applications/check-in/containers/w
   - when to sunset: Sprint 59
 - `check_in_experience_update_information_page_enabled` : Enables or disabled the update information page
   - when to sunset: when we expand to multiple facilities and address the edge cases around it
-- `check_in_experience_multiple_appointment_support` : Enables or disabled the multiple appointment support
-  - when to sunset: When phase-4 is complete
 - `check_in_experience_next_of_kin_enabled` : Enables or disabled the next of kin page
   - when to sunset: When phase-5 is complete
 

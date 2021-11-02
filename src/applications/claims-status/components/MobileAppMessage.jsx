@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import environment from 'platform/utilities/environment';
 
 const appleStoreUrl =
   'https://apps.apple.com/app/apple-store/id1559609596?pt=545860&ct=gov.va.claimstatus&mt=8';
@@ -8,15 +7,12 @@ const googlePlayUrl =
 
 export const STORAGE_KEY = 'cst-mobile-app-message';
 
-const createLink = (href, name, label) => (
-  <a
-    href={href}
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label={`download the VA health and benefits app from ${label || name}`}
-  >
-    {name}
-  </a>
+const createLink = (href, name) => (
+  <p className="vads-u-margin-bottom--0">
+    <a href={href} target="_blank" rel="noopener noreferrer">
+      Download the app from {name}
+    </a>
+  </p>
 );
 
 export default function MobileAppMessage({ mockUserAgent }) {
@@ -24,17 +20,12 @@ export default function MobileAppMessage({ mockUserAgent }) {
     (sessionStorage.getItem(STORAGE_KEY) || '') !== '',
   );
 
-  // Hide in production until content review is complete
-  if (environment.isProduction()) {
-    return null;
-  }
-
   const userAgent =
     mockUserAgent || navigator.userAgent || navigator.vendor || window.opera;
   const devices = {
     ios: {
       detect: /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream,
-      link: <>the {createLink(appleStoreUrl, 'App Store', 'the app store')}</>,
+      link: createLink(appleStoreUrl, 'the App Store'),
     },
     android: {
       // https://stackoverflow.com/a/21742107
@@ -45,9 +36,14 @@ export default function MobileAppMessage({ mockUserAgent }) {
 
   const detectedDevice = Object.keys(devices).filter(os => devices[os].detect);
   const storeLinks =
-    detectedDevice.length !== 0
-      ? devices[detectedDevice].link
-      : [devices.ios.link, ' or on ', devices.android.link];
+    detectedDevice.length !== 0 ? (
+      devices[detectedDevice].link
+    ) : (
+      <>
+        {devices.ios.link}
+        {devices.android.link}
+      </>
+    );
 
   return isHidden ? null : (
     <va-alert
@@ -58,11 +54,13 @@ export default function MobileAppMessage({ mockUserAgent }) {
         sessionStorage.setItem(STORAGE_KEY, 'hidden');
       }}
     >
-      <h2 slot="headline">Check your status with our new mobile app</h2>
+      <h2 slot="headline">Track your claim or appeal on your mobile device</h2>
       <p>
-        Get updates on your claims or appeals right at your fingertips using our
-        new mobile app. Download it on {storeLinks}.
+        You can use our new mobile app to check the status of your claims or
+        appeals on your mobile device. Download the{' '}
+        <strong>VA: Health and Benefits</strong> mobile app to get started.
       </p>
+      {storeLinks}
     </va-alert>
   );
 }
