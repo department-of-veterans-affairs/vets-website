@@ -56,11 +56,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     const today = moment.utc();
     const data = {
       id: '21cdc6741c00ac67b6cbf6b972d084c1',
-      currentStatus: 'FUTURE',
       kind: 'clinic',
       clinic: '308',
       start: today.tz('America/Denver').format(),
       locationId: '983GC',
+      status: 'booked',
       clinicFriendlyName: "Jennie's Lab",
       comment: 'New issue: ASAP',
     };

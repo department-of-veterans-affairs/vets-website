@@ -145,7 +145,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       clinic: 'fake',
       start: pastDate.format(),
       locationId: '983GC',
-      status: 'booked',
+      status: 'fulfilled',
     };
     const appointment = createMockAppointmentByVersion({
       version: 0,

@@ -3,7 +3,7 @@
  */
 import moment from '../../lib/moment-tz';
 import omit from 'platform/utilities/data/omit';
-import { VIDEO_TYPES } from '../../utils/constants';
+import { VIDEO_TYPES, APPOINTMENT_STATUS } from '../../utils/constants';
 
 /**
  * Creates a mock appointment record, based on the data and version number
@@ -87,6 +87,8 @@ export function createMockAppointmentByVersion({
         vistaStatus = 'CHECKED OUT';
       } else if (fields.status === 'booked') {
         vistaStatus = 'FUTURE';
+      } else if (fields.status === APPOINTMENT_STATUS.noshow) {
+        vistaStatus = 'NO-SHOW';
       }
     }
 

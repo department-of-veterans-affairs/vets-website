@@ -16,7 +16,7 @@ import {
   createMockAppointmentByVersion,
   createMockFacilityByVersion,
 } from '../../mocks/data';
-import { VIDEO_TYPES } from '../../../utils/constants';
+import { APPOINTMENT_STATUS, VIDEO_TYPES } from '../../../utils/constants';
 
 const initialState = {
   featureToggles: {
@@ -37,7 +37,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
     const startDate = moment.utc();
     const data = {
       id: '1234',
-      currentStatus: 'CANCELLED BY CLINIC',
+      status: APPOINTMENT_STATUS.cancelled,
       kind: 'clinic',
       clinic: '308',
       start: startDate.format(),
@@ -73,8 +73,9 @@ describe('VAOS <CanceledAppointmentsList>', () => {
   it('should show information with facility name', async () => {
     const data = {
       id: '1234',
-      currentStatus: 'CANCELLED BY CLINIC',
+      status: APPOINTMENT_STATUS.cancelled,
       kind: 'clinic',
+      vvsKind: VIDEO_TYPES.clinic,
       clinic: '308',
       start: moment().format(),
       locationId: '983GC',
@@ -136,7 +137,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
   it('should not display when they have hidden statuses', () => {
     const data = {
       id: '1234',
-      currentStatus: 'NO-SHOW',
+      status: APPOINTMENT_STATUS.noshow,
       kind: 'clinic',
       start: moment().format(),
       locationId: '983GC',
@@ -160,7 +161,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
   it('should not display when over 13 months away', () => {
     const data = {
       id: '1234',
-      currentStatus: 'CANCELLED BY CLINIC',
+      status: APPOINTMENT_STATUS.cancelled,
       kind: 'clinic',
       start: moment()
         .add(14, 'months')
@@ -212,6 +213,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
     const data = {
       id: '1234',
       currentStatus: 'CANCELLED BY CLINIC',
+      status: APPOINTMENT_STATUS.cancelled,
       kind: 'telehealth',
       start: startDate.format(),
       locationId: '983GC',
@@ -248,6 +250,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
     const data = {
       id: '1234',
       currentStatus: 'CANCELLED BY CLINIC',
+      status: APPOINTMENT_STATUS.cancelled,
       kind: 'telehealth',
       start: startDate.format(),
       locationId: '983GC',
@@ -304,6 +307,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
     const data = {
       id: '1234',
       currentStatus: 'CANCELLED BY CLINIC',
+      status: APPOINTMENT_STATUS.cancelled,
       kind: 'telehealth',
       start: startDate.format(),
       locationId: '983GC',
@@ -342,6 +346,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
     const data = {
       id: '1234',
       currentStatus: 'CANCELLED BY CLINIC',
+      status: APPOINTMENT_STATUS.cancelled,
       kind: 'telehealth',
       start: startDate.format(),
       locationId: '983GC',
@@ -380,6 +385,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
     const data = {
       id: '1234',
       currentStatus: 'CANCELLED BY CLINIC',
+      status: APPOINTMENT_STATUS.cancelled,
       kind: 'phone',
       clinic: '308',
       start: startDate.format(),
@@ -413,7 +419,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
       .utc();
     const data = {
       id: '1234',
-      currentStatus: 'CANCELLED BY CLINIC',
+      status: APPOINTMENT_STATUS.cancelled,
       kind: 'clinic',
       clinic: '308',
       start: startDate.format(),
@@ -453,7 +459,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
       .utc();
     const data = {
       id: '1234',
-      currentStatus: 'CANCELLED BY CLINIC',
+      status: APPOINTMENT_STATUS.cancelled,
       kind: 'clinic',
       clinic: '308',
       start: startDate.format(),
@@ -493,7 +499,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
       .utc();
     const data = {
       id: '1234',
-      currentStatus: 'CANCELLED BY CLINIC',
+      status: APPOINTMENT_STATUS.cancelled,
       kind: 'clinic',
       clinic: '308',
       start: startDate.format(),
@@ -522,7 +528,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
       .utc();
     const data = {
       id: '1234',
-      currentStatus: 'CANCELLED BY CLINIC',
+      status: APPOINTMENT_STATUS.cancelled,
       kind: 'clinic',
       clinic: '308',
       start: startDate.format(),
