@@ -16,7 +16,7 @@ jobs:
         with:
           name: department-of-veterans-affairs/content-build
           ref: refs/heads/master
-          path: ../content-build
+          path: ./content-build
 
       - name: Configure AWS credentials (1)
         uses: aws-actions/configure-aws-credentials@v1
@@ -74,7 +74,7 @@ jobs:
       - name: Get App URLs
         id: get-app-urls
         run: |
-          content=`cat ../content-build/src/applications/registry.json`
+          content=`cat ./content-build/src/applications/registry.json`
           # the following lines are only required for multi line json
           content="${content//'%'/'%25'}"
           content="${content//$'\n'/'%0A'}"
