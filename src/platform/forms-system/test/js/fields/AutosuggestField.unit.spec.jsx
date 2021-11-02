@@ -538,12 +538,12 @@ describe('<AutosuggestField>', () => {
     setTimeout(() => {
       expect(wrapper.find('.autosuggest-list')).to.exist;
       const firstItem = wrapper.find('.autosuggest-item').first();
-      const highlight = firstItem.find('mark').text();
+      const highlight = firstItem.find('.autosuggest-highlight').text();
       expect(firstItem.text()).to.equal('Label 1');
       expect(highlight).to.equal('bel');
 
       const lastItem = wrapper.find('.autosuggest-item').last();
-      const highlight2 = lastItem.find('mark').text();
+      const highlight2 = lastItem.find('.autosuggest-highlight').text();
       expect(lastItem.text()).to.equal('LABEL 2');
       expect(highlight2).to.equal('BEL');
       wrapper.unmount();

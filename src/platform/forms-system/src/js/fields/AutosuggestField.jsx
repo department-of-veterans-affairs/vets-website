@@ -219,7 +219,9 @@ export default class AutosuggestField extends React.Component {
           .map(
             str =>
               str.toLowerCase() === value ? (
-                <span className="vads-u-background-color--gold">{str}</span>
+                <span className="vads-u-background-color--gold autosuggest-highlight">
+                  {str}
+                </span>
               ) : (
                 str
               ),
