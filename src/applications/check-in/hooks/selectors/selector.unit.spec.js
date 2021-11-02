@@ -1,41 +1,146 @@
+/* eslint-disable camelcase */
 import { expect } from 'chai';
+import cloneDeep from 'platform/utilities/data/cloneDeep';
 
-import { makeSelectCheckInData, makeSelectContext } from './index';
+import {
+  makeSelectCheckInData,
+  makeSelectFeatureToggles,
+  makeSelectContext,
+  makeSelectConfirmationData,
+  makeSelectAppointmentListData,
+  makeSelectSeeStaffMessage,
+} from './index';
 
 describe('check-in', () => {
   describe('selector', () => {
+    const state = {
+      featureToggles: {
+        check_in_experience_enabled: true,
+        check_in_experience_demographics_page_enabled: true,
+        check_in_experience_update_information_page_enabled: true,
+        check_in_experience_next_of_kin_enabled: false,
+        loading: false,
+      },
+      checkInData: {
+        appointments: [
+          {
+            clinicPhone: '555-867-5309',
+            startTime: '2021-07-19T13:56:31',
+            facilityName: 'Acme VA',
+            clinicName: 'Green Team Clinic1',
+          },
+        ],
+        context: {
+          appointment: {
+            appointmentIen: 'some-ien',
+          },
+          token: 'foo',
+        },
+        seeStaffMessage: 'Test message',
+      },
+    };
+
     describe('makeSelectCheckInData', () => {
       it('returns check-in data', () => {
-        const state = {
-          checkInData: {
-            context: {
-              token: 'foo',
-            },
-            seeStaffMessage: 'Test message',
-          },
-        };
         const selectCheckInData = makeSelectCheckInData();
         expect(selectCheckInData(state)).to.eql({
+          appointments: [
+            {
+              clinicPhone: '555-867-5309',
+              startTime: '2021-07-19T13:56:31',
+              facilityName: 'Acme VA',
+              clinicName: 'Green Team Clinic1',
+            },
+          ],
           context: {
+            appointment: {
+              appointmentIen: 'some-ien',
+            },
             token: 'foo',
           },
           seeStaffMessage: 'Test message',
         });
       });
+      it('returns empty when check-in data is not available', () => {
+        const partialState = cloneDeep(state);
+        delete partialState.checkInData;
+        const selectCheckInData = makeSelectCheckInData();
+        expect(selectCheckInData(partialState)).to.eql({});
+      });
+    });
+    describe('makeSelectFeatureToggles', () => {
+      it('returns feature toggles', () => {
+        const selectFeatureToggles = makeSelectFeatureToggles();
+        expect(selectFeatureToggles(state)).to.eql({
+          isCheckInEnabled: true,
+          isDemographicsPageEnabled: true,
+          isLoadingFeatureFlags: false,
+          isNextOfKinEnabled: false,
+          isUpdatePageEnabled: true,
+        });
+      });
     });
     describe('makeSelectContext', () => {
       it('returns check-in context', () => {
-        const state = {
-          checkInData: {
-            context: {
-              token: 'foo',
-            },
-            seeStaffMessage: 'Test message',
-          },
-        };
         const selectContext = makeSelectContext();
         expect(selectContext(state)).to.eql({
+          appointment: {
+            appointmentIen: 'some-ien',
+          },
           token: 'foo',
+        });
+      });
+      it('returns empty when check-in context is unavailable', () => {
+        const partialState = cloneDeep(state);
+        delete partialState.checkInData;
+        const selectContext = makeSelectContext();
+        expect(selectContext(partialState)).to.eql({});
+      });
+    });
+    describe('makeSelectConfirmationData', () => {
+      it('returns appointment confirmation data', () => {
+        const selectConfirmationData = makeSelectConfirmationData();
+        expect(selectConfirmationData(state)).to.eql({
+          appointments: [
+            {
+              clinicName: 'Green Team Clinic1',
+              clinicPhone: '555-867-5309',
+              facilityName: 'Acme VA',
+              startTime: '2021-07-19T13:56:31',
+            },
+          ],
+          selectedAppointment: {
+            appointmentIen: 'some-ien',
+          },
+        });
+      });
+    });
+    describe('makeSelectAppointmentListData', () => {
+      it('returns appointment list data', () => {
+        const selectAppointmentListData = makeSelectAppointmentListData();
+        expect(selectAppointmentListData(state)).to.eql({
+          appointments: [
+            {
+              clinicName: 'Green Team Clinic1',
+              clinicPhone: '555-867-5309',
+              facilityName: 'Acme VA',
+              startTime: '2021-07-19T13:56:31',
+            },
+          ],
+          context: {
+            appointment: {
+              appointmentIen: 'some-ien',
+            },
+            token: 'foo',
+          },
+        });
+      });
+    });
+    describe('makeSelectSeeStaffMessage', () => {
+      it('returns see staff message', () => {
+        const selectSeeStaffMessage = makeSelectSeeStaffMessage();
+        expect(selectSeeStaffMessage().resultFunc(state)).to.eql({
+          message: 'Test message',
         });
       });
     });
