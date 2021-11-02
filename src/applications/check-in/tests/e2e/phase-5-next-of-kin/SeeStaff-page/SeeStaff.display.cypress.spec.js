@@ -7,6 +7,7 @@ describe('Check In Experience -- ', () => {
   describe('phase 5 -- ', () => {
     beforeEach(function() {
       cy.authenticate();
+      cy.getAppointments();
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
