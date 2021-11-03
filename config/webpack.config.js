@@ -276,6 +276,7 @@ module.exports = async (env = {}) => {
   );
 
   console.log(entryFiles['10182-board-appeal']);
+  console.log(entryFiles.vendor);
   console.log(entryFiles);
 
   const baseConfig =
@@ -485,8 +486,7 @@ module.exports = async (env = {}) => {
       }),
     );
 
-    baseConfig.plugins.optimization.moduleIds = 'hashed';
-    // baseConfig.plugins.optimization.moduleIds = 'deterministic';
+    baseConfig.plugins.optimization.moduleIds = 'deterministic';
     baseConfig.mode = 'production';
   } else {
     baseConfig.devtool = 'eval-source-map';
