@@ -38,10 +38,10 @@ jobs:
             }
           '
           echo ::set-output name=appNames::{\"include\":$(cat ./content-build/src/applications/registry.json)}
-      # - name: test matrix
-      #   run: echo ${{ steps.set-matrix.outputs.matrix }}['entryName']
-      # - name: test appName
-      #   run: echo ${{ steps.set-matrix.outputs.matrix }}
+      - name: test matrix
+        run: echo ${{ steps.set-matrix.outputs.matrix }}
+      - name: test appName
+        run: echo '${{ steps.set-matrix.outputs.matrix }}' | jq -c -r '.[].entryName'
 
   lighthouse:
     needs: job1
@@ -49,9 +49,8 @@ jobs:
     strategy:
       fail-fast: false
       max-parallel: 8
-      matrix:
+      matrix: ${{ fromJson(needs.job1.outputs.appNames) }}
         # appName: ['/covid19screen', '/verify', '/pension/application/527EZ']
-        appName: ${{ fromJson(needs.job1.outputs.matrix) }}['entryName']
 
     steps:
       - run: echo ${{fromJson(needs.job1.outputs.matrix).rootUrl}}
