@@ -13,9 +13,13 @@ import {
   RECEIVED_DEMOGRAPHICS_DATA,
   triggerRefresh,
   TRIGGER_REFRESH,
+  receivedNextOfKinData,
+  RECEIVED_NEXT_OF_KIN_DATA,
+  SEE_STAFF_MESSAGE_UPDATED,
+  seeStaffMessageUpdated,
 } from './index';
 
-describe('check inactions', () => {
+describe('check in actions', () => {
   describe('actions', () => {
     describe('receivedMultipleAppointmentDetails', () => {
       it('should return correct action', () => {
@@ -98,6 +102,29 @@ describe('check inactions', () => {
       it('should return correct structure', () => {
         const action = triggerRefresh();
         expect(action.payload.context.shouldRefresh).to.equal(true);
+      });
+    });
+    describe('receivedNextOfKinData', () => {
+      it('should return correct action', () => {
+        const action = receivedNextOfKinData({});
+        expect(action.type).to.equal(RECEIVED_NEXT_OF_KIN_DATA);
+      });
+      it('should return correct structure', () => {
+        const action = receivedNextOfKinData({
+          relationship: 'spouse',
+        });
+        expect(action.payload).to.haveOwnProperty('nextOfKin');
+        expect(action.payload.nextOfKin.relationship).to.equal('spouse');
+      });
+    });
+    describe('seeStaffMessageUpdated', () => {
+      it('should return correct action', () => {
+        const action = seeStaffMessageUpdated('test');
+        expect(action.type).to.equal(SEE_STAFF_MESSAGE_UPDATED);
+      });
+      it('should return correct structure', () => {
+        const action = seeStaffMessageUpdated('test');
+        expect(action.payload.seeStaffMessage).to.equal('test');
       });
     });
   });

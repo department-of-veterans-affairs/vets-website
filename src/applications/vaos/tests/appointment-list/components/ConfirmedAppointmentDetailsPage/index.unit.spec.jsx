@@ -3,7 +3,7 @@ import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { mockFetch } from 'platform/testing/unit/helpers';
-import { getVAAppointmentMock, getCancelReasonMock } from '../../../mocks/v0';
+import { getCancelReasonMock } from '../../../mocks/v0';
 import {
   mockAppointmentInfo,
   mockSingleAppointmentFetch,
@@ -26,7 +26,10 @@ import {
   mockFacilityFetchByVersion,
   mockSingleClinicFetchByVersion,
 } from '../../../mocks/fetch';
-import { createMockFacilityByVersion } from '../../../mocks/data';
+import {
+  createMockAppointmentByVersion,
+  createMockFacilityByVersion,
+} from '../../../mocks/data';
 
 const initialState = {
   featureToggles: {
@@ -51,21 +54,20 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
   it('should show confirmed appointments detail page', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const today = moment.utc();
-
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      clinicId: '308',
+    const data = {
+      id: '21cdc6741c00ac67b6cbf6b972d084c1',
+      kind: 'clinic',
+      clinic: '308',
+      start: today.tz('America/Denver').format(),
+      locationId: '983GC',
+      status: 'booked',
       clinicFriendlyName: "Jennie's Lab",
-      facilityId: '983',
-      sta6aid: '983GC',
-      startDate: today.format(),
-      vdsAppointments: [
-        {
-          bookingNote: 'New issue: ASAP',
-        },
-      ],
+      comment: 'New issue: ASAP',
     };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({
       va: [appointment],
@@ -165,20 +167,21 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
   it('should show confirmed appointment without facility information', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
-
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      clinicId: '308',
+    const data = {
+      id: '21cdc6741c00ac67b6cbf6b972d084c1',
+      currentStatus: 'FUTURE',
+      kind: 'clinic',
+      clinic: '308',
+      start: moment.tz('America/Denver').format(),
+      locationId: '983GC',
       clinicFriendlyName: "Jennie's Lab",
-      facilityId: '983',
-      sta6aid: null,
-      vdsAppointments: [
-        {
-          bookingNote: 'New issue: ASAP',
-        },
-      ],
+      comment: 'New issue: ASAP',
     };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
+    appointment.attributes.sta6aid = null;
 
     mockAppointmentInfo({
       va: [appointment],
@@ -221,21 +224,20 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
   });
   it('should show past confirmed appointments detail page', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
-
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      clinicId: '308',
+    const data = {
+      id: '21cdc6741c00ac67b6cbf6b972d084c1',
+      currentStatus: 'FUTURE',
+      kind: 'clinic',
+      clinic: '308',
+      start: moment().subtract(1, 'day'),
+      locationId: '983GC',
       clinicFriendlyName: "Jennie's Lab",
-      facilityId: '983',
-      sta6aid: '983GC',
-      startDate: moment().subtract(1, 'day'),
-      vdsAppointments: [
-        {
-          bookingNote: 'New issue: ASAP',
-        },
-      ],
+      comment: 'New issue: ASAP',
     };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({
       va: [appointment],
@@ -318,16 +320,19 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
   it('should allow cancellation', async () => {
     // Given a veteran has VA appointments
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
-
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      clinicId: '308',
-      facilityId: '983',
-      sta6aid: '983GC',
-      startDate: moment(),
-      vdsAppointments: [{ clinic: { name: 'CHY OPT VAR1' } }],
+    const data = {
+      id: '21cdc6741c00ac67b6cbf6b972d084c1',
+      currentStatus: 'FUTURE',
+      kind: 'clinic',
+      clinic: '308',
+      start: moment(),
+      locationId: '983GC',
+      clinicName: 'CHY OPT VAR1',
     };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({
       va: [appointment],
@@ -415,17 +420,19 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
   it('should not allow cancellation of COVID-19 vaccine appointments', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
-
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      char4: 'CDQC', // COVID vaccine char4 code
-      clinicId: '308',
-      facilityId: '983',
-      sta6aid: '983GC',
-      startDate: moment(),
-      vdsAppointments: [{ clinic: { name: 'CHY OPT VAR1' } }],
+    const data = {
+      id: '21cdc6741c00ac67b6cbf6b972d084c1',
+      currentStatus: 'FUTURE',
+      kind: 'clinic',
+      clinic: '308',
+      start: moment(),
+      locationId: '983GC',
+      serviceType: 'covid',
     };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockSingleAppointmentFetch({
       appointment,
@@ -461,19 +468,18 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
   it('should display who canceled the appointment', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
-
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      clinicId: '308',
-      facilityId: '983',
-      sta6aid: '983GC',
-      vdsAppointments: [
-        {
-          currentStatus: 'CANCELLED BY CLINIC',
-        },
-      ],
+    const data = {
+      id: '21cdc6741c00ac67b6cbf6b972d084c1',
+      currentStatus: 'CANCELLED BY CLINIC',
+      kind: 'clinic',
+      clinic: '308',
+      start: moment(),
+      locationId: '983GC',
     };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockSingleAppointmentFetch({
       appointment,
@@ -507,22 +513,20 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
   it('should display who canceled the appointment for past appointments', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
-
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      clinicId: '308',
-      facilityId: '983',
-      sta6aid: '983GC',
-      startDate: moment()
+    const data = {
+      id: '21cdc6741c00ac67b6cbf6b972d084c1',
+      currentStatus: 'CANCELLED BY CLINIC',
+      kind: 'clinic',
+      clinic: '308',
+      start: moment()
         .subtract(1, 'day')
         .format('YYYY-MM-DDThh:mm:[00Z]'),
-      vdsAppointments: [
-        {
-          currentStatus: 'CANCELLED BY CLINIC',
-        },
-      ],
+      locationId: '983GC',
     };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
     mockSingleAppointmentFetch({
       appointment,
     });
@@ -562,14 +566,17 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
   it('should fire a print request when print button clicked', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
-
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      clinicId: '308',
-      facilityId: '983',
-      sta6aid: '983GC',
+    const data = {
+      id: '21cdc6741c00ac67b6cbf6b972d084c1',
+      kind: 'clinic',
+      clinic: '308',
+      start: moment(),
+      locationId: '983GC',
     };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({
       va: [appointment],
@@ -628,8 +635,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
   it('should show error message when single fetch errors', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
-
-    const appointment = getVAAppointmentMock();
+    // const data = {};
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      // ...data,
+    });
 
     mockSingleAppointmentFetch({
       appointment,
@@ -655,14 +665,17 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
   it('should allow the user to close the cancel modal without canceling', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
-
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      clinicId: '308',
-      facilityId: '983',
-      sta6aid: '983GC',
+    const data = {
+      id: '21cdc6741c00ac67b6cbf6b972d084c1',
+      kind: 'clinic',
+      clinic: '308',
+      start: moment(),
+      locationId: '983GC',
     };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({ va: [appointment] });
 
@@ -700,15 +713,17 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
   it('should allow the user to go back to the appointment list', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
-
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      clinicId: '308',
-      facilityId: '983',
-      sta6aid: '983GC',
-      vdsAppointments: [{ currentStatus: 'CANCELLED BY CLINIC' }],
+    const data = {
+      id: '21cdc6741c00ac67b6cbf6b972d084c1',
+      kind: 'clinic',
+      clinic: '308',
+      start: moment(),
+      locationId: '983GC',
     };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockSingleAppointmentFetch({ appointment });
     mockAppointmentInfo({
@@ -740,21 +755,17 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
   it('should verify VA in person calendar ics file format', async () => {
     const startDateTime = moment();
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
-
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      clinicId: '308',
-      clinicFriendlyName: "Jennie's Lab",
-      facilityId: '983',
-      sta6aid: '983GC',
-      startDate: startDateTime.format(),
-      vdsAppointments: [
-        {
-          bookingNote: 'New issue: ASAP',
-        },
-      ],
+    const data = {
+      id: '21cdc6741c00ac67b6cbf6b972d084c1',
+      kind: 'clinic',
+      clinic: 'fake',
+      start: moment(),
+      locationId: '983GC',
     };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({
       va: [appointment],
@@ -853,23 +864,17 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
   it('should verify VA phone calendar ics file format', async () => {
     const url = '/va/22cdc6741c00ac67b6cbf6b972d084c0';
-
-    const appointment = getVAAppointmentMock();
-    appointment.id = '22cdc6741c00ac67b6cbf6b972d084c0';
-    appointment.attributes = {
-      ...appointment.attributes,
-      clinicId: '308',
-      clinicFriendlyName: "Jennie's Lab",
-      facilityId: '983',
-      phoneOnly: true,
-      sta6aid: '983GC',
-      start: '2021-06-20T16:00:00Z',
-      vdsAppointments: [
-        {
-          bookingNote: 'New issue: ASAP',
-        },
-      ],
+    const data = {
+      id: '22cdc6741c00ac67b6cbf6b972d084c0',
+      kind: 'phone',
+      clinic: 'fake',
+      start: moment(),
+      locationId: '983GC',
     };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({
       va: [appointment],
@@ -967,20 +972,17 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const today = moment.utc();
 
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      clinicId: '308',
-      clinicFriendlyName: "Jennie's Lab",
-      facilityId: '437',
-      sta6aid: '437GJ',
-      startDate: today.format(),
-      vdsAppointments: [
-        {
-          bookingNote: 'New issue: ASAP',
-        },
-      ],
+    const data = {
+      id: '21cdc6741c00ac67b6cbf6b972d084c1',
+      kind: 'clinic',
+      clinic: '308',
+      start: today.format(),
+      locationId: '437GJ',
     };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({
       va: [appointment],
