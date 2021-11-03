@@ -31,6 +31,7 @@ jobs:
       max-parallel: 8
       matrix:
           rootUrl: ${{ fromJson(needs.job1.outputs.rootUrls) }}
+          template: ${{ fromJson(needs.job1.outputs.template) }}
 
     steps:
       - name: Checkout
@@ -61,6 +62,7 @@ jobs:
 
       - name: Audit URLs using Lighthouse on ${{ matrix.rootUrl }}
         id: lighthouse-checks
+        if: ${{ matrix.template.vagovprod != false }}
         uses: treosh/lighthouse-ci-action@v8
         with:
           urls: |
@@ -73,12 +75,12 @@ jobs:
       - name: Upload lighthouse report (HTML)
         run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath }} s3://vetsgov-website-builds-s3-upload/lighthouse/archive${{ matrix.rootUrl }}.html --acl public-read --region us-gov-west-1
 
-      - name: Notify Slack
-        if: ${{ always() }}
-        uses: ./.github/workflows/slack-notify
-        continue-on-error: true
-        with:
-          attachments: '[{"mrkdwn_in": ["text"], "color": "good", "text": "The Lighthouse scan for today just finished! <https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload/lighthouse/homepage.html|View the results>"}]'
-          channel_id: ${{ env.CHANNEL_ID }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # - name: Notify Slack
+      #   if: ${{ always() }}
+      #   uses: ./.github/workflows/slack-notify
+      #   continue-on-error: true
+      #   with:
+      #     attachments: '[{"mrkdwn_in": ["text"], "color": "good", "text": "The Lighthouse scan for today just finished! <https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload/lighthouse/homepage.html|View the results>"}]'
+      #     channel_id: ${{ env.CHANNEL_ID }}
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
