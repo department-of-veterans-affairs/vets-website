@@ -2,6 +2,7 @@ import Pagination from '@department-of-veterans-affairs/component-library/Pagina
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { LocationType } from '../constants';
+import { facilityLocatorRestoreCommunityCarePagination } from '../utils/featureFlagSelectors';
 
 export class PaginationWrapper extends Component {
   shouldComponentUpdate = nextProps =>
@@ -38,6 +39,17 @@ export class PaginationWrapper extends Component {
 
 const mapStateToProps = state => {
   let isCommunityProviderSearch = false;
+
+  if (
+    [
+      LocationType.CC_PROVIDER,
+      LocationType.URGENT_CARE_PHARMACIES,
+      LocationType.EMERGENCY_CARE,
+    ].includes(state.searchQuery.facilityType) &&
+    !facilityLocatorRestoreCommunityCarePagination(state)
+  ) {
+    isCommunityProviderSearch = true;
+  }
 
   if (
     state.searchQuery.facilityType === LocationType.URGENT_CARE &&
