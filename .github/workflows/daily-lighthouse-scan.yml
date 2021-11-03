@@ -1,9 +1,9 @@
 name: Lighthouse CI
 
-on: push
-  # workflow_dispatch:
-  # schedule:
-  #   - cron: '0 12 * * 1-5'
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 12 * * 1-5'
 
 env:
   CHANNEL_ID: C02A8S3JPNZ
@@ -73,13 +73,12 @@ jobs:
       - name: Upload lighthouse report (HTML)
         run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath }} s3://vetsgov-website-builds-s3-upload/lighthouse/archive${{ matrix.rootUrl }}.html --acl public-read --region us-gov-west-1
 
-      # - name: Notify Slack
-      #   if: ${{ always() }}
-      #   uses: ./.github/actions/vsp-github-actions/slack-socket
-      #   env:
-      #     SSL_CERT_DIR: /etc/ssl/certs
-      #   with:
-      #     slack_app_token: ${{ env.SLACK_APP_TOKEN }}
-      #     slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
-      #     attachments: '[{"mrkdwn_in": ["text"], "color": "good", "text": "The Lighthouse scan for today just finished! <https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload/lighthouse/homepage.html|View the results>"}]'
-      #     channel_id: ${{ env.CHANNEL_ID }}
+      - name: Notify Slack
+        if: ${{ always() }}
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: true
+        with:
+          attachments: '[{"mrkdwn_in": ["text"], "color": "good", "text": "The Lighthouse scan for today just finished! <https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload/lighthouse/homepage.html|View the results>"}]'
+          channel_id: ${{ env.CHANNEL_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
