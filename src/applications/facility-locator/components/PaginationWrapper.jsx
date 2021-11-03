@@ -40,16 +40,6 @@ const mapStateToProps = state => {
   let isCommunityProviderSearch = false;
 
   if (
-    [
-      LocationType.CC_PROVIDER,
-      LocationType.URGENT_CARE_PHARMACIES,
-      LocationType.EMERGENCY_CARE,
-    ].includes(state.searchQuery.facilityType)
-  ) {
-    isCommunityProviderSearch = true;
-  }
-
-  if (
     state.searchQuery.facilityType === LocationType.URGENT_CARE &&
     (!state.searchQuery.serviceType ||
       ['AllUrgentCare', 'NonVAUrgentCare'].includes(
