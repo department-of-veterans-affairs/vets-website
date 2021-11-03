@@ -41,7 +41,7 @@ jobs:
       - name: test matrix
         run: echo ${{ steps.set-matrix.outputs.matrix }}
       - name: test appName
-        run: echo '${{ steps.set-matrix.outputs.matrix }}' | jq '.[].entryName'
+        run: jq '[.[].entryName]' ${{ steps.set-matrix.outputs.matrix }}
 
   lighthouse:
     needs: job1
