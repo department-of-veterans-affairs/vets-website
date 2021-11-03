@@ -11,67 +11,82 @@ function loginHandler(loginType) {
   login(loginType, 'v1');
 }
 
-export default function SignInButtons({ isDisabled }) {
+export default function SignInButtons({ isDisabled, loginGovEnabled }) {
   return (
     <div>
+      {loginGovEnabled && (
+        <button
+          disabled={isDisabled}
+          type="button"
+          className="usa-button usa-button-big logingov-button vads-u-margin-y--1p5"
+          onClick={() => loginHandler('logingov')}
+        >
+          <img
+            alt="Sign in with Login.gov"
+            src={`${vaGovFullDomain}/img/signin/logingov-icon-white.svg`}
+          />
+        </button>
+      )}
       <button
         disabled={isDisabled}
-        className="dslogon"
-        onClick={() => loginHandler('dslogon')}
-      >
-        <img
-          aria-hidden="true"
-          role="presentation"
-          alt="DS Logon"
-          src={`${vaGovFullDomain}/img/signin/dslogon-icon.svg`}
-        />
-        <strong> Sign in with DS Logon</strong>
-      </button>
-      <button
-        disabled={isDisabled}
-        className="mhv"
-        onClick={() => loginHandler('mhv')}
-      >
-        <img
-          aria-hidden="true"
-          role="presentation"
-          alt="My HealtheVet"
-          src={`${vaGovFullDomain}/img/signin/mhv-icon.svg`}
-        />
-        <strong> Sign in with My HealtheVet</strong>
-      </button>
-      <button
-        disabled={isDisabled}
-        className="usa-button-primary va-button-primary"
+        type="button"
+        className="usa-button usa-button-big idme-button vads-u-margin-y--1p5"
         onClick={() => loginHandler('idme')}
       >
         <img
-          aria-hidden="true"
-          role="presentation"
-          alt="ID.me"
+          alt="Sign in with ID.me"
           src={`${vaGovFullDomain}/img/signin/idme-icon-white.svg`}
         />
-        <strong> Sign in with ID.me</strong>
       </button>
-      <span className="sidelines">OR</span>
+      <button
+        disabled={isDisabled}
+        type="button"
+        className="usa-button usa-button-big dslogon-button vads-u-margin-y--1p5"
+        onClick={() => loginHandler('dslogon')}
+      >
+        DS Logon
+      </button>
+      <button
+        disabled={isDisabled}
+        type="button"
+        className="usa-button usa-button-big mhv-button vads-u-margin-y--1p5"
+        onClick={() => loginHandler('mhv')}
+      >
+        My HealtheVet
+      </button>
       <div className="alternate-signin">
-        <h2 className="vads-u-font-size--sm vads-u-margin-top--0">
-          Don't have those accounts?
-        </h2>
-        <button
-          disabled={isDisabled}
-          className="idme-create usa-button usa-button-secondary"
-          onClick={() => signup('v1')}
+        <h2 className="vads-u-margin-top--3">Or create an account</h2>
+        <div className="vads-u-display--flex vads-u-flex-direction--column">
+          {loginGovEnabled && (
+            <a
+              aria-label=""
+              disabled={isDisabled}
+              className="vads-c-action-link--blue vads-u-border-top--1px vads-u-padding-bottom--2"
+              onClick={() =>
+                signup({ version: 'v1', queryParams: { csp: 'logingov' } })
+              }
+            >
+              Create an account with Login.gov
+            </a>
+          )}
+          <a
+            aria-label=""
+            disabled={isDisabled}
+            className="vads-c-action-link--blue vads-u-border-top--1px vads-u-padding-bottom--2 vads-u-border-bottom--1px"
+            onClick={() =>
+              signup({ version: 'v1', queryParams: { csp: 'idme' } })
+            }
+          >
+            Create an account with ID.me
+          </a>
+        </div>
+        <a
+          className="vads-u-display--block vads-u-margin-top--2"
+          href="/resources/privacy-and-security-on-vagov/#whats-idme-and-why-should-i-tr"
+          target="_blank"
         >
-          <img
-            aria-hidden="true"
-            role="presentation"
-            alt="ID.me"
-            src={`${vaGovFullDomain}/img/signin/idme-icon-dark.svg`}
-          />
-          <strong> Create an ID.me account</strong>
-        </button>
-        <p>Use your email, Google, or Facebook</p>
+          Learn more about choosing an account
+        </a>
       </div>
     </div>
   );

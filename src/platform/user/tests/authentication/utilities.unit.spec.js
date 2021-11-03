@@ -25,14 +25,15 @@ const setup = () => {
 describe('authentication URL helpers', () => {
   beforeEach(setup);
 
-  it('should redirect for signup v0 to v1', () => {
-    signup('v0');
-    expect(global.window.location).to.include('/v1/sessions/signup/new');
-  });
-
   it('should redirect for signup v1', () => {
-    signup('v1');
-    expect(global.window.location).to.include('/v1/sessions/signup/new');
+    signup({ version: 'v1', queryParams: { csp: 'idme' } });
+    expect(global.window.location).to.include(
+      '/v1/sessions/signup/new?csp=idme',
+    );
+    signup({ version: 'v1', queryParams: { csp: 'logingov' } });
+    expect(global.window.location).to.include(
+      '/v1/sessions/signup/new?csp=logingov',
+    );
   });
 
   it('should redirect for login v0 to v1', () => {
