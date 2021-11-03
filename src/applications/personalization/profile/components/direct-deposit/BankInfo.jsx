@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Prompt } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -57,6 +56,7 @@ export const BankInfo = ({
   toggleEditState,
   type,
   typeIsCNP,
+  setFormIsDirty,
 }) => {
   const formPrefix = type;
   const editBankInfoButton = useRef();
@@ -83,6 +83,13 @@ export const BankInfo = ({
   const isEmptyForm =
     !formAccountNumber && !formAccountType && !formRoutingNumber;
 
+  useEffect(
+    () => {
+      setFormIsDirty(isEmptyForm);
+    },
+    [isEmptyForm],
+  );
+
   // when we enter and exit edit mode...
   useEffect(
     () => {
@@ -103,19 +110,6 @@ export const BankInfo = ({
       }
     },
     [isEditingBankInfo, wasEditingBankInfo],
-  );
-
-  useEffect(
-    () => {
-      // Show alert when navigating away
-      if (!isEmptyForm) {
-        window.onbeforeunload = () => true;
-        return;
-      }
-
-      window.onbeforeunload = undefined;
-    },
-    [isEmptyForm],
   );
 
   const saveBankInfo = () => {
@@ -414,10 +408,6 @@ export const BankInfo = ({
           Cancel
         </button>
       </Modal>
-      <Prompt
-        message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
-        when={!isEmptyForm}
-      />
       <ProfileInfoTable
         className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
         title={sectionTitle}
@@ -447,6 +437,7 @@ BankInfo.propTypes = {
   saveBankInformation: PropTypes.func.isRequired,
   toggleEditState: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
+  setFormIsDirty: PropTypes.func.isRequired,
 };
 
 export const mapStateToProps = (state, ownProps) => {
