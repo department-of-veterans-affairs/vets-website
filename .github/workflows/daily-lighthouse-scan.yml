@@ -23,22 +23,17 @@ jobs:
       - name: set matrix
         id: set-matrix
         run: |
-          content=`cat ./content-build/src/applications/registry.json`
-          # the following lines are only required for multi line json
-          content="${content//'%'/'%25'}"
-          content="${content//$'\n'/'%0A'}"
-          content="${content//$'\r'/'%0D'}"
-          # end of optional handling for multi line json
-          echo "::set-output name=appRegistry::$content"
+          JSON=$(cat ./content-build/src/applications/registry.json)
+          echo "::set-output name=matrix::${JSON//'%'/'%25'}"
 
   lighthouse:
     runs-on: ubuntu-latest
-    # strategy:
-    #   fail-fast: false
-    #   max-parallel: 8
-    #   matrix:
-    #     # appName: ['/covid19screen', '/verify', '/pension/application/527EZ']
-    #     appName: ${{fromJson(needs.set-app-matrix.outputs.matrix).rootUrl}}
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        # appName: ['/covid19screen', '/verify', '/pension/application/527EZ']
+        appName: ${{fromJson(needs.set-app-matrix.outputs.matrix)}}
 
     steps:
       - run: echo ${{fromJson(needs.set-app-matrix.outputs.matrix).rootUrl}}
