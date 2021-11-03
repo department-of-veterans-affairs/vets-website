@@ -11,18 +11,7 @@ import { fetchUser } from '../selectors/userDispatch';
 import environment from 'platform/utilities/environment';
 
 export const IntroductionPage = ({ user, route }) => {
-  const handleFetchErrors = async response => {
-    if (!response.ok && response.status === 404) {
-      window.location.href =
-        '/education/apply-for-education-benefits/application/1990/';
-    }
-    return response;
-  };
-
-  const checkClaimantIfExists = async () =>
-    fetch(`${environment.API_URL}/meb_api/v0/claimant_info`)
-      .then(response => handleFetchErrors(response))
-      .catch(err => err);
+  const CLAIMANT_URL = `${environment.API_URL}/meb_api/v0/claimant_info`;
 
   const SaveInProgressComponent = (
     <SaveInProgressIntro
@@ -36,14 +25,27 @@ export const IntroductionPage = ({ user, route }) => {
     />
   );
 
+  const handleRedirect = async response => {
+    if (!response.ok && response.status === 404) {
+      window.location.href =
+        '/education/apply-for-education-benefits/application/1990/';
+    }
+    return response;
+  };
+
+  const checkIfClaimantExists = async () =>
+    fetch(CLAIMANT_URL)
+      .then(response => handleRedirect(response))
+      .catch(err => err);
+
   useEffect(
     () => {
       focusElement('.va-nav-breadcrumbs-list');
       if (user.login.currentlyLoggedIn) {
-        checkClaimantIfExists().then(res => res);
+        checkIfClaimantExists().then(res => res);
       }
     },
-    [user?.login?.currentlyLoggedIn, checkClaimantIfExists],
+    [user?.login?.currentlyLoggedIn, checkIfClaimantExists],
   );
 
   return (
