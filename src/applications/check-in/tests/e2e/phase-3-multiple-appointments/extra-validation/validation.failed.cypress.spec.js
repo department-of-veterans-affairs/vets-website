@@ -1,6 +1,7 @@
 import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
 import mockSession from '../../../../api/local-mock-api/mocks/v2/sessions.responses';
 import Timeouts from 'platform/testing/e2e/timeouts';
+import '../../support/commands';
 
 describe('Check In Experience -- ', () => {
   describe('phase 3 -- ', () => {
@@ -27,9 +28,7 @@ describe('Check In Experience -- ', () => {
       });
     });
     it('validation failed with failed response from server', () => {
-      const featureRoute =
-        '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
-      cy.visit(featureRoute);
+      cy.visitWithUUID();
       cy.get('h1').contains('Check in at VA');
       cy.injectAxe();
       cy.axeCheck();

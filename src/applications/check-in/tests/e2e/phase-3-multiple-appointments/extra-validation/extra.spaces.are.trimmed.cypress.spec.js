@@ -31,9 +31,7 @@ describe('Check In Experience -- ', () => {
       });
     });
     it('validation trims white space before posting', () => {
-      const featureRoute =
-        '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
-      cy.visit(featureRoute);
+      cy.visitWithUUID();
       cy.get('h1').contains('Check in at VA');
       cy.get('[label="Your last name"]')
         .shadow()

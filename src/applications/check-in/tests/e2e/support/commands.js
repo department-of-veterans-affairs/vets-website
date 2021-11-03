@@ -12,6 +12,7 @@ const mockPatientCheckIns = {
   v2: mockPatientCheckInsV2,
 };
 const defaultAPIVersion = 'v2';
+const defaultUUID = '46bebc0a-b99c-464f-a5c5-560bc9eae287';
 
 Cypress.Commands.add('authenticate', (version = defaultAPIVersion) => {
   cy.intercept('GET', `/check_in/${version}/sessions/*`, req => {
@@ -96,4 +97,7 @@ Cypress.Commands.add('signIn', () => {
     .find('input')
     .type('4837');
   cy.get('[data-testid=check-in-button]').click();
+});
+Cypress.Commands.add('visitWithUUID', (uuid = defaultUUID) => {
+  cy.visit(`/health-care/appointment-check-in/?id=${uuid}`);
 });

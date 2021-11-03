@@ -23,9 +23,7 @@ describe('Check In Experience -- ', () => {
       });
     });
     it('next of kin enabled', () => {
-      const featureRoute =
-        '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
-      cy.visit(featureRoute);
+      cy.visitWithUUID();
 
       cy.get('h1', { timeout: Timeouts.slow })
         .should('be.visible')

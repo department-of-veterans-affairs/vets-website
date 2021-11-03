@@ -20,9 +20,7 @@ describe('Check In Experience -- ', () => {
       });
     });
     it('validation failed shows error messages', () => {
-      const featureRoute =
-        '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
-      cy.visit(featureRoute);
+      cy.visitWithUUID();
       cy.get('h1').contains('Check in at VA');
       cy.injectAxe();
       cy.axeCheck();
