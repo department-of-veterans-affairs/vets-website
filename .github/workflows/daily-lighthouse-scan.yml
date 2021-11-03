@@ -12,8 +12,7 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-      appNames: ${{ steps.set-matrix.outputs.appNames }}
+      rootURL: ${{ steps.set-matrix.outputs.rootURL }}
     steps:
       - uses: actions/checkout@master
         with:
@@ -23,8 +22,7 @@ jobs:
       - id: set-matrix
         run: |
           JSON=$(cat ./content-build/src/applications/registry.json)
-          echo ::set-output name=matrix::${JSON//'%'/'%25'}
-          echo ::set-output name=appNames::$(jq '[.[].entryName]' ./content-build/src/applications/registry.json)
+          echo ::set-output name=rootURL::$(jq '[.[].entryName]' ./content-build/src/applications/registry.json)
 
   lighthouse:
     needs: job1
@@ -33,11 +31,12 @@ jobs:
       fail-fast: false
       max-parallel: 8
       matrix:
-        appName: ${{ fromJson(needs.job1.outputs.appNames) }}
+        rootURL: ${{ fromJson(needs.job1.outputs.rootURL) }}
 
     steps:
-      - run: echo ${{fromJson(needs.job1.outputs.matrix).rootUrl}}
-  
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Configure AWS credentials (1)
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -45,40 +44,13 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
 
-      - name: Get Slack app token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /devops/github_actions_slack_socket_token
-          env_variable_name: SLACK_APP_TOKEN
-
-      - name: Get Slack bot token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /devops/github_actions_slack_bot_user_token
-          env_variable_name: SLACK_BOT_TOKEN
-          
-      - name: Get va-vsp-bot token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
-      - name: Checkout VSP actions
-        uses: actions/checkout@v2
-        with:
-          repository: department-of-veterans-affairs/vsp-github-actions
-          ref: refs/heads/main
-          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-          persist-credentials: false
-          path: ./.github/actions/vsp-github-actions
-
       - name: Get role from Parameter Store
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
 
-      - name: Configure AWS Credentials
+      - name: Configure AWS Credentials (2)
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -87,9 +59,6 @@ jobs:
           role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
-
-      - name: Where am i?
-        run: pwd && ls && cd ./content-build/src/applications && ls && pwd
 
       - name: Audit URLs using Lighthouse on ${{ matrix.rootUrl }}
         id: lighthouse-checks
@@ -100,10 +69,10 @@ jobs:
           uploadArtifacts: true # save results as an action artifacts
 
       - name: Upload lighthouse report (JSON)
-        run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/archive${{ matrix.rootUrl }}.json --acl public-read --region us-gov-west-1
+        run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath }} s3://vetsgov-website-builds-s3-upload/lighthouse/archive${{ matrix.rootUrl }}.json --acl public-read --region us-gov-west-1
 
       - name: Upload lighthouse report (HTML)
-        run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/archive${{ matrix.rootUrl }}.html --acl public-read --region us-gov-west-1
+        run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath }} s3://vetsgov-website-builds-s3-upload/lighthouse/archive${{ matrix.rootUrl }}.html --acl public-read --region us-gov-west-1
 
       # - name: Notify Slack
       #   if: ${{ always() }}
