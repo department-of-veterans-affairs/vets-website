@@ -102,14 +102,14 @@ const SearchRepresentativeWidget = props => {
               Service Organization as Claimant’s Representative (VA Form 21-22).
             </p>
             <p>
-              <i
-                className="fas fa-download vads-u-padding-right--1 vads-u-color--link-default"
-                aria-hidden="true"
-              />
               <a
                 className="vads-u-color--link-default"
                 href="/find-forms/about-form-21-22/"
               >
+                <i
+                  className="fas fa-download vads-u-padding-right--1 vads-u-color--link-default"
+                  aria-hidden="true"
+                />
                 Download VA form 21-22 (PDF)
               </a>
             </p>
@@ -121,14 +121,14 @@ const SearchRepresentativeWidget = props => {
               21-22a).
             </p>
             <p>
-              <i
-                className="fas fa-download vads-u-padding-right--1 vads-u-color--link-default"
-                aria-hidden="true"
-              />
               <a
                 className="vads-u-color--link-default"
                 href="/find-forms/about-form-21-22/"
               >
+                <i
+                  className="fas fa-download vads-u-padding-right--1 vads-u-color--link-default"
+                  aria-hidden="true"
+                />
                 Download VA form 21-22a (PDF)
               </a>
             </p>
