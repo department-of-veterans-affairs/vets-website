@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 // Relative imports
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import AlertMessage from '../AlertMessage';
 import { branchOfService, board } from '../../helpers';
 import { venueWarning, upgradeVenueWarning } from '../../constants';
 
@@ -19,18 +19,18 @@ const Warnings = ({ formValues }) => {
       15;
 
     return (
-      <div>
-        <AlertBox
+      <>
+        <AlertMessage
           content={venueWarning}
           isVisible={prevAppType === '4' && reason !== '8'}
           status="warning"
         />
-        <AlertBox
+        <AlertMessage
           content={upgradeVenueWarning}
           isVisible={prevAppType === '4' && reason === '8' && !oldDischarge}
           status="warning"
         />
-      </div>
+      </>
     );
   };
 
@@ -49,7 +49,7 @@ const Warnings = ({ formValues }) => {
     );
 
     return (
-      <AlertBox
+      <AlertMessage
         content={alertContent}
         isVisible={boardToSubmit.abbr === 'DRB' && prevAppType === '3'}
         status="warning"
@@ -73,7 +73,7 @@ const Warnings = ({ formValues }) => {
     );
 
     return (
-      <AlertBox
+      <AlertMessage
         content={alertContent}
         isVisible={reason === '8' && prevAppType === '3'}
         status="warning"

@@ -20,17 +20,13 @@ const IdentityNotVerified = ({
   const content = (
     <>
       {alertContent}
-      <p>
-        <strong>This one-time process takes about 5-10 minutes.</strong>
-      </p>
 
       <a
-        className="usa-button-primary va-button-primary"
+        className="vads-c-action-link--green"
         href="/verify"
         onClick={() => recordEvent({ event: 'verify-link-clicked' })}
       >
-        <img alt="ID.me" src="/img/signin/idme-icon-white.svg" />
-        <strong>Verify your identity</strong>
+        Verify your identity
       </a>
     </>
   );

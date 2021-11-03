@@ -1,12 +1,12 @@
 {
   "data": [
     {
-      "id": "1234",
+      "id": "00aa456va",
       "type": "Appointment",
       "attributes": {
-        "cancellationReason": null,
-        "clinic": null,
-        "comment": null,
+        "cancelationReason": null,
+        "clinic": "437",
+        "comment": "Follow-up/Routine: I have a headache",
         "contact": {
           "telecom": [
             {
@@ -15,32 +15,32 @@
             }
           ]
         },
-        "description": "Upcomming appointment",
-        "end": "2021-12-31T18:19:34",
-        "id": "1234",
+        "description": "Upcoming in person appointment",
+        "end": "2021-12-21T18:19:34",
+        "id": "00aa456va",
         "kind": "clinic",
-        "locationId": null,
+        "locationId": "983",
         "minutesDuration": 30,
         "patientIcn": null,
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": "string",
-        "requestedPeriods": [],
-        "serviceType": "va_appointments",
+        "reason": "Routine Follow-up",
+        "requestedPeriods": null,
+        "serviceType": "primaryCare",
         "slot": null,
-        "start": "2021-12-31T18:19:34",
+        "start": "2021-12-21T18:19:34",
         "status": "booked",
         "telehealth": null
       }
     },
     {
-      "id": "202106020000000000000000000000000000Upd.6NcgFTbmSgW0kfFTPqQ",
+      "id": "01aa456cc",
       "type": "cc_appointments",
       "attributes": {
-        "cancellationReason": null,
+        "cancelationReason": null,
         "clinic": null,
-        "comment": null,
+        "comment": "test",
         "contact": {
           "telecom": [
             {
@@ -49,18 +49,18 @@
             }
           ]
         },
-        "description": "Past appointment",
+        "description": "community care appointment",
         "end": null,
-        "id": "202106020000000000000000000000000000Upd.6NcgFTbmSgW0kfFTPqQ",
+        "id": "01aa456cc",
         "kind": "cc",
         "locationId": null,
         "minutesDuration": 30,
         "patientIcn": null,
         "practitioners": [
           {
-            "id": {
+            "identifier": {
               "system": null,
-              "value": null
+              "value": "1801312053"
             },
             "firstName": "Dr",
             "lastName": "Hyde",
@@ -70,20 +70,68 @@
         "preferredTimesForPhoneCall": [],
         "priority": 0,
         "reason": null,
-        "requestedPeriods": [],
-        "serviceType": "cc_appointment",
+        "requestedPeriods": null,
+        "serviceType": "audiology",
         "slot": null,
-        "start": "2021-12-31T18:19:34",
+        "start": "2021-12-30T18:19:34",
         "status": "booked",
         "telehealth": null
       }
     },
-
     {
-      "id": "c3e3ed32701e23fdf389c06eae00fcb24",
+      "id": "02aa456va",
       "type": "Appointment",
       "attributes": {
-        "cancellationReason": null,
+        "cancelationReason": null,
+        "clinic": "848",
+        "comment": "New issue: Video Visit Preparation",
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
+        "description": "Upcoming Home telehealth ADHOC appointment with instructions",
+        "end": "2021-11-23T20:00:00Z",
+        "id": "02aa456va",
+        "kind": "telehealth",
+        "locationId": "983",
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "patientInstruction": "Video Visit Preparation contains extraneous stuff",
+        "practitioners": [
+          {
+            "identifier": {
+              "system": null,
+              "value": "1801312053"
+            },
+            "firstName": "Abbey",
+            "lastName": "Normal",
+            "practiceName": null
+          }
+        ],
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reason": "New Issue",
+        "requestedPeriods": null,
+        "serviceType": "outpatientMentalHealth",
+        "slot": null,
+        "start": "2021-11-23T20:00:00Z",
+        "status": "booked",
+        "telehealth": {
+          "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
+          "atlas": null,
+          "vvsKind": "ADHOC"
+        }
+      }
+    },
+    {
+      "id": "03aa456va",
+      "type": "Appointment",
+      "attributes": {
+        "cancelationReason": null,
         "clinic": "848",
         "comment": null,
         "contact": {
@@ -94,9 +142,128 @@
             }
           ]
         },
-        "description": "Upcomming VA location telehealth appointment",
+        "description": "Upcoming Atlas telehealth appointment",
         "end": "2021-11-23T20:00:00Z",
-        "id": "c3e3ed32701e23fdf389c06eae00fcb24",
+        "id": "03aa456va",
+        "kind": "telehealth",
+        "locationId": "983",
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "practitioners": [
+          {
+            "identifier": {
+              "system": null,
+              "value": "1801312053"
+            },
+            "firstName": "Meg",
+            "lastName": "Smith",
+            "practiceName": null
+          }
+        ],
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reason": null,
+        "requestedPeriods": null,
+        "serviceType": "amputation",
+        "slot": null,
+        "start": "2021-11-23T20:00:00Z",
+        "status": "booked",
+        "telehealth": {
+          "url": null,
+          "atlas": {
+            "siteCode": "9931",
+            "confirmationCode": "7VBBCA",
+            "address": {
+              "streetAddress": "114 Dewey Ave",
+              "city": "Eureka",
+              "state": "MT",
+              "zipCode": "59917",
+              "country": "USA",
+              "longitude": -115.1,
+              "latitude": 48.8,
+              "additionalDetails": ""
+            }
+          },
+          "vvsKind": "ADHOC"
+        }
+      }
+    },
+    {
+      "id": "04aa456va",
+      "type": "Appointment",
+      "attributes": {
+        "cancelationReason": null,
+        "clinic": "848",
+        "comment": "ringing in the ear",
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
+        "description": "Upcoming at home telehealth appointment with instructions",
+        "end": "2021-09-09T20:30:00Z",
+        "id": "04aa456va",
+        "kind": "telehealth",
+        "locationId": "983",
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "patientInstruction": "Medication Review to prepare patient",
+        "practitioners": [
+          {
+            "identifier": {
+              "system": null,
+              "value": "1801312053"
+            },
+            "firstName": "Meg",
+            "lastName": "Smith",
+            "practiceName": null
+          },
+          {
+            "identifier": {
+              "system": null,
+              "value": "1801312053"
+            },
+            "firstName": "Salvador",
+            "lastName": "Dali",
+            "practiceName": null
+          }
+        ],
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reason": null,
+        "requestedPeriods": null,
+        "serviceType": "audiology",
+        "slot": null,
+        "start": "2021-09-09T20:30:00Z",
+        "status": "booked",
+        "telehealth": {
+          "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
+          "atlas": null,
+          "vvsKind": "MOBILE_ANY"
+        }
+      }
+    },
+    {
+      "id": "05aa456va",
+      "type": "Appointment",
+      "attributes": {
+        "cancelationReason": null,
+        "clinic": "848",
+        "comment": null,
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
+        "description": "Upcoming VA location telehealth appointment",
+        "end": "2021-12-22T18:30:34",
+        "id": "05aa456va",
         "kind": "telehealth",
         "locationId": "983",
         "minutesDuration": 30,
@@ -105,22 +272,23 @@
         "preferredTimesForPhoneCall": [],
         "priority": 0,
         "reason": null,
-        "requestedPeriods": [],
-        "serviceType": "va_appointments",
+        "requestedPeriods": null,
+        "serviceType": "foodAndNutrition",
         "slot": null,
-        "start": "2021-11-23T20:00:00Z",
+        "start": "2021-12-22T18:10:34",
         "status": "booked",
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
-          "atlas": null
+          "atlas": null,
+          "vvsKind": "CLINIC_BASED"
         }
       }
     },
     {
-      "id": "a784f714fa1606e39dee11e3bdbb7901",
+      "id": "10aa456va",
       "type": "Appointment",
       "attributes": {
-        "cancellationReason": null,
+        "cancelationReason": null,
         "clinic": "848",
         "comment": null,
         "contact": {
@@ -131,107 +299,46 @@
             }
           ]
         },
-        "description": "Upcomming at home telehealth appointment",
-        "end": "2021-11-14T12:52:00Z",
-        "id": "a784f714fa1606e39dee11e3bdbb7901",
-        "kind": "telehealth",
-        "locationId": "983",
-        "minutesDuration": 30,
-        "patientIcn": null,
-        "practitioners": [
-          {
-            "id": {
-              "system": null,
-              "value": null
-            },
-            "firstName": "Meg",
-            "lastName": "Smith",
-            "practiceName": null
-          }
-        ],
-        "preferredTimesForPhoneCall": [],
-        "priority": 0,
-        "reason": null,
-        "requestedPeriods": [],
-        "serviceType": "va_appointments",
-        "slot": null,
-        "start": "2021-11-14T12:52:00Z",
-        "status": "booked",
-        "telehealth": {
-          "url": null,
-          "atlas": null
-        }
-      }
-    },
-
-    {
-      "id": "c3e3e32701e23fdf389c06eae00fcb24",
-      "type": "Appointment",
-      "attributes": {
-        "cancellationReason": null,
-        "clinic": null,
-        "comment": null,
-        "contact": {
-          "telecom": [
-            {
-              "type": "email",
-              "value": null
-            }
-          ]
-        },
-        "description": "Upcomming ATLAS telehealth appointment",
+        "description": "Upcoming VA GFE telehealth appointment",
         "end": "2021-12-31T18:19:34",
-        "id": "c3e3e32701e23fdf389c06eae00fcb24",
+        "id": "10aa456va",
         "kind": "telehealth",
         "locationId": "983",
         "minutesDuration": 30,
         "patientIcn": null,
         "practitioners": [
           {
-            "id": {
+            "identifier": {
               "system": null,
-              "value": null
+              "value": "1801312053"
             },
-            "firstName": "Meg",
-            "lastName": "Smith",
+            "firstName": "Florence",
+            "lastName": "Nightingale",
             "practiceName": null
           }
         ],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
         "reason": null,
-        "requestedPeriods": [],
-        "serviceType": "va_appointments",
+        "requestedPeriods": null,
+        "serviceType": "primaryCare",
         "slot": null,
         "start": "2021-12-31T18:19:34",
         "status": "booked",
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
-          "atlas": {
-            "siteCode": "string",
-            "confirmationCode": "7VBBCA",
-            "address": {
-              "streetAddress": "114 Dewey Ave",
-              "city": "Eureka",
-              "state": "MT",
-              "zipCode": "59917",
-              "country": "string",
-              "latitutde": -115.1,
-              "longitude": 48.8,
-              "additionalDetails": null
-            }
-          }
+          "atlas": null,
+          "vvsKind": "MOBILE_GFE"
         }
       }
     },
-
     {
-      "id": "22cdc6741c00ac67b6cbf6b972d084c0",
+      "id": "06aa456va",
       "type": "Appointment",
       "attributes": {
-        "cancellationReason": null,
+        "cancelationReason": null,
         "clinic": "308",
-        "comment": null,
+        "comment": "New issue: Phone appointment",
         "contact": {
           "telecom": [
             {
@@ -242,7 +349,7 @@
         },
         "description": "Upcomming phone appointment",
         "end": "2021-12-31T18:19:34",
-        "id": "22cdc6741c00ac67b6cbf6b972d084c0",
+        "id": "06aa456va",
         "kind": "phone",
         "locationId": "983",
         "minutesDuration": 30,
@@ -250,23 +357,22 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": null,
-        "requestedPeriods": [],
-        "serviceType": "va_appointments",
+        "reason": "New Issue",
+        "requestedPeriods": null,
+        "serviceType": "primaryCare",
         "slot": null,
         "start": "2021-12-31T18:19:34",
         "status": "booked",
         "telehealth": null
       }
     },
-
     {
-      "id": "1234",
+      "id": "07aa456va",
       "type": "Appointment",
       "attributes": {
-        "cancellationReason": null,
+        "cancelationReason": null,
         "clinic": null,
-        "comment": null,
+        "comment": "Medication concern: I ran out of meds",
         "contact": {
           "telecom": [
             {
@@ -277,17 +383,17 @@
         },
         "description": "Past appointment",
         "end": "2021-06-28T18:19:34.954Z",
-        "id": "1234",
+        "id": "07aa456va",
         "kind": "clinic",
-        "locationId": null,
+        "locationId": "983",
         "minutesDuration": 30,
         "patientIcn": null,
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": null,
-        "requestedPeriods": [],
-        "serviceType": "va_appointments",
+        "reason": "Medication Concern",
+        "requestedPeriods": null,
+        "serviceType": "primaryCare",
         "slot": null,
         "start": "2021-06-27T18:19:34",
         "status": "booked",
@@ -295,11 +401,11 @@
       }
     },
     {
-      "id": "1234",
+      "id": "09aa456va",
       "type": "Appointment",
       "attributes": {
-        "cancellationReason": null,
-        "clinic": null,
+        "cancelationReason": null,
+        "clinic": "848",
         "comment": null,
         "contact": {
           "telecom": [
@@ -309,24 +415,197 @@
             }
           ]
         },
+        "description": "past at home telehealth appointment",
+        "end": "2021-06-08T17:30:00Z",
+        "id": "09aa456va",
+        "kind": "telehealth",
+        "locationId": "983",
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "patientInstruction": "Medication Review",
+        "practitioners": [
+          {
+            "identifier": {
+              "system": null,
+              "value": "1801312053"
+            },
+            "firstName": "Peter",
+            "lastName": "Jones",
+            "practiceName": null
+          }
+        ],
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reason": null,
+        "requestedPeriods": null,
+        "serviceType": "primaryCare",
+        "slot": null,
+        "start": "2021-06-08T17:30:00Z",
+        "status": "booked",
+        "telehealth": {
+          "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
+          "atlas": null,
+          "vvsKind": "MOBILE_ANY"
+        }
+      }
+    },
+    {
+      "id": "08aa456va",
+      "type": "Appointment",
+      "attributes": {
+        "cancelationReason": { "coding": [{ "code": "prov" }] },
+        "clinic": null,
+        "comment": "Follow-up/Routine: comment test",
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
         "description": "Cancelled appointment",
-        "end": "2021-06-28T18:19:34.954Z",
-        "id": "1234",
+        "end": "2021-09-28T18:19:34.954Z",
+        "id": "08aa456va",
         "kind": "clinic",
-        "locationId": null,
+        "locationId": "983GC",
         "minutesDuration": 30,
         "patientIcn": null,
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": null,
-        "requestedPeriods": [],
-        "serviceType": "va_appointments",
+        "reason": "Routine Follow-up",
+        "requestedPeriods": null,
+        "serviceType": "primaryCare",
         "slot": null,
         "start": "2021-12-31T18:19:34",
         "status": "cancelled",
         "telehealth": null
       }
-    }
+    },
+    {
+      "id": "08aa457va",
+      "type": "Appointment",
+      "attributes": {
+        "cancelationReason": { "coding": [{ "code": "pat" }] },
+        "clinic": null,
+        "comment": "Follow-up/Routine: comment test",
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
+        "description": "Cancelled appointment",
+        "end": "2021-09-28T18:19:34.954Z",
+        "id": "08aa456va",
+        "kind": "clinic",
+        "locationId": "983GC",
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "practitioners": [],
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reason": "Routine Follow-up",
+        "requestedPeriods": null,
+        "serviceType": "primaryCare",
+        "slot": null,
+        "start": "2021-12-30T18:19:34",
+        "status": "cancelled",
+        "telehealth": null
+      }
+    },
+    {
+      "id": "50096",
+      "type": "appointments",
+      "attributes": {
+        "id": "50096",
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn/vaos/vista/983/appointment/id",
+            "value": "308;20210907.140000"
+          }
+        ],
+        "kind": "clinic",
+        "serviceType": "primaryCare",
+        "patientIcn": "1012845331V153043",
+        "locationId": "983",
+        "clinic": "308",
+        "start": "2021-11-07T20:00:00Z",
+        "end": "2021-11-07T20:20:00Z",
+        "minutesDuration": 20,
+        "slot": {
+          "id": "3230323130393037323030303A323032313039303732303230",
+          "start": "2021-09-07T20:00:00Z",
+          "end": "2021-09-07T20:20:00Z"
+        },
+        "cancellationReason": {
+          "code": "other"
+        },
+        "cancellable": true,
+        "serviceName": "CHY PC KILPATRICK",
+        "location": {
+          "id": "983",
+          "type": "appointments",
+          "attributes": {
+            "id": "983",
+            "vistaSite": "983",
+            "vastParent": "983",
+            "type": "va_facilities",
+            "name": "Cheyenne VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/Denver"
+            },
+            "lat": 39.744507,
+            "long": -104.830956,
+            "website": "https://www.denver.va.gov/locations/directions.asp",
+            "phone": {
+              "main": "307-778-7550",
+              "fax": "307-778-7381",
+              "pharmacy": "866-420-6337",
+              "afterHours": "307-778-7550",
+              "patientAdvocate": "307-778-7550 x7517",
+              "mentalHealthClinic": "307-778-7349",
+              "enrollmentCoordinator": "307-778-7550 x7579"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": [
+                "2360 East Pershing Boulevard"
+              ],
+              "city": "Cheyenne",
+              "state": "WY",
+              "postalCode": "82001-5356"
+            },
+            "mobile": false,
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "DentalServices",
+              "EmergencyCare",
+              "Gastroenterology",
+              "Gynecology",
+              "MentalHealthCare",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "SpecialtyCare",
+              "UrgentCare",
+              "Urology",
+              "WomensHealth"
+            ],
+            "operatingStatus": {
+              "code": "NORMAL"
+            }
+          }
+        }
+      }
+    }    
   ]
 }

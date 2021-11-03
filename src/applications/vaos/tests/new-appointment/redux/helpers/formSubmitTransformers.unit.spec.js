@@ -650,9 +650,6 @@ describe('VAOS data transformation', () => {
 
   it('should transform form using provider selection into CC request', () => {
     const state = {
-      featureToggles: {
-        vaOnlineSchedulingProviderSelection: true,
-      },
       user: {
         profile: {
           facilities: [{ facilityId: '983', isCerner: false }],

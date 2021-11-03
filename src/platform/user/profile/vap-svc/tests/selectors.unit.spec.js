@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 
+import { wait } from '@@profile/tests/unit-test-helpers';
+
 import {
   TRANSACTION_STATUS,
   TRANSACTION_CATEGORY_TYPES,
@@ -85,7 +87,7 @@ describe('selectors', () => {
 
   describe('selectVAPServiceTransaction', () => {
     beforeEach(hooks.beforeEach);
-    it('accepts a field name to look up a transaction and transaction request using the field-transaction map', () => {
+    it('accepts a field name to look up a transaction and transaction request using the field-transaction map', async () => {
       const fieldName = 'someField';
       const transactionId = 'transaction_1';
       const transaction = {
@@ -107,6 +109,9 @@ describe('selectors', () => {
       expect(result).to.deep.equal({ transaction, transactionRequest });
 
       result = selectors.selectVAPServiceTransaction(state, 'someOtherField');
+
+      await wait(300);
+
       expect(
         result,
         'returns a null transaction for a field that has no data in the field-transaction map',
@@ -119,7 +124,7 @@ describe('selectors', () => {
 
   describe('selectVAPServiceFailedTransactions', () => {
     beforeEach(hooks.beforeEach);
-    it('returns only failed transactions from a list of transactions', () => {
+    it('returns only failed transactions from a list of transactions', async () => {
       const failed = [
         {
           data: {
@@ -158,6 +163,8 @@ describe('selectors', () => {
           },
         },
       ];
+
+      await wait(500);
 
       const result = selectors.selectVAPServiceFailedTransactions(state);
 

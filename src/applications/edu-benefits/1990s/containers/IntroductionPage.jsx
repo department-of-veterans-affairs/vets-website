@@ -5,7 +5,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { connect } from 'react-redux';
 import OMBInfo from '../content/OMBInfo';
-import CallToActionWidget from 'platform/site-wide/cta-widget';
+import CallToActionWidget from 'applications/static-pages/cta-widget';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -35,16 +35,20 @@ class IntroductionPage extends React.Component {
       <div className="schemaform-intro">
         <FormTitle title="Apply for the Veteran Rapid Retraining Assistance Program (VRRAP)" />
         {this.loginPrompt()}
-        <h4>Follow these steps to apply</h4>
+        <h2 className="vads-u-font-size--h4">Follow these steps to apply</h2>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
-              <h5>Make sure you're eligible</h5>
+              <h3 className="vads-u-font-size--h5">
+                Make sure you're eligible
+              </h3>
               <p>
                 To be eligible for Veteran Rapid Retraining Assistance Program
                 (VRRAP), you must meet all the requirements listed here.
               </p>
-              <h6>All of these must be true. You're:</h6>
+              <h4 className="vads-u-font-size--h6">
+                All of these must be true. You're:
+              </h4>
               <ul>
                 <li>
                   At least 22 years old, but not older than 66,{' '}
@@ -103,8 +107,10 @@ class IntroductionPage extends React.Component {
               </p>
             </li>
             <li className="process-step list-two">
-              <h5>Prepare</h5>
-              <h6>To fill out this application, you’ll need your:</h6>
+              <h3 className="vads-u-font-size--h5">Prepare</h3>
+              <h4 className="vads-u-font-size--h6">
+                To fill out this application, you’ll need your:
+              </h4>
               <ul>
                 <li>Social Security number</li>
                 <li>Bank account direct deposit information</li>
@@ -120,7 +126,7 @@ class IntroductionPage extends React.Component {
               </p>
             </li>
             <li className="process-step list-three">
-              <h5>Apply</h5>
+              <h3 className="vads-u-font-size--h5">Apply</h3>
               <p>Complete this education benefits form.</p>
               <p>
                 After submitting the form, you’ll get a confirmation message.
@@ -128,7 +134,7 @@ class IntroductionPage extends React.Component {
               </p>
             </li>
             <li className="process-step list-four">
-              <h5>VA review</h5>
+              <h3 className="vads-u-font-size--h5">VA review</h3>
               <p>
                 We usually make a decision within 30 days. We’ll let you know by
                 mail if we need more information.
@@ -140,7 +146,7 @@ class IntroductionPage extends React.Component {
               </p>
             </li>
             <li className="process-step list-five">
-              <h5>Decision</h5>
+              <h3 className="vads-u-font-size--h5">Decision</h3>
               <p>
                 If we approve your application, you’ll get a Certificate of
                 Eligibility (COE), or award letter, in the mail. Bring this COE
@@ -173,7 +179,7 @@ class IntroductionPage extends React.Component {
           <OMBInfo
             resBurden={10}
             ombNumber="2900-0885"
-            expDate="October 31, 2021"
+            expDate="October 31, 2024"
           />
         </div>
       </div>

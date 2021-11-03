@@ -4,19 +4,13 @@ import RadioButtons from '@department-of-veterans-affairs/component-library/Radi
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
+import { setData } from 'platform/forms-system/src/js/actions';
+import { deductionCodes } from '../../debt-letters/const/deduction-codes';
+import { currency } from '../utils/helpers';
 import Telephone, {
   CONTACTS,
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
-
-import { setData } from 'platform/forms-system/src/js/actions';
-import { deductionCodes } from '../../debt-letters/const/deduction-codes';
-
-const formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  minimumFractionDigits: 2,
-});
 
 const ExpandedContent = ({
   index,
@@ -61,6 +55,7 @@ const ExpandedContent = ({
       return (
         <>
           <Checkbox
+            name="agree-to-waiver"
             label="By checking this box, I’m agreeing that I understand how a debt waiver may affect my VA education benefits. If VA grants me a waiver, this will reduce any remaining education benefit entitlement I may have."
             checked={debt.resolution?.agreeToWaiver || false}
             onValueChange={value => updateDebts('agreeToWaiver', value, debt)}
@@ -129,7 +124,7 @@ const ResolutionDebtCards = ({
         const radioError = submitted && !debt.resolution?.resolutionType;
         const title = deductionCodes[debt.deductionCode] || debt.benefitType;
         const subTitle =
-          debt.currentAr && formatter.format(parseFloat(debt.currentAr));
+          debt.currentAr && currency.format(parseFloat(debt.currentAr));
 
         return (
           <div

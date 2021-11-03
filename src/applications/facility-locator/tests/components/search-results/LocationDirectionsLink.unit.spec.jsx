@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'lodash/fp';
+import _ from 'lodash';
 import { shallow } from 'enzyme';
 import LocationDirectionsLink from '../../../components/search-results-items/common/LocationDirectionsLink';
 import { expect } from 'chai';
@@ -18,7 +18,7 @@ const verifyLink = data => {
   );
 
   const anchorProps = wrapper.find('a').props();
-  const testProps = _.pick(['href', 'rel', 'target'], anchorProps);
+  const testProps = _.pick(anchorProps, ['href', 'rel', 'target']);
 
   expect(testProps).to.eql({
     href:
@@ -27,7 +27,7 @@ const verifyLink = data => {
     target: '_blank',
   });
   expect(wrapper.find('a').text()).to.equal(
-    'Get directionsto Austin VA Clinic',
+    'Get directions on Google Mapsto Austin VA Clinic',
   );
   expect(wrapper.find('.sr-only').text()).to.equal('to Austin VA Clinic');
 

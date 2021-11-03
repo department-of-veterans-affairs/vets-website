@@ -8,6 +8,7 @@ import {
   DECEASED_ERROR_CODES,
   INVALID_EMAIL_ADDRESS_ERROR_CODES,
   LOW_CONFIDENCE_ADDRESS_ERROR_CODES,
+  INVALID_PHONE_ERROR_CODES,
 } from '@@vap-svc/util/transactions';
 
 function hasError(codes, errors) {
@@ -55,11 +56,21 @@ export default function VAPServiceEditModalErrorMessage({
       );
       break;
 
+    case hasError(INVALID_PHONE_ERROR_CODES, errors):
+      content = (
+        <p>
+          We can’t make this update because we currently only support U.S. area
+          codes. Please provide a U.S.-based phone number.
+        </p>
+      );
+      break;
+
     default:
       content = (
         <p>
-          We’re sorry. We couldn’t update your {title.toLowerCase()}. Please try
-          again.
+          We’re sorry. We can’t save your {title.toLowerCase()} at this time.
+          We’re working to fix this problem. Please try again or check back
+          soon.
         </p>
       );
   }

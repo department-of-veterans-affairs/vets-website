@@ -119,7 +119,7 @@ const PreSubmitSignature = ({
       </p>
 
       <article className="vads-u-background-color--gray-lightest vads-u-padding-bottom--6 vads-u-padding-x--3 vads-u-padding-top--1px">
-        <h3>Veteran's statement of truth</h3>
+        <h3>Veteran’s statement of truth</h3>
         <p>
           I’ve reviewed the information I provided in this request, including:
         </p>
@@ -131,6 +131,7 @@ const PreSubmitSignature = ({
         </ul>
 
         <TextInput
+          name="veteran-signature"
           additionalClass="signature-input"
           label={"Veteran's full name"}
           required
@@ -143,6 +144,7 @@ const PreSubmitSignature = ({
         />
 
         <Checkbox
+          name="veteran-certify"
           checked={certifyChecked}
           onValueChange={value => setCertifyChecked(value)}
           label="By checking this box, I certify that the information in this request is true and correct to the best of my knowledge and belief."
@@ -161,6 +163,7 @@ const PreSubmitSignature = ({
       </p>
 
       <Checkbox
+        name="privacy-policy"
         className="vads-u-margin-bottom--3"
         checked={privacyChecked}
         onValueChange={value => setPrivacyChecked(value)}

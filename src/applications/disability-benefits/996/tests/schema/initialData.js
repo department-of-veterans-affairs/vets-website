@@ -12,7 +12,7 @@ export default {
       type: 'contestableIssue',
       attributes: {
         ratingIssueSubjectText: 'Tinnitus',
-        description: `Rinnging in the ears. More intese in right ear. This is
+        description: `Ringing in the ears. More intense in right ear. This is
           more text so the description goes into the second line.`,
         ratingIssuePercentNumber: 10,
         approxDecisionDate: '2020-11-01',

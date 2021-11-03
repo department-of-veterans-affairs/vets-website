@@ -4,37 +4,7 @@ import { Link } from 'react-router';
 import { LocationType, OperatingStatus } from '../../../constants';
 import LocationAddress from './LocationAddress';
 import { isVADomain } from '../../../utils/helpers';
-
-const showOperationStatus = operatingStatus => {
-  let infoMsg;
-  let classNameAlert;
-  let iconType;
-  if (operatingStatus.code === OperatingStatus.NOTICE) {
-    infoMsg = 'Facility notice';
-    classNameAlert = 'usa-alert-info';
-    iconType = 'circle';
-  }
-  if (operatingStatus.code === OperatingStatus.LIMITED) {
-    infoMsg = 'Limited services and hours';
-    classNameAlert = 'usa-alert-warning';
-    iconType = 'triangle';
-  }
-  if (operatingStatus.code === OperatingStatus.CLOSED) {
-    infoMsg = 'Facility Closed';
-    classNameAlert = 'usa-alert-error';
-    iconType = 'circle';
-  }
-  return (
-    <div
-      className={`usa-alert ${classNameAlert} background-color-only notice-marg-pad`}
-    >
-      <i
-        className={`fa fa-exclamation-${iconType} vads-u-margin-top--1 icon-base`}
-      />
-      <div className="usa-alert-body">{infoMsg}</div>
-    </div>
-  );
-};
+import LocationOperationStatus from './LocationOperationStatus';
 
 const LocationInfoBlock = ({ location }) => {
   const { name, website, operatingStatus } = location.attributes;
@@ -72,8 +42,9 @@ const LocationInfoBlock = ({ location }) => {
         </span>
       )}
       {operatingStatus &&
-        operatingStatus.code !== OperatingStatus.NORMAL &&
-        showOperationStatus(operatingStatus)}
+        operatingStatus.code !== OperatingStatus.NORMAL && (
+          <LocationOperationStatus operatingStatus={operatingStatus} />
+        )}
       <p>
         <LocationAddress location={location} />
       </p>

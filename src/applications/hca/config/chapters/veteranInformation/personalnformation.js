@@ -1,4 +1,5 @@
-import { merge, set } from 'lodash/fp';
+import merge from 'lodash/merge';
+import set from 'platform/utilities/data/set';
 
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
 import fullNameUI from 'platform/forms/definitions/fullName';
@@ -9,7 +10,7 @@ const { mothersMaidenName, veteranFullName } = fullSchemaHca.properties;
 export default {
   uiSchema: {
     'ui:description': applicantDescription,
-    veteranFullName: merge(fullNameUI, {
+    veteranFullName: merge({}, fullNameUI, {
       first: {
         'ui:errorMessages': {
           minLength:

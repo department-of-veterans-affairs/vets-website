@@ -6,7 +6,7 @@ function ViewDependentsLists(props) {
   const onAwardSubhead = (
     <>
       The following dependents have been added to your VA benefits. Please let
-      us know if a dependent's status has changed.
+      us know if a dependent’s status has changed.
     </>
   );
 

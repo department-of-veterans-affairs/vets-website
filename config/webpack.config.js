@@ -13,8 +13,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
-const ManifestPlugin = require('webpack-manifest-plugin');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const WebpackBar = require('webpackbar');
+const StylelintPlugin = require('stylelint-webpack-plugin');
 
 const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
 const BUCKETS = require('../src/site/constants/buckets');
@@ -299,9 +300,8 @@ module.exports = async (env = {}) => {
         {
           test: /\.(sa|sc|c)ss$/,
           use: [
-            {
-              loader: MiniCssExtractPlugin.loader,
-            },
+            MiniCssExtractPlugin.loader,
+            'cache-loader',
             {
               loader: 'css-loader',
               options: {
@@ -310,12 +310,6 @@ module.exports = async (env = {}) => {
             },
             {
               loader: 'postcss-loader',
-              options: {
-                // use cssnano to minimize css only on optimized builds
-                plugins: isOptimizedBuild
-                  ? () => [require('autoprefixer'), require('cssnano')]
-                  : () => [require('autoprefixer')],
-              },
             },
             {
               loader: 'sass-loader',
@@ -406,6 +400,12 @@ module.exports = async (env = {}) => {
         __API__: JSON.stringify(buildOptions.api),
       }),
 
+      new StylelintPlugin({
+        configFile: '.stylelintrc.json',
+        exclude: ['node_modules', 'build', 'coverage', '.cache'],
+        fix: true,
+      }),
+
       new MiniCssExtractPlugin({
         moduleFilename: chunk => {
           const { name } = chunk;
@@ -426,9 +426,9 @@ module.exports = async (env = {}) => {
 
   if (!buildOptions.watch) {
     baseConfig.plugins.push(
-      new ManifestPlugin({
+      new WebpackManifestPlugin({
         fileName: 'file-manifest.json',
-        filter: ({ path: filePath }) => !filePath.includes('/generated/..'),
+        filter: ({ isChunk }) => isChunk,
       }),
     );
   }

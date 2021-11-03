@@ -2,7 +2,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import AlertMessage from '../../components/AlertMessage';
 
 // Relative Imports
 import CarefulConsiderationStatement from '../../components/CarefulConsiderationStatement';
@@ -17,7 +17,7 @@ describe('Discharge Wizard <CarefulConsiderationStatement />', () => {
         }}
       />,
     );
-    expect(tree.html()).to.equal('<div></div>');
+    expect(tree.html()).to.equal(''); // component renders null
     tree.unmount();
   });
 
@@ -31,7 +31,7 @@ describe('Discharge Wizard <CarefulConsiderationStatement />', () => {
         }}
       />,
     );
-    expect(wrapper.find(AlertBox)).to.have.lengthOf(1);
+    expect(wrapper.find(AlertMessage)).to.have.lengthOf(1);
     wrapper.unmount();
   });
 

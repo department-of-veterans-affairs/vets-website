@@ -40,7 +40,9 @@ export function chooseVAFacilityV2Test() {
 export function chooseClinicTest() {
   cy.url().should('include', '/clinics');
   cy.axeCheckBestPractice();
-  cy.findByText(/You can choose a clinic where you’ve been seen/i);
+  cy.findByText(
+    /Choose a clinic below or request a different clinic for this appointment/i,
+  );
   cy.get('#root_clinicId_0')
     .focus()
     .click();
@@ -133,14 +135,6 @@ export function reviewTest() {
   cy.url().should('include', '/review');
   cy.axeCheckBestPractice();
   cy.findByText('Confirm appointment').click();
-}
-
-export function confirmationPageTest(additionalInfo) {
-  cy.findByText('Your appointment has been scheduled');
-  cy.findByText('VA Appointment');
-  cy.findByText('Follow-up/Routine');
-  cy.findByText(additionalInfo);
-  cy.axeCheckBestPractice();
 }
 
 export function confirmationPageV2Test(fullReason) {

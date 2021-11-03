@@ -1,4 +1,5 @@
-import _ from 'lodash/fp';
+import merge from 'lodash/merge';
+import set from 'platform/utilities/data/set';
 import {
   FETCH_CLAIMS_PENDING,
   FETCH_CLAIMS_SUCCESS,
@@ -37,9 +38,9 @@ const initialState = {
 export default function claimsV2Reducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_CLAIMS_PENDING:
-      return _.set('claimsLoading', true, state);
+      return set('claimsLoading', true, state);
     case FETCH_CLAIMS_SUCCESS:
-      return _.merge(state, {
+      return merge({}, state, {
         claims: action.claims,
         claimsLoading: false,
         pages: action.pages,
@@ -47,47 +48,47 @@ export default function claimsV2Reducer(state = initialState, action) {
       });
     case FETCH_CLAIMS_ERROR:
       // TO-DO: Parse errors out
-      return _.merge(state, {
+      return merge({}, state, {
         claimsLoading: false,
         claimsAvailability: claimsAvailability.UNAVAILABLE,
       });
     case FETCH_APPEALS_PENDING:
-      return _.set('appealsLoading', true, state);
+      return set('appealsLoading', true, state);
     case FETCH_APPEALS_SUCCESS:
-      return _.merge(state, {
+      return merge({}, state, {
         appeals: action.appeals,
         appealsLoading: false,
         available: true,
         v2Availability: appealsAvailability.AVAILABLE,
       });
     case USER_FORBIDDEN_ERROR:
-      return _.merge(state, {
+      return merge({}, state, {
         appealsLoading: false,
         v2Availability: appealsAvailability.USER_FORBIDDEN_ERROR,
       });
     case RECORD_NOT_FOUND_ERROR:
-      return _.merge(state, {
+      return merge({}, state, {
         appealsLoading: false,
         v2Availability: appealsAvailability.RECORD_NOT_FOUND_ERROR,
       });
     case VALIDATION_ERROR:
-      return _.merge(state, {
+      return merge({}, state, {
         appealsLoading: false,
         v2Availability: appealsAvailability.VALIDATION_ERROR,
       });
     case BACKEND_SERVICE_ERROR:
-      return _.merge(state, {
+      return merge({}, state, {
         appealsLoading: false,
         v2Availability: appealsAvailability.BACKEND_SERVICE_ERROR,
       });
     case FETCH_APPEALS_ERROR:
-      return _.merge(state, {
+      return merge({}, state, {
         appealsLoading: false,
         v2Availability: appealsAvailability.FETCH_APPEALS_ERROR,
       });
 
     case CHANGE_INDEX_PAGE:
-      return _.set('page', action.page, state);
+      return set('page', action.page, state);
 
     case FETCH_STEM_CLAIMS_PENDING:
       return {

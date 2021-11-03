@@ -1,4 +1,9 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "./partials/expandable-alert";
+
+.no-wrap {
+  white-space: nowrap;
+}
 
 .right-heading {
   font-family: "Bitter";
@@ -15,10 +20,6 @@ a i {
   font-size: 8px;
   margin-left: 4px;
   margin-bottom: 1px;
-}
-
-.debt-details-alert h2 {
-  font-size: 20px;
 }
 
 .mobile-button {
@@ -43,14 +44,40 @@ a i {
   margin: 15px 0;
 }
 
-dl {
-  width: 50%;
-}
-
 h1:focus {
   outline: none !important;
 }
 
-dt {
-  width: 50%;
+.chapter33-alert {
+  i {
+    position: absolute;
+    left: 22px;
+    top: 37px;
+  }
+
+  p {
+    width: 101%;
+  }
+
+  i.fas.fa-angle-down {
+    display: none;
+  }
+}
+
+// debt details table
+.details-table {
+  display: table;
+  margin: 0 0 32px 0;
+  .details-row {
+    display: table-row;
+    .details-title,
+    .details-data {
+      display: table-cell;
+      padding: 5px;
+    }
+    .details-title {
+      font-weight: bold;
+      width: 150px;
+    }
+  }
 }

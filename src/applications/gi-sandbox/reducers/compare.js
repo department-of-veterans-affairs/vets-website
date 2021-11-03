@@ -5,6 +5,7 @@ import {
   REMOVE_COMPARE_INSTITUTION,
   UPDATE_COMPARE_DETAILS,
   UPDATE_QUERY_PARAMS,
+  COMPARE_DRAWER_OPENED,
 } from '../actions';
 
 const INITIAL_STATE = Object.freeze({
@@ -18,6 +19,7 @@ const INITIAL_STATE = Object.freeze({
   },
   selected: [],
   error: null,
+  open: false,
 });
 
 export default function(state = INITIAL_STATE, action) {
@@ -111,6 +113,12 @@ export default function(state = INITIAL_STATE, action) {
       return {
         ...state,
         error: action.payload,
+      };
+
+    case COMPARE_DRAWER_OPENED:
+      return {
+        ...state,
+        open: action.payload,
       };
 
     default:

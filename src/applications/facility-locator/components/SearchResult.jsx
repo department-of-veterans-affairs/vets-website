@@ -29,7 +29,7 @@ export const urgentCareCall = query => {
 
   return null;
 };
-// revert to stateless component given: 19fd5178f
+
 const SearchResult = ({ result, query }) => (
   <div className="facility-result" id={result.id}>
     <LocationInfoBlock location={result} from={'SearchResult'} query={query} />

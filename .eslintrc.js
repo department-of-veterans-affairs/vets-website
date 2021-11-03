@@ -7,6 +7,7 @@ module.exports = {
   },
   settings: {
     'import/resolver': {
+      node: {}, // need to add this
       'babel-module': {},
     },
   },
@@ -14,7 +15,6 @@ module.exports = {
     'cypress',
     'deprecate',
     'fp',
-    'jest',
     'mocha',
     'react-hooks',
     'sonarjs',
@@ -31,7 +31,6 @@ module.exports = {
     commonjs: true,
     'cypress/globals': true,
     es2020: true,
-    jest: true,
     mocha: true,
   },
   globals: {
@@ -61,7 +60,7 @@ module.exports = {
       2,
       { args: 'after-used', argsIgnorePattern: '^_', vars: 'local' },
     ],
-    'no-restricted-imports': ['error', 'raven'],
+    'no-restricted-imports': ['error', 'raven', 'lodash/fp'],
     'prefer-rest-params': 2,
 
     /* || va custom plugin || */
@@ -73,6 +72,7 @@ module.exports = {
         aliases: ['applications', 'platform', 'site', '@@vap-svc', '@@profile'],
       },
     ],
+    'va/correct-apostrophe': 1,
 
     /* || fp plugin || */
     'fp/no-proxy': 2, // IE 11 has no polyfill for Proxy

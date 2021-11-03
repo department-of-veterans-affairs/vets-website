@@ -10,14 +10,20 @@ import { LOADING_STATES } from '~/applications/personalization/common/constants'
 import reducer, {
   endpoint,
   fetchCommunicationPreferenceGroups,
-  saveCommunicationPreferenceGroup,
-  selectGroupUi,
+  saveCommunicationPreferenceChannel,
+  selectChannelById,
+  selectGroups,
+  selectChannelsWithoutSelection,
+  selectItemById,
+  selectGroupById,
 } from '../../ducks/communicationPreferences';
 import error401 from '../fixtures/401.json';
 import error500 from '../fixtures/500.json';
-import getCommunicationGroupsSuccess from '../fixtures/communication-preferences/get-200-minimal.json';
-import postCommunicationGroupsSuccess from '../fixtures/communication-preferences/post-200.json';
-import patchCommunicationGroupsSuccess from '../fixtures/communication-preferences/patch-200.json';
+import getMaximalCommunicationGroupsSuccess from '../fixtures/communication-preferences/get-200-maximal.json';
+import allSelectionsMade from '../fixtures/communication-preferences/get-200-maximal-all-selections.json';
+import noSelectionsMade from '../fixtures/communication-preferences/get-200-maximal-no-selections.json';
+import postSuccess from '../fixtures/communication-preferences/post-200-success.json';
+import patchSuccess from '../fixtures/communication-preferences/patch-200-success.json';
 
 const middleware = [thunk];
 const mockStore = configureStore(middleware);
@@ -33,7 +39,10 @@ describe('fetching communication preferences', () => {
   before(() => {
     server = setupServer(
       rest.get(apiURL, (req, res, ctx) => {
-        return res(ctx.json(getCommunicationGroupsSuccess));
+        return res(
+          ctx.status(200),
+          ctx.json(getMaximalCommunicationGroupsSuccess),
+        );
       }),
     );
     server.listen();
@@ -47,80 +56,106 @@ describe('fetching communication preferences', () => {
   after(() => {
     server.close();
   });
-  context('success', () => {
+  context(
+    "when a user's only facility is one that supports Rx tracking",
+    () => {
+      it('sets the state properly', () => {
+        const promise = store.dispatch(
+          fetchCommunicationPreferenceGroups({
+            facilities: [{ facilityId: '983', isCerner: false }],
+          }),
+        );
+
+        return promise.then(() => {
+          const state = store.getState();
+          expect(state.loadingStatus).to.equal(LOADING_STATES.loaded);
+          expect(state.loadingErrors).to.be.null;
+          const communicationGroups = selectGroups(state);
+          expect(communicationGroups.ids.length).to.equal(3);
+          // The first group is the Health Care group
+          expect(communicationGroups.ids[0]).to.equal('group3');
+          const rxTrackingItem = selectItemById(state, 'item4');
+          // The Rx-tracking item exists
+          expect(rxTrackingItem).to.exist;
+        });
+      });
+    },
+  );
+  context(
+    'when user has a facility that supports Rx tracking and another that does not',
+    () => {
+      it('sets the state properly', () => {
+        const promise = store.dispatch(
+          fetchCommunicationPreferenceGroups({
+            facilities: [
+              { facilityId: '983', isCerner: true },
+              { facilityId: '111', isCerner: false },
+            ],
+          }),
+        );
+
+        return promise.then(() => {
+          const state = store.getState();
+          expect(state.loadingStatus).to.equal(LOADING_STATES.loaded);
+          expect(state.loadingErrors).to.be.null;
+          const communicationGroups = selectGroups(state);
+          expect(communicationGroups.ids.length).to.equal(3);
+          // The first group is the Health Care group
+          expect(communicationGroups.ids[0]).to.equal('group3');
+          // The Rx-tracking item exists
+          expect(selectItemById(state, 'item4')).to.exist;
+        });
+      });
+    },
+  );
+  context(
+    'when user does not have a facility that supports Rx tracking',
+    () => {
+      it('sets the state properly', () => {
+        const promise = store.dispatch(
+          fetchCommunicationPreferenceGroups({
+            facilities: [{ facilityId: '111', isCerner: false }],
+          }),
+        );
+
+        return promise.then(() => {
+          const state = store.getState();
+          expect(state.loadingStatus).to.equal(LOADING_STATES.loaded);
+          expect(state.loadingErrors).to.be.null;
+          const communicationGroups = selectGroups(state);
+          expect(communicationGroups.ids.length).to.equal(3);
+          // The first group is the Health Care group
+          expect(communicationGroups.ids[0]).to.equal('group3');
+          // The Rx-tracking item does not exist
+          expect(selectItemById(state, 'item4')).not.to.exist;
+          // The Rx-tracking item channel does not exist
+          expect(selectChannelById(state, 'channel4-1')).not.to.exist;
+        });
+      });
+    },
+  );
+  context('when user does not have any facilities', () => {
     it('sets the state properly', () => {
-      const promise = store.dispatch(fetchCommunicationPreferenceGroups());
+      const promise = store.dispatch(
+        fetchCommunicationPreferenceGroups({
+          facilities: null,
+        }),
+      );
 
-      // check the state before the API call has resolved...
-      expect(store.getState().loadingStatus).to.equal(LOADING_STATES.pending);
-
-      // ...and check the state after the API call has resolved
       return promise.then(() => {
         const state = store.getState();
         expect(state.loadingStatus).to.equal(LOADING_STATES.loaded);
         expect(state.loadingErrors).to.be.null;
-        // expect the state.groups to be correct
-        expect(state.groups).to.deep.equal({
-          ids: ['group1'],
-          entities: {
-            group1: {
-              name: 'Health Care',
-              description: 'Healthcare Appointment Reminders',
-              items: ['item1', 'item2', 'item3'],
-              ui: {
-                isEditing: false,
-                errors: null,
-                updateStatus: LOADING_STATES.idle,
-              },
-            },
-          },
-        });
-        expect(state.items).to.deep.equal({
-          ids: ['item1', 'item2', 'item3'],
-          entities: {
-            item1: {
-              name: 'Health Appointment Reminder',
-              channels: ['channel1-1', 'channel1-2'],
-            },
-            item2: {
-              name: 'RX Prescription Refill Reminder',
-              channels: ['channel2-1'],
-            },
-            item3: {
-              name: 'Scheduled Appointment Confirmation',
-              channels: ['channel3-1'],
-            },
-          },
-        });
-        expect(state.channels).to.deep.equal({
-          ids: ['channel1-1', 'channel1-2', 'channel2-1', 'channel3-1'],
-          entities: {
-            'channel1-1': {
-              channelType: 1,
-              parentItem: 'item1',
-              isAllowed: true,
-              permissionId: 1728,
-            },
-            'channel1-2': {
-              channelType: 2,
-              parentItem: 'item1',
-              isAllowed: false,
-              permissionId: null,
-            },
-            'channel2-1': {
-              channelType: 1,
-              parentItem: 'item2',
-              isAllowed: true,
-              permissionId: 341,
-            },
-            'channel3-1': {
-              channelType: 1,
-              parentItem: 'item3',
-              isAllowed: false,
-              permissionId: 342,
-            },
-          },
-        });
+        const communicationGroups = selectGroups(state);
+        // The Health Care group is not in the state
+        expect(communicationGroups.ids.length).to.equal(2);
+        expect(selectGroupById(state, 'group3')).to.not.exist;
+        // The first group is the Applications, claims, etc group
+        expect(communicationGroups.ids[0]).to.equal('group1');
+        // The Appointment reminder item does not exist
+        expect(selectItemById(state, 'item3')).not.to.exist;
+        // The Rx-tracking item does not exist
+        expect(selectItemById(state, 'item4')).not.to.exist;
       });
     });
   });
@@ -218,16 +253,16 @@ describe('fetching communication preferences', () => {
   });
 });
 
-describe('saving a communication preferences group', () => {
+describe('saveCommunicationPreferenceChannel', () => {
   let server;
   let store;
   before(() => {
     server = setupServer(
       rest.post(apiURL, (req, res, ctx) => {
-        return res(ctx.json(postCommunicationGroupsSuccess));
+        return res(ctx.json(postSuccess));
       }),
       rest.patch(`${apiURL}/*`, (req, res, ctx) => {
-        return res(ctx.json(patchCommunicationGroupsSuccess));
+        return res(ctx.json(patchSuccess));
       }),
     );
     server.listen();
@@ -273,24 +308,40 @@ describe('saving a communication preferences group', () => {
               parentItem: 'item1',
               isAllowed: true,
               permissionId: 1728,
+              ui: {
+                updateStatus: LOADING_STATES.idle,
+                errors: null,
+              },
             },
             'channel1-2': {
               channelType: 2,
               parentItem: 'item1',
-              isAllowed: false,
+              isAllowed: null,
               permissionId: null,
+              ui: {
+                updateStatus: LOADING_STATES.idle,
+                errors: null,
+              },
             },
             'channel2-1': {
               channelType: 1,
               parentItem: 'item2',
               isAllowed: true,
               permissionId: 341,
+              ui: {
+                updateStatus: LOADING_STATES.idle,
+                errors: null,
+              },
             },
             'channel3-1': {
               channelType: 1,
               parentItem: 'item3',
               isAllowed: false,
               permissionId: 342,
+              ui: {
+                updateStatus: LOADING_STATES.idle,
+                errors: null,
+              },
             },
           },
         },
@@ -304,102 +355,217 @@ describe('saving a communication preferences group', () => {
     server.close();
   });
   context(
-    'successfully sets the value of a single permission for the first time',
+    'it first fails to save a permission via POST due to a 401 error and then succeeds on the second attempt',
     () => {
-      it('sets the state properly', () => {
-        const promise = store.dispatch(
-          saveCommunicationPreferenceGroup('group1', [
-            { method: 'POST', endpoint: apiURL, body: {} },
-          ]),
+      it('updates the redux state correctly', async () => {
+        const channelId = 'channel1-2';
+        server.use(
+          rest.post(apiURL, (req, res, ctx) => {
+            return res(ctx.status(401), ctx.json(error401));
+          }),
         );
-        // the updateStatus for that group should be `true` before the API call resolves
-        expect(
-          store.getState().groups.entities.group1.ui.updateStatus,
-        ).to.equal(LOADING_STATES.pending);
-        // then the updateStatus for that groups should be `false`
-        return promise.then(() => {
-          const group1UiState = selectGroupUi(store.getState(), 'group1');
-          expect(group1UiState.updateStatus).to.equal(LOADING_STATES.loaded);
-          expect(group1UiState.isEditing).to.be.false;
-          expect(group1UiState.errors).to.be.null;
+        const originalState = selectChannelById(store.getState(), channelId);
+        let promise = store.dispatch(
+          saveCommunicationPreferenceChannel(channelId, {
+            method: 'POST',
+            endpoint: apiURL,
+            body: {},
+            isAllowed: true,
+            wasAllowed: null,
+          }),
+        );
+        // it should set that part of the UI as loading
+        let channelState = selectChannelById(store.getState(), channelId);
+        expect(channelState.ui.updateStatus).to.equal(LOADING_STATES.pending);
+        // it should flip the isAllowed flag while the call is in flight
+        expect(channelState.isAllowed).to.equal(!originalState.isAllowed);
+        // the update call fails
+        // it should then set the channel's redux state correctly
+        await promise.then(() => {
+          channelState = selectChannelById(store.getState(), channelId);
+          expect(channelState.ui.updateStatus).to.equal(LOADING_STATES.error);
+          expect(channelState.ui.errors).to.deep.equal(error401.errors);
+          // it should flip the isAllowed flag back to where it started
+          expect(channelState.isAllowed).to.equal(originalState.isAllowed);
+          expect(channelState.permissionId).to.equal(
+            originalState.permissionId,
+          );
+        });
+        // now make the API work correctly and try to update the pref again
+        server.resetHandlers();
+        promise = store.dispatch(
+          saveCommunicationPreferenceChannel(channelId, {
+            method: 'POST',
+            endpoint: apiURL,
+            body: {},
+            isAllowed: true,
+            wasAllowed: null,
+          }),
+        );
+        channelState = selectChannelById(store.getState(), channelId);
+        // it should set that part of the UI as loading
+        expect(channelState.ui.updateStatus).to.equal(LOADING_STATES.pending);
+        expect(channelState.isAllowed).to.equal(!originalState.isAllowed);
+        // the update call succeeds
+        // it should then set the channel's redux state correctly
+        await promise.then(() => {
+          channelState = selectChannelById(store.getState(), channelId);
+          expect(channelState.ui.updateStatus).to.equal(LOADING_STATES.loaded);
+          expect(channelState.ui.errors).to.equal(null);
+          expect(channelState.isAllowed).to.equal(postSuccess.bio.allowed);
+          expect(channelState.permissionId).to.equal(
+            postSuccess.bio.communicationPermissionId,
+          );
         });
       });
     },
   );
-  context('successfully saves multiple permissions', () => {
-    it('sets the state properly', () => {
-      const promise = store.dispatch(
-        saveCommunicationPreferenceGroup('group1', [
-          { method: 'POST', endpoint: apiURL, body: {} },
-          { method: 'POST', endpoint: apiURL, body: {} },
-          { method: 'PATCH', endpoint: `${apiURL}/123`, body: {} },
-        ]),
-      );
-      // the updateStatus for that group should be `true` before the API call resolves
-      expect(store.getState().groups.entities.group1.ui.updateStatus).to.equal(
-        LOADING_STATES.pending,
-      );
-      // then the updateStatus for that groups should be `false`
-      return promise.then(() => {
-        const group1UiState = selectGroupUi(store.getState(), 'group1');
-        expect(group1UiState.updateStatus).to.equal(LOADING_STATES.loaded);
-        expect(group1UiState.isEditing).to.be.false;
-        expect(group1UiState.errors).to.be.null;
-      });
-    });
-  });
-  context('tries and fails to save a single permission', () => {
-    it('sets the state properly', () => {
-      server.use(
-        rest.post(apiURL, (req, res, ctx) => {
-          return res(ctx.status(401), ctx.json(error401));
-        }),
-      );
-      const promise = store.dispatch(
-        saveCommunicationPreferenceGroup('group1', [
-          { method: 'POST', endpoint: apiURL, body: {} },
-        ]),
-      );
-
-      expect(store.getState().groups.entities.group1.ui.updateStatus).to.equal(
-        LOADING_STATES.pending,
-      );
-      // then the updateStatus for that groups should be `false`
-      return promise.then(() => {
-        const group1UiState = selectGroupUi(store.getState(), 'group1');
-        expect(group1UiState.updateStatus).to.equal(LOADING_STATES.error);
-        expect(group1UiState.isEditing).to.be.true;
-        expect(group1UiState.errors).to.deep.equal(error401.errors);
-      });
-    });
-  });
   context(
-    'successfully saves a permission but fails to update another permission',
+    'it first fails to save a permission via PATCH due to a 500 error and then succeeds on the second attempt',
     () => {
-      it('sets the state properly', () => {
+      it('updates the redux state correctly', async () => {
+        const channelId = 'channel1-1';
         server.use(
           rest.patch(`${apiURL}/*`, (req, res, ctx) => {
             return res(ctx.status(500), ctx.json(error500));
           }),
         );
-        const promise = store.dispatch(
-          saveCommunicationPreferenceGroup('group1', [
-            { method: 'POST', endpoint: apiURL, body: {} },
-            { method: 'PATCH', endpoint: `${apiURL}/123`, body: {} },
-          ]),
+        const originalState = selectChannelById(store.getState(), channelId);
+        let promise = store.dispatch(
+          saveCommunicationPreferenceChannel(channelId, {
+            method: 'PATCH',
+            endpoint: `${apiURL}/1728`,
+            body: {},
+            isAllowed: false,
+            wasAllowed: true,
+          }),
         );
-
-        expect(selectGroupUi(store.getState(), 'group1').updateStatus).to.equal(
-          LOADING_STATES.pending,
+        // it should set that part of the UI as loading
+        let channelState = selectChannelById(store.getState(), channelId);
+        expect(channelState.ui.updateStatus).to.equal(LOADING_STATES.pending);
+        expect(channelState.isAllowed).to.equal(!originalState.isAllowed);
+        // the update call fails
+        // it should then set the channel's redux state correctly
+        await promise.then(() => {
+          channelState = selectChannelById(store.getState(), channelId);
+          expect(channelState.ui.updateStatus).to.equal(LOADING_STATES.error);
+          expect(channelState.ui.errors).to.deep.equal([error500]);
+          expect(channelState.isAllowed).to.equal(originalState.isAllowed);
+          expect(channelState.permissionId).to.equal(
+            originalState.permissionId,
+          );
+        });
+        // now make the API work correctly and try to update the pref again
+        server.resetHandlers();
+        promise = store.dispatch(
+          saveCommunicationPreferenceChannel(channelId, {
+            method: 'PATCH',
+            endpoint: `${apiURL}/1728`,
+            body: {},
+            isAllowed: false,
+            wasAllowed: true,
+          }),
         );
-        // then the updateStatus for that groups should be `false`
-        return promise.then(() => {
-          const group1UiState = selectGroupUi(store.getState(), 'group1');
-          expect(group1UiState.updateStatus).to.equal(LOADING_STATES.error);
-          expect(group1UiState.isEditing).to.be.true;
-          expect(group1UiState.errors).to.deep.equal([error500]);
+        // it should set that part of the UI as loading
+        channelState = selectChannelById(store.getState(), channelId);
+        expect(channelState.ui.updateStatus).to.equal(LOADING_STATES.pending);
+        expect(channelState.isAllowed).to.equal(!originalState.isAllowed);
+        // the update call succeeds
+        // it should then set the channel's redux state correctly
+        await promise.then(() => {
+          channelState = selectChannelById(store.getState(), channelId);
+          expect(channelState.ui.updateStatus).to.equal(LOADING_STATES.loaded);
+          expect(channelState.ui.errors).to.equal(null);
+          expect(channelState.isAllowed).to.equal(patchSuccess.bio.allowed);
+          expect(channelState.permissionId).to.equal(
+            patchSuccess.bio.communicationPermissionId,
+          );
         });
       });
     },
   );
+});
+
+describe('selectors', () => {
+  let server;
+  let state;
+  before(() => {
+    server = setupServer(
+      rest.get(apiURL, (req, res, ctx) => {
+        return res(ctx.json(getMaximalCommunicationGroupsSuccess));
+      }),
+    );
+    server.listen();
+  });
+  beforeEach(() => {
+    const store = mockStore(createState({}));
+    const promise = store.dispatch(fetchCommunicationPreferenceGroups());
+    return promise.then(() => {
+      state = store.getState();
+    });
+  });
+  afterEach(() => {
+    server.resetHandlers();
+  });
+  after(() => {
+    server.close();
+  });
+  describe('selectChannelsWithoutSelection', () => {
+    context('when user has not made any selections', () => {
+      beforeEach(() => {
+        server.use(
+          rest.get(apiURL, (req, res, ctx) => {
+            return res(ctx.status(200), ctx.json(noSelectionsMade));
+          }),
+        );
+
+        const store = mockStore(createState({}));
+        const promise = store.dispatch(
+          fetchCommunicationPreferenceGroups({
+            facilities: [{ facilityId: '983' }],
+          }),
+        );
+        return promise.then(() => {
+          state = store.getState();
+        });
+      });
+      it('returns the first channel', () => {
+        const channelsWithoutSelection = selectChannelsWithoutSelection(state, {
+          hasMobilePhone: true,
+          hasEmailAddress: true,
+        });
+        const ids = channelsWithoutSelection.ids;
+        expect(ids.length).to.equal(4);
+        expect(channelsWithoutSelection.entities[ids[0]].parentItem).to.equal(
+          'item3',
+        );
+      });
+    });
+    context('when user has made a selection for all available channels', () => {
+      beforeEach(() => {
+        server.use(
+          rest.get(apiURL, (req, res, ctx) => {
+            return res(ctx.status(200), ctx.json(allSelectionsMade));
+          }),
+        );
+
+        const store = mockStore(createState({}));
+        const promise = store.dispatch(
+          fetchCommunicationPreferenceGroups({
+            facilities: [{ facilityId: '983' }],
+          }),
+        );
+        return promise.then(() => {
+          state = store.getState();
+        });
+      });
+      it('returns no channels', () => {
+        const channelsWithoutSelection = selectChannelsWithoutSelection(state, {
+          hasMobilePhone: true,
+          hasEmailAddress: true,
+        });
+        expect(channelsWithoutSelection.ids).to.deep.equal([]);
+      });
+    });
+  });
 });

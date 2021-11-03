@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -6,78 +6,26 @@ import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
-import { setData } from 'platform/forms-system/src/js/actions';
 import { genderLabels } from 'platform/static-data/labels';
 import { selectProfile } from 'platform/user/selectors';
 
-import { srSubstitute } from '../../all-claims/utils';
-import { SELECTED } from '../constants';
+import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 
-const mask = srSubstitute('●●●–●●–', 'ending with');
+// separate each number so the screenreader reads "number ending with 1 2 3 4"
+// instead of "number ending with 1,234"
+const mask = value => {
+  const number = value.slice(-4).toString();
+  return srSubstitute(
+    `●●●–●●–${number}`,
+    `ending with ${number.split('').join(' ')}`,
+  );
+};
 
-const VeteranInformation = ({
-  formData = {},
-  profile = {},
-  veteran = {},
-  setFormData,
-  contestableIssues = {},
-}) => {
+const VeteranInformation = ({ profile = {}, veteran = {} }) => {
   const { ssnLastFour, vaFileLastFour } = veteran;
-  const { dob, gender, userFullName, vapContactInfo } = profile;
+  const { dob, gender, userFullName = {} } = profile;
 
   const { first, middle, last, suffix } = userFullName;
-  // ContestableIssues API needs a benefit type, so they are grouped together
-  const { issues, benefitType } = contestableIssues;
-  const zipCode5 = vapContactInfo?.mailingAddress?.zipCode || '';
-
-  useEffect(
-    () => {
-      if (issues?.length > 0 && benefitType) {
-        // Everytime the user starts the form, we need to get an updated list of
-        // contestable issues. This bit of code ensures that exactly matching
-        // previously selected entries are still selected
-        const contestedIssues = issues.map(issue => {
-          const newAttrs = issue.attributes;
-          const existingIssue = (formData.contestedIssues || []).find(
-            ({ attributes: oldAttrs }) =>
-              ['ratingIssueReferenceId', 'ratingIssuePercentNumber'].every(
-                key => oldAttrs?.[key] === newAttrs?.[key],
-              ),
-          );
-          return existingIssue?.[SELECTED]
-            ? { ...issue, [SELECTED]: true }
-            : issue;
-        });
-
-        const hasUnchangedContestedIssues = (
-          formData.contestedIssues || []
-        ).every(
-          (issue, index) =>
-            contestedIssues[index]?.ratingIssueReferenceId ===
-            issue?.ratingIssueReferenceId,
-        );
-
-        if (
-          benefitType !== formData?.benefitType ||
-          !hasUnchangedContestedIssues ||
-          zipCode5 !== formData?.zipCode5
-        ) {
-          setFormData({
-            ...formData,
-            // Add benefitType from wizard
-            benefitType: benefitType || formData.benefitType,
-            // Add contestedIssues (from API) values to the form; it's added
-            // here instead of the intro page because at that point the prefill
-            // or save-in-progress data would overwrite it
-            contestedIssues,
-            // used in submit transformer; needed by Lighthouse
-            zipCode5,
-          });
-        }
-      }
-    },
-    [issues, benefitType, setFormData, formData, zipCode5],
-  );
 
   return (
     <>
@@ -90,12 +38,12 @@ const VeteranInformation = ({
         </strong>
         {ssnLastFour && (
           <p className="ssn">
-            Social Security number: {mask} {ssnLastFour.slice(-4)}
+            Social Security number: {mask(ssnLastFour.slice(-4))}
           </p>
         )}
         {vaFileLastFour && (
           <p className="vafn">
-            VA file number: {mask} {vaFileLastFour.slice(-4)}
+            VA file number: {mask(vaFileLastFour.slice(-4))}
           </p>
         )}
         <p>
@@ -121,27 +69,28 @@ const VeteranInformation = ({
 };
 
 VeteranInformation.propTypes = {
-  setFormData: PropTypes.func.isRequired,
+  profile: PropTypes.shape({
+    dob: PropTypes.string,
+    gender: PropTypes.string,
+    userFullName: PropTypes.shape({
+      first: PropTypes.string,
+      middle: PropTypes.string,
+      last: PropTypes.string,
+      suffix: PropTypes.string,
+    }),
+  }),
+  veteran: PropTypes.shape({
+    ssnLastFour: PropTypes.string,
+    vaFileLastFour: PropTypes.string,
+  }),
 };
 
 const mapStateToProps = state => {
   const profile = selectProfile(state);
   const veteran = state.form?.data.veteran;
-  const { contestableIssues } = state;
-  return {
-    profile,
-    veteran,
-    contestableIssues,
-  };
-};
-
-const mapDispatchToProps = {
-  setFormData: setData,
+  return { profile, veteran };
 };
 
 export { VeteranInformation };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(VeteranInformation);
+export default connect(mapStateToProps)(VeteranInformation);

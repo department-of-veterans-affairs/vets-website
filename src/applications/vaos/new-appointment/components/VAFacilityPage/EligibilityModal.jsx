@@ -1,10 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
-import { ELIGIBILITY_REASONS, FETCH_STATUS } from '../../../utils/constants';
-import FacilityAddress from '../../../components/FacilityAddress';
-import { lowerCase } from '../../../utils/formatters';
-import NewTabAnchor from '../../../components/NewTabAnchor';
+import { FETCH_STATUS } from '../../../utils/constants';
+import getEligibilityMessage from './getEligibilityMessage';
 
 export default function EligibilityModal({
   onClose,
@@ -12,68 +9,12 @@ export default function EligibilityModal({
   facilityDetails,
   typeOfCare,
 }) {
-  let title;
-  let content;
-  const requestReason = eligibility.requestReasons[0];
-  const monthRequirement =
-    (facilityDetails.legacyVAR.settings[typeOfCare.id].request
-      .patientHistoryDuration /
-      365) *
-    12;
-
-  if (requestReason === ELIGIBILITY_REASONS.error) {
-    title = 'We’re sorry. We’ve run into a problem';
-    content = 'Something went wrong on our end. Please try again later.';
-  } else if (requestReason === ELIGIBILITY_REASONS.notSupported) {
-    title = 'This facility doesn’t accept online scheduling for this care';
-    content = (
-      <div aria-atomic="true" aria-live="assertive">
-        You’ll need to call your VA health facility to schedule this
-        appointment. Not all VA facilities offer online scheduling for all types
-        of care
-      </div>
-    );
-  } else if (requestReason === ELIGIBILITY_REASONS.noRecentVisit) {
-    title = 'We can’t find a recent appointment for you';
-    content = (
-      <>
-        <p>
-          You need to have visited this facility within the past{' '}
-          {monthRequirement} months for {lowerCase(typeOfCare?.name)} to request
-          an appointment for this type of care.
-        </p>
-        <p>
-          You’ll need to call the facility to schedule this appointment. Or{' '}
-          <NewTabAnchor href="/find-locations">
-            search for another VA facility
-          </NewTabAnchor>
-          .
-        </p>
-      </>
-    );
-  } else if (requestReason === ELIGIBILITY_REASONS.overRequestLimit) {
-    title = 'You’ve reached the limit for appointment requests';
-    content = (
-      <>
-        <p>
-          Our records show that you have an open appointment request at this
-          location. You can’t request another appointment until you schedule or
-          cancel your open requests.
-        </p>
-        <p>
-          Call this facility to schedule or cancel an open appointment request.
-          You can also cancel a request from{' '}
-          <Link to="/">your appointment list</Link>.
-        </p>
-        {facilityDetails && (
-          <FacilityAddress
-            name={facilityDetails.name}
-            facility={facilityDetails}
-          />
-        )}
-      </>
-    );
-  }
+  const { title, content } = getEligibilityMessage({
+    eligibility,
+    facilityDetails,
+    typeOfCare,
+    includeFacilityContactInfo: true,
+  });
 
   return (
     <Modal

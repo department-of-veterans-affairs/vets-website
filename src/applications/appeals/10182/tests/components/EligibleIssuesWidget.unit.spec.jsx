@@ -14,9 +14,9 @@ describe('<EligibleIssuesWidget>', () => {
   } = {}) => ({
     id: 'id',
     value: [
-      { ratingIssueSubjectText: 'issue-1' },
-      { ratingIssueSubjectText: 'issue-2' },
-      { ratingIssueSubjectText: 'issue-3' },
+      { attributes: { ratingIssueSubjectText: 'issue-1' } },
+      { attributes: { ratingIssueSubjectText: 'issue-2' } },
+      { attributes: { ratingIssueSubjectText: 'issue-3' } },
     ],
     additionalIssues: [],
     onChange,
@@ -31,6 +31,12 @@ describe('<EligibleIssuesWidget>', () => {
     const props = getProps();
     const wrapper = mount(<EligibleIssuesWidget {...props} />);
     expect(wrapper.find('IssueCard').length).to.equal(props.value.length);
+    expect(
+      wrapper
+        .find('.widget-title')
+        .first()
+        .text(),
+    ).to.equal('issue-1');
     wrapper.unmount();
   });
 

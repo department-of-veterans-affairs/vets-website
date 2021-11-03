@@ -1,7 +1,8 @@
 {
   "plugins": ["stylelint-scss", "stylelint-order"],
   "ignoreFiles": [
-    "src/applications/proxy-rewrite/sass/style-consolidated.scss"
+    "src/applications/proxy-rewrite/sass/style-consolidated.scss",
+    "src/applications/vaos/docs/styles/*.css"
   ],
   "rules": {
     "at-rule-disallowed-list": ["debug", "extend"],

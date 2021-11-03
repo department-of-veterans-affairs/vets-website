@@ -1,5 +1,5 @@
 import educationTypeUISchema from '../../definitions/educationType';
-import _ from 'lodash/fp';
+import merge from 'lodash/merge';
 import { showSchoolAddress } from '../../utils/helpers';
 import * as address from 'platform/forms/definitions/address';
 import { validateWhiteSpace } from 'platform/forms/validations';
@@ -27,7 +27,7 @@ export const uiSchema = {
     ],
   },
   educationType: educationTypeUISchema,
-  newSchoolAddress: _.merge(address.uiSchema(), {
+  newSchoolAddress: merge({}, address.uiSchema(), {
     'ui:options': {
       hideIf: formData => !showSchoolAddress(formData.educationType),
     },

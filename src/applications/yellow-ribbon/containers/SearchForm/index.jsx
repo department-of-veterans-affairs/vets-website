@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 // Relative imports.
 import recordEvent from 'platform/monitoring/record-event';
-import { states as STATES } from 'vets-json-schema/dist/constants.json';
+import constants from 'vets-json-schema/dist/constants.json';
 import { TOOL_TIP_CONTENT, TOOL_TIP_LABEL } from '../../constants';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { fetchResultsThunk } from '../../actions';
@@ -153,7 +153,9 @@ export class SearchForm extends Component {
         onSubmit={onSubmitHandler}
       >
         <fieldset>
-          <legend className="vads-u-font-family--serif">Search criteria</legend>
+          <legend className="vads-u-font-family--serif">
+            <h2 className="vads-u-margin--0">Search criteria</h2>
+          </legend>
           {/* Name Field */}
           <label
             htmlFor="yr-search-name"
@@ -190,7 +192,7 @@ export class SearchForm extends Component {
               value={state}
             >
               <option value="">- Select -</option>
-              {STATES.USA.map(provincialState => (
+              {constants.states.USA.map(provincialState => (
                 <option
                   key={provincialState?.value}
                   value={provincialState?.value}

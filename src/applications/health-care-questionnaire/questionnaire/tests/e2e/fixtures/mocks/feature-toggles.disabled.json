@@ -87,11 +87,11 @@
            "value":false
         },
         {
-           "name":"ssoeInbound",
+           "name":"ssoe_inbound",
            "value":false
         },
         {
-           "name":"ssoeEbenefitsLinks",
+           "name":"ssoe_ebenefits_links",
            "value":false
         },
         {
@@ -159,7 +159,7 @@
            "value":true
         },
         {
-           "name":"showHealthcareExperienceQuestionnaire",
+           "name":"show_healthcare_experience_questionnaire",
            "value":false
         }
      ]

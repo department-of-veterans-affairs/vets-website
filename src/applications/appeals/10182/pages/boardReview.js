@@ -1,4 +1,7 @@
-import { boardReviewContent } from '../content/boardReview';
+import {
+  boardReviewContent,
+  boardReviewErrorMessage,
+} from '../content/boardReview';
 
 const boardReview = {
   uiSchema: {
@@ -7,6 +10,9 @@ const boardReview = {
       'ui:widget': 'radio',
       'ui:options': {
         labels: boardReviewContent,
+      },
+      'ui:errorMessages': {
+        required: boardReviewErrorMessage,
       },
     },
   },

@@ -12,13 +12,8 @@ export const AppDeletedAlert = props => {
 
   const { id, title, dismissAlert, privacyUrl } = props;
   const privacyLink = (
-    <a
-      href={privacyUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={`${title} privacy policy`}
-    >
-      privacy policy
+    <a href={privacyUrl} target="_blank" rel="noopener noreferrer">
+      review the {title} privacy policy
     </a>
   );
   const alertMessage = (
@@ -29,8 +24,8 @@ export const AppDeletedAlert = props => {
         some apps may still store information you’ve already shared.
       </strong>{' '}
       To learn about how this app stores your information, including what
-      information it stores, if any, and what steps are available to you, review
-      the {title} {privacyLink}.
+      information it stores, if any, and what steps are available to you,{' '}
+      {privacyLink}.
     </span>
   );
   const headline = `We’ve disconnected ${title}`;

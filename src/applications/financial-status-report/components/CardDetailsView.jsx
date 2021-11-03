@@ -2,18 +2,13 @@ import React from 'react';
 import startCase from 'lodash/startCase';
 import toLower from 'lodash/toLower';
 import moment from 'moment';
+import { currency } from '../utils/helpers';
 
-const CardDetailsView = ({ formData, onEdit, index, title }) => {
+const CardDetailsView = ({ formData, onEdit, title }) => {
   if (!formData) return <div>no data</div>;
 
   const keys = Object.keys(formData);
   const capitalize = str => startCase(toLower(str));
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  });
 
   let type;
   let amount;
@@ -33,10 +28,10 @@ const CardDetailsView = ({ formData, onEdit, index, title }) => {
       purpose = capitalize(formData[key]);
     }
     if (key.toLowerCase().includes('balance')) {
-      balance = formatter.format(formData[key]);
+      balance = currency.format(parseFloat(formData[key]));
     }
     if (key.toLowerCase().includes('monthly')) {
-      monthly = formatter.format(formData[key]);
+      monthly = currency.format(parseFloat(formData[key]));
     }
     if (key.toLowerCase().includes('type')) {
       type = capitalize(formData[key]);
@@ -45,7 +40,7 @@ const CardDetailsView = ({ formData, onEdit, index, title }) => {
       key.toLowerCase().includes('amount') ||
       key.toLowerCase().includes('value')
     ) {
-      amount = formatter.format(formData[key]);
+      amount = currency.format(parseFloat(formData[key]));
     }
     if (key.toLowerCase().includes('make')) {
       make = capitalize(formData[key]);
@@ -61,11 +56,11 @@ const CardDetailsView = ({ formData, onEdit, index, title }) => {
     }
     if (key.toLowerCase().includes('from')) {
       const formatDate = formData[key]?.slice(0, -3);
-      startDate = moment(formatDate).format('MMMM YYYY');
+      startDate = moment(formatDate, 'YYYY-MM').format('MMMM YYYY');
     }
     if (key.toLowerCase().includes('to')) {
       const formatDate = formData[key]?.slice(0, -3);
-      endDate = moment(formatDate).format('MMMM YYYY');
+      endDate = moment(formatDate, 'YYYY-MM').format('MMMM YYYY');
       if (!formatDate) {
         endDate = 'Present';
       }
@@ -120,8 +115,9 @@ const CardDetailsView = ({ formData, onEdit, index, title }) => {
         <div className="edit-item-container">
           <button
             className="usa-button-secondary vads-u-flex--auto"
-            onClick={e => onEdit(e, index)}
+            onClick={() => onEdit()}
             aria-label={`Edit ${title}`}
+            type="button"
           >
             Edit
           </button>

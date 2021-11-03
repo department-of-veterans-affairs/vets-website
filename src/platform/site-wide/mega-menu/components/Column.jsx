@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 const isPanelWhite = (mobileMediaQuery, panelWhite) => {
-  if (mobileMediaQuery.matches) {
+  if (mobileMediaQuery?.matches) {
     return '';
   }
 

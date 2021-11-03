@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
-import _ from 'lodash/fp';
+import take from 'lodash/take';
 import recordEvent from 'platform/monitoring/record-event';
 import { getUserPhaseDescription } from '../utils/helpers';
 
@@ -121,7 +121,7 @@ export default class ClaimPhase extends React.Component {
       const limitedList =
         this.state.showAll || activityList.length <= INITIAL_ACTIVITY_ROWS
           ? activityList
-          : _.take(INITIAL_ACTIVITY_ROWS, activityList);
+          : take(activityList, INITIAL_ACTIVITY_ROWS);
 
       const activityListContent = limitedList.map((activity, index) => (
         <div key={index} className="claims-evidence">

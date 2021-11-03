@@ -24,21 +24,27 @@ const RecVehicleInfo = (
 );
 
 export const uiSchema = {
-  'ui:title': 'Your trailers, campers, and boats',
-  'ui:description':
-    'Enter each of your trailers, campers, and boats separately below.',
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">
+        Your trailers, campers, and boats
+      </legend>
+      <p className="vads-u-padding-top--2">
+        Enter each of your trailers, campers, and boats separately below.
+      </p>
+    </>
+  ),
   assets: {
-    trailersBoatsCampers: {
+    recVehicles: {
       'ui:field': ItemLoop,
       'ui:options': {
         viewField: CardDetailsView,
         doNotScroll: true,
-        showSave: true,
         itemName: 'trailer, camper, or boat',
         keepInPageOnReview: true,
       },
       items: {
-        recreationalVehicleType: {
+        recVehicleType: {
           'ui:title': 'Type of vehicle',
           'ui:field': Typeahead,
           'ui:reviewField': CustomReviewField,
@@ -52,7 +58,7 @@ export const uiSchema = {
             required: 'Please enter the type of vehicle.',
           },
         },
-        recreationalVehicleAmount: {
+        recVehicleAmount: {
           'ui:title': 'Estimated value',
           'ui:options': {
             classNames: 'schemaform-currency-input',
@@ -79,16 +85,16 @@ export const schema = {
     assets: {
       type: 'object',
       properties: {
-        trailersBoatsCampers: {
+        recVehicles: {
           type: 'array',
           items: {
             type: 'object',
-            required: ['recreationalVehicleType', 'recreationalVehicleAmount'],
+            required: ['recVehicleType', 'recVehicleAmount'],
             properties: {
-              recreationalVehicleType: {
+              recVehicleType: {
                 type: 'string',
               },
-              recreationalVehicleAmount: {
+              recVehicleAmount: {
                 type: 'string',
               },
             },

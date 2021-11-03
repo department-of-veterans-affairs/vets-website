@@ -5,11 +5,14 @@ import RadioButtons from '../components/RadioButtons';
 import LearnMoreLabel from '../components/LearnMoreLabel';
 import { showModal, eligibilityChange } from '../actions';
 import { connect } from 'react-redux';
+import { createId } from '../utils/helpers';
 
 export function TuitionAndHousingEstimates({
   eligibility,
   dispatchEligibilityChange,
   dispatchShowModal,
+  modalClose,
+  smallScreen,
 }) {
   const { expanded } = eligibility;
 
@@ -52,52 +55,86 @@ export function TuitionAndHousingEstimates({
     dispatchEligibilityChange({ expanded: value });
   };
 
-  return (
+  const closeAndUpdate = () => {
+    updateStore();
+    modalClose();
+  };
+
+  const controls = (
     <div>
-      <SearchAccordion
-        button="Update tuition and housing estimates"
-        buttonLabel="Update results"
-        buttonOnClick={updateStore}
-        name="benefitEstimates"
-        expanded={expanded}
-        onClick={onExpand}
-      >
-        <SearchBenefits
-          cumulativeService={cumulativeService}
-          dispatchShowModal={dispatchShowModal}
-          eligForPostGiBill={eligForPostGiBill}
-          enlistmentService={enlistmentService}
-          giBillChapter={giBillChapter}
-          militaryStatus={militaryStatus}
-          numberOfDependents={numberOfDependents}
-          spouseActiveDuty={spouseActiveDuty}
-          setCumulativeService={setCumulativeService}
-          setEligForPostGiBill={setEligForPostGiBill}
-          setEnlistmentService={setEnlistmentService}
-          setNumberOfDependents={setNumberOfDependents}
-          setGiBillChapter={setGiBillChapter}
-          setMilitaryStatus={setMilitaryStatus}
-          setSpouseActiveDuty={setSpouseActiveDuty}
-        />
-        <RadioButtons
-          label={
-            <LearnMoreLabel
-              text="Will you be taking any classes in person?"
-              onClick={() => dispatchShowModal('onlineOnlyDistanceLearning')}
-              ariaLabel="Learn more about how we calculate your housing allowance based on where you take classes"
-            />
-          }
-          name="inPersonClasses"
-          options={[
-            { value: 'no', label: 'Yes' },
-            { value: 'yes', label: 'No' },
-          ]}
-          value={onlineClasses}
-          onChange={e => {
-            setOnlineClasses(e.target.value);
-          }}
-        />
-      </SearchAccordion>
+      <SearchBenefits
+        cumulativeService={cumulativeService}
+        dispatchShowModal={dispatchShowModal}
+        eligForPostGiBill={eligForPostGiBill}
+        enlistmentService={enlistmentService}
+        giBillChapter={giBillChapter}
+        militaryStatus={militaryStatus}
+        numberOfDependents={numberOfDependents}
+        spouseActiveDuty={spouseActiveDuty}
+        setCumulativeService={setCumulativeService}
+        setEligForPostGiBill={setEligForPostGiBill}
+        setEnlistmentService={setEnlistmentService}
+        setNumberOfDependents={setNumberOfDependents}
+        setGiBillChapter={setGiBillChapter}
+        setMilitaryStatus={setMilitaryStatus}
+        setSpouseActiveDuty={setSpouseActiveDuty}
+      />
+      <RadioButtons
+        label={
+          <LearnMoreLabel
+            text="Will you be taking any classes in person?"
+            onClick={() => dispatchShowModal('onlineOnlyDistanceLearning')}
+            ariaLabel="Learn more about how we calculate your housing allowance based on where you take classes"
+            butttonId="classes-in-person-learn-more"
+          />
+        }
+        name="inPersonClasses"
+        options={[{ value: 'no', label: 'Yes' }, { value: 'yes', label: 'No' }]}
+        value={onlineClasses}
+        onChange={e => {
+          setOnlineClasses(e.target.value);
+        }}
+      />
+      <div id="note" className="vads-u-padding-top--2">
+        <b>Note:</b> Changing these settings modifies the tuition and housing
+        benefits shown on the search cards.
+      </div>
+    </div>
+  );
+  const title = 'Update tuition and housing estimates';
+
+  return (
+    <div className="vads-u-margin-bottom--2">
+      {!smallScreen && (
+        <SearchAccordion
+          button={title}
+          buttonLabel="Update estimates"
+          buttonOnClick={updateStore}
+          expanded={expanded}
+          onClick={onExpand}
+          ariaDescribedBy="note"
+        >
+          {controls}
+        </SearchAccordion>
+      )}
+      {smallScreen && (
+        <div className="modal-wrapper">
+          <div>
+            <h1>Update tuition and housing estimates</h1>
+            {controls}
+          </div>
+          <div className="modal-button-wrapper">
+            <button
+              type="button"
+              id={`update-${createId(title)}-button`}
+              className="update-results-button"
+              onClick={closeAndUpdate}
+            >
+              Update estimates
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

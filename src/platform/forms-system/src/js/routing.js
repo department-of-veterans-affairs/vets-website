@@ -1,9 +1,10 @@
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import findIndex from 'lodash/findIndex';
 import {
   getActiveExpandedPages,
   createFormPageList,
   createPageList,
 } from './helpers';
+import validateConfig from './validate-config';
 
 import FormPage from './containers/FormPage';
 import ReviewPage from './review/ReviewPage';
@@ -13,10 +14,7 @@ import ReviewPage from './review/ReviewPage';
  */
 export function getEligiblePages(pageList, data, pathname) {
   const eligiblePageList = getActiveExpandedPages(pageList, data);
-  const pageIndex = _.findIndex(
-    item => item.path === pathname,
-    eligiblePageList,
-  );
+  const pageIndex = findIndex(eligiblePageList, item => item.path === pathname);
   return { pages: eligiblePageList, pageIndex };
 }
 
@@ -39,6 +37,11 @@ export function getPreviousPagePath(pageList, data, pathname) {
  * config as props
  */
 export function createRoutes(formConfig) {
+  // Validate the config while creating the routes because this is really the
+  // entry point for applications to use the forms library.
+  // TODO: Tree shake this config validation in prod
+  validateConfig(formConfig);
+
   const formPages = createFormPageList(formConfig);
   const pageList = createPageList(formConfig, formPages);
 

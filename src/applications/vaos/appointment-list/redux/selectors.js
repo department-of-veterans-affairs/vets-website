@@ -267,6 +267,7 @@ export function getConfirmedAppointmentDetailsInfo(state, id) {
 
 export function getPastAppointmentListInfo(state) {
   return {
+    showScheduleButton: selectFeatureRequests(state),
     pastAppointmentsByMonth: selectPastAppointmentsV2(state),
     pastStatus: state.appointments.pastStatus,
     pastSelectedIndex: state.appointments.pastSelectedIndex,

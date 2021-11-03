@@ -65,10 +65,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     expect(
       tree
-        .find('.saved-form-item-metadata')
+        .find('.usa-alert-heading')
         .last()
         .text(),
-    ).to.include(moment.unix(946684800).format('M/D/YYYY [at] h:mm a'));
+    ).to.include(moment.unix(946684800).format('MMMM D, YYYY [at] h:mm a'));
 
     expect(tree.find('.usa-alert').text()).to.contain(
       'Your application is in progress',
@@ -118,7 +118,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect(tree.find('h1.usa-alert-heading').text()).to.contain(
+    expect(tree.find('.usa-alert-heading').text()).to.contain(
       'Your application is in progress',
     );
     tree.unmount();
@@ -149,11 +149,15 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
         formConfig={formConfig}
+        ariaLabel="test aria-label"
+        ariaDescribedby="test-id"
       />,
     );
 
-    expect(tree.find('withRouter(FormStartControls)').props().prefillAvailable)
-      .to.be.true;
+    const formControlProps = tree.find('withRouter(FormStartControls)').props();
+    expect(formControlProps.prefillAvailable).to.be.true;
+    expect(formControlProps.ariaLabel).to.eq('test aria-label');
+    expect(formControlProps.ariaDescribedby).to.eq('test-id');
     tree.unmount();
   });
   it('should render sign in message', () => {
@@ -185,12 +189,15 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
         formConfig={formConfig}
+        ariaLabel="test aria-label"
+        ariaDescribedby="test-id"
       />,
     );
 
-    expect(tree.find('.va-button-link').text()).to.contain(
-      'Sign in to your account.',
-    );
+    const link = tree.find('.va-button-link');
+    expect(link.text()).to.contain('Sign in to your account.');
+    expect(link.prop('aria-label')).to.eq('test aria-label');
+    expect(link.prop('aria-describedby')).to.eq('test-id');
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
     tree.unmount();
   });
@@ -728,8 +735,8 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         formConfig={emptyMessageConfig}
       />,
     );
-    expect(tree.find('.saved-form-item-metadata')).to.have.lengthOf(1);
-    expect(tree.find('.saved-form-metadata-container').text()).to.not.contain(
+    expect(tree.find('.usa-alert-heading')).to.have.lengthOf(1);
+    expect(tree.find('.usa-alert-heading').text()).to.not.contain(
       'Your application is in progress',
     );
 

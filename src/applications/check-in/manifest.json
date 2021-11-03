@@ -2,5 +2,5 @@
   "appName": "check-in",
   "entryFile": "./app-entry.jsx",
   "entryName": "check-in",
-  "rootUrl": "/check-in"
+  "rootUrl": "/health-care/appointment-check-in"
 }

@@ -56,6 +56,9 @@ export const uiSchema = {
         },
         middle: {
           'ui:title': 'Middle name of parent or guardian',
+          'ui:options': {
+            hideEmptyValueInReview: true,
+          },
         },
         last: {
           'ui:title': 'Last name of parent or guardian',

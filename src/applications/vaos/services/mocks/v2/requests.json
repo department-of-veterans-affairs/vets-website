@@ -12,9 +12,9 @@
         "clinic": null,
         "telehealth": null,
         "practitioners": [
-          { "id": { "value": "1801312053" } },
-          { "id": { "value": "1053355479" } },
-          { "id": { "value": "1396153797" } }
+          { "identifier": { "value": "1801312053" } },
+          { "identifier": { "value": "1053355479" } },
+          { "identifier": { "value": "1396153797" } }
         ],
         "reason": "Routine Follow-up",
         "start": null,
@@ -34,7 +34,7 @@
         },
         "preferredTimesForPhoneCall": ["Morning"],
         "priority": null,
-        "cancellationReason": null,
+        "cancelationReason": null,
         "description": null,
         "comment": "I have a headache"
       }
@@ -68,7 +68,7 @@
         },
         "preferredTimesForPhoneCall": ["Afternoon", "Evening"],
         "priority": null,
-        "cancellationReason": null,
+        "cancelationReason": null,
         "description": null,
         "comment": "I have a cold"
       }
@@ -102,7 +102,7 @@
         },
         "preferredTimesForPhoneCall": ["Afternoon", "Evening"],
         "priority": null,
-        "cancellationReason": null,
+        "cancelationReason": null,
         "description": null,
         "comment": "Pink eye"
       }
@@ -136,9 +136,45 @@
         },
         "preferredTimesForPhoneCall": ["Afternoon", "Evening"],
         "priority": null,
-        "cancellationReason": null,
+        "cancelationReason": null,
         "description": null,
         "comment": "Renew medication"
+      }
+    },
+    {
+      "id": "32152",
+      "type": "appointments",
+      "attributes": {
+        "id": "32152",
+        "kind": "clinic",
+        "status": "proposed",
+        "serviceType": "323",
+        "locationId": "983",
+        "clinic": null,
+        "telehealth": null,
+        "practitioners": null,
+        "reason": "Routine Follow-up",
+        "start": null,
+        "end": null,
+        "minutesDuration": null,
+        "slot": null,
+        "requestedPeriods": [
+          {
+            "start": "2021-06-29T12:00:00Z",
+            "end": "2021-06-29T23:59:59.999Z"
+          }
+        ],
+        "contact": {
+          "telecom": [
+            { "type": "email", "value": "jeremy.chapman@ironbow.com" },
+            { "type": "phone", "value": "5592256100" }
+          ]
+        },
+        "preferredTimesForPhoneCall": null,
+        "priority": null,
+        "cancelationReason": null,
+        "description": null,
+        "comment": null
       }
     }
   ],

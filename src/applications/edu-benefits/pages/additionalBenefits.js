@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import pick from 'lodash/pick';
 
 import { civilianBenefitsLabel } from '../utils/labels';
 
@@ -15,7 +15,7 @@ const defaults = {
  */
 export default function additionalBenefits(schema, options) {
   // Use the defaults as necessary, but override with the options given
-  const mergedOptions = _.assign(defaults, options);
+  const mergedOptions = { ...defaults, ...options };
   const { fields, required } = mergedOptions;
 
   return {
@@ -50,7 +50,7 @@ export default function additionalBenefits(schema, options) {
     schema: {
       type: 'object',
       required,
-      properties: _.pick(fields, schema.properties),
+      properties: pick(schema.properties, fields),
     },
   };
 }

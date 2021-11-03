@@ -2,6 +2,7 @@ import { expect } from 'chai';
 
 import {
   login,
+  loginAppUrlRE,
   mfa,
   verify,
   logout,
@@ -24,9 +25,9 @@ const setup = () => {
 describe('authentication URL helpers', () => {
   beforeEach(setup);
 
-  it('should redirect for signup', () => {
-    signup();
-    expect(global.window.location).to.include('/sessions/signup/new');
+  it('should redirect for signup v0 to v1', () => {
+    signup('v0');
+    expect(global.window.location).to.include('/v1/sessions/signup/new');
   });
 
   it('should redirect for signup v1', () => {
@@ -34,9 +35,9 @@ describe('authentication URL helpers', () => {
     expect(global.window.location).to.include('/v1/sessions/signup/new');
   });
 
-  it('should redirect for login', () => {
-    login('idme');
-    expect(global.window.location).to.include('/sessions/idme/new');
+  it('should redirect for login v0 to v1', () => {
+    login('idme', 'v0');
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
 
   it('should redirect for login v1', () => {
@@ -51,8 +52,8 @@ describe('authentication URL helpers', () => {
   });
 
   it('should redirect for logout', () => {
-    logout();
-    expect(global.window.location).to.include('/sessions/slo/new');
+    logout('v0');
+    expect(global.window.location).to.include('/v1/sessions/slo/new');
   });
 
   it('should redirect for logout v1', () => {
@@ -66,9 +67,9 @@ describe('authentication URL helpers', () => {
     expect(global.window.dataLayer[0].event).to.eq('custom-event');
   });
 
-  it('should redirect for MFA', () => {
-    mfa();
-    expect(global.window.location).to.include('/sessions/mfa/new');
+  it('should redirect for MFA v0 to v1', () => {
+    mfa('v0');
+    expect(global.window.location).to.include('/v1/sessions/mfa/new');
   });
 
   it('should redirect for MFA v1', () => {
@@ -76,14 +77,57 @@ describe('authentication URL helpers', () => {
     expect(global.window.location).to.include('/v1/sessions/mfa/new');
   });
 
-  it('should redirect for verify', () => {
-    verify();
-    expect(global.window.location).to.include('/sessions/verify/new');
+  it('should redirect for verify v0 to v1', () => {
+    verify('v0');
+    expect(global.window.location).to.include('/v1/sessions/verify/new');
   });
 
   it('should redirect for verify v1', () => {
     verify('v1');
     expect(global.window.location).to.include('/v1/sessions/verify/new');
+  });
+
+  it('should redirect to the proper unified sign-in page redirect for mhv', () => {
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=mhv';
+    login('idme', 'v1');
+    expect(global.window.location).to.include(
+      `/v1/sessions/idme/new?skip_dupe=mhv&redirect=${
+        externalRedirects.mhv
+      }&postLogin=true`,
+    );
+  });
+
+  it('should redirect to the proper unified sign-in page redirect for mhv with `to`', () => {
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=mhv&to=secure_messaging';
+
+    login('idme', 'v1');
+    expect(global.window.location).to.include(
+      `/v1/sessions/idme/new?skip_dupe=mhv&redirect=${
+        externalRedirects.mhv
+      }?deeplinking=secure_messaging&postLogin=true`,
+    );
+  });
+
+  it('should redirect to the proper unified sign-in page redirect for cerner', () => {
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=myvahealth';
+    login('idme', 'v1');
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
+  });
+
+  it('should mimick modal behavior when sign-in page lacks appliction param', () => {
+    global.window.location.pathname = '/sign-in/';
+    login('idme', 'v1');
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
+  });
+
+  it('should mimick modal behavior when sign-in page has invalid application param', () => {
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=foobar';
+    login('idme', 'v1');
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
 });
 
@@ -100,7 +144,7 @@ describe('standaloneRedirect', () => {
     expect(standaloneRedirect()).to.be.null;
   });
 
-  it('should return an plain url when no "to" search query is provided', () => {
+  it('should return a plain url when no `to` search query is provided', () => {
     global.window.location.search = '?application=myvahealth';
     expect(standaloneRedirect()).to.equal(externalRedirects.myvahealth);
   });
@@ -109,7 +153,20 @@ describe('standaloneRedirect', () => {
     global.window.location.search =
       '?application=myvahealth&to=/some/sub/route\r\n';
     expect(standaloneRedirect()).to.equal(
-      `${externalRedirects.myvahealth}some/sub/route`,
+      `${externalRedirects.myvahealth}/some/sub/route`,
     );
+  });
+});
+
+describe('loginAppUrlRE', () => {
+  it('should resolve to a login app url', () => {
+    expect(loginAppUrlRE.test('/sign-in')).to.be.true;
+    expect(loginAppUrlRE.test('/sign-in/')).to.be.true;
+    expect(loginAppUrlRE.test('/sign-in/verify')).to.be.true;
+    expect(loginAppUrlRE.test('/sign-in/verify/')).to.be.true;
+  });
+  it('should not resolve to a login app url', () => {
+    expect(loginAppUrlRE.test('/sign-in-faq')).to.be.false;
+    expect(loginAppUrlRE.test('/sign-in-faq/')).to.be.false;
   });
 });

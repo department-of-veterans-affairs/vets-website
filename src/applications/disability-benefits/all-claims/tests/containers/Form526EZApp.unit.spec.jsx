@@ -41,13 +41,18 @@ describe('Form 526EZ Entry Page', () => {
     savedForms = [],
     mvi = '',
     show526Wizard = true,
+    dob = '2000-01-01',
+    pathname = '/introduction',
+    router = [],
   } = {}) => {
     const initialState = {
       form: {
         loadedStatus: 'success',
         savedStatus: '',
         loadedData: {
-          metadata: {},
+          metadata: {
+            inProgressFormId: '234',
+          },
         },
       },
       user: {
@@ -59,10 +64,12 @@ describe('Form 526EZ Entry Page', () => {
           services,
           loading: false,
           status: '',
+          dob,
+          accountUuid: 'uuid',
         },
       },
       currentLocation: {
-        pathname: '/introduction',
+        pathname,
         search: '',
       },
       mvi: {
@@ -87,7 +94,7 @@ describe('Form 526EZ Entry Page', () => {
           location={initialState.currentLocation}
           user={initialState.user}
           showWizard={initialState.showWizard}
-          router={[]}
+          router={router}
           savedForms={savedForms}
         >
           <main>
@@ -113,6 +120,16 @@ describe('Form 526EZ Entry Page', () => {
     expect(tree.find('main').text()).to.contain('Log in');
     tree.unmount();
   });
+  it('should redirect to the intro page when on a different page & not logged in', () => {
+    const router = [];
+    const tree = testPage({
+      currentlyLoggedIn: false,
+      pathname: '/something-else',
+      router,
+    });
+    expect(router[0]).to.equal('/introduction');
+    tree.unmount();
+  });
 
   // Logged in & verified, but missing ID
   it('should render Missing ID page', () => {
@@ -124,8 +141,8 @@ describe('Form 526EZ Entry Page', () => {
     });
     expect(tree.find('main')).to.have.lengthOf(0);
     expect(tree.find('h1').text()).to.contain('File for disability');
-    expect(tree.find('AlertBox')).to.have.lengthOf(1);
-    expect(tree.find('AlertBox').text()).to.contain('BIRLS ID');
+    expect(tree.find('va-alert')).to.have.lengthOf(1);
+    expect(tree.find('va-alert').text()).to.contain('BIRLS ID');
     const recordedEvent = getLastEvent();
     expect(recordedEvent.event).to.equal('visible-alert-box');
     expect(recordedEvent['error-key']).to.include('birls_id');
@@ -143,11 +160,31 @@ describe('Form 526EZ Entry Page', () => {
     });
     expect(tree.find('main')).to.have.lengthOf(0);
     expect(tree.find('h1').text()).to.contain('File for disability');
-    expect(tree.find('AlertBox')).to.have.lengthOf(1);
-    expect(tree.find('AlertBox').text()).to.contain('need some information');
+    expect(tree.find('va-alert')).to.have.lengthOf(1);
+    expect(tree.find('va-alert').text()).to.contain('need some information');
     const recordedEvent = getLastEvent();
     expect(recordedEvent.event).to.equal('visible-alert-box');
     expect(recordedEvent['error-key']).to.include('missing_526');
+    tree.unmount();
+  });
+
+  // Logged in & verified, but missing DOB
+  it('should render Missing DOB alert', () => {
+    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    const tree = testPage({
+      currentlyLoggedIn: true,
+      verified: true,
+      // only include 'EVSS_CLAIMS' service
+      services: [idRequired[0]],
+      dob: '',
+    });
+    expect(tree.find('main')).to.have.lengthOf(0);
+    expect(tree.find('h1').text()).to.contain('File for disability');
+    expect(tree.find('va-alert')).to.have.lengthOf(1);
+    expect(tree.find('va-alert').text()).to.contain('your date of birth');
+    const recordedEvent = getLastEvent();
+    expect(recordedEvent.event).to.equal('visible-alert-box');
+    expect(recordedEvent['error-key']).to.include('missing_dob');
     tree.unmount();
   });
 
@@ -227,8 +264,8 @@ describe('Form 526EZ Entry Page', () => {
     });
     expect(tree.find('h1').text()).to.contain('File for disability');
     expect(tree.find('main')).to.have.lengthOf(0);
-    expect(tree.find('AlertBox')).to.have.lengthOf(1);
-    expect(tree.find('AlertBox p').text()).to.contain(
+    expect(tree.find('va-alert')).to.have.lengthOf(1);
+    expect(tree.find('va-alert p').text()).to.contain(
       'We need more information',
     );
     const recordedEvent = getLastEvent();
@@ -240,22 +277,24 @@ describe('Form 526EZ Entry Page', () => {
   });
 
   // Wizard
-  it('should redirect to the wizard when not logged in', () => {
+  it('should not redirect to the wizard when not logged in', () => {
     sessionStorage.removeItem(WIZARD_STATUS);
     const tree = testPage({
       currentlyLoggedIn: false,
     });
-    expect(tree.find('h1').text()).to.contain('restart the app');
+    expect(tree.find('h1').text()).to.contain('Log in');
     tree.unmount();
   });
   it('should redirect to the wizard when logged in', () => {
     localStorage.setItem('hasSession', true);
     sessionStorage.removeItem(WIZARD_STATUS);
+    const router = [];
     const tree = testPage({
-      currentlyLoggedIn: false,
+      currentlyLoggedIn: true,
+      router,
     });
-    localStorage.removeItem('hasSession');
     expect(tree.find('h1').text()).to.contain('restart the app');
+    expect(router[0]).to.equal('/start');
     tree.unmount();
   });
   it('should not redirect to the wizard there is a saved form', () => {

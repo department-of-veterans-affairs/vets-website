@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { isEqual, isEmpty } from 'lodash';
 
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-
 import { accountTitleLabels } from '../constants';
 import { srSubstitute, viewifyFields } from '../utils';
 
@@ -28,7 +26,7 @@ const mask = (string, unmaskedLength) => {
 
 function accountsDifferContent(originalDataIsEmpty) {
   return (
-    <p>
+    <p className="vads-u-font-size--base vads-u-margin-top--0">
       We’ll add this new bank account to your disability application.{' '}
       <strong>
         This new account won’t be updated in all VA systems right away.
@@ -82,11 +80,9 @@ export const PaymentView = ({ formData = {}, originalData = {} }) => {
         <p>Bank name: {bankName || srSubstitute('', 'is blank')}</p>
       </div>
       {dataChanged && (
-        <AlertBox
-          isVisible
-          status="warning"
-          content={accountsDifferContent(originalDataIsEmpty)}
-        />
+        <va-alert visible status="warning">
+          {accountsDifferContent(originalDataIsEmpty)}
+        </va-alert>
       )}
     </>
   );

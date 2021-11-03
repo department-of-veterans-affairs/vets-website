@@ -81,6 +81,11 @@ export const OperatingStatus = {
 export const CLINIC_URGENTCARE_SERVICE = '261QU0200X';
 
 /**
+ * Service type "Dentist - Orofacial Pain" code
+ */
+export const DENTAL_OROFACIAL_PAIN_SERVICE = '1223X2210X';
+
+/**
  * Service type "Pharmacy - Community/Retail Pharmacy" code
  */
 export const PHARMACY_RETAIL_SERVICE = '3336C0003X';
@@ -100,7 +105,8 @@ export const EMERGENCY_CARE_SERVICES = [
  * Error Messages
  */
 export const Error = {
-  DEFAULT: 'We’re sorry. Something went wrong on our end. Please try again.',
+  DEFAULT:
+    'We’re sorry. Something went wrong on our end. Please refresh this page or try again later.',
   LOCATION:
     'Something’s not quite right. Please enter a valid or different location and try your search again.',
 };
@@ -126,7 +132,7 @@ export const CountriesList = ['us', 'pr', 'ph', 'gu', 'as', 'mp'];
  * Mapbox api request types
  */
 
-export const TypeList = ['place', 'region', 'postcode', 'locality'];
+export const MAPBOX_QUERY_TYPES = ['place', 'region', 'postcode', 'locality'];
 
 /**
  * Max search area in miles

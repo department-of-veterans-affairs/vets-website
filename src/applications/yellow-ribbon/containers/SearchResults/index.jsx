@@ -208,6 +208,7 @@ export class SearchResults extends Component {
         <h2
           className="va-introtext va-u-outline--none vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal"
           data-display-results-header
+          tabIndex="-1"
         >
           {/* eslint-disable-next-line jsx-a11y/aria-role */}
           <span role="text">
@@ -233,7 +234,7 @@ export class SearchResults extends Component {
 
         {/* Table of Results */}
         <ul
-          className="search-results vads-u-margin-top--2 vads-u-padding--0"
+          className="vads-u-margin-top--2 vads-u-padding--0"
           data-e2e-id="search-results"
         >
           {results?.map((school, index) => (

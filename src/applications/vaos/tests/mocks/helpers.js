@@ -12,9 +12,10 @@ import {
   getExpressCareRequestCriteriaMock,
   getRequestEligibilityCriteriaMock,
   getDirectBookingEligibilityCriteriaMock,
-  getVAFacilityMock,
 } from '../mocks/v0';
 import sinon from 'sinon';
+import { createMockFacilityByVersion } from './data';
+import { mockFacilitiesFetchByVersion } from './fetch';
 
 /**
  * Mocks appointment-related api calls for the upcoming appointments page
@@ -26,8 +27,6 @@ import sinon from 'sinon';
  * @param {boolean} [params.partialError=false] Set to true if mock should return a MAS partial error
  * @param {Array<VARCommunityCareAppointment>} [params.cc=[]] CC appointments to return from mock
  * @param {Array<VARRequest>} [params.requests=[]] Requests to return from mock
- * @param {boolean} [params.isHomepageRefresh=false] Set to true if mock for upcoming page on homepage refresh, which
- *   has different date ranges
  */
 export function mockAppointmentInfo({
   va = [],
@@ -35,15 +34,12 @@ export function mockAppointmentInfo({
   cc = [],
   requests = [],
   partialError = null,
-  isHomepageRefresh = false,
 }) {
   if (!global.fetch.isSinonProxy) {
     mockFetch();
   }
 
-  const startDate = isHomepageRefresh
-    ? moment().subtract(30, 'days')
-    : moment();
+  const startDate = moment().subtract(30, 'days');
 
   const baseUrl = `${
     environment.API_URL
@@ -73,7 +69,7 @@ export function mockAppointmentInfo({
   setFetchJSONResponse(
     global.fetch.withArgs(
       `${environment.API_URL}/vaos/v0/appointment_requests?start_date=${moment()
-        .add(isHomepageRefresh ? -120 : -30, 'days')
+        .add(-120, 'days')
         .format('YYYY-MM-DD')}&end_date=${moment().format('YYYY-MM-DD')}`,
     ),
     { data: requests },
@@ -191,32 +187,6 @@ export function mockPastAppointmentInfoOption1({ va = [], cc = [] }) {
 }
 
 /**
- * Mocks batch request for facility data from the VA facilities api
- *
- * @export
- * @param {Object} params
- * @param {?Array<string>} ids List of facility ids to use in query param
- * @param {?Array<VAFacility>} facilities Array of facilities to return from mock
- */
-export function mockFacilitiesFetch(ids, facilities) {
-  if (!ids) {
-    setFetchJSONResponse(
-      global.fetch.withArgs(sinon.match('/v1/facilities/va?ids=')),
-      { data: [] },
-    );
-  } else {
-    setFetchJSONResponse(
-      global.fetch.withArgs(
-        `${environment.API_URL}/v1/facilities/va?ids=${ids}&per_page=${
-          ids.split(',').length
-        }`,
-      ),
-      { data: facilities },
-    );
-  }
-}
-
-/**
  * Mocks facilities fetch with an error response
  *
  * @export
@@ -231,21 +201,6 @@ export function mockFacilitiesFetchError(ids) {
       }`,
     ),
     { errors: [] },
-  );
-}
-
-/**
- * Mocks single facility request for facility data from the VA facilities api
- *
- * @export
- * @param {Object} params
- * @param {string} id Facility id to use in query param
- * @param {VAFacility} facility Facility data to return from mock
- */
-export function mockFacilityFetch(id, facility) {
-  setFetchJSONResponse(
-    global.fetch.withArgs(`${environment.API_URL}/v1/facilities/va/${id}`),
-    { data: facility },
   );
 }
 
@@ -274,22 +229,22 @@ export function mockCCProviderFetch(
   if (vaError) {
     setFetchJSONFailure(
       global.fetch.withArgs(
-        `${environment.API_URL}/v1/facilities/ccp?latitude=${
+        `${environment.API_URL}/facilities_api/v1/ccp/provider?latitude=${
           address.latitude
         }&longitude=${
           address.longitude
-        }&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&type=provider&trim=true`,
+        }&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&trim=true`,
       ),
       { errors: [] },
     );
   } else {
     setFetchJSONResponse(
       global.fetch.withArgs(
-        `${environment.API_URL}/v1/facilities/ccp?latitude=${
+        `${environment.API_URL}/facilities_api/v1/ccp/provider?latitude=${
           address.latitude
         }&longitude=${
           address.longitude
-        }&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&type=provider&trim=true`,
+        }&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&trim=true`,
       ),
       { data: providers },
     );
@@ -508,6 +463,7 @@ export function mockEligibilityFetches({
   requestPastVisits = false,
   directPastVisits = false,
   clinics = [],
+  matchingClinics = null,
   pastClinics = false,
 }) {
   mockRequestLimits({
@@ -558,7 +514,7 @@ export function mockEligibilityFetches({
     },
   );
 
-  const pastAppointments = clinics.map(clinic => {
+  const pastAppointments = (matchingClinics || clinics).map(clinic => {
     const appointment = getVAAppointmentMock();
     appointment.attributes = {
       ...appointment.attributes,
@@ -815,24 +771,22 @@ export function mockFacilitiesPageFetches(
     id => `vha_${id.replace('983', '442').replace('984', '552')}`,
   );
 
-  const facilities = vhaIds.map((id, index) => ({
-    id,
-    attributes: {
-      ...getVAFacilityMock().attributes,
-      uniqueId: id.replace('vha_', ''),
+  const facilities = vhaIds.map((id, index) =>
+    createMockFacilityByVersion({
+      id: id.replace('vha_', ''),
       name: `Fake facility name ${index + 1}`,
+      lat: Math.random() * 90,
+      long: Math.random() * 180,
       address: {
-        physical: {
-          ...getVAFacilityMock().attributes.address.physical,
-          city: `Fake city ${index + 1}`,
-        },
+        city: `Fake city ${index + 1}`,
       },
-    },
-  }));
+      version: 0,
+    }),
+  );
 
   mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
   mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
-  mockFacilitiesFetch(vhaIds.join(','), facilities);
+  mockFacilitiesFetchByVersion({ facilities, version: 0 });
 
   return { requestFacilities, directFacilities, facilities };
 }

@@ -10,14 +10,14 @@ import {
 } from '../../../../constants/typeaheadOptions';
 
 export const uiSchema = {
-  spouseCurrentEmployment: {
+  spCurrEmployment: {
     items: {
       'ui:title': ({ formData }) => (
-        <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+        <legend className="schemaform-block-title">
           Income for your spouse’s job at {formData.employerName}
-        </h3>
+        </legend>
       ),
-      monthlyGrossSalary: {
+      spouseGrossSalary: {
         'ui:title': 'Gross monthly income',
         'ui:description': (
           <p className="formfield-subtitle">
@@ -43,7 +43,6 @@ export const uiSchema = {
           viewType: 'table',
           viewField: TableDetailsView,
           doNotScroll: true,
-          showSave: true,
           itemName: 'payroll deduction',
           keepInPageOnReview: true,
         },
@@ -75,13 +74,13 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    spouseCurrentEmployment: {
+    spCurrEmployment: {
       type: 'array',
       items: {
         type: 'object',
-        required: ['monthlyGrossSalary'],
+        required: ['spouseGrossSalary'],
         properties: {
-          monthlyGrossSalary: {
+          spouseGrossSalary: {
             type: 'string',
           },
           deductions: {

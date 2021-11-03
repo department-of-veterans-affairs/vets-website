@@ -1,5 +1,5 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+
 import CollapsiblePanel from '@department-of-veterans-affairs/component-library/CollapsiblePanel';
 
 export const claimExamsDescription = (
@@ -9,11 +9,19 @@ export const claimExamsDescription = (
       you to have a claim exam (also known as a C&amp;P exam) if we need more
       information to decide your claim.
     </p>
-    <AlertBox
-      headline="You might receive a phone call from an unfamiliar number to schedule your exam"
-      content="You’ll receive a phone call from a VA third-party vendor or from VA to schedule your exam. It’s important that you answer any calls you receive after you file a disability claim."
-      status="warning"
-    />
+
+    <va-alert status="warning">
+      <h3 slot="headline">
+        You might receive a phone call from an unfamiliar number to schedule
+        your exam
+      </h3>
+      <p className="vads-u-font-size--base">
+        You’ll receive a phone call from a VA third-party vendor or from VA to
+        schedule your exam. It’s important that you answer any calls you receive
+        after you file a disability claim.
+      </p>
+    </va-alert>
+
     <p>At this time we partner with 3 vendors:</p>
     <ul>
       <li>QTC Medical Services (QTC)</li>
@@ -28,15 +36,15 @@ export const claimExamsFAQ = (
     <h3 className="vads-u-font-size--h4">More information about claim exams</h3>
     <CollapsiblePanel panelName="What happens if I miss a phone call?">
       <p>
-        If we can't reach you by phone, we'll schedule an appointment for you.
-        We'll send you a letter with the date and time of your exam.
+        If we can’t reach you by phone, we’ll schedule an appointment for you.
+        We’ll send you a letter with the date and time of your exam.
       </p>
       <p>
         Please call the number on your appointment letter to confirm your exam
         time and location.
       </p>
       <p>
-        If you can't make your appointment, let us know right away. You can most
+        If you can’t make your appointment, let us know right away. You can most
         likely reschedule, but this may delay your claim.
       </p>
     </CollapsiblePanel>

@@ -13,8 +13,10 @@ import { replaceWithStagingDomain } from '../../../utilities/environment/staging
 import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
 import DropDownPanel from '@department-of-veterans-affairs/component-library/DropDownPanel';
 import { apiRequest } from 'platform/utilities/api';
+import SearchDropdownComponent from 'applications/search/components/SearchDropdown/SearchDropdownComponent';
 
 const ENTER_KEY = 13;
+const SPACE_KEY = 32;
 
 export class SearchMenu extends React.Component {
   constructor(props) {
@@ -30,6 +32,29 @@ export class SearchMenu extends React.Component {
       highlightedIndex: null,
     };
   }
+  componentDidMount() {
+    document.addEventListener('keyup', () => {
+      if (
+        ((event.which || event.keyCode) === SPACE_KEY ||
+          (event.which || event.keyCode) === ENTER_KEY) &&
+        document.activeElement?.id === 'sitewide-search-submit-button'
+      ) {
+        this.handleSearchEvent();
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keyup', () => {
+      if (
+        ((event.which || event.keyCode) === SPACE_KEY ||
+          (event.which || event.keyCode) === ENTER_KEY) &&
+        document.activeElement?.id === 'sitewide-search-submit-button'
+      ) {
+        this.handleSearchEvent();
+      }
+    });
+  }
 
   componentDidUpdate(prevProps, prevState) {
     const { userInput } = this.state;
@@ -40,6 +65,15 @@ export class SearchMenu extends React.Component {
     if (isOpen && !prevProps.isOpen && inputField) {
       inputField.focus();
     }
+
+    // focus the search dropdown input field when the search menu is opened
+    const dropdownInputField = document.getElementById(
+      'search-header-dropdown-input-field',
+    );
+    if (isOpen && !prevProps.isOpen && dropdownInputField) {
+      dropdownInputField.focus();
+    }
+
     if (userInput.length <= 2 && prevState.userInput.length > 2) {
       this.clearSuggestions();
     }
@@ -49,40 +83,10 @@ export class SearchMenu extends React.Component {
     if (inputChanged && searchTypeaheadEnabled) {
       this.debouncedGetSuggestions();
     }
-
-    // event logging for phased typeahead rollout
-    if (
-      !prevProps.searchTypeaheadEnabled &&
-      this.props.searchTypeaheadEnabled
-    ) {
-      const searchTypeaheadLogged = JSON.parse(
-        sessionStorage.getItem('searchTypeaheadLogged'),
-      );
-      if (!searchTypeaheadLogged) {
-        recordEvent({
-          event: 'phased-roll-out-enabled',
-          'product-description': 'Type Ahead',
-        });
-        sessionStorage.setItem('searchTypeaheadLogged', JSON.stringify(true));
-      }
-    }
   }
 
   clearSuggestions = () => {
     this.setState({ suggestions: [], savedSuggestions: [] });
-  };
-
-  isUserInputValid = () => {
-    const { userInput } = this.state;
-
-    // check to make sure user input isn't empty
-    const isCorrectLength =
-      userInput && userInput.replace(/\s/g, '').length > 0;
-    if (!isCorrectLength) {
-      return false;
-    }
-    // this will likely expand in the future
-    return true;
   };
 
   getSuggestions = async () => {
@@ -181,13 +185,9 @@ export class SearchMenu extends React.Component {
   // handle event logging and fire off a search query
   handleSearchEvent = suggestion => {
     const { suggestions, userInput, savedSuggestions } = this.state;
-    const { isUserInputValid } = this;
 
     const suggestionsList = [...suggestions, ...savedSuggestions];
-    // if the user tries to search with an empty input, escape early
-    if (!isUserInputValid()) {
-      return;
-    }
+
     // event logging, note suggestion will be undefined during a userInput search
     recordEvent({
       event: 'view_search_results',
@@ -238,16 +238,119 @@ export class SearchMenu extends React.Component {
     return <strong>{lowerSuggestion}</strong>;
   };
 
+  fetchDropDownSuggestions = async inputValue => {
+    // encode user input for query to suggestions url
+    const encodedInput = encodeURIComponent(inputValue);
+
+    // fetch suggestions
+    try {
+      const apiRequestOptions = {
+        method: 'GET',
+      };
+      const fetchedSuggestions = await apiRequest(
+        `/search_typeahead?query=${encodedInput}`,
+        apiRequestOptions,
+      );
+
+      if (fetchedSuggestions.length !== 0) {
+        return fetchedSuggestions.sort(function(a, b) {
+          return a.length - b.length;
+        });
+      }
+      return [];
+      // if we fail to fetch suggestions
+    } catch (error) {
+      if (error?.error?.code === 'OVER_RATE_LIMIT') {
+        Sentry.captureException(
+          new Error(`"OVER_RATE_LIMIT" - Search Typeahead`),
+        );
+      }
+      Sentry.captureException(error);
+    }
+    return [];
+  };
+
+  onInputSubmit = componentState => {
+    const savedSuggestions = componentState?.savedSuggestions || [];
+    const suggestions = componentState?.suggestions || [];
+    const inputValue = componentState?.inputValue;
+    const validSuggestions =
+      savedSuggestions.length > 0 ? savedSuggestions : suggestions;
+
+    // event logging, note suggestion will be undefined during a userInput search
+    recordEvent({
+      event: 'view_search_results',
+      'search-page-path': document.location.pathname,
+      'search-query': inputValue,
+      'search-results-total-count': undefined,
+      'search-results-total-pages': undefined,
+      'search-selection': 'All VA.gov',
+      'search-typeahead-enabled': true,
+      'sitewide-search-app-used': true,
+      'type-ahead-option-keyword-selected': undefined,
+      'type-ahead-option-position': undefined,
+      'type-ahead-options-list': validSuggestions,
+      'type-ahead-options-count': validSuggestions.length,
+    });
+
+    // create a search url
+    const searchUrl = replaceWithStagingDomain(
+      `https://www.va.gov/search/?query=${encodeURIComponent(
+        inputValue,
+      )}&t=${false}`,
+    );
+
+    // relocate to search results, preserving history
+    window.location.assign(searchUrl);
+  };
+
+  onSuggestionSubmit = (index, componentState) => {
+    const savedSuggestions = componentState?.savedSuggestions || [];
+    const suggestions = componentState?.suggestions || [];
+    const inputValue = componentState?.inputValue;
+
+    const validSuggestions =
+      savedSuggestions?.length > 0 ? savedSuggestions : suggestions;
+
+    // event logging, note suggestion will be undefined during a userInput search
+    recordEvent({
+      event: 'view_search_results',
+      'search-page-path': document.location.pathname,
+      'search-query': inputValue,
+      'search-results-total-count': undefined,
+      'search-results-total-pages': undefined,
+      'search-selection': 'All VA.gov',
+      'search-typeahead-enabled': true,
+      'sitewide-search-app-used': true,
+      'type-ahead-option-keyword-selected': validSuggestions[index],
+      'type-ahead-option-position': index + 1,
+      'type-ahead-options-list': validSuggestions,
+      'type-ahead-options-count': validSuggestions.length,
+    });
+
+    // create a search url
+    const searchUrl = replaceWithStagingDomain(
+      `https://www.va.gov/search/?query=${encodeURIComponent(
+        validSuggestions[index],
+      )}&t=${true}`,
+    );
+
+    // relocate to search results, preserving history
+    window.location.assign(searchUrl);
+  };
+
   makeForm = () => {
     const { suggestions, userInput } = this.state;
-    const { searchTypeaheadEnabled } = this.props;
+    const {
+      searchTypeaheadEnabled,
+      searchDropdownComponentEnabled,
+    } = this.props;
     const {
       debouncedGetSuggestions,
       handelDownshiftStateChange,
       handleInputChange,
       handleSearchEvent,
       handleKeyUp,
-      isUserInputValid,
       formatSuggestion,
       handleSearchTab,
     } = this;
@@ -259,9 +362,10 @@ export class SearchMenu extends React.Component {
       'suggestion vads-u-color--gray-dark vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-padding--1 vads-u-width--full vads-u-padding-left--2';
 
     // default search experience
-    if (!searchTypeaheadEnabled) {
+    if (!searchTypeaheadEnabled && !searchDropdownComponentEnabled) {
       return (
         <form
+          className="vads-u-margin-bottom--0"
           acceptCharset="UTF-8"
           onSubmit={event => {
             event.preventDefault();
@@ -285,7 +389,6 @@ export class SearchMenu extends React.Component {
             <button
               type="submit"
               data-e2e-id="sitewide-search-submit-button"
-              disabled={!isUserInputValid()}
               className="vads-u-margin-left--0p25 vads-u-margin-right--0p5 "
             >
               <IconSearch color="#fff" />
@@ -293,6 +396,26 @@ export class SearchMenu extends React.Component {
             </button>
           </div>
         </form>
+      );
+    }
+
+    // typeahead 2.0 experience
+    // searchDropdownComponentEnabled
+    if (searchDropdownComponentEnabled) {
+      return (
+        <SearchDropdownComponent
+          buttonText=""
+          canSubmit
+          className="search-header-dropdown"
+          fullWidthSuggestions
+          formatSuggestions
+          startingValue={''}
+          submitOnClick
+          submitOnEnter
+          fetchSuggestions={this.fetchDropDownSuggestions}
+          onInputSubmit={this.onInputSubmit}
+          onSuggestionSubmit={this.onSuggestionSubmit}
+        />
       );
     }
 
@@ -336,7 +459,7 @@ export class SearchMenu extends React.Component {
               />
               <button
                 type="submit"
-                disabled={!isUserInputValid()}
+                id="sitewide-search-submit-button"
                 data-e2e-id="sitewide-search-submit-button"
                 className="vads-u-margin-left--0p5 vads-u-margin-y--1 vads-u-margin-right--1 vads-u-flex--1"
                 onMouseDown={event => {
@@ -432,6 +555,9 @@ SearchMenu.defaultProps = {
 const mapStateToProps = store => ({
   searchTypeaheadEnabled: toggleValues(store)[
     FEATURE_FLAG_NAMES.searchTypeaheadEnabled
+  ],
+  searchDropdownComponentEnabled: toggleValues(store)[
+    FEATURE_FLAG_NAMES.searchDropdownComponentEnabled
   ],
 });
 

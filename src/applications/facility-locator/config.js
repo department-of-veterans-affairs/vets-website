@@ -6,7 +6,7 @@ import {
   EMERGENCY_CARE_SERVICES,
 } from './constants';
 import manifest from './manifest.json';
-import { facilityLocatorRailsEngine } from './utils/featureFlagSelectors';
+import { facilityLocatorLatLongOnly } from './utils/featureFlagSelectors';
 
 const apiSettings = {
   credentials: 'include',
@@ -20,16 +20,6 @@ const apiSettings = {
   },
 };
 
-// Base endpoints to be used in API requests.
-const legacyApi = {
-  baseUrl: `${environment.API_URL}/v1/facilities`,
-  url: `${environment.API_URL}/v1/facilities/va`,
-  ccUrl: `${environment.API_URL}/v1/facilities/ccp`,
-  settings: apiSettings,
-};
-
-// New endpoints for use with the Rails engine on the backend.
-// Once this has been hardened in production, this should replace the legacy api config above.
 const railsEngineApi = {
   baseUrl: `${environment.API_URL}/facilities_api/v1`,
   url: `${environment.API_URL}/facilities_api/v1/va`,
@@ -37,8 +27,7 @@ const railsEngineApi = {
   settings: apiSettings,
 };
 
-export const getAPI = useRailsEngine =>
-  useRailsEngine ? railsEngineApi : legacyApi;
+export const getAPI = () => railsEngineApi;
 
 /**
  * Build parameters and URL for facilities API calls
@@ -52,26 +41,26 @@ export const resolveParamsWithUrl = ({
   bounds,
   center,
   radius,
-  isMashUp = false,
   store,
 }) => {
   const filterableLocations = ['health', 'benefits', 'provider'];
   const reduxStore = store || require('./facility-locator-entry');
-  let useRailsEngine = false;
+  let latLongOnly = false;
 
   try {
-    useRailsEngine = facilityLocatorRailsEngine(reduxStore.default.getState());
+    latLongOnly = facilityLocatorLatLongOnly(reduxStore.default.getState());
   } catch (e) {
     // eslint-disable-next-line no-console
     console.warn('error getting redux state from store', reduxStore, e);
   }
-  const api = getAPI(useRailsEngine);
+
+  const api = getAPI();
 
   let facility;
   let service;
   let url = api.url;
   let roundRadius;
-  let perPage = 20;
+  const perPage = 10;
   let communityServiceType = false;
   let multiSpecialties = false;
 
@@ -80,12 +69,7 @@ export const resolveParamsWithUrl = ({
       if (serviceType === 'UrgentCare') {
         facility = 'health';
         service = 'UrgentCare';
-      } else if (serviceType === 'NonVAUrgentCare' && isMashUp) {
-        facility = 'urgent_care';
-        url = api.ccUrl;
-        communityServiceType = true;
-        perPage = 40;
-      } else if (serviceType === 'NonVAUrgentCare' && !isMashUp) {
+      } else if (serviceType === 'NonVAUrgentCare') {
         facility = 'urgent_care';
         url = api.ccUrl;
         communityServiceType = true;
@@ -95,13 +79,7 @@ export const resolveParamsWithUrl = ({
       if (serviceType === 'EmergencyCare') {
         facility = 'health';
         service = 'EmergencyCare';
-      } else if (serviceType === 'NonVAEmergencyCare' && isMashUp) {
-        facility = 'provider';
-        url = api.ccUrl;
-        communityServiceType = true;
-        multiSpecialties = true;
-        perPage = 40;
-      } else if (serviceType === 'NonVAEmergencyCare' && !isMashUp) {
+      } else if (serviceType === 'NonVAEmergencyCare') {
         facility = 'provider';
         url = api.ccUrl;
         communityServiceType = true;
@@ -122,7 +100,7 @@ export const resolveParamsWithUrl = ({
 
   if (radius) roundRadius = Math.max(1, radius.toFixed());
 
-  if (useRailsEngine && facility && communityServiceType) {
+  if (facility && communityServiceType) {
     url = `${url}/${facility}`;
   }
 
@@ -141,23 +119,34 @@ export const resolveParamsWithUrl = ({
     }&${sNchar}${EMERGENCY_CARE_SERVICES[4]}`;
   }
 
+  let locationParams;
+  if (latLongOnly) {
+    locationParams = [
+      center && center.length > 0 ? `lat=${center[0]}` : null,
+      center && center.length > 0 ? `long=${center[1]}` : null,
+    ];
+  } else {
+    locationParams = [
+      address ? `address=${address}` : null,
+      ...bounds.map(c => `bbox[]=${c}`),
+      center && center.length > 0 ? `latitude=${center[0]}` : null,
+      center && center.length > 0 ? `longitude=${center[1]}` : null,
+    ];
+  }
+
   return {
     url,
     params: compact([
-      address ? `address=${address}` : null,
-      ...bounds.map(c => `bbox[]=${c}`),
-      facility && (!useRailsEngine || !communityServiceType)
-        ? `type=${facility}`
-        : null,
+      facility && !communityServiceType ? `type=${facility}` : null,
       filterableLocations.includes(facility) && service
         ? `${communityServiceType ? 'specialties' : 'services'}[]=${service}`
         : null,
       `page=${page}`,
       `per_page=${perPage}`,
-      facility === LocationType.VET_CENTER ? `exclude_mobile=true` : null,
+      facility === LocationType.VET_CENTER ? `mobile=false` : null,
+      facility === LocationType.HEALTH ? `mobile=false` : null,
       roundRadius ? `radius=${roundRadius}` : null,
-      center && center.length > 0 ? `latitude=${center[0]}` : null,
-      center && center.length > 0 ? `longitude=${center[1]}` : null,
+      ...locationParams,
     ]).join('&'),
   };
 };
@@ -198,6 +187,9 @@ export const healthServices = {
   Orthopedics: 'Orthopedics',
   Urology: 'Urology',
   WomensHealth: "Women's health",
+  Podiatry: 'Podiatry',
+  Nutrition: 'Nutrition',
+  CaregiverSupport: 'Caregiver support',
 };
 
 export const ccUrgentCareLabels = {
@@ -206,9 +198,9 @@ export const ccUrgentCareLabels = {
 };
 
 export const urgentCareServices = {
-  AllUrgentCare: 'All urgent care',
+  AllUrgentCare: 'All in-network urgent care',
   UrgentCare: 'VA urgent care',
-  NonVAUrgentCare: 'Community urgent care providers (in VA’s network)',
+  NonVAUrgentCare: 'In-network community urgent care',
 };
 
 export const emergencyCareServices = {
@@ -259,6 +251,14 @@ export const facilityTypesOptions = {
   [LocationType.CC_PROVIDER]: 'Community providers (in VA’s network)',
   [LocationType.URGENT_CARE_PHARMACIES]:
     'Community pharmacies (in VA’s network)',
+  [LocationType.BENEFITS]: 'VA benefits',
+  [LocationType.CEMETARY]: 'VA cemeteries',
+  [LocationType.VET_CENTER]: 'Vet Centers',
+};
+
+export const nonPPMSfacilityTypeOptions = {
+  [LocationType.NONE]: 'Choose a facility type',
+  [LocationType.HEALTH]: 'VA health',
   [LocationType.BENEFITS]: 'VA benefits',
   [LocationType.CEMETARY]: 'VA cemeteries',
   [LocationType.VET_CENTER]: 'Vet Centers',

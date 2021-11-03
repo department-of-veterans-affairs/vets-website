@@ -34,16 +34,16 @@ describe('VAOS <PreferredDatePage>', () => {
 
     expect(
       await screen.findByText(
-        /What is the earliest date you’d like to be seen/,
+        /Tell us the earliest day you're available and we'll try to find the date closest to your request/,
       ),
     ).to.exist;
 
     expect(screen.baseElement).to.contain.text(
-      'Tell us when you want to schedule your appointment',
+      'When do you want to schedule this appointment?',
     );
 
     expect(screen.baseElement).to.contain.text(
-      'Please pick a date within the next 13 months.',
+      'Choose a date within the next 13 months for this appointment.',
     );
 
     // Verify date widget is rendered.

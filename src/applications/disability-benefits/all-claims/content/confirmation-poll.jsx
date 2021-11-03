@@ -2,7 +2,7 @@ import React from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 export const successMessage = claimId => (
-  <div>
+  <div className="vads-u-font-size--base">
     <strong>Claim ID number</strong>
     <div>{claimId}</div>
   </div>

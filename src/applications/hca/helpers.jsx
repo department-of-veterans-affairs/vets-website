@@ -1,5 +1,6 @@
 import React from 'react';
-import { set, mapValues } from 'lodash/fp';
+import mapValues from 'lodash/mapValues';
+import set from 'platform/utilities/data/set';
 import moment from 'moment';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import vaMedicalFacilities from 'vets-json-schema/dist/vaMedicalFacilities.json';
@@ -254,9 +255,8 @@ export function fileHelp({ formContext }) {
 }
 
 // Turns the facility list for each state into an array of strings
-export const medicalCentersByState = mapValues(
-  val => val.map(center => center.value),
-  vaMedicalFacilities,
+export const medicalCentersByState = mapValues(vaMedicalFacilities, val =>
+  val.map(center => center.value),
 );
 
 export const dischargeTypeLabels = {
@@ -499,26 +499,26 @@ export const isEssentialAcaCoverageDescription = (
   </div>
 );
 export const medicaidDescription = (
-  <div>
-    <div className="hca-tooltip-wrapper">
-      <AdditionalInfo triggerText="Learn more about Medicaid.">
-        Medicaid is a government health program for eligible low-income
-        individuals and families and people with disabilities.
-      </AdditionalInfo>
-    </div>
-  </div>
+  <section className="vads-u-margin-bottom--3">
+    <p>
+      Medicaid is a federal health insurance program for adults and families
+      with low income levels and people with disabilities.
+    </p>
+    <p>
+      <strong>Note:</strong> Some states use different names for their Medicaid
+      programs.
+    </p>
+  </section>
 );
 export const medicarePartADescription = (
-  <div>
-    <div className="hca-tooltip-wrapper">
-      <AdditionalInfo triggerText="Learn more about Medicare Part A insurance.">
-        Medicare is a federal health insurance program providing coverage for
-        people who are 65 years or older or who meet who meet special criteria.
-        Part A insurance covers hospital care, skilled nursing and nursing home
-        care, hospice, and home health services.
-      </AdditionalInfo>
-    </div>
-  </div>
+  <section className="vads-u-margin-bottom--3">
+    <p>
+      Medicare is a federal health insurance program providing coverage for
+      people who are 65 years or older or who meet who meet special criteria.
+      Part A insurance covers hospital care, skilled nursing and nursing home
+      care, hospice, and home health services.
+    </p>
+  </section>
 );
 
 export const idFormSchema = {

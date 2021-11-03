@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import objectValues from 'lodash/fp/values';
 import { features } from '../routes';
 import {
   isProfileLoading,
@@ -10,7 +9,7 @@ import {
 
 class BetaApp extends React.Component {
   static propTypes = {
-    featureName: PropTypes.oneOf(objectValues(features)).isRequired,
+    featureName: PropTypes.oneOf(Object.values(features)).isRequired,
   };
 
   render() {

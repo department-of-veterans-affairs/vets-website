@@ -7,11 +7,13 @@
 @import "partials/gi-compare-drawer";
 @import "partials/gi-compare-page";
 @import "partials/gi-modal";
-@import "partials/gi-landing-page";
 @import "partials/gi-search-page";
 @import "partials/gi-profile-page";
 @import "partials/gi-search-controls";
+@import "partials/gi-search-form";
 @import "partials/gi-search-location";
+@import "partials/gi-back-to-top";
+@import "partials/gi-filter";
 
 .gi-app {
   div.military-status-info {
@@ -95,10 +97,6 @@
   h1:focus,
   h2:focus,
   h3:focus,
-  button:focus {
-    outline: none;
-  }
-
   nav {
     margin-left: 0.5rem;
   }
@@ -170,55 +168,27 @@
     }
   }
 
-  .search-form {
-    button {
-      margin-top: 0.5em;
-      width: auto;
-    }
+  .caution-flag-toggle {
+    display: block;
+    color: $color-gray-dark;
+    background-color: transparent;
+    padding: 0px;
+    margin: 0px;
 
-    .usa-button i {
-      padding-left: 16px;
-    }
-
-    .suggestions-list {
-      position: absolute;
-    }
-
-    .search-box {
-      border-bottom: 2px solid $color-gray-light;
-      border-left: 2px solid $color-gray-light;
-      border-right: 2px solid $color-gray-light;
-      padding: 48px 48px 24px 48px;
-    }
-
-    .search-tab {
-      font-size: 25px;
-    }
-
-    input:placeholder-shown {
-      font-style: italic;
-    }
-
-    input.location-search {
-      width: 490px;
-      max-width: none;
-    }
-
-    input.name-search {
-      width: 690px;
-      max-width: none;
-    }
-
-    select {
-      width: 200px;
+    i {
+      font-size: 16px;
     }
   }
-  padding-bottom: 8em;
 }
 
 .section-item,
 .accordion-item {
+  margin-bottom: 5px;
   list-style-type: none !important;
+
+  h2.accordion-button-wrapper {
+    margin: 0;
+  }
 }
 
 .school-classification {
@@ -246,4 +216,49 @@
 
 .capitalize-value {
   text-transform: capitalize;
+}
+
+.main-title {
+  padding-right: 9em;
+  @media (max-width: 1004px) {
+    padding-right: 0;
+    text-align: left;
+  }
+  @media (max-width: $small-screen) {
+    text-align: center;
+  }
+}
+
+.tool-description {
+  text-align: center;
+  padding-bottom: 2em;
+  padding-right: 9em;
+
+  @media (max-width: 1004px) {
+    padding-right: 0;
+    text-align: left;
+  }
+
+  @media (max-width: $small-screen) {
+    padding-left: 20px;
+    padding-bottom: 1em;
+    padding-right: 0;
+  }
+}
+
+.small-screen-font {
+  @media (max-width: $small-screen) {
+    font-size: 15px;
+  }
+}
+.small-screen-header {
+  @media (max-width: $small-screen) {
+    font-size: 17px;
+  }
+}
+.card-bottom-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }

@@ -11,7 +11,7 @@ describe('inProgressMessage()', () => {
     };
 
     expect(inProgressMessage(formConfig)).to.eql(
-      'Your application is in progress.',
+      'Your application is in progress',
     );
   });
 

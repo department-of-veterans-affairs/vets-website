@@ -19,7 +19,8 @@ const printCoverage = coverageResults => {
 
   // Add each app coverage result to the table
   Object.values(coverageResults).forEach(cov => {
-    const appLocation = cov.path.substr(0, cov.path.lastIndexOf('/'));
+    const appLocation =
+      cov.path.substr(0, cov.path.lastIndexOf('/')) || 'All Files';
 
     coverageTable.push({
       [appLocation]: [
@@ -34,7 +35,7 @@ const printCoverage = coverageResults => {
   console.log(coverageTable.toString());
 };
 
-const generateCoverage = (rootDir, coverageSummary) => {
+const generateAppCoverage = (rootDir, coverageSummary) => {
   // Get application manifests & entry names
   const manifests = getAppManifests(path.join(__dirname, '../'));
 
@@ -78,6 +79,18 @@ const generateCoverage = (rootDir, coverageSummary) => {
       });
       return acc;
     }, initialCoverage);
+};
+
+const generateCoverage = (rootDir, coverageSummary) => {
+  const appCoverage = generateAppCoverage(rootDir, coverageSummary);
+
+  return {
+    'all-files': {
+      path: '/',
+      ...coverageSummary.total,
+    },
+    ...appCoverage,
+  };
 };
 
 const logCoverage = coverageResults => {

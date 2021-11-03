@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Telephone, {
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
@@ -11,7 +11,7 @@ const HowDoIPay = () => (
     </h2>
 
     <p className="vads-u-margin-top--0">
-      You can pay your debt online, by phone, or by mail. If you can't pay all
+      You can pay your debt online, by phone, or by mail. If you can’t pay all
       of your debt or if you currently receive monthly benefits, call the Debt
       Management Center at
       <Telephone className="vads-u-margin-left--0p5" contact="8008270648" />.

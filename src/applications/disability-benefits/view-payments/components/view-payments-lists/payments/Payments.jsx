@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import Table from '@department-of-veterans-affairs/component-library/Table';
 import { clientServerErrorContent } from '../helpers';
@@ -99,12 +98,9 @@ class Payments extends Component {
       );
     } else {
       tableContent = (
-        <AlertBox
-          content={clientServerErrorContent(this.props.tableVersion)}
-          status="info"
-          backgroundOnly="true"
-          className="vads-u-background-color--gray-lightest"
-        />
+        <va-alert status="info">
+          {clientServerErrorContent(this.props.tableVersion)}
+        </va-alert>
       );
     }
     return <>{tableContent}</>;

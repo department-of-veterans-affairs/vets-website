@@ -1,4 +1,3 @@
-import { assign } from 'lodash/fp';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
 import DependentView from '../../../components/DependentView';
@@ -30,9 +29,10 @@ export default {
     required: ['view:reportDependents'],
     properties: {
       'view:reportDependents': { type: 'boolean' },
-      dependents: assign(dependents, {
+      dependents: {
+        ...dependents,
         minItems: 1,
-      }),
+      },
     },
   },
 };

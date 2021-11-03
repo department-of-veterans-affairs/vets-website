@@ -9,7 +9,6 @@ import set from 'platform/utilities/data/set';
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 import { getParentSiteMock } from '../../mocks/v0';
-import { getVAOSParentSiteMock } from '../../mocks/v2';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import {
   mockCommunityCareEligibility,
@@ -24,6 +23,7 @@ import TypeOfCarePage from '../../../new-appointment/components/TypeOfCarePage';
 import { NewAppointment } from '../../../new-appointment';
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
+import { createMockFacilityByVersion } from '../../mocks/data';
 
 const initialState = {
   featureToggles: {
@@ -86,7 +86,7 @@ describe('VAOS <TypeOfCarePage>', () => {
 
     fireEvent.click(screen.getByText(/Continue/));
 
-    expect(await screen.findByText('Please choose a type of care')).to.exist;
+    expect(await screen.findByText('What care do you need?')).to.exist;
     expect(screen.history.push.called).to.not.be.true;
 
     fireEvent.click(await screen.findByLabelText(/primary care/i));
@@ -166,7 +166,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     await waitFor(
       () => expect(screen.queryByText(/podiatry appointments/i)).not.to.exist,
     );
-    expect(screen.getByText(/please choose a type of care/i)).to.exist;
+    expect(screen.getByText(/what care do you need?/i)).to.exist;
   });
 
   it('should open facility type page when CC eligible and has a support parent site', async () => {
@@ -384,7 +384,6 @@ describe('VAOS <TypeOfCarePage>', () => {
 
     expect((await screen.findAllByRole('radio')).length).to.equal(12);
     fireEvent.click(await screen.findByLabelText(/COVID-19 vaccine/i));
-    expect(screen.queryAllByText(/NEW/i).length).to.equal(2);
 
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
@@ -398,7 +397,10 @@ describe('VAOS <TypeOfCarePage>', () => {
     it('should open facility type page when CC eligible and has a supported parent site', async () => {
       mockVAOSParentSites(
         ['983'],
-        [getVAOSParentSiteMock('983'), getVAOSParentSiteMock('983GC')],
+        [
+          createMockFacilityByVersion({ id: '983', isParent: true }),
+          createMockFacilityByVersion({ id: '983GC', isParent: true }),
+        ],
         true,
       );
       mockV2CommunityCareEligibility({
@@ -410,7 +412,7 @@ describe('VAOS <TypeOfCarePage>', () => {
         ...initialState,
         featureToggles: {
           vaOnlineSchedulingCommunityCare: true,
-          vaOnlineSchedulingVAOSServiceRequests: true,
+          vaOnlineSchedulingFacilitiesServiceV2: true,
         },
       });
       const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
@@ -427,7 +429,10 @@ describe('VAOS <TypeOfCarePage>', () => {
     it('should skip facility type page if eligible for CC but no supported sites', async () => {
       mockVAOSParentSites(
         ['983'],
-        [getVAOSParentSiteMock('983'), getVAOSParentSiteMock('983GC')],
+        [
+          createMockFacilityByVersion({ id: '983', isParent: true }),
+          createMockFacilityByVersion({ id: '983GC', isParent: true }),
+        ],
         true,
       );
       mockV2CommunityCareEligibility({

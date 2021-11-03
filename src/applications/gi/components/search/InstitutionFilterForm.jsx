@@ -106,13 +106,6 @@ class InstitutionFilterForm extends React.Component {
           onFocus={this.props.handleInputFocus}
         />
         <Checkbox
-          checked={filters.stemIndicator}
-          name="stemIndicator"
-          label="Rogers STEM Scholarship"
-          onChange={this.handleCheckboxChange}
-          onFocus={this.props.handleInputFocus}
-        />
-        <Checkbox
           checked={filters.priorityEnrollment}
           name="priorityEnrollment"
           label="Priority Enrollment"
@@ -191,7 +184,6 @@ InstitutionFilterForm.propTypes = {
     onlineLearning: PropTypes.bool,
     principlesOfExcellence: PropTypes.bool,
     eightKeysToVeteranSuccess: PropTypes.bool,
-    stemIndicator: PropTypes.bool,
     excludeWarnings: PropTypes.bool,
     excludeCautionFlags: PropTypes.bool,
   }),
@@ -209,7 +201,6 @@ InstitutionFilterForm.propTypes = {
     onlineLearning: PropTypes.bool,
     priorityEnrollment: PropTypes.object,
     independentStudy: PropTypes.object,
-    stemIndicator: PropTypes.object,
     excludeWarnings: PropTypes.bool,
     excludeCautionFlags: PropTypes.bool,
   }),

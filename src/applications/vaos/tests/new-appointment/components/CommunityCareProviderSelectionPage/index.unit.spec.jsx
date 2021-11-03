@@ -9,6 +9,8 @@ import { mockFetch } from 'platform/testing/unit/helpers';
 import {
   createTestStore,
   renderWithStoreAndRouter,
+  setClosestCity,
+  setCommunityCareFlow,
   setTypeOfCare,
   setTypeOfFacility,
 } from '../../../mocks/setup';
@@ -581,7 +583,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     });
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
-      ['213E00000X', '213EG0000X', '213EP1101X', '213ES0131X'],
+      ['213E00000X', '213EG0000X', '213EP1101X', '213ES0131X', '213ES0103X'],
       calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
@@ -628,6 +630,9 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     // Choose Provider
     userEvent.click(await screen.findByText(/Choose a provider/i));
+    await waitFor(() =>
+      expect(screen.getAllByRole('radio').length).to.equal(7),
+    );
     userEvent.click(await screen.findByText(/use your current location/i));
 
     expect(
@@ -671,5 +676,48 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     await waitFor(() =>
       expect(screen.getAllByRole('radio').length).to.equal(3),
     );
+  });
+
+  it('should not display closest city question when using iterations toggle', async () => {
+    // Given a user with two supported sites
+    // And the CC iterations toggle is on
+    // And type of care is selected
+    const store = await setCommunityCareFlow({
+      toggles: {
+        vaOnlineSchedulingCCIterations: true,
+      },
+      parentSites: [
+        { id: '983', address: { city: 'Bozeman', state: 'MT' } },
+        { id: '984', address: { city: 'Belgrade', state: 'MT' } },
+      ],
+    });
+
+    // Belgrade is the 2nd of three options so the expectation is
+    // that it should be selected when we get to the CommunityCareProviderSelectionPage.
+    await setClosestCity(store, /Belgrade/i);
+
+    // When the page is displayed
+    const screen = renderWithStoreAndRouter(
+      <CommunityCareProviderSelectionPage />,
+      {
+        store,
+      },
+    );
+
+    // Then the heading will display type of provider requested
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: /Request a Primary care provider/i,
+      }),
+    ).to.be.ok;
+    expect(
+      await screen.findByText(/We’ll call you to confirm your provider choice/),
+    ).to.be.ok;
+
+    // And the closest city/state question is not shown
+    expect(screen.queryByLabelText('Bozeman, MT')).not.to.exist;
+    expect(screen.queryByLabelText('Belgrade, MT')).not.to.exist;
+    expect(screen.queryByText(/closest city and state/i)).not.to.exist;
   });
 });

@@ -30,10 +30,6 @@ const setup = ({ authenticated, isCerner } = {}) => {
 };
 
 describe('The schedule view VA appointments page', () => {
-  before(function() {
-    if (Cypress.env('CIRCLECI')) this.skip();
-  });
-
   it('Shows the correct CTA widget when unauthenticated', () => {
     // Set up the test.
     setup({ authenticated: false });

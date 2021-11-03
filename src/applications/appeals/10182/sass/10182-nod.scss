@@ -6,7 +6,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-action-link";
 
 .schemaform-intro {
   padding: 0 0 2rem 0;
@@ -76,7 +75,7 @@ dl.review {
   }
 
   dd.widget-content {
-    margin-inline-start: 0; /* override user agent */
+    margin-inline-start: 5rem; /* override user agent */
     text-align: left;
     margin: 3rem 3.5rem 0 5rem;
   }
@@ -119,6 +118,12 @@ dl.review {
   }
 }
 
+@media screen and (min-width: 481px) {
+  .va-profile-wrapper button {
+    width: auto;
+  }
+}
+
 /* IE11 hack to fix edit button placement, see
  * https://github.com/department-of-veterans-affairs/va.gov-team/issues/25108
  */
@@ -135,7 +140,7 @@ legend.schemaform-block-title {
   margin: 0;
 }
 
-.additional-issues {
+.additional-issue {
   .schemaform-label,
   .usa-input-error {
     margin-top: 0;
@@ -144,6 +149,18 @@ legend.schemaform-block-title {
 
 .form-checkbox.usa-input-error {
   margin-top: 0;
+}
+
+/* contact info page */
+article[data-location="contact-information"] {
+  div[data-field-name="mobilePhone"] h3 {
+    margin-top: 0;
+  }
+  /* address modal is very tall and won't scroll without this fix */
+  .va-modal-body {
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+  }
 }
 
 /* issues page */

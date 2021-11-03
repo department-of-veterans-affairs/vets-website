@@ -2,7 +2,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import get from '../../../../utilities/data/get';
+import set from '../../../../utilities/data/set';
+import unset from '../../../../utilities/data/unset';
 import classNames from 'classnames';
 
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
@@ -14,6 +16,7 @@ import {
   PasswordSuccess,
   checkForEncryptedPdf,
 } from '../utilities/file';
+import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
 
 class FileField extends React.Component {
   constructor(props) {
@@ -91,6 +94,7 @@ class FileField extends React.Component {
         onChange,
         formContext,
         uiSchema,
+        enableShortWorkflow,
       } = this.props;
       const uiOptions = uiSchema['ui:options'];
 
@@ -114,6 +118,7 @@ class FileField extends React.Component {
             name: currentFile.name,
             isEncrypted: true,
           };
+
           onChange(files);
           // wait for user to enter a password before uploading
           return;
@@ -136,27 +141,26 @@ class FileField extends React.Component {
         },
         formContext.trackingPrefix,
         password,
+        enableShortWorkflow,
       );
     }
   };
 
   onAttachmentIdChange = (index, value) => {
     if (!value) {
-      this.props.onChange(
-        _.unset([index, 'attachmentId'], this.props.formData),
-      );
+      this.props.onChange(unset([index, 'attachmentId'], this.props.formData));
     } else {
       this.props.onChange(
-        _.set([index, 'attachmentId'], value, this.props.formData),
+        set([index, 'attachmentId'], value, this.props.formData),
       );
     }
   };
 
   onAttachmentNameChange = (index, value) => {
     if (!value) {
-      this.props.onChange(_.unset([index, 'name'], this.props.formData));
+      this.props.onChange(unset([index, 'name'], this.props.formData));
     } else {
-      this.props.onChange(_.set([index, 'name'], value, this.props.formData));
+      this.props.onChange(set([index, 'name'], value, this.props.formData));
     }
   };
 
@@ -171,7 +175,7 @@ class FileField extends React.Component {
     this.removeFile(index);
   };
 
-  removeFile = index => {
+  removeFile = (index, focusAddButton = true) => {
     const newFileList = this.props.formData.filter((__, idx) => index !== idx);
     if (!newFileList.length) {
       this.props.onChange();
@@ -184,8 +188,26 @@ class FileField extends React.Component {
     if (this.fileInputRef.current) {
       this.fileInputRef.current.value = '';
     }
-    this.focusAddAnotherButton();
+
+    // When other actions follow removeFile, we do not want to apply this focus
+    if (focusAddButton) {
+      this.focusAddAnotherButton();
+    }
   };
+
+  retryLastUpload = (index, file) => {
+    this.onAddFile({ target: { files: [file] } }, index);
+  };
+
+  deleteThenAddFile = index => {
+    this.removeFile(index, false);
+    this.fileInputRef.current.click();
+  };
+
+  getRetryFunction = (allowRetry, index, file) =>
+    allowRetry
+      ? () => this.retryLastUpload(index, file)
+      : () => this.deleteThenAddFile(index);
 
   /**
    * FormData of supported files
@@ -213,6 +235,7 @@ class FileField extends React.Component {
       onBlur,
       registry,
       requestLockedPdfPassword,
+      enableShortWorkflow,
     } = this.props;
     const uiOptions = uiSchema?.['ui:options'];
     const files = formData || [];
@@ -237,6 +260,19 @@ class FileField extends React.Component {
         ? uiSchema['ui:title']
         : schema.title;
 
+    // This is always true if enableShortWorkflow is not enabled
+    // If enabled, do not allow upload if any error exist
+    const allowUpload =
+      !enableShortWorkflow ||
+      (enableShortWorkflow &&
+        !files.some((file, index) => {
+          const errors =
+            errorSchema?.[index]?.__errors ||
+            [file.errorMessage].filter(error => error);
+
+          return errors.length > 0;
+        }));
+
     return (
       <div
         className={
@@ -247,7 +283,7 @@ class FileField extends React.Component {
           <ul className="schemaform-file-list">
             {files.map((file, index) => {
               const errors =
-                _.get([index, '__errors'], errorSchema) ||
+                errorSchema?.[index]?.__errors ||
                 [file.errorMessage].filter(error => error);
               const hasErrors = errors.length > 0;
               const itemClasses = classNames('va-growable-background', {
@@ -261,11 +297,11 @@ class FileField extends React.Component {
               const attachmentNameSchema = {
                 $id: `${idSchema.$id}_${index}_attachmentName`,
               };
-              const attachmentIdErrors = _.get(
+              const attachmentIdErrors = get(
                 [index, 'attachmentId'],
                 errorSchema,
               );
-              const attachmentNameErrors = _.get([index, 'name'], errorSchema);
+              const attachmentNameErrors = get([index, 'name'], errorSchema);
               // feature flag
               const showPasswordContent =
                 requestLockedPdfPassword && file.isEncrypted;
@@ -282,7 +318,37 @@ class FileField extends React.Component {
                 setTimeout(() => {
                   focusElement(`[name="get_password_${index}"]`);
                 }, 100);
+              } else if (hasErrors && enableShortWorkflow) {
+                setTimeout(() => {
+                  focusElement(`[name="retry_upload_${index}"]`);
+                }, 100);
               }
+
+              const allowRetry =
+                errors[0] === FILE_UPLOAD_NETWORK_ERROR_MESSAGE;
+
+              const retryButtonText = allowRetry
+                ? 'Try again'
+                : 'Upload a new file';
+
+              const deleteButtonText =
+                enableShortWorkflow && hasErrors ? 'Cancel' : 'Delete file';
+
+              const fileId = `${idSchema.$id}_file_name_${index}`;
+
+              const getUiSchema = innerUiSchema =>
+                typeof innerUiSchema === 'function'
+                  ? innerUiSchema({ fileId, index })
+                  : innerUiSchema;
+
+              // make index available to widgets in attachment ui schema
+              const indexedRegistry = {
+                ...registry,
+                formContext: {
+                  ...registry.formContext,
+                  pagePerItemIndex: index,
+                },
+              };
 
               return (
                 <li
@@ -292,7 +358,7 @@ class FileField extends React.Component {
                 >
                   {file.uploading && (
                     <div className="schemaform-file-uploading">
-                      <span>{file.name}</span>
+                      <strong id={fileId}>{file.name}</strong>
                       <br />
                       <ProgressBar percent={this.state.progress} />
                       <button
@@ -302,26 +368,27 @@ class FileField extends React.Component {
                           this.cancelUpload(index);
                         }}
                         aria-label="Cancel Upload"
+                        aria-describedby={fileId}
                       >
                         Cancel
                       </button>
                     </div>
                   )}
                   {description && <p>{description}</p>}
-                  {!file.uploading && <strong>{file.name}</strong>}
+                  {!file.uploading && <strong id={fileId}>{file.name}</strong>}
                   {(showPasswordInput || showPasswordSuccess) && (
                     <PasswordLabel />
                   )}
                   {showPasswordSuccess && <PasswordSuccess />}
                   {!hasErrors &&
                     !showPasswordInput &&
-                    _.get('properties.attachmentId', itemSchema) && (
+                    get('properties.attachmentId', itemSchema) && (
                       <Tag className="schemaform-file-attachment review">
                         <SchemaField
                           name="attachmentId"
                           required={attachmentIdRequired}
                           schema={itemSchema.properties.attachmentId}
-                          uiSchema={uiOptions.attachmentSchema}
+                          uiSchema={getUiSchema(uiOptions.attachmentSchema)}
                           errorSchema={attachmentIdErrors}
                           idSchema={attachmentIdSchema}
                           formData={formData[index].attachmentId}
@@ -329,7 +396,7 @@ class FileField extends React.Component {
                             this.onAttachmentIdChange(index, value)
                           }
                           onBlur={onBlur}
-                          registry={this.props.registry}
+                          registry={indexedRegistry}
                           disabled={this.props.disabled}
                           readonly={this.props.readonly}
                         />
@@ -343,7 +410,7 @@ class FileField extends React.Component {
                           name="attachmentName"
                           required
                           schema={itemSchema.properties.name}
-                          uiSchema={uiOptions.attachmentName}
+                          uiSchema={getUiSchema(uiOptions.attachmentName)}
                           errorSchema={attachmentNameErrors}
                           idSchema={attachmentNameSchema}
                           formData={formData[index].name}
@@ -351,7 +418,7 @@ class FileField extends React.Component {
                             this.onAttachmentNameChange(index, value)
                           }
                           onBlur={onBlur}
-                          registry={this.props.registry}
+                          registry={indexedRegistry}
                           disabled={this.props.disabled}
                           readonly={this.props.readonly}
                         />
@@ -359,8 +426,8 @@ class FileField extends React.Component {
                     )}
                   {!file.uploading &&
                     hasErrors && (
-                      <span className="usa-input-error-message">
-                        {errors[0]}
+                      <span className="usa-input-error-message" role="alert">
+                        <span className="sr-only">Error</span> {errors[0]}
                       </span>
                     )}
                   {showPasswordInput && (
@@ -368,18 +435,36 @@ class FileField extends React.Component {
                       file={file.file}
                       index={index}
                       onSubmitPassword={this.onSubmitPassword}
+                      ariaDescribedby={fileId}
                     />
                   )}
                   {showButtons && (
                     <div className="vads-u-margin-top--2">
+                      {hasErrors &&
+                        enableShortWorkflow && (
+                          <button
+                            name={`retry_upload_${index}`}
+                            type="button"
+                            className="usa-button-primary vads-u-width--auto vads-u-margin-right--2"
+                            onClick={this.getRetryFunction(
+                              allowRetry,
+                              index,
+                              file.file,
+                            )}
+                            aria-describedby={fileId}
+                          >
+                            {retryButtonText}
+                          </button>
+                        )}
                       <button
                         type="button"
                         className="usa-button-secondary vads-u-width--auto"
                         onClick={() => {
                           this.removeFile(index);
                         }}
+                        aria-describedby={fileId}
                       >
-                        Delete file
+                        {deleteButtonText}
                       </button>
                     </div>
                   )}
@@ -388,42 +473,45 @@ class FileField extends React.Component {
             })}
           </ul>
         )}
-        {(maxItems === null || files.length < maxItems) &&
-          // Don't render an upload button on review & submit page while in
-          // review mode
-          showButtons && (
-            <>
-              <label
-                id={`${idSchema.$id}_add_label`}
-                htmlFor={idSchema.$id}
-                className="vads-u-display--inline-block"
-              >
-                <span
-                  role="button"
-                  className="usa-button usa-button-secondary vads-u-padding-x--2 vads-u-padding-y--1"
-                  onKeyPress={e => {
-                    e.preventDefault();
-                    if (['Enter', ' ', 'Spacebar'].indexOf(e.key) !== -1) {
-                      this.fileInputRef.current.click();
-                    }
-                  }}
-                  tabIndex="0"
-                  aria-label={`${buttonText} ${titleString}`}
+        {// Don't render an upload button on review & submit page while in
+        // review mode
+        showButtons && (
+          <>
+            {(maxItems === null || files.length < maxItems) &&
+              // Prevent additional upload if any upload has error state
+              allowUpload && (
+                <label
+                  id={`${idSchema.$id}_add_label`}
+                  htmlFor={idSchema.$id}
+                  className="vads-u-display--inline-block"
                 >
-                  {buttonText}
-                </span>
-              </label>
-              <input
-                type="file"
-                ref={this.fileInputRef}
-                accept={uiOptions.fileTypes.map(item => `.${item}`).join(',')}
-                style={{ display: 'none' }}
-                id={idSchema.$id}
-                name={idSchema.$id}
-                onChange={this.onAddFile}
-              />
-            </>
-          )}
+                  <span
+                    role="button"
+                    className="usa-button usa-button-secondary vads-u-padding-x--2 vads-u-padding-y--1"
+                    onKeyPress={e => {
+                      e.preventDefault();
+                      if (['Enter', ' ', 'Spacebar'].indexOf(e.key) !== -1) {
+                        this.fileInputRef.current.click();
+                      }
+                    }}
+                    tabIndex="0"
+                    aria-label={`${buttonText} ${titleString}`}
+                  >
+                    {buttonText}
+                  </span>
+                </label>
+              )}
+            <input
+              type="file"
+              ref={this.fileInputRef}
+              accept={uiOptions.fileTypes.map(item => `.${item}`).join(',')}
+              style={{ display: 'none' }}
+              id={idSchema.$id}
+              name={idSchema.$id}
+              onChange={this.onAddFile}
+            />
+          </>
+        )}
       </div>
     );
   }
@@ -444,6 +532,7 @@ FileField.propTypes = {
 
 const mapStateToProps = state => ({
   requestLockedPdfPassword: toggleValues(state).request_locked_pdf_password,
+  enableShortWorkflow: toggleValues(state).file_upload_short_workflow_enabled,
 });
 
 export { FileField };

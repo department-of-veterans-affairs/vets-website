@@ -1,7 +1,4 @@
 import React, { useEffect } from 'react';
-import AlertBox, {
-  ALERT_TYPE,
-} from '@department-of-veterans-affairs/component-library/AlertBox';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -28,13 +25,16 @@ const IntroductionPage = props => {
       <SaveInProgressIntro
         prefillEnabled={props.route.formConfig.prefillEnabled}
         messages={props.route.formConfig.savedFormMessages}
+        formConfig={props.route.formConfig}
         pageList={props.route.pageList}
         downtime={props.route.formConfig.downtime}
         startText="Apply for career planning and guidance"
         headingLevel={2}
       >
-        Please complete the 28-8832 form to apply for Planning and career
-        guidance.
+        <p>
+          Please complete the 28-8832 form to apply for Planning and career
+          guidance.
+        </p>
       </SaveInProgressIntro>
       <h2>Follow the steps below to apply for career planning and guidance.</h2>
       <div className="process schemaform-process">
@@ -50,8 +50,8 @@ const IntroductionPage = props => {
                 number of the Veteran or service member who sponsors you.
               </li>
             </ul>
+            <h4>What if I need help filling out my application?</h4>
             <p>
-              <strong>What if I need help filling out my application?</strong>{' '}
               An accredited representative, with a Veterans Service Organization
               (VSO), can help you fill out your claim.{' '}
               <a href="/disability/how-to-file-claim/">
@@ -103,35 +103,32 @@ const IntroductionPage = props => {
         buttonOnly
         prefillEnabled={props.route.formConfig.prefillEnabled}
         messages={props.route.formConfig.savedFormMessages}
+        formConfig={props.route.formConfig}
         pageList={props.route.pageList}
         downtime={props.route.formConfig.downtime}
         startText="Apply for career planning and guidance"
       />
-      <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
+      <div
+        className="omb-info--container vads-u-margin-bottom--3"
+        style={{ paddingLeft: '0px' }}
+      >
         <OMBInfo resBurden={30} ombNumber="2900-0265" expDate="12/31/2021" />
       </div>
-      <AlertBox
-        content={
-          <>
-            <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
-              Do you have a service-connected disability or pre-discharge
-              disability rating?
-            </h2>
-            <p>
-              If you have a service-connected or pre-discharge disability
-              rating, you may be eligible for Chapter 31 Veteran Readiness and
-              Employment (VR&E) benefits. With this program, you can get
-              employment support and services to help you find a job and live as
-              independently as possible.
-            </p>
-            <a href={CHAPTER_31_ROOT_URL}>
-              Learn more about Chapter 31 eligibility
-            </a>
-          </>
-        }
-        status={ALERT_TYPE.INFO}
-        backgroundOnly
-      />
+      <va-alert status="info" background-only>
+        <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
+          Do you have a service-connected disability or pre-discharge disability
+          rating?
+        </h2>
+        <p className="vads-u-font-size--base">
+          If you have a service-connected or pre-discharge disability rating,
+          you may be eligible for Chapter 31 Veteran Readiness and Employment
+          (VR&E) benefits. With this program, you can get employment support and
+          services to help you find a job and live as independently as possible.
+        </p>
+        <a className="vads-u-font-size--base" href={CHAPTER_31_ROOT_URL}>
+          Learn more about Chapter 31 eligibility
+        </a>
+      </va-alert>
     </div>
   );
 };

@@ -1,3 +1,5 @@
+import mockFacilitiesSearchResultsV1 from '../../constants/mock-facility-data-v1.json';
+
 Cypress.Commands.add('verifySearchArea', () => {
   const clickInterval = 10;
 
@@ -50,26 +52,29 @@ Cypress.Commands.add('verifySearchArea', () => {
   cy.get('#search-area-control').click();
 });
 
-it('finds community care pharmacies', () => {
+it('handles map zooming correctly', () => {
+  cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
+  cy.intercept('GET', '/v0/maintenance_windows', []);
+  cy.intercept(
+    'GET',
+    '/facilities_api/v1/**',
+    mockFacilitiesSearchResultsV1,
+  ).as('searchFacilitiesVA');
   cy.visit('/find-locations');
 
   cy.get('#street-city-state-zip').type('Austin, TX');
-  cy.get('#facility-type-dropdown').select(
-    'Community pharmacies (in VA’s network)',
-  );
+  cy.get('#facility-type-dropdown').select('VA health');
   cy.get('#facility-search')
-    .click()
+    .click({ force: true })
     .then(() => {
       cy.get('#search-results-subheader').contains(
-        'Results for "Community pharmacies (in VA’s network)" near "Austin, Texas"',
+        'Results for "VA health", "All VA health services" near "Austin, Texas"',
       );
       cy.get('#other-tools').should('exist');
 
       cy.injectAxe();
       cy.axeCheck();
 
-      cy.get('.facility-result h3').contains('CVS');
-      cy.get('.va-pagination').should('not.exist');
       cy.verifySearchArea();
     });
 });

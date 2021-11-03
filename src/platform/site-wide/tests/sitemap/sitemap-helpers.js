@@ -1,7 +1,6 @@
 const libxmljs2 = require('libxmljs2');
 const fetch = require('node-fetch');
 const E2eHelpers = require('../../../testing/e2e/helpers');
-const Timeouts = require('../../../testing/e2e/timeouts.js');
 
 const SITEMAP_URL = `${E2eHelpers.baseUrl}/sitemap.xml`;
 const SITEMAP_LOC_NS = 'http://www.sitemaps.org/schemas/sitemap/0.9';
@@ -54,28 +53,4 @@ function sitemapURLs() {
     });
 }
 
-function runTests(client, segment, only508List) {
-  segment.forEach(function performAxeCheck(url) {
-    console.time(url); // eslint-disable-line no-console
-    const only508 = only508List.filter(path => url.endsWith(path)).length > 0;
-    client
-      .perform(() => {})
-      .openUrl(url)
-      .waitForElementVisible('body', Timeouts.normal)
-      .axeCheck(
-        'document',
-        only508
-          ? {
-              scope: url,
-              runOnly: {
-                type: 'tag',
-                values: ['section508'],
-              },
-            }
-          : { scope: url },
-      );
-    console.timeEnd(url); // eslint-disable-line no-console
-  });
-}
-
-module.exports = { runTests, sitemapURLs };
+module.exports = { sitemapURLs };

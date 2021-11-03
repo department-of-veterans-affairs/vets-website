@@ -78,7 +78,7 @@ describe('VA Medical Records', () => {
             {
               treatmentCenterName: 'Sommerset VA Clinic',
               treatedDisabilityNames: {
-                'Diabetes Melitus': true,
+                diabetesmelitus: true,
               },
               treatmentDateRange: {
                 from: '2001-05-XX',
@@ -120,7 +120,7 @@ describe('VA Medical Records', () => {
             {
               treatmentCenterName: 'Sommerset VA Clinic',
               treatedDisabilityNames: {
-                'Diabetes Melitus': true,
+                diabetesmelitus: true,
               },
               treatmentDateRange: {
                 from: '2001-05-XX',
@@ -134,8 +134,8 @@ describe('VA Medical Records', () => {
           ],
           serviceInformation: {
             servicePeriods: [
-              { dateRange: { from: '2012-01-12' } },
-              { dateRange: { from: '2001-05-30' } },
+              { dateRange: { from: '2012-01-12' }, serviceBranch: 'Army' },
+              { dateRange: { from: '2001-05-30' }, serviceBranch: 'Army' },
             ],
           },
         }}
@@ -162,7 +162,7 @@ describe('VA Medical Records', () => {
             {
               treatmentCenterName: 'Sommerset VA Clinic',
               treatedDisabilityNames: {
-                'Diabetes Melitus': true,
+                diabetesmelitus: true,
               },
               treatmentDateRange: {
                 from: '2010-04-XX',
@@ -198,7 +198,7 @@ describe('VA Medical Records', () => {
             {
               treatmentCenterName: 'Sommerset VA Clinic',
               treatedDisabilityNames: {
-                'Diabetes Melitus': true,
+                diabetesmelitus: true,
               },
               treatmentDateRange: {
                 from: '2010-04-XX',
@@ -234,7 +234,7 @@ describe('VA Medical Records', () => {
             {
               treatmentCenterName: 'Sommerset VA Clinic',
               treatedDisabilityNames: {
-                'Diabetes Melitus': true,
+                diabetesmelitus: true,
               },
               treatmentDateRange: {
                 from: '2010-04-XX',

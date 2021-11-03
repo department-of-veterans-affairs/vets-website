@@ -37,7 +37,7 @@ class VetTecApprovedProgramsList extends React.Component {
     return (
       <div className={className}>
         {program.description}
-        {selected ? <b> (Your selected program)</b> : null}
+        {selected ? <b> (Selected program)</b> : null}
       </div>
     );
   };

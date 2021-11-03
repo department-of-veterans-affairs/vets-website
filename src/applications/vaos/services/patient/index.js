@@ -13,6 +13,7 @@ import { captureError } from '../../utils/error';
 import { ELIGIBILITY_REASONS } from '../../utils/constants';
 import { promiseAllFromObject } from '../../utils/data';
 import { getAvailableHealthcareServices } from '../healthcare-service';
+import { getPatientEligibility } from '../vaos';
 
 /**
  * @typedef PatientEligibilityForType
@@ -57,6 +58,7 @@ function createErrorHandler(errorKey) {
 }
 
 const PRIMARY_CARE = '323';
+const MENTAL_HEALTH = '502';
 
 const DISABLED_LIMIT_VALUE = 0;
 
@@ -140,6 +142,9 @@ async function fetchPatientEligibilityFromVAR({
   return output;
 }
 
+const VAOS_SERVICE_PATIENT_HISTORY = 'patient-history-insufficient';
+const VAOS_SERVICE_REQUEST_LIMIT = 'facility-request-limit-exceeded';
+
 /**
  * Returns patient based eligibility checks for specified request or direct types
  *
@@ -150,13 +155,64 @@ async function fetchPatientEligibilityFromVAR({
  * @param {'direct'|'request'|null} [params.type=null] The type to check eligibility for. By default,
  *   will check both
  * }
+ * @param {boolean} [params.useV2=false] Use the v2 apis when making eligibility calls
  * @returns {PatientEligibility} Patient eligibility data
  */
 export async function fetchPatientEligibility({
   typeOfCare,
   location,
   type = null,
+  useV2 = false,
 }) {
+  if (useV2) {
+    const checks = {};
+    if (type !== 'request') {
+      checks.direct = getPatientEligibility(
+        location.id,
+        typeOfCare.idV2,
+        'direct',
+      ).catch(createErrorHandler(`direct-check-metadata-error`));
+    }
+
+    if (type !== 'direct') {
+      checks.request = getPatientEligibility(
+        location.id,
+        typeOfCare.idV2,
+        'request',
+      ).catch(createErrorHandler(`request-check-metadata-error`));
+    }
+
+    const results = await promiseAllFromObject(checks);
+    const output = { direct: null, request: null };
+
+    if (results.direct instanceof Error) {
+      output.direct = new Error('Direct scheduling eligibility check error');
+    } else if (results.direct) {
+      output.direct = {
+        eligible: results.direct.eligible,
+        hasRequiredAppointmentHistory: !results.direct.ineligibilityReasons.some(
+          reason => reason.coding[0].code === VAOS_SERVICE_PATIENT_HISTORY,
+        ),
+      };
+    }
+
+    if (results.request instanceof Error) {
+      output.request = new Error('Request eligibility check error');
+    } else if (results.request) {
+      output.request = {
+        eligible: results.request.eligible,
+        hasRequiredAppointmentHistory: !results.request.ineligibilityReasons.some(
+          reason => reason.coding[0].code === VAOS_SERVICE_PATIENT_HISTORY,
+        ),
+        isEligibleForNewAppointmentRequest: !results.request.ineligibilityReasons.some(
+          reason => reason.coding[0].code === VAOS_SERVICE_REQUEST_LIMIT,
+        ),
+      };
+    }
+
+    return output;
+  }
+
   return fetchPatientEligibilityFromVAR({ typeOfCare, location, type });
 }
 
@@ -271,6 +327,7 @@ function logEligibilityExplanation(
  * @param {TypeOfCare} params.typeOfCare Type of care object for the currently chosen type of care
  * @param {Location} params.location The current location to check eligibility against
  * @param {boolean} params.directSchedulingEnabled If direct scheduling is currently enabled
+ * @param {boolean} [params.useV2=false] Use the v2 apis when making eligibility calls
  * @returns {FlowEligibilityReturnData} Eligibility results, plus clinics and past appointments
  *   so that they can be cache and reused later
  */
@@ -278,6 +335,7 @@ export async function fetchFlowEligibilityAndClinics({
   typeOfCare,
   location,
   directSchedulingEnabled,
+  useV2 = false,
 }) {
   const directSchedulingAvailable =
     locationSupportsDirectScheduling(location, typeOfCare) &&
@@ -288,6 +346,7 @@ export async function fetchFlowEligibilityAndClinics({
       typeOfCare,
       location,
       type: !directSchedulingAvailable ? 'request' : null,
+      useV2,
     }),
   };
 
@@ -295,12 +354,16 @@ export async function fetchFlowEligibilityAndClinics({
   if (directSchedulingAvailable) {
     apiCalls.clinics = getAvailableHealthcareServices({
       facilityId: location.id,
-      typeOfCareId: typeOfCare.id,
+      typeOfCare,
       systemId: location.vistaId,
+      useV2,
     }).catch(createErrorHandler('direct-available-clinics-error'));
-    apiCalls.pastAppointments = getLongTermAppointmentHistory().catch(
-      createErrorHandler('direct-no-matching-past-clinics-error'),
-    );
+
+    if (typeOfCare.id !== PRIMARY_CARE && typeOfCare.id !== MENTAL_HEALTH) {
+      apiCalls.pastAppointments = getLongTermAppointmentHistory().catch(
+        createErrorHandler('direct-no-matching-past-clinics-error'),
+      );
+    }
   }
 
   // This waits for all the api calls we're running in parallel to finish
@@ -364,10 +427,18 @@ export async function fetchFlowEligibilityAndClinics({
     if (!results.clinics.length) {
       eligibility.direct = false;
       eligibility.directReasons.push(ELIGIBILITY_REASONS.noClinics);
-      recordEligibilityFailure('direct-available-clinics');
+      recordEligibilityFailure(
+        'direct-available-clinics',
+        typeOfCare?.id,
+        location?.id,
+      );
     }
 
-    if (!hasMatchingClinics(results.clinics, results.pastAppointments)) {
+    if (
+      typeOfCare.id !== PRIMARY_CARE &&
+      typeOfCare.id !== MENTAL_HEALTH &&
+      !hasMatchingClinics(results.clinics, results.pastAppointments)
+    ) {
       eligibility.direct = false;
       eligibility.directReasons.push(ELIGIBILITY_REASONS.noMatchingClinics);
       recordEligibilityFailure('direct-no-matching-past-clinics');

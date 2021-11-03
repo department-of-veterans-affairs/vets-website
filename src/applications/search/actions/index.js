@@ -1,9 +1,11 @@
 export const FETCH_SEARCH_RESULTS = 'FETCH_SEARCH_RESULTS';
 export const FETCH_SEARCH_RESULTS_SUCCESS = 'FETCH_SEARCH_RESULTS_SUCCESS';
 export const FETCH_SEARCH_RESULTS_FAILURE = 'FETCH_SEARCH_RESULTS_FAILURE';
+export const FETCH_SEARCH_RESULTS_EMPTY = 'FETCH_SEARCH_RESULTS_EMPTY';
 
 import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
+import * as Sentry from '@sentry/browser';
 
 export function fetchSearchResults(query, page, options) {
   return dispatch => {
@@ -13,6 +15,11 @@ export function fetchSearchResults(query, page, options) {
 
     if (page) {
       queryString = queryString.concat(`&page=${page}`);
+    }
+    if (!query) {
+      return dispatch({
+        type: FETCH_SEARCH_RESULTS_EMPTY,
+      });
     }
 
     return apiRequest(queryString)
@@ -41,11 +48,13 @@ export function fetchSearchResults(query, page, options) {
           meta: response.meta,
         });
       })
-      .catch(error =>
+      .catch(error => {
         dispatch({
           type: FETCH_SEARCH_RESULTS_FAILURE,
-          errors: error.errors,
-        }),
-      );
+          errors: [error],
+        });
+        // add sentry logging to help catch when search is down
+        Sentry.captureException(error);
+      });
   };
 }

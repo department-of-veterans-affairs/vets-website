@@ -19,7 +19,7 @@ class CommunicationGroup {
     return this.channels.reduce((updatedChannels, baseChannel) => {
       const wipChannel = wipGroup.channels.find(channel => {
         return (
-          channel.id === baseChannel.id &&
+          channel.type === baseChannel.type &&
           channel.parentItemId === baseChannel.parentItemId
         );
       });

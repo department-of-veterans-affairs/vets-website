@@ -13,11 +13,8 @@ import parentFacilities from '../../services/mocks/var/facilities.json';
 
 import newAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 import { FACILITY_TYPES } from '../../utils/constants';
-import {
-  mockFacilitiesFetch,
-  mockParentSites,
-  mockSupportedCCSites,
-} from '../mocks/helpers';
+import { mockParentSites, mockSupportedCCSites } from '../mocks/helpers';
+import { mockFacilitiesFetchByVersion } from '../mocks/fetch';
 import { getParentSiteMock } from '../mocks/v0';
 
 const userState = {
@@ -42,7 +39,7 @@ describe('VAOS newAppointmentFlow', () => {
     describe('next page', () => {
       it('should be vaFacility page if no systems have CC support', async () => {
         mockFetch();
-        mockFacilitiesFetch();
+        mockFacilitiesFetchByVersion({ version: 0 });
         mockParentSites(['983'], [getParentSiteMock({ id: '983' })]);
         mockSupportedCCSites(['983'], []);
 
@@ -407,19 +404,6 @@ describe('VAOS newAppointmentFlow', () => {
 
   describe('requestDateTime page', () => {
     describe('next page', () => {
-      it('should be ccPreferences if in the CC flow', () => {
-        const state = {
-          newAppointment: {
-            data: {
-              facilityType: FACILITY_TYPES.COMMUNITY_CARE,
-            },
-          },
-        };
-
-        const nextState = newAppointmentFlow.requestDateTime.next(state);
-
-        expect(nextState).to.equal('ccPreferences');
-      });
       it('should be reasonForAppointment if in the VA flow', () => {
         const state = {
           newAppointment: {
@@ -472,7 +456,7 @@ describe('VAOS newAppointmentFlow', () => {
 
   describe('ccPreferences page', () => {
     describe('next page', () => {
-      it('should be reasonForAppointment if provider selection is disabled', () => {
+      it('should be reasonForAppointment if user has no address on file', () => {
         const state = {
           featureToggles: {
             loading: false,
@@ -484,20 +468,7 @@ describe('VAOS newAppointmentFlow', () => {
         );
       });
 
-      it('should be reasonForAppointment if provider selection is enabled but user has no address on file', () => {
-        const state = {
-          featureToggles: {
-            loading: false,
-            vaOnlineSchedulingProviderSelection: true,
-          },
-        };
-
-        expect(newAppointmentFlow.ccPreferences.next(state)).to.equal(
-          'reasonForAppointment',
-        );
-      });
-
-      it('should be ccLanguage if provider selection is enabled', () => {
+      it('should be ccLanguage if user has an address on file', () => {
         const state = {
           user: {
             profile: {
@@ -510,7 +481,6 @@ describe('VAOS newAppointmentFlow', () => {
           },
           featureToggles: {
             loading: false,
-            vaOnlineSchedulingProviderSelection: true,
           },
         };
 

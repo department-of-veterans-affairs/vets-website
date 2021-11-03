@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 export const autoSuggestTitle = (
   <>
@@ -22,11 +21,13 @@ export const newOnlyAlert = ({ formContext }) => {
   // Display only after the user tries to submit with no disabilities
   if (!formContext.submitted) return null;
   return (
-    <AlertBox
-      status="error"
-      headline="We need you to add a disability"
-      content="You need to add a new disability to claim. We can’t process your claim without a disability selected."
-    />
+    <va-alert status="error">
+      <h3 slot="headline">We need you to add a disability</h3>
+      <p className="vads-u-font-size--base">
+        You need to add a new disability to claim. We can’t process your claim
+        without a disability selected.
+      </p>
+    </va-alert>
   );
 };
 
@@ -36,23 +37,28 @@ export const increaseAndNewAlert = ({ formContext }) => {
 
   const alertContent = (
     <>
-      <p>
+      <p className="vads-u-font-size--base">
         You’ll need to add a new disability or choose a rated disability to
         claim. We can’t process your claim without a disability selected. Please
         add a new disability or choose a rated disability for increased
         compensation.
       </p>
-      <Link to={`disabilities/rated-disabilities`}>
+      <Link
+        to={{
+          pathname: 'disabilities/rated-disabilities',
+          search: '?redirect',
+        }}
+        className="vads-u-font-size--base"
+      >
         Choose a rated disability
       </Link>
     </>
   );
 
   return (
-    <AlertBox
-      status="error"
-      headline="We need you to add a disability"
-      content={alertContent}
-    />
+    <va-alert status="error">
+      <h3 slot="headline">We need you to add a disability</h3>
+      {alertContent}
+    </va-alert>
   );
 };

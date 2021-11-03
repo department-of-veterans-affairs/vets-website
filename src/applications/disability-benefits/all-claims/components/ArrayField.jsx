@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash/fp';
+import set from 'platform/utilities/data/set';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
 
@@ -9,6 +9,8 @@ import {
   getDefaultFormState,
   deepEquals,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+import scrollTo from 'platform/utilities/ui/scrollTo';
+import { getScrollOptions, isReactComponent } from 'platform/utilities/ui';
 
 import {
   scrollToFirstError,
@@ -20,10 +22,8 @@ import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import findDuplicateIndexes from 'platform/forms-system/src/js/utilities/data/findDuplicateIndexes';
 
 import { NULL_CONDITION_STRING } from '../constants';
-import { isReactComponent } from 'platform/utilities/ui';
 
 const Element = Scroll.Element;
-const scroller = Scroll.scroller;
 
 /* Non-review growable table (array) field */
 // Mostly copied from USFS with a few additions/modifications:
@@ -85,7 +85,7 @@ export default class ArrayField extends React.Component {
         : formData.map(
             (obj, index) =>
               !obj[key] ||
-              obj[key].toLowerCase() === NULL_CONDITION_STRING.toLowerCase() ||
+              obj[key]?.toLowerCase() === NULL_CONDITION_STRING.toLowerCase() ||
               duplicates.includes(index),
           );
     }
@@ -93,7 +93,7 @@ export default class ArrayField extends React.Component {
   };
 
   onItemChange = (indexToChange, value) => {
-    const newItems = _.set(indexToChange, value, this.props.formData || []);
+    const newItems = set(indexToChange, value, this.props.formData || []);
     this.props.onChange(newItems);
   };
 
@@ -108,28 +108,18 @@ export default class ArrayField extends React.Component {
 
   scrollToTop = () => {
     setTimeout(() => {
-      scroller.scrollTo(
+      scrollTo(
         `topOfTable_${this.props.idSchema.$id}`,
-        window.Forms?.scroll || {
-          duration: 500,
-          delay: 0,
-          smooth: true,
-          offset: -60,
-        },
+        window.Forms?.scroll || getScrollOptions({ offset: -60 }),
       );
     }, 100);
   };
 
   scrollToRow = id => {
     setTimeout(() => {
-      scroller.scrollTo(
+      scrollTo(
         `table_${id}`,
-        window.Forms?.scroll || {
-          duration: 500,
-          delay: 0,
-          smooth: true,
-          offset: 0,
-        },
+        window.Forms?.scroll || getScrollOptions({ offset: 0 }),
       );
     }, 100);
   };
@@ -172,7 +162,7 @@ export default class ArrayField extends React.Component {
   // restore data in event of cancellation
   handleCancelEdit = index => {
     this.props.onChange(this.state.oldData);
-    this.setState(_.set(['editing', index], false, this.state), () => {
+    this.setState(set(['editing', index], false, this.state), () => {
       this.focusOnEditButton(index);
     });
   };
@@ -183,11 +173,10 @@ export default class ArrayField extends React.Component {
    */
   handleEdit = (index, status = true) => {
     this.setState(
-      _.set(
-        ['editing', index],
-        status,
-        _.assign(this.state, { oldData: this.props.formData }),
-      ),
+      set(['editing', index], status, {
+        ...this.state,
+        oldData: this.props.formData,
+      }),
       () => {
         this.targetLabel(index);
       },
@@ -199,7 +188,7 @@ export default class ArrayField extends React.Component {
    */
   handleUpdate = index => {
     if (errorSchemaIsValid(this.props.errorSchema[index])) {
-      this.setState(_.set(['editing', index], false, this.state), () => {
+      this.setState(set(['editing', index], false, this.state), () => {
         this.scrollToTop();
         this.focusOnEditButton(index);
       });
@@ -251,9 +240,10 @@ export default class ArrayField extends React.Component {
       const newEditing = this.state.editing.map(
         (val, index) => (index + 1 === this.state.editing.length ? false : val),
       );
-      const newState = _.assign(this.state, {
+      const newState = {
+        ...this.state,
         editing: newEditing.concat(true),
-      });
+      };
 
       this.setState(newState, () => {
         const newFormData = this.props.formData.concat(
@@ -284,11 +274,12 @@ export default class ArrayField extends React.Component {
     const newItems = this.props.formData.filter(
       (val, index) => index !== indexToRemove,
     );
-    const newState = _.assign(this.state, {
+    const newState = {
+      ...this.state,
       editing: this.state.editing.filter(
         (val, index) => index !== indexToRemove,
       ),
-    });
+    };
     this.props.onChange(newItems);
     this.setState(newState, () => {
       const lastIndex = this.props.formData.length - 1;
@@ -393,6 +384,7 @@ export default class ArrayField extends React.Component {
                         {legendText}
                         {uiOptions.includeRequiredLabelInTitle && (
                           <span className="schemaform-required-span vads-u-font-weight--normal">
+                            {' '}
                             (*Required)
                           </span>
                         )}

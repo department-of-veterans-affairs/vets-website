@@ -132,6 +132,7 @@ const EmploymentRecord = ({
         />
       </div>
       <Checkbox
+        name="current-employment"
         label="I currently work here"
         checked={employment[index].isCurrent || false}
         onValueChange={value => handleCheckboxChange('isCurrent', value)}

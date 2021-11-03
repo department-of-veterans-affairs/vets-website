@@ -383,16 +383,10 @@ describe('Schemaform: ObjectField', () => {
     // disabilities
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
-    const formContext = {
-      onReviewPage: true,
-    };
     const schema = {
       properties: {
         type: 'object',
         test: {
-          type: 'string',
-        },
-        test2: {
           type: 'string',
         },
       },
@@ -400,34 +394,28 @@ describe('Schemaform: ObjectField', () => {
     const uiSchema = {
       'ui:title': 'Blah',
     };
-    const idSchema1 = {
+    const idSchema = {
       $id: 'root',
       test: {
         $id: 'root_test',
       },
     };
-    const idSchema2 = {
-      $id: 'root',
-      test2: {
-        $id: 'root_test2',
-      },
-    };
     const form = ReactTestUtils.renderIntoDocument(
       <div>
         <ObjectField
-          formContext={formContext}
+          formContext={{ onReviewPage: true, pagePerItemIndex: 0 }}
           uiSchema={uiSchema}
           schema={schema}
-          idSchema={idSchema1}
+          idSchema={idSchema}
           formData={{}}
           onChange={onChange}
           onBlur={onBlur}
         />
         <ObjectField
-          formContext={formContext}
+          formContext={{ onReviewPage: true, pagePerItemIndex: 1 }}
           uiSchema={uiSchema}
           schema={schema}
-          idSchema={idSchema2}
+          idSchema={idSchema}
           formData={{}}
           onChange={onChange}
           onBlur={onBlur}
@@ -435,15 +423,81 @@ describe('Schemaform: ObjectField', () => {
       </div>,
     );
     const formDOM = getFormDOM(form);
-    const ids = formDOM.querySelectorAll('legend');
-    expect(ids).to.have.length(2);
-
-    const id0 = ids[0].id;
-    const id1 = ids[1].id;
-    expect(id0).to.equal('root_test__title');
-    expect(id1).to.equal('root_test2__title');
+    const inputs = formDOM.querySelectorAll('input');
+    expect(inputs).to.have.length(2);
+    expect(inputs[0].id).to.equal('root_test_0');
+    expect(inputs[1].id).to.equal('root_test_1');
+    const legends = formDOM.querySelectorAll('legend');
+    expect(legends).to.have.length(2);
+    expect(legends[0].id).to.equal('root_test_0__title');
+    expect(legends[1].id).to.equal('root_test_1__title');
   });
   it('should render unique IDs for array items on review & submit page', () => {
+    // This occurs on form 526 when "ratedDisabilities" &
+    // "unempolyabilityDisabilities" both render the same list of rated
+    // disabilities
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      type: 'object',
+      properties: {
+        test: {
+          type: 'boolean',
+        },
+      },
+    };
+    const uiSchema = {
+      'ui:title': 'Blah',
+      test: {
+        'ui:title': 'test',
+      },
+    };
+    const idSchema = {
+      $id: 'root',
+      test: {
+        $id: 'root_test',
+      },
+    };
+    const form = ReactTestUtils.renderIntoDocument(
+      <div>
+        <ObjectField
+          formContext={{
+            onReviewPage: true,
+            pagePerItemIndex: 0,
+          }}
+          uiSchema={uiSchema}
+          schema={schema}
+          idSchema={idSchema}
+          formData={{}}
+          onChange={onChange}
+          onBlur={onBlur}
+        />
+        <ObjectField
+          formContext={{
+            onReviewPage: true,
+            pagePerItemIndex: 1,
+          }}
+          uiSchema={uiSchema}
+          schema={schema}
+          idSchema={idSchema}
+          formData={{}}
+          onChange={onChange}
+          onBlur={onBlur}
+        />
+      </div>,
+    );
+    const formDOM = getFormDOM(form);
+    const ids = formDOM.querySelectorAll('input');
+    expect(ids).to.have.length(2);
+    expect(ids[0].id).to.equal('root_test_0');
+    expect(ids[1].id).to.equal('root_test_1');
+
+    const legends = formDOM.querySelectorAll('legend');
+    expect(legends).to.have.length(2);
+    expect(legends[0].id).to.equal('root_test_0__title');
+    expect(legends[1].id).to.equal('root_test_1__title');
+  });
+  it('should render unique IDs for nested array items on review & submit page', () => {
     // This occurs on form 526 when "ratedDisabilities" &
     // "unempolyabilityDisabilities" both render the same list of rated
     // disabilities

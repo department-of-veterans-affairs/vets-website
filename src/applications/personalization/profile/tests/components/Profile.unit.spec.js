@@ -39,6 +39,7 @@ describe('Profile', () => {
       shouldFetchTotalDisabilityRating: true,
       showLoader: false,
       isLOA3: true,
+      isInMVI: true,
       user: {},
       location: {
         pathname: '/profile/personal-information',
@@ -66,6 +67,11 @@ describe('Profile', () => {
 
   describe('when the component mounts', () => {
     context('when user is LOA3', () => {
+      beforeEach(() => {
+        defaultProps.user.profile = {
+          status: 'OK',
+        };
+      });
       it('should fetch the military information data', () => {
         const wrapper = shallow(<Profile {...defaultProps} />);
         expect(fetchMilitaryInfoSpy.called).to.be.true;
@@ -167,6 +173,7 @@ describe('Profile', () => {
 describe('mapStateToProps', () => {
   const makeDefaultProfileState = () => ({
     multifactor: true,
+    status: 'OK',
     services: ['evss-claims'],
     mhvAccount: {
       accountState: 'needs_terms_acceptance',
@@ -175,6 +182,9 @@ describe('mapStateToProps', () => {
     },
     veteranStatus: {
       servedInMilitary: true,
+    },
+    signIn: {
+      serviceName: 'idme',
     },
     loa: {
       current: 3,
@@ -275,6 +285,7 @@ describe('mapStateToProps', () => {
       'shouldFetchEDUDirectDepositInformation',
       'shouldFetchTotalDisabilityRating',
       'shouldShowDirectDeposit',
+      'shouldShowNotificationSettings',
       'isDowntimeWarningDismissed',
     ];
     expect(Object.keys(props)).to.deep.equal(expectedKeys);
@@ -289,27 +300,27 @@ describe('mapStateToProps', () => {
   });
 
   describe('#shouldFetchCNPDirectDepositInformation', () => {
-    it('is `true` when user has 2FA set and has access to EVSS', () => {
+    it('is `true` when ID.me user has 2FA set and has access to EVSS', () => {
       const state = makeDefaultState();
       const props = mapStateToProps(state);
       expect(props.shouldFetchCNPDirectDepositInformation).to.be.true;
     });
 
-    it('is `false` when user has 2FA set but does not have access to EVSS', () => {
+    it('is `false` when ID.me user has 2FA set but does not have access to EVSS', () => {
       const state = makeDefaultState();
       state.user.profile.services = [];
       const props = mapStateToProps(state);
       expect(props.shouldFetchCNPDirectDepositInformation).to.be.false;
     });
 
-    it('is `false` when the user has access to EVSS but does not have 2FA set', () => {
+    it('is `false` when the ID.me user has access to EVSS but does not have 2FA set', () => {
       const state = makeDefaultState();
       state.user.profile.multifactor = false;
       const props = mapStateToProps(state);
       expect(props.shouldFetchCNPDirectDepositInformation).to.be.false;
     });
 
-    it('is `false` when the user does not have 2FA set and does not have access to EVSS', () => {
+    it('is `false` when the ID.me user does not have 2FA set and does not have access to EVSS', () => {
       const state = makeDefaultState();
       state.user.profile.multifactor = false;
       state.user.profile.services = [];

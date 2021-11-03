@@ -1,10 +1,10 @@
 import React from 'react';
 
-import 'platform/polyfills';
+import '~/platform/polyfills';
 
-import DashboardWrapper from '../dashboard-2/components/DashboardWrapper';
+import Dashboard from './components/Dashboard';
 
-import startApp from 'platform/startup';
+import startApp from '~/platform/startup';
 
 import reducer from './reducers';
 import manifest from './manifest.json';
@@ -12,7 +12,7 @@ import manifest from './manifest.json';
 const url = manifest.rootUrl;
 
 startApp({
-  component: <DashboardWrapper version="1" rootUrl={url} />,
+  component: <Dashboard />,
   url,
   reducer,
   entryName: manifest.entryName,

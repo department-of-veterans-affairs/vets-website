@@ -1,4 +1,4 @@
-import _, { snakeCase } from 'lodash';
+import { snakeCase } from 'lodash';
 import URLSearchParams from 'url-search-params';
 import { useLocation } from 'react-router-dom';
 
@@ -6,13 +6,11 @@ import constants from 'vets-json-schema/dist/constants.json';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import mapboxClient from '../components/MapboxClient';
 
+import { scroller } from 'react-scroll';
+import { getScrollOptions } from 'platform/utilities/ui';
+
 const mbxClient = mbxGeo(mapboxClient);
-import {
-  SMALL_SCREEN_WIDTH,
-  FILTERS_EXCLUDED_FLIP,
-  FILTERS_IGNORE_ALL,
-} from '../constants';
-import appendQuery from 'append-query';
+import { SMALL_SCREEN_WIDTH } from '../constants';
 
 /**
  * Snake-cases field names
@@ -155,29 +153,9 @@ export const handleInputFocusWithPotentialOverLap = (
 };
 
 export const addAllOption = options => [
-  { optionValue: 'ALL', optionLabel: 'ALL' },
+  { optionValue: 'ALL', optionLabel: 'All' },
   ...options,
 ];
-
-/**
- * Recursively convert number to A to AA to AAA to... to ZZZZZZZZZZZ
- * Uses https://en.wikipedia.org/wiki/Base36 to convert numbers to alphanumeric values
- *
- * @param number
- * @returns {string}
- */
-export const numberToLetter = number => {
-  // handle multiples of 26 when modding
-  // since 0 and 26 both have a remainder of 0 need to handle special case
-  const numberToConvert = number !== 0 && number % 26 === 0 ? 26 : number % 26;
-  const letter = (numberToConvert + 9).toString(36).toUpperCase();
-
-  if (number / 26 > 1) {
-    // Use Math.floor as a float returns incorrect letter string
-    return `${numberToLetter(Math.floor(number / 26))}${letter}`;
-  }
-  return letter;
-};
 
 export const getStateNameForCode = stateCode => {
   const stateLabel = constants.states.USA.find(
@@ -194,37 +172,6 @@ export const sortOptionsByStateName = (stateA, stateB) => {
     return 1;
   }
   return 0;
-};
-
-export const buildSearchFilters = filters => {
-  const clonedFilters = _.cloneDeep(filters);
-  delete clonedFilters.expanded;
-
-  const searchFilters = {};
-
-  // boolean fields
-  Object.entries(clonedFilters)
-    .filter(([_field, value]) => value === true)
-    .filter(([field, _value]) => !FILTERS_EXCLUDED_FLIP.includes(field))
-    .forEach(([field]) => {
-      searchFilters[field] = clonedFilters[field];
-    });
-
-  FILTERS_IGNORE_ALL.filter(field => clonedFilters[field] !== 'ALL').forEach(
-    field => {
-      searchFilters[field] = clonedFilters[field];
-    },
-  );
-
-  FILTERS_EXCLUDED_FLIP.filter(field => !clonedFilters[field]).forEach(
-    field => {
-      const excludeField = `exclude${field[0].toUpperCase() +
-        field.slice(1).toLowerCase()}`;
-      searchFilters[excludeField] = !clonedFilters[field];
-    },
-  );
-
-  return searchFilters;
 };
 
 export const searchCriteriaFromCoords = async (longitude, latitude) => {
@@ -254,48 +201,6 @@ export const schoolSize = enrollment => {
   return 'Large';
 };
 
-export const updateUrlParams = (
-  history,
-  tab,
-  searchQuery,
-  filters,
-  version,
-  page,
-) => {
-  const queryParams = {
-    search: tab,
-  };
-  if (
-    searchQuery.name !== '' ||
-    searchQuery.name !== null ||
-    searchQuery.name !== undefined
-  ) {
-    queryParams.name = searchQuery.name;
-  }
-
-  if (
-    searchQuery.location !== '' ||
-    searchQuery.location !== null ||
-    searchQuery.location !== undefined
-  ) {
-    queryParams.location = searchQuery.location;
-  }
-
-  if (page) {
-    queryParams.page = page;
-  }
-
-  if (version) {
-    queryParams.version = version;
-  }
-
-  const url = appendQuery('/', {
-    ...queryParams,
-    ...buildSearchFilters(filters),
-  });
-  history.push(url);
-};
-
 export function isURL(str) {
   const pattern = new RegExp(
     '^(https?:\\/\\/)?' + // protocol
@@ -308,3 +213,29 @@ export function isURL(str) {
   ); // fragment locator
   return !!pattern.test(str);
 }
+
+export const upperCaseFirstLetterOnly = str =>
+  str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+
+export const naIfNull = value => {
+  return value || 'N/A';
+};
+
+export const boolYesNo = field => {
+  return field ? 'Yes' : 'No';
+};
+
+export const isSmallScreen = () => matchMedia('(max-width: 480px)').matches;
+
+export const scrollToFocusedElement = () => {
+  const compareDrawerHeight = document.getElementById('compare-drawer')
+    ?.clientHeight;
+  const activeElementBounding = document.activeElement.getBoundingClientRect();
+
+  if (
+    compareDrawerHeight &&
+    activeElementBounding.bottom > window.innerHeight - compareDrawerHeight
+  ) {
+    scroller.scrollTo(document.activeElement.id, getScrollOptions());
+  }
+};

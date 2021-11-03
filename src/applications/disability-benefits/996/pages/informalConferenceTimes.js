@@ -1,13 +1,13 @@
 import { checkConferenceTimes } from '../validations';
-import { errorMessages } from '../constants';
+import { errorMessages, CONFERENCE_TIMES_V1 } from '../constants';
 
 import {
   InformalConferenceTimesTitle,
   InformalConferenceTimesDescription,
   informalConferenceTimeSelectTitles,
-  informalConferenceTimeAllLabels,
 } from '../content/InformalConference';
 
+// HLR version 1
 export default {
   uiSchema: {
     'ui:title': InformalConferenceTimesTitle,
@@ -19,8 +19,10 @@ export default {
         updateSchema: formData => {
           const time1Setting = formData?.informalConferenceTimes?.time1 || '';
           const time2Setting = formData?.informalConferenceTimes?.time2 || '';
-          const enums = Object.keys(informalConferenceTimeAllLabels);
-          const enumNames = Object.values(informalConferenceTimeAllLabels);
+          const enums = Object.keys(CONFERENCE_TIMES_V1);
+          const enumNames = Object.values(CONFERENCE_TIMES_V1).map(
+            name => name.label,
+          );
           return {
             type: 'object',
             properties: {
@@ -28,16 +30,14 @@ export default {
                 type: 'string',
                 enum: enums.filter(val => val !== time2Setting),
                 enumNames: enumNames.filter(
-                  label =>
-                    label !== informalConferenceTimeAllLabels[time2Setting],
+                  label => label !== CONFERENCE_TIMES_V1[time2Setting]?.label,
                 ),
               },
               time2: {
                 type: 'string',
                 enum: enums.filter(val => val !== time1Setting),
                 enumNames: enumNames.filter(
-                  label =>
-                    label !== informalConferenceTimeAllLabels[time1Setting],
+                  label => label !== CONFERENCE_TIMES_V1[time1Setting]?.label,
                 ),
               },
             },

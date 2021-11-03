@@ -1,22 +1,25 @@
-import { FILTERS_CHANGED, UPDATE_QUERY_PARAMS } from '../actions';
-import { FILTERS_EXCLUDED_FLIP } from '../constants';
+import {
+  FILTERS_CHANGED,
+  UPDATE_QUERY_PARAMS,
+  SEARCH_STARTED,
+} from '../actions';
+import { FILTERS_EXCLUDED_FLIP } from '../selectors/filters';
 
-const INITIAL_STATE = Object.freeze({
+export const INITIAL_STATE = Object.freeze({
   expanded: false,
-  accredited: false,
-  excludeCautionFlags: false,
-  country: 'ALL',
-  employers: true,
-  hbcu: false,
-  relaffil: false,
-  preferredProvider: false,
+  search: false,
   schools: true,
-  singleGenderSchool: false,
-  state: 'ALL',
+  excludedSchoolTypes: [],
+  excludeCautionFlags: false,
+  accredited: false,
   studentVeteran: false,
-  type: 'ALL',
   yellowRibbonScholarship: false,
+  specialMission: 'ALL',
+  employers: true,
   vettec: true,
+  preferredProvider: false,
+  country: 'ALL',
+  state: 'ALL',
 });
 
 export default function(state = INITIAL_STATE, action) {
@@ -29,7 +32,10 @@ export default function(state = INITIAL_STATE, action) {
 
     case UPDATE_QUERY_PARAMS: {
       const queryParams = action.payload;
-      const onLoadState = {};
+      const onLoadState = {
+        excludedSchoolTypes: [],
+      };
+
       Object.keys(INITIAL_STATE).forEach(key => {
         let value = queryParams[key];
 
@@ -55,6 +61,9 @@ export default function(state = INITIAL_STATE, action) {
 
       return { ...state, ...onLoadState };
     }
+
+    case SEARCH_STARTED:
+      return { ...state, search: false };
 
     default:
       return { ...state };

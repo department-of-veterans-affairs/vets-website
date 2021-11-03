@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'lodash/fp';
+import dropWhile from 'lodash/dropWhile';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
@@ -70,7 +70,7 @@ export default class EducationWizard extends React.Component {
     // everything at that level and beyond, so we don't see questions from
     // different branches
     const fields = [].concat(
-      ..._.dropWhile(level => !level.includes(field), levels),
+      ...dropWhile(levels, level => !level.includes(field)),
     );
     fields.forEach(laterField => {
       if (laterField !== field) {

@@ -10,10 +10,6 @@ function axeTestPage() {
 }
 
 describe('functionality of discharge wizard', () => {
-  before(function() {
-    if (Cypress.env('CIRCLECI')) this.skip();
-  });
-
   it('fill out the form and expect the form to have elements', () => {
     // navigate to discharge wizard and make an axe check
     // landing page

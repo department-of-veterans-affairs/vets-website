@@ -2,23 +2,39 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { VeteranInformation } from '../../components/VeteranInformation';
 
-import veteranInformation from '../../pages/veteranInformation';
+describe('<VeteranInformation>', () => {
+  it('should render', () => {
+    const wrapper = shallow(<VeteranInformation />);
+    expect(wrapper.find('.blue-bar-block').length).to.eq(1);
+    wrapper.unmount();
+  });
 
-describe('Confirm Veteran Details', () => {
-  it('should render Veteran details', () => {
-    const tree = shallow(
-      <DefinitionTester
-        definitions={{}}
-        schema={veteranInformation.schema}
-        uiSchema={veteranInformation.uiSchema}
-        data={{}}
-        formData={{}}
-        setFormData={f => f}
-      />,
-    );
-    expect(tree.find('Connect(VeteranInformation)')).to.exist;
-    tree.unmount();
+  it('should render profile data', () => {
+    const data = {
+      profile: {
+        userFullName: {
+          first: 'uno',
+          middle: 'dos',
+          last: 'tres',
+        },
+        dob: '2000-01-05',
+        gender: 'F',
+      },
+      veteran: {
+        vaFileLastFour: '8765',
+        ssnLastFour: '5678',
+      },
+    };
+    const wrapper = shallow(<VeteranInformation {...data} />);
+
+    expect(wrapper.find('.name').text()).to.equal('uno dos tres');
+    expect(wrapper.find('.ssn').text()).to.contain('5678');
+    expect(wrapper.find('.vafn').text()).to.contain('8765');
+    expect(wrapper.find('.dob').text()).to.contain('January 5, 2000');
+    expect(wrapper.find('.gender').text()).to.contain('Female');
+
+    wrapper.unmount();
   });
 });

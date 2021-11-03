@@ -5,8 +5,8 @@ import { Provider } from 'react-redux';
 export default function createCovidVaccineUpdatesWidget(store, _widgetType) {
   const covidVaccineUpdatesPaths = new Set([
     // '/health-care/covid-19-vaccine/',
-    '/health-care/covid-19-vaccine-esp/',
-    '/health-care/covid-19-vaccine-tag/',
+    // '/health-care/covid-19-vaccine-esp/',
+    // '/health-care/covid-19-vaccine-tag/',
   ]);
   const isCovidVaccineUpdatesPage = covidVaccineUpdatesPaths.has(
     document.location.pathname,

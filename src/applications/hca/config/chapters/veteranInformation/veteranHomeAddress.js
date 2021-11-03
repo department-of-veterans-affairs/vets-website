@@ -1,5 +1,5 @@
 import React from 'react';
-import { merge } from 'lodash/fp';
+import merge from 'lodash/merge';
 
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
@@ -12,7 +12,7 @@ import {
 export default {
   uiSchema: {
     'ui:description': PrefillMessage,
-    veteranHomeAddress: merge(addressUI('Home address', true), {
+    veteranHomeAddress: merge({}, addressUI('Home address', true), {
       'ui:description': <AddressDescription addressType="home" />,
       street: {
         'ui:title': 'Street address',
@@ -35,7 +35,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      veteranHomeAddress: merge(addressSchema(fullSchemaHca, true), {
+      veteranHomeAddress: merge({}, addressSchema(fullSchemaHca, true), {
         properties: {
           street: {
             minLength: 1,

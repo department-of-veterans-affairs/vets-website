@@ -54,6 +54,7 @@ export default class EmailField extends React.Component {
         EditModal={EmailEditModal}
         formSchema={formSchema}
         uiSchema={uiSchema}
+        deleteDisabled={this.props.deleteDisabled}
       />
     );
   }

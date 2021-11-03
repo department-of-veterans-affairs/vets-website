@@ -2,7 +2,7 @@
  * Utilities for testing forms built with our schema based form library
  */
 
-import _ from 'lodash/fp';
+import set from '../../utilities/data/set';
 import Form from '@department-of-veterans-affairs/react-jsonschema-form';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
@@ -50,10 +50,10 @@ export class DefinitionTester extends React.Component {
   constructor(props) {
     super(props);
     const { data, uiSchema } = props;
-    const definitions = _.assign(
-      props.definitions || {},
-      props.schema.definitions,
-    );
+    const definitions = {
+      ...(props.definitions || {}),
+      ...props.schema.definitions,
+    };
     const schema = replaceRefSchemas(props.schema, definitions);
 
     const { data: newData, schema: newSchema } = updateSchemaAndData(
@@ -76,7 +76,7 @@ export class DefinitionTester extends React.Component {
     let fullData = data;
 
     if (arrayPath) {
-      fullData = _.set([arrayPath, pagePerItemIndex], data, formData);
+      fullData = set([arrayPath, pagePerItemIndex], data, formData);
     }
 
     const { data: newData, schema: newSchema } = updateSchemaAndData(

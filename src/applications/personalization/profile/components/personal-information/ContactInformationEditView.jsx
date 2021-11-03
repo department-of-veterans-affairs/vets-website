@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import getContactInfoFieldAttributes from '~/applications/personalization/profile/util/contact-information/getContactInfoFieldAttributes';
-
 import recordEvent from '~/platform/monitoring/record-event';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import { focusElement } from '~/platform/utilities/ui';
@@ -19,6 +17,7 @@ import {
 } from '@@vap-svc/actions';
 
 import * as VAP_SERVICE from '@@vap-svc/constants';
+import { ACTIVE_EDIT_VIEWS, FIELD_NAMES, USA } from '@@vap-svc/constants';
 
 import {
   isFailedTransaction,
@@ -27,6 +26,7 @@ import {
 } from '@@vap-svc/util/transactions';
 import VAPServiceEditModalErrorMessage from '@@vap-svc/components/base/VAPServiceEditModalErrorMessage';
 import CopyMailingAddress from '@@vap-svc/containers/CopyMailingAddress';
+import { getEditButtonId } from '@@vap-svc/components/ContactInformationField';
 
 import {
   selectCurrentlyOpenEditModal,
@@ -36,12 +36,9 @@ import {
   selectEditViewData,
 } from '@@vap-svc/selectors';
 
-import { ACTIVE_EDIT_VIEWS, FIELD_NAMES, USA } from '@@vap-svc/constants';
-
 import { transformInitialFormValues } from '@@profile/util/contact-information/formValues';
 
 import ContactInformationActionButtons from './ContactInformationActionButtons';
-import { getEditButtonId } from './ContactInformationField';
 
 export class ContactInformationEditView extends Component {
   static propTypes = {
@@ -73,6 +70,20 @@ export class ContactInformationEditView extends Component {
     validateAddress: PropTypes.func.isRequired,
   };
 
+  focusOnFirstFormElement() {
+    const focusableElement = this.editForm?.querySelector(
+      'button, input, select, a, textarea',
+    );
+    if (focusableElement) {
+      focusableElement.focus();
+    }
+  }
+
+  clearErrorsAndShiftFocus(fieldName) {
+    this.props.clearTransactionRequest(fieldName);
+    this.focusOnFirstFormElement();
+  }
+
   componentDidMount() {
     const { getInitialFormValues } = this.props;
     this.onChangeFormDataAndSchemas(
@@ -80,9 +91,21 @@ export class ContactInformationEditView extends Component {
       this.props.formSchema,
       this.props.uiSchema,
     );
+    this.focusOnFirstFormElement();
   }
 
   componentDidUpdate(prevProps) {
+    if (!prevProps.field && !!this.props.field) {
+      this.focusOnFirstFormElement();
+    }
+
+    if (
+      this.props.transactionRequest?.error ||
+      isFailedTransaction(this.props.transaction)
+    ) {
+      focusElement('button[aria-label="Close notification"]');
+    }
+
     // if the transaction just became pending, start calling
     // refreshTransaction() on an interval
     if (
@@ -103,9 +126,10 @@ export class ContactInformationEditView extends Component {
     }
     // if a transaction was created that was immediately successful (for example
     // when the transaction's status is `COMPLETED_NO_CHANGES_DETECTED`),
-    // immediately exit edit view
+    // immediately exit edit view and clear the transaction request so it can be triggered again
     if (isSuccessfulTransaction(this.props.transaction)) {
       this.props.openModal(null);
+      this.props.clearTransactionRequest(this.props.fieldName);
     }
   }
 
@@ -211,23 +235,6 @@ export class ContactInformationEditView extends Component {
     );
   };
 
-  onDelete = () => {
-    let payload = this.props.data;
-    if (this.props.convertCleanDataToPayload) {
-      payload = this.props.convertCleanDataToPayload(
-        payload,
-        this.props.fieldName,
-      );
-    }
-    this.props.createTransaction(
-      this.props.apiRoute,
-      'DELETE',
-      this.props.fieldName,
-      payload,
-      this.props.analyticsSectionName,
-    );
-  };
-
   copyMailingAddress = mailingAddress => {
     const newAddressValue = { ...this.props.field.value, ...mailingAddress };
     this.onChangeFormDataAndSchemas(
@@ -242,7 +249,6 @@ export class ContactInformationEditView extends Component {
       onSubmit,
       props: {
         analyticsSectionName,
-        data,
         field,
         fieldName,
         onCancel,
@@ -269,13 +275,17 @@ export class ContactInformationEditView extends Component {
             <VAPServiceEditModalErrorMessage
               title={title}
               error={error}
-              clearErrors={() => this.props.clearTransactionRequest(fieldName)}
+              clearErrors={() => this.clearErrorsAndShiftFocus(fieldName)}
             />
           </div>
         )}
 
         {!!field && (
-          <div>
+          <div
+            ref={el => {
+              this.editForm = el;
+            }}
+          >
             {fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS && (
               <CopyMailingAddress
                 copyMailingAddress={this.copyMailingAddress}
@@ -298,13 +308,9 @@ export class ContactInformationEditView extends Component {
             >
               <ContactInformationActionButtons
                 onCancel={onCancel}
-                onDelete={this.onDelete}
                 title={title}
                 analyticsSectionName={analyticsSectionName}
                 isLoading={isLoading}
-                deleteEnabled={
-                  data && fieldName !== FIELD_NAMES.MAILING_ADDRESS
-                }
               >
                 <div>
                   <LoadingButton
@@ -312,7 +318,7 @@ export class ContactInformationEditView extends Component {
                     data-testid="save-edit-button"
                     isLoading={isLoading}
                     loadingText="Saving changes"
-                    className="vads-u-width--auto vads-u-margin-top--0"
+                    className="vads-u-margin-top--0"
                   >
                     Update
                   </LoadingButton>
@@ -320,7 +326,7 @@ export class ContactInformationEditView extends Component {
                   {!isLoading && (
                     <button
                       type="button"
-                      className="usa-button-secondary vads-u-margin-top--0 vads-u-width--auto"
+                      className="usa-button-secondary small-screen:vads-u-margin-top--0"
                       onClick={onCancel}
                     >
                       Cancel
@@ -346,14 +352,6 @@ export const mapStateToProps = (state, ownProps) => {
   // const addressValidationType = selectAddressValidationType(state);
   const activeEditView = selectCurrentlyOpenEditModal(state);
 
-  const {
-    apiRoute,
-    convertCleanDataToPayload,
-    uiSchema,
-    formSchema,
-    title,
-  } = getContactInfoFieldAttributes(fieldName);
-
   return {
     /*
     This ternary is to deal with an edge case: if the user is currently viewing
@@ -366,18 +364,13 @@ export const mapStateToProps = (state, ownProps) => {
       activeEditView === ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION
         ? ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION
         : selectCurrentlyOpenEditModal(state),
-    apiRoute,
-    convertCleanDataToPayload,
     data,
     fieldName,
     analyticsSectionName: VAP_SERVICE.ANALYTICS_FIELD_MAP[fieldName],
     field: selectEditedFormField(state, fieldName),
-    title,
     transaction,
     transactionRequest,
     editViewData: selectEditViewData(state),
-    uiSchema,
-    formSchema,
   };
 };
 

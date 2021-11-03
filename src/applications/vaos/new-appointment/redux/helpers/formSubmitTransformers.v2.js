@@ -2,20 +2,27 @@ import moment from 'moment';
 import titleCase from 'platform/utilities/data/titleCase';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import { LANGUAGES, PURPOSE_TEXT } from '../../../utils/constants';
-import { getTypeOfCare, getFormData, getChosenCCSystemId } from '../selectors';
+import {
+  getTypeOfCare,
+  getFormData,
+  getChosenCCSystemById,
+  getChosenClinicInfo,
+  getChosenSlot,
+} from '../selectors';
+import { getClinicId } from '../../../services/healthcare-service';
 
 export function transformFormToVAOSCCRequest(state) {
   const data = getFormData(state);
   const provider = data.communityCareProvider;
   const residentialAddress = selectVAPResidentialAddress(state);
-  const parentFacility = getChosenCCSystemId(state);
+  const parentFacility = getChosenCCSystemById(state);
   let practitioners = [];
 
   if (provider?.identifier) {
     practitioners = [
       {
-        id: {
-          system: 'HSRM',
+        identifier: {
+          system: 'http://hl7.org/fhir/sid/us-npi',
           value: data.communityCareProvider.identifier.find(
             item => item.system === 'PPMS',
           )?.value,
@@ -47,9 +54,8 @@ export function transformFormToVAOSCCRequest(state) {
     kind: 'cc',
     status: 'proposed',
     locationId: data.communityCareSystemId,
-    // This may need to change when we get the new service type ids
-    serviceType: typeOfCare.id,
-    reason: data.reasonAdditionalInfo,
+    serviceType: typeOfCare.idV2 || typeOfCare.ccId,
+    comment: data.reasonAdditionalInfo,
     contact: {
       telecom: [
         {
@@ -91,10 +97,16 @@ export function transformFormToVAOSVARequest(state) {
     status: 'proposed',
     locationId: data.vaFacility,
     // This may need to change when we get the new service type ids
-    serviceType: typeOfCare.id,
-    reason: PURPOSE_TEXT.find(
-      purpose => purpose.id === data.reasonForAppointment,
-    )?.serviceName,
+    serviceType: typeOfCare.idV2,
+    reasonCode: {
+      coding: [
+        {
+          code: PURPOSE_TEXT.find(
+            purpose => purpose.id === data.reasonForAppointment,
+          )?.serviceName,
+        },
+      ],
+    },
     comment: data.reasonAdditionalInfo,
     contact: {
       telecom: [
@@ -120,5 +132,45 @@ export function transformFormToVAOSVARequest(state) {
     preferredTimesForPhoneCall: Object.entries(data.bestTimeToCall)
       .filter(item => item[1])
       .map(item => titleCase(item[0])),
+  };
+}
+
+function getUserMessage(data) {
+  const label = PURPOSE_TEXT.find(
+    purpose => purpose.id === data.reasonForAppointment,
+  ).short;
+
+  return `${label}: ${data.reasonAdditionalInfo}`;
+}
+
+export function transformFormToVAOSAppointment(state) {
+  const data = getFormData(state);
+  const clinic = getChosenClinicInfo(state);
+  const typeOfCare = getTypeOfCare(data);
+  const slot = getChosenSlot(state);
+
+  return {
+    kind: 'clinic',
+    status: 'booked',
+    clinic: getClinicId(clinic),
+    slot,
+    extension: {
+      desiredDate: data.preferredDate,
+    },
+    locationId: data.vaFacility,
+    serviceType: typeOfCare.idV2,
+    comment: getUserMessage(data),
+    contact: {
+      telecom: [
+        {
+          type: 'phone',
+          value: data.phoneNumber,
+        },
+        {
+          type: 'email',
+          value: data.email,
+        },
+      ],
+    },
   };
 }

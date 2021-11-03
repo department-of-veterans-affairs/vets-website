@@ -23,7 +23,7 @@ export function getVAAppointmentMock() {
       clinicFriendlyName: 'Fake',
       clinicId: 'fake',
       facilityId: 'fake',
-      sta6aid: 'fake',
+      sta6aid: null,
       communityCare: false,
       phoneOnly: false,
       vdsAppointments: [
@@ -46,77 +46,47 @@ export function getVAAppointmentMock() {
 }
 
 /**
- * Returns a stubbed mock of a VA facility, from the VA facilities api
- *
- * @export
- * @param {Object} [facilityMockParams]
- * @param {string} [facilityMockParams.id=fake] Facility id
- * @param {string} [facilityMockParams.name=Fake name] Facility name
- * @param {number} [facilityMockParams.lat] Latitude of facility
- * @param {number} [facilityMockParams.long] Longitude of facility
- * @returns {VAFacility} VA facility object
- */
-export function getVAFacilityMock({
-  id = 'fake',
-  name = 'Fake name',
-  lat = null,
-  long = null,
-} = {}) {
-  return {
-    id: `vha_${id}`,
-    type: 'va_facilities',
-    attributes: {
-      uniqueId: id,
-      name,
-      address: {
-        physical: {
-          zip: 'fake zip',
-          city: 'Fake city',
-          state: 'FA',
-          address1: 'Fake street',
-          address2: null,
-          address3: null,
-        },
-      },
-      lat,
-      long,
-      phone: {
-        main: 'Fake phone',
-      },
-      hours: {},
-    },
-  };
-}
-
-/**
  * Return a MAS appointment object, with a video appointment stub (item in vvsAppointments)
  *
  * @export
+ * @param {Object} params
+ * @param {string} params.id The appointment id
+ * @param {string} params.facilityId The site id of the appointment
+ * @param {string} params.startDate The start date of the appointment, in ISO format
+ * @param {string} params.appointmentKind The VVS appointment kind to use
+ * @param {string} params.instructionsTitle The type of instructions to use
  * @returns {MASAppointment} MAS appointment object
  */
-export function getVideoAppointmentMock() {
+export function getVideoAppointmentMock({
+  id = '05760f00c80ae60ce49879cf37a05fc8',
+  facilityId = 'fake',
+  startDate = 'fake',
+  appointmentKind = 'fake',
+  instructionsTitle = null,
+} = {}) {
   return {
-    id: '05760f00c80ae60ce49879cf37a05fc8',
+    id,
     type: 'va_appointments',
     attributes: {
-      startDate: 'fake',
+      startDate,
       clinicId: null,
       clinicFriendlyName: null,
-      facilityId: 'fake',
+      facilityId,
       communityCare: false,
       vdsAppointments: [],
       vvsAppointments: [
         {
           id: '8a74bdfa-0e66-4848-87f5-0d9bb413ae6d',
-          appointmentKind: 'fake',
+          appointmentKind,
           sourceSystem: 'SM',
-          dateTime: 'fake',
+          dateTime: startDate,
           duration: 20,
           status: { description: null, code: 'FAKE' },
           schedulingRequestType: 'NEXT_AVAILABLE_APPT',
           type: 'REGULAR',
           bookingNotes: 'fake',
           instructionsOther: false,
+          instructionsTitle,
           patients: [
             {
               name: { firstName: 'JUDY', lastName: 'MORRISON' },
@@ -303,15 +273,20 @@ export function getCancelReasonMock() {
  * @export
  * @returns {VARParentSite} var-resources parent site object
  */
-export function getParentSiteMock({ id = 'fake' } = {}) {
+export function getParentSiteMock({
+  id = 'fake',
+  name = 'fake',
+  city = 'fake',
+  state = 'FK',
+} = {}) {
   return {
     id,
     type: 'facility',
     attributes: {
       institutionCode: id,
-      city: 'fake',
-      stateAbbrev: 'FK',
-      authoritativeName: 'fake',
+      city,
+      stateAbbrev: state,
+      authoritativeName: name,
       rootStationCode: id,
       adminParent: true,
       parentStationCode: id,
@@ -370,6 +345,7 @@ export function getDirectBookingEligibilityCriteriaMock({
   id = 'fake',
   typeOfCareId = 'fake',
   patientHistoryRequired = 'No',
+  patientHistoryDuration = 0,
 } = {}) {
   return {
     id,
@@ -381,7 +357,7 @@ export function getDirectBookingEligibilityCriteriaMock({
           id: typeOfCareId,
           typeOfCare: 'fake',
           patientHistoryRequired,
-          patientHistoryDuration: 0,
+          patientHistoryDuration,
           submittedRequestLimit: 1,
           enterpriseSubmittedRequestLimit: 1,
         },

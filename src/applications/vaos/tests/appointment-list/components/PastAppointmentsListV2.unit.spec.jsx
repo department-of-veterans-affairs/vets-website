@@ -5,13 +5,8 @@ import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
 import { within, waitFor } from '@testing-library/dom';
 import { mockFetch } from 'platform/testing/unit/helpers';
+import { getVideoAppointmentMock } from '../../mocks/v0';
 import {
-  getVAAppointmentMock,
-  getVAFacilityMock,
-  getVideoAppointmentMock,
-} from '../../mocks/v0';
-import {
-  mockFacilitiesFetch,
   mockPastAppointmentInfo,
   mockPastAppointmentInfoOption1,
 } from '../../mocks/helpers';
@@ -22,14 +17,18 @@ import {
 import PastAppointmentsListV2, {
   getPastAppointmentDateRangeOptions,
 } from '../../../appointment-list/components/PastAppointmentsListV2';
-import { getVAOSRequestMock } from '../../mocks/v2';
+import { getVAOSAppointmentMock } from '../../mocks/v2';
 import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
+import {
+  createMockAppointmentByVersion,
+  createMockFacilityByVersion,
+} from '../../mocks/data';
+import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
 
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
     vaOnlineSchedulingPast: true,
-    vaOnlineSchedulingHomepageRefresh: true,
   },
 };
 
@@ -37,7 +36,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTimezoneTestDate());
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion({ version: 0 });
   });
   afterEach(() => {
     MockDate.reset();
@@ -57,18 +56,23 @@ describe('VAOS <PastAppointmentsListV2>', () => {
 
   it('should update range on dropdown change', async () => {
     const pastDate = moment().subtract(3, 'months');
+    const data = {
+      id: '1234',
+      kind: 'clinic',
+      clinic: 'fake',
+      start: pastDate.format(),
+      locationId: '983GC',
+      status: 'booked',
+    };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
+
     const rangeLabel = `${moment()
       .subtract(3, 'months')
       .startOf('month')
       .format('MMMM YYYY')}`;
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      startDate: pastDate.format(),
-      clinicFriendlyName: 'Some clinic',
-      facilityId: '983',
-      sta6aid: '983GC',
-    };
 
     mockPastAppointmentInfo({ va: [] });
 
@@ -76,7 +80,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       initialState,
     });
 
-    await screen.findByText(/You don’t have any appointments/i);
+    await screen.findByText(/You don’t have any past appointments/i);
 
     mockPastAppointmentInfoOption1({ va: [appointment] });
 
@@ -95,16 +99,18 @@ describe('VAOS <PastAppointmentsListV2>', () => {
 
   it('should show information without facility name', async () => {
     const pastDate = moment().subtract(3, 'days');
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      startDate: pastDate.format(),
-      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
-      facilityId: '983',
-      sta6aid: '983GC',
+    const data = {
+      id: '1234',
+      kind: 'clinic',
+      clinic: 'fake',
+      start: pastDate.format(),
+      locationId: '983GC',
+      status: 'booked',
     };
-    appointment.attributes.vdsAppointments[0].currentStatus = 'CHECKED OUT';
-    appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockPastAppointmentInfo({ va: [appointment] });
 
@@ -132,37 +138,35 @@ describe('VAOS <PastAppointmentsListV2>', () => {
 
   it('should show information with facility name', async () => {
     const pastDate = moment().subtract(3, 'days');
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      startDate: pastDate.format(),
-      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
-      facilityId: '983',
-      sta6aid: '983GC',
+    const data = {
+      id: '1234',
+      currentStatus: 'CHECKED OUT',
+      kind: 'clinic',
+      clinic: 'fake',
+      start: pastDate.format(),
+      locationId: '983GC',
+      status: 'fulfilled',
     };
-    appointment.attributes.vdsAppointments[0].currentStatus = 'CHECKED OUT';
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
+
     mockPastAppointmentInfo({ va: [appointment] });
 
-    const facility = {
-      id: 'vha_442GC',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '442GC',
-        name: 'Cheyenne VA Medical Center',
-        address: {
-          physical: {
-            zip: '82001-5356',
-            city: 'Cheyenne',
-            state: 'WY',
-            address1: '2360 East Pershing Boulevard',
-          },
-        },
-        phone: {
-          main: '307-778-7550',
-        },
+    const facility = createMockFacilityByVersion({
+      id: '442GC',
+      name: 'Cheyenne VA Medical Center',
+      address: {
+        postalCode: '82001-5356',
+        city: 'Cheyenne',
+        state: 'WY',
+        line: ['2360 East Pershing Boulevard'],
       },
-    };
-    mockFacilitiesFetch('vha_442GC', [facility]);
+      phone: '307-778-7550',
+      version: 0,
+    });
+    mockFacilitiesFetchByVersion({ facilities: [facility], version: 0 });
 
     const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
       initialState,
@@ -186,37 +190,20 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     expect(screen.baseElement).not.to.contain.text('VA appointment');
   });
 
-  it('should have correct status when previously cancelled', async () => {
-    const pastDate = moment().subtract(3, 'days');
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      startDate: pastDate.format(),
-      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
-      facilityId: '983',
-      sta6aid: '983GC',
-    };
-    appointment.attributes.vdsAppointments[0].currentStatus =
-      'CANCELLED BY CLINIC';
-
-    mockPastAppointmentInfo({ va: [appointment] });
-
-    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
-      initialState,
-    });
-
-    await screen.findAllByText(
-      new RegExp(pastDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
-    );
-
-    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(screen.baseElement).to.contain.text('Canceled');
-  });
-
   it('should not display when they have hidden statuses', () => {
-    const appointment = getVAAppointmentMock();
-    appointment.attributes.startDate = moment().format();
-    appointment.attributes.vdsAppointments[0].currentStatus = 'NO-SHOW';
+    const data = {
+      id: '1234',
+      currentStatus: 'NO-SHOW',
+      kind: 'clinic',
+      clinic: 'fake',
+      start: moment().format(),
+      locationId: '983GC',
+      status: 'booked',
+    };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockPastAppointmentInfo({ va: [appointment] });
 
@@ -224,15 +211,25 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       initialState,
     });
 
-    return expect(screen.findByText(/You don’t have any appointments/i)).to
+    return expect(screen.findByText(/You don’t have any past appointments/i)).to
       .eventually.be.ok;
   });
 
   it('should not display when over 13 months away', () => {
     const pastDate = moment().subtract(14, 'months');
-    const appointment = getVAAppointmentMock();
-    appointment.attributes.startDate = pastDate.format();
-    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+    const data = {
+      id: '1234',
+      currentStatus: 'FUTURE',
+      kind: 'clinic',
+      clinic: 'fake',
+      start: pastDate.format(),
+      locationId: '983GC',
+      status: 'booked',
+    };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockPastAppointmentInfo({ va: [appointment] });
 
@@ -240,7 +237,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       initialState,
     });
 
-    return expect(screen.findByText(/You don’t have any appointments/i)).to
+    return expect(screen.findByText(/You don’t have any past appointments/i)).to
       .eventually.be.ok;
   });
 
@@ -296,21 +293,39 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       .minutes(0)
       .add(30, 'minutes');
 
-    const yesterday = moment().subtract(1, 'day');
-    const appointment = getVAOSRequestMock();
+    const yesterday = moment.utc().subtract(1, 'day');
+    const appointment = getVAOSAppointmentMock();
     appointment.id = '123';
     appointment.attributes = {
       ...appointment.attributes,
-      kind: 'phone',
       minutesDuration: 30,
       status: 'booked',
-      start: yesterday.format('YYYY-MM-DDTHH:mm:ss'),
+      start: yesterday.format(),
+      locationId: '983',
+      location: {
+        id: '983',
+        type: 'appointments',
+        attributes: {
+          id: '983',
+          vistaSite: '983',
+          name: 'Cheyenne VA Medical Center',
+          lat: 39.744507,
+          long: -104.830956,
+          phone: { main: '307-778-7550' },
+          physicalAddress: {
+            line: ['2360 East Pershing Boulevard'],
+            city: 'Cheyenne',
+            state: 'WY',
+            postalCode: '82001-5356',
+          },
+        },
+      },
     };
     mockVAOSAppointmentsFetch({
       start: start.format('YYYY-MM-DDTHH:mm:ssZ'),
       end: end.format('YYYY-MM-DDTHH:mm:ssZ'),
       requests: [appointment],
-      statuses: ['booked'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
     const myInitialState = {
@@ -318,6 +333,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       featureToggles: {
         ...initialState.featureToggles,
         vaOnlineSchedulingVAOSServiceVAAppointments: true,
+        vaOnlineSchedulingVAOSServiceCCAppointments: true,
       },
     };
     const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
@@ -325,13 +341,11 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     });
 
     await screen.findAllByText(
-      new RegExp(yesterday.format('dddd, MMMM D'), 'i'),
+      new RegExp(yesterday.tz('America/Denver').format('dddd, MMMM D'), 'i'),
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(global.fetch.firstCall.args[0]).to.equal(
-      `https://dev-api.va.gov/vaos/v2/appointments?start=${start.format()}&end=${end.format()}&statuses[]=booked`,
-    );
+    expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
   });
 
   describe('getPastAppointmentDateRangeOptions', () => {

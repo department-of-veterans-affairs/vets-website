@@ -4,9 +4,14 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
 
 import { fetchSearchResults } from '../actions';
-import { formatResponseString } from '../utils';
+import {
+  formatResponseString,
+  truncateResponseString,
+  removeDoubleBars,
+} from '../utils';
 import recordEvent from 'platform/monitoring/record-event';
 import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 
@@ -16,14 +21,15 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
 
 import SearchBreadcrumbs from '../components/SearchBreadcrumbs';
+import SearchDropdownComponent from '../components/SearchDropdown/SearchDropdownComponent';
 
 const SCREENREADER_FOCUS_CLASSNAME = 'sr-focus';
+const MAX_DESCRIPTION_LENGTH = 186;
 
 class SearchApp extends React.Component {
   static propTypes = {
@@ -47,10 +53,6 @@ class SearchApp extends React.Component {
       page: pageFromURL,
       typeaheadUsed,
     };
-
-    if (!userInputFromURL) {
-      window.location.href = '/';
-    }
   }
 
   componentDidMount() {
@@ -76,7 +78,7 @@ class SearchApp extends React.Component {
       prevProps.search.loading && !this.props.search.loading;
 
     if (hasNewResults) {
-      const shouldFocusOnResults = this.props.search.searchesPerformed > 1;
+      const shouldFocusOnResults = this.props.search.searchesPerformed >= 1;
 
       if (shouldFocusOnResults) {
         focusElement(`.${SCREENREADER_FOCUS_CLASSNAME}`);
@@ -102,14 +104,8 @@ class SearchApp extends React.Component {
 
     const queryChanged = userInput !== currentResultsQuery;
     const nextPage = queryChanged ? 1 : page;
-    // Update URL
-    this.props.router.push({
-      pathname: '',
-      query: {
-        query: userInput,
-        page: nextPage,
-      },
-    });
+
+    this.updateURL({ query: userInput, page: nextPage });
 
     // Fetch new results
     this.props.fetchSearchResults(userInput, nextPage, {
@@ -126,21 +122,33 @@ class SearchApp extends React.Component {
 
     // Update query is necessary
     if (queryChanged) {
-      this.setState({
-        currentResultsQuery: userInput,
-        page: 1,
-        typeaheadUsed: false,
-      });
+      this.updateQueryInfo({ query: userInput, page: 1, typeaheadUsed: false });
     }
   };
 
-  handleInputChange = event => {
+  updateQueryInfo = options => {
     this.setState({
-      userInput: event.target.value,
+      currentResultsQuery: options?.query,
+      page: options?.page,
+      typeaheadUsed: options?.typeaheadUsed,
     });
   };
 
-  onSearchResultClick = ({ bestBet, title, index, url }) => () => {
+  updateURL = options => {
+    // Update URL
+    this.props.router.push({
+      pathname: '',
+      query: {
+        query: options?.query,
+        page: options?.page,
+        t: options?.typeaheadUsed || false,
+      },
+    });
+  };
+
+  onSearchResultClick = ({ bestBet, title, index, url }) => async e => {
+    e.preventDefault();
+
     // clear the &t query param which is used to track typeahead searches
     // removing this will better reflect how many typeahead searches result in at least one click
     window.history.replaceState(
@@ -148,13 +156,6 @@ class SearchApp extends React.Component {
       document.title,
       `${window.location.href.replace('&t=true', '')}`,
     );
-
-    if (bestBet) {
-      recordEvent({
-        event: 'nav-searchresults',
-        'nav-path': `Recommended Results -> ${title}`,
-      });
-    }
 
     const bestBetPosition = index + 1;
     const normalResultPosition =
@@ -165,13 +166,33 @@ class SearchApp extends React.Component {
 
     const query = this.props.router?.location?.query?.query || '';
 
+    const encodedUrl = encodeURIComponent(url);
+    const userAgent = encodeURIComponent(navigator.userAgent);
+    const encodedQuery = encodeURIComponent(query);
+    const apiRequestOptions = {
+      method: 'POST',
+    };
+    const moduleCode = bestBet ? 'BOOS' : 'I14Y';
+
+    await apiRequest(
+      `/search_click_tracking?position=${searchResultPosition}&query=${encodedQuery}&url=${encodedUrl}&user_agent=${userAgent}&module_code=${moduleCode}`,
+      apiRequestOptions,
+    );
+
+    if (bestBet) {
+      recordEvent({
+        event: 'nav-searchresults',
+        'nav-path': `Recommended Results -> ${title}`,
+      });
+    }
+
     recordEvent({
       event: 'onsite-search-results-click',
       'search-page-path': document.location.pathname,
       'search-query': query,
       'search-result-chosen-page-url': url,
       'search-result-chosen-title': title,
-      'search-results-pagination-current-page': this.props.search?.currentPage,
+      'search-results-n-current-page': this.props.search?.currentPage,
       'search-results-position': searchResultPosition,
       'search-results-total-count': this.props.search?.totalEntries,
       'search-results-total-pages': Math.ceil(
@@ -184,57 +205,182 @@ class SearchApp extends React.Component {
       'search-typeahead-used': this.state.typeaheadUsed,
     });
 
-    const encodedUrl = encodeURIComponent(url);
-    const userAgent = encodeURIComponent(navigator.userAgent);
-    const encodedQuery = encodeURIComponent(query);
-    const apiRequestOptions = {
-      method: 'POST',
-    };
-    const moduleCode = bestBet ? 'BOOS' : 'I14Y';
+    // relocate to clicked link page
+    window.location.href = url;
+  };
 
-    apiRequest(
-      `/search_click_tracking?position=${searchResultPosition}&query=${encodedQuery}&url=${encodedUrl}&user_agent=${userAgent}&module_code=${moduleCode}`,
-      apiRequestOptions,
-    );
+  onInputSubmit = componentState => {
+    const savedSuggestions = componentState?.savedSuggestions || [];
+    const suggestions = componentState?.suggestions || [];
+    const inputValue = componentState?.inputValue;
+    const validSuggestions =
+      savedSuggestions.length > 0 ? savedSuggestions : suggestions;
+
+    this.props.fetchSearchResults(inputValue, 1, {
+      trackEvent: true,
+      eventName: 'view_search_results',
+      path: document.location.pathname,
+      inputValue,
+      typeaheadEnabled: true,
+      keywordSelected: undefined,
+      keywordPosition: undefined,
+      suggestionsList: validSuggestions,
+      sitewideSearch: false,
+    });
+
+    this.updateQueryInfo({
+      query: inputValue,
+      page: 1,
+      typeaheadUsed: true,
+    });
+
+    this.updateURL({
+      query: inputValue,
+      page: 1,
+      typeaheadUsed: true,
+    });
+  };
+
+  handleInputChange = event => {
+    this.setState({
+      userInput: event.target.value,
+    });
+  };
+
+  onSuggestionSubmit = (index, componentState) => {
+    const savedSuggestions = componentState?.savedSuggestions || [];
+    const suggestions = componentState?.suggestions || [];
+    const inputValue = componentState?.inputValue;
+
+    const validSuggestions =
+      savedSuggestions?.length > 0 ? savedSuggestions : suggestions;
+
+    this.props.fetchSearchResults(validSuggestions[index], 1, {
+      trackEvent: true,
+      eventName: 'view_search_results',
+      path: document.location.pathname,
+      inputValue,
+      typeaheadEnabled: true,
+      keywordSelected: validSuggestions[index],
+      keywordPosition: index + 1,
+      suggestionsList: validSuggestions,
+      sitewideSearch: false,
+    });
+
+    this.updateQueryInfo({
+      query: suggestions[index],
+      page: 1,
+      typeaheadUsed: true,
+    });
+
+    this.updateURL({
+      query: suggestions[index],
+      page: 1,
+      typeaheadUsed: true,
+    });
+  };
+
+  fetchSuggestions = async inputValue => {
+    // encode user input for query to suggestions url
+    const encodedInput = encodeURIComponent(inputValue);
+
+    // fetch suggestions
+    try {
+      const apiRequestOptions = {
+        method: 'GET',
+      };
+      const fetchedSuggestions = await apiRequest(
+        `/search_typeahead?query=${encodedInput}`,
+        apiRequestOptions,
+      );
+
+      if (fetchedSuggestions.length !== 0) {
+        return fetchedSuggestions.sort(function(a, b) {
+          return a.length - b.length;
+        });
+      }
+      return [];
+      // if we fail to fetch suggestions
+    } catch (error) {
+      if (error?.error?.code === 'OVER_RATE_LIMIT') {
+        Sentry.captureException(
+          new Error(`"OVER_RATE_LIMIT" - Search Typeahead`),
+        );
+      }
+      Sentry.captureException(error);
+    }
+    return [];
   };
 
   renderResults() {
-    const { loading, errors } = this.props.search;
+    const {
+      loading,
+      errors,
+      currentPage,
+      totalPages,
+      results,
+    } = this.props.search;
     const hasErrors = !!(errors && errors.length > 0);
-    const nonBlankUserInput =
-      this.state.userInput &&
-      this.state.userInput.replace(/\s/g, '').length > 0;
+    const { userInput } = this.state;
 
     // Reusable search input
     const searchInput = (
-      <form
-        onSubmit={this.handleSearch}
-        className="va-flex search-box"
-        data-e2e-id="search-form"
+      <div
+        className="vads-u-background-color--gray-lightest vads-u-padding-x--3 vads-u-padding-bottom--3 vads-u-padding-top--1p5 vads-u-margin-top--1p5 vads-u-margin-bottom--4"
+        role="search"
+        aria-labelledby="h1-search-title"
       >
-        <input
-          type="text"
-          name="query"
-          aria-label="Enter the word or phrase you'd like to search for"
-          value={this.state.userInput}
-          onChange={this.handleInputChange}
-        />
-        <button type="submit" disabled={!nonBlankUserInput}>
-          <IconSearch color="#fff" />
-          <span>Search</span>
-        </button>
-      </form>
+        <div>Enter a keyword</div>
+        <div className="va-flex search-box vads-u-margin-top--1 vads-u-margin-bottom--0">
+          {!this.props.searchDropdownComponentEnabled && (
+            <form
+              onSubmit={this.handleSearch}
+              className="va-flex vads-u-width--full"
+            >
+              <input
+                type="text"
+                name="query"
+                aria-label="Enter a keyword"
+                value={this.state.userInput}
+                onChange={this.handleInputChange}
+              />
+              <button type="submit">
+                <IconSearch color="#fff" />
+                <span className="button-text">Search</span>
+              </button>
+            </form>
+          )}
+          {this.props.searchDropdownComponentEnabled && (
+            <SearchDropdownComponent
+              buttonText="Search"
+              canSubmit
+              className="search-results-page-dropdown"
+              formatSuggestions
+              fullWidthSuggestions={false}
+              mobileResponsive
+              startingValue={userInput}
+              submitOnClick
+              submitOnEnter
+              fetchSuggestions={this.fetchSuggestions}
+              onInputSubmit={this.onInputSubmit}
+              onSuggestionSubmit={this.onSuggestionSubmit}
+            />
+          )}
+        </div>
+      </div>
     );
 
     if (hasErrors && !loading) {
       return (
-        <div className="usa-width-three-fourths medium-8 small-12 columns error">
-          <AlertBox
-            status="error"
-            headline="Your search didn't go through"
-            content="We’re sorry. Something went wrong on our end, and your search didn't go through. Please try again."
-            data-e2e-id="alert-box"
-          />
+        <div className="columns error">
+          {/* this is the alert box for when searches fail due to server issues */}
+          <va-alert status="error" data-e2e-id="alert-box">
+            <h3 slot="headline">Your search didn't go through</h3>
+            <div>
+              We’re sorry. Something went wrong on our end, and your search
+              didn't go through. Please try again
+            </div>
+          </va-alert>
           {searchInput}
         </div>
       );
@@ -243,12 +389,27 @@ class SearchApp extends React.Component {
     return (
       <div>
         {searchInput}
-        {this.renderResultsCount()}
-        <hr />
+        {this.renderResultsInformation()}
         {this.renderRecommendedResults()}
         {this.renderResultsList()}
-        <hr id="hr-search-bottom" />
-        {this.renderResultsFooter()}
+        <hr
+          aria-hidden="true"
+          id="hr-search-bottom"
+          className="vads-u-margin-y--3"
+        />
+
+        <div className="va-flex results-footer">
+          {results &&
+            results.length > 0 && (
+              <Pagination
+                onPageSelect={this.handlePageChange}
+                page={currentPage}
+                pages={totalPages}
+                maxPageListLength={5}
+              />
+            )}
+          <span className="powered-by">Powered by Search.gov</span>
+        </div>
       </div>
     );
   }
@@ -258,15 +419,17 @@ class SearchApp extends React.Component {
     if (!loading && recommendedResults && recommendedResults.length > 0) {
       return (
         <div>
-          <h4 className={SCREENREADER_FOCUS_CLASSNAME}>
+          <h3
+            className={`vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--bold`}
+          >
             Our top recommendations for you
-          </h4>
+          </h3>
           <ul className="results-list">
             {recommendedResults.map((result, index) =>
               this.renderWebResult(result, 'description', true, index),
             )}
           </ul>
-          <hr />
+          <hr aria-hidden="true" />
         </div>
       );
     }
@@ -274,13 +437,14 @@ class SearchApp extends React.Component {
     return null;
   }
 
-  renderResultsCount() {
+  renderResultsInformation() {
     const {
       currentPage,
       perPage,
       totalPages,
       totalEntries,
       loading,
+      results,
     } = this.props.search;
 
     let resultRangeEnd = currentPage * perPage;
@@ -293,52 +457,114 @@ class SearchApp extends React.Component {
 
     if (loading || !totalEntries) return null;
 
+    // if there is a spelling correction, change the information message displayed
+    if (this.props.search.spellingCorrection) {
+      return (
+        <>
+          <p className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal vads-u-margin-top--2p5 vads-u-margin-bottom--1p5">
+            No results for "
+            <span className="vads-u-font-weight--bold">
+              {this.props.router.location.query.query}
+            </span>
+            "
+          </p>
+          <h2
+            className={`${SCREENREADER_FOCUS_CLASSNAME} vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal vads-u-margin-y--0p5`}
+          >
+            Showing{' '}
+            {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`}{' '}
+            of {totalEntries} results for "
+            <span className="vads-u-font-weight--bold">
+              {this.props.search.spellingCorrection}
+            </span>
+            "
+          </h2>
+          <hr className="vads-u-margin-y--3" aria-hidden="true" />
+        </>
+      );
+    }
+
+    // regular display for how many search results total are available.
     /* eslint-disable prettier/prettier */
-    return (
-      <p aria-live="polite" aria-relevant="additions text">
-        Showing{' '}
-        {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`} of{' '}
-        {totalEntries} results
-        <span className="usa-sr-only">
-          {' '}
-          for "{this.props.router.location.query.query}"
-        </span>
-      </p>
-    );
+    if (results && results.length > 0) {
+      return (
+        <>
+          <h2
+            aria-live="polite"
+            aria-relevant="additions text"
+            className={`${SCREENREADER_FOCUS_CLASSNAME} vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal`}
+          >
+            Showing{' '}
+            {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`}{' '}
+            of {totalEntries} results for "
+            <span className="vads-u-font-weight--bold">
+              {this.props.router.location.query.query}
+            </span>
+            "
+          </h2>
+          <hr className="vads-u-margin-y--3" aria-hidden="true" />
+        </>
+      );
+    }
+
+    return null;
     /* eslint-enable prettier/prettier */
   }
 
   renderResultsList() {
     const { results, loading } = this.props.search;
-
+    const query = this.props.router?.location?.query?.query || '';
     if (loading) {
       return <LoadingIndicator message="Loading results..." />;
     }
 
     if (results && results.length > 0) {
       return (
-        <ul className="results-list" data-e2e-id="search-results">
-          {results.map((result, index) =>
-            this.renderWebResult(result, undefined, undefined, index),
-          )}
-        </ul>
+        <>
+          <h3 className="sr-only">More search results</h3>
+          <ul className="results-list" data-e2e-id="search-results">
+            {results.map((result, index) =>
+              this.renderWebResult(result, undefined, undefined, index),
+            )}
+          </ul>
+        </>
       );
     }
-
+    if (query) {
+      return (
+        <p
+          className={`${SCREENREADER_FOCUS_CLASSNAME}`}
+          data-e2e-id="search-results-empty"
+        >
+          We didn't find any results for "<strong>{query}</strong>
+          ." Try using different words or checking the spelling of the words
+          you're using.
+        </p>
+      );
+    }
     return (
-      <p data-e2e-id="search-results-empty">
-        Sorry, no results found. Try again using different (or fewer) words.
+      <p
+        className={`${SCREENREADER_FOCUS_CLASSNAME}`}
+        data-e2e-id="search-results-empty"
+      >
+        We didn't find any results. Enter a keyword in the search box to try
+        again.
       </p>
     );
   }
 
   /* eslint-disable react/no-danger */
   renderWebResult(result, snippetKey = 'snippet', isBestBet = false, index) {
-    const strippedTitle = formatResponseString(result.title, true);
+    const strippedTitle = removeDoubleBars(
+      formatResponseString(result.title, true),
+    );
     return (
-      <li key={result.url} className="result-item">
+      <li
+        key={result.url}
+        className="result-item vads-u-margin-top--1p5 vads-u-margin-bottom--4"
+      >
         <a
-          className={`result-title ${SCREENREADER_FOCUS_CLASSNAME}`}
+          className={`result-title`}
           href={replaceWithStagingDomain(result.url)}
           onClick={this.onSearchResultClick({
             bestBet: isBestBet,
@@ -347,52 +573,46 @@ class SearchApp extends React.Component {
             url: result.url,
           })}
         >
-          <h5
+          <h4
+            className="vads-u-display--inline  vads-u-margin-top--1 vads-u-margin-bottom--0p25 vads-u-font-size--md vads-u-font-weight--bold vads-u-font-family--serif vads-u-text-decoration--underline"
             data-e2e-id="result-title"
             dangerouslySetInnerHTML={{
               __html: strippedTitle,
             }}
           />
         </a>
-        <p className="result-url">{replaceWithStagingDomain(result.url)}</p>
+        <p className="result-url vads-u-color--green vads-u-font-size--base">
+          {replaceWithStagingDomain(result.url)}
+        </p>
         <p
           className="result-desc"
           dangerouslySetInnerHTML={{
-            __html: formatResponseString(result[snippetKey]),
+            __html: formatResponseString(
+              truncateResponseString(
+                result[snippetKey],
+                MAX_DESCRIPTION_LENGTH,
+              ),
+            ),
           }}
         />
       </li>
     );
   }
+
   /* eslint-enable react/no-danger */
-
-  renderResultsFooter() {
-    const { currentPage, totalPages } = this.props.search;
-
-    return (
-      <div className="va-flex results-footer">
-        <span className="powered-by">Powered by Search.gov</span>
-        <Pagination
-          onPageSelect={this.handlePageChange}
-          page={currentPage}
-          pages={totalPages}
-          maxPageListLength={5}
-        />
-      </div>
-    );
-  }
-
   render() {
     return (
       <div className="search-app" data-e2e-id="search-app">
-        <SearchBreadcrumbs query={this.props.search.query} />
+        <SearchBreadcrumbs />
         <div className="row">
           <div className="columns">
-            <h2>Search VA.gov</h2>
+            <h1 className="vads-u-font-size--2xl" id="h1-search-title">
+              Search VA.gov
+            </h1>
           </div>
         </div>
-        <div className="row">
-          <div className="usa-width-three-fourths medium-8 small-12 columns">
+        <div className="search-row">
+          <div className="usa-width-three-fourths columns">
             <DowntimeNotification
               appTitle="Search App"
               dependencies={[externalServices.search]}
@@ -400,11 +620,14 @@ class SearchApp extends React.Component {
               {this.renderResults()}
             </DowntimeNotification>
           </div>
-          <div className="usa-width-one-fourth medium-4 small-12 columns sidebar">
-            <h4 className="highlight">More VA search tools</h4>
+          <div className="usa-width-one-fourth columns">
+            <h2 className="highlight vads-u-font-size--h4">
+              More VA search tools
+            </h2>
             <ul>
               <li>
                 <a
+                  className="right-nav-link"
                   href="https://www.index.va.gov/search/va/bva.jsp"
                   onClick={() =>
                     recordEvent({
@@ -419,6 +642,7 @@ class SearchApp extends React.Component {
               </li>
               <li>
                 <a
+                  className="right-nav-link"
                   href="https://www.index.va.gov/search/va/va_adv_search.jsp?SQ=www.benefits.va.gov/warms"
                   onClick={() =>
                     recordEvent({
@@ -433,6 +657,7 @@ class SearchApp extends React.Component {
               </li>
               <li>
                 <a
+                  className="right-nav-link"
                   href="/find-forms/"
                   onClick={() =>
                     recordEvent({
@@ -446,6 +671,7 @@ class SearchApp extends React.Component {
               </li>
               <li>
                 <a
+                  className="right-nav-link"
                   href="https://www.va.gov/vapubs/"
                   onClick={() =>
                     recordEvent({
@@ -460,6 +686,7 @@ class SearchApp extends React.Component {
               </li>
               <li>
                 <a
+                  className="right-nav-link"
                   href="https://www.vacareers.va.gov/job-search/index.asp"
                   onClick={() =>
                     recordEvent({
@@ -485,6 +712,9 @@ const mapStateToProps = state => ({
   searchTypeaheadEnabled: toggleValues(state)[
     FEATURE_FLAG_NAMES.searchTypeaheadEnabled
   ],
+  searchDropdownComponentEnabled: toggleValues(state)[
+    FEATURE_FLAG_NAMES.searchDropdownComponentEnabled
+  ],
 });
 
 const mapDispatchToProps = {
@@ -499,3 +729,7 @@ const SearchAppContainer = withRouter(
 );
 
 export default SearchAppContainer;
+
+SearchAppContainer.defaultProps = {
+  searchDropdownComponentEnabled: false,
+};

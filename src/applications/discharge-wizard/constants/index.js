@@ -1,11 +1,5 @@
 export const DW_UPDATE_FIELD = 'discharge-wizard/UPDATE_FIELD';
 
-export const labels = {
-  drb: 'Discharge Review Board',
-  bcmr: 'Board for Correction of Military Records (BCMR)',
-  bcnr: 'Board for Correction of Naval Records (BCNR)',
-};
-
 export const venueWarning =
   "You answered that you weren't sure where you applied for an upgrade before. The instructions below are for Veterans who have never applied for a discharge upgrade, so your process may be different. For more reliable information on your discharge upgrade process, please review your records to find out which board you sent your earlier application to, and complete the questions again.";
 

@@ -32,6 +32,13 @@ describe('ResourcesAndSupportSearchApp', () => {
     ReactDOM.render(<ResourcesAndSupportSearchApp />, div);
   });
 
+  it('creates a landmark for the search form', async () => {
+    const screen = renderInReduxProvider(<ResourcesAndSupportSearchApp />);
+    await screen.findByLabelText('Enter a keyword, phrase, or question');
+
+    screen.getByRole('search');
+  });
+
   // Failed on master: http://jenkins.vfs.va.gov/blue/organizations/jenkins/testing%2Fvets-website/detail/master/10217/tests
   it.skip('conducts searches', async () => {
     const screen = renderInReduxProvider(<ResourcesAndSupportSearchApp />);

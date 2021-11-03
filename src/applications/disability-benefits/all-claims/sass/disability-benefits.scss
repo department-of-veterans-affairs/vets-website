@@ -18,7 +18,7 @@
 }
 
 .word-break {
-  word-break: break-all;
+  word-break: break-word;
 }
 
 .clearfix:after {
@@ -27,6 +27,10 @@
   display: block;
   height: 0;
   clear: both;
+}
+
+.button-icon {
+  pointer-events: none;
 }
 
 ul.original-disability-list {
@@ -39,6 +43,13 @@ fieldset.schemaform-block,
 .schemaform-field-template.usa-input-error,
 .wizard-content-inner .fieldset-input:first-child {
   margin-top: 0;
+}
+
+/* federal orders */
+article[data-location$="federal-orders"] {
+  .schemaform-field-template.usa-input-error {
+    margin-top: 3rem;
+  }
 }
 
 /* Hide duplicate required span; first one in legend */

@@ -1,3 +1,6 @@
+import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
+import localStorage from '~/platform/utilities/storage/localStorage';
 import {
   cnpDirectDepositBankInfo,
   isEligibleForCNPDirectDeposit,
@@ -75,4 +78,20 @@ export const personalInformationLoadError = state => {
 
 export const militaryInformationLoadError = state => {
   return state.vaProfile?.militaryInformation?.serviceHistory?.error;
+};
+
+export const showNotificationSettings = state => {
+  const LSProfileNotificationSetting = localStorage.getItem(
+    'PROFILE_NOTIFICATION_SETTINGS', // true or false
+  );
+  const FFProfileNotificationSettings = toggleValues(state)[
+    FEATURE_FLAG_NAMES.profileNotificationSettings
+  ];
+  // local setting takes precedent over FF
+  if (LSProfileNotificationSetting === 'false') {
+    return false;
+  } else if (LSProfileNotificationSetting === 'true') {
+    return true;
+  }
+  return !!FFProfileNotificationSettings;
 };

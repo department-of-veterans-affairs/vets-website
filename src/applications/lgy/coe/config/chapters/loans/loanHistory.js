@@ -1,9 +1,12 @@
 import React from 'react';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import {
   createUSAStateLabels,
   formatReviewDate,
-} from 'platform/forms-system/src/js/helpers';
+} from '~/platform/forms-system/src/js/helpers';
+import {
+  validateDate,
+  validateDateRange,
+} from '~/platform/forms-system/src/js/validation';
 import { states } from 'platform/forms/address';
 
 import { loanHistory } from '../../schemaImports';
@@ -35,17 +38,42 @@ export const uiSchema = {
     'ui:options': {
       itemName: 'VA-backed Loan',
       viewField: PreviousLoanView,
+      keepInPageOnReview: true,
     },
     items: {
       'ui:title': 'Previous loan information',
       'ui:options': {
         itemName: 'VA-backed loan',
       },
-      dateRange: dateRangeUI(
-        'Date your loan began',
-        'Date you paid off your loan (Leave this blank if it’s not paid off)',
-        'Date loan ended must be after the start of the loan',
-      ),
+      dateRange: {
+        'ui:validations': [validateDateRange],
+        'ui:errorMessages': {
+          pattern: 'Date loan ended must be after the start of the loan',
+          required: 'Please enter a date',
+        },
+        from: {
+          'ui:title': 'Date your loan began',
+          'ui:widget': 'date',
+          'ui:validations': [validateDate],
+          'ui:errorMessages': {
+            pattern: 'Please enter a valid date',
+            required: 'Please enter a date',
+          },
+        },
+        to: {
+          'ui:title':
+            'Date you paid off your loan (Leave this blank if it’s not paid off)',
+          'ui:widget': 'date',
+          'ui:validations': [validateDate],
+          'ui:errorMessages': {
+            pattern: 'Please enter a valid date',
+            required: 'Please enter a date',
+          },
+          'ui:options': {
+            hideEmptyValueInReview: true,
+          },
+        },
+      },
       address: {
         'ui:title': 'Property address',
         'ui:order': ['street', 'street2', 'city', 'state', 'postalCode'],
@@ -53,7 +81,12 @@ export const uiSchema = {
           'ui:title': 'Street',
           'ui:errorMessages': { required: 'Please enter a street address' },
         },
-        street2: { 'ui:title': 'Line 2' },
+        street2: {
+          'ui:title': 'Line 2',
+          'ui:options': {
+            hideEmptyValueInReview: true,
+          },
+        },
         city: {
           'ui:title': `City`,
           'ui:errorMessages': { required: 'Please enter a city' },
@@ -78,10 +111,16 @@ export const uiSchema = {
       isCurrentlyOwned: {
         'ui:title': 'Do you still own this property?',
         'ui:widget': 'yesNo',
+        'ui:options': {
+          hideEmptyValueInReview: true,
+        },
       },
       willRefinance: {
         'ui:title': 'Do you want to refinance this loan?',
         'ui:widget': 'yesNo',
+        'ui:options': {
+          hideEmptyValueInReview: true,
+        },
       },
     },
   },

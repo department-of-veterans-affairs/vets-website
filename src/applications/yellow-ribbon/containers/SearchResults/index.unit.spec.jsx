@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
 import times from 'lodash/times';
 // Relative imports.
-import { SearchResults } from './index';
+import { SearchResults } from '.';
 import { TOOL_TIP_CONTENT, TOOL_TIP_LABEL } from '../../constants';
 
 describe('Yellow Ribbon container <SearchResults>', () => {
@@ -97,11 +97,9 @@ describe('Yellow Ribbon container <SearchResults>', () => {
       zip: '79699',
     }));
 
-    const tree = shallow(<SearchResults results={results} />);
-
-    expect(tree.find('.search-results')).to.have.lengthOf(1);
+    const tree = mount(<SearchResults results={results} />);
+    expect(tree.find('[data-e2e-id="search-results"]')).to.have.lengthOf(1);
     expect(tree.find('Pagination')).to.have.lengthOf(1);
-
     tree.unmount();
   });
 });

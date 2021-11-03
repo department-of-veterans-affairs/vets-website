@@ -3,7 +3,7 @@ import {
   FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
   FETCH_CONTESTABLE_ISSUES_FAILED,
 } from '../actions';
-import { getEligibleContestableIssues } from '../helpers';
+import { getEligibleContestableIssues } from '../utils/helpers';
 
 const initialState = {
   issues: [],

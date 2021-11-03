@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import merge from 'lodash/merge';
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/FEEDBACK-TOOL-schema.json';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
@@ -216,7 +216,7 @@ const formConfig = {
                 expandUnderClassNames: 'schemaform-expandUnder',
               },
             },
-            anonymousEmail: _.merge(emailUI('Email'), {
+            anonymousEmail: merge({}, emailUI('Email'), {
               'ui:options': {
                 expandUnder: 'onBehalfOf',
                 expandUnderCondition: anonymous,
@@ -243,7 +243,7 @@ const formConfig = {
                 data,
                 PrefillMessage,
               ),
-            fullName: _.merge(fullNameUI, {
+            fullName: merge({}, fullNameUI, {
               prefix: {
                 'ui:title': 'Prefix',
                 'ui:options': {

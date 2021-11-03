@@ -1,5 +1,5 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
@@ -10,31 +10,35 @@ import { disabilitiesExplanationAlert } from './contestedIssues';
 import { PROFILE_URL } from '../constants';
 
 const noIssuesMessage = (
-  <>
+  <p className="vads-u-font-size--base">
     If you think this is an error, please call us at{' '}
     <Telephone contact={CONTACTS.VA_BENEFITS} />. We’re here Monday through
     Friday, 8:00 a.m. to 9:00 p.m. ET.
     {disabilitiesExplanationAlert}
-  </>
+  </p>
 );
 
 const networkError = (
-  <p>
+  <p className="vads-u-font-size--base">
     We’re having some connection issues on our end. Please refresh this page to
     try again.
   </p>
 );
 
 const benefitError = type => (
-  <p>We don’t currently support the "{type}" benefit type</p>
+  <p className="vads-u-font-size--base">
+    We don’t currently support the "{type}" benefit type
+  </p>
 );
 
 export const noContestableIssuesFound = (
-  <AlertBox
-    status="warning"
-    headline="We don’t have any issues on file for you that are eligible for a Higher-Level Review"
-    content={noIssuesMessage}
-  />
+  <va-alert status="warning">
+    <h3 slot="headline">
+      We don’t have any issues on file for you that are eligible for a
+      Higher-Level Review
+    </h3>
+    {noIssuesMessage}
+  </va-alert>
 );
 
 let timeoutId;
@@ -68,21 +72,21 @@ export const showContestableIssueError = ({ error, status } = {}, delay) => {
   } else {
     record(); // no delay in unit tests
   }
-  return <AlertBox status="error" headline={headline} content={content} />;
+  return (
+    <va-alert status="error">
+      <h3 slot="headline">{headline}</h3>
+      {content}
+    </va-alert>
+  );
 };
 
 export const showHasEmptyAddress = (
-  <AlertBox
-    status="info"
-    headline="You need to have an address on file"
-    content={
-      <>
-        <p>
-          To request a Higher-Level Review, you need to have an address in your
-          VA.gov profile. To add an address,{' '}
-          <a href={PROFILE_URL}>please go to your profile page.</a>
-        </p>
-      </>
-    }
-  />
+  <va-alert status="info">
+    <h3 slot="headline">You need to have an address on file</h3>
+    <p className="vads-u-font-size--base">
+      To request a Higher-Level Review, you need to have an address in your
+      VA.gov profile. To add an address,{' '}
+      <a href={PROFILE_URL}>please go to your profile page.</a>
+    </p>
+  </va-alert>
 );

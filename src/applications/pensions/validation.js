@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import get from 'platform/utilities/data/get';
 import { isValidDateRange } from 'platform/forms/validations';
 import { convertToDateField } from 'platform/forms-system/src/js/validation';
 import { isValidCentralMailPostalCode } from 'platform/forms/address/validations';
@@ -15,7 +15,7 @@ export function validateAfterMarriageDate(errors, dateOfSeparation, formData) {
 export function validateServiceBirthDates(errors, service, formData) {
   const fromDate = convertToDateField(formData.veteranDateOfBirth);
   const toDate = convertToDateField(
-    _.get('activeServiceDateRange.from', service),
+    get('activeServiceDateRange.from', service),
   );
 
   if (!isValidDateRange(fromDate, toDate)) {

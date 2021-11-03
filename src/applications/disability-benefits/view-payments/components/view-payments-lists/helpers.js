@@ -61,8 +61,12 @@ export const paymentsReturnedFields = [
 
 export const clientServerErrorContent = receivedOrReturned => (
   <>
-    <h3>No {receivedOrReturned} payments</h3>
-    <p>We were unable to get {receivedOrReturned} payments for your account.</p>
+    <h2 slot="headline" className="vads-u-font-size--h3">
+      No {receivedOrReturned} payments
+    </h2>
+    <p className="vads-u-font-size--base">
+      We were unable to get {receivedOrReturned} payments for your account.
+    </p>
   </>
 );
 

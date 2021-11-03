@@ -15,13 +15,12 @@
  * @export
  * @returns {VAOSRequest} VAOS VA request object
  */
-
 export function getVAOSRequestMock() {
   return {
     id: null,
     type: 'appointments',
     attributes: {
-      cancellationReason: null,
+      cancelationReason: null,
       clinic: null,
       comment: null,
       contact: {
@@ -41,34 +40,128 @@ export function getVAOSRequestMock() {
       serviceType: null,
       slot: null,
       start: null,
-      status: null,
+      status: 'proposed',
       telehealth: null,
     },
   };
 }
 
 /**
- * Returns a stubbed var-resources parent site object from the VAOS service.
+ * Return a stubbed VAOS VA appointment item
  *
  * @export
- * @param {String} id id for the appointment
- * @returns {VARParentSite} var-resources parent site object
+ * @returns {VAOSRequest} VAOS VA request object
  */
-export function getVAOSParentSiteMock(id) {
+export function getVAOSAppointmentMock() {
+  return {
+    id: null,
+    type: 'appointments',
+    attributes: {
+      cancelationReason: null,
+      clinic: null,
+      comment: null,
+      contact: {
+        telecom: [],
+      },
+      description: null,
+      end: null,
+      id: null,
+      kind: null,
+      locationId: null,
+      minutesDuration: null,
+      patientInstruction: null,
+      practitioners: [],
+      preferredTimesForPhoneCall: [],
+      priority: null,
+      reason: null,
+      requestedPeriods: null,
+      serviceType: null,
+      slot: null,
+      start: null,
+      status: 'booked',
+      telehealth: null,
+    },
+  };
+}
+
+export function getSchedulingConfigurationMock({
+  id = 'fake',
+  typeOfCareId = 'fake',
+  requestEnabled = false,
+  directEnabled = false,
+  patientHistoryRequired = 'No',
+  patientHistoryDuration = 365,
+  communityCare = false,
+} = {}) {
   return {
     id,
-    type: 'facility',
+    type: 'scheduling_configuration',
     attributes: {
-      id: 'fake',
-      vista_site: id.substring(0, 3),
-      vast_parent: id,
-      name: 'fake',
-      physical_address: {
-        line: [],
-        city: 'fake',
-        state: 'fake',
-        postal_code: 'fake',
-      },
+      facilityId: id,
+      services: [
+        {
+          id: typeOfCareId,
+          name: 'Some type of care',
+          stopCodes: [],
+          direct: {
+            patientHistoryRequired,
+            patientHistoryDuration,
+            enabled: directEnabled,
+          },
+          request: {
+            patientHistoryRequired,
+            patientHistoryDuration,
+            enabled: requestEnabled,
+          },
+        },
+      ],
+      communityCare,
+    },
+  };
+}
+
+/**
+ * Returns a stubbed vaos VistA clinic object.
+ *
+ * @export
+ * @returns {VAOSClinic} var-resources clinic object
+ */
+export function getV2ClinicMock({ id, stationId, serviceName }) {
+  return {
+    id,
+    type: 'clinics',
+    attributes: {
+      vistaSite: stationId.substr(0, 3),
+      id,
+      serviceName,
+      physicalLocation: null,
+      phoneNumber: null,
+      stationId,
+      stationName: null,
+      primaryStopCode: null,
+      primaryStopCodeName: null,
+      secondaryStopCode: null,
+      secondaryStopCodeName: null,
+      patientDirectScheduling: null,
+      patientDisplay: null,
+      char4: null,
+    },
+  };
+}
+
+/**
+ * Returns a stubbed VAOS service VistA clinic appointment slot object.
+ *
+ * @export
+ * @returns {VAOSlot} VAOS service clinic appointment slot object
+ */
+export function getAppointmentSlotMock() {
+  return {
+    id: 'fake',
+    type: 'slots',
+    attributes: {
+      start: 'fake startDateTime',
+      end: 'fake endDateTime',
     },
   };
 }

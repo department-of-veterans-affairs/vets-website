@@ -29,10 +29,18 @@
     width: max-content;
   }
 
-  dl dt:first-of-type {
-    border-width: 1px 0 0 0;
-    border-color: $color-gray-lighter;
-    border-style: solid;
+  .find-forms-alert-message {
+    i {
+      font-family: "Font Awesome 5 Free";
+      font-style: normal;
+      font-weight: 900;
+    }
+    i::before {
+      content: "\F05A";
+      display: flex;
+      margin-right: 1.6rem;
+      font-size: 2rem;
+    }
   }
 }
 

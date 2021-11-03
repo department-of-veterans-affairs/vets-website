@@ -54,9 +54,11 @@ describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI', ()
     cy.login(mockMPIErrorUser);
     mockGETEndpoints([
       'v0/mhv_account',
+      'v0/profile/ch33_bank_accounts',
       'v0/profile/full_name',
       'v0/profile/personal_information',
       'v0/profile/service_history',
+      'v0/disability_compensation_form/rating_info',
       'v0/feature_toggles*',
     ]);
   });

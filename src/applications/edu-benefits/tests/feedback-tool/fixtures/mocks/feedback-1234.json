@@ -1,0 +1,10 @@
+{
+  "data": {
+    "attributes": {
+      "state": "success",
+      "parsedResponse": {
+        "caseNumber": "123fake-submission-id-567"
+      }
+    }
+  }
+}

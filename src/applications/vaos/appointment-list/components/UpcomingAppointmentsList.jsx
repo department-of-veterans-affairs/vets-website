@@ -23,7 +23,6 @@ export default function UpcomingAppointmentsList() {
   const dispatch = useDispatch();
   const {
     showScheduleButton,
-    isCernerOnlyPatient,
     appointmentsByMonth,
     futureStatus,
     facilityData,
@@ -87,12 +86,12 @@ export default function UpcomingAppointmentsList() {
             </h3>
             {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
             <ul
-              role="list"
               aria-labelledby={`appointment_list_${monthDate.format(
                 'YYYY-MM',
               )}`}
               className="vads-u-padding-left--0"
               data-cy="upcoming-appointment-list"
+              role="list"
             >
               {monthBucket.map((appt, index) => {
                 const facilityId = getVAAppointmentLocationId(appt);
@@ -117,10 +116,10 @@ export default function UpcomingAppointmentsList() {
         );
       })}
       {!appointmentsByMonth?.length && (
-        <div className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
+        <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
           <NoAppointments
+            description="upcoming appointments"
             showScheduleButton={showScheduleButton}
-            isCernerOnlyPatient={isCernerOnlyPatient}
             startNewAppointmentFlow={() => {
               recordEvent({
                 event: `${GA_PREFIX}-schedule-appointment-button-clicked`,

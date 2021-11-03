@@ -3,32 +3,55 @@ import { Route, Switch } from 'react-router-dom';
 
 import CheckIn from './pages/CheckIn';
 import Confirmation from './pages/Confirmation';
-import Failed from './pages/Failed';
-import Insurance from './pages/Insurance';
+import Demographics from './pages/Demographics';
+import NextOfKin from './pages/NextOfKin';
+import Error from './pages/Error';
+import SeeStaff from './pages/SeeStaff';
 import Landing from './pages/Landing';
-import FeatureFlipTest from './pages/FeatureFlipTest';
+import UpdateInformationQuestion from './pages/UpdateInformationQuestion';
+import ValidateVeteran from './pages/ValidateVeteran';
 
-import withNotOnProduction from './containers/withNotOnProduction';
 import withFeatureFlip from './containers/withFeatureFlip';
+import withLoadedData from './containers/withLoadedData';
+import withSession from './containers/withSession';
+import withToken from './containers/withToken';
+import { URLS } from './utils/navigation';
 
 const createRoutesWithStore = () => {
   return (
     <Switch>
-      <Route path="/:token" component={withNotOnProduction(Landing)} />
+      <Route path="/" component={withFeatureFlip(Landing)} />
       <Route
-        path="/:token/insurance"
-        component={withNotOnProduction(Insurance)}
+        path={`/${URLS.VALIDATION_NEEDED}`}
+        component={withFeatureFlip(withToken(ValidateVeteran))}
       />
-      <Route path="/:token/details" component={withNotOnProduction(CheckIn)} />
       <Route
-        path="/:token/confirmed"
-        component={withNotOnProduction(Confirmation)}
+        path={`/${URLS.DEMOGRAPHICS}`}
+        component={withFeatureFlip(withLoadedData(withSession(Demographics)))}
       />
-      <Route path="/:token/failed" component={withNotOnProduction(Failed)} />
       <Route
-        path="/:token/debug"
-        component={withFeatureFlip(FeatureFlipTest)}
+        path={`/${URLS.NEXT_OF_KIN}`}
+        component={withFeatureFlip(withLoadedData(withSession(NextOfKin)))}
       />
+      <Route
+        path={`/${URLS.UPDATE_INSURANCE}`}
+        component={withFeatureFlip(
+          withLoadedData(withSession(UpdateInformationQuestion)),
+        )}
+      />
+      <Route
+        path={`/${URLS.DETAILS}`}
+        component={withFeatureFlip(withLoadedData(withSession(CheckIn)))}
+      />
+      <Route
+        path={`/${URLS.COMPLETE}`}
+        component={withFeatureFlip(withLoadedData(withSession(Confirmation)))}
+      />
+      <Route
+        path={`/${URLS.SEE_STAFF}`}
+        component={withFeatureFlip(withLoadedData(withSession(SeeStaff)))}
+      />
+      <Route path={`/${URLS.ERROR}`} component={withFeatureFlip(Error)} />
     </Switch>
   );
 };

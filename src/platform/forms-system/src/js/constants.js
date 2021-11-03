@@ -9,6 +9,8 @@ export const UNAUTH_SIGN_IN_DEFAULT_MESSAGE =
 export const APP_TYPE_DEFAULT = 'application';
 export const APP_ACTION_DEFAULT = 'applying';
 export const REVIEW_APP_DEFAULT_MESSAGE = 'Review Application';
+export const FILE_UPLOAD_NETWORK_ERROR_MESSAGE =
+  'We\u2019re sorry. We had a connection problem. Please try again.';
 
 export const accountTitleLabels = {
   CHECKING: 'Checking Account',

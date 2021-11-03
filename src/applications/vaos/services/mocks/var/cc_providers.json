@@ -385,6 +385,33 @@
       }
     },
     {
+      "id": "1952935777",
+      "type": "provider",
+      "attributes": {
+        "accNewPatients": "true",
+        "address": {
+          "street": "A DUPLICATE ENTRY TO TEST REMOVING OBJECTS OF SAME IDs",
+          "city": "ANNANDALE",
+          "state": "VA",
+          "zip": "22003-2400"
+        },
+        "caresitePhone": "703-752-4623",
+        "email": null,
+        "fax": null,
+        "gender": "Female",
+        "lat": 38.833571,
+        "long": -77.211165,
+        "name": "OH, JANICE",
+        "phone": null,
+        "posCodes": null,
+        "prefContact": null,
+        "uniqueId": "1952935777"
+      },
+      "relationships": {
+        "specialties": { "data": [{ "id": "363LP2300X", "type": "specialty" }] }
+      }
+    },
+    {
       "id": "1770999294",
       "type": "provider",
       "attributes": {
@@ -441,7 +468,7 @@
         "uniqueId": "1255962510"
       },
       "relationships": {
-        "specialties": { "data": [{ "id": "363LP2300X", "type": "specialty" }] }
+        "specialties": { "data": [{ "id": "363LP2300X", "type": "specialty" }, { "id": "213ES0103X", "type": "specialty"}] }
       }
     },
     {
@@ -555,10 +582,10 @@
     }
   },
   "links": {
-    "self": "https://api.va.gov/v1/facilities/ccp?address=Ellipse+Road+Northwest%2C+Washington%2C+District+of+Columbia+20004%2C+United+States&bbox%5B%5D=-77.7866&bbox%5B%5D=38.145&bbox%5B%5D=-76.2866&bbox%5B%5D=39.645&page=1&per_page=30&specialties%5B%5D=363LP2300X&type=provider",
-    "first": "https://api.va.gov/v1/facilities/ccp?address=Ellipse+Road+Northwest%2C+Washington%2C+District+of+Columbia+20004%2C+United+States&bbox%5B%5D=-77.7866&bbox%5B%5D=38.145&bbox%5B%5D=-76.2866&bbox%5B%5D=39.645&page=1&per_page=30&specialties%5B%5D=363LP2300X&type=provider",
+    "self": "https://api.va.gov/facilities_api/v1/ccp/provider?latitude=38.9072&longitude=77.0369&radius=60&bbox%5B%5D=-77.7866&bbox%5B%5D=38.145&bbox%5B%5D=-76.2866&bbox%5B%5D=39.645&page=1&per_page=15&specialties%5B%5D=363LP2300X",
+    "first": "https://api.va.gov/facilities_api/v1/ccp/provider?latitude=38.9072&longitude=77.0369&radius=60&bbox%5B%5D=-77.7866&bbox%5B%5D=38.145&bbox%5B%5D=-76.2866&bbox%5B%5D=39.645&page=1&per_page=15&specialties%5B%5D=363LP2300X",
     "prev": null,
-    "next": "https://api.va.gov/v1/facilities/ccp?address=Ellipse+Road+Northwest%2C+Washington%2C+District+of+Columbia+20004%2C+United+States&bbox%5B%5D=-77.7866&bbox%5B%5D=38.145&bbox%5B%5D=-76.2866&bbox%5B%5D=39.645&page=2&per_page=30&specialties%5B%5D=363LP2300X&type=provider",
-    "last": "https://api.va.gov/v1/facilities/ccp?address=Ellipse+Road+Northwest%2C+Washington%2C+District+of+Columbia+20004%2C+United+States&bbox%5B%5D=-77.7866&bbox%5B%5D=38.145&bbox%5B%5D=-76.2866&bbox%5B%5D=39.645&page=2&per_page=30&specialties%5B%5D=363LP2300X&type=provider"
+    "next": "https://api.va.gov/facilities_api/v1/ccp/provider?latitude=38.9072&longitude=77.0369&radius=60&bbox%5B%5D=-77.7866&bbox%5B%5D=38.145&bbox%5B%5D=-76.2866&bbox%5B%5D=39.645&page=2&per_page=15&specialties%5B%5D=363LP2300X",
+    "last": "https://api.va.gov/facilities_api/v1/ccp/provider?latitude=38.9072&longitude=77.0369&radius=60&bbox%5B%5D=-77.7866&bbox%5B%5D=38.145&bbox%5B%5D=-76.2866&bbox%5B%5D=39.645&page=2&per_page=15&specialties%5B%5D=363LP2300X"
   }
 }

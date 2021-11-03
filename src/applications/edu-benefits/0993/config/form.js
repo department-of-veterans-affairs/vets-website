@@ -1,5 +1,3 @@
-import _ from 'lodash/fp';
-
 import fullSchema0993 from 'vets-json-schema/dist/22-0993-schema.json';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
@@ -78,10 +76,11 @@ const formConfig = {
           uiSchema: {
             'ui:description': PrefillMessage,
             claimantFullName: fullNameUI,
-            claimantSocialSecurityNumber: _.assign(ssnUI, {
+            claimantSocialSecurityNumber: {
+              ...ssnUI,
               'ui:required': formData => !formData['view:noSSN'],
               'ui:title': 'Social Security number',
-            }),
+            },
             'view:noSSN': {
               'ui:title': 'I don’t have a Social Security number',
               'ui:options': {

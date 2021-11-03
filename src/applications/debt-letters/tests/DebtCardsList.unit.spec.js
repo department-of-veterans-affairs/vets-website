@@ -205,7 +205,7 @@ describe('DebtLettersSummary', () => {
         .find('h3')
         .at(0)
         .text(),
-    ).to.equal("Our records show that you don't have any current debts");
+    ).to.equal('Our records show that you don’t have any current debts');
     wrapper.unmount();
   });
 });

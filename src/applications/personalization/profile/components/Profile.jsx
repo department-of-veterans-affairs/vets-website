@@ -27,6 +27,7 @@ import {
   isInMPI as isInMVISelector,
   isLoggedIn,
 } from '~/platform/user/selectors';
+import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
 import { fetchMHVAccount as fetchMHVAccountAction } from '~/platform/user/profile/actions';
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
@@ -40,13 +41,13 @@ import {
   cnpDirectDepositIsSetUp,
   eduDirectDepositInformation,
   eduDirectDepositIsSetUp,
+  showNotificationSettings,
 } from '@@profile/selectors';
 import {
   fetchCNPPaymentInformation as fetchCNPPaymentInformationAction,
   fetchEDUPaymentInformation as fetchEDUPaymentInformationAction,
 } from '@@profile/actions/paymentInformation';
 
-import { selectShowDashboard2 } from '~/applications/personalization/dashboard-2/selectors';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
 
 import getRoutes from '../routes';
@@ -65,12 +66,13 @@ class Profile extends Component {
       fetchPersonalInformation,
       fetchTotalDisabilityRating,
       isLOA3,
+      isInMVI,
       shouldFetchCNPDirectDepositInformation,
       shouldFetchTotalDisabilityRating,
       shouldFetchEDUDirectDepositInformation,
     } = this.props;
     fetchMHVAccount();
-    if (isLOA3) {
+    if (isLOA3 && isInMVI) {
       fetchFullName();
       fetchPersonalInformation();
       fetchMilitaryInformation();
@@ -98,8 +100,9 @@ class Profile extends Component {
       shouldFetchCNPDirectDepositInformation,
       shouldFetchEDUDirectDepositInformation,
       shouldFetchTotalDisabilityRating,
+      isInMVI,
     } = this.props;
-    if (isLOA3 && !prevProps.isLOA3) {
+    if (isLOA3 && !prevProps.isLOA3 && isInMVI) {
       fetchFullName();
       fetchPersonalInformation();
       fetchMilitaryInformation();
@@ -154,6 +157,7 @@ class Profile extends Component {
   mainContent = () => {
     const routesOptions = {
       removeDirectDeposit: !this.props.shouldShowDirectDeposit,
+      removeNotificationSettings: !this.props.shouldShowNotificationSettings,
     };
 
     // We need to pass in a config to hide forbidden routes
@@ -166,7 +170,6 @@ class Profile extends Component {
             routes={routes}
             isInMVI={this.props.isInMVI}
             isLOA3={this.props.isLOA3}
-            showUpdatedNameTag={this.props.shouldFetchTotalDisabilityRating}
           >
             <Switch>
               {/* Redirect users to Account Security to upgrade their account if they need to */}
@@ -207,6 +210,7 @@ class Profile extends Component {
               />
 
               {/* fallback handling: redirect to root route */}
+              {/* Should we consider making a 404 page for this instead? */}
               <Route path="*">
                 <Redirect to={PROFILE_PATHS.PROFILE_ROOT} />
               </Route>
@@ -273,65 +277,65 @@ const mapStateToProps = state => {
   const isCNPDirectDepositBlocked = cnpDirectDepositIsBlocked(state);
   const isEligibleToSetUpCNP = cnpDirectDepositAddressIsSetUp(state);
   const is2faEnabled = isMultifactorEnabled(state);
-
-  const LSDashboardVersion = localStorage.getItem('DASHBOARD_VERSION');
-  const LSDashboard1 = LSDashboardVersion === '1';
-  const LSDashboard2 = LSDashboardVersion === '2';
-  const FFDashboard2 = selectShowDashboard2(state);
-
+  const signInService = signInServiceNameSelector(state);
+  const isInMVI = isInMVISelector(state);
   const shouldFetchCNPDirectDepositInformation =
-    isEvssAvailable && is2faEnabled;
-  const shouldFetchEDUDirectDepositInformation = is2faEnabled;
+    isInMVI && isEvssAvailable && signInService === 'idme' && is2faEnabled;
+  const shouldFetchEDUDirectDepositInformation =
+    isInMVI && signInService === 'idme' && is2faEnabled;
   const currentlyLoggedIn = isLoggedIn(state);
   const isLOA1 = isLOA1Selector(state);
   const isLOA3 = isLOA3Selector(state);
 
-  const shouldFetchTotalDisabilityRating =
-    isLOA3 && (LSDashboard2 || (FFDashboard2 && !LSDashboard1));
+  const shouldFetchTotalDisabilityRating = isLOA3 && isInMVI;
 
   // this piece of state will be set if the call to load military info succeeds
   // or fails:
   const hasLoadedMilitaryInformation =
-    isLOA1 || state.vaProfile?.militaryInformation;
+    isLOA1 || !isInMVI || state.vaProfile?.militaryInformation;
 
   // when the call to load MHV fails, `errors` will be set to a non-null value
   // when the call succeeds, the `accountState` will be set to a non-null value
   const hasLoadedMHVInformation =
+    !isInMVI ||
     selectProfile(state)?.mhvAccount?.errors ||
     selectProfile(state)?.mhvAccount?.accountState;
 
   // this piece of state will be set if the call to load personal info succeeds
   // or fails:
   const hasLoadedPersonalInformation =
-    isLOA1 || state.vaProfile?.personalInformation;
+    isLOA1 || !isInMVI || state.vaProfile?.personalInformation;
 
   // this piece of state will be set if the call to load name info succeeds or
   // fails:
-  const hasLoadedFullName = isLOA1 || state.vaProfile?.hero;
+  const hasLoadedFullName = isLOA1 || !isInMVI || state.vaProfile?.hero;
 
   // this piece of state will be set if the call to load name info succeeds or
   // fails:
-  const hasLoadedCNPPaymentInformation = cnpDirectDepositInformation(state);
+  const hasLoadedCNPPaymentInformation =
+    !isInMVI || cnpDirectDepositInformation(state);
 
-  const hasLoadedEDUPaymentInformation = eduDirectDepositInformation(state);
+  const hasLoadedEDUPaymentInformation =
+    !isInMVI || eduDirectDepositInformation(state);
 
   const hasLoadedTotalDisabilityRating =
-    state.totalRating && !state.totalRating.loading;
+    !isInMVI || (state.totalRating && !state.totalRating.loading);
 
   const hasLoadedAllData =
-    hasLoadedFullName &&
-    hasLoadedMHVInformation &&
-    hasLoadedPersonalInformation &&
-    hasLoadedMilitaryInformation &&
-    (shouldFetchTotalDisabilityRating
-      ? hasLoadedTotalDisabilityRating
-      : true) &&
-    (shouldFetchCNPDirectDepositInformation
-      ? hasLoadedCNPPaymentInformation
-      : true) &&
-    (shouldFetchEDUDirectDepositInformation
-      ? hasLoadedEDUPaymentInformation
-      : true);
+    !isInMVI ||
+    (hasLoadedFullName &&
+      hasLoadedMHVInformation &&
+      hasLoadedPersonalInformation &&
+      hasLoadedMilitaryInformation &&
+      (shouldFetchTotalDisabilityRating
+        ? hasLoadedTotalDisabilityRating
+        : true) &&
+      (shouldFetchCNPDirectDepositInformation
+        ? hasLoadedCNPPaymentInformation
+        : true) &&
+      (shouldFetchEDUDirectDepositInformation
+        ? hasLoadedEDUPaymentInformation
+        : true));
 
   const showLoader =
     !hasLoadedAllData || (!isLOA3 && !isLOA1 && currentlyLoggedIn);
@@ -341,6 +345,7 @@ const mapStateToProps = state => {
     if (isCNPDirectDepositBlocked) return false;
     return (
       (isLOA3 && !is2faEnabled) || // we _want_ to show the DD section to non-2FA users
+      (isLOA3 && signInService !== 'idme') || // we _want_ to show the DD section to users who did not sign in with ID.me
       isCNPDirectDepositSetUp ||
       isEligibleToSetUpCNP ||
       isEDUDirectDepositSetUp
@@ -350,12 +355,13 @@ const mapStateToProps = state => {
   return {
     user: state.user,
     showLoader,
-    isInMVI: isInMVISelector(state),
+    isInMVI,
     isLOA3,
     shouldFetchCNPDirectDepositInformation,
     shouldFetchEDUDirectDepositInformation,
     shouldFetchTotalDisabilityRating,
     shouldShowDirectDeposit: shouldShowDirectDeposit(),
+    shouldShowNotificationSettings: showNotificationSettings(state),
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',
     ),

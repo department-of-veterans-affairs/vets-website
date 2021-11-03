@@ -13,12 +13,11 @@ export const uiSchema = {
   'ui:title': 'Your installment contracts and other debts',
   'ui:description':
     'Enter information for each installment contract or debt separately below.',
-  installmentContractsAndOtherDebts: {
+  installmentContracts: {
     'ui:field': ItemLoop,
     'ui:options': {
       viewField: CardDetailsView,
       doNotScroll: true,
-      showSave: true,
       itemName: 'installment or other debt',
       keepInPageOnReview: true,
     },
@@ -91,7 +90,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    installmentContractsAndOtherDebts: {
+    installmentContracts: {
       type: 'array',
       items: {
         type: 'object',

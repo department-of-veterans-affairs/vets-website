@@ -1,9 +1,10 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
+import DownloadPDF from '../components/DownloadPDF';
 import { capitalizeEachWord, formatDate } from '../utils';
 import {
   successMessage,
@@ -14,7 +15,7 @@ import {
 import { NULL_CONDITION_STRING } from '../constants';
 
 const template = (props, title, content, submissionMessage, messageType) => {
-  const { fullName, disabilities, submittedAt } = props;
+  const { fullName, disabilities, submittedAt, isSubmittingBDD } = props;
   const { first, last, middle, suffix } = fullName;
 
   // This is easier than passing down props and checking if the form type
@@ -23,17 +24,11 @@ const template = (props, title, content, submissionMessage, messageType) => {
     : 'Disability Compensation Claim';
 
   const renderableContent =
-    typeof content === 'string' && content !== '' ? <p>{content}</p> : content;
-
-  const alertBox = (
-    <AlertBox
-      isVisible
-      headline={title}
-      content={renderableContent}
-      status={messageType}
-      level="2"
-    />
-  );
+    typeof content === 'string' && content !== '' ? (
+      <p className="vads-u-font-size--base vads-u-margin-top--0">{content}</p>
+    ) : (
+      content
+    );
 
   const backButtonContent = (
     <div className="row form-progress-buttons schemaform-back-buttons">
@@ -45,10 +40,13 @@ const template = (props, title, content, submissionMessage, messageType) => {
 
   if (messageType === 'error') {
     return (
-      <div>
-        {alertBox}
+      <>
+        <va-alert visible status={messageType}>
+          <h2 slot="headline">{title}</h2>
+          {renderableContent}
+        </va-alert>
         {backButtonContent}
-      </div>
+      </>
     );
   }
 
@@ -63,16 +61,13 @@ const template = (props, title, content, submissionMessage, messageType) => {
         <h2>{pageTitle}</h2>
       </div>
 
-      <AlertBox
-        isVisible
-        headline={title}
-        content={renderableContent}
-        status={messageType}
-        level="2"
-      />
+      <va-alert visible status={messageType}>
+        <h2 slot="headline">{title}</h2>
+        {renderableContent}
+      </va-alert>
 
       <h2 className="vads-u-font-size--h5" id="note-email">
-        We'll send you an email to confirm that we received your claim.{' '}
+        We’ll send you an email to confirm that we received your claim.{' '}
         <span className="screen-only">
           You can also print this page for your records.
         </span>
@@ -149,6 +144,69 @@ const template = (props, title, content, submissionMessage, messageType) => {
           <a href="/track-claims">Check the status of your claim</a>
         </p>
 
+        {!isSubmittingBDD && (
+          <>
+            <h2 className="confirmation-guidance-heading vads-u-font-size--h4">
+              What should I do next?
+            </h2>
+            <p className="confirmation-guidance-message">
+              <strong>If you have a spouse or child</strong>, you may be
+              entitled to additional payments.
+            </p>
+            <a
+              className="vads-c-action-link--blue"
+              href="https://www.va.gov/view-change-dependents/"
+            >
+              Apply online to add a dependent
+            </a>
+            <p>
+              Or you can fill out and submit an Application Request to Add
+              and/or Remove Dependents (VA Form 21-686c)
+            </p>
+            <p>
+              <DownloadPDF
+                formNumber="21-686c"
+                fileName="VBA-21-686c-ARE"
+                size="2.7"
+              />
+            </p>
+            <p>
+              <strong>Note:</strong> If you’re claiming your child who became
+              permanently disabled before they turned 18, you’ll need to submit
+              all military and private medical records relating to the child’s
+              disabilities with your application.
+            </p>
+            <p>
+              <strong>
+                If you’re claiming a child who’s between 18 and 23 years old and
+                attending school full time
+              </strong>
+              , you’ll need to fill out and submit a Request for Approval of
+              School Attendance (VA Form 21-674) so we can verify their
+              attendance.
+            </p>
+            <p>
+              <DownloadPDF
+                formNumber="21-674"
+                fileName="VBA-21-674-ARE"
+                size="1.3"
+              />
+            </p>
+            <p>
+              <strong>If you have dependent parents</strong>, you may be
+              entitled to additional payments. Fill out and submit a Statement
+              of Dependency of Parent(s) (VA Form 21P-509).
+            </p>
+            <p>
+              <DownloadPDF
+                formNumber="21P-509"
+                fileName="VBA-21P-509-ARE"
+                size="1"
+              />
+            </p>
+          </>
+        )}
+
         <h2 className="confirmation-guidance-heading vads-u-font-size--h4">
           What happens after I file a claim for disability compensation?
         </h2>
@@ -169,15 +227,15 @@ export const retryableErrorContent = props =>
     props,
     "It's taking us longer than expected to submit your claim.",
     <div>
-      <p>
-        This delay should be resolved within a few hours. We'll keep trying to
+      <p className="vads-u-font-size--base">
+        This delay should be resolved within a few hours. We’ll keep trying to
         submit your claim. You can check the status of your claim online after
         24 hours.
       </p>
-      <p>
+      <p className="vads-u-font-size--base">
         <a href="/track-claims">Check the status of your claim</a>
       </p>
-      <p>
+      <p className="vads-u-font-size--base">
         <strong>
           If you don’t see your disability claim online after 24 hours,
         </strong>{' '}
@@ -210,7 +268,7 @@ export const submitErrorContent = props => {
     'We’re sorry. Something went wrong when we tried to submit your claim.',
     <div>
       <h4>For help submitting your claim:</h4>
-      <ul>
+      <ul className="vads-u-font-size--base">
         <li>
           Please call Veterans Benefits Assistance at{' '}
           <Telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,

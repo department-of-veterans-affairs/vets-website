@@ -25,10 +25,10 @@ describe('CommunicationGroup model', () => {
       baseGroup = new CommunicationGroup({
         id: 1,
         communicationChannels: [
-          new CommunicationChannel({ id: 1, parentItemId: 1 }),
-          new CommunicationChannel({ id: 2, parentItemId: 1 }),
+          new CommunicationChannel({ type: 1, parentItemId: 1 }),
+          new CommunicationChannel({ type: 2, parentItemId: 1 }),
           new CommunicationChannel({
-            id: 1,
+            type: 1,
             parentItemId: 2,
             isAllowed: true,
             permissionId: 123,
@@ -45,10 +45,10 @@ describe('CommunicationGroup model', () => {
       const wipGroup = new CommunicationGroup({
         id: 2,
         communicationChannels: [
-          new CommunicationChannel({ id: 1, parentItemId: 4 }),
-          new CommunicationChannel({ id: 2, parentItemId: 4 }),
+          new CommunicationChannel({ type: 1, parentItemId: 4 }),
+          new CommunicationChannel({ type: 2, parentItemId: 4 }),
           new CommunicationChannel({
-            id: 1,
+            type: 1,
             parentItemId: 5,
             isAllowed: true,
             permissionId: 456,
@@ -75,14 +75,14 @@ describe('CommunicationGroup model', () => {
         id: 1,
         communicationChannels: [
           new CommunicationChannel({
-            id: 1,
+            type: 1,
             parentItemId: 1,
             isAllowed: true,
             permissionId: 123,
           }),
-          new CommunicationChannel({ id: 2, parentItemId: 1 }),
+          new CommunicationChannel({ type: 2, parentItemId: 1 }),
           new CommunicationChannel({
-            id: 1,
+            type: 1,
             parentItemId: 2,
             isAllowed: false,
             permissionId: 456,

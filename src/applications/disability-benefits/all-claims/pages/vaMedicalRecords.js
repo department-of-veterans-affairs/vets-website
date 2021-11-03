@@ -1,7 +1,7 @@
-import merge from 'lodash/merge';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { uiSchema as autoSuggestUiSchema } from 'platform/forms-system/src/js/definitions/autosuggest';
 import dateUI from 'platform/forms-system/src/js/definitions/monthYear';
+
 import { treatmentView } from '../content/vaMedicalRecords';
 import { queryForFacilities, makeSchemaForAllDisabilities } from '../utils';
 import {
@@ -27,6 +27,7 @@ export const uiSchema = {
       itemName: 'Facility',
       itemAriaLabel: data => data.treatmentCenterName,
       viewField: treatmentView,
+      showSave: true,
     },
     items: {
       'ui:order': [
@@ -64,11 +65,12 @@ export const uiSchema = {
         },
       },
       treatmentDateRange: {
-        from: merge({}, dateUI('When did you first visit this facility?'), {
+        from: {
+          ...dateUI('When did you first visit this facility?'),
           'ui:validations': dateUI()['ui:validations'].concat([
             startedAfterServicePeriod,
           ]),
-        }),
+        },
       },
       treatmentCenterAddress: {
         'ui:order': ['country', 'state', 'city'],

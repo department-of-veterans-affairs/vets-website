@@ -16,7 +16,7 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
           Your debt letters are currently unavailable.
         </h3>
         <p className="vads-u-font-family--sans">
-          You can't download your debt letters because something went wrong on
+          You can’t download your debt letters because something went wrong on
           our end.
         </p>
 
@@ -48,9 +48,10 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
             <DebtLettersTable debtLinks={debtLinks} />
           </>
         )}
+
       <div className="vads-u-margin-bottom--6 vads-u-margin-top--3">
         <h3 className="vads-u-margin-y--0">
-          What if I don't see the letter I'm looking for?
+          What if I don’t see the letter I'm looking for?
         </h3>
         <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
           If you’ve received a letter about a VA debt, but don’t see the letter

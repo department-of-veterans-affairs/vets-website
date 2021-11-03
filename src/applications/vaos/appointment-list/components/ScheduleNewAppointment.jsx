@@ -12,7 +12,7 @@ export default function ScheduleNewAppointment() {
   return (
     <>
       <div className="vads-u-margin-bottom--1p5">
-        Primary and specialty care appointments are available
+        Schedule primary or specialty care appointments.
       </div>
 
       <button

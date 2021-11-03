@@ -33,42 +33,28 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
 
   it('should render retry status', () => {
     const tree = testPage(submissionStatuses.retry);
-    expect(
-      tree
-        .find('AlertBox')
-        .dive()
-        .text(),
-    ).to.contain("It's taking us longer than expected");
+    expect(tree.find('va-alert').text()).to.contain(
+      "It's taking us longer than expected",
+    );
     tree.unmount();
   });
   it('should render exhausted status', () => {
     const tree = testPage(submissionStatuses.exhausted);
-    expect(
-      tree
-        .find('AlertBox')
-        .dive()
-        .text(),
-    ).to.contain("It's taking us longer than expected");
+    expect(tree.find('va-alert').text()).to.contain(
+      "It's taking us longer than expected",
+    );
     tree.unmount();
   });
   it('should render apiFailure status', () => {
     const tree = testPage(submissionStatuses.apiFailure);
-    expect(
-      tree
-        .find('AlertBox')
-        .dive()
-        .text(),
-    ).to.contain("It's taking us longer than expected");
+    expect(tree.find('va-alert').text()).to.contain(
+      "It's taking us longer than expected",
+    );
     tree.unmount();
   });
   it('should render other status', () => {
     const tree = testPage(submissionStatuses.failed);
-    expect(
-      tree
-        .find('AlertBox')
-        .dive()
-        .text(),
-    ).to.contain('Something went wrong');
+    expect(tree.find('va-alert').text()).to.contain('Something went wrong');
     tree.unmount();
   });
 
@@ -84,7 +70,7 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
       />,
     );
     expect(tree.find('#note-email').text()).to.contain(
-      "We'll send you an email to confirm",
+      'We’ll send you an email to confirm',
     );
     tree.unmount();
   });

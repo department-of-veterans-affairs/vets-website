@@ -5,13 +5,14 @@ import { isReactComponent } from '../../../../utilities/ui';
  */
 
 export default function ReviewFieldTemplate(props) {
-  const { children, uiSchema, schema } = props;
+  const { children, uiSchema, schema, formContext } = props;
   const label = uiSchema['ui:title'] || props.label;
   const description = uiSchema['ui:description'];
   const textDescription = typeof description === 'string' ? description : null;
   const DescriptionField = isReactComponent(description)
     ? uiSchema['ui:description']
     : null;
+  const pageIndex = formContext?.pagePerItemIndex;
 
   if (schema.type === 'object' || schema.type === 'array') {
     return children;
@@ -44,7 +45,10 @@ export default function ReviewFieldTemplate(props) {
         {label}
         {textDescription && <p>{textDescription}</p>}
         {DescriptionField && (
-          <DescriptionField options={uiSchema['ui:options']} />
+          <DescriptionField
+            options={uiSchema['ui:options']}
+            index={pageIndex}
+          />
         )}
         {!textDescription && !DescriptionField && description}
       </dt>
