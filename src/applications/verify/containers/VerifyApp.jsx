@@ -4,9 +4,6 @@ import URLSearchParams from 'url-search-params';
 
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { loginGov } from 'platform/user/authentication/selectors';
@@ -121,13 +118,7 @@ export class VerifyApp extends React.Component {
                   </a>
                 </p>
                 <p>
-                  <SubmitSignInForm startSentence>
-                    Call the VA.gov Help Desk at{' '}
-                    <a href="tel:1-855-574-7286">855-574-7286</a>, TTY:{' '}
-                    <Telephone contact={CONTACTS.HELP_TTY} />
-                    <br />
-                    Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. ET
-                  </SubmitSignInForm>
+                  <SubmitSignInForm startSentence />
                 </p>
               </div>
             </div>

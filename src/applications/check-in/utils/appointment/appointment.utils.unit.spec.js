@@ -4,7 +4,10 @@ import {
   sortAppointmentsByStartTime,
   removeTimeZone,
 } from './index';
-import { createAppointment } from '../../api/local-mock-api/mocks/v2/patient.check.in.responses';
+import {
+  createAppointment,
+  createMultipleAppointments,
+} from '../../api/local-mock-api/mocks/v2/patient.check.in.responses';
 
 describe('check in', () => {
   describe('appointment navigation utils', () => {
@@ -20,12 +23,9 @@ describe('check in', () => {
           hasMoreAppointmentsToCheckInto(appointments, undefined),
         ).to.equal(false);
       });
-      it('returns true if selected Appointment is undefined and  more eligible appointments found', () => {
-        const appointments = [
-          createAppointment(),
-          createAppointment(),
-          createAppointment(),
-        ];
+      it('returns true if selected Appointment is undefined and more eligible appointments found', () => {
+        const response = createMultipleAppointments();
+        const { appointments } = response.payload;
 
         expect(
           hasMoreAppointmentsToCheckInto(appointments, undefined),
