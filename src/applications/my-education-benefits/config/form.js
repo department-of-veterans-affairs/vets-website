@@ -314,16 +314,6 @@ function givingUpBenefitSelected(formData) {
 function notGivingUpBenefitSelected(formData) {
   return !givingUpBenefitSelected(formData);
 }
-
-const renderEnums = () => {
-  return {
-    Email: { 'data-info': 'email' },
-    'Mobile phone': { 'data-info': 'mobile phone' },
-    'Home phone': { 'data-info': 'home phone' },
-    Mail: { 'data-info': 'mail' },
-  };
-};
-
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -763,9 +753,6 @@ const formConfig = {
                 'ui:title':
                   'How should we contact you if we have questions about your application?',
                 'ui:widget': DynamicRadioWidget,
-                'ui:options': {
-                  widgetProps: renderEnums,
-                },
                 'ui:errorMessages': {
                   required:
                     'Please select at least one way we can contact you.',
@@ -897,10 +884,10 @@ const formConfig = {
               },
               'view:contactMethod': {
                 type: 'object',
+                required: [formFields.contactMethod],
                 properties: {
                   [formFields.contactMethod]: {
                     type: 'string',
-                    enum: ['Email', 'Mobile phone', 'Home phone', 'Mail'],
                   },
                 },
               },
