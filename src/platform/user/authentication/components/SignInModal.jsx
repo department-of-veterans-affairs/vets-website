@@ -42,7 +42,7 @@ export class SignInModal extends React.Component {
   }
 
   authVersion() {
-    return this.props.useSSOe && 'v1';
+    return 'v1';
   }
 
   loginHandler = loginType => () => {
