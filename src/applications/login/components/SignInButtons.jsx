@@ -17,7 +17,7 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
       {loginGovEnabled && (
         <button
           disabled={isDisabled}
-          type="button"
+          type="link"
           className="usa-button usa-button-big logingov-button vads-u-margin-y--1p5"
           onClick={() => loginHandler('logingov')}
         >
@@ -29,7 +29,7 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
       )}
       <button
         disabled={isDisabled}
-        type="button"
+        type="link"
         className="usa-button usa-button-big idme-button vads-u-margin-y--1p5"
         onClick={() => loginHandler('idme')}
       >
@@ -40,7 +40,7 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
       </button>
       <button
         disabled={isDisabled}
-        type="button"
+        type="link"
         className="usa-button usa-button-big dslogon-button vads-u-margin-y--1p5"
         onClick={() => loginHandler('dslogon')}
       >
@@ -48,7 +48,7 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
       </button>
       <button
         disabled={isDisabled}
-        type="button"
+        type="link"
         className="usa-button usa-button-big mhv-button vads-u-margin-y--1p5"
         onClick={() => loginHandler('mhv')}
       >
@@ -59,7 +59,9 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
         <div className="vads-u-display--flex vads-u-flex-direction--column">
           {loginGovEnabled && (
             <a
-              aria-label=""
+              role="link"
+              tabIndex="0"
+              aria-label="Create an account on the Login.gov website"
               disabled={isDisabled}
               className="vads-c-action-link--blue vads-u-border-top--1px vads-u-padding-bottom--2"
               onClick={() =>
@@ -70,7 +72,9 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
             </a>
           )}
           <a
-            aria-label=""
+            role="link"
+            tabIndex="0"
+            aria-label="Create an account on the ID.me website"
             disabled={isDisabled}
             className="vads-c-action-link--blue vads-u-border-top--1px vads-u-padding-bottom--2 vads-u-border-bottom--1px"
             onClick={() =>

@@ -119,7 +119,7 @@ class SignInPage extends React.Component {
                 .
               </p>
               <p>
-                <SubmitSignInForm startSentence />. We're here 24/7.
+                <SubmitSignInForm startSentence /> We're here 24/7.
               </p>
             </div>
             <FedWarning />

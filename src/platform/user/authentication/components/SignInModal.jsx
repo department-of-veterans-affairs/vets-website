@@ -131,7 +131,7 @@ export class SignInModal extends React.Component {
   };
 
   renderModalContent = ({ globalDowntime }) => (
-    <main className="login">
+    <section className="login">
       <div className="row">
         <div className="columns">
           <div className="logo">
@@ -156,7 +156,7 @@ export class SignInModal extends React.Component {
               {this.props.loginGovEnabled && (
                 <button
                   disabled={globalDowntime}
-                  type="button"
+                  type="link"
                   className="usa-button usa-button-big logingov-button vads-u-margin-y--1p5"
                   onClick={this.loginHandler('logingov')}
                 >
@@ -168,7 +168,7 @@ export class SignInModal extends React.Component {
               )}
               <button
                 disabled={globalDowntime}
-                type="button"
+                type="link"
                 className="usa-button usa-button-big idme-button vads-u-margin-y--1p5"
                 onClick={this.loginHandler('idme')}
               >
@@ -179,18 +179,20 @@ export class SignInModal extends React.Component {
               </button>
               <button
                 disabled={globalDowntime}
-                type="button"
+                type="link"
                 className="usa-button usa-button-big dslogon-button vads-u-margin-y--1p5"
                 onClick={this.loginHandler('dslogon')}
               >
+                <span className="sr-only">Sign in with DS Logon</span>
                 DS Logon
               </button>
               <button
                 disabled={globalDowntime}
-                type="button"
+                type="link"
                 className="usa-button usa-button-big mhv-button vads-u-margin-y--1p5"
                 onClick={this.loginHandler('mhv')}
               >
+                <span className="sr-only">Sign in with My HealtheVet</span>
                 My HealtheVet
               </button>
               <div className="alternate-signin">
@@ -198,6 +200,7 @@ export class SignInModal extends React.Component {
                 <div className="vads-u-display--flex vads-u-flex-direction--column">
                   {this.props.loginGovEnabled && (
                     <a
+                      role="button"
                       aria-label="Navigate to Login.gov website"
                       disabled={globalDowntime}
                       className="vads-c-action-link--blue vads-u-border-top--1px vads-u-padding-bottom--2"
@@ -207,6 +210,7 @@ export class SignInModal extends React.Component {
                     </a>
                   )}
                   <a
+                    role="link"
                     aria-label="Navigate to ID.me website"
                     disabled={globalDowntime}
                     className="vads-c-action-link--blue vads-u-border-top--1px vads-u-padding-bottom--2 vads-u-border-bottom--1px"
@@ -254,7 +258,7 @@ export class SignInModal extends React.Component {
           </div>
         </div>
       </div>
-    </main>
+    </section>
   );
 
   render() {
