@@ -31,7 +31,6 @@ jobs:
       max-parallel: 8
       matrix:
           rootUrl: ${{ fromJson(needs.job1.outputs.rootUrls) }}
-          template: ${{ fromJson(needs.job1.outputs.template) }}
 
     steps:
       - name: Checkout
@@ -62,7 +61,6 @@ jobs:
 
       - name: Audit URLs using Lighthouse on ${{ matrix.rootUrl }}
         id: lighthouse-checks
-        if: ${{ matrix.template.vagovprod != false }}
         uses: treosh/lighthouse-ci-action@v8
         with:
           urls: |
