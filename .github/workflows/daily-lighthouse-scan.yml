@@ -23,7 +23,7 @@ jobs:
       - id: set-matrix
         run: |
           JSON=$(cat ./content-build/src/applications/registry.json)
-          echo "::set-output name=matrix::${JSON//'%'/'%25'}"
+          echo ::set-output name=matrix::${JSON//'%'/'%25'}
           MATRIX_PARAMS_COMBINATIONS='
               {
               "appName": "COVID-19 screener",
