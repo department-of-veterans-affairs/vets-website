@@ -177,7 +177,6 @@ describe('IntroductionPage', () => {
     setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const props = {
       ...defaultProps,
-      isProduction: true,
       loggedIn: true,
       contestableIssues: {
         issues: [{}],
@@ -191,27 +190,6 @@ describe('IntroductionPage', () => {
     expect(loading.props().message).to.contain(
       'Loading your previous decisions',
     );
-    tree.unmount();
-  });
-
-  // Wizard
-  it('should render wizard', () => {
-    removeHlrWizardStatus();
-    const props = {
-      ...defaultProps,
-      isProduction: true,
-      contestableIssues: {
-        issues: [{}],
-        status: 'done',
-        error: '',
-      },
-    };
-
-    const tree = shallow(<IntroductionPage {...props} />);
-    expect(tree.find('Connect(WizardContainer)')).to.have.lengthOf(1);
-    expect(
-      tree.find('withRouter(Connect(SaveInProgressIntro))'),
-    ).to.have.lengthOf(0);
     tree.unmount();
   });
 });

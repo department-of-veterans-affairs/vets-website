@@ -12,7 +12,6 @@ import UpdateInformationQuestion from './pages/UpdateInformationQuestion';
 import ValidateVeteran from './pages/ValidateVeteran';
 
 import withFeatureFlip from './containers/withFeatureFlip';
-import withAppointmentData from './containers/withAppointmentData';
 import withLoadedData from './containers/withLoadedData';
 import withSession from './containers/withSession';
 import withToken from './containers/withToken';
@@ -46,11 +45,11 @@ const createRoutesWithStore = () => {
       />
       <Route
         path={`/${URLS.COMPLETE}`}
-        component={withFeatureFlip(withAppointmentData(Confirmation))}
+        component={withFeatureFlip(withLoadedData(withSession(Confirmation)))}
       />
       <Route
         path={`/${URLS.SEE_STAFF}`}
-        component={withFeatureFlip(withAppointmentData(SeeStaff))}
+        component={withFeatureFlip(withLoadedData(withSession(SeeStaff)))}
       />
       <Route path={`/${URLS.ERROR}`} component={withFeatureFlip(Error)} />
     </Switch>

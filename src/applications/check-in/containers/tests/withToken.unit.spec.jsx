@@ -32,7 +32,43 @@ describe('check-in', () => {
       expect(withRequired.getByTestId('data')).to.have.text('magic');
     });
 
-    it('shows the returns nothing if the data is not in the store and not in session', () => {
+    it('redirects to the landing page if the context is unavailable and session data is available', () => {
+      const middleware = [];
+      const mockStore = configureStore(middleware);
+      const initState = {
+        checkInData: {
+          context: {},
+        },
+      };
+      const store = mockStore(initState);
+
+      const push = sinon.spy();
+      const mockRouter = {
+        push,
+        params: {
+          token: 'token-123',
+        },
+      };
+
+      window.sessionStorage.setItem(
+        'health.care.check-in.current.uuid',
+        '{"token":"test-uuid"}',
+      );
+
+      const Test = withToken(() => <span data-testid="data">magic</span>);
+      render(
+        <Provider store={store}>
+          <Test router={mockRouter} />
+        </Provider>,
+      );
+      expect(push.called).to.be.true;
+      expect(push.lastCall.args[0]).to.deep.equal({
+        pathname: '',
+        search: '?id=test-uuid',
+      });
+    });
+
+    it('shows nothing if the data is not in the store and not in session', () => {
       const middleware = [];
       const mockStore = configureStore(middleware);
       const initState = {

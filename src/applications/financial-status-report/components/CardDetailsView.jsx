@@ -4,7 +4,7 @@ import toLower from 'lodash/toLower';
 import moment from 'moment';
 import { currency } from '../utils/helpers';
 
-const CardDetailsView = ({ formData, onEdit, index, title }) => {
+const CardDetailsView = ({ formData, onEdit, title }) => {
   if (!formData) return <div>no data</div>;
 
   const keys = Object.keys(formData);
@@ -115,8 +115,9 @@ const CardDetailsView = ({ formData, onEdit, index, title }) => {
         <div className="edit-item-container">
           <button
             className="usa-button-secondary vads-u-flex--auto"
-            onClick={e => onEdit(e, index)}
+            onClick={() => onEdit()}
             aria-label={`Edit ${title}`}
+            type="button"
           >
             Edit
           </button>

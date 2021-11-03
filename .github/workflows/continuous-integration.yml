@@ -131,12 +131,14 @@ jobs:
 
       - name: Publish test results
         if: ${{ always() }}
+        continue-on-error: true
         uses: mikepenz/action-junit-report@v2.6.0
         with:
           check_name: 'Unit Tests Summary'
           github_token: ${{ secrets.GITHUB_TOKEN }}
           report_paths: 'test-results/unit-tests.xml'
           summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
+          fail_on_failure: 'true'
 
   contract-tests:
     name: Contract Tests
@@ -262,6 +264,7 @@ jobs:
   testing-reports-prep:
     name: Testing Reports Prep
     runs-on: ubuntu-latest
+    continue-on-error: true
     outputs:
       app_list: ${{ env.APPLICATION_LIST }}
     steps:
@@ -526,7 +529,6 @@ jobs:
           repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           path: testing-tools-team-dashboard-data
-          ref: master
 
       # TODO: Set .nvmrc in testing-tools-team-dashboard-data.
       # - name: Get Node version
@@ -586,10 +588,10 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: contract-test-report
-          path: testing-tools-team-dashboard-data/src/contract/data
+          path: testing-tools-team-dashboard-data/src/testing-reports/data
 
       - name: Upload Contract Test report to s3
-        run: aws s3 cp testing-tools-team-dashboard-data/src/contract/data/mochawesome.html s3://testing-tools-testing-reports/vets-website-contract-test-reports/${{env.UUID}}.html --acl public-read --region us-gov-west-1
+        run: aws s3 cp testing-tools-team-dashboard-data/src/testing-reports/data/mochawesome.html s3://testing-tools-testing-reports/vets-website-contract-test-reports/${{env.UUID}}.html --acl public-read --region us-gov-west-1
 
       - name: Create Contract Test report and post results to BigQuery
         run: yarn contract-mochawesome-to-bigquery
@@ -721,7 +723,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: cypress-mochawesome-test-results
-          path: testing-tools-team-dashboard-data/src/mochawesome/data
+          path: testing-tools-team-dashboard-data/src/testing-reports/data
 
       - name: Download Cypress E2E video artifacts
         if: ${{ needs.cypress-tests.result == 'failure' }}
@@ -772,7 +774,7 @@ jobs:
       matrix:
         buildtype: [vagovdev, vagovstaging]
 
-    needs: [cypress-tests, unit-tests, contract-tests, security-audit, linting]
+    needs: [build, cypress-tests, unit-tests, contract-tests, security-audit, linting]
 
     # Archive should still run even when linting is skipped (as in PRs).
     # This if overrides the dependency on linting success to include skipped.

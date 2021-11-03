@@ -1,5 +1,23 @@
 # VA.gov ![Build Status](https://github.com/department-of-veterans-affairs/vets-website/actions/workflows/continuous-integration.yml/badge.svg?branch=master)
 
+## Table of Contents
+
+- [What is this?](#what-is-this)
+- [Common commands](#common-commands)
+- [Building `vets-website`](#building-vets-website)
+  - [Building applications](#building-applications)
+  - [Building static content](#building-static-content)
+  - [Building both together](#building-both-together)
+- [Working in GitHub Codespaces](#working-in-github-codespaces)
+- [Running tests](#running-tests)
+  - [Unit tests](#unit-tests)
+  - [End-to-end (E2E) / Browser tests](#end-to-end-e2e--browser-tests)
+  - [Contract tests](#contract-tests)
+- [Running a mock API for local development](#running-a-mock-api-for-local-development)
+- [More commands](#more-commands)
+- [Supported Browsers](#supported-browsers)
+- [Additional Resources](#additional-resources)
+
 ## What is this?
 
 This is the front end repository for VA.gov. It contains application code used across the site.

@@ -323,7 +323,7 @@ const mapDispatchToProps = {
   dispatchFetchCompareDetails: fetchCompareDetails,
   dispatchFetchProfile: fetchProfile,
   dispatchRemoveCompareInstitution: removeCompareInstitution,
-  dispatchSetPageTitle: setPageTitle,
+  setPageTitle,
   dispatchShowModal: showModal,
   dispatchHideModal: hideModal,
 };

@@ -12,30 +12,6 @@ import Error from '../Error';
 
 describe('check-in', () => {
   describe('Error component', () => {
-    it('renders with the phone number', () => {
-      const middleware = [];
-      const mockStore = configureStore(middleware);
-      const initState = {
-        checkInData: {
-          appointment: {
-            clinicPhoneNumber: '555-123-1234',
-            startTime: '2021-07-19T13:56:31',
-            facilityName: 'Acme VA',
-            clinicName: 'Green Team Clinic1',
-          },
-        },
-      };
-      const store = mockStore(initState);
-      const component = render(
-        <Provider store={store}>
-          <Error />
-        </Provider>,
-      );
-      expect(component.getByTestId('error-message')).to.exist;
-      expect(component.getByTestId('error-message')).to.have.text(
-        'We’re sorry. Something went wrong on our end. Check in with a staff member or call us at 555-123-1234.',
-      );
-    });
     it('renders without the phone number', () => {
       const middleware = [];
       const mockStore = configureStore(middleware);

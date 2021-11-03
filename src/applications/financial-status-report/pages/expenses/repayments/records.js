@@ -18,7 +18,6 @@ export const uiSchema = {
     'ui:options': {
       viewField: CardDetailsView,
       doNotScroll: true,
-      showSave: true,
       itemName: 'installment or other debt',
       keepInPageOnReview: true,
     },

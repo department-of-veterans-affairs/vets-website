@@ -1,16 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
+import { useSelector } from 'react-redux';
+
 import { goToNextPage, URLS } from '../utils/navigation';
 import { getCurrentToken } from '../utils/session';
+import { makeSelectCheckInData } from '../hooks/selectors';
 
 const withToken = Component => {
   const Wrapped = ({ ...props }) => {
-    const { checkInData, router } = props;
+    const { router } = props;
+    const selectCheckInData = useMemo(makeSelectCheckInData, []);
+    const checkInData = useSelector(selectCheckInData);
     const { context } = checkInData;
     const shouldRedirect = !context || !context.token;
-
     useEffect(
       () => {
         if (shouldRedirect) {
@@ -43,13 +45,4 @@ const withToken = Component => {
   return Wrapped;
 };
 
-const mapStateToProps = state => ({
-  checkInData: state.checkInData,
-});
-
-const composedWrapper = compose(
-  connect(mapStateToProps),
-  withToken,
-);
-
-export default composedWrapper;
+export default withToken;
