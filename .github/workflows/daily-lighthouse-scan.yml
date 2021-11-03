@@ -37,7 +37,7 @@ jobs:
               }
             }
           '
-          echo ::set-output name=appNames::{\"include\":[$(cat ./content-build/src/applications/registry.json)]}
+          echo ::set-output name=appNames::{\"include\":$(cat ./content-build/src/applications/registry.json)}
       - name: test matrix
         run: echo ${{ steps.set-matrix.outputs.matrix }}
       - name: test appName
