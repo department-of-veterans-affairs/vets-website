@@ -12,7 +12,7 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      matrix: ${{ steps.set-matrix.outputs.registry_matrix }}
       appNames: ${{ steps.set-matrix.outputs.appNames }}
     steps:
       - uses: actions/checkout@master
@@ -23,7 +23,7 @@ jobs:
       - id: set-matrix
         run: |
           JSON=$(cat ./content-build/src/applications/registry.json)
-          echo "::set-output name=matrix::${JSON//'%'/'%25'}"
+          echo "::set-output name=registry_matrix::${JSON//'%'/'%25'}"
           MATRIX_PARAMS_COMBINATIONS='
               {
               "appName": "COVID-19 screener",
@@ -39,7 +39,7 @@ jobs:
           '
           echo ::set-output name=appNames::{\"include\":[$MATRIX_PARAMS_COMBINATIONS]}
       - name: test matrix
-        run: echo ${{ steps.set-matrix.outputs.matrix }}
+        run: echo ${{ steps.set-matrix.outputs.registry_matrix }}
       - name: test appName
         run: echo ${{ steps.set-matrix.outputs.appNames }}
 
