@@ -31,9 +31,8 @@ jobs:
     strategy:
       fail-fast: false
       max-parallel: 8
-      matrix:
+      matrix: ${{fromJson(needs.set-app-matrix.outputs.matrix)}}
         # appName: ['/covid19screen', '/verify', '/pension/application/527EZ']
-        appName: ${{fromJson(needs.set-app-matrix.outputs.matrix)}}
 
     steps:
       - run: echo ${{fromJson(needs.set-app-matrix.outputs.matrix).rootUrl}}
@@ -91,19 +90,19 @@ jobs:
       - name: Where am i?
         run: pwd && ls && cd ./content-build/src/applications && ls && pwd
 
-      - name: Audit URLs using Lighthouse on ${{ matrix.appName }}
+      - name: Audit URLs using Lighthouse on ${{ matrix.rootUrl }}
         id: lighthouse-checks
         uses: treosh/lighthouse-ci-action@v8
         with:
           urls: |
-            https://va.gov${{ matrix.appName }}
+            https://va.gov${{ matrix.rootUrl }}
           uploadArtifacts: true # save results as an action artifacts
 
       - name: Upload lighthouse report (JSON)
-        run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/archive${{ matrix.appName }}.json --acl public-read --region us-gov-west-1
+        run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/archive${{ matrix.rootUrl }}.json --acl public-read --region us-gov-west-1
 
       - name: Upload lighthouse report (HTML)
-        run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/archive${{ matrix.appName }}.html --acl public-read --region us-gov-west-1
+        run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/archive${{ matrix.rootUrl }}.html --acl public-read --region us-gov-west-1
 
       # - name: Notify Slack
       #   if: ${{ always() }}
