@@ -24,7 +24,20 @@ jobs:
         run: |
           JSON=$(cat ./content-build/src/applications/registry.json)
           echo "::set-output name=matrix::${JSON//'%'/'%25'}"
-          echo "::set-output name=appNames::{\"include\":[$JSON]}"
+          MATRIX_PARAMS_COMBINATIONS='
+              {
+              "appName": "COVID-19 screener",
+              "entryName": "covid19screen",
+              "rootUrl": "/covid19screen",
+              "template": {
+                "title": "COVID-19 screening tool",
+                "layout": "page-react.html",
+                "private": true,
+                "vagovprod": true
+              }
+            }
+          '
+          echo ::set-output name=matrix-combinations::{\"include\":[$MATRIX_PARAMS_COMBINATIONS]}
 
   lighthouse:
     needs: job1
@@ -32,7 +45,7 @@ jobs:
     strategy:
       fail-fast: false
       max-parallel: 8
-      matrix: ${{fromJson(needs.job1.outputs.appNames)}}
+      matrix: ${{ fromJson(needs.job1.outputs.appNames) }}
         # appName: ['/covid19screen', '/verify', '/pension/application/527EZ']
 
     steps:
