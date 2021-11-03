@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -8,12 +8,10 @@ import HowToApplyPost911GiBill from '../components/HowToApplyPost911GiBill';
 import { connect } from 'react-redux';
 import { fetchUser } from '../selectors/userDispatch';
 
-import formConfig from '../../edu-benefits/1990/config/form';
-import routes from '../../edu-benefits/1990/routes';
 import environment from 'platform/utilities/environment';
 
 export const IntroductionPage = ({ user, route }) => {
-  const handleErrors = response => {
+  const handleFetchErrors = async response => {
     if (!response.ok && response.status === 404) {
       window.location.href =
         '/education/apply-for-education-benefits/application/1990/';
@@ -21,14 +19,12 @@ export const IntroductionPage = ({ user, route }) => {
     return response;
   };
 
-  const fetchEligibility = () =>
+  const checkClaimantIfExists = async () =>
     fetch(`${environment.API_URL}/meb_api/v0/claimant_info`)
-      .then(response => handleErrors(response))
-      .then(res => res)
+      .then(response => handleFetchErrors(response))
       .catch(err => err);
 
-  const [isEligible] = useState(fetchEligibility);
-  const [continueOrRedirect, setCourse] = useState(
+  const SaveInProgressComponent = (
     <SaveInProgressIntro
       testActionLink
       user={user}
@@ -37,44 +33,17 @@ export const IntroductionPage = ({ user, route }) => {
       pageList={route.pageList}
       hideUnauthedStartLink
       startText="Start the education application"
-    />,
+    />
   );
 
   useEffect(
     () => {
       focusElement('.va-nav-breadcrumbs-list');
-      try {
-        isEligible.then(res => {
-          if (user.login.currentlyLoggedIn && !res) {
-            const { prefillEnabled, savedFormMessages } = formConfig;
-            const pageList = routes[0].childRoutes[0].pageList;
-            pageList[0].path =
-              '/education/apply-for-education-benefits/application/1990/introduction';
-
-            pageList.splice(1, 0, {
-              path:
-                '/education/apply-for-education-benefits/application/1990/applicant/information',
-            });
-            setCourse(
-              <SaveInProgressIntro
-                formId="1990"
-                // pathname="loca/education/apply-for-education-benefits/application/1990/introduction"
-                prefillEnabled={prefillEnabled}
-                messages={savedFormMessages}
-                pageList={pageList}
-                testActionLink
-                user={user}
-                hideUnauthedStartLink
-                startText="Start the education application"
-              />,
-            );
-          }
-        });
-      } catch (err) {
-        isEligible.then(r => r);
+      if (user.login.currentlyLoggedIn) {
+        checkClaimantIfExists().then(res => res);
       }
     },
-    [user?.login?.currentlyLoggedIn, isEligible],
+    [user?.login?.currentlyLoggedIn, checkClaimantIfExists],
   );
 
   return (
@@ -82,7 +51,7 @@ export const IntroductionPage = ({ user, route }) => {
       <FormTitle title="Apply for VA education benefits" />
       <p>Equal to VA Form 22-1990 (Application for VA Education Benefits)</p>
       <HowToApplyPost911GiBill />
-      {continueOrRedirect}
+      {SaveInProgressComponent}
       <h4>Follow the steps below to apply for my education benefits.</h4>
       <div className="process schemaform-process">
         <ol>
@@ -146,7 +115,7 @@ export const IntroductionPage = ({ user, route }) => {
           </li>
         </ol>
       </div>
-      {continueOrRedirect}
+      {SaveInProgressComponent}
       <div
         className="omb-info--container"
         style={{ marginTop: '1rem', paddingLeft: '0px' }}
