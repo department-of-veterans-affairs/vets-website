@@ -37,7 +37,11 @@ jobs:
               }
             }
           '
-          echo ::set-output name=appNames::{\"include\":[$JSON]}
+          echo ::set-output name=appNames::{\"include\":[$MATRIX_PARAMS_COMBINATIONS]}
+      - name: test matrix
+        run: echo ${{ steps.set-matrix.outputs.matrix }}
+      - name: test appName
+        run: echo ${{ steps.set-matrix.outputs.appNames }}
 
   lighthouse:
     needs: job1
