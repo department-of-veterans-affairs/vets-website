@@ -11,8 +11,9 @@ const mockSession = {
 const mockPatientCheckIns = {
   v2: mockPatientCheckInsV2,
 };
+
 const defaultAPIVersion = 'v2';
-const defaultUUID = '46bebc0a-b99c-464f-a5c5-560bc9eae287';
+const defaultUUID = mockPatientCheckIns[defaultAPIVersion].defaultUUID;
 
 Cypress.Commands.add('authenticate', (version = defaultAPIVersion) => {
   cy.intercept('GET', `/check_in/${version}/sessions/*`, req => {
@@ -50,7 +51,7 @@ Cypress.Commands.add(
   'getAppointments',
   (
     appointments = null,
-    token = null,
+    token = defaultUUID,
     numberOfCheckInAbledAppointments = 2,
     version = defaultAPIVersion,
   ) => {
@@ -80,7 +81,10 @@ Cypress.Commands.add(
 );
 Cypress.Commands.add('getSingleAppointment', (version = defaultAPIVersion) => {
   cy.intercept('GET', `/check_in/${version}/patient_check_ins/*`, req => {
-    const rv = mockPatientCheckIns[version].createMultipleAppointments({}, 1);
+    const rv = mockPatientCheckIns[version].createMultipleAppointments(
+      defaultUUID,
+      1,
+    );
     req.reply(rv);
   });
   cy.intercept('POST', `/check_in/${version}/patient_check_ins/`, req => {
