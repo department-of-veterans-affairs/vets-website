@@ -227,7 +227,6 @@ const formConfig = {
           title: 'Upload your discharge papers',
           path: 'military-service/documents',
           depends: formData => {
-            console.log(formData, `--> formData`);
             return formData['view:isUserInMvi'];
           },
           editModeOnReviewPage: true,
