@@ -112,7 +112,7 @@ describe('DirectDepositCNP', () => {
 
   const ui = (
     <MemoryRouter>
-      <BankInfo type={benefitTypes.CNP} setFormIsEmpty={() => {}} />
+      <BankInfo type={benefitTypes.CNP} setFormIsDirty={() => {}} />
     </MemoryRouter>
   );
 

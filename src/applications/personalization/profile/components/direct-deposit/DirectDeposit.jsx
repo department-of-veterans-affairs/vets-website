@@ -67,11 +67,11 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
     setRecentlySavedBankInfoForBenefit,
   ] = React.useState('');
 
-  const [cnpFormIsEmpty, setCnpFormIsEmpty] = React.useState(false);
+  const [cnpFormIsDirty, setCnpFormIsDirty] = React.useState(false);
 
-  const [eduFormIsEmpty, setEduFormIsEmpty] = React.useState(false);
+  const [eduFormIsDirty, setEduFormIsDirty] = React.useState(false);
 
-  const allFormsAreEmpty = eduFormIsEmpty && cnpFormIsEmpty;
+  const allFormsAreEmpty = eduFormIsDirty && cnpFormIsDirty;
 
   const isSavingCNPBankInfo = cnpUiState.isSaving;
   const wasSavingCNPBankInfo = usePrevious(cnpUiState.isSaving);
@@ -184,7 +184,7 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
         >
           <BankInfo
             type={benefitTypes.CNP}
-            setFormIsEmpty={setCnpFormIsEmpty}
+            setFormIsDirty={setCnpFormIsDirty}
           />
         </DowntimeNotification>
       ) : (
@@ -195,7 +195,7 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
         <>
           <BankInfo
             type={benefitTypes.EDU}
-            setFormIsEmpty={setEduFormIsEmpty}
+            setFormIsDirty={setEduFormIsDirty}
           />
           <PaymentHistory />
         </>

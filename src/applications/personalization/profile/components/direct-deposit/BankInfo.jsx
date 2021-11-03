@@ -55,7 +55,7 @@ export const BankInfo = ({
   toggleEditState,
   type,
   typeIsCNP,
-  setFormIsEmpty,
+  setFormIsDirty,
 }) => {
   const formPrefix = type;
   const editBankInfoButton = useRef();
@@ -84,7 +84,7 @@ export const BankInfo = ({
 
   useEffect(
     () => {
-      setFormIsEmpty(isEmptyForm);
+      setFormIsDirty(isEmptyForm);
     },
     [isEmptyForm],
   );
@@ -432,7 +432,7 @@ BankInfo.propTypes = {
   saveBankInformation: PropTypes.func.isRequired,
   toggleEditState: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
-  setFormIsEmpty: PropTypes.func.isRequired,
+  setFormIsDirty: PropTypes.func.isRequired,
 };
 
 export const mapStateToProps = (state, ownProps) => {
