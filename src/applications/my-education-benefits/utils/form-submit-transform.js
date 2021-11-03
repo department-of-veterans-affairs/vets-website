@@ -254,6 +254,13 @@ export function getLTSCountryCode(schemaCountryValue) {
   return country?.ltsValue ? country.ltsValue : 'ZZ'; // ZZ is LTS code for unknown
 }
 
+export function getSchemaCountryCode(ltsCountryValue) {
+  const country = countries.find(countryInfo => {
+    return countryInfo.ltsValue === ltsCountryValue;
+  });
+  return country?.schemaValue ? country.schemaValue : undefined;
+}
+
 export function getAddressType(mailingAddress) {
   if (mailingAddress) {
     if (

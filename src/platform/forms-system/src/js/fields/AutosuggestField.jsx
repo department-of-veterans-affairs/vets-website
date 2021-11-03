@@ -208,6 +208,28 @@ export default class AutosuggestField extends React.Component {
     const { idSchema, formContext, formData, uiSchema, schema } = this.props;
     const id = idSchema.$id;
 
+    // wrap matching text in a <span> element
+    const highlightText = uiSchema['ui:options']?.highlightText ?? true;
+    const value = this.state.input?.toLowerCase() || '';
+    const caseInsensitiveMatch = new RegExp(`(${value})`, 'i');
+    const highLightMatchingText = query => {
+      if (value.length > 2) {
+        return query
+          .split(caseInsensitiveMatch)
+          .map(
+            str =>
+              str.toLowerCase() === value ? (
+                <span className="vads-u-background-color--gold autosuggest-highlight">
+                  {str}
+                </span>
+              ) : (
+                str
+              ),
+          );
+      }
+      return query;
+    };
+
     if (formContext.reviewMode) {
       const readOnlyData = <span>{getInput(formData, uiSchema, schema)}</span>;
 
@@ -273,7 +295,9 @@ export default class AutosuggestField extends React.Component {
                     })}
                     key={item.id}
                   >
-                    {item.label}
+                    {highlightText
+                      ? highLightMatchingText(item.label)
+                      : item.label}
                   </div>
                 ))}
               </div>
