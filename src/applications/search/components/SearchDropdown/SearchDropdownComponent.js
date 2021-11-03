@@ -34,6 +34,10 @@ class SearchDropdownComponent extends React.Component {
      * */
     canSubmit: PropTypes.bool,
     /**
+     * A string value that will be prepended on each ID
+     * */
+    className: PropTypes.string,
+    /**
      * the debounce rate at which to fetch suggestions
      * */
     debounceRate: PropTypes.number,
