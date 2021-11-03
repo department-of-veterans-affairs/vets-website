@@ -9,7 +9,7 @@ env:
   CHANNEL_ID: C02A8S3JPNZ
 
 jobs:
-  set-app-matrix:
+  job1:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
@@ -19,23 +19,22 @@ jobs:
           repository: department-of-veterans-affairs/content-build
           ref: refs/heads/master
           path: ./content-build
-
-      - name: set matrix
-        id: set-matrix
+      - id: set-matrix
         run: |
           JSON=$(cat ./content-build/src/applications/registry.json)
           echo "::set-output name=matrix::${JSON//'%'/'%25'}"
 
   lighthouse:
+    needs: job1
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       max-parallel: 8
-      matrix: ${{fromJson(needs.set-app-matrix.outputs.matrix)}}
+      matrix: ${{fromJson(needs.job1.outputs.matrix)}}
         # appName: ['/covid19screen', '/verify', '/pension/application/527EZ']
 
     steps:
-      - run: echo ${{fromJson(needs.set-app-matrix.outputs.matrix).rootUrl}}
+      - run: echo ${{fromJson(needs.job1.outputs.matrix).rootUrl}}
   
       - name: Configure AWS credentials (1)
         uses: aws-actions/configure-aws-credentials@v1
