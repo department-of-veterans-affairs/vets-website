@@ -2,11 +2,11 @@
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { MHV_ACCOUNT_TYPES } from './constants';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
-import { rootUrl as addRemoveDependentsUrl } from 'applications/disability-benefits/686c-674/manifest.json';
-import { rootUrl as hearingAidSuppliesUrl } from 'applications/disability-benefits/2346/manifest.json';
-import { rootUrl as higherLevelReviewUrl } from 'applications/disability-benefits/996/manifest.json';
-import { rootUrl as viewDependentsUrl } from 'applications/personalization/view-dependents/manifest.json';
-import { rootUrl as viewPaymentHistoryUrl } from 'applications/disability-benefits/view-payments/manifest.json';
+import constants686c from 'applications/disability-benefits/686c-674/manifest.json';
+import constants236 from 'applications/disability-benefits/2346/manifest.json';
+import constants996 from 'applications/disability-benefits/996/manifest.json';
+import constantsViewDependents from 'applications/personalization/view-dependents/manifest.json';
+import constantsViewPayments from 'applications/disability-benefits/view-payments/manifest.json';
 
 export const CTA_WIDGET_TYPES = {
   ADD_REMOVE_DEPENDENTS: 'add-remove-dependents',
@@ -37,7 +37,7 @@ export const ctaWidgetsLookup = {
   [CTA_WIDGET_TYPES.ADD_REMOVE_DEPENDENTS]: {
     id: CTA_WIDGET_TYPES.ADD_REMOVE_DEPENDENTS,
     deriveToolUrlDetails: () => ({
-      url: addRemoveDependentsUrl,
+      url: constants686c.rootUrl,
       redirect: false,
     }),
     hasRequiredMhvAccount: () => false,
@@ -134,7 +134,7 @@ export const ctaWidgetsLookup = {
   [CTA_WIDGET_TYPES.HEARING_AID_SUPPLIES]: {
     id: CTA_WIDGET_TYPES.HEARING_AID_SUPPLIES,
     deriveToolUrlDetails: () => ({
-      url: hearingAidSuppliesUrl,
+      url: constants236.rootUrl,
       redirect: false,
     }),
     hasRequiredMhvAccount: () => false,
@@ -146,7 +146,7 @@ export const ctaWidgetsLookup = {
   [CTA_WIDGET_TYPES.HIGHER_LEVEL_REVIEW]: {
     id: CTA_WIDGET_TYPES.HIGHER_LEVEL_REVIEW,
     deriveToolUrlDetails: () => ({
-      url: higherLevelReviewUrl,
+      url: constants996.rootUrl,
       redirect: false,
     }),
     isHealthTool: false,
@@ -270,7 +270,10 @@ export const ctaWidgetsLookup = {
   },
   [CTA_WIDGET_TYPES.VIEW_DEPENDENTS]: {
     id: CTA_WIDGET_TYPES.VIEW_DEPENDENTS,
-    deriveToolUrlDetails: () => ({ url: viewDependentsUrl, redirect: false }),
+    deriveToolUrlDetails: () => ({
+      url: constantsViewDependents.rootUrl,
+      redirect: false,
+    }),
     hasRequiredMhvAccount: () => false,
     isHealthTool: false,
     mhvToolName: null,
@@ -280,7 +283,7 @@ export const ctaWidgetsLookup = {
   [CTA_WIDGET_TYPES.VIEW_PAYMENT_HISTORY]: {
     id: CTA_WIDGET_TYPES.VIEW_PAYMENT_HISTORY,
     deriveToolUrlDetails: () => ({
-      url: viewPaymentHistoryUrl,
+      url: constantsViewPayments.rootUrl,
       redirect: false,
     }),
     hasRequiredMhvAccount: () => false,

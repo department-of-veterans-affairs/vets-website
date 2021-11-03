@@ -10,13 +10,7 @@ describe('Check In Experience -- ', () => {
         delay: 10, // milliseconds
       });
     });
-    cy.intercept(
-      'GET',
-      '/v0/feature_toggles*',
-      generateFeatureToggles({
-        checkInExperienceMultipleAppointmentSupport: true,
-      }),
-    );
+    cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
   });
   afterEach(() => {
     cy.window().then(window => {
