@@ -31,6 +31,15 @@ jobs:
         if: ${{ env.DSVA_SCHEDULE_ENABLED != 'true' }}
         uses: andymckay/cancel-action@0.2
 
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Get latest tag
+        id: get-latest-tag
+        run: echo ::set-output name=LATEST_TAG_VERSION::$(git describe --tags --abbrev=0)
+
       - name: Get release wait time (scheduled release)
         if: ${{ github.event.schedule != '' }}
         run: echo 'RELEASE_WAIT=60' >> $GITHUB_ENV
@@ -46,17 +55,6 @@ jobs:
       - name: Get commit sha (workflow_dispatch)
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.commit_sha != '' }}
         run: echo 'COMMIT_SHA=${{ github.event.inputs.commit_sha }}' >> $GITHUB_ENV
-
-      # Required depth and ref to get tag information & specific commit
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          ref: ${{ env.COMMIT_SHA }}
-
-      - name: Get latest tag
-        id: get-latest-tag
-        run: echo ::set-output name=LATEST_TAG_VERSION::$(git describe --tags --abbrev=0)
 
   validate-build-status:
     name: Validate Build Status
