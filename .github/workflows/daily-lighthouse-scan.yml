@@ -37,7 +37,7 @@ jobs:
               }
             }
           '
-          echo ::set-output name=appNames::{\"include\":[$matrix]}
+          echo ::set-output name=appNames::{\"include\":[$JSON]}
 
   lighthouse:
     needs: job1
