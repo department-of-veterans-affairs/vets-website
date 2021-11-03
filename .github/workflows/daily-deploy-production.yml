@@ -61,11 +61,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: set-env
     steps:
-      # Required ref to get specific commit
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          ref: ${{ needs.set-env.outputs.COMMIT_SHA }}
 
       - name: Install dependencies
         uses: ./.github/workflows/install
